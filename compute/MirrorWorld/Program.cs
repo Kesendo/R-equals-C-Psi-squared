@@ -339,10 +339,9 @@ if (args.Length > 0 && args[0] == "collision")
 
 // ---- run mode "seed": the within-block self-dual seed (the shadow's source, as a count) ----
 // Mirror gave the BETWEEN-block folds; this gives the WITHIN-block self-duality they leave untouched:
-// where a state meets the mirror's null (v^T v = 0), a defective seed -- the static source the shadow
-// (a large projector norm) and the i^4=1 holonomy leave behind in the main repo. Held as a COUNT, no
-// eigensolver (F89's nullity surplus over GF(p)): N-1 forced seeds at odd N (the unmirrorable middle
-// seat), 0 at even N (every seat mirrors, nothing forced real). Adopted 2026-07-07.
+// the endpoint-nullity surplus associated with the self-dual seed problem. Held as a COUNT, no
+// eigensolver (F89's rank identity over GF(p)): N-1 at odd N and 0 at even N. The finite-q locus,
+// literal real-count drop, shadow and Jordan character stay in the main repo. Adopted 2026-07-07.
 if (args.Length > 0 && args[0] == "seed")
 {
     int sn = args.Length > 1 ? int.Parse(args[1]) : 9;
@@ -350,9 +349,9 @@ if (args.Length > 0 && args[0] == "seed")
     var sworld = new World();
     Console.WriteLine("the within-block self-dual seed (the shadow's source, as a count -- adopted 2026-07-07)");
     Console.WriteLine("  sources experiments/F89_SEED_EXISTENCE_REDUCTION.md + docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md");
-    Console.WriteLine("  Mirror holds the between-block folds; this holds the within-block self-duality they leave: where");
-    Console.WriteLine("  a state meets the mirror's null (v^T v = 0), a DEFECTIVE seed. The count, ranks only, no eigensolver:");
-    Console.WriteLine("  surplus = r(0+) - r(inf) = the real strands forced off the axis = the seed count (the pencil A + q*C).");
+    Console.WriteLine("  Mirror holds the between-block folds; this holds the endpoint-nullity surplus beside the seed problem.");
+    Console.WriteLine("  It is a rank identity only, with no eigensolver and no finite-q Jordan verdict:");
+    Console.WriteLine("  surplus = r(0+) - r(inf) for the pencil A + q*C.");
     Console.WriteLine();
     Console.WriteLine($"  {"N",3} {"dim",5} {"r(inf)",7} {"r(0+)",6} {"surplus",8} {"N-1",4} {"Z3",3} {"CJ",4} {"parity",7}   rungs (n_diff: dim, nullity)");
     for (int n = 3; n <= sn; n++)
@@ -368,10 +367,8 @@ if (args.Length > 0 && args[0] == "seed")
         Console.WriteLine($"  {n,3} {dim,5} {rInf,7} {r0,6} {surplus,8} {n - 1,4} {z3,3} {cj,4} {par,7}   {ps}  <- {flag}");
     }
     Console.WriteLine();
-    Console.WriteLine("  N-1 seeds at odd N (the unmirrorable middle seat forces each half to face itself, eigenvalues");
-    Console.WriteLine("  real, then collide -- Kato); 0 at even N (every seat mirrors, no real strand forced off). The between-block");
-    Console.WriteLine("  fold (Mirror) holds exactly where the within-block eigenframe tears (v^T v -> 0) -- one merge, two");
-    Console.WriteLine("  faces: what the way leaves behind lives here; the way itself (the shadow, the holonomy) stays outside.");
+    Console.WriteLine("  Surplus N-1 at odd N, 0 at even N. Reading it as a literal finite-q loss and classifying");
+    Console.WriteLine("  the collision require the main repo's spectral and EpCharacter gates; they are not outputs here.");
     Console.WriteLine();
     Console.WriteLine("  the resonance count, closed (adopted 2026-07-12): r(inf) = 3*Z3 at EVERY N (cyclotomic, exact);");
     Console.WriteLine("  at odd N the Conway-Jones form Z3 = (N-1)/2 + [3|n](n/3-2) + 2[15|n] (CJ column; ROT3 multiplicity");
@@ -1757,7 +1754,7 @@ foreach (int n in new[] { 3, 4, 5 })
     Console.WriteLine($"  N={n}: F2  omega_k=4J(1-cos(pi k/N))   = [{string.Join(", ", Formulas.F2_Dispersion(n, 1.0).Select(x => x.ToString("0.00")))}]");
     Console.WriteLine($"        F2b E_k=2J cos(pi k/(N+1))       = [{string.Join(", ", Formulas.F2b_SingleExcitation(n, 1.0).Select(x => x.ToString("0.00")))}]");
 }
-Console.WriteLine($"  F1 residuals (N=4, gamma=0.5: sg=2, sg2=1): ||M(T1)||^2 = {Formulas.F1_T1Residual(4, 2.0, 1.0):0.0}, ||M(depol)||^2 = {Formulas.F1_DepolResidual(4, 2.0, 1.0):0.0}");
+Console.WriteLine($"  centered F1 residuals (N=4, gamma=0.5: sg=2, sg2=1): ||M(T1)||^2 = {Formulas.F1_T1Residual(4, 2.0, 1.0):0.0}, ||M(depol)||^2 = {Formulas.F1_DepolResidual(4, 2.0, 1.0):0.0}");
 Console.WriteLine($"  F2b-corollary coherence hand omega_mem=2J cos(pi/(N+1)): N=3,4,5 = {Formulas.OmegaMem(3, 1, 0):0.000}, {Formulas.OmegaMem(4, 1, 0):0.000}, {Formulas.OmegaMem(5, 1, 0):0.000}  (sqrt2, phi, sqrt3)");
 Console.WriteLine($"  coherence horizon Q*(N) exact: N=2..5 = {Formulas.Qstar(2):0.000}, {Formulas.Qstar(3):0.000}, {Formulas.Qstar(4):0.000}, {Formulas.Qstar(5):0.000}  (asymptotic 2N/pi)");
 foreach (int n in new[] { 3, 4, 5 })

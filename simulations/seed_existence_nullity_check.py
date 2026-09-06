@@ -1,7 +1,7 @@
-"""Seed-existence reduction: the nullity identity behind the real defective seed on the (1,2) block.
+"""Endpoint-nullity surplus verifier for the (1,2) block.
 
-Companion verifier for experiments/F89_SEED_EXISTENCE_REDUCTION.md (the EXISTENCE side of the
-codim-1 containment corollary's per-N input; complements the EXCLUSION shell census of
+Companion verifier for experiments/F89_SEED_EXISTENCE_REDUCTION.md. It proves the algebraic endpoint
+surplus, not literal finite-q seed existence; it complements the EXCLUSION shell census of
 experiments/F89_MULTI_SECTOR_MONODROMY.md and the census table of experiments/F89_PATH_K_DIABOLIC.md).
 
 The (1,2) block pencil is L(q) = A + q*C on coherences |a><b| (a a 2-excitation ket, b a
@@ -22,14 +22,13 @@ literal counts are 27 (two kernel pairs leave the axis at third order, |Im| ~ q^
 ker-C modes stay at |Im| ~ c/q, asymptotically real but never real), yet the literal drop
 27 - 17 = 10 = N - 1 equals the nullity drop (see F89_SEED_EXISTENCE_REDUCTION.md, resonant-N
 section). A finite-q>0 real<->complex transition (hence, by the discriminant-simple-zero lemma,
-a real defective seed) is forced whenever r0 > r_inf AND the nullity surplus is a literal
-real-count drop (the literal-drop premise: exact at the probed N = 5, 7, 9, measured at N = 11,
-unproven at unprobed N; the doc's Status item 3). The parenthetical "hence a defective seed"
-additionally needs the discriminant zero simple (the genericity item, Status item 2; settled at
-N = 5 and 7 by the certificates there).
+a real defective seed) follows only where the nullity surplus is independently shown to be a literal
+real-count drop and the local character is certified. The literal-drop premise is exact at the probed
+N = 5, 7, 9 and measured at N = 11, but unproved at unprobed N; character certification reaches
+N = 5, 7, 9.
 
 This script proves-by-computation the load-bearing facts (N = 3..13, BOTH parities):
-  (F1)  r0 - r_inf = (N - 1) * [N odd]   exactly  (the seed-forcing surplus; zero at even N).
+  (F1)  r0 - r_inf = (N - 1) * [N odd]   exactly  (the endpoint-nullity surplus; zero at even N).
   (N2)  nullity(P2 C P2) = (N - 1) * [N odd]  via a decomposition into N-1 disjoint paths of N vertices.
   (FF)  nullity(C) = #{ (a<b, c) : lambda_a + lambda_b = lambda_c }, the free-fermion FUSION
         resonance count (lambda_k = 2 cos(k pi/(N+1)) the single-magnon energies; the two-magnon

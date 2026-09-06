@@ -21,8 +21,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>Gate G2 (live): a loop around the diabolic point q_EP = √((−1+√13)/6) ≈ 0.659 returns the
 /// IDENTITY permutation. The two octic roots that coalesce there do NOT braid, because the discriminant
 /// has a DOUBLE zero (the (3q⁴+q²−1)² factor): a transversal crossing of two analytic sheets, not a
-/// √-branch point. This confirms f89octic's "diabolic, semisimple, NOT defective" by an INDEPENDENT
-/// route (monodromy, not the Riesz projector / departure-from-normality). The gateway to the
+/// √-branch point. This corroborates single-valued eigenvalue sheets but does not decide semisimplicity:
+/// an analytic defective pair also has identity eigenvalue monodromy. The gateway to the
 /// S_8-generation gate: the genuine branch points (the simple zeros of P_10) carry transpositions that
 /// generate Gal(F_8) = S_8 from below. The sequel to --root galoischaos and the sibling of
 /// --root f89octic.</para></summary>
@@ -569,7 +569,7 @@ public sealed class GaloisMonodromyWitness : IInspectable
         $"where the octic's Galois structure lives spectrally: the q-parametric monodromy. The fixed-q geometry " +
         $"was a null (--root galoischaos); but as q=J/γ loops the complex plane the 8 octic roots braid, and " +
         $"that braiding IS the Galois group. Live: the diabolic q_EP≈{QEp.ToString("0.000", Inv)} loop is the " +
-        "identity (semisimple, confirming --root f89octic by an independent route), while the genuine EPs braid; " +
+        "identity (single-valued sheets; not an independent semisimplicity test), while the genuine EPs braid; " +
         "lassoing every EP from a common base and assembling, the transposition graph on the 8 strands is " +
         "CONNECTED ⟹ Gal(F_8) = S_8, reconstructed from below (monodromy = Galois), the independent route to the " +
         "algebraic Frobenius certificate. Built on the trusted 12×12 block + the validated Monodromy tracker.";
@@ -593,8 +593,8 @@ public sealed class GaloisMonodromyWitness : IInspectable
                 summary: $"radius sweep around q_EP (all 12 strands): {string.Join("  ", sweep)} " +
                          $"({(id ? "identity at the isolating radius ✓" : "NOT identity — investigate")}). " +
                          "The diabolic point is a double discriminant zero (transversal crossing of two analytic sheets), " +
-                         "so the two coalescing roots do NOT swap: f89octic's semisimple-not-defective verdict reached by " +
-                         "monodromy, independent of the Riesz-projector route. The wider r=0.1 loop additionally encloses " +
+                         "so the two coalescing roots do NOT swap. This corroborates the analytic crossing but does not " +
+                         "decide semisimplicity; an analytic defective pair is also silent to eigenvalue monodromy. The wider r=0.1 loop additionally encloses " +
                          "genuine simple branch points (P_10 zeros = defective EPs) flanking q_EP, each a transposition: " +
                          "the silent diabolic vs the braiding EPs, side by side, and the seed of the S_8 gate.");
 

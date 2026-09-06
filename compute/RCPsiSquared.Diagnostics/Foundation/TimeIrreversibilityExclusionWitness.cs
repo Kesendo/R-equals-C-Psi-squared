@@ -11,7 +11,7 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The live witness for the TIME_IRREVERSIBILITY_EXCLUSION argument (2026-07-02): the
-/// anticommutator {L_H, L_Dc} of the Hamiltonian Liouvillian and the F1-centered Z-dephasing
+/// anticommutator {L_H, L_Dc} of the Hamiltonian Liouvillian and the F1-centered uniform-Z-dephasing
 /// Liouvillian vanishes EXACTLY at N=2 and is nonzero for N&gt;2, while the COMMUTATOR
 /// [L_H, L_Dc] is nonzero already at N=2. The value ‖{L_H, L_Dc}‖² = 4γ²(N−2)‖L_H‖² is already
 /// typed in <see cref="F49NonUniformCrossTermClaim"/>; what this witness adds is the ARGUMENT the

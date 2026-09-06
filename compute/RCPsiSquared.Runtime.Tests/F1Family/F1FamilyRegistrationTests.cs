@@ -273,7 +273,7 @@ public class F1FamilyRegistrationTests
         Assert.NotNull(depol);
         Assert.Equal(Tier.Tier1Derived, depol.Tier);
         Assert.Equal(16.0 / 9.0, F1DepolResidualClosedForm.LocalCoefficient, precision: 14);
-        Assert.Equal(16.0, F1DepolResidualClosedForm.CrossSiteCoefficient, precision: 14);
+        Assert.Equal(0.0, F1DepolResidualClosedForm.CrossSiteCoefficient, precision: 14);
     }
 
     [Fact]

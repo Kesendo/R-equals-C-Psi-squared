@@ -12,10 +12,10 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>THE F86a BLIND SPOT, SHOWN FROM BELOW. F86a-retraction (2026-06-21) concluded the full (1,2)
 /// coherence block has NO real-axis defective exceptional point (eigenvalues stay simple, a finite-Petermann
-/// off-axis shadow only). F89 (2026-07-04) PROVES a real defective seed exists on the (1,2) block at every odd
-/// N (Kato simple-zero of the discriminant; census-confirmed to N=11; β-exotic scoping reads p≈0.5). Same
-/// block, same real q axis (GLOSSARY §q-and-Q: ‖L_F86(J) − L_F89(J/2)‖ = 0). The two collide, and F89's
-/// theorem wins. This test shows WHY F86a's scan missed what F89 proves.
+/// off-axis shadow only). F89 later certified real defective seeds on this block at N=5,7,9; the all-odd
+/// endpoint-nullity surplus is a counting theorem, not by itself a character theorem. Same block, same real
+/// q axis (GLOSSARY §q-and-Q: ‖L_F86(J) − L_F89(J/2)‖ = 0). This test shows WHY F86a's scan missed the
+/// certified N=5 and N=9 seeds it exercises.
 ///
 /// <para><b>The mechanism: a detection window far narrower than the scan grid.</b> A defective √-EP splits its
 /// coalescing pair by ~√|q − q*|. Any "sit at a q and characterize" reader (F86a's max-Petermann-K + Riesz
@@ -32,7 +32,8 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// TOPOLOGICAL signal visible at ANY grid resolution, immune to how far the grid sits from q*. It flags the
 /// transition on a coarse grid, THEN bisects onto q* (~1e-7) and only there characterizes. The window problem
 /// that blinds a sit-and-characterize scan is exactly what the count-change bypasses (RealSeedCensusTests
-/// established the seeds to N=11; this test does not re-run it, it exhibits the window it beats).</para>
+/// established count-change loci through N=11; this test does not re-run it, it exhibits the window it
+/// beats at its two character-certified inputs).</para>
 ///
 /// <para>At each seed the coalescing pair is anchored to the census λ and its gap walked out along an offset
 /// ladder; ONE artifact-free <see cref="EpCharacter"/> reading at the seed confirms the pair is a genuine

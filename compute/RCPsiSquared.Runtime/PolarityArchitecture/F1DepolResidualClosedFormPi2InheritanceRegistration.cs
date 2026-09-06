@@ -5,17 +5,16 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F1DepolResidualClosedFormPi2Inheritance"/>:
-/// F1's depolarizing-residual closed-form coefficients (16/9, 16) as Pi2-Foundation
+/// F1's centered depolarizing-residual coefficients (16/9, 0) as Pi2-Foundation
 /// inheritance, parallel to <see cref="F5DepolarizingErrorPi2Inheritance"/>'s wiring of
-/// the linear scalar 2·(N−2)/3. Three parent edges:
+/// the linear extreme shortfall 2N/3. Three parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="F1PalindromeIdentity"/>: the F1 palindrome identity whose
 ///         depolarizing residual ‖M‖² is being decomposed (registered via
 ///         <see cref="F1Family.F1FamilyRegistration.RegisterF1Family"/>).</item>
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_{−1} = d² = 4</c>
-///         (the multiplier in the cross-site coefficient, also feeding the numerator
-///         of the per-Pauli rate).</item>
+///         (the numerator of the per-Pauli rate).</item>
 ///   <item><see cref="Pi2OperatorSpaceMirrorClaim"/>: pins <c>d² − 1 = 3</c> via
 ///         <see cref="Pi2OperatorSpaceMirrorClaim.PairAt"/>(1).OperatorSpace − 1
 ///         (the non-identity Pauli count, denominator of the per-Pauli rate;
@@ -25,7 +24,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <para>Tier consistency: <see cref="F1DepolResidualClosedFormPi2Inheritance"/> is
 /// Tier1Derived, matching its Tier1Derived parents (5 ≥ 5). Unlike the T1 analogue
 /// <see cref="F1T1AmplitudeDampingPi2Inheritance"/> (Tier1Candidate because T1's
-/// c_1 = 3 is not Pi2-anchored), both depol coefficients reduce cleanly to algebra
+/// c_1 = 3 is not Pi2-anchored), the depol local coefficient and centered zero cross-term reduce cleanly to algebra
 /// over <c>d²</c> and <c>d² − 1</c>.</para>
 ///
 /// <para>Requires upstream registrations:

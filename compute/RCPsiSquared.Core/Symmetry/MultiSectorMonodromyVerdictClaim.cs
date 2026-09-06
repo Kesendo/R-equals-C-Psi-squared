@@ -234,8 +234,8 @@ public sealed class MultiSectorMonodromyVerdictClaim : Claim
                          "TwinScalarDHalfTests): twin-scalar at every genuinely-complex-q diabolic, the " +
                          "pure-imaginary-q ones semisimple by Hermiticity. The closed-form mixture is resolved (the " +
                          "quantized-overlap contraction). BROAD-EXCLUSION CENSUS EVIDENCE (2026-07-04..06, step 3): the " +
-                         "σ_min shell census finds membership = the diamond at ALL 7 real N=9 seeds and ALL 9 real " +
-                         "N=11 seeds (PASS witness-assisted; the six blocks the LP64 dense wall deferred resolved by " +
+                         "σ_min shell census finds membership = the diamond at ALL 7 character-certified N=9 seeds and ALL 9 " +
+                         "N=11 count-change candidates (TRANSPORT-PASS, witness-assisted and character-uncertified; the six blocks the LP64 dense wall deferred resolved by " +
                          "the sparse σ_min path, Tasks 5-6: sparse-witness members + sparse-invit cores), " +
                          "shared-λ separation ×3.7e8..×4.6e11 (N=9+N=11 combined); the R-parity ALTERNATION law R·W = (−1)^{p+w}·W·R " +
                          "derived from its first light (SectorShellCensus, gates SHELLCENSUS/SLOW_SHELLCENSUS; " +

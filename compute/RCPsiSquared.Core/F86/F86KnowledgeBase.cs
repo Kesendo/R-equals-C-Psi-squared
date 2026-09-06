@@ -90,8 +90,8 @@ public sealed class F86KnowledgeBase : IInspectable
     /// <summary>Block-independent meta-claim: the F86 ↔ FRAGILE_BRIDGE EP-side relation.
     /// <see cref="Knowledge.Tier.OpenQuestion"/> after the F86a-retraction 2026-06-21
     /// (demoted from Tier2Verified): the full Σγ=N·γ₀ block is genuinely strongly non-normal
-    /// on the real Q axis but has NO eigenvalue coalescence there (eigenvalues simple), the
-    /// Petermann factor large but finite (artifact-free ‖P‖); whether it has an off-axis
+    /// near Q_peak, but that sampled peak is not itself an EP; narrow real-axis defective
+    /// seeds are separately certified at N=5,7,9. Whether it has an off-axis
     /// defective EP at all, and thus the "same EP" link to FRAGILE_BRIDGE, is open. The
     /// surviving shared substrate is the AIII chiral algebra. Exposed at the KB root for any
     /// block, not just c=2. Lazy: a single static-data Claim with no compute cost.</summary>
@@ -269,8 +269,8 @@ public sealed class F86KnowledgeBase : IInspectable
         _c2UniversalShape = new Lazy<C2UniversalShapeDerivation?>(() =>
             block.C == 2 ? C2UniversalShapeDerivation.Build(block, WitnessCache) : null);
 
-        // Block-independent meta-claim wiring the F86 local EP at real Q_EP to
-        // FRAGILE_BRIDGE's complex-γ-plane EP under shared AIII chiral algebra.
+        // Block-independent meta-claim comparing the F86 real-axis seed/toy structures with
+        // FRAGILE_BRIDGE's real-γ EP under shared AIII chiral algebra.
         // Available for any block — the algebraic statement is shared across all c;
         // the pinned witnesses are the c=2 N=5..8 Petermann-K sweep.
         _localGlobalEpLink = new Lazy<LocalGlobalEpLink>(() => LocalGlobalEpLink.Build());

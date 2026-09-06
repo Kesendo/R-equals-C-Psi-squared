@@ -4,15 +4,15 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F1 depolarizing-residual closed form
-/// <c>‖M(depol)‖²_F = 4^(N−1) · [(16/9)·Σγ² + 16·(Σγ)²]</c> (Tier 1 derived in
+/// <c>‖M_F1(depol)‖²_F = 4^(N−1) · (16/9)·Σγ²</c> (Tier 1 derived in
 /// <see cref="RCPsiSquared.Core.F1.F1DepolResidualClosedForm"/>) as
 /// Pi2-Foundation inheritance.
 ///
-/// <para>The two coefficient anchors factor algebraically through the same
+/// <para>The centered local coefficient factors algebraically through the same
 /// Pi2-Foundation primitives that
 /// <see cref="F5DepolarizingErrorPi2Inheritance"/> uses for F5's scalar
-/// <c>2·(N−2)/3</c>; the difference is only that the squared Frobenius residual
-/// squares the per-Pauli rate, while F5 carries it linearly. Both root in the
+/// <c>2N/3</c>; the squared Frobenius residual squares the per-Pauli rate, while
+/// F5 carries the extreme pair-sum shortfall linearly. Both root in the
 /// same denominator <c>d² − 1 = 3</c>.</para>
 ///
 /// <list type="bullet">
@@ -21,16 +21,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         universal-channel rate the depolarizing master equation pumps each of
 ///         the <c>d²−1 = 3</c> non-identity Paulis at; squaring it gives the
 ///         per-site Frobenius weight 16/9.</item>
-///   <item><b>16 cross-site coefficient</b>: <c>(d²)² = 4² = 16</c>. The
-///         per-site trace contribution is <c>|tr(M_l)|² = (d²·γ)² ∝ 16</c> at
-///         γ = 1; cross-site tensor assembly via
-///         <c>tr(M_l† M_l′) = |tr(M_l)|² · 4^(N−2)</c> for <c>l ≠ l′</c> lifts
-///         this squared quantity to the cooperative <c>(Σγ)²</c> piece.</item>
+///   <item><b>Zero cross-site coefficient after F1 centering.</b> The bare local
+///         kernel has trace −8, but adding the F1 shift 2γ_l I makes it
+///         traceless. Hence <c>tr(M_l† M_l′)=0</c> for l ≠ l′.</item>
 /// </list>
-///
-/// <para>The composite ratio between the local and cross coefficients is
-/// <c>(16/9) / 16 = 1/9 = (1/(d²−1))²</c>: same square of the same
-/// <c>1/(d²−1)</c> that gives F5 its <c>2/3</c> at the linear level.</para>
 ///
 /// <para><b>Tier outcome: Tier1Derived.</b> Both depol coefficients reduce to clean
 /// Pi2-Foundation expressions in <c>d²</c> and <c>d²−1</c>; squaring the per-Pauli rate
@@ -95,10 +89,9 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim, IZ2AxisClai
     /// scalar to F1's squared Frobenius residual.</summary>
     public double LocalCoefficient => PerPauliDepolarizingRate * PerPauliDepolarizingRate;
 
-    /// <summary>The cross-site (<c>(Σγ)²</c>) coefficient: <c>(d²)² = 16</c>.
-    /// Squared because the cooperative tensor-assembly piece is
-    /// <c>|tr(M_l)|² · 4^(N−2)</c> and <c>|tr(M_l)| ∝ d²</c> at γ=1.</summary>
-    public double CrossSiteCoefficient => DSquared * DSquared;
+    /// <summary>The centered cross-site (<c>(Σγ)²</c>) coefficient: zero because
+    /// the F1-centered local kernel is traceless.</summary>
+    public double CrossSiteCoefficient => 0.0;
 
     /// <summary>Drift-check alias for <see cref="LocalCoefficient"/>. Tests compare this
     /// against the parent's hardcoded
@@ -114,7 +107,7 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim, IZ2AxisClai
     public double LiveCrossSiteCoefficient => CrossSiteCoefficient;
 
     public F1DepolResidualClosedFormPi2Inheritance(Pi2DyadicLadderClaim ladder, Pi2OperatorSpaceMirrorClaim mirror)
-        : base("F1 depol-residual closed-form coefficients (16/9, 16) inherit from Pi2-Foundation",
+        : base("F1 centered depol-residual coefficient 16/9 and zero cross-site term inherit from Pi2-Foundation",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F1 depol bullet + " +
                "docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md + " +
@@ -128,23 +121,23 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim, IZ2AxisClai
     }
 
     public override string DisplayName =>
-        "F1 depol-residual coefficients (16/9, 16) as Pi2-Foundation inheritance";
+        "F1 centered depol-residual coefficients (16/9, 0) as Pi2-Foundation inheritance";
 
     public override string Summary =>
         $"local = (d²/(d²−1))² = ({DSquared}/{DSquaredMinusOne})² = {LocalCoefficient:F4}; " +
-        $"cross = (d²)² = {CrossSiteCoefficient:F4}; per-Pauli rate = d²/(d²−1) = {PerPauliDepolarizingRate:F4} ({Tier.Label()})";
+        $"cross = 0 after F1 centering; per-Pauli rate = d²/(d²−1) = {PerPauliDepolarizingRate:F4} ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F1 depol closed form",
-                summary: "‖M(depol)‖²_F = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²] (Tier 1 derived; H-independent; per-site only)");
+                summary: "‖M_F1(depol)‖²_F = 4^(N−1)·(16/9)·Σγ² (Tier 1 derived; σ=Σγ; H-independent; per-site only)");
             yield return InspectableNode.RealScalar("DSquared (= a_{-1} = d²)", DSquared);
             yield return InspectableNode.RealScalar("DSquaredMinusOne (= d² − 1)", DSquaredMinusOne);
             yield return InspectableNode.RealScalar("PerPauliDepolarizingRate (= d²/(d²−1) = 4/3)", PerPauliDepolarizingRate);
             yield return InspectableNode.RealScalar("LocalCoefficient (= (d²/(d²−1))² = 16/9)", LocalCoefficient);
-            yield return InspectableNode.RealScalar("CrossSiteCoefficient (= (d²)² = 16)", CrossSiteCoefficient);
+            yield return InspectableNode.RealScalar("CrossSiteCoefficient (= 0 after F1 centering)", CrossSiteCoefficient);
             yield return new InspectableNode("F5 sibling comparison",
                 summary: "F5 uses d/(d²−1) = 2/3 for the linear scalar error coefficient; this claim uses (d²/(d²−1))² = 16/9 for the squared Frobenius residual local coefficient. Both root in DSquaredMinusOne = 3 from the same Pi2-Foundation primitive.");
         }

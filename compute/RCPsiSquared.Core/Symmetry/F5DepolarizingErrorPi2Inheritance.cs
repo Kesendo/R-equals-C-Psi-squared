@@ -56,7 +56,7 @@ public sealed class F5DepolarizingErrorPi2Inheritance : Claim, IZ2AxisClaim
     public Claim? BitATwin => null;
     public Pi2DyadicLadderClaim Ladder { get; }
     public Pi2OperatorSpaceMirrorClaim Mirror { get; }
-    /// <summary>The "2" multiplier in F5's <c>2·(N−2)/3</c>. Exactly equal to
+    /// <summary>The "2" multiplier in F5's <c>2N/3</c>. Exactly equal to
     /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c> = d.</summary>
     public double DCoefficient => Ladder.Term(0);
 

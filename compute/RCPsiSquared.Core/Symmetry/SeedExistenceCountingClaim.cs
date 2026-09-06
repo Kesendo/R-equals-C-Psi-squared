@@ -3,26 +3,25 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The seed-existence counting theorem (Tier 1 derived;
+/// <summary>The endpoint-nullity surplus theorem (Tier 1 derived;
 /// <c>experiments/F89_SEED_EXISTENCE_REDUCTION.md</c>, all three pieces proved 2026-07-04): on
 /// the (1,2) block pencil L(q) = A + q·C of the XY chain under uniform Z-dephasing, the
-/// real-eigenvalue-count identity
+/// endpoint-nullity identity
 ///
 /// <code>
 ///     r(0⁺) − r(∞) = N − 1      for every odd N
 /// </code>
 ///
-/// where r(0⁺) = nullity(P₋₂CP₋₂) + nullity(P₋₆CP₋₆) counts the modes that stay real past the
-/// q = 0 lift-off and r(∞) = nullity(C) counts the asymptotically-real modes. Since N − 1 > 0,
-/// the real count strictly drops at finite q > 0: a real↔complex transition, which at a simple
-/// discriminant zero is a defective 2×2 Jordan exceptional point (the Kato lemma), the SEED the
-/// codim-1 containment corollary of <c>PROOF_CODIM1_BY_ADDITIVITY</c> transports across the
-/// diamond. Three counting lemmas carry the identity:
+/// Here r(0⁺) is the nullity sum nullity(P₋₂CP₋₂)+nullity(P₋₆CP₋₆), a first-order
+/// endpoint surrogate, and r(∞)=nullity(C) is the asymptotic surrogate. The identity alone does
+/// not prove a literal finite-q real-count drop or its Jordan character. Those extra premises are
+/// certified at N=5,7,9 and remain open beyond the certified sizes. Three counting lemmas carry
+/// the identity:
 ///
 /// <para><b>(N2), the path count:</b> the −2 rung decomposes into N − 1 disjoint simple paths of
 /// N vertices each (the q-hop blocked at the shared site, the swap glue); a signed tree gauges
 /// unsigned, and a path P_N has a zero mode iff N is odd, so n₂ = (N−1)·[N odd]. The odd-N seat
-/// that cannot be mirrored is the combinatorial engine of the whole seed.</para>
+/// that cannot be mirrored is the combinatorial engine of the surplus.</para>
 ///
 /// <para><b>(FF), the fusion-resonance count:</b> ker C = the intertwiners {ρ: H₂ρ = ρH₁}; in
 /// the JW eigenmode basis C is diagonal on cubic monomials c†_a c†_b c_c with eigenvalue
@@ -39,10 +38,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// |λ_y| = 2, impossible). Hence n₆ = 3·Z₃ = ρ, both parities. The fusion resonances appear in
 /// BOTH endpoints and cancel; the surplus is the path kernel alone.</para>
 ///
-/// <para><b>Scope (kept honest):</b> this claim types the COUNTING identity. The seed-existence
-/// CONCLUSION additionally needs the codim-2 β-exotic genericity item (a count-dropping
-/// transition is defective unless the non-generic order-3 nilpotent-linear-term point), which
-/// stays OPEN in the doc's Status. Two adversarial reviews (exact arithmetic in ℤ[t]/Φ₂ₘ with a
+/// <para><b>Scope (kept honest):</b> this claim types the endpoint-nullity COUNTING identity.
+/// A seed-existence conclusion additionally needs a literal finite-q drop; a Puiseux-1/2 defective
+/// EP2 conclusion also needs the simple-zero/genericity premise. Both are certified at N=5,7,9
+/// and stay open beyond them. N=11 demonstrates why the distinction matters: third-order lift-off
+/// occurs in the endpoint bookkeeping. Two adversarial reviews (exact arithmetic in ℤ[t]/Φ₂ₘ with a
 /// counterexample hunt to N = 200; a full-2^N spin rebuild with explicit JW strings) held every
 /// step.</para>
 ///
@@ -61,16 +61,16 @@ public sealed class SeedExistenceCountingClaim : Claim
     public ChiralKClaim ChiralK { get; }
 
     public SeedExistenceCountingClaim(AbsorptionTheoremClaim absorption, ChiralKClaim chiralK)
-        : base("The seed-existence counting theorem: on the (1,2) block pencil L(q) = A + qC of the XY chain " +
+        : base("The endpoint-nullity surplus theorem: on the (1,2) block pencil L(q) = A + qC of the XY chain " +
                "under uniform Z-dephasing, r(0+) - r(inf) = N - 1 for every odd N, via (N2) the -2 rung = " +
                "N-1 disjoint paths of N vertices (zero mode iff N odd), (FF) nullity(C) = the free-fermion " +
                "fusion-resonance count rho = #{lambda_a+lambda_b = lambda_c}, and (N1') the ordering-sector " +
                "theorem: K6 = three no-passing bra-rank sectors, each gauge-equivalent via (-1)^{z_bra} to " +
                "MINUS the 3-magnon block H3, so spec(K6) = 3 x {-(la+lb+lc)} and n6 = 3*Z3 = rho (D = 0 by " +
                "cyclotomic integrality), both parities; the resonances cancel between the endpoints and the " +
-               "surplus is the odd-N path kernel alone; the drop forces a real-to-complex transition, i.e. a " +
-               "defective seed at a simple discriminant zero (Kato); the seed-existence conclusion stays open " +
-               "only at the codim-2 beta-exotic genericity",
+               "surplus is the odd-N path kernel alone; this endpoint-nullity count does not by itself force a " +
+               "literal finite-q transition or Jordan character. Literal-drop and Puiseux-1/2 EP2 character " +
+               "are certified at N=5,7,9 and open beyond them",
                Tier.Tier1Derived,
                "experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md + " +
@@ -81,14 +81,14 @@ public sealed class SeedExistenceCountingClaim : Claim
     }
 
     public override string DisplayName =>
-        "Seed-existence counting: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) block, the census input as a theorem";
+        "Endpoint-nullity surplus: r(0⁺) − r(∞) = N − 1 (odd N) on the (1,2) block";
 
     public override string Summary =>
         "r(0⁺) − r(∞) = N − 1 for every odd N on the (1,2) block: (N2) the −2 rung = N−1 paths of N vertices " +
         "(zero mode iff N odd), (FF) nullity(C) = the fusion-resonance count ρ, (N1′) n₆ = 3·Z₃ = ρ (the " +
         "ordering-sector theorem, spec(K₆) = 3×{−(λ_a+λ_b+λ_c)}, D = 0 by cyclotomic integrality); the " +
-        "resonances cancel, the surplus forces a defective seed at a simple discriminant zero (Kato); open " +
-        $"ink: the codim-2 β-exotic genericity ({Tier.Label()})";
+        "resonances cancel; the count is not itself a finite-q existence or character theorem. Literal drop " +
+        $"and Puiseux-1/2 defective EP2 character are certified at N=5,7,9 and open beyond them ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -115,8 +115,9 @@ public sealed class SeedExistenceCountingClaim : Claim
                          "per-block multiset theorem (chiral mirror + spectator pairs), NOT a partition of " +
                          "spec(C) (the images overlap).");
             yield return new InspectableNode("the scope boundary (what stays open)",
-                summary: "the counting identity is the theorem; the seed-existence conclusion still needs the " +
-                         "codim-2 β-exotic genericity item (order-3 nilpotent-linear-term points), OPEN in the " +
+                summary: "the counting identity is the theorem; the seed-existence conclusion additionally needs " +
+                         "a literal finite-q real-count drop and the codim-2 β-exotic genericity item " +
+                         "(order-3 nilpotent-linear-term points), both OPEN at general odd N in the " +
                          "doc's Status. The near-miss law min|2λ_x+λ_y| ≈ 2π³/(N+1)³ caps numerical D-scans " +
                          "(resonance tol 1e-7 safe to N ≈ 850, SVD floor 1e-9 to N ≈ 3959); only the exact " +
                          "argument makes D = 0 a theorem.");

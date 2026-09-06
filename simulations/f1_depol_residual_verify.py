@@ -2,7 +2,7 @@
 
 The closed form derived in `docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md`:
 
-    ‖M(depol)‖²_F = 4^(N−1) · [ (16/9) · Σγ²  +  16 · (Σγ)² ]
+    ‖M_F1(depol)‖²_F = 4^(N−1) · (16/9) · Σγ²
 
 with the residual computed in the framework's orthonormal Pauli-string basis
 (`palindrome_residual` in `framework/lindblad.py`). Π is the F1 palindrome
@@ -13,19 +13,20 @@ This script verifies:
 
 (1) F1 sanity:    pure Z-dephasing → ‖M‖² ≈ 0.
 (2) Pure depol:   fit (a, b) numerically across uniform and non-uniform γ
-                  up to N=5; bit-exact match against the (16/9, 16) closed form.
+                  up to N=5; machine-precision match to centered (16/9, 0).
 (3) Orthogonality of the depol block to coherent (truly H) blocks.
 (4) Orthogonality of the depol block to combined H+Z blocks.
 (5) Orthogonality of the depol block to soft (Π²-odd) H (XY+YX).
-(6) Per-site M_l kernel: D_depol, Π, M_l matrix display + derivation of (16/9, 16).
+(6) Per-site kernels: bare (16/9,16) assembly and centered (16/9,0) result.
 (7) Π²-trivial split assertions: ‖M − Π·M·Π⁻¹‖_F < 1e-13 and
                                  ‖M − Π²·M·Π²⁻¹‖_F < 1e-13 (M_anti = 0 exactly).
+(8) Mixed T1+depol: the unshifted T1 residual and F1-centered depolarizing
+                    residual have a nonzero Frobenius cross-term; the two
+                    pure-channel squared norms are not additive.
 
-Note on σ-shift convention: depol's F1 residual is the BARE residual
-Π·L·Π⁻¹ + L (σ = 0), NOT the Z-dephasing-style Π·L·Π⁻¹ + L + 2Σγ·I.
-M_l = diag(−4/3, −4/3, −8/3, −8/3) has two distinct diagonal values; no
-constant 2σ·I can equalise them. F5's scalar (2/3)Σγ is a complementary
-trace-projection diagnostic of the same broken palindrome.
+The F1 residual uses σ=Σγ. Centering changes the bare local kernel
+diag(−4/3,−4/3,−8/3,−8/3) to diag(+2/3,+2/3,−2/3,−2/3), removes its
+trace and all cross-site Frobenius terms, but cannot remove the split.
 
 Framework primitive note: `simulations/framework/lindblad.py` has no
 `lindbladian_depolarizing` primitive. We use `lindbladian_general(H, c_ops)`
@@ -68,11 +69,28 @@ def depol_c_ops(N: int, gamma_l: list[float]) -> list[np.ndarray]:
     return c_ops
 
 
+def t1_c_ops(N: int, gamma_l: list[float]) -> list[np.ndarray]:
+    """Amplitude-damping operators c_l = sqrt(gamma_l) sigma^-_l."""
+    c_ops: list[np.ndarray] = []
+    for l, g in enumerate(gamma_l):
+        if g == 0:
+            continue
+        sigma_minus = (site_op(N, l, "X") + 1j * site_op(N, l, "Y")) / 2.0
+        c_ops.append(np.sqrt(g) * sigma_minus)
+    return c_ops
+
+
+def residual_from_c_ops(N: int, c_ops: list[np.ndarray], sigma: float) -> np.ndarray:
+    """F1 residual for a channel-only Lindbladian at the stated F1 center."""
+    H = np.zeros((2 ** N, 2 ** N), dtype=complex)
+    return palindrome_residual(lindbladian_general(H, c_ops), sigma, N)
+
+
 def m_norm_squared_depol_only(N: int, gamma_l: list[float]) -> float:
-    """‖M(depol)‖²_F: pure depolarizing channel, no H, σ-shift = 0."""
+    """‖M_F1(depol)‖²_F: pure depolarizing channel, no H, σ = Σγ."""
     H = np.zeros((2 ** N, 2 ** N), dtype=complex)
     L = lindbladian_general(H, depol_c_ops(N, gamma_l))
-    M = palindrome_residual(L, 0.0, N)  # σ = 0 for depol (NOT Σγ)
+    M = palindrome_residual(L, sum(gamma_l), N)
     return float(np.real(np.trace(M.conj().T @ M)))
 
 
@@ -83,8 +101,7 @@ def m_norm_squared_combined(N: int, H: np.ndarray,
     """‖M‖²_F for combined H + Z-dephasing + depolarizing at the given σ-shift.
 
     palindrome_residual is linear in L: M(L_z + L_depol; σ) = M(L_z; σ) + M(L_depol; 0).
-    With σ = Σγ_Z the Z-block residual vanishes and the depol-block carries the entire
-    Frobenius norm equal to the σ=0 depol prediction.
+    With σ = Σγ_Z + Σγ_depol the Z block vanishes and the depol block is centered.
     """
     c_ops: list[np.ndarray] = []
     for l, g in enumerate(gamma_z_l):
@@ -98,10 +115,9 @@ def m_norm_squared_combined(N: int, H: np.ndarray,
 
 
 def predict_depol(N: int, gamma_l: list[float]) -> float:
-    """Closed form ‖M(depol)‖²_F = 4^(N−1) · [(16/9)·Σγ² + 16·(Σγ)²]."""
+    """Centered closed form ‖M_F1(depol)‖²_F = 4^(N−1)·(16/9)·Σγ²."""
     sum_sq = sum(g * g for g in gamma_l)
-    sum_g_sq = sum(gamma_l) ** 2
-    return float(4 ** (N - 1)) * (16.0 / 9.0 * sum_sq + 16.0 * sum_g_sq)
+    return float(4 ** (N - 1)) * (16.0 / 9.0 * sum_sq)
 
 
 def heisenberg_chain(N: int) -> np.ndarray:
@@ -120,7 +136,7 @@ def m_matrix_depol_only(N: int, gamma_l: list[float]) -> np.ndarray:
     """The full residual M (not its squared norm); used by section 7 for Π-equivariance."""
     H = np.zeros((2 ** N, 2 ** N), dtype=complex)
     L = lindbladian_general(H, depol_c_ops(N, gamma_l))
-    return palindrome_residual(L, 0.0, N)
+    return palindrome_residual(L, sum(gamma_l), N)
 
 
 # --------------------------------------------------------------------------- #
@@ -143,7 +159,7 @@ def section_1_sanity() -> None:
 
 
 def section_2_pure_depol_coefficients() -> None:
-    print("\n(2) Pure depol only: fit (a, b) in ‖M‖² = 4^(N−1) · [a·Σγ² + b·(Σγ)²]; expect (16/9, 16).")
+    print("\n(2) Pure depol only: fit (a, b) in ‖M‖² = 4^(N−1) · [a·Σγ² + b·(Σγ)²]; expect (16/9, 0).")
     for N in (2, 3, 4, 5):
         gamma_u = [0.1] * N
         gamma_nu = [0.05 * (l + 1) for l in range(N)]
@@ -164,24 +180,24 @@ def section_2_pure_depol_coefficients() -> None:
         print(f"    non-uniform γ:       obs={obs_nu:.6f}  pred={pred_nu:.6f}  "
               f"|Δ|={abs(obs_nu - pred_nu):.3e}")
         print(f"    fitted (a, b) = ({a_fit:.6f}, {b_fit:.6f})  "
-              f"(expected exactly (16/9 ≈ 1.777778, 16))")
+              f"(expected exactly (16/9 ≈ 1.777778, 0))")
         assert abs(obs_u - pred_u) < 1e-10, f"N={N} uniform mismatch: |Δ| = {abs(obs_u - pred_u):.3e}"
         assert abs(obs_nu - pred_nu) < 1e-10, f"N={N} non-uniform mismatch: |Δ| = {abs(obs_nu - pred_nu):.3e}"
 
 
 def section_3_orthogonality_truly_h() -> None:
     print("\n(3) Orthogonality H ⊥ depol for truly H (Heisenberg): "
-          "‖M(H+depol)‖² should equal ‖M(H)‖² + ‖M(depol)‖² with H-part = 0 (both at σ = 0).")
+          "‖M(H+depol)‖² should equal ‖M(H)‖² + ‖M_F1(depol)‖².")
     for N in (3, 4):
         H = heisenberg_chain(N)
         gamma_depol = [0.1] * N
-        # σ = 0 for both: probes the cross-term cleanly.
+        # H needs no shift; the combined depol residual uses its F1 center.
         H_only_L = lindbladian_general(H, [])
         H_only_M = palindrome_residual(H_only_L, 0.0, N)
         only_h = float(np.real(np.trace(H_only_M.conj().T @ H_only_M)))
         only_depol = m_norm_squared_depol_only(N, gamma_depol)
         together_L = lindbladian_general(H, depol_c_ops(N, gamma_depol))
-        together_M = palindrome_residual(together_L, 0.0, N)
+        together_M = palindrome_residual(together_L, sum(gamma_depol), N)
         together = float(np.real(np.trace(together_M.conj().T @ together_M)))
         cross = together - only_h - only_depol
         print(f"  N={N}: ‖M‖²(H only, σ=0) = {only_h:.3e}    "
@@ -193,42 +209,43 @@ def section_3_orthogonality_truly_h() -> None:
 
 
 def section_4_orthogonality_with_z() -> None:
-    print("\n(4) Orthogonality with Z-dephasing: ‖M(H+Z+depol; σ=Σγ_Z)‖² ≡ ‖M(depol)‖²_F.")
-    print("    palindrome_residual is linear in L: at σ=Σγ_Z the H+Z block residual = 0 and")
-    print("    the depol block residual stays at its bare σ=0 value. Cross-term vanishes by")
+    print("\n(4) Orthogonality with Z-dephasing at σ=Σγ_Z+Σγ_depol.")
+    print("    palindrome_residual is linear in L and in the shift: the H+Z block vanishes and")
+    print("    the depol block retains its centered residual. Cross-term vanishes by")
     print("    Frobenius-orthogonality of the H+Z and depol blocks (same Step 6 mechanism as F1T1).")
     for N in (3, 4):
         H = heisenberg_chain(N)
         gamma_z = [0.1] * N
         gamma_depol = [0.1] * N
-        # H + Z only at σ = Σγ_Z: residual ≈ 0 (truly H, Z-dephasing satisfies F1 bit-exactly).
+        # H + Z only at σ = Σγ_Z: numerical residual ≈ 0 (F1 is algebraically exact).
         hz_L = lindbladian_z_dephasing(H, gamma_z)
         hz_M = palindrome_residual(hz_L, sum(gamma_z), N)
         h_and_z = float(np.real(np.trace(hz_M.conj().T @ hz_M)))
-        # depol only at σ = 0: the closed-form residual.
+        # depol only at σ = Σγ_depol: the centered closed-form residual.
         only_depol = m_norm_squared_depol_only(N, gamma_depol)
-        # full H+Z+depol at σ=Σγ_Z: by linearity equals M(H+Z; Σγ_Z) + M(depol; 0).
-        full = m_norm_squared_combined(N, H, gamma_z, gamma_depol, sigma=sum(gamma_z))
+        # full residual at the sum of both centering shifts.
+        full = m_norm_squared_combined(N, H, gamma_z, gamma_depol,
+                                       sigma=sum(gamma_z) + sum(gamma_depol))
         cross = full - h_and_z - only_depol
         print(f"  N={N}: ‖M‖²(H+Z; σ=Σγ_Z) = {h_and_z:.3e}    "
-              f"‖M‖²(depol; σ=0) = {only_depol:.6f}    "
-              f"‖M‖²(H+Z+depol; σ=Σγ_Z) = {full:.6f}    "
+              f"‖M‖²(depol; σ=Σγ_depol) = {only_depol:.6f}    "
+              f"‖M‖²(H+Z+depol; σ=Σγ_Z+Σγ_depol) = {full:.6f}    "
               f"cross = {cross:+.3e}")
         assert abs(cross) < 1e-10, f"N={N} cross-term too large: {cross:.3e}"
 
 
 def section_5_orthogonality_soft_h() -> None:
-    print("\n(5) Orthogonality with soft (Π²-odd) H (XY+YX): H-part non-zero; depol stays (16/9, 16).")
+    print("\n(5) Orthogonality with soft (Π²-odd) H (XY+YX): H-part non-zero; centered depol stays (16/9, 0).")
     for N in (3, 4):
         H = xy_yx_soft_chain(N)
         gamma_depol = [0.1] * N
-        # σ = 0 for both, to probe cross-term cleanly.
+        # Center only the depol contribution.
         H_only_L = lindbladian_general(H, [])
         H_only_M = palindrome_residual(H_only_L, 0.0, N)
         only_h = float(np.real(np.trace(H_only_M.conj().T @ H_only_M)))
         only_depol = m_norm_squared_depol_only(N, gamma_depol)
         together_L = lindbladian_general(H, depol_c_ops(N, gamma_depol))
-        together_M = palindrome_residual(together_L, 0.0, N)
+        together_M = palindrome_residual(together_L, sum(gamma_depol), N)
         together = float(np.real(np.trace(together_M.conj().T @ together_M)))
         cross = together - only_h - only_depol
         print(f"  N={N}: ‖M‖²(soft H) = {only_h:.6f}    "
@@ -239,8 +256,8 @@ def section_5_orthogonality_soft_h() -> None:
 
 
 def section_6_per_site_kernel() -> None:
-    """Display the per-site Pauli-basis M_l matrix that underlies the (16/9, 16) closed form."""
-    print("\n(6) Per-site M_depol,l Pauli-basis matrix at γ=1, with derivation of (16/9, 16).")
+    """Display the bare and centered per-site Pauli-basis kernels."""
+    print("\n(6) Bare per-site kernel and the F1 centering that removes its trace.")
     paulis = {
         "I": np.eye(2, dtype=complex),
         "X": np.array([[0, 1], [1, 0]], dtype=complex),
@@ -308,7 +325,7 @@ def section_6_per_site_kernel() -> None:
     print(f"\n  ‖M_l‖²_F = {norm_sq_per:.6f}  (= 160/9 ≈ {160/9:.6f}; 2·(4/3)² + 2·(8/3)² = 2·(16/9 + 64/9))")
     print(f"  tr(M_l)  = {tr_per.real:+.6f} {tr_per.imag:+.6f}i  "
           f"(= −8; −4/3 − 4/3 − 8/3 − 8/3; |tr|² = 64 drives the cross-site coefficient)")
-    # Bit-exact assertions on the per-site kernel.
+    # Machine-precision assertions on the per-site kernel.
     assert abs(norm_sq_per - 160 / 9) < 1e-12, f"per-site ‖M_l‖² mismatch: {norm_sq_per} vs {160/9}"
     assert abs(tr_per.real + 8) < 1e-12 and abs(tr_per.imag) < 1e-12, f"per-site tr mismatch: {tr_per}"
 
@@ -318,6 +335,14 @@ def section_6_per_site_kernel() -> None:
     print("    ‖Σ γ_l M_l‖²   = (160/9)·4^(N−1)·Σγ²  +  16·4^(N−1)·[(Σγ)² − Σγ²]")
     print("                    = 4^(N−1) · [(160/9 − 16)·Σγ² + 16·(Σγ)²]")
     print("                    = 4^(N−1) · [(16/9)·Σγ² + 16·(Σγ)²]  ✓")
+    centered = M_per_site + 2.0 * np.eye(4)
+    centered_norm = float(np.real(np.trace(centered.conj().T @ centered)))
+    centered_trace = np.trace(centered)
+    print("\n  F1-centered local kernel M_l + 2I = diag(+2/3,+2/3,−2/3,−2/3)")
+    print(f"  centered trace = {centered_trace.real:+.3e}; centered norm² = {centered_norm:.6f} (=16/9)")
+    print("  Therefore cross-site inner products vanish and ‖M_F1‖² = 4^(N−1)(16/9)Σγ².")
+    assert abs(centered_trace) < 1e-12
+    assert abs(centered_norm - 16 / 9) < 1e-12
 
 
 def section_7_pi2_trivial_split() -> None:
@@ -345,6 +370,37 @@ def section_7_pi2_trivial_split() -> None:
         assert anti_norm_sq < 1e-26, f"N={N} M_anti should be zero: ‖M_anti‖² = {anti_norm_sq:.3e}"
 
 
+def section_8_mixed_t1_depol_cross_term() -> None:
+    """Gate the non-additive squared norm for mixed T1 and depolarizing noise."""
+    print("\n(8) Mixed T1+depol: residuals add, squared norms do not (nonzero cross-term).")
+    expected_cross = {2: 32.0 / 75.0, 3: 64.0 / 25.0}
+    for N in (2, 3):
+        gamma_t1 = [0.2] * N
+        gamma_depol = [0.1] * N
+        t1_ops = t1_c_ops(N, gamma_t1)
+        depol_ops = depol_c_ops(N, gamma_depol)
+
+        # T1 carries no F1 center shift; depolarization carries sigma = sum gamma_depol.
+        M_t1 = residual_from_c_ops(N, t1_ops, 0.0)
+        M_depol = residual_from_c_ops(N, depol_ops, sum(gamma_depol))
+        M_mixed = residual_from_c_ops(N, t1_ops + depol_ops, sum(gamma_depol))
+
+        linearity_error = float(np.linalg.norm(M_mixed - M_t1 - M_depol))
+        norm_t1 = float(np.real(np.trace(M_t1.conj().T @ M_t1)))
+        norm_depol = float(np.real(np.trace(M_depol.conj().T @ M_depol)))
+        norm_mixed = float(np.real(np.trace(M_mixed.conj().T @ M_mixed)))
+        cross = norm_mixed - norm_t1 - norm_depol
+
+        print(f"  N={N}: linearity error = {linearity_error:.3e}    "
+              f"T1={norm_t1:.6f} depol={norm_depol:.6f} mixed={norm_mixed:.6f}    "
+              f"cross={cross:.12f}")
+        assert linearity_error < 1e-12, f"N={N} residual linearity failed: {linearity_error:.3e}"
+        assert cross > 1e-6, f"N={N} mixed-channel cross-term was not resolved: {cross:.3e}"
+        assert abs(cross - expected_cross[N]) < 1e-10, (
+            f"N={N} mixed-channel cross-term mismatch: {cross} vs {expected_cross[N]}"
+        )
+
+
 def main() -> None:
     print("F1 depol-residual closed-form verification")
     print("=" * 78)
@@ -355,9 +411,10 @@ def main() -> None:
     section_5_orthogonality_soft_h()
     section_6_per_site_kernel()
     section_7_pi2_trivial_split()
+    section_8_mixed_t1_depol_cross_term()
     print("\nAll sections complete. "
-          "‖M(depol)‖² = 4^(N−1) · [(16/9)·Σγ² + 16·(Σγ)²]  (in framework Pauli basis).")
-    print("Structural surprises confirmed: M_anti(depol) = 0 (Π²-trivial); σ-shift = 0 (not Σγ).")
+          "‖M_F1(depol)‖² = 4^(N−1) · (16/9)·Σγ²  (in framework Pauli basis).")
+    print("Structural surprises confirmed: M_anti(depol) = 0 (Π²-trivial); σ = Σγ removes the mean, not the split.")
 
 
 if __name__ == "__main__":

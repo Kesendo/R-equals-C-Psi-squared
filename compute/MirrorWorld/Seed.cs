@@ -15,31 +15,29 @@ public enum TripleFamily { Triv, Rot3, Pent }
 // Mirror.cs holds the BETWEEN-block folds (t / f_P / f_Q map one block onto another, exactly). This
 // holds the WITHIN-block self-duality the folds leave untouched: the point where a state meets the
 // mirror's null -- self-orthogonal under the transpose bilinear form, v^T v = 0 -- a DEFECTIVE seed.
-// That seed is the static source the shadow (a large projector norm, non-normality) and the i^4=1
-// eigenvector holonomy leave behind in the main repo; those readings are EIGEN-stories and PATHS, so
-// they stay outside. What stays inside is the seed's EXISTENCE, held as a COUNT with no eigensolver.
+// That finite-q locus, its shadow and its eigenvector holonomy are EIGEN-stories and PATHS, so they stay
+// outside. What stays inside is the associated endpoint-nullity surplus, held as a COUNT with no
+// eigensolver; it is not itself an existence or Jordan-character certificate.
 //
 // The (1,2) block is the affine pencil L(q) = A + q*C: A = diag(-2*gamma*n_diff) (the Pair rate, two
 // rungs n_diff in {1,3}); C = the hop part (ket hop -i, bra hop +i per bond, so C/i is a 0/+-1 integer
-// matrix). Count the real strands FORCED to leave the axis as q grows (F89):
+// matrix). Count the endpoint-nullity surplus associated with the real-strand problem (F89):
 //
-//   r(inf) = nullity(C)                            (the strands already merged at q = infinity)
-//   r(0+)  = sum over rungs of nullity(P_r C P_r)  (the strands born real at q = 0+, per A-rung)
-//   surplus = r(0+) - r(inf) = the seed count.
+//   r(inf) = nullity(C)                            (asymptotically-real endpoint surrogate)
+//   r(0+)  = sum over rungs of nullity(P_r C P_r)  (zero-first-order-shift endpoint surrogate)
+//   surplus = r(0+) - r(inf).
 //
-// Proven surplus = N-1 for every ODD N: the chain's unmirrorable middle site forces each reflection
-// half to face itself, making eigenvalues real, which must then collide (Kato: a simple discriminant
-// zero is defective). The COUNT is F89's theorem; that each collision is defective rather than the
-// non-generic semisimple beta-exotic rests on Kato's simple zero modulo the still-open codim-2
-// genericity (census-clean through N=11). This object holds the count, never the locus. For EVEN N there is no unmirrorable seat, every seat mirrors to another, and the
-// surplus is 0 -- no real strand is FORCED off the axis (the count is a forced lower bound; whether an
-// accidental seed exists off it is a separate question this count does not settle). Ranks over GF(p) by exact integer
+// Proven surplus = N-1 for every ODD N: the chain's unmirrorable middle site supplies an exact rank
+// imbalance. Turning it into a literal finite-q loss of real strands and then a defective EP requires
+// additional spectral and character premises, certified in the main repo at N=5,7,9 rather than for all
+// odd N. This object holds the endpoint count, never the locus or Jordan character. For EVEN N the
+// surplus is 0; whether accidental seeds exist is a separate question this count does not settle. Ranks over GF(p) by exact integer
 // Gaussian elimination (the genre of Hardness's GF(2)[x]); a rank mod p can only DROP at a bad prime, so
 // the max over two primes pins the true rank (exact for the N run here, verified against F89's table).
 //
-// SCOPE (do not naively extend; verified from below 2026-07-08). This surplus = defective-seed count is
-// F89's theorem for the OPEN CHAIN (1,2) block ONLY. The same nullity construction on other blocks or
-// topologies is NOT the seed count: on the RING it is an artifact (surplus -4 at N=4 where the actual
+// SCOPE (do not naively extend; verified from below 2026-07-08). This surplus theorem is for the OPEN
+// CHAIN (1,2) block ONLY. The same nullity construction on other blocks or topologies is not a seed
+// count: on the RING it is an artifact (surplus -4 at N=4 where the actual
 // real-eigenvalue count-change is 0 -- the cyclic structure breaks the rung-nullity = real-count
 // correspondence the chain proof rests on); on the STAR the real strands do drain (12 -> 0 at N=4, even N,
 // the hub being its own kind of unmirrorable seat), but whether those transitions are DEFECTIVE needs the
@@ -60,7 +58,7 @@ public sealed class Seed : GameObject
     // left: what the seed object produces itself.
     public override IReadOnlyList<string> Own => new[] { "count", "rungs" };
 
-    // the seed count and its two halves, plus the per-rung (n_diff, dim, nullity) breakdown.
+    // the endpoint-nullity surplus and its two halves, plus the per-rung breakdown.
     public (int RInf, int R0, int Surplus, (int NDiff, int Dim, int Nullity)[] Parts) Count()
     {
         var (rung, M, dim) = BuildPencil();

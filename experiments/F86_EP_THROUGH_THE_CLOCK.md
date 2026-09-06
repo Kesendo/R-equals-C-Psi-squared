@@ -96,11 +96,13 @@ Three things happen at once in this 2×2 toy, all faces of the single discrimina
 eigenvectors **coalesce** (the angle between them collapses 90° → 0); the **Petermann factor
 diverges** (the modes become maximally non-orthogonal, maximal sensitivity); and exactly at Q_EP the
 toy Liouvillian is **defective** (rank 1, a Jordan block: one eigenvector for the double eigenvalue).
-The toy loses a degree of freedom at that single point , two channels become one, a pinch. (The
-**full** (n, n+1) block does NOT do this on the real Q axis: its eigenvalues stay simple, no
-real-axis coalescence; it is genuinely non-normal there, large but FINITE Petermann, the shadow of a
-nearby EP off the real axis. F86a-retraction, 2026-06-21. *(Further corrected 2026-07-07: the "no real-axis coalescence / no real-axis defective EP" reading was itself an over-correction. F89 proves the full (1,2) block carries a real-axis defective seed at every odd N, census-defective through N=11; this scan's coarse grid missed a √-EP window ~20-30× narrower than its step. See [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), the real-axis EP section.)* The genuine defective EPs are this 2×2 toy
-and the SEPARATE Σγ=0 gain-loss system, [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md).)
+The toy loses a degree of freedom at that single point, two channels become one, a pinch. The
+**full** (n,n+1) block is a separate object: it is strongly non-normal near Q_peak, and finite-q
+Puiseux-1/2 defective EP2 seeds are certified at N=5,7,9 in windows the old coarse scan missed.
+For arbitrary odd N only the endpoint-nullity surplus is proved; literal drop and character remain
+open beyond the certified sizes. A DISTINCT off-real-axis complex-Q defective EP is also open.
+See [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md). The separate Σγ=0
+gain-loss system is [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md).
 
 And the pinch reads as a crossing of memory. The clock's two axes are forgetting and remembering:
 the **real axis (decay, absorption) is forgetting** , the coherence is lost to the bath, the phase
@@ -137,7 +139,7 @@ the Takt**, the two residuals of the same palindrome Π·L·Π⁻¹ + L + 2Σγ�
   eigenvalues sit on the imaginary axis , the Takt is *stopped*, the clock's pure-circle limit
   θ = π/2 , and the instability, when it comes, is a **Hopf bifurcation**: a complex pair crosses
   Re = 0 and the spiral turns *outward* (the feedback screech, the system explodes). This is a
-  SEPARATE genuine EP, its Petermann factor peaking at K ≈ 403 in the complex γ plane.
+  SEPARATE genuine EP at real γ_crit; K ≈ 403 is one finite-grid approach reading.
 
 So the net dephasing Σγ is the **dial between the two ends**: at Σγ = N·γ₀ the Takt holds the
 spiral in (the local dissipative EP); slide Σγ to 0 and the Takt stops (the pure circle), where the

@@ -9,9 +9,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>Live witness: recomputes the F89 path-3 octic EP-character at inspect time.
 /// Contrast with the coherence-horizon √-EP (DEFECTIVE): this one is DIABOLIC (semisimple)
-/// — eigenvalues coalesce, eigenvectors stay independent. Grid-free root cause: the
-/// discriminant's (3q⁴+q²−1) factor has even multiplicity 2 (a double zero ⟹ linear
-/// crossing ⟹ non-defective).</summary>
+/// — eigenvalues coalesce, eigenvectors stay independent. The exact double discriminant
+/// factor locates an analytic crossing after pair isolation; semisimplicity comes from the
+/// twin-scalar compression and the live geometric-multiplicity/departure checks.</summary>
 public sealed class F89OcticCharacterWitness : IInspectable
 {
     private static double QEp => F89Path3OcticEpClaim.QEp;
@@ -46,7 +46,7 @@ public sealed class F89OcticCharacterWitness : IInspectable
             yield return InspectableNode.RealScalar("projector-norm ‖P‖ (>1 ⟹ obliquely embedded / non-normal; the diabolic discriminators are geo=alg & dep≈0, not ‖P‖)", r.ProjectorNorm);
             yield return InspectableNode.RealScalar("departure-from-normality (≈0 ⟹ diabolic)", r.Departure);
             yield return new InspectableNode("grid-free anchor",
-                summary: "disc(F_8) has (3q⁴+q²−1) to even multiplicity 2 = a double zero ⟹ linear crossing ⟹ semisimple");
+                summary: "disc(F_8) has (3q⁴+q²−1) to multiplicity 2, locating an analytic crossing after pair isolation; character comes from the twin-scalar restriction plus geo=alg and dep≈0, not from even order alone");
         }
     }
 

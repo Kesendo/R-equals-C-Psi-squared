@@ -4,7 +4,7 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>Gate for <see cref="SeedExistenceCountingWitness"/>, the live lab of the
-/// seed-existence counting theorem (experiments/F89_SEED_EXISTENCE_REDUCTION.md): on the (1,2)
+/// endpoint-nullity surplus theorem (experiments/F89_SEED_EXISTENCE_REDUCTION.md): on the (1,2)
 /// block pencil L(q) = A + qC of the XY chain under uniform Z-dephasing, the real-count identity
 /// r(0⁺) − r(∞) = N − 1 for odd N, through the three counting lemmas (N2) n₂ = N − 1,
 /// (FF) nullity(C) = ρ, and (N1′) n₆ = 3·Z₃ = ρ (the ordering-sector theorem).

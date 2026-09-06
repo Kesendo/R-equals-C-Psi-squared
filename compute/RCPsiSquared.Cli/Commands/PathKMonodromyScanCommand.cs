@@ -170,7 +170,7 @@ public static class PathKMonodromyScanCommand
                 : distN < 1e-2 ? $"ON the palindrome centre Re=-N=-{nBlock} (rides the fold, not the AT midline)"
                 : $"NEITHER -4 nor -{nBlock}: a new mechanism sets the location.";
             Console.WriteLine($"  Q2 LOCATION: q={d.QValue.Real.ToString("0.0000", Inv)}, Re(lambda)={d.MergeLambda.Real.ToString("0.000", Inv)} -> {loc}");
-            Console.WriteLine($"  Q3 CHARACTER: semisimple confirmed (gap-exponent {d.GapScalingExponent.ToString("0.00", Inv)} ~1 linear; identity loop={d.LoopIsIdentity}).");
+            Console.WriteLine($"  Q3 CHARACTER: EpCharacter semisimple={d.IsSemisimple}; gap-exponent {d.GapScalingExponent.ToString("0.00", Inv)} ~1 and identity eigenvalue loop={d.LoopIsIdentity} are corroborating order readings only.");
         }
     }
 

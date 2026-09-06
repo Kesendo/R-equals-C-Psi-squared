@@ -76,9 +76,9 @@ public class F5DepolarizingErrorPi2InheritanceRegistrationTests
     }
 
     [Theory]
-    [InlineData(3, 2.0 / 3.0)]
-    [InlineData(4, 4.0 / 3.0)]
-    [InlineData(5, 2.0)]
+    [InlineData(3, 2.0)]
+    [InlineData(4, 8.0 / 3.0)]
+    [InlineData(5, 10.0 / 3.0)]
     public void RegisterF5DepolarizingErrorPi2Inheritance_LiveCoefficientAgreesWithClosedForm(int N, double expected)
     {
         var registry = BuildBaseRegistry()

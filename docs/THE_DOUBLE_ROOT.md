@@ -8,18 +8,23 @@ common, and how far the one test that tells them apart actually reaches.*
 ## Where this page comes from
 
 The sweep, store by store. `docs/ANALYTICAL_FORMULAS.md` returned F95, F97 and
-the F89 path-3 entry that reads a character off a discriminant's multiplicity.
+the F89 path-3 entry, where discriminant multiplicity locates and orders a
+degeneracy but pair isolation, the twin-scalar restriction and `EpCharacter`
+decide its character.
 `docs/proofs/` returned the F95 angle proof, the F97 cardioid proof,
 `PROOF_ROADMAP_QUARTER_BOUNDARY` with its "One Word, Two Seams" disambiguation
 and its fold normal form, `PROOF_F86_QPEAK` with the fence that three distinct
 Q-thresholds live on one axis, and `PROOF_F86A_EP_MECHANISM`, which names the
 Kato lemma and the Puiseux exponent in one sentence.
 `PROOF_CODIM1_BY_ADDITIVITY` owns the twin-scalar condition this page's octic
-paragraph leans on, and separately assigns the layers, "the simple layer
-carries the √-branch loci, the doubled layer the silent diabolics". What it
-does NOT do is read a character off an ORDER: its fold-resultant certificate
-is deliberately character-agnostic, holding "defective or diabolic, either
-parity" precisely because it never extracts the split. `experiments/` returned
+paragraph leans on. Its exact factorization separates two layers. Because A₁
+is squarefree and coprime to A₂, every nonzero A₁ root is a simple discriminant
+zero; w=q² is locally invertible at q≠0, so the simple-zero lemma already forces
+one Puiseux-½ defective EP2 there. The doubled A₂² layer carries order-two
+silent-degeneracy candidates whose pair and local character are not fixed by
+the order alone. The fold-resultant certificate itself remains
+character-agnostic, holding "defective or diabolic, either parity" because it
+never extracts that split. `experiments/` returned
 the rule itself as a named lemma in `F89_SEED_EXISTENCE_REDUCTION` and the
 exponent table in `F89_BETA_EXOTIC_GENERICITY`. The typed layer returned
 `EpCharacter` in `compute/RCPsiSquared.Core/Numerics/`, its eig-based sibling
@@ -29,38 +34,46 @@ registry returned the standing of the counting route and the gap the reviews
 named against the test's converse. `docs/GLOSSARY.md` returned the unit trap
 this page's roster runs straight into, and it is quoted below; neither it nor
 `docs/READING_GUIDE.md` carries a defective-versus-diabolic entry.
+The F160 owner returned the continuous Hermitian road through the clean-triple
+level collision; F161 returned the collision-gap series and gcd criteria along
+that road through fifth order. The Python and C# confirmation registries returned two adjacent sightings.
+F25 follows a 19-point Bell+ trajectory through CΨ=¼ on Kingston (RMS 0.0097):
+it confirms that physical trajectory, not the discriminant order and not an
+EP/Jordan character. F129's stepped-Floquet fringe supports the hardware
+existence reading of that level collision, again not its order or character.
+The typed sweep also returned `TransitionBridgeF95SiblingClaim`, which already
+owns the narrower CΨ-cusp/F86-EP siblinghood: two quadratics, two anchors, two
+spaces and no hidden identity.
 
-`docs/CAUGHT_ERRORS.md` returned this page's parent:
-
-> the EP-character trilogy is complete and internally coherent — F86a (near-EP,
-> no coalescence, retracted) / coherence-horizon (genuine defective EP,
-> confirmed) / F89-octic (diabolic crossing, corrected) — all three settled by
-> the same artifact-free apparatus (`EpCharacter` + the discriminant
-> order-of-vanishing), and each a genuinely different outcome
-
-and, further down the same bullet, the fence on that apparatus, which belongs
-on a page about how far a test reaches:
+`docs/CAUGHT_ERRORS.md` returned this page's parent and, later, its correction.
+The older entry grouped `EpCharacter` and discriminant order as though both
+settled all three character verdicts. The September 6 correction records why
+that grouping was the error: order can establish an isolated transverse
+square-root split, but not semisimplicity. One fence from the older entry still
+belongs here:
 
 > ‖P‖ measures oblique embedding, NOT defective-vs-diabolic — a closed-block
 > defective EP reads ‖P‖≈1 (Gate0a), only the eig-Petermann K diverges, which
 > `EpCharacter` deliberately avoids
 
 So the family was assembled before this page, for the spectrum, with its
-verdicts, inside an errors ledger. What is new here is the family across BOTH
-rooms, and a sharper account of how far the order test reaches.
+verdicts, inside an errors ledger, and the cusp/EP sibling pair was already
+typed. What this page adds is the broader roster across both rooms and a
+sharper account of how far the order test reaches.
 
 ---
 
 ## The object
 
 Take a family of polynomials with one parameter, and watch two of its roots.
-Almost everywhere they are two. On a thin set they are one. That thin set is
-the
-**double root**, and it is a place in parameter space, not a value of anything.
+Almost everywhere they are two. On a thin set they coincide. The repeated
+root value is the **double root**; the thin parameter set is its
+**double-root locus**. This page's "place, not a number" is the locus, not a
+redefinition of the root.
 
-The reason one number, ¼, keeps appearing is not that ¼ is a special number.
-It is that we keep meeting the same place, and our quadratics are normalized
-so that it sits at ¼.
+The reason ¼ keeps appearing in the parameter-space rows is not that every
+double-root locus is the same place. It is the normalization of those
+quadratics; the spectral rows meet the same KIND of place at other values.
 
 Two rooms. **In parameter space** an equation in an unknown has two solutions
 that merge as a knob is turned; nothing is an operator and there are no
@@ -81,28 +94,47 @@ magnitude a finer grid could move.
 The lemma is ours, and the fact under it is classical. It is stated in [F89
 Seed Existence Reduction](../experiments/F89_SEED_EXISTENCE_REDUCTION.md) as a
 Lemma graded Tier 1 derived, resting on what it calls the classical Kato fact:
-**a colliding pair with leading Puiseux exponent e makes the discriminant
-vanish to order 2e.**
+for one isolated colliding pair with leading Puiseux exponent e, while every
+other root gap stays nonzero, **the discriminant vanishes to order 2e.** With
+several simultaneous pairs, those contributions add. The analytic-family
+background is classical Kato perturbation theory; a modern matrix statement
+with the generic single-Jordan-block premise is given by
+[Welters](https://arxiv.org/abs/0905.4051).
 
-The lemma needs three things, and they hold everywhere on this page because
-every knob here enters polynomially: the family depends analytically on ONE
-parameter, "order" means order of vanishing at a point of that parameter's
-axis, and "the discriminant" is disc_λ of the characteristic polynomial read
-as a function of that parameter. Drop analyticity and the forward direction
-goes: A(t) = [[0, √t], [√t, 0]] is continuous and real symmetric on t ≥ 0 with
-char poly λ² − t, a SIMPLE zero of the discriminant, and A(0) = 0, perfectly
-semisimple.
+The test needs more than a polynomial-looking knob. The operator or polynomial
+family must be analytic in ONE local parameter; persistent factors must first
+be removed so that the discriminant is not identically zero; the colliding
+pair must be isolated before its exponent is inferred from the TOTAL
+discriminant; and the parameter must cross the locus transversely. Order is
+preserved by a locally invertible analytic coordinate change u(t) with
+u'(0) ≠ 0. A tangent or ramified path multiplies it: λ²−t has discriminant 4t,
+whereas the same locus read through t=s² gives λ²−s² and discriminant 4s².
+
+F97 is the repository's own warning. In the coefficient c,
+D(c)=1−4c has a simple zero at c=¼. Along the cardioid parameter
+c(φ)=½e^(iφ)−¼e^(2iφ), however,
+D(φ)=(e^(iφ)−1)² has order 2 at φ=0 because the curve is tangent to the
+locus. That order-2 reading does not turn the underlying transverse fold into
+a different singularity.
+
+Drop analyticity of the matrix family and even a simple discriminant zero no
+longer fixes the Jordan character: A(t) = [[0, √t], [√t, 0]] is continuous and
+real symmetric on t ≥ 0 with char poly λ² − t, a simple zero of the
+discriminant, and A(0) = 0, perfectly semisimple.
 
 Read backwards it is a test, and the test is one-sided:
 
 | Discriminant vanishes to | What it forces |
 |---|---|
-| a **simple** zero | exponent ½ exactly, so a square-root branch point and a 2×2 Jordan block. Defective. **Decided.** |
-| order **≥ 2** | a diabolic crossing, an analytic-defective 2×2, a cubic branch point, or two coincident defective pairs. **Not decided.** |
+| a **simple** zero | For an analytic polynomial family and one isolated double root: exponent ½ exactly. If this is the local characteristic factor of an analytic matrix/operator and the collision has algebraic multiplicity 2, the nonanalytic split forces one 2×2 Jordan block. In parameter space there is no Jordan verdict. |
+| order **≥ 2** | A diabolic crossing, an analytic-defective 2×2, a cubic branch point, several coincident defective pairs, or merely a tangent/ramified scan. **Not decided.** |
 
 **The one-sidedness is the whole discipline, and it is easy to lose in one
-sentence.** A higher-order zero rules out the exponent-½ branch point. It does
-**not** rule out defectiveness, because an analytic pair can be defective too:
+sentence.** For one isolated pair in a transverse analytic coordinate, a
+higher-order zero rules out exponent ½ in that coordinate. The total
+discriminant does not say this until isolation and transversality are proved.
+Even then, higher order does **not** rule out defectiveness, because an
+analytic pair can be defective too:
 the matrix [[0, 1], [t², 0]] has eigenvalues ±t, perfectly analytic,
 discriminant 4t², a zero of order 2, and at t = 0 its geometric multiplicity
 is 1 against algebraic 2.
@@ -127,21 +159,13 @@ whatever. So the even-character doubling is what the axis actually shows, and
 the other side of it is not yet a citeable reading.
 
 That is also why an even-order zero is not by itself a verdict of semisimple.
-The claim class for the F89 path-3 octic states the grid-free chain "a double
-zero in q ⟹ the eigenvalues cross linearly/analytically ⟹ semisimple" as its
-proof, with the artifact-free discriminators listed as corroboration.
-
-**Neither arrow carries the chain by itself, and they fail for different reasons.**
-The first arrow runs the lemma BACKWARDS, and backwards it needs a hypothesis
-the chain does not state: that exactly TWO roots collide. Without it, disc(λ³
-− t) = −27t² is a double zero whose branches are t^(1/3), no analytic crossing
-at all. The fifteen loci break this arrow too, and by the mechanism the
-registry gives: their zeros are even because two DISTINCT defective pairs
-coincide, each still exponent ½, so the eigenvalues there are not analytic
-either. The second arrow is what the toy breaks: ±t is as analytic as a
-crossing gets and the matrix is defective. On the octic the first arrow does
-hold, because "two of eight roots" is known separately; that scope is the
-whole of its content and it is not in the chain.
+Two different failures have to stay visible. Without pair isolation,
+disc(λ³−t)=−27t² has a double zero but cubic branches t^(1/3); the fifteen
+sideways-ladder loci are even for another reason, two distinct square-root
+defective pairs coinciding. Even after an isolated pair has been shown to
+cross analytically, the toy [[0,1],[t²,0]] shows that analyticity does not
+decide its Jordan character. For the octic, pair isolation supplies the
+analytic-crossing reading; it still does not supply semisimplicity.
 
 [The Galois reading](../experiments/F89_PATH_K_GALOIS.md) already says the
 first half, that the perfect square "is consistent with an analytic crossing
@@ -150,17 +174,17 @@ but is
 semisimplicity is "established decisively by the scalar-λI restriction of the
 octic onto the coalescing span".
 
-**Taken as it stands that phrase is nearly circular**, since "the restriction is
-λ·I, therefore semisimple" puts all the content into establishing scalarity
-and supplies no route to it. The route is committed and it is a theorem, not a
-docstring: [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
-Regime 2 owns the twin-scalar condition, and [Diabolic by
-Integrability](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md) holds the N = 4
-mechanism, H-scalar by Slater additivity and D-scalar at the AT midpoint. That
-source states this page's whole subject in one line: "the discriminant
-double-zero is the **algebraic shadow** of this twin scalarity, not an
-independent cause". The order sits downstream of the mechanism, which is why
-reading a character off it can only ever be one-sided.
+The scalar restriction carries content only once scalarity has been
+established. [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
+owns the conditional twin-scalar lemma: the residual regime is semisimple
+where both compressed halves are scalar; this is proved at the N=4 octic point
+and checked on the stated N=5 loci. [Diabolic by
+Integrability](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md) gives the Tier-2
+physical explanation for N=4, H-scalar by Slater additivity and D-scalar at the
+AT midpoint. Its useful sentence is correctly causal: the discriminant
+double-zero is the **algebraic shadow** of twin scalarity, not an independent
+cause. The Tier-1 character verdict and the Tier-2 explanation must not be
+collapsed into one grade.
 
 `EpCharacter` implements it and its docstring states it compactly: split the
 pencil on the coalescing GENERALIZED eigenspace (the orthonormal range of the
@@ -173,20 +197,22 @@ load-bearing step, and it is conditional on the H-half, not unconditional.
 
 The artifact-free discriminators sit beside it as confirmation, and there are
 fewer of them than the list suggests: at algebraic multiplicity 2, "geometric
-multiplicity 2", "rank(L − λ·I) = n − 2" and "no generalized eigenvector" are
-one condition written three ways, sharing one failure mode, a numerical rank
-taken at a float q near an algebraic q\*. The independent one is the departure
-from normality, and it is read against a relative tolerance of 1e-2 in
-`EpCharacter` (relative with a floor, the normaliser being max(1, ‖A‖)), so it
-is a measured smallness and not an exact zero. Nothing in this paragraph is
-exact arithmetic; the exact half is the Hermitian-compression argument above
-it.
+multiplicity 2", "rank(L − λ·I) = n − 2", "no generalized eigenvector" and a
+scalar 2×2 compression are equivalent mathematical conditions. Departure from
+normality is a differently conditioned numerical counter-reading from that
+same Riesz compression, not an independent condition. `EpCharacter` reads it
+against a relative tolerance of 1e-2 (with max(1, ‖A‖) as normaliser), so it is
+a measured smallness and not an exact zero. The exact half is the
+Hermitian-compression argument above it.
 
 **Two "orders" live in this section and they are different numbers.** The order
-of the discriminant's zero is 1 for the ordinary defective case; the order of
-the exceptional point counts how many eigenvalues meet, and is 2 in that same
-case. The Kato lemma reads "a defective, order-2 exceptional point, at a
-simple zero" in one sentence, and both numbers are correct.
+of the discriminant's zero is 1 for the ordinary defective case. The order of
+an exceptional point is the length of its longest coalescing eigenvector chain,
+equivalently the size of the largest Jordan block in the isolated collision;
+it is 2 for an EP2. It is not the total algebraic multiplicity: two simultaneous
+EP2s do not become an EP4 merely because four eigenvalues meet at one parameter.
+The Kato lemma reads "a defective EP2 at a simple discriminant zero" in one
+sentence, and both numbers are correct.
 
 **When two honest scans disagree about a character, the first hypothesis is two
 objects, not one contradiction.** That is the ledger's lesson and it was paid
@@ -219,35 +245,35 @@ of the same letter.
 **The test crosses only one of these tables.** In parameter space there are no
 eigenvectors, so "defective" and "diabolic" are not available verdicts there
 at all; those rows are folds, and what the order reads is the fold's
-degeneracy, not a Jordan structure. Read down the parameter-space table and
-the three quadratics are one monic quadratic in three costumes, related by
-affine reparametrisation: for x² + px + q the double root sits at q = p²/4,
-and ¼ appears exactly when p = ±1. That is an identity of the algebra. The
-content of that half of the roster is where each normalization comes from, not
-that a discriminant exists.
+degeneracy, not a Jordan structure. The quadratic rows share the local fold
+normal form x²+a=0, but not one global quarter-normalized monic polynomial.
+F97 and F95's b=½ specialization use x²+px+q with p=−1, so q=¼ at the double root; general F95 has p=−2b and locus c=b². In the CΨ recursion,
+y=CR and s=CΨ instead give y²+(2s−1)y+s²=0; its discriminant vanishes at
+s=¼ although its coefficients there are p=−½ and q=1/16. The content of this
+half of the roster is where each normalization and scan direction comes from,
+not merely that a discriminant exists.
 
 ### In parameter space
 
 | Site | The equation | What the repo records about the meeting |
 |---|---|---|
-| The CΨ = ¼ fold ([Uniqueness Proof](proofs/UNIQUENESS_PROOF.md)) | CR² + (2CΨ−1)R + CΨ² = 0, D = 1 − 4CΨ exactly, the C²Ψ² cancelling with no hidden normalization; at C = 0 the equation is not quadratic and the row does not apply | [The Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) Layer 6 puts it in normal form, "the fold catastrophe x² + a = 0 IS the recursion R = C(Ψ+R)²". Depressing the quadratic by x = R + (2CΨ−1)/(2C) and dividing by C gives that form exactly, with a = (4CΨ−1)/(4C²) = −D/(4C²) for every C ≠ 0; since 4C² > 0 the two real roots sit where a < 0, i.e. CΨ < ¼. The knob is D only up to the positive factor 4C², which on the theorem's domain 0 ≤ C ≤ 1 is 1 only at C = ½ (the roadmap also states the algebra for any real C, where C = −½ does it too), and [Critical Slowing](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) carries the same content as a saddle-node, η± = ±√ε |
-| [F95](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), the angle | z² − 2bz + c, D = 4(b² − c) | The root's doubleness is tabulated, "one degenerate real root z = b (double)". The order of D's zero in c is not stated |
-| [F97](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md), the cardioid cusp | z² − z + c, D = 1 − 4c, cusp at φ = 0 | The cardioid identity, verified to a max residual of 1.24e-16 over 1000 sampled φ; the order is not stated |
-| The Rényi family ([Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) Layer 6) | R = C_α(Ψ+R)^α | Recorded as a fold threshold in CΨ, "the value of CΨ at which its two real fixed points merge", one per α, state-independent only at α = 2 |
+| The CΨ = ¼ fold ([Uniqueness Proof](proofs/UNIQUENESS_PROOF.md)) | CR² + (2CΨ−1)R + CΨ² = 0, D = 1 − 4CΨ exactly, the C²Ψ² cancelling with no hidden normalization; at C = 0 the equation is not quadratic and the row does not apply | [The Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) Layer 6 puts it in normal form, "the fold catastrophe x² + a = 0 IS the recursion R = C(Ψ+R)²". Depressing the quadratic by x = R + (2CΨ−1)/(2C) and dividing by C gives that form exactly, with a = (4CΨ−1)/(4C²) = −D/(4C²) for every C ≠ 0; since 4C² > 0 the two real roots sit where a < 0, i.e. CΨ < ¼. In the local coordinate s=CΨ the zero is simple; a physical-time scan inherits that order only when ds/dt ≠ 0 at the crossing. [Critical Slowing](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) carries the transverse content as η± = ±√ε |
+| [F95](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), the angle | z² − 2bz + c, D = 4(b² − c) | At fixed b, scanning c transversely gives a simple zero at c=b² and the tabulated double root z=b. A different path (b(t),c(t)) needs its own order |
+| [F97](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md), the cardioid cusp | z² − z + c, D = 1 − 4c, cusp at φ = 0 | Simple in the transverse coefficient c. Along the cardioid itself, D(φ)=(e^(iφ)−1)² has order 2: the curve is tangent at the cusp. The 1.24e-16 numerical residual verifies the cardioid identity, not either order statement |
+| The Rényi family ([Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) Layer 6) | R = C_α(Ψ+R)^α | Recorded on the selected positive real branch as a fold threshold in CΨ, one per α, state-independent only at α = 2. For general α this row is locally analytic on that branch, not a polynomial family |
 | **The near-miss:** [F116](proofs/PROOF_CEILING_GOLDEN_ROUTER.md), the metallic means | r² = cr + 1, D = c² + 4 | The theorem block is the c = 1 case; the extension to every **real** c is the metallic family section. There D never vanishes, so the metallic line carries no fold on its own axis. The window lemma is stated more widely, "for all real, indeed all complex, c"; that D would vanish at c = ±2i is this page's arithmetic, not that proof's |
 
 ### In a spectrum
 
 | Site | What meets | What is recorded about the order |
 |---|---|---|
-| The coherence horizon Q\*(N) ([proof](proofs/PROOF_COHERENCE_HORIZON_SLOPE.md)) | the {0,2}-coherence pair, tuned by Q = J/γ. **Q\*, the EP, and not the handover Q_h just below it**, which is where the FULL Liouvillian's slowest mode stops oscillating; the two are one event at N = 2, 3 and separate from N = 4 (1.87874 against 1.87854), so this row is the EP's. The full-ladder dispersion is λ² + 8γλ + 4J²q², with q the mode wavevector, and q_min → π/N is where N enters that form. [Fold and Cusp](../experiments/FOLD_AND_CUSP_TWO_SEAMS.md) records that the double root is not pinned, drifting −2γ → −4γ with N, the short ladder λ² + 4γλ + cJ²q² (c = 4, 2) holding at N = 2, 3, whose double root gives Q* = 2/√c = 1, √2; the truncation λ² + 4γλ is shorthand for the λ-linear coefficient and has discriminant 16γ², never zero | Named a **simple** zero in the [F89 contrast](ANALYTICAL_FORMULAS.md); defective, confirmed artifact-free |
-| The F89 real seed ([reduction](../experiments/F89_SEED_EXISTENCE_REDUCTION.md)) | two eigenvalue branches of the (1,2) block's pencil, tuned by q | **Simple**, Puiseux ½, so defective by the lemma; the source calls the question closed modulo two remaining items, the non-simple-zero genericity among them |
-| The F89 path-3 octic | two of eight roots at q ≈ 0.658983 | **Double**: the EP-condition (3q⁴+q²−1) enters disc(F₈) squared. Diabolic, by the discriminators and by the Hermitian-compression argument, not by the order. The EIGENVALUE monodromy (a loop around q_EP returns the identity) is not a second route: trivial eigenvalue monodromy says the branches are single-valued, which is the even-order reading again, and the toy above has trivial monodromy while being defective. Eigenvector holonomy would be a second route and is a different object |
+| The coherence horizon Q\*(N) ([proof](proofs/PROOF_COHERENCE_HORIZON_SLOPE.md)) | the {0,2}-coherence pair of the open XY/Haken-Strobl single-excitation block under uniform local Z-dephasing, tuned by carrier Q = J/γ. **Q\*, the EP, and not the handover Q_h just below it**, which is where the FULL Liouvillian's slowest mode stops oscillating; the two are one event at N = 2, 3 and separate from N = 4 (1.87874 against 1.87854), so this row is the EP's. The large-N/long-wave full-ladder dispersion is λ² + 8γλ + 4J²q², with q the mode wavevector and q_min → π/N; it owns the asymptotic slope, not an exact finite-N quadratic. [Fold and Cusp](../experiments/FOLD_AND_CUSP_TWO_SEAMS.md) records that the double root drifts −2γ → −4γ with N. The exact short ladders λ² + 4γλ + cJ² (c = 4, 2) hold at N = 2, 3 and give Q\* = 2/√c = 1, √2 | Named a **simple** zero in the [F89 contrast](ANALYTICAL_FORMULAS.md); the live artifact-free defectiveness witness is gated at N = 2..5, while the asymptotic dispersion has its separate derivation |
+| The F89 real seed ([reduction](../experiments/F89_SEED_EXISTENCE_REDUCTION.md)) | two branches of the open nearest-neighbour XY chain's uniform-Z (1,2) joint-popcount pencil, tuned by doubled-book q=J/γ | At N=5,7,9 the individually certified seeds are simple, Puiseux-½ defective EP2s. For arbitrary odd N only the nullity-surplus COUNT is a theorem; the literal finite-q drop and √-type genericity remain open outside the certified sizes (N=11 already exhibits third-order lift-off in the count bookkeeping) |
+| The F89 path-3 octic | two of eight roots at q ≈ 0.658983 | **Double**: the degeneracy-locus factor (3q⁴+q²−1) enters disc(F₈) squared. Diabolic, by the discriminators and by the Hermitian-compression argument, not by the order. The EIGENVALUE monodromy (a loop around q_EP returns the identity) is not a second route: trivial eigenvalue monodromy says the branches are single-valued, which is the even-order reading again, and the toy above has trivial monodromy while being defective. Eigenvector holonomy would be a second route and is a different object |
 | The F89 branch points | pairs of the same eight roots, at real AND complex q | **Simple** zeros of the squarefree layer P₂₀; defective, the S₈ transpositions. P₂₀(q) = P₁₀(q²) is EVEN, so its roots come in ± pairs and **eight** of the twenty sit on the REAL axis: the certificate's four committed loci on q > 0 (q = 0.460, 0.854, 0.857, 1.738) and their negatives. The squared factor likewise contributes two real diabolics, ±0.659. So the real axis carries both characters, and the row above is one of the real-q sites rather than the only one. The near-twin pair 0.854 / 0.857, 0.003 apart, is what a 0.05-cell lasso reads as a single point |
-| The edge block under a γ profile ([proof](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md)) | two eigenvalues of an unreduced tridiagonal, tuned by one site's rate | What is certified in exact ℚ is a **sign change**, which proves odd order; simplicity is the hypothesis, applied at the bracket ends. Defectiveness is forced separately: a non-derogatory matrix has no diabolic alternative |
+| The edge block under a γ profile ([proof](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md)) | two eigenvalues of the open-XY (0,1) tridiagonal block, tuned by one site's rate at fixed J | Exact discriminant signs prove an odd TOTAL multiplicity of real-pair transitions inside the bracket. Only an isolated unique zero can therefore be assigned odd order. Defectiveness is forced separately: a non-derogatory matrix has no diabolic alternative |
 | [F140](proofs/PROOF_R90_FROZEN_DIVISOR.md) §9 | the frozen root's block, tuned by J | No discriminant on either stratum: on the taxed one the couplings come off a cofactor (kernel dimensions of powers give the Jordan structure at a coupling already found, not the coupling itself); on the zero-mean one the cofactor vanishes identically and they must be read from the characteristic polynomial. Defective: one Jordan block of size 2 at every exceptional coupling reached so far on the taxed stratum, and a size-3 block at one zero-mean profile, at a plus/minus pair of couplings, which the proof offers as showing the structure is not universally 2x2 rather than as a law |
-| The cracked ring at u = 1 ([proof](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md)) | the m ↔ N−m pair, tuned by the wrap detuning | Simplicity for every u ≥ 0 except 1 is the work of the proof, carried by a fold and a Bézout certificate; u < 0 is outside its declared range |
-| The level collisions of [F129](proofs/PROOF_F129_LEVEL_COLLISION_LAW.md) / [F130](proofs/PROOF_F130_COLLISION_DECOUPLING.md) | two clean triples reaching one level, on the degenerate level-S eigenspace of the hop | Not read as an order. What is proved is that the pair does not couple, B(τ,σ) = 0 at every collision, so "no avoided crossing, ever"; the coincidence can still be shifted apart at second order, only never hybridized. F130 alone carries the shift, and it is DIAGONAL: the colliding triples differ in Σλ² over their own modes, λ_k = 2cos(kπ/n), 9.73 against 2.27, which is why a coincidence can move without the pair ever repelling |
+| The cracked ring at u = 1 ([proof](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md)) | the m ↔ N−m pair of the real-symmetric single-excitation XY adjacency Hamiltonian, tuned by wrap detuning u; γ is absent | Simplicity for every u ≥ 0 except 1 is the work of the proof, carried by a fold and a Bézout certificate; u < 0 is outside its declared range. At u=1 the Hermitian ring degeneracy is semisimple: independent eigenvectors, not a Liouvillian EP and not noise-induced |
 | **Not a member:** [the exceptional couplings](../experiments/THE_EXCEPTIONAL_COUPLINGS.md) | a mobile eigenvalue crosses an already-degenerate line and one more mode freezes | A pencil determinant, not a discriminant. Its roots are proved simple where the block was enumerated exactly, the whole band at N = 5 and one block at N = 6; at N = 7 and 8 simplicity is untested, and a sign change proves only odd order. Whether those points are semisimple or defective is an open item there |
 
 **A name already spent.** "Exceptional coupling" means F140 §9's corner block on
@@ -258,24 +284,59 @@ block and which multiplicity.
 
 ---
 
-## The one place the word is missing
+## A related fixed degeneracy outside the test
 
-F129 and F130 describe a repeated level and prove the degenerate pair does not
-couple. The words "diabolic" and "semisimple" appear zero times in either
-proof and zero times in `compute/MirrorWorld/LevelCollision.cs`, while they
-appear across dozens of files elsewhere. The proofs say it in physics words
-instead. Whether that object belongs in the spectral table above under a
-character label is a question this page raises and does not settle.
+F129 is an arithmetic equality between clean triples at discrete comb modulus
+n, not an analytic one-knob family, so it does not belong in the order-test
+table. F130 proves second-order non-mixing; diagonal self-shifts may still
+separate the equal levels. F160 supplies the missing continuous road: its
+one-particle H₁(u)=H_chain+uV is a real-analytic Hermitian matrix family, so
+Rellich's theorem supplies local real-analytic eigenvalue parametrizations;
+their three-mode sums inherit that regularity. The F129 equality is a repeated level of the induced three-fermion
+exterior-power Hamiltonian, which is Hermitian for real u; at u=0 it is
+therefore semisimple. F161 reads the collision-gap series and gcd criteria
+along this road through fifth order; it does not supply the road or the
+character. The mathematical character is settled; whether the repository
+spends the house word "diabolic" on this Hermitian collision is only a naming
+choice. The hardware confirmation sees the stepped-Floquet near-degeneracy and
+uses verified θ³ scaling to infer the continuum collision; it does not measure
+the exact equality, discriminant order or character directly.
 
 ---
 
 ## The question the roster raises
 
-The order route is how a count gets closed exactly, and the live entry in the
-arc `zeros_connecting_structure` says where that stands: the complex-q set "is
-not claimed complete (Route B / the exact F_18 discriminant is unattempted,
-the infeasibility read retired; see the obstacle note in this registry)".
-Unattempted, and no longer for the reason once given.
+The order route is how a count gets closed exactly, and the live owner is the
+arc `diabolic_over_higher_n`. Route B concerns the exact discriminants of the
+path-4 N=5, (1,2) residuals: F_18 in R-even (q-degree 274) and the distinct
+F_17 in R-odd (q-degree 246), with no M-descent shortcut because this block is
+not fold-fixed. The exact full-degree factorization has already landed: in
+w=q² each sector obeys `disc_Λ(F_res)=C·w^v·A₁·A₂²`, with squarefree coprime
+layers; at N=5 both A₁ and A₂ are irreducible over ℚ. The q-degree layers are
+[56,32] in R-even and [56,26] in R-odd, with v_q=154/138. Route B's complete
+root/locus inventory, including certified complex-root isolation, is now given
+below. The remaining work is pair isolation and a character gate on the doubled
+A₂² loci. The A₁ loci need no second character gate: squarefreeness and
+coprimality make their discriminant zeros simple, and the simple-zero lemma
+already certifies Puiseux-½ defective EP2 character.
+
+That first remaining Route B step is closed exactly at N=5. Exact rational
+root isolation gives the complete inventory below; each tuple is
+`(negative-real, positive-real, nonreal)` in w. Because every listed root is
+nonzero, `w=q²` lifts each one to two q-loci.
+
+| R parity | layer | exact w-root inventory | w roots | induced q-loci | character |
+|---|---:|---:|---:|---:|---|
+| even | A₁ | (0, 2, 26) | 28 | 56 | all Puiseux-½ defective EP2 |
+| odd | A₁ | (0, 2, 26) | 28 | 56 | all Puiseux-½ defective EP2 |
+| even | A₂ | (6, 0, 10) | 16 | 32 | locally undecided |
+| odd | A₂ | (6, 1, 6) | 13 | 26 | locally undecided except the gated positive-real diabolic |
+
+Thus A₁ is complete at **56 w roots / 112 q-loci**, all certified EP2. A₂ is
+complete as a locus inventory at **29 w roots / 58 q-loci**, but its local
+character classification is the next Route B step. The certificate is the
+default N=5 run of `simulations/o2b_gcd_certificate.py`; it gates the four count
+tuples in addition to the earlier exact factorization and real-positive anchors.
 
 ## What this document does not claim
 

@@ -13,8 +13,8 @@ namespace RCPsiSquared.Core.Tests.F86;
 /// factor K_n = 1/|⟨l_n|r_n⟩|² (unit-norm left/right eigvecs) diverges at exact EP.
 ///
 /// <para>Connection to <see href="hypotheses/FRAGILE_BRIDGE.md">FRAGILE_BRIDGE</see>: there
-/// the Hopf bifurcation in the complex γ plane signals an EP via Petermann K = 403 above
-/// γ_crit. Same diagnostic, different parameter axis (Q vs γ).</para>
+/// the transition is a genuine EP on the real γ axis at γ_crit; K≈403 is one finite-grid
+/// approach reading above it. Same diagnostic, different parameter axis (Q vs γ).</para>
 /// </summary>
 public class F86PetermannProbe(ITestOutputHelper output)
 {

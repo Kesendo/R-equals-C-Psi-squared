@@ -12,7 +12,7 @@ public class SeedTests
     const double G = 0.5;
     static readonly World W = new();
 
-    // the proven count: a real defective seed forced on the (1,2) block at every odd N, N-1 of them.
+    // the proven count: the (1,2)-block endpoint-nullity surplus is N-1 at every odd N.
     [Theory]
     [InlineData(3, 2)]
     [InlineData(5, 4)]

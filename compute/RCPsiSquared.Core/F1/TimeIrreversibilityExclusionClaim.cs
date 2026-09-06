@@ -9,15 +9,18 @@ namespace RCPsiSquared.Core.F1;
 /// that value implies, together with its load-bearing caveat.
 ///
 /// <para>The anticommutator {L_H, L_Dc} of the Hamiltonian Liouvillian and the F1-centered
-/// Z-dephasing Liouvillian vanishes EXACTLY at N=2 (every nonzero L_H entry connects Pauli strings
+/// uniform-Z-dephasing Liouvillian vanishes EXACTLY at N=2 (every nonzero L_H entry connects Pauli strings
 /// whose w_XY values sum to N, so at N=2 the centering cancels the anticommutator), giving the
-/// Pythagorean split L_c² = L_H² + L_Dc²; it grows for N>2 with the γ- and topology-independent
-/// relative R(N) = √((N−2)/(N·4^(N−1))).</para>
+/// Pythagorean split L_c² = L_H² + L_Dc²; it grows for N>2 with the common-γ- and
+/// topology-independent relative R(N) = √((N−2)/(N·4^(N−1))). This statement assumes uniform
+/// local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian; a rate profile adds a
+/// bond-asymmetry term proportional to (γ_i−γ_j)² and can break the N=2 orthogonality.</para>
 ///
 /// <para>The load-bearing caveat: the N=2 vanishing is a Frobenius-ORTHOGONALITY fact, NOT a
-/// separability or reversibility criterion. Whether the flow factors is governed by the COMMUTATOR
-/// [L_H, L_Dc], and ‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2. So the naive arrow-of-time reading a
-/// vanishing anticommutator would suggest is EXCLUDED. Live witness (recomputes both norms across N
+/// separability or reversibility criterion. Whether the flow factors is governed by the COMMUTATOR.
+/// For the Heisenberg witness, ‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2; commuting Hamiltonians such
+/// as Z1Z2 are exceptions with zero commutator. So the anticommutator alone gives no arrow-of-time
+/// verdict. Live witness (recomputes both norms across N
 /// and cross-checks the anticommutator against the F49 closed form):
 /// <c>compute/RCPsiSquared.Diagnostics/Foundation/TimeIrreversibilityExclusionWitness.cs</c>,
 /// <c>inspect --root time-exclusion</c>.</para></summary>
@@ -28,7 +31,7 @@ public sealed class TimeIrreversibilityExclusionClaim : Claim
     public F49NonUniformCrossTermClaim CrossTerm { get; }
 
     public TimeIrreversibilityExclusionClaim(F49NonUniformCrossTermClaim crossTerm)
-        : base("time-irreversibility exclusion: {L_H, L_Dc} = 0 only at N=2 (orthogonality, not reversibility); [L_H, L_Dc] ≠ 0 there",
+        : base("time-irreversibility exclusion: under uniform local Z-dephasing, {L_H, L_Dc} = 0 only at N=2 (orthogonality, not reversibility); factorization is a separate commutator question",
                Tier.Tier1Derived,
                "docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md")
     {
@@ -37,21 +40,21 @@ public sealed class TimeIrreversibilityExclusionClaim : Claim
 
     /// <summary>The proof's relative cross-term R(N) = ‖{L_H, L_Dc}‖ / (‖L_H‖·‖L_Dc‖)
     /// = √((N−2)/(N·4^(N−1))): exactly 0 at N=2, then 1/√48 ≈ 14.43% (N=3), 8.84% (N=4),
-    /// DECREASING in N; γ- and topology-independent. Do not confuse it with the proof's
+    /// DECREASING in N; common-γ- and topology-independent under the stated uniform-rate scope. Do not confuse it with the proof's
     /// other column, cross term over ‖L_c²‖, which reads 1.83% (N=3) and 2.07% (N=4) and
     /// grows: that is a different normalisation of the same cross term.</summary>
     public static double RelativeCrossTerm(int n) => Math.Sqrt((n - 2.0) / (n * Math.Pow(4.0, n - 1)));
 
     public override string DisplayName =>
-        "Time-irreversibility exclusion: {L_H, L_Dc} vanishes only at N=2 (orthogonality); the commutator does not";
+        "Time-irreversibility exclusion: at uniform rates {L_H, L_Dc} vanishes only at N=2 (orthogonality); factorization is a separate commutator question";
 
     public override string Summary =>
-        "the anticommutator {L_H, L_Dc} = 0 exactly at N=2 (Frobenius-orthogonality, the Pythagorean split " +
+        "under uniform local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian, the anticommutator {L_H, L_Dc} = 0 exactly at N=2 (Frobenius-orthogonality, the Pythagorean split " +
         "L_c² = L_H² + L_Dc²), and nonzero for N>2: ‖{L_H, L_Dc}‖² = 4γ²(N−2)‖L_H‖² grows with N, while the " +
         "relative R(N) = ‖{L_H, L_Dc}‖/(‖L_H‖·‖L_Dc‖) = √((N−2)/(N·4^(N−1))) peaks at N=3 (1/√48 ≈ 14.43%) and " +
-        "then falls (8.84% at N=4, 4.84% at N=5); γ- and topology-independent; but " +
-        "the commutator [L_H, L_Dc] ≠ 0 already at N=2, so the vanishing is orthogonality, NOT a " +
-        "separability/reversibility criterion, and the naive arrow-of-time reading is EXCLUDED. The value is the " +
+        "then falls (8.84% at N=4, 4.84% at N=5); common-γ- and topology-independent; a rate profile adds a bond-asymmetry term and can break N=2 orthogonality; but " +
+        "the Heisenberg-witness commutator [L_H, L_Dc] ≠ 0 already at N=2, while commuting-H exceptions exist, so the vanishing is orthogonality, NOT a " +
+        "separability/reversibility criterion and gives no arrow-of-time verdict. The value is the " +
         "parent F49 4γ²(N−2)‖L_H‖²; this node types the reading + caveat (live: TimeIrreversibilityExclusionWitness).";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -69,12 +72,12 @@ public sealed class TimeIrreversibilityExclusionClaim : Claim
                          "the relative R(N) = ‖{L_H, L_Dc}‖/(‖L_H‖·‖L_Dc‖) = √((N−2)/(N·4^(N−1))) is 0 at N=2, " +
                          "1/√48 ≈ 14.43% (N=3), 8.84% (N=4), and falls from N=3 on. The proof's other column, " +
                          "cross term over ‖L_c²‖, is a different normalisation and reads 1.83% (N=3), 2.07% (N=4). " +
-                         "Both are γ- and topology-independent (chain = ring = star = complete).");
+                         "Both are common-γ- and topology-independent (chain = ring = star = complete); a rate profile adds the F49 bond-asymmetry term.");
             yield return new InspectableNode("the caveat: not reversibility",
                 summary: "the N=2 vanishing is a Frobenius-ORTHOGONALITY fact, NOT a separability/reversibility " +
-                         "criterion. Separability of the flow is governed by the COMMUTATOR [L_H, L_Dc], and " +
-                         "‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2; so no arrow of time is read off the anticommutator, " +
-                         "and the naive irreversibility claim is excluded (Tier-3 caveat of the proof).");
+                         "criterion. Separability of the flow is governed by the COMMUTATOR [L_H, L_Dc]. For the " +
+                         "Heisenberg witness ‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2, while commuting H such as Z1Z2 " +
+                         "gives zero; no arrow of time is read off the anticommutator (Tier-3 caveat of the proof).");
             yield return new InspectableNode("live witness",
                 summary: "TimeIrreversibilityExclusionWitness (inspect --root time-exclusion) builds L_H and L_Dc " +
                          "across N via LindbladianBuilder, reports ‖{L_H, L_Dc}‖ (→ 0 at N=2) AND ‖[L_H, L_Dc]‖ " +

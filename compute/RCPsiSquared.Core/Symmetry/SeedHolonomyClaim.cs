@@ -26,7 +26,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// full-block isolation at N=5 and the R=+1 sector at N=9), plus a KNOWN analytic reason (a defective EP2
 /// has the ±i eigenvector holonomy — Heiss/Dembowski; the seed's defectiveness is F89's Kato simple-zero,
 /// Tier1Derived). Not Tier1Derived because the from-below computation here is numerical, the analytic
-/// derivation is not yet written as a repo proof, and EP2-ness ∀ odd N is itself the open β-exotic item.</para></summary>
+/// derivation is not yet written as a repo proof. Extending EP2-ness to every odd N separately requires
+/// a literal finite-q count drop and its local character; β-exotic exclusion addresses only one part of
+/// that character question and cannot promote the endpoint-nullity surplus by itself.</para></summary>
 public sealed class SeedHolonomyClaim : Claim
 {
     public SeedHolonomyClaim() : base(
@@ -35,8 +37,9 @@ public sealed class SeedHolonomyClaim : Claim
         Tier.Tier1Candidate,
         "compute/RCPsiSquared.Core/Numerics/EigenvectorHolonomy.cs (biorthogonal vᵀv frame transport) + " +
         "compute/RCPsiSquared.Diagnostics/Foundation/SeedHolonomyWitness.cs (inspect --root holonomy) + " +
-        "experiments/F89_SEED_EXISTENCE_REDUCTION.md establishes this real-axis defective seed (its census to " +
-        "N=11, backed by the exact nullity identity, plus the N=5 and N=9 numerics here) + " +
+        "experiments/F89_SEED_EXISTENCE_REDUCTION.md supplies the exact all-odd endpoint-nullity surplus and " +
+        "count-change census through N=11; the literal defective seeds used here are separately certified at " +
+        "N=5 and N=9 by the local numerics + " +
         "experiments/F86_EP_THROUGH_THE_CLOCK.md is cited for the borrowed forgetting-to-remembering reading; " +
         "note its F86a-retraction denied a real-axis defective EP on this block; the F89 census locates the " +
         "isolated seed that earlier real-axis scan reported absent, and F86 is now corrected accordingly " +

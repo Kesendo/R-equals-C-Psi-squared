@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Numerics;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
@@ -14,6 +15,25 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// the SLOW_SHELLCENSUS facts; this class is the fast gate.</summary>
 public class SectorShellCensusTests
 {
+    [Fact]
+    [Trait("Category", "SHELLCENSUS")]
+    public void CharacterUncertifiedLocus_CannotReceiveSeedPassVocabulary()
+    {
+        var seed = new RealSeed(5, 1.0, -4.0, +1, "synthetic transport locus");
+        var entries = SectorShellCensus.ExpectedMembers(5)
+            .Select(m => new ShellCensusEntry(
+                m.P, m.W, 1, 1, 0, m.Shift, Complex.Zero,
+                Probed: true, Method: "lu-rparity",
+                SigmaMinEven: 0.0, SigmaMinOdd: double.PositiveInfinity, SigmaMin: 0.0,
+                Converged: true, WindowMargin: 0.0, IterationsEven: 1, IterationsOdd: 0, Seconds: 0.0))
+            .ToList();
+        var result = new ShellCensusResult(
+            seed, 1.0, new Complex(-4.0, 0.0), 1e-10, 1e-6, SeedUsable: true,
+            entries, TimeSpan.Zero, new SectorShellCensus.Options());
+
+        Assert.Equal("TRANSPORT-PASS (character-uncertified)", result.Summarize().Verdict);
+    }
+
     [Fact]
     [Trait("Category", "SHELLCENSUS")]
     public void ExpectedMembers_MatchTheContainmentCorollary()
@@ -119,7 +139,9 @@ public class SectorShellCensusTests
         Assert.True(At(1, 6, "lambdaA") >= BlockLattice.WindowDistance(9, 1, 6, result.RefinedLambdaA.Real) - 1e-9);
 
         var summary = result.Summarize();
-        Assert.Equal("PASS", summary.Verdict);   // full N=9 strip probeable, membership = the diamond
+        Assert.Equal("TRANSPORT-PASS (character-uncertified)", summary.Verdict);
+        // The whole diamond is transported at this semisimple locus, but that must never
+        // acquire the PASS vocabulary reserved for character-certified defective seeds.
     }
 
     // The in-window exclusion the whole step exists for, at the cheapest known silent case:

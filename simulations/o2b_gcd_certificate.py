@@ -151,6 +151,8 @@ from math import gcd, isqrt
 import numpy as np
 import sympy as sp
 from mpmath import mp, mpc, mpf, matrix as mpmat, det as mpdet
+from sympy.polys.domains import QQ, ZZ
+from sympy.polys.rootisolation import dup_isolate_complex_roots_sqf
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from seed_existence_nullity_check import build            # noqa: E402
@@ -167,6 +169,11 @@ DISC_TABLE = {5: {"E": dict(A1=28, A2=16, v=77), "O": dict(A1=28, A2=13, v=69)},
               9: {"E": dict(A1=288, A2=1072, v=4054), "O": dict(A1=286, A2=1021, v=4020)}}
 # N = 5 only: the EXACT split gcd(Res(F,S6), disc) = Q2^v * A2^2 (proved by the sympy scouts)
 GCD_R1_DISC_N5 = {"E": 109, "O": 95}          # = v + 2*deg A2
+# Exact N=5 root counts in w: (negative real, positive real, nonreal).
+ROOT_INVENTORY_N5 = {
+    "E": {"A1": (0, 2, 26), "A2": (6, 0, 10)},
+    "O": {"A1": (0, 2, 26), "A2": (6, 1, 6)},
+}
 # forced seeds (sector, q*, lam*, kappa_-2 reference), unit-hop, from o2b_krein_sign_law.py
 SEEDS = {
     5: [("E", 1.241756, -4.6189, 0.314463),
@@ -1157,6 +1164,68 @@ def disc_layers_modp(CF, nodes, p, table):
 
 
 # ================================================================== 6b. exact N = 5 inventory
+def isolate_exact_layer_roots(poly, tag, eps_den=10 ** 8):
+    """Certify the complete root inventory of a squarefree integer polynomial.
+
+    Real roots are returned as disjoint rational intervals by SymPy's exact real
+    isolator. Nonreal roots are returned individually in disjoint rational
+    rectangles by the exact Gaussian root isolator. The degree count is the
+    completeness gate; poly(0) != 0 makes the subsequent w=q^2 lift two-to-one.
+    """
+    assert poly.domain == ZZ, f"{tag}: expected ZZ polynomial, got {poly.domain}"
+    assert poly.eval(0) != 0, f"{tag}: w=0 must be outside the stripped layer"
+    assert sp.gcd(poly, poly.diff()) == 1, f"{tag}: layer is not squarefree"
+
+    eps_sp = sp.Rational(1, eps_den)
+    real_intervals = poly.intervals(eps=eps_sp, sqf=True)
+    complex_boxes = dup_isolate_complex_roots_sqf(
+        [int(c) for c in poly.all_coeffs()], ZZ,
+        eps=QQ(1, eps_den), blackbox=False)
+
+    def interval_ends(interval):
+        return interval if isinstance(interval, tuple) else (interval, interval)
+
+    negative = positive = 0
+    real_bounds = []
+    for interval in real_intervals:
+        lo, hi = interval_ends(interval)
+        assert hi - lo <= eps_sp, f"{tag}: real interval wider than epsilon: {interval}"
+        assert not (lo <= 0 <= hi), f"{tag}: real interval touches w=0: {interval}"
+        if hi < 0:
+            negative += 1
+        elif lo > 0:
+            positive += 1
+        else:
+            raise AssertionError(f"{tag}: real interval has undecided sign: {interval}")
+        real_bounds.append((lo, hi))
+    assert all(real_bounds[i][1] < real_bounds[i + 1][0]
+               for i in range(len(real_bounds) - 1)), \
+        f"{tag}: real isolating intervals are not disjoint"
+
+    eps_qq = QQ(1, eps_den)
+    for lower_left, upper_right in complex_boxes:
+        x0, y0 = lower_left
+        x1, y1 = upper_right
+        assert x1 - x0 <= eps_qq and y1 - y0 <= eps_qq, \
+            f"{tag}: complex rectangle wider than epsilon: {(lower_left, upper_right)}"
+        assert not (y0 <= 0 <= y1), \
+            f"{tag}: complex isolator returned a box touching the real axis: {(lower_left, upper_right)}"
+    for i, (lo_i, hi_i) in enumerate(complex_boxes):
+        for lo_j, hi_j in complex_boxes[i + 1:]:
+            disjoint = (hi_i[0] < lo_j[0] or hi_j[0] < lo_i[0]
+                        or hi_i[1] < lo_j[1] or hi_j[1] < lo_i[1])
+            assert disjoint, f"{tag}: complex isolating rectangles overlap"
+
+    nonreal = len(complex_boxes)
+    assert negative + positive + nonreal == poly.degree(), \
+        f"{tag}: isolated {negative}+{positive}+{nonreal} roots, degree is {poly.degree()}"
+    counts = (negative, positive, nonreal)
+    print(f"  {tag} exact root inventory in w: real-={negative}, real+={positive}, "
+          f"nonreal={nonreal}, total={poly.degree()}; induced nonzero q loci={2 * poly.degree()}")
+    return dict(real=real_intervals, complex=complex_boxes, counts=counts,
+                q_loci=2 * poly.degree())
+
+
 def exact_disc_inventory_n5(s, F):
     """N = 5 only: reconstruct disc_Lam(F_res) EXACTLY over Z (integer-node interpolation
     with exact sympy resultants), split it exactly, factor A1 and A2 (both irreducible over
@@ -1224,6 +1293,13 @@ def exact_disc_inventory_n5(s, F):
     assert len(sp.factor_list(A1x.as_expr())[1]) == 1, "exact A1 not irreducible over Q"
     assert len(sp.factor_list(A2x.as_expr())[1]) == 1, "exact A2 not irreducible over Q"
 
+    roots_a1 = isolate_exact_layer_roots(A1x, f"[{s}] A1")
+    roots_a2 = isolate_exact_layer_roots(A2x, f"[{s}] A2")
+    assert roots_a1["counts"] == ROOT_INVENTORY_N5[s]["A1"], \
+        f"[{s}] A1 root inventory changed: {roots_a1['counts']}"
+    assert roots_a2["counts"] == ROOT_INVENTORY_N5[s]["A2"], \
+        f"[{s}] A2 root inventory changed: {roots_a2['counts']}"
+
     # real-positive root inventory (exact isolation, then float comparison)
     r1 = sorted(float(r) for r in A1x.real_roots() if r > 0)
     expected = sorted(q0 * q0 for (sec, q0, _, _) in SEEDS[5] if sec == s)
@@ -1258,7 +1334,7 @@ def exact_disc_inventory_n5(s, F):
             "the A2-point double root is not real"
         print(f"  [O] A2 root w={mp.nstr(w0, 9)}: exactly ONE real double lambda-root of "
               f"F_res at lam={mp.nstr(rts[i0].real, 9)} (diabolic class, no coincident pair)")
-    return dict(D=Dx, A1=A1x, A2=A2x)
+    return dict(D=Dx, A1=A1x, A2=A2x, roots_a1=roots_a1, roots_a2=roots_a2)
 
 
 # ================================================================== 6c. layer discharge

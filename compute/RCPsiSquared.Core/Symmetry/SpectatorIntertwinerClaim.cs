@@ -194,9 +194,10 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "(3,3); diagonal core (p,p) iff |2p−N| = 1 (iff N odd); size 4N−8 (odd) / 4N−12 (even). " +
                          "CONTAINMENT direction only: the exclusion half is DERIVED at N=5 (the R4 close: boundary " +
                          "normality + the certificate pair on the interior four, proof §7 scoping) and census-evidence " +
-                         "beyond — since 2026-07-04 through N=9 IN FULL (the step-3 σ_min shell census: all 7 real " +
+                         "beyond — since 2026-07-04 through N=9 IN FULL (the step-3 σ_min shell census: all 7 character-certified " +
                          "seeds PASS, membership = this corollary's diamond, shared-λ separation ≥ ×4.8e8) and " +
-                         "(2026-07-06) N=11 IN FULL (all 9 real seeds PASS witness-assisted, the six blocks the LP64 " +
+                         "(2026-07-06) N=11 IN FULL (all 9 count-change candidates TRANSPORT-PASS witness-assisted and " +
+                         "character-uncertified, the six blocks the LP64 " +
                          "wall deferred resolved by the Tasks 5-6 sparse σ_min path). " +
                          "The census's first light also derived the R-parity grading of the W-step: R·W = " +
                          "(−1)^{p+w}·W·R (JW-string reflection), the carried parity ALTERNATING along the band chain " +

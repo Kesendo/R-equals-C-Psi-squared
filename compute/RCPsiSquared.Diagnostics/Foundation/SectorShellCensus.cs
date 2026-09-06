@@ -55,10 +55,12 @@ public sealed record ShellCensusResult(
     }
 }
 
-/// <summary>The three-valued census verdict (a clean partial run is PARTIAL, never DISAGREE): PASS =
+/// <summary>The census verdict: PASS =
 /// found members equal the probeable expected set, nothing deferred, nothing ambiguous, all probed
 /// non-members clear the exclusion threshold; PARTIAL = the same but some expected members sit behind
-/// the LP64 wall (listed); DISAGREE = anything else.</summary>
+/// the LP64 wall (listed); DISAGREE = anything else. For a locus without an independent local
+/// character certificate, clean membership is reported with the distinct TRANSPORT-PASS vocabulary;
+/// it is never promoted to a defective-seed PASS.</summary>
 public sealed record ShellCensusSummary(
     string Verdict,
     IReadOnlySet<(int P, int W, string Shift)> Expected,
@@ -70,7 +72,7 @@ public sealed record ShellCensusSummary(
     double WorstNonMemberSigma, double MemberTol, double PairGap);
 
 /// <summary>The step-3 shell-census engine (the sectorbraid large-N exclusion program,
-/// docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md §6-§7): at a real defective seed locus of the (1,2) block,
+/// docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md §6-§7): at a recorded real count-change locus of the (1,2) block,
 /// probe every fundamental-domain block's σ_min(L(p,w) − s) for both shifts s ∈ {λ_A, μ = −λ_A − 2N},
 /// LU-free of full spectra (ShiftedSigmaMin), split by R-parity (the ~¼ LU-cost lever; members carry
 /// their value in the SEED's parity sector since W, Klein, fold and transpose all commute with R).
@@ -349,8 +351,13 @@ public static class SectorShellCensus
         bool witnessAssisted = probed.Any(e => e.Method == "sparse-witness" && found.Contains((e.P, e.W, e.Shift)));
 
         bool classificationClean = found.SetEquals(expectedProbeable) && ambiguous.Count == 0 && r.SeedUsable;
+        bool incomplete = deferredMembers.Count > 0 || unresolved.Count > 0;
         string verdict = !classificationClean ? "DISAGREE"
-            : deferredMembers.Count > 0 || unresolved.Count > 0 ? "PARTIAL"
+            : !r.Seed.CharacterCertified
+                ? incomplete ? "TRANSPORT-PARTIAL (character-uncertified)"
+                    : witnessAssisted ? "TRANSPORT-PASS (witness-assisted; character-uncertified)"
+                    : "TRANSPORT-PASS (character-uncertified)"
+            : incomplete ? "PARTIAL"
             : witnessAssisted ? "PASS (witness-assisted)" : "PASS";
         return new ShellCensusSummary(verdict, expected, expectedProbeable, found,
             deferredMembers, ambiguous, unresolved, worstNonMember, r.MemberTol, r.PairGap);

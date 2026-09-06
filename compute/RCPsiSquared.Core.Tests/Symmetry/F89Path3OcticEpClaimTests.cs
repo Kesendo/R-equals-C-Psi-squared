@@ -52,11 +52,11 @@ public class F89Path3OcticEpClaimTests
     }
 
     [Theory]
-    [InlineData(0.05, 0.05 * 0.658983)]
-    [InlineData(1.0, 0.658983)]
-    [InlineData(1.0, 0.0)]   // formal J→0 reading: λ = -4γ + 0i (no oscillation); NOT a degeneracy at J=0 (q_EP fixes J≠0)
-    public void MergedEigenvalueLambdaEp_IsMinusFourGammaPlusTwoIJ(double gamma, double j)
+    [InlineData(0.05)]
+    [InlineData(1.0)]
+    public void MergedEigenvalueLambdaEp_IsMinusFourGammaPlusTwoIJ(double gamma)
     {
+        double j = gamma * F89Path3OcticEpClaim.QEp;
         var lam = F89Path3OcticEpClaim.MergedEigenvalue(gamma, j);
         Assert.Equal(-4 * gamma, lam.Real, precision: 12);
         Assert.Equal(2 * j, lam.Imaginary, precision: 12);
@@ -67,7 +67,7 @@ public class F89Path3OcticEpClaimTests
     {
         // Re(λ_EP)/γ = -4 sits at the AT-spectral midpoint of rates 2γ (overlap) and 6γ (no-overlap)
         // (-2 + -6) / 2 = -4 ✓
-        var lam = F89Path3OcticEpClaim.MergedEigenvalue(1.0, 0.658983);
+        var lam = F89Path3OcticEpClaim.MergedEigenvalue(1.0, F89Path3OcticEpClaim.QEp);
         Assert.Equal(-4.0, lam.Real, precision: 12);
         double midpoint = (-2.0 + -6.0) / 2.0;
         Assert.Equal(midpoint, lam.Real, precision: 12);
@@ -95,5 +95,26 @@ public class F89Path3OcticEpClaimTests
     {
         Assert.Throws<ArgumentOutOfRangeException>(
             () => F89Path3OcticEpClaim.MergedEigenvalue(0.05, -0.075));
+    }
+
+    [Fact]
+    public void MergedEigenvalue_ZeroGamma_ThrowsBecauseFiniteQIsUndefined()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => F89Path3OcticEpClaim.MergedEigenvalue(0.0, 0.0));
+    }
+
+    [Fact]
+    public void MergedEigenvalue_InfiniteGamma_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => F89Path3OcticEpClaim.MergedEigenvalue(double.PositiveInfinity, double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void MergedEigenvalue_OffLocusJ_Throws()
+    {
+        Assert.Throws<ArgumentException>(
+            () => F89Path3OcticEpClaim.MergedEigenvalue(1.0, 0.5));
     }
 }

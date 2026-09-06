@@ -7,7 +7,7 @@ namespace RCPsiSquared.Core.F86;
 /// full Σγ = N·γ₀ (n,n+1)-coherence block has a defective exceptional point OFF the real
 /// Q axis AT ALL, and — if so — whether it is the same EP structure as the firmly-established
 /// genuine EPs (the toy 2×2 reduction and the SEPARATE Σγ = 0 gain-loss system,
-/// FRAGILE_BRIDGE, complex-γ, K=403).
+/// FRAGILE_BRIDGE, a real-γ EP; K=403 is one finite-grid approach reading).
 ///
 /// <para><b>Tier outcome: OpenQuestion</b> (demoted from Tier2Verified 2026-06-21 by the
 /// F86a-retraction review; the retraction itself corrected in part 2026-07-07, the CORRECTED
@@ -19,9 +19,9 @@ namespace RCPsiSquared.Core.F86;
 /// para below) sits between the grid points, at scattered q*, not at Q_EP: nothing is "hit"
 /// at the resonance peak.</para>
 ///
-/// <para><b>What is genuine (the phenomenon stays):</b> the block IS strongly NON-NORMAL on
-/// the real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7 — the opposite of a diabolic,
-/// i.e. normal, crossing). This is NOT an <c>eig</c> artifact and NOT a degenerate-eigenspace
+    /// <para><b>What is genuine (the phenomenon stays):</b> the block IS strongly NON-NORMAL on
+    /// the real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7). Non-normality of the ambient
+    /// block does not decide whether a separate repeated eigenvalue is semisimple. This is NOT an <c>eig</c> artifact and NOT a degenerate-eigenspace
 /// effect: the artifact-free Riesz spectral-projector norm ‖P‖ reproduces the large Petermann
 /// factor on a SIMPLE, isolated eigenvalue at Re ≈ −4γ₀ (N=5: ‖P‖ = 19.4 = √375, gap ~0.25).
 /// The Petermann factor is large but FINITE at every grid point sampled: a near-EP shadow,
@@ -52,20 +52,19 @@ namespace RCPsiSquared.Core.F86;
 /// <c>F89OcticMonodromyClaim</c> / <c>inspect --root galoismonodromy</c> (G2: "the silent
 /// diabolic vs the braiding EPs, side by side"). The "nearest coalescences are diabolic"
 /// finding here is consistent with that: those are the abundant free-fermion sum-coincidences
-/// (codim-1 by additivity, <c>reference_nonhermitian_diabolic_codimension</c>), not the rare
-/// S_d-generating defective branch points. The defective/diabolic split is read off the
-/// discriminant's squarefree/square factorization — the same object as the Galois parity split.
-/// This claim's own real-axis Petermann sweep read a non-normal but SIMPLE eigenvalue at Q_peak
-/// (the shadow of an off-axis EP); the defective-vs-diabolic rule (single-particle coalescence vs
-/// frequency-difference coincidence) and the cross-block seam live in <c>EpCharacterWitness</c>
+    /// (codim-1 by additivity, <c>reference_nonhermitian_diabolic_codimension</c>), not the rare
+    /// S_d-generating defective branch points. Discriminant multiplicity and eigenvalue monodromy
+    /// locate and classify branch structure but do not by themselves decide semisimplicity; the
+    /// character route uses pair isolation plus <c>EpCharacter</c>/twin-scalar compression. This
+    /// claim's real-axis Petermann sweep read a non-normal but SIMPLE eigenvalue at Q_peak; it is
+    /// not evidence for the still-open off-axis defective EP. The cross-block seam lives in <c>EpCharacterWitness</c>
 /// (siblings: <c>CoherenceHorizonClaim</c>, <c>F89Path3OcticEpClaim</c>).</para>
 ///
 /// <para><b>CORRECTED 2026-07-07 (the real-axis point is NOT uniformly simple):</b> the "SIMPLE
-/// eigenvalue at Q_peak" reading above was Q_peak-local and grid-coarse. F89's exact nullity count
-/// (r(0+) - r(inf) = N - 1) proves a real-to-complex transition on this SAME full (1,2) block at every
-/// odd N, and the Kato simple-zero lemma makes it a real-axis DEFECTIVE EP (a Jordan block) at every seed
-/// tested, census-confirmed to N=11 (beta-exotic-scoped to Puiseux p ~ 0.5; only the codim-2 beta-exotic
-/// genericity stays open for all N). Those seeds sit at scattered q* the Petermann sweep's dQ ~ 0.029 grid (121 pts over
+    /// eigenvalue at Q_peak" reading above was Q_peak-local and grid-coarse. F89's exact all-odd-N result is
+    /// the nullity-surplus COUNT r(0+) - r(inf) = N - 1, not by itself a finite-q transition theorem.
+    /// Literal finite-q drops with simple-zero, Puiseux-1/2 defective EP2 character are certified at N=5,7,9;
+    /// outside those sizes the drop and genericity remain open. Those certified seeds sit at scattered q* the Petermann sweep's dQ ~ 0.029 grid (121 pts over
 /// [0.5, 4]) never bisected onto: a defective sqrt-EP splits its pair by ~sqrt|q - q*|, visible only
 /// within a window |q - q*| &lt; ~1e-3, some 20-30x narrower than the grid step (shown from below in
 /// <c>F86aSeedMaskingTests</c>: at the N=9 seed q*=0.849011 the pair is a Jordan block, gap ~2.7e-3, but
@@ -100,8 +99,8 @@ public sealed class LocalGlobalEpLink : Claim
     /// <inheritdoc cref="SweepGammaZero"/>
     public const int SweepQPoints = 121;
 
-    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — the near-singularity reference
-    /// value of the SEPARATE Σγ = 0 gain-loss system (complex-γ) from
+    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — one finite-grid near-singularity
+    /// value of the SEPARATE Σγ = 0 gain-loss system approaching its real-γ EP, from
     /// <c>hypotheses/FRAGILE_BRIDGE.md</c>. Kept as a documentary reference to one of the
     /// two firmly-established genuine EPs; the prior "the real-axis K-sweep sits ~6× above
     /// this" comparison was retracted 2026-06-21 (the magnitudes are grid-sensitive; the
@@ -117,7 +116,7 @@ public sealed class LocalGlobalEpLink : Claim
     /// <summary>F86 local instance (Σγ = N·γ₀ ≠ 0, real Q_EP = 2/g_eff).</summary>
     public string LocalInstanceAnchor => "F86 Statement 1, PROOF_F86A_EP_MECHANISM.md";
 
-    /// <summary>FRAGILE_BRIDGE global instance (Σγ = 0, complex-γ-plane EP, Petermann K=403).</summary>
+    /// <summary>FRAGILE_BRIDGE global instance (Σγ = 0, real-γ EP; K=403 is a nearby grid reading).</summary>
     public string GlobalInstanceAnchor => "hypotheses/FRAGILE_BRIDGE.md";
 
     /// <summary>Cautionary record from the c=2 N=5..8 Petermann-K sweep
@@ -136,44 +135,13 @@ public sealed class LocalGlobalEpLink : Claim
     /// projector norm), and the open question (whether the full block has an off-axis
     /// defective EP at all).</summary>
     public string PendingDerivationNote =>
-        "Correction (2026-06-21, independently re-verified from below, artifact-free): the " +
-        "full Σγ = N·γ₀ (n,n+1) block has NO eigenvalue coalescence on the real Q axis — its " +
-        "eigenvalues stay SIMPLE there (nearest-neighbour gap ~0.25–0.35), so there is no " +
-        "defective EP on the real axis. The block IS genuinely strongly NON-NORMAL on the " +
-        "real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7); this is NOT an eig " +
-        "artifact: the artifact-free Riesz spectral-projector norm ‖P‖ reproduces the large " +
-        "Petermann factor on a SIMPLE, isolated eigenvalue at Re ≈ −4γ₀ (N=5: ‖P‖ = 19.4 = " +
-        "√375, gap ~0.25). Adopting PT_SYMMETRY_ANALYSIS verbatim: no real-axis EP; the " +
-        "Petermann factor is large but FINITE on the real axis, signalling a nearby EP in " +
-        "the complex parameter plane. RETRACTED: (i) reading the sweep as a defective EP on " +
-        "the real axis, and (ii) the peak magnitudes and the law on them — K swings 2–4× over " +
-        "ΔQ = 1e-3, so '6×', the peak K=2384.7, and the within-parity monotonic growth / " +
-        "odd-dominates-even parity-asymmetry readings are grid artifacts. The firmly-" +
-        "established genuine defective EPs are ONLY the toy 2×2 reduction (PROOF_F86A_EP_MECHANISM " +
-        "Statement 1) and the SEPARATE Σγ = 0 gain-loss system (FRAGILE_BRIDGE, complex-γ, " +
-        "K=403). OPEN QUESTION: whether the full Σγ = N·γ₀ block has an off-axis defective EP " +
-        "AT ALL — a 2026-06-21 search found the nearest complex-Q coalescences of the full " +
-        "block are themselves DIABOLIC (‖P‖ = 1, departure-from-normality = 0), not " +
-        "defective. The surviving shared algebraic substrate (AIII chiral classification, " +
-        "linear Π with Π⁴=I and {Π, L_c}=0) is unchanged; what is unestablished is the " +
-        "defective-EP connection between the full block and the two genuine EPs. " +
-        "SCOPE (2026-06-27 reconciliation): this concerns the FULL N≥5 (1,2) block ↔ " +
-        "FRAGILE_BRIDGE specifically, NOT F89's N=4 octic (1,2)-factor, whose off-axis " +
-        "defective branch points ARE established (F89OcticMonodromyClaim, the squarefree-P₁₀ " +
-        "simple-zeros = transpositions generating S₈; its real-axis q_EP≈0.659 is the diabolic " +
-        "(3q⁴+q²−1) double-zero). The nearest-diabolic coalescences here are the abundant " +
-        "free-fermion sum-coincidences (codim-1 by additivity), not those rare S_d-generators. " +
-        "FURTHER CORRECTED (2026-07-07): the 'NO real-axis defective EP' conclusion above is " +
-        "superseded. F89's exact nullity count (r(0⁺)−r(∞)=N−1) proves a real-to-complex transition " +
-        "on this full (1,2) block at every odd N, and the Kato simple-zero lemma makes it defective " +
-        "(a Jordan block) at every seed tested, census-confirmed to N=11 (β-exotic-scoped to Puiseux " +
-        "p≈0.5, only the codim-2 β-exotic genericity open for all N). The 2026-06-21 sit-and-" +
-        "characterize scan missed it because a defective √-EP splits its pair by ~√|q−q*|, visible " +
-        "only within |q−q*|≲1e-3, while the scan's ΔQ≈0.029 grid is 20-30× coarser and never sat " +
-        "inside that window (shown from below, F86aSeedMaskingTests). What survives: the grid-" +
-        "artifact call on the Petermann magnitudes; what stays genuinely open is the DISTINCT off-" +
-        "real-axis complex-Q EP. See PROOF_F86A_EP_MECHANISM §The real-axis EP, SeedHolonomyClaim, " +
-        "RealSeedCensusTests.";
+        "Current scope: the full Σγ=N·γ₀ block is strongly non-normal near Q_peak, but the old " +
+        "Petermann peak magnitudes and laws were grid-sensitive and are not EP evidence. Finite-q " +
+        "Puiseux-1/2 defective EP2 seeds are certified at N=5,7,9; F89's all-odd-N theorem is only " +
+        "the endpoint-nullity surplus r(0⁺)−r(∞)=N−1, with literal drop and character open beyond " +
+        "those sizes. Whether the full block has a DISTINCT off-real-axis complex-Q defective EP " +
+        "remains open; the nearest characterized off-axis coalescences were semisimple. The toy " +
+        "2×2 EP and the separate Σγ=0 FRAGILE_BRIDGE EP remain different objects.";
 
     private LocalGlobalEpLink()
         : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE) — OPEN",
@@ -197,9 +165,9 @@ public sealed class LocalGlobalEpLink : Claim
         "OpenQuestion (F86a-retraction 2026-06-21, CORRECTED 2026-07-07): the full Σγ=N·γ₀ block " +
         "is genuinely non-normal on the real Q axis, and the Petermann magnitudes were grid-" +
         "sensitive artifacts (dropped). But the retraction's 'no real-axis defective EP' was " +
-        "itself an over-correction: F89 proves a real-to-complex transition on this (1,2) block at " +
-        "every odd N (nullity count), defective (a Jordan block, Kato) at every seed tested, census " +
-        "to N=11 (β-exotic genericity still open for all N) — which the 2026-06-21 scan's ΔQ≈0.029 " +
+        "itself an over-correction at N=5,7,9: those sizes carry certified finite-q Puiseux-1/2 " +
+        "defective EP2 seeds. F89's all-odd-N theorem is only the nullity-surplus count; literal drop " +
+        "and character remain open beyond the certified sizes. The 2026-06-21 scan's ΔQ≈0.029 " +
         "grid missed, being 20-30× coarser than the √-EP window ~1e-3 (F86aSeedMaskingTests). What " +
         "stays OPEN besides that genericity is the DISTINCT off-real-axis complex-Q EP. Genuine EPs still separate: the " +
         "toy 2×2 and the Σγ=0 gain-loss system (FRAGILE_BRIDGE, K=403).";

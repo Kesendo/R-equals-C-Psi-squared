@@ -22,7 +22,7 @@ public class F1DepolResidualClosedFormPi2InheritanceTests
     public void Tier_IsTier1Derived()
     {
         // F1 depol closed form is Tier1Derived (PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM
-        // + bit-exact verification N=2..5). Both coefficients (16/9, 16) reduce to
+        // + machine-precision verification N=2..5). The centered coefficients (16/9, 0) reduce to
         // trivial algebra over the Pi2-Foundation primitives, so the inheritance
         // claim sits at the same Tier as its parent (no algebra gap).
         Assert.Equal(Tier.Tier1Derived, Build().Tier);
@@ -67,19 +67,19 @@ public class F1DepolResidualClosedFormPi2InheritanceTests
     }
 
     [Fact]
-    public void CrossSiteCoefficient_IsExactly16()
+    public void CrossSiteCoefficient_IsExactlyZeroAfterCentering()
     {
         // (d²)² = 4² = 16. Squared because the cooperative tensor-assembly
         // |tr(M_l)|² · 4^(N−2) for l ≠ l′ already squares the trace, and
         // |tr(M_l)| ∝ d² at γ=1.
         var f = Build();
-        Assert.Equal(16.0, f.CrossSiteCoefficient, precision: 14);
+        Assert.Equal(0.0, f.CrossSiteCoefficient, precision: 14);
     }
 
     [Fact]
     public void LiveLocalCoefficient_MatchesParentConstant()
     {
-        // Drift guard: the Pi2-derived live value must agree bit-exact with the
+        // Drift guard: the Pi2-derived live value must agree to floating-point tolerance with the
         // parent closed-form constant on F1DepolResidualClosedForm. If either
         // side moves, this test surfaces it.
         var f = Build();
@@ -136,14 +136,14 @@ public class F1DepolResidualClosedFormPi2InheritanceTests
     {
         var f = Build();
         _out.WriteLine("");
-        _out.WriteLine("    F1 depol-residual closed form: ‖M(depol)‖² = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²]");
+        _out.WriteLine("    F1 centered depol-residual: ‖M_F1(depol)‖² = 4^(N−1)·(16/9)·Σγ²");
         _out.WriteLine("    (Tier 1 derived; H-independent; γ_Z-independent; per-site only)");
         _out.WriteLine("");
         _out.WriteLine($"    d²                           = a_(-1)         = {f.DSquared}");
         _out.WriteLine($"    d² − 1                       = a_(-1) − 1     = {f.DSquaredMinusOne}");
         _out.WriteLine($"    per-Pauli rate (= d²/(d²−1)) = 4/3            = {f.PerPauliDepolarizingRate:F6}");
         _out.WriteLine($"    local  (= (d²/(d²−1))² )     = 16/9           = {f.LocalCoefficient:F6}");
-        _out.WriteLine($"    cross  (= (d²)²)             = 16             = {f.CrossSiteCoefficient:F6}");
+        _out.WriteLine($"    cross  (centered trace zero)  = 0              = {f.CrossSiteCoefficient:F6}");
         _out.WriteLine("");
         _out.WriteLine("    F5 sibling: linear scalar uses d/(d²−1) = 2/3");
         _out.WriteLine("    F1 depol:   squared residual uses (d²/(d²−1))² = 16/9 (squared, one d higher)");

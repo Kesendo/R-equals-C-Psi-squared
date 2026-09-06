@@ -6,6 +6,14 @@ namespace MirrorWorldTests;
 // so a regression or a wrong adopted constant fails loudly. Nothing interpreted, just the numbers.
 public class SmokeTests
 {
+    [Fact]
+    public void AdoptedF1DepolarizingResidual_UsesTheCenteredOwner()
+    {
+        // N=4, uniform gamma=0.5: sum(gamma^2)=1.  F1 centering removes
+        // the bare residual's entire cross-site sum(gamma)^2 contribution.
+        Assert.Equal(1024.0 / 9.0, Formulas.F1_DepolResidual(4, sg: 2.0, sg2: 1.0), 12);
+    }
+
     const double G = 0.5;
     static readonly World W = new();
 

@@ -26,10 +26,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>Derived vs recomputed: every child's number is genuinely RECOMPUTED live at inspect time
 /// (<see cref="EigenvectorHolonomy"/>); the expected shape (±i, −I, +I) is the reference. The seed's
-/// defectiveness is F89's (Kato simple-zero, census-confirmed to N=11): a real-axis defective EP that F89's
-/// exact nullity census establishes. F86 is cited only for the borrowed forgetting→remembering reading;
-/// note its F86a-retraction denies a real-axis EP on this block, superseded by the F89 census (F86 not yet
-/// updated). Anchor: <see cref="SeedHolonomyClaim"/>, inspect --root holonomy.</para></summary>
+/// defectiveness is certified locally for the reference seeds used here (N=5 and N=9); the all-odd
+/// endpoint-nullity surplus does not itself establish a finite-q Jordan point. F86 is cited only for the
+/// borrowed forgetting→remembering reading. Anchor: <see cref="SeedHolonomyClaim"/>, inspect --root
+/// holonomy.</para></summary>
 public sealed class SeedHolonomyWitness : IInspectable
 {
     const double CleanTol = 1e-3;

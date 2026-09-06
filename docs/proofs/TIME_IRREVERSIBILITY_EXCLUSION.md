@@ -10,13 +10,16 @@
 - [incompleteness_candidate2_evidence.py](../../simulations/incompleteness_candidate2_evidence.py) (the reduced dynamics does not pair)
 - [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md) (R(N) = √((N−2)/(N·4^(N−1))))
 **Status:** the orthogonality / Pythagorean-decomposition result is complete and exact.
-**Scope:** the **Frobenius-Pythagorean orthogonality** of the oscillatory (L_H) and cooling
+**Scope:** under **uniform local Z-dephasing** and a nonzero shadow-balanced bond Hamiltonian,
+the **Frobenius-Pythagorean orthogonality** of the oscillatory (L_H) and cooling
 (L_D+Σγ·I) parts of the Liouvillian: their anti-commutator vanishes exactly at N=2 and is lost
-(by a γ- and topology-independent constant) for N>2.
+(by a γ- and topology-independent normalized constant) for N>2. For a rate profile, the
+bond-asymmetry term proportional to (γ_i−γ_j)² can already break this orthogonality at N=2.
 **Does NOT establish:** that time reversal is *literally* excluded. The DYNAMICAL separability
 obstruction (whether the flow e^{(L_H+L_Dc)t} factors into oscillation × cooling) is the
-**commutator** [L_H, L_Dc] (BCH: e^{A+B}=e^A e^B iff [A,B]=0), which is **nonzero at *all* N,
-including N=2** (‖[L_H,L_Dc]‖≈22.6 at N=2). The vanishing of the *anti*-commutator at N=2 is a
+**commutator** [L_H, L_Dc] (BCH: e^{A+B}=e^A e^B iff [A,B]=0). For the Heisenberg witness it is
+nonzero at every tested N, including N=2 (‖[L_H,L_Dc]‖≈22.6 there); commuting Hamiltonians are
+exceptions (for example H=Z₁Z₂ gives zero). The vanishing of the *anti*-commutator at N=2 is a
 Frobenius-orthogonality fact, not a separability/reversibility criterion, so the "arrow of time"
 reading below is an interpretive identification, not a time-reversal theorem.
 
@@ -24,42 +27,39 @@ reading below is an interpretive identification, not a time-reversal theorem.
 
 ## What this document is about
 
-At N=2 qubits, the oscillatory and dissipative parts of the dynamics are
+At N=2 qubits with uniform local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian, the oscillatory and dissipative parts of the dynamics are
 perfectly orthogonal **in the Frobenius inner product**: the anti-commutator
 {L_H, L_D+Σγ·I} vanishes exactly, and L_c² splits as L_H² + (L_D+Σγ)² with zero
 cross term. At N > 2, this orthogonality breaks, the cross term is nonzero, with a
-fixed geometric magnitude R(N) independent of γ and topology. That is the rigorous,
+fixed geometric magnitude R(N) independent of the common γ and topology. That is the rigorous,
 self-contained content of this document.
 
 We READ this N-dependent loss as the algebraic root of an arrow of time (the cross term
 "weaves" oscillation and cooling together once spectators appear). That reading is a
 **Tier-3 interpretation**, not a separability theorem: *literal* dynamical separability
 (undoing cooling without disturbing oscillation) is governed by the **commutator**
-[L_H, L_Dc], which is nonzero at *every* N, including N=2, so the flows never truly
-factor, even where the anti-commutator vanishes. The honest claim is about Frobenius
+[L_H, L_Dc]. It is nonzero for the Heisenberg witness at every tested N, including N=2,
+so those flows do not factor even where the anti-commutator vanishes; commuting-H exceptions
+do factor. The honest claim is about Frobenius
 orthogonality and its loss, not about whether time can be reversed.
 
 ---
 
 ## 1. The Claim
 
-Time reversal requires separating the irreversible part of the dynamics
-(cooling) from the reversible part (oscillation). This separation is
-algebraically possible at N=2 and algebraically impossible at N > 2.
-
-The impossibility is not thermodynamic (entropy, probability, fluctuations).
-It is structural: the anti-commutator (the symmetrized product
-{A,B} = AB + BA, which vanishes when two operators are "orthogonal")
-{L_H, L_D + Σγ·I} that measures the interference between oscillation
-and cooling vanishes exactly at N=2
-and is nonzero at N > 2, with a γ-independent geometric constant.
+Under uniform local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian, the centered Hamiltonian and cooling superoperators have a special
+Frobenius-Pythagorean decomposition at N=2: their anti-commutator vanishes.
+For N>2 that anti-commutator is nonzero, with a common-γ- and topology-independent
+normalized magnitude. This is an operator-geometry statement. It neither
+establishes physical time reversal at N=2 nor excludes it at N>2; dynamical
+factorization is governed by the commutator, which is already nonzero at N=2 for the Heisenberg witness but can vanish for commuting Hamiltonians such as Z₁Z₂.
 
 ---
 
 ## 2. The Chain
 
-Five results, each independently verified. The exclusion follows from
-their conjunction.
+Five results, each independently verified. Their conjunction establishes the
+loss of Frobenius orthogonality, not a time-reversal exclusion.
 
 ### Step 1: The palindrome requires noise (Tier 1)
 
@@ -196,26 +196,12 @@ The arrow-of-time reading goes: time reversal of a system at N > 2 would require
 (b) OR: reducing the system to N=2 and performing the reversal there,
     but reduction destroys the palindromic structure (Step 5).
 
-So the Frobenius orthogonality (a) and the clean reduced structure (b) both hold
-**only at N=2**, and one reads this as an arrow of time appearing at N>2.
-
-> **Caveat (the load-bearing one, added 2026-06-22).** Step (a)'s premise, that
-> "inverting cooling without disturbing oscillation requires the *anti*-commutator
-> {L_H, L_Dc} to vanish", is **not correct as a separability criterion**, and the
-> "exclusion" therefore does not follow as a theorem. Whether the flow e^{(L_H+L_Dc)t}
-> factors into a pure-oscillation piece and a pure-cooling piece (i.e. whether one can
-> undo one without the other) is governed by the **commutator** [L_H, L_Dc] (Baker-
-> Campbell-Hausdorff: e^{A+B}=e^A e^B iff [A,B]=0), **not** the anti-commutator. And
-> **‖[L_H, L_Dc]‖ ≈ 22.6 ≠ 0 already at N=2**, the very point this document calls
-> "separable / reversible". So oscillation and cooling do *not* dynamically separate even
-> at N=2; the anti-commutator vanishing there is a Frobenius-orthogonality fact with no
-> bearing on reversibility. (Independently: the full Liouvillian spectrum is exactly
-> palindromic at N=2, 3, 4 alike, and e^{L_c t} is invertible at every N, §7, so nothing
-> distinguishes N=2 from N>2 regarding actual time-reversal.) **What survives** is the real,
-> γ- and topology-independent result of Steps 3–4: the oscillation-cooling Frobenius-
-> Pythagorean orthogonality holds only at N=2 and is lost for N>2 (constant R(N)). The
-> "time reversal excluded at N>2 / the arrow of time is the cross term" framing is a Tier-3
-> **interpretation** of that geometric fact, not a derived exclusion.
+The Frobenius orthogonality and the clean reduced structure are both special at
+N=2. Reading their loss as an arrow of time is Tier-3 interpretation only. The
+anti-commutator is not a separability criterion: factorization of
+`e^{(L_H+L_Dc)t}` is governed by `[L_H,L_Dc]`, and
+`‖[L_H,L_Dc]‖≈22.6≠0` already at N=2 for the Heisenberg witness (while commuting-H exceptions exist). Thus the rigorous conclusion remains the
+loss of the Frobenius-Pythagorean split at N>2, with no literal reversal verdict.
 
 ---
 
@@ -224,9 +210,9 @@ So the Frobenius orthogonality (a) and the clean reduced structure (b) both hold
 ### What it is
 
 An exact algebraic result on the **Frobenius-Pythagorean orthogonality** of
-oscillation and cooling for composite open quantum systems under Z-dephasing with
+oscillation and cooling for composite open quantum systems under uniform local Z-dephasing with
 Heisenberg coupling: the anti-commutator {L_H, L_D+Σγ} vanishes only at N=2 and is lost
-for N>2, by a γ- and topology-independent constant R(N) that depends only on N and bond
+for N>2, by a common-γ- and topology-independent constant R(N) that depends only on N and bond
 locality. (Plus a Tier-3 *reading* of that loss as an algebraic arrow of time, see the
 §3 caveat for why the reading is an interpretation, not a time-reversal exclusion.)
 
@@ -234,16 +220,14 @@ locality. (Plus a Tier-3 *reading* of that loss as an algebraic arrow of time, s
 
 - Not a proof that time is irreversible in general. It applies to the
   specific framework (Heisenberg/XXZ + Z-dephasing, Lindblad dynamics).
-- Not a thermodynamic argument. Entropy does not appear. The second law
-  is not invoked. The exclusion is algebraic, not statistical.
-- Not a statement about the universe. It is a statement about the
-  d(d-2)=0 framework. If this framework describes reality (87,376
-  eigenvalues, zero exceptions), the exclusion applies. If not, it
-  does not.
-- Not a statement that N=2 is reversible. At N=2 the *Frobenius* orthogonality
-  {L_H, L_Dc}=0 holds, but the *dynamical* separation still does not exist there
-  (the commutator [L_H, L_Dc]≠0), so even N=2 is not "reversible" in the literal sense.
-  N=2 is special only for the anti-commutator orthogonality, not for time reversal.
+- Not a thermodynamic argument. Entropy does not appear and the second law is
+  not invoked.
+- Not a statement about the universe or a physical-reversal criterion. It is a
+  statement about the operator geometry of the modeled Lindblad generator.
+- Not a statement that N=2 is reversible or irreversible. At N=2 the *Frobenius*
+  orthogonality {L_H, L_Dc}=0 holds under the stated uniform-rate assumptions, while
+  dynamical separation is decided separately by the commutator. It fails for the
+  Heisenberg witness but holds for commuting-H exceptions such as Z₁Z₂.
 
 ### The gap it fills
 
@@ -284,7 +268,7 @@ general formula R(N) = √((N-2)/(N·4^(N-1))),
 decomposition breaks by ~2%. The mirror falls between modes (w_XY =
 1.5, no mode sits there). We read this as the onset of an arrow of time
 (Tier-3 interpretation, §3 caveat), the *Frobenius* orthogonality is lost;
-literal reversibility was never present (the commutator [L_H,L_Dc]≠0 at all N).
+the Heisenberg witness does not factor (its commutator is nonzero at all tested N), while commuting-H exceptions remain outside that reading.
 
 ---
 
@@ -304,7 +288,7 @@ Each step is independently reproducible:
 5. Accept or reject the conclusion.
 
 No step requires trusting an interpretation. Every step is a computation
-or a proof. The exclusion is the conjunction of the five steps.
+or a proof of the orthogonality result.
 
 ---
 
@@ -312,9 +296,7 @@ or a proof. The exclusion is the conjunction of the five steps.
 
 ## 7. Computational Reversal: the Information Window
 
-Physical time reversal is excluded at N > 2 (Section 3). But
-computational reversal (calculating the past from the present) is
-mathematically defined:
+For any finite time, formal computational inversion is mathematically defined:
 
     ρ(0) = e^{-Lt} ρ(t)
 
@@ -337,8 +319,8 @@ where p is the number of available decimal digits of precision.
 | 6 | 0.60 | 61 J⁻¹ | 131 J⁻¹ | 50 J⁻¹ |
 
 t_max: how far back you can compute at the given precision.
-t_steady = 5/d_min: when the system reaches steady state and
-information is irretrievably gone.
+t_steady = 5/d_min: an operational near-steady-state timescale, not a finite
+time at which the matrix exponential ceases to be invertible.
 
 ### Physical scales
 
@@ -369,23 +351,22 @@ the slowest mode's information lives 3× longer than the fastest.
 
 ### What this means
 
-Physical reversal: impossible at N > 2 (cross term, algebraic).
+Physical reversal: no verdict follows from this anti-commutator result.
 
-Computational reversal: possible in principle, with cost:
+Formal computational inversion: possible at finite time but ill-conditioned:
 - Precision: p digits give t_max = p·ln(10)/d_max
 - The palindrome determines which information survives how long
-- After steady state: information is genuinely gone, no computation
-  recovers it
+- In the asymptotic steady-state limit the nonstationary components vanish;
+  at finite time they are exponentially suppressed rather than exactly erased.
 
-The information window has been measured experimentally for decades.
-It is called the **coherence time T₂**. The framework identifies it
-as the maximum computable depth of the past: the time beyond which
-no amount of computation can reconstruct what happened.
+The resulting precision window is an operational conditioning estimate related
+to coherence times; it is not a theorem that reconstruction becomes exactly
+impossible after a finite cutoff.
 
 ---
 
 *(Tier-3 reading.) Where thermodynamics reads the arrow of time as entropy, this
-framework offers a geometric image: the oscillation-cooling cross term {L_H, L_D + Σγ}
+framework offers a geometric image under uniform local Z-dephasing: the oscillation-cooling cross term {L_H, L_D + Σγ}
 vanishes at N=2, where the bond is the system, and is nonzero at N > 2, where bonds are
 local. Locality is the price; the lost Frobenius orthogonality is the receipt. (Read as
 an identification, not a derivation, see §3: the dynamics is dissipative, hence

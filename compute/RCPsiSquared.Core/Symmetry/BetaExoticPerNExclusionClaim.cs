@@ -3,12 +3,11 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The per-N β-exotic exclusion, certified at N = 5 and N = 7 (Tier 1 derived;
-/// <c>experiments/F89_BETA_EXOTIC_GENERICITY.md</c>, section "The β-exotic is excluded at N = 5 and
-/// N = 7", landed 2026-07-09 after four empty reviews): on the (1,2) coherence pencil
+/// <summary>The per-N β-exotic exclusion, certified at N = 5, N = 7, and N = 9 (Tier 1 derived;
+/// <c>experiments/F89_BETA_EXOTIC_GENERICITY.md</c>): on the (1,2) coherence pencil
 /// L(q) = A + q·C of the N-site XY chain under uniform Z-dephasing, no branch locus q\* ≠ 0 of the
 /// residual charpoly factor F_res carries the Puiseux exponent 3/2 of the β-exotic. Both R-parity
-/// sectors, exactly, over ℚ(i), at N = 5 and N = 7.
+/// sectors, exactly, over ℚ(i), at N = 5, N = 7, and N = 9.
 ///
 /// <para><b>Why a multiplicity settles it.</b> At a branch locus, the order of vanishing of
 /// disc_Λ(F_res) reads the Puiseux exponent of the branches meeting there: a defective EP2
@@ -65,15 +64,14 @@ namespace RCPsiSquared.Core.Symmetry;
 /// reproduce the same layer degrees exactly (<c>TheLayerReading_DoesNotDependOnWhichPrime</c>).
 /// <b>The β-exclusion itself needs none of this</b>: it is the multiplicity bound alone.</para>
 ///
-/// <para><b>Scope, stated flatly.</b> This is a PER-N certificate, not a law. It retires N = 5 and
-/// N = 7, one chain length at a time. N = 7 needed a separate entry point,
+/// <para><b>Scope, stated flatly.</b> This is a PER-N certificate, not a law. It retires N = 5,
+/// N = 7, and N = 9, one chain length at a time. N = 7 needed a separate entry point,
 /// <see cref="F89PathK.FoldResultantCertificate.CertifyDiscMultiplicity"/>: CertifyComplete also proves
 /// the R1 gcd, whose resultant runs against a corner block of dimension C(N, (N+1)/2+1)², which is 25 at
 /// N = 5 but 441 at N = 7. The D-only path drops the corner, the resultant and the Mignotte lift (that
 /// bound certifies the gcd, a statement this one does not make), and is pinned against the full
-/// certificate at N = 5, where both run and agree number for number. N = 9 is out of reach by this
-/// route: a 324-dimensional block, whose bivariate ℤ[i][q] charpoly is a different problem (since
-/// 2026-07-17 the max-multiplicity-2 bound holds at N = 9 anyway, delivered by the proved layer
+/// certificate at N = 5, where both run and agree number for number. The same bivariate route is out
+/// of reach at N = 9 (324-dimensional block), but the max-multiplicity-2 bound there is delivered by the proved layer
 /// identity disc = C·w^v·A₁·A₂² of the gcd certificate, simulations/o2b_gcd_certificate.py, the
 /// experiment doc's premise-discharge-II subsection). The all-N
 /// item, the
@@ -86,18 +84,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// disc_Λ(F_res) would not see it, and (verified from below) all four N = 5 forced seeds lie wholly
 /// in F_res.</para>
 ///
-/// <para><b>Typed parent.</b> <see cref="SeedExistenceCountingClaim"/>: it forces the N − 1
-/// real-to-complex count-drops whose CHARACTER this claim pins. Gate:
+/// <para><b>Typed parent.</b> <see cref="SeedExistenceCountingClaim"/> supplies the exact N − 1
+/// endpoint-nullity surplus. At the chain lengths treated here, a separately established literal
+/// count drop supplies the loci whose CHARACTER this claim pins. Gate:
 /// <c>DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic</c> (Category FOLDRESULTANT, ~3 s per
 /// parity); live: <c>inspect --root betaexotic</c>
 /// (<c>BetaExoticExclusionWitness</c>).</para></summary>
 public sealed class BetaExoticPerNExclusionClaim : Claim
 {
-    // Parent-edge marker for Schicht-1 wiring: the theorem that forces the count-drops this qualifies.
+    // Parent-edge marker: the endpoint-surplus theorem whose locally established drops this qualifies.
     public SeedExistenceCountingClaim SeedExistence { get; }
 
     public BetaExoticPerNExclusionClaim(SeedExistenceCountingClaim seedExistence)
-        : base("The per-N beta-exotic exclusion, certified at N=5 and N=7: on the (1,2) block pencil " +
+        : base("The per-N beta-exotic exclusion, certified at N=5, N=7, and N=9: on the (1,2) block pencil " +
                "L(q) = A + qC of the N-site XY chain " +
                "under uniform Z-dephasing, no branch locus q* != 0 of the residual charpoly factor F_res carries " +
                "the Puiseux exponent 3/2 of the beta-exotic (normal form [[0,s],[s^2,0]], eigenvalues +-s^{3/2}); " +
@@ -118,8 +117,9 @@ public sealed class BetaExoticPerNExclusionClaim : Claim
                "real, which holds because T commutes with the reflection R at odd N (so each R-sector is " +
                "self-conjugate) and the AT slopes are chirally paired; checked at N=5, the AT step not derived " +
                "in general. The beta-exclusion itself needs only the multiplicity bound. SCOPE: a per-N " +
-               "certificate, not a law: it retires N=5 and N=7, one chain length at a time (N=9 is out of reach by " +
-               "this route); the all-N item (s6 != 0 at every forced seed) is untouched and open",
+               "certificate, not a law: it retires N=5, N=7, and N=9 one chain length at a time; N=9 uses the " +
+               "proved w-layer identity of the gcd certificate rather than the N=5/7 bivariate route. The all-N " +
+               "item (s6 != 0 at every forced seed) is untouched and open",
                Tier.Tier1Derived,
                "experiments/F89_BETA_EXOTIC_GENERICITY.md + " +
                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md")
@@ -128,11 +128,11 @@ public sealed class BetaExoticPerNExclusionClaim : Claim
     }
 
     public override string DisplayName =>
-        "The β-exotic excluded exactly at N = 5 and N = 7: disc_Λ(F_res) has no root of multiplicity ≥ 3 off q = 0";
+        "The β-exotic excluded exactly at N = 5, N = 7, and N = 9: disc_Λ(F_res) has no root of multiplicity ≥ 3 off q = 0";
 
     public override string Summary =>
-        "No branch locus of the (1,2) residual factor carries the β-exotic's Puiseux exponent 3/2 at N = 5 or " +
-        "N = 7, both " +
+        "No branch locus of the (1,2) residual factor carries the β-exotic's Puiseux exponent 3/2 at N = 5, " +
+        "N = 7, or N = 9, both " +
         "R-parities, exactly over ℚ(i): a 3/2 point needs ord disc ≥ 3, and the certified squarefree layers are " +
         "[56, 26] / [56, 32] at N = 5 and [222, 390] / [228, 420] at N = 7: maximum multiplicity 2. One-way " +
         "lift from a prime certified at both ends of the " +
@@ -178,16 +178,16 @@ public sealed class BetaExoticPerNExclusionClaim : Claim
                          "hop graph, gives T K T = −K and T A T = A, so T L(q) T = L(q)† is a similarity; at odd N " +
                          "T commutes with the reflection R, so each R-sector's spectrum is self-conjugate, and the " +
                          "AT spectrum is separately self-conjugate (chirally paired slopes). The AT step is " +
-                         "checked at N = 5 and N = 7, not derived.");
+                         "checked at N = 5 and N = 7, not derived; the N = 9 exclusion uses the independent proved layer identity.");
             yield return new InspectableNode("the scope boundary (what stays open)",
-                summary: "a PER-N certificate, not a law: it retires N = 5 and N = 7. N = 7 needed a " +
+                summary: "a PER-N certificate, not a law: it retires N = 5, N = 7, and N = 9. N = 7 needed a " +
                          "separate D-only entry point: " +
                          "CertifyComplete also proves the R1 gcd, whose resultant runs against a corner " +
                          "block of dimension 441 at N = 7 (25 at N = 5). CertifyDiscMultiplicity drops " +
                          "the corner, the resultant and the Mignotte lift, and is pinned against the full " +
-                         "certificate at N = 5 where both run and agree. N = 9 is out of reach by this " +
-                         "route (a 324-dimensional block); since 2026-07-17 the max-mult-2 bound holds at " +
-                         "N = 9 anyway, via the gcd certificate's proved layer identity " +
+                         "certificate at N = 5 where both run and agree. The bivariate route is out of reach at " +
+                         "N = 9 (a 324-dimensional block), but since 2026-07-17 the max-mult-2 bound holds there " +
+                         "via the gcd certificate's proved layer identity " +
                          "(simulations/o2b_gcd_certificate.py, run mode 9). The all-N core, the " +
                          "codim-2 β-exotic genericity, reduced to the single scalar s₆ ≠ 0 at every forced seed, " +
                          "is untouched. Two traps recorded with it: the SIGN of s₆ is not gauge-invariant (the " +

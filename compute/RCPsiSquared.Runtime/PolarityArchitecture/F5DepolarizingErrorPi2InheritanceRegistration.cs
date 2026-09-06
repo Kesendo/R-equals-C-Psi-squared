@@ -5,15 +5,15 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F5DepolarizingErrorPi2Inheritance"/>:
-/// F5's depolarizing error closed-form coefficients <c>2·(N−2)/3</c> as
+/// F5's depolarizing error closed-form coefficient <c>2N/3</c> as
 /// Pi2-Foundation inheritance. Three parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="F1PalindromeIdentity"/>: the F1 palindrome whose
 ///         "Breaks for: depolarizing" clause is what F5 quantifies.</item>
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_0 = 2</c>
-///         (DCoefficient) and the (N−2) chain-shift via the same derivation
-///         overhead as F49.</item>
+///         (DCoefficient). F5 is site-additive over all N sites; it does not
+///         inherit F49's unrelated (N−2) overhead.</item>
 ///   <item><see cref="Pi2OperatorSpaceMirrorClaim"/>: provides
 ///         <c>a_{−1} = 4 = d²</c> for N=1, from which DSquaredMinusOne = 3
 ///         is derived.</item>

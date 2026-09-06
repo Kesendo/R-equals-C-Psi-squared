@@ -5,13 +5,13 @@ using Xunit;
 
 namespace RCPsiSquared.Core.Tests.F89PathK;
 
-/// <summary>The typed registry of real defective (1,2)-block seeds (the containment corollary's per-N
-/// input and the step-3 shell census's probe loci), pinned against the PT-break count-change census
+/// <summary>The typed registry of (1,2)-block count-change loci used by the shell census, with the
+/// independent character-certification boundary pinned explicitly,
 /// (gate RealSeedCensusTests / SLOW_SEEDCENSUS; table in experiments/F89_PATH_K_DIABOLIC.md).</summary>
 public class RealDefectiveSeedsTests
 {
     [Fact]
-    public void Counts_MatchTheSeedCensus()
+    public void Counts_MatchTheCountChangeCensus()
     {
         Assert.Equal(4, RealDefectiveSeeds.ForN(5).Count());
         Assert.Equal(6, RealDefectiveSeeds.ForN(7).Count());
@@ -30,10 +30,25 @@ public class RealDefectiveSeedsTests
     }
 
     [Fact]
-    public void EverySeed_HasRealLambdaInTheOneTwoWindow()
+    public void CharacterCertification_StopsBeforeN11()
+    {
+        Assert.All(RealDefectiveSeeds.All.Where(s => s.N is 5 or 7 or 9), s => Assert.True(s.CharacterCertified));
+        Assert.All(RealDefectiveSeeds.ForN(11), s => Assert.False(s.CharacterCertified));
+    }
+
+    [Fact]
+    public void NewLocus_IsNotCharacterCertifiedUnlessExplicitlyOptedIn()
+    {
+        var futureCandidate = new RealSeed(13, 1.0, -4.0, +1, "test candidate");
+        Assert.False(futureCandidate.CharacterCertified);
+    }
+
+    [Fact]
+    public void EveryRecordedLocus_HasRealLambdaInTheOneTwoWindow()
     {
         // the (1,2) block's Bendixson window is [-6,-2] for every N (n_diff in {1,3});
-        // the window-edge lemma sharpens it to the OPEN interval — every recorded seed obeys it
+        // the window-edge lemma sharpens it to the OPEN interval for certified seeds;
+        // every recorded count-change locus also lies inside that same numerical window.
         Assert.All(RealDefectiveSeeds.All, s =>
         {
             Assert.True(s.LambdaA > -6.0 && s.LambdaA < -2.0);

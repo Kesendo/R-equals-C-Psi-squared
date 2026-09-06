@@ -5,10 +5,10 @@ using RealMatrix = MathNet.Numerics.LinearAlgebra.Matrix<double>;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The live lab for the seed-existence counting theorem
+/// <summary>The live lab for the endpoint-nullity surplus theorem
 /// (<c>experiments/F89_SEED_EXISTENCE_REDUCTION.md</c>; verifier
 /// <c>simulations/seed_existence_nullity_check.py</c>): on the (1,2) block pencil
-/// L(q) = A + q·C of the XY chain under uniform Z-dephasing, the real-eigenvalue-count identity
+/// L(q) = A + q·C of the XY chain under uniform Z-dephasing, the endpoint-nullity identity
 ///
 /// <code>
 ///     r(0⁺) − r(∞) = N − 1      for every odd N
@@ -36,7 +36,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// matrix-free computation meeting the SVD nullities.</para>
 ///
 /// <para>Scope note carried from the doc: this witness types the COUNTING identity. The
-/// seed-existence conclusion itself stays open at the codim-2 β-exotic genericity item.</para></summary>
+/// seed-existence conclusion itself additionally needs a literal finite-q real-count drop and a
+/// local character certificate; neither follows from the endpoint surplus at general odd N.</para></summary>
 public sealed class SeedExistenceCountingWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -253,7 +254,7 @@ public sealed class SeedExistenceCountingWitness : IInspectable
         $"gauge residual {GaugeResidualMax.ToString("0.0e0", Inv)}, both exact zeros; " +
         $"controls: coupling {CouplingBlockMax.ToString("0.0", Inv)} > 0" +
         $"{(N >= 5 ? $", ‖K₆‖ {KSixMax.ToString("0.0", Inv)} > 0" : ", K₆ ≡ 0 at N=3 by design")}). " +
-        "The counting identity is typed; the seed-existence conclusion stays open at the codim-2 β-exotic.";
+        "The counting identity is typed; finite-q existence also needs the literal-drop premise, and Jordan character needs its separate gate.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -262,9 +263,9 @@ public sealed class SeedExistenceCountingWitness : IInspectable
             yield return new InspectableNode(
                 displayName: $"the surplus: r(0⁺) − r(∞) = {Surplus} = N − 1",
                 summary: $"r(0⁺) = n₂ + n₆ = {NullityMinus2} + {NullityMinus6} (SVD nullities of the −2/−6 " +
-                         $"compressions), r(∞) = nullity(C) = {NullityC}: the real-eigenvalue count drops by " +
-                         $"{Surplus} at finite q > 0, forcing a real↔complex transition (a defective seed at a " +
-                         "simple discriminant zero, the Kato lemma). The fusion resonances appear in BOTH " +
+                         $"compressions), r(∞) = nullity(C) = {NullityC}: their algebraic difference is " +
+                         $"{Surplus}. Reading it as a literal finite-q real-count drop and then classifying the " +
+                         "collision require separate spectral and character gates. The fusion resonances appear in BOTH " +
                          "endpoints and cancel; the surplus is carried by the odd-N −2-rung path kernel alone.",
                 provenance: NodeProvenance.Live);
 
@@ -304,10 +305,10 @@ public sealed class SeedExistenceCountingWitness : IInspectable
 
             yield return new InspectableNode(
                 displayName: "the remaining open ink (scope of this witness)",
-                summary: "this witness types the COUNTING identity r(0⁺) − r(∞) = N − 1 (a theorem for every " +
-                         "odd N). The seed-existence CONCLUSION additionally needs the codim-2 β-exotic " +
-                         "genericity item (a count-dropping transition is defective unless the non-generic " +
-                         "order-3 nilpotent-linear-term point), which stays OPEN; see the doc's Status.",
+                summary: "this witness types the endpoint-nullity identity r(0⁺) − r(∞) = N − 1 (a theorem for every " +
+                         "odd N). It does not alone prove literal finite-q drop or Jordan character. Literal drop " +
+                         "and Puiseux-1/2 defective EP2 character are certified at N=5,7,9 and open beyond them; " +
+                         "N=11 already shows third-order endpoint lift-off bookkeeping.",
                 provenance: NodeProvenance.Stored);
         }
     }

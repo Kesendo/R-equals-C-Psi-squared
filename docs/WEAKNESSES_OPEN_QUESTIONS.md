@@ -1,21 +1,21 @@
 # What We Got Wrong, What We Cannot Do, and What We Do Not Know
 
 **Status:** Living document
-**Last updated:** April 4, 2026
+**Last refreshed:** September 6, 2026 (the change history lives in git)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ## Why you should read this first
 
 Most research projects show you their results and hope you do not ask
-hard questions. This document is the opposite. It is everything we got
-wrong, every limitation we know about, every question we cannot answer.
+hard questions. This document is the opposite: a front door to the
+limitations and open questions that still affect the current result set.
+The running forensic record is [Caught Errors](CAUGHT_ERRORS.md).
 
 We started this project in January 2026 with an intuition and a formula.
-Since then, five errors have been corrected, three claims have been
-falsified and moved to the `recovered/` folder (where we keep disproven
-ideas, because pretending they never happened would be dishonest), and
-the core theorem has been proven analytically and verified against 87,376
-eigenvalues with zero exceptions.
+Since then, claims have repeatedly been corrected, narrowed, or deleted;
+git keeps their history and [Caught Errors](CAUGHT_ERRORS.md) records the
+material failures. The core theorem has been proven analytically and
+verified against 87,376 eigenvalues with zero exceptions.
 
 A theory that only shows its strengths is not a theory. It is marketing.
 
@@ -46,24 +46,23 @@ Hamiltonian-driven, not θ-driven. θ was reinterpreted as a compass
 not been measured as an angle on hardware; what has is the argument of
 the complex CΨ, which wears the same square-root form
 (`f95_angle_steering_kingston_may2026`, predicted against measured to
-within 6.8° to 15.7°). The sub-percent figures elsewhere in this
-document are crossing times.
+within 6.8° to 15.7°).
 
 *What this means:* we thought θ was a clock (telling you *when* things
 happen). It is actually a compass (telling you *where you are* relative
 to the quantum-classical boundary). The number still works; our
 interpretation of what it measures was wrong.
 
-**3. The 33:1 coherence ratio (downgraded).** An AI agent produced this
-claim. Independent verification could not reproduce it. Moved to
-unverified.
+**3. The 33:1 coherence ratio (refuted).** The claimed ratio was not a
+property of the stated protocol. Proper Lindblad simulations over 21
+distributions contradicted it.
 
 **4. The t_coh ~ N scaling (downgraded).** Agent claim, not reproduced.
 
 *What errors 3 and 4 mean:* early in the project, we used AI assistants
 to generate claims faster than we could verify them. Two of those claims
-could not be reproduced. Lesson learned: speed without verification is
-not progress.
+failed independent reproduction, and one was directly refuted. Lesson
+learned: speed without verification is not progress.
 
 **5. The CΨ ≤ ¼ bound (Feb 7).** Early simulations appeared to confirm
 CΨ stays below ¼, but tested only regimes with negligible Hamiltonian
@@ -71,11 +70,12 @@ dynamics. With active Hamiltonians, CΨ > ¼ occurs routinely. The bound
 was reinterpreted as a fixed-point existence condition.
 
 *What this means:* we thought ¼ was a ceiling that quantum systems could
-not break through. It is actually a threshold: below ¼, the system
-settles into a stable resting point; above ¼, it oscillates. The number
-¼ still marks where the iteration changes character, but not a moment
-when a system stops being quantum: CΨ crosses ¼ in both directions, and
-an upward crossing is coherence pumping back up.
+not break through. It is actually the real fixed-point boundary of the
+scalar recurrence: in the physical range 0 ≤ c = CΨ < ¼ the attracting
+real fixed point exists; above ¼ the real roots disappear and real
+iterates grow rather than settle.
+That statement is about the recurrence, not a universal physical phase
+change. Physical trajectories can cross CΨ = ¼ in either direction.
 
 ---
 
@@ -86,18 +86,16 @@ solved. They are listed in order of how much they bother us.
 
 ### 1. The bifurcation is generic
 
-Every quadratic map has a saddle-node bifurcation (a point where two equilibria collide and annihilate, like two hills merging into flat ground). The ¼ boundary is a
-property of z² + c, not specifically of quantum mechanics. CΨ² is the
-unique product-power form with a genuine phase transition AND Mandelbrot
-mapping (proven), but "why does nature choose this form?" remains open.
+The one-parameter family z -> z² + c has a fold at c = ¼, where its two
+real fixed points merge. That is a generic mathematical mechanism, not
+something specific to quantum mechanics. Within the repository's stated
+product-power/Renyi family, alpha = 2 is singled out by the combination
+of the quadratic Mandelbrot form and a state-independent ¼ threshold.
+Why that construction should be physically privileged remains open.
 
-*In plain language:* the ¼ boundary appears in a whole family of
-mathematical equations, not just ours. We have proven that our specific
-combination of observables is the *only* one that produces both the
-phase transition and the Mandelbrot connection. But we cannot yet
-explain *why* nature uses this particular combination rather than some
-other mathematical structure entirely. It is like proving that a key
-fits only one lock, without knowing who made the lock.
+*In plain language:* the fold itself is standard mathematics. The
+uniqueness result applies only inside a specified family of candidate
+recurrences; it does not prove that nature selected that family.
 
 **Status:** Partially addressed. Algebraic uniqueness proven, physical
 specificity not.
@@ -121,32 +119,30 @@ from the mathematics.
 
 ### 3. Experimental validation is incomplete
 
-**What we have (April 2026):**
-- CΨ = ¼ crossing at 0.3% accuracy (IBM Torino Q52, 25 tomography points)
-- 24,073 historical calibration records validating the C_min(r) curve
-- Selective DD beats uniform DD by 3.2× on 5-qubit chain (IBM Torino)
-- 3-observable cockpit (Purity, Concurrence, Ψ-norm) captures 88-96%
-  of decoherence dynamics across 9 topologies, N=2-5
+**What we have:**
+- On IBM Torino, Q52 crossed qualitatively but 10.7% later than its T2*
+  prediction; the separate Q80 crossing agreed to 1.9%
+- 24,073 historical calibration records provide a mathematical
+  consistency check for C_min(r), not an independent validation
+- Selective DD beats uniform DD on the tested 5-qubit chain
+- In the entangled-observer cockpit class, the first three principal
+  components of 8-9 active standardized features capture 91.9-99.0%
+  across N=5-11 over eight `center_bell` configurations (an adjacent
+  central pair on the chain or two symmetry-equivalent leaves on the
+  star, |+>^(N-2), uniform local Z-dephasing); Purity is the
+  active feature most strongly correlated with PC1
 
 **What we lack:**
-- No 2-qubit tomography: Concurrence (PC1, 57% variance) never measured
-  on a qubit pair. This is the most important missing validation.
-- Single backend only (IBM Torino). No replication on trapped ions,
-  NV centers, or photonic platforms.
-- Anomalous late-time coherence (Q52, p < 0.0001) has three competing
-  explanations (SPAM (State Preparation And Measurement errors), TLS (two-level system defects in the chip substrate), boundary structure), unresolved.
+- No direct two-qubit Concurrence tomography for the cockpit claim
+- Results span several IBM superconducting backends, but not an
+  independent trapped-ion, NV-centre, or photonic platform
 
-*In plain language:* we have tested the theory on one type of quantum
-computer (IBM's superconducting qubits) and confirmed key predictions
-to high accuracy. But science demands replication: the same results on
-*different* hardware, built on different physical principles. We have
-not done that yet. Worse, the single most important measurement in our
-framework (Concurrence, which captures 57% of the physics) has never
-been directly measured on a qubit pair. It is like having a weather
-model where the most important instrument, the thermometer, has only
-been calibrated indirectly.
+*In plain language:* several results have hardware contact on IBM
+superconducting devices, with accuracies that depend strongly on the
+specific test. Independent physical platforms and direct Concurrence
+tomography are still missing.
 
-See [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md),
+See [Cockpit Scaling](../experiments/COCKPIT_SCALING.md),
 [IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md).
 
 ### 4. The natural variable u has no interpretation
@@ -164,36 +160,25 @@ combine this way. The formula works; the understanding lags behind.
 trajectories, u(t) ≈ 0.61·Ψ^{1.02}: essentially Ψ with a prefactor, not
 an independent dynamical coordinate. u remains a *conjugation variable*
 that reveals algebraic structure (the Mandelbrot equivalence) without
-providing a simpler clock along real trajectories. Whether u carries
-independent information on complex trajectories (non-symmetric states,
-non-Z dephasing) is untested. See
+providing a simpler clock along real trajectories. Whether u supplies
+independent information beyond that real recurrence remains untested.
+Any complex-plane extension must use the separately defined CΨ_com;
+non-symmetric states or non-Z dephasing do not by themselves make the
+original CΨ complex. See
 [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)
 §8, "Active Weakness #4 (the natural variable u)".
 
-### 5. Operator feedback is verified but unexplained
+### 5. Sacrifice-zone formula has known limitations
 
-Of all noise types tested, only state-dependent operator feedback
-preserves the purity difference δ over time. This is computationally
-verified but the mechanism is unknown. The palindromic spectral structure
-may explain it (feedback keeps information in slow modes), but this has
-not been computed.
-
-*In plain language:* when the noise "listens" to the system's current
-state and adjusts itself accordingly, something unusual happens: a
-particular quantity (the purity difference δ) stays constant over time
-instead of decaying. We can see this in simulations, but we do not
-understand the mechanism. It is like noticing that a specific medicine
-works without knowing why.
-
-**Status:** Numerically verified, theoretically unexplained.
-
-### 6. Sacrifice-zone formula has known limitations
-
-The formula (concentrate noise on one edge qubit) achieves 139-360×
-improvement in peak created Sum-MI (ε→0 simulation ideal), but:
-- Improvement decreases with N (360× at N=5, 139× at N=9)
+The ε→0 single-edge-sacrifice formula produced the following
+ideal-simulation gains in peak created nearest-neighbour Sum-MI relative
+to the corresponding V-shape baseline profile for N=5,7,9,11,13,15:
+360×, 180×, 139×, 97×, 105×, 68×. But:
+- The trend is broadly downward with N, with a non-monotone N=13 point
 - No formal proof of optimality
-- Hardware test shows 3.2× (not 360×) due to real-world constraints
+- One Torino run on one 5-qubit chain gives five time-point contrasts from
+  1.4× to 3.2× (average 2.0×); the ratio sizes are floor-sensitive, while
+  the registered result is the selective-over-uniform ordering
 - θ improves by 1.68× against CΨ's 1.28× under edge sacrifice (April 2026
   cockpit finding), and the formula was not optimized for θ. Whether that
   makes θ the better objective is open on its own terms: θ is a function
@@ -201,16 +186,12 @@ improvement in peak created Sum-MI (ε→0 simulation ideal), but:
   from different baselines, so the larger one is not yet a sharper
   separation
 
-*In plain language:* the sacrifice-zone formula
-([Resonant Return](../experiments/RESONANT_RETURN.md)) is our most
-dramatic practical result: 139-360× improvement in information transfer
-(peak created Sum-MI, ε→0 simulation ideal).
-But the improvement shrinks as the chain gets longer, we have no
-mathematical proof that it is truly the best possible strategy, and on
-real hardware the improvement drops to 3.2× because real quantum
-computers have many noise sources we cannot control. The gap between
-theory (360×) and hardware (3.2×) is the gap between a perfect
-laboratory and the real world.
+*In plain language:* the sacrifice-zone protocol strongly increases one
+specified simulation metric: the peak nearest-neighbour mutual
+information created above its initial value. That is not yet a proof of
+longer lifetime, protected end-to-end transfer, or optimality. One Torino run
+shows a smaller but positive contrast at its five tested time points; it is
+not a replication claim.
 
 See [Resonant Return](../experiments/RESONANT_RETURN.md),
 [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md).
@@ -223,11 +204,10 @@ These were once on the active list. They have since been answered.
 
 | Weakness | Resolution |
 |---|---|
-| Born Rule Gap | Substantially resolved: R_i = C_i · (Ψ_past + Ψ_future)² gives Born as perfect-mirror limit. See [Born Rule Mirror](../experiments/BORN_RULE_MIRROR.md) |
 | N-Scaling Barrier | Resolved: crossing is local to entangled pairs. See [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
-| Gravitational invariance | Demoted: true but trivial (dimensionless ratios). Gravity interpretation moved to `recovered/` |
-| Spectral boundaries | Resolved: Re(λ) = −2γ⟨n_XY⟩ (Absorption Theorem). Min = 2γ, max = 2(N−1)γ for the generic band, above the coupling threshold Q*_gap(N); the kernel and the XOR drain sit outside it. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
-| Why factor 2 | Resolved: it is the ratio of the full range (0 to 2Σγ) to the centre (Σγ), not a ratio between two sets of modes. The all-light modes ⟨n_XY⟩=N sit at 2Σγ and there are N+1 of them at each N, but they are paired, being the fast end of pairs whose slow end is the stationary set at Re=0. See [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) §4.2 and [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) Result 3 |
+| Gravitational invariance | Scoped result retained in [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md): the Bell+ Lindblad runs exhibit the stated dimensionless rate/time scaling. The interpretation of γ as gravitational field strength or a GR metric coefficient is retired there. |
+| Spectral boundaries | Scoped result: for the uniform-Z Heisenberg chain above Q*_gap(N), the generic band has min 2γ and max 2(N−1)γ; the kernel and XOR drain lie outside it. The identity Re(λ) = −2γ⟨n_XY⟩ is broader than those edge formulas. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| Why factor 2 | Resolved within the F8 scope: for local Z-dephasing instances with Σγ > 0 satisfying the F1 palindromizer hypotheses whose spectrum reaches both endpoints, it is the ratio of the full range (0 to 2Σγ) to the centre (Σγ), not a ratio between two sets of modes. See [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) §4.4 and [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) Result 3 |
 | Spectral gap | Resolved above Q*_gap(N): 2γ = one absorption quantum, the cost of a single X/Y Pauli factor. Below the threshold the gap is Zeno-suppressed and the theorem supplies no lower bound; see [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3 |
 | IBM hardware | Resolved: Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations at 470 μs, not cavity fringes. See [IBM Fringes + Absorption](../experiments/IBM_ABSORPTION_THEOREM.md) |
 
@@ -243,44 +223,49 @@ tools or experiments that do not yet exist.
 
 These could be answered with the code and hardware we already have.
 
-1. **Why operator feedback?** Track mode populations under feedback
-   dynamics. Does feedback keep information in slow palindromic modes?
+1. **Crossing speed dependence:** Does d(CΨ)/dt at the crossing moment
+   control post-crossing convergence beyond a local neighbourhood?
 
-2. **Crossing speed dependence:** Does d(CΨ)/dt at the crossing moment
-   affect post-crossing convergence?
-
-   *Substantially addressed (April 2026):* yes, exactly. The dwell time
-   in a δ-window around CΨ = 1/4 is t_dwell = 2δ/|dCΨ/dt|_cross, and
-   for Bell+ under Z-dephasing the rescaled dwell K_dwell = γ·t_dwell
-   = 1.080088·δ is γ-invariant to machine precision. The crossing speed
-   fully determines the dwell time through dCΨ/dt at the cusp, with no
-   memory of the pre-crossing trajectory beyond that derivative. Open
-   sub-question: can the state-dependent prefactor (1.080088 for Bell+,
-   different for other states) be derived directly from the Pauli sector
-   weight distribution, bypassing dCΨ/dt?
+   *Locally addressed (April 2026):* in a symmetric δ-window around
+   CΨ = 1/4, t_dwell = 2δ/|dCΨ/dt|_cross is the leading small-δ estimate,
+   with higher-order δ corrections. For Bell+ under Z-dephasing its
+   leading rescaled value is K_dwell = γ·t_dwell = 1.080088·δ and is
+   γ-invariant to machine precision. This local derivative does not yet
+   determine the later post-crossing convergence. For the documented
+   two-sector states, F58/F59 already derive the state-dependent local
+   prefactor from sector weights; the open extension is the general
+   multi-sector case and the genuinely post-crossing timescale.
    See [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md),
    [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6).
 
-3. **Formula optimality:** Is single-edge sacrifice provably optimal?
+2. **Formula optimality:** Is single-edge sacrifice provably optimal?
    Could multi-site sacrifice beat it at large N?
 
-4. **Depolarizing noise correction:** err = (2/3)Σγ breaks the
-   palindrome linearly. Can this be incorporated into design rules?
+3. **Depolarizing noise correction:** Let γ_l be the total depolarizing rate
+   on site l, divided as γ_l/3 among X, Y and Z. F5's extreme pair-sum
+   shortfall is (2/3)Σ_lγ_l, equivalently the spectral norm of the centered
+   diagonal residual. The F1-centered Frobenius diagnostic instead obeys
+   ‖M_F1‖²_F = 4^(N−1)(16/9)Σ_lγ_l² with σ=Σ_lγ_l. Can either precisely
+   named diagnostic be incorporated into design rules?
 
 ### Answered by the Absorption Theorem (April 4, 2026)
 
-The Absorption Theorem (Re(λ) = −2γ⟨n_XY⟩) resolved three questions
+For uniform local Z-dephasing, the Absorption Theorem
+(Re(λ) = −2γ⟨n_XY⟩) resolved three questions
 that were not explicitly listed here but had been open since March:
-what determines the spectral boundaries (answer: light content), why
-the factor 2 (answer: standing wave round trip), and what sets the
+what determines the spectral boundaries in the theorem's stated scope
+(answer: light content), why the factor 2 where Σγ > 0, the F1 palindromizer
+hypotheses hold and both endpoints are reached (answer: the full decay
+range 0...2Σγ divided by its centre Σγ), and what sets the
 spectral gap (answer: one absorption quantum, 2γ, above an N-dependent
 coupling threshold; below it the gap is Zeno-suppressed and the theorem
 supplies no lower bound). These are now formulas, not observations. See
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
 
-The mass-energy relationship is α = 2γ⟨n_XY⟩, which is linear in γ
-(not quadratic as in E = mc²). The Lindblad equation is first-order in
-time, so the "speed" γ appears to the first power.
+Under that uniform-rate specialization, the decay-rate identity is
+α = 2γ⟨n_XY⟩. For a nonuniform rate profile the theorem uses the
+site-weighted sum instead. Its linearity in the rates follows from the
+dissipator; it is not a mass-energy relation.
 See [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md).
 
 On IBM hardware (Q52 tomography): the Absorption Theorem ratio is 1.03
@@ -291,32 +276,33 @@ On IBM hardware (Q52 tomography): the Absorption Theorem ratio is 1.03
 
 These need mathematics or computational methods we have not built yet.
 
-5. **The natural variable u(t):** Track u = C(Ψ+R) through Lindblad
+4. **The natural variable u(t):** Track u = C(Ψ+R) through Lindblad
    evolution. Does u have a simpler trajectory than CΨ or θ?
 
    *Partially addressed (April 2026):* along real Bell+ trajectories,
    no. u(t) is essentially linear in Ψ (u ≈ 0.61·Ψ^{1.02}), so it does
    not provide a simpler dynamical coordinate. u is an algebraic
    linearization variable, not a dynamical one. Whether u behaves
-   differently on complex trajectories (non-symmetric states, non-Z
-   dephasing) where CΨ develops an imaginary component is an open
-   question. See [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md).
+   differently after an explicitly defined complex extension is an open
+   question; that extension is CΨ_com, not the original real CΨ. See
+   [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md).
 
-6. **Cockpit scaling beyond N=5:** Does the 3-observable coverage
-   (88%) hold at N=50-100? Does n95 grow linearly or saturate for
-   dense topologies? See [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md).
+5. **Cockpit scaling beyond N=11:** Does the first-three-PC cumulative
+   coverage remain high at N=50-100? Does n95 grow linearly or saturate for
+   dense topologies? The N=5-11 baseline is in [Cockpit Scaling](../experiments/COCKPIT_SCALING.md).
 
-7. **Non-Markovian noise:** Does the cockpit framework hold under
+6. **Non-Markovian noise:** Does the cockpit framework hold under
    colored noise (noise whose strength depends on frequency, unlike white noise which is flat), 1/f spectra, or TLS coupling?
 
 ### Require experimental contact
 
 These need access to quantum hardware we do not currently have.
 
-8. **2-qubit Concurrence measurement:** Validating Concurrence on a
-   qubit pair would test the most important cockpit instrument.
+7. **2-qubit Concurrence measurement:** Directly measuring Concurrence on
+   a qubit pair would test a cockpit observable not yet covered by the
+   hardware record.
 
-9. **Cross-platform replication:** CΨ = ¼ crossing on trapped ions
+8. **Cross-platform replication:** CΨ = ¼ crossing on trapped ions
    or NV centers, not just superconducting qubits.
 
 ---
@@ -332,11 +318,12 @@ philosophical. We try never to confuse these categories.
 
 | Category | Examples |
 |---|---|
-| **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, time irreversibility exclusion (N>2), Absorption Theorem (Re(λ) = −2γ⟨n_XY⟩) |
-| **Verified** (simulation, reproducible) | 87,376 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, sacrifice-zone formula 139-360×, cockpit 3-observable coverage 88-96% |
-| **Hardware-confirmed** | CΨ crossing at 0.3% (Q52), selective DD 3.2× (5-qubit), T2* drift 58% in 6 days |
+| **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, Frobenius orthogonality of oscillation and cooling blocks at N=2 and its exact loss for N>2 under uniform local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian, uniform-rate Absorption Theorem Re(λ) = −2γ⟨n_XY⟩ (site-weighted form for profiles) |
+| **Verified** (simulation, reproducible) | 87,376 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, ε→0 sacrifice-zone gains 68-360× versus the corresponding V-shape baselines on the stated peak-created-Sum-MI metric, cockpit first-3-PC coverage 91.9-99.0% over 8-9 standardized features in eight `center_bell` configurations for N=5-11 |
+| **Hardware-confirmed** | CΨ crossings: Q52 qualitative (10.7% timing offset), Q80 within 1.9%; selective-DD and sacrifice-zone contrasts on IBM devices; T2* drift 58% in 6 days |
 | **Argued** (plausible, not proven) | Measurement = crossing ¼, Mandelbrot boundary as route catalog |
-| **Unverified** (could not reproduce) | 33:1 coherence ratio, t_coh ~ N scaling |
+| **Unverified** (could not reproduce) | t_coh ~ N scaling |
+| **Refuted** | 33:1 coherence ratio |
 | **Philosophical** | C = consciousness, 4D block-universe interpretation |
 
 ---
@@ -344,25 +331,16 @@ philosophical. We try never to confuse these categories.
 ## The honest summary
 
 The palindromic symmetry is proven and verified at scale. The CΨ = ¼
-boundary is algebraically exact and hardware-validated. The sacrifice-zone
-formula and cockpit diagnostics are practical tools with real numbers.
+boundary is algebraically exact; two IBM crossing runs provide hardware
+contact of unequal precision. The sacrifice-zone and cockpit results are
+reproducible within their stated observables and scopes.
 
 The weaknesses that remain are either philosophical (#1 generic
 bifurcation, #2 consciousness label), require new experiments (#3 2-qubit
-tomography), or are specific technical gaps (#4 variable u, #5 operator
-feedback). None threaten the core mathematics.
+tomography), or are specific technical gaps (#4 variable u, #5 sacrifice-zone
+optimality). None threaten the core mathematics.
 
-The biggest practical gap: **Concurrence has never been measured on a
-qubit pair.** It is the dominant instrument in the cockpit (57% of
-decoherence variance), and validating it would be the single most
-impactful next step.
-
----
-
-*Changelog: Created Jan 2, 2026. Rewritten Feb 8. Updated: Feb 11
-(IBM results), Feb 18 (Born rule, N-scaling resolved), Mar 6 (star
-topology), Mar 14 (palindrome proven), Mar 16-18 (XOR, non-Heisenberg,
-QST), Mar 24 (sacrifice formula), Apr 1 (Urqubit algebra), Apr 2
-(cockpit framework, rewrite for clarity). Apr 4
-(Absorption Theorem resolves spectral boundaries/factor-2 and relocates the gap,
-IBM hardware confirms at 3%, mass-energy relation is linear).*
+The biggest direct measurement gap is two-qubit Concurrence tomography.
+Current large-N cockpit scaling instead identifies Purity as the dominant
+PC1 proxy, so Concurrence should be tested as a missing observable rather
+than advertised as the dominant instrument.

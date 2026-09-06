@@ -227,29 +227,15 @@ falls to 2.7 by γ/γ_crit = 1.2 and rises again to 39 near 1.46, a secondary
 bump an order of magnitude below the reading at δ = 10⁻³. A height taken at
 one γ and a location taken at another are not one measurement.
 
-A 2026-05-06 note tried to extend it: it read the same algebraic
-object (same-sign-imaginary 2×2 form, AIII chiral) appearing in F86
-Statement 1 at finite Σγ = N·γ₀ as "a real-axis hit of the same EP",
-backed by a Petermann-K sweep on the real Q axis at c=2 N=5..8 (max
-K = 1333.6 / 337.9 / 2384.7 / 795.4, the N=7 spike read as ≈ 6× above
-this file's K = 403, with a 2-4× odd/even parity asymmetry). **That
-extension is retracted.** An artifact-free re-verification (Riesz
-spectral-projector norm) found the full F86 (n, n+1)-coherence block
-has **no eigenvalue coalescence on the real Q axis**, its eigenvalues
-stay simple (gap ~0.25–0.35), so there is no real-axis EP for the
-local F86 instance to hit. The block IS genuinely non-normal on the
-real axis (large but FINITE Petermann); the peak magnitudes, the "6×
-above this file", the within-parity growth rates, and the odd/even
-asymmetry are grid artifacts (K swings 2–4× over ΔQ = 1e-3).
-
-*(Further corrected 2026-07-07: the "no real-axis EP" part of this retraction was itself an over-correction. F89 proves the full (1,2) block DOES carry a real-axis defective seed at every odd N (census-defective through N=11); the 2026-06-21 grid missed a √-EP detection window ~20-30× narrower than its step. See [the F86a EP mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md), the real-axis EP section. This file's own Σγ=0 gain-loss EP is a separate system and is unaffected.)*
-
 What survives is the shared algebra read at two residuals of the F1
 palindrome `Π · L · Π⁻¹ + L + 2Σγ · I = 0` (Σγ = N·γ₀ vs Σγ = 0). The
-genuine EPs are the toy 2×2 rate-channel reduction and, off the real axis,
-**this file's** SEPARATE Σγ = 0 gain-loss system, where the Petermann spike
-locates an EP in the complex γ plane without pinning where;
-whether the full Σγ = N·γ₀ block shares a defective-EP structure off
+genuine EPs are the toy 2×2 rate-channel reduction and **this file's**
+SEPARATE Σγ = 0 gain-loss system at the real parameter γ_crit. Its
+square-root onset and diverging K as γ→γ_crit establish the character;
+K≈403 is one finite-grid approach reading, not another complex-γ locus.
+F89 separately certifies narrow real-q defective EP2s at N=5,7,9; its
+all-odd endpoint-nullity surplus does not extend that character verdict.
+Whether the full Σγ = N·γ₀ block shares a defective-EP structure off
 the real axis is open (the nearest complex-Q coalescences found
 2026-06-21 are themselves diabolic, ‖P‖ = 1). Encoded as
 `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs` (**OpenQuestion**,

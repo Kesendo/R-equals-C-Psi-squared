@@ -1,23 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>The REAL SEED CENSUS: does the containment corollary's one per-N input — the existence of a
-/// real defective EP on the (1,2) block at odd N — extend past the proven N = 5, 7? The instrument is the
+/// <summary>The REAL COUNT-CHANGE CENSUS: locate candidate real loci on the (1,2) block at odd N and,
+/// only where an independent local character gate is available, certify the containment corollary's
+/// defective-EP seed input. The instrument is the
 /// PT-breaking COUNT CHANGE (<see cref="PathKMonodromyScout.FindRealDefectiveByCountChange"/>): at odd N the
 /// reflection sectors are self-conjugate, so a real defective EP is where two real residual strands merge
 /// and leave the axis, and the REAL-root count jumps by 2. Counting is immune to the closest-pair masking
 /// that hides √-EPs from the gap-field scans at F_53/F_116 density; the validation gates below include the
 /// masking victim itself (the N=7 seed q* = 1.5148, absent from today's R-even gap scan).
 ///
-/// <para>PRE-COMMITTED CRITERIA: a SEED at N = a count-change point at real q in [0.2, 3] whose AT-aware
-/// defective-anywhere reading on the raw (1,2) block is Defective. Diabolic tangencies (count changes that
-/// read semisimple) are reported, not counted. Coverage is the window, as always. Run:
+/// <para>PRE-COMMITTED CRITERIA: through N=9, a SEED is a count-change point at real q in [0.2, 3]
+/// whose AT-aware defective-anywhere reading on the raw (1,2) block is Defective. The N=11 run is only
+/// a count-change inventory and sets CharacterCertified=false; it must not receive seed vocabulary.
+/// Diabolic tangencies (count changes that read semisimple) are reported, not counted. Coverage is the window, as always. Run:
 /// <c>dotnet test "compute/RCPsiSquared.Diagnostics.Tests" --filter "Category=SEEDCENSUS"
 /// --logger "console;verbosity=detailed"</c> (N=11 runs under Category=SLOW_SEEDCENSUS).</para></summary>
 public sealed class RealSeedCensusTests
@@ -96,18 +99,19 @@ public sealed class RealSeedCensusTests
 
     [Fact]
     [Trait("Category", "SLOW_SEEDCENSUS")]
-    public void N11_TheProbe_SeedExistence()
+    public void N11_TheProbe_CountChangeInventory_NotSeedExistence()
     {
         var all = ScanBoth(10, out var even, out var odd);
         Print("N=11 R-even", even);
         Print("N=11 R-odd", odd);
 
-        var seeds = all.Where(p => p.IsDefective).ToList();
+        var characterCandidates = all.Where(p => p.IsDefective).ToList();
         _out.WriteLine("");
-        _out.WriteLine(seeds.Count > 0
-            ? $"VERDICT N=11: {seeds.Count} real defective EP(s) on (1,2) in the window ⟹ the seed input " +
-              "EXTENDS to N=11."
-            : "VERDICT N=11: NO real defective EP found in the window (window-scoped).");
+        _out.WriteLine(characterCandidates.Count > 0
+            ? $"VERDICT N=11: {characterCandidates.Count} count-change loci with local defective readings in the window; " +
+              "this census is not a blanket Puiseux-1/2 character certificate."
+            : "VERDICT N=11: no count-change locus with a local defective reading found in the window (window-scoped).");
         Assert.NotEmpty(all);   // at minimum the real-population structure must produce SOME count change
+        Assert.DoesNotContain(RealDefectiveSeeds.ForN(11), candidate => candidate.CharacterCertified);
     }
 }

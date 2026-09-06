@@ -4,8 +4,8 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F89 path-3 octic diabolic degeneracy (semisimple, transversal level crossing; Tier 1 derived; analytical
-/// from disc factor + numerically verified bit-exact):
+/// <summary>F89 path-3 octic diabolic degeneracy (semisimple, transversal level crossing; Tier 1 derived;
+/// location from the exact discriminant factor, character from the scalar compression and live diagnostics):
 ///
 /// <code>
 ///   q_EP² = (−1 + √13) / 6 ≈ 0.4343
@@ -15,7 +15,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Where this sits</b> (returning-reader compass): this is the <b>(1,2) (SE,DE) octic block</b>'s
 /// ON-axis <b>DIABOLIC</b> point — a sum-coincidence (two ε-pairs sharing a frequency-difference; the
-/// discriminant's even/double zero (3q⁴+q²−1)²; semisimple, present at γ=0). The same octic's OFF-axis
+/// discriminant's even/double zero (3q⁴+q²−1)²; semisimple, descending from a γ=0 multiplet but
+/// re-coalescing only at finite q). The same octic's other real- and complex-q
 /// <b>DEFECTIVE</b> branch points (simple zeros of the squarefree P_10 factor; the S₈ monodromy
 /// transpositions; a γ-driven single-particle coalescence) are in <c>experiments/F89_MONODROMY_MIRROR.md</c>.
 /// The free-fermion-kernel rule (defective = single-particle coalescence; diabolic = frequency-difference
@@ -43,15 +44,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// frequency, which vanishes only in the formal J→0 reading (q_EP itself
 /// requires J = q_EP·γ ≠ 0, so there is no degeneracy at J = 0).</para>
 ///
-/// <para><b>Correction (2026-06-21, second-terminal review):</b> the
-/// "exceptional point / Jordan-block / defective" character was retracted.
-/// Grid-free proof: disc(F_8) carries the EP-condition (3q⁴+q²−1) to even
-/// multiplicity 2 (a double zero), so the two eigenvalues cross linearly /
-/// analytically through q_EP ⟹ SEMISIMPLE, not defective (a defective
-/// √-branch EP forces a simple zero); the octic is irreducible, so this is
-/// intrinsic to the double-zero, not a cross-factor crossing. Corroborated
-/// artifact-free (g1 = 2 = alg, rank(L−λ_EP·I) = n−2, dep = 0, no generalized
-/// eigenvector). Character: a non-defective (semisimple) degeneracy that is
+/// <para><b>Character:</b> disc(F_8) carries the locus factor
+/// (3q⁴+q²−1) with multiplicity 2. After isolating the one colliding pair this
+/// supports an analytic crossing, but even order does not by itself prove
+/// semisimplicity. The load-bearing character route is the scalar λ·I
+/// restriction on the coalescing plane (the twin-scalar argument), with live
+/// artifact-free checks g1 = 2 = alg, rank(L−λ_EP·I) = n−2, dep ≈ 0 and no
+/// generalized eigenvector. Thus this is a non-defective degeneracy that is
 /// obliquely embedded / non-normal (‖P‖ ≈ 3.88 > 1 — ill-conditioned but NOT
 /// a Jordan block); NOT "normal". The eigenVALUE double root and
 /// λ_EP = −4γ + 2iJ stand; only the eigenVECTOR-coalescence (defective)
@@ -62,7 +61,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// degeneracy location), <c>simulations/f89_jordan_definitive.py</c> +
 /// <c>f89_jordan_corroborate.py</c> (the diabolic-character verdict),
 /// <c>experiments/F89_PATH_K_GALOIS.md</c>
-/// § "Path-3 octic diabolic-degeneracy location".</para></summary>
+/// § "Path-3 octic diabolic-degeneracy location", and
+/// <c>docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md</c> for the conditional
+/// twin-scalar character route.</para></summary>
 public sealed class F89Path3OcticEpClaim : Claim
 {
     // Parent-edge marker for Schicht-1 wiring (consumed by ClaimRegistryBuilder; not used in this class body).
@@ -77,12 +78,15 @@ public sealed class F89Path3OcticEpClaim : Claim
 
     /// <summary>The merged eigenvalue at q = q_EP: λ_EP = −4γ + 2iJ.
     /// Verified numerically to machine precision (pair distance ≈ 6.79e-15).
-    /// The formula's J→0 reading is the real rate λ = −4γ (no oscillation);
-    /// it is NOT a degeneracy at J=0 — q_EP fixes J = q_EP·γ ≠ 0.</summary>
+    /// This locus requires γ &gt; 0 and exactly J = q_EP·γ; off-locus inputs are rejected.</summary>
     public static Complex MergedEigenvalue(double gamma, double j)
     {
-        if (gamma < 0) throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be ≥ 0.");
+        if (!double.IsFinite(gamma) || gamma <= 0)
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be finite and > 0 on the finite-q_EP locus.");
         if (j < 0) throw new ArgumentOutOfRangeException(nameof(j), j, "J must be ≥ 0.");
+        double expectedJ = gamma * QEp;
+        if (j != expectedJ)
+            throw new ArgumentException($"The q_EP locus requires J = γ·q_EP = {expectedJ:R} for γ = {gamma:R}.", nameof(j));
         return new Complex(-4 * gamma, 2 * j);
     }
 
@@ -92,7 +96,8 @@ public sealed class F89Path3OcticEpClaim : Claim
                "experiments/F89_PATH_K_GALOIS.md + " +
                "simulations/f89_path3_octic_galois.py + " +
                "simulations/f89_path3_ep_locator.py + " +
-               "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs")
+               "compute/RCPsiSquared.Core/Symmetry/F89PathKAtLockMechanismClaim.cs + " +
+               "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md")
     {
         F89 = f89 ?? throw new ArgumentNullException(nameof(f89));
         AtLock = atLock ?? throw new ArgumentNullException(nameof(atLock));

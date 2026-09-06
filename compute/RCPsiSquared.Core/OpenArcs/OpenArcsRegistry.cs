@@ -44,16 +44,16 @@ public static class OpenArcsRegistry
                 "closed-form decay-rate strands at Re lambda = -2<n_XY> in gamma units] is needed only for the monodromy/" +
                 "Galois layer; the diabolic hunt itself is coalescences in the FULL symmetric block and does not " +
                 "require it, so XxzCoherenceBlock can locate-and-test at any N on its own.) THE REAL OBSTACLES " +
-                "(the genuinely hard part, get harder with N): (1) COMPLETENESS. The exact discriminant " +
-                "disc_λ(F_d) factorization (Route B, the only way to COUNT diabolics definitively, as " +
-                "(3q⁴+q²−1)² did at path-3) is UNATTEMPTED at F_18, not infeasible: the old degree-52 " +
-                "estimate was the N=4 disc's own number, and the certificate since measured F_18's at deg_q " +
-                "274 R-even / 246 R-odd (v_q 154/138 plus layers [56, 32]/[56, 26]), a few times SMALLER than " +
-                "discriminants this arc has landed exactly, so infeasibility no longer follows from the degree. " +
-                "The M-descent shortcut does not apply there ((1,2)@N=5 is not fold-fixed), so it would be a " +
-                "direct landing at full degree. Unmeasured and presumed far harder at " +
-                "F_32/F_53; beyond path-3 the count is answerable only by bounded-region NUMERICAL scans with a " +
-                "stated coverage box, never provably complete. (2) The scan region/resolution must scale: more " +
+                "(the genuinely hard part, get harder with N): (1) COMPLETENESS. Route B's exact N=5 " +
+                "full-degree factorization is LANDED: disc_λ(F_res)=C*w^v*A1*A2^2 over Z/Q in both parities, " +
+                "with squarefree coprime layers; at N=5 both layers are irreducible. In q the totals are 274 " +
+                "(R-even) and 246 (R-odd), v_q=154/138 and layers [56,32]/[56,26]. The complete " +
+                "root/locus inventory is now certified exactly at N=5: in w, E:A1=(0-,2+,26C), A2=(6-,0+,10C); " +
+                "O:A1=(0-,2+,26C), A2=(6-,1+,6C), hence A1 has 112 induced q-loci (all EP2) and A2 has 58. " +
+                "Remaining work is pair isolation and character gates only on the doubled A2^2 loci; every nonzero A1 root is already a " +
+                "simple discriminant zero and hence a Puiseux-1/2 defective EP2. The M-descent shortcut does not " +
+                "apply ((1,2)@N=5 is not fold-fixed). " +
+                "F_32/F_53 remain unmeasured and harder. (2) The scan region/resolution must scale: more " +
                 "strands → more inter-sector crossings → more candidates, plus the dense-spectrum hazards already " +
                 "met (loop contamination needing the small intrinsic radius; the √-cusp needing GapRefine-from-" +
                 "box-min for LIFT-vs-defect). Engineering, not fundamental. (3) The naive Slater additivity " +
@@ -597,7 +597,8 @@ public static class OpenArcsRegistry
                 "no-overlap rates, p=½), NOT a zero eigenvalue (the merge sits at frequency +2J); '±' are the two " +
                 "coherence modes at mirror-rates about it; {−0,0,+0} is the RATE structure (−4−δ, −4, −4+δ → −4), " +
                 "not the frequency. WHY semisimple not defective: a genuine coalescence with eigenvectors " +
-                "independent (the existing G2 MonodromyAroundDiabolic loop = identity, independent route), " +
+                "independent (the existing G2 MonodromyAroundDiabolic identity loop corroborates the analytic " +
+                "crossing but is not an independent character test), " +
                 "free-fermion integrable (DIABOLIC_BY_INTEGRABILITY: H_eff and D both restrict to scalars on the " +
                 "coalescing 2D eigenspace). Only the +2.349 twin merges (frequency-reachable by continuity from " +
                 "λ_EP's +1.318); the −6.139 twin (strands 3,4) and the four self-mirror zeros stay O(1) apart at " +
@@ -657,12 +658,12 @@ public static class OpenArcsRegistry
                 "fundamental-domain strip, window-gated, R-parity split (~1/4 LU cost), seed refined in-parity to " +
                 "pairGap ~1e-6, member cut adaptive at 10*pairGap. VERDICT: N=9 PASS at ALL 7 seeds (membership = the " +
                 "containment diamond; members read the Jordan pseudospectrum depth ~(gap/2)^2 = 3e-14..5.5e-13; " +
-                "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 COMPLETE at ALL 9 seeds (both " +
-                "parities; the full 10-member diamond, verdict PASS witness-assisted; the six wall-deferred blocks " +
+                "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 COMPLETE at ALL 9 count-change candidates (both " +
+                "parities; the full 10-member diamond, verdict TRANSPORT-PASS (witness-assisted; character-uncertified); the six wall-deferred blocks " +
                 "-- members (4,5),(5,6)xlambda_A + (4,6),(5,5)xmu and non-member cores (4,4),(4,7) -- are resolved " +
                 "by the sparse sigma_min path (Tasks 5-6: sparse-witness carries a member's parity bound from above, " +
                 "sparse-invit estimates a core's sigma_min, a large-margin exclusion, not a certified bound); " +
-                "separation x3.7e8..x1.5e11 (N=11 alone); seeds 1-4 default " +
+                "separation x3.7e8..x1.5e11 (N=11 alone); candidates 1-4 default " +
                 "wall, 5-9 --max-sector-dim 20000 to clear a background-task memory cap on the 2nd ~23GB dense cell, " +
                 "verdicts wall-independent (dense/sparse agree relDiff 0.014 at the Step-0 control). " +
                 "THREE new derived/measured structures: (1) the R-PARITY ALTERNATION LAW R*W = (-1)^{p+w}*W*R (the " +
@@ -681,24 +682,27 @@ public static class OpenArcsRegistry
                 "numbering in the journal layers below): (a) DONE 2026-07-06 -- the SPARSE sigma_min path was BUILT " +
                 "as Tasks 5-6 (SparseShiftedSigmaMin, inverse-iteration+LSQR on the CSR sector block, docked into " +
                 "SectorShellCensus's deferred branch as sparse-invit for non-member cores + SectorWitnessTransport " +
-                "as sparse-witness for members) and CLOSED the six deferred N=11 blocks, so N=11 is COMPLETE at all " +
-                "9 seeds (above); REMAINING is N=13/15 (same instrument, one CLI command each: dotnet run --project " +
+                "as sparse-witness for members) and CLOSED the six deferred N=11 blocks, so N=11 is TRANSPORT-PASS " +
+                "(witness-assisted; character-uncertified) at all 9 count-change candidates (above); REMAINING is N=13/15 " +
+                "(same instrument, one CLI command each: dotnet run --project " +
                 "compute/RCPsiSquared.Cli -c Release -- shellcensus --n 13 --all-seeds --max-sector-dim 20000; seeds " +
-                "listed in RealDefectiveSeeds once the seed census extends) + the complex loci (step 4, certificate " +
+                "listed as count-change positions by RealDefectiveSeeds once the census extends; they are not seeds " +
+                "until separately character-certified) + the complex loci (step 4, certificate " +
                 "territory); (b) the seed census past N=11 " +
                 "(FindRealDefectiveByCountChange; gate RealSeedCensusTests, run: dotnet test " +
-                "compute/RCPsiSquared.Diagnostics.Tests --filter Category=SLOW_SEEDCENSUS; SLOW at N=13). Scope of " +
-                "the DO-NOT: do NOT re-run the count scan to CONFIRM EXISTENCE (the identity below is the theorem, " +
-                "and a scan cannot settle the one remaining genericity item either); LOCATING seed positions q* for " +
+                "compute/RCPsiSquared.Diagnostics.Tests --filter Category=SLOW_SEEDCENSUS; SLOW at N=13). Scope: " +
+                "do not substitute the endpoint-nullity identity for this scan: it does not confirm literal " +
+                "finite-q existence. LOCATING count-change positions q* for " +
                 "the N=13/15 shellcensus runs of (a) is a legitimate, DIFFERENT use of the same instrument. The " +
                 "theorem behind the DO-NOT: " +
                 "experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
-                "simulations/seed_existence_nullity_check.py prove r(0+)-r(inf)=N-1 (r(0+) = n2+n6 = the eigenvalues " +
-                "still real just past the q=0 lift-off, with n2/n6 = nullity(P-2 C P-2)/nullity(P-6 C P-6), the two " +
+                "simulations/seed_existence_nullity_check.py prove r(0+)-r(inf)=N-1 for endpoint-nullity surrogates " +
+                "(r(0+) = n2+n6, with n2/n6 = nullity(P-2 C P-2)/nullity(P-6 C P-6), the two " +
                 "dephasing-rung compressions; r(inf)=nullity(C)=the " +
                 "free-fermion FUSION-RESONANCE count #{lambda_a+lambda_b=lambda_c}; the surplus n2=N-1 = the odd-N " +
                 "-2-rung PATH kernel, N-1 disjoint paths of N vertices, zero mode iff N odd = the unmirrorable-seat " +
-                "face; LBL': a real-to-complex transition at a simple discriminant zero is a defective EP, Kato). " +
+                "face). A seed additionally needs a literal finite-q count drop and a local character certificate; " +
+                "a simple discriminant zero then gives a defective EP2 (Kato). " +
                 "(N1') (the ledger label for the doc's Piece 3; the verifier's gate is (N1P)) CLOSED 2026-07-04 " +
                 "same day: n6 = 3*Z3 = rho (Z3 = #{mode triples a<b<c: lambda_a+lambda_b+lambda_c=0}, rho = the " +
                 "resonance count above), by the " +
@@ -712,7 +716,7 @@ public static class OpenArcsRegistry
                 "NOT a partition of spec(C), images overlap); third-quantization turned out unnecessary. TWO " +
                 "adversarial reviews held it (exact arithmetic in Z[t]/Phi_{2(N+1)} + counterexample hunt to N=200; " +
                 "full-2^N spin rebuild with explicit JW strings). r(0+)-r(inf)=N-1 is now a THEOREM for every odd N. " +
-                "REMAINING OPEN on existence: the codim-2 beta-exotic genericity ONLY (a count-drop is defective " +
+                "REMAINING OPEN on existence: the literal finite-q drop premise and the codim-2 beta-exotic genericity (a count-drop is defective " +
                 "unless the non-generic order-3 nilpotent-linear-term point; 'beta' after the normal form " +
                 "beta(s)=[[0,s],[s^2,0]], eigenvalues +-s^{3/2}, a real-to-complex transition through a formally " +
                 "semisimple point). ATTACK ANCHOR for it (no tool exists yet): the Krein reading -- a transition " +
@@ -726,8 +730,8 @@ public static class OpenArcsRegistry
                 "(context for this UPDATE: the block is the (1,2) coherence pencil L(q)=A+qC defined earlier in " +
                 "this entry -- A the dephasing diagonal, rungs -2/-6; C the coherent hop; EP2 = a defective order-2 " +
                 "exceptional point, geometric mult 1 < algebraic 2; the A-i/O2 taxonomy lives in the strategy doc " +
-                "below.) NUMERICS clean through N=11 -- scoping found NO beta (all defective EP2) at every cached seed " +
-                "N=5,9,11, and N=7 (the previously-UNVETTED gap) closed 2026-07-08: all 6 N=7 seeds are defective " +
+                "below.) Character certification is clean at N=5,7,9; N=11 has count-change loci and third-order " +
+                "endpoint bookkeeping but no blanket Puiseux-1/2 promotion. The N=7 gap closed 2026-07-08: all 6 seeds are defective " +
                 "EP2 by the EpCharacter compression-geo instrument (mergeCos=1.0, geo 1<alg 2; the -4.996 " +
                 "semisimple crossing near seed -4.9228 is a SEPARATE benign diabolic, mergeCos=0). LESSON: classify " +
                 "seeds with EpCharacter.Characterize (compression geo at the compression's OWN mean eigenvalue) " +
@@ -890,11 +894,11 @@ public static class OpenArcsRegistry
                 "span{Re r, Im r} is totally isotropic for D-lam. Exact class counts (N=3,5,7): rung -2 has " +
                 "|E|-|O| = +(N-1) = nullity(K22), with ker(K22) entirely in the majority class E (each of Piece " +
                 "1's N-1 paths of N vertices has BOTH endpoints in E); rung -6 has |E|-|O| = -3(N-1)/2. The same " +
-                "N-1 counts the seeds, the nullity, and the rung-2 class imbalance -- this IS the 'N-1-path sign " +
+                "N-1 counts the endpoint surplus, the rung-2 nullity, and the rung-2 class imbalance -- this IS the 'N-1-path sign " +
                 "structure' the strategy doc's next-step (b) asks for. UPDATE 2026-07-09: the conjecture " +
                 "'sign(kappa_rung) = sign(class imbalance)' (equivalently kappa_-2 > 0, the ONE gauge-invariant " +
                 "statement, since kappa_-2 + kappa_-6 = v^dag T v / ||v||^2 = 0 at a seed) was UNTESTED; it is now " +
-                "TESTED PROPERLY and HOLDS at every forced defective seed at N=5,7,9, both parities, exhaustively " +
+                "TESTED PROPERLY and HOLDS at every character-certified defective seed at N=5,7,9, both parities, exhaustively " +
                 "(net pairs = (N-1)/2 at each; 4/7/8 coalescences counting re-entrant ones; kappa_-2 >= 0.025 over " +
                 "all 19), with ZERO semisimple transitions (numerical corroboration, not a proof, of the N=5,7 " +
                 "beta-exotic exclusion). The extraction cleared trap ii plus two more: reject any coalescence with v^dag T v != 0 " +
@@ -999,9 +1003,10 @@ public static class OpenArcsRegistry
                 "order-2 classes drop no count; the coincident-EP2 pair dead by the psc1 leg; so all count-drops " +
                 "sit on A1) is a sqrt-type defective EP2 with s6 != 0; H1 " +
                 "FOLLOWS on A1 by the simple-zero lemma. The 09d caution ('{S6=0} contains the diabolics, no " +
-                "separation') is RETIRED: the separation is the layer structure, diabolics on A2, seeds on A1 " +
-                "(N=5 inventory closed EXACTLY in the committed verifier: the 4 real-positive A1 roots ARE the 4 " +
-                "seeds; A2 real-positive roots: " +
+                "separation') is sharpened by the layer structure: every nonzero A1 root is a defective EP2, " +
+                "while A2 remains an order-two character-undecided layer until local gates run " +
+                "(N=5 real-positive inventory closed EXACTLY in the committed verifier: the 4 A1 roots ARE the 4 " +
+                "seeds; among the A2 real-positive roots, " +
                 "E none, O exactly the known diabolic w=5.100831 where S6 vanishes as adj=0 forces, carrying " +
                 "exactly one real double lam). SCOPE OF THE ALL-N RE-BASE: the two uniform hypotheses cover the " +
                 "SIMPLE-LAYER HALF only; the localization half (every count-drop sits on A1) consumed max-mult 2 " +
@@ -1417,14 +1422,17 @@ public static class OpenArcsRegistry
                 "SEED CENSUS (2026-07-02, same day, the masking trap DEFEATED for the real axis; REAL-q seeds feeding " +
                 "the containment corollary's input - these are NOT resultant targets, the resultant's loci are the " +
                 "COMPLEX window-escapers above): the containment " +
-                "corollary's one per-N input (a real defective EP on (1,2) at odd N) now EXTENDS THROUGH N=11 via the " +
+                "corollary's one per-N input (a character-certified real defective EP on (1,2)) reaches N=5,7,9. The " +
+                "count-change census itself extends through N=11 via the " +
                 "PT-break COUNT-CHANGE instrument (FindRealDefectiveByCountChange: real-root count of the " +
                 "self-conjugate residuals jumps by 2 where two real strands merge and leave the axis; counting is " +
                 "global, no density masks it; classify AT-aware via SectorEpProbe.ProbeDefectiveAnywhere; gate " +
-                "RealSeedCensusTests, Category SEEDCENSUS). Seeds in q in [0.2,3]: N=5: 4 (2 R-even + 2 R-odd, the " +
+                "RealSeedCensusTests, Category SEEDCENSUS). Count-change loci in q in [0.2,3] (character-certified " +
+                "seeds only through N=9): N=5: 4 (2 R-even + 2 R-odd, the " +
                 "R-odd q*=0.6430 lambda=-3.8196 previously UNKNOWN, confirmed by a tight local gap scan), N=7: 6 " +
                 "(3+3, incl. the masked 1.5148), N=9: 7 (4+3), N=11: 9 (4+5; SLOW_SEEDCENSUS, 2h31m). Blind spots " +
-                "(harmless for seeds): grazes and real-real crossings make no net count change. " +
+                "At N=11 this is a locus/count reading, not by itself a Puiseux-1/2 character certificate. Blind spots: " +
+                "grazes and real-real crossings make no net count change. " +
                 "NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
                 "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: Klein = the " +
@@ -1487,9 +1495,9 @@ public static class OpenArcsRegistry
                 "specifically). The C# tool reproduces the committed N=4 Δ-flip table (f89_zz_break_gate.py) as " +
                 "its regression gate. So the path-4 diabolics ARE the integrable level-crossings, " +
                 "DIABOLIC_BY_INTEGRABILITY's gate generalized off N=4 (F89_PATH_K_DIABOLIC.md now Tier-1 for the " +
-                "mechanism). Remaining open: the complex-q set is not " +
-                "claimed complete (Route B / the exact F_18 discriminant is unattempted, the infeasibility read " +
-                "retired; see the obstacle note in this registry). (b) LOOK IN OTHER " +
+                "mechanism). Route B's exact N=5 F_18/F_17 discriminant layers and complete root/locus isolation " +
+                "are landed. Remaining open: pair isolation and the doubled-A2^2 per-locus character gates; " +
+                "nonzero A1 roots are already certified EP2 by the simple-zero lemma. (b) LOOK IN OTHER " +
                 "REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +
                 "centred μ=λ+4, in a recursion, in the relation zeros<->twins<->AT-frequencies. (c) CROSS-F " +

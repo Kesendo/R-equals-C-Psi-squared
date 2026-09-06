@@ -22,7 +22,7 @@ namespace RCPsiSquared.Runtime.F1Family;
 ///   <item><see cref="F1T1ResidualClosedForm"/>: ‖M(T1)‖² = 4^(N−1)·[3·Σγ² + 4·(Σγ)²].</item>
 ///   <item><see cref="F1T1ResidualPi2Decomposition"/>: Π²-orthogonal Pythagorean split of
 ///         the T1 residual into (anti, sym) parts; depends on F1T1ResidualClosedForm.</item>
-///   <item><see cref="F1DepolResidualClosedForm"/>: ‖M(depol)‖² = 4^(N−1)·[(16/9)·Σγ² + 16·(Σγ)²].</item>
+///   <item><see cref="F1DepolResidualClosedForm"/>: centered ‖M_F1(depol)‖² = 4^(N−1)·(16/9)·Σγ².</item>
 ///   <item><see cref="F49NonUniformCrossTermClaim"/>: ‖{L_H, L_Dc}‖² = 4·Σ_b ‖L_H^bond‖²·Σ_{m∉bond}γ_m² +
 ///         Σ_b G(bond, H)·(γ_i−γ_j)²; F49's non-uniform γ extension.</item>
 ///   <item><see cref="F1GeneralTopologyVerifiedClaim"/> (Tier 2): verification record

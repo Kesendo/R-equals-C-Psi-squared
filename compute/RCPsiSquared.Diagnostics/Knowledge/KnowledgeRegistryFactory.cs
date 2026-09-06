@@ -410,13 +410,12 @@ public static class KnowledgeRegistryFactory
             // SLOW_SIDEWAYS) + SidewaysSpinLadderSparseTests (SLOW_SIDEWAYS9, the N=9 walk) +
             // simulations/eta_ladder_chain.py; live: inspect --root sideways.
             .RegisterSidewaysSpinLadderClaim()
-            // Seed-existence counting theorem (the sectorbraid arc's existence side, 2026-07-04): the census
-            // input of the containment corollary as a theorem, r(0+) - r(inf) = N - 1 for every odd N on the
+            // Endpoint-nullity surplus theorem (2026-07-04): r(0+) - r(inf) = N - 1 for every odd N on the
             // (1,2) block, via (N2) the -2 rung = N-1 paths of N vertices, (FF) nullity(C) = the fusion-resonance
             // count, and (N1') the ordering-sector theorem (K6 = three no-passing sectors, each gauged to -H3;
             // spec(K6) = 3 x {-(la+lb+lc)}; D = 0 by cyclotomic integrality). Parents: AbsorptionTheoremClaim
             // (the -2/-6 rung diagonal) + ChiralKClaim (the pairing behind the 3-to-1 bijection), both
-            // Tier1Derived. The seed-existence CONCLUSION stays open at the codim-2 beta-exotic genericity.
+            // Tier1Derived. Finite-q existence also needs literal drop; Jordan character needs its own gate.
             // Live: inspect --root seedcount; verifier simulations/seed_existence_nullity_check.py.
             .RegisterSeedExistenceCountingClaim()
             .RegisterBetaExoticPerNExclusionClaim()

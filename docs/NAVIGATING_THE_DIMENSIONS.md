@@ -396,14 +396,15 @@ The scope of the defective collision: the clean Q_EP pinch above lives in
 the toy 2×2 reduction, not in the **full** (n, n+1)-coherence block at
 generic real Q, where the swept eigenvalues stay simple and the block is
 genuinely non-normal (large but finite Petermann). But the full block is
-not EP-free on the real axis: F89 proves it carries a real-axis defective
-seed at every odd N, census-defective through N=11, sitting at scattered
-q\* in √-EP windows ~20-30× narrower than a coarse grid step (see
+not EP-free on the real axis: finite-q Puiseux-1/2 defective EP2 seeds are
+certified at N=5,7,9, sitting in narrow windows a coarse grid misses. For
+arbitrary odd N F89 proves the nullity-surplus count only; literal drop and
+genericity remain open beyond the certified sizes (see
 [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the
 real-axis EP section). The genuine defective EPs are therefore of three
 kinds: the toy 2×2 above, the F89 seeds of the full block, and the
 SEPARATE Σγ = 0 gain-loss system
-([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md), in the complex γ
+([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md), at the real γ_crit
 plane).
 
 And the chip reads the dynamical handover, not a defective pinch: IBM Kingston swept Q and watched a single

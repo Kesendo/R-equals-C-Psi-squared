@@ -7,14 +7,15 @@ using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Cli.Commands;
 
-/// <summary>Drive the step-3 shell census (<see cref="SectorShellCensus"/>): at each real defective seed
-/// locus of the (1,2) block, probe σ_min(L(p,w) − s) for both shifts s ∈ {λ_A, μ = −λ_A − 2N} on the
+/// <summary>Drive the step-3 shell census (<see cref="SectorShellCensus"/>): at each recorded real
+/// count-change locus of the (1,2) block, probe σ_min(L(p,w) − s) for both shifts s ∈ {λ_A, μ = −λ_A − 2N} on the
 /// fundamental-domain strip, R-parity split, window-gated (the window-shell lemma excludes analytically
 /// where the Bendixson window misses Re s). Sectors past the LP64 wall take the SPARSE path by default
 /// (member cells → the from-above W-transport witness, non-member cells → the sparse inverse-power
 /// estimator); --no-sparse restores the pure-dense behavior (bare "deferred" rows). Verdict per seed:
-/// PASS / PASS (witness-assisted) / PARTIAL (deferred or non-converged cells listed) / DISAGREE. CSV
-/// per seed to --out.
+/// PASS / PASS (witness-assisted) / PARTIAL / DISAGREE for character-certified seeds. Uncertified
+/// count-change loci use TRANSPORT-PASS / TRANSPORT-PARTIAL so membership transport cannot be read as
+/// a defective-seed certificate. CSV per locus to --out.
 ///
 /// usage: rcpsi shellcensus --n 9 [--seed 2.137549 | --all-seeds] [--max-sector-dim 46000] [--no-sparse] [--out dir]</summary>
 public static class ShellCensusCommand
@@ -34,7 +35,7 @@ public static class ShellCensusCommand
         var seeds = RealDefectiveSeeds.ForN(n).ToList();
         if (seeds.Count == 0)
         {
-            Console.Error.WriteLine($"no recorded seeds for N={n} (registry covers N=5,7,9,11)");
+            Console.Error.WriteLine($"no recorded count-change loci for N={n} (registry covers N=5,7,9,11)");
             return 2;
         }
         var toRun = allSeeds ? seeds
@@ -42,13 +43,13 @@ public static class ShellCensusCommand
             : new() { seeds.First(s => s.RParity == +1) };
         if (toRun.Count == 0)
         {
-            Console.Error.WriteLine($"--seed {seedQ?.ToString(Inv)} matches no recorded N={n} seed; recorded: " +
+            Console.Error.WriteLine($"--seed {seedQ?.ToString(Inv)} matches no recorded N={n} locus; recorded: " +
                 string.Join(", ", seeds.Select(s => s.QStar.ToString("F6", Inv))));
             return 2;
         }
 
         Directory.CreateDirectory(outDir);
-        Console.WriteLine($"# shellcensus: N={n}, {toRun.Count} seed(s), maxSectorDim={maxSectorDim}, sparse={(!noSparse ? "on" : "off")}, out={outDir}");
+        Console.WriteLine($"# shellcensus: N={n}, {toRun.Count} count-change locus/loci, maxSectorDim={maxSectorDim}, sparse={(!noSparse ? "on" : "off")}, out={outDir}");
         Console.WriteLine($"# expected members (containment corollary, FD strip): " +
             string.Join(" ", SectorShellCensus.ExpectedMembers(n).OrderBy(m => (m.Shift, m.P))
                 .Select(m => $"({m.P},{m.W})x{m.Shift}")));
@@ -56,7 +57,7 @@ public static class ShellCensusCommand
         bool anyDisagree = false;
         foreach (var seed in toRun)   // strictly sequential — never stack LUs
         {
-            Console.WriteLine($"\n=== seed q*={seed.QStar.ToString("F6", Inv)} (R-{(seed.RParity > 0 ? "even" : "odd")}, {seed.Origin}) ===");
+            Console.WriteLine($"\n=== locus q*={seed.QStar.ToString("F6", Inv)} (R-{(seed.RParity > 0 ? "even" : "odd")}, character-certified={seed.CharacterCertified}, {seed.Origin}) ===");
             var opts = new SectorShellCensus.Options { MaxSectorDim = maxSectorDim, SparseForDeferred = !noSparse, Log = s => Console.WriteLine("  " + s) };
             var result = SectorShellCensus.Run(seed, opts);
             string csv = Path.Combine(outDir, $"shell_census_N{n}_q{seed.QStar.ToString("F6", Inv)}.csv");

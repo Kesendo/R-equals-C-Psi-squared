@@ -1,4 +1,4 @@
-# The seed exists because N is odd: a nullity reduction of the census input
+# The odd-N endpoint-nullity surplus: what it proves before a seed exists
 
 *Existence side of the codim-1 containment corollary. Complements the exclusion shell census of
 [F89_MULTI_SECTOR_MONODROMY.md](F89_MULTI_SECTOR_MONODROMY.md) and the count-scan census table of
@@ -34,40 +34,40 @@ decomposition, or a multiset identity of C and its compressions, invariant under
 and the knob, and "a seed at some finite q > 0" is scale-free. Convert only when placing this note's q
 beside a census q\* or a carrier Q on one axis.
 
-At isolated real values of q (their isolation on the q-axis is the "codimension 1" in the corollary's
-name) two of these modes can collide so hard that not only their rates but their very *shapes*
-(eigenvectors) merge into one: a **defective exceptional point**, which this arc calls a **seed**. A companion proof, [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md),
-shows that once a single seed exists on one particular block of L, the **(1,2) block** (coherences
-|a⟩⟨b| between a two-excitation ket a and a one-excitation bra b), the whole family of related blocks it
-calls the **containment "diamond"** inherits that seed for free. That proof has exactly one thing it must
-be *handed* per chain length: that a seed exists on the (1,2) block at all, at each odd N.
+At isolated real values of q two modes may meet in a **defective exceptional point**, which this arc
+calls a **seed**. [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md) transports
+such a locally certified seed from the (1,2) block across the containment diamond. It does not create
+the seed: each chain length must separately supply a literal finite-q count drop and a character test.
 
-This note is about that one input. Until now it was supplied by a brute-force numerical scan (the
-**census**), checked to N = 11. Here it becomes an exact counting identity, and all three of its
+This note is about that one input. Until now its candidate loci were supplied by a brute-force
+numerical **count-change census**, checked to N = 11; local character certification currently stops
+at N = 9. Here the endpoint part becomes an exact counting identity, and all three of its
 counting pieces are proved (the last, Piece 3, landed the same day after two adversarial reviews). The
-short answer: **a seed is forced for every odd N precisely because N is odd** (a path graph on an odd
-number of vertices carries a zero mode; on an even number it does not), modulo one genericity check,
-plus the literal-count reading premise (the nullity identity is a theorem everywhere; that the
-nullity surplus is a *literal* real-count drop is probed exactly at N = 5, 7, 9, measured at
-N = 11, and unproven at every unprobed N, Status item 3).
+short answer is narrower: **odd N forces the endpoint-nullity surplus N−1**, because a path graph on an
+odd number of vertices carries a zero mode while an even one does not. Turning that algebraic surplus
+into a finite-q defective seed still needs the literal real-count drop and the local character test.
+Both are certified at N = 5, 7, 9; N = 11 supplies a measured literal drop with third-order endpoint
+bookkeeping, but not the same Puiseux-1/2 certificate. The all-odd existence statement therefore remains
+open outside the certified sizes (Status items 2 and 3).
 
 ## The one input the corollary cannot derive
 
 The containment corollary of [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
-transports and folds a seed across the whole diamond, but it takes the seed's *existence* as given:
-**a real defective exceptional point must exist on the (1,2) block at each odd N.** Until now that
-input was supplied by the **census** (this arc's brute-force numerical sweep of the q-axis for seeds), the
+transports and folds a seed across the whole diamond, but it takes the seed's *existence* as given for
+the chain length under discussion. That input is certified at N = 5, 7, 9. The **census** (this arc's
+brute-force numerical sweep of the q-axis for count-change loci), the
 PT-break count scan (PT = parity-time: it counts jumps in the number
 of real eigenvalues of the self-conjugate spectrum), checked to N = 11 (the table in
 [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md); the counts 4/6/7/9 at N = 5/7/9/11 are individual
-seed LOCI found in the scan window [0.2, 3] (octic-q units; ×2 on this note's axis, see the pin
+count-change loci found in the scan window [0.2, 3] (octic-q units; ×2 on this note's axis, see the pin
 above), a different measure than this note's mode-counting
-surplus N − 1: the coincidence of the two numbers at N = 5/7 is not an identity). A census is a
+surplus N − 1: the coincidence of the two numbers at N = 5/7 is not an identity). Only the N=5/7/9
+loci have the additional local character certificate and may be called seeds. A census is a
 lower bound over a window, not a law, and it grows more expensive every N (the N = 11 run took 2 h 31 m).
-This note replaces the census question with an exact identity and proves its counting lemmas; the
-remaining gaps are the codimension-2 genericity check and the literal-drop premise (Status items 2
-and 3). No future session should re-run the
-scan to "confirm".
+This note replaces the endpoint-count part of the census question with an exact identity and proves
+its counting lemmas; the remaining gaps are the codimension-2 genericity check and the literal-drop
+premise (Status items 2 and 3). No future session should re-run the scan merely to reconfirm the
+nullity identity; targeted character certificates remain legitimate work.
 
 ## The pencil, and two spectral endpoints
 
@@ -116,7 +116,7 @@ which mis-read the tail at large q):
   but never real). The measured literal drop 27 − 17 = 10 = N − 1 equals the nullity drop; the
   resonant-N section below holds the mechanism.)
 
-## The identity, and why it forces the seed
+## The identity, and what is still needed to force a seed
 
 The verifier `simulations/seed_existence_nullity_check.py` computes both endpoints exactly, N = 3..13
 (odd rows shown; the verifier also runs even N, where n₂ = 0 and the surplus is 0; dim = N²(N−1)/2 =
@@ -134,14 +134,12 @@ conserved by the dephasing), the Block grading of MirrorWorld:
 | 11 | 605 | 10 | 21 | 21 | **10** |
 | 13 | 1014 | 12 | 18 | 18 | **12** |
 
-**r(0⁺) − r(∞) = N − 1, exactly, for every odd N.** Since N − 1 > 0, the real-eigenvalue count strictly
-drops between small and large q: at the probed non-resonant N (5, 7, 9) the nullities are the literal
-counts and the drop is literal; at resonant N = 11 the literal counts are 27 → 17 (each end shifted by
-four, see the parenthesis above) and the drop is again exactly N − 1, measured. The drop happens at
-finite q > 0 (r(0⁺) is read past the q = 0 lift-off). A drop in the real count is a real-to-complex
-transition; the following lemma turns it
-into a seed at a simple discriminant zero (the non-simple case is exactly the genericity item that
-stays open, Status item 2).
+**r(0⁺) − r(∞) = N − 1, exactly, for every odd N.** These symbols denote the two endpoint-nullity
+surrogates defined above, not automatically the literal real-eigenvalue counts. They equal the literal
+counts at the probed N = 5, 7, 9; at resonant N = 11 both endpoints differ by four, although the measured
+literal counts 27 → 17 happen to retain the same drop. No all-odd literal-drop theorem follows. Where a
+literal finite-q drop is established, a simple discriminant zero gives a square-root defective EP2;
+the non-simple alternatives require a separate character certificate.
 
 **Lemma (defective at a simple zero; Tier 1 derived).** At a simple real zero q\* of the discriminant
 disc_Λ χ, exactly two eigenvalue branches meet in a square-root branch point, so L(q\*) carries a 2×2
@@ -155,7 +153,7 @@ with e ≥ 3/2 alike, gives order ≥ 2, so a simple zero forces the exponent-½
 the "defective, not semisimple" character the census could only read numerically at each individual EP
 it found.
 
-So the existence question reduces to the surplus N − 1, and the surplus splits into three pieces, all
+So one necessary endpoint bookkeeping input reduces to the surplus N − 1, and the surplus splits into three pieces, all
 three now proved.
 
 ## Piece 1: n₂ = N − 1 is a path count (Tier 1 derived)
@@ -174,8 +172,8 @@ The graph of K_red is therefore a disjoint union of **N − 1 simple paths, each
 path is a tree, so its signed adjacency gauges to the unsigned path P_N (a diagonal ±1 similarity),
 whose nullity is 1 iff N is odd. Hence nullity(P₋₂ C P₋₂) = (N − 1)·[N odd] = N − 1 for odd N (and 0
 for even N). Each fiber-path has exactly N vertices, and a path carries a zero mode iff its VERTEX
-count is odd: **the seed-forcing kernel is nonempty precisely because N is odd**, the combinatorial
-face of the same unmirrorable central site that gives the odd-N *real* eigenvalues. (The self-conjugacy
+count is odd: **the endpoint-surplus kernel is nonempty precisely because N is odd**, the combinatorial
+face of the same unmirrorable central site in the endpoint surrogate. (The self-conjugacy
 itself is not an odd-N property: it holds at every N, by the bipartite metric of the pencil section
 above. What the central site buys is that the self-conjugate spectrum actually *has* real members to
 lose.) (For even N the kernel
@@ -212,8 +210,8 @@ The fusion-resonance count Σ appears in *both* endpoints: r(∞) = Σ and r(0�
 
   **r(0⁺) − r(∞) = n₂ = N − 1.**
 
-The number-theoretically irregular resonances contribute equally to the small-q and large-q real counts
-and force nothing; the seed is forced by the odd-N structure of the −2 rung alone.
+The number-theoretically irregular resonances contribute equally to the two endpoint nullities and
+cancel from their difference; the odd-N −2 rung supplies the surplus, not by itself a seed.
 
 ## Piece 3: n₆ = the same count, by ordering sectors (Tier 1 derived; closed 2026-07-04, same day)
 
@@ -319,8 +317,8 @@ for all N. To keep this reduction focused on the counting theorem and the twinni
 program (the sharpening, the three attacks, the per-N exclusion, the gcd certificate, and the cell-law
 sign-law tightening) now lives in its own file,
 [F89_BETA_EXOTIC_GENERICITY.md](F89_BETA_EXOTIC_GENERICITY.md). **The seed-existence conclusion depends
-on it**: the count is a theorem, but that each drop is a genuine √-type seed is the β-exotic item
-(Status item 2).
+on both remaining premises**: the endpoint count must first become a literal finite-q drop (Status
+item 3), and the β-exotic item then certifies the drop's local character (Status item 2).
 
 ## Resonant N, measured: the twinning protection at N = 11 and N = 17 (2026-07-10)
 
@@ -1105,7 +1103,7 @@ identity structurally, and the grids became the independent certificate.
 ## Reproduce
 
 ```bash
-python simulations/seed_existence_nullity_check.py     # the counting theorem (existence side)
+python simulations/seed_existence_nullity_check.py     # the endpoint-nullity surplus theorem
 python simulations/resonant_n_twinning.py              # the resonance criterion + twinning (add 29)
 python simulations/y_zero_and_level_law.py             # the Y = 0 proof, step by step (add: 23 29)
 python simulations/cross_triple_orthogonality.py       # the cross-triple orthogonality (--slow: the MIRROR sub-case ℚ proof only)
@@ -1122,8 +1120,8 @@ multiset inheritance (exact with-multiplicity matching, = the corollary).
 ## Status
 
 **The counting identity r(0⁺) − r(∞) = N − 1 is now a theorem for every odd N** (Pieces 1-3 all
-proved). The existence conclusion, "a real defective seed on the (1,2) block at every odd N", is closed
-modulo two remaining items (2 and 3 below): r(0⁺) is *defined* as the nullity sum, and its reading as
+proved). The stronger existence conclusion, "a real defective seed on the (1,2) block at every odd N",
+is **open**, with two remaining items (2 and 3 below): r(0⁺) is *defined* as the nullity sum, and its reading as
 the literal real count on (0, ε) is the first-order statement of the pencil section, probed at
 N = 5, 7, 9. The once-hypothetical failure mode ("a kernel pair leaving the axis at higher order in q
 would absorb part of the surplus at q = 0") is now a measured fact at resonant N = 11 (two pairs, third
@@ -1167,7 +1165,7 @@ This note must not be read as closing the existence question until the remaining
    > grade; item 3 itself stays open only at the **non-resonant** N ≥ 13, which the twinning argument
    > does not touch.
 
-When the β-exotic closes **for all odd N**, the census input becomes a law for all odd N, and the
+When both the literal-drop premise and the β-exotic close **for all odd N**, the census input becomes a law for all odd N, and the
 containment diamond membership follows at every odd N with no further scan. Per-N certificates, however
 many, do not do that: they retire N's one at a time. The counting theorem is typed as
 `SeedExistenceCountingClaim` (Tier1Derived) with the live witness `inspect --root seedcount`;

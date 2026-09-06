@@ -22,7 +22,7 @@ public static class Formulas
 
     // F1 residual norms (T1, H-independent, gamma_Z-independent closed forms). sg = Sigma gamma, sg2 = Sigma gamma^2.
     public static double F1_T1Residual(int n, double sg, double sg2) => Math.Pow(4, n - 1) * (3.0 * sg2 + 4.0 * sg * sg);
-    public static double F1_DepolResidual(int n, double sg, double sg2) => Math.Pow(4, n - 1) * (16.0 / 9.0 * sg2 + 16.0 * sg * sg);
+    public static double F1_DepolResidual(int n, double sg, double sg2) => Math.Pow(4, n - 1) * (16.0 / 9.0 * sg2);
 
     // F2b corollary (T1): the coherence hand. omega_mem = 2J cos(pi/(N+1)) for N>=3 (sqrt2, phi, sqrt3
     // at N=3,4,5; gamma-independent); 2 sqrt(J^2 - gamma^2) at N=2 (-> 0 at the EP Q=1).

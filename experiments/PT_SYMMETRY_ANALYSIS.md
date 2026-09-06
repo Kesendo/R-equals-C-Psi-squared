@@ -237,15 +237,13 @@ Same geometry, rotated 90 degrees, and the same mechanism: in both columns a
 pair merges at the threshold. What differs is only which axis the pair sits on
 before it does.
 
-### No exceptional point on the real gamma axis
+### Exceptional point at the real gamma threshold
 
-The palindromic pair (lambda, -lambda) crosses Re = 0 without
-coalescing. The pair distance = 2|lambda| > 0 throughout. This is
-a topological transition (axis crossing), not a local one (EP).
-
-However, the system passes CLOSE to an EP in the complex gamma plane.
-Evidence: the Petermann factor spikes to K = 403 at gamma/gamma_c = 1.46,
-with phase rigidity (how close an eigenmode is to being a normal mode; r = 1 means perfectly normal, r → 0 means strongly non-normal) dropping to r = 0.0025.
+The FRAGILE_BRIDGE mirror pair coalesces at the real parameter γ_crit and
+then acquires a real part with square-root onset. This is a local EP2, not
+merely an axis crossing. A sampled point above threshold reads K≈403 and
+phase rigidity r≈0.0025; the scaling toward γ_crit, rather than that one
+finite value, is the character evidence.
 
 | gamma/gamma_c | Petermann K | Phase rigidity r | max Re |
 |--------------|-------------|-----------------|--------|
@@ -255,10 +253,9 @@ with phase rigidity (how close an eigenmode is to being a normal mode; r = 1 mea
 | 1.463 | **402.7** | **0.0025** | 0.172 |
 | 2.000 | 4.37 | 0.229 | 0.787 |
 
-The K = 403 peak is 400x the Hermitian baseline and signals that the
+The K = 403 sample is about 400x the Hermitian baseline and signals that the
 system's right and left eigenvectors are nearly orthogonal for the
-critical mode. This is the hallmark of proximity to an EP, even though
-the EP itself lies at a complex gamma value. (The peak VALUE is
+critical mode near the real-γ EP. (The peak VALUE is
 sampling- and convention-sensitive: the committed script reproduces
 402.7 at this grid point exactly, but independent rebuilds with their
 own mode-tracking and grids find spikes of order 10¹–10³ at slightly
@@ -379,10 +376,11 @@ Different operator type, analogous spectral structure.
 
 ### Minganti et al. (PRA 2019)
 
-Liouvillian exceptional points are qualitatively different from
-Hamiltonian EPs. Our system confirms this: no EP on the real parameter
-axis, despite clear phase transition. The Petermann factor peak
-(K = 403) signals a nearby EP in the complex plane.
+Liouvillian exceptional points are qualitatively different from Hamiltonian
+EPs. The FRAGILE_BRIDGE transition here is itself a second-order EP at the real
+parameter γ_crit; its square-root onset is the character evidence. K=403 is a
+finite-grid sensitivity reading near that real-axis singularity, not evidence
+for an additional unmapped complex-γ EP.
 
 ### Sa, Ribeiro, Prosen (PRX 2023)
 
@@ -421,42 +419,16 @@ an open question.
    rates); the balance tells you WHERE the spectrum sits (left or
    right half-plane).
 
-4. **K = 403 signals a complex EP.** The Petermann factor peak above
-   γ_crit indicates the system passes close to an exceptional
-   point in the complex gamma plane. Mapping this EP (by analytic
-   continuation to complex gamma) is an open problem.
-
-   **2026-05-06 → retracted 2026-06-21.** A 2026-05-06 reading tried to
-   close the local-vs-global EP relationship by reading F86 Statement 1's
-   local EP at Q_EP = 2/g_eff as "a real-axis hit of the same EP this
-   file detects at complex γ", citing a Petermann-K sweep on the real Q
-   axis at c=2 N=5..8 (max K = 1333.6 / 337.9 / 2384.7 / 795.4 across
-   N = 5 / 6 / 7 / 8, the N=7 spike read as ≈ 6× above the K = 403
-   ballpark). That reading is **retracted**. It contradicts this file's
-   own baseline (above): an artifact-free re-verification (Riesz
-   spectral-projector norm) found the full (n, n+1)-coherence block has
-   **no eigenvalue coalescence on the real Q axis**, its eigenvalues
-   stay simple (gap ~0.25–0.35), so there is no real-axis EP to "hit".
-   The block IS genuinely non-normal there (large but FINITE Petermann),
-   exactly the baseline statement; the earlier peak magnitudes, the
-   "6× above FRAGILE_BRIDGE", and the 2-4× odd/even asymmetry are
-   dropped as grid artifacts (K swings 2–4× over ΔQ = 1e-3).
-   *(Further corrected 2026-07-07: the "no real-axis EP" conclusion was
-   itself an over-correction; F89 proves the full (1,2) block carries a
-   real-axis defective seed at every odd N, census-defective through N=11,
-   which this coarse-grid sweep missed by a √-EP window ~20-30× narrower
-   than its step. See [the F86a EP mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md),
-   the real-axis EP section.)* What
-   survives is only the shared algebra (the same-sign-imaginary 2×2,
-   AIII chiral, read at two residuals of the F1 palindrome
-   `Π · L · Π⁻¹ + L + 2Σγ · I = 0`, Σγ = N·γ₀ vs Σγ = 0); the genuine
-   EPs are the toy 2×2 reduction and the SEPARATE Σγ = 0 gain-loss
-   system (this file, K = 403). Encoded as
-   `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs` (**OpenQuestion**,
-   demoted from Tier2Verified; the four sweep rows retained only as a
-   cautionary non-normality record). Whether the full Σγ = N·γ₀ block
-   has an off-axis defective EP at all is open (the nearest complex-Q
-   coalescences found 2026-06-21 are themselves diabolic, ‖P‖ = 1).
+4. **Keep three EP carriers separate.** This file's Σγ=0 gain-loss system has
+   the real-γ FRAGILE_BRIDGE EP. F86's toy 2×2 rate-channel reduction has its
+   own EP at Q_EP=2/g_eff. The full Σγ=Nγ₀ block is strongly non-normal near
+   Q_peak and has certified finite-q Puiseux-1/2 defective EP2 seeds at
+   N=5,7,9; for arbitrary odd N only the endpoint-nullity surplus is proved.
+   The old Petermann peak magnitudes and their “6×”/parity laws were grid
+   artifacts. Whether the full block also has a distinct off-axis complex-Q
+   defective EP remains open; the nearest characterized off-axis
+   coalescences were semisimple. Current typed owner:
+   `compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs`.
 
 ---
 

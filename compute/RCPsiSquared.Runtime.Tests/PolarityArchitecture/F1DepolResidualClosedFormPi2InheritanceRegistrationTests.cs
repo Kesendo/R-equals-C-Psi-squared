@@ -63,7 +63,7 @@ public class F1DepolResidualClosedFormPi2InheritanceRegistrationTests
     [Fact]
     public void RegisterF1DepolResidualPi2Inheritance_CoefficientsViaRegistry()
     {
-        // Cross-registry verification: the Pi2-derived coefficients agree bit-exact
+        // Cross-registry verification: the Pi2-derived coefficients agree to floating-point tolerance
         // with the parent closed form's constants. Drift on either side surfaces here.
         var registry = BuildBaseRegistry()
             .RegisterF1DepolResidualClosedFormPi2Inheritance()
@@ -71,7 +71,7 @@ public class F1DepolResidualClosedFormPi2InheritanceRegistrationTests
 
         var f = registry.Get<F1DepolResidualClosedFormPi2Inheritance>();
         Assert.Equal(16.0 / 9.0, f.LocalCoefficient, precision: 14);
-        Assert.Equal(16.0, f.CrossSiteCoefficient, precision: 14);
+        Assert.Equal(0.0, f.CrossSiteCoefficient, precision: 14);
         Assert.Equal(4.0 / 3.0, f.PerPauliDepolarizingRate, precision: 14);
         Assert.Equal(4.0, f.DSquared, precision: 14);
         Assert.Equal(3.0, f.DSquaredMinusOne, precision: 14);
@@ -104,7 +104,7 @@ public class F1DepolResidualClosedFormPi2InheritanceRegistrationTests
     public void RegisterF1DepolResidualPi2Inheritance_WithoutPi2Mirror_Throws()
     {
         // Missing-parent guard for Pi2OperatorSpaceMirrorClaim: needed for the
-        // DSquaredMinusOne = 3 anchor that flows into (16/9, 16) (DSquared itself
+        // DSquaredMinusOne = 3 anchor that flows into the centered 16/9 local term (DSquared itself
         // now flows from Pi2DyadicLadderClaim.Term(-1), but DSquaredMinusOne still
         // anchors on the mirror's operator-space-pair semantic).
         var ex = Assert.Throws<InvariantViolationException>(() =>

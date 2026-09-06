@@ -55,8 +55,10 @@ namespace RCPsiSquared.Core.F89PathK;
 /// <para>THE CERTIFIED DISC-LAYER READING (the β-exotic exclusion; landed 2026-07-09 after three empty
 /// reviews; spec in ClaudeTasks/BETA_EXOTIC_DISC_MULTIPLICITY_CERTIFICATE.md). The report carries D's
 /// squarefree layer degrees, the N=5 image of the N=4 disc structure disc = q²⁴·(diabolic)²·P_20
-/// (experiments/F89_BRANCH_LOCUS_PALINDROME.md): the multiplicity-1 layer carries the √-branch (defective)
-/// loci, the multiplicity-2 layer the squared diabolic factor, and R shares nothing with either (the layer
+/// (experiments/F89_BRANCH_LOCUS_PALINDROME.md): every nonzero root of the squarefree, coprime
+/// multiplicity-1 layer is a simple discriminant zero and hence a Puiseux-1/2 defective EP2. The
+/// multiplicity-2 layer carries order-two silent-degeneracy candidates whose character still needs
+/// pair isolation and a local gate. R shares nothing with either (the layer
 /// gcds are reported). Beyond diagnostics, MaxDiscMultiplicity is a PROOF once DiscLayersCertified holds:
 /// a branch locus with Puiseux exponent 3/2 (the β-exotic, normal form [[0,s],[s²,0]], eigenvalues ±s^{3/2})
 /// forces ord_{q*} disc_Λ(F_res) ≥ 3, because every other colliding pair contributes NON-NEGATIVE order; so

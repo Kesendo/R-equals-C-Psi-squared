@@ -71,8 +71,9 @@ Jordan sizes drop the count, odd sizes ≥ 5 do not; H1 excludes all sizes ≥ 3
 is *not* such a confounder:
 it is a cubic branch point (exponent ⅓, disc order 2, one real branch and one conjugate pair on both
 sides of q\*), so it does not drop the real count and cannot be a forced seed at all (see the
-multiplicity table in the certificate section below). Algebraic-multiplicity-2 holds numerically at
-every seed through N = 11 but is not itself proved for all odd N; it is a premise separate from
+multiplicity table in the certificate section below). Algebraic-multiplicity-2 is character-certified
+at the N=5,7,9 seeds; N=11 supplies count-change candidates with third-order endpoint bookkeeping,
+not a blanket Puiseux-1/2 certificate. It is not proved for all odd N and remains a premise separate from
 s₆ ≠ 0, and the sign law bears only on the latter. (At N = 5 and N = 7 H1 is no longer numerical: it
 is a corollary of the certificate below, "The β-exotic is excluded at N = 5 and N = 7"; at N = 9 it
 follows the same way from the gcd-certificate section's proved layer identity, max multiplicity 2

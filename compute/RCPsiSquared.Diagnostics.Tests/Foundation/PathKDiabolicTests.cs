@@ -7,7 +7,7 @@ using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>The path-k diabolic investigation (the N=4→N=5 forward edge of the zeros_connecting_structure
+/// <summary>The path-k diabolic investigation (the N=4→N=5 forward edge of the diabolic_over_higher_n
 /// arc). The N=4 diabolic is the +2.349 σ_T twin pair merging onto the fold at λ_EP=−4+1.318i; these tests
 /// build and validate the generalized path-k diabolic tooling against that KNOWN path-3 case before it is
 /// trusted at path-4. See docs/superpowers/plans/2026-06-27-f89-path-k-diabolic.md.</summary>
@@ -40,7 +40,7 @@ public class PathKDiabolicTests
         Assert.True(Math.Abs(d.MergeLambda.Real - (-4.0)) < 1e-2, $"Re(λ_d)={d.MergeLambda.Real}");
         Assert.True(Math.Abs(d.QValue.Real - GaloisMonodromyWitness.QEp) < 1e-2, $"q_d={d.QValue.Real}, q_EP={GaloisMonodromyWitness.QEp}");
         Assert.True(d.PairIsResidual, "the coalescing pair must be H_B-mixed residual, not AT-locked");
-        Assert.True(d.LoopIsIdentity, "the diabolic loop must be the identity (semisimple, no braid)");
+        Assert.True(d.LoopIsIdentity, "the known diabolic crossing must have no eigenvalue braid; identity alone does not prove semisimplicity");
         // gap closes LINEARLY at a diabolic (two sheets crossing) — exponent ≈ 1, not ½ (√-branch).
         Assert.True(d.GapScalingExponent > 0.7 && d.GapScalingExponent < 1.3,
             $"gap-scaling exponent {d.GapScalingExponent} should be ≈1 (linear) for a diabolic");

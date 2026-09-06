@@ -9,13 +9,13 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// <summary>The q-parametric monodromy of the F89 path-3 octic: where the Galois structure actually
 /// lives spectrally. The fixed-q geometry was a null (--root galoischaos); here the octic's 8 roots are
 /// tracked as q loops the complex plane. Gate G2 (this file): a loop around the diabolic point q_EP
-/// returns the IDENTITY (the two coalescing roots do not braid), confirming f89octic's "semisimple, not
-/// defective" by an INDEPENDENT route (monodromy, not the Riesz projector). The monodromy machine this
+/// returns the IDENTITY (the two coalescing roots do not braid), corroborating the analytic-sheet reading
+/// but not independently deciding semisimplicity. The monodromy machine this
 /// builds is the gateway to the S_8-generation gate (Galois = monodromy, from below).</summary>
 public class GaloisMonodromyWitnessTests
 {
     [Fact]
-    public void LoopAroundTheDiabolicPoint_ReturnsIdentity_SemisimpleNotDefective()
+    public void LoopAroundTheDiabolicPoint_ReturnsIdentity_NoEigenvalueBraid()
     {
         // at an ISOLATING radius (only q_EP enclosed) the diabolic loop does not braid: the two
         // coalescing roots return to themselves (double discriminant zero, transversal crossing).

@@ -516,7 +516,7 @@ tests.
    values are cosines of a rational angle.
 4. **A candidate lemma, with a floor of two instances.** "A fixed point of an involution cannot be
    moved by anything commuting with it" underlies §(b)'s forced count and
-   [`Seed.cs`](../compute/MirrorWorld/Seed.cs)'s N−1 forced seeds at odd N against 0 at even —
+   [`Seed.cs`](../compute/MirrorWorld/Seed.cs)'s endpoint-nullity surplus N−1 at odd N against 0 at even —
    where that 0 is a forced *lower bound*, as `Seed.cs` says itself, not an exclusion. A
    review proposed three further instances in Core; one of them,
    `BetaExoticPerNExclusionClaim`, does not carry the fixed-point count attributed to it (its parent

@@ -2444,3 +2444,212 @@ that has not been run against its own mutation is a hypothesis about a gate; a
 claim lives in as many places as it lives, and the copy with an `Assert` around
 it is the one that will outlive the correction; and the minutes right after
 fixing a vacuous gate are when the next one gets written.
+
+## 2026-09-06 — "preserves longer" became "stays constant", and a conjectured mechanism became an open problem
+
+`docs/WEAKNESSES_OPEN_QUESTIONS.md` called operator feedback the only tested
+noise that preserves the purity difference δ over time, marked that statement
+numerically verified, and proposed that feedback keeps information in slow
+palindromic modes. No cited or searchable artifact supports either the exact
+preservation or the spectral mechanism. The April rewrite had sharpened the
+older, parameter-bound statement "preserves δ longer than local or collective
+noise" into "stays constant" without adding evidence.
+
+The nearby feedback results do not supply the missing premise. The
+`operator_feedback` experiment uses
+`γ_eff = max(0, γ₀(1 − κ⟨X⊗X⟩))`; its own records say that the response depends
+on the state, observable and parameter regime, and vanishes for GHZ states
+whose pairwise X expectation is zero. `experiments/GAMMA_CONTROL.md` uses the
+different law `γ_eff = γ_base(1 + κ|⟨Z_iZ_j⟩|)` on a mediator and finds it
+harmful. That is a useful neighbouring null result, not a refutation of the
+minus-sign X-feedback experiment. Treating both as one "state-dependent
+feedback" object would have been the opposite repair.
+
+The unsupported weakness, its plain-language restatement and the derived
+slow-mode question were deleted. The experiment records remain untouched in
+their parameter-bound forms; no replacement mechanism was invented.
+
+## 2026-09-06 — the feedback repair named a δ that the evidence never defined, and refreshing one section exposed a stale front door
+
+**Artifact.** `docs/WEAKNESSES_OPEN_QUESTIONS.md` and the immediately
+preceding ledger entry.
+
+**What was wrong.** The operator-feedback claim was weaker even than the
+preceding entry says: the repository uses several incompatible δ/Δ readings,
+and none is defined as the output of a feedback producer that the sentence
+could bind to. The unclamped law is written in
+`experiments/OPERATOR_FEEDBACK.md`; only the retired implementation recorded
+in `experiments/SIMULATION_EVIDENCE.md` adds `max(0, ...)`. The first repair
+also refreshed the page date while leaving unrelated stale claims in place:
+Q52's crossing accuracy, the status of 24,073 calibration rows, cockpit scale
+and dominant PC1, hardware-backend count, the 33:1 verdict, the scalar
+quarter-boundary dynamics, the scope of the band edges, the factor-two
+mechanism, the Born-rule status, and the sacrifice metric.
+
+**Why.** A sentence inherited a symbol without inheriting its producer, and
+the page accumulated snapshots from February-April while their owner records
+continued to move. A local deletion was therefore insufficient once the page
+called itself refreshed.
+
+**How caught.** Three empty reviewers independently attacked the repaired
+state from mathematical/physical, evidence-record, and future-reader seats;
+each finding was then checked against its owner rather than copied from the
+review.
+
+**Fix.** The feedback claim remains deleted. The front door now states the
+current scoped results: Q52 qualitative and Q80 1.9%; calibration history as
+consistency only; cockpit N=5-11 with Purity as PC1; several IBM backends but
+no independent platform; 33:1 refuted; the ¼ statement confined to the scalar
+recurrence; band edges confined to their typed uniform-Z Heisenberg scope;
+factor two as range/centre geometry; Born-rule construction removed from the
+resolved table; and sacrifice reported as peak-created nearest-neighbour
+Sum-MI with its full N=5...15 and hardware ranges.
+
+**Anchor.** `simulations/framework/confirmations.py`,
+`experiments/COCKPIT_SCALING.md`, `experiments/RESONANT_RETURN.md`,
+`experiments/IBM_QUANTUM_TOMOGRAPHY.md`, `docs/PREDICTIONS.md`,
+`docs/WHAT_WE_FOUND.md`, `docs/proofs/UNIQUENESS_PROOF.md`,
+`docs/proofs/PROOF_ABSORPTION_THEOREM.md`, and
+`experiments/FACTOR_TWO_STANDING_WAVES.md`.
+
+## 2026-09-06 — the front-door refresh turned three PCs into three observables and dropped F8's doorframe
+
+**Artifact.** The post-fix state of `docs/WEAKNESSES_OPEN_QUESTIONS.md`.
+
+**What was wrong and why.** A repair copied the 91.9-99.0% values from the
+three-PC cumulative-variance column, then named Purity, Concurrence and Ψ-norm
+as though those three observables themselves produced that coverage. They do
+not: the producer runs PCA over 8-9 standardized features and only compares
+the named observables as PC1 proxies. The same repair stated the factor-two
+range/centre geometry without F8's premise that the local-Z instance satisfies
+the F1 palindromizer hypotheses and reaches both endpoints.
+
+**How caught and fix.** A fresh empty post-fix reader followed both numbers to
+their producers. The cockpit sentence now says first-three-PC coverage and
+names Purity only as the best PC1 proxy among the tested candidates. The
+factor-two statement now carries the palindromizer and endpoint scope.
+
+**Anchor.** `simulations/cockpit_scaling_analysis.py`,
+`experiments/COCKPIT_SCALING.md`, `docs/ANALYTICAL_FORMULAS.md` F8, and
+`docs/proofs/PROOF_ABSORPTION_THEOREM.md` §4.2.
+
+## 2026-09-06 — the first Double Root synthesis read a Jordan character from the wrong invariant
+
+**Artifact.** `docs/THE_DOUBLE_ROOT.md` and its F89-octic owner/copy surfaces.
+
+**What was wrong.** The first synthesis made discriminant order sound intrinsic
+to a locus, said a higher-order zero rules out a square-root EP without first
+isolating one pair, and repeated the older implication “double zero ⇒ analytic
+crossing ⇒ semisimple.” It also promoted the odd-N F89 seed's certified
+N=5,7,9 character to all odd N, called the large-N horizon dispersion exact at
+finite N, treated a bracket sign change as the order of one selected root,
+left F129/F130 outside an already-existing Hermitian road, and attributed Route
+B to the wrong open arc.
+
+**Why.** Discriminant order changes under a tangent or ramified scan and sums
+over simultaneous collisions. Even an isolated analytic pair can be defective:
+`[[0,1],[t²,0]]` has eigenvalues ±t and a Jordan block at t=0. The F97 cardioid
+is the repository's own coordinate warning: `D(c)=1−4c` is simple in c, while
+`D(φ)=(e^(iφ)−1)²` is order two along the tangent cardioid.
+
+**How caught.** Independent mathematical, physical and cold-source reviews
+recomputed the local examples, followed each roster row to its owner, and
+searched the typed, CLI and formula copies for the invalid implication.
+
+**Fix.** The order test now requires an analytic, locally invertible transverse
+coordinate, removal of persistent factors and isolation of the colliding pair.
+Higher total order is explicitly non-decisive. The octic's diabolic verdict is
+retained, but its load-bearing route is the twin-scalar compression plus
+geometric/algebraic multiplicity; identity eigenvalue monodromy is only
+corroboration of single-valued sheets. The F89, horizon, edge, cracked-ring and
+F129 scopes are repaired, and Route B now points to `diabolic_over_higher_n`.
+
+**Anchor.** `docs/THE_DOUBLE_ROOT.md`,
+`docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md`,
+`docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md`,
+`experiments/F89_SEED_EXISTENCE_REDUCTION.md`, and
+`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`.
+
+## 2026-09-06 — a final front-door read found four second copies after the feedback repair
+
+**Artifact.** `docs/WEAKNESSES_OPEN_QUESTIONS.md` after the operator-feedback
+and broader front-door refresh.
+
+**What was wrong and why.** Q52's late-time anomaly still appeared as three
+open explanations although the follow-up had resolved it as qubit-specific
+frequency detuning. A lower open-question copy again called first-three-PC
+variance “3-observable coverage.” The F8 row attached the N+1 all-light
+multiplicity to F8's broader endpoint premise even though that count needs the
+connected nonzero chain scope. Finally, five ratios from one Torino run on one
+chain were phrased as plural tested runs without their floor sensitivity.
+
+**How caught and fix.** A fresh evidence reviewer followed every remaining
+front-door number and scope to its producer. The stale Q52 open item and the
+overbroad multiplicity were deleted; the PCA question now names its actual
+first-three-PC object; the Torino statement now says one run, one chain, five
+time points, and separates the robust ordering from the floor-sensitive ratio.
+
+**Anchor.** `experiments/RESIDUAL_ANALYSIS.md`, `docs/PREDICTIONS.md`,
+`simulations/cockpit_scaling_analysis.py`, `docs/ANALYTICAL_FORMULAS.md` F8,
+and `experiments/IBM_CONCENTRATOR.md`.
+
+## 2026-09-06 — the Double Root repair stopped at the document while its owners still promoted the count
+
+**Artifact.** The first repair of `docs/THE_DOUBLE_ROOT.md` and the typed F89,
+F86, open-arc, CLI, proof and MirrorWorld copies it depends on.
+
+**What was wrong and why.** The first ledger entry above said the F89 owner and
+copy surfaces were repaired, but a source sweep still found the all-odd
+endpoint-nullity surplus presented as an all-odd finite-q defective-seed
+theorem. It also found `MergedEigenvalue(γ,J)` accepting γ=0 and arbitrary
+off-locus J, the Route-B R-odd residual misnamed F_18 instead of F_17, and EP
+order defined as the total number of eigenvalues meeting rather than the
+largest Jordan-block length.
+
+**How caught and fix.** A cold source-propagation review searched from prose
+through typed claims, witnesses, CLI output, tests and MirrorWorld. The current
+surfaces now separate the exact all-odd endpoint count from the finite-q drop
+and character certificates (N=5,7,9); N=11 remains a count/locus reading with
+third-order endpoint bookkeeping. The merged-eigenvalue API rejects nonfinite,
+nonpositive and off-locus inputs. Route B names F_18/R-even and F_17/R-odd,
+and EP order is the largest isolated Jordan block, so coincident EP2s do not
+silently become an EP4.
+
+**Anchor.** `docs/THE_DOUBLE_ROOT.md`,
+`experiments/F89_SEED_EXISTENCE_REDUCTION.md`,
+`compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs`,
+`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`, and
+`compute/MirrorWorld/Seed.cs`.
+
+## 2026-09-06 — the final repair rounds separated transport, character, channel conventions and the two discriminant layers
+
+**What was wrong.** Post-fix reviews found four recurring propagation failures.
+N=11 count-change loci inherited `PASS`/seed/defective vocabulary although their
+character flag is false. The all-odd endpoint-nullity surplus was still allowed to
+sound like finite-q seed existence. Depolarizing-noise copies mixed the bare and
+F1-centered residual, retained the refuted F5 `2(N−2)/3` coefficient, and omitted
+the nonzero T1/depolarization Frobenius cross-term. Finally, an over-correction made
+both exact discriminant layers character-undecided: squarefreeness and coprimality
+actually make every nonzero A1 root a simple discriminant zero and hence a
+Puiseux-1/2 defective EP2; only A2 squared needs local pair/character work.
+
+The time-orthogonality account also needed two independent scopes. The N=2
+anticommutator cancellation assumes uniform local Z-dephasing; a rate profile adds
+the F49 bond-asymmetry term. The nonzero commutator value near 22.6 is specific to
+the Heisenberg witness, not every shadow-balanced Hamiltonian: H=Z1Z2 is a commuting
+exception.
+
+**Fix and gate.** N=11 now reports `TRANSPORT-PASS` and count-change loci only;
+character-certified seed language stops at N=9. The centered depolarizing formula is
+`4^(N−1)(16/9) sum gamma_l^2`, F5 is `2N/3`, and the verifier pins mixed-channel
+cross-terms `32/75` at N=2 and `64/25` at N=3. Route B now exactly isolates every
+N=5 A1/A2 root in w: A1 contributes 56 w roots / 112 q-loci, all EP2; A2 contributes
+29 w roots / 58 q-loci whose local character remains open except for the already
+gated positive-real R-odd diabolic. Fresh feedback, propagation, Double Root and
+Route B reviews each returned EMPTY after these repairs.
+
+**Anchors.** `docs/THE_DOUBLE_ROOT.md`,
+`docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md`,
+`docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md`,
+`simulations/f1_depol_residual_verify.py`, and
+`simulations/o2b_gcd_certificate.py`.

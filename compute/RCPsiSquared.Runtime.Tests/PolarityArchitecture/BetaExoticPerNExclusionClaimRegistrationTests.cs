@@ -6,9 +6,9 @@ using RCPsiSquared.Runtime.PolarityArchitecture;
 namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring tests for <see cref="BetaExoticPerNExclusionClaim"/>: the β-exotic
-/// excluded exactly at N = 5 and N = 7, both R-parities, by the certified disc-multiplicity reading. One typed
-/// parent edge, to <see cref="SeedExistenceCountingClaim"/>: the theorem that FORCES the count-drops
-/// whose character this claim pins, and whose own scope note names the β-exotic as its open item.
+/// excluded exactly at N = 5, N = 7, and N = 9, both R-parities, by certified disc-multiplicity readings. One typed
+/// parent edge, to <see cref="SeedExistenceCountingClaim"/>: the endpoint-surplus theorem. Literal
+/// drops and their character are additional per-N premises, not consequences of that parent.
 ///
 /// <para>The ancestor set must also reach the counting theorem's own parents, since a per-N
 /// certificate about the count-drops rests on the pencil those parents define.</para></summary>

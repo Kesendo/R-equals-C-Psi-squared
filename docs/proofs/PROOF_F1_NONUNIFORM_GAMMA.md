@@ -130,7 +130,7 @@ from [PalindromeResidualScalingClaim](../../compute/RCPsiSquared.Core/F1/Palindr
 The Σγ_l² conjecture was natural because the F1 σ-shift `2σ·I` carries a single scalar `σ = Σγ_l`, and one might expect non-uniform γ to spread structure into M proportional to the variance Σγ_l² − (Σγ)² / N. The dissipator's other closed-form siblings exhibit exactly this structure:
 
 - [F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs): `‖M(T1)‖²_F = 4^(N−1) · [3·Σγ²_T1 + 4·(Σγ_T1)²]` has both Σγ² and (Σγ)² pieces.
-- [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs): `‖M(depol)‖²_F = 4^(N−1) · [(16/9)·Σγ² + 16·(Σγ)²]` has the same dual structure.
+- [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs): after the F1 shift σ=Σγ, `‖M_F1(depol)‖²_F = 4^(N−1)·(16/9)·Σγ²`; centering removes the bare cross-site term.
 
 The reason Z-dephasing is the exception (and not T1, depol): for Z-dephasing the F1 σ-shift is constructed precisely to absorb the per-Pauli-string diagonal of L_D + Π · L_D · Π⁻¹, which factorises as `−2 · Σ_l γ_l · (bit_a + (1 − bit_a)) = −2σ`, a single uniform scalar across the entire Pauli basis. T1 and depol have per-site dissipator kernels that do NOT reduce to a single scalar after Π conjugation (T1's per-site M_l has tr = −4, ‖M_l‖² = 7, distinct diagonal values; depol's M_l = diag(−4/3, −4/3, −8/3, −8/3) has two distinct diagonal values), so no constant scalar shift can equalise them. The 4^(N−1) · [a · Σγ² + b · (Σγ)²] structure on the right-hand side of T1/depol comes precisely from the Pauli-basis traces of these non-scalar per-site kernels, not from the σ-shift.
 
@@ -153,7 +153,7 @@ The F1 OpenQuestion "non-uniform γ_i: site-dependent dephasing" is closed by a 
 
 This is structurally distinct from the dissipator-block siblings:
 - **F1T1** ([F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs)): non-trivial per-site M_l, both Σγ² and (Σγ)² pieces appear.
-- **F1 depol** ([F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): same dual structure with (16/9, 16) coefficients.
+- **F1 depol** ([F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): centered local coefficient 16/9 and cross-site coefficient 0.
 - **F1 Z-dephasing (this proof)**: per-site M_l is proportional to I_4, the σ-shift cancels everything, the dissipator block contributes nothing.
 
 The Z-dephasing case is the only F1 dissipator where the σ-shift exactly cancels the per-Pauli-string diagonal of `Π · L_D · Π⁻¹ + L_D` for every γ pattern. F1's "uniform" σ in `2σ·I` is really "the total Σ_l γ_l after the per-site contributions add up to a γ-pattern-independent constant per Pauli string". The H-block scaling F(N, G) inherits the same γ-independence as a direct consequence.

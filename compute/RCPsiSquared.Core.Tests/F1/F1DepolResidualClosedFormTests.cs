@@ -20,30 +20,31 @@ public class F1DepolResidualClosedFormTests
         Assert.Equal(160.0 / 9.0, F1DepolResidualClosedForm.PerSiteFrobeniusSquared);
         Assert.Equal(64.0, F1DepolResidualClosedForm.PerSiteTraceSquared);
 
-        // Closed-form coefficients: c1 = ‖M_l‖² − |tr(M_l)|²/4 = 160/9 − 16 = 16/9, c2 = |tr(M_l)|²/4 = 16.
+        // Centering with the F1 shift sigma = Sum gamma removes the trace and
+        // therefore every cross-site term.
         Assert.Equal(16.0 / 9.0, F1DepolResidualClosedForm.LocalCoefficient);
-        Assert.Equal(16.0, F1DepolResidualClosedForm.CrossSiteCoefficient);
+        Assert.Equal(0.0, F1DepolResidualClosedForm.CrossSiteCoefficient);
     }
 
     [Theory]
     // Uniform γ = 0.1, mirrors simulations/f1_depol_residual_verify.py section 2 numerics
-    // (bit-exact match against the Python framework's palindrome_residual at N=2..5).
-    // 4^(N−1) · 0.01 · ((16/9)·N + 16·N²).
-    [InlineData(2, 0.1, 2.7022222222)]    // 4^1 · 0.01 · ((16/9)·2 + 16·4) = 4 · 0.01 · (32/9 + 64) = 4 · 0.01 · 67.5555…
-    [InlineData(3, 0.1, 23.8933333333)]   // 4^2 · 0.01 · ((16/9)·3 + 16·9) = 16 · 0.01 · (16/3 + 144)
-    [InlineData(4, 0.1, 168.3911111111)]  // 4^3 · 0.01 · ((16/9)·4 + 16·16) = 64 · 0.01 · (64/9 + 256)
-    [InlineData(5, 0.1, 1046.7555555556)] // 4^4 · 0.01 · ((16/9)·5 + 16·25) = 256 · 0.01 · (80/9 + 400)
+    // (machine-precision match against the Python framework's palindrome_residual at N=2..5).
+    // 4^(N−1) · 0.01 · (16/9)·N.
+    [InlineData(2, 0.1, 0.1422222222)]
+    [InlineData(3, 0.1, 0.8533333333)]
+    [InlineData(4, 0.1, 4.5511111111)]
+    [InlineData(5, 0.1, 22.7555555556)]
     public void PredictUniform_MatchesVerificationNumerics(int N, double gamma, double expected)
     {
         double predicted = F1DepolResidualClosedForm.PredictUniform(N, gamma);
-        // 16/9 is irrational in IEEE 754 ⟹ absolute tolerance, not exact equality.
+        // 16/9 is not exactly representable in binary floating point ⟹ tolerance, not exact equality.
         Assert.Equal(expected, predicted, 9);
     }
 
     [Theory]
     // Non-uniform γ = [0.05·(k+1)], mirrors verification script numerics.
-    [InlineData(2, 1.5288888889)]    // γ=(0.05,0.10): Σγ²=0.0125, (Σγ)²=0.0225 → 4·((16/9)·0.0125 + 16·0.0225)
-    [InlineData(3, 24.0355555556)]   // γ=(0.05,0.10,0.15): Σγ²=0.035, (Σγ)²=0.09 → 16·((16/9)·0.035 + 16·0.09)
+    [InlineData(2, 0.0888888889)]
+    [InlineData(3, 0.9955555556)]
     public void Predict_NonUniformGamma_MatchesVerificationNumerics(int N, double expected)
     {
         var gammas = new double[N];
@@ -93,12 +94,12 @@ public class F1DepolResidualClosedFormTests
         Assert.Contains("per-site ‖M_l‖²_F (γ=1)", names);
         Assert.Contains("per-site |tr(M_l)|² (γ=1)", names);
         Assert.Contains("local coefficient (Σγ²)", names);
-        Assert.Contains("cross-site coefficient ((Σγ)²)", names);
+        Assert.Contains("centered cross-site coefficient ((Σγ)²)", names);
         Assert.Contains("derivation", names);
         Assert.Contains("orthogonality", names);
         // The two structural surprises must be surfaced as inspectable children.
         Assert.Contains("Π²-decomposition (trivial)", names);
-        Assert.Contains("F1 σ-shift = 0", names);
+        Assert.Contains("F1-centering shift σ = Σγ", names);
         Assert.Contains("verification", names);
     }
 }
