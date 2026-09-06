@@ -102,8 +102,9 @@ public class F57DwellTimeQuarterPi2InheritanceRegistrationTests
             .Build();
 
         var f = registry.Get<F57DwellTimeQuarterPi2Inheritance>();
-        double w2 = 0.3709;
-        Assert.Equal(f.EvenWeightPrefactor(w2), f.TwoSectorPrefactor(k: 2, w0: 0.5, wk: w2), precision: 6);
+        double w2 = f.BellPlusW2AtCrossing;
+        Assert.Equal(f.EvenWeightPrefactor(w2), f.TwoSectorPrefactor(k: 2, w0: f.BellPlusW0, wk: w2));
+        Assert.True(f.EvenWeightPrefactorReducesToF57());
     }
 
     [Fact]

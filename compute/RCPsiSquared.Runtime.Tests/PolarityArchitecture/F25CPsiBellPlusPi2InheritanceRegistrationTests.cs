@@ -91,7 +91,7 @@ public class F25CPsiBellPlusPi2InheritanceRegistrationTests
             .RegisterF25CPsiBellPlusPi2Inheritance()
             .Build();
 
-        Assert.Equal(1.080088, registry.Get<F25CPsiBellPlusPi2Inheritance>().BellPlusF57Prefactor, precision: 6);
+        Assert.Equal(1.0800878671056402, registry.Get<F25CPsiBellPlusPi2Inheritance>().BellPlusF57Prefactor, precision: 14);
     }
 
     [Fact]

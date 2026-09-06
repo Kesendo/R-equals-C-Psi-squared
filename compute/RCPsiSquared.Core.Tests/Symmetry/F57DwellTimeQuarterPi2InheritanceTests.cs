@@ -5,6 +5,10 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class F57DwellTimeQuarterPi2InheritanceTests
 {
+    /// <summary>Double-precision machine epsilon: the unit F57's exactness gates
+    /// are stated in, the F58 ↔ F57 identity being algebraic at the crossing.</summary>
+    private const double MachineEps = 2.220446049250313e-16;
+
     private static F57DwellTimeQuarterPi2Inheritance BuildClaim()
     {
         var ladder = new Pi2DyadicLadderClaim();
@@ -38,9 +42,29 @@ public class F57DwellTimeQuarterPi2InheritanceTests
     }
 
     [Fact]
-    public void BellPlusKDwellPrefactor_IsClosedFormValue()
+    public void BellPlusKDwellPrefactor_IsTheMotherClaimsValue()
     {
-        Assert.Equal(1.080088, BuildClaim().BellPlusKDwellPrefactor, precision: 6);
+        // Not re-tabulated here: F57 reads F25's 2 / |dCΨ/dt|_{t_cross}/γ.
+        var f = BuildClaim();
+        Assert.Equal(f.F25.BellPlusF57Prefactor, f.BellPlusKDwellPrefactor);
+        Assert.Equal(1.0800878671056402, f.BellPlusKDwellPrefactor, precision: 14);
+    }
+
+    [Fact]
+    public void BellPlusW2AtCrossing_IsHalfFStarSquared()
+    {
+        // W₂ = f*²/2 from ρ = ¼(II + ZZ + f·XX − f·YY) with weights Σ c_P²/4.
+        var f = BuildClaim();
+        double fStar = f.F25.BellPlusFCross;
+        Assert.Equal(fStar * fStar / 2.0, f.BellPlusW2AtCrossing);
+        Assert.Equal(0.3708534749861196, f.BellPlusW2AtCrossing, precision: 14);
+    }
+
+    [Fact]
+    public void BellPlusW0_IsOneHalf()
+    {
+        // The frozen diagonal: (1² + 1²)/4, and Z-dephasing never touches it.
+        Assert.Equal(0.5, BuildClaim().BellPlusW0);
     }
 
     [Theory]
@@ -84,33 +108,46 @@ public class F57DwellTimeQuarterPi2InheritanceTests
     }
 
     [Fact]
-    public void EvenWeightPrefactor_AtBellPlusW2_RecoversBellPlusPrefactor()
+    public void EvenWeightPrefactor_AtBellPlusW2_IsTheSameNumberNotANearOne()
     {
-        // Bell+ has W₂ = 0.3709 per F58 → prefactor ≈ 1.080088
+        // F58 at W₂ = f*²/2 IS F57's prefactor: substituting turns (2+4W₂)/(1+6W₂)
+        // into (2+2f²)/(1+3f²), equal to 3/(f(1+3f²)) exactly when f(1+f²) = 3/2.
+        // So this gate tests the F25 crossing equation; only rounding is left.
         var f = BuildClaim();
-        double w2 = 0.3709;
-        double prefactor = f.EvenWeightPrefactor(w2);
-        Assert.Equal(1.080088, prefactor, precision: 4);
+        Assert.True(f.EvenWeightPrefactorReducesToF57());
+        Assert.Equal(f.BellPlusKDwellPrefactor, f.EvenWeightPrefactor(f.BellPlusW2AtCrossing), precision: 14);
     }
 
     [Fact]
-    public void TwoSectorPrefactor_AtBellPlus_RecoversBellPlusPrefactor()
+    public void EvenWeightPrefactor_AtTheRoundedW2_IsFiveOrdersWorse()
     {
-        // Bell+ as F59 special case: k=2, W₀=1/2, W₂=0.3709
+        // The gate above can fail, and this is what makes it fail: the four-digit
+        // 0.3709 round-trip costs 3.6e-5, against 4.4e-16 for the exact weight.
         var f = BuildClaim();
-        double prefactor = f.TwoSectorPrefactor(k: 2, w0: 0.5, wk: 0.3709);
-        Assert.Equal(1.080088, prefactor, precision: 4);
+        double exact = Math.Abs(f.EvenWeightPrefactor(f.BellPlusW2AtCrossing) - f.BellPlusKDwellPrefactor);
+        double rounded = Math.Abs(f.EvenWeightPrefactor(0.3709) - f.BellPlusKDwellPrefactor);
+        Assert.True(exact < 8.0 * MachineEps);
+        Assert.True(rounded > 1e-5);
+        Assert.True(rounded / exact > 1e9);
+    }
+
+    [Fact]
+    public void TwoSectorPrefactor_AtBellPlus_IsTheSameIdentity()
+    {
+        // Bell+ as F59 special case: k = 2, W₀ = 1/2, W_k = f*²/2.
+        var f = BuildClaim();
+        double prefactor = f.TwoSectorPrefactor(k: 2, w0: f.BellPlusW0, wk: f.BellPlusW2AtCrossing);
+        Assert.Equal(f.BellPlusKDwellPrefactor, prefactor, precision: 14);
     }
 
     [Fact]
     public void EvenWeightPrefactor_AndTwoSectorPrefactor_AgreeForBellPlus()
     {
-        // F58 even-weight reading = F59 special case (k=2, W₀=1/2)
+        // F58's even-weight reading and F59 at k = 2, W₀ = 1/2 are the same
+        // expression term for term, so they agree bit for bit, not to six digits.
         var f = BuildClaim();
-        double w2 = 0.3709;
-        double f58 = f.EvenWeightPrefactor(w2);
-        double f59 = f.TwoSectorPrefactor(k: 2, w0: 0.5, wk: w2);
-        Assert.Equal(f58, f59, precision: 6);
+        double w2 = f.BellPlusW2AtCrossing;
+        Assert.Equal(f.EvenWeightPrefactor(w2), f.TwoSectorPrefactor(k: 2, w0: f.BellPlusW0, wk: w2));
     }
 
     [Fact]

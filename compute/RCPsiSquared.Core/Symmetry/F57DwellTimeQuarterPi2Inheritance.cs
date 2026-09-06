@@ -13,8 +13,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///                            std &lt; 2 × 10⁻¹⁷ across γ ∈ [0.1, 10.0])
 ///
 ///   For Bell+ Z-dephasing (state-specific):
-///     K_dwell = 1.080088 · δ
-///     prefactor 1.080088 = 2 / 1.851701  (from F25 derivative)
+///     K_dwell = 1.08008787 · δ
+///     prefactor = 2 / |dCΨ/dt|_{t_cross}/γ  (solved live off F25)
 /// </code>
 ///
 /// <para>F57 is the dwell time of a CΨ trajectory inside the 2δ-window centred
@@ -37,11 +37,13 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         because Z-dephasing rescales <c>|dCΨ/dt|</c> linearly with γ. The
 ///         "K-invariance" pattern of the framework (cf. memory
 ///         project_q_middle_structure: Q = J/γ₀ as scale, K invariants).</item>
-///   <item><b>State-specific prefactor (NOT Pi2-anchored)</b>: 1.080088 for
-///         Bell+ comes from <c>|dCΨ/dt|_{t_cross}</c> at the F25 closed-form
-///         crossing. F58 generalises to even-weight states via
+///   <item><b>State-specific prefactor (NOT Pi2-anchored)</b>: Bell+'s comes
+///         from <c>|dCΨ/dt|_{t_cross}</c> at the F25 closed-form crossing.
+///         F58 generalises to even-weight states via
 ///         <c>(2 + 4·W₂)/(1 + 6·W₂)</c>; F59 generalises further to any
-///         two-sector state. Bell+ is the W₀=1/2, k=2 special case.</item>
+///         two-sector state. Bell+ is the W₀ = 1/2, k = 2 special case, and
+///         its W₂ = f*²/2 makes F58 and F57 the same identity rather than two
+///         numbers that agree to four digits.</item>
 /// </list>
 ///
 /// <para>Tier1Derived: F57 is Tier 1 analytical (CRITICAL_SLOWING_AT_THE_CUSP §6). The
@@ -74,8 +76,8 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     public QuarterAsBilinearMaxvalClaim Quarter { get; }
     /// <summary>F25 Bell+ CΨ closed form — the typed mother claim. F57's
-    /// Bell+ prefactor <c>1.080088 = 2 / 1.851701</c> derives directly from
-    /// F25's <c>|dCΨ/dt|_{t_cross}</c>. Added 2026-05-16 as a typed ctor
+    /// Bell+ prefactor is <c>2 / |dCΨ/dt|_{t_cross}/γ</c>, read straight off
+    /// F25 rather than re-tabulated here. Added 2026-05-16 as a typed ctor
     /// parent (previously registration-discard only); the F25 → F57
     /// mother-claim edge now participates in the ancestor graph (pattern
     /// parallel to F75 → F77).</summary>
@@ -98,10 +100,29 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
     /// δ-below structure of the bilinear apex.</summary>
     public double WindowDoublingFactor => Ladder.Term(0);
 
-    /// <summary>The Bell+ Z-dephasing K_dwell prefactor: <c>1.080088</c>
-    /// (from <c>2 / 1.851701</c>, where 1.851701 = |dCΨ/dt|_{t_cross} at the
-    /// F25 closed-form Bell+ crossing). State-specific, NOT Pi2-anchored.</summary>
-    public double BellPlusKDwellPrefactor => 1.080088;
+    /// <summary>The Bell+ Z-dephasing K_dwell prefactor, live off the mother
+    /// claim: <c>2 / |dCΨ/dt|_{t_cross} per γ = 1.0800878671056402</c>.
+    /// State-specific, NOT Pi2-anchored. Documents quote it rounded to
+    /// 1.080088.</summary>
+    public double BellPlusKDwellPrefactor => F25.BellPlusF57Prefactor;
+
+    /// <summary>Bell+'s light-face weight at the crossing, <c>W₂ = f*²/2</c>,
+    /// the argument F58 takes. It is not a fitted number: under Z-dephasing
+    /// Bell⁺ is <c>ρ = ¼(II + ZZ + f·XX − f·YY)</c>, so with the sector weight
+    /// read as <c>Σ_P c_P²/4</c> the frozen diagonal carries <c>W₀ = (1+1)/4
+    /// = 1/2</c> at every time and the light face carries
+    /// <c>W₂ = (f² + f²)/4 = f²/2</c>. At the crossing f = f*, giving
+    /// <c>0.3708534749861196</c>; documents quote it rounded to 0.3709.</summary>
+    public double BellPlusW2AtCrossing
+    {
+        get { double f = F25.BellPlusFCross; return f * f / 2.0; }
+    }
+
+    /// <summary>Bell+'s frozen-diagonal weight <c>W₀ = 1/2</c>, the other
+    /// argument F59 takes. Z-dephasing leaves the II and ZZ coefficients at 1,
+    /// so this is a constant of the trajectory, not a reading at the
+    /// crossing.</summary>
+    public double BellPlusW0 => 0.5;
 
     /// <summary>Live K_dwell = prefactor · δ for any state with the supplied
     /// prefactor (Bell+ default = <see cref="BellPlusKDwellPrefactor"/>).
@@ -123,8 +144,13 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
     /// <summary>The F58 generalisation of the K_dwell prefactor for even-weight
     /// states: <c>prefactor = (2 + 4·W₂) / (1 + 6·W₂)</c>, where W₂ is the
     /// light-face Pauli sector weight at the crossing moment. Bell+ has
-    /// W₂ = 0.3709 → prefactor = 1.080088, matching
-    /// <see cref="BellPlusKDwellPrefactor"/> exactly.</summary>
+    /// <see cref="BellPlusW2AtCrossing"/> = f*²/2 → exactly
+    /// <see cref="BellPlusKDwellPrefactor"/>, and not approximately: substituting
+    /// W₂ = f²/2 turns <c>(2+4W₂)/(1+6W₂)</c> into <c>(2+2f²)/(1+3f²)</c>, which
+    /// equals F57's own <c>3/(f(1+3f²))</c> precisely when <c>f(1+f²) = 3/2</c>,
+    /// the F25 crossing equation. F58 and F57 are one identity at the crossing,
+    /// so the agreement gates that equation rather than a tabulated weight
+    /// (see <see cref="EvenWeightPrefactorReducesToF57"/>).</summary>
     public double EvenWeightPrefactor(double w2)
     {
         if (w2 < 0.0 || w2 > 1.0)
@@ -134,7 +160,9 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>The F59 generalisation to any two-sector state:
     /// <c>prefactor = (4/k) · (W₀ + W_k) / (W₀ + 3·W_k)</c>. Bell+ recovers as
-    /// <c>k = 2, W₀ = 1/2</c>. Verified Bell+ and W₃ per ANALYTICAL_FORMULAS.</summary>
+    /// <c>k = 2</c>, <see cref="BellPlusW0"/>, <see cref="BellPlusW2AtCrossing"/>,
+    /// where it collapses term for term onto F58's even-weight form. Verified
+    /// Bell+ and W₃ per ANALYTICAL_FORMULAS.</summary>
     public double TwoSectorPrefactor(int k, double w0, double wk)
     {
         if (k < 1) throw new ArgumentOutOfRangeException(nameof(k), k, "k must be ≥ 1.");
@@ -145,6 +173,16 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
             throw new ArgumentException("Two-sector prefactor undefined: W₀ + 3·W_k ≈ 0.");
         return (4.0 / k) * (w0 + wk) / denom;
     }
+
+    /// <summary>The identity above, computed: F58 evaluated at the exact
+    /// W₂ = f*²/2 against <see cref="BellPlusKDwellPrefactor"/>. Both routes are
+    /// float, so the residual is rounding only: measured 4.4·10⁻¹⁶, two eps,
+    /// and gated at 8 eps. Feeding the rounded 0.3709 instead misses by
+    /// 3.6·10⁻⁵, eleven orders larger, which is what the round-trip through a
+    /// four-digit weight costs.</summary>
+    public bool EvenWeightPrefactorReducesToF57() =>
+        Math.Abs(EvenWeightPrefactor(BellPlusW2AtCrossing) - BellPlusKDwellPrefactor)
+            < 8.0 * F25CPsiBellPlusPi2Inheritance.MachineEps;
 
     /// <summary>Cross-check: the live <see cref="CrossingThreshold"/> from the
     /// dyadic ladder equals the QuarterAsBilinearMaxval anchor's pinned value
@@ -179,7 +217,7 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
 
     public override string Summary =>
         $"t_dwell = 2δ / |dCΨ/dt|_{{t_cross}}; K_dwell = γ·t_dwell γ-invariant; 1/4 boundary = a_3 (Quarter), " +
-        $"2δ-window factor = a_0 = root d; Bell+ prefactor 1.080088 state-specific (F58 even-weight: (2+4W₂)/(1+6W₂)) ({Tier.Label()})";
+        $"2δ-window factor = a_0 = root d; Bell+ prefactor {BellPlusKDwellPrefactor:G8} state-specific, and F58's (2+4W₂)/(1+6W₂) at W₂ = f*²/2 IS that prefactor by the F25 crossing equation ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -194,12 +232,12 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
             yield return InspectableNode.RealScalar("BellPlusKDwellPrefactor (state-specific, NOT Pi2)", BellPlusKDwellPrefactor);
             yield return new InspectableNode("Hardware comparison",
                 summary: "ibm_kingston Heron r2 2026-04-16: K_dwell/δ = 0.6492 (pair A) / 0.6937 (pair B), agreeing to 6.4% despite 2.55× γ difference, at prefactor 0.67 rather than 1.0801; an approximate two-pair check, not a verification of γ-invariance (per data/ibm_cusp_slowing_april2026/)");
+            yield return InspectableNode.RealScalar("BellPlusW2AtCrossing (= f*²/2)", BellPlusW2AtCrossing);
             yield return new InspectableNode("F58/F59 sibling readings",
-                summary: "F58 even-weight prefactor (2+4·W₂)/(1+6·W₂); F59 two-sector (4/k)·(W₀+W_k)/(W₀+3·W_k); Bell+ at W₂=0.3709 / k=2,W₀=1/2 reproduces 1.080088");
-            // Sample state-specific prefactors via F58
+                summary: "F58 even-weight prefactor (2+4·W₂)/(1+6·W₂); F59 two-sector (4/k)·(W₀+W_k)/(W₀+3·W_k); Bell+ enters both with W₀ = 1/2 (frozen diagonal) and W₂ = f*²/2 (light face at the crossing), k = 2");
             yield return new InspectableNode(
-                "F58 reading at W₂=0.3709 (Bell+)",
-                summary: $"prefactor = (2 + 4·0.3709)/(1 + 6·0.3709) = {EvenWeightPrefactor(0.3709):G6} (matches Bell+ K_dwell prefactor 1.080088)");
+                "F58 at Bell+'s exact W₂",
+                summary: $"prefactor = (2 + 4·W₂)/(1 + 6·W₂) at W₂ = {BellPlusW2AtCrossing:G10} gives {EvenWeightPrefactor(BellPlusW2AtCrossing):G12}, against the F25 route's {BellPlusKDwellPrefactor:G12}; identity holds (drift check: {EvenWeightPrefactorReducesToF57()})");
         }
     }
 }

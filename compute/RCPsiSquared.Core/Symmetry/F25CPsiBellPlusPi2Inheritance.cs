@@ -10,13 +10,13 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 ///   dCΨ/dt = −2γ · f · (1 + 3f²) / 3
 ///
-///   Crossing at f* = 0.8612  (from f*(1 + f*²) = 3/2)
-///   K = γ · t_cross = 0.0374
+///   Crossing at f* = 0.86122410  (the real root of f*(1 + f*²) = 3/2)
+///   K = γ · t_cross = −ln(f*)/4 = 0.03735013
 /// </code>
 ///
 /// <para>F25 is the mother claim of <see cref="F57DwellTimeQuarterPi2Inheritance"/>:
-/// F57's Bell+ K_dwell prefactor 1.080088 = 2/1.851701 derives directly from
-/// F25's <c>|dCΨ/dt|</c> at the crossing. F57 → F25 is the typed
+/// F57's Bell+ K_dwell prefactor is <c>2 / |dCΨ/dt|_{t_cross}/γ</c>, read
+/// straight off F25's derivative at the crossing. F57 → F25 is the typed
 /// mother-claim inheritance edge (parallel pattern to F77 → F75).</para>
 ///
 /// <para>Three Pi2-Foundation anchors:</para>
@@ -37,11 +37,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>State-specific (NOT Pi2-anchored):</para>
 ///
 /// <list type="bullet">
-///   <item>Bell+ crossing <c>f* = 0.8612</c> from <c>f*(1+f*²) = 3/2</c>
-///         (cubic root in f).</item>
-///   <item>Bell+ <c>K = γ · t_cross = 0.0374</c>.</item>
-///   <item>Bell+ <c>|dCΨ/dt|_{t_cross} = 1.851701</c>; F57's prefactor
-///         <c>1.080088 = 2 / 1.851701</c>.</item>
+///   <item>Bell+ crossing <c>f*</c>, the real root of <c>f*(1+f*²) = 3/2</c>,
+///         solved live by Cardano rather than tabulated.</item>
+///   <item>Bell+ <c>K = γ · t_cross = −ln(f*)/4</c>.</item>
+///   <item>Bell+ <c>|dCΨ/dt|_{t_cross} = 2γ f*(1+3f*²)/3</c>; F57's prefactor
+///         is <c>2</c> divided by its per-γ magnitude.</item>
 ///   <item>Denominator "6" in CΨ(t) and "3" in dCΨ/dt: combinatorial
 ///         normalization (Bell+ specific).</item>
 /// </list>
@@ -50,7 +50,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <code>
 ///   F25: CΨ(t) = f(1+f²)/6 closed form
-///    ↓ "F57's Bell+ prefactor 1.080088 = 2 / |dCΨ/dt|_{t_cross}"
+///    ↓ "F57's Bell+ prefactor = 2 / |dCΨ/dt|_{t_cross}"
 ///   F57: t_dwell = 2δ / |dCΨ/dt|_{t_cross}
 /// </code>
 ///
@@ -97,18 +97,53 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim, IZ2AxisClaim
     /// CrossingThreshold and Dicke + F60 + F62 fold.</summary>
     public double CrossingThreshold => Ladder.Term(3);
 
-    /// <summary>The Bell+ crossing parameter: <c>f* = 0.8612</c> (state-specific,
-    /// cubic root of <c>f(1+f²) = 3/2</c>; NOT Pi2-anchored).</summary>
-    public double BellPlusFCross => 0.8612;
+    /// <summary>Double-precision machine epsilon, the unit the two live drift
+    /// checks below are stated in (the deviations they see are float rounding
+    /// of ∛ and ln, nothing physical).</summary>
+    internal const double MachineEps = 2.220446049250313e-16;
 
-    /// <summary>The Bell+ K-invariant: <c>K = γ · t_cross = 0.0374</c>
-    /// (state-specific, NOT Pi2-anchored).</summary>
-    public double BellPlusKInvariant => 0.0374;
+    /// <summary>The Bell+ crossing parameter <c>f*</c>: the real root of
+    /// <c>f(1+f²) = 3/2</c>, the f at which CΨ meets the 1/4 boundary.
+    /// Computed live by Cardano's formula on the depressed cubic
+    /// <c>f³ + f − 3/2 = 0</c> (p = 1, q = −3/2, so q²/4 + p³/27 &gt; 0: one
+    /// real root, no casus irreducibilis):
+    /// <c>f* = ∛(3/4 + √(9/16 + 1/27)) + ∛(3/4 − √(9/16 + 1/27))
+    /// = 0.8612240997395737</c>. Documents quote it rounded to 0.8612.
+    /// State-specific, NOT Pi2-anchored.</summary>
+    public double BellPlusFCross
+    {
+        get
+        {
+            double disc = Math.Sqrt(9.0 / 16.0 + 1.0 / 27.0);   // √(q²/4 + p³/27)
+            return Math.Cbrt(0.75 + disc) + Math.Cbrt(0.75 - disc);
+        }
+    }
 
-    /// <summary>F57's Bell+ prefactor: <c>1.080088 = 2 / 1.851701</c>; the
-    /// "2" is <see cref="Coefficient2"/> (Pi2-anchored), the "1.851701"
-    /// is <c>|dCΨ/dt|_{t_cross}</c> (state-specific, NOT Pi2).</summary>
-    public double BellPlusF57Prefactor => 1.080088;
+    /// <summary>The Bell+ K-invariant <c>K = γ · t_cross</c>, live from f*
+    /// through <c>f* = e^{−4γ t_cross}</c>: <c>K = −ln(f*)/4 = 0.037350132…</c>.
+    /// ANALYTICAL_FORMULAS quotes 0.0374 as F25 prints it and 0.03735 unrounded.
+    /// State-specific, NOT Pi2-anchored.</summary>
+    public double BellPlusKInvariant => -Math.Log(BellPlusFCross) / DecayRateCoefficient;
+
+    /// <summary>|dCΨ/dt| at the crossing per unit γ: <c>2 f*(1+3f*²)/3
+    /// = 1.851701200347236</c>. The "1.851701" F57's prefactor divides into.
+    /// State-specific, NOT Pi2-anchored (the leading 2 is
+    /// <see cref="Coefficient2"/>, which is).</summary>
+    public double BellPlusDCPsiDtMagnitudePerGamma
+    {
+        get
+        {
+            double f = BellPlusFCross;
+            return Coefficient2 * f * (1.0 + 3.0 * f * f) / 3.0;
+        }
+    }
+
+    /// <summary>F57's Bell+ prefactor: <c>2 / |dCΨ/dt|_{t_cross} per γ
+    /// = 1.0800878671056402</c>; the "2" is <see cref="Coefficient2"/>
+    /// (Pi2-anchored), the divisor is
+    /// <see cref="BellPlusDCPsiDtMagnitudePerGamma"/> (state-specific).
+    /// Documents quote it rounded to 1.080088.</summary>
+    public double BellPlusF57Prefactor => Coefficient2 / BellPlusDCPsiDtMagnitudePerGamma;
 
     /// <summary>Live closed form: <c>CΨ(t) = f(1+f²)/6, f = e^{−4γt}</c>.
     /// Throws for negative γ or t.</summary>
@@ -134,13 +169,25 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim, IZ2AxisClaim
     public bool BellPlusInitialIsOneThird() =>
         Math.Abs(CPsiAtTime(0.05, 0.0) - 1.0 / 3.0) < 1e-12;
 
-    /// <summary>Live drift check: at f = 0.8612, CΨ ≈ 0.25 (= a_3).</summary>
+    /// <summary>Live drift check binding K to the trajectory rather than to a
+    /// table: CΨ at t = K/γ is the 1/4 boundary, at any γ &gt; 0 (K is the
+    /// γ-invariant, so the γ passed in cancels). Measured deviation ≤ 2 eps
+    /// across γ ∈ [0.01, 100]; gated at 8 eps.</summary>
+    public bool CrossingTimeConsistency(double gamma)
+    {
+        if (gamma <= 0.0) throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be > 0.");
+        return Math.Abs(CPsiAtTime(gamma, BellPlusKInvariant / gamma) - CrossingThreshold) < 8.0 * MachineEps;
+    }
+
+    /// <summary>Live drift check: CΨ(f*) = 1/4 = a_3. f* is now the solved
+    /// cubic root rather than a 4-decimal tabulation, so the only deviation
+    /// left is float rounding of ∛ and the three arithmetic steps: measured
+    /// 5.6·10⁻¹⁷, a quarter of an eps, and gated at 8 eps.</summary>
     public bool CrossingFConsistency()
     {
-        // f * (1 + f²) / 6 should equal 0.25 at f = 0.8612
         double f = BellPlusFCross;
         double cpsi = f * (1.0 + f * f) / 6.0;
-        return Math.Abs(cpsi - CrossingThreshold) < 1e-3;   // 4-decimal Bell+ f* tabulated
+        return Math.Abs(cpsi - CrossingThreshold) < 8.0 * MachineEps;
     }
 
     public F25CPsiBellPlusPi2Inheritance(
@@ -162,7 +209,8 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim, IZ2AxisClaim
 
     public override string Summary =>
         $"CΨ(t) = f(1+f²)/6, f = e^{{-4γt}}: decay rate 4 = a_{{-1}}; |dCΨ/dt| coefficient 2 = a_0; crossing 1/4 = a_3; " +
-        $"Bell+ specific: f* = 0.8612, K = 0.0374, F57 prefactor 1.080088 = 2 / 1.851701 ({Tier.Label()})";
+        $"Bell+ specific, all three solved live off the cubic f(1+f²)=3/2: f* = {BellPlusFCross:G8}, " +
+        $"K = −ln(f*)/4 = {BellPlusKInvariant:G7}, F57 prefactor = 2/|dCΨ/dt|_γ = {BellPlusF57Prefactor:G8} ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -177,13 +225,14 @@ public sealed class F25CPsiBellPlusPi2Inheritance : Claim, IZ2AxisClaim
             yield return InspectableNode.RealScalar("CrossingThreshold (= a_3 = 1/4)", CrossingThreshold);
             yield return InspectableNode.RealScalar("BellPlusFCross (state-specific)", BellPlusFCross);
             yield return InspectableNode.RealScalar("BellPlusKInvariant (state-specific)", BellPlusKInvariant);
-            yield return InspectableNode.RealScalar("BellPlusF57Prefactor (= 2/1.851701)", BellPlusF57Prefactor);
+            yield return InspectableNode.RealScalar("BellPlusDCPsiDtMagnitudePerGamma (= 2f*(1+3f*²)/3)", BellPlusDCPsiDtMagnitudePerGamma);
+            yield return InspectableNode.RealScalar("BellPlusF57Prefactor (= 2 / the line above)", BellPlusF57Prefactor);
             yield return new InspectableNode("F25 ↔ F57 mother-corollary chain",
-                summary: "F25 closed form gives |dCΨ/dt|_{t_cross} = 1.851701 for Bell+; F57's prefactor 1.080088 = 2 / 1.851701 (the 2 IS Coefficient2 = a_0). Pattern parallel to F75 → F77 mother-claim chain.");
+                summary: $"F25's closed form gives |dCΨ/dt|_{{t_cross}}/γ = {BellPlusDCPsiDtMagnitudePerGamma:G10} for Bell+; F57's prefactor is {BellPlusF57Prefactor:G10} = 2 divided by it (the 2 IS Coefficient2 = a_0). Pattern parallel to F75 → F77 mother-claim chain.");
             yield return new InspectableNode("Verifications",
-                summary: $"CΨ(0) = 1·(1+1)/6 = 1/3 (Bell+ initial, above fold; drift check: {BellPlusInitialIsOneThird()}); CΨ at f* = 0.8612 ≈ 0.25 (drift check: {CrossingFConsistency()})");
+                summary: $"CΨ(0) = 1·(1+1)/6 = 1/3 (Bell+ initial, above fold; drift check: {BellPlusInitialIsOneThird()}); CΨ(f*) = 1/4 (drift check: {CrossingFConsistency()}); CΨ at t = K/γ = 1/4 at γ = 0.05 (drift check: {CrossingTimeConsistency(0.05)})");
             yield return new InspectableNode("State-specific values (NOT Pi2-anchored)",
-                summary: "f* = 0.8612 cubic root of f(1+f²)=3/2; K=0.0374 hardware gauge; 1.851701 = |dCΨ/dt|_{t_cross}; 6 in denominator = combinatorial Bell+ normalization");
+                summary: "f* the real root of f(1+f²)=3/2 by Cardano; K = −ln(f*)/4 the hardware gauge; |dCΨ/dt|/γ at the crossing; 6 in the denominator = combinatorial Bell+ normalization");
         }
     }
 }

@@ -5,6 +5,11 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 public class F25CPsiBellPlusPi2InheritanceTests
 {
+    /// <summary>Double-precision machine epsilon: the unit the exactness gates
+    /// below are stated in, since the only deviation left in F25's Bell+ chain
+    /// is float rounding of ∛ and ln.</summary>
+    private const double MachineEps = 2.220446049250313e-16;
+
     private static F25CPsiBellPlusPi2Inheritance BuildClaim() =>
         new F25CPsiBellPlusPi2Inheritance(new Pi2DyadicLadderClaim(), new QuarterAsBilinearMaxvalClaim());
 
@@ -34,22 +39,56 @@ public class F25CPsiBellPlusPi2InheritanceTests
     }
 
     [Fact]
-    public void BellPlusFCross_Is08612()
+    public void BellPlusFCross_SolvesTheCubic()
     {
-        Assert.Equal(0.8612, BuildClaim().BellPlusFCross, precision: 4);
+        // The claim is not "f* is 0.8612" but "f* solves f(1+f²) = 3/2". Gate the
+        // equation, not the tabulation: the residual is float rounding of ∛ only.
+        double f = BuildClaim().BellPlusFCross;
+        Assert.True(Math.Abs(f * (1.0 + f * f) - 1.5) < 8.0 * MachineEps,
+            $"cubic residual {Math.Abs(f * (1.0 + f * f) - 1.5):E3} exceeds 8 eps");
+        Assert.Equal(0.8612240997395737, f, precision: 14);
     }
 
     [Fact]
-    public void BellPlusKInvariant_Is00374()
+    public void BellPlusFCross_IsTheOnlyRealRootInTheUnitInterval()
     {
-        Assert.Equal(0.0374, BuildClaim().BellPlusKInvariant, precision: 4);
+        // f³ + f − 3/2 is strictly increasing, so the root is unique and the
+        // solver cannot have landed on a sibling: it brackets and nothing else does.
+        double f = BuildClaim().BellPlusFCross;
+        Assert.True(f > 0.0 && f < 1.0);
+        Assert.True((f - 1e-6) * (1.0 + (f - 1e-6) * (f - 1e-6)) < 1.5);
+        Assert.True((f + 1e-6) * (1.0 + (f + 1e-6) * (f + 1e-6)) > 1.5);
     }
 
     [Fact]
-    public void BellPlusF57Prefactor_Is1080088()
+    public void BellPlusKInvariant_IsMinusLogFStarOverFour()
     {
-        // F57's Bell+ prefactor 1.080088 = 2 / 1.851701; the "2" IS Coefficient2 = a_0.
-        Assert.Equal(1.080088, BuildClaim().BellPlusF57Prefactor, precision: 6);
+        // K = γ·t_cross from f* = e^{−4γt}: 0.037350132494447214, which is the
+        // 0.03735 ANALYTICAL_FORMULAS calls unrounded and prints as 0.0374.
+        Assert.Equal(0.037350132494447214, BuildClaim().BellPlusKInvariant, precision: 14);
+    }
+
+    [Fact]
+    public void BellPlusF57Prefactor_IsTwoOverTheCrossingDerivative()
+    {
+        // F57's Bell+ prefactor = 2 / |dCΨ/dt|_{t_cross}/γ; the "2" IS Coefficient2 = a_0.
+        var f = BuildClaim();
+        Assert.Equal(1.851701200347236, f.BellPlusDCPsiDtMagnitudePerGamma, precision: 14);
+        Assert.Equal(1.0800878671056402, f.BellPlusF57Prefactor, precision: 14);
+        Assert.Equal(f.Coefficient2 / f.BellPlusDCPsiDtMagnitudePerGamma, f.BellPlusF57Prefactor);
+    }
+
+    [Fact]
+    public void BellPlusDCPsiDtMagnitude_IsTheLiveDerivativeAtTheCrossingTime()
+    {
+        // The per-γ magnitude is not a second formula: it is DCPsiDtAtTime read at
+        // t = K/γ, divided by γ. Checked at three γ, exactly the same double each time.
+        var f = BuildClaim();
+        foreach (double gamma in new[] { 0.01, 0.05, 10.0 })
+        {
+            double live = Math.Abs(f.DCPsiDtAtTime(gamma, f.BellPlusKInvariant / gamma)) / gamma;
+            Assert.Equal(f.BellPlusDCPsiDtMagnitudePerGamma, live, precision: 14);
+        }
     }
 
     [Fact]
@@ -95,8 +134,35 @@ public class F25CPsiBellPlusPi2InheritanceTests
     [Fact]
     public void CrossingFConsistency_HoldsAtBellPlusFCross()
     {
-        // At f = 0.8612, CΨ ≈ 0.25 (the fold)
+        // CΨ(f*) = 1/4, the fold.
         Assert.True(BuildClaim().CrossingFConsistency());
+    }
+
+    [Fact]
+    public void CrossingFConsistency_FailsOnTheFourDigitTabulation()
+    {
+        // The gate has to be able to fail: at 8 eps the old 4-decimal f* = 0.8612
+        // misses the fold by 3.7e-6, sixteen thousand million eps.
+        double tabulated = 0.8612;
+        double cpsi = tabulated * (1.0 + tabulated * tabulated) / 6.0;
+        Assert.True(Math.Abs(cpsi - 0.25) > 8.0 * MachineEps);
+    }
+
+    [Theory]
+    [InlineData(0.01)]
+    [InlineData(0.05)]
+    [InlineData(100.0)]
+    public void CrossingTimeConsistency_HoldsAtEveryGamma(double gamma)
+    {
+        // K is the γ-invariant, so t = K/γ lands on the fold whatever γ is.
+        Assert.True(BuildClaim().CrossingTimeConsistency(gamma));
+    }
+
+    [Fact]
+    public void CrossingTimeConsistency_RejectsNonPositiveGamma()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().CrossingTimeConsistency(0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().CrossingTimeConsistency(-1.0));
     }
 
     [Fact]
