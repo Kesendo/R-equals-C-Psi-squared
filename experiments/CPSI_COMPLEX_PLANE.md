@@ -57,7 +57,7 @@ See [`cpsi_complex_plane.py`](../simulations/cpsi_complex_plane.py). Five Bell�
 
 The Mandelbrot cardioid (grey curve) and period-2 bulb are drawn for geometric reference. The cusp at c = 1/4 (red marker) is the 1D fold of [Boundary Navigation](BOUNDARY_NAVIGATION.md). Trajectories 1 and 2 go through it or beside it; trajectories 3-5 wind AROUND it, showing that the saddle-node geometry is traversed on a helical path in the 2D c-plane.
 
-The ratio Ω/(4γ) gives the **rotation per e-fold of decay**, in radians. Over `k` e-folds of |CΨ_com| shrinkage, the total phase sweep is k · Ω/(4γ). The total winding on the complete trajectory is Ω · t_max / (2π) full turns, explicit in the Δφ_total column above.
+The ratio Ω/(4γ) gives the **rotation per e-fold of the coherence factor f = e^{−4γt}**, in radians. It is not the rotation per e-fold of |CΨ_com|, because f is what decays at 4γ and the magnitude does not: |CΨ_com| = f(1+f²)/6 sheds e-folds at 4γ·(1+3f²)/(1+f²), which is 8γ at t = 0, 4γ·1.8517012 at the ¼ crossing (F25's own crossing derivative, since the rate is |dCΨ/dt|/|CΨ| and |CΨ| = ¼ there), and only tends to 4γ as f → 0. Averaged from the start 1/3 down to the ¼ circle the phase per magnitude e-fold is Ω/(4γ) divided by 1.9255760, at every γ and Ω. The total winding on the complete trajectory is Ω · t_max / (2π) full turns, explicit in the Δφ_total column above, and that column is unaffected: it counts turns against time, not against decay.
 
 ## Hardware observation (no extra run needed)
 

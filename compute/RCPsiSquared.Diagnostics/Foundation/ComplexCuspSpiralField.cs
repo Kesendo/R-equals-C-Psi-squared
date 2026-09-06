@@ -22,14 +22,13 @@ public sealed class ComplexCuspSpiralField : IInspectable
     private readonly double _gamma;
     private readonly double _omega;
     private readonly double _phi0;
-    private readonly double[] _omegaLadder;   // geometric, ascending
+    private readonly double[] _omegaLadder;   // geometric in |Ω|, ascending in magnitude, carrying Ω's sign
     private readonly double _tMaxFactor;      // the trajectory runs to tMaxFactor × the crossing time
 
     public ComplexCuspSpiralField(double gamma = 0.5, double omega = 0.4, double phi0 = 0.0,
         int omegaPoints = 9, double tMaxFactor = 4.0)
     {
         if (gamma <= 0) throw new ArgumentOutOfRangeException(nameof(gamma), $"gamma must be positive; got {gamma}");
-        if (omega < 0) throw new ArgumentOutOfRangeException(nameof(omega), $"omega must be non-negative; got {omega}");
         if (omegaPoints < 2) throw new ArgumentOutOfRangeException(nameof(omegaPoints), $"need at least two Ω points; got {omegaPoints}");
         if (tMaxFactor <= 1.0) throw new ArgumentOutOfRangeException(nameof(tMaxFactor), $"tMaxFactor must exceed 1 (run past the crossing); got {tMaxFactor}");
         _gamma = gamma;
@@ -37,9 +36,14 @@ public sealed class ComplexCuspSpiralField : IInspectable
         _phi0 = phi0;
         _tMaxFactor = tMaxFactor;
         // The ladder spans a decade of winding up to the chosen Ω (a fixed band when Ω = 0), so the
-        // crossing-angle-vs-Ω reading has range. Geometric in Ω.
-        double hi = omega > 0 ? omega : 1.0;
-        _omegaLadder = GeometricLadder(hi / 10.0, hi, omegaPoints);
+        // crossing-angle-vs-Ω reading has range. Geometric in |Ω|, carrying Ω's sign: the two
+        // Kingston spirals this field advertises turn opposite ways (Pair A clockwise, Pair B
+        // counter-clockwise), and with arg = φ₀ − Ω·t the counter-clockwise one needs Ω < 0.
+        double sign = omega < 0 ? -1.0 : 1.0;
+        double hi = omega != 0.0 ? Math.Abs(omega) : 1.0;
+        var ladder = GeometricLadder(hi / 10.0, hi, omegaPoints);
+        for (int i = 0; i < ladder.Length; i++) ladder[i] *= sign;
+        _omegaLadder = ladder;
     }
 
     private static double[] GeometricLadder(double lo, double hi, int count)

@@ -32,18 +32,67 @@ public class SelfMirrorObjectTests
         Assert.Equal(-0.4, obj.Center, 10);  // the object sits at Re λ = −σ
     }
 
+    /// <summary>The count the object reports, rebuilt from below rather than from its own
+    /// formula. On the certified branch H = 0 and every rate is γ, so the coherence |i⟩⟨j| decays
+    /// at −2γ·popcount(i ⊕ j) and σ = Nγ; sitting on the centre line Re λ = −σ therefore means
+    /// popcount(i ⊕ j) = N/2 exactly. Enumerating the 4^N pairs and counting that condition is a
+    /// different route to the same integer, and it is the route the tests gate against. At σ = 0
+    /// the line is Re λ = 0 and every pair qualifies, so the count is the whole space.</summary>
+    private static int EnumerateCentreLinePairs(int n, bool sigmaIsZero)
+    {
+        int dim = 1 << n;
+        int count = 0;
+        for (int i = 0; i < dim; i++)
+            for (int j = 0; j < dim; j++)
+            {
+                if (sigmaIsZero) { count++; continue; }
+                if ((n & 1) == 0 && System.Numerics.BitOperations.PopCount((uint)(i ^ j)) == n / 2)
+                    count++;
+            }
+        return count;
+    }
+
     [Theory]
     [InlineData(2, true)]
     [InlineData(4, true)]
     [InlineData(3, false)]
     [InlineData(5, false)]
-    public void CompositeFixedLine_PopulatedIffEvenN(int n, bool populated)
+    public void CompositeFixedLine_IsTheEnumeratedCentreLineCount(int n, bool populated)
     {
         int count = Build(n, coupling: 0.0).CompositeFixedLineCount;
-        if (populated)
-            Assert.True(count > 0, $"N={n} (even): the k=N/2 self-mirror sector should be populated, got {count}");
-        else
-            Assert.Equal(0, count);          // odd N: half-integer w_XY = N/2, the sector is empty
+        Assert.Equal(EnumerateCentreLinePairs(n, sigmaIsZero: false), count);
+        Assert.Equal(populated, count > 0);   // odd N: popcount cannot reach the half-integer N/2
+    }
+
+    [Theory]
+    [InlineData(2, 8)]      // C(2,1) = 2 masks of popcount 1, times 2^2 = 4 kets
+    [InlineData(4, 96)]     // C(4,2) = 6 masks of popcount 2, times 2^4 = 16 kets
+    [InlineData(6, 1280)]   // C(6,3) = 20 masks of popcount 3, times 2^6 = 64 kets
+    public void CompositeFixedLine_MatchesTheClosedForm(int n, int expected)
+    {
+        // 2^N · C(N, N/2), the closed form the object carries, written out. Neither 4^N (16, 256,
+        // 4096) nor 2^N (4, 16, 64) equals these, so the numbers separate the count from the two
+        // trivial answers a wrong sector condition would give.
+        Assert.Equal(expected, EnumerateCentreLinePairs(n, sigmaIsZero: false));
+        if (n <= 4)
+            Assert.Equal(expected, Build(n, coupling: 0.0).CompositeFixedLineCount);
+        Assert.NotEqual(1 << (2 * n), expected);
+        Assert.NotEqual(1 << n, expected);
+    }
+
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void CompositeFixedLine_AtZeroSigma_IsTheWholeSpace(int n)
+    {
+        // σ = 0 puts the centre line at Re λ = 0, where the whole (dephasing-free) spectrum sits:
+        // the count is 4^N, at odd N too, so the odd-N zero above is a statement about the rate
+        // sector and not about odd N as such.
+        var obj = Build(n, gamma: 0.0, coupling: 0.0);
+        Assert.True(obj.IsFixedSetResolved);
+        Assert.Equal(EnumerateCentreLinePairs(n, sigmaIsZero: true), obj.CompositeFixedLineCount);
+        Assert.Equal(1 << (2 * n), obj.CompositeFixedLineCount);
     }
 
     [Theory]

@@ -25,11 +25,14 @@ public static class InteriorHorizon
     /// real fixed points), D = 0 the cusp, D &lt; 0 quantum (complex-conjugate roots).</summary>
     public static double Discriminant(double cpsi) => 1.0 - 4.0 * cpsi;
 
-    /// <summary>"classical" / "cusp" / "quantum" from the discriminant sign.</summary>
+    /// <summary>"classical" / "cusp" / "quantum" from the discriminant sign, read exactly. ¼ is
+    /// dyadic, so <c>1 − 4·CΨ</c> is exactly 0.0 there and no tolerance band is needed; a band would
+    /// only put this reading at odds with <see cref="Heading"/>, whose own clamp is the exact
+    /// <c>4·CΨ − 1 ≤ 0</c>, in whatever window it drew.</summary>
     public static string Regime(double cpsi)
     {
         double d = Discriminant(cpsi);
-        if (Math.Abs(d) < 1e-12) return "cusp";
+        if (d == 0.0) return "cusp";
         return d > 0 ? "classical" : "quantum";
     }
 
@@ -47,11 +50,20 @@ public static class InteriorHorizon
 
     /// <summary>The live Mandelbrot iteration count: u_{n+1} = u_n² + c with c = CΨ, u_0 = c, stopping
     /// when |u_{n+1} − u_n| &lt; <paramref name="tol"/>. For CΨ &lt; ¼ (the classical side) the iteration
-    /// converges and the count diverges as CΨ → ¼ (critical slowing). Returns −1 if the iteration
-    /// diverges (CΨ ≥ ¼, the quantum side has no fixed point) and <paramref name="maxIter"/> if it does
-    /// not converge within the cap. The count is 1-based (the reference tables in
+    /// converges and the count diverges as CΨ → ¼ (critical slowing). Returns <paramref name="maxIter"/>
+    /// if the stop criterion is not met within the cap, and −1 if the orbit escapes first.
+    ///
+    /// <para>The −1 branch is a reading of the stop criterion, not of whether a fixed point exists,
+    /// and the two do not coincide. Writing c = ¼ + δ and u = ½ + v turns the step into
+    /// Δu = v² + δ, whose minimum over the crawl is δ itself; so above the cusp the increment still
+    /// falls below tol, and this returns a finite count, exactly while δ &lt; tol. Escape and −1
+    /// begin at δ &gt; tol. At tol = 10⁻⁹ that puts CΨ = ¼ (31611) and CΨ = ¼ + 10⁻¹³ (31612) on the
+    /// finite side and CΨ = ¼ + 10⁻⁶ on the −1 side. Read the count as "how long the orbit crawled
+    /// slower than tol", and read the regime off <see cref="Discriminant"/> instead.</para>
+    ///
+    /// <para>The count is 1-based (the reference tables in
     /// experiments/CRITICAL_SLOWING_AT_THE_CUSP.md are 0-based, so this returns one more); the rescaled
-    /// K = n·√ε is unaffected at the relevant ε.</summary>
+    /// K = n·√ε is unaffected at the relevant ε.</para></summary>
     public static int RecursionIterations(double cpsi, double tol, int maxIter = 10_000_000)
     {
         double c = cpsi;
@@ -61,15 +73,22 @@ public static class InteriorHorizon
             double uNext = u * u + c;
             if (Math.Abs(uNext - u) < tol) return n;
             u = uNext;
-            if (double.IsInfinity(u) || u > 1e6) return -1; // diverged: CΨ ≥ ¼, no convergence
+            if (double.IsInfinity(u) || u > 1e6) return -1; // escaped before the increment fell below tol
         }
         return maxIter;
     }
 
     /// <summary>The recursion count with a relative stop criterion tol = k·ε (ε = ¼ − CΨ). The rescaled
-    /// K = n·√ε then converges to the constant ½·ln(4/k): the slowing was the stop criterion's.</summary>
+    /// K = n·√ε then converges to the constant ½·ln(4/k) as ε → 0: the slowing was the stop criterion's.
+    /// Requires CΨ &lt; ¼ and k &gt; 0; at or above the cusp ε ≤ 0 makes the stop tolerance
+    /// non-positive, which no increment can undercut, so the loop would silently run to the cap
+    /// instead of reporting anything.</summary>
     public static int RecursionIterationsRelative(double cpsi, double k, int maxIter = 10_000_000)
     {
+        if (cpsi >= Cusp)
+            throw new ArgumentOutOfRangeException(nameof(cpsi), cpsi, "the relative stop needs ε = ¼ − CΨ > 0; at or above the cusp there is no relative scale to stop against.");
+        if (k <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(k), k, "k must be positive.");
         double eps = Cusp - cpsi;
         return RecursionIterations(cpsi, k * eps, maxIter);
     }

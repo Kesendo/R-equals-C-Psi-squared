@@ -27,17 +27,30 @@ public sealed class InteriorHorizonField : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
+    /// <summary>The near end of the default |ε|-ladder. Named rather than repeated, so the CLI's
+    /// <c>--eps-lo</c> fallback is this value and not a second copy of it.</summary>
+    public const double DefaultEpsLo = 1e-10;
+
+    /// <summary>The far end of the default |ε|-ladder, kept inside F56's committed scan range.</summary>
+    public const double DefaultEpsHi = 1e-2;
+
     private readonly double[] _eps;         // the |ε|-ladder, ascending
     private readonly double _tol;
     private readonly double _relK;
     private readonly double _gamma;
 
-    public InteriorHorizonField(double epsLo = 1e-4, double epsHi = 0.25, int epsPoints = 13,
+    /// <summary>The default ladder runs 10⁻¹⁰ … 10⁻² because that is inside F56's committed scan
+    /// range (tol 10⁻⁸…10⁻¹⁶, ε 10⁻¹…10⁻¹⁰) and inside its stated validity <c>tol ≪ ε ≪ 1</c>. The
+    /// constructor still accepts ε up to ¼, but a rung there is not a reading of the fold: at
+    /// CΨ = ¼ − ¼ = 0 the iteration starts at u₀ = 0, its first increment is 0, and the count is 1
+    /// whatever the physics does.</summary>
+    public InteriorHorizonField(double epsLo = DefaultEpsLo, double epsHi = DefaultEpsHi, int epsPoints = 13,
         double tol = 1e-12, double relK = 1e-3, double gamma = 0.5)
     {
         if (epsPoints < 2) throw new ArgumentOutOfRangeException(nameof(epsPoints), $"need at least two ε points; got {epsPoints}");
-        if (epsLo <= 0 || epsHi <= epsLo || epsHi > 0.25)
-            throw new ArgumentOutOfRangeException(nameof(epsHi), $"need 0 < epsLo < epsHi ≤ 0.25; got [{epsLo}, {epsHi}]");
+        if (epsLo <= 0) throw new ArgumentOutOfRangeException(nameof(epsLo), $"epsLo must be positive; got {epsLo}");
+        if (epsHi <= epsLo || epsHi > 0.25)
+            throw new ArgumentOutOfRangeException(nameof(epsHi), $"need epsLo < epsHi ≤ 0.25; got [{epsLo}, {epsHi}]");
         // These doubles flow straight into the closed forms (log/sqrt/divide), so the field owns their
         // validation: a non-positive tol, relK, or gamma would silently produce NaN or invert the grid.
         if (tol <= 0) throw new ArgumentOutOfRangeException(nameof(tol), $"tol must be positive; got {tol}");
@@ -129,8 +142,8 @@ public sealed class InteriorHorizonField : IInspectable
             }
             double kRelConst = 0.5 * Math.Log(4.0 / _relK);
             yield return new InspectableNode(
-                displayName: "the slowing is ours (relative stop is flat)",
-                summary: $"rescaled K with a relative stop tol=k·ε is the constant ½·ln(4/k)={kRelConst.ToString("0.##", Inv)}; the absolute-tol K drifts. The slowing belonged to the stop criterion, not the cusp (the cusp is inert).",
+                displayName: "the slowing is ours (relative stop flattens onto ½·ln(4/k))",
+                summary: $"rescaled K with a relative stop tol=k·ε tends to ½·ln(4/k)={kRelConst.ToString("0.###", Inv)} as ε → 0, reading {kRel[0].ToString("0.###", Inv)} at the nearest rung |ε|={_eps[0].ToString("E0", Inv)} and drifting to {kRel[^1].ToString("0.###", Inv)} at |ε|={_eps[^1].ToString("E0", Inv)}, where ε is no longer small; the absolute-tol K drifts across the whole ladder ({kAbs[0].ToString("0.##", Inv)} to {kAbs[^1].ToString("0.##", Inv)}). The slowing belonged to the stop criterion, not the cusp (the cusp is inert).",
                 children: new IInspectable[]
                 {
                     new InspectableNode(

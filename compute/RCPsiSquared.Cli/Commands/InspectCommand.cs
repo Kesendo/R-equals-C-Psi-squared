@@ -239,8 +239,8 @@ public static class InspectCommand
 
         if (axisName == "interior")
         {
-            double epsLo = p.OptionalDouble("eps-lo") ?? 1e-4;
-            double epsHi = p.OptionalDouble("eps-hi") ?? 0.25;
+            double epsLo = p.OptionalDouble("eps-lo") ?? InteriorHorizonField.DefaultEpsLo;
+            double epsHi = p.OptionalDouble("eps-hi") ?? InteriorHorizonField.DefaultEpsHi;
             int epsPoints = p.OptionalDouble("eps-points") is { } ep ? (int)ep : 13;
             double tol = p.OptionalDouble("tol") ?? 1e-12;
             double relK = p.OptionalDouble("rel-k") ?? 1e-3;

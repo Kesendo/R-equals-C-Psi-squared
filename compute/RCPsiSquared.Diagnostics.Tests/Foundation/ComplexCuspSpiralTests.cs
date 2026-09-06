@@ -49,21 +49,97 @@ public class ComplexCuspSpiralTests
         Assert.Equal(0.0, ComplexCuspSpiral.WindingRate(0.05, 0.0), 12);
     }
 
-    [Fact]
-    public void CrossingTime_PutsTheMagnitudeOnTheQuarterCircle()
+    [Theory]
+    [InlineData(0.05)]
+    [InlineData(0.5)]
+    [InlineData(1.3)]
+    public void MagnitudeEFoldRate_StartsAtEightGamma_AndOnlyApproachesFourGamma(double gamma)
     {
-        double tc = ComplexCuspSpiral.CrossingTime(0.05);
-        Assert.Equal(0.25, ComplexCuspSpiral.Magnitude(0.05, tc), 9);   // by construction |CΨ| = ¼ there
-        Assert.True(tc > 0.7 && tc < 0.8, $"≈0.747 at γ=0.05; got {tc}");
+        // The denominator Ω/(4γ) is NOT divided by. At t = 0, f = 1 and the magnitude sheds
+        // e-folds twice as fast as f does; 4γ is the f → 0 limit, approached and never attained.
+        Assert.Equal(8.0 * gamma, ComplexCuspSpiral.MagnitudeEFoldRate(gamma, 0.0));
+
+        double previous = double.PositiveInfinity;
+        foreach (double k in new[] { 0.0, 0.25, 1.0, 2.0, 4.0 })   // t = k/γ, so f = e^{−4k}
+        {
+            double rate = ComplexCuspSpiral.MagnitudeEFoldRate(gamma, k / gamma);
+            Assert.True(rate < previous, $"rate should fall monotonically; {rate:R} at k={k}");
+            Assert.True(rate > 4.0 * gamma, $"rate should stay above 4γ; {rate:R} at k={k}");
+            previous = rate;
+        }
+
+        // The limit is a limit of the formula, not of the arithmetic: past f² ≈ 1e-16 the ratio
+        // (1+3f²)/(1+f²) rounds to 1 and the reading sits exactly on 4γ. That is where a test
+        // asserting strict inequality would fail for a reason that is not about the physics.
+        Assert.Equal(4.0 * gamma, ComplexCuspSpiral.MagnitudeEFoldRate(gamma, 100.0 / gamma));
+    }
+
+    [Theory]
+    [InlineData(0.05)]
+    [InlineData(0.5)]
+    [InlineData(1.3)]
+    public void MagnitudeEFoldRate_AtTheCrossing_IsF25sOwnCrossingDerivative(double gamma)
+    {
+        // Not a resemblance: the rate is |dCΨ/dt|/|CΨ| and |CΨ| = ¼ on the circle, so the factor
+        // over 4γ is exactly |dCΨ/dt|/γ = 2f*(1+3f*²)/3 whenever f*(1+f*²) = 3/2. Both routes are
+        // float, so this is rounding only, gated at 8 eps against a value of order unity.
+        double tc = ComplexCuspSpiral.CrossingTime(gamma);
+        double factor = ComplexCuspSpiral.MagnitudeEFoldRate(gamma, tc) / (4.0 * gamma);
+        const double fStar = 0.8612240997395737;
+        double f25 = 2.0 * fStar * (1.0 + 3.0 * fStar * fStar) / 3.0;
+        Assert.True(System.Math.Abs(factor - f25) < 8.0 * 2.220446049250313e-16,
+            $"factor {factor:R} vs F25 crossing derivative {f25:R}");
+    }
+
+    [Theory]
+    [InlineData(0.05, 0.4)]
+    [InlineData(0.5, 0.4)]
+    [InlineData(0.05, 1.5)]
+    [InlineData(1.3, -0.7)]
+    public void PhasePerMagnitudeEFold_IsWindingRateOverAConstant(double gamma, double omega)
+    {
+        // The two readings differ by (−ln f*)/ln(4/3) = 1.9255760, at every γ and Ω. That the
+        // ratio is a constant is the content; that it is not 1 is what the old label got wrong.
+        double ratio = ComplexCuspSpiral.WindingRate(gamma, omega)
+                     / ComplexCuspSpiral.PhasePerMagnitudeEFold(gamma, omega);
+        Assert.Equal(1.9255759835293094, ratio, 12);
+        Assert.True(System.Math.Abs(ratio - 1.0) > 0.9);
+    }
+
+    [Theory]
+    [InlineData(0.05)]
+    [InlineData(0.5)]
+    [InlineData(0.137)]
+    [InlineData(1.0 / 3.0)]
+    public void CrossingTime_PutsTheMagnitudeExactlyOnTheQuarterCircle(double gamma)
+    {
+        // The Newton solve returns the double whose round trip lands on 0.25 with no residual at
+        // all, so this is compared exactly rather than gated: a nonzero residual here would be a
+        // finding about the solve, not a tolerance to widen. Four γ including a non-dyadic one.
+        double tc = ComplexCuspSpiral.CrossingTime(gamma);
+        Assert.Equal(0.25, ComplexCuspSpiral.Magnitude(gamma, tc));
     }
 
     [Fact]
-    public void CrossingTime_ScalesAsOneOverGamma()
+    public void CrossingTime_IsTheF25CrossingKOverGamma()
     {
-        // t_cross = K/γ: doubling γ halves it (the crossing K is dimensionless).
-        double a = ComplexCuspSpiral.CrossingTime(0.05);
-        double b = ComplexCuspSpiral.CrossingTime(0.10);
-        Assert.Equal(a / 2.0, b, 9);
+        // t_cross = K/γ with K = −ln(f*)/4 = 0.037350132494447214, F25's γ-invariant. ≈0.747 at
+        // γ = 0.05.
+        Assert.Equal(0.037350132494447214 / 0.05, ComplexCuspSpiral.CrossingTime(0.05), 12);
+    }
+
+    [Theory]
+    [InlineData(0.05, 0.10)]
+    [InlineData(0.137, 0.274)]
+    [InlineData(1.0 / 3.0, 2.0 / 3.0)]
+    [InlineData(0.7, 0.21)]
+    public void CrossingTime_ScalesAsOneOverGamma(double gammaA, double gammaB)
+    {
+        // t_cross = K/γ: the product γ·t_cross is the same K at every rate. Non-dyadic ratios are
+        // included, since a doubling alone is exact in binary and could not break the claim.
+        double ka = gammaA * ComplexCuspSpiral.CrossingTime(gammaA);
+        double kb = gammaB * ComplexCuspSpiral.CrossingTime(gammaB);
+        Assert.Equal(ka, kb, 14);
     }
 
     [Fact]

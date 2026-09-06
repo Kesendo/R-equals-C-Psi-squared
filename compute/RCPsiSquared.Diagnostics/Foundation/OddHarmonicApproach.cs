@@ -3,9 +3,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <summary>The family of approach shapes to the cusp ¼: how the approach depends on the start. For the
 /// partial-entanglement initial state |ψ(α)⟩ = cosα|00⟩ + sinα|11⟩ (Bell+ is α=π/4) under Z-dephasing,
 /// the coherence CΨ(t) is a two-exponential at the odd-harmonic rates 4γ and 12γ with closed-form,
-/// entanglement-dependent weights (verified bit-exact against the Lindblad evolution):
+/// entanglement-dependent weights:
 ///
 /// <para>CΨ(s,t) = w₀·e^(−4γt) + w₁·e^(−12γt),  w₀ = s(1−s²/2)/3,  w₁ = s³/6,  s = sin2α.</para>
+///
+/// <para>The two exponentials are not fitted. Z-dephasing leaves the populations alone and takes the
+/// single coherence ρ₀₃ = cosα·sinα·f, f = e^{−4γt}; with s = sin2α that gives purity
+/// 1 − s²/2 + s²f²/2 and ℓ₁-coherence s·f, so CΨ = purity·ℓ₁/(d−1) = (s/3)(1−s²/2)·f + (s³/6)·f³,
+/// and f³ IS the second rate. The 4γ and 12γ are the first and third odd multiples of the same
+/// carrier, not two independent modes.</para>
 ///
 /// <para>The scaling laws: the start CΨ(0) = s/3 (the start height is the entanglement); it crosses ¼
 /// only if s &gt; 3/4 (a threshold; s = 3/4 starts exactly on ¼); the fast mode (12γ) carries a fraction
@@ -62,9 +68,12 @@ public static class OddHarmonicApproach
 
     /// <summary>The time CΨ(s,·) crosses ¼, by bisection on the monotone-decreasing two-exponential
     /// (both terms positive and decreasing). NaN if the approach never reaches ¼ (s ≤ 3/4: the start is
-    /// at or below the cusp).</summary>
+    /// at or below the cusp). Throws for γ ≤ 0, where CΨ is constant or growing and the bracketing
+    /// loop would double its upper bound forever.</summary>
     public static double CrossingTime(double s, double gamma)
     {
+        if (gamma <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be > 0: at γ ≤ 0 CΨ does not decrease and the bracketing loop below has no upper bound to find.");
         if (!Crosses(s)) return double.NaN;
         double lo = 0.0, hi = 1.0;
         while (Cpsi(s, gamma, hi) > Cusp) hi *= 2.0;

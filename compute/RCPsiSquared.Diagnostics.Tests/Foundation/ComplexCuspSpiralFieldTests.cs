@@ -15,8 +15,17 @@ public class ComplexCuspSpiralFieldTests
         Assert.Throws<ArgumentOutOfRangeException>(() => new ComplexCuspSpiralField(gamma: 0.0));
 
     [Fact]
-    public void Constructor_RejectsNegativeOmega() =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => new ComplexCuspSpiralField(omega: -0.1));
+    public void Constructor_AcceptsNegativeOmega_BecauseOneOfItsTwoHardwareSpiralsTurnsThatWay()
+    {
+        // arg = φ₀ − Ω·t, so the counter-clockwise Kingston pair (B_high, +15° → +79°) needs Ω < 0.
+        // The ladder is geometric in |Ω| and carries the sign, so the reading mirrors exactly.
+        var ccw = new ComplexCuspSpiralField(omega: -0.4);
+        var cw = new ComplexCuspSpiralField(omega: 0.4);
+        Assert.Equal(-ComplexCuspSpiral.CrossingArgument(0.5, 0.4, 0.0),
+                      ComplexCuspSpiral.CrossingArgument(0.5, -0.4, 0.0));
+        Assert.Contains("-0.4", ccw.DisplayName);
+        Assert.Contains("0.4", cw.DisplayName);
+    }
 
     [Fact]
     public void Constructor_RejectsTooFewOmegaPoints() =>
