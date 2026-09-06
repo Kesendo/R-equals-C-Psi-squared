@@ -6,7 +6,7 @@ The Chain Selection Test showed:
   - Low total noise + no contrast (Chain B): wins for |01010>
   - We need BOTH: enough contrast for mode protection, low enough total noise
 
-This script searches all 330 chains on IBM Torino heavy-hex for the
+This script searches every 5-qubit chain on IBM Torino's coupling map for the
 optimal combined score, then validates the best candidate with full
 spectral analysis and time evolution.
 
@@ -175,18 +175,18 @@ def time_evolution(gammas, rho0, times, J=1.0):
 
 
 def get_coupling_map():
-    """Get heavy-hex coupling map via Qiskit."""
-    try:
-        from qiskit.transpiler import CouplingMap
-        cmap = CouplingMap.from_heavy_hex(7, bidirectional=False)
-        edges = set()
-        for e in cmap.get_edges():
-            a, b = min(e), max(e)
-            edges.add((a, b))
-        return sorted(edges), cmap.size()
-    except Exception as ex:
-        print(f"Qiskit failed: {ex}")
-        return None, 0
+    """Get IBM Torino's coupling map.
+
+    It has to be Torino's own graph, because the T2 values these chains are
+    scored with come from Torino's calibration history and are indexed by its
+    qubit numbering. A synthetic distance-7 heavy-hex has 115 qubits against
+    Torino's 133, and the two graphs share NOT ONE edge, so a chain found on
+    the synthetic graph is not a path on the device.
+    """
+    from qiskit_ibm_runtime.fake_provider import FakeTorino
+    cmap = FakeTorino().coupling_map
+    edges = sorted({(min(a, b), max(a, b)) for a, b in cmap.get_edges()})
+    return edges, cmap.size()
 
 
 def find_all_chains(edges, n_qubits, chain_length=5):

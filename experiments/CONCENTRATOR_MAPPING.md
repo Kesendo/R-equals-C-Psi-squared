@@ -24,7 +24,7 @@ palindrome check, hence the same backward-error column
 **Script:** [sacrifice_zone_mapping.py](../simulations/sacrifice_zone_mapping.py)
 **Data:** [sacrifice_zone_mapping.txt](../simulations/results/sacrifice_zone_mapping.txt)
 **Calibration data:** [ibm_torino_history.csv](../data/ibm_history/ibm_torino_history.csv) (24,073 records, 181 days, 133 qubits)
-**Topology:** Heavy-hex (IBM's standard qubit layout where each node connects to 2 or 3 neighbors in a hexagonal pattern with extra "bridge" qubits on each edge) via Qiskit `CouplingMap.from_heavy_hex(7)` (115 qubits, 132 edges)
+**Topology:** IBM Torino's own coupling map via `FakeTorino` (133 qubits, 150 edges), the heavy-hex family where each node connects to 2 or 3 neighbours in a hexagonal pattern with extra "bridge" qubits on each edge
 
 ---
 
@@ -35,7 +35,7 @@ by exploiting naturally noisy qubits as concentrators. Instead of
 picking the qubits with the best T2 times (the standard approach), we
 select chains where a noisy qubit sits at the edge, providing the
 concentrator benefit for free. On IBM Torino's 133-qubit chip, this
-mode-based selection outperforms naive T2 maximization by 2.15× in
+mode-based selection outperforms naive T2 maximization by 2.6× in
 protection factor, despite using qubits with 2.3× lower average T2.
 
 ---
@@ -50,15 +50,16 @@ edge should provide the concentrator benefit *for free*.
 We test this on IBM Torino's heavy-hex topology using real T2
 calibration data (181 days, 24,073 records). On the latest calibration
 date 133 qubits carry T2 data; the `from_heavy_hex(7)` coupling map used
-here covers 115 of them, over 132 edges. 330 five-qubit chains
-exist on the graph. We compare two chain selection strategies:
+date 133 qubits carry T2 data, and we search the device's own coupling map,
+150 edges over those 133 qubits. 359 five-qubit chains exist on it. We compare
+two chain selection strategies:
 
 1. **Concentrator ranking:** Maximize edge noise / interior noise ratio
 2. **Mean-T2 ranking:** Maximize average T2 across all 5 qubits
 
 Result: **Zero overlap** in the top-10 lists. Concentrator chains
-achieve **2.53x** mean protection factor vs **1.18x** for mean-T2
-chains. Mode-based selection outperforms naive T2 maximization by 2.15x.
+achieve **3.12x** mean protection factor vs **1.19x** for mean-T2
+chains. Mode-based selection outperforms naive T2 maximization by 2.6x.
 
 The best concentrator chain has only 81 us mean T2 but 2.86x protection.
 The best T2 chain has 217 us mean T2 but only 1.06x protection.
@@ -121,11 +122,11 @@ oscillating mode rate, and protection factor vs uniform noise.
 
 | Chain | Score | mean T2 | Protection |
 |-------|-------|---------|-----------|
-| [85, 15, 86, 16, 87] | 18.0 | 112.5 us | 2.51x |
-| [85, 15, 86, 58, 92] | 17.0 | 94.3 us | 2.53x |
-| [49, 7, 79, 53, 85] | 15.8 | 67.6 us | 2.63x |
-| [80, 8, 79, 53, 85] | 11.9 | 81.1 us | **2.86x** |
-| [85, 14, 57, 21, 91] | 10.6 | 82.8 us | 2.14x |
+| [85, 86, 87, 88, 89] | 32.2 | 138.1 us | 3.42x |
+| [66, 67, 74, 86, 85] | 29.7 | 124.0 us | 3.11x |
+| [85, 86, 87, 88, 94] | 29.0 | 130.2 us | **3.44x** |
+| [68, 67, 74, 86, 85] | 22.3 | 98.8 us | 3.16x |
+| [81, 82, 83, 84, 85] | 17.2 | 75.2 us | 2.49x |
 
 All contain Q85 (T2 = 5.0 us), the noisiest qubit on the chip,
 as the concentrator endpoint.
@@ -147,12 +148,12 @@ provide long T2 but no differential protection.
 
 | Metric | Concentrator top-5 | Mean-T2 top-5 |
 |--------|----------------|---------------|
-| Mean protection factor | **2.53x** | 1.18x |
-| Mean T2 | 87.6 us | 205.8 us |
-| Mean concentrator score | 14.6 | 0.9 |
+| Mean protection factor | **3.12x** | 1.19x |
+| Mean T2 | 113.3 us | 220.0 us |
+| Mean concentrator score | 26.1 | 1.6 |
 | Palindrome backward error (see below) | 53.3-73.1 ε | 60.2-76.5 ε |
 
-The concentrator chains have 2.3x lower mean T2 but 2.15x higher
+The concentrator chains have 1.9x lower mean T2 but 2.6x higher
 protection. Choosing "worse" qubits with the right spatial pattern
 outperforms choosing the "best" qubits naively.
 
@@ -366,31 +367,30 @@ would otherwise both have been orphaned. Both numbers are measured, not counted
 from each other. These percentages carry no information, ordinal or otherwise,
 and are kept only as the record of what the retired scorer produced.
 
-**What the γ-book repair changed here.** The 2026-08-05 repair halved every rate
-in this run (γ = 1/T₂ → the D[Z] rate 1/(2T₂); see
-[the glossary section](../docs/GLOSSARY.md)). This is **not** a change of units:
-J is held at 1, so halving γ doubles Q = J/γ and moves the physical point. What
-survived exactly are the quantities of γ-degree zero, and only those: the
-concentrator scores, both rankings, the zero overlap, mean and min T2, the
-crossing counts, and the 2.15x verdict. What moved: every absolute rate (halved),
-and, slightly, the protection factors, which are a ratio of two rates taken at
-**fixed H** and so are invariant only in the limit γ → 0. Two moved at the
-printed precision (2.52x → 2.51x, and the top-5 mean 2.54x → 2.53x); the mean-T2
-chains sit close enough to that limit to show no movement.
+**Which of these numbers depend on the γ book.** The dephasing rate here is the
+D[Z] rate γ = 1/(2T₂), not 1/T₂ (see [the glossary section](../docs/GLOSSARY.md)).
+Choosing the other book is not a change of units: J is held at 1, so it moves Q =
+J/γ and with it the physical point. The quantities of γ-degree zero do not care
+which book is used: the concentrator scores, both rankings, the zero overlap,
+mean and min T2, and the crossing counts. The protection factors do care a
+little, being a ratio of two rates taken at **fixed H**, hence book-independent
+only in the limit γ → 0; the mean-T2 chains sit close enough to that limit to
+show no movement at the printed precision, the concentrator chains move in the
+last digit.
 
 ---
 
 ## Time stability
 
-The best concentrator chain [85, 15, 86, 16, 87] tracked across 5 months:
+The best concentrator chain [85, 86, 87, 88, 89] tracked across 5 months:
 
 | Date | Score | mean T2 |
 |------|-------|---------|
-| 2026-02-10 | 14.9 | 112.5 us |
-| 2025-12-12 | 13.0 | 102.4 us |
-| 2025-10-13 | 11.3 | 118.3 us |
+| 2026-02-10 | 33.75 | 138.1 us |
+| 2025-12-12 | 33.70 | 166.1 us |
+| 2025-10-13 | 30.09 | 159.5 us |
 
-The score varies by ~30% but the chain consistently ranks at the top.
+The score varies by ~11% but the chain consistently ranks at the top.
 Q85 remains the noisiest qubit on the chip across all calibrations.
 The mapping does not need daily recalculation.
 

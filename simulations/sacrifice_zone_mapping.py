@@ -184,42 +184,27 @@ def get_torino_coupling_map():
     except Exception:
         pass
 
-    # Fallback: use qiskit's built-in heavy-hex generator
-    try:
-        from qiskit.transpiler import CouplingMap
-        cmap = CouplingMap.from_heavy_hex(7)  # distance-7 heavy-hex ~ 127 qubits
-        edges = set()
-        for e in cmap.get_edges():
-            a, b = min(e), max(e)
-            edges.add((a, b))
-        return sorted(edges), cmap.size()
-    except Exception as ex:
-        print(f"  Qiskit CouplingMap failed: {ex}")
-
-    # Last resort: hardcode a minimal heavy-hex structure
-    print("  WARNING: Using hardcoded heavy-hex approximation")
-    return None, 0
+    # Torino's own coupling map. A synthetic distance-7 heavy-hex is NOT a
+    # subset of it: 115 qubits against 133, and the two share not one edge, so
+    # chains found on the synthetic graph are not paths on the device whose
+    # calibration data scores them.
+    from qiskit_ibm_runtime.fake_provider import FakeTorino
+    cmap = FakeTorino().coupling_map
+    edges = sorted({(min(a, b), max(a, b)) for a, b in cmap.get_edges()})
+    return edges, cmap.size()
 
 
 def get_coupling_map_fallback():
-    """Build a heavy-hex-like coupling map for 133 qubits manually."""
-    # IBM Heron r2 (133 qubits) coupling map from published specifications
-    # This is the standard heavy-hex layout used in IBM Torino
-    # Source: IBM Quantum documentation, various research papers
-    edges = set()
-    # Row structure for heavy-hex: alternating rows of vertices and links
-    # For a 133-qubit Heron processor, use known connectivity patterns
-    # Simplified: generate from Qiskit if possible, else approximate
-    try:
-        from qiskit.transpiler import CouplingMap
-        cmap = CouplingMap.from_heavy_hex(7, bidirectional=False)
-        for e in cmap.get_edges():
-            a, b = min(e), max(e)
-            edges.add((a, b))
-        n_qubits = cmap.size()
-        return sorted(edges), n_qubits
-    except Exception:
-        return None, 0
+    """Torino's coupling map, same source as the primary path.
+
+    There is no approximate fallback here on purpose. Substituting a graph that
+    shares no edge with the device is worse than failing, because the run then
+    looks like it succeeded.
+    """
+    from qiskit_ibm_runtime.fake_provider import FakeTorino
+    cmap = FakeTorino().coupling_map
+    edges = sorted({(min(a, b), max(a, b)) for a, b in cmap.get_edges()})
+    return edges, cmap.size()
 
 
 # ================================================================
