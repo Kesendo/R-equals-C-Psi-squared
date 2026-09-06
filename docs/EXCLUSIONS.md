@@ -6,7 +6,8 @@ algebraically exact, irreversible quantum classical transition, fold catastrophe
 topological invariant, time origin external Lindblad, R=CPsi2 logical exclusions -->
 
 **Status:** Derived from proven results; each exclusion cites its proof
-and carries its own grade (Tier-1 algebra in Exclusions 1, 4, 5, 6;
+and carries its own grade (Tier-1 algebra in Exclusions 1, 4, 5, and in the invariance half of 6,
+whose second half inherits 3's scope;
 2 is now weaker than conditional, see its own Basis paragraph; state-class-scoped in 3;
 structural in 7; the closing γ-chain is graded link by link where it
 stands).
@@ -193,7 +194,7 @@ The same principle operates at every level of the framework:
 | Level | What is converted | Into what | Evidence |
 |-------|------------------|-----------|----------|
 | 1/4 crossing | Quantum coherence | Classical correlation | CΨ monotonicity (this exclusion) |
-| V-Effect (experiment) | Individual frequencies | New coupled frequencies | 100% NEW-NEW: no N=2 frequency survives in N=5 ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)) |
+| V-Effect (census) | Individual frequency bins | Coupled frequency bins | The N=2 bins fall into no N=5 bin, and all 452 oscillating pairs are NEW-NEW under that labelling; OLD and NEW are bin labels, not mode identities ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)) |
 | Energy-partition audit | A full palindromic spectrum | A filtered list with stranded partners | Removing zero roots strands their −2Nγ partners; this is not a physical conversion ([Energy Partition](../hypotheses/ENERGY_PARTITION.md)) |
 
 These rows do not establish one general conversion principle. The first two
@@ -202,13 +203,15 @@ effect rather than dynamics. In particular, the filtered census supplies no
 irreversibility or claim that a structured component outlives an unstructured
 one.
 
-Two N=2 resonators (each 2 frequencies, Q=1, no oscillation) couple
-through a mediator and produce an N=5 system with 109 frequencies and
-Q=19+ (at least 19, still rising with J). Not one of the original 4
-frequencies survives. They are
-converted into something qualitatively new. Like the quantum coherence
-that becomes classical correlation at the fold: the old form is gone,
-but what replaces it is richer, not poorer.
+Two N=2 resonators (2 rounded frequency bins each, Q = 1: one crossing of
+1/4 and done) couple through a mediator, and the N=5 generator that results
+has 109 bins and Q = 19+ at J = 20. The N=2 values fall into none of them.
+That is a comparison of two censuses taken on generators of different size:
+no eigenvector is continued across the change of Hilbert-space dimension, so
+the comparison does not say which modes were destroyed or replaced, and its
+own source is explicit that OLD and NEW are bin labels rather than mode
+identities. The conversion reading is a reading laid over that census, not
+something the census measures.
 ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md),
 [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
@@ -242,8 +245,16 @@ Jordan-preserving and holomorphic at the price λ → −λ − 2Nγ (the
 "fold lattice, derived" section of
 [Codim-1 by Additivity](proofs/PROOF_CODIM1_BY_ADDITIVITY.md); its
 separate antiunitary cross-fold carries −λ̄ instead, the conjugations
-cancelling in the lattice composition), residuals exactly 0.0 with no
-eigensolver involved.
+cancelling in the lattice composition), and no eigensolver anywhere: every
+leg is index arithmetic. The identity is exact, and floating point splits
+the legs by whether they have to pay: the transpose and Klein legs return
+residuals of exactly 0.0 at every γ, while the two fold legs subtract the
+price 2Nγ and return exactly 0.0 only where that subtraction is
+representable (a sufficient condition: write 2γ = m·2^e with m odd; then
+m·N < 2^53 suffices, which 0.25, 0.5 and 1 satisfy and the canonical
+γ = 0.05 does not from N = 3 up), carrying a single rounding of the price
+otherwise, residual ≤ eps·2Nγ ([the measured
+split](../compute/MirrorWorld.Tests/MirrorTests.cs)).
 A random process would now have to reproduce not merely a paired
 spectrum but an entry-wise rearrangement identity.
 
@@ -252,7 +263,7 @@ CΨ = 1/4 crossing equation) confirmed on IBM Torino at 1.9% deviation
 ([IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)); the N-qubit
 pairing itself is algebraic + numerical, not yet a hardware readout.
 
-**Cross-domain (tested 2026-05-01, hardened 2026-06-28):** the F1 pair-sum-constant signature was tested on the periodic table of the elements, across three property scales and five periods (first ionization energies, Pauling and Allen electronegativities; the sweep and its numbers live in [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py) and §3 of [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)). The current verdict is the hardened one: the pair-sum-constant statistic is satisfied exactly by any linear ramp, the original shuffle-null significance was largely a monotonic-smoothness artifact, and the sign-flip-null re-analysis finds a residual mirror-respecting signal that cannot be pinned to F1 specifically, neither validating nor refuting it ([the hardened re-analysis](carbon/PERIODIC_PALINDROME_HARDENED.md)). The cross-domain transport from quantum F1 to atomic shell Hamiltonians remains empirical, not derived.
+**Cross-domain (tested 2026-05-01, hardened 2026-06-28):** the F1 pair-sum-constant signature was tested on the periodic table of the elements, across three property scales and five periods (first ionization energies, Pauling and Allen electronegativities; the sweep and its numbers live in [`simulations/periodic_palindrome.py`](../simulations/periodic_palindrome.py) and §3 of [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)). The current verdict is the hardened one: the pair-sum-constant statistic is satisfied exactly by any linear ramp, the original shuffle-null significance was largely a monotonic-smoothness artifact, and the sign-flip-null re-analysis finds a residual mirror-respecting signal that cannot be pinned to F1 specifically, neither validating nor refuting it ([the hardened re-analysis](carbon/PERIODIC_PALINDROME_HARDENED.md)). The hardening ran on the five ionization-energy rows and the two Allen-labelled rows; the Pauling scale of the original sweep was never put through the sign-flip null, so it carries the older shuffle-null reading and nothing stronger. The cross-domain transport from quantum F1 to atomic shell Hamiltonians remains empirical, not derived.
 
 **Ruled out:**
 - "The symmetry is approximate and breaks at some scale": it is
@@ -283,12 +294,16 @@ The value ¼ = (½)² is the degree-2 signature of purity (Tr(ρ²)); the
 formal site of ¼ is the discriminant zero above, and the uniqueness of
 the threshold is the Uniqueness Proof's α = 2 result. It is not a
 fitted parameter.
-The same PRODUCT STRUCTURE appears in classical neural networks:
-σ(1-σ) reaches its maximum 1/4 at the sigmoid midpoint (decided x
-undecided = ½ x ½); wherever two complementary halves form a product,
-the maximum is (½)² = ¼. The cited analysis is explicit that only the
-structure transfers: CΨ = 1/4 does not appear as a boundary in the
-neural case. See [Neural 1/4](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
+The same product shape turns up wherever two complementary halves
+multiply: the logistic derivative σ(1−σ) reaches its maximum 1/4 at
+σ = ½, decided × undecided = ½ × ½. That is an algebraic resemblance and
+is not read here as more. Nothing on the neural side supplies a threshold
+to go with it: F36/F37 give none, and a neural bifurcation would need its
+own operating point and eigenvalue-crossing analysis
+([the translation roads](neural/ALGEBRAIC_PALINDROME_NEURAL.md#translation-roads)),
+while the σ(1−σ) = 1/4 identity is read there as maximal normalized slope
+and nothing else ([the V-effect mechanism
+proof](neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
 
 **Proof:** [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md),
 [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
@@ -324,10 +339,15 @@ Hilbert-space dimension (not Exclusion 1's single-site d). Purity Tr(ρ^2) is in
 under all unitaries. L₁ coherence is invariant under the Pauli group
 (Paulis permute computational basis states with phases, absolute value
 absorbs phases). DD uses Pauli gates. Therefore the DD pulses leave CΨ
-exactly invariant, and the free evolution between pulses only
-decreases it (Exclusion 3), so the sequence as a whole cannot restore
-CΨ. Delta = 0.00e+00 for all 16 two-qubit Pauli strings
-(I,X,Y,Z)⊗(I,X,Y,Z).
+exactly invariant: Delta = 0.00e+00 for all 16 two-qubit Pauli strings
+(I,X,Y,Z)⊗(I,X,Y,Z). That half is algebraic and carries no scope.
+
+The second half is weaker, and inherits Exclusion 3's: the sequence as a
+whole cannot restore CΨ only where the free evolution between the pulses
+decreases it, which is proven for the single-qubit envelope and open for
+the N ≥ 3 full state, where it genuinely rises at N ≥ 4 under strong
+coupling. So the pulses are exactly not the mechanism at any N, and
+"the sequence cannot restore CΨ" holds within Exclusion 3's scope.
 
 **Proof:** [CΨ Monotonicity, Part 7](proofs/PROOF_MONOTONICITY_CPSI.md).
 
