@@ -234,17 +234,42 @@ public class SmokeTests
         Assert.True(product.Max() / product.Min() < 1.03,
             "the product-state threshold is the N-flat one");
 
-        // Bell/GHZ: 0.00038 / 0.00001 / 0.00002 / 0.00002. Spread 26, so it is carried
-        // as a range; a single Bell constant is what the old reading got wrong.
-        double[] bell = { 0.00038, 0.00001, 0.00002, 0.00002 };
-        Assert.Equal(bell.Min(), Formulas.F18_FoldThresholdBellMin, 10);
-        Assert.Equal(bell.Max(), Formulas.F18_FoldThresholdBellMax, 10);
-        Assert.True(bell.Max() / bell.Min() > 20.0,
-            "the Bell/GHZ threshold is not N-flat and must not be one number");
+        // GHZ carries exactly one threshold, at N = 2, and the producer reports the other
+        // three as "below-cusp" rather than as numbers.
+        Assert.Equal(0.00038, Formulas.F18_FoldThresholdBellN2, 10);
+        Assert.True(Formulas.F18_FoldThresholdProduct > Formulas.F18_FoldThresholdBellN2);
+    }
 
-        // The two preparations are different objects: the product mean must not sit
-        // inside the Bell range, and must not be twice any Bell value either.
-        Assert.True(Formulas.F18_FoldThresholdProduct > Formulas.F18_FoldThresholdBellMax);
+    [Fact]
+    public void F18_GhzStartsBelowTheFold_FromThreeQubitsUp()
+    {
+        // This is the reason there is no GHZ threshold to be flat or unflat in, and it is
+        // arithmetic rather than a measurement: purity 1, off-diagonal l1 norm 1, and the
+        // normalisation d - 1, so CPsi(0) = 1/(2^N - 1). It clears the 1/4 fold only at N = 2.
+        Assert.Equal(1.0 / 3.0, Formulas.F18_GhzInitialCPsi(2), 12);
+        Assert.True(Formulas.F18_GhzInitialCPsi(2) > 0.25, "N = 2 is the one that crosses");
+        foreach (int n in new[] { 3, 4, 5, 6, 10, 30 })
+            Assert.True(Formulas.F18_GhzInitialCPsi(n) < 0.25,
+                $"GHZ at N = {n} starts at {Formulas.F18_GhzInitialCPsi(n)}, already past the fold");
+
+        // Against the producer's own printed CPsi(0) column, exactly.
+        Assert.Equal(0.14285714285714285, Formulas.F18_GhzInitialCPsi(3), 14);
+        Assert.Equal(0.06666666666666667, Formulas.F18_GhzInitialCPsi(4), 14);
+        Assert.Equal(0.03225806451612903, Formulas.F18_GhzInitialCPsi(5), 14);
+
+        // The floor a threshold search returns when there is nothing to find: the bisector
+        // starts at [0, 0.01] with tol 1e-5, never lifts its lower end, and reports
+        // N * (0.01 / 2^10) / 2. Those are the numbers this entry used to carry, and the
+        // gate exists so that they cannot come back as physics.
+        for (int n = 3; n <= 5; n++)
+        {
+            double searchFloor = n * (0.01 / 1024.0) / 2.0;
+            Assert.True(Math.Round(searchFloor, 5) <= 0.00002 + 1e-12,
+                $"the bisection floor at N = {n} rounds to {Math.Round(searchFloor, 5)}");
+            Assert.NotEqual(searchFloor, Formulas.F18_FoldThresholdBellN2, 6);
+        }
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F18_GhzInitialCPsi(0));
     }
 
     [Fact]

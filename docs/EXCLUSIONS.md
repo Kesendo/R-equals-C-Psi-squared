@@ -111,9 +111,10 @@ internally then the time arrow cannot either", still holds as a
 conditional; what has gone is its antecedent. At Σγ = 0: Π·L·Π⁻¹ = -L
 (exact time reversal, no fold, no crossing, no irreversibility), and the
 spectrum pairs about zero, freely.
-The fold at 1/4 emerges only above Σγ_crit/J ≈ 0.25-0.50%
-(state-dependent; flat in N over the measured N = 2-5 for the product state and
-not for Bell/GHZ; these numbers live in
+The fold at 1/4 emerges only above Σγ_crit/J ≈ 0.25-0.50% for a preparation
+that starts above the fold (flat in N over the measured N = 2-5 for the |+⟩^N
+product state; GHZ starts at CΨ(0) = 1/(2^N − 1) and so is already past the fold
+from N = 3, with no threshold to quote; these numbers live in
 [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)).
 See also [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 and [γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).

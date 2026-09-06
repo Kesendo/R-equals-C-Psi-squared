@@ -1,6 +1,6 @@
 ======================================================================
 UNIVERSALITY V33: Reconstruction and Verification
-Started: 2026-09-06 10:11:49
+Started: 2026-09-06 14:04:02
 ======================================================================
 
 ======================================================================
@@ -8,30 +8,39 @@ AUFGABE A: Σγ_crit / J bei verschiedenen N
 Heisenberg chain, J=1.0, two initial states
 ======================================================================
 
-  --- Initial state: |+⟩^N ---
+  --- Initial state: |+>^N ---
 
-  N=2  16x16  Σγ_crit=0.00247  Σγ_crit/J=0.00247  (0.4s)
-  N=3  64x64  Σγ_crit=0.00250  Σγ_crit/J=0.00250  (3.8s)
-  N=4  256x256  Σγ_crit=0.00252  Σγ_crit/J=0.00252  (8.8s)
-  N=5  1024x1024  Σγ_crit=0.00247  Σγ_crit/J=0.00247  (33.1s)
+  N=2  16x16  CPsi(0)=1.00000  Sg_crit=0.00247  Sg_crit/J=0.00247  (0.4s)
+  N=3  64x64  CPsi(0)=1.00000  Sg_crit=0.00250  Sg_crit/J=0.00250  (4.1s)
+  N=4  256x256  CPsi(0)=1.00000  Sg_crit=0.00252  Sg_crit/J=0.00252  (9.2s)
+  N=5  1024x1024  CPsi(0)=1.00000  Sg_crit=0.00247  Sg_crit/J=0.00247  (34.2s)
 
-  --- Initial state: Bell/GHZ (|00..0⟩+|11..1⟩)/sqrt(2) ---
+  --- Initial state: Bell/GHZ (|00..0> + |11..1>)/sqrt(2) ---
 
-  N=2  16x16  Σγ_crit=0.00038  Σγ_crit/J=0.00038  (0.3s)
-  N=3  64x64  Σγ_crit=0.00001  Σγ_crit/J=0.00001  (2.5s)
-  N=4  256x256  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (3.8s)
-  N=5  1024x1024  Σγ_crit=0.00002  Σγ_crit/J=0.00002  (24.4s)
+  N=2  16x16  CPsi(0)=0.33333  Sg_crit=0.00038  Sg_crit/J=0.00038  (0.4s)
+  N=3  64x64  CPsi(0)=0.14286  no threshold:  the state starts at or below 1/4, the fold needs no noise  (0.4s)
+  N=4  256x256  CPsi(0)=0.06667  no threshold:  the state starts at or below 1/4, the fold needs no noise  (0.4s)
+  N=5  1024x1024  CPsi(0)=0.03226  no threshold:  the state starts at or below 1/4, the fold needs no noise  (1.9s)
 
-  Summary:
-    N         |+⟩^N      Bell/GHZ   Ratio +/Bell
-  --------------------------------------------------
-    2       0.00247       0.00038          6.487
-    3       0.00250       0.00001        171.000
-    4       0.00252       0.00002        129.000
-    5       0.00247       0.00002        101.000
+  Summary (Sg_crit/J, or the reason there is none):
+    N         |+>^N                Bell/GHZ
+  ---------------------------------------------
+    2       0.00247                 0.00038
+    3       0.00250  below-cusp (CPsi(0)=0.14286)
+    4       0.00252  below-cusp (CPsi(0)=0.06667)
+    5       0.00247  below-cusp (CPsi(0)=0.03226)
 
-  |+⟩^N: Max/Min = 1.0218  (2.2%)
-  Bell:  Max/Min = 26.0000  (2500.0%)
+  |+>^N: 4 of 4 N have a threshold; Max/Min = 1.0218  (2.2%)
+  Bell:  1 of 4 N have a threshold; there is no spread to report, and no N-dependence either.
+
+  GHZ starts at CPsi(0) = 1/(2^N - 1), which exceeds 1/4 only at N = 2,
+  so from N = 3 the state is already past the fold before any noise is
+  applied and there is no threshold to measure. The 1/(2^N - 1) form is
+  exact: purity 1, off-diagonal l1 norm 1, normalisation d - 1.
+    N=2  1/(2^N-1) = 0.3333333333   measured CPsi(0) = 0.3333333333   residual 2.22e-16
+    N=3  1/(2^N-1) = 0.1428571429   measured CPsi(0) = 0.1428571429   residual 8.33e-17
+    N=4  1/(2^N-1) = 0.0666666667   measured CPsi(0) = 0.0666666667   residual 4.16e-17
+    N=5  1/(2^N-1) = 0.0322580645   measured CPsi(0) = 0.0322580645   residual 2.08e-17
 
 ======================================================================
 AUFGABE B: Kavitaetsmoden bei Σγ = 0
@@ -117,12 +126,13 @@ Near-mixed start, negative Sigma_gamma; positivity tracked alongside
 SUMMARY
 ======================================================================
 
-A) Σγ_crit/J over N=2..5: |+⟩^N spread 1.0218 (2.2%), Bell/GHZ spread 26.0000 (2500.0%).
-   Flat within a couple of percent for the product state; the Bell/GHZ threshold is not N-independent.
+A) Sg_crit/J over N=2..5: |+>^N has a threshold at all four N, spread 1.0218 (2.2%), flat within a couple of percent.
+   Bell/GHZ has one at 1 of 4: CPsi(0) = 1/(2^N - 1) clears 1/4 only at N = 2 (0.33333), so from N = 3 the state begins
+   below the fold and the threshold question does not apply. There is no N-dependence to report, and no spread.
 B) At Σγ=0: steady + purely oscillating only; modes with a real part outside ±1e-8: 0 (worst over N=2..5).
 C) Gain spectrum is the exact mirror of the decay spectrum: worst error 0.207 x the eigensolver floor, while a spurious -2Σγ shift sits at 7.5e+10 x the floor.
 D) WITH bridge: UNSTABLE at g ∈ {0.10, 0.20, 0.50} of 5 sampled.
    WITHOUT bridge: UNSTABLE at 0.05, 0.10, 0.20, 0.50, 1.00.
 
-Completed: 2026-09-06 10:13:13
+Completed: 2026-09-06 14:05:00
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\fold_threshold_universality.txt

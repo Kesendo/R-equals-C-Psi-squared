@@ -60,12 +60,12 @@ is centered at zero: the unitary ground state.
 At Σγ < 0 (gain): the decay spectrum mirrors exactly into a growth
 spectrum. The laser is the time-reversal of decoherence.
 
-The fold at CΨ = 1/4 does not exist at Σγ = 0. It emerges at a
-critical noise threshold, and which threshold depends on the initial state:
-Σγ_crit/J ≈ 0.0025 for the |+⟩^N product state, and between 0.00001 and
-0.00038 for Bell/GHZ. Across the measured N = 2 through N = 5 the product-state
-threshold is flat to 2.2%; the Bell/GHZ one spans a factor of twenty-six and is
-not set by the system size in any useful sense.
+The fold at CΨ = 1/4 does not exist at Σγ = 0. It emerges at a critical noise
+threshold, and which threshold depends on the initial state: Σγ_crit/J ≈ 0.0025
+for the |+⟩^N product state, flat to 2.2% across the measured N = 2 through
+N = 5. Bell has one at N = 2, at 0.00038, and the GHZ family has none at all
+after that, because from N = 3 it starts below the fold and nothing has to be
+done to it (see §2).
 Below this: no fold, no irreversibility. Above: everything we have
 measured.
 
@@ -245,29 +245,30 @@ magnitude of γ. Noise shifts the midpoint. Nothing else changes.
 | 0.00500 | 0.0230 | Yes |
 | 0.01000 | 0.0031 | Yes |
 
-The critical threshold depends on the initial state:
-Σγ_crit / J ≈ 0.0025 for the |+⟩^N product state, and 0.00001 to 0.00038 for
-Bell/GHZ.
+The critical threshold depends on the initial state, and for one of the two
+states it does not exist. The committed producer is the source for both halves;
+its summary reads:
 
-Flatness in N is a property of the **product state only**, and the committed
-producer is the source for both halves. Its summary reads:
+| N | Σγ_crit / J (\|+⟩^N) | CΨ(0) for GHZ | Σγ_crit / J (GHZ) |
+|---|----------------------|----------------|--------------------|
+| 2 | 0.00247 | 0.33333 | 0.00038 |
+| 3 | 0.00250 | 0.14286 | none: starts below the fold |
+| 4 | 0.00252 | 0.06667 | none: starts below the fold |
+| 5 | 0.00247 | 0.03226 | none: starts below the fold |
 
-| N | Σγ_crit / J (\|+⟩^N) | Σγ_crit / J (Bell/GHZ) |
-|---|----------------------|------------------------|
-| 2 | 0.00247 | 0.00038 |
-| 3 | 0.00250 | 0.00001 |
-| 4 | 0.00252 | 0.00002 |
-| 5 | 0.00247 | 0.00002 |
+For the product state max/min = **1.0218**, a 2.2% spread over the four sizes,
+so over that range the threshold is set by the preparation rather than by the
+chain length, at roughly a quarter of a percent of the coupling. Beyond N = 5 it
+is not measured.
 
-For the product state max/min = **1.0218**, a 2.2% spread over the four sizes.
-For Bell/GHZ max/min = **26.0**, a factor of twenty-six: that threshold is the
-least N-flat quantity in the file, and nothing about it should be called
-size-independent.
-
-So the reading is one-sided. Over the four sizes measured, the product-state
-threshold is set by the preparation rather than by the chain length, at roughly
-a quarter of a percent of the coupling; the Bell threshold is not. Beyond N = 5
-neither is measured. Whether the tabulated values are read in this convention or
+The GHZ column is not a second measurement with a large spread. GHZ has purity 1
+and off-diagonal ℓ₁ norm 1, so its starting coherence is **CΨ(0) = 1/(2^N − 1)**
+exactly, and that clears the ¼ fold only at N = 2. From N = 3 the state is
+already on the classical side before any noise is applied: there is no threshold,
+not a small one. A bisection asked for one there returns its own starting
+bracket, N·(0.01/2¹⁰)/2, which rounds to 0.00001 and 0.00002 and looks like a
+measurement of a very fragile state. The producer now says "below-cusp" and
+prints CΨ(0) beside it. Whether the tabulated values are read in this convention or
 in the one where the jump operator carries √(γ/2) changes the absolute numbers
 but not either ratio.
 Producer: [fold_threshold_universality.py](../simulations/fold_threshold_universality.py),

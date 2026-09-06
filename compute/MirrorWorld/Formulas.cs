@@ -182,14 +182,24 @@ public static class Formulas
     // F38 (T1): Pi^2 = (-1)^{w_YZ} = (-1)^{n_Y+n_Z} on a Pauli string (order 4, Pi^4=I); = conjugation by X^N.
     public static int F38_PiSquared(int nY, int nZ) => (nY + nZ) % 2 == 0 ? +1 : -1;
 
-    // F18 (T2, product state only, measured N=2-5): fold threshold Sg_crit/J. Below: CPsi oscillates
-    // forever; above: crosses 1/4 irreversibly. Flatness in N holds for the PRODUCT state (producer
-    // max/min 1.0218) and NOT for Bell/GHZ (max/min 26.0), which is why Bell/GHZ is carried as a
-    // range rather than a constant. Unmeasured beyond N=5. Not a universal constant, and not one
-    // statement for both preparations.
+    // F18 (T2, |+>^N product state, measured N=2-5): fold threshold Sg_crit/J. Below: CPsi
+    // oscillates forever; above: crosses 1/4 irreversibly. The product state's threshold is flat
+    // in N over that range (producer max/min 1.0218). Unmeasured beyond N=5.
     public const double F18_FoldThresholdProduct = 0.00249;
-    public const double F18_FoldThresholdBellMin = 0.00001;
-    public const double F18_FoldThresholdBellMax = 0.00038;
+
+    // The GHZ family carries ONE threshold, at N=2, and this is exact rather than measured:
+    // GHZ has purity 1 and off-diagonal l1 norm 1, so CPsi(0) = 1/(2^N - 1) = F18_GhzInitialCPsi,
+    // which clears 1/4 only at N=2. From N=3 the state begins below the fold, so no noise level
+    // creates it and there is no threshold to hold. A bisection run there returns its own bracket.
+    public const double F18_FoldThresholdBellN2 = 0.00038;
+
+    // CPsi(0) for GHZ = (|0..0> + |1..1>)/sqrt(2) on N qubits: purity 1, off-diagonal l1 norm 1,
+    // normalisation d - 1 = 2^N - 1. Exceeds the 1/4 fold only at N = 2.
+    public static double F18_GhzInitialCPsi(int n)
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be >= 1.");
+        return 1.0 / (Math.Pow(2.0, n) - 1.0);
+    }
 
     // F36/F37 (T1, conditional): a Wilson-Cowan/neural Jacobian satisfying Q*J*Q + J + 2s*I = 0
     // with involutive Q and scalar s has pair sum -2s = -(1/tau_E + 1/tau_I).

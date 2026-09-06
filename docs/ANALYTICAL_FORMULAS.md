@@ -1015,20 +1015,31 @@ with N (Q_c(4)≈27, Q_c(5)≈45).
 
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### F18. Fold threshold (Tier 2, product state only, measured N = 2-5)
+### F18. Fold threshold (Tier 2, |+⟩^N product state, measured N = 2-5)
 
     Σγ_crit / J = 0.00249 (|+⟩^N product state, mean over N = 2-5)
-    Σγ_crit / J = 0.00001 to 0.00038 (Bell/GHZ, no single value)
+    Σγ_crit / J = 0.00038 (Bell, N = 2; no threshold exists for GHZ at N ≥ 3)
 
-Below: no fold, CΨ oscillates forever. Above: CΨ crosses 1/4
-irreversibly. Flatness in N holds for the PRODUCT state only: the producer
-gives max/min = 1.0218 over N = 2-5 for |+⟩^N, and max/min = 26.0 for
-Bell/GHZ, whose threshold is the least size-flat quantity in the file. So the
+Below: no fold, CΨ oscillates forever. Above: CΨ crosses 1/4 irreversibly.
+The producer gives max/min = 1.0218 over N = 2-5 for |+⟩^N, so the
 product-state threshold is set by the preparation rather than by the chain
-length over that range, and the Bell one is not; beyond N = 5 neither is
-measured. Not a universal constant, and not one number for both states.
+length over that range; beyond N = 5 it is not measured.
 
-**Valid for:** Heisenberg chain, Z-dephasing, N=2-5.
+**The GHZ family has no threshold to be flat or unflat in, and this is
+exact rather than a measurement.** GHZ = (|0…0⟩ + |1…1⟩)/√2 has purity 1 and
+off-diagonal ℓ₁ norm 1, so its starting coherence is
+
+    CΨ(0) = 1 / (2^N − 1)
+
+which is 1/3 at N = 2 and 1/7, 1/15, 1/31 after that. From N = 3 the state
+begins **below** the fold, and the question "how much noise is needed to
+create it" does not apply: no noise is needed, and none can be the answer.
+Only N = 2 crosses, at 0.00038. A threshold search run on the other three
+returns its own bisection bracket, which is why this entry once carried a
+range and a spread; it never had a second measurement to spread across.
+
+**Valid for:** Heisenberg chain, Z-dephasing, N=2-5, and a preparation whose
+CΨ(0) exceeds 1/4.
 **Replaces:** γ sweep to find fold onset.
 **Source:** [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)
 

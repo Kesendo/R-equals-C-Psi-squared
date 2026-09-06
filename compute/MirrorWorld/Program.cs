@@ -1780,8 +1780,9 @@ Console.WriteLine($"  F34 qubit necessity: d^2-2d=0 -> d in {{{string.Join(", ",
 Console.WriteLine($"  D1 BW=8J cos(pi/N) (N=4,J=1) = {Formulas.D1_Bandwidth(4, 1.0):0.000} -> 8J at large N");
 Console.WriteLine($"  D4 crossing rhs (d-1)/2: d=2 -> {Formulas.D4_CrossingRhs(2):0.0}, d=4 -> {Formulas.D4_CrossingRhs(4):0.0}");
 Console.WriteLine($"  D6 gap=2g={Formulas.D6_Gap(0.5):0.0}, mixing time (N=4) <= {Formulas.D6_MixingTime(4, 0.5):0.00} (both above Q*_gap(N) only);  F38 Pi^2=(-1)^(nY+nZ)=X^N (order 4)");
-Console.WriteLine($"  F18 fold threshold Sg_crit/J: product={Formulas.F18_FoldThresholdProduct}, "
-                  + $"Bell/GHZ={Formulas.F18_FoldThresholdBellMin}..{Formulas.F18_FoldThresholdBellMax} (not N-flat)");
+Console.WriteLine($"  F18 fold threshold Sg_crit/J: product={Formulas.F18_FoldThresholdProduct} (N-flat over N=2..5), "
+                  + $"GHZ={Formulas.F18_FoldThresholdBellN2} at N=2 only; "
+                  + $"CPsi(0)=1/(2^N-1) clears 1/4 nowhere else (N=3: {Formulas.F18_GhzInitialCPsi(3):F5})");
 Console.WriteLine($"  F36/F37 neural (conditional): involution Q, scalar s, Q J Q^-1 + J + 2s I = 0; full-complex pairing mu+mu'=-2s; full C. elegans chemical matrix fails support gate (253 nonempty E vs 18 I)");
 Console.WriteLine($"  F61 bit_a parity Pi^2_X=Z^N=(-1)^(nX+nY)=(-1)^k (the k-parity H conserves); F63 [L,Pi^2]=0 (conserved, all N)");
 Console.WriteLine($"  F39 det(Pi)=(-1)^(N 4^(N-1)): N=1->{Formulas.F39_DetPi(1)}, N>=2->{Formulas.F39_DetPi(4)};  F41 t_Pi=pi/(4J sin^2(pi/2N)) (N=4) = {Formulas.F41_PalindromicTime(4, 1.0):0.000}");

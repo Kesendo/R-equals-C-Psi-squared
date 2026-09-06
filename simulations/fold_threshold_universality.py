@@ -129,14 +129,35 @@ def find_cpsi_min_spectral(n_qubits, gamma_per_site, rho0, J=1.0,
 
 
 def bisect_gamma_crit(n_qubits, rho0, J=1.0, tol=1e-5):
-    """Find critical Σγ where CΨ_min first crosses 1/4."""
+    """Find critical Sigma-gamma where CPsi_min first crosses 1/4.
+
+    Returns (value, verdict). The verdict is one of:
+
+      "measured"     a real threshold: the state is above 1/4 at gamma = 0 and
+                     falls below it at some finite gamma, bracketed to tol.
+      "below-cusp"   the state STARTS at or below 1/4, so there is no noise
+                     level at which the fold appears; the question does not
+                     apply and the value is None.
+      "not-found"    the state stays above 1/4 up to the search ceiling.
+
+    The "below-cusp" branch is why this returns a verdict at all. Without it the
+    loop below never lifts g_lo, halves g_hi until the bracket is narrower than
+    tol, and returns n_qubits*(0.01/2**10)/2 = n_qubits*4.8828e-6, which is the
+    bisector's own resolution wearing the units of a measurement. It looks like a
+    small threshold and it is a search floor. GHZ meets it from N = 3 up:
+    CPsi(0) = 1/(2**N - 1), above 1/4 only at N = 2.
+    """
+    cpsi_at_zero = find_cpsi_min_spectral(n_qubits, 0.0, rho0, J)
+    if cpsi_at_zero <= 0.25:
+        return None, "below-cusp"
+
     g_lo, g_hi = 0.0, 0.01
 
     # Ensure g_hi gives fold
     while find_cpsi_min_spectral(n_qubits, g_hi, rho0, J) > 0.25:
         g_hi *= 2
         if g_hi > 1.0:
-            return None
+            return None, "not-found"
 
     while (g_hi - g_lo) > tol:
         g_mid = (g_lo + g_hi) / 2
@@ -146,8 +167,11 @@ def bisect_gamma_crit(n_qubits, rho0, J=1.0, tol=1e-5):
         else:
             g_lo = g_mid
 
-    sigma_gamma_crit = n_qubits * (g_lo + g_hi) / 2
-    return sigma_gamma_crit
+    # A threshold indistinguishable from the empty bracket is not a measurement.
+    if g_lo == 0.0:
+        return None, "below-cusp"
+
+    return n_qubits * (g_lo + g_hi) / 2, "measured"
 
 
 # ================================================================
@@ -165,56 +189,72 @@ log("AUFGABE A: Σγ_crit / J bei verschiedenen N")
 log("Heisenberg chain, J=1.0, two initial states")
 log("=" * 70)
 
-# A1: |+⟩^N initial state
-log()
-log("  --- Initial state: |+⟩^N ---")
-log()
-results_plus = []
-for N in [2, 3, 4, 5]:
-    t0 = clock.time()
-    d2 = (2**N)**2
-    rho0 = plus_state(N)
-    sg_crit = bisect_gamma_crit(N, rho0, J=1.0, tol=1e-5)
-    elapsed = clock.time() - t0
-    ratio = sg_crit / 1.0
-    results_plus.append((N, d2, sg_crit, ratio))
-    log(f"  N={N}  {d2}x{d2}  Σγ_crit={sg_crit:.5f}"
-        f"  Σγ_crit/J={ratio:.5f}  ({elapsed:.1f}s)")
+def scan_state(label, maker):
+    """Run the threshold search over N and report each verdict as it stands."""
+    log()
+    log(f"  --- Initial state: {label} ---")
+    log()
+    rows = []
+    for N in [2, 3, 4, 5]:
+        t0 = clock.time()
+        d2 = (2**N)**2
+        rho0 = maker(N)
+        cpsi0 = cpsi(rho0, N)
+        sg_crit, verdict = bisect_gamma_crit(N, rho0, J=1.0, tol=1e-5)
+        elapsed = clock.time() - t0
+        rows.append((N, d2, sg_crit, verdict, cpsi0))
+        if verdict == "measured":
+            log(f"  N={N}  {d2}x{d2}  CPsi(0)={cpsi0:.5f}  Sg_crit={sg_crit:.5f}"
+                f"  Sg_crit/J={sg_crit:.5f}  ({elapsed:.1f}s)")
+        elif verdict == "below-cusp":
+            log(f"  N={N}  {d2}x{d2}  CPsi(0)={cpsi0:.5f}  no threshold:"
+                f"  the state starts at or below 1/4, the fold needs no noise"
+                f"  ({elapsed:.1f}s)")
+        else:
+            log(f"  N={N}  {d2}x{d2}  CPsi(0)={cpsi0:.5f}  no threshold:"
+                f"  still above 1/4 at the search ceiling  ({elapsed:.1f}s)")
+    return rows
 
-# A2: Bell/GHZ initial state
-log()
-log("  --- Initial state: Bell/GHZ (|00..0⟩+|11..1⟩)/sqrt(2) ---")
-log()
-results_bell = []
-for N in [2, 3, 4, 5]:
-    t0 = clock.time()
-    d2 = (2**N)**2
-    rho0 = bell_state(N)
-    sg_crit = bisect_gamma_crit(N, rho0, J=1.0, tol=1e-5)
-    elapsed = clock.time() - t0
-    ratio = sg_crit / 1.0
-    results_bell.append((N, d2, sg_crit, ratio))
-    log(f"  N={N}  {d2}x{d2}  Σγ_crit={sg_crit:.5f}"
-        f"  Σγ_crit/J={ratio:.5f}  ({elapsed:.1f}s)")
+
+results_plus = scan_state("|+>^N", plus_state)
+results_bell = scan_state("Bell/GHZ (|00..0> + |11..1>)/sqrt(2)", bell_state)
 
 # Summary table
 log()
-log("  Summary:")
-log(f"  {'N':>3}  {'|+⟩^N':>12}  {'Bell/GHZ':>12}  {'Ratio +/Bell':>13}")
-log(f"  {'-'*50}")
-for i in range(len(results_plus)):
-    N = results_plus[i][0]
-    r_p = results_plus[i][3]
-    r_b = results_bell[i][3]
-    log(f"  {N:>3}  {r_p:>12.5f}  {r_b:>12.5f}  {r_p/r_b:>13.3f}")
+log("  Summary (Sg_crit/J, or the reason there is none):")
+log(f"  {'N':>3}  {'|+>^N':>12}  {'Bell/GHZ':>22}")
+log(f"  {'-'*45}")
+for rp, rb in zip(results_plus, results_bell):
+    cell_p = f"{rp[2]:.5f}" if rp[3] == "measured" else rp[3]
+    cell_b = f"{rb[2]:.5f}" if rb[3] == "measured" else f"{rb[3]} (CPsi(0)={rb[4]:.5f})"
+    log(f"  {rp[0]:>3}  {cell_p:>12}  {cell_b:>22}")
 
 log()
-ratios_p = [r[3] for r in results_plus]
-ratios_b = [r[3] for r in results_bell]
-log(f"  |+⟩^N: Max/Min = {max(ratios_p)/min(ratios_p):.4f}"
-    f"  ({(max(ratios_p)/min(ratios_p) - 1)*100:.1f}%)")
-log(f"  Bell:  Max/Min = {max(ratios_b)/min(ratios_b):.4f}"
-    f"  ({(max(ratios_b)/min(ratios_b) - 1)*100:.1f}%)")
+measured_p = [r[2] for r in results_plus if r[3] == "measured"]
+measured_b = [r[2] for r in results_bell if r[3] == "measured"]
+if len(measured_p) > 1:
+    log(f"  |+>^N: {len(measured_p)} of 4 N have a threshold; Max/Min ="
+        f" {max(measured_p)/min(measured_p):.4f}"
+        f"  ({(max(measured_p)/min(measured_p) - 1)*100:.1f}%)")
+else:
+    log(f"  |+>^N: {len(measured_p)} of 4 N have a threshold; no spread to report.")
+if len(measured_b) > 1:
+    log(f"  Bell:  {len(measured_b)} of 4 N have a threshold; Max/Min ="
+        f" {max(measured_b)/min(measured_b):.4f}"
+        f"  ({(max(measured_b)/min(measured_b) - 1)*100:.1f}%)")
+else:
+    log(f"  Bell:  {len(measured_b)} of 4 N have a threshold; there is no spread"
+        f" to report, and no N-dependence either.")
+log()
+log("  GHZ starts at CPsi(0) = 1/(2^N - 1), which exceeds 1/4 only at N = 2,")
+log("  so from N = 3 the state is already past the fold before any noise is")
+log("  applied and there is no threshold to measure. The 1/(2^N - 1) form is")
+log("  exact: purity 1, off-diagonal l1 norm 1, normalisation d - 1.")
+for N in [2, 3, 4, 5]:
+    closed = 1.0 / (2**N - 1)
+    live = cpsi(bell_state(N), N)
+    log(f"    N={N}  1/(2^N-1) = {closed:.10f}   measured CPsi(0) = {live:.10f}"
+        f"   residual {abs(closed-live):.2e}")
 
 # ================================================================
 # AUFGABE B: Kavitaetsmoden bei Σγ = 0
@@ -461,13 +501,14 @@ log("=" * 70)
 log("SUMMARY")
 log("=" * 70)
 log()
-spread_p = max(ratios_p) / min(ratios_p)
-spread_b = max(ratios_b) / min(ratios_b)
-log(f"A) Σγ_crit/J over N=2..5: |+⟩^N spread {spread_p:.4f}"
-    f" ({(spread_p - 1) * 100:.1f}%), Bell/GHZ spread {spread_b:.4f}"
-    f" ({(spread_b - 1) * 100:.1f}%).")
-log("   Flat within a couple of percent for the product state; the Bell/GHZ"
-    " threshold is not N-independent.")
+spread_p = max(measured_p) / min(measured_p)
+log(f"A) Sg_crit/J over N=2..5: |+>^N has a threshold at all four N,"
+    f" spread {spread_p:.4f} ({(spread_p - 1) * 100:.1f}%), flat within a"
+    f" couple of percent.")
+log(f"   Bell/GHZ has one at {len(measured_b)} of 4: CPsi(0) = 1/(2^N - 1)"
+    f" clears 1/4 only at N = 2 (0.33333), so from N = 3 the state begins")
+log("   below the fold and the threshold question does not apply. There is no"
+    " N-dependence to report, and no spread.")
 
 worst_decay = max(d for _, d in cavity_decaying)
 log(f"B) At Σγ=0: steady + purely oscillating only; modes with a real part"
