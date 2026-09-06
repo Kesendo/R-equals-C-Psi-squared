@@ -52,7 +52,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// c=2 N=6 central is BELOW flanking, c=3 N=6 central is ABOVE flanking).
 /// Per-orbit closed form remains open; F71 supplies the symmetry only.</para>
 ///
-/// <para>Tier1Derived: F86c is Tier 1 derived in PROOF_F86_QPEAK,
+/// <para>Tier1Derived: F86c is Tier 1 derived in PROOF_F86C_F71_MIRROR
+/// (Statement 3), the sibling the 2026-05-14 split carved out of the monolith
+/// whose name PROOF_F86_QPEAK now carries as the hub,
 /// bit-exactly verified at c=2 N=5..7 and c=3 N=5..6 across all bond pairs.
 /// Cross-namespace typed claim: F86MirrorGeneralisationLink in
 /// <c>compute/RCPsiSquared.Core/F71/</c> + F71MirrorInvariance in

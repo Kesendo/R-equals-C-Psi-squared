@@ -71,6 +71,27 @@ The 2026-05-14 split is the filing-level continuation of this pattern: the F-num
 
 ---
 
+## Where the open Items live
+
+The 2026-05-14 split moved the "what is missing for full Tier 1" list out of this
+file and into the sibling proofs. About twenty typed surfaces still cite the Items
+by this document's name, which is right: this is the hub, and the hub is where you
+look them up. The table is that lookup.
+
+| Item | What it asks | Now lives in |
+|------|--------------|--------------|
+| Item 1 (c=2) | HWHM_left/Q_peak per bond class in closed form | [the obstruction proof](PROOF_F86B_OBSTRUCTION.md) §Item 1 |
+| Item 1′ | the same, through the F90 bridge | [the F90 bridge](PROOF_F90_F86C2_BRIDGE.md) |
+| Item 2 | extend the 4-mode construction to c ≥ 3 | [the obstruction proof](PROOF_F86B_OBSTRUCTION.md) §Item 2 (naïve extension fails, K_max ≡ 0) |
+| Item 3 | σ_0 chromaticity scaling | [the obstruction proof](PROOF_F86B_OBSTRUCTION.md) §Item 3 |
+| Item 4′ | the c ≥ 3 quartet extension | [the F90 bridge](PROOF_F90_F86C2_BRIDGE.md) |
+| Item 5 | the σ_0(c ≥ 3, N → ∞) asymptote (c = 2 closed by F86e) | [the obstruction proof](PROOF_F86B_OBSTRUCTION.md), [the F90 bridge](PROOF_F90_F86C2_BRIDGE.md) |
+
+The three Statements moved the same way: Statement 1 (the EP mechanism) to
+[F86a](PROOF_F86A_EP_MECHANISM.md), the universal shape to
+[F86b](PROOF_F86B_UNIVERSAL_SHAPE.md), and Statement 3 (the F71 spatial mirror) to
+[F86c](PROOF_F86C_F71_MIRROR.md).
+
 ## Pointers (shared across the three theorems)
 
 **Related EQ:** [EQ-022 (b1)](../../review/EMERGING_QUESTIONS.md#eq-022) partial closure 2026-05-02.
@@ -79,7 +100,7 @@ The 2026-05-14 split is the filing-level continuation of this pattern: the F-num
 **Empirical anchor:** [Q as scale, three algebraic bands](../../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24.
 **Chiral classification anchor:** [PT-symmetry analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md) (Π is class AIII chiral, NOT Bender-Boettcher PT; Π is linear, classical PT requires anti-linear).
 **EP contrast case:** [the coherence-horizon slope proof](PROOF_COHERENCE_HORIZON_SLOPE.md): the same suspect eig-instrument (phase rigidity r→0) with the opposite-and-correct verdict, a genuine 2nd-order defective EP at Q*(N). Three Q-thresholds live on this axis and are distinct objects: **Q_peak** (this family's resonance peak, 1.5 / 1.6 / 1.8 / 1.8), **Q*(N)** (the coherence horizon), **Q*_gap(N)** (the spectral-gap threshold, [the absorption theorem](PROOF_ABSORPTION_THEOREM.md)).
-**Separate genuine EP (Σγ=0 gain-loss):** [the Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md) (Hopf bifurcation = chiral symmetry breaking, Petermann K=403 in the complex γ plane), a DISTINCT gain-loss system, not a "global instance" of the full block-L. The full Σγ=N·γ₀ block is genuinely non-normal on the real Q axis AND carries its own real-axis defective seed at every odd N (F89, census through N=11, in a √-EP window ~20-30× narrower than a coarse Q-grid's step); the off-axis complex-Q EP question stays open. See [F86a EP mechanism](PROOF_F86A_EP_MECHANISM.md), §The real-axis EP.
+**Separate genuine EP (Σγ=0 gain-loss):** [the Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md) (chiral symmetry breaking at a second-order EP that sits on the REAL γ axis, at γ_crit itself: Re λ ∝ √δ over four decades and the Petermann factor diverging as 1/δ), a DISTINCT gain-loss system, not a "global instance" of the full block-L. The full Σγ=N·γ₀ block is genuinely non-normal on the real Q axis AND carries its own real-axis defective seed at every odd N (F89, census through N=11, in a √-EP window ~20-30× narrower than a coarse Q-grid's step); the off-axis complex-Q EP question stays open. See [F86a EP mechanism](PROOF_F86A_EP_MECHANISM.md), §The real-axis EP.
 **Companion investigation:** [the Atmosphere and the Cancelled Formulas](../THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md): γ₀ as the atmosphere, g_eff as the un-atmospheric residue.
 **Methodological lesson:** [`reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON`](../../reflections/ON_THE_Q_AXIS_AND_THE_PTF_LESSON.md) consolidates the convergence; the F86 retraction-and-shape-survival is the analog of PTF's closure-law-retraction-and-chiral-mirror-law-survival.
 **Scripts:** [`eq022_b1_channel_projection.py`](../../simulations/eq022_b1_channel_projection.py), [`eq022_b1_step_a_verify_blockL.py`](../../simulations/eq022_b1_step_a_verify_blockL.py), [`eq022_b1_step_c_time_evolution.py`](../../simulations/eq022_b1_step_c_time_evolution.py), [`eq022_b1_step_d_extended_verification.py`](../../simulations/eq022_b1_step_d_extended_verification.py) (N=8 data that falsified the closed-form conjectures), [`eq022_b1_step_e_resonance_shape.py`](../../simulations/eq022_b1_step_e_resonance_shape.py) + [`eq022_b1_step_e_inspect.py`](../../simulations/eq022_b1_step_e_inspect.py) (universal-shape finding for c=3, c=4 at γ₀=0.05), [`eq022_b1_step_f_universality_extension.py`](../../simulations/eq022_b1_step_f_universality_extension.py) (c=2 sweep + γ₀ ∈ {0.025, 0.10} invariance check that established the two-bond-class refinement), [`eq022_b1_step_g_two_level_decomposition.py`](../../simulations/eq022_b1_step_g_two_level_decomposition.py) (channel-uniform-basis V_b decomposition; revealed the trivial-diagonal structure and the probe localization), [`eq022_b1_step_h_slowest_pair_basis.py`](../../simulations/eq022_b1_step_h_slowest_pair_basis.py) (slowest-pair-at-finite-Q diagnostics), [`eq022_b1_step_i_svd_inter_channel.py`](../../simulations/eq022_b1_step_i_svd_inter_channel.py) (SVD of V_inter; established the EP-partner subspace, the σ_0 ≈ 2√2 value (later F86e: the N=7 finite-size crossing, not the asymptote), and probe ⊥ EP partners; this is the structural finding that motivated the 4-mode minimal effective model).
