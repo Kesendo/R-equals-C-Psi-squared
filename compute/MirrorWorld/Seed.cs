@@ -50,10 +50,6 @@ public sealed class Seed : GameObject
     public double Gamma { get; }
     readonly (int a, int b)[] bonds;
 
-    // two large primes; the rank over Q is the MAX of the ranks mod p (a prime is "bad" only when it
-    // divides a maximal minor, vanishingly rare), so max over two pins the exact integer rank.
-    static readonly long[] Primes = { 2147483647L, 999999937L };
-
     public Seed(World world, int n, double gamma) : base(world)
     {
         N = n;
@@ -203,64 +199,14 @@ public sealed class Seed : GameObject
         for (long k = (Math.Max(above, 1_000_000L)) / order + 1; ; k++)
         {
             long p = order * k + 1;
-            if (!IsPrime(p)) continue;
-            long zeta = RootOfOrder(order, p);
+            if (!ModP.IsPrime(p)) continue;
+            long zeta = ModP.RootOfOrder(order, p);
             if (zeta == 0) continue;
             var lam = new long[n];
             for (int m = 1; m < n; m++)
-                lam[m] = (ModPow(zeta, m, p) + ModPow(zeta, order - m, p)) % p;
+                lam[m] = (ModP.ModPow(zeta, m, p) + ModP.ModPow(zeta, order - m, p)) % p;
             return (p, lam);
         }
-    }
-
-    // an element of exact multiplicative order `order` in GF(p) (needs order | p-1): x^((p-1)/order)
-    // works iff it misses every proper-subgroup collapse; 0 = none found among small x (try next prime).
-    static long RootOfOrder(int order, long p)
-    {
-        var qs = PrimeFactors(order);
-        for (long x = 2; x < 500; x++)
-        {
-            long z = ModPow(x, (p - 1) / order, p);
-            if (z == 1) continue;
-            bool full = true;
-            foreach (int q in qs)
-                if (ModPow(z, order / q, p) == 1) { full = false; break; }
-            if (full) return z;
-        }
-        return 0;
-    }
-
-    static int[] PrimeFactors(int m)
-    {
-        var qs = new List<int>();
-        for (int q = 2; q * q <= m; q++)
-            if (m % q == 0) { qs.Add(q); while (m % q == 0) m /= q; }
-        if (m > 1) qs.Add(m);
-        return qs.ToArray();
-    }
-
-    // deterministic Miller-Rabin for the 64-bit range (the twelve bases suffice below 3.3 * 10^24;
-    // our p stays near 10^6, far inside the long-multiplication-safe range).
-    static bool IsPrime(long m)
-    {
-        if (m < 2) return false;
-        long[] bases = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
-        foreach (long b in bases) { if (m % b == 0) return m == b; }
-        long d = m - 1; int s = 0;
-        while ((d & 1) == 0) { d >>= 1; s++; }
-        foreach (long b in bases)
-        {
-            long x = ModPow(b, d, m);
-            if (x == 1 || x == m - 1) continue;
-            bool witness = true;
-            for (int i = 1; i < s; i++)
-            {
-                x = x * x % m;
-                if (x == m - 1) { witness = false; break; }
-            }
-            if (witness) return false;
-        }
-        return true;
     }
 
     // ---- the (1,2) pencil, from the atoms: rung n_diff per basis index, and the integer hop M = C/i ----
@@ -289,57 +235,18 @@ public sealed class Seed : GameObject
         return (rung, M, dim);
     }
 
-    // rank of the submatrix M[idx, idx] over Q, as max over the primes (exact).
+    // rank of the submatrix M[idx, idx] over the integers: ModP takes it as the max of the GF(p)
+    // ranks at its two primes, exact, no eigensolver (the world's shared exact arithmetic).
     static int Rank(int[,] M, int[] idx)
     {
-        int r = 0;
-        foreach (long p in Primes) r = Math.Max(r, RankModP(M, idx, p));
-        return r;
-    }
-
-    // Gaussian elimination of the submatrix M[idx, idx] over GF(p); returns its rank.
-    static int RankModP(int[,] M, int[] idx, long p)
-    {
         int d = idx.Length;
-        var a = new long[d, d];
+        var rows = new long[d][];
         for (int i = 0; i < d; i++)
-            for (int j = 0; j < d; j++)
-                a[i, j] = ((M[idx[i], idx[j]] % p) + p) % p;
-
-        int rank = 0;
-        for (int col = 0; col < d && rank < d; col++)
         {
-            int piv = -1;
-            for (int row = rank; row < d; row++)
-                if (a[row, col] != 0) { piv = row; break; }
-            if (piv < 0) continue;
-            for (int j = 0; j < d; j++) (a[rank, j], a[piv, j]) = (a[piv, j], a[rank, j]);
-            long inv = ModInverse(a[rank, col], p);
-            for (int j = 0; j < d; j++) a[rank, j] = a[rank, j] * inv % p;
-            for (int row = 0; row < d; row++)
-            {
-                if (row == rank || a[row, col] == 0) continue;
-                long f = a[row, col];
-                for (int j = 0; j < d; j++)
-                    a[row, j] = ((a[row, j] - f * a[rank, j]) % p + p) % p;
-            }
-            rank++;
+            rows[i] = new long[d];
+            for (int j = 0; j < d; j++) rows[i][j] = M[idx[i], idx[j]];
         }
-        return rank;
-    }
-
-    static long ModInverse(long x, long p) => ModPow(((x % p) + p) % p, p - 2, p);   // Fermat, p prime
-
-    static long ModPow(long b, long e, long p)
-    {
-        long r = 1; b %= p;
-        while (e > 0)
-        {
-            if ((e & 1) == 1) r = r * b % p;
-            b = b * b % p;
-            e >>= 1;
-        }
-        return r;
+        return ModP.Rank(rows);
     }
 
     // ---- shared atoms (the chain hop and the popcount basis, as everywhere in this world) ----

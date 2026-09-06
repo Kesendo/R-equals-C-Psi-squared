@@ -99,10 +99,6 @@ public sealed class Crack : GameObject
     public long UDen { get; }
     public double U => (double)UNum / UDen;
 
-    // two primes below 2^31, so that a product of two residues fits a long; Seed's convention that a
-    // coincidence mod one prime does not survive the second.
-    static readonly long[] Primes = { 2147483647L, 999999937L };
-
     public Crack(Cyclotomy comb, int n, long uNum, long uDen = 1) : base(comb)
     {
         if (n < 3) throw new ArgumentOutOfRangeException(nameof(n), "a ring needs N >= 3");
@@ -256,7 +252,7 @@ public sealed class Crack : GameObject
     {
         if (road.Length != N + 1) throw new ArgumentException("a road for this ring has N + 1 coefficients", nameof(road));
         var roadMod = new long[N + 1];
-        for (int i = 0; i <= N; i++) roadMod[i] = (long)(((road[i] % prime) + prime) % prime);
+        for (int i = 0; i <= N; i++) roadMod[i] = (long)(((road[i] % prime) + prime) % prime);   // BigInteger, so ModP.Mod does not apply
         int agreed = 0, mismatches = 0;
         for (long x0 = 1; agreed < N + 1; x0++)
         {
@@ -264,26 +260,22 @@ public sealed class Crack : GameObject
             long? det = CyclicTridiagonalDeterminantModP(x0, prime);
             if (det is null) continue;                       // a zero pivot: this point is skipped, not counted
             long rhs = 0;
-            for (int i = N; i >= 0; i--) rhs = (MulMod(rhs, x0 % prime, prime) + roadMod[i]) % prime;
+            for (int i = N; i >= 0; i--) rhs = (ModP.MulMod(rhs, x0 % prime, prime) + roadMod[i]) % prime;
             agreed++;
             if (det.Value != rhs) mismatches++;
         }
         return mismatches;
     }
 
-    public int IdentityMismatchesModTwoPrimes() => Primes.Sum(IdentityMismatchesModP);
-
-    static long MulMod(long a, long b, long p) => (long)((UInt128)(ulong)a * (ulong)b % (ulong)p);
-
-    static long PowMod(long b, long e, long p) { long r = 1; b %= p; while (e > 0) { if ((e & 1) == 1) r = MulMod(r, b, p); b = MulMod(b, b, p); e >>= 1; } return r; }
+    public int IdentityMismatchesModTwoPrimes() => ModP.Primes.Sum(IdentityMismatchesModP);
 
     // det(M) mod p for M = q x0 I - qH: diagonal a = q x0, chain bonds -q, wrap bond -p, N >= 3.
     // Rows 0..N-2 are eliminated in order; the fill-in lives only in the last column and the last row.
     long? CyclicTridiagonalDeterminantModP(long x0, long p)
     {
-        long a = MulMod(((UDen % p) + p) % p, x0 % p, p);
-        long bond = (p - UDen % p) % p;                       // -q
-        long corner = (p - UNum % p) % p;                     // -p_u
+        long a = ModP.MulMod(UDen, x0, p);
+        long bond = ModP.Mod(-UDen, p);                       // -q
+        long corner = ModP.Mod(-UNum, p);                     // -p_u
         int n = N;
         long det = 1;
         long d = a;                                           // current row's pivot
@@ -294,22 +286,22 @@ public sealed class Crack : GameObject
         {
             if (i == n - 2) last = (last + bond) % p;         // row N-2's right neighbour IS the last column
             if (d == 0) return null;
-            det = MulMod(det, d, p);
-            long inv = PowMod(d, p - 2, p);
+            det = ModP.MulMod(det, d, p);
+            long inv = ModP.ModInverse(d, p);
             // the last row loses its column-i entry
-            long g = MulMod(r, inv, p);
-            s = (s - MulMod(g, last, p) + p) % p;
+            long g = ModP.MulMod(r, inv, p);
+            s = (s - ModP.MulMod(g, last, p) + p) % p;
             if (i == n - 2) break;
             // the next row's left entry (bond) is eliminated by row i
-            long f = MulMod(bond, inv, p);
-            long dNext = (a - MulMod(f, bond, p) + p) % p;
-            long lastNext = (p - MulMod(f, last, p)) % p;     // next row's last-column entry, 0 before fill-in
+            long f = ModP.MulMod(bond, inv, p);
+            long dNext = (a - ModP.MulMod(f, bond, p) + p) % p;
+            long lastNext = (p - ModP.MulMod(f, last, p)) % p;     // next row's last-column entry, 0 before fill-in
             // the last row's column-(i+1) entry: -g * bond, plus its own entry there (bond when i+1 == n-2)
-            long rNext = (p - MulMod(g, bond, p)) % p;
+            long rNext = (p - ModP.MulMod(g, bond, p)) % p;
             if (i + 1 == n - 2) rNext = (rNext + bond) % p;
             d = dNext; last = lastNext; r = rNext;
         }
-        return MulMod(det, s, p);
+        return ModP.MulMod(det, s, p);
     }
 
     // ------------------------------------------------------------------ the departure count

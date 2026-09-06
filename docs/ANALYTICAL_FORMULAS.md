@@ -8174,9 +8174,11 @@ seat generates:
 The Krylov line is the DEFINITION and the primitive: an exact GF(p) rank on the
 integer sector matrix at two primes, no eigensolver and no tolerance (the
 committed Python route at 2³¹−1 and 2⁶¹−1, agreeing everywhere, the Heisenberg
-law to N = 21; MirrorWorld's `BlindSeat` at 2³¹−1 and 999999937, taking the
-larger rank since a rank mod p can only drop, its run mode re-checking laws
-against rank at N = 60, 120, 200, past the wall). The exact KERNEL check is a
+law to N = 21; MirrorWorld's `BlindSeat` at 998244353 and 1004535809 through the
+world's shared `ModP`, taking the larger rank since a rank mod p can only drop,
+its run mode re-checking laws against rank at N = 60, 120, 200, past the wall).
+The two routes now share no prime at all, so their agreement is evidence from
+disjoint reductions rather than from a common one. The exact KERNEL check is a
 separate route and one-sided: L_SE is ranked at 2⁶¹−1 alone, so a reported
 kernel dimension can only be too large, never too small; it covers every seat
 at N = 3..13 on the Heisenberg book and N ∈ {6, 7, 9, 11, 12, 13} on XY. The eigenspace and gcd lines are a THEOREM

@@ -54,10 +54,6 @@ public sealed class Divisor : GameObject
     readonly (int a, int b)[] bonds;
     readonly bool zz;
 
-    // two primes = 1 (mod 4), so that -1 is a square and the Gaussian integers map into F_p; a rank
-    // mod p can only DROP at a bad prime, so the max over two pins the true rank (Seed's convention).
-    static readonly long[] Primes = { 998244353L, 1004535809L };
-
     // the locus profile as integers over the common denominator: any half-profile, mirrored
     // antisymmetrically about the mean, so that every reflection pair sums to 2*gbar exactly.
     public static long[] Locus(int n, long gbarNum, params long[] halfNum)
@@ -195,7 +191,7 @@ public sealed class Divisor : GameObject
         int n2 = N * N;
         var (re, im) = BuildScaledBlock();
         int rank = 0;
-        foreach (long p in Primes) rank = Math.Max(rank, RankModP(re, im, n2, p));
+        foreach (long p in ModP.Primes) rank = Math.Max(rank, RankModP(re, im, n2, p));
         return n2 - rank;
     }
 
@@ -315,52 +311,18 @@ public sealed class Divisor : GameObject
     }
 
     // rank over F_p with i realized as a square root of -1 (p = 1 mod 4): a + b*i  ->  a + b*r.
+    // The embedding is Divisor's own step; the root and the elimination are ModP's, and the world's
+    // one prime list is 1 mod 4 precisely so this map exists at both of its primes.
     static int RankModP(long[,] re, long[,] im, int d, long p)
     {
-        long r = SqrtMinusOne(p);
-        var a = new long[d, d];
+        long r = ModP.SqrtMinusOne(p);
+        var rows = new long[d][];
         for (int i = 0; i < d; i++)
+        {
+            rows[i] = new long[d];
             for (int j = 0; j < d; j++)
-                a[i, j] = ((re[i, j] + r % p * (im[i, j] % p)) % p + p) % p;
-
-        int rank = 0;
-        for (int col = 0; col < d && rank < d; col++)
-        {
-            int piv = -1;
-            for (int row = rank; row < d; row++)
-                if (a[row, col] != 0) { piv = row; break; }
-            if (piv < 0) continue;
-            for (int j = 0; j < d; j++) (a[rank, j], a[piv, j]) = (a[piv, j], a[rank, j]);
-            long inv = ModInverse(a[rank, col], p);
-            for (int j = col; j < d; j++) a[rank, j] = a[rank, j] * inv % p;
-            for (int row = rank + 1; row < d; row++)
-            {
-                if (a[row, col] == 0) continue;
-                long f = a[row, col];
-                for (int j = col; j < d; j++)
-                    a[row, j] = ((a[row, j] - f * a[rank, j]) % p + p) % p;
-            }
-            rank++;
+                rows[i][j] = ModP.Mod(ModP.Mod(re[i, j], p) + ModP.MulMod(r, im[i, j], p), p);
         }
-        return rank;
+        return ModP.Rank(rows, p);
     }
-
-    static long SqrtMinusOne(long p)
-    {
-        for (long t = 2; t < 200; t++)
-        {
-            long r = ModPow(t, (p - 1) / 4, p);
-            if (r * r % p == p - 1) return r;
-        }
-        throw new InvalidOperationException($"no square root of -1 mod {p} (is p = 1 mod 4?)");
-    }
-
-    static long ModPow(long b, long e, long p)
-    {
-        long acc = 1; b %= p;
-        while (e > 0) { if ((e & 1) == 1) acc = acc * b % p; b = b * b % p; e >>= 1; }
-        return acc;
-    }
-
-    static long ModInverse(long x, long p) => ModPow(((x % p) + p) % p, p - 2, p);
 }

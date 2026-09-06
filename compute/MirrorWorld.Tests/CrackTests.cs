@@ -135,10 +135,10 @@ public class CrackTests
         var ring = Make(40, 3, 2);
         Assert.Equal(0, ring.IdentityMismatchesModTwoPrimes());
         var wrongU = Make(40, 2, 3).RoadPolynomial();
-        foreach (long p in new[] { 2147483647L, 999999937L })
+        foreach (long p in ModP.Primes)
             Assert.Equal(41, ring.MismatchesAgainst(wrongU, p));
         var wrongN = Make(42, 3, 2).RoadPolynomial();
-        Assert.Throws<ArgumentException>(() => ring.MismatchesAgainst(wrongN, 999999937L));
+        Assert.Throws<ArgumentException>(() => ring.MismatchesAgainst(wrongN, ModP.Primes[0]));
     }
 
     // ---- the reading: roots of the curve, tied to the exact count ----

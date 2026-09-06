@@ -363,4 +363,19 @@ public class BlindSeatTests
         for (int s = 0; s < 4; s++)
             Assert.Equal(1 + bs.Blind(s), bs.Span(s));
     }
+
+    // The object's own soundness premise says a bad reduction at BOTH primes is CONSTRUCTIBLE rather
+    // than merely improbable, and until now that was a measured number in a comment with no gate under
+    // it, so it did not move when the prime list did. Here it is, at the list the object actually runs:
+    // bonds equal to the two ranking primes, N = 3, XY, seat 0. Over the integers the Krylov rows are
+    // independent (rank 3, blind 0); mod the first prime the first bond vanishes and mod the second the
+    // second does, so the max over two is 2 and the route reports one blind direction too many.
+    [Fact]
+    public void The_Route_Overcounts_When_The_Bonds_Are_The_Ranking_Primes()
+    {
+        var onThePrimes = new BlindSeat(W, 3, ModP.Primes, heisenberg: false);
+        Assert.Equal(1, onThePrimes.Blind(0));
+        var justOff = new BlindSeat(W, 3, new[] { ModP.Primes[0] + 1, ModP.Primes[1] + 1 }, heisenberg: false);
+        Assert.Equal(0, justOff.Blind(0));
+    }
 }

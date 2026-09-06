@@ -281,12 +281,12 @@ public sealed class LevelCollision : GameObject
         var (p2, _) = CyclotomicLambdas(n, p1);
         foreach (long p in new[] { p1, p2 })
         {
-            long zeta = RootOfOrder(order, p);
+            long zeta = ModP.RootOfOrder(order, p);
             if (zeta == 0) return false;
             foreach (var piece in pieces)
             {
                 long sum = 0;
-                foreach (int e in piece) sum = (sum + ModPow(zeta, Mod(e, order), p)) % p;
+                foreach (int e in piece) sum = (sum + ModP.ModPow(zeta, Mod(e, order), p)) % p;
                 if (sum != 0) return false;
             }
         }
@@ -308,82 +308,19 @@ public sealed class LevelCollision : GameObject
         return count;
     }
 
-    // --- the GF(p) atoms, restated per the world's per-object self-containment (Seed has
-    // --- its own copies; the local restatement is the sober base's style, drift caught by
-    // --- the machine-zero pins on both sides).
-
     static (long P, long[] Lam) CyclotomicLambdas(int n, long above)
     {
         int order = 2 * n;
         for (long k = Math.Max(above, 1_000_000L) / order + 1; ; k++)
         {
             long p = order * k + 1;
-            if (!IsPrime(p)) continue;
-            long zeta = RootOfOrder(order, p);
+            if (!ModP.IsPrime(p)) continue;
+            long zeta = ModP.RootOfOrder(order, p);
             if (zeta == 0) continue;
             var lam = new long[n];
             for (int m = 1; m < n; m++)
-                lam[m] = (ModPow(zeta, m, p) + ModPow(zeta, order - m, p)) % p;
+                lam[m] = (ModP.ModPow(zeta, m, p) + ModP.ModPow(zeta, order - m, p)) % p;
             return (p, lam);
         }
-    }
-
-    static long RootOfOrder(int order, long p)
-    {
-        var qs = PrimeFactors(order);
-        for (long x = 2; x < 500; x++)
-        {
-            long z = ModPow(x, (p - 1) / order, p);
-            if (z == 1) continue;
-            bool full = true;
-            foreach (int q in qs)
-                if (ModPow(z, order / q, p) == 1) { full = false; break; }
-            if (full) return z;
-        }
-        return 0;
-    }
-
-    static int[] PrimeFactors(int m)
-    {
-        var qs = new List<int>();
-        for (int q = 2; q * q <= m; q++)
-            if (m % q == 0) { qs.Add(q); while (m % q == 0) m /= q; }
-        if (m > 1) qs.Add(m);
-        return qs.ToArray();
-    }
-
-    static bool IsPrime(long m)
-    {
-        if (m < 2) return false;
-        long[] bases = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
-        foreach (long b in bases) { if (m % b == 0) return m == b; }
-        long d = m - 1; int s = 0;
-        while ((d & 1) == 0) { d >>= 1; s++; }
-        foreach (long b in bases)
-        {
-            long x = ModPow(b, d, m);
-            if (x == 1 || x == m - 1) continue;
-            bool witness = true;
-            for (int i = 1; i < s; i++)
-            {
-                x = x * x % m;
-                if (x == m - 1) { witness = false; break; }
-            }
-            if (witness) return false;
-        }
-        return true;
-    }
-
-    static long ModPow(long b, long e, long p)
-    {
-        long r = 1;
-        b %= p;
-        while (e > 0)
-        {
-            if ((e & 1) == 1) r = r * b % p;
-            b = b * b % p;
-            e >>= 1;
-        }
-        return r;
     }
 }

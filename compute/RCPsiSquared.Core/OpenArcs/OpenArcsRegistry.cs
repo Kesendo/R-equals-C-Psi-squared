@@ -9186,18 +9186,65 @@ public static class OpenArcsRegistry
                 "are done, Delta*(N) ruled out 2026-06-29 by sector mismatch and the seed census answered " +
                 "to N = 11 on 2026-07-02, and the survey stands. " +
                 "A FOURTH GAP, raised by Tom the same morning when the overflow came up (do we not have " +
-                "something for that by now?): the world does, four times over and shared nowhere. Its " +
-                "exact arithmetic past the wall is GF(p) at two primes, and ModInverse, ModPow and " +
-                "RankModP are each written out in Seed.cs, Divisor.cs and BlindSeat.cs, with Crack.cs " +
-                "carrying a fourth copy under the names MulMod and PowMod; the prime list " +
-                "{2147483647, 999999937} is copied into Seed, BlindSeat and Crack, and Divisor carries " +
-                "its own {998244353, 1004535809}, chosen 1 mod 4 so that i has a square root. The " +
-                "known trap on this road, (a % p + p) evaluated in int before widening for p near " +
-                "2^30, which cost four hours on 2026-07-03, would have to be found and fixed in four " +
-                "places. MirrorWorld cannot lean on Core's BigRational/GaussianInteger by design (no " +
-                "RCPsiSquared.* reference), so the shared primitive has to live in the world itself, " +
-                "the way PauliMode.Enumerate is the shared 4^N walk and Block.Binomial the shared " +
-                "binomial. This is a gap of the same kind as the 18 members: inside, not at the door. " +
+                "something for that by now?), CLOSED 2026-09-06 by MirrorWorld/ModP.cs. It was measured " +
+                "here as four copies and was FIVE: ModInverse, ModPow and RankModP written out in " +
+                "Seed.cs, Divisor.cs and BlindSeat.cs, Crack.cs carrying one under the names MulMod and " +
+                "PowMod, and LevelCollision.cs carrying ModPow, IsPrime, RootOfOrder and PrimeFactors " +
+                "byte-identical to Seed's but for one line break. WHY the measurement missed the fifth " +
+                "is not known and is not guessed at here: LevelCollision.cs held a bare ModPow, one of " +
+                "the three names the measurement names, so a search for those names would have found " +
+                "it, and the same measurement did find Crack under MulMod/PowMod, names it did not " +
+                "start from. (LevelCollision also has a Mod, but that one is a local int helper " +
+                "reducing an EXPONENT, not the field reduction, and it stayed where it was: the word " +
+                "collision this ledger warns about, inside the item that warns about it.) The prime " +
+                "list is now one and it is Divisor's {998244353, 1004535809}: the choice is forced " +
+                "rather than a preference, since both are 1 mod 4, so -1 is a square AT EACH and the " +
+                "GAUSSIAN ranks can share the list with the plain ones. The list the other three " +
+                "carried is headed by 2147483647, which is 3 mod 4; its second prime 999999937 is 1 " +
+                "mod 4 and would serve alone, so the true statement is that the old list cannot serve " +
+                "at BOTH of its primes, and a shared list is exactly one that must. LevelCollision " +
+                "carried no list at all, generating its cyclotomic primes on the fly. The known trap, " +
+                "(a % p + p) evaluated in int before widening for p near 2^30, which cost four hours " +
+                "on 2026-07-03, is guarded in one place, together with a refusal of a non-positive " +
+                "modulus, of a ragged row set and of an inverse of zero, each of which had previously " +
+                "returned a plausible number. MirrorWorld cannot lean on Core's " +
+                "BigRational/GaussianInteger by design (no RCPsiSquared.* reference), so the primitive " +
+                "lives in the world itself; it is deliberately NOT a GameObject, stating no physics " +
+                "and appearing in no Own or Inherited bucket, the shape Formulas and Topology already " +
+                "have there (PauliMode and Block, the world's other shared atoms, ARE GameObjects " +
+                "carrying a static beside them, so they are the precedent for sharing and not for the " +
+                "shape). Gated from below by ModPTests (27), each against a route independent OF THE " +
+                "ONE IT JUDGES: BigInteger for the modular atoms, trial division for primality, a " +
+                "membership question over every prime up to m for factorisation, all proper divisors " +
+                "for the multiplicative order, a rank known by construction for the elimination. THE " +
+                "GATES WERE WRONG FIRST AND THE RECORD KEEPS IT: a fresh round put three mutations " +
+                "through the first version of that file (UInt128 replaced by long, the 1 mod 4 guard " +
+                "deleted, the reduction inside Rank deleted) and ALL THREE SURVIVED all 21 gates, so " +
+                "three of the primitive's own properties were covered by nothing. They fail now, on a " +
+                "modulus near 2^61 where a long product wraps, on the exception message rather than " +
+                "its type, and on an entry equal to p, which is zero in the field and must not be " +
+                "taken as a pivot. The claim that the top residues are where an int path disagrees " +
+                "and nothing smaller does was false in both directions and now reads as what it is, " +
+                "sufficient rather than unique. Two further mutations stand as before: the " +
+                "int-before-widening trap fires five gates, the old 3 mod 4 list the two that exist " +
+                "for it. Each of the five swaps was gated by its own object's tests, and the five run " +
+                "modes (seed 9, divisor 7, blind 9, crack 8, collision 12) print byte-identical output " +
+                "across the change of prime list. The suite went 524 to 552 and the five objects lost " +
+                "246 lines. THE PRIME CHANGE STRANDED EVIDENCE ELSEWHERE, which is the cost this item " +
+                "did not anticipate and the reason it is worth reading before the next list moves: " +
+                "F157's registry entry in docs/ANALYTICAL_FORMULAS.md certified BlindSeat at the old " +
+                "pair, CrackTests' own non-vacuity control ran at the retired primes while the " +
+                "shipping list had none, and BlindSeat.cs stated its one-sidedness premise with two " +
+                "measured numbers that no test held, so they did not move when the list did. All three " +
+                "are repaired, and the constructible coincidence is now a GATE at whatever list ships " +
+                "(bonds equal to the two ranking primes, N = 3, XY, seat 0: one blind direction where " +
+                "the count is zero). Reading it also showed the sibling witness in Diagnostics arguing " +
+                "its safety from a coupling divisible by BOTH primes, which MaxCoupling refuses; the " +
+                "coincidence needs no such coupling, only DIFFERENT bonds divisible by different " +
+                "ranking primes, each near 10^9 and accepted. That reason is corrected in place. The " +
+                "two halves of the typed layer now rank at disjoint primes, which is better evidence " +
+                "than the shared 2147483647 they had before, and both files say so. The remaining " +
+                "18-member gap below is untouched by this: inside, not at the door. " +
                 "NOT A LANE: the word-collision triage (Mirror, Pair, Witness, Hardness, Seed, Divisor, " +
                 "Marginal as ordinary words in older documents) is a sibling; its home is " +
                 "one_word_two_objects, not here. In this entry, witness and pair are the main repo's " +
@@ -9238,14 +9285,15 @@ public static class OpenArcsRegistry
                 "carrier is not by itself a reason to build one. (5) The engine " +
                 "survey continues with this ledger as its store; a candidate question must be one the " +
                 "Cone's N x N cut can reach, single-excitation, and the two ruled-out shapes (a " +
-                "half-filling sector, an already-proven large-N formula) are the fences. (6) One " +
-                "exact-arithmetic primitive for the world: a single ModInverse/ModPow/RankModP with " +
-                "one prime list (Divisor's 1 mod 4 pair serves both the plain ranks and its square " +
-                "root of -1; 2^31 - 1 is 3 mod 4 and cannot), adopted by Seed, Divisor, BlindSeat and Crack in turn, each " +
-                "swap gated by the object's existing from-below tests reading the same counts before " +
-                "and after; the int-before-widening trap gets its guard once, in the primitive, and " +
-                "a test that fails on the top residues at p near 2^30. Do this BEFORE F161/F162 come " +
-                "home, since both would otherwise bring a fifth copy.",
+                "half-filling sector, an already-proven large-N formula) are the fences. (6) DONE " +
+                "2026-09-06: the one exact-arithmetic primitive is MirrorWorld/ModP.cs, adopted by " +
+                "Seed, LevelCollision, BlindSeat, Divisor and Crack in turn. The step was taken " +
+                "BEFORE F161 and F162 come home, which was its whole reason: those two would " +
+                "otherwise have brought a sixth copy, and they now have a primitive to be written in. " +
+                "What the objects still own is their own matrix, which is right: Seed builds the " +
+                "submatrix, BlindSeat the Krylov columns and the commutant rows, Divisor the Gaussian " +
+                "embedding a + b*i -> a + b*r, Crack the cyclic tridiagonal elimination. Only the " +
+                "arithmetic moved.",
             Status: OpenArcStatus.Open),
         new OpenArc(
             Name: "mirrorworld_owns_no_time",

@@ -11,14 +11,17 @@ namespace MirrorWorld;
 //
 // an exact GF(p) rank on integer inputs at two primes (a rank mod p can only DROP at a bad prime, so the
 // max over two bounds it from the one side that matters, and the reported blind dimension can only ever
-// be too large, never too small -- Seed's convention, restated per the world's per-object
-// self-containment). That one-sidedness has two premises and both are measured rather than assumed. It
+// be too large, never too small -- the convention Seed, Divisor and Crack read from the same shared
+// primitive, ModP). That one-sidedness has two premises and both are measured rather than assumed. It
 // is a statement about an EXACT H, which is what MaxCoupling below buys: a wrapped H is a different
 // matrix and its mod-p ranks bound nothing about this one. And two primes make a bad reduction a
 // CONSTRUCTIBLE coincidence rather than an improbable one, not an impossible one: bonds built to meet
-// both moduli report too large (XY [2147483647, 999999937] at N = 3 gives 1 where the count is 0), while
-// 15682 random profiles at |J| up to 10^9 disagree nowhere. So the COUNT is scale-free and exactly free
-// of the coupling's sign, and this ROUTE to it is scale-free only away from the ranking primes.
+// both moduli report too large, and the gate for it is The_Route_Overcounts_When_The_Bonds_Are_The_Ranking_Primes,
+// which takes the ranking primes THEMSELVES as the two bonds (XY, N = 3, seat 0) and reads 1 where the
+// count is 0, then 0 again one step off them. The gate reads ModP.Primes rather than two literals, so it
+// follows the list instead of outliving it. So the COUNT is scale-free and exactly free of the coupling's
+// sign (The_Count_Is_Scale_And_Sign_Free, the same rows at J, 3J and -J), and this ROUTE to it is
+// scale-free only away from the ranking primes.
 // Since 2026-08-24 the count equals the main repo's gcd criterion by a Cramer theorem
 // with no hypothesis beyond real symmetry; the world adopts the COUNT and leaves the gcd phrasing, the
 // blind-projector corner and every path object outside (genre, not topic).
@@ -80,8 +83,6 @@ namespace MirrorWorld;
 // name stays outside, Divisor being F140's frozen object with an unrelated meaning here.
 public sealed class BlindSeat : GameObject
 {
-    static readonly long[] Primes = { 2147483647L, 999999937L };
-
     // The largest |J| a bond may carry, the sibling witness's guard adopted with its reason
     // (SeatCutBlindnessWitness): H() doubles a coupling for the hop and SUMS N-1 of them on the ZZ
     // diagonal, so past this a chain would wrap int64 silently, and a wrapped H is a DIFFERENT matrix
@@ -144,7 +145,7 @@ public sealed class BlindSeat : GameObject
         Seat(seat);
         var h = H();
         int rank = 0;
-        foreach (long p in Primes)
+        foreach (long p in ModP.Primes)
             rank = Math.Max(rank, KrylovRankModP(h, seat, p));
         return N - rank;
     }
@@ -162,12 +163,12 @@ public sealed class BlindSeat : GameObject
             {
                 long s = 0;
                 for (int b = 0; b < N; b++)
-                    s = (s + Mod(h[a, b], p) * vec[b]) % p;
+                    s = ModP.Mod(s + ModP.MulMod(h[a, b], vec[b], p), p);
                 next[a] = s;
             }
             vec = next;
         }
-        return RankModP(cols, p);
+        return ModP.Rank(cols, p);
     }
 
     // The stationary span of the watched sector: dim of { X : [H, X] = 0 and X carries nothing on the
@@ -188,7 +189,7 @@ public sealed class BlindSeat : GameObject
         Seat(seat);
         var h = H();
         int dim = int.MaxValue;
-        foreach (long p in Primes)
+        foreach (long p in ModP.Primes)
             dim = Math.Min(dim, SpanModP(h, seat, p));
         return dim;
     }
@@ -211,13 +212,13 @@ public sealed class BlindSeat : GameObject
                 for (int c = 0; c < N; c++)
                 {
                     if (index[c, b] >= 0 && h[a, c] != 0)
-                    { row[index[c, b]] = (row[index[c, b]] + Mod(h[a, c], p)) % p; any = true; }
+                    { row[index[c, b]] = ModP.Mod(row[index[c, b]] + h[a, c], p); any = true; }
                     if (index[a, c] >= 0 && h[c, b] != 0)
-                    { row[index[a, c]] = (row[index[a, c]] - Mod(h[c, b], p) % p + p) % p; any = true; }
+                    { row[index[a, c]] = ModP.Mod(row[index[a, c]] - h[c, b], p); any = true; }
                 }
                 if (any) rows.Add(row);
             }
-        return unknowns - RankModP(rows, p);
+        return unknowns - ModP.Rank(rows, p);
     }
 
     // The closed form on the UNIFORM chain, one per book: integer arithmetic over the public Cyclotomy gcd.
@@ -236,51 +237,6 @@ public sealed class BlindSeat : GameObject
     bool Seat(int seat) => seat >= 0 && seat < N
         ? true
         : throw new ArgumentOutOfRangeException(nameof(seat), $"seat {seat} is off a chain of {N} sites.");
-
-    // --- the GF(p) atoms, restated per the world's per-object self-containment ---
-
-    static long Mod(long x, long p) { long r = x % p; return r < 0 ? r + p : r; }
-
-    static int RankModP(List<long[]> rows, long p)
-    {
-        int cols = rows.Count == 0 ? 0 : rows[0].Length;
-        int rank = 0;
-        var work = rows.Select(r => (long[])r.Clone()).ToList();
-        for (int c = 0; c < cols && rank < work.Count; c++)
-        {
-            int piv = -1;
-            for (int r = rank; r < work.Count; r++)
-                if (work[r][c] % p != 0) { piv = r; break; }
-            if (piv < 0) continue;
-            (work[rank], work[piv]) = (work[piv], work[rank]);
-            long inv = ModInverse(Mod(work[rank][c], p), p);
-            for (int k = c; k < cols; k++) work[rank][k] = Mod(work[rank][k], p) * inv % p;
-            for (int r = 0; r < work.Count; r++)
-            {
-                if (r == rank) continue;
-                long f = Mod(work[r][c], p);
-                if (f == 0) continue;
-                for (int k = c; k < cols; k++)
-                    work[r][k] = (Mod(work[r][k], p) - f * work[rank][k] % p + p * p) % p;
-            }
-            rank++;
-        }
-        return rank;
-    }
-
-    static long ModInverse(long a, long p) => ModPow(a, p - 2, p);
-
-    static long ModPow(long b, long e, long p)
-    {
-        long r = 1; b %= p;
-        while (e > 0)
-        {
-            if ((e & 1) == 1) r = r * b % p;
-            b = b * b % p;
-            e >>= 1;
-        }
-        return r;
-    }
 
     public override IReadOnlyList<string> Own => new[] { "blind", "law", "span" };
 }
