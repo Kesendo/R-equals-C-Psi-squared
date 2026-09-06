@@ -127,9 +127,14 @@ decoherence. The reasoning was: σ_z dephasing preserves populations and
 only destroys off-diagonal coherence, which is why inter-qubit correlations
 survive. σ_x flips populations, which should destroy correlations directly.
 
-**The error**: The correlation bridge measures excess purity beyond the
-product of subsystem purities: C = (P_AB − P_A · P_B) / (1 − P_A · P_B).
-This ratio is insensitive to which Pauli channel acts, because:
+**The error**: the correlation bridge is insensitive to which Pauli channel
+acts. "Excess purity beyond the product of subsystem purities",
+C = (P_AB − P_A · P_B) / (1 − P_A · P_B), was the February name for what it
+computed, and [Crossing Taxonomy](CROSSING_TAXONOMY.md) retracts that label:
+excess purity decays as (1+2f²)/3, about 0.71 at the crossing, and does not
+reproduce the flat 1.000 the tool recorded. The insensitivity itself survives
+the relabelling, for the reason below and, more directly, because the bridge
+is blind to local dephasing altogether:
 
 1. Any local Pauli noise shrinks the single-qubit Bloch vector (the 3D vector inside a unit sphere that completely describes a qubit's state) isotropically
    in purity terms (P_A and P_B decrease at the same rate regardless of axis).

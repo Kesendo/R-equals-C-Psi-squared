@@ -6,7 +6,7 @@ bridge metric classification quantum, K invariance dephasing, open quantum syste
 measurement threshold, observer dependent quantum crossing, Type ABC quantum observer,
 Bell state decoherence taxonomy, R=CPsi2 crossing taxonomy -->
 
-**Status:** Computationally verified (all simulations reproducible)
+**Status:** Reproduced from a post-hoc reconstruction of a retired tool's feedback law; the tool itself was never committed
 **Date:** February 18, 2026 (updated March 14, 2026)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md),
@@ -123,7 +123,9 @@ and F27, both Tier 1 proven, and the t\* = 0.747 landing in
 [Boundary Navigation](BOUNDARY_NAVIGATION.md). So for one state and one
 channel this repo holds three constants, 0.03596 / 0.03735 / 0.0387, and none
 of them supersedes another: the first two are two definitions of C and the
-third is a different integrator on the first. Name the C before quoting a K.
+third is a different DYNAMICAL LAW on the first, γ_eff = γ·C(t) against a
+constant γ. Both are integrated exactly; the word for the difference is the
+feedback model, which is what the registry and the glossary call it. Name the C before quoting a K.
 
 ---
 
@@ -138,7 +140,7 @@ third is a different integrator on the first. Name the C before quoting a K.
 | γ values | 0.01, 0.05, 0.10, 0.20 |
 | Bridge metrics | Concurrence, mutual information, correlation, mutual purity, overlap |
 
-15 simulations total (5 bridges × 3-4 γ values each).
+The crossing tables above hold 12 bridge-γ rows, three bridges over four γ values; mutual purity and overlap never cross and so contribute none. How many runs the retired tool actually made is not recoverable.
 
 The five bridges, as pinned from the surviving prose and the reproduced
 behavior (the tool itself was never committed; on the dephased-Bell+
@@ -155,14 +157,17 @@ the overlap with the maximally mixed state (1/d = 0.25, constant).
 
 ### K-Invariance Holds for All Crossing Bridges
 
-| Bridge | γ = 0.01 | γ = 0.05 | γ = 0.10 | γ = 0.20 | K (mean) |
+| Bridge | γ = 0.01 | γ = 0.05 | γ = 0.10 | γ = 0.20 | K |
 |--------|----------|----------|----------|----------|----------|
-| mutual_info | t=3.263, K=0.033 | t=0.652, K=0.033 | t=0.327, K=0.033 | t=0.166, K=0.033 | **0.033** |
-| concurrence | t=3.866, K=0.039 | t=0.773, K=0.039 | t=0.386, K=0.039 | t=0.193, K=0.039 | **0.039** |
-| correlation | t=7.191, K=0.072 | t=1.437, K=0.072 | t=0.718, K=0.072 | t=0.359, K=0.072 | **0.072** |
+| mutual_info | t=3.264, K=0.03265 | t=0.653, K=0.03265 | t=0.326, K=0.03265 | t=0.163, K=0.03265 | **0.03265** |
+| concurrence | t=3.868, K=0.03868 | t=0.773, K=0.03868 | t=0.387, K=0.03868 | t=0.193, K=0.03868 | **0.03868** |
+| correlation | t=7.192, K=0.07192 | t=1.438, K=0.07192 | t=0.719, K=0.07192 | t=0.360, K=0.07192 | **0.07192** |
 
-K is constant within each bridge (< 1.5% deviation across 20× γ range).
-K differs between bridges by a factor of 2.2× (0.033 to 0.072).
+K is EXACTLY constant within each bridge, not constant to some tolerance: f
+depends on γ and t only through τ = γt, so the crossing condition fixes τ and
+every t in a row is K/γ by construction. The columns are a demonstration, not
+an independent measurement, and the only content in the row is the single K.
+K differs between bridges by a factor of 2.2× (0.0327 to 0.0719).
 Mutual purity and overlap never cross at any γ.
 
 Reproducibility note (2026-07-21, resolved same day): the γ-invariance
@@ -170,9 +175,11 @@ of K is the result and stands (next section). The K VALUES are now fully
 explained: the February tool ran an explicit bridge-feedback model,
 γ_eff = γ_base · C(t) (disclosed in
 [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) §3.2/§5.1),
-and under that model every number in this table reproduces to the last
-digit; for the concurrence bridge the feedback integrates in closed form
-to f(t) = 1/(1 + 4γt), giving t = (2/√3 − 1)/(4γ) = 0.7735 at γ = 0.05.
+and under that model the K values reproduce; for the concurrence bridge the
+feedback integrates in closed form to f(t) = 1/(1 + 4γt), giving
+t = (2/√3 − 1)/(4γ) = 0.7735 at γ = 0.05. The committed probe hardcodes
+γ = 0.05, so it is the K column that is reproduced and the other three γ
+columns follow from it by t = K/γ rather than from a run.
 Under the standard Lindblad equation (no feedback, f = e^(−4γt)) the
 exact values are:
 
@@ -247,7 +254,7 @@ to local dephasing, and the crossing is driven entirely by Ψ decay.
 |-----|-------|-------|---------|
 | 0.0 | 1.000 | 0.333 | 0.333 |
 | 0.5 | 0.909 | 0.303 | 0.275 |
-| 0.773 | 0.863 | 0.290 | **0.250** |
+| 0.773 | 0.866 | 0.289 | **0.250** |
 
 Both C and Ψ decay simultaneously. The crossing happens faster than
 Type A because two quantities shrink instead of one. (The crossing row
@@ -321,8 +328,11 @@ for C(t) exists across bridge types.
 
 ## Resolved Questions
 
-1. **Noise dependence:** Taxonomy is noise-independent for all local
-   Pauli channels. See [Noise Robustness](NOISE_ROBUSTNESS.md).
+1. **Noise dependence:** the CLASS assignment is the same under σ_z and σ_x,
+   and under σ_y for the one bridge tested there; the source expects the rest
+   by pattern and never simulated depolarizing. The crossing TIMES are not
+   channel-independent: CΨ at t = 2 reads 0.150 under σ_z against 0.223 under
+   σ_x. See [Noise Robustness](NOISE_ROBUSTNESS.md).
 
 2. **State dependence:** GHZ (N ≥ 3) is all Type C (Ψ(0) < 1/4).
    W (N=3) crosses with Type A intact. W (N ≥ 4) does not cross.
@@ -378,8 +388,9 @@ and the February agent tables' constant Ψ a literal default parameter
 reproduction is
 [crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py):
 it computes all five bridges in both models (standard Lindblad and the
-tool's γ_eff = γ·C(t) feedback) and reproduces every crossing time in
-this document, plus the exact values. The trajectory itself is
+tool's γ_eff = γ·C(t) feedback) at γ = 0.05, which is the K this document
+quotes; the other γ columns follow from K by t = K/γ and are not separate
+runs. The trajectory itself is
 closed-form (Bell+ is a Heisenberg eigenstate; f = e^(−4γt)), so every
 clean number is also derivable by hand.
 
@@ -392,7 +403,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md): why CΨ = 1/4 is the only boundary
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): palindromic spectral structure
 - [CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md): analytical proof dCΨ/dt < 0
-- [Noise Robustness](NOISE_ROBUSTNESS.md): taxonomy is noise-independent
+- [Noise Robustness](NOISE_ROBUSTNESS.md): the class assignment is stable across the Pauli channels tested
 - [N-Scaling Barrier](N_SCALING_BARRIER.md): state and N dependence
 - [Bridge Fingerprints](BRIDGE_FINGERPRINTS.md): state-dependent crossing signatures
 - [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic mode structure as information channel
