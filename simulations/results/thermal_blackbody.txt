@@ -20,4 +20,72 @@ Counts are numerical at the stated tolerance; they are not EP certificates.
 negative control: ||L(0)||_F=7.905694e-02 > 0 (spontaneous emission present)
 signed cold-bath gate: excited |1><1| gives dP0/dt=+5.000000e-02, dP1/dt=-5.000000e-02; ground-state motion=0.00e+00
 continuity: ||L(1e-9)-L(0)||_F=1.224745e-10
+
+
+===========================================================================
+PLANCK FIT TO THE FREQUENCY DISTRIBUTION
+A curve counts as a fit only at R^2 >= 0.90.
+===========================================================================
+
+nbar=0.1: 210 modes, 20 bins
+  Planck:      T_eff = 11.6087, R^2 = 0.0382
+  Exponential:                 R^2 = 0.0359
+  Planck is a fit at R^2 >= 0.90: no
+
+nbar=0.5: 210 modes, 20 bins
+  Planck:      T_eff = 11.6085, R^2 = 0.0382
+  Exponential:                 R^2 = 0.0359
+  Planck is a fit at R^2 >= 0.90: no
+
+nbar=1.0: 212 modes, 20 bins
+  Planck:      T_eff = 10.7210, R^2 = 0.0466
+  Exponential:                 R^2 = 0.0439
+  Planck is a fit at R^2 >= 0.90: no
+
+nbar=5.0: 212 modes, 20 bins
+  Planck:      T_eff = 12.2875, R^2 = 0.0480
+  Exponential:                 R^2 = 0.0446
+  Planck is a fit at R^2 >= 0.90: no
+
+nbar=10.0: 212 modes, 20 bins
+  Planck:      T_eff = 15.6885, R^2 = 0.0270
+  Exponential:                 R^2 = 0.0253
+  Planck is a fit at R^2 >= 0.90: no
+
+  The best R^2 either curve reaches is 0.0480, against the 0.90 bar.
+  The widest Planck-minus-exponential gap is 0.0034, which is smaller than
+  the distance 0.8520 from the better curve to being a fit at all, so
+  ranking one above the other reads a preference out of noise.
+
+===========================================================================
+ABSORPTION SCALING (the Stefan-Boltzmann test)
+The reading predicts alpha = 4 (or 2 in 1D), accepted within 0.5.
+===========================================================================
+
+    nbar   mean rate     excess
+   0.001      0.3002     0.0002
+   0.010      0.3020     0.0020
+   0.050      0.3100     0.0100
+   0.100      0.3200     0.0200
+   0.500      0.4000     0.1000
+   1.000      0.5000     0.2000
+   5.000      1.3000     1.0000
+  10.000      2.3000     2.0000
+
+  Power law: excess = 0.2000 * nbar^1.000
+  Stefan-Boltzmann would give alpha = 4, a 1D Planck law alpha = 2.
+  Within 0.5 of 4: no; of 2: no
+
+  Exact law: excess = N*gamma_T*nbar, read off the trace, not the spectrum.
+  At the dyadic rate gamma_T=0.25: deviation 0.0 (exact).
+  At the census rate gamma_T=0.05: deviation 8.882e-16,
+  which is the sqrt-then-square roundtrip in the jump operators, not the law.
+  The excess goes as nbar^1.000, not as the 4 a Stefan-Boltzmann reading
+  predicts nor the 2 a 1D Planck law does. The blackbody reading asks for a power
+  the generator does not carry.
+
+  Both arms have now been checked and each raises if it changes its mind. This
+  is the numerical half of the scope statement: the spectrum is not a radiation
+  intensity distribution, and it also does not behave like one when asked.
+
 Scope: finite spectral counts only; no thermal-photon, standing-wave, or phase-transition mechanism is inferred.

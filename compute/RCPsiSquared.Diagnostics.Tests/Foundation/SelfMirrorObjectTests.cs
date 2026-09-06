@@ -46,6 +46,49 @@ public class SelfMirrorObjectTests
             Assert.Equal(0, count);          // odd N: half-integer w_XY = N/2, the sector is empty
     }
 
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void CertifiedBranch_TwoCountsCoincide_BecauseItsSpectrumIsReal(int n)
+    {
+        // The certified branch is H = 0 with a uniform rate. There L is the dephasing generator
+        // alone, whose spectrum is real, so every centre-line mode already has Im λ = 0 and the
+        // composite fixed LINE collapses onto the linear F1 fixed POINT. The equality of the two
+        // counts is therefore a consequence, and this pins the consequence together with its
+        // reason: if the spectrum here ever carried a nonzero frequency, the second assertion
+        // would fail before the first one could mislead.
+        var h = Matrix<Complex>.Build.Dense(1 << n, 1 << n, Complex.Zero);
+        var channels = Enumerable.Range(0, n).Select(l => new ChannelRate($"q{l}", 0.1)).ToList();
+        var system = new MirrorSystem(n, h, channels);
+        var obj = new SelfMirrorObject(system);
+
+        Assert.True(obj.IsFixedSetResolved);
+
+        double worstFrequency = system.Spectrum.Modes.Max(m => System.Math.Abs(m.OscillationFrequency));
+        Assert.True(worstFrequency == 0.0,
+            $"the certified branch must carry a real spectrum; largest |Im λ| = {worstFrequency:E3}");
+
+        Assert.Equal(obj.CompositeFixedLineCount, obj.LinearF1FixedPointCount);
+    }
+
+    [Fact]
+    public void ANonzeroHamiltonianDoesCarryFrequencies_SoTheTwoCountsCouldDiffer()
+    {
+        // The control for the test above: on the branch the object refuses, Im λ ≠ 0 genuinely
+        // occurs, so the coincidence just pinned is a property of the certified branch and not a
+        // property of the two definitions.
+        var system = new MirrorSystem(
+            2,
+            new ChainSystem(2, 1.0, 0.1, HamiltonianType.XY, TopologyKind.Chain).BuildHamiltonian(),
+            Enumerable.Range(0, 2).Select(l => new ChannelRate($"q{l}", 0.1)).ToList());
+
+        double worstFrequency = system.Spectrum.Modes.Max(m => System.Math.Abs(m.OscillationFrequency));
+        Assert.True(worstFrequency > 1e-6,
+            $"expected a genuinely complex spectrum off the certified branch, got |Im λ|max = {worstFrequency:E3}");
+        Assert.False(new SelfMirrorObject(system).IsFixedSetResolved);
+    }
+
     [Fact]
     public void N2_NonzeroHamiltonianDoesNotInventEitherExactMultiplicity()
     {

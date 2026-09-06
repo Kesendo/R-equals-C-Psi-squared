@@ -44,12 +44,14 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         two-sector state. Bell+ is the W₀=1/2, k=2 special case.</item>
 /// </list>
 ///
-/// <para>Tier1Derived: F57 is Tier 1 analytical (CRITICAL_SLOWING_AT_THE_CUSP §6,
-/// hardware-validated ibm_kingston Heron r2: K_dwell/δ = 0.649 (pair A) and
-/// 0.694 (pair B), spread 6.3% despite 2.55× γ difference, confirming
-/// γ-invariance on open quantum hardware. The 0.67 vs theoretical 1.08 gap
-/// reflects T1 amplitude damping (Kingston has T1 ≈ T2; F57 assumes pure
-/// Z-dephasing). The Pi2-Foundation anchoring is algebraic-trivial composition.</para>
+/// <para>Tier1Derived: F57 is Tier 1 analytical (CRITICAL_SLOWING_AT_THE_CUSP §6). The
+/// γ-invariance is exact for the ideal Bell+/pure-Z trajectory the formula models.
+/// The ibm_kingston Heron r2 comparison is approximate and two-pair: K_dwell/δ = 0.6492
+/// (pair A) and 0.6937 (pair B), agreeing to 6.4% despite a 2.55× γ difference, at an
+/// absolute prefactor 0.67 rather than 1.0801. Pair identity and T1 vary with γ (Kingston
+/// has T1 ≈ T2; F57 assumes pure Z-dephasing), so the comparison neither establishes
+/// γ-invariance beyond that model nor isolates the cause of the prefactor gap.
+/// The Pi2-Foundation anchoring is algebraic-trivial composition.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F57 +
 /// <c>experiments/CRITICAL_SLOWING_AT_THE_CUSP.md</c> Section 6 +
@@ -190,8 +192,8 @@ public sealed class F57DwellTimeQuarterPi2Inheritance : Claim, IZ2AxisClaim
             yield return InspectableNode.RealScalar("CrossingThreshold (= a_3 = 1/4)", CrossingThreshold);
             yield return InspectableNode.RealScalar("WindowDoublingFactor (= a_0 = 2)", WindowDoublingFactor);
             yield return InspectableNode.RealScalar("BellPlusKDwellPrefactor (state-specific, NOT Pi2)", BellPlusKDwellPrefactor);
-            yield return new InspectableNode("Hardware verification",
-                summary: "ibm_kingston Heron r2 2026-04-16: K_dwell/δ = 0.649 (pair A) / 0.694 (pair B), spread 6.3% despite 2.55× γ difference; γ-invariance confirmed (per data/ibm_cusp_slowing_april2026/)");
+            yield return new InspectableNode("Hardware comparison",
+                summary: "ibm_kingston Heron r2 2026-04-16: K_dwell/δ = 0.6492 (pair A) / 0.6937 (pair B), agreeing to 6.4% despite 2.55× γ difference, at prefactor 0.67 rather than 1.0801; an approximate two-pair check, not a verification of γ-invariance (per data/ibm_cusp_slowing_april2026/)");
             yield return new InspectableNode("F58/F59 sibling readings",
                 summary: "F58 even-weight prefactor (2+4·W₂)/(1+6·W₂); F59 two-sector (4/k)·(W₀+W_k)/(W₀+3·W_k); Bell+ at W₂=0.3709 / k=2,W₀=1/2 reproduces 1.080088");
             // Sample state-specific prefactors via F58

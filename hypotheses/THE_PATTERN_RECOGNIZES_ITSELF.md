@@ -68,10 +68,35 @@ and the [event record](../experiments/NEURAL_GAMMA_CAVITY.md) own this null.
 
 No biological neural network in the repository is known to pass F36.
 This full-matrix rejection does not settle each selected subnetwork, but
-balance alone certifies none of them. Biological wiring, inhibitory position
-and activity balance require their own tests on a specified effective J.
-A tolerance-dependent matching percentage or a mean pair sum fixed by
-trace cannot replace the two entry conditions.
+balance alone certifies none of them. Biological wiring and activity balance
+require their own tests on a specified effective J. A tolerance-dependent
+matching percentage or a mean pair sum fixed by trace cannot replace the two
+entry conditions.
+
+### Inhibitory position: the null that is already in
+
+One of those tests has been run, and it came back empty. Correlating the
+matching percentage on 200 balanced `N=10` subnetworks against how central
+their inhibitory neurons sit gives `r = 0.048`. Assigning position directly,
+on a fixed neuron set, does not help either:
+
+| I-neuron placement | matching percentage |
+|---|---|
+| I-peripheral | 40% |
+| I-central | 20% |
+| I-random, 20 trials | 52% mean, range 20 to 80% |
+
+Random placement beats both targeted ones, and the targeted pair sits inside
+the random spread, so nothing here separates. The qubit picture, where the
+edge is the place to spend the noise, does not carry over to where inhibition
+sits in a connectome.
+
+The null is worth more than the percentage it was measured on. Whatever the
+matching percentage turns out to be worth, and it is a tolerance-dependent
+reading whose degree-matched control has not been run, position does not
+predict it. A quantity that a variable fails to predict fails to be predicted
+whether or not the quantity itself survives. Producer:
+[celegans_inhibitory_position.py](../simulations/neural/celegans_inhibitory_position.py).
 
 ## What the synthetic dynamics do not establish
 

@@ -1,0 +1,75 @@
+A LONGITUDINAL FIELD AGAINST THE F1 RATE PAIRING
+Heisenberg chain, J=1.0, Z-dephasing gamma=0.05; field sum_k h_k Z_k.
+Defect = worst mismatch of the decay-rate multiset under r -> 2*Sigma_gamma - r.
+
+The discriminator is commutation, not shape. A profile that commutes with the
+bond Hamiltonian cannot move a decay rate; every other profile can, whether or
+not it is ordered.
+
+  N                    profile  ||[H_bond,F]||   rate defect
+  2         uniform (0.3, ...)       0.000e+00     6.106e-16
+  2         staggered (+/-0.3)       3.394e+00     1.652e-02
+  2   disordered, all positive       3.077e-01     1.479e-04
+
+  3         uniform (0.3, ...)       0.000e+00     8.493e-15
+  3         staggered (+/-0.3)       6.788e+00     9.994e-02
+  3   disordered, all positive       8.889e-01     4.630e-02
+
+  4         uniform (0.3, ...)       4.441e-16     1.085e-14
+  4         staggered (+/-0.3)       1.176e+01     4.340e-02
+  4   disordered, all positive       2.695e+00     4.973e-02
+
+The commutator column is the mechanism, read directly. At amplitude 0.3 it is a
+few ulp rather than 0.0 because 0.3 is not dyadic; the exact assertion below runs
+at a dyadic amplitude, where it is 0.0 to the bit.
+
+The disordered profile carries no order at all and breaks the pairing anyway,
+as strongly as the staggered one. What the uniform profile has is not order but
+a vanishing commutator: sum_k Z_k is the conserved total spin of the Heisenberg
+bond, so its superoperator is diagonal with purely imaginary spectrum and commutes
+with the rest of the generator. It can only move frequencies. A global offset is
+therefore free, and the defect depends on the profile's deviation from constant.
+
+Global offset, added to a fixed deviation:
+  N     offset     rate defect
+  2        0.0    1.999998e-07
+  2        0.5    1.999998e-07
+  2        3.0    1.999998e-07
+
+  3        0.0    5.440006e-05
+  3        0.5    5.440006e-05
+  3        3.0    5.440006e-05
+
+  4        0.0    6.592695e-07
+  4        0.5    6.592695e-07
+  4        3.0    6.592695e-07
+
+The response ORDER is set by the reflection parity of the deviation, not by its
+amplitude. R is the chain reversal k -> N-1-k. Exponent is read from the defect
+at two field scales a decade apart, so a wrong exponent cannot hide in a constant.
+
+  N              deviation  R-parity   defect(1e-3)   defect(1e-4)  exponent
+  4    staggered (+,-,+,-)       odd      6.593e-07      6.593e-09      2.00
+  4          (+2,-1,+1,-2)       odd      2.250e-06      2.250e-08      2.00
+  4          (+1,+1,-1,-1)       odd      2.256e-06      2.256e-08      2.00
+  4  single site (0,0,0,1)      none      1.499e-05      1.284e-06      1.07
+
+  N=2: offsets agree to 2.6e-09 relative (absolute spread 5.3e-16, eigensolver noise on an exact identity)
+  N=3: offsets agree to 9.0e-11 relative (absolute spread 4.9e-15, eigensolver noise on an exact identity)
+  N=4: offsets agree to 3.5e-09 relative (absolute spread 2.3e-15, eigensolver noise on an exact identity)
+
+Every R-odd deviation responds at order exactly 2, and the single-site bump, which
+is neither R-odd nor R-even, responds at order 1. That is F131's order-sorting law
+read as a response order: along an R-odd direction the spectrum is even in the
+parameter, so the linear term is absent and the leading response is quadratic.
+The staggered profile is R-odd at even N, which is the whole reason it gave a clean
+square; at odd N it is not, and no clean power should be expected there.
+
+So the field costs the F1 rate pairing exactly its non-commuting part, at an order
+the deviation's reflection parity decides. Order in the antiferromagnetic sense is
+neither necessary nor sufficient: a disordered profile breaks the pairing, and a
+perfectly ordered uniform one does not.
+
+Scope: finite chains N=2..4, one coupling, one dephasing rate, and the RATE
+multiset only. The full complex F1 multiset breaks under every non-zero field,
+uniform included, and is a separate statement not measured here.

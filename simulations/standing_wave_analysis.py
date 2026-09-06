@@ -130,6 +130,110 @@ def trace_rows(times=np.linspace(0, 10, 101), generator=None):
     return rows
 
 
+def spectral_census(generator):
+    """The eigenvalue half of the reading, which the state-weight defect never touched.
+
+    Eigenvalues are invariant under any change of eigenvector basis and under
+    degeneracy, so the pairing, the centred classification and the count of
+    standing-wave candidates survive the withdrawal of eigenvector-coordinate
+    weights. What made those weights unusable was the choice of coordinates;
+    none of that reaches the spectrum.
+
+    The classification never rests on a bare threshold. It reports the gap that
+    separates the two sides, so a reader can see whether the verdict is a
+    measurement or an artefact of where a line was drawn.
+    """
+    sigma = N * GAMMA
+    values = np.linalg.eigvals(generator)
+    mu = values + sigma                       # centred: F1 sends mu -> -mu
+    scale = float(np.linalg.norm(generator))
+    solver_noise = 256 * np.finfo(float).eps * scale
+
+    # F1 pairing on the centred spectrum, matched greedily with multiplicity.
+    # The residual is only meaningful alongside the count: an unmatched mode
+    # contributes no distance, so a run that pairs nothing would otherwise
+    # report a perfect residual. Both are gated together below.
+    remaining = list(range(len(mu)))
+    pairs, worst_residual = 0, 0.0
+    unmatched = 0
+    while remaining:
+        i = remaining.pop(0)
+        best, best_distance = None, float("inf")
+        for j in remaining:
+            distance = abs(mu[i] + mu[j])
+            if distance < best_distance:
+                best, best_distance = j, distance
+        # The match window is the noise floor with room to spare, not a free
+        # number: F1 is exact here, so a genuine partner sits at the floor and
+        # anything a thousand floors away is not one.
+        if best is not None and best_distance <= 1000 * solver_noise:
+            remaining.remove(best)
+            pairs += 1
+            worst_residual = max(worst_residual, best_distance)
+        else:
+            unmatched += 1
+
+    real_parts = np.abs(mu.real)
+    imag_parts = np.abs(mu.imag)
+    oscillatory = int(np.count_nonzero((real_parts <= solver_noise) & (imag_parts > solver_noise)))
+    purely_real = int(np.count_nonzero(imag_parts <= solver_noise))
+    mixed = len(mu) - oscillatory - purely_real
+
+    off_axis = real_parts[real_parts > solver_noise]
+    closest = float(np.min(off_axis)) if off_axis.size else float("nan")
+
+    lines = [
+        "CENTRED SPECTRAL CENSUS",
+        f"mu = lambda + Sigma_gamma, Sigma_gamma = {sigma:.6f}; F1 acts as mu -> -mu.",
+        f"{len(mu)} eigenvalues; eigensolver noise floor 256*eps*||L|| = {solver_noise:.2e}.",
+        "",
+        f"  F1 pairing: {2 * pairs}/{len(mu)} matched = {pairs} pairs, "
+        f"{unmatched} unmatched; worst |mu_k + mu_partner| = {worst_residual:.2e}",
+        f"  purely imaginary mu (standing-wave candidates): {oscillatory}",
+        f"  purely real mu (no oscillation):                {purely_real}",
+        f"  mixed decay and oscillation:                    {mixed}",
+        "",
+    ]
+    # Gates. Each states something the run could contradict.
+    # (1) F1 is exact here, so every mode must find a partner. A count that
+    #     drops is the finding; the residual alone cannot report it, because an
+    #     unmatched mode contributes no distance.
+    if unmatched != 0 or 2 * pairs != len(mu):
+        raise RuntimeError(
+            f"F1 pairing incomplete: {2 * pairs}/{len(mu)} matched, {unmatched} unmatched")
+    if worst_residual > 1000 * solver_noise:
+        raise RuntimeError(
+            f"F1 pairing residual {worst_residual:.2e} exceeds the match window "
+            f"{1000 * solver_noise:.2e}")
+    # (2) The three classes must exhaust the spectrum.
+    if oscillatory + purely_real + mixed != len(mu):
+        raise RuntimeError("the centred classification does not partition the spectrum")
+    # (3) The standing-wave count is only readable if nothing sits near the axis.
+    #     A mode inside a decade of the floor would make the count a threshold effect.
+    if oscillatory == 0 and closest <= 10 * solver_noise:
+        raise RuntimeError(
+            f"the nearest off-axis mode is {closest:.3e}, within a decade of the "
+            f"{solver_noise:.3e} floor; the zero count cannot be read")
+
+    if oscillatory == 0:
+        lines += [
+            f"  No mode sits on the imaginary axis. The nearest one is {closest:.6f} away,",
+            f"  which is {closest / solver_noise:.1e} times the noise floor, so the count is a",
+            "  measurement and not a rounding: at N=3 no centred pair has a FLAT envelope.",
+            "",
+            "  The 20 mixed pairs do share an envelope, exactly: each is a conjugate pair",
+            "  with a common real part, and the distinct values are the whole story",
+            f"  ({', '.join(f'{v:+.7f}' for v in sorted(set(np.round(mu[(np.abs(mu.real) > solver_noise) & (np.abs(mu.imag) > solver_noise)].real, 7))))}).",
+            "  What condition 1 asks for is not a shared envelope but a flat one, Re mu = 0,",
+            "  so the two members neither grow nor decay relative to each other. That is what",
+            "  is absent, and conditions 2 and 3 are never reached.",
+        ]
+    else:
+        lines.append(f"  {oscillatory} modes sit within the noise floor of the imaginary axis.")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def render_report():
     generator = liouvillian()
     anchors = direct_trace_gate(generator)
@@ -146,6 +250,7 @@ def render_report():
             f"Bell01/IXY dt0={anchors['bell01_ixy_dt0']:.6f}."
         ),
         "",
+        spectral_census(generator),
         f"{'state':<9} {'Pauli':<5} {'t0':>11} {'min':>11} {'max':>11} {'half-range':>11}",
     ]
     for row in trace_rows(generator=generator):

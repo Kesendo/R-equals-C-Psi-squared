@@ -192,9 +192,10 @@ of atomic ones, on up the hierarchy. Read the pop gloss against that
 background and its strangeness dissolves. Nobody says a vibrating guitar
 string is "in many shapes at once" when its motion is an overlay of
 harmonics; the overlay is just what a wave is. And whether a given overlay
-rings or sits still is not even the state's own property:
-"The standing wave is a state × Hamiltonian property, not a property of
-either alone" ([Standing Wave Theory](../STANDING_WAVE_THEORY.md)). The
+rings or sits still is not even the state's own property. Two of the three
+conditions for a standing wave belong to the generator and the third to the
+preparation, so it is a state and Hamiltonian property jointly and neither
+one's alone ([Standing Wave Theory](../STANDING_WAVE_THEORY.md)). The
 relational reading goes all the way down.
 
 ---

@@ -95,6 +95,31 @@ interacting Heisenberg Hamiltonian. Comparing their energies does not close a
 feedback equation. The generators establish no runaway self-heating, required
 external cooling, or biological metabolism analogue.
 
+## The self-consistent occupation does not exist
+
+A self-heating fixed point would be an occupation `n_bar` at which the channel's
+steady energy equals the thermal energy that same `n_bar` names, so the loop
+closes on itself. It does not exist, and this needs no sweep: both sides are
+known in closed form on this branch.
+
+The steady state is the product of the local targets `diag(1-p, p)` with
+`p = n_bar/(2 n_bar + 1)`, the object the stationarity gate above already pins,
+so its energy is
+
+    Tr(H rho_steady) = (N-1) * <Z>^2 = (N-1) / (2 n_bar + 1)^2 >= 0
+
+which reproduces to `8e-16` at every `N` and `n_bar` measured. Meanwhile
+`tr H = 0` exactly, so a Gibbs state at any `beta > 0` has
+`Tr(H rho_Gibbs) < 0` strictly. The gap is a non-negative number minus a
+negative one and cannot vanish, at any `N`, any rate, and any map from `n_bar`
+to a temperature.
+
+That is stronger than a sweep and it is also what a sweep could never have
+shown: a scan reporting "no sign change over five decades" is reporting an
+identity it cannot see. The two energies belong to different objects, one a
+local emission/absorption target and one a Gibbs state of the interacting
+chain, and no temperature makes a state of one into a state of the other.
+
 ## Reproduction
 
 ```bash

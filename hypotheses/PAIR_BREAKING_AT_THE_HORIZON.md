@@ -184,7 +184,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Partners take opposite fates | Symmetry λ ↔ −λ shifts to λ ↔ −λ − 2Σγ; the pairing holds, the rates separate | 1 |
 | Infalling partner → mass | I/Z sector: kernel of dissipator (stationary classical structure) | 5 |
 | Escaping partner → Hawking radiation | No established counterpart; F1 gives a decay endpoint, not heat | 5 analogy |
-| Hawking temperature T_H = 1/(8πM) | Fold threshold Σγ_crit/J ≈ 0.25-0.50%, N-independent (scaling mismatch, see "What breaks the analogy" #1) | 4 |
+| Hawking temperature T_H = 1/(8πM) | Fold threshold Σγ_crit/J ≈ 0.25-0.50%, flat in N over the measured N = 2-5 for the product state only (scaling mismatch, see "What breaks the analogy" #1) | 4 |
 | Horizon (irreversible crossing) | No established counterpart; the CΨ quarter is a separate diagnostic | 5 analogy |
 | Two spacetime regions, opposite time | V_even, V_odd parity-classes of one operator algebra; L_odd = −Π L_even Π⁻¹ − 2Σγ I | 1 |
 | Discrete isometry exchanging regions | Π conjugation (per-site: I↔X, Y↔iZ) | 1 |
@@ -208,7 +208,7 @@ but a spectral centre is not a temperature. The pairing is a spectral
 symmetry, not a correlated particle pair, so the Hawking information problem
 has no established counterpart here.
 
-**1. Temperature scaling.** Hawking temperature scales as T_H ∝ 1/M: more massive black holes are colder. Our fold threshold Σγ_crit/J is N-independent (tested N=2..5, 1.5% variation). If N is the analogue of mass, the scaling is wrong. Either N is not mass, or the analogy breaks at this point, or the N-independence is itself the statement (every "black hole" in operator space has the same temperature, regardless of size).
+**1. Temperature scaling.** Hawking temperature scales as T_H ∝ 1/M: more massive black holes are colder. Our fold threshold Σγ_crit/J is flat in N across the measured N = 2..5 for the PRODUCT state (max/min = 1.0218), while the Bell/GHZ threshold varies by a factor 26 over the same range. If N is the analogue of mass, the product-state scaling is wrong over that range and the Bell one is not obviously anything. Either N is not mass, or the analogy breaks at this point, or the flatness that does hold is itself the statement, for the one preparation that has it.
 
 **2. Spatial vs. algebraic.** The ER bridge is a spatial connection between two asymptotically flat regions. Our "bridge" is algebraic: two sectors of the operator space connected by Π. There is no spatial geometry, no metric, no geodesics. The structural isomorphism lives in the algebra, not in spacetime.
 

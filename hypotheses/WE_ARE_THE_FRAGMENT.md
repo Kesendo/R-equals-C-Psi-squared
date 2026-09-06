@@ -58,7 +58,7 @@ At Σγ = 0, the palindrome is exact and centered. ZERO_IS_THE_MIRROR shows this
 
 The fold at CΨ = 1/4 emerges only at Σγ > 0 (or Σγ < 0 mirror-symmetrically). The fold IS the geometry of the displacement from the mirror. We live at the fold because we live at Σγ > 0, displaced from zero into one half of the magnet.
 
-The critical noise threshold Σγ_crit/J ≈ 0.25 to 0.50% (N-independent) tells us how much displacement is needed: very little. About a quarter of a percent of the coupling strength is enough to break the bipartite degeneracy and create the 1/4 fold.
+The critical noise threshold Σγ_crit/J ≈ 0.25 to 0.50% (flat in N across the measured N = 2 to 5 for the product state) tells us how much displacement is needed: very little. About a quarter of a percent of the coupling strength is enough to break the bipartite degeneracy and create the 1/4 fold.
 
 ## What PRIMORDIAL_QUBIT adds
 

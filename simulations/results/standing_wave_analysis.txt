@@ -4,6 +4,26 @@ Direct expectations are basis-independent; no eigenmode state-weight percentage 
 Amplitude is half the sampled max-min range, not a standing-wave certificate.
 Dynamic gate: W/IYY t0=0.666667, dt0=-0.133333; ||drho/dt||=0.163299, |Tr drho/dt|=0.00e+00; Bell01/IXY dt0=-2.000000.
 
+CENTRED SPECTRAL CENSUS
+mu = lambda + Sigma_gamma, Sigma_gamma = 0.150000; F1 acts as mu -> -mu.
+64 eigenvalues; eigensolver noise floor 256*eps*||L|| = 1.58e-12.
+
+  F1 pairing: 64/64 matched = 32 pairs, 0 unmatched; worst |mu_k + mu_partner| = 2.78e-14
+  purely imaginary mu (standing-wave candidates): 0
+  purely real mu (no oscillation):                24
+  mixed decay and oscillation:                    40
+
+  No mode sits on the imaginary axis. The nearest one is 0.016658 away,
+  which is 1.1e+10 times the noise floor, so the count is a
+  measurement and not a rounding: at N=3 no centred pair has a FLAT envelope.
+
+  The 20 mixed pairs do share an envelope, exactly: each is a conjugate pair
+  with a common real part, and the distinct values are the whole story
+  (-0.0500000, -0.0167243, -0.0166584, +0.0166584, +0.0167243, +0.0500000).
+  What condition 1 asks for is not a shared envelope but a flat one, Re mu = 0,
+  so the two members neither grow nor decay relative to each other. That is what
+  is absent, and conditions 2 and 3 are never reached.
+
 state     Pauli          t0         min         max  half-range
 GHZ       ZZZ      0.000000    0.000000    0.000000    0.000000
 GHZ       IYY      0.000000    0.000000    0.000000    0.000000

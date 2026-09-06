@@ -88,6 +88,106 @@ def stationarity_residual(n, gamma_z, gamma_amp, n_bar, target=None):
     return np.linalg.norm(generator @ rho.reshape(-1, order="F"))
 
 
+def steady_state(generator, dimension):
+    """The generator's stationary density matrix, normalised to unit trace."""
+    from scipy.linalg import null_space
+    kernel = null_space(generator, rcond=1e-9)
+    if kernel.shape[1] != 1:
+        raise RuntimeError(
+            f"the stationary state is not unique: kernel dimension {kernel.shape[1]}")
+    # Column-major, matching the vectorisation this module uses everywhere else.
+    rho = kernel[:, 0].reshape(dimension, dimension, order="F")
+    rho = (rho + rho.conj().T) / 2
+    trace = np.trace(rho).real
+    if abs(trace) < 1e-12:
+        raise RuntimeError("the stationary state has vanishing trace and cannot be normalised")
+    return rho / trace
+
+
+def gibbs_state(hamiltonian, n_bar, dimension):
+    """Gibbs state of the interacting H at the temperature n_bar names.
+
+    A qubit at occupation n_bar sits at beta = ln(1 + 1/n_bar)/Delta; Delta is
+    taken as the mean level spacing of H, which is what makes this a state of
+    the interacting chain rather than of the local channel.
+    """
+    levels = np.linalg.eigvalsh(hamiltonian)
+    spacing = (levels.max() - levels.min()) / (dimension - 1)
+    beta = np.log(1 + 1 / n_bar) / spacing
+    values, vectors = np.linalg.eigh(hamiltonian)
+    weights = np.exp(-beta * (values - values.min()))
+    weights /= weights.sum()
+    return sum(weights[i] * np.outer(vectors[:, i], vectors[:, i].conj())
+               for i in range(dimension))
+
+
+def no_self_heating_fixed_point(log):
+    """Closing the loop has no solution, and the reason is not a search failure.
+
+    A self-heating fixed point would be an n_bar at which the channel's steady
+    energy equals the thermal energy the same n_bar names. Sweeping n_bar over
+    five decades, the difference never changes sign: the steady state sits above
+    the Gibbs state at every occupation, so there is no crossing for any search
+    to find. That is the same fact the stationarity gate above states from the
+    other side, since the two energies belong to different objects, one a local
+    sigma-minus/sigma-plus target and one a Gibbs state of the interacting H.
+    """
+    log("Self-heating fixed point: there is none, and it is an identity rather than a search.")
+    log("")
+    log("A fixed point would be an n_bar where Tr(H rho_steady) = Tr(H rho_Gibbs). Both")
+    log("sides are known in closed form on this branch, so the question does not need a")
+    log("sweep. The steady state is the product of the local targets diag(1-p, p) with")
+    log("p = n_bar/(2 n_bar + 1), the same object the stationarity gate above pins, so")
+    log("")
+    log("    Tr(H rho_steady) = (N-1) * <Z>^2 = (N-1) / (2 n_bar + 1)^2   >= 0,")
+    log("")
+    log("while tr H = 0 exactly, so a Gibbs state at any beta > 0 has Tr(H rho_Gibbs) < 0.")
+    log("The gap is a non-negative number minus a negative one. It cannot vanish.")
+    log("")
+    log(f"{'N':>3} {'n_bar':>8} {'closed form':>13} {'measured':>13} {'residual':>11} {'Gibbs E':>10}")
+
+    occupations = (1e-4, 1e-3, 1e-2, 0.1, 0.5, 1.0, 5.0, 20.0, 50.0)
+    worst_residual = 0.0
+    worst_gibbs = -np.inf
+    for n, gamma_z, gamma_amp in ((3, 0.0, 0.1), (3, 0.05, 0.1), (5, 0.05, 0.1)):
+        hamiltonian = build_h(n)
+        dimension = 2**n
+        trace_h = float(np.trace(hamiltonian).real)
+        if trace_h != 0.0:
+            raise RuntimeError(f"tr H is not exactly zero at N={n}: {trace_h:.3e}")
+        for n_bar in occupations:
+            generator = build_generator(hamiltonian, gamma_z, gamma_amp, n_bar)
+            measured = float(np.trace(hamiltonian @ steady_state(generator, dimension)).real)
+            closed = (n - 1) / (2 * n_bar + 1) ** 2
+            residual = abs(measured - closed)
+            gibbs = float(np.trace(hamiltonian @ gibbs_state(hamiltonian, n_bar, dimension)).real)
+            worst_residual = max(worst_residual, residual)
+            worst_gibbs = max(worst_gibbs, gibbs)
+            if n_bar in (1e-4, 1.0, 50.0):
+                log(f"{n:3d} {n_bar:8.4g} {closed:13.6f} {measured:13.6f} "
+                    f"{residual:11.2e} {gibbs:10.4f}")
+        log("")
+
+    # The gate is the closed form, which a wrong steady state breaks at once, and
+    # the sign of the Gibbs energy, which a wrong temperature map breaks. The old
+    # sign sweep could not fail: it compared a non-negative quantity with a
+    # negative one and reported the obvious.
+    if worst_residual > 1e-9:
+        raise RuntimeError(
+            f"the steady-state energy is not (N-1)/(2 n_bar + 1)^2; worst residual "
+            f"{worst_residual:.3e}")
+    if worst_gibbs >= 0.0:
+        raise RuntimeError(
+            f"a Gibbs energy came out non-negative ({worst_gibbs:.3e}); the sign argument fails")
+    log(f"Worst closed-form residual over the sweep: {worst_residual:.2e}")
+    log(f"Least negative Gibbs energy over the sweep: {worst_gibbs:.4f}")
+    log("")
+    log("So no self-consistent occupation exists, at any N and any rate. The steady state")
+    log("is not a Gibbs state of the interacting H at any temperature, and that, not a")
+    log("failed search, is why no temperature closes the loop.")
+    log("")
+
+
 def main():
     results_dir = Path(__file__).parent / "results"
     results_dir.mkdir(exist_ok=True)
@@ -141,6 +241,8 @@ def main():
             raise AssertionError("local-channel product target is not stationary")
 
     out()
+    out()
+    no_self_heating_fixed_point(out)
     out("This checks a local bath target, not a Gibbs state of the interacting H.")
     out("No self-heating, heat-production, cooling-rate, or biological claim follows.")
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")

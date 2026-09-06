@@ -1845,7 +1845,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-281
 
-**Question:** **1. Temperature scaling.** Hawking temperature scales as T_H ∝ 1/M: more massive black holes are colder. Our fold threshold Σγ_crit/J is N-independent (tested N=2..5, 1.5% variation). If N is the analogue of mass, the scaling is wrong. Either N is not mass, or the analogy breaks at this point, or the N-independence is itself the statement (every "black hole" in operator space has the same temperature, regardless of size).
+**Question:** **1. Temperature scaling.** Hawking temperature scales as T_H ∝ 1/M: more massive black holes are colder. Our fold threshold Σγ_crit/J is flat in N across the measured N = 2..5 for the PRODUCT state (max/min = 1.0218), while the Bell/GHZ threshold varies by a factor 26 over the same range. If N is the analogue of mass, the product-state scaling is wrong over that range and the Bell one is not obviously anything. Either N is not mass, or the analogy breaks at this point, or the flatness that does hold is itself the statement, for the one preparation that has it.
 
 **Source:** `hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md` (line 153)
 **Section:** What breaks the analogy

@@ -148,8 +148,8 @@ public sealed class InteriorHorizonField : IInspectable
             var geodesic = tGrid.Select(t => InteriorHorizon.BellPlusCpsi(_gamma, t)).ToArray();
             yield return new InspectableNode(
                 displayName: "the dwell and the hardware (the dose)",
-                summary: $"K_dwell = γ·t_dwell = {InteriorHorizon.BellPlusDwellPrefactor}·δ (F57), γ-invariant: a fixed dose carries Bell+ through the fold. " +
-                         "Confirmed on IBM Kingston (f25_cusp_trajectory point-by-point; f57_kdwell_gamma_invariance two pairs, 6% spread, prefactor 0.67 under T1 damping). " +
+                summary: $"K_dwell = γ·t_dwell = {InteriorHorizon.BellPlusDwellPrefactor}·δ (F57): for the ideal Bell+/pure-Z trajectory the dose that carries the state through the fold is γ-independent. " +
+                         "On IBM Kingston, f25_cusp_trajectory reproduces the crossing point-by-point; f57_kdwell_gamma_invariance compares two pairs at 2.55× different γ, agreeing to 6.4% at prefactor 0.67 rather than 1.0801, a comparison that does not isolate the cause of the gap. " +
                          "At the cusp θ→0 the Liouvillian eigenvalue is −γ₀ alone (pure decay): the horizon is where the carrier shows itself.",
                 payload: new InspectablePayload.Curve("Bell+ geodesic CΨ(t)", tGrid, geodesic, "t", "CΨ (crosses ¼)"));
         }

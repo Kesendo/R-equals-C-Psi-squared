@@ -265,10 +265,13 @@ def test_repaired_cross_domain_surfaces_keep_scope_fences():
             assert phrase.lower() not in contents
 
 
-def test_gamma_time_producer_is_withdrawal_safe():
+def test_gamma_time_producer_measures_and_keeps_the_ontology_out():
+    artifact = ROOT / "simulations/results/gamma_is_time_proof.txt"
+    committed_before = artifact.read_text(encoding="utf-8")
     output = _run("simulations/gamma_is_time_proof.py")
-    assert "withdrawn" in output.lower()
     assert "docs/GAMMA_TIME_DISTINCTION.md" in output
+
+    # The withdrawn vocabulary must not come back.
     for forbidden in (
         "experienced time",
         "completeness",
@@ -279,7 +282,31 @@ def test_gamma_time_producer_is_withdrawal_safe():
     ):
         assert forbidden.lower() not in output.lower()
 
-    recorded = (ROOT / "simulations/results/gamma_is_time_proof.txt").read_text(
-        encoding="utf-8"
+    # And the measurement that blocks the withdrawn reading must still be run and
+    # still come out negative. If the tau collapse ever succeeded, or the table
+    # stopped being printed, this fails rather than passing quietly.
+    lines = output.splitlines()
+    header = [i for i, line in enumerate(lines) if "spread/range" in line]
+    assert len(header) == 2, (
+        "the collapse test must print both arms, the fixed-J sweep and the fixed-Q "
+        f"control; found {len(header)} tables"
     )
-    assert recorded == output
+    expected = ("S(rho_A)", "Tr(rho^2)", "CPsi", "Concurrence")
+    # Arm one holds J and therefore moves Q: nothing may collapse.
+    # Arm two holds Q: the generator's homogeneity forces every observable to.
+    for table_index, verdict in ((0, "no"), (1, "yes")):
+        table = lines[header[table_index] + 2:header[table_index] + 6]
+        for row, observable in zip(table, expected):
+            assert row.split()[0] == observable, f"expected {observable} row, got {row!r}"
+            assert row.split()[-1] == verdict, (
+                f"arm {table_index} must read {verdict} for {observable}: {row!r}"
+            )
+    assert "0.861100" in output, "the concurrence spread cited across the repo must survive"
+
+    # The committed artifact must already agree with what the producer prints, so
+    # it has to be read BEFORE the producer overwrites it. Reading it afterwards
+    # compares the file with itself and passes on any stale content.
+    assert committed_before == output, (
+        "the committed simulations/results/gamma_is_time_proof.txt was stale: "
+        "it did not match what the producer prints"
+    )

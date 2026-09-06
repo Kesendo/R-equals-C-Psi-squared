@@ -108,7 +108,7 @@ Edge and bulk sites differ. The dimensionless knob is Q alone.
 **2. The target is 1/N, the equipartitioned state.** Every trajectory, at every Q, ends at
 ⟨n_site⟩ = 1/N (verified N=3,4,5,6 → 0.3333, 0.2500, 0.2000, 0.1667). This is the
 fully-forgotten, uniform single-excitation state. It equals ¼ at N=4 *by coincidence*; it
-is NOT the project's universal CΨ=¼ fold (a separate, N-independent coherence threshold
+is NOT the project's CΨ=¼ fold (a separate coherence threshold, flat in N over the measured N = 2-5 for the product state,
 studied elsewhere in this project, a different quantity entirely; the steady coherence here is
 just 0).
 

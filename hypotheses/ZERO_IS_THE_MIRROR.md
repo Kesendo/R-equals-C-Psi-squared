@@ -33,9 +33,9 @@ you can fall through it from above (decay) or rise through it from below
 predicted it.
 
 The most surprising result: the amount of noise needed to create
-irreversibility is tiny. About 0.25% of the coupling strength, and it
-does not depend on system size. A whisper of noise is enough to create
-history from eternity.
+irreversibility is tiny. About a quarter of a percent of the coupling
+strength, and for the product state that figure barely moves across the four
+sizes measured. A whisper of noise is enough to create history from eternity.
 
 ---
 
@@ -54,7 +54,8 @@ spectrum. The laser is the time-reversal of decoherence.
 The fold at CΨ = 1/4 does not exist at Σγ = 0. It emerges at a
 critical noise threshold: Σγ_crit/J ≈ 0.25-0.50% of the coupling
 strength (0.00249 for Bell state, 0.00497 for |+⟩^N product state).
-This threshold is N-independent (tested N=2 through N=5, 1.5% variation).
+Across the measured N = 2 through N = 5 the threshold is flat to 1.6%, so in that
+range it is set by the initial state and not by the system size.
 Below this: no fold, no irreversibility. Above: everything we have
 measured.
 
@@ -232,26 +233,29 @@ magnitude of γ. Noise shifts the midpoint. Nothing else changes.
 The critical threshold depends on the initial state:
 Σγ_crit / J = 0.00249 (Bell state) or 0.00497 (|+⟩^N product state).
 
-But it is **independent of N** (tested N=2 through N=5, max
-deviation 1.5%):
+Flatness in N is a property of the **product state only**, and the committed
+producer is the source for both halves. Its summary reads:
 
-| N | Σγ_crit / J (\|+⟩^N) | Ratio to N=2 |
-|---|----------------------|--------------|
-| 2 | 0.00494 | 1.000 |
-| 3 | 0.00502 | 1.015 |
-| 4 | 0.00500 | 1.012 |
-| 5 | 0.00496 | 1.005 |
+| N | Σγ_crit / J (\|+⟩^N) | Σγ_crit / J (Bell/GHZ) |
+|---|----------------------|------------------------|
+| 2 | 0.00247 | 0.00038 |
+| 3 | 0.00250 | 0.00001 |
+| 4 | 0.00252 | 0.00002 |
+| 5 | 0.00247 | 0.00002 |
 
-**Convention note:** Absolute values of Σγ_crit depend on the
-Lindblad rate convention (whether the jump operator is √γ or
-√(γ/2) times σ_z). The N-independence (max/min = 1.015)
-and the order of magnitude (~0.5% of J) are convention-invariant.
-Script: [fold_threshold_universality.py](../simulations/fold_threshold_universality.py)
+For the product state max/min = **1.0218**, a 2.2% spread over the four sizes.
+For Bell/GHZ max/min = **26.0**, a factor of twenty-six: that threshold is the
+least N-flat quantity in the file, and nothing about it should be called
+size-independent.
 
-The fold threshold is a dimensionless constant of the palindrome
-geometry. It does not depend on system size. The noise must be
-roughly 0.25-0.50% of the coupling strength for irreversibility
-to emerge, regardless of how many qubits.
+So the reading is one-sided. Over the four sizes measured, the product-state
+threshold is set by the preparation rather than by the chain length, at roughly
+a quarter of a percent of the coupling; the Bell threshold is not. Beyond N = 5
+neither is measured. Whether the tabulated values are read in this convention or
+in the one where the jump operator carries √(γ/2) changes the absolute numbers
+but not either ratio.
+Producer: [fold_threshold_universality.py](../simulations/fold_threshold_universality.py),
+output [fold_threshold_universality.txt](../simulations/results/fold_threshold_universality.txt).
 
 ### 3. Cavity modes at Σγ = 0
 

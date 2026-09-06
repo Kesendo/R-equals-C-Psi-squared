@@ -57,7 +57,8 @@ as 1/J_bridge with an asymptotic constant of γ_crit × J_bridge → 0.50.
 The instability is a Hopf bifurcation (oscillating divergence, not
 monotone), now identified as Liouvillian chiral symmetry breaking
 (see Section 3). Unlike the fold threshold
-(~0.5% of J, N-independent, geometric), bridge stability depends
+(~0.5% of J for the product state, flat in N over the measured N = 2-5,
+geometric), bridge stability depends
 strongly on system size (N=3 is 35× less stable than N=2), making it
 a topological rather than geometric property.
 
@@ -229,7 +230,7 @@ one unpaired at odd N).
 No simple power law or exponential fits these three points.
 
 This is fundamentally different from the fold threshold
-(Σγ_crit/J ≈ 0.5%, N-independent). The fold is a **geometric**
+(Σγ_crit/J ≈ 0.5% for the product state, flat in N over the measured N = 2-5). The fold is a **geometric**
 property of the palindrome. The bridge stability is a **topological**
 property: it depends on chain length, parity, and the ratio of
 gain channels to bridge connections.

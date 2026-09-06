@@ -129,6 +129,69 @@ also show why unconverged fixed-point iterations cannot locate a Hopf
 bifurcation or decide equilibrium stability. Those require a converged
 equilibrium branch and additional dynamical checks.
 
+## What a longitudinal field costs the rate pairing
+
+Adding a longitudinal field `sum_k h_k Z_k` to the Heisenberg chain breaks the
+full complex F1 multiset at any nonzero field. The weaker question is the
+**rate pairing**, whether the decay-rate multiset stays symmetric about
+`Sigma_gamma`, and there the answer is decided twice over, by commutation and
+then by parity. Neither is the field's strength.
+
+**Whether it breaks: commutation.** A constant profile is a multiple of
+`sum_k Z_k`, the conserved total spin of the Heisenberg bond. It commutes with
+the bond Hamiltonian exactly, its superoperator is diagonal with purely
+imaginary spectrum, and it therefore cannot move a decay rate at any amplitude.
+Every non-constant profile can, and order has nothing to do with it:
+
+| N | profile | `\|\|[H_bond, F]\|\|` | rate defect |
+|---|---|---|---|
+| 4 | uniform `(0.3, 0.3, 0.3, 0.3)` | 4.4e-16 | 1.1e-14 |
+| 4 | staggered `(+0.3, -0.3, +0.3, -0.3)` | 11.76 | 4.34e-2 |
+| 4 | disordered, all positive | 2.70 | 4.97e-2 |
+
+A disordered all-positive profile carries no antiferromagnetic order at all and
+breaks the pairing as readily as the staggered one; a perfectly ordered uniform
+profile does not break it at all. A global offset is free for the same reason,
+so the defect is a function of the profile's deviation from constant. This is
+the repository's own distinction: [Mirror Symmetry
+Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) records uniform 64/64 against
+non-uniform 28/64 and says plainly that it is "uniformity doing the work, not
+U(1) conservation", and the OpenArcs arc `two_coast_classifier_repair` states
+the mechanism: a longitudinal field commuting with the rest of the Hamiltonian
+is inert on the rate list, and uniformity is how a U(1)-conserving chain comes
+by that commutation rather than being the criterion.
+
+**At what order: the reflection parity of the deviation.** With `R` the chain
+reversal `k -> N-1-k`, measured at two field scales a decade apart:
+
+| deviation direction | R-parity | response order |
+|---|---|---|
+| staggered `(+,-,+,-)` | odd | 2.00 |
+| `(+2,-1,+1,-2)` | odd | 2.00 |
+| `(+1,+1,-1,-1)` | odd | 2.00 |
+| single site `(0,0,0,1)` | none | 1.07 |
+
+Every R-odd direction responds at order exactly 2; the parity-free single-site
+bump responds linearly, which reproduces the arc's own `(1,1,1,1+eps)` sweep
+(1.8e-4 at `eps=0.01` against 1.3e-6 at `eps=1e-4`). This is
+[F131](../docs/ANALYTICAL_FORMULAS.md)'s order-sorting law read as a response
+order: along an R-odd direction the Liouville spectrum is even in the parameter,
+so the linear term is absent and the leading response is quadratic. The
+staggered profile is R-odd at even `N`, which is the whole reason it alone gives
+a clean square there; at `N=3` it is not R-odd and no clean power should be
+expected.
+
+So the field costs the rate pairing exactly its non-commuting part, at an order
+its reflection parity fixes. Order in the antiferromagnetic sense is neither
+necessary nor sufficient.
+
+Producer: [afm_field_palindrome.py](../simulations/afm_field_palindrome.py),
+output [afm_field_palindrome.txt](../simulations/results/afm_field_palindrome.txt).
+Finite chains `N = 2..4`, one coupling, one dephasing rate, and the rate
+multiset only. Whether a physical antiferromagnet's dissipation is
+Z-dephasing-like remains a separate and open question; this says only what a
+field profile does to the pairing once the channel is granted.
+
 ## What the quarter does and does not transfer
 
 For nonzero total squared activity, define

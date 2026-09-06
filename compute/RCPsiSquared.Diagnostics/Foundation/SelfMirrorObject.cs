@@ -93,7 +93,12 @@ public sealed class SelfMirrorObject : IInspectable
 
     /// <summary>Multiplicity at the fixed point of the linear F1 map λ ↦ −2σ − λ.
     /// Linear F1 fixes λ only when λ = −σ, so both the centre-rate and zero-frequency conditions
-    /// are required. This is a subset of <see cref="CompositeFixedLineCount"/>.</summary>
+    /// are required. In general this is a proper subset of <see cref="CompositeFixedLineCount"/>,
+    /// which asks only for the centre rate. On the certified branch the two coincide, and not by
+    /// accident: that branch has H = 0, so L is the dephasing generator alone, its spectrum is
+    /// real, every centre-line mode already has Im λ = 0, and the line collapses onto its point.
+    /// The containment is therefore stated here rather than measured here; separating the two
+    /// numerically needs a spectrum with Im λ ≠ 0, which is the branch this object refuses.</summary>
     public int LinearF1FixedPointCount
     {
         get
@@ -115,8 +120,9 @@ public sealed class SelfMirrorObject : IInspectable
     public string Summary =>
         IsFixedSetResolved
         ? $"an object INSIDE the system: {CompositeFixedLineCount} modes fixed by the composite " +
-        $"λ ↦ −2σ − conj(λ); its {LinearF1FixedPointCount}-mode subset at λ = −σ is fixed by linear F1 " +
-        $"λ ↦ −2σ − λ. Everything else (x/y/z and σ = {F(Sigma)}) is INHERITED."
+        $"λ ↦ −2σ − conj(λ); all {LinearF1FixedPointCount} of them also sit at λ = −σ and are fixed by linear F1 " +
+        $"λ ↦ −2σ − λ, because this branch carries H = 0 and a real spectrum, so the line collapses onto its " +
+        $"point. Everything else (x/y/z and σ = {F(Sigma)}) is INHERITED."
         : $"fixed-set count UNRESOLVED: floating eigenvalues do not certify exact membership in the composite line " +
           $"λ ↦ −2σ − conj(λ) or the linear F1 point λ = −σ; no integer count is reported (σ = {F(Sigma)}).";
 
@@ -136,8 +142,10 @@ public sealed class SelfMirrorObject : IInspectable
                 ? new InspectableNode(
                     displayName: "the object itself: conjugate-composite fixed line",
                     summary: $"{CompositeFixedLineCount} modes at Re λ = −σ are fixed by λ ↦ −2σ − conj(λ). " +
-                             $"Only {LinearF1FixedPointCount} of them also have Im λ = 0 and are fixed by the linear F1 map " +
-                             $"λ ↦ −2σ − λ, whose fixed-point equation is λ = −σ.")
+                             $"All {LinearF1FixedPointCount} of them also have Im λ = 0 and are fixed by the linear F1 map " +
+                             $"λ ↦ −2σ − λ, whose fixed-point equation is λ = −σ: with H = 0 the spectrum is real, so " +
+                             $"the two counts coincide here by construction. Where they can differ, the spectrum carries " +
+                             $"Im λ ≠ 0, and that is the branch this object leaves unresolved.")
                 : new InspectableNode(
                     displayName: "the object itself: fixed-set count unresolved",
                     summary: "floating eigenvalues alone cannot certify exact line or point membership; use an exact/block-aware calculation with a certified gap");

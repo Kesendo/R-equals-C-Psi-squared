@@ -111,7 +111,8 @@ conditional; what has gone is its antecedent. At Σγ = 0: Π·L·Π⁻¹ = -L
 (exact time reversal, no fold, no crossing, no irreversibility), and the
 spectrum pairs about zero, freely.
 The fold at 1/4 emerges only above Σγ_crit/J ≈ 0.25-0.50%
-(state-dependent, but N-independent; these numbers live in
+(state-dependent; flat in N over the measured N = 2-5 for the product state and
+not for Bell/GHZ; these numbers live in
 [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)).
 See also [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 and [γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
@@ -272,7 +273,8 @@ D = 0 at CΨ = ¼. This is the normal form of the fold catastrophe
 perturbations cannot remove it, split it, or move it qualitatively.
 
 **Caveat:** The fold exists only when Σγ > Σγ_crit (≈ 0.25-0.50% of J,
-state-dependent but N-independent).
+state-dependent; flat in N over the measured N = 2-5 for the product state, and
+not for Bell/GHZ).
 At Σγ = 0: no fold, CΨ oscillates without crossing 1/4. The fold is
 not removable by perturbation, but it does not EXIST without noise.
 Noise creates the fold. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).

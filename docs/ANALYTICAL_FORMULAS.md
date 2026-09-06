@@ -805,8 +805,8 @@ reaches K-invariance through "all observables depend on τ = γt", and that step
 is false in general: the Lindblad generator's scaling symmetry is **joint**,
 L(λJ, λγ) = λ·L(J, γ), so holding J while sweeping γ moves Q = J/γ. Measured
 failing on the same chain at fixed J in
-[γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md) Part 3, deviations to
-0.861. What carries the step for the K values above is the STATE: Bell⁺ sits in
+[γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md), where the tau
+collapse fails on all five observables, the concurrence spread reaching 0.861. What carries the step for the K values above is the STATE: Bell⁺ sits in
 a sector the Hamiltonian cannot reach: Bell⁺ is an eigenstate of
 J(XX+YY+ZZ), the commutator is exactly zero entry for entry, and Z-dephasing
 maps that manifold into itself (only ρ₀₃ decays, the diagonal is frozen), so J
@@ -1015,13 +1015,18 @@ with N (Q_c(4)≈27, Q_c(5)≈45).
 
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### F18. Fold threshold (Tier 2, N-independent)
+### F18. Fold threshold (Tier 2, product state only, measured N = 2-5)
 
     Σγ_crit / J = 0.00249 (Bell state)
     Σγ_crit / J = 0.00497 (product state)
 
 Below: no fold, CΨ oscillates forever. Above: CΨ crosses 1/4
-irreversibly. Max/min ratio across N=2-5: 1.015 (1.5% variation).
+irreversibly. Flatness in N holds for the PRODUCT state only: the producer
+gives max/min = 1.0218 over N = 2-5 for |+⟩^N, and max/min = 26.0 for
+Bell/GHZ, whose threshold is the least size-flat quantity in the file. So the
+product-state threshold is set by the preparation rather than by the chain
+length over that range, and the Bell one is not; beyond N = 5 neither is
+measured. Not a universal constant, and not one number for both states.
 
 **Valid for:** Heisenberg chain, Z-dephasing, N=2-5.
 **Replaces:** γ sweep to find fold onset.

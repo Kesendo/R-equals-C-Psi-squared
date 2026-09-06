@@ -1,8 +1,113 @@
-WITHDRAWN: this script previously promoted finite two-qubit trajectory
-comparisons into an unsupported ontology. Those calculations do not
-establish a necessary or sufficient condition for experience.
+What gamma does to a two-qubit trajectory, and what tau = gamma*t does not do
 
-Current scoped account: docs/GAMMA_TIME_DISTINCTION.md
-Current computational reading: gamma sets a dissipative scale in the
-tested Lindblad models; coherent motion and other dimensionless ratios
-prevent a universal collapse onto tau=gamma*t.
+======================================================================
+PART 1: WHAT SWITCHING GAMMA ON CHANGES
+Four trajectory diagnostics, gamma = 0 against gamma = 0.05
+======================================================================
+
+    |01>  gamma=0.00:
+    S(rho_A) non-decreasing after t=1:  no
+    trace distance returns (< 0.01):    yes
+    CPsi crossings of 1/4, down/up:     63/64
+    ||drho/dt|| at t=50:                2.809609
+
+    |01>  gamma=0.05:
+    S(rho_A) non-decreasing after t=1:  no
+    trace distance returns (< 0.01):    no
+    CPsi crossings of 1/4, down/up:     2/2
+    ||drho/dt|| at t=50:                0.019149
+
+   Bell+  gamma=0.00:
+    S(rho_A) non-decreasing after t=1:  yes
+    trace distance returns (< 0.01):    yes
+    CPsi crossings of 1/4, down/up:     0/0
+    ||drho/dt|| at t=50:                0.000000
+
+   Bell+  gamma=0.05:
+    S(rho_A) non-decreasing after t=1:  yes
+    trace distance returns (< 0.01):    no
+    CPsi crossings of 1/4, down/up:     1/0
+    ||drho/dt|| at t=50:                0.000006
+
+  At gamma = 0 the |01> trajectory is exactly recurrent. H has spectrum {-3J, J},
+  a single gap 4J, so the period is pi/(2J) and the return count over the window
+  is set by that period, not by this grid: a coarser grid simply misses narrower
+  dips. At gamma = 0.05 the returns are gone and the state has all but stopped.
+  Recurrence is what the dephasing removes, and that is a statement about these
+  trajectories.
+
+
+======================================================================
+PART 2: THE SAME DIAGNOSTICS ACROSS (J, gamma)
+The J-only and the gamma-only corner side by side
+======================================================================
+
+                Config    S mono   D no return  CPsi 1-way    both
+  --------------------------------------------------------------
+         J=0.1, g=0.05        no           yes         yes      no
+         J=1.0, g=0.05        no           yes          no      no
+         J=10,  g=0.05        no           yes          no      no
+         J=0,   g=0.05       yes           yes         yes     yes
+            J=1.0, g=0        no            no          no      no
+
+  Only the J=0 row carries both diagnostics at once, and the gamma=0 row carries
+  neither. On this state and this grid the pair separates the pure-decay corner
+  from the unitary one. The last column is the conjunction of the two measured
+  columns and nothing beyond it; it is not a test for the presence of time.
+
+======================================================================
+PART 3: THE tau = gamma*t COLLAPSE, AND ITS FAILURE
+If tau were the trajectory's own clock, these curves would lie on each other
+======================================================================
+
+  The generator is homogeneous: L(J, gamma)*t = tau * L(J/gamma, 1) with tau = gamma*t.
+  So every observable is a function of tau AND of Q = J/gamma, and the test below has
+  to be run twice or it says nothing. Spread is the largest gap between two curves at
+  equal tau; range is how far the observable itself travels; collapse is called only
+  under 5% of the range, so an observable cannot pass by standing still.
+
+  Fixed J = 1, gamma from 0.01 to 0.20 (so Q sweeps 100 to 5):
+            Observable      spread       range   spread/range   collapses?
+  ------------------------------------------------------------------------
+              S(rho_A)    0.789752    1.000000         0.7898           no
+             Tr(rho^2)    0.057319    0.491263         0.1167           no
+                  CPsi    0.259139    0.307348         0.8431           no
+           Concurrence    0.861100    0.959735         0.8972           no
+
+  Fixed Q = 20, gamma from 0.01 to 0.20 (J moves with it):
+            Observable      spread       range   spread/range   collapses?
+  ------------------------------------------------------------------------
+              S(rho_A)    0.000000    0.999986         0.0000          yes
+             Tr(rho^2)    0.000000    0.490770         0.0000          yes
+                  CPsi    0.000000    0.307348         0.0000          yes
+           Concurrence    0.000000    0.959735         0.0000          yes
+
+  Both arms come out as the identity says. At fixed Q the four curves land on each
+  other to machine precision, so tau = gamma*t IS the natural time of this generator.
+  At fixed J it fails, and not because tau is the wrong clock: holding J while
+  sweeping gamma moves Q = J/gamma, so those five runs are five different systems
+  compared at matched tau. What the failure measures is the second knob, not the
+  first. Reading the left table alone, as 'irreversible observables do not scale
+  with tau', mistakes a change of system for a failure of the time variable.
+
+======================================================================
+WHAT THESE THREE RUNS SHOW
+======================================================================
+
+Part 1: switching gamma on removes recurrence and brings the trajectory to
+        rest. Measured on two states at N=2.
+
+Part 2: on this state and this grid the two diagnostics together pick out the
+        pure-decay corner J=0 and reject the unitary corner gamma=0.
+
+Part 3: tau = gamma*t is this generator's own time, and the two-armed test says
+        so: at fixed Q the curves collapse exactly, at fixed J they do not,
+        because holding J while sweeping gamma changes Q and therefore the
+        system. tau rescales the trajectory only together with Q.
+
+Together: gamma sets the scale on which these trajectories stop returning, and
+it supplies one of the two numbers a trajectory here needs. A quantity that
+only fixes the clock alongside a second knob is not what 'gamma is time' claims.
+
+Account: docs/GAMMA_TIME_DISTINCTION.md
+Results: simulations/results/gamma_is_time_proof.txt

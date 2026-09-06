@@ -53,6 +53,33 @@ defectiveness, geometric-multiplicity loss, or Jordan-chain growth must be
 tested independently. No such gate is present here, so this document makes no
 EP claim.
 
+## The blackbody reading, asked directly
+
+The scope argument below says these data are the wrong kind of object to test a
+radiation law. The producer also asks the question anyway, so the reading fails
+on its own terms and not only on a definition.
+
+**Planck fit to the frequency distribution.** Binned mode frequencies at
+`nbar = 0.1, 0.5, 1, 5, 10`, fitted with the 1D Planck density
+`omega/(exp(omega/T)-1)`. The best any fit reaches is `R^2 = 0.0480`, against
+the `R^2 >= 0.90` a curve must clear to be called a fit; the five values are
+0.0382, 0.0382, 0.0466, 0.0480, 0.0270. A bare exponential does equally badly
+(0.0253 to 0.0446), and the widest gap between the two is 0.0034, far smaller
+than the 0.8520 that separates the better curve from being a fit at all, so
+ranking one above the other reads a preference out of noise.
+
+**Absorption scaling.** The excess mean decay rate over the cold-bath baseline
+is not quartic (Stefan-Boltzmann) or quadratic (a 1D Planck law). It is exactly
+linear:
+
+    excess = N * gamma_T * nbar
+
+read off the trace rather than the spectrum, so the check needs no eigensolver
+and no tolerance. At a dyadic rate `gamma_T = 0.25` the deviation is `0.0` to
+the bit; at the census rate `0.05` it is `8.9e-16`, which is the sqrt-then-square
+roundtrip in the jump operators rather than the law. The blackbody reading
+predicts a power the generator does not carry.
+
 ## What is not inferred
 
 The spectrum of this finite spin-chain Lindbladian is not a sampled radiation

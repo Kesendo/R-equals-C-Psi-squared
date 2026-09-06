@@ -182,8 +182,10 @@ public static class Formulas
     // F38 (T1): Pi^2 = (-1)^{w_YZ} = (-1)^{n_Y+n_Z} on a Pauli string (order 4, Pi^4=I); = conjugation by X^N.
     public static int F38_PiSquared(int nY, int nZ) => (nY + nZ) % 2 == 0 ? +1 : -1;
 
-    // F18 (T2, N-independent): fold threshold Sg_crit/J. Below: CPsi oscillates forever; above: crosses
-    // 1/4 irreversibly. Bell 0.00249, product 0.00497 (max/min across N=2-5: 1.5%).
+    // F18 (T2, product state only, measured N=2-5): fold threshold Sg_crit/J. Below: CPsi oscillates
+    // forever; above: crosses 1/4 irreversibly. Bell 0.00249, product 0.00497. Flatness in N holds
+    // for the PRODUCT state (producer max/min 1.0218) and NOT for Bell/GHZ (max/min 26.0). Unmeasured
+    // beyond N=5. Not a universal constant, and not one statement for both preparations.
     public const double F18_FoldThresholdBell = 0.00249;
     public const double F18_FoldThresholdProduct = 0.00497;
 

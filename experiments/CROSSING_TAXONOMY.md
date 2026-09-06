@@ -83,8 +83,8 @@ state**, and the qualifier is load bearing. The step that needs it is the
 middle one: the dissipator is linear in γ and the Hamiltonian is independent
 of γ, therefore all observables depend on τ = γt. **That step does not hold in
 general**, and this repository measured it failing before this page was
-written: [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md) Part 3 runs
-the same chain and the same channel **from |01⟩ instead of Bell⁺**, at fixed
+written: [γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md) runs, in its
+tau-collapse section, the same chain and the same channel **from |01⟩ instead of Bell⁺**, at fixed
 J = 1.0, sweeps γ over a factor 20, and finds irreversible observables
 deviating by up to 0.861 at matched τ. That 0.861 is the Wootters concurrence,
 i.e. this document's own Type-B bridge, so it is not an outside observable. The reason is

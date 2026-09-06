@@ -1,22 +1,51 @@
-# N=3 Direct Pauli-Observable Time Traces
+# N=3 Direct Pauli-Observable Time Traces and Centred Spectral Census
 
 <!-- Keywords: N=3 observable trace, Pauli expectation, Heisenberg dephasing,
-conditional standing wave -->
+conditional standing wave, centred spectral census -->
 
-**Status:** finite direct-propagation reading; no mode-weight or spatial-wave verdict
+**Status:** finite direct-propagation reading plus an eigenvalue census; no mode-weight or spatial-wave verdict
 **Script:** [standing_wave_analysis.py](../simulations/standing_wave_analysis.py)
 
-## What was repaired
+## Why the reading is coordinate-free
 
-The earlier report treated `sum |c_k|^2` in a right-eigenvector expansion as a
-fraction of state weight. A non-normal Liouvillian has no orthonormal right
-eigenbasis, and within degenerate eigenspaces the coefficients depend on the
-chosen basis. Those percentages and every conclusion built from them are
-withdrawn.
+A non-normal Liouvillian has no orthonormal right eigenbasis, and within
+degenerate eigenspaces the expansion coefficients depend on the chosen basis.
+So `sum |c_k|^2` over right eigenvectors is not a fraction of state weight and
+carries no reading at all.
 
-The replacement computes density-matrix propagation directly and reports
-expectation values `Tr(P rho(t))` for named Pauli observables. These readings
-do not depend on a choice of Liouvillian eigenvectors.
+Two things do survive that, and this page reports both. Density-matrix
+propagation gives expectation values `Tr(P rho(t))` directly, with no
+eigenvectors anywhere. And the eigenvalues themselves are invariant under any
+change of eigenvector basis and under degeneracy, so the spectrum can be
+counted even where its eigenvectors cannot be weighed.
+
+## The centred spectral census
+
+Centring on `mu = lambda + Sigma_gamma` turns F1 into `mu -> -mu`, and at
+`N=3`, `gamma=0.05` the 64 Liouvillian eigenvalues give:
+
+| reading | value |
+|---|---|
+| F1 pairing | 64/64 matched, 32 pairs, 0 unmatched |
+| worst pairing residual | `2.8e-14` |
+| purely imaginary `mu` (standing-wave candidates) | **0** |
+| purely real `mu` | 24 |
+| mixed decay and oscillation | 40 |
+
+The zero is the load-bearing entry, and it is a measurement rather than a
+threshold effect: the nearest mode to the imaginary axis sits `0.016658` away,
+which is `1.1e+10` times the eigensolver's noise floor `256*eps*||L||`. Nothing
+here is close enough to the axis for the count to depend on where a line is
+drawn.
+
+Read against the three conditions in the
+[conditional standing-wave account](../docs/STANDING_WAVE_THEORY.md), the first
+one already fails at `N=3`, though not for want of shared envelopes: the 40
+mixed modes form 20 conjugate pairs with a common real part each, six distinct
+values in all (`±0.05`, `±0.0167243`, `±0.0166584`). What condition 1 requires
+is a **flat** shared envelope, `Re mu = 0`, and no pair has one. Spatial
+counter-propagation and the phase relation, the second and third conditions,
+are not reached.
 
 ## Finite setup
 
@@ -35,8 +64,12 @@ spectral weight and not a standing-wave certificate.
 
 This run does not test spatial counter-propagation, balanced excitation of an
 F1 partner pair, or the relative phase needed for a stationary spatial
-pattern. It therefore supports statements about these direct observable
-traces only. The exact F1 partner map remains a separate algebraic result.
+pattern. It supports statements about these direct observable traces and about
+the eigenvalue counts above, and about nothing further. The census counts modes;
+it does not choose a basis of modes, and in a defective block it would not:
+F1 transports a whole generalized eigenspace with its Jordan-chain data, and a
+multiplicity count says nothing about that. The exact F1 partner map remains a
+separate algebraic result.
 
 ## Reproduction
 

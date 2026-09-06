@@ -1376,7 +1376,7 @@ Truly category gains effective-one-body Hamiltonians at N=4 (IX+XI variants redu
 > the withdrawal box).
 
 **Date:** 2026-04-26
-**Source:** [neural_framework_lens.py](../simulations/neural_framework_lens.py) decomposition (commit 50958b0)
+**Source:** the `neural_framework_lens.py` decomposition (commit 50958b0). The residual that decomposition splits mainly tracks coupling magnitude, so the 38-40 / 6-8 / 54 split below is a split of that quantity and not yet of a structural one; the question stands, its numbers wait on a residual that separates structure from magnitude. Current account: [Algebraic Palindrome Neural](../docs/neural/ALGEBRAIC_PALINDROME_NEURAL.md), current gate: `simulations/neural/neural_translation_gate.py`.
 
 The V-Effect bridge correction on C. elegans subnetworks (200 trials, sizes N = 10, 20, 26) closes 38-40% of the residual via magnitude-correction-only on existing E-I cross-couplings, plus another 6-8% via creating missing partner edges, for a total of ~46% gap-closed. **The remaining 54% lives within the E-E and I-I sub-populations, not in the bridge. What structural feature of the connectome (degree distribution, specific motifs, magnitude asymmetry on intra-type edges) predicts this within-population residual?**
 

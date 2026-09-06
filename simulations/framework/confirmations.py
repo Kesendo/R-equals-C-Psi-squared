@@ -52,11 +52,11 @@ class Confirmations:
             'job_id': 'cusp_slowing_kingston_20260416',
             'observable': 'K_dwell / δ for Bell+',
             'predicted_value': 'F57: γ-independent, F25 prefactor 1.0801 for pure Z-dephasing',
-            'measured_value': 'Pair A 0.6492, Pair B 0.6937 (6.3% spread despite 2.55× γ ratio)',
+            'measured_value': 'Pair A 0.6492, Pair B 0.6937 (6.4% spread despite 2.55× γ ratio)',
             'hardware_data': 'data/ibm_cusp_slowing_april2026/cusp_slowing_ibm_kingston_20260416_212042.json',
             'experiment_doc': 'experiments/CRITICAL_SLOWING_AT_THE_CUSP.md',
             'framework_primitive': 'K_dwell formula in F57',
-            'description': 'γ-invariance of K_dwell at CΨ=1/4 boundary verified on Kingston with two qubit pairs at 2.55× different γ. Absolute prefactor 0.67 vs predicted 1.08 due to T1 amplitude damping.',
+            'description': 'Two Kingston Bell+ pairs at 2.55× different fitted γ give K_dwell/δ within 6.4% of each other, at an absolute prefactor 0.67 against the pure-Z prediction 1.0801. An approximate two-pair comparison: pair identity and T1 vary with γ, so this neither verifies universal γ-invariance nor isolates the cause of the prefactor gap.',
         },
         'bonding_mode_receiver': {
             'date': '2026-04-24',
