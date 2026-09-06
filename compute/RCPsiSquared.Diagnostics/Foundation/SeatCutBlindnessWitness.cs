@@ -59,7 +59,10 @@ public sealed class SeatCutBlindnessWitness : IInspectable
     /// <para>A rank over GF(p) is blind to a factor of p in every entry, so a coupling divisible by
     /// a ranking prime would report the whole space blind if only that prime were used. TWO primes
     /// bound the DIRECTION of the error and nothing more: the kept rank can only be too small and the
-    /// blind count only too large, at any coupling. They do not make the coincidence impossible, and
+    /// blind count only too large. That one-sidedness has a premise and it is not free: it is a
+    /// statement about an EXACT H, which is what <see cref="MaxCoupling"/> buys, since a wrapped H is
+    /// a different matrix whose mod-p ranks bound nothing about this one, and past that guard the
+    /// count has been measured coming out too SMALL. They do not make the coincidence impossible, and
     /// the defence is not exact. It takes no single J divisible by both primes, which
     /// <see cref="MaxCoupling"/> would indeed refuse; it takes DIFFERENT bonds divisible by different
     /// ranking primes, each one near 10^9 and comfortably accepted here. Measured in MirrorWorld,
@@ -67,8 +70,10 @@ public sealed class SeatCutBlindnessWitness : IInspectable
     /// primes, N = 3, XY, seat 0 report one blind direction where the count is zero
     /// (MirrorWorld.Tests, The_Route_Overcounts_When_The_Bonds_Are_The_Ranking_Primes). So this route
     /// is scale-free only away from its own ranking primes. Those primes are deliberately left
-    /// disjoint from MirrorWorld's {998244353, 1004535809}, so where the two halves of the typed
-    /// layer agree on a count they agree through different reductions.</para></summary>
+    /// disjoint from MirrorWorld's {998244353, 1004535809}, so where this witness and MirrorWorld's
+    /// BlindSeat agree on a count they agree through different reductions. (MirrorWorld is not the
+    /// other half of the typed layer; it references no RCPsiSquared.* project by design. The halves
+    /// are the Claim graph in Core and the witnesses here, and this witness is one of the latter.)</para></summary>
     private static readonly long[] Primes = { 2147483647L, 999999937L };
 
     /// <summary>The largest chain the live COUNT will run on. The count is an N × N elimination,

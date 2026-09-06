@@ -115,7 +115,12 @@ public static class ModP
     public static int[] PrimeFactors(int m)
     {
         var qs = new List<int>();
-        for (int q = 2; q * q <= m; q++)
+        // long, because q*q in int wraps from q = 46341 and floor(sqrt(int.MaxValue)) is 46340, so for
+        // m near the top of int an int bound goes NEGATIVE, stays <= m, and the loop scans far past the
+        // root. It is a cost and not a wrong answer: m % q is an honest divisibility test at every q,
+        // wrapped bound or not, so no false divisor is ever reported. Stated rather than gated for that
+        // reason, since the only thing a gate here could read is the clock.
+        for (int q = 2; (long)q * q <= m; q++)
             if (m % q == 0) { qs.Add(q); while (m % q == 0) m /= q; }
         if (m > 1) qs.Add(m);
         return qs.ToArray();

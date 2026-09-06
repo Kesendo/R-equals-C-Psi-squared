@@ -9241,10 +9241,35 @@ public static class OpenArcsRegistry
                 "the count is zero). Reading it also showed the sibling witness in Diagnostics arguing " +
                 "its safety from a coupling divisible by BOTH primes, which MaxCoupling refuses; the " +
                 "coincidence needs no such coupling, only DIFFERENT bonds divisible by different " +
-                "ranking primes, each near 10^9 and accepted. That reason is corrected in place. The " +
-                "two halves of the typed layer now rank at disjoint primes, which is better evidence " +
-                "than the shared 2147483647 they had before, and both files say so. The remaining " +
-                "18-member gap below is untouched by this: inside, not at the door. " +
+                "ranking primes, each near 10^9 and accepted. A FOURTH ROUND, on the repair itself, " +
+                "then caught the shape this ledger names most often: that reason had been corrected " +
+                "in the witness and left standing one directory over, in " +
+                "SeatCutBlindnessWitnessTests, where it was not merely stale but GATED, by an assert " +
+                "comparing two compile-time constants (2147483647 * 999999937 > MaxCoupling) that " +
+                "could not fail and sat inside a green suite the repair commit cited as evidence. It " +
+                "is now the measurement instead: N = 3, XY, bonds equal to that witness's own two " +
+                "ranking primes read one blind direction where SeatCutBlindnessClaim.Blind says zero, " +
+                "and zero again one step off either bond, so the Diagnostics half certifies its own " +
+                "correction from below rather than inheriting MirrorWorld's. The same round found " +
+                "the corrected sentence over-claiming in the other direction (a one-sidedness holding " +
+                "at ANY coupling, which walks back into docs/CAUGHT_ERRORS.md 2026-08-30, where the " +
+                "count was measured coming out too SMALL past the magnitude guard); the premise is " +
+                "named there now. MirrorWorld and Diagnostics rank at disjoint primes, which is " +
+                "better evidence than the 2147483647 they used to share, but calling that the two " +
+                "HALVES OF THE TYPED LAYER was wrong in three places at once and is repaired: " +
+                "MirrorWorld references no RCPsiSquared.* project by design and is not in that layer " +
+                "at all, whose halves are the Claim graph in Core and the witnesses in Diagnostics. " +
+                "And F157 told the disjointness story stronger than the reduction graph, which the " +
+                "entry now states: the live C# witnesses are a THIRD route and share 2147483647 with " +
+                "the Python one. One reviewer finding did NOT survive being acted on, and it is kept " +
+                "here because the repair is where the risk is: PrimeFactors computing q*q in int was " +
+                "reported as the repo's own int-overflow trap living inside the primitive built to " +
+                "guard it. The product does wrap, but m % q stays an honest divisibility test at " +
+                "every q, so no false divisor is ever reported and the answer does not change; the " +
+                "loop merely scans past the root. The bound is widened to long anyway and the reason " +
+                "is STATED rather than gated, because the first attempt to gate it was a test that " +
+                "survived its own mutation, written while repairing gates that could not fail. The " +
+                "remaining 18-member gap below is untouched by this: inside, not at the door. " +
                 "NOT A LANE: the word-collision triage (Mirror, Pair, Witness, Hardness, Seed, Divisor, " +
                 "Marginal as ordinary words in older documents) is a sibling; its home is " +
                 "one_word_two_objects, not here. In this entry, witness and pair are the main repo's " +

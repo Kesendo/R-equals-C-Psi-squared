@@ -175,10 +175,19 @@ public class SeatCutBlindnessWitnessTests
         Assert.Equal(Enumerable.Range(0, 6).Select(unscaled.Blind).ToArray(),
                      Enumerable.Range(0, 6).Select(scaled.Blind).ToArray());
 
-        // And the case two primes could NOT survive, divisibility by both at once, needs a coupling
-        // of 2147483647 * 999999937; the magnitude guard refuses that outright, so the two defences
-        // are exhaustive rather than probabilistic.
-        Assert.True(p1 * 999999937L > SeatCutBlindnessWitness.MaxCoupling);
+        // The two defences are NOT exhaustive, and this is the case that shows it. The coincidence
+        // does not need one coupling divisible by both primes, which MaxCoupling would indeed refuse;
+        // it needs DIFFERENT bonds divisible by DIFFERENT ranking primes, each near 10^9 and accepted
+        // here without complaint. Over the integers the seat-0 Krylov set at N = 3 on the XY book has
+        // rank 3, so the count is 0; mod the first prime everything past the seat's own ray dies and
+        // the rank is 1, mod the second the last coordinate dies and it is 2, so the kept rank is 2
+        // and the reading is one blind direction too many. One step off either bond and it is 0 again.
+        // So the reading errs only upward, which is the guarantee, and it errs.
+        var onThePrimes = new SeatCutBlindnessWitness(3, SeatCutBook.Xy, new[] { p1, 999999937L });
+        Assert.Equal(0, SeatCutBlindnessClaim.Blind(3, 0, SeatCutBook.Xy));
+        Assert.Equal(1, onThePrimes.Blind(0));
+        var justOff = new SeatCutBlindnessWitness(3, SeatCutBook.Xy, new[] { p1 + 1, 999999938L });
+        Assert.Equal(0, justOff.Blind(0));
     }
 
     [Fact]

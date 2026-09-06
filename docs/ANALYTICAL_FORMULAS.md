@@ -8177,8 +8177,11 @@ committed Python route at 2³¹−1 and 2⁶¹−1, agreeing everywhere, the Hei
 law to N = 21; MirrorWorld's `BlindSeat` at 998244353 and 1004535809 through the
 world's shared `ModP`, taking the larger rank since a rank mod p can only drop,
 its run mode re-checking laws against rank at N = 60, 120, 200, past the wall).
-The two routes now share no prime at all, so their agreement is evidence from
-disjoint reductions rather than from a common one. The exact KERNEL check is a
+Those two routes share no prime at all, so their agreement is evidence from
+disjoint reductions rather than from a common one. The live C# witnesses are a
+third route and are NOT disjoint from the Python one: `SeatCutBlindnessWitness`
+and `SeatBlindnessDeltaLocusWitness` both rank at 2³¹−1 and 999999937, sharing
+2³¹−1 with it. The exact KERNEL check is a
 separate route and one-sided: L_SE is ranked at 2⁶¹−1 alone, so a reported
 kernel dimension can only be too large, never too small; it covers every seat
 at N = 3..13 on the Heisenberg book and N ∈ {6, 7, 9, 11, 12, 13} on XY. The eigenspace and gcd lines are a THEOREM

@@ -2389,3 +2389,58 @@ wrong about the page: the fact goes into the page's own narration, in its own
 voice, and never into a dated note beside it. And a preface written later than
 the event is the place where a timeline goes wrong twice, once when written and
 once when a repair edits the sentence around the dates.
+
+## 2026-09-06 — the retracted argument stayed a green gate one directory over, and the repair of a vacuous gate produced another one
+
+MirrorWorld's exact arithmetic was consolidated into one primitive (`ModP.cs`),
+and the shared prime list had to move to a pair that is 1 mod 4 at BOTH primes,
+because Divisor's Gaussian ranks need a square root of −1 and the old list is
+headed by a 3 mod 4 prime. Four review rounds. What they caught is worth the
+ledger for three separate reasons.
+
+- **Three of the primitive's own properties were covered by nothing.** Five
+  mutations were put through the first version of `ModPTests.cs` and THREE
+  survived all 21 gates: `UInt128` replaced by `long`, the 1 mod 4 guard
+  deleted, and the reduction inside `Rank` deleted. Each had a plausible-looking
+  gate beside it. The `UInt128` route was unreachable at any modulus the suite
+  used; the exception test asserted only the TYPE, and the method throws on two
+  paths, so deleting the guard it existed for left it green; the reduction was
+  masked because everything downstream reduces anyway, and the one thing that
+  does not survive is a pivot search seeing an entry equal to p, which is zero
+  in the field. The lesson is not "write more gates": each of these was a gate
+  written from what the code was MEANT to do, and none had been run against its
+  own mutation.
+- **Moving the primes stranded evidence in four other places, and the stranded
+  copy was the gated one.** `docs/ANALYTICAL_FORMULAS.md` F157 certified
+  BlindSeat at the retired pair; `CrackTests` ran its only non-vacuity control
+  at the retired pair while the shipping list had none; `BlindSeat.cs` stated
+  its one-sidedness premise with two measured numbers that no test held, so
+  they did not move when the list did. Reading that premise showed the sibling
+  witness in Diagnostics arguing its safety from a coupling divisible by BOTH
+  ranking primes, which its magnitude guard refuses. That argument is wrong: the
+  coincidence needs no such coupling, only DIFFERENT bonds divisible by
+  DIFFERENT ranking primes, each near 10^9 and accepted without complaint. The
+  argument was then corrected in the witness and LEFT STANDING in
+  `SeatCutBlindnessWitnessTests`, where it was not merely stale but asserted, by
+  a comparison of two compile-time constants that could not fail, inside a green
+  suite the repair commit cited as evidence. The commit message said "corrected
+  in place" and the arc said "both files say so"; three surfaces carried the
+  claim and one moved.
+- **The repair of a vacuous gate produced another vacuous gate, in the same
+  session, minutes later.** A reviewer reported `PrimeFactors` computing `q*q`
+  in `int` as this repo's own int-overflow trap living inside the primitive
+  built to guard that class of trap. A test was written for it and passed; the
+  mutation back to the `int` bound then SURVIVED it. The finding was a real code
+  smell and not a defect: the product does wrap, but `m % q` stays an honest
+  divisibility test at every q, so no false divisor is ever reported and the
+  answer does not change, the loop merely scans past the root. The bound is
+  widened anyway and the reason is STATED, not gated, because the only thing a
+  gate there could read is the clock.
+
+**How caught:** three fresh Opus rounds on the change (numbers/correctness,
+gates, records/prose), then a fourth on the repair itself, which is the one that
+found the stranded gate and the new vacuous one. **The reusable shapes:** a gate
+that has not been run against its own mutation is a hypothesis about a gate; a
+claim lives in as many places as it lives, and the copy with an `Assert` around
+it is the one that will outlive the correction; and the minutes right after
+fixing a vacuous gate are when the next one gets written.
