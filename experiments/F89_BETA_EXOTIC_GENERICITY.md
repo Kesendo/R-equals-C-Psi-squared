@@ -392,12 +392,10 @@ per-N use: the locus S₆ = 0 necessarily *contains* every point of geometric mu
 there), i.e. all diabolic crossings **and** any hypothetical β-exotic, so an elimination certificate on
 {F_res = ∂_Λ F_res = S₆ = 0, q real > 0} cannot by itself tell the two apart (F_res, ∂_Λ and the
 R-sectors are defined in the certificate section, next); the honest per-N
-exclusion remains the disc-multiplicity certificate of that next section. **(This caution is
-retired 2026-07-10 per-N: the gcd certificate section further below separates the diabolics onto
-the doubled disc layer A₂ and proves geometric multiplicity 1 directly on the simple layer,
-exactly at N = 5 and, at the time of writing, modulo two named premises at N = 7, both
-discharged 2026-07-16, so exactly at N = 7 too; kept here so the paragraph reads as it
-stood when written.)** What the rational form
+exclusion uses the disc-multiplicity certificate together with the gcd certificate below:
+the doubled layer A₂ holds order-two candidates, while geometric multiplicity 1 is
+proved directly on the simple layer, exactly at N=5, N=7 and N=9. This does not
+classify every A₂ point as semisimple. What the rational form
 adds is the *all-N shape*: one integer polynomial whose nonvanishing at the count-dropping loci is
 O2b, handing the question the vertex-deleted characteristic polynomials of the full pencil L (whose
 diagonal blocks are the closed K₂₂-path and H₃ structures) in place of an eigenvector. A supporting
@@ -471,9 +469,9 @@ the separating law (or its stronger cell form b′ ≥ b ⟹ a′ ≥ a; either 
 never negative, strict wherever s₆ ≠ 0) at all defective seeds, all odd N, modulo H1), and prove
 S₆ ≠ 0 at the count-dropping loci (the O2b nonvanishing itself, which is also what would make the sign
 strict everywhere; mind the per-N caution above: the S₆ = 0 locus contains the diabolics, so this is
-an all-N shape, not a ready per-N certificate; **that caution is retired 2026-07-10**: the gcd
-certificate section below separates the diabolics onto A₂ and delivers the per-N certificate at
-N = 5 and 7). The two are complementary and only together complete
+an all-N shape; the gcd certificate section below separates the order-two A₂ candidates
+from the simple-layer seeds and delivers the per-N nonvanishing certificate at
+N=5, N=7 and N=9). The two are complementary and only together complete
 κ₋₂ > 0: the first is the sign, the second the exclusion.
 
 ## The β-exotic is excluded at N = 5 and N = 7, both R-parities (2026-07-09)
@@ -692,9 +690,28 @@ Four facts per sector, at each of the three N (grades per fact and per N in the 
    complex, carries more than one double λ-root. This fact is free of the layer premise at
    every N (psc₁ is a fixed integer determinant in F_res's coefficients, so its mod-p reduction
    commutes unconditionally, and the gcd lifts from a good prime attaining the discriminant's
-   certified degree); at N = 5 the exact inventory says the same
-   thing concretely (A₂'s real positive roots: none in R-even, exactly the known diabolic in R-odd,
-   carrying exactly one real double λ).
+   certified degree). At N=5 algebraic pair uniqueness is closed at every nonzero locus:
+   PSC1 makes the specialized gcd of F_res and its λ-derivative linear. Its first
+   nonzero subresultant S1=a(w)λ+b(w) supplies local pair extraction through
+   λ=-b/a, with a nonzero on A2. Neither PSC1 nor S1 determines local Jordan
+   character; a repeated λ root alone does not determine geometric multiplicity.
+
+   Route B is complete at N=5 as a root-by-root inventory: 29 A2(w) roots / 58 q-loci,
+   all semisimple with alg=geo=2. The 12 negative-real w roots give 24 imaginary-q
+   loci certified semisimple by executed full-sector Hermiticity in HS-orthonormal
+   coordinates (maximum normalized Frobenius residual 0, below 1e-12), with the
+   target pair isolated at each S1 λ seed. The positive-real R-odd root at
+   w ≈ 5.100831 gives 2 real-q loci and the 16 nonreal w roots give 32 nonreal-q
+   loci: all 34 stable EpCharacter readings are Diabolic, alg=geo=2, at three
+   full-sector isolating radii. No exact fallback was used; the artifact
+   exactRankCertificates array is empty. The [exact export](../simulations/results/route_b_a2_n5.json)
+   stores w=qUnitHop² and qPhysicalCSharp=qUnitHop/2; [export tests](../simulations/tests/test_o2b_a2_character_export.py)
+   own the exact isolation and PSC1/S1 seed boundary, while
+   [`ROUTE_B_A2_RECONCILE`](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2InventoryTests.cs)
+   joins all 58 locus IDs to local character. This is not an all-N theorem and
+   creates no new F number. The F_32 (N=6) and F_53 (N=7) doubled-layer
+   character/completeness edges remain unmeasured. A1's 56 w roots / 112 q-loci
+   are certified Puiseux-1/2 defective EP2 by the simple-zero lemma.
 
 The chain from the four facts to the theorem, each link named. F_res is **monic in λ** (checked),
 so the resultant specializes exactly at every w° (no leading-coefficient degeneration):
@@ -837,12 +854,14 @@ layer", stays per-N: it consumed max multiplicity 2 (DISCMULT at N = 5 and 7; at
 layer identity delivers it directly, the paragraph above), the psc₁ coincident-pair exclusion,
 the cross-sector gcd, and per-sector reality of F_res,
 none of which the two hypotheses subsume. That two-hypothesis shape for the simple-layer half
-is new; the previous all-N form (the "Three attacks" caution) had no way to separate the diabolics
-inside {S₆ = 0} from the seeds, and here the separation is the layer structure itself: the diabolics
-sit on A₂ (at N = 5, R-even has no real positive A₂ root at all, R-odd exactly one, the known
-diabolic at w = 5.100831, where S₆ does vanish, as adj ≡ 0 forces), the seeds on A₁, and the four
-real positive A₁ roots at N = 5 are exactly the four seeds: the inventory is closed (asserted
-exactly over ℤ by the committed verifier).
+separates the simple-layer seeds from the order-two candidates on A₂ without
+assigning a Jordan character to the whole doubled layer. At N=5 R-even has no
+positive-real A₂ root; R-odd has exactly one at w ≈ 5.100831. Both q lifts are
+Diabolic, alg=geo=2, by stable full-sector EpCharacter readings in the completed
+29 A2(w) roots / 58 q-loci inventory at N=5. This local character comes from
+`ROUTE_B_A2_RECONCILE`, not from the two simple-layer hypotheses.
+The four positive-real A₁ roots at N=5 are exactly the four
+seeds, as asserted over ℤ by the committed verifier.
 
 One numerical trap, recorded for reuse: S₆'s integer coefficients cancel heavily at seed loci
 (8 to 18 digits, seed- and measure-dependent), so a locus refined only to 1e−8 can flip the
@@ -1056,7 +1075,7 @@ seed-existence *conclusion* is that each count-dropping seed is genuinely √-ty
      multiplicity 1 ∧ s₆ ≠ 0; the two named targets live there (verifier
      `simulations/o2b_three_attacks_audit.py`). **2026-07-10 re-base of the all-N shape**: the gcd
      certificate section replaces the old caution ("{S₆ = 0} contains the diabolics, no separation")
-     with a measured separation, the diabolics on A₂ and the seeds on A₁, and reduces the
+     with the algebraic separation of order-two A₂ candidates from the seeds on A₁, and reduces the
      *simple-layer half* of all-N O2b to
      two uniform hypotheses: **A₁ irreducible over ℚ for every odd N** (true at N = 5, 7, 9, 11, both
      sectors: eight data points, N = 11 the first resonant) **plus Res_Λ(F_res, S₆) ≠ 0 at one accessible simple-layer fiber**

@@ -46,7 +46,7 @@ i -> N-1-i on the (1,2)-block states [(a,b) for a in C(N,2) for b in C(N,1)]):
      A1's real positive roots are exactly the four seed loci w = q*^2 (two per sector,
      {1.541958, 4.645014} E / {1.653988, 31.469594} O) and A2 has none (R-even) resp.
      exactly one (R-odd, w ~ 5.100831, verified to carry a single REAL double lambda-root
-     of F_res: the diabolic class, not a coincident EP2 pair);
+     of F_res: order-two A2 layer, algebraic pair unique; character gated separately);
   3b. COINCIDENT-EP2 EXCLUSION (all three N, both sectors): with psc_1 the first principal
      subresultant coefficient of (F_res, dF_res/dlam) in lam, a w0 carrying TWO double
      lambda-roots (a coincident EP2 pair: an order-2 COUNT-DROPPING locus on A2 that the
@@ -143,16 +143,19 @@ Run:  python simulations/o2b_gcd_certificate.py         # N = 5 (~10 s measured,
                                                         #   per sector; "7 9" runs all three)
 """
 import os
+import json
 import sys
 import time
 from fractions import Fraction
+from functools import lru_cache
+from pathlib import Path
 from math import gcd, isqrt
 
 import numpy as np
 import sympy as sp
 from mpmath import mp, mpc, mpf, matrix as mpmat, det as mpdet
 from sympy.polys.domains import QQ, ZZ
-from sympy.polys.rootisolation import dup_isolate_complex_roots_sqf
+from sympy.polys.rootisolation import dup_isolate_complex_roots_sqf, dup_isolate_real_roots_sqf
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from seed_existence_nullity_check import build            # noqa: E402
@@ -1105,6 +1108,44 @@ def psc1_poly_modp(CF, p):
     return interp_modp(nodes, vals, p)
 
 
+def sympy_poly_desc_modp(poly, p):
+    """Reduce a univariate integer Poly to descending coefficients modulo p."""
+    return polytrim(np.array([int(c) % p for c in poly.all_coeffs()], dtype=np.int64))
+
+
+def poly_equal_up_to_nonzero_scalar(f, g, p):
+    """Compare nonzero descending polynomials over GF(p) by monic normalization."""
+    f = polytrim(np.array([int(c) % p for c in f], dtype=np.int64))
+    g = polytrim(np.array([int(c) % p for c in g], dtype=np.int64))
+    if len(f) == 0 or len(g) == 0 or is_zero(f) or is_zero(g) or len(f) != len(g):
+        return False
+    f_inv, g_inv = pow(int(f[0]), -1, p), pow(int(g[0]), -1, p)
+    fm = [int(c) * f_inv % p for c in f]
+    gm = [int(c) * g_inv % p for c in g]
+    return fm == gm
+
+
+@lru_cache(maxsize=None)
+def first_subresultant_linear_exact(F):
+    """Return the unique linear subresultant (S1, a, b), S1 = a(Q2)*lam + b(Q2).
+
+    S1 is primitive over ZZ with positive leading coefficient of a. Only common
+    INTEGER content is removed; parameter factors are retained. At a degree-preserving
+    specialization where the resultant vanishes and a does not, the sole common root
+    is -b/a (the canonical residuals are monic, so their degree is preserved).
+    """
+    sequence = sp.subresultants(F.as_expr(), sp.diff(F.as_expr(), lam), lam)
+    linear = [s for s in sequence if sp.degree(s, lam) == 1]
+    if len(linear) != 1:
+        raise ValueError(f"expected exactly one degree-one subresultant, got {len(linear)}")
+    s1 = sp.Poly(linear[0], lam, Q2, domain="ZZ").primitive()[1]
+    a = sp.Poly(s1.as_expr().coeff(lam, 1), Q2, domain="ZZ")
+    b = sp.Poly(s1.as_expr().coeff(lam, 0), Q2, domain="ZZ")
+    if a.LC() < 0:
+        s1, a, b = -s1, -a, -b
+    return s1, a, b
+
+
 def _psc_selftest(p=33554393, p2=33554383):
     """Gate-first: det vs sympy, and the psc vanishing criterion on pairs (f, f') with a
     known gcd degree k (f = f1 * h^(k... built as f1 * h^2 with h squarefree deg k)."""
@@ -1226,6 +1267,7 @@ def isolate_exact_layer_roots(poly, tag, eps_den=10 ** 8):
                 q_loci=2 * poly.degree())
 
 
+@lru_cache(maxsize=None)
 def exact_disc_inventory_n5(s, F):
     """N = 5 only: reconstruct disc_Lam(F_res) EXACTLY over Z (integer-node interpolation
     with exact sympy resultants), split it exactly, factor A1 and A2 (both irreducible over
@@ -1316,7 +1358,7 @@ def exact_disc_inventory_n5(s, F):
           f"A2={A2x.degree()}), A1 and A2 irreducible; A1 real>0 roots {[f'{x:.6f}' for x in r1]}"
           f" = seed loci; A2 real>0 roots {[f'{x:.6f}' for x in r2]}  [{time.time() - t0:.1f}s]")
 
-    if s == "O":                                             # the single A2 point: diabolic
+    if s == "O":                                             # the single positive A2 point
         mp.dps = 60
         w0 = mpf(str(sp.N([r for r in A2x.real_roots() if r > 0][0], 50)))
         coeffs = []
@@ -1333,8 +1375,14 @@ def exact_disc_inventory_n5(s, F):
         assert abs(rts[i0].imag) < mpf("1e-8") and abs(rts[j0].imag) < mpf("1e-8"), \
             "the A2-point double root is not real"
         print(f"  [O] A2 root w={mp.nstr(w0, 9)}: exactly ONE real double lambda-root of "
-              f"F_res at lam={mp.nstr(rts[i0].real, 9)} (diabolic class, no coincident pair)")
-    return dict(D=Dx, A1=A1x, A2=A2x, roots_a1=roots_a1, roots_a2=roots_a2)
+              f"F_res at lam={mp.nstr(rts[i0].real, 9)} "
+              "(order-two A2 layer; algebraic pair unique; character gated separately)")
+    exact_inventory = dict(D=Dx, A1=A1x, A2=A2x, roots_a1=roots_a1, roots_a2=roots_a2)
+    _, s1_a, _ = first_subresultant_linear_exact(F)
+    assert sp.gcd(s1_a, exact_inventory["A2"]).degree() == 0, \
+        f"[{s}] linear subresultant coefficient vanishes on A2"
+    print(f"  [{s}] exact gcd(S1_a, A2) = 1: -S1_b/S1_a defined at every A2 root")
+    return exact_inventory
 
 
 # ================================================================== 6c. layer discharge
@@ -1692,15 +1740,9 @@ def refine_and_check_seeds(N, polys, F_res):
               f"{mp.nstr(S6_s, 4):>12} {mp.nstr(ST_s, 4):>12} {kappa:>+10.6f} {kref:>+10.6f}")
 
 
-# ================================================================== driver
-def run(N):
-    t_start = time.time()
-    print(f"\n================================ N = {N} ================================")
-    # N = 9 fans the disc sweeps out over a Pool (~2800 pool primes at ~25 s each serial);
-    # N = 5 and 7 keep the committed serial path (identical math either way, see disc_stream).
-    # O2B_WORKERS overrides (validation hook: the parallel path is asserted equal at N = 5).
-    workers = int(os.environ.get("O2B_WORKERS", "0")) \
-        or (max(2, (os.cpu_count() or 4) - 2) if N >= 9 else 1)
+# ================================================================== canonical reconstruction
+def _reconstruct_residual_polynomials(N):
+    """Shared exact reconstruction and AT split used by the certificate and N=5 accessors."""
     all_primes = make_primes(60)
     check_primes, work_primes = all_primes[:3], all_primes[3:]
 
@@ -1736,6 +1778,323 @@ def run(N):
         print(f"  [{s}] chi = AT(deg {A.degree(lam)}) * F_res(deg {F.degree(lam)}, "
               f"w-deg {F.degree(Q2)}), F_res monic  [{time.time() - t0:.1f}s]")
         dissect_S6(polys[s]["S6"], A, f"[{s}] S6")
+
+    return polys, F_res, AT
+
+
+@lru_cache(maxsize=1)
+def _exact_n5_polynomials():
+    return _reconstruct_residual_polynomials(5)
+
+
+def exact_n5_residual_polynomial(sector):
+    """Canonical exact N=5 residual F in ZZ[lam, Q2] for R-parity E or O."""
+    if sector not in ("E", "O"):
+        raise ValueError("sector must be E or O")
+    return _exact_n5_polynomials()[1][sector]
+
+
+def exact_n5_a2(sector):
+    """Canonical exact N=5 double discriminant layer A2 in ZZ[Q2]."""
+    return exact_disc_inventory_n5(sector, exact_n5_residual_polynomial(sector))["A2"]
+
+
+# ================================================================== exact A2 export
+def _rational(value):
+    if isinstance(value, (float, sp.Float)):
+        raise TypeError("exact endpoints cannot be floats")
+    if hasattr(value, "numerator") and hasattr(value, "denominator"):
+        return Fraction(int(value.numerator), int(value.denominator))
+    return Fraction(value)
+
+
+def rational_json(value):
+    value = _rational(value)
+    return dict(numerator=str(value.numerator), denominator=str(value.denominator))
+
+
+def rational_from_json(value):
+    if set(value) != {"numerator", "denominator"} or not all(isinstance(x, str) for x in value.values()):
+        raise ValueError("expected rational numerator/denominator strings")
+    result = Fraction(int(value["numerator"]), int(value["denominator"]))
+    if rational_json(result) != value:
+        raise ValueError("rational must be reduced with a positive denominator")
+    return result
+
+
+def box_json(box):
+    return {key: rational_json(value) for keys, bounds in
+            zip((("reLo", "reHi"), ("imLo", "imHi")), box) for key, value in zip(keys, bounds)}
+
+
+def box_contains_real(box, value):
+    if isinstance(box, dict):
+        box = tuple(tuple(rational_from_json(box[key]) for key in keys)
+                    for keys in (("reLo", "reHi"), ("imLo", "imHi")))
+    value = _rational(value)
+    return box[0][0] <= value <= box[0][1] and box[1][0] <= 0 <= box[1][1]
+
+
+def _iv_add(a, b):
+    return a[0] + b[0], a[1] + b[1]
+
+
+def _iv_neg(a):
+    return -a[1], -a[0]
+
+
+def _iv_mul(a, b):
+    products = [x*y for x in a for y in b]
+    return min(products), max(products)
+
+
+def _iv_square(a):
+    return (Fraction(0) if a[0] <= 0 <= a[1] else min(x*x for x in a), max(x*x for x in a))
+
+
+def _box_mul(a, b):
+    return (_iv_add(_iv_mul(a[0], b[0]), _iv_neg(_iv_mul(a[1], b[1]))),
+            _iv_add(_iv_mul(a[0], b[1]), _iv_mul(a[1], b[0])))
+
+
+def _box_square(a):
+    xy = _iv_mul(a[0], a[1])
+    return _iv_add(_iv_square(a[0]), _iv_neg(_iv_square(a[1]))), (2*xy[0], 2*xy[1])
+
+
+def _box_inside(inner, outer):
+    return all(c <= a <= b <= d for (a,b),(c,d) in zip(inner,outer))
+
+
+def _box_disjoint(a, b):
+    return any(x[1] < y[0] or y[1] < x[0] for x,y in zip(a,b))
+
+
+def _box_neg(box):
+    return tuple(_iv_neg(a) for a in box)
+
+
+def _dyadic_outer_box(box, bits=192):
+    """Compact an enclosure by exact outward rounding, never by seed rounding."""
+    scale = 2**bits
+    return tuple((Fraction((lo.numerator*scale)//lo.denominator,scale),
+                  Fraction(-((-hi.numerator*scale)//hi.denominator),scale)) for lo,hi in box)
+
+
+def _poly_box(poly, box):
+    zero = (Fraction(0), Fraction(0))
+    result = (zero, zero)
+    for coefficient in poly.all_coeffs():
+        result = _box_mul(result, box)
+        result = (_iv_add(result[0], (_rational(coefficient),)*2), result[1])
+    return result
+
+
+def _lambda_box(a, b, box):
+    av, bv = _poly_box(a, box), _poly_box(b, box)
+    norm = _iv_add(_iv_square(av[0]), _iv_square(av[1]))
+    if norm[0] <= 0:
+        raise ValueError("S1 coefficient enclosure contains zero")
+    inverse = (Fraction(1)/norm[1], Fraction(1)/norm[0])
+    reciprocal = (_iv_mul(av[0], inverse), _iv_mul(_iv_neg(av[1]), inverse))
+    return _box_neg(_box_mul(bv, reciprocal))
+
+
+def _isolation_box(interval, real):
+    ends = interval.as_tuple()
+    if real:
+        return tuple(_rational(x) for x in ends), (Fraction(0), Fraction(0))
+    return tuple((_rational(ends[0][k]), _rational(ends[1][k])) for k in (0,1))
+
+
+def _root_isolators(poly, eps):
+    coefficients = [int(c) for c in poly.all_coeffs()]
+    real = dup_isolate_real_roots_sqf(coefficients, ZZ, eps=eps, blackbox=True)
+    nonreal = dup_isolate_complex_roots_sqf(coefficients, ZZ, eps=eps, blackbox=True)
+    result = [(r, True) for r in real] + [(r, False) for r in nonreal]
+    if len(result) != poly.degree():
+        raise ValueError("exact root isolation did not exhaust the degree")
+    return result
+
+
+def _decimal_complex(value):
+    return {"real": mp.nstr(value.real, 50), "imag": mp.nstr(value.imag, 50)}
+
+
+def _box_midpoint(box):
+    def number(pair):
+        value = (pair[0]+pair[1])/2
+        return mpf(value.numerator)/value.denominator
+    return mpc(number(box[0]), number(box[1]))
+
+
+def _newton_q_box(poly, coarse, bits=224):
+    """Numerical proposal only. _certify_q_box supplies the exact certificate."""
+    with mp.workdps(bits//3+50):
+        coefficients = [int(c) for c in poly.all_coeffs()]
+        derivative = [int(c) for c in poly.diff().all_coeffs()]
+        root = mp.findroot(lambda q: mp.polyval(coefficients,q), _box_midpoint(coarse),
+                           df=lambda q: mp.polyval(derivative,q), solver="newton",
+                           tol=mp.power(2,-bits-40), maxsteps=100, verify=False)
+        scale = 2**bits
+        proposal = []
+        for part,bounds in zip((root.real,root.imag),coarse):
+            if bounds == (0,0):
+                proposal.append((Fraction(0),Fraction(0)))
+            else:
+                floor = int(mp.floor(part*scale))
+                proposal.append((Fraction(floor-2,scale),Fraction(floor+3,scale)))
+        return tuple(proposal)
+
+
+def _certify_q_box(poly, candidate, coarse, w_boxes):
+    """Exact root count, relative strict inclusion, and unique square-image match."""
+    for (lo,hi),(a,b) in zip(candidate,coarse):
+        if not ((a == b == lo == hi) or a < lo <= hi < b):
+            raise ValueError("q proposal is not strictly inside its coarse isolator")
+    def rational(x):
+        return sp.Rational(x.numerator,x.denominator)
+    x,y = candidate
+    if y == (0,0):
+        count = poly.count_roots(rational(x[0]),rational(x[1]))
+    elif x == (0,0):
+        imaginary_poly = sp.Poly(poly.as_expr().subs(Q2,sp.I*Q2).expand(),Q2,domain="ZZ")
+        count = imaginary_poly.count_roots(rational(y[0]),rational(y[1]))
+    else:
+        count = poly.count_roots(rational(x[0])+sp.I*rational(y[0]),
+                                rational(x[1])+sp.I*rational(y[1]))
+    if count != 1:
+        raise ValueError(f"q proposal exact root count is {count}, expected 1")
+    image = _box_square(candidate)
+    matches = [i for i,box in enumerate(w_boxes) if _box_inside(image,box)]
+    if len(matches) != 1:
+        raise ValueError("q square does not identify a unique w root")
+    return matches[0]
+
+
+@lru_cache(maxsize=1)
+def _a2_export_inventory():
+    """Exact A2/Q inventory with numerically proposed, exactly checked refinements.
+
+    The exact Gaussian/real isolators supply the complete coarse Q inventory.
+    Every refined q rectangle lies strictly inside its coarse isolator (relative
+    to its exact axis, for real/imaginary roots) and has exact Q-root count one.
+    Its interval square lies in exactly one disjoint A2 rectangle. Since
+    A2(q^2)=0, this identifies the unique w root without a numerical scan.
+    Opposite lifts are exact negatives; overlap with the separately isolated
+    opposite root identifies that root. No matrix rank verdict is inferred.
+    """
+    result = dict(schemaVersion=1, n=5,
+                  conventions={"w": "qUnitHop^2", "qPhysicalCSharp": "qUnitHop/2"},
+                  sectors=[], exactRankCertificates=[])
+    for sector in ("E", "O"):
+        F = exact_n5_residual_polynomial(sector)
+        A2 = exact_n5_a2(sector)
+        _, a, b = first_subresultant_linear_exact(F)
+        # Cancel only common parameter content, with an exact nonvanishing
+        # proof on A2. The canonical raw S1 remains unchanged for PSC1 checks.
+        common = sp.gcd(a,b)
+        if sp.gcd(common,A2).degree() != 0:
+            raise ValueError("common S1 content vanishes on A2")
+        ar, br = a.exquo(common), b.exquo(common)
+        if a*br != b*ar:
+            raise ValueError("S1 cancellation changed its projective ratio")
+        w_isolators = _root_isolators(A2, QQ(1, 10**8))
+        ws = []
+        for interval, real in w_isolators:
+            wb = _isolation_box(interval,real)
+            for attempt in range(16):
+                try:
+                    lb = _lambda_box(ar,br,_isolation_box(interval,real))
+                    break
+                except ValueError:
+                    interval = interval.refine_size(QQ(1,2**(64+32*attempt)))
+            else:
+                raise ValueError("could not separate S1 denominator from zero")
+            kind = ("negativeReal" if wb[0][1] < 0 else "positiveReal") if real else "nonreal"
+            ws.append(dict(box=wb, lambda_box=lb, kind=kind, q=[]))
+        order = {"negativeReal": 0, "positiveReal": 1, "nonreal": 2}
+        ws.sort(key=lambda r: (order[r["kind"]],r["box"]))
+        Q = sp.Poly(A2.as_expr().subs(Q2,Q2**2), Q2, domain="ZZ")
+        if sp.gcd(Q,Q.diff()).degree() or Q.degree() != 2*A2.degree():
+            raise ValueError("nonzero squarefree A2 must give twice as many simple q roots")
+        print(f"  [{sector}] isolating all {Q.degree()} roots of A2(q^2)", flush=True)
+        # Pure-imaginary roots need zero-width real coordinates: a rectangle
+        # of positive width cannot square into the real axis. Isolate their
+        # imaginary coordinates as real roots of the exact polynomial Q(i*t).
+        Qi = sp.Poly(Q.as_expr().subs(Q2, sp.I*Q2).expand(), Q2, domain="ZZ")
+        imaginary = dup_isolate_real_roots_sqf([int(c) for c in Qi.all_coeffs()], ZZ,
+                                             eps=QQ(1,10**12), blackbox=True)
+        imaginary_boxes = [((Fraction(0),Fraction(0)), _isolation_box(r,True)[0]) for r in imaginary]
+        qs = []
+        for interval, real in _root_isolators(Q, QQ(1,10**8)):
+            original = _isolation_box(interval, real)
+            axis_matches = [box for box in imaginary_boxes if _box_inside(box,original)] if not real else []
+            if len(axis_matches) > 1:
+                raise ValueError("complex isolator contains two imaginary-axis roots")
+            coarse = axis_matches[0] if axis_matches else original
+            qb = _newton_q_box(Q,coarse)
+            match = _certify_q_box(Q,qb,coarse,[r["box"] for r in ws])
+            ws[match]["q"].append(qb)
+            qs.append(qb)
+        print(f"  [{sector}] exactly counted and mapped all {len(qs)} refined q boxes",flush=True)
+        if any(not _box_disjoint(q,other) for i,q in enumerate(qs) for other in qs[i+1:]):
+            raise ValueError("q root isolators overlap")
+        roots = []
+        with mp.workdps(110):
+            for index, r in enumerate(ws):
+                if len(r["q"]) != 2:
+                    raise ValueError("every nonzero w root must have exactly two q lifts")
+                plus = max(r["q"])
+                minus = _box_neg(plus)
+                other = min(r["q"])
+                # Q is exactly even, so -plus isolates a root. The independently
+                # enumerated opposite box must intersect it and no other box.
+                overlaps = [q for q in qs if not _box_disjoint(minus,q)]
+                if overlaps != [other] or not _box_inside(_box_square(minus),r["box"]):
+                    raise ValueError("opposite q root was not uniquely identified")
+                ident = f"N5-{sector}-A2-W-{index:03d}"
+                q = _box_midpoint(plus)
+                w = q*q
+                if r["kind"] != "nonreal":
+                    w = mpc(w.real,0)
+                def ev(poly):
+                    acc = mpc(0)
+                    for c in poly.all_coeffs():
+                        acc = acc*w+int(c)
+                    return acc
+                lambda_seed = -ev(br)/ev(ar)
+                root = dict(id=ident, parity=sector, rootKind=r["kind"],
+                            wBox=box_json(r["box"]), lambdaBox=box_json(_dyadic_outer_box(r["lambda_box"])),
+                            wSeed=_decimal_complex(w), lambdaSeed=_decimal_complex(lambda_seed), qLoci=[])
+                for label,qb in (("plus",plus),("minus",minus)):
+                    qseed = _box_midpoint(qb)
+                    root["qLoci"].append(dict(id=f"{ident}-Q-{label}",
+                        qUnitHopBox=box_json(qb),
+                        qPhysicalCSharpBox=box_json(tuple(tuple(x/2 for x in pair) for pair in qb)),
+                        qUnitHopSeed=_decimal_complex(qseed), qPhysicalCSharpSeed=_decimal_complex(qseed/2)))
+                roots.append(root)
+        result["sectors"].append(dict(parity=sector, a2Roots=roots))
+    return result
+
+
+def write_a2_json(path):
+    """Write deterministic UTF-8 schema v1 with certified rational box endpoints."""
+    payload = json.dumps(_a2_export_inventory(), sort_keys=True, indent=2)+"\n"
+    Path(path).write_bytes(payload.encode("utf-8"))
+
+
+# ================================================================== driver
+def run(N):
+    t_start = time.time()
+    print(f"\n================================ N = {N} ================================")
+    # N = 9 fans the disc sweeps out over a Pool (~2800 pool primes at ~25 s each serial);
+    # N = 5 and 7 keep the committed serial path (identical math either way, see disc_stream).
+    # O2B_WORKERS overrides (validation hook: the parallel path is asserted equal at N = 5).
+    workers = int(os.environ.get("O2B_WORKERS", "0")) \
+        or (max(2, (os.cpu_count() or 4) - 2) if N >= 9 else 1)
+    polys, F_res, AT = (_exact_n5_polynomials() if N == 5
+                        else _reconstruct_residual_polynomials(N))
 
     # ---- 3+3b+4: disc layers (+ exact N=5 inventory), coincident-EP2 exclusion,
     #              A1 irreducibility, gcd certificates
@@ -1898,6 +2257,13 @@ def run(N):
 
 
 if __name__ == "__main__":
+    if "--a2-json" in sys.argv[1:]:
+        option = sys.argv.index("--a2-json")
+        if option+1 >= len(sys.argv):
+            raise SystemExit("--a2-json requires an output path")
+        write_a2_json(sys.argv[option+1])
+        print(sys.argv[option+1])
+        raise SystemExit(0)
     _fl_selftest()
     _rr_selftest()
     print("FL + rational-reconstruction self-tests OK")

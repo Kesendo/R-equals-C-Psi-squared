@@ -50,7 +50,12 @@ public static class OpenArcsRegistry
                 "(R-even) and 246 (R-odd), v_q=154/138 and layers [56,32]/[56,26]. The complete " +
                 "root/locus inventory is now certified exactly at N=5: in w, E:A1=(0-,2+,26C), A2=(6-,0+,10C); " +
                 "O:A1=(0-,2+,26C), A2=(6-,1+,6C), hence A1 has 112 induced q-loci (all EP2) and A2 has 58. " +
-                "Remaining work is pair isolation and character gates only on the doubled A2^2 loci; every nonzero A1 root is already a " +
+                "Route B is complete at N=5 as a root-by-root inventory: 29 A2(w) roots / 58 q loci. " +
+                "The 12 negative-real roots give 24 imaginary-q loci certified semisimple by executed full-sector Hermiticity; " +
+                "the positive-real pair plus 32 nonreal q loci give all 34 stable EpCharacter readings, alg=geo=2. " +
+                "No exact fallback was used; the artifact exactRankCertificates array is empty. PSC1 supplies algebraic pair uniqueness " +
+                "and S1 supplies the repeated-lambda seed; neither determines Jordan character. This is not an all-N theorem and creates no new F number. " +
+                "Every nonzero A1 root is already a " +
                 "simple discriminant zero and hence a Puiseux-1/2 defective EP2. The M-descent shortcut does not " +
                 "apply ((1,2)@N=5 is not fold-fixed). " +
                 "F_32/F_53 remain unmeasured and harder. (2) The scan region/resolution must scale: more " +
@@ -62,11 +67,16 @@ public static class OpenArcsRegistry
                 "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
                 "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal). " +
-                "RESUMING IN ONE LINE: this arc is DONE except one minor edge - all four Moves AND the Move-4 follow-on (the " +
-                "cross-fold is integrability-independent and docks onto F1 as Pi's bra leg) are closed; the one OPEN edge is the " +
-                "within-odd EXACT threshold's CLOSED FORM (the threshold is empirically N=7, grounded on residual density; a closed " +
-                "form is residual-density driven and likely does NOT exist), so the arc is effectively complete; the residual " +
+            NextStep: "CURRENT STATE (2026-09-06, read this first; the dated layers below are the journal). " +
+                "RESUMING IN ONE LINE: Route B is complete at N=5 as a root-by-root inventory. All 58 q loci are diabolic with alg=geo=2: " +
+                "24 by executed full-sector Hermiticity and all 34 stable EpCharacter readings on the non-Hermitian-axis loci. " +
+                "No exact fallback was used. PSC1 supplies algebraic pair uniqueness and S1 supplies the repeated-lambda seed; " +
+                "neither determines Jordan character. This is not an all-N theorem and creates no new F number. " +
+                "NEXT: the F_32 (N=6) and F_53 (N=7) doubled-layer character/completeness edges remain unmeasured; do not extrapolate the N=5 inventory. " +
+                "Outside Route B, all four Moves AND the Move-4 follow-on (the " +
+                "cross-fold is integrability-independent and docks onto F1 as Pi's bra leg) are closed; their one OPEN edge is the " +
+                "within-odd EXACT threshold's CLOSED FORM (bounded R-even scans place the threshold empirically at N=7, grounded on residual density; a closed " +
+                "form is residual-density driven and likely does NOT exist); the residual " +
                 "grounding is already DONE (in DiabolicReflectionParityWitness), and the one bounded probe IF you still want to push " +
                 "it is under 'REMAINING EDGES (a)' below. ARC TERMS (all glossed " +
                 "in experiments/F89_PATH_K_DIABOLIC.md, its 'What this is about' + 'Terms used here' sections): path-k = the " +
@@ -82,8 +92,8 @@ public static class OpenArcsRegistry
                 "lowercase sigma_even/sigma_odd, which are the SPECTRA of the R-even/R-odd sectors. NOW: N=7 (path-6) " +
                 "is DONE, AND its Δ-test (Move 2) is now DONE too - so the diabolic-CHARACTER question is CLOSED at N=7 " +
                 "(all four real-q diabolics are integrability-protected, a PLACEMENT mechanism not a new species; details " +
-                "in the 'MOVE 2 IS NOW DONE' block below). The real-q ONSET has since been pinned to a LAW by the " +
-                "N=8/N=9 discriminator (2026-06-30, the 'ONSET RESOLVED' block below): it is PARITY-GATED, odd N >= 7 " +
+                "in the 'MOVE 2 IS NOW DONE' block below). In bounded R-even scans, the real-q ONSET showed a parity pattern under the " +
+                "N=8/N=9 discriminator (2026-06-30, the 'ONSET RESOLVED' block below): odd N >= 7 carried loci " +
                 "(N=8 even has NO on-axis real-lambda diabolic; N=9 odd has >=3, each a clean isolated on-axis point) - " +
                 "refuting both the threshold (N>=7) and the one-off readings. The CAUSE of that parity is now GROUNDED from " +
                 "below (2026-06-30, the 'MECHANISM GROUNDED' block): the DIMENSION-MISMATCH / SECTOR-SWAP. R (i->N-1-i, the S2 " +
@@ -116,8 +126,9 @@ public static class OpenArcsRegistry
                 "(docs/ANALYTICAL_FORMULAS.md, right after the F89c lemma it extends) + typed as F89CrossFoldSimilarityClaim " +
                 "(parents F1PalindromeIdentity + F89BranchLocusPalindromeClaim, Tier1Derived, wiring-audited; verify via " +
                 "'knowledge ancestors F89CrossFoldSimilarityClaim'). SO: ALL FOUR MOVES ARE DONE (Move 1 count / Move 2 Delta-test / " +
-                "Move 3 count-vs-N / Move 4 cross-fold), MOVE 4's FOLLOW-ON IS NOW ANSWERED TOO, and this arc is COMPLETE but for " +
-                "ONE minor non-blocking edge: (a) the within-odd EXACT threshold N has no closed form (residual-density driven: F_18 " +
+                "Move 3 count-vs-N / Move 4 cross-fold), and MOVE 4's FOLLOW-ON IS NOW ANSWERED TOO. The N=5 Route B inventory is complete; " +
+                "its N=6/N=7 extension remains open under the NEXT sentence above. One separate minor non-blocking edge remains: " +
+                "(a) the within-odd EXACT threshold N has no closed form (residual-density driven: F_18 " +
                 "too sparse, F_53 the first to host a real-q coalescence; likely none exists; the concrete probe is spelled out under " +
                 "REMAINING EDGES (a) below). MOVE-4 FOLLOW-ON ANSWERED (2026-06-30): DOES THE F89d ANTIUNITARY SIMILARITY SURVIVE XXZ " +
                 "ANISOTROPY? YES - it is INTEGRABILITY-INDEPENDENT. The (q,Delta) overload landed on WeightCoherenceBlock.Build (the " +
@@ -205,8 +216,8 @@ public static class OpenArcsRegistry
                 "exp 1.06, gap 6.3e-9), q=1.1144 (lam=-4.611), q=1.4994 (lam=-4.381), each a single on-axis im(q)=im(lam)=0 point " +
                 "that does NOT split, off-axis conjugate-pair ghosts beside it. SHARP DISCRIMINATOR: both N=8 and N=9 carry on-axis " +
                 "points with COMPLEX lambda (analytic-continuation crossings); only N=9 carries on-axis REAL-lambda ones. VERDICT: " +
-                "real-q diabolics are PARITY-GATED, odd N>=7 (count vs N: N=5:0, N=6:0, N=7:4, N=8:0, N=9:>=3; N=4's single one is the " +
-                "separate self-fold). Completeness not claimed; the verdict rests on the qualitative odd/even contrast, robust to the " +
+                "the bounded R-even scan exhibits a parity pattern (count vs N in that scan: N=5:0, N=6:0, N=7:4, N=8:0, N=9:>=3; N=4's single one is the " +
+                "separate self-fold). All-sector completeness is not claimed; the observation rests on the qualitative odd/even contrast, robust to the " +
                 "box. Written up in the experiment doc's 'odd-N effect' section. MECHANISM GROUNDED (2026-06-30, Probe B done): " +
                 "from-below confirmation of the dimension-mismatch / sector-swap, by building the FULL (SE,DE) block, splitting by R, " +
                 "and measuring self- vs cross-sector conjugacy (gitignored python scout, gate-validated: it reproduces the N=7 " +
@@ -218,20 +229,21 @@ public static class OpenArcsRegistry
                 "diabolic eigenvectors carry ~0.18-0.20 weight on center-SE states. The fixed-site object is SLOW_MODE_R_PARITY's " +
                 "reflection-fixed JW band-centre zero mode k=(N+1)/2 (an integer mode only at odd N), distinct from the N=4 self-fold " +
                 "(antiunitary T=P*K, N=4-only, fixes Re lambda=-4; the odd-N diabolics are real but NOT at -4/-N). REMAINING EDGES: " +
-                "(a) the within-odd THRESHOLD - the ONE edge in 'RESUMING IN ONE LINE' above. NOTE (corrected by a 2026-06-30 cold-" +
+                "(a) the within-odd THRESHOLD - the one non-Route-B edge in 'RESUMING IN ONE LINE' above. NOTE (corrected by a 2026-06-30 cold-" +
                 "read): this is mostly DONE, not an unstarted probe; the dated JOURNAL layers below describe these moves as if still " +
-                "to-do (they have since been executed) - trust THIS top block over them. 'Empty at N=5' means empty of real-q " +
-                "DIABOLICS (N=5 DOES carry real " +
+                "to-do (they have since been executed) - trust THIS top block over them. 'Empty at N=5' means the bounded R-even scan was empty of real-q " +
+                "DIABOLICS; it does not classify the positive-real R-odd A2 locus (N=5 DOES carry real " +
                 "residual roots, they just never coalesce on-axis). The residual-population count vs N is already executed and lives in " +
                 "DiabolicReflectionParityWitness ('inspect --root diabolicparity'): even N carries ZERO real residual eigenvalues in " +
                 "q in [0.2,3], odd N a real population GROWING with N (4/5/8 at N=5/7/9), and the onset has TWO geometries (a real-real " +
                 "CROSSING, first at N=7, and a conjugate-pair TANGENCY, e.g. N=9). Counting real-real crossings is NOT a proxy for the " +
                 "real-q diabolic count (that is FindDiabolicsExact's job: N=9 has real-q diabolics yet NO real-real crossing). So the " +
-                "threshold is EMPIRICALLY N=7, grounded on residual density; what remains is ONLY a closed form for the threshold N, " +
-                "residual-density driven and likely nonexistent - i.e. this edge is effectively CLOSED, no live mechanical next move. " +
-                "IF a returning session still wants to push it, the one bounded UNDONE probe is to PROVE the N=5 absence directly: run " +
+                "bounded R-even threshold is EMPIRICALLY N=7, grounded on residual density; its separate remaining question is a closed form, " +
+                "residual-density driven and likely nonexistent. This separate threshold does not alter the completed N=5 Route B inventory; " +
+                "the positive R-odd A2 pair is already classified Diabolic with alg=geo=2. " +
+                "IF a returning session still wants to push that R-even threshold, the one bounded UNDONE probe is to prove the scoped N=5 absence directly: run " +
                 "'dotnet run --project compute/RCPsiSquared.Cli -c Release -- pkmono --diabolic --exact --k 4 --re 0.2,3 --im " +
-                "-0.025,0.025 --cell 0.01' (N=5 = path-4, the real-axis strip) and show its real residual strands stay on-axis-gapped " +
+                "-0.025,0.025 --cell 0.01' (N=5 = path-4, the R-even real-axis strip) and show its real residual strands stay on-axis-gapped " +
                 "(no coalescence), vs N=7 (--k 6) where two meet - confirming the onset is residual-density, not a missed diabolic. " +
                 "(b) DONE - the C# WITNESS is built: " +
                 "DiabolicReflectionParityWitness ('inspect --root diabolicparity', the persistent evidence per cockpit rule 5) recomputes " +
@@ -1004,11 +1016,11 @@ public static class OpenArcsRegistry
                 "sit on A1) is a sqrt-type defective EP2 with s6 != 0; H1 " +
                 "FOLLOWS on A1 by the simple-zero lemma. The 09d caution ('{S6=0} contains the diabolics, no " +
                 "separation') is sharpened by the layer structure: every nonzero A1 root is a defective EP2, " +
-                "while A2 remains an order-two character-undecided layer until local gates run " +
-                "(N=5 real-positive inventory closed EXACTLY in the committed verifier: the 4 A1 roots ARE the 4 " +
-                "seeds; among the A2 real-positive roots, " +
-                "E none, O exactly the known diabolic w=5.100831 where S6 vanishes as adj=0 forces, carrying " +
-                "exactly one real double lam). SCOPE OF THE ALL-N RE-BASE: the two uniform hypotheses cover the " +
+                "while at N=5 the complete A2 order-two layer is now root-by-root character-certified: all 58 q loci are " +
+                "diabolic with alg=geo=2, 24 by full-sector Hermiticity and all 34 stable EpCharacter readings off that axis. " +
+                "No exact fallback was used. PSC1 owns pair uniqueness and S1 the repeated-root seed; neither owns the Jordan verdict. " +
+                "This is not an all-N theorem. " +
+                "SCOPE OF THE ALL-N RE-BASE: the two uniform hypotheses cover the " +
                 "SIMPLE-LAYER HALF only; the localization half (every count-drop sits on A1) consumed max-mult 2 " +
                 "(DISCMULT at N=5/7, the proved layer identity at N=9), the psc1 leg, the cross-sector gcd, " +
                 "and F_res reality, " +
@@ -1496,7 +1508,10 @@ public static class OpenArcsRegistry
                 "its regression gate. So the path-4 diabolics ARE the integrable level-crossings, " +
                 "DIABOLIC_BY_INTEGRABILITY's gate generalized off N=4 (F89_PATH_K_DIABOLIC.md now Tier-1 for the " +
                 "mechanism). Route B's exact N=5 F_18/F_17 discriminant layers and complete root/locus isolation " +
-                "are landed. Remaining open: pair isolation and the doubled-A2^2 per-locus character gates; " +
+                "are landed, and the N=5 A2 layer is complete root by root: 58/58 q loci are diabolic, including " +
+                "all 34 stable EpCharacter readings off the Hermitian axis; no exact fallback was used. " +
+                "NEXT: the F_32 (N=6) and F_53 (N=7) doubled-layer character/completeness edges remain unmeasured; do not extrapolate the N=5 inventory. " +
+                "This is not an all-N theorem; " +
                 "nonzero A1 roots are already certified EP2 by the simple-zero lemma. (b) LOOK IN OTHER " +
                 "REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +

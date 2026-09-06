@@ -2653,3 +2653,33 @@ Route B reviews each returned EMPTY after these repairs.
 `docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md`,
 `simulations/f1_depol_residual_verify.py`, and
 `simulations/o2b_gcd_certificate.py`.
+
+### 2026-09-06 — One repeated root was mislabeled as a diabolic point
+
+**Caught.** Route B prose called the positive-real R-odd N=5 A2 locus already
+gated as diabolic and left pair isolation open. The existing certificate identifies
+a repeated λ root; that is algebraic multiplicity, not geometric multiplicity.
+An order-two discriminant zero also permits an analytic-defective collision.
+The claimed semisimplicity and its adjugate-zero explanation did not follow
+from the certificate.
+
+**Repair.** At N=5 algebraic pair uniqueness is closed by PSC1: at every nonzero
+discriminant locus the specialized gcd of F_res and its λ-derivative has degree
+one. The first nonzero subresultant S1 extracts the repeated-root value; local
+pair extraction for Riesz seeds and local Jordan character are separate work.
+`EpCharacter` on the isolated local operator or exact rank must determine its
+geometric multiplicity. The primary document, path experiment and genericity
+document now state that distinction; the per-surface check in
+`simulations/docs_verify.py` also guards the OpenArcs statements.
+
+**Current boundary.** A2 has 29 w roots / 58 q-loci at N=5. Its 12 negative-real
+w roots yield 24 imaginary-q loci, semisimple by Hermiticity of
+M(q)=D/2+iqK/2 there, with D real diagonal and K real symmetric. The positive-real
+R-odd A2 root and 16 nonreal w roots (34 q-loci together) remain
+character-uncertified. Route B remains open until all 29 w roots / 58 q-loci
+reconcile. A1 retains its 56 w roots / 112 q-loci, all simple-zero EP2.
+
+**Anchors.** `docs/THE_DOUBLE_ROOT.md`, `experiments/F89_PATH_K_DIABOLIC.md`,
+`experiments/F89_BETA_EXOTIC_GENERICITY.md`, `simulations/o2b_gcd_certificate.py`,
+`simulations/docs_verify.py`, and
+`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`.

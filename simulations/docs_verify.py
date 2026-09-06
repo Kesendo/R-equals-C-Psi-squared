@@ -10,8 +10,10 @@ Date: March 16, 2026
 """
 
 import numpy as np
+import json
 import sys
 from itertools import product as iprod
+from pathlib import Path
 from framework import max_f1_pairing_distance
 
 I2 = np.eye(2)
@@ -87,6 +89,82 @@ def check(name, condition, detail=""):
     else:
         FAIL += 1; print(f"  FAIL: {name} -- {detail}")
 
+def verify_route_b_a2_current_truth():
+    """Guard completion prose and inventory shape; C# owns the local character verdicts."""
+    root = Path(__file__).resolve().parents[1]
+    surfaces = (
+        ("primary", "docs/THE_DOUBLE_ROOT.md"),
+        ("path experiment", "experiments/F89_PATH_K_DIABOLIC.md"),
+        ("genericity", "experiments/F89_BETA_EXOTIC_GENERICITY.md"),
+        ("arc", "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"),
+    )
+    forbidden = (
+        "already gated positive-real R-odd diabolic",
+        "the arc is effectively complete",
+        "Remaining work is pair isolation and character gates",
+        "positive-real R-odd A2 locus remains character-uncertified",
+        "Route B remains open",
+        "What remains is local pair extraction for Riesz seeds",
+    )
+    for label, relative_path in surfaces:
+        source = (root / relative_path).read_text(encoding="utf-8")
+        # Join C# string literals and whitespace within this file only.
+        source = " ".join(source.replace('" +', "").replace('"', "").replace("**", "").split())
+        required = ["Route B is complete at N=5 as a root-by-root inventory",
+                    "PSC1", "S1", "all 34 stable EpCharacter",
+                    "No exact fallback was used", "not an all-N theorem"]
+        if label != "arc":
+            required += ["29 A2(w) roots / 58 q-loci", "24 imaginary-q loci",
+                         "executed full-sector Hermiticity", "alg=geo=2",
+                         "exactRankCertificates array is empty", "ROUTE_B_A2_RECONCILE"]
+        if label == "primary":
+            required += ["Route B is complete at N=5 as a root-by-root inventory: 29 A2(w) roots / 58 q-loci, all semisimple with alg=geo=2.",
+                         "12 negative-real w roots", "2 real-q loci", "32 nonreal-q loci",
+                         "three isolating radii", "neither is a local Jordan character test"]
+        surface_forbidden = forbidden
+        if label == "path experiment":
+            surface_forbidden += (
+                "positive-real R-odd A2 locus; its Jordan character remains open",
+                "positive-real R-odd A2 locus requires its own local character determination",
+                "N=5 R-odd A2 character remains open",
+            )
+        if label == "genericity":
+            surface_forbidden += (
+                "5.100831, whose character remains uncertified",
+            )
+        if label == "arc":
+            required.append("NEXT: the F_32 (N=6) and F_53 (N=7) doubled-layer character/completeness edges remain unmeasured; do not extrapolate the N=5 inventory.")
+            surface_forbidden += (
+                "this arc is COMPLETE but for ONE minor non-blocking edge",
+                "what remains is ONLY a closed form for the threshold N",
+                "Outside the still-open Route B inventory",
+                "This does not close Route B or the positive R-odd A2 character.",
+            )
+        for phrase in required:
+            check(f"Route B {label}: {phrase}", phrase in source,
+                  f"{relative_path}: missing current-truth statement")
+        for phrase in surface_forbidden:
+            check(f"Route B {label}: excludes {phrase}",
+                  phrase.casefold() not in source.casefold(),
+                  f"{relative_path}: stale Route B claim")
+
+    # The exact producer/export tests own root isolation and PSC1/S1 validity.
+    # Do not infer no-NearEp or classification sources from this JSON: those
+    # are executed on the full parity operators by ROUTE_B_A2_RECONCILE.
+    try:
+        inventory = json.loads((root / "simulations/results/route_b_a2_n5.json").read_text(encoding="utf-8"))
+        roots = [entry for sector in inventory["sectors"] for entry in sector["a2Roots"]]
+        loci = [locus for entry in roots for locus in entry["qLoci"]]
+        check("Route B artifact: schema 1, N=5", inventory["schemaVersion"] == 1 and inventory["n"] == 5)
+        check("Route B artifact: 29 distinct A2 roots", len(roots) == len({r["id"] for r in roots}) == 29)
+        check("Route B artifact: 58 distinct q loci", len(loci) == len({q["id"] for q in loci}) == 58)
+        check("Route B artifact: root-kind split 12/1/16",
+              tuple(sum(r["rootKind"] == kind for r in roots) for kind in ("negativeReal", "positiveReal", "nonreal")) == (12, 1, 16))
+        check("Route B artifact: no exact rank certificates used", inventory["exactRankCertificates"] == [])
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        check("Route B artifact: readable schema", False, str(error))
+
+
 if __name__ == "__main__":
     print("=" * 70)
     print("SCOPED NUMERICAL DOCUMENTATION SMOKE TEST")
@@ -95,6 +173,8 @@ if __name__ == "__main__":
     if "--force-failure" in sys.argv:
         check("forced failure proves the process exits nonzero", False,
               "intentional mutation regression")
+
+    verify_route_b_a2_current_truth()
 
     # =============================================================
     # GLOSSARY.md claims

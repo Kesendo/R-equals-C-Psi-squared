@@ -834,6 +834,26 @@ public static class PathKMonodromyScout
         return BlockAtOdd(a, c, q).Evd().EigenValues.ToArray();
     }
 
+    /// <summary>The EpCharacter reading on the full R-odd sector at physical (q, λ), in the
+    /// HS-orthonormal R-odd basis. The radius must enclose only the target cluster.</summary>
+    public static EpCharacter.Reading CharacterizeAtROdd(int k, Complex q, Complex lambda, double radius = 0.1)
+    {
+        var (a, c, _, _) = ExactSetupROdd(k);
+        return EpCharacter.Characterize(BlockAtOdd(a, c, q), lambda, radius);
+    }
+
+    /// <summary>The character and separate dephase/hop scalar-departures on the target cluster of
+    /// the full R-odd sector, in its HS-orthonormal basis and at physical q. The radius must isolate
+    /// that cluster. Both pencil parts retain the full sector, including any AT subspace.</summary>
+    public static EpCharacter.PencilReading CharacterizePencilAtROdd(int k, Complex q, Complex lambda, double radius = 0.1)
+    {
+        var (a, c, _, _) = ExactSetupROdd(k);
+        var dephase = BlockAtOdd(a, c, Complex.Zero);
+        var zero = new Complex[a.GetLength(0), a.GetLength(1)];
+        var hop = BlockAtOdd(zero, c, q);
+        return EpCharacter.CharacterizePencil(dephase, hop, lambda, radius);
+    }
+
     /// <summary>The R-ODD diabolic/defective hunt on the exact R-odd residual roots: the same gap-field →
     /// seed → refine → classify pipeline as <see cref="FindDiabolicsExact"/> (which scans the R-EVEN
     /// residual), with the EpCharacter reading and the enclosing radius measured against the R-odd sector

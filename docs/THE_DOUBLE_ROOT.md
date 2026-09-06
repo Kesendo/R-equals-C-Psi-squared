@@ -52,7 +52,7 @@ that grouping was the error: order can establish an isolated transverse
 square-root split, but not semisimplicity. One fence from the older entry still
 belongs here:
 
-> ‖P‖ measures oblique embedding, NOT defective-vs-diabolic — a closed-block
+> ‖P‖ measures oblique embedding, NOT defective-vs-diabolic; a closed-block
 > defective EP reads ‖P‖≈1 (Gate0a), only the eig-Petermann K diverges, which
 > `EpCharacter` deliberately avoids
 
@@ -315,12 +315,16 @@ w=q² each sector obeys `disc_Λ(F_res)=C·w^v·A₁·A₂²`, with squarefree c
 layers; at N=5 both A₁ and A₂ are irreducible over ℚ. The q-degree layers are
 [56,32] in R-even and [56,26] in R-odd, with v_q=154/138. Route B's complete
 root/locus inventory, including certified complex-root isolation, is now given
-below. The remaining work is pair isolation and a character gate on the doubled
-A₂² loci. The A₁ loci need no second character gate: squarefreeness and
+below. At N=5 algebraic pair uniqueness is closed by PSC1 at every nonzero
+locus: the specialized gcd of F_res and its λ-derivative has degree one.
+The exact first nonzero subresultant S1=a(w)λ+b(w) supplies the repeated-root
+seed λ=-b/a at each A₂ root; its denominator is certified nonzero there. PSC1
+establishes pair uniqueness and S1 performs local pair extraction; neither is
+a local Jordan character test. The A₁ loci need no second character gate: squarefreeness and
 coprimality make their discriminant zeros simple, and the simple-zero lemma
 already certifies Puiseux-½ defective EP2 character.
 
-That first remaining Route B step is closed exactly at N=5. Exact rational
+The root/locus inventory is closed exactly at N=5. Exact rational
 root isolation gives the complete inventory below; each tuple is
 `(negative-real, positive-real, nonreal)` in w. Because every listed root is
 nonzero, `w=q²` lifts each one to two q-loci.
@@ -329,14 +333,35 @@ nonzero, `w=q²` lifts each one to two q-loci.
 |---|---:|---:|---:|---:|---|
 | even | A₁ | (0, 2, 26) | 28 | 56 | all Puiseux-½ defective EP2 |
 | odd | A₁ | (0, 2, 26) | 28 | 56 | all Puiseux-½ defective EP2 |
-| even | A₂ | (6, 0, 10) | 16 | 32 | locally undecided |
-| odd | A₂ | (6, 1, 6) | 13 | 26 | locally undecided except the gated positive-real diabolic |
+| even | A₂ | (6, 0, 10) | 16 | 32 | all semisimple: 12 imaginary-q and 20 nonreal-q loci |
+| odd | A₂ | (6, 1, 6) | 13 | 26 | all semisimple: 12 imaginary-q, 2 real-q and 12 nonreal-q loci |
 
-Thus A₁ is complete at **56 w roots / 112 q-loci**, all certified EP2. A₂ is
-complete as a locus inventory at **29 w roots / 58 q-loci**, but its local
-character classification is the next Route B step. The certificate is the
-default N=5 run of `simulations/o2b_gcd_certificate.py`; it gates the four count
-tuples in addition to the earlier exact factorization and real-positive anchors.
+Thus A₁ is complete at **56 w roots / 112 q-loci**, all certified EP2.
+Route B is complete at N=5 as a root-by-root inventory: **29 A2(w) roots / 58 q-loci**,
+all semisimple with alg=geo=2. The 12 negative-real w roots give 24 imaginary-q
+loci certified semisimple by executed full-sector Hermiticity. In HS-orthonormal
+coordinates the physical pencil is L(q)=D+qC, with D real diagonal and C purely
+imaginary symmetric, so imaginary q makes L Hermitian. The classifier builds the
+full parity block at every exported seed, including AT strands, and measures
+‖L−L†‖_F/max(1,‖L‖_F); its maximum over the 24 loci is 0, below 1e-12. It also
+isolates exactly the target pair at the S1 λ seed in that full-sector spectrum.
+The positive-real R-odd root gives 2 real-q loci and the 16 nonreal w roots give
+32 nonreal-q loci: all 34 stable EpCharacter readings are Diabolic, alg=geo=2,
+on the full sector at three isolating radii. No exact fallback was used; the
+artifact exactRankCertificates array is empty.
+
+The exact producer is the default N=5 run of
+[`o2b_gcd_certificate.py`](../simulations/o2b_gcd_certificate.py); its
+`--a2-json simulations/results/route_b_a2_n5.json` option writes
+[`route_b_a2_n5.json`](../simulations/results/route_b_a2_n5.json), with
+w=qUnitHop² and qPhysicalCSharp=qUnitHop/2. The
+[export tests](../simulations/tests/test_o2b_a2_character_export.py) check exact
+isolation, PSC1/S1 and the exported λ/q seeds. The C#
+[`ROUTE_B_A2_RECONCILE` tests](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2InventoryTests.cs)
+join every locus ID to its local character and reject a real-q control on the
+same Hermiticity path. This is not an all-N theorem and creates no new F number.
+The F_32 (N=6) and F_53 (N=7) doubled-layer character/completeness edges remain
+unmeasured; the N=5 inventory does not close them.
 
 ## What this document does not claim
 
