@@ -131,7 +131,9 @@ PART 4: STRUCTURAL STABILITY (Fold Catastrophe + Renyi Uniqueness)
   Thom-Arnold classification. Key property: STRUCTURAL STABILITY.
   Small perturbations cannot remove the bifurcation, only shift it.
 
-  Our recursion R = C(Ψ+R)² is exactly this fold, with a = 1-4CΨ.
+  Our recursion R = C(Ψ+R)² is exactly this fold. Depressing it by
+  x = R + (2CΨ-1)/(2C) and dividing by C gives x² + a = 0 with
+  a = (4CΨ-1)/(4C²) = -D/(4C²), checked above at four (C,Ψ) and four x.
 
   The Renyi uniqueness result (today, March 22) adds:
   For R = C_α(Ψ+R)^α, the bifurcation threshold is:
@@ -159,7 +161,7 @@ PART 4: STRUCTURAL STABILITY (Fold Catastrophe + Renyi Uniqueness)
   D = 0 (CΨ = 1/4): degenerate fixed point (fold bifurcation)
   D < 0 (CΨ > 1/4): no real fixed points (fold post-bifurcation)
 
-  Normal form substitution: x = R + (2CΨ-1)/(2C), a = (1-4CΨ)/(4C²)
+  Normal form substitution: x = R + (2CΨ-1)/(2C), a = (4CΨ-1)/(4C²) = -D/(4C²)
   gives x² + a = 0. This IS the fold catastrophe normal form.
 
   --- Catastrophe ↔ Quantum Framework mapping ---
@@ -186,5 +188,5 @@ SUMMARY
 5. Fold catastrophe is unique (α=2): structural stability from Renyi
 6. Higher catastrophes (α≠2) have state-dependent boundaries → rejected
 
-Total runtime: 43.7s
+Total runtime: 41.6s
 Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\catastrophe_feigenbaum.txt

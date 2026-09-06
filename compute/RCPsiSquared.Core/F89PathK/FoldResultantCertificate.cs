@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using RCPsiSquared.Core.Numerics;
+using Qc = RCPsiSquared.Core.Numerics.GaussianRational;
 
 namespace RCPsiSquared.Core.F89PathK;
 
@@ -3576,24 +3577,6 @@ public static class FoldResultantCertificate
     }
 
     // ---- exact Q(i)[x] arithmetic for the leading forms' multiplicity structure (small degrees) ----
-
-    private readonly struct Qc
-    {
-        public readonly BigRational Re;
-        public readonly BigRational Im;
-        public Qc(BigRational re, BigRational im) { Re = re; Im = im; }
-        public static Qc Zero => new(new BigRational(0), new BigRational(0));
-        public bool IsZero => Re.IsZero && Im.IsZero;
-        public static Qc operator +(Qc a, Qc b) => new(a.Re + b.Re, a.Im + b.Im);
-        public static Qc operator -(Qc a, Qc b) => new(a.Re - b.Re, a.Im - b.Im);
-        public static Qc operator *(Qc a, Qc b)
-            => new(a.Re * b.Re - a.Im * b.Im, a.Re * b.Im + a.Im * b.Re);
-        public static Qc operator /(Qc a, Qc b)
-        {
-            var norm = b.Re * b.Re + b.Im * b.Im;
-            return new((a.Re * b.Re + a.Im * b.Im) / norm, (a.Im * b.Re - a.Re * b.Im) / norm);
-        }
-    }
 
     private static Qc[] FromZi(GaussianInteger[] p)
     {

@@ -479,6 +479,39 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasMissingPhaseRoot_NFree()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "missingphase");
+        Assert.False(entry.RequiresN);
+        Assert.Contains("THE_MOTION_AND_THE_MISSING_PHASE", entry.Description);
+        Assert.Contains("ℚ(i)", entry.Description);
+        // The description promises the reduction gate; the factory test below is what makes that true.
+        Assert.Contains("reduction", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_MissingPhaseFactory_BuildsTheLiveWitness_AndMeetsThePageAtEveryChainLength()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "missingphase");
+        var ctx = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 1,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(ctx);
+        Assert.IsType<MissingPhaseOnsetWitness>(root);
+
+        var w = (MissingPhaseOnsetWitness)root;
+        foreach (var n in MissingPhaseOnsetWitness.PageSites)
+            Assert.True(MissingPhaseOnsetWitness.Agrees(MissingPhaseOnsetWitness.Read(n, w.Epsilon, w.Gamma),
+                                                        w.Epsilon, w.Gamma),
+                $"the root's own couplings do not meet the page at N = {n}.");
+
+        // The description's second promise: the tree, not only the test project, carries the reduction.
+        var labels = root.Children.Select(c => c.DisplayName).ToList();
+        Assert.Contains(labels, l => l.Contains("reduction against the full Lindbladian"));
+        Assert.Equal(0, MissingPhaseOnsetWitness.ReductionMismatchCount(
+            MissingPhaseOnsetWitness.ReductionSites, w.Epsilon, w.Gamma, 6));
+    }
+
+    [Fact]
     public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
     {
         var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");

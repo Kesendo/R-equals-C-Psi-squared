@@ -1,6 +1,8 @@
 .obsidian/
 .claude/
+.codex
 CLAUDE.md
+AGENTS.md
 __pycache__/
 *.pyc
 GPT_Prompts/

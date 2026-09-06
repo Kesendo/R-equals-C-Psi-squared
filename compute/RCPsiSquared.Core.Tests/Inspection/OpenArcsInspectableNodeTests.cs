@@ -7,13 +7,19 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFiftySevenEntries()
+    public void Registry_HasFiftyEightEntries()
     {
         // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
         // 0144649 to 52, neither updating this line, so this test was RED across two commits.
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
-        Assert.Equal(57, OpenArcsRegistry.All.Count);   // +mirrorworld_owns_no_time (2026-09-05: no
+        Assert.Equal(58, OpenArcsRegistry.All.Count);   // +relaxation_scale_as_the_defect_vanishes
+                                                        //   (2026-09-05: the singular order of limits
+                                                        //   in THE_MOTION_AND_THE_MISSING_PHASE's
+                                                        //   closing question, opened carrying the
+                                                        //   short-time adoption as its inventory so a
+                                                        //   sweep can find it)
+                                                        // +mirrorworld_owns_no_time (2026-09-05: no
                                                         //   GameObject owns a duration, the two
                                                         //   time readings are static classes, and
                                                         //   Clock owns arctan(Q) without the N its
