@@ -13,9 +13,10 @@ public class SelfMirrorObjectTests
     private static SelfMirrorObject Build(
         int n,
         double gamma = 0.1,
+        double coupling = 1.0,
         HamiltonianType hamiltonianType = HamiltonianType.XY)
     {
-        var h = new ChainSystem(n, 1.0, gamma, hamiltonianType, TopologyKind.Chain).BuildHamiltonian();
+        var h = new ChainSystem(n, coupling, gamma, hamiltonianType, TopologyKind.Chain).BuildHamiltonian();
         var channels = Enumerable.Range(0, n).Select(l => new ChannelRate($"q{l}", gamma)).ToList();
         return new SelfMirrorObject(new MirrorSystem(n, h, channels));
     }
@@ -51,6 +52,20 @@ public class SelfMirrorObjectTests
         Assert.Equal(10, obj.CompositeFixedLineCount);
         Assert.Equal(4, obj.LinearF1FixedPointCount);
         Assert.True(obj.CompositeFixedLineCount > obj.LinearF1FixedPointCount);
+    }
+
+    [Theory]
+    [InlineData(3, HamiltonianType.XY)]
+    [InlineData(3, HamiltonianType.Heisenberg)]
+    public void FixedCounts_AreInvariantUnderCommonEnergyRescaling(
+        int n,
+        HamiltonianType hamiltonianType)
+    {
+        var reference = Build(n, gamma: 0.1, coupling: 1.0, hamiltonianType);
+        var rescaled = Build(n, gamma: 1e-11, coupling: 1e-10, hamiltonianType);
+
+        Assert.Equal(reference.CompositeFixedLineCount, rescaled.CompositeFixedLineCount);
+        Assert.Equal(reference.LinearF1FixedPointCount, rescaled.LinearF1FixedPointCount);
     }
 
     [Fact]

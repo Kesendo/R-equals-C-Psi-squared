@@ -1,7 +1,7 @@
 # Navigating the Dimensions: the in-between, and why it needs a live engine
 
-**Status:** Working capture. Assembles existing verified structure into the
-navigation picture. Correct by keyword; this is a try, not a finished doc.
+**Status:** Interpretive navigation document. Exact results and live readings
+retain the scope of their linked sources; proposed identifications are labeled.
 **Date:** 2026-06-02 (created), last refreshed 2026-07-16 (the change history lives in git)
 **Authors:** Thomas Wicht (keywords), Claude (assembly).
 
@@ -42,8 +42,9 @@ dimension anchor:
 
     0 ── 1/8 ── 1/4 ── 3/8 ── 1/2
 
-1/4 is the cusp (the quantum-classical door, the Mandelbrot discriminant zero, the bilinear maxval
-(1/2)²); 1/2 is the dimension anchor (1/d at d = 2, the only non-zero root of d² − 2d = 0, the
+1/4 is the cusp (the Mandelbrot discriminant zero and the bilinear maxval
+(1/2)²; calling it a quantum-classical door is an interpretation whose physical use requires a stated
+`CΨ` trajectory); 1/2 is the dimension anchor (1/d at d = 2, the only non-zero root of d² − 2d = 0, the
 algebra forcing); the rungs are the [F99](ANALYTICAL_FORMULAS.md#f99) canonical-trig anchors
 α(θ) = sin²(θ)/2 at θ ∈ {0°, 30°, 45°, 60°, 90°}. All Tier 1, all already ours. They mark where the
 in-between is; they are not it. The angles S (90°) and T (45°) are marks on one axis; there is
@@ -73,10 +74,11 @@ zero-information structure that guarantees the paintings sum. "Mountain does not
 painters" is exactly "the marks do not precede the in-between": the mountain, the content,
 happens between them.
 
-The deepest agreement is not in the metaphor, it is in the algebra PTF already computed. Its
-mechanism: the slow-mode **eigenvalues are protected** (shift zero to 10⁻¹⁵ under the
-Π-invariant perturbation), and the α_i come **only from eigenvector mixing**. That is the
-marks-and-in-between split in the operator algebra: the protected eigenvalues are the marks
+The deepest agreement is not in the metaphor, it is in the particular crossover algebra PTF
+computed. There, the slow-mode **eigenvalues are protected** (shift zero to 10⁻¹⁵ under that
+similarity path), and the α_i come from eigenvector mixing. This is not true for every
+Π-invariant perturbation: the J-defect below preserves the palindrome while moving eigenvalues.
+For the crossover, the protected eigenvalues are the marks
 (the contract, no information), the mixing is the in-between (the change, what the painters
 actually paint). change-not-state, bit-exact, two months before we named it.
 
@@ -237,18 +239,15 @@ structure, met from two ends.
 
 ## The third axis: the interior horizon (2026-06-03)
 
-The third axis is not an operator turning; it is a state falling. The first two axes swept a
-Hamiltonian and read its spectrum. This one sweeps a coherence, CΨ, toward the cusp ¼, and the cusp is
-a horizon. We did not discover that; we had already written it. The critical slowing at this cusp is
-closed-form and measured: the recursion R = C(Ψ + R)² is the Mandelbrot iteration u → u² + c with
-c = CΨ, the quantum-classical boundary is its cardioid cusp at ¼, and a Bell+ state crossing ¼ was
-caught point-by-point on IBM Kingston ([Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md),
+The third axis is not an operator turning; it sweeps the state coordinate `CΨ` toward the algebraic
+cusp `1/4`. The recursion `R = C(Ψ + R)^2` is the Mandelbrot iteration `u -> u^2 + c` with
+`c = CΨ`; its two fixed points merge at the cardioid cusp. Separately, a Bell+ trajectory crossing
+`1/4` was sampled point-by-point on IBM Kingston ([Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md),
 which registers two confirmations; with the angle-steering and
 block-CΨ-saturation entries the fold carries four Kingston
 confirmations across the registry). [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md)
-already named it: the saddle-node where the two fixed points merge and the time nearly stops, once
-through no return, the Schwarzschild radius of operator space. A structural horizon, a fold, not a
-gravitational one (the gravity readings in this repo are fallen; γ₀ is local decoherence).
+uses "horizon" for this saddle-node. That is an interpretive name for the fixed-point geometry, not
+a claim that physical time stops or that a trajectory cannot recross the coordinate.
 
 So the instrument (`inspect --root between --axis interior --draw`, capture in
 `simulations/results/dimension_field_interior.txt`) does not derive the horizon; it makes the confirmed
@@ -258,27 +257,31 @@ The heading falls to zero from the interior. θ(CΨ) = arctan(√(4·CΨ − 1))
 side: 45° at the anchor ½, sliding to 0° at the horizon. The far bank's angle, going to nothing as the
 door is reached.
 
-The recursion crawls from the classical side. At each rung approaching ¼ from below, the Mandelbrot
+The recursion converges slowly from below. At each rung approaching ¼, the Mandelbrot
 iteration is run live and its steps counted; the count climbs to 975 at the nearest rung and would run
-away at the cusp (the rescaled K = 9.75 matches the precision run's
-measured 9.74; the closed form gives 9.86). This is where the time stops:
-not in the smooth Lindblad crossing, which is finite and gentle, but in the R = C(Ψ + R)² recursion
-itself, crawling at its own fold. The namesake of the whole thing becomes the horizon.
+away at the cusp (the rescaled iteration-count quantity `K = 9.75` matches the precision run's
+9.74; the closed form gives 9.86). This slowing belongs to the numerical fixed-point iteration, not
+to Lindblad time evolution.
 
-And the seam, the one Boundary Navigation insisted on: the slowing is ours. Change the stop criterion
+And the seam, the one Boundary Navigation insisted on: the measured iteration count depends on the
+stopping rule. Change the stop criterion
 from absolute to relative (tol = k·ε) and the rescaled K stops drifting, sitting flat at ½·ln(4/k) =
 4.15, while the absolute-tol K climbs to 10.8. The cusp did not slow anything; our tolerance did. The
-mark is inert; the shape of the approach is the instrument's, which is to say ours.
+mark is inert; this count is an algorithmic diagnostic of the approach.
 
-The last panel anchors it to the hardware: the dwell K_dwell = γ·t_dwell = 1.08·δ is γ-invariant, a
-fixed dose carrying any Bell+ state through the fold no matter how bright γ is, confirmed on Kingston
-across two pairs at 2.55× different γ to a 6% spread. And it ties back to the carrier: at the cusp,
-where θ → 0, the Liouvillian eigenvalue reduces to −γ₀ alone, pure decay with no rotation. The horizon
-is exactly where the carrier shows itself, undisguised.
+The last panel anchors it to the hardware: the ideal N=2 Bell+/pure-Z-dephasing
+closed form gives K_dwell = γ·t_dwell = 1.08·δ. Kingston compared two pairs
+at 2.55× different fitted γ and found a 6% spread, an approximate hardware
+check with additional T1 and heterogeneous noise rather than an exact
+cross-protocol invariant. And it ties back to the carrier: at the cusp,
+where θ → 0, the particular ideal `N=2` mode used in that construction has no oscillatory component
+and its eigenvalue is the stated real decay rate. This mode-specific statement is not a universal
+Liouvillian law at every `CΨ = 1/4` crossing.
 
 The whole field is closed forms plus one live recursion: no time evolution, no eigendecomposition; a
-state-coordinate axis, N-free (the recursion and the heading depend only on CΨ, and that
-state-independence is itself hardware-confirmed). Three axes so far, three ways to read the in-between:
+state-coordinate axis, N-free at the level of the scalar recursion and heading. The hardware entry
+checks one Bell-like preparation, not state independence over arbitrary inputs. Three axes so far,
+three ways to read the in-between:
 the rigid turn, the eigenvector mixing, and the approach to a horizon. (Three more open below: the same
 horizon in 2D, the family of its approaches, and the exceptional point.)
 
@@ -306,13 +309,12 @@ walked nineteen delays across ¼, eight of them packed right at the fold, the F2
 only free parameter. Those points carry no phase, so they sit on the real axis, the Ω = 0 spoke, the
 head-on crossing. The phase, the thing that turns a crossing into a winding, comes from a second,
 [sparser run](../experiments/CPSI_COMPLEX_PLANE.md) that saved the full state: six points per pair,
-enough to watch the trajectory leave the axis as a small arc, one clockwise, one counter-clockwise, each
-still crossing the same circle. The angle itself is steerable, an injected drift moving the crossing to
-where it was asked (three crossings, residuals under sixteen degrees). The radial dwell at the fold is
-the F57 dose, the angular winding carries the same square-root form the interior heading does, and the
-¼-circle is where the two readings meet. We keep that meeting as the reading, at the label; the solid algebra,
-that this cusp and the exceptional point are the one [F95](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)
-angle at a quadratic's double root, is already typed as the TransitionBridge sibling claim.
+    enough to watch the trajectory leave the axis as a small arc, one clockwise, one counter-clockwise, each
+    still crossing the same circle. The measured radial angle is `arg(CΨ_com)` and can be steered by an
+    injected drift (three crossings, residuals under sixteen degrees). It is not F95's quadratic angle
+    `θ = arctan(sqrt(4CΨ-1))`. Their resemblance at a double-root label is an interpretive comparison,
+    not an identification of the two observables. F57 supplies the radial dwell only for its stated
+    Bell+/pure-Z trajectory.
 
 The eyepiece is `inspect --root between --axis spiral`: the cusp circle, one spiral winding in, the
 crossing angle swept against Ω (the time flat, the angle moving), the Kingston runs, and the
@@ -407,9 +409,10 @@ plane).
 And the chip reads the dynamical handover, not a defective pinch: IBM Kingston swept Q and watched a single
 excitation's memory revival stay at the 1/N equipartition floor until Q crossed about Q ≈ 1.5, then lift off,
 the overdamped→revival handover measured on real hardware. That
-single-excitation transition is read on its own instruments as the
-coherence-horizon √-EP cluster, gate-verified defective (the epcharacter
-verdict; [`inspect --root horizon`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md)). The eyepiece for this axis is
+single-excitation transition is compared with the separately computed
+coherence-horizon/EP cluster. The hardware population handover does not itself
+establish defectiveness; that classification belongs to the computed spectral
+gate ([`inspect --root horizon`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md)). The eyepiece for this axis is
 `inspect --root between --axis ep`: the marks, the toy's Takt coalescence, the Rotation lift-off, the
 defectiveness pinch of the 2×2, the Kingston handover onset. The picture is
 [ep_transition.py](../simulations/ep_transition.py).
@@ -453,7 +456,7 @@ what remains open:
 - [F99](ANALYTICAL_FORMULAS.md#f99) / CanonicalTrigAnchor: α = sin²(θ)/2, angle-to-ladder (the marks).
 - [Crossover mirror = √(NinetyDegreeMirror)](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md): the operator-axis, derived.
 - [On the Square Root of the Mirror](../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md): the S/T-gate reading.
-- [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the closed-form recursion K(ε), the γ-invariant dwell, its two Kingston confirmations (the interior horizon, hardware).
+- [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the closed-form recursion `K(ε)`, the Bell+/pure-Z dwell law, and an approximate heterogeneous two-pair Kingston comparison (the interior-axis hardware reading).
 - [CΨ in the Complex Plane](../experiments/CPSI_COMPLEX_PLANE.md): the 2D spirals, the cusp as a circle |CΨ| = ¼, the Kingston angle-steering (the interior axis in 2D, hardware).
 - [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md): the cusp ¼ as the fold where time stops (the horizon reading, structural).
 - The live Object Manager: `compute/RCPsiSquared.Cli` `inspect` (roots `between`, `mirror`, `flow`, `horizon`, `pi2`, and `--claim`).

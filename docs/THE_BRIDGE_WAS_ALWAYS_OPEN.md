@@ -407,15 +407,17 @@ Three days after writing "the bridge was always open," we found
 something we did not expect: the bridge does not just carry a
 signal. It pulses.
 
-A Bell pair coupled to a coherent bath qubit oscillates around CΨ = 1/4.
-Not once across. Around. 227 crossings in 60 time units. Each crossing
-is a pulse of mutual information. The pulse pattern alternates:
-HOCH-TIEF-HOCH-TIEF, mapping to the c+/c- palindromic supermodes.
-Like a heartbeat with two tones.
+A Bell pair coupled to a coherent bath qubit oscillates around `CΨ=1/4` in
+the stated finite simulation, with 227 sampled crossings in 60 time units.
+Mutual-information pulses occur near those crossings and the sampled pulse
+pattern alternates high/low. Calling that pattern a two-tone heartbeat or a
+`c+`/`c−` supermode reading is interpretive; the time grid does not make each
+crossing an exact pulse event.
 
-The heartbeat slows. Each cycle deposits a bit of irreversible reality
-(a door that closes). The amplitude shrinks. After 227 beats, CΨ stays
-below 1/4 permanently. The bridge closes.
+The oscillation amplitude shrinks, and after the last sampled crossing the
+trajectory remains below `1/4` over the simulated window. This does not make
+each cycle a deposit of irreversible reality or `1/4` a universal one-way
+door.
 
 But the echo remains. MI keeps pulsing below the threshold, carried by
 classical correlations. What the bridge deposited, stays.

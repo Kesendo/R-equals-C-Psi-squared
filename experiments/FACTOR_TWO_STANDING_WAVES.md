@@ -62,11 +62,20 @@ vectors inside a degenerate eigenspace.
 
 ## Finite pair census
 
-The producer numerically enumerates 21,840 eigenvalues for `N=2,...,7` at
-primary matching tolerance `1e-8`. Repeating the complete census at `1e-6`,
-`1e-8`, and `1e-10` gives the same multiplicities; these are tolerance-stable
-eigensolver counts, not exact-arithmetic multiplicities. There are two
-different complete orbit censuses, because there are two different involutions.
+The producer consumes the committed
+`simulations/results/rmt_eigenvalues_N{2..7}.csv` spectra: 21,840 eigenvalues
+for `N=2,...,7`. Each CSV contains only the columns `Re` and `Im`; it does not
+embed a backend, source revision, invocation, or timestamp. The matching
+regeneration route in the current C# source is
+`dotnet run -c Release --project compute/RCPsiSquared.Compute -- rmt chain`,
+whose source constants are chain topology, `J=1.0`, and uniform `gamma=0.05`.
+That current-source route is reproducibility metadata, not metadata recovered
+from inside the historical CSV artifacts.
+
+At primary matching tolerance `1e-8`, repeating the complete census at
+`1e-6`, `1e-8`, and `1e-10` gives the same multiplicities; these are
+tolerance-stable eigensolver counts, not exact-arithmetic multiplicities. There
+are two different complete orbit censuses, because there are two different involutions.
 For the **linear F1 map** `lambda -> -lambda-2 Sigma_gamma`:
 
 | N | Total | Unordered two-member F1 orbits | F1-fixed multiplicity at `lambda=-Sigma_gamma` | Accounted for |
@@ -144,4 +153,8 @@ optional optical reading, not an additional dynamical theorem.
 
 - Script: [`simulations/factor_two_standing_waves.py`](../simulations/factor_two_standing_waves.py)
 - Output: [`simulations/results/factor_two_standing_waves.txt`](../simulations/results/factor_two_standing_waves.txt)
+- Inputs: committed `simulations/results/rmt_eigenvalues_N{2..7}.csv` files
+  (tab-separated `Re`, `Im` only; no embedded run metadata)
+- Current regeneration command: `dotnet run -c Release --project
+  compute/RCPsiSquared.Compute -- rmt chain` (`J=1.0`, uniform `gamma=0.05`)
 - Algebraic source: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)

@@ -69,8 +69,45 @@ def states():
     }
 
 
-def trace_rows(times=np.linspace(0, 10, 101)):
-    generator = liouvillian()
+def direct_trace_gate(generator=None):
+    """Return fixed N=3 anchors, raising if the direct dynamics are corrupted.
+
+    The signed W/IYY derivative makes this gate sensitive to a zero generator
+    and to a reversed dissipative direction.  The trace derivative separately
+    pins trace preservation on the same moving state and generator path.
+    """
+    if generator is None:
+        generator = liouvillian()
+    psi = states()["W"]
+    rho0_matrix = np.outer(psi, psi.conj())
+    rho0 = rho0_matrix.reshape(-1)
+    derivative = (generator @ rho0).reshape(2**N, 2**N)
+    observable = operator("IYY")
+    anchors = {
+        "w_iyy_t0": float(np.trace(observable @ rho0_matrix).real),
+        "w_iyy_dt0": float(np.trace(observable @ derivative).real),
+        "w_state_dt0_norm": float(np.linalg.norm(derivative)),
+        "trace_dt0": float(abs(np.trace(derivative))),
+    }
+    scale = max(1.0, float(np.linalg.norm(generator)))
+    tolerance = 256 * np.finfo(float).eps * scale
+    failures = []
+    if abs(anchors["w_iyy_t0"] - 2.0 / 3.0) > tolerance:
+        failures.append("W/IYY t=0 anchor")
+    if abs(anchors["w_iyy_dt0"] - (-2.0 / 15.0)) > tolerance:
+        failures.append("W/IYY signed derivative")
+    if anchors["w_state_dt0_norm"] <= 0.1:
+        failures.append("moving-state derivative norm")
+    if anchors["trace_dt0"] > tolerance:
+        failures.append("trace derivative")
+    if failures:
+        raise RuntimeError("direct Pauli trace gate failed: " + ", ".join(failures))
+    return anchors
+
+
+def trace_rows(times=np.linspace(0, 10, 101), generator=None):
+    if generator is None:
+        generator = liouvillian()
     observables = ("ZZZ", "IYY", "XXZ", "ZXX", "YYI", "XZX", "YIY")
     propagators = [expm(generator * time) for time in times]
     rows = []
@@ -87,15 +124,23 @@ def trace_rows(times=np.linspace(0, 10, 101)):
 
 
 def main():
+    generator = liouvillian()
+    anchors = direct_trace_gate(generator)
     lines = [
         "N=3 DIRECT PAULI-OBSERVABLE TIME TRACES",
         f"Heisenberg chain, J={J}, gamma={GAMMA}, t=0..10 (101 samples)",
         "Direct expectations are basis-independent; no eigenmode state-weight percentage is reported.",
         "Amplitude is half the sampled max-min range, not a standing-wave certificate.",
+        (
+            "Dynamic gate: W/IYY t0="
+            f"{anchors['w_iyy_t0']:.6f}, dt0={anchors['w_iyy_dt0']:.6f}; "
+            f"||drho/dt||={anchors['w_state_dt0_norm']:.6f}, "
+            f"|Tr drho/dt|={anchors['trace_dt0']:.2e}."
+        ),
         "",
         f"{'state':<9} {'Pauli':<5} {'t0':>11} {'min':>11} {'max':>11} {'half-range':>11}",
     ]
-    for row in trace_rows():
+    for row in trace_rows(generator=generator):
         lines.append(f"{row[0]:<9} {row[1]:<5} {row[2]:11.6f} {row[3]:11.6f} {row[4]:11.6f} {row[5]:11.6f}")
     lines += ["", "Scope: observable traces only; spatial counter-propagation and mode-pair phase relations were not tested."]
     output = "\n".join(lines) + "\n"

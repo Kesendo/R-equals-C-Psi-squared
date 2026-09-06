@@ -7,6 +7,11 @@ Their fixed sets differ: the former fixes only ``lambda=-Sigma``; the latter
 fixes the full centre line ``Re(lambda)=-Sigma``.
 
 Output: simulations/results/factor_two_standing_waves.txt
+
+The N=2..7 census consumes committed CSV spectra.  Those artifacts contain
+only ``Re``/``Im`` columns, so generator parameters and the regeneration
+command are reported from the current C# source rather than inferred as
+embedded CSV metadata.
 """
 
 from dataclasses import dataclass
@@ -154,6 +159,11 @@ def main():
     log("conjugate-composite:  lambda -> -conj(lambda) - 2*Sigma")
     log("All assignments consume spectral occurrences with multiplicity.")
     log(f"Primary numerical tolerance TOL={TOL:.0e} (not exact arithmetic).")
+    log("Committed CSV inputs: simulations/results/rmt_eigenvalues_N{2..7}.csv")
+    log("CSV metadata: columns Re, Im only.")
+    log("Current regeneration route: dotnet run -c Release --project compute/RCPsiSquared.Compute -- rmt chain")
+    log("Current generator parameters in current source: chain, J=1.0, uniform gamma=0.05.")
+    log("Provenance limit: the CSV artifacts do not encode backend, source revision, command, or timestamp.")
     log()
     linear_total_pairs = linear_total_fixed = 0
     composite_total_pairs = composite_total_fixed = 0

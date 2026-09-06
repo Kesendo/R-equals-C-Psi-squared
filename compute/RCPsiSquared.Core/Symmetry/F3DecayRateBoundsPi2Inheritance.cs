@@ -83,18 +83,26 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     /// Pi2DyadicLadder a_0; transitively from F50's DecayRateFactor.</summary>
     public double RateCoefficient => Ladder.Term(0);
 
-    /// <summary>F3's min decay rate: 2·γ for pure-sector w=1 modes.
-    /// Identical to F50's universal weight-1 eigenvalue position |Re(λ)|.</summary>
+    /// <summary>The N-independent F50 building block used by F3: the pure-sector w=1
+    /// decay rate 2·γ. This overload does not assert that a chain lies in F3's N ≥ 2 scope;
+    /// use <see cref="MinRate(int,double)"/> for a scope-validating F3 reading.</summary>
     public double MinRate(double gammaZero)
     {
         ValidateGamma(gammaZero);
         return Finite(RateCoefficient * gammaZero);
     }
 
+    /// <summary>F3's scope-validating minimum decay rate: 2·γ for N ≥ 2.</summary>
+    public double MinRate(int N, double gammaZero)
+    {
+        ValidateN(N);
+        return MinRate(gammaZero);
+    }
+
     /// <summary>F3's max decay rate: 2·(N−1)·γ for fastest paired w=N−1 modes.</summary>
     public double MaxRate(int N, double gammaZero)
     {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 2.");
+        ValidateN(N);
         ValidateGamma(gammaZero);
         return Finite(RateCoefficient * (N - 1) * gammaZero);
     }
@@ -102,7 +110,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     /// <summary>F3's bandwidth: max − min = 2·(N−2)·γ.</summary>
     public double Bandwidth(int N, double gammaZero)
     {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 2.");
+        ValidateN(N);
         ValidateGamma(gammaZero);
         return Finite(RateCoefficient * (N - 2) * gammaZero);
     }
@@ -112,7 +120,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
     /// F43's XorSectorRate at the same N, γ.</summary>
     public double XorBoundary(int N, double gammaZero)
     {
-        if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 2.");
+        ValidateN(N);
         ValidateGamma(gammaZero);
         return Finite(RateCoefficient * N * gammaZero);
     }
@@ -124,15 +132,29 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
                 "F3's rate formulas require finite γ₀ > 0; γ₀ = 0 collapses the normalized rate regime.");
     }
 
+    private static void ValidateN(int N)
+    {
+        if (N < 2)
+            throw new ArgumentOutOfRangeException(nameof(N), N, "F3 requires N ≥ 2.");
+    }
+
     private static double Finite(double value) => double.IsFinite(value)
         ? value
         : throw new OverflowException("The F3 rate reading is not representable as a finite double.");
 
-    /// <summary>Drift check: F3's MinRate IS F50's universal weight-1 eigenvalue
-    /// position (= |EigenvaluePosition(γ)|).</summary>
+    /// <summary>N-independent component drift check: the 2γ building block used by F3 IS
+    /// F50's universal weight-1 eigenvalue position. Use
+    /// <see cref="MinRateMatchesF50(int,double)"/> to validate F3's N ≥ 2 scope too.</summary>
     public bool MinRateMatchesF50(double gammaZero)
     {
         return Math.Abs(MinRate(gammaZero) - Math.Abs(F50.EigenvaluePosition(gammaZero))) < 1e-12;
+    }
+
+    /// <summary>Scope-validating F3 drift check against F50 for N ≥ 2.</summary>
+    public bool MinRateMatchesF50(int N, double gammaZero)
+    {
+        ValidateN(N);
+        return MinRateMatchesF50(gammaZero);
     }
 
     /// <summary>Drift check: bandwidth = max − min.</summary>
@@ -195,7 +217,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("hybrid-mode caveat",
                 summary: "below Q*_gap(N) (0.50/0.80/1.34/1.82 at N=2..5, Pauli-J) Hamiltonian mixing creates hybrid modes with rates below 2γ (at Q=1.0: N=4: 0.98γ, N=5: 0.62γ); these are not exceptions; they have fractional ⟨n_XY⟩ < 1; α = 2γ·⟨n_XY⟩ holds exactly");
             yield return new InspectableNode("verified at N=5, γ=0.05",
-                summary: $"min = {MinRate(0.05):G6}, max = {MaxRate(5, 0.05):G6}, bandwidth = {Bandwidth(5, 0.05):G6}, XOR = {XorBoundary(5, 0.05):G6}");
+                summary: $"min = {MinRate(5, 0.05):G6}, max = {MaxRate(5, 0.05):G6}, bandwidth = {Bandwidth(5, 0.05):G6}, XOR = {XorBoundary(5, 0.05):G6}");
             yield return new InspectableNode("Absorption Theorem ladder",
                 summary: "the spectrum is a 2γ-rung ladder: ⟨n_XY⟩ ∈ {1, 2, ..., N−1, N} gives rates {2γ, 4γ, ..., 2(N−1)γ, 2Nγ}; Hamiltonian smooths the ladder via fractional ⟨n_XY⟩ but cannot move the spectral extremes (the kernel at 0 and the XOR drain at 2Nγ); the band edges 2γ/2(N−1)γ hold above Q*_gap(N)");
         }

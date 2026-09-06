@@ -819,15 +819,14 @@ part F3 (concurrence book, bisected) and part F (the τ collapse itself, read on
 purity: 6.7·10⁻¹⁶ for Bell⁺ against 4.6·10⁻² for |01⟩ at fixed J).
 
 **Interpretation:** In the [optical cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md),
-γ plays the role of external illumination and t is the system's experienced
-duration. K = γ × t is the invariant decoherence dose: more light means
-shorter experience, less light means longer, the product unchanged.
-Structural parallel to c × τ in relativity (observation, not identification).
+γ is read as external illumination and `K=γt` as exposure. The invariance in
+this entry belongs to the Hamiltonian-blind Bell+ sector described above; it
+is not a general trade between illumination and "experienced duration."
 
-**Connection to Absorption Theorem:** γ is the absorption quantum rate
-(2γ per X/Y Pauli factor). K = γ × t is the total absorbed dose. The
-invariance of K means the total dose is state-dependent but
-parameter-independent. See [K-Dosimetry](../experiments/K_DOSIMETRY.md).
+**Connection to Absorption Theorem:** the dissipator charges `2γ` per X/Y
+factor. Multiplying by time makes `K=γt` dimensionless, but the theorem does
+not make it a universal total dose or parameter-independent crossing value.
+See [K-Dosimetry](../experiments/K_DOSIMETRY.md).
 
 **Valid for:** a state whose sector is blind to the Hamiltonian (Bell⁺ under
 Heisenberg + Z-dephasing is the measured case); any bridge metric. **Not** any
@@ -1134,13 +1133,16 @@ which the source document defines in the same section).
 
 ### F30. Gamma-as-signal channel capacity (Tier 2, SVD + Shannon)
 
-    Capacity = 15.5 bits    (at 1% measurement noise, sigma = 0.01)
-    Independent channels: 5  (full rank, condition number 14.8)
+    Local linearized Gaussian-model diagnostic = 15.5 bits
+        (one N=5 operating point, assumed feature noise sigma = 0.01)
+    Jacobian modes: 5  (locally full rank, condition number 14.8)
 
-Spatial dephasing profile is a readable information channel.
-100% classification accuracy with 4-symbol alphabet (2 bits
-empirical). GHZ is completely blind (d_min = 0); |+>^N is the
-optimal receiver (phased array, not omnidirectional).
+The four-profile alphabet is classified with 100% accuracy in the noiseless
+synthetic sample (2 empirical bits). The 15.5-bit number is conditional on
+linearization, feature selection, power constraint, and Gaussian noise; it is
+not a demonstrated global capacity or arbitrary-profile recovery. GHZ is
+blind to that alphabet (`d_min = 0`); `|+>^N` is the best tested receiver in
+the stated comparison, not a global optimum.
 
 **Valid for:** N=5 Heisenberg chain, Z-dephasing, |+>^5 initial.
 **Replaces:** assumption that dephasing is unstructured noise;
@@ -1748,14 +1750,22 @@ For Bell+ Z-dephasing (using F25 derivative):
     t_dwell = 1.080088 * delta / gamma    (Bell+ specific)
     K_dwell = gamma * t_dwell = 1.080088 * delta    (gamma-independent)
 
-The prefactor 1.080088 = 2/1.851701 is state-specific (depends on
-f_cross and |dCΨ/dt| at the crossing). K_dwell is independent of γ
-to machine precision (std < 2 × 10^-17 across γ = 0.1 to 10.0).
+The prefactor 1.080088 = 2/1.851701 is specific to the Bell+/pure-Z
+trajectory. Within that scale-covariant closed form, `K_dwell` is independent
+of γ to machine precision (std < 2 × 10^-17 across γ = 0.1 to 10.0).
 
-**Valid for:** any state with a CΨ = 1/4 crossing under Z-dephasing.
-Prefactor is state-specific; γ-invariance of K_dwell is universal.
+**Valid for:** the stated Bell+ trajectory under pure Z-dephasing. For a more
+general state, Hamiltonian, or channel, the first formula defines a local
+dwell estimate once the actual crossing derivative is known; no universal
+`γ`-invariance follows.
 **Replaces:** trajectory integration for dwell-time estimation.
-**Hardware verified:** ibm_kingston (Heron r2), 2026-04-16. Two Bell+ pairs with 2.55x gamma ratio (qubits 124-125, T2=\[150,310\] us; qubits 14-15, T2=\[537,381\] us). K_dwell/delta = 0.649 (pair A) and 0.694 (pair B), spread 6.3% despite 2.55x gamma difference. Gamma-invariance of K_dwell confirmed on open quantum hardware. Absolute prefactor 0.67 vs theoretical 1.08 (difference from T1 amplitude damping; the F57 formula assumes pure Z-dephasing, Kingston has T1 comparable to T2). Both CΨ(t) trajectories cross 1/4 monotonically. First two-qubit observation of the CΨ = 1/4 boundary crossing on a quantum computer; the single-qubit case was validated separately on ibm_torino Q80 at 1.9% deviation (F24, IBM Run 3).
+**Hardware comparison:** ibm_kingston (Heron r2), 2026-04-16. Two Bell+
+pairs with a 2.55x fitted-gamma ratio give `K_dwell/delta=0.649` and `0.694`
+(6.4% spread) and an absolute prefactor about 0.67 rather than the ideal
+pure-Z value 1.08. Because pair identity, T1 and other device properties vary
+with gamma, this is an approximate finite comparison, not verification of
+universal gamma-invariance or isolation of the discrepancy's cause. Both
+reconstructed trajectories cross `CΨ=1/4` monotonically in the sampled runs.
 **Data:** [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md) (full JSON, PNG, and reanalysis scripts).
 **Related:** [CΨ in the Complex Plane](../experiments/CPSI_COMPLEX_PLANE.md) (the saved density matrices additionally reveal a 2D-spiral structure in the complex c-plane, extending the 1D real-axis picture of BOUNDARY_NAVIGATION).
 **Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) (Section 6)
@@ -3512,7 +3522,14 @@ arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
 
 **Polarity-fold reading:** in shifted-and-scaled coordinates u = z − 1/2 (centered at the b = 1/2 fixed point), the polynomial reads u² + (c − 1/4) = 0. At c = 0 (unperturbed) the roots are u = ±1/2, the framework's structural polarity pair around 0 (inherited from `PolarityLayerOriginClaim` via the 0.5-shift). The squaring map u → u² sends both polarity sides to the same value 1/4, the apex; this is the "middle viewed from two sides" reading of the b² = 1/4 threshold: arithmetic midpoint of ±1/2 is 0 (on the polarity axis), but the quadratic projection middle is 1/4 (on the perpendicular axis). As c crosses 1/4 from below, the polarity contracts to 0 at the cusp and lifts onto the imaginary axis past it. See [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) for the full geometric picture (parabola, fold, three loci on one quadratic).
 
-**Lindblad specialization (γ₀ as the tick):** the 2×2 Liouvillian sub-block for a Z-dephased two-level system with Hamiltonian coupling J has characteristic polynomial λ² + 2γ₀·λ + (γ₀² + J²) = 0, which is F95's parent equation with b = −γ₀, c = γ₀² + J². F95 then gives θ = arctan(J/γ₀) = arctan(Q). The angle of the Liouvillian eigenvalue equals the arctan of the Q invariant. At θ = 0 the eigenvalue is literally −γ₀ (pure decay, no rotation); Q = tan θ is the rotation per γ₀-tick. The active-steering Hardware Confirmation `f95_angle_steering_kingston_may2026` (Heron r2 2026-05-16) demonstrates operational control of tan θ via per-chunk RZ injection at rate Ω. See [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).
+**Lindblad specialization (γ₀ as a scale):** the stated 2×2 Liouvillian
+sub-block has characteristic polynomial `λ²+2γ₀λ+(γ₀²+J²)=0`, which is
+F95's parent equation with `b=−γ₀`, `c=γ₀²+J²`. For this block, the eigenvalue
+angle obeys `θ=arctan(J/γ₀)=arctan(Q)` and `θ=0` gives `λ=−γ₀`. This is a
+sub-block identity, not an experienced-time law. The Kingston confirmation
+`f95_angle_steering_kingston_may2026` measured and steered `arg(CΨ_com)` via
+RZ injection; it did **not** measure this quadratic eigenvalue angle θ. The
+two angles must remain distinct.
 
 **Born-rule connection:** standard QM's complex amplitudes α = r·e^{iθ}, β = ... are not postulated. They are forced by the same polynomial-foundation algebra: any state that has crossed the d=0 mirror needs a second coordinate beyond magnitude, and that coordinate is the F95 angle. The Born rule's |α|² is the geometric length squared of the angle-vector's basis-projection.
 
@@ -5140,10 +5157,11 @@ with N (66.7%, 66.7%, 51.9% for N = 1, 2, 3); d = 4 gives 50%, 50%, 31.2%. The t
 d − 1 is exactly the per-site decaying : immune ratio (d² − d) : d, raised to the number of
 disagreeing sites.
 
-**The interacting spectrum (H degrades it):** the ceiling is the *dissipator's* palindrome
-about the physical center −Nγ. Adding H reduces the pairing at **every** fixed center (54 → 48
-about −Nγ = −2γ; 72 → 60 about −3γ, where the two large rungs sit); the palindrome is fragile
-under H. For the symmetric SU(3) Heisenberg the real parts lie exactly on Re(λ) = −2γ⟨Q⟩ (the
+**The sampled interacting spectrum:** the ceiling is the *dissipator's* palindrome
+about the physical center −Nγ. In the reported symmetric SU(3) Heisenberg case, adding H changes
+the counts from 54 to 48 about −Nγ = −2γ and from 72 to 60 about −3γ, where the two large rungs sit.
+This is not a theorem of strict reduction for every Hermitian H (`H=cI` leaves the generator
+unchanged). For the symmetric SU(3) Heisenberg the real parts lie exactly on Re(λ) = −2γ⟨Q⟩ (the
 Absorption Theorem's Rayleigh reading), with ⟨Q⟩ quantized to {0, 1, 1.5, 2}: the new −3γ rung
 is ⟨Q⟩ = 1.5, a Hamming-1/Hamming-2 mix. This exactness is a symmetry effect (a generic H
 breaks it). The interacting paired count is H-dependent (60 for SU(3) Heisenberg, robust across

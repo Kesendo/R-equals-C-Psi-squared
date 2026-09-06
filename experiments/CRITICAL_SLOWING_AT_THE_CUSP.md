@@ -22,11 +22,20 @@ anchors April 16 + April 26, Kingston)
 
 When a dynamical system approaches a bifurcation point, where its mathematical landscape is about to change shape, it gets slow. Not tired, slow: each step produces less progress than the one before it, and the closer the system gets to the boundary, the worse it becomes. This is called critical slowing, and it is one of the classical fingerprints of a phase transition.
 
-In this project, the bifurcation point is the CΨ = 1/4 boundary, where the quantum regime gives way to the classical one. The self-referential recursion that defines the R = CΨ² framework turns out to be algebraically identical to the Mandelbrot iteration z → z² + c, with the quantum-classical boundary sitting exactly at the cusp of the cardioid. So the critical slowing of the Mandelbrot iteration near the cusp is the same phenomenon as the slowing of the quantum state as it approaches the fold.
+In this project, `CΨ=1/4` is the discriminant-zero point of the fixed-point
+quadratic. The associated numerical recursion is algebraically the Mandelbrot
+iteration and converges slowly near its cardioid cusp. That algorithmic,
+tolerance-dependent iteration count is not physical slowing of a quantum
+state and does not make `1/4` a universal quantum-to-classical transition.
 
 For months this slowing was known numerically: you could measure it, plot it, and see it behaving like a square-root law. What was missing was a closed-form expression: a formula that says, given how close you are to the boundary and how precise your numerical tolerance is, exactly how many iterations you need, with no fitting and no free parameters. This document closes that gap. Every coefficient in the formula is derived analytically. The number of iterations is now a function you can write down, not a curve you measured.
 
-The second half of the document is a sister result for the continuous case. When a real quantum state under decoherence crosses CΨ = 1/4, how long does it stay near the boundary? The answer has the same structure as the discrete iteration count, and the time it takes scales in a way that depends only on how much external light (gamma) the system is receiving. When time is rescaled to the natural quantity K = gamma times t, the answer becomes exactly gamma-independent: a fixed dose of illumination carries any Bell+ state through the fold, regardless of how bright that illumination is.
+The second half treats one continuous case: the ideal N=2 Bell+ trajectory
+under pure Z-dephasing, whose closed form depends on `f=exp(-4γt)`. For that
+fixed state, Hamiltonian action and channel, the dwell interval in `K=γt`
+is exactly γ-independent. This does not make K a universal crossing dose:
+the coupled-Hamiltonian sweeps in K-Dosimetry change `J/γ` and show up to
+62% reciprocity failure at intermediate γ.
 
 ---
 
@@ -36,7 +45,7 @@ The Mandelbrot iteration u_{n+1} = u_n² + c with c = CΨ approaching 1/4 exhibi
 
     K(ε, tol) = n·√ε = (1/2)·ln(4ε/tol) + [-4 + (1/2)·ln(16·tol)] · √ε
 
-Every coefficient is derived analytically: the leading logarithm from saddle-node passage, the -4 from the starting-transient integral, and the tol-dependent correction from the Modified Equation treatment of the discrete-to-continuous transition. **Zero fit parameters.** Verified two ways: the ten-decade ε-scan (10⁻¹ to 10⁻¹⁰, Section 2) checks the leading-order form, and the Modified-Equation coefficient is validated in the tol-sweep (Section 4, six tol decades tested, the 10⁻⁶ outlier excluded leaves five, 0.5-2% agreement); under the complete formula the ε-scan residuals collapse to ≤ 0.04 for ε ≤ 10⁻², leaving only genuine continuum breakdown at ε = 10⁻¹ (see the note in Section 2.1). Additionally, the trajectory dwell time at the CΨ = 1/4 crossing obeys exact γ-invariance to machine precision: K_dwell = γ·t_dwell is constant across γ = 0.1 to 10.0 with std < 2×10⁻¹⁷.
+Every coefficient is derived analytically: the leading logarithm from saddle-node passage, the -4 from the starting-transient integral, and the tol-dependent correction from the Modified Equation treatment of the discrete-to-continuous transition. **Zero fit parameters.** Verified two ways: the ten-decade ε-scan (10⁻¹ to 10⁻¹⁰, Section 2) checks the leading-order form, and the Modified-Equation coefficient is validated in the tol-sweep (Section 4, six tol decades tested, the 10⁻⁶ outlier excluded leaves five, 0.5-2% agreement); under the complete formula the ε-scan residuals collapse to ≤ 0.04 for ε ≤ 10⁻², leaving only genuine continuum breakdown at ε = 10⁻¹ (see the note in Section 2.1). For the ideal Bell+/pure-Z trajectory, `K_dwell=γt_dwell` is constant across γ = 0.1 to 10.0 to machine precision; this is not a universal cross-protocol law.
 
 ---
 
@@ -335,11 +344,19 @@ In rescaled time K = γt:
 
     K_dwell = γ·t_dwell = 1.080088·δ
 
-This is **independent of γ**. Verified across γ = 0.1 to 10.0 with standard deviation < 2 × 10⁻¹⁷ (machine precision).
+For the ideal Bell+/pure-Z trajectory used here, this is **independent of γ**.
+The numerical scan from γ = 0.1 to 10.0 has standard deviation below
+`2×10^-17`.
 
-The dwell time in physical units scales as 1/γ (faster dephasing compresses the time window), but in K-units the dwell is a pure constant for any given initial state. This is the bridge to [K-dosimetry](K_DOSIMETRY.md): the Mandelbrot cusp is traversed in a fixed K-interval regardless of the dephasing rate. The prefactor is a property of the state (which determines f_cross and thus |dCΨ/dt| at the crossing), not of γ.
+The dwell time in physical units scales as `1/γ` in this Hamiltonian-blind
+trajectory. The fixed K-interval follows because its observables depend only
+on `γt`; changing γ at fixed active H generally changes `J/γ`, and
+[K-dosimetry](K_DOSIMETRY.md) shows that the cancellation then fails.
 
-*Later (2026-05-16):* the K = γ·t invariance is the operational signature of γ₀-as-Maßstab. The cusp is traversed in a fixed K-interval because K counts γ₀-ticks, not seconds. See [`reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md) for the γ₀-as-Maßstab reading (carrier invisible from inside but visible at the seams) and [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) for the tick interpretation that places every framework formula in units of integer × 1/γ₀. The cusp itself, where θ → 0 in the F95/Lindblad picture, is exactly the regime where the Liouvillian eigenvalue reduces to −γ₀ alone (pure decay, no rotation): the K-dwell extension at the cusp IS this reduction made operational.
+The later γ₀-as-Maßstab and "tick" readings are interpretations of this
+scale-covariant special case. They do not identify a universal experienced
+time, nor does `CΨ=1/4` by itself force an arbitrary Liouvillian eigenvalue to
+equal `−γ₀`.
 
 ### Numerical verification
 
@@ -361,13 +378,21 @@ The dwell time in physical units scales as 1/γ (faster dephasing compresses the
 | 10⁻³   | 1.0000         | <0.01%   |
 | 10⁻⁴   | 1.0000         | <0.01%   |
 
-The dwell time measures how long the system remains near the saddle-node bifurcation during decoherence. Three scaling regimes: δ (linearity, symmetric about the crossing to leading order), 1/γ (K-invariance, faster dephasing compresses the time window but the K-measure stays constant), and |dCΨ/dt|⁻¹ (the derivative at the crossing point fully determines the dwell behavior; higher-order corrections appear only at δ ≥ 10⁻²). This answers [Open Question #2](../docs/WEAKNESSES_OPEN_QUESTIONS.md) ("Crossing speed dependence"): d(CΨ)/dt at the crossing moment fully determines the post-crossing convergence timescale.
+For the ideal Bell+/pure-Z trajectory, the symmetric-window dwell estimate is
+linear in δ, scales as `1/γ`, and is set locally by
+`|dCΨ/dt|^-1`; higher-order corrections appear at larger δ. This describes
+time spent in a chosen coordinate window, not a post-crossing convergence
+timescale or critical slowing of the physical state.
 
 ![Dwell time analysis](../simulations/results/trajectory_dwell_time.png)
 
 ### Hardware observation (April 16, 2026)
 
-The γ-invariance claim was tested on ibm_kingston (Heron r2) with two Bell+ pairs at 2.55× different γ: K_dwell/δ = 0.649 (qubits 124-125, γ = 0.00334/μs) and 0.694 (qubits 14-15, γ = 0.00131/μs). Ratio A/B = 0.94, spread 6.4%. The γ-invariance survives real T1 + T2 noise at the 6% level, dominated by residual Kingston noise heterogeneity rather than shot noise. The absolute prefactor (~0.67) is lower than the pure-Z-dephasing prediction 1.0801 because Kingston T1 amplitude damping steepens the slope at the crossing, reducing t_dwell. The state-specific, noise-channel-specific nature of the prefactor is expected; the γ-invariance itself is the robust claim and it holds.
+Two Kingston Bell+ pairs with a 2.55× fitted-γ ratio gave `K_dwell/δ=0.649`
+and `0.694`, a 6.4% spread. This is an approximate two-pair hardware check
+with T1, heterogeneous noise, and a prefactor about 0.67 rather than the
+pure-Z prediction 1.0801. It does not establish exact γ-invariance beyond the
+ideal trajectory.
 
 Data: [data/ibm_cusp_slowing_april2026/](../data/ibm_cusp_slowing_april2026/README.md).
 Writeup: the 2D c-plane extension of this result is in [CΨ in the Complex Plane](CPSI_COMPLEX_PLANE.md) (the spirals visible in the saved density matrices).
@@ -470,7 +495,10 @@ Yes, and the relationship is exact:
 
     t_dwell(δ) = 2δ / |dCΨ/dt|_{t_cross}
 
-The crossing speed fully determines the dwell time. Faster crossings (larger |dCΨ/dt|, from higher γ or different initial states) produce proportionally shorter dwell times. In K-units the γ-dependence cancels, but the state-dependent prefactor remains.
+The local derivative determines the leading symmetric-window dwell estimate.
+For the ideal Bell+/pure-Z trajectory, its γ scaling cancels in K-units. A
+different state, active Hamiltonian, or channel requires its own derivative
+and need not retain that cancellation.
 
 ### Active Weakness #4 (the natural variable u): REFORMULATED
 
@@ -530,7 +558,9 @@ Both Bell+ pairs cross CΨ = 1/4 monotonically from above:
 
 **Pair B** (gamma = 0.00131/us): Crossing between t = 20.42 us (CΨ = 0.259, above) and t = 26.26 us (CΨ = 0.237, below). Interpolated t_cross = 22.7 us (Aer prediction: 25.7 us, 12% later).
 
-Both cross ~12% earlier than the Aer simulator with T2_echo values, consistent with the known T2* < T2_echo gap on Kingston (free-induction decay is 1.2-1.5x faster than Hahn-echo-refocused T2).
+Both cross about 12% earlier than the stated Aer simulation using T2_echo
+values. A T2*/T2_echo difference is consistent with the sign and scale, but
+these two runs do not isolate that mechanism.
 
 ### Gamma-invariance test (F57 core claim)
 
@@ -547,18 +577,27 @@ K_dwell(delta) = gamma * 2*delta / |slope_at_crossing|, with delta = 0.04:
 
 (slope and t_dwell cells from the committed JSON's unrounded values.)
 
-**Gamma-invariance spread: 6.4%** (1 − A/B on the JSON fit values
+**Two-pair spread: 6.4%** (1 − A/B on the JSON fit values
 0.6492/0.6937; historically quoted as 6.3%, a figure no standard
 definition of the spread reproduces exactly) despite 2.55x gamma
-difference. F57 predicts exact gamma-independence; the 6% residual is within shot noise and Kingston noise-profile heterogeneity.
+difference. F57 predicts exact gamma-independence only for its pure-Z Bell+
+model; this hardware comparison contains additional channels and heterogeneity.
 
-**Absolute prefactor:** 0.67 vs F57 pure-Z-dephasing prediction 1.0801. The gap is from T1 amplitude damping (Kingston T1 is comparable to T2), which steepens the slope at the crossing. This is an expected deviation: F57 derives 1.0801 specifically for pure dephasing; real hardware adds a second decay channel. The gamma-INVARIANCE (the ratio between pairs) is the model-independent claim, and that holds at 6%.
+**Absolute prefactor:** 0.67 vs F57 pure-Z-dephasing prediction 1.0801. T1
+amplitude damping is a plausible contributor to the gap, but this comparison
+does not isolate its cause. The 6.4% agreement is not a model-independent
+invariance theorem.
 
 ### What this confirms
 
-1. **CΨ = 1/4 is a real physical boundary.** Both Bell+ trajectories cross it monotonically, at times predictable from the qubit calibration data. This is the first direct observation of the CΨ = 1/4 crossing on quantum hardware.
+1. **The reconstructed Bell+ trajectories cross `CΨ=1/4`.** In these two
+   runs they cross monotonically at times consistent with the fitted
+   calibration model. The scalar level is not thereby a universal physical
+   boundary for arbitrary states and channels.
 
-2. **F57 gamma-invariance holds on open quantum hardware.** The dwell time K = gamma * t_dwell is the same quantity (within 6%) for two pairs with very different decoherence rates. The "dose" interpretation from the theory (K is the total absorbed decoherence dose at the crossing) survives real-world noise profiles.
+2. **The two hardware values agree within 6.4%.** This is an approximate
+   finite comparison, not an exact confirmation that `K` is a universal
+   absorbed dose across real-world noise profiles.
 
 3. **The Aer noise model is 12% too slow.** Because it uses T2_echo (Hahn refocused) while hardware free evolution decays at T2* (1.2-1.5x shorter). Both pairs show the same systematic 12% shift, confirming it is a T2_echo vs T2* effect, not a random deviation.
 

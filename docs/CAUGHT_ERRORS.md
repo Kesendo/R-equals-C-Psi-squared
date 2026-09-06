@@ -2075,3 +2075,36 @@ experiment copies, the glossary's "no proof on file", the instrument's two ladde
   Factor/topology reports now print their tolerance, refinement and provenance,
   and current front doors state the extra spatial, semisimplicity and
   preparation/readout gates required before any physical standing-wave reading.
+
+## 2026-09-06 — the first post-`db0141b` round found unit-sensitive objects and a backwards matcher
+
+- **What was wrong.** The N=2 live example was numerically right while the live
+  object was not invariant under a change of units: fixed absolute tolerances
+  made a common `J,gamma` rescaling change the N=3 fixed counts from `0/0` to
+  `64/64`. The supposedly general multiplicity matcher then applied the returned
+  row-to-column permutation backwards; a two-element test could not see this
+  because every two-cycle is self-inverse. Thermal endpoint controls compared
+  only norms, so swapping emission and absorption survived them, and the builder
+  admitted nonfinite or negative channel data. The direct Pauli report's gate
+  checked prose rather than dynamics.
+- **The prose had the same structural failure.** `docs/neural` itself was clean,
+  but its promoted siblings still turned a conditional F1 spectrum into standing
+  waves, a finite V census into a cross-level mechanism, `K=gamma*t` into a
+  universal invariant, dephasing into experienced time, and one complete local
+  qubit construction into a no-go theorem for every higher-dimensional mirror.
+  The qutrit evidence was worse: a greedy `1/144` count and adjacent gaps of
+  sorted real projections of a complex spectrum were presented as partial-pair
+  and GUE evidence. Neither statistic measures the named object.
+- **Repair and gates.** SelfMirror tolerances now scale with the live spectrum and
+  an N=3 common-rescaling test pins the invariance. A non-self-inverse three-cycle
+  pins the matcher's orientation. Cold-bath population flow pins
+  `|1><1| -> |0><0|`; finite/nonnegative input gates, a zero-generator mutation,
+  and literal Pauli derivative/trace anchors protect the executable surfaces.
+  The spectrum census now states that it consumes committed `Re/Im` CSVs and
+  separates current regeneration parameters from absent historical metadata.
+  Front doors, the glossary, hierarchy, interpretation, qubit/qudit proofs,
+  Absorption-Theorem sources and quarter/time citers now retain only their exact
+  scopes: F121 partial higher-dimensional mirrors survive; no cross-level,
+  cavity, photon-source, experienced-time, physical-wave, or universal-dose
+  mechanism follows. The invalid qutrit counts and spacing story were removed
+  rather than renamed.

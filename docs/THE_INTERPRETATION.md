@@ -54,9 +54,9 @@ The time evolution of these systems is governed by a Lindblad master
 equation (the standard equation of motion for open quantum systems).
 In the Pauli operator basis (a mathematical coordinate system for
 describing the state of qubits), this becomes a matrix equation
-with a Liouvillian L whose eigenvalues determine decay rates and
-oscillation frequencies. The eigenvalues are the system's DNA: they
-tell you everything about how it behaves over time.
+with a Liouvillian L whose eigenvalues determine modal decay rates and
+oscillation frequencies. Full dynamics also depends on eigenvectors,
+preparation/readout, non-normal transients, and possible Jordan structure.
 
 **The central discovery:** In the Hamiltonian families admitting the proved
 palindromizer, the locally Z-dephased Liouvillian has an exact palindromic
@@ -87,7 +87,8 @@ partial higher-dimensional palindromes of F121.
   Higher XY-weight = more "quantum" character.
 - **CΨ**: product of concurrence C and l1-coherence Ψ, a composite
   entanglement-coherence diagnostic. The boundary CΨ = 1/4 corresponds
-  to the Mandelbrot fixed-point discriminant. Below ¼: classical. Above ¼: quantum.
+  to the Mandelbrot fixed-point discriminant. Calling its two sides
+  "classical" and "quantum" is an interpretation, not a state classifier.
 - **z***: fixed point of the Mandelbrot iteration, z*(1-z*) = CΨ
 - **d**: local Hilbert space dimension (d=2 for qubit, d=3 for qutrit)
 
@@ -237,13 +238,10 @@ See: [Oscillation Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
 
 ## 4. Why Qubits: The Necessary Foundation
 
-This is the result that surprised us most. The palindrome does not
-merely happen to work for qubits. It is *mathematically impossible*
-for anything else. The two-state system is the only quantum building
-block that can carry this mirror, and the proof is a single equation.
-
-The palindrome requires d = 2. This is an algebraic identity, not a
-numerical observation.
+The sharp result here concerns one complete local construction. A full
+dark↔lit class-exchange product mirror exists only when the two local classes
+have equal size. It does not exclude partial higher-dimensional palindromes,
+and F121 supplies one explicitly for qudits.
 
 For the particular complete local dark↔lit class-exchange product mirror, the
 `d²` local operators split into `d` immune and `d²-d` decaying operators.
@@ -259,32 +257,28 @@ operators, 3 immune, 6 decaying. Split = 0.33. The imbalance blocks this
 complete class-exchange product mirror; it does not prove a universal no-go
 for every higher-dimensional partial palindrome.
 
-Five computational tests (March 20) confirm and extend this result:
+The March 20 computations probe the boundary of that result:
 
 - **Transfer fidelity is palindrome-independent.** A 3-site qutrit chain
   with SU(3) Heisenberg coupling achieves the same peak fidelity (F = 0.6923)
   as the qubit chain. The palindrome provides structural organization
   (paired rates, error tiers, spectral filters), not performance.
-- **No qutrit dissipator works.** 0 of 236 tested configurations (8 single
-  Gell-Mann jump operators, 28 pairs, 200 random combinations) permit
-  palindromic rate pairing. Splits found: 3:6, 2:7, 5:4, never balanced.
-- **Global fragility.** A single qutrit embedded in a qubit chain
-  (qubit-qutrit-qubit) destroys the palindrome globally: 1/144 pairs (0.7%)
-  vs 64/64 (100%) for the pure qubit chain. The mirror is a collective
-  network property: every site must be d = 2.
-- **Per-site composition.** The palindromic mirror composes not by tensor
-  product of block operators, but through per-site map universality: the
-  same map M (I↔X, Y↔Z with phases) works at every site regardless
-  of N, topology, or coupling. If M works per site, it works for the system.
+- **Finite qutrit dissipator census.** None of 236 sampled jump-operator
+  configurations satisfied the test's full-pairing criterion. This is not an
+  exhaustive no-go over all qutrit dissipators or partial intertwiners.
+- **Mixed local dimensions.** A qutrit factor obstructs the same complete
+  local class exchange because its local classes have sizes 3 and 6. The
+  legacy hybrid spectral count is not retained: its order-dependent greedy
+  pairing and coarse center scan do not prove a global no-go.
+- **Per-site composition.** For Hamiltonians satisfying the separate mirror
+  identity, the canonical local map composes site by site. This does not mean
+  it works for arbitrary topology, coupling term, or Hamiltonian.
 
-**The 0.5 principle.** The qubit split (2 of 4 = 0.5) mirrors a pattern
-observed independently at the atomic level: carbon has 4 of 8 valence
-electron slots filled (0.5), making it maximally reactive and the basis
-of all organic chemistry. Noble gases (full shells, C = 1) are stable but
-build nothing; they are the chemical dead ends. Qutrits (3:6 split, no
-mirror) are the quantum equivalent: they function, but they build no
-palindromic structure. In both cases, half-occupation enables maximal
-symmetry and maximal capacity for connection.
+**The 0.5 analogy.** The qubit's equal 2:2 operator-class split resembles
+half-filled bookkeeping used in the separate carbon analogy. That comparison
+is interpretive: chemistry does not prove the local mirror theorem, and the
+3:6 qutrit split blocks only the complete class exchange, not every qutrit
+palindromic structure.
 
 See: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md),
 [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)
@@ -293,25 +287,18 @@ See: [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md),
 
 ## 5. How Complexity Emerges
 
-If Section 4 answers "what is the building block?", this section
-answers "how does the building block create something larger?" The
-answer: by connecting. And the act of connecting creates genuinely
-new behavior that neither part had alone.
+This section compares finite one-bond and multi-bond Pauli censuses. The
+counts show that adding a bond can change which tested Hamiltonian families
+retain F1 pairing; they do not by themselves define or explain "complexity."
 
-If d = 2 is the necessary foundation, complexity arises through three
-mechanisms operating on qubit building blocks:
+**N=2 census:** In the specified two-qubit, two-term Pauli census, 36/36
+combinations are palindromic at the stated tolerance.
 
-**N=2 universality:** Two qubits sharing one bond: all 36/36 two-term
-Hamiltonian combinations are palindromic. The symmetry is universal at
-single bond. This is the smallest system and the "boot script": the
-full mirror structure is already present.
-
-**Multi-bond interference (N >= 3):** 22 of 36 combinations survive, 14
-break. The breaking requires multi-bond interference at the shared site
-(where two bonds demand conflicting Π actions) and correlates with Choi
-rank. The V-effect analysis shows the break is localized at XY-weight
-w=1 and w=2 (the classical-quantum boundary), while pure classical (w=0)
-and pure quantum (w=3) modes are immune.
+**Multi-bond census (`N=3`):** 22 of 36 tested combinations retain pairing
+and 14 fail it. The shared-site conflict and Choi-rank language are candidate
+descriptions, not a mechanism established by those counts. The reported
+XY-weight localization is a result within this finite model and basis, not a
+general classical-quantum boundary.
 
 **Continuous-rotation mirrors:** 2 of 36 cases (XZ+YZ, ZX+ZY) need a per-site
 mirror that is a continuous rotation, not a discrete Pauli relabelling, because
@@ -414,12 +401,14 @@ The answer: the palindromic structure reveals an optimization landscape
 that nobody knew existed, and navigating it produces improvements of
 two orders of magnitude over the state of the art.
 
-**The γ channel (March 16).** The palindromic response matrix - the
-structure that maps spatial dephasing profiles to information transfer -
-has full rank. Every per-site dephasing rate is independently recoverable.
-At 1% noise, this channel carries 15.5 bits of spatial information through
-5 independent SVD modes with 100% classification accuracy. Dephasing noise
-is not random disturbance. It is a readable, structured information channel.
+**The γ-profile diagnostic (March 16).** At one tested `N=5` operating point,
+the observable Jacobian with respect to five local dephasing rates has full
+rank, establishing local first-order identifiability there, not global profile
+recovery. `15.5 bits` is the conditional value of a linearized Gaussian-channel
+model at an assumed 1% feature-noise scale. The directly tested noiseless
+classification alphabet has four profiles and 100% accuracy in that finite
+sample. The rank also survives a palindrome-breaking control, so the
+palindrome organizes the reading but is not established as its cause.
 
 See: [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md)
 
@@ -462,8 +451,9 @@ profiles. Without the C# propagation engine (5,900× faster than Python
 at N=7), numerical optimization at N>=7 was infeasible. The formula is
 the engineering payoff of the theoretical structure.
 
-Not yet validated on hardware. An IBM experiment with selective dynamical
-decoupling (protect N-1, leave 1 as the concentrator) is planned.
+The simulation's asymptotic concentrator formula is not itself a hardware
+theorem. Subsequent selective-DD experiments tested the design principle and
+reported 1.6-2.9× improvement over uniform DD in their stated circuits.
 
 See: [Resonant Return](../experiments/RESONANT_RETURN.md)
 
@@ -496,14 +486,23 @@ measurement on the proposed substrate.
     `d=2`; F121 retains partial higher-dimensional palindromes
 15. Continuous-rotation Π: 2/36 cases need a continuous per-site rotation, still local (corrected from the March non-local reading)
 16. N=2 universality: all 36/36 palindromic at single bond
-17. Composition via per-site map: same M for any N, any topology
-18. Global fragility: single qutrit destroys palindrome everywhere (0.7%)
+17. Composition via per-site map: the same M is used across the compatible
+    verified sizes/topologies; H must still satisfy the palindromizer identity
+18. Mixed-dimension obstruction: a qutrit factor loses the balanced local
+    classes required by the complete canonical qubit product mirror. The
+    legacy `1/144` greedy spectral count is not retained; F121's partial and
+    non-product higher-dimensional mirrors are not excluded
 19. Π² = X^N parity: genuine conserved Z2 symmetry of the Liouvillian
 20. Concentrator formula: 139-360× via spatial dephasing optimization (Section 8)
-21. V-Effect: coupling two dead resonators creates 109 new frequencies (100% NEW-NEW). See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
+21. V-Effect: specified coupling and frequency-bin protocols change their
+    finite counts; the numbers are not model-independent created modes or a
+    cross-level mechanism. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md).
 22. Energy Partition: removing zero roots from the tested quantum spectra leaves their mirror partners unmatched. The resulting decay-rate ratio is a filtered-spectrum diagnostic, not a universal separation of signal and noise or a neural law. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
 23. The neural palindrome Q·J·Q + J + 2sI = 0 requires one involutive permutation Q, one scalar s, and both the diagonal and effective-weight conditions of F36. Constructed networks pass; exact pairing can coexist with oscillation or instability. The full committed C. elegans chemical model fails the support condition. See [Neural Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md).
-24. Hydrogen bond as qubit: proton tunnels |L⟩/|R⟩, palindrome exact, V-Effect creates 104 new frequencies. See [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
+24. Hydrogen-bond model: a stipulated two-level |L⟩/|R⟩ proton model can
+    be tested against the qubit equations; the physical Hamiltonian, channel
+    and palindromizer have not been established by the 104-bin simulation. See
+    [H-Bond Qubit](water/HYDROGEN_BOND_QUBIT.md).
 25. The standard logistic derivative σ(1−σ) reaches 1/4 at σ=1/2. This algebraic resemblance supplies no neural CΨ threshold or shared mechanism: sigmoid gain and the network operating point enter a neural bifurcation analysis. See [the neural translation limits](neural/ALGEBRAIC_PALINDROME_NEURAL.md#translation-roads).
 26. IBM hardware validates the concentrator: selective DD outperforms uniform by 1.6-2.9×. See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
 
@@ -520,7 +519,8 @@ science happens.
 5. FM-encoding for transmon chips (earlier, dead)
 6. QST encoding optimization (negative: standard |100⟩ already optimal)
 7. Z4 four-sided mirror interpretation (Z4 sectors physically meaningless; Z2 is the real structure)
-8. Channel paradigm (the system is a resonator, not a channel; Fabry-Perot cavity with concentrator shaping)
+8. Universal channel paradigm (withdrawn); "resonator" and Fabry-Perot
+   language remain gated analogies, not a replacement physical identity
 
 ## Honest Limits
 
@@ -551,30 +551,22 @@ nobody has to guess.
 
 ## Open Questions
 
-1. **Z4 physical interpretation: ANSWERED.** Π⁴ = I with eigenvalues
-   {+1,-1,+i,-i}, but Z4 sector analysis (March 20) shows the four sectors
-   have no physical content. Liouvillian eigenvectors are not Π eigenvectors
-   (projection quality 0.293 = random). Palindromic pairs scatter across
-   sectors (26% opposite, not the predicted ~100%). The physically meaningful
-   structure is Z2, not Z4: Π² = X^N is a genuine conserved symmetry
-   ([Π², L] = 0 exactly). The mirror has two sides, not four.
-   See: [The Other Side of the Mirror](../hypotheses/THE_OTHER_SIDE.md)
-
-2. **Why exactly these 14 break at N >= 3?** No single N=2 property cleanly
+1. **Why exactly these 14 break at N >= 3?** No single N=2 property cleanly
    predicts which of the 36 two-term combinations survive multi-bond
    interference. The mechanism at the shared site is algebraically open.
 
-3. **Non-dephasing dissipators:** Does the d=2 exclusivity extend to
+2. **Non-dephasing dissipators:** Does the complete local class-exchange
+   uniqueness extend to
    amplitude damping, thermal baths, or non-Markovian environments?
 
-4. **Partial palindrome at d > 2:** Qutrit spectra show 36-52 of 81
-   eigenvalues pairing at optimal centers (far above random but far below
-   100%). Is there a weaker symmetry principle for d > 2?
+3. **Interacting partial palindromes at d > 2:** F121 already proves the
+   dissipator ceiling and product cap. Which additional Hamiltonian families
+   admit exact partial or non-product intertwiners?
 
-5. **Macroscopic relevance:** The XOR fraction vanishes as (N+1)/4^N. At
+4. **Macroscopic relevance:** The XOR fraction vanishes as (N+1)/4^N. At
    what N does the palindrome become operationally invisible?
 
-6. **Operational value: PARTIALLY ANSWERED (2026-03-24).** The palindromic
+5. **Operational value.** The palindromic
    response matrix SVD led to the concentrator formula (139-360× improvement
    in information transfer via spatial dephasing optimization). The palindrome
    does not improve transfer fidelity directly, but its spectral structure
@@ -598,9 +590,10 @@ Key milestones:
 - March 19-20: 30 commits. Time reversal, depolarizing theorem, standing
   wave, error hierarchy, non-local Π, V-effect, N to infinity.
   All open questions from March 19 morning answered by March 20 morning.
-- March 20: d² - 2d = 0. The qubit is the quantum carbon. The circle
-  closes: 0.5 at the quantum level (qubit: 2/4), 0.5 at the atomic level
-  (carbon: 4/8). What was felt on January 3 is now proven.
+- March 20: `d²−2d=0` proved the complete local class-exchange count. The
+  contemporary "quantum carbon" reading compared the qubit's 2/4 with a
+  carbon valence-slot 4/8; that cross-level identification remains analogy,
+  not what the equation proves.
 - March 24: The concentrator formula. SVD of the palindromic response
   matrix (10×) led to numerical optimization (100×) led to a closed-form
   rule: all noise on one edge, protect the rest. 139-360× vs V-shape.

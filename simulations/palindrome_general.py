@@ -35,7 +35,9 @@ def multiset_match(values, targets, tol=1e-7):
     assignment = maximum_bipartite_matching(graph, perm_type="column")
     if np.count_nonzero(assignment >= 0) != len(values):
         return False, float("inf")
-    residual = float(np.max(np.abs(targets[assignment] - values)))
+    # ``perm_type="column"`` returns the matched value-column for each
+    # target-row.  This orientation matters for cycles longer than two.
+    residual = float(np.max(np.abs(targets - values[assignment])))
     return residual <= tol, residual
 
 

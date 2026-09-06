@@ -56,11 +56,18 @@ This is d^{2N} (everything pairs) iff (d−1)^{min(k,N−k)} = (d−1)^k for all
 
 is unpaired. For d = 3, N = 2: c = [9, 36, 36], rung 0 (×9) pairs into rung 2 (×36) leaving 27, rung 1 (×36) self-mirrors; paired = 54, excess = 27. The qutrit fraction erodes with N (66.7%, 66.7%, 51.9%); d = 4 gives 50%, 50%, 31.2%. The d² − 2d = 0 uniqueness of [the qubit necessity](../QUBIT_NECESSITY.md) reappears here as the unique fully-paired column of an N-indexed family.
 
-## §4 The interacting spectrum: H degrades the palindrome
+## §4 The sampled interacting spectrum
 
-The ceiling above is the **dissipator's** palindrome, taken about the physical center −Nγ (the k ↔ N−k reflection, where the qubit palindrome is exact). Adding the Hamiltonian degrades it. The full Liouvillian L = L_H + L_D does not commute, and at **every fixed center H reduces the pairing**: about the physical center −Nγ = −2γ the dissipator's 54 drops to 48; about −3γ (where the two large rungs −2γ and −4γ are equinumerous, the dissipator's own best fit at 72) it drops to 60. There is no center at which adding H helps; the palindrome is fragile under H, the same fragility [the qubit necessity](../QUBIT_NECESSITY.md) records for the full qubit mirror at N ≥ 3. (An earlier reading of this work mistook the full L's best-fit 60 at −3γ for "exceeding" the dissipator's 54 at −2γ: that compared two different centers. At equal center, H always reduces the count.)
+The ceiling above is the **dissipator's** palindrome, taken about the physical center −Nγ (the k ↔ N−k reflection, where the qubit palindrome is exact). In the reported symmetric SU(3) Heisenberg run, adding H changes the count from 54 to 48 about −Nγ = −2γ and from 72 to 60 about −3γ (where the two large dissipator rungs are equinumerous). These sampled reductions do not imply that every Hamiltonian strictly reduces pairing: `H=cI`, for example, has `L_H=0` and leaves the dissipator result unchanged. The interacting count must therefore be stated for the chosen H and center.
 
-What H does carry is a clean **real-part law in the symmetric case**. For the SU(3) Heisenberg the real parts sit exactly on Re(λ) = −2γ⟨Q⟩, where ⟨Q⟩ is the biorthogonal Hamming-distance expectation over each eigenmode (the [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md)'s Rayleigh reading: the real part comes from the self-adjoint dissipator alone). The SU(3) symmetry quantizes ⟨Q⟩ into {0, 1, 1.5, 2} with multiplicities {6, 36, 12, 27}; the new −3γ rung is exactly ⟨Q⟩ = 1.5, a 50/50 mix of Hamming-1 and Hamming-2 coherences. This exactness is a symmetry effect, not a general law: a random Hermitian H breaks it (the real parts spread off the ladder, deviation ≈ 10⁻³).
+The [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) gives the universal
+right-eigenoperator Hilbert-Schmidt reading
+`Re(λ)=−2γ(v†Qv)/(v†v)` for every Hermitian H. In the SU(3) Heisenberg case,
+symmetry additionally quantizes those right-HS expectations to
+`{0,1,1.5,2}` with multiplicities `{6,36,12,27}`; the `−3γ` rung has
+`<Q>=1.5`. A generic H spreads the right-HS means between these special
+rungs, but does not break the Absorption Theorem. The producer's separate
+biorthogonal quantity `w†Qv` must not be substituted for this Rayleigh ratio.
 
 So the interacting partial palindrome has **no H-independent closed form**: the paired count floats with the Hamiltonian (60 for the SU(3) Heisenberg, robust across all coupling ratios J/γ; 48 and 52 for less symmetric couplings; near zero for a generic H). The dissipator's closed form (54 about −Nγ, full iff d = 2) is the only invariant skeleton; the interacting count is a property of each H's symmetry. Verified in [`simulations/qutrit_interacting_palindrome.py`](../../simulations/qutrit_interacting_palindrome.py) (self-validating). The SU(3) Heisenberg's specific 60 is decoded by representation theory in §8.
 

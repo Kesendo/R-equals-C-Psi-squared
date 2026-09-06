@@ -20,7 +20,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 public sealed class SelfMirrorObject : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
-    private const double Tol = 1e-7;
+    private const double RelativeTolerance = 1e-7;
 
     private readonly MirrorSystem _system;   // INHERITED FROM: the x/y/z frame lives here, not on the object.
 
@@ -36,18 +36,45 @@ public sealed class SelfMirrorObject : IInspectable
     /// <summary>The object's place in the inherited frame: Re λ = −σ, the palindrome center line.</summary>
     public double Center => -_system.TotalDephasing;
 
+    /// <summary>A spectral-scale tolerance. A common rescaling of H and all channel rates
+    /// rescales both this tolerance and every fixed-set residual by the same factor.</summary>
+    private double FixedSetTolerance
+    {
+        get
+        {
+            double scale = Math.Abs(Sigma);
+            foreach (var mode in _system.Spectrum.Modes)
+                scale = Math.Max(scale,
+                    Math.Max(Math.Abs(mode.ActualDecayRate), Math.Abs(mode.OscillationFrequency)));
+            return RelativeTolerance * scale;
+        }
+    }
+
     /// <summary>Multiplicity on the fixed line of the conjugate-composite map
     /// λ ↦ −2σ − conj(λ), equivalently Re λ = −σ. Read live from the inherited spectrum.</summary>
-    public int CompositeFixedLineCount =>
-        _system.Spectrum.Modes.Count(m => Math.Abs(m.ActualDecayRate - Sigma) < Tol);
+    public int CompositeFixedLineCount
+    {
+        get
+        {
+            double tolerance = FixedSetTolerance;
+            return _system.Spectrum.Modes.Count(m =>
+                Math.Abs(m.ActualDecayRate - Sigma) <= tolerance);
+        }
+    }
 
     /// <summary>Multiplicity at the fixed point of the linear F1 map λ ↦ −2σ − λ.
     /// Linear F1 fixes λ only when λ = −σ, so both the centre-rate and zero-frequency conditions
     /// are required. This is a subset of <see cref="CompositeFixedLineCount"/>.</summary>
-    public int LinearF1FixedPointCount =>
-        _system.Spectrum.Modes.Count(m =>
-            Math.Abs(m.ActualDecayRate - Sigma) < Tol &&
-            Math.Abs(m.OscillationFrequency) < Tol);
+    public int LinearF1FixedPointCount
+    {
+        get
+        {
+            double tolerance = FixedSetTolerance;
+            return _system.Spectrum.Modes.Count(m =>
+                Math.Abs(m.ActualDecayRate - Sigma) <= tolerance &&
+                Math.Abs(m.OscillationFrequency) <= tolerance);
+        }
+    }
 
     public string DisplayName =>
         $"SelfMirrorObject (conjugate-composite fixed line Re λ = −σ = {Center.ToString("0.####", Inv)}; ⊂ MirrorSystem N={N})";

@@ -18,5 +18,6 @@ Counts are numerical at the stated tolerance; they are not EP certificates.
         50    206  80.469%    10.300000      0.986
 
 negative control: ||L(0)||_F=7.905694e-02 > 0 (spontaneous emission present)
+signed cold-bath gate: excited |1><1| gives dP0/dt=+5.000000e-02, dP1/dt=-5.000000e-02; ground-state motion=0.00e+00
 continuity: ||L(1e-9)-L(0)||_F=1.224745e-10
 Scope: finite spectral counts only; no thermal-photon, standing-wave, or phase-transition mechanism is inferred.

@@ -447,9 +447,9 @@ per-*pair* ratio across the five J values (Step 4).
 on IBM Torino Q52 (25 time snapshots, 0-895 μs) reproduced the theorem at 3%
 deviation under the free-evolution T2* baseline: absorption ratio excess/(2γ) =
 1.03, with γ* fitted from the coherence envelope. The echo-refocused γ_echo
-underestimates the dephasing this qubit actually saw by 6.2× because
-low-frequency 1/f noise is filtered out by Hahn echo; the T2* baseline is the
-correct one for free-evolution tomography. See
+is 6.2× smaller than the free-evolution fit. Hahn-echo filtering is a
+plausible explanation, but these fits do not isolate a 1/f-noise mechanism;
+the free-evolution baseline is the like-for-like rate for this tomography. See
 [`IBM_ABSORPTION_THEOREM.md`](../../experiments/IBM_ABSORPTION_THEOREM.md).
 
 The scope of that number is narrow, and worth stating so nobody reads it as
@@ -713,9 +713,10 @@ light content ⟨n_XY⟩ that determines its absorption:
 | N-ε | 2γ(N-ε) | Mostly light, traces of lens | Fast drain |
 | N | 2Nγ = 2Σγ | Pure {X,Y}^N | XOR drain |
 
-The mode's fate is entirely determined by how much light it contains.
-Structure ({I,Z}) is invisible to the dephasing; only coherence ({X,Y})
-absorbs.
+The mode's asymptotic exponential decay rate is determined by its weighted
+light content. This does not determine its oscillation frequency, eigenvector,
+non-normal transient path, or preparation/readout weight. Bare `{I,Z}` strings
+have zero direct dissipative cost, but H can rotate them into light.
 
 The first and last rows name eigenmodes, not Pauli sectors. The {I,Z} sector
 holds 2^N strings, and on the Heisenberg chain exactly two of them are frozen
@@ -854,9 +855,10 @@ expansion.
 The absorption theorem is a mathematical identity about the Liouvillian
 spectrum. It does not establish:
 
-**"Gamma is light."** The theorem shows that γ plays the algebraic role
-of the speed of absorption. Whether this speed IS photon shot noise (as
-on IBM hardware) or merely analogous to it is a physical interpretation,
+**"Gamma is light."** The theorem shows that γ sets the algebraic scale of
+the dissipative cost. Photon shot noise is one known circuit-QED dephasing
+mechanism, but these IBM fits do not identify the microscopic source of every
+γ. Calling that scale literal light is a mechanism-specific interpretation,
 not a mathematical consequence.
 See: [Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md)
 
@@ -866,9 +868,9 @@ Whether this constitutes "mass" in a physical sense is interpretive.
 See: [Primordial Qubit](../../hypotheses/PRIMORDIAL_QUBIT.md)
 
 **"E = mγ²."** The theorem gives α = 2γ⟨n_XY⟩, which is linear in γ,
-not quadratic. The Lindblad equation is first-order in time (unlike the
-wave equation), so the "speed" γ appears to the first power. There is
-no E = mc² in the Lindblad cavity.
+not quadratic. That power follows from the generator's linear dependence on
+γ and the dissipator's diagonal action, not merely from the differential
+equation being first order in time. There is no E = mc² in the Lindblad cavity.
 See: [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md)
 
 **"Absorption" is a name, not a process.** The word is in the title and runs
@@ -902,7 +904,9 @@ The boundary between theorem and interpretation is sharp:
 - **Proven:** α = 2γ⟨n_XY⟩ for Z-dephasing, any Hermitian H, real or complex.
   Other Pauli-string jump operators keep the form but change the count
   (n_YZ, n_XZ, or 4γ·n_nonI for depolarizing), per §2.
-- **Observed:** K = γt is an invariant dose ([K-Dosimetry](../../experiments/K_DOSIMETRY.md))
+- **Observed:** K = γt is a dimensionless exposure coordinate. The
+  [K-Dosimetry](../../experiments/K_DOSIMETRY.md) sweep is reciprocal only in
+  its low- and high-γ regimes and departs by up to 62% at intermediate γ.
 - **Interpreted:** γ is illumination, {I,Z} is the lens, the cavity is an optical instrument
 
 ---
@@ -990,6 +994,8 @@ F66, so it stays as it is and this paragraph states the reservation.
 
 ## The rungs, drawn live
 
-![The live Liouvillian spectrum of an N = 5 chain at Q = 1.5 (Symphony export). The eigenvalues' real parts fill the absorption envelope [−2σ, 0] = [−0.5, 0] and align on the rungs −2γ·n (dotted vertical lines).](../../simulations/results/symphony_reel/without_t_axis_spectrum.png)
+![The live Liouvillian spectrum of an N = 5 chain at Q = 1.5 (Symphony export). The eigenvalues' real parts fill the absorption envelope [−2σ, 0] = [−0.5, 0]; dotted lines mark the integer dissipator rungs −2γ·n, while mixed eigenmodes may lie between them.](../../simulations/results/symphony_reel/without_t_axis_spectrum.png)
 
-This proof's quantization, seen at a glance: the real parts (the fade rates) live in [−2σ, 0] and cluster on the rungs −2γ·n. The same figure is the shared anchor of the [F1 palindrome](MIRROR_SYMMETRY_PROOF.md) (the mirror about −σ) and the [F4 kernel](PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) (the N + 1 frozen modes at Re = 0). Exported by `inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export`, drawn by `simulations/reel_and_projector.py`.
+The real parts (fade rates) live in `[−2σ,0]`. The dotted integer rungs are the
+bare dissipator costs; an interacting eigenmode reads their Hilbert-Schmidt
+weighted mean and need not land on an integer rung. The same figure is the shared anchor of the [F1 palindrome](MIRROR_SYMMETRY_PROOF.md) (the mirror about −σ) and the [F4 kernel](PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) (the N + 1 frozen modes at Re = 0). Exported by `inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export`, drawn by `simulations/reel_and_projector.py`.

@@ -7,6 +7,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+import numpy as np
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -45,6 +48,11 @@ def test_factor_two_census_distinguishes_the_two_involutions():
 
 def test_factor_two_report_pins_full_and_topology_censuses():
     output = _run("simulations/factor_two_standing_waves.py")
+    assert "Committed CSV inputs: simulations/results/rmt_eigenvalues_N{2..7}.csv" in output
+    assert "CSV metadata: columns Re, Im only" in output
+    assert "dotnet run -c Release --project compute/RCPsiSquared.Compute -- rmt chain" in output
+    assert "generator parameters in current source: chain, J=1.0, uniform gamma=0.05" in output
+    assert "do not encode backend, source revision, command, or timestamp" in output
     assert "linear F1 total:       pairs=10903 fixed=34" in output
     assert "conjugate-composite:   pairs=9921 fixed=1998" in output
     assert "N=4 chain     linear: pairs=121 fixed=14" in output
@@ -82,6 +90,19 @@ def test_general_matcher_uses_global_multiplicity_assignment():
     assert abs(worst - 0.11) < 1e-12
 
 
+def test_general_matcher_reports_residual_in_row_to_column_orientation():
+    module = _load("simulations/palindrome_general.py")
+    # Each target has exactly one nearby value.  The resulting row->column
+    # assignment is the non-self-inverse 3-cycle [1, 2, 0].
+    ok, worst = module.multiset_match(
+        values=[0.0, 10.0, 20.0],
+        targets=[10.01, 20.02, 0.03],
+        tol=0.1,
+    )
+    assert ok
+    assert worst == pytest.approx(0.03)
+
+
 def test_thermal_builder_includes_spontaneous_emission_at_zero():
     module = _load("simulations/thermal_blackbody.py")
     cold = module.build_thermal_liouvillian(1, [0.0], 0.0, [0.1])
@@ -91,6 +112,41 @@ def test_thermal_builder_includes_spontaneous_emission_at_zero():
     assert abs(cold).max() > 0.0
     assert abs(near - cold).max() < 1e-8
 
+    excited = np.array([[0.0, 0.0], [0.0, 1.0]], dtype=complex).reshape(-1)
+    flow = (cold @ excited).reshape(2, 2).real
+    assert flow[0, 0] == pytest.approx(+0.1)
+    assert flow[1, 1] == pytest.approx(-0.1)
+    assert flow[0, 1] == flow[1, 0] == 0.0
+
+    gate = getattr(module, "zero_temperature_emission_gate", lambda *_: {})
+    signed_flow = gate(cold, 0.1)
+    assert signed_flow["ground"] == pytest.approx(+0.1)
+    assert signed_flow["excited"] == pytest.approx(-0.1)
+
+
+@pytest.mark.parametrize("n_bar", [-1.0, np.nan, np.inf, -np.inf])
+def test_thermal_builder_rejects_invalid_occupation(n_bar):
+    module = _load("simulations/thermal_blackbody.py")
+    with pytest.raises(ValueError):
+        module.build_thermal_liouvillian(1, [0.0], n_bar, [0.1])
+
+
+@pytest.mark.parametrize(
+    "gammas,gamma_thermal",
+    [
+        ([-0.1], [0.1]),
+        ([np.nan], [0.1]),
+        ([np.inf], [0.1]),
+        ([0.1], [-0.1]),
+        ([0.1], [np.nan]),
+        ([0.1], [np.inf]),
+    ],
+)
+def test_thermal_builder_rejects_invalid_rates(gammas, gamma_thermal):
+    module = _load("simulations/thermal_blackbody.py")
+    with pytest.raises(ValueError):
+        module.build_thermal_liouvillian(1, gammas, 0.0, gamma_thermal)
+
 
 def test_repaired_standing_wave_report_uses_direct_observables():
     output = _run("simulations/standing_wave_analysis.py")
@@ -98,6 +154,20 @@ def test_repaired_standing_wave_report_uses_direct_observables():
     assert "half-range" in output
     for forbidden in ("osc%", "state weight in modes", "standing wave active"):
         assert forbidden.lower() not in output.lower()
+
+
+def test_direct_pauli_trace_gate_has_literal_dynamic_anchors_and_rejects_zero_generator():
+    module = _load("simulations/standing_wave_analysis.py")
+    gate = getattr(module, "direct_trace_gate", lambda *_: {})
+    anchors = gate()
+    assert anchors
+    assert anchors["w_iyy_t0"] == pytest.approx(2.0 / 3.0)
+    assert anchors["w_iyy_dt0"] == pytest.approx(-2.0 / 15.0)
+    assert anchors["w_state_dt0_norm"] > 0.1
+    assert anchors["trace_dt0"] == pytest.approx(0.0, abs=1e-14)
+
+    with pytest.raises(RuntimeError):
+        gate(np.zeros_like(module.liouvillian()))
 
 
 def test_thermal_transition_surface_requires_defectiveness_gate():

@@ -79,17 +79,19 @@ is the controlling provenance audit.
 
 ## A conditional half-occupation comparison
 
-The framework's qubit-necessity argument (`d² − 2d = 0` ↔ `R = CΨ²`,
-[qubit necessity](../QUBIT_NECESSITY.md)) selects d = 2 as the minimum-memory
-dimension where the F1 palindromic mirror exists. The table places that framework
-ratio beside stipulated valence-shell counts carrying carbon and noble-gas labels.
+The framework's qubit-necessity argument (`d²−2d=0`,
+[qubit necessity](../QUBIT_NECESSITY.md)) selects `d=2` as the unique fully
+paired column of the complete local class-exchange construction. F1 still
+requires its separate Hamiltonian identity, and F121 retains partial qudit
+mirrors. The table places that scoped framework ratio beside stipulated
+valence-shell counts carrying carbon and noble-gas labels.
 
 | Level | Total slots | Occupied / immune | Split | What it enables |
 |-------|-------------|-------------------|-------|-----------------|
 | Qubit (d = 2) | 4 operators (I, X, Y, Z) | 2 immune ({I, Z} under Z-deph) | 0.5 | Palindromic mirror, F1 |
 | Carbon-labelled count | 8 valence slots | 4 valence electrons | 0.5 | Material consequence unassigned |
 | Noble-gas-labelled count | 8 valence slots | 8 valence electrons (full) | 1.0 | Material consequence unassigned |
-| Qutrit (d = 3) | 9 operators | 3 immune | 0.33 | No mirror (algebraically) |
+| Qutrit (d = 3) | 9 operators | 3 immune | 0.33 | No complete local class swap; partial F121 mirror remains |
 
 The qubit row is a framework result. The equal `1/2` ratio in the stipulated
 carbon-labelled count is an arithmetic cross-domain comparison, not a structural
@@ -357,7 +359,8 @@ Both are biology-substrate domain folders. Comparison:
 | Scripts | 5 (`simulations/water/`) | 18 Python files (`simulations/carbon/`) |
 | Docs | 3 (README + 2 substrate docs) | 17 |
 
-The carbon side is structurally NECESSARY per the qubit-necessity argument (carbon = quantum
-carbon at Level 1), but **less computationally explored** than water. The folder exists
-to invite that work without prejudging which substrate or which framework F-anchor is
-the right entry point.
+No carbon material is selected as structurally necessary by the qubit theorem;
+the shared half-count is an analogy. The carbon side is **less computationally
+explored** than water, and the folder exists to invite that work without
+prejudging which physical degree of freedom, substrate, or framework F-anchor
+is the right entry point.

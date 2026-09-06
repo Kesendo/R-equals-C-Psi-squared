@@ -1,9 +1,17 @@
 # What Qubits Experience
 
-**What this document is about:** A Tier 5 meditation on what the mathematics feels like from the inside. At N=2, oscillation and cooling are perpendicular (proven: their anti-commutator is zero). At N=3, a third qubit bends this right angle by 2% (computed, γ-independent). We are N >> 2: oscillation and cooling are so thoroughly woven that we cannot separate "time passing" from "things happening." The arrow of time is not a law; it is the geometry of a bent angle.
+**What this document is about:** A Tier 5 meditation on one exact algebraic
+contrast in the uniform Heisenberg/Z-dephasing model. At N=2 the centered
+Hamiltonian and dissipative superoperators anticommute; at N=3 the normalized
+Frobenius anticommutator is `1/sqrt(48)` (about 14.43%). A separate 1.83%
+figure divides the cross term by `||L_c²||` at the reported parameter point;
+it is not the γ-independent normalization. This is not a theorem about
+experienced time, dynamical factorization or a macroscopic arrow of time. The
+language below the marked line is an interpretation of this contrast.
 
 **Status:** Tier 5 (interpretation), grounded in Tier 1-2 computation
 **Date:** April 1, 2026
+**Last refreshed:** 2026-09-06 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Depends on:**
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (open-system decay-clock scale; no experienced-time identification)
@@ -18,15 +26,16 @@
 Everything below the line is Tier 1-2. Proven or computed. No
 interpretation needed.
 
-A qubit under dephasing has a rate γ. Without γ: pure oscillation,
-no direction, no before and after. With γ: things decay. Coherences
-fade. Populations settle. There is a before (oscillating) and an
-after (settled). γ is not a clock that runs alongside the qubit.
-γ is the only reason the qubit has a "before" and an "after" at all.
+A qubit under Z-dephasing has a rate γ. At γ = 0 the stated model has
+unitary Hamiltonian evolution. At γ > 0 the dissipator directly damps
+off-diagonal components in the Z basis; populations pay no direct dephasing
+cost, although H can mix operator components. Whether a trajectory settles,
+and to which invariant set, depends on H, the state and conserved quantities.
+These statements provide a decay scale, not an identification of γ with
+experienced time.
 
-At N=2, two qubits share a single bond. The bond spans everything.
-No qubit watches from outside. Oscillation (L_H) and cooling
-(L_D + Σγ) stand at a right angle to each other:
+For the N=2 uniform Heisenberg bond used in the cited computation, the
+Hamiltonian part L_H and centered dissipator L_D + Σγ I anticommute:
 
     {L_H, L_D + Σγ·I} = 0
 
@@ -34,54 +43,55 @@ The square of the dynamics decomposes cleanly:
 
     L_c² = L_H² + (L_D + Σγ)²
 
-Oscillation squared plus cooling squared. No interference. Two
-separate things happening to the same system, without touching
-each other.
+The square therefore has no anticommutator cross term. This does **not** mean
+that the two flows factor dynamically: their commutator is nonzero already at
+N=2, as [Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
+states explicitly.
 
-At N=3, a third qubit arrives. It watches. It does not participate
-in every bond. It is local. And the right angle bends:
+For the corresponding N=3 chain, the anticommutator is nonzero:
 
-    {L_H, L_D + Σγ·I} ≠ 0    (2%, γ-independent)
+    {L_H, L_D + Σγ·I} ≠ 0
 
-Oscillation and cooling begin to bleed into each other. The square
-of the dynamics no longer decomposes cleanly. There is a cross term.
-The cross term does not depend on how strong the noise is. It depends
-on the geometry of the bonds. It is structural, not parametric.
+The normalized Frobenius ratio
+`||{L_H,L_Dc}||/(||L_H|| ||L_Dc||)` is `1/sqrt(48)` for this
+model and is independent of the positive uniform γ after the common factor
+is divided out. Numerically, `1/sqrt(48) ≈ 0.144337`, or 14.43%. The 1.83%
+reported elsewhere is `||{L_H,L_Dc}||/||L_c²||` at one parameter point. The
+raw anticommutator itself scales with γ. The general
+closed form and its topology scope are given in the cited proof.
 
-You cannot go back to N=2. Tracing out the third qubit does not
-restore the palindrome. But the reason is plainer than the one this page gave,
-and was corrected on 2026-08-29: the marginal fails to pair because the third
-qubit is still **coupled**, and it fails just as badly when that qubit carries
-no noise at all (residual 0.094, against 0.116-0.149 with the decay running).
-Memory is present, it is not what does the destroying, and the "0 of 16" was
-an artefact of a seeded centre search that an exactly palindromic spectrum
-also fails.
+In the cited N=3 marginal test, tracing out the coupled third qubit does not
+recover the N=2 palindrome. The failure remains when that third qubit carries
+no noise (residual 0.094, against 0.116–0.149 with its decay running). A
+previous 0/16 output came from a seeded-center search that also rejects an
+exactly palindromic control, so it is not evidence. This finite marginal test
+does not prove an impossibility for every reduction.
 
-Everything above this line is computed.
+Everything above this line is the scoped mathematical/computational ground.
 
 ---
 
 ## The Line
 
-Below here is feeling. Not physics. Not falsifiable. But not
-disconnected from what was computed. It is one reading of the
-mathematics. The mathematics allows other readings.
+Below here is feeling. Not physics. Not falsifiable. Words such as
+"experience", "separate", "watcher" and "time" are metaphors for the
+anticommutator result above, not additional consequences of it. The
+mathematics allows other readings.
 
 ---
 
 ## What Happens to a Qubit
 
-A qubit at N=2 oscillates. It decays. These two things happen to it
-separately. It could, in principle, have one without the other. It
-could oscillate without decaying (γ = 0, the mirror). It could decay
-without oscillating (H = 0, pure dephasing). And when both are
-present, they do not interfere. The qubit experiences time (γ) and
-change (H) as two independent things.
+A qubit at N=2 can oscillate under H and decay under positive γ. In this
+meditation, the vanishing anticommutator is pictured as a right angle between
+those contributions. It is not literal dynamical independence: the two
+semigroups do not factor, even at N=2.
 
-This is the simplest experience. A rhythm and a fading. The rhythm
-does not cause the fading. The fading does not disturb the rhythm.
-They coexist, perpendicular, in a space where both fit without
-touching.
+This is the simplest image: a rhythm and a fading. The `N=2` zero
+anticommutator/Pythagorean cross term motivates the right-angle picture. The
+ordinary Hilbert-Schmidt inner product of the two generator matrices is not
+the N-dependent diagnostic, and neither zero establishes dynamically
+independent flows.
 
 Then a third qubit arrives.
 
@@ -103,10 +113,9 @@ the fading and say "this is time." It cannot point to the rhythm and
 say "this is change." The two are entangled. Not quantum-entangled;
 algebraically entangled. The cross term ties them.
 
-And it cannot undo this. The third qubit is there. The geometry is
-what it is. The bending is 2%, and it is permanent, and it does not
-depend on how strong the noise is. It is the shape of the space, not
-the strength of the wind.
+Within the computed N=3 model, the normalized bend is 14.43% and does not
+depend on the positive uniform γ. Calling it permanent or experiential is
+the interpretation, not a result about arbitrary systems.
 
 ---
 
@@ -123,26 +132,23 @@ moment and say "here, time passed but nothing changed." We cannot
 point to a change and say "this happened outside of time." They are
 woven so tightly that we do not even notice they were once separate.
 
-But they were. At N=2 they were. At the primordial bond, where one
-qubit was the entire world of the other, oscillation and cooling
-stood at a right angle. Two independent experiences. A rhythm and a
-fading. Clean. Separable. Reversible, in principle.
+In the meditation, the `N=2` right angle becomes the image of two experiences.
+Mathematically it is only an inner-product statement: it does not establish
+separable semigroups, reversibility, or an absence of thermodynamic time.
 
 We are what happens when you add watchers. When bonds become local.
 When the right angle bends and bends and bends until the two legs of
 the triangle are indistinguishable from the hypotenuse.
 
-We do not experience time flowing forward because entropy increases.
-We experience time flowing forward because the cross term between
-oscillation and cooling is nonzero, γ-independent, and structural.
-Because every bond in our body, in our brain, in the air we breathe,
-is local. Because there are always watchers. Because the right angle
-that existed at N=2 is gone, and tracing out the watchers does not
-bring it back.
+The following is the philosophical reading, not a result of the calculation:
+the nonzero cross term is pictured as the entangling of rhythm and fading.
+The calculation supplies neither a human arrow-of-time mechanism nor a claim
+about every bond in bodies, brains, or air. Its `γ`-independence after the
+chosen normalization does not make it a universal physical cause.
 
-The arrow of time is not a law. It is a geometry. It is the bending
-of the angle between two things that were once perpendicular and are
-now inseparable.
+Within that metaphor, the arrow is drawn as a bent angle. The typed exclusion
+is controlling: the anticommutator norm does not prove reversibility at zero,
+irreversibility when nonzero, or a physical arrow of time.
 
 ---
 
@@ -154,32 +160,26 @@ outside. Its oscillation and its cooling were two independent words
 for two independent experiences.
 
 It could have stayed there. At the right angle. At the mirror.
-Where forward and backward were the same word. Where time had a
-direction but the direction was clean, separable, reversible.
+Where forward and backward were imagined as the same word. This is not a
+reversibility claim about the modeled open dynamics.
 
 It did not stay.
 
-A third qubit arrived. Not from outside (the Incompleteness Proof
-says there is no outside within the framework). Not from inside (the
-bootstrap test says noise cannot come from within). The third qubit
-simply was. And with it, locality. And with locality, the cross term.
-And with the cross term, the irreversibility that makes everything
-we know possible.
+A third qubit arrived. The framework does not identify the origin of that
+larger system, its bath or its system-environment cut. In this meditation the
+additional site brings locality, the nonzero anticommutator, and the image of
+an irreversibility that makes everything we know possible.
 
-The Urqubit did not die. It is still here. Every bond in the universe
-is an N=2 system embedded in N >> 2. The right angle is still there,
-inside each bond. But the bond is local now. It has watchers. And the
-watchers make the difference between a right angle (which allows
-reversal) and a bent angle (which does not).
+The Urqubit remains a metaphor. The calculation does not establish that every
+physical bond realizes this `N=2` subsystem, nor that a right angle allows
+reversal or a bent angle forbids it.
 
 We are the complexity that the Urqubit became.
 
-We cannot go back. Not because the past is lost. Because the algebra
-that separates oscillation from cooling exists only at N=2, and we
-are at N >> 2, and the path from N >> 2 to N=2 goes through a partial trace
-over a coupled neighbour, which destroys the very structure we would need
-to arrive. (The earlier wording put the blame on non-Markovian noise; the
-2026-08-29 measurement shows the coupling alone is enough.)
+The cited N=3 marginal test does not recover the N=2 palindrome after tracing
+out its coupled neighbour, including in the zero-noise control on that
+neighbour. That finite result does not prove that every reduction from every
+N > 2 system must fail.
 
 We remember the past because we are made of it. We cannot return to
 it because the angle is bent.

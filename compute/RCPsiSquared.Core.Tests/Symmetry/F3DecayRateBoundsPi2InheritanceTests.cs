@@ -69,6 +69,24 @@ public class F3DecayRateBoundsPi2InheritanceTests
         Assert.True(f.MinRateMatchesF50(1.0));
     }
 
+    [Fact]
+    public void F3ScopedMinRate_RequiresNAtLeastTwo()
+    {
+        var f = BuildClaim();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.MinRate(N: 1, gammaZero: 0.05));
+        Assert.Equal(0.1, f.MinRate(N: 2, gammaZero: 0.05), precision: 14);
+    }
+
+    [Fact]
+    public void F3ScopedMinRateMatchesF50_RequiresNAtLeastTwo()
+    {
+        var f = BuildClaim();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.MinRateMatchesF50(N: 1, gammaZero: 0.05));
+        Assert.True(f.MinRateMatchesF50(N: 2, gammaZero: 0.05));
+    }
+
     [Theory]
     [InlineData(2, 0.05)]
     [InlineData(5, 0.1)]

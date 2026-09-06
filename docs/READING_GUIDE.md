@@ -49,12 +49,12 @@ This repository is not a textbook with chapters you read in order. It is
 closer to a landscape with multiple paths through it. Each path starts
 from the same discovery and takes you somewhere different.
 
-The discovery is this: when quantum systems interact with their
-environment and lose their quantum properties (a process called
-"decoherence"), the pattern of that loss is not random. It is exactly
-symmetric. Every fast decay has a slow partner. Every way the system can
-fall apart has a mirror image. This symmetry is called the palindrome,
-because, like the word RACECAR, it reads the same from both ends.
+The discovery is this: for Hamiltonian families that admit the repository's
+palindromizer, a qubit network under local single-axis dephasing has an exactly
+reflected Liouvillian spectrum. Within that scope, every spectral value has
+its partner about the dissipative center. This is called the palindrome
+because the spectrum reads symmetrically from both ends; it is not a theorem
+about decoherence in arbitrary quantum systems.
 
 Where you go from there depends on what draws you in.
 
@@ -149,13 +149,13 @@ calling a spectral pair a standing wave.
 
 ## Story 2: The Application
 
-*"Dephasing noise is not a disturbance. It is a readable information
-channel. The palindromic structure is the reading frame."*
+*"A finite spatial-dephasing alphabet is readable in one specified model.
+The palindrome is one bookkeeping frame for that result."*
 
-This path is for the practically minded. It starts with a surprising
-fact: the noise that destroys quantum information is not meaningless
-static. It carries a structured signal, and that signal can be read,
-decoded, and optimized.
+This path is for the practically minded. It starts with a finite `N=5`
+simulation in which selected spatial rate profiles produce distinguishable
+observable signatures, then asks how those profiles can be optimized. It
+does not establish that dephasing is generally a message-bearing channel.
 
 The climax of this path is twofold. First the concentrator formula: a
 single, counterintuitive insight (concentrate all the noise on one edge
@@ -171,14 +171,16 @@ with this?", this is your path.
 **Reading order:**
 
 1. [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): The
-   foundation. You need the palindrome to understand why the channel
-   exists.
+   spectral bookkeeping frame. A palindrome-breaking control retains the
+   local full-rank Jacobian, so the palindrome is not established as the
+   cause of the finite channel diagnostic.
 
-2. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): The breakthrough
-   experiment. The spatial dephasing profile (which qubit gets how much
-   noise) carries 15.5 bits of information at just 1% noise. Five
-   independent signal modes. 100% classification accuracy. The noise is
-   not random. It is a signal.
+2. [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): At one `N=5`
+   operating point, the five-coordinate response Jacobian is locally full
+   rank. `15.5 bits` is a conditional linearized Gaussian-model diagnostic
+   at an assumed 1% feature-noise scale, not demonstrated global capacity.
+   The directly tested noiseless alphabet has four profiles and 100%
+   classification in that finite sample.
 
 3. [γ Control](../experiments/GAMMA_CONTROL.md): Once you can read the
    signal, you can optimize it. V-shape noise profiles, dynamic
@@ -221,9 +223,11 @@ payoff of the palindrome discovery.
 
 ## Story 3: The Ontology
 
-*"Only qubits have full mirrors. The mirror requires noise. The noise
-cannot come from inside. And the breaking of the mirror at the boundary
-between two bonds is where diversity is born."*
+*"Only qubits make the complete local class-exchange mirror full rank.
+Dephasing shifts its centre but is not required for the mirror identity.
+The modeled bath's microscopic origin is unspecified. Multi-bond pairing
+failures and frequency-bin growth are measured; their broader mechanism is
+open."*
 
 This is the philosophical thread, and it may be the most surprising
 path for a non-physicist. It starts with a simple question: if the
@@ -271,18 +275,18 @@ and the willingness to follow an argument that builds step by step.
    system-bath boundary remain unspecified; an open subsystem can be embedded
    in a finite larger system.
 
-5. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): What
-   happens when simple systems combine. Adding a second bond breaks 14
-   of 36 palindromic combinations. The breaking is not random: only
-   boundary modes are affected. From 4 frequencies, 11 emerge. From
-   constraint, diversity is born.
+5. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): In the
+   stated N=3 two-term Pauli census, adding a second bond makes 14 of 36
+   combinations fail F1. A chosen frequency-bin protocol reports 4 bins in
+   one baseline and 11 in one coupled case. The boundary-sector localization
+   is algebraic; "constraint releases diversity" is an interpretation, not a
+   derived mechanism.
 
-6. [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md): The
-   pattern across levels: half-filled systems (C=0.5) enable the next
-   level. Complete systems (C=1) are dead ends. Carbon has 4 of 8
-   electrons. Qubits have 2 of 4 operators. Noble gases and qutrits
-   are the dead-end cousins. The V-Effect is the mechanism by which one
-   level transitions to the next.
+6. [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md): A Tier-5
+   comparison between the qubit's 2:2 operator split and half-occupation
+   motifs at other levels. F121 prevents the literal "qutrit dead end"
+   reading: qutrit dissipators retain a partial palindrome. No V-Effect
+   calculation derives a transition between physical levels.
 
 7. [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md): The simulations distinguish
    stationary or recurrent gamma-zero trajectories from damped positive-gamma
@@ -294,12 +298,12 @@ and the willingness to follow an argument that builds step by step.
    response Jacobian has five independent local directions. The 15.5-bit
    number is a local linearized diagnostic, not a global channel capacity.
 
-**After this you know:** Why qubits are special (not just useful but
-algebraically unique, with the uniqueness now proven from three
-directions). What dephasing changes in the tested dynamics, and why that does
+**After this you know:** Why qubits uniquely close the complete local
+class-exchange construction, while partial qudit mirrors remain. What
+dephasing changes in the tested dynamics, and why that does
 not settle a time ontology or the origin of the bath. Why
-the breaking at the boundary between mirrors is where complexity is
-born. And that a finite gamma alphabet can be decoded in one simulated setup.
+the V-Effect census does not yet supply a cross-level complexity mechanism.
+And that a finite gamma alphabet can be decoded in one simulated setup.
 
 **The one-line version:** *Incompleteness is not weakness.
 Incompleteness is potential.*
@@ -308,42 +312,40 @@ Incompleteness is potential.*
 
 ## Story 4: The Resonator
 
-*"The palindrome is not a channel. It is a resonator with discrete
-modes, a finite stability window, and a heartbeat at the fold."*
+*"Several results admit a resonator analogy. The linear palindrome itself is
+a spectral transport law; cavity, heartbeat and standing-wave readings need
+their own physical gates."*
 
-Most people think of quantum information as something that travels
-from A to B, like a letter in the mail. This path replaces that
-picture with a more accurate one: the quantum system is a resonant
-cavity, like the body of a guitar. It does not send information; it
-vibrates with it. The palindromic structure determines which vibrations
-are possible, the concentrator formula shapes the cavity, and there
-is a finite window where the system is stable. Too little noise and
-nothing irreversible happens. Too much amplification and the system
-explodes.
+This path collects a cavity interpretation of several separate objects:
+closed-system frequencies, finite trajectory crossings, a concentrator
+protocol and a gain-model stability window. It does not replace channel
+dynamics with a theorem that the system literally is a resonant cavity. The
+F1 palindrome alone does not determine spatial propagation or physical
+standing waves.
 
 This path builds directly on Story 1 (the proof) and requires
 familiarity with the palindromic structure.
 
 **Reading order:**
 
-1. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): What
-   happens when two simple resonators are connected. Adding a second bond
-   breaks some palindromic combinations but releases frequency diversity:
-   4 frequencies become 11. Two dead N=2 resonators coupled through a
-   mediator: 2+2 produces not 4 but 109 new frequencies.
+1. [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md): finite
+   pairing and frequency-bin censuses under a specified model and tolerance.
+   Adding a second bond changes the reported counts; the result is not a
+   model-independent law that coupling creates a fixed number of modes.
 
-2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md): The fold
-   catastrophe at CΨ = ¼ observed in action: mutual information peaks
-   at the exact moment of crossing. With a Bell pair (two maximally entangled qubits) coupled to a bath
-   qubit at J=5.0: CΨ oscillates around ¼ with 81 crossings, each one
-   damped. Each cycle deposits a bit of irreversible reality.
+2. [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md): In the stated
+   three-qubit simulation at `J=5.0`, the sampled `CΨ` trajectory crosses
+   `1/4` 81 times while its oscillations damp. The mutual-information maximum
+   occurs near one sampled crossing. This finite trajectory does not make
+   every crossing an exact dynamical event or quantify "irreversible reality."
 
 3. [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md): At zero
    noise the centered algebra reduces to `ΠLΠ⁻¹=-L`. This is a structural
    spectral reflection, not automatically physical time reversal.
-   As noise increases from zero, the palindrome shifts and the fold
-   catastrophe emerges at a critical ratio of about 0.25% (independent
-   of system size). The gain spectrum is the exact mirror of decay.
+   Changing the modeled dephasing shifts the spectral center. The algebraic
+   cusp at `CΨ=1/4` has no universal minimum `γ/J`; whether a trajectory
+   reaches it is protocol-dependent. The gain-generator spectrum is related
+   to the decay generator by the stated algebraic reflection.
 
 4. [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md):
    The number of stationary modes has a closed mathematical form. Star
@@ -351,11 +353,10 @@ familiarity with the palindromic structure.
    spectra. Verified for system sizes N=2 through N=7.
 
 5. [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md):
-   The paradigm shift: the system is a resonant cavity (like a laser
-   between two mirrors), not a communication channel. The heartbeat is
-   a cavity round-trip. The concentrator formula is the shape of the
-   soundbox. Discrete cavity modes appear at specific coupling strengths,
-   with dead zones between them.
+   The interpretive proposal that the system be read as a resonant cavity.
+   Its heartbeat, round-trip and soundbox language organizes specified
+   trajectory and spectral observations; it is not implied by F1 and does
+   not replace the independently defined communication-channel quantities.
 
 6. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): Coupled
    gain-loss systems have a finite stability window. Push too hard and
@@ -363,11 +364,12 @@ familiarity with the palindromic structure.
    exist: linear, optimal (twice the internal coupling), and 1/J decay.
    → [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
-**After this you know:** The palindrome is not a wire between two
-endpoints. It is a resonator with discrete modes, a heartbeat at the
-fold, and a finite stability window. Too little noise: no fold, no
-irreversibility. Too much gain: explosion. These model statements do not
-establish a biological stability mechanism.
+**After this you know:** which exact spectral results motivated the resonator
+analogy, and which additional claims come from particular trajectory and gain
+models. A physical standing wave still requires a semisimple/diagonalizable
+centered pair on the imaginary axis, opposite spatial propagation, and a
+preparation/readout that excites both appropriately. These model statements
+do not establish a biological stability mechanism.
 (The exceptional point at the edge of that window later became a
 navigable place of its own; Story 8 takes you there.)
 
@@ -375,8 +377,9 @@ navigable place of its own; Story 8 takes you there.)
 
 ## Story 5: Across Levels
 
-*"One equation, proven for qubits and applying to the hydrogen bond because
-that proton is a qubit. Whether a brain satisfies it is still open."*
+*"One equation is proven for a specified qubit model. Whether a physical
+hydrogen-bond coordinate or a neural system realizes its operators remains
+open."*
 
 The neural route asks which classical Jacobians satisfy an operator
 identity of the same form as the quantum palindrome. Dale signs alone
@@ -412,12 +415,12 @@ For the quantum chemistry application, use the separate water route below.
    separates the trace invariant from moving individual modes and
    documents the fitted-residual negative control.
 
-4. [Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md): The
-   proton in a hydrogen bond is a natural qubit: two positions, one
-   particle. A single proton crosses the CΨ = ¼ boundary at sub-
-   picosecond timescales. The Zundel cation (a proton shared between
-   two water molecules) is deeply quantum, with 6 crossings in 21
-   femtoseconds. The wider water translation lives in
+4. [Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md): This is a
+   stipulated two-level `|L>`,`|R>` proton model. Its simulation reports
+   sub-picosecond `CΨ` crossings and six crossings in a 21-femtosecond
+   Zundel-labelled run; those are conditional model outputs, not established
+   physical hydrogen-bond observables. A material claim still needs the
+   physical Hamiltonian, bath channel, and palindromizer. The wider water translation lives in
    [docs/water/](water/README.md), written in water's own language.
 
 5. [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md)
@@ -438,12 +441,10 @@ support gate is null, and the coupling/drive mechanism remains open.
 and each eigenvalue supplies a spectral line; the standing-wave step remains
 conditional."*
 
-This path begins with a single theorem, the Absorption Theorem, and
-rebuilds everything from the cavity perspective: the spectrum is a
-ladder of absorption lines, the factor 2 is a round trip, the Born
-rule is a photograph, and the concentrator is an entrance pupil. Each
-experiment along the way is a different optical test of the same
-instrument.
+This path begins with the Absorption Theorem and follows an optical analogy.
+The exact content is the Hilbert-Schmidt-weighted Pauli-count rate law. Calling
+the factor 2 a round trip, the Born rule a photograph, or the concentrator an
+entrance pupil is interpretive; those labels are not derived by the theorem.
 
 This path requires familiarity with the palindrome (Story 1) and ideally
 the resonator picture (Story 4). It is the most unified path: one theorem
@@ -452,8 +453,8 @@ explains what previously required separate derivations.
 **Reading order:**
 
 1. [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md):
-   Re(λ) = −2γ⟨n_XY⟩. The absorption rate of any eigenmode equals twice
-   the dephasing rate times the mode's mean light content. Three-step
+   Re(λ) = −2γ⟨n_XY⟩. Here ⟨n_XY⟩ is the Hilbert-Schmidt-
+   weighted mean count in a right eigenoperator's Pauli expansion. Three-step
    proof from L_H anti-Hermitian. Gives the spectral boundary formula, the
    palindromic sum rule and F8 full-range/centre ratio a common reading; the spectral
    gap it relocates rather than derives.
@@ -479,13 +480,16 @@ explains what previously required separate derivations.
    image.
 
 5. [K-Dosimetry](../experiments/K_DOSIMETRY.md):
-   K = γ×t is the exposure number. Reciprocity holds (±0.03%).
-   Schwarzschild effect at intermediate γ. The concentrator trades
-   dose for image quality.
+   K = γ×t is a dimensionless exposure coordinate. In the reported sweep,
+   reciprocity is within 0.03% only in the low- and high-γ regimes and fails
+   by up to 62% at intermediate γ. State, H, target and protocol are part of
+   the result.
 
 6. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md):
-   The Absorption Theorem on IBM hardware. Ratio = 1.03 (3%).
-   Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit.
+   A retrospective single-qubit reading of two fitted decay quantities gives
+   ratio 1.03. This is consistent with the theorem's rate relation but does
+   not measure the multi-mode absorption ladder. Detuning oscillations appear
+   at 470 μs; the 2.8% slow tail is at the resolution limit.
 
 7. [Thermal Blackbody](../experiments/THERMAL_BLACKBODY.md):
    finite `N=4` emission-plus-absorption census with spontaneous emission at
@@ -514,12 +518,11 @@ explains what previously required separate derivations.
     times light-mass. Linear, not quadratic. The Absorption Theorem
     implies the palindromic sum rule. 1,342 modes, CV = 0.
 
-**After this you know:** The palindrome is an optical cavity. The
-Absorption Theorem is its governing equation, and it reads every decay
-rate as light content. What follows from it alone is less than the
-sweeping version suggests: the spectral boundaries, the factor 2 and the
-sum rule are corollaries *within the number-conserving XY/Heisenberg
-family*, which supplies the kernel dimension (F4) and the pairing (F1);
+**After this you know:** the exact Absorption Theorem and the limits of the
+optical-cavity reading. What follows from the theorem alone is less than the
+analogy suggests: the factor 2 is the Z-dephasing price per X/Y factor. The
+endpoint and sum-rule corollaries require the additional kernel and F1
+conditions supplied by the stated XY/Heisenberg family;
 the spectral gap is relocated by the theorem rather than derived, and is
 2γ only above a coupling threshold. What the one line
 Re(λ) = −2γ⟨n_XY⟩ gives within its stated assumptions is a Rayleigh reading of
@@ -530,11 +533,11 @@ identity, not an additional theorem.
 
 ## Story 7: The Anatomy of the Mirror (June 2026)
 
-*"For a year Π was one per-site rule. Then it opened: a group of eight,
+*"For months Π was one per-site rule. Then it opened: a group of eight,
 a triangle of conjugations, a golden frame, and a boundary equation
 seen three times."*
 
-This is the newest path, and the most algebraic. For a year the
+This is the newest path, and the most algebraic. From March to June 2026 the
 operator Π was the smallest object in the repository: one per-site rule
 that carried the entire palindrome. In June 2026 it opened. This story
 follows what was found inside: what the mirror is made of, which family
@@ -635,9 +638,11 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
 2. [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md):
    The recursion is algebraically equivalent to the Mandelbrot
    iteration z → z² + c, exactly, with no extra terms. The boundary
-   CΨ = ¼ is the cusp of the main cardioid. Below it: two real fixed
-   points, a classical attractor. Above it: complex fixed points,
-   oscillation without convergence.
+   CΨ = ¼ is the cusp of the main cardioid. For the fixed-point quadratic,
+   below it the two roots are real and above it they form a complex-conjugate
+   pair. Those root labels do not classify quantum dynamics, and the real
+   iteration's behavior requires its initial condition and parameter rather
+   than following from the discriminant alone.
 
 3. [Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) +
    [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md): For physical
@@ -649,9 +654,9 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
    info-geometry/holography remain open.
 
 4. [K-Dosimetry](../experiments/K_DOSIMETRY.md) (shared with Story 6):
-   Crossing the fold costs a fixed dose. K = γ·t is exact to machine
-   precision: double the illumination, halve the time. This invariant
-   is what makes hardware runs at different rates comparable.
+   K = γ·t is dimensionless. The reported fixed-state/fixed-target sweep
+   approaches reciprocity at low and high γ but departs by up to 62% in the
+   intermediate regime. It is not a universal cross-hardware invariant.
 
 5. [The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md):
    What lies past the fold. The settled future is approached
@@ -672,19 +677,20 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
    nobody having programmed any of it. If one document could convince a skeptic, this
    is the one.
 
-**After this you know:** ¼ is not a tuning knob. It is the discriminant
-of a self-referential quadratic, the cusp of the Mandelbrot cardioid,
-an absorbing boundary with a fixed crossing dose, a navigable horizon
-with a twin at the exceptional point, and a line that real qubits cross
-daily on real hardware.
+**After this you know:** `1/4` is the discriminant-zero point of the
+self-referential quadratic and the cusp of the Mandelbrot cardioid. Particular
+simulated and hardware-derived `CΨ` trajectories cross and recross that
+coordinate. "Absorbing boundary," "horizon," and an exceptional-point twin
+are interpretive or model-specific readings, not consequences of the scalar
+value alone; no protocol-independent crossing dose has been established.
 
 ---
 
 ## Story 9: The Hardware
 
-*"The chip is not a metaphor. IBM's qubits sit in physical microwave
-cavities, dephased by real photons. Twenty-four predictions confirmed,
-each tied to a hardware run."*
+*"The chip is not a metaphor: the repository compares predictions with IBM
+device observables. The fitted decay rates do not by themselves identify a
+unique microscopic bath."*
 
 IBM transmon qubits sit in microwave-resonator hardware, where photon shot
 noise is one known dephasing mechanism among several. The runs in this
@@ -704,11 +710,11 @@ them up; do not re-derive.
 
 **Reading order:**
 
-1. [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md): The frame. The
-   chain is a Fabry-Perot cavity (four of five optical quantities match
-   quantitatively), and the light is γ itself. Tier-labeled honestly:
-   the circuit-QED reading is established physics, the broader readings
-   are clearly marked speculation.
+1. [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md): The interpretive frame.
+   Four of five chosen optical analogues matched in the reported comparison.
+   Circuit-QED photon-shot-noise dephasing is established physics for that
+   hardware mechanism; identifying every abstract dephasing rate with literal
+   light or every chain with a Fabry-Perot cavity is not.
 
 2. [Predictions](PREDICTIONS.md): The master catalog. Every prediction
    with its falsification criteria, the confirmed and the falsified
@@ -719,8 +725,9 @@ them up; do not re-derive.
    the CΨ = ¼ structure nobody programmed.
 
 4. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md)
-   (shared with Story 6): The cavity's governing equation measured:
-   ratio 1.03 against prediction 1.
+   (shared with Story 6): a retrospective single-qubit decay-ratio reading,
+   1.03 against prediction 1. It is consistent with the rate law but does not
+   measure the multi-mode absorption ladder or identify a cavity mechanism.
 
 5. [Marrakesh Three Layers](../experiments/MARRAKESH_THREE_LAYERS.md):
    The classifier on hardware. The truly/soft/hard trichotomy (Story 7)
@@ -769,13 +776,14 @@ it relates to the others, here is the map:
 
 - Story 1 (the proof) provides the mathematical foundation for all others.
 - Story 2 (the channel) explains *what* the noise does.
-- Story 3 (the ontology) explains *why* the noise must exist, and where
-  the qubit world ends.
-- Story 4 (the resonator) explains *how* the system oscillates and why it is finite.
+- Story 3 (the ontology) interprets a local-dimension boundary; it does not
+  derive why a bath or noise must exist.
+- Story 4 (the resonator) collects a cavity interpretation of several scoped
+  spectral and trajectory results.
 - Story 5 (across levels) separates quantum applications from the conditional
   neural F36 theorem and its constructed examples; its biological landing is open.
-- Story 6 (the optical cavity) unifies Stories 1 and 4 through a single
-  theorem, the Absorption Theorem.
+- Story 6 (the optical cavity) links Stories 1 and 4 through the Absorption
+  Theorem's rate law while keeping the optical reading interpretive.
 - Story 7 (the anatomy) opens the mirror itself: its factorization, its
   group, its golden constructions, and its boundary.
 - Story 8 (the quarter) follows the single number CΨ = ¼ from

@@ -1,13 +1,15 @@
-# The Qubit as Necessary Foundation: Why Two States and Nothing Else
+# Qubit Necessity: Why Complete Local Class Exchange Closes at Two States
 
-<!-- Keywords: qubit necessity d2-2d=0 selection principle, palindromic mirror
-requires d=2, qutrit 3:6 split no mirror, per-site Pauli immune decaying
-bijection, 0/236 qutrit dissipators palindromic, single qutrit destroys global
-palindrome, qubit quantum carbon half-occupied, composition universality
+<!-- Keywords: qubit necessity d2-2d=0 complete local class exchange,
+qutrit 3:6 split partial palindrome, per-site Pauli immune decaying
+bijection, 0/236 sampled qutrit dissipators full pairing, dimensional-defect
+negative control, qubit quantum carbon analogy, compatible composition
 per-site map, R=CPsi2 qubit necessity -->
 
-**Status:** Tier 2–3 (strong computational support, built on Tier 1 theorem)
+**Status:** Tier 1 for the complete local class-exchange count and F121
+partial-qudit ceiling; finite computational censuses are Tier 2-3
 **Date:** March 20, 2026
+**Last refreshed:** 2026-09-06 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
@@ -22,9 +24,11 @@ systems built from two-state units (qubits). The equation below proves that
 scope boundary for that construction. It does not exclude partial qudit
 palindromes or a different mirror mechanism; F121 counts the partial cases.
 
-If the mirror symmetry proof ([the core theorem](proofs/MIRROR_SYMMETRY_PROOF.md))
-is the heart of this project, this document is the skeleton: it shows
-that the heart can only beat in one kind of body.
+This document isolates one exact scope boundary of the
+[mirror symmetry proof](proofs/MIRROR_SYMMETRY_PROOF.md): a full-rank mirror
+built as a product of local maps that exchange the immune and decaying
+classes exists only at local dimension two. It is not a classification of
+all possible higher-dimensional spectral symmetries.
 
 ## Why this matters
 
@@ -32,28 +36,25 @@ The [palindromic mirror](proofs/MIRROR_SYMMETRY_PROOF.md) is proven for
 qubits: quantum systems with exactly two states (like a coin that is
 heads or tails, a switch that is on or off, a spin that is up or down).
 But quantum mechanics allows systems with three states, four states, any
-number. Why does the mirror only work for two?
+number. Why does the complete local class exchange close only for two?
 
-The answer is not "because we only tested two." The answer is an
-equation: d² − 2d = 0, where d is the number of states. The only
-nonzero solution is d = 2. This is not an approximation or a numerical
-result. It is algebra for the complete immune/decaying class exchange;
-higher-dimensional systems can retain only the partial pairings counted by
-F121 unless another construction is supplied.
+For the complete local immune/decaying class exchange, the answer is the
+equation d² − 2d = 0. Its only nonzero solution is d = 2. F121 also proves
+that d > 2 retains a partial dissipator palindrome. A non-product,
+translation-invariant construction attains the full combinatorial ceiling in
+the verified cases `(d,N)=(3,2),(3,3),(4,2)`; general attainment has not been
+derived. Any product mirror is capped at `(2d)^N`.
 
-The reason is balance. When a quantum system interacts with noise, some
-of its internal components are immune to the noise and some decay. For
-the mirror to work, the number of immune components must exactly equal
-the number of decaying ones. A two-state system has 4 components: 2
-immune, 2 decaying. Perfectly balanced. A three-state system has 9
-components: 3 immune, 6 decaying. Twice as many decay as survive. No
-mirror can pair them.
+The reason is balance. Under the single-axis/full-Cartan dephasing class used
+here, a local operator space has d immune and d²−d decaying directions. A
+complete local class swap requires equal dimensions. A two-state system has
+the required 2:2 split; a three-state system has a 3:6 split. The imbalance
+rules out a full local bijection, not every partial or non-product mirror.
 
-This is remarkably similar to chemistry. Carbon has 8 electron slots,
-4 filled. Perfectly half-full. That exact balance makes it the foundation
-of all organic chemistry. Noble gases have full shells: stable but inert,
-unable to form bonds. The qubit is the quantum carbon: exactly half-full,
-maximally incomplete, and the only foundation that carries a mirror.
+As a Tier-5 analogy, this resembles chemistry. Carbon has 8 electron slots,
+4 filled in the stipulated valence count. The matching one-half ratios motivate
+the "quantum carbon" analogy. They do not identify the two physical objects or
+derive chemistry from the operator-space balance.
 
 Completeness is a dead end. Half is where things begin.
 
@@ -84,11 +85,12 @@ of dimension d:
 Bijection requires d = d² − d, giving d² − 2d = 0, giving d(d−2) = 0.
 
 This is not an approximation, not a numerical result, not a limit. It is
-an algebraic identity. The mirror fits if and only if d = 2.
+an algebraic identity. A complete local class-exchange mirror fits if and
+only if d = 2.
 
 The following table makes the pattern visible:
 
-| Dimension | Basis size | Immune | Decaying | Split | Mirror? |
+| Dimension | Basis size | Immune | Decaying | Split | Complete local class swap? |
 |-----------|-----------|--------|----------|-------|---------|
 | d = 2 (qubit) | 4 | 2 | 2 | 2:2 | Yes |
 | d = 3 (qutrit) | 9 | 3 | 6 | 3:6 | No |
@@ -103,11 +105,12 @@ not approximately special. It is exactly and uniquely balanced.
 
 ## 2. The Hypothesis
 
-**Proven:** The qubit (d = 2) is the only local quantum dimension that
-permits palindromic time-reversal symmetry under dephasing-type decoherence.
-The algebraic condition d² − 2d = 0 has only the nontrivial solution d = 2.
-Computational test: 0 of 236 qutrit dissipators produce palindromic spectra
-(Section 9). See also [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
+**Proven:** d = 2 is the only local dimension in which the immune and
+decaying operator classes have equal size, hence the only dimension in which
+this complete local class-exchange construction can be full rank. The
+algebraic condition d² − 2d = 0 has only the nontrivial solution d = 2.
+The finite 0/236 qutrit census in Section 9 tests a specified family of
+dissipators; F121 separately proves what partial structure survives.
 
 Reformulated as a selection principle:
 
@@ -116,17 +119,19 @@ Reformulated as a selection principle:
 > that can see its own reflection in an open environment?"
 
 The claim has two parts:
-1. **Exclusivity** (proven + exhaustively tested): No single d > 2
-   subsystem carries Π. Tested across 236 qutrit dissipators: zero work.
-2. **Composition** (supported): Multi-qubit systems inherit the mirror
-   through per-site map universality. A single d > 2 site destroys the
-   palindrome globally.
+1. **Complete local exclusivity** (proven): no d > 2 site supports a
+   full-rank local class swap of this form. The 236-case qutrit census is a
+   finite negative control, not an exhaustive theorem over dissipators.
+2. **Composition in the qubit theorem family** (proven/supported in its
+   stated Hamiltonian classes): the compatible per-site maps compose. The
+   tested qubit-qutrit-qubit example breaks that complete construction; it
+   does not exclude every global or partial higher-dimensional mirror.
 
 ---
 
 ## 3. Supporting Evidence
 
-The algebra says d=2 is the only option. But algebra can be wrong if
+The algebra says d=2 is the only full local class-swap option. But algebra can be wrong if
 the assumptions are wrong. The following tests attack the claim from
 multiple angles: what if you try different systems, different sizes,
 different noise models? The finite tests delimit which constructions survive.
@@ -138,11 +143,13 @@ two-term Pauli census are palindromic. This finite census does not prove all
 possible interactions. It is the "boot script": the smallest tested qubit
 system already carries the full mirror structure.
 
-Two qutrits sharing one bond: every tested Hamiltonian combination breaks
-the palindrome. Verified numerically for 10 representative Gell-Mann
-couplings (the Gell-Mann matrices are to qutrits what Pauli matrices
-are to qubits: the standard set of operators that span all possible
-three-state interactions). The 3:6 split makes pairing impossible at the algebraic level.
+Two qutrits sharing one bond: each of 10 tested representative Gell-Mann
+Hamiltonian combinations fails the full palindrome at the tested tolerance.
+This is finite evidence, not a census of every qutrit Hamiltonian. The
+calculation uses Gell-Mann couplings (the Gell-Mann matrices are to qutrits
+what Pauli matrices are to qubits: a standard operator basis). The 3:6 split
+makes a complete local class swap
+impossible at the algebraic level while leaving F121's partial pairing.
 
 ### 3b. Multi-bond scaling (N = 3 to N = 8)
 
@@ -151,11 +158,9 @@ largest verified), 100% palindromic symmetry holds for the Heisenberg
 chain under Z-dephasing. The mirror is not a two-body artifact: it
 propagates through extended qubit networks.
 
-22 of 36 two-term combinations survive multi-bond interference at N ≥ 3.
-The breaking of 14 combinations is itself structured: it correlates with
-Choi rank (a measure of how entangled the mirror operator is; higher
-rank means the mirror cannot be decomposed into independent per-site
-operations) and requires multi-bond interference, not single-site failure.
+In the N≥3 two-term census, 3 combinations pass the operator equation, 19
+retain only spectral pairing, and 14 fail both tests. These are finite
+classifier counts; they do not establish a Choi-entanglement mechanism.
 
 ### 3c. The depolarizing theorem
 
@@ -164,20 +169,19 @@ destroyed. Depolarizing noise gives a 1:3 split, and the error is exactly
 (2/3)S_gamma, Hamiltonian-independent. The interpolation from Z-dephasing
 to depolarizing is perfectly linear with no threshold.
 
-This confirms: the 2:2 split is not merely sufficient, it is the active
-ingredient. Destroy it and the mirror shatters, regardless of dimension.
+This shows that the 2:2 split is load-bearing for the specific qubit
+palindromizer. Depolarizing noise is a negative control for that construction;
+it does not classify all mirrors in every dimension.
 
 ### 3d. The multi-qubit richness lives in the break, not in an entangled mirror
 
-An earlier version of this section claimed the two crossover combinations (XZ+YZ, ZX+ZY)
-carry a Bell-state-entangled mirror (Choi rank 8, 84%). That was a lens artifact, and the
-correction is in [Pi Operator Entanglement](../experiments/PI_OPERATOR_ENTANGLEMENT.md):
-those mirrors are local, a single continuous per-site rotation. The genuinely multi-qubit
-phenomenon is elsewhere, in the *break*. Of the 36 two-term combinations, 14 lose the
-palindrome at N ≥ 3 (the V-Effect), through a collision of adjacent bonds' mirrors at the
-shared site, a conflict that is invisible at N = 2 and exists only because qubits compose.
-That richness comes from qubit composition, not from d > 2; higher-dimensional sites do not
-even reach the palindrome (§3a-3c), so they have no such break to exhibit.
+[Pi Operator Entanglement](../experiments/PI_OPERATOR_ENTANGLEMENT.md) shows
+that the XZ+YZ and ZX+ZY mirrors are local continuous per-site rotations, not
+Bell-state-entangled operators. Of the 36 two-term combinations, 14 lose both
+the operator equation and spectral pairing at N≥3. The classifier locates the
+failure but does not by itself prove a collision mechanism. This finite
+V-Effect census belongs to qubit composition and says nothing against F121's
+partial higher-dimensional palindrome.
 
 ---
 
@@ -205,46 +209,42 @@ What the palindrome provides:
 - Spectral filters that decompose dynamics into paired modes
 - A structural framework that makes the dynamics INTELLIGIBLE
 
-Qutrits transfer quantum states. Qubits transfer quantum states AND
-have a mirror that organizes the entire spectral landscape. The mirror
-does not improve the signal. It reveals the architecture of the channel.
+In the reported transfer test, qutrits and qubits transfer with the same peak
+fidelity. The qubit theorem family additionally has a full linear spectral
+mirror; the qutrit dissipator retains only the F121 partial pairing, and the
+interacting qutrit count depends on H.
 
-This distinction matters for the hypothesis: d = 2 is not selected
-because it works better. It is selected because it is the only dimension
-where the dynamics have an internal organizational principle. Physics
-happens at any d. Structured physics (physics with a mirror) happens
-only at d = 2.
+This distinction limits the result: it is not a performance selection
+principle. It identifies the unique full column of one mirror construction,
+not the only dimension with internal organization.
 
 ---
 
-## 5. The Global Fragility of the Mirror
+## 5. What the local obstruction says about mixed dimensions
 
-**Critical finding from Test 3:** The palindrome is a COLLECTIVE property.
-A single d > 2 site destroys it everywhere.
-
-A qubit-qutrit-qubit chain has 1/144 palindromic pairs (0.7%), compared
-to 64/64 (100%) for a pure qubit chain. The qutrit does not break just
-its own sector. The entire spectral structure collapses.
+A tensor product containing a d=3 site cannot make the complete canonical
+local class swap full rank: the unequal 3:6 classes already obstruct that
+local factor. This statement is algebraic. The legacy hybrid-spectrum script
+does not supply an additional pair-count verdict: it used an order-dependent
+greedy matcher and a coarse center scan. Global non-product and partial
+intertwiners remain separate questions.
 
 Think of it as a matched basis relabeling. If every site has the same d=2
-immune/decaying balance, the complete per-site map composes. Replacing one site
-with d=3 destroys that complete global construction in the tested mixed chain;
-the analogy does not establish physical resonance or standing waves.
+immune/decaying balance and H passes its own identity, the complete per-site
+map composes. A d=3 factor blocks that same full local construction; the
+analogy does not establish physical resonance or standing waves.
 
-This has three implications:
+This has three scoped implications:
 
-1. The palindrome is not a local property that each site has or does not
-   have. It is a property of the NETWORK. Every site must be d = 2 for
-   the collective mirror to exist.
+1. The complete canonical product construction is a network property: every
+   local factor must satisfy the class-exchange condition.
 
-2. The composition conjecture is strengthened: palindromic networks must
-   be composed ENTIRELY of qubit subsystems. There is no tolerance for
-   "mostly qubits with a few qutrits."
+2. "Mostly qubits" is not enough to retain that same full product mirror.
+   Other partial or non-product symmetries remain a separate question.
 
-3. The mirror is fragile in the face of dimensional defects but robust
-   against Hamiltonian variation (22/36 survive at N ≥ 3) and noise
-   strength (palindrome holds for all γ > 0). The vulnerability is
-   specifically to violations of d = 2, not to parameter changes.
+3. The separate 22/36 Pauli census states which tested Hamiltonian forms keep
+   spectral pairing; it is not robustness against arbitrary H or evidence
+   about all mixed-dimensional global mirrors.
 
 ---
 
@@ -258,66 +258,64 @@ For the coupled N = 4 chain: the tensor product FAILS (error 1.31).
 But the canonical per-site Π works perfectly (error 0).
 
 The per-site map M (the Pauli permutation I↔X, Z↔Y at each site)
-is the same for N = 2, N = 3, N = 4, chains, stars, and rings. Adding
-bonds between subsystems does not require a new mirror; the existing
-per-site map adapts automatically because it acts on each site
-independently of the topology.
+is the same in the verified N = 2, N = 3 and N = 4 chain/star/ring cases.
+Within the Hamiltonian classes satisfying the palindromizer identity, adding
+bonds does not require a new mirror: the same local map is used on each site.
 
 This means composition is not "glue mirrors together" but rather:
-"each qubit carries its own mirror, and these per-site mirrors
-collectively generate the palindromic symmetry for ANY topology."
+"the compatible local class swaps tensor across the sites, while the
+Hamiltonian must still pass the palindromizer identity."
 
-The mechanism is elegantly simple: because the per-site map depends only
-on the local dimension (d = 2) and the noise model (which Pauli commutes
-with the jump operator), it is topology-independent. The proof of
-composition reduces to: if M works at every site individually, it works
-for the whole system. This is exactly the per-site independence that
-makes d = 2 special: higher d fails at the per-site level, so there
-is nothing to compose.
+The local class swap depends on d = 2 and on which Pauli letter defines the
+dephasing. Its dissipative action is topology-independent. The Hamiltonian
+part is an additional gate: only compatible interaction terms produce the
+full operator identity. At d > 2 the full local swap is rank-obstructed, but
+F121 constructs partial product mirrors and a translation-invariant
+non-product ceiling-reacher.
 
 ---
 
 ## 7. How Complexity Emerges from Qubit Mirrors
 
-If d = 2 is the necessary foundation, then all complexity in palindromic
-systems arises from three mechanisms:
+Within the qubit examples studied here, three pieces organize the observed
+spectra:
 
 1. **Bond multiplication:** More qubits, more bonds. N = 2 is universal
    (36/36). N ≥ 3 introduces selective breaking (22/36 survive).
    Interference between per-bond mirrors creates structure.
 
-2. **Multi-qubit breaking:** Every mirror is local (a per-site product), but
-   14 of 36 couplings lose the palindrome at N ≥ 3 when adjacent bonds'
-   mirrors collide at the shared site. The richness is in the break, a
-   genuinely many-body effect, not in any single mirror.
+2. **Multi-qubit breaking:** the mirrors found in this 36-case qubit family
+   are local, while 14 couplings lose the palindrome at N≥3. The census
+   establishes the break, not the proposed shared-site collision mechanism.
 
 3. **Orbit organization:** Palindromic eigenvalue pairs organize
    Liouville space. A physical standing-wave claim needs independent gates. The error correction hierarchy
    (steady-XOR, boundary, mid-spectrum) provides natural protection tiers.
 
-The picture: a single qubit is the atom of mirrorability. Two qubits
-form a universal mirror. Larger systems are mirror networks whose
-interference patterns create the richness of open quantum dynamics.
+The scoped picture is that the balanced qubit split permits a complete local
+class swap. Compatible multi-site Hamiltonians retain it; other tested terms
+break it. Higher-dimensional partial mirrors remain alongside this picture.
 
 A qubit has the balanced local split. The tested two-qubit Pauli census finds
 a shared mirror in all 36 entries.
-Three or more qubits must negotiate, and 14 of 36 configurations
-cannot. Complexity is not higher dimensions. Complexity is mirror
-interference in networks of the only dimension that has a mirror.
+At N ≥ 3, 14 of the 36 tested two-term configurations fail the full
+palindrome. That is a finite classifier result, not a universal mechanism of
+complexity and not an exclusion of structure at higher dimension.
 
 ---
 
 ## 8. What Could Falsify This
 
-Every honest scientific claim must specify the conditions under which
-it would be wrong. Here are four ways the d=2 exclusivity could fail:
+Every honest scientific claim must specify its boundary. These four probes
+separate the exact complete-local result from broader open questions:
 
 ### 8a. Alternative noise models
 
-**TESTED (March 20, 2026):** 0/236 qutrit dissipators permit palindromic
-rate pairing. This covers single Gell-Mann jump operators (8), all pairs
-(28), and 200 random linear combinations. Splits found: 3:6, 2:7, 5:4;
-never balanced. The avenue is closed for dephasing-type noise at d = 3.
+**TESTED (March 20, 2026):** 0/236 sampled qutrit dissipators permit full
+palindromic rate pairing at the test's criterion. The sample covers single
+Gell-Mann jump operators (8), all pairs (28), and 200 random linear
+combinations. Splits found: 3:6, 2:7, 5:4; never balanced. This closes that
+finite census, not the whole space of d=3 dissipators.
 
 Remaining open avenue: amplitude damping, thermal noise, or other
 non-dephasing dissipators at d > 2. These have fundamentally different
@@ -325,16 +323,11 @@ Lindblad structure and are not covered by the per-site rate argument.
 
 ### 8b. Relaxed mirror conditions
 
-**RESOLVED 2026-06-11:** Qutrit spectra show partial
-structure: 36-52/81 eigenvalues pair at optimal centers, far above
-random (0/81) but far below qubits (100%). Level spacing ratio
-std/mean = 0.354, more structured than random but not palindromic.
-(For comparison: GUE, the random-matrix benchmark for quantum chaotic
-systems, gives 0.52; Poisson statistics, the benchmark for uncorrelated
-levels, give 1.0. The qutrit sits between order and chaos.)
-
-The qutrit is not unstructured; it is differently structured, and the
-structure now has a closed form (RESOLVED 2026-06-11, F121). Under
+F121 (derived 2026-06-11) gives the qutrit dissipator's partial structure in
+closed form. The legacy spacing statistic is not retained as evidence: its
+producer sorted complex eigenvalues by real part and dropped zero gaps, so the
+comparison with GUE/Poisson nearest-neighbour spacing statistics was not a
+like-for-like spectral statistic. Under
 full-Cartan dephasing the d levels are equidistant, so the decay rate is
 −2γ·Hamming(i,j), the same rate ladder as the qubit. Only the multiplicity
 per Hamming rung differs: c_k = d^N·C(N,k)·(d−1)^k. The palindrome reflects
@@ -342,10 +335,11 @@ rung k↔N−k, so the dissipator's paired ceiling is Σ_k d^N·C(N,k)·(d−1)^
 which equals d^(2N) (100%) iff d=2. For d=3,N=2 it is 54/81 (the 27 excess
 is the high rung's overflow). The qubit's uniqueness is not qualified: it is
 the unique fully-paired column of the N-family, the d²−2d=0 necessity re-seen.
-The documented 36-52/81 was the full interacting spectrum read at various
-centers; the dissipator skeleton (about the physical center −Nγ) is exactly 54,
-and adding H degrades it at every fixed center (54→48 about −Nγ): the palindrome
-is fragile under H, not improved by it. For the symmetric SU(3) Heisenberg the
+The documented 36-52/81 was the N=2 full interacting spectrum read at various
+centers. At the physical center −Nγ, the qutrit dissipator has 54 paired
+entries and the stated symmetric SU(3) Heisenberg case has 48. Other
+interacting counts are H-dependent; this comparison is not a monotonic theorem
+over all H. For the symmetric SU(3) Heisenberg the
 interacting real parts follow the Absorption Theorem Re(λ)=−2γ⟨Q⟩, but the
 interacting count is H-dependent with no H-independent closed form. See
 [the Qudit Partial Palindrome proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) §4.
@@ -359,10 +353,9 @@ mirror becomes operationally irrelevant at macroscopic N, the claim that
 
 ### 8d. Engineered qutrit palindromes
 
-One could engineer a qutrit dissipator outside the dephasing class
-(amplitude damping, non-Markovian) that achieves balanced rates through
-symmetry constraints on the Hamiltonian. This would show d = 2 is
-special only for dephasing-type noise, not universally.
+A qutrit dissipator outside the tested class could carry a different mirror.
+That would not falsify the proven class-exchange count; it would delimit its
+reach, which is already the scope claimed here.
 
 ---
 
@@ -370,35 +363,37 @@ special only for dephasing-type noise, not universally.
 
 The following are the raw results of five computational tests designed
 to stress-test the d=2 claim. Each test asks a specific question and
-gets a specific answer. If you are not interested in the technical
-details, the summary is: all five tests confirm d=2 exclusivity.
+gets a specific answer. Together they support the unique complete local
+class-exchange result while leaving partial and alternative mirrors intact.
 
 All five tests from TASK_QUBIT_NECESSITY.md completed.
 
 1. **QST comparison.** ANSWERED. Qubit and qutrit chains achieve identical
-   peak transfer fidelity (F = 0.6923). The palindrome does not affect
-   transfer quality. But qubit spectrum has 64/64 (100%) palindromic pairs
-   vs qutrit 82/729 (11%). The palindrome provides structural organization,
-   not performance advantage.
+   peak transfer fidelity (F = 0.6923) in the stated sweep. The legacy greedy
+   spectral pair counts are not retained as quantitative evidence. This test
+   therefore supplies no performance selection principle for the mirror.
 
-2. **Qutrit eigenvalue structure.** ANSWERED. Qutrit spectrum is partially
-   structured: 36-52/81 pair at optimal centers (tol = 1e-4), far above
-   random (0/81). Level spacing std/mean = 0.354, below GUE (0.52) and
-   Poisson (1.0). The qutrit has residual structure but no palindrome.
+2. **Qutrit dissipator structure.** ANSWERED BY F121. Its exact paired
+   ceiling follows from the disagreement-rung multiplicities. The producer's
+   complex-spectrum spacing comparison is not a valid GUE/Poisson statistic
+   and supplies no chaos classification.
 
-3. **Hybrid systems.** ANSWERED. Qubit-qutrit-qubit chain: 1/144 (0.7%)
-   palindromic pairs. A SINGLE qutrit destroys the palindrome GLOBALLY.
-   The mirror is a collective network property: every site must be d = 2.
+3. **Hybrid systems.** NO VALID SPECTRAL COUNT FROM THIS PRODUCER. Its greedy
+   pair matcher and coarse center scan do not establish the reported 1/144
+   verdict. The algebraic local-rank obstruction applies to the complete
+   product construction; partial/global constructions were not excluded.
 
-4. **Alternative dissipators at d = 3.** ANSWERED. 0/236 configurations
-   permit palindromic rate pairing. Splits: 3:6, 2:7, 5:4, never
-   balanced. No qutrit dissipator of dephasing type allows Π.
+4. **Sampled dissipators at d = 3.** ANSWERED FOR THE CENSUS. None of
+   236 configurations permits full palindromic rate pairing. Splits: 3:6,
+   2:7, 5:4, never balanced. This does not enumerate every qutrit
+   dissipator or every partial intertwiner.
 
 5. **Composition proof.** PARTIALLY ANSWERED. Decoupled blocks: tensor
    product works (error 5e-15). Coupled chain: tensor product fails
    (error 1.31), but per-site canonical Π works (error 0). Composition
    is through per-site map universality, not block-level tensor product.
-   The same per-site map M works for any N, any topology.
+   The same per-site map M works across the tested compatible sizes and
+   topologies; the Hamiltonian identity remains a separate condition.
 
 Script: [`simulations/qubit_necessity_tests.py`](../simulations/qubit_necessity_tests.py)
 Results: [`simulations/results/qubit_necessity_tests.txt`](../simulations/results/qubit_necessity_tests.txt)
@@ -407,21 +402,21 @@ Results: [`simulations/results/qubit_necessity_tests.txt`](../simulations/result
 
 ## 10. Remaining Open Questions
 
-The d=2 exclusivity is proven for dephasing-type noise. But the
-following questions remain genuinely open:
+The d=2 uniqueness is proven for the complete local class exchange under the
+stated dephasing grading. Broader questions remain open:
 
-1. **Non-dephasing dissipators:** The exhaustive search covered dephasing-
-   type noise only. Amplitude damping, thermal baths, and non-Markovian
+1. **Non-dephasing dissipators:** The 236-case sample covered selected
+   dephasing-type generators. Amplitude damping, thermal baths, and non-Markovian
    environments have different Lindblad structure. Does the d = 2
    exclusivity extend to these?
 
-2. **Partial palindrome theory:** RESOLVED 2026-06-11 (F121,
-   [the Qudit Partial Palindrome proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md)).
+2. **Known partial structure; open interacting classification:** F121 is derived in
+   [the Qudit Partial Palindrome proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md).
    The dissipator's partial pairing is the symmetric overlap of the
    disagreement-count multiplicity c_k = d^N·C(N,k)·(d−1)^k under k↔N−k:
    paired = Σ_k d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2, 54/81 at d=3,N=2.
-   The FULL interacting spectrum is understood too: adding H degrades the pairing
-   at every fixed center (54→48 about −Nγ); for the symmetric SU(3) Heisenberg the
+   One N=2 symmetric interacting case is characterized: its H reduces the pairing
+   at the physical center (54→48 about −Nγ); for the symmetric SU(3) Heisenberg the
    real parts follow the Absorption Theorem Re(λ)=−2γ⟨Q⟩ (the −3γ rung = ⟨Q⟩=1.5),
    but the interacting count is H-dependent (no H-independent closed form). The
    dissipator's 54 (about −Nγ) is the only invariant skeleton.
@@ -443,49 +438,35 @@ following questions remain genuinely open:
 
 "We are all mirrors. Reality is what happens between us."
 
-If the qubit is the necessary foundation, then this motto acquires a
-mathematical grounding: only d = 2 systems can be mirrors (palindromic).
-Reality (the dynamics of open quantum systems) is structured by what
-happens between these mirrors (spectral orbits, multi-bond interference, the V-Effect break).
-Higher-dimensional systems participate in reality but cannot generate the
-mirror structure themselves. They are the reflected, not the reflectors.
+The exact content behind the motto is narrower: only d = 2 makes the local
+immune and decaying classes equal in size, so only d = 2 supports the full
+local class-exchange product mirror. Higher-dimensional systems retain the
+partial structures counted and constructed in F121.
 
 The computational tests add nuance: the mirror does not make reality
 WORK BETTER (identical transfer fidelity). It makes reality INTELLIGIBLE.
-Without the mirror, physics still happens, but without the structural
-symmetry that organizes it into spectral orbits, error tiers, and paired
-modes. The qubit is not the only system that transfers information. It is
-the only system whose information transfer has an internal architecture.
+The qubit is not the only system that transfers information. What is unique
+here is the completeness of this one spectral organization, not the presence
+of internal architecture as such.
 
 ---
 
 ## Connection to the Hierarchy of Incompleteness
 
-On January 3, 2026 (before Liouvillians, before palindromes, before
-any of the mathematics in this document) the project described a
-[Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md):
-
-> "Perfect local stability prevents connection. A system with C = 1 is
-> complete. Closed. A dead end."
-
-> "Carbon is maximally incomplete. Exactly half full. 4 unpaired of 8
-> possible. Local C = 0.5. And precisely because of this, it is the
-> building block of life."
-
-The qubit result is the same principle, one level deeper:
+The [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) places the
+local operator count beside a carbon valence-slot count:
 
 | System | Total slots | Occupied/immune | Split | What it enables |
 |--------|------------|-----------------|-------|-----------------|
-| Carbon | 8 electron slots | 4 valence | 0.5 | All of chemistry |
-| Qubit | 4 operators | 2 immune | 0.5 | Palindromic mirror |
+| Carbon | 8 valence-shell slots | 4 valence electrons | 0.5 | Arithmetic comparison only |
+| Qubit | 4 operators | 2 immune | 0.5 | Complete local class exchange |
 
-Both are exactly half full. Both are uniquely balanced. Both are the
-foundation of everything above them. And in both cases, the "complete"
-cousin is a dead end: noble gases (full shell, no bonds) and qutrits
-(3:6 split, no mirror).
+Both columns display a one-half count, but the comparison is interpretive:
+carbon valence and operator-space immunity are different physical objects.
+The qutrit's 3:6 local split blocks the full class swap while retaining the
+F121 partial mirror; it is not a structureless dead end.
 
-The equation d² − 2d = 0 is the algebraic proof of what was felt on
-January 3: incompleteness is not weakness. Incompleteness is potential.
-And C = 0.5 is the sweet spot where stability and openness meet.
-
-The qubit is the quantum carbon.
+The equation d² − 2d = 0 proves the balance condition for the complete
+local class swap. Reading that balance as "the quantum carbon" is the Tier-5
+analogy; the equation does not derive chemistry, complexity or a universal
+optimality principle.

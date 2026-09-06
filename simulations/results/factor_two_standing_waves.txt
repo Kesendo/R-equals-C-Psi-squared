@@ -4,6 +4,11 @@ linear F1:            lambda -> -lambda - 2*Sigma
 conjugate-composite:  lambda -> -conj(lambda) - 2*Sigma
 All assignments consume spectral occurrences with multiplicity.
 Primary numerical tolerance TOL=1e-08 (not exact arithmetic).
+Committed CSV inputs: simulations/results/rmt_eigenvalues_N{2..7}.csv
+CSV metadata: columns Re, Im only.
+Current regeneration route: dotnet run -c Release --project compute/RCPsiSquared.Compute -- rmt chain
+Current generator parameters in current source: chain, J=1.0, uniform gamma=0.05.
+Provenance limit: the CSV artifacts do not encode backend, source revision, command, or timestamp.
 
 N=2: linear pairs=6 fixed=4; composite pairs=3 fixed=10; max residuals=2.78e-15,1.61e-15
      mean decay=0.100000; Sigma=0.100000

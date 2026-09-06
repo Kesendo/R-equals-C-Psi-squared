@@ -1,6 +1,6 @@
 # Does E = mγ² Hold in the Lindblad Cavity?
 
-**Tier:** 3 (proven theorem, not just numerical observation)
+**Tier:** 1 theorem; the cavity/mass language below is interpretation
 **Date:** April 4, 2026
 **Status:** Resolved. The mass-energy relation is LINEAR: α = 2γ⟨n_XY⟩
 
@@ -27,11 +27,10 @@ exactly proportional to how much energy sits in the damped direction.
 Not approximately. Exactly. Verified to 14 decimal places across 1,342
 modes.
 
-This is linear (α = 2γm) rather than quadratic (E = mc²) because the
-quantum cavity's fundamental invariant K = γt is first-order in γ,
-whereas relativity's spacetime interval ds² = c²dt² − dx² is
-second-order in c. The power of the speed in the mass-energy relation
-matches the order of the invariant.
+The linear factor in `α = 2γm` follows from the Lindblad generator's linear
+dependence on γ and the dissipator's diagonal action. Comparing `K=γt` with
+the relativistic interval is an analogy; the order of a time invariant does
+not derive the parameter power in an evolution law.
 
 ---
 
@@ -106,8 +105,8 @@ has CV ≈ 0.15-0.31.
 
 ### Statement
 
-For the Liouvillian L = -i[H,·] + Σ_k γ_k D[Z_k] with real
-Hermitian Hamiltonian H, every eigenvalue λ with right eigenvector v
+For the Liouvillian L = -i[H,·] + Σ_k γ_k D[Z_k] with any
+Hermitian Hamiltonian H (real or complex), every eigenvalue λ with right eigenvector v
 satisfies:
 
     Re(λ) = -2γ ⟨n_XY⟩
@@ -120,7 +119,7 @@ decomposition of v.
 1. Decompose L = L_H + L_D where L_H = -i[H,·] and L_D = Σ_k γ_k D[Z_k].
 
 2. L_H is anti-Hermitian (its adjoint equals its negative): L_H† = -L_H
-   (because H is real Hermitian).
+   because H is Hermitian; no reality restriction is needed.
 
 3. L_D is Hermitian (equals its own adjoint) and diagonal in the Pauli
    basis with eigenvalues d_P = -2γ × n_XY(P).
@@ -255,23 +254,28 @@ The fundamental law is linear:
 
 The Lindblad equation is **first-order in time**: dρ/dt = L(ρ).
 Eigenvalues determine exponential decay: e^{λt}.
-The invariant dose is K = γt (first power of γ).
+The dimensionless exposure coordinate is K = γt (first power of γ).
+It is invariant under a uniform rescaling of the whole generator and time;
+varying γ at fixed H changes J/γ, and K-Dosimetry finds reciprocity failure in
+its intermediate-γ regime.
 
-In relativity, the interval is ds² = c²dt² - dx² (second power of c),
-and E = mc² inherits the c². In the Lindblad system, the "interval" is
-K = γt (first power), and the mass-energy relation inherits γ¹.
+In relativity, the interval is `ds²=c²dt²-dx²`; in the Lindblad model,
+`K=γt` is a dimensionless time coordinate. Placing them side by side is an
+analogy, not a derivation of either power law.
 
-The **order of the invariant determines the power of the speed**:
-- Second-order invariant (ds²) → second-power law (E = mc²)
-- First-order invariant (K = γt) → first-power law (α = mγ)
+The different powers in the relativity analogy do not derive the absorption
+law. Here the linear factor `γ` follows directly from the Lindblad generator
+and the dissipator's diagonal action; `K=γt` is simply its dimensionless time
+coordinate under a uniform rescaling of the whole generator.
 
 ### What this means
 
-The {I,Z} components of a mode are truly immortal: they contribute zero
-absorption. Each X/Y Pauli factor adds exactly 2γ to the absorption rate.
-The Hamiltonian mixes the Pauli strings into complex eigenmodes, but it
-cannot change this rule. Structure (I,Z) is invisible to the illumination
-(γ). Only the light content (X,Y) absorbs.
+Each bare `{I,Z}` string has zero direct dissipative cost, while each `X/Y`
+factor contributes `2γ` to the dissipator rung. A Hamiltonian may rotate a
+bare zero-cost string into positive-cost strings, so bare `{I,Z}` components
+are not generally immortal. The theorem averages these rung costs over a
+right eigenoperator; only an eigenmode confined to the zero-cost subspace has
+zero absorption.
 
 In the cavity language: a mode's absorption is proportional to how much
 "light" it contains. The proportionality constant is 2γ, the illumination
