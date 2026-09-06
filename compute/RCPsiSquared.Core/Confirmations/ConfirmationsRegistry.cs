@@ -421,7 +421,7 @@ public static class ConfirmationsRegistry
                 "Qubit 52: T1 = 221.2 μs, T2_echo = 298.2 μs, T2*(FID) = 110.7 μs",
             HardwareData: "data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json",
             ExperimentDoc: "experiments/IBM_QUANTUM_TOMOGRAPHY.md",
-            FrameworkPrimitive: "F25 closed-form CΨ(t) + the CΨ = ¼ fold (K_fold dose)",
+            FrameworkPrimitive: "F24 closed-form CΨ(t) + the CΨ = ¼ fold (K_fold dose)",
             Description:
                 "The first CΨ = ¼ crossing ever seen on hardware, found in IBM Torino single-qubit calibration tomography " +
                 "(Heron r2, q52, 2026-02-09), predating the systematic April-June 2026 campaign. A QUALITATIVE confirmation that " +
@@ -464,7 +464,7 @@ public static class ConfirmationsRegistry
                 "6 days from 11.0 μs, which is why the prediction uses the same-day Ramsey, not the stale calibration)",
             HardwareData: "data/ibm_run3_march2026/palindrome_ibm_torino_20260318_191348.json",
             ExperimentDoc: "experiments/IBM_RUN3_PALINDROME.md",
-            FrameworkPrimitive: "F25 closed-form CΨ(t) + the CΨ = ¼ fold; same-day in-situ Ramsey T2*",
+            FrameworkPrimitive: "F24 closed-form CΨ(t) + the CΨ = ¼ fold; same-day in-situ Ramsey T2*",
             Description:
                 "The tightest Torino-era CΨ = ¼ confirmation (1.9%): Run 3 on q80, 2026-03-18, with a same-day in-situ Ramsey " +
                 "T2* (17.36 μs). Predates the systematic April-June campaign but is precision-grade because the in-situ T2* " +
