@@ -288,7 +288,7 @@ class Confirmations:
             },
             'measured_value': {
                 'rung_1_null': 'slope⟨H⟩ = +2.4e-4/μs (z = +1.47, Arm A) and −6.8e-6/μs (z = −0.04, Arm B): the double null HELD',
-                'row_identity': 'holds by construction: the analysis file DERIVES H2 from it, so it is not a check. What the data give is |⟨XXX⟩| ≤ 0.02 throughout, so the rung-2 firing is the middle qubit pump',
+                'row_identity': 'holds by construction: the analysis file DERIVES H2 from it, so it is not a check. What the data give is |⟨XXX⟩| ≤ 0.019 throughout, so the rung-2 firing is the middle qubit pump',
                 'per_qubit_pump_slopes_per_us': {'q149': [2.327e-3, 2.193e-3], 'q13': [3.029e-3, 3.090e-3], 'q9': [5.794e-3, 5.779e-3]},
                 'cross_arm_reproducibility': 'q9 0.3%, q13 1.9%, q149 5.7% (different chain roles, different jobs)',
                 'arbiter_T1_us': {'q149': 424.6, 'q13': 430.3, 'q9': 99.9},

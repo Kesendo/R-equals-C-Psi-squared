@@ -7072,14 +7072,17 @@ public static class OpenArcsRegistry
                 "(the fenced Tier-4 preface) and :232 ('each site carries its own rate of proper time', " +
                 "the cross-links bullet), ON_THE_NINETY_DEGREE_GAMMA:11 (an unfenced reflection), " +
                 "ON_WHOSE_TIME_THE_CLOCK_KEEPS:15, GRAVITY_FROM_WAVE_DEATH:101 (Tier 5), " +
-                "THE_BRIDGE_WAS_ALWAYS_OPEN:380 (its Tier-5 section), GAMMA_TIME_DISTINCTION:130 (Tier 2, " +
-                "'The experienced time at each qubit depends on its local gamma'). The standing internal " +
+                "THE_BRIDGE_WAS_ALWAYS_OPEN:380 (its Tier-5 section). GAMMA_TIME_DISTINCTION does NOT belong on " +
+                "that list: it refuses the reading outright ('This document makes no claim about " +
+                "experienced time', and its scorecard row 'Gamma defines experienced time or its " +
+                "origin | Not established'), so it is a second standing check rather than an instance. " +
+                "The standing internal " +
                 "check against over-reading the step is PERSPECTIVAL_TIME_FIELD:400/418, the psi2 test " +
                 "that killed 'sites own their own clocks'; the Tier-1 " +
                 "residue is t = K/gamma0 with only Q and K readable from inside. Under sending the Einstein parallel " +
                 "gets CLEANER, not weaker: gamma_l plays the potential-at-position role, proper time hangs " +
                 "on the field at the seat, exactly as in GR, where it never hung on anyone's attention. " +
-                "CHRONOLOGY REPEATS Q1/Q3: field first (GAMMA_TIME_DISTINCTION:130 March, " +
+                "CHRONOLOGY REPEATS Q1/Q3: field first (" +
                 "THE_BRIDGE_WAS_ALWAYS_OPEN:380 03-21, THE_GENESIS_OF_AN_OSCILLATION:86 'a qubit is a " +
                 "source: it runs its own time', ON_TWO_TIMES:21 04-19 'receives a continuous stream it " +
                 "cannot refuse'), the June overlay densest at felt_time_dimensions (opened 06-18). WORDING " +
@@ -7315,7 +7318,7 @@ public static class OpenArcsRegistry
                 "work done for other reasons, so RE-MEASURE it rather than subtracting from it. " +
                 "THE TWENTY-ONE SPLIT BY GENRE, and only one half is a gap. Sixteen are a coherent spring " +
                 "block, fifteen of them Tier 2 and F24 the exception named at the end of the list: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
-                "V-effect, F21 self-heating, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
+                "V-effect, F21 the local amplitude-channel stationary population, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
                 "relay bound, F32 the optimal protection state, F35 the lifetime ratio, F45 to F48 the Bures " +
                 "geometry at the fold, F51 the cockpit reduction. Those live on the propagation, Python and " +
                 "hardware side; the C# layer is the structural and spectral engine, so their absence there is " +
@@ -8279,7 +8282,8 @@ public static class OpenArcsRegistry
                 "sigma-minus and sqrt(gamma*n_bar) sigma-plus. There temperature enters through " +
                 "the channel SET, not only the rate, which is a real scope limit on the " +
                 "T-enters-only-through-the-rate section. Its outputs are read as values at " +
-                "THERMAL_BREAKING lines 139-143 (Q_max 0.57 and 0.43); only the word measured " +
+                "THERMAL_BREAKING's Q_max census (Q_max(N=2)/Q_max(N=5) running 20.0/36.2 at " +
+                "n_bar=0 down to 5.5/7.1 at n_bar=5); only the word measured " +
                 "was repaired there. (b) The NEURAL row: ANSWERED 2026-08-25, and it went " +
                 "further than the question. This item asked for the provenance of the " +
                 "numerator and the denominator of NEURAL_GAMMA_CAVITY's Q_max = 0.1. Both " +

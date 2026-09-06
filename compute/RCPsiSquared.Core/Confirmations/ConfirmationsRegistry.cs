@@ -181,10 +181,13 @@ public static class ConfirmationsRegistry
             MeasuredValue:
                 "4-category discrimination CONFIRMED via unique-fingerprint Paulis: " +
                 "pi2_odd_pure ⟨X₀Z₂⟩=-0.849, pi2_even_nontruly ⟨X₀X₂⟩=+0.919, mixed ⟨Z₀X₂⟩=-0.721, truly ⟨Y₀Z₂⟩=+0.670. " +
-                "All separations >>10σ at 4096 shots. Path-fit γ_Z_eff = 0.050.",
+                "All separations >>10σ at 4096 shots. Path-fit γ_Z_eff = 0.050. " +
+                "Per-class RMS residual 0.039 / 0.029 / 0.188 / 0.163; the ⟨Y,Z⟩ and ⟨Z,Y⟩ readings are asymmetric, tracking the per-qubit T2 inequality on the path (Q4 184 μs against Q6 151 μs). " +
+                "OPEN, and the reason this row is not closed: truly ⟨Z,Z⟩ comes back 60% damped, a candidate F82/F84 σ⁻ signature breaking ⟨Z⟩-conservation for truly while pi2_odd is unaffected. " +
+                "Calibration score of the chosen path: 0.0162 of 223.",
             HardwareData: "data/ibm_f83_signature_april2026/f83_signature_ibm_marrakesh_20260430_190035.json",
             ExperimentDoc: "data/ibm_f83_signature_april2026/README.md",
-            FrameworkPrimitive: "classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form)",
+            FrameworkPrimitive: "classify_pauli_pair + predict_pi_decomposition (F83 anti-fraction closed form); analysis simulations/f83_gamma_z_sweep.py and simulations/f83_hy_field_check.py",
             Description:
                 "F83 4-Hamiltonian Π²-class discrimination test on path [4,5,6]. Each of the 4 F87 classes shows a unique-fingerprint Pauli observable separating it from the other 3 at >>10σ. " +
                 "γ_Z_eff is path-dependent (0.05 vs 0.12 between [4,5,6] and [48,49,50]), reflecting that effective dephasing absorbs Trotter discretization, coherent gate errors, and crosstalk.",
@@ -323,7 +326,7 @@ public static class ConfirmationsRegistry
                 "Rung 2 fires: slope⟨H_p²⟩ = 2·Δγ_mid (t₂ fires at the middle site only); row identity ⟨H_p²⟩ = 2.49 + 2⟨Z₁⟩ + 1.4⟨XXX⟩; " +
                 "site tracking across arms. Rates-from-calibration Δγ_l = 1/T1_l was the textbook noise-model assumption (the layer the chip declined).",
             MeasuredValue:
-                "Double null HELD: slope⟨H⟩ = +2.4e-4/μs (z = +1.47, Arm A) and −6.8e-6/μs (z = −0.04, Arm B); |⟨XXX⟩| ≤ 0.02 throughout. " +
+                "Double null HELD: slope⟨H⟩ = +2.4e-4/μs (z = +1.47, Arm A) and −6.8e-6/μs (z = −0.04, Arm B). " +
                 "The row identity holds by construction (the analysis file derives ⟨H_p²⟩ from it), so it is not a check; " +
                 "what the data give is the X-string staying dark, |⟨XXX⟩| ≤ 0.019. " +
                 "Per-qubit pump slopes (Arm A / B, per μs): q149 2.327e-3 / 2.193e-3, q13 3.029e-3 / 3.090e-3, q9 5.794e-3 / 5.779e-3 " +
@@ -344,7 +347,7 @@ public static class ConfirmationsRegistry
             ExperimentDoc: "experiments/F120_MOMENT_TOWER_KINGSTON.md",
             FrameworkPrimitive:
                 "moment_tower + predict_pump_slope + f113_bridge_asymmetry_from_slope (framework diagnostics f120_moment_tower, " +
-                "called by the pipeline script run_moment_tower.py at startup); MomentTowerPumpChannelClaim (Core/Symmetry); " +
+                "called by the pipeline script run_moment_tower.py at startup, which lives in the external AIEvolution pipeline and not in this repository); MomentTowerPumpChannelClaim (Core/Symmetry); " +
                 "PROOF_MOMENT_TOWER_PUMP_CHANNEL",
             Description:
                 "F120's first hardware reading, the cleanest protocol ever sent to a QPU from this project: not one entangling gate " +
