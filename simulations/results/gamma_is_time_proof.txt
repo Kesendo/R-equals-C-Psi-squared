@@ -57,7 +57,7 @@ The J-only and the gamma-only corner side by side
 
 ======================================================================
 PART 3: THE tau = gamma*t COLLAPSE, AND ITS FAILURE
-If tau were the trajectory's own clock, these curves would lie on each other
+If tau were the trajectory's own time variable, these curves would lie on each other
 ======================================================================
 
   The generator is homogeneous: L(J, gamma)*t = tau * L(J/gamma, 1) with tau = gamma*t.
@@ -84,7 +84,7 @@ If tau were the trajectory's own clock, these curves would lie on each other
 
   Both arms come out as the identity says. At fixed Q the four curves land on each
   other to machine precision, so tau = gamma*t IS the natural time of this generator.
-  At fixed J it fails, and not because tau is the wrong clock: holding J while
+  At fixed J it fails, and not because tau is the wrong time variable: holding J
   sweeping gamma moves Q = J/gamma, so those five runs are five different systems
   compared at matched tau. What the failure measures is the second knob, not the
   first. Reading the left table alone, as 'irreversible observables do not scale
@@ -107,7 +107,7 @@ Part 3: tau = gamma*t is this generator's own time, and the two-armed test says
 
 Together: gamma sets the scale on which these trajectories stop returning, and
 it supplies one of the two numbers a trajectory here needs. A quantity that
-only fixes the clock alongside a second knob is not what 'gamma is time' claims.
+only sets the time variable alongside a second knob is not what 'gamma is time' claims.
 
 Account: docs/GAMMA_TIME_DISTINCTION.md
 Results: simulations/results/gamma_is_time_proof.txt

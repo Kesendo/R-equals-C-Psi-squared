@@ -75,15 +75,15 @@ Holding `Q = 20` instead and sweeping the same gammas, with `J` moving along:
 Both arms come out as the identity requires, and the producer raises if either
 one does not. At fixed `Q` the curves land on each other to machine precision:
 `tau = gamma*t` **is** this generator's own time. At fixed `J` they do not, and
-the reason is not that tau is the wrong clock. Holding `J` while sweeping gamma
+the reason is not that tau is the wrong time variable. Holding `J` while sweeping gamma
 moves `Q`, so those five runs are five different systems compared at matched
 tau, and what the failure measures is the second knob.
 
 The left table alone, read as "irreversible observables do not scale with tau",
 mistakes a change of system for a failure of the time variable. Read together,
 the two tables say something narrower and firmer: a trajectory here needs two
-numbers, and gamma supplies one of them. Fixing the clock only alongside a
-second knob is not what "gamma is time" claims.
+numbers, and gamma supplies one of them. Setting the time variable only
+alongside a second knob is not what "gamma is time" claims.
 
 One observable had to be dropped from these tables rather than reported.
 `arg(rho_01)` looks like a phase and is not: `rho_01` links popcount 0 to

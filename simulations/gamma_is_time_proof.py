@@ -9,10 +9,11 @@ Part 1: which trajectory diagnostics change when gamma is switched on
         CPsi crossings of 1/4, the late-time speed ||drho/dt||).
 Part 2: the same diagnostics across (J, gamma) configurations, so the
         J-only and gamma-only corners can be read side by side.
-Part 3: a falsification. If tau = gamma*t were the trajectory's own clock,
-        curves plotted against tau would collapse across gamma at fixed J.
-        They do not: at fixed J the Hamiltonian carries its own t, so no
-        irreversible observable measured here collapses.
+Part 3: a falsification, run in both directions. If tau = gamma*t were the
+        trajectory's own time variable, curves plotted against tau would
+        collapse across gamma. At fixed J they do not, because holding J while
+        sweeping gamma also moves Q = J/gamma; at fixed Q they collapse
+        exactly. The generator needs two numbers and gamma supplies one.
 
 These are finite runs at N=2, on one Hamiltonian and one channel. They
 show what gamma does to these trajectories; they do not establish that
@@ -252,7 +253,7 @@ log()
 # ============================================================
 log("=" * 70)
 log("PART 3: THE tau = gamma*t COLLAPSE, AND ITS FAILURE")
-log("If tau were the trajectory's own clock, these curves would lie on each other")
+log("If tau were the trajectory's own time variable, these curves would lie on each other")
 log("=" * 70)
 log()
 
@@ -339,7 +340,7 @@ if missed_in_control:
 
 log("  Both arms come out as the identity says. At fixed Q the four curves land on each")
 log("  other to machine precision, so tau = gamma*t IS the natural time of this generator.")
-log("  At fixed J it fails, and not because tau is the wrong clock: holding J while")
+log("  At fixed J it fails, and not because tau is the wrong time variable: holding J")
 log("  sweeping gamma moves Q = J/gamma, so those five runs are five different systems")
 log("  compared at matched tau. What the failure measures is the second knob, not the")
 log("  first. Reading the left table alone, as 'irreversible observables do not scale")
@@ -364,7 +365,7 @@ log("        system. tau rescales the trajectory only together with Q.")
 log()
 log("Together: gamma sets the scale on which these trajectories stop returning, and")
 log("it supplies one of the two numbers a trajectory here needs. A quantity that")
-log("only fixes the clock alongside a second knob is not what 'gamma is time' claims.")
+log("only sets the time variable alongside a second knob is not what 'gamma is time' claims.")
 log()
 
 log("Account: docs/GAMMA_TIME_DISTINCTION.md")
