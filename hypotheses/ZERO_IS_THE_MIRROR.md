@@ -37,6 +37,15 @@ irreversibility is tiny. About a quarter of a percent of the coupling
 strength, and for the product state that figure barely moves across the four
 sizes measured. A whisper of noise is enough to create history from eternity.
 
+A word about the word. The repo's own register for γ is light, not noise
+(the Absorption Theorem bills the {X,Y} letters 2γ each, and "total noise"
+is a scalar that cannot say the spatial assignment the light register can).
+This page keeps noise throughout, deliberately: its subject is the knob at
+and below zero, its entry is written for a reader who has not met the light
+register, and the technical lines beneath use the same word, so the page is
+one register carried through rather than half-switched. Where the light
+register is the one doing work, the pages that do that work use it.
+
 ---
 
 ## Abstract
