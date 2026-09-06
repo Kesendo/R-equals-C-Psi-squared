@@ -55,7 +55,8 @@ stability regimes: weak coupling stabilizes close to linearly
 internal strength, and strong coupling destabilizes
 as 1/J_bridge, with γ_crit × J_bridge still drifting downward
 (0.578 to 0.508 over J_bridge = 10 to 100) where the sweep ends.
-The instability is a Hopf bifurcation (oscillating divergence, not
+The instability is an oscillating divergence at a second-order exceptional
+point (Section 3), not
 monotone), now identified as Liouvillian chiral symmetry breaking
 (see Section 3). Unlike the fold threshold
 (~0.5% of J for the product state, flat in N over the measured N = 2-5,
@@ -145,38 +146,58 @@ Whether the turnover sits exactly where the bridge equals the total internal
 coupling is not something this grid can decide; it brackets the maximum in
 [1.8, 2.0] and no finer.
 
-## 3. Hopf bifurcation and chiral symmetry breaking
+## 3. Chiral symmetry breaking at an exceptional point
 
-A Hopf bifurcation is a specific kind of instability where a system
-that was oscillating peacefully (like a pendulum) suddenly starts
-oscillating with growing amplitude (like microphone feedback getting
-louder and louder). The key word is "oscillating": the system does not
-just drift away quietly. It screeches.
+The instability is an **oscillating** one: a pair that was already
+oscillating at Re = 0 acquires a positive real part, so the system does not
+drift away quietly, it screeches like microphone feedback. That much has
+always been right, and it is the reason this section used to be called a
+Hopf bifurcation.
 
-The instability is an **oscillating** instability. A complex eigenvalue
-pair (already oscillating at Re = 0) crosses into Re > 0. The system
-does not simply diverge; it oscillates with growing amplitude.
+But the threshold is not a Hopf, and the mechanism is our own palindrome.
+At Σγ = 0 the conjugation operator Π forces exact λ ↔ −λ pairing (chiral
+symmetry, class AIII). That symmetry leaves an eigenvalue only two options:
+sit on the imaginary axis, or have a partner mirrored across it. Below
+γ_crit every eigenvalue takes the first option; at γ_crit a mirror pair
+**coalesces** and leaves the axis together. Coalescence, not crossing, is
+what the symmetry makes available, and it is what the numbers show.
 
-This is a **Hopf bifurcation**. The mechanism differs from standard
-Hamiltonian PT breaking (where two real eigenvalues coalesce and
-become complex):
+Measured on two two-qubit chains, at J_bridge = 1.0 (γ_crit = 0.1873101)
+and 1.9 (γ_crit = 0.4058524), writing δ = γ/γ_crit − 1
+([`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py),
+[its output](../simulations/results/fragile_bridge_ep_signature.txt)):
 
-| Property | Hamiltonian PT breaking | Liouvillian Hopf (observed) |
-|----------|----------------------|-----------------|
-| Mechanism | Two real eigenvalues merge, become complex | Complex pair crosses Re = 0 |
-| At threshold | New oscillation appears | Existing oscillation grows |
-| Instability | Exponential divergence (monotone) | Oscillating divergence |
-| Analog | Chair falling over | Microphone feedback (screech) |
+| δ | max Re λ (J_b=1.0) | Re/√δ | gap to the mirror partner | Petermann K |
+|---|---|---|---|---|
+| 10⁻² | 0.02033551 | 0.2034 | 2.07·10⁻² | 40.9 |
+| 10⁻³ | 0.00641845 | 0.2030 | 7.16·10⁻³ | 403.2 |
+| 10⁻⁴ | 0.00202899 | 0.2029 | 3.68·10⁻³ | 4027 |
+| 10⁻⁵ | 0.00064059 | 0.2026 | 1.28·10⁻³ | 4.04·10⁴ |
 
-**Update (April 2026):** The Hopf bifurcation IS the Liouvillian analog
-of chiral symmetry breaking. At Σγ = 0, the conjugation operator Π
-forces exact λ ↔ −λ pairing (chiral symmetry, class AIII). Below
-γ_crit: all eigenvalues lie exactly on the imaginary axis (the
-chiral-symmetric phase). Above γ_crit: eigenvalue pairs leave the
-axis. Same geometry as Hamiltonian PT breaking, rotated 90°. Π is
-linear (not anti-linear like PT), making it a chiral symmetry, not
-PT in the strict sense. Petermann factor peaks at K = 403 above γ_crit,
-signaling a nearby exceptional point in the complex γ plane.
+Three signatures of a second-order exceptional point, and all three are
+**at real γ = γ_crit**, not near it:
+
+- **Re λ ∝ √δ**, the coefficient constant to three digits over four decades
+  (1.107 / 1.103 / 1.093 at J_b = 1.9). A Hopf bifurcation is by definition
+  a transversal crossing, Re λ ∝ δ with a finite nonzero slope; here the
+  slope at threshold is infinite, so the transversality a Hopf requires is
+  absent.
+- **The mirror pair merges.** The gap to the nearest other eigenvalue falls
+  to 2·Re λ, i.e. to zero, as δ → 0.
+- **The Petermann factor diverges as 1/δ**: 40.9, 403, 4027, 4.04·10⁴, one
+  decade per decade. At an ordinary non-normal point K is large and finite.
+
+Below threshold the axis is clean to machine precision: max Re λ is
+2.4·10⁻¹⁴ at δ = −10⁻³ and 1.6·10⁻¹⁴ at δ = −10⁻², which with λ ↔ −λ means
+every eigenvalue is on the imaginary axis, exactly as the symmetry demands.
+
+So it is the same geometry as Hamiltonian PT breaking, rotated 90°: there
+two real eigenvalues merge and become complex, here a mirror pair merges on
+the imaginary axis and acquires a real part. Π is linear rather than
+anti-linear, which is why this is chiral symmetry (AIII) and not PT in the
+strict sense, but the transition is of the same kind and the old table's
+contrast between "eigenvalues merge" and "pair crosses Re = 0" was a
+distinction the measurement does not support.
 See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 The oscillation frequency at threshold decreases with bridge strength:
@@ -187,19 +208,24 @@ The oscillation frequency at threshold decreases with bridge strength:
 | 5.0 | ±0.26 |
 | 10.0 | ±0.12 |
 
-At large J_bridge, the Hopf bifurcation approaches a saddle-node:
-almost no oscillation, just slow drift into instability.
+At large J_bridge the oscillation frequency at threshold falls toward zero,
+so the transition approaches a saddle-node in character: almost no
+oscillation, just slow drift into instability.
 
 ### 3.1 Local-EP connection (2026-05-06 → retracted 2026-06-21)
 
-This file's own reading is unchanged, and it is a proximity reading rather
-than a located EP: the Σγ = 0 gain-loss system has NO exceptional point on the
-real γ axis, and the Petermann factor spikes above γ_crit, which signals an EP
-somewhere in the **complex γ plane** (Section 3 above). The spike is the
-signal, not its height: the committed script reproduces 402.7 at its grid point
-exactly, while independent rebuilds with their own mode-tracking and grids find
-spikes of order 10¹ to 10³ at slightly different γ/γ_c. That is the same
-sampling sensitivity the retraction below turns on, and it applies here too.
+This file's own EP is located, and it is on the real axis at γ_crit itself
+(Section 3). That also disposes of the puzzle the Petermann spike used to
+pose. Its height is not a property of the system but of the grid: K ∝ 1/δ, so
+a scan that happens to sample at δ ≈ 10⁻³ reads about 400 and one that samples
+at 10⁻⁴ reads about 4000. The committed script's 402.7 is K at its own
+distance from threshold, and the "spikes of order 10¹ to 10³" that independent
+rebuilds report at slightly different γ/γ_c are that same law read at their own
+step sizes. Grid-dependent height is what an exceptional point predicts, not
+evidence against one. The producer above also reads K across a wide range: it
+falls to 2.7 by γ/γ_crit = 1.2 and rises again to 39 near 1.46, a secondary
+bump an order of magnitude below the reading at δ = 10⁻³. A height taken at
+one γ and a location taken at another are not one measurement.
 
 A 2026-05-06 note tried to extend it: it read the same algebraic
 object (same-sign-imaginary 2×2 form, AIII chiral) appearing in F86
@@ -280,7 +306,7 @@ gain channels to bridge connections.
 |----------|---------------|-----------------|
 | N-dependence | Independent | Strongly dependent |
 | Type | Geometric constant | Topological ratio |
-| Bifurcation | Fold (saddle-node) | Hopf (oscillating) |
+| Bifurcation | Fold (saddle-node) | exceptional point (oscillating) |
 | What it measures | When irreversibility begins | When coupled gain-loss explodes |
 | Determined by | Palindrome geometry | Gain/bridge topology |
 

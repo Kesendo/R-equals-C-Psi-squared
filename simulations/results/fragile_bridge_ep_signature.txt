@@ -1,0 +1,56 @@
+==============================================================================
+The fragile bridge threshold: coalescence, not crossing
+==============================================================================
+
+Two chains of 2 qubits, Heisenberg, gain-loss dephasing +/- gamma, Sigma-gamma = 0.
+
+J_bridge = 1.0   gamma_crit = 0.187310102
+
+     delta   max Re lambda  Re/sqrt(delta)  gap to partner   Petermann K
+     1e-02      0.02033551          0.2034       2.074e-02         40.92
+     1e-03      0.00641845          0.2030       7.157e-03         403.2
+     1e-04      0.00202899          0.2029       3.684e-03          4027
+     1e-05      0.00064059          0.2026       1.281e-03     4.039e+04
+
+  1. Re lambda / sqrt(delta) spans 1.0039 over four decades of delta. A transversal crossing (Re ~ delta) would make this ratio grow by 32 across the same range.
+  2. the gap to the mirror partner falls to 1.28e-03: the pair merges.
+  3. Petermann K multiplies by 9.85, 9.99, 10.03 per decade of delta: the 1/delta divergence of an exceptional point.
+     below threshold, delta = -1e-03: max Re lambda = 2.43e-14
+     below threshold, delta = -1e-02: max Re lambda = 1.61e-14
+     below threshold, delta = -1e-01: max Re lambda = 1.39e-14
+
+J_bridge = 1.9   gamma_crit = 0.405852400
+
+     delta   max Re lambda  Re/sqrt(delta)  gap to partner   Petermann K
+     1e-02      0.11069073          1.1069       2.214e-01         64.11
+     1e-03      0.03487199          1.1027       6.974e-02         632.3
+     1e-04      0.01092771          1.0928       2.186e-02          6425
+     1e-05      0.00313379          0.9910       6.268e-03     7.811e+04
+
+  1. Re lambda / sqrt(delta) spans 1.1170 over four decades of delta. A transversal crossing (Re ~ delta) would make this ratio grow by 32 across the same range.
+  2. the gap to the mirror partner falls to 6.27e-03: the pair merges.
+  3. Petermann K multiplies by 9.86, 10.16, 12.16 per decade of delta: the 1/delta divergence of an exceptional point.
+     below threshold, delta = -1e-03: max Re lambda = 4.48e-14
+     below threshold, delta = -1e-02: max Re lambda = 2.04e-14
+     below threshold, delta = -1e-01: max Re lambda = 2.49e-14
+
+==============================================================================
+What a coarse scan sees instead
+==============================================================================
+
+K diverges only AT threshold, so a scan that never samples close to it reads a
+modest number somewhere else. The leading mode's K across a wide range:
+
+   gamma/gamma_crit   Petermann K
+              1.001         403.2
+              1.010         40.92
+              1.050         8.726
+              1.200         2.724
+              1.460         39.42
+              1.500         19.18
+              2.000         4.304
+              3.000         2.206
+
+There is a secondary bump above threshold, near gamma/gamma_crit = 1.46, an order
+of magnitude below the reading at delta = 1e-3. A height and a location quoted
+from different points are not one measurement.

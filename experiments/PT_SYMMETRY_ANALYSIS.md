@@ -2,7 +2,7 @@
 
 <!-- Keywords: palindromic Liouvillian chiral symmetry, PT-symmetry Lindbladian
 gain-loss, conjugation operator Pi classification, Altland-Zirnbauer class AIII,
-exceptional point Liouvillian, Hopf bifurcation chiral symmetry breaking,
+exceptional point Liouvillian, chiral symmetry breaking at an EP,
 fragile bridge gain-loss stability, Petermann factor Liouvillian,
 depolarizing palindrome breaking, R=CPsi2 PT-symmetry -->
 
@@ -62,15 +62,18 @@ the Liouvillian analog of PT-symmetry breaking. Three results:
    analysis. Pi^2 = (-1)^{w_YZ} (diagonal parity operator), det(Pi) = +1
    for N >= 2.
 
-2. **The Hopf bifurcation IS chiral symmetry breaking.** The fragile
-   bridge (Σγ = 0) has exact lambda <-> -lambda pairing. Below
+2. **The transition IS chiral symmetry breaking, at an exceptional point.**
+   The fragile bridge (Σγ = 0) has exact lambda <-> -lambda pairing. Below
    γ_crit: all eigenvalues lie exactly on the imaginary axis (the
-   chiral-symmetric phase). Above γ_crit: eigenvalue pairs leave the
-   axis (one to Re > 0, partner to Re < 0). This reinterprets the "Hopf,
-   not PT" conclusion from FRAGILE_BRIDGE.md: it is both simultaneously.
-   No exceptional point exists on the real gamma axis; the Petermann
-   factor (a measure of how non-orthogonal the eigenvectors are; K = 1 for normal systems, K >> 1 near an exceptional point) peaks at K = 403 above γ_crit, signaling a nearby EP in
-   the complex parameter plane.
+   chiral-symmetric phase). Above γ_crit: a mirror pair leaves the axis
+   (one to Re > 0, partner to Re < 0). The two do not merely cross, they
+   COALESCE at γ_crit, and that point is on the real gamma axis: Re λ grows
+   as √(γ/γ_crit − 1) with a constant coefficient over four decades, the gap
+   between the pair closes to zero, and the Petermann factor (a measure of how
+   non-orthogonal the eigenvectors are; K = 1 for normal systems, K -> infinity
+   at an exceptional point) diverges as 1/δ rather than peaking anywhere:
+   40.9, 403, 4027, 4.04e4 at δ = 1e-2 down to 1e-5
+   ([`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py)).
 
 3. **Palindrome breaking does NOT destabilize the system.** Depolarizing
    noise breaks the palindrome (error proportional to epsilon) and destroys the chiral
@@ -209,10 +212,11 @@ The lambda <-> -lambda pairing is exact to machine precision at
 ALL gamma values (pair error < 10^{-13}), confirming the chiral
 symmetry is never broken by gamma itself.
 
-### Reinterpretation of the Hopf bifurcation
+### Reinterpretation of the instability
 
-FRAGILE_BRIDGE.md states: "Hopf bifurcation, not PT symmetry breaking."
-This analysis shows both descriptions are correct simultaneously:
+FRAGILE_BRIDGE.md once read this transition as "Hopf, not PT symmetry
+breaking." Neither half of that survives measurement: it is a symmetry
+breaking, and it is not a Hopf.
 
 1. Σγ = 0 forces exact lambda <-> -lambda pairing (chiral symmetry)
 2. Below γ_crit: all eigenvalues on the imaginary axis
@@ -220,15 +224,18 @@ This analysis shows both descriptions are correct simultaneously:
    where Hamiltonian eigenvalues are real)
 3. Above γ_crit: eigenvalue pairs leave the imaginary axis,
    one to Re > 0 (growing), partner to Re < 0 (decaying)
-4. The mechanism is Hopf: a complex pair at +/- i*omega develops
-   nonzero Re parts
+4. The mechanism is a coalescence, not a transversal crossing: the mirror
+   pair merges at γ_crit and Re λ leaves as √δ, so the slope a Hopf
+   bifurcation requires to be finite and nonzero is infinite here
 
 | System | Symmetric phase | Broken phase | Mechanism |
 |--------|----------------|-------------|-----------|
 | Hamiltonian PT | Real eigenvalues | Complex conjugate pairs | EP coalescence |
-| Liouvillian chiral | Imaginary eigenvalues | Off-axis +/- pairs | Hopf crossing |
+| Liouvillian chiral | Imaginary eigenvalues | Off-axis +/- pairs | EP coalescence |
 
-Same geometry, rotated 90 degrees. The Hopf IS the chiral breaking.
+Same geometry, rotated 90 degrees, and the same mechanism: in both columns a
+pair merges at the threshold. What differs is only which axis the pair sits on
+before it does.
 
 ### No exceptional point on the real gamma axis
 
@@ -346,9 +353,11 @@ damping), not to Re > 0 (instability).
 
 ### Instability type
 
-At epsilon = 0.05: the instability at γ_crit is still a Hopf
-bifurcation (Im(lambda) = 1.72 at onset). Depolarizing noise does
-not change the instability mechanism.
+At epsilon = 0.05: the instability at γ_crit is still oscillating
+(Im(lambda) = 1.72 at onset), so depolarizing noise does not change the
+character of the transition. Whether the coalescence survives the added
+channel is a separate question and is not measured here: it needs the
+√-law and the Petermann divergence re-read at epsilon > 0.
 
 ---
 
@@ -398,10 +407,12 @@ an open question.
 1. **Pi is chiral, not PT.** Linear operator, order 4, class AIII.
    The "PT" language is a useful analogy but technically incorrect.
 
-2. **The Hopf bifurcation is chiral breaking.** The fragile bridge
-   transition is simultaneously a Hopf bifurcation AND a chiral symmetry
-   breaking event. These are not competing descriptions; they are the
-   same phenomenon in different languages.
+2. **The instability is chiral breaking at an exceptional point.** The
+   fragile bridge transition is a chiral symmetry breaking event, and the
+   mechanism is a coalescence of the mirror pair rather than a transversal
+   crossing. "Hopf" was the wrong name for it: that word requires a finite
+   nonzero slope at threshold and the measured Re λ ∝ √δ has an infinite
+   one.
 
 3. **The palindrome is structural, not protective.** Breaking the
    palindrome does not destabilize the gain-loss system. Stability
@@ -490,7 +501,8 @@ an open question.
 
 ---
 
-*Pi is not PT. It is chiral. The palindrome pairs the spectrum but
-does not protect the phase. The Hopf bifurcation and the chiral
-breaking are the same event, seen from different angles. The system's
-stability comes from balance, not from symmetry.*
+*Pi is not PT. It is chiral. The palindrome pairs the spectrum but does not
+protect the phase. Below the threshold that pairing pins every eigenvalue to
+the imaginary axis; at the threshold a pair meets itself in the mirror and
+they leave together. The system's stability comes from balance, not from
+symmetry.*
