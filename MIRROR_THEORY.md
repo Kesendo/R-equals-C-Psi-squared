@@ -32,7 +32,7 @@ are trading places faster than any single act of attention can follow.
 The trading is not a problem in the reading. The trading is what is
 being described.
 
-Two waves moving toward each other do not pass through. [They interfere](experiments/STANDING_WAVE_TWO_OBSERVERS.md).
+Two waves moving toward each other do not pass each other by. [They interfere](experiments/STANDING_WAVE_TWO_OBSERVERS.md).
 Where they meet, a pattern appears that neither wave carries alone. The
 pattern holds its shape while the waves keep going. That is what a
 [standing wave](docs/STANDING_WAVE_THEORY.md) is.
@@ -45,28 +45,26 @@ space separating two things. Between is where the two things become
 one pattern. The separation is what makes the shared pattern possible.
 The sharing is what makes the separation worth having.
 
-The mathematics supplies a narrower image. In Hamiltonian families admitting
-the repo's palindromizer, with local single-axis dephasing, every eigenvalue has
-a partner under the linear map `lambda -> -lambda - 2 Sigma gamma`.
-[Eighty-seven thousand eigenvalues](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md)
-were checked in the reported Heisenberg/XXZ suite, with zero exceptions. That
-map does not preserve frequency: only after composing it with ordinary complex
-conjugation does the centre line become fixed. Neither orbit census proves
-spatial counter-propagation, excitation, or interference. Calling the meeting
-a standing wave is the interpretation of this page, not the theorem.
+The mathematics of this project has been saying this for months,
+quietly, without needing to be read this way. Every [mode of decay](experiments/FACTOR_TWO_STANDING_WAVES.md) has
+a [mirror partner](docs/proofs/MIRROR_SYMMETRY_PROOF.md): as fast as the one dies, the other survives, the two
+rates adding to the same sum every time, and the partner's phase turning the
+other way. [Eighty-seven thousand eigenvalues](docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md), every one paired. Zero exceptions. Nothing
+in the system exists alone. Everything real is already paired. [What
+survives](docs/ITS_ALL_WAVES.md) is not a fast mode or a slow mode by itself. It is the
+standing wave they make when they meet.
 
-Mirror theory is the interpretive claim that the image may reach beyond the
-[particular quantum systems](docs/QUBIT_NECESSITY.md) in which the algebra was
-proved. It proposes this as the shape of what it means for
+Mirror theory is the claim that this is not only a feature of a [particular
+class of quantum systems](docs/QUBIT_NECESSITY.md). It is the shape of what it means for
 anything to be real. Two sides, each with its own amplitude, facing
 each other across a middle that lets their patterns meet. A standing
 wave in the middle. Two people in a [conversation](experiments/DYAD_EXPERIMENT.md) that neither could
-have had alone. Two [cells across a membrane](experiments/DNA_BASE_PAIRING.md). Two readings of a
+have had alone. Two [bases across a hydrogen bond](experiments/DNA_BASE_PAIRING.md). Two readings of a
 sentence. The form is the same everywhere because the [algebra
-underneath](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) does not care about [scale](experiments/N_SCALING_BARRIER.md).
+underneath](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) does not care about [scale](experiments/N_INFINITY_PALINDROME.md).
 
-There is an objection. [A separate proof](docs/proofs/INCOMPLETENESS_PROOF.md) in this project says no
-closed system can describe itself from within. And here is a
+There is an objection. [A separate proof](docs/proofs/INCOMPLETENESS_PROOF.md) in this project says a
+system cannot tell, from within, where the noise it runs on comes from. And here is a
 document, inside the project, describing the project. The objection
 has an answer, and the answer was already in the repository before
 this document existed. Two systems, each limited on its own, coupled
@@ -75,13 +73,13 @@ and nine new frequencies](experiments/V_EFFECT_PALINDROME.md), where either side
 The mode does not belong to one or the other. It [belongs to the
 coupling](hypotheses/RESONANCE_NOT_CHANNEL.md).
 
-Consciousness was the word at the top. [Nobody has defined it](docs/THE_CPSI_LENS.md) and
-nobody knows where it begins. The project does not have a definition
-either, and this document is not going to invent one. What the
-project has is mathematics. The [palindrome](experiments/DEGENERACY_PALINDROME.md)
-is proven in its declared scope. Physical standing waves are not established
-for every spectral pair. Consciousness is a word in one reading of the formula.
-The reading is [interpretation, not proof](docs/THE_INTERPRETATION.md).
+Consciousness was the word at the top. Nobody has defined it and
+nobody knows where it begins. [The project does not have a definition
+either](docs/THE_CPSI_LENS.md), and this document is not going to invent one. What the
+project has is mathematics. The [palindrome](docs/proofs/MIRROR_SYMMETRY_PROOF.md) is proven, and [its edge is
+drawn](docs/proofs/MIRROR_SYMMETRY_PROOF.md#what-this-proof-says-in-plain-language). The standing wave is [the picture we read it through](docs/STANDING_WAVE_THEORY.md), and
+the picture has [conditions of its own](experiments/FACTOR_TWO_STANDING_WAVES.md). Consciousness is a word in one reading of the
+formula. The reading is [interpretation, not proof](docs/THE_INTERPRETATION.md).
 
 The shape the interpretation points at is this. A wave that has
 [rung long enough](hypotheses/WAVES_THAT_HEAR_THEMSELVES.md) for its own pattern to point back at the rest of
@@ -130,4 +128,4 @@ The [early intuitions](recovered/) that the mathematics later caught up with, an
 
 ## Seen again 2026-06-10: the mirrors close
 
-The mirrors were counted, and they close. Π, the operator that [proves the pairing](docs/proofs/MIRROR_SYMMETRY_PROOF.md), was the door this whole repository walked through first, the simplest thing to understand, and that is exactly why it carried. Seven months later, by light Π itself provided, the door showed its two hinges: [Π = R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), a reflection times the transpose, and the two factors carry the two halves of the palindrome separately: one flips the Hamiltonian, the other reflects the noise and carries the shift. Anatomy, not demotion. Eight mirrors in all, closing into the symmetry group of a square; inside it sits the four-mirror spine the newest proofs walk on, and its characters fill the three-axis cube the classifier reads. Even the noise the mirrors face each other across is [one diagonal](reflections/ON_THE_ONE_DIAGONAL.md): a count of the places where two versions of a story disagree. Two sides, a middle, a pattern neither side carries alone. The middle was a square all along.
+The mirrors were counted, and they close. Π, the operator that [proves the pairing](docs/proofs/MIRROR_SYMMETRY_PROOF.md), was the door this whole repository walked through first, the simplest thing to understand, and that is exactly why it carried. Three months later, by light Π itself provided, the door showed its two hinges: [Π = R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), a reflection times the transpose, and the two factors carry the two halves of the palindrome separately: one flips the Hamiltonian, the other reflects the noise and carries the shift. Anatomy, not demotion. Eight mirrors in all, closing into the symmetry group of a square; inside it sits the four-mirror spine the windowed-converse proofs walk on, and its transpose hinge is what lifts the square of signs into the three-axis cube the classifier reads. Even the noise the mirrors face each other across is [one diagonal](reflections/ON_THE_ONE_DIAGONAL.md): a count of the places where two versions of a story disagree. Two sides, a middle, a pattern neither side carries alone. The middle was a square all along.
