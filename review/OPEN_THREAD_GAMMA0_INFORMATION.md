@@ -58,10 +58,11 @@ The pieces cluster around five physical roles:
    no physical standing wave is established by that formula.
 
 7. **[OPTICAL_CAVITY_ANALYSIS](../experiments/OPTICAL_CAVITY_ANALYSIS.md)** (experiments/, Tier 2):
-   The cavity is quantitative, not metaphorical. 4 of 5 standard optical
-   checks pass (beam profile R² = 0.998, nearest-neighbor coupling
-   Δw = ±2 exclusively, growing numerical aperture, Gouy phase as arctan).
-   Even chains are confocal, odd chains defocal. "The algebra enforces it."
+   The cavity reading is quantitative, not metaphorical, and partial. 4 of 6
+   standard optical checks pass (beam profile R² = 0.998, even-only weight
+   steps, growing numerical aperture, Gouy phase as arctan). The propagation
+   check is not among them: Δw = 0 is the larger channel, not Δw = ±2.
+   Even chains are confocal, odd chains defocal at the sizes tested. "The algebra enforces it."
 
 8. **[PRIMORDIAL_SUPERALGEBRA_CAVITY](../experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md)** (experiments/, Tier 2-3):
    Every palindromic pair is a swap between "being light" (X/Y Pauli

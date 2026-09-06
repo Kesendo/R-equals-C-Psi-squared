@@ -413,11 +413,15 @@ form a chain that constrains what γ can be, each link graded below:
    open with and no longer has: the internal candidates are open as of
    2026-08-29, so every downstream link below inherits "open system"
    where it used to inherit "external source".
-2. The qubit chain behaves as a passive optical cavity (four of five
-   standard cavity tests satisfied quantitatively, R² = 0.998 for the
-   beam profile, Gouy marginal at R² = 0.81; the failing fifth is the
-   even = confocal identification, which fails at the small N tested;
-   [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md))
+2. The qubit chain carries a good deal of passive-cavity structure without
+   being a cavity: four of six standard checks pass quantitatively,
+   R² = 0.998 for the beam profile, Gouy marginal at R² = 0.81. Two fail.
+   The even = confocal identification fails at the small N tested, a
+   boundary case; the propagation check is not, because the dominant
+   coupling is a shell to itself rather than the Δw = ±2 traffic free-space
+   propagation would need. The source's own verdict is "and it is not a
+   cavity"
+   ([Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md))
 3. Therefore γ is whatever enters the cavity from outside
 4. In optics, what enters a passive cavity from outside is light
 5. On IBM transmon hardware, the physical carrier behind γ IS light:
@@ -425,19 +429,20 @@ form a chain that constrains what γ can be, each link graded below:
    dephasing through photon shot noise (Sears et al., Phys. Rev. B 86,
    180504, 2012); γ itself is the rate this light imprints
 
-Step 1 is proven. Step 2 is verified quantitatively on four of five
-checks (the fifth, the even = confocal identification, fails at the
-small N tested). Step 3 is deductive within the cavity reading. Step 4 is the
-physical identification, the analogy's content rather than a
-derivation. Step 5 is independent experimental confirmation on a
-different platform than our theoretical framework.
+Step 1 is proven. Step 2 passes four of six checks, and one of the two
+failures is the propagation step, which is what steps 3 and 4 lean on: they
+read γ as what enters a cavity from outside, and the cavity reading is
+weakest exactly at the traffic between shells. Step 3 is deductive within
+that reading, and inherits its weakness. Step 4 is the physical
+identification, the analogy's content rather than a derivation. Step 5 is
+independent experimental confirmation on a different platform than our
+theoretical framework.
 
-This does not prove "γ is light" as a universal statement. It proves
-that the mathematics forces γ to be external, which it does not; it shows
-that the system
-γ enters matches an optical cavity quantitatively on four of five
-checks; and on the one hardware platform where we can check, the
-external input is literally photons. On other platforms (ion traps, neutral atoms), γ has a
+This does not prove "γ is light" as a universal statement, and it does not
+show that the mathematics forces γ to be external. What it shows is that the
+system γ enters matches an optical cavity on four of six checks, failing the
+one that would carry the propagation picture; and that on the one hardware
+platform where we can check, the external input is literally photons. On other platforms (ion traps, neutral atoms), γ has a
 different physical origin, but the algebraic role (external input
 to a cavity) is the same.
 

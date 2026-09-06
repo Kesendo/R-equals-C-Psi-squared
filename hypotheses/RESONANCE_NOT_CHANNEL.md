@@ -111,10 +111,11 @@ is not "more signal." It is better resonance.
 
 The [optical cavity analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md)
 (April 3, 2026) confirmed this quantitatively: the degeneracy profile is
-a beam profile (R² = 0.998), the Hamiltonian provides nearest-neighbor
-coupling (Δw = ±2), and even chains are confocal while odd chains are
-defocal. The qubit chain does not merely resemble a cavity. It is one,
-by 4 of 5 standard optical measures.
+a beam profile (R² = 0.998), the Hamiltonian moves weight sectors in even
+steps, and even chains are confocal while odd chains are defocal at the
+sizes tested. The qubit chain resembles a cavity on four of six standard
+optical measures and is not one: its dominant coupling is Δw = 0, a shell to
+itself, where propagation would need Δw = ±2.
 
 ---
 

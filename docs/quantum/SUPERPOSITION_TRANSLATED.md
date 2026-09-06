@@ -149,17 +149,26 @@ or the letter the light holds.** The repository hit this while working on
 the Born rule: σ_x
 and
 σ_y dephasing attack |0⟩ because "they see |0⟩ as a superposition in their
-basis" ([Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md)). Our
+basis" ([Born Rule Mirror](../../experiments/BORN_RULE_MIRROR.md), whose own
+next line calls that wording loose and names the split as parity, the genuine
+superpositions being the mirror modes (|01⟩ ± |10⟩)/√2, which is this
+document's point arriving early). Our
 machinery makes the frame literal: the `dephase_letter` parameter
 fixes which of the three letters {Z, X, Y} the dephasing holds, and the
 four letter-labels {I, X, Y, Z}
 carry a Klein V₄ that lifts to involutions on the 4^N operator space, so a
 diagnostic computed under one letter transports to the others, with the
-proof's own caveat: only the Hadamard lift actually turns the dephasing
-axis; the other two intertwine the Π's and leave the dissipator where it is
+proof's own caveats. Two of the three swaps genuinely turn the dephasing
+axis, both carrying L_Z to L_X; only the transpose is inert, because a sign
+matrix cannot move a diagonal. What the Hadamard alone can do is lift to a
+Hilbert-space unitary, the other two being operator-space only. And the group
+does not reach every letter: **no element of the V₄ carries L_Z to L_Y**, which
+takes a quarter turn from outside it. The caveats also bound what transports:
+a diagnostic of a fixed operator, not an identity moved to a genuinely
+different channel
 ([Klein V₄ proof](../proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)).
 Which states count as "superposed" is set by which letter the dephasing
-holds.
+holds, and the letter the group cannot reach on its own is exactly Y.
 (One honesty flag: whether that three-way symmetry is physical or a labelling
 convention is a question the repo still keeps open, in
 [Benzene, Three Dephase Letters](../carbon/BENZENE_THREE_DEPHASE_LETTERS.md).)
@@ -202,14 +211,15 @@ relational reading goes all the way down.
 
 ## 5. An honest note on our own house
 
-Our plain-language layer uses the pop gloss too. The
-[glossary](../GLOSSARY.md) says superposition is "the ability to be in
-multiple states at once"; [What We Found](../WHAT_WE_FOUND.md) asks whether
-a qubit "can still be in two states at once";
-[Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md) narrates a qubit
-that "forgets that it was both at once." That is a ladder, and ladders are
-fine to climb: the phrase gives a newcomer something to hold before the
-operator space exists for them. This document is where the ladder is kicked
+Our plain-language layer uses the pop gloss too.
+[What We Found](../WHAT_WE_FOUND.md) asks whether a qubit "can still be in
+two states at once"; [Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md)
+narrates a qubit that "forgets that it was both at once." That is a ladder,
+and ladders are fine to climb: the phrase gives a newcomer something to hold
+before the operator space exists for them. The [glossary](../GLOSSARY.md) is
+where we do not climb it: it has no superposition entry at all, and defines
+Ψ as a normalized l1-coherence, which is basis-dependent by construction and
+so is the opposite of a state being several things at once. This document is where the ladder is kicked
 away. Both layers stay in the repo on purpose; the tension between them is
 the distance between an introduction and a translation.
 

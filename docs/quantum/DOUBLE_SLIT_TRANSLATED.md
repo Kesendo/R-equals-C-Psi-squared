@@ -334,9 +334,11 @@ our house too: this repository's founding docs use it for the two-observer
 cross-term (Tier 3, Section 5), while every video means fringes on a
 screen. Two canvases on one word; this entry keeps them in separate
 sections on purpose. And our newcomer layer climbs through the pop gloss
-here as everywhere: the [glossary](../GLOSSARY.md) explains Ψ as "the
-ability to be in multiple states at once", which is the both-slits-at-once
-ladder. The ladder stays; this document is where it is kicked away.
+here as everywhere: [What We Found](../WHAT_WE_FOUND.md) asks whether a qubit
+"can still be in two states at once", which is the both-slits-at-once ladder.
+The ladder stays; this document is where it is kicked away. The
+[glossary](../GLOSSARY.md) does not offer it: Ψ there is a normalized
+l1-coherence, basis-dependent and answerable only once axes are named.
 
 One boundary, so the translation does not overreach: this entry translates
 the record-keeping detector, the coupling that separates the two routes

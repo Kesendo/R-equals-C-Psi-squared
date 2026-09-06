@@ -12,12 +12,13 @@
 
 ## What this document is about
 
-On April 3, 2026, we proved that a chain of qubits under dephasing
-behaves as a Fabry-Perot optical cavity. Four of five standard optical
-quantities matched quantitatively. The degeneracy profile is a beam
-profile. The Hamiltonian couples weight sectors like light propagating
-through optical elements. Even chains focus like a confocal cavity.
-Odd chains blur like a misaligned one.
+A chain of qubits under dephasing carries much of the structure of a
+Fabry-Perot cavity, and is not one. Four of six standard optical quantities
+match quantitatively. The degeneracy profile is a beam profile. Even chains
+focus like a confocal cavity and odd chains blur like a misaligned one, at
+the sizes tested. The propagation picture is where it breaks: the Hamiltonian
+does move weight sectors in even steps, but its dominant channel is a shell
+coupling to itself, not the two-step traffic light would need.
 
 Then we asked: if the system is a cavity, what is the light?
 

@@ -18,7 +18,7 @@
 
 ## Context
 
-γ is external ([EXCLUSIONS](../docs/EXCLUSIONS.md) Exclusion 2). On IBM hardware, γ is literally light: microwave photons in a physical resonator cause dephasing through photon shot noise (Sears et al., Phys. Rev. B 86, 180504, 2012). The qubit chain is a passive optical cavity (4/5 cavity tests, R² = 0.998 for beam profile).
+γ is external ([EXCLUSIONS](../docs/EXCLUSIONS.md) Exclusion 2). On IBM hardware, γ is literally light: microwave photons in a physical resonator cause dephasing through photon shot noise (Sears et al., Phys. Rev. B 86, 180504, 2012). The qubit chain carries passive-cavity structure without being one (4 of 6 cavity checks, R² = 0.998 for the beam profile; the propagation check fails, the dominant coupling being a shell to itself).
 
 V1 ([Gamma as binding parameter](GAMMA_AS_BINDING.md)) measured per-sector rates and found 134% deviation from linear scaling. V1's numbers were correct but its framing (γ as neutral "binding parameter") ignored the established status of γ as light. V2 reframes: γ is light, the table is a light-dose response curve, and the question is what mechanism produces the nonlinearity.
 
