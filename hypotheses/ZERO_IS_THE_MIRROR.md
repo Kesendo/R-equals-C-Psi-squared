@@ -52,7 +52,7 @@ At Σγ < 0 (gain): the decay spectrum mirrors exactly into a growth
 spectrum. The laser is the time-reversal of decoherence.
 
 The fold at CΨ = 1/4 does not exist at Σγ = 0. It emerges at a
-critical noise threshold, and which threshold depends on the initial state:
+critical amount of light, and which threshold depends on the initial state:
 Σγ_crit/J ≈ 0.0025 for the |+⟩^N product state, and between 0.00001 and
 0.00038 for Bell/GHZ. Across the measured N = 2 through N = 5 the product-state
 threshold is flat to 2.2%; the Bell/GHZ one spans a factor of twenty-six and is
