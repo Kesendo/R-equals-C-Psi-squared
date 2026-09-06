@@ -2221,3 +2221,41 @@ experiment copies, the glossary's "no proof on file", the instrument's two ladde
   Wall-clock and timing fields are now absent from the scientific snapshot; a
   regression runs the producer twice and requires both hashes to equal the
   tracked output.
+
+## 2026-09-06: two findings from an empty round that did not survive being recomputed
+
+The convention is that an outside finding is outer like any other: verified from
+below before it is applied, and a rejected one recorded here beside the ones that
+were right, because it is evidence about how we review.
+
+- **"Every γ_crit in FRAGILE_BRIDGE is a tolerance artifact of a non-monotone
+  estimator."** It is not. `max_re_sparse`'s norm fit matches the exact
+  max Re(λ) of the coupled generator to six decimals (0.161594 against
+  0.16159398 at γ = 0.05, 0.375854 against 0.37585402 at γ = 0.10), it is
+  monotone over seven sampled γ at two chain sizes, and the stability window is
+  real rather than thresholded: max Re is exactly 0.0 for γ ≤ 0.01 and positive
+  from γ = 0.05. The reviewer's quoted reversal, rate(0.0625) below rate(0.03125),
+  did not reproduce. What was real in the finding, and repaired, is the log line:
+  the bisection printed `rate=... <= 0 -> stable` for rates up to its 1e-4
+  threshold, which are positive.
+
+- **"The Confirmations registries disagree: the worst-violating-Pauli sentence is
+  Python-only."** Both sides carry it, as "worst Pauli: Z,Z" in the same
+  `MeasuredValue`. The search string was "worst-violating".
+
+- **A third, from the same round, is worth recording because it inverts.** The
+  auditor disclosed that a directory-wide `git checkout` had destroyed an
+  uncommitted change to `simulations/results/thermal_palindrome_centre.txt`,
+  reasoning that with `core.autocrlf=true` a CRLF-only difference would not show
+  as modified. In this repository it is the reverse, and the case is documented:
+  status `M` with an empty `git diff` is the autocrlf phantom. The file had no
+  content change and nothing was lost.
+
+  The pattern across all three: a finding's diagnosis, its provenance story and its
+  search string are claims like its number. The fourth from the same round makes the
+  point positively: "a fit statistic that exists nowhere in the repo" was wrong,
+  because 0.19 / 1.035 / 0.9998 reproduce exactly as the weak-bridge fit the
+  document's own section heading scopes itself to. The real defect was narrower and
+  the reviewer had walked past it: the producer laid one power law across a regime
+  boundary the document itself draws, so its headline R² of −0.115 described a curve
+  nobody claims.
