@@ -55,7 +55,10 @@ public class F86QEpPi2InheritanceTests
     public void Anchor_References_F86Proof_AndPi2Ladder()
     {
         var f = Build();
-        Assert.Contains("PROOF_F86_QPEAK.md", f.Anchor);
+        // The carrier is F86a's own proof; PROOF_F86_QPEAK is the hub the 2026-05-14
+        // split left behind, and the anchor points at the theorem, not the index.
+        Assert.Contains("PROOF_F86A_EP_MECHANISM.md", f.Anchor);
+        Assert.Contains("Statement 1", f.Anchor);
         Assert.Contains("QEpLaw.cs", f.Anchor);
         Assert.Contains("Pi2DyadicLadderClaim.cs", f.Anchor);
     }

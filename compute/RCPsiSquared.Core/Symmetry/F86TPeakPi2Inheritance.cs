@@ -19,7 +19,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// partners of one ladder fact.</para>
 ///
 /// <para>Tier1Derived: pure composition. F86a is Tier1Derived in
-/// <c>docs/proofs/PROOF_F86_QPEAK.md</c>; <see cref="TPeakLaw"/> wraps it as a typed
+/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> (Statement 1), the theorem the
+/// 2026-05-14 split carved out of the monolith whose name
+/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> now carries as the hub;
+/// <see cref="TPeakLaw"/> wraps it as a typed
 /// claim parameterised by γ₀.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> Statement 1 +
@@ -102,7 +105,7 @@ public sealed class F86TPeakPi2Inheritance : Claim, IF99AnchorBearing, IZ2AxisCl
         get
         {
             yield return new InspectableNode("F86a",
-                summary: "t_peak = 1/(4γ₀) (Tier1Derived in PROOF_F86_QPEAK; universal across c, N, n, bond)");
+                summary: "t_peak = 1/(4γ₀) (Tier1Derived in PROOF_F86A_EP_MECHANISM Statement 1, hub PROOF_F86_QPEAK; universal across c, N, n, bond)");
             yield return InspectableNode.RealScalar("FourFactor (= a_{-1} = d² for N=1)", FourFactor);
             yield return InspectableNode.RealScalar("OneOverFourFactor (= a_3 mirror partner)", OneOverFourFactor);
             yield return InspectableNode.RealScalar("γ₀", GammaZero);

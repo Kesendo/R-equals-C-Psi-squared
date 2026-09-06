@@ -15,7 +15,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the per-(c, N) variation lives entirely in g_eff.</para>
 ///
 /// <para>Tier1Derived: pure composition. F86a is Tier1Derived in
-/// <c>docs/proofs/PROOF_F86_QPEAK.md</c>; <see cref="QEpLaw"/> wraps it as a typed
+/// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> (Statement 1), the theorem the
+/// 2026-05-14 split carved out of the monolith whose name
+/// <c>docs/proofs/PROOF_F86_QPEAK.md</c> now carries as the hub;
+/// <see cref="QEpLaw"/> wraps it as a typed
 /// claim parameterised by g_eff. This claim makes the numerator's
 /// Pi2-Foundation inheritance explicit.</para>
 ///
@@ -71,7 +74,7 @@ public sealed class F86QEpPi2Inheritance : Claim, IZ2AxisClaim
         get
         {
             yield return new InspectableNode("F86a",
-                summary: "Q_EP = 2/g_eff (Tier1Derived in PROOF_F86_QPEAK)");
+                summary: "Q_EP = 2/g_eff (Tier1Derived in PROOF_F86A_EP_MECHANISM Statement 1; PROOF_F86_QPEAK is the three-theorem hub)");
             yield return InspectableNode.RealScalar("TwoFactor (= a_0 = d)", TwoFactor);
             yield return InspectableNode.RealScalar("g_eff", GEff);
             yield return InspectableNode.RealScalar("LiveQEp (= TwoFactor / g_eff)", LiveQEp);
