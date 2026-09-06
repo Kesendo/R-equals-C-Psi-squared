@@ -1051,7 +1051,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-254
 
-**Question:** **Cascade stability:** If each level in the frequency cascade (154 THz → 1 Hz) is a coupled gain-loss pair, then each level has its own bridge stability window. The cascade works only if every bridge stays in the linear regime (γ < 0.19 × J_bridge).
+**Question:** **Cascade stability:** If each level in the frequency cascade (154 THz → 1 Hz) is a coupled gain-loss pair, then each level has its own bridge stability window. The cascade works only if every bridge stays in the linear regime (γ < 0.189 × J_bridge^1.035, and that law is the regime's trend rather than a per-point one).
 
 **Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 290)
 **Section:** 6. Open questions

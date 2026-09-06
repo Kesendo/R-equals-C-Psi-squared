@@ -50,16 +50,17 @@ own the current neural interpretation.
 
 Two identical quantum systems, one decaying and one amplifying, are
 connected by a single coupling (the "bridge"). The bridge has three
-stability regimes: weak coupling stabilizes linearly
-(γ_crit = 0.19 × J_bridge), optimal coupling at twice the internal
-strength yields maximum stability, and strong coupling destabilizes
-as 1/J_bridge with an asymptotic constant of γ_crit × J_bridge → 0.50.
+stability regimes: weak coupling stabilizes close to linearly
+(γ_crit = 0.189 × J_bridge^1.035), the maximum is bracketed near twice the
+internal strength, and strong coupling destabilizes
+as 1/J_bridge, with γ_crit × J_bridge still drifting downward
+(0.578 to 0.508 over J_bridge = 10 to 100) where the sweep ends.
 The instability is a Hopf bifurcation (oscillating divergence, not
 monotone), now identified as Liouvillian chiral symmetry breaking
 (see Section 3). Unlike the fold threshold
 (~0.5% of J for the product state, flat in N over the measured N = 2-5,
 geometric), bridge stability depends
-strongly on system size (N=3 is 35× less stable than N=2), making it
+strongly on system size (N=3 is 33× less stable than N=2), making it
 a topological rather than geometric property.
 
 The Wilson-Cowan comparison is an exploratory scan of a different generator.
@@ -87,24 +88,42 @@ unstable?
 
 For J_bridge < 2J (bridge weaker than internal coupling):
 
-**γ_crit = 0.19 × J_bridge** (R² = 0.9998, power law exponent 1.035)
+**γ_crit = 0.1891 × J_bridge^1.0346** (R² = 0.99984, eight points at
+J_bridge ≤ 2 in [fragile_bridge_bifurcation.txt](../simulations/results/fragile_bridge_bifurcation.txt),
+AUFGABE B)
 
 The critical gain scales linearly with bridge strength. Double the
 bridge, double the tolerable gain. The proportionality constant is
 ~0.19 for N=2 per chain.
 
-### 2.2 Optimal bridge at J_bridge = 2J
+The line is clean on that grid and much less clean on a finer one. The 14
+points below the peak in [fragile_bridge_anomaly.txt](../simulations/results/fragile_bridge_anomaly.txt)
+give a through-origin slope of 0.1845 with R² = 0.6149: same quantity, closer
+spacing, and R² falls from 0.9998 to 0.61. So take the linear law as the trend
+of the regime, not as a law each individual J_bridge obeys.
 
-Maximum stability (γ_crit = 0.406) occurs at J_bridge ≈ 1.9J,
-where the bridge coupling equals the sum of internal couplings
-(each chain has one J, so 2 × J total). This is the resonance
-point between internal dynamics and bridge transmission.
+### 2.2 Optimal bridge at J_bridge ≈ 1.9J
+
+Maximum stability (γ_crit = 0.405849) is sampled at J_bridge = 1.9, between
+neighbours at 0.403820 (J_bridge = 1.8) and 0.383839 (J_bridge = 2.0). The grid
+is spaced 0.1 there, so the true maximum lies in that bracket and the sweep does
+not resolve it further. What the sweep does say is that J_bridge = 2J is already
+5.4% below the peak, so reading the optimum as "the bridge equals the sum of the
+internal couplings" is an interpretation this data does not single out.
 
 ### 2.3 Strong bridge destabilizes (J_bridge > 2J)
 
-Above the optimum, γ_crit drops as 1/J_bridge:
+Above the optimum γ_crit falls, but not by one law the whole way. Between
+J_bridge = 3.2 and 4.4 it turns around and rises again (0.0237, 0.0447, 0.1002,
+0.1462) before resuming its descent: that reversal is what this document's
+producer is named for and it is not a 1/J_bridge tail.
 
-**γ_crit × J_bridge → 0.50** (asymptotic constant)
+Far above the optimum the 1/J_bridge scaling does hold, and the product is
+still drifting where the sweep stops:
+
+**γ_crit × J_bridge: 0.578 at J_bridge = 10, falling monotonically to 0.508
+at J_bridge = 100** (not converged; a single asymptotic constant is not
+measured)
 
 The system becomes MORE fragile with stronger coupling. Physically:
 the bridge dominates, the two chains merge into one, and gain qubits
@@ -118,12 +137,13 @@ Perfect coupling between gain and loss = immediate instability.
 
 | Regime | Condition | γ_crit | Physics |
 |--------|-----------|--------|---------|
-| Weak bridge | J_bridge < 2J | 0.19 × J_bridge | Linear stabilization |
-| Optimal | J_bridge ≈ 2J | 0.406 (maximum) | Resonance |
-| Strong bridge | J_bridge > 2J | 0.53 / J_bridge | Dimer formation, destabilization |
+| Weak bridge | J_bridge ≤ 2J | 0.189 × J_bridge^1.035 | Linear stabilization |
+| Optimal | J_bridge ∈ [1.8, 2.0] | 0.4058 (sampled maximum) | Resonance |
+| Strong bridge | J_bridge ≫ 2J | ≈ 0.51 / J_bridge at J_bridge = 100 | Dimer formation, destabilization |
 
-The transition at J_bridge ≈ 2J is not accidental: it is the point
-where the bridge equals the total internal coupling.
+Whether the turnover sits exactly where the bridge equals the total internal
+coupling is not something this grid can decide; it brackets the maximum in
+[1.8, 2.0] and no finer.
 
 ## 3. Hopf bifurcation and chiral symmetry breaking
 
@@ -221,7 +241,7 @@ even-length chains are more stable than odd-length ones.
 | 3 | 0.00052 | 0.030 |
 | 4 | 0.00119 | 0.069 |
 
-N=3 is ~35× less stable than N=2, but N=4 is 2.3× MORE stable
+N=3 is 33× less stable than N=2, but N=4 is 2.3× MORE stable
 than N=3. The scaling is **non-monotonic**: even chain lengths
 (N=2, N=4) are more stable than odd (N=3). This may reflect
 pairing symmetry within each chain (all qubits paired at even N,

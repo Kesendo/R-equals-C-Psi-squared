@@ -246,7 +246,19 @@ if len(results_d) >= 3:
 
         if abs(b + 1) < 0.2:
             log(f"  Consistent with 1/J_bridge scaling")
-            log(f"  gamma_crit * J_bridge ~ {np.mean(y * x):.4f} (constant?)")
+            prod = y * x
+            drift = (prod[-1] - prod[0]) / prod[0] * 100
+            monotone = bool(np.all(np.diff(prod) < 0)) or bool(np.all(np.diff(prod) > 0))
+            log(f"  gamma_crit * J_bridge: {prod[0]:.4f} at J_bridge={x[0]:g}"
+                f" -> {prod[-1]:.4f} at J_bridge={x[-1]:g}"
+                f" ({drift:+.1f}% across the sweep)")
+            if monotone:
+                log("  The product is monotone across the whole sweep, so it has NOT"
+                    " converged. Its mean is not an asymptotic constant; quote the"
+                    " endpoint and the drift, or extend the sweep.")
+            else:
+                log(f"  mean {np.mean(prod):.4f}, not monotone, spread"
+                    f" {prod.max() - prod.min():.4f}")
         elif abs(b + 2) < 0.2:
             log(f"  Consistent with 1/J_bridge^2 scaling")
 
@@ -258,7 +270,25 @@ log("=" * 70)
 log()
 if valid:
     log(f"Peak stability: gamma_crit = {gc_max:.6f} at J_bridge = {jb_max:.3f}")
-    log(f"Below peak: gamma_crit ~ 0.19 * J_bridge (linear)")
+
+    # Below the peak, fit rather than assert. The 0.19 this line used to print
+    # was a constant, true of the coarse sweep and unchecked against this one.
+    below = [(jb, gc) for jb, gc in valid if jb < jb_max]
+    if len(below) >= 3:
+        bx = np.array([v[0] for v in below])
+        by = np.array([v[1] for v in below])
+        slope = float(np.sum(bx * by) / np.sum(bx * bx))
+        pred = slope * bx
+        r2 = 1 - np.sum((by - pred)**2) / np.sum((by - np.mean(by))**2)
+        log(f"Below peak ({len(below)} points, J_bridge < {jb_max:.3f}):"
+            f" gamma_crit = {slope:.4f} * J_bridge through the origin,"
+            f" R^2 = {r2:.4f}")
+        if r2 < 0.5:
+            log("  R^2 below 0.5: on this sweep the below-peak points do not"
+                " follow one line. Read the table, not the slope.")
+    else:
+        log(f"Below peak: fewer than 3 points, no fit.")
+
     log(f"Above peak: gamma_crit decreases (topology transition)")
 log()
 log(f"Completed: {clock.strftime('%Y-%m-%d %H:%M:%S')}")

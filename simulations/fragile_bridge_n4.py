@@ -138,7 +138,12 @@ def max_re_sparse(L, k=10):
 
 def find_gamma_crit_sparse(n_per_chain, J_bridge, tol=1e-5):
     """Bisect for instability threshold using sparse eigensolver."""
-    threshold = 1e-4  # growth rate threshold for instability
+    # Growth-rate threshold. It is not zero, so a rate in (0, threshold] is
+    # counted stable; the log prints the comparison it actually makes. The
+    # transition is far from the threshold, so the choice does not set the
+    # answer: the exact max Re(lambda) is 0.0 to machine zero below the window
+    # and O(3*gamma) above it, and this norm fit tracks it to six decimals.
+    threshold = 1e-4
 
     log(f"  Testing gamma=0.5 for upper bound...")
     L = build_coupled_sparse(n_per_chain, 0.5, J_bridge=J_bridge)
@@ -164,10 +169,10 @@ def find_gamma_crit_sparse(n_per_chain, J_bridge, tol=1e-5):
             return None
         if mr > threshold:
             g_hi = g_mid
-            log(f"    rate={mr:.6f} > 0 -> UNSTABLE")
+            log(f"    rate={mr:.6f} > {threshold:.0e} -> UNSTABLE")
         else:
             g_lo = g_mid
-            log(f"    rate={mr:.6f} <= 0 -> stable")
+            log(f"    rate={mr:.6f} <= {threshold:.0e} -> stable")
 
     return (g_lo + g_hi) / 2
 

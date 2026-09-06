@@ -1041,8 +1041,12 @@ axis as a conjugate pair, creating oscillatory instability), now
 identified as Liouvillian chiral
 symmetry breaking (Π forces λ ↔ −λ at Σγ = 0; eigenvalues leave
 the imaginary axis at γ_crit).
-Linear regime: gamma_crit = 0.19 * J_bridge.
-Optimal: J_bridge ~ 2J, gamma_crit = 0.41.
+Linear regime: gamma_crit = 0.1891 * J_bridge^1.0346 (R^2 = 0.99984, eight
+points at J_bridge <= 2). A finer sweep of the same quantity gives a
+through-origin slope of 0.1845 at R^2 = 0.6149 over its 14 sub-peak points,
+so the linear law is the regime's trend, not a per-point law.
+Optimal: the sampled maximum is gamma_crit = 0.4058 at J_bridge = 1.9, bracketed
+in [1.8, 2.0] by a grid of spacing 0.1; at exactly 2J it is already 5.4% down.
 
 **Valid for:** coupled gain-loss Heisenberg chains.
 **Replaces:** stability analysis for large J_bridge.

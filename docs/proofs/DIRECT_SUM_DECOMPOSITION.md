@@ -347,7 +347,7 @@ parity; when N is even, they have the same parity. The crossover between
 
 A speculative echo (not derived): the
 [fragile bridge](../../hypotheses/FRAGILE_BRIDGE.md) observes that odd
-chain lengths are less stable than even ones (N=3 is ~35× less stable
+chain lengths are less stable than even ones (N=3 is 33× less stable
 than N=2; N=4 recovers 2.3× stability). Whether the sector-exchange bit
 governs that model's stability is an open conjecture; the fragile bridge
 is a non-Hermitian gain-loss system, not this Liouvillian, and no

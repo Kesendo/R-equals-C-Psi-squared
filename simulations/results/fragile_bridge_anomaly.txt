@@ -1,6 +1,6 @@
 ======================================================================
 FRAGILE BRIDGE ANOMALY INVESTIGATION
-Started: 2026-03-29 15:25:31
+Started: 2026-09-06 10:39:23
 ======================================================================
 
 ======================================================================
@@ -150,15 +150,16 @@ AUFGABE D: Asymptotic behavior (J_bridge = 10..100)
 
   Asymptotic power law: gamma_crit = 0.6392 * J_bridge^-1.0531
   Consistent with 1/J_bridge scaling
-  gamma_crit * J_bridge ~ 0.5324 (constant?)
+  gamma_crit * J_bridge: 0.5782 at J_bridge=10 -> 0.5077 at J_bridge=100 (-12.2% across the sweep)
+  The product is monotone across the whole sweep, so it has NOT converged. Its mean is not an asymptotic constant; quote the endpoint and the drift, or extend the sweep.
 
 ======================================================================
 SUMMARY
 ======================================================================
 
 Peak stability: gamma_crit = 0.405849 at J_bridge = 1.900
-Below peak: gamma_crit ~ 0.19 * J_bridge (linear)
+Below peak (14 points, J_bridge < 1.900): gamma_crit = 0.1845 * J_bridge through the origin, R^2 = 0.6149
 Above peak: gamma_crit decreases (topology transition)
 
-Completed: 2026-03-29 15:28:19
+Completed: 2026-09-06 10:41:28
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\fragile_bridge_anomaly.txt

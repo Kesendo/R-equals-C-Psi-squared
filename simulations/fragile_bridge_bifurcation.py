@@ -178,8 +178,30 @@ if len(valid) >= 3:
     ss_tot = np.sum((y - np.mean(y))**2)
     r2_pow = 1 - ss_res_pow / ss_tot
 
-    log(f"  Power law: gamma_crit = {a_pow:.6f} * J_bridge^{b_pow:.4f}")
-    log(f"  R^2 = {r2_pow:.8f}")
+    # The weak-bridge regime is the one the linear law is about. Fitting a single
+    # power law across the optimum at J_bridge ~ 1.9 mixes three regimes, so the
+    # full-range R^2 below describes a curve nobody claims. Both are reported.
+    WEAK_MAX = 2.0
+    weak = [(jx, jy) for jx, jy in zip(x, y) if jx <= WEAK_MAX]
+    if len(weak) >= 3:
+        wx = np.array([v[0] for v in weak])
+        wy = np.array([v[1] for v in weak])
+        b_weak, log_a_weak = np.polyfit(np.log(wx), np.log(wy), 1)
+        a_weak = np.exp(log_a_weak)
+        wy_pred = a_weak * wx**b_weak
+        r2_weak = 1 - np.sum((wy - wy_pred)**2) / np.sum((wy - np.mean(wy))**2)
+        log(f"  Weak bridge only (J_bridge <= {WEAK_MAX}, n={len(weak)}):")
+        log(f"    gamma_crit = {a_weak:.6f} * J_bridge^{b_weak:.4f}")
+        log(f"    R^2 = {r2_weak:.8f}")
+        log()
+    else:
+        log(f"  Weak bridge only: fewer than 3 points at J_bridge <= {WEAK_MAX},"
+            " no fit attempted.")
+        log()
+
+    log("  Full range, spanning the optimum (mixes the three regimes):")
+    log(f"    Power law: gamma_crit = {a_pow:.6f} * J_bridge^{b_pow:.4f}")
+    log(f"    R^2 = {r2_pow:.8f}")
     log()
 
     # Linear fit: gamma_crit = a * J_bridge + c
@@ -205,7 +227,9 @@ if len(valid) >= 3:
 
     best = max([("Power law", r2_pow), ("Linear", r2_lin),
                 ("Linear (origin)", r2_origin)], key=lambda x: x[1])
-    log(f"  Best fit: {best[0]} (R^2 = {best[1]:.8f})")
+    log(f"  Best of the three full-range fits: {best[0]} (R^2 = {best[1]:.8f}).")
+    log("  All three span the optimum, so none of them is the weak-bridge law;"
+        " that one is reported above and is the one the documents quote.")
 
     # Comparison table
     log()
