@@ -575,15 +575,23 @@ Beyond the main cardioid, the Mandelbrot set exhibits period-doubling cascades w
 
 **What does "period-2" mean physically?** In the Mandelbrot analogy, period-2 corresponds to an orbit that alternates between two values. In the quantum system, this would mean the purity *oscillates* between two values under iterated application of the channel. This is related to the Rabi oscillation between coherent and incoherent behavior seen in the dynamic Lindblad simulations.
 
-**Status:** VERIFIED (March 22, 2026). The R-recursion maps exactly to the Mandelbrot
-map w → w² + c with c = CΨ (substitution w = C(Ψ+R)). The Feigenbaum cascade was
-measured on the negative real axis: 7 period-doubling bifurcations found (period
-1→128), with ratios converging toward δ ≈ 4.67 (limited by scan resolution). The
-oscillatory Liouvillian eigenvalues (Im(λ) = 4J) give an effective complex parameter
-c_eff = 0.25 + i·Q/4·0.25 where Q = ω/|σ| = 4J/γ (the script's own ratio; four
-times the canonical Q = J/γ used everywhere else). This places the quantum system
-off the real axis near the cardioid boundary. The Feigenbaum universality applies
-because our recursion IS the quadratic map.
+**Status:** VERIFIED on the real axis. The R-recursion maps exactly to the
+Mandelbrot map w → w² + c with c = CΨ (substitution w = C(Ψ+R)), and the
+Feigenbaum cascade is present on the negative real axis: 7 period-doubling
+bifurcations, period 1→128. The measured ratios are 4.2251, 4.5334, 4.5691,
+4.9365, 3.9375: they overshoot δ and then fall away, and their distance to δ is
+not monotonically shrinking, so the cascade is what is verified here, not a
+convergence to δ. A binary search locates the two bifurcations with an exact
+value, −3/4 and −5/4, to about 2×10⁻⁴, and the ratios inherit that error.
+
+Off the real axis nothing is verified. The two-qubit Liouvillian carries
+Im(λ) = 4J and a spectral gap |σ| = 2γ in 20 of 21 sampled (J, γ), which makes
+**Q = ω/|σ| = 2J/γ**, twice the canonical J/γ; the single exception is the Zeno
+corner J = 0.1, γ = 0.5, where the gap is no longer the dephasing rate. Pairing
+that Q with a fixed real part to build a complex c is not a measurement, and the
+points such a construction yields mostly leave the set: 12 of those 21 escape
+under z → z² + c. The Feigenbaum universality claim rests on the recursion being
+the quadratic map, which is exact, and not on any complex placement.
 Script: [catastrophe_feigenbaum.py](../../simulations/catastrophe_feigenbaum.py).
 
 ### Connections to Information Geometry

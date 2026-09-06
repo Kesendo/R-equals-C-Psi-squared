@@ -69,7 +69,7 @@ def part_1_mandelbrot_mapping():
     log()
 
     # Show escape above 1/4
-    log("  --- CΨ > 1/4: orbit escapes (no stable fixed point) ---")
+    log("  --- Around CΨ = 1/4: where the stable fixed point is lost ---")
     log()
     for c_val in [0.24, 0.25, 0.26, 0.30, 0.50]:
         w = c_val
@@ -172,7 +172,20 @@ def part_2_feigenbaum():
 
         log()
         log(f"  Feigenbaum universal constant: δ = 4.6692...")
-        log(f"  Our measurement converges to δ from the discrete scan resolution.")
+        ds = []
+        for i in range(len(bif_points) - 2):
+            a, b, c = (bif_points[i + k][0] for k in range(3))
+            if abs(c - b) > 1e-15:
+                ds.append((b - a) / (c - b))
+        if len(ds) >= 3:
+            errs = [abs(d - 4.6692) for d in ds]
+            shrinking = all(errs[i + 1] < errs[i] for i in range(len(errs) - 1))
+            log(f"  This scan's ratios run {', '.join(f'{d:.4f}' for d in ds)}:"
+                f" they overshoot δ and then fall away from it.")
+            log(f"  Distance to δ is monotonically shrinking: {shrinking}."
+                " A coarse period scan locates each bifurcation to its own grid")
+            log("  step, and the ratio of two such differences amplifies both"
+                " errors, so this sequence is not evidence of convergence.")
     else:
         log(f"  Only {len(bif_points)} bifurcation points found. Need ≥ 3 for ratio.")
 
@@ -202,7 +215,14 @@ def part_2_feigenbaum():
         p_before = detect_period(c_bif + 0.001)
         p_after = detect_period(c_bif - 0.001)
         refined.append((c_bif, target_p, 2 * target_p))
-        log(f"  Period {target_p:>2} → {2*target_p:>2} at c = {c_bif:.10f}")
+        # The first two bifurcations of z -> z^2 + c are exactly -3/4 and -5/4,
+        # so the method can be measured rather than trusted.
+        exact = {1: -0.75, 2: -1.25}.get(target_p)
+        if exact is None:
+            log(f"  Period {target_p:>2} → {2*target_p:>2} at c = {c_bif:.10f}")
+        else:
+            log(f"  Period {target_p:>2} → {2*target_p:>2} at c = {c_bif:.10f}"
+                f"   exact {exact:+.4f}, error {abs(c_bif - exact):.2e}")
 
     log()
 
@@ -218,13 +238,10 @@ def part_2_feigenbaum():
             deltas.append(delta)
             log(f"  δ_{i+1} = {delta:.6f}  (expected: 4.6692...)")
 
-        if len(refined) >= 4:
-            c1, c2, c3, c4 = [r[0] for r in refined[:4]]
-            d1 = (c2 - c1) / (c3 - c2)
-            d2 = (c3 - c2) / (c4 - c3)
-            log(f"  δ_1 = {d1:.6f}")
-            log(f"  δ_2 = {d2:.6f}")
-
+        log()
+        log("  The two bifurcations with an exact value are located to ~2e-04 by")
+        log("  this search, because detect_period's tolerance is reached slowly")
+        log("  near a bifurcation. The ratios above inherit that error.")
         log()
         log(f"  The Feigenbaum constant δ ≈ 4.6692 is UNIVERSAL for all")
         log(f"  quadratic maps z → z² + c. Our recursion IS this map.")
@@ -264,8 +281,9 @@ def part_3_liouvillian_spectrum():
     log()
 
     log(f"  {'J':>5}  {'γ':>6}  {'J/γ':>6}  {'Spectral gap σ':>14}  "
-        f"{'Max ω':>8}  {'Q=ω/|σ|':>8}  {'c_eff = CΨ':>10}")
-    log("  " + "-" * 64)
+        f"{'Max ω':>8}  {'Q=ω/|σ|':>8}  {'|σ|/γ':>8}  {'ω/J':>7}")
+    log("  " + "-" * 68)
+    gap_rows = []
 
     for J in [0.0, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0]:
         for gamma in [0.05, 0.1, 0.5]:
@@ -281,23 +299,34 @@ def part_3_liouvillian_spectrum():
             omega_max = np.max(np.abs(np.imag(nonzero)))
             Q = omega_max / abs(sigma_max) if abs(sigma_max) > 1e-15 else 0
 
-            # The effective Mandelbrot parameter: real part from decay, imaginary from oscillation
-            # c_eff ~ CΨ where CΨ < 1/4 → inside cardioid
-            # For Bell+ at t_cross: CΨ = 1/4 exactly
-            # The oscillatory part adds an imaginary component
-            c_real = 0.25  # At the boundary
-            c_imag = omega_max / (4 * abs(sigma_max)) * 0.25 if abs(sigma_max) > 0 else 0
-
             Jg = J / gamma if gamma > 0 else 0
+            sg = abs(sigma_max) / gamma if gamma > 0 else float("nan")
+            wJ = omega_max / J if J > 0 else float("nan")
+            gap_rows.append((J, gamma, sigma_max, omega_max, Q, sg, wJ))
             log(f"  {J:5.1f}  {gamma:6.2f}  {Jg:6.1f}  {sigma_max:14.4f}  "
-                f"{omega_max:8.4f}  {Q:8.1f}  {c_real:.2f}+{c_imag:.3f}i")
+                f"{omega_max:8.4f}  {Q:8.1f}  {sg:8.3f}  {wJ:7.3f}")
 
     log()
-    log("  At J=0: Q=0, purely real dynamics. Only fold bifurcation at 1/4.")
-    log("  At J>0: Q>0, complex dynamics. The effective c has imaginary part.")
-    log("  This places the system INSIDE the Mandelbrot set but off the real axis,")
-    log("  near the cardioid boundary. The oscillatory eigenvalues are the")
-    log("  quantum manifestation of the period-2 regime in the complex Mandelbrot.")
+    # Two exact relations the table carries. They are the reason the Q column
+    # exists, and they are checked here rather than read off by eye.
+    on_law = [r for r in gap_rows if abs(r[5] - 2.0) < 1e-9]
+    off_law = [r for r in gap_rows if abs(r[5] - 2.0) >= 1e-9]
+    log(f"  Spectral gap: |σ| = 2γ exactly in {len(on_law)} of {len(gap_rows)} rows.")
+    for r in off_law:
+        log(f"    exception: J={r[0]}, γ={r[1]} gives |σ|/γ = {r[5]:.4f}"
+            " (the gap is no longer the dephasing rate here)")
+    freq = [r for r in gap_rows if r[0] > 0]
+    assert all(abs(r[6] - 4.0) < 1e-9 for r in freq), "omega = 4J is not holding"
+    log(f"  Frequency: ω = 4J exactly in all {len(freq)} rows with J > 0.")
+    log("  Together, where both hold: Q = 4J / 2γ = 2J/γ, twice the canonical J/γ.")
+    log()
+    log("  At J=0: Q=0, purely real dynamics. Only the fold bifurcation at 1/4.")
+    log("  At J>0 the dynamics is oscillatory, and this table does not place it")
+    log("  anywhere in the complex Mandelbrot plane: the correspondence we have")
+    log("  is on the REAL axis, where c = CΨ and the cardioid cusp at c = 1/4 is")
+    log("  the saddle-node bifurcation. Building a complex c by pairing 1/4 with")
+    log("  a rescaled Q is not a measurement, and the points it produces are")
+    log("  mostly outside the set: 12 of these 21 escape under z -> z^2 + c.")
     log()
 
 
@@ -330,7 +359,7 @@ def part_4_structural_stability():
     log("  x = R + (2CΨ-1)/(2C) and dividing by C gives x² + a = 0 with")
     log("  a = (4CΨ-1)/(4C²) = -D/(4C²), checked above at four (C,Ψ) and four x.")
     log()
-    log("  The Renyi uniqueness result (today, March 22) adds:")
+    log("  The Renyi uniqueness result adds:")
     log("  For R = C_α(Ψ+R)^α, the bifurcation threshold is:")
     log("    CΨ* = (α-1)^{α-1} / (α^α · Ψ^{α-2})")
     log()
@@ -407,6 +436,9 @@ if __name__ == "__main__":
     log()
 
     total = _time.time() - t_start
-    log(f"Total runtime: {total:.1f}s")
-    log(f"Results saved to: {OUT_PATH}")
+    # Neither the wall clock nor the absolute path is a result; baking them in
+    # makes every re-run differ from the committed file on lines that carry
+    # nothing. They go to the console only.
+    print(f"Total runtime: {total:.1f}s")
+    print(f"Results saved to: {OUT_PATH}")
     _outf.close()
