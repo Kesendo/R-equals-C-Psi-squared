@@ -37,10 +37,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <c>|ΔN| ≤ k</c>. Not directly Pi2-anchored beyond k = 2.</item>
 /// </list>
 ///
-/// <para>Operational consequence (per ANALYTICAL_FORMULAS): "Sector blocks
-/// with |ΔN| ≥ 2 are invisible to any measurement factoring through a
-/// single-qubit reduced state." This explains XOR_SPACE center-modes
-/// invisibility and bounds the sector-kernel for PTF's α_i closure structure.</para>
+/// <para>Operational consequence (per ANALYTICAL_FORMULAS): sector blocks
+/// with |ΔN| ≥ 2 vanish under a single-qubit partial trace. This bounds the
+/// sector-kernel for PTF's α_i closure structure. It does not explain all
+/// F23 endpoint zeros: <c>X^N P_k</c> has <c>|ΔN|=|N−2k|</c>, while every
+/// one-site partial trace vanishes independently because its basis terms
+/// differ on all N bits.</para>
 ///
 /// <para>Tier1Derived: F70 is Tier 1 proven kinematic
 /// (PROOF_DELTA_N_SELECTION_RULE); verified at N=5 with 9 |ΔN| ≥ 2 pairs
@@ -84,13 +86,34 @@ public sealed class F70DeltaNSelectionRulePi2Inheritance : Claim, IZ2AxisClaim
         return k;
     }
 
-    /// <summary>True iff a sector-coherence block <c>|n − m|</c> is visible
-    /// to k-local partial trace: <c>|n − m| ≤ k</c>.</summary>
-    public bool IsVisibleToKLocalTrace(int kLocal, int deltaN)
+    /// <summary>True iff a sector-coherence block <c>|n − m|</c> is not
+    /// excluded by the F70 bound <c>|n − m| ≤ k</c>. This is necessary, not
+    /// sufficient, for a nonzero k-local partial trace.</summary>
+    public bool IsAllowedByDeltaNBound(int kLocal, int deltaN)
     {
         if (kLocal < 1) throw new ArgumentOutOfRangeException(nameof(kLocal), kLocal, "F70 requires k ≥ 1.");
         if (deltaN < 0) throw new ArgumentOutOfRangeException(nameof(deltaN), deltaN, "|ΔN| must be ≥ 0.");
         return deltaN <= kLocal;
+    }
+
+    /// <summary>The excitation-number difference of the F23 endpoint
+    /// eigenoperator <c>X^N P_k</c>, which maps sector k to sector N-k.</summary>
+    public int EndpointModeDeltaN(int N, int k)
+    {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
+        if (k < 0 || k > N) throw new ArgumentOutOfRangeException(nameof(k), k, "k must lie in [0,N].");
+        return Math.Abs(N - 2 * k);
+    }
+
+    /// <summary>True iff tracing an all-bit-flip basis term
+    /// <c>|x-complement&gt;&lt;x|</c> down to kLocal sites traces out at least one
+    /// disagreeing bit and therefore gives zero. This is a Hamming-support
+    /// statement distinct from the F70 excitation-number bound.</summary>
+    public bool AllBitFlipTermVanishesUnderKLocalTrace(int N, int kLocal)
+    {
+        if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
+        if (kLocal < 1 || kLocal > N) throw new ArgumentOutOfRangeException(nameof(kLocal), kLocal, "kLocal must lie in [1,N].");
+        return kLocal < N;
     }
 
     /// <summary>True iff <see cref="PartialTraceMaxDeltaN"/>(k) lands on a Pi2
@@ -156,7 +179,7 @@ public sealed class F70DeltaNSelectionRulePi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("Foundation for F71 + F72",
                 summary: "F71 (mirror symmetry of c₁) uses F70's site-local kinematic argument; F72 (Tier 1 corollary, block-diagonal DD⊕CC) directly inherits F70's |ΔN| ≤ 1 bound for site-local purity");
             yield return new InspectableNode("Operational consequence",
-                summary: "sector blocks |ΔN| ≥ 2 invisible to single-qubit reduced state; explains XOR_SPACE center-mode invisibility; bounds PTF's α_i closure sector-kernel");
+                summary: "sector blocks |ΔN| ≥ 2 vanish under single-qubit partial trace; F23 endpoint modes instead have |ΔN|=|N-2k| and their one-site zero follows from all-bit Hamming disagreement");
             for (int k = 1; k <= 5; k++)
             {
                 int? ladderIdx = LadderIndexForKLocalThreshold(k);

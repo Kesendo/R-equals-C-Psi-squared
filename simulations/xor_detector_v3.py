@@ -2,8 +2,8 @@
 XOR Detector v3: What IS the XOR space?
 ========================================
 
-v2 showed: GHZ/Bell live 100% in XOR. W lives 100% in palindrome.
-The split is not random. It depends on the INPUT.
+v2 reported non-invariant right-eigenvector coordinate fractions for GHZ,
+Bell, and W. Those fractions are retired.
 
 Now: What physical property determines the split?
 Hypothesis: Entanglement goes to XOR. Local properties go to palindrome.
@@ -338,6 +338,11 @@ def make_bell_plus(N):
 # ============================================================
 
 if __name__ == "__main__":
+    print(
+        "RETIRED: this script correlates against a non-invariant coordinate "
+        "diagnostic. Use f22_operator_charge.py for the F22 operator check."
+    )
+    raise SystemExit(0)
     print("*" * 65)
     print("XOR DETECTOR v3: What IS the XOR space?")
     print("*" * 65)

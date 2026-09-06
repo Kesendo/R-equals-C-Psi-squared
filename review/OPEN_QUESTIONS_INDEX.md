@@ -51,7 +51,7 @@ The inventory includes section headers, data rows, answer fragments, and scope q
 ### Open questions and neural dispositions
 
 The real frontier, e.g.: partial palindrome at d>2 (OQ-002), hidden symmetry Q for parity-breaking
-H (OQ-303), macroscopic invisibility threshold (OQ-015), the natural variable u (OQ-057), and the
+H (OQ-303), an operational measure beyond rank fraction (OQ-015), the natural variable u (OQ-057), and the
 neural gates OQ-064, 065, 066, 068 and 069. OQ-067, 070 and 071 have retired
 premises; OQ-321 is superseded by OQ-068. Open biological-instance gates do
 not imply positive biological evidence, and frequency-bin scaling awaits a
@@ -143,7 +143,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-015
 
-**Question:** **Macroscopic relevance:** The XOR fraction vanishes as (N+1)/4^N. At what N does the palindrome become operationally invisible?
+**Question:** **Operational measure:** F23 gives only the XOR eigenspace rank fraction `(N+1)/4^N`; by itself it has no preparation, ensemble, observable, or channel meaning and cannot define a critical N. Under a specified experiment, what independent operational measure should be tested?
 
 **Source:** `docs/THE_INTERPRETATION.md` (line 548)
 **Section:** Open Questions
@@ -1959,7 +1959,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-003
 
-**Question:** **Macroscopic relevance:** The XOR fraction vanishes exponentially with N. At what point does the mirror become operationally invisible? Is there a critical N above which the palindrome exists algebraically but has no physical consequence?
+**Question:** **Operational measure:** The exponentially vanishing XOR rank fraction alone cannot imply invisibility or loss of physical consequence. For a specified preparation, ensemble, observable, and channel, what independent measure quantifies access to the eigenspace?
 
 **Source:** `docs/QUBIT_NECESSITY.md` (line 407)
 **Section:** 10. Remaining Open Questions

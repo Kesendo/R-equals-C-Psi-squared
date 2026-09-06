@@ -47,9 +47,22 @@ public class F70DeltaNSelectionRulePi2InheritanceTests
     [InlineData(2, 3, false)]   // pair does NOT see |ΔN| = 3
     [InlineData(3, 3, true)]    // triple sees |ΔN| = 3
     [InlineData(3, 4, false)]   // triple does NOT see |ΔN| = 4
-    public void IsVisibleToKLocalTrace_FollowsKBoundary(int kLocal, int deltaN, bool expected)
+    public void IsAllowedByDeltaNBound_FollowsKBoundary(int kLocal, int deltaN, bool expected)
     {
-        Assert.Equal(expected, BuildClaim().IsVisibleToKLocalTrace(kLocal, deltaN));
+        Assert.Equal(expected, BuildClaim().IsAllowedByDeltaNBound(kLocal, deltaN));
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void EndpointN3InteriorModes_SeparateDeltaNBoundFromAllBitTraceZero(int k)
+    {
+        var claim = BuildClaim();
+        int deltaN = claim.EndpointModeDeltaN(N: 3, k);
+
+        Assert.Equal(1, deltaN);
+        Assert.True(claim.IsAllowedByDeltaNBound(kLocal: 1, deltaN));
+        Assert.True(claim.AllBitFlipTermVanishesUnderKLocalTrace(N: 3, kLocal: 1));
     }
 
     [Theory]
@@ -91,9 +104,9 @@ public class F70DeltaNSelectionRulePi2InheritanceTests
     }
 
     [Fact]
-    public void IsVisibleToKLocalTrace_NegativeDeltaN_Throws()
+    public void IsAllowedByDeltaNBound_NegativeDeltaN_Throws()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IsVisibleToKLocalTrace(1, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IsAllowedByDeltaNBound(1, -1));
     }
 
     [Fact]

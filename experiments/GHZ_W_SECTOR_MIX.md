@@ -22,7 +22,7 @@ three-tangle, CKW, F60, F61, F62, spherical scan artifact, product state -->
 **Depends on:**
 - F60 (GHZ_N born below the fold), F62 (CΨ(0) for W_N)
 - F61 (n_XY parity selection rule) via [the parity-selection-rule proof](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)
-- Main README Section 6 Rule 1: W-type encoding over GHZ (preparation-vs-evolution asymmetry of F61 is the structural reason F69 is allowed)
+- Main README Section 6 Rule 1: compare encodings by matched operational metrics
 
 **Registry entry:** [F69](../docs/ANALYTICAL_FORMULAS.md)
 
@@ -30,7 +30,11 @@ three-tangle, CKW, F60, F61, F62, spherical scan artifact, product state -->
 
 ## What this document is about
 
-F60 places GHZ_N below CΨ = 1/4 at t = 0 for every N ≥ 3. F62 places W_N below the fold for N ≥ 3 as well. Both results come from very different structural reasons: GHZ has all its off-diagonal weight in the extreme-XY-weight sectors (w = 0, w = N), while W lives entirely in the single-excitation sector. Neither family alone escapes the fold.
+F60 places GHZ_N below CΨ = 1/4 at t = 0 for every N ≥ 3. F62
+places W_N below the fold for N ≥ 3 as well. F22 separately says the GHZ
+off-diagonal operators have maximal Hamming disagreement, while W is prepared
+in the single-excitation sector. Neither family alone escapes the fold, and no
+right-eigenvector state-weight comparison is needed for that statement.
 
 The smallest family that mixes GHZ and W is the one-parameter symmetric superposition
 

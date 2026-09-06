@@ -16,16 +16,11 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// This live object counts that <b>conjugate-composite fixed line</b>, and separately reports the
 /// linear-F1 fixed-point subset. It never calls every centre-line mode its own linear F1 partner.</para>
 ///
-/// <para>Not a Claim, a live reading. Both counts are recomputed from the inherited spectrum.</para></summary>
+/// <para>Not a Claim, a live reading. Counts are emitted only on the explicitly certified
+/// zero-Hamiltonian, uniform-rate branch; floating-spectrum membership remains unresolved.</para></summary>
 public sealed class SelfMirrorObject : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
-    private const double RelativeTolerance = 1e-7;
-    private const double ClosedSystemRelativeTolerance = 1e-12;
-    private const double MinimumResolvedDecayToFrequencyRatio = 1e-8;
-    private const double MachineEpsilon = 2.2204460492503131e-16;
-    private const double EigenvalueResolutionFactor = 256.0;
-
     private readonly MirrorSystem _system;   // INHERITED FROM: the x/y/z frame lives here, not on the object.
 
     public SelfMirrorObject(MirrorSystem system) =>
@@ -40,40 +35,44 @@ public sealed class SelfMirrorObject : IInspectable
     /// <summary>The object's place in the inherited frame: Re λ = −σ, the palindrome center line.</summary>
     public double Center => -_system.TotalDephasing;
 
-    private double MaxDecayScale => _system.Spectrum.Modes
-        .Select(m => Math.Abs(m.ActualDecayRate)).Append(Math.Abs(Sigma)).Max();
+    /// <summary>Exact fixed-point multiplicity cannot be certified from floating eigenvalues alone:
+    /// a genuinely small spectral gap is indistinguishable from eigensolver error. This object
+    /// therefore reports counts only for the algebraically closed zero-Hamiltonian, uniform-rate
+    /// case. All other inputs remain explicitly unresolved until a certified rank/gap route exists.</summary>
+    public bool IsFixedSetResolved => IsCertifiedZeroHamiltonianUniformRateCase;
 
-    private double MaxFrequencyScale => _system.Spectrum.Modes
-        .Select(m => Math.Abs(m.OscillationFrequency)).DefaultIfEmpty(0.0).Max();
+    private bool IsCertifiedZeroHamiltonianUniformRateCase
+    {
+        get
+        {
+            if (_system.Hamiltonian.Enumerate().Any(z => z.Real != 0.0 || z.Imaginary != 0.0))
+                return false;
+            double gamma = _system.Channels[0].Gamma;
+            return gamma >= 0.0 && _system.Channels.All(channel => channel.Gamma == gamma);
+        }
+    }
 
-    /// <summary>Whether a nonzero dissipative centre is resolved against the coherent scale.
-    /// Sigma=0 is a separately known closed-system case; otherwise an unresolved scale separation
-    /// is surfaced instead of returning a tolerance-dependent integer.</summary>
-    public bool IsFixedSetResolved => Sigma == 0.0 || MaxFrequencyScale == 0.0 ||
-        MaxDecayScale / MaxFrequencyScale >= MinimumResolvedDecayToFrequencyRatio;
+    private static int Binomial(int n, int k)
+    {
+        k = Math.Min(k, n - k);
+        long value = 1;
+        for (int i = 1; i <= k; i++)
+            value = checked(value * (n - k + i) / i);
+        return checked((int)value);
+    }
 
-    /// <summary>A decay-axis tolerance. Oscillation frequencies do not set this scale: letting
-    /// a large Hamiltonian widen a real-part test would classify off-centre modes as fixed.
-    /// A common rescaling of H and all channel rates still rescales the decay rates and this
-    /// tolerance together.</summary>
-    private double DecayAxisTolerance
+    private int CertifiedFixedCount
     {
         get
         {
             if (Sigma == 0.0)
-                return ClosedSystemRelativeTolerance * Math.Max(MaxFrequencyScale, 1.0);
-            return RelativeTolerance * MaxDecayScale;
+                return Enumerable.Repeat(4, N).Aggregate(1, (value, factor) => checked(value * factor));
+            if ((N & 1) != 0)
+                return 0;
+            return checked(Enumerable.Repeat(2, N).Aggregate(1, (value, factor) => checked(value * factor)) *
+                           Binomial(N, N / 2));
         }
     }
-
-    /// <summary>The Im λ = 0 gate uses an eigensolver-resolution estimate, not the much wider
-    /// decay-axis membership window. In a dissipative problem it is tied to the decay scale, not
-    /// the largest unrelated Hamiltonian branch; otherwise one large frequency could erase another
-    /// exact, small frequency. A common change of energy units still rescales the estimate. In the
-    /// separate closed-system case, where there is no decay reference, the frequency scale is used.</summary>
-    private double FrequencyZeroTolerance =>
-        EigenvalueResolutionFactor * MachineEpsilon *
-        (Sigma == 0.0 ? MaxFrequencyScale : MaxDecayScale);
 
     private static string F(double value) =>
         value != 0.0 && Math.Abs(value) < 1e-4
@@ -81,15 +80,14 @@ public sealed class SelfMirrorObject : IInspectable
             : value.ToString("0.####", Inv);
 
     /// <summary>Multiplicity on the fixed line of the conjugate-composite map
-    /// λ ↦ −2σ − conj(λ), equivalently Re λ = −σ. Read live from the inherited spectrum.</summary>
+    /// λ ↦ −2σ − conj(λ), equivalently Re λ = −σ. Reported only from the certified
+    /// algebraic branch described by <see cref="IsFixedSetResolved"/>.</summary>
     public int CompositeFixedLineCount
     {
         get
         {
             EnsureResolved();
-            double tolerance = DecayAxisTolerance;
-            return _system.Spectrum.Modes.Count(m =>
-                Math.Abs(m.ActualDecayRate - Sigma) <= tolerance);
+            return CertifiedFixedCount;
         }
     }
 
@@ -101,18 +99,14 @@ public sealed class SelfMirrorObject : IInspectable
         get
         {
             EnsureResolved();
-            double decayTolerance = DecayAxisTolerance;
-            double frequencyTolerance = FrequencyZeroTolerance;
-            return _system.Spectrum.Modes.Count(m =>
-                Math.Abs(m.ActualDecayRate - Sigma) <= decayTolerance &&
-                Math.Abs(m.OscillationFrequency) <= frequencyTolerance);
+            return CertifiedFixedCount;
         }
     }
 
     private void EnsureResolved()
     {
         if (!IsFixedSetResolved)
-            throw new InvalidOperationException("fixed-set count unresolved: dissipative scale is below the eigensolver resolution relative to the coherent scale");
+            throw new InvalidOperationException("fixed-set count unresolved: floating eigenvalues do not certify exact line or point membership");
     }
 
     public string DisplayName =>
@@ -123,7 +117,8 @@ public sealed class SelfMirrorObject : IInspectable
         ? $"an object INSIDE the system: {CompositeFixedLineCount} modes fixed by the composite " +
         $"λ ↦ −2σ − conj(λ); its {LinearF1FixedPointCount}-mode subset at λ = −σ is fixed by linear F1 " +
         $"λ ↦ −2σ − λ. Everything else (x/y/z and σ = {F(Sigma)}) is INHERITED."
-        : $"fixed-set count UNRESOLVED: σ = {F(Sigma)} is below numerical resolution relative to the coherent scale; no integer count is reported.";
+        : $"fixed-set count UNRESOLVED: floating eigenvalues do not certify exact membership in the composite line " +
+          $"λ ↦ −2σ − conj(λ) or the linear F1 point λ = −σ; no integer count is reported (σ = {F(Sigma)}).";
 
     public IEnumerable<IInspectable> Children
     {
@@ -145,7 +140,7 @@ public sealed class SelfMirrorObject : IInspectable
                              $"λ ↦ −2σ − λ, whose fixed-point equation is λ = −σ.")
                 : new InspectableNode(
                     displayName: "the object itself: fixed-set count unresolved",
-                    summary: "the dissipative axis is below numerical resolution relative to H; rerun at a resolvable ratio or use an exact/block-aware calculation");
+                    summary: "floating eigenvalues alone cannot certify exact line or point membership; use an exact/block-aware calculation with a certified gap");
         }
     }
 

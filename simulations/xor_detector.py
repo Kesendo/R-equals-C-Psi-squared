@@ -16,6 +16,10 @@ Authors: Tom Wicht, Claude
 Date: March 16, 2026
 """
 
+print("RETIRED: non-normal eigenvector-coordinate XOR diagnostics have no invariant state interpretation.")
+print("Run simulations/f22_operator_charge.py for the operator-level F22 gate.")
+raise SystemExit(0)
+
 import numpy as np
 from itertools import product
 from dataclasses import dataclass

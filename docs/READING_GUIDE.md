@@ -99,10 +99,10 @@ deliberately break the symmetry.
    across 87,376 Liouvillian eigenvalues from N=2 through N=8, with zero
    mirror-symmetry exceptions on any tested topology.
 
-2. [XOR Space](../experiments/XOR_SPACE.md): Where does information
-   live in the palindrome? Different initial states (GHZ (all qubits up + all down), W (exactly one qubit up, shared across all), cluster)
-   distribute their information across fast and slow modes differently.
-   GHZ puts everything in fast modes. W spreads it out.
+2. [XOR Space](../experiments/XOR_SPACE.md): Separates the exact operator fact
+   from the retired state-weight reading. GHZ off-diagonal coherence has
+   Hamming distance N and maximal local Z-dephasing charge; that does not rank
+   full GHZ and W states or define protection probabilities.
 
 3. [Oscillation Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) +
    [Standing-Wave Conditions](STANDING_WAVE_THEORY.md): the `N=3`
@@ -127,9 +127,9 @@ deliberately break the symmetry.
    of the system's dimension.
 
 7. [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md):
-   The palindromic structure naturally creates a three-tier error
-   protection hierarchy. Some modes are fully protected, some partially,
-   some not at all.
+   The negative result: squared coordinates in a non-normal right-eigenvector
+   basis do not define state protection, a standing-wave syndrome, or an
+   information lifetime.
 
 8. [Π Factors as R·D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md):
    The palindromizer factors, Π = R·D (a ket reflection times the
@@ -263,11 +263,14 @@ and the willingness to follow an argument that builds step by step.
 
 3. [The Qudit Partial Palindrome](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md):
    The 2026 sharpening of step 2. At dimension d > 2 the mirror does
-   not simply vanish: it survives *partially*, with a closed-form
-   ceiling on how many decay modes can pair and a closed-form operator
-   that attains it. Both close completely only at d²−2d=0. The boundary
-   of the qubit world is now one equation seen three ways: the per-site
-   split, the pairing ceiling, and the operator cap.
+   not simply vanish: the dissipator retains a partial pairing with an
+   exact combinatorial ceiling. The shift-aligned restricted product
+   construction has rank `(2d)^N`; this is not a universal product cap.
+   Seeded numerical translation-invariant constructions reach the ceiling
+   at `(d,N)=(3,2),(3,3),(4,2)`, while the general product and TI optima
+   remain open. The `d²−2d=0` boundary belongs to the balanced per-site
+   class swap and the unique fully paired dissipator column, not a third
+   universal operator-cap theorem.
 
 4. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): What does the
    dissipator establish? With nonnegative rates, a nonzero spectral centre
@@ -588,9 +591,12 @@ and "conjugation" appear), but each document introduces its own machinery.
 6. [The Qudit Partial Palindrome](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md):
    Where it all ends. At local dimension d > 2 the mirror group grows
    into a wreath family Z_d ≀ Z₂ with D₄ as its d = 2 column, the
-   pairing has a closed-form ceiling and a closed-form operator cap,
-   and both close completely only at d² − 2d = 0: the same boundary
-   equation Story 3 met, now seen from the operator side (F121).
+   dissipator pairing has an exact combinatorial ceiling, and the
+   shift-aligned restricted construction supplies rank `(2d)^N` without
+   bounding every product construction. Three finite seeded TI matrices
+   numerically reach the ceiling; the general product and TI optima remain
+   open. The `d²−2d=0` equation still marks the balanced local class swap
+   and the unique fully paired dissipator column (F121).
 
 7. [On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md): The
    synthesis, written the day the three big subjects of the repository

@@ -39,7 +39,7 @@ public class SelfMirrorObjectTests
     [InlineData(5, false)]
     public void CompositeFixedLine_PopulatedIffEvenN(int n, bool populated)
     {
-        int count = Build(n).CompositeFixedLineCount;
+        int count = Build(n, coupling: 0.0).CompositeFixedLineCount;
         if (populated)
             Assert.True(count > 0, $"N={n} (even): the k=N/2 self-mirror sector should be populated, got {count}");
         else
@@ -47,13 +47,57 @@ public class SelfMirrorObjectTests
     }
 
     [Fact]
-    public void N2_DistinguishesCompositeFixedLine_FromLinearF1FixedPoint()
+    public void N2_NonzeroHamiltonianDoesNotInventEitherExactMultiplicity()
     {
-        var obj = Build(2, hamiltonianType: HamiltonianType.Heisenberg);
+        var h = Matrix<Complex>.Build.DiagonalOfDiagonalArray(
+            new Complex[] { 0, 1e-9, 3e-9, 7e-9 });
+        var channels = new[] { new ChannelRate("q0", 0.1), new ChannelRate("q1", 0.1) };
+        var obj = new SelfMirrorObject(new MirrorSystem(2, h, channels));
 
-        Assert.Equal(10, obj.CompositeFixedLineCount);
-        Assert.Equal(4, obj.LinearF1FixedPointCount);
-        Assert.True(obj.CompositeFixedLineCount > obj.LinearF1FixedPointCount);
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => obj.CompositeFixedLineCount);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
+    }
+
+    [Theory]
+    [InlineData(1e3)]
+    [InlineData(1e4)]
+    public void N2_Heisenberg_IntermediateCouplingsDoNotReportAFalseChangedMultiplicity(double coupling)
+    {
+        var obj = Build(2, gamma: 0.1, coupling, HamiltonianType.Heisenberg);
+
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
+    }
+
+    [Fact]
+    public void N2_GenuinelyTinyNonzeroFrequenciesAreNotRoundedIntoLinearFixedPoints()
+    {
+        var h = Matrix<Complex>.Build.DiagonalOfDiagonalArray(
+            new Complex[] { 0, 1e-15, 3e-15, 7e-15 });
+        var channels = new[] { new ChannelRate("q0", 0.1), new ChannelRate("q1", 0.1) };
+        var obj = new SelfMirrorObject(new MirrorSystem(2, h, channels));
+
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
+    }
+
+    [Fact]
+    public void N1_GenuinelyNearCentrePairIsNotRoundedOntoTheCompositeFixedLine()
+    {
+        const double delta = 5e-8;
+        double hScale = 0.5 * Math.Sqrt(1.0 - delta * delta);
+        var h = Matrix<Complex>.Build.DenseOfArray(new[,]
+        {
+            { Complex.Zero, new Complex(hScale, 0.0) },
+            { new Complex(hScale, 0.0), Complex.Zero },
+        });
+        var obj = new SelfMirrorObject(new MirrorSystem(
+            1, h, new[] { new ChannelRate("q0", 1.0) }));
+
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => obj.CompositeFixedLineCount);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
     }
 
     [Fact]
@@ -86,9 +130,9 @@ public class SelfMirrorObjectTests
         var channels = new[] { new ChannelRate("q0", 0.1), new ChannelRate("q1", 0.1) };
         var obj = new SelfMirrorObject(new MirrorSystem(2, h, channels));
 
-        Assert.True(obj.IsFixedSetResolved);
-        Assert.Equal(8, obj.CompositeFixedLineCount);
-        Assert.Equal(0, obj.LinearF1FixedPointCount);
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => obj.CompositeFixedLineCount);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
     }
 
     [Fact]
@@ -114,8 +158,10 @@ public class SelfMirrorObjectTests
         var reference = Build(n, gamma: 0.1, coupling: 1.0, hamiltonianType);
         var rescaled = Build(n, gamma: 1e-11, coupling: 1e-10, hamiltonianType);
 
-        Assert.Equal(reference.CompositeFixedLineCount, rescaled.CompositeFixedLineCount);
-        Assert.Equal(reference.LinearF1FixedPointCount, rescaled.LinearF1FixedPointCount);
+        Assert.False(reference.IsFixedSetResolved);
+        Assert.False(rescaled.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => reference.CompositeFixedLineCount);
+        Assert.Throws<InvalidOperationException>(() => rescaled.CompositeFixedLineCount);
     }
 
     [Fact]
@@ -152,11 +198,11 @@ public class SelfMirrorObjectTests
     }
 
     [Fact]
-    public void ClosedSystemCompositeFixedLineContainsTheWholeSpectrum()
+    public void ClosedSystemWithNumericallyAmbiguousZeroFrequenciesIsUnresolved()
     {
         var obj = Build(2, gamma: 0.0, coupling: 1.0, hamiltonianType: HamiltonianType.Heisenberg);
 
-        Assert.True(obj.IsFixedSetResolved);
-        Assert.Equal(16, obj.CompositeFixedLineCount);
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => obj.CompositeFixedLineCount);
     }
 }

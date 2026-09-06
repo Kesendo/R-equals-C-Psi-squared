@@ -1580,8 +1580,8 @@ def _bit_a_even_fraction(rho_0, N):
     are immune to Z-dephasing (the framework's 'slow / immune' sector,
     F61). bit_a-odd operators (containing X or Y) decay under Z-dephasing.
 
-    README Section 10 Rule 1: GHZ projects 100% onto bit_a-odd / XOR modes
-    → bit_a_even_fraction ≈ 0. W distributes across modes → higher.
+    This Pauli-basis diagnostic is not an XOR-eigenmode state probability and
+    does not supply a GHZ/W protection ranking.
 
     Returns ‖c on bit_a-even Paulis‖ / ‖c on non-identity Paulis‖.
     """
@@ -1638,10 +1638,9 @@ def recommend_initial_state(H, gamma_l, N, gamma_t1_l=None,
                        slow modes (= long signal lifetime for the
                        non-protected observables)
 
-    README Section 10 Rule 1 says 'use W states, not GHZ': GHZ has
-    n_protected high but slow_fraction = 0 (all weight on fast XOR modes,
-    so the experimental signal decays before measurement). The combined
-    score is:
+    This archived score combined a protection count with a non-invariant
+    right-eigenvector-coordinate fraction. It is not a GHZ/W ranking. The
+    historical combined score is:
       score = n_protected / max_n_protected
               + score_weight_slow * slow_fraction
 
@@ -1720,9 +1719,9 @@ def recommend_initial_state(H, gamma_l, N, gamma_t1_l=None,
         ghz_record = next((r for r in results if r['label'] == '|GHZ⟩'), None)
         w_record = next((r for r in results if r['label'] == '|W⟩'), None)
         msg = (
-            f"|GHZ⟩ in top recommendations. README Section 10 Rule 1: "
-            f"'Use W states, not GHZ. GHZ excites only the fastest-absorbing "
-            f"modes (all light, maximum absorption). W distributes across modes.' "
+            f"|GHZ⟩ in top recommendations. Compare the candidates with the "
+            f"stated operational metric; F22 fixes only the maximal local "
+            f"Z-dephasing charge of GHZ off-diagonal coherence. "
             f"For experimentally-meaningful demos, the non-protected "
             f"observables decay slower with W."
         )

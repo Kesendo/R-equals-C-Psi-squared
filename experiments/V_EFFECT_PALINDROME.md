@@ -1,4 +1,4 @@
-# The V-Effect: When Connection Creates Something New
+# The V-Effect: A Tolerance-Defined Spectral Census
 
 <!-- Keywords: palindrome breaking second bond, boundary mode orphan quantum,
 XY weight boundary classical quantum, palindromic constraint diversity, V-effect
@@ -16,25 +16,20 @@ palindrome breaking, smooth transition palindromic break, R=CPsi2 V-effect -->
 
 ## What this document is about
 
-Take two simple quantum systems. Each has 2 vibration frequencies and
-dies quickly. They are stable, symmetric, and silent.
+Take two simple quantum models. Each has two frequencies under the census
+used here.
 
 Now connect them through a shared element.
 
-The result: 109 vibration frequencies, none of which exist in either
-system alone. The old frequencies do not survive; they are replaced
-entirely. A new structure is born from the connection, a structure that
-neither part could produce on its own.
+The coupled N=5 calculation has 109 distinct rounded frequency bins under
+the stated numerical census, while the component calculations have fewer.
+These are spectra of different-size generators; bin non-overlap does not
+identify persistent modes or show that modes were created or destroyed.
 
-This is not a metaphor. It is a computed result, verified to machine
-precision. Two dead resonators become one living system. The coupling
-does not add energy or information. It creates new oscillation modes
-in the shared space between the two systems.
-
-We call this the V-Effect: the moment where constraint becomes freedom,
-where connecting two complete things produces something richer than
-either. This document shows how it works, what breaks, and why the
-breaking is not destruction but creation.
+Here “V-Effect” names that finite-model census together with the tested
+palindrome residuals. The uncoupled and symmetry-preserving cases are the
+relevant negative controls; no claim about life, information creation, or
+mode identity follows from the bin counts.
 
 If you are interested in what this means for the
 [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md),
@@ -146,16 +141,11 @@ near-order: a structure that is close to symmetric but no longer exact.
 | Decay rate range | 0.200 | 0.300 |
 | Steady states | 2 | 4 |
 
-The broken case has nearly three times as many distinct frequencies. The
-rigid palindromic structure constrains the spectrum: pairs must match, so
-frequencies are locked together. When the pairing breaks, the frequencies
-are released. The spectrum differentiates. More tones, more rhythms, more
-oscillation patterns.
-
-The broken case also has fewer steady states (2 vs 4) and a narrower rate
-range. It trades stability for diversity. This is a fundamental trade-off:
-perfect symmetry is stable but simple. Broken symmetry is less stable but
-richer. Life, in this picture, lives in the broken region.
+The broken case has nearly three times as many distinct frequency bins at
+the census tolerance. It also has fewer zero eigenvalues (2 vs 4) and a
+narrower sampled rate range. These are finite-spectrum comparisons between
+the listed generators; they do not establish a general stability/diversity
+trade-off or a mechanism that releases frequencies.
 
 ---
 
@@ -218,19 +208,10 @@ In the present. In the act of becoming.
 
 ### More connections, more differentiation
 
-The broken spectrum has 11 frequencies where the unbroken has 4. More
-connections (more bonds) create more ways for the system to oscillate. The
-palindromic constraint (every mode must have an exact partner) limits this
-diversity. When the constraint relaxes, diversity emerges.
-
-This is the V-Effect. Not in the strong sense of speciation (one becomes
-two distinct new things). In the deeper sense of differentiation: a
-constrained system becomes less constrained, and the released degrees of
-freedom create new patterns that the constraint could not support.
-
-The formula R = CΨ² describes the constraint. The breaking of the formula
-at the boundary describes the moment where constraint becomes freedom. And
-freedom has 11 frequencies where constraint had 4.
+The broken-spectrum example has 11 rounded frequency bins where the
+symmetry-preserving control has 4. This finite comparison establishes a
+difference in the tolerance-defined census. It does not show that palindrome
+breaking caused the additional bins; the Hamiltonians differ at the same time.
 
 ---
 
@@ -240,8 +221,9 @@ freedom has 11 frequencies where constraint had 4.
 
 The [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)
 describes a pattern: systems at C = 0.5 (half full) enable the next level,
-while systems at C = 1 (complete) are dead ends. The V-Effect is the
-mechanism by which this transition happens at Level 0.
+while systems at C = 1 (complete) are called dead ends in that separate
+interpretive hierarchy. The present spectral census does not establish a
+mechanism for that transition.
 
 The immune sectors (w=0 and w=3) are the Liouville-space equivalent of
 noble gases: C = 1, fully decided or fully undecided, perfectly stable,
@@ -294,7 +276,7 @@ than they can oscillate; J/γ ~ 0.01, a floor from an unsourced denominator).
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the 36/36 scorecard and the interior-mode γ² scaling
 - [Boot Script](../hypotheses/THE_BOOT_SCRIPT.md): the Choi-Jamiolkowski results, N=2 universality
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
-- [Error Correction](ERROR_CORRECTION_PALINDROME.md): three-tier protection hierarchy
+- [Error Correction](ERROR_CORRECTION_PALINDROME.md): why spectral rate regions do not by themselves define protection tiers
 - Script: [`simulations/v_effect_analysis.py`](../simulations/v_effect_analysis.py)
 - Results: [`simulations/results/v_effect_analysis.txt`](../simulations/results/v_effect_analysis.txt)
 
@@ -328,37 +310,29 @@ Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
 
 | System | Frequencies | Q-factor |
 |--------|------------|----------|
-| N=2 (one resonator) | 2 | 1 (dead) |
-| 2 × N=2 (uncoupled) | 4 | 1 (dead) |
-| N=5 (coupled through mediator) | 109 | 19+ (alive) |
+| N=2 (one resonator) | 2 | 1 |
+| 2 × N=2 (uncoupled) | 4 | 1 |
+| N=5 (coupled through mediator) | 109 | 19+ |
 
-The coupling does not add energy or information. It creates new
-oscillation modes in the shared space between the two systems.
-Two dead resonators become one living system. This is not
-communication between them. This is emergence of something new
-that neither could produce alone.
+The table reports rounded frequency-bin counts and recurrence crossings for
+three different generators. It does not track eigenmodes across the change
+of Hilbert-space dimension or establish creation of energy or information.
 
-### The old palindrome dies, a new one is born
+### Comparing frequency bins and the coupled palindrome
 
-The 109 N=5 frequencies were classified as OLD (present in N=2) or
-NEW (coupling-only). Result: the N=2 frequencies (3.999, 4.000 Hz)
-do **not survive** in the coupled system. All 109 frequencies are NEW.
+The 109 N=5 frequency bins were compared numerically with the N=2 bins.
+The N=2 values (3.999, 4.000 Hz) do not fall into the matched N=5 bins under
+that rule. “OLD” and “NEW” below are bin labels only, not mode identities.
 
 All 452 oscillating palindromic pairs are **NEW-NEW** (100%): the 904
 oscillating modes pair among themselves, exactly and disjointly (optimal
 assignment, max pairing error ~1e-13; an earlier asymmetric matching
 over-counted these as 556). Zero OLD-OLD. Zero OLD-NEW. Zero unpaired.
 
-The V-Effect does not extend the old palindrome. It **replaces** it.
-The old frequencies are destroyed. New frequencies are born, all
-palindromically paired with each other. A completely self-contained
-new structure, grown from the coupling.
-
-This is perhaps the most striking result: the connection does not
-modify what existed before. It creates something entirely new and
-destroys what was there. The new system is not a combination of the
-old parts. It is a replacement. The whole is not greater than the
-sum of its parts; it is *different* from its parts.
+The coupled generator has its own exact palindromic pairing at the reported
+numerical residual. The cross-system bin comparison does not say that the
+component modes were destroyed or replaced, because no eigenvector
+continuation or common mode space was constructed.
 
 ### The new palindrome is perfectly balanced
 

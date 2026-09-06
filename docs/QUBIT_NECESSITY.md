@@ -40,10 +40,12 @@ number. Why does the complete local class exchange close only for two?
 
 For the complete local immune/decaying class exchange, the answer is the
 equation d² − 2d = 0. Its only nonzero solution is d = 2. F121 also proves
-that d > 2 retains a partial dissipator palindrome. A non-product,
-translation-invariant construction attains the full combinatorial ceiling in
+that d > 2 retains a partial dissipator palindrome. A seeded numerical
+translation-invariant construction numerically reaches the full combinatorial ceiling in
 the verified cases `(d,N)=(3,2),(3,3),(4,2)`; general attainment has not been
-derived. Any product mirror is capped at `(2d)^N`.
+derived. The shift-aligned product construction has rank `(2d)^N`, but that is
+not a universal product cap: a `d=6,N=2` product construction reaches rank 180,
+above `(2d)^N=144`.
 
 The reason is balance. Under the single-axis/full-Cartan dephasing class used
 here, a local operator space has d immune and d²−d decaying directions. A
@@ -204,7 +206,7 @@ What the palindrome provides:
 
 - Linear spectral pairing; physical standing waves require additional
   propagation, excitation, semisimplicity and interference gates
-- A three-tier error correction hierarchy (steady-XOR, boundary, mid-spectrum)
+- Rate-ordered spectral regions, without an automatic state-protection ranking
 - A centred linear spectral reflection, not physical time reversal
 - Spectral filters that decompose dynamics into paired modes
 - A structural framework that makes the dynamics INTELLIGIBLE
@@ -290,8 +292,8 @@ spectra:
    establishes the break, not the proposed shared-site collision mechanism.
 
 3. **Orbit organization:** Palindromic eigenvalue pairs organize
-   Liouville space. A physical standing-wave claim needs independent gates. The error correction hierarchy
-   (steady-XOR, boundary, mid-spectrum) provides natural protection tiers.
+   Liouville space. A physical standing-wave or state-protection claim needs
+   independent preparation, propagation, and readout gates.
 
 The scoped picture is that the balanced qubit split permits a complete local
 class swap. Compatible multi-site Hamiltonians retain it; other tested terms
@@ -347,10 +349,9 @@ interacting count is H-dependent with no H-independent closed form. See
 
 ### 8c. Composition failure at large N
 
-The N → ∞ limit shows the XOR fraction vanishing exponentially
-as (N+1)/4^N and the past/future boundary blurring as 1/√N. If the
-mirror becomes operationally irrelevant at macroscopic N, the claim that
-"all complexity arises from qubit mirrors" loses its force.
+The N → ∞ count shows only that the XOR eigenspace dimension fraction is
+(N+1)/4^N. That rank fraction has no preparation, ensemble, observable, or
+channel meaning and cannot establish operational irrelevance at any N.
 
 ### 8d. Engineered qutrit palindromes
 
@@ -422,10 +423,10 @@ stated dephasing grading. Broader questions remain open:
    but the interacting count is H-dependent (no H-independent closed form). The
    dissipator's 54 (about −Nγ) is the only invariant skeleton.
 
-3. **Macroscopic relevance:** The XOR fraction vanishes exponentially
-   with N. At what point does the mirror become operationally invisible?
-   Is there a critical N above which the palindrome exists algebraically
-   but has no physical consequence?
+3. **Operational measure:** The XOR eigenspace rank fraction vanishes
+   exponentially with N, but rank fraction alone cannot answer an operational
+   question. For a specified preparation, ensemble, observable, and channel,
+   what measure of access to that eigenspace should be tested?
 
 4. **Why does transfer fidelity not depend on the palindrome?** Both
    qubit and qutrit chains achieve F = 0.6923. The exchange Hamiltonian

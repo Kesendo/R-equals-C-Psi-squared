@@ -36,7 +36,7 @@ four decimals; `Q_max=max |Im lambda|/(-Re lambda)` is likewise a property of
 the sampled eigenvalues. These are protocol readings, not resolution-free
 mode counts.
 
-Selected rows reproduced after correcting the sigma labels are:
+Selected rows from the correctly directed channel are:
 
 | Channels | `n_bar` | `Q_max(N=2)` | `Q_max(N=5)` | ratio | frequency bins, N=5 |
 |---|---:|---:|---:|---:|---:|

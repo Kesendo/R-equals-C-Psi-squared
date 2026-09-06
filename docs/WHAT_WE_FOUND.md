@@ -282,12 +282,11 @@ controls.** The Hamiltonian and dissipator jointly determine the trajectory.
 Changing a coupling or rate can move both the arrival time and the received
 fidelity; a claimed independent knob needs its own matched sweep.
 
-**Design rules for quantum repeaters.** The palindrome and XOR space
-results suggest concrete engineering guidelines: use W-type encoding
-(avoids the fast drain), use star topology with asymmetric coupling
-(optimizes the slow palindromic modes), and read out before
+**Design rules for quantum repeaters.** The direct transport studies suggest
+using star topology with asymmetric coupling and reading out before
 t_cross = 0.036/γ (after that, the 1/4 boundary has been crossed in
-the concurrence book).
+the concurrence book). The XOR-space coordinate diagnostic does not establish
+a W-over-GHZ encoding rule.
 
 For the full benchmark, see [QST Bridge](../experiments/QST_BRIDGE.md).
 
@@ -745,8 +744,8 @@ choosing what to read next, depending on what interests you:
 
 **If the palindrome fascinates you:**
 [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) has the full
-analytical proof. [XOR Space](../experiments/XOR_SPACE.md) shows where
-information lives within it.
+analytical proof. [XOR Space](../experiments/XOR_SPACE.md) separates the
+endpoint count and F22 operator support from the retired state-weight reading.
 
 **If you think about engineering and applications:**
 [QST Bridge](../experiments/QST_BRIDGE.md) turns the palindrome into

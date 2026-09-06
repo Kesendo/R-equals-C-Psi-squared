@@ -10,9 +10,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </code>
 ///
 /// <para>F23 is the structural counting result for the XOR drain sector
-/// fraction in the 4^N Pauli operator space on N qubits. The XOR drain is the
-/// sector that hosts GHZ-fragility for small N; F23 says this sector has
-/// vanishing measure at macroscopic N. Numerical examples:</para>
+/// fraction in the 4^N Pauli operator space on N qubits. F23 says this
+/// operator eigenspace has a vanishing dimension fraction. Numerical examples:</para>
 ///
 /// <list type="bullet">
 ///   <item>N = 3: 6.25%</item>
@@ -26,8 +25,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the 4^N denominator is the full Pauli-operator-space dimension. F23 typifies
 /// the contrast: linear growth in N (numerator) against exponential decay
 /// (denominator), making the XOR drain's measure go to zero exponentially fast.
-/// The drain's share of operator space vanishes with N while GHZ_N's coherence sits
-/// entirely in it at every N (F22): what shrinks is the drain's measure, not GHZ's exposure.</para>
+/// F22 separately places each GHZ off-diagonal operator at maximal dephasing
+/// charge; neither statement defines a state exposure or operational lifetime.</para>
 ///
 /// <para>Pi2-Foundation anchors:</para>
 /// <list type="bullet">
@@ -107,12 +106,10 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
         return XorDrainCount(N) / OperatorSpaceDim(N);
     }
 
-    /// <summary>Whether the XOR drain is "macroscopically negligible" at N.
-    /// Threshold = 10⁻⁶ (one part per million); first reached at N = 12
-    /// ((N+1)/4^N = 2.9·10⁻⁶ at N = 11, 7.8·10⁻⁷ at N = 12). The threshold is a
-    /// convention; what it reads is the drain's share of operator space, not GHZ's
-    /// exposure to it, which is total at every N.</summary>
-    public bool IsMacroscopicallyNegligible(int N, double threshold = 1e-6)
+    /// <summary>Whether the dimension fraction <c>(N+1)/4^N</c> is below a
+    /// caller-supplied numerical threshold. The default is 10⁻⁶ and is first
+    /// crossed at N = 12. This predicate has no operational or macroscopic meaning.</summary>
+    public bool IsDimensionFractionBelowThreshold(int N, double threshold = 1e-6)
     {
         if (threshold <= 0) throw new ArgumentOutOfRangeException(nameof(threshold), threshold, "threshold must be > 0.");
         return XorDrainFraction(N) < threshold;
@@ -147,7 +144,7 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
         "F23 XOR drain (N+1)/4^N as Pi2-Foundation a_{-1} + OperatorSpaceMirror inheritance";
 
     public override string Summary =>
-        $"fraction(XOR) = (N+1)/4^N; 4 = a_{{-1}} (= {BaseFactor}); vanishes exponentially: 6.25% at N=3, 0.59% at N=5, ≈10⁻¹¹ at N=20; the drain's share of operator space vanishes with N, GHZ_N's exposure to it does not ({Tier.Label()})";
+        $"fraction(XOR) = (N+1)/4^N; 4 = a_{{-1}} (= {BaseFactor}); vanishes exponentially: 6.25% at N=3, 0.59% at N=5, ≈10⁻¹¹ at N=20; this is an operator-space dimension fraction, not a prepared-state probability or lifetime ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -159,7 +156,7 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
             yield return new InspectableNode("Pi2OperatorSpaceMirror sibling",
                 summary: "F23's 4^N denominator IS Pi2OperatorSpaceMirror's OperatorSpace; both share the same a_{-1}^N = (4)^N = d²·d²·...·d² = (2^N)² ladder anchor at index n = -(2N-1)");
             yield return new InspectableNode("vanishing-measure reading",
-                summary: "GHZ_N's coherence lives in the XOR drain at every N; what vanishes with N (below one ppm from N = 12) is the drain's share of operator space, what a random operator puts there. F23 quantifies the drain's measure, not GHZ's exposure.");
+                summary: "F23 quantifies the endpoint eigenspace's share of operator space (below one ppm from N = 12), not a prepared-state probability. F22 separately gives the maximal dephasing charge of each GHZ off-diagonal operator.");
             yield return new InspectableNode("N=3 verified",
                 summary: $"XorDrainCount={XorDrainCount(3)}, OperatorSpaceDim={OperatorSpaceDim(3)}, fraction={XorDrainFraction(3):P4} (6.25%)");
             yield return new InspectableNode("N=5 verified",

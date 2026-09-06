@@ -1,16 +1,18 @@
 """
-DOCS VERIFICATION: Check every numerical claim in /docs
-========================================================
+SCOPED NUMERICAL DOCUMENTATION SMOKE TEST
+==========================================
 
-Before release, every number in /docs must be verified by computation.
-This script checks each claim against actual Liouvillian calculations.
+This script recomputes only the explicitly implemented checks below. It is not
+a completeness or cross-document consistency gate.
 
 Authors: Tom Wicht, Claude
 Date: March 16, 2026
 """
 
 import numpy as np
+import sys
 from itertools import product as iprod
+from framework import max_f1_pairing_distance
 
 I2 = np.eye(2)
 sx = np.array([[0,1],[1,0]])
@@ -87,8 +89,12 @@ def check(name, condition, detail=""):
 
 if __name__ == "__main__":
     print("=" * 70)
-    print("DOCS VERIFICATION: Every number in /docs checked")
+    print("SCOPED NUMERICAL DOCUMENTATION SMOKE TEST")
     print("=" * 70)
+
+    if "--force-failure" in sys.argv:
+        check("forced failure proves the process exits nonzero", False,
+              "intentional mutation regression")
 
     # =============================================================
     # GLOSSARY.md claims
@@ -120,8 +126,8 @@ if __name__ == "__main__":
         check(f"{rate_name} = {expected:.6f} exists in spectrum (tol=1e-3)", found,
               f"expected {expected:.6f}")
 
-    # Claim: "decay rates topology-independent for N=3"
-    print("\n--- GLOSSARY: Topology-independence of rates ---")
+    # These are shared approximate anchors, not equality of the rate multisets.
+    print("\n--- GLOSSARY: Shared N=3 rate anchors across sampled topologies ---")
     for topo in ["chain", "ring", "star"]:
         H = build_H(3, 1.0, topo)
         L = build_L(H, [0.05]*3, 3)
@@ -129,7 +135,12 @@ if __name__ == "__main__":
         reals = np.real(evals)
         for rate_name, expected in [("2gamma", -0.10), ("8gamma/3", -8*0.05/3), ("10gamma/3", -10*0.05/3)]:
             found = any(abs(r - expected) < 1e-3 for r in reals)
-            check(f"{topo} has {rate_name} (tol=1e-3)", found)
+            check(f"{topo} contains anchor {rate_name} (tol=1e-3)", found)
+
+    wrong_anchor = -0.115
+    check("mutated shared-anchor value is rejected",
+          not any(abs(r - wrong_anchor) < 1e-3 for r in reals),
+          f"unexpected anchor near {wrong_anchor}")
 
     # Claim: "-2*sum_gamma = location of XOR modes"
     print("\n--- GLOSSARY: XOR modes at -2*sum_gamma ---")
@@ -188,33 +199,26 @@ if __name__ == "__main__":
         H = build_H(N, 1.0, "chain")
         L = build_L(H, gammas, N)
         evals = np.linalg.eigvals(L)
-        nonzero = evals[np.abs(evals) > 1e-10]
-        reals = np.real(nonzero)
+        distance = max_f1_pairing_distance(evals, sg)
+        tolerance = 1e-5
+        check(f"N={N}: full eigenvalue multiset is palindromically paired",
+              distance < tolerance, f"max multiplicity-aware distance={distance:.3e}")
 
-        # For each rate, check partner exists
-        unpaired = 0
-        target_sum = -2*sg
-        used = set()
-        for i in range(len(reals)):
-            if i in used: continue
-            partner_target = target_sum - reals[i]
-            found = False
-            for j in range(len(reals)):
-                if j in used or j == i: continue
-                if abs(reals[j] - partner_target) < 1e-5:
-                    used.add(i); used.add(j); found = True; break
-            if not found:
-                # Check if it's a center mode (self-paired)
-                if abs(reals[i] - target_sum) < 1e-5:
-                    used.add(i)
-                else:
-                    unpaired += 1
+    # Mutation-sensitive controls for the global matcher. The fixed point is
+    # lambda=-Sigma, not -2*Sigma; and deleting the zero endpoint must expose
+    # the unmatched -2*Sigma endpoint.
+    control_sigma = 0.25
+    fixed_point = np.array([-control_sigma + 0.2j, -control_sigma - 0.2j])
+    check("F1 fixed-point control is centered at lambda=-Sigma",
+          max_f1_pairing_distance(fixed_point, control_sigma) < 1e-14)
+    endpoint_without_zero = np.array([-2 * control_sigma, -control_sigma, -control_sigma])
+    endpoint_distance = max_f1_pairing_distance(endpoint_without_zero, control_sigma)
+    check("F1 endpoint-without-zero negative control fails pairing",
+          endpoint_distance > 0.1,
+          f"broken multiset residual unexpectedly {endpoint_distance:.3e}")
 
-        check(f"N={N}: all modes palindromically paired (unpaired={unpaired})",
-              unpaired == 0, f"{unpaired} truly unpaired")
-
-    # Claim: "works for all topologies"
-    print("\n--- MIRROR_SYMMETRY_PROOF: All topologies ---")
+    # Claim: the full F1 multiset closure holds on each supported topology.
+    print("\n--- MIRROR_SYMMETRY_PROOF: Full multiset closure by topology ---")
     for topo in ["chain", "ring", "star"]:
         for N in [3, 4]:
             gammas = [0.05]*N
@@ -222,78 +226,25 @@ if __name__ == "__main__":
             H = build_H(N, 1.0, topo)
             L = build_L(H, gammas, N)
             evals = np.linalg.eigvals(L)
-            nonzero = evals[np.abs(evals) > 1e-10]
-            reals = np.real(nonzero)
-            target_sum = -2*sg
+            distance = max_f1_pairing_distance(evals, sg)
+            check(f"N={N} {topo}: full eigenvalue multiset has F1 closure",
+                  distance < 1e-5,
+                  f"max multiplicity-aware distance={distance:.3e}")
 
-            # Quick check: are all Re(lambda) between -2*sg and 0?
-            in_range = all((-2*sg - 1e-5) <= r <= 1e-5 for r in reals)
-            check(f"N={N} {topo}: all rates in [-2*sum_gamma, 0]", in_range,
-                  f"min={min(reals):.6f}, max={max(reals):.6f}")
+    # A Hamiltonian outside the supported Pi-odd class must not make the
+    # topology loop false-green merely because all rates stay in range.
+    bad_n = 3
+    bad_gammas = [0.05] * bad_n
+    bad_h = build_H(bad_n, 1.0, "chain") + 0.37 * site_op(sz, 0, bad_n)
+    bad_spectrum = np.linalg.eigvals(build_L(bad_h, bad_gammas, bad_n))
+    bad_distance = max_f1_pairing_distance(bad_spectrum, sum(bad_gammas))
+    check("non-Pi-compatible Hamiltonian negative control breaks F1 closure",
+          bad_distance > 1e-3,
+          f"broken-control distance unexpectedly {bad_distance:.3e}")
 
-    # =============================================================
-    # XOR SPACE claims
-    # =============================================================
-    print("\n--- XOR_SPACE: GHZ -> 100% XOR ---")
-
-    for N in [2, 3, 4]:
-        gammas = [0.05]*N
-        H = build_H(N, 1.0, "chain")
-        L = build_L(H, gammas, N)
-        sg = sum(gammas)
-
-        evals, rvecs = np.linalg.eig(L)
-        lvecs = np.linalg.inv(rvecs)
-        rho0 = make_ghz(N)
-        coeffs = lvecs @ rho0.flatten()
-        weights = np.abs(coeffs)**2
-
-        reals = np.real(evals)
-        target = -2*sg
-
-        xor_w = sum(weights[i] for i in range(len(evals))
-                    if abs(reals[i] - target) < 1e-6 and np.abs(evals[i]) > 1e-10)
-        pal_w = sum(weights[i] for i in range(len(evals))
-                    if abs(reals[i] - target) >= 1e-6 and np.abs(evals[i]) > 1e-10)
-        total = xor_w + pal_w
-        xor_frac = xor_w/total if total > 0 else 0
-
-        check(f"GHZ N={N}: XOR fraction = {xor_frac:.3f} (expect 1.0)",
-              xor_frac > 0.99, f"got {xor_frac:.3f}")
-
-    print("\n--- XOR_SPACE: W -> 100% palindromic (N>=3) ---")
-    for N in [3, 4]:
-        gammas = [0.05]*N
-        H = build_H(N, 1.0, "chain")
-        L = build_L(H, gammas, N)
-        sg = sum(gammas)
-
-        evals, rvecs = np.linalg.eig(L)
-        lvecs = np.linalg.inv(rvecs)
-        rho0 = make_w(N)
-        coeffs = lvecs @ rho0.flatten()
-        weights = np.abs(coeffs)**2
-
-        reals = np.real(evals)
-        target = -2*sg
-
-        xor_w = sum(weights[i] for i in range(len(evals))
-                    if abs(reals[i] - target) < 1e-6 and np.abs(evals[i]) > 1e-10)
-        pal_w = sum(weights[i] for i in range(len(evals))
-                    if abs(reals[i] - target) >= 1e-6 and np.abs(evals[i]) > 1e-10)
-        total = xor_w + pal_w
-        pal_frac = pal_w/total if total > 0 else 0
-
-        check(f"W N={N}: palindrome fraction = {pal_frac:.3f} (expect 1.0)",
-              pal_frac > 0.99, f"got {pal_frac:.3f}")
-
-    # Claim: "r = 0.976 mixed XY correlation (N>=3)"
-    print("\n--- XOR_SPACE: Mixed XY Pauli weight correlation ---")
-    # Removed: a third check(..., True), the same vacuous shape as the two
-    # below, and self-contradicting besides: it asserted r = 0.976 while its
-    # own detail string reported that the computation gives 0.984. The
-    # discrepancy is real and is flagged in the CONSISTENCY section further
-    # down; gating it needs a check that recomputes r.
+    print("\n--- XOR_SPACE: coordinate claims retired ---")
+    print("  Right-eigenvector coordinate squares are not invariant state weights.")
+    print("  Run f22_operator_charge.py for the operator-level F22 gate.")
 
     # =============================================================
     # CORE_ALGEBRA claims
@@ -341,14 +292,8 @@ if __name__ == "__main__":
     # =============================================================
     # CONSISTENCY CHECKS between documents
     # =============================================================
-    print("\n--- CONSISTENCY: r=0.976 vs r=0.984 ---")
-    print("  NOTE: XOR_SPACE.md and GLOSSARY.md say r=0.976 (from v2)")
-    print("  But xor_detector_v3.py computed r=0.984")
-    print("  These used different state sets. Both are valid.")
-    print("  The claim 'r > 0.9' is robust. The exact value depends on state selection.")
-    # Removed: this was check(..., True), the same shape as the star-topology
-    # one deleted above. A literal True cannot fail and so verifies nothing.
-    # If the r > 0.9 claim is worth gating, the gate has to recompute r.
+    print("\n--- CONSISTENCY: retired mixed-XY correlation ---")
+    print("  The reported correlations described a non-invariant coordinate diagnostic.")
 
     # Claim: Echo peak C_SB = 0.598 for N=3
     # This would require a full star simulation which we've done in qst_bridge.py
@@ -364,22 +309,6 @@ if __name__ == "__main__":
     print("  Cross-reference: QST_BRIDGE.md, GLOSSARY.md, WEAKNESSES.md all cite 0.888.")
 
     # =============================================================
-    # DOCUMENT CROSS-REFERENCE CHECK
-    # =============================================================
-    print("\n--- CROSS-REFERENCE: Same numbers in multiple docs ---")
-    # Manually verified these appear consistently:
-    cross_refs = [
-        ("2gamma rate", "GLOSSARY, MIRROR_SYMMETRY_PROOF, SIGNAL_PROCESSING_VIEW"),
-        ("8gamma/3 rate", "GLOSSARY, MIRROR_SYMMETRY_PROOF, ORPHANED_RESULTS"),
-        ("F_avg = 0.888", "GLOSSARY, QST_BRIDGE, WEAKNESSES, WHAT_WE_FOUND"),
-        ("r = 0.976", "GLOSSARY, XOR_SPACE, WEAKNESSES"),
-        ("N+1 XOR modes", "GLOSSARY, XOR_SPACE, WEAKNESSES"),
-        ("t_cross = 0.039/gamma", "GLOSSARY, BOUNDARY_NAVIGATION"),
-    ]
-    for value, docs in cross_refs:
-        print(f"  {value}: cited in {docs}")
-
-    # =============================================================
     # SUMMARY
     # =============================================================
     print("\n" + "=" * 70)
@@ -389,10 +318,12 @@ if __name__ == "__main__":
     if FAIL > 0:
         print(f"\n{FAIL} FAILURES. Fix before any release.")
     else:
-        print("\nAll numerical claims verified. Docs are consistent.")
+        print("\nAll checks implemented in this script passed.")
+        print("This is a scoped numerical smoke test, not a documentation-consistency gate.")
 
     print("\nNOT RECOMPUTED (expensive, verified in dedicated scripts):")
     print("  - F_avg = 0.888 (qst_bridge.py)")
     print("  - Echo peak C_SB = 0.598 (qst_bridge.py)")
     print("  - Holevo capacity 0.534 bits (verify_channel.py)")
     print("  - IBM Torino results (hardware, not reproducible locally)")
+    raise SystemExit(1 if FAIL else 0)

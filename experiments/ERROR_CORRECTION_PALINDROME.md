@@ -6,12 +6,20 @@ fragility, Pi operator Z4 structure, palindromic mode protection hierarchy,
 quantum error correction dephasing, boundary tier palindromic pairs, slow mode
 weight quantum state optimization, R=CPsi2 error correction palindrome -->
 
-**Status:** Computationally verified (N=3, quantitative results)
+**Status:** Negative result. The state-weight, protection-tier,
+standing-wave-syndrome, and information-lifetime interpretations are not
+established; F22's operator-level dephasing charge remains.
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Π as Time Reversal](PI_AS_TIME_REVERSAL.md),
 [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md), [XOR Space](XOR_SPACE.md)
+
+The numbered sections preserve the March 19 event and its measured tables.
+Modal percentages are historical coordinates from a non-normal
+right-eigenvector basis, not physical state weights. The current verdict is the
+Abstract and Summary; interpretive prose inside the event is not current
+evidence.
 
 ---
 
@@ -28,15 +36,10 @@ these pairs fall into three natural tiers (like express, local, and
 freight trains on the same track). This document asks whether that
 map can be exploited to protect information better.
 
-Three results emerge. First, there exists an optimal quantum state
-that survives dephasing far longer than famous states like GHZ or
-Bell, by loading its weight onto the slowest-decaying pairs. Second,
-the measured oscillation fingerprint acts as a proposed error
-detector: if an error occurs, the oscillation fingerprint changes, and
-you can see it. Third, the mirror operator Π turns out to have a
-richer structure than expected (fourth-order, not second-order),
-hinting at a deeper algebraic framework for protection that is not
-yet fully understood.
+The event tested an eigenvector-coordinate optimization, a projected-component
+fingerprint, and a modal-pair decay curve. None supplies an operational
+state-protection or error-syndrome result. The constructed Π representation is
+fourth-order, but its eigenspaces are not thereby physical codespaces.
 
 ---
 
@@ -48,29 +51,25 @@ constrained optimization used squared coordinates in a right-eigenvector basis
 of a non-normal Liouvillian as if they were probabilities. Its `90% slow-mode`
 and associated comparison are withdrawn; the returned state must instead be
 assessed by direct density-matrix propagation and a named operational metric.
-The measured oscillation fingerprint serves as a candidate error syndrome:
-X and Y errors produce detectable pattern changes (0.19-0.28), while Z errors
-are weakly or not detectable. Standard 3-qubit QEC codes (repetition, phase
-flip) do not exploit the palindromic structure. The Π operator has fourth-order
-structure (Π⁴ = I), creating a Z₄ decomposition with four 16-dimensional
-sectors whose QEC implications are not yet worked out.
+The projected-component changes (0.19-0.28 for sampled X/Y errors, 0.0834 or
+zero for sampled Z errors) are historical readings of that construction, not
+a demonstrated syndrome. The Π representation has fourth-order structure
+(`Π⁴ = I`) and four 16-dimensional algebraic eigenspaces; no QEC role follows
+for those sectors.
 
 ---
 
 ## The Question
 
-The palindromic symmetry pairs every decay mode with a partner. The
-XOR drain (the fastest-decaying mode in the system, at rate 2Sγ, where
-all qubits carry quantum weight simultaneously) kills the famous GHZ
-state instantly because GHZ loads 100% of its weight into that drain.
-The W state avoids it completely. Palindromic partners retain complementary
-rates in the rescaled frame; that fact does not by itself make a standing
-wave. Can the spectral organization or measured oscillations be exploited
-for quantum error protection?
+The palindromic symmetry pairs decay modes. F22 fixes the maximal dissipative
+charge of the GHZ off-diagonal operators, while W coherences have distance-two
+support. Neither operator fact assigns a state weight. The event asked whether
+the spectral organization could be exploited for protection; its coordinate
+calculation did not answer that question.
 
 ---
 
-## 1. Three Tiers of Protection
+## 1. Historical Rate Regions
 
 The palindromic spectrum of the N=3 Heisenberg Liouvillian (γ=0.05, Z-dephasing)
 has 32 palindromic pairs that fall into three natural tiers:
@@ -78,13 +77,12 @@ has 32 palindromic pairs that fall into three natural tiers:
 | Tier | Pairs | Rates | XY-weight | Character |
 |---|---|---|---|---|
 | Steady-XOR | 4 | 0 and 0.30 | 0.0 vs 3.0 | Extremes: immortal paired with fastest drain |
-| Boundary | 14 | 0.10 and 0.20 | 1.0 vs 2.0 | Clean classical/quantum split, longest dynamic lifetime |
-| Mid-spectrum | 14 | ~0.133 and ~0.167 | 1.33 vs 1.67 | Mixed character, shorter lifetime |
+| Boundary | 14 | 0.10 and 0.20 | 1.0 vs 2.0 | Coordinate grouping recorded by the run |
+| Mid-spectrum | 14 | ~0.133 and ~0.167 | 1.33 vs 1.67 | Coordinate grouping recorded by the run |
 
-The boundary pairs are the workhorses: they carry dynamic information (oscillation)
-while decaying at moderate rates. Their XY-weight splits cleanly into 1 (one
-quantum site) vs 2 (two quantum sites), making them the most classical/quantum
-distinct pairs in the spectrum.
+The run grouped the boundary pairs by their printed rates and XY weights. Those
+labels do not establish information transport, state lifetime, or a
+classical/quantum split.
 
 ---
 
@@ -100,8 +98,8 @@ survival or protection:
 | Retired coordinate diagnostic | Returned state | W | Bell(0,1) | GHZ |
 |---|---|---|---|---|
 | Slow-mode weight | 90% | 0% | 7% | 0% |
-| XOR weight | 0.02% | 0% | 0% | 100% |
-| Oscillating content | 18% | 0% | 64% | 0% |
+| XOR weight | 0.02% | 0% | 0% | 55.55% |
+| Oscillating content | 18% | 0% | 38.09% | 0% |
 | Concurrence | 0.364 | 0.667 | 1.000 | 1.000 |
 
 The returned state is composed mainly of \|010⟩, \|000⟩, \|100⟩, and \|001⟩,
@@ -112,39 +110,33 @@ time window.
 
 ---
 
-## 3. The Oscillation Fingerprint as Error Syndrome
+## 3. Historical Projected-Component Fingerprint
 
-Think of a guitar string vibrating with a specific pattern of nodes and
-antinodes. If someone puts a finger on the string (an error), the
-pattern changes audibly. The calculation uses the same diagnostic idea: the
-selected observables have an oscillation fingerprint, and errors change it.
-
-The measured pattern (which selected Pauli observables oscillate) is fixed by the
-initial state and Hamiltonian. If an error changes this pattern, the error
-is detectable by measuring oscillation amplitudes.
+The historical calculation selected a component by eigenvalue frequency and
+compared its reconstructed Pauli coordinates after applying errors. It did not
+propagate the state or define a measurement protocol.
 
 For Bell(0,1) under Heisenberg, applying single-qubit errors:
 
-| Error | Pattern change | Detectable? |
+| Error | Projected-coordinate change | Historical threshold label |
 |---|---|---|
-| X on site 0 | 0.28 | Yes |
-| X on site 1 | 0.27 | Yes |
-| X on site 2 | 0.19 | Yes |
-| Y on site 0 | 0.27 | Yes |
-| Y on site 1 | 0.28 | Yes |
-| Y on site 2 | 0.19 | Yes |
-| Z on site 0 | 0.08 | Weakly |
-| Z on site 1 | 0.08 | Weakly |
+| X on site 0 | 0.1945 | Yes |
+| X on site 1 | 0.1945 | Yes |
+| X on site 2 | 0.2223 | Yes |
+| Y on site 0 | 0.2777 | Yes |
+| Y on site 1 | 0.2777 | Yes |
+| Y on site 2 | 0.2223 | Yes |
+| Z on site 0 | 0.0834 | Weakly |
+| Z on site 1 | 0.0834 | Weakly |
 | Z on site 2 | 0.00 | No |
 
-X and Y errors on any site produce large pattern changes (0.19 to 0.28),
-easily detectable by measuring the oscillating Pauli components. Z errors
-on the Bell-pair sites (0,1) produce small but nonzero changes (0.08).
-Z on site 2 is invisible because Z₂ commutes with the Bell(0,1) structure.
+The constructed coordinate changed by 0.19 to 0.28 for the X/Y rows, by
+0.0834 for two Z rows, and not at all for Z on site 2. The Yes/Weakly/No column
+records the run's chosen coordinate threshold, not detector performance.
 
-This is a new type of error syndrome: instead of measuring stabilizer
-eigenvalues (standard QEC), measure *which observables oscillate*. The
-oscillation pattern is the fingerprint; errors change the fingerprint.
+This table is a reading of the constructed spectral projection. The run did
+not propagate a state or define a measurement protocol, so it does not
+establish an error syndrome.
 
 ---
 
@@ -159,24 +151,21 @@ The Π operator has eigenvalues {+1, -1, +i, -i}, each with multiplicity 16.
 This means Π⁴ = I (fourth-order, not second-order). The 64-dimensional
 Pauli space decomposes into four 16-dimensional sectors.
 
-This four-fold structure is richer than a simple Z₂ symmetry. It suggests
-that the palindromic pairing is part of a Z₄ group action on the Liouvillian,
-with the four sectors carrying distinct physical meaning:
+The four eigenspaces are algebraic sectors of the constructed map:
 
 - The +1 sector: modes invariant under the linear Π action
 - The -1 sector: modes that flip sign (antisymmetric)
 - The +i and -i sectors: modes that rotate by 90° (quarter-wave shifted)
 
-Whether these sectors define natural codespaces for error correction is an
-open question. The four-fold decomposition is established; its QEC
-implications are not yet worked out.
+No distinct physical meaning or error-correcting codespace follows from these
+eigenvalues alone.
 
 ---
 
-## 5. Information Lifetime by Spectral Position
+## 5. Historical Equal-Amplitude Pair Curve
 
-Each palindromic pair carries information that decays at a rate determined
-by the slower partner. The half-life and 1%-life for each tier:
+The historical run assigned equal amplitudes to each rate pair and printed the
+following decay times for that constructed curve:
 
 | Tier | Slow rate | Fast rate | T_half | T_1% |
 |---|---|---|---|---|
@@ -184,25 +173,19 @@ by the slower partner. The half-life and 1%-life for each tier:
 | Boundary | 0.100 | 0.200 | 19.2 | 59.9 |
 | Mid-spectrum | 0.133 | 0.167 | 18.0 | 51.9 |
 
-The steady-XOR pairs have infinite lifetime (the slow partner never decays),
-but they carry no oscillation, only static information. The boundary pairs
-are the best dynamic information carriers: 15% longer T_1% than mid-spectrum.
-
-The information lifetime is dominated by 1/d_slow. Pairs far from the
-palindromic center Sγ have the longest lifetimes because one partner
-is very slow. Pairs near the center have both partners decaying at
-similar rates, giving shorter lifetimes.
+The table evaluates an assumed difference of two exponentials with equal
+initial modal amplitudes. It is not the lifetime of a prepared density matrix,
+observable, or channel.
 
 ---
 
-## 6. Standard QEC Codes Are Poorly Suited for Dephasing
+## 6. Historical QEC Comparison (Withdrawn)
 
-Comparison of the palindromic protection analysis with standard 3-qubit codes:
+The run compared its coordinate diagnostic with named 3-qubit states:
 
-The repetition code (\|000⟩ + \|111⟩)/√2 is equivalent to GHZ and hits the
-XOR drain at 56%. The phase flip code avoids the drain but has zero
-concurrence and no oscillation. The decoherence-free subspace approach
-(\|010⟩) has 67% in a single mode with no entanglement.
+The historical table reported 55.55% for the repetition/GHZ coordinate, 0%
+for the phase-flip coordinate, and 66.54% slow coordinate for `|010>`. These
+are not invariant QEC-performance measures.
 
 The former claim that the Section 2 state outperforms these codes was based on
 the withdrawn coordinate objective. This run contains no direct-propagation
@@ -212,15 +195,9 @@ gate establishing such an ordering.
 
 ## 7. The XOR Drain Is Not a Universal Syndrome
 
-Testing whether XOR weight increase can serve as error syndrome for W-type
-states: negative result. Errors on W produce zero XOR weight increase.
-W is so robustly outside the XOR sector that even errors do not push weight
-there. The XOR syndrome works only for states that already have XOR proximity.
-
-The oscillation-fingerprint syndrome (Section 3) applies to the tested states
-with nonzero measured oscillating content, detecting the reported errors
-through pattern changes rather than sector-weight shifts. Universality beyond
-that tested observable/state/error set is not established.
+Within the retired coordinate convention, every sampled X, Y, and Z error on W
+produced zero XOR-coordinate increase. This is a negative coordinate reading,
+not a syndrome test. Section 3 likewise establishes no detector.
 
 ---
 
@@ -230,12 +207,12 @@ that tested observable/state/error set is not established.
    regions into state protection requires an operational propagation test.
 2. The former `90% slow-mode` optimum and its survival ranking are withdrawn
    because they used non-invariant right-eigenvector coordinates.
-3. In the tested N=3 Bell setup, the oscillation fingerprint detects the
-   sampled X/Y errors and responds weakly to two sampled Z errors; this is a
-   candidate syndrome, not yet a general QEC protocol.
-4. Π is a fourth-order operator (Π⁴ = I), creating a Z₄ decomposition.
-5. Boundary-tier pairs carry information 15% longer than mid-spectrum pairs.
-6. Standard 3-qubit QEC codes do not exploit palindromic structure.
+3. The projected-component changes are historical coordinate readings, not a
+   demonstrated syndrome.
+4. Π is a fourth-order operator (Π⁴ = I), creating an algebraic Z₄
+   decomposition without assigned physical sector roles.
+5. The equal-amplitude pair curves are not information lifetimes.
+6. This run establishes no QEC-code ranking.
 
 ---
 
@@ -243,7 +220,9 @@ that tested observable/state/error set is not established.
 
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): centred spectral pairing and its interpretive history
 - [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md): oscillation patterns
-- [XOR Space](XOR_SPACE.md): GHZ vs W mode decomposition
+- [XOR Space](XOR_SPACE.md): endpoint count, F22 operator support, and the retired GHZ/W coordinate decomposition
 - [N→∞ Palindrome](N_INFINITY_PALINDROME.md): spectral scaling
-- Script: [`simulations/error_correction_palindrome.py`](../simulations/error_correction_palindrome.py)
-- Results: [`simulations/results/error_correction_palindrome.txt`](../simulations/results/error_correction_palindrome.txt)
+- Historical retired producer: [`simulations/error_correction_palindrome.py`](../simulations/error_correction_palindrome.py)
+- Active F22 producer: [`simulations/f22_operator_charge.py`](../simulations/f22_operator_charge.py)
+- Historical March 19 event output: [`simulations/results/error_correction_palindrome.txt`](../simulations/results/error_correction_palindrome.txt)
+- Current F22 gate output: [`simulations/results/error_correction_palindrome_f22.txt`](../simulations/results/error_correction_palindrome_f22.txt)

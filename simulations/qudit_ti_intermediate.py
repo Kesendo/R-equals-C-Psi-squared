@@ -11,23 +11,26 @@ F121 / operator construction (PROOF §6, cap claim retracted):
 THE QUESTION (the F116 seam, inverted): does a TRANSLATION-INVARIANT but
 non-product mirror exceed the shift construction, and if so does it reach the
 ceiling? TI is strictly weaker than product (product-with-equal-sites IS
-TI, e.g. the restricted map Pi_d P_aligned), so TI-rank lies in [(2d)^N, ceiling].
+TI, e.g. the restricted map Pi_d P_aligned), so the maximal TI rank lies in
+[(2d)^N, ceiling].
 
-METHOD (exact, no search): the palindrome intertwiner W L_D = (-L_D - 2N g) W
+METHOD (finite numerical construction, no optimisation search): the palindrome intertwiner W L_D = (-L_D - 2N g) W
 forces W to be block-anti-diagonal in the Hamming grading: W maps rung h to
-rung N-h. The full (unconstrained) intertwiner's generic rank is the ceiling
-Sum_h min(c_h, c_{N-h}). Impose translation invariance [W, T] = 0 (T the
+rung N-h. The full (unconstrained) block space has the ceiling
+Sum_h min(c_h, c_{N-h}) as its maximum rank. Impose translation invariance [W, T] = 0 (T the
 cyclic site shift): allowed entries collapse into T-orbits, one free
-coefficient each. A GENERIC TI intertwiner attains the maximal TI rank
-(rank is generic on a linear space). Compare:
-   (2d)^N  (shift-aligned rank)  <=  TI generic rank  <=  ceiling.
+coefficient each. A generic point of this linear space attains its maximal
+rank, but the finite computation below only exhibits one seeded point. Compare:
+   (2d)^N  (shift-aligned rank)  <=  computed TI rank  <=  ceiling.
 
-If TI rank == ceiling: the finite ceiling has a translation-invariant representative (the
+If the computed TI rank == ceiling: the finite run exhibits a translation-invariant representative (the
 "non-locality" is non-product-ness, not non-TI-ness) - the clean answer.
-If (2d)^N < TI < ceiling: a genuine third layer between local and global.
-If TI == (2d)^N: TI buys nothing beyond product.
+If (2d)^N < computed TI < ceiling: the sampled construction is strictly between.
+If computed TI == (2d)^N: this sample buys nothing beyond the shift construction.
 
-Self-validating where the targets are known (ceiling, shift-aligned rank).
+The cited finite numerical results are pinned literally and a mutation to the product
+construction is required to fail their gate. This is evidence for those constructions,
+not an exact or general maximal-rank proof.
 """
 
 import numpy as np
@@ -45,12 +48,8 @@ def cyc_shift(t):
 
 
 def ceiling(d, N):
-    c = [0] * (N + 1)
-    for i in iprod(range(d), repeat=N):
-        for j in iprod(range(d), repeat=N):
-            c[hamming(i, j)] += 1
-    return sum(min(c[h], c[N - h]) if h != N - h else c[h]
-               for h in range(N + 1)) - sum(min(c[h], c[N - h]) for h in range(N + 1) if h < N - h)
+    """Public paired-mode ceiling, including both members of each mirrored rung pair."""
+    return ceiling_clean(d, N)[0]
 
 
 def ceiling_clean(d, N):
@@ -69,7 +68,7 @@ def ceiling_clean(d, N):
 
 
 def ti_intertwiner_rank(d, N, seed=0, tol=1e-9):
-    """Generic rank of a translation-invariant palindrome intertwiner."""
+    """Numerical SVD rank of one seeded translation-invariant intertwiner."""
     states = list(iprod(range(d), repeat=N))
     coh = [(i, j) for i in states for j in states]   # d^{2N} coherences
     idx = {c: k for k, c in enumerate(coh)}
@@ -116,7 +115,7 @@ def ti_intertwiner_rank(d, N, seed=0, tol=1e-9):
 
 
 def unconstrained_rank(d, N, seed=0, tol=1e-9):
-    """Generic rank of a general (non-TI) palindrome intertwiner = the ceiling."""
+    """Numerical SVD rank of one seeded unrestricted intertwiner."""
     states = list(iprod(range(d), repeat=N))
     coh = [(i, j) for i in states for j in states]
     D = len(coh)
@@ -127,6 +126,19 @@ def unconstrained_rank(d, N, seed=0, tol=1e-9):
     W *= mask
     s = np.linalg.svd(W, compute_uv=False)
     return int(np.sum(s > tol * s[0]))
+
+
+CITED_FINITE_RESULTS = {(3, 2): 54, (3, 3): 378, (4, 2): 128}
+
+
+def validate_cited_finite_rows(rows):
+    """Pin the three finite numerical constructions cited by the proof."""
+    observed = {(d, N): ti for d, N, _cap, ti, _ceil in rows}
+    for key, expected in CITED_FINITE_RESULTS.items():
+        actual = observed.get(key)
+        assert actual == expected, (
+            f"cited finite TI construction {key}: expected rank {expected}, got {actual}"
+        )
 
 
 def main():
@@ -140,7 +152,7 @@ def main():
         ti, n_orb = ti_intertwiner_rank(d, N)
         ceil, c = ceiling_clean(d, N)
         unc = unconstrained_rank(d, N)
-        assert unc == ceil, f"unconstrained generic rank {unc} != ceiling {ceil} (d={d},N={N})"
+        assert unc == ceil, f"seeded unrestricted numerical rank {unc} != ceiling {ceil} (d={d},N={N})"
         assert cap <= ti <= ceil, f"TI rank {ti} outside [{cap},{ceil}] (d={d},N={N})"
         if ti == ceil and cap < ceil:
             verdict = "TI REACHES ceiling"
@@ -150,18 +162,30 @@ def main():
             verdict = "THIRD LAYER (TI strictly between)"
         else:
             verdict = "d=2: shift=ceiling (full)"
-        rows.append((d, N, cap, ti, ceil, verdict))
+        rows.append((d, N, cap, ti, ceil))
         print(f"  {d:>2}{N:>2}{cap:>9}{ti:>9}{ceil:>9}{d**(2*N):>8}   {verdict}")
 
     print()
     # sanity: d=2 everything coincides (full mirror)
-    for (d, N, cap, ti, ceil, _) in rows:
+    for (d, N, cap, ti, ceil) in rows:
         if d == 2:
             assert cap == ti == ceil == (2 * d) ** N, f"d=2 should be full: {(cap,ti,ceil)}"
+    validate_cited_finite_rows(rows)
+    mutated = list(rows)
+    index = next(i for i, row in enumerate(mutated) if row[:2] == (3, 2))
+    d, N, cap, _ti, ceil = mutated[index]
+    mutated[index] = (d, N, cap, cap, ceil)
+    try:
+        validate_cited_finite_rows(mutated)
+    except AssertionError:
+        pass
+    else:
+        raise AssertionError("mutation control failed: product-rank substitution stayed green")
     print("d=2 columns: (2d)^N = TI = ceiling = d^{2N} (the full mirror). OK")
     print()
     print("READING: the verdict column says whether translation invariance alone")
-    print("reaches the ceiling on the finite tested grid. It does not classify the")
+    print("reaches the ceiling in these seeded finite numerical constructions. It does not prove")
+    print("generic maximal rank, and it does not classify the")
     print("optimum over product intertwiners.")
     print("=" * 72)
 

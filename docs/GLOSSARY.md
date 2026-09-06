@@ -123,15 +123,17 @@ eigenspace is a separate projection question.
 | Term | Definition |
 |------|------------|
 | **XOR modes** | The eigenmodes at Re λ = -2Σγ, the maximum decay rate. There are N+1 of them on the XY/Heisenberg chain with every bond non-zero and every site dephased, γ_l > 0 (a zero bond raises the count to Π_c(\|c\|+1); a zero γ on one seat leaves N+1 at N = 3, 4, while γ on the N = 3 middle seat alone gives 12 on XY and 10 on Heisenberg; a longitudinal field keeps it only if uniform); Z-dephasing alone does not fix the count, nor does number conservation (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 at N = 3, 4), see the -2Σγ row in the constants table. Under F1 they occupy one endpoint of the pairing and match the zero-rate kernel at the other endpoint; this is generally an `(N+1)`-dimensional partner subspace, not a unique steady state. They are purely off-diagonal (coherences). |
-| **XOR fraction** | Fraction of an input state's weight that projects onto the XOR modes. GHZ: 100%. W (N≥3): 0%. Predicted by mixed XY Pauli weight at r=0.976 (N≥3). |
-| **Mixed XY Pauli weight** | Fraction of Pauli decomposition terms containing both X and Y operators simultaneously (e.g., XYI, YXZ). Predicts how much of a state falls into the fastest-decaying XOR drain. |
+| **XOR fraction** | Historical coordinate diagnostic formed from a right-eigenvector decomposition. For a non-normal Liouvillian it is not an invariant state probability and must not be used as a fragility or protection score. |
+| **Mixed XY Pauli weight** | Fraction of Pauli decomposition terms containing both X and Y operators simultaneously (e.g., XYI, YXZ). Its reported `r = 0.976` correlation was with the retired XOR-coordinate diagnostic, not with an operational lifetime or channel metric. |
 | **Palindromic modes** | For an F1-compatible generator, all generalized eigenspaces participate in the linear spectral transport, including the zero-rate and XOR endpoints. The palindrome alone does not classify a mode as robust, oscillatory, or physically wave-like. |
 | **Spectral filter** | Historical label for decompositions by decay rate or Pauli content. F1 supplies a spectral pairing, not a universal state filter; any fragile/robust classification requires a specified preparation, observable, time window and projection rule. |
 
 **In plain language:**
 
 - **XOR modes** sit at one decay endpoint in the specified chain family. An endpoint rate does not say how much of a prepared density matrix or readout occupies that eigenspace.
-- **XOR fraction** is a projection defined by a particular decomposition. Its relation to an operational lifetime must be checked with the generator, preparation, observable, and time window explicit; it is not a universal fragility score.
+- **XOR fraction** names a retired non-invariant coordinate calculation, not a
+  state property. Use the exact operator charge or an operational propagation
+  metric instead.
 - **Spectral filter** is historical shorthand. F1 pairs generalized eigenspaces but does not automatically divide every state into one fragile and one robust component. For non-normal generators, right-eigenvector coefficient squares are not state weights.
 
 ---
@@ -147,7 +149,7 @@ information from one place to another through a noisy network.
 | **F_avg** | Average fidelity of the transferred state, averaged over all pure input states. Our best: F_avg = 0.886 (star, 2:1 coupling). |
 | **Holevo capacity** | Maximum classical information transmittable per channel use. Our star channel: χ = 0.534 bits. |
 | **2:1 coupling** | Optimal coupling ratio J_SB/J_SA = 2 for star-topology QST. Asymmetric. Not intuitive. Outperforms symmetric 1:1. |
-| **Echo** | Entanglement oscillation in the SA pair. Period ~π/(4J). Envelope decays at 8γ/3 (the J/γ → ∞ value; a band at moderate coupling, F33). Peak C_SB = 0.598 (N=3). Scales as ~1/(N-1). |
+| **Echo** | Entanglement oscillation in the SA/SB readouts. The tested large-J periods are near π/(4J), and peak C_SB = 0.598 at N=3. The peak decreases over N=3–5; no large-N law or single-mode envelope attribution is established. |
 
 **In plain language:**
 
@@ -477,12 +479,12 @@ They are not arbitrary; each one comes from the mathematics.
 | **1.46295** | J_SB/J_SA threshold for AB crossing at Q = J_SA/γ = 20 (star topology, [F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3)). Five decimals because the value sits on the four-decimal boundary. The older ~1.466 was read off an observable sampled every 0.1 against a period of 0.66, which gives 1.4650. |
 | **1/3** | CΨ of a maximally entangled Bell pair (C = 1, Ψ = 1/3). |
 | **2γ** | Decay rate of the c− supermode (antisymmetric, slow). At **uniform γ** the 2γ rung exists at every coupling; it is the *slowest* nonzero rate only above the threshold Q*_gap(N). Under a per-site rate profile there is no single 2γ, and what replaces it is a floor rather than a value; on the anti-palindromic locus a ladder does return, with γ̄ in place of γ, under conditions the docstring of [`band_edge_profile_fence_gate.py`](../simulations/band_edge_profile_fence_gate.py) states. |
-| **8γ/3** | Concurrence-envelope decay rate at N=3, in the J/γ → ∞ limit; at finite coupling a three-level band (F33). |
+| **8γ/3** | Middle N=3 Liouvillian-rate limit in F33. At finite coupling it becomes a three-level band; the measured concurrence-envelope residual is not assigned to it. |
 | **10γ/3** | Decay rate of the c+ supermode (symmetric, fast) at N=3, same J/γ → ∞ limit as 8γ/3 (F33). |
 | **-2Σγ** | Location of XOR modes. The value is a genuine ceiling for any Hermitian H (Bendixson), but the COUNT holds on the XY/Heisenberg chain with every bond non-zero and every site dephased (γ_l > 0), a sufficient condition, and is not Z-dephasing's as such, nor to number conservation (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 at N = 3, 4): N+1 modes there, 2^N under a pure Ising ZZ chain, and NONE at all under a generic Hermitian H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3, γ = 0.05: 4, 8 and 0 modes; the generic maximum falls short of 2Σγ = 0.30 by a margin that depends on the draw and on the scale of H). |
 | **0.886** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
 | **0.036/γ** | Crossing time t_cross for Bell+ under dephasing **in the concurrence book**, i.e. reading C as the Wootters concurrence. Exact there: K = ln(4/3)/8 = 0.03596 (write 0.03596 when the word "exact" is attached; 0.036 is the rounded label). Three K coexist for this one state and channel, and the discriminator is WHICH C: C = Wootters concurrence gives 0.03596; C = purity, the framework's own CΨ = f(1+f²)/6, gives K = 0.03735 ([F25](ANALYTICAL_FORMULAS.md), Tier 1 proven, and the t\* = 0.747 cockpit landing); the February tool's feedback model on the concurrence book gives 0.0387, historically quoted as 0.039. See CROSSING_TAXONOMY. |
-| **0.976** | Correlation between mixed XY Pauli weight and XOR fraction (N≥3). |
+| **0.976** | Historical correlation with the retired non-invariant XOR-coordinate diagnostic; not an operational state metric. |
 | **360×** | Concentrator formula vs V-shape at N=5 (peak created Sum-MI, a transport metric, ε→0 sim; C# RK4 validated; ~2-3× hardware). |
 | **180×** | Concentrator formula vs V-shape at N=7 (same transport metric). |
 | **139×** | Concentrator formula vs V-shape at N=9 (same transport metric; the factor declines to 68× by N=15). |
@@ -510,5 +512,5 @@ means exactly this:
 *See [Core Algebra](historical/CORE_ALGEBRA.md) for the proven mathematics.*
 *See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.*
 *See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) for the extended palindrome analysis.*
-*See [XOR Space](../experiments/XOR_SPACE.md) for the spectral filter discovery.*
+*See [XOR Space](../experiments/XOR_SPACE.md) for the endpoint count, F22 operator support, and withdrawn state-weight interpretation.*
 *See [Resonant Return](../experiments/RESONANT_RETURN.md) for the concentrator formula.*

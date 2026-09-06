@@ -1,6 +1,5 @@
 ==========================================================================================
-N -> INFINITY: Thermodynamic Limit of the Palindromic Spectrum
-Date: 2026-03-19 15:03:13.764487
+N -> INFINITY: Counting asymptotics and finite-N spectral samples
 gamma = 0.05, Heisenberg chain, Z-dephasing
 ==========================================================================================
 
@@ -38,7 +37,7 @@ SECTION 1: Rate density histograms
 
   Full Liouvillian eigenvalues:
 
-    N=3 (64 eigenvalues, 0.00s):
+    N=3 (64 eigenvalues):
       Rate range: [-0.000000, 0.300000]
       Mean: 0.150000 (theory: 0.150000)
       Std:  0.063469 (theory: 0.086603)
@@ -54,7 +53,7 @@ SECTION 1: Rate density histograms
          2    0.200000          24    0.166658    0.200000    0.033342
          3    0.300000           8    0.300000    0.300000    0.000000
 
-    N=4 (256 eigenvalues, 0.13s):
+    N=4 (256 eigenvalues):
       Rate range: [-0.000000, 0.400000]
       Mean: 0.200000 (theory: 0.200000)
       Std:  0.060220 (theory: 0.100000)
@@ -71,7 +70,7 @@ SECTION 1: Rate density histograms
          3    0.300000          64    0.281704    0.300000    0.018296
          4    0.400000          16    0.400000    0.400000    0.000000
 
-    N=5 (1024 eigenvalues, 2.02s):
+    N=5 (1024 eigenvalues):
       Rate range: [-0.000000, 0.500000]
       Mean: 0.250000 (theory: 0.250000)
       Std:  0.058094 (theory: 0.111803)
@@ -119,7 +118,8 @@ SECTION 2: XOR mode fraction
   XOR fraction drops below 1% at N = 5
   XOR fraction drops below 0.01% at N = 9
   Scaling: (N+1)/4^N -> 0 exponentially
-  GHZ fragility (100% XOR projection) becomes irrelevant at large N
+  This operator-space fraction is not a prepared-state XOR probability
+  PASS exact thresholds: first <1% at N=5; first <0.01% at N=9
 
 ==========================================================================================
 SECTION 3: Weight sector sizes (palindromic counting proof)
@@ -199,6 +199,8 @@ SECTION 3: Weight sector sizes (palindromic counting proof)
     11         49152     1         49152     YES
     12          4096     0          4096     YES
 
+  PASS bare endpoint fraction: 2^N / 4^N = 2^-N (N=3,8,12)
+
   'Past is tiny' ratio: count(0) / count(N/2)
   count(0) = 2^N, count(N/2) = C(N,N/2) * 2^N
   Ratio = 1 / C(N,N/2)
@@ -215,7 +217,7 @@ SECTION 3: Weight sector sizes (palindromic counting proof)
 
   At N=100: the w=0 sector (all-classical, pure past) is 10^-29 times
   smaller than the w=50 sector (half-classical, half-quantum).
-  'Pure past' vanishes exponentially. Most states are mixed.
+  The endpoint's fraction of the bare-dissipator Pauli-string count vanishes exponentially.
 
 ==========================================================================================
 SECTION 4: Bandwidth scaling under Hamiltonian perturbation
@@ -246,14 +248,14 @@ SECTION 4: Bandwidth scaling under Hamiltonian perturbation
     Total rate range: [-0.000000, 0.500000]
     Span: 0.500000 = 10.00*gamma
 
-  Bandwidth scaling prediction:
+  Finite-N rate-range summary:
     Boundary rates are topology-independent: min=0, max=2N*gamma
     Dynamic range: [2*gamma, 2*(N-1)*gamma]
     Bandwidth = 2*(N-2)*gamma, linear in N
-    As N grows, bands broaden and merge into a continuum
+    These N=3..5 samples do not establish a continuum limit
 
 ==========================================================================================
-SECTION 5: Standing wave frequency density
+SECTION 5: Sampled oscillation-frequency counts
   Number of distinct oscillation frequencies vs N
 ==========================================================================================
 
@@ -281,7 +283,7 @@ SECTION 5: Standing wave frequency density
     Range: [0.000002, 11.711545]
 
   Pattern: frequency count grows rapidly with N
-  N=3: discrete harmonics. N=5+: approaching continuous spectrum.
+  No continuous limiting spectrum follows from the N=3..5 counts.
 
 ==========================================================================================
 SECTION 6: Past/future boundary width
@@ -304,9 +306,9 @@ SECTION 6: Past/future boundary width
 
   The fraction of strings within sqrt(N) of the midpoint approaches ~0.954
   (the 2-sigma fraction of a Gaussian), independent of N.
-  The 'sharp' classical/quantum boundary at small N becomes a smooth
-  Gaussian spread at large N. Most states are near w = N/2: half-classical,
-  half-quantum. Pure past (w=0) and pure future (w=N) become exponentially rare.
+  This is the bare-dissipator Pauli-string counting measure, not a state ensemble.
+  Its endpoint fractions become exponentially small while the central
+  weight window carries the stated asymptotic fraction.
 
 ==========================================================================================
 SECTION 7: Z-deph vs depol Gaussian comparison
@@ -352,34 +354,31 @@ SECTION 7: Z-deph vs depol Gaussian comparison
   Under depol, the future is exponentially larger than the past.
 
   ======================================================================
-  THERMODYNAMIC SUMMARY
+  SCOPE SUMMARY
   ======================================================================
 
-  Z-DEPHASING at large N:
-    Rate distribution: Gaussian, center = N*gamma, width = gamma*sqrt(N)
-    Palindrome: TRIVIALLY satisfied (symmetric Gaussian)
-    Past/future: boundary blurs, most states are half-classical
-    XOR fraction: vanishes as (N+1)/4^N
-    Standing wave: discrete -> continuous spectrum
-    The palindrome is automatic but non-trivial (L_H preserves it)
+  BARE Z-DEPHASING PAULI-STRING COUNT at large N:
+    Weight-count distribution: Gaussian asymptotics around N/2
+    Count symmetry: exact under w -> N-w
+    One endpoint weight sector: 2^N strings, fraction 2^-N
+    No state ensemble, standing wave, or continuous spectral limit follows.
 
-  DEPOLARIZING at large N:
-    Rate distribution: Gaussian, center = N*gamma, width = gamma*sqrt(N/3)
-    Palindrome: EXPONENTIALLY broken
+  DISTINCT INTERACTING F23 OBJECT (in its stated chain scope):
+    Endpoint eigenspace dimension fraction: (N+1)/4^N
+
+  BARE DEPOLARIZING PAULI-STRING COUNT at large N:
+    Weight-count distribution: Gaussian asymptotics around 3N/4
+    Count symmetry: exponentially imbalanced
     Counting ratio 3^(N-2w) means sectors differ by exp(N)
     Past (w=0): 1 string. Future (w=N): 3^N strings.
     The mirror deficit grows exponentially with system size.
 
-  THE ANSWER to 'does palindrome become trivially true?':
-    The L_D part: YES, Gaussian symmetry makes it automatic.
-    The L_H part: NO, this is the non-trivial content.
-    Pi anti-commuting with [H,.] ensures L_H does not break the
-    L_D palindrome. Without Pi, L_H could shift eigenvalues
-    asymmetrically. The proof guarantees it never does.
-    This constraint holds at every N, including N -> infinity.
+  SPECTRAL SCOPE:
+    The Pi relation proves the palindrome for each finite N in its stated
+    Hamiltonian/dephasing scope. These computations do not construct or prove
+    convergence to an infinite-volume Liouvillian or spectral measure.
 
 
 ==========================================================================================
 ANALYSIS COMPLETE
-Date: 2026-03-19 15:03:17.470092
 ==========================================================================================

@@ -15,7 +15,11 @@ The empirical sweep that motivated this theorem found four J-blind states at N=5
 
 This document records the three-class decomposition that emerged from the bifurcation. Class 1 (DFS of L_D) and Class 2 (H-degenerate subspace closed under L_D) are H-independent in the operationally relevant sense. Class 3 (the M_α-polynomial subspace) is SU(2)-Heisenberg specific and is the strong form of the morning theorem. The decomposition is not an exhaustive partition of the J-blind set; it is an organising spine for the cases verified so far.
 
-The document also reconciles Class 2 with how GHZ is already discussed in the repo. GHZ has been characterised under multiple lenses (XOR_SPACE drain projection, F60 below-fold birth, F69 sector-mix lift at N=3, fragile-state prototype in the engineering blueprint). All of these descriptions are about how GHZ DECAYS. The J-blindness reading is about something else: how GHZ does NOT respond to J-perturbations of the Hamiltonian, even while its coherence decays maximally fast. Those are not contradictory; they answer different questions.
+The document also separates Class 2 from the repo's other GHZ readings. F22
+fixes the maximal dephasing charge of the GHZ off-diagonal operator, F60 fixes
+its below-fold birth, and F69 studies a GHZ+W slice. The J-blindness reading is
+different: it concerns response to J-perturbations of the specified trajectory,
+not a universal decay or encoding rank.
 
 ## What "J-blind" means here
 
@@ -51,20 +55,27 @@ Condition (i) alone is NOT sufficient for J-blindness: a diagonal-in-Z state who
 
 **The closed-under-L_D condition matters.** A state in an H-eigenspace at t=0 can leave it under L_D evolution if L_D couples the eigenspace to outside states. The class condition requires that L_D respects the eigenspace, which guarantees the orbit stays inside.
 
-**N=5 example: GHZ.** GHZ_5 = (|00000⟩ + |11111⟩) / √2. Both |0⟩⁵ and |1⟩⁵ are H-eigenstates (under both Heisenberg and XY-only) and the only two basis states reachable from them under uniform Z-dephasing: the only off-diagonal coherence in the GHZ density matrix is |0⟩⁵⟨1|⁵ + h.c., which decays at rate 2γN to the diagonal mixture (1/2)(|0⟩⁵⟨0|⁵ + |1⟩⁵⟨1|⁵). The 2-dim block V = span{|0⟩⁵⟨0|⁵, |1⟩⁵⟨1|⁵, |0⟩⁵⟨1|⁵, |1⟩⁵⟨0|⁵} is closed under L_D, and within V the H-eigenvalue is constant (degenerate at 0 for XY-only; degenerate at N-1 for Heisenberg). J-Jacobian is zero on the entire orbit, including after the coherence has fully decayed.
+**N=5 example: GHZ.** GHZ_5 = (|00000⟩ + |11111⟩) / √2. Both |0⟩⁵ and |1⟩⁵ are H-eigenstates (under both Heisenberg and XY-only) and the only two basis states reachable from them under uniform Z-dephasing: the only off-diagonal coherence in the GHZ density matrix is |0⟩⁵⟨1|⁵ + h.c., which decays at rate 2γN to the diagonal mixture (1/2)(|0⟩⁵⟨0|⁵ + |1⟩⁵⟨1|⁵). The four-dimensional operator block V = span{|0⟩⁵⟨0|⁵, |1⟩⁵⟨1|⁵, |0⟩⁵⟨1|⁵, |1⟩⁵⟨0|⁵}, induced by a two-dimensional Hilbert subspace, is closed under L_D, and within V the H-eigenvalue is constant (degenerate at 0 for XY-only; degenerate at N-1 for Heisenberg). J-Jacobian is zero on the entire orbit, including after the coherence has fully decayed.
 
 **Connection to existing repo characterisations of GHZ.** GHZ is documented under several lenses elsewhere in the repo:
 
-- **[XOR space](XOR_SPACE.md):** GHZ projects 100% onto the XOR-drain modes (Pauli strings with X or Y at every site simultaneously, Hamming distance N between the supports |0⟩⁵ and |1⟩⁵). These modes sit at the maximum decay rate 2Σγ. GHZ coherence dies maximally fast.
+- **[XOR space](XOR_SPACE.md):** the GHZ off-diagonal operators connect
+  supports at Hamming distance N and receive the maximal dissipative charge
+  `2Σγ`. The former `100%` right-eigenvector-coordinate reading is not a state
+  probability.
 - **[F60](../docs/ANALYTICAL_FORMULAS.md):** GHZ_N is born below the fold, CΨ(0) = 1/(2^N - 1) for all N ≥ 2.
 - **[GHZ + W sector mix](GHZ_W_SECTOR_MIX.md) (F69):** at N=3, sector-mixing GHZ with W lifts pair-CΨ above 1/4 via an irreducible sextic optimum.
-- **Main README Section 6 Rule 1:** GHZ as the prototype fragile state to avoid in any quantum-channel encoding.
+- **Main README Section 6 Rule 1:** compare encodings with an operational
+  preparation, observable, and time window.
 
-All four describe DECAY behaviour of GHZ: how its coherence dies, where it sits relative to CΨ = 1/4, what happens when mixed with another sector. The Class 2 J-blindness reading is about a different observable: the **response of the trajectory to bond-J perturbations**. GHZ decays maximally fast (XOR_SPACE) AND its decay is J-independent (Class 2). The two statements are about different derivatives of the same trajectory: the decay rate is non-zero (∂/∂t big), but ∂/∂J of every observable along the trajectory is zero.
+These descriptions address distinct quantities. F22 fixes the dissipative
+charge of the GHZ coherence operator; the Class 2 J-blindness reading concerns
+the response of the stated trajectory to bond-J perturbations. Neither turns
+the retired eigenvector coordinates into a full-state decay ranking.
 
 **H-eigenvalue dependence.** Class 2 in itself is H-independent in the structural sense: the existence of a finite-dim H-degenerate L_D-closed block is the load-bearing property, and GHZ has such a block under both Heisenberg and XY-only. The actual eigenvalue differs (N-1 for Heisenberg, 0 for XY-only); the block structure does not. A formal version of Class 2 should state the structural condition without naming the eigenvalue. This is the GHZ-block nuance: the block exists under both H, the eigenvalue inside the block depends on H choice, and J-blindness follows from the block's existence not from any specific eigenvalue.
 
-**Other potential Class 2 members at N=5.** Any state in span{|0⟩⁵, |1⟩⁵} (real or complex superpositions, plus their density-matrix mixtures within the 2-dim block). Whether other H-eigen-blocks with the L_D-closure property exist is open and worth checking directly. A cautionary note about Dicke states: under Heisenberg, the entire S=N/2 multiplet {|S_0⟩, ..., |S_N⟩} shares the H-eigenvalue N-1 because σ_i · σ_j = 1 on any triplet-paired pair at each bond. So the multiplet IS H-degenerate under Heisenberg. However, L_D does NOT preserve the multiplet: σ_z^k|S_1⟩ = |S_1⟩ - (2/√N)|δ_k⟩, and |δ_k⟩ has components outside the symmetric S=N/2 subspace (in non-symmetric irreps). Hence the Dicke multiplet fails the L_D-closure condition of Class 2, and Dicke J-blindness under Heisenberg is via Class 3 (M_x-polynomial), not Class 2.
+**Other potential Class 2 members at N=5.** Any state in span{|0⟩⁵, |1⟩⁵} (real or complex superpositions, plus their density-matrix mixtures within the four-dimensional operator block induced by this two-dimensional Hilbert subspace). Whether other H-eigen-blocks with the L_D-closure property exist is open and worth checking directly. A cautionary note about Dicke states: under Heisenberg, the entire S=N/2 multiplet {|S_0⟩, ..., |S_N⟩} shares the H-eigenvalue N-1 because σ_i · σ_j = 1 on any triplet-paired pair at each bond. So the multiplet IS H-degenerate under Heisenberg. However, L_D does NOT preserve the multiplet: σ_z^k|S_1⟩ = |S_1⟩ - (2/√N)|δ_k⟩, and |δ_k⟩ has components outside the symmetric S=N/2 subspace (in non-symmetric irreps). Hence the Dicke multiplet fails the L_D-closure condition of Class 2, and Dicke J-blindness under Heisenberg is via Class 3 (M_x-polynomial), not Class 2.
 
 ## Class 3: M_α-polynomial subspace
 
@@ -83,7 +94,7 @@ All four describe DECAY behaviour of GHZ: how its coherence dies, where it sits 
 The classes are organising labels, not a partition. Concrete overlaps at N=5:
 
 - **|0⟩⁵, |1⟩⁵.** In Class 1 (both DFS and per-bond-eigen conditions hold under both Heisenberg and XY), Class 2 (their pair forms a 2-dim H-degenerate block under both H), and Class 3 (M_z-polynomial under Heisenberg).
-- **GHZ.** In Class 2 (the 2-dim block via |0⟩⁵ and |1⟩⁵). Partially in Class 3 under Heisenberg (the diagonal mixture (1/2)(|0⟩⁵⟨0|⁵ + |1⟩⁵⟨1|⁵) is M_z-polynomial; the off-diagonal coherence |0⟩⁵⟨1|⁵ is not, so GHZ as a pure state is not strictly M_z-polynomial). Not in Class 1 because L_D acts non-trivially on the off-diagonal coherence.
+- **GHZ.** In Class 2 (the four-dimensional operator block induced by the two-dimensional Hilbert span of |0⟩⁵ and |1⟩⁵). Partially in Class 3 under Heisenberg (the diagonal mixture (1/2)(|0⟩⁵⟨0|⁵ + |1⟩⁵⟨1|⁵) is M_z-polynomial; the off-diagonal coherence |0⟩⁵⟨1|⁵ is not, so GHZ as a pure state is not strictly M_z-polynomial). Not in Class 1 because L_D acts non-trivially on the off-diagonal coherence.
 - **|+⟩⁵.** Only in Class 3 under Heisenberg. Not in Class 1 (L_D dephases the X-basis non-trivially; condition (i) fails). Not in Class 2 (|+⟩⁵ sits inside the (N+1)-dim S=N/2 multiplet, which IS H-degenerate under Heisenberg with eigenvalue N-1, but this larger block is not L_D-closed: σ_z^k|+⟩⁵ has components outside the symmetric subspace).
 - **Dicke |S_k⟩.** Only in Class 3 under Heisenberg. Not in Class 2 (the S=N/2 multiplet is H-degenerate under Heisenberg with common eigenvalue N-1, BUT not L_D-closed: σ_z^k|S_1⟩ has components in non-symmetric irreps outside the Dicke multiplet).
 

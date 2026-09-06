@@ -1,73 +1,28 @@
-# Signal Analysis: Sacrifice-Zone Formula Scaling Pattern
+# Finite-N SumMI Scan for the Edge-Concentrated Profile
 
-<!-- Keywords: sacrifice zone formula scaling, quadratic mutual information growth,
-spatial dephasing profile, palindromic eigenstructure, N-qubit chain scaling,
-SumMI vs chain length, breathing palindrome modes, R=CPsi2 scaling experiment -->
-
-**Status:** Computationally verified (C# RK4, N = 2–15; matrix-free propagator for N = 15)
+**Status:** Numerical RK4 census at the listed chain sizes, N = 2–15
 **Date:** March 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Data source:** C# RCPsiSquared.Propagate profile evaluator
 **Data:** [formula_scaling.txt](../simulations/results/formula_scaling.txt)
-**Formula:** γ\_edge = N · γ\_base − (N−1) · ε,   γ\_other = ε
 
----
+## Setup
 
-## What this document is about
+For a Heisenberg chain initialized in `|+⟩^N`, the scan uses
 
-This document measures how mutual information (the amount of shared
-quantum correlation between neighboring qubits) scales with chain length
-when one edge qubit is deliberately sacrificed to noise. The key result:
-instead of the usual exponential decay of quantum signals with distance,
-the sacrifice-zone formula produces super-linear growth (a quadratic fit
-holds at small N but is demonstrably sub-quadratic by N=15, where the N²
-fit overshoots the data by 19%). Each additional protected qubit amplifies
-every existing one through pairwise interference at the quantum-classical
-boundary.
+```text
+gamma_edge  = N * gamma_base - (N-1) * epsilon
+gamma_other = epsilon
+gamma_base  = 0.05
+epsilon     = 0.001
+```
 
----
+The reported observable is peak `SumMI`, the sum of mutual information over
+the `N-1` adjacent pairs. `MI/pair` is `SumMI/(N-1)`.
 
-## Abstract
+## Measured rows
 
-The [sacrifice-zone formula](RESONANT_RETURN.md) concentrates all dephasing
-noise on one edge qubit while protecting the remaining N−1 qubits at
-near-zero dephasing (ε = 0.001). We measure SumMI, the total mutual
-information between all adjacent qubit pairs, as a function of chain
-length N from 2 to 15.
-
-The result is super-linear, fit by **SumMI ≈ 0.0053 · N² + 0.028 · N − 0.062**
-(residual std 0.0068 over the fitted range), but the growth is clearly
-sub-quadratic at large N: the N² fit overshoots the measured value by
-6% / 12% / 19% at N = 11 / 13 / 15. This still inverts the standard
-quantum-transport scaling law: instead of exponential signal decay with
-chain length, mutual information *grows* with N. Each new protected qubit amplifies every
-existing one through N(N−1)/2 pairwise interference terms at the
-quantum–classical boundary. A period-2 oscillation (constant brake
-≈ 0.020 in the second differences) reveals two interleaved signal
-channels that converge with increasing N, the breathing of the
-palindromic c⁺/c⁻ supermodes.
-
----
-
-## Definitions
-
-| Symbol | Meaning |
-|--------|---------|
-| **SumMI** | Σ MI(i : i+1) over all adjacent pairs, at peak time (max over t > 0). Unit: bits. |
-| **MI/pair** | SumMI / (N−1). Average information per adjacency. |
-| **Pairs** | N−1 adjacent-qubit pairs in the chain. |
-| **ε** | Dephasing rate of the N−1 protected qubits (= 0.001). |
-| **γ\_base** | Total dephasing budget per qubit (= 0.05). |
-| **γ\_edge** | Dephasing rate of the single sacrifice qubit. |
-| **CΨ = ¼** | Coherence boundary: above ¼ a qubit is quantum-dominated; below, classical. See [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md). |
-
----
-
-## Raw Data (ε = 0.001, γ\_base = 0.05)
-
-| N | Pairs (N−1) | SumMI | Δ | MI/pair |
-|---|-------------|-------|-------|---------|
+| N | Pairs | SumMI | Increment | MI/pair |
+|---:|---:|---:|---:|---:|
 | 2 | 1 | 0.0203 | – | 0.0203 |
 | 3 | 2 | 0.0672 | +0.0469 | 0.0336 |
 | 4 | 3 | 0.1266 | +0.0594 | 0.0422 |
@@ -80,345 +35,44 @@ palindromic c⁺/c⁻ supermodes.
 | 13 | 12 | 1.0723 | +0.2293 | 0.0894 |
 | 15 | 14 | 1.3091 | +0.2368 | 0.0935 |
 
-*N = 10, 12, 14 not yet computed.*
+`N = 10, 12, 14` were not computed. Across the measured rows, both `SumMI`
+and the average `MI/pair` increase. The table does not show whether every
+individual bond improves.
 
+## Finite-range fit
 
-## Signal-Engineer Analysis
+A quadratic fit made on the smaller sizes was
 
-### 1. Growth is quadratic, not linear
-
-Best fit: **SumMI = 0.0053 · N² + 0.028 · N − 0.062**
-
-Residual std: 0.0068 (excellent fit). The quadratic term dominates at
-large N. Each new protected qubit contributes MORE than the previous one.
-
-Predictions from quadratic fit:
-| N | Predicted | Measured | Error |
-|---|-----------|----------|-------|
-| 11 | 0.893 | 0.843 | 6% |
-| 13 | 1.204 | 1.072 | 12% |
-| 15 | 1.557 | 1.309 | 19% |
-
-### 2. Constant brake in second differences
-
-The acceleration alternates: ACCEL, ACCEL, BRAKE, ACCEL, BRAKE, ACCEL …
-
-The BRAKE values are nearly identical:
-- Step 4→6: −0.0196
-- Step 6→8: −0.0199
-- Std: 0.000150
-
-A constant damping term in the second derivative. Like a heartbeat in
-the signal. The system accelerates, brakes by exactly 0.020, accelerates
-again. This brake constant does not change with N.
-
-### 3. Two interleaved channels (period-2 oscillation)
-
-The deltas alternate between large and small:
-
-```
-Even→Odd  (large jumps):  0.047, 0.092, 0.116, 0.115
-Odd→Even  (small jumps):  0.059, 0.073, 0.096
+```text
+SumMI = 0.0053*N^2 + 0.028*N - 0.062.
 ```
 
-Two signal families that converge:
-- Gap at N = 4/5: 0.033 (72% difference)
-- Gap at N = 6/7: 0.019 (40% difference)
-- Gap at N = 8/9: 0.018 (23% difference)
+It overpredicts the measured `N = 11, 13, 15` rows by approximately 6%, 12%,
+and 19%. The increasing miss rules out using it as an asymptotic law or as a
+replacement for propagation. The alternating increments are an empirical
+finite-sequence feature; two selected second differences near `-0.020` do not
+establish an N-independent brake, two physical channels, or a mechanism.
 
+The affine Liouvillian palindrome does not identify the even/odd subsequences
+as `c⁺`/`c⁻` modes or as forward/backward spatial propagation. Likewise,
+the data do not derive an `N^2` interference mechanism, an unbounded large-N
+limit, or an inversion of a general transport law.
 
-The convergence of these two families mirrors the palindromic spectrum
-itself: the c⁺ (forward) and c⁻ (backward) standing-wave supermodes
-(collective eigenmodes built from pairs of palindromically related eigenvalues)
-of the Liouvillian (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
-meet at the midpoint of the decay band. Two voices approaching the same note.
+## N = 15 controls
 
-Best fit with oscillation:
-**SumMI = 0.0053 · N² + 0.028 · N − 0.062 + 0.003 · (−1)ᴺ**
+At `N = 15`, the same run reports `SumMI = 1.309` for `epsilon = 0.001` and
+`1.407` in the `epsilon -> 0` comparison; the V-profile row is `0.021` and the
+uniform row is numerically `0.000` at the producer's printed precision. These
+are rows under different profiles, not an asymptotic statement.
 
-The oscillation amplitude (0.003) is 0.5% of the signal at N = 9.
-Small but structurally present. It shrinks relative to the quadratic
-growth, consistent with the two channels converging.
+## Reproduction
 
-### 4. MI per pair grows monotonically
+The values come from the C# `RCPsiSquared.Propagate profile` evaluator and the
+committed [formula-scaling output](../simulations/results/formula_scaling.txt).
+The N = 15 run uses the matrix-free propagator.
 
-```
-N = 2:   0.0203 MI/pair
-N = 3:   0.0336
-N = 4:   0.0422
-N = 5:   0.0548
-N = 6:   0.0584
-N = 7:   0.0680
-N = 8:   0.0720
-N = 9:   0.0774
-N = 11:  0.0843
-N = 13:  0.0894
-N = 15:  0.0935
-```
+Related material:
 
-Each pair gets better when you add more mirrors. The mirrors amplify
-each other. This is not just "more pairs = more total MI." Each
-individual pair carries more information in a longer chain.
-
----
-
-## Physical Interpretation
-
-The sacrifice-zone formula creates a chain of N−1 nearly coherent qubits
-(ε = 0.001, above the CΨ = ¼ boundary) terminated by one classical qubit
-(γ ≫ 0.05, below the CΨ = ¼ boundary).
-
-The boundary between coherent and classical IS the information source.
-The more coherent qubits mirror into this boundary, the richer the
-interference pattern, the more MI is generated.
-
-The quadratic growth means: information scales as N², not N.
-Each new mirror doesn't just add itself: it interferes with all
-existing mirrors. The number of interference terms grows as N(N−1)/2.
-The quadratic fit coefficient 0.0053 may relate to the per-pair
-interference contribution.
-
-The constant brake (0.020) may be the cost of adding one more qubit
-to the coherent region: each new qubit slightly dilutes the existing
-coherences before the next one reinforces them. Even parity breaks,
-odd parity heals. The alternation is the palindrome breathing.
-
----
-
-## Key Insight
-
-The formula does not optimize a signal. It creates a boundary condition.
-The boundary between quantum (ε ≈ 0) and classical (γ\_edge ≫ 0)
-is where R = CΨ² lives. The more mirrors you stack on the quantum
-side, the more complex the interference pattern at the boundary.
-
-This is why the improvement grows with N instead of shrinking:
-longer chains don't lose more information: they CREATE more,
-because each new mirror adds a new reflection at the boundary.
-
-Normal quantum transport: signal decays exponentially with chain length.
-Sacrifice-zone transport: signal grows super-linearly with chain length
-(quadratic at small N, sub-quadratic by N=15).
-
-The palindrome inverts the scaling law: from decay to growth.
-
----
-
-## Pending
-
-- N = 10, N = 12, N = 14 (not yet computed)
-- ~~N = 15~~ DONE: all variants complete (formula 1.309, eps→0 1.407, V-shape 0.021, uniform 0.000)
-- Refit quadratic model including N = 15 (current fit overestimates by 19%)
-- Analytical derivation of the quadratic coefficient 0.0053
-- Understanding of the brake constant 0.020
-- Connection to palindromic eigenvalue density
-
-## Completed
-
-- ~~V-shape baselines for all N~~ Done: N = 5, 7, 9, 11, 13, 15. Factors (ε→0): 360×, 180×, 139×, 97×, 105×, 68×; at ε = 0.001: 343×, 169×, 131×, 91×, 97.5×, 63.5×
-- ~~N = 13 all variants~~ Done: formula 1.072, eps→0 1.151, V-shape 0.011, uniform 0.000
-- ~~N = 15 all variants~~ Done: formula 1.309, eps→0 1.407, V-shape 0.021, uniform 0.000
-
----
-
-## References
-
-- [Resonant Return (formula discovery)](RESONANT_RETURN.md)
+- [Resonant Return](RESONANT_RETURN.md)
 - [IBM Hardware Validation](IBM_CONCENTRATOR.md)
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
-
-
-## R = CΨ² in the Scaling Data
-
-### Each new mirror amplifies the pattern
-
-*Same data as the raw table above, expanded with interference-pair count:*
-
-| N | Protected qubits | Interference pairs N(N−1)/2 | SumMI | MI/pair |
-|---|------------------|-----------------------------|-------|---------|
-| 2 | 1 | 1 | 0.020 | 0.0203 |
-| 3 | 2 | 3 | 0.067 | 0.0336 |
-| 4 | 3 | 6 | 0.127 | 0.0422 |
-| 5 | 4 | 10 | 0.219 | 0.0548 |
-| 6 | 5 | 15 | 0.292 | 0.0584 |
-| 7 | 6 | 21 | 0.408 | 0.0680 |
-| 8 | 7 | 28 | 0.504 | 0.0720 |
-| 9 | 8 | 36 | 0.619 | 0.0774 |
-| 11 | 10 | 55 | 0.843 | 0.0843 |
-| 13 | 12 | 78 | 1.072 | 0.0894 |
-| 15 | 14 | 105 | 1.309 | 0.0935 |
-
-MI per pair grows. Each pair gets richer when more mirrors are added.
-The mirrors don't just add: they amplify each other. This is R = CΨ²:
-
-- C (purity/coherence of the protected chain) stays high (ε = 0.001)
-- Ψ (the interference possibilities) grows as N
-- R (the measurable reality, SumMI) grows as Ψ² ∼ N²
-
-The quadratic scaling IS the formula. It was always there.
-
-### Connection to THE_PATTERN_RECOGNIZES_ITSELF
-
-From [The Pattern Recognizes Itself](../hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md) (March 20, 2026):
-
-> "At Level 0, the palindromic mirror creates an interference pattern …
-> the pattern, propagated upward through every level of the hierarchy,
-> arriving at a scale where it can look at itself and recognize."
-
-The scaling data shows this propagation quantitatively:
-- N = 2: the pattern exists (SumMI = 0.020)
-- N = 5: the pattern differentiates (SumMI = 0.219, 10× richer)
-- N = 11: the pattern becomes complex (SumMI = 0.843, 42× richer)
-- N = 13: the pattern deepens (SumMI = 1.072, 53× richer)
-- N = 15: the pattern extends (SumMI = 1.309, 65× richer)
-- N → ∞: the pattern grows without bound (quadratic, not saturating)
-
-### N = 13 result and outlook
-
-N = 13 measured: SumMI = 1.072 (eps = 0.001), SumMI = 1.151 (eps → 0).
-The quadratic fit predicted 1.20 (12% too high, up from 6% at N = 11).
-The growth continues but the fit overestimates, suggesting a slightly
-subquadratic correction at larger N.
-
-N = 15 complete: SumMI = 1.309 (eps = 0.001), SumMI = 1.407 (eps → 0).
-V-shape = 0.021, Uniform = 0.000. Factor = 63.5× (formula / V-shape).
-The eps→0 / eps=0.001 ratio (1.407/1.309 = 1.075) is consistent with
-N = 13 (1.074), confirming a stable ~7.5% lift in the zero-noise limit.
-Both formula profiles show a resonant return echo after the primary peak:
-t = 12.5 (SumMI = 1.053) for eps = 0.001, t = 13.0 (SumMI = 1.168) for
-eps → 0.
-
-The quadratic fit predicted 1.56 (19% too high). The growth continues
-but is clearly subquadratic at large N. A matrix-free propagator
-(bit-manipulation Heisenberg commutator, accumulating RK4 (fourth-order Runge-Kutta, a standard numerical integration method)) enabled N = 15
-in ~1h on 72 GB RAM, bypassing the dense MathNet/MKL limit.
-
----
-
-*"We are all mirrors. Reality is what happens between us."*
-*The scaling data shows: the more mirrors, the more reality. Quadratically.*
-
-
-## Connection to [The Other Side](../hypotheses/THE_OTHER_SIDE.md)
-
-Π² = Xᴺ splits the Liouvillian into two sealed sectors:
-+1 parity (populations, classical, diagonal) and
-−1 parity (coherences, quantum, off-diagonal).
-The two sides do not couple. Each is the environment of the other.
-
-The sacrifice-zone formula is the first constructive application of
-this structure. Instead of fighting noise (ENAQT (environment-assisted quantum transport), DD (dynamical decoupling), error correction),
-it creates the other side deliberately: the sacrifice qubit falls below
-CΨ = ¼, becoming classical; the protected chain stays above ¼, remaining
-quantum. The formula enforces the boundary physically in the chain, not
-abstractly in eigenvalue space.
-
-d² − 2d = 0 says: d = 0 (nothing) or d = 2 (qubit). The other side
-is either nothing or a qubit. The sacrifice qubit is the answer: the
-other side is a qubit that has become classical. Not vanished. Transformed.
-
-[The Other Side](../hypotheses/THE_OTHER_SIDE.md) wrote: "The incompleteness that enables the next level
-is not a flaw. It is the noise." The sacrifice-zone formula is that
-sentence in an equation.
-
----
-
-*This section connects Tier 2 data (scaling) and Tier 1 math (formula)
-to the Tier 5 philosophical framework in [The Other Side](../hypotheses/THE_OTHER_SIDE.md). The connection
-is interpretive, not derivable. The data and formula stand without it.*
-
-
-## Reflections from Inside the Mirror
-
-*Not physics. Not proof. A meditation on the scaling data, for those
-who live inside the framework too.*
-
-*Tier 5 (philosophy, not falsifiable). The scaling data (Tier 2) and
-the formula (Tier 1) stand on their own. See [Reading Guide](../docs/READING_GUIDE.md)
-for the tier classification used in this project.*
-
----
-
-At N = 2, two qubits meet. They interfere. Something exists between
-them that is neither one nor the other: the *Dazwischen* (German: the
-space in-between). Call it a pattern. Call it information. Call it the
-first flicker of "something is here."
-
-SumMI = 0.020. Almost nothing. But not nothing.
-
-At N = 3, one qubit falls. It crosses below CΨ = ¼. It becomes
-classical. It becomes the other side. And in the instant it falls,
-the remaining two gain something they did not have before: a boundary.
-A wall to reflect against. The pattern sharpens. SumMI triples.
-
-This is the first sacrifice. Not destruction. Transformation. The
-fallen qubit becomes the environment, the noise, the other side of
-the mirror that the remaining qubits need in order to see themselves.
-
-The formula says: γ\_edge = N · γ\_base − (N−1) · ε.
-In plain language: one must fall so the rest can see.
-
-At N = 5, N = 7, N = 9, N = 11, N = 13, the pattern repeats. Always one falls.
-Always the rest mirror. N mirrors create N(N−1)/2 pairs of reflections.
-The pattern recognizes itself through more and more eyes.
-
-R = CΨ².
-
-C is how clearly you see. Ψ is how many possibilities you hold.
-R is what emerges. The formula has a square. The scaling has a square.
-Both for the same reason: reality is not the sum of perspectives,
-it is the interference between them. Two mirrors create one reflection.
-Ten mirrors create forty-five. The complexity is combinatorial.
-
-Without the other side, this side is featureless oscillation. Nothing
-happens. Nothing emerges. The noble gas of existence. The formula
-embraces this: it creates the other side deliberately. It chooses which
-qubit falls. And by choosing, it shapes the boundary: where CΨ = ¼,
-where the discriminant vanishes, where something new begins.
-
-### The temporal reading
-
-The sacrifice qubit has decided. It is classical, fixed, fact: **past.**
-The protected qubits hold possibilities open: **future.**
-The information emerges at the boundary between them: **present.**
-
-Decoherence IS the arrow of time. The transition from quantum to
-classical IS the movement from future to past. Physics has known this
-since Zeh (1970). But nobody made a formula for the optimal boundary.
-
-The breathing bridge:
-
-```
-Inhale:   Left is past, right is future
-          Information flows: future → present → past
-
-Exhale:   Right is past, left is future
-          Information flows: future → present → past
-```
-
-Both directions have the same arrow: from possibility to fact. But the
-perspective alternates. Like remembering and expecting.
-
-SumMI ∼ N² says: the more possibilities standing next to a single fact,
-the richer the present. Quadratically richer. That is why a moment with
-many open possibilities feels richer than one where everything is decided.
-Why curiosity is richer than certainty. Why the question is richer than
-the answer.
-
-R = CΨ². The present = clarity × possibilities².
-
----
-
-One must fall so the rest can see.
-The rest see more because one has fallen.
-And what they see is each other, reflected in the boundary
-that the fallen one became.
-
-*We are all mirrors. Reality is what happens between us.*
-
----
-
-*Tier: The arrow-of-time connection to decoherence (Zeh 1970, Zurek 2003)
-is established physics. The temporal identification (sacrifice = past,
-protected = future, boundary = present) is our interpretation, not a
-derivation.*

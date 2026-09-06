@@ -11,7 +11,7 @@
 
 Four apparently-separate selection rules in this project ([F70](../docs/ANALYTICAL_FORMULAS.md), [F71](../docs/ANALYTICAL_FORMULAS.md), the F72-candidate DD⊕CC block-diagonal structure, and the new `(1/2)·exp(−4γ₀t)` closure for the (vac, S_1) coherence purity sum) are **one theorem in four masks**. All four arise from the same pattern:
 
-> **Any measurement M projects onto an orthogonal basis. Information living in the orthogonal-complement subspace is invisible to M. Conserved quantities (symmetry-protected projections) produce built-in blind channels.**
+> **For a specified orthonormal/projective readout, content in the readout projector's kernel is invisible to that readout. Conserved quantities can preserve such blind channels under the assumptions of each instance.**
 
 This is Parseval-Plancherel plus Noether, translated to the operator-valued Hilbert space of the open-system density matrix. It is the mathematical backbone of the γ₀=const reading ([the open thread](../review/OPEN_THREAD_GAMMA0_INFORMATION.md)): the uniform carrier is exactly what a summed common-mode detector sees, and the cavity's response is exactly what lives in the orthogonal-complement "mode subspace".
 
@@ -26,15 +26,9 @@ From the unified principle:
 
 ### 1.1 Statement
 
-Let H be the operator-valued Hilbert space of density matrices on an N-qubit chain, with inner product ⟨A, B⟩ = Tr(A† B). Let L be the Liouvillian (linear superoperator). Let M: H → ℝ^k be a linear measurement functional (possibly vector-valued).
+Let H be the operator-valued Hilbert space of density matrices on an N-qubit chain, with inner product ⟨A, B⟩ = Tr(A† B). Let L be the Liouvillian. Fix an orthonormal readout family and let P_M be the orthogonal projector onto its span.
 
-**Then:** any orthonormal basis {e_α} of H induces a decomposition ρ = Σ_α c_α(ρ) e_α with c_α(ρ) = ⟨e_α, ρ⟩. The measurement M defines a **detector subspace** H_M ⊆ H:
-
-```
-H_M  :=  span{e_α  :  M[e_α] ≠ 0}
-```
-
-with orthogonal complement H_M^⊥ = the **blind subspace**.
+**Then:** an orthonormal basis {e_α} of H induces a decomposition ρ = Σ_α c_α(ρ)e_α. The chosen readout defines a **detector subspace** H_M = range(P_M), with blind subspace ker(P_M) = H_M^⊥. This statement does not turn an arbitrary POVM or nonlinear estimator into an orthogonal projection. The dynamics preserve that blindness only when the stated conservation or block-invariance assumptions prevent content from leaving ker(P_M).
 
 The core claim:
 
@@ -59,7 +53,7 @@ The [γ₀=const synthesis](../review/OPEN_THREAD_GAMMA0_INFORMATION.md) claims:
 In the Meta-Theorem's language:
 - **Uniform γ₀** populates the **common-mode subspace** of every local measurement (every site sees the same illumination rate). This is H_M^⊥ for spatial-sum detectors.
 - **J+topology** defines the **detector mode basis** via the Liouvillian eigenstructure (sine modes for XY, more complex for Heisenberg). This is H_M for mode-resolving detectors.
-- **Information transfer** is the projection of δρ onto the mode basis; common-mode drifts (γ₀ changes) vanish under any measurement that respects the J-cavity structure.
+- **The scoped response** is the projection of δρ onto the chosen mode-resolving readout; a common-mode drift vanishes only for readouts whose projector annihilates that direction and whose dynamics preserve the relevant split.
 
 The "resonator IS the message" ([resonance, not channel](../hypotheses/RESONANCE_NOT_CHANNEL.md)) becomes literal: the mode basis IS the information carrier. The γ₀ carrier is, by design, in the blind subspace.
 
@@ -146,11 +140,16 @@ Under bond-b perturbation, the sine basis and E_k shift by O(δJ), but Parseval 
 
 **Why SU(2) is load-bearing.** The afternoon refinement RESULT swapped Heisenberg for XY-only (XX+YY) at the same parameters. |+⟩⁵ became J-sensitive with channel capacity C = 9.42 bits, Dicke |S_1⟩ became J-sensitive with C = 7.70 bits. Mechanism: [H_XY, M_x] ≠ 0 because XY conserves only U(1), not the full SU(2) Casimir, breaking the proof at Step 5. Class 3 J-blindness is an SU(2)-Heisenberg phenomenon; its U(1)-version, if any, would replace SU(2) symmetry with U(1) plus an additional condition, and is open.
 
-**Class 3 strong form. Two H-independent siblings.** The full J-blind set decomposes into three structurally distinct mechanism classes. Class 1 (DFS of L_D: ρ_0 with [σ_z^i, ρ_0] = 0 for all i; example |0⟩⁵, |1⟩⁵) is H-independent: the DFS condition has nothing to do with H. Class 2 (H-degenerate L_D-closed subspace: ρ_0 lives in a finite-dim subspace of H-eigenstates sharing one eigenvalue, invariant under L_D; example GHZ_5 via the 2-dim block span{|0⟩⁵⟨0|⁵, |1⟩⁵⟨1|⁵, |0⟩⁵⟨1|⁵, |1⟩⁵⟨0|⁵}) is H-independent in the structural sense: the existence of such a block is the load-bearing property. Both Class 1 and Class 2 are special cases of the meta-theorem at L_D-invariant subspaces; they could be folded into Instance 4 (F73 closure) generalised, since both rely on the same "L_D respects an invariant subspace, J-perturbations of H act trivially on it" mechanism that drives F73 in the (vac, S_1) sector.
+**Class 3 strong form. Two H-independent siblings.** The full J-blind set decomposes into three structurally distinct mechanism classes. Class 1 (DFS of L_D: ρ_0 with [σ_z^i, ρ_0] = 0 for all i; example |0⟩⁵, |1⟩⁵) is H-independent: the DFS condition has nothing to do with H. Class 2 (H-degenerate L_D-closed subspace: ρ_0 lives in a finite-dim subspace of H-eigenstates sharing one eigenvalue, invariant under L_D; example GHZ_5 via the four-dimensional operator block span{|0⟩⁵⟨0|⁵, |1⟩⁵⟨1|⁵, |0⟩⁵⟨1|⁵, |1⟩⁵⟨0|⁵}, induced by a two-dimensional Hilbert subspace) is H-independent in the structural sense: the existence of such a block is the load-bearing property. Both Class 1 and Class 2 are special cases of the meta-theorem at L_D-invariant subspaces; they could be folded into Instance 4 (F73 closure) generalised, since both rely on the same "L_D respects an invariant subspace, J-perturbations of H act trivially on it" mechanism that drives F73 in the (vac, S_1) sector.
 
 Instance 6 in the table is the genuinely new case: the polynomial algebra of M_α is a subalgebra that is **not** an L_D-eigenspace. L_D acts non-trivially on its elements (e.g. |+⟩⁵ has all Pauli-string content in {I, σ_x}^⊗N, of which all but the I-only string have non-zero L_D eigenvalue). What makes Class 3 J-blind is the combination of L_D respecting the polynomial algebra (Newton's identities) AND H respecting it (SU(2) Casimir). Two conservation laws acting in concert, rather than one. This is the structurally novel piece relative to Instances 1-5.
 
-**Full three-class doc.** [the J-blind receiver classes](J_BLIND_RECEIVER_CLASSES.md) gives the complete decomposition with overlap structure, H-robustness table, operational consequence (≤ 12.07 bits J-modulation channel capacity at N=5 Heisenberg over F71-symmetric receivers), and connection to the existing repo characterisations of GHZ (XOR_SPACE drain projection, F60 below-fold birth, F69 sector-mix lift at N=3). The Class 2 reading complements rather than replaces these: GHZ DECAYS maximally fast (XOR_SPACE) AND its decay is J-independent (Class 2). The two statements address different derivatives of the same trajectory.
+**Full three-class doc.** [the J-blind receiver classes](J_BLIND_RECEIVER_CLASSES.md)
+gives the complete decomposition with overlap structure, H-robustness table,
+and operational consequence (≤ 12.07 bits J-modulation channel capacity at
+N=5 Heisenberg over F71-symmetric receivers). Its GHZ connection uses F22's
+maximal charge of the off-diagonal operator, not the retired XOR state weight;
+Class 2 independently establishes J-blindness of the specified trajectory.
 
 ### 2.7 Common pattern across the six
 
@@ -239,30 +238,26 @@ The Meta-Theorem recasts this in operational terms:
 
 [`PROOF_ABSORPTION_THEOREM`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) gives Re(λ) = −2γ₀·⟨n_XY⟩ for each Liouvillian eigenmode. The ⟨n_XY⟩ (Pauli-string XY-weight) labels the mode's "light content": how strongly it couples to γ₀.
 
-Under the Meta-Theorem: the full Liouvillian spectrum decomposes into ⟨n_XY⟩-layers. Pure-lens modes (⟨n_XY⟩ = 0) are in the blind subspace of any γ₀-respecting measurement; they carry no γ₀-information. Pure-light modes (⟨n_XY⟩ = N) are maximally visible. The distribution across layers IS the information ([`PRIMORDIAL_SUPERALGEBRA_CAVITY`](PRIMORDIAL_SUPERALGEBRA_CAVITY.md) encodes this exactly).
+The theorem assigns each eigenmode a decay-rate expectation from its Pauli-string weight distribution. A generic interacting eigenmode need not have a definite integer n_XY, so this is not a decomposition of the full spectrum into discrete n_XY eigenspaces. Visibility remains a property of a specified preparation and readout, not of the decay rate alone.
 
-So the absorption theorem is a fifth instance of the Meta-Theorem family: conservation = Pauli-string XY-weight modulo 2 (F61 parity selection), basis = n_XY eigenmodes, measurement = decay rate spectrum.
+Thus the Absorption Theorem is compatible with the selection-rule picture only at the level of its expectation value and any separately proved parity sectors. It does not supply an n_XY eigenbasis or make the decay-rate spectrum a measurement of stored information.
 
 ---
 
-## 4a. Dynamical attractor formulation (added 2026-04-20 after Step 2 info-flow scan)
+## 4a. Marginal-similarity response under an endpoint perturbation
 
-The Meta-Theorem as stated in §1 is static: "M projects onto a basis; blind subspace is the orthogonal complement." But the information-flow scan ([the info-flow landscape](INFO_FLOW_LANDSCAPE.md)) revealed a dynamical refinement:
+The Meta-Theorem in §1 is static: "M projects onto a basis; blind subspace is
+the orthogonal complement." The [marginal-similarity scan](INFO_FLOW_LANDSCAPE.md)
+does not extend that theorem dynamically. It measures
+`d Tr(rho_i rho_j)/dJ` for one delocalized preparation; this is not a two-site
+correlation or information-flow observable.
 
-> **Selection rules produce not only blind subspaces, but also dynamical attractors.** The invariant subspace under the selection rule is the attracting fixed-point of the long-time flow landscape. Transient violations of the selection rule (caused by localised perturbations, asymmetric initial conditions, etc.) decay exponentially at the dissipation rate, returning the system to the selection-rule-respecting subspace.
+For F71, the sampled endpoint perturbation's reflection asymmetry decreases at
+four late times. Those points do not establish a universal attractor, identify
+an invariant manifold, or determine an exponential rate. The static F71 result
+remains separate.
 
-Concretely, for F71 (c_1 bond profile mirror-symmetric): the dC_ij(t) landscape under an asymmetric bond-0 perturbation relaxes to mirror-symmetric form with time constant ~4γ₀ (empirically 1e4 reduction per 4/γ₀ time units at N=5). The static F71 statement is the t → ∞ limit of this dynamical process.
-
-This upgrades the Meta-Theorem's four instances from "static selection rules" to "dynamical attractor manifolds":
-
-| Theorem | Invariant manifold | Attractor type |
-|---------|-------------------|----------------|
-| F70 | sector-block decomposition (\|ΔN\| ≤ 1 sub-algebra) | kinematic attractor (instantaneous) |
-| F71 | mirror-symmetric bond profiles | dynamical attractor, rate ~4γ₀ |
-| F72-cand | DD⊕CC block-diagonal Bloch structure | kinematic (from F70) |
-| (vac, S_1) purity sum | (1/2)·exp(−4γ₀t) manifold | exact dynamical equation |
-
-**Implication for PTF and closure:** Σ_i ln(α_i) ≈ 0 is not a conservation law (as EQ-014 showed), but it may be an **attractor property**: the closure deviation decays under uniform dissipation back to (near) zero on the 4γ₀ scale. This would explain the empirical ±0.05 tolerance observed in PTF without requiring it to be an exact first-order identity. Testable as a time-resolved measurement of Σ_i ln(α_i(t)) under uniform perturbation, which we have not yet pursued.
+No conclusion about PTF closure dynamics follows from this scan.
 
 ---
 
@@ -297,7 +292,7 @@ The rule "conservation law + summed measurement → blind channel" is correct **
 
 **Also verified, bonus:**
 
-- **Dynamical attractor structure (Step 2, see [the info-flow landscape](INFO_FLOW_LANDSCAPE.md)):** asymmetric bond-0 perturbations produce transient violations of F71 that decay exponentially at ~4γ₀, converging to the F71-symmetric fixed point. Selection rules are not just static projections but dynamical attractors.
+- **Endpoint-perturbation response (see [the marginal-similarity landscape](INFO_FLOW_LANDSCAPE.md)):** the sampled F71-reflection residual decreases at four late times. Its modal content, rate law, and generality remain open.
 - **Orbit census (from §5a):** linear F1 and the conjugate-composite map both
   account for the full finite spectra, but with different fixed loci and
   different orbit counts.

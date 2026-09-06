@@ -101,19 +101,19 @@ The full Π_d is a permutation and therefore has rank `d^{2N}`. Per site Π_d se
 
 The verification anchor for this section is [`simulations/qudit_product_mirror_cap.py`](../../simulations/qudit_product_mirror_cap.py): exact shift-aligned residuals, the `d=6,N=2` retraction control, the global ceiling-reacher, group law, and d=2 degeneracy. The typed claim retains its historical name `QuditProductMirrorCap` for registry compatibility but surfaces the retraction. Section 7 records the finite translation-invariant constructions currently available, and §8 resolves the SU(3)-Heisenberg interacting count 60 of §4 as a representation-theory exercise.
 
-## §7 Translation-invariant ceiling attainment in three finite cases
+## §7 Numerical translation-invariant ceiling constructions in three finite cases
 
-§6 supplies one shift-aligned product construction, not a universal product optimum. A translation-invariant intertwiner attains the ceiling in each finite case currently computed.
+§6 supplies one shift-aligned product construction, not a universal product optimum. A seeded numerical translation-invariant intertwiner reaches the numerical ceiling rank in each finite case currently computed.
 
-The palindrome intertwiner W·L_D = (−L_D − 2Nγ)·W forces W to be block-anti-diagonal in the Hamming grading (it sends rung h to rung N − h); the generic rank over that unrestricted linear space is the §3 ceiling Σ_h min(c_h, c_{N−h}). Impose translation invariance, [W, T] = 0 with T the cyclic site shift: the allowed entries collapse into T-orbits, one free coefficient each. Exact rank computations give
+The palindrome intertwiner W·L_D = (−L_D − 2Nγ)·W forces W to be block-anti-diagonal in the Hamming grading (it sends rung h to rung N − h); the maximum possible rank over that unrestricted linear space is the §3 ceiling Σ_h min(c_h, c_{N−h}). Impose translation invariance, [W, T] = 0 with T the cyclic site shift: the allowed entries collapse into T-orbits, one free coefficient each. Seeded complex matrices, ranked by numerical SVD, give
 
-  **TI generic rank = the ceiling** (54, 378, 128), above the shift-aligned ranks (36, 216, 64).
+  **computed TI rank = the ceiling** (54, 378, 128), above the shift-aligned ranks (36, 216, 64).
 
-Thus the finite ceiling has translation-invariant representatives at `(d,N)=(3,2),(3,3),(4,2)`. These ranks do not classify the optimum among all product intertwiners.
+Thus the runs exhibit finite translation-invariant representatives at `(d,N)=(3,2),(3,3),(4,2)`. They are numerical finite constructions, not exact generic-rank calculations, and they do not classify the optimum among all product intertwiners.
 
 These cases do not prove that translation invariance attains the ceiling for every d and N. The general translation-invariant rank remains open; no two-tier classification follows from the finite grid.
 
-The verification anchor is [`simulations/qudit_ti_intermediate.py`](../../simulations/qudit_ti_intermediate.py) (self-validating on the stated finite cases: the unrestricted generic intertwiner rank reproduces the ceiling and the translation-invariant generic rank equals it at `(3,2)`, `(3,3)`, and `(4,2)`).
+The verification anchor is [`simulations/qudit_ti_intermediate.py`](../../simulations/qudit_ti_intermediate.py). It pins the three stated numerical ranks literally and includes a mutation control that replaces the first intermediate rank by the shift-aligned rank and requires the gate to fail.
 
 ## §8 The SU(3)-Heisenberg count, decoded (added 2026-06-11, same day)
 
@@ -125,14 +125,14 @@ The verification anchor is [`simulations/qudit_ti_intermediate.py`](../../simula
 
   intra: ⟨Q⟩ ∈ {0:6, 1:18, 2:21},  inter: ⟨Q⟩ ∈ {1:18, 3/2:12, 2:6},
 
-reconstructing §4's {0:6, 1:36, 3/2:12, 2:27}. The half-integer ⟨Q⟩ = 3/2 (the −3γ rung) is **exactly the inter-sector**: every one of its 12 modes is a 6↔3̄ coherence (inter-sector weight 1, machine-exact). The half-integer Hamming average is the signature of crossing the symmetric/antisymmetric divide; intra-sector coherences carry integer ⟨Q⟩ only.
+reconstructing §4's {0:6, 1:36, 3/2:12, 2:27}. Here `⟨Q⟩` is computed from each right eigenvector by the Hilbert-Schmidt Rayleigh ratio `v†Qv/v†v`; the script checks that its imaginary part is below numerical tolerance and separately prints the complex difference from the inapplicable biorthogonal diagonal `w†Qv` (maximum 0.025008 in this run). The half-integer ⟨Q⟩ = 3/2 (the −3γ rung) is **exactly the inter-sector**: every one of its 12 modes has right-HS inter-sector projector weight 1 within numerical precision. The half-integer Hamming average is the signature of crossing the symmetric/antisymmetric divide; intra-sector coherences carry integer ⟨Q⟩ only.
 
-**The 60.** The palindrome about the center −3γ reflects each mode (⟨Q⟩, Im λ) to (3 − ⟨Q⟩, −Im λ): the Hamming rung must complement and the energy ±Δ must conjugate. Counting the (⟨Q⟩, sign Im) census,
+**The 60.** The palindrome about the center −3γ reflects each mode (⟨Q⟩, Im λ) to (3 − ⟨Q⟩, −Im λ): the Hamming rung must complement and the full frequency, not merely its sign, must conjugate. A global one-to-one tolerance matching of the full complex eigenvalues gives
 
   intra Q = 1 ↔ Q = 2: 2·min(18, 21) = 36;
-  inter Q = 1 ↔ Q = 2 across ±Δ: 2·(min(9, 3) + min(9, 3)) = 12;
+  inter Q = 1 ↔ Q = 2 at |Im λ| = 4J: 12;
   inter Q = 3/2 self across ±Δ: 2·min(6, 6) = 12;
 
-total **36 + 12 + 12 = 60**, with 21 unpaired (the 6 immortal ⟨Q⟩ = 0 populations, 3 surplus intra Q = 2, and 12 surplus inter Q = 1). So the SU(3)-Heisenberg's 60 is (SU(3) energy sectors) × (Hamming rungs) × (±Δ energy conjugation), and the standout is structural: the −3γ rung is the sym↔antisym seam. This is the representation-theory account of one H's count, not a universal law (it leans on H having exactly two Hilbert sectors with the 6/3̄ structure), consistent with §4's H-dependence.
+total **36 + 12 + 12 = 60**, with 21 unpaired (the 6 immortal ⟨Q⟩ = 0 populations, 3 surplus intra Q = 2, and 12 surplus inter Q = 1). Of the last 12, six sit on the detuned |Im λ| ≈ 3.99875 branch and six are the multiplicity surplus at |Im λ| = 4J. So the SU(3)-Heisenberg's 60 is (SU(3) energy sectors) × (Hamming rungs) × (full frequency conjugation), and the standout is structural: the −3γ rung is the sym↔antisym seam. This is the representation-theory account of one H's count, not a universal law (it leans on H having exactly two Hilbert sectors with the 6/3̄ structure), consistent with §4's H-dependence.
 
-The verification anchor is [`simulations/su3_heisenberg_rep_theory.py`](../../simulations/su3_heisenberg_rep_theory.py) (self-validating: the Casimir multiplicities, the L_H sectors, the intra/inter ⟨Q⟩ split with the 3/2-is-inter-sector identity, and the 60 from the census).
+The verification anchor is [`simulations/su3_heisenberg_rep_theory.py`](../../simulations/su3_heisenberg_rep_theory.py) (self-validating: the Casimir multiplicities, the L_H sectors, the right-HS intra/inter ⟨Q⟩ split with the 3/2-is-inter-sector identity, the convention-separating complex-difference control, and the 60 from the census).

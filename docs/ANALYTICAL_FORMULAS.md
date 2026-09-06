@@ -505,13 +505,13 @@ dynamical comparisons still require a preparation, observable, and time window.
     fraction(XOR) = (N+1) / 4^N
 
 N=3: 6.25%. N=5: 0.59%. N=8: 0.014%. N=20: ~10^-11.
-The drain's share of operator space vanishes with N; GHZ_N's coherence sits
-entirely in it at every N (F22), so what shrinks is the drain's measure, not
-GHZ's exposure.
+The eigenspace's share of operator space vanishes with N. F22 separately puts
+each GHZ off-diagonal operator at maximal dephasing charge; neither result is a
+prepared-state probability, exposure, or lifetime.
 
 **Valid for:** any N, Z-dephasing on the XY/Heisenberg chain with every bond non-zero and every site dephased (γ_l > 0), whose count the N+1 is (a zero bond raises it to Π_c(|c|+1); a zero γ on one seat leaves N+1 at N = 3, 4, while γ on the N = 3 middle seat alone gives 12 on XY and 10 on Heisenberg; a longitudinal field keeps it only if uniform); number conservation alone does not give it (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 modes at N = 3, 4), a pure Ising ZZ chain gives 2^N and a generic Hermitian H none (the glossary's −2Σγ row).
-**Replaces:** large-N XOR mode counting; confirms the drain is
-irrelevant at macroscopic scale.
+**Replaces:** sampled large-N XOR eigenspace counting with an exact dimension
+fraction. No operational irrelevance follows from that fraction alone.
 **Source:** the count is the eigenvectors X^⊗N·P_k, k = 0..N, one per popcount sector; that is F4's kernel dimension, N+1 for a connected chain and Π_c(|c|+1) over components in general ([F4 kernel proof](proofs/PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md)), carried onto the −2Σγ eigenspace by F1 (Π maps ker L onto it) where F1 holds, and the same vectors directly under a uniform field, where F1 does not; the (N+1)/4^N table is [N->infinity Palindrome](../experiments/N_INFINITY_PALINDROME.md)
 
 ### F33. The N=3 rate ladder (Tier 1 for the pure-weight rungs; the two fractional rates are a J/gamma -> infinity limit)
@@ -725,14 +725,16 @@ CONCENTRATOR_AB_MECHANISM_TEST Downgrade 2).
 **Replaces:** numerical optimization (Nelder-Mead, DE).
 **Source:** [Resonant Return](../experiments/RESONANT_RETURN.md)
 
-### F10. SumMI quadratic scaling (Tier 2, verified N=2-15)
+### F10. Finite-N SumMI scan under the concentrator profile (Tier 2, numerical N=2-15)
 
     SumMI ~ 0.0053 * N^2 + 0.028 * N - 0.062
 
-Under the concentrator formula. Quadratic, not exponential.
+This is a finite-range fit. It overpredicts the measured N = 11, 13 and 15 rows
+by about 6%, 12% and 19%, respectively, so it is not an asymptotic scaling law.
 
-**Valid for:** Heisenberg chain, concentrator profile, |+>^N initial state.
-**Replaces:** time evolution simulation for SumMI estimation.
+**Valid for:** the listed Heisenberg-chain runs, concentrator profile, |+>^N
+initial state, N = 2..9, 11, 13, 15.
+**Does not replace:** time evolution or interpolation beyond the measured rows.
 **Source:** [Signal Analysis Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md)
 
 ### F11. Mode localization profile, N=5 (Tier 2, geometric)
@@ -1877,14 +1879,14 @@ is an H eigenstate no trajectory lifts it back; the escape is to change the
 state, which a Hamiltonian that moves the poles does (Hadamard^⊗3 takes
 GHZ_3 to 3/7).
 
-This geometric statement complements F22 (GHZ projects 100% of its coherent
-weight onto the fastest-decaying XOR modes at rate 2*Sigma*gamma). The two
-arguments converge: GHZ encoding is structurally unsuitable for state
-transfer, regardless of how slowly it would decay.
+This geometric statement is separate from F22, which says that each GHZ
+off-diagonal operator has Hamming distance N and dissipative charge
+`2*Sigma*gamma`. Neither statement ranks GHZ against another state-transfer
+encoding without an operational comparison.
 
 **Valid for:** GHZ_N for any N >= 2, gamma-independent.
 **Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4 under Z-dephasing on a chain where it is an H eigenstate.
-**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4; main README Section 6 Rule 1 (avoid GHZ, prefer W-type encodings).
+**Source:** [Generalized Dwell Prefactor](../experiments/DWELL_PREFACTOR_GENERALIZED.md) Section 4.
 
 ### F61. n_XY Parity Selection Rule (Tier 1, proven, verified 69 configs N=2-7)
 
@@ -2260,7 +2262,7 @@ Consequence: every site-local observable (per-site purity, per-site expectation,
 
 **Verified:** 9 |ΔN| ≥ 2 pairs tested at N=5 via coherence-block isolation (pure superposition vs classical mixture), eight non-trivial plus the trivial (0, 5); all give zero contribution to machine precision. [sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json).
 
-**Replaces:** the empirical observation "c_1 coherence contribution vanishes for |ΔN| ≥ 2" with an analytical lemma; explains the XOR_SPACE center-modes invisibility to site-local measurement; bounds the sector-kernel for PTF's α_i closure structure.
+**Replaces:** the empirical observation "c_1 coherence contribution vanishes for |ΔN| ≥ 2" with an analytical lemma and bounds the sector-kernel for PTF's α_i closure structure. It does not explain all F23 endpoint one-site zeros: `X^N P_k` has `|ΔN|=|N−2k|`, while its one-site partial trace vanishes independently because every basis term differs on all N bits.
 
 **Scripts:** [`c1_sector_kernel.py`](../simulations/c1_sector_kernel.py), [`c1_bilinearity_test.py`](../simulations/c1_bilinearity_test.py).
 **Source:** [the ΔN selection-rule proof](proofs/PROOF_DELTA_N_SELECTION_RULE.md), [The Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) Update 2026-04-20, [XOR Space](../experiments/XOR_SPACE.md).
@@ -2655,7 +2657,10 @@ where σ_k ∈ {±1} ranges over all 2^⌊N/2⌋ sign-vectors, and
 
     ε(k) = 2·cos(π·k / (N+1))
 
-is the open-chain free-fermion single-particle dispersion. Each distinct cluster value has multiplicity 4^N / (number of distinct sign-walk values).
+is the open-chain free-fermion single-particle dispersion. With
+`m = floor(N/2)`, a value reached by `r(v)` sign vectors has multiplicity
+`r(v) * 4^N / 2^m`. The N=3–7 rows happen to have equal `r(v)` and hence equal
+cluster multiplicities; this equality is not an all-N law.
 
 **Verified instances** (chain, |c|=1, all 4 Π²-odd Pauli pairs identical by F79 universality):
 
@@ -2675,11 +2680,12 @@ All matches bit-exact (10⁻¹⁴ machine precision) at every N.
 
 where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence cluster value(N) = 2|c|·|H eigenvalue|. The Bloch sign-walk formula above is just H's eigenvalue formula written out: H's many-body eigenvalues = (1/2)·Σ_k σ_k·E_k where E_k = 4|c|·cos(πk/(N+1)) are H's Bogoliubov single-particle energies, and ⌊N/2⌋ counts how many fermion modes participate.
 
-**Reach of the identity beyond chain-2-body (verified 2026-05-29, `F80ExtensionExplorationTests`).** Step 5 (the Π-action Π·[bond,·]·Π⁻¹ = s·{bond,·}) is *per-bond*, so the structural identity Spec(M) = ±2i·Spec(H) depends only on the Π²-parity of the bonds, not on topology or body-count:
-- **Π²-odd bonds**, any topology, any body-count: M = ±2i·(H⊗I), so Spec(M) = ±2i·Spec(H) (the *single* eigenvalues). Confirmed bit-exact for ring, star, 3-body (X,X,Y), 4-body (X,X,X,Y) at N=4,5. Only the cluster *values* are structure-specific (chain = OBC ladder 2cos(πk/(N+1)), ring = periodic, star = integers).
-- **Π²-even non-truly bonds** (Y,Z), (Z,Y): the per-bond commutator is preserved rather than anti-commuted, so M = 2·L_H = −2i·[H,·], and Spec(M) = ±2i·{λ_a − λ_b}, the eigenvalue *differences* (Bohr frequencies) instead of single eigenvalues. This identifies the "more clusters" the Π²-even case was expected to show: the extra clusters are the differences. Confirmed bit-exact at N=4.
-
-So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energies), [H, ·] for Π²-even (energy gaps); the bond's Π²-parity is the switch.
+**Finite checks beyond chain-2-body (2026-05-29,
+`F80ExtensionExplorationTests`).** The per-bond Π-action was checked on ring,
+star, selected 3- and 4-body Π²-odd terms, and N=4 Π²-even terms. These
+checks support the structural residual identities at those inputs. They do not
+extend the two-body JW/Bogoliubov dispersion or its sign-walk cluster formula
+to generic k-body Hamiltonians or arbitrary topologies.
 
 **γ-independence (Master Lemma).** Note no γ appears in the cluster-value formula. M is γ-independent for pure Z-dephasing (Master Lemma in PROOF_SVD_CLUSTER_STRUCTURE.md).
 
@@ -2687,12 +2693,17 @@ So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energ
 
 **Π²-odd universality fully analytical.** Under JW transformation, all 4 Pauli-letter choices (X,Y), (X,Z), (Y,X), (Z,X) give the same single-particle Bloch dispersion. The specific Pauli letters affect only phase factors in JW, not single-particle eigenvalues. Since M's spectrum depends only on the dispersion (via F80), all 4 give bit-identical clusters. **This closes the chain Π²-odd universality from F79 with an explicit closed-form formula.**
 
-**Valid for:** the Bloch sign-walk closed form (cluster *values*) is for chain bond-summed Π²-odd 2-body Hamiltonians H = c·Σ_l (P_l⊗Q_{l+1}), uniform Z-dephasing, any N. The underlying structural identity Spec(M) = ±2i·Spec(H) holds far wider: any topology, any body-count, and both Π²-parities (see "Reach beyond the chain-2-body scope" above, verified 2026-05-29).
-**Still open:** the explicit cluster-*value* formula for general k-body terms, and the complete graph K_N (its ordered (P, Q) bonds need an orientation convention on non-path edges). Closed since the first writing: all three 2-body graph-family cluster-value formulas (chain OBC cosine, star integer spoke-ladder 2|m−2j|, ring two-sector cyclic free-fermion), mixed-letter bilinears (by linearity of M in H), and the Π²-even case (M = 2·L_H, the eigenvalue differences).
+**Valid for:** the Bloch sign-walk cluster values for chain bond-summed
+Π²-odd 2-body Hamiltonians `H = c·Σ_l(P_l⊗Q_{l+1})` under uniform
+Z-dephasing. Equal multiplicities are verified only for N=3–7; the
+collision-count formula applies generally.
+**Still open here:** explicit cluster-value formulas for generic k-body terms
+and topologies outside the open chain.
 **Replaces:** F79's "Π²-odd universality observation"; the universality is now an analytical theorem with explicit closed-form predictions.
 **Verified:** N = 3, 4, 5, 6, 7 chain via Python, full SVD and eigsh independent verification at N=7.
 **Scripts:** [`pi2_odd_universality_data_sweep.py`](../simulations/pi2_odd_universality_data_sweep.py), [`n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
-**Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Fully proven in [the F80 Bloch sign-walk proof](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4 (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality), Step 5 the per-site Pauli computation Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q (N-independent, closed 2026-05-22, every step verified bit-exact at N=3,4,5 by [`f80_step5_recon.py`](../simulations/f80_step5_recon.py); typed as `F80PiCommutatorAnticommutatorIdentity`), Steps 6-7 the sign-walk assembly. Empirical verification bit-exact through N=7.
+**Source:** [the F80 Bloch sign-walk proof](proofs/PROOF_F80_BLOCH_SIGNWALK.md)
+for the open-chain two-body derivation; empirical verification through N=7.
 **Lebensader connection:** F80 is the third manifestation of the broad-in → focused-out Π-palindrome funnel: state layer (cockpit_panel), real-space single-body operator layer (F78), and now momentum-space chain 2-body operator layer (F80). Same Π·L·Π⁻¹ + L + 2σ·I = 0 through-line, three different bases.
 
 ### F81. Π-conjugation of M decomposes into Π²-odd Hamiltonian commutator (Tier 1, verified bit-exact N=3,4)
@@ -6098,6 +6109,8 @@ MirrorWorld adoption (`Witness.cs`, run mode `witness`) carries the same closed 
 sober base.
 
 ---
+
+<a id="f137"></a>
 
 ### F137. The T1 half-shift: amplitude damping alone keeps the palindrome, at half the price (H=0 derived by tensor sum; with XXZ H measured, 18/18 configurations N=2–5; minted 2026-07-21, extended from the vacuum bath to a thermal one 2026-08-05)
 

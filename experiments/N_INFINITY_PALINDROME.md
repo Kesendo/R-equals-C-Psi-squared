@@ -7,7 +7,9 @@ binomial weight distribution palindrome, past future boundary large N,
 depolarizing exponential breaking, decoherence transition thermodynamic,
 R=CPsi2 N infinity palindrome -->
 
-**Status:** Proven (combinatorics) + verified (N=3 to N=7)
+**Status:** The Pauli-string counting law is proven. A Gaussian limiting
+distribution for the interacting Liouvillian eigenvalue rates is not
+established; the finite producer does not match the bare-dissipator moments.
 **Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -21,34 +23,23 @@ R=CPsi2 N infinity palindrome -->
 
 The palindromic mirror is proven for any finite number of qubits. But
 what happens when the system grows toward macroscopic size? This
-document traces the fate of every feature: the XOR drain (the
-fastest-decaying modes) shrinks to measure zero, the sharp split
-between "classical past" and "quantum future" blurs into a smooth
-Gaussian, while the sampled oscillation-frequency spectrum grows denser. This
-does not by itself establish a spatial standing wave or a continuum limit.
-Under Z-dephasing, the
-palindrome is not just preserved but reinforced by the central limit
-theorem. Under depolarizing noise, it is exponentially destroyed. The
-bottom line: the mirror exists at every N, but at macroscopic scales
-it has less and less to reflect.
+document separates an exact Pauli-string counting limit from the interacting
+Liouvillian spectrum. The bare Z-dephasing diagonal has a binomial weight
+distribution and a Gaussian counting limit. The sampled interacting
+eigenvalue rates and frequencies do not establish that limit, a spatial
+standing wave, or a macroscopic state interpretation.
 
 ---
 
 ## Abstract
 
-As system size N grows, the palindromic spectrum transitions from discrete
-mode pairs to a smooth continuum. The rate density becomes Gaussian (central
-limit theorem on the binomial XY-weight distribution), centered at Nγ with
-width γ√N. The XOR drain (fastest-decaying modes that kill GHZ) vanishes
-exponentially: (N+1)/4^N is below 1% at N=5 and below 10⁻¹¹ at N=20. The
-past/future boundary blurs: 95% of all modes live within √N of the midpoint
-w = N/2, making the classical-quantum split nearly indistinguishable at
-macroscopic N. The sampled oscillation frequencies proliferate with N; a
-continuous spectral-density limit is an extrapolation, not a standing-wave
-result. Under Z-dephasing, the palindrome
-is reinforced (Gaussian symmetry). Under depolarizing noise, it is
-exponentially destroyed (past/future ratio = (1/3)^N). The Π proof holds at
-every N: the Hamiltonian never breaks the pairing.
+The bare Z-dephasing Pauli-string counts are binomial, centered at Nγ with
+width γ√N and kurtosis `-2/N`. The chain endpoint eigenspace fraction
+`(N+1)/4^N` is below 1% at N=5 and below `10^-11` at N=20. Neither fraction is
+a prepared-state probability. The finite interacting spectra remain
+palindromic in F1's scope, but their measured standard deviations and
+kurtoses differ from the bare-dissipator values. A continuous spectral-density
+limit is therefore not established here.
 
 ---
 
@@ -60,7 +51,7 @@ Does the palindrome become trivial, or does it remain a non-trivial constraint?
 
 ---
 
-## 1. The Rate Density Becomes Gaussian
+## 1. The Bare-Dissipator Counting Measure Becomes Gaussian
 
 The dissipator L_D is diagonal in the Pauli basis. Each Pauli string with
 XY-weight w (number of sites carrying X or Y) has decay rate 2γw. The number
@@ -72,39 +63,38 @@ so the rate density inherits the binomial shape: centered at Nγ (the
 palindrome axis), width γ√N, kurtosis (a measure of how peaked or flat a distribution is compared
 to a Gaussian) -2/N, approaching zero.
 
-Numerical verification confirms: the full Liouvillian eigenvalue moments
-(including the Hamiltonian contribution) match the L_D prediction. The
-Hamiltonian shifts rates within palindromic pairs but does not change the
-overall density shape. The palindrome is 100% for all N tested (3-7).
-
-For large N, the central limit theorem applies: the rate density becomes
-Gaussian. A Gaussian is symmetric by construction. The palindrome is
-automatic in the continuum limit because the binomial distribution it
-rests on is symmetric.
+The central limit theorem applies to this Pauli-string counting measure. It
+does not apply automatically to the real parts of the interacting
+Liouvillian's eigenvalues. The producer makes the distinction visible: at
+N=3, 4, 5 the interacting standard deviations are 0.063469, 0.060220, and
+0.058094, rather than the bare values 0.086603, 0.100000, and 0.111803; the
+interacting excess kurtoses are 1.070388, 3.049724, and 3.980373 rather than
+-0.666667, -0.5, and -0.4.
 
 ---
 
-## 2. The XOR Drain Vanishes
+## 2. The Endpoint Eigenspace Fraction Vanishes
 
-The XOR modes (fastest-decaying, at rate 2Nγ) are the ones that kill GHZ
-states instantly. There are exactly N+1 of them out of 4^N total modes.
+On the connected XY/Heisenberg chain in F23's scope, there are N+1 modes at
+the endpoint rate `2Nγ` out of a `4^N`-dimensional operator space. This count
+does not assign an endpoint probability to a full state.
 
 | N | XOR modes | Total modes | Fraction |
 |---|---|---|---|
 | 3 | 4 | 64 | 6.25% |
 | 5 | 6 | 1024 | 0.59% |
-| 8 | 9 | 65536 | 0.014% |
+| 8 | 9 | 65536 | 0.01373% |
 | 10 | 11 | 1048576 | 0.001% |
 | 20 | 21 | ~10^12 | ~10^-11 |
 
-The fraction (N+1)/4^N vanishes exponentially. Below 1% at N=5, below 0.01%
-at N=8. At macroscopic N, the XOR sector has measure zero.
+The distinct interacting F23 eigenspace fraction `(N+1)/4^N` vanishes
+exponentially. It is below 1% at N=5 and first below 0.01% at N=9
+(`9/65536 = 0.01373%` at N=8 is still above the latter threshold).
 
-GHZ's exposure to the drain is total at every N (its one coherence is an
-exact eigenvector at −2Σγ); what vanishes with N is the drain's share of
-operator space. In a system with thousands of qubits a generic state puts
-almost no weight there, and the palindromic pairs at intermediate rates
-carry it.
+For the chain studied here, each GHZ off-diagonal coherence operator is an
+exact eigenoperator at `−2Σγ`. What vanishes with N is the endpoint
+eigenspace's share of operator space. That counting fraction is not the
+probability that a generic prepared state occupies the endpoint.
 
 ---
 
@@ -130,33 +120,25 @@ boundary between past and future):
 | 20 | 1/184756 (5.4e-4%) |
 | 100 | ~10^-29 |
 
-Pure past (all populations, zero coherences) becomes exponentially rare.
-Pure future (all coherences) equally so. Almost everything lives near
-w = N/2, the boundary between classical and quantum.
+The extreme Pauli-string sectors become exponentially rare in this counting
+measure. This is not a statement about the distribution of prepared states or
+interacting eigenmodes.
+
+For this bare-dissipator count, one endpoint weight sector contains `2^N`
+strings out of `4^N`, hence has fraction `2^-N`. This is a different object
+from the interacting F23 eigenspace count `(N+1)/4^N` in Section 2.
 
 ---
 
-## 4. The Past/Future Boundary Blurs
+## 4. The Pauli-String Weight Count Concentrates
 
 At N=3, weight 0 (past) and weight 3 (future) are clearly separated. At
 N=1000, weight 498 vs weight 502 is indistinguishable.
 
 The fraction of Pauli strings within √N of the midpoint w = N/2 converges
-to 0.9545 (the 2-sigma Gaussian fraction). At large N, 95% of all modes
-live in the transition zone between classical and quantum.
-
-This is physically correct. In a macroscopic system, the boundary between
-"classical" and "quantum" is not sharp. Decoherence theory (Zurek 2003)
-describes a gradual transition where pointer states emerge from the
-quantum substrate through interaction with the environment. The palindromic
-weight distribution reproduces this: at small N the split is discrete,
-at large N it is a smooth Gaussian where most of the system is
-half-classical, half-quantum.
-
-The Π operator still maps w to N-w at any N. But when 95% of states are
-near w = N/2, "past" and "future" are not two separate worlds. They are
-two sides of the same coin, barely distinguishable. The mirror still
-exists. It just has less to reflect.
+to 0.9545 (the two-sigma Gaussian fraction). This combinatorial concentration
+does not make those strings 95% of the interacting eigenmodes and does not by
+itself define a classical/quantum transition for physical states.
 
 ---
 
@@ -169,7 +151,7 @@ At N=4: 47 frequencies. At N=5: 112. The spectrum fills rapidly.
 
 The bandwidth grows as 2(N-2)γ. At N=3, bands are fixed (no room to move).
 At N=5, 4 of 6 weight sectors show nonzero bandwidth (average 0.76γ).
-Bands broaden and approach merger into a continuum.
+The sampled finite-N rate sets become denser; no continuum limit follows.
 
 The finite-N counts suggest a denser frequency set as N grows. Establishing a
 continuous limiting density requires an actual convergence theorem or
@@ -199,10 +181,10 @@ its partner N-w is 3^(N-2w), which grows exponentially.
 Z-dephasing: the mirror is perfectly balanced at every N.
 Depolarizing: the mirror becomes exponentially more lopsided.
 
-This is the thermodynamic version of the 2:2 theorem: in the limit, the
-palindrome under Z-dephasing is not just preserved, it is reinforced
-(Gaussian symmetry). Under depolarizing noise, it is not just broken, it
-is exponentially destroyed.
+This is an asymptotic statement about the bare-dissipator Pauli-string counting
+measure: the Z-dephasing count is symmetric, while the corresponding
+depolarizing count is exponentially imbalanced. It is not a thermodynamic
+statement about prepared states.
 
 ---
 
@@ -210,20 +192,17 @@ is exponentially destroyed.
 
 **Trivially true:** The L_D palindrome (binomial symmetry of weight sectors).
 
-**Non-trivially true:** The L_H palindrome (Π anti-commuting with [H,.]).
-The Hamiltonian shifts rates within palindromic pairs but never breaks the
-pairing. This is the content of the Π proof, and it holds at every N
-including the thermodynamic limit. Without the proof, one might expect the
-Hamiltonian to scramble the symmetric L_D spectrum into an asymmetric mess.
-Π guarantees it cannot.
+**Non-trivially true at every finite N in the proof's scope:** The Π relation
+for the Hamiltonian part preserves the exact finite-dimensional spectral
+pairing. This statement does not itself construct an infinite-volume
+Liouvillian or prove convergence of its spectral measures.
 
 **Suggested by the counting/asymptotics:** The XOR endpoint fraction tends to
 zero and the weight distribution concentrates near its centre. A continuum
 of physical frequencies is not established by these combinatorial facts.
 
-**Emerges:** A smooth spectral density, a gradual classical/quantum
-transition, and the palindromic symmetry as a bulk property of the
-dissipative continuum rather than a discrete pairing of individual modes.
+**Not established here:** a smooth limiting spectral density, a
+classical/quantum transition, or a dissipative continuum.
 
 ---
 
@@ -238,7 +217,5 @@ dissipative continuum rather than a discrete pairing of individual modes.
 
 ---
 
-*At small N, the palindrome is a mirror between two worlds. At large N,
-the two worlds merge into one. The mirror remains, but there is less and
-less on either side of it. What was a sharp reflection becomes a gentle
-symmetry in a smooth continuum.*
+*The exact palindrome is a finite-N operator statement. Its infinite-volume
+spectral limit remains a separate question.*

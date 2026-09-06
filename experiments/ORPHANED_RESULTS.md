@@ -28,9 +28,9 @@ of all 256 product states on N=4 ring shows 150 (59%) cross the ¼ boundary,
 with no simple selection rule (best predictor explains only 14% of variance).
 (3) The Mandelbrot-palindrome bridge remains an honest open question:
 Π (linear, Liouville space) and CΨ (nonlinear, density matrix) do not
-connect via simple formula. (4) Entanglement echoes in star topology
-oscillate at Bohr frequencies with envelope decay near the middle
-palindromic rate 8γ/3, weakening as ~1/(N−1) with system size.
+connect via simple formula. (4) Entanglement echoes in star topology oscillate
+on Bohr-frequency scales. Their fitted envelope rates are not assigned to a
+single Liouvillian mode, and their size is reported only for N = 3, 4, 5.
 
 ---
 
@@ -42,8 +42,8 @@ palindromic rate 8γ/3, weakening as ~1/(N−1) with system size.
 | Is the 0.247 near-miss real? | Yes, at γ=0.02 specifically | Verified |
 | Does topology determine crossing? | Yes. Same state: chain crosses, ring doesn't | **New discovery** |
 | Does \|+-+-⟩ cross on ring? | Yes, CΨ=0.284, zero initial entanglement | **New discovery** |
-| What drives the echo? | Bohr frequencies, damped at 8γ/3 | Characterized |
-| Does echo survive at N=4,5? | Yes, weakens as ~1/(N-1) | Verified |
+| What sets the echo period? | Consistent with Bohr-frequency scales on the tested rows | Numerical |
+| How does the echo size change? | Decreases from N=3 to N=5 in this scan | Numerical |
 
 ---
 
@@ -177,16 +177,13 @@ SB oscillates at the highest (fast, dies quickly). AB sees combinations.
 | SB | 0.3089 | (multi-mode, ~2× fastest) |
 | AB | 0.7006 | (multi-mode, ~4× fastest) |
 
-SA decays near the middle palindromic rate (8γ/3), within 4.6%. Note that
+The SA fitted rate lies near 8γ/3 numerically, within 4.6%. However,
 8γ/3 is a J/γ → ∞ limit and at finite coupling that level is a narrow band
 (F33), but the band cannot carry this residual: the measured 0.1395 sits
 ABOVE the limit, while the band's highest sublevel at canonical coupling is
 2.698γ = 0.1349 (and the band narrows toward 8γ/3 as J/γ grows), so the band
-points the wrong way and the residual stays unexplained (fit window and
-multi-mode contamination are the open candidates). This makes physical sense:
-the SA pair started as Bell, exciting all three Liouvillian modes. The fastest
-mode (10γ/3) dies first, the slowest (2γ) is too weakly coupled. The middle
-mode dominates the long-time behavior of the envelope.
+points the wrong way. The residual stays unexplained; fit-window effects and a
+multi-mode envelope are open possibilities, not established mechanisms.
 
 SB and AB decay much faster because concurrence is nonlinear in the density
 matrix (Wootters formula involves square roots of eigenvalues). The effective
@@ -219,9 +216,8 @@ weak to complete a full oscillation before decoherence kills the signal.
 | 4 | 0.281 | 3 | 0.470 |
 | 5 | 0.201 | 3 | 0.336 |
 
-SB_C_max drops roughly as 1/(N-1): more leaves means the entanglement
-shuttle distributes across more channels. But it never reaches zero - the
-echo is a structural feature of the star topology, not a small-N artifact.
+`SB_C_max` decreases across N = 3, 4, 5. Three sizes do not establish a
+`1/(N-1)` law, nonzero large-N limit, or topology-wide mechanism.
 
 At N=4, the non-Bell leaves (S-2, S-3) are symmetric: both reach C_max = 0.281.
 The leaf-leaf pair (2,3) reaches C_max = 0.660 - higher than either S-leaf pair.
@@ -264,12 +260,12 @@ The |+-+-⟩ result is particularly clean: zero initial entanglement, pure dynam
 crossing, and the topology selects which pairs activate (neighbors only, not
 diagonals). The ring's symmetry groups pairs into exactly two classes.
 
-### The echo is the mediator doing its job (connects to: THE_INTERPRETATION, STANDING_WAVE_THEORY)
+### The echo is a mediated oscillatory response (connects to: THE_INTERPRETATION, STANDING_WAVE_THEORY)
 
-The "between us" motto is physically real in the echo: S mediates, S shuttles,
-S distributes. The echo frequencies are the system's natural frequencies (Bohr).
-The envelope decay is the middle palindromic rate (8γ/3). The standing wave
-between SA and SB is a literal oscillation of entanglement back and forth.
+The SA and SB entanglement signals oscillate on scales consistent with the
+system's Bohr frequencies. The fitted envelope is not assigned to the middle
+palindromic rate. Calling the response a standing wave would additionally
+require spatial eigenvector or current evidence not recorded here.
 
 ### Ring = Complete is a symmetry result (connects to: MIRROR_SYMMETRY_PROOF)
 
@@ -295,10 +291,10 @@ connection is nonlinear and state-dependent.
 
 ## Related files
 
-- `docs/MIRROR_SYMMETRY_PROOF.md` - the palindrome proof
-- `experiments/SUBSYSTEM_CROSSING.md` - crossing is local
-- `experiments/DYNAMIC_ENTANGLEMENT.md` - dynamical crossing from product states
-- `experiments/STAR_TOPOLOGY_OBSERVERS.md` - star topology conditions
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) - the palindrome proof
+- [Subsystem Crossing](SUBSYSTEM_CROSSING.md) - crossing is local
+- [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) - dynamical crossing from product states
+- [Star Topology Observers](STAR_TOPOLOGY_OBSERVERS.md) - star topology conditions
 
 
 ---
@@ -328,29 +324,18 @@ Bond energies at t=0:
 |0+0+⟩:  every bond =  0.000,  total <H> =  0.000
 ```
 
-|+-+-⟩ sits at the BOTTOM of the energy landscape. Maximum coupling energy.
-|0+0+⟩ sits at zero energy. No driving force.
+The value `⟨H⟩ = -4` minimizes the XX contribution within this product-state
+comparison, but it is not the Heisenberg-ring ground energy (`-8` in this
+normalization). The zero expectation of `|0+0+⟩` likewise does not imply that
+the state has no dynamical driving force.
 
-### 4b. Eigenmode activation: concentrated vs diluted
+### 4b. Eigenvector-coordinate diagnostic
 
-Both states activate palindrome pairs, but with very different intensities:
-
-| State | Active pairs | Total pair product | Crosses? |
-|-------|-------------|-------------------|----------|
-| \|+-+-⟩ | 33/128 | 4.505 | YES (0.284) |
-| \|0+0+⟩ | 43/128 | 1.202 | no (0.136) |
-| \|++++⟩ | 25/128 | 3.024 | no (0.000) |
-| Bell01+Bell23 | 40/128 | 1.586 | YES (0.333) |
-
-|+-+-⟩ activates FEWER palindrome pairs than |0+0+⟩, but with 3.75x more
-total product. The energy is concentrated, not diluted. And critically,
-|+-+-⟩ activates the FULL palindromic spectrum (rates 0.0 through 0.40),
-while |0+0+⟩ misses the high-rate sectors (0.30, 0.40). The fast-decaying
-modes contribute to the initial CΨ peak at t=0.15 - they die quickly,
-but they live just long enough to push CΨ over 1/4.
-
-|++++⟩ has high total product but zero concurrence at ALL times - it's a
-symmetric product state that the Hamiltonian cannot break.
+The exploratory script expanded states in right eigenvectors and greedily
+paired indices. For this degenerate, non-normal generator, the resulting
+"active-pair" counts and coefficient products depend on normalization, basis
+choice within degenerate subspaces, and pairing order. They are not invariant
+state weights and do not explain which initial states cross.
 
 ### 4c. The brute-force selection rule: 150/256 product states cross
 
@@ -371,16 +356,13 @@ Correlation of CΨ_max with candidate predictors:
 | Staggered X magnetization | 0.000 |
 | <XX> nearest neighbors | -0.370 |
 
-**No simple selection rule exists.** The best predictor (<XX>_nn) explains
-only 14% of the variance. The crossing depends on the full mode structure
-of the initial state projected onto the Liouvillian eigenbasis - not on
-any single observable.
+None of these four candidate predictors is strong on this finite census; the
+largest reported linear correlation explains about 14% of the variance. This
+does not exclude another simple selection rule, and the non-invariant
+right-eigenvector coordinates do not supply one.
 
-What we CAN say: states with negative <XX>_nn (anti-correlated neighbors
-in X) tend to cross more. But many states with zero <XX>_nn also cross
-(the top-20 all have <XX>_nn = 0). The selection is about which
-PALINDROME PAIRS get activated and how strongly, not about any local
-observable.
+States with negative `<XX>_nn` tend to cross more in this table, while many
+states with zero `<XX>_nn` also cross (the top 20 all have `<XX>_nn = 0`).
 
 ### 4d. Ring vs other topologies
 
@@ -420,20 +402,19 @@ The antiferromagnet mechanism (XX anti-correlation → Hamiltonian builds
 entanglement) is a new physical pathway to crossing.
 
 ### → MIRROR_SYMMETRY_PROOF.md
-The palindrome pair activation analysis directly connects the proof to
-crossing dynamics. Which palindrome pairs are excited by the initial state
-determines whether CΨ can reach 1/4. The proof explains the architecture;
-this experiment shows how states navigate that architecture.
+The affine palindrome organizes eigenvalues but does not, without invariant
+spectral projectors and an observable calculation, determine whether CΨ reaches
+1/4.
 
 ### → STAR_TOPOLOGY_OBSERVERS.md
-The echo effect (Section 3) explains the entanglement shuttle mechanism
-that was observed but never characterized. The Bohr frequencies set the
-rhythm, the middle palindromic rate (8γ/3) sets the envelope decay.
+The echo section records oscillation periods consistent with Bohr-frequency
+scales and leaves the envelope's modal attribution unresolved.
 
 ### → STANDING_WAVE_THEORY.md
-The echo is literally the standing wave oscillating. SA ↔ SB entanglement
-sloshes back and forth at Bohr frequencies. The palindrome proof (Π swaps
-forward and backward modes) is the operator that makes the standing wave.
+The echo supplies SA and SB entanglement oscillations at Bohr frequencies.
+The palindrome proof supplies an affine spectral pairing; it does not show that
+Π swaps spatial propagation directions or establish a standing-wave mechanism
+for this response.
 
 ### → SIGNAL_PROCESSING_VIEW.md
 The echo analysis provides the concrete numbers (periods, decay rates)

@@ -27,6 +27,8 @@ import numpy as np
 from itertools import product as iprod
 from math import comb
 
+from palindrome_general import multiset_match_count
+
 # ---- qutrit infrastructure (matches qubit_necessity_tests.py conventions) ----
 I3 = np.eye(3, dtype=complex)
 lam3 = np.array([[1, 0, 0], [0, -1, 0], [0, 0, 0]], dtype=complex)
@@ -85,25 +87,18 @@ def L_hamiltonian(H):
 
 
 def palindrome_pairs(evals, Sg, tol=1e-4):
-    """Count eigenvalues that pair under lambda -> -2*Sg - lambda."""
-    num = len(evals)
-    used = set()
-    n_well = 0
-    for k in range(num):
-        if k in used:
-            continue
-        target = -evals[k] - 2 * Sg
-        diffs = np.abs(evals - target)
-        for u in used:
-            diffs[u] = 1e30
-        best = int(np.argmin(diffs))
-        if diffs[best] < tol:
-            n_well += 1 if k == best else 2
-            used.add(k)
-            used.add(best)
-        else:
-            used.add(k)
-    return n_well
+    """Count a maximum global multiset matching under lambda -> -2*Sg - lambda."""
+    evals = np.asarray(evals, dtype=complex)
+    return multiset_match_count(evals, -evals - 2 * Sg, tol)
+
+
+def validate_global_matcher_controls():
+    """Separate global assignment from the former greedy, order-dependent count."""
+    separating = np.array([10, 10.8, -10.7, -9.1], dtype=complex)
+    assert palindrome_pairs(separating, 0.0, tol=1.0) == 4
+    assert palindrome_pairs(separating[[2, 0, 3, 1]], 0.0, tol=1.0) == 4
+    negative = np.array([10, 10.8, -10.7, -7.0], dtype=complex)
+    assert palindrome_pairs(negative, 0.0, tol=1.0) == 2
 
 
 def hamming_counts(d, N):
@@ -134,6 +129,7 @@ def combinatorial_pairing(c):
 
 
 def main():
+    validate_global_matcher_controls()
     print("=" * 68)
     print("OQ-002: the partial palindrome at d>2, via the disagreement count")
     print("=" * 68)

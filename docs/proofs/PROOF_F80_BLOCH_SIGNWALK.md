@@ -1,6 +1,6 @@
 # Proof of F80: Bloch-Mode Sign-Walk Formula for Chain Π²-Odd 2-Body M-Clusters
 
-**Tier:** 1 (numerically verified bit-exact through N=7; analytical proof complete, Step 5 closed 2026-05-22).
+**Tier:** 1 for the open-chain two-body cluster-value formula; numerically verified through N=7.
 **Date:** April 29, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
@@ -9,7 +9,10 @@
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`)
 - Numerical verification: [`pi2_odd_universality_data_sweep.py`](../../simulations/pi2_odd_universality_data_sweep.py) (N=3-6, all topologies); [`results/n7_bloch_signwalk_verification.txt`](../../simulations/results/n7_bloch_signwalk_verification.txt) (N=7 full SVD); pytest `test_F80_bloch_signwalk_chain_pi2_odd`.
 
-**Status:** Fully proven. The theorem is verified bit-exact through N=7, and the analytical proof is now complete for all N. Steps 1-4 (the JW reduction) and 6-7 (the sign-walk formula) were closed in April 2026; Step 5 (the Π-action) was closed 2026-05-22 by a direct per-site Pauli computation showing Π·[H,·]·Π⁻¹ = ±{H,·} (proof in Step 5 below, every step verified bit-exact at N=3,4,5 by [`f80_step5_recon.py`](../../simulations/f80_step5_recon.py)).
+**Status:** The open-chain two-body sign-walk locations are derived for all N
+and verified through N=7. Equal cluster multiplicities are only a property of
+the N=3–7 table. The per-bond Π-action is a separate structural identity; it
+does not extend the free-fermion JW dispersion to generic k-body terms.
 
 **Scope:** chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_{l=0}^{N-2} (P_l ⊗ Q_{l+1}) on N-site open chain, with (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, under uniform Z-dephasing γ.
 
@@ -29,25 +32,16 @@ The M-residual clusters of chain Π²-odd 2-body Hamiltonians under Z-dephasing 
 
 The proof says structural. A Jordan-Wigner transformation reduces the bond-summed Π²-odd 2-body Hamiltonian to a Majorana-bilinear free-fermion model whose single-particle spectrum is the standard open-chain cosine dispersion. Under the Z-dephasing dissipator, the M-clusters inherit the single-particle eigenvalue spectrum with a specific sign assignment per mode, given by the per-site Π² action on the corresponding mode. The signs work out to ±1 on each mode, and the cluster norm is the absolute value of the sign-weighted sum.
 
-The proof has seven steps. Steps 1-4 carry the JW reduction and the dispersion identification. Step 5, closed 2026-05-22, is the per-site Π² action computation that pins down the sign on each mode (the previously-open step in the original proof). Steps 6-7 then assemble the sign-walk formula from the per-mode signs and the dispersion. Together they give the closed-form cluster norm bit-exactly through N=7.
+The proof has seven steps. Steps 1-4 carry the JW reduction and the dispersion
+identification. Step 5 is the per-site Π² action computation that pins down the
+sign on each mode. Steps 6-7 assemble the sign-walk formula. The resulting
+cluster locations are verified bit-exactly through N=7.
 
-The diagnostic upshot is that F80 is the momentum-space lens on the F78 single-body Frobenius result and the F79 Π²-block structure. F78 / F79 say what the clusters do in position space; F80 says what they do in momentum space, and the two views are unified by the Bloch dispersion. Current scope is the chain topology and four specific Π²-odd bilinear pairs; extensions to other topologies (where the dispersion changes) and other letter pairs (where the sign-walk presumably reshapes) are flagged as future work.
-
-**Does NOT establish (yet):**
-- The cluster-*value* formula for general **k-body** terms (the body-count-dependent dispersion), and the complete graph K_N (its ordered (P, Q) bonds need an orientation convention on non-path edges, since H(i→j) ≠ H(j→i) there; spot-checked at K₄ only).
-
-Everything else is closed: all three 2-body graph families have cluster-value formulas (chain 2cos(πk/(N+1)), star 2|m−2j|, ring the two-sector cyclic free-fermion, see below), and the structural identity itself extends to all topologies because the Step-5 lemma is per-bond (verified below for ring and star).
-
-**Reach beyond the chain-2-body scope (verified 2026-05-29, `F80ExtensionExplorationTests`).** The Step-5 lemma Π·[bond,·]·Π⁻¹ = s·{bond,·} is *per-bond*, so the structural identity does not depend on topology or body-count, only on the Π²-parity of the bond. Computing M directly (via `PalindromeResidual`) and reading its spectrum confirms a clean dichotomy:
-
-- **Π²-odd bonds**, any topology, any body-count (all of a single Π²-odd bond type, so every bond carries the same sign s; mixing types of different s is the exception noted below): the per-bond lemma gives one shared sign s, so M = ±2i·(H⊗I) and Spec(M) = ±2i·Spec(H), the *single* eigenvalues, exactly as proven above for the chain. Confirmed bit-exact for ring, star, 3-body (X,X,Y) and 4-body (X,X,X,Y) at N=4,5. Only the cluster *values* differ (the structure's dispersion: chain = the OBC ladder 2cos(πk/(N+1)), ring = periodic, star = integers).
-- **Π²-even bonds** (Y,Z), (Z,Y): the lemma's "a Π²-odd bond carries exactly one X" fails, the commutator is *preserved* rather than anti-commuted, and the residual is M = 2·L_H = −2i·[H,·]. So Spec(M) = ±2i·{λ_a − λ_b}, the eigenvalue *differences* (Bohr frequencies), not the single eigenvalues. This is the "more clusters" anticipated for the Π²-even case, now identified: the extra clusters are the differences. Confirmed bit-exact (Y,Z), (Z,Y) at N=4.
-
-So the mirror-defect is always ±2i times a Hamiltonian object: **H⊗I for Π²-odd** (one-sided, the single energies) and **[H,·] for Π²-even** (two-sided, the energy gaps). The Π²-parity of the bond is the switch between the two.
-
-- **Mixed-letter Hamiltonians** need no separate sign-walk. M is *linear* in H (the dissipator and the 2σ·I term cancel via F1), so M(H₁+H₂) = M(H₁)+M(H₂) bit-exact. A Hamiltonian mixing Π²-odd and Π²-even bonds therefore just gets the sum of the per-bond pieces (single energies from the odd bonds, differences from the even). The mixed spectrum is richer (e.g. 21 clusters vs 2 for the pure (X,Y) chain at N=4) but is exactly that linear combination, still purely imaginary.
-
-The cluster *values* are the structure's dispersion, one per graph family. The **chain** (path graph) gives the OBC cosine 2cos(πk/(N+1)). The **star** has a closed form found here: H_star = Σ_s X_hub Y_s = X_hub ⊗ (Σ_s Y_s) *factorizes*, so with m = N−1 spokes Spec(H_star) = ±(m − 2j) (a total-spin ladder, the m commuting spoke-Y's) and the clusters are the even integers **2|m − 2j|** = 2m, 2m−4, … (verified N=4..8). So the star's "dispersion" is the spoke-sum, not a cosine. The **ring** (cycle graph) is the cyclic free-fermion 2cos(2π(k+a)/N): the closed boundary brings the Jordan-Wigner parity twist in, so the clusters are the sign-walk sums over *both* parity sectors (a = 0 periodic and a = ½ anti-periodic), unioned. In the document-wide cluster convention (cluster value = M singular value = 2·|Spec(H) entry|, |c| = 1): verified at N=4 ({4} ∪ {4√2}) and N=6 ({4, 8} ∪ {4√3}). The open chain has only the one sector, which is why its dispersion is the single cosine 2cos(πk/(N+1)); the closed loop has two.
+The theorem on this page is the open-chain two-body result for the four stated
+Π²-odd bilinears. Direct finite checks of the per-bond Π-action on rings,
+stars, and selected 3- and 4-body terms do not supply a JW/Bogoliubov
+cluster-value theorem for those systems. Their explicit formulas remain
+outside F80's theorem scope.
 
 ---
 
@@ -61,7 +55,7 @@ for sign-vectors (σ_1, ..., σ_{⌊N/2⌋}) ∈ {±1}^{⌊N/2⌋}, where
 
     ε(k) = 2 · cos(π·k / (N+1))
 
-is the open-chain free-fermion single-particle dispersion at unit coupling (the sign-walk σ_k is unrelated to the palindrome shift σ = Nγ above; Step 2's spectrum is c·ε(k) and Step 6's Bogoliubov energies are E_k = 2|c|·ε(k)). Each distinct cluster value has multiplicity 4^N divided by the number of distinct sign-walk values (the clusters share one multiplicity at every tabulated N; two sign-walks landing on one value would pool theirs).
+is the open-chain free-fermion single-particle dispersion at unit coupling (the sign-walk σ_k is unrelated to the palindrome shift σ = Nγ above; Step 2's spectrum is c·ε(k) and Step 6's Bogoliubov energies are E_k = 2|c|·ε(k)). If `m = floor(N/2)` and `r(v)` sign vectors land on the same absolute value `v`, that cluster's multiplicity is `r(v) * 4^N / 2^m`. The multiplicities are equal only when the collision counts `r(v)` are equal, as they are in the N=3–7 table; they need not be equal at larger N.
 
 Since M = ∓2i·(H⊗I) is normal (H Hermitian), its singular values are the moduli of its purely-imaginary eigenvalues, so "cluster value" = |Spec(M) entry| = 2·|Spec(H) entry|; this is why the Theorem's singular-value clusters and the Step-5 statement Spec(M) = ±2i·Spec(H) are the same fact.
 
@@ -79,20 +73,23 @@ Since M = ∓2i·(H⊗I) is normal (H Hermitian), its singular values are the mo
 
 All entries: bit-exact match between predicted and observed (predicted-vs-actual residual at machine precision 10⁻¹⁴). N=7 verified by both full 16384×16384 SVD and independent partial-eigsh check. Tests across all 4 Π²-odd Pauli pairs (X,Y), (X,Z), (Y,X), (Z,X) per the F79 universality.
 
-**k-body extension** (added 2026-04-30 with F85 implementation): the structural identity Spec(M) = ±2i · Spec(H_non-truly) generalizes to k-body chain Π²-odd Hamiltonians (same form; the Step-5 flip restated as the general per-site factor (−1)^{n_Y+n_Z}, see the Mechanism note below). Empirically verified bit-exact for:
+**Finite k-body checks of the structural identity:** `Spec(M) = ±2i · Spec(H_non-truly)` was checked for:
   - k=3: (X,X,Y), (Y,Y,Y), (X,X,Z), (Z,Z,Z), (X,Y,X) at N=4, 5, 6
   - k=4: (X,X,X,Y) at N=5, 6
 17 cases total, all matching `Spec(M)` (eigvals of the 4^N × 4^N residual) to predicted `2i · Spec(H_non-truly)` with multiplicity ×2^N, machine precision. Pytest lock: `test_F80_kbody_spectrum_identity`.
 
-**Mechanism for k-body**: the JW transformation maps a k-body Π²-odd term to a 2k-fold Majorana product (Step 2 of the proof scales naturally with body count). The single-particle dispersion ε(k) = 2cos(πk/(N+1)) and the Bogoliubov diagonalization (Step 3) carry over without modification: they describe the JW-mapped fermion problem, which is body-count-independent in its single-particle structure. The Pauli-letter universality (Step 4) holds for k-body too: the JW phase factors for different Pauli choices cancel in the single-particle spectrum. Steps 6-7 (the sign-walk formula) carry over directly. Step 5 generalizes with one restatement: its 2-body flip "a Π²-odd bond carries exactly one X" (the *Π flips every bond relation* bond lemma) is the special case of the general per-site factor (−1)^{n_Y+n_Z}, which equals −1 for any Π²-odd term (n_Y+n_Z odd) regardless of X-count, giving the sign s = (−1)^{n_Y+1}. On that generalized flip the k-body spectral identity Spec(M) = ±2i·Spec(H) is verified bit-exact for the k=3,4 cases above.
-
-The closed-form Bloch sign-walk formula `cluster value(N) = 2|c|·|Σ_k σ_k·ε(k)|` is therefore expected to hold at k≥3 too, but the cluster-value table above reflects only 2-body verification (N=3..7). A full k-body cluster-value verification at k=3,4 is open; the spectral identity is sufficient for F80's structural claim.
+Generic k-body Pauli terms map to higher-order Majorana interactions, so the
+two-body single-particle cosine dispersion and Bogoliubov sign-walk do not
+carry over. The finite structural checks above are not a k-body cluster-value
+formula.
 
 ---
 
 ## Proof Outline
 
-The proof proceeds in seven steps, all analytical. Steps 1-4 set up the JW reduction and the single-particle dispersion; Steps 6-7 give the sign-walk formula. Step 5, the Π-action, was the last open step; it is closed below (2026-05-22) by a direct per-site Pauli computation.
+The proof proceeds in seven analytical steps. Steps 1-4 set up the JW reduction
+and single-particle dispersion, Step 5 gives the direct per-site Π-action, and
+Steps 6-7 assemble the sign-walk formula.
 
 ### Step 1 (JW transformation of chain (X,Y))
 
@@ -132,11 +129,18 @@ This is the standard tight-binding spectrum for an open chain of N sites with NN
 
 ### Step 3 (Bogoliubov diagonalization)
 
-Define Bogoliubov modes b_k = Σ_l u_kl · γ_l' where u_kl is the orthonormal basis of single-particle eigenstates of the open-chain hopping matrix. The dispersion ε(k) gives the per-mode "energy". In the Bogoliubov basis, H_JW becomes diagonal:
+Diagonalizing the N single-particle values pairs them into
+`m = floor(N/2)` nonzero `±ε(k)` pairs (plus one zero value when N is odd).
+Combining each pair into one occupation variable gives
 
-    H_JW = Σ_k ε(k) · (b_k†b_k − ½)
+    H_JW = Σ_{k=1}^m E_k · (b_k†b_k − ½),
+    E_k = 2|c|·ε(k).
 
-The N-mode many-body Hilbert space decomposes as a tensor product over the N Bogoliubov modes (each 2-dim: occupation 0 or 1).
+These `m` occupations generate the sign walk. The other `N-m` binary degrees
+do not change its value and supply a spectator multiplicity `2^(N-m)` in H;
+the `H⊗I` structural identity supplies another `2^N`. Thus one sign vector
+has multiplicity `2^(N-m)·2^N = 4^N/2^m`, before sign-vector collisions are
+pooled by `r(v)`.
 
 ### Step 4 (Pauli-letter universality)
 
@@ -148,7 +152,7 @@ For the other three Π²-odd Pauli pairs (X,Z), (Y,X), (Z,X), the JW transformat
 
 Crucially, all four cases give the **same single-particle spectrum** ε(k) = 2c·cos(πk/(N+1)); they differ only in which Majorana operators (γ or γ') participate and the specific phases. The "same spectrum across letter choices" is the JW-level origin of the F79 universality: the Pauli letters control which Majorana sublattice carries the bilinear, but the dispersion of the resulting hopping chain is identical (because hopping is between adjacent sites with magnitude c regardless of which Majorana indices).
 
-### Step 5 (Direct structural identity; proof closed 2026-05-22)
+### Step 5 (Direct structural identity)
 
 After Step 4, we have established that all 4 Π²-odd Pauli pairs give the same JW-derived single-particle Bloch dispersion. The remaining task, historically expected to be technical, is to derive the explicit form of M's spectrum in terms of this dispersion.
 
@@ -219,15 +223,16 @@ In terms of ε(k) = E_k / 2 = 2cos(πk/(N+1)):
 
     cluster value(N) = 2|c| · |Σ_{k=1}^{⌊N/2⌋} σ_k · ε(k)|, σ_k ∈ {±1}
 
-with multiplicity 4^N / (number of distinct sign-walk values). This is the F80 formula. ∎
+If `r(v)` of the `2^m` sign vectors (`m = floor(N/2)`) reach one absolute
+value `v`, its multiplicity is `r(v) * 4^N / 2^m`. This is the F80 formula. ∎
 
 ---
 
 ## Zero Is The Mirror: F80 as the explicit shape of the mirror-defect
 
-In the early hypothesis [Zero Is The Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md), the palindrome equation Π·L·Π⁻¹ = -L − 2σ·I was identified as the central structural symmetry. At Σγ = 0 ("the mirror"), the equation collapses to Π·L_H·Π⁻¹ = -L_H, eigenvalues paired ±λ around zero, perfect time-reversal symmetry. At γ > 0, the palindrome shifts to be centered around -σ.
+In the early hypothesis [Zero Is The Mirror](../../hypotheses/ZERO_IS_THE_MIRROR.md), the palindrome equation Π·L·Π⁻¹ = -L − 2σ·I was identified as the central structural symmetry. At Σγ = 0 ("the mirror"), the equation collapses to Π·L_H·Π⁻¹ = -L_H, giving spectral reflection λ ↔ −λ about zero. At γ > 0, the palindrome shifts to be centered around -σ.
 
-For **truly** Hamiltonians (Heisenberg, XXZ, etc.), the palindrome holds exactly at γ = 0: Π·L_H·Π⁻¹ = -L_H precisely. Eigenvalues paired, no defect. Standing waves, perfect mirror.
+For **truly** Hamiltonians (Heisenberg, XXZ, etc.), the palindrome holds exactly at γ = 0: Π·L_H·Π⁻¹ = -L_H precisely. Eigenvalues are paired with no defect; the identity alone does not construct a standing wave or physical time reversal.
 
 For **non-truly** Hamiltonians (chain (X,Y) and friends), the palindrome BREAKS at γ = 0. Π·L_H·Π⁻¹ ≠ -L_H. There is a residual mirror-defect:
 
@@ -256,7 +261,8 @@ This is structurally remarkable:
 
 | Layer | Statement | Object |
 |-------|-----------|--------|
-| State (Zero Is The Mirror) | Π·L_H·Π⁻¹ = -L_H − 2σ·I (truly), eigenvalues ±λ | Liouvillian L spectrum |
+| Hamiltonian commutator | Π·L_H·Π⁻¹ = −L_H (truly), eigenvalues ±λ | Hamiltonian Liouvillian L_H spectrum |
+| Full open-system generator | Π·L·Π⁻¹ = −L − 2σ·I (truly) | Liouvillian L spectrum |
 | Operator (F80) | M = Π·L_H·Π⁻¹ + L_H = -2i·H⊗I or +2i·I⊗Hᵀ (non-truly chain Π²-odd; which one is the Step 5 sign s) | M residual ∝ H |
 | Spinor (Majorana 1937) | ψ = ψ^c, particle = antiparticle | Self-conjugate fermion field |
 
@@ -322,6 +328,10 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 
 ---
 
-## Status: closed
+## Status
 
-As of 2026-05-22 F80 is fully proven, all seven steps analytical. The last open step, Step 5 (the Π-action), is closed by the per-site Pauli proof above: Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q, an N-independent computation verified bit-exact at N=3,4,5 ([`f80_step5_recon.py`](../../simulations/f80_step5_recon.py)). Because Step 5 is per-bond, the structural identity is topology- and body-count-agnostic: it now extends to ring, star, 3-body and 4-body for Π²-odd bonds, and the Π²-even case is characterized as M = 2·L_H (eigenvalue differences), see "Reach beyond the chain-2-body scope" above (verified 2026-05-29). Mixed-letter Hamiltonians are also covered, by linearity of M in H (see above), and all three 2-body graph-family cluster-value formulas are now closed: chain (path cosine 2cos(πk/(N+1))), star (integer spoke-ladder 2|m−2j|, by factorization), and ring (the two-sector cyclic free-fermion, periodic a=0 plus anti-periodic a=½, verified at N=4,6). What remains genuinely open is narrower still: only the explicit cluster-*value* formula for general k-body terms.
+The open-chain two-body sign-walk locations are proven for the scoped
+bilinears and verified at N=3–7. Their equal multiplicity is table-specific;
+the collision-count formula above is the general statement. The direct
+per-bond Π-action has wider finite checks, but topology-specific and k-body
+cluster-value formulas are not established here.

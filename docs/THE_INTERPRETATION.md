@@ -85,10 +85,14 @@ partial higher-dimensional palindromes of F121.
 - **XY-weight (w)**: number of X or Y Pauli indices in a basis string
   (e.g., XYZ has w=2, ZZZ has w=0). Also called incoherenton number.
   Higher XY-weight = more "quantum" character.
-- **CΨ**: product of concurrence C and l1-coherence Ψ, a composite
-  entanglement-coherence diagnostic. The boundary CΨ = 1/4 corresponds
-  to the Mandelbrot fixed-point discriminant. Calling its two sides
-  "classical" and "quantum" is an interpretation, not a state classifier.
+- **CΨ**: two implemented diagnostics share this historical glyph. The
+  framework/F25/hardware-quarter convention is `CΨ_pur`, purity `Tr(ρ²)` times
+  normalized l1-coherence. Pairwise lens experiments use the distinct
+  `CΨ_conc`, Wootters concurrence times normalized l1-coherence of the reduced
+  pair. The boundary `CΨ = 1/4` is the Mandelbrot fixed-point discriminant only
+  after the convention is named; the reported hardware crossing uses
+  `CΨ_pur`. Calling its two sides "classical" and "quantum" is an
+  interpretation, not a state classifier.
 - **z***: fixed point of the Mandelbrot iteration, z*(1-z*) = CΨ
 - **d**: local Hilbert space dimension (d=2 for qubit, d=3 for qutrit)
 
@@ -300,11 +304,11 @@ product, hence local. (Reported in March as genuinely entangled, Choi rank 8;
 corrected 2026-06-02, the rank-8 figure was the eigenvector-pairing
 representative, not the family minimum, which is the rank-1 product M^⊗N.)
 
-**N to infinity:** The rate density becomes Gaussian (center Σγ, width
-gamma×sqrt(N)). The XOR fraction (modes at the spectral boundaries)
-vanishes exponentially as (N+1)/4^N. The past/future boundary blurs as
-1/sqrt(N). The palindrome exists at all N but becomes operationally thin
-at macroscopic scales.
+**N to infinity:** The bare Z-dephasing Pauli-string counting measure becomes
+Gaussian (center Σγ, width gamma×sqrt(N)). In the connected chain family,
+the endpoint eigenspace's share of operator space vanishes as `(N+1)/4^N`.
+Neither statement is a prepared-state probability or a proved Gaussian limit
+for the interacting Liouvillian eigenvalue rates.
 
 See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
 [V-Effect](../experiments/V_EFFECT_PALINDROME.md),
@@ -557,8 +561,10 @@ nobody has to guess.
    that rank is not a universal product cap. Which additional Hamiltonian families
    admit exact partial or non-product intertwiners?
 
-4. **Macroscopic relevance:** The XOR fraction vanishes as (N+1)/4^N. At
-   what N does the palindrome become operationally invisible?
+4. **Operational measure:** The XOR eigenspace dimension fraction is
+   `(N+1)/4^N`. Rank fraction alone has no preparation, ensemble, observable,
+   or channel meaning. Which separately defined operational measure, if any,
+   detects this eigenspace under a specified experiment?
 
 5. **Operational value.** The palindromic
    response matrix SVD led to the concentrator formula (139-360× improvement

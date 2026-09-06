@@ -1,0 +1,25 @@
+OPERATOR-LEVEL DEPHASING SUPPORT CHECK
+=======================================
+N=3; local rates gamma=(0.125, 0.25, 0.375)
+
+Current verdict:
+  F22 concerns computational-basis coherence operators, not state weights.
+  |0...0><1...1| and its adjoint differ on every site and therefore
+  receive the maximal local Z-dephasing charge 2*sum(gamma_l).
+  No GHZ/W protection ranking, optimal state, standing-wave syndrome,
+  or information lifetime is inferred here.
+
+operator                                   distance     charge
+--------------------------------------------------------------
+population |000><000|                             0   0.000000
+one-site coherence |000><001|                     1   0.750000
+W/Bell-type coherence |001><100|                  2   1.000000
+GHZ coherence |000><111|                          3   1.500000
+GHZ adjoint |111><000|                            3   1.500000
+
+Gates:
+  PASS direct Z-conjugation action equals the Hamming-charge formula.
+  PASS population control has zero charge.
+  PASS one-site coherence control is nonzero but not maximal.
+  PASS both GHZ off-diagonal operators have maximal charge.
+  PASS GHZ, adjoint, population, and one-site controls at N=[2, 3, 4, 5].

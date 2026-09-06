@@ -6,7 +6,7 @@ Seven-section analysis:
   2. XOR mode fraction (N=2-20)
   3. Weight sector sizes and palindromic counting
   4. Bandwidth scaling under Hamiltonian perturbation
-  5. Standing wave frequency density
+  5. Sampled oscillation-frequency counts
   6. Past/future boundary width
   7. Z-deph vs depol Gaussian comparison
 
@@ -14,11 +14,10 @@ Script: simulations/n_infinity_analysis.py
 Output: simulations/results/n_infinity_analysis.txt
 """
 import numpy as np
+from pathlib import Path
 from math import comb, factorial
-from datetime import datetime
-import time
 
-OUT = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\n_infinity_analysis.txt"
+OUT = Path(__file__).resolve().parent / "results" / "n_infinity_analysis.txt"
 f = open(OUT, "w", buffering=1)
 
 
@@ -87,8 +86,7 @@ def ld_rate_distribution(N, gamma):
 gamma = 0.05
 
 log("=" * 90)
-log("N -> INFINITY: Thermodynamic Limit of the Palindromic Spectrum")
-log(f"Date: {datetime.now()}")
+log("N -> INFINITY: Counting asymptotics and finite-N spectral samples")
 log(f"gamma = {gamma}, Heisenberg chain, Z-dephasing")
 log("=" * 90)
 
@@ -131,11 +129,9 @@ log(f"  Kurtosis = -2/N (exact, approaches 0 = Gaussian)")
 log(f"\n  Full Liouvillian eigenvalues:")
 full_eig_data = {}
 for N in [3, 4, 5]:
-    t0 = time.time()
     H = build_H_chain(N)
     L = build_L(H, gamma, N)
     evals = np.linalg.eigvals(L)
-    dt = time.time() - t0
     rates = -np.real(evals)
     Sg = N * gamma
 
@@ -160,7 +156,7 @@ for N in [3, 4, 5]:
 
     full_eig_data[N] = (evals, rates)
 
-    log(f"\n    N={N} ({4 ** N} eigenvalues, {dt:.2f}s):")
+    log(f"\n    N={N} ({4 ** N} eigenvalues):")
     log(f"      Rate range: [{np.min(rates):.6f}, {np.max(rates):.6f}]")
     log(f"      Mean: {mean:.6f} (theory: {mean_th:.6f})")
     log(f"      Std:  {std_r:.6f} (theory: {std_th:.6f})")
@@ -219,7 +215,12 @@ for N in range(2, 21):
 log(f"\n  XOR fraction drops below 1% at N = {n_below_1pct}")
 log(f"  XOR fraction drops below 0.01% at N = {n_below_01pct}")
 log(f"  Scaling: (N+1)/4^N -> 0 exponentially")
-log(f"  GHZ fragility (100% XOR projection) becomes irrelevant at large N")
+log(f"  This operator-space fraction is not a prepared-state XOR probability")
+if (n_below_1pct, n_below_01pct) != (5, 9):
+    raise AssertionError("F23 threshold regression: expected first N values 5 and 9")
+if 100 * (9 / 65536) <= 0.01:
+    raise AssertionError("N=8 F23 row must remain above the 0.01% threshold")
+log("  PASS exact thresholds: first <1% at N=5; first <0.01% at N=9")
 
 
 # ############################################################
@@ -241,6 +242,12 @@ for N in [3, 4, 6, 8, 10, 12]:
         pc = comb(N, pw) * (2 ** N)
         log(f"  {w:>4}  {c:>12}  {pw:>4}  {pc:>12}  {'YES' if c == pc else 'NO':>6}")
 
+for N in [3, 8, 12]:
+    endpoint_fraction = (2 ** N) / (4 ** N)
+    if endpoint_fraction != 2 ** (-N):
+        raise AssertionError(f"N={N}: bare endpoint fraction must equal 2^-N")
+log("\n  PASS bare endpoint fraction: 2^N / 4^N = 2^-N (N=3,8,12)")
+
 # "Past is tiny" ratio
 log(f"\n  'Past is tiny' ratio: count(0) / count(N/2)")
 log(f"  count(0) = 2^N, count(N/2) = C(N,N/2) * 2^N")
@@ -256,7 +263,7 @@ for N in [4, 6, 8, 10, 20, 50, 100]:
 
 log(f"\n  At N=100: the w=0 sector (all-classical, pure past) is 10^-29 times")
 log(f"  smaller than the w=50 sector (half-classical, half-quantum).")
-log(f"  'Pure past' vanishes exponentially. Most states are mixed.")
+log(f"  The endpoint's fraction of the bare-dissipator Pauli-string count vanishes exponentially.")
 
 
 # ############################################################
@@ -302,11 +309,11 @@ for N in [3, 4, 5]:
     log(f"    Total rate range: [{np.min(rates):.6f}, {np.max(rates):.6f}]")
     log(f"    Span: {np.max(rates) - np.min(rates):.6f} = {(np.max(rates) - np.min(rates)) / gamma:.2f}*gamma")
 
-log(f"\n  Bandwidth scaling prediction:")
+log(f"\n  Finite-N rate-range summary:")
 log(f"    Boundary rates are topology-independent: min=0, max=2N*gamma")
 log(f"    Dynamic range: [2*gamma, 2*(N-1)*gamma]")
 log(f"    Bandwidth = 2*(N-2)*gamma, linear in N")
-log(f"    As N grows, bands broaden and merge into a continuum")
+log(f"    These N=3..5 samples do not establish a continuum limit")
 
 
 # ############################################################
@@ -314,7 +321,7 @@ log(f"    As N grows, bands broaden and merge into a continuum")
 # ############################################################
 log()
 log("=" * 90)
-log("SECTION 5: Standing wave frequency density")
+log("SECTION 5: Sampled oscillation-frequency counts")
 log("  Number of distinct oscillation frequencies vs N")
 log("=" * 90)
 
@@ -343,7 +350,7 @@ for N in [3, 4, 5]:
         log(f"    Range: [{np.min(nonzero):.6f}, {np.max(nonzero):.6f}]")
 
 log(f"\n  Pattern: frequency count grows rapidly with N")
-log(f"  N=3: discrete harmonics. N=5+: approaching continuous spectrum.")
+log(f"  No continuous limiting spectrum follows from the N=3..5 counts.")
 
 
 # ############################################################
@@ -383,9 +390,9 @@ for N in [3, 4, 6, 10, 20, 50, 100, 500, 1000, 10000]:
 
 log(f"\n  The fraction of strings within sqrt(N) of the midpoint approaches ~0.954")
 log(f"  (the 2-sigma fraction of a Gaussian), independent of N.")
-log(f"  The 'sharp' classical/quantum boundary at small N becomes a smooth")
-log(f"  Gaussian spread at large N. Most states are near w = N/2: half-classical,")
-log(f"  half-quantum. Pure past (w=0) and pure future (w=N) become exponentially rare.")
+log(f"  This is the bare-dissipator Pauli-string counting measure, not a state ensemble.")
+log(f"  Its endpoint fractions become exponentially small while the central")
+log(f"  weight window carries the stated asymptotic fraction.")
 
 
 # ############################################################
@@ -432,31 +439,29 @@ log(f"  Under depol, the future is exponentially larger than the past.")
 
 # Key comparison
 log(f"\n  {'=' * 70}")
-log(f"  THERMODYNAMIC SUMMARY")
+log(f"  SCOPE SUMMARY")
 log(f"  {'=' * 70}")
 log(f"""
-  Z-DEPHASING at large N:
-    Rate distribution: Gaussian, center = N*gamma, width = gamma*sqrt(N)
-    Palindrome: TRIVIALLY satisfied (symmetric Gaussian)
-    Past/future: boundary blurs, most states are half-classical
-    XOR fraction: vanishes as (N+1)/4^N
-    Standing wave: discrete -> continuous spectrum
-    The palindrome is automatic but non-trivial (L_H preserves it)
+  BARE Z-DEPHASING PAULI-STRING COUNT at large N:
+    Weight-count distribution: Gaussian asymptotics around N/2
+    Count symmetry: exact under w -> N-w
+    One endpoint weight sector: 2^N strings, fraction 2^-N
+    No state ensemble, standing wave, or continuous spectral limit follows.
 
-  DEPOLARIZING at large N:
-    Rate distribution: Gaussian, center = N*gamma, width = gamma*sqrt(N/3)
-    Palindrome: EXPONENTIALLY broken
+  DISTINCT INTERACTING F23 OBJECT (in its stated chain scope):
+    Endpoint eigenspace dimension fraction: (N+1)/4^N
+
+  BARE DEPOLARIZING PAULI-STRING COUNT at large N:
+    Weight-count distribution: Gaussian asymptotics around 3N/4
+    Count symmetry: exponentially imbalanced
     Counting ratio 3^(N-2w) means sectors differ by exp(N)
     Past (w=0): 1 string. Future (w=N): 3^N strings.
     The mirror deficit grows exponentially with system size.
 
-  THE ANSWER to 'does palindrome become trivially true?':
-    The L_D part: YES, Gaussian symmetry makes it automatic.
-    The L_H part: NO, this is the non-trivial content.
-    Pi anti-commuting with [H,.] ensures L_H does not break the
-    L_D palindrome. Without Pi, L_H could shift eigenvalues
-    asymmetrically. The proof guarantees it never does.
-    This constraint holds at every N, including N -> infinity.
+  SPECTRAL SCOPE:
+    The Pi relation proves the palindrome for each finite N in its stated
+    Hamiltonian/dephasing scope. These computations do not construct or prove
+    convergence to an infinite-volume Liouvillian or spectral measure.
 """)
 
 
@@ -466,7 +471,6 @@ log(f"""
 log()
 log("=" * 90)
 log("ANALYSIS COMPLETE")
-log(f"Date: {datetime.now()}")
 log("=" * 90)
 f.close()
 print(f"\n>>> Results written to {OUT}")

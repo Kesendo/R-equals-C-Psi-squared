@@ -23,10 +23,10 @@
 
 ### OQ-003
 
-**Question:** Macroscopic relevance: The XOR fraction vanishes exponentially with N. At what point does the mirror become operationally invisible? Is there a critical N above which the palindrome exists algebraically but has no physical consequence?  
+**Question:** Operational measure: the exponentially vanishing XOR rank fraction alone cannot imply invisibility or define a critical N. For a specified preparation, ensemble, observable, and channel, what independent access measure should be tested?
 **Source:** `docs/QUBIT_NECESSITY.md` (line 407)  
 **Proposed status:** open  
-**Justification:** Explicitly listed as open in QUBIT_NECESSITY.md and THE_INTERPRETATION.md. The XOR fraction exponential vanishing is proven, but the critical N threshold for operational invisibility remains unstudied.
+**Justification:** Explicitly listed as open in QUBIT_NECESSITY.md and THE_INTERPRETATION.md. The XOR rank fraction is proven, but it supplies no operational measure by itself.
 
 ---
 

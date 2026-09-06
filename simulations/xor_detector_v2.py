@@ -277,6 +277,11 @@ def run_experiment(N, J, gammas, topology, states_dict):
 
 
 if __name__ == "__main__":
+    print(
+        "RETIRED: this script reports non-invariant right-eigenvector coordinate "
+        "weights. Use f22_operator_charge.py for the F22 operator check."
+    )
+    raise SystemExit(0)
     print("*" * 65)
     print("XOR DETECTOR v2: Throwing stones into the palindrome")
     print("*" * 65)

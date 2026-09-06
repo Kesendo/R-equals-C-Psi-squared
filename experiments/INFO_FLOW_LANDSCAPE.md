@@ -1,6 +1,9 @@
-# Information-Flow Landscape C_ij(t) under Bond Perturbation
+# One-Site Marginal-Similarity Landscape C_ij(t) under Bond Perturbation
 
-**Status:** Tier 1 for raw dC_ij/dJ landscape data (three-N scan, reproducible). Tier 2 for structural interpretations: global-vs-sequential flow, peak-time clustering via Liouvillian mode differences, dynamical-attractor reading of F71.
+**Status:** Tier 1 for raw `dC_ij/dJ` landscape data (three-N scan,
+reproducible). `C_ij` is a similarity of one-site marginals, not a two-site
+correlation or information-flow observable; propagation and modal attribution
+are not established by this scan.
 **Date:** 2026-04-20 (evening)
 **Authors:** Tom, Claude Opus 4.7 (1M)
 **Relates to:** [the orthogonality-selection family](ORTHOGONALITY_SELECTION_FAMILY.md) (Step 2 of §6.2 plan), [standing wave theory](../docs/STANDING_WAVE_THEORY.md), [the relay protocol](RELAY_PROTOCOL.md)
@@ -10,11 +13,13 @@
 ## Observable
 
 ```
-C_ij(t) = Tr(rho_i(t) · rho_j(t))              site-to-site cross-correlation
-dC_ij/dJ = (C_ij^(B+) - C_ij^(B-)) / (2 dJ)    flow response to bond perturbation
+C_ij(t) = Tr(rho_i(t) · rho_j(t))              one-site marginal similarity
+dC_ij/dJ = (C_ij^(B+) - C_ij^(B-)) / (2 dJ)    response to bond perturbation
 ```
 
-For i=j reduces to per-site purity. For i≠j captures how information at two sites is correlated at time t, and how that correlation responds when a single bond is perturbed.
+For `i=j` this reduces to per-site purity. For `i≠j` it compares two reduced
+one-site density matrices. It is not the expectation of a joint observable and
+does not measure correlation or information shared between the sites.
 
 Initial state: PTF bonding `(|vac⟩ + |psi_1⟩)/sqrt(2)`. Perturbation: bond 0, delta_J = ±0.01. Scanned N = 4, 5, 6.
 
@@ -35,32 +40,38 @@ d   peak     time    peak     time    peak     time
 5                                     0.046    2.00
 ```
 
-Every distance shows non-zero signal at `t = 0.4` (first propagation step). No Lieb-Robinson front emerges from the bond-0 site outward; all distances light up effectively simultaneously.
+Every distance has a non-zero derivative at `t = 0.4`, the first sampled time.
+Because the initial probe is delocalized and `C_ij` is a marginal-similarity
+quantity, this observation is not a test for a Lieb-Robinson front.
 
 ---
 
 ## Three structural observations
 
-### 1. The flow is global, not sequential
+### 1. The delocalized probe does not test propagation
 
-PTF's bonding state `(|vac⟩ + |psi_1⟩)/sqrt(2)` contains `|psi_1⟩` as a **delocalized sine mode** spanning all sites. The reduced-density matrices at every site are already correlated at t=0 via the coherent amplitude of the bonding superposition. The bond perturbation therefore **reorganises an existing global correlation**, it does not propagate a new local excitation.
+PTF's bonding state `(|vac⟩ + |psi_1⟩)/sqrt(2)` contains `|psi_1⟩` as a
+**delocalized sine mode** spanning all sites. A bond perturbation can therefore
+change one-site marginals across the chain without launching a local excitation.
 
-This is not a flaw of the measurement; it is the dynamical signature of choosing a delocalized probe. For a localised probe (e.g., `|1⟩⟨1|` at site 0), a Lieb-Robinson front would emerge cleanly with speed v ≈ 2J.
-
-**Implication for PTF interpretation:** the "closure" Σ_i ln(α_i) measures something that is already coupled across the chain at t=0. The "α_i per site" picture is slightly misleading: the per-site α values are correlated through the delocalized initial state.
+The scan therefore reports sensitivity of marginal similarity to the bond. A
+front test would need a localized preparation and a propagation observable; no
+front speed follows from these data.
 
 ### 2. Peak times cluster in two groups
 
 Clearest at N=5: peaks at `t ≈ 1.6` (d=2, d=4) and at `t ≈ 4.0` (d=0, d=1, d=3). A similar split at N=6: `t ≈ 2.0-2.8` vs `t ≈ 5.2-5.6`. At N=4 the trend is less pronounced (time resolution dt=0.4 may be too coarse).
 
-The peak time tracks the dominant Liouvillian eigenmode that contributes to each distance class. For the (vac, S_1) sector, the relevant modes have Im(λ) = ±E_k = ±2J·cos(π·k/(N+1)):
+The peak-time clusters are roughly consistent with pair differences among the
+single-excitation frequencies Im(λ) = ±E_k = ±2J·cos(π·k/(N+1)):
 
 - At N=5: E_1 = sqrt(3), E_2 = 1, E_3 = 0, E_4 = -1, E_5 = -sqrt(3)
 - Pair-difference frequencies E_k - E_m give the oscillation period of C_{ij}(t). The "fast cluster" corresponds to |E_1 - E_5| = 2·sqrt(3) ≈ 3.46, period ≈ 1.82 (close to 1.6). The "slow cluster" corresponds to |E_2 - E_4| = 2, period ≈ 3.14 (close to 4.0). Rough match.
 
-This is the spectral-mode fingerprint of the flow-response landscape. Deeper analysis requires explicit mode decomposition (next sub-step, not pursued here).
+This is a rough numerical comparison, not a modal attribution. An explicit
+mode decomposition was not performed.
 
-### 3. Pi-pair (spatial reflection) asymmetry is a dynamical attractor
+### 3. Spatial-reflection asymmetry decays in the measured scan
 
 The bond-0 perturbation is spatially asymmetric (endpoint perturbation), so the immediate dC_ij(t) does NOT satisfy R-symmetry dC_ij = dC_{N-1-i, N-1-j}. But the residual **decays in time**:
 
@@ -72,11 +83,20 @@ t = 60:  max residual = 1.3e-4
 t = 80:  max residual = 5.7e-6
 ```
 
-Roughly a factor 10-15 per 20 time units, i.e., `exp(-4*γ_0 * t)` scaling (expected for the uniform-dephasing steady-state approach).
+The sampled reductions are about 10–22× per 20 time units. Four late-time
+samples do not determine an exponential rate; its dependence on `N` and
+`γ_0` remains open.
 
-**Interpretation:** Pi-pair mirror symmetry is not only the kinematic property of F71 (c_1 bond profile mirror-symmetric for reflection-symmetric probes), but also a **dynamical fixed-point attractor** of the general flow landscape. Any spatial asymmetry imprinted by a localised perturbation decays into the mirror-symmetric steady state.
+**Interpretation:** F71 gives a mirror-symmetric `c_1` bond profile for
+reflection-symmetric probes. In this endpoint-perturbation scan, the measured
+reflection asymmetry decays as the trajectory approaches its symmetric steady
+state.
 
-This confirms the STANDING_WAVE_THEORY picture in dynamical form: the asymmetric transient is the forward-travelling wave of "where the perturbation was applied", and its reflection-partner is the backward-travelling partner that eventually superposes with it to form the standing wave. The "Pi-pair as standing wave" identity is visible directly in the fluid dynamics of dC_ij(t).
+What is visible here is the decay of reflection asymmetry in `dC_ij(t)`. The
+simultaneous nonzero derivatives do not test a propagating front, and neither
+these data nor the Pi pairing identify forward/backward spatial modes or a
+standing wave; that reading would require a localized preparation and a
+propagation or current observable.
 
 ---
 
@@ -84,31 +104,39 @@ This confirms the STANDING_WAVE_THEORY picture in dynamical form: the asymmetric
 
 The Meta-Theorem from [the orthogonality-selection family](ORTHOGONALITY_SELECTION_FAMILY.md) says: any measurement M projects onto a detector basis; conservation laws + basis diagonality produce blind channels.
 
-What this scan adds:
+What this scan records:
 
-- **Measurements have a time axis.** The "detector projection" evolves in time with the Liouvillian eigenmodes. Different eigenmode-pair differences produce different temporal resonances in the flow response.
-- **Conservation laws produce not just blind-channel projections but also dynamical attractors.** Pi-pair symmetry is a conservation-induced fixed point of the long-time flow landscape. The blind channel (F71: mirror-symmetric bond profile) is the INVARIANT MANIFOLD of this attractor. Perturbations that break the symmetry live on the unstable manifold and decay back to the attractor at rate ~ 4γ_0.
-
-This promotes the Meta-Theorem from a static statement about projections to a **dynamical statement about attractors**. The selection rules define the invariant subspace; the dissipation drives everything back to it.
+- **Measurements have a time axis.** The response contains multiple temporal
+  scales roughly consistent with eigenvalue-difference frequencies; an explicit
+  mode decomposition has not been performed.
+- **The static and dynamical observations are distinct.** F71 supplies the
+  reflection-symmetric profile for symmetric probes. This scan additionally
+  observes late-time decay of one endpoint perturbation's reflection asymmetry,
+  without establishing a universal attractor, invariant manifold, or decay rate.
 
 ---
 
 ## Status
 
-**Verified at N = 4, 5, 6 (walltime 167s combined).**
+**Raw derivative landscape reproduced at N = 4, 5, 6 (walltime 167s combined).**
 
 **Open sub-questions:**
 - Explicit mode-decomposition of the peak-time clustering (would sharpen observation 2).
-- Scaling of the attractor relaxation rate with N and γ_0 (observation 3: we saw ~10x per 20 time units at γ_0 = 0.05, N=5; is this always 4γ_0 or does it depend on N?).
-- Does the globality of the flow depend on the choice of initial state? For a localised probe |1⟩⟨1|, do we recover a Lieb-Robinson front at 2J?
+- Dependence of the reflection-residual decay on N and `γ_0`.
+- A separate propagation test with a localized preparation and a suitable
+  local observable.
 
 **Files:**
 - `simulations/eq018_info_flow.py`
 - `simulations/results/eq018_info_flow/info_flow_N{4,5,6}.json`
 - `simulations/results/eq018_info_flow/run.log`
 
-**Next step:** Step 3 from the plan - explicit Pi-pair flow-balance verification at the Liouvillian mode level. Confirm that paired modes (lambda_fast, lambda_slow) with `alpha_fast + alpha_slow = 2 Sigma gamma` carry **oppositely-directed** information flows in the mode-resolved dC_ij landscape. This turns the absorption theorem from a spectral identity into a conserved-flux statement.
+**Next step:** Step 3 from the plan - test at the Liouvillian mode level whether
+paired modes (`alpha_fast + alpha_slow = 2 Sigma gamma`) carry any
+oppositely-directed current in the mode-resolved `dC_ij` landscape. The spectral
+identity itself supplies no conserved-flux statement.
 
 ---
 
-*The landscape does not have a shore. The waves start everywhere at once and flow back to the mirror line.*
+*On this delocalized probe, the response starts globally and its measured
+reflection asymmetry decays.*

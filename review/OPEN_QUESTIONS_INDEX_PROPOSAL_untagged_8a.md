@@ -76,10 +76,10 @@
 
 ### OQ-015
 
-**Question:** Macroscopic relevance: The XOR fraction vanishes as (N+1)/4^N. At what N does the palindrome become operationally invisible?  
+**Question:** Operational measure: F23 gives only the XOR eigenspace rank fraction `(N+1)/4^N`, which cannot define invisibility or a critical N. What measure should be tested for a specified preparation, ensemble, observable, and channel?
 **Source:** `docs/THE_INTERPRETATION.md` (line 548)  
 **Proposed status:** needs-human  
-**Justification:** Cross-batch duplicate of OQ-003 (math-proof). Same question about macroscopic relevance from a different source file. Candidate for merge.
+**Justification:** Cross-batch duplicate of OQ-003 (math-proof). Both ask for a missing operational measure and explicitly reject rank fraction as its substitute. Candidate for merge.
 
 ---
 

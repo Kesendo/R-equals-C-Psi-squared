@@ -41,6 +41,27 @@ def multiset_match(values, targets, tol=1e-7):
     return residual <= tol, residual
 
 
+def multiset_match_count(values, targets, tol=1e-7):
+    """Maximum cardinality of a global one-to-one tolerance matching."""
+    values = np.asarray(values, dtype=complex)
+    targets = np.asarray(targets, dtype=complex)
+    if values.shape != targets.shape:
+        raise ValueError("values and targets must have the same shape")
+    value_points = np.column_stack((values.real, values.imag))
+    target_points = np.column_stack((targets.real, targets.imag))
+    neighbours = cKDTree(value_points).query_ball_point(target_points, tol)
+    rows, cols = [], []
+    for row, candidates in enumerate(neighbours):
+        rows.extend([row] * len(candidates))
+        cols.extend(candidates)
+    graph = csr_matrix(
+        (np.ones(len(rows), dtype=np.int8), (rows, cols)),
+        shape=(len(targets), len(values)),
+    )
+    assignment = maximum_bipartite_matching(graph, perm_type="column")
+    return int(np.count_nonzero(assignment >= 0))
+
+
 def spectrum_palindromic(matrix, centre, tol=1e-7):
     values = np.linalg.eigvals(matrix)
     targets = -2 * centre - values

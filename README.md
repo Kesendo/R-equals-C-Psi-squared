@@ -267,7 +267,9 @@ but does not establish reciprocity across different Hamiltonian protocols.
 
 The framework's design rules, condensed (each links to its evidence):
 
-1. **Use W states, not GHZ**: GHZ excites only the fastest-absorbing modes.
+1. **Compare encodings operationally.** GHZ off-diagonal coherence carries the
+   maximal local Z-dephasing charge, but F22 does not rank full GHZ and W states;
+   use a matched preparation, observable, and time window.
 2. **Choose the receiver, not the noise profile.** Under
    [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), Alice picks her
    initial state from the F67 bonding-mode menu: 1.4-4.6× over alt-bit

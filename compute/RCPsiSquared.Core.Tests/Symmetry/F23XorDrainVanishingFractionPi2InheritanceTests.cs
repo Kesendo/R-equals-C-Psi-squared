@@ -88,29 +88,29 @@ public class F23XorDrainVanishingFractionPi2InheritanceTests
     }
 
     [Fact]
-    public void IsMacroscopicallyNegligible_FalseAtSmallN()
+    public void IsDimensionFractionBelowThreshold_FalseAtSmallN()
     {
         var f = BuildClaim();
-        Assert.False(f.IsMacroscopicallyNegligible(N: 3));    // 6.25% >> 1e-6
-        Assert.False(f.IsMacroscopicallyNegligible(N: 5));    // 0.59% >> 1e-6
-        Assert.False(f.IsMacroscopicallyNegligible(N: 8));    // 0.014% >> 1e-6
+        Assert.False(f.IsDimensionFractionBelowThreshold(N: 3));    // 6.25% >> 1e-6
+        Assert.False(f.IsDimensionFractionBelowThreshold(N: 5));    // 0.59% >> 1e-6
+        Assert.False(f.IsDimensionFractionBelowThreshold(N: 8));    // 0.014% >> 1e-6
     }
 
     [Fact]
-    public void IsMacroscopicallyNegligible_TrueAtLargeN()
+    public void IsDimensionFractionBelowThreshold_TrueAtLargeN()
     {
         // Default threshold = 1e-6. At N=12: 13/4^12 ≈ 7.75e-7 (below).
         var f = BuildClaim();
-        Assert.True(f.IsMacroscopicallyNegligible(N: 12));    // ~7.75e-7
-        Assert.True(f.IsMacroscopicallyNegligible(N: 15));    // ~10^-8
-        Assert.True(f.IsMacroscopicallyNegligible(N: 20));    // ~10^-11
+        Assert.True(f.IsDimensionFractionBelowThreshold(N: 12));    // ~7.75e-7
+        Assert.True(f.IsDimensionFractionBelowThreshold(N: 15));    // ~10^-8
+        Assert.True(f.IsDimensionFractionBelowThreshold(N: 20));    // ~10^-11
     }
 
     [Fact]
-    public void IsMacroscopicallyNegligible_NonPositiveThreshold_Throws()
+    public void IsDimensionFractionBelowThreshold_NonPositiveThreshold_Throws()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
-            BuildClaim().IsMacroscopicallyNegligible(N: 5, threshold: 0.0));
+            BuildClaim().IsDimensionFractionBelowThreshold(N: 5, threshold: 0.0));
     }
 
     [Theory]

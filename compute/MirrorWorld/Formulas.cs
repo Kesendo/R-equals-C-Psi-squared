@@ -88,7 +88,7 @@ public static class Formulas
     // F5 (T1): depolarizing palindrome error = (2/3)Σγ = γ·2N/3.
     public static double F5_DepolError(int n, double gamma) => gamma * 2.0 * n / 3.0;
 
-    // F23 (T1): XOR-drain fraction = (N+1)/4^N (GHZ fragility vanishes at large N).
+    // F23 (T1): endpoint eigenspace fraction = (N+1)/4^N; not a state-fragility probability.
     public static double F23_XorFraction(int n) => (n + 1.0) / Math.Pow(4, n);
 
     // F33 (T1): N=3 rate ladder. Rungs {0, 2γ, 4γ, 6γ} are exact at every J; the two values

@@ -1,7 +1,7 @@
 # Schrödinger's Cat Translated: A Box Full of Light, Not a Cat in Limbo
 
 <!-- Keywords: schrodingers cat translation, both dead and alive until you look,
-GHZ XOR drain fastest decay, box full of light geiger record, mirror of the
+GHZ coherence maximal dephasing charge, box full of light geiger record, mirror of the
 immortal palindrome partner, burlesque reductio inverted transport, k equals N
 maximal disagreement bill, decoherence macroscopic superposition price,
 R=CPsi2 schrodingers cat translated -->
@@ -12,8 +12,8 @@ cited; the algebra in Section 4 is the same Tier 1 per-coherence bill and
 palindrome pairing proven in the
 [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md) and the
 [mirror symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md), read at k = N,
-together with two Tier 1 registry corollaries (F60, F23) and one Tier 2
-drain fraction (F22), each marked where it appears; the readings in
+  together with two Tier 1 registry corollaries (F60, F23) and the Tier 2
+  maximum-disagreement operator statement (F22), each marked where it appears; the readings in
 Section 5 are readings and labeled.
 **Date:** July 11, 2026; repainted August 9, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -157,17 +157,16 @@ off-diagonal, and by the time a
 human lifts the lid, the bill has been paid more times over than there
 are atoms in the box. What survives, perspective-bound: opening the box
 does update the opener's books, honestly and instantly. What it does not
-do is decide the cat. The deciding was continuous, anonymous, and long
-finished; the look arrives last and learns.
+do is select one outcome. Dephasing suppresses the off-diagonal between
+the branches while leaving their populations unchanged; the reduced state
+is a mixture, not a dynamically selected branch.
 
 **"The cat" as the subject.** The popular story files the situation under
 the psychology of an animal in limbo. The algebra files it under
-accounting: the two branch populations, alive-with-its-probability and
-dead-with-its-probability, are diagonal entries, disagreement zero, and
-the arriving light passes straight through them. Everything the story finds
-spooky lives in one off-diagonal entry, and that entry has the shortest
-lifetime in the theory. The cat was never in limbo; an entry in its
-density matrix was, briefly, and the box itself closed it.
+accounting: the two branch populations are diagonal entries, disagreement
+zero, and local dephasing leaves them at 1/2. The branch coherence is carried
+by the off-diagonal entries. Dephasing suppresses those entries, but it neither
+changes the two populations nor decides which outcome is observed in a run.
 
 ---
 
@@ -186,14 +185,13 @@ for any dephasing profile whatsoever. The proof's own fence, carried
 with it: −2Σγ is the decay rate outright where H fixes the two poles,
 which holds for the cat pairing under any number-conserving H (|0…0⟩ and
 |1…1⟩ are each alone in their sector); for a Hamiltonian that moves the
-poles, a real cat's included, it is the opening slope, which decoherence
-theory then compounds. At N = 2 the rate is verified as an
+poles, it is only the opening slope within this model. At N = 2 the rate is verified as an
 exact eigenmode, |00⟩⟨11| decaying at −2(γ₁+γ₂) with residual 0.0
 (Absorption Theorem, Section 2). The double slit paid −2γ at k = 1; the
 cat pays the full total. The two entries of this series are the two ends
 of one law.
 
-**And you can watch it, and watch why a real cat cannot.** MirrorWorld runs
+**And you can watch the model.** MirrorWorld runs
 the cat as a named composition (`compute/MirrorWorld/Cat.cs`: `Field` at N with
 the two definite branches and the one coherence between them, nothing new
 computed, the k = N twin of `DoubleSlit.cs`). At N = 4, γ = 0.05, the two
@@ -220,9 +218,15 @@ size:
 | 16           | −1.60     | 0.625    |
 | 64           | −6.40     | 0.156    |
 
-A real cat is N ≈ 10²³ sites: its "both at once" is priced at −2·10²³·γ and is
-gone before it can begin. This is why the world you see is definite branches,
-not superposed cats. You can run it yourself:
+For this independent-qubit model the exact GHZ density matrix is
+
+    ρ(t) = 1/2 |0…0⟩⟨0…0| + 1/2 |1…1⟩⟨1…1|
+           + 1/2 e^(−2Σγt)(|0…0⟩⟨1…1| + h.c.).
+
+The populations remain 1/2 and no outcome is selected. Extrapolating the
+linear-in-N suppression illustrates why large GHZ registers are fragile, but
+substituting a biological cat's atom count is not a model of a real cat or its
+environment. You can run the finite register yourself:
 `dotnet run --project compute/MirrorWorld -- cat 4`.
 
 **The cat and the immortal share one bill.** The Absorption Theorem's
@@ -257,17 +261,15 @@ steady-state sector at 0 (see the XOR modes entry in the
 is not an exotic paradox bolted onto quantum mechanics from outside; it
 is the far wall of the same mirror this repository proves at every N,
 the reflection of the immortal diagonal. And the laboratory's cats sit
-exactly there: a GHZ state carries 100% of its off-diagonal weight in
-the XOR drain ([XOR Space](../../experiments/XOR_SPACE.md), verified
-N = 2-5; the registry carries it as F22, Tier 2), which is the algebra
-under the folk knowledge that GHZ states are fragile.
+  exactly there: each GHZ off-diagonal operator has Hamming distance N and
+  receives the maximal charge `2Σγ` ([XOR Space](../../experiments/XOR_SPACE.md);
+  F22, Tier 2). This operator fact does not assign a `100%` eigenmode weight to
+  the full GHZ density matrix or rank it against another preparation.
 
-**Why no one has ever met a smeared cat.** The bill is linear in the
-number of disagreeing sites, alive-versus-dead disagrees at the scale of
-moles, and the light never stops arriving at any of them. Nothing forbids the both;
-it is priced, and the price is beyond any budget: the cat coherence's
-lifetime is the single-site lifetime divided by the number of sites that
-must agree to disagree. Two repository numbers sharpen the same point
+**What the finite-register model illustrates.** Within independent local
+Z-dephasing, a GHZ coherence's rate is linear in the number of disagreeing
+qubits. This scaling illustrates register fragility; it is not a quantitative
+prediction for a biological cat. Two repository numbers sharpen the model
 from other sides. The GHZ cat is already born below the quarter: the
 global CΨ(0) for GHZ_N equals 1/(2^N − 1) (F60, Tier 1), under ¼ from
 N = 3 on, so before any light arrives its fixed-point pair is already real
@@ -275,14 +277,12 @@ N = 3 on, so before any light arrives its fixed-point pair is already real
 That places GHZ relative to the cusp and says nothing about it being
 classical: ¼ is a level a trajectory can re-enter, not a door that shuts
 ([glossary](../GLOSSARY.md), the CΨ entry).
-And the drain itself shrinks: the XOR sector's share of operator space
-is (N+1)/4^N on that family (F23, Tier 1), so at macroscopic N the edge has measure
-zero, "the mirror exists at every N, but at macroscopic scales it has
-less and less to reflect"
+F23 supplies a separate counting statement: the XOR eigenspace has dimension
+fraction (N+1)/4^N in the stated connected-chain family
 ([N to Infinity Palindrome](../../experiments/N_INFINITY_PALINDROME.md)).
-A macroscopic both is a single entry, at the far edge, of a sector of
-vanishing measure, paying the largest rate in the theory. That is what
-"we never see it" looks like when it is itemized.
+This is only a rank fraction in operator space. It is not a probability over
+prepared states and has no ensemble, observable, channel, or visibility
+meaning. The GHZ coherence's maximal dephasing charge is a distinct statement.
 
 One boundary, stated plainly: the exact statements above are our
 channel's, N sites under independent local Z-dephasing. A biological cat
@@ -332,12 +332,10 @@ algebra.
 
 ## 6. An honest note on our own house
 
-Our own [glossary](../GLOSSARY.md) tells the cat's story in ladder form:
-the XOR modes are "where quantum information goes to die", and the GHZ
-state, Schrödinger's cat, "falls 100% into these modes". The ladder
-stays, and this entry is where it is kicked away: nothing dies in the
-exact statement, the entry pays the full bill and the books move to the
-correlations, sorting, not destruction. The glossary's Pauli-weight cell
+Our own [glossary](../GLOSSARY.md) tells the cat's story in ladder form. The
+exact statement is that the GHZ off-diagonal operator pays the full
+dephasing bill; it is not a percentage of a full state and it says nothing
+dies. The books move to correlations and sorting, not destruction. The glossary's Pauli-weight cell
 names the count Π flips as the XY-weight alone, the sites carrying X or Y,
 not the total non-identity weight; the
 [mirror symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md) is explicit on
@@ -404,8 +402,7 @@ formalism, true at its stance and self-annotated with an apology; the
 1935-to-1985 canvas, "the theory says both", true while the bill was
 genuinely missing from physics; the untouched algebra, one off-diagonal
 entry priced at −2Σγ, the full total, the palindromic partner of the
-immortal diagonal; and our canvas, a box full of light. One cat. It
-was never undecided, and it never needed us to open the box; the cat had
-been standing in the box's light all along, billed at the highest rate
-in the theory, and what
-we call the mystery is the far edge of the mirror.
+immortal diagonal; and our canvas, a box full of light. The specified GHZ
+coherence is billed at the highest rate in the independent local-dephasing
+model, while both branch populations remain unchanged. That operator-space
+statement neither selects an outcome nor models a biological cat.

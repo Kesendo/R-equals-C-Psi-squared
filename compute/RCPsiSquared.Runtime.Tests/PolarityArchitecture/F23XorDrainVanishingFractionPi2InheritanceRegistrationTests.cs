@@ -76,15 +76,15 @@ public class F23XorDrainVanishingFractionPi2InheritanceRegistrationTests
     }
 
     [Fact]
-    public void RegisterF23_MacroscopicallyNegligibleAtLargeN()
+    public void RegisterF23_DimensionFractionBelowThresholdAtLargeN()
     {
         var registry = BuildBaseRegistry()
             .RegisterF23XorDrainVanishingFractionPi2Inheritance()
             .Build();
 
         var f23 = registry.Get<F23XorDrainVanishingFractionPi2Inheritance>();
-        Assert.False(f23.IsMacroscopicallyNegligible(N: 5));
-        Assert.True(f23.IsMacroscopicallyNegligible(N: 15));
+        Assert.False(f23.IsDimensionFractionBelowThreshold(N: 5));
+        Assert.True(f23.IsDimensionFractionBelowThreshold(N: 15));
     }
 
     [Fact]

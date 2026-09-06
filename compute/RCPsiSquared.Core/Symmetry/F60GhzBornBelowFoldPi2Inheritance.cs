@@ -51,10 +51,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// below the fold regardless of γ, its fixed-point pair real from the start (a
 /// position relative to the cusp, not a classical verdict).</para>
 ///
-/// <para>Operational consequence (per ANALYTICAL_FORMULAS): "the only escape
-/// is to change the state." GHZ encoding is structurally unsuitable for
-/// state transfer; W-type encodings are preferred (cf. README Rule 1, F22
-/// XOR-drain confirms via independent argument).</para>
+/// <para>Scope: this geometric fold position does not rank GHZ against another
+/// state-transfer encoding. F22 independently fixes the dephasing charge of
+/// the GHZ off-diagonal operator; an operational comparison still requires a
+/// matched preparation, observable, and time window.</para>
 ///
 /// <para>Tier1Derived: F60 is Tier 1 geometric corollary. Closed form
 /// derived directly from C(0) = 1 (pure state), l1 off-diagonal coherence = 1,
@@ -144,8 +144,8 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
 
     /// <summary>The smallest N at which GHZ is born below the fold:
     /// <c>N = 3</c>. Below this (i.e. at N=2) GHZ is the Bell+ state, which
-    /// crosses the fold under dynamics. From N ≥ 3 the geometric deficit is
-    /// permanent.</summary>
+    /// can cross the fold in the cited dynamics. For N ≥ 3 this property says
+    /// only that the initial GHZ value is below the fold.</summary>
     public int SmallestNBelowFold => 3;
 
     /// <summary>Cross-check: at N = 2 (Bell+ as GHZ_2), CΨ(0) = 1/3 ≈ 0.333,
@@ -190,8 +190,8 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
             yield return InspectableNode.RealScalar("FoldPosition (= a_3 = 1/4)", FoldPosition);
             yield return new InspectableNode("polarity-layer reading",
                 summary: "GHZ's only nonzero off-diagonal entry IS the polarity pair literal; F60 is the first F-formula whose primary anchor sits ON the 0.5-shift axis (per Tom 2026-05-09 mirror-map check)");
-            yield return new InspectableNode("operational consequence",
-                summary: "for N ≥ 3 GHZ is structurally unsuitable for state transfer; γ-reduction cannot fix the geometric deficit; only escape = change the state (W-type encodings preferred per F22 + Rule 1)");
+            yield return new InspectableNode("operational scope",
+                summary: "F60 locates GHZ relative to the CΨ fold; it does not rank GHZ against W or another state-transfer encoding without a matched operational comparison");
             yield return new InspectableNode("F60 ↔ F62 sibling",
                 summary: "F60 (GHZ): global CΨ(0) = 1/(2^N − 1) on the 2^N-dimensional state, below fold for N ≥ 3; F62 (W_N): pair-reduced CΨ(0) = 10/81 ≈ 0.124 also below fold at N=3; F69 (GHZ+W mix): unique optimum above 1/4 via sextic root");
             // Verified table: N = 2..5 from ANALYTICAL_FORMULAS F60, N = 6 by the closed form

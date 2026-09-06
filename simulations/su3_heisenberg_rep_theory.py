@@ -31,6 +31,8 @@ Blocks (this scout pins, exact):
 import numpy as np
 from itertools import product as iprod
 
+from palindrome_general import multiset_match_count
+
 # ---- Gell-Mann + qutrit infrastructure (matches the committed verifiers) ----
 gm = [
     np.array([[0, 1, 0], [1, 0, 0], [0, 0, 0]], dtype=complex),
@@ -49,6 +51,24 @@ GAMMA = 0.05
 
 def kron(a, b):
     return np.kron(a, b)
+
+
+def right_hs_rayleigh(diagonal, right_vectors):
+    """Right Hilbert-Schmidt Rayleigh quotients v^dag Q v / v^dag v."""
+    numerators = np.einsum(
+        'ik,i,ik->k', right_vectors.conj(), np.asarray(diagonal), right_vectors
+    )
+    denominators = np.einsum('ik,ik->k', right_vectors.conj(), right_vectors)
+    return numerators / denominators
+
+
+def right_hs_expectation(operator, right_vectors):
+    """Right Hilbert-Schmidt expectations v^dag A v / v^dag v."""
+    numerators = np.einsum(
+        'ik,ij,jk->k', right_vectors.conj(), operator, right_vectors
+    )
+    denominators = np.einsum('ik,ik->k', right_vectors.conj(), right_vectors)
+    return numerators / denominators
 
 
 def main():
@@ -124,8 +144,26 @@ def main():
     P_inter = kron(Psym, Panti.T) + kron(Panti, Psym.T)   # projector onto C (+) D
     ev, Vr = np.linalg.eig(L)
     W = np.linalg.inv(Vr)
-    qfull = np.einsum('ki,i,ik->k', W, Qdiag, Vr).real
-    inter_wt = np.real(np.einsum('ki,ij,jk->k', W, P_inter, Vr))   # biorthogonal inter weight
+    q_rayleigh = right_hs_rayleigh(Qdiag, Vr)
+    q_biorthogonal = np.einsum('ki,i,ik->k', W, Qdiag, Vr)
+    q_difference = q_biorthogonal - q_rayleigh
+    q_imag_max = float(np.max(np.abs(q_rayleigh.imag)))
+    difference_abs_max = float(np.max(np.abs(q_difference)))
+    difference_imag_max = float(np.max(np.abs(q_difference.imag)))
+    absorption_residual = float(np.max(np.abs(ev.real + 2 * g * q_rayleigh.real)))
+    assert q_imag_max < 1e-12, f"Hermitian Q Rayleigh quotient acquired Im={q_imag_max}"
+    assert absorption_residual < 1e-12, f"right-HS absorption residual={absorption_residual}"
+    assert difference_abs_max > 1e-3, "biorthogonal-vs-right-Rayleigh control did not separate"
+    qfull = q_rayleigh.real
+    inter_rayleigh = right_hs_expectation(P_inter, Vr)
+    inter_imag_max = float(np.max(np.abs(inter_rayleigh.imag)))
+    assert inter_imag_max < 1e-12, f"projector Rayleigh quotient acquired Im={inter_imag_max}"
+    inter_wt = inter_rayleigh.real
+    print("\n    Q expectation convention check:")
+    print(f"      max |Im(right HS Rayleigh)| = {q_imag_max:.3e}")
+    print(f"      max |Re(lambda) + 2g<Q>_right-HS| = {absorption_residual:.3e}")
+    print(f"      max |biorthogonal - right HS| = {difference_abs_max:.6f}")
+    print(f"      max |Im(biorthogonal - right HS)| = {difference_imag_max:.6f}")
     print("\n    full-L modes split by H-energy sector (Im(lambda) large = inter 6<->3bar):")
     intra = np.abs(ev.imag) < 1e-6
     inter = ~intra
@@ -145,11 +183,13 @@ def main():
     print(f"    intra-sector <Q> values are integers only: "
           f"{sorted(set(np.round(qfull[intra]).astype(int)))}")
     assert np.all(inter[half]), "a <Q>=1.5 mode is NOT inter-sector"
+    assert np.allclose(inter_wt[half], 1.0, atol=1e-12), \
+        "a <Q>=1.5 mode lacks unit right-HS inter-sector projector weight"
     qhist_total = qhist(intra | inter)
     assert {round(k, 1): v for k, v in qhist_total.items()} == {0.0: 6, 1.0: 36, 1.5: 12, 2.0: 27}
     print(f"\n    reconstructed full-L <Q>: {qhist_total}  (target {{0:6,1:36,1.5:12,2:27}})")
 
-    # ---- [4] the 60: palindrome pairs (<Q>, Im) -> (3 - <Q>, -Im) about center -3g ----
+    # ---- [4] the 60: full complex matching about center -3g ----
     # the reflection lambda -> -2*Sg - lambda at center -3g sends <Q> -> 3 - <Q>
     # AND Im -> -Im, so a mode (q, omega) pairs with (3 - q, -omega).
     from collections import Counter
@@ -158,22 +198,29 @@ def main():
     for (q, s), n in sorted(cells.items()):
         tag = "intra" if s == 0 else ("inter +iD" if s > 0 else "inter -iD")
         print(f"    <Q>={q:<4} {tag:<10}: {n}")
-    # reflect (q, s) -> (3 - q, -s); the <Q>=1.5 cells map (+iD)<->(-iD) into each
-    # other (never onto themselves, since the sign flips), so the plain loop pairs
-    # everything once with no self-mirror special case.
-    paired, used = 0, set()
-    for (q, s), n in cells.items():
-        if (q, s) in used:
-            continue
-        pq, ps = round(3.0 - q, 1), -s
-        m = min(n, cells.get((pq, ps), 0))
-        paired += 2 * m
-        used.add((q, s)); used.add((pq, ps))
-    print(f"\n    palindrome pairing from the (<Q>, Im) census = {paired}/81")
-    print("    decomposition: intra Q1<->Q2 = 2*min(18,21) = 36;  inter Q1<->Q2 across +-iD")
-    print("    = 2*(min(9,3)+min(9,3)) = 12;  inter Q=1.5 self across +-iD = 2*min(6,6) = 12;")
+    def full_complex_count(mask):
+        values = ev[mask]
+        return multiset_match_count(values, -6 * g - values, tol=1e-4)
+
+    q_integer_inter = inter & ((np.abs(qfull - 1.0) < 1e-6) |
+                               (np.abs(qfull - 2.0) < 1e-6))
+    intra_pairs = full_complex_count(intra)
+    integer_inter_pairs = full_complex_count(q_integer_inter)
+    half_inter_pairs = full_complex_count(half)
+    paired = multiset_match_count(ev, -6 * g - ev, tol=1e-4)
+    assert (intra_pairs, integer_inter_pairs, half_inter_pairs) == (36, 12, 12)
+    assert paired == intra_pairs + integer_inter_pairs + half_inter_pairs == 60
+    q1_detuned = inter & (np.abs(qfull - 1.0) < 1e-6) & \
+        (np.abs(np.abs(ev.imag) - 4.0) > 1e-4)
+    assert int(q1_detuned.sum()) == 6, \
+        f"expected six detuned Q=1 modes, got {int(q1_detuned.sum())}"
+    assert int(q_integer_inter.sum()) - integer_inter_pairs == 12, \
+        "expected twelve unpaired integer-Q inter-sector modes"
+    print(f"\n    full-complex palindrome matching = {paired}/81")
+    print("    decomposition: intra Q1<->Q2 = 36; inter Q1<->Q2 at exact |Im|=4 = 12;")
+    print("    inter Q=1.5 conjugate branches = 12; six Q=1 modes near |Im|=3.99875 and")
+    print("    six surplus Q=1 modes at |Im|=4 stay unpaired;")
     print("    total 36 + 12 + 12 = 60.")
-    assert paired == 60, f"rep-theory pairing census gives {paired}, expected 60"
 
     print("\n" + "=" * 72)
     print("READING: SU(3) gives the operator-space SKELETON ({1:2,8:4,27:1,10:1,10bar:1})")

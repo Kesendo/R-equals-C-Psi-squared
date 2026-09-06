@@ -13,7 +13,7 @@ The project studies the spectral structure of open quantum systems under
 dephasing noise and discovers that the Liouvillian eigenvalue spectrum is
 **palindromically paired** (every decay rate d has a partner at 2Σγ − d).
 This symmetry, verified for 87,376 eigenvalues with zero exceptions, has
-consequences for quantum state transfer, decoherence thresholds, and
+consequences for quantum state transfer, decoherence diagnostics, and
 information channels.
 
 All experiments are reproducible using Python, NumPy, and SciPy.
@@ -34,12 +34,12 @@ gamma_edge = N*gamma_base - (N-1)*epsilon. This trivially simple rule
 outperforms every published dephasing optimization by two orders of
 magnitude. C#-validated from N=5 (360×) through N=15 (68×) vs V-shape
 (peak created Sum-MI, a transport metric, ε→0 sim ideal; ~2-3× on
-hardware). ENAQT literature achieves 2-3×. Information grows quadratically with
-chain length (SumMI ~ 0.0053*N²) instead of decaying exponentially.
+hardware). ENAQT literature achieves 2-3×. In the finite N=2–15 scan, SumMI
+increases while the earlier quadratic fit increasingly overpredicts N=11–15.
 First hardware test: selective DD 2-3× on ibm_torino.
 
 -> **[Resonant Return: from SVD to formula](RESONANT_RETURN.md)**
--> [Signal Analysis: Quadratic Scaling](SIGNAL_ANALYSIS_SCALING.md)
+-> [Finite-N SumMI Scan](SIGNAL_ANALYSIS_SCALING.md)
 -> [IBM Hardware: Selective DD](IBM_CONCENTRATOR.md) (Tier 2, single run)
 
 ### 2. The dephasing channel (15.5 bits capacity)
@@ -53,9 +53,10 @@ in the γ profile can be decoded from internal quantum observables with
 → **[Practical γ Control (the two-lever noise law)](GAMMA_CONTROL.md)**
 
 ### 3. The CΨ = 1/4 boundary (IBM hardware validated)
-The product CΨ = Tr(ρ²) × L₁/(d−1) has a critical boundary at exactly
-1/4, determined by the discriminant of the self-referential purity
-recursion R = C(Ψ+R)². All standard quantum channels cross this boundary.
+The product CΨ = Tr(ρ²) × L₁/(d−1) has a recurrence boundary at exactly
+1/4, determined by the discriminant of R = C(Ψ+R)². This is not a
+quantum/classical or decoherence threshold: pure coherent GHZ_N states have
+CΨ = 1/(2^N−1) < 1/4 for N ≥ 3.
 Validated on IBM Torino at 1.9% deviation.
 
 → **[IBM Hardware Validation](IBM_RUN3_PALINDROME.md)**
@@ -86,13 +87,13 @@ interference require additional gates.
 | [Relay Protocol](RELAY_PROTOCOL.md) | Staged transfer with time-dependent γ: +83% end-to-end mutual information |
 | [Scaling Curve](SCALING_CURVE.md) | MI vs chain length (N=3 to N=11), hierarchy falsification, push vs pull principle |
 | [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10×), sacrifice-zone formula (360× at N=5 through 68× at N=15, peak Sum-MI transport, ε→0 sim), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
-| [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md) | Sacrifice-zone formula scaling N=2-15. Quadratic growth (SumMI ~ 0.0053*N²), constant brake (-0.020), two converging channels |
+| [Finite-N SumMI Scan](SIGNAL_ANALYSIS_SCALING.md) | Edge-concentrated profile evaluated at N=2–15. SumMI increases on the sampled rows, but the quadratic fit misses N=11/13/15 by 6%/12%/19%; no asymptotic law, constant brake, or two-channel mechanism is inferred |
 | [Temporal Sacrifice](TEMPORAL_SACRIFICE.md) | Fold catastrophe at CΨ = ¼ observed: endpoint MI peaks at exact crossing. With Bell+bath: CΨ oscillates around ¼ (81 crossings at J=5.0). MI pulses at each crossing. Damped: each cycle deposits irreversible reality |
 | [CMRR Break under Non-Uniform γ](CMRR_BREAK_NONUNIFORM_GAMMA.md) | Non-uniform dephasing breaks the CMRR coherence selection rule. Effect is mode-selective: gradient profiles show +1.35 slope, single-site bumps −0.19 (opposite-sign coupling to k=1 sine modes) |
 | [Light Dose Response](LIGHT_DOSE_RESPONSE.md) | Per-sector dose response to dephasing is nonlinear; mechanism is eigenvector rotation (not mode-crossing). SE sector R²=0.889 per-mode but sector-min R²=0.404. Interior sector (dim=100) most nonlinear, edge sector (dim=5) nearly linear |
 | [Gamma as Binding](GAMMA_AS_BINDING.md) | Per-sector rate sensitivity (superseded by [Light Dose Response](LIGHT_DOSE_RESPONSE.md)). Sacrifice profile slows SE sector to 0.318 vs uniform 1.502; 134% nonlinearity from eigenvector rotation |
 
-### The CΨ = 1/4 Boundary (decoherence threshold)
+### The CΨ = 1/4 recurrence boundary
 
 | Experiment | Key finding |
 |-----------|------------|
@@ -123,10 +124,10 @@ interference require additional gates.
 | [Π as Time Reversal](PI_AS_TIME_REVERSAL.md) | Π gives `lambda -> -lambda - 2Sigma_gamma` (`mu -> -mu` centred); past/future, physical time reversal, and standing-wave interference are not implied |
 | [Standing Wave Analysis](STANDING_WAVE_ANALYSIS.md) | Reports scoped Pauli-observable oscillation patterns; node/antinode language is an interpretation and is not supplied universally by Π |
 | [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) | Palindrome extends beyond Heisenberg to XY, Ising, XXZ, DM interaction. Two Π families (P1/P4) |
-| [XOR Space](XOR_SPACE.md) | Where information lives in the palindrome: GHZ vs W states, Pauli weight correlation |
+| [XOR Space](XOR_SPACE.md) | Endpoint count and F22 operator support; the GHZ/W state-weight and Pauli-correlation readings are retired |
 | [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) | Why depolarizing noise breaks the palindrome: 1:3 per-site split vs 2:2 for Z-dephasing |
 | [V-Effect](V_EFFECT_PALINDROME.md) | What happens when the palindrome breaks: immune extremes, 3× more frequencies |
-| [N→∞ Palindrome](N_INFINITY_PALINDROME.md) | Thermodynamic limit: Gaussian rate density, past/future boundary blurs |
+| [N→∞ Palindrome](N_INFINITY_PALINDROME.md) | Bare Z-dephasing dissipator only: Pauli-string counts C(N,k)·2^N give a binomial rate census over k, whose centered large-N counting profile approaches a Gaussian. This does not establish the interacting Liouvillian's density or an operational past/future boundary |
 | [Error Correction](ERROR_CORRECTION_PALINDROME.md) | Finite-code overlap diagnostics under an F1-compatible generator; the former 90% right-eigenvector-coordinate hierarchy is withdrawn as basis-dependent for a non-normal Liouvillian. Π is represented as an order-four operator |
 | [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) | At Σγ = 0: Stat(N) = Sum_J m(J,N)*(2J+1)^2 (Clebsch-Gordan). Exact for chain, lower bound for symmetric topologies. Star has N-1 harmonic frequencies, chain has rich irrational spectrum |
 | [IBM Cavity Spectral](IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Cavity modes meet IBM hardware: sacrifice zone protects the slowest oscillating modes at 2.80x (vs 1.97x measured). Same 43 frequencies, different damping. Palindromic to the eigensolver's floor under 26x asymmetric noise |
@@ -146,7 +147,7 @@ interference require additional gates.
 | [Concentrator Optics](CONCENTRATOR_OPTICS.md) | The concentrator as entrance pupil / AR coating: Q_max 2-7x, T_eff up. The analogy holds on the absorption side only; the concentrator also moves the resonance frequencies, the ω=0 level most |
 | [N=5 Optimal Cavity Size](N5_OPTIMAL_CAVITY_SIZE.md) | N=5 is Goldilocks (richness vs resolution), not golden ratio. φ in V(5) is cos(π/5), not organizing principle |
 | [Palindromic Orbit Census](FACTOR_TWO_STANDING_WAVES.md) | Across N=2..7, linear F1 (`λ→−λ−2Σγ`) gives 10,903 two-member orbits plus 34 fixed eigenvalues at `λ=−Σγ`; the conjugate-composite map gives 9,921 two-member orbits plus 1,998 fixed on `Re(λ)=−Σγ`. Both account for all 21,840 eigenvalues; neither is a physical wave count |
-| [Thermal Blackbody](THERMAL_BLACKBODY.md) | No phase transition: cavity degrades gracefully (Q drops 16×, osc% stays 82%), not Planck, not Stefan-Boltzmann |
+| [Thermal Blackbody](THERMAL_BLACKBODY.md) | Finite N=4 spectral census with externally varied `n_bar`: from 0 to 50, `Q_max` decreases 54.627 → 0.986 (~55×) while the tolerance-defined oscillatory fraction changes 82.031% → 80.469%. No phase transition, blackbody law, or cavity-degradation conclusion follows from this census |
 | [Primordial Superalgebra](PRIMORDIAL_SUPERALGEBRA_CAVITY.md) | {L_H, L_D+Σγ}=0 exact at N=2, aberration decreases with N (14.4%→2.6%). Palindromic weight swap: fast[k]=slow[N-k]. Seidel: pure sectors immune, interior-dominated, perfectly palindromic |
 | [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) | Exact closed-form dispersion ω_k = 4J(1−cos(πk/N)) for the (0,1) coherence block. Machine precision match (15/15 frequencies, N=2-6) |
 | [Absorption Theorem Discovery](ABSORPTION_THEOREM_DISCOVERY.md) | α=2γ⟨n_XY⟩ exact: absorption rate = 2×dephasing×light content. Linear in γ. Proven from L_H anti-Hermitian. Gives the boundary formula and sum rule a common reading; relocates the spectral gap. 1,342 modes, CV=0 |
@@ -187,10 +188,10 @@ interference require additional gates.
 | [Cockpit Scaling](COCKPIT_SCALING.md) | Cockpit framework extended to N=7-11 (chain and star) using C# matrix-free engine. n95 does NOT grow linearly with N as small-N suggested; instead it decreases (chain 4 to 2, star 4 to 3) due to Entanglement Sudden Death. Chain ESD time approximately N-independent (~1), star ESD time grows with N (0.5 to 3.9) due to monogamy of entanglement. 3-PC coverage stays above 90% in all 8 tested configurations. Purity remains the dominant PC1 proxy throughout |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | theta is not a function of a single PC. It reads a diagonal of the manifold, requiring all 3 PCs (R^2 = 0.87). Strongest correlation with PC3 (Psi- sector), not PC1 |
 | [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) | For Bell+, dwell-time prefactor at CΨ = 1/4 is pure weight function: (2+4W₂)/(1+6W₂). Fails for odd-weight states (needs coefficient magnitudes) |
-| [Dwell Prefactor Generalized](DWELL_PREFACTOR_GENERALIZED.md) | Two-sector generalization: prefactor = (4/k)·(W₀+W_k)/(W₀+3W_k). Bell+ (k=2, W₀=1/2) and W₃ (k=2, W₀=1/3) both match direct simulation at <0.001%. Corollary: GHZ_N for N≥3 starts at CΨ(0) = 1/(2^N−1) < 1/4 and never crosses |
-| [Orthogonality Selection Family](ORTHOGONALITY_SELECTION_FAMILY.md) | F70, F71, F72-candidate, and (vac,S_1) closure are one meta-theorem. Any measurement M projects onto orthonormal basis; conserved quantities produce built-in blind channels. Production rule: conservation law + summed measurement → guaranteed blind channel. Non-uniform γ breaks F70, amplitude damping breaks F72, pair-site measurements open \|ΔN\|=2 |
+| [Dwell Prefactor Generalized](DWELL_PREFACTOR_GENERALIZED.md) | Two-sector generalization: prefactor = (4/k)·(W₀+W_k)/(W₀+3W_k). Bell+ (k=2, W₀=1/2) and W₃ (k=2, W₀=1/3) both match direct simulation at <0.001%. For GHZ_N, CΨ(0) = 1/(2^N−1) < 1/4 at N≥3; a no-crossing conclusion additionally requires dynamics that keep the GHZ poles invariant |
+| [Orthogonality Selection Family](ORTHOGONALITY_SELECTION_FAMILY.md) | Selection rules for specified orthonormal/projective readout coordinates: content in the readout projector's kernel is blind. The instances require their stated conservation and channel assumptions; they are not a theorem about arbitrary measurements or an eigenspace decomposition by n_XY |
 | [F70 Amplitude Damping Break](F70_AMPLITUDE_DAMPING_BREAK.md) | Under amplitude damping with pure-coherence probe ρ_coh = (\|vac⟩⟨S_2\| + h.c.)/2, kinematic F70 zero holds exactly across γ_1 ∈ [0, 0.1]. Analytical derivation D_AD ρ_coh = −γ_1 ρ_coh confirms no sector leak from \|Δn\|=2 block |
-| [Info-Flow Landscape](INFO_FLOW_LANDSCAPE.md) | Bond-0 perturbation C_ij response is global (not Lieb-Robinson front): probe is a delocalized sine mode. Peak-time clustering reveals Liouvillian mode-pair differences: N=5 shows fast cluster (\|E_1−E_5\|=2√3, t≈1.6) and slow cluster (\|E_2−E_4\|=2, t≈4.0). Π-pair asymmetry decays as exp(−4γ₀t) |
+| [Marginal-Similarity Landscape](INFO_FLOW_LANDSCAPE.md) | Bond-0 perturbation scan of `Tr(rho_i rho_j)`, a similarity between one-site marginals rather than a two-site correlation or information-flow observable. Peak-time clusters are roughly consistent with single-excitation frequency differences; modal attribution, propagation, and the asymmetry-decay rate remain open |
 
 ### Star Topology and Mediator Physics
 
@@ -333,7 +334,7 @@ interference require additional gates.
 | [Observer Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) | γ gradient as gravitational analogue |
 | [Operator Feedback](OPERATOR_FEEDBACK.md) | Operator feedback dynamics |
 | [Universal Quantum Lifetime](UNIVERSAL_QUANTUM_LIFETIME.md) | Universal lifetime scaling |
-| [Why the Sum](WHY_THE_SUM.md) | Why Σγ appears in the palindromic sum |
+| [Sum-versus-Product Question](WHY_THE_SUM.md) | Null result: the affine Liouvillian palindrome selects neither the sum-squared nor product expression and supplies no physical handoff |
 | [Dyad Experiment](DYAD_EXPERIMENT.md) | Two-observer dynamics |
 | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) | Application to quantum key distribution |
 | [Degeneracy Palindrome](DEGENERACY_PALINDROME.md) | Palindromic degeneracy structure of Liouvillian eigenvalues |

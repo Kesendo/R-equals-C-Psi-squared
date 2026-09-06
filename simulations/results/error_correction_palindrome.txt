@@ -1,3 +1,12 @@
+ARCHIVED EVENT RECORD - RETIRED INTERPRETATION
+WARNING: The numerical coordinates below depend on a non-normal eigenvector
+basis and its normalization. They are not state weights. No GHZ/W ranking,
+protection claim, error syndrome, or information lifetime follows from them.
+Current invariant gate: simulations/f22_operator_charge.py
+Current gate output: simulations/results/error_correction_palindrome_f22.txt
+Historical body follows unchanged.
+==========================================================================================
+
 ==========================================================================================
 ERROR CORRECTION FROM PALINDROMIC STRUCTURE
 Date: 2026-03-19 15:24:04.426764

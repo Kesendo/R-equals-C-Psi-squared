@@ -135,10 +135,11 @@ palindrome (it survives palindrome breaking, see
 Throughout this document, CΨ = Tr(ρ²) × L₁(ρ)/(d−1), where Tr(ρ²) is
 the purity of the state, L₁ is the l1-norm of coherence (sum of absolute
 values of off-diagonal elements), and d is the Hilbert space dimension.
-The product CΨ has a critical boundary at **CΨ = 1/4**, which is the unique
-bifurcation point of the self-referential purity recursion R = C(Ψ+R)².
-Below 1/4: the system has converged to classical behavior. Above 1/4:
-quantum coherence is still active. For details:
+The value **CΨ = 1/4** is the discriminant boundary of the
+self-referential recurrence R = C(Ψ+R)²: below it the quadratic has real
+fixed points and above it the fixed points are complex. It is not a
+decoherence or quantum/classical threshold. For example, GHZ_N is a pure
+coherent state with CΨ = 1/(2^N−1), below 1/4 for N ≥ 3. For details:
 [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md).
 
 ---
@@ -346,17 +347,16 @@ arriving at slightly different times to improve reception).
 **γ contrast scales linearly** with template distance. Doubling the contrast
 (the range of γ values Alice can use) approximately doubles the distances.
 
-**|+⟩⁵ is the optimal initial state. GHZ is completely blind (d_min = 0).**
-This is the most counterintuitive finding. The maximally entangled state
-cannot read γ profiles at all. Why: GHZ projects onto a single symmetric
-mode, collapsing all spatial information. The product state |+⟩⁵ lets each
-qubit respond independently to its local γ, functioning as a phased array
-antenna rather than an omnidirectional receiver.
+**|+⟩⁵ is the optimal initial state in this tested receiver family; GHZ is
+completely blind here (d_min = 0).** At fixed `Σγ`, the GHZ populations are
+unchanged and its off-diagonal pair depends on the rates only through `Σγ`, so
+the tested observables cannot distinguish rate placement. The product state
+`|+⟩⁵` exposes site-resolved responses in this protocol.
 
-This connects to the palindrome result from [What We Found](../docs/WHAT_WE_FOUND.md):
-GHZ states excite only the fastest-dying modes, while distributed states
-(like |+⟩⁵) spread across the full palindromic spectrum. A spread-out
-receiver sees more of the channel.
+This is an operational result of the stated profile-discrimination protocol.
+The separate palindrome fact is only that GHZ off-diagonal coherence has
+maximal Hamming disagreement and therefore maximal local Z-dephasing charge;
+it does not supply the receiver ranking or a state-weight explanation.
 
 **The optimizations are multiplicative:** 1.3 × 2.0 × 3.1 ≈ 8× for the
 individual factors (each against the t = 2 baseline 0.059), and the
@@ -538,10 +538,9 @@ The key prior results that this analysis builds on:
   global inverse theorem.
   ([simulations/reading_the_30_percent.py](../simulations/reading_the_30_percent.py))
 
-- **CΨ = 1/4 boundary:** The unique bifurcation point separating quantum
-  (coherent) from classical (converged) dynamics. All standard quantum
-  channels cross this boundary. It determines the time window during
-  which the γ-channel is maximally readable.
+- **CΨ = 1/4 boundary:** The discriminant boundary of the recurrence's
+  fixed-point quadratic. It does not separate coherent from classical states
+  and does not by itself determine a readability window.
   ([docs/proofs/UNIQUENESS_PROOF.md](../docs/proofs/UNIQUENESS_PROOF.md))
 
 The scoped insight of this document is operational: imposed local dephasing

@@ -6,8 +6,8 @@ Fixes from v1 (see ClaudeTasks/TASK_XOR_REVIEW.md):
 
 1. NORMALIZATION FIX: XOR fraction = xor_weight / (xor_weight + pal_weight)
    Excludes steady-state weight from denominator.
-   "GHZ -> 100% XOR" means 100% of the DYNAMIC component, not total.
-   v1 used total weight -> GHZ showed 50% (misleading).
+   The normalized right-eigenvector coordinate fraction is not an invariant
+   state probability; both normalizations are retired.
 
 2. CORRELATION FIX: Uses structurally diverse states, not Haar random.
    Haar random states at N=4 cluster near identical mixed-XY Pauli weight,
@@ -26,13 +26,22 @@ import numpy as np
 from math import comb
 from datetime import datetime
 from itertools import product as iprod
+from pathlib import Path
 
-OUT = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\xor_non_heisenberg_v2.txt"
-f = open(OUT, "w", buffering=1)
+if __name__ == "__main__":
+    print(
+        "RETIRED: the XOR percentages below are non-invariant right-eigenvector "
+        "coordinates. Use f22_operator_charge.py for the F22 operator check."
+    )
+    raise SystemExit(0)
+
+OUT = Path(__file__).resolve().parent / "results" / "xor_non_heisenberg_v2.txt"
+f = None
 
 def log(msg=""):
     print(msg, flush=True)
-    f.write(msg + "\n"); f.flush()
+    if f is not None:
+        f.write(msg + "\n"); f.flush()
 
 # Pauli matrices
 I2 = np.eye(2, dtype=complex)
@@ -183,7 +192,7 @@ if __name__ == "__main__":
     log()
     log("FIXES FROM v1:")
     log("  1. XOR% = xor_weight / (xor_weight + pal_weight)  [steady EXCLUDED]")
-    log("     v1 included steady in denominator -> GHZ showed 50% instead of 100%")
+    log("     v1 and v2 used different retired coordinate normalizations")
     log("  2. Correlation uses structurally diverse states, not Haar random")
     log("  3. Ising 2^N XOR modes documented as physical (not a bug)")
     log()
@@ -463,10 +472,10 @@ if __name__ == "__main__":
     log("=" * 90)
     log()
     log("v1 ANOMALIES RESOLVED:")
-    log("  1. GHZ '50% XOR' -> now 100% XOR (of dynamic weight)")
+    log("  1. Historical GHZ coordinate normalization (retired)")
     log("     Cause: v1 included steady state in denominator")
     log("     GHZ has ~50% steady + ~50% XOR + 0% palindromic")
-    log("     Dynamic fraction: 50/(50+0) = 100% XOR")
+    log("     Neither coordinate normalization is a state probability")
     log()
     log("  2. Correlation r=0.028 -> recovered with correct method (see TEST 4)")
     log("     Cause: v1 used (a) wrong normalization compressing all fractions,")
@@ -481,7 +490,7 @@ if __name__ == "__main__":
     log("     Hamming distance analysis confirms: d_H(m,~m) = N for all m.")
     log()
     log("KEY FINDINGS:")
-    log("  - GHZ -> 100% dynamic XOR for all magnetization-conserving models")
+    log("  - Historical GHZ coordinate diagnostic (not a state probability)")
     log("    (Heisenberg, XY, XXZ, DM, Heis+DM -- all satisfy [H, Sigma Z_k]=0)")
     log("  - GHZ -> partial XOR for single-axis models (XX, YY, XZ, ZX alone)")
     log("  - W -> 0% XOR for ALL models tested (universally palindromic)")

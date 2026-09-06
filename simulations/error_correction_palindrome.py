@@ -1,3 +1,4 @@
+
 """
 Error Correction from Palindromic Structure
 ============================================
@@ -13,12 +14,17 @@ Seven-section investigation:
 Script: simulations/error_correction_palindrome.py
 Output: simulations/results/error_correction_palindrome.txt
 """
+print("RETIRED HISTORICAL PRODUCER: preserves the March 19 non-normal coordinate event only.")
+print("Run simulations/f22_operator_charge.py for the active operator-level F22 gate.")
+raise SystemExit(0)
+
 import numpy as np
+from pathlib import Path
 from itertools import product as iproduct
 from datetime import datetime
 from scipy.optimize import minimize
 
-OUT = r"D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\error_correction_palindrome.txt"
+OUT = Path(__file__).resolve().parent / "results" / "error_correction_palindrome.txt"
 f = open(OUT, "w", buffering=1)
 
 

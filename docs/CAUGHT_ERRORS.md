@@ -2143,3 +2143,81 @@ experiment copies, the glossary's "no proof on file", the instrument's two ladde
   `C Psi` conventions are named separately, F56 is an asymptotic iteration
   expansion rather than an exact pointwise law, and non-normal right-eigenvector
   coordinates are no longer called state weights or protection fractions.
+
+## 2026-09-06 — the final source sweep found state weights, uncertified fixed counts and finite fits promoted to laws
+
+- **Coordinates and dimensions were still being read as operational physics.**
+  The error-correction and XOR chain treated coordinates in a non-normal
+  eigenbasis as invariant state weights, protection tiers and syndromes; its
+  report also disagreed with its stored tables. The historical run remains an
+  event record. A separate F22 gate now checks only the exact Hamming-charge
+  statement for basis operators at N=2..5, with population, one-site and
+  mutated-GHZ controls. F23 remains an operator-space dimension count, not a
+  fragility or macroscopic-irrelevance theorem.
+- **A floating window cannot certify exact line membership.** `SelfMirrorObject`
+  could return different linear fixed counts as `J` changed while calling every
+  spectrum resolved. Tightening or rescaling the window did not solve the
+  identification problem: exact eigenvalues can lie arbitrarily close to the
+  centre without being fixed. Exact multiplicities are now emitted only for the
+  algebraically certified zero-Hamiltonian uniform-rate case; other floating
+  cases report `UNRESOLVED`.
+- **Three executable witnesses measured weaker objects than their prose.** The
+  qutrit matcher used greedy, order-dependent removal; the SU(3) census replaced
+  the right Hilbert-Schmidt Rayleigh quotient by a biorthogonal coordinate and
+  matched only the sign of frequency; the TI rank script accepted every value
+  between product rank and ceiling while its proof cited exact equality. The
+  replacements use global multiplicity matching on full complex frequencies,
+  the right Rayleigh quotient, and literal finite-result gates. The TI ranks are
+  described as seeded numerical constructions, not exact certificates.
+- **The sibling sweep reached the measured object.** One-site marginal
+  similarity is no longer called information flow or a Lieb-Robinson test; a
+  deteriorating finite-N fit is no longer an asymptotic N-squared transport law;
+  F1 eigenvalue pairing is not a spatial standing wave or a past/future amplitude
+  sum. F80 now carries sign-walk collision multiplicities and spectator
+  degeneracy explicitly and restricts its Jordan-Wigner route to the proved
+  two-body chain.
+- **The empty staged review still found three owner/copy seams.** An unused public
+  Qudit helper counted only one side of each complementary rung pair; two reading
+  guide passages retained the retracted universal product cap; and an F80 table
+  attached the full dissipative shift to `L_H` alone, contradicting trace
+  preservation under similarity. The helper now delegates to the gated ceiling,
+  the guide keeps general product/TI optima open, and the table separates
+  `Pi L_H Pi^-1 = -L_H` from the shifted full-generator identity.
+- **The empty physics and provenance reads found meaning and process seams.**
+  Matrix reflection was still called quantum memory, the one-quarter recurrence
+  boundary was still called classicality, rounded frequency bins were called
+  created living modes, and a dimension fraction was exposed as macroscopic
+  irrelevance. Those surfaces now name only their computed objects; pure
+  dephasing suppresses GHZ coherence without selecting an outcome. The final
+  process audit also found a smoke test that printed FAIL but exited zero, paired
+  an endpoint after deleting its required zero partner, and located the repo by
+  an ignored file. Failure now exits nonzero, the production full-multiset matcher
+  owns the spectral check, and tracked project markers own root discovery.
+- **The release read separated two last look-alikes.** The bare dissipator's
+  endpoint contains `2^N` Pauli strings and therefore has fraction `2^-N`; the
+  `(N+1)/4^N` fraction belongs to the separate interacting F23 chain eigenspace.
+  Their producers, threshold rows and output now keep both objects distinct.
+  Two topology checks also named symmetry while testing only anchor presence or
+  a real-part interval. Their labels now match the anchor read, while actual F1
+  closure is checked on the full complex multiset for each topology with a
+  symmetry-breaking local-field control.
+- **The next empty read split rank from access and Hamming support from charge.**
+  A small F23 eigenspace fraction does not define operational invisibility or a
+  critical system size without a preparation, ensemble, observable and channel.
+  The remaining interpretation and open-question copies now say so explicitly.
+  F23 endpoint operators also have all-bit Hamming support but excitation-number
+  difference `|N-2k|`, not always `N`; at N=3 the middle two modes have difference
+  one. Their one-site trace zero follows from the all-bit support, not from the
+  F70 `Delta N` bound. Typed helpers and separating tests now preserve that seam.
+- **Raw event outputs needed their own front door.** Two preserved historical
+  result files still opened directly on the retired coordinate-based GHZ/W
+  rankings and syndrome story. Their numerical bodies remain byte-identical, but
+  an archival banner now precedes every retired claim and points to the active
+  operator-charge gate. Regression tests require the banner and verify that the
+  retired producers cannot overwrite the annotated records.
+- **The final snapshot still carried wall-clock provenance.** The N-infinity
+  report named a March generation date while its owner inserted the current time
+  and elapsed runtimes, so a clean run could not reproduce the staged bytes.
+  Wall-clock and timing fields are now absent from the scientific snapshot; a
+  regression runs the producer twice and requires both hashes to equal the
+  tracked output.

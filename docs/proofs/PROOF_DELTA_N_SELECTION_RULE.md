@@ -17,7 +17,7 @@ F70 is the kinematic skeleton of the sector structure: a selection rule not abou
 
 and more generally a k-local trace kills |ΔN| ≥ k+1, so a k-local observable sees at most |ΔN| ≤ k. The proof is pure popcount arithmetic on computational basis states; it holds for any Hamiltonian, any dissipator, any evolution. A single-qubit observable therefore reads only the |n⟩⟨n| populations and the |n⟩⟨n±1| coherences; everything deeper is locally invisible.
 
-This is the observability gate behind much of the rest. It explains why the closure-breaking coefficient c₁ collects contributions only from |ΔN| ≤ 1 coherences, and why a GHZ state, living entirely in the |ΔN| = N center modes that decay at the maximal rate 2Σγ, is invisible to any site-local probe while a W state is not. F70 runs on the excitation-number axis; the n_XY parity rule (PROOF_PARITY_SELECTION_RULE) runs on the orthogonal Pauli-weight axis, and the two together fix the full sector decomposition that DIRECT_SUM_DECOMPOSITION builds on. Its anchors a₁ = 1 and a₀ = 2 sit on the same Pi2 dyadic ladder as the d² − 2d = 0 polynomial root.
+This is the observability gate behind the closure-breaking coefficient c₁: only |ΔN| ≤ 1 blocks are not excluded by F70. For the F23 endpoint eigenoperators `X^N P_k`, however, the excitation-number difference is `|N−2k|`, not N for every k. At N=3 the k=1 and k=2 members have |ΔN|=1, so F70 does not explain their vanishing one-site marginals. Those marginals vanish by a different kinematic fact: every basis term `|x̄⟩⟨x|` differs on every bit, so tracing out any site gives zero. F70 runs on the excitation-number axis; the all-bit support statement runs on Hamming support, and neither should be substituted for the other.
 
 ## Statement
 
@@ -104,6 +104,6 @@ It does NOT say which |ΔN| ≤ 1 contributions are nonzero; those are determine
 
 ## Relation to existing repo results
 
-- **[XOR Space](../../experiments/XOR_SPACE.md):** The N + 1 "center modes" at |n − m| = N (maximal Hamming-distance coherences) are invisible to all site-local observables. GHZ-type states living in those modes cannot be read from per-site measurements, consistent with the "GHZ is an antenna blind spot" observation.
+- **[XOR Space](../../experiments/XOR_SPACE.md):** The N+1 endpoint eigenoperators are `X^N P_k`, mapping excitation sector k to N−k and therefore carrying `|ΔN|=|N−2k|`. Their one-site partial traces vanish because every basis term has all-bit Hamming disagreement. Only k=0,N have |ΔN|=N; the interior members are not all consequences of F70.
 - **[F61 n_XY parity selection rule](../ANALYTICAL_FORMULAS.md):** a different selection (about Pauli-string XY parity under dephasing). Related but orthogonal.
 - **[Pi-pair closure investigation](../../simulations/results/pi_pair_closure_investigation/FINDINGS.md):** the kinematic |ΔN| ≤ 1 restriction plus Π-pair identity together explain the c₁ patterns observed at N = 3, 5, 6, 7.

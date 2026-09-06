@@ -37,7 +37,16 @@ not time reversal. It transports generalized eigenspaces in the theorem's
 Hamiltonian/channel scope. It does not reconstruct an earlier state, reverse a
 decay envelope, or trace a trajectory back to its preparation.
 
-The information horizon lives in felt time. For each palindromic pair the mode with the smaller |Re(λ)| determines how far back the envelope remembers its preparation. Near λ = 0 the memory is long; at λ = −2Σγ the memory is zero. The [XOR drain](../experiments/XOR_SPACE.md), those [N+1 modes](../docs/ANALYTICAL_FORMULAS.md) at the fastest decay, is the part of the Hilbert space that stores nothing at all. [GHZ states](../experiments/XOR_SPACE.md) live entirely there, which is why they die in a flash. [W states](../experiments/XOR_SPACE.md) and [single-excitation bonding states](../docs/ANALYTICAL_FORMULAS.md) live in the palindromic channel, where preparation can be traced back across a finite window. The horizon is set by the slowest mode the initial state has overlap with; beyond it, the envelope has flattened, and what was distinguishable has dissolved into the [sector's equilibrium](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md).
+Felt time needs an operational trajectory. A spectral rate orders exponential
+components only after a preparation and readout have selected them; the
+palindrome alone does not assign a memory horizon to a state. The exact
+[XOR-space](../experiments/XOR_SPACE.md) statement is narrower: GHZ
+off-diagonal coherence differs on every site and receives the maximal local
+Z-dephasing charge. The former right-eigenvector coordinate split did not show
+that full GHZ and W states inhabit distinct memory channels. Persistence must
+be read from a specified observable or channel metric along the propagated
+state, with the [sector equilibrium](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)
+providing only the asymptotic endpoint.
 
 The further identification of memory with a standing wave of ongoing flow is a
 metaphor. Finite trajectories can show persistence and decay of chosen
