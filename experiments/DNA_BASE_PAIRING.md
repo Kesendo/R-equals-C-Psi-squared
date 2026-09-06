@@ -10,9 +10,9 @@ Lindblad proton transfer DNA, R=CPsi2 DNA base pairing -->
 **Script:** [dna_base_pairing.py](../simulations/dna_base_pairing.py)
 **Data:** [dna_base_pairing.txt](../simulations/results/dna_base_pairing.txt)
 **Depends on:**
-- [Hydrogen Bond Qubit](HYDROGEN_BOND_QUBIT.md) (single H-bond, Zundel)
+- [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md) (single H-bond, Zundel)
 - [V-Effect Palindrome](V_EFFECT_PALINDROME.md) (coupling creates frequencies)
-- [Thermal Breaking](THERMAL_BREAKING.md) (n_bar effects at finite T)
+- [Finite-Occupation Amplitude Channels](THERMAL_BREAKING.md) (external `n_bar` channel sweep)
 - [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (sacrifice zone mechanism)
 
 ---
@@ -52,9 +52,10 @@ Six results:
    than DNA's Q. See
    [Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md).
 
-4. **Thermal breaking at 310 K.** The warm channel set reduces Q from
-   1.9 to 0.6 and raises frequency diversity from 15 to 26 for G-C. It also
-   breaks the palindrome, but not because of the heat: that set runs
+4. **Finite-occupation channel comparison.** The selected second channel set
+   reduces Q from 1.9 to 0.6 and changes the four-decimal frequency-bin count
+   from 15 to 26 for G-C. It also
+   breaks the palindrome, but `n_bar` is not the cause: that set runs
    amplitude damping *alongside* the co-axial Z-dephasing, and it is the
    shared axis that breaks. Amplitude damping alone keeps the palindrome, at
    a centre of −Σγ/2 ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)).
@@ -153,22 +154,22 @@ biology require special environments that enhance tunneling. (Löwdin's 1963 mod
 
 ---
 
-## Result 4: Thermal Breaking at 310 K
+## Result 4: Finite-occupation channel comparison
 
-At T = 310 K, the typical H-bond mode has n_bar ~ 1.5-2 (thermal
-occupation). Adding amplitude damping:
+The producer supplies `n_bar` and amplitude-channel rates as model inputs. It
+does not calibrate them from a measured DNA mode or establish a 310 K bath
+model. On the selected row:
 
-| Property | Cold (Z only) | Warm (310 K) |
+| Property | Z only | Z plus amplitude channel |
 |----------|--------------|--------------|
 | G-C palindrome | exact | broken (by the shared axis, not by the heat) |
 | G-C frequencies | 15 | 26 |
 | G-C Q_max | 1.95 | 0.57 |
 | G-C rate range | 58-300 | 211-627 |
 
-Temperature increases frequency diversity (26 vs 15) but kills
-Q-factor (0.57 vs 1.95). This is consistent with
-[Thermal Breaking](THERMAL_BREAKING.md): heat enriches the mode
-spectrum but shortens mode lifetimes.
+The frequency-bin and Q readings differ between two generators. The result does
+not show temperature enriching a spectrum or identify a biological mechanism;
+the scope is the same as [Finite-Occupation Amplitude Channels](THERMAL_BREAKING.md).
 
 ---
 

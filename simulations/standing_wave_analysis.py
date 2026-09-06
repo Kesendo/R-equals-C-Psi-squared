@@ -72,9 +72,10 @@ def states():
 def direct_trace_gate(generator=None):
     """Return fixed N=3 anchors, raising if the direct dynamics are corrupted.
 
-    The signed W/IYY derivative makes this gate sensitive to a zero generator
-    and to a reversed dissipative direction.  The trace derivative separately
-    pins trace preservation on the same moving state and generator path.
+    The signed W/IYY derivative pins the dissipative direction.  The signed
+    Bell01/IXY derivative is zero when the Hamiltonian term is deleted and
+    therefore pins the coherent path independently.  The trace derivative
+    separately pins trace preservation on the same generator path.
     """
     if generator is None:
         generator = liouvillian()
@@ -83,11 +84,15 @@ def direct_trace_gate(generator=None):
     rho0 = rho0_matrix.reshape(-1)
     derivative = (generator @ rho0).reshape(2**N, 2**N)
     observable = operator("IYY")
+    bell = states()["Bell01"]
+    bell_rho0 = np.outer(bell, bell.conj()).reshape(-1)
+    bell_derivative = (generator @ bell_rho0).reshape(2**N, 2**N)
     anchors = {
         "w_iyy_t0": float(np.trace(observable @ rho0_matrix).real),
         "w_iyy_dt0": float(np.trace(observable @ derivative).real),
         "w_state_dt0_norm": float(np.linalg.norm(derivative)),
         "trace_dt0": float(abs(np.trace(derivative))),
+        "bell01_ixy_dt0": float(np.trace(operator("IXY") @ bell_derivative).real),
     }
     scale = max(1.0, float(np.linalg.norm(generator)))
     tolerance = 256 * np.finfo(float).eps * scale
@@ -98,6 +103,8 @@ def direct_trace_gate(generator=None):
         failures.append("W/IYY signed derivative")
     if anchors["w_state_dt0_norm"] <= 0.1:
         failures.append("moving-state derivative norm")
+    if abs(anchors["bell01_ixy_dt0"] - (-2.0)) > tolerance:
+        failures.append("Hamiltonian-sensitive Bell01/IXY derivative")
     if anchors["trace_dt0"] > tolerance:
         failures.append("trace derivative")
     if failures:
@@ -123,7 +130,7 @@ def trace_rows(times=np.linspace(0, 10, 101), generator=None):
     return rows
 
 
-def main():
+def render_report():
     generator = liouvillian()
     anchors = direct_trace_gate(generator)
     lines = [
@@ -135,7 +142,8 @@ def main():
             "Dynamic gate: W/IYY t0="
             f"{anchors['w_iyy_t0']:.6f}, dt0={anchors['w_iyy_dt0']:.6f}; "
             f"||drho/dt||={anchors['w_state_dt0_norm']:.6f}, "
-            f"|Tr drho/dt|={anchors['trace_dt0']:.2e}."
+            f"|Tr drho/dt|={anchors['trace_dt0']:.2e}; "
+            f"Bell01/IXY dt0={anchors['bell01_ixy_dt0']:.6f}."
         ),
         "",
         f"{'state':<9} {'Pauli':<5} {'t0':>11} {'min':>11} {'max':>11} {'half-range':>11}",
@@ -143,7 +151,11 @@ def main():
     for row in trace_rows(generator=generator):
         lines.append(f"{row[0]:<9} {row[1]:<5} {row[2]:11.6f} {row[3]:11.6f} {row[4]:11.6f} {row[5]:11.6f}")
     lines += ["", "Scope: observable traces only; spatial counter-propagation and mode-pair phase relations were not tested."]
-    output = "\n".join(lines) + "\n"
+    return "\n".join(lines) + "\n"
+
+
+def main():
+    output = render_report()
     print(output, end="")
     path = RESULTS_DIR / "standing_wave_analysis.txt"
     path.write_text(output, encoding="utf-8")

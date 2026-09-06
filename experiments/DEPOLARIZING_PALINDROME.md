@@ -46,9 +46,9 @@ Z-dephasing splits the four Pauli indices {I, X, Y, Z} into 2 immune and
 2 decaying (a balanced 2:2 split). Depolarizing noise splits them 1:3 (only I
 is immune). A bijective mirror Π requires equal numbers of immune and decaying
 indices at each site. With a 1:3 split, no such bijection exists. The palindrome
-error under depolarizing noise is exactly (2/3)Nγ = (2/3)Σγ, Hamiltonian-independent
-and linear in both γ and N. For typical hardware dephasing rates (γ ∼ 0.001),
-this is < 0.1%. The general condition: the palindrome holds if and only if at
+steady-state-partner rate gap under depolarizing noise is exactly (2/3)Nγ = (2/3)Σγ,
+Hamiltonian-independent and linear in both γ and N. This is dimensionful; a percentage
+requires a declared normalization and fixed N. The general condition: the palindrome holds if and only if at
 least one of γ_X, γ_Y, γ_Z is zero (at most two dephasing axes).
 
 ---
@@ -306,7 +306,7 @@ is exactly (2/3) N γ, independent of the Hamiltonian.
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Π operator and the palindrome theorem
 - [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): exact centred spectral pairing and the historical past/future reading
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): gated standing-wave interpretation of the mirror
-- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): palindrome across all standard models
+- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): compatible mirrors beyond Heisenberg and their scope
 - Script: [`simulations/depolarizing_analysis.py`](../simulations/depolarizing_analysis.py)
 - Results: [`simulations/results/depolarizing_analysis.txt`](../simulations/results/depolarizing_analysis.txt)
 

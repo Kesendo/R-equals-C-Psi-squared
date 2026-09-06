@@ -1,6 +1,6 @@
 # The CΨ Lens: What It Is and What It Shows
 
-<!-- Keywords: CΨ purity times normalized coherence, basis-fixed unassisted
+<!-- Keywords: CΨ concurrence times normalized coherence, pairwise basis-fixed
 entanglement witness, l1 Baumgratz normalization, what CΨ shows does not show,
 AND-gate entanglement coherence, quarter boundary bifurcation interpretation,
 concurrence vs CΨ comparison, noise type discrimination, R=CPsi2 CΨ lens -->
@@ -25,17 +25,24 @@ certain features visible that would otherwise be lost in the glare.
 CΨ does the same: it selects for quantum connections that are both
 entangled *and* coherent at the same time. Not one or the other. Both.
 
-This is the canonical reference document for CΨ. If another document
-in this repository uses the term CΨ without explaining it, this is
-where to look.
+This is the canonical reference for the pairwise `CΨ_conc` lens. For the
+framework/F25 `CΨ_pur` convention and the recurrence parameter, use the
+[Glossary](GLOSSARY.md); an unexplained legacy `CΨ` must be resolved from its
+source owner rather than assumed to mean the pairwise lens.
 
 ---
 
 ## What CΨ is
 
-CΨ is the product of two standard quantum metrics applied to a pair of subsystems:
+Two implemented diagnostics share the historical symbol. This document's
+pairwise lens uses
 
-    CΨ = Concurrence × Normalized l1-Coherence
+    CΨ_conc = Concurrence × Normalized l1-Coherence.
+
+The framework/F25/hardware-quarter path instead uses
+`CΨ_pur = Tr(ρ²) × Normalized l1-Coherence`; that is the convention owned by
+`DensityMatrixTools.ComputeCPsi` and `Symphony.Cpsi`. A formula or crossing time
+belongs to one convention and does not transfer merely because both print `CΨ`.
 
 - **Concurrence** measures pairwise entanglement: are these two subsystems quantum-correlated? (0 = independent, 1 = maximally entangled)
 - **l1-coherence** (normalized by d-1) measures superposition structure: does the density matrix still have off-diagonal elements (the entries away from the main diagonal that encode quantum superposition) in the chosen basis? (0 = fully classical, 1 = maximal quantum superposition)
@@ -172,12 +179,12 @@ With the substitution u_n = C(Ψ + R_n), this becomes:
 
 which is exactly the Mandelbrot iteration z → z² + c with c = CΨ. The boundary of the main cardioid of the Mandelbrot set at the real axis is c = 1/4. This correspondence is algebraically exact.
 
-In plain language: the equation that governs CΨ over time is the same
+In plain language: this auxiliary self-referential iteration is the same
 equation that generates the Mandelbrot set, the most famous fractal in
-mathematics. The boundary at ¼ is not a coincidence or an approximation.
-It is the same number for the same algebraic reason. Whether nature
-"implements" this iteration is an open question. That the algebra
-matches is a fact.
+mathematics. It is not the Lindblad time-evolution equation for either CΨ
+diagnostic. The boundary at ¼ is the same number for the same algebraic
+reason inside this iteration; whether nature implements that feedback rule
+is an open question.
 
 > **Important caveat:** The correspondence is algebraically exact **within the self-referential iteration**. Its physical significance is not established merely by that exactness.
 

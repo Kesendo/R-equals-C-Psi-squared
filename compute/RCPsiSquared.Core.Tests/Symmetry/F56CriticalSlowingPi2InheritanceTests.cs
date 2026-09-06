@@ -69,9 +69,9 @@ public class F56CriticalSlowingPi2InheritanceTests
     //   sqrt term = -6.068·0.1 = -0.6068
     //   K = 1.844 - 0.607 = 1.237
     [InlineData(0.01, 0.001, 1.23768)]
-    public void IterationCount_MatchesClosedForm(double epsilon, double tol, double expected)
+    public void IterationCountAsymptotic_MatchesDisplayedExpansion(double epsilon, double tol, double expected)
     {
-        Assert.Equal(expected, BuildClaim().IterationCount(epsilon, tol), precision: 4);
+        Assert.Equal(expected, BuildClaim().IterationCountAsymptotic(epsilon, tol), precision: 4);
     }
 
     [Fact]
@@ -96,16 +96,28 @@ public class F56CriticalSlowingPi2InheritanceTests
     }
 
     [Fact]
-    public void IterationCount_NonPositiveEpsilon_Throws()
+    public void IterationCountAsymptotic_NonPositiveEpsilon_Throws()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IterationCount(epsilon: 0.0, tol: 0.001));
-        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IterationCount(epsilon: -0.01, tol: 0.001));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IterationCountAsymptotic(epsilon: 0.0, tol: 0.001));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IterationCountAsymptotic(epsilon: -0.01, tol: 0.001));
     }
 
     [Fact]
-    public void IterationCount_NonPositiveTol_Throws()
+    public void IterationCountAsymptotic_NonPositiveTol_Throws()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IterationCount(epsilon: 0.01, tol: 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().IterationCountAsymptotic(epsilon: 0.01, tol: 0.0));
+    }
+
+    [Fact]
+    public void ClaimSurface_LabelsExpansionAsAsymptoticNotExact()
+    {
+        var claim = BuildClaim();
+        string rendered = claim.Name + "\n" + claim.Summary + "\n" +
+                          string.Join("\n", claim.Children.Select(c => c.DisplayName + " " + c.Summary));
+
+        Assert.Contains("asymptotic", rendered, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("finite-ε residual", rendered);
+        Assert.DoesNotContain("F56 closed form", rendered);
     }
 
     [Fact]

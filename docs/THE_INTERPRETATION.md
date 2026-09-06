@@ -216,23 +216,16 @@ coherently address both. `Re(mu)≠0` leaves relative envelope drift; defective
 blocks carry Jordan-polynomial terms. A fixed-locus eigenvalue is not
 automatically a spatial node.
 
-For the `N=3` grid of six tested Hamiltonians and eight tested states:
-- **ZZZ (all-diagonal correlation)** has zero measured oscillatory weight in
-  every cell.
-- Specified **XX/YY/XY-containing observables** carry oscillatory weight; in
-  the Heisenberg run the reported bands lie near `2J`, `4J`, and `6J`.
+The current finite check propagates four named `N=3` density matrices directly
+under one Heisenberg-chain generator and reads seven named Pauli observables.
+It reports sampled minima, maxima, and half-ranges of those expectation traces.
+Those are basis-independent trajectory readings, not eigenmode populations or
+standing-wave certificates. In particular, `sum |c_k|^2` from a right-
+eigenvector expansion is not retained as state weight: a non-normal
+Liouvillian has no orthonormal right eigenbasis, and degeneracies make an
+individual-vector assignment non-unique.
 
-This pattern yields a three-tier error protection hierarchy: steady-XOR
-modes (maximally protected, zero oscillation), boundary modes (topology-
-dependent protection), and mid-spectrum modes (least protected). The
-optimal initial state for quantum state transfer places 90% weight in
-slow modes, achieving concurrence 0.364, outperforming standard choices
-(W, Bell, GHZ states).
-
-The following numbers are finite `N=3` observable readings across six tested
-Hamiltonians and eight tested initial states, not consequences of F1 alone.
-See: [Oscillation Analysis](../experiments/STANDING_WAVE_ANALYSIS.md),
-[Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md)
+See: [Direct Pauli-observable traces](../experiments/STANDING_WAVE_ANALYSIS.md)
 
 ---
 
@@ -559,8 +552,9 @@ nobody has to guess.
    uniqueness extend to
    amplitude damping, thermal baths, or non-Markovian environments?
 
-3. **Interacting partial palindromes at d > 2:** F121 already proves the
-   dissipator ceiling and product cap. Which additional Hamiltonian families
+3. **Interacting partial palindromes at d > 2:** F121 proves the dissipator
+   ceiling and gives an explicit shift-aligned construction of rank `(2d)^N`;
+   that rank is not a universal product cap. Which additional Hamiltonian families
    admit exact partial or non-product intertwiners?
 
 4. **Macroscopic relevance:** The XOR fraction vanishes as (N+1)/4^N. At

@@ -311,7 +311,7 @@ public static class InspectCommand
 
     /// <summary>The F121 live lab: builds a <see cref="QuditPartialPalindromeWitness"/> that
     /// materialises the qudit full-Cartan dephasing dissipator at inspect time and recomputes
-    /// the partial-palindrome ceiling, the product cap, and the non-product remainder from the
+    /// the partial-palindrome ceiling, the explicit shift-aligned rank, and the remaining gap from the
     /// live spectrum. Args: <c>--qudit-d</c> (local dimension, default 3), <c>--qudit-n</c>
     /// (sites, default 2), <c>--gamma</c> (default 0.05). Guarded at d^(2N) ≤ 1024 so
     /// (3,2)=81, (4,2)=256, (3,3)=729 are admitted and (4,3)=4096 is not. Pair with
@@ -628,7 +628,7 @@ public static class InspectCommand
             RequiresN: false),
         new("ceiling", "the structural ceiling closed forms: g2(K_N)=4/N, g2(star_N)=4/(N−1), the N=4 (2,2) outlier 2−2/√3, from the commutant rep structure",
             _ => new StructuralCeilingWitness(), RequiresN: false),
-        new("protection", "the qudit mirror-protection scaling law: the per-site product mirror protects (2d)^N / d^{2N} = (2/d)^N of the coherence space, decaying exponentially in d; = 1 ⟺ d=2 (the qubit is the unique full-mirror dimension). Rates stay d-independent.",
+        new("protection", "the explicit restricted qudit map Π_d P_aligned has coverage (2d)^N / d^{2N} = (2/d)^N; not a universal product optimum (d=6,N=2 rank-180 counterexample). Rates stay d-independent.",
             _ => new QuditMirrorProtectionWitness(), RequiresN: false),
         new("horizon", "the coherence horizon Q*(N): the single-excitation EP, and the handover Q_h below it where the full Liouvillian's slowest mode stops oscillating (one event at N=2,3, two from N=4)",
             _ => new CoherenceHorizonWitness(), RequiresN: false),

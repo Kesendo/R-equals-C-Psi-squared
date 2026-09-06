@@ -2,7 +2,7 @@ N=3 DIRECT PAULI-OBSERVABLE TIME TRACES
 Heisenberg chain, J=1.0, gamma=0.05, t=0..10 (101 samples)
 Direct expectations are basis-independent; no eigenmode state-weight percentage is reported.
 Amplitude is half the sampled max-min range, not a standing-wave certificate.
-Dynamic gate: W/IYY t0=0.666667, dt0=-0.133333; ||drho/dt||=0.163299, |Tr drho/dt|=0.00e+00.
+Dynamic gate: W/IYY t0=0.666667, dt0=-0.133333; ||drho/dt||=0.163299, |Tr drho/dt|=0.00e+00; Bell01/IXY dt0=-2.000000.
 
 state     Pauli          t0         min         max  half-range
 GHZ       ZZZ      0.000000    0.000000    0.000000    0.000000

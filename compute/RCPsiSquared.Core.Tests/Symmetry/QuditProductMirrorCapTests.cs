@@ -102,6 +102,34 @@ public class QuditProductMirrorCapTests
         Assert.Contains($"{claim.Cases.Count}/{claim.Cases.Count} battery PASS", claim.Summary);
     }
 
+    [Fact]
+    public void Battery_RetractsUniversalCapWithExactProductProjector()
+    {
+        var control = MakeClaim().Cases.Single(c => c.Name.Contains("former universal product cap"));
+
+        Assert.True(control.Passes, control.Actual);
+        Assert.Contains("residual 0", control.Actual);
+        Assert.Contains("180 > 144", control.Actual);
+    }
+
+    [Fact]
+    public void TranslationInvariantAttainment_IsScopedToTheFiniteVerifiedCases()
+    {
+        var claim = MakeClaim();
+
+        Assert.Contains("verified finite cases", claim.TranslationInvariantReach);
+        Assert.Contains("(3,2), (3,3), (4,2)", claim.TranslationInvariantReach);
+        Assert.Contains("not derived", claim.TranslationInvariantReach);
+        Assert.DoesNotContain("no intermediate", claim.TranslationInvariantReach, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("recovered ENTIRELY", claim.TranslationInvariantReach);
+    }
+
+    [Fact]
+    public void ExplicitPermutationBuilder_RejectsDimensionsBeyondIntIndexing()
+    {
+        Assert.Throws<OverflowException>(() => QuditProductMirrorCap.BuildPiD(3, 20));
+    }
+
     // ------------------------------------------------------------------
     // Static helper contracts
     // ------------------------------------------------------------------
@@ -136,6 +164,16 @@ public class QuditProductMirrorCapTests
         Assert.Equal(new[] { 1, 3, 0, 2 }, QuditProductMirrorCap.BuildPiD(2, 1));
     }
 
+    [Fact]
+    public void BuildPiD_IsAFullRankPermutation_NotTheRestrictedShiftRank()
+    {
+        var pi = QuditProductMirrorCap.BuildPiD(3, 2);
+
+        Assert.Equal(81, pi.Count);
+        Assert.Equal(81, pi.Distinct().Count()); // rank Π_d = d^(2N)
+        Assert.Equal(36, QuditProductMirrorCap.ProductCap(3, 2)); // rank Π_d P_aligned
+    }
+
     // ------------------------------------------------------------------
     // Direct mathematical spot-check, independent of the claim's battery:
     // the (3, 2) numbers 36/54/81 and the trunk equation.
@@ -144,14 +182,15 @@ public class QuditProductMirrorCapTests
     [Fact]
     public void SpotCheck_QutritN2_36_54_81_AndTrunkEquation()
     {
-        // The three counts at d = 3, N = 2: product cap 36 < ceiling 54 < total 81,
+        // The three counts at d = 3, N = 2: shift rank 36 < ceiling 54 < total 81;
+        // the first is not a universal product cap.
         // non-product gap 18.
         Assert.Equal(36, QuditProductMirrorCap.ProductCap(3, 2));
         Assert.Equal(54, QuditProductMirrorCap.CombinatorialCeiling(3, 2));
         Assert.Equal(81, QuditPartialPalindromeCeiling.Total(3, 2));
         Assert.Equal(18, QuditProductMirrorCap.CombinatorialCeiling(3, 2) - QuditProductMirrorCap.ProductCap(3, 2));
 
-        // The trunk equation: the cap is full ⟺ (2d)^N = d^{2N} ⟺ d² − 2d = 0 ⟺ d = 2.
+        // This explicit shift construction is full iff d=2; that is not a universal product cap.
         for (int d = 2; d <= 5; d++)
             for (int n = 1; n <= 3; n++)
             {

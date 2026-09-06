@@ -1,13 +1,11 @@
-"""Mega-fine scan of the bath temperature, from pure decay down into the minus.
+"""Scan of independently supplied local decay and pump rates.
 
 docs/carbon master-question thread (2026-05-22, Tom + Claude).
 
-Tom's picture: there is no cold, cold is only the absence of heat. The
-wave-breaking is what creates heat; before it, the bath has no heat. So the
-bath's base state is not n_bar=0, it is below it, "in the minus": a negative
-temperature, which physically is not cold but a source, a pump (a negative-
-temperature bath is hotter than any positive one). In the framework that is
-Sum-gamma < 0, the gain side, the active vacuum.
+The scan parameterizes two nonnegative rates. It contains no feedback from
+decay to either rate and therefore establishes no heat-production mechanism.
+Calling the pump-dominated side a negative-temperature bath would require an
+independent bounded-bath model and calibration not supplied here.
 
 The bosonic n_bar of v_effect_heat_modes.py cannot represent this: n_bar in
 [0, infinity) has only one side, a bosonic bath cannot be inverted. Negative
@@ -27,13 +25,11 @@ A single axis s in [+1, -1] sweeps the temperature, total rate fixed:
 Hamiltonian XX+YY, a non-breaker, so the bath is the only actor and visible.
 Z-dephasing stays on (small, fixed): the framework's proven-palindrome anchor.
 
-The question, "how does a qubit get a baby": scanning s downward, where does a
-new palindromic pair first appear, a new mirror. This first scan maps the
-landscape (modes, pairs, break magnitude, centre, slowest oscillation vs s) to
-locate the balance and whatever happens in the minus.
+The scan maps its numerical frequency and pairing diagnostics as the externally
+supplied rate balance changes.
 
-build_L reuses the dissipator structure of self_heating_fixpoint.py; best-centre
-palindrome analysis from peierls_break_structure.py. Investigation only.
+Investigation only; its legacy best-centre and threshold pairing diagnostics
+are not canonical F1 gates.
 """
 import sys
 

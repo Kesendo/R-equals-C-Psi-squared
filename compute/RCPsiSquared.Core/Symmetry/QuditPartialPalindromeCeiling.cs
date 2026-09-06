@@ -25,9 +25,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// number of disagreeing sites.
 ///
 /// <para><b>The interacting case (not claimed here):</b> the ceiling is the dissipator's
-/// palindrome about the physical center −Nγ. Adding the Hamiltonian degrades it at every
-/// fixed center (54 → 48 about −Nγ for N = 2); the palindrome is fragile under H. The
-/// interacting paired count is H-dependent (no H-independent closed form), and for the
+/// palindrome about the physical center −Nγ. The reported SU(3)-Heisenberg sample changes
+/// the count from 54 to 48 there, but this is not a universal reduction law: H=cI has
+/// L_H=0 and leaves the dissipator unchanged. The interacting paired count is H-dependent
+/// (no H-independent closed form), and for the
 /// symmetric SU(3) Heisenberg the real parts follow the Absorption Theorem Re(λ) = −2γ⟨Q⟩
 /// (the −3γ rung = ⟨Q⟩ = 1.5). Carried in
 /// <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> §4 and
@@ -81,24 +82,26 @@ public sealed class QuditPartialPalindromeCeiling : Claim
         long r = 1;
         for (int i = 0; i < k; i++)
         {
-            r = r * (n - i) / (i + 1);
+            r = checked(r * (n - i)) / (i + 1);
         }
         return r;
     }
 
-    /// <summary>Integer power b^e for non-negative e.</summary>
+    /// <summary>Integer power b^e for non-negative e. Throws rather than wrapping when the
+    /// exact result does not fit in Int64.</summary>
     public static long IntPow(long b, int e)
     {
+        if (e < 0) throw new ArgumentOutOfRangeException(nameof(e), e, "exponent must be non-negative");
         long r = 1;
-        for (int i = 0; i < e; i++) r *= b;
+        for (int i = 0; i < e; i++) r = checked(r * b);
         return r;
     }
 
     /// <summary>Coherence multiplicity at Hamming distance k: c_k = d^N·C(N,k)·(d−1)^k.</summary>
-    public static long Multiplicity(int d, int N, int k) =>
-        IntPow(d, N) * Binom(N, k) * IntPow(d - 1, k);
+    public static long Multiplicity(int d, int N, int k) => checked(
+        IntPow(d, N) * Binom(N, k) * IntPow(d - 1, k));
 
-    /// <summary>Total Liouville dimension d^{2N}.</summary>
+    /// <summary>Total Liouville dimension d^{2N}; throws on Int64 overflow.</summary>
     public static long Total(int d, int N) => IntPow(d, 2 * N);
 
     /// <summary>The dissipator's paired ceiling: Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)}.</summary>
@@ -106,7 +109,8 @@ public sealed class QuditPartialPalindromeCeiling : Claim
     {
         long sum = 0;
         for (int k = 0; k <= N; k++)
-            sum += IntPow(d, N) * Binom(N, k) * IntPow(d - 1, Math.Min(k, N - k));
+            sum = checked(sum + checked(IntPow(d, N) * Binom(N, k)
+                * IntPow(d - 1, Math.Min(k, N - k))));
         return sum;
     }
 
@@ -256,8 +260,8 @@ public sealed class QuditPartialPalindromeCeiling : Claim
                 summary: $"d = 3, N = 2: c = [9,36,36], paired = {Ceiling(3, 2)}/{Total(3, 2)}, excess = {Total(3, 2) - Ceiling(3, 2)}");
             yield return new InspectableNode("d = 2 uniqueness",
                 summary: "the unique fully-paired column; (d−1)^k = 1 only at d = 2; this IS d² − 2d = 0 (parent QubitNecessityPi2Inheritance) as an N-family");
-            yield return new InspectableNode("interacting spectrum (H degrades it)",
-                summary: "adding H reduces the pairing at every fixed center (54→48 about −Nγ for N = 2); the interacting count is H-dependent (no H-independent closed form); for the symmetric SU(3) Heisenberg the real parts follow Re(λ) = −2γ⟨Q⟩ (PROOF §4)");
+            yield return new InspectableNode("interacting spectrum (H-dependent)",
+                summary: "the sampled symmetric SU(3)-Heisenberg H changes 54→48 about −Nγ at N = 2; this is not universal (H=cI gives L_H=0 and leaves the dissipator count unchanged). The interacting count has no H-independent closed form; the SU(3)-Heisenberg real parts follow Re(λ) = −2γ⟨Q⟩ (PROOF §4)");
             yield return new InspectableNode("live lab (the witness)",
                 summary: "this ceiling is recomputed from the actual built dissipator spectrum by " +
                          "QuditPartialPalindromeWitness; run `inspect --root qudit [--qudit-d 3 --qudit-n 2]` " +

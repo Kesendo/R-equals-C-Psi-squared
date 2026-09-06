@@ -50,7 +50,7 @@ public class F56CriticalSlowingPi2InheritanceRegistrationTests
         var registry = BuildBaseRegistry()
             .RegisterF56CriticalSlowingPi2Inheritance()
             .Build();
-        Assert.Equal(expected, registry.Get<F56CriticalSlowingPi2Inheritance>().IterationCount(epsilon, tol), precision: 4);
+        Assert.Equal(expected, registry.Get<F56CriticalSlowingPi2Inheritance>().IterationCountAsymptotic(epsilon, tol), precision: 4);
     }
 
     [Fact]

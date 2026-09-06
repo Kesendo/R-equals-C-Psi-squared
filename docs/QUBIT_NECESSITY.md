@@ -270,8 +270,9 @@ The local class swap depends on d = 2 and on which Pauli letter defines the
 dephasing. Its dissipative action is topology-independent. The Hamiltonian
 part is an additional gate: only compatible interaction terms produce the
 full operator identity. At d > 2 the full local swap is rank-obstructed, but
-F121 constructs partial product mirrors and a translation-invariant
-non-product ceiling-reacher.
+F121 constructs partial product mirrors; translation-invariant non-product
+ceiling-reachers are verified at `(d,N)=(3,2),(3,3),(4,2)`, without a general
+attainment theorem.
 
 ---
 

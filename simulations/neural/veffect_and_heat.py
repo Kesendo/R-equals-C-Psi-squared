@@ -24,10 +24,11 @@ def ei_swap(signs):
 
 
 def build_jacobian_with_sigmoid(W, signs, tau_E, tau_I, alpha, P,
-                                 a_E=1.3, theta_E=4.0, a_I=2.0, theta_I=3.7):
+                                 a_E=1.3, theta_E=4.0, a_I=2.0, theta_I=3.7,
+                                 solver_tol=1e-12):
     """Return (J, x, equation residual) at a converged operating point."""
     x, residual = solve_fixed_point(
-        W, signs, alpha, P, tol=1e-12, max_iter=5000,
+        W, signs, alpha, P, tol=solver_tol, max_iter=5000,
         a_e=a_E, theta_e=theta_E, a_i=a_I, theta_i=theta_I,
     )
     inputs = alpha * W @ x + P

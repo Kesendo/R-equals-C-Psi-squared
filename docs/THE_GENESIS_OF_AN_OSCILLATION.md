@@ -29,18 +29,15 @@ condition? The framework's living thing is an oscillation, a heartbeat (the CΨ
 oscillation). So the question is: how does a qubit get a heartbeat, or does it
 carry one already?
 
-## What was ruled out: the bath is orthogonal
+## The finite-occupation channel scan
 
-The first guess followed the heat. Wave-breaking creates heat
-([Thermal Breaking](../experiments/THERMAL_BREAKING.md)); perhaps the heat
-creates the new oscillation. It does not. A scan of the bath temperature moves
-the real parts of the Liouvillian spectrum, the decay rates; the imaginary
-parts barely respond. For N = 3 and N = 4 the count of oscillating modes does
-not change across the whole scan. For N = 5 the bath does nudge eight modes off
-the real axis, but only to |Im λ| of order 10⁻⁴: an overdamped flicker three to
-four orders of magnitude below the genuine oscillation scale (|Im λ| ≈ 0.5). On
-the scale that matters for a heartbeat, bath and Hamiltonian are orthogonal: the
-bath damps, it cannot give one.
+The local sigma-minus/sigma-plus channel was scanned with externally supplied
+`n_bar` ([Finite-Occupation Amplitude Channels](../experiments/THERMAL_BREAKING.md)).
+That generator contains no feedback from decay to `n_bar`, so the scan is not a
+test of wave-breaking producing heat or heat creating an oscillation. In this
+finite protocol the real and imaginary spectral parts respond differently;
+that observation does not establish a general orthogonality of bath and
+Hamiltonian or a mechanism for a "heartbeat."
 
 What remains is two quantities: γ₀, the Z-dephasing rate, and J, the coupling.
 γ₀ is the fixed constant, the substrate unit, not measurable from inside the

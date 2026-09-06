@@ -207,6 +207,7 @@ POSIX:
 export PYTHONIOENCODING=utf-8
 python simulations/neural/veffect_exact.py
 python simulations/neural/veffect_and_heat.py
+python simulations/neural/veffect_controls.py
 python simulations/neural/neural_translation_gate.py
 python -m pytest simulations/neural/tests/ -q
 ```
@@ -217,6 +218,7 @@ PowerShell:
 $env:PYTHONIOENCODING = 'utf-8'
 python simulations/neural/veffect_exact.py
 python simulations/neural/veffect_and_heat.py
+python simulations/neural/veffect_controls.py
 python simulations/neural/neural_translation_gate.py
 python -m pytest simulations/neural/tests/ -q
 ```
@@ -240,9 +242,10 @@ for P in [0, 4, 10]:
           [frequency_counts(values, e) for e in [1e-4, 2.5e-5, 6.25e-6]])
 ```
 
-For coupling controls, import `veffect_exact`, replace its module binding
-`frequency_counts` with a wrapper calling the shared function at ε/4 or
-ε/16, then call `main()`; for the transpose control replace its `np.linalg.eigvals`
-binding with a wrapper applying a saved original function to `J.T`. Run each
-in a fresh Python process. For solver refinement, call `solve_fixed_point`
-with `tol=1e-14`, then rebuild J using the displayed row-gain equation.
+The committed [`veffect_controls.py`](../../simulations/neural/veffect_controls.py)
+command above rebuilds the coupling matrices through the same constructors and
+prints the ε, ε/4, ε/16 and transpose reads quoted here. It does not replace
+module bindings. The regression gate pins the N=10 stable row, the three N=20
+c=0.05 refinement rows, the N=10 and N=20 transpose comparisons, and the full
+13-point drive grid rebuilt at solver tolerances 10⁻¹² and 10⁻¹⁴. The command
+fails if any drive-grid count changes under that solver refinement.

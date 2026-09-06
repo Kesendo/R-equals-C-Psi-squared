@@ -10,30 +10,27 @@ mechanism.
 
 FINDINGS THIS SCOUT PINS (self-validating):
 
-  [A] For the SYMMETRIC SU(3) Heisenberg, Re(lambda) = -2*gamma * <Q>_mode
-      EXACTLY (machine zero), where <Q> is the biorthogonal Hamming-distance
-      expectation over each eigenmode. This is the Absorption Theorem's Rayleigh
-      reading (real part from the self-adjoint dissipator alone), and it is EXACT
-      only because the SU(3) symmetry makes L_H and L_D effectively commute within
-      each degenerate eigensector. It is NOT general: a random Hermitian H breaks
-      it (dev ~1e-3, the real parts spread off the clean ladder). Symmetry, not the
-      split alone, is what pins the rungs.
+  [A] Re(lambda) = -2*gamma * <Q>_mode exactly for every Hermitian H, where
+      <Q> is the right Hilbert-Schmidt Rayleigh quotient v^dag Qv/v^dag v.
+      SU(3) symmetry quantizes these values; a random Hermitian H spreads them.
 
   [B] For SU(3) Heisenberg the symmetry QUANTIZES <Q> into {0,1,1.5,2} (rungs
       {0:6, 1:36, 1.5:12, 2:27}), clean real parts {0,-2,-3,-4}*g; the -3g rung is
       exactly <Q>=1.5 (a 50/50 Hamming-1/Hamming-2 mix). A random H spreads <Q>
       continuously -> no rungs.
 
-  [C] H DEGRADES the pairing at EVERY fixed center (the palindrome is fragile
-      under H). About the physical center -N*gamma: dissipator 54 -> full L 48.
+  [C] The sampled SU(3)-Heisenberg H reduces pairing at both checked centers.
+      About the physical center -N*gamma: dissipator 54 -> full L 48.
       About -3g (the two big rungs): dissipator 72 -> full L 60. The earlier
       "full L exceeds the ceiling (60>54)" was a center mismatch (full-L-best -3g
-      vs dissipator-physical-center -2g); at EQUAL center H always reduces pairing.
+      vs dissipator-physical-center -2g). This is not universal over H: H=cI
+      has L_H=0 and leaves every dissipator count unchanged.
 
   [D] The interacting paired count is H-DEPENDENT (SU(3) Heisenberg 60 robustly
       across J=0.05..10; off-diagonal-only 48; single bilinear 52; random ~0).
       So there is NO H-independent closed form for the interacting palindrome;
-      the dissipator's 54 (about -N*gamma) is the only invariant skeleton.
+      the dissipator's 54 (about -N*gamma) belongs to the invariant dissipator
+      skeleton; it is not an interacting paired-count invariant.
 
 Reuses the committed verifier's infrastructure.
 """
@@ -61,11 +58,9 @@ def hamming_diag(N, d=3):
 
 
 def q_expectations(Lf, Q):
-    """Biorthogonal <Q>_k = w_k Q v_k (w_k v_k = 1) per eigenmode; returns
-    (eigenvalues, <Q> array)."""
+    """Right Hilbert-Schmidt Rayleigh quotient v^dag Q v / v^dag v per mode."""
     ev, V = np.linalg.eig(Lf)
-    W = np.linalg.inv(V)                      # rows are left eigenvectors w_k
-    qexp = np.einsum('ki,i,ik->k', W, Q, V)   # w_k diag(Q) v_k
+    qexp = np.sum(V.conj() * (Q[:, None] * V), axis=0) / np.sum(V.conj() * V, axis=0)
     return ev, qexp
 
 
@@ -102,7 +97,7 @@ def main():
     print("=" * 70)
 
     # ---- [A] Re(lambda) = -2g<Q> exact, for SU(3) Heisenberg AND random H ----
-    print("\n[A] Re(lambda) = -2*gamma*<Q>_mode  (Rayleigh reading; SYMMETRY-special):")
+    print("\n[A] Re(lambda) = -2*gamma*<Q>_mode  (universal right-HS Rayleigh reading):")
     np.random.seed(11)
     H_su3 = H_su3_heisenberg(N, [(0, 1)], J=1.0)
     A = np.random.randn(9, 9) + 1j * np.random.randn(9, 9)
@@ -113,10 +108,8 @@ def main():
         dev = np.max(np.abs(ev.real - (-2 * g * qexp.real)))
         devs[label] = dev
         print(f"    {label:<20} max|Re(lambda) - (-2g*Re<Q>)| = {dev:.2e}")
-    assert devs["SU(3) Heisenberg"] < 1e-10, f"SU(3) split should be exact: {devs}"
-    assert devs["random Hermitian"] > 1e-4, f"random H should break the split: {devs}"
-    print("    -> EXACT for the symmetric SU(3) Heisenberg, BROKEN for random H:")
-    print("       symmetry (not the split alone) pins the real parts at -2g<Q>. OK")
+    assert max(devs.values()) < 1e-10, f"Absorption-Theorem right-HS identity should be exact: {devs}"
+    print("    -> exact for both Hamiltonians; symmetry quantizes the SU(3) values, not the identity. OK")
 
     # ---- [B] symmetry quantizes <Q>; -3g rung = <Q>=1.5 ----
     print("\n[B] Symmetry quantizes <Q>. SU(3) Heisenberg <Q> distribution:")
@@ -135,8 +128,8 @@ def main():
     print("    -> the -3g rung is exactly <Q>=1.5 (Hamming-1/Hamming-2 mix); "
           "symmetry quantizes, it does not create. OK")
 
-    # ---- [C] H degrades pairing at every fixed center ----
-    print("\n[C] H DEGRADES the pairing at every fixed center (palindrome is fragile):")
+    # ---- [C] sampled SU(3)-Heisenberg H changes pairing at two fixed centers ----
+    print("\n[C] Sampled SU(3)-Heisenberg H reduces pairing at two checked centers:")
     evD = np.linalg.eigvals(LD)
     evF = np.linalg.eigvals(L_hamiltonian(H_su3) + LD)
     print(f"    {'center':>10}{'dissipator':>13}{'full L':>9}{'H effect':>12}")
@@ -154,7 +147,7 @@ def main():
     bF = best_pairing(evF, g)
     print(f"    best-over-centers: dissipator {bD[0]} @ {bD[1]:.1f}g ; full L {bF[0]} @ {bF[1]:.1f}g")
     assert bD[0] == 72 and bF[0] == 60, f"best-over-centers off: {bD}, {bF}"
-    print("    -> at EQUAL center H always reduces pairing (54->48, 72->60). The old")
+    print("    -> at both checked centers this H reduces pairing (54->48, 72->60). The old")
     print("       '60>54 exceeds' compared full-L@-3g vs dissipator@-2g: a center mismatch. OK")
 
     # ---- [D] the interacting count is H-dependent (no closed form) ----
@@ -162,7 +155,7 @@ def main():
     np.random.seed(7)
     offdiag = [m for i, m in enumerate(gm_raw) if i not in (2, 7)]
     cases = []
-    for J in (0.05, 1.0, 10.0):
+    for J in (0.0, 0.05, 1.0, 10.0):
         cases.append((f"SU(3) Heisenberg J={J}",
                       sum(J * site_op(m, 0, N, 3) @ site_op(m, 1, N, 3) for m in gm_raw)))
     cases.append(("SU(3) off-diagonal gens", sum(site_op(m, 0, N, 3) @ site_op(m, 1, N, 3) for m in offdiag)))
@@ -176,23 +169,26 @@ def main():
         b, c = best_pairing(np.linalg.eigvals(L_hamiltonian(H) + LD), g)
         counts[label] = b
         print(f"    {label:<28}{b:>12}{(c if c else 0):>11.2f}")
-    su3 = [counts[k] for k in counts if k.startswith("SU(3) Heisenberg")]
-    assert all(x == 60 for x in su3), f"SU(3) Heisenberg not J-robust at 60: {su3}"
+    assert counts["SU(3) Heisenberg J=0.0"] == 72
+    su3 = [counts[k] for k in counts if k.startswith("SU(3) Heisenberg") and "J=0.0" not in k]
+    assert all(x == 60 for x in su3), f"tested nonzero SU(3) couplings not at 60: {su3}"
     rand = [counts[k] for k in counts if k.startswith("random")]
     assert max(rand) < 20, f"random H should barely pair: {rand}"
-    print("    -> SU(3) Heisenberg robust at 60 across J; random H ~0. The count floats")
-    print("       with H's symmetry; no H-independent closed form. 54 (about -N*g) is the")
-    print("       only invariant; the dissipator skeleton, not the interacting count.")
+    print("    -> J=0 returns the dissipator best count 72; tested nonzero J gives 60; random H ~0.")
+    print("       The count floats")
+    print("       with H's symmetry; no H-independent closed form. 54 (about -N*g) belongs")
+    print("       to the dissipator skeleton; it is not an interacting paired-count invariant.")
 
     print("\n" + "=" * 70)
-    print("ALL CHECKS PASSED. Correction to F121: at any fixed center H DEGRADES the")
-    print("pairing (54->48 about the physical center -N*gamma); it is NOT redistributive-")
-    print("not-destructive (the old '60>54' compared full-L@-3g vs dissipator@-2g). For")
+    print("ALL CHECKS PASSED. For the sampled SU(3)-Heisenberg H, pairing decreases")
+    print("54->48 about the physical center -N*gamma and 72->60 about -3g. This is")
+    print("not universal over H: H=cI leaves the dissipator unchanged. The old '60>54'")
+    print("compared full-L@-3g against dissipator@-2g, hence mismatched centers. For")
     print("the symmetric SU(3) Heisenberg the real parts sit at -2g<Q> exactly (<Q> in")
-    print("{0,1,1.5,2}, the -3g rung = <Q>=1.5), but this is a SYMMETRY effect, not general")
-    print("(random H breaks it). The interacting count is H-dependent (60 for SU(3)")
-    print("Heisenberg, ~0 generic): no H-independent closed form. The dissipator's 54")
-    print("(about -N*gamma) is the only invariant skeleton; F121's closed form stands.")
+    print("{0,1,1.5,2}, the -3g rung = <Q>=1.5); this QUANTIZATION is a symmetry effect")
+    print("(a random H spreads the values, while retaining the Rayleigh identity). The interacting count is H-dependent (60 for the tested")
+    print("nonzero SU(3)-Heisenberg couplings, ~0 generic): no H-independent closed form.")
+    print("The dissipator's 54 about -N*gamma is a skeleton count, not an interacting invariant.")
     print("=" * 70)
 
 

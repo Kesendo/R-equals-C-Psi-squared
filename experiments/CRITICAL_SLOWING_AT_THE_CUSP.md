@@ -1,6 +1,6 @@
 # Critical Slowing at the Mandelbrot Cusp
 
-**Status:** Verified (closed-form analytical, April 5, 2026; hardware
+**Status:** Verified (asymptotic analytical expansion, April 5, 2026; hardware
 anchors April 16 + April 26, Kingston)
 **Prediction verified:** [Prediction 2](MANDELBROT_CONNECTION.md) (Section 6)
 **Scripts:**
@@ -28,7 +28,9 @@ iteration and converges slowly near its cardioid cusp. That algorithmic,
 tolerance-dependent iteration count is not physical slowing of a quantum
 state and does not make `1/4` a universal quantum-to-classical transition.
 
-For months this slowing was known numerically: you could measure it, plot it, and see it behaving like a square-root law. What was missing was a closed-form expression: a formula that says, given how close you are to the boundary and how precise your numerical tolerance is, exactly how many iterations you need, with no fitting and no free parameters. This document closes that gap. Every coefficient in the formula is derived analytically. The number of iterations is now a function you can write down, not a curve you measured.
+The iteration count admits a zero-fit asymptotic expansion near the cusp. It
+estimates, rather than exactly equals, the finite-ε count; the residual table
+below is part of the result. Every displayed coefficient is derived analytically.
 
 The second half treats one continuous case: the ideal N=2 Bell+ trajectory
 under pure Z-dephasing, whose closed form depends on `f=exp(-4γt)`. For that
@@ -41,11 +43,11 @@ the coupled-Hamiltonian sweeps in K-Dosimetry change `J/γ` and show up to
 
 ## Abstract
 
-The Mandelbrot iteration u_{n+1} = u_n² + c with c = CΨ approaching 1/4 exhibits critical slowing from the saddle-node bifurcation at the cardioid cusp. The iteration count n(ε) with ε = 1/4 - c obeys a fully closed-form scaling law:
+The Mandelbrot iteration u_{n+1} = u_n² + c with c = CΨ approaching 1/4 exhibits critical slowing from the saddle-node bifurcation at the cardioid cusp. The iteration count n(ε) with ε = 1/4 - c has the asymptotic expansion:
 
     K(ε, tol) = n·√ε = (1/2)·ln(4ε/tol) + [-4 + (1/2)·ln(16·tol)] · √ε
 
-Every coefficient is derived analytically: the leading logarithm from saddle-node passage, the -4 from the starting-transient integral, and the tol-dependent correction from the Modified Equation treatment of the discrete-to-continuous transition. **Zero fit parameters.** Verified two ways: the ten-decade ε-scan (10⁻¹ to 10⁻¹⁰, Section 2) checks the leading-order form, and the Modified-Equation coefficient is validated in the tol-sweep (Section 4, six tol decades tested, the 10⁻⁶ outlier excluded leaves five, 0.5-2% agreement); under the complete formula the ε-scan residuals collapse to ≤ 0.04 for ε ≤ 10⁻², leaving only genuine continuum breakdown at ε = 10⁻¹ (see the note in Section 2.1). For the ideal Bell+/pure-Z trajectory, `K_dwell=γt_dwell` is constant across γ = 0.1 to 10.0 to machine precision; this is not a universal cross-protocol law.
+Every coefficient is derived analytically: the leading logarithm from saddle-node passage, the -4 from the starting-transient integral, and the tol-dependent correction from the Modified Equation treatment of the discrete-to-continuous transition. **Zero fit parameters does not mean zero remainder.** Verified two ways: the ten-decade ε-scan (10⁻¹ to 10⁻¹⁰, Section 2) checks the leading-order form, and the Modified-Equation coefficient is validated in the tol-sweep (Section 4, six tol decades tested, the 10⁻⁶ outlier excluded leaves five, 0.5-2% agreement). The measured-minus-asymptotic residuals after the displayed correction are −0.573, +0.037, −0.005, +0.001 for ε = 10⁻¹...10⁻⁴. For the ideal Bell+/pure-Z trajectory, `K_dwell=γt_dwell` is constant across γ = 0.1 to 10.0 to machine precision; this is not a universal cross-protocol law.
 
 ---
 
@@ -123,7 +125,7 @@ With f(η₀) = η₀² - ε = 1/16 - ε/2 + ε² ≈ 1/16 and |f(η_f)| = tol a
 
     Δn(tol) = n_Map - n_ODE = (1/2) · ln(16·tol)
 
-### The complete closed-form formula
+### The corrected asymptotic formula
 
 Combining ODE-level and Modified-Equation contributions:
 
@@ -133,7 +135,7 @@ where
 
     α(tol) = -4 + (1/2)·ln(16·tol)
 
-The -4 comes from the starting-transient integral. The (1/2)·ln(16·tol) comes from the discretization structure of the Euler step. **Every coefficient is derived. Zero fit parameters.**
+The -4 comes from the starting-transient integral. The (1/2)·ln(16·tol) comes from the discretization structure of the Euler step. **Every coefficient is derived and no coefficient is fitted.** Terms beyond the displayed order remain, so the expression is not an exact finite-ε count.
 
 With tol = 10⁻¹²:
 
@@ -169,7 +171,7 @@ stopping step (check-then-increment).
 
 Match to 3+ significant figures for ε ≤ 10⁻⁵. The growing residual at
 large ε is, for rows ε = 10⁻² to 10⁻⁴, almost entirely the deferred
-Modified-Equation term: under the COMPLETE formula of Section 1 the
+Modified-Equation term: under the corrected asymptotic formula of Section 1 the
 residuals collapse to −0.573 / +0.037 / −0.005 / +0.001 for
 ε = 10⁻¹...10⁻⁴. Only the ε = 10⁻¹ row is genuine continuum breakdown
 (η-steps not small compared to η itself).
@@ -184,7 +186,7 @@ residuals collapse to −0.573 / +0.037 / −0.005 / +0.001 for
 | Small (k=3..10)   | -0.424 |
 | Pure power law    | -0.500 |
 
-The deviation from -1/2 is the logarithmic correction in the closed-form.
+The deviation from -1/2 is the logarithmic correction in the asymptotic expansion.
 
 ---
 
@@ -277,7 +279,7 @@ Linear fit of c₁_measured vs ln(tol), excluding the tol = 10⁻⁶ outlier (5 
 
 The slope deviation (0.8%) is well within the ±0.02 pre-specified tolerance. The intercept residual (8%) is consistent with the O(f''·f) higher-order Modified Equation correction, which contributes ~0.02 per tol decade and accumulates into the intercept offset (visible as the 1-2% per-tol deviations in the comparison table).
 
-**Verdict:** The Modified Equation derivation is confirmed. The critical slowing formula is fully closed-form with zero fit parameters.
+**Verdict:** The Modified Equation derivation fixes the displayed asymptotic coefficients with zero fit parameters. The nonzero finite-ε residual remains part of the result; this is not an exact iteration-count formula.
 
 ### The -4π coincidence
 
@@ -481,7 +483,7 @@ The zoomed view shows the trajectory threading through the cusp:
 
 ![Zoomed trajectory](../visualizations/bellplus_trajectory_on_mandelbrot_zoom.png)
 
-The trajectory is a straight line on the real axis because CΨ(t) is real-valued for Bell+ under Z-dephasing. Other dephasing channels or non-symmetric initial states would produce 2D trajectories in the complex c-plane, where the Mandelbrot boundary geometry becomes directly relevant.
+The trajectory is a straight line on the real axis because the scalar CΨ(t) is real-valued for Bell+ under Z-dephasing. A two-dimensional complex-plane path requires the separately defined phase-bearing extension `CΨ_com` and a protocol that preserves its signed complex sum; it does not follow merely from choosing another channel or a non-symmetric state.
 
 ---
 
@@ -599,7 +601,7 @@ invariance theorem.
    finite comparison, not an exact confirmation that `K` is a universal
    absorbed dose across real-world noise profiles.
 
-3. **The Aer noise model is 12% too slow.** Because it uses T2_echo (Hahn refocused) while hardware free evolution decays at T2* (1.2-1.5x shorter). Both pairs show the same systematic 12% shift, confirming it is a T2_echo vs T2* effect, not a random deviation.
+3. **The stated Aer noise model is 12% too slow in these two runs.** Its use of T2_echo rather than free-evolution T2* is consistent with the sign and scale and is a plausible contributor, but this comparison does not isolate the cause.
 
 ### Data
 

@@ -316,20 +316,16 @@ public static class KnowledgeRegistryFactory
             // Σ d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2. Parent QubitNecessityPi2Inheritance
             // (registered directly above). Wired 2026-06-11.
             .RegisterQuditPartialPalindromeCeiling()
-            // The qudit product-mirror cap (2026-06-11): the operator side of F121. Any
-            // per-site mirror W = ⊗q_l intertwining W·L_D = (−L_D − 2Nγ)·W pairs ≤ (2d)^N
-            // coherences (full ⟺ d² − 2d = 0 ⟺ d = 2, the trunk's third appearance);
-            // Π_d(ρ) = ρᵀ·Shift^{⊗N} attains the cap exactly on the shift-aligned subspace;
+            // Historical qudit product-cap node (2026-06-11, retracted 2026-09-06):
+            // Π_d P_aligned is exact with rank (2d)^N; full Π_d is a rank-d^(2N) permutation,
+            // but (2d)^N is not a universal product cap (d=6,N=2 projector rank 180 > 144);
             // ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂ of order 2d² (D₄ at d = 2). Parents
             // QuditPartialPalindromeCeiling (line above) + QubitNecessityPi2Inheritance.
             // Wired 2026-06-11.
             .RegisterQuditProductMirrorCap()
-            // The qudit mirror-protection scaling law (2026-06-17): the corollary of the cap that the
-            // palindrome-protected fraction is (2d)^N / d^{2N} = (2/d)^N, decaying exponentially in the
-            // local dimension d and = 1 only at the qubit d=2 (the unique full-mirror dimension; the trunk
-            // root d²−2d=0). Complementary qutrit finding: the decay rates 2γ·Hamming and the structural
-            // ceiling 4/N are d-independent (simulations/qudit_g2_split.py), so a qudit decays like a qubit
-            // but loses mirror protection (2/d)^N. Single parent QuditProductMirrorCap (line above). Live
+            // Explicit Π_d P_aligned coverage (2/d)^N, not a universal optimum. Complementary
+            // qutrit finding: decay rates 2γ·Hamming and structural ceiling 4/N are d-independent.
+            // Single parent QuditProductMirrorCap (line above). Live
             // witness: QuditMirrorProtectionWitness (inspect --root protection). Wired 2026-06-17.
             .RegisterQuditMirrorProtectionScalingClaim()
             // The eigenvector holonomy around the (1,2)-block defective seed (2026-07-07): the mod-4

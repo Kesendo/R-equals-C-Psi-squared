@@ -107,10 +107,9 @@ def zero_temperature_emission_gate(generator, expected_rate):
     return signed_flow
 
 
-def main():
+def render_report():
     lines = []
     def log(message=""):
-        print(message)
         lines.append(message)
 
     n = 4
@@ -139,8 +138,14 @@ def main():
     )
     log(f"continuity: ||L(1e-9)-L(0)||_F={np.linalg.norm(near-cold):.6e}")
     log("Scope: finite spectral counts only; no thermal-photon, standing-wave, or phase-transition mechanism is inferred.")
+    return "\n".join(lines) + "\n"
+
+
+def main():
+    output = render_report()
+    print(output, end="")
     path = RESULTS_DIR / "thermal_blackbody.txt"
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    path.write_text(output, encoding="utf-8")
     print(f"\nResults saved to: {path}")
 
 

@@ -31,9 +31,9 @@ public class InteriorHorizonTests
     }
 
     [Fact]
-    public void Recursion_LiveK_MatchesClosedForm()
+    public void Recursion_LiveK_ApproachesAsymptoticFormula()
     {
-        // Live Mandelbrot iteration count K = n*sqrt(eps) must match the closed form
+        // Live Mandelbrot iteration count K = n*sqrt(eps) approaches the asymptotic expansion
         // K(eps,tol) = (1/2)*ln(4*eps/tol) + alpha(tol)*sqrt(eps) (CRITICAL_SLOWING_AT_THE_CUSP.md).
         const double tol = 1e-12;
         foreach (double eps in new[] { 1e-4, 1e-5 })
@@ -41,11 +41,23 @@ public class InteriorHorizonTests
             double cpsi = 0.25 - eps;
             int n = InteriorHorizon.RecursionIterations(cpsi, tol);
             double liveK = n * System.Math.Sqrt(eps);
-            double closedK = InteriorHorizon.RecursionKClosedForm(cpsi, tol);
-            _out.WriteLine($"eps={eps:E0} n={n} liveK={liveK:F3} closedK={closedK:F3}");
-            Assert.True(System.Math.Abs(liveK - closedK) < 0.3,
-                $"liveK {liveK:F3} vs closedK {closedK:F3} at eps={eps:E0}");
+            double asymptoticK = InteriorHorizon.RecursionKAsymptotic(cpsi, tol);
+            _out.WriteLine($"eps={eps:E0} n={n} liveK={liveK:F3} asymptoticK={asymptoticK:F3}");
+            Assert.True(System.Math.Abs(liveK - asymptoticK) < 0.3,
+                $"liveK {liveK:F3} vs asymptoticK {asymptoticK:F3} at eps={eps:E0}");
         }
+    }
+
+    [Fact]
+    public void Recursion_AsymptoticFormula_IsNotPresentedAsExactAtFiniteEpsilon()
+    {
+        const double eps = 1e-4, tol = 1e-12;
+        int n = InteriorHorizon.RecursionIterations(0.25 - eps, tol);
+        double residual = n * System.Math.Sqrt(eps)
+                        - InteriorHorizon.RecursionKAsymptotic(0.25 - eps, tol);
+
+        Assert.True(System.Math.Abs(residual) > 1e-3, $"finite-epsilon residual unexpectedly vanished: {residual:E3}");
+        Assert.True(System.Math.Abs(residual) < 0.3, $"asymptotic residual too large in its stated regime: {residual:E3}");
     }
 
     [Fact]

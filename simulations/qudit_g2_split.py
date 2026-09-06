@@ -284,24 +284,25 @@ print(f"STAGE 1 PASS (H_4 holds): g2(K_N, d=3) = 4/N to machine precision -- the
       f"factors are d-independent.\n  The seam to the discriminant four (d^2 -> 9 at the qutrit) is "
       f"REFUTED for g2: the two-fours discipline\n  holds and EXTENDS -- the qutrit is the prism that "
       f"splits the d=2 coincidence d^2=2d=4 into {{9, 6, 4}},\n  and g2 rides the 4-ray, a third "
-      f"genealogy distinct from both the discriminant (d^2) and the cap (2d).")
+      f"genealogy distinct from both the discriminant (d^2) and the shift construction (2d).")
 
 # ====================================================================================================
-# STAGE 2 -- THE CAP LEG (2d) vs F121: the discriminant four and the cap four ARE the two terms of the
-#            trunk polynomial d^2 - 2d = 0, equal only at its root d=2, split by the qutrit.
+# STAGE 2 -- THE SHIFT-CONSTRUCTION LEG (2d) vs F121. This is one explicit
+#            class-swapping construction, not an upper bound on all product intertwiners.
 # ====================================================================================================
 # The foundational polynomial d^2 - 2d has TWO terms; the qutrit splits them:
 #   * the d^2 term = the per-site coherence-space dimension = the squared dimension = the discriminant /
 #                    a_-1 reading (PolynomialDiscriminantAnchorClaim).            -> d^2 = 9 at d=3.
-#   * the 2d term  = the F121 product-mirror cap base: each per-site mirror q_l is a strict class swap
+#   * the 2d term  = the F121 strict local class-swap construction: each q_l swaps
 #                    between the d DARK letters {(x,x)} and the d^2-d LIT letters {(i,j), i!=j}, so
-#                    rank(q_l) <= min(d, d^2-d) + min(d^2-d, d) = 2d, and the cap = (2d)^N.  -> 2d = 6.
-# They coincide at d=2 (= 4, the trunk root d^2-2d=0; F121's "third appearance" of the trunk). We
-# RECOMPUTE the cap base directly (generic class-swap rank, F121 PROOF_QUDIT_PARTIAL_PALINDROME BLOCK C)
-# and cross-check the full cap (2d)^N against F121's measured 36/216/64. The g2 ceiling four (Stage 1)
+#                    rank(q_l) = 2d generically, hence product rank (2d)^N. This
+#                    restriction is not forced on arbitrary product intertwiners: at d=6,N=2,
+#                    P_dark⊗P_lit has exact rank 180 > 144=(2d)^N.
+# The two numerical expressions coincide at d=2 (=4). We recompute the construction's base directly
+# and cross-check (2d)^N against the explicit F121 construction values 36/216/64. The g2 ceiling four (Stage 1)
 # is the THIRD reading, EXTERNAL to the trunk (2 x 2/N, stays 4).
 print("\n" + "=" * 100)
-print("STAGE 2 -- THE CAP LEG (2d) vs F121: the two terms of the trunk d^2-2d=0, split by the qutrit")
+print("STAGE 2 -- THE SHIFT-CONSTRUCTION LEG (2d) vs F121 (not a universal product cap)")
 print("=" * 100)
 
 
@@ -321,27 +322,27 @@ def random_class_swap(d, seed):
     return q
 
 
-print(f"{'d':>2} {'cap base (rank)':>16} {'2d':>5} {'d^2':>5} {'trunk d^2-2d':>13} {'rides':>8}")
+print(f"{'d':>2} {'swap rank':>16} {'2d':>5} {'d^2':>5} {'d^2-2d':>13} {'rides':>8}")
 for d in (2, 3, 4, 5):
     base = int(np.linalg.matrix_rank(random_class_swap(d, 20260617 + d), tol=1e-9))
     twod, dsq = 2 * d, d * d
     rides = "2d=d^2" if twod == dsq else ("2d" if base == twod else "?")
     print(f"{d:>2} {base:>16} {twod:>5} {dsq:>5} {dsq - 2 * d:>13} {rides:>8}")
-    assert base == twod, f"STAGE 2 GATE FIRED: per-site cap base at d={d} is {base}, not 2d={twod}"
+    assert base == twod, f"STAGE 2 GATE FIRED: per-site class-swap rank at d={d} is {base}, not 2d={twod}"
 
-# direct (3,2) product rank = 36 (reproduces F121 BLOCK C): the cap is 6^2, not 9^2 = 81
+# Direct (3,2) class-swap product rank = 36. This checks the construction, not an optimum.
 q3 = random_class_swap(3, 99)
 rank32 = int(np.linalg.matrix_rank(np.kron(q3, q3), tol=1e-9))
 assert rank32 == 36, f"STAGE 2 GATE FIRED: (3,2) class-swap product rank {rank32} != 36 = (2d)^N"
-print(f"\n  direct (d=3,N=2) class-swap product rank = {rank32} = (2d)^N = 6^2  (the d^2-base would give "
-      f"d^(2N) = 81; F121 measures 36)")
+print(f"\n  direct (d=3,N=2) class-swap product rank = {rank32} = (2d)^N = 6^2  (an explicit construction; "
+      f"not a universal cap)")
 
-# cross-check the closed form (2d)^N against F121's measured values (qudit_product_mirror_cap.py)
-F121_CAP = {(3, 2): 36, (3, 3): 216, (4, 2): 64}                 # = 6^2, 6^3, 8^2 ; NOT 81/729/256 = d^(2N)
-for (d, N), measured in F121_CAP.items():
-    cap, dsq_pow = (2 * d) ** N, (d * d) ** N
-    assert cap == measured and cap != dsq_pow, f"STAGE 2 GATE FIRED: (2d)^N at (d={d},N={N}) != F121 {measured}"
-    print(f"  F121 cap({d},{N}) = (2d)^N = {cap}  (the d^2-base would give d^(2N) = {dsq_pow})")
+# Cross-check the closed construction formula (2d)^N against its recorded cases.
+F121_SHIFT_RANK = {(3, 2): 36, (3, 3): 216, (4, 2): 64}
+for (d, N), measured in F121_SHIFT_RANK.items():
+    shift_rank, dsq_pow = (2 * d) ** N, (d * d) ** N
+    assert shift_rank == measured and shift_rank != dsq_pow, f"STAGE 2 GATE FIRED: shift rank at (d={d},N={N}) != {measured}"
+    print(f"  F121 shift rank({d},{N}) = (2d)^N = {shift_rank}  (not a universal cap)")
 assert (3 * 3 - 2 * 3) != 0 and (2 * 2 - 2 * 2) == 0, "STAGE 2: trunk d^2-2d=0 holds only at d=2"
 
 # the three fours, fanned by the qutrit prism (the ceiling four pulled live from Stage 1)
@@ -350,10 +351,9 @@ assert ceil4 == 4, "STAGE 2: the ceiling four should stay 4 at d=3"
 print(f"\n  THE THREE FOURS (all = 4 at d=2, fanned by the qutrit prism):")
 print(f"    {'reading':32} {'d=2':>4} {'d=3':>4}  {'origin':<36}")
 print(f"    {'squared dimension  d^2':32} {4:>4} {9:>4}  {'d^2 term of the trunk (a_-1, dyadic)':<36}")
-print(f"    {'product-mirror cap  2d':32} {4:>4} {6:>4}  {'2d term of the trunk (F121 cap base)':<36}")
+print(f"    {'shift construction  2d':32} {4:>4} {6:>4}  {'explicit F121 construction base':<36}")
 print(f"    {'structural ceiling  2 x (2/N)':32} {4:>4} {ceil4:>4}  {'trunk-EXTERNAL (Hamming x S_N angle)':<36}")
-print(f"\nSTAGE 2 PASS: the cap leg rides 2d (= 6 at d=3, F121 cap 36 = 6^2, NOT 81 = 9^2) and the "
-      f"discriminant\n  leg rides d^2 (= 9). They are the TWO TERMS of the trunk d^2 - 2d = 0 -- equal only "
-      f"at its root\n  d=2, fanned to {{9, 6}} by the qutrit. The g2 ceiling four (stays 4) is the THIRD, "
-      f"trunk-EXTERNAL\n  reading. The one d=2 four fans into {{9, 6, 4}}.")
+print(f"\nSTAGE 2 PASS: the explicit shift/class-swap construction rides 2d (=6 at d=3; rank 36 at N=2), "
+      f"while the discriminant leg rides d^2 (=9). Their equality at d=2 is arithmetic, not a "
+      f"universal product-cap theorem. The g2 ceiling four stays a separate reading.")
 print("\nDONE.")

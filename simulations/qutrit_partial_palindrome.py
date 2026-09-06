@@ -193,16 +193,17 @@ def main():
         f"ceiling mismatch: {paired_D} {ceil} {comb_pair}"
     print("    -> 54/81: the algebraic ceiling. 27 excess at k=2 unpaired. OK")
 
-    # ---- Part D: full L -> H DEGRADES the palindrome at every fixed center ----
+    # ---- Part D: sampled SU(3)-Heisenberg H changes the pairing at two centers ----
     # The dissipator's 54 (Part C) is the pairing about the PHYSICAL center -N*g
     # (the k<->N-k reflection, where the qubit palindrome is exact). Adding the
-    # Hamiltonian degrades it: at EVERY fixed center the full L pairs FEWER than
+    # sampled Hamiltonian gives fewer pairs at both centers checked below. This is
+    # not a universal H-degradation law (H=cI has L_H=0). An earlier reading mistook
     # the dissipator. An earlier reading mistook full-L-best-center (60 at -3g)
     # for "exceeding" the dissipator's 54 at -2g - a comparison of two DIFFERENT
-    # centers; at equal center H always reduces pairing. The full interacting
+    # centers. The full interacting
     # analysis (real parts = -2g*<Q>, H-dependence, no closed form) lives in
     # simulations/qutrit_interacting_palindrome.py.
-    print("\n[D] Full Liouvillian (H_SU3 + dephasing): H DEGRADES at fixed center")
+    print("\n[D] Full Liouvillian (sampled H_SU3 + dephasing): pairing changes at fixed centers")
     H = H_su3_heisenberg(N, [(0, 1)])
     evF = np.linalg.eigvals(L_hamiltonian(H) + L_dephasing(N, GAMMA, jumps1))
     evD = np.linalg.eigvals(L_dephasing(N, GAMMA, jumps1))
@@ -222,8 +223,8 @@ def main():
         assert pF < pD, f"H should degrade at center -{cg}g: {pD} -> {pF}"
     assert palindrome_pairs(evD, 2 * GAMMA, tol=1e-4) == 54
     assert palindrome_pairs(evF, 2 * GAMMA, tol=1e-4) == 48
-    print("    -> at EVERY fixed center H reduces the pairing (54->48, 72->60);")
-    print("       the palindrome is fragile under H. 54 (about -N*g) is the invariant.")
+    print("    -> sampled H_SU3 reduces the pairing at both checked centers (54->48, 72->60);")
+    print("       this is not universal over H (H=cI is an exact unchanged control).")
 
     # ---- Part E: the formula across (d, N): d=2 always full, d>2 partial ----
     print("\n[E] Closed-form ceiling vs brute force, grid of (d, N):")
@@ -247,9 +248,9 @@ def main():
     print("the symmetric overlap of the disagreement-count distribution")
     print("c_k = d^N C(N,k)(d-1)^k under k<->N-k, about the physical center -N*g.")
     print("The (d-1)^k tilt vanishes only at d=2 (the unique fully-paired column);")
-    print("for d=3,N=2 the ceiling is 54/81. Adding the Hamiltonian DEGRADES this:")
-    print("at every fixed center H reduces the pairing (54->48 about -N*g), the")
-    print("palindrome is fragile under H. The full interacting analysis (real parts")
+    print("for d=3,N=2 the ceiling is 54/81. The sampled SU(3)-Heisenberg H changes")
+    print("this to 48/81 about -N*g; H=cI leaves it unchanged, so no universal")
+    print("H-degradation follows. The full interacting analysis (real parts")
     print("= -2g<Q>, H-dependent count, no closed form) is in")
     print("simulations/qutrit_interacting_palindrome.py. 54 is the invariant skeleton.")
     print("=" * 68)

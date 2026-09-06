@@ -223,8 +223,10 @@ That is the contribution: not new physics, but new understanding of existing phy
    decay rates mean errors come in paired modes. Can this pairing be exploited
    for decoherence-free subspaces or error-correcting codes?
 
-4. ~~**Extend to non-Heisenberg models.**~~ **ANSWERED:** The palindrome holds
-   for ALL standard models (XY, Ising, XXZ, DM) under single-axis dephasing.
+4. ~~**Extend to non-Heisenberg models.**~~ **PARTLY ANSWERED:** compatible
+   XY, Ising, and XXZ models retain the palindrome under single-axis
+   dephasing. DM does so on compatible bipartite, consistently oriented
+   graphs (the chain is verified); this is not an arbitrary-graph DM claim.
    See [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md).
 
 ---

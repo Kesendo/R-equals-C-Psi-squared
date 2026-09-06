@@ -456,7 +456,7 @@ what remains open:
 - [F99](ANALYTICAL_FORMULAS.md#f99) / CanonicalTrigAnchor: α = sin²(θ)/2, angle-to-ladder (the marks).
 - [Crossover mirror = √(NinetyDegreeMirror)](proofs/PROOF_CROSSOVER_MIRROR_SQRT_NINETY.md): the operator-axis, derived.
 - [On the Square Root of the Mirror](../reflections/ON_THE_SQUARE_ROOT_OF_THE_MIRROR.md): the S/T-gate reading.
-- [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the closed-form recursion `K(ε)`, the Bell+/pure-Z dwell law, and an approximate heterogeneous two-pair Kingston comparison (the interior-axis hardware reading).
+- [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md): the asymptotic rescaled iteration count `K(ε)` with finite-ε residuals, the Bell+/pure-Z dwell law, and an approximate heterogeneous two-pair Kingston comparison (the interior-axis hardware reading).
 - [CΨ in the Complex Plane](../experiments/CPSI_COMPLEX_PLANE.md): the 2D spirals, the cusp as a circle |CΨ| = ¼, the Kingston angle-steering (the interior axis in 2D, hardware).
 - [Pair Breaking at the Horizon](../hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md): the cusp ¼ as the fold where time stops (the horizon reading, structural).
 - The live Object Manager: `compute/RCPsiSquared.Cli` `inspect` (roots `between`, `mirror`, `flow`, `horizon`, `pi2`, and `--claim`).

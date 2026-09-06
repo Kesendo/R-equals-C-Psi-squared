@@ -39,7 +39,7 @@ def K_theory(eps, tol):
 # Part 1: Extended eps scan, eps = 1e-1 .. 1e-10
 # ============================================================
 print("=" * 78)
-print("PART 1: Critical slowing eps-scan with closed-form comparison")
+print("PART 1: Critical slowing eps-scan with asymptotic comparison")
 print("=" * 78)
 
 tol = 1e-12

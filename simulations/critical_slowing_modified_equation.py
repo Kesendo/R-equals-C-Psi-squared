@@ -410,8 +410,8 @@ with open(out_path, "w", encoding="utf-8") as f:
     f.write("Variant B drops tol=1e-6. Headline result.\n\n")
 
     f.write("Verdict: Modified Equation derivation CONFIRMED.\n")
-    f.write("The critical slowing formula is fully closed-form "
-            "with zero fit parameters.\n")
+    f.write("The critical slowing expansion is asymptotic with zero fit parameters; "
+            "finite-epsilon residuals remain.\n")
     f.write("The -4*pi hypothesis is dead.\n")
 
 print(f"Output written to {out_path}")

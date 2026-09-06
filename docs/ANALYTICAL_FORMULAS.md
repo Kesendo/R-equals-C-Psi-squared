@@ -23,8 +23,10 @@ Formulas in ASCII; prose uses Unicode (Ψ, Π, Σ, γ).
 Every Liouvillian eigenvalue λ has a partner at -λ - 2Σγ.
 Every decay rate d pairs with 2Σγ - d.
 
-**Valid for:** Heisenberg, XY, Ising, XXZ, DM; Z-dephasing; any graph;
-any N; non-uniform γ per qubit. Two Π families (P1, P4).
+**Valid for:** Heisenberg, XY, Ising, and XXZ with Z-dephasing on any graph;
+DM on a bipartite graph whose oriented DM edges are consistent with the two
+alternating site classes (chains included); any N; non-uniform γ per qubit.
+The uniform P1/P4 maps cover the first family; DM uses the alternating map.
 **See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
 **Breaks for:** depolarizing noise (error = (2/3)Σγ, linear in γ and N); an
 on-site field that does not satisfy F138's clause 2 (a single common axis within
@@ -478,22 +480,24 @@ this row at every isotropic site; anisotropic rates make a Pauli channel and not
 a depolarizer, and the general form is a lead rather than a law
 (see [F158](#f158-the-palindrome-is-a-count-of-the-two-ends), 2026-08-29).
 **Replaces:** numerical palindrome check for depolarizing channels.
-At γ ~ 0.001 (typical IBM): error < 0.1%.
+The gap is an absolute rate. A percentage requires a declared normalization (for
+example J or spectral bandwidth) and fixed N; no scale-free `<0.1%` follows from γ alone.
 **Source:** [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
 
-### F22. GHZ XOR-drain (Tier 2, verified N=2-5)
+### F22. GHZ maximum-disagreement support (Tier 2, verified N=2-5)
 
-    GHZ  -> 100% weight in XOR modes (the modes at rate 2*Σγ: N+1 on the XY/Heisenberg/XXZ members, 2^N under Ising)
-    W    -> 0% XOR, 100% palindromic  (N >= 3)
-    Bell -> 0% XOR, 100% palindromic  (N >= 3, Hamming distance 2)
+The GHZ off-diagonal operators `|0...0><1...1|` and its adjoint have Hamming
+distance N, so local Z-dephasing charges them at the maximal dissipative rate
+`2Σγ`. W and embedded Bell coherences instead have Hamming distance 2. This is
+an exact statement about operator support and the dissipator.
 
-Predictor: mixed XY Pauli weight, r = 0.976 correlation with XOR
-fraction (N >= 3). GHZ fragility is not vague "delicateness" but
-exact projection onto the fastest-decaying spectral sector.
+The former `100% XOR` / `100% palindromic` state-weight percentages and the
+`r = 0.976` predictor came from coordinates in a right-eigenvector basis of a
+non-normal full Liouvillian. They are not invariant state probabilities and do
+not prove a GHZ-versus-W state-transfer ranking.
 
-**Valid for:** Heisenberg, XY, Ising, XXZ, DM; Z-dephasing; N=2-5.
-**Replaces:** GHZ fragility analysis; explains why W-encoding
-outperforms GHZ for state transfer (0% vs 100% drain weight).
+**Valid for:** the stated coherence operators under local Z-dephasing; direct
+dynamical comparisons still require a preparation, observable, and time window.
 **Source:** [XOR Space](../experiments/XOR_SPACE.md)
 
 ### F23. XOR drain vanishing fraction (Tier 1, combinatorial proof)
@@ -1040,30 +1044,38 @@ Optimal: J_bridge ~ 2J, gamma_crit = 0.41.
 
 ---
 
-## Thermal (replace n_bar sweep)
+## Finite-occupation amplitude channel
 
-### F20. Thermal V-Effect: gain decreases, diversity increases (Tier 2)
+### F20. Finite amplitude-channel spectral census (Tier 2, protocol-dependent)
 
     V(N, n_bar=0) = 1 + cos(pi/N)  (exact)
     V(N, n_bar=0.5) ~ 1.44  (N=5)
-    V(N, n_bar->inf) ~ 1.29  (saturates)
-
     Frequencies(N=5, n_bar=0) = 111
-    Frequencies(N=5, n_bar=5) = 445  (4x diversity gain)
+    Frequencies(N=5, n_bar=5) = 445
 
-**Valid for:** Heisenberg chain, Z-dephasing + amplitude damping.
-**Replaces:** thermal Liouvillian sweep.
+Here `n_bar` is an externally supplied jump-rate parameter, `V` is the sampled
+`Q_max(N=5)/Q_max(N=2)`, and frequencies are distinct `|Im λ|` values after
+rounding to four decimals. These finite-grid readings establish no temperature,
+heat-production, complexity, or asymptotic saturation law.
+
+**Valid for:** the stated Heisenberg chain, Z-dephasing + finite-occupation
+amplitude channel, numerical grid and binning protocol.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
-### F21. Self-heating divergence (Tier 2)
+### F21. Local amplitude-channel stationary population (Tier 1 derived; finite gate)
 
-    Fixed point: n_bar -> infinity (all 6 configs tested)
+    p_excited = n_bar / (2*n_bar + 1)
 
-Without external cooling, the system thermalizes to maximum entropy.
-No self-consistent operating point exists.
+For jumps `sqrt(gamma*(n_bar+1))*sigma_minus` and
+`sqrt(gamma*n_bar)*sigma_plus`, this is the one-site stationary population.
+Its tensor power is stationary for the tested uniform Heisenberg chains because
+it commutes with H and each local channel fixes it. It is not generally the
+Gibbs state of the interacting H. The generator contains no feedback law for
+`n_bar`, so no self-heating or cooling requirement follows.
 
-**Valid for:** closed Lindblad systems with amplitude damping.
-**Replaces:** convergence search for thermal equilibrium.
+**Gate:** one-qubit direction and wrong-population control, plus direct
+`||L rho_target||` at N=3,5 in
+[`self_heating_fixpoint.py`](../simulations/self_heating_fixpoint.py).
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
 ---
@@ -1162,19 +1174,21 @@ and 2:1 impedance matching.
 **Replaces:** passive propagation baseline for long chains.
 **Source:** [Relay Protocol](../experiments/RELAY_PROTOCOL.md)
 
-### F32. Optimal protection state (Tier 2, N=3)
+### F32. Withdrawn eigenvector-coordinate optimization (N=3)
 
-    Slow-mode weight: 90%
-    Concurrence:      0.364
-    XOR weight:       0.02%
+The recorded `90% slow-mode`, `0.02% XOR`, and comparison percentages were
+squares of coordinates in a right-eigenvector expansion of a non-normal
+Liouvillian. They are basis- and normalization-dependent and therefore are not
+state probabilities or an operational protection objective. The concurrence
+`0.364` belongs to the state returned by that invalid objective, so it does not
+rescue an optimality or survival claim.
 
-Outperforms GHZ (0% slow-mode, 100% XOR drain), W (0% slow-mode),
-Bell (7% slow-mode). Composed mainly of |010>, |000>, |100>, |001>.
-Loads boundary-tier palindromic pairs (rates 0.10/0.20) that decay
-slowest among the dynamic modes.
+What remains valid is only the finite N=3 state vector as an input that can be
+tested anew. Any protection comparison must propagate density matrices and
+evaluate a named observable or channel metric over a stated time window.
 
-**Valid for:** N=3 Heisenberg chain, Z-dephasing.
-**Replaces:** trial-and-error state selection for dephasing survival.
+**Scope:** withdrawal of the former N=3 protection interpretation; no
+replacement optimum is asserted.
 **Source:** [Error Correction Palindrome](../experiments/ERROR_CORRECTION_PALINDROME.md)
 
 ---
@@ -1716,29 +1730,32 @@ dose is larger.
 
 ## Cusp Dynamics (replace iteration counting and trajectory integration)
 
-### F56. Critical slowing iteration count (Tier 1, closed-form, zero fit parameters)
+### F56. Critical slowing iteration-count asymptotic (Tier 1 derived, zero fit parameters)
 
     K(eps, tol) = (1/2)*ln(4*eps/tol) + alpha(tol)*sqrt(eps)
 
     alpha(tol) = -4 + (1/2)*ln(16*tol)
 
 K = n*sqrt(eps) is the rescaled iteration count of u_{n+1} = u^2 + c
-near the cardioid cusp (c = 1/4 - eps). The leading logarithm comes
+near the cardioid cusp (c = 1/4 - eps). This is an asymptotic expansion,
+not an exact finite-eps iteration count. The leading logarithm comes
 from saddle-node passage (ODE integral). The -4 comes from the
 starting-transient integral (eta_0 = -1/4). The ln(16*tol) term comes
 from the Modified Equation correction (Euler discretization error).
 
 Verified two ways: the ten-decade eps-scan (10^-1 to 10^-10) checks the
-leading-order form (3+ significant figures for eps <= 10^-5; under the
-complete formula the residuals collapse to <= 0.04 for eps <= 10^-2),
+leading-order form (3+ significant figures for eps <= 10^-5; after the
+displayed correction the measured-minus-asymptotic residuals are
+-0.573, +0.037, -0.005, +0.001 at eps = 10^-1...10^-4),
 and the Modified-Equation coefficient is validated in the tol-sweep
 (10^-8 to 10^-16, 0.5-2% agreement). Modified Equation slope 0.504 vs
 predicted 0.500 (0.8% deviation).
 
-**Valid for:** Mandelbrot iteration near cardioid cusp, any eps > 0,
-any tol > 0. Equivalent to CΨ recursion near the 1/4 boundary.
-**Replaces:** numerical iteration counting near the saddle-node.
-O(1) evaluation instead of O(1/sqrt(eps)) iterations.
+**Valid for:** the stated iteration and stopping rule in the asymptotic regime
+`tol << eps << 1`; the committed scans use tol = 10^-8...10^-16 and
+eps = 10^-1...10^-10, with the residuals above marking finite-eps error.
+Equivalent to the same numerical CΨ recursion near the 1/4 boundary.
+**Use:** O(1) estimate of the count; direct iteration remains the finite-eps value.
 **Source:** [Critical Slowing at the Cusp](../experiments/CRITICAL_SLOWING_AT_THE_CUSP.md)
 
 ### F57. Trajectory dwell time at CΨ = 1/4 (Tier 1, analytical)
@@ -5045,7 +5062,7 @@ edge carried in prose across the layer boundary).
 ### F120. The moment-tower pump channel: the device's own damping reads the girth ladder linearly (Tier 1 derived; structural law confirmed on ibm_kingston 2026-06-11)
 
 Amplitude damping is the standard noise model's unique non-unital piece, and its pump
-direction is a pure local Z (D[σ⁻_l](I) = +Z_l, D[σ⁺_l](I) = −Z_l, the same (Z_l, I)
+direction is a pure local Z (`D[σ⁻_l](I) = +Z_l`, `D[σ⁺_l](I) = −Z_l`, the same (Z_l, I)
 entry that is F82's entire Π²-antisymmetric content), so at the maximally mixed state
 
   **d/dt ⟨A⟩ |_{ρ=I/d} = (1/d) · Σ_l Δγ_l · Tr(A Z_l),   Δγ_l = γ↓_l − γ↑_l,**
@@ -5135,8 +5152,10 @@ in [PREDICTIONS](PREDICTIONS.md) §4.
 
 ### F121. The qudit partial palindrome: the symmetric overlap of the disagreement count (Tier 1 derived; closed-form combinatorial identity, resolves OQ-002)
 
-The palindromic mirror is exact only at d = 2 (F-trunk d² − 2d = 0; the per-site balance
-d = d² − d closes only there). For d > 2 the spectrum is not random but partial: N = 2
+The complete local dark↔lit class-exchange product mirror closes only at `d=2`
+(F-trunk `d²−2d=0`; the per-site balance `d=d²−d` closes only there). This does
+not exclude exact partial higher-dimensional mirrors: F121 is one. For `d>2`
+the spectrum is not random but partial: N = 2
 qutrits pair 36–52 of 81 eigenvalues, a residual no principle had captured. Here is the
 principle. Under full-Cartan dephasing the d levels are **equidistant**, so the decay rate
 of a coherence |i⟩⟨j| is exactly −2γ·Hamming(i, j), the **same rate ladder as the qubit**
@@ -5162,11 +5181,11 @@ about the physical center −Nγ. In the reported symmetric SU(3) Heisenberg cas
 the counts from 54 to 48 about −Nγ = −2γ and from 72 to 60 about −3γ, where the two large rungs sit.
 This is not a theorem of strict reduction for every Hermitian H (`H=cI` leaves the generator
 unchanged). For the symmetric SU(3) Heisenberg the real parts lie exactly on Re(λ) = −2γ⟨Q⟩ (the
-Absorption Theorem's Rayleigh reading), with ⟨Q⟩ quantized to {0, 1, 1.5, 2}: the new −3γ rung
-is ⟨Q⟩ = 1.5, a Hamming-1/Hamming-2 mix. This exactness is a symmetry effect (a generic H
-breaks it). The interacting paired count is H-dependent (60 for SU(3) Heisenberg, robust across
-J/γ; ~0 for generic H), so there is **no H-independent closed form** for the interacting
-palindrome; the dissipator's 54 (about −Nγ) is the only invariant. The SU(3)
+Absorption Theorem's right-Hilbert-Schmidt Rayleigh reading), with ⟨Q⟩ quantized to {0, 1, 1.5, 2}: the new −3γ rung
+is ⟨Q⟩ = 1.5, a Hamming-1/Hamming-2 mix. The Rayleigh identity is universal for Hermitian H;
+SU(3) symmetry quantizes its values, while a generic H spreads them. The interacting paired count is H-dependent (60 for SU(3) Heisenberg at tested nonzero `J=0.05,1,10`; at `J=0` the dissipator counts 54/72 return; ~0 for generic H), so there is **no H-independent closed form** for the interacting
+palindrome. The dissipator's count 54 about −Nγ is an invariant of the
+dissipator skeleton, not a guaranteed paired count after adding an arbitrary H. The SU(3)
 Heisenberg's specific 60 is **decoded by representation theory** (§8): the operator
 space splits into SU(3) energy sectors (intra 6⊗6̄ ⊕ 3̄⊗3 at L_H = 0, inter 6↔3̄ at
 L_H = ±iΔ with Δ = 4J), the −3γ rung (⟨Q⟩ = 3/2) is exactly the inter-sector sym↔antisym seam,
@@ -5177,37 +5196,34 @@ enumeration (d = 3, N = 2 and d = 2, N = 3); the dissipator spectrum {0:9, −2�
 and its 54/81 pairing; the ceiling formula vs brute combinatorial pairing on the (d, N) ∈
 {2,3,4}×{1,2,3} grid; d = 2 full in every column.
 
-**The operator realization (2026-06-11, same day, §6 of the proof):** the count gained its
-operator. **Product cap (theorem):** any per-site mirror W = ⊗q_l (site-dependent, one- or
-two-sided, antilinear allowed) intertwining the dissipator palindrome pairs at most
-**(2d)^N** of the d^{2N} coherences (rate additivity forces strict per-site class swap;
-rank ≤ 2·min(d, d²−d) = 2d); full ⟺ (2d)^N = d^{2N} ⟺ **d² − 2d = 0**, the trunk's third
-appearance. The cap is attained by the qubit palindromizer's verbatim formula
-**Π_d(ρ) = ρᵀ·Shift^⊗N** (clock shift), exactly zero residual on the shift-aligned
-(2d)^N-dim subspace (per-site {(x,x)} ∪ {(a, a−1)}); two chiralities Π_d^±, which merge at
-d = 2 (the two off-diagonals coincide): the qubit's full mirror IS that degeneracy. The gap
-to the combinatorial ceiling (18 at d = 3, N = 2) is reached by a global partial isometry
-and is therefore **provably the non-product part** (the inverse of the F116 story: here the
-locality obstruction is real). Group law, verified d = 2..5: ord(Π_d) = 2d,
+**The operator realization (2026-06-11; cap retracted 2026-09-06, §6 of the proof):**
+the qubit palindromizer's verbatim formula
+**Π_d(ρ) = ρᵀ·Shift^⊗N** (clock shift) is a full rank-`d^{2N}` permutation. Its
+restriction `Π_d P_aligned` has rank `(2d)^N` and exactly zero residual on the
+shift-aligned subspace (per-site {(x,x)} ∪ {(a, a−1)}); two chiralities Π_d^±, which merge at
+d = 2. `(2d)^N` is this construction's rank, not a universal product cap: at
+`d=6,N=2`, `P_dark⊗P_lit` is exact on h=1 and has rank `6(36−6)=180 > 144`.
+Therefore ceiling−(2d)^N is not a proven non-product gap and the former third
+operator-bound appearance of d²−2d is withdrawn. Group law, verified d = 2..5: ord(Π_d) = 2d,
 **|⟨Π_d, D⟩| = 2d², ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂** (D-conjugation exchanges the two shift factors;
 for d > 2 it swaps the chiralities): **F118's D₄ is the d = 2 column of a wreath family.** The
-non-product gap is **translation-invariant**: a [W, T] = 0 palindrome intertwiner has generic
-rank equal to the full ceiling (54, 378, 128 at (3,2), (3,3), (4,2)), strictly above the
-product cap, so there is **no intermediate layer** (§7); the hierarchy is two-tiered (product
-vs translation-invariant = ceiling), gated by d² − 2d = 0, the F116 story inverted.
+ceiling has translation-invariant representatives in the verified finite cases:
+a [W, T] = 0 palindrome intertwiner attains the full ceiling at
+`(d,N)=(3,2),(3,3),(4,2)`, with ranks 54, 378, and 128, above the shift-aligned ranks.
+General translation-invariant attainment has not been derived.
 
 **Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (§4 the interacting case, §6
 the operator realization);
 [`simulations/qutrit_partial_palindrome.py`](../simulations/qutrit_partial_palindrome.py)
 (the dissipator ceiling) +
 [`simulations/qutrit_interacting_palindrome.py`](../simulations/qutrit_interacting_palindrome.py)
-(the H-degradation, the −2γ⟨Q⟩ law, the H-dependence) +
+(the sampled SU(3)-Heisenberg count change, the −2γ⟨Q⟩ law, the H-dependence) +
 [`simulations/su3_heisenberg_rep_theory.py`](../simulations/su3_heisenberg_rep_theory.py)
 (the SU(3)-Heisenberg 60 decoded) +
 [`simulations/qudit_product_mirror_cap.py`](../simulations/qudit_product_mirror_cap.py)
 (the cap, the operator, the wreath law) +
 [`simulations/qudit_ti_intermediate.py`](../simulations/qudit_ti_intermediate.py)
-(no intermediate: TI recovers the ceiling), all self-validating; resolves OQ-002
+(TI attainment in the three stated finite cases), all self-validating; resolves OQ-002
 in [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) §8b/§10.2; typed claims `QuditPartialPalindromeCeiling`
 (parent `QubitNecessityPi2Inheritance`) and `QuditProductMirrorCap` (parents both of those),
 `compute/RCPsiSquared.Core/Symmetry/`.

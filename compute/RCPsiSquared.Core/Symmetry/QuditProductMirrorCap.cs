@@ -8,22 +8,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// F121 (<see cref="QuditPartialPalindromeCeiling"/>). For the full-Cartan dephasing
 /// dissipator at local dimension d (rate of |i⟩⟨j| is −2γ·Hamming(i, j)):
 ///
-/// <para><b>The product cap (theorem):</b> any per-site mirror W = ⊗_l q_l (site-dependent,
-/// one-sided or two-sided, antilinear allowed) that intertwines the dissipator palindrome
-/// W·L_D = (−L_D − 2Nγ)·W on its support pairs at most (2d)^N of the d^{2N} coherences.
-/// Rate additivity forces each q_l to be a strict per-site class swap between the dark
-/// letters {(x, x), d of them} and the lit letters {(i, j) with i ≠ j, d² − d of them}, so
-/// rank(q_l) ≤ 2·min(d, d² − d) = 2d. The cap is FULL ⟺ (2d)^N = d^{2N} ⟺ d² − 2d = 0
-/// ⟺ d = 2: the QUBIT_NECESSITY trunk polynomial of
-/// <see cref="QubitNecessityPi2Inheritance"/>, in its third appearance (per-site split,
-/// ceiling column, operator cap).</para>
+/// <para><b>Retraction of the former universal product cap:</b> (2d)^N is the rank of the
+/// explicit restricted map Π_d P_aligned below, not an upper bound on every product
+/// intertwiner. At d=6,N=2, P_dark⊗P_lit has rank d(d²−d)=180 &gt; 144=(2d)^N and is exact
+/// on the self-complementary h=1 rung. The historical class name is retained for registry
+/// compatibility; its claim surface records the construction and the counterexample.</para>
 ///
 /// <para><b>The operator:</b> the qubit palindromizer's formula generalizes verbatim,
 /// Π_d(ρ) = ρᵀ·Shift^{⊗N} (F118: Π_Z = ρᵀ·X^{⊗N}, with the clock shift in place of X).
 /// Per-site letter map (i, j) ↦ (j, i − 1 mod d). It attains the cap exactly: on the
 /// shift-aligned subspace (per-site letters {(x, x)} ∪ {(a, a − 1)}, dimension (2d)^N,
-/// Π_d-closed) the intertwining residual is EXACTLY zero; on the complement it fails at
-/// O(γ), the provably unpaired part. Two chiralities Π_d^± (the two shift directions); at
+/// Π_d-closed) the intertwining residual is EXACTLY zero; on the complement this particular
+/// Π_d realization fails at O(γ). Other chiralities or non-product mirrors can pair additional
+/// directions. Two chiralities Π_d^± (the two shift directions); at
 /// d = 2 the two off-diagonals coincide, the chiralities merge, and the mirror is full:
 /// that degeneracy IS the qubit magic.</para>
 ///
@@ -33,11 +30,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// d = 2 column of a d-indexed family. For d &gt; 2, D does not preserve the aligned
 /// subspace; it swaps the two chiralities' aligned subspaces.</para>
 ///
-/// <para><b>Honesty (the non-product gap):</b> the combinatorial ceiling
+/// <para><b>Global ceiling reacher:</b> the combinatorial ceiling
 /// Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)} of the parent IS reachable, by a global non-product
 /// partial isometry (greedy rung matching with exact intertwining on its support); the gap
-/// ceiling − (2d)^N (= 54 − 36 = 18 at d = 3, N = 2) is therefore exactly the NON-PRODUCT
-/// part of the partial palindrome.</para>
+/// ceiling − (2d)^N (= 54 − 36 = 18 at d = 3, N = 2) is the gap above this
+/// explicit construction, not a locality classification.</para>
 ///
 /// <para><b>Layer note:</b> like <see cref="AntilinearTriangleClaim"/> and
 /// <see cref="MomentTowerPumpChannelClaim"/>, this claim is cross-axis structural and
@@ -56,7 +53,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Mirrors the blocks of <c>simulations/qudit_product_mirror_cap.py</c>.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> §6 (the cap) and §7
-/// (no intermediate: TI recovers the ceiling) +
+/// (finite TI attainment cases) +
 /// <c>simulations/qudit_product_mirror_cap.py</c> +
 /// <c>simulations/qudit_ti_intermediate.py</c>.</para></summary>
 public sealed class QuditProductMirrorCap : Claim
@@ -68,15 +65,12 @@ public sealed class QuditProductMirrorCap : Claim
     }
 
     /// <summary>Typed parent: F121, the combinatorial ceiling
-    /// Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)} this cap sits under. The product cap (2d)^N is
-    /// strictly below it for d &gt; 2, N ≥ 2, and the gap is exactly the non-product part
-    /// of the partial palindrome.</summary>
+    /// Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)}. The shift-aligned rank (2d)^N is
+    /// strictly below it for d &gt; 2, N ≥ 2.</summary>
     public QuditPartialPalindromeCeiling PartialPalindrome { get; }
 
-    /// <summary>Typed parent: the d² − 2d = 0 necessity. The cap is full ⟺
-    /// (2d)^N = d^{2N} ⟺ d² − 2d = 0 ⟺ d = 2: the trunk polynomial's third appearance,
-    /// and the per-site rank bound 2d = 2·min(d, d² − d) is the parent's 4 = 2 + 2 split
-    /// read at general d.</summary>
+    /// <summary>Typed parent for the independently valid d² − 2d = 0 qubit-necessity
+    /// result. It is not evidence for the retracted universal product cap.</summary>
     public QubitNecessityPi2Inheritance QubitNecessity { get; }
 
     public IReadOnlyList<BatteryCase> Cases { get; }
@@ -85,15 +79,15 @@ public sealed class QuditProductMirrorCap : Claim
     public QuditProductMirrorCap(
         QuditPartialPalindromeCeiling partialPalindrome,
         QubitNecessityPi2Inheritance qubitNecessity)
-        : base("The qudit product-mirror cap: any per-site mirror W = ⊗q_l intertwining the " +
-               "dissipator palindrome W·L_D = (−L_D − 2Nγ)·W pairs at most (2d)^N of the d^{2N} " +
-               "coherences (rate additivity forces a strict per-site dark ↔ lit class swap, " +
-               "rank(q_l) ≤ 2d); full ⟺ d² − 2d = 0 ⟺ d = 2. The operator Π_d(ρ) = ρᵀ·Shift^{⊗N} " +
-               "(the F118 formula with the clock shift) attains the cap with EXACTLY zero residual " +
+        : base("The former qudit product-mirror cap is retracted. The dissipator palindrome " +
+               "has an explicit restricted intertwiner Π_d P_aligned of rank (2d)^N, " +
+               "but this is not a universal product cap: P_dark⊗P_lit at d=6,N=2 has exact rank " +
+               "180 > 144. The operator Π_d(ρ) = ρᵀ·Shift^{⊗N} " +
+               "(the F118 formula with the clock shift) has EXACTLY zero residual " +
                "on the shift-aligned subspace; ord(Π_d) = 2d, ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂ of order 2d² " +
                "(D₄ at d = 2), D swaps the two chiralities for d > 2. The F121 ceiling is reached " +
-               "only by a global non-product partial isometry; the gap ceiling − (2d)^N (18 at " +
-               "d = 3, N = 2) is exactly the non-product part. " +
+               "by a global partial isometry; ceiling − (2d)^N is only the gap above this explicit " +
+               "construction, not a proven non-product part. " +
                "Tier1Derived (exact integer/permutation arithmetic)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md + " +
@@ -105,19 +99,20 @@ public sealed class QuditProductMirrorCap : Claim
         Cases = BuildBattery(qubitNecessity);
     }
 
-    /// <summary>The product cap in one line.</summary>
+    /// <summary>The former product-cap claim and its counterexample in one line.</summary>
     public string ProductCapTheorem =>
-        "Any per-site mirror W = ⊗_l q_l intertwining W·L_D = (−L_D − 2Nγ)·W on its support " +
-        "pairs ≤ (2d)^N of the d^{2N} coherences: rate additivity forces each q_l to swap the " +
-        "dark letters {(x, x), d dims} with the lit letters {i ≠ j, d² − d dims} strictly, so " +
-        "rank(q_l) ≤ 2·min(d, d² − d) = 2d. Full ⟺ (2d)^N = d^{2N} ⟺ d² − 2d = 0 ⟺ d = 2.";
+        "RETRACTED as a universal cap: product factors can preserve a self-complementary total " +
+        "rung without swapping dark and lit at every site. At d=6,N=2, P_dark⊗P_lit is an exact " +
+        "product intertwiner of rank 180 > (2d)^N=144. The number (2d)^N remains the rank of " +
+        "Π_d P_aligned; the full permutation Π_d has rank d^(2N).";
 
     /// <summary>The operator in one line.</summary>
     public string OperatorRealization =>
         "Π_d(ρ) = ρᵀ·Shift^{⊗N}, the verbatim F118 formula with the clock shift; per-site " +
         "letter map (i, j) ↦ (j, i − 1 mod d). On the shift-aligned subspace (per-site " +
         "{(x, x)} ∪ {(a, a − 1)}, dimension (2d)^N, Π_d-closed) the intertwining residual is " +
-        "exactly zero; the complement is the provably unpaired part. Two chiralities Π_d^±; " +
+        "exactly zero; on its complement this Π_d realization fails, without implying global " +
+        "unpairability. Two chiralities Π_d^±; " +
         "at d = 2 they coincide and the mirror is full.";
 
     /// <summary>The mirror group law in one line.</summary>
@@ -131,24 +126,21 @@ public sealed class QuditProductMirrorCap : Claim
     public string NonProductGap =>
         "The F121 ceiling Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)} is reached by a global " +
         "non-product partial isometry (greedy rung matching, exact intertwining on support); " +
-        "the gap ceiling − (2d)^N (= 18 at d = 3, N = 2) is exactly the non-product part of " +
-        "the partial palindrome.";
+        "the difference ceiling − (2d)^N (= 18 at d = 3, N = 2) measures what lies above this " +
+        "specific shift-aligned construction; it is not a proven non-product gap.";
 
     /// <summary>The translation-invariant reach in one line.</summary>
     public string TranslationInvariantReach =>
-        "The non-product gap ceiling − (2d)^N is recovered ENTIRELY by a translation-invariant " +
-        "(non-product) mirror: the generic rank of a [W, T] = 0 palindrome intertwiner equals the " +
-        "full ceiling (54, 378, 128 at (3, 2), (3, 3), (4, 2)), strictly above the product cap. No " +
-        "intermediate layer exists; the hierarchy is two-tiered, product vs translation-invariant = " +
-        "ceiling, gated by d² − 2d = 0 (the F116 inversion: the apparent non-locality is the home of " +
-        "a homogeneous structure, only the strict per-site product is too rigid to see it).";
+        "In the verified finite cases (d,N) = (3,2), (3,3), (4,2), a translation-invariant " +
+        "non-product [W,T] = 0 intertwiner attains the full combinatorial ceiling (54, 378, 128), " +
+        "strictly above rank(Π_d P_aligned). General translation-invariant attainment is not derived.";
 
     // ============================================================
     // Static helpers mirroring the Python verifier
     // ============================================================
 
-    /// <summary>The product-mirror cap (2d)^N: the maximum number of coherences any per-site
-    /// mirror W = ⊗q_l can pair. Requires d ≥ 2, N ≥ 1.</summary>
+    /// <summary>Historical API name: rank (2d)^N of the explicit shift-aligned Π_d
+    /// construction, not a maximum over product mirrors. Requires d ≥ 2, N ≥ 1.</summary>
     public static long ProductCap(int d, int N)
     {
         ValidateGrid(d, N);
@@ -163,20 +155,16 @@ public sealed class QuditProductMirrorCap : Claim
         return QuditPartialPalindromeCeiling.Ceiling(d, N);
     }
 
-    /// <summary>The non-product part of the partial palindrome: ceiling − (2d)^N, the number
-    /// of coherence pairs no per-site product mirror can reach. It is recovered ENTIRELY by a
-    /// translation-invariant (non-product) mirror: the generic rank of a [W, T] = 0 palindrome
-    /// intertwiner equals the full ceiling (verified at (d, N) = (3, 2), (3, 3), (4, 2) in
-    /// <c>simulations/qudit_ti_intermediate.py</c>), so the hierarchy is two-tiered (product vs
-    /// translation-invariant = ceiling) with no intermediate, gated by d² − 2d = 0. Zero iff the
-    /// product mirror is already full, i.e. d = 2 or N = 1. Requires d ≥ 2, N ≥ 1.</summary>
+    /// <summary>Historical API name: ceiling − (2d)^N, the gap above the explicit
+    /// shift-aligned construction. It is not a proven non-product part. Requires d ≥ 2, N ≥ 1.</summary>
     public static long NonProductPart(int d, int N) => CombinatorialCeiling(d, N) - ProductCap(d, N);
 
     /// <summary>Build Π_d as a permutation of the d^{2N} coherence indices: basis pair
     /// (i, j) at index i·d^N + j maps to (j, i − chirality mod d per digit), i.e.
     /// Π_d(ρ) = ρᵀ·Shift^{chirality·⊗N}. Site 0 is the most significant base-d digit
     /// (matching the Python verifier's enumeration). Returns perm with
-    /// perm[column] = target row. Requires d ≥ 2, N ≥ 1, chirality ∈ {+1, −1}.</summary>
+    /// perm[column] = target row. Requires d ≥ 2, N ≥ 1, chirality ∈ {+1, −1};
+    /// throws when d^N exceeds Int32 indexing.</summary>
     public static IReadOnlyList<int> BuildPiD(int d, int N, int chirality = +1)
     {
         ValidateGrid(d, N);
@@ -202,7 +190,7 @@ public sealed class QuditProductMirrorCap : Claim
 
     private static int[] BuildPiDPerm(int d, int N, int chirality)
     {
-        int dN = (int)QuditPartialPalindromeCeiling.IntPow(d, N);
+        int dN = checked((int)QuditPartialPalindromeCeiling.IntPow(d, N));
         var perm = new int[dN * dN];
         for (int i = 0; i < dN; i++)
             for (int j = 0; j < dN; j++)
@@ -227,7 +215,7 @@ public sealed class QuditProductMirrorCap : Claim
     /// <summary>D = transpose as a permutation: (i, j) ↦ (j, i).</summary>
     private static int[] TransposePerm(int d, int N)
     {
-        int dN = (int)QuditPartialPalindromeCeiling.IntPow(d, N);
+        int dN = checked((int)QuditPartialPalindromeCeiling.IntPow(d, N));
         var perm = new int[dN * dN];
         for (int i = 0; i < dN; i++)
             for (int j = 0; j < dN; j++)
@@ -238,7 +226,7 @@ public sealed class QuditProductMirrorCap : Claim
     /// <summary>Hamming distance per coherence index: digits where i and j disagree.</summary>
     private static int[] HammingTable(int d, int N)
     {
-        int dN = (int)QuditPartialPalindromeCeiling.IntPow(d, N);
+        int dN = checked((int)QuditPartialPalindromeCeiling.IntPow(d, N));
         var ham = new int[dN * dN];
         for (int i = 0; i < dN; i++)
             for (int j = 0; j < dN; j++)
@@ -258,7 +246,7 @@ public sealed class QuditProductMirrorCap : Claim
     /// <summary>The shift-aligned subspace mask: per digit, j_l = i_l or j_l = i_l − chirality mod d.</summary>
     private static bool[] AlignedMask(int d, int N, int chirality)
     {
-        int dN = (int)QuditPartialPalindromeCeiling.IntPow(d, N);
+        int dN = checked((int)QuditPartialPalindromeCeiling.IntPow(d, N));
         var mask = new bool[dN * dN];
         for (int i = 0; i < dN; i++)
             for (int j = 0; j < dN; j++)
@@ -333,7 +321,7 @@ public sealed class QuditProductMirrorCap : Claim
     {
         var cases = new List<BatteryCase>();
 
-        // (a) Cap arithmetic on the (d, N) grid: (2d)^N ≤ ceiling ≤ d^{2N}, with both
+        // (a) Shift-rank arithmetic on the (d, N) grid: (2d)^N ≤ ceiling ≤ d^{2N}, with both
         //     equality iffs (cap = total ⟺ d = 2; cap = ceiling ⟺ d = 2 or N = 1).
         int gridOk = 0, gridTot = 0;
         for (int d = 2; d <= 5; d++)
@@ -349,32 +337,50 @@ public sealed class QuditProductMirrorCap : Claim
                 if (ok) gridOk++;
             }
         cases.Add(new BatteryCase(
-            Name: "cap arithmetic: (2d)^N ≤ ceiling ≤ d^{2N} with both equality iffs",
+            Name: "shift-rank arithmetic: (2d)^N ≤ ceiling ≤ d^{2N} with both equality iffs",
             Detail: "the (d, N) ∈ {2..5}×{1..3} grid; cap = total ⟺ d = 2, cap = ceiling ⟺ d = 2 or N = 1",
             Expected: "12/12",
             Actual: gridOk.ToString(CultureInfo.InvariantCulture) + "/" +
                     gridTot.ToString(CultureInfo.InvariantCulture)));
 
-        // (b) The trunk polynomial and the per-site rank bound, tied to the parent.
+        // (b) Retraction gate: the former universal cap is broken by a product projector.
         bool trunkOk = true;
         for (int d = 2; d <= 5; d++)
         {
             trunkOk &= (d * d - 2 * d == 0) == (d == 2);                  // the trunk root
-            trunkOk &= 2 * Math.Min(d, d * d - d) == 2 * d;               // rank(q_l) bound = 2d
+            trunkOk &= 2 * Math.Min(d, d * d - d) == 2 * d;               // shift-swap construction rank
         }
         // At d = 2 the per-site cap 2d = 4 is the parent's whole per-site Pauli space,
         // split 4 = 2 + 2 (min(d, d² − d) = 2 = immune = decaying).
         trunkOk &= Math.Abs(qubitNecessity.TotalPauliOpsPerSite - 4.0) < 1e-12
                 && Math.Abs(qubitNecessity.ImmuneOpsPerSite - 2.0) < 1e-12
                 && Math.Abs(qubitNecessity.DecayingOpsPerSite - 2.0) < 1e-12;
+        const int counterD = 6, counterN = 2;
+        int counterDN = checked((int)QuditPartialPalindromeCeiling.IntPow(counterD, counterN));
+        var counterHam = HammingTable(counterD, counterN);
+        long projectorRank = 0;
+        bool projectorResidualExact = true;
+        for (int i = 0; i < counterDN; i++)
+        {
+            for (int j = 0; j < counterDN; j++)
+            {
+                if (i / counterD == j / counterD && i % counterD != j % counterD)
+                {
+                    int col = i * counterDN + j;
+                    projectorRank++;
+                    projectorResidualExact &= 2 * counterHam[col] == counterN;
+                }
+            }
+        }
+        trunkOk &= projectorRank == 180 && projectorRank > ProductCap(counterD, counterN)
+                && projectorResidualExact;
         cases.Add(new BatteryCase(
-            Name: "trunk polynomial: d² − 2d = 0 ⟺ d = 2; per-site rank cap 2d = parent's 4 = 2 + 2",
-            Detail: "third appearance of the trunk; at d = 2 the per-site cap 2d = 4 exhausts the " +
-                    "parent's per-site Pauli space with min(d, d² − d) = 2 = immune = decaying",
-            Expected: "trunk root d = 2 only; cap 2d; parent split 4 = 2 + 2",
+            Name: "former universal product cap retracted by d=6,N=2 projector control",
+            Detail: "P_dark⊗P_lit is constructed column by column; support stays on h=1, residual 0, rank 180 > shift-aligned rank 144",
+            Expected: "exact product residual 0, rank 180 > 144; former cap retracted",
             Actual: trunkOk
-                ? "trunk root d = 2 only; cap 2d; parent split 4 = 2 + 2"
-                : "trunk/rank/parent tie broken"));
+                ? "exact product residual 0, rank 180 > 144; former cap retracted"
+                : "retraction control broken"));
 
         // (c) Π_d exact on the shift-aligned subspace at (3,1), (3,2), (4,1).
         int alignedOk = 0;
@@ -483,10 +489,10 @@ public sealed class QuditProductMirrorCap : Claim
             cases.Add(new BatteryCase(
                 Name: "global ceiling-reacher at (3, 2): paired = 54 with exact intertwining on support",
                 Detail: "greedy rung matching k ↔ N − k reaches the F121 ceiling; the gap " +
-                        "54 − 36 = 18 over the product cap is exactly the non-product part",
-                Expected: "paired 54 = ceiling, gap 18, residual 0 on support",
+                        "54 − 36 = 18 above the explicit shift-aligned construction",
+                Expected: "paired 54 = ceiling, construction gap 18, residual 0 on support",
                 Actual: reacherOk
-                    ? "paired 54 = ceiling, gap 18, residual 0 on support"
+                    ? "paired 54 = ceiling, construction gap 18, residual 0 on support"
                     : $"paired {paired}, gap {gap}, supportExact {supportExact}"));
         }
 
@@ -509,10 +515,9 @@ public sealed class QuditProductMirrorCap : Claim
                 Actual: swapOk ? "D(+aligned) = −aligned, masks distinct" : "chirality swap broken"));
         }
 
-        // (h) The non-product part and its translation-invariant recovery: the integer gap
-        //     ceiling − (2d)^N is positive exactly when the product mirror is not full
-        //     (d > 2 and N ≥ 2), zero at d = 2 or N = 1, and 18 at (3, 2). The TI generic-rank
-        //     intertwiner reaching the full ceiling is verified in qudit_ti_intermediate.py.
+        // (h) The explicit-construction gap
+        //     ceiling − (2d)^N is positive exactly when the shift mirror is not full
+        //     (d > 2 and N ≥ 2), zero at d = 2 or N = 1, and 18 at (3, 2).
         {
             int gapGridOk = 0, gapGridTot = 0;
             for (int d = 2; d <= 5; d++)
@@ -526,10 +531,9 @@ public sealed class QuditProductMirrorCap : Claim
                          && NonProductPart(2, 3) == 0
                          && NonProductPart(4, 2) == 64;
             cases.Add(new BatteryCase(
-                Name: "non-product part = ceiling − (2d)^N, translation-invariant-recovered",
-                Detail: "the gap is positive exactly when the product mirror is not full (d > 2 and " +
-                        "N ≥ 2), 18 at (3, 2); a translation-invariant intertwiner recovers it to the " +
-                        "full ceiling (verified in qudit_ti_intermediate.py)",
+                Name: "shift-construction gap = ceiling − (2d)^N",
+                Detail: "the gap is positive exactly when the shift mirror is not full (d > 2 and " +
+                        "N ≥ 2), and is 18 at (3, 2)",
                 Expected: "12/12 grid, anchors 18/0/64",
                 Actual: (gapGridOk == gapGridTot && anchorOk)
                     ? "12/12 grid, anchors 18/0/64"
@@ -540,33 +544,33 @@ public sealed class QuditProductMirrorCap : Claim
     }
 
     public override string DisplayName =>
-        "The qudit product-mirror cap: per-site mirrors pair ≤ (2d)^N, Π_d(ρ) = ρᵀ·Shift^{⊗N} attains it, ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂";
+        "The historical qudit product-cap claim: retracted universal bound; rank(Π_d P_aligned)=(2d)^N, ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂";
 
     public override string Summary =>
-        "any per-site mirror W = ⊗q_l intertwining W·L_D = (−L_D − 2Nγ)·W pairs at most (2d)^N of the " +
-        "d^{2N} coherences (full ⟺ d² − 2d = 0 ⟺ d = 2, the trunk polynomial's third appearance); " +
-        "Π_d(ρ) = ρᵀ·Shift^{⊗N} attains the cap with exactly zero residual on the shift-aligned " +
-        "subspace; ord(Π_d) = 2d and ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂ of order 2d² (D₄ at d = 2); the F121 " +
-        $"ceiling needs a global non-product isometry, gap {CombinatorialCeiling(3, 2) - ProductCap(3, 2)} " +
+        "the former universal product bound (2d)^N is retracted: P_dark⊗P_lit at d=6,N=2 has " +
+        "exact rank 180 > 144. The full permutation Π_d(ρ) = ρᵀ·Shift^{⊗N} has rank d^(2N); its " +
+        "restriction Π_d P_aligned has rank (2d)^N and exactly zero residual; ord(Π_d) = 2d and " +
+        "⟨Π_d, D⟩ ≅ Z_d ≀ Z₂ of order 2d² (D₄ at d = 2); the F121 " +
+        $"ceiling-minus-construction gap {CombinatorialCeiling(3, 2) - ProductCap(3, 2)} " +
         $"at (3, 2); {PassCount}/{Cases.Count} battery PASS ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("The product cap (theorem)", summary: ProductCapTheorem);
+            yield return new InspectableNode("The former universal product cap (retracted)", summary: ProductCapTheorem);
             yield return new InspectableNode("The operator Π_d(ρ) = ρᵀ·Shift^{⊗N}", summary: OperatorRealization);
             yield return new InspectableNode("The mirror group law ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂", summary: MirrorGroupLaw);
-            yield return new InspectableNode("The non-product gap (honesty)", summary: NonProductGap);
-            yield return new InspectableNode("Translation-invariant recovery (no intermediate)", summary: TranslationInvariantReach);
+            yield return new InspectableNode("The shift-construction gap", summary: NonProductGap);
+            yield return new InspectableNode("Translation-invariant attainment (finite verified cases)", summary: TranslationInvariantReach);
             yield return InspectableNode.RealScalar("NonProductPart(d=3, N=2)", NonProductPart(3, 2));
             yield return InspectableNode.RealScalar("ProductCap(d=3, N=2)", ProductCap(3, 2));
             yield return InspectableNode.RealScalar("CombinatorialCeiling(d=3, N=2)", CombinatorialCeiling(3, 2));
             yield return new InspectableNode("Typed parents",
                 summary: $"QuditPartialPalindromeCeiling ({PartialPalindrome.Tier.Label()}): F121, the " +
-                         "combinatorial ceiling the cap sits under; the gap to it is the non-product " +
-                         $"part. QubitNecessityPi2Inheritance ({QubitNecessity.Tier.Label()}): the " +
-                         "d² − 2d = 0 trunk whose unique root d = 2 makes the product mirror full and " +
+                         "combinatorial ceiling above the explicit shift construction. " +
+                         $"QubitNecessityPi2Inheritance ({QubitNecessity.Tier.Label()}): the " +
+                         "d² − 2d = 0 trunk whose unique root d = 2 makes this construction full and " +
                          "whose 4 = 2 + 2 per-site split is the rank bound 2d at d = 2.");
             yield return new InspectableNode("No IZ2AxisClaim",
                 summary: "The cap is cross-axis structural (an operator-space rank/intertwining " +

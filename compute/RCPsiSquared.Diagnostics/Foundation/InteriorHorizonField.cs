@@ -21,7 +21,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// and never touches ¼: the Mandelbrot iteration has no fixed point at or beyond the cusp, so the
 /// count is only defined below it.</para>
 ///
-/// <para>A plain IInspectable, computed from closed forms plus the one live recursion. N-free (the
+/// <para>A plain IInspectable, computed from closed forms, the F56 asymptotic, and one live recursion. N-free (the
 /// recursion and heading depend only on CΨ; state independence is itself hardware-confirmed).</para></summary>
 public sealed class InteriorHorizonField : IInspectable
 {
@@ -112,10 +112,10 @@ public sealed class InteriorHorizonField : IInspectable
             var classical = ClassicalCpsi();
             var counts = classical.Select(c => (double)InteriorHorizon.RecursionIterations(c, _tol)).ToArray();
             double liveK = counts[0] * Math.Sqrt(_eps[0]);
-            double closedK = InteriorHorizon.RecursionKClosedForm(classical[0], _tol);
+            double asymptoticK = InteriorHorizon.RecursionKAsymptotic(classical[0], _tol);
             yield return new InspectableNode(
                 displayName: "the recursion at the fold (the horizon, live)",
-                summary: $"u → u²+c run live: {(int)counts[0]} steps at the nearest rung, diverging as CΨ → ¼⁻ (the recursion crawls, time stops). Rescaled K={liveK.ToString("0.##", Inv)} matches the closed form {closedK.ToString("0.##", Inv)}.",
+                summary: $"u → u²+c run live: {(int)counts[0]} steps at the nearest rung, diverging as CΨ → ¼⁻ (the recursion crawls, time stops). Rescaled K={liveK.ToString("0.##", Inv)}; the finite-ε asymptotic gives {asymptoticK.ToString("0.##", Inv)}.",
                 payload: new InspectablePayload.Curve("iteration count n", classical, counts, "CΨ (classical)", "n (live)"));
 
             // 4. The slowing is ours (the seam): relative stop → rescaled K constant.

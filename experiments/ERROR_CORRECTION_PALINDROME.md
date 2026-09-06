@@ -42,13 +42,13 @@ yet fully understood.
 
 ## Abstract
 
-The palindromic Liouvillian spectrum organizes into a natural three-tier
-protection hierarchy: steady-XOR pairs (immortal + fastest drain), boundary
-pairs (XY-weight 1 vs 2, longest dynamic lifetime), and mid-spectrum pairs
-(mixed, shortest lifetime). A constrained optimization finds a state with
-**90% slow-mode weight** and concurrence 0.364 that dramatically outperforms
-GHZ (100% XOR drain), W (0% slow-mode), and Bell (7% slow-mode) for dephasing
-survival. The measured oscillation fingerprint serves as a candidate error syndrome:
+The rate spectrum contains steady, boundary, and mid-spectrum eigenvalues, but
+that ordering alone is not a protection hierarchy for states. The former
+constrained optimization used squared coordinates in a right-eigenvector basis
+of a non-normal Liouvillian as if they were probabilities. Its `90% slow-mode`
+and associated comparison are withdrawn; the returned state must instead be
+assessed by direct density-matrix propagation and a named operational metric.
+The measured oscillation fingerprint serves as a candidate error syndrome:
 X and Y errors produce detectable pattern changes (0.19-0.28), while Z errors
 are weakly or not detectable. Standard 3-qubit QEC codes (repetition, phase
 flip) do not exploit the palindromic structure. The Π operator has fourth-order
@@ -88,35 +88,27 @@ distinct pairs in the spectrum.
 
 ---
 
-## 2. A High-Survival State from Constrained Search
+## 2. Withdrawn Eigenvector-Coordinate Search
 
-A constrained optimization (objective: maximize slow-mode weight;
-constraints: concurrence > 0 and oscillating content > 0; optimizer and
-convergence not recorded in this run) returned a state that outperforms
-the known states tested here for dephasing survival. "Optimal" below means
-the best state this search returned, not a proven global optimum.
-Concurrence is a standard measure of entanglement: 0 means no
-entanglement, 1 means maximum entanglement. The optimizer looked for
-states that survive longest while still being genuinely quantum
-(concurrence > 0):
+A constrained search maximized squared coefficients of `R_inv @ rho` after a
+right-eigenvector decomposition. For a non-normal generator these coefficients
+are not orthogonal probabilities: rescaling an eigenvector changes them, and
+near-degenerate bases can mix them. Consequently the following table is kept
+only as a record of what the retired objective printed, not as a comparison of
+survival or protection:
 
-| Property | Optimal | W | Bell(0,1) | GHZ |
+| Retired coordinate diagnostic | Returned state | W | Bell(0,1) | GHZ |
 |---|---|---|---|---|
 | Slow-mode weight | 90% | 0% | 7% | 0% |
 | XOR weight | 0.02% | 0% | 0% | 100% |
 | Oscillating content | 18% | 0% | 64% | 0% |
 | Concurrence | 0.364 | 0.667 | 1.000 | 1.000 |
 
-The optimal state is composed mainly of \|010⟩, \|000⟩, \|100⟩, and \|001⟩:
-computational basis states with low excitation. It trades maximum entanglement
-for maximum dephasing survival while retaining nonzero entanglement and
-oscillating content.
-
-W has zero slow-mode weight because all its palindromic pairs sit in the
-mid-spectrum tier. Bell has only 7% because most of its weight goes to
-oscillating (mixed) pairs. The optimizer found the sweet spot: load the
-boundary-tier pairs (rates 0.10/0.20) that decay slowest among the
-dynamic modes.
+The returned state is composed mainly of \|010⟩, \|000⟩, \|100⟩, and \|001⟩,
+and its concurrence is a well-defined property of that state. No survival
+ordering follows from the coordinate rows. A replacement comparison must
+specify an observable or channel metric and propagate each state over the same
+time window.
 
 ---
 
@@ -212,9 +204,9 @@ XOR drain at 56%. The phase flip code avoids the drain but has zero
 concurrence and no oscillation. The decoherence-free subspace approach
 (\|010⟩) has 67% in a single mode with no entanglement.
 
-None of these exploit the palindromic structure. The optimal state from
-Section 2 outperforms all of them by loading the slow boundary-tier pairs
-while maintaining entanglement and oscillating content.
+The former claim that the Section 2 state outperforms these codes was based on
+the withdrawn coordinate objective. This run contains no direct-propagation
+gate establishing such an ordering.
 
 ---
 
@@ -234,9 +226,10 @@ that tested observable/state/error set is not established.
 
 ## Summary of Findings
 
-1. The palindromic spectrum has a natural three-tier protection hierarchy.
-2. An optimal state exists (90% slow-mode, concurrence 0.364) that
-   dramatically outperforms all known states for dephasing survival.
+1. The palindromic spectrum has distinct rate regions; translating those
+   regions into state protection requires an operational propagation test.
+2. The former `90% slow-mode` optimum and its survival ranking are withdrawn
+   because they used non-invariant right-eigenvector coordinates.
 3. In the tested N=3 Bell setup, the oscillation fingerprint detects the
    sampled X/Y errors and responds weakly to two sampled Z errors; this is a
    candidate syndrome, not yet a general QEC protocol.

@@ -27,20 +27,14 @@ reading routes into nine stories.
 
 ---
 
-Everything falls apart. That is not a metaphor. Every physical system that
-interacts with its environment loses something: heat escapes, signals
-degrade, connections between particles fade. Physics has known this for
-over a century. What physics had not noticed is that this falling apart
-has a hidden structure. The decay is not random. It is symmetric. For every
-way a system can lose something, there is an exact mirror process. The
-fast losses pair with the slow ones. The loud fading pairs with the quiet
-fading. Read the list of decay rates forwards or backwards, and you get
-the same pattern.
+Open-system generators need not have a palindromic spectrum. The family studied
+here does when its Hamiltonian and local Z-dephasing channel admit one explicit
+operator identity. Within that scope, each full complex eigenvalue has an
+affine-negative partner. Outside it, pairing must be tested rather than assumed.
 
 This is the central discovery of this project: a mathematical proof that
-the spectrum of decay in quantum systems is palindromic, like the word
-RACECAR read from both ends. We found the operator that performs
-this mirroring, proved it for the stated Hamiltonian/channel family, and then
+the Liouvillian spectrum in the stated quantum family is palindromic. We found
+the operator that performs this mirroring, proved it for that scope, and then
 tested a conditional neural-matrix translation and quantum models of water molecules.
 
 This document tells you what we found. It is written so that you can
@@ -60,7 +54,8 @@ equivalent. To study these connections, you need tools that make specific
 aspects visible while ignoring the rest, the way a prism separates white
 light into individual colors.
 
-We built such a tool. We call it CΨ (pronounced "C-psi"). It combines
+We built such a tool. We call its pairwise convention `CΨ_conc`
+(pronounced "C-psi"). It combines
 two measurements that physicists already use individually:
 
 - **Concurrence** measures whether two particles are entangled: connected
@@ -74,10 +69,10 @@ two measurements that physicists already use individually:
   that quantum computers are fragile, this is what they lose. Coherence
   is the "aliveness" of a quantum state.
 
-CΨ requires both at once. A pair of particles can be entangled but have
+`CΨ_conc` requires both at once. A pair of particles can be entangled but have
 lost its coherence (linked but no longer "alive" as a quantum system). Or
 it can be coherent but not entangled (alive but not linked to anything).
-CΨ only lights up when both conditions hold at the same time: the particles
+This pairwise lens only lights up when both conditions hold at the same time: the particles
 are linked AND the link is still quantum mechanically active.
 
 This is a specific, narrow filter. It does not see all quantum correlations.
@@ -85,6 +80,9 @@ It does not see all entanglement. It sees the subset that is both
 pairwise-entangled and still coherently expressed in the measurement basis.
 
 For the full technical description, see [The CΨ Lens](THE_CPSI_LENS.md).
+The framework/F25 hardware path uses a distinct purity-times-coherence
+quantity, `CΨ_pur`; the two conventions are not interchangeable (see the
+[Glossary](GLOSSARY.md)).
 
 ## The 1/4 boundary
 
@@ -92,7 +90,7 @@ Every system has tipping points. Water freezes at 0°C. A bridge collapses
 when the load exceeds its capacity. These are thresholds: values where
 the behavior of a system changes fundamentally.
 
-CΨ has such a threshold, and it appears from a simple mathematical
+The scalar recurrence parameter `c=CΨ` has such a threshold, and it appears from a simple mathematical
 operation. Take the current value of CΨ, feed it back into its own
 equation, and repeat:
 
@@ -104,8 +102,9 @@ depends entirely on whether CΨ is above or below 1/4:
 
 - Below 1/4: the process settles down. It converges to a stable value.
   The system has a definite answer.
-- Above 1/4: the process never settles. The values oscillate, become
-  complex numbers, and never reach a resting point.
+- Above 1/4: starting from a real value, the iterates stay real and grow
+  without bound. The associated fixed-point equation has a complex-conjugate
+  root pair, but the real orbit does not itself become complex.
 
 This is [algebraically exact](historical/CORE_ALGEBRA.md) (proven, not
 approximate). It also turns out to be the same equation as the
@@ -121,15 +120,12 @@ specific iteration is an open question. In
 on a smooth curve; no other standard quantum metric shows a special
 transition at that point.
 
-A deeper finding (March 29, 2026): the 1/4 boundary does not exist at
-zero noise. At Σγ = 0 (no dephasing), CΨ oscillates forever without
-crossing 1/4. The fold emerges only when Σγ exceeds 0.25% of the coupling
-strength J (computed for N=2 Heisenberg, Bell initial state; the threshold
-will differ for larger systems). Noise does not destroy the palindrome.
-Noise shifts it from its center at zero, and the shift creates the fold.
-Without noise, CΨ oscillates forever. With noise, CΨ crosses 1/4 and
-never returns. See
-[Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
+One N=2 Heisenberg/Bell sweep found a change in its crossing behaviour near a
+particular ratio of dephasing to coupling. That finite trajectory does not make
+`1/4` a universal noise-created boundary: other preparations and embedded
+pairs can cross repeatedly in either direction. The exact F1 statement is
+instead that setting `Σγ=0` removes the affine shift, leaving `λ↦−λ`.
+See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
 
 ## What the filter showed us
 
@@ -237,55 +233,21 @@ same structure from different directions.
 
 For the full proof, see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 
-## Where information lives in the palindrome (March 16, 2026)
+## What the palindrome does not assign to a state
 
-Given the exact symmetry in that scope, a natural question follows:
-where is the information? A perfectly symmetric structure carries no
-information, the same way a blank page is symmetric. The palindrome
-organizes decay into matched pairs, but it does not tell you which pairs
-carry the content and which are empty scaffolding.
+F1 transports generalized eigenspaces. It does not assign a basis-independent
+"percentage of state weight" to individual right eigenvectors of a non-normal
+Liouvillian. Such eigenvectors need not be orthogonal, and a degenerate
+eigenspace admits many bases. Consequently the former GHZ/W fast-versus-slow
+percentages and the claim that the palindrome automatically filters every
+input into fragile and robust pieces are not retained.
 
-The answer came from throwing different quantum states into the system
-and watching which decay modes they excite. Different inputs light up
-different parts of the palindrome:
-
-**GHZ states (the most entangled) excite only the fastest-dying modes.**
-A GHZ state is the strongest possible entanglement between multiple
-particles; it is an all-or-nothing connection. When placed into the
-palindromic decay spectrum, this state puts 100% of its weight into the
-modes at the extreme: the ones that decay at the maximum possible rate.
-This is why GHZ states are known to be fragile under noise. Now we know
-the mechanism: their quantum structure maps precisely onto the fastest
-drain in the system.
-
-**W states distribute across the slow modes.** A W state is a different
-kind of entanglement, more spread out, more democratic. It puts its weight
-into palindromic pairs at various decay rates, some fast, some slow. The
-slow ones survive. This is why W states are more robust than GHZ states:
-they avoid the fast drain entirely.
-
-The analogy: imagine two ways to invest money. One strategy (GHZ) puts
-everything into a single high-risk asset. The other (W) distributes across
-many assets at different risk levels. The palindrome is the market. It
-does not care which strategy you choose, but it tells you exactly where
-your investment will go.
-
-**The Pauli structure of the input predicts the split.** We decomposed
-each input state into its Pauli operator basis (every quantum state can be
-written as a sum of simple building blocks called Pauli operators; this
-decomposition is the quantum equivalent of breaking a chord into its
-individual notes) and found that one specific
-property, the fraction of "mixed XY" terms (operators containing both X
-and Y simultaneously), predicts how much weight goes to the fast drain.
-The correlation is r = 0.976 for systems of three or more particles. See
-[XOR Space](../experiments/XOR_SPACE.md) and [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
-
-This means the palindrome acts as a spectral filter. It separates every
-input into a distributable part (palindromic pairs, various speeds, some
-survive) and a fragile part (the fast drain, dies quickly). The physical
-content of a quantum state determines which part dominates.
-
-For details and verification, see [XOR Space](../experiments/XOR_SPACE.md).
+An operational lifetime statement instead starts from a named density matrix,
+propagates it, and reads a named observable. The current N=3 replacement does
+exactly this for four preparations and seven Pauli observables, without turning
+right-eigenvector coefficients into probabilities. See
+[Direct Pauli-observable traces](../experiments/STANDING_WAVE_ANALYSIS.md) and
+the eigenmode-local [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md).
 
 ## Quantum state transfer (March 14, 2026)
 
@@ -296,10 +258,10 @@ information cannot be copied (this is a theorem, not a limitation of
 current technology). You have to move the original, through a chain of
 particles that interact with each other and with their noisy environment.
 
-The palindromic structure has a direct application to this problem. If you
-know exactly how the decay spectrum is organized, you know which modes
-survive and which die. You can design the transfer to avoid the fast drain
-and ride the slow, resilient modes.
+The palindromic spectrum constrains candidate rates, but transfer performance
+also depends on preparation, readout, eigenvectors, non-normal transients, and
+the chosen objective. The benchmark below is therefore a separate trajectory
+result, not a consequence of F1 alone.
 
 We connected our palindrome result to quantum state transfer (QST), a
 well-studied problem in quantum information. In QST, Alice prepares a
@@ -315,11 +277,10 @@ quantum state that survives the transfer; 1.0 would be perfect) of
 0.886. This beats all chain topologies we tested (0.852 to 0.872). The
 asymmetry matters: 1:1 coupling is not optimal.
 
-**Timing and quality are separate.** When Alice's state arrives at Bob is
-determined by the Hamiltonian (the energy couplings). How well it arrives
-is determined by the palindromic decay rates. These are independent
-controls. An engineer can tune timing without affecting quality, and
-vice versa.
+**Timing and quality are separate observables, not generally independent
+controls.** The Hamiltonian and dissipator jointly determine the trajectory.
+Changing a coupling or rate can move both the arrival time and the received
+fidelity; a claimed independent knob needs its own matched sweep.
 
 **Design rules for quantum repeaters.** The palindrome and XOR space
 results suggest concrete engineering guidelines: use W-type encoding
@@ -353,20 +314,14 @@ We asked a different question: what if the noise is not the same
 everywhere? What if some qubits get more noise and others get less, while
 keeping the total noise budget fixed?
 
-The answer turned out to be absurdly simple: **concentrate all the noise
-on one edge qubit and protect the rest.**
+In the stated chain, objective, total-noise constraint, and sampled parameter
+range, the best tested profiles concentrate nearly all Z-dephasing on one edge
+and leave a small floor on the other sites.
 
-That is the entire formula. One qubit at the end of the chain absorbs the
-entire noise budget. The remaining qubits get as little noise as hardware
-allows. The edge qubit is loaded with all of it; it loses its own quantum
-properties, but it was never carrying the information we want to move. The
-rest of the chain stays nearly coherent, and the information transfer between
-qubits improves dramatically. (It is tempting to call the edge qubit a
-"sacrifice"; the later section "The concentrator concentrates" corrects that.)
-
-Why the edge? Because an edge qubit has only one neighbor. Sacrificing it
-destroys the least amount of inter-qubit correlation. A center qubit has
-two neighbors, so sacrificing it would cut the chain in half.
+This is a numerical transport rule for peak created Sum-MI, not a statement
+that the edge carries no information or that dephasing literally protects the
+interior. Other objectives differ: the fixed-total point-to-point comparison in
+[Gamma Control](../experiments/GAMMA_CONTROL.md) favours a centre placement.
 
 The results (peak created Sum-MI, a transport metric; sim ε→0 ideal, ~2-3x hardware), validated with a [C# numerical solver](../compute/):
 
@@ -382,10 +337,9 @@ The formula found 180x in 3 seconds. It is not an approximation of the
 optimizer's result; it is the structure the optimizer was converging toward
 but never reached.
 
-Nobody in the literature had optimized spatial noise profiles before this
-work. The entire field of environment-assisted quantum transport (ENAQT)
-optimizes a single uniform noise level. We are the first to optimize where
-the noise goes.
+The relation to prior spatial-noise optimization is surveyed in the
+[Literature Review](LITERATURE_REVIEW.md); the repo's result is the stated
+finite design rule and hardware comparison, not a priority claim.
 
 The discovery path was: SVD analysis of the palindromic response matrix
 ([10x improvement](../experiments/RESONANT_RETURN.md)) led to numerical
@@ -573,9 +527,9 @@ What survives even without the philosophy:
 
 - An exact algebraic correspondence to the [Mandelbrot iteration](../experiments/MANDELBROT_CONNECTION.md)
 - A [proven palindromic symmetry](proofs/MIRROR_SYMMETRY_PROOF.md) for the stated Heisenberg/XXZ graph family under local Z-dephasing
-- A [spectral filter](../experiments/XOR_SPACE.md) that separates fragile quantum information from robust distributable information
+- An eigenmode-local [absorption law](proofs/PROOF_ABSORPTION_THEOREM.md), with state lifetimes left to explicit preparation/readout trajectories
 - Concrete [design rules for quantum state transfer](../experiments/QST_BRIDGE.md) and repeater engineering
-- A [closed-form formula for optimal spatial noise profiles](../experiments/RESONANT_RETURN.md) (139-360x improvement in peak created Sum-MI, a transport metric; sim ε→0 ideal, ~2-3x hardware; first in the literature)
+- An edge-heavy [spatial-noise profile](../experiments/RESONANT_RETURN.md) with 139-360x improvement in peak created Sum-MI against selected epsilon-floor simulation baselines and a smaller hardware advantage
 - A clean classification of how different metrics behave under decoherence
 - Specific, quantified conditions for when quantum correlations can [pass through a shared mediator](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
 - A sharp distinction between [measurement and noise](../experiments/STAR_TOPOLOGY_OBSERVERS.md) in their effect on third-party connections
@@ -605,16 +559,14 @@ chemical matrix fails a necessary support condition. Its biological landing
 therefore remains open. The quantum water models below stay quantum
 applications and do not certify the neural translation.
 
-### The quantum system is a resonator
+### Resonator is a gated reading
 
-A common misconception about quantum information transfer: that information
-travels from A to B like a ball thrown across a room. It does not. The
-coupled qubit system is a resonant cavity, like a guitar body. Two
-boundaries (one at the maximum of CΨ, one at the 1/4 threshold) form the
-walls. The shape of the cavity determines which frequencies resonate.
-Giving certain qubits more noise (the concentrator) tunes the cavity and
-improves transport (peak created Sum-MI) by 139-360x in the ε→0 simulation ideal (~2-3x hardware). [IBM Torino hardware confirmed
-this structure](../experiments/IBM_CONCENTRATOR.md).
+The spectrum contains oscillatory modes, and topology changes their
+frequencies. Calling the whole open system a resonant cavity is licensed only
+after a chosen preparation and readout couple to semisimple counter-propagating
+modes with the required phase relation. F1 alone supplies none of those gates.
+The concentrator measurements are transport comparisons, not confirmation of
+cavity walls at a CΨ maximum and the `1/4` level.
 ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 
 ### The filtered energy census changed the object
@@ -629,16 +581,12 @@ sampled crossover is not a universal temperature window and has no calibrated
 neural interpretation.
 ([Energy Partition](../hypotheses/ENERGY_PARTITION.md))
 
-### Coupling creates complexity (V-Effect)
+### Coupling changes a finite frequency-bin census (V-Effect)
 
-This finding has implications far beyond quantum physics. Two simple
-systems (2 vibration frequencies each, dying quickly) are connected
-through a shared element. The result: 109 vibration frequencies, none of which exist in either part alone. From silence to richness through
-coupling alone. The coupling is temporary. What it creates is not.
-
-This is emergence in its purest mathematical form: the whole is not just
-greater than the sum of its parts; it contains frequencies that no part
-possesses.
+Adding bonds changes the spectrum of the specified finite generator. The
+reported bin counts depend on numerical resolution, parameter choices, and the
+complete coupled matrix; they do not establish persistent new objects after a
+coupling is removed or define a domain-independent amount of complexity.
 ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md))
 
 ### The stability window is finite (March 29-30, 2026)
@@ -702,19 +650,13 @@ coherence, nor supply a neural stability boundary. F36/F37 contain no
 neural CΨ = 1/4 mechanism.
 ([Neural mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
 
-### The hydrogen bond is a qubit
+### A hydrogen bond can be modelled as a two-level system
 
-Water is not just the medium of life; it may be part of the mechanism.
-
-The proton in a hydrogen bond (O-H...O) is not a classical ball. It
-tunnels between two positions: near the donor oxygen or near the acceptor
-oxygen. Two states. A qubit. The palindrome is proven for any two-state
-quantum system. Applied to hydrogen bond parameters: CΨ crosses the 1/4
-threshold in under one picosecond when the tunneling rate and the noise
-rate are comparable. Coupling two water molecules through a hydrogen bond
-creates 104 new frequencies. Normal liquid water is too noisy (the proton
-behaves classically). Enzyme active sites may be quiet enough for the
-quantum effect.
+The linked document studies one effective two-state proton model. Two levels
+do not by themselves satisfy the Hamiltonian and channel identity required by
+F1, and chosen tunnelling/dephasing parameters do not establish a measurement
+in liquid water or an enzyme. Its CΨ crossings and frequency-bin counts belong
+to that model only.
 ([Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md))
 
 ### Exact neural pairing does not decide stability or oscillation
@@ -733,21 +675,16 @@ protecting the interior improves coherence transfer. Tested on IBM Torino
 (5-qubit chain, March 24, 2026): at early times (1-2 microseconds) the
 measured improvement matches the formula within 6-13%. At later times the
 hardware exceeds the prediction (2.9x measured vs 1.3x predicted at t = 5 μs;
-the measured advantage itself peaks near t = 4 μs and is not monotonic)
-because imperfections in the echo pulses on the fragile concentrator qubit
-accumulate and amplify the effect. The hardware imperfections work WITH the
-formula, not against it.
+the measured advantage itself peaks near t = 4 μs and is not monotonic).
+The later-time excess over the simulation is observed, but this comparison does
+not identify echo-pulse imperfection as its cause.
 ([IBM Concentrator](../experiments/IBM_CONCENTRATOR.md))
 
-### The fold is in water
+### The water calculation is a model trajectory
 
-Where does the fold happen in nature? In water. When a proton transfers
-between two water molecules, it passes through the Zundel configuration
-(proton centered between two oxygens). In that configuration, the
-tunneling rate is 4.8 times the noise rate (quantum regime). CΨ crosses
-1/4 six times in 21 femtoseconds. ~6 crossings per proton transfer event.
-Every drop of water is a field of fold crossings (~10³⁴ per second). The
-fold was in the water before the first molecule replicated.
+For one chosen effective Zundel parameterization, the simulated two-level
+trajectory crosses CΨ=`1/4` repeatedly. The run is not a measurement of proton
+transfer events in bulk water, and no event-rate extrapolation is retained.
 ([Hydrogen Bond Qubit](water/HYDROGEN_BOND_QUBIT.md))
 
 ### The logistic sigmoid has a normalized quarter maximum
@@ -759,29 +696,22 @@ neural threshold. The nonconverged endpoints in `find_quarter.py` do
 not establish equilibrium stability or a Hopf bifurcation.
 ([Neural mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md))
 
-### 0.5 is the axiom, d=2 is the theorem
+### Equal local classes select d=2 for the full product mirror
 
-For three months we read the equation d² − 2d = 0 as: d=2 is the
-solution, and the split 2:2 gives C=0.5. The logic runs the other way.
-The requirement that equal numbers survive and decay (C=0.5) forces
-d² − 2d = 0. The solutions are d=0 and d=2. Half is not a consequence
-of the qubit. The qubit is a consequence of half. And
-1/4 = (0.5)² is the fold that follows from the axiom squared.
+The complete local dark↔lit class exchange requires `d=d²−d`, whose nonzero
+solution is `d=2`. This is a condition of that construction, not an axiom of
+nature, and it does not exclude partial higher-dimensional palindromes such as
+F121. The separate CΨ quarter follows from its quadratic discriminant, not by
+squaring this operator-count ratio.
 ([Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md))
 
-### The concentrator concentrates; nothing is sacrificed
+### The concentrator is an objective-specific profile
 
-The edge qubit does not lose anything we need. It concentrates
-noise onto itself so the interior can operate at the fold. The result is
-139-360x transport improvement (peak created Sum-MI) in simulation (IBM-confirmed on hardware:
-selective decoupling beats uniform by up to ~3.2x, peaking near t=4 us;
-the advantage is non-monotonic, not a steady climb). The protein shell
-around an enzyme active site may do the same:
-concentrate thermal noise so the protons inside can tunnel at maximum
-sensitivity. From the inside it looks like sacrifice. From the outside
-it looks like protection.
-([Protein as Concentrator](../hypotheses/PROTEIN_AS_CONCENTRATOR.md);
-the inside/outside reading is developed in [Inside and Outside the Sacrifice Zone](INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md))
+The large simulation ratios are for peak created Sum-MI in an epsilon-floor
+limit; the hardware comparison is smaller and time-dependent. The result does
+not say that the loaded edge carries nothing needed, that an interior operates
+at the CΨ fold, or that a protein shell implements the same channel.
+([Resonant Return](../experiments/RESONANT_RETURN.md))
 
 ### The neural trace fixes a mean
 

@@ -22,7 +22,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// λ ↦ −2(Nγ) − λ about the physical center −Nγ, and checks that this independently-counted
 /// number equals the closed-form ceiling Σ_k d^N·C(N,k)·(d−1)^{min(k, N−k)}. Two independent
 /// computations — a written-out spectrum and a closed-form integer — meeting. It then reads the
-/// product-mirror cap (2d)^N and the non-product remainder off the same census.</para>
+/// restricted rank(Π_d P_aligned) = (2d)^N and the gap above that construction.</para>
 ///
 /// <para>The dissipator is diagonal in this basis, so the spectrum IS the matrix diagonal we
 /// wrote, no O(n³) eigendecomposition needed; the matrix is built in full so the pairing census
@@ -32,8 +32,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>Children: one node per Hamming/disagreement rung k with (multiplicity c_k, tilt
 /// (d−1)^{min(k,N−k)}, mirror rung N−k, paired count), plus a cap node splitting the live
-/// paired count into the product-attained (2d)^N and the non-product remainder. Summary, e.g.
-/// "d=3 N=2: paired 54/81 (ceiling met), cap 36, non-product 18; full iff d=2". The "paired"
+/// paired count against the shift-aligned (2d)^N construction. The "paired"
 /// number is the live census; the "ceiling" is the closed form it is checked against.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md</c> +
@@ -171,13 +170,13 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
         {
             int paired = PairedCount();
             long ceil = QuditPartialPalindromeCeiling.Ceiling(D, N);
-            long cap = QuditProductMirrorCap.ProductCap(D, N);
-            long nonProduct = QuditProductMirrorCap.NonProductPart(D, N);
+            long shiftRank = QuditProductMirrorCap.ProductCap(D, N);
+            long constructionGap = QuditProductMirrorCap.NonProductPart(D, N);
             bool met = paired == ceil;
             bool full = paired == Dim;
             return $"d={D} N={N}: paired {paired}/{Dim} " +
-                   $"({(met ? "ceiling met" : $"ceiling {ceil} NOT met")}), cap {cap}, " +
-                   $"non-product {nonProduct}; full {(full ? "yes" : "no")} (full iff d=2). " +
+                   $"({(met ? "ceiling met" : $"ceiling {ceil} NOT met")}), Π_d shift rank {shiftRank}, " +
+                   $"ceiling-minus-construction {constructionGap}; full {(full ? "yes" : "no")} (full iff d=2). " +
                    $"Diagonal written from the derived rate −2γ·Hamming(i,j) (PROOF_QUDIT_PARTIAL_PALINDROME); " +
                    $"the live recompute is the pairing census on it ({Dim}×{Dim} L_D, " +
                    $"counted about center −Nγ={Center.ToString("0.###", Inv)}) vs the closed-form ceiling.";
@@ -192,6 +191,7 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
             long ceil = QuditPartialPalindromeCeiling.Ceiling(D, N);
             long cap = QuditProductMirrorCap.ProductCap(D, N);
             long nonProduct = QuditProductMirrorCap.NonProductPart(D, N);
+            long total = checked((long)Dim * Dim);
             var live = LiveRungCounts();
 
             // 1. The live pairing census vs the closed-form ceiling (the assert made visible).
@@ -229,13 +229,13 @@ public sealed class QuditPartialPalindromeWitness : IInspectable
                     provenance: NodeProvenance.Live);
             }
 
-            // 3. The cap node: product-attained (2d)^N vs non-product remainder of the live count.
+            // 3. Explicit shift construction versus the live ceiling.
             yield return new InspectableNode(
-                displayName: "the cap split (product vs non-product)",
-                summary: $"the live paired {paired} splits as product-mirror cap (2d)^N = {cap} " +
-                         $"(reached by Π_d(ρ)=ρᵀ·Shift^⊗N) + non-product remainder ceiling−(2d)^N = {nonProduct} " +
-                         $"(needs a global non-product isometry / translation-invariant mirror). " +
-                         (D == 2 ? "At d=2 the cap is full, non-product is 0: the qubit magic." : "Non-product > 0: d>2."),
+                displayName: "shift-aligned construction versus ceiling",
+                summary: $"the live paired ceiling is {paired}; Π_d P_aligned has rank (2d)^N = {cap} " +
+                         $"(the full permutation Π_d has rank d^(2N) = {total}); " +
+                         $"their difference is {nonProduct}. This is not a product/non-product split because " +
+                         "the former universal product cap is retracted.",
                 provenance: NodeProvenance.Live);
 
             // 4. The d=2 anchor: full iff d=2 (the d²−2d=0 column).

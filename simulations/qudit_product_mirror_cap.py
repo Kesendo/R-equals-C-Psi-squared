@@ -6,21 +6,17 @@ full-Cartan dephasing dissipator at d > 2: paired ceiling
 Sigma_k d^N C(N,k) (d-1)^min(k, N-k), full iff d = 2. This verifier banks the
 OPERATOR side of that count:
 
-(1) PRODUCT CAP (theorem): any per-site mirror W = tensor_l q_l (one-sided,
-    two-sided, antilinear, site-dependent) that intertwines the dissipator
-    palindrome W L_D = (-L_D - 2N*gamma) W on its support pairs at most
-    (2d)^N of the d^(2N) coherences. Proof: rate additivity forces each q_l
-    to be a strict per-site class swap (dark {i=j, d dims} <-> lit {i != j,
-    d^2-d dims}); rank(q_l) <= min(d, d^2-d) + min(d, d^2-d) = 2d for d >= 2.
-    The cap is FULL iff (2d)^N = d^(2N) iff d^2 - 2d = 0 iff d = 2: the
-    QUBIT_NECESSITY trunk polynomial, third appearance (per-site split,
-    ceiling column, operator cap).
+(1) FORMER PRODUCT CAP (retracted): (2d)^N is the rank of the strict
+    class-swap / shift-aligned construction, not an upper bound on arbitrary
+    product intertwiners. The d=6,N=2 control P_dark tensor P_lit stays on the
+    self-complementary h=1 rung and has exact rank 180 > 144.
 (2) THE OPERATOR: the qubit palindromizer's formula generalizes VERBATIM,
     Pi_d(rho) = rho^T * Shift^(tensor N) (F118: Pi_Z = rho^T * X^(tensor N)).
     It attains the cap exactly: on the shift-aligned subspace (per-site
     letters {(x,x)} U {(a, a-1)}, dimension (2d)^N, Pi_d-closed) the
-    intertwining residual is EXACTLY ZERO; on the complement it fails at
-    O(gamma) (the provably unpaired part). Two chiralities Pi_d^+/- (the two
+    intertwining residual is EXACTLY ZERO; on the complement this particular
+    Pi_d realization fails at O(gamma), without implying global unpairability.
+    Two chiralities Pi_d^+/- (the two
     shift directions); at d = 2 the two off-diagonals coincide, the
     chiralities merge, and the mirror is full: that degeneracy IS the qubit
     magic.
@@ -29,13 +25,14 @@ OPERATOR side of that count:
     <Pi_d, D> ~ Z_d wr Z_2 (wreath product). At d = 2 this is D_4: the F118
     mirror group is the d = 2 column of a d-indexed family. D does NOT
     preserve the aligned subspace for d > 2 (it swaps the chiralities).
-(4) HONESTY: the combinatorial ceiling IS reachable by a global
+(4) GLOBAL REACHER: the combinatorial ceiling IS reachable by a global
     (non-product) partial isometry (explicit greedy rung matching, exact
     intertwining on its support); the gap ceiling - (2d)^N (= 18 at d=3,
-    N=2; first nonzero at N = 2) is therefore exactly the NON-PRODUCT part
+    N=2; first nonzero at N = 2) is the gap above this construction, not a
+    proven non-product part
     of the partial palindrome.
 
-Blocks: A cap + trunk arithmetic (d = 2..5); B Pi_d exact on the aligned
+Blocks: A shift-rank arithmetic (d = 2..5); B Pi_d P_aligned exact on the aligned
 subspace (d = 3, N = 1..3; d = 4, N = 1..2); C random per-site class swaps
 never exceed the cap (rank check); D the global ceiling-reacher; E the
 group law |<Pi_d, D>| = 2d^2 and ord(Pi_d) = 2d (d = 2..5); F d = 2
@@ -106,22 +103,22 @@ def ceiling(d, N):
 
 
 def block_a():
-    print("BLOCK A  cap + trunk arithmetic")
+    print("BLOCK A  shift-aligned construction arithmetic (not a universal cap)")
     for d in (2, 3, 4, 5):
         for N in (1, 2, 3):
-            cap = (2 * d) ** N
+            cap = (2 * d) ** N  # historical variable name: explicit Pi_d aligned rank
             ceil = ceiling(d, N)
             total = d ** (2 * N)
             assert cap <= ceil <= total
             assert (cap == total) == (d == 2), (d, N)
             assert (cap == ceil) == (d == 2 or N == 1), (d, N)
-        print(f"  d={d}: cap (2d)^N {'= full iff d=2 OK' if d == 2 else f'< ceiling for N>=2 OK'}"
-              f"  (N=2: cap {(2*d)**2}, ceiling {ceiling(d,2)}, total {d**4})")
+        print(f"  d={d}: shift rank (2d)^N {'= full at d=2 OK' if d == 2 else f'< ceiling for N>=2'}"
+              f"  (N=2: shift {(2*d)**2}, ceiling {ceiling(d,2)}, total {d**4})")
     print("BLOCK A PASS")
 
 
 def block_b():
-    print("BLOCK B  Pi_d exact on the shift-aligned subspace")
+    print("BLOCK B  Pi_d P_aligned exact on the shift-aligned subspace")
     for d, Ns in ((3, (1, 2, 3)), (4, (1, 2))):
         for N in Ns:
             diag = L_diss_diag(d, N)
@@ -145,7 +142,7 @@ def block_b():
 
 
 def block_c():
-    print("BLOCK C  random per-site class swaps never exceed the cap (rank)")
+    print("BLOCK C  strict class swaps + counterexample to the former universal cap")
     rng = np.random.default_rng(7)
     d, N = 3, 2
     lit_count = d * d - d
@@ -162,12 +159,24 @@ def block_c():
         rank = np.linalg.matrix_rank(Wq)
         assert rank <= (2 * d) ** N
         assert rank == (2 * d) ** N   # these constructions attain it
-    print(f"  5 random class-swap products at (3,2): rank = 36 = cap, never above")
+    print(f"  5 random strict class-swap products at (3,2): rank = 36 = shift rank")
+    d6, N6 = 6, 2
+    diag6 = L_diss_diag(d6, N6)
+    _, pairs6 = basis(d6, N6)
+    support6 = np.array([i[0] == j[0] and i[1] != j[1] for i, j in pairs6])
+    d6_rank = int(np.sum(support6))
+    # W=P_dark tensor P_lit is diagonal on this support, so the residual diagonal is
+    # W L_D + L_D W + 2N gamma W = (2*diag+2N gamma)*support.
+    residual6 = (2 * diag6 + 2 * N6 * GAMMA) * support6
+    assert d6_rank == 180 and d6_rank > (2 * d6) ** N6
+    assert np.max(np.abs(residual6)) == 0.0
+    print("  d=6,N=2: P_dark tensor P_lit stays on h=1, residual 0, rank 180 > 144")
+    print("  -> (2d)^N is NOT a universal product cap")
     print("BLOCK C PASS")
 
 
 def block_d():
-    print("BLOCK D  the global (non-product) ceiling-reacher")
+    print("BLOCK D  a global ceiling-reacher")
     d, N = 3, 2
     diag = L_diss_diag(d, N)
     n = len(diag)
@@ -196,7 +205,7 @@ def block_d():
     res = np.max(np.abs((Wg @ L + L @ Wg + 2 * N * GAMMA * Wg)[:, sup]))
     assert res == 0.0
     print(f"  (3,2): paired = 54 = ceiling, exact intertwining on support; "
-          f"the gap 54 - 36 = 18 is exactly the NON-PRODUCT part")
+          f"the ceiling-minus-shift-construction gap is 54 - 36 = 18")
     print("BLOCK D PASS")
 
 
@@ -262,7 +271,7 @@ def block_f():
 
 def main():
     print("=" * 78)
-    print("THE QUDIT PRODUCT-MIRROR CAP (operator side of F121)")
+    print("THE QUDIT SHIFT MIRROR + FORMER CAP RETRACTION (operator side of F121)")
     print("=" * 78)
     block_a()
     block_b()

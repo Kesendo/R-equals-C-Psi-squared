@@ -1,16 +1,9 @@
-"""
-V-Effect with thermal breaking.
+"""Finite spectral census for a local finite-occupation amplitude channel.
 
-Three types of symmetry breaking:
-  1. Bond breaking (V-Effect): coupling creates new palindromic pairs
-  2. Dephasing (gamma_z): lifts degeneracies, preserves pairing (exact)
-  3. Thermal (n_bar > 0): amplitude damping adds energy and explodes the
-     frequency count. It does NOT break the pairing: the palindrome survives
-     at a centre of -Sum(gamma_down + gamma_up)/2 (F137, extended 2026-08-05).
-     What breaks the pairing is amplitude damping beside CO-AXIAL Z-dephasing
-
-Question: Does heat change the V-Effect gain (1.81x)?
-Does thermal breaking create frequencies that dephasing alone cannot?
+``n_bar`` is an externally supplied channel parameter.  This producer does
+not identify it with heat produced by the simulated system, metabolism, or a
+biological temperature.  Counts are numerical protocol readings (rounding
+imaginary parts to four decimals), not mode counts independent of resolution.
 """
 
 import sys
@@ -26,8 +19,8 @@ I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
 Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
 Z = np.array([[1, 0], [0, -1]], dtype=complex)
-SP = np.array([[0, 1], [0, 0]], dtype=complex)  # sigma_plus = |1><0|
-SM = np.array([[0, 0], [1, 0]], dtype=complex)  # sigma_minus = |0><1|
+SM = np.array([[0, 1], [0, 0]], dtype=complex)  # sigma_minus = |0><1|
+SP = np.array([[0, 0], [1, 0]], dtype=complex)  # sigma_plus = |1><0|
 
 
 def kron_at(op, target, n_qubits):
@@ -95,6 +88,34 @@ def build_liouvillian_thermal(H, gamma_z, gamma_amp, n_bar):
     return L
 
 
+def endpoint_direction_residual(sigma_minus=SM, sigma_plus=SP):
+    """One-qubit direction gate, plus a swapped-operator negative control.
+
+    At n_bar=0, |0><0| is fixed and |1><1| loses excited population at
+    gamma_amp.  At n_bar>0, |0><0| gains excited population at
+    gamma_amp*n_bar.  The result is sensitive to swapping sigma-/sigma+.
+    """
+    ga = 0.2
+    nb = 0.7
+    rho0 = np.array([[1, 0], [0, 0]], dtype=complex)
+    rho1 = np.array([[0, 0], [0, 1]], dtype=complex)
+
+    def rhs(rho, n_bar):
+        answer = np.zeros_like(rho)
+        for op, rate in ((sigma_minus, ga * (1 + n_bar)),
+                         (sigma_plus, ga * n_bar)):
+            ldl = op.conj().T @ op
+            answer += rate * (op @ rho @ op.conj().T
+                              - 0.5 * (ldl @ rho + rho @ ldl))
+        return answer
+
+    cold_ground = rhs(rho0, 0.0)[1, 1].real
+    cold_excited = rhs(rho1, 0.0)[1, 1].real
+    warm_ground = rhs(rho0, nb)[1, 1].real
+    return max(abs(cold_ground), abs(cold_excited + ga),
+               abs(warm_ground - ga * nb))
+
+
 def spectral_metrics(evals):
     """Compute Q-factor and frequency metrics from eigenvalues."""
     osc = []
@@ -158,8 +179,16 @@ def main():
         lines.append(s)
 
     out("=" * 70)
-    out("V-EFFECT WITH THERMAL BREAKING")
+    out("FINITE-OCCUPATION AMPLITUDE-CHANNEL SPECTRAL CENSUS")
     out("=" * 70)
+
+    endpoint_residual = endpoint_direction_residual()
+    swapped_residual = endpoint_direction_residual(SP, SM)
+    out(f"Direction gate residual: {endpoint_residual:.2e}")
+    out(f"Swapped sigma-/sigma+ control residual: {swapped_residual:.2e}")
+    if endpoint_residual > 1e-14 or swapped_residual < 0.1:
+        raise AssertionError("one-qubit channel-direction gate failed")
+    out("n_bar is an external channel parameter; no self-heating claim is made.")
 
     J = 1.0
     gamma_z = 0.1      # Z-dephasing (preserves palindrome)
@@ -172,8 +201,8 @@ def main():
     # Part 1: Pure thermal sweep (no Z-dephasing, only thermal noise)
     # ================================================================
     out("\n" + "=" * 70)
-    out("PART 1: Pure thermal noise (gamma_z=0, gamma_amp=0.1)")
-    out("Sweep n_bar (thermal occupation)")
+    out("PART 1: amplitude channel only (gamma_z=0, gamma_amp=0.1)")
+    out("Sweep externally supplied n_bar")
     out("=" * 70)
 
     gamma_amp = 0.1
@@ -277,7 +306,7 @@ def main():
          {'gamma_z': 0.0, 'gamma_amp': 0.1, 'n_bar': 1.0}),
         ("Pure thermal hot (ga=0.1, n=5.0)",
          {'gamma_z': 0.0, 'gamma_amp': 0.1, 'n_bar': 5.0}),
-        ("Only excitation (gz=0, ga=0.1, n=10)",
+        ("Amplitude channel, high occupation (gz=0, ga=0.1, n=10)",
          {'gamma_z': 0.0, 'gamma_amp': 0.1, 'n_bar': 10.0}),
     ]
 
@@ -307,13 +336,13 @@ def main():
             f" {vg_f:7.1f}x | {row.get('pal', 0):10.2e}")
 
     # ================================================================
-    # Part 4: Sacrifice + thermal (the full picture)
+    # Part 4: non-uniform Z profile plus finite-occupation amplitude channel
     # ================================================================
     out("\n" + "=" * 70)
-    out("PART 4: Sacrifice profile + thermal noise on N=5")
+    out("PART 4: Non-uniform Z profile + amplitude channel on N=5")
     out("=" * 70)
     out("\nEdge gamma_z = 0.5, interior gamma_z = 0.01")
-    out("Sweep thermal occupation n_bar with gamma_amp = 0.05")
+    out("Sweep externally supplied n_bar with gamma_amp = 0.05")
 
     gz_sac = [0.5, 0.01, 0.01, 0.01, 0.01]  # sacrifice Z-dephasing
     gz_uni = [0.108, 0.108, 0.108, 0.108, 0.108]  # uniform (same total)
@@ -347,10 +376,12 @@ def main():
             f" {m_uni['n_high_Q']:4d} {pal_uni:10.2e}"
             f" | {q_rat:5.2f}")
 
+    out("\nCounts use four-decimal frequency bins and belong to this finite grid.")
+    out("They establish no heat-production or biological mechanism.")
     out("\n=== DONE ===")
 
     with open(out_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+        f.write("\n".join(lines) + "\n")
     print(f"\n>>> Results saved to: {out_path}")
 
 

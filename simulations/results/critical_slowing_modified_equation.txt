@@ -30,5 +30,5 @@ Variant A includes tol=1e-6 (N=2 fit points, 9% outlier).
 Variant B drops tol=1e-6. Headline result.
 
 Verdict: Modified Equation derivation CONFIRMED.
-The critical slowing formula is fully closed-form with zero fit parameters.
+The critical slowing expansion is asymptotic with zero fit parameters; finite-epsilon residuals remain.
 The -4*pi hypothesis is dead.

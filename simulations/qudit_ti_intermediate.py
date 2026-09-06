@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-qudit_ti_intermediate.py - is there a TI layer between the
-product cap (2d)^N and the combinatorial ceiling of the qudit partial palindrome?
+qudit_ti_intermediate.py - finite TI ranks versus the shift-aligned construction
+and the combinatorial ceiling of the qudit partial palindrome.
 
-F121 / the product-mirror cap (PROOF §6):
-  product per-site mirror  -> pairs at most (2d)^N   (local, a theorem)
+F121 / operator construction (PROOF §6, cap claim retracted):
+  shift-aligned Pi_d      -> pairs (2d)^N
   global partial isometry  -> pairs the ceiling Sum_h min(c_h, c_{N-h})
-  gap = ceiling - (2d)^N   = the non-product part (d=3,N=2: 54 - 36 = 18)
+  gap = ceiling - (2d)^N   = gap above that construction, not a locality split
 
 THE QUESTION (the F116 seam, inverted): does a TRANSLATION-INVARIANT but
-non-product mirror exceed the product cap, and if so does it reach the
+non-product mirror exceed the shift construction, and if so does it reach the
 ceiling? TI is strictly weaker than product (product-with-equal-sites IS
-TI, e.g. Pi_d = rho^T Shift^N), so TI-rank lies in [(2d)^N, ceiling].
+TI, e.g. the restricted map Pi_d P_aligned), so TI-rank lies in [(2d)^N, ceiling].
 
 METHOD (exact, no search): the palindrome intertwiner W L_D = (-L_D - 2N g) W
 forces W to be block-anti-diagonal in the Hamming grading: W maps rung h to
@@ -20,14 +20,14 @@ Sum_h min(c_h, c_{N-h}). Impose translation invariance [W, T] = 0 (T the
 cyclic site shift): allowed entries collapse into T-orbits, one free
 coefficient each. A GENERIC TI intertwiner attains the maximal TI rank
 (rank is generic on a linear space). Compare:
-   (2d)^N  (product cap)  <=  TI generic rank  <=  ceiling.
+   (2d)^N  (shift-aligned rank)  <=  TI generic rank  <=  ceiling.
 
-If TI rank == ceiling: the non-product part is translation-invariant (the
+If TI rank == ceiling: the finite ceiling has a translation-invariant representative (the
 "non-locality" is non-product-ness, not non-TI-ness) - the clean answer.
 If (2d)^N < TI < ceiling: a genuine third layer between local and global.
 If TI == (2d)^N: TI buys nothing beyond product.
 
-Self-validating where the targets are known (ceiling, product cap).
+Self-validating where the targets are known (ceiling, shift-aligned rank).
 """
 
 import numpy as np
@@ -131,7 +131,7 @@ def unconstrained_rank(d, N, seed=0, tol=1e-9):
 
 def main():
     print("=" * 72)
-    print("Is there a TI layer between the product cap (2d)^N and the ceiling?")
+    print("Finite TI rank versus shift-aligned rank (2d)^N and the ceiling")
     print("=" * 72)
     print(f"  {'d':>2}{'N':>2}{'(2d)^N':>9}{'TI rank':>9}{'ceiling':>9}{'d^2N':>8}   verdict")
     rows = []
@@ -143,13 +143,13 @@ def main():
         assert unc == ceil, f"unconstrained generic rank {unc} != ceiling {ceil} (d={d},N={N})"
         assert cap <= ti <= ceil, f"TI rank {ti} outside [{cap},{ceil}] (d={d},N={N})"
         if ti == ceil and cap < ceil:
-            verdict = "TI REACHES ceiling (non-product part is TI)"
+            verdict = "TI REACHES ceiling"
         elif ti == cap and cap < ceil:
             verdict = "TI = product (TI buys nothing)"
         elif cap < ti < ceil:
             verdict = "THIRD LAYER (TI strictly between)"
         else:
-            verdict = "d=2: cap=ceiling (full)"
+            verdict = "d=2: shift=ceiling (full)"
         rows.append((d, N, cap, ti, ceil, verdict))
         print(f"  {d:>2}{N:>2}{cap:>9}{ti:>9}{ceil:>9}{d**(2*N):>8}   {verdict}")
 
@@ -161,8 +161,8 @@ def main():
     print("d=2 columns: (2d)^N = TI = ceiling = d^{2N} (the full mirror). OK")
     print()
     print("READING: the verdict column says whether translation invariance alone")
-    print("recovers the non-product part of the partial palindrome, or whether a")
-    print("genuine intermediate (TI-but-below-ceiling) layer exists.")
+    print("reaches the ceiling on the finite tested grid. It does not classify the")
+    print("optimum over product intertwiners.")
     print("=" * 72)
 
 

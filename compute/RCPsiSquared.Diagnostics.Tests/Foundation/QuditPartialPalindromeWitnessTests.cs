@@ -47,7 +47,7 @@ public class QuditPartialPalindromeWitnessTests
         Assert.Equal(16, w.Dim);
         Assert.Equal(16, w.PairedCount());                       // live count
         Assert.Equal(16L, QuditPartialPalindromeCeiling.Ceiling(2, 2)); // closed form == live
-        Assert.Equal(0L, QuditProductMirrorCap.NonProductPart(2, 2));   // qubit: cap is full
+        Assert.Equal(0L, QuditProductMirrorCap.NonProductPart(2, 2));   // qubit: shift construction is full
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class QuditPartialPalindromeWitnessTests
         Assert.Contains(labels, l => l.Contains("live count vs the closed form"));
         Assert.Contains(labels, l => l.Contains("rung k=0"));
         Assert.Contains(labels, l => l.Contains("rung k=2"));
-        Assert.Contains(labels, l => l.Contains("cap split"));
+        Assert.Contains(labels, l => l.Contains("shift-aligned construction"));
         Assert.Contains(labels, l => l.Contains("full iff d=2"));
         Assert.Contains(labels, l => l.Contains("live spectrum"));
     }
@@ -144,6 +144,6 @@ public class QuditPartialPalindromeWitnessTests
     {
         var json = InspectionJsonExporter.ToJson(new QuditPartialPalindromeWitness(d: 3, n: 2));
         Assert.Contains("ceiling met", json);
-        Assert.Contains("non-product", json);
+        Assert.Contains("universal product cap is retracted", json);
     }
 }

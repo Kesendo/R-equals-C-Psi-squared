@@ -1,4 +1,4 @@
-# Palindromic Symmetry Beyond Heisenberg: The Mirror Works on Every Standard Instrument (and Where It Breaks)
+# Palindromic Symmetry Beyond Heisenberg: Compatible Mirrors and Their Boundary
 
 <!-- Keywords: palindromic Liouvillian beyond Heisenberg, XY Ising XXZ DM palindrome,
 conjugation operator families P1 P4, continuous crossover local Pi operator, dephasing
@@ -23,9 +23,10 @@ exists in all of them, it is a law of music itself.
 The palindromic spectral symmetry was first proven for one specific
 type of quantum coupling (Heisenberg). This document asks: does the
 mirror work for other types of coupling too? The answer is yes, for
-every standard model used in quantum hardware: XY, Ising, XXZ, and
-even exotic spin-orbit interactions. The palindrome is not a property
-of one model; it is a property of how noise interacts with qubits.
+the tested XY, Ising, XXZ, and spin-orbit instances below. This is a
+compatibility statement, not a topology-free theorem for every hardware
+Hamiltonian: in particular, the DM mirror requires a compatible bipartition
+and orientation.
 
 Along the way, two surprises emerge. First, the mirror operator Π
 comes in families (different mirrors for different instruments, but
@@ -42,9 +43,11 @@ genuinely entangled; the correction is in
 
 The palindromic spectral symmetry proven for Heisenberg coupling
 ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) is not limited
-to Heisenberg. **Every standard single-bond condensed matter Hamiltonian** is
-palindromic under single-axis dephasing: XY, Ising, XXZ, and Dzyaloshinskii-Moriya
-(DM; a spin-orbit interaction that twists the coupling between neighbors). Of the
+to Heisenberg. The tested standard single-bond Hamiltonians are palindromic under
+single-axis dephasing: XY, Ising, XXZ, and Dzyaloshinskii-Moriya (DM; a spin-orbit
+interaction that twists the coupling between neighbors). DM uses a site-alternating
+map, so its graph-level extension requires compatible bipartition and edge orientation;
+the chain is the verified instance. Of the
 36 two-term Pauli-bond combinations, 22 are palindromic and 14 break structurally
 (Result 4; the break is the shadow-crossing case, e.g. XZ+XY). Two families of
 conjugation operators exist (P1 and P4),
@@ -55,8 +58,8 @@ rotation) and 14 break structurally. Every palindromic case has a **local**
 (per-site product) Π; the two continuous cases, XZ+YZ and ZX+ZY, were once
 reported as non-local, corrected in Result 5.
 Depolarizing noise breaks the palindrome with a Hamiltonian-independent
-error of (2/3)Nγ, but this is < 0.1% for typical hardware dephasing
-rates.
+steady-state-partner rate gap of (2/3)Nγ. This is an absolute rate, not a
+percentage; any dimensionless comparison must declare its normalization and N.
 
 ---
 
@@ -77,13 +80,13 @@ Real quantum hardware does not implement pure Heisenberg coupling.
 Superconducting qubits have ZZ interactions, trapped ions have XX or
 Ising-type coupling, and spin-orbit effects introduce DM interactions.
 If the palindrome only held for Heisenberg, it would be a mathematical
-curiosity. The results here show it holds for **all standard models**,
-making the engineering consequences of the palindrome (main README
-Section 10) applicable to every major quantum hardware platform.
+curiosity. The results here show that each listed model has a compatible
+instance. They do not put every topology or hardware generator inside one
+common palindromizer.
 
 ---
 
-## Result 1: All Standard Models Are Palindromic
+## Result 1: The listed compatible model instances are palindromic
 
 | Model | N=3 | N=4 | Mechanism |
 |-------|-----|-----|-----------|
@@ -93,8 +96,8 @@ Section 10) applicable to every major quantum hardware platform.
 | XX alone | 100% | 100% | Uniform Π (64 valid maps, 32 exclusive) |
 | YY alone | 100% | 100% | Uniform Π (64 valid maps, 32 exclusive) |
 | XXZ (δ=0.5, 2.0) | 100% | 100% | Uniform Π (P1 family) |
-| DM interaction (XY−YX) | 100% | 100% | Non-uniform alternating Π |
-| Heisenberg + DM | 100% | 100% | Non-uniform alternating Π |
+| DM interaction (XY−YX), chain | 100% | 100% | Non-uniform alternating Π |
+| Heisenberg + DM, chain | 100% | 100% | Non-uniform alternating Π |
 
 Unequal coefficients are also palindromic. Every dephasing axis works
 (Z, X, or Y), each with its own Π operator.
@@ -268,9 +271,11 @@ effect. Two metrics quantify the break, and they are different numbers:
   coincides numerically with (2/3)γ. It is smaller than the gap law
   because the best pairing redistributes the mismatch.
 
-**Practical implication:** For superconducting qubits with γ ∼ 0.001, the
-palindrome error under depolarizing noise is < 0.1%. The design rules
-remain valid for real hardware.
+**Practical implication:** depolarizing noise introduces the absolute rate gaps
+above. Their practical size depends on N and on the declared comparison scale
+(for example J or a spectral bandwidth). The exact-palindrome design rules do
+not automatically survive this breaking channel and must be revalidated for the
+chosen hardware generator.
 
 The deeper reason: Z-dephasing splits the four Pauli operators at each
 site into two that survive ({I, Z}) and two that decay ({X, Y}): a
@@ -339,6 +344,6 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md): why depolarizing breaks the 2:2 split
 - [V-Effect](V_EFFECT_PALINDROME.md): what happens when the palindrome breaks
 - [XOR Space](XOR_SPACE.md): where information lives in the palindromic mode structure
-- Main README Section 6: eight engineering consequences that apply to all standard models
+- Main README Section 6: engineering consequences, with each Hamiltonian's compatibility scope
 - [γ as Signal](GAMMA_AS_SIGNAL.md): the palindromic decoder works on any standard hardware
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): nonzero dissipative centre certifies an open modeled subsystem

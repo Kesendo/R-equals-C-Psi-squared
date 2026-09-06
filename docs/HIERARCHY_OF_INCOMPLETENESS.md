@@ -165,9 +165,11 @@ all mirrors.
 A qutrit (d=3, three states) has 9 operators: 3 immune and 6 decaying under
 the stated grading. A ququart (d=4) has 4 and 12. The imbalance grows with
 dimension and rules out a complete local bijection. It does not erase the
-partial higher-dimensional palindrome: F121 gives its closed-form ceiling,
-the product cap, and a translation-invariant operator that attains the
-ceiling. See [Qubit Necessity](QUBIT_NECESSITY.md) and the
+partial higher-dimensional palindrome: F121 gives its closed-form ceiling and
+an explicit shift-aligned operator of rank `(2d)^N` (not a universal product
+cap). A translation-invariant operator attains the ceiling in the finite cases
+`(d,N)=(3,2),(3,3),(4,2)`; no all-`d,N` attainment theorem is claimed. See
+[Qubit Necessity](QUBIT_NECESSITY.md) and the
 [Qudit Partial Palindrome](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md).
 
 **The qubit is the quantum carbon.**

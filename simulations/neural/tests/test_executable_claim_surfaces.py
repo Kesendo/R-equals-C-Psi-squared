@@ -47,7 +47,8 @@ def test_factor_two_census_distinguishes_the_two_involutions():
 
 
 def test_factor_two_report_pins_full_and_topology_censuses():
-    output = _run("simulations/factor_two_standing_waves.py")
+    module = _load("simulations/factor_two_standing_waves.py")
+    output = module.render_report()
     assert "Committed CSV inputs: simulations/results/rmt_eigenvalues_N{2..7}.csv" in output
     assert "CSV metadata: columns Re, Im only" in output
     assert "dotnet run -c Release --project compute/RCPsiSquared.Compute -- rmt chain" in output
@@ -65,6 +66,12 @@ def test_factor_two_report_pins_full_and_topology_censuses():
     assert "mean decay=0.350000" in output
     for forbidden in ("finesse", "Beer-Lambert", "unpaired", "halve absorption"):
         assert forbidden.lower() not in output.lower()
+
+
+def test_factor_two_committed_snapshot_matches_pure_render():
+    module = _load("simulations/factor_two_standing_waves.py")
+    expected = (ROOT / "simulations/results/factor_two_standing_waves.txt").read_text(encoding="utf-8")
+    assert module.render_report() == expected
 
 
 def test_general_demo_states_sufficiency_and_runs_negative_control():
@@ -149,14 +156,15 @@ def test_thermal_builder_rejects_invalid_rates(gammas, gamma_thermal):
 
 
 def test_repaired_standing_wave_report_uses_direct_observables():
-    output = _run("simulations/standing_wave_analysis.py")
+    module = _load("simulations/standing_wave_analysis.py")
+    output = module.render_report()
     assert "DIRECT PAULI-OBSERVABLE TIME TRACES" in output
     assert "half-range" in output
     for forbidden in ("osc%", "state weight in modes", "standing wave active"):
         assert forbidden.lower() not in output.lower()
 
 
-def test_direct_pauli_trace_gate_has_literal_dynamic_anchors_and_rejects_zero_generator():
+def test_direct_pauli_trace_gate_has_hamiltonian_anchor_and_rejects_deleted_hamiltonian():
     module = _load("simulations/standing_wave_analysis.py")
     gate = getattr(module, "direct_trace_gate", lambda *_: {})
     anchors = gate()
@@ -165,15 +173,65 @@ def test_direct_pauli_trace_gate_has_literal_dynamic_anchors_and_rejects_zero_ge
     assert anchors["w_iyy_dt0"] == pytest.approx(-2.0 / 15.0)
     assert anchors["w_state_dt0_norm"] > 0.1
     assert anchors["trace_dt0"] == pytest.approx(0.0, abs=1e-14)
+    assert anchors["bell01_ixy_dt0"] == pytest.approx(-2.0)
 
     with pytest.raises(RuntimeError):
         gate(np.zeros_like(module.liouvillian()))
+
+    original_j = module.J
+    try:
+        module.J = 0.0
+        no_hamiltonian = module.liouvillian()
+    finally:
+        module.J = original_j
+    with pytest.raises(RuntimeError):
+        gate(no_hamiltonian)
+
+
+def test_standing_wave_committed_snapshot_matches_pure_render():
+    module = _load("simulations/standing_wave_analysis.py")
+    expected = (ROOT / "simulations/results/standing_wave_analysis.txt").read_text(encoding="utf-8")
+    assert module.render_report() == expected
 
 
 def test_thermal_transition_surface_requires_defectiveness_gate():
     module = _load("simulations/thermal_ep_analysis.py")
     assert "not EP certificates" in (ROOT / "simulations/results/thermal_blackbody.txt").read_text(encoding="utf-8")
     assert module.oscillating_count([1 + 0j, 1 + 2j]) == 1
+
+
+def test_thermal_committed_snapshot_matches_pure_render():
+    module = _load("simulations/thermal_blackbody.py")
+    expected = (ROOT / "simulations/results/thermal_blackbody.txt").read_text(encoding="utf-8")
+    assert module.render_report() == expected
+
+
+def test_veffect_control_runner_pins_refinement_and_transpose_outputs():
+    module = _load("simulations/neural/veffect_controls.py")
+    rows = module.coupling_controls()
+
+    assert rows[(10, 0.05, 1e-6, False)] == (3, 12)
+    assert rows[(10, 0.05, 1e-6, True)] == (3, 12)
+    assert rows[(10, 0.05, 2.5e-7, False)] == (3, 12)
+    assert rows[(10, 0.05, 6.25e-8, False)] == (3, 12)
+    assert rows[(20, 0.05, 1e-6, False)] == (7, 62)
+    assert rows[(20, 0.05, 2.5e-7, False)] == (8, 72)
+    assert rows[(20, 0.05, 6.25e-8, False)] == (8, 73)
+    assert rows[(20, 0.05, 1e-6, True)] == (7, 64)
+    assert rows[(20, 0.0, 1e-6, False)] == (0, 0)
+    assert rows[(20, 0.0, 1e-6, True)] == (2, 7)
+    assert rows[(10, 0.0, 1e-6, True)] == (0, 0)
+
+    output = _run("simulations/neural/veffect_controls.py")
+    assert "N=20 c=0.05 eps=1e-06 direct: K_act=7 K_corr=62" in output
+    assert "N=20 c=0.05 eps=1e-06 transpose: K_act=7 K_corr=64" in output
+    drive_rows = module.drive_solver_controls()
+    assert tuple(drive_rows) == (0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 8.0, 10.0)
+    assert all(row["baseline_counts"] == row["refined_counts"] for row in drive_rows.values())
+    assert max(row["refined_residual"] for row in drive_rows.values()) < 1e-12
+    assert drive_rows[4.0]["refined_counts"] == (19, 124)
+    assert "Transposition preserves the exact spectrum" in output
+    assert "solver tol 1e-14: all 13 drive-grid counts stable" in output
 
 
 def test_withdrawn_lens_direct_run_emits_no_decomposition():

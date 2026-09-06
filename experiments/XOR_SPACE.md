@@ -23,17 +23,13 @@ interesting part? A perfectly balanced scale carries no information.
 The information lives in *how a specific quantum state distributes
 itself across the palindromic pairs*.
 
-This document answers that question. It turns out there are two kinds
-of places a quantum state can put its weight: the "palindromic channel"
-(modes at various speeds, some survive) and the "XOR drain" (modes at
-the maximum speed, everything dies). The most famous entangled state
-in quantum physics (GHZ) puts 100% of its weight in the drain. That
-is why it is fragile. Not because entanglement is fragile in general,
-but because *this specific kind* of entanglement maps exactly onto the
-fastest-decaying modes.
-
-This is the explanation, at the deepest level, of why some quantum
-states survive noise and others do not.
+This document identifies exact operator support: the GHZ off-diagonal
+coherences have Hamming distance N and therefore receive the maximal local
+Z-dephasing rate from the dissipator. Earlier versions promoted coordinates in
+a non-normal Liouvillian eigenbasis to state "weights" and called the resulting
+split a universal protection filter. That interpretation is withdrawn. An
+operational survival comparison requires direct evolution and a named
+observable or channel metric.
 
 ## Abstract
 
@@ -46,11 +42,9 @@ eigenmodes and find two sharply distinct components: **palindromic modes**
 dying fastest). GHZ states project 100% onto XOR modes (all N tested).
 W states (N ≥ 3) project 100% onto palindromic modes. The predictor is
 the **mixed XY Pauli weight** (Pauli strings containing both X and Y
-operators): r = 0.976 correlation with XOR fraction for N ≥ 3. The
-palindrome acts as a spectral filter: it separates quantum information
-(fragile, XOR drain) from transferable information (robust, palindromic
-channel). This explains why GHZ states are maximally fragile under
-dephasing and why W-encoding outperforms GHZ for quantum state transfer.
+operators): r = 0.976 correlation with the retired coordinate diagnostic for
+N ≥ 3. That correlation does not turn the palindrome into an operational
+filter or establish a quantum-state-transfer ranking.
 
 ---
 
@@ -260,10 +254,11 @@ up to |ΔN| = 2 and still misses most of the drain.
 
 ## Resolved Questions
 
-**Can the XOR drain be slowed?** The error correction analysis
-([the error-correction palindrome](ERROR_CORRECTION_PALINDROME.md)) found
-a three-tier protection hierarchy. The optimal state (90% slow-mode
-weight) avoids the XOR drain entirely.
+**Can the XOR-supported coherence be slowed?** The former three-tier
+protection hierarchy and `90% slow-mode` optimum in
+[the error-correction palindrome](ERROR_CORRECTION_PALINDROME.md) were based on
+non-invariant right-eigenvector coordinates and are withdrawn. The question
+must be asked for a specified preparation, observable, and time window.
 
 **Does the split change for non-Heisenberg models?** No. The XOR/palindrome
 split is universal. See [the non-Heisenberg palindrome](NON_HEISENBERG_PALINDROME.md).
@@ -304,7 +299,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): universality across models
 - Main README Section 6: W-encoding, 2:1 coupling, and other engineering consequences
 - [Relay Protocol](RELAY_PROTOCOL.md): +83% MI through palindromic mode management
-- [Error Correction](ERROR_CORRECTION_PALINDROME.md): three-tier protection hierarchy
+- [Error Correction](ERROR_CORRECTION_PALINDROME.md): scope of the withdrawn eigenvector-coordinate protection reading
 - [γ as Signal](GAMMA_AS_SIGNAL.md): GHZ blind (d_min=0), product states optimal
 - [QST Bridge](QST_BRIDGE.md): quantum state transfer application
 - [Signal Processing View](SIGNAL_PROCESSING_VIEW.md): supermode decomposition

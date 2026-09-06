@@ -21,7 +21,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// </list>
 ///
 /// <para>Tier consistency: F56 is Tier 1 with zero fit parameters; verified
-/// 0.5–2% accuracy over 5 tol decades and 10 ε decades.</para>
+/// correction-coefficient agreement of 0.5–2% over five tolerance decades;
+/// the ε sweep retains the documented nonzero finite-ε residuals.</para>
 ///
 /// <para>Requires: <see cref="Pi2FamilyRegistration.RegisterPi2Family"/>
 /// (registers QuarterAsBilinearMaxvalClaim + HalfAsStructuralFixedPointClaim) +

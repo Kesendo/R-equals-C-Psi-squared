@@ -1,4 +1,6 @@
 using System.Linq;
+using System.Numerics;
+using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
@@ -54,6 +56,54 @@ public class SelfMirrorObjectTests
         Assert.True(obj.CompositeFixedLineCount > obj.LinearF1FixedPointCount);
     }
 
+    [Fact]
+    public void N2_LargeHamiltonianScale_DoesNotWidenTheDecayAxisIntoTheWholeSpectrum()
+    {
+        var obj = Build(2, gamma: 0.1, coupling: 1e8, hamiltonianType: HamiltonianType.Heisenberg);
+
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Contains("UNRESOLVED", obj.Summary);
+        Assert.Throws<InvalidOperationException>(() => obj.CompositeFixedLineCount);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
+    }
+
+    [Fact]
+    public void N2_LargeUnrelatedFrequency_DoesNotTurnResolvedSmallFrequenciesIntoZero()
+    {
+        var h = Matrix<Complex>.Build.DiagonalOfDiagonalArray(new Complex[] { 0, 1, 1e8, 1e8 + 2 });
+        var channels = new[] { new ChannelRate("q0", 0.1), new ChannelRate("q1", 0.1) };
+        var obj = new SelfMirrorObject(new MirrorSystem(2, h, channels));
+
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
+    }
+
+    [Fact]
+    public void N2_DecayWindow_DoesNotTurnExactlyResolvedTinyFrequenciesIntoZero()
+    {
+        var h = Matrix<Complex>.Build.DiagonalOfDiagonalArray(
+            new Complex[] { 0, 1e-9, 3e-9, 7e-9 });
+        var channels = new[] { new ChannelRate("q0", 0.1), new ChannelRate("q1", 0.1) };
+        var obj = new SelfMirrorObject(new MirrorSystem(2, h, channels));
+
+        Assert.True(obj.IsFixedSetResolved);
+        Assert.Equal(8, obj.CompositeFixedLineCount);
+        Assert.Equal(0, obj.LinearF1FixedPointCount);
+    }
+
+    [Fact]
+    public void N2_UnrelatedHugeBranch_DoesNotEraseAnExactTinyCenterLineFrequency()
+    {
+        var h = Matrix<Complex>.Build.DiagonalOfDiagonalArray(
+            new Complex[] { 0, 1e-9, 1e8, 1e8 + 2 });
+        var channels = new[] { new ChannelRate("q0", 0.1), new ChannelRate("q1", 0.1) };
+        var obj = new SelfMirrorObject(new MirrorSystem(2, h, channels));
+
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Contains("UNRESOLVED", obj.Summary);
+        Assert.Throws<InvalidOperationException>(() => obj.LinearF1FixedPointCount);
+    }
+
     [Theory]
     [InlineData(3, HamiltonianType.XY)]
     [InlineData(3, HamiltonianType.Heisenberg)]
@@ -79,5 +129,34 @@ public class SelfMirrorObjectTests
         Assert.Contains("linear F1", rendered);
         Assert.Contains("λ = −σ", rendered);
         Assert.DoesNotContain("each its own mirror under λ ↦ −2σ − λ", rendered);
+    }
+
+    [Fact]
+    public void LiveStrings_RenderSmallNonzeroScaleInScientificNotation()
+    {
+        var obj = Build(2, gamma: 1e-11, coupling: 1e-10);
+
+        Assert.Contains("σ = 2E-11", obj.Summary);
+        Assert.Contains("−σ = -2E-11", obj.DisplayName);
+        Assert.DoesNotContain("σ = 0", obj.Summary);
+    }
+
+    [Fact]
+    public void WeakDissipationAgainstUnitHamiltonian_IsSurfacedAsUnresolved()
+    {
+        var obj = Build(2, gamma: 1e-11, coupling: 1.0, hamiltonianType: HamiltonianType.Heisenberg);
+
+        Assert.False(obj.IsFixedSetResolved);
+        Assert.Contains("UNRESOLVED", obj.Summary);
+        Assert.Throws<InvalidOperationException>(() => obj.CompositeFixedLineCount);
+    }
+
+    [Fact]
+    public void ClosedSystemCompositeFixedLineContainsTheWholeSpectrum()
+    {
+        var obj = Build(2, gamma: 0.0, coupling: 1.0, hamiltonianType: HamiltonianType.Heisenberg);
+
+        Assert.True(obj.IsFixedSetResolved);
+        Assert.Equal(16, obj.CompositeFixedLineCount);
     }
 }

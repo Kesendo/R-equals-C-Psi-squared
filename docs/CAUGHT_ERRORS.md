@@ -2108,3 +2108,38 @@ experiment copies, the glossary's "no proof on file", the instrument's two ladde
   cavity, photon-source, experienced-time, physical-wave, or universal-dose
   mechanism follows. The invalid qutrit counts and spacing story were removed
   rather than renamed.
+
+## 2026-09-06 — the higher-dimensional cap failed first at d=6, and the thermal story had its arrows reversed
+
+- **A restricted construction became a universal optimum.** The F121 account
+  promoted the aligned local class-exchange map's rank `(2d)^N` to an upper
+  bound for every product intertwiner. At `d=6,N=2`, the exact product
+  `P_dark tensor P_lit` has rank `6*30=180 > 144` and intertwining residual
+  zero on its grade-one support. The new counterexample is constructed and
+  checked in Python and C#; the universal cap, its non-product-gap story and
+  dependent `(2/d)^N` protection interpretation are withdrawn. The full
+  permutation has rank `d^(2N)`; `(2d)^N` belongs only to the restricted
+  aligned map. Translation-invariant attainment remains a finite verified grid,
+  not a theorem, and `H=cI`/`J=0` fence claims that interaction always reduces
+  the partial count.
+- **The live count needed an unresolved state.** A tolerance proportional to the
+  full spectral frequency range is unit-stable but can swallow a small genuine
+  frequency when another branch is large; a decay-only tolerance fails at zero
+  or unresolved dephasing. `SelfMirrorObject` now uses separate axis criteria,
+  scientific small-scale rendering and reports `UNRESOLVED` when the eigensolver
+  cannot decide the fixed set. Regressions cover common rescaling, large
+  `J/gamma`, zero/weak dissipation and combined `1e-9`/`1e8` frequency branches.
+- **The thermal mechanism had the jump directions reversed.** Two older
+  producers attached the cold `n_bar+1` rate to the raising operator, then read
+  their output as heat production, self-heating and biological regulation.
+  They now use the repository's `|0>`-ground convention, carry a directed
+  one-qubit population gate plus swapped-operator negative control, and report
+  only finite occupation-parameter spectral/stationarity censuses. No
+  temperature calibration, self-heating or biological mechanism is inferred.
+- **Further object repairs.** The direct Pauli gate now contains a Hamiltonian-
+  sensitive anchor; report snapshots are compared byte-for-byte; V-effect
+  refinement/transpose/solver controls have a committed runner. DM's F1 scope
+  is restricted to compatible bipartite/oriented graphs, the four different
+  `C Psi` conventions are named separately, F56 is an asymptotic iteration
+  expansion rather than an exact pointwise law, and non-normal right-eigenvector
+  coordinates are no longer called state weights or protection fractions.

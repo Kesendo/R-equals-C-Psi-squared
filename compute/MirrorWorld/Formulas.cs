@@ -233,9 +233,9 @@ public static class Formulas
     public const double F55_KDeath = 2.302585092994046;   // ln(10)
     public static int F55_ImmortalModes(int n) => n + 1;
 
-    // F56 (T1, closed form): critical-slowing iteration count near the cardioid cusp c = 1/4 - eps.
+    // F56 (T1, asymptotic): critical-slowing iteration count near the cardioid cusp c = 1/4 - eps.
     // K(eps,tol) = (1/2) ln(4 eps/tol) + alpha(tol) sqrt(eps), alpha(tol) = -4 + (1/2) ln(16 tol).
-    public static double F56_CriticalSlowing(double eps, double tol) =>
+    public static double F56_CriticalSlowingAsymptotic(double eps, double tol) =>
         0.5 * Math.Log(4.0 * eps / tol) + (-4.0 + 0.5 * Math.Log(16.0 * tol)) * Math.Sqrt(eps);
 
     // F57 (T1): trajectory dwell at CPsi=1/4, t_dwell = 2 delta/|dCPsi/dt|. Bell+ K_dwell/delta =

@@ -3,7 +3,7 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>F56 closed form (Tier 1, zero fit parameters; ANALYTICAL_FORMULAS F56 entry):
+/// <summary>F56 asymptotic expansion (Tier 1 derived, zero fit parameters; ANALYTICAL_FORMULAS F56 entry):
 ///
 /// <code>
 ///   K(ε, tol) = (1/2)·ln(4·ε/tol) + α(tol)·√ε
@@ -14,11 +14,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   near the cardioid cusp at c = 1/4 − ε.
 /// </code>
 ///
-/// <para>F56 is the closed-form prediction for the iteration count of the
+/// <para>F56 is an asymptotic prediction for the iteration count of the
 /// Mandelbrot recursion near the cardioid cusp (CΨ = 1/4). The leading
 /// logarithm comes from saddle-node ODE integral; the −4 from the starting-
 /// transient (η₀ = −1/4); the ln(16·tol) from Modified Equation Euler
-/// discretization correction.</para>
+/// discretization correction. It has a nonzero finite-ε residual; zero fitted
+/// coefficients does not make it an exact finite-ε count.</para>
 ///
 /// <para>F56 IS equivalent to the CΨ recursion near the 1/4 boundary. The
 /// 1/4 position is exactly QuarterAsBilinearMaxval: the bilinear-apex
@@ -45,10 +46,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         maxval the recursion sits. ε → 0 gives critical slowing.</item>
 /// </list>
 ///
-/// <para>Tier1Derived: F56 is Tier 1 with zero fit parameters; verified
-/// 0.5–2% accuracy over 5 tol decades (10⁻⁸ to 10⁻¹⁶) and 10 ε decades
-/// (10⁻¹ to 10⁻¹⁰). Modified Equation slope 0.504 vs predicted 0.500 (0.8%
-/// deviation, structural).</para>
+/// <para>Tier1Derived: F56 is Tier 1 with zero fit parameters. The correction
+/// coefficient agrees at 0.5–2% over tol=10⁻⁸...10⁻¹⁶; the ε sweep records
+/// nonzero corrected-K residuals. Modified Equation slope 0.504 vs predicted
+/// 0.500.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F56 entry +
 /// <c>experiments/CRITICAL_SLOWING_AT_THE_CUSP.md</c> +
@@ -94,9 +95,9 @@ public sealed class F56CriticalSlowingPi2Inheritance : Claim, IZ2AxisClaim
         return NegFourTransient + HalfPrefactor * Math.Log(SixteenFactor * tol);
     }
 
-    /// <summary>F56's iteration-count closed form: K(ε, tol) =
+    /// <summary>F56's iteration-count asymptotic: K(ε, tol) =
     /// (1/2)·ln(4·ε/tol) + α(tol)·√ε.</summary>
-    public double IterationCount(double epsilon, double tol)
+    public double IterationCountAsymptotic(double epsilon, double tol)
     {
         if (epsilon <= 0) throw new ArgumentOutOfRangeException(nameof(epsilon), epsilon, "ε must be > 0.");
         if (tol <= 0) throw new ArgumentOutOfRangeException(nameof(tol), tol, "tol must be > 0.");
@@ -113,15 +114,14 @@ public sealed class F56CriticalSlowingPi2Inheritance : Claim, IZ2AxisClaim
         return CardioidCuspPosition - epsilon;
     }
 
-    /// <summary>True iff F56's ε → 0 limit gives critical slowing (K → ∞).</summary>
-    public bool CriticalSlowingHolds(double epsilon, double tol)
+    /// <summary>True only when this one finite asymptotic estimate is positive in the stated
+    /// input domain. This is not a verdict that critical slowing holds: that claim concerns the
+    /// scale-separated joint asymptotic behaviour of n = K/√ε.</summary>
+    public bool IsAsymptoticEstimatePositiveInDomain(double epsilon, double tol)
     {
         if (epsilon <= 0 || tol <= 0) return false;
-        // At small ε, K is dominated by (1/2)·ln(4ε/tol) which → −∞ if ε ≪ tol,
-        // but for ε > tol/4 the log is positive and K grows as ε → 0 from above.
-        // The critical-slowing regime is the regime where iteration count diverges
-        // logarithmically; that holds when ε approaches the same scale as tol from above.
-        return IterationCount(epsilon, tol) > 0;
+        if (epsilon >= CardioidCuspPosition || tol >= epsilon) return false;
+        return IterationCountAsymptotic(epsilon, tol) > 0;
     }
 
     /// <summary>Drift check: SixteenFactor = FourFactor².</summary>
@@ -142,7 +142,7 @@ public sealed class F56CriticalSlowingPi2Inheritance : Claim, IZ2AxisClaim
         Pi2DyadicLadderClaim ladder,
         QuarterAsBilinearMaxvalClaim quarter,
         HalfAsStructuralFixedPointClaim half)
-        : base("F56 critical-slowing iteration count K(ε, tol) = (1/2)·ln(4ε/tol) + α·√ε with α = −4 + (1/2)·ln(16·tol); cardioid cusp at 1/4 = a_3 (CΨ = 1/4)",
+        : base("F56 critical-slowing asymptotic K(ε, tol) = (1/2)·ln(4ε/tol) + α·√ε with α = −4 + (1/2)·ln(16·tol); nonzero finite-ε residual; cardioid cusp at 1/4 = a_3 (CΨ = 1/4)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F56 + " +
                "experiments/CRITICAL_SLOWING_AT_THE_CUSP.md + " +
@@ -158,29 +158,29 @@ public sealed class F56CriticalSlowingPi2Inheritance : Claim, IZ2AxisClaim
         "F56 critical slowing as Pi2-Foundation a_2 + a_{-1} + a_{-3} + QuarterAsBilinearMaxval inheritance";
 
     public override string Summary =>
-        $"K(ε, tol) = (1/2)·ln(4ε/tol) + α·√ε; α = −4 + (1/2)·ln(16·tol); cardioid cusp at 1/4 = a_3; 1/2 = a_2, 4 = a_{{-1}}, 16 = a_{{-3}}; verified 0.5-2% accuracy over 5+10 decades ({Tier.Label()})";
+        $"asymptotic K(ε, tol) = (1/2)·ln(4ε/tol) + α·√ε; α = −4 + (1/2)·ln(16·tol); nonzero finite-ε residual; n = K/√ε; cardioid cusp at 1/4 = a_3; 1/2 = a_2, 4 = a_{{-1}}, 16 = a_{{-3}} ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("F56 closed form",
-                summary: "K(ε, tol) = (1/2)·ln(4ε/tol) + α(tol)·√ε; α(tol) = −4 + (1/2)·ln(16·tol); rescaled iteration count of u_{n+1} = u² + c near cardioid cusp c = 1/4 − ε");
+            yield return new InspectableNode("F56 asymptotic expansion",
+                summary: "K(ε, tol) = (1/2)·ln(4ε/tol) + α(tol)·√ε; α(tol) = −4 + (1/2)·ln(16·tol); a zero-fit asymptotic for the rescaled iteration count near c = 1/4 − ε, not an exact finite-ε value");
             yield return InspectableNode.RealScalar("HalfPrefactor (= a_2 = 1/2)", HalfPrefactor);
             yield return InspectableNode.RealScalar("FourFactor (= a_{-1} = 4)", FourFactor);
             yield return InspectableNode.RealScalar("SixteenFactor (= a_{-3} = 16 = 4²)", SixteenFactor);
             yield return InspectableNode.RealScalar("NegFourTransient (= −a_{-1} = −4)", NegFourTransient);
             yield return InspectableNode.RealScalar("CardioidCuspPosition (= a_3 = 1/4)", CardioidCuspPosition);
             yield return new InspectableNode("five Pi2 anchors share dyadic ladder",
-                summary: "1/2 (a_2 = HalfAsStructural argmax), 1/4 (a_3 = QuarterAsBilinearMaxval = cardioid cusp), 4 (a_{-1}), 16 (a_{-3} = 4²), −4 (sign-flipped a_{-1}); F56 packs five distinct dyadic-ladder positions in one closed form");
+                summary: "1/2 (a_2 = HalfAsStructural argmax), 1/4 (a_3 = QuarterAsBilinearMaxval = cardioid cusp), 4 (a_{-1}), 16 (a_{-3} = 4²), −4 (sign-flipped a_{-1}); F56 packs five distinct dyadic-ladder positions in one asymptotic expansion");
             yield return new InspectableNode("derivation",
                 summary: "leading logarithm: saddle-node passage ODE integral. α(tol)'s −4: starting-transient (η₀ = −1/4). α(tol)'s ln(16·tol): Modified Equation Euler discretization correction. All three pieces give zero fit parameters.");
-            yield return new InspectableNode("verified accuracy",
-                summary: "0.5-2% over 5 tol decades (10⁻⁸ to 10⁻¹⁶) × 10 ε decades (10⁻¹ to 10⁻¹⁰); Modified Equation slope 0.504 vs predicted 0.500 (0.8% structural deviation)");
+            yield return new InspectableNode("finite-grid verification",
+                summary: "the correction coefficient agrees at 0.5-2% over tol=10⁻⁸...10⁻¹⁶; corrected-K residuals are nonzero (−0.573, +0.037, −0.005, +0.001 at ε=10⁻¹...10⁻⁴); Modified Equation slope 0.504 vs predicted 0.500");
             yield return new InspectableNode("equivalent to CΨ recursion",
-                summary: "F56 IS the CΨ recursion near the 1/4 boundary; QuarterAsBilinearMaxval = bilinear-apex maxval at argmax 1/2. ε measures distance from the cusp; ε → 0 gives critical slowing (K diverges logarithmically)");
+                summary: "F56 IS the auxiliary CΨ recursion near the 1/4 boundary; QuarterAsBilinearMaxval = bilinear-apex maxval at argmax 1/2. In a joint limit that keeps tol ≪ ε ≪ 1, the raw count n = K/√ε diverges; K itself is the rescaled count and has no fixed-tol positive-divergence claim");
             yield return new InspectableNode("verified examples",
-                summary: $"K(ε=0.01, tol=10⁻¹⁰) = {IterationCount(0.01, 1e-10):G6}; K(ε=10⁻⁵, tol=10⁻¹²) = {IterationCount(1e-5, 1e-12):G6}; α(10⁻¹⁰) = {Alpha(1e-10):G6}");
+                summary: $"asymptotic K(ε=0.01, tol=10⁻¹⁰) = {IterationCountAsymptotic(0.01, 1e-10):G6}; asymptotic K(ε=10⁻⁵, tol=10⁻¹²) = {IterationCountAsymptotic(1e-5, 1e-12):G6}; α(10⁻¹⁰) = {Alpha(1e-10):G6}");
         }
     }
 }

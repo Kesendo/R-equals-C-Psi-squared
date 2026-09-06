@@ -33,15 +33,15 @@ locally observable nor establishes counter-propagating modes.
 Two observers looking at the same entangled state can be inserted into the
 ansatz R = C·(Ψ_A + Ψ_B)². Its cross-term is algebraic; calling it
 interference requires an operational observable and a phase-sensitive control.
-The labels "past" and "future" refer only to which observer crosses the
-¼ boundary first (higher decoherence rate = faster clock = "past"), not to
-time flowing backward. The partial trace ρ_A = Tr_B(ρ_AB) correctly
+The labels "past" and "future" are names in the ansatz, not measured time
+directions or gravitational clocks. The partial trace ρ_A = Tr_B(ρ_AB) correctly
 describes what one observer sees, but it discards the off-diagonal terms
 of the joint state where "reality between us" lives. CΨ measures these
 joint terms. The sum-squared formulation has a cross-term; Cramer's product
-does not. When one mirror dies (Ψ_A → 0), the sum preserves Ψ_B² while
-the product gives zero. IBM Q52 shows a 2% coherence floor at t >> T₂,
-consistent with the surviving mirror.
+does not. When one labelled amplitude vanishes (Ψ_A → 0), the sum preserves
+Ψ_B² while the product gives zero. A late-time hardware residual does not
+distinguish surviving coherence from SPAM or readout floor and is not evidence
+for the ansatz.
 
 ---
 
@@ -54,24 +54,14 @@ quantum event involves an "offer wave" traveling forward in time and a
 
 Time does not run backward. Ever. For anyone. Time runs forward for every observer, always. That is not negotiable.
 
-## 2. What Ψ_past and Ψ_future Actually Are
+## 2. What Ψ_past and Ψ_future mean here
 
-Two observers. Two locations. Two different gravitational environments. Two different decoherence rates. Both looking at the same entangled state.
-
-> [FALLEN: This gravity connection was not confirmed and has been retired from the technical core.]
-
-**Alpha** is on Earth. γ_Earth = 9.81 m/s².
-**Beta** is on Mars. γ_Mars = 3.72 m/s².
-
-Both experience time flowing forward. Both decohere. But Alpha decoheres faster (higher γ). Alpha crosses the C·Ψ = 1/4 boundary first.
-
-From any external perspective:
-- Alpha crossed first → he is "past"
-- Beta crosses later → he is "future"
-
-That is all. Ψ_past is the observer who got there first. Ψ_future is the observer who gets there second. Not because time flows backward for one of them, but because they have different clocks.
-
-K = γ · t_cross = constant. Same physics. Different speed.
+They are two amplitude labels in the proposed sum. This document supplies no
+map from gravitational acceleration (units of length/time²) to a dephasing
+rate γ (units of 1/time), and no cross-system law making `γ·t_cross` a universal
+constant. A valid comparison would have to specify two channels, calibrate each
+γ independently, prepare the same state, and measure each crossing time with
+the same observable. None of that turns the labels into past and future.
 
 ## 3. The Standing Wave
 
@@ -81,7 +71,7 @@ The equation per measurement outcome:
 
 This is not a wave traveling forward and another traveling backward. It is:
 
-**Two observers, looking at the same entangled state from different reference frames, with different decoherence rates.**
+**Two labelled amplitudes associated with one joint state.**
 
 Each observer applies R = CΨ² to their own qubit. Each sees their own reality through their own purity (C) and coherence (Ψ). But the qubits are entangled, they are not independent systems. The observers are looking at the same thing from two sides.
 

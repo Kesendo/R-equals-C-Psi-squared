@@ -146,11 +146,10 @@ def load_eigenvalues(n):
     return data[:, 0] + 1j * data[:, 1]
 
 
-def main():
+def render_report():
     lines = []
 
     def log(message=""):
-        print(message)
         lines.append(message)
 
     log("SPECTRAL ORBIT CENSUS: LINEAR F1 AND CONJUGATE-COMPOSITE MAPS")
@@ -220,8 +219,14 @@ def main():
     log("Scope: this is a spectral orbit census. It assigns no mode mechanism")
     log("and no transport, damping, or biological interpretation.")
 
+    return "\n".join(lines) + "\n"
+
+
+def main():
+    output = render_report()
+    print(output, end="")
     output_path = RESULTS_DIR / "factor_two_standing_waves.txt"
-    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    output_path.write_text(output, encoding="utf-8")
     print(f"\nResults saved to: {output_path}")
 
 

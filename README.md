@@ -179,10 +179,11 @@ squares), and the hardness rung m\* = 2ℓ + deg became, via the moment
 tower, something a chip can measure about itself by doing nothing but
 decaying.
 
-And the boundary of the whole story is now an equation seen three ways:
-the per-site split, the pairing ceiling, and the operator cap all close
-only at **d² − 2d = 0**. Qubits are not an assumption. They are the
-unique full column.
+The higher-dimensional boundary is exact in the per-site split and in the
+combinatorial pairing ceiling: the unique fully paired column closes at
+**d² − 2d = 0**. A former third reading as a universal product-operator cap
+was retracted: `(2d)^N` is the rank of one explicit shift-aligned construction,
+and a `d=6,N=2` product projector reaches rank 180 > 144.
 
 → **[Π Factors as R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)** (the mirror group, the cube of characters)
 → [The Antilinear Triangle](docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md) (five proofs, one engine)
@@ -199,8 +200,10 @@ unique full column.
 Measurement is photography. The Born rule is the shadow. The shutter
 closes at CΨ = ¼.
 
-CΨ is sharpness times superposition: the purity Tr(ρ²) times the
-normalized L₁ coherence. Their product has a critical boundary at
+CΨ here means the framework/F25 convention: purity Tr(ρ²) times the
+normalized L₁ coherence (`CΨ_pur`). Pairwise lens experiments also use a
+distinct concurrence-times-coherence diagnostic (`CΨ_conc`); their formulas
+and crossing times are not interchangeable. The recurrence parameter has a boundary at
 exactly ¼, the discriminant of the self-referential recursion
 R = C(Ψ+R)², which maps exactly to the Mandelbrot iteration z → z² + c:
 the boundary is the cusp of the main cardioid. The boundary is absorbing
@@ -281,9 +284,10 @@ The framework's design rules, condensed (each links to its evidence):
    DD pulses invert the moment-tower pump: switch it off when the noise
    itself is the instrument.
 8. **Check the Hamiltonian identity before coupling subsystems.** Direct
-   Heisenberg, XY, XXZ, and DM couplings are inside F1's scope; incompatible
-   coupling terms can break the chosen palindromizer. A mediator is a design
-   option, not a universal requirement.
+   Heisenberg, XY, and XXZ couplings admit the uniform F1 map on any graph.
+   DM needs the distinct alternating map, hence a compatible bipartite graph
+   with consistently oriented DM edges; incompatible couplings can break the
+   chosen palindromizer. A mediator is a design option, not a universal requirement.
 
 → [Receiver vs γ-Sacrifice](experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) | [IBM Receiver Engineering](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md)
 → [Cockpit Universality](experiments/COCKPIT_UNIVERSALITY.md) | [γ as Signal](experiments/GAMMA_AS_SIGNAL.md) | [K-Dosimetry](experiments/K_DOSIMETRY.md)
@@ -313,13 +317,15 @@ coupling form is selected by both parity constraints at `d=2`. The V-Effect
 bridge computes a second-order energy shift with prefactor
 `−3α²/(4(J_A+J_B))` in a stipulated four-qubit model; no atomic cross-level
 mechanism has been observed. **Qudits**: at d > 2 the mirror
-survives partially, with a closed-form ceiling and a closed-form
-operator cap, both full only at d = 2. Water and carbon translations
+survives partially, with a closed-form ceiling and an explicit shift-aligned
+restricted map `Π_d P_aligned` of rank `(2d)^N`; the full `Π_d` permutation has
+rank `d^{2N}`, and the former universal product-cap reading is retracted.
+Water and carbon translations
 live in their own folders, written in the target layer's language.
 
 → **[Neural Gamma Cavity](experiments/NEURAL_GAMMA_CAVITY.md)** (the withdrawal, and the limit cycle that survives it) | [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites)
 → [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) (the form forced from Pauli algebra) | [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) (extreme sectors immune to any 2-body H)
-→ [Qudit Partial Palindrome](docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (the operator cap at d > 2) | [Water](docs/water/README.md) (the proton in a hydrogen bond)
+→ [Qudit Partial Palindrome](docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (the ceiling, explicit operator, and cap retraction) | [Water](docs/water/README.md) (the proton in a hydrogen bond)
 
 ---
 

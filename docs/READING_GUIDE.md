@@ -614,8 +614,10 @@ diagonal, read as a price list, a mirror, and a judge.
 closes at CΨ = ¼."*
 
 Every other story is about the spectrum. This one is about a single
-number. CΨ is sharpness times superposition: the purity Tr(ρ²) of a
-state times its normalized coherence. The product has a critical
+number. On this path `CΨ` means `CΨ_pur`: the purity Tr(ρ²) of a
+state times its normalized coherence. Pairwise lens experiments also use
+the distinct concurrence product `CΨ_conc`; their formulas are not imported
+here. The recurrence parameter has a critical
 boundary at exactly ¼, and this path follows that quarter from algebra
 (why ¼ and nothing else) through fractal geometry (the cusp of the
 Mandelbrot cardioid) to real hardware (six months of IBM calibration

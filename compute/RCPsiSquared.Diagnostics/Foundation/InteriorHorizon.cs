@@ -1,13 +1,13 @@
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The cusp mathematics of the ¼-to-½ interior, the third navigation axis. Closed forms
-/// (the F95 heading, the F56 critical-slowing iteration count, the F57 dwell, the F25 Bell+ geodesic)
+/// (the F95 heading, the F57 dwell, the F25 Bell+ geodesic), the F56 iteration-count asymptotic,
 /// plus the one live computation: running the Mandelbrot recursion u → u² + c and counting the steps,
 /// which diverge as CΨ → ¼ (the recursion crawling at its own cusp, the horizon where time stops).
 ///
 /// <para>The horizon CΨ = ¼ is the cardioid cusp / saddle-node fold of the R = C(Ψ + R)² recursion,
 /// a structural / dephasing threshold (hardware-observed on IBM Kingston), NOT a gravitational
-/// horizon. The critical slowing here is closed-form and hardware-confirmed; see
+/// horizon. The critical slowing is observed in the live recursion and described asymptotically; see
 /// experiments/CRITICAL_SLOWING_AT_THE_CUSP.md and the Confirmations entries f25_cusp_trajectory,
 /// f57_kdwell_gamma_invariance.</para></summary>
 public static class InteriorHorizon
@@ -74,9 +74,9 @@ public static class InteriorHorizon
         return RecursionIterations(cpsi, k * eps, maxIter);
     }
 
-    /// <summary>The closed-form rescaled iteration count (F56), zero fit parameters:
+    /// <summary>The zero-fit asymptotic expansion for the rescaled iteration count (F56):
     /// K(ε, tol) = ½·ln(4ε/tol) + α(tol)·√ε, α(tol) = −4 + ½·ln(16·tol), ε = ¼ − CΨ.</summary>
-    public static double RecursionKClosedForm(double cpsi, double tol)
+    public static double RecursionKAsymptotic(double cpsi, double tol)
     {
         double eps = Cusp - cpsi;
         double alpha = -4.0 + 0.5 * Math.Log(16.0 * tol);
