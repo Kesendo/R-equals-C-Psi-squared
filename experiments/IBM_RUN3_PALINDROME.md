@@ -2,7 +2,7 @@
 
 <!-- Keywords: IBM quantum hardware validation, CΨ quarter boundary measurement,
 qubit decoherence crossing, T2 star dephasing measurement, ibm_torino quantum
-tomography, palindromic Liouvillian hardware test, quantum state purity crossing,
+tomography, single-qubit quarter crossing hardware test, quantum state purity crossing,
 single qubit coherence boundary, superconducting qubit T2 drift, open quantum
 system experimental validation, R=CPsi2 IBM experiment -->
 
@@ -11,6 +11,11 @@ system experimental validation, R=CPsi2 IBM experiment -->
 **Backend:** ibm_torino (Heron r1), Qubit 80
 **QPU time used:** ~2.8 min total (tomography + Ramsey)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Name:** the file keeps the run's March name, from the week the ¼ crossing was
+filed as the palindrome's hardware test; the registry entry
+`cpsi_quarter_crossing_torino_q80_mar2026` and its citers use it. What the run
+did and did not test of the palindrome is under
+[Connection to the Palindrome](#connection-to-the-palindrome).
 
 ---
 
@@ -29,8 +34,9 @@ gives t* = 15.01 μs. **Deviation: 1.9%.** An initial 61% deviation was resolved
 by discovering that the T2* value had drifted 58% in 6 days, a known effect in
 superconducting qubits (TLS/flux noise). Same-day calibration is essential.
 
-This is, to our knowledge, the first experimental measurement of the CΨ = 1/4
-boundary on quantum hardware.
+This is the first measurement of the CΨ = 1/4 boundary with a same-day Ramsey
+T2*; the [February run on q52](IBM_QUANTUM_TOMOGRAPHY.md) had come out 10.7%
+above its prediction (registry entry `cpsi_quarter_crossing_torino_feb2026`).
 
 ---
 
@@ -156,17 +162,20 @@ uncertainty in the Ramsey measurement itself.
 
 ### 1. The crossing equation is correct
 
-The single-qubit crossing equation:
+The single-qubit crossing equation ([F24](../docs/ANALYTICAL_FORMULAS.md)):
 
 ```
 [1 − b^r + b^(2r)/2 + b²/2] × b = 1/4
 where b = exp(−t/T2*), r = T2*/T1
 ```
 
-predicts the crossing time to 1.9% with same-day parameters. This equation
-is derived from the palindromic Liouvillian spectral symmetry
-([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). The hardware
-validates the theory.
+predicts the crossing time to 1.9% with same-day parameters. It is the
+single-qubit Lindblad solution with T1 and T2*, purity times coherence for
+|+⟩, written out in the committed check
+[ibm_run3_crossing_check.py](../simulations/ibm_run3_crossing_check.py); the
+1/4 it crosses is the fold of the
+[Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md). The hardware validates
+that closed form and the fold, with the dephasing rate as input.
 
 ### 2. T2* (not T2echo) is the correct timescale
 
@@ -224,23 +233,42 @@ Run 3 is the definitive result: locked prediction, same-day T2*, 1.9%.
 
 ## Connection to the Palindrome
 
-The CΨ = 1/4 crossing measured here is a single-qubit consequence of the
-palindromic spectral symmetry proven for N-qubit systems
-([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). For N qubits,
-the Liouvillian eigenvalues pair as λ + λ' = −2Σγ. The single-qubit case
-(N=1) produces the crossing equation validated here.
+The palindrome ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
+pairs the eigenvalues of an N-qubit Liouvillian around Σγ: λ + λ' = −2Σγ. At
+N = 1 under Z-dephasing the Liouvillian has two eigenvalues at 0 and two at
+−2γ, the centre is γ, and the pairing is 0 ↔ −2γ, the two populations with the
+two coherences. The crossing equation above takes the coherence's rate,
+2γ = 1/T2*, as its input; it does not use the pairing, and the rate is what the
+same-day Ramsey measured. So this run confirms the 1/4 fold and the
+single-qubit closed form with the dephasing rate fed in. It does not measure
+the multi-qubit spectral mirror the proof verifies at N = 2 to 8
+([Incompleteness Proof, §1](../docs/proofs/INCOMPLETENESS_PROOF.md); the
+registry entry `cpsi_quarter_crossing_torino_q80_mar2026` in
+[confirmations.py](../simulations/framework/confirmations.py) names the 1/4
+fold and a closed-form CΨ(t) as its primitives, not the palindrome).
 
-The multi-qubit palindrome (N=2 to N=8, 87,376 eigenvalues, zero exceptions)
-predicts analogous structure for entangled systems: paired decay rates, W vs
-GHZ mode decomposition, standing wave patterns, and engineering design rules
-for quantum channels. This hardware validation confirms the foundation.
+The palindrome's own hardware readings came later, on more than one qubit,
+each a registered confirmation:
 
-The newest result from the project extends beyond validation:
-the spatial variation of dephasing rates (T2* per qubit) is not just noise
-but a readable information channel with 15.5 bits of theoretical capacity
-([γ as Signal](GAMMA_AS_SIGNAL.md)). The T2* drift measured here (58% in
-6 days) is exactly the kind of temporal γ variation that the channel can
-detect from internal observables.
+- the F87 trichotomy of terms, truly, soft and hard, told apart tomographically
+  at N = 3 on Heron r2 ([Marrakesh Three Layers](MARRAKESH_THREE_LAYERS.md),
+  entry `palindrome_trichotomy`);
+- the price pair, the pair-sum of coherence decay rates Γ(D) + Γ(D̄) on a
+  3-qubit line, the F1 centre's hardware face, Marrakesh, July 2026
+  ([The Price Pair](PRICE_PAIR_HARDWARE_PREDICTION.md), entry
+  `price_pair_locality_marrakesh_july2026`);
+- the site-resolved rate, the F1 centre read per site, Kingston, July 2026,
+  the A-sign confirming the site resolution rather than the magnitude
+  ([Concentrator Reloaded](IBM_CONCENTRATOR_RELOADED.md), entry
+  `concentrator_site_contrast_kingston_july2026`).
+
+What this run shares with them is the rate. A single qubit's coherence decays
+at the floor the Absorption Theorem sets, Re(λ) = −2γ⟨n_XY⟩ with ⟨n_XY⟩ = 1,
+read on the February q52 data at ratio 1.03
+([Absorption Theorem on IBM Hardware](IBM_ABSORPTION_THEOREM.md)). And the T2*
+drift measured here, 58% in six days, is the kind of γ variation that
+[γ as Signal](GAMMA_AS_SIGNAL.md) studies as a signal (its Test 2,
+time-varying γ), in Tier 2 simulations at N = 5.
 
 ---
 
@@ -259,7 +287,7 @@ detect from internal observables.
 
 ## References
 
-- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem this validates
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the N-qubit theorem; this run measures its N = 1 rate, not its pairing (see [Connection to the Palindrome](#connection-to-the-palindrome))
 - [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md): why 1/4 is the only boundary
 - [γ as Signal](GAMMA_AS_SIGNAL.md): T2* variation as information channel
 - [Crossing Taxonomy](CROSSING_TAXONOMY.md): Type A/B/C classification of the crossing

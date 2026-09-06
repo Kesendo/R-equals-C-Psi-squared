@@ -212,7 +212,7 @@ interference require additional gates.
 | Experiment | Key finding |
 |-----------|------------|
 | **[IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)** | **All IBM data combined: r* threshold at precision 0.000014, fold one-way, sacrifice MI gradient, 12 permanent crossers (24,073 records, 133 qubits, 181 days)** |
-| [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | CΨ = 1/4 crossing confirmed at 1.9% deviation on IBM Torino (Eagle r3, 127 qubits) |
+| [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | CΨ = 1/4 crossing confirmed at 1.9% deviation on ibm_torino (Heron r1, Qubit 80); the single-qubit fold, not the N-qubit pairing |
 | [IBM Concentrator](IBM_CONCENTRATOR.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Two 5-site profiles carrying real IBM gammas (no DD), from an early mapping search whose finder used a synthetic graph: neither is a path on Torino. Protection 2.86x vs 1.06x confirmed spectrally for those profiles. The concentrator score is a within-chain metric; between chains, total noise dominates |
