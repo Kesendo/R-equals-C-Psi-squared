@@ -144,41 +144,20 @@ public sealed class RouteBA2CharacterClassifier
                 roots = PathKMonodromyScout.AllRootsAt(a, c, q);
             }
             else roots = PathKMonodromyScout.AllRootsROdd(k, q);
-            double[] distances = roots.Select(value => (value - lambda).Magnitude).Order().ToArray();
-            if (distances.Length < 3 || distances.Any(d => !double.IsFinite(d)) || !(distances[2] > 100 * distances[1]))
-                throw new A2CharacterUncertifiedException(locus.Id,
-                    $"Pair is not isolated; nearest distances=[{string.Join(", ", distances.Take(3).Select(d => d.ToString("G17", System.Globalization.CultureInfo.InvariantCulture)))}]", readings);
+            double[] distances = RouteBA2CharacterKernel.PairDistances(locus.Id, roots, lambda);
             double d1 = distances[1], d2 = distances[2];
             if (hermiticity.HasValue)
             {
                 // Multiplicity two comes from PSC1/S1 at the exact A2 root (the Python
                 // producer boundary), not from doubling the w count. This full-sector
                 // spectrum pins that pair to the exported lambda and excludes AT overlap.
-                double radius = d1 + 0.5 * (d2 - d1);
-                if (distances.Count(d => d < radius) != 2)
-                    throw new A2CharacterUncertifiedException(locus.Id, "Hermitian pair is not unique", readings);
+                double radius = RouteBA2CharacterKernel.Radius(locus.Id, distances, 0.5);
                 return new(locus.Id, EpCharacter.EpKind.Diabolic, 2, 2, null, radius,
                     d2 - radius, A2CharacterSource.HermitianAxis)
                     { FullBlockHermiticityResidual = hermiticity };
             }
-            foreach (double fraction in new[] { 0.25, 0.5, 0.75 })
-            {
-                double radius = d1 + fraction * (d2 - d1);
-                if (distances.Count(d => d < radius) != 2)
-                    throw new A2CharacterUncertifiedException(locus.Id, $"Radius {radius:G17} does not contain exactly two roots", readings);
-                var character = readCharacter(root, locus, radius);
-                double relative = character.Departure / Math.Max(1, character.CompressionNorm);
-                readings.Add(new(locus.Id, character.Kind, character.Algebraic, character.Geometric,
-                    relative, radius, d2 - radius, A2CharacterSource.EpCharacter));
-            }
-            bool consistent = readings.All(r => r.Algebraic == 2 && r.Kind == readings[0].Kind
-                && r.Geometric == readings[0].Geometric && r.RelativeDeparture.HasValue
-                && double.IsFinite(r.RelativeDeparture.Value)
-                && (r.Kind == EpCharacter.EpKind.Diabolic && r.Geometric == 2 && r.RelativeDeparture < 1e-6
-                    || r.Kind == EpCharacter.EpKind.Defective && r.Geometric == 1 && r.RelativeDeparture > 5e-2));
-            if (!consistent)
-                throw new A2CharacterUncertifiedException(locus.Id, "Full-sector character fails the fixed three-radius contract", readings.AsReadOnly());
-            return readings[1];
+            return RouteBA2CharacterKernel.Read(locus.Id, distances,
+                radius => readCharacter(root, locus, radius))[1];
         }
         catch (A2CharacterUncertifiedException) { throw; }
         catch (Exception error) when (error is ArithmeticException or ArgumentException or InvalidOperationException)

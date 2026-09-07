@@ -1,11 +1,162 @@
 using System.Numerics;
 using System.Text.Json.Nodes;
+using System.Globalization;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Diagnostics.Foundation;
+using Xunit.Abstractions;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-public sealed class RouteBA2N6InventoryTests
+public sealed class RouteBA2N6InventoryTests(ITestOutputHelper output)
 {
+    [Theory]
+    [InlineData(EpCharacter.EpKind.Diabolic, 2, 0.0)]
+    [InlineData(EpCharacter.EpKind.Defective, 1, 0.2)]
+    [Trait("Category", "ROUTE_B_A2_N6_CHARACTER")]
+    public void Kernel_RequiresTheFixedThreeRadii(EpCharacter.EpKind kind, int geo, double departure)
+    {
+        var radii = new List<double>();
+        var readings = RouteBA2CharacterKernel.Read("control", [0, 0.001, 1, 3], 0, radius =>
+        {
+            radii.Add(radius);
+            return Character(kind, geo, departure);
+        });
+        Assert.Equal(new[] { 0.25075, 0.5005, 0.75025 }, radii);
+        Assert.Equal(3, readings.Count);
+        Assert.All(readings, r =>
+        {
+            Assert.Equal(kind, r.Kind);
+            Assert.Equal(2, r.Algebraic);
+            Assert.Equal(geo, r.Geometric);
+            Assert.True(r.IsolationMargin > 0);
+        });
+    }
+
+    [Theory]
+    [InlineData("Normal")]
+    [InlineData("NearEp")]
+    [InlineData("algebraic")]
+    [InlineData("geometric")]
+    [InlineData("departure-nan")]
+    [InlineData("norm-infinity")]
+    [InlineData("insufficient-margin")]
+    [InlineData("AT-overlap")]
+    [InlineData("spectrum-nan")]
+    [InlineData("radius-disagreement")]
+    [InlineData("diabolic-boundary")]
+    [InlineData("defective-boundary")]
+    [Trait("Category", "ROUTE_B_A2_N6_CHARACTER")]
+    public void Kernel_RejectsWrongInputsThroughTheProductionDoor(string mutation)
+    {
+        Complex[] spectrum = [0, 0.001, 1, 3];
+        var character = Character(EpCharacter.EpKind.Diabolic, 2, 0);
+        switch (mutation)
+        {
+            case "Normal": character = character with { Kind = EpCharacter.EpKind.Normal }; break;
+            case "NearEp": character = character with { Kind = EpCharacter.EpKind.NearEp }; break;
+            case "algebraic": character = character with { Algebraic = 3 }; break;
+            case "geometric": character = character with { Geometric = 1 }; break;
+            case "departure-nan": character = character with { Departure = double.NaN }; break;
+            case "norm-infinity": character = character with { CompressionNorm = double.PositiveInfinity }; break;
+            case "insufficient-margin": spectrum = [0, 0.01, 1, 3]; break;
+            case "AT-overlap": spectrum = [0, 0, 0, 3]; break;
+            case "spectrum-nan": spectrum = [0, 0, double.NaN, 3]; break;
+            case "diabolic-boundary": character = character with { Departure = 1e-6 }; break;
+            case "defective-boundary": character = Character(EpCharacter.EpKind.Defective, 1, 5e-2); break;
+        }
+        int calls = 0;
+        var error = Assert.Throws<A2CharacterUncertifiedException>(() =>
+            RouteBA2CharacterKernel.Read("control", spectrum, 0, _ =>
+                mutation == "radius-disagreement" && ++calls == 2
+                    ? Character(EpCharacter.EpKind.Defective, 1, 0.2) : character));
+        Assert.Equal("control", error.LocusId);
+    }
+
+    [Fact]
+    [Trait("Category", "ROUTE_B_A2_N6_CHARACTER")]
+    public void Kernel_UsesTheSuppliedLambdaRatherThanTheClosestPairAnywhere()
+    {
+        Assert.Throws<A2CharacterUncertifiedException>(() => RouteBA2CharacterKernel.Read(
+            "wrong-seed", [0, 0, 5, 9], 5, _ => Character(EpCharacter.EpKind.Diabolic, 2, 0)));
+    }
+
+    [Theory]
+    [InlineData(A2Parity.Even)]
+    [InlineData(A2Parity.Odd)]
+    [Trait("Category", "ROUTE_B_A2_N6_CHARACTER")]
+    public void ExactRealT_ExecutesFull45DimensionalHermiticity(A2Parity parity)
+    {
+        var inventory = RouteBA2N6Inventory.LoadDefault();
+        var locus = inventory.Loci.First(l => l.Parity == parity
+            && l.TBox.ImLo.Numerator.IsZero && l.TBox.ImHi.Numerator.IsZero);
+        var classifier = new RouteBA2N6CharacterClassifier(inventory);
+        var readings = classifier.ClassifyRadii(locus);
+        Assert.Equal(3, readings.Count);
+        Assert.All(readings, r =>
+        {
+            Assert.Equal(A2CharacterSource.HermitianAxis, r.Source);
+            Assert.Equal(EpCharacter.EpKind.Diabolic, r.Kind);
+            Assert.Equal(2, r.Algebraic);
+            Assert.Equal(2, r.Geometric);
+            Assert.Equal(0.0, r.FullBlockHermiticityResidual);
+            Assert.True(r.IsolationMargin > 0);
+        });
+        double t = double.Parse(locus.TSeed.Real, CultureInfo.InvariantCulture);
+        var realQ = RouteBA2CharacterClassifier.FullParityBlock(6, parity, new Complex(t, 0));
+        Assert.Equal(45, realQ.RowCount);
+        Assert.True(RouteBA2CharacterClassifier.HermiticityResidual(realQ) > 1e-2);
+        Assert.False(RouteBA2N6CharacterClassifier.IsHermitianEligible(locus with
+        { TBox = new ExactComplexBox(locus.TBox.ReLo, locus.TBox.ReHi,
+            locus.TBox.ImLo, new ExactRational(1, BigInteger.Pow(10, 400))) }));
+    }
+
+    [Theory]
+    [InlineData(EpCharacter.EpKind.Normal)]
+    [InlineData(EpCharacter.EpKind.NearEp)]
+    [Trait("Category", "ROUTE_B_A2_N6_CHARACTER")]
+    public void N6Dispatcher_RejectsForcedAmbiguity(EpCharacter.EpKind kind)
+    {
+        var inventory = RouteBA2N6Inventory.LoadDefault();
+        var locus = inventory.Loci.First(l => !RouteBA2N6CharacterClassifier.IsHermitianEligible(l));
+        var classifier = new RouteBA2N6CharacterClassifier(inventory, (_, _, _) => Character(kind, 1, 0));
+        var error = Assert.Throws<A2CharacterUncertifiedException>(() => { classifier.Classify(locus); });
+        Assert.Equal(locus.Id, error.LocusId);
+        Assert.Equal(3, error.Readings.Count);
+        Assert.All(error.Readings, r => Assert.Equal(kind, r.Kind));
+    }
+
+    [Fact]
+    [Trait("Category", "ROUTE_B_A2_N6_AMBIGUITY")]
+    public void RealManifest_AccountsForEveryLocusBeforeAnyFallback()
+    {
+        var inventory = RouteBA2N6Inventory.LoadDefault();
+        var classifier = new RouteBA2N6CharacterClassifier(inventory);
+        var accepted = new List<A2CharacterReading>();
+        var ambiguous = new List<A2CharacterUncertifiedException>();
+        foreach (var locus in inventory.Loci.OrderBy(l => l.Id, StringComparer.Ordinal))
+        {
+            try { accepted.Add(classifier.Classify(locus)); }
+            catch (A2CharacterUncertifiedException error) { ambiguous.Add(error); }
+        }
+        string[] ids = ambiguous.Select(e => e.LocusId).ToArray();
+        string? path = Environment.GetEnvironmentVariable("ROUTE_B_A2_N6_AMBIGUOUS_OUT");
+        if (!string.IsNullOrWhiteSpace(path)) File.WriteAllLines(path, ids);
+        Assert.Equal(inventory.Loci.Select(l => l.Id).Order(StringComparer.Ordinal),
+            accepted.Select(r => r.LocusId).Concat(ids).Order(StringComparer.Ordinal));
+        Assert.Equal(ids.Distinct().Count(), ids.Length);
+        foreach (var error in ambiguous) output.WriteLine(error.Message);
+        output.WriteLine($"Loci={inventory.Loci.Count}; accepted={accepted.Count}; ambiguous={ids.Length}; " +
+            $"HermitianAxis={accepted.Count(r => r.Source == A2CharacterSource.HermitianAxis)}; " +
+            $"EpCharacter={accepted.Count(r => r.Source == A2CharacterSource.EpCharacter)}; " +
+            $"Diabolic={accepted.Count(r => r.Kind == EpCharacter.EpKind.Diabolic)}; " +
+            $"Defective={accepted.Count(r => r.Kind == EpCharacter.EpKind.Defective)}");
+        Assert.Empty(ambiguous);
+        Assert.Empty(inventory.ExactRankCertificates);
+    }
+
+    private static EpCharacter.Reading Character(EpCharacter.EpKind kind, int geometric, double departure) =>
+        new(kind, 1, 2, 2, geometric, departure, 1, [], 0);
+
     private const string ExpectedSourcePencilDigest =
         "cf1549c54a116132373e481d0ce7a7ea03409c07f75e3f6ab5b9fd0f738dc916";
 
