@@ -125,6 +125,38 @@ public sealed class RouteBA2N6InventoryTests(ITestOutputHelper output)
         Assert.All(error.Readings, r => Assert.Equal(kind, r.Kind));
     }
 
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    [Trait("Category", "ROUTE_B_A2_N6_CHARACTER")]
+    public void ManifestOutput_ResolvesFromRepositoryAndCreatesMissingDirectory(bool absolute)
+    {
+        // Git is an independent root anchor for the expected destination; the writer uses
+        // the source-project layout. The test executes under VSTest's output-directory cwd.
+        var root = new DirectoryInfo(AppContext.BaseDirectory);
+        while (root != null && !Directory.Exists(Path.Combine(root.FullName, ".git"))
+            && !File.Exists(Path.Combine(root.FullName, ".git"))) root = root.Parent;
+        Assert.NotNull(root);
+        string relative = Path.Combine("simulations", "results", $"manifest-path-{Guid.NewGuid():N}", "ids.txt");
+        string expected = absolute
+            ? Path.Combine(Path.GetTempPath(), $"manifest-path-{Guid.NewGuid():N}", "ids.txt")
+            : Path.Combine(root.FullName, relative);
+        string directory = Path.GetDirectoryName(expected)!;
+        Assert.False(Directory.Exists(directory));
+        try
+        {
+            string written = WriteAmbiguityManifest(absolute ? expected : relative, ["N6-E-CONTROL"]);
+            Assert.Equal(expected, written);
+            Assert.Equal(new[] { "N6-E-CONTROL" }, File.ReadAllLines(expected));
+            Assert.True(Directory.Exists(directory));
+        }
+        finally
+        {
+            if (File.Exists(expected)) File.Delete(expected);
+            if (Directory.Exists(directory)) Directory.Delete(directory);
+        }
+    }
+
     [Fact]
     [Trait("Category", "ROUTE_B_A2_N6_AMBIGUITY")]
     public void RealManifest_AccountsForEveryLocusBeforeAnyFallback()
@@ -140,7 +172,7 @@ public sealed class RouteBA2N6InventoryTests(ITestOutputHelper output)
         }
         string[] ids = ambiguous.Select(e => e.LocusId).ToArray();
         string? path = Environment.GetEnvironmentVariable("ROUTE_B_A2_N6_AMBIGUOUS_OUT");
-        if (!string.IsNullOrWhiteSpace(path)) File.WriteAllLines(path, ids);
+        if (!string.IsNullOrWhiteSpace(path)) WriteAmbiguityManifest(path, ids);
         Assert.Equal(inventory.Loci.Select(l => l.Id).Order(StringComparer.Ordinal),
             accepted.Select(r => r.LocusId).Concat(ids).Order(StringComparer.Ordinal));
         Assert.Equal(ids.Distinct().Count(), ids.Length);
@@ -152,6 +184,32 @@ public sealed class RouteBA2N6InventoryTests(ITestOutputHelper output)
             $"Defective={accepted.Count(r => r.Kind == EpCharacter.EpKind.Defective)}");
         Assert.Empty(ambiguous);
         Assert.Empty(inventory.ExactRankCertificates);
+    }
+
+    private static string WriteAmbiguityManifest(string path, IEnumerable<string> ids)
+    {
+        if (!Path.IsPathFullyQualified(path))
+        {
+            string? repository = null;
+            foreach (string start in new[] { AppContext.BaseDirectory, Directory.GetCurrentDirectory() })
+            {
+                for (var directory = new DirectoryInfo(start); directory != null; directory = directory.Parent)
+                {
+                    // The artifact is copied into bin; the source project identifies the repo root.
+                    string project = Path.Combine(directory.FullName, "compute", "RCPsiSquared.Diagnostics.Tests",
+                        "RCPsiSquared.Diagnostics.Tests.csproj");
+                    if (!File.Exists(project)) continue;
+                    repository = directory.FullName;
+                    break;
+                }
+                if (repository != null) break;
+            }
+            path = Path.GetFullPath(path, repository
+                ?? throw new DirectoryNotFoundException("Cannot locate the repository for the N=6 ambiguity manifest."));
+        }
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        File.WriteAllLines(path, ids);
+        return path;
     }
 
     private static EpCharacter.Reading Character(EpCharacter.EpKind kind, int geometric, double departure) =>
