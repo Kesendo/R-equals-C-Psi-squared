@@ -6,10 +6,10 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The per-site Z-field overload of the (SE,DE) block, for the F89 Door-C CSR sweep Stage 2
-/// (random-field disorder ensemble). A field Σ_k w_k Z_k is diagonal and Hermitian, so like the Δ·ZZ
-/// term it leaves the absorption-theorem real rate untouched and only shifts the imaginary frequency by
-/// −i·q·(fieldEnergy(ket) − fieldEnergy(bra)). A random field breaks integrability AND the S₂ reflection
-/// AND conjugation symmetry (so Stage 2 uses BuildFull, OffReal domain).</summary>
+/// (random-field disorder ensemble): diagonal addition -i*q*(fieldEnergy(ket)-fieldEnergy(bra)).
+/// These tests use real q=2 and measure matrix entries, not eigenmode real parts.
+/// A generic field can break S₂ reflection and sector conjugation symmetry
+/// (so Stage 2 uses BuildFull, OffReal domain).</summary>
 public class XxzCoherenceBlockFieldTests
 {
     /// <summary>Consistency anchor: a zero field reproduces BuildFull exactly.</summary>
@@ -25,8 +25,8 @@ public class XxzCoherenceBlockFieldTests
                 Assert.Equal(bare[i, j], zero[i, j]);
     }
 
-    /// <summary>A nonzero field shifts the IMAGINARY diagonal (the frequency) but leaves the AT real rate
-    /// and every off-diagonal entry untouched.</summary>
+    /// <summary>At real q, a nonzero field changes only the matrix diagonal's imaginary component;
+    /// its real component and every off-diagonal entry stay unchanged.</summary>
     [Fact]
     public void BuildFullWithField_ShiftsImaginaryDiagonal_LeavesRestUnchanged()
     {
@@ -42,7 +42,7 @@ public class XxzCoherenceBlockFieldTests
                 if (i != j) Assert.Equal(bare[i, j], fielded[i, j]);                      // off-diagonal unchanged
                 else
                 {
-                    Assert.Equal(bare[i, i].Real, fielded[i, i].Real, 12);                // AT real rate untouched
+                    Assert.Equal(bare[i, i].Real, fielded[i, i].Real, 12);                // matrix diagonal's real component unchanged
                     if (Math.Abs(fielded[i, i].Imaginary - bare[i, i].Imaginary) > 1e-9) shifted++;
                 }
             }

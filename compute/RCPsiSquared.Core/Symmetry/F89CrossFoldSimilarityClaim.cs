@@ -18,9 +18,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>INTEGRABILITY-INDEPENDENT (the (q,Δ) extension, 2026-06-30): the identity holds for the FULL interacting
 /// XXZ block L(q,Δ) at every anisotropy Δ, not just the integrable XY one (machine zero, N=4..9, all q, all Δ).
 /// The reason is that the Δ·ZZ term is EVEN under the global bit-flip (Z_bZ_{b+1} ↦ (−Z_b)(−Z_{b+1}) = Z_bZ_{b+1},
-/// so zz(b̄) = zz(b)), so the bra-complement carries it cleanly. The diabolics themselves DIE under Δ
-/// (integrability-protected, the arc's Move 2), but the pairing STRUCTURE does not: a diabolic and its partner
-/// turn defective in lockstep. The discriminant is bit-flip PARITY: a bit-flip-ODD perturbation breaks the fold (a
+/// so zz(b̄) = zz(b)), so the bra-complement carries it cleanly. The sampled finite-N Delta response
+/// is defect-or-lift, consistent with the conditional residual mechanism; it does not establish all-N protection.
+/// The pairing identity still holds: if a diabolic becomes defective, its partner does too. The discriminant
+/// is bit-flip PARITY: a bit-flip-ODD perturbation breaks the fold (a
 /// longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), residual O(1)). So the cross-fold is a structural/
 /// algebraic property of the Liouvillian, NOT a free-fermion artifact.</para>
 ///
@@ -114,8 +115,8 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
             yield return new InspectableNode("integrability-independent: survives XXZ anisotropy (the (q,Δ) extension)",
                 summary: "the identity holds for the FULL interacting XXZ block L(q,Δ) at every Δ (machine zero, N=4..9, all q): " +
                          "the Δ·ZZ term is EVEN under the global bit-flip (zz(b̄)=zz(b)), so the bra-complement carries it cleanly. " +
-                         "The diabolics die under Δ (Move 2, integrability-protected), but the pairing structure does not: a " +
-                         "diabolic and its partner turn defective in lockstep. Discriminant = bit-flip parity: a longitudinal " +
+                         "The sampled finite-N Delta response is defect-or-lift, consistent with the conditional residual mechanism, not proof of cause or all-N protection. " +
+                         "The pairing identity persists: if a diabolic becomes defective, its partner does too. Discriminant = bit-flip parity: a longitudinal " +
                          "Z-field (odd, fe(b̄)=−fe(b)) breaks the fold (residual O(1)). So the fold is structural, not free-fermion.");
             yield return new InspectableNode("the diamond-core HOLOMORPHIC fold, derived (R1's last entry, 2026-07-03)",
                 summary: "composed with the transpose (the D leg) and the climbing W-step, F89d DERIVES the holomorphic " +

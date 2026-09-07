@@ -9,6 +9,200 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 public sealed class RouteBA2N6InventoryTests(ITestOutputHelper output)
 {
+    private const double N6MinimumIsolationMargin = 0.06589058580248003;
+
+    private static void AssertFixedN6Anchors(RouteBA2N6ReconciliationReport report, bool perParity = false)
+    {
+        // Fixed anchors from the executed schema-3 N6 reconciliation, not a
+        // second classifier run. Self-consistent source/verdict drift must fail.
+        int total = perParity ? 133 : 266;
+        Assert.Equal(total, report.TotalLoci);
+        Assert.Equal(total, report.ConsumedLoci);
+        Assert.Equal(0, report.UnresolvedLoci);
+        Assert.Equal(total, report.ByAlgebraicSource["ExactAlgebraic"]);
+        Assert.Equal(perParity ? 59 : 118, report.ByCharacterSource["HermitianAxis"]);
+        Assert.Equal(perParity ? 74 : 148, report.ByCharacterSource["EpCharacterStable"]);
+        Assert.Equal(0, report.ByCharacterSource["ExactRankExecuted"]);
+        Assert.Equal(total, report.ByVerdict[EpCharacter.EpKind.Diabolic]);
+        Assert.Equal(0, report.ByVerdict.TryGetValue(EpCharacter.EpKind.Defective, out int defective) ? defective : 0);
+        if (!perParity)
+        {
+            // Absolute 1e-12 allows only eigensolver rounding noise in this
+            // deterministic middle-contour margin; the +1e-8 control fails.
+            Assert.InRange(Math.Abs(report.MinimumIsolationMargin - N6MinimumIsolationMargin), 0.0, 1e-12);
+        }
+        Assert.Equal(report.TotalLoci, report.ConsumedLoci);
+        Assert.Equal(report.TotalLoci, report.ByAlgebraicSource.Values.Sum());
+        Assert.Equal(report.TotalLoci, report.ByCharacterSource.Values.Sum());
+        Assert.Equal(report.TotalLoci, report.ByVerdict.Values.Sum());
+    }
+
+    [Theory]
+    [InlineData("total", false)]
+    [InlineData("total", true)]
+    [InlineData("unresolved", false)]
+    [InlineData("algebraic", false)]
+    [InlineData("algebraic", true)]
+    [InlineData("hermitian-numerical", false)]
+    [InlineData("hermitian-numerical", true)]
+    [InlineData("exact-rank", false)]
+    [InlineData("exact-rank", true)]
+    [InlineData("verdict", false)]
+    [InlineData("verdict", true)]
+    [InlineData("margin", false)]
+    [Trait("Category", "ROUTE_B_A2_N6_RECONCILE")]
+    public void FixedN6Anchors_RejectSelfConsistentDrift(string mutation, bool perParity)
+    {
+        // Synthetic report fixtures test the fixed regression oracle, not physics.
+        // Counts are shifted together so aggregate agreement cannot expose the drift.
+        int total = perParity ? 133 : 266;
+        var algebraic = new Dictionary<string, int> { ["ExactAlgebraic"] = total };
+        var sources = new Dictionary<string, int>
+        {
+            ["HermitianAxis"] = perParity ? 59 : 118,
+            ["EpCharacterStable"] = perParity ? 74 : 148, ["ExactRankExecuted"] = 0
+        };
+        var verdicts = new Dictionary<EpCharacter.EpKind, int> { [EpCharacter.EpKind.Diabolic] = total };
+        var report = new RouteBA2N6ReconciliationReport(total, total, 0,
+            algebraic, sources, verdicts, N6MinimumIsolationMargin);
+        AssertFixedN6Anchors(report, perParity);
+        switch (mutation)
+        {
+            case "total":
+                report = report with { TotalLoci = total + 1, ConsumedLoci = total + 1 };
+                algebraic["ExactAlgebraic"]++; sources["EpCharacterStable"]++; verdicts[EpCharacter.EpKind.Diabolic]++;
+                break;
+            case "unresolved": report = report with { UnresolvedLoci = 1 }; break;
+            case "algebraic": algebraic["ExactAlgebraic"]--; algebraic["WrongAlgebraic"] = 1; break;
+            case "hermitian-numerical": sources["HermitianAxis"]--; sources["EpCharacterStable"]++; break;
+            case "exact-rank": sources["EpCharacterStable"]--; sources["ExactRankExecuted"]++; break;
+            case "verdict": verdicts[EpCharacter.EpKind.Diabolic]--; verdicts[EpCharacter.EpKind.Defective] = 1; break;
+            case "margin": report = report with { MinimumIsolationMargin = N6MinimumIsolationMargin + 1e-8 }; break;
+            default: throw new ArgumentOutOfRangeException(nameof(mutation));
+        }
+        Assert.NotNull(Record.Exception(() => AssertFixedN6Anchors(report, perParity)));
+    }
+
+    [Theory]
+    [InlineData(0.25, "0.25")]
+    [InlineData(double.PositiveInfinity, "\"not-applicable\"")]
+    [Trait("Category", "ROUTE_B_A2_N6_RECONCILE")]
+    public void ReconciliationReport_FormatsAbsentNumericalMarginWithoutJsonNonfinite(double margin, string expected)
+    {
+        // DTO output control, not an inventory: finite data must remain numeric,
+        // while the all-structural-character sentinel must serialize as not-applicable.
+        var report = new RouteBA2N6ReconciliationReport(0, 0, 0,
+            new Dictionary<string, int>(), new Dictionary<string, int>(),
+            new Dictionary<EpCharacter.EpKind, int>(), margin);
+        string? serialized = null;
+        var error = Record.Exception(() => serialized = System.Text.Json.JsonSerializer.Serialize(report));
+        Assert.True(error == null, $"N6 reconciliation output must encode absent numerical margin as not-applicable: {error?.Message}");
+        Assert.Equal(expected, JsonNode.Parse(serialized!)!["MinimumIsolationMargin"]!.ToJsonString());
+    }
+
+    [Fact]
+    [Trait("Category", "ROUTE_B_A2_N6_RECONCILE")]
+    public void ReconcileAll_ConsumesCertifiedDegreesAndReportsExecutedProvenance()
+    {
+        var inventory = RouteBA2N6Inventory.LoadDefault();
+        var classifier = new RouteBA2N6CharacterClassifier(inventory);
+        RouteBA2N6ReconciliationReport report = classifier.ReconcileAll();
+        AssertFixedN6Anchors(report);
+        var json = System.Text.Json.JsonSerializer.SerializeToNode(report)!.AsObject();
+        int total = inventory.A2Degrees.E + inventory.A2Degrees.O;
+        Assert.Equal(total, json["TotalLoci"]!.GetValue<int>());
+        Assert.Equal(total, json["ConsumedLoci"]!.GetValue<int>());
+        Assert.Equal(0, json["UnresolvedLoci"]!.GetValue<int>());
+        Assert.Equal(total, json["ByAlgebraicSource"]!["ExactAlgebraic"]!.GetValue<int>());
+        // Repeated local execution checks aggregation, not independent numerical truth. The controls below
+        // remove/duplicate/mislabel these returned readings through the same reconciliation door.
+        var readings = inventory.Loci.OrderBy(l => l.Id, StringComparer.Ordinal).Select(classifier.Classify).ToArray();
+        var sources = json["ByCharacterSource"]!.AsObject();
+        Assert.Equal(readings.Count(r => r.Source == A2CharacterSource.HermitianAxis), sources["HermitianAxis"]!.GetValue<int>());
+        Assert.Equal(readings.Count(r => r.Source == A2CharacterSource.EpCharacter), sources["EpCharacterStable"]!.GetValue<int>());
+        Assert.Equal(readings.Count(r => r.Source == A2CharacterSource.ExactRank), sources["ExactRankExecuted"]!.GetValue<int>());
+        Assert.Equal(total, sources.Sum(kv => kv.Value!.GetValue<int>()));
+        foreach (var group in readings.GroupBy(r => r.Kind))
+            Assert.Equal(group.Count(), json["ByVerdict"]![group.Key.ToString()]!.GetValue<int>());
+        Assert.Equal(total, json["ByVerdict"]!.AsObject().Sum(kv => kv.Value!.GetValue<int>()));
+        Assert.Equal(readings.Where(r => r.Source == A2CharacterSource.EpCharacter)
+            .Min(r => r.IsolationMargin!.Value), json["MinimumIsolationMargin"]!.GetValue<double>());
+        Assert.DoesNotContain(sources.Where(kv => kv.Value!.GetValue<int>() > 0),
+            kv => kv.Key.Contains("exact", StringComparison.OrdinalIgnoreCase));
+        output.WriteLine(System.Text.Json.JsonSerializer.Serialize(report));
+        foreach (var parity in new[] { A2Parity.Even, A2Parity.Odd })
+        {
+            var ids = inventory.Loci.Where(l => l.Parity == parity).Select(l => l.Id).ToHashSet();
+            var subset = readings.Where(r => ids.Contains(r.LocusId)).ToArray();
+            AssertFixedN6Anchors(new RouteBA2N6ReconciliationReport(subset.Length, subset.Length, 0,
+                new Dictionary<string, int> { ["ExactAlgebraic"] = parity == A2Parity.Even ? inventory.A2Degrees.E : inventory.A2Degrees.O },
+                new Dictionary<string, int>
+                {
+                    ["HermitianAxis"] = subset.Count(r => r.Source == A2CharacterSource.HermitianAxis),
+                    ["EpCharacterStable"] = subset.Count(r => r.Source == A2CharacterSource.EpCharacter),
+                    ["ExactRankExecuted"] = subset.Count(r => r.Source == A2CharacterSource.ExactRank)
+                }, subset.GroupBy(r => r.Kind).ToDictionary(g => g.Key, g => g.Count()), double.PositiveInfinity), perParity: true);
+            Assert.Equal(parity == A2Parity.Even ? inventory.A2Degrees.E : inventory.A2Degrees.O, subset.Length);
+            output.WriteLine($"{parity}: loci={subset.Length}; HermitianAxis={subset.Count(r => r.Source == A2CharacterSource.HermitianAxis)}; " +
+                $"EpCharacterStable={subset.Count(r => r.Source == A2CharacterSource.EpCharacter)}; " +
+                $"Diabolic={subset.Count(r => r.Kind == EpCharacter.EpKind.Diabolic)}; Defective={subset.Count(r => r.Kind == EpCharacter.EpKind.Defective)}");
+        }
+    }
+
+    [Theory]
+    [InlineData("missing")]
+    [InlineData("duplicate")]
+    [InlineData("foreign-id")]
+    [InlineData("unresolved")]
+    [InlineData("wrong-algebraic")]
+    [InlineData("wrong-geometric")]
+    [InlineData("exact-label")]
+    [InlineData("hermitian-label")]
+    [InlineData("margin")]
+    [InlineData("conjugation-partner")]
+    [InlineData("parity-partner")]
+    [Trait("Category", "ROUTE_B_A2_N6_RECONCILE")]
+    public void Reconciliation_RejectsWrongConsumptionAndProvenance(string mutation)
+    {
+        var inventory = RouteBA2N6Inventory.LoadDefault();
+        var classifier = new RouteBA2N6CharacterClassifier(inventory);
+        // Synthetic readings exercise bookkeeping only; no claim of numerical character.
+        var readings = inventory.Loci.OrderBy(l => l.Id, StringComparer.Ordinal).Select(l =>
+            new A2CharacterReading(l.Id, EpCharacter.EpKind.Diabolic, 2, 2,
+                RouteBA2N6CharacterClassifier.IsHermitianEligible(l) ? null : 0,
+                0.5, 0.5, RouteBA2N6CharacterClassifier.IsHermitianEligible(l)
+                    ? A2CharacterSource.HermitianAxis : A2CharacterSource.EpCharacter)
+            { FullBlockHermiticityResidual = RouteBA2N6CharacterClassifier.IsHermitianEligible(l) ? 0 : null }).ToList();
+        int index = readings.FindIndex(r => r.Source == A2CharacterSource.EpCharacter);
+        switch (mutation)
+        {
+            case "missing": readings.RemoveAt(index); break;
+            case "duplicate": readings.Add(readings[index]); break;
+            case "foreign-id": readings[index] = readings[index] with { LocusId = "N6-UNKNOWN" }; break;
+            case "unresolved": readings[index] = readings[index] with { Kind = EpCharacter.EpKind.NearEp }; break;
+            case "wrong-algebraic": readings[index] = readings[index] with { Algebraic = 3 }; break;
+            case "wrong-geometric": readings[index] = readings[index] with { Geometric = 1 }; break;
+            case "exact-label": readings[index] = readings[index] with { Source = A2CharacterSource.ExactRank }; break;
+            case "hermitian-label": readings[index] = readings[index] with { Source = A2CharacterSource.HermitianAxis }; break;
+            case "margin": readings[index] = readings[index] with { IsolationMargin = double.NaN }; break;
+            case "conjugation-partner":
+            case "parity-partner":
+                var loci = inventory.Loci.ToArray();
+                loci[0] = mutation == "conjugation-partner"
+                    ? loci[0] with { ConjugationPartnerId = loci[1].Id }
+                    : loci[0] with { ParityPartnerId = loci[0].Id };
+                // Bypass the loader only to prove ReconcileAll rechecks the loaded maps.
+                var ctor = typeof(RouteBA2N6Inventory).GetConstructors(System.Reflection.BindingFlags.Instance
+                    | System.Reflection.BindingFlags.NonPublic).Single();
+                inventory = (RouteBA2N6Inventory)ctor.Invoke([inventory.SchemaVersion, inventory.N,
+                    inventory.A2Degrees, inventory.LayerIdentity, loci, inventory.ExactRankCertificates]);
+                classifier = new RouteBA2N6CharacterClassifier(inventory);
+                break;
+        }
+        var error = Assert.Throws<InvalidOperationException>(() => classifier.ReconcileReadings(readings));
+        Assert.Contains("N6 reconciliation", error.Message);
+    }
+
     [Theory]
     [InlineData(EpCharacter.EpKind.Diabolic, 2, 0.0)]
     [InlineData(EpCharacter.EpKind.Defective, 1, 0.2)]

@@ -2,7 +2,7 @@
 
 <!-- Keywords: Lindbladian symmetry classification gap, shifted chiral symmetry order
 four, many-body Lindbladian tenfold way beyond, anti-pseudo-Hermiticity constant
-shift, integrable chiral Lindbladian Poisson statistics, complex spacing ratio
+shift, chiral Liouvillian Poisson statistics, complex spacing ratio
 filling threshold GinUE, Sa Ribeiro Prosen classification extension, outbound
 adapter symmetry classification community, R=CPsi2 placement -->
 
@@ -87,9 +87,8 @@ program are live:
    level repulsion, and where the crossover to the predicted statistics
    happens in physical models is a data question.
 
-This document hands over one concrete, exactly-solvable model family that
-sits on both edges at once, with the operator in closed form and the
-statistics computed.
+This document hands over a model family with an exact operator identity
+and computed statistics; the statistics do not prove full spectral solvability.
 
 ---
 
@@ -166,7 +165,7 @@ example class.
 
 ---
 
-## 4. The statistics twist: the symmetry of a class, the statistics of none
+## 4. Symmetry classification and random-matrix universality
 
 The classification's diagnostic arm assumes random-matrix statistics within
 symmetry sectors. This family declines, in an instructive way
@@ -178,27 +177,26 @@ symmetry sectors. This family declines, in an instructive way
 - **Statistics axis:** the level statistics are **Poisson**, not chiral-RMT:
   the spacing ratio converges to ⟨r⟩ = 0.36 to 0.39 with N (Poisson 0.386,
   GOE 0.536, GUE 0.603; 21,840 eigenvalues total, N = 2 to 7 chain), and the
-  complex spacing ratio of the chain reads clean 2D-Poisson. An **integrable
-  chiral Lindbladian**: the symmetry of a class, the statistics of none of
-  the 38.
+  complex spacing ratio of the chain reads clean 2D-Poisson. This does not prove integrability.
+  AIII is a symmetry label; Poisson-like statistics fail its random-matrix universality prediction,
+  not the symmetry taxonomy.
 
 Sector-resolved, the picture sharpens into a data point for your
 class-statistics correspondence
 ([Filling Threshold Chaos](../../experiments/FILLING_THRESHOLD_CHAOS.md)):
 
-- **Dilute coherence sectors stay Poisson at every tested N**, and stay
-  Poisson under integrability breaking (XXZ anisotropy Δ, added disorder):
-  the null is structural (too few interacting excitations to thermalize),
-  not fine-tuned.
+- **Dilute coherence sectors stay Poisson-like at the tested N and operating points**,
+  including the canonical Delta=1 plus disorder comparison. Nonzero Delta breaks free-fermion
+  additivity, but uniform XXZ remains Bethe-integrable; random Z disorder at Delta=0 remains quadratic.
+  Delta!=0 plus generic disorder is the interacting nonintegrable many-body test.
 - **Dense (near-half-filling) sectors climb toward GinUE with N**: the
   complex-spacing-ratio marker ⟨cos θ⟩ runs −0.089 / −0.129 / −0.162 at
   N = 6 / 7 / 8 (GinUE −0.241, 2D-Poisson 0), with class A the licensed
   comparison inside such a block (Π maps the block to its conjugate partner,
   so no residual antiunitary constrains it).
 
-In one sentence: in this family, **dissipative chaos is a filling
-threshold**, not an integrability-breaking threshold, and the crossover is
-visible in exactly the diagnostic your community uses.
+In this tested family, the finite-N CSR comparison supports a filling dependence
+at fixed interacting disorder. It does not prove a universal threshold or thermalization cause.
 
 ---
 
@@ -217,9 +215,10 @@ Three independent handovers, each cheap on your side:
 >    placement walk are laid out in the sources; the family is analytically
 >    tame enough to be a clean test case.
 > 3. **The crossover, with your diagnostic.** Reproduce the sector-resolved
->    complex spacing ratio: the prediction is GinUE convergence in the dense
->    blocks as N grows and a structurally pinned Poisson in the dilute
->    blocks, robust against Δ and disorder.
+>    complex spacing ratio: the measured finite-N contrast at N=6..8 under
+>    canonical Δ=1 plus disorder is dilute Poisson-like versus dense movement
+>    toward GinUE. Large-N convergence is a proposed extension, not a measured
+>    limit or a thermalization theorem.
 
 ---
 
@@ -231,10 +230,9 @@ question to a classification program, not a rival scheme.
 - **We placed Π against the Sá-Ribeiro-Prosen scheme only.** We have not
   worked the Bernard-LeClair or the Kawabata et al. non-Hermitian schemes;
   any placement there is yours to make, and may well close the gap.
-- **"Outside all 38" is a statistics statement, not an algebra complaint:**
-  the classes assume random-matrix statistics within sectors; this family is
-  integrable and declines that assumption while carrying the AIII symmetry
-  structure. Nothing in the scheme is wrong about it.
+- **Symmetry class and statistical universality are separate:** measured
+  Poisson-like spacings do not remove the AIII symmetry label or prove
+  integrability. They fail the corresponding random-matrix statistics prediction.
 - **The statistics are computational and small-N** (N ≤ 7 global, N ≤ 8
   sector-resolved, with bootstrap intervals at the largest N). The identity
   itself is exact and proven; the statistics are data.
@@ -265,7 +263,7 @@ If one thing survives this document, let it be the objects, not the phrasing:
   (shifted sublattice symmetry), interacting site-local case not.
 - **The data:** AIII structure + Poisson statistics (⟨r⟩ = 0.36 to 0.39,
   N ≤ 7); sector-resolved ⟨cos θ⟩ → −0.089 / −0.129 / −0.162 (N = 6/7/8)
-  in dense blocks; dilute blocks structurally Poisson.
+  in dense blocks; dilute blocks are Poisson-like in the measured finite-N comparison.
 - **The question:** new slot, or generalized-P after centering?
 
 Our in-house name for the spectral reflection is left behind on purpose; it

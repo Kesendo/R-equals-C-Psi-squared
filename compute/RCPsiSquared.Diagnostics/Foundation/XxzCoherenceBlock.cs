@@ -15,8 +15,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <list type="bullet">
 /// <item>dephasing diagonal −2·n_diff (Absorption Theorem 2γ·HammingDistance(ket,bra), ∈{−2,−6} here);</item>
 /// <item>ket excitation hops −2qi, bra excitation hops +2qi (the −i(H⊗I − I⊗Hᵀ) split), NN, exclusion;</item>
-/// <item>the Δ·ZZ term is DIAGONAL in the computational basis and Hermitian, so the AT rate is UNTOUCHED
-/// (Re λ = −2γ⟨n_XY⟩ preserved); it adds only the frequency −i·qΔ·(zz(ket) − zz(bra)), with
+/// <item>the Δ·ZZ term is DIAGONAL in the computational basis and leaves the dissipator unchanged.
+/// At real q the AT identity Re λ = −2γ⟨n_XY⟩ still holds, but the eigenmodes and their rates can change.
+/// The added diagonal frequency is −i·qΔ·(zz(ket) − zz(bra)), with
 /// zz(c) = Σ_bonds(+1 if the two sites are equal, −1 if they differ) = Σ_b ⟨c|Z_bZ_{b+1}|c⟩.</item>
 /// </list>
 /// The S₂ site-reflection (s → N−1−s) R=+1 symmetric sector carries the diabolics (same sector as
@@ -98,11 +99,11 @@ public static class XxzCoherenceBlock
         return e;
     }
 
-    /// <summary>The full (SE,DE) block at (q, Δ) plus a per-site Z-field Σ_k w_k Z_k. The field is diagonal
-    /// and Hermitian, so it leaves the absorption-theorem real rate untouched and only shifts the imaginary
-    /// frequency by −i·q·(fieldEnergy(ket) − fieldEnergy(bra)), with fieldEnergy(c) = Σ_k w_k·z_k (z_k = −1
-    /// if site k excited, +1 else). Field strength is dimensionless (scaled by q like the hopping). A random
-    /// w breaks integrability, the S₂ reflection, AND conjugation symmetry (Stage 2 uses OffReal + BuildFull).
+    /// <summary>The full (SE,DE) block plus the diagonal term -i*q*(fieldEnergy(ket)-fieldEnergy(bra)),
+    /// with fieldEnergy(c) = Σ_k w_k·z_k (z_k = −1 if site k excited, +1 else).
+    /// Field strength is dimensionless and scaled by q; for complex q this need not be purely imaginary.
+    /// The unchanged dissipator entries do not imply unchanged eigenmode real parts.
+    /// A generic w can break the S₂ reflection and sector conjugation symmetry; Stage 2 uses OffReal + BuildFull.
     /// w=null reproduces BuildFull(n,q,Δ).</summary>
     public static Complex[,] BuildFullWithField(int n, Complex q, double delta, double[] w)
     {
@@ -149,12 +150,11 @@ public static class XxzCoherenceBlock
     public static Complex[] SeDeSymSpectrum(int n, Complex q, double delta)
         => BuildSym(n, q, delta).Evd().EigenValues.ToArray();
 
-    /// <summary>The residual (H_B-mixed, non-AT) strands of the XXZ (q,Δ) coherence block at (q, Δ), tracked by
-    /// nearest-neighbour continuity from the base (q0=2, Δ=0). There the residual SET is identified exactly via
-    /// <see cref="PathKMonodromyScout.ResidualIndices"/> (the XXZ block equals the F89 block at Δ=0). The split
-    /// is Δ-stable: the ZZ term is Hermitian, so the AT rate Re λ = −2γ⟨n_XY⟩ is Δ-independent and the AT-locked
-    /// half never changes membership. AT-free by construction — the AT-locked exact degeneracies that flood the
-    /// full-block Δ-test box scan at N≥6 are simply not in this set.</summary>
+    /// <summary>The residual labels are chosen exactly at the base (q0=2, Delta=0) via
+    /// <see cref="PathKMonodromyScout.ResidualIndices"/> (the XXZ block equals the F89 block at Delta=0).
+    /// The corresponding full-spectrum strands are tracked by nearest-neighbour continuation to (q, Delta).
+    /// This is finite-path labeling, not a proof of a globally Delta-invariant AT/residual split.
+    /// Full-block character remains required.</summary>
     public static Complex[] ResidualRootsTrackedXxz(int k, Complex q, double delta, int trackSteps = 160)
     {
         int n = k + 1;
@@ -224,8 +224,9 @@ public static class XxzCoherenceBlock
     // The residualOnly Δ-track (N>=6) with LOCAL continuity, so the box scan + descent never re-track from the
     // base per probe (the nested O(boxScan x trackSteps) cost). Anchor the residual roots at qSeed once (one
     // global track), then identify the residual subset at each probe by sub-stepped nearest continuity from the
-    // running point. AT strands are in the full spectrum but never adopted (a residual strand's continuation is
-    // its own nearest root), so no AT capture. geo/alg via EpCharacter on the full block at the residual pair's
+    // running point. Residual-labeled candidates are carried by greedy nearest-unused local matching;
+    // proposal tracking can exchange identity near dense or degenerate encounters.
+    // geo/alg via EpCharacter on the full block at the candidate pair's
     // midpoint with an AT-aware radius (nearest non-pair eigenvalue over the FULL block).
     private static DeltaTrackResult TrackDiabolicUnderDeltaResidual(
         int n, Complex qSeed, double delta, double boxHalf, double boxCell, double coalesceTol, double depTol, int trackSteps)
@@ -341,8 +342,10 @@ public static class XxzCoherenceBlock
 
     /// <summary>The verdict of a Δ-track step. DIABOLIC = the coalescence survives semisimply (geo=alg,
     /// dep≈0); DEFECTIVE = it persists as a Jordan EP (geo&lt;alg); LIFTED = the degeneracy is gone (no
-    /// coalescence in the local q-box). For the integrability test, DEFECTIVE or LIFTED at Δ&gt;0 confirms
-    /// the diabolic was integrability-protected; DIABOLIC surviving at Δ&gt;0 would refute it.</summary>
+    /// coalescence in the local q-box). This is a finite-N Delta response, compared with a defective
+    /// control and consistent with the conditional residual mechanism. DEFECTIVE or LIFTED at a sampled
+    /// nonzero Δ does not alone prove causality or all-N protection. DIABOLIC survival would falsify
+    /// the defect-or-lift prediction at that sampled locus and Δ.</summary>
     public enum DeltaFlipVerdict { Diabolic, Defective, Lifted }
 
     public sealed record DeltaTrackResult(

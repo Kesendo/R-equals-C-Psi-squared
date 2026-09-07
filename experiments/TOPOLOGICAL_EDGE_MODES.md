@@ -13,7 +13,7 @@ R=CPsi2 topological edge modes -->
 **Depends on:**
 - [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, the question)
 - [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Pi is chiral, class AIII)
-- [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson, integrable)
+- [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson-like spacing statistics)
 - [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) ((0,1) coherence block dispersion)
 
 ---
@@ -205,10 +205,9 @@ reflecting the interplay of chain geometry and sector structure.
 
 ### RMT (class AIII, Poisson)
 
-The Poisson statistics (integrable) are consistent with a trivially
-topological system: the Liouvillian decomposes into non-interacting
-sectors, preventing the eigenvalue repulsion that random matrix topology
-would produce. Integrability and trivial topology are compatible.
+The Poisson-like statistics do not prove integrability or topology.
+Invariant sectors can suppress repulsion in pooled spacings; the topology
+verdict here rests on its own block/rank and edge-mode diagnostics, not on RMT.
 
 ### PT-Symmetry Analysis (chiral, order 4)
 

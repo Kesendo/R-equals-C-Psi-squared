@@ -21,13 +21,15 @@ cleanly classify the symmetric topologies, because the real content is one level
     distinct / upper-half, NOT distinct / all-4096 (the latter mis-read complete as "97.6%", which
     is a normalization artifact, not the memory's 97%; see is_the_97_the_memory.py). N=4 is the
     usual outlier (ring/star swap), the same N=4 special as the ceiling story.
-  * chain is clean 2D-Poisson (<cos theta> ~ 0 at odd N=3,5,7) -> Heisenberg integrability.
+  * chain is clean 2D-Poisson (<cos theta> ~ 0 at odd N=3,5,7), compatible with integrability or fragmentation;
+    this does not prove integrability.
   * The symmetric topologies fragment the global spectrum so hard that global non-Hermitian RMT
     does not apply: too few distinct levels, cluster-dominated (<cos theta> > 0, attraction not
     repulsion). The clean RMT test would be SECTOR-resolved (deliberately NOT done here).
 
-Mechanism: lambda = -2g*hamming + i*(E_a - E_b); high symmetry collapses the distinct H energies
-(large irreps -> few distinct E -> few distinct dE), so distinct(lambda) shrinks with symmetry.
+The additive rate/frequency expression applies to simultaneous Hamiltonian/dissipator eigenoperators;
+it is not a formula for mixed Liouvillian modes. The distinct-count comparison below is a measured
+spectral degeneracy pattern, not a general energy-difference mechanism for every mode.
 
 CONTEXT: the chain's degeneracy/multiplicity palindrome is already a full document,
 experiments/DEGENERACY_PALINDROME.md ('The Palindrome Inside the Palindrome', d_total(k)=d_total(N-k)
@@ -148,6 +150,12 @@ for N in range(3, 8):
     present = [v for v in vals if v is not None]
     mono = "yes" if present == sorted(present, reverse=True) and len(present) >= 3 else "no (N=4 swap)" if N == 4 else "-"
     print(f"{N:>2} | " + " | ".join(cells) + f"   {mono}")
-print("\n  chain (least symmetric) keeps the most distinct levels and reads 2D-Poisson (integrable);")
-print("  complete (S_N) collapses ~98% of the spectrum. The clean RMT class is a SECTOR question.")
+print("\n  chain (least symmetric) keeps the most distinct levels and reads 2D-Poisson;")
+print("  this does not prove integrability. The clean RMT class is a SECTOR question.")
+complete_n6 = load_topology("complete", 6)
+if complete_n6 is not None:
+    distinct_upper = rows["complete"][6][3]
+    total_upper = int(np.count_nonzero(complete_n6.imag > 1e-6))
+    collapse = 1 - distinct_upper / total_upper
+    print(f"  complete N=6: distinct_upper={distinct_upper} total_upper={total_upper} collapse={collapse:.17g}")
 print("\nDONE.")

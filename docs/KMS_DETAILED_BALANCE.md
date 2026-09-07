@@ -590,12 +590,12 @@ the distinction F137 was minted to draw.
 
 3. **Classify Π in the Sá et al. framework.** Work with the centered
    Liouvillian L_c and determine its exact symmetry class. The shift
-   may put it outside the 38-fold classification, or there may be a
-   natural extension. **Update (April 2026):** RMT analysis confirms
-   the system has chiral symmetry (class AIII) but Poisson level
-   statistics, placing it outside all 38 standard classes. See
+   and order-4 chiral operator require their own algebraic classification.
+   Poisson-like statistics are compatible with integrability or fragmentation and
+   do not match the corresponding random-matrix universality behavior; these
+   statistics do not remove the symmetry class or prove integrability. See
    [Random Matrix Theory](../experiments/RANDOM_MATRIX_THEORY.md).
-   **Resolution (April 2026):** Π is a generalized P (chiral) operator:
+   The operator result is that Π is a generalized P (chiral) operator:
    linear, order 4 (Π⁴ = I, Π² = (−1)^{w_YZ}), anti-commutes with
    both L_c and L_c†. Class AIII confirmed. Π generalizes the standard
    P class (which requires P² = I) to P⁴ = I while preserving all

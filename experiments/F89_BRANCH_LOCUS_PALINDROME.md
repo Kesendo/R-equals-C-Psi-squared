@@ -46,14 +46,14 @@ The structure is also visible in the exact discriminant of the octic over Z[i][q
 - **(3q⁴ + q² − 1)²**, multiplicity 2: the four **diabolic** points, q ≈ ±0.659 (real) and ±0.876i (imaginary).
 - **P₂₀(q)**, degree 20 (even, degree 10 in q²), multiplicity 1: the twenty genuine **EPs**. (Note: the witness comment writes this factor as P₁₀, meaning degree 10 in u = q², i.e. 20 roots in q.)
 
-## The line is the palindrome's; the silence is integrability's
+## The line and the N=4 twin-scalar restriction
 
 It is tempting, and wrong, to say the diabolic is silent *because* it is its own reflection. The palindrome supplies the line and the pairing; it does **not** supply the diabolic's position on the line, nor its silence (semisimple character). Two independent halves of L coincide at the diabolic:
 
-- **On the line (Re λ_EP = −4)** because its coalescing pair is overlap-balanced (p = ½), so the dephasing restricts to the scalar −4γ·I, the AT-midpoint. This is the integrability/AT-midpoint mechanism of [`F89Path3OcticEpClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs) and [`DIABOLIC_BY_INTEGRABILITY`](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md), established by sweep and the scalar restriction, never invoking Π.
-- **Silent (semisimple, λ = −4γ + 2iJ a diabolic crossing)** because free-fermion additivity makes the hopping restrict to the scalar 2iJ·I as well; the two rates pass through each other with two independent eigenvectors.
+- **On the line (Re λ_EP = −4)** at the N=4 point: its coalescing pair is overlap-balanced (p = ½), and the dephasing restriction is the scalar −4γ·I, the AT-midpoint. This is the D-half of the [`F89Path3OcticEpClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs) twin-scalar restriction.
+- **Silent (semisimple, λ = −4γ + 2iJ a diabolic crossing)** because the hopping restriction is also scalar, 2iJ·I. The N=4 twin-scalar restriction makes the full restriction λ·I, with two independent eigenvectors and no Jordan coupling; it is not a consequence of the mirror line alone.
 
-That these are independent is settled inside the repo: turn on an XXZ ZZ-anisotropy Δ ≠ 0 and the EP **stays on the line** (the dephasing half stays scalar at −4γ) but becomes **defective**, a Jordan block that swaps. On-the-line does not imply diabolic; "diabolic ⟺ on the centre" is a one-case coincidence, not a theorem. The line is the mirror's gift, the silence is the chain's own free-running song, and at the diabolic they happen to fall on the same point.
+The sampled N=4 Delta control in [DIABOLIC_BY_INTEGRABILITY](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md) **stays on the line** but becomes **defective**. It is a counterexample to "on-line implies semisimple", not proof of an all-N protection mechanism. The palindrome proof is independent of the Tier-2 hypothesis: the exact block identity supplies the mirror and its pairing, while local character requires its own restriction or Jordan test.
 
 ## Verification
 
@@ -74,6 +74,6 @@ Scope, now **checked** (2026-06-26, the `foldlift` probe over path-k blocks: `rc
 - [`reflections/ON_WHO_WATCHES_WHOM.md`](../reflections/ON_WHO_WATCHES_WHOM.md): the plain-words reading (γ as the watching, the seams where observer and observed exchange).
 - [`docs/proofs/MIRROR_SYMMETRY_PROOF.md`](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the F1 palindrome Π L Π⁻¹ = −L − 2σ.
 - [`experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md`](F89_TOPOLOGY_ORBIT_CLOSURE.md): the octic and its factorisation; [`experiments/F89_PATH_K_GALOIS.md`](F89_PATH_K_GALOIS.md): the Galois verdict, the diabolic location, the discriminant.
-- [`hypotheses/DIABOLIC_BY_INTEGRABILITY.md`](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md): why the diabolic is diabolic (integrability), and the XXZ Δ ≠ 0 counterexample to "on-line ⟹ silent".
+- [`hypotheses/DIABOLIC_BY_INTEGRABILITY.md`](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md): the N=4 twin-scalar character fact, the sampled Delta counterexample to "on-line ⟹ silent", and the separate Tier-2 protection hypothesis.
 - [`reflections/OBSERVER_INHERITANCE.md`](../reflections/OBSERVER_INHERITANCE.md), [`reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md`](../reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md): the inherited mirror.
 - Live: `inspect --root branchpalindrome` (the typed witness), `inspect --root galoismonodromy`, `gmscan --mirror`.

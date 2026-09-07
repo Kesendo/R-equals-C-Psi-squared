@@ -65,9 +65,9 @@ public class XxzDeltaFlipTests
 
     // Residual-only Δ-test (the N>=6 fix): the full sym spectrum floods on AT-locked degeneracies, so the box
     // scan in TrackDiabolicUnderDelta captures AT crossings at N=6 (q* jumps, false LIFTs). ResidualRootsTrackedXxz
-    // tracks the residual SET from the base (q0=2, Δ=0) - where it equals the locator's F89 residual - and the SET
-    // is Δ-stable (ZZ Hermitian => AT rate Re λ = −2γ⟨n_XY⟩ is Δ-independent). At the base it must reproduce the
-    // locator's residual exactly (this also pins the XxzCoherenceBlock-vs-F89 spectrum convention at path-5).
+    // uses base-label nearest-neighbour continuation from (q0=2, Δ=0), where the labels equal the F89 residual.
+    // This is proposal tracking, not an invariant-set proof; full-block character remains required.
+    // The base comparison pins the XxzCoherenceBlock-vs-F89 spectrum convention at path-5.
     [Fact]
     public void ResidualRootsTrackedXxz_Path5_MatchesLocatorResidual_AtBase()
     {
@@ -83,8 +83,8 @@ public class XxzDeltaFlipTests
 
     // Gate B at N=6 (the residual-only Δ-test): the full-block box scan captures AT crossings at N=6 (q* jumps,
     // gap exactly 0, false LIFTs); residualOnly tracks the residual SET, so each path-5 diabolic reads cleanly
-    // DIABOLIC at Δ=0 (q* at the seed, finite gap) and flips DEFECTIVE / LIFTS at Δ>0 - integrability-protection
-    // confirmed off N=4 at N=6.
+    // DIABOLIC at Δ=0 (q* at the seed, finite gap) and flips DEFECTIVE / LIFTS at the tested Δ=0.1.
+    // This finite-N Delta response is consistent with the conditional residual mechanism.
     [Fact]
     public void Path5_Diabolics_DieUnderDelta_ResidualOnly()
     {
@@ -104,7 +104,7 @@ public class XxzDeltaFlipTests
             Assert.False(d.Survived, $"diabolic {q} must defect or lift at Δ=0.1 (got {d.Verdict}, dep={d.Departure})");
         }
 
-        // the clean rung-far diabolic's Jordan flip is explicit: geo 2->1, departure on (the integrability signature).
+        // The clean rung-far diabolic's Jordan flip is explicit: geo 2->1, departure on (Delta-response signature).
         var clean = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, new Complex(0.7581, 0.260), new Complex(-5.392, 1.653), 0.1, residualOnly: true);
         Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Defective, clean.Verdict);
         Assert.Equal(1, clean.Geometric);
@@ -112,10 +112,10 @@ public class XxzDeltaFlipTests
     }
 
     // ΔTask 3 / Gate B: the experiment. Each path-4 diabolic (complex-q) IS a diabolic at Δ=0 (Gate 0) and
-    // DOES NOT SURVIVE at Δ>0 (defects to a Jordan EP, or lifts entirely) - the falsifiable synthesis claim.
-    // A path-4 DEFECTIVE EP (control) is non-diabolic at Δ=0 and Δ does not make it diabolic: Δ perturbs
-    // everything but kills the diabolic CHARACTER specifically. Confirms integrability-protection generalizes
-    // to N=5 (DIABOLIC_BY_INTEGRABILITY's gate, off N=4).
+    // DOES NOT SURVIVE at the sampled nonzero Δ values (defects to a Jordan EP, or lifts entirely).
+    // A path-4 DEFECTIVE EP (control) stays defective at the tested Δ values. This finite-N Delta response
+    // is consistent with the conditional residual mechanism, not a proof of causality or all-N protection.
+    // Diabolic survival would falsify the defect-or-lift prediction at that sampled locus and Δ.
     [Fact]
     public void Path4_Diabolics_DieUnderDelta_ControlStaysPut()
     {
@@ -226,20 +226,19 @@ public class XxzDeltaFlipTests
             Assert.False(d.Survived, $"diabolic {q} must defect or lift at Δ=0.1 (got {d.Verdict}, dep={d.Departure})");
         }
 
-        // the clean rung-far diabolic's Jordan flip is explicit: geo 2->1, departure on (the integrability signature).
+        // The clean rung-far diabolic's Jordan flip is explicit: geo 2->1, departure on (Delta-response signature).
         var clean = XxzCoherenceBlock.TrackDiabolicUnderDelta(6, new Complex(0.7581, 0.260), new Complex(-5.392, 1.653), 0.1, exact: true);
         Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Defective, clean.Verdict);
         Assert.Equal(1, clean.Geometric);
         Assert.True(clean.Departure > 0.001, $"the Jordan departure should turn on under Δ (got {clean.Departure})");
     }
 
-    // Gate B at N=7 (the experiment, the new science): the path-6 REAL-q diabolics - the ones that returned to
-    // the physical axis at N=7, the analogue of the N=4 self-fold point - are ALSO integrability-protected. Each
-    // reads DIABOLIC at Δ=0 (geo=alg=2, a finite tiny gap, q* ON the real axis at the seed) and DOES NOT survive
-    // at Δ=0.10 (flips DEFECTIVE geo 2→1, or LIFTS), the same death the complex-q diabolics suffer at N=4/5/6.
-    // So the N=7 real-q onset is a PLACEMENT mechanism, not a new protection: these are the same integrable
-    // level-crossings, not a new species. (Verdicts from the exact-residual instrument, validated against the
-    // tracked path at N=6 by the re-gate above; the tracked path itself floods at N=7 / F_53.)
+    // Gate B at N=7: the sampled path-6 REAL-q loci read DIABOLIC at Δ=0 (geo=alg=2, a finite tiny gap,
+    // q* on the real axis at the seed) and DEFECTIVE or LIFTED at the tested Δ=0.10.
+    // This finite-N Delta response is consistent with the conditional residual mechanism; it does not
+    // establish an all-N cause or protection law. Diabolic survival would falsify this sampled prediction.
+    // Verdicts use the exact-residual locator with full-block character, validated against the tracked
+    // path at N=6 by the re-gate above; the tracked path itself floods at N=7 / F_53.
     [Fact]
     public void Path6_RealQDiabolics_DieUnderDelta_ExactResidual()
     {

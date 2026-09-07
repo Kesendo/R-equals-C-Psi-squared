@@ -1,13 +1,13 @@
 # Random Matrix Theory Analysis of the Palindromic Liouvillian
 
 <!-- Keywords: random matrix theory Liouvillian, spacing ratio palindromic
-spectrum, Poisson level statistics open quantum, integrable Lindbladian
+spectrum, Poisson level statistics open quantum, Liouvillian
 spectral statistics, chiral symmetry Liouvillian eigenvalues, XY-weight
 light-content band universality class, Heisenberg dephasing RMT analysis,
 R=CPsi2 random matrix theory -->
 
 **Status:** Computationally verified (N=2-7, 21,840 eigenvalues, Heisenberg chain)
-**Date:** April 1, 2026 (updated June 30, 2026: dissipative chaos located as a FILLING threshold, Result 5; the within-band GOE hint resolved as a small-sample artifact June 27, Result 3)
+**Date:** April 1, 2026; sector-resolved comparison June 30, 2026; band-hint analysis June 27, 2026.
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
 [`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) (Python spacing analysis),
@@ -18,14 +18,14 @@ R=CPsi2 random matrix theory -->
 ## What this document is about
 
 This document asks whether the palindromic Liouvillian spectrum looks
-chaotic or integrable, using the standard diagnostic from random matrix
-theory: the spacing ratio between consecutive eigenvalues. The answer:
-the spectrum is Poisson (integrable, eigenvalues cluster rather than
-repel), which is what a Liouvillian cut into non-interacting blocks by
-its conserved quantities should look like. An early small-N read hinted
+repulsive or clustered, using the standard diagnostic from random matrix
+theory: the spacing ratio between consecutive eigenvalues. The measured
+spectrum is Poisson-like (eigenvalues cluster rather than repel), compatible
+with a Liouvillian separated into invariant blocks by conserved quantities.
+Poisson statistics do not prove integrability. An early small-N read hinted
 at GOE-like repulsion inside individual decay-rate bands, but driving it
 to a verdict (bootstrap + larger samples) shows it was small-sample
-noise: the bands are integrable too, with no chaotic transition
+noise: the tested bands also lack GOE-like repulsion
 (Result 3).
 
 ---
@@ -36,7 +36,7 @@ We perform the first random matrix theory (RMT) analysis of the
 palindromic Liouvillian spectrum. Using spacing ratios (robust,
 unfolding-free) on eigenvalues computed by the C# engine with
 MKL/OpenBLAS (N=2 through N=7, up to 16,384 eigenvalues), we find
-that the decay rate spectrum is **Poisson** (integrable, no level
+that the decay rate spectrum is **Poisson-like** (no level
 repulsion) at every system size tested. The mean spacing ratio
 converges to ⟨r⟩ = 0.36-0.39, consistent with the Poisson value
 0.386 and far from GOE (0.536) or GUE (0.603). The decomposition that
@@ -52,8 +52,8 @@ band-resolved read at N=5 showed an apparent GOE-like ⟨r⟩ = 0.513
 inside individual decay-rate bands; driven to a verdict it is a
 small-sample artifact (the n=15 value is a 1.5σ Poisson fluctuation, and
 the same bands read Poisson/sub-Poisson at N=6-7 with hundreds of
-frequencies). There is no integrable-to-chaotic transition: the spectrum
-is integrable in every band and at every tested N.
+frequencies). No within-band onset of GOE-like repulsion is established
+at the tested N; this is a statistical verdict, not an integrability theorem.
 
 ---
 
@@ -66,7 +66,7 @@ statistics. The three standard universality classes are:
 
 | Ensemble | Spacing ratio ⟨r⟩ | Level repulsion | Physics |
 |----------|-------------------|-----------------|---------|
-| Poisson  | 0.386 | None (clustering) | Integrable, conserved quantities |
+| Poisson  | 0.386 | None (clustering) | Compatible with integrable or unresolved independent-sector structure |
 | GOE      | 0.536 | Linear (s^1) | Time-reversal invariant, real |
 | GUE      | 0.603 | Quadratic (s^2) | Time-reversal broken, complex |
 
@@ -85,11 +85,11 @@ The palindromic Liouvillian has:
   sits at its average, which need not be an integer
 - Weight-parity mixing: the Hamiltonian mixes sectors w with w±2
   (discovered during [derivation verification](../docs/proofs/derivations/D05_DYNAMIC_MODE_COUNT.md))
-- Does not fit any of the 38 Sa-Ribeiro-Prosen classes
+- A symmetry-classification question distinct from random-matrix universality
   ([KMS analysis](../docs/KMS_DETAILED_BALANCE.md))
 
 What we did NOT know: whether the spectrum shows level repulsion
-(chaotic) or level clustering (integrable).
+(a chaotic-statistics signature) or level clustering.
 
 ---
 
@@ -138,7 +138,7 @@ statistics but it does decide what the sets are called.
 
 ---
 
-## Result 1: The Spectrum is Poisson (Integrable)
+## Result 1: The Rate Spacings are Poisson-Like
 
 | N | Eigenvalues | ⟨r⟩ (all rates) | ⟨r⟩ (lower half) | Classification |
 |---|-------------|-----------------|-------------------|----------------|
@@ -150,7 +150,7 @@ statistics but it does decide what the sets are called.
 
 (N=2 has too few eigenvalues for statistics.)
 
-**The palindromic Liouvillian is integrable.** The mean spacing ratio
+**The measured rate spacings lack level repulsion.** The mean spacing ratio
 converges to ~0.37, consistent with the Poisson value 0.386. There is
 no level repulsion. Eigenvalues cluster rather than repel.
 
@@ -165,9 +165,9 @@ ONE grading cuts the Liouvillian into pieces that never interact: the
 **joint popcount**. H conserves excitation number and Z-dephasing acts
 diagonally on ρ's indices, so L is block-diagonal across the (N+1)²
 blocks indexed by (popcount(row), popcount(col)). Levels in different
-blocks are unrelated by construction and have no reason to repel; that
-is what produces Poisson, and it is the same reason integrable systems
-are Poisson.
+blocks need not repel each other. Mixing these sectors can suppress
+repulsion in the pooled statistic; block diagonality alone neither forces
+Poisson statistics nor proves integrability inside a block.
 
 XY-weight parity does not add a second cut, though it is easy to think
 it does. (−1)^n_XY does commute with L, but it is not independent of
@@ -211,9 +211,8 @@ and places the centered Liouvillian in the chiral symmetry class.
 In the Altland-Zirnbauer classification (the tenfold taxonomy of symmetry classes for random matrices, extending Wigner-Dyson's three classes to include particle-hole and chiral symmetries), this is class AIII (chiral
 unitary). However, the Poisson level statistics show that the system
 does not exhibit the level repulsion expected for a random chiral
-GUE ensemble. The palindromic Liouvillian is chiral but integrable:
-it has the symmetry of class AIII but the statistics of an integrable
-system.
+GUE ensemble. Chiral pairing and Poisson-like statistics are separate
+observations; absence of repulsion does not establish integrability.
 
 ---
 
@@ -260,13 +259,13 @@ in [`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.p
    still large. N=6 band 3 (546 freq) → ⟨r⟩ = 0.272, N=7 bands 3 and 4
    (414 freq) → 0.283. The reading does not approach GOE (0.536); it converges
    to Poisson and below (sub-Poisson = level clustering, the opposite of
-   repulsion, the signature of a strongly degenerate integrable additive
+   repulsion, compatible with a strongly degenerate additive
    spectrum, consistent with the N=4 band-2 row). The tiny bands 1 and N−1
    (5-6 frequencies) throw a spurious "GUE" ⟨r⟩ > 0.79, plainly small-sample
    noise.
 
-**Verdict: no within-band chaos.** The system is integrable in every band and
-at every tested N; the earlier GOE hint was small-sample noise. This matches
+**Verdict: no established within-band GOE repulsion.** The tested bands read
+Poisson/sub-Poisson; the earlier GOE hint was small-sample noise. This matches
 the global Poisson result above and the sector-resolved non-Hermitian test (the
 `galoischaos` witness, `inspect --root galoischaos`), which independently reads
 the Galois-S_n half of the (SE,DE) block Poisson-like / sub-Poisson, not
@@ -286,30 +285,35 @@ the C# eigenvalue export is producing physically valid spectra.
 
 ---
 
-## Result 5: Dissipative Chaos is a Filling Threshold (June 2026)
+## Result 5: Finite-Size Filling-Associated Crossover Evidence (June 2026)
 
-The deeper "does any sector reach dissipative quantum chaos?" question is now
-answered, and the answer is about **filling**, not integrability. Working with
+The sector-resolved comparison gives finite executed CSR evidence for a
+**filling dependence** at canonical Delta=1 plus disorder. Working with
 the complex spacing ratio (CSR, Sá-Ribeiro-Prosen) on coherence blocks
 (wKet, wBra) of the Z-dephased XXZ Liouvillian:
 
+This is filling-associated crossover evidence at N=6..8: movement toward GinUE,
+not a causal or thermodynamic threshold theorem.
+
 - The **dilute** (SE,DE) = (1,2) block, the Door-C block, where the non-solvable
-  Galois group S_d lives, stays Poisson-like / non-GinUE under **every**
-  integrability-breaking knob (XXZ Δ, a random Z-field, with or without
-  interactions). That null is robust (`inspect --root galoischaos`, the Δ=0
+  Galois group S_d lives, stays Poisson-like / non-GinUE over the sampled
+  anisotropy and random-field sweeps (`inspect --root galoischaos`, the Δ=0
   control; the two Door-C sweep stages).
 - A **dense** block (p, p+1) near half-filling of the **same** Liouvillian, under
-  the **same** disorder + interactions, **is chaotic**: its radial CSR ⟨|z|⟩ sits
-  at the GinUE value and its angular repulsion ⟨cos θ⟩ goes negative and climbs
+  the **same** disorder + interactions, **moves toward GinUE**: its radial CSR ⟨|z|⟩ is
+  near the GinUE reference and its angular repulsion ⟨cos θ⟩ goes negative and climbs
   toward GinUE with the block size (≈ −0.09 → −0.13 → −0.16 at N = 6/7/8 = 43% →
   56% → 67% of the size-matched GinUE angle), while the dilute block stays flat at
   ⟨cos θ⟩ ≈ 0 (~14–23%).
 
-So fixed-q dissipative chaos switches on with **extensive excitation content**,
-not with breaking the Galois/Hamiltonian integrability. Galois chaos (over the
-coupling q) and spectral chaos (GinUE at fixed q) merge only at extensive filling;
-the dilute (SE,DE) sector that carries S_d is too dilute to thermalize, and its
-persistent Poisson statistics are the kinematic shadow of that. Class A is licensed
+The knobs have three distinct Hamiltonian meanings: nonzero Delta breaks free-fermion
+additivity, but uniform XXZ remains Bethe-integrable;
+random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions);
+generic random field plus Delta!=0 is the interacting disordered nonintegrable test.
+Reflection/conjugation/cross-fold breaking need not break Hamiltonian integrability.
+The canonical Delta=1 plus disorder comparison supports a finite-size filling dependence,
+not a universal threshold or proof of thermalization. Galois structure over the coupling
+and spectral statistics at fixed coupling are distinct. Class A is licensed
 by the unequal weight (p,p+1) (Π maps it to the conjugate (p+1,p) block, not itself;
 the disordered conjugation-match fraction is ≈ 0). Live:
 `inspect --root fillcsr` (`FillingThresholdWitness`); full writeup in
@@ -319,9 +323,9 @@ the disordered conjugation-match fraction is ≈ 0). Live:
 
 The GOE question that earlier topped this list (does the within-band
 ⟨r⟩ approach GOE/GUE as N grows?) is resolved in
-Result 3: it does not, the dilute bands stay integrable. The dissipative-chaos
+Result 3: the tested bands do not approach GOE/GUE. The dissipative-chaos
 question is resolved in Result 5: a dense (extensive-filling) coherence sector of
-the same Liouvillian does reach toward GinUE; chaos is a filling threshold. Two
+the same Liouvillian does reach toward GinUE in the sampled regime. Two
 genuinely open items remain.
 
 1. **Comparison with Denisov lemon shape.** The complex-plane density
@@ -356,21 +360,18 @@ palindromic constraint (F1) pairs the two halves of the spectrum
 instead; it is a strong symmetry but it is not the one that suppresses
 repulsion here.
 
-This explains why the system does not fit any of the 38
-Sa-Ribeiro-Prosen classes: those classes assume random matrix
-statistics within each symmetry sector. Our system has the symmetry
-of class AIII (chiral) but Poisson statistics instead of GUE. It is
-an **integrable chiral Lindbladian**, which is not one of the 38
-standard cases.
+AIII is a symmetry label. Poisson-like spacings can fail the corresponding
+random-matrix universality prediction without placing an operator outside
+the symmetry taxonomy. They do not identify Hamiltonian or Liouvillian integrability.
 
-**Update (April 2026):** The spectral form factor (SFF) confirms
-integrability (no dip-ramp-plateau) but reveals richer structure than
+The raw non-unfolded frequency spectral form factor (SFF) shows sampled modulation,
+compatible with structured spectra but not proof of integrability. It reveals more than
 Poisson alone: palindromic modulation at ω_min = 4J(1-cos(π/N)),
 w ↔ N-w band pairing in the time domain, and visibility scaling
 as ~1/4^N. The spacing ratio (Poisson) describes local correlations;
-the SFF describes global spectral structure. Both are consistent:
-integrable + chiral = unique palindromic signature, neither standard
-Poisson nor GUE. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
+the SFF describes global spectral structure. These diagnostics cannot classify universality
+from the raw mixed spectrum. The SFF's multiplicity-dependent raw multiset density
+scale defines descriptive bins, not physical time regimes. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
 
 ---
 
@@ -403,9 +404,7 @@ Poisson nor GUE. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
 
 ---
 
-*The 21,840 eigenvalues answer the question nobody asked: the
-palindromic Liouvillian is integrable. What prevents chaos is the
-joint-popcount grading, which cuts the spectrum into blocks that never
-interact; the palindrome pairs those levels rather than separating
-them. The spectrum is not random, and one of its blocks is in closed
-form.*
+*The 21,840 eigenvalues supply spacing statistics, not an integrability proof.
+Joint-popcount grading separates invariant blocks; the palindrome pairs levels
+rather than separating them. One block has a closed form, while the measured
+Poisson/sub-Poisson statistics do not determine the interior spectra.*

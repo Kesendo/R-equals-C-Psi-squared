@@ -362,7 +362,9 @@ public static class PathKMonodromyScout
     /// MergeLambda = their midpoint λ_d; IsSemisimple = EpCharacter reads Diabolic (geo=alg, departure≈0,
     /// NOT a Jordan block); LoopIsIdentity = a small q-loop about q* braids nothing (necessary-not-sufficient
     /// for diabolic, R-3); Gap = refined min gap; GapScalingExponent = the gap's power-law in |q−q*|
-    /// (≈1 linear ⟹ two sheets crossing ⟹ diabolic; ≈½ ⟹ defective √-branch); PairIsResidual = both
+    /// (≈1 is an analytic-split candidate; ≈½ corroborates a square-root branch).
+    /// Analytic-defective collisions can split linearly: full-sector geometric multiplicity decides character.
+    /// PairIsResidual = both
     /// coalescing strands are H_B-mixed residual (not AT-locked), tested by continuity from q=2.</summary>
     public sealed record DiabolicPoint(
         Complex QValue, Complex MergeLambda, bool IsSemisimple, bool LoopIsIdentity,
@@ -445,7 +447,9 @@ public static class PathKMonodromyScout
         return (pairResidual, mid, radius);
     }
 
-    // the gap's power-law exponent approaching q* along +Re q: gap ∝ |t|^p, p≈1 diabolic / p≈½ defective.
+    // The gap's power-law exponent approaching q* along +Re q: gap ∝ |t|^p.
+    // p≈1 is an analytic-split candidate, not a Jordan verdict; p≈½ corroborates a square-root branch.
+    // Analytic-defective collisions can split linearly; EpCharacter reads geo versus alg on the full sector.
     private static double GapScalingExponent(Func<Complex, Complex[]> roots, Complex qd)
     {
         var ts = new[] { 0.02, 0.01, 0.005, 0.0025, 0.00125 };

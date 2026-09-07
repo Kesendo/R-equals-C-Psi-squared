@@ -7,14 +7,15 @@ using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The F89 Door-C DECISIVE follow-up: is fixed-q dissipative quantum chaos (GinUE complex spacing ratio)
-/// a FILLING threshold rather than an integrability one? Door-C stages 1-2 (<see cref="IntegrabilityBreakingCsr"/>)
-/// found the DILUTE (SE,DE)=(1,2) coherence block stays Poisson / non-GinUE under every integrability-breaking knob
-/// (XXZ Δ, a random Z-field), because a 2-excitation sector cannot thermalize. This harness builds the GENERAL
+/// <summary>The F89 Door-C filling comparison: finite executed CSR evidence compares dilute (SE,DE)=(1,2)
+/// with dense blocks under the same interacting disorder at canonical Delta=1.
+/// Nonzero Delta breaks free-fermion additivity, but uniform XXZ remains Bethe-integrable;
+/// random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions);
+/// generic random field plus Delta!=0 is the interacting disordered nonintegrable test. This harness builds the GENERAL
 /// (wKet,wBra) coherence block (<see cref="WeightCoherenceBlock.Build(int,int,int,Complex,double,double[])"/>) at
 /// EXTENSIVE filling (wKet,wBra near N/2) and re-runs the same disordered CSR. If the DENSE block reaches GinUE
-/// while the dilute one does not, Door-C's null is structural/kinematic (a FILLING threshold), not algebraic
-/// (Galois/integrability).
+/// while the dilute one does not, that supports a finite-size filling dependence, not a universal
+/// thermalization cause or a deduction of Hamiltonian integrability from spacings.
 ///
 /// <para>Class A is kept by using UNEQUAL weight (p, p+1): the F1 palindrome Π / conjugation maps the (p,p+1)
 /// coherence block to the conjugate (p+1,p) block, NOT to itself, so there is no residual antiunitary — the GinUE

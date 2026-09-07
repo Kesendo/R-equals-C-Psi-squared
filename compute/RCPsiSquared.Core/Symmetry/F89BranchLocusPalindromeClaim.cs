@@ -21,12 +21,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// λ↦−λ−2σ by 4.3) and over the whole complex-q plane to machine precision; the discriminant factorises
 /// exactly as const·q²⁴·(3q⁴+q²−1)²·P₂₀(q).</para>
 ///
-/// <para>Two separable gifts at the diabolic: it sits ON the line because its coalescing pair is
-/// overlap-balanced (p = ½, dephasing scalar −4γ, the AT-midpoint, a free-fermion integrability fact,
-/// <see cref="F89Path3OcticEpClaim"/>), and it is SILENT (semisimple) for the same integrability reason,
-/// NOT because it is self-mirror: on-the-line does not imply silent (XXZ Δ ≠ 0 stays on the line yet
-/// becomes defective; hypotheses/DIABOLIC_BY_INTEGRABILITY.md). The line is the palindrome's gift, the
-/// silence is integrability's. Live witness <c>inspect --root branchpalindrome</c>
+/// <para>The diabolic sits ON the line because its coalescing pair is overlap-balanced (p = ½,
+/// dephasing scalar −4γ, the AT-midpoint, <see cref="F89Path3OcticEpClaim"/>). Its semisimplicity follows
+/// from the twin-scalar restriction at the N=4 point, NOT from being self-mirror. The sampled XXZ Delta
+/// control stays on-line yet becomes defective (hypotheses/DIABOLIC_BY_INTEGRABILITY.md):
+/// this is a local restriction/control, not an all-N cause. Live witness <c>inspect --root branchpalindrome</c>
 /// (<c>BranchLocusPalindromeWitness</c>); reading reflections/ON_WHO_WATCHES_WHOM.md. Scope, now checked
 /// (foldlift probe, 2026-06-26): the block-internal self-fold is N_block=4 ONLY — the rung-swap P needs the
 /// overlap/no-overlap multiplicity balance 2 = N−2 (DE = bar(DE) half-filling), true only at N=4 (residual
@@ -80,8 +79,8 @@ public sealed class F89BranchLocusPalindromeClaim : Claim
             yield return new InspectableNode("the inherited mirror (antiunitary)",
                 summary: "the (SE,DE) F1 palindrome is the antiunitary T = P·K: T L(q) T⁻¹ = −L(q̄) − 2σ (same-q fold at real q), so " +
                          "the branch locus is invariant under λ ↦ −λ̄ − 2σ (Re reflects about −σ, Im preserved); every EP " +
-                         "on the line or in a mirror pair. Line = the palindrome's gift; the diabolic's silence = " +
-                         "free-fermion integrability's, separate. Live: inspect --root branchpalindrome.");
+                         "on the line or in a mirror pair. The twin-scalar restriction at the N=4 point supplies semisimplicity, " +
+                         "not the mirror alone; the sampled Delta control is not an all-N cause. Live: inspect --root branchpalindrome.");
         }
     }
 }

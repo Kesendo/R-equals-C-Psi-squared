@@ -16,17 +16,17 @@ public static class OpenArcsRegistry
             Origin: "the path-k diabolic investigation, now solid at two N (a diabolic = a SEMISIMPLE eigenvalue " +
                 "coalescence, eigenvectors stay independent, silent/pass-through; as opposed to a DEFECTIVE EP, " +
                 "where the eigenvectors also coalesce and the amplitude diverges; the whole arc is about counting " +
-                "the diabolics and showing integrability creates them). Path-3 (N=4): the within-block " +
+                "the diabolics and testing a residual integrability mechanism). Path-3 (N=4): the within-block " +
                 "twin-pair-onto-fold diabolic at a REAL q_EP=0.659, λ_EP=−4+2iJ, traced from below (gmscan " +
-                "--trace) and Δ-flipped defective by XXZ anisotropy (DIABOLIC_BY_INTEGRABILITY). Path-4 (N=5): " +
-                "11 character-verified diabolics, ALL at complex q (none at physical real q), Δ-VERIFIED " +
-                "integrability-protected (XxzCoherenceBlock + XxzDeltaFlipTests: they flip defective / lift under " +
-                "Δ≠0, a defective control stays put). The synthesis (integrability = existence of the diabolics, " +
+                "--trace) and observed to flip defective under sampled XXZ anisotropy (DIABOLIC_BY_INTEGRABILITY). Path-4 (N=5): " +
+                "11 character-verified diabolics, ALL at complex q (none at physical real q), with an executed finite-N Δ response " +
+                "(XxzCoherenceBlock + XxzDeltaFlipTests: they flip defective / lift under " +
+                "Δ≠0, a defective control stays put). The synthesis (the sampled Δ response supports, but does not prove, a residual integrability mechanism; " +
                 "the N=4 self-fold [an antiunitary mirror the watched (SE,DE)=single-excitation/double-excitation " +
-                "coherence block has ONLY at N=4] = what put ONE diabolic on the real axis): now Tier-1 for the " +
-                "mechanism, full write-up + the term defined in experiments/F89_PATH_K_DIABOLIC.md. Tom's " +
+                "coherence block has ONLY at N=4] = what put ONE diabolic on the real axis): the placement result is Tier 1, while the residual " +
+                "mechanism remains conditional; full write-up + the term defined in experiments/F89_PATH_K_DIABOLIC.md. Tom's " +
                 "question, the arc: does the structure " +
-                "(complex-q-only, integrability-protected, and HOW MANY) generalize over N, and what would it " +
+                "(complex-q-only, sampled Δ response, and HOW MANY) generalize over N, and what would it " +
                 "take to pursue it at path-5 (N=6), path-6 (N=7), and beyond?",
             ParkedAt: "[SUPERSEDED 2026-06-30 - this ParkedAt is the ORIGINAL two-N snapshot; the arc has since run " +
                 "N=4 through N=9, the onset is grounded (parity-gated odd N>=7, dimension-mismatch/sector-swap), and the C# " +
@@ -63,16 +63,24 @@ public static class OpenArcsRegistry
                 "met (loop contamination needing the small intrinsic radius; the √-cusp needing GapRefine-from-" +
                 "box-min for LIFT-vs-defect). Engineering, not fundamental. (3) The naive Slater additivity " +
                 "(E_DE = pairwise SE sums) bookkeeping FAILS from path-5 (the F_b modes are not simple sums; the " +
-                "AT factor needs the rate-confined reconstruction), BUT free-fermion integrability itself " +
-                "(Jordan-Wigner) holds at every N, so the diabolics persist and stay Δ-killable; only the AT-" +
-                "bookkeeping is harder. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
+                "AT factor needs the rate-confined reconstruction). Free-fermion integrability itself " +
+                "(Jordan-Wigner) holds at every N, but that fact alone does not prove residual semisimplicity " +
+                "or a Δ response at every N; the executed finite-N controls are evidence only. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "CURRENT STATE (2026-09-06, read this first; the dated layers below are the journal). " +
-                "RESUMING IN ONE LINE: Route B is complete at N=5 as a root-by-root inventory. All 58 q loci are diabolic with alg=geo=2: " +
-                "24 by executed full-sector Hermiticity and all 34 stable EpCharacter readings on the non-Hermitian-axis loci. " +
-                "No exact fallback was used. PSC1 supplies algebraic pair uniqueness and S1 supplies the repeated-lambda seed; " +
-                "neither determines Jordan character. This is not an all-N theorem and creates no new F number. " +
-                "NEXT: the F_32 (N=6) and F_53 (N=7) doubled-layer character/completeness edges remain unmeasured; do not extrapolate the N=5 inventory. " +
+            NextStep: "CURRENT STATE (2026-09-07, read this first; the dated layers below are the journal). " +
+                "RESUMING IN ONE LINE: Route B is complete at N=6 as a parity-labelled direct-t inventory. ExactAlgebraic owns all " +
+                "266 loci (133 per parity), consumed exactly once with 0 unresolved; character is Diabolic with alg=geo=2 at every locus: " +
+                "118 by executed full-sector HermitianAxis and 148 by stable EpCharacterStable readings, with ExactRankExecuted=0. " +
+                "The numerical rule uses all three intrinsic radii, relative departure <1e-6, and minimum returned middle-contour " +
+                "isolation margin 0.06589058580248003 in physical-lambda units at gamma=1. No exact fallback was used. " +
+                "PSC1 supplies algebraic pair uniqueness and S1 supplies the repeated-lambda seed; neither determines Jordan character. " +
+                "ROUTE_B_A2_N6_RECONCILE is the executable owner. This is not an all-N theorem and creates no new F number. " +
+                "MECHANISM BOUNDARY: the AT-locked semisimplicity route is Tier 1; for residual coalescences, additivity supplies " +
+                "only the H-half of the twin-scalar condition, while the D-half remains a locus-specific obligation. The finite-N " +
+                "Delta-flip controls support that residual mechanism but do not prove existence at every N. Free-fermion " +
+                "(Jordan-Wigner) integrability alone does not prove residual semisimplicity or a Delta response at every N; use F89e and " +
+                "PROOF_CODIM1_BY_ADDITIVITY for this boundary, and treat the stronger wording in the dated journal below as event history. " +
+                "NEXT: the F_53 (N=7) doubled-layer character/completeness edge remains unmeasured; do not extrapolate the N=6 inventory. " +
                 "Outside Route B, all four Moves AND the Move-4 follow-on (the " +
                 "cross-fold is integrability-independent and docks onto F1 as Pi's bra leg) are closed; their one OPEN edge is the " +
                 "within-odd EXACT threshold's CLOSED FORM (bounded R-even scans place the threshold empirically at N=7, grounded on residual density; a closed " +
@@ -84,14 +92,15 @@ public static class OpenArcsRegistry
                 "Absorption-Theorem decay rate, a POSITIVE rate 2*gamma*n_diff, so the eigenvalue sits at Re lambda = " +
                 "-2*gamma*n_diff = -2<n_XY> (gamma=1), with <n_XY> = n_diff the per-coherence XY-disagreement count (same quantity; " +
                 "the sign is just rate-vs-eigenvalue); the exponent = the gap-scaling " +
-                "exponent that classifies a coalescence (~1 for a diabolic / semisimple, ~0.5 for a defective EP / sqrt-branch); " +
+                "exponent that reads the local eigenvalue split (~1 for a linear analytic split, ~0.5 for a sqrt branch); " +
+                "the exponent corroborates branch type but does not decide geometric multiplicity or semisimplicity; " +
                 "EP = exceptional point (a non-Hermitian spectral degeneracy); F_d = the degree-d H_B-mixed " +
                 "RESIDUAL polynomial (H_B = the XY bond Hamiltonian; F_18/F_53/F_116 are DEGREES 18/53/116, NOT F-registry " +
                 "numbers like F89d); R = the site-reflection i->N-1-i (the order-2 symmetry 'S2') the block is built on; Sigma " +
                 "(capital) = the antiunitary realness operator, Sigma*L*Sigma = L-dagger (the adjoint, the 'L+' below) - NOT " +
                 "lowercase sigma_even/sigma_odd, which are the SPECTRA of the R-even/R-odd sectors. NOW: N=7 (path-6) " +
                 "is DONE, AND its Δ-test (Move 2) is now DONE too - so the diabolic-CHARACTER question is CLOSED at N=7 " +
-                "(all four real-q diabolics are integrability-protected, a PLACEMENT mechanism not a new species; details " +
+                "(all four real-q diabolics have an executed finite-N Δ response; their real-axis occurrence is a PLACEMENT mechanism, not a new species; details " +
                 "in the 'MOVE 2 IS NOW DONE' block below). In bounded R-even scans, the real-q ONSET showed a parity pattern under the " +
                 "N=8/N=9 discriminator (2026-06-30, the 'ONSET RESOLVED' block below): odd N >= 7 carried loci " +
                 "(N=8 even has NO on-axis real-lambda diabolic; N=9 odd has >=3, each a clean isolated on-axis point) - " +
@@ -126,8 +135,8 @@ public static class OpenArcsRegistry
                 "(docs/ANALYTICAL_FORMULAS.md, right after the F89c lemma it extends) + typed as F89CrossFoldSimilarityClaim " +
                 "(parents F1PalindromeIdentity + F89BranchLocusPalindromeClaim, Tier1Derived, wiring-audited; verify via " +
                 "'knowledge ancestors F89CrossFoldSimilarityClaim'). SO: ALL FOUR MOVES ARE DONE (Move 1 count / Move 2 Delta-test / " +
-                "Move 3 count-vs-N / Move 4 cross-fold), and MOVE 4's FOLLOW-ON IS NOW ANSWERED TOO. The N=5 Route B inventory is complete; " +
-                "its N=6/N=7 extension remains open under the NEXT sentence above. One separate minor non-blocking edge remains: " +
+                "Move 3 count-vs-N / Move 4 cross-fold), and MOVE 4's FOLLOW-ON IS NOW ANSWERED TOO. The N=5 and N=6 Route B inventories are complete; " +
+                "the N=7 extension remains open under the NEXT sentence above. One separate minor non-blocking edge remains: " +
                 "(a) the within-odd EXACT threshold N has no closed form (residual-density driven: F_18 " +
                 "too sparse, F_53 the first to host a real-q coalescence; likely none exists; the concrete probe is spelled out under " +
                 "REMAINING EDGES (a) below). MOVE-4 FOLLOW-ON ANSWERED (2026-06-30): DOES THE F89d ANTIUNITARY SIMILARITY SURVIVE XXZ " +
@@ -137,8 +146,8 @@ public static class OpenArcsRegistry
                 "complex). The handover's tentative 'could break' guess was WRONG, and instructively so: the very fact it flagged as a " +
                 "worry - the ZZ-bond sum being INVARIANT under bra-complementation (zz(bbar)=zz(b), because Z_b*Z_{b+1} is EVEN under " +
                 "the global bit-flip) - is EXACTLY what makes the fold SURVIVE (the bra-complement carries the even ZZ term unchanged, " +
-                "as it carries the XY hopping). So the diabolics DIE under Delta (Move 2, integrability-protected) but their cross-fold " +
-                "PAIRING does not: a diabolic and its partner turn defective in lockstep, the two blocks staying antiunitary-similar at " +
+                "as it carries the XY hopping). In the sampled N=4 Move-2 control the diabolic loses semisimplicity under Delta, while its cross-fold " +
+                "PAIRING does not: it and its partner turn defective in lockstep, the two blocks staying antiunitary-similar at " +
                 "every Delta. The discriminant is BIT-FLIP PARITY: a bit-flip-ODD perturbation breaks the fold - a longitudinal Z-field " +
                 "Sigma_k w_k Z_k has fe(bbar)=-fe(b), residual O(1) (~5.46 at N=6), the verified negative control - proving the fold a " +
                 "STRUCTURAL/algebraic property of the Liouvillian, not a free-fermion (integrability) artifact (it survives any " +
@@ -195,12 +204,12 @@ public static class OpenArcsRegistry
                 "integrability, Move 3 = count-vs-N growth, Move 4 = cross-fold (SE,DE)<->(SE,w_N-2); detailed in the journal " +
                 "below). MOVE 2 IS NOW DONE (2026-06-30): the exact-residual treatment was PORTED to the XXZ block - " +
                 "PathKMonodromyScout.AllRootsXxz / ResidualRootsExactXxz carry the XXZ ZZ-frequency as a diagonal generator " +
-                "G = -2i*zzDiag in F89's mirror basis (2M_xxz = A + qC + qD*G), compressed onto the SAME Delta-independent AT " +
-                "complement (the AT subspace is Delta-STABLE because the ZZ term is Hermitian, so the AT rate is Delta-" +
-                "independent); wired as 'pkmono --delta-flip --exact', RE-GATED against the tracked path at N=6 " +
+                "G = -2i*zzDiag in F89's mirror basis (2M_xxz = A + qC + qD*G), compressed onto the Delta=0 AT complement " +
+                "held fixed as a proposal space; Hermiticity leaves the dissipative rate diagonal untouched but does not by itself prove that complement invariant. " +
+                "Character is therefore read on the full block; wired as 'pkmono --delta-flip --exact', RE-GATED against the tracked path at N=6 " +
                 "(XxzDeltaFlipTests, all green). THE VERDICT: all four N=7 real-q diabolics (q=1.1264/1.3038/2.6280/0.6788) read " +
-                "DIABOLIC at Delta=0 and DIE under Delta (three flip DEFECTIVE geo 2->1, q=2.6280 LIFTS), the SAME " +
-                "integrability-protected death as the complex-q ones. So the real-q diabolics are NOT a new species; the N=7 " +
+                "DIABOLIC at Delta=0 and DIE under the sampled Delta values (three flip DEFECTIVE geo 2->1, q=2.6280 LIFTS), the SAME " +
+                "finite-N response as the complex-q ones. So the real-q diabolics are NOT a new species; the N=7 " +
                 "onset is a PLACEMENT mechanism, not a new protection. Full write-up: experiments/F89_PATH_K_DIABOLIC.md (the " +
                 "Delta-test section). ONSET RESOLVED (2026-06-30): the placement question - threshold, parity, or one-off? - is " +
                 "now answered by running the (rebuild-free) exact instrument at N=8 and N=9. KEY GROUNDING that made it a run not " +
@@ -343,8 +352,8 @@ public static class OpenArcsRegistry
                 "path-3..6 Galois groups live' (experiments/F89_PATH_K_GALOIS.md) + the " +
                 "galois_of_spectral_polynomial recipe (isolate-before-DDF + invariant-subspace). The RESULT is " +
                 "closed; the doors are the next research, none started.",
-            NextStep: "RESUMING IN ONE LINE (2026-06-30): door C is CLOSED (chaos = a FILLING threshold [term defined in " +
-                "the door-C block below + experiments/FILLING_THRESHOLD_CHAOS.md], the decisive test done, live inspect " +
+            NextStep: "RESUMING IN ONE LINE (2026-09-07): door C's bounded fixed-q comparison is complete (finite N=6..8 " +
+                "filling-associated movement toward GinUE, not a causal or thermodynamic threshold theorem; live inspect " +
                 "--root fillcsr); of the four doors, A is DONE EXCEPT one OPEN edge (a closed form for the ring's per-irrep " +
                 "multiplicity growth), B (gamma-dependence of the writable/unwritable line) is UNSTARTED Tier-3, D (Galois " +
                 "atlas of physical spectra) is UNSTARTED lowest-urgency. So the arc's live edges are A's remaining closed " +
@@ -354,7 +363,7 @@ public static class OpenArcsRegistry
                 "popcount(b)=2); AT-locked = eigenvalues pinned to the Absorption-Theorem decay rungs (free-fermion, " +
                 "radically writable), H_B-mixed = the residual non-AT half that carries the Galois S_d; class A = the " +
                 "non-Hermitian symmetry class whose CSR reference is GinUE (the Ginibre random-matrix ensemble, the " +
-                "dissipative-quantum-chaos baseline, <|z|>~0.74 / <cos>~-0.24). The four doors in full (C now closed), ranked by sharpness of the yes/no. " +
+                "dissipative-quantum-chaos baseline, <|z|>~0.74 / <cos>~-0.24). The four doors in full (C's bounded test complete), ranked by sharpness of the yes/no. " +
                 "(A) [FIRST EXEMPLAR LANDED 2026-06-24] NON-CHAIN TOPOLOGY Galois groups: YES, topology controls " +
                 "radical-writability. Computed star/ring/complete (SE,DE) H_B-mixed Galois groups at N=4,5,6 " +
                 "(simulations/topology_galois_writability.py, gate-validated by reproducing the chain S_8/S_18/S_32; " +
@@ -391,55 +400,26 @@ public static class OpenArcsRegistry
                 "(integrable, pure imaginary). Is the AT-locked/H_B-mixed split present at all gamma>0, or does the " +
                 "writable fraction move with how hard you watch? Map deg(F_d)/deg(AT) or the discriminant loci across " +
                 "q. Speculative, Tier-3. " +
-                "(C) GALOIS <-> SPECTRAL CHAOS (RMT). [FULLY RESOLVED: a clean NULL 2026-06-27, then EXPLAINED " +
-                "2026-06-30 -- chaos is a FILLING threshold; door C is CLOSED, see the 'DECISIVE TEST RESOLVED " +
-                "2026-06-30' block below and experiments/FILLING_THRESHOLD_CHAOS.md] Is S_d the algebraic face " +
-                "of Liouvillian level-repulsion? NO, not at fixed q. The galoischaos witness (inspect --root " +
-                "galoischaos, GaloisSpectralChaosWitness) splits the (SE,DE) block into AT-locked vs H_B-mixed and " +
-                "runs the complex spacing ratio (Sa-Ribeiro-Prosen) pooled over q: the H_B-mixed S_d half reads " +
-                "Poisson-like/sub-Poisson (NOT GinUE -- the Ginibre unitary ensemble, the chaotic-spectrum RMT " +
-                "baseline with <|z|>~0.74 / <cos theta>~-0.24), and the AT-locked half is the sparse picket-fence (low <|z|>, " +
-                "structured) -- both halves non-GinUE. Integrability protects the fixed-q spectrum; the global Poisson " +
-                "reading (RANDOM_MATRIX_THEORY.md) and the within-sector GOE hint (now resolved as a small-sample " +
-                "artifact, simulations/rmt_goe_hint_verdict.py) agree. ALGEBRAIC chaos (Galois over q) and SPECTRAL " +
-                "chaos (RMT at fixed q) are DISTINCT here. SEQUEL RESOLVED 2026-06-27 (a SECOND, deeper null): " +
-                "breaking integrability does NOT drive the fixed-q CSR Poisson->Ginibre. Stage 1 (Delta anisotropy) " +
-                "and Stage 2 (random Z-field U[-W,W], with AND without interactions) both keep the H_B-mixed CSR " +
-                "<cos theta> POSITIVE (never the GinUE angular repulsion -0.19) and <|z|> sub-GinUE at every Delta/W; " +
-                "Delta=0 + disorder is 1D Anderson (stays Poisson, the control). The null is STRUCTURAL/kinematic, NOT " +
-                "about the Galois algebra or Hamiltonian integrability: the (SE,DE) block is a DILUTE 2-excitation " +
-                "sector that cannot thermalize, so it is non-chaotic regardless of integrability-breaking (the " +
-                "finite-size GinUE reference at ~147 pts DOES read -0.19, so the diagnostic CAN see chaos at this " +
-                "size -- the block's absence of repulsion is real, not finite-size). Upstream fact en route: " +
-                "TwoMagnonAdditivity shows Delta breaks the free-fermion additivity E_DE=eps_j+eps_k LINEARLY " +
-                "(bit-exact 0 at Delta=0), so Delta is the Liouvillian-free-fermion-additivity breaker, NOT a null " +
-                "control (a 2-physics-review correction to the original framing). What EXISTS (committed 2026-06-27, " +
-                "8a87d3c..d9801bf, all TDD green): compute/RCPsiSquared.Core/Spectrum/TwoMagnonAdditivity.cs (the " +
-                "additivity probe); ComplexSpacingRatio.ZValues/PoissonDiskZValues/GinueZValues (per-spectrum z's -- " +
-                "pool z's, NEVER raw eigenvalues across spectra, the methodology guard); " +
-                "compute/RCPsiSquared.Diagnostics/Foundation/IntegrabilityBreakingCsr.cs (Sweep + DisorderSweep + the " +
-                "Domain selector: UpperHalf is valid ONLY at Delta=0 where the (SE,DE) spectrum is " +
-                "conjugation-symmetric, OffReal at Delta!=0 where it is NOT -- a self-caught domain bug that had " +
-                "inflated a since-RETRACTED 'reaches GinUE magnitude' claim); XxzCoherenceBlock.BuildFullWithField. " +
-                "DECISIVE TEST RESOLVED 2026-06-30 (chaos is a FILLING THRESHOLD, not an integrability one; live " +
-                "inspect --root fillcsr, experiments/FILLING_THRESHOLD_CHAOS.md, TDD-green): a DENSER coherence " +
-                "sector of the SAME Liouvillian DOES reach toward GinUE under the same disorder, PROVING the dilute-" +
-                "sector reading. Built the general (wKet,wBra) block + a per-site Z-field overload on " +
-                "WeightCoherenceBlock.Build (Core, promoted from the test-only helper) and FillingThresholdCsr " +
-                "(Diagnostics, the disorder-ensemble pooled-z CSR on it, reusing IntegrabilityBreakingCsr.Reduce + the " +
-                "finite-size references). RESULT (gamma=1, q=1, interacting Delta=1, ergodic W=0.75, UNEQUAL weight " +
-                "(p,p+1) so class A is licensed -- Pi maps (p,p+1) to the CONJUGATE (p+1,p) block not itself, " +
-                "conjugation-match ~0 under disorder): the DILUTE (1,2)=(SE,DE) block stays Poisson (<cos theta> ~ " +
-                "-0.04, ~23% of the size-matched GinUE angle) at every N; the DENSE (p,p+1) block near half-filling " +
-                "has <|z|> AT the GinUE value and <cos theta> NEGATIVE, CLIMBING toward GinUE with the block size " +
-                "(-0.089/-0.129/-0.162 at N=6/7/8 = 43/56/67% of GinUE, N=8 CI'd). <|z|> saturates at GinUE first, <cos theta> " +
-                "(the finer correlation) trails and catches up with size = the genuine class-A finite-size signature; " +
-                "W=2 relaxes back (MBL), Delta=1 deepens the repulsion over Delta=0. So Galois-chaos (over q) and " +
-                "spectral-chaos (at fixed q) merge ONLY at extensive filling; the dilute (SE,DE) sector that carries " +
-                "S_d is too dilute to thermalize, and its persistent Poisson is the kinematic shadow. LANDED: the " +
-                "FillingThresholdWitness (inspect --root fillcsr) is the persistent evidence; RANDOM_MATRIX_THEORY.md " +
-                "Result 5; the door-C plan Progress; experiments/FILLING_THRESHOLD_CHAOS.md. The galoischaos witness " +
-                "stays the Delta=0 / dilute control. SEPARATE still-open direction: where S_d " +
+                "(C) GALOIS <-> SPECTRAL CHAOS (RMT). [CURRENT VERDICT 2026-09-07: the bounded fixed-q tests separate " +
+                "Galois complexity from the measured CSR, and the filling run supplies finite-size contrast rather than " +
+                "a causal threshold theorem.] The galoischaos witness (inspect --root galoischaos) splits the dilute " +
+                "(SE,DE) block into AT-locked and H_B-mixed parts and pools the complex spacing ratio over q. In the " +
+                "executed window the H_B-mixed S_d half is Poisson-like/sub-Poisson rather than GinUE, while the AT-locked " +
+                "half is sparse and structured. That is evidence about this fixed-q spectral geometry, not proof of " +
+                "Hamiltonian integrability. The perturbation controls distinguish three cases: uniform Delta breaks " +
+                "free-fermion additivity but the XXZ chain remains Bethe-integrable; random longitudinal Z disorder at " +
+                "Delta=0 remains a quadratic Anderson/free-fermion Hamiltonian; random disorder with Delta!=0 is the " +
+                "interacting disordered nonintegrable test. Across the executed finite sizes and parameter windows the " +
+                "dilute block remains non-GinUE. ComplexSpacingRatio supplies size-matched references and pools per-spectrum " +
+                "z values, never raw eigenvalues. The filling follow-up (inspect --root fillcsr) compares that dilute block " +
+                "with unequal-weight near-half-filled blocks at gamma=1, q=1, Delta=1, W=0.75. The dense <cos theta> moves " +
+                "toward the GinUE reference across N=6,7,8 (-0.089/-0.129/-0.162, 43/56/67% of the size-matched angle), " +
+                "while the dilute value stays near -0.04; <|z|> is already near its reference. This is a bounded " +
+                "filling-associated finite-size trend, not proof of convergence, thermalization, or a thermodynamic " +
+                "threshold. W=2 and Delta=0 are additional controls, not a causal isolation of filling. LANDED: " +
+                "FillingThresholdWitness, RANDOM_MATRIX_THEORY.md Result 5, and experiments/FILLING_THRESHOLD_CHAOS.md " +
+                "hold the evidence and its scope. The galoischaos witness remains the Delta=0 dilute control. " +
+                "SEPARATE still-open direction: where S_d " +
                 "DOES live spectrally is the q-PARAMETRIC monodromy/braid (the discriminant/EP loci, --root " +
                 "galoismonodromy), not the fixed-q geometry. " +
                 "(D) GALOIS ATLAS of physical spectra. F89 chains = S_n; SIC-POVM spectral polynomials (Appleby 2012) " +
@@ -1510,8 +1490,10 @@ public static class OpenArcsRegistry
                 "mechanism). Route B's exact N=5 F_18/F_17 discriminant layers and complete root/locus isolation " +
                 "are landed, and the N=5 A2 layer is complete root by root: 58/58 q loci are diabolic, including " +
                 "all 34 stable EpCharacter readings off the Hermitian axis; no exact fallback was used. " +
-                "NEXT: the F_32 (N=6) and F_53 (N=7) doubled-layer character/completeness edges remain unmeasured; do not extrapolate the N=5 inventory. " +
-                "This is not an all-N theorem; " +
+                "Route B is complete at N=6 as a parity-labelled direct-t inventory: ExactAlgebraic=266, HermitianAxis=118, " +
+                "EpCharacterStable=148, ExactRankExecuted=0, and ROUTE_B_A2_N6_RECONCILE consumes all 266 loci with 0 unresolved; " +
+                "all have alg=geo=2 and diabolic character. NEXT: the F_53 (N=7) doubled-layer character/completeness edge remains unmeasured; " +
+                "do not extrapolate the N=6 inventory. This is not an all-N theorem; " +
                 "nonzero A1 roots are already certified EP2 by the simple-zero lemma. (b) LOOK IN OTHER " +
                 "REPRESENTATIONS, not radicals: S_8 forbids a radical ladder, NOT every " +
                 "closed form (Bring/theta/hypergeometric exist for any algebraic function); seek the connection in the " +

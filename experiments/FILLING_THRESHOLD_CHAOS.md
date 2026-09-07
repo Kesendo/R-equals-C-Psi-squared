@@ -1,10 +1,13 @@
-# Dissipative Quantum Chaos is a Filling Threshold, not an Integrability One
+# Finite-Size Filling-Associated Crossover in Dissipative Spectral Statistics
 
 **Date:** June 30, 2026
 **Tier:** 1 (computational, live-witnessed)
 **Arc:** `f89_galois_open_doors` door C, decisive follow-up (the `diabolic_over_higher_n` neighbour)
 **Witness:** `inspect --root fillcsr` (`FillingThresholdWitness`)
 **Engine:** `FillingThresholdCsr` (Diagnostics) on `WeightCoherenceBlock.Build(n, wKet, wBra, q, Δ, field)` (Core)
+
+This is filling-associated crossover evidence at N=6..8: movement toward GinUE,
+not a causal or thermodynamic threshold theorem. The file/API names retain the research label.
 
 ## In plain words (the ground truth first)
 
@@ -24,16 +27,14 @@ random-matrix reference for a fully chaotic dissipative system, whose eigenvalue
 that tells them apart is the complex spacing ratio (**CSR**), summarised below. The question of this
 experiment is which fingerprint a given piece of the spectrum wears, and what controls it.
 
-The usual suspect for what turns chaos on is **integrability**. An *integrable* system has enough
-conservation laws to be solvable in closed form, and it wears the structureless Poisson fingerprint;
-*breaking* integrability (adding interactions or disorder that spoil those conservation laws) is the
-textbook route to chaos. The surprise of this experiment is that breaking integrability is **not** what
-flips this spectrum to chaos.
+Hamiltonian integrability and Liouvillian spacing statistics are different questions.
+Poisson-like spacings are compatible with integrable structure, but do not prove it.
+Here the controlled comparison changes the coherence sector at fixed interacting disorder.
 
 "**Filling**" is how many excitations (flipped spins) the piece of the spectrum under study carries,
 relative to N: a **dilute** sector holds a handful of excitations, a **dense** sector holds ~N/2
 (extensive, i.e. growing with the system size).
-The result, in one line: dissipative chaos turns on with **filling**, not with breaking integrability.
+The result, in one line: the sampled dense sectors show stronger GinUE-like repulsion than the dilute sectors.
 
 The rest of this document is the precise version. (Acronyms expanded on first use; EVD = eigenvalue
 decomposition, the numerical step that produces the spectrum.)
@@ -47,17 +48,19 @@ ratio (CSR, Sá-Ribeiro-Prosen) is Poisson-like, not GinUE: algebraic chaos over
 spectral chaos at fixed q are different things here (`inspect --root galoischaos`,
 [RANDOM_MATRIX_THEORY.md](RANDOM_MATRIX_THEORY.md) Result 3).
 
-The two follow-up stages then showed the null is **robust**: breaking the Liouvillian's free-fermion
-additivity (XXZ anisotropy Δ) or the Hamiltonian's integrability (a random Z-field), with or without
-interactions, never drove the (SE,DE) CSR to GinUE (the `IntegrabilityBreakingCsr` Door-C sweep). The
-reading that survived: the null is **structural / kinematic**. The (SE,DE) block is a *dilute*
-2-excitation sector (one excitation in the ket, two in the bra); a dilute sector cannot thermalize,
-so it stays non-chaotic however hard you break integrability.
+The Door-C sweeps distinguish three Hamiltonian cases:
 
-This experiment is the decisive test of that reading. If the dilute block is non-chaotic *because*
-it is dilute, then a **dense** coherence sector of the **same** Liouvillian, one with extensive
-excitation content, should reach GinUE under the same knobs. That is exactly what we find. Chaos
-here is a **filling threshold**, not an integrability one.
+- Nonzero Delta breaks free-fermion additivity, but uniform XXZ remains Bethe-integrable.
+- A random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions).
+- A generic random field plus Delta!=0 is the interacting disordered nonintegrable test.
+
+The open-chain Bethe solution and the disordered interaction/Anderson boundary are independent
+Hamiltonian inputs ([open XXZ](https://arxiv.org/abs/0707.1995),
+[random-field XXZ](https://arxiv.org/abs/2403.09608)). Reflection, conjugation or cross-fold symmetry can
+break without each knob breaking Hamiltonian integrability. The finite executed CSR evidence is a
+dilute non-GinUE reading over the sampled knobs, followed by the **same** Liouvillian's dilute-vs-dense
+comparison at canonical Delta=1 plus disorder. It supports a filling dependence in that regime,
+not a universal inability of dilute sectors to thermalize.
 
 ## Terms used here
 
@@ -108,40 +111,31 @@ to the per-spectrum z-count):
 Read across the two filling regimes:
 
 - **The dilute (1,2)=(SE,DE) block stays Poisson.** ⟨cos θ⟩ ≈ −0.04 at every N, ⟨|z|⟩ ≈ 0.67: no
-  angular repulsion, no N-trend. The Door-C null, reproduced through the general builder. A 2-excitation
-  sector does not thermalize, however hard the disorder + interactions break integrability.
-- **The dense (p,p+1) block near half-filling is chaotic.** Its radial statistic ⟨|z|⟩ ≈ 0.71–0.72
-  sits **at the GinUE value already**, and its angular repulsion ⟨cos θ⟩ is **negative and climbs toward
+  strong angular repulsion or clear N-trend in this table. The Door-C null is reproduced through the
+  general builder at the executed interacting-disorder operating point; it is not a thermalization proof.
+- **The sampled dense (p,p+1) blocks move toward GinUE.** Their radial statistic ⟨|z|⟩ ≈ 0.71–0.72
+  is **near the GinUE reference**, and their angular repulsion ⟨cos θ⟩ is **negative and climbs toward
   GinUE with the block size**: −0.089 → −0.129 → −0.162 at N = 6/7/8 (≈ 43% → 56% → 67% of the
   size-matched GinUE angle). The dilute block stays flat at ≈ 0 (~14–23%) across the same N.
 
-The radial statistic reaching GinUE while the angular one converges more slowly from above is the
-expected finite-size signature of genuine class-A (GinUE) statistics: ⟨|z|⟩ saturates first, ⟨cos θ⟩
-(a finer correlation) trails and catches up with size. The dense block is on the GinUE side and walking
-in; the dilute block is parked on the Poisson side.
+The radial statistic is closer to the GinUE reference than the angular statistic.
+Their differing finite-size trends support a crossover reading; they do not establish
+asymptotic convergence or a thermodynamic phase boundary.
 
 (The isospectral pairs (2,3) ≅ (3,4) at N=6 read identically, as they must: particle-hole / the global
 spin-flip QP relate them; see [F89d cross-fold](F89_PATH_K_DIABOLIC.md).)
 
-## Why it lands: extensive filling is the missing ingredient
+## What the comparison establishes
 
-Door-C established that breaking the Galois (over q) or Hamiltonian (Bethe) integrability does not move
-the dilute CSR. This experiment isolates what does: **filling**. The same Liouvillian, the same disorder,
-the same interactions, only the excitation content changes, and the CSR crosses from Poisson to GinUE.
-So:
+At the same Liouvillian, disorder and interactions, changing excitation content changes the observed
+CSR: the sampled dense sectors approach the GinUE reference more closely than the dilute ones.
+Galois structure over the coupling field and spectral statistics at fixed coupling remain distinct objects.
+These finite sizes do not establish a universal filling threshold or a cause of thermalization.
 
-- Galois chaos (the non-solvable S_d over the coupling field) and spectral chaos (GinUE at fixed q) are
-  **distinct objects** and merge **only at extensive filling**. The dilute (SE,DE) block where the S_d
-  lives is the wrong place to look for GinUE, not because the algebra is too simple, but because the
-  sector is too dilute to thermalize.
-- The MBL caveat holds: the strong-disorder corner (W = 2) relaxes the dense block back toward Poisson
-  (localization), so the GinUE window is the intermediate-W ergodic band, exactly where many-body
-  dissipative chaos is expected. Interactions (Δ = 1) deepen the repulsion over the free-fermion case
-  (Δ = 0), as a non-integrable many-body sector should.
-
-This closes Door C's last open edge with a structural verdict, not the originally-anticipated
-integrability gradient: the fixed-q chaos line is drawn by **filling**, and the dilute block's persistent
-Poisson statistics are the kinematic shadow of a sector that holds too few excitations to scramble.
+The strong-disorder corner (W = 2) moves the dense block back toward Poisson-like statistics; this is
+compatible with localization but is not an MBL proof. In the sampled disorder window, interactions
+(Δ = 1) deepen repulsion relative to the quadratic free-fermion case (Δ = 0). The distinction is
+between those executed operating points, not between every disordered and every clean Hamiltonian.
 
 ## Reproduce
 

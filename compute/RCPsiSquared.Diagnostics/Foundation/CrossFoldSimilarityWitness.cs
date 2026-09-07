@@ -31,8 +31,9 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// <para>The fold is integrability-INDEPENDENT: the identity holds for the FULL interacting XXZ block at EVERY
 /// anisotropy Δ (<see cref="WeightCoherenceBlock.Build(int,int,int,System.Numerics.Complex,double)"/>), because the
 /// Δ·ZZ term is EVEN under the global bit-flip (zz(b̄) = zz(b)), so the bra-complement carries it cleanly. The
-/// diabolics themselves DIE under Δ (integrability-protected, the arc's Move 2), but the pairing structure does
-/// not: a diabolic and its cross-fold partner turn defective in lockstep. The discriminant is bit-flip PARITY: a
+/// defect-or-lift result is a sampled finite-N Delta response; it does not establish all-N protection.
+/// The pairing identity still holds: if a diabolic becomes defective, its cross-fold partner does too.
+/// The discriminant is bit-flip PARITY: a
 /// bit-flip-ODD perturbation breaks the fold; a longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), so its
 /// residual is O(1), not machine zero (<see cref="ReadFieldControlResidual"/>, the complementary control). The fold
 /// is therefore a structural/algebraic property of the Liouvillian, not a free-fermion artifact.</para>
@@ -72,8 +73,8 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
     /// <summary>The cross-fold antiunitary-similarity residual of the XXZ block at coupling q and anisotropy Δ:
     /// max over (t,u) of |L(1,N−2)(q̄,Δ)[Pt,Pu] − (−conj(L(1,2)(q,Δ)[t,u]) − 2N·δ)|. Zero ⟹ exact similarity.
     /// Machine-zero at EVERY Δ: the Δ·ZZ term is even under the global bit-flip (zz(b̄) = zz(b)), so the bra-
-    /// complement carries it cleanly; the fold is integrability-independent (it survives the anisotropy that
-    /// kills the diabolics themselves).</summary>
+    /// complement carries it cleanly; the fold is integrability-independent. The finite-N Delta response
+    /// of sampled diabolics tests the conditional residual mechanism, not an all-N cause.</summary>
     public CrossFoldReading Read(int n, Complex q, double delta)
     {
         var l1 = WeightCoherenceBlock.Build(n, 1, 2, q, delta);
@@ -211,8 +212,8 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
                    "(q, λ) has a partner diabolic at (q̄, −λ̄−2N) in the (SE,w_{N−2}) block with identical character (an " +
                    "antiunitary similarity preserves Jordan structure) and identical coalescence gap. The N=4 self-fold is the " +
                    "degenerate partner=self case. The fold is integrability-INDEPENDENT: it survives at EVERY Δ (the Δ·ZZ term " +
-                   "is even under the global bit-flip, zz(b̄)=zz(b)), so it holds for the full interacting XXZ block even though " +
-                   "the diabolics themselves die under Δ; the discriminant is bit-flip parity (a longitudinal Z-field, odd, " +
+                   "is even under the global bit-flip, zz(b̄)=zz(b)). The sampled finite-N Delta response is defect-or-lift, consistent with the conditional residual mechanism, not an all-N cause; " +
+                   "the fold holds for the full interacting XXZ block; its discriminant is bit-flip parity (a longitudinal Z-field, odd, " +
                    "breaks it). Move 4, answered: the diabolics pair across the cross-fold, for all N, all q, all Δ at once. " +
                    "The fold holds at EVERY ket weight (not just wKet=1), and has a mirror KET leg (flip the ket index): both " +
                    "legs are exact antiunitary similarities (−2N), their product the unitary global spin-flip. These are the " +

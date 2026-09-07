@@ -1,9 +1,32 @@
 using System.Numerics;
 using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
+
+public sealed record RouteBA2N6ReconciliationReport(
+    int TotalLoci, int ConsumedLoci, int UnresolvedLoci,
+    IReadOnlyDictionary<string, int> ByAlgebraicSource,
+    IReadOnlyDictionary<string, int> ByCharacterSource,
+    IReadOnlyDictionary<EpCharacter.EpKind, int> ByVerdict,
+    [property: JsonConverter(typeof(RouteBA2N6MarginJsonConverter))] double MinimumIsolationMargin);
+
+/// <summary>Output encoding of the absence of numerical character evidence.</summary>
+internal sealed class RouteBA2N6MarginJsonConverter : JsonConverter<double>
+{
+    public override double Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
+        reader.TokenType == JsonTokenType.String && reader.GetString() == "not-applicable"
+            ? double.PositiveInfinity : reader.GetDouble();
+
+    public override void Write(Utf8JsonWriter writer, double value, JsonSerializerOptions options)
+    {
+        if (double.IsPositiveInfinity(value)) writer.WriteStringValue("not-applicable");
+        else writer.WriteNumberValue(value);
+    }
+}
 
 /// <summary>Character at each exact-artifact N=6 seed, read on its full 45-dimensional parity sector.
 /// No exact-rank fallback is consulted: unresolved character remains an ambiguity.</summary>
@@ -26,6 +49,98 @@ public sealed class RouteBA2N6CharacterClassifier
         locus.TBox.ImLo.Numerator.IsZero && locus.TBox.ImHi.Numerator.IsZero;
 
     public A2CharacterReading Classify(RouteBA2N6Locus locus) => ClassifyRadii(locus)[1];
+
+    /// <summary>Consume every certified direct-t locus once, in ordinal ID order.
+    /// Numerical character is stable evidence, never an exact-rank certificate.
+    /// The margin is the minimum returned middle-contour margin among numerical
+    /// character readings; +Infinity means no numerical character was needed.</summary>
+    public RouteBA2N6ReconciliationReport ReconcileAll() => ReconcileReadings(
+        inventory.Loci.OrderBy(locus => locus.Id, StringComparer.Ordinal).Select(Classify));
+
+    internal RouteBA2N6ReconciliationReport ReconcileReadings(IEnumerable<A2CharacterReading> readings)
+    {
+        static ExactComplexBox Conjugate(ExactComplexBox box) =>
+            new(box.ReLo, box.ReHi, box.ImHi.Negate(), box.ImLo.Negate());
+        static void Require(bool condition, string reason)
+        {
+            if (!condition) throw new InvalidOperationException($"N6 reconciliation: {reason}");
+        }
+
+        Require(inventory.Loci.Select(l => l.Id).Distinct(StringComparer.Ordinal).Count() == inventory.Loci.Count,
+            "duplicate inventory ID");
+        Require(inventory.Loci.Count(l => l.Parity == A2Parity.Even) == inventory.A2Degrees.E
+            && inventory.Loci.Count(l => l.Parity == A2Parity.Odd) == inventory.A2Degrees.O
+            && inventory.Loci.Count == inventory.A2Degrees.E + inventory.A2Degrees.O,
+            "inventory totals do not equal certified parity A2 degrees");
+        var byId = inventory.Loci.ToDictionary(l => l.Id, StringComparer.Ordinal);
+        foreach (var locus in inventory.Loci)
+        {
+            Require(byId.TryGetValue(locus.ConjugationPartnerId, out var conjugate)
+                && conjugate.ConjugationPartnerId == locus.Id && conjugate.Parity == locus.Parity
+                && conjugate.TBox == Conjugate(locus.TBox)
+                && conjugate.LambdaClearedBox == Conjugate(locus.LambdaClearedBox),
+                $"conjugation partner map fails at {locus.Id}");
+            Require(byId.TryGetValue(locus.ParityPartnerId, out var partner)
+                && partner.ParityPartnerId == locus.Id && partner.Parity != locus.Parity
+                && partner.TBox == locus.TBox.Negate()
+                && partner.LambdaClearedBox == locus.LambdaClearedBox,
+                $"parity partner map fails at {locus.Id}");
+        }
+
+        var consumed = new Dictionary<string, A2CharacterReading>(StringComparer.Ordinal);
+        foreach (var reading in readings)
+        {
+            Require(byId.ContainsKey(reading.LocusId), $"foreign reading {reading.LocusId}");
+            Require(consumed.TryAdd(reading.LocusId, reading), $"duplicate consumption {reading.LocusId}");
+            var locus = byId[reading.LocusId];
+            Require(reading.Algebraic == locus.AlgebraicMultiplicity && reading.Algebraic == 2
+                && (reading.Kind == EpCharacter.EpKind.Diabolic && reading.Geometric == 2
+                    || reading.Kind == EpCharacter.EpKind.Defective && reading.Geometric == 1),
+                $"unresolved character at {locus.Id}");
+            switch (reading.Source)
+            {
+                case A2CharacterSource.HermitianAxis:
+                    Require(IsHermitianEligible(locus) && reading.Kind == EpCharacter.EpKind.Diabolic
+                        && reading.FullBlockHermiticityResidual is double residual && double.IsFinite(residual)
+                        && residual < 1e-12, $"HermitianAxis evidence missing at {locus.Id}");
+                    break;
+                case A2CharacterSource.EpCharacter:
+                    Require(!IsHermitianEligible(locus)
+                        && reading.IsolationMargin is double margin && double.IsFinite(margin) && margin > 0
+                        && reading.RelativeDeparture is double departure && double.IsFinite(departure)
+                        && (reading.Kind == EpCharacter.EpKind.Diabolic && departure < 1e-6
+                            || reading.Kind == EpCharacter.EpKind.Defective && departure > 5e-2),
+                        $"EpCharacterStable evidence missing at {locus.Id}");
+                    break;
+                default:
+                    // N=6 has no executed exact-rank route. A certificate label cannot
+                    // turn a numerical reading into one, even if an artifact is supplied.
+                    Require(false, $"ExactRankExecuted is unavailable at {locus.Id}");
+                    break;
+            }
+        }
+        Require(consumed.Count == byId.Count, "missing locus consumption");
+        foreach (var locus in inventory.Loci)
+        {
+            var reading = consumed[locus.Id];
+            Require(reading.Kind == consumed[locus.ConjugationPartnerId].Kind
+                && reading.Kind == consumed[locus.ParityPartnerId].Kind,
+                $"partner character disagreement at {locus.Id}");
+        }
+        var accepted = consumed.Values.ToArray();
+        var sources = new Dictionary<string, int>(StringComparer.Ordinal)
+        {
+            ["HermitianAxis"] = accepted.Count(r => r.Source == A2CharacterSource.HermitianAxis),
+            ["EpCharacterStable"] = accepted.Count(r => r.Source == A2CharacterSource.EpCharacter),
+            ["ExactRankExecuted"] = accepted.Count(r => r.Source == A2CharacterSource.ExactRank)
+        };
+        return new(byId.Count, accepted.Length, byId.Count - accepted.Length,
+            new Dictionary<string, int>(StringComparer.Ordinal)
+            { ["ExactAlgebraic"] = accepted.Count(r => r.Algebraic == byId[r.LocusId].AlgebraicMultiplicity) },
+            sources, accepted.GroupBy(r => r.Kind).ToDictionary(g => g.Key, g => g.Count()),
+            accepted.Where(r => r.Source == A2CharacterSource.EpCharacter)
+                .Select(r => r.IsolationMargin!.Value).DefaultIfEmpty(double.PositiveInfinity).Min());
+    }
 
     public IReadOnlyList<A2CharacterReading> ClassifyRadii(RouteBA2N6Locus locus)
     {

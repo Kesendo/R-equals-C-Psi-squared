@@ -91,8 +91,8 @@ public class IntegrabilityBreakingCsrTests
         Assert.Equal(r1.MeanAbs, r3.MeanAbs, 9);             // no disorder ⟹ identical statistic
     }
 
-    /// <summary>Stage 2 reconnaissance — the genuine GinUE test. A per-site random field U[−W,W] breaks
-    /// integrability (and conjugation symmetry, so OffReal). Δ=0 (free fermion + disorder = 1D Anderson,
+    /// <summary>Stage 2 reconnaissance: random field at Delta=0 remains Anderson/free-fermion;
+    /// generic random field plus Delta!=0 is interacting disordered nonintegrable. Δ=0 (1D Anderson,
     /// expected to STAY Poisson) is the control; Δ=1 (interacting + disorder = the MBL/ergodic model) is the
     /// test: does ⟨cosθ⟩ go NEGATIVE (GinUE angular repulsion) at intermediate W? Caveat: the (SE,DE) block
     /// is a dilute 2-excitation sector, which may be too sparse to thermalize.</summary>

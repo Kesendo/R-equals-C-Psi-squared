@@ -59,7 +59,8 @@ public class CrossFoldSimilarityWitnessTests
     {
         // The (q,Δ) extension: the antiunitary similarity holds for the FULL interacting XXZ block at Δ≠0, NOT
         // just the integrable XY one (the Δ·ZZ term is even under the global bit-flip). The fold is therefore
-        // integrability-independent: it survives the very anisotropy that makes the diabolics defective.
+        // integrability-independent. Sampled diabolic defect-or-lift is a finite-N Delta response,
+        // consistent with the conditional residual mechanism, not proof of an all-N cause.
         var r = new CrossFoldSimilarityWitness().Read(nBlock, new Complex(1.0, 0), delta);
         Assert.Equal(delta, r.Delta);
         Assert.True(r.SimilarityResidual < 1e-9,

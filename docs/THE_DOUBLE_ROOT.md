@@ -360,8 +360,55 @@ isolation, PSC1/S1 and the exported λ/q seeds. The C#
 [`ROUTE_B_A2_RECONCILE` tests](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2InventoryTests.cs)
 join every locus ID to its local character and reject a real-q control on the
 same Hermiticity path. This is not an all-N theorem and creates no new F number.
-The F_32 (N=6) and F_53 (N=7) doubled-layer character/completeness edges remain
-unmeasured; the N=5 inventory does not close them.
+
+Route B is complete at N=6 as a parity-labelled direct-t inventory of the A₂
+layer. The model is the open uniform nearest-neighbour XY chain, Δ=0, zero
+field and uniform local Z-dephasing at γ=1, on the SE-ket/DE-bra coherence
+block. Here q=qCSharp=J/γ in H=J·Σ(XX+YY), and the artifact uses t=i*qCSharp
+and Lambda=2*lambda. Complex q is analytic continuation, not a physical
+coupling. The [schema-3 artifact](../simulations/results/route_b_a2_n6.json)
+isolates each t locus directly; there is no w=q² lift to count twice.
+
+The [reconciliation](../compute/RCPsiSquared.Diagnostics/Foundation/RouteBA2N6CharacterClassifier.cs)
+consumes all 266 locus IDs once in ordinal order, with 0 unresolved, and checks
+the conjugation and parity partner involutions against the loaded inventory.
+Its algebraic source count is ExactAlgebraic=266; those certificates establish
+the loci and algebraic multiplicity, while character has the separate sources
+below. Each parity total equals its certified A₂ degree.
+
+| R parity | direct-t loci | HermitianAxis | EpCharacterStable | ExactRankExecuted | verdict |
+|---|---:|---:|---:|---:|---|
+| even | 133 | 59 | 74 | 0 | 133 Diabolic, alg=geo=2 |
+| odd | 133 | 59 | 74 | 0 | 133 Diabolic, alg=geo=2 |
+| total | 266 | 118 | 148 | 0 | 266 Diabolic; 0 Defective |
+
+The full physical operator is built from the coherences |i⟩⟨j,k|: the ket
+hops with −2iq, either occupied bra site hops with +2iq, and the dephasing
+diagonal is −2 when i belongs to {j,k}, −6 otherwise. Reflection combines
+these coherences into two HS-orthonormal 45-dimensional blocks. Every character
+reading includes the AT directions. On the exactly real-t axis, q is purely
+imaginary and those hopping entries become real symmetric, so the whole block
+is Hermitian and its degeneracies are semisimple. HermitianAxis uses that exact
+structural reason and an executed normalized Hermiticity residual below 1e-12.
+Off that axis EpCharacterStable records stable numerical character from the
+isolated two-dimensional restriction; it is not an exact rank proof.
+
+The fixed numerical contract orders distances from the exported physical λ
+seed as d₀≤d₁≤d₂, requires d₂>100d₁, and uses radii
+r=d₁+f(d₂−d₁), f=0.25,0.5,0.75. All three must contain exactly two eigenvalues
+and agree on character. Relative departure is departure/max(1,compression norm):
+Diabolic requires alg=geo=2 and departure ratio <1e-6; Defective requires
+alg=2, geo=1 and ratio >5e-2. The minimum returned numerical isolation margin
+d₂−r at f=0.5 is 0.06589058580248003 in physical λ units at γ=1. A report with
+no numerical character uses not-applicable for this margin in output. No exact
+rank execution was needed; the exactRankCertificates array is empty.
+
+Reproduce the count and source split with
+[`ROUTE_B_A2_N6_RECONCILE`](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2N6InventoryTests.cs);
+the [Python producer tests](../simulations/tests/test_route_b_a2_n6.py) own the
+exact polynomial/isolation boundary. The F_53 (N=7) doubled-layer
+character/completeness edge remains unmeasured. This is not an all-N theorem;
+neither discriminant order nor the N=6 inventory settles that next block.
 
 ## What this document does not claim
 

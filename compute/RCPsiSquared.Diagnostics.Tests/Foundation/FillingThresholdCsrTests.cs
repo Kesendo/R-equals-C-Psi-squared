@@ -6,12 +6,12 @@ using Xunit.Abstractions;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>The F89 Door-C DECISIVE follow-up: is fixed-q dissipative chaos (GinUE) a FILLING threshold, not an
-/// integrability one? Door-C stages 1-2 showed the DILUTE (SE,DE)=(1,2) coherence block stays Poisson / non-GinUE
-/// under every integrability-breaking knob (Δ, disorder), because a 2-excitation sector cannot thermalize. This
-/// harness builds the general (wKet,wBra) coherence block at extensive filling (wKet,wBra near N/2) and re-runs the
-/// disordered CSR: if the DENSE block DOES reach GinUE under the SAME knobs while the dilute one does not, the
-/// Door-C null is structural/kinematic (filling), not algebraic/integrability. Unequal weight (p,p+1) keeps the
+/// <summary>The F89 Door-C filling comparison: finite executed CSR evidence contrasts dilute (1,2) and dense
+/// (wKet,wBra near N/2) blocks at canonical Delta=1 with disorder; it does not prove a thermalization cause.
+/// Nonzero Delta breaks free-fermion additivity, but uniform XXZ remains Bethe-integrable;
+/// random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions);
+/// generic random field plus Delta!=0 is the interacting disordered nonintegrable test.
+/// These Hamiltonian distinctions do not by themselves decide the Liouvillian CSR. Unequal weight (p,p+1) keeps the
 /// non-Hermitian symmetry class A (Π maps (p,p+1)→the conjugate (p+1,p) block, not a self-symmetry), licensing the
 /// GinUE 0.738/−0.24 target. Methodology inherited from IntegrabilityBreakingCsr (pool per-spectrum z's, bootstrap
 /// CI, finite-size-matched references, OffReal domain once conjugation symmetry is broken).</summary>

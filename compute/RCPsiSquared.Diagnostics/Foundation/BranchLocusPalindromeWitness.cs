@@ -13,9 +13,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// carried on the (SE,DE) block as an ANTIUNITARY symmetry T = P·K (P the weight-complement rung swap,
 /// K conjugation), T L(q) T⁻¹ = −L(q̄) − 2σ (a same-q fold at real q), so the merged-eigenvalue locus is invariant under
 /// the antilinear mirror λ ↦ −λ̄ − 2σ (reflect Re about −σ, preserve Im). Every EP lies on the line or in
-/// a mirror pair across it, no orphan. The line is the palindrome's gift; the diabolic's silence
-/// (semisimple) is free-fermion integrability's, a separate gift (DIABOLIC_BY_INTEGRABILITY: XXZ Δ≠0
-/// stays on the line yet defects). Typed home: F89BranchLocusPalindromeClaim; reading:
+/// a mirror pair across it, no orphan. Semisimplicity follows from the twin-scalar restriction at the N=4 point,
+/// not from being on the mirror line. The sampled XXZ Delta control stays on-line yet defects;
+/// this is not an all-N cause. Typed home: F89BranchLocusPalindromeClaim; reading:
 /// reflections/ON_WHO_WATCHES_WHOM.md; the q-direction sibling of --root galoismonodromy.</summary>
 public sealed class BranchLocusPalindromeWitness : IInspectable
 {
@@ -108,9 +108,9 @@ public sealed class BranchLocusPalindromeWitness : IInspectable
             var lamEp = new Complex(-4, 2 * GaloisMonodromyWitness.QEp);
             yield return new InspectableNode("the diabolic sits on the line (Re λ = −4), but for a different reason",
                 summary: $"the diabolic collision λ_EP = −4γ + 2iJ ({lamEp.Real.ToString("0.0", Inv)}{lamEp.Imaginary.ToString("+0.000;-0.000", Inv)}i " +
-                         $"at q_EP={GaloisMonodromyWitness.QEp.ToString("0.000", Inv)}, γ=J=1) is on the line because its pair is overlap-balanced " +
-                         "(p=½, the AT-midpoint), an integrability fact, not Π. On-line does NOT imply silent: XXZ Δ≠0 stays on the line yet " +
-                         "defects (DIABOLIC_BY_INTEGRABILITY). Line = palindrome's gift; silence = free-fermion's.");
+                         $"at q_EP={GaloisMonodromyWitness.QEp.ToString("0.000", Inv)}, γ=1, J=q_EP) is on the line because its pair is overlap-balanced " +
+                         "(p=½, the AT-midpoint). Semisimplicity follows from the twin-scalar restriction at the N=4 point, not from being on-line. " +
+                         "The sampled XXZ Delta control stays on-line yet defects: a local restriction/control, not an all-N cause (DIABOLIC_BY_INTEGRABILITY).");
 
             var (total, onLine, paired, orphans) = BranchLocusStructure();
             yield return new InspectableNode($"every branch point on the line or in a mirror pair ({orphans} orphans)",

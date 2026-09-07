@@ -44,7 +44,7 @@ public static class PathKMonodromyScanCommand
             return 0;
         }
 
-        if (p.HasFlag("delta-flip"))   // the integrability test: does XXZ Delta kill the diabolic?
+        if (p.HasFlag("delta-flip"))   // the sampled Delta-response test: does XXZ Delta kill this diabolic?
         {
             // --residual (REQUIRED from path-5/N=6): track the residual strands only, so the box scan is not
             // captured by the AT-locked exact degeneracies (which make q* jump and the verdict unreliable at N>=6).
@@ -87,10 +87,10 @@ public static class PathKMonodromyScanCommand
         return 0;
     }
 
-    // the integrability test: track a path-k diabolic as XXZ anisotropy Δ turns on. H(Δ)=J(XX+YY)+JΔ·ZZ;
-    // the ZZ is Hermitian so the AT rate is untouched, but it breaks the additivity that makes the crossing
-    // semisimple. A true (integrable) diabolic flips DEFECTIVE (geo 2->1) or LIFTS at Δ>0; a defective EP
-    // (control) just drifts. Reproduces the committed N=4 table with --k 3 --q 0.658983,0 --lam -4,1.318.
+    // finite-N Delta response: track a path-k diabolic under H(Δ)=J(XX+YY)+JΔ·ZZ.
+    // Defect-or-lift at sampled Δ>0 is consistent with the conditional residual mechanism, not proof of cause.
+    // Survival falsifies the sampled-locus Delta-death prediction; compare with the defective EP control.
+    // Reproduces the committed N=4 table with --k 3 --q 0.658983,0 --lam -4,1.318.
     private static void PrintDeltaFlip(int k, string? qStr, string? lamStr, string? deltasStr, bool residualOnly, bool exact = false)
     {
         int n = k + 1;
@@ -103,7 +103,7 @@ public static class PathKMonodromyScanCommand
                             : residualOnly ? " [residual-only: AT-flood excluded]" : "";
         Console.WriteLine($"\n# DELTA-FLIP path-{k} (N={n}){mode}: track the coalescence at q={qre.ToString("0.####", Inv)}{Sign(qim)}i, " +
                           $"lambda={lre.ToString("0.###", Inv)}{Sign(lim)}i under XXZ anisotropy Delta");
-        Console.WriteLine("# H(D) = J(XX+YY) + J*D*ZZ; ZZ Hermitian => AT rate untouched; additivity broken => an integrable diabolic dies");
+        Console.WriteLine("# H(D) = J(XX+YY) + J*D*ZZ; finite-N Delta response tests the conditional residual mechanism; defect/lift is not proof of causality or all-N protection");
         Console.WriteLine("  Delta   verdict     alg geo    dep       gap        q*");
         bool diabolicAt0 = false, survivesAtPositive = false;
         foreach (var d in deltas)
@@ -116,7 +116,7 @@ public static class PathKMonodromyScanCommand
                               $"{t.QStar.Real.ToString("0.0000", Inv)}{Sign(t.QStar.Imaginary)}i");
         }
         Console.WriteLine($"\n# GATE: diabolic at Delta=0? {(diabolicAt0 ? "YES" : "NO")};  survives at Delta>0? " +
-                          $"{(survivesAtPositive ? "YES -> refutes integrability-protection" : "NO -> defects/lifts => integrability-protected (DIABOLIC_BY_INTEGRABILITY's gate, off N=4)")}");
+                          $"{(survivesAtPositive ? "YES -> falsifies this sampled-locus Delta-death prediction" : "NO -> no sampled survival; read defects/lifts against the Delta=0 verdict and defective control")}");
     }
 
     // the diabolic hunt (Q1-Q3 of the forward-edge plan): find the residual's coalescences, classify each
@@ -153,9 +153,9 @@ public static class PathKMonodromyScanCommand
         if (diab.Count == 0)
         {
             Console.WriteLine("  Q1 EXISTENCE: FAIL-in-region - no semisimple residual diabolic in the scanned region.");
-            Console.WriteLine("     This is the R-1/R-2 generically-EXPECTED outcome at N>=5: a diabolic is codim-3-complex");
-            Console.WriteLine("     (overdetermined by 4 real conditions in a 2-DOF q-scan); the N=4 self-fold that auto-");
-            Console.WriteLine("     satisfied them is gone. NOT a non-existence proof beyond this region+resolution - re-scan");
+            Console.WriteLine("     This is a bounded scan null at the stated region and resolution, not a non-existence result.");
+            Console.WriteLine("     It is not a replacement for the exact Route B inventory or its local character classification.");
+            Console.WriteLine("     A scan can miss loci. Re-scan");
             Console.WriteLine($"     wider/finer or escalate to Route B. Defective EPs in region: {found.Count(d => !d.IsSemisimple)}.");
             return;
         }

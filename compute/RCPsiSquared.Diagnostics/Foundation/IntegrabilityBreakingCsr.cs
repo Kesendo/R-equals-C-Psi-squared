@@ -21,7 +21,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         wrong edge bias.</item>
 /// </list>
 /// The (SE,DE) block is built by <see cref="XxzCoherenceBlock.BuildFull"/> (U(1)-closed under Δ; the
-/// Δ·ZZ term is a diagonal IMAGINARY frequency shift, so the AT real-part split is unchanged under Δ).
+/// Δ·ZZ term adds -i*q*Delta*(zz(ket)-zz(bra)) to the matrix diagonal).
+/// At real q this addition is imaginary; the unchanged dissipator does not fix eigenmode real parts.
 /// At Δ=0 this reproduces the galoischaos witness baseline (the regression anchor).</summary>
 public static class IntegrabilityBreakingCsr
 {
@@ -35,8 +36,8 @@ public static class IntegrabilityBreakingCsr
 
     /// <summary>Upper-half-plane eigenvalues of the (SE,DE) block at (q, Δ), filtered to the chosen half.
     /// AT-locked = Re ∈ {−2, −6} (the absorption-theorem rungs, free-fermion Bloch frequencies);
-    /// H_B-mixed = the spread residue (chain Galois S_n). The split is by real part, which Δ leaves
-    /// untouched (Δ·ZZ shifts only the imaginary frequency).</summary>
+    /// H_B-mixed labels the remaining values. The filter selects recomputed eigenvalues by their current real parts;
+    /// this is not an invariant AT/residual decomposition as Delta changes.</summary>
     private static List<Complex> HalfEigs(int n, double q, double delta, Half half, Domain domain)
         => Filter(Matrix<Complex>.Build.DenseOfArray(XxzCoherenceBlock.BuildFull(n, new Complex(q, 0), delta))
             .Evd().EigenValues, half, domain);

@@ -2,10 +2,10 @@
 
 <!-- Keywords: spectral form factor Liouvillian, palindromic modulation SFF,
 dissipative spectral statistics, dip ramp plateau integrable, Heisenberg
-chain Lindblad SFF, XY-weight sector spectral, Heisenberg time palindromic
+chain Lindblad SFF, XY-weight sector spectral, raw density scale palindromic
 time, R=CPsi2 spectral form factor -->
 
-**Status:** Computationally verified (Tier 2). N=2-7 (21,840 eigenvalues).
+**Status:** Sampled raw-frequency diagnostic (Tier 2). N=2-7 (21,840 eigenvalues); not a universality-class proof.
 **Date:** April 1, 2026
 **Script:** [spectral_form_factor.py](../simulations/spectral_form_factor.py)
 **Data:** [spectral_form_factor.txt](../simulations/results/spectral_form_factor.txt)
@@ -20,15 +20,13 @@ time, R=CPsi2 spectral form factor -->
 
 ## What this document is about
 
-The spectral form factor (SFF) is a standard tool from random matrix theory:
-it measures how eigenvalues are statistically distributed by looking at their
-Fourier transform in time. Chaotic systems show a characteristic "dip-ramp-plateau"
-pattern; integrable systems show flat noise. We compute the SFF for our palindromic
-Liouvillian across N=2 to N=7 and find something that matches neither: a unique
-palindromic modulation at the predicted frequency, cleanly identified by FFT at
-N=2-4 and N=6 (at N=5 and N=7 the ω_min peak is subdominant and not separable
-from higher harmonics). The pairing itself is exact at every N (analytically
-proven); its FFT signature fades as the system grows (~1/4^N) but never vanishes.
+We compute a raw non-unfolded frequency SFF of the palindromic Liouvillian
+across N=2 to N=7. The reached window shows modulation;
+this is compatible with integrability or symmetry/block fragmentation, not a
+unique diagnosis of either. FFT components near the predicted frequency are
+identified at N=2-4 and N=6; at N=5 and N=7 the ω_min component is not cleanly
+identified among the reported candidates. The exact pairing is an algebraic result;
+the sampled modulation and its visibility are separate numerical readings.
 
 ---
 
@@ -37,23 +35,21 @@ proven); its FFT signature fades as the system grows (~1/4^N) but never vanishes
 The spectral form factor (SFF) is the standard time-domain diagnostic
 for spectral statistics. Using the 21,840 complex Liouvillian eigenvalues
 from the RMT analysis (N=2 through N=7), we compute the frequency SFF
-K_freq(t) = (1/N²)|Σ exp(i·Im(λ_k)·t)|² and find:
+K_freq(t) = (1/M²)|Σ exp(i·Im(λ_k)·t)|², where M=4^N is the eigenvalue count, and find:
 
 1. **Palindromic modulation confirmed.** The SFF contains periodic
    modulation at the predicted frequency ω_min = 4J(1-cos(π/N)),
    matching to <1% for N=2-4 and N=6. Each palindromic pair (μ, -μ)
-   contributes cos(Im(μ)·t), creating a fingerprint unique to the
-   palindromic symmetry.
+   contributes cos(Im(μ)·t). Such modulation alone is not a unique
+   universality-class fingerprint.
 
 2. **Modulation fades exponentially with N.** Visibility drops from
-   0.72 (N=2) to 0.002 (N=7), roughly as ~1/4^N. At large N, the
-   many modes dephase and the modulation averages out.
+   0.72 (N=2) to 0.002 (N=7), roughly as ~1/4^N over this finite range.
 
-3. **Two timescales separate.** The palindromic time t_Π = 2π/ω_min
-   (modulation period) grows as ~N², while the Heisenberg time
-   t_H = 2π/Δ (spectral resolution) grows as ~4^N. Their ratio
-   t_Π/t_H → 0: the palindromic structure lives in the short-time
-   regime, invisible to long-time diagnostics.
+3. **Period versus raw multiset density scale.** The modulation period
+   t_Π = 2π/ω_min and the multiplicity-dependent raw scale are distinct
+   readings. Their ratio is descriptive, not a separation of physical regimes.
+   The beyond-scale bins at N=5-7 are not sampled.
 
 4. **Shell SFF confirms palindromic pairing.** The shells at
    ⟨n_XY⟩ = w and N−w have identical SFF statistics (same mean, same
@@ -62,10 +58,9 @@ K_freq(t) = (1/N²)|Σ exp(i·Im(λ_k)·t)|² and find:
    the Absorption Theorem select average light content and not Pauli
    weight; the two agree on pure modes and part on mixed ones.
 
-5. **Neither Poisson nor GUE.** The SFF does not match the Poisson
-   prediction (K=1/N, flat) nor the GUE prediction (dip-ramp-plateau).
-   It is a distinct palindromic signature: modulated, decaying, with
-   sector structure.
+5. **Bounded diagnostic.** Modulation in the reached window is
+   not a universality-class proof. The raw frequencies are
+   not unfolded or reduced to irreducible symmetry blocks.
 
 ---
 
@@ -76,15 +71,30 @@ K_freq(t) = (1/N²)|Σ exp(i·Im(λ_k)·t)|² and find:
 For Liouvillian eigenvalues {λ_k}, the frequency SFF uses only
 imaginary parts (oscillation frequencies):
 
-    K_freq(t) = (1/N²) |Σ_k exp(i · Im(λ_k) · t)|²
+    K_freq(t) = (1/M²) |Σ_k exp(i · Im(λ_k) · t)|², M = 4^N
 
-This measures correlations between oscillation frequencies, ignoring
-decay rates. It is well-defined for all t (no overflow from decay).
+This measures raw oscillation-frequency correlations, ignoring decay rates.
+With this normalization K_freq(0)=1, and the independent-phase reference
+is 1/M, not 1. This reference is not an asserted plateau: exact frequency
+degeneracies retain additional cross terms in the long-time average.
 
-The dissipative SFF K_diss(t) = (1/N²) Σ_{j,k} exp((λ_j+conj(λ_k))t)
-(Sa & Prosen 2020) was not computed because eigenvalues with large
-negative imaginary parts cause numerical overflow at moderate t. A
-proper implementation would require filtering to the slow-decay subspace.
+Define the **raw multiset density scale** S = 2π / mean(diff(sort(f))),
+where f contains every |Im λ| > 1e-10, retaining duplicates. It is
+multiplicity-dependent: duplicating frequencies [1,2] to [1,1,2,2] changes
+S from 2π to 6π, while the M²-normalized SFF is unchanged at every t.
+Thus S is not a physical spectral-resolution invariant; no unfolding is performed.
+
+The grid ends at min(3S, 50t_Π, 200). Its descriptive bins are below
+(t < 0.1S), intermediate (0.1S < t < S), and beyond (t > S).
+They are not physical time regimes or ramp/plateau evidence. Empty bins are
+reported as `not sampled`, not zero. An intermediate-bin slope requires more
+than 5 samples; an absent slope makes the heuristic not classifiable.
+The helper tests distinguish a sampled zero from an empty bin and execute
+the producer against a temporary output without changing the tracked report.
+
+The existing dissipative kernel is also executed, but its overflow/NaN
+remains unresolved. Its numerical output is not interpreted as a dissipative
+SFF result; the raw frequency kernel has no exponential growth from decay rates.
 
 ### Eigenvalue source
 
@@ -99,9 +109,10 @@ Each palindromic pair (μ, -μ) in the centered spectrum contributes:
 
     exp(i·Im(μ)·t) + exp(-i·Im(μ)·t) = 2·cos(Im(μ)·t)
 
-The SFF therefore contains cosine components at every palindromic
-frequency, with the dominant modulation at the lowest frequency
-ω_min = 4J(1-cos(π/N)) (the k=1 mode of the (0,1) coherence block, F2).
+The paired trace amplitude therefore contains cosine components. Squaring
+that sum also introduces frequency sums and differences. The candidate
+ω_min = 4J(1-cos(π/N)) is the k=1 mode of the (0,1) coherence block (F2);
+it need not be the largest FFT component of the SFF.
 
 ### FFT verification
 
@@ -112,14 +123,15 @@ frequency, with the dominant modulation at the lowest frequency
 | 4 | 1.172 | 1.162 | 0.8% | 0.042 |
 | 5 | 0.764 | 2.010 | 163% (no match) | 0.013 |
 | 6 | 0.536 | 0.534 | 0.4% | 0.007 |
-| 7 | 0.396 | 3.391 | (no match) | 0.002 |
+| 7 | 0.396 | 0.848 | 114% (no match among candidates) | 0.002 |
 
-For N=2-4 and N=6: the dominant FFT peak matches ω_min to within 1%.
-The palindromic modulation is confirmed in the time domain.
-
-For N=5 and N=7: the ω_min peak is present but subdominant. Higher
-harmonics and inter-sector beating dominate the FFT. The visibility
-is too low (<1.5%) for clean identification.
+The matched FFT amplitude rankings are N=2 first, N=3 first, N=4 third,
+and N=6 second; each is within 1% of ω_min. The producer compares the five
+largest non-DC FFT amplitudes and prints the top three separately.
+N=5 has no match among those five candidates (163% nearest error).
+N=7 has no match either (114% nearest error); the output does not establish
+that its ω_min component is present. The visibility column measures the
+largest FFT amplitude relative to the sum, not the visibility of ω_min.
 
 ### Visibility scaling
 
@@ -134,9 +146,9 @@ coherent modulation from any single pair is drowned in the sum.
 
 ---
 
-## Result 2: Two Timescales Separate
+## Result 2: Period and Descriptive Raw Density Scale
 
-| N | t_Π | t_H | t_Π/t_H | ω_min | Δ (spacing) |
+| N | t_Π | raw scale S | t_Π/S | ω_min | raw mean gap |
 |---|-----|------|---------|-------|-------------|
 | 2 | 1.57 | 25129 | 0.0001 | 4.000 | 0.00025 |
 | 3 | 3.14 | 61.3 | 0.051 | 2.000 | 0.103 |
@@ -146,20 +158,17 @@ coherent modulation from any single pair is drowned in the sum.
 | 7 | 15.86 | 5810 | 0.003 | 0.396 | 0.0011 |
 
 **Palindromic time** t_Π = 2π/ω_min grows polynomially (~N² for large N,
-since ω_min ~ π²/N² from the dispersion relation).
+since ω_min ~ 2Jπ²/N², or 2π²/N² at J=1, from the dispersion relation).
 
-**Heisenberg time** t_H = 2π/Δ grows exponentially (~4^N, set by the
-total number of eigenvalues).
+The raw scale increases with the multiset density; it can increase merely
+by duplicating modes without changing the SFF. Its ratio to t_Π is therefore
+not a physical short/long-time separation.
 
-Their ratio t_Π/t_H → 0: the palindromic modulation lives in an
-exponentially shrinking fraction of the SFF time window. At N=7,
-the palindromic period is 0.3% of the Heisenberg time.
-
-Physical meaning: the palindromic structure (paired modes, mirrored
-decay rates) is a SHORT-TIME phenomenon. The long-time spectral
-correlations (level repulsion, the tendency of eigenvalues in chaotic systems to avoid each other; spectral rigidity, the suppression of fluctuations in eigenvalue density) are set by the
-Poisson statistics of the integrable system. The palindrome organizes
-the fast dynamics; Poisson governs the slow dynamics.
+The grid reaches at most t=200, below S=497.3, 1649, and 5810 at
+N=5, 6, and 7. Their beyond bins are not sampled; N=7 does not reach
+the intermediate bin. These facts describe coverage of arbitrary raw-scale
+bins, not physical asymptotic behavior. Exact pairing has an independent
+algebraic owner and is not restricted by this grid.
 
 ---
 
@@ -192,34 +201,30 @@ spectral diversity (many distinct frequencies, less correlation).
 
 ---
 
-## Result 4: Neither Poisson Nor GUE
+## Result 4: Modulation in the Reached Window
 
-The SFF does not match either standard universality class:
+The raw non-unfolded frequency SFF shows modulation
+in the reached window. This is compatible with integrability or symmetry/block
+fragmentation, not a universality-class proof. An irreducible-block, unfolded
+and suitably averaged statistic would be needed for a controlled RMT comparison.
 
-- **Poisson predicts** K(t>0) = 1/N (flat, no temporal structure).
-  Observed: K has strong time dependence with palindromic modulation.
-
-- **GUE (Gaussian Unitary Ensemble, the random matrix class for systems without time-reversal symmetry) predicts** dip at t=0+, linear ramp to K=1/N at t_H, plateau.
-  Observed: no ramp (K decreases or stays flat, no linear rise).
-
-The palindromic Liouvillian has a UNIQUE SFF signature: modulated
-oscillation at short times (t < t_Π), decay to a low plateau at
-intermediate times, no ramp. This is consistent with integrability
-(Poisson spacing) combined with the palindromic modulation (chiral
-symmetry).
+The producer's below-bin mean and intermediate-bin slope thresholds describe only their
+implemented numerical conditions. They do not certify Poisson, GUE, or an
+physical asymptotic behavior. In particular the N=5-7 beyond-bin means
+are `not sampled`, and the N=7 slope heuristic is not classifiable.
 
 ---
 
 ## Connection to Previous Results
 
-**RMT (Poisson, class AIII):** The SFF confirms integrability: no
-dip-ramp-plateau, no level repulsion signature. The Poisson spacing
-ratio (⟨r⟩ = 0.383) manifests as absence of ramp in the SFF.
+**RMT (Poisson-like, class AIII):** The spacing ratio (⟨r⟩ = 0.383) and modulation
+in the reached window are separate finite-size observations. Their
+combination does not prove integrability or uniquely establish a universality class.
 
 **PT analysis (Π chiral, order 4):** The palindromic modulation in the
 SFF is the TIME-DOMAIN fingerprint of the same λ ↔ -(λ+2Σγ) pairing
 that the PT analysis proved algebraically. The SFF sees it as a cosine;
-the level statistics sees it as Poisson; the Π operator explains both.
+the spacing statistic separately reads Poisson-like; Π alone does not imply Poisson statistics.
 
 **Analytical spectrum (F2):** The modulation frequency ω_min
 matches the predicted 4J(1-cos(π/N)) to within 1% for N=2-4, 6. This
@@ -228,9 +233,8 @@ confirms the (0,1) coherence block's dispersion relation in the time domain.
 **Topological analysis (geometric):** The SFF is independent of spatial
 localization (it measures spectral correlations, not mode profiles).
 The geometric localization and the spectral form factor are orthogonal
-diagnostics that agree on the same underlying structure: the palindromic
-Liouvillian is integrable, chiral (AIII), and organized by standing
-wave modes.
+diagnostics. Chiral (AIII) is a symmetry label, not an integrability verdict;
+the standing-wave structure and the measured modulation require their own evidence.
 
 ---
 
@@ -268,8 +272,6 @@ wave modes.
 
 ---
 
-*The SFF is the Fourier transform of "how are the eigenvalues
-distributed?" The palindromic answer: in cosine pairs, organized by
-XY-weight sectors, integrable at every N, with a modulation that fades
-as 1/4^N but never disappears. The structure is exact; the visibility
-is finite.*
+*Exact pairing supplies cosine pairs; the raw SFF reads their combined
+modulation over a finite window. The measured decay-rate shells and
+visibility do not determine an unsampled large-N or late-time limit.*

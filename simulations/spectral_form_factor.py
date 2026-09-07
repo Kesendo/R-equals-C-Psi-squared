@@ -5,9 +5,9 @@ Spectral Form Factor of the Palindromic Liouvillian
 Phase 1: Load eigenvalues from RMT CSVs (N=2-7)
 Phase 2: Compute dissipative + frequency SFF
 Phase 3: Identify palindromic modulation
-Phase 4: Compare with Poisson/GUE references
+Phase 4: Summarize reached windows with the independent-phase reference
 Phase 5: Band-resolved SFF (N=3-5, via Python eigendecomposition)
-Phase 6: Extract timescales (Thouless, Heisenberg, palindromic)
+Phase 6: Report raw density scale, palindromic period and sampled exceedance
 Phase 7: Connection to previous results
 
 Script: simulations/spectral_form_factor.py
@@ -18,9 +18,11 @@ import numpy as np
 from scipy.linalg import eigvals
 from itertools import product as iproduct
 import os, sys, time as clock
+from sff_window_summary import (sff_frequency, raw_multiset_density_scale,
+                                independent_phase_reference, summarize_windows, format_sample)
 
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        "results", "spectral_form_factor.txt")
+OUT_PATH = os.environ.get("RCPSI_SFF_OUTPUT_PATH") or os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "results", "spectral_form_factor.txt")
 CSV_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
 _outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
 if sys.platform == "win32":
@@ -65,16 +67,6 @@ def sff_dissipative(eigenvalues, t_arr):
         # So Σ_k exp(-i conj(λ_k) t) = conj(Σ_k exp(i λ_k t))
         # Therefore K_diss = |Σ_k exp(i λ_k t)|² / N²
         K[ti] = np.abs(np.sum(phases))**2 / N**2
-    return K
-
-
-def sff_frequency(eigenvalues, t_arr):
-    """K_freq(t) = (1/N²) |Σ_k exp(i Im(λ_k) t)|²."""
-    N = len(eigenvalues)
-    freqs = eigenvalues.imag
-    K = np.zeros(len(t_arr))
-    for ti, t in enumerate(t_arr):
-        K[ti] = np.abs(np.sum(np.exp(1j * freqs * t)))**2 / N**2
     return K
 
 
@@ -195,20 +187,15 @@ for N in sorted(all_evals.keys()):
     sigma_gamma = N * gamma
     mu = ev + sigma_gamma
 
-    # Mean level spacing (from imaginary parts of nonzero eigenvalues)
-    freqs = np.sort(np.abs(ev[np.abs(ev.imag) > 1e-10].imag))
-    if len(freqs) > 1:
-        delta = np.mean(np.diff(freqs))
-    else:
-        delta = 1.0
-    t_H = 2 * np.pi / delta if delta > 0 else 100
+    raw_scale = raw_multiset_density_scale(ev)
+    raw_mean_gap = 2 * np.pi / raw_scale
 
     # Palindromic time: t_Pi = 2π / ω_min where ω_min = 4J(1-cos(π/N))
     omega_min = 4 * J * (1 - np.cos(np.pi / N))
     t_Pi = 2 * np.pi / omega_min
 
-    # Time array: up to 3×t_H or 10×t_Pi, whichever is smaller
-    t_max = min(3 * t_H, 50 * t_Pi, 200)
+    # Bounded grid; the raw density scale is descriptive, not a physical time.
+    t_max = min(3 * raw_scale, 50 * t_Pi, 200)
     n_t = min(2000, max(500, int(t_max * 50)))
     t_arr = np.linspace(0, t_max, n_t)
 
@@ -219,13 +206,13 @@ for N in sorted(all_evals.keys()):
 
     sff_results[N] = {
         't': t_arr, 'K_freq': K_freq, 'K_diss': K_diss,
-        'delta': delta, 't_H': t_H, 't_Pi': t_Pi,
+        'raw_mean_gap': raw_mean_gap, 'raw_scale': raw_scale, 't_Pi': t_Pi,
         'omega_min': omega_min, 'n_ev': n_ev
     }
 
     log(f"  N={N} ({n_ev} eigenvalues, {elapsed:.1f}s):")
-    log(f"    Δ (mean spacing) = {delta:.4f}")
-    log(f"    t_H (Heisenberg) = {t_H:.2f}")
+    log(f"    Raw multiset mean adjacent gap = {raw_mean_gap:.4f}")
+    log(f"    Raw multiset density scale = {raw_scale:.2f}")
     log(f"    ω_min (slowest)  = {omega_min:.4f}")
     log(f"    t_Π (palindromic) = {t_Pi:.2f}")
     log(f"    K_freq range: [{np.min(K_freq):.4e}, {np.max(K_freq):.4f}]")
@@ -263,7 +250,7 @@ for N in sorted(sff_results.keys()):
     peak_freqs = fft_freqs[peak_idx]
     peak_amps = fft_vals[peak_idx]
 
-    # Check if dominant peak matches ω_min
+    # Find closest match among the five largest non-DC FFT amplitudes.
     if len(peak_freqs) > 0:
         best_match = np.argmin(np.abs(peak_freqs - omega_min))
         match_freq = peak_freqs[best_match]
@@ -292,11 +279,17 @@ for N in sorted(sff_results.keys()):
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 4: COMPARISON WITH POISSON AND GUE")
+log("PHASE 4: RAW FREQUENCY SFF — SAMPLED WINDOWS")
 log("=" * 72)
 log()
-log("  Poisson: K(t) = 1 for all t > 0 (no correlations)")
-log("  GUE: dip at t=0+, linear ramp K ~ t/t_H, plateau at K=1")
+log("  This is the raw non-unfolded frequency SFF, normalized by M^2.")
+log("  The independent-phase reference 1/M is not a measured plateau or class verdict.")
+log("  Degenerate frequencies can raise the actual long-time average above this reference.")
+log("  The raw multiset density scale is 2*pi / mean adjacent gap(sorted abs nonzero frequencies).")
+log("  It retains multiplicities (abs frequency > 1e-10), so it is multiplicity-dependent.")
+log("  Below/intermediate/beyond are descriptive bins, not physical time regimes or ramp/plateau evidence.")
+log("  Only the reached window is assessed; absent bins are not sampled, not zero.")
+log("  Dissipative overflow/NaN remains unresolved and is not interpreted here.")
 log()
 
 for N in sorted(sff_results.keys()):
@@ -305,43 +298,28 @@ for N in sorted(sff_results.keys()):
     r = sff_results[N]
     t_arr = r['t']
     K = r['K_freq']
-    t_H = r['t_H']
+    raw_scale = r['raw_scale']
 
-    # Classify behavior in three time windows
-    early = t_arr < 0.1 * t_H
-    mid = (t_arr > 0.1 * t_H) & (t_arr < t_H)
-    late = t_arr > t_H
-
-    K_early = np.mean(K[early]) if np.any(early) else 0
-    K_mid = np.mean(K[mid]) if np.any(mid) else 0
-    K_late = np.mean(K[late]) if np.any(late) else 0
-
-    # Ramp slope: fit K vs t in mid region
-    if np.any(mid) and np.sum(mid) > 5:
-        t_mid = t_arr[mid]
-        K_mid_arr = K[mid]
-        slope = np.polyfit(t_mid / t_H, K_mid_arr, 1)[0]
-    else:
-        slope = 0
-
-    # Dip: minimum of K at early times
-    if np.any(early):
-        K_min = np.min(K[early])
-    else:
-        K_min = K[0] if len(K) > 0 else 0
+    windows = summarize_windows(t_arr, K, raw_scale)
+    K_below, K_intermediate, K_beyond = (windows[name] for name in ("below", "intermediate", "beyond"))
+    slope, K_min = windows["slope"], windows["minimum"]
 
     log(f"  N={N}:")
-    log(f"    Early (t < 0.1 t_H):  <K> = {K_early:.4f}  (Poisson: 1.0)")
-    log(f"    Mid (0.1-1.0 t_H):    <K> = {K_mid:.4f}   slope = {slope:.4f}")
-    log(f"    Late (t > t_H):        <K> = {K_late:.4f}  (plateau: 1.0)")
-    log(f"    Min K (dip):           {K_min:.4e}")
+    log(f"    Reached time: {t_arr[-1]:.2f}; raw scale = {raw_scale:.2f}; independent-phase reference 1/M = {independent_phase_reference(r['n_ev']):.8g}")
+    log(f"    Below (t < 0.1 raw scale):  <K> = {format_sample(K_below)}")
+    log(f"    Intermediate (0.1-1.0 raw scale):    <K> = {format_sample(K_intermediate)}   slope = {format_sample(slope)}")
+    log(f"    Beyond (t > raw scale):        <K> = {format_sample(K_beyond)}")
+    minimum_text = "not sampled" if K_min is None else f"{K_min:.4e}"
+    log(f"    Min K (below bin):  {minimum_text}")
 
-    if K_early > 0.5 and abs(slope) < 0.5:
-        log(f"    Classification: POISSON-like (flat, no ramp)")
+    if K_below is None or K_min is None or slope is None:
+        log("    Heuristic flags: not classifiable (below bin or intermediate-bin slope not sampled)")
+    elif K_below > 0.5 and abs(slope) < 0.5:
+        log(f"    Heuristic flags: below-bin mean > 0.5 and abs(intermediate-bin slope) < 0.5; not a class verdict")
     elif K_min < 0.1 and slope > 0.3:
-        log(f"    Classification: GUE-like (dip + ramp)")
+        log(f"    Heuristic flags: below-bin minimum < 0.1 and intermediate-bin slope > 0.3; not a class verdict")
     else:
-        log(f"    Classification: intermediate / palindromic")
+        log(f"    Heuristic flags: neither below-bin-mean/slope nor minimum/slope condition; not a class verdict")
     log()
 
 
@@ -416,37 +394,39 @@ log("PHASE 6: TIMESCALES")
 log("=" * 72)
 log()
 
-log(f"  {'N':>3}  {'t_Π':>8}  {'t_H':>10}  {'t_Π/t_H':>10}  {'ω_min':>8}  {'Δ':>8}")
+log(f"  {'N':>3}  {'t_Π':>8}  {'raw scale':>10}  {'t_Π/scale':>10}  {'ω_min':>8}  {'raw gap':>8}")
 log(f"  {'─'*55}")
 
 for N in sorted(sff_results.keys()):
     r = sff_results[N]
-    ratio = r['t_Pi'] / r['t_H'] if r['t_H'] > 0 else 0
-    log(f"  {N:>3}  {r['t_Pi']:>8.2f}  {r['t_H']:>10.2f}"
-        f"  {ratio:>10.4f}  {r['omega_min']:>8.4f}  {r['delta']:>8.4f}")
+    ratio = r['t_Pi'] / r['raw_scale'] if r['raw_scale'] > 0 else 0
+    log(f"  {N:>3}  {r['t_Pi']:>8.2f}  {r['raw_scale']:>10.2f}"
+        f"  {ratio:>10.4f}  {r['omega_min']:>8.4f}  {r['raw_mean_gap']:>8.4f}")
 
 log()
 log("  t_Π = palindromic time = 2π/ω_min (period of slowest mode)")
-log("  t_H = Heisenberg time = 2π/Δ (spectral resolution limit)")
-log("  t_Π/t_H → 0 for large N: palindromic modulation is short-time")
+log("  Raw multiset density scale = 2*pi / raw mean adjacent gap; multiplicity-dependent.")
+log("  Its ratio to t_Π is descriptive and does not define a physical time-regime boundary.")
 log()
 
-# Thouless time estimate: where K(t) first rises above Poisson baseline
-log("  Thouless time (where K_freq first exceeds 1.5× its late-time mean):")
+# First sampled exceedance of 1.5x the second-half-of-current-grid mean.
+# This is not a physical time-scale estimate or a Poisson/physical asymptotic baseline.
+log("  Heuristic: first sampled exceedance of 1.5x the second-half-of-current-grid mean:")
+log("  This is not a physical time-scale estimate and not a Poisson/physical asymptotic baseline.")
 for N in sorted(sff_results.keys()):
     if N < 3:
         continue
     r = sff_results[N]
     K = r['K_freq']
     t_arr = r['t']
-    late_mean = np.mean(K[len(K)//2:]) if len(K) > 10 else 1
-    threshold = 1.5 * late_mean
+    second_half_mean = np.mean(K[len(K)//2:]) if len(K) > 10 else 1
+    threshold = 1.5 * second_half_mean
     above = np.where(K > threshold)[0]
     if len(above) > 0:
-        t_Th = t_arr[above[0]]
-        log(f"    N={N}: t_Th ≈ {t_Th:.2f}  (t_Th/t_H = {t_Th/r['t_H']:.4f})")
+        first_sampled_exceedance_time = t_arr[above[0]]
+        log(f"    N={N}: first sampled exceedance t ≈ {first_sampled_exceedance_time:.2f}  (t/raw scale = {first_sampled_exceedance_time/r['raw_scale']:.4f})")
     else:
-        log(f"    N={N}: no clear Thouless time detected")
+        log(f"    N={N}: no sampled exceedance detected")
 
 
 # ========================================================================
@@ -458,8 +438,8 @@ log("=" * 72)
 log("PHASE 7: CONNECTION TO PREVIOUS RESULTS")
 log("=" * 72)
 log()
-log("  RMT said: Poisson (integrable). SFF should confirm: no dip,")
-log("  no ramp, K(t) ~ 1 with fluctuations.")
+log("  Poisson/no-ramp behavior is compatible with integrability or block fragmentation;")
+log("  it does not prove integrability. Read the sampled SFF separately from a class claim.")
 log()
 log("  PT analysis said: Pi is chiral (class AIII). The palindromic")
 log("  modulation in the SFF is the TIME-DOMAIN signature of the")
@@ -485,8 +465,8 @@ log("=" * 72)
 log()
 
 # Determine dominant behavior
-n_poisson = 0
-n_gue = 0
+n_above_threshold = 0
+n_below_threshold = 0
 modulation_confirmed = False
 
 for N in sorted(sff_results.keys()):
@@ -495,17 +475,17 @@ for N in sorted(sff_results.keys()):
     r = sff_results[N]
     K = r['K_freq']
     t_arr = r['t']
-    early = t_arr < 0.1 * r['t_H']
-    if np.any(early) and np.mean(K[early]) > 0.3:
-        n_poisson += 1
+    below = t_arr < 0.1 * r['raw_scale']
+    if np.any(below) and np.mean(K[below]) > 0.3:
+        n_above_threshold += 1
     else:
-        n_gue += 1
+        n_below_threshold += 1
 
-log(f"  Poisson-like SFF at {n_poisson}/{n_poisson+n_gue} system sizes.")
-log(f"  GUE-like SFF at {n_gue}/{n_poisson+n_gue} system sizes.")
+log(f"  Below-bin mean K_freq > 0.3 at {n_above_threshold}/{n_above_threshold+n_below_threshold} system sizes.")
+log(f"  Below-bin mean K_freq <= 0.3 (or empty below bin) at {n_below_threshold}/{n_above_threshold+n_below_threshold} system sizes.")
 log()
-log("  The SFF confirms the RMT finding: the palindromic Liouvillian")
-log("  is INTEGRABLE. No dip-ramp-plateau of quantum chaos.")
+log("  The below bin is t < 0.1*raw scale; this threshold is not a spectral-class or no-ramp test.")
+log("  The sampled curves and their modulation are the SFF evidence; no integrability theorem follows.")
 log("  Palindromic modulation provides time-domain fingerprint of")
 log("  the spectral pairing lambda <-> -(lambda + 2*Sigma_gamma).")
 log()

@@ -58,9 +58,9 @@ public static class WeightCoherenceBlock
     /// <summary>The (wKet, wBra) XXZ-chain coherence block at complex coupling q (γ = 1) and real ZZ-anisotropy Δ,
     /// dim C(n,wKet)·C(n,wBra). The bond Hamiltonian is H = J·Σ(X_bX_{b+1}+Y_bY_{b+1}) + J·Δ·Σ Z_bZ_{b+1}, q = J.
     /// On top of the XY block (diagonal −2·n_diff; ket excitations hop −2iq, bra excitations +2iq, NN, Pauli-
-    /// excluded), the Δ·ZZ term is a DIAGONAL Hermitian contribution, so it leaves the Absorption-Theorem
-    /// diagonal untouched (−2·n_diff at uniform γ, −2·Σ_s γ_s·[a_s ≠ b_s] under a profile) and adds only the
-    /// frequency −i·q·Δ·(zz(ket) − zz(bra)), with
+    /// excluded), the added matrix diagonal is -i*q*Delta*(zz(ket)-zz(bra)). It is frequency-only for real q;
+    /// for Im q != 0 it has a real component. Dissipator entries stay unchanged
+    /// (−2·n_diff at uniform γ, −2·Σ_s γ_s·[a_s ≠ b_s] under a profile); this does not fix modal rates. Here
     /// zz(c) = Σ_bond ⟨c|Z_bZ_{b+1}|c⟩ (<see cref="Zz"/>). Matches XxzCoherenceBlock.BuildFull's convention; at
     /// Δ=0 it reproduces the pure-XY block exactly. The Δ·ZZ term is EVEN under the global bit-flip
     /// (Z_bZ_{b+1} ↦ (−Z_b)(−Z_{b+1}) = Z_bZ_{b+1}, so zz(b̄) = zz(b)), which is exactly why the cross-fold
@@ -128,14 +128,14 @@ public static class WeightCoherenceBlock
     }
 
     /// <summary>The (wKet, wBra) XXZ-chain coherence block at (q, Δ) plus a per-site longitudinal Z-field
-    /// Σ_k w_k Z_k (field[k] = w_k, the integrability-/symmetry-breaking disorder knob). The field is DIAGONAL and
-    /// Hermitian, so like the Δ·ZZ term it leaves the Absorption-Theorem diagonal untouched (−2·n_diff at uniform
-    /// γ) and adds
-    /// only the frequency −i·q·(fe(ket) − fe(bra)), with fe(c) = Σ_k w_k·z_k (z_k = −1 if site k excited, +1 else,
-    /// <see cref="FieldEnergy"/>). UNLIKE the Δ·ZZ term, the field is bit-flip-ODD (fe(c̄) = −fe(c)), so it BREAKS
-    /// the cross-fold antiunitary similarity (the negative control in <see cref="WeightCoherenceBlockTests"/>) and
-    /// breaks the S₂ reflection + conjugation symmetry — exactly the disorder needed to drive a dense coherence
-    /// sector toward GinUE (the F89 Door-C filling-threshold test). field=null reproduces Build(n,wKet,wBra,q,Δ).</summary>
+    /// Σ_k w_k Z_k (field[k] = w_k): diagonal addition -i*q*(fe(ket)-fe(bra)).
+    /// The field is dimensionless and scaled by q; for complex q it need not be purely imaginary.
+    /// The unchanged dissipator entries do not imply unchanged eigenmode real parts.
+    /// Here fe(c) = Σ_k w_k·z_k (z_k = −1 if site k excited, +1 else; <see cref="FieldEnergy"/>).
+    /// The field is bit-flip-ODD (fe(c̄) = −fe(c)); generic fields can break cross-fold antiunitary similarity
+    /// (the negative control in <see cref="WeightCoherenceBlockTests"/>), S₂ reflection and sector conjugation.
+    /// These symmetry changes alone do not diagnose Hamiltonian integrability.
+    /// field=null reproduces Build(n,wKet,wBra,q,Δ).</summary>
     public static Complex[,] Build(int n, int wKet, int wBra, Complex q, double delta, double[]? field) =>
         Build(n, wKet, wBra, q, delta, field, null);
 

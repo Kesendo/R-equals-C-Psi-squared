@@ -1,6 +1,6 @@
 ========================================================================
 SPECTRAL FORM FACTOR OF THE PALINDROMIC LIOUVILLIAN
-Started: 2026-08-02 17:14:50
+Started: 2026-09-07 20:16:25
 ========================================================================
 
 ========================================================================
@@ -19,48 +19,48 @@ PHASE 2: SPECTRAL FORM FACTOR
 ========================================================================
 
   N=2 (16 eigenvalues, 0.0s):
-    Δ (mean spacing) = 0.0003
-    t_H (Heisenberg) = 25128.81
+    Raw multiset mean adjacent gap = 0.0003
+    Raw multiset density scale = 25128.81
     ω_min (slowest)  = 4.0000
     t_Π (palindromic) = 1.57
     K_freq range: [6.2500e-02, 1.0000]
     K_diss range: [1.0000e+00, 24760787356654398410682687803300935650040698740860524665559120758322345033229606499324705238804801090194063696055353858206636140862549790196121459256054623275835804064557329647886121242089267596349991179623165272358494198430150765023878230712667222746041635188964138680320.0000]
 
   N=3 (64 eigenvalues, 0.0s):
-    Δ (mean spacing) = 0.1026
-    t_H (Heisenberg) = 61.26
+    Raw multiset mean adjacent gap = 0.1026
+    Raw multiset density scale = 61.26
     ω_min (slowest)  = 2.0000
     t_Π (palindromic) = 3.14
     K_freq range: [4.5490e-12, 1.0000]
     K_diss range: [nan, nan]
 
   N=4 (256 eigenvalues, 0.0s):
-    Δ (mean spacing) = 0.0453
-    t_H (Heisenberg) = 138.76
+    Raw multiset mean adjacent gap = 0.0453
+    Raw multiset density scale = 138.76
     ω_min (slowest)  = 1.1716
     t_Π (palindromic) = 5.36
     K_freq range: [2.4408e-07, 1.0000]
     K_diss range: [nan, nan]
 
   N=5 (1024 eigenvalues, 0.1s):
-    Δ (mean spacing) = 0.0126
-    t_H (Heisenberg) = 497.33
+    Raw multiset mean adjacent gap = 0.0126
+    Raw multiset density scale = 497.33
     ω_min (slowest)  = 0.7639
     t_Π (palindromic) = 8.22
     K_freq range: [1.5273e-08, 1.0000]
     K_diss range: [nan, nan]
 
   N=6 (4096 eigenvalues, 0.3s):
-    Δ (mean spacing) = 0.0038
-    t_H (Heisenberg) = 1649.44
+    Raw multiset mean adjacent gap = 0.0038
+    Raw multiset density scale = 1649.44
     ω_min (slowest)  = 0.5359
     t_Π (palindromic) = 11.72
     K_freq range: [4.2834e-10, 1.0000]
     K_diss range: [nan, nan]
 
-  N=7 (16384 eigenvalues, 1.3s):
-    Δ (mean spacing) = 0.0011
-    t_H (Heisenberg) = 5810.10
+  N=7 (16384 eigenvalues, 1.4s):
+    Raw multiset mean adjacent gap = 0.0011
+    Raw multiset density scale = 5810.10
     ω_min (slowest)  = 0.3961
     t_Π (palindromic) = 15.86
     K_freq range: [1.0952e-10, 1.0000]
@@ -118,46 +118,57 @@ PHASE 3: PALINDROMIC MODULATION
 
 
 ========================================================================
-PHASE 4: COMPARISON WITH POISSON AND GUE
+PHASE 4: RAW FREQUENCY SFF — SAMPLED WINDOWS
 ========================================================================
 
-  Poisson: K(t) = 1 for all t > 0 (no correlations)
-  GUE: dip at t=0+, linear ramp K ~ t/t_H, plateau at K=1
+  This is the raw non-unfolded frequency SFF, normalized by M^2.
+  The independent-phase reference 1/M is not a measured plateau or class verdict.
+  Degenerate frequencies can raise the actual long-time average above this reference.
+  The raw multiset density scale is 2*pi / mean adjacent gap(sorted abs nonzero frequencies).
+  It retains multiplicities (abs frequency > 1e-10), so it is multiplicity-dependent.
+  Below/intermediate/beyond are descriptive bins, not physical time regimes or ramp/plateau evidence.
+  Only the reached window is assessed; absent bins are not sampled, not zero.
+  Dissipative overflow/NaN remains unresolved and is not interpreted here.
 
   N=3:
-    Early (t < 0.1 t_H):  <K> = 0.1951  (Poisson: 1.0)
-    Mid (0.1-1.0 t_H):    <K> = 0.2133   slope = -0.0159
-    Late (t > t_H):        <K> = 0.2109  (plateau: 1.0)
-    Min K (dip):           4.5490e-12
-    Classification: intermediate / palindromic
+    Reached time: 157.08; raw scale = 61.26; independent-phase reference 1/M = 0.015625
+    Below (t < 0.1 raw scale):  <K> = 0.1951
+    Intermediate (0.1-1.0 raw scale):    <K> = 0.2133   slope = -0.0159
+    Beyond (t > raw scale):        <K> = 0.2109
+    Min K (below bin):  4.5490e-12
+    Heuristic flags: neither below-bin-mean/slope nor minimum/slope condition; not a class verdict
 
   N=4:
-    Early (t < 0.1 t_H):  <K> = 0.0843  (Poisson: 1.0)
-    Mid (0.1-1.0 t_H):    <K> = 0.0749   slope = -0.0111
-    Late (t > t_H):        <K> = 0.0732  (plateau: 1.0)
-    Min K (dip):           8.3811e-05
-    Classification: intermediate / palindromic
+    Reached time: 200.00; raw scale = 138.76; independent-phase reference 1/M = 0.00390625
+    Below (t < 0.1 raw scale):  <K> = 0.0843
+    Intermediate (0.1-1.0 raw scale):    <K> = 0.0749   slope = -0.0111
+    Beyond (t > raw scale):        <K> = 0.0732
+    Min K (below bin):  8.3811e-05
+    Heuristic flags: neither below-bin-mean/slope nor minimum/slope condition; not a class verdict
 
   N=5:
-    Early (t < 0.1 t_H):  <K> = 0.0297  (Poisson: 1.0)
-    Mid (0.1-1.0 t_H):    <K> = 0.0269   slope = -0.0027
-    Late (t > t_H):        <K> = 0.0000  (plateau: 1.0)
-    Min K (dip):           1.5273e-08
-    Classification: intermediate / palindromic
+    Reached time: 200.00; raw scale = 497.33; independent-phase reference 1/M = 0.0009765625
+    Below (t < 0.1 raw scale):  <K> = 0.0297
+    Intermediate (0.1-1.0 raw scale):    <K> = 0.0269   slope = -0.0027
+    Beyond (t > raw scale):        <K> = not sampled
+    Min K (below bin):  1.5273e-08
+    Heuristic flags: neither below-bin-mean/slope nor minimum/slope condition; not a class verdict
 
   N=6:
-    Early (t < 0.1 t_H):  <K> = 0.0094  (Poisson: 1.0)
-    Mid (0.1-1.0 t_H):    <K> = 0.0073   slope = -0.1670
-    Late (t > t_H):        <K> = 0.0000  (plateau: 1.0)
-    Min K (dip):           4.2834e-10
-    Classification: intermediate / palindromic
+    Reached time: 200.00; raw scale = 1649.44; independent-phase reference 1/M = 0.00024414062
+    Below (t < 0.1 raw scale):  <K> = 0.0094
+    Intermediate (0.1-1.0 raw scale):    <K> = 0.0073   slope = -0.1670
+    Beyond (t > raw scale):        <K> = not sampled
+    Min K (below bin):  4.2834e-10
+    Heuristic flags: neither below-bin-mean/slope nor minimum/slope condition; not a class verdict
 
   N=7:
-    Early (t < 0.1 t_H):  <K> = 0.0033  (Poisson: 1.0)
-    Mid (0.1-1.0 t_H):    <K> = 0.0000   slope = 0.0000
-    Late (t > t_H):        <K> = 0.0000  (plateau: 1.0)
-    Min K (dip):           1.0952e-10
-    Classification: intermediate / palindromic
+    Reached time: 200.00; raw scale = 5810.10; independent-phase reference 1/M = 6.1035156e-05
+    Below (t < 0.1 raw scale):  <K> = 0.0033
+    Intermediate (0.1-1.0 raw scale):    <K> = not sampled   slope = not sampled
+    Beyond (t > raw scale):        <K> = not sampled
+    Min K (below bin):  1.0952e-10
+    Heuristic flags: not classifiable (below bin or intermediate-bin slope not sampled)
 
 
 ========================================================================
@@ -175,7 +186,7 @@ PHASE 5: BAND-RESOLVED SFF (N=3, 4, 5)
     w=3: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
     w=4: 5 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
 
-  N=5 (1024 eigenvalues, 2.3s):
+  N=5 (1024 eigenvalues, 2.6s):
     w=1: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
     w=2: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
     w=3: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
@@ -187,7 +198,7 @@ PHASE 5: BAND-RESOLVED SFF (N=3, 4, 5)
 PHASE 6: TIMESCALES
 ========================================================================
 
-    N       t_Π         t_H     t_Π/t_H     ω_min         Δ
+    N       t_Π   raw scale   t_Π/scale     ω_min   raw gap
   ───────────────────────────────────────────────────────
     2      1.57    25128.81      0.0001    4.0000    0.0003
     3      3.14       61.26      0.0513    2.0000    0.1026
@@ -197,23 +208,24 @@ PHASE 6: TIMESCALES
     7     15.86     5810.10      0.0027    0.3961    0.0011
 
   t_Π = palindromic time = 2π/ω_min (period of slowest mode)
-  t_H = Heisenberg time = 2π/Δ (spectral resolution limit)
-  t_Π/t_H → 0 for large N: palindromic modulation is short-time
+  Raw multiset density scale = 2*pi / raw mean adjacent gap; multiplicity-dependent.
+  Its ratio to t_Π is descriptive and does not define a physical time-regime boundary.
 
-  Thouless time (where K_freq first exceeds 1.5× its late-time mean):
-    N=3: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
-    N=4: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
-    N=5: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
-    N=6: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
-    N=7: t_Th ≈ 0.00  (t_Th/t_H = 0.0000)
+  Heuristic: first sampled exceedance of 1.5x the second-half-of-current-grid mean:
+  This is not a physical time-scale estimate and not a Poisson/physical asymptotic baseline.
+    N=3: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
+    N=4: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
+    N=5: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
+    N=6: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
+    N=7: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
 
 
 ========================================================================
 PHASE 7: CONNECTION TO PREVIOUS RESULTS
 ========================================================================
 
-  RMT said: Poisson (integrable). SFF should confirm: no dip,
-  no ramp, K(t) ~ 1 with fluctuations.
+  Poisson/no-ramp behavior is compatible with integrability or block fragmentation;
+  it does not prove integrability. Read the sampled SFF separately from a class claim.
 
   PT analysis said: Pi is chiral (class AIII). The palindromic
   modulation in the SFF is the TIME-DOMAIN signature of the
@@ -232,13 +244,13 @@ PHASE 7: CONNECTION TO PREVIOUS RESULTS
 SUMMARY
 ========================================================================
 
-  Poisson-like SFF at 0/5 system sizes.
-  GUE-like SFF at 5/5 system sizes.
+  Below-bin mean K_freq > 0.3 at 0/5 system sizes.
+  Below-bin mean K_freq <= 0.3 (or empty below bin) at 5/5 system sizes.
 
-  The SFF confirms the RMT finding: the palindromic Liouvillian
-  is INTEGRABLE. No dip-ramp-plateau of quantum chaos.
+  The below bin is t < 0.1*raw scale; this threshold is not a spectral-class or no-ramp test.
+  The sampled curves and their modulation are the SFF evidence; no integrability theorem follows.
   Palindromic modulation provides time-domain fingerprint of
   the spectral pairing lambda <-> -(lambda + 2*Sigma_gamma).
 
-Completed: 2026-08-02 17:14:55
+Completed: 2026-09-07 20:16:30
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\spectral_form_factor.txt

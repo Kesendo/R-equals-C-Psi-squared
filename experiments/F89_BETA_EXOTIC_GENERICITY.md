@@ -709,9 +709,38 @@ Four facts per sector, at each of the three N (grades per fact and per N in the 
    own the exact isolation and PSC1/S1 seed boundary, while
    [`ROUTE_B_A2_RECONCILE`](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2InventoryTests.cs)
    joins all 58 locus IDs to local character. This is not an all-N theorem and
-   creates no new F number. The F_32 (N=6) and F_53 (N=7) doubled-layer
-   character/completeness edges remain unmeasured. A1's 56 w roots / 112 q-loci
+   creates no new F number. A1's 56 w roots / 112 q-loci
    are certified Puiseux-1/2 defective EP2 by the simple-zero lemma.
+
+   Route B is complete at N=6 as a parity-labelled direct-t inventory of A₂.
+   The [schema-3 carrier](../simulations/results/route_b_a2_n6.json) uses
+   t=i*qCSharp and Lambda=2*lambda, with qCSharp=J/γ for H=J·Σ(XX+YY).
+   Its scope is the open uniform nearest-neighbour XY chain, Δ=0, zero field,
+   uniform local Z-dephasing γ=1, SE-ket/DE-bra block; complex q is analytic
+   continuation, not a physical coupling. The
+   [`ROUTE_B_A2_N6_RECONCILE` execution](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2N6InventoryTests.cs)
+   consumes 266 distinct loci once, 133 in each parity (the certified A₂
+   degrees), with 0 unresolved and both partner maps involutive.
+   ExactAlgebraic=266 describes the algebraic certificates. Character sources
+   are HermitianAxis=118, EpCharacterStable=148, ExactRankExecuted=0;
+   each parity contributes 59 HermitianAxis and 74 EpCharacterStable readings.
+   All 266 are Diabolic with alg=geo=2; 0 are Defective.
+
+   Character is read on each full HS-orthonormal 45-dimensional parity block,
+   including AT. The coherences |i⟩⟨j,k| carry ket hopping −2iq, bra hopping
+   +2iq and a dephasing diagonal −2 for overlap, −6 otherwise. Exactly real t
+   makes the hopping real symmetric, giving the HermitianAxis semisimplicity
+   reason (executed normalized Hermiticity residual <1e-12). Off-axis character
+   is stable numerical evidence, not an exact rank proof. From distances
+   d₀≤d₁≤d₂ to the exported physical λ seed, require d₂>100d₁ and exactly two
+   eigenvalues inside each r=d₁+f(d₂−d₁), f=0.25,0.5,0.75. All three readings
+   must agree: relative departure departure/max(1,compression norm) <1e-6
+   for Diabolic, alg=geo=2; >5e-2 for Defective, alg=2, geo=1. The minimum
+   returned numerical isolation margin d₂−r at f=0.5 is 0.06589058580248003
+   in physical λ units at γ=1. With no numerical character, the output margin
+   is not-applicable. No exact rank execution was needed; the
+   exactRankCertificates array is empty. The F_53 (N=7) doubled-layer
+   character/completeness edge remains unmeasured; this is not an all-N theorem.
 
 The chain from the four facts to the theorem, each link named. F_res is **monic in λ** (checked),
 so the resultant specializes exactly at every w° (no leading-coefficient degeneration):
