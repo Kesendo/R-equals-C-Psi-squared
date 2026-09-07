@@ -7,6 +7,13 @@ using Qc = RCPsiSquared.Core.Numerics.GaussianRational;
 
 namespace RCPsiSquared.Core.F89PathK;
 
+/// <summary>Exact N=6 cleared sector factors, indexed first by Lambda and then by t, both lowest-first.</summary>
+public sealed record RouteBN6ExactPencil(
+    bool ROdd, int SectorDimension, BigInteger[][] ResidualInT, BigInteger[][] AtFactorInT)
+{
+    public int ResidualLambdaDegree => ResidualInT.Length - 1;
+}
+
 /// <summary>The ONE-WAY fold-resultant certificate for remainder R1 of the codim-1-by-additivity proof
 /// (docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md §6, the sectorbraid arc): at every branch locus q* ≠ 0 of
 /// the (1,2) residual factor F_res (F_18 R-even / the degree-17 R-odd factor at N=5), the holomorphic
@@ -107,6 +114,72 @@ namespace RCPsiSquared.Core.F89PathK;
 /// --logger "console;verbosity=detailed"</c> (FoldResultantCertificateTests).</para></summary>
 public static class FoldResultantCertificate
 {
+    /// <summary>Independently reconstruct one N=6 R-parity sector and divide its AT factor in Z[i][q].
+    /// Returns the exact substitution q=-i*t, with Lambda=2*lambda and t=i*qCSharp.</summary>
+    public static RouteBN6ExactPencil ExportRouteBN6ExactPencil(bool rOdd)
+    {
+        var b0 = rOdd ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(0, 6) : F89PathKSeDeBlock.BuildTwoTimesSymBlock(0, 6);
+        var b1 = rOdd ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(1, 6) : F89PathKSeDeBlock.BuildTwoTimesSymBlock(1, 6);
+        var b2 = rOdd ? F89PathKSeDeBlock.BuildTwoTimesROddBlock(2, 6) : F89PathKSeDeBlock.BuildTwoTimesSymBlock(2, 6);
+        return ExportRouteBN6ExactPencilFromSamples(rOdd, b0, b1, b2);
+    }
+
+    internal static RouteBN6ExactPencil ExportRouteBN6ExactPencilFromSamples(
+        bool rOdd, GaussianInteger[,] blockAtQ0, GaussianInteger[,] blockAtQ1, GaussianInteger[,] blockAtQ2)
+    {
+        const int dimension = 45;
+        foreach (var sample in new[] { blockAtQ0, blockAtQ1, blockAtQ2 })
+            if (sample.GetLength(0) != dimension || sample.GetLength(1) != dimension)
+                throw new ArgumentException("N=6 R-parity samples must be 45 by 45.");
+
+        var c = new GaussianInteger[dimension, dimension];
+        for (int i = 0; i < dimension; i++)
+            for (int j = 0; j < dimension; j++)
+            {
+                c[i, j] = blockAtQ1[i, j] - blockAtQ0[i, j];
+                if (blockAtQ0[i, j] + 2 * c[i, j] != blockAtQ2[i, j])
+                    throw new InvalidOperationException("the sector block is not linear in q0.");
+            }
+
+        var full = PencilCharpolyBivariate(blockAtQ0, c);
+        var at = BivariateAtFactor(F89AtFactorReconstruction.ClearedAtSectors(5, rOdd));
+        var residual = BivariateDivideExact(full, at);
+        return new RouteBN6ExactPencil(rOdd, dimension, RotateToT(residual), RotateToT(at));
+    }
+
+    internal static bool RouteBN6TransportMatches(BigInteger[][] evenResidualInT, BigInteger[][] oddResidualInT)
+    {
+        if (evenResidualInT.Length != oddResidualInT.Length) return false;
+        for (int l = 0; l < evenResidualInT.Length; l++)
+        {
+            if (evenResidualInT[l].Length != oddResidualInT[l].Length) return false;
+            for (int k = 0; k < evenResidualInT[l].Length; k++)
+                if (oddResidualInT[l][k] != ((k & 1) == 0 ? evenResidualInT[l][k] : -evenResidualInT[l][k]))
+                    return false;
+        }
+        return true;
+    }
+
+    private static BigInteger[][] RotateToT(GaussianInteger[][] polynomialInQ)
+    {
+        var result = new BigInteger[polynomialInQ.Length][];
+        for (int l = 0; l < result.Length; l++)
+        {
+            var row = polynomialInQ[l];
+            result[l] = new BigInteger[row.Length];
+            var phase = GaussianInteger.One;
+            for (int k = 0; k < row.Length; k++)
+            {
+                var rotated = row[k] * phase;
+                if (!rotated.Im.IsZero)
+                    throw new InvalidOperationException("q=-i*t rotation left a non-integer coefficient.");
+                result[l][k] = rotated.Re;
+                phase *= -GaussianInteger.I;
+            }
+        }
+        return result;
+    }
+
     /// <summary>The multi-prime certificate's verdict and guard trail. Complete = true is the finished
     /// one-way proof (gcd(R, D) is exactly a q-power over Q(i)); SharedIsQPowerAtEveryPrime = false
     /// means some certified-good prime saw a shared factor beyond q^e: refine, not refute.
