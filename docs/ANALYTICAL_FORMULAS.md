@@ -7351,7 +7351,7 @@ a block-global sign" and never says when the sign is −1.
 
 **It subsumes the odd-N effect's PARITY GATE**, the sector-closure half of what the path-k diabolic story
 is built on (the onset itself needs two more things: the even-N absence, and the within-odd threshold, for
-which no closed form is known, since N=5 is odd and shows none). At odd N the factor N−1 is
+which no closed form is known, since the bounded R-even real-q scan at N=5 shows none, while the completed N=5 Route B inventory contains the positive-real R-odd A2 pair). At odd N the factor N−1 is
 even, so every block commutes and every sector is conjugation-closed regardless of the weights;
 the parity gate that reads as "odd N" at p + q = 3 is this one character read at that weight. Note
 the direction: block-level realness is vacuous here, since 𝒟 makes every full block's discriminant

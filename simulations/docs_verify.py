@@ -165,6 +165,25 @@ def verify_route_b_a2_current_truth():
         check("Route B artifact: readable schema", False, str(error))
 
 
+def verify_f151_route_b_current_truth():
+    """Keep F151's bounded N=5 scan distinct from the completed Route B inventory."""
+    path = Path(__file__).resolve().parents[1] / "docs/ANALYTICAL_FORMULAS.md"
+    try:
+        source = path.read_text(encoding="utf-8")
+        section = source[source.index("### F151."):].split("\n### F", 1)[0]
+    except (OSError, ValueError) as error:
+        check("F151 Route B: readable section", False, str(error))
+        return
+    section = " ".join(section.split())
+    check("F151 Route B: excludes unqualified N=5 absence",
+          "N=5 is odd and shows none" not in section,
+          "docs/ANALYTICAL_FORMULAS.md F151: stale unqualified N=5 claim")
+    for phrase in ("bounded R-even real-q scan at N=5 shows none",
+                   "positive-real R-odd A2 pair"):
+        check(f"F151 Route B: {phrase}", phrase in section,
+              "docs/ANALYTICAL_FORMULAS.md F151: missing current-truth statement")
+
+
 if __name__ == "__main__":
     print("=" * 70)
     print("SCOPED NUMERICAL DOCUMENTATION SMOKE TEST")
@@ -175,6 +194,7 @@ if __name__ == "__main__":
               "intentional mutation regression")
 
     verify_route_b_a2_current_truth()
+    verify_f151_route_b_current_truth()
 
     # =============================================================
     # GLOSSARY.md claims
