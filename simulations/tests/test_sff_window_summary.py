@@ -108,8 +108,12 @@ def test_producer_temp_output_uses_actual_helper_and_csv_windows(tmp_path):
     assert tracked.read_bytes() == before and tracked.stat().st_mtime_ns == before_mtime
     report = destination.read_text(encoding="utf-8")
     assert "raw multiset density scale" in report and "multiplicity-dependent" in report
-    assert "overflow/NaN remains unresolved" in report
+    assert "Only the raw oscillation-frequency SFF is computed" in report
+    assert "no decay-weighted or connected estimator is defined" in report
+    assert "K_diss" not in report and "overflow/NaN" not in report
     assert "Heisenberg" not in report and "t_H" not in report and "t_Th" not in report
+    assert "first sampled exceedance" not in report, "the t=0 exceedance diagnostic is vacuous and must be absent"
+    assert "2*cos" in report and "doubled and cross frequencies" in report
     phase4 = report.split("PHASE 4:", 1)[1].split("PHASE 5:", 1)[0]
     blocks = dict(re.findall(r"  N=(\d+):\n(.*?)(?=\n  N=|\Z)", phase4, re.S))
     assert set(blocks) == {"3", "4", "5", "6", "7"}
@@ -138,3 +142,29 @@ def test_producer_temp_output_uses_actual_helper_and_csv_windows(tmp_path):
         if n == 7:
             assert windows["intermediate"] is None and windows["slope"] is None
             assert "slope = not sampled" in block and "not classifiable" in block
+
+
+def test_zero_frequency_sff_is_constant_and_pair_square_has_doubled_frequency():
+    h = helper()
+    times = np.array([0., np.pi / 2, np.pi])
+    zero_frequencies = np.full(6, -2.0, dtype=complex)
+    np.testing.assert_array_equal(h.sff_frequency(zero_frequencies, times), np.ones(3))
+    np.testing.assert_array_equal(6**2 * h.sff_frequency(zero_frequencies, times), np.full(3, 36.0))
+    pair = h.sff_frequency(np.array([-1j, 1j]), times)
+    np.testing.assert_allclose(pair, np.cos(times)**2, rtol=0, atol=1e-15)
+    assert abs(pair[-1] - np.cos(times[-1])) > 1.9  # trace-amplitude vs SFF control
+
+
+def test_producer_has_no_misdefined_decay_or_vacuous_connected_kernel():
+    source = (Path(__file__).resolve().parents[1] / "spectral_form_factor.py").read_text(encoding="utf-8")
+    document = (Path(__file__).resolve().parents[2] / "experiments" / "SPECTRAL_FORM_FACTOR.md").read_text(encoding="utf-8")
+    for stale in ("def sff_dissipative", "def sff_connected", "K_diss", "overflow/NaN"):
+        assert stale not in source + document
+    assert "physical Liouvillian propagation would involve" in document
+    assert "`exp(lambda*t)`" in document
+    assert "requires a specified ensemble or averaging prescription" in document
+
+
+def test_f2_frequency_is_block_reference_not_full_spectrum_minimum():
+    root = Path(__file__).resolve().parents[2]
+    source = ( = None

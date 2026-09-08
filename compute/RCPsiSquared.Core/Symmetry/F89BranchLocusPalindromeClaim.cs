@@ -23,9 +23,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>The diabolic sits ON the line because its coalescing pair is overlap-balanced (p = ½,
 /// dephasing scalar −4γ, the AT-midpoint, <see cref="F89Path3OcticEpClaim"/>). Its semisimplicity follows
-/// from the twin-scalar restriction at the N=4 point, NOT from being self-mirror. The sampled XXZ Delta
-/// control stays on-line yet becomes defective (hypotheses/DIABOLIC_BY_INTEGRABILITY.md):
-/// this is a local restriction/control, not an all-N cause. Live witness <c>inspect --root branchpalindrome</c>
+/// from the twin-scalar restriction at the N=4 Delta=0 point: Diabolic 2/2, NOT from being self-mirror.
+/// N=4/N=5/N=6 positive Delta proposals remain Uncertified and carry no Jordan-character conclusion.
+/// Live witness <c>inspect --root branchpalindrome</c>
 /// (<c>BranchLocusPalindromeWitness</c>); reading reflections/ON_WHO_WATCHES_WHOM.md. Scope, now checked
 /// (foldlift probe, 2026-06-26): the block-internal self-fold is N_block=4 ONLY — the rung-swap P needs the
 /// overlap/no-overlap multiplicity balance 2 = N−2 (DE = bar(DE) half-filling), true only at N=4 (residual
@@ -69,7 +69,9 @@ public sealed class F89BranchLocusPalindromeClaim : Claim
 
     public override string Summary =>
         $"the EP/diabolic collisions mirror about Re λ = −σ = −4γ (octic closes under the antiunitary λ ↦ −λ̄ − 2σ, " +
-        $"not the linear λ ↦ −λ − 2σ); every EP on the line or in a mirror pair, no orphan ({Tier.Label()})";
+        $"not the linear λ ↦ −λ − 2σ); every EP on the line or in a mirror pair, no orphan. Only N=4 Delta=0 is " +
+        $"certified Diabolic 2/2; N=4/N=5/N=6 positive Delta proposals remain Uncertified and carry no " +
+        $"Jordan-character conclusion ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -80,7 +82,8 @@ public sealed class F89BranchLocusPalindromeClaim : Claim
                 summary: "the (SE,DE) F1 palindrome is the antiunitary T = P·K: T L(q) T⁻¹ = −L(q̄) − 2σ (same-q fold at real q), so " +
                          "the branch locus is invariant under λ ↦ −λ̄ − 2σ (Re reflects about −σ, Im preserved); every EP " +
                          "on the line or in a mirror pair. The twin-scalar restriction at the N=4 point supplies semisimplicity, " +
-                         "not the mirror alone; the sampled Delta control is not an all-N cause. Live: inspect --root branchpalindrome.");
+                         "not the mirror alone. Only N=4 Delta=0 is certified Diabolic 2/2; N=4/N=5/N=6 positive Delta " +
+                         "proposals remain Uncertified and carry no Jordan-character conclusion. Live: inspect --root branchpalindrome.");
         }
     }
 }

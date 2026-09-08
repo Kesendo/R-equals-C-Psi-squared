@@ -1,0 +1,29 @@
+T1  the rule is exact, free world (XY + field), full censuses
+  [PASS] N=3 s=1 population: alive 15/63, predicted 15, stab=['even', 'odd'], V-invariance worst 6.9e-17
+  [PASS] N=3 s=1 real coherence: alive 35/63, predicted 35, stab=['even'], V-invariance worst 6.9e-17
+  [PASS] N=3 s=1 imaginary coherence: alive 35/63, predicted 35, stab=['even'], V-invariance worst 6.9e-17
+  [PASS] N=3 s=2 real coherence: alive 35/63, predicted 35, stab=['even'], V-invariance worst 2.8e-17
+  [PASS] N=4 s=1 population: alive 55/255, predicted 55, stab=['even', 'odd'], V-invariance worst 1.1e-16
+  [PASS] N=4 s=1 real coherence: alive 71/255, predicted 71, stab=['even', 'odd'], V-invariance worst 1.1e-16
+  [PASS] N=5 s=1 real coherence: alive 367/1023, predicted 367, stab=['odd'], V-invariance worst 5.6e-17
+  [PASS] N=5 s=3 (popcount 2) population: alive 255/1023, predicted 255, stab=['even', 'odd'], V-invariance worst 5.6e-17
+  [PASS] N=5 s=3 (popcount 2) real coherence: alive 507/1023, predicted 507, stab=['odd'], V-invariance worst 5.6e-17
+  [PASS] N=5 s=1 real coherence, FULL non-uniform watching: alive 367/1023, predicted 367, stab=['odd'], V-invariance worst 4.2e-17
+T2  layer attribution: each layer's own kill, witnessed
+  [PASS] K alone kills the 16 pure-XY strings at N=4 population: 16 strings, all dead, all w=4 (no popcount-2 block populated)
+  [PASS] F alone kills the 20 fermion-linear strings at N=5 s=3 coherence: 20 strings, degrees [1, 9] = the a_k and their Gamma-duals, all dead
+  [PASS] V alone kills the single-site Z at N=3 population (K and F both allow): ZII: k_ok, d=2 (F allows), eps=-1 (V kills), dead: the doubly-mirrored zero of the h thread, now one cell of the closed rule
+T3  the mod-4 shadow: eps is a pure function of Majorana degree, N-free
+  [PASS] eps_letters == eps_degree == matrix conjugation, all strings N=2..6: 10912 (string, gauge) pairs, 0 mismatches; eps_odd=(-1)^(d(d-1)/2), eps_even=(-1)^(d(d+1)/2)
+T4  the collapsed per-sector rule (V_g always a symmetry; the prep splits into V-eigen-sectors; at d=N the coherence channel's signs are automatic)
+  [PASS] N=5 s=3 coherence via the collapsed rule: alive 507/1023, collapsed-rule predicted 507, alive-by-degree {4: 210, 5: 252, 8: 45}
+  [PASS] N=6 population via the collapsed rule: alive 511/4095, collapsed-rule predicted 511, alive-by-degree {4: 255, 8: 255, 12: 1}
+  [PASS] N=6 coherence via the collapsed rule (N=2 mod 4: no gauge stabilizes globally, the per-sector form still exact): alive 1055/4095, collapsed-rule predicted 1055, alive-by-degree {4: 255, 6: 544, 8: 255, 12: 1}
+  [PASS] the global-stabilizer form genuinely diverges at N=6 coherence: global form predicts 2047 alive, actual 1055: the per-sector refinement is load-bearing, not cosmetic
+  [PASS] alive-by-degree counts are binomials cut by kinematics: N=5 s=3: C(10,4)+C(10,5)+C(10,8); N=6: C(12,4)-240 (w=4 caps unreadable), C(12,6)-20-360 (w<4 cannot reach the coherence blocks), C(12,12)=Z^N
+T5  the zz boundary: V and F are properties of the free world
+  [PASS] N=3 population, zz=0.7: dead = layer K + the conserved Z^N: 33 dead; V's and F's kills revive, only ZZZ stays (parity conserved, starts at 0 for the odd-N pair)
+  [PASS] N=4 real coherence, zz=0.7: dead = exactly layer K: 128 dead, all odd-w (Z^N starts nonzero at even N, so no parity zero)
+
+GATE PASS: the dead set is closed by the three conserved structures (popcount blocks, the doubly-mirrored kill, fermion degree), and the sharpened per-sector form collapses them to one fermionic line: alive iff (K_pop and d = 0 mod 4) or (coherence and K_coh and d = N); with zz the V and F layers collapse and only the blocks plus conserved parity remain.
+EXIT: 0

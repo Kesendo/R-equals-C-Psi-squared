@@ -940,14 +940,15 @@ Two placement notes, added 2026-07-05:
 - **Sá-Ribeiro-Prosen (2023):** the 38-fold symmetry classification
   of many-body Lindbladians ("Tenfold Way and Beyond", Phys. Rev. X
   13, 031019, [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)).
-  Π is not one of its classes: Π is unitary, not antiunitary, and
-  the constant shift 2Σγ has no slot in their scheme, so Π falls in
-  a gap between their Q₋ and P generators. That placement, Π as a
-  shifted anti-similarity of L sitting outside the standard taxonomy, is
-  worked out in [KMS and Detailed Balance](../KMS_DETAILED_BALANCE.md),
-  which also records Π's order-4 structure as Π² = (−1)^{w_YZ}. Where
-  Π² lands in their classification we have not settled: conjugation by
-  X^⊗N commutes with the XXZ Hamiltonian but sends Z_i → −Z_i, so
+  Their negative symmetries act on the trace-shifted generator, so
+  `L_c = L + ΣγI` is the relevant object and Π supplies a P-type
+  anticommutation. Its order-four structure is not a new global class:
+  Π² = U_X commutes with L_c, and in a U_X-parity sector p_x the
+  phase-normalized restriction `P_{p_x} = sqrt(p_x) Π|_{p_x}` squares
+  to identity. The final BDI/CI/other label remains OPEN until every
+  commuting unitary/strong symmetry is resolved and the full sectorwise
+  antiunitary algebra is computed. See [KMS and Detailed Balance](../KMS_DETAILED_BALANCE.md).
+  Conjugation by X^⊗N commutes with the XXZ Hamiltonian but sends Z_i → −Z_i, so
   whether it counts as a strong symmetry depends on which of the
   competing definitions of that term is used, and we have not done that
   comparison.
@@ -998,10 +999,10 @@ Two placement notes, added 2026-07-05:
 - [Orphaned Results](../../experiments/ORPHANED_RESULTS.md): palindrome pair activation explains which states cross 1/4
 - [QST Bridge](../../experiments/QST_BRIDGE.md): palindrome applies to all QST channels, provides decay diagnostics
 - [Non-Heisenberg Palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md): the Π families (P1/P4, alternating, continuous per-site), all local, sorted by bond type
-- [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): rate quantization Re(λ) = −2γ⟨n_XY⟩, the principal descendant of F1
+- [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): the full-mode rate law Re(λ) = −2γ⟨n_XY⟩, with integer quantization belonging to the dissipator cells, the principal descendant of F1
 
 ## The spectrum, drawn live
 
 ![The Liouvillian spectrum of an N = 5 chain at Q = 1.5, exported live from the Symphony witness: every mode's whole life compressed to one point λ. The cloud is mirror-symmetric about the dashed line at −σ = −0.25, the F1 palindrome made visible.](../../simulations/results/symphony_reel/without_t_axis_spectrum.png)
 
-The palindrome of this proof, seen at a glance. The 1024 eigenvalues of the live Liouvillian (`inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export`, drawn by `simulations/reel_and_projector.py`) sit symmetric about the center −σ: every fast mode paired with a slow one. The same figure is the shared anchor of two descendants also visible in it: the frozen sector on the Re = 0 edge is the [F4 kernel](PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) (N + 1 = 6 modes that never fade), and the vertical rungs are the [absorption law](PROOF_ABSORPTION_THEOREM.md) Re λ = −2γ·n_XY. Nothing in the picture is chance.
+The palindrome of this proof, seen at a glance. The 1024 eigenvalues of the live Liouvillian (`inspect --root symphony --N 5 --J 0.075 --gamma 0.05 --export`, drawn by `simulations/reel_and_projector.py`) sit symmetric about the center −σ: every fast mode paired with a slow one. The same figure is the shared anchor of two descendants also visible in it: the frozen sector on the Re = 0 edge is the [F4 kernel](PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md) (N + 1 = 6 modes that never fade), and the horizontal placement obeys the [absorption law](PROOF_ABSORPTION_THEOREM.md) Re λ = −2γ⟨n_XY⟩_v for each full eigenmode. Integer n_XY labels the dissipator's Pauli cells; Hamiltonian mixing can make the eigenmode expectation fractional. Nothing in the picture is chance.

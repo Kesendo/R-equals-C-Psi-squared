@@ -321,25 +321,27 @@ coupled through J_bridge = 0.5. Total Σγ = 0.
 |---|----------|----------|-----------|-----------|
 | 0.00 | 0.00 | 0.000 | 0.000000 | Marginal (no gain) |
 | 0.05 | 0.00 | 0.000 | 0.000000 | Marginal (g < g_crit) |
-| 0.10 | 0.00 | 0.000 | +0.030513 | **UNSTABLE (Hopf)** |
-| 0.20 | 0.00 | 0.000 | +0.540352 | **UNSTABLE (Hopf)** |
-| 0.50 | 0.00 | 0.000 | +1.832205 | **UNSTABLE (Hopf)** |
+| 0.10 | 0.00 | 0.000 | +0.030513 | **UNSTABLE (off-axis growth)** |
+| 0.20 | 0.00 | 0.000 | +0.540352 | **UNSTABLE (off-axis growth)** |
+| 0.50 | 0.00 | 0.000 | +1.832205 | **UNSTABLE (off-axis growth)** |
 
 The palindrome stays centered at zero (midpoint = 0) regardless
 of g. But the system does NOT stay stable at all g. With bridge
 coupling, the gain side destabilizes the system above g ≈ 0.10:
-positive real eigenvalues appear (a Hopf bifurcation: the system transitions from damped to self-sustaining oscillation) and the system explodes.
+positive real eigenvalues appear and the system transitions from bounded oscillation to exponential growth.
 
 The bridge between decay and gain is FRAGILE. Too much gain and
 the cavity cannot contain the amplification. There is a stability
 window where the balance holds. Beyond it: a laser with too much
 pump, the palindrome still centered, but the system diverging.
 
-Full analysis: [The Fragile Bridge](FRAGILE_BRIDGE.md) (three regimes,
-Hopf bifurcation, N-dependence, neural connection). At Σγ = 0, the
-palindrome equation Π·L·Π⁻¹ = −L forces exact λ ↔ −λ pairing, placing
-all eigenvalues on the imaginary axis. This is the chiral-symmetric phase (where the spectrum has an exact left-right mirror symmetry around zero).
-The Hopf bifurcation at γ_crit is Liouvillian chiral symmetry breaking (that mirror symmetry gets violated).
+Full analysis: [The Fragile Bridge](FRAGILE_BRIDGE.md) (sampled coupling regimes,
+spectral-abscissa axis departure with EP character OPEN, N-dependence, neural connection). At Σγ = 0,
+the palindrome equation Π·L·Π⁻¹ = −L forces exact λ ↔ −λ pairing at every
+tested γ. Below γ_crit the measured spectrum lies on the imaginary axis. At
+γ_crit the spectral abscissa becomes positive and off-axis quartets appear; the
+mirror relation itself is not broken. No branch continuation or strict
+threshold coalescence/Jordan certificate has been executed.
 See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 The bridge is what makes the window finite. Remove it and the two systems
@@ -405,11 +407,13 @@ mirror fails, it fails at every γ > 0, with sum-of-squares coefficients. Zero i
 mirror; the theorem now says exactly who can stand in front of it and who cannot.
 
 **"Noise opens the cavity, creates the distance between the mirrors" has a coordinate.**
-The Absorption Theorem's ladder (Re λ = −2γ·⟨n_XY⟩,
-[the recentred face](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)) makes γ the rung
-spacing of the rate spectrum: the palindrome's width is 2Σγ, the absorption quantum 2γ.
-At Σγ = 0 the ladder collapses to a point, every rung coincides, no distance, no fold,
-no history: the two mirrors of the March image at zero separation, literally. Turning
+The dissipator's Pauli-cell ladder has cost 2γ per {X,Y} letter, while a full
+Liouvillian eigenmode obeys Re λ = −2γ·⟨n_XY⟩_v with a generally non-integer
+expectation ([the recentred face](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)).
+Thus 2γ is a cell-cost quantum, not a proved spacing of the interacting rate spectrum;
+the palindrome's width is 2Σγ. At Σγ = 0 the dissipative cell costs and fold width
+collapse to zero, no distance, no fold, no history: the two mirrors of the March image
+at zero separation, literally. Turning
 the dial does not bend the geometry; it stretches one length, the same one length the
 [one diagonal](../reflections/ON_THE_ONE_DIAGONAL.md) counts.
 

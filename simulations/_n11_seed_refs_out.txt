@@ -1,0 +1,16 @@
+R-even q*=0.070809 lam0=-6.0000 up gap=0.0e+00 sig2=1.7e-15 kappa2=-0.000000 kappa6=-1.000000 not-A-sym
+R-even q*=1.003756 lam0=-6.0000 up gap=0.0e+00 sig2=1.6e-15 kappa2=+0.000000 kappa6=-1.000000 not-A-sym
+R-even q*=1.195099 lam0=-6.0000 up gap=7.4e-19 sig2=2.5e-15 kappa2=+0.000000 kappa6=-1.000000 not-A-sym
+R-even q*=1.624914 lam0=-4.8639 up gap=6.0e-08 sig2=2.3e-02 kappa2=+0.082421 kappa6=-0.082421 defective
+R-even q*=2.828077 lam0=-6.0000 down gap=2.0e-15 sig2=3.0e-15 kappa2=+0.000000 kappa6=-1.000000 not-A-sym
+R-even q*=2.835900 lam0=-6.0000 up gap=2.0e-15 sig2=3.9e-15 kappa2=+0.000000 kappa6=-1.000000 not-A-sym
+R-even q*=3.805987 lam0=-5.2355 down gap=4.1e-08 sig2=1.5e-02 kappa2=+0.032084 kappa6=-0.032084 defective
+R-even q*=8.325094 lam0=-5.2082 down gap=6.8e-08 sig2=9.0e-02 kappa2=+0.045752 kappa6=-0.045752 defective
+R-even q*=27.594648 lam0=-5.2338 down gap=9.9e-08 sig2=8.8e-02 kappa2=+0.034252 kappa6=-0.034252 defective
+R-odd q*=0.032905 lam0=-6.0000 up gap=2.2e-16 sig2=2.8e-15 kappa2=-0.000000 kappa6=-0.000000 SEMISIMPLE!
+R-odd q*=1.174505 lam0=-5.2588 up gap=8.5e-08 sig2=2.2e-02 kappa2=+0.159108 kappa6=-0.159108 defective
+R-odd q*=1.263174 lam0=-5.2563 up gap=1.3e-07 sig2=2.3e-02 kappa2=+0.122062 kappa6=-0.122062 defective
+R-odd q*=1.455936 lam0=-5.2098 up gap=9.8e-08 sig2=2.9e-02 kappa2=+0.111927 kappa6=-0.111927 defective
+R-odd q*=2.020923 lam0=-4.7397 up gap=1.8e-07 sig2=7.5e-02 kappa2=+0.170213 kappa6=-0.170213 defective
+R-odd q*=5.401424 lam0=-4.1353 up gap=1.8e-07 sig2=4.1e-01 kappa2=+0.373421 kappa6=-0.373421 defective
+--- 15 distinct seeds; largest q*=27.5946 (QMAX=30.0); OK, unclipped

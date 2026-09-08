@@ -7,8 +7,8 @@ using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The F89 Door-C CSR sweep: does breaking the (SE,DE) Liouvillian block's free-fermion
-/// additivity (XXZ anisotropy Δ) drive the fixed-q complex spacing ratio (CSR) from Poisson toward
+/// <summary>The F89 Door-C CSR sweep: does breaking the underlying XY Hamiltonian's free-fermion
+/// additivity with XXZ anisotropy Δ drive the fixed-q Liouvillian complex spacing ratio (CSR) from Poisson toward
 /// Ginibre? The galoischaos witness is the Δ=0 baseline (a clean null: the Galois-S_n H_B-mixed half
 /// reads Poisson, NOT GinUE); this sweep turns Δ on and re-reads the CSR with the methodologically
 /// correct recipe (review round 2):
@@ -23,7 +23,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// The (SE,DE) block is built by <see cref="XxzCoherenceBlock.BuildFull"/> (U(1)-closed under Δ; the
 /// Δ·ZZ term adds -i*q*Delta*(zz(ket)-zz(bra)) to the matrix diagonal).
 /// At real q this addition is imaginary; the unchanged dissipator does not fix eigenmode real parts.
-/// At Δ=0 this reproduces the galoischaos witness baseline (the regression anchor).</summary>
+/// At Δ=0 this reproduces the galoischaos witness baseline (the regression anchor).
+/// Every CSR call retains finite-precision cluster representatives, one per 1e-9 rounded cluster. The resulting CSR and
+/// representative count are tolerance-dependent and not an exact degeneracy census; sufficiently close
+/// nondegenerate levels can be merged at this declared numerical resolution.</summary>
 public static class IntegrabilityBreakingCsr
 {
     public enum Half { HbMixed, AtLocked, Full }
@@ -31,11 +34,14 @@ public static class IntegrabilityBreakingCsr
     private const double ImTol = 1e-6;
     private const double RateTol = 1e-6;
 
+    /// <summary>The numerical clustering boundary shared by every CSR consumer in this harness.</summary>
+    public static string ClusteringScope => ComplexSpacingRatio.ClusteringScope;
+
     /// <summary>⟨|z|⟩, ⟨cos arg z⟩, the pooled z count, and a 95% bootstrap CI on ⟨|z|⟩.</summary>
     public readonly record struct CsrReading(int ZCount, double MeanAbs, double MeanCos, double CiLo, double CiHi);
 
     /// <summary>Upper-half-plane eigenvalues of the (SE,DE) block at (q, Δ), filtered to the chosen half.
-    /// AT-locked = Re ∈ {−2, −6} (the absorption-theorem rungs, free-fermion Bloch frequencies);
+    /// AT-locked = Re ∈ {−2, −6} (the absorption-theorem rungs, with frequencies inherited from the free-fermion XY Hamiltonian);
     /// H_B-mixed labels the remaining values. The filter selects recomputed eigenvalues by their current real parts;
     /// this is not an invariant AT/residual decomposition as Delta changes.</summary>
     private static List<Complex> HalfEigs(int n, double q, double delta, Half half, Domain domain)
@@ -59,7 +65,7 @@ public static class IntegrabilityBreakingCsr
     }
 
     /// <summary>The CSR fundamental domain. <see cref="UpperHalf"/> (Im &gt; tol) is correct ONLY when the
-    /// spectrum is conjugation-symmetric (λ → λ*) — true at Δ=0 (free fermion, 100% conjugate matches) but
+    /// spectrum is conjugation-symmetric (λ → λ*) — true at Δ=0 (100% conjugate matches) but
     /// NOT at Δ≠0 (the diagonal Δ·ZZ imaginary shift breaks it to 0%). <see cref="OffReal"/> (|Im| &gt;
     /// tol) is the correct domain with no conjugation symmetry: at Δ≠0 there are no real eigenvalues, so
     /// off-real is the full bulk. Using UpperHalf at Δ≠0 keeps an arbitrary non-fundamental ≈60-of-147
@@ -73,7 +79,8 @@ public static class IntegrabilityBreakingCsr
         => Matrix<Complex>.Build.DenseOfArray(XxzCoherenceBlock.BuildFull(n, new Complex(q, 0), delta))
             .Evd().EigenValues.ToArray();
 
-    /// <summary>The pooled per-spectrum z-values of the chosen half over the q-grid.</summary>
+    /// <summary>The pooled per-spectrum z-values of the chosen half over the q-grid. Each spectrum first
+    /// contributes one representative per finite-precision cluster under <see cref="ClusteringScope"/>.</summary>
     private static List<Complex> PooledZ(int n, double delta, double[] qs, Half half, Domain domain)
     {
         var pool = new List<Complex>();
@@ -91,8 +98,9 @@ public static class IntegrabilityBreakingCsr
     /// realizations draw a per-site field w_k ~ U[−w, w], build the (SE,DE) block at (q, Δ) + field, and pool
     /// the chosen-half OffReal z-values across realizations. The random field breaks conjugation symmetry, so
     /// OffReal is the valid domain; pooling z's across realizations is both the correct ensemble and the
-    /// large-sample source. Δ=0 is free fermion + disorder (1D Anderson, expected Poisson); Δ≠0 is interacting
-    /// + disorder (the genuine non-integrability / MBL-ergodic test).</summary>
+    /// large-sample source. At Δ=0 the random-field XY Hamiltonian is quadratic (1D Anderson, expected Poisson);
+    /// this does not make the dephasing Liouvillian a quadratic free-fermion generator. At Δ≠0 the Hamiltonian is
+    /// interacting and disordered (the genuine non-integrability / MBL-ergodic test).</summary>
     public static CsrReading DisorderSweep(int n, double q, double delta, double w, int realizations, Half half, int seed)
     {
         var rng = new Random(seed);

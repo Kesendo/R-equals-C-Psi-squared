@@ -97,9 +97,10 @@ N-1 distinct frequencies on the Heisenberg chain's (0,1) coherence block,
 the N-dimensional span of the |0><j| between the ferromagnet and the single
 excitations. Machine-precision match for 15 frequencies (N=2-6). Tight-binding model
 with hopping 2J.
-Two independent validations: (1) eigenvalue match < 1e-12,
-(2) SFF modulation peak at omega_1 matches
-to <1% for N=2-4, 6 ([Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)).
+The block eigenvalues match to < 1e-12. Separately, the raw-SFF producer
+reports an FFT candidate within 1% of omega_1 at N=2-4 and N=6, but does not
+identify that candidate at N=5 or N=7
+([Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)).
 
 **Note:** F2 describes the Heisenberg
 LIOUVILLIAN, NOT the single-excitation Hamiltonian eigenvalues. Its object
@@ -367,9 +368,10 @@ right eigenvector v: Re(λ) = v†L_D v/||v||² = -2γ⟨n_XY⟩. Full proof
 in three steps.
 
 **The absorption quantum is 2γ.** Each X/Y Pauli factor costs exactly 2γ
-in absorption rate. The spectrum is a ladder with rung spacing 2γ. The
-Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer) but cannot
-change the endpoints or the fundamental quantum.
+in the dissipator's Pauli-cell spectrum, which is a ladder with rung spacing
+2γ. A full-Liouvillian eigenmode instead pays the expectation of that cell
+cost: Hamiltonian mixing can make ⟨n_XY⟩ non-integer and place its real part
+between the cell rungs.
 
 **F3, F8 and F33 are corollaries** of this theorem. D6 is NOT: the gap needs a
 lower bound on <n_XY> that the theorem does not supply (see D6, and
@@ -1043,19 +1045,26 @@ CΨ(0) exceeds 1/4.
 **Replaces:** γ sweep to find fold onset.
 **Source:** [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)
 
-### F19. Fragile bridge asymptotic constant (Tier 2)
+### F19. Fragile bridge sampled large-coupling tail (Tier 2)
 
-    gamma_crit * J_bridge -> 0.50  (strong bridge limit)
+    gamma_crit * J_bridge = 0.578 at J_bridge=10,
+                              0.508 at J_bridge=100
 
-Instability is Liouvillian chiral symmetry breaking at a second-order
-exceptional point: Π forces λ ↔ −λ at Σγ = 0, so below γ_crit every
-eigenvalue sits on the imaginary axis, and at γ_crit a mirror pair coalesces
-and leaves it, oscillating as it grows. Measured on two two-qubit chains at
-J_bridge = 1.0 and 1.9: Re λ ∝ √(γ/γ_crit − 1) with the coefficient constant
-to three digits over four decades, the gap to the mirror partner closing to
-zero, and the Petermann factor diverging as 1/δ (40.9, 403, 4027, 4.04·10⁴).
-Not a Hopf bifurcation, which requires a transversal crossing with a finite
-nonzero slope; here the slope at threshold is infinite.
+The sampled product is still decreasing at the end of the sweep. These data do
+not establish that a limit exists or that its value is 0.50; one-half remains
+an open asymptotic hypothesis.
+
+The spectral-abscissa instability preserves the Π relation: Π forces inversion
+λ ↔ −λ at Σγ = 0, while Hermiticity preservation independently supplies
+λ ↔ λ*. Below γ_crit every eigenvalue sits on the imaginary axis; above it the
+combined symmetries give off-axis quartets {λ, λ*, −λ, −λ*}. On two two-qubit chains at
+J_bridge = 1.0 and 1.9, finite-offset samples give Re λ ∝
+√(γ/γ_crit − 1) and Petermann readings
+40.9, 403, 4027, 4.04·10⁴. The across-axis partner gap equals 2|Re λ| and is
+therefore a derived symmetry identity, not a third independent trend. The two
+finite-offset trends motivate an EP2 hypothesis but do not
+evaluate the threshold itself or execute a Jordan-rank certificate. The axis
+departure is established; EP and Hopf character remain OPEN.
 Linear regime: gamma_crit = 0.1891 * J_bridge^1.0346 (R^2 = 0.99984, eight
 points at J_bridge <= 2). A finer sweep of the same quantity gives a
 through-origin slope of 0.1845 at R^2 = 0.6149 over its 14 sub-peak points,
@@ -1063,8 +1072,9 @@ so the linear law is the regime's trend, not a per-point law.
 Optimal: the sampled maximum is gamma_crit = 0.4058 at J_bridge = 1.9, bracketed
 in [1.8, 2.0] by a grid of spacing 0.1; at exactly 2J it is already 5.4% down.
 
-**Valid for:** coupled gain-loss Heisenberg chains.
-**Replaces:** stability analysis for large J_bridge.
+**Valid for:** the executed sweep of two coupled two-qubit Heisenberg chains,
+with the coupling and gain-loss conventions in the source.
+**Does not replace:** an asymptotic analysis or a converged large-J_bridge limit.
 **Source:** [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md),
 [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
@@ -1439,78 +1449,105 @@ grading from the orthogonal spec(L)-palindromy axis.
 **Replaces:** manual determinant computation.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
-### F40. Fragile bridge gamma_crit at J_bridge = J (Tier 2, verified)
+### F40. Fragile bridge axis-departure threshold at J_bridge = J (Tier 2, verified)
 
     gamma_crit = 0.1873  (N=2 per chain, J = J_bridge = 1.0)
 
-Below gamma_crit: all eigenvalues on the imaginary axis (chiral phase).
-Above: a mirror pair coalesces and leaves the axis (chiral symmetry breaking
-at a second-order exceptional point). The Petermann factor (a measure of
-eigenstate non-orthogonality that diverges at exceptional points) does not
-peak at a particular gamma: for the leading mode it diverges as 1/delta with
-delta = gamma/gamma_crit - 1, reading 403 at delta = 1e-3 and 4.0e4 at 1e-5,
-so any quoted height is the scan's distance from threshold rather than a
-property of the system.
+Below gamma_crit the sampled spectral abscissa remains at numerical zero; above
+it off-axis eigenvalues exist while exact λ ↔ −λ inversion pairing survives.
+Hermiticity preservation separately supplies conjugate pairing, so together the
+relations give the quartet {λ, λ*, −λ, −λ*}. The current producer does not execute a threshold coalescence or
+Jordan-rank test. Separate finite-offset samples show square-root-like onset and
+growing simple-mode Petermann readings. The across-axis gap 2|Re λ| is derived
+from the onset and symmetry, not independent evidence. Those
+trends do not classify the threshold. EP, Hopf, and Jordan character remain
+OPEN.
 
 **Valid for:** N=2 per chain Heisenberg, J_bridge = J = 1.0.
 **Replaces:** bisection search at this specific parameter set.
-**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
+**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md),
+[`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py)
 
-### F41. Palindromic time (Tier 1, corollary of D10)
+### F41. Palindromic-pair trace-amplitude period (Tier 1, corollary of D10 + F1)
 
     t_Pi = 2*pi / omega_min = pi / (4*J * sin^2(pi/(2*N)))
 
-Period of the slowest palindromic modulation in the SFF. Grows as
-~N^2/(pi*J) for large N. Confirmed by FFT peak matching (<1% for N=2-4, 6).
+Full period of the k=1 frequency in D10's (0,1) coherence block. F1 supplies
+its frequency-negated partner, so the pair contributes `2*cos(omega_min*t)`
+to the frequency trace amplitude. The complete SFF squares the full amplitude
+and also contains doubled and cross frequencies. The period grows as
+~N^2/(pi*J) for large N. The finite-N producer finds an FFT candidate within
+1% at N=2-4 and N=6, but not among its reported candidates at N=5 or N=7.
 
 **Valid for:** Heisenberg chain, the (0,1) coherence block.
-**Replaces:** numerical FFT of SFF for modulation period.
+**Replaces:** numerical evaluation of the D10 k=1 period; the FFT association remains a sampled diagnostic.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### F42. Timescale separation (Tier 2, verified N=2-7)
+### F42. Finite-N raw-density-scale comparison (Tier 2, measured N=2-7)
 
-    t_Pi / t_H ~ (Delta * N^2) / (2 * pi^2 * J)  -->  0  for N -> inf
+    f = sort({ |Im(lambda)| : |Im(lambda)| > 1e-10 }, multiplicity retained)
+    S_raw = 2*pi / mean(diff(f))
+    reported ratio = t_Pi / S_raw
 
-t_Pi ~ N^2 (polynomial), t_H = 2*pi/Delta ~ 4^N (exponential).
-Palindromic modulation is a short-time effect; long-time behavior
-is Poisson-like, compatible with integrability or fragmentation; this does not prove integrability. Visibility of modulation ~1/4^N.
+`S_raw` retains repeated frequencies. Duplicating every entry changes the mean
+adjacent gap and therefore changes `S_raw`, even though the normalized SFF is
+unchanged at every time. It is a descriptive scale of this finite multiset,
+not a physical Heisenberg time. The ratios below report only the executed
+finite-N arrays; they do not establish a short/long-time boundary or an
+N→∞ law.
 
-| N | t_Pi | t_H | t_Pi/t_H |
+| N | t_Pi | S_raw | t_Pi/S_raw |
 |---|------|------|----------|
 | 3 | 3.14 | 61.3 | 0.051 |
 | 5 | 8.22 | 497 | 0.017 |
 | 7 | 15.9 | 5810 | 0.003 |
 
-**Valid for:** Heisenberg chain, Z-dephasing.
-**Replaces:** numerical SFF timescale extraction.
+**Valid for:** the raw, non-unfolded frequency multisets exported for the N=2-7 uniform Heisenberg chains under Z-dephasing. Multiplicity and the producer's frequency cutoff are part of the definition.
+**Replaces:** a physical-timescale reading with the finite-N raw-scale report the producer actually computes.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### F43. Sector SFF pairing (Tier 1, proven D09)
+### F43. Palindrome-paired band SFF (Tier 1, proven D09)
 
-    K_freq(w, t) = K_freq(N-w, t)    (identical SFF for paired sectors)
+    I' = {2*N*gamma - d : d in I}
+    K_freq(I, t) = K_freq(I', t)
 
-Palindromic symmetry Pi maps w -> N-w, so sectors w and N-w have
-identical spectral statistics. XOR sector (w=N): K=1.000 (all eigenvalues
-degenerate at rate 2*N*gamma).
+The full-spectrum palindrome maps `lambda=-d+i*omega` to
+`-(2*N*gamma-d)-i*omega` with algebraic multiplicity preserved. Therefore
+reflected decay-rate bands have frequency multisets related by sign and equal
+normalized or unnormalized SFFs. Under uniform dephasing the Absorption
+Theorem identifies `d=2*gamma*<n_XY>`, so band centres reflect as average
+light `x -> N-x`. This is not a decomposition into invariant fixed-integer
+XY-weight eigenvalue sectors: the Hamiltonian mixes Pauli weights by ±2.
 
-**Valid for:** Heisenberg chain, Z-dephasing, all N.
-**Replaces:** sector-by-sector SFF comparison.
+For a connected uniform chain at strictly positive uniform dephasing, the exact endpoint bands contain the N+1
+stationary modes and their N+1 partners at `lambda=-2*N*gamma`. All endpoint
+frequencies are zero, so their normalized frequency SFF is the constant 1 for
+every time (unnormalized `(N+1)^2`), not a delta spike. A finite-width producer
+bin may include additional modes and must report its own count. At `gamma=0`
+the endpoints coincide at zero and merge into the generally larger commutator
+kernel, so the N+1 endpoint count is not asserted there.
+
+**Valid for:** mirrored decay-rate bands under the F1 palindrome; the average-light reading assumes uniform local Z-dephasing. The N+1 endpoint count assumes a connected chain in the stated F23/F4-kernel scope and strictly positive uniform dephasing.
+**Replaces:** the fixed-XY-weight-sector interpretation of the numerical rate bins.
 **Source:** [Spectral Form Factor](../experiments/SPECTRAL_FORM_FACTOR.md)
 
-### F44. Crooks-like rate identity (Tier 1, proven D08)
+### F44. Algebraic pair-rate log identity (Tier 1, proven D08)
 
     ln(d_fast / d_slow) = 2 * artanh(Delta_d / (2*Σγ))
 
-For each palindromic pair (d_fast, d_slow) with d_fast + d_slow = 2*Σγ.
+For each finite ordered positive-rate palindromic pair (d_fast, d_slow) with
+`Delta_d = d_fast-d_slow`, `0 <= Delta_d < 2*Σγ`, and
+`d_fast + d_slow = 2*Σγ`. The strict upper endpoint excludes `d_slow=0`,
+where the logarithm diverges. The exact API and its linear approximation use
+this same finite domain.
 Linear approximation: ln(d_fast/d_slow) ~ Delta_d / Σγ,
-giving β_eff ~ 1/Σγ (effective inverse temperature).
+whose algebraic linear coefficient is 1/Σγ.
 
-This is ALGEBRAIC (follows from d_fast + d_slow = 2*Σγ),
-NOT a Crooks fluctuation theorem (the thermodynamic identity
-relating forward and reverse process probabilities). No Jarzynski
-equality holds
-(<exp(-Delta_d)> ~ 0.93, not 1). The palindrome has the FORM of
-detailed balance without BEING detailed balance.
+This follows only from d_fast + d_slow = 2*Σγ. It is not a Crooks
+fluctuation theorem: no forward/reverse protocol probabilities, work,
+free-energy change, or temperature are defined. The separately computed
+<exp(-Delta_d)> ~ 0.93 is an ad hoc transform of dimensional rate
+differences, not a Jarzynski test.
 
 **Valid for:** any palindromic Liouvillian, all N.
 **Replaces:** ad-hoc thermodynamic analogies for the palindrome.
@@ -2137,7 +2174,7 @@ For the uniform open XY chain with single-site Z-dephasing at the endpoint site 
 
 - **α = 2γ₀ modes:** ⟨n_XY⟩_B = 1 (same mechanism). Dominant Pauli strings have X or Y at every site (total XY-weight = N). Maximally off-diagonal at B, fully exposed to Z-dephasing.
 
-The two poles are palindromic partners under the conjugation Π, which maps total XY-weight w ↔ N-w (see F43). The single-excitation sector (F65) never reaches either pole for N ≥ 3; both poles live in the extreme XY-weight sectors (w = 0 and w = N). Both claims of that last sentence are endpoint-B statements; see the Scope correction below.
+The two poles are palindromic partners under the conjugation Π. Their exact endpoint eigenspaces are the x=0 and x=N ends of F43's reflected average-light bands. The single-excitation sector (F65) never reaches either pole for N ≥ 3; both poles live in the extreme XY-weight subspaces (w = 0 and w = N). Both claims of that last sentence are endpoint-B statements; see the Scope correction below.
 
 **Multiplicity:** exactly N+1 at each pole, verified for N=3..7. Each α = 0 mode corresponds to one of the N+1 elementary symmetric polynomials e_d(Z_1, ..., Z_N) in F63 (commuting with both H and Z_B). The α = 2γ₀ sector has matching multiplicity by Π-symmetry.
 
@@ -3008,7 +3045,7 @@ For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-der
 
 | Sub-ID | Content | Tier | Home |
 |--------|---------|------|------|
-| F86a | EP mechanism: t_peak, Q_EP, dressed pair, AIII chiral, L_eff mirror | Tier 1 derived | §F86a; `TPeakLaw.cs`, `QEpLaw.cs`, `LEffMirrorAxisClaim.cs` |
+| F86a | EP mechanism: t_peak, Q_EP, dressed pair, Π-centered P-type L_eff mirror | Tier 1 derived | §F86a; `TPeakLaw.cs`, `QEpLaw.cs`, `LEffMirrorAxisClaim.cs` |
 | F86b₁ | Bare 2×2 K_b closed forms; x_peak = 2.196910, ratio = 0.671535 | Tier 1 derived | `C2BareDoubledPtfClosedForm.cs` |
 | F86b₂ | Sub-class HWHM-ratio lift 0.671535 + α·g_eff + β (the §F86b₂ subsection) | Tier 1 candidate | `F86HwhmClosedFormClaim.cs` |
 | F86b₃ | Universal shape: Interior 0.756, Endpoint 0.770 | Tier 1 candidate | §F86b; `UniversalShapePrediction.cs` |
@@ -3075,7 +3112,7 @@ At the EP, λ_± = −4γ₀·k. The slowest mode (k = 1) gives e-folding time
 
     t_peak = 1 / (4γ₀)
 
-universal across c, N, n, and bond position. Higher-k EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At Q_peak the Dicke probe sits dominantly in dressed (H-mixed) modes** versus a much smaller fraction at large Q (plateau): probe weight has been pulled off the pure-rate ladder onto the first complex-conjugate eigenvalue pair just past the EP. Q_peak is a generalised exceptional-point resonance condition. (Specific W values W_peak ≈ 0.99 / W_plateau ≈ 0.31 at Q=20 are unverified anchors per `DressedModeWeightClaim` Tier 1 candidate, not universal constants; empirical W_peak ranges 0.832 [N=4 c=2] to 0.9996 [N=9 c=3] per [the Q-scale three-bands study](../experiments/Q_SCALE_THREE_BANDS.md) lines 95–123; per-(c, N) closed form open.)
+universal across c, N, n, and bond position. Higher-k toy-model EPs decay faster (1/(8γ₀), 1/(12γ₀), ...) and are masked by the slowest. **At the empirically sampled Q_peak the Dicke probe has more weight in H-mixed modes** than on the large-Q plateau. This is a Tier-2 empirical weight redistribution; it does not identify the full block's Q_peak with the two-level toy EP, nor isolate a causal complex-conjugate eigenvalue pair. (Specific W values W_peak ≈ 0.99 / W_plateau ≈ 0.31 at Q=20 are unverified anchors retained by `DressedModeWeightClaim`, not universal constants; empirical W_peak ranges 0.832 [N=4 c=2] to 0.9996 [N=9 c=3] per [the Q-scale three-bands study](../experiments/Q_SCALE_THREE_BANDS.md) lines 95–123; per-(c, N) closed form and any full-block EP mechanism remain open.)
 
 The g_eff is the H matrix element between adjacent rate channels at a specific bond in the appropriate effective basis. Deriving g_eff(c, N, bond_position) analytically from the multi-particle XY structure of the (n, n+1) block remains open; F86c (below) gives the spatial-mirror symmetry on Q_peak, not the underlying g_eff value. The [Obstruction Proof](proofs/PROOF_F86B_OBSTRUCTION.md#obstruction-proof-why-g_eff-admits-no-closed-form) (2026-05-14) accounts for this structurally: g_eff is the irreducible residue, blocked from closed form by six obstruction lemmas (spectral irreducibility, even-N representation-dependence, probe-EP decoupling, finite-reduction insufficiency, signature-subspace mismatch, empirical trajectory-crossings), and via the F90 bridge the F89 D_k obstruction is the same wall.
 
@@ -3110,11 +3147,11 @@ The asymmetry of the curve is also universal in relative-Q:
 
 **Why this is universal: 2-level EP analytical origin.** For the 2×2 effective Liouvillian in adjacent rate-channel basis with diagonal {−2γ₀(2k−1), −2γ₀(2k+1)} and **same-sign-imaginary off-diagonals (+iJ·g_eff, +iJ·g_eff)**, the eigenvector rotation angle satisfies `tan(θ) = J·g_eff / 2γ₀ = Q / Q_EP`. The probe overlap with eigenvectors depends only on Q/Q_EP, hence the response curve K_CC_pr(Q) is a function of Q/Q_EP alone. Q_peak is chain-specific (g_eff varies); but the SHAPE in Q/Q_peak coordinates is universal because it is the 2-level EP resonance form, independent of the bond's specific g_eff value.
 
-The same-sign-imaginary off-diagonal structure is what admits an EP at finite J·g_eff = 2γ₀ (verified numerically: opposite-sign +iJg, −iJg gives discriminant 4γ₀² + J²g_eff² with no EP; same-sign gives 4γ₀² − J²g_eff² with EP). This is "PT-phenomenology-like" (EP at finite coupling, spectral flow); the centered Liouvillian L_c sits in **class AIII chiral** per [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md) (Π linear, Π⁴=I, {Π, L_c}=0), distinct from Bender-Boettcher PT (classical PT requires anti-linear operators). Q_EP = 2/g_eff is the genuine EP of the toy 2×2 rate-channel reduction (a SEPARATE object, not "the instance of" the full-block classification; in isolation its eigenvalues coalesce at centre −4γ₀·k and carry no λ↔−λ pairing). The chiral-breaking transition in [The Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) is a DISTINCT genuine EP, the SEPARATE Σγ=0 gain-loss system (centre 0, exact λ↔−λ pairing), and it sits on the REAL γ axis at γ_crit itself: Re λ ∝ √δ over four decades and the leading mode's Petermann factor diverges as 1/δ. The full Σγ=N·γ₀ block-L carries its own third kind: F89's real-axis defective seeds at scattered q\*, with literal finite-q Puiseux-1/2 EP2 character certified at N=5,7,9. For arbitrary odd N the theorem is the nullity-surplus count only; finite-q drop and genericity remain open. Away from certified seeds the block is non-normal without coalescence. What stays OPEN in [`LocalGlobalEpLink`](../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs) is the DISTINCT off-real-axis complex-Q EP structure and its FRAGILE_BRIDGE connection specifically.
+The same-sign-imaginary off-diagonal structure is what admits an EP at finite J·g_eff = 2γ₀ (verified numerically: opposite-sign +iJg, −iJg gives discriminant 4γ₀² + J²g_eff² with no EP; same-sign gives 4γ₀² − J²g_eff² with EP). This is "PT-phenomenology-like" (EP at finite coupling, spectral flow); the centered Liouvillian L_c has the exact Π P-type anticommutation `{Π, L_c}=0`, distinct from Bender-Boettcher PT. Globally Π⁴=I and Π²=U_X; after U_X-parity resolution its phase-normalized restriction is involutive, but the full irreducible-sector SRP class remains OPEN. Q_EP = 2/g_eff is the genuine EP of the toy 2×2 rate-channel reduction (a SEPARATE object, not "the instance of" the full-block classification; in isolation its eigenvalues coalesce at centre −4γ₀·k and carry no λ↔−λ pairing). The [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) carries a DISTINCT spectral-abscissa axis departure in the SEPARATE Σγ=0 gain-loss system (centre 0, exact λ↔−λ pairing survives); the sampled square-root-like max-Re onset and growing finite-offset Petermann readings do not provide branch continuation or a strict threshold coalescence/Jordan certificate, so its EP character remains OPEN. The full Σγ=N·γ₀ block-L carries its own third kind: F89's real-axis defective seeds at scattered q\*, with literal finite-q Puiseux-1/2 EP2 character certified at N=5,7,9. For arbitrary odd N the theorem is the nullity-surplus count only; finite-q drop and genericity remain open. Away from certified seeds the block is non-normal without coalescence. What stays OPEN in [`LocalGlobalEpLink`](../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs) is the DISTINCT off-real-axis complex-Q EP structure and its FRAGILE_BRIDGE connection specifically.
 
-**Current local/global boundary.** `LocalGlobalEpLink` is an **OpenQuestion**. The real-Q F86 sweep samples genuine non-normality but no coalescence at its grid points; its Petermann heights are not EP evidence. F89 separately certifies narrow real-axis Puiseux-1/2 EP2s at N=5,7,9 that the coarse grid misses; the all-odd endpoint-nullity surplus does not prove literal finite-q EPs at every odd N. FRAGILE_BRIDGE is a distinct Σγ=0 gain-loss system with a genuine EP on the real γ axis at γ_crit; K≈403 is one finite-grid approach reading. What remains open is the off-real-axis complex-Q structure of the full Σγ=Nγ₀ block and any connection to that separate gain-loss system. The superseded readings and their numerical provenance live in [CAUGHT_ERRORS](CAUGHT_ERRORS.md).
+**Current local/global boundary.** `LocalGlobalEpLink` is an **OpenQuestion**. The real-Q F86 sweep samples genuine non-normality but no coalescence at its grid points; its Petermann heights are not EP evidence. F89 separately certifies narrow real-axis Puiseux-1/2 EP2s at N=5,7,9 that the coarse grid misses; the all-odd endpoint-nullity surplus does not prove literal finite-q EPs at every odd N. FRAGILE_BRIDGE is a distinct Σγ=0 gain-loss system with a spectral-abscissa axis departure whose EP character is OPEN; K≈403 is one finite-offset simple-mode non-normality reading. What remains open is the off-real-axis complex-Q structure of the full Σγ=Nγ₀ block and any connection to that separate gain-loss system. The superseded readings and their numerical provenance live in [CAUGHT_ERRORS](CAUGHT_ERRORS.md).
 
-**2026-05-06 (evening).** Direction (b) of `C2HwhmRatio.PendingDerivationNote` yielded two Tier-1-derived universal constants from the bare doubled-PTF model: `x_peak = Q_peak/Q_EP = 2.196910` (post-EP location in dimensionless x) and `HWHM_left/Q_peak = 0.671535` (SVD-block floor in dimensionless x). Empirical Interior 0.7506 and Endpoint 0.7728 sit above this floor by ~0.08-0.10; gap structurally explained as probe-block 2-level sub-resonance contribution. Encoded as `C2HwhmRatio.BareDoubledPtfXPeak` and `C2HwhmRatio.BareDoubledPtfHwhmRatio` const properties. Synthesis-side: F86↔PTF Locus 5 inheritance, where PTF K_1 (Π on H_1 sine-mode basis, discrete) and F86 Q-rotation (Π on same-sign-imaginary 2×2 in rate-channel basis, continuous) are two daughters of one Π-AIII chiral parent.
+**2026-05-06 (evening).** Direction (b) of `C2HwhmRatio.PendingDerivationNote` yielded two Tier-1-derived universal constants from the bare doubled-PTF model: `x_peak = Q_peak/Q_EP = 2.196910` (post-EP location in dimensionless x) and `HWHM_left/Q_peak = 0.671535` (SVD-block floor in dimensionless x). Empirical Interior 0.7506 and Endpoint 0.7728 sit above this floor by ~0.08-0.10; gap structurally explained as probe-block 2-level sub-resonance contribution. Encoded as `C2HwhmRatio.BareDoubledPtfXPeak` and `C2HwhmRatio.BareDoubledPtfHwhmRatio` const properties. Synthesis-side: F86↔PTF Locus 5 inheritance, where PTF K_1 (Π on H_1 sine-mode basis, discrete) and F86 Q-rotation (Π on same-sign-imaginary 2×2 in rate-channel basis, continuous) are two daughters of one Π-centered mirror relation; this relation alone does not assign a global SRP class.
 
 **2026-05-06 (later evening).** Direction (a') (probe-block 2-level resonance with per-bond `g_eff_probe`) **structurally falsified** (commit `1c0bf8b`): V_b probe-block off-diagonal `⟨c_1 | M_h_b | c_3⟩` is exactly zero per bond at c=2 (F73 sum-rule applies per-bond), so g_eff_probe(N, b) is bond-class-blind by construction. The 4-mode reduction is also structurally insufficient: 4-mode K_b deviates from empirical at Endpoint by factor ~2 (4-mode K_b gives Endpoint 0.410 at N=5 vs empirical 0.7728). The SVD-block off-diagonal `V_b[2,3]` is the actual bond-class carrier (Endpoint 0.430 vs Interior 0.953 at N=5, ratio ~0.45 across N=5..8), but in the OPPOSITE direction to the empirical HWHM/Q* split. Refined direction list (now in `C2HwhmRatio.PendingDerivationNote`): (a'') SVD-block 2-level resonance (REFINED from (a')) via `V_b[2,3]` magnitude, (b'') full block-L derivation, not 4-mode, (c'') three-block superposition `K_total = K_pb + K_sv + 2·Re·K_cross` with the right relative phases, (d'') lift |u_0⟩, |v_0⟩ to projector-overlap (per A3 PendingDerivationNote), (e'') symbolic char-poly factorisation at Q_EP (less promising given C2EffectiveSpectrum's cubic-c_3 obstruction proof). The `BareDoubledPtfXPeak` and `BareDoubledPtfHwhmRatio` const properties are unchanged.
 
@@ -3285,7 +3322,7 @@ depends only on the S_N-orbit of B. Bond positions inside an orbit are dynamical
 
 **The F89 letter family** (the de-monolith's map, 2026-07-13: F89 is a namespace that accreted separable concerns; each separated concern carries a letter, minted chronologically like the organic F89c/F89d before it):
 - **F89** (this root): the orbit-closure theorem + the path-k S(t) closed-form program ([F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md)).
-- **F89c**: the structural lemma, per-coherence rate 2γ₀·n_diff + the column-flip pair-sum (below).
+- **F89c**: the structural lemma, dissipator cell cost 2γ₀·n_diff plus the full-block column-flip relation that supplies the spectral pair-sum (below).
 - **F89d**: the cross-block antiunitary similarity, one leg of the bit-flip Klein group (below).
 - **F89e**: the path-3 octic diabolic degeneracy, location + character (sub-entry below; [F89_PATH_K_GALOIS](../experiments/F89_PATH_K_GALOIS.md)).
 - **F89f**: the path-3..6 Galois verdicts Gal(F_d) = S_d, no radical closure (sub-entry below; [F89_PATH_K_GALOIS](../experiments/F89_PATH_K_GALOIS.md)).
@@ -3315,7 +3352,7 @@ Asymptotic rate 4γ₀ universal across m (matches F73 vac-SE rate). The cos(4Jt
 
 **Mixed-topology and pure-path classes (empirical, derivation open).** For non-all-isolated topology classes (e.g. (1, 2), (2, 2), (1, 1, 2), (3), (4), (5), (6)) the per-class closed form is open. Pure-path topologies decay faster than 4γ₀ on visible time scales due to populated no-overlap-SE-DE coherences (rate 6γ₀) plus longer-path mode mixing. Empirical late-tail clustering at the in-phase moment t ≈ π/(2J) groups classes by isolated-edge count.
 
-**Structural lemma F89c (Tier 1 derived).** Per-coherence rate = 2γ₀·n_diff for any |A⟩⟨B|, via [`AbsorptionTheoremClaim`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs) applied to the computational basis (n_XY = n_diff because each site decomposes as pure {I, Z} or pure {X, Y}). For (k+1)-qubit blocks: k = 1 is the unique case where every populated coherence has n_diff = 1 (DE = |11⟩ contains both block sites, no no-overlap (SE, DE) pairs exist); k ≥ 2 has n_diff ∈ {1, 3} with mixed rates {2γ₀, 6γ₀}. Hamming complement n_diff(a, b) + n_diff(a, bar(b)) = N gives column-bit-flip pair-sum 2γ₀·N (verified bit-exact at path-2: pair-sum = 6γ₀ across all 9 Hamming-complement eigenvalue pairs). Hence the all-isolated topology (1)^m is the **unique** single-rate-envelope-plus-single-frequency case. Derivation, per-sector eigendecomposition, Hamming-complement bijection table: [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) F89c section.
+**Structural lemma F89c (Tier 1 derived).** For a computational-basis coherence |A⟩⟨B|, the **dissipator's diagonal cell cost** is 2γ₀·n_diff: its Pauli decomposition has n_XY = n_diff because each site is purely {I,Z} or purely {X,Y}. This is not in general the real part of a full-Liouvillian eigenvalue. For a full eigenmode v, the Absorption Theorem instead gives Re λ = −2γ₀·⟨n_XY⟩_v, which may be fractional after Hamiltonian mixing. For (k+1)-qubit blocks: k = 1 is the unique case where every populated coherence cell has n_diff = 1 (DE = |11⟩ contains both block sites, so no no-overlap (SE,DE) pairs exist); k ≥ 2 has cell costs {2γ₀,6γ₀} from n_diff ∈ {1,3}. Hamming complement sends those cell costs as k ↔ N−k. The full-eigenvalue pair-sum 2γ₀N is stronger and follows only after the exact column-bit-flip block relation, including its Hamiltonian part, is established (verified bit-exact at path-2 across all 9 pairs). Hence the all-isolated topology (1)^m is the **unique** single-rate-envelope-plus-single-frequency case. Derivation, per-sector eigendecomposition, Hamming-complement bijection table: [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) F89c section.
 
 **Structural extension F89d (Tier 1 derived): the cross-block antiunitary similarity, so the diabolics pair.** F89c's Hamming-complement column bit-flip ρ[a,b] → ρ[a,b̄] does more than pair the rates: it is an EXACT antiunitary similarity of the whole (SE,DE) = (w1,w2) computational-basis coherence block (single-excitation ket, double-excitation bra) of the open spin chain's Liouvillian L(q) (q = J/γ, the coupling-to-dephasing ratio) onto its partner (SE, w_{N−2}) = (w1, N−2) block. With P the bra-complement permutation (the basis map |a⟩⟨b| ↦ |a⟩⟨b̄|),
 
@@ -3327,7 +3364,7 @@ exact to **machine zero** for N = 4..9 at every q (real and complex; the partner
 
     L_(1,N−2)(q̄, Δ)  =  −P · conj(L_(1,2)(q, Δ)) · Pᵀ  −  2N·I
 
-machine zero for N = 4..9 at every q (real and complex) and every Δ, because the Δ·ZZ frequency is **bit-flip-even** (zz(b̄) = zz(b)), so the bra-complement carries it across the fold unchanged. The sampled finite-N Delta responses are defect-or-lift; these observations do not establish an all-N cause. The exact similarity preserves Jordan structure: if a diabolic becomes defective, its cross-fold partner does too. The discriminant is bit-flip parity, so a bit-flip-*odd* longitudinal field breaks the fold (residual O(1), the negative control). Full argument and live/gate anchors (`inspect --root crossfold`, `WeightCoherenceBlockTests`): [F89_PATH_K_DIABOLIC](../experiments/F89_PATH_K_DIABOLIC.md) §"The cross-fold survives XXZ anisotropy".
+machine zero for N = 4..9 at every q (real and complex) and every Δ, because the Δ·ZZ frequency is **bit-flip-even** (zz(b̄) = zz(b)), so the bra-complement carries it across the fold unchanged. At N=4 only the Delta=0 control is character-certified; its sampled positive-Delta proposals, like the N=5/N=6 proposals, remain split under the fixed independent full-block test and are Uncertified. The exact similarity preserves Jordan structure conditionally: once a degeneracy and its character are independently certified in one block, its cross-fold partner has the same character. The discriminant is bit-flip parity, so a bit-flip-*odd* longitudinal field breaks the fold (residual O(1), the negative control). Full argument and live/gate anchors (`inspect --root crossfold`, `WeightCoherenceBlockTests`): [F89_PATH_K_DIABOLIC](../experiments/F89_PATH_K_DIABOLIC.md) §"The cross-fold survives XXZ anisotropy".
 
 **F89d is one leg of a Klein four-group, and docks onto the F1 palindrome Π (Tier 1 derived 2026-06-30).** The similarity holds at **every** ket weight and is the **bra leg P** (ρ·F) of the bit-flip Klein four-group V₄ = {I, F⊗F, I⊗F, F⊗I} ⊂ D₄ on the (wKet, wBra) coherence-block lattice (the ket leg Q is its mirror; the full flip QP = X^⊗N is a plain unitary similarity at the same q). The dock onto the F1 trunk is exact: P = ρ·F is the spine R, a factor of the palindrome Π = R·D, so F89d is the F1 palindrome's bra leg restricted to a single block. Full dock, the per-leg equations, and the F89-vs-D₄ naming bridge: [F89_PATH_K_DIABOLIC](../experiments/F89_PATH_K_DIABOLIC.md) §"What it docks onto" and [PROOF_PI_FACTORS_AS_R_TIMES_D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) (F118, [`MirrorGroupD4Claim`](../compute/RCPsiSquared.Core/Symmetry/MirrorGroupD4Claim.cs)); live: the "Klein four-group" and "dock" children of `inspect --root crossfold`.
 
@@ -3404,7 +3441,7 @@ located by the perfect-square factor (3q⁴+q²−1)² of disc(F_8) (the same fa
 
 **g_eff is a location, not a coupling.** g_eff = 2/q_EP ≈ 3.034 is the EP-**location** relation Q_EP = 2/g_eff of the *separate* F86a 2-level rate-channel reduction (F86a entry); it fixes the eigenVALUE q_EP/λ_EP but is **not** a genuine coupling within the octic (the octic's own 2×2 restriction is scalar λ·I).
 
-**WHY diabolic (Tier 2 hypothesis).** The proposed protection is XY **free-fermion integrability**. The exact N=4 character fact is the twin-scalar restriction at q_EP: H_eff (= 2iJ·I, from a 4-fold free-fermion multiplet, since DE energies are sums of SE energies) and the dephasing (= −4γ·I at the overlap-½ midpoint) both restrict to scalars on the 2D coalescing span, so L|₂D = λ_EP·I, with no off-diagonal Jordan coupling. In the tested N=4 control, the sampled nonzero XXZ anisotropies give **diabolic → defective** character, supporting the hypothesis. The general protection principle remains interpretive and conditional on the residual twin-scalar restriction; the finite-N Delta response is not an all-N character theorem. No commuting-symmetry separation supplies this N=4 result (site-reflection R, the overlap↔no-overlap involution, and the chiral Σ all fail to separate the two modes). See [hypotheses/DIABOLIC_BY_INTEGRABILITY.md](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md).
+**WHY diabolic (Tier 2 hypothesis).** At Delta=0 the exact N=4 character fact is the twin-scalar restriction at q_EP: H_eff (= 2iJ·I, from a 4-fold free-fermion multiplet, since DE energies are sums of SE energies) and the dephasing (= −4γ·I at the overlap-½ midpoint) both restrict to scalars on the 2D coalescing span, so L|₂D = λ_EP·I, with no off-diagonal Jordan coupling. Free-fermion additivity is the proposed explanation for the H-half, but the general protection principle remains interpretive and conditional. The sampled positive-Delta N=4 proposals are split and Uncertified, so they establish neither a character flip nor integrability protection. No commuting-symmetry separation supplies the Delta=0 result (site-reflection R, the overlap↔no-overlap involution, and the chiral Σ all fail to separate the two modes). See [hypotheses/DIABOLIC_BY_INTEGRABILITY.md](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md).
 
 **Source:** [`F89Path3OcticEpClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs) (Tier 1 derived, the diabolic Correction block), [`F89Path3OcticGaloisClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticGaloisClaim.cs); live [`F89OcticCharacterWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/F89OcticCharacterWitness.cs) (`inspect --root f89octic`) + the ported block [`F89Path3OcticBlock`](../compute/RCPsiSquared.Core/F89PathK/F89Path3OcticBlock.cs) (validated as a genuine sub-block of the full N=4 Liouvillian); [F89_PATH_K_GALOIS](../experiments/F89_PATH_K_GALOIS.md) § "Path-3 octic diabolic-degeneracy location"; probes `simulations/f89_jordan_definitive.py`, `f89_zz_break_gate.py`, `f89_why_diabolic_probe.py`.
 
@@ -3539,7 +3576,7 @@ where L_H[ρ] = −i[H, ρ] and L'_dis[ρ] = Σ_l (Z_l ρ Z_l − ρ) is the γ-
 
 ### F95. Angle emergence at quadratic discriminant zero: universal form of the θ-compass (Tier 1 derived, 4-line polynomial calculation; 2026-05-16)
 
-**For any monic quadratic <c>z² − 2bz + c = 0</c>, the angle of its complex root pair (when the discriminant goes negative, c > b²) is:**
+**For a monic quadratic <c>z² − 2bz + c = 0</c> with real c and finite b > 0, the principal angle of its upper-half-plane root (when the discriminant goes negative, c > b²) is:**
 
     θ(c; b) = arctan( √(c/b² − 1) )    for c > b²
     θ = 0                              for c = b²  (degenerate double root at z = b)
@@ -3550,7 +3587,7 @@ where L_H[ρ] = −i[H, ρ] and L'_dis[ρ] = Σ_l (Z_l ρ Z_l − ρ) is the γ-
     threshold = b² = 1/4 = `QuarterAsBilinearMaxvalClaim`
     θ(c) = arctan( √(4c − 1) )         for c > 1/4
 
-**This is exactly the Februar 2026 θ-compass** of [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md): θ = arctan(√(4CΨ − 1)) was discovered there as the Mandelbrot/CΨ-specific angular distance from the 1/4 boundary. F95 promotes it from a state-specific compass to a universal quadratic-foundation identity, with the b = 1/2 specialization recovering the Februar form.
+**This is exactly the Februar 2026 θ-compass** of [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md): θ = arctan(√(4CΨ − 1)) was discovered there as the Mandelbrot/CΨ-specific angular distance from the 1/4 boundary. F95 promotes it from a state-specific compass to the positive-b quadratic-foundation identity used by the current callers, with the b = 1/2 specialization recovering the Februar form. For b < 0 the upper root lies in the second quadrant and has principal argument π−θ; b = 0 gives π/2 when c > 0. Those branches are outside this API.
 
 **Derivation (4 lines, bit-exact):**
 
@@ -3579,9 +3616,11 @@ arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
 **Polarity-fold reading:** in shifted-and-scaled coordinates u = z − 1/2 (centered at the b = 1/2 fixed point), the polynomial reads u² + (c − 1/4) = 0. At c = 0 (unperturbed) the roots are u = ±1/2, the framework's structural polarity pair around 0 (inherited from `PolarityLayerOriginClaim` via the 0.5-shift). The squaring map u → u² sends both polarity sides to the same value 1/4, the apex; this is the "middle viewed from two sides" reading of the b² = 1/4 threshold: arithmetic midpoint of ±1/2 is 0 (on the polarity axis), but the quadratic projection middle is 1/4 (on the perpendicular axis). As c crosses 1/4 from below, the polarity contracts to 0 at the cusp and lifts onto the imaginary axis past it. See [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) for the full geometric picture (parabola, fold, three loci on one quadratic).
 
 **Lindblad specialization (γ₀ as a scale):** the stated 2×2 Liouvillian
-sub-block has characteristic polynomial `λ²+2γ₀λ+(γ₀²+J²)=0`, which is
-F95's parent equation with `b=−γ₀`, `c=γ₀²+J²`. For this block, the eigenvalue
-angle obeys `θ=arctan(J/γ₀)=arctan(Q)` and `θ=0` gives `λ=−γ₀`. This is a
+sub-block has characteristic polynomial `λ²+2γ₀λ+(γ₀²+J²)=0`. In the positive
+decay variable `z=−λ` it becomes `z²−2γ₀z+(γ₀²+J²)=0`, which is F95's parent
+equation with `b=γ₀>0`, `c=γ₀²+J²`. The angle from the negative λ-axis,
+equivalently the principal angle of z, obeys `θ=arctan(J/γ₀)=arctan(Q)`, and
+`θ=0` gives `λ=−γ₀`. This is a
 sub-block identity, not an experienced-time law. The Kingston confirmation
 `f95_angle_steering_kingston_may2026` measured and steered `arg(CΨ_com)` via
 RZ injection; it did **not** measure this quadratic eigenvalue angle θ. The
@@ -5423,9 +5462,9 @@ Since the block pencil `L(q) = A + q·C` is linear in q, the relation holds for 
 
 **Edge-normality lemma (where the sharing must stop; UNIFORM γ only).** On the edge blocks (0,1), (1,0), (N−1,N), (N,N−1) every coherence has `n_diff = 1`, so at a uniform rate `A = −2γ·I` and `L(q) = −2γ·I + q·C` is a NORMAL pencil at real q (C anti-Hermitian): no Jordan block can live on an edge. Uniformity is the hypothesis and it carries the lemma: under a per-site profile `A = −2·diag(γ_j)` is still normal by itself but no longer scalar, and the conclusion is FALSE, not merely unproven, a defective EP being exhibited on this block at N = 4, 5, 6 by turning one rate ([PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](proofs/PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md) §(e), with §(b) leaving a repeated eigenvalue on a path no form but a Jordan block). Do not read that as a profile generically defectivizing the block: what a profile does generically is make it NON-NORMAL and SPREAD the shared rate over the γ-window, while the defectiveness sits on a codimension-one hypersurface, measure zero in rate space, and sitting on it needs the rates set finely enough that the square-root split stays small. Do not carry a single tolerance out of here: the proof's constant is read on ONE of its seven witnesses, and across all seven the implied requirement spans more than an order of magnitude, so a device number has to be derived for the case at hand. A universal fell; a common phenomenon was not found. What replaces the exclusion under a profile is a LOCATION, and it holds AT REAL q, where the Hermitian part of the pencil equals A: the defective eigenvalue must sit strictly inside the γ-window `[−2γ_max, −2γ_min]`, which is a point at uniform γ and returns this lemma as its zero-width case. At complex q the window moves instead (the moved Bendixson, proof §6). Interior boundary, now DERIVED at real loci by the **rate-window lemma** (proof §6, gate item 8): at real q every block eigenvalue obeys `Re λ = v†Av/v†v ∈ [−2·n_max, −2·n_min]` (Bendixson bound in n_diff units, i.e. at uniform γ = 1; the edge lemma is the zero-width case THERE, and the γ-window of the previous paragraph is a different window, an edge block having zero n_diff width at every profile while its A is scalar only at a uniform rate). The corner block (p_c+1,p_c+1) has window `[−2(N−3), 0]` while `Re λ_B = −Re λ_A − 2N` sits below it whenever `Re λ_A > −6` (measured margins 1.381/2.208 at the two N=5 real loci, 1.115 at N=7), so λ_B is absent from the corner spectrum and W kills the core's whole generalized eigenspace, `(L_corner−λ)^m` being invertible: the measured `‖Wx₁‖ = 1.7e-15`, `‖Wx₂‖ = 2.5e-15` at q* = 0.620878, plus the out-of-sample locus 2 (`9.6e-16`). At the seed locus the window also derives the full N=5 exclusion (interior four window-excluded, boundary blocks rung-pinned at uniform γ; condition `Re λ_A ∈ (−6,−4)`). The N-uniform strictness `Re λ_A(N) > −6` is DERIVED at real loci by the **window-edge lemma** (a defective EP cannot sit at either edge of its block's rate window: edge ⟹ joint `A,C` eigenvector ⟹ semisimple, the classical numerical-range boundary fact, and the arrows run one way only, the contrapositive being what the argument consumes; the converses are false, a semisimple eigenvalue being free to sit strictly inside; so `Re λ_A ∈ (−6,−2)` for all N ≥ 4, and the shrinking seed-locus margins 1.381→1.115 never reach zero, a strict real-part inequality needing no uniform floor). The complex-q loci are CLOSED at N=5: near-axis by the moved rate window (H(q) = A + Im(q)·K), every remaining branch locus by the fold-resultant certificate, both parities (proof §6).
 
-**Theorem A (the two regimes of silent crossings, honest form).** (i) AT-locked crossings: two AT-locked eigenvector families are each analytic through a crossing and stay independent; their coincidences are codim-1 and automatically semisimple (the abundant flood, 528 in one N=6 box). (ii) Residual coalescences: semisimplicity ⟺ the 2×2 restriction of the pencil on the coalescing plane is twin-scalar; free-fermion additivity supplies the H-scalar half **identically in q** (degenerate-multiplet descent), the D-scalar half is a genuine extra condition, proven at the N=4 point (the AT midpoint). The general statement is **codim-3 → codim-1 wherever the D-half is supplied**: at N=4 (real q, the AT midpoint) and, by the N=5 D-half check (gate `TwinScalarDHalfTests`), at every **genuinely-complex-q (Re q≠0)** N=5 residual diabolic (twin-scalar to the gap, D-half 5e-10…4e-9, so additivity's route extends verbatim to complex q); the **pure-imaginary-q (Re q=0, λ real)** family is semisimple by Hermiticity (the block is real-symmetric there, ‖L−Lᴴ‖<1e-14) instead. No unexplained residual coincidence remains at N=5. Metric caveat: the twin-scalar test is inner-product-sensitive and must run in the HS-orthonormal coherence basis; the ×2-cleared orbit basis is non-orthonormal (diag(1,2) metric) and gives a spurious non-scalar reading at odd nBlock (this cost a false first reading, caught by an independent 60-digit rebuild).
+**Theorem A (the two regimes of silent crossings).** (i) AT-locked crossings: two AT-locked eigenvector families are analytic through a crossing and remain independent, so their codim-1 coincidences are semisimple. The 528 crossings in one N=6 box are diabolics of this AT-locked kind, not residual A2 diabolics. (ii) Residual coalescences: twin-scalar restriction on the isolated 2-plane is sufficient for semisimplicity. Free-fermion additivity supplies the H-scalar restriction only under an independently certified single-multiplet descent; additivity does not establish that premise. The D-scalar restriction is separate. Both restrictions are established directly at the N=4 point. At N=5, `TwinScalarDHalfTests` measures scalar D and full restrictions to 5e-10…4e-9 on the sampled genuinely-complex-q representatives, but does not certify their multiplet descent; the pure-imaginary-q family is semisimple by Hermiticity (‖L−Lᴴ‖<1e-14). The residual mechanism therefore remains conditional and Tier 2. The test is inner-product-sensitive and runs in the HS-orthonormal coherence basis, not the non-orthonormal ×2-cleared orbit basis.
 
-**Δ-tightness.** Loss of the W/H intertwining identity is an algebraic statement: the XXZ interaction adds quartic terms, so the free-fermion cancellation no longer supplies that identity; the D-part still intertwines. The W argument therefore no longer guarantees the diamond's shared spectrum. Finite-N defect-or-lift is a separate observed response of the sampled diabolics, consistent with the conditional residual mechanism, not a consequence proving all-N character. The F89d cross-fold survives by its independent bit-flip identity. The exact W/H boundary and finite-N Delta controls are separated in [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §8.
+**Delta-tightness.** Loss of the W/H intertwining identity is an algebraic statement: the XXZ interaction adds quartic terms, so the free-fermion cancellation no longer supplies that identity; the D-part still intertwines. The W argument therefore no longer guarantees the diamond's shared spectrum. At N=4/N=5/N=6 the Delta=0 controls are Diabolic (alg=geo=2), but all sampled positive-Delta proposals are Uncertified: they lack strict full-block coalescence isolation plus a Jordan-rank certificate, so persistence, defectiveness, or lifting remain open. The N=4 full-pair gaps are 4.071225731916435e-5 at Delta=0.02 and 9.85599100644663e-5 at Delta=0.10; character and departure are unavailable. The F89d cross-fold survives by its independent bit-flip identity. The exact W/H boundary and the certification boundary of the finite-N Delta controls are separated in [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §8.
 
 **Tier labels** (per the proof's Status line): Theorem B and the containment corollary Tier 1 derived (exact operator identities, gate machine-zero); the exclusion half DERIVED at N=5 (boundary normality AT UNIFORM γ + the fold-resultant certificate pair on the interior four, propagated by Klein + the composed holomorphic (1,4)-fold; gate `RemainderR4InteriorExclusionTests`; beyond N=5 census-evidence), the interior-core kernel death derived at all real loci and, via the moved window + the certificate, at all complex loci (N=5); Theorem A's AT-locked half Tier 1 derived, its residual half a conditional twin-scalar statement (mechanism Tier 2, proven at the N=4 point). Gap byte-identity across sectors: DERIVED (implied by the full-spectrum holomorphic fold spec(3,3)=−spec(2,3)−2N, an isometry on eigenvalue gaps; §7, gate `HolomorphicFoldIdentityTests`). The holomorphic diamond fold itself is now a Tier-1 corollary of F89d + transpose + W (§7), closing remainder 1's last analytic entry.
 

@@ -46,10 +46,10 @@ public static class PathKMonodromyScanCommand
 
         if (p.HasFlag("delta-flip"))   // the sampled Delta-response test: does XXZ Delta kill this diabolic?
         {
-            // --residual (REQUIRED from path-5/N=6): track the residual strands only, so the box scan is not
-            // captured by the AT-locked exact degeneracies (which make q* jump and the verdict unreliable at N>=6).
-            // --exact (REQUIRED from path-6/N=7): locate the coalescence on the EXACT complement-compression residual
-            // (ResidualRootsExactXxz), since the tracked residual path floods at the F_53 strand density. Supersedes --residual.
+            // --residual tracks proposal labels at N<=6; nearest continuation does not exclude AT capture.
+            // At N>=7 the default and tracked locators are explicitly Uncertified.
+            // --exact is a legacy flag: scan the fixed-complement compressed proposals, not certified residual roots
+            // (ResidualRootsCompressedXxz); these proposals require a coalescing full-block pair before character.
             PrintDeltaFlip(k, p.OptionalString("q"), p.OptionalString("lam"), p.OptionalString("deltas"), p.HasFlag("residual"), p.HasFlag("exact"));
             return 0;
         }
@@ -88,7 +88,7 @@ public static class PathKMonodromyScanCommand
     }
 
     // finite-N Delta response: track a path-k diabolic under H(Δ)=J(XX+YY)+JΔ·ZZ.
-    // Defect-or-lift at sampled Δ>0 is consistent with the conditional residual mechanism, not proof of cause.
+    // Only the N=4, Delta=0 control is character-certified; all sampled positive-Delta proposals at N=4..7 are Uncertified.
     // Survival falsifies the sampled-locus Delta-death prediction; compare with the defective EP control.
     // Reproduces the committed N=4 table with --k 3 --q 0.658983,0 --lam -4,1.318.
     private static void PrintDeltaFlip(int k, string? qStr, string? lamStr, string? deltasStr, bool residualOnly, bool exact = false)
@@ -99,24 +99,37 @@ public static class PathKMonodromyScanCommand
         var deltas = (deltasStr ?? "0,0.02,0.05,0.1,0.2,0.5").Split(',').Select(s => double.Parse(s, Inv)).ToArray();
         var q0 = new Complex(qre, qim); var lam0 = new Complex(lre, lim);
 
-        string mode = exact ? " [exact-residual: AT-flood excluded, no tracking]"
-                            : residualOnly ? " [residual-only: AT-flood excluded]" : "";
-        Console.WriteLine($"\n# DELTA-FLIP path-{k} (N={n}){mode}: track the coalescence at q={qre.ToString("0.####", Inv)}{Sign(qim)}i, " +
+        string mode = exact ? " [compressed proposals: full-block pair certification required]"
+                            : n >= 7 ? " [unsupported dense locator: Uncertified; use --exact for proposals]"
+                            : residualOnly ? " [tracked residual proposals: strict full-block pair certification required]"
+                            : " [full-spectrum proposals: strict full-block pair certification required]";
+        Console.WriteLine($"\n# DELTA-FLIP path-{k} (N={n}){mode}: track the candidate pair from q_seed={qre.ToString("0.####", Inv)}{Sign(qim)}i, " +
                           $"lambda={lre.ToString("0.###", Inv)}{Sign(lim)}i under XXZ anisotropy Delta");
         Console.WriteLine("# H(D) = J(XX+YY) + J*D*ZZ; finite-N Delta response tests the conditional residual mechanism; defect/lift is not proof of causality or all-N protection");
-        Console.WriteLine("  Delta   verdict     alg geo    dep       gap        q*");
-        bool diabolicAt0 = false, survivesAtPositive = false;
+        Console.WriteLine("  Delta   verdict     alg geo    dep       gap        q_candidate");
+        XxzCoherenceBlock.DeltaFlipVerdict? verdictAt0 = null;
+        bool survivesAtPositive = false, uncertifiedAtPositive = false, sampledPositive = false;
         foreach (var d in deltas)
         {
             var t = XxzCoherenceBlock.TrackDiabolicUnderDelta(n, q0, lam0, d, residualOnly: residualOnly, exact: exact);
-            if (d == 0 && t.Verdict == XxzCoherenceBlock.DeltaFlipVerdict.Diabolic) diabolicAt0 = true;
-            if (d > 0 && t.Survived) survivesAtPositive = true;
-            Console.WriteLine($"  {d.ToString("0.###", Inv),5}  {t.Verdict,-9}  {t.Algebraic}   {t.Geometric}   " +
-                              $"{t.Departure.ToString("0.0000", Inv),8}  {t.Gap.ToString("E2", Inv)}  " +
-                              $"{t.QStar.Real.ToString("0.0000", Inv)}{Sign(t.QStar.Imaginary)}i");
+            if (d == 0) verdictAt0 = t.Verdict;
+            if (d > 0) sampledPositive = true;
+            if (d > 0 && t.IsCertifiedDiabolic) survivesAtPositive = true;
+            bool uncertified = t.Verdict == XxzCoherenceBlock.DeltaFlipVerdict.Uncertified;
+            if (d > 0 && uncertified) uncertifiedAtPositive = true;
+            string character = uncertified ? "N/A N/A        N/A" : $"{t.Algebraic}   {t.Geometric}   {t.Departure.ToString("0.0000", Inv),8}";
+            Console.WriteLine($"  {d.ToString("G", Inv),5}  {t.Verdict,-11}  {character}  {t.Gap.ToString("E2", Inv)}  " +
+                              $"{t.QCandidate.Real.ToString("0.0000", Inv)}{Sign(t.QCandidate.Imaginary)}i");
         }
-        Console.WriteLine($"\n# GATE: diabolic at Delta=0? {(diabolicAt0 ? "YES" : "NO")};  survives at Delta>0? " +
-                          $"{(survivesAtPositive ? "YES -> falsifies this sampled-locus Delta-death prediction" : "NO -> no sampled survival; read defects/lifts against the Delta=0 verdict and defective control")}");
+        string atZero = verdictAt0 switch
+        {
+            XxzCoherenceBlock.DeltaFlipVerdict.Diabolic => "YES",
+            XxzCoherenceBlock.DeltaFlipVerdict.Defective or XxzCoherenceBlock.DeltaFlipVerdict.Lifted => "NO",
+            XxzCoherenceBlock.DeltaFlipVerdict.Uncertified => "UNRESOLVED",
+            _ => "NOT SAMPLED"
+        };
+        Console.WriteLine($"\n# GATE: diabolic at Delta=0? {atZero};  survives at Delta>0? " +
+                          $"{(!sampledPositive ? "NOT SAMPLED" : survivesAtPositive ? "YES -> falsifies this sampled-locus Delta-death prediction" : uncertifiedAtPositive ? "UNRESOLVED -> Uncertified proposal: full-pair coincidence/correspondence or character not established; no defect/lift conclusion" : "NO -> no sampled survival; read defects/lifts against the Delta=0 verdict and defective control")}");
     }
 
     // the diabolic hunt (Q1-Q3 of the forward-edge plan): find the residual's coalescences, classify each

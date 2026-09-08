@@ -2,14 +2,14 @@
 
 **Status:** A seeing, not a proof, and not a closed form. The reading is exact (it is F86a's own
 2×2 algebra read through the clock voices); the local-vs-global unification is understanding, not
-a new derivation. No closed form is forced , the global side is a dynamic exit (a Hopf
-bifurcation), and both docs deliberately leave γ_crit(N) and K(N) open.
+a new derivation. No closed form is forced; the global side has a spectral-abscissa axis departure, while
+EP, Hopf, and Jordan character remain OPEN, and both docs deliberately leave γ_crit(N) and K(N) open.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py)
 **Builds on / points at (does not modify):** [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md)
 (the EP, Q_EP = 2/g_eff, t_peak), the [F86 hub](../docs/proofs/PROOF_F86_QPEAK.md),
-[the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (the global gain-loss EP / Hopf), the clock
+[the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (the separate gain-loss axis crossing; EP/Hopf/Jordan character OPEN), the clock
 voices on `MirrorSystem` ([the Frost Circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
 [On Whose Time the Clock Keeps](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md)), and the
 band-edge crossover the slowest mode walks ([the XXZ axis from band-edge to Lebensader](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)).
@@ -55,9 +55,10 @@ g_eff values lands the F86 peak Q's on the clock: g_eff = 4/3 gives Q_EP = 1.5 (
 g_eff = 0.8 gives Q_EP = 2.5 (the Endpoint orbit). The `MirrorSystem` clock already detects this:
 `Rotation.Turning` flips false → true exactly at the EP.
 
-**And the 4γ₀ is not an EP number , it is the absorption ladder.** Under the
-[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) the decay rates are the rungs
-0, 2γ₀, 4γ₀, 6γ₀, ..., 2Nγ₀ (rate = 2γ₀·⟨n⟩, with ⟨n⟩ the active-letter count). The two channels
+**And the 4γ₀ is not an EP number , it is the absorption ladder.** The dephasing
+superoperator has integer cell rungs 0, 2γ₀, 4γ₀, 6γ₀, ..., 2Nγ₀. Under the
+[Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md), a full eigenmode instead has
+rate 2γ₀·⟨n⟩, with ⟨n⟩ its active-letter expectation, and can lie between rungs. The two channels
 the EP coalesces are HD = 1 (rate 2γ₀, ⟨n⟩ = 1) and HD = 3 (rate 6γ₀, ⟨n⟩ = 3); the EP sits at
 their midpoint, 4γ₀ = 2γ₀·2, the **⟨n⟩ = 2 rung**. So the Takt pinned at 4γ₀ above the EP is
 absorption *saturating* at that rung: below the EP the slow mode climbs one absorption quantum
@@ -70,7 +71,7 @@ takes over.
 
 ## The mirror here is the first one (Π), not the second (K)
 
-Today's two-mirror sharpening keeps a trap shut. F86's "chiral" is **Π as AZ class AIII**, not the
+Today's two-mirror sharpening keeps a trap shut. F86 uses the **Π-centered P-type mirror**, not the
 chiral sublattice K: F86a's EP is, in its own 2026-05-06 note, *read at the F1 palindrome residual*
 Π·L·Π⁻¹ + L + 2Σγ·I, the same defect M the MemoryRotation voice carries. So F86 sits on the **first
 mirror's axis** (Π, the palindrome). The second mirror K (KHK = −H, bipartite, the chiral
@@ -135,20 +136,20 @@ the Takt**, the two residuals of the same palindrome Π·L·Π⁻¹ + L + 2Σγ�
   are F89's scattered seeds, the earlier "no real-axis defective EP" was over-broad, see
   [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md) §The real-axis EP.*)
 - **Σγ = 0 (global).** [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): a decaying chain bridged
-  to an amplifying one, gain cancelling loss. Here Π forces λ ↔ −λ exactly (chiral AIII), the
+  to an amplifying one, gain cancelling loss. Here Π forces λ ↔ −λ exactly (without fixing a global SRP class), the
   eigenvalues sit on the imaginary axis , the Takt is *stopped*, the clock's pure-circle limit
-  θ = π/2 , and the instability, when it comes, is a **Hopf bifurcation**: a complex pair crosses
-  Re = 0 and the spiral turns *outward* (the feedback screech, the system explodes). This is a
-  SEPARATE genuine EP at real γ_crit; K ≈ 403 is one finite-grid approach reading.
+  θ = π/2. Beyond the sampled threshold a complex pair has Re ≠ 0 and the linear flow has one
+  growing and one decaying direction. This is a separate spectral-abscissa axis departure;
+  EP, Hopf, and Jordan character remain OPEN. K ≈ 403 is one finite-offset reading.
 
 So the net dephasing Σγ is the **dial between the two ends**: at Σγ = N·γ₀ the Takt holds the
-spiral in (the local dissipative EP); slide Σγ to 0 and the Takt stops (the pure circle), where the
-Hopf can push the spiral out. The global side is an **exit**, the dynamics escaping into
-self-sustained oscillation , not a static quantity. That is why we do not force it: γ_crit(N) is
+spiral in (the local dissipative EP); slide Σγ to 0 and the Takt stops (the pure circle). The
+global-side linear spectrum then admits a growing direction past the spectral-abscissa axis departure; it
+does not by itself establish a nonlinear self-sustained oscillation. That is why we do not force it: γ_crit(N) is
 non-monotonic with no power law. Both docs leave the dynamic exit open on purpose; the clock lets
 us *see* the two ends on the Takt dial without pretending the exit is a formula, and without
-pretending the two ends are one defective EP (they are two SEPARATE genuine EPs sharing the same
-2×2 algebra; the full block's own EP structure off the real axis is open since the F86a-retraction).
+pretending the two ends are one defective EP. Only the toy 2×2 end has the stated discriminant and
+Jordan certificate; the FRAGILE threshold's EP/Hopf/Jordan character is open.
 
 ## The clock as the lens on the two live-open fronts
 
@@ -196,5 +197,5 @@ either.
   live-open fronts through the clock's two hands: Rotation → F86b₃ shape collapse onto Q/Q_EP,
   Takt → F87 break first-order in the γ-tick, residual/γ → 0.2559).
 - The EP: [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md).
-- The global end: [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §3.1 (the local-EP connection).
-- The open dynamic exit: γ_crit(N) and K(N) at the EP, left open in both docs, not forced here.
+- The separate gain-loss end: [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §3.1 (spectral-abscissa axis departure; EP/Hopf/Jordan character OPEN).
+- The open dynamic exit: γ_crit(N), K(N), and the threshold character, left open in both docs, not forced here.

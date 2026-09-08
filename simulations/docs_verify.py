@@ -14,6 +14,8 @@ import json
 import sys
 import re
 import subprocess
+import ast
+import hashlib
 from itertools import product as iprod
 from pathlib import Path
 from framework import max_f1_pairing_distance
@@ -161,7 +163,7 @@ def verify_route_b_mechanism_current_truth():
             "ε_k = 4J cos(kπ/(N+1))", "AT-locked Hamiltonian eigenoperators",
             "Residual semisimplicity is conditional on the twin-scalar restriction",
             "Tier 2 for the residual integrability mechanism",
-            "finite-N Δ controls do not prove all-N existence",
+            "They do not supply an all-N existence theorem",
             "Last refreshed 2026-09-07",
             "analytic-defective collisions can split linearly",
             "analytic-split candidate", "full-sector geometric multiplicity decides character",
@@ -184,8 +186,9 @@ def verify_route_b_mechanism_current_truth():
             "w=null reproduces BuildFull(n,q,Δ)",
         ),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs": (
-            "finite-N Delta response", "conditional residual mechanism",
-            "Delta-response signature",
+            "Path5_ResidualProposals_RequireIndependentFullPairCertification",
+            "Path4_ProposalsAndDefectiveControl_RequireIndependentFullPairCertification",
+            "Path5_TrackedNearSplit_IsUncertifiedRegardlessOfSearchTolerance",
         ),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzCoherenceBlockFieldTests.cs": (
             "These tests use real q=2",
@@ -193,10 +196,10 @@ def verify_route_b_mechanism_current_truth():
             "not eigenmode real parts", "matrix diagonal's imaginary component",
         ),
         "compute/RCPsiSquared.Diagnostics/Foundation/CrossFoldSimilarityWitness.cs": (
-            "sampled finite-N Delta response", "does not establish all-N protection",
+            "Delta proposals are Uncertified", "If a character is independently certified",
         ),
         "compute/RCPsiSquared.Core/Symmetry/F89CrossFoldSimilarityClaim.cs": (
-            "sampled finite-N Delta response", "does not establish all-N protection",
+            "proposals are Uncertified", "if character is independently certified",
         ),
         "compute/RCPsiSquared.Cli/Commands/PathKMonodromyScanCommand.cs": (
             "finite-N Delta response", "conditional residual mechanism",
@@ -205,40 +208,40 @@ def verify_route_b_mechanism_current_truth():
             "bounded scan null", "not a replacement for the exact Route B inventory",
         ),
         "compute/RCPsiSquared.Core.Tests/F89PathK/WeightCoherenceBlockTests.cs": (
-            "finite-N Delta response", "conditional residual mechanism",
+            "finite-N Delta response", "every sampled positive-Delta proposal at N=4/N=5/N=6 is Uncertified",
         ),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/CrossFoldSimilarityWitnessTests.cs": (
-            "finite-N Delta response", "conditional residual mechanism",
+            "independently certified Jordan character", "without treating it as a character certificate",
         ),
         "compute/RCPsiSquared.Cli/Program.cs": (
             "finite-N Delta response", "conditional residual mechanism",
         ),
         "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": (
-            "twin-scalar restriction at the N=4 point", "not an all-N cause", "γ=1, J=q_EP",
+            "twin-scalar restriction at the N=4 point", "positive Delta proposals remain Uncertified", "γ=1, J=q_EP",
         ),
         "compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs": (
-            "twin-scalar restriction at the N=4 point", "not an all-N cause",
+            "twin-scalar restriction at the N=4 point", "positive Delta proposals remain Uncertified",
         ),
         "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": (
-            "twin-scalar restriction at the N=4 point", "not an all-N cause",
+            "twin-scalar restriction at the N=4 point", "N=5/N=6 positive Delta proposals remain Uncertified",
         ),
         "docs/ANALYTICAL_FORMULAS.md": (
-            "sampled finite-N Delta responses", "tested N=4 control",
+            "At N=4 only the Delta=0 control is character-certified", "positive-Delta N=4 proposals are split and Uncertified",
             "general protection principle remains interpretive and conditional",
             "Loss of the W/H intertwining identity is an algebraic statement",
-            "Finite-N defect-or-lift is a separate observed response",
+            "all sampled positive-Delta proposals are Uncertified",
         ),
         "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md": (
             "Twin-scalar lemma (conditional)",
             "Loss of the W/H intertwining identity is an algebraic statement",
-            "Finite-N defect-or-lift is a separate observed response",
+            "every sampled positive-Delta proposal is Uncertified",
         ),
         "experiments/F89_BRANCH_LOCUS_PALINDROME.md": (
-            "N=4 twin-scalar restriction", "sampled N=4 Delta control",
-            "palindrome proof is independent of the Tier-2 hypothesis",
+            "N=4 twin-scalar restriction", "sampled positive-Delta proposals remain split",
+            "palindrome proof is independent of this unresolved local-character question",
         ),
         "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (
-            "palindrome proof is independent", "sampled N=4 Delta control",
+            "palindrome proof is independent", "sampled positive-Delta proposals are not certified coalescences",
             "mirror fixes the line and pairing", "N=4 overlap/twin-scalar restriction supplies the on-line position",
         ),
         "compute/RCPsiSquared.Diagnostics/Foundation/PathKMonodromyScout.cs": (
@@ -246,15 +249,15 @@ def verify_route_b_mechanism_current_truth():
             "analytic-split candidate", "full-sector geometric multiplicity decides character",
         ),
         "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs": (
-            "The finite-N Delta-flip controls support that residual mechanism but do not prove existence at every N",
-            "only the H-half of the twin-scalar condition, while the D-half remains a locus-specific obligation",
+            "positive-Delta N=4/N=5/N=6 proposals are Uncertified after strict full-block checking",
+            "the H-half of the twin-scalar condition only after single-multiplet descent is independently certified, while the D-half remains a locus-specific obligation",
             "MECHANISM BOUNDARY",
             "Free-fermion (Jordan-Wigner) integrability alone does not prove residual semisimplicity or a Delta response at every N",
             "exponent that reads the local eigenvalue split (~1 for a linear analytic split, ~0.5 for a sqrt branch)",
             "the exponent corroborates branch type but does not decide geometric multiplicity or semisimplicity",
-            "held fixed as a proposal space",
-            "Hermiticity leaves the dissipative rate diagonal untouched but does not by itself prove that complement invariant",
-            "Character is therefore read on the full block",
+            "proposal space, not an invariant space at Delta!=0",
+            "ZZ couples it to removed directions",
+            "first locate a genuine full-block degeneracy, then ask EpCharacter",
         ),
     }
 
@@ -278,7 +281,8 @@ def verify_route_b_mechanism_current_truth():
 
     arc_path = "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"
     arc_source = (root / arc_path).read_text(encoding="utf-8")
-    wrong_arc = arc_source.replace("but do not prove existence at every N", "and prove existence at every N")
+    wrong_arc = arc_source.replace("integrability alone does not prove residual semisimplicity",
+                                   "integrability alone proves residual semisimplicity")
     check("Route B mechanism current OpenArcs mutation baseline",
           not defects(route_b_current_arc_slice(arc_source), surfaces.get(arc_path, ())),
           ascii("; ".join(defects(route_b_current_arc_slice(arc_source), surfaces.get(arc_path, ())))))
@@ -292,9 +296,9 @@ def verify_route_b_mechanism_current_truth():
         ("current OpenArcs causal protection", current_arc, surfaces[arc_path],
          current_arc + " The residual split is integrability-protected."),
         ("current OpenArcs removed proposal-space caveat", current_arc, surfaces[arc_path],
-         current_arc.replace("held fixed as a proposal space", "globally invariant")),
+         current_arc.replace("proposal space, not an invariant space at Delta!=0", "globally invariant")),
         ("current OpenArcs removed full-block character caveat", current_arc, surfaces[arc_path],
-         current_arc.replace("Character is therefore read on the full block", "The compressed block decides character")),
+         current_arc.replace("first locate a genuine full-block degeneracy, then ask EpCharacter", "The compressed block decides character")),
         ("Xxz Delta-stable split", xxz_source, surfaces[xxz_path],
          xxz_source + " The split is Delta-stable."),
         ("Xxz Hermitian-implies-invariance", xxz_source, surfaces[xxz_path],
@@ -352,21 +356,22 @@ def verify_route_b_mechanism_current_truth():
         if relative_path == "docs/ANALYTICAL_FORMULAS.md":
             source = "\n".join(line for line in source.splitlines()
                                if ("zz(b̄) = zz(b)" in line or "WHY diabolic (Tier 2 hypothesis)" in line
-                                   or line.startswith("**Δ-tightness.")))
+                                   or line.startswith("**Δ-tightness.") or line.startswith("**Delta-tightness.")))
         errors = defects(source, required)
+        baseline = set(errors)
         check(f"Route B mechanism current truth: {relative_path}", not errors, ascii("; ".join(errors)))
         # Feed wrong prose through the same door: missing scope and restored
         # all-N claims must both fail. This guards the words, not the physics.
         check(f"Route B mechanism rejects missing scope: {relative_path}",
-              bool(defects(source.casefold().replace(required[0].casefold(), ""), required)))
+              bool(set(defects(source.casefold().replace(required[0].casefold(), ""), required)) - baseline))
         check(f"Route B mechanism rejects all-N promotion: {relative_path}",
-              bool(defects(source + " Integrability governs existence at every N.", required)))
+              bool(set(defects(source + " Integrability governs existence at every N.", required)) - baseline))
         if relative_path == "experiments/F89_PATH_K_DIABOLIC.md":
             check("Route B mechanism rejects the half-hopping energy normalization",
-                  bool(defects(source.replace("ε_k = 4J cos", "ε_k = 2J cos"), required)))
+                  bool(set(defects(source.replace("ε_k = 4J cos", "ε_k = 2J cos"), required)) - baseline))
         if relative_path.endswith("/BranchLocusPalindromeWitness.cs"):
             check("Route B mechanism rejects q_EP with contradictory J=gamma=1 label",
-                  bool(defects(source.replace("γ=1, J=q_EP", "γ=J=1"), required)))
+                  bool(set(defects(source.replace("γ=1, J=q_EP", "γ=J=1"), required)) - baseline))
         if relative_path.endswith("/XxzCoherenceBlockFieldTests.cs"):
             for mutation_name, wrong_text in (
                 ("imaginary-only field", "The field only shifts the imaginary frequency."),
@@ -382,7 +387,8 @@ def verify_random_field_current_truth():
     root = Path(__file__).resolve().parents[1]
     distinction = (
         "uniform XXZ remains Bethe-integrable",
-        "random longitudinal Z disorder at Delta=0 remains quadratic",
+        "random-field XY Hamiltonian remains quadratic",
+        "does not classify the Z-dephasing Liouvillian",
         "random field plus Delta!=0 is the interacting disordered nonintegrable test",
         "finite executed CSR evidence",
     )
@@ -392,17 +398,22 @@ def verify_random_field_current_truth():
         "compute/RCPsiSquared.Core/F89PathK/WeightCoherenceBlock.cs": (
             "diagonal addition -i*q*(fe(ket)-fe(bra))", "for complex q it need not be purely imaginary",
             "unchanged dissipator entries do not imply unchanged eigenmode real parts"),
-        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": distinction,
-        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": distinction,
-        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdCsr.cs": distinction,
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": distinction + (
+            "finite-precision cluster representatives", "tolerance-dependent", "not an exact degeneracy census"),
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": distinction + (
+            "finite-precision cluster representatives", "tolerance-dependent", "not an exact degeneracy census"),
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdCsr.cs": distinction + (
+            "finite-precision cluster representatives", "tolerance-dependent", "not an exact degeneracy census"),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/FillingThresholdCsrTests.cs": distinction,
         "compute/RCPsiSquared.Diagnostics/Foundation/IntegrabilityBreakingCsr.cs": (
             "recomputed eigenvalues by their current real parts", "not an invariant AT/residual decomposition",
-            "unchanged dissipator does not fix eigenmode real parts"),
-        "experiments/FILLING_THRESHOLD_CHAOS.md": distinction,
+            "unchanged dissipator does not fix eigenmode real parts",
+            "finite-precision cluster representatives", "tolerance-dependent", "not an exact degeneracy census"),
+        "experiments/FILLING_THRESHOLD_CHAOS.md": distinction + (
+            "1e-9 finite-precision cluster representative", "tolerance-dependent", "not an exact degeneracy census"),
         "experiments/RANDOM_MATRIX_THEORY.md": distinction + (
-            "Poisson statistics do not prove integrability",
-            "does not run back up the chain"),
+            "nor proves integrability inside a block",
+            "does not run backward to integrability"),
     }
     forbidden = (
         "is Delta-stable (ZZ Hermitian", "every integrability-breaking knob",
@@ -417,6 +428,7 @@ def verify_random_field_current_truth():
         "palindromic Liouvillian is integrable", "system is integrable in every band",
         "spectrum is integrable", "bands are integrable", "bands stay integrable",
         "chiral but integrable", "integrable chiral Lindbladian", "SFF) confirms integrability",
+        "signature of an integrable / non-chaotic system",
     )
 
     def errors(source, required):
@@ -437,36 +449,58 @@ def verify_random_field_current_truth():
             check(f"Random-field requires {ascii(phrase)}: {path}",
                   bool(set(errors(source.replace(phrase, ""), required)) - baseline))
 
+    rmt = (root / "experiments/RANDOM_MATRIX_THEORY.md").read_text(encoding="utf-8")
+    result5 = rmt.split("## Result 5:", 1)[1].split("## What This Does Not Answer", 1)[0]
+    result5_required = (
+        "1e-9 finite-precision cluster representative", "tolerance-dependent",
+        "not an exact degeneracy census",
+    )
+    result5_errors = lambda text: [p for p in result5_required if p.casefold() not in text.casefold()]
+    baseline = set(result5_errors(result5))
+    check("Random-field RMT Result 5 declares CSR clustering scope", not baseline,
+          ascii("; ".join(sorted(baseline))))
+    for phrase in result5_required:
+        check(f"Random-field RMT Result 5 requires {ascii(phrase)}",
+              bool(set(result5_errors(result5.replace(phrase, ""))) - baseline))
+
 
 def verify_poisson_inference_current_truth():
     """Poisson/no-ramp observations are not converse proofs of integrability."""
     root = Path(__file__).resolve().parents[1]
     surfaces = {
         "docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md": (
-            "does not prove integrability", "AIII is a symmetry label",
-            "uniform XXZ remains Bethe-integrable", "Delta=0 remains quadratic",
+            "does not prove integrability", "not by itself a class assignment",
+            "uniform XXZ remains Bethe-integrable", "random-field XY Hamiltonian remains",
+            "does not classify the Z-dephasing Liouvillian",
             "Delta!=0 plus generic disorder", "finite-N"),
         "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (
-            "uniform XXZ remains Bethe-integrable", "does not isolate integrability causality",
+            "uniform XXZ chain remains Bethe-integrable", "does not measure a character flip",
             "Tier-2 hypothesis"),
-        "docs/ANALYTICAL_FORMULAS.md": ("does not prove integrability",),
-        "docs/THE_INTERPRETATION.md": ("does not prove integrability", "AIII is a symmetry label"),
+        "docs/ANALYTICAL_FORMULAS.md": ("not a physical Heisenberg time", "do not establish a short/long-time boundary",),
+        "docs/THE_INTERPRETATION.md": ("do not prove integrability", "remaining sectorwise algebra", "class label, is OPEN"),
         "docs/KMS_DETAILED_BALANCE.md": (
             "statistics do not remove the symmetry class or prove integrability", "random-matrix universality"),
         "experiments/TOPOLOGICAL_EDGE_MODES.md": ("do not prove integrability or topology",),
         "experiments/SPECTRAL_FORM_FACTOR.md": ("does not prove integrability",),
-        "experiments/RANDOM_MATRIX_THEORY.md": ("AIII is a symmetry label",),
+        "experiments/RANDOM_MATRIX_THEORY.md": ("does not assign the full irreducible-sector symmetry class",),
+        "compute/RCPsiSquared.Diagnostics/Foundation/GaloisSpectralChaosWitness.cs": (
+            "structured Delta=0 XY frequency lattice", "does not classify the Liouvillian as integrable"),
+        "compute/RCPsiSquared.Diagnostics.Tests/Foundation/GaloisSpectralChaosWitnessTests.cs": (
+            "structured Delta=0 XY frequency lattice", "does not classify the Liouvillian as integrable"),
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": (
+            "structured Delta=0 XY frequency lattice", "does not classify the Liouvillian as integrable"),
     }
     forbidden = ("Poisson (integrable)", "Poisson, integrable", "SFF confirms integrability",
                  "Poisson statistics of the integrable system", "precisely because it is the integrable member",
                  "single integrability-breaking knob", "outside all 38", "does not fit any of the 38",
                  "integrable chiral Lindbladian", "Liouvillian is integrable",
                  "Poisson under integrability breaking", "statistics of none of the 38",
-                 "integrable at every N")
+                 "integrable at every N", "integrable frequency lattice", "reads integrable-lattice")
     for path, required in surfaces.items():
         source = (root / path).read_text(encoding="utf-8")
         if path == "docs/ANALYTICAL_FORMULAS.md":
             source = source.split("### F42.", 1)[1].split("### F43.", 1)[0]
+        source = " ".join(source.replace("**", "").replace("*", "").split())
 
         def errors(text):
             normalized = " ".join(text.replace("**", "").replace("*", "").split()).casefold()
@@ -488,13 +522,15 @@ def verify_csr_producer_and_crossover_current_truth():
     crossover = ("filling-associated crossover evidence", "N=6..8", "movement toward GinUE",
                  "not a causal or thermodynamic threshold theorem")
     surfaces = {
-        "experiments/README.md": crossover + ("does not prove integrability",),
+        "experiments/README.md": crossover + ("No standard-ensemble calibration for this degenerate unresolved population",),
         "experiments/F89_MULTI_SECTOR_MONODROMY.md": crossover,
         "experiments/RANDOM_MATRIX_THEORY.md": crossover,
         "experiments/FILLING_THRESHOLD_CHAOS.md": crossover,
-        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": crossover,
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": crossover + (
+            "finite-precision cluster representatives", "tolerance-dependent", "not an exact degeneracy census"),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/IntegrabilityBreakingCsrTests.cs": (
-            "random field at Delta=0 remains Anderson/free-fermion",
+            "random-field XY Hamiltonian remains Anderson/free-fermion",
+            "without making the dephasing Liouvillian a quadratic generator",
             "random field plus Delta!=0 is interacting disordered nonintegrable"),
         "compute/RCPsiSquared.Core/F89PathK/WeightCoherenceBlock.cs": (
             "-i*q*Delta*(zz(ket)-zz(bra))", "for Im q != 0 it has a real component"),
@@ -502,7 +538,9 @@ def verify_csr_producer_and_crossover_current_truth():
         "simulations/results/spectral_form_factor.txt": ("does not prove integrability", "not a spectral-class or no-ramp test"),
         "simulations/rmt_topology_csr.py": (
             "does not prove integrability", "simultaneous Hamiltonian/dissipator eigenoperators",
-            "not a formula for mixed Liouvillian modes"),
+            "not a formula for mixed Liouvillian modes", "CLUSTER_DECIMALS = 9",
+            "finite-precision clusters", "tolerance-dependent", "cluster_decimals=",
+            "uncorrelated reference", "not an integrability verdict"),
     }
     forbidden = ("Liouvillian is integrable", "Poisson (integrable)", "is INTEGRABLE. No dip",
                  "-> Heisenberg integrability", "is chaotic", "chaos located as a FILLING threshold",
@@ -511,7 +549,9 @@ def verify_csr_producer_and_crossover_current_truth():
                  "random field U[−W,W] breaks integrability",
                  "adds only the frequency", "Poisson-like SFF at", "GUE-like SFF at",
                  "Classification: POISSON-like", "Classification: GUE-like",
-                 "Classification: intermediate / palindromic")
+                 "Classification: intermediate / palindromic", "physically correct diagnostic",
+                 "Exact degeneracies are removed first", "DISTINCT Liouvillian eigenvalues",
+                 "2D Poisson (integrable / symmetry-fragmented)", "(integrable/fragmented)")
     for path, required in surfaces.items():
         source = (root / path).read_text(encoding="utf-8")
         if path == "experiments/README.md":
@@ -541,7 +581,7 @@ def verify_csr_producer_and_crossover_current_truth():
     upper = int(np.count_nonzero(complete[:, 1] > 1e-6))
 
     def valid_collapse(text):
-        match = re.search(r"complete N=6: distinct_upper=(\d+) total_upper=(\d+) collapse=([\d.eE+-]+)", text)
+        match = re.search(r"complete N=6: clustered_upper=(\d+) total_upper=(\d+) clustered_fraction=([\d.eE+-]+)", text)
         table = re.search(r"^complete\s+6\s+\d+\s+(\d+)\s", text, re.MULTILINE)
         if match is None or table is None:
             return False
@@ -551,14 +591,57 @@ def verify_csr_producer_and_crossover_current_truth():
 
     check("Topology collapse uses the executed upper-half population", valid_collapse(output))
     wrong_denominator = re.sub(r"total_upper=\d+", f"total_upper={len(complete)}", output)
-    reported_distinct = re.search(r"distinct_upper=(\d+)", output)
-    if reported_distinct is not None:
+    reported_clustered = re.search(r"clustered_upper=(\d+)", output)
+    if reported_clustered is not None:
         # Keep the wrong fraction internally consistent: only the population
         # boundary, not an arithmetic mismatch, must reject all-spectrum counting.
-        wrong_denominator = re.sub(r"collapse=[\d.eE+-]+",
-                                   f"collapse={1 - int(reported_distinct[1]) / len(complete):.17g}",
+        wrong_denominator = re.sub(r"clustered_fraction=[\d.eE+-]+",
+                                   f"clustered_fraction={1 - int(reported_clustered[1]) / len(complete):.17g}",
                                    wrong_denominator)
     check("Topology collapse rejects all-spectrum denominator", valid_collapse(output) and not valid_collapse(wrong_denominator))
+
+    declared_digits = re.search(r"cluster_decimals=(\d+)", output)
+    declared_sensitivity = re.search(
+        r"cluster_sensitivity_N6_complete="
+        r"d7:(\d+),d8:(\d+),d9:(\d+),d10:(\d+)", output)
+    complete_complex = complete[:, 0] + 1j * complete[:, 1]
+    complete_upper = complete_complex[complete_complex.imag > 1e-6]
+    expected_sensitivity = tuple(
+        len(np.unique(np.round(complete_upper, digits))) for digits in range(7, 11))
+    check("Topology CSR declares the protected 1e-9 clustering tolerance",
+          declared_digits is not None and int(declared_digits[1]) == 9)
+    check("Topology CSR exposes clustering sensitivity from the executed population",
+          declared_sensitivity is not None
+          and tuple(map(int, declared_sensitivity.groups())) == expected_sensitivity)
+
+    shared_csr_surfaces = {
+        "compute/RCPsiSquared.Core/Numerics/ComplexSpacingRatio.cs": (
+            "ClusterDecimals = 9", "finite-precision cluster", "tolerance-dependent",
+            "not an exact degeneracy"),
+        "compute/RCPsiSquared.Diagnostics/Foundation/GaloisSpectralChaosWitness.cs": (
+            "finite-precision cluster representatives", "tolerance-dependent",
+            "not an exact degeneracy census"),
+    }
+    shared_forbidden = ("distinct spectrum", "distinct-point count", "distinct points/q")
+    for path, required in shared_csr_surfaces.items():
+        source = (root / path).read_text(encoding="utf-8")
+
+        def shared_errors(text):
+            normalized = " ".join(text.replace("///", "").replace('" +', "")
+                                  .replace('"', "").split()).casefold()
+            return ([f"missing {phrase}" for phrase in required if phrase.casefold() not in normalized]
+                    + [f"forbidden {phrase}" for phrase in shared_forbidden
+                       if phrase.casefold() in normalized])
+
+        baseline = set(shared_errors(source))
+        check(f"Shared CSR clustering scope: {path}", not baseline,
+              ascii("; ".join(sorted(baseline))))
+        for phrase in required:
+            check(f"Shared CSR clustering requires {ascii(phrase)}: {path}",
+                  bool(set(shared_errors(source.casefold().replace(phrase.casefold(), ""))) - baseline))
+        for phrase in shared_forbidden:
+            check(f"Shared CSR clustering rejects {ascii(phrase)}: {path}",
+                  bool(set(shared_errors(source + " " + phrase)) - baseline))
 
 
 def verify_sff_windows_and_current_boundaries():
@@ -585,22 +668,25 @@ def verify_sff_windows_and_current_boundaries():
     surfaces = {
         "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (
             "N=4 twin-scalar restriction", "Tier-2 residual interpretation",
-            "uniform XXZ remains Bethe-integrable", "N=6 inventory is complete", "N=7 remains the inventory boundary"),
+            "uniform XXZ chain remains Bethe-integrable", "N=6 inventory is complete", "N=7 remains the inventory boundary"),
         "experiments/SPECTRAL_FORM_FACTOR.md": (
             "raw non-unfolded frequency SFF", "1/M", "not sampled", "reached window",
-            "not a universality-class proof", "overflow/NaN remains unresolved",
+            "not a universality-class proof", "only this raw oscillation-frequency SFF",
+            "physical Liouvillian propagation would involve", "requires a specified ensemble or averaging prescription",
             "raw multiset density scale", "multiplicity-dependent", "N=4 third", "N=6 second", "N=7 has no match", "114%"),
         "experiments/README.md": ("raw non-unfolded frequency SFF", "reached window", "not a universality-class proof", "raw multiset density scale"),
         "experiments/RANDOM_MATRIX_THEORY.md": ("cannot classify universality",),
         "docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md": ("measured finite-N contrast", "convergence is a proposed extension"),
         "simulations/spectral_form_factor.py": ("independent_phase_reference", "format_sample", "raw non-unfolded frequency SFF",
-                                               "not a physical time-scale estimate", "second-half-of-current-grid mean",
-                                               "raw multiset density scale", "multiplicity-dependent", "RCPSI_SFF_OUTPUT_PATH", "raw_multiset_density_scale(ev)"),
+                                                "2*cos", "doubled and cross frequencies",
+                                                "raw multiset density scale", "multiplicity-dependent", "RCPSI_SFF_OUTPUT_PATH", "raw_multiset_density_scale(ev)",
+                                                "Only the raw oscillation-frequency SFF is computed", "no decay-weighted or connected estimator is defined"),
         "simulations/sff_window_summary.py": ("def sff_frequency", "def raw_multiset_density_scale", "multiplicity-dependent"),
         "simulations/results/spectral_form_factor.txt": (
             "independent-phase reference 1/M", "not sampled", "reached window", "not classifiable",
-            "not a physical time-scale estimate", "second-half-of-current-grid mean",
-            "raw multiset density scale", "multiplicity-dependent"),
+            "2*cos", "doubled and cross frequencies",
+            "raw multiset density scale", "multiplicity-dependent",
+            "Only the raw oscillation-frequency SFF is computed", "no decay-weighted or connected estimator is defined"),
     }
     arc = (root / "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs").read_text(encoding="utf-8")
     entry = arc.split('Name: "f89_galois_open_doors"', 1)[1].split("new OpenArc(", 1)[0]
@@ -621,7 +707,8 @@ def verify_sff_windows_and_current_boundaries():
                  "no clear Thouless time detected", "1.5× its late-time mean",
                  "t_H", "Heisenberg time", "t_Th", "Thouless-time estimate",
                  "structurally Poisson", "neither standard Poisson nor GUE",
-                 "dominant FFT peak matches", "ω_min peak is present")
+                 "dominant FFT peak matches", "ω_min peak is present", "first sampled exceedance",
+                 "def sff_dissipative", "def sff_connected", "K_diss", "overflow/NaN")
     for path, required in surfaces.items():
         source = current if path == arc_label else (root / path).read_text(encoding="utf-8")
         if path == "experiments/README.md":
@@ -700,6 +787,1418 @@ def verify_sff_windows_and_current_boundaries():
         check(f"SFF window report rejects {name}", mutated != phase4 and bool(window_report_errors(mutated)))
 
 
+def task8_text_errors(source, required, forbidden):
+    """One predicate for live current text and deliberately corrupted current text."""
+    text = " ".join(source.replace("**", "").replace("///", "")
+                    .replace('" +', "").replace('"', "").split()).casefold()
+    return ([f"missing {p}" for p in required if p.casefold() not in text]
+            + [f"forbidden {p}" for p in forbidden if p.casefold() in text])
+
+
+def f44_ordered_pair_api_errors(source):
+    """Pin both public F44 evaluators to the same finite ordered-pair domain."""
+    errors = []
+    if source.count("ValidateOrderedPairDomain(deltaD, totalGamma);") != 2:
+        errors.append("exact and linear F44 APIs must both use shared domain validation")
+    for token in ("!double.IsFinite(totalGamma)", "totalGamma <= 0.0",
+                  "!double.IsFinite(deltaD)", "deltaD < 0.0",
+                  "deltaD / totalGamma >= SumCoefficient"):
+        if token not in source:
+            errors.append(f"F44 domain guard missing {token}")
+    return errors
+
+
+def mirrorworld_f44_ordered_pair_api_errors(source):
+    errors = []
+    for token in ("!double.IsFinite(sg)", "sg <= 0.0", "!double.IsFinite(deltaD)",
+                  "deltaD < 0.0", "deltaD / sg >= 2.0"):
+        if token not in source:
+            errors.append(f"MirrorWorld F44 domain guard missing {token}")
+    return errors
+
+
+def f95_positive_b_api_errors(source, mirrorworld=False):
+    guard = "if (!double.IsFinite(b) || b <= 0.0)"
+    return [] if guard in source else [
+        f"{'MirrorWorld ' if mirrorworld else ''}F95 must reject non-finite or non-positive b"]
+
+
+def f95_python_positive_b_api_errors(source):
+    guard = "if not math.isfinite(b) or b <= 0:"
+    return [] if guard in source else ["F95 Python producer must reject non-finite or non-positive b"]
+
+
+def delta_tracker_path_errors(source):
+    # Select declarations, not matching call text somewhere else in the file.
+    # Comments/strings are masked before brace matching; offsets stay unchanged.
+    masked = re.sub(r'//[^\n]*|/\*[\s\S]*?\*/|"(?:\\.|[^"\\])*"',
+                    lambda m: " " * len(m.group()), source)
+    def method(name):
+        declaration = re.search(r"\b(?:public|private|internal)\s+static\s+[^\n(]+\s+" + name + r"\s*\(", masked)
+        if not declaration:
+            return ""
+        start = declaration.start()
+        brace, arrow = masked.find("{", start), masked.find("=>", start)
+        if arrow >= 0 and (brace < 0 or arrow < brace):
+            return source[start:masked.index(";", arrow) + 1]
+        depth = 0
+        for end in range(brace, len(masked)):
+            depth += (masked[end] == "{") - (masked[end] == "}")
+            if depth == 0:
+                return source[start:end + 1]
+        return ""
+    seeded = "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);"
+    contracts = {
+        "CharacterAtDiabolicNear": ("public static DeltaTrackResult CharacterAtDiabolicNear",
+            "=> TrackDiabolicUnderDelta(n, qSeed, lambdaSeed, delta, boxHalf: 0, boxCell: cell);"),
+        "TrackDiabolicUnderDeltaCompressed": (seeded,),
+        "TrackDiabolicUnderDeltaResidual": (
+            "return CertifyFullBlockProposal(BuildSym(n, center, delta), center, mid, lambdaSeed, seedRadius);",),
+        "TrackDiabolicUnderDelta": (seeded,
+            "TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell)",
+            "if (n >= 7 && !exact)", "if (!(seedDistances[1] < seedRadius))"),
+        "CertifyFullBlockProposal": ("fullGap > FullBlockCoincidenceTolerance",
+            "lambdaSeed.HasValue && !((mid - lambdaSeed.Value).Magnitude < seedRadius)",
+            "(full[0] - mid).Magnitude <= FullBlockCoincidenceTolerance",
+            "(full[1] - mid).Magnitude <= FullBlockCoincidenceTolerance",
+            "if (!(radius > 2 * ds[1]))",
+            "rr.Algebraic == 2 ? CertifiedCharacterVerdict(rr.Kind) : DeltaFlipVerdict.Uncertified"),
+    }
+    return [f"{name}: {error}" for name, required in contracts.items()
+            for error in task8_text_errors(method(name), required, ())]
+
+
+def verify_task8_current_truth():
+    root = Path(__file__).resolve().parents[1]
+    surfaces = {
+        "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md": (("ε_k = 4J·cos(πk/(N+1))",), ("ε_k = 2J·cos(πk/(N+1))",)),
+        "compute/RCPsiSquared.Core/F86/JordanWigner/XyJordanWignerModes.cs": ((
+            "H_XY = (J/2)·Σ_b (X_b X_{b+1} + Y_b Y_{b+1})",
+            "h[i, i±1] = J", "ε_k = 2·J·cos"),
+            ("H_XY = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1})",)),
+        "docs/proofs/PROOF_F90_F86C2_BRIDGE.md": (("ε_k = 2J·cos(πk/(N+1))", "ε_k = 4J·cos(πk/(N+1))"), ("ε_k = J·cos", "from L_super")),
+        "experiments/F89_BRANCH_LOCUS_PALINDROME.md": (("q_octic = Q_carrier/2", "Q_carrier = 1.5 corresponds to q_octic = 0.75"), ("On the real axis q = Q", "q and Q (same ratio, different role)")),
+        "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md": (("single-multiplet descent remains conditional", "numerical twin-scalar character"), ("additivity's semisimplicity route extends verbatim", "no unexplained residual coincidence remains at N=5")),
+        "experiments/F89_PATH_K_DIABOLIC.md": (("AT semisimple crossings are diabolics, not residual A2 diabolics", "3/16", "Uncertified", "full-pair gap", "nonzero-Delta response remains open"),
+                                                  ("These are not diabolics but", "each path-5 diabolic reads cleanly", "three real-q diabolics become defective and one lifts", "ResidualRootsExactXxz",
+                                                   "N=4, N=5, N=6 and N=7 diabolics flip defective or lift")),
+        "docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md": (("palindrome-paired decay-rate bands", "average-light bins", "constant (N+1)²", "normalized SFF is 1"), ("restricted to XY-weight sector", "(N+1)² × δ(t)", "stationary + near-stationary")),
+        "experiments/RANDOM_MATRIX_THEORY.md": (("executed N=6..8 fixed-parameter comparison",), ("question is resolved in Result 5",)),
+        "compute/RCPsiSquared.Diagnostics/Foundation/PathKMonodromyScout.cs": (("ResidualRootsCompressedXxz", "proposal roots"), ("ResidualRootsExactXxz",)),
+        "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs": ((
+            "FullBlockCoincidenceTolerance = 1e-6", "fullGap > FullBlockCoincidenceTolerance",
+            "(full[0] - mid).Magnitude <= FullBlockCoincidenceTolerance",
+            "(full[1] - mid).Magnitude <= FullBlockCoincidenceTolerance",
+            "TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell)",
+            "CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius)",
+            "CertifyFullBlockProposal(BuildSym(n, center, delta), center, mid, lambdaSeed, seedRadius)",
+            "if (n >= 7 && !exact) return new DeltaTrackResult(DeltaFlipVerdict.Uncertified",
+            "lambdaSeed.HasValue && !((mid - lambdaSeed.Value).Magnitude < seedRadius)",
+            "if (!(seedDistances[1] < seedRadius))",
+            "EpCharacter.EpKind.Diabolic => DeltaFlipVerdict.Diabolic",
+            "EpCharacter.EpKind.Defective => DeltaFlipVerdict.Defective",
+            "_ => DeltaFlipVerdict.Uncertified", "rr.Algebraic == 2",
+            "public bool IsCertifiedDiabolic", "public bool? Survived", "_ => null",
+            "Complex QCandidate, Complex LambdaCandidate, double Gap",
+            "It is neither survival nor death", "unavailable character, not measured multiplicities"),
+            ("ResidualRootsExactXxz", "fullGap > coalesceTol",
+             "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid);",
+             "public bool Survived => Verdict == DeltaFlipVerdict.Diabolic;",
+             "EpKind.Normal => DeltaFlipVerdict.Defective", "EpKind.Normal => DeltaFlipVerdict.Diabolic",
+             "EpKind.NearEp => DeltaFlipVerdict.Defective", "EpKind.NearEp => DeltaFlipVerdict.Diabolic",
+             "DeltaFlipVerdict.Uncertified => false", "CertifyCompressedProposal(",
+             "Complex QStar, Complex LambdaStar, double Gap",
+             "new DeltaTrackResult(DeltaFlipVerdict.Lifted")),
+        "compute/RCPsiSquared.Cli/Commands/PathKMonodromyScanCommand.cs": ((
+            "Uncertified", "full-block pair", "t.IsCertifiedDiabolic", "UNRESOLVED",
+            "no defect/lift conclusion", "N/A N/A",
+            "Only the N=4, Delta=0 control is character-certified",
+            "all sampled positive-Delta proposals at N=4..7 are Uncertified",
+            "track the candidate pair from q_seed=", "q_candidate", "t.QCandidate"),
+            ("ResidualRootsExactXxz", "exact-residual: AT-flood excluded",
+             "if (d > 0 && t.Survived) survivesAtPositive = true;",
+             "Only N=4 is character-certified", "track the coalescence at q=", "t.QStar")),
+        "compute/RCPsiSquared.Cli/Program.cs": (("Uncertified", "compressed proposals", "unknown survival", "independent 1e-6"), ()),
+        "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs": ((
+            "the H-half of the twin-scalar condition only after single-multiplet descent is independently certified",
+            "the D-half remains a locus-specific obligation", "Moves 1, 3 and 4 are done",
+            "Move 2 remains open at N=7 after the compression-locator retraction",
+            "their nonzero-Delta response is OPEN", "not an invariant space at Delta!=0",
+            "first locate a genuine full-block degeneracy",
+            "one basis coherence with disagreement n_diff pays the positive cell rate",
+            "an AT-locked eigenmode has Re lambda = -2*gamma*<n_XY>_v",
+            "<n_XY>_v need not equal the integer n_diff"),
+            ("additivity supplies the H-half unconditionally", "Moves 1, 2, 3 and 4 are done",
+             "N=7 nonzero-Delta response is closed", "an AT eigenmode has the integer basis-cell disagreement count")),
+        "compute/RCPsiSquared.Core/Symmetry/F41PalindromicTimePi2Inheritance.cs": ((
+            "2cos(ω_min t)", "trace amplitude", "doubled and cross frequencies",
+            "F41 is not by itself the period of the complete SFF",
+            "finite-N descriptive ratio, not a physical short/long-time division"),
+            ("physical Heisenberg time t_H ~ 4^N", "F41 is the period of the complete SFF",
+             "t_Pi/t_H ~ N²/4^N", "slowest palindromic SFF modulation frequency")),
+        "compute/RCPsiSquared.Core/Symmetry/F43BandSffPairingPi2Inheritance.cs": ((
+            "reflected decay-rate bands", "average-light bands", "not assigned to an invariant fixed-integer-weight sector",
+            "N+1 stationary modes", "frequency SFF is the constant 1 for every time",
+            "not an impulse at time zero", "finite-width numerical band can contain more"),
+            ("fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)", "endpoint multiplicity 2^N",
+             "canonical Pauli-string weight partition", "delta-spike at zero frequency")),
+        "docs/ANALYTICAL_FORMULAS.md": ((
+            "doubled and cross frequencies", "not a physical Heisenberg time",
+            "reflected decay-rate bands", "normalized frequency SFF is the constant 1",
+            "N+1 stationary modes", "not a delta spike"),
+            ("physical Heisenberg time t_H ~ 4^N", "normalized endpoint K(t) = delta(t)", "endpoint multiplicity 2^N")),
+        "experiments/DEGENERACY_HUNT.md": (("Re(λ) = −2γ·⟨n_XY⟩_v", "Only a basis coherence has the integer count", "neither equal"),
+            ("every eigenmode has integer n_diff",)),
+        "experiments/SYMMETRY_CENSUS.md": (("Re(λ) = −2γ·⟨n_XY⟩_v", "not necessarily one integer-weight basis sector",
+            "not invariant fixed-XY-weight eigenspaces"), ("every eigenmode has integer n_diff",)),
+        "docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md": ((
+            "Order 4 globally, involutive sectorwise", "P_px=√px·Π|px", "P_px²=I",
+            "Spectral reflection alone cannot select AIII or any other class",
+            "cannot confirm or refute a sector-level universality prediction",
+            "Prior-art coverage and equivalence to published constructions remain OPEN",
+            "No priority or novelty claim is made"),
+            ("the global Liouvillian is class AIII", "the constant shift is outside SRP",
+             "Priority bookkeeping", "does not state the operator or the spectral reflection",
+             "The repository-specific object here")),
+        "docs/KMS_DETAILED_BALANCE.md": ((
+            "No global AIII, BDI, or CI label is assigned here", "irreducible-sector classification remains open",
+            "SRP applies negative symmetries to the trace-shifted generator",
+            "Strict GNS/KMS symmetry of the full generator",
+            "Alicki/standard QDB permits a separate Hamiltonian derivation",
+            "only the dissipative part is self-adjoint",
+            "does not force the full generator to have a real spectrum",
+            "Whether that interacting and locality-resolved extension has prior art",
+            "its equivalence to known constructions remain OPEN",
+            "For a QDB dissipative semigroup with no unitary part",
+            "equal to its Petz recovery map",
+            "With an additional commuting unitary part",
+            "reverses the unitary sign while retaining the same dissipative evolution"),
+            ("the global Liouvillian is class AIII", "the constant shift is outside SRP",
+             "Our Π does not fit cleanly into any of their 38 classes", "constant shift 2Sγ is not part of their formalism",
+             "QDB relates L to its adjoint L† (real eigenvalues)",
+             "What QDB implies spectrally: all eigenvalues of L are real",
+             "what stays ours", "are the new part",
+             "showed that quantum detailed balance is equivalent to the Petz recovery map",
+             "QDB = Petz recovery map being exact channel reversal")),
+        "docs/THE_INTERPRETATION.md": (("sqrt(p_x) Π", "remaining sectorwise algebra", "class label, is OPEN",
+            "do not prove integrability"), ("the global Liouvillian is class AIII",)),
+        "experiments/README.md": (("full irreducible-sector SRP class is OPEN",
+            "involutive sectorwise P generator", "No standard-ensemble calibration for this degenerate unresolved population"),
+            ("the global Liouvillian is class AIII",)),
+        "compute/RCPsiSquared.Core/F86/ShiftedGeneratorSectorwisePClaim.cs": ((
+            "public sealed class ShiftedGeneratorSectorwisePClaim : Claim",
+            "public sealed class FullIrreducibleSrpClassQuestion : Claim", "Tier.OpenQuestion",
+            "P_px=sqrt(p_x)Π obeys P_px²=I", "does not assign the full irreducible SRP class",
+            "sectorwise P-type anticommutation alone does not fix an SRP class"),
+            ("ChiralAiiiClassification", "global SRP class AIII is established")),
+        "compute/RCPsiSquared.Runtime/F86Main/F86MainRegistration.cs": ((
+            ".Register<ShiftedGeneratorSectorwisePClaim>(b => { _ = b.Get<F1PalindromeIdentity>(); return new ShiftedGeneratorSectorwisePClaim(); })",),
+            ("ChiralAiiiClassification",)),
+        "compute/RCPsiSquared.Runtime/F86Main/F86OpenQuestionsRegistration.cs": ((
+            ".Register<FullIrreducibleSrpClassQuestion>(b => { _ = b.Get<ShiftedGeneratorSectorwisePClaim>(); return new FullIrreducibleSrpClassQuestion(); })",),
+            ("ChiralAiiiClassification",)),
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": ((
+            "GinUE comparison only: the full sector symmetry algebra and irreducible SRP class remain open",
+            "GinUE is a comparison ensemble only; other unitary or antiunitary relations have not been excluded",
+            "not a causal or thermodynamic threshold theorem"),
+            ("Class A licensed", "no residual antiunitary", "GinUE licenses the full symmetry class")),
+        "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs": ((
+            "Path5_ResidualProposals_RequireIndependentFullPairCertification",
+            "Path4_ProposalsAndDefectiveControl_RequireIndependentFullPairCertification",
+            "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, d0.Verdict)",
+            "AssertUncertifiedSplit(6, .1, d)", "AssertUncertifiedSplit(5, .05, d)",
+            "Assert.Equal(0, result.Algebraic)", "Assert.Null(result.Survived)"),
+            ("Assert.False(d.Survived", "Path5_Diabolics_DieUnderDelta_ResidualOnly",
+             "Path4_Diabolics_DieUnderDelta_ControlStaysPut")),
+        "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs": ((
+            "SingleDisagreementCellCost(double gammaZero)", "BasisPairDissipatorCost(int nDiff, double gammaZero)",
+            "EigenmodeDecayRate(double averageNXy, double gammaZero)",
+            "EigenmodeDecayRateCeiling(int n, double gammaZero)",
+            "AverageNXyFromEigenmodeDecayRate(double rate, double gammaZero)",
+            "HammingComplementCellCostSum(int blockSize, double gammaZero)",
+            "return DissipatorCoefficient * gammaZero * averageNXy;",
+            "generally non-integer expectation", "not an eigenvalue step"),
+            ("public double Rate(", "AbsorptionQuantum", "PerCoherenceRateComputationalBasis(",
+             "public double MaxRate(", "public double NXyFromRate(", "HammingComplementPairSum(",
+             "eigenmode decay rates are integer multiples of 2γ")),
+    }
+    required, forbidden = surfaces["docs/KMS_DETAILED_BALANCE.md"]
+    # Round-3 connected current consumers: the same predicate owns their live
+    # contract and each removed-boundary / restored-old-claim input mutation.
+    surfaces.update({
+        "compute/RCPsiSquared.Core/Symmetry/PiOperator.cs": ((
+            "P_px = sqrt(px)·Π", "sectorwise P-type generator; the full irreducible SRP class remains open"),
+            ("existing class-AIII-chiral classification",)),
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": ((
+            "N=5/N=6 positive Delta proposals remain Uncertified",
+            "Sampled small gaps beyond N=4 are similarity reads, not defect, lift, or diabolic certificates",
+            "GinUE comparison only", "irreducible SRP class, which remain open"),
+            ("N=5/N=6 positive Delta proposals defect or lift", "FillingThresholdWitness class-A gate")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/CrossFoldSimilarityWitness.cs": ((
+            "Delta proposals are Uncertified", "If a character is independently certified",
+            "coincidence and Jordan character remain Uncertified for this proposal"),
+            ("N=5/N=6 positive Delta proposals defect or lift", "sampled small gaps certify Jordan character")),
+        "compute/RCPsiSquared.Core/Symmetry/F89CrossFoldSimilarityClaim.cs": ((
+            "N=5/N=6 positive Delta proposals are Uncertified",
+            "Its character transport is conditional on an independent coincidence/Jordan",
+            "The similarity itself does not turn a sampled small gap into that certificate"),
+            ("N=5/N=6 positive Delta proposals defect or lift", "sampled small gaps certify Jordan character")),
+        "compute/RCPsiSquared.Core.Tests/F89PathK/WeightCoherenceBlockTests.cs": ((
+            "Only the N=4, Delta=0 control is", "every sampled positive-Delta proposal at N=4/N=5/N=6 is Uncertified"),
+            ("Only N=4 is character-certified", "N=5/N=6 positive Delta proposals defect or lift")),
+        "compute/RCPsiSquared.Diagnostics.Tests/Foundation/CrossFoldSimilarityWitnessTests.cs": ((
+            "without treating it as a character certificate", "Summary_LeavesN5N6PositiveDeltaCharacterUncertified"),
+            ("sampled small gaps certify Jordan character",)),
+        "simulations/pt_symmetry_analysis.py": ((
+            "P_px=sqrt(p_x)·Π is involutive", "The full irreducible SRP class remains OPEN",
+            "not a global class assignment", "within palindrome axis",
+            "off palindrome axis; operator relation remains exact"),
+            ("Class AIII", "chiral phase", "chiral breaking")),
+        "compute/RCPsiSquared.Compute/README.md": ((
+            "sectorwise P symmetry after resolving Π²", "full irreducible symmetry class remains OPEN"),
+            ("chiral symmetry class AIII", "ChiralAiiiClassification")),
+        "compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md": ((
+            "AbsorptionTheoremClaim.SingleDisagreementCellCost(γ₀)",
+            "AbsorptionTheoremClaim.BasisPairDissipatorCost(nDiff, γ₀)",
+            "AbsorptionTheoremClaim.EigenmodeDecayRate(averageNXy, γ₀)",
+            "AbsorptionTheoremClaim.EigenmodeDecayRateCeiling(N, γ₀)",
+            "AbsorptionTheoremClaim.AverageNXyFromEigenmodeDecayRate(rate, γ₀)",
+            "AbsorptionTheoremClaim.HammingComplementCellCostSum(blockSize, γ₀)",
+            "generally non-integer expectation", "not thereby quantized on a 2γ₀ grid"),
+            ("AbsorptionTheoremClaim.AbsorptionQuantum", "AbsorptionTheoremClaim.Rate(",
+             "AbsorptionTheoremClaim.MaxRate(", "AbsorptionTheoremClaim.NXyFromRate(",
+             "AbsorptionTheoremClaim.PerCoherenceRateComputationalBasis(", "ChiralAiiiClassification")),
+        "experiments/FILLING_THRESHOLD_CHAOS.md": ((
+            "not a symmetry-class assignment", "does not exhaust possible residual antiunitary symmetries",
+            "every strong/unitary sector, is OPEN"), ("FillingThresholdWitness class-A gate",)),
+        "experiments/CONCENTRATOR_MAPPING.md": ((
+            "FillingThresholdWitness` conjugation-match diagnostic", "alongside its GinUE comparison",
+            "That diagnostic does not assign a symmetry class"), ("FillingThresholdWitness class-A gate",)),
+        "hypotheses/ZERO_IS_THE_MIRROR.md": ((
+            "generally non-integer expectation", "2γ is a cell-cost quantum, not a proved spacing of the interacting rate spectrum"),
+            ("makes γ the rung spacing of the rate spectrum",)),
+    })
+    path = "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md"
+    proof_required, proof_forbidden = surfaces[path]
+    surfaces[path] = (proof_required + (
+        "algebraic/geometric multiplicities and departure are unavailable, not measured character data",
+        "The proposals therefore establish neither persistence, defectiveness, nor lifting"),
+        proof_forbidden + ("Uncertified proposals supply measured departure",))
+    path = "docs/THE_INTERPRETATION.md"
+    interpretation_required, interpretation_forbidden = surfaces[path]
+    surfaces[path] = (interpretation_required + (
+        "It does not decide priority or novelty", "the structure is new rather than a rediscovery, remain OPEN"),
+        interpretation_forbidden + ("the structure is new rather than a rediscovery is established",))
+    surfaces["docs/KMS_DETAILED_BALANCE.md"] = (required + (
+        "CONFIRMED algebra / OPEN class", "complete irreducible-sector SRP algebra is not yet computed"), forbidden)
+    for path in ("experiments/F89_PATH_K_DIABOLIC.md", "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"):
+        required, forbidden = surfaces[path]
+        surfaces[path] = (required, forbidden + ("Every positive-Delta N=5/N=6 proposal is Defective",))
+    path = "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"
+    required, forbidden = surfaces[path]
+    surfaces[path] = (required + (
+        "while their Delta=0 controls remain Diabolic with alg=geo=2",), forbidden)
+    path = "experiments/F89_PATH_K_DIABOLIC.md"
+    required, forbidden = surfaces[path]
+    surfaces[path] = (required + (
+        "The Delta=0 N=4/N=5 controls are Diabolic (alg=geo=2)",
+        "same holds for the N=6 seeds before perturbation",
+        "fixed 1e-6 full-block certificate",
+        "Every sampled positive-Delta N=4/N=5/N=6 proposal is Uncertified"),
+        forbidden + ("full-pair gap exceeds coalesceTol=0.001",))
+    required, forbidden = surfaces["docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md"]
+    surfaces["docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md"] = (required, forbidden + (
+        "fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)"))
+    required, forbidden = surfaces["experiments/RANDOM_MATRIX_THEORY.md"]
+    surfaces["experiments/RANDOM_MATRIX_THEORY.md"] = (required + (
+        "Finite-size computational study", "does not assign the full irreducible-sector symmetry class",
+        "not identify Hamiltonian or Liouvillian integrability",
+        "exactly invariant under a common affine rescaling",
+        "not invariant under an arbitrary smooth nonlinear transformation",
+        "only approximately robust when the mean density varies slowly",
+        "does not establish complete positivity or trace preservation",
+        "The Lindblad construction supplies those properties independently"), forbidden + (
+        "the dense block is chaotic at every N", "the global Liouvillian is class AIII",
+        "confirming that the Liouvillian is a proper generator",
+        "spacing ratios are invariant under arbitrary smooth nonlinear transformations"))
+    for path, (required, forbidden) in surfaces.items():
+        source = (root / path).read_text(encoding="utf-8")
+        if path.endswith("OpenArcsRegistry.cs"):
+            source = route_b_current_arc_slice(source)
+        if path == "docs/ANALYTICAL_FORMULAS.md":
+            source = source.split("### F41.", 1)[1].split("### F44.", 1)[0]
+        source = " ".join(source.replace("**", "").replace("///", "")
+                          .replace('" +', "").replace('"', "").split()).casefold()
+        def errors(text):
+            return task8_text_errors(text, required, forbidden)
+        baseline = set(errors(source))
+        check(f"Task8 current truth: {path}", not baseline, ascii("; ".join(sorted(baseline))))
+        for phrase in required:
+            check(f"Task8 rejects removed boundary {ascii(phrase)}: {path}",
+                  bool(set(errors(source.replace(phrase.casefold(), ""))) - baseline))
+        for phrase in forbidden:
+            check(f"Task8 rejects old variant {ascii(phrase)}: {path}",
+                  bool(set(errors(source + " " + phrase.casefold())) - baseline))
+    arc_source = (root / "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs").read_text(encoding="utf-8")
+    current = " ".join(route_b_current_arc_slice(arc_source).replace('" +', "").replace('"', "").split()).casefold()
+    arc_required = ("not an invariant space at Delta!=0", "first locate a genuine full-block degeneracy", "their nonzero-Delta response is open")
+    for phrase in arc_required:
+        check(f"Task8 current OpenArcs requires {phrase}", phrase.casefold() in current)
+        check(f"Task8 current OpenArcs mutation rejects removal of {phrase}",
+              bool(set(task8_text_errors(current.replace(phrase.casefold(), ""), arc_required, ()))
+                   - set(task8_text_errors(current, arc_required, ()))))
+
+    # Each stale claim is an INPUT mutation sent through the same current-text predicate.
+    # Comparing new defects to baseline prevents an unrelated pre-existing failure from masking a blind gate.
+    mutation_cases = {
+        "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs": (
+            "public bool Survived => Verdict == DeltaFlipVerdict.Diabolic;",
+            "fullGap > coalesceTol", "EpKind.Normal => DeltaFlipVerdict.Defective",
+            "EpKind.Normal => DeltaFlipVerdict.Diabolic", "EpKind.NearEp => DeltaFlipVerdict.Defective",
+            "EpKind.NearEp => DeltaFlipVerdict.Diabolic", "DeltaFlipVerdict.Uncertified => false",
+            "new DeltaTrackResult(DeltaFlipVerdict.Lifted, 0, 0, double.NaN, qd, Complex.Zero, refined)",
+            "CertifyCompressedProposal(BuildSym(n, qd, delta), qd, mid)"),
+        "compute/RCPsiSquared.Cli/Commands/PathKMonodromyScanCommand.cs": ("if (d > 0 && t.Survived) survivesAtPositive = true;",),
+        "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs": (
+            "additivity supplies the H-half unconditionally", "Moves 1, 2, 3 and 4 are done",
+            "N=7 nonzero-Delta response is closed", "an AT eigenmode has the integer basis-cell disagreement count"),
+        "compute/RCPsiSquared.Core/Symmetry/F41PalindromicTimePi2Inheritance.cs": (
+            "physical Heisenberg time t_H ~ 4^N", "F41 is the period of the complete SFF",
+            "t_Pi/t_H ~ N²/4^N", "slowest palindromic SFF modulation frequency"),
+        "compute/RCPsiSquared.Core/Symmetry/F43BandSffPairingPi2Inheritance.cs": (
+            "fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)", "endpoint multiplicity 2^N",
+            "canonical Pauli-string weight partition", "delta-spike at zero frequency"),
+        "docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md": ("fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)"),
+        "experiments/DEGENERACY_HUNT.md": ("every eigenmode has integer n_diff",),
+        "experiments/SYMMETRY_CENSUS.md": ("every eigenmode has integer n_diff",),
+        "experiments/RANDOM_MATRIX_THEORY.md": ("the dense block is chaotic at every N", "the global Liouvillian is class AIII"),
+        "docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md": ("the global Liouvillian is class AIII", "the constant shift is outside SRP"),
+        "docs/KMS_DETAILED_BALANCE.md": ("the global Liouvillian is class AIII", "the constant shift is outside SRP"),
+        "docs/THE_INTERPRETATION.md": ("the global Liouvillian is class AIII",),
+        "experiments/README.md": ("the global Liouvillian is class AIII",),
+        "compute/RCPsiSquared.Core/F86/ShiftedGeneratorSectorwisePClaim.cs": (
+            "ChiralAiiiClassification", "global SRP class AIII is established"),
+        "compute/RCPsiSquared.Runtime/F86Main/F86MainRegistration.cs": ("ChiralAiiiClassification",),
+        "compute/RCPsiSquared.Runtime/F86Main/F86OpenQuestionsRegistration.cs": ("ChiralAiiiClassification",),
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": (
+            "Class A licensed", "no residual antiunitary", "GinUE licenses the full symmetry class"),
+        "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs": (
+            "public double Rate(int nXY, double gammaZero)", "public double AbsorptionQuantum(double gammaZero)",
+            "public double PerCoherenceRateComputationalBasis(int nDiff, double gammaZero)",
+            "public double NXyFromRate(double rate, double gammaZero)",
+            "eigenmode decay rates are integer multiples of 2γ"),
+    }
+    mutation_cases["experiments/RANDOM_MATRIX_THEORY.md"] += (
+        "spacing ratios are invariant under arbitrary smooth nonlinear transformations",
+        "confirming that the Liouvillian is a proper generator",)
+    mutation_cases["experiments/F89_PATH_K_DIABOLIC.md"] = (
+        "Every positive-Delta N=5/N=6 proposal is Defective", "full-pair gap exceeds coalesceTol=0.001",)
+    mutation_cases["compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"] += (
+        "Every positive-Delta N=5/N=6 proposal is Defective",)
+    mutation_cases.update({
+        "compute/RCPsiSquared.Core/Symmetry/PiOperator.cs": ("existing class-AIII-chiral classification",),
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": (
+            "N=5/N=6 positive Delta proposals defect or lift", "FillingThresholdWitness class-A gate"),
+        "compute/RCPsiSquared.Diagnostics/Foundation/CrossFoldSimilarityWitness.cs": (
+            "N=5/N=6 positive Delta proposals defect or lift", "sampled small gaps certify Jordan character"),
+        "compute/RCPsiSquared.Core/Symmetry/F89CrossFoldSimilarityClaim.cs": (
+            "N=5/N=6 positive Delta proposals defect or lift", "sampled small gaps certify Jordan character"),
+        "compute/RCPsiSquared.Core.Tests/F89PathK/WeightCoherenceBlockTests.cs": (
+            "N=5/N=6 positive Delta proposals defect or lift",),
+        "compute/RCPsiSquared.Diagnostics.Tests/Foundation/CrossFoldSimilarityWitnessTests.cs": (
+            "sampled small gaps certify Jordan character",),
+        "simulations/pt_symmetry_analysis.py": ("Class AIII (chiral unitary)", "chiral phase", "chiral breaking"),
+        "compute/RCPsiSquared.Compute/README.md": ("chiral symmetry class AIII",),
+        "compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md": (
+            "AbsorptionTheoremClaim.AbsorptionQuantum", "AbsorptionTheoremClaim.Rate(", "ChiralAiiiClassification"),
+        "experiments/FILLING_THRESHOLD_CHAOS.md": ("FillingThresholdWitness class-A gate",),
+        "experiments/CONCENTRATOR_MAPPING.md": ("FillingThresholdWitness class-A gate",),
+        "hypotheses/ZERO_IS_THE_MIRROR.md": ("makes γ the rung spacing of the rate spectrum",),
+        "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md": ("Uncertified proposals supply measured departure",),
+    })
+    mutation_cases["docs/THE_INTERPRETATION.md"] += ("the structure is new rather than a rediscovery is established",)
+    for path, variants in mutation_cases.items():
+        source = (root / path).read_text(encoding="utf-8")
+        if path.endswith("OpenArcsRegistry.cs"):
+            source = route_b_current_arc_slice(source)
+        required, forbidden = surfaces.get(path, ((), ()))
+        baseline = set(task8_text_errors(source, required, forbidden))
+        for variant in variants:
+            check(f"Task8 integration mutation rejects {ascii(variant)}: {path}",
+                  bool(set(task8_text_errors(source + " " + variant, required, forbidden)) - baseline))
+
+    # These mutate the actual edge, branch, threshold, or API signature in place;
+    # unrelated valid prose elsewhere cannot satisfy the removed contract.
+    replacements = (
+        ("compressed dispatch discards caller seed", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell)",
+         "TrackDiabolicUnderDeltaCompressed(n, qSeed, new Complex(100, 0), seedRadius, delta, boxHalf, boxCell)"),
+        ("compressed certificate discards seed isolation", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);",
+         "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid);"),
+        ("wrong F1 parent edge", "compute/RCPsiSquared.Runtime/F86Main/F86MainRegistration.cs",
+         "_ = b.Get<F1PalindromeIdentity>();", "_ = b.Get<DressedModeWeightClaim>();"),
+        ("closed SRP question", "compute/RCPsiSquared.Core/F86/ShiftedGeneratorSectorwisePClaim.cs",
+         "Tier.OpenQuestion", "Tier.Tier1Derived"),
+        ("N7 unsafe locator enabled", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "if (n >= 7 && !exact)", "if (n >= 8 && !exact)"),
+        ("full coincidence tolerance inflated", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "FullBlockCoincidenceTolerance = 1e-6", "FullBlockCoincidenceTolerance = 1e-3"),
+        ("residual path bypasses shared certificate", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "return CertifyFullBlockProposal(BuildSym(n, center, delta), center, mid, lambdaSeed, seedRadius);",
+         "return new DeltaTrackResult(DeltaFlipVerdict.Diabolic, 3, 3, 0, center, mid, 0);"),
+        ("default path bypasses shared certificate", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);",
+         "return new DeltaTrackResult(DeltaFlipVerdict.Defective, 2, 1, 1, qd, mid, .001);"),
+        ("algebraic triple accepted", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "rr.Algebraic == 2", "rr.Algebraic >= 2"),
+        ("midpoint correspondence removed", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
+         "(full[1] - mid).Magnitude <= FullBlockCoincidenceTolerance", "true"),
+        ("integer eigenmode API", "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs",
+         "EigenmodeDecayRate(double averageNXy, double gammaZero)", "EigenmodeDecayRate(int averageNXy, double gammaZero)"),
+        ("N5/N6 positive controls erased", "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs",
+         "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, d0.Verdict)",
+         "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Uncertified, d0.Verdict)"),
+        ("N6 positive-Delta false death assertion", "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs",
+         "AssertUncertifiedSplit(6, .1, d)", "Assert.False(d.Survived)"),
+        ("nonlinear spacing invariance", "experiments/RANDOM_MATRIX_THEORY.md",
+         "exactly invariant under a common affine rescaling", "exactly invariant under every smooth nonlinear rescaling"),
+    )
+    for name, path, original, replacement in replacements:
+        source = (root / path).read_text(encoding="utf-8")
+        required, forbidden = surfaces[path]
+        if name in ("default path bypasses shared certificate", "compressed certificate discards seed isolation"):
+            offset = source.rfind(original) if name.startswith("default") else source.find(original)
+            changed = source[:offset] + replacement + source[offset + len(original):] if offset >= 0 else source
+            # A matching call in another method cannot mask this mutation.
+            extra_errors = set(delta_tracker_path_errors(changed)) - set(delta_tracker_path_errors(source))
+        else:
+            changed = source.replace(original, replacement)
+            extra_errors = set()
+        check(f"Task8 in-place mutation rejects {name}", changed != source and
+              bool((set(task8_text_errors(changed, required, forbidden))
+                    - set(task8_text_errors(source, required, forbidden))) | extra_errors))
+
+    tracker = (root / "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs").read_text(encoding="utf-8")
+    check("Task8 every public/proposal path shares strict certification", not delta_tracker_path_errors(tracker))
+    call = "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);"
+    occurrences = [m.start() for m in re.finditer(re.escape(call), tracker)]
+    check("Task8 independently addresses both identical qd certificate calls", len(occurrences) == 2)
+    for index, offset in enumerate(occurrences):
+        changed = tracker[:offset] + call.replace("lambdaSeed, seedRadius", "null, double.PositiveInfinity") + tracker[offset + len(call):]
+        check(f"Task8 single-path mutation rejects certificate bypass occurrence {index}",
+              bool(set(delta_tracker_path_errors(changed)) - set(delta_tracker_path_errors(tracker))))
+    for name, original, replacement in (
+        ("public direct character bypass", "=> TrackDiabolicUnderDelta(n, qSeed, lambdaSeed, delta, boxHalf: 0, boxCell: cell);",
+         "=> new DeltaTrackResult(DeltaFlipVerdict.Diabolic, 2, 2, 0, qSeed, lambdaSeed, 0);"),
+        ("compressed caller-seed discarded", "TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell)",
+         "TrackDiabolicUnderDeltaCompressed(n, qSeed, new Complex(100, 0), seedRadius, delta, boxHalf, boxCell)"),
+        ("isolated-pair guard removed", "if (!(radius > 2 * ds[1]))", "if (false)"),
+    ):
+        changed = tracker.replace(original, replacement, 1)
+        check(f"Task8 single-path mutation rejects {name}", changed != tracker and
+              bool(set(delta_tracker_path_errors(changed)) - set(delta_tracker_path_errors(tracker))))
+
+    # Outreach owns a different current NextStep, outside the Route-B arc.
+    # Its ParkedAt history must neither satisfy nor violate this live boundary.
+    def outreach_slice(text):
+        _, found, section = text.partition('Name: "outbound_label_adapters"')
+        if not found:
+            raise ValueError("missing outbound_label_adapters arc")
+        section = section.split("new OpenArc(", 1)[0]
+        _, found, current = section.partition("NextStep:")
+        if not found or "S4 BRIDGE" not in current:
+            raise ValueError("missing current outreach NextStep delimiters")
+        return current.split("S4 BRIDGE", 1)[0]
+
+    outreach_required = ("shifted-generator, sectorwise involutive P relation",
+                         "complete irreducible SRP class remains open",
+                         "movement toward the GinUE comparison")
+    outreach_forbidden = ("class AIII", "global AIII relation")
+    source = (root / "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs").read_text(encoding="utf-8")
+    current = outreach_slice(source)
+    baseline = set(task8_text_errors(current, outreach_required, outreach_forbidden))
+    check("Task8 outreach current class boundary", not baseline, ascii("; ".join(baseline)))
+    for name, changed in (
+        ("AIII outreach promotion", current + " class AIII is established"),
+        ("closed outreach SRP class", current.replace("complete irreducible SRP class remains open", "complete irreducible SRP class is established")),
+        ("erased outreach sectorwise P", current.replace("shifted-generator, sectorwise involutive P relation", "global AIII relation")),
+    ):
+        check(f"Task8 outreach mutation rejects {name}", changed != current and
+              bool(set(task8_text_errors(changed, outreach_required, outreach_forbidden)) - baseline))
+    # Wrong-input control: a historical ParkedAt promotion is excluded, while
+    # a removed structural delimiter must not silently select an empty slice.
+    historical = source.replace('Name: "outbound_label_adapters"',
+                                'Name: "outbound_label_adapters", ParkedAt: "class AIII is established"')
+    check("Task8 outreach keeps ParkedAt history outside current slice", outreach_slice(historical) == current)
+    for delimiter in ('Name: "outbound_label_adapters"', "S4 BRIDGE"):
+        try:
+            outreach_slice(source.replace(delimiter, "missing"))
+        except ValueError:
+            rejected = True
+        else:
+            rejected = False
+        check(f"Task8 outreach rejects missing delimiter {ascii(delimiter)}", rejected)
+
+
+def producer_artifact_path_errors(producer, producer_path, artifact_path):
+    """Resolve the producer's actual file sink and compare it with the canonical artifact."""
+    tree = ast.parse(producer)
+    producer_path = Path(producer_path).resolve()
+    artifact_path = Path(artifact_path).resolve()
+    assignments = []
+    for node in ast.walk(tree):
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)):
+            assignments.append((node.targets[0].id, node.value))
+
+    environment = {"__file__": producer_path}
+
+    def dotted_name(node):
+        if isinstance(node, ast.Name):
+            return node.id
+        if isinstance(node, ast.Attribute):
+            prefix = dotted_name(node.value)
+            return f"{prefix}.{node.attr}" if prefix else node.attr
+        return None
+
+    def evaluate_path(node):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            return node.value
+        if isinstance(node, ast.Name):
+            return environment.get(node.id)
+        if isinstance(node, ast.Attribute) and node.attr == "parent":
+            value = evaluate_path(node.value)
+            return Path(value).parent if value is not None else None
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+            left = evaluate_path(node.left)
+            right = evaluate_path(node.right)
+            return Path(left) / right if left is not None and right is not None else None
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or):
+            # Output paths may expose an environment override followed by a
+            # canonical fallback. Static verification binds the fallback sink.
+            for value_node in reversed(node.values):
+                value = evaluate_path(value_node)
+                if value is not None:
+                    return value
+            return None
+        if isinstance(node, ast.Call):
+            name = dotted_name(node.func)
+            args = [evaluate_path(arg) for arg in node.args]
+            if any(arg is None for arg in args):
+                return None
+            if name == "Path" and len(args) == 1:
+                return Path(args[0])
+            if name == "os.path.abspath" and len(args) == 1:
+                return Path(args[0]).resolve()
+            if name == "os.path.dirname" and len(args) == 1:
+                return Path(args[0]).parent
+            if name == "os.path.join" and args:
+                return Path(args[0]).joinpath(*args[1:])
+        return None
+
+    # Resolve dependencies such as RESULTS = Path(__file__).parent / "results"
+    # before the local out_path assignment, without executing the producer.
+    for _ in range(len(assignments) + 1):
+        changed = False
+        for name, value_node in assignments:
+            value = evaluate_path(value_node)
+            if value is not None and environment.get(name) != value:
+                environment[name] = value
+                changed = True
+        if not changed:
+            break
+
+    problems = []
+    expected = str(artifact_path).casefold()
+
+    def is_writable_open(call):
+        if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+                and call.func.id == "open" and call.args):
+            return False
+        mode_node = call.args[1] if len(call.args) > 1 else next(
+            (keyword.value for keyword in call.keywords if keyword.arg == "mode"), None)
+        mode = "r" if mode_node is None else evaluate_path(mode_node)
+        return isinstance(mode, str) and any(flag in mode for flag in "wax+")
+
+    open_handles = {}
+    for node in ast.walk(tree):
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name) and is_writable_open(node.value)):
+            open_handles[id(node.value)] = node.targets[0].id
+        elif isinstance(node, ast.withitem) and is_writable_open(node.context_expr):
+            if isinstance(node.optional_vars, ast.Name):
+                open_handles[id(node.context_expr)] = node.optional_vars.id
+
+    writer_handles = set()
+    for node in ast.walk(tree):
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "write" and isinstance(node.func.value, ast.Name)):
+            writer_handles.add(node.func.value.id)
+
+    sinks = []
+    for node in ast.walk(tree):
+        if is_writable_open(node):
+            handle = open_handles.get(id(node))
+            label = handle or "unbound open"
+            sinks.append((label, node.args[0], handle in writer_handles))
+        elif (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+              and node.func.attr in ("write_text", "write_bytes")):
+            sinks.append((dotted_name(node.func.value) or "direct writer",
+                          node.func.value, True))
+
+    actual_sinks = [sink for sink in sinks if sink[2]]
+    if not actual_sinks:
+        return ["producer has no recognized writer associated with a file sink"]
+    if len(sinks) != 1:
+        problems.append(f"producer has {len(sinks)} writable file sinks; expected exactly one")
+
+    for label, path_node, is_used in sinks:
+        if not is_used:
+            problems.append(f"unused writable file sink {label}")
+        value = evaluate_path(path_node)
+        if value is None:
+            problems.append(f"cannot resolve producer file sink {label}")
+            continue
+        observed = Path(value)
+        if not observed.is_absolute():
+            observed = producer_path.parent / observed
+        if str(observed.resolve()).casefold() != expected:
+            problems.append(f"{label} resolves to {observed.resolve()}, expected {artifact_path}")
+    return problems
+
+
+def phase3_artifact_integrity_errors(producer, artifact, matcher_source=""):
+    """Bind the deterministic Phase-3 snapshot to its source bundle and every payload byte."""
+    problems = []
+    source_matches = re.findall(r"^Source SHA256: ([0-9a-f]{64})$", artifact, re.MULTILINE)
+    source_bundle = producer + ("\0" + matcher_source if matcher_source else "")
+    expected_source = hashlib.sha256(source_bundle.encode("utf-8")).hexdigest()
+    if source_matches != [expected_source]:
+        problems.append("Phase-3 artifact source hash differs from producer")
+
+    marker = "Payload SHA256: "
+    payload, separator, suffix = artifact.rpartition(marker)
+    digest = suffix.strip()
+    if not separator or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        problems.append("Phase-3 artifact has no unique terminal payload hash")
+    elif hashlib.sha256(payload.encode("utf-8")).hexdigest() != digest:
+        problems.append("Phase-3 artifact payload hash differs from its content")
+    return problems
+
+
+def emitted_artifact_claim_errors(producer, artifact, markers):
+    """Semantic freshness of protected emitted sentences, not timestamp/hash freshness.
+
+    No producer is imported or executed here: PT/entropy write their result at import.
+    Numerical output remains separately checked where an independent input route exists.
+    """
+    def normalize(text):
+        return " ".join(text.split()).casefold()
+    emitted = []
+    for node in ast.walk(ast.parse(producer)):
+        if not isinstance(node, ast.Call) or not node.args:
+            continue
+        is_log = isinstance(node.func, ast.Name) and node.func.id == "log"
+        is_append = (isinstance(node.func, ast.Attribute) and node.func.attr == "append"
+                     and isinstance(node.func.value, ast.Name) and node.func.value.id == "out")
+        if (is_log or is_append) and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str):
+            emitted.append(node.args[0].value)
+    problems = []
+    for marker in markers:
+        messages = [m for m in emitted if normalize(marker) in normalize(m)]
+        if not messages:
+            problems.append(f"producer does not emit protected claim {marker}")
+        for message in messages:
+            if normalize(message) not in normalize(artifact):
+                problems.append(f"artifact stale/missing emitted claim {message.strip()}")
+    return problems
+
+
+def rmt_artifact_row_errors(artifact, eigenvalues_by_n):
+    """Independent triple-by-triple oracle: never remove a gap or call the producer."""
+    problems = []
+    for n, eigenvalues in eigenvalues_by_n.items():
+        section = re.search(rf"^N={n}: (\d+) eigenvalues(?P<body>[\s\S]*?)(?=^N=\d+:|\Z)", artifact, re.M)
+        if not section:
+            problems.append(f"N={n} missing printed input row")
+            continue
+        if int(section[1]) != len(eigenvalues):
+            problems.append(f"N={n} population differs from CSV")
+        all_rates = sorted(float(-value.real) for value in eigenvalues)
+        for label, rates in (("a", all_rates), ("b", [x for x in all_rates if x < n * 0.05])):
+            ratios, undefined = [], 0
+            for left, middle, right in zip(rates, rates[1:], rates[2:]):
+                s1, s2 = middle - left, right - middle
+                if s1 == 0 and s2 == 0:
+                    undefined += 1
+                else:
+                    ratios.append(min(s1, s2) / max(s1, s2))
+            expected = dict(levels=len(rates), gaps=max(0, len(rates)-1),
+                zero_gaps=sum(a == b for a, b in zip(rates, rates[1:])),
+                adjacent_pairs=max(0, len(rates)-2), defined_ratios=len(ratios), undefined_zero_zero=undefined)
+            row = re.search(rf"\({label}\) [^\n]+\n\s*([^\n]+)\n\s*<r> defined = ([\w.+-]+)", section['body'])
+            if not row:
+                problems.append(f"N={n} {label} missing population/ratio row")
+                continue
+            actual = dict((key, int(value)) for key, value in re.findall(r"(\w+)=(\d+)", row[1]))
+            if actual != expected:
+                problems.append(f"N={n} {label} multiset population differs from CSV")
+            measured = float(row[2])
+            expected_ratio = sum(ratios) / len(ratios) if ratios else np.nan
+            # 17 printed significant digits; allow only accumulation-order rounding,
+            # not deletion of small gaps or an eigensolver resolution tolerance.
+            matches = (np.isnan(measured) if np.isnan(expected_ratio)
+                       else np.isfinite(measured) and abs(measured - expected_ratio) <= 2e-14)
+            if not matches:
+                problems.append(f"N={n} {label} ratio differs from independent CSV calculation")
+    return problems
+
+
+def rmt_band_artifact_errors(artifact, eigenvalues_by_n):
+    """Rebuild rate-window membership and every absolute-frequency gap from CSV."""
+    problems = []
+    for n, eigenvalues in eigenvalues_by_n.items():
+        section = re.search(rf"^N={n}: (\d+) eigenvalues(?P<body>[\s\S]*?)(?=^N=\d+:|\Z)", artifact, re.M)
+        if not section or int(section[1]) != len(eigenvalues):
+            problems.append(f"band N={n} missing/wrong input population")
+            continue
+        for w in range(n + 1):
+            # Independent scalar selection, not the producer's band helper.
+            levels = sorted(abs(float(z.imag)) for z in eigenvalues
+                            if abs(-float(z.real) - 2*w*0.05) < 0.3*0.05)
+            gaps = [b-a for a, b in zip(levels, levels[1:])]
+            ratios = [min(a,b)/max(a,b) for a,b in zip(gaps, gaps[1:]) if a != 0 or b != 0]
+            expected = dict(levels=len(levels), gaps=len(gaps), zero_gaps=gaps.count(0),
+                adjacent_pairs=max(0,len(gaps)-1), defined_ratios=len(ratios),
+                undefined_zero_zero=sum(a == b == 0 for a,b in zip(gaps,gaps[1:])))
+            row = re.search(rf"w={w}:\s*([^\n]+)\n\s*<r> defined = ([\w.+-]+)", section['body'])
+            if not row:
+                problems.append(f"band N={n} w={w} missing row")
+                continue
+            actual = dict((key,int(value)) for key,value in re.findall(r"(\w+)=(\d+)",row[1]))
+            if actual != expected:
+                problems.append(f"band N={n} w={w} population differs from CSV")
+            mean = sum(ratios)/len(ratios) if ratios else np.nan
+            printed = float(row[2])
+            if not (np.isnan(printed) if np.isnan(mean) else np.isfinite(printed) and abs(printed-mean) <= 2e-14):
+                problems.append(f"band N={n} w={w} ratio differs from CSV")
+    return problems
+
+
+def rmt_document_table_errors(document, artifact, band_artifact):
+    """Doc tables consume the artifact rows that the independent CSV oracles verify."""
+    problems = []
+    result1 = document.split("## Result 1:")[-1].split("## Result 2:")[0]
+    result2 = document.split("## Result 2:")[-1].split("## Result 3:")[0]
+    result3 = document.split("## Result 3:")[-1].split("## Result 4:")[0]
+    rows = [[cell.strip() for cell in line.strip().strip('|').split('|')]
+            for line in result1.splitlines() if re.match(r"\|\s*\d+\s*\|", line)]
+    band_rows = [[cell.strip() for cell in line.strip().strip('|').split('|')]
+                 for line in result3.splitlines() if re.match(r"\|\s*\d+\s*\|", line)]
+    reflection_rows = [[cell.strip() for cell in line.strip().strip('|').split('|')]
+                       for line in result2.splitlines() if re.match(r"\|\s*\d+\s*\|", line)]
+    expected_rows = []
+    for population in ('a', 'b'):
+        for n in range(2,8):
+            section = re.search(rf"^N={n}: [\s\S]*?(?=^N=\d+:|\Z)", artifact, re.M)
+            match = re.search(rf"\({population}\) [^\n]+\n\s*([^\n]+)\n\s*<r> defined = ([\w.+-]+)", section[0]) if section else None
+            expected_rows.append(([n], match))
+    expected_band_rows = []
+    for n,w in ((4,2),(5,2),(5,3),(6,3),(7,3),(7,4)):
+        section = re.search(rf"^N={n}: [\s\S]*?(?=^N=\d+:|\Z)", band_artifact, re.M)
+        match = re.search(rf"w={w}:\s*([^\n]+)\n\s*<r> defined = ([\w.+-]+)", section[0]) if section else None
+        expected_band_rows.append(([n,w],match))
+    for label, printed, expected in (("pooled", rows, expected_rows), ("band", band_rows, expected_band_rows)):
+        if len(printed) != len(expected):
+            problems.append(f"RMT {label} document row count")
+        for index, (prefix, match) in enumerate(expected):
+            if not match or index >= len(printed):
+                problems.append(f"RMT {label} missing row {prefix}")
+                continue
+            values = dict((k,int(v)) for k,v in re.findall(r"(\w+)=(\d+)",match[1]))
+            counts = prefix + [values[k] for k in ('levels','zero_gaps','defined_ratios','undefined_zero_zero')]
+            try:
+                cells = printed[index]
+                if ([int(x) for x in cells[:-1]] != counts or not np.isfinite(float(cells[-1]))
+                        or abs(float(cells[-1])-float(match[2])) > 2e-14):
+                    problems.append(f"RMT {label} document numeric drift {prefix}")
+            except ValueError:
+                problems.append(f"RMT {label} invalid row {prefix}")
+    if len(reflection_rows) != 6:
+        problems.append("RMT reflection document row count")
+    for index, n in enumerate(range(2, 8)):
+        section = re.search(rf"^N={n}: [\s\S]*?(?=^N=\d+:|\Z)", artifact, re.M)
+        match = re.search(
+            r"positive=(\d+), negative=(\d+), central=(\d+), "
+            r"multiplicity bottleneck error: ([\w.+-]+)", section[0]) if section else None
+        if not match or index >= len(reflection_rows):
+            problems.append(f"RMT reflection missing row N={n}")
+            continue
+        try:
+            cells = reflection_rows[index]
+            integers = [int(cell.replace(',', '')) for cell in cells[:-1]]
+            expected_integers = [n, int(match[1]), int(match[2]), int(match[3])]
+            if integers != expected_integers or float(cells[-1]) != float(match[4]):
+                problems.append(f"RMT reflection document numeric drift N={n}")
+        except ValueError:
+            problems.append(f"RMT reflection invalid row N={n}")
+    return problems
+
+
+def verify_round4_artifacts_and_consumers():
+    root = Path(__file__).resolve().parents[1]
+    entropy_required = ("chosen I/d reference", "largest sampled dS/dt",
+        "algebraic decay-rate pair sum", "not a thermodynamic entropy-production scale",
+        "formal gain-loss generator is not a physical Lindblad channel",
+        "four-qubit GHZ/cat coherence", "all palindrome pairs")
+    entropy_forbidden = ("maximum entropy production", "σ peak", "ρ → ρ_ss", "Jarzynski", "Crooks",
+        "β_eff", "infinite-temperature bath", "T_eff", "Carnot", "η =", "No net entropy production", "heat engine",
+        "Bell pair across the bridge")
+    rmt_required = ("affine-invariant", "no irreducible-class inference", "no cutoff or deduplication",
+        "0/0 = undefined", "mean over defined ratios only", "No standard Poisson/GOE/GUE calibration",
+        "near-degenerate", "undefined_zero_zero", "decay-rate projection reflection",
+        "multiplicity-preserving perfect matching of the full real-part projection",
+        "does not match the full complex multiset")
+    rmt_forbidden = ("def unfold", "NNSD", "Nearest:", "Class (all)", "Class (half)", "classify_r",
+        "spacings = spacings[spacings >", "rates[rates > 1e-10]", "Poisson=0.386")
+    n4_false = ("N=4 positive-Delta proposals are certified defective",)
+    surfaces = {
+        "compute/RCPsiSquared.Core/Symmetry/F44AlgebraicPairRateLogIdentityPi2Inheritance.cs": ((
+            "F44 algebraic pair-rate log identity", "inverse-rate linear coefficient",
+            "No probability/work ensemble or dimensionless thermodynamic exponent",
+            "finite and satisfy 0 ≤ Δd < 2·Σγ"),
+            ("Crooks-like", "β_eff", "EffectiveInverseTemperature", "EmpiricalJarzynskiMean",
+             "IsCrooksFluctuationTheorem", "Jarzynski equality fails")),
+        "compute/RCPsiSquared.Runtime/PolarityArchitecture/F44AlgebraicPairRateLogIdentityPi2InheritanceRegistration.cs": ((
+            "F44AlgebraicPairRateLogIdentityPi2Inheritance", "no probability/work ensemble",
+            "dimensionless thermodynamic exponent", "0≤Δd&lt;2Σγ"),
+            ("F44CrooksLikeRateIdentityPi2Inheritance", "β_eff", "Jarzynski")),
+        "compute/MirrorWorld/Formulas.cs": (("F44 (T1, D08): algebraic pair-rate log identity",
+            "no probability/work ensemble is defined", "finite ordered positive palindromic pair",
+            "finite b > 0", "positive decay variable z=-lambda"),
+            ("F44 (T1, D08): Crooks-like", "β_eff", "Jarzynski")),
+        "docs/proofs/derivations/D08_CROOKS_RATE_IDENTITY.md": ((
+            "Algebraic Pair-Rate Log Identity", "inverse-rate scale", "No probability ratio",
+            "exponent and weighting were not derived from a work protocol",
+            "0 ≤ Δd < 2Σγ", "exact typed API and its linear approximation"),
+            ("β_eff = 1/Σγ", "effective inverse temperature")),
+        "docs/ANALYTICAL_FORMULAS.md": (("F44. Algebraic pair-rate log identity",
+            "algebraic linear coefficient is 1/Σγ", "not a Jarzynski test",
+            "0 <= Delta_d < 2*Σγ", "finite b > 0", "positive decay variable `z=−λ`",
+            "F40. Fragile bridge axis-departure threshold",
+            "does not execute a threshold coalescence or Jordan-rank test",
+            "EP, Hopf, and Jordan character remain OPEN"),
+            ("F44. Crooks-like", "β_eff = 1/Σγ", "F40. Fragile bridge gamma_crit",
+             "coalesces and leaves the axis at a second-order exceptional", "diverges as 1/delta",
+             "b=−γ₀")),
+        "review/OPEN_QUESTIONS_INDEX.md": (("OQ-168", "pure Z-dephasing assigns no bath temperature",
+            "is neither KMS nor quantum detailed balance", "KMS/operator connection open"),
+            ("pure dephasing (infinite-temperature bath)", "pure Z-dephasing is an infinite-temperature bath")),
+        "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs": ((
+            "Returns zero at c = 1/4", "if (c < Threshold)", "if (c < thresh)",
+            "finite b > 0", "if (!double.IsFinite(b) || b <= 0.0)"),
+            ("Returns NaN for c ≤ 1/4", "if (c <= Threshold)", "if (c <= thresh)",
+             "with real (b, c)")),
+        "compute/RCPsiSquared.Runtime/PolarityArchitecture/F95AngleAtQuadraticZeroPi2InheritanceRegistration.cs": ((
+            "positive-b closed form", "finite b &gt; 0", "currently registered callers use b &gt; 0"),
+            ("universal closed form",)),
+        "docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md": ((
+            "finite b > 0", "second-quadrant principal argument π−θ",
+            "b = 0 gives π/2", "neither branch is part of the current F95 API"),
+            ("real coefficients (b, c) ∈ ℝ²",)),
+        "docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md": ((
+            "finite $b>0$", "positive-b polynomial-foundation identity used here"),
+            ("valid for any monic quadratic", "universal angle-emergence formula at any quadratic discriminant zero")),
+        "experiments/BOUNDARY_NAVIGATION.md": ((
+            "finite b > 0", "positive decay variable z=−λ", "angle from the negative λ-axis"),
+            ("for any monic quadratic", "universal polynomial-foundation identity")),
+        "compute/RCPsiSquared.Core/Symmetry/F97CardioidHalfFixedPointPi2Inheritance.cs": ((
+            "real c > b² and finite b>0",), ()),
+        "docs/proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md": ((
+            "real-c, finite-b>0", "framework's b=1/2 case"), ()),
+        "docs/proofs/INCOMPLETENESS_PROOF.md": (("finite-positive-b quadratic angle formula",),
+            ("universal quadratic angle formula",)),
+        "simulations/angle_at_zero_tier1_candidate.py": ((
+            "finite b > 0", "if not math.isfinite(b) or b <= 0:"), ()),
+        "compute/RCPsiSquared.Core/Symmetry/TransitionBridgeF95SiblingClaim.cs": ((
+            "zero at the EP", "if (q == QEp(gEff)) return 0.0", "if (disc > 0.0)",
+            "FRAGILE_BRIDGE spectral-abscissa axis departure; EP/Hopf/Jordan character OPEN",
+            "positive decay variable z=−λ", "b = 4γ₀ &gt; 0"),
+            ("NaN at or below the EP", "if (disc >= 0.0)")),
+        "compute/RCPsiSquared.Runtime/PolarityArchitecture/TransitionBridgeF95SiblingClaimRegistration.cs": ((
+            "genuine F86 toy 2x2 exceptional point", "angle zero at each boundary",
+            "FRAGILE_BRIDGE axis departure has OPEN EP/Hopf/Jordan character"),
+            ("FRAGILE_BRIDGE exceptional point", "FRAGILE_BRIDGE axis departure is a Hopf")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": ((
+            "Delta=0", "N=4/N=5/N=6 positive Delta proposals remain Uncertified"),
+            ("The sampled XXZ Delta control stays on-line yet defects",)),
+        "compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs": ((
+            "Delta=0", "N=4/N=5/N=6 positive Delta proposals remain Uncertified"),
+            ("control stays on-line yet becomes defective",)),
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": ((
+            "N=4", "N=4/N=5/N=6 positive Delta proposals remain Uncertified"),
+            ("the certified N=4 XXZ Delta control defects",)),
+        "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs": ((
+            "CharacterAtDiabolicNear_RejectsUnrelatedLambdaSeed", "new Complex(100, 0)",
+            "N4_DeltaProposals_RequireStrictFullPairCoincidence", "AssertUncertifiedSplit(4, delta, result)",
+            "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, r0.Verdict)"),
+            ("N4_DeltaFlip_ReproducesCommittedTable", "Assert.InRange(r2.Departure, 0.012, 0.030)")),
+        "simulations/results/pt_symmetry_analysis.txt": (("sectorwise P", "full irreducible SRP class remains OPEN",
+            "within palindrome axis", "off palindrome axis; operator relation remains exact",
+            "reports the spectral-abscissa axis departure only",
+            "does not report single-eigenvector Petermann factors or angles",
+            "Degenerate eigenspaces make those values basis-dependent"),
+            ("Class AIII", "chiral phase", "chiral breaking", "No classical EP", "No exceptional point", "Hopf",
+             "Eigenvector coalescence", "MIRROR-PARTNER ANGLE CONTROL",
+             "Petermann factor K and phase rigidity")),
+        "simulations/pt_palindrome_breaking.py": (("trace(L)/dim(L)", "IMAGINARY-AXIS OCCUPANCY",
+            "does not classify the threshold as Hopf, EP, or a Jordan defect",
+            "this sweep does not isolate either change as the cause",
+            "Finite-offset most-unstable-mode check", "No branch continuation is performed"),
+            ("chiral phase", "still a HOPF bifurcation", "changed to SADDLE-NODE",
+             "palindrome IS the protection mechanism", "added damping dominates",
+             "instability-branch check", "unstable branch oscillates")),
+        "simulations/results/pt_palindrome_breaking.txt": (("trace(L)/dim(L)", "IMAGINARY-AXIS OCCUPANCY",
+            "does not classify the threshold as Hopf, EP, or a Jordan defect",
+            "this sweep does not isolate either change as the cause",
+            "Finite-offset most-unstable-mode check", "No branch continuation is performed"),
+            ("chiral phase", "still a HOPF bifurcation", "changed to SADDLE-NODE",
+             "palindrome IS the protection mechanism", "added damping dominates",
+             "instability-branch check", "unstable branch oscillates")),
+        "experiments/PT_SYMMETRY_ANALYSIS.md": (("the final SRP class remains OPEN", "sqrt(p_x) Pi",
+            "Spectral reflection alone does not assign AIII", "m = trace(L)/dim(L)",
+            "imaginary-axis regime", "does not isolate their causal contributions",
+            "2γ - 4epsilon/3", "eigenmode property of the full coupled generator",
+            "EP, Hopf, and Jordan character remain OPEN", "spectral-abscissa statement",
+            "transient norm growth can occur", "not a physical Lindblad channel",
+            "does not report single-eigenvector Petermann factors or eigenvector angles",
+            "basis-dependent inside a degenerate eigenspace", "invariant subspace-level conditioning",
+            "nonstationary spectrum", "trace-preserving stationary eigenvalue remains at lambda = 0",
+            "the stationary zero does not move"),
+            ("The full irreducible SRP class is AIII", "chiral phase",
+             "not the protection mechanism", "-(gamma - epsilon/3)", "Effect (2) dominates",
+             "rules out the prior Hopf", "is a Hopf bifurcation", "is not a Hopf",
+             "the system oscillates but does not grow", "This is the explosion",
+             "CHIRAL (sublattice) symmetry", "chiral symmetry of the full operator structure",
+             "confirming the chiral symmetry", "MIRROR-PARTNER ANGLE CONTROL",
+             "| 1.463 | 402.7", "Above γ_crit: cos(theta) ~ 0.09",
+             "by ANY epsilon > 0: eigenvalues immediately develop nonzero Re parts",
+             "The eigenvalues move off the imaginary axis")),
+        "hypotheses/FRAGILE_BRIDGE.md": (("spectral-abscissa threshold γ_crit",
+            "EP, Hopf, and Jordan character remain OPEN",
+            "does not perform branch continuation or execute a strict threshold coalescence or Jordan-rank certificate",
+            "If a limit exists, is it 1/2?", "have not converged",
+            "three finite-coupling frequency samples do not determine a limiting frequency",
+            "Which mode geometry produces the turnover remains open",
+            "derived partner gap adds no independent evidence",
+            "across-axis partner −λ* is not supplied by Π alone"),
+            ("not a Hopf", "is a Hopf bifurcation", "genuine EP at real γ_crit",
+             "γ_crit × J_bridge → 0.50", "Perfect coupling between gain and loss = immediate instability",
+             "saddle-node in character", "the two chains merge into one",
+             "Dimer formation, destabilization", "| Resonance |")),
+        "simulations/fragile_bridge_ep_signature.py": ((
+            "spectral-abscissa axis departure", "does not perform branch continuation",
+            "single-vector K not reported for a degenerate eigenspace",
+            "derived from max Re and supplies no independent EP evidence",
+            "near-threshold simplicity gate: nearest gap > 1e-10",
+            "if gap <= SIMPLE_MODE_GAP_TOL:", "raise RuntimeError("),
+            ("tracked axis departure", "secondary bump", "nearest-neighbour gap")),
+        "simulations/results/fragile_bridge_ep_signature.txt": ((
+            "spectral-abscissa axis departure", "not branch continuation",
+            "single-vector K not reported for a degenerate eigenspace",
+            "derived from max Re and supplies no independent EP evidence",
+            "near-threshold simplicity gate: nearest gap > 1e-10"),
+            ("tracked axis departure", "secondary bump", "nearest-neighbour gap")),
+        "hypotheses/ZERO_IS_THE_MIRROR.md": (("spectral-abscissa axis departure",
+            "off-axis quartets appear", "No branch continuation"),
+            ("tracked axis departure", "tracked pair")),
+        "hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md": (("spectral-abscissa axis departure",
+            "performs no branch continuation", "turnover mechanism remains open"),
+            ("tracked axis departure", "tracked mirror pair", "tracked gain-loss instability")),
+        "docs/proofs/PROOF_F86A_EP_MECHANISM.md": (("spectral-abscissa axis departure",
+            "EP character OPEN"), ("tracked axis crossing",)),
+        "experiments/F86_EP_THROUGH_THE_CLOCK.md": (("separate spectral-abscissa axis departure",
+            "EP, Hopf, and Jordan character remain OPEN", "Only the toy 2×2 end has the stated discriminant"),
+            ("is a Hopf bifurcation", "SEPARATE genuine EP", "two SEPARATE genuine EPs",
+             "the dynamics escape into self-sustained oscillation", "Hopf can push")),
+        "simulations/memory_fate_across_the_takt.py": (("linear amplitude GROWS",
+            "EP, Hopf, and Jordan character remain OPEN"),
+            ("real gain-loss Hopf", "Hopf / runaway", "the Hopf, the runaway")),
+        "simulations/entropy_production.py": (entropy_required, entropy_forbidden),
+        "simulations/results/entropy_production.txt": (entropy_required, entropy_forbidden),
+        "experiments/ENTROPY_PRODUCTION.md": (("no thermodynamic interpretation is established",
+            "not an inverse temperature", "run does not establish a unique stationary state",
+            "not a Jarzynski test", "largest sampled dS/dt", "not a continuum-time peak",
+            "grows logarithmically as t approaches zero from above",
+            "both a Z-dephasing pointer state and an eigenstate of this Hamiltonian",
+            "Z-diagonality alone is not enough", "|01⟩⟨01| initially has no Z-basis coherence",
+            "root refinement gives CΨ=1/4 at t ≈ 0.747",
+            "both Z-dephasing and the Hamiltonian preserve this Bell+ population",
+            "no variance-peak time is defined", "four-qubit GHZ/cat coherence",
+            "not a Bell pair"),
+            ("The rate sum is a thermodynamic entropy-production scale", "reports a peak dS/dt",
+             "reported dS/dt peak", "Only initial states with coherence",
+             "CΨ crosses 1/4 at t ≈ 0.51", "Max variance: 0.250000 at t = 0.01",
+             "Bell pair across the bridge")),
+        "compute/RCPsiSquared.Core.Tests/F86/F86PetermannProbe.cs": ((
+            "spectral-abscissa axis departure", "EP/Hopf/Jordan character",
+            "single-eigenvector K inside a degenerate eigenspace is basis-dependent"),
+            ("genuine EP on the real γ axis",)),
+        "compute/RCPsiSquared.Core/F86/PolarityInheritanceLink.cs": ((
+            "FRAGILE_BRIDGE's spectral-abscissa axis departure", "EP character OPEN"),
+            ("FRAGILE_BRIDGE's tracked axis departure",)),
+        "compute/RCPsiSquared.Core/F86/F86KnowledgeBase.cs": ((
+            "FRAGILE_BRIDGE spectral-abscissa axis departure", "EP character OPEN"),
+            ("tracked real-gamma axis departure",)),
+        "compute/RCPsiSquared.Core.Tests/F86/LocalGlobalEpLinkTests.cs": ((
+            "spectral-abscissa axis departure", "tracked real-gamma axis departure"),
+            ()),
+        "compute/RCPsiSquared.Core.Tests/Symmetry/TransitionBridgeF95SiblingClaimTests.cs": ((
+            "FRAGILE_BRIDGE spectral-abscissa axis departure", "tracked axis departure"),
+            ()),
+        "experiments/README.md": (("no temperature, heat/work, efficiency, or unique global stationary state is inferred",
+            "full SRP class remains OPEN", "not a Jarzynski observable", "r = +0.987",
+            "causal contributions are not isolated", "real-γ spectral-abscissa axis departure"),
+            ("The rate sum is a thermodynamic entropy-production scale", "+0.988",
+             "stabilizes the sampled system") + n4_false),
+        "simulations/rmt_analysis.py": (rmt_required, rmt_forbidden),
+        "simulations/results/rmt_analysis.txt": (rmt_required, rmt_forbidden),
+        "experiments/RANDOM_MATRIX_THEORY.md": (("No explicit spectral unfolding was applied",
+            "only approximately robust when the mean density varies slowly",
+            "not invariant under general smooth reparameterizations", "0/0 is undefined",
+            "no standard Poisson/GOE/GUE calibration", "no cutoff or deduplication",
+            "The F1 palindrome (the centered spectrum has exact ± pairing)",
+            "Result 2: Centered Decay-Rate Reflection Check",
+            "multiplicity-preserving perfect matching", "does not match the imaginary parts",
+            "does not isolate block mixing as the cause",
+            "does not measure whether that pairing changes the pooled statistic"),
+            ("rank unfolding supplies a valid NNSD", "spacing ratios are invariant under nonlinear maps",
+             "The chiral symmetry (centered spectrum has exact ± pairing)",
+             "chiral symmetry Liouvillian eigenvalues",
+             "Result 2: Exact Centered Spectral Pairing", "What does the work is the conserved structure",
+             "it is not the one that suppresses repulsion here")),
+        "simulations/rmt_goe_hint_verdict.py": (("average-light bands", "zero frequencies and multiplicities retained",
+            "no standard-ensemble calibration", "half-width 0.15", "0/0 undefined"),
+            ("classify_r", "np.unique", "np.round", "poisson_band", "XY-weight-w sector")),
+        "simulations/results/rmt_band_multiset.txt": (("average-light bands", "zero frequencies and multiplicities retained",
+            "no standard-ensemble calibration", "half-width 0.15", "0/0 undefined"),
+            ("Poisson <r>=", "WITHIN Poisson band", "GOE-like", "XY-weight-w sector")),
+        "docs/WHAT_WE_FOUND.md": (("cell costs form a 2γ-spaced ladder",
+            "Hamiltonian mixing can make non-integer", "need not lie on a 2γ grid",
+            "J_bridge/J in [1.8, 2.0]", "reaches 0.508 at J_bridge=100",
+            "does not determine its limiting value", "spectral-abscissa axis departure",
+            "independently selects max Re at each γ"),
+            ("interacting eigenmode rates form a 2γ-spaced ladder",
+             "γ_crit × J_bridge = 0.50", "approaches a constant: 0.50",
+             "optimal region (twice the internal coupling)", "tracked oscillatory axis departure",
+             "tracked mirror pair")),
+        "experiments/F89_BRANCH_LOCUS_PALINDROME.md": (("N=4 Delta=0 control", "is certified diabolic",
+            "sampled positive-Delta proposals remain split", "neither persistence of an on-line degeneracy nor defective character"), n4_false),
+        "experiments/F89_PATH_K_DIABOLIC.md": (("at N=4/N=5/N=6 only the Delta=0 controls are Diabolic (alg=geo=2)",
+            "Every sampled positive-Delta proposal is Uncertified", "no positive-Delta character is strictly certified at N=4 through N=7"), n4_false),
+        "review/EMERGING_QUESTIONS.md": (("PT-like phenomenology, full class OPEN",
+            "not licensed instances of a computed global AIII class",
+            "No analytic continuation connecting them and no global AIII classification has been established",
+            "does not identify K₁ with the full Liouvillian Π"), ("Π class AIII chiral", "K_1 = Π on H_1 sine-mode basis")),
+        "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (("Exact N=4 Delta=0 twin-scalar restriction and Tier-2 residual interpretation",
+            "their character and departure are Uncertified", "Only Delta=0 passes the strict full-block double-root/correspondence test"), n4_false),
+        "hypotheses/README.md": (("At Delta=0 the F89 path-3 octic crossing is certified diabolic",
+            "sampled positive-Delta proposals are split and Uncertified",
+            "no diabolic-to-defective flip or general integrability protection is established",
+            "spectral abscissa leaves zero and off-axis quartets appear"),
+            n4_false + ("tracked pair leaves the imaginary axis",)),
+    }
+    fragile_tail_surfaces = {
+        "compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md": ((
+            "FRAGILE_BRIDGE spectral-abscissa axis departure whose EP character is OPEN",),
+            ("FRAGILE_BRIDGE tracked axis crossing",)),
+        "docs/ANALYTICAL_FORMULAS.md": (("F19. Fragile bridge sampled large-coupling tail",
+            "do not establish that a limit exists or that its value is 0.50",
+            "Does not replace: an asymptotic analysis"),
+            ("F19. Fragile bridge asymptotic constant", "gamma_crit * J_bridge -> 0.50")),
+        "docs/GLOSSARY.md": (("sampled maximum is bracketed", "0.578 at J_bridge=10",
+            "0.508 at 100 and has not converged", "spectral abscissa leaves zero",
+            "off-axis quartets appear"),
+            ("optimal (2x internal coupling)", "Asymptotic constant γ_crit x J_bridge = 0.50",
+             "tracked pair leaves the imaginary axis")),
+        "review/OPEN_QUESTIONS_INDEX.md": (("if a limit exists, is it 1/2?",
+            "still decreases from 0.578 at J_bridge=10 to 0.508 at 100"),
+            ("proposed large-coupling product limit γ_crit × J_bridge → 1/2",)),
+        "review/OPEN_QUESTIONS_INDEX_PROPOSAL_math-proof.md": (("if so, is its limit 1/2?",
+            "have not converged"),
+            ("computed quantum large-bridge asymptote γ_crit × J_bridge → 0.50",)),
+    }
+    for path, (required_add, forbidden_add) in fragile_tail_surfaces.items():
+        required, forbidden = surfaces.get(path, ((), ()))
+        surfaces[path] = (required + required_add, forbidden + forbidden_add)
+    physics_scope_surfaces = {
+        "compute/RCPsiSquared.Core/Symmetry/F2W1DispersionPi2Inheritance.cs": ((
+            "zero-frequency decaying mode", "at λ = −2γ", "not stationary"),
+            ("zero-frequency stationary mode",)),
+        "docs/THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md": ((
+            "basis-cell costs", "eigenmode expectation", "eigenmode decay is not generally quantised"),
+            ("decay quantised in units of γ₀", "clean discrete ladder exists only because γ is uniform")),
+        "review/OPEN_QUESTIONS_INDEX_PROPOSAL_math-proof.md": ((
+            "gap=2γ requires the D6 coupling threshold", "weak-coupling mixed modes lie below that floor"),
+            ("spectral gap setting (one absorption quantum)",)),
+        "compute/RCPsiSquared.Core/F86/DressedModeWeightClaim.cs": ((
+            "Tier 2 empirical", "does not identify Q_peak with an exceptional point",
+            "does not identify Q_peak with an EP or isolate a causal eigenvalue pair"),
+            ("generalised exceptional-point resonance condition", "generalised EP resonance")),
+        "docs/ANALYTICAL_FORMULAS.md": ((
+            "Tier-2 empirical weight redistribution", "does not identify the full block's Q_peak",
+            "any full-block EP mechanism remain open"),
+            ("Q_peak is a generalised exceptional-point resonance condition",)),
+        "experiments/COCKPIT_UNIVERSALITY.md": ((
+            "old blanket Petermann null is refuted", "pure Z-dephasing Liouvillians can be strongly non-normal",
+            "not basis-invariant inside a degenerate eigenspace"),
+            ("K_P ~ 1", "relevant only in gain-loss")),
+        "simulations/cockpit_validation.py": ((
+            "old K_P ~ 1 pure-dephasing null is refuted",
+            "single-vector K_P is meaningful only for a simple isolated mode",
+            "invariant-subspace or Jordan diagnostics"),
+            ("And it's K_P ~ 1 anyway",)),
+        "simulations/results/cockpit_validation.txt": ((
+            "old K_P ~ 1 pure-dephasing null is refuted",
+            "single-vector K_P is meaningful only for a simple isolated mode",
+            "invariant-subspace or Jordan diagnostics"),
+            ("And it's K_P ~ 1 anyway",)),
+        "review/OPEN_QUESTIONS_INDEX_PROPOSAL_hardware-test.md": ((
+            "blanket Petermann null is refuted", "needs-human / open",
+            "single-vector Petermann factors apply only to simple isolated modes"),
+            ("confirming eigenvector near-orthogonality",)),
+        "experiments/FILLING_THRESHOLD_CHAOS.md": ((
+            "separately sampled realization ensembles", "not a within-realization intervention",
+            "does not thereby make the full Liouvillian a quadratic free-fermion generator",
+            "fixed interacting-disorder distribution, not one fixed disorder realization"),
+            ("At the same Liouvillian", "same Liouvillian's dilute-vs-dense",
+             "at fixed interacting disorder")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": ((
+            "separately sampled realization ensembles", "not a within-realization causal intervention",
+            "does not classify the Z-dephasing Liouvillian itself"),
+            ("The SAME Liouvillian's",)),
+        "simulations/f89_zz_break_gate.py": ((
+            "historical locator without a positive-Delta character verdict",
+            "strict full-block coincidence/correspondence tolerance",
+            "positive-Delta proposals are Uncertified",
+            "neither persistence, defectiveness, nor lifting",
+            "pair correspondence not independently certified"),
+            ("Delta>0 off-axis/defective", "BECOMES DEFECTIVE: breaking free-fermion",
+             "FREE-FERMION INTEGRABILITY WAS THE PROTECTION",
+             "the EP has MOVED OFF the real axis", "genuine defective Jordan EP",
+             "OFF-AXIS EP LOCATOR", "TRUE coalescence")),
+        "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": ((
+            "historical locator without a positive-Delta character verdict",
+            "positive-Delta sweep supplies numerical pair proposals only",
+            "strict current verdict is owned by XxzDeltaFlipTests"),
+            ("gate-first; Stage 0 reproduces", "The why probes (gate-first")),
+    }
+    for path, (required_add, forbidden_add) in physics_scope_surfaces.items():
+        required, forbidden = surfaces.get(path, ((), ()))
+        surfaces[path] = (required + required_add, forbidden + forbidden_add)
+    pooled_consumers = ("experiments/RANDOM_MATRIX_THEORY.md", "experiments/README.md",
+        "experiments/SPECTRAL_FORM_FACTOR.md", "compute/RCPsiSquared.Compute/README.md",
+        "docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md", "docs/KMS_DETAILED_BALANCE.md")
+    for path in pooled_consumers:
+        required, forbidden = surfaces.get(path, ((), ()))
+        surfaces[path] = (required + ("raw-multiset", "zero gaps", "0/0"), forbidden + (
+            "0.383", "0.36 to 0.39", "0.36-0.39", "pooled finite-N mean lies near the Poisson reference",
+            "sampled statistics lie near the Poisson reference"))
+    for path, (required, forbidden) in surfaces.items():
+        source = (root / path).read_text(encoding="utf-8")
+        baseline = set(task8_text_errors(source, required, forbidden))
+        check(f"Round4 live artifact/consumer: {path}", not baseline, ascii("; ".join(sorted(baseline))))
+        for phrase in required:
+            # Normalize first, so multiline Markdown/C# literals remain mutation-addressable.
+            normalized = " ".join(source.replace("**", "").replace("///", "")
+                                  .replace('" +', "").replace('"', "").split()).casefold()
+            changed = normalized.replace(phrase.casefold(), "MISSING")
+            check(f"Round4 missing boundary {ascii(phrase)}: {path}", changed != normalized and
+                  bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+        for phrase in forbidden:
+            check(f"Round4 forbidden variant {ascii(phrase)}: {path}",
+                  bool(set(task8_text_errors(source + " " + phrase, required, forbidden)) - baseline))
+
+    f44_path = "compute/RCPsiSquared.Core/Symmetry/F44AlgebraicPairRateLogIdentityPi2Inheritance.cs"
+    f44_source = (root / f44_path).read_text(encoding="utf-8")
+    f44_baseline = set(f44_ordered_pair_api_errors(f44_source))
+    check("F44 exact and linear APIs enforce finite ordered-pair domain",
+          not f44_baseline, ascii("; ".join(sorted(f44_baseline))))
+    for name, old, new in (
+        ("negative Delta_d accepted", "deltaD < 0.0 ||", ""),
+        ("non-finite Delta_d accepted", "!double.IsFinite(deltaD) ||", ""),
+        ("linear API bypasses shared domain", "ValidateOrderedPairDomain(deltaD, totalGamma);", "",),
+    ):
+        changed = f44_source.replace(old, new, 1)
+        check(f"F44 domain mutation rejects {name}", changed != f44_source and
+              bool(set(f44_ordered_pair_api_errors(changed)) - f44_baseline))
+
+    mirrorworld_path = "compute/MirrorWorld/Formulas.cs"
+    mirrorworld_source = (root / mirrorworld_path).read_text(encoding="utf-8")
+    mirror_f44_baseline = set(mirrorworld_f44_ordered_pair_api_errors(mirrorworld_source))
+    check("MirrorWorld F44 enforces finite ordered-pair domain", not mirror_f44_baseline,
+          ascii("; ".join(sorted(mirror_f44_baseline))))
+    changed = mirrorworld_source.replace("deltaD < 0.0 ||", "", 1)
+    check("MirrorWorld F44 mutation rejects negative Delta_d", changed != mirrorworld_source and
+          bool(set(mirrorworld_f44_ordered_pair_api_errors(changed)) - mirror_f44_baseline))
+
+    f95_path = "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs"
+    f95_source = (root / f95_path).read_text(encoding="utf-8")
+    f95_baseline = set(f95_positive_b_api_errors(f95_source))
+    check("F95 typed API enforces finite positive b", not f95_baseline,
+          ascii("; ".join(sorted(f95_baseline))))
+    changed = f95_source.replace("b <= 0.0", "b == 0.0", 1)
+    check("F95 typed mutation rejects negative b", changed != f95_source and
+          bool(set(f95_positive_b_api_errors(changed)) - f95_baseline))
+    mirror_f95_baseline = set(f95_positive_b_api_errors(mirrorworld_source, mirrorworld=True))
+    check("MirrorWorld F95 enforces finite positive b", not mirror_f95_baseline,
+          ascii("; ".join(sorted(mirror_f95_baseline))))
+    changed = mirrorworld_source.replace("b <= 0.0", "b == 0.0", 1)
+    check("MirrorWorld F95 mutation rejects negative b", changed != mirrorworld_source and
+          bool(set(f95_positive_b_api_errors(changed, mirrorworld=True)) - mirror_f95_baseline))
+    f95_python = (root / "simulations/angle_at_zero_tier1_candidate.py").read_text(encoding="utf-8")
+    f95_python_baseline = set(f95_python_positive_b_api_errors(f95_python))
+    check("F95 Python producer enforces finite positive b", not f95_python_baseline,
+          ascii("; ".join(sorted(f95_python_baseline))))
+    changed = f95_python.replace("b <= 0:", "b == 0:", 1)
+    check("F95 Python producer mutation rejects negative b", changed != f95_python and
+          bool(set(f95_python_positive_b_api_errors(changed)) - f95_python_baseline))
+
+    variants = {
+        "compute/RCPsiSquared.Core/Symmetry/F44AlgebraicPairRateLogIdentityPi2Inheritance.cs": (
+            "Crooks-like", "β_eff", "EffectiveInverseTemperature", "EmpiricalJarzynskiMean",
+            "IsCrooksFluctuationTheorem", "Jarzynski equality fails"),
+        "compute/RCPsiSquared.Runtime/PolarityArchitecture/F44AlgebraicPairRateLogIdentityPi2InheritanceRegistration.cs": (
+            "F44CrooksLikeRateIdentityPi2Inheritance", "β_eff", "Jarzynski"),
+        "compute/MirrorWorld/Formulas.cs": ("F44 (T1, D08): Crooks-like", "β_eff", "Jarzynski"),
+        "docs/proofs/derivations/D08_CROOKS_RATE_IDENTITY.md": ("β_eff = 1/Σγ", "effective inverse temperature"),
+        "docs/ANALYTICAL_FORMULAS.md": ("F44. Crooks-like", "β_eff = 1/Σγ"),
+        "review/OPEN_QUESTIONS_INDEX.md": ("pure dephasing (infinite-temperature bath)",
+            "pure Z-dephasing is an infinite-temperature bath"),
+        "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs": (
+            "Returns NaN for c ≤ 1/4", "if (c <= Threshold)", "if (c <= thresh)"),
+        "compute/RCPsiSquared.Core/Symmetry/TransitionBridgeF95SiblingClaim.cs": (
+            "NaN at or below the EP", "if (disc >= 0.0)"),
+        "compute/RCPsiSquared.Runtime/PolarityArchitecture/TransitionBridgeF95SiblingClaimRegistration.cs": (
+            "FRAGILE_BRIDGE exceptional point", "FRAGILE_BRIDGE axis departure is a Hopf"),
+        "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": ("The sampled XXZ Delta control stays on-line yet defects",),
+        "compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs": ("control stays on-line yet becomes defective",),
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": ("the certified N=4 XXZ Delta control defects",),
+        "simulations/results/pt_symmetry_analysis.txt": ("Class AIII", "chiral breaking", "No classical EP"),
+        "simulations/pt_palindrome_breaking.py": ("chiral phase", "still a HOPF bifurcation", "changed to SADDLE-NODE", "palindrome IS the protection mechanism"),
+        "simulations/results/pt_palindrome_breaking.txt": ("chiral phase", "still a HOPF bifurcation", "changed to SADDLE-NODE", "palindrome IS the protection mechanism"),
+        "experiments/PT_SYMMETRY_ANALYSIS.md": ("The full irreducible SRP class is AIII",
+            "rules out the prior Hopf", "is a Hopf bifurcation", "is not a Hopf"),
+        "hypotheses/FRAGILE_BRIDGE.md": ("not a Hopf", "is a Hopf bifurcation", "genuine EP at real γ_crit"),
+        "experiments/F86_EP_THROUGH_THE_CLOCK.md": ("is a Hopf bifurcation", "SEPARATE genuine EP",
+            "two SEPARATE genuine EPs", "the dynamics escape into self-sustained oscillation", "Hopf can push"),
+        "simulations/memory_fate_across_the_takt.py": ("real gain-loss Hopf", "Hopf / runaway",
+            "the Hopf, the runaway"),
+        "simulations/entropy_production.py": ("maximum entropy production", "No net entropy production", "Carnot"),
+        "simulations/results/entropy_production.txt": ("maximum entropy production", "No net entropy production", "Carnot"),
+        "experiments/ENTROPY_PRODUCTION.md": ("The rate sum is a thermodynamic entropy-production scale",),
+        "experiments/README.md": ("The rate sum is a thermodynamic entropy-production scale", "N=4 positive-Delta proposals are certified defective", "+0.988", "stabilizes the sampled system"),
+        "simulations/rmt_analysis.py": ("def unfold", "NNSD", "classify_r"),
+        "simulations/results/rmt_analysis.txt": ("NNSD", "Class (all)", "Nearest: Poisson"),
+        "experiments/RANDOM_MATRIX_THEORY.md": ("rank unfolding supplies a valid NNSD", "spacing ratios are invariant under nonlinear maps"),
+        "docs/WHAT_WE_FOUND.md": ("interacting eigenmode rates form a 2γ-spaced ladder",),
+        "experiments/F89_BRANCH_LOCUS_PALINDROME.md": ("N=4 positive-Delta proposals are certified defective",),
+        "experiments/F89_PATH_K_DIABOLIC.md": ("N=4 positive-Delta proposals are certified defective",),
+        "review/EMERGING_QUESTIONS.md": ("Π class AIII chiral", "K_1 = Π on H_1 sine-mode basis"),
+        "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": ("N=4 positive-Delta proposals are certified defective",),
+        "hypotheses/README.md": ("N=4 positive-Delta proposals are certified defective",),
+    }
+    for path, old_claims in variants.items():
+        source = (root / path).read_text(encoding="utf-8")
+        required, forbidden = surfaces.get(path, ((), ()))
+        baseline = set(task8_text_errors(source, required, forbidden))
+        for old in old_claims:
+            check(f"Round4 consumer/artifact rejects {ascii(old)}: {path}",
+                  bool(set(task8_text_errors(source + " " + old, required, forbidden)) - baseline))
+    for name, markers in (
+        ("pt_symmetry_analysis", ("full irreducible SRP class remains OPEN", "off palindrome axis; operator relation remains exact")),
+        ("pt_palindrome_breaking", ("one-parameter composite perturbation sweep", "does not classify the threshold as Hopf, EP, or a Jordan defect")),
+        ("entropy_production", ("chosen I/d reference", "not a thermodynamic entropy-production scale", "not a physical Lindblad channel")),
+        ("rmt_analysis", ("affine-invariant", "no irreducible-class inference")),
+        ("spectral_form_factor", ("Only the raw oscillation-frequency SFF is computed", "no decay-weighted or connected estimator is defined")),
+        ("fragile_bridge_ep_signature", ("spectral-abscissa axis departure", "not branch continuation", "A single-vector K is omitted wherever the selected eigenvalue is degenerate")),
+    ):
+        producer_path = root / "simulations" / (name + ".py")
+        artifact_path = root / "simulations/results" / (name + ".txt")
+        producer = producer_path.read_text(encoding="utf-8")
+        artifact = artifact_path.read_text(encoding="utf-8")
+        path_baseline = set(producer_artifact_path_errors(producer, producer_path, artifact_path))
+        check(f"Round4 {name} producer writes canonical artifact path", not path_baseline,
+              ascii("; ".join(sorted(path_baseline))))
+        output_literal = f'"{name}.txt"'
+        literal_index = producer.rfind(output_literal)
+        changed_path = (producer[:literal_index] + f'"{name}_moved.txt"' +
+                        producer[literal_index + len(output_literal):]) if literal_index >= 0 else producer
+        check(f"Round4 output-path mutation rejects {name}", changed_path != producer and
+              bool(set(producer_artifact_path_errors(changed_path, producer_path, artifact_path)) - path_baseline))
+        baseline = set(emitted_artifact_claim_errors(producer, artifact, markers))
+        check(f"Round4 protected emitted sentences fresh in {name} artifact", not baseline, ascii("; ".join(sorted(baseline))))
+        for marker in markers:
+            changed_artifact = artifact.replace(marker, "STALE_OUTPUT")
+            changed_producer = producer.replace(marker, marker + " NEW_SCOPE_NOT_IN_ARTIFACT")
+            check(f"Round4 artifact-only mutation rejects {name}: {ascii(marker)}", changed_artifact != artifact and
+                  bool(set(emitted_artifact_claim_errors(producer, changed_artifact, markers)) - baseline))
+            check(f"Round4 producer-only mutation requires regenerated {name}: {ascii(marker)}", changed_producer != producer and
+                  bool(set(emitted_artifact_claim_errors(changed_producer, artifact, markers)) - baseline))
+        if name == "pt_palindrome_breaking":
+            matcher_source = (root / "simulations/pt_multiset_matching.py").read_text(encoding="utf-8")
+            integrity_baseline = set(phase3_artifact_integrity_errors(producer, artifact, matcher_source))
+            check("Round4 Phase-3 deterministic artifact binds source and payload", not integrity_baseline,
+                  ascii("; ".join(sorted(integrity_baseline))))
+            changed_source = producer + "\n# SOURCE_MUTATION"
+            changed_numeric = artifact.replace("0.1873101", "0.9999999", 1)
+            check("Round4 Phase-3 source mutation requires regenerated artifact",
+                  bool(set(phase3_artifact_integrity_errors(changed_source, artifact, matcher_source)) - integrity_baseline))
+            check("Round4 Phase-3 matcher mutation requires regenerated artifact",
+                  bool(set(phase3_artifact_integrity_errors(producer, artifact, matcher_source + "\n# MATCHER_MUTATION")) - integrity_baseline))
+            check("Round4 Phase-3 numerical artifact mutation is rejected", changed_numeric != artifact and
+                  bool(set(phase3_artifact_integrity_errors(producer, changed_numeric, matcher_source)) - integrity_baseline))
+    # Recompute from exported eigenvalues, independently of the producer's spacing helper.
+    inputs = {}
+    for n in range(2, 8):
+        lines = (root / f"simulations/results/rmt_eigenvalues_N{n}.csv").read_text(encoding="utf-8").splitlines()[1:]
+        pairs = [[float(x.replace(",", ".")) for x in line.split("\t")] for line in lines if line.strip()]
+        inputs[n] = np.array([real + 1j * imaginary for real, imaginary in pairs])
+    artifact = (root / "simulations/results/rmt_analysis.txt").read_text(encoding="utf-8")
+    baseline = set(rmt_artifact_row_errors(artifact, inputs))
+    check("Round4 RMT artifact rows agree with independent CSV calculation", not baseline, ascii("; ".join(baseline)))
+    for name, changed in (
+        ("wrong N3 ratio", artifact.replace("<r> defined = 0.22260363264213059", "<r> defined = 0.7777", 1)),
+        ("zero gaps deleted", artifact.replace("zero_gaps=1340", "zero_gaps=0", 1)),
+        ("undefined counted as defined", artifact.replace("defined_ratios=3107, undefined_zero_zero=987", "defined_ratios=4094, undefined_zero_zero=0", 1)),
+        ("lower-half population drift", artifact.replace("levels=1973", "levels=1900", 1)),
+        ("wrong N7 population", artifact.replace("N=7: 16384 eigenvalues", "N=7: 100 eigenvalues", 1)),
+        ("missing N6 row", artifact.replace("N=6: 4096 eigenvalues", "MISSING N6", 1)),
+    ):
+        check(f"Round4 RMT CSV provenance mutation rejects {name}", changed != artifact and
+              bool(set(rmt_artifact_row_errors(changed, inputs)) - baseline))
+    band_artifact = (root / "simulations/results/rmt_band_multiset.txt").read_text(encoding="utf-8")
+    baseline = set(rmt_band_artifact_errors(band_artifact, inputs))
+    check("RMT band artifact agrees with independent CSV calculation", not baseline, ascii("; ".join(baseline)))
+    for name, old, new in (("deduplicated band", "levels=1710", "levels=414"),
+        ("rounded-away zero gap", "zero_gaps=17", "zero_gaps=0"),
+        ("wrong band ratio", "0.19686572210722628", "0.283"),
+        ("missing endpoint band", "w=0:", "MISSING:")):
+        changed = band_artifact.replace(old, new, 1)
+        check(f"RMT band CSV mutation rejects {name}", changed != band_artifact and
+              bool(set(rmt_band_artifact_errors(changed, inputs)) - baseline))
+    document = (root / "experiments/RANDOM_MATRIX_THEORY.md").read_text(encoding="utf-8")
+    baseline = set(rmt_document_table_errors(document, artifact, band_artifact))
+    check("RMT document tables consume executed artifact rows", not baseline, ascii("; ".join(baseline)))
+    for old,new in (("| 16384 | 136 | 16366 | 16 |", "| 16384 | 136 | 16382 | 0 |"),
+        ("0.2021456120489688 |", "0.383 |"), ("0.2021456120489688 |", "nan |"),
+        ("| 7 | 3 | 1710 |", "| 7 | 3 | 414 |")):
+        changed = document.replace(old,new,1)
+        check(f"RMT document numeric mutation rejects {old}", changed != document and
+              bool(set(rmt_document_table_errors(changed,artifact,band_artifact))-baseline))
+
+
 def route_b_n6_current_truth_errors(source, label):
     """Return N6 provenance/count defects; source has normalized Markdown/C# whitespace."""
     marker = "Route B is complete at N=6 as a parity-labelled direct-t inventory"
@@ -747,6 +2246,8 @@ def verify_route_b_a2_current_truth():
     verify_poisson_inference_current_truth()
     verify_csr_producer_and_crossover_current_truth()
     verify_sff_windows_and_current_boundaries()
+    verify_task8_current_truth()
+    verify_round4_artifacts_and_consumers()
     root = Path(__file__).resolve().parents[1]
     surfaces = (
         ("primary", "docs/THE_DOUBLE_ROOT.md"),
@@ -767,6 +2268,7 @@ def verify_route_b_a2_current_truth():
         source = (root / relative_path).read_text(encoding="utf-8")
         # Join C# string literals and whitespace within this file only.
         source = " ".join(source.replace('" +', "").replace('"', "").replace("**", "").split())
+        baseline = set(route_b_n6_current_truth_errors(source, label))
         check(f"Route B {label}: N6 executed counts and provenance",
               not route_b_n6_current_truth_errors(source, label),
               ascii("; ".join(route_b_n6_current_truth_errors(source, label))))
@@ -778,16 +2280,16 @@ def verify_route_b_a2_current_truth():
             ("exact rank promotion", source.replace("EpCharacterStable", "EpCharacterStable (an exact rank proof)")),
         ):
             check(f"Route B N6 {label} mutation rejects {mutation_name}",
-                  bool(route_b_n6_current_truth_errors(wrong_source, label)))
+                  bool(set(route_b_n6_current_truth_errors(wrong_source, label)) - baseline))
         if label == "primary":
             wrong_counts = source.replace("266 Diabolic; 0 Defective", "200 Diabolic; 66 Defective")
             wrong_proof = source.replace(
                 "stable numerical character from the isolated two-dimensional restriction; it is not an exact rank proof",
                 "an exact rank proof")
             check("Route B N6 mutation rejects 200 Diabolic / 66 Defective",
-                  bool(route_b_n6_current_truth_errors(wrong_counts, label)))
+                  bool(set(route_b_n6_current_truth_errors(wrong_counts, label)) - baseline))
             check("Route B N6 mutation rejects numerical character promoted to exact rank",
-                  bool(route_b_n6_current_truth_errors(wrong_proof, label)))
+                  bool(set(route_b_n6_current_truth_errors(wrong_proof, label)) - baseline))
         required = ["Route B is complete at N=5 as a root-by-root inventory",
                     "PSC1", "S1", "all 34 stable EpCharacter",
                     "No exact fallback was used", "not an all-N theorem"]
@@ -806,7 +2308,7 @@ def verify_route_b_a2_current_truth():
                          "three isolating radii", "neither is a local Jordan character test"]
         surface_forbidden = forbidden
         if label == "path experiment":
-            required.append("N=6 Route B is complete as the parity-labelled direct-t A2 inventory")
+            required.append("N=6 Route B is the parity-labelled direct-t A2 inventory (266 loci, 133 per parity, all Diabolic with alg=geo=2)")
             surface_forbidden += (
                 "higher-N completeness remains open",
                 "positive-real R-odd A2 locus; its Jordan character remains open",

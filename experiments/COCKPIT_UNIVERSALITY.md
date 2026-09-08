@@ -336,9 +336,12 @@ fragile.
    second derivatives of sparse data. Reliable curvature estimation
    requires 50+ densely spaced time points.
 
-5. **Petermann factor is uninteresting here.** K_P ~ 1 (the Petermann factor measures how much a non-normal operator's eigenvectors overlap; K_P = 1 means orthogonal, K_P >> 1 means highly non-orthogonal) for all
-   pure-dephasing cases. It becomes relevant only in gain-loss
-   systems (PT-symmetric configurations).
+5. **The old blanket Petermann null is refuted.** The early cockpit sample found K_P near 1,
+   but pure Z-dephasing Liouvillians can be strongly non-normal: a simple N=5 mode has
+   `||P||=sqrt(375)`, and real-axis defective seeds are certified at N=5,7,9. Petermann
+   readings are therefore relevant beyond gain-loss/PT systems. A single-eigenvector value
+   is not basis-invariant inside a degenerate eigenspace; use it only for a simple isolated mode,
+   and use subspace/Jordan diagnostics at degeneracy.
 
 ## 6. Open questions
 
@@ -373,5 +376,5 @@ fragile.
 | [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) | PCA on CΨ windows (original 3D finding) |
 | [Information Geometry](INFORMATION_GEOMETRY.md) | Bures metric g = 3.36 at fold, K = -25 |
 | [Boundary Navigation](BOUNDARY_NAVIGATION.md) | θ definition, CΨ = ¼ boundary |
-| [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) | Petermann K=403 (gain-loss only) |
+| [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) | Gain-loss example; not the only setting with strong non-normality |
 | [V-Effect Palindrome](V_EFFECT_PALINDROME.md) | N=5 as sweet spot, V(5) = 1.81 |

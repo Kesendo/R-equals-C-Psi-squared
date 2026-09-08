@@ -34,7 +34,7 @@
 
 - **F86 (Q_peak, EP mechanism).** The whole calculation runs in Q = J/γ₀; γ₀-invariance is bit-exact (verified at c=3 N=7 across γ₀ ∈ {0.025, 0.05, 0.10}). *Consequence, the sharpest in the repo:* removing γ₀ closes the symmetry layer (Q_EP = 2/g_eff, t_peak, F71 mirror, the universal shape) and exposes `g_eff(c, N, b)` as the irreducible residue. The [Obstruction Proof](proofs/PROOF_F86B_OBSTRUCTION.md#obstruction-proof-why-g_eff-admits-no-closed-form) shows, in six lemmas, that the residue has no closed form. Magnitude information is discarded with γ₀: `|K|max` scales as 1/γ₀, and that scale is normalised away.
 - **F7 / D10 (Q-factor spectrum).** `Q_k = 2J/γ · (1 − cos(πk/N))` ([`D10_W1_DISPERSION.md`](proofs/derivations/D10_W1_DISPERSION.md)). γ₀ is the divisor that sets the quality scale; the form closes cleanly.
-- **F74 (chromaticity ladder).** Pure-dephasing rates `2γ₀·HD`; eigenmode rates "shift with Q = J/γ₀". *Consequence worth marking:* the clean discrete ladder exists only because γ is uniform; for non-uniform γ_i the rates become `2·Σγ_i` and the ladder dissolves ([`ANALYTICAL_FORMULAS.md`](ANALYTICAL_FORMULAS.md) F74). This is the explicit statement of what uniformity buys.
+- **F74 (chromaticity ladder).** The computational-basis cells have discrete dissipator costs `2γ₀·HD` when γ is uniform. Interacting Liouvillian eigenmodes are mixtures of those cells and obey `−Re λ = 2γ₀⟨n_XY⟩`, so their rates need not lie on an integer ladder even at uniform γ. A non-uniform γ_i removes the common cell spacing as well ([`ANALYTICAL_FORMULAS.md`](ANALYTICAL_FORMULAS.md) F74). This is the explicit statement of what uniformity buys.
 - **Quarter-boundary roadmap (c_eff).** `c_eff = 0.25 + i·(Q/4)·0.25` with `Q = 4J/γ` ([`PROOF_ROADMAP_QUARTER_BOUNDARY.md`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)). The dimensionless ratio places the quantum system on the Mandelbrot axis.
 
 ### Mechanism B: Master-Lemma algebraic cancellation
@@ -63,7 +63,7 @@ Some formulas keep γ₀ (or σ = Σγ) explicit. In each, keeping it is what ma
 - **Dissipation interval [0, 2γ₀].** F66 / F68 partner pairing `α_p = 2γ₀ − α_b` ([`PRIMORDIAL_GAMMA_CONSTANT.md`](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md)). Keeping γ₀ shows it is "not the top of a scale but the symmetry axis of one," a unit whose spectrum is folded palindromically around itself.
 - **PTF.** `K_i = γ·α_i·t`. γ₀ is the shared carrier all observers hold fixed; what redistributes is α_i·t. Because γ₀ is the *common* term, the per-site rescalings become visible as the structured, non-atmospheric content.
 - **F82 / F84 (the vacuum fingerprint).** The Π-palindrome-breaking term is *linear in γ₀*: `f81_violation = γ₀·√N·2^(N−1)`. Keeping γ₀ is what shows the breaking is a "fingerprint of zero-point fluctuations"; cancel γ₀ and the vacuum component is hidden.
-- **Absorption Theorem.** `Re(λ) = −2γ₀·⟨n_XY⟩`: decay quantised in *units of* γ₀.
+- **Absorption Theorem.** `Re(λ) = −2γ₀·⟨n_XY⟩`: basis-cell costs are quantised in units of `2γ₀`, while an eigenmode expectation `⟨n_XY⟩` is generally non-integer, so eigenmode decay is not generally quantised.
 - **F73 / PROOF_BLOCK_CPSI_QUARTER Theorem 3 (the inverse case).** `C_block(t) = (1/4)·exp(−4γ·t)` chromaticity-universal. Here it is *J* that cancels (the channel-uniform initial state sits in the H-kernel), and γ₀ is kept; the trajectory is set purely by γ₀, which makes γ₀ directly extractable. The mirror image of Mechanism A.
 
 ---

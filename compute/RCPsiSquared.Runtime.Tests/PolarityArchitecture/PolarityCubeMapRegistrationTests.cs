@@ -121,7 +121,7 @@ public class PolarityCubeMapRegistrationTests
         // F68, F74), plus F83 (anti-fraction) and F49/F49b/F80/F81 (the operator-space
         // Pi-decomposition family: residual/dissipator Frobenius norms, Spec(M), the
         // Pi-conjugation identity) and F3/F43/F44 (the Lindblad-spectral Absorption family: decay-rate
-        // bounds, sector SFF pairing, the eigenvalue-pair rate identity), and F49c (the shadow-crossing
+        // bounds, reflected-band SFF pairing, the eigenvalue-pair rate identity), and F49c (the shadow-crossing
         // Frobenius cross-term ratio), and F85 (the k-body roll-up of the F49/F80/F81/F83 family),
         // reclassify their bit_a twin slot to CoveredByHadamardDuality: the
         // bit_a image holds by the global Hadamard X↔Z duality

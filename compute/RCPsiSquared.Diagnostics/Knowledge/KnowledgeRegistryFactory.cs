@@ -219,8 +219,8 @@ public static class KnowledgeRegistryFactory
             .RegisterTwoTermPalindromeRoutingClaim()
             .RegisterF89F87TrulyInheritance()
             .RegisterF89F87BreakPredictionFromF83()
-            // Spectrum quantization root (parent to F33/F50/F55/F64-F68/F74/F89
-            // via per-Registration discard-Get edges; absorption quantum 2γ₀ from a_0)
+            // Dissipator coefficient / eigenmode expectation law (parent to F33/F50/F55/F64-F68/F74/F89
+            // via per-Registration discard-Get edges; dissipator coefficient 2 from a_0)
             .RegisterAbsorptionTheoremClaim()
             // JDefect light migration (in-between Edge 4, 2026-06-10): the first typed claim
             // living ON a navigator axis (JDefectField, inspect --root between, axis jdefect).
@@ -493,10 +493,10 @@ public static class KnowledgeRegistryFactory
             .RegisterF68PalindromicPartnerPi2Inheritance()
             .RegisterF50WeightOneDegeneracyPi2Inheritance()
             .RegisterF69GhzWSexticAboveFoldPi2Inheritance()
-            .RegisterF44CrooksLikeRateIdentityPi2Inheritance()
+            .RegisterF44AlgebraicPairRateLogIdentityPi2Inheritance()
             .RegisterF23XorDrainVanishingFractionPi2Inheritance()
             .RegisterF41PalindromicTimePi2Inheritance()
-            .RegisterF43SectorSffPairingPi2Inheritance()
+            .RegisterF43BandSffPairingPi2Inheritance()
             .RegisterF33ExactN3DecayRatesPi2Inheritance()
             .RegisterF4StationaryModeCountPi2Inheritance()
             .RegisterF55UniversalAbsorptionDosePi2Inheritance()
@@ -516,7 +516,8 @@ public static class KnowledgeRegistryFactory
             // TransitionBridge: the cusp CΨ=¼ and the F86 EP are F95 siblings (both the angle at a
             // quadratic's discriminant zero, the cusp at b=½ where the rotation stills, the EP at
             // b=4γ₀ where it lifts off; the EP's F95 angle is bit-exact its clock Rotation). Our
-            // state-space bridge name, sibling of the parameter-space FRAGILE_BRIDGE. Parent F95.
+            // state-space bridge name, sibling of the genuine F86 toy 2x2 EP. FRAGILE_BRIDGE's
+            // separate tracked axis departure has EP character OPEN and is not this quadratic. Parent F95.
             // Wired 2026-06-03.
             .RegisterTransitionBridgeF95SiblingClaim()
             // Crossover mirror = √(NinetyDegreeMirror): the local XZ+YZ / ZX+ZY mirror is the

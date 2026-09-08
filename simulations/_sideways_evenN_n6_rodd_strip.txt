@@ -1,0 +1,47 @@
+# MKL: active, MaxDegreeOfParallelism = 24
+# pkmono: path-5 monodromy = Galois (generalises the path-3 octic S_8 off path-3)
+# q0=2+0.000i, region re[0.2,3] im[-0.03,0.03], cell=0.01
+
+# DIABOLIC HUNT path-5 (N_block=6) [R-ODD sector, EXACT: residual = complement of the R-odd AT invariant subspace]: scan q in re[0.2,3] im[-0.03,0.03], cell=0.01, q=0 mask 0.20
+# coverage: at region-centre q=1.6+0.000i the block Re(lambda) spans [-6.00, -2.00] (AT rung-2 line = -4; palindrome centre = -N = -6)
+
+12 coalescence(s):
+  q=0.6120-0.025i  lambda=-4.464+1.341i  DIABOLIC (semisimple)  gap=4.56E-008 loopId=True residual=True gap-exponent=0.96
+  q=0.6471+0.018i  lambda=-4.687+0.959i  DIABOLIC (semisimple)  gap=9.89E-008 loopId=True residual=True gap-exponent=0.65
+  q=0.6667+0.004i  lambda=-4.538-0.536i  DIABOLIC (semisimple)  gap=1.16E-007 loopId=True residual=True gap-exponent=0.93
+  q=0.6761-0.056i  lambda=-4.567-0.774i  DIABOLIC (semisimple)  gap=1.16E-008 loopId=True residual=True gap-exponent=1.00
+  q=0.7105+0.049i  lambda=-4.630+1.768i  DIABOLIC (semisimple)  gap=2.98E-009 loopId=True residual=True gap-exponent=0.92
+  q=0.7778-0.007i  lambda=-4.039+0.896i  DIABOLIC (semisimple)  gap=8.66E-008 loopId=True residual=True gap-exponent=0.98
+  q=0.8098+0.033i  lambda=-4.951+0.125i  DIABOLIC (semisimple)  gap=1.88E-008 loopId=True residual=True gap-exponent=0.99
+  q=0.8706+0.037i  lambda=-4.610-2.656i  DIABOLIC (semisimple)  gap=8.29E-008 loopId=True residual=True gap-exponent=0.96
+  q=1.0020+0.021i  lambda=-4.754+2.923i  DIABOLIC (semisimple)  gap=9.21E-009 loopId=True residual=True gap-exponent=1.00
+  q=1.1403-0.036i  lambda=-4.871+1.017i  DIABOLIC (semisimple)  gap=9.08E-009 loopId=True residual=True gap-exponent=0.99
+  q=1.2160-0.099i  lambda=-4.576+4.818i  DIABOLIC (semisimple)  gap=6.64E-008 loopId=True residual=True gap-exponent=1.00
+  q=2.5459-0.007i  lambda=-4.161+9.073i  DIABOLIC (semisimple)  gap=6.24E-010 loopId=True residual=True gap-exponent=0.99
+
+# GATES (zeros_connecting_structure forward edge):
+  Q1 EXISTENCE: PASS - 12 semisimple residual diabolic(s).
+  Q2 LOCATION: q=0.6120, Re(lambda)=-4.464 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.96 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.6471, Re(lambda)=-4.687 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.65 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.6667, Re(lambda)=-4.538 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.93 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.6761, Re(lambda)=-4.567 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 1.00 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.7105, Re(lambda)=-4.630 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.92 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.7778, Re(lambda)=-4.039 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.98 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.8098, Re(lambda)=-4.951 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.99 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.8706, Re(lambda)=-4.610 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.96 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=1.0020, Re(lambda)=-4.754 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 1.00 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=1.1403, Re(lambda)=-4.871 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.99 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=1.2160, Re(lambda)=-4.576 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 1.00 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=2.5459, Re(lambda)=-4.161 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.99 ~1 linear; identity loop=True).

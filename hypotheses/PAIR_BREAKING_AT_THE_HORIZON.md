@@ -16,7 +16,7 @@ breaks; see the thesis.)*
 - [`horizon_pair_conservation.py`](../simulations/horizon_pair_conservation.py) -> [`horizon_pair_conservation.txt`](../simulations/results/horizon_pair_conservation.txt) (the rate-sum conservation and the extreme census)
 - [Gravity from Wave Death](GRAVITY_FROM_WAVE_DEATH.md) (mass as classical residue, Tier 5)
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) (cavity modes at Σγ = 0, Tier 2)
-- [Fragile Bridge](FRAGILE_BRIDGE.md) (Hopf bifurcation, Tier 2)
+- [Fragile Bridge](FRAGILE_BRIDGE.md) (spectral-abscissa axis departure; EP character OPEN, Tier 2)
 - [What If Gamma Is Light?](GAMMA_IS_LIGHT.md) (γ as external illumination, Tier 4)
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (nonzero dissipative centre certifies an open modeled subsystem, Tier 1)
 - [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (qubit chain carries Fabry-Perot structure on four of six checks and is not a cavity, Tier 2)
@@ -171,11 +171,11 @@ two spectral rates are complementary.
 
 ### Link 7: The bridge is fragile (Tier 2)
 
-When [two systems are coupled through a bridge](FRAGILE_BRIDGE.md) (one decaying with +γ, one amplifying with −γ, total Σγ = 0), the palindrome [stays centered at zero](ZERO_IS_THE_MIRROR.md). But the coupled system is not unconditionally stable. Above a critical coupling g_crit, a [Hopf bifurcation](../experiments/PT_SYMMETRY_ANALYSIS.md) occurs: eigenvalues cross the imaginary axis (Liouvillian [chiral symmetry breaking](../experiments/PT_SYMMETRY_ANALYSIS.md)), and the system diverges exponentially.
+When [two systems are coupled through a bridge](FRAGILE_BRIDGE.md) (one decaying with +γ, one amplifying with −γ, total Σγ = 0), the palindrome [stays centered at zero](ZERO_IS_THE_MIRROR.md). But the coupled system is not unconditionally stable. At the critical parameter the spectral abscissa becomes positive and off-axis quartets appear while exact λ ↔ −λ inversion pairing survives. The current producer performs no branch continuation and does not certify threshold coalescence or a Jordan defect, so [exceptional-point character remains OPEN](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
-The bridge between decay and gain exists, but it is fragile. Too much coupling and it collapses. The [stability window is finite](FRAGILE_BRIDGE.md): three regimes (weak, optimal, and strong bridge coupling), with the system stable only below g_crit.
+The bridge between decay and gain exists, but it is fragile: beyond the sampled threshold the linear generator has a positive-real-part eigenvalue. The [stability window is finite](FRAGILE_BRIDGE.md) over the executed weak, maximum, and strong-coupling samples, with the system stable only below g_crit; the turnover mechanism remains open.
 
-In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster than light can cross it. The mechanisms differ (geodesic incompleteness vs. Hopf bifurcation), and the parallel here is phenomenological rather than structural. Both connections cannot be sustained, but the *reasons* they cannot be sustained live in different mathematical languages. **(Tier 5: the cross-framework parallel is interpretation; only the Hopf bifurcation itself is Tier 2.)**
+In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster than light can cross it. The mechanisms differ (geodesic incompleteness vs. a spectral-abscissa instability), and the parallel here is phenomenological rather than structural. Both connections cannot be sustained, but the *reasons* they cannot be sustained live in different mathematical languages. **(Tier 5: the cross-framework parallel is interpretation; the computed quantum stability window and axis departure are Tier 2, while EP character is OPEN.)**
 
 ---
 
@@ -194,7 +194,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Discrete isometry exchanging regions | Π conjugation (per-site: I↔X, Y↔iZ) | 1 |
 | Superselection (no crossing between regions) | \[P_XY, L\] = 0 | 1 |
 | Observer-dependent time (infinite outside, finite inside) | SLOW/FAST swap under Π (two readings of one spectrum) | 2 |
-| Bridge collapses (not traversable) | Hopf bifurcation at g_crit (fragile bridge) | 2 |
+| Bridge collapses (not traversable) | Spectral-abscissa axis departure at g_crit; EP character OPEN | 2 |
 | Critical slowing at horizon (redshift) | Saddle-node dynamics at fold (dη/dt = η² − ε) | 2 |
 | Spacetime interval c × τ = invariant | [K-invariance](../docs/ANALYTICAL_FORMULAS.md) γ × t = const (F14), in the Bell⁺ sector only | 2 |
 | Curvature is external (not locally generated) | No established counterpart; openness does not locate gamma's source | 5 analogy |

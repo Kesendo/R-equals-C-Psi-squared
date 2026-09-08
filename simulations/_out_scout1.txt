@@ -1,0 +1,14 @@
+--- the arc's named row: P3, XX+YY+ZZ, equal mags, deph .X., field X.X, signs (+,+,-)
+exception row (6-family)                             predicate=clause2-not-orthogonal exact-S found: 0
+
+--- a 72-family row: deph .X., field XYX, signs (+,+,-)
+exception row (72-family)                            predicate=clause2-not-common     exact-S found: 0
+
+--- CONTROL: same row at GENERIC magnitudes (spectrum does NOT pair)
+control, generic mags                                predicate=clause2-not-orthogonal exact-S found: 0
+control, generic mags                                predicate=clause2-not-common     exact-S found: 0
+
+--- CONTROL: a row the predicate ALLOWS (deph .Z., field X.X)
+allowed row                                          predicate=HOLDS                  exact-S found: 2
+     S = Pi[YYY] o R(0, 1, 2)
+     S = Pi[ZZZ] o R(0, 1, 2)

@@ -8,17 +8,31 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The F89 Door-C filling comparison: finite executed CSR evidence contrasts dilute (1,2) and dense
 /// (wKet,wBra near N/2) blocks at canonical Delta=1 with disorder; it does not prove a thermalization cause.
-/// Nonzero Delta breaks free-fermion additivity, but uniform XXZ remains Bethe-integrable;
-/// random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions);
+/// Nonzero Delta breaks the underlying Hamiltonian's free-fermion additivity, but uniform XXZ remains Bethe-integrable;
+/// at Delta=0 the random-field XY Hamiltonian remains quadratic (Anderson/free fermions). This does not classify the Z-dephasing Liouvillian
+/// as a quadratic free-fermion generator;
 /// generic random field plus Delta!=0 is the interacting disordered nonintegrable test.
-/// These Hamiltonian distinctions do not by themselves decide the Liouvillian CSR. Unequal weight (p,p+1) keeps the
-/// non-Hermitian symmetry class A (Π maps (p,p+1)→the conjugate (p+1,p) block, not a self-symmetry), licensing the
-/// GinUE 0.738/−0.24 target. Methodology inherited from IntegrabilityBreakingCsr (pool per-spectrum z's, bootstrap
+/// These Hamiltonian distinctions do not by themselves decide the Liouvillian CSR. GinUE is a comparison ensemble;
+/// the full irreducible-sector symmetry algebra remains open. Methodology inherited from IntegrabilityBreakingCsr (pool per-spectrum z's, bootstrap
 /// CI, finite-size-matched references, OffReal domain once conjugation symmetry is broken).</summary>
 public class FillingThresholdCsrTests
 {
     private readonly ITestOutputHelper _out;
     public FillingThresholdCsrTests(ITestOutputHelper output) => _out = output;
+
+    [Fact]
+    public void ReferenceScope_IsGinUeComparison_NotAClassAssignment()
+    {
+        var property = typeof(FillingThresholdCsr).GetProperty("ReferenceScope");
+        Assert.NotNull(property);
+        var scope = Assert.IsType<string>(property.GetValue(null));
+        Assert.Contains("GinUE comparison", scope, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("open", scope, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("finite-precision", scope, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("tolerance-dependent", scope, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("class A licensed", scope, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("no residual antiunitary", scope, StringComparison.OrdinalIgnoreCase);
+    }
 
     /// <summary>Zero-field anchor: w=0 ⟹ every realization is the identical (q,Δ) block, so the pool scales
     /// linearly with the realization count and ⟨|z|⟩ is unchanged. Catches RNG/pooling bugs.</summary>
@@ -44,16 +58,15 @@ public class FillingThresholdCsrTests
         Assert.True(r.MeanCos > -0.08, $"dilute block should NOT show GinUE angular repulsion, got ⟨cosθ⟩={r.MeanCos:F3}");
     }
 
-    /// <summary>Symmetry-class guard (methodology #5): a per-site random field breaks conjugation symmetry, so the
-    /// (p,p+1) block spectrum is NOT conjugation-symmetric (match fraction ≈ 0) ⟹ OffReal is the valid domain and
-    /// class A (the GinUE reference) is licensed. Without this the CSR target would be AI+/AII+, not 0.738/−0.24.</summary>
+    /// <summary>A per-site random field breaks this particular spectral-conjugation match. The measurement does not
+    /// exclude every residual antiunitary after irreducible-sector reduction.</summary>
     [Fact]
-    public void RandomField_BreaksConjugationSymmetry_LicensingClassA()
+    public void RandomField_BreaksThisConjugationMatch_WithoutClassifyingTheSector()
     {
         var rng = new Random(7);
         var field = Enumerable.Range(0, 6).Select(_ => 2 * rng.NextDouble() - 1).ToArray();
         double frac = FillingThresholdCsr.ConjugationMatchFraction(6, 3, 4, q: 1.0, delta: 1.0, field: field);
-        Assert.True(frac < 0.1, $"random field must break conjugation symmetry (class A), but match fraction was {frac:P0}");
+        Assert.True(frac < 0.1, $"random field must break this conjugation match, but fraction was {frac:P0}");
     }
 
     /// <summary>The headline reconnaissance: the FILLING LADDER. At fixed N, walk (wKet,wBra) from the dilute

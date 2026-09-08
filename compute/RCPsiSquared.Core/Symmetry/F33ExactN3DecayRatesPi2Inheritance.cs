@@ -30,7 +30,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// limit values and must be cited as limits.</para>
 ///
 /// <para><b>Why N=3 is special:</b> the pure-weight rungs 2γ (weight-1, F50)
-/// and 2(N−1)γ (the F3 band top; F43 is the XOR sector at 2Nγ, one rung above)
+/// and 2(N−1)γ (the F3 band top; F43's endpoint partner is at 2Nγ, one rung above)
 /// remain universal at all N. Topology-dependence
 /// of the internal spectrum starts already at N=3, not at N ≥ 4: on the triangle
 /// the 2.4607 level is absent and the pure-rung multiplicities are 4,16,16,4
@@ -115,7 +115,7 @@ public sealed class F33ExactN3DecayRatesPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>F33's highest paired-mode rate at N=3: 2·(N−1)·γ = 4·γ (the
     /// "fastest paired" boundary from F3, w=N−1 = 2 modes at N=3). Distinct from
-    /// F43's XOR-sector rate 2·N·γ = 6γ which sits one rung above. F33's
+    /// F43's endpoint-partner rate 2·N·γ = 6γ which sits one rung above. F33's
     /// XorBoundaryRate is the F3 max-rate boundary specialised to N=3, not
     /// the XOR sector itself.</summary>
     public double XorBoundaryRate(double gammaZero)

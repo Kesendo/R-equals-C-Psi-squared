@@ -33,7 +33,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><b>IrrepDimensionCoefficient = 2 = a_0</b>: in 2J+1. Live from
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(0). Same anchor as F1's
 ///         TwoFactor, F50's DegeneracyFactor, F66's UpperPoleCoefficient,
-///         F43's XorRateCoefficient. The (2J+1)² in F4 is structurally
+///         F43's ReflectionCoefficient. The (2J+1)² in F4 is structurally
 ///         a_0²·J² + 2·a_0·J + 1 = "twice anchor", appearing squared.</item>
 /// </list>
 ///

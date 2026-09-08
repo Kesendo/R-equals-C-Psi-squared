@@ -2259,7 +2259,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-255
 
-**Question:** Asymptotic constant: Is the quantum bridge's proposed large-coupling product limit γ_crit × J_bridge → 1/2 exact, and can it be derived for its declared model and limit?
+**Question:** Does the quantum bridge product γ_crit × J_bridge converge at large coupling, and, if a limit exists, is it 1/2? The executed product still decreases from 0.578 at J_bridge=10 to 0.508 at 100.
 
 **Source:** `hypotheses/FRAGILE_BRIDGE.md`
 **Section:** 6. Open questions
@@ -2526,13 +2526,13 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-101
 
-**Question:** **Petermann factor is uninteresting here.** K_P ~ 1 (the Petermann factor measures how much a non-normal operator's eigenvectors overlap; K_P = 1 means orthogonal, K_P >> 1 means highly non-orthogonal) for all pure-dephasing cases. It becomes relevant only in gain-loss systems (PT-symmetric configurations).
+**Question:** **The blanket Petermann null is refuted.** Pure Z-dephasing can be strongly non-normal and carries certified defective seeds at N=5,7,9. Which simple isolated modes and invariant subspaces control the experimentally accessible response remains open; a single-vector Petermann value at degeneracy is not basis-invariant.
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 329)
 **Section:** 5. Limitations and caveats
 **Date:** April 2, 2026
 **Tag:** hardware-test
-**Status:** unclassified
+**Status:** open after refutation of the original premise
 
 ### OQ-118
 
@@ -2938,13 +2938,13 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-168
 
-**Question:** **Connection to quantum detailed balance.** Classical detailed balance links forward and backward transition rates via free energy. The KMS condition generalizes this to quantum thermal baths. Our Π works for pure dephasing (infinite-temperature bath). Is there a finite-temperature version? Does it connect to the KMS condition?
+**Question:** **Connection to quantum detailed balance.** Current boundary: pure Z-dephasing assigns no bath temperature; its shifted anti-similarity is algebraic and is neither KMS nor quantum detailed balance. A thermal jump channel can carry an independently specified bath occupation and retains a spectral palindrome (F137), while the original Π operator is obstructed by its different local rate multiplicities. The still-open question is whether a distinct finite-temperature operator or hidden-time-reversal construction connects that thermal palindrome to KMS detailed balance.
 
-**Source:** `experiments/PI_AS_TIME_REVERSAL.md` (line 336)
+**Source:** `docs/KMS_DETAILED_BALANCE.md` (current boundary) + `experiments/PI_AS_TIME_REVERSAL.md` (original question)
 **Section:** 6. Open Questions
 **Date:** March 19, 2026
 **Tag:** scope-extension
-**Status:** unclassified
+**Status:** partially answered; KMS/operator connection open
 
 ### OQ-170
 

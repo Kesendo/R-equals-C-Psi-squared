@@ -1,4 +1,4 @@
-# KMS and Detailed Balance: Π Is a New Liouvillian Symmetry Type
+# KMS and Detailed Balance: Locating Π Among Liouvillian Symmetries
 
 <!-- Keywords: Pi operator not KMS detailed balance, shifted anti-similarity
 Liouvillian, quantum detailed balance Alicki 1977, Roberts hidden time-reversal
@@ -8,8 +8,8 @@ finite-temperature thermal-jump comparison, 2:2 split Pi operator not palindrome
 algebraic palindrome shift
 2Sgamma, R=CPsi2 KMS detailed balance -->
 
-**Status:** Literature review + formal analysis complete
-**Date:** March 19, 2026
+**Status:** KMS/QDB comparison complete; full irreducible-sector SRP class OPEN
+**Last refreshed:** 2026-09-07
 **Authors:** Thomas Wicht, Claude (Anthropic, Cowork Research)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md), [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
@@ -22,30 +22,38 @@ Physics has well-established notions of "time-reversal symmetry" for
 open quantum systems: the KMS condition (from statistical mechanics)
 and quantum detailed balance (from thermodynamics). This document asks
 whether our conjugation operator Π is one of those known symmetries.
-The answer is no. Π is formally distinct from all existing classifications,
-including the most comprehensive 38-class framework (Sá-Prosen 2023).
-The closest relative is the "hidden time-reversal symmetry" of Roberts
-et al. (2021), but even that differs in key structural ways. Π appears
-to be a genuinely new type of Liouvillian symmetry, specific to the pure
-Z-dephasing algebra, that sits in a gap between existing frameworks. That
-channel algebra alone does not identify a thermal bath or a temperature.
+The Π anti-similarity is not itself a KMS or quantum-detailed-balance
+condition. That does not imply that the same generator fails every QDB
+definition: Alicki/standard QDB permits a separate Hamiltonian derivation,
+and at the faithful invariant state `I/d` the Heisenberg-plus-Z-dephasing
+generator satisfies that weaker decomposition. In the Sá-Ribeiro-Prosen (SRP)
+framework, however, the centered generator and irreducible symmetry sectors
+are the correct objects: Π gives a P-type anticommutation there after resolving
+Π². The final SRP class of our fully reduced sectors has not been computed.
+The pure-Z channel algebra alone does not identify a thermal bath or a temperature.
 
 ---
 
 ## Abstract
 
-Π is **not** quantum detailed balance (QDB), not KMS, and not a standard
-Buca-Prosen symmetry. It is a shifted anti-similarity: Π·L·Π⁻¹ = −L − 2Sγ·I.
-QDB relates L to its adjoint L† (real eigenvalues); Π relates L to its
-negative (palindromic complex pairs). KMS at β=0 gives L†=L, which fails
-whenever H≠0. The closest existing framework is Roberts-Lingenfelter-Clerk
+The Π relation is **not** a quantum-detailed-balance (QDB) or KMS condition and
+is not a standard Buca-Prosen symmetry. It is a shifted anti-similarity:
+Π·L·Π⁻¹ = −L − 2Sγ·I. Strict GNS/KMS symmetry of the full generator relates
+L to its weighted adjoint and implies a real spectrum; Π instead relates L to
+its negative and gives palindromic complex pairs. Alicki/standard QDB permits a
+separate Hamiltonian derivation, so only the dissipative part is self-adjoint
+and that condition does not force the full generator to have a real spectrum.
+At β=0, strict full-generator KMS symmetry reduces to Hilbert-Schmidt
+self-adjointness and fails whenever H≠0, while the weaker Alicki decomposition
+can still hold. The closest existing framework is Roberts-Lingenfelter-Clerk
 hidden time-reversal symmetry (PRX Quantum 2021), which also produces
-time-reversal-like structure in systems violating standard DB. The tenfold
-Lindbladian classification (Sá-Prosen 2023, 38 classes) does not contain
-Π due to the constant shift 2Sγ (though the shifted-spectrum SHAPE ±λ + ia is
-itself the "shifted sublattice symmetry" of Kawasaki-Mochizuki-Obuse 2022, a
-noninteracting cross-check we found afterward; the interacting Π and its per-site
-locality are new, see Question 1). The known Π construction uses the 2:2
+time-reversal-like structure in systems violating standard DB. The SRP
+classification is formulated for a trace-shifted generator, so the constant
+2Sγ is absorbed by `L_c = L + SγI` rather than creating a classification gap.
+Globally Π has order four because Π² is a commuting unitary symmetry; within
+each Π²-parity sector a phase-normalized restriction is an involutive P generator.
+Assigning BDI, CI, or another SRP class still requires the complete symmetry
+algebra after all strong/unitary symmetries are resolved. The known Π construction uses the 2:2
 per-site Pauli split of pure Z dephasing. That is an algebraic property of the
 jump channel, not a bath-temperature assignment. The spectral palindrome for
 thermal jump operators is a separate question; it survives at the centre
@@ -56,17 +64,17 @@ shift of the pure-Z palindrome, not an entropy-production rate.
 
 ## Executive Summary
 
-Π is **not** a standard quantum detailed balance (QDB) condition, but it is closely
+The Π anti-similarity is **not** a standard quantum detailed balance (QDB)
+condition, but it is closely
 related to a recently identified class of **hidden time-reversal symmetries** in
 open quantum systems (Roberts-Lingenfelter-Clerk, PRX Quantum 2021). The comparison
-to KMS at β=0 is formal, not a bath assignment: a KMS-DB generator with
-equilibrium `I/d` is self-adjoint (real spectrum), while Π gives
+to KMS at β=0 is formal, not a bath assignment: a generator that is strictly
+KMS-symmetric as a whole at equilibrium `I/d` is self-adjoint (real spectrum),
+while Π gives
 palindromic spectral pairing (complex spectrum with μ → -μ). These are different
-symmetries with different consequences. The Π condition appears to be a genuinely
-new type of Liouvillian symmetry that sits between the Buca-Prosen classification
-(which covers commuting symmetries) and the tenfold Lindbladian classification
-(which covers anti-unitary symmetries), but matches neither exactly due to the
-constant shift 2Sγ.
+symmetries with different consequences. For SRP classification one first centers
+L, resolves the commuting Π² sectors, and phase-normalizes Π in each sector. The
+remaining sectorwise class is OPEN until the full symmetry algebra is computed.
 
 ---
 
@@ -112,31 +120,24 @@ This classifies Lindbladians by their behavior under:
 - Pseudo-Hermiticity: Q₊
 - Anti-pseudo-Hermiticity: Q₋
 
-Our Π is closest to the **Q₋ (anti-pseudo-Hermiticity)** symmetry, which requires
-an operator Q satisfying Q·L·Q⁻¹ = -L†. But our condition has L, not L†, on
-the right side. If L happened to be self-adjoint (as in pure dephasing without
-Hamiltonian), then L† = L and Q₋ would coincide with our condition. But with
-a Hamiltonian, L ≠ L†.
+SRP applies negative symmetries to the trace-shifted generator. For this model
+that object is `L_c = L + SγI`, on which Π anticommutes exactly. Moreover
+Π² = U_X commutes with L_c. In a U_X-parity sector p_x = ±1,
+`P_{p_x} = sqrt(p_x) Π|_{p_x}` satisfies `P_{p_x}² = I` and is therefore an
+ordinary sectorwise P generator. The full class requires the remaining SRP
+symmetries and their commutation signs in each irreducible sector.
 
-The constant shift 2Sγ is also absent from the tenfold classification. The
-classification assumes symmetry conditions of the form S·L·S⁻¹ = ±L or
-S·L·S⁻¹ = ±L†, without constant shifts. Our shift can be absorbed by centering
-(L → L_c), but then the classification applies to L_c, not L itself.
-
-**They explicitly build dephasing examples** in their classification but do not
-identify the palindromic spectral symmetry or anything equivalent to Π.
+Their local-dephasing examples land in BDI or CI depending on the resolved parity
+sector and Hamiltonian. Those labels are a source-level precedent, not labels we
+can copy onto our Hamiltonian without the corresponding sector calculation.
 
 ### Assessment
 
-Π falls in a gap between existing classifications. The closest match is Q₋
-anti-pseudo-Hermiticity applied to the centered Liouvillian L_c, but this
-requires L_c to equal L_c† (which fails when H ≠ 0). The fact that Π acts
-on L rather than L† makes it a **distinct symmetry type**.
-
-The most accurate description in existing language: Π is an **invertible
-superoperator that implements a shifted anti-similarity of the Liouvillian.**
-The FULL structure (the interacting anti-similarity together with the per-site
-locality of Π, classified below) does not appear in any classification we found.
+The established statement is algebraic: Π is an invertible superoperator that
+implements a shifted anti-similarity of L and a P-type anticommutation of L_c.
+Its global order four is resolved sectorwise through Π² = U_X. No global AIII,
+BDI, or CI label is assigned here; the irreducible-sector classification remains
+open.
 
 **Literature cross-check, after the fact (2026-06-08).** We built this from the
 dephasing algebra itself, with no literature input; the −2Sγ shift fell out of the
@@ -146,12 +147,13 @@ a nonzero center, λ ↔ −λ − 2Sγ (eigenvalue pairs ±λ + ia), is exactly
 **"shifted sublattice symmetry"** of Kawasaki, Mochizuki, Obuse (Phys. Rev. B 106,
 035408, 2022): an ordinary chiral/sublattice symmetry plus a constant decay-rate
 shift. So the shifted-spectrum form has a catalogued home, reached independently and
-recognized afterward. What that paper does not carry, and what stays ours, is the
-interacting / k-body reach (theirs is noninteracting, at the quadratic / Majorana
-level) and the per-site-product-versus-entangled locality question for the symmetry
-operator (their own shifted-SLS operator S = I₂ ⊗ τ_z is non-local by construction,
-and they never ask whether it factorizes). The 6 → 4 → 2 non-local ceiling lives on
-the far side of exactly that gap.
+recognized afterward. The object studied in this repository also includes an
+interacting/k-body reach and a per-site-product-versus-entangled locality question
+for the symmetry operator; the cited shifted-SLS construction is noninteracting at
+the quadratic/Majorana level and uses `S = I₂ ⊗ τ_z`. Whether that interacting and
+locality-resolved extension has prior art and its equivalence to known constructions
+remain OPEN. The 6 → 4 → 2 non-local ceiling is the repository's bounded result,
+not a priority claim.
 
 ---
 
@@ -159,17 +161,23 @@ the far side of exactly that gap.
 
 **Classification: UNLIKELY (structurally parallel but formally distinct)**
 
-### Standard quantum detailed balance
+### Detailed-balance conventions that must not be conflated
 
-The standard quantum detailed balance (QDB) condition, as defined by Alicki (1976)
-and developed by Kossakowski-Frigerio-Gorini-Verri (1977) and Fagnola-Umanita (2007),
-is:
+For a faithful invariant state `ρ`, let `L̃` denote the adjoint in the chosen
+`ρ`-weighted inner product. A **strict GNS/KMS-symmetry** convention imposes
 
-    L̃ = L     (GNS-detailed balance)
+    L̃ = L.
 
-or equivalently:
+That strict condition makes the full generator self-adjoint in that inner
+product. Alicki/standard QDB is weaker: in a common Heisenberg-picture
+convention one decomposes
 
-    L† = Θ · L · Θ⁻¹     (modular detailed balance)
+    L = L₀ + i[K, ·],    [K, ρ] = 0,    L̃₀ = L₀.
+
+Thus the reversible Hamiltonian derivation is allowed and only the dissipative
+part `L₀` is self-adjoint. Conditions involving an antiunitary time reversal or
+a modular transform are related detailed-balance definitions, not automatically
+equivalent to `L̃=L` without their additional hypotheses.
 
 where:
 - L̃ is the adjoint of L with respect to the inner product ⟨a,b⟩_ρ = tr(ρ a*b)
@@ -181,8 +189,9 @@ where:
 any two states are related by the Boltzmann factor. The Liouvillian "looks the
 same" under time reversal weighted by the thermal state.
 
-**What QDB implies spectrally:** all eigenvalues of L are real (no oscillation).
-The generator is self-adjoint in the appropriate inner product.
+**Spectral boundary:** strict full-generator GNS/KMS symmetry implies real
+eigenvalues. Alicki/standard QDB does not force the full generator to have a
+real spectrum, because `i[K,·]` can supply oscillatory imaginary parts.
 
 ### Our Π condition
 
@@ -201,29 +210,38 @@ The key structural differences:
 
 | Property | Standard QDB | Our Π condition |
 |---|---|---|
-| Relates L to | L† (adjoint) | -L - c (negative + shift) |
-| Sign | Same (L̃ = L) | Opposite (minus sign) |
+| Relates L to | strict form: L̃ = L; Alicki form: dissipative L₀ is self-adjoint and a Hamiltonian derivation is separate | -L - c (negative + shift) |
+| Sign | Same in the strict symmetric part | Opposite (minus sign) |
 | Constant shift | None | 2Sγ |
-| Spectral consequence | Real eigenvalues | Palindromic complex pairs |
+| Spectral consequence | strict full-generator form: real; Alicki form: full spectrum may be complex | Palindromic complex pairs |
 | Involves adjoint? | Yes (L†) | No (L itself) |
 | Steady state role | Central (Θ depends on ρ_ss) | None; the shift is algebraic |
 
-Standard QDB is a statement about the *adjoint* of L being similar to L.
-Our Π is a statement about L being similar to its own *negative*.
-These are orthogonal directions in the space of Liouvillian symmetries.
+Detailed balance constrains a weighted adjoint, either for the full generator
+in the strict symmetry convention or for its dissipative part after a commuting
+Hamiltonian derivation is split off. Our Π is a statement about L being similar
+to its own *negative*. These are distinct constraints.
 
-**A Lindbladian can satisfy both, one, or neither.** Pure dephasing without a
-Hamiltonian is Hilbert-Schmidt self-adjoint and has a real palindromic spectrum;
-that algebraic fact does not choose a thermal state. Heisenberg + dephasing
-satisfies Π but not QDB (eigenvalues are palindromic but complex).
+**A Lindbladian can satisfy both constraints, one, or neither.** Pure dephasing
+without a Hamiltonian is Hilbert-Schmidt self-adjoint and has a real palindromic
+spectrum; that algebraic fact does not choose a thermal bath. Heisenberg plus
+all-site Z dephasing has the faithful invariant state `I/d`; its dissipator is
+Hilbert-Schmidt self-adjoint and its Hamiltonian is an allowed derivation, so it
+satisfies Alicki/standard QDB with respect to `I/d` while failing strict
+full-generator self-adjointness when `H≠0`. Independently, it satisfies Π and
+can have a complex palindromic spectrum.
 
 ### The Alhambra-Woods connection (2017)
 
 Alhambra and Woods ("Dynamical maps, quantum detailed balance, and the Petz
-recovery map," 2017) showed that quantum detailed balance is equivalent to the
-Petz recovery map (the optimal quantum channel for undoing the effect of a noisy process, given the input state) being the exact reversal of the channel. This connects QDB
-to quantum information recovery. Our Π does not have this recovery interpretation:
-it pairs modes rather than reversing channels.
+recovery map," 2017) prove a hypothesis-scoped connection to recovery maps.
+For a QDB dissipative semigroup with no unitary part and a full-rank invariant
+state, the dynamical map is equal to its Petz recovery map. With an additional
+commuting unitary part, the Petz map reverses the unitary sign while retaining
+the same dissipative evolution. This is not a blanket equivalence between every
+QDB convention and exact reversal of the full channel. Our Π does not have
+either recovery interpretation: it pairs modes rather than reversing the
+unitary evolution or reproducing the dissipative map.
 
 ---
 
@@ -233,17 +251,19 @@ it pairs modes rather than reversing channels.
 
 ### The β=0 KMS reference point
 
-For a KMS-detailed-balance generator whose faithful equilibrium state is
+For a generator that is strictly KMS-symmetric as a whole and whose faithful
+equilibrium state is
 `ρ_ss = I/d`, the modular operator is
 
     Δ = ρ_ss ⊗ ρ_ss⁻¹ = (I/d) ⊗ (dI) = I.
 
-Its detailed-balance condition therefore becomes
+its strict symmetry condition therefore becomes
 
     L† = L     (self-adjointness in Hilbert-Schmidt norm).
 
-This is a statement about a KMS generator with a specified equilibrium state,
-not a consequence of writing down a pure-Z jump operator.
+This is a statement about strict full-generator KMS symmetry with a specified
+equilibrium state, not about every convention called quantum detailed balance
+and not a consequence of writing down a pure-Z jump operator.
 
 ### The pure-Z model does not select β = 0
 
@@ -260,8 +280,9 @@ For the Hamiltonian-plus-dephasing generator,
 - `L_D` is self-adjoint in the Pauli basis with real eigenvalues; and
 - `L = L_H + L_D` therefore has `L† = -L_H + L_D ≠ L` whenever `H ≠ 0`.
 
-So the β=0 KMS reference condition is not Π and is not implied by the pure-Z
-model.
+So the strict β=0 KMS-symmetry condition is not Π and is not implied by the
+pure-Z model. The separate Alicki/standard-QDB decomposition can nevertheless
+hold at `I/d`, because it retains the anti-self-adjoint Hamiltonian derivation.
 
 ### What the model does satisfy
 
@@ -431,15 +452,15 @@ Their classification is the most comprehensive framework for Liouvillian
 symmetries. They identify 38 symmetry classes (10 without conserved
 quantities, more with). They explicitly build dephasing examples.
 
-Our Π does not fit cleanly into any of their 38 classes because:
-1. The constant shift 2Sγ is not part of their formalism
-2. Their anti-pseudo-Hermiticity (Q₋) requires Q·L·Q⁻¹ = -L†, not -L
-
-However, the centered Liouvillian L_c = L + Sγ·I satisfies Π·L_c·Π⁻¹ = -L_c.
-If we could show that L_c† = L_c (which fails when H ≠ 0), this would
-be Q₋ anti-pseudo-Hermiticity. As it stands, Π implements a symmetry
-that is intermediate between their P (chiral) and Q₋ (anti-pseudo-Hermitian)
-classes.
+Their negative symmetries are defined on the trace-shifted generator. Here the
+centered Liouvillian `L_c = L + SγI` satisfies `Π·L_c·Π⁻¹ = -L_c`, so the
+constant shift is already absorbed by the SRP construction. Because Π² = U_X
+commutes with L_c, one first fixes U_X parity p_x; the phase-normalized
+restriction `sqrt(p_x) Π` then squares to identity and supplies a P generator.
+The final class is OPEN until the remaining symmetries and their algebra are
+computed in fully irreducible sectors. SRP's own dephasing examples resolve to
+BDI or CI depending on parity and Hamiltonian; those labels are not transferred
+to this model without that calculation.
 
 ### Medvedyeva, Essler, Prosen (PRL 117, 137202, 2016)
 
@@ -468,9 +489,10 @@ within or between bands. No discussion of detailed balance or KMS.
 
 **"Efficient Quantum Gibbs Samplers with KMS Detailed Balance Condition"**
 
-They construct Lindbladians satisfying KMS-DB for preparing thermal states.
-Their generators have real spectra (by DB). Relevant for understanding
-what KMS-DB looks like mathematically, but their framework is for Gibbs
+They construct Lindbladians satisfying a strict KMS-detailed-balance symmetry
+for preparing thermal states. The symmetric generators studied there have real
+spectra. Relevant for understanding what that strict KMS-DB condition looks
+like mathematically, but their framework is for Gibbs
 sampling (driving to thermal states), not for understanding dephasing
 dynamics. No palindromic structures.
 
@@ -480,24 +502,28 @@ dynamics. No palindromic structures.
 
 | Question | Answer | Classification |
 |---|---|---|
-| 1. Is Π a known symmetry type? | Closest to Q₋ anti-pseudo-Hermiticity + shift; no exact match in existing classifications | **PLAUSIBLE** (new variant) |
-| 2. Is Π related to quantum detailed balance? | Structurally parallel (both relate to time reversal) but formally distinct (DB uses L†, Π uses -L) | **UNLIKELY** (different symmetries) |
-| 3. Does KMS at β=0 reduce to Π? | No. KMS at β=0 gives L†=L (real spectrum). Π gives palindromic complex spectrum. Different conditions | **UNLIKELY** |
+| 1. Is Π a known symmetry type? | For the centered generator `L_c=L+SγI`, Π supplies a sectorwise P generator after resolving Π²; the complete irreducible-sector SRP algebra is not yet computed | **CONFIRMED algebra / OPEN class** |
+| 2. Is Π related to quantum detailed balance? | The Π anti-similarity is a distinct constraint. Strict GNS/KMS symmetry uses a weighted adjoint; Alicki/standard QDB may instead split off a commuting Hamiltonian derivation | **DISTINCT CONDITIONS** |
+| 3. Does KMS at β=0 reduce to Π? | No. Strict full-generator KMS symmetry at `I/d` gives `L†=L`; Alicki/standard QDB can retain a Hamiltonian derivation. Neither condition reduces to Π | **NO** |
 | 4. Finite-T generalization of **Π**? | Obstructed: the thermal split [0, r/2, r/2, r] pairs as (I,Z) and (X,Y), a map that commutes with [H, ·] instead of anti-commuting, so no Π of this shape exists at T < ∞ | **UNLIKELY** (fundamental obstruction, and it is against Π) |
 | 4b. Finite-T generalization of the **palindrome**? | Not obstructed. The pairing the body computes here is real: the spectrum stays palindromic, centred at −Σ(γ↓+γ↑)/2. See [F137](ANALYTICAL_FORMULAS.md) | **CONFIRMED** (H = 0 derived here, H ≠ 0 measured N=2–5) |
 | 5. What is 2Sγ? | Algebraic shift of the pure-Z palindrome; not a thermodynamic quantity without a specified bath and stationary state | **CONFIRMED** |
-| 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá et al. (tenfold), MEP (η-pairing). None have the exact Π structure | **CONFIRMED** (relatives exist; Π is new) |
+| 6. Who else has similar structures? | Roberts et al. (hidden TRS), Sá-Ribeiro-Prosen (shifted-generator classification and BDI/CI dephasing examples), and MEP (η-pairing) provide related structures; no identity or novelty claim is made without the remaining sector calculation | **CONFIRMED relatives / OPEN relation** |
 
 ---
 
 ## The Bottom Line
 
-**Π is genuinely new.** It is not quantum detailed balance, not KMS, not a
-standard Buca-Prosen symmetry, and not cleanly within the tenfold classification.
-It is a **shifted anti-similarity of the Liouvillian** specific to the pure-Z
-dephasing algebra, with structural parallels to (but formal differences from)
-hidden time-reversal symmetry. The algebra does not itself identify a bath
-temperature.
+The Π relation is not a quantum-detailed-balance or KMS condition: it is a
+**shifted anti-similarity of the Liouvillian** for the pure-Z-dephasing algebra,
+and the algebra does not
+itself identify a bath temperature. In the Sá-Ribeiro-Prosen framework the
+shift is absorbed by `L_c=L+SγI`; after resolving Π², a phase-normalized Π is
+a P generator in each parity sector. This places the structure inside the
+shifted-generator classification problem rather than outside it. The final
+BDI, CI, or other irreducible-sector label is **OPEN** until the remaining
+unitary, strong, and antiunitary symmetries and their commutation algebra are
+computed.
 
 The closest living relative is the Roberts-Lingenfelter-Clerk hidden TRS
 framework, which also produces time-reversal-like symmetry in systems that
@@ -550,8 +576,10 @@ the distinction F137 was minted to draw.
    *η-pairing symmetry; 1D free-fermion ancestor of Π.*
 
 7. **Alhambra, Woods (2017)**: "Dynamical maps, quantum detailed balance, and the Petz recovery map."
-   [ResearchGate](https://www.researchgate.net/publication/319930728_Dynamical_maps_quantum_detailed_balance_and_the_Petz_recovery_map)
-   *QDB = Petz recovery map being exact channel reversal.*
+   [arXiv:1609.07496](https://arxiv.org/abs/1609.07496)
+   *For their QDB dissipative semigroup with no unitary part, the map equals its
+   Petz recovery map; an additional commuting unitary part is reversed while
+   the same dissipative evolution is retained.*
 
 8. **Roberts, Lingenfelter, Clerk (2021)**: "Hidden Time-Reversal Symmetry, Quantum Detailed Balance and Exact Solutions of Driven-Dissipative Quantum Systems."
    PRX Quantum 2, 020336. [arXiv:2011.02148](https://arxiv.org/abs/2011.02148)
@@ -559,18 +587,19 @@ the distinction F137 was minted to draw.
 
 9. **Sá, Ribeiro, Prosen (2023)**: "Symmetry Classification of Many-Body Lindbladians: Tenfold Way and Beyond."
    Phys. Rev. X 13, 031019. [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)
-   *38-fold classification; Π sits in a gap between Q₋ and P classes. (They build local-dephasing examples and note the chiral symmetry, but do not identify the palindrome / Π or its per-site locality.)*
+   *38-fold classification of the shifted generator; local-dephasing examples resolve to BDI/CI by parity sector. Π supplies a sectorwise P generator after resolving Π², but our full sector algebra remains uncomputed.*
 
 10. **Kawasaki, Mochizuki, Obuse (2022)**: "Topological phases protected by shifted sublattice symmetry in dissipative quantum systems."
    Phys. Rev. B 106, 035408. [arXiv:2201.09283](https://arxiv.org/abs/2201.09283)
-   *Shifted sublattice symmetry: ordinary chiral/sublattice symmetry plus a constant decay-rate shift, eigenvalue pairs ±λ + ia. The catalogued home for the SHAPE of Π's shifted spectrum, found afterward as a cross-check; noninteracting (quadratic / Majorana). The interacting k-body Π and its per-site-product-vs-entangled locality (the 6 → 4 → 2 ceiling) are the new part.*
+   *Shifted sublattice symmetry: ordinary chiral/sublattice symmetry plus a constant decay-rate shift, eigenvalue pairs ±λ + ia. This is a catalogued comparison for the SHAPE of Π's shifted spectrum. The repository separately establishes an interacting k-body Π and a 6 → 4 → 2 per-site-product-vs-entangled locality ceiling; equivalence and prior-art coverage remain open.*
 
 10. **Haga et al. (2023)**: Incoherenton paper.
     *XY-weight grading = incoherenton number. Bands but no palindrome.*
 
 11. **Chen, Kastoryano, Gilyén (2025)**: "Efficient Quantum Gibbs Samplers with KMS Detailed Balance Condition."
     Comm. Math. Phys. [arXiv:2404.05998](https://arxiv.org/abs/2404.05998)
-    *KMS-DB Lindbladians for Gibbs sampling; real spectra.*
+   *Strict KMS-symmetric Lindbladians for Gibbs sampling; real spectra for that
+   symmetric generator.*
 
 12. **Roberts et al. (2025)**: "Hidden Time Reversal in Driven Spin Chains."
     Phys. Rev. Lett. 134, 130404. [PRL](https://doi.org/10.1103/PhysRevLett.134.130404)
@@ -588,19 +617,19 @@ the distinction F137 was minted to draw.
    XXZ + Z-dephasing Liouvillian satisfies their hidden TRS condition.
    If yes, Π and hidden TRS may be dual descriptions of the same symmetry.
 
-3. **Classify Π in the Sá et al. framework.** Work with the centered
-   Liouvillian L_c and determine its exact symmetry class. The shift
-   and order-4 chiral operator require their own algebraic classification.
-   Poisson-like statistics are compatible with integrability or fragmentation and
-   do not match the corresponding random-matrix universality behavior; these
-   statistics do not remove the symmetry class or prove integrability. See
+3. **Complete the sectorwise Sá et al. classification.** Work with the centered
+   Liouvillian L_c, resolve Π² and every other commuting unitary/strong symmetry,
+   then determine the antiunitary generators and their algebra in each irreducible
+   block.
+   Direct raw-multiset consecutive-gap ratios retain zero gaps and count undefined
+   0/0 separately; this degenerate unresolved population has no standard-ensemble
+   calibration for random-matrix universality. These statistics do not remove the symmetry class or prove integrability. See
    [Random Matrix Theory](../experiments/RANDOM_MATRIX_THEORY.md).
-   The operator result is that Π is a generalized P (chiral) operator:
-   linear, order 4 (Π⁴ = I, Π² = (−1)^{w_YZ}), anti-commutes with
-   both L_c and L_c†. Class AIII confirmed. Π generalizes the standard
-   P class (which requires P² = I) to P⁴ = I while preserving all
-   spectral consequences. The gain-loss system (Σγ = 0) exhibits
-   Liouvillian chiral symmetry breaking at γ_crit (Hopf bifurcation).
+   The operator result is exact: Π is linear, Π⁴ = I,
+   Π² = U_X, and it anticommutes with both L_c and L_c†. After fixing
+   U_X parity it phase-normalizes to an involutive P generator. This alone
+   does not choose a global or sectorwise SRP class. The gain-loss system
+   (Σγ = 0) retains the λ ↔ −λ pairing through its exceptional point.
    See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 4. **Contact Roberts/Clerk group and Prosen group.** Both would immediately
@@ -615,6 +644,8 @@ the distinction F137 was minted to draw.
 
 ---
 
-*Π is not detailed balance. It is not KMS. It is an algebraic mirror of the
-pure-Z dephasing generator; no bath temperature or thermodynamic equilibrium
-is implied by that mirror.*
+*The Π anti-similarity is not a detailed-balance or KMS condition. It is an
+algebraic mirror of the pure-Z dephasing generator; no bath temperature or
+thermodynamic equilibrium is implied by that mirror. The same generator may
+independently satisfy Alicki/standard QDB with respect to `I/d` after its
+Hamiltonian derivation is split off.*

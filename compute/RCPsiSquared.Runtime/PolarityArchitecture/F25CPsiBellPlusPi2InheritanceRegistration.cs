@@ -16,7 +16,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         CrossingThreshold = 1/4 on the bilinear-apex maxval axis. Same
 ///         anchor as F57, Dicke, F60 fold, F62 fold. Added 2026-05-16.</item>
 ///   <item><see cref="AbsorptionTheoremClaim"/>: the Bell+ rate 4γ is the
-///         rung-2 four (two absorption quanta), split per-site by the exact
+///         two-disagreement cell cost 4γ, split per-site by the exact
 ///         |00⟩⟨11| eigenmode at −2(γ₁+γ₂). Added 2026-06-10.</item>
 /// </list>
 ///
@@ -37,7 +37,7 @@ public static class F25CPsiBellPlusPi2InheritanceRegistration
             var ladder = b.Get<Pi2DyadicLadderClaim>();
             var quarter = b.Get<QuarterAsBilinearMaxvalClaim>();
             // The carrier 4γ = rung 2 of the absorption ladder, split per-site into
-            // two quanta 2γ_l (|00⟩⟨11| exact at −2(γ₁+γ₂), residual 0.0; see
+            // two one-disagreement cell costs 2γ_l (|00⟩⟨11| exact at −2(γ₁+γ₂), residual 0.0; see
             // simulations/at_rung2_per_site_split.py). Edge added 2026-06-10.
             _ = b.Get<AbsorptionTheoremClaim>();
             return new F25CPsiBellPlusPi2Inheritance(ladder, quarter);

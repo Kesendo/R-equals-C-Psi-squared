@@ -1,0 +1,27 @@
+G1 v2: stage-1 screen (both f_leak ends), metric = worst-end power and P(d > theta_D)
+
+  Q=10 dt=0.15 13x5  8192 gpb3 | worst-end power  1.64 |   6.8 min
+  Q=10 dt=0.15 13x5  8192 gpb2 | worst-end power  3.01 |   6.8 min
+  Q=10 dt=0.15 13x5 16384 gpb3 | worst-end power  1.88 |  13.6 min
+  Q=10 dt=0.15 13x5 16384 gpb2 | worst-end power  3.82 |  13.6 min
+  Q=10 dt=0.15 21x3  8192 gpb3 | worst-end power  2.27 |  11.0 min
+  Q=10 dt=0.15 21x3  8192 gpb2 | worst-end power  3.29 |  11.0 min
+  Q=10 dt=0.15 21x3 16384 gpb3 | worst-end power  2.61 |  22.0 min
+  Q=10 dt=0.15 21x3 16384 gpb2 | worst-end power  5.28 |  22.0 min
+  Q=12 dt=0.10 13x5  8192 gpb3 | worst-end power  0.53 |   6.8 min
+  Q=12 dt=0.10 13x5  8192 gpb2 | worst-end power  1.75 |   6.8 min
+  Q=12 dt=0.10 13x5 16384 gpb3 | worst-end power  0.71 |  13.6 min
+  Q=12 dt=0.10 13x5 16384 gpb2 | worst-end power  2.33 |  13.6 min
+  Q=12 dt=0.10 21x3  8192 gpb3 | worst-end power  1.31 |  11.0 min
+  Q=12 dt=0.10 21x3  8192 gpb2 | worst-end power  2.90 |  11.0 min
+  Q=12 dt=0.10 21x3 16384 gpb3 | worst-end power  0.68 |  22.0 min
+  Q=12 dt=0.10 21x3 16384 gpb2 | worst-end power  2.92 |  22.0 min
+
+stage-2 confirmation (held-out seed, 200 reps, worst f_leak per config, verdict metric):
+  Q=10 dt=0.15 13x5  8192 gpb2 fl=0.53: d = +0.00672 +- 0.00240 (power 2.80), theta_D 0.00450, P(d>theta_D) = 0.840 (n=200), H0 false rate 0.000
+  Q=10 dt=0.15 21x3  8192 gpb2 fl=0.53: d = +0.00734 +- 0.00216 (power 3.41), theta_D 0.00305, P(d>theta_D) = 0.985 (n=200), H0 false rate 0.010
+
+p2 sensitivity (worst f_leak, 40 reps): the Class-1 guard input
+  p2=0.0050: d = +0.00672 +- 0.00254 (power 2.65)
+  p2=0.0075: d = +0.00594 +- 0.00433 (power 1.37)
+  p2=0.0100: d = +0.00479 +- 0.00879 (power 0.54)

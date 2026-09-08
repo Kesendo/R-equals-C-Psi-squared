@@ -1,0 +1,24 @@
+# MKL: active, MaxDegreeOfParallelism = 24
+# pkmono: path-5 monodromy = Galois (generalises the path-3 octic S_8 off path-3)
+# q0=2+0.000i, region re[0.63,0.69] im[-0.03,0.01], cell=0.002
+
+# DIABOLIC HUNT path-5 (N_block=6) [EXACT: residual = complement of the AT invariant subspace, no tracking]: scan q in re[0.63,0.69] im[-0.03,0.01], cell=0.002, q=0 mask 0.20
+# coverage: at region-centre q=0.66-0.009i the block Re(lambda) spans [-6.06, -1.98] (AT rung-2 line = -4; palindrome centre = -N = -6)
+
+5 coalescence(s):
+  q=0.6120+0.025i  lambda=-4.464-1.341i  defective EP  gap=1.32E-006 loopId=True residual=True gap-exponent=0.96
+  q=0.6437-0.010i  lambda=-4.313-2.511i  DIABOLIC (semisimple)  gap=8.00E-008 loopId=False residual=True gap-exponent=0.32
+  q=0.6471-0.018i  lambda=-4.687-0.959i  DIABOLIC (semisimple)  gap=9.43E-008 loopId=True residual=True gap-exponent=0.65
+  q=0.6616-0.022i  lambda=-4.439+0.746i  DIABOLIC (semisimple)  gap=5.85E-008 loopId=True residual=True gap-exponent=1.00
+  q=0.6667-0.004i  lambda=-4.538+0.536i  DIABOLIC (semisimple)  gap=7.51E-008 loopId=True residual=True gap-exponent=0.93
+
+# GATES (zeros_connecting_structure forward edge):
+  Q1 EXISTENCE: PASS - 4 semisimple residual diabolic(s).
+  Q2 LOCATION: q=0.6437, Re(lambda)=-4.313 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.32 ~1 linear; identity loop=False).
+  Q2 LOCATION: q=0.6471, Re(lambda)=-4.687 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.65 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.6616, Re(lambda)=-4.439 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 1.00 ~1 linear; identity loop=True).
+  Q2 LOCATION: q=0.6667, Re(lambda)=-4.538 -> NEITHER -4 nor -6: a new mechanism sets the location.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.93 ~1 linear; identity loop=True).

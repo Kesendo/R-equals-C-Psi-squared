@@ -20,6 +20,18 @@ public class F41PalindromicTimePi2InheritanceTests
     }
 
     [Fact]
+    public void TypedClaim_DoesNotPromoteRawDensityScaleToPhysicalHeisenbergTime()
+    {
+        var claim = BuildClaim();
+        string surface = string.Join("\n", new[] { claim.Name, claim.DisplayName, claim.Summary }
+            .Concat(claim.Children.Select(child => child.Summary)));
+
+        Assert.DoesNotContain("t_H", surface, StringComparison.Ordinal);
+        Assert.DoesNotContain("Heisenberg time", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("short-time effect", surface, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void HoppingCoefficient_IsExactlyTwo()
     {
         Assert.Equal(2.0, BuildClaim().HoppingCoefficient, precision: 14);

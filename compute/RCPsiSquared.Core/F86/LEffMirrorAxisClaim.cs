@@ -42,7 +42,7 @@ namespace RCPsiSquared.Core.F86;
 /// <see cref="RecenteredEigenvaluesAtQ"/>.</para>
 ///
 /// <para>Tier1Derived: pure 2×2 algebra. Parent edge: <see cref="Symmetry.AbsorptionTheoremClaim"/>
-/// (the −2γ₀·⟨n_XY⟩ rate quantisation this claim lands on at ⟨n_XY⟩ = 2).</para>
+/// (the −2γ₀·⟨n_XY⟩ eigenmode expectation law this claim lands on at ⟨n_XY⟩ = 2).</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86B_OBSTRUCTION.md</c> (the diagnosis coda) +
 /// <c>docs/proofs/PROOF_ABSORPTION_THEOREM.md</c>.</para>

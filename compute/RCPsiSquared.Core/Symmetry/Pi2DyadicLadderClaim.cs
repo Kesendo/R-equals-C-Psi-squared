@@ -33,13 +33,13 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>n=0 carries two co-existing structural readings (2026-05-12):</b> the value
 /// a₀ = 2 is BOTH the qubit operator-space dimension d=2 (from d²−2d=0; per
-/// <see cref="QubitDimensionalAnchorClaim"/>) AND the absorption quantum coefficient 2 in
-/// Re(λ) = −2γ·⟨n_XY⟩ (the Liouvillian eigenvalue grid step under uniform Z-dephasing;
+/// <see cref="QubitDimensionalAnchorClaim"/>) AND the dissipator coefficient 2 in
+/// Re(λ) = −2γ·⟨n_XY⟩ (the coefficient of a continuous eigenmode-light expectation;
 /// per <see cref="AbsorptionTheoremClaim"/>). Same number, two roles: the qubit's
-/// algebraic dimension and the dynamics' rate-quantum coefficient. The ladder makes the
+/// algebraic dimension and the dynamics' dissipator coefficient. The ladder makes the
 /// doppelte Rolle visible: a₀ is the linchpin between Hilbert-space algebra (where it
 /// counts basis dimensions) and Liouville-space dynamics (where it scales the carrier
-/// γ₀ into the absorption quantum 2γ₀ per <see cref="UniversalCarrierClaim"/>). Both
+/// γ₀ into the one-disagreement basis-cell cost 2γ₀ per <see cref="UniversalCarrierClaim"/>). Both
 /// readings sit at the same ladder index; neither dominates.</para>
 ///
 /// <para>Tier: Tier1Derived. The closed form a_n = 2^(1−n) is trivial; the lineage from
@@ -81,7 +81,7 @@ public sealed class Pi2DyadicLadderClaim : Claim, IF99AnchorBearing
         new DyadicAnchor(N: 0, Value: 2.0,
             ClaimType: typeof(AbsorptionTheoremClaim),
             ClaimName: "AbsorptionTheoremClaim",
-            Role: "absorption quantum coefficient: 2γ in Re(λ) = −2γ·⟨n_XY⟩ (Liouvillian eigenvalue grid step under uniform Z-dephasing)"),
+            Role: "dissipator coefficient: 2 in the basis-cell cost 2γ n_diff and eigenmode law −Re(λ)=2γ⟨n_XY⟩; not an eigenvalue-grid step"),
         new DyadicAnchor(N: 2, Value: 0.5,
             ClaimType: typeof(HalfAsStructuralFixedPointClaim),
             ClaimName: "HalfAsStructuralFixedPointClaim",
@@ -136,13 +136,13 @@ public sealed class Pi2DyadicLadderClaim : Claim, IF99AnchorBearing
 
     /// <summary>The first typed anchor at index <paramref name="n"/> if any exists, else
     /// null. When the index carries multiple roles (e.g. n=0 has both QubitDimensional
-    /// and AbsorptionQuantum readings), this returns the first listed; use
+    /// and dissipator-coefficient readings), this returns the first listed; use
     /// <see cref="AnchorsAt"/> to get all roles.</summary>
     public DyadicAnchor? AnchorAt(int n) => KnownAnchors.FirstOrDefault(a => a.N == n);
 
     /// <summary>All typed anchors at index <paramref name="n"/> (plural). At n=0 returns
     /// both QubitDimensionalAnchorClaim (d=2 = operator-space dim) and
-    /// AbsorptionTheoremClaim (a₀=2 = absorption quantum coefficient); at n=2 and n=3
+    /// AbsorptionTheoremClaim (a₀=2 = dissipator coefficient); at n=2 and n=3
     /// currently returns one each. Returns empty enumerable when n has no typed anchor.
     /// </summary>
     public IEnumerable<DyadicAnchor> AnchorsAt(int n) => KnownAnchors.Where(a => a.N == n);

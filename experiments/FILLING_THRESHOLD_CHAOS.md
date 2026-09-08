@@ -21,15 +21,16 @@ relaxation rate, imaginary part = an oscillation frequency), and that cloud of e
 **spectrum** we study.
 
 "**Dissipative quantum chaos**" is a statement about the *local spacing statistics* of that complex cloud.
-Two reference fingerprints bracket it: a structureless **2D-Poisson** cloud (the signature of an integrable
-/ non-chaotic system, eigenvalues don't "feel" each other) and **GinUE** (the Ginibre Unitary Ensemble, the
+Two reference fingerprints bracket it: a structureless **2D-Poisson** cloud (an uncorrelated benchmark with
+no level repulsion, compatible with integrable or fragmented structure but not a converse test) and **GinUE** (the Ginibre Unitary Ensemble, the
 random-matrix reference for a fully chaotic dissipative system, whose eigenvalues repel). The diagnostic
 that tells them apart is the complex spacing ratio (**CSR**), summarised below. The question of this
 experiment is which fingerprint a given piece of the spectrum wears, and what controls it.
 
 Hamiltonian integrability and Liouvillian spacing statistics are different questions.
 Poisson-like spacings are compatible with integrable structure, but do not prove it.
-Here the controlled comparison changes the coherence sector at fixed interacting disorder.
+Here the controlled comparison changes the coherence sector at a fixed interacting-disorder
+distribution, not one fixed disorder realization; the two sectors use separately sampled ensembles.
 
 "**Filling**" is how many excitations (flipped spins) the piece of the spectrum under study carries,
 relative to N: a **dilute** sector holds a handful of excitations, a **dense** sector holds ~N/2
@@ -50,16 +51,19 @@ spectral chaos at fixed q are different things here (`inspect --root galoischaos
 
 The Door-C sweeps distinguish three Hamiltonian cases:
 
-- Nonzero Delta breaks free-fermion additivity, but uniform XXZ remains Bethe-integrable.
-- A random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions).
+- Nonzero Delta breaks the underlying Hamiltonian's free-fermion additivity, but uniform XXZ remains Bethe-integrable.
+- At Delta=0 the random-field XY Hamiltonian remains quadratic (Anderson/free fermions). This is a Hamiltonian
+  classification; local Z-dephasing with quadratic number jump operators does not thereby make the full
+  Liouvillian a quadratic free-fermion generator. It does not classify the Z-dephasing Liouvillian.
 - A generic random field plus Delta!=0 is the interacting disordered nonintegrable test.
 
 The open-chain Bethe solution and the disordered interaction/Anderson boundary are independent
 Hamiltonian inputs ([open XXZ](https://arxiv.org/abs/0707.1995),
 [random-field XXZ](https://arxiv.org/abs/2403.09608)). Reflection, conjugation or cross-fold symmetry can
 break without each knob breaking Hamiltonian integrability. The finite executed CSR evidence is a
-dilute non-GinUE reading over the sampled knobs, followed by the **same** Liouvillian's dilute-vs-dense
-comparison at canonical Delta=1 plus disorder. It supports a filling dependence in that regime,
+dilute non-GinUE reading over the sampled knobs, followed by a dilute-vs-dense ensemble comparison
+at canonical Delta=1 plus the same disorder distribution. The sector samples are different Liouvillian
+realizations. It supports a filling dependence in that regime,
 not a universal inability of dilute sectors to thermalize.
 
 ## Terms used here
@@ -72,10 +76,13 @@ not a universal inability of dilute sectors to thermalize.
   neighbour. ⟨|z|⟩ is radial rigidity, ⟨cos θ⟩ angular repulsion. 2D-Poisson: ⟨|z|⟩≈0.66, ⟨cos θ⟩≈0.
   GinUE (dissipative quantum chaos, class A): ⟨|z|⟩≈0.74, ⟨cos θ⟩≈−0.24 (finite-size references are
   computed live, never hardcoded).
-- **Class A**: the symmetry class whose reference is GinUE. We use **unequal** weight (p, p+1): the F1
-  palindrome Π maps the (p,p+1) block to the *conjugate* (p+1,p) block, not to itself, so no residual
-  antiunitary survives; the GinUE target is the right one (not AI⁺/AII⁺). Confirmed live: under a
-  random field the block spectrum's conjugation-match fraction is ≈ 0.
+- **GinUE comparison**: GinUE is the class-A reference ensemble used as a numerical benchmark, not a
+  class assignment for this Liouvillian block. For unequal weight (p, p+1), Π maps the block to its
+  conjugate partner (p+1,p), rather than acting within it. The measured near-zero conjugation-match
+  fraction under a random field rules out that particular spectral pairing in the sampled block; it
+  does not exhaust possible residual antiunitary symmetries. The full irreducible symmetry algebra,
+  after resolving the shifted generator's sectorwise P symmetry and every strong/unitary sector, is
+  **OPEN**.
 
 ## The setup
 
@@ -91,6 +98,10 @@ Methodology is inherited verbatim from the Door-C harness `IntegrabilityBreaking
 class's `Reduce` and finite-size references): pool per-spectrum z's, never raw eigenvalues across spectra
 (that superimposes independent point processes and fakes Poisson); bootstrap the CI; compare against
 finite-size-matched Poisson/GinUE references (not the asymptotic values, which carry the wrong edge bias).
+The shared kernel retains one 1e-9 finite-precision cluster representative per rounded coordinate pair
+before computing z. This numerical rule avoids a zero nearest-neighbour denominator at the declared
+resolution but can merge sufficiently close nondegenerate levels. The reported representative counts and
+CSR values are therefore tolerance-dependent and not an exact degeneracy census.
 
 ## The result: the dilute block stays Poisson, the dense block reaches toward GinUE
 
@@ -127,14 +138,15 @@ spin-flip QP relate them; see [F89d cross-fold](F89_PATH_K_DIABOLIC.md).)
 
 ## What the comparison establishes
 
-At the same Liouvillian, disorder and interactions, changing excitation content changes the observed
-CSR: the sampled dense sectors approach the GinUE reference more closely than the dilute ones.
+At the same model parameters and disorder distribution, but over separately sampled realization ensembles,
+the sampled dense sectors approach the GinUE reference more closely than the dilute ones. This is an ensemble-level
+filling association, not a within-realization intervention on one fixed Liouvillian.
 Galois structure over the coupling field and spectral statistics at fixed coupling remain distinct objects.
 These finite sizes do not establish a universal filling threshold or a cause of thermalization.
 
 The strong-disorder corner (W = 2) moves the dense block back toward Poisson-like statistics; this is
 compatible with localization but is not an MBL proof. In the sampled disorder window, interactions
-(Δ = 1) deepen repulsion relative to the quadratic free-fermion case (Δ = 0). The distinction is
+(Δ = 1) deepen repulsion relative to the quadratic free-fermion Hamiltonian case (Δ = 0). The distinction is
 between those executed operating points, not between every disordered and every clean Hamiltonian.
 
 ## Reproduce
@@ -143,8 +155,9 @@ between those executed operating points, not between every disordered and every 
 dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root fillcsr
 ```
 
-recomputes the dilute-vs-dense contrast live (N=6 and N=7) with finite-size-matched references and the
-class-A guard, and prints the CONFIRMED verdict. The full filling ladder and the N=6→7→8 size scaling are
+recomputes the dilute-vs-dense contrast live (N=6 and N=7) with finite-size-matched Poisson/GinUE
+references and the sampled conjugation-match diagnostic, and prints the finite-size comparison verdict.
+This is a GinUE benchmark, not a symmetry-class assignment. The full filling ladder and the N=6→7→8 size scaling are
 the reconnaissance tests in
 `compute/RCPsiSquared.Diagnostics.Tests/Foundation/FillingThresholdCsrTests.cs`
 (`Reconnaissance_FillingLadder_N6`, `Reconnaissance_DenseSizeScaling`, `Reconnaissance_DenseN8_Full`),

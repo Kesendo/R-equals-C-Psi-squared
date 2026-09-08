@@ -18,9 +18,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   Y-dephasing (immune {I, Y}, damped {X, Z}): flip bit_a, phase −i^bit_b
 ///        I ↔ X (sign  1),  Y ↔ Z (sign −i)
 ///
-/// Π is unitary order-4. Per the existing class-AIII-chiral classification
-/// (PT_SYMMETRY_ANALYSIS), Π is *linear* — distinct from Bender-Boettcher PT (which
-/// requires anti-linear operators).
+/// Π is unitary order-4 and linear. On a resolved Π²-character sector, phase normalization
+/// gives the involution P_px = sqrt(px)·Π that anticommutes with the shifted generator.
+/// This secures a sectorwise P-type generator; the full irreducible SRP class remains open.
+/// It is distinct from Bender-Boettcher PT, which requires an anti-linear operator.
 ///
 /// 2026-06-10: the canonical Z-dephasing Π factors as Π_Z = R·D on coherence space
 /// (Π_Z(ρ) = ρᵀ·X^⊗N; D the transpose superoperator first, R = I⊗F the ket reflection

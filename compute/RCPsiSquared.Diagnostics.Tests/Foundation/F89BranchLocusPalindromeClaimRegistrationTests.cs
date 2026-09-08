@@ -2,6 +2,7 @@ using System.Linq;
 using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
+using RCPsiSquared.Diagnostics.Foundation;
 using RCPsiSquared.Diagnostics.Knowledge;
 using RCPsiSquared.Runtime.ObjectManager;
 using Xunit;
@@ -36,5 +37,23 @@ public class F89BranchLocusPalindromeClaimRegistrationTests
             .Select(c => c.GetType()).ToHashSet();
         Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
         Assert.Contains(typeof(F89Path3OcticEpClaim), ancestors);
+    }
+
+    [Fact]
+    public void ClaimAndWitness_CertifyOnlyDeltaZeroN4Character()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var claim = registry.Get<F89BranchLocusPalindromeClaim>();
+        var witness = new BranchLocusPalindromeWitness();
+
+        foreach (var surface in new[] { claim.Summary, witness.Summary })
+        {
+            Assert.Contains("N=4 Delta=0", surface, System.StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("Diabolic 2/2", surface, System.StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("N=4/N=5/N=6 positive Delta", surface, System.StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("Uncertified", surface);
+            Assert.DoesNotContain("defect", surface, System.StringComparison.OrdinalIgnoreCase);
+            Assert.DoesNotContain("lift", surface, System.StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

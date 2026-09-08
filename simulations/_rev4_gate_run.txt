@@ -1,0 +1,43 @@
+A. Lemma A2 as an integer identity, N = 2..10, all blocks and classes
+   N=2: N*count_l == s*total on every (p,q,s,l): exact
+   N=3: N*count_l == s*total on every (p,q,s,l): exact
+   N=4: N*count_l == s*total on every (p,q,s,l): exact
+   N=5: N*count_l == s*total on every (p,q,s,l): exact
+   N=6: N*count_l == s*total on every (p,q,s,l): exact
+   N=7: N*count_l == s*total on every (p,q,s,l): exact
+   N=8: N*count_l == s*total on every (p,q,s,l): exact
+   N=9: N*count_l == s*total on every (p,q,s,l): exact
+   N=10: N*count_l == s*total on every (p,q,s,l): exact
+
+B. Layer B0: one-magnon exact facts of the uniform chain
+   N=5: sector-1 H == (N-1)J*Id - 2J*L_path entry-exactly: True
+        d_m + d_(N-m) - 2/N: 6.66e-16, flat modes - 1/N: 4.72e-16 (floor 1.16e-15)  ok
+   N=6: sector-1 H == (N-1)J*Id - 2J*L_path entry-exactly: True
+        d_m + d_(N-m) - 2/N: 3.33e-16, flat modes - 1/N: 2.50e-16 (floor 2.07e-15)  ok
+   N=7: sector-1 H == (N-1)J*Id - 2J*L_path entry-exactly: True
+        d_m + d_(N-m) - 2/N: 3.89e-16, flat modes - 1/N: 3.89e-16 (floor 3.36e-15)  ok
+   N=8: sector-1 H == (N-1)J*Id - 2J*L_path entry-exactly: True
+        d_m + d_(N-m) - 2/N: 6.66e-16, flat modes - 1/N: 4.16e-16 (floor 5.10e-15)  ok
+
+B2. identity check on generic dyad vectors, block (1,N-1)
+   N=6: max |expansion - direct| over l = 5.97e-16  ok
+   N=8: max |expansion - direct| over l = 5.55e-16  ok
+
+C. Census, uniform chain, all blocks: T_s in every row, dims, law
+   N=5 (1,1) s=2: predicted pair-equality span == measured, distance 5.68e-15  ok
+   N=5: 23 Omega_s rows, worst law res/floor(64) 0.022, worst |T_s proj - 1| 7.8e-16, class-pure rows off omega=0: 0, dims as predicted: True  ok
+   N=6 (1,1) s=2: predicted pair-equality span == measured, distance 3.39e-15  ok
+   N=6: 37 Omega_s rows, worst law res/floor(64) 0.008, worst |T_s proj - 1| 8.9e-16, class-pure rows off omega=0: 0, dims as predicted: True  ok
+   N=7 (1,1) s=2: predicted pair-equality span == measured, distance 6.38e-15  ok
+   N=7: 55 Omega_s rows, worst law res/floor(64) 0.015, worst |T_s proj - 1| 2.2e-15, class-pure rows off omega=0: 0, dims as predicted: True  ok
+   N=8 (1,1) s=2: predicted pair-equality span == measured, distance 8.99e-15  ok
+   N=8: 78 Omega_s rows, worst law res/floor(64) 0.010, worst |T_s proj - 1| 1.3e-15, class-pure rows off omega=0: 0, dims as predicted: True  ok
+   class-purity cutoff separation across the census: kept Gram eigenvalues >= 1 - 2.0e-15, dropped <= 0.916667
+   omega-grouping cutoff 1e-09 separation: within-group spacings <= 1.7e-14, between-group >= 6.3e-06
+
+D. Controls
+   N=6 random SWAP graph, all blocks (37 rows): all rows dim 1 = span(T_s), law at floor: ok
+   N=8 random SWAP graph, corner blocks (6 rows): all rows dim 1 = span(T_s), law at floor: ok
+   N=6 Delta=0.5 control, (1,5) s=4: law residual 0.178 (gate > 0.05, break present): ok
+
+VERDICT: PASS: the uniform law's two layers hold as derived: the integer double count on the T_s line (N=2..10), the exact one-magnon facts and the B2 identity, the N=5..8 census (T_s in every row, corner dims floor(N/2), law at floor, nothing off omega=0), the enhanced-span match, and both controls

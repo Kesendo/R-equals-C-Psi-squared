@@ -35,10 +35,12 @@ if sys.platform == "win32":
 
 
 def angle_at_quadratic_crossing(c: float, b: float = 0.5) -> float | None:
-    """Closed-form angle of the complex root of z² − 2bz + c = 0.
+    """Closed-form principal angle for z² − 2bz + c = 0 with finite b > 0.
 
     Returns θ in radians, or None if c ≤ b² (real roots regime).
     """
+    if not math.isfinite(b) or b <= 0:
+        raise ValueError("b must be finite and > 0")
     threshold = b * b
     if c <= threshold:
         return None

@@ -14,8 +14,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// across the two blocks. The residual is machine-zero at EVERY Δ (the fold is integrability-independent).</summary>
 public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double SimilarityResidual, double Delta);
 
-/// <summary>Move 4, answered: the (SE,DE) diabolics PAIR across the cross-block fold, because that fold is an
-/// EXACT antiunitary similarity.
+/// <summary>The cross-block fold is an exact antiunitary similarity. It transports Jordan structure conditionally
+/// after the source coincidence and character have been independently certified.
 ///
 /// <para>The branch-locus palindrome's bra bit-flip ρ[a,b] → ρ[a,b̄] (the F89c lemma, n_diff(a,b̄) = N −
 /// n_diff(a,b)) maps the (SE,DE) = (w1,w2) coherence block to the (SE, w_{N−2}) = (w1, N−2) block. This witness
@@ -24,15 +24,14 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// L(1,N−2)(q̄) = −P · conj(L(1,2)(q)) · Pᵀ − 2N·I to machine zero (the entries are exact arithmetic; the residual
 /// is 0 for N=4..9 at every q, real or complex). This is STRONGER than the spectrum match the CLI's
 /// <c>foldcross</c> command reports: an antiunitary similarity preserves the whole Jordan structure, so a
-/// SEMISIMPLE coalescence (a diabolic) in (SE,DE) at (q, λ) maps to a semisimple coalescence in (SE,w_{N−2}) at
-/// (q̄, −λ̄−2N) with the IDENTICAL coalescence gap and character. Hence every (SE,DE) diabolic has a cross-fold
-/// partner diabolic, for all N and all q at once, no enumeration needed.</para>
+/// independently certified semisimple coalescence in (SE,DE) maps to one in (SE,w_{N−2}) at
+/// (q̄, −λ̄−2N) with the identical coalescence gap and character. A sampled small gap is not such a certificate.</para>
 ///
 /// <para>The fold is integrability-INDEPENDENT: the identity holds for the FULL interacting XXZ block at EVERY
 /// anisotropy Δ (<see cref="WeightCoherenceBlock.Build(int,int,int,System.Numerics.Complex,double)"/>), because the
 /// Δ·ZZ term is EVEN under the global bit-flip (zz(b̄) = zz(b)), so the bra-complement carries it cleanly. The
-/// defect-or-lift result is a sampled finite-N Delta response; it does not establish all-N protection.
-/// The pairing identity still holds: if a diabolic becomes defective, its cross-fold partner does too.
+/// identity does not decide sampled positive-Delta character. N=4 at Delta=0 is certified; the N=5/N=6 positive
+/// Delta proposals are Uncertified. If a character is independently certified, its cross-fold partner shares it.
 /// The discriminant is bit-flip PARITY: a
 /// bit-flip-ODD perturbation breaks the fold; a longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), so its
 /// residual is O(1), not machine zero (<see cref="ReadFieldControlResidual"/>, the complementary control). The fold
@@ -41,8 +40,8 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// <para>At N=4 the partner w_{N−2} = w2 = DE, so the partner IS the (SE,DE) block (the N=4-only within-block
 /// self-fold, the degenerate partner=self case that put one diabolic on the real axis); for N ≥ 5 the partner is
 /// a different block ((SE,TE) at N=5, (SE,QE) at N=6, …), and the N=4 on-line "zeros" become cross-block mirror
-/// partners. The witness also reproduces the pairing on the N=7 real-q diabolic (λ=−4.942 ↔ partner −9.058, equal
-/// gaps).</para>
+/// partners. The N=7 proposal (λ=−4.942 ↔ partner −9.058) is retained only as an equal-gap similarity read, not
+/// as a coincidence or character certificate.</para>
 ///
 /// <para>The cross-fold is one leg of a Klein four-group of bit-flip similarities on the coherence-block lattice,
 /// general in BOTH weights (not just wKet=1): the bra-complement P (flip the bra, <see cref="BraLegResidual"/>)
@@ -73,8 +72,8 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
     /// <summary>The cross-fold antiunitary-similarity residual of the XXZ block at coupling q and anisotropy Δ:
     /// max over (t,u) of |L(1,N−2)(q̄,Δ)[Pt,Pu] − (−conj(L(1,2)(q,Δ)[t,u]) − 2N·δ)|. Zero ⟹ exact similarity.
     /// Machine-zero at EVERY Δ: the Δ·ZZ term is even under the global bit-flip (zz(b̄) = zz(b)), so the bra-
-    /// complement carries it cleanly; the fold is integrability-independent. The finite-N Delta response
-    /// of sampled diabolics tests the conditional residual mechanism, not an all-N cause.</summary>
+    /// complement carries it cleanly; the fold is integrability-independent. This residual does not certify a
+    /// sampled eigenvalue coincidence or Jordan character.</summary>
     public CrossFoldReading Read(int n, Complex q, double delta)
     {
         var l1 = WeightCoherenceBlock.Build(n, 1, 2, q, delta);
@@ -177,10 +176,9 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
         return e;
     }
 
-    /// <summary>The fold-image of a real-q diabolic: the (SE,DE) coalescence gap near (qRe, λ) and the partner
-    /// (SE,w_{N−2}) coalescence gap near the fold image −λ−2N (real λ, so q̄ = q). Equal gaps ⟹ the diabolic
-    /// pairs across the fold (a concrete reading of the structural similarity).</summary>
-    public (double Gap12, double GapPartner, double PartnerLambda) ReproducePairedDiabolic(int n, double qRe, double lambda)
+    /// <summary>Compares the two eigenvalue gaps nearest a proposed real-q source point and its fold image.
+    /// Equality reads the structural similarity only; it does not certify coincidence or Jordan character.</summary>
+    public (double Gap12, double GapPartner, double PartnerLambda) ComparePartnerGapsNearProposal(int n, double qRe, double lambda)
     {
         var q = new Complex(qRe, 0);
         double partnerLam = -lambda - 2.0 * n;                                       // −λ̄ − 2N for real λ
@@ -198,7 +196,7 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
     }
 
     public string DisplayName =>
-        "CrossFoldSimilarityWitness (the (SE,DE)↔(SE,w_{N−2}) cross-fold is an EXACT antiunitary similarity, so the diabolics pair)";
+        "CrossFoldSimilarityWitness (exact matrix identity; conditional Jordan-character transport)";
 
     public string Summary
     {
@@ -208,13 +206,13 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
             var r5d = Read(5, new Complex(GenericQ, 0), 0.7);
             return "the branch-locus palindrome's bra bit-flip is an EXACT antiunitary similarity " +
                    $"L(1,N−2)(q̄,Δ) = −P·conj(L(1,2)(q,Δ))·Pᵀ − 2N·I (residual {r5.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0, " +
-                   $"{r5d.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0.7, exact arithmetic), so every (SE,DE) diabolic at " +
-                   "(q, λ) has a partner diabolic at (q̄, −λ̄−2N) in the (SE,w_{N−2}) block with identical character (an " +
-                   "antiunitary similarity preserves Jordan structure) and identical coalescence gap. The N=4 self-fold is the " +
+                   $"{r5d.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0.7, exact arithmetic). An independently certified " +
+                   "Jordan character and gap are transported to the partner. N=4 Delta=0 is certified; N=5/N=6 positive Delta " +
+                   "proposals are Uncertified. The N=4 self-fold is the " +
                    "degenerate partner=self case. The fold is integrability-INDEPENDENT: it survives at EVERY Δ (the Δ·ZZ term " +
-                   "is even under the global bit-flip, zz(b̄)=zz(b)). The sampled finite-N Delta response is defect-or-lift, consistent with the conditional residual mechanism, not an all-N cause; " +
+                   "is even under the global bit-flip, zz(b̄)=zz(b)). The similarity residual alone does not certify coincidence or character; " +
                    "the fold holds for the full interacting XXZ block; its discriminant is bit-flip parity (a longitudinal Z-field, odd, " +
-                   "breaks it). Move 4, answered: the diabolics pair across the cross-fold, for all N, all q, all Δ at once. " +
+                   "breaks it). Character transport is conditional on an independent certificate. " +
                    "The fold holds at EVERY ket weight (not just wKet=1), and has a mirror KET leg (flip the ket index): both " +
                    "legs are exact antiunitary similarities (−2N), their product the unitary global spin-flip. These are the " +
                    "existing spine V₄ ⊂ D₄ block-resolved: the bra leg P = ρ·F is a factor of the F1 palindrome Π = R·D, " +
@@ -279,12 +277,12 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
 
             foreach (var (n, q, lam) in new[] { (7, 1.1264, -4.942) })
             {
-                var (g12, gp, plam) = ReproducePairedDiabolic(n, q, lam);
+                var (g12, gp, plam) = ComparePartnerGapsNearProposal(n, q, lam);
                 yield return new InspectableNode(
-                    displayName: $"gate: N={n} real-q diabolic pairs across the fold ((1,2) λ={lam.ToString("0.###", Inv)} ↔ (1,{n - 2}) λ={plam.ToString("0.###", Inv)})",
-                    summary: $"at q={q.ToString("0.####", Inv)} the (1,2) coalescence gap near λ={lam.ToString("0.###", Inv)} is {g12.ToString("E2", Inv)}, " +
+                    displayName: $"N={n} sampled proposal gap and its fold image ((1,2) λ={lam.ToString("0.###", Inv)} ↔ (1,{n - 2}) λ={plam.ToString("0.###", Inv)})",
+                    summary: $"at q={q.ToString("0.####", Inv)} the (1,2) near-target gap at λ={lam.ToString("0.###", Inv)} is {g12.ToString("E2", Inv)}, " +
                              $"and the partner (1,{n - 2}) gap near the fold image −λ−2N={plam.ToString("0.###", Inv)} is {gp.ToString("E2", Inv)} " +
-                             "(equal ⟹ the diabolic pairs across the cross-fold).",
+                             "(equal by the similarity; coincidence and Jordan character remain Uncertified for this proposal).",
                     provenance: NodeProvenance.Live);
             }
         }

@@ -1,6 +1,6 @@
 # A Shifted, Order-4 Chiral Symmetry in Local-Dephasing Lindbladians
 
-<!-- Keywords: Lindbladian symmetry classification gap, shifted chiral symmetry order
+<!-- Keywords: Lindbladian sector symmetry classification, shifted chiral symmetry order
 four, many-body Lindbladian tenfold way beyond, anti-pseudo-Hermiticity constant
 shift, chiral Liouvillian Poisson statistics, complex spacing ratio
 filling threshold GinUE, Sa Ribeiro Prosen classification extension, outbound
@@ -41,12 +41,15 @@ sister adapters), [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md)
 
 This is the third entry of the repository's **outbound arc**: where the
 translation series in `docs/quantum/` carries a community label into our
-stance, this carries a result of ours out to a community's stance. It is
+stance, this carries the operator identity studied in the repository out to a
+community's stance. It is
 written for one audience, the **symmetry-classification community for open
 quantum systems** in the line of Sá, Ribeiro, and Prosen ("Symmetry
 Classification of Many-Body Lindbladians: Tenfold Way and Beyond", Phys. Rev.
-X 13, 031019; [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)), and it
-concerns an object living in one of that scheme's own margins.
+X 13, 031019; [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)). The
+classification must be applied to the shifted generator inside irreducible
+symmetry sectors; the globally order-4 representative below is not by itself
+a new class.
 
 It follows the arc's standing rule (see
 [Combination Valence](../../hypotheses/COMBINATION_VALENCE.md)): hand over an
@@ -66,26 +69,24 @@ is about the Liouvillian level.
 
 ---
 
-## 1. Your open edges, in your words
+## 1. The classification operation this example requires
 
 The tenfold-way-and-beyond program classifies many-body Lindbladians by
 their behavior under the generator set {T₊, C₊, T₋, C₋, P, Q₊, Q₋}:
 antiunitary time-reversal and particle-hole flavors, unitary chiral P, and
-the two pseudo-Hermiticity conditions involving L†. Two edges of that
-program are live:
+the two pseudo-Hermiticity conditions involving L†. Its negative symmetries
+are defined up to an identity shift and hence on the traceless shifted
+generator L′. It also requires all commuting unitary symmetries to be
+resolved before assigning a class to an irreducible block.
 
-1. **Symmetry conditions the generator set does not span.** The scheme
-   classifies conditions of the form S·L·S⁻¹ = ±L or ±L†, without constant
-   shifts and with involutive chiral operators (P² = I). Physical
-   Lindbladians that satisfy a symmetry condition *with* a shift, or with a
-   chiral operator of higher order, sit outside the net by construction.
-
-2. **The class-statistics correspondence when integrability intervenes.**
-   The classification's diagnostic arm predicts random-matrix statistics
-   (per class) within each symmetry sector. An integrable Lindbladian can
-   carry the full symmetry structure of a class while showing none of its
-   level repulsion, and where the crossover to the predicted statistics
-   happens in physical models is a data question.
+For the operator below, Π² is itself a commuting unitary symmetry Ux. In a
+Ux=px sector, px∈{+1,−1}, the phase-normalized restriction
+P_px=√px·Π|px obeys P_px²=I and anticommutes with L′. This is the same
+sectorwise normalization used in the paper's dephasing examples. The live
+question is therefore not whether the shift or global order four lies
+outside the taxonomy, but which class each fully reduced sector occupies
+after the remaining commuting symmetries and their relations with T₊, Q₊
+and P_px have been worked out.
 
 This document hands over a model family with an exact operator identity
 and computed statistics; the statistics do not prove full spectral solvability.
@@ -116,9 +117,10 @@ The operator's profile, each property separately pinned in the sources:
 
 - **Unitary and linear** (a signed permutation of the Pauli basis, phases in
   {±1, ±i}); no complex conjugation anywhere in the condition.
-- **Order 4, not 2:** Π⁴ = I, and Π² is conjugation by the global string
-  X^⊗N (it acts on a Pauli string as (−1)^{n_Y + n_Z}). A chiral-type
-  operator with P⁴ = I where the scheme's P requires P² = I.
+- **Order 4 globally, involutive sectorwise:** Π⁴ = I, and Π² is conjugation
+  by the global string X^⊗N (it acts on a Pauli string as
+  (−1)^{n_Y+n_Z}). Resolving this commuting ±1 symmetry and multiplying the
+  restriction by √px gives the involution required for P.
 - **Site-local:** a tensor product of single-site operations, so it survives
   arbitrary coupling graphs and inhomogeneous rates γ_i unchanged.
 - **Chiral for both:** after centering, Π anti-commutes with L_c and with
@@ -127,59 +129,62 @@ The operator's profile, each property separately pinned in the sources:
 
 ---
 
-## 3. Where it sits in your scheme
+## 3. What is placed, and what still needs calculation
 
-We placed Π against the generator set ourselves
-([KMS and Detailed Balance](../KMS_DETAILED_BALANCE.md), the repository's
-formal analysis):
+The exact identity places Π as a global representative of a P-type chiral
+symmetry of the shifted generator. The classification step is:
 
-- The **closest slot is Q₋** (anti-pseudo-Hermiticity, Q·L·Q⁻¹ = −L†), but
-  the condition above has **L, not L†**, on the right side, and L ≠ L† as
-  soon as H ≠ 0.
-- The **shift 2Σγ has no slot**: the scheme's symmetry conditions carry no
-  constant term. Centering absorbs the shift, but then the classification
-  applies to L_c, not to L.
-- After centering, the honest reading is a **generalized P**: a unitary
-  chiral operator of order 4 instead of 2, anti-commuting with both L_c and
-  L_c†, with all of P's spectral consequences (the exact ± pairing of the
-  centered spectrum) intact.
+- shift to L′=L+Σγ·I, exactly as the cited scheme prescribes for negative
+  symmetries;
+- resolve Ux=Π² into px=±1 sectors;
+- use P_px=√px·Π|px, for which P_px²=I and {P_px,L′|px}=0;
+- resolve the other commuting symmetries and compute the sectorwise
+  commutation algebra with the unavoidable Hermiticity-preserving T₊ and any
+  Q symmetry before naming a class.
 
-Two placement notes we carry along honestly. First, the *shape* of the
-shifted spectrum (pairs at ±λ plus a constant) has a catalogued
-noninteracting home: the "shifted sublattice symmetry" of Kawasaki,
-Mochizuki, and Obuse (Phys. Rev. B 106, 035408;
-[arXiv:2201.09283](https://arxiv.org/abs/2201.09283)), for quadratic
-systems. What we did not find catalogued is the **interacting** case with a
-strictly **site-local product** operator on arbitrary graphs, which is what
-Π is. Second, as we read the tenfold-way paper, its own local-dephasing
-examples note the resulting chiral symmetry of the spectrum; the closed-form
-site-local operator that generates it, its order-4 structure, and the shift
-bookkeeping are what this document adds (this reading of the paper should be
-re-verified against it before anything is claimed in public).
+The last step has not been completed for this repository's exact
+joint-popcount/reflection decomposition. Spectral reflection alone cannot
+select AIII or any other class. Sá, Ribeiro and Prosen's dephasing examples
+demonstrate the relevant operation and obtain parity-dependent BDI/CI
+classes for their Hamiltonians; those labels cannot simply be copied onto a
+further-reducible model with a different Hamiltonian symmetry algebra.
 
-So the sharp question we hand over, in your terms: **is "unitary chiral of
-order 4, with constant shift" a natural extension slot of the
-classification, or is centering plus generalized-P the canonical resolution?**
-Either answer organizes a physical family your scheme already uses as an
-example class.
+The *shape* of the shifted spectrum also has a catalogued noninteracting
+home in the "shifted sublattice symmetry" of Kawasaki, Mochizuki, and Obuse
+(Phys. Rev. B 106, 035408;
+[arXiv:2201.09283](https://arxiv.org/abs/2201.09283)). For interacting
+many-body Lindbladians, Sá, Ribeiro and Prosen already formulate the
+classification on L′ and construct site-local chiral operators for dephasing
+chains. The object placed here is the explicit Pauli-basis Π, its global
+relation Π²=Ux and its exact identity across the stated coupling graphs.
+Prior-art coverage and equivalence to published constructions remain OPEN. No
+priority or novelty claim is made.
+
+So the sharp question we hand over is sectorwise: **after resolving joint
+popcount, reflection and Ux, what are the complete symmetry relations and
+the resulting class of each irreducible block?** The exact Π identity is an
+input to that calculation, not a substitute for it.
 
 ---
 
 ## 4. Symmetry classification and random-matrix universality
 
-The classification's diagnostic arm assumes random-matrix statistics within
-symmetry sectors. This family declines, in an instructive way
+The classification's random-matrix predictions apply within irreducible
+symmetry sectors. The repository's existing global rate-spacing statistic
+pools many exact joint-popcount blocks, so it is descriptive data rather than
+a test of one classified ensemble
 ([Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md)):
 
 - **Symmetry axis:** the centered spectrum is exactly ± paired (machine
-  precision, ~1e-15) at every tested N: the structure of class AIII
-  (chiral unitary).
-- **Statistics axis:** the level statistics are **Poisson**, not chiral-RMT:
-  the spacing ratio converges to ⟨r⟩ = 0.36 to 0.39 with N (Poisson 0.386,
-  GOE 0.536, GUE 0.603; 21,840 eigenvalues total, N = 2 to 7 chain), and the
-  complex spacing ratio of the chain reads clean 2D-Poisson. This does not prove integrability.
-  AIII is a symmetry label; Poisson-like statistics fail its random-matrix universality prediction,
-  not the symmetry taxonomy.
+  precision, ~1e-15) at every tested N. This is the spectral consequence of
+  the P-type anticommutation; it is not by itself a class assignment.
+- **Statistics axis:** direct raw-multiset consecutive-gap ratios retain zero
+  gaps and count undefined 0/0 separately (21,840 eigenvalues, N=2 to 7).
+  At N=7 the mean is 0.2021456120489688 over 16,366 defined ratios, with 16 undefined.
+  There is no standard-ensemble calibration for this degenerate unresolved population.
+  The separate complex spacing ratio of the chain reads 2D-Poisson-like in its executed comparison. This does not prove integrability.
+  This pooled comparison cannot confirm or refute a sector-level universality
+  prediction. The statistics do not supply the missing class assignment.
 
 Sector-resolved, the picture sharpens into a data point for your
 class-statistics correspondence
@@ -187,13 +192,17 @@ class-statistics correspondence
 
 - **Dilute coherence sectors stay Poisson-like at the tested N and operating points**,
   including the canonical Delta=1 plus disorder comparison. Nonzero Delta breaks free-fermion
-  additivity, but uniform XXZ remains Bethe-integrable; random Z disorder at Delta=0 remains quadratic.
+  additivity, but uniform XXZ remains Bethe-integrable; at Delta=0 the random-field XY Hamiltonian remains
+  quadratic. That Hamiltonian label does not classify the Z-dephasing Liouvillian as a quadratic generator.
   Delta!=0 plus generic disorder is the interacting nonintegrable many-body test.
 - **Dense (near-half-filling) sectors climb toward GinUE with N**: the
   complex-spacing-ratio marker ⟨cos θ⟩ runs −0.089 / −0.129 / −0.162 at
-  N = 6 / 7 / 8 (GinUE −0.241, 2D-Poisson 0), with class A the licensed
-  comparison inside such a block (Π maps the block to its conjugate partner,
-  so no residual antiunitary constrains it).
+  N = 6 / 7 / 8 (GinUE −0.241, 2D-Poisson 0). GinUE is the class-A
+  comparison ensemble here, not a computed class assignment: Π maps an unequal
+  block to its conjugate partner, but that fact and the sampled conjugation test
+  do not exhaust residual antiunitary symmetries. The full irreducible class is
+  **OPEN** after the shifted generator's sectorwise P symmetry and every
+  unitary/strong sector are resolved.
 
 In this tested family, the finite-N CSR comparison supports a filling dependence
 at fixed interacting disorder. It does not prove a universal threshold or thermalization cause.
@@ -209,11 +218,10 @@ Three independent handovers, each cheap on your side:
 >    local-dephasing model of your choice, and check
 >    Π·L·Π⁻¹ + L + 2Σγ·I = 0 to machine precision. No fitting, no limits;
 >    it either vanishes or it does not.
-> 2. **The classification question.** Decide where "unitary chiral, order 4,
->    constant shift" belongs: a new slot, or generalized-P after centering.
->    The operator, its algebra (Π² = X^⊗N conjugation, Π⁴ = I), and our own
->    placement walk are laid out in the sources; the family is analytically
->    tame enough to be a clean test case.
+> 2. **The classification question.** Resolve Ux=Π² and every other commuting
+>    unitary symmetry, phase-normalize Π on each Ux sector, and compute the
+>    full sectorwise symmetry algebra. The output is a class per irreducible
+>    block, not a class inferred from the global spectral reflection.
 > 3. **The crossover, with your diagnostic.** Reproduce the sector-resolved
 >    complex spacing ratio: the measured finite-N contrast at N=6..8 under
 >    canonical Δ=1 plus disorder is dilute Poisson-like versus dense movement
@@ -227,12 +235,11 @@ Three independent handovers, each cheap on your side:
 Weak coupling, deliberately: this adapter offers a test case and a sharp
 question to a classification program, not a rival scheme.
 
-- **We placed Π against the Sá-Ribeiro-Prosen scheme only.** We have not
-  worked the Bernard-LeClair or the Kawabata et al. non-Hermitian schemes;
-  any placement there is yours to make, and may well close the gap.
+- **The Sá-Ribeiro-Prosen placement is incomplete at the irreducible-sector
+  step.** We have not worked the Bernard-LeClair or the Kawabata et al.
+  non-Hermitian schemes.
 - **Symmetry class and statistical universality are separate:** measured
-  Poisson-like spacings do not remove the AIII symmetry label or prove
-  integrability. They fail the corresponding random-matrix statistics prediction.
+  Poisson-like spacings neither assign a class nor prove integrability.
 - **The statistics are computational and small-N** (N ≤ 7 global, N ≤ 8
   sector-resolved, with bootstrap intervals at the largest N). The identity
   itself is exact and proven; the statistics are data.
@@ -241,12 +248,10 @@ question to a classification program, not a rival scheme.
   stated is for the dephasing family.
 - **The Hamiltonian-level sublattice BDI is not the result** (the altitude
   note of the opening section): that symmetry is textbook and lives on a
-  different space; conflating the two levels would overstate what is new.
-- **Priority bookkeeping:** the identity is dated 2026-03-14 in the
-  repository's history. The nearest published neighbour we track
-  ([arXiv:2605.20930](https://arxiv.org/abs/2605.20930), May 2026) works in
-  the same model family and does not state the operator or the spectral
-  reflection.
+  different space; conflating the two levels would conflate distinct objects.
+- **Prior-art boundary:** the dated repository record is provenance for this
+  implementation, not evidence of priority. Prior-art coverage and equivalence
+  to published constructions remain OPEN. No priority or novelty claim is made.
 
 ---
 
@@ -258,15 +263,15 @@ If one thing survives this document, let it be the objects, not the phrasing:
   Π² = conjugation by X^⊗N; a strict site-local product.
 - **The identity:** Π·L·Π⁻¹ = −L − 2Σγ·I, exact on every tested graph;
   equivalently {Π, L_c} = 0 for the centered Liouvillian.
-- **The placement:** nearest slot Q₋ (fails: L, not L†); shift unslotted;
-  generalized-P (order 4) after centering; noninteracting shape catalogued
-  (shifted sublattice symmetry), interacting site-local case not.
-- **The data:** AIII structure + Poisson statistics (⟨r⟩ = 0.36 to 0.39,
-  N ≤ 7); sector-resolved ⟨cos θ⟩ → −0.089 / −0.129 / −0.162 (N = 6/7/8)
+- **The placement:** P-type anticommutation of the shifted generator; globally
+  Π²=Ux, sectorwise P_px=√px·Π is involutive. The final irreducible-sector
+  classes have not been computed.
+- **The data:** exact centered spectral pairing plus raw-multiset gap-ratio summaries,
+  with no standard-ensemble calibration; separately, sector-resolved ⟨cos θ⟩ → −0.089 / −0.129 / −0.162 (N = 6/7/8)
   in dense blocks; dilute blocks are Poisson-like in the measured finite-N comparison.
-- **The question:** new slot, or generalized-P after centering?
+- **The question:** which class does each fully reduced sector occupy?
 
-Our in-house name for the spectral reflection is left behind on purpose; it
+The repository's in-house name for the spectral reflection is left behind on purpose; it
 was painted true at our stance (2026) and is not needed to use any object
 above. They are yours to place, rename, and test in your own language; that
 is what an adapter is for.

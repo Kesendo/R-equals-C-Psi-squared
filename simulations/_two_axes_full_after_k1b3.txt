@@ -1,0 +1,108 @@
+======================================================================================
+PROOF_BLIND_SEAT_TWO_AXES: the crack axis and the anisotropy axis, sector by sector
+======================================================================================
+
+(L1) the sector reduction
+  [PASS] L1a (A+uP)|even == (A+uD)|even and (A+uP)|odd == (A-uD)|odd, symbolic in u  exact zero matrix at every N = 3..14, both sectors
+  [PASS] L1b the WRONG sign in the odd sector disagrees, at every N  (A+uP)|odd != (A+uD)|odd, so L1a is not comparing a matrix with itself
+  [PASS] L1c the reflection is what does it: R commutes with P and D and NOT with a one-end diagonal  both directions, every N = 3..14
+
+(L2) the locus decomposition, and (C) the two degeneracy sets
+  [PASS] L2a crack: locus(j) == E(j) u O(j) u C, every seat  60 seats over N = 4..11
+  [PASS] L2a aniso: locus(j) == E(j) u O(j) u C, every seat  60 seats over N = 4..11
+  [PASS] L2b mutation: dropping C breaks the identity at exactly 54 of 60 crack seats  disagrees at 54
+  [PASS] L2b mutation: dropping O breaks the identity at exactly 10 of 60 crack seats  disagrees at 10
+  [PASS] L2b mutation: dropping E breaks the identity at exactly 14 of 60 crack seats  disagrees at 14
+  [PASS] C1 C_Delta is EMPTY at every N  the anisotropic chain is tridiagonal with nonzero off-diagonals, an unreduced Jacobi matrix, so its spectrum is simple; N = 3..14
+  [PASS] C2 C_u is exactly {+1, -1} at every N  the crack's wrap entry leaves the Jacobi form; N = 3..14
+  [PASS] C3 at u = 1 every seat is blind by at least the number of degenerate pairs  N = 5..11, exact deg gcd
+  [PASS] C3b anti-vacuity: at u = 1/3 the seats are not all blind  so C3 reads the degeneracy and not the code path
+
+(B) the boundary system, which is why C_u is the ring ends
+  [PASS] B0 det(the 2x2) == chi(H_u), so the reduction is tied to the N x N matrix  exact, symbolic in lambda and u, N = 3..14
+  [PASS] B1 u*(entry 01) - (entry 10) == U_{N-2}*(u^2 - 1), symbolic in lambda and u  so a common zero of the two forces u^2 = 1 or U_{N-2} = 0; N = 3..14
+  [PASS] B1b on the branch U_{N-2} = 0 the two entries read 1 and u, so the branch is empty  N = 3..14
+  [PASS] B2 the ring ends are attained, with multiplicity 2*floor((N-1)/2) at u = +1 and 2*ceil((N-1)/2) at u = -1  in disc_x(chi(H_u)); N = 3..14
+  [PASS] B3 the converse in the boundary system: at u = -U_{N-2} all FOUR entries vanish modulo U_{N-1}  exact reduction, no root object and no simplifier; N = 3..14
+
+(P) parity: what Sigma does to the sectors
+  [PASS] P1 at ODD N each sector locus is negation-closed on its own  N in [5, 7, 9, 11, 13], every NON-CENTRE seat (40 of 45; at the centre O is all of R and there is nothing to close)
+  [PASS] P2 at EVEN N Sigma SWAPS the sectors: O == -E  N in [6, 8, 10, 12, 14, 16], every seat
+  [PASS] P3 and at EVEN N the sectors are NOT separately closed  E != -E at 30 even-N seats, so P1 is a statement about odd N and not about every N
+
+(T) the theorem
+  [PASS] T1 consistency: E_u == E_Delta (this is L1a) and O_u(t) == O_Delta(-t)  N in [5, 7, 9, 11, 13, 6, 8, 10, 12, 14, 16]; the second leg is the informative one
+  [PASS] T2 odd N: u-locus == Delta-locus u {+-1}, every seat  N in [5, 7, 9, 11, 13], 45 seats
+  [PASS] T3 even N: u-locus == E u {+-1} and Delta-locus == E u O  N in [6, 8, 10, 12, 14, 16], every seat
+  [PASS] T4 even N: the seats the proof predicts to break ARE the committed 22  22 predicted, 22 committed in blind_seat_on_the_road_run.txt gate C4
+  [PASS] T5 the ring-ends clause in the criterion is load-bearing: dropping it adds exactly the 8 seats where the ring ends restore closure  30 predicted without the clause against 22 with it, the extras [(6, 1), (6, 4), (10, 2), (10, 7), (12, 4), (12, 7), (14, 3), (14, 10)]
+
+(K) THE COUNT: the split of chi(H_j), and what each axis pays at a shared point
+  [PASS] K0  chi(H) = chi(E)chi(O) and chi(H_j) = 1/2(chi(E_j)chi(O) + chi(E)chi(O_j))  symbolic in t and x, exact zero polynomial; 98 seats over N = 4..10, both axes, expected 98; failures []
+  [PASS] K0b both sectors are load-bearing off the centre, and exactly the even one at it  neither summand alone reproduces chi(H_j) at any of the 92 non-centre seats, and the even one alone does at all 6 centre seats, expected 6; failures []
+  [PASS] K0c mutation on the OBJECT: the one-end diagonal, which breaks R, breaks K0  through the same door at 7 of 7 N in 4..10, expected 7 of 7
+  [PASS] K1  2^N Res(chi_H, chi_H_j) = (-1)^(dE dO) R_E R_O Res(chi_E, chi_O)^2  exact polynomial identity in t, 92 seats over N = 4..10, both axes, expected 92; failures []
+  [PASS] K1b on the CHAIN, F157's P_j is +-1 times the two SECTOR halves' resultants  the open chain only, where striking DISCONNECTS: 32 seats over N = 4..10, expected 32; the sign splits {-1: 22, 1: 10}, expected {-1: 22, 1: 10}; the split is this READING's, sympy's order and the seat order, and the law is W3; failures []
+  [PASS] K1b2 control: on the RING the identity fails at most seats, the knob sitting in the wrap alone  20 of 32 ring seats fail through the same door, expected 20 of 32; it SURVIVES at the other 12, so this pins a count and not a universal
+  [PASS] K1b3 on the RING, Res(chi_H, chi_H_j) = (-1)^floor(N/2) (Q_E Q_O)^2 (u-1)^2a (u+1)^2b, and the cross factor is the ring ends alone  exact in u at 32 seats over N = 4..10, expected 32; the survivors of K1b2 are exactly the seats with (N-1-2jr) | jr: [(4, 1), (4, 2), (6, 2), (6, 3), (7, 2), (7, 4), (8, 3), (8, 4), (10, 3), (10, 4), (10, 5), (10, 6)]; exponents swapped reddens 20 of 20 even-N seats, divisor N-2jr reddens 10; failures []
+  [PASS] K1c the sector resultant is a t-free constant times the sector halves' resultant SQUARED  184 (axis, N, sector, seat) readings over N = 4..10, expected 184; failures []
+  [PASS] K1d control: one next-nearest entry, and the square is gone  0 of 10 fold seats over N = 5..10 still give a constant ratio, expected 0 of 10; so K1c reads the disconnection, not the construction
+  [PASS] K1e on the CHAIN, Res(chi_H, chi_H_j) is a t-free constant times F157's P_j SQUARED  the claim four repo passages stated and none derived before the companion proof's section (g); 32 readings over N = 4..10, expected 32; the cross-sector factor is t-free at 12 of 12 N here, and that proof derives it for every N from the geometric multiplicity of a tridiagonal block; failures []
+  [PASS] K1e2 control: one next-nearest entry on the chain, and K1e's constant is gone  0 of 32 seats over N = 5..10 still give a t-free ratio, expected 0 of 32; so K1e reads the disconnection. That it does NOT read the diagonal's POSITION is a separate statement and no check here makes it
+  [PASS] K2a the Q[t]/(mu) route against two independent oracles, rational and number-field  the committed rational blind_count at 3 knob values over N = 4..11, and sympy's gcd over Q(alpha) at two quadratic and one QUARTIC mu over N = 7, 9, 11; the modular inverse's polynomial branch was entered 258 times, COUNTED rather than inferred; the two quadratic mu contribute 0 of those calls, which is why the quartic is in the loop; failures []
+  [PASS] K2  blind(j) = b_E + b_O at every locus point off the degeneracy set  96 (axis, N, seat, point) readings over N = 4..12, expected 96; failures []
+  [PASS] K2b the correction term at u = +-1: blind = b_E + b_O + #{shared lambda neither misses}  every seat over N = 5..12, both ring ends; the correction is strictly below the shared count at {5: 2, 6: 2, 7: 2, 8: 0, 9: 6, 10: 2, 11: 2, 12: 4} seat-ends per N, expected {5: 2, 6: 2, 7: 2, 8: 0, 9: 6, 10: 2, 11: 2, 12: 4}; arithmetic failures []
+  [PASS] K2c the both-vanish term of the correction is 0 at every reading, and not vacuously  544 readings over both families and N = 5..12, expected 544, carrying 552 shared levels in total, expected 552, so the term had somewhere to be nonzero; readings with a nonzero term []
+  [PASS] K3  ODD N: blind_u(j, t) = blind_Delta(j, t) at every locus point off the ring ends  44 (N, seat, point) readings over N = 5..13, expected 44; 20 of them sit at mu = t, where the two families are the SAME matrix and the comparison is a number against itself, so the informative population is 24; failures []
+  [PASS] K3b at u = +1 the two axes pay DIFFERENT counts, at the four seats named as literals  (chain, ring) = {(9, 1): (1, 4), (9, 7): (1, 4), (11, 1): (0, 5), (11, 3): (0, 5)}, expected {(9, 1): (1, 4), (9, 7): (1, 4), (11, 1): (0, 5), (11, 3): (0, 5)}
+  [PASS] K3c control: a THIRD family tracks the crack only at the origin, where all three are one  24 of 44 triples disagree, expected 24, and the 20 that do not are ALL at mu = t, where all three families are one matrix (0 agreements off the origin); so the separation off the origin is total and K3 reads these two families and not any two
+  [PASS] K3d Lemma 5-prime on the COUNTS: odd N preserves each sector, even N swaps them  44 odd-N and 22 even-N readings, expected 44 and 22; failures []
+  [PASS] K4  EVEN N off the ring ends: blind_u = 2 b_E, blind_Delta = b_E(t) + b_E(-t)  22 readings over N = 6..12, expected 22; failures []
+  [PASS] K4b EVEN N: the counts differ at the four literal triples, two of them the ring paying 0  (chain, ring) = {(8, 1, 't**2 - t - 1'): (1, 2), (8, 1, 't**2 + t - 1'): (1, 0), (10, 1, 't**3 - t**2 - 2*t + 1'): (1, 2), (10, 1, 't**3 + t**2 - 2*t - 1'): (1, 0)}, expected {(8, 1, 't**2 - t - 1'): (1, 2), (8, 1, 't**2 + t - 1'): (1, 0), (10, 1, 't**3 - t**2 - 2*t + 1'): (1, 2), (10, 1, 't**3 + t**2 - 2*t - 1'): (1, 0)}; points no longer in the locus: []
+  [PASS] K4c the |t| != 1 fence on K4 is load-bearing: at the ring ends blind_u is mostly NOT 2 b_E  the two readings coincide at 4 of 72 even-N seat-ends, expected 4 of 72: [(6, 1, 't - 1'), (6, 4, 't - 1'), (10, 2, 't - 1'), (10, 7, 't - 1')]
+  [PASS] K4d EVEN N: the counts part at exactly the seats where the loci break, and nowhere else  14 parting seats over N = 6..14 against the 14 committed break seats in that range; seats with the SAME locus and a different count: []
+  [PASS] K5b at the ring ends the axes agree at the odd-N centre seat ALONE, at even N nowhere  14 (N, end) rows over N = 5..11, expected 14; the centre half follows from K5 and K7, the 'and nowhere else' half is this check's own content; disagreements []
+  [PASS] K5c the ring ends are the periodic and the ANTIperiodic comb: chi = 2*T_N(x/2) -+ 2  exact integer polynomial identity, 24 readings over N = 3..14 at both ends, expected 24; failures []
+  [PASS] K5  at u = +-1 EVERY seat pays floor/ceil((N-1)/2), Lemma 4's degenerate-pair count  136 seat-end readings over N = 5..12, expected 136; failures []
+  [PASS] K6  off C the order of vanishing of Res(chi_H, chi_H_j) at mu is exactly 2 * blind(j)  72 readings over N = 4..11, both axes, expected 72; failures []
+  [PASS] K6b at the ring ends halving stays exact except where a sector eigenvector vanishes  exact at 76 of 84 ring-end seat-ends, expected 76; the exceptions are [(6, 1, 't - 1'), (6, 4, 't - 1'), (9, 1, 't - 1'), (9, 1, 't + 1'), (9, 7, 't - 1'), (9, 7, 't + 1'), (10, 2, 't - 1'), (10, 7, 't - 1')] and every one of them has b_E + b_O > 0
+  [PASS] K7  the centre seat pays (N-1)/2 at EVERY knob value on BOTH axes, rational or not  60 readings, 6 knob values incl. two irrational and both ring ends, N = 5..13, both axes, expected 60; failures []
+
+(S) THE SECTOR OF k: the node mode, its parity, and the k-index on the count
+  [PASS] S0  the node field Q(2cos(pi/n)): irreducible, degree phi(2n)/2, divides U_{n-1}  18 moduli n = 2..19, the range derived from the sweep and not pinned as a literal; failures []
+  [PASS] S1  psi_l = sin((j-l)theta_k) is an EXACT eigenvector of H_aniso at Delta_k  812 (N, seat, k) modes over N = 5..20, expected 812, every row the zero element of Q[z]/(Phi), read off the family object H_aniso; 412 poles skipped, expected 412; failures []
+  [PASS] S2  the node angle closes: S_{N_node}(x_k) = 0 and T_{N_node}(x_k) = (-1)^k  1224 (N, seat, k) angles over N = 5..20, expected 1224, exact in Q[z]/(Phi); failures []
+  [PASS] S2b psi_{N-1-l} = (-1)^(k+1) psi_l at every site  812 modes over N = 5..20, expected 812, 412 poles skipped; failures []
+  [PASS] S2d control: the same mode built on the WRONG modulus carries NO reflection parity  851 constructions at modulus N_node+1 over N = 5..20, expected 851; 0 of them carry either sign, expected 0: []
+  [PASS] S2c Delta_{N_node-k} = -Delta_k, and k is a pole exactly when N_node-k is  812 index pairs over N = 5..20, expected 812; failures []
+  [PASS] S3  b_E = #{k odd on that Delta} and b_O = #{k even}, against the sector blocks  196 (seat, Delta) readings over N = 5..14, expected 196, of which 188 have #odd != #even and so exclude the swapped assignment, expected 188; the other 8 carry #odd = #even and are asserted, not narrated, to sit at Delta = 0, exceptions []; minimal-polynomial failures []; count failures []
+  [PASS] S4  EVEN N off the ring ends: the crack pays 2*#{k odd on that Delta}, closed form  36 (N, seat, locus point) readings over N = 6..14, expected 36, against blind_at on the full crack matrix; failures []
+
+(W) the two constants: the sign of section (g) and the factorisation of section (h)
+  [PASS] W0  res_std IS lc(f)^deg(g)*prod g(alpha), against the definition and not another routine  60 random pairs of degrees 0..5, 31 with lc(f) != 1 and 15 with a degree-0 argument, expected 31 and 15: without those the lc(f)^deg(g) factor and both early returns go untested; failures []
+  [PASS] W0b sympy.resultant DIFFERS from it, at a pinned population  5 of 60 pairs at this seed, expected 5; every resultant that carries a LAW in block W is res_std, sympy's appearing only where it is the object under test
+  [PASS] W0c the difference IS the swap: sympy = res_std times (-1)^(mn) exactly when deg f < deg g  33 of 60 pairs are read, 4 of them at EQUAL degrees where the rule's else branch asserts plain agreement, expected (33, 4); sympy is order-dependent there too, correctly so, which is why the rule is stated by degree and not by symmetry; failures []
+  [PASS] W1  the congruence S_p * alpha_{N-1-p} = -S_{N_node} (mod alpha_p)  72 seats over N = 4..14, expected 72; exact remainder in Z[t][x]; failures []
+  [PASS] W2  Res(alpha_p, S_p) = (-1)^binom(p,2), and it carries no t  p = 1..13; failures []
+  [PASS] W3  the sign law: Res(alpha_p, alpha_{N-1-p}) = (-1)^binom(p+1,2) * Q_E * Q_O  72 seats over N = 4..14, split {-1: 48, 1: 24}; the exponent reads the fold coordinate and N does not appear in it; failures []
+  [PASS] W3b the N-independence is thinnest at the largest fold coordinate, and that is pinned  seats per p: {1: 22, 2: 18, 3: 14, 4: 10, 5: 6, 6: 2}, expected {1: 22, 2: 18, 3: 14, 4: 10, 5: 6, 6: 2}; p = 6 rests on 2 seats over this range, so the claim that N does not enter is thin exactly there and nowhere else
+  [PASS] W3c the centre seat is fenced BECAUSE P_j vanishes identically there, not by fiat  5 odd chains over N = 4..14; the seat cuts the chain into two EQUAL matrices, so the outer resultant is 0 in t and section (a)'s third convention is why; failures []
+  [PASS] W4  K1b's committed K1B_SIGNS is reproduced, and the three readings are pinned apart  {(10, 'canon'): {-1: 24, 1: 8}, (10, 'sylv'): {-1: 22, 1: 10}, (10, 'sympy'): {-1: 22, 1: 10}, (12, 'canon'): {-1: 34, 1: 16}, (12, 'sylv'): {-1: 32, 1: 18}, (12, 'sympy'): {-1: 34, 1: 16}}; the (10, 'sympy') row IS K1B_SIGNS
+  [PASS] W4b the committed split carries BOTH causes, named seat by seat and not by count  the convention alone flips [(5, 1), (7, 1), (9, 3), (9, 7)] (expected [(5, 1), (7, 1), (9, 3), (9, 7)]); K1b's road against the law's flips [(5, 1), (5, 3), (7, 1), (7, 5), (9, 3), (9, 5)] (expected [(5, 1), (5, 3), (7, 1), (7, 5), (9, 3), (9, 5)]). At N = 4..10 the two TOTALS agree while four seats do not, so K1B_SIGNS is accidentally convention-stable in exactly the range it is pinned over, and is not so at N = 4..12. Over the whole sweep N = 4..12 the CONVENTION alone moves 6 of 50 seats and the SEAT ORDER alone moves 6, expected (6, 6): attributing the committed split to either cause alone would be wrong
+  [PASS] W5  the sector right halves ARE the middle route's combs: beta_E odd k, beta_O even k  144 (N, seat, sector) readings, closed form against the block, of which 110 have a nonempty right half and are not 1 = 1, expected (144, 110); failures []
+  [PASS] W6  Q_S = c_S * prod over the NON-POLE roots of beta_S of (t - Delta), one per root  144 readings, on the PRODUCT first and then on degree and leading coefficient. A pole root contributes a constant and no factor, so deg_t Q_S is below deg beta_S at 20 of these, pinned. The identity holds for any monic SQUAREFREE beta (W6c), so it reads the roots and NOT which node indices they are; the parity is W5b's and W5's; failures []
+  [PASS] W6b the factors REPEAT, at a pinned set, so 'per index' is not idle wording  16 readings carry a repeated factor, expected 16: [(10, 2, 1), (10, 2, -1), (10, 7, 1), (10, 7, -1), (11, 2, -1), (11, 3, 1), (11, 7, 1), (11, 8, -1), (14, 3, 1), (14, 3, -1), (14, 4, 1), (14, 4, -1), (14, 9, 1), (14, 9, -1), (14, 10, 1), (14, 10, -1)]. The smallest is N = 10 seat 2, where the odd k = 1 and k = 3 give one Delta and Q_E = -(t-1)^2; at N = 14 seat 3 the multiplicity is three. Over N = 4..9 this population is EMPTY, which is why the sweep may not be narrowed
+  [PASS] W7  the two constants compose: lc_t(P_j) = (-1)^binom(p+1,2) * c_E * c_O, deg = n_E+n_O  72 seats over N = 4..14; failures []
+  [PASS] W7b P_j built here IS F157's four committed rows, times a pinned sign  scales {(9, 1): -1, (9, 2): -1, (11, 1): -1, (11, 2): 1}, expected {(9, 1): -1, (9, 2): -1, (11, 1): -1, (11, 2): 1}; F157 normalises its rows primitive with a positive leading coefficient, so the sign is exactly what that normalisation discards
+  [PASS] W1b Lemma 11: S_{p+n}(x_k) = (-1)^k * S_p(x_k) at every node of the modulus-n comb  1260 (n, p, k) readings over n = 2..15 and p = 0..11, of which 1014 have S_p(x_k) != 0 and so are not 0 = 0, expected (1260, 1014); exact in Q(2cos(pi/n)); failures []
+  [PASS] W5b beta_E vanishes at x_k for ODD k and beta_O for EVEN k, read in the node field  500 (N, seat, sector, k) readings over N = 4..14, expected 500; this is the parity W6 is blind to, W6's identity holding for any monic SQUAREFREE beta; it carries that jointly with W5 and neither alone; failures []
+  [PASS] W5c F157's seat-indexed Delta_k IS this section's fold-indexed one, and the poles agree  113 non-pole k at the 36 seats where the two are different expressions, expected 113; failures []
+  [PASS] W7c what is factorised here IS F157's generator Res(S_n, Delta*S_j - S_{j+1}), signed  72 seats over N = 4..14; the sign is Corollary 11b's closed form and the [j > N-1-j] term is Lemma 11's price; failures []
+  [PASS] W6c CONTROL: W6's identity NEEDS beta squarefree, and breaks without it  54 squarefree draws with 0 failures and 26 non-squarefree with 4, expected (54, 0, 26, 4); so 'any monic beta' is false and 'any monic SQUAREFREE beta' is what the section may say
+  [PASS] W0d sympy is ORDER-DEPENDENT at equal degrees, so it is not a function of the pair  12 of 200 random pairs have sympy(f,g) != sympy(g,f), 55 of the 200 sitting at equal degrees, expected (12, 55); the antisymmetry there is CORRECT, which is why the rule W0c reads is stated by degree and never by symmetry
+  [PASS] W8  CONTROL: on the one-end family the law goes, at a pinned survivor count  3 of 24 seats over N = 4..9 keep the value anyway, expected 3: [(4, 2), (6, 3), (8, 4)]; it is fed through the same door the real family uses
+  [PASS] W8b CONTROL: taking Q_S right-half-first breaks the law, at a pinned count  12 of 50 seats over N = 4..12, expected 12; so 'fold half first' is a statement about the SECTORS as well and not only about P_j
+
+======================================================================================
+VERDICT: ALL GREEN
+======================================================================================

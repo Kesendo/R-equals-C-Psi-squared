@@ -12,9 +12,11 @@ namespace RCPsiSquared.Core.Tests.F86;
 /// at c=2 N≥7 (orbit-1 saturation plateau at Q ≈ 7-8) suggested a near-EP region; Petermann
 /// factor K_n = 1/|⟨l_n|r_n⟩|² (unit-norm left/right eigvecs) diverges at exact EP.
 ///
-/// <para>Connection to <see href="hypotheses/FRAGILE_BRIDGE.md">FRAGILE_BRIDGE</see>: there
-/// the transition is a genuine EP on the real γ axis at γ_crit; K≈403 is one finite-grid
-/// approach reading above it. Same diagnostic, different parameter axis (Q vs γ).</para>
+/// <para>Connection to <see href="hypotheses/FRAGILE_BRIDGE.md">FRAGILE_BRIDGE</see>: that
+/// separate system has a spectral-abscissa axis departure whose EP/Hopf/Jordan character
+/// remains open. A finite-offset simple-mode K reading is not a threshold-character
+/// certificate, and a single-eigenvector K inside a degenerate eigenspace is basis-dependent.
+/// Same diagnostic family, different parameter axis (Q vs gamma).</para>
 /// </summary>
 public class F86PetermannProbe(ITestOutputHelper output)
 {

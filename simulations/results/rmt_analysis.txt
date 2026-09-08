@@ -1,19 +1,30 @@
 ======================================================================
-RANDOM MATRIX THEORY ANALYSIS
+FINITE-N SPECTRAL-SPACING DIAGNOSTICS
 Palindromic Liouvillian, Heisenberg Chain, Z-dephasing
 gamma = 0.05, J = 1.0
+Raw full multiset: all parsed rates -Re(lambda), including zero and negative numerical rates; no cutoff or deduplication.
+Each original adjacent gap pair is retained: 0/positive = 0; 0/0 = undefined, counted separately; mean over defined ratios only.
+Zero gaps mean exact parsed-double ties; near-degenerate numerical splittings are not certified physical resolution.
+No standard Poisson/GOE/GUE calibration applies to this unresolved, degenerate pooled population.
+No nearest-ensemble verdict and no irreducible-class inference are made.
 ======================================================================
 
 ======================================================================
 N=2: 16 eigenvalues
 ======================================================================
 
-  (a) All rates (13 nonzero):
-      <r> = nan  (Poisson=0.386, GOE=0.536, GUE=0.603)
-      Nearest: ? (dist=0.000)
+  (a) Raw full multiset:
+      levels=16, gaps=15, zero_gaps=4, adjacent_pairs=14, defined_ratios=14, undefined_zero_zero=0
+      <r> defined = 0.096359558316080549
+      Spacing stats: mean=0.013333, std=0.033993, min=0.00e+00, max=0.100000
 
-  Chiral symmetry (centered at Sg=0.1):
-      +/- pairs: 3, mean error: 6.48e-17
+  (b) Raw rates below N*gamma (not an irreducible sector or a decorrelation certificate):
+      levels=9, gaps=8, zero_gaps=3, adjacent_pairs=7, defined_ratios=7, undefined_zero_zero=0
+      <r> defined = 0.035714285714286351
+
+  Centered decay-rate projection reflection (Sg=0.1):
+      Scope: multiplicity-preserving perfect matching of the full real-part projection; does not match the full complex multiset.
+      positive=3, negative=3, central=10, multiplicity bottleneck error: 2.78e-16
 
   Complex plane:
       Fraction Re<0: 1.0000
@@ -23,17 +34,18 @@ N=2: 16 eigenvalues
 N=3: 64 eigenvalues
 ======================================================================
 
-  (a) All rates (60 nonzero):
-      <r> = 0.2195  (Poisson=0.386, GOE=0.536, GUE=0.603)
-      Nearest: Poisson (dist=0.167)
-      Spacing stats: mean=0.025000, std=0.032258, min=2.47e-05, max=0.100000
-      NNSD chi2: Poisson=62.100, GOE=28.081, GUE=20.481 -> GUE
+  (a) Raw full multiset:
+      levels=64, gaps=63, zero_gaps=7, adjacent_pairs=62, defined_ratios=62, undefined_zero_zero=0
+      <r> defined = 0.22260363264213059
+      Spacing stats: mean=0.004762, std=0.018643, min=0.00e+00, max=0.100000
 
-  (b) Lower half (28 rates):
-      <r> = 0.3006  -> Poisson (dist=0.085)
+  (b) Raw rates below N*gamma (not an irreducible sector or a decorrelation certificate):
+      levels=32, gaps=31, zero_gaps=3, adjacent_pairs=30, defined_ratios=30, undefined_zero_zero=0
+      <r> defined = 0.19280201821404228
 
-  Chiral symmetry (centered at Sg=0.15000000000000002):
-      +/- pairs: 32, mean error: 8.33e-16
+  Centered decay-rate projection reflection (Sg=0.15000000000000002):
+      Scope: multiplicity-preserving perfect matching of the full real-part projection; does not match the full complex multiset.
+      positive=32, negative=32, central=0, multiplicity bottleneck error: 4.11e-15
 
   Complex plane:
       Fraction Re<0: 1.0000
@@ -43,17 +55,18 @@ N=3: 64 eigenvalues
 N=4: 256 eigenvalues
 ======================================================================
 
-  (a) All rates (251 nonzero):
-      <r> = 0.4077  (Poisson=0.386, GOE=0.536, GUE=0.603)
-      Nearest: Poisson (dist=0.022)
-      Spacing stats: mean=0.015789, std=0.023425, min=6.59e-06, max=0.100000
-      NNSD chi2: Poisson=94.903, GOE=45.717, GUE=34.466 -> GUE
+  (a) Raw full multiset:
+      levels=256, gaps=255, zero_gaps=35, adjacent_pairs=254, defined_ratios=244, undefined_zero_zero=10
+      <r> defined = 0.27789182063152246
+      Spacing stats: mean=0.001569, std=0.009809, min=0.00e+00, max=0.100000
 
-  (b) Lower half (109 rates):
-      <r> = 0.3847  -> Poisson (dist=0.001)
+  (b) Raw rates below N*gamma (not an irreducible sector or a decorrelation certificate):
+      levels=114, gaps=113, zero_gaps=9, adjacent_pairs=112, defined_ratios=111, undefined_zero_zero=1
+      <r> defined = 0.27863805704900285
 
-  Chiral symmetry (centered at Sg=0.2):
-      +/- pairs: 52, mean error: 1.49e-15
+  Centered decay-rate projection reflection (Sg=0.2):
+      Scope: multiplicity-preserving perfect matching of the full real-part projection; does not match the full complex multiset.
+      positive=52, negative=52, central=152, multiplicity bottleneck error: 2.38e-14
 
   Complex plane:
       Fraction Re<0: 1.0000
@@ -63,17 +76,18 @@ N=4: 256 eigenvalues
 N=5: 1024 eigenvalues
 ======================================================================
 
-  (a) All rates (1018 nonzero):
-      <r> = 0.3686  (Poisson=0.386, GOE=0.536, GUE=0.603)
-      Nearest: Poisson (dist=0.017)
-      Spacing stats: mean=0.001754, std=0.007765, min=7.16e-07, max=0.100000
-      NNSD chi2: Poisson=71.104, GOE=33.013, GUE=24.396 -> GUE
+  (a) Raw full multiset:
+      levels=1024, gaps=1023, zero_gaps=14, adjacent_pairs=1022, defined_ratios=1021, undefined_zero_zero=1
+      <r> defined = 0.21627032685910053
+      Spacing stats: mean=0.000489, std=0.004864, min=0.00e+00, max=0.100000
 
-  (b) Lower half (506 rates):
-      <r> = 0.3680  -> Poisson (dist=0.018)
+  (b) Raw rates below N*gamma (not an irreducible sector or a decorrelation certificate):
+      levels=512, gaps=511, zero_gaps=6, adjacent_pairs=510, defined_ratios=509, undefined_zero_zero=1
+      <r> defined = 0.21681497117520818
 
-  Chiral symmetry (centered at Sg=0.25):
-      +/- pairs: 512, mean error: 2.80e-15
+  Centered decay-rate projection reflection (Sg=0.25):
+      Scope: multiplicity-preserving perfect matching of the full real-part projection; does not match the full complex multiset.
+      positive=512, negative=512, central=0, multiplicity bottleneck error: 1.64e-14
 
   Complex plane:
       Fraction Re<0: 1.0000
@@ -83,17 +97,18 @@ N=5: 1024 eigenvalues
 N=6: 4096 eigenvalues
 ======================================================================
 
-  (a) All rates (4089 nonzero):
-      <r> = 0.3637  (Poisson=0.386, GOE=0.536, GUE=0.603)
-      Nearest: Poisson (dist=0.022)
-      Spacing stats: mean=0.000901, std=0.005041, min=9.24e-08, max=0.100000
-      NNSD chi2: Poisson=63.259, GOE=27.911, GUE=20.311 -> GUE
+  (a) Raw full multiset:
+      levels=4096, gaps=4095, zero_gaps=1340, adjacent_pairs=4094, defined_ratios=3107, undefined_zero_zero=987
+      <r> defined = 0.18988807786718778
+      Spacing stats: mean=0.000147, std=0.002444, min=0.00e+00, max=0.100000
 
-  (b) Lower half (1966 rates):
-      <r> = 0.3628  -> Poisson (dist=0.023)
+  (b) Raw rates below N*gamma (not an irreducible sector or a decorrelation certificate):
+      levels=1973, gaps=1972, zero_gaps=608, adjacent_pairs=1971, defined_ratios=1540, undefined_zero_zero=431
+      <r> defined = 0.18227295486195011
 
-  Chiral symmetry (centered at Sg=0.30000000000000004):
-      +/- pairs: 1130, mean error: 4.66e-15
+  Centered decay-rate projection reflection (Sg=0.30000000000000004):
+      Scope: multiplicity-preserving perfect matching of the full real-part projection; does not match the full complex multiset.
+      positive=1130, negative=1130, central=1836, multiplicity bottleneck error: 3.10e-14
 
   Complex plane:
       Fraction Re<0: 1.0000
@@ -103,65 +118,36 @@ N=6: 4096 eigenvalues
 N=7: 16384 eigenvalues
 ======================================================================
 
-  (a) All rates (16376 nonzero):
-      <r> = 0.3829  (Poisson=0.386, GOE=0.536, GUE=0.603)
-      Nearest: Poisson (dist=0.003)
-      Spacing stats: mean=0.000150, std=0.001905, min=8.56e-10, max=0.100000
-      NNSD chi2: Poisson=94.629, GOE=45.571, GUE=34.351 -> GUE
+  (a) Raw full multiset:
+      levels=16384, gaps=16383, zero_gaps=136, adjacent_pairs=16382, defined_ratios=16366, undefined_zero_zero=16
+      <r> defined = 0.2021456120489688
+      Spacing stats: mean=0.000043, std=0.001225, min=0.00e+00, max=0.100000
 
-  (b) Lower half (8184 rates):
-      <r> = 0.3830  -> Poisson (dist=0.003)
+  (b) Raw rates below N*gamma (not an irreducible sector or a decorrelation certificate):
+      levels=8192, gaps=8191, zero_gaps=65, adjacent_pairs=8190, defined_ratios=8184, undefined_zero_zero=6
+      <r> defined = 0.20163224832233276
 
-  Chiral symmetry (centered at Sg=0.35000000000000003):
-      +/- pairs: 8192, mean error: 6.64e-15
+  Centered decay-rate projection reflection (Sg=0.35000000000000003):
+      Scope: multiplicity-preserving perfect matching of the full real-part projection; does not match the full complex multiset.
+      positive=8192, negative=8192, central=0, multiplicity bottleneck error: 6.20e-14
 
   Complex plane:
       Fraction Re<0: 1.0000
       |lambda| max: 17.3496
 
 ======================================================================
-PHASE 4: Sector decomposition by XY-weight (Python, N=2-5)
-  Within each sector, all modes have the SAME decay rate.
-  NNSD is computed from FREQUENCIES (imaginary parts),
-  not rates (real parts), because rates are degenerate.
-======================================================================
-
-  N=2:
-    w=0: 3 modes, 0 unique freq (too few for NNSD)
-    w=1: 10 modes, 2 unique freq (too few for NNSD)
-    w=2: 3 modes, 0 unique freq (too few for NNSD)
-
-  N=3:
-    w=0: 4 modes, 0 unique freq (too few for NNSD)
-    w=1: 14 modes, 2 unique freq (too few for NNSD)
-    w=2: 14 modes, 2 unique freq (too few for NNSD)
-    w=3: 4 modes, 0 unique freq (too few for NNSD)
-
-  N=4:
-    w=0: 5 modes, 0 unique freq (too few for NNSD)
-    w=1: 20 modes, 3 unique freq (too few for NNSD)
-    w=2: 41 unique freq, <r>=0.130 -> Poisson
-    w=3: 20 modes, 3 unique freq (too few for NNSD)
-    w=4: 5 modes, 0 unique freq (too few for NNSD)
-
-  N=5:
-    w=0: 6 modes, 0 unique freq (too few for NNSD)
-    w=1: 26 modes, 4 unique freq (too few for NNSD)
-    w=2: 15 unique freq, <r>=0.513 -> GOE
-    w=3: 15 unique freq, <r>=0.513 -> GOE
-    w=4: 26 modes, 4 unique freq (too few for NNSD)
-    w=5: 6 modes, 0 unique freq (too few for NNSD)
-
-======================================================================
 SUMMARY
 ======================================================================
 
-  Spacing ratio <r> (0.386=Poisson, 0.536=GOE, 0.603=GUE):
-    N |  <r> all |  <r> half |  Class (all) |  Class (half)
-  -------------------------------------------------------
-    2 |      nan |       nan |            ? |             ?
-    3 |   0.2195 |    0.3006 |      Poisson |       Poisson
-    4 |   0.4077 |    0.3847 |      Poisson |       Poisson
-    5 |   0.3686 |    0.3680 |      Poisson |       Poisson
-    6 |   0.3637 |    0.3628 |      Poisson |       Poisson
-    7 |   0.3829 |    0.3830 |      Poisson |       Poisson
+  Direct multiset spacing ratio <r> over defined original adjacent pairs:
+    N |  <r> all |  <r> half
+  ----------------------------
+    2 |   0.0964 |    0.0357
+    3 |   0.2226 |    0.1928
+    4 |   0.2779 |    0.2786
+    5 |   0.2163 |    0.2168
+    6 |   0.1899 |    0.1823
+    7 |   0.2021 |    0.2016
+
+  Scope: gap ratios are affine-invariant in exact arithmetic; nonlinear maps can change them.
+  These numeric multiset summaries are sensitive to near-degenerate eigensolver splittings; no irreducible-class inference.

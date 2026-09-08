@@ -34,8 +34,8 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 
 | Framework | Hamiltonian | Single-particle SE Bloch | Q_peak typical |
 |---|---|---|---|
-| **F86** (per `BlockLDecomposition.cs:13-14`, C# typed) | `H_b = (J/2)·(X_b X_{b+1} + Y_b Y_{b+1})` | `ε_k = J·cos(πk/(N+1))` | Endpoint ≈ 2.5 |
-| **F89** (per `simulations/f89_pathk_lib.py` `build_block_H` (Python) + [`compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs) (C#, ported 2026-05-12)) | `H = J·(XX + YY)` | `ε_k = 2J·cos(πk/(N+1))` (= `4J·cos(πk/(N+1))/2` from L_super) | Endpoint ≈ 1.27 |
+| **F86** (per `BlockLDecomposition.cs:13-14`, C# typed) | `H_b = (J/2)·(X_b X_{b+1} + Y_b Y_{b+1})` | `ε_k = 2J·cos(πk/(N+1))` (hopping J) | Endpoint ≈ 2.5 |
+| **F89** (per `simulations/f89_pathk_lib.py` `build_block_H` (Python) + [`compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs`](../../compute/RCPsiSquared.Core/F89PathK/F89BlockHamiltonian.cs) (C#)) | `H = J·(XX + YY)` | `ε_k = 4J·cos(πk/(N+1))` (hopping 2J) | Endpoint ≈ 1.27 |
 
 The conversion factor itself is typed in C# as `F90F86C2BridgeIdentity.JConventionFactor = 2.0` with helpers `F86JToF89J(double)` and `F89JToF86J(double)`. The F89-convention Hamiltonian/Liouvillian *builder* now has a C# counterpart in [`compute/RCPsiSquared.Core/F89PathK/`](../../compute/RCPsiSquared.Core/F89PathK/) (commit `b9e5fe9`, simplified in `298f51c`): `F89BlockHamiltonian.BuildBlockH(nBlock, J)` returns `2·PauliHamiltonian.XYChain(nBlock, J)` (the factor-of-2 reflecting `JConventionFactor`); `F89BlockLiouvillian.BuildBlockL(nBlock, J, γ)` returns the column-major super-operator. F86's `BlockLDecomposition` and F89PathK's `BuildBlockL` produce convention-equivalent operators under the bridge identity.
 

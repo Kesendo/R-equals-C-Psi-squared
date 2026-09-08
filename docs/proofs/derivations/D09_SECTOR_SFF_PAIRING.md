@@ -1,74 +1,60 @@
-# D09: Sector SFF Pairing
+# D09: Palindrome-Paired Band SFF
 
-**Derives:** K_freq(w, t) = K_freq(N−w, t) for all t
-**From:** F1 (palindrome equation) + Π weight complementarity
-**Status:** PROVEN (corollary of mirror symmetry proof)
+**Derives:** equal frequency SFFs for palindrome-paired decay-rate bands.
+**From:** F1's full-spectrum multiset pairing.
+**Status:** Exact corollary for mirrored bands; the numerical producer uses average-light bins, not invariant XY-weight eigenvalue sectors.
 
----
+## Statement and scope
 
-## Statement
+Let λ=-d+iω run through the full Liouvillian spectrum with algebraic multiplicity.
+Under uniform per-site dephasing γ, F1 pairs
 
-The spectral form factor (SFF) restricted to XY-weight sector w is
-identical to the SFF of sector N−w:
+    λ ↦ −λ−2Nγ, hence d ↦ 2Nγ−d and ω ↦ −ω.
 
-    K_freq(w, t) = K_freq(N−w, t)    for all t ≥ 0
+For a decay-rate interval I, define its reflected interval I'={2Nγ−d : d∈I}.
+The bands B_I and B_I' contain equal numbers M_I of eigenvalues. Their raw
+frequency SFFs, unnormalized or normalized by M_I², agree for every real t:
 
-where K_freq(w, t) = |Σ_k exp(i·ω_k·t)|² summed over eigenvalues
-λ_k = −d_k + i·ω_k in sector w.
+    K_I(t) = |Σ_{λ∈B_I} exp(i Im(λ)t)|² / M_I² = K_I'(t).
+
+The normalized statement requires nonempty bands. Boundary membership must be
+reflected consistently, including endpoint inclusions and numerical tolerances.
 
 ## Proof
 
-**Step 1. Π maps sector w to sector N−w.**
+The spectral palindrome supplies a multiplicity-preserving bijection from B_I
+to B_I'. It negates every frequency. Thus the partner trace amplitude is the
+complex conjugate of the original trace amplitude; their modulus squares agree.
+Equal cardinalities give the same normalization. No eigenvector weight-sector
+assumption is used.
 
-The conjugation operator Π maps each Pauli string σ with XY-weight
-w_XY(σ) = w to a string with XY-weight N − w. This is proven in
-Step 1 of the [Mirror Symmetry Proof](../MIRROR_SYMMETRY_PROOF.md):
-Π swaps {I,Z} ↔ {X,Y} at each site, so every non-XY factor becomes
-XY and vice versa.
+## What the producer bins
 
-**Step 2. Π induces a bijection on eigenvalues within paired sectors.**
+[spectral_form_factor.py](../../../simulations/spectral_form_factor.py) selects
+eigenvalues by |d−2wγ|<γ. The reflected bin is centred at 2(N−w)γ.
+These are palindrome-paired decay-rate bands. At real Hamiltonian parameters,
+the Absorption Theorem identifies d=2γ⟨n_XY⟩, so they are average-light bins.
 
-Since Π L Π⁻¹ = −L − 2Σγ·I (the palindrome identity), applying Π to
-an eigenvector v_k with eigenvalue λ_k = −d_k + i·ω_k in sector w
-yields an eigenvector Π·v_k in sector N−w with eigenvalue
-λ_k' = −(2Σγ − d_k) − i·ω_k.
+A Hamiltonian can mix Pauli strings of different XY weight. Its Liouvillian
+eigenvectors therefore need not live in fixed XY-weight eigenspaces. The pure
+Pauli weight complement under Π is not a license to assign every mixed
+eigenmode a fixed integer weight.
 
-This map is a bijection: every eigenvalue in sector w has a unique
-partner in sector N−w, and vice versa.
+## Exact zero-frequency endpoint bands
 
-**Step 3. Paired sectors have identical frequency sets (up to sign).**
+For a connected uniform chain at strictly positive uniform dephasing, the N+1 stationary modes and their palindrome
+partners at λ=−2Nγ, every frequency is zero. Their trace amplitude is N+1 for
+all t. The unnormalized SFF is the constant (N+1)²; the normalized SFF is 1
+for all t, not an impulse at t=0. This statement concerns the exact endpoint
+eigenspaces, not the entire I/Z or XY-weight-N Pauli subspaces, nor a finite-width
+bin containing additional eigenvalues. At γ=0 the two endpoints coincide with
+λ=0 and merge into the generally larger Hamiltonian-commutator kernel, so the
+N+1 endpoint multiplicity statement does not apply there.
 
-The eigenvalue map gives:
-- d_k' = 2Σγ − d_k (palindromic pairing of decay rates)
-- ω_k' = −ω_k (frequency negation)
+## Executable checks
 
-Therefore the frequency multiset of sector N−w is {−ω_k : λ_k ∈ sector w}.
-
-**Step 4. SFF is invariant under frequency negation.**
-
-The SFF is defined as:
-
-    K_freq(w, t) = |Σ_k exp(i·ω_k·t)|²
-
-Replacing ω_k → −ω_k:
-
-    K_freq(N−w, t) = |Σ_k exp(−i·ω_k·t)|²
-                   = |conj(Σ_k exp(i·ω_k·t))|²
-                   = |Σ_k exp(i·ω_k·t)|²
-                   = K_freq(w, t)
-
-since |z|² = |z̄|² for any complex number z.    ∎
-
-## Special case: XOR sector
-
-The XOR sector (w = N) maps to w = 0 (all I/Z strings). Both sectors
-consist entirely of real eigenvalues (ω = 0), so K_freq = (count)²
-for both. At w = N, all eigenvalues are degenerate at rate 2Nγ
-(F23), giving K = (N+1)² × δ(t). The w = 0 sector has the
-N+1 stationary + near-stationary modes with the palindromic partner
-rates 2Σγ − 2Nγ = 2(Σγ − Nγ).
-
-## Verification
-
-Numerically verified for N=3−5 (sector-by-sector SFF comparison,
-relative error < 10⁻¹²). See [`simulations/spectral_form_factor.py`](../../../simulations/spectral_form_factor.py).
+The producer reports mirrored decay-rate bins at N=3−5. The frequency-kernel
+tests in [test_sff_window_summary.py](../../../simulations/tests/test_sff_window_summary.py)
+check constant zero-frequency sums against an oscillatory two-frequency control.
+A pair contributes 2cos(ωt) to the trace amplitude; squaring a sum of pairs
+produces doubled and cross frequencies in the SFF.

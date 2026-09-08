@@ -655,14 +655,13 @@ public static class PathKMonodromyScout
         return XxzLinearAt(a, c, ZzGenerator(k), q, delta).Evd().EigenValues.ToArray();
     }
 
-    /// <summary>The F_d residual roots of the XXZ (q, Δ) block, computed EXACTLY as the eigenvalues of
-    /// M_xxz(q,Δ) = (A + qC + qΔ·G)/2 compressed onto the orthogonal complement of the q-independent AT
-    /// invariant subspace (<see cref="ExactSetup"/>'s U_res). The path-6/N=7 replacement for
-    /// <see cref="XxzCoherenceBlock.ResidualRootsTrackedXxz"/>, whose nearest-match partition + continuity
-    /// tracking flood at the F_53 strand density. AT-free for locating the Δ-shifted coalescence q*(Δ); the
-    /// diabolic CHARACTER (geo vs alg) is still read on the full block. At Δ=0, G drops out and this equals
-    /// <see cref="ResidualRootsExact"/>.</summary>
-    public static Complex[] ResidualRootsExactXxz(int k, Complex q, double delta)
+    /// <summary>Eigenvalues of M_xxz(q,Δ) compressed onto the fixed Delta=0 AT complement.
+    /// The compression is diagonalized directly, but its subspace is not generally invariant at Delta!=0.
+    /// These are proposal roots, not certified full-block eigenvalues or coalescences.
+    /// Full-block pair coalescence and correspondence to the proposal midpoint must precede character
+    /// classification, using a strict tolerance independent of proposal-search tolerance.
+    /// At Delta=0 this equals <see cref="ResidualRootsExact"/>.</summary>
+    public static Complex[] ResidualRootsCompressedXxz(int k, Complex q, double delta)
     {
         var (a, c, uRes, _) = ExactSetup(k);
         var m = XxzLinearAt(a, c, ZzGenerator(k), q, delta);

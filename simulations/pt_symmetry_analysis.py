@@ -2,17 +2,18 @@
 """
 PT-Symmetry Analysis of the Palindromic Liouvillian
 =====================================================
-Phase 1: Formal classification of Π (Π², linearity, det, Π·L†·Π⁻¹)
-Phase 2: Chiral symmetry breaking analysis of the fragile-bridge system
+Phase 1: Shifted-generator structure of Π (Π², linearity, det, Π·L†·Π⁻¹)
+Phase 2: Palindrome-axis departure in the fragile-bridge system
 
 Script: simulations/pt_symmetry_analysis.py
 Output: simulations/results/pt_symmetry_analysis.txt
 """
 
 import numpy as np
-from scipy.linalg import eigvals, eig
+from scipy.linalg import eigvals
 from itertools import product as iproduct
 import os, sys, time as clock
+from pt_multiset_matching import multiset_reflection_error
 
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "results", "pt_symmetry_analysis.txt")
@@ -183,11 +184,11 @@ log("=" * 72)
 
 
 # ========================================================================
-# PHASE 1: FORMAL CLASSIFICATION OF Π
+# PHASE 1: SHIFTED-GENERATOR STRUCTURE OF Π
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 1: FORMAL CLASSIFICATION OF Π")
+log("PHASE 1: SHIFTED-GENERATOR STRUCTURE OF Π")
 log("=" * 72)
 
 # ----------------------------------------------------------------
@@ -229,7 +230,7 @@ for N in [2, 3]:
     log()
 
 log("  Result: Π² = (−1)^{w_YZ}. NOT ±I. Π has order 4.")
-log("  In AZ terms: generalized chiral (S⁴=I, not standard S²=I).")
+log("  Resolve Π² first: phase normalization gives an involutive P on each character sector.")
 
 # ----------------------------------------------------------------
 # 1b. Linearity
@@ -243,8 +244,9 @@ log("  Π is a MATRIX acting on coefficient vectors in Pauli basis.")
 log("  Π(αv) = α·Π(v) for all complex α. No conjugation involved.")
 log("  Therefore: Π is LINEAR.")
 log()
-log("  Consequence: {Π, L_c} = 0 with linear Π is CHIRAL symmetry,")
-log("  not PT-symmetry (which requires anti-linear PT operator).")
+log("  Consequence: {Π, L_c} = 0 is a linear shifted-generator anticommutation.")
+log("  Sectorwise P follows after resolving Π²; the full irreducible class stays open.")
+log("  This is not PT-symmetry, which requires an anti-linear PT operator.")
 
 # ----------------------------------------------------------------
 # 1c. det(Π)
@@ -332,7 +334,8 @@ log(f"  ‖Π·L·Π⁻¹ + L‖ = {err_fb:.2e}")
 log(f"  ({clock.time()-t0:.1f}s)")
 log()
 log("  Exact at Σγ=0: every eigenvalue λ pairs with −λ.")
-log("  This is the defining property of CHIRAL SYMMETRY (class AIII).")
+log("  This is the shifted-generator anticommutation carried by Π.")
+log("  After resolving a Π² character p_x, P_px=sqrt(p_x)·Π is an involution: sectorwise P.")
 
 # ----------------------------------------------------------------
 # Phase 1 summary table
@@ -345,22 +348,24 @@ log()
 log("  | Property       | Value                          | Consequence                  |")
 log("  |----------------|--------------------------------|------------------------------|")
 log("  | Π²             | (−1)^{w_YZ}, diagonal parity   | Not involution; order 4      |")
-log("  | Linear/anti    | Linear (matrix, no conjugation) | Chiral symmetry, NOT PT      |")
+log("  | Linear/anti    | Linear (matrix, no conjugation) | Sectorwise P, NOT PT          |")
 log("  | det(Π)         | −1 (N=1), +1 (N≥2)             | Even parity for multi-qubit  |")
-log("  | Π·L†·Π⁻¹      | −L† − 2Σγ·I (same as for L)    | Chiral for both L and L†     |")
+log("  | Π·L†·Π⁻¹      | −L† − 2Σγ·I (same as for L)    | Shifted anticommutation      |")
 log()
-log("  Π is a GENERALIZED CHIRAL OPERATOR: linear, order 4,")
-log("  anti-commutes with L_c = L + Σγ·I. Class AIII (chiral unitary).")
-log("  NOT PT-symmetry (which requires anti-linearity).")
+log("  Π is linear and order 4; it anti-commutes with L_c = L + Σγ·I.")
+log("  On each resolved Π²-character sector, P_px=sqrt(p_x)·Π is involutive")
+log("  and anti-commutes with L_c: sectorwise P is secured.")
+log("  The full irreducible SRP class remains OPEN; this is not a global class assignment.")
+log("  It is NOT PT-symmetry, which requires anti-linearity.")
 
 
 # ========================================================================
-# PHASE 2: CHIRAL SYMMETRY BREAKING IN THE FRAGILE BRIDGE
+# PHASE 2: PALINDROME AXIS DEPARTURE IN THE FRAGILE BRIDGE
 # ========================================================================
 log()
 log()
 log("=" * 72)
-log("PHASE 2: CHIRAL SYMMETRY BREAKING IN THE FRAGILE BRIDGE")
+log("PHASE 2: PALINDROME AXIS DEPARTURE IN THE FRAGILE BRIDGE")
 log("=" * 72)
 
 N_chain = 2
@@ -400,11 +405,9 @@ for g in test_gammas:
     ev = eigvals(L_g)
     max_re = np.max(np.abs(ev.real))
 
-    # Pairing check: for each λ, find closest to −λ
-    pair_errs = []
-    for lam in ev:
-        pair_errs.append(np.min(np.abs(ev - (-lam))))
-    max_pe = np.max(pair_errs)
+    # Bijective bottleneck matching preserves algebraic multiplicity.  A
+    # nearest-neighbour loop can reuse one target and miss a multiplicity error.
+    max_pe = multiset_reflection_error(ev, midpoint=0.0)
 
     nonzero = ev[np.abs(ev) > 1e-10]
     on_axis = "YES" if np.all(np.abs(nonzero.real) < 1e-6) else "NO"
@@ -414,37 +417,31 @@ for g in test_gammas:
 
 log()
 log("  λ ↔ −λ pairing is exact (machine precision) at ALL γ.")
-log("  Below γ_crit: eigenvalues on the imaginary axis (chiral phase).")
-log("  Above γ_crit: eigenvalues leave the axis (chiral breaking).")
+log("  Below γ_crit: eigenvalues remain within palindrome axis.")
+log("  Above γ_crit: eigenvalues move off palindrome axis; operator relation remains exact.")
 
 # ----------------------------------------------------------------
-# 2c. Eigenvalue trajectory near γ_crit
+# 2c. Spectral-abscissa scan near γ_crit
 # ----------------------------------------------------------------
 log()
 log("─" * 72)
-log("2c. Eigenvalue trajectory (50 points, 0.5γ_c to 1.5γ_c)")
+log("2c. Spectral abscissa (50 independent spectra, 0.5γ_c to 1.5γ_c)")
 log("─" * 72)
 log()
 
 n_pts = 50
 gammas_fine = np.linspace(0.5 * gamma_crit, 1.5 * gamma_crit, n_pts)
 max_re_arr = np.zeros(n_pts)
-crit_im_arr = np.zeros(n_pts)
-
-log(f"  {'γ':>9}  {'γ/γ_c':>6}  {'max Re(λ)':>12}  {'Im at max':>10}"
-    f"  {'|λ_crit|':>10}")
-log(f"  {'─'*55}")
+log(f"  {'γ':>9}  {'γ/γ_c':>6}  {'max Re(λ)':>12}")
+log(f"  {'─'*32}")
 
 for i, g in enumerate(gammas_fine):
     ev = eigvals(build_coupled_liouvillian(N_chain, g, J, J_br))
     idx_max = np.argmax(ev.real)
     lam_c = ev[idx_max]
     max_re_arr[i] = lam_c.real
-    crit_im_arr[i] = lam_c.imag
-
     if i % 5 == 0 or i == n_pts - 1:
-        log(f"  {g:>9.6f}  {g/gamma_crit:>6.3f}  {lam_c.real:>12.4e}"
-            f"  {lam_c.imag:>10.4f}  {abs(lam_c):>10.4f}")
+        log(f"  {g:>9.6f}  {g/gamma_crit:>6.3f}  {lam_c.real:>12.4e}")
 
 # Transition point
 cross = np.where(max_re_arr > 1e-8)[0]
@@ -455,112 +452,44 @@ if len(cross) > 0:
     log(f"  γ_crit (bisection):                     {gamma_crit:.6f}")
 
 # ----------------------------------------------------------------
-# 2d. Petermann factor and phase rigidity
+# 2d. Basis-invariant evidence boundary
 # ----------------------------------------------------------------
 log()
 log("─" * 72)
-log("2d. Petermann factor K and phase rigidity r")
+log("2d. BASIS-INVARIANT EVIDENCE BOUNDARY")
 log("─" * 72)
 log()
-log("  K = 1/|⟨ψ_L|ψ_R⟩|²   (diverges at EP, =1 for Hermitian)")
-log("  r = |⟨ψ_L|ψ_R⟩|²      (0 at EP, 1 for Hermitian)")
-log()
-
-gamma_peter = np.linspace(0.01, 2.0 * gamma_crit, 30)
-log(f"  {'γ':>9}  {'γ/γ_c':>6}  {'K':>10}  {'r':>12}  {'max Re':>10}")
-log(f"  {'─'*55}")
-
-K_arr = np.zeros(len(gamma_peter))
-r_arr = np.zeros(len(gamma_peter))
-
-for i, g in enumerate(gamma_peter):
-    L_g = build_coupled_liouvillian(N_chain, g, J, J_br)
-    w, vl, vr = eig(L_g, left=True, right=True)
-
-    idx_max = np.argmax(w.real)
-    overlap = np.abs(vl[:, idx_max].conj() @ vr[:, idx_max])
-    K = 1.0 / (overlap**2 + 1e-30)
-    r = overlap**2
-    K_arr[i] = K
-    r_arr[i] = r
-
-    log(f"  {g:>9.5f}  {g/gamma_crit:>6.3f}  {K:>10.4f}  {r:>12.8f}"
-        f"  {w[idx_max].real:>10.2e}")
-
-log()
-log(f"  Max Petermann factor: K = {np.max(K_arr):.2f}"
-    f" at γ/γ_c = {gamma_peter[np.argmax(K_arr)]/gamma_crit:.3f}")
-log(f"  Min phase rigidity:  r = {np.min(r_arr):.6f}"
-    f" at γ/γ_c = {gamma_peter[np.argmin(r_arr)]/gamma_crit:.3f}")
+log("  This producer does not report single-eigenvector Petermann factors or angles.")
+log("  Degenerate eigenspaces make those values basis-dependent; a subspace-level")
+log("  condition measure or a threshold Jordan-rank test would be required.")
 
 # ----------------------------------------------------------------
-# 2e. Eigenvector coalescence of critical pair
+# 2e. Reinterpretation
 # ----------------------------------------------------------------
 log()
 log("─" * 72)
-log("2e. Eigenvector coalescence (right eigenvectors of λ, −λ pair)")
+log("2e. PALINDROME-AXIS DEPARTURE")
 log("─" * 72)
 log()
-log("  At an EP: two right eigenvectors become parallel (cos θ → 1).")
+log("  The measured transition is an axis departure while the palindrome remains exact:")
 log()
-
-gamma_coal = np.linspace(0.5 * gamma_crit, 1.5 * gamma_crit, 25)
-log(f"  {'γ':>9}  {'γ/γ_c':>6}  {'pair dist':>10}  {'cos θ':>10}"
-    f"  {'Re(λ)':>10}  {'Im(λ)':>10}")
-log(f"  {'─'*65}")
-
-for g in gamma_coal:
-    L_g = build_coupled_liouvillian(N_chain, g, J, J_br)
-    w, vr = eig(L_g, right=True)
-
-    idx_max = np.argmax(w.real)
-    lam_max = w[idx_max]
-
-    # Find palindromic partner closest to −λ
-    dists = np.abs(w - (-lam_max))
-    dists[idx_max] = np.inf
-    idx_partner = np.argmin(dists)
-    pair_dist = dists[idx_partner]
-
-    # Angle between right eigenvectors
-    v1 = vr[:, idx_max]
-    v2 = vr[:, idx_partner]
-    cos_angle = np.abs(v1.conj() @ v2) / (
-        np.linalg.norm(v1) * np.linalg.norm(v2))
-
-    log(f"  {g:>9.6f}  {g/gamma_crit:>6.3f}  {pair_dist:>10.2e}"
-        f"  {cos_angle:>10.6f}  {lam_max.real:>10.2e}"
-        f"  {lam_max.imag:>10.4f}")
-
-# ----------------------------------------------------------------
-# 2f. Reinterpretation
-# ----------------------------------------------------------------
-log()
-log("─" * 72)
-log("2f. REINTERPRETATION: Hopf bifurcation IS chiral symmetry breaking")
-log("─" * 72)
-log()
-log("  FRAGILE_BRIDGE.md states: 'Hopf bifurcation, not PT breaking.'")
-log("  This analysis shows both descriptions are correct simultaneously:")
-log()
-log("  1. Σγ = 0 forces exact λ ↔ −λ pairing (chiral symmetry)")
+log("  1. Σγ = 0 forces exact λ ↔ −λ palindrome pairing")
 log("  2. Below γ_crit: ALL eigenvalues on the imaginary axis")
-log("     (the chiral-symmetric phase: Re(λ) = 0 for all λ)")
-log("  3. Above γ_crit: eigenvalue pairs leave the imaginary axis")
-log("     (one to Re>0, partner to Re<0 = chiral symmetry BREAKING)")
-log("  4. The mechanism: a complex pair crosses Re=0 (Hopf)")
+log("     (the axis-confined phase: Re(λ) = 0 for all λ)")
+log("  3. Above γ_crit: off-axis eigenvalue quartets appear")
+log("     (Π gives λ↔−λ; Hermiticity preservation gives λ↔λ*; together {λ,λ*,−λ,−λ*})")
+log("  4. The measured event is the existence of an off-axis pair with max Re>0")
 log()
 log("  In Hamiltonian PT: real eigenvalues → complex (at EP).")
-log("  In Liouvillian chiral: imaginary eigenvalues → off-axis.")
-log("  Same geometry, rotated 90°. The Hopf IS the chiral breaking.")
+log("  In this Liouvillian palindrome: imaginary eigenvalues → symmetric off-axis pairs.")
+log("  The spectrum changes axis occupancy without breaking the palindrome relation.")
 log()
-log("  Key: Π is LINEAR, not anti-linear. This is chiral/sublattice")
-log("  symmetry (class AIII), not time-reversal. The spectral consequence")
-log("  (± pairing) is identical; the operator type is different.")
+log("  Key: Π is LINEAR, not anti-linear. Resolving Π² and phase-normalizing")
+log("  gives a sectorwise P generator, not a global irreducible class assignment.")
+log("  The spectral consequence is the ± pairing; the full SRP class stays open.")
 log()
-log("  No classical EP on the real γ axis: the palindromic pair (λ,−λ)")
-log("  crosses Re=0 without coalescing (distance = 2|λ| > 0).")
-log("  The transition is topological (axis crossing), not local (EP).")
+log("  This scan independently selects max Re(λ) at each γ; it does not track a branch.")
+log("  It reports the spectral-abscissa axis departure only.")
 
 
 # ========================================================================
@@ -572,16 +501,16 @@ log("=" * 72)
 log("SUMMARY")
 log("=" * 72)
 log()
-log("Phase 1: Π is a LINEAR, ORDER-4 chiral operator with det(Π) = +1")
+log("Phase 1: Π is a LINEAR, ORDER-4 palindrome operator with det(Π) = +1")
 log("  (N≥2). It anti-commutes with L_c = L+Σγ·I and with L_c†.")
-log("  NOT PT-symmetry. Correct class: AIII (chiral unitary).")
+log("  Resolving Π² gives sectorwise P; full irreducible SRP class remains OPEN.")
+log("  This does not assign a global class and is not PT-symmetry.")
 log()
 log("Phase 2: The fragile bridge (Σγ=0) has:")
-log(f"  - Exact λ ↔ −λ pairing at all γ (chiral symmetry)")
+log(f"  - Exact λ ↔ −λ palindrome pairing at all γ")
 log(f"  - Eigenvalues on imaginary axis for γ < γ_crit = {gamma_crit:.6f}")
-log(f"  - Chiral symmetry breaking (eigenvalues leave Im axis) at γ_crit")
-log(f"  - The Hopf bifurcation IS the Liouvillian chiral breaking")
-log(f"  - No exceptional point on the real γ axis")
+log(f"  - Palindrome-axis departure (eigenvalues leave Im axis) at γ_crit")
+log(f"  - The spectral-abscissa axis departure occurs while the operator relation remains exact")
 log()
 log(f"Completed: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
 log(f"Results: {OUT_PATH}")

@@ -1,0 +1,26 @@
+F138: EXISTS-U decided exactly, not scanned
+==============================================================================
+The scan version (_f138_exists_u_predicate.py) enumerated U = P_sigma . Q over
+graph automorphisms times Pauli strings and returned 0 false positives and 96
+false negatives, all of them rows whose two field letters DIFFER, which a Pauli
+cannot rotate into each other. So the scan set was too small. This decides the
+question instead of scanning it.
+
+  P3, ends equal                     mags=(30, 30, 30)
+                                     rows=21952  FALSE POSITIVE=0  FALSE NEGATIVE=0  nonempty-but-singular=174
+
+  K3, all equal                      mags=(30, 30, 30)
+                                     rows=21952  FALSE POSITIVE=0  FALSE NEGATIVE=0  nonempty-but-singular=270
+
+  bond+isolate, all equal            mags=(30, 30, 30)
+                                     rows=21952  FALSE POSITIVE=0  FALSE NEGATIVE=0  nonempty-but-singular=1332
+
+  P3, generic                        mags=(30, 22, 41)
+                                     rows=21952  FALSE POSITIVE=0  FALSE NEGATIVE=0  nonempty-but-singular=0
+
+  K3, generic                        mags=(30, 22, 41)
+                                     rows=21952  FALSE POSITIVE=0  FALSE NEGATIVE=0  nonempty-but-singular=0
+
+==============================================================================
+  TOTAL false positives (kills sufficiency): 0
+  TOTAL false negatives (kills necessity):   0

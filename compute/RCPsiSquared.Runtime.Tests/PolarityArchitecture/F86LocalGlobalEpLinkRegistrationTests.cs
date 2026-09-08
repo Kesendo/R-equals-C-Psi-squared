@@ -15,6 +15,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterAbsorptionTheoremClaim()
+            .RegisterF1PalindromeIdentity()
             .RegisterF86Main(gammaZero: 0.05, gEff: 1.74);
 
     [Fact]
@@ -28,7 +29,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
     }
 
     [Fact]
-    public void RegisterF86LocalGlobalEpLink_AncestorsContainsChiralAiii()
+    public void RegisterF86LocalGlobalEpLink_AncestorsContainsShiftedGeneratorPTypeClaim()
     {
         var registry = BuildBaseRegistry()
             .RegisterF86LocalGlobalEpLink()
@@ -36,7 +37,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
 
         var ancestors = registry.AncestorsOf<LocalGlobalEpLink>()
             .Select(c => c.GetType()).ToHashSet();
-        Assert.Contains(typeof(ChiralAiiiClassification), ancestors);
+        Assert.Contains(typeof(ShiftedGeneratorSectorwisePClaim), ancestors);
     }
 
     [Fact]
@@ -44,7 +45,7 @@ public class F86LocalGlobalEpLinkRegistrationTests
     {
         // Demoted Tier2Verified → OpenQuestion (F86a repair): the coarse Q grid did not sample
         // the narrow real-axis coalescences later certified at N=5,7,9, and the prior magnitudes
-        // are grid-sensitive. The Tier1Derived ChiralAiiiClassification parent
+        // are grid-sensitive. The Tier1Derived shifted-generator P-type parent
         // (strength 5) still dominates OpenQuestion (strength 1), so the edge survives.
         var registry = BuildBaseRegistry()
             .RegisterF86LocalGlobalEpLink()
@@ -66,10 +67,10 @@ public class F86LocalGlobalEpLinkRegistrationTests
     }
 
     [Fact]
-    public void RegisterF86LocalGlobalEpLink_WithoutF86Main_Throws_MissingChiralAiiiParent()
+    public void RegisterF86LocalGlobalEpLink_WithoutF86Main_Throws_MissingPTypeParent()
     {
-        // ChiralAiiiClassification is registered by F86MainRegistration; without it, the
-        // edge to ChiralAiiiClassification fails at Build() with MissingParent.
+        // ShiftedGeneratorSectorwisePClaim is registered by F86MainRegistration; without it,
+        // the parent edge fails at Build() with MissingParent.
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
                 .RegisterF86LocalGlobalEpLink()

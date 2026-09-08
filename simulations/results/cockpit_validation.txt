@@ -183,7 +183,10 @@ VERDICT: DOES THE COCKPIT WORK?
 
   8. Petermann factor is THEORETICAL ONLY.
      - Requires Liouvillian eigenvectors, not measurable from data
-     - And it's K_P ~ 1 anyway (uninteresting for pure dephasing)
+     - The old K_P ~ 1 pure-dephasing null is refuted: pure Z-dephasing
+       Liouvillians can be strongly non-normal and have defective seeds
+     - A single-vector K_P is meaningful only for a simple isolated mode;
+       at degeneracy use invariant-subspace or Jordan diagnostics
 
   9. Hardware-simulation gap, Q80 shadow.
      - Hardware sits BELOW simulation at all 10 points, mean

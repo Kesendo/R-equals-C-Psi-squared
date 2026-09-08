@@ -5,14 +5,15 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F89CrossFoldSimilarityClaim"/> (F89d): the (SE,DE)↔(SE,w_{N−2})
-/// cross-fold is an EXACT antiunitary similarity at the matrix level, the diabolics pair across it. Two typed
+/// cross-fold is an exact antiunitary similarity at the matrix level. It transports an independently certified
+/// Jordan character to the partner but does not certify sampled candidates itself. Two typed
 /// parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="F1PalindromeIdentity"/>: the F1 mirror λ ↦ −λ̄ − 2σ the cross-fold realises across the
 ///         two blocks (the antiunitary T = P·K carried on the (SE,DE) block).</item>
 ///   <item><see cref="F89BranchLocusPalindromeClaim"/>: the spectrum-level cross-fold this claim upgrades to a
-///         Jordan-structure-preserving matrix similarity (the diabolic character + gap thus pair).</item>
+///         Jordan-structure-preserving matrix similarity (independently certified character + gap thus pair).</item>
 /// </list>
 ///
 /// <para>Tier consistency: Tier 1 derived (an exact matrix identity + the standard antiunitary-similarity

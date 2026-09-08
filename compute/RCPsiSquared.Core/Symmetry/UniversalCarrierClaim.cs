@@ -36,9 +36,10 @@ public sealed class UniversalCarrierClaim : Claim
     /// identical Q-values across the three.</summary>
     public const double DefaultGammaZero = 0.05;
 
-    /// <summary>The absorption quantum at the default γ₀: <c>2γ₀</c>. Universal step-size
-    /// of the Liouvillian eigenvalue grid under uniform Z-dephasing.</summary>
-    public double DefaultAbsorptionQuantum => Absorption.AbsorptionQuantum(DefaultGammaZero);
+    /// <summary>The one-disagreement basis-pair dissipator cost at the default γ₀:
+    /// <c>2γ₀</c>. This is not an eigenvalue-grid step.</summary>
+    public double DefaultSingleDisagreementCellCost =>
+        Absorption.SingleDisagreementCellCost(DefaultGammaZero);
 
     /// <summary>The default t_peak: <c>1/(4γ₀)</c>. The "4" is the polynomial discriminant
     /// <c>a_{−1}</c> via <see cref="PolynomialDiscriminantAnchorClaim.DiscriminantViaLadder"/>;
@@ -93,7 +94,7 @@ public sealed class UniversalCarrierClaim : Claim
                          "Live: inspect --root symphony --tempo-ratio 20. Plain-words for non-programmers: " +
                          "hypotheses/GAMMA_IS_LIGHT.md ('What if you put the actual speed of light into the formula?').");
             yield return InspectableNode.RealScalar("DefaultGammaZero", DefaultGammaZero);
-            yield return InspectableNode.RealScalar("DefaultAbsorptionQuantum (= 2·γ₀)", DefaultAbsorptionQuantum);
+            yield return InspectableNode.RealScalar("DefaultSingleDisagreementCellCost (= 2·γ₀)", DefaultSingleDisagreementCellCost);
             yield return InspectableNode.RealScalar("DefaultTPeak (= 1/(4γ₀))", DefaultTPeak);
             yield return new InspectableNode("Pi2 foundation anchors",
                 summary: $"a₀ = {Ladder.Term(0)} (multiplies γ in Absorption / F1 / F8); a_{{-1}} = {Ladder.Term(-1)} (polynomial discriminant; '4γ' in t_peak etc.); a₃ = {Ladder.Term(3)} (mirror partner; ¼-boundary).");

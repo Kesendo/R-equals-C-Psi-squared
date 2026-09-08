@@ -2,58 +2,48 @@
 
 <!-- Keywords: random matrix theory Liouvillian, spacing ratio palindromic
 spectrum, Poisson level statistics open quantum, Liouvillian
-spectral statistics, chiral symmetry Liouvillian eigenvalues, XY-weight
+spectral statistics, shifted-generator sectorwise P symmetry, XY-weight
 light-content band universality class, Heisenberg dephasing RMT analysis,
 R=CPsi2 random matrix theory -->
 
-**Status:** Computationally verified (N=2-7, 21,840 eigenvalues, Heisenberg chain)
+**Status:** Finite-size computational study (N=2-7, 21,840 eigenvalues, Heisenberg chain)
 **Date:** April 1, 2026; sector-resolved comparison June 30, 2026; band-hint analysis June 27, 2026.
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Scripts:** compute/RCPsiSquared.Compute (C# eigenvalue export),
 [`simulations/rmt_analysis.py`](../simulations/rmt_analysis.py) (Python spacing analysis),
-[`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.py) (band GOE-hint verdict: bootstrap + larger-N)
+[`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.py) (raw band-frequency multiset diagnostics)
 
 ---
 
 ## What this document is about
 
-This document asks whether the palindromic Liouvillian spectrum looks
-repulsive or clustered, using the standard diagnostic from random matrix
-theory: the spacing ratio between consecutive eigenvalues. The measured
-spectrum is Poisson-like (eigenvalues cluster rather than repel), compatible
-with a Liouvillian separated into invariant blocks by conserved quantities.
-Poisson statistics do not prove integrability. An early small-N read hinted
-at GOE-like repulsion inside individual decay-rate bands, but driving it
-to a verdict (bootstrap + larger samples) shows it was small-sample
-noise: the tested bands also lack GOE-like repulsion
-(Result 3).
+This document reports direct consecutive-gap ratios of the raw full decay-rate
+multiset, including zero gaps. The mean uses defined ratios only and has no
+standard Poisson/GOE/GUE calibration for this degenerate unresolved population.
+It neither establishes level clustering inside irreducible blocks nor proves integrability.
+The companion frequency-band diagnostic preserves the selected multiset too;
+neither analysis supplies a within-band GOE verdict (Result 3).
 
 ---
 
 ## Abstract
 
-We perform the first random matrix theory (RMT) analysis of the
-palindromic Liouvillian spectrum. Using spacing ratios (robust,
-unfolding-free) on eigenvalues computed by the C# engine with
-MKL/OpenBLAS (N=2 through N=7, up to 16,384 eigenvalues), we find
-that the decay rate spectrum is **Poisson-like** (no level
-repulsion) at every system size tested. The mean spacing ratio
-converges to ⟨r⟩ = 0.36-0.39, consistent with the Poisson value
-0.386 and far from GOE (0.536) or GUE (0.603). The decomposition that
-does this is the **joint-popcount grading**: the Hamiltonian conserves
+The C# exports contain all 4^N eigenvalues at N=2 through N=7. Direct
+consecutive-gap ratios retain each original adjacent pair, including zero gaps;
+0/0 is undefined and counted separately. At N=7 the defined-ratio mean is
+0.2021456120489688 over 16,366 ratios, with 16 undefined pairs. These parsed-double
+statistics are sensitive to near-degenerate eigensolver splittings and do not
+certify physical level resolution or a universality class. The independent
+**joint-popcount grading** is exact: the Hamiltonian conserves
 excitation number and Z-dephasing does not move it either, so L is
 block-diagonal across the (N+1)² blocks indexed by the popcounts of
 ρ's row and column, and eigenvalues from different blocks never see
 each other. The palindrome is a separate fact and not this one: it
 pairs λ with −λ−2Σγ across the whole spectrum rather than splitting it
-into non-interacting parts. The chiral symmetry (centered spectrum has
-exact ± pairing) is confirmed to machine precision. An early
-band-resolved read at N=5 showed an apparent GOE-like ⟨r⟩ = 0.513
-inside individual decay-rate bands; driven to a verdict it is a
-small-sample artifact (the n=15 value is a 1.5σ Poisson fluctuation, and
-the same bands read Poisson/sub-Poisson at N=6-7 with hundreds of
-frequencies). No within-band onset of GOE-like repulsion is established
-at the tested N; this is a statistical verdict, not an integrability theorem.
+into non-interacting parts. The F1 palindrome (the centered spectrum has
+exact ± pairing) is confirmed to machine precision. The separate raw
+absolute-frequency multisets in average-light bands do not establish a
+within-band onset of GOE-like repulsion or an integrability theorem.
 
 ---
 
@@ -61,18 +51,17 @@ at the tested N; this is a statistical verdict, not an integrability theorem.
 
 ### Why RMT?
 
-Random Matrix Theory classifies quantum spectra by their level
-statistics. The three standard universality classes are:
+Random-matrix universality tests require a specified spectral population and
+appropriate symmetry resolution. The pooled real parts here include exact
+numeric ties, near-degeneracies, and multiple invariant blocks. Standard
+nondegenerate ensemble means are not a calibration for this population.
 
-| Ensemble | Spacing ratio ⟨r⟩ | Level repulsion | Physics |
-|----------|-------------------|-----------------|---------|
-| Poisson  | 0.386 | None (clustering) | Compatible with integrable or unresolved independent-sector structure |
-| GOE      | 0.536 | Linear (s^1) | Time-reversal invariant, real |
-| GUE      | 0.603 | Quadratic (s^2) | Time-reversal broken, complex |
-
-The spacing ratio r_n = min(s_n, s_{n+1}) / max(s_n, s_{n+1}) is the
-modern standard diagnostic: it requires no spectral unfolding and gives
-a single number that distinguishes the three classes.
+The adjacent spacing ratio r_n = min(s_n, s_{n+1}) / max(s_n, s_{n+1}) is a
+standard diagnostic. It is exactly invariant under a common affine rescaling
+of the spectrum and is comparatively insensitive to a slowly varying local
+mean density because neighbouring gaps share approximately the same local
+scale. It is not invariant under an arbitrary smooth nonlinear transformation,
+and one mean value does not by itself classify a mixed or unresolved spectrum.
 
 ### What we knew before this analysis
 
@@ -115,51 +104,68 @@ Command: `dotnet run -c Release -- rmt`
 
 ### Spacing ratio analysis (Python)
 
-For decay rates (Re parts of eigenvalues):
-1. Sort all nonzero rates
-2. Compute consecutive spacing ratios r_n
-3. Average ⟨r⟩ and compare with reference values
+For decay rates d = −Re(λ):
 
-No spectral unfolding needed. The spacing ratio is invariant under
-smooth transformations of the spectrum.
+1. Sort the complete parsed-double multiset: all 4^N rates, including zero and
+   small negative numerical rates; no cutoff or deduplication.
+2. For every original adjacent gap pair compute min/max. A zero next to a positive
+   gap gives zero; 0/0 is undefined and remains in its original ratio position.
+3. Average only defined ratios. Report level, gap, exact-zero-gap, adjacent-pair,
+   defined-ratio and undefined-0/0 counts. Nearzero gaps are retained, not certified
+   as physically resolved. There is no standard Poisson/GOE/GUE calibration.
+
+No explicit spectral unfolding was applied in this analysis. Adjacent-gap
+ratios cancel a common local scale exactly, hence are affine-invariant, and
+are only approximately robust when the mean density varies slowly across two
+neighbouring gaps. They are not invariant under general smooth reparameterizations,
+so this property does not remove the unresolved-population limitation.
 
 ### Band analysis
 
-For N=2-5 (Python eigenvalues): bin modes by nearest integer w
-(rate ≈ 2·w·γ), then analyze FREQUENCIES (imaginary parts) within each
-bin. Rates are degenerate inside a bin by construction; frequencies
-carry the spectral information.
+For N=2-7 (the same C# CSVs), select rate windows |d−2wγ| < 0.3γ,
+then analyze the complete absolute-frequency multiset in each window.
+Rates within a finite window need not be equal.
 
 The bin is a **band** around average light content ⟨n_XY⟩ = w, not a
 weight sector. Modes of pure weight w land in it, and so does any mixed
 mode within the tolerance, including mixed modes exactly on the rung.
-Everything below reads bands; the distinction does not affect the
-statistics but it does decide what the sets are called.
+The distinction affects which reference population could be justified;
+these bands are not a symmetry-resolved universality test.
 
 ---
 
-## Result 1: The Rate Spacings are Poisson-Like
+## Result 1: Direct Raw-Multiset Consecutive-Gap Ratios
 
-| N | Eigenvalues | ⟨r⟩ (all rates) | ⟨r⟩ (lower half) | Classification |
-|---|-------------|-----------------|-------------------|----------------|
-| 3 | 64 | 0.220 | 0.301 | Poisson |
-| 4 | 256 | 0.408 | 0.385 | Poisson |
-| 5 | 1,024 | 0.369 | 0.368 | Poisson |
-| 6 | 4,096 | 0.364 | 0.363 | Poisson |
-| 7 | 16,384 | 0.383 | 0.383 | Poisson |
+Executed with `python simulations/rmt_analysis.py` from the committed CSVs.
+Here L is the level count: there are L−1 gaps and L−2 original adjacent pairs.
+The last two count columns sum to L−2; zero gaps count exact parsed-double ties.
 
-(N=2 has too few eigenvalues for statistics.)
+| N | L | Zero gaps | Defined ratios | Undefined 0/0 | ⟨r⟩ defined |
+|---|---:|---:|---:|---:|---:|
+| 2 | 16 | 4 | 14 | 0 | 0.09635955831608055 |
+| 3 | 64 | 7 | 62 | 0 | 0.22260363264213059 |
+| 4 | 256 | 35 | 244 | 10 | 0.27789182063152246 |
+| 5 | 1024 | 14 | 1021 | 1 | 0.21627032685910053 |
+| 6 | 4096 | 1340 | 3107 | 987 | 0.18988807786718778 |
+| 7 | 16384 | 136 | 16366 | 16 | 0.2021456120489688 |
 
-**The measured rate spacings lack level repulsion.** The mean spacing ratio
-converges to ~0.37, consistent with the Poisson value 0.386. There is
-no level repulsion. Eigenvalues cluster rather than repel.
+The optional subset d < Nγ has no lower cutoff. It is not an irreducible sector
+and does not certify removal of correlations or numerical degeneracies.
 
-The "lower half" analysis (only rates below Σγ, removing the
-palindromic pairing correlation) gives the same result. The Poisson
-statistics are intrinsic to each half of the spectrum, not an artifact
-of the palindromic doubling.
+| N | Subset L | Zero gaps | Defined ratios | Undefined 0/0 | ⟨r⟩ defined |
+|---|---:|---:|---:|---:|---:|
+| 2 | 9 | 3 | 7 | 0 | 0.03571428571428635 |
+| 3 | 32 | 3 | 30 | 0 | 0.19280201821404228 |
+| 4 | 114 | 9 | 111 | 1 | 0.27863805704900285 |
+| 5 | 512 | 6 | 509 | 1 | 0.21681497117520818 |
+| 6 | 1973 | 608 | 1540 | 431 | 0.18227295486195011 |
+| 7 | 8192 | 65 | 8184 | 6 | 0.20163224832233276 |
 
-### Why Poisson?
+These are descriptions of the numeric multiset, not estimates of a resolved
+nondegenerate spacing process. They do not establish an irreducible-sector
+repulsion law, integrability, or a large-N limit.
+
+### Why the pooled population does not classify a sector
 
 ONE grading cuts the Liouvillian into pieces that never interact: the
 **joint popcount**. H conserves excitation number and Z-dephasing acts
@@ -179,109 +185,93 @@ both parities.
 The palindrome is not one of these. Π conjugation sends λ to −λ−2Σγ
 and so relates the two halves of the spectrum; it pairs levels rather
 than separating them, and a pairing does not by itself suppress
-repulsion. That the two halves are individually Poisson (measured
-above) is evidence for exactly this reading.
+repulsion. The d < Nγ restriction is only a numerical subset diagnostic.
 
 The spacing statistics are consistent with what the analytical
-formulas already implied. They do not establish that the spectrum is
+formulas already allowed. They do not establish that the spectrum is
 fully determined: only the (0,1) coherence block has a closed form
-(F2), and the interior blocks do not. What is Poisson is the level
-STATISTICS, which is a much weaker statement than knowing the levels.
+(F2), and the interior blocks do not. What is measured is a finite-N pooled
+mean ratio, which is much weaker than an unfolded irreducible-sector point
+process or knowledge of the levels.
 
 ---
 
-## Result 2: Perfect Chiral Symmetry
+## Result 2: Centered Decay-Rate Reflection Check
 
-The centered Liouvillian L_c = L + Σγ·I has exact ±
-eigenvalue pairing (the palindromic constraint becomes
-λ_c + λ_c' = 0).
+The exact F1 theorem says that the centered Liouvillian L_c = L + Σγ·I
+has ± pairing of the full complex eigenvalue multiset. The diagnostic here
+checks only the induced reflection of the centered decay rates
+d_c = -Re(λ_c). It performs a multiplicity-preserving perfect matching of the
+full real-part projection, including the modes at the centre; on the real line
+this is the bottleneck distance between sorted d_c and sorted -d_c. It does not
+match the imaginary parts or independently re-establish the full complex
+multiset bijection.
 
-| N | ± pairs | Mean pairing error |
-|---|-----------|-------------------|
-| 3 | 32 | 8.3e-16 |
-| 4 | 52 | 1.5e-15 |
-| 5 | 512 | 2.8e-15 |
-| 6 | 1,130 | 4.7e-15 |
-| 7 | 8,192 | 6.6e-15 |
+| N | Positive | Negative | Central | Multiplicity bottleneck error |
+|---|----------|----------|---------|-------------------------------|
+| 2 | 3 | 3 | 10 | 2.78e-16 |
+| 3 | 32 | 32 | 0 | 4.11e-15 |
+| 4 | 52 | 52 | 152 | 2.38e-14 |
+| 5 | 512 | 512 | 0 | 1.64e-14 |
+| 6 | 1,130 | 1,130 | 1,836 | 3.10e-14 |
+| 7 | 8,192 | 8,192 | 0 | 6.20e-14 |
 
-Pairing is exact to machine precision at every N. This confirms the
-algebraic proof ([Mirror Symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
-and places the centered Liouvillian in the chiral symmetry class.
-
-In the Altland-Zirnbauer classification (the tenfold taxonomy of symmetry classes for random matrices, extending Wigner-Dyson's three classes to include particle-hole and chiral symmetries), this is class AIII (chiral
-unitary). However, the Poisson level statistics show that the system
-does not exhibit the level repulsion expected for a random chiral
-GUE ensemble. Chiral pairing and Poisson-like statistics are separate
-observations; absence of repulsion does not establish integrability.
+The projected decay-rate reflection is satisfied to machine precision at every
+tested N and is consistent with the independently proved full palindrome
+([Mirror Symmetry](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). This projected
+check alone neither confirms the imaginary-part pairing nor proves the
+operator identity. It does not assign
+a random-matrix class by itself. In the Sá-Ribeiro-Prosen construction,
+Hermiticity preservation also supplies T₊, and the global order-4 Π must be
+restricted and phase-normalized inside the Π² parity sectors before the
+remaining symmetry algebra is classified. That irreducible-sector calculation
+has not been completed here. The raw-multiset finite-size statistic and the
+exact spectral pairing are therefore separate observations; neither proves
+integrability or licenses a class label.
 
 ---
 
-## Result 3: The Within-Band GOE Hint, Resolved (Artifact)
+## Result 3: Raw Absolute-Frequency Multisets in Average-Light Bands
 
-Within individual decay-rate bands, frequencies (not rates) were measured
-with the spacing ratio ⟨r⟩. An early small-N read looked GOE-like:
+The companion [producer](../simulations/rmt_goe_hint_verdict.py) uses the same
+C# CSVs and direct adjacent-gap rule. Its legacy filename does not name a
+current ensemble verdict. It selects |d−2wγ| < 0.3γ, an average-light window
+|⟨n_XY⟩−w| < 0.15, and sorts every selected |Im λ|, including zero frequencies
+and multiplicities. There is no rounding, deduplication, or frequency cutoff.
+These are not invariant fixed-XY-weight sectors, nor independent nondegenerate
+frequency samples. No standard-ensemble calibration applies.
 
-| N | Band | Unique freq | ⟨r⟩ | Class |
-|---|--------|-------------|-----|-------|
-| 4 | w=2 | 41 | 0.130 | sub-Poisson |
-| 5 | w=2 | 15 | 0.513 | GOE |
-| 5 | w=3 | 15 | 0.513 | GOE |
+Executed with `python simulations/rmt_goe_hint_verdict.py`;
+[all band populations](../simulations/results/rmt_band_multiset.txt) are printed.
+Representative central bands:
 
-**This hint is an artifact of small sample size.** It was driven to a verdict
-in [`simulations/rmt_goe_hint_verdict.py`](../simulations/rmt_goe_hint_verdict.py)
-(reproduce + bootstrap + extend to N=6-7):
+| N | w | L | Zero gaps | Defined ratios | Undefined 0/0 | ⟨r⟩ defined |
+|---|---|---:|---:|---:|---:|---:|
+| 4 | 2 | 152 | 1 | 150 | 0 | 0.18169077812422024 |
+| 5 | 2 | 80 | 1 | 78 | 0 | 0.24815201187882771 |
+| 5 | 3 | 80 | 0 | 78 | 0 | 0.27828836818199409 |
+| 6 | 3 | 1948 | 14 | 1946 | 0 | 0.1659385190868666 |
+| 7 | 3 | 1710 | 17 | 1708 | 0 | 0.19686572210722628 |
+| 7 | 4 | 1710 | 7 | 1708 | 0 | 0.21256889000702267 |
 
-1. **The two "GOE" rows are one sample, not two.** At N=5, w=2 and w=N−2=3 are
-   palindromic partners with identical frequency content (the F43 sector pairing
-   K_freq(w,t) = K_freq(N−w,t)), so they read identically (0.513 on the same 15
-   frequencies). There was never an independent second band.
-
-2. **0.513 on 15 frequencies is a Poisson fluctuation.** The Poisson sampling
-   band for ⟨r⟩ at n=15 (Monte Carlo over a homogeneous Poisson process, same
-   spacing-ratio statistic) is 0.386 ± 0.087, with [5%, 95%] = [0.245, 0.533].
-   The observed 0.513 sits inside the band; the one-sided p(Poisson ≥ 0.513) =
-   0.076, a ~1.5σ upward fluctuation, not significant.
-
-3. **Larger samples read Poisson, not GOE.** The decay rate can be read off the
-   full Liouvillian spectrum at N=6-7 with no eigenvectors and no extra memory
-   (this is the obstacle the original write-up wrongly thought blocked the
-   check), so the binning is cheap. What it selects needs saying precisely,
-   because the earlier wording here got it wrong twice over. The Absorption
-   Theorem gives rate = 2γ·⟨n_XY⟩, the AVERAGE light content, not the weight,
-   so a rate bin does not select a weight sector. And the bin is a BAND, not a
-   rung: `rmt_analysis.py` admits |rate − 2wγ| < 0.3γ, so it collects every
-   mode whose ⟨n_XY⟩ falls within 0.3 of w, and most of those are not at w.
-   So these are **bands** around ⟨n_XY⟩ = w. Sitting exactly ON the rung while
-   being mixed is possible and does happen: at N=4, γ=0.05 the 4γ rung carries
-   modes with histogram {1: ½, 3: ½} and ⟨n_XY⟩ = 2.000000 exactly, beside the
-   pure weight-2 ones. The measurement is unaffected: a band is still a
-   well-defined set of genuine eigenvalues of the full Liouvillian, and it is
-   still large. N=6 band 3 (546 freq) → ⟨r⟩ = 0.272, N=7 bands 3 and 4
-   (414 freq) → 0.283. The reading does not approach GOE (0.536); it converges
-   to Poisson and below (sub-Poisson = level clustering, the opposite of
-   repulsion, compatible with a strongly degenerate additive
-   spectrum, consistent with the N=4 band-2 row). The tiny bands 1 and N−1
-   (5-6 frequencies) throw a spurious "GUE" ⟨r⟩ > 0.79, plainly small-sample
-   noise.
-
-**Verdict: no established within-band GOE repulsion.** The tested bands read
-Poisson/sub-Poisson; the earlier GOE hint was small-sample noise. This matches
-the global Poisson result above and the sector-resolved non-Hermitian test (the
-`galoischaos` witness, `inspect --root galoischaos`), which independently reads
-the Galois-S_n half of the (SE,DE) block Poisson-like / sub-Poisson, not
-Ginibre.
+F43 pairs exact reflected bands with a multiplicity-preserving frequency-sign
+bijection. It does not make raw floating-point tiny gaps reliable: reflected
+bands can have different numeric mean ratios despite the exact identity.
+The endpoint bands likewise contain tiny numerical frequencies, not a
+certified nonzero-frequency population. This sensitivity is a limitation of
+these descriptive summaries, not physical breaking of the palindrome.
+No within-band GOE repulsion or integrability verdict is established.
 
 ---
 
 ## Result 4: All Eigenvalues in the Left Half-Plane
 
-Every nonzero eigenvalue has Re(λ) < 0, confirming that the
-Liouvillian is a proper generator of a completely positive trace-
-preserving (CPTP) semigroup. The fraction of eigenvalues with
-Re < 0 is 1.0000 at every N tested.
-
-This is a consistency check, not a new result. But it confirms that
-the C# eigenvalue export is producing physically valid spectra.
+Every nonzero eigenvalue has Re(λ) < 0; the fraction with Re < 0 is
+1.0000 at every N tested. This is a finite-size spectral-stability
+check only. The location of the eigenvalues does not establish complete
+positivity or trace preservation. The Lindblad construction supplies
+those properties independently; this spectrum merely shows no growing
+mode in the sampled generators.
 
 ---
 
@@ -294,12 +284,16 @@ the complex spacing ratio (CSR, Sá-Ribeiro-Prosen) on coherence blocks
 
 This is filling-associated crossover evidence at N=6..8: movement toward GinUE,
 not a causal or thermodynamic threshold theorem.
+Each spectrum is first reduced to one 1e-9 finite-precision cluster representative per rounded
+coordinate pair. The resulting counts and CSR values are tolerance-dependent and not an exact degeneracy census;
+sufficiently close nondegenerate levels can merge at this resolution.
 
 - The **dilute** (SE,DE) = (1,2) block, the Door-C block, where the non-solvable
   Galois group S_d lives, stays Poisson-like / non-GinUE over the sampled
   anisotropy and random-field sweeps (`inspect --root galoischaos`, the Δ=0
   control; the two Door-C sweep stages).
-- A **dense** block (p, p+1) near half-filling of the **same** Liouvillian, under
+- A **dense** block (p, p+1) near half-filling at the same model parameters and disorder
+  distribution, but from a separately sampled realization ensemble,
   the **same** disorder + interactions, **moves toward GinUE**: its radial CSR ⟨|z|⟩ is
   near the GinUE reference and its angular repulsion ⟨cos θ⟩ goes negative and climbs
   toward GinUE with the block size (≈ −0.09 → −0.13 → −0.16 at N = 6/7/8 = 43% →
@@ -308,25 +302,29 @@ not a causal or thermodynamic threshold theorem.
 
 The knobs have three distinct Hamiltonian meanings: nonzero Delta breaks free-fermion
 additivity, but uniform XXZ remains Bethe-integrable;
-random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions);
+at Delta=0 the random-field XY Hamiltonian remains quadratic (Anderson/free fermions),
+which does not classify the Z-dephasing Liouvillian as a quadratic generator;
 generic random field plus Delta!=0 is the interacting disordered nonintegrable test.
 Reflection/conjugation/cross-fold breaking need not break Hamiltonian integrability.
 The canonical Delta=1 plus disorder comparison supports a finite-size filling dependence,
 not a universal threshold or proof of thermalization. Galois structure over the coupling
-and spectral statistics at fixed coupling are distinct. Class A is licensed
-by the unequal weight (p,p+1) (Π maps it to the conjugate (p+1,p) block, not itself;
-the disordered conjugation-match fraction is ≈ 0). Live:
+and spectral statistics at fixed coupling are distinct. GinUE is used here only
+as the class-A comparison ensemble. Unequal weight (p,p+1) sends Π to the conjugate
+(p+1,p) block rather than furnishing an internal symmetry; the near-zero disordered
+conjugation-match fraction excludes that sampled pairing but does not prove that no
+other antiunitary symmetry survives. The full irreducible class remains **OPEN**
+until the shifted generator's sectorwise P symmetry and all unitary/strong sectors
+have been resolved. Live:
 `inspect --root fillcsr` (`FillingThresholdWitness`); full writeup in
 [FILLING_THRESHOLD_CHAOS.md](FILLING_THRESHOLD_CHAOS.md).
 
 ## What This Does Not Answer
 
-The GOE question that earlier topped this list (does the within-band
-⟨r⟩ approach GOE/GUE as N grows?) is resolved in
-Result 3: the tested bands do not approach GOE/GUE. The dissipative-chaos
-question is resolved in Result 5: a dense (extensive-filling) coherence sector of
-the same Liouvillian does reach toward GinUE in the sampled regime. Two
-genuinely open items remain.
+Result 3 reports the tested within-band statistics, not their large-N limit.
+Result 5 settles only the executed N=6..8 fixed-parameter comparison:
+dense coherence blocks move toward GinUE more strongly than dilute blocks
+at canonical Delta=1 plus disorder. It does not settle convergence,
+thermalization, or a thermodynamic threshold. Two open items remain.
 
 1. **Comparison with Denisov lemon shape.** The complex-plane density
    of random Lindbladians (Denisov et al., PRL 2019) has a specific
@@ -336,39 +334,43 @@ genuinely open items remain.
 2. **Topological dependence.** All results above use chain topology. Star,
    ring, and complete topologies were since surveyed with the complex
    spacing ratio in `simulations/rmt_topology_csr.py` (chain reads clean
-   2D-Poisson; the symmetric topologies fragment into too few distinct
-   levels for non-Hermitian RMT). A full sector-resolved comparison across
+   2D-Poisson; at the producer's declared 1e-9 rounding, the symmetric
+   topologies fragment into too few finite-precision cluster representatives
+   for global non-Hermitian RMT). These cluster counts are tolerance-dependent,
+   not exact degeneracy counts. A full sector-resolved comparison across
    topologies is still open.
 
 ---
 
 ## Connection to the Framework
 
-The Poisson result is consistent with the picture the
+The pooled mean-ratio result is consistent with the picture the
 [analytical formulas](../docs/ANALYTICAL_FORMULAS.md) draw, and it is
 worth stating the implication in the direction it actually runs.
-Closed forms would imply integrability, and integrability implies
-Poisson; the measurement gives Poisson, which is the weakest of the
-three and does not run back up the chain. In fact the repository has a
+The measurement does not run backward to integrability or a universality
+class. In fact the repository has a
 closed form for ONE block, the (0,1) coherence block (F2); the interior
 blocks have none.
 
-What does the work is the conserved structure, and the palindrome is
-not it. The joint popcount cuts the Liouvillian into blocks that never
-interact, and levels in different blocks have no reason to repel. The
-palindromic constraint (F1) pairs the two halves of the spectrum
-instead; it is a strong symmetry but it is not the one that suppresses
-repulsion here.
+Joint popcount is one concrete reason the pooled population is not an
+irreducible-level statistic: it cuts the Liouvillian into blocks that never
+interact, and levels from different blocks need not repel. The present pooled
+analysis does not compare against a symmetry-resolved control, so it does not
+isolate block mixing as the cause of the measured ratios. The palindromic
+constraint (F1) pairs the two halves of the spectrum instead of defining this
+block decomposition, but this run likewise does not measure whether that
+pairing changes the pooled statistic.
 
-AIII is a symmetry label. Poisson-like spacings can fail the corresponding
-random-matrix universality prediction without placing an operator outside
-the symmetry taxonomy. They do not identify Hamiltonian or Liouvillian integrability.
+The exact P-type anticommutation and raw-multiset spacing ratios are different
+statements. The spacing statistic does not assign the full irreducible-sector
+symmetry class and does not identify Hamiltonian or Liouvillian integrability.
 
 The raw non-unfolded frequency spectral form factor (SFF) shows sampled modulation,
-compatible with structured spectra but not proof of integrability. It reveals more than
-Poisson alone: palindromic modulation at ω_min = 4J(1-cos(π/N)),
-w ↔ N-w band pairing in the time domain, and visibility scaling
-as ~1/4^N. The spacing ratio (Poisson) describes local correlations;
+compatible with structured spectra but not proof of integrability. It reports
+sampled modulation near ω_min = 4J(1-cos(π/N)) and
+palindrome-paired decay-rate bands in the time domain. Under uniform dephasing
+their centres can be labeled by average light w ↔ N-w, but they are not
+invariant fixed-XY-weight eigenvalue sectors. The spacing ratio describes local adjacent-gap correlations in the chosen ordering;
 the SFF describes global spectral structure. These diagnostics cannot classify universality
 from the raw mixed spectrum. The SFF's multiplicity-dependent raw multiset density
 scale defines descriptive bins, not physical time regimes. See [Spectral Form Factor](SPECTRAL_FORM_FACTOR.md).
@@ -400,11 +402,11 @@ scale defines descriptive bins, not physical time regimes. See [Spectral Form Fa
   Level Spacings." PRL 110, 084101. (Spacing ratio reference values)
 - Verbaarschot, J. (1994). "Spectrum of the QCD Dirac operator and
   chiral random matrix theory." PRL 72, 2531.
-  (Chiral RMT, class AIII)
+  (chiral RMT reference; not a class assignment for these pooled Liouvillian data)
 
 ---
 
-*The 21,840 eigenvalues supply spacing statistics, not an integrability proof.
+*The 21,840 eigenvalues supply finite-N pooled spacing-ratio data, not an integrability proof.
 Joint-popcount grading separates invariant blocks; the palindrome pairs levels
 rather than separating them. One block has a closed form, while the measured
-Poisson/sub-Poisson statistics do not determine the interior spectra.*
+mean ratios do not determine the interior spectra or a universality class.*

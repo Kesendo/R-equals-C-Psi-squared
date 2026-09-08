@@ -9,14 +9,15 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   t_Pi = 2π / ω_min = π / (4·J · sin²(π/(2N)))
 ///
 ///   ω_min = 4·J · (1 − cos(π/N)) = 8·J · sin²(π/(2N))
-///                                  slowest palindromic SFF modulation frequency
+///                                  k=1 frequency of the D10 (0,1) block
 /// </code>
 ///
-/// <para>F41 is the period of the slowest palindromic modulation in the spectral
-/// form factor (SFF) of a Heisenberg chain under Z-dephasing. The palindromic
-/// modulation is F1's structural consequence: the Liouvillian eigenvalues come
-/// in pairs λ ↔ −λ − 2σ (F1's Π·L·Π⁻¹ = −L − 2σ·I), so the SFF has a periodic
-/// modulation whose period equals the slowest pair difference.</para>
+/// <para>F41 is the full period of the k=1 frequency in D10's (0,1)
+/// coherence block. F1 pairs that eigenvalue with a frequency-negated partner,
+/// so the pair contributes <c>2cos(ω_min t)</c> to the frequency trace
+/// amplitude. The SFF is the squared modulus of the full trace amplitude and
+/// can therefore contain doubled and cross frequencies; F41 is not by itself
+/// the period of the complete SFF.</para>
 ///
 /// <para><b>Asymptotic scaling (large N):</b></para>
 /// <code>
@@ -24,9 +25,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   sin²(π/(2N)) → π²/(4N²)
 ///   t_Pi → π / (4·J · π²/(4N²)) = N² / (π·J)
 /// </code>
-/// <para>So t_Pi grows as N²/(π·J), or equivalently N²/π at J = 1. The
-/// palindromic modulation is a short-time effect at any finite N (cf. F42's
-/// timescale-separation: t_Pi/t_H ~ N²/4^N → 0 for N → ∞).</para>
+/// <para>So t_Pi grows as N²/(π·J), or equivalently N²/π at J = 1.
+/// Comparison with the producer's multiplicity-dependent raw density scale is
+/// a finite-N descriptive ratio, not a physical short/long-time division.</para>
 ///
 /// <para>Pi2-Foundation anchor:</para>
 /// <list type="bullet">
@@ -41,14 +42,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// oscillation = 2π). Both = a_0 on the dyadic ladder. The π/(2N) argument
 /// scaling and the 4·J in ω_min are derivable from these.</para>
 ///
-/// <para>F1 connection: F41's existence (a finite palindromic period) follows from
-/// F1's palindrome identity at the spectral level. Without F1, eigenvalue pairs
-/// wouldn't pair as λ ↔ −λ − 2σ, and there would be no palindromic modulation
-/// in the SFF. F41 reads F1 in the time domain.</para>
+/// <para>F1 connection: D10 supplies ω_min; F1 supplies the partner at −ω_min.
+/// Together they give the cosine term in the trace amplitude. Neither identity
+/// promotes the producer's raw multiset density scale to a physical timescale.</para>
 ///
-/// <para>Tier1Derived: F41 is Tier 1 corollary of D10's (0,1) coherence block dispersion derivation;
-/// confirmed by FFT peak matching &lt;1% for N=2..4, 6 in
-/// <c>experiments/SPECTRAL_FORM_FACTOR.md</c>. Pi2-Foundation anchoring is
+/// <para>Tier1Derived: F41 is a Tier 1 corollary of D10's (0,1) coherence-block
+/// dispersion. The separate finite-N producer associates an FFT candidate with
+/// ω_min at N=2..4 and N=6, but not at N=5 or N=7. Pi2-Foundation anchoring is
 /// algebraic-trivial composition through the 2·J coefficient.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F41 (line 838) +
@@ -79,7 +79,7 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
     /// Three rungs, one anchor.</summary>
     public double HoppingCoefficient => Ladder.Term(0);
 
-    /// <summary>Slowest palindromic SFF modulation frequency:
+    /// <summary>The k=1 frequency of D10's (0,1) coherence block:
     /// <c>ω_min = 4·J · (1 − cos(π/N)) = 8·J · sin²(π/(2N))</c>, the k=1 mode of
     /// the D10 (0,1) coherence block dispersion. Equals a_0²·J·(1 − cos(π/N)).</summary>
     public double MinFrequency(int N, double J)
@@ -91,8 +91,8 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
         return HoppingCoefficient * HoppingCoefficient * J * (1.0 - Math.Cos(Math.PI / N));
     }
 
-    /// <summary>Palindromic period: <c>t_Pi = π / (4·J · sin²(π/(2N)))</c>.
-    /// Period of the slowest palindromic modulation in the SFF.</summary>
+    /// <summary>Palindromic-pair trace-amplitude period:
+    /// <c>t_Pi = π / (4·J · sin²(π/(2N)))</c>.</summary>
     public double PalindromicTime(int N, double J)
     {
         if (N < 2) throw new ArgumentOutOfRangeException(nameof(N), N, "F41 requires N ≥ 2.");
@@ -120,7 +120,7 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
     public F41PalindromicTimePi2Inheritance(
         Pi2DyadicLadderClaim ladder,
         F1Pi2Inheritance f1)
-        : base("F41 palindromic time t_Pi = π/(4J·sin²(π/(2N))) as Pi2-Foundation a_0 in its powers (ω_min on a_0³ = a_{−2}, t_Pi on a_0² = a_{−1}) + F1 inheritance (palindrome identity at time-domain level)",
+        : base("F41 palindromic-pair trace-amplitude period t_Pi = π/(4J·sin²(π/(2N))); D10 supplies ω_min and F1 supplies its frequency-negated partner",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F41 + " +
                "experiments/SPECTRAL_FORM_FACTOR.md + " +
@@ -133,22 +133,22 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F41 palindromic time as Pi2-Foundation a_0 + F1 inheritance";
+        "F41 palindromic-pair trace-amplitude period as D10 + F1 inheritance";
 
     public override string Summary =>
-        $"t_Pi = π/(4J·sin²(π/(2N))) in the Pauli normalisation H = J·Σ(XX+YY+ZZ); ω_min = 8J·sin²(π/(2N)); the anchor is a_0 = 2, the XX+YY hopping amplitude, and F41 prints its powers: a_0³ = 8 = a_{{−2}} in ω_min, a_0² = 4 = a_{{−1}} in the t_Pi denominator; F1 palindrome at time-domain level; asymptotic t_Pi → N²/(π·J). The ring and star Im-max claims use the spin normalisation J·Σ S_i·S_j, which is this J divided by 4 ({Tier.Label()})";
+        $"t_Pi = π/(4J·sin²(π/(2N))) in the Pauli normalisation H = J·Σ(XX+YY+ZZ); ω_min = 8J·sin²(π/(2N)); D10 supplies ω_min, F1 supplies the −ω_min partner, and the pair contributes 2cos(ω_min·t) to the trace amplitude; asymptotic t_Pi → N²/(π·J). The ring and star Im-max claims use the spin normalisation J·Σ S_i·S_j, which is this J divided by 4 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
             yield return new InspectableNode("F41 closed form",
-                summary: "t_Pi = π/(4·J·sin²(π/(2N))); ω_min = 8·J·sin²(π/(2N)) = 4·J·(1 − cos(π/N)); period of slowest palindromic SFF modulation; FFT-confirmed <1% at N=2..4, 6");
+                summary: "t_Pi = π/(4·J·sin²(π/(2N))); ω_min = 8·J·sin²(π/(2N)) = 4·J·(1 − cos(π/N)); full period of the k=1 D10 frequency and its F1 cosine pair in the trace amplitude");
             yield return InspectableNode.RealScalar("HoppingCoefficient (= a_0 = 2)", HoppingCoefficient);
             yield return new InspectableNode("F1 palindrome at time domain",
-                summary: $"the palindromic modulation exists because F1 pairs eigenvalues λ ↔ −λ − 2σ; F41 reads the period of the slowest such pair-difference. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as F41's HoppingCoefficient.");
+                summary: $"D10 supplies ω_min and F1 pairs it with −ω_min; together they contribute 2cos(ω_min·t) to the trace amplitude. Squaring the full sum can create doubled and cross frequencies. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as F41's HoppingCoefficient.");
             yield return new InspectableNode("asymptotic scaling",
-                summary: "sin(π/(2N)) → π/(2N) for N → ∞; t_Pi → N²/(π·J); the palindromic modulation is a short-time effect at finite N; t_Pi/t_H ~ N²/4^N → 0 (F42 timescale separation)");
+                summary: "sin(π/(2N)) → π/(2N) for N → ∞; t_Pi → N²/(π·J). Any ratio to the producer's raw multiset density scale is descriptive and finite-N, not a physical time-regime boundary");
             yield return new InspectableNode("N=3, J=1 verified",
                 summary: $"sin²(π/6) = 1/4; ω_min = 8·1·(1/4) = 2; t_Pi = π/(4·1·(1/4)) = π ≈ {PalindromicTime(3, 1.0):G6}");
             yield return new InspectableNode("N=5, J=1 verified",

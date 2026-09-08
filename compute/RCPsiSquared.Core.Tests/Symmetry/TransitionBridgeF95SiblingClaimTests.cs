@@ -37,24 +37,41 @@ public class TransitionBridgeF95SiblingClaimTests
     }
 
     [Fact]
-    public void EpAngle_IsUndefinedAtOrBelowTheEp()
+    public void EpAngle_IsZeroAtTheEp_AndUndefinedBelowIt()
     {
-        // At or below the EP the eigenvalue is real (pure decay, no rotation): no angle.
+        // At the discriminant zero the angle is exactly zero; below it the F95
+        // complex-root angle is undefined.
         var c = BuildClaim();
         double gEff = 4.0 / 3.0; // Q_EP = 1.5
         Assert.True(double.IsNaN(c.EpClockAngle(1.0, 1.0, gEff)), "below the EP: no rotation");
         Assert.True(double.IsNaN(c.EpF95Angle(1.0, 1.0, gEff)), "below the EP: c < b², no F95 angle");
         Assert.False(c.EpClockAngleEqualsF95Angle(1.0, 1.0, gEff));
+        Assert.Equal(0.0, c.EpClockAngle(1.0, 1.5, gEff));
+        Assert.Equal(0.0, c.EpF95Angle(1.0, 1.5, gEff));
+        Assert.True(c.EpClockAngleEqualsF95Angle(1.0, 1.5, gEff));
+    }
+
+    [Theory]
+    [InlineData(4.0 / 3.0)]
+    [InlineData(0.8)]
+    public void EpAngle_AtQEpApiBoundary_IsExactlyZero(double gEff)
+    {
+        var c = BuildClaim();
+        double qEp = TransitionBridgeF95SiblingClaim.QEp(gEff);
+        Assert.Equal(0.0, c.EpClockAngle(1.0, qEp, gEff));
+        Assert.Equal(0.0, c.EpF95Angle(1.0, qEp, gEff));
+        Assert.True(c.EpClockAngleEqualsF95Angle(1.0, qEp, gEff));
     }
 
     [Fact]
     public void CuspAngle_HasTheF95AnchorsAtHalf()
     {
         // The cusp side is F95 at b = ½: θ(CΨ) = arctan(√(4CΨ − 1)). 30° at the Bell+ start CΨ=1/3,
-        // 45° at the anchor CΨ=½; undefined (NaN) at or below the cusp ¼ (the classical, real-root side).
+        // 45° at the anchor CΨ=½; zero at the cusp and undefined below it.
         var c = BuildClaim();
         Assert.Equal(Math.PI / 6.0, c.CuspAngle(1.0 / 3.0), 12); // 30°
         Assert.Equal(Math.PI / 4.0, c.CuspAngle(0.5), 12);       // 45°
+        Assert.Equal(0.0, c.CuspAngle(0.25));                    // discriminant zero
         Assert.True(double.IsNaN(c.CuspAngle(0.20)));            // below ¼: no interior angle
     }
 
@@ -85,5 +102,21 @@ public class TransitionBridgeF95SiblingClaimTests
         Assert.Contains("F86_EP_THROUGH_THE_CLOCK.md", f.Anchor);
         Assert.Contains("CRITICAL_SLOWING_AT_THE_CUSP.md", f.Anchor);
         Assert.Contains("FRAGILE_BRIDGE.md", f.Anchor);
+    }
+
+    [Fact]
+    public void FragileBridge_IsNotIdentifiedWithTheToyTwoLevelEp()
+    {
+        var claim = BuildClaim();
+        string surface = string.Join("\n", new[] { claim.Name, claim.DisplayName, claim.Summary }
+            .Concat(claim.Children.Select(child => $"{child.DisplayName}\n{child.Summary}")));
+
+        Assert.Contains("F86 toy 2x2 EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("FRAGILE_BRIDGE spectral-abscissa axis departure", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("EP/Hopf/Jordan character OPEN", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("EP (FRAGILE_BRIDGE", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("FRAGILE_BRIDGE (the EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Sigma-gamma Hopf", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("tracked axis departure", surface, StringComparison.OrdinalIgnoreCase);
     }
 }

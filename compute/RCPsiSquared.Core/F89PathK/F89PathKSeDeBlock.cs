@@ -169,7 +169,7 @@ public static class F89PathKSeDeBlock
     /// diagonal frequency −i·qΔ·zzDiag (the ZZ term is Hermitian, so the absorption-theorem real rate is
     /// untouched). The generator is reflection-invariant (a chain's bond set is reversal-symmetric), so zzDiag is
     /// constant on each reflection orbit and any representative gives it. Real-integer valued. Consumed by
-    /// PathKMonodromyScout's exact-residual XXZ port (the ×2-cleared generator is −2i·zzDiag, matching 2M).</summary>
+    /// PathKMonodromyScout's compressed-proposal XXZ port (the ×2-cleared generator is −2i·zzDiag, matching 2M).</summary>
     public static int[] BuildZzFrequencyDiag(int nBlock)
     {
         var dePairs = new List<(int J, int K)>();

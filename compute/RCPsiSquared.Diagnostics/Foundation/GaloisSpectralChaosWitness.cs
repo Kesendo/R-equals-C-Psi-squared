@@ -18,7 +18,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>The finding is a clean NULL. At accessible N the H_B-mixed half reads Poisson-like /
 /// sub-Poisson (⟨|z|⟩ &lt; 0.66, ⟨cos θ⟩ ≈ 0), NOT GinUE (⟨|z|⟩ ≈ 0.738, ⟨cos θ⟩ ≈ −0.24): the
-/// "scrambled" half still sits on the integrable frequency lattice. Algebraic chaos (the Galois group,
+/// "scrambled" half still sits on the structured Delta=0 XY frequency lattice. This does not classify the Liouvillian as integrable.
+/// Algebraic chaos (the Galois group,
 /// a monodromy statement over q) and spectral chaos (RMT at fixed q) are distinct here; the former does
 /// not imply the latter. Live on the trusted machine: the shared SeDeBlockBuilder, MathNet EVD, and the
 /// ComplexSpacingRatio diagnostic whose own GinUE reference confirms it CAN see chaos. The where-it-does-
@@ -71,11 +72,13 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
             : (sa / used, sc / used, scount / qs.Length);
     }
 
-    /// <summary>⟨|z|⟩, ⟨cos θ⟩, and avg distinct-point count of the H_B-mixed half over a q-sweep.</summary>
+    /// <summary>⟨|z|⟩, ⟨cos θ⟩, and average finite-precision cluster-representative count of the
+    /// H_B-mixed half over a q-sweep.</summary>
     public static (double meanAbs, double meanCos, double avgCount) HbMixedCsr(int n, string topo, double[] qs)
         => SectorCsr(n, topo, qs, hbMixed: true);
 
-    /// <summary>⟨|z|⟩, ⟨cos θ⟩, and avg distinct-point count of the AT-locked half over a q-sweep.</summary>
+    /// <summary>⟨|z|⟩, ⟨cos θ⟩, and average finite-precision cluster-representative count of the
+    /// AT-locked half over a q-sweep.</summary>
     public static (double meanAbs, double meanCos, double avgCount) AtLockedCsr(int n, string topo, double[] qs)
         => SectorCsr(n, topo, qs, hbMixed: false);
 
@@ -94,8 +97,11 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
     public string Summary =>
         "the sector-resolved RMT test: does the H_B-mixed half (chain Galois S_8/18/32/53, no radical " +
         "closure) read as dissipative quantum chaos (GinUE) at fixed q? It does not — it reads Poisson-like/" +
-        "sub-Poisson, still on the integrable frequency lattice. Algebraic chaos (Galois over q) ≠ spectral " +
-        "chaos (RMT at q). Live: shared (SE,DE) block → MathNet EVD → complex spacing ratio (Sá-Ribeiro-Prosen).";
+        "sub-Poisson, still on the structured Delta=0 XY frequency lattice. This does not classify the Liouvillian as integrable. " +
+        "Algebraic chaos (Galois over q) ≠ spectral " +
+        "chaos (RMT at q). CSR uses finite-precision cluster representatives at the shared 1e-9 rounding; " +
+        "its count and statistic are tolerance-dependent, not an exact degeneracy census. Live: shared " +
+        "(SE,DE) block → MathNet EVD → complex spacing ratio (Sá-Ribeiro-Prosen).";
 
     public IEnumerable<IInspectable> Children
     {
@@ -106,10 +112,10 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
             var (gAbs, gCos) = ComplexSpacingRatio.GinueReference(250, seed: 12);
 
             yield return new InspectableNode("the references (live, calculated not marked)",
-                summary: $"2D-Poisson (integrable/fragmented) ⟨|z|⟩={pAbs.ToString("0.000", Inv)} " +
+                summary: $"2D-Poisson (uncorrelated reference; not an integrability verdict) ⟨|z|⟩={pAbs.ToString("0.000", Inv)} " +
                          $"⟨cos⟩={pCos.ToString("+0.000;-0.000", Inv)} | GinUE (dissipative chaos) " +
                          $"⟨|z|⟩={gAbs.ToString("0.000", Inv)} ⟨cos⟩={gCos.ToString("+0.000;-0.000", Inv)}. " +
-                         "The diagnostic DOES separate the two classes — so the null below is meaningful.");
+                         "The diagnostic DOES separate the two reference ensembles — so the null below is meaningful.");
 
             yield return ChainNode(7, qs, gAbs);
             yield return ChainNode(6, qs, gAbs);
@@ -122,7 +128,7 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
             var (cAbs, _, cCnt) = HbMixedCsr(7, "complete", qs);
             yield return new InspectableNode("complete K_7 H_B-mixed: solvable ⟹ collapses",
                 summary: $"the complete graph's H_B factors are all ≤ quartic (radically writable) and " +
-                         $"S_N-degenerate: only {cCnt.ToString("0.#", Inv)} distinct H_B points/q remain — too few " +
+                         $"S_N-degenerate: only {cCnt.ToString("0.#", Inv)} finite-precision cluster representatives/q remain — too few " +
                          $"for a CSR (avg ⟨|z|⟩={(double.IsNaN(cAbs) ? "n/a" : cAbs.ToString("0.000", Inv))}). " +
                          "Solvable does not even populate a 2D cloud; it fragments to a handful of levels.");
 
@@ -142,12 +148,13 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
         string verdict = abs < 0.70 ? "Poisson-like / sub-Poisson, NOT GinUE" : "unexpectedly chaotic — investigate";
         return new InspectableNode($"chain N={n} H_B-mixed (Galois S_{(n == 7 ? "53" : "32")}): {verdict}",
             summary: $"⟨|z|⟩={abs.ToString("0.000", Inv)} ⟨cos θ⟩={cos.ToString("+0.000;-0.000", Inv)} " +
-                     $"over {cnt.ToString("0.#", Inv)} distinct points/q (GinUE would be ⟨|z|⟩≈{ginueAbs.ToString("0.000", Inv)}, " +
-                     "⟨cos⟩≈−0.24). The half with no radical closure still reads integrable-lattice, not chaos.");
+                     $"over {cnt.ToString("0.#", Inv)} finite-precision cluster representatives/q (GinUE would be ⟨|z|⟩≈{ginueAbs.ToString("0.000", Inv)}, " +
+                     "⟨cos⟩≈−0.24). The half with no radical closure still reads as a structured Delta=0 XY lattice, not a chaos cloud; " +
+                     "that CSR comparison does not classify Liouvillian integrability.");
     }
 
     // The AT-locked half: the two rate-rungs (−2γ, −6γ) carrying free-fermion Bloch frequencies, a
-    // sparse STRUCTURED set (only ~10-16 distinct points/q), not a 2D cloud. The discriminator from
+    // sparse STRUCTURED set (only ~10-16 finite-precision cluster representatives/q), not a 2D cloud. The discriminator from
     // GinUE is ⟨|z|⟩, not the angle: GinUE chaos needs HIGH ⟨|z|⟩≈0.74 (repulsion spreads NN and NNN
     // apart); this half reads LOW ⟨|z|⟩ (below even 2D-Poisson's 0.66 — clustering). Its ⟨cos θ⟩ can run
     // negative (lattice angular order, plus few-point noise), but that alone is not chaos: genuine GinUE
@@ -157,12 +164,12 @@ public sealed class GaloisSpectralChaosWitness : IInspectable
     {
         var (abs, cos, cnt) = AtLockedCsr(n, "chain", qs);
         string verdict = double.IsNaN(abs)
-            ? "collapses — too few distinct points for a CSR (picket-fence, as expected)"
+            ? "collapses — too few finite-precision cluster representatives for a CSR (picket-fence, as expected)"
             : abs < 0.70 ? "picket-fence / sparse structured set, NOT a GinUE chaos cloud" : "unexpectedly high ⟨|z|⟩ — investigate";
         return new InspectableNode($"chain N={n} AT-locked (rates −2γ/−6γ, free-fermion Bloch): {verdict}",
             summary: $"⟨|z|⟩={(double.IsNaN(abs) ? "n/a" : abs.ToString("0.000", Inv))} " +
                      $"⟨cos θ⟩={(double.IsNaN(cos) ? "n/a" : cos.ToString("+0.000;-0.000", Inv))} " +
-                     $"over only {cnt.ToString("0.#", Inv)} distinct points/q (vs ~50 for the H_B half). The radically-" +
+                     $"over only {cnt.ToString("0.#", Inv)} finite-precision cluster representatives/q (vs ~50 for the H_B half). The radically-" +
                      "writable half is two AT rate-rungs carrying free-fermion Bloch frequencies — a structured set, not a " +
                      "cloud: its low ⟨|z|⟩ is clustering (far below GinUE's 0.74), and the negative ⟨cos θ⟩ is lattice " +
                      "angular order plus few-point noise, not the high-⟨|z|⟩ repulsion that genuine GinUE chaos requires.");

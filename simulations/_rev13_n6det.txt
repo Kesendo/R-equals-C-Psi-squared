@@ -1,0 +1,16 @@
+--- (1,3)@N=6 R-even: cands mg=20 dp=15 union=21
+  mg: defective 7 [np.float64(0.4630013), np.float64(0.6400121), np.float64(0.7450837), np.float64(0.9184132), np.float64(1.5109958), np.float64(3.0922209), np.float64(3.353685)]
+       diabolic 10  unclassified []
+  dp: defective 5 [np.float64(0.4630013), np.float64(0.6400121), np.float64(0.7450837), np.float64(1.5109958), np.float64(3.0922209)]
+       diabolic 8  unclassified []
+  union: defective 7 [np.float64(0.4630013), np.float64(0.6400121), np.float64(0.7450837), np.float64(0.9184132), np.float64(1.5109958), np.float64(3.0922209), np.float64(3.353685)]
+       diabolic 10  unclassified []
+  all exponents union: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0001]
+--- (1,3)@N=6 R-odd: cands mg=16 dp=10 union=19
+  mg: defective 2 [np.float64(1.9567664), np.float64(3.2608458)]
+       diabolic 12  unclassified []
+  dp: defective 2 [np.float64(1.9567664), np.float64(3.2608458)]
+       diabolic 6  unclassified []
+  union: defective 2 [np.float64(1.9567664), np.float64(3.2608458)]
+       diabolic 12  unclassified []
+  all exponents union: [0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0006]

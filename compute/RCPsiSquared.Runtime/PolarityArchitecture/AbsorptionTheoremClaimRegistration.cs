@@ -4,7 +4,7 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="AbsorptionTheoremClaim"/>. Single
-/// parent edge to <see cref="Pi2DyadicLadderClaim"/> for the absorption-quantum
+/// parent edge to <see cref="Pi2DyadicLadderClaim"/> for the dissipator
 /// coefficient a_0 = 2. Children register their own back-edge via discard-Get.
 ///
 /// <para>Requires:

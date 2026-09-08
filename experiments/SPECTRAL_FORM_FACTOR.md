@@ -1,9 +1,9 @@
 # Spectral Form Factor of the Palindromic Liouvillian
 
 <!-- Keywords: spectral form factor Liouvillian, palindromic modulation SFF,
-dissipative spectral statistics, dip ramp plateau integrable, Heisenberg
-chain Lindblad SFF, XY-weight sector spectral, raw density scale palindromic
-time, R=CPsi2 spectral form factor -->
+raw frequency spectral statistics, dip ramp plateau integrable, Heisenberg
+chain Lindblad SFF, average-light decay-rate bands, raw density scale,
+palindromic-pair period, R=CPsi2 spectral form factor -->
 
 **Status:** Sampled raw-frequency diagnostic (Tier 2). N=2-7 (21,840 eigenvalues); not a universality-class proof.
 **Date:** April 1, 2026
@@ -12,8 +12,8 @@ time, R=CPsi2 spectral form factor -->
 **Input:** Eigenvalue CSVs from [RMT analysis](RANDOM_MATRIX_THEORY.md)
 (`simulations/results/rmt_eigenvalues_N{2..7}.csv`)
 **Depends on:**
-- [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson, class AIII)
-- [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Pi chiral, palindromic pairing)
+- [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (raw spacing statistics)
+- [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (palindromic pairing)
 - [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) ((0,1) coherence block dispersion: ω_k = 4J(1-cos(πk/N)))
 
 ---
@@ -37,10 +37,11 @@ for spectral statistics. Using the 21,840 complex Liouvillian eigenvalues
 from the RMT analysis (N=2 through N=7), we compute the frequency SFF
 K_freq(t) = (1/M²)|Σ exp(i·Im(λ_k)·t)|², where M=4^N is the eigenvalue count, and find:
 
-1. **Palindromic modulation confirmed.** The SFF contains periodic
-   modulation at the predicted frequency ω_min = 4J(1-cos(π/N)),
-   matching to <1% for N=2-4 and N=6. Each palindromic pair (μ, -μ)
-   contributes cos(Im(μ)·t). Such modulation alone is not a unique
+1. **Sampled modulation candidates.** An FFT candidate lies within 1% of
+   ω_min = 4J(1-cos(π/N)) at N=2-4 and N=6; the producer does not identify
+   it at N=5 or N=7. Each palindromic pair (μ, -μ)
+   contributes 2cos(Im(μ)·t) to the trace amplitude; its square has doubled
+   and cross frequencies. Such modulation alone is not a unique
    universality-class fingerprint.
 
 2. **Modulation fades exponentially with N.** Visibility drops from
@@ -51,12 +52,14 @@ K_freq(t) = (1/M²)|Σ exp(i·Im(λ_k)·t)|², where M=4^N is the eigenvalue cou
    readings. Their ratio is descriptive, not a separation of physical regimes.
    The beyond-scale bins at N=5-7 are not sampled.
 
-4. **Shell SFF confirms palindromic pairing.** The shells at
-   ⟨n_XY⟩ = w and N−w have identical SFF statistics (same mean, same
-   variance). The XOR shell (w=N) has K=1.0 exactly (all eigenvalues
-   degenerate at rate 2Nγ). The shells are decay-rate bins, which by
-   the Absorption Theorem select average light content and not Pauli
-   weight; the two agree on pure modes and part on mixed ones.
+4. **Reflected-band SFF matches palindromic pairing.** The sampled
+   decay-rate bins centred at 2wγ and 2(N−w)γ have identical reported
+   SFF statistics. By the Absorption Theorem they select average-light
+   bands, not invariant fixed-XY-weight eigenspaces. At strictly positive
+   uniform dephasing, the exact endpoint
+   contains N+1 zero-frequency palindrome partners, so its normalized
+   frequency SFF is the constant 1 at every time. At γ=0 the endpoints
+   collapse into the larger commutator kernel, so the N+1 count is not used.
 
 5. **Bounded diagnostic.** Modulation in the reached window is
    not a universality-class proof. The raw frequencies are
@@ -92,9 +95,12 @@ than 5 samples; an absent slope makes the heuristic not classifiable.
 The helper tests distinguish a sampled zero from an empty bin and execute
 the producer against a temporary output without changing the tracked report.
 
-The existing dissipative kernel is also executed, but its overflow/NaN
-remains unresolved. Its numerical output is not interpreted as a dissipative
-SFF result; the raw frequency kernel has no exponential growth from decay rates.
+The producer computes only this raw oscillation-frequency SFF. It does not
+define a decay-weighted SFF: physical Liouvillian propagation would involve
+`exp(lambda*t)`, whereas `exp(i*lambda*t)` would weight `Im(lambda)`
+exponentially and is not a decay observable. It also does not report a
+connected SFF, which requires a specified ensemble or averaging prescription
+before subtracting the disconnected contribution.
 
 ### Eigenvalue source
 
@@ -103,7 +109,7 @@ by the RMT analysis: J=1.0, γ=0.05, Heisenberg chain, open boundaries.
 
 ---
 
-## Result 1: Palindromic Modulation
+## Result 1: Sampled Modulation Candidates
 
 Each palindromic pair (μ, -μ) in the centered spectrum contributes:
 
@@ -172,32 +178,40 @@ algebraic owner and is not restricted by this grid.
 
 ---
 
-## Result 3: Shell-Resolved SFF
+## Result 3: Decay-Rate-Band SFF
 
-The SFF computed separately for each decay-rate shell confirms the
-palindromic pairing at the shell level:
+The producer groups full-spectrum eigenvalues into finite-width rate bins
+`|d-2wγ|<γ`. These are decay-rate bands; under uniform γ their labels are
+centres in average-light coordinates. They are not invariant integer-
+XY-weight eigenspaces because the Hamiltonian mixes Pauli weights by ±2.
+The sampled reflected bands have matching reported SFF statistics:
 
-### N=5 shell analysis
+### N=5 band analysis
 
-| Shell w | Eigenvalues | <K_freq> | std(K) |
+| Band centre w | Eigenvalues | <K_freq> | std(K) |
 |----------|-------------|----------|--------|
 | w=1 | 28 | 0.227 | 0.186 |
 | w=2 | 478 | 0.023 | 0.064 |
 | w=3 | 478 | 0.023 | 0.064 |
 | w=4 | 28 | 0.227 | 0.186 |
-| w=5 (XOR) | 6 | 1.000 | 0.000 |
+| w=5 (endpoint) | 6 | 1.000 | 0.000 |
 
-**Palindromic pairing:** w=1 and w=4 have identical SFF statistics.
-w=2 and w=3 have identical SFF statistics. This is the palindromic
-symmetry in the time domain: Π maps w → N-w, so the bands at w and N-w
-must have the same spectral structure.
+**Palindromic pairing:** the w=1 and w=4 bins have identical reported SFF
+statistics, as do w=2 and w=3. D09 supplies the exact reason for consistently
+reflected intervals: Π maps `d → 2Nγ-d` and negates every frequency while
+preserving algebraic multiplicity. The labels w and N-w name average-light
+band centres here, not eigenvalue sectors.
 
-**XOR band (w=N):** K=1.000 exactly, with zero variance. All XOR
-eigenvalues are degenerate at rate 2Nγ (the maximum decay rate). They
-oscillate at exactly the same frequency → perfect correlation → K=1.
+**Exact endpoint:** at the sampled γ=0.05>0, a connected N=5 chain has N+1=6 stationary modes and six
+palindrome partners at `λ=-2Nγ`. Every endpoint frequency is zero, hence the
+trace amplitude is constantly 6, the unnormalized frequency SFF constantly
+36, and the normalized frequency SFF constantly 1. This is not an impulse at
+`t=0`, nor a claim about the entire 2^N-dimensional XY-weight-N Pauli space.
+The finite-width w=5 bin contains exactly those six modes in this run.
 
-**Interior bands (w=2,3):** Much lower K (0.023), indicating more
-spectral diversity (many distinct frequencies, less correlation).
+**Interior bands (w=2,3):** the sampled mean K is 0.023, reflecting a broader
+frequency multiset in these bins. No universality classification follows from
+that raw, non-unfolded number.
 
 ---
 
@@ -217,30 +231,38 @@ are `not sampled`, and the N=7 slope heuristic is not classifiable.
 
 ## Connection to Previous Results
 
-**RMT (Poisson-like, class AIII):** The spacing ratio (⟨r⟩ = 0.383) and modulation
-in the reached window are separate finite-size observations. Their
-combination does not prove integrability or uniquely establish a universality class.
+**RMT (raw global spacing ratio):** The direct raw-multiset consecutive-gap
+ratio retains zero gaps and counts undefined 0/0 separately (N=7: mean
+0.2021456120489688 over 16,366 defined ratios, 16 undefined). It has no
+standard-ensemble calibration for this degenerate unresolved population. It and
+modulation in the reached window are separate finite-size observations. Their
+combination does not prove integrability or establish a symmetry class. A
+non-Hermitian class assignment requires reduction to irreducible strong-
+symmetry sectors and the full sectorwise symmetry algebra.
 
-**PT analysis (Π chiral, order 4):** The palindromic modulation in the
-SFF is the TIME-DOMAIN fingerprint of the same λ ↔ -(λ+2Σγ) pairing
-that the PT analysis proved algebraically. The SFF sees it as a cosine;
-the spacing statistic separately reads Poisson-like; Π alone does not imply Poisson statistics.
+**Palindrome identity:** each exact pair contributes
+`2cos(ωt)` to the frequency trace amplitude. The SFF squares the complete
+amplitude, producing doubled and cross frequencies. The raw-multiset spacing
+statistic does not calibrate a universality class; spectral reflection alone neither assigns a
+global AIII class nor implies Poisson statistics.
 
-**Analytical spectrum (F2):** The modulation frequency ω_min
-matches the predicted 4J(1-cos(π/N)) to within 1% for N=2-4, 6. This
-confirms the (0,1) coherence block's dispersion relation in the time domain.
+**Analytical spectrum (F2):** a reported FFT candidate matches
+4J(1-cos(π/N)) to within 1% for N=2-4 and N=6. The producer does not identify
+that candidate at N=5 or N=7; D10, not this sampled FFT association, proves
+the (0,1) coherence-block dispersion.
 
 **Topological analysis (geometric):** The SFF is independent of spatial
 localization (it measures spectral correlations, not mode profiles).
 The geometric localization and the spectral form factor are orthogonal
-diagnostics. Chiral (AIII) is a symmetry label, not an integrability verdict;
-the standing-wave structure and the measured modulation require their own evidence.
+diagnostics. A symmetry-class label would require the irreducible-sector
+reduction and its full symmetry algebra; the standing-wave structure and the
+measured modulation require their own evidence.
 
 ---
 
 ## What This Does Not Answer
 
-- Dissipative SFF K_diss (overflow issue; requires spectral filtering)
+- A decay-sensitive or ensemble-connected non-Hermitian SFF; no such kernel or estimator is defined in this run
 - SFF for non-chain topologies (ring, star, complete)
 - SFF under non-uniform dephasing (sacrifice zone)
 - Finite-size scaling of modulation visibility (limited to N=2-7)
@@ -273,5 +295,5 @@ the standing-wave structure and the measured modulation require their own eviden
 ---
 
 *Exact pairing supplies cosine pairs; the raw SFF reads their combined
-modulation over a finite window. The measured decay-rate shells and
+modulation over a finite window. The measured decay-rate bands and
 visibility do not determine an unsampled large-N or late-time limit.*

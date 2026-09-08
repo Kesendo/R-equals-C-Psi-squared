@@ -17,7 +17,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// to the F_a eigenvector.
 ///
 /// <para>This is the structural bridge between F89c's eigenvalue layer (typed
-/// as <see cref="AbsorptionTheoremClaim.HammingComplementPairSum"/>) and the
+/// as <see cref="AbsorptionTheoremClaim.HammingComplementCellCostSum"/>) and the
 /// amplitude layer where <c>D_k = (odd(k))² · 2^E(k)</c> lives. From the F_a
 /// eigenvector ansatz <c>v_n[(i, (j, l))] = sign(i − other) · ψ_n(other) / √k</c>
 /// with <c>ψ_n(j) = √(2/(k+2)) · sin(πn(j+1)/(k+2))</c>, both factors reduce

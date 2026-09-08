@@ -68,7 +68,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <i>eigenvalue layer</i> (λ_n = −2γ₀ + i·y_n). It is the F89 analogue of F86's g_eff:
 /// a non-primitive, which is why this closed form is Tier-1-Candidate and its 2-adic
 /// part resists derivation. The AT-governed closure that holds absolutely is F89c, the
-/// Hamming-complement pair-sum 2γ₀·N (<see cref="AbsorptionTheoremClaim.HammingComplementPairSum"/>).
+/// Hamming-complement basis-cell cost sum 2γ₀·N (<see cref="AbsorptionTheoremClaim.HammingComplementCellCostSum"/>).
 /// Two-layer section: <c>docs/proofs/PROOF_F89_PATH_D_CLOSED_FORM.md</c>.</para>
 ///
 /// <para>Anchors: <c>simulations/f89_path3_at_locked_amplitude_symbolic.py</c>,

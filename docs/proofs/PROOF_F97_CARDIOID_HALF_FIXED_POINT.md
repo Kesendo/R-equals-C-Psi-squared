@@ -13,7 +13,7 @@ with two structural invariants on the curve:
     |z*(φ)| = b = 1/2   (magnitude pinned to HalfAsStructuralFixedPoint)
     arg(z*(φ)) = φ      (cardioid parameter)
 
-[F95](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)'s closed form θ(c; b) = arctan(√(c/b² − 1)) covers the **real-c** angle of the complex fixed point. F97 extends to **complex c** via the cardioid parametrization, with the φ = 0 specialization recovering F95's cusp at c = 1/4.
+[F95](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)'s closed form θ(c; b) = arctan(√(c/b² − 1)) covers the **real-c, finite-b>0** principal angle of the upper complex root. F97 extends the framework's b=1/2 case to **complex c** via the cardioid parametrization, with the φ = 0 specialization recovering F95's cusp at c = 1/4.
 
 **Status:** Tier 1 derived. Bit-exact algebraic identity, numerically verified to machine precision (max residual 1.24 × 10⁻¹⁶ over 1000 sampled φ values) in `simulations/cardioid_parametrization_tier1.py`.
 

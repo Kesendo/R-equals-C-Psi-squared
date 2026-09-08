@@ -8,7 +8,8 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 
 /// <summary>Native C# verification of F50's claim that the Liouvillian of a
 /// Heisenberg chain + uniform Z-dephasing has exactly <c>2N</c> purely-real
-/// eigenvalues at Re = −2γ (the first non-zero real grid position; the SWAP-
+/// eigenvalues at Re = −2γ (the weight-1 pure-sector line, not necessarily the
+/// full spectrum's first nonzero decay rate; the SWAP-
 /// invariant conserved operators T_c^{(a)} for a ∈ {X, Y}, c = 0..N−1).
 ///
 /// <para>Builds L via <c>ChainSystem.BuildLiouvillian()</c>, eigendecomposes,

@@ -167,7 +167,7 @@ def phase1(N_list=(3, 4, 5, 6)):
         # Oscillatory Liouvillian modes sitting exactly on the Re = -2*gamma
         # line.  That line is NOT a weight sector: by the Absorption Theorem
         # Re = -2*gamma*<n_XY>, so it is the exact line of average light content 1
-        # (an exact mask, not a tolerance band like the one rmt_analysis uses).
+        # (an exact mask, not a tolerance band like rmt_goe_hint_verdict's rate window).
         # It holds the (0,1) coherence block's frequencies, and at small N it
         # can also hold mixed-content modes averaging to 1 (the {0,2} family:
         # XY has them at N=2 and N=3, Heisenberg at N=2 only).

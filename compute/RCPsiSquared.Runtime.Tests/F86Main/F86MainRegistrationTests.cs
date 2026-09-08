@@ -1,4 +1,5 @@
 using RCPsiSquared.Core.F86;
+using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.F86Main;
@@ -17,6 +18,7 @@ public class F86MainRegistrationTests
             .RegisterPi2Family()
             .RegisterPi2DyadicLadder()
             .RegisterAbsorptionTheoremClaim()
+            .RegisterF1PalindromeIdentity()
             .RegisterF86Main(gammaZero, gEff);
 
     [Fact]
@@ -25,9 +27,9 @@ public class F86MainRegistrationTests
         var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
             .Build();
 
-        // 11 absorption-chain claims (see BuildBaseRegistry) + the five F86 claims.
-        Assert.Equal(16, registry.All().Count());
-        Assert.True(registry.Contains<ChiralAiiiClassification>());
+        // 11 absorption-chain claims + F1 + the five F86 claims.
+        Assert.Equal(17, registry.All().Count());
+        Assert.True(registry.Contains<ShiftedGeneratorSectorwisePClaim>());
         Assert.True(registry.Contains<DressedModeWeightClaim>());
         Assert.True(registry.Contains<F71MirrorInvariance>());
         Assert.True(registry.Contains<TPeakLaw>());
@@ -49,20 +51,32 @@ public class F86MainRegistrationTests
     }
 
     [Fact]
+    public void RegisterF86Main_ShiftedGeneratorAncestorsContainF1PalindromeIdentity()
+    {
+        var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
+            .Build();
+
+        var ancestors = registry.AncestorsOf<ShiftedGeneratorSectorwisePClaim>()
+            .Select(c => c.GetType()).ToHashSet();
+
+        Assert.Contains(typeof(F1PalindromeIdentity), ancestors);
+    }
+
+    [Fact]
     public void RegisterF86Main_TierMix_FourTier1DerivedPlusOneCandidate()
     {
         var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
             .Build();
 
         // Four of five claims are Tier1Derived; DressedModeWeightClaim is
-        // Tier1Candidate by design — its hardcoded W anchors 0.99 / 0.31 are
-        // documented as "specific values unverified per (c, N)" in the claim's
-        // own ctor. Asserting per-claim keeps the honest tier surface visible.
-        Assert.Equal(Tier.Tier1Derived, registry.Get<ChiralAiiiClassification>().Tier);
+        // Tier2Empirical because its hardcoded W anchors 0.99 / 0.31 are
+        // unverified per-(c, N) and do not establish an EP mechanism.
+        // Asserting per-claim keeps the honest tier surface visible.
+        Assert.Equal(Tier.Tier1Derived, registry.Get<ShiftedGeneratorSectorwisePClaim>().Tier);
         Assert.Equal(Tier.Tier1Derived, registry.Get<F71MirrorInvariance>().Tier);
         Assert.Equal(Tier.Tier1Derived, registry.Get<TPeakLaw>().Tier);
         Assert.Equal(Tier.Tier1Derived, registry.Get<QEpLaw>().Tier);
-        Assert.Equal(Tier.Tier1Candidate, registry.Get<DressedModeWeightClaim>().Tier);
+        Assert.Equal(Tier.Tier2Empirical, registry.Get<DressedModeWeightClaim>().Tier);
     }
 
     [Fact]

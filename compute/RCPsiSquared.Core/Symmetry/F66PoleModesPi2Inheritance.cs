@@ -20,7 +20,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (Z-basis populations, shielded from Z-dephasing at B); the upper pole
 /// α = 2γ₀ captures maximal exposure (off-diagonal at B). The two are mapped
 /// onto each other by the Π palindrome conjugation that exchanges total
-/// XY-weight w ↔ N − w (cf. F1, F43).</para>
+/// endpoint light content 0 ↔ N (cf. F1 and F43's reflected-band reading).</para>
 ///
 /// <para>Pole-position anchors (two Pi2-Foundation, two structural):</para>
 ///
@@ -38,8 +38,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         <c>d = 0 .. N</c>; conserved by F63's <c>[L, Π²] = 0</c> machinery.
 ///         NOT directly Pi2-anchored: arises from F63's bit_b parity / Z-power
 ///         structure rather than the dyadic ladder.</item>
-///   <item><b>Π-palindrome pairing</b>: w ↔ N − w under Π conjugation
-///         (F1 / F43 inheritance). The two poles sit at the extreme XY-weights
+///   <item><b>Π-palindrome pairing</b>: the endpoint bands reflect under
+///         F1 / F43. The two poles sit at the extreme XY-weights
 ///         w = 0 and w = N, so they ARE Π partners. F66 inherits the F1
 ///         palindrome at the spectral-edge level.</item>
 /// </list>
@@ -117,7 +117,7 @@ public sealed class F66PoleModesPi2Inheritance : Claim, IZ2AxisClaim
     /// <summary>The Π-palindrome XY-weight partnership of the two poles:
     /// lower pole at <c>w = 0</c> (all I/Z), upper pole at <c>w = N</c>
     /// (all X/Y). Π conjugation maps <c>w ↔ N − w</c>, so the poles are
-    /// each other's palindrome partners (cf. F1, F43).</summary>
+    /// each other's palindrome partners (cf. F1 and F43's endpoint bands).</summary>
     public (int LowerWeight, int UpperWeight) PalindromicWeightPairOfPoles(int N)
     {
         if (N < 1) throw new ArgumentOutOfRangeException(nameof(N), N, "N must be ≥ 1.");
@@ -174,7 +174,7 @@ public sealed class F66PoleModesPi2Inheritance : Claim, IZ2AxisClaim
             yield return InspectableNode.RealScalar("LowerPoleAlpha (no-dissipation edge)", LowerPoleAlpha);
             yield return InspectableNode.RealScalar("UpperPoleCoefficient (= a_0 = 2)", UpperPoleCoefficient);
             yield return new InspectableNode("Π-palindrome partnership",
-                summary: "lower pole at w=0, upper pole at w=N; Π maps w ↔ N−w (F1/F43 inheritance at spectral-edge level)");
+                summary: "lower pole at average light 0, upper pole at average light N; F1 maps the exact endpoint eigenspaces and F43 reads them as reflected bands");
             yield return new InspectableNode("endpoint multiplicity N+1",
                 summary: "verified N=3..7 for uniform XY chain with B at endpoint; counts elementary symmetric polynomials e_d(Z₁..Z_N), conserved by F63's [L, Π²] = 0");
             yield return new InspectableNode("scope warning",

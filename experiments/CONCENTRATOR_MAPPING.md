@@ -343,8 +343,9 @@ and 0.00% under a random field. Only the last of those three is a configuration
 the code actually runs, since both call sites pass a disorder field; the other
 two were built for the probe. The defect never fired on the live input, and it
 could not have: without removal the fraction can only be inflated, while both
-consumers, the `FillingThresholdWitness` class-A gate and the `frac < 0.1`
-test, read it against ≈ 0.
+consumers, the `FillingThresholdWitness` conjugation-match diagnostic used
+alongside its GinUE comparison and the `frac < 0.1` test, read it against ≈ 0.
+That diagnostic does not assign a symmetry class.
 
 The nine remaining Python sites should import `fw.max_f1_pairing_distance`,
 which is that same check ported once.

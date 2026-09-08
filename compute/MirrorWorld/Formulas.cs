@@ -225,9 +225,19 @@ public static class Formulas
     // F41 (T1, D10): palindromic time t_Pi = 2pi/omega_min = pi/(4J sin^2(pi/(2N))) ~ N^2/(pi J).
     public static double F41_PalindromicTime(int n, double j) => Math.PI / (4.0 * j * Math.Pow(Math.Sin(Math.PI / (2.0 * n)), 2));
 
-    // F44 (T1, D08): Crooks-like rate identity ln(d_fast/d_slow) = 2 artanh(Delta_d/(2 Sg)) for a
-    // palindromic pair d_fast + d_slow = 2 Sg (algebraic, NOT a thermodynamic Crooks theorem).
-    public static double F44_LogRatio(double dFast, double dSlow, double sg) => 2.0 * Math.Atanh((dFast - dSlow) / (2.0 * sg));
+    // F44 (T1, D08): algebraic pair-rate log identity ln(d_fast/d_slow) = 2 artanh(Delta_d/(2 Sg))
+    // for a finite ordered positive palindromic pair: 0 <= Delta_d=d_fast-d_slow < 2 Sg;
+    // no probability/work ensemble is defined.
+    public static double F44_LogRatio(double dFast, double dSlow, double sg)
+    {
+        double deltaD = dFast - dSlow;
+        if (!double.IsFinite(sg) || sg <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(sg), sg, "Sg must be finite and > 0.");
+        if (!double.IsFinite(deltaD) || deltaD < 0.0 || deltaD / sg >= 2.0)
+            throw new ArgumentOutOfRangeException(nameof(dFast), dFast,
+                "d_fast-d_slow must be finite and satisfy 0 <= Delta_d < 2 Sg.");
+        return 2.0 * Math.Atanh((deltaD / sg) / 2.0);
+    }
 
     // F49 (T1, proven): cross-term ratio R(N) = sqrt((N-2)/(N 4^{N-1})). N=2: 0 (exact Pythagorean);
     // N=3: 1/sqrt48; N=4: 1/sqrt128. gamma/J/topology-independent, depends only on N.
@@ -470,12 +480,17 @@ public static class Formulas
 
     // F95 (T1): the theta-compass at the quadratic discriminant zero. For z^2 - 2bz + c = 0 the
     // complex-root angle above the threshold c = b^2 is theta = arctan(sqrt(c/b^2 - 1)); zero at
-    // the degenerate double root, undefined (NaN) below it. At b = 1/2 the threshold is 1/4 and
+    // the degenerate double root, undefined (NaN) below it; this adopted surface requires finite b > 0.
+    // At b = 1/2 the threshold is 1/4 and
     // the Februar compass arctan(sqrt(4c - 1)) (= F15) is recovered; the Lindblad specialization
-    // (lambda^2 + 2 gamma lambda + gamma^2 + J^2, b = -gamma, c = gamma^2 + J^2) gives
-    // theta = arctan(J/gamma) = arctan(Q), the Clock's angle: the compass and the clock are one.
+    // in the positive decay variable z=-lambda, z^2 - 2 gamma z + gamma^2 + J^2 gives
+    // b = gamma > 0 and theta = arctan(J/gamma) = arctan(Q), the Clock's angle.
     public static double F95_Theta(double c, double b)
-        => c < b * b ? double.NaN : Math.Atan(Math.Sqrt(c / (b * b) - 1.0));
+    {
+        if (!double.IsFinite(b) || b <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(b), b, "b must be finite and > 0.");
+        return c < b * b ? double.NaN : Math.Atan(Math.Sqrt(c / (b * b) - 1.0));
+    }
     public static double F95_ThetaHalf(double c) => F95_Theta(c, 0.5);
 
     // F99 (T1): the five canonical trigonometric anchors. The F86b alpha-formula

@@ -107,7 +107,7 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim, IZ2AxisCla
 
     /// <summary>The "2" per-site coefficient in <c>2 · |(ρ_coh,i)_{0,1}|²</c>.
     /// Live from <see cref="Pi2DyadicLadderClaim.Term"/>(0) = <c>a_0</c>
-    /// = polynomial root d. Combined with Absorption Theorem rate 2γ₀:
+    /// = polynomial root d. Combined with the one-disagreement basis-cell cost 2γ₀:
     /// total spatial-sum decay 2·2γ₀ = 4γ₀.</summary>
     public double PerSitePrefactor => Ladder.Term(0);
 

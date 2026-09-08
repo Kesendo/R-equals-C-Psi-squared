@@ -6,7 +6,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>F95 closed form (Tier 1 derived, 4-line polynomial calculation; 2026-05-16):
 ///
 /// <code>
-///   For monic quadratic z² − 2bz + c = 0 with real (b, c):
+///   For monic quadratic z² − 2bz + c = 0 with real c and finite b &gt; 0:
 ///
 ///     θ(c; b) = arctan( √(c/b² − 1) )    for c > b²  (complex roots)
 ///     θ = 0                              for c = b²  (degenerate double root)
@@ -20,7 +20,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>The angle of the complex root pair when the quadratic discriminant
 /// passes through zero. This generalizes the Februar 2026 θ-compass of
 /// BOUNDARY_NAVIGATION (state-specific θ = arctan(√(4CΨ−1)) at the Mandelbrot
-/// 1/4 cusp) to a universal polynomial-foundation identity.</para>
+/// 1/4 cusp) to the positive-b polynomial-foundation identity used by the
+/// current framework and decay-rate callers.</para>
 ///
 /// <para><b>Pi2-Foundation anchoring</b>: four typed parents bring the full
 /// quadratic-discriminant-zero geometry into the typed graph:</para>
@@ -123,22 +124,23 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim, IZ2AxisClaim
     public const double Threshold = 0.25;
 
     /// <summary>Compute the angle of the complex root for given c (with
-    /// framework b = 1/2). Returns NaN for c ≤ 1/4 (real-roots regime).</summary>
+    /// framework b = 1/2). Returns zero at c = 1/4 and NaN for c &lt; 1/4.</summary>
     public double ThetaForFramework(double c)
     {
-        if (c <= Threshold)
+        if (c < Threshold)
             return double.NaN;
         return Math.Atan(Math.Sqrt(4.0 * c - 1.0));
     }
 
-    /// <summary>General form: angle of the complex root for given (c, b).
-    /// Returns NaN for c ≤ b² (real-roots regime).</summary>
+    /// <summary>Positive-b form: principal angle of the upper-half-plane complex
+    /// root for given (c, b). Requires finite b &gt; 0; returns zero at c = b²
+    /// and NaN for c &lt; b².</summary>
     public double ThetaGeneral(double c, double b)
     {
-        if (b == 0.0)
-            throw new ArgumentOutOfRangeException(nameof(b), b, "b must be non-zero.");
+        if (!double.IsFinite(b) || b <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(b), b, "b must be finite and > 0.");
         double thresh = b * b;
-        if (c <= thresh)
+        if (c < thresh)
             return double.NaN;
         return Math.Atan(Math.Sqrt(c / thresh - 1.0));
     }
@@ -147,7 +149,7 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim, IZ2AxisClaim
     /// formula and the framework specialization must agree bit-exact.</summary>
     public bool FrameworkSpecializationAgrees(double c)
     {
-        if (c <= Threshold)
+        if (c < Threshold)
             return double.IsNaN(ThetaForFramework(c)) && double.IsNaN(ThetaGeneral(c, B));
         double t1 = ThetaForFramework(c);
         double t2 = ThetaGeneral(c, B);
@@ -168,7 +170,7 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim, IZ2AxisClaim
         HalfAsStructuralFixedPointClaim half,
         QuarterAsBilinearMaxvalClaim quarter,
         NinetyDegreeMirrorMemoryClaim ninetyDegree)
-        : base("F95 angle-emergence at quadratic discriminant zero: θ(c; b) = arctan(√(c/b² − 1)); framework spec at b=1/2 gives θ(c) = arctan(√(4c − 1)); 4-line polynomial derivation, bit-exact",
+        : base("F95 positive-b angle-emergence at quadratic discriminant zero: θ(c; b) = arctan(√(c/b² − 1)) for finite b>0; framework spec at b=1/2 gives θ(c) = arctan(√(4c − 1)); 4-line polynomial derivation, bit-exact",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md + " +
                "docs/ANALYTICAL_FORMULAS.md F95 + " +
@@ -187,10 +189,10 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F95 angle emergence at quadratic discriminant zero (universal polynomial-foundation identity)";
+        "F95 angle emergence at quadratic discriminant zero (positive-b polynomial-foundation identity)";
 
     public override string Summary =>
-        $"θ(c; b) = arctan(√(c/b² − 1)) for c > b²; framework spec at b = {B} gives " +
+        $"θ(c; b) = arctan(√(c/b² − 1)) for finite b > 0 and c > b²; framework spec at b = {B} gives " +
         $"θ(c) = arctan(√({1.0/Threshold}·c − 1)) for c > {Threshold}; " +
         $"4-line polynomial derivation, bit-exact, recovers Februar θ-compass ({Tier.Label()})";
 

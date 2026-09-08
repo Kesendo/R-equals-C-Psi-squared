@@ -1,4 +1,4 @@
-# D08: Crooks-like Rate Identity
+# D08: Algebraic Pair-Rate Log Identity
 
 **Derives:** ln(d_fast / d_slow) = 2 · artanh(Δd / (2Σγ))
 **From:** F1 (palindrome equation: d + d' = 2Σγ)
@@ -8,8 +8,8 @@
 
 ## Statement
 
-For every palindromic eigenvalue pair with decay rates d and d' satisfying
-d + d' = 2Σγ, define:
+For every palindromic eigenvalue pair with finite, strictly positive decay rates
+d and d' satisfying d + d' = 2Σγ and finite Σγ > 0, define:
 
     d_slow = min(d, d')
     d_fast = max(d, d')
@@ -19,7 +19,8 @@ Then:
 
     ln(d_fast / d_slow) = 2 · artanh(Δd / (2Σγ))
 
-with effective inverse temperature β_eff ~ 1/Σγ in the linear regime.
+The linear coefficient near Δd = 0 is 1/Σγ. It is an inverse-rate scale,
+not an inverse temperature.
 
 ## Proof
 
@@ -42,8 +43,10 @@ This follows from d_fast + d_slow = 2Σγ and d_fast − d_slow = Δd.
 
     ln(d_fast / d_slow) = 2 · artanh(Δd / (2Σγ))    ∎
 
-The condition |Δd/(2Σγ)| < 1 is guaranteed because d_slow > 0 (from the spectral
-gap D06: d_min = 2γ > 0) and d_fast < 2Σγ (since d_slow > 0).
+Thus Δd is finite and 0 ≤ Δd < 2Σγ. This ordered-pair domain is used by both
+the exact typed API and its linear approximation. The strict upper inequality
+follows from d_slow > 0 and d_fast < 2Σγ. Mirror pairs containing a zero rate sit at the logarithm's
+singular endpoint and are not covered by this identity.
 
 ## Linear approximation
 
@@ -55,24 +58,26 @@ so:
 
     ln(d_fast / d_slow) ≈ Δd / Σγ
 
-This has the form of a Boltzmann factor ln(p₁/p₂) = −β · ΔE with
-β_eff = 1/Σγ. The palindrome mimics detailed balance structurally,
-but this is NOT a thermodynamic identity: ⟨exp(−Δd)⟩ ≈ 0.93 ≠ 1,
-so no Jarzynski equality holds.
+Thus the derivative of the log-ratio with respect to Δd at the centre is
+1/Σγ. This is a Taylor coefficient fixed by the spectral pair sum. No
+probability ratio, energy difference, or temperature enters the derivation.
 
-## Why this is NOT Crooks
+## Why this is not a fluctuation theorem
 
 The Crooks fluctuation theorem relates forward and reverse process
-probabilities via P_F(W)/P_R(−W) = exp(β(W − ΔF)). Our identity:
+probabilities via P_F(W)/P_R(−W) = exp(β(W − ΔF)). The identity here:
 
-- Has the same functional form (log-ratio = function of difference)
-- But involves decay rates, not work distributions
-- The "temperature" β_eff = 1/Σγ is set by the dissipation strength, not a thermal bath
-- No time-reversal symmetry is invoked; the palindrome is a spatial symmetry (Π)
+- relates decay rates, not probabilities or work distributions;
+- contains no bath temperature or free-energy change;
+- invokes the algebraic shifted mirror, not a forward/reverse trajectory ensemble.
 
-The analogy is structural, not physical.
+The numerical average ⟨exp(−Δd)⟩ ≈ 0.93 reported by the source experiment is
+an ad hoc transform of rate differences. Because its exponent and weighting
+were not derived from a work protocol, it neither tests nor falsifies the
+Jarzynski equality.
 
 ## Verification
 
-Numerically verified for N=2−7 (all palindromic pairs satisfy the identity
-to machine precision). See [`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py).
+Numerically verified for N=2−7 on the eligible positive-rate palindromic pairs;
+the underlying algebraic identity is exact. See
+[`simulations/verify_derivations.py`](../../../simulations/verify_derivations.py).

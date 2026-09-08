@@ -57,10 +57,10 @@ public class F95AngleAtQuadraticZeroPi2InheritanceTests
     {
         // At CΨ = 1/4 the discriminant is zero; the two complex roots
         // collapse to the single degenerate real root z = b = 1/2; θ = 0.
-        // Implementation returns NaN at exactly c = b² (degenerate case); the
-        // limit as c ↓ b² is 0. Use a value just above for the test.
-        double theta_rad = BuildClaim().ThetaForFramework(0.25 + 1e-15);
-        Assert.InRange(theta_rad, 0.0, 1e-7);  // tiny positive, near 0
+        double theta_rad = BuildClaim().ThetaForFramework(0.25);
+        Assert.Equal(0.0, theta_rad);
+        Assert.Equal(0.0, BuildClaim().ThetaGeneral(0.25, 0.5));
+        Assert.True(BuildClaim().FrameworkSpecializationAgrees(0.25));
     }
 
     [Fact]
@@ -98,9 +98,10 @@ public class F95AngleAtQuadraticZeroPi2InheritanceTests
     }
 
     [Fact]
-    public void ThetaGeneral_ZeroB_Throws()
+    public void ThetaGeneral_NonPositiveOrNonFiniteB_Throws()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().ThetaGeneral(1.0, 0.0));
+        foreach (double b in new[] { -0.5, 0.0, double.NaN, double.PositiveInfinity, double.NegativeInfinity })
+            Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().ThetaGeneral(1.0, b));
     }
 
     [Fact]

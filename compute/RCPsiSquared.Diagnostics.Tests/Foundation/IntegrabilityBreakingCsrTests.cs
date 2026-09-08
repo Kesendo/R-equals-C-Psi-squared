@@ -8,7 +8,7 @@ using Xunit.Abstractions;
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The F89 Door-C CSR sweep (docs/superpowers/plans/2026-06-27-f89-door-c-csr-integrability-sweep.md):
-/// does breaking the (SE,DE) Liouvillian block's free-fermion additivity (XXZ anisotropy Δ) drive the
+/// does breaking the underlying XY Hamiltonian's free-fermion additivity (XXZ anisotropy Δ) drive the
 /// fixed-q complex spacing ratio from Poisson toward Ginibre? Methodology per review round 2: pool the
 /// per-spectrum z-values over the q-grid (never raw eigenvalues), bootstrap the CI, and compare against
 /// finite-size-MATCHED Poisson/GinUE references (not the asymptotic 0.658/0.738).</summary>
@@ -22,6 +22,19 @@ public class IntegrabilityBreakingCsrTests
         var q = new double[count];
         for (int i = 0; i < count; i++) q[i] = 0.3 + i * (3.7 / (count - 1));   // q ∈ [0.3, 4.0], matches the witness
         return q;
+    }
+
+    [Fact]
+    public void ClusteringScope_DeclaresSharedFinitePrecisionTolerance()
+    {
+        Assert.Equal(RCPsiSquared.Core.Numerics.ComplexSpacingRatio.ClusteringScope,
+            IntegrabilityBreakingCsr.ClusteringScope);
+        Assert.Contains("finite-precision", IntegrabilityBreakingCsr.ClusteringScope,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("tolerance-dependent", IntegrabilityBreakingCsr.ClusteringScope,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("not an exact degeneracy census", IntegrabilityBreakingCsr.ClusteringScope,
+            StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>Regression anchor: at Δ=0 the H_B-mixed pooled CSR reproduces the galoischaos witness
@@ -48,7 +61,7 @@ public class IntegrabilityBreakingCsrTests
     }
 
     /// <summary>Reconnaissance: the headline sweep — pooled H_B-mixed ⟨|z|⟩ (with 95% bootstrap CI) vs Δ,
-    /// against finite-size-matched Poisson/GinUE references. Does breaking free-fermion additivity drive
+    /// against finite-size-matched Poisson/GinUE references. Does breaking Hamiltonian free-fermion additivity drive
     /// the fixed-q CSR toward Ginibre, or do you need to break the Hamiltonian's integrability too?</summary>
     [Fact]
     public void Reconnaissance_HbMixedCsrVsDelta()
@@ -91,8 +104,9 @@ public class IntegrabilityBreakingCsrTests
         Assert.Equal(r1.MeanAbs, r3.MeanAbs, 9);             // no disorder ⟹ identical statistic
     }
 
-    /// <summary>Stage 2 reconnaissance: random field at Delta=0 remains Anderson/free-fermion;
-    /// generic random field plus Delta!=0 is interacting disordered nonintegrable. Δ=0 (1D Anderson,
+    /// <summary>Stage 2 reconnaissance: at Delta=0 the random-field XY Hamiltonian remains Anderson/free-fermion,
+    /// without making the dephasing Liouvillian a quadratic generator; random field plus Delta!=0 is interacting disordered nonintegrable.
+    /// Δ=0 (quadratic Hamiltonian / 1D Anderson,
     /// expected to STAY Poisson) is the control; Δ=1 (interacting + disorder = the MBL/ergodic model) is the
     /// test: does ⟨cosθ⟩ go NEGATIVE (GinUE angular repulsion) at intermediate W? Caveat: the (SE,DE) block
     /// is a dilute 2-excitation sector, which may be too sparse to thermalize.</summary>
@@ -103,7 +117,7 @@ public class IntegrabilityBreakingCsrTests
         foreach (double delta in new[] { 0.0, 1.0 })
         {
             string label = delta == 0
-                ? "Δ=0 (free fermion + disorder = 1D Anderson; expect Poisson)"
+                ? "Δ=0 (quadratic random-field XY Hamiltonian = 1D Anderson; dephasing Liouvillian not classified; expect Poisson)"
                 : "Δ=1 (interacting + disorder = MBL/ergodic; the genuine non-integrability test)";
             var probe = IntegrabilityBreakingCsr.DisorderSweep(n, q, delta, 1.0, 1, IntegrabilityBreakingCsr.Half.HbMixed, 9);
             int perSpec = Math.Max(10, probe.ZCount);

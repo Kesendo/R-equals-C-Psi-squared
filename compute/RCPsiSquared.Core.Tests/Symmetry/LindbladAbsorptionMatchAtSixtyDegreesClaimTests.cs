@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
 /// <summary>Tests for the Tier1Derived composition claim: at Q=√3 the Lindblad 2×2
-/// sub-block eigenvalue magnitude equals the Absorption Theorem single-site rate
+/// sub-block eigenvalue magnitude equals the Absorption Theorem one-disagreement basis-cell cost
 /// 2γ₀, and the F95 angle lands on the canonical Niven angle θ=60°.</summary>
 public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
 {
@@ -36,7 +36,7 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
     [Fact]
     public void LindbladMagnitudeOverGamma0_IsTwo_MatchingAbsorptionAtoZero()
     {
-        // |λ_±|/γ₀ at Q=√3 = 2 = a_0 (Pi2DyadicLadder term 0 = Absorption quantum)
+        // |λ_±|/γ₀ at Q=√3 = 2 = a_0 (the one-disagreement dissipator coefficient)
         Assert.Equal(2.0, LindbladAbsorptionMatchAtSixtyDegreesClaim.LindbladMagnitudeOverGamma0);
     }
 
@@ -92,7 +92,7 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
         // The claim's "magnitude = 2γ₀" comes from AbsorptionTheorem's a_0 = 2.
         // Verify the parent has the expected a_0.
         var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
-        Assert.True(claim.Absorption.AbsorptionQuantumMatchesLiteral());
+        Assert.True(claim.Absorption.DissipatorCoefficientMatchesLiteral());
     }
 
     [Fact]
@@ -115,5 +115,16 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
         Assert.Contains("60", claim.Summary);
         _out.WriteLine($"DisplayName: {claim.DisplayName}");
         _out.WriteLine($"Summary: {claim.Summary}");
+    }
+
+    [Fact]
+    public void TypedSurface_CallsTwoGammaACellCost_NotAnEigenmodeRate()
+    {
+        var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
+        var surface = $"{claim.Name} {claim.DisplayName} {claim.Summary}";
+
+        Assert.Contains("one-disagreement cell cost", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("single-site rate", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Absorption Theorem rate", surface, StringComparison.OrdinalIgnoreCase);
     }
 }

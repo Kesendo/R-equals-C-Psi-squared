@@ -1,0 +1,39 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  RCPsiSquared.Core -> D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core\bin\Release\net10.0\RCPsiSquared.Core.dll
+  RCPsiSquared.Compute -> D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\bin\Release\net10.0\RCPsiSquared.Compute.dll
+D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\Symmetry\F55UniversalAbsorptionDosePi2InheritanceTests.cs(50,9): warning xUnit2000: The literal or constant value F55UniversalAbsorptionDosePi2Inheritance.KDeathOverKFoldApprox should be passed as the 'expected' argument in the call to 'Assert.Equal(expected, actual, precision)' in method 'KDeathOverKFold_IsApproximately61Point65' on type 'F55UniversalAbsorptionDosePi2InheritanceTests'. Swap the parameter values. (https://xunit.net/xunit.analyzers/rules/xUnit2000) [D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\RCPsiSquared.Core.Tests.csproj]
+  RCPsiSquared.Core.Tests -> D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\bin\Release\net10.0\RCPsiSquared.Core.Tests.dll
+Test run for D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\bin\Release\net10.0\RCPsiSquared.Core.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\bin\Release\net10.0\RCPsiSquared.Core.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.11)
+[xUnit.net 00:00:00.05]   Discovering: RCPsiSquared.Core.Tests
+[xUnit.net 00:00:00.48]   Discovered:  RCPsiSquared.Core.Tests
+[xUnit.net 00:00:00.51]   Starting:    RCPsiSquared.Core.Tests
+  Passed N=8 (1,4) scout: F_res parity reads exact over ℤ[i], R-even (the first (p,4) block read) [2 h 9 m]
+  Standard Output Messages:
+ N8 (1,4) R-even: real=False even=False qEven=False atDeg=56 resDeg=224 mDeg=-1 fDeg=218 vQf=0 square=False uDeg=-1 uReal=False compId=False
+ DECISION: F_res COEFFICIENT-COMPLEX at (1,4)@N=8 => coefficient realness needs the gauge (as the arc already gates for (1,3)@N=6), so the G/M-descent declines here; the sector DISC is a different object and is predicted REAL by the B3 prior, the (1,2)@N=4 shape, which the mod-p discReal read settles cheaply
+
+
+[xUnit.net 02:09:45.68]   Finished:    RCPsiSquared.Core.Tests
+  Passed RCPsiSquared.Core.Tests.F89PathK.Disc14N8ScoutTests.N8_Weight14_SectorPencil_WellFormed(rOdd: False) [9 ms]
+  Standard Output Messages:
+ N8 (1,4) rOdd=False: sector dim = 280 (block C(8,1)·C(8,4) = 560, halved by the 2-cycle basis)
+
+
+  Passed RCPsiSquared.Core.Tests.F89PathK.Disc14N8ScoutTests.N8_Weight14_SectorPencil_WellFormed(rOdd: True) [16 ms]
+  Standard Output Messages:
+ N8 (1,4) rOdd=True: sector dim = 280 (block C(8,1)·C(8,4) = 560, halved by the 2-cycle basis)
+
+
+
+Test Run Successful.
+Total tests: 3
+     Passed: 3
+ Total time: 2,1628 Hours
+
+real	129m52.049s
+user	0m0.000s
+sys	0m0.015s

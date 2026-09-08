@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Phase 3: Does Palindrome Breaking = Chiral Phase Breaking?
-============================================================
+Phase 3: Palindrome breaking and imaginary-axis occupancy
+==========================================================
 Add depolarizing noise to the fragile bridge gain-loss system.
 Depolarizing breaks the palindrome (known: err ∝ ε).
 Question: does γ_crit shift proportionally to the palindrome error?
@@ -13,17 +13,22 @@ Output: simulations/results/pt_palindrome_breaking.txt
 import numpy as np
 from scipy.linalg import eigvals
 from itertools import product as iproduct
-import os, sys, time as clock
+from pathlib import Path
+import hashlib
+import os, sys
+from pt_multiset_matching import multiset_reflection_error
 
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "results", "pt_palindrome_breaking.txt")
 _outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
+_lines = []
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 
 def log(msg=""):
     print(msg, flush=True)
+    _lines.append(msg)
     _outf.write(msg + "\n")
     _outf.flush()
 
@@ -116,39 +121,15 @@ def find_gamma_crit_depol(n_per_chain, J_bridge, eps_depol,
 
 def measure_palindrome_quality(n_per_chain, gamma, eps_depol,
                                 J=1.0, J_bridge=1.0):
-    """Measure palindrome quality: eigenvalue pairing error and max|Re|."""
+    """Measure reflection about trace(L)/dim(L), stability, and axis occupancy."""
     L = build_coupled_liouvillian_depol(
         n_per_chain, gamma, eps_depol, J, J_bridge)
     ev = eigvals(L)
 
-    # For ε=0: center is 0 (Σγ_Z=0). For ε>0: center shifts.
-    # Find optimal center by minimizing pairing error
-    # Try c=0 (pure Z) and c based on total dephasing
-    best_err = np.inf
-    best_c = 0.0
-    n_total = 2 * n_per_chain
-    # Candidate centers: 0, and (4/3)·n_total·ε (from Z+Y anti-commuting parts)
-    candidates = [0.0]
-    if eps_depol > 0:
-        # Z-depol: ε/3 per qubit → Σγ_Z_depol = n_total·ε/3
-        # Y-depol: ε/3 per qubit → Σγ_Y_depol = n_total·ε/3
-        # Total anti-commuting: Σγ_Z + Σγ_Y = 0 + 2·n_total·ε/3
-        c_anti = 2 * (0 + 2 * n_total * eps_depol / 3)
-        candidates.append(c_anti)
-        # Also try: just the depol Z contribution
-        c_z = 2 * n_total * eps_depol / 3
-        candidates.append(c_z)
-
-    for c_try in candidates:
-        center = c_try / 2
-        pair_errs = []
-        for lam in ev:
-            target = -(lam + c_try)
-            pair_errs.append(np.min(np.abs(ev - target)))
-        err = np.max(pair_errs)
-        if err < best_err:
-            best_err = err
-            best_c = c_try
+    # A reflected finite multiset has one possible center: its mean, trace(L)/dim.
+    # Evaluate there; searching for a center would optimize the diagnostic itself.
+    midpoint = np.trace(L) / L.shape[0]  # unique candidate center fixed by the trace
+    best_err = multiset_reflection_error(ev, midpoint)
 
     # Also measure: max|Re| for eigenvalues (stability)
     max_re = np.max(ev.real)
@@ -157,13 +138,12 @@ def measure_palindrome_quality(n_per_chain, gamma, eps_depol,
     nonzero = ev[np.abs(ev) > 1e-10]
     on_axis_frac = np.mean(np.abs(nonzero.real) < 1e-4) if len(nonzero) > 0 else 1.0
 
-    return best_err, best_c, max_re, on_axis_frac
+    return best_err, float(midpoint.real), max_re, on_axis_frac
 
 
 # ========================================================================
 log("=" * 72)
-log("PHASE 3: PALINDROME BREAKING AND CHIRAL PHASE STABILITY")
-log(f"Started: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
+log("PHASE 3: PALINDROME BREAKING AND IMAGINARY-AXIS OCCUPANCY")
 log("=" * 72)
 
 N_chain = 2
@@ -179,9 +159,8 @@ log("3a. Reference system (no depolarizing)")
 log("─" * 72)
 log()
 
-t0 = clock.time()
 gc_ref = find_gamma_crit_depol(N_chain, J_br, 0.0, J=J)
-log(f"  γ_crit(ε=0) = {gc_ref:.7f}  ({clock.time()-t0:.1f}s)")
+log(f"  γ_crit(ε=0) = {gc_ref:.7f}")
 
 # ----------------------------------------------------------------
 # 3b. Sweep ε: palindrome error + γ_crit
@@ -199,7 +178,7 @@ gamma_test = 0.5 * gc_ref  # measure palindrome in stable regime
 
 eps_values = [0.0, 0.001, 0.005, 0.01, 0.02, 0.05, 0.10, 0.15, 0.20, 0.30]
 
-log(f"  {'ε':>8}  {'pal. err':>10}  {'opt. c':>8}  {'γ_crit':>10}"
+log(f"  {'ε':>8}  {'pal. err':>10}  {'Tr(L)/dim':>10}  {'γ_crit':>10}"
     f"  {'Δγ_c':>10}  {'Δγ_c%':>7}  {'on-axis%':>8}")
 log(f"  {'─'*70}")
 
@@ -207,10 +186,8 @@ gc_arr = []
 pe_arr = []
 
 for eps in eps_values:
-    t0 = clock.time()
-
     # Palindrome quality at fixed γ in stable regime
-    pal_err, opt_c, _, on_axis = measure_palindrome_quality(
+    pal_err, midpoint, _, on_axis = measure_palindrome_quality(
         N_chain, gamma_test, eps, J=J, J_bridge=J_br)
 
     # Find γ_crit
@@ -222,11 +199,11 @@ for eps in eps_values:
     if gc is not None:
         delta_gc = gc - gc_ref
         delta_pct = 100 * delta_gc / gc_ref
-        log(f"  {eps:>8.4f}  {pal_err:>10.2e}  {opt_c:>8.4f}"
+        log(f"  {eps:>8.4f}  {pal_err:>10.2e}  {midpoint:>10.4f}"
             f"  {gc:>10.7f}  {delta_gc:>+10.7f}  {delta_pct:>+7.2f}%"
             f"  {100*on_axis:>7.1f}%")
     else:
-        log(f"  {eps:>8.4f}  {pal_err:>10.2e}  {opt_c:>8.4f}"
+        log(f"  {eps:>8.4f}  {pal_err:>10.2e}  {midpoint:>10.4f}"
             f"  {'never':>10}  {'N/A':>10}  {'N/A':>7}  {100*on_axis:>7.1f}%")
 
 # ----------------------------------------------------------------
@@ -253,30 +230,26 @@ if len(valid) >= 3:
         log()
 
         if abs(r_corr) > 0.9:
-            log("  STRONG correlation: palindrome breaking and γ_crit shift")
-            log("  are closely linked. Breaking the palindrome destabilizes")
-            log("  the chiral phase.")
+            log("  STRONG correlation between pairing error and γ_crit shift")
+            log("  within this one-parameter composite perturbation sweep.")
         elif abs(r_corr) > 0.5:
-            log("  MODERATE correlation: partial link between palindrome")
-            log("  quality and chiral phase stability.")
+            log("  MODERATE correlation within this one-parameter composite")
+            log("  perturbation sweep.")
         else:
-            log("  WEAK correlation: palindrome quality and γ_crit shift")
-            log("  are largely independent. The chiral phase is protected")
-            log("  by something other than (or in addition to) the palindrome.")
+            log("  WEAK correlation within this one-parameter composite")
+            log("  perturbation sweep.")
 
         # Direction
         if r_corr > 0:
             log()
             log("  Direction: POSITIVE. Larger palindrome error = larger γ_crit.")
-            log("  Breaking the palindrome makes the system MORE stable (!)")
-            log("  Interpretation: depolarizing noise adds dissipation to the")
-            log("  gain side, reducing effective gain. The stabilization effect")
-            log("  of added damping dominates over the palindrome breaking.")
+            log("  The same ε changes both the symmetry and the damping action;")
+            log("  this sweep does not isolate either change as the cause.")
         else:
             log()
             log("  Direction: NEGATIVE. Larger palindrome error = smaller γ_crit.")
-            log("  Breaking the palindrome makes the system LESS stable.")
-            log("  The palindrome IS the protection mechanism.")
+            log("  The same ε changes both the symmetry and the damping action;")
+            log("  this sweep does not isolate either change as the cause.")
 
     # Linear fit
     if len(valid) >= 3:
@@ -285,11 +258,11 @@ if len(valid) >= 3:
         log(f"  Linear fit: Δγ_crit = {slope:.4f} × pal_err + {intercept:.6f}")
 
 # ----------------------------------------------------------------
-# 3d. Direct test: does chiral phase (Im axis) break with palindrome?
+# 3d. Direct test: does imaginary-axis occupancy break with the palindrome?
 # ----------------------------------------------------------------
 log()
 log("─" * 72)
-log("3d. Chiral phase quality at fixed γ = 0.5·γ_crit(ε=0)")
+log("3d. Imaginary-axis occupancy at fixed γ = 0.5·γ_crit(ε=0)")
 log("─" * 72)
 log()
 log("  In the pure system: ALL eigenvalues on the imaginary axis.")
@@ -310,11 +283,11 @@ for eps in eps_values:
         f"  {pal_err:>10.2e}  {stable:>13}")
 
 # ----------------------------------------------------------------
-# 3e. Instability mechanism: still Hopf?
+# 3e. Finite-offset most-unstable-mode check
 # ----------------------------------------------------------------
 log()
 log("─" * 72)
-log("3e. Instability mechanism check (ε = 0.05)")
+log("3e. Finite-offset most-unstable-mode check (ε = 0.05)")
 log("─" * 72)
 log()
 
@@ -332,24 +305,21 @@ if gc_check is not None:
     log(f"    λ = {lam_unstable.real:.6f} + {lam_unstable.imag:.6f}i")
     log(f"    |Im(λ)| = {abs(lam_unstable.imag):.4f}")
     log()
-    if abs(lam_unstable.imag) > 0.01:
-        log("  Im(λ) ≠ 0 at onset: still a HOPF bifurcation.")
-        log("  Depolarizing noise does not change the instability type.")
-    else:
-        log("  Im(λ) ≈ 0 at onset: changed to SADDLE-NODE.")
-        log("  Depolarizing noise changes the instability mechanism.")
+    log("  This independently selected finite-offset mode has nonzero Im(lambda).")
+    log("  No branch continuation is performed.")
+    log("  It does not classify the threshold as Hopf, EP, or a Jordan defect.")
 
-    # Check pairing: is the partner at −λ?
-    target = -lam_unstable
+    # Check reflection at the unique trace(L)/dim(L) midpoint.
+    midpoint = np.trace(L_at_crit) / L_at_crit.shape[0]
+    target = 2 * midpoint - lam_unstable
     dists = np.abs(ev_crit - target)
     dists[idx_max] = np.inf
     partner = ev_crit[np.argmin(dists)]
     pair_err = np.min(dists)
 
-    # At ε>0, Σγ≠0, so true partner is at -(λ+c)
     log()
-    log(f"  Pairing check (λ↔−λ): |λ + λ'| = {abs(lam_unstable + partner):.2e}")
-    log(f"  (ε=0 predicts λ+λ'=0; ε>0 shifts the center)")
+    log(f"  trace(L)/dim(L) midpoint m = {midpoint.real:.6f}{midpoint.imag:+.2e}i")
+    log(f"  Reflection residual |λ'-(2m-λ)| = {pair_err:.2e}")
 
 
 # ========================================================================
@@ -363,7 +333,7 @@ log("=" * 72)
 log()
 log("Phase 3: Depolarizing noise simultaneously:")
 log("  1. Breaks the palindrome (error ∝ ε, from X-dephasing component)")
-log("  2. Shifts the eigenvalue center (Σγ no longer 0)")
+log("  2. Shifts the trace(L)/dim(L) midpoint away from zero")
 log("  3. Modifies γ_crit")
 log()
 
@@ -375,6 +345,11 @@ if len(valid_gc) >= 2:
     log(f"  γ_crit(ε=0) = {gc_ref:.6f}")
 
 log()
-log(f"Completed: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
-log(f"Results: {OUT_PATH}")
+log("Artifact: simulations/results/pt_palindrome_breaking.txt")
+source_text = Path(__file__).read_text(encoding="utf-8")
+matcher_text = Path(__file__).with_name("pt_multiset_matching.py").read_text(encoding="utf-8")
+source_bundle = source_text + "\0" + matcher_text
+log(f"Source SHA256: {hashlib.sha256(source_bundle.encode('utf-8')).hexdigest()}")
+payload = "".join(line + "\n" for line in _lines)
+log(f"Payload SHA256: {hashlib.sha256(payload.encode('utf-8')).hexdigest()}")
 _outf.close()

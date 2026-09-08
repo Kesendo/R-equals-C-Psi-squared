@@ -17,7 +17,7 @@ eigenvalues (N=2-5).
 | [D06](D06_SPECTRAL_GAP.md) | Gap = 2*gamma (Q = J/gamma above Q*_gap(N)) | 1 + 3 | VERIFIED above Q*_gap |
 | [D07](D07_Q_DISTRIBUTION.md) | Q ~ arcsine distribution | 2 + 7 | VERIFIED |
 | [D08](D08_CROOKS_RATE_IDENTITY.md) | ln(d_fast/d_slow) = 2·artanh(Δd/(2Σγ)) | 1 | PROVEN |
-| [D09](D09_SECTOR_SFF_PAIRING.md) | K_freq(w,t) = K_freq(N−w,t) | 1 | PROVEN |
+| [D09](D09_SECTOR_SFF_PAIRING.md) | Equal SFF for palindrome-reflected decay-rate bands | 1 | PROVEN |
 | [D10](D10_W1_DISPERSION.md) | ω_k = 4J(1−cos(πk/N)) | Tight-binding reduction | PROVEN |
 
 ## Dependency Graph
@@ -42,7 +42,7 @@ F23 (XOR vanish) -/
 F1 (palindrome) ----> D6 (spectral gap)
 F3 (decay bounds) -/
                         \--> D8 (Crooks rate identity)
-                        \--> D9 (sector SFF pairing)
+                        \--> D9 (reflected-band SFF pairing)
 
 Tight-binding reduction -----> D10 ((0,1) block dispersion)
                                 |---> F7 (Q spectrum)

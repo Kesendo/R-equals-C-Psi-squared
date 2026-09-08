@@ -3,226 +3,121 @@ using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The Absorption Theorem (Tier 1 derived; proven analytically in
-/// <c>docs/proofs/PROOF_ABSORPTION_THEOREM.md</c> + verified bit-exact at N=2..5
-/// across 1,342 active Liouvillian modes with CV=0 (max deviation at machine-precision
-/// floor 2.4·10⁻¹⁴); separately confirmed on IBM Torino Q52 single-qubit tomography
-/// at 3% deviation, see <c>experiments/IBM_ABSORPTION_THEOREM.md</c>):
-///
-/// <code>
-///   For a Pauli-string Liouvillian eigenmode σ_α (Heisenberg or XY chain
-///   under uniform Z-dephasing γ₀ on every site), the spectrum is quantized:
-///
-///     Re(λ_α) = −2 · γ₀ · ⟨n_XY⟩(σ_α)
-///
-///   where ⟨n_XY⟩ = number of sites k where σ_α has factor X or Y. The
-///   absorption quantum is 2γ₀. Pure-weight modes sit on the grid
-///   {0, −2γ₀, −4γ₀, ..., −2N·γ₀}. Mixing across weight sectors USUALLY moves a
-///   mode off the grid, to a non-integer ⟨n_XY⟩ between the rungs (F33's 4/3 and
-///   5/3 at N=3), but it need not: a mixture whose light content AVERAGES to an
-///   integer lands exactly on a rung. The {0,2}-coherence at N=2,3 is the standing example,
-///   n_diff histogram {0: ½, 2: ½} and ⟨n_diff⟩ = 1, sitting on the −2γ₀ rung
-///   beside the pure distance-1 modes (see CoherenceHorizonClaim and
-///   PROOF_CHAIN_GAP_DOMINANCE; from N=4 the same mode's split tilts toward 2 and it
-///   leaves the rung by its excess light 2w2 − 1); LEffMirrorAxisClaim carries the same shape one
-///   rung up at ⟨n_XY⟩ = 2. So the occupants of a rung are not all of pure weight,
-///   and sitting ON the grid is not a weight certificate. The maximum rate 2γ₀·N is attained within
-///   the number-conserving XY/Heisenberg family, not for a generic
-///   Hermitian H.
-/// </code>
-///
-/// <para>Per-coherence reading on computational-basis density-matrix entries:
-/// a coherence |A⟩⟨B| decomposes per-site into pure {I, Z} (when A_l = B_l)
-/// or pure {X, Y} (when A_l ≠ B_l), so n_XY(|A⟩⟨B|) = n_diff(A, B). Hence
-/// <c>per-coherence rate = 2γ₀ · n_diff</c>: the Absorption Theorem applied
-/// per basis-pair.</para>
-///
-/// <para>Hamming-complement pair-sum corollary: the column bit-flip
-/// ρ[a, b] → ρ[a, bar(b)] uses n_diff(a, b) + n_diff(a, bar(b)) = N
-/// to map rates 2γ₀·k ↔ 2γ₀·(N − k). Pair-sum equals 2γ₀·N exactly = the
-/// spectral maximum. This is the F89c structural lemma's source.</para>
-///
-/// <para>H-independence (any Hermitian H, caveat closed 2026-05-28): the identity
-/// depends only on the dissipator. L_H = −i[H, ·] is anti-Hermitian for every
-/// Hermitian H (H^T = H*, no reality assumption), so it contributes zero to
-/// Re(λ) via the Rayleigh quotient and drops out. Holds for complex Hermitian H
-/// (Dzyaloshinskii-Moriya, Y/transverse terms), not just real symmetric, verified
-/// bit-exact against a random complex Hermitian H, with Herm(L) = (L+L†)/2 the
-/// identical pure Z-dephasing dissipator for both (simulations/popcount_identity_h_independence.py).
-/// Closes the former "real Hermitian only" caveat in PROOF_ABSORPTION_THEOREM.md.</para>
-///
-/// <para><b>The carrier is a vector (per-site / per-channel reading, 2026-05-29).</b>
-/// The uniform Re(λ) = −2γ₀·⟨n_XY⟩ is the all-sites-equal projection of a finer law.
-/// Under site-dependent dephasing {γ_l} the rate of any eigenmode is the inner product of
-/// the rate-vector γ with the mode's per-site activity:
-///
-/// <code>
-///   −Re(λ_k) = 2 · Σ_l γ_l · ⟨Δ_l⟩_k,   ⟨Δ_l⟩_k = ⟨v_k| N_l |v_k⟩ / ‖v_k‖² ∈ [0, 1]
-/// </code>
-///
-/// with N_l = (I − Z_l⊗Z_l)/2 the "site-l off-diagonal" projector. On a computational
-/// coherence |A⟩⟨B|, Δ_l is just [A_l ≠ B_l], whether bra and ket disagree at site l, so
-/// decay is the γ-weighted count of local bra-ket disagreements: the diagonal (bra = ket
-/// everywhere) never decays, and popcount / n_diff is the special case γ_l = γ (every site
-/// equal). Exact for any Hermitian H because Herm(L) = (L+L†)/2 is the dephasing dissipator
-/// alone (the H-independence above); the Hamiltonian only rotates the eigenmodes, turning
-/// the sharp bit Δ_l ∈ {0,1} into the expectation ⟨Δ_l⟩ ∈ [0,1]. Uniform γ gives the
-/// degenerate N+1-rung ladder (a site-permutation symmetry); a non-uniform γ-vector breaks
-/// that symmetry, and single-site coherences then read each γ_l off directly (Γ/2). The
-/// math sat in <c>docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md</c> Step 1 as a stepping-stone
-/// to a cancellation result; read forward it is the master per-channel dephasing-rate law.
-/// The index l is channel-agnostic: read as a physical channel, each with its own γ
-/// spanning decades, it is the decoherence-rate law for a heterogeneous substrate. Verified
-/// bit-exact N=3 (64 modes, weak and strong coupling) in
-/// <c>simulations/absorption_gamma_vector.py</c>.</para>
-///
-/// <para><b>Extensions (2026-06-10, PROOF_ABSORPTION_THEOREM.md Section 2 extensions
-/// + Section 4.7).</b> Four readings of the same Rayleigh quotient, verified before
-/// being written (2.7e-14 / 4.8e-14 / exactly 0 against a random complex Hermitian H
-/// with non-uniform γ): (i) the vector form above is now Theorem 2 in the proof, not
-/// a stepping-stone remark; (ii) two-sided reading: LEFT and right eigenvectors of the
-/// same eigenvalue carry the same weighted light (the identical Rayleigh argument on
-/// w†Lw), so biorthogonal bookkeeping cannot disagree about absorption; (iii) projector
-/// form: for a degenerate cluster the light profile of the biorthogonal spectral
-/// projector Σ_k M_k W_k is basis-free, the correct object for degenerate slow carriers
-/// (consumed by the flow kernel's per-site light reading); (iv) dephase-letter rotation:
-/// X-dephasing reads n_YZ, Y-dephasing n_XZ, one theorem conjugated through the Klein-V₄
-/// dephase-swap group. AND the recentred face: L_D = γ·(Q − N·I) with Q = Σ_l Z_l⊗Z_l
-/// exactly, so the F87 windowed-converse recentring M = L + γN·I = L_H + γQ is the
-/// absorption ladder shifted to its midpoint; the palindrome pairing IS complementary
-/// light (light_s + light_f = N, test-gated per mode in
-/// F8PartnerLightComplementarityTests, 2026-06-10). One diagonal, three pillars:
-/// absorption ladder, palindrome, windowed converse.</para>
-///
-/// <para>Pi2-Foundation anchor: the "2" absorption quantum IS
-/// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = a_0 = polynomial root d in
-/// d² − 2d = 0. Same anchor as F1 TwoFactor, F50 DecayRateFactor, F66
-/// UpperPoleCoefficient. The Absorption Theorem reifies the per-mode rate
-/// reading of this single anchor.</para>
-///
-/// <para>Descendants (live via <c>rcpsi knowledge descendants AbsorptionTheoremClaim</c>;
-/// per-formula one-liners in <c>compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md</c>):
-/// F33, F50, F55, F64, F65, F66, F67, F68, F74, F89, F122.</para>
-///
-/// <para>Tier1Derived: proven analytically (PROOF_ABSORPTION_THEOREM.md) +
-/// verified bit-exact at N=2..5 (1,342 active Liouvillian modes, CV=0) +
-/// hardware-confirmed on IBM Torino Q52 single qubit (absorption ratio
-/// excess/(2γ) = 1.03 = 3% deviation, IBM_ABSORPTION_THEOREM.md).</para>
-///
-/// <para>Anchors: <c>docs/proofs/PROOF_ABSORPTION_THEOREM.md</c> +
-/// <c>docs/ANALYTICAL_FORMULAS.md</c> (F33, F50, F55, F64-F68, F74, F89 entries) +
-/// <c>experiments/IBM_ABSORPTION_THEOREM.md</c> +
-/// <c>experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md</c> +
-/// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c>
-/// (a_0 = 2 absorption quantum source).</para></summary>
+/// <summary>The Absorption Theorem with its two mathematical objects kept distinct.
+/// The Z-dephasing dissipator is diagonal on a computational-basis pair
+/// <c>|A&gt;&lt;B|</c> and contributes the cell cost <c>2γ n_diff(A,B)</c>; for an
+/// initially isolated cell this is its initial decay slope. A Liouvillian eigenmode is
+/// generally a superposition of such cells. Its decay rate follows from the Hermitian
+/// part of L and is <c>-Re λ = 2γ &lt;n_XY&gt;_v</c>, where the expectation may be
+/// non-integer. Thus the coefficient 2 is exact, but the interacting eigenvalue spectrum
+/// is not thereby quantized in steps of 2γ.</summary>
 public sealed class AbsorptionTheoremClaim : Claim
 {
     public Pi2DyadicLadderClaim Ladder { get; }
 
-    /// <summary>The absorption quantum (numerical coefficient): <c>2</c>. Live from
-    /// <see cref="Pi2DyadicLadderClaim.Term"/>(0) = a_0 = polynomial root d. Multiplying
-    /// by γ₀ gives the per-XY-site decay quantum 2γ₀.</summary>
-    public double AbsorptionQuantumCoefficient => Ladder.Term(0);
+    /// <summary>The exact coefficient 2 multiplying both the basis-pair dissipator
+    /// cost and the eigenmode expectation value.</summary>
+    public double DissipatorCoefficient => Ladder.Term(0);
 
-    /// <summary>The absorption quantum at γ₀: <c>2γ₀</c>. The smallest non-zero rate
-    /// step in the Liouvillian spectrum under uniform Z-dephasing.</summary>
-    public double AbsorptionQuantum(double gammaZero)
+    /// <summary>Dissipator cost of one bra-ket disagreement: <c>2γ</c>. This is a
+    /// basis-cell quantity, not the smallest nonzero eigenmode decay-rate step.</summary>
+    public double SingleDisagreementCellCost(double gammaZero)
     {
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return AbsorptionQuantumCoefficient * gammaZero;
+        ValidateGamma(gammaZero);
+        return DissipatorCoefficient * gammaZero;
     }
 
-    /// <summary>The Absorption Theorem rate: <c>α = 2γ₀ · n_XY</c>. Returns the
-    /// Liouvillian decay rate for a Pauli-string mode with the given XY-weight.</summary>
-    public double Rate(int nXY, double gammaZero)
+    /// <summary>Diagonal dissipator cost / isolated-cell initial decay slope of
+    /// <c>|A&gt;&lt;B|</c>: <c>2γ n_diff(A,B)</c>.</summary>
+    public double BasisPairDissipatorCost(int nDiff, double gammaZero)
     {
-        if (nXY < 0) throw new ArgumentOutOfRangeException(nameof(nXY), nXY, "n_XY must be ≥ 0.");
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return AbsorptionQuantumCoefficient * gammaZero * nXY;
+        if (nDiff < 0)
+            throw new ArgumentOutOfRangeException(nameof(nDiff), nDiff, "n_diff must be >= 0.");
+        ValidateGamma(gammaZero);
+        return DissipatorCoefficient * gammaZero * nDiff;
     }
 
-    /// <summary>The per-coherence rate for a computational-basis density-matrix entry
-    /// |A⟩⟨B| with n_diff(A, B) differing bits: <c>2γ₀ · n_diff</c>. Equivalent to
-    /// <see cref="Rate"/> with n_XY = n_diff (each differing bit = one X/Y Pauli factor
-    /// in the coherence's basis decomposition).</summary>
-    public double PerCoherenceRateComputationalBasis(int nDiff, double gammaZero)
+    /// <summary>Decay rate of a right Liouvillian eigenmode from its normalized light
+    /// expectation: <c>-Re λ = 2γ &lt;n_XY&gt;_v</c>. The expectation is continuous.</summary>
+    public double EigenmodeDecayRate(double averageNXy, double gammaZero)
     {
-        if (nDiff < 0) throw new ArgumentOutOfRangeException(nameof(nDiff), nDiff, "n_diff must be ≥ 0.");
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return AbsorptionQuantumCoefficient * gammaZero * nDiff;
+        if (!double.IsFinite(averageNXy) || averageNXy < 0)
+            throw new ArgumentOutOfRangeException(nameof(averageNXy), averageNXy,
+                "average n_XY must be finite and >= 0.");
+        ValidateGamma(gammaZero);
+        return DissipatorCoefficient * gammaZero * averageNXy;
     }
 
-    /// <summary>The maximum Liouvillian decay rate on N qubits: <c>2γ₀ · N</c> (full
-    /// XOR mode, n_XY = N). The "absorption ceiling" of section 4.1 in the proof.</summary>
-    public double MaxRate(int n, double gammaZero)
+    /// <summary>Upper bound <c>2γN</c> following from <c>0 &lt;= &lt;n_XY&gt;_v &lt;= N</c>.
+    /// This is a ceiling, not evidence that eigenvalues fill a quantized grid.</summary>
+    public double EigenmodeDecayRateCeiling(int n, double gammaZero)
     {
-        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be ≥ 1.");
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return AbsorptionQuantumCoefficient * gammaZero * n;
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be >= 1.");
+        ValidateGamma(gammaZero);
+        return DissipatorCoefficient * gammaZero * n;
     }
 
-    /// <summary>Inverse map from a decay rate to its XY-weight: <c>n_XY = α / (2γ₀)</c>.
-    /// Mirrors <see cref="F33ExactN3DecayRatesPi2Inheritance.NXyExpectationFromRate"/>;
-    /// the Absorption Theorem read backwards.</summary>
-    public double NXyFromRate(double rate, double gammaZero)
+    /// <summary>Recover the continuous eigenmode light expectation from its decay rate.</summary>
+    public double AverageNXyFromEigenmodeDecayRate(double rate, double gammaZero)
     {
-        if (rate < 0) throw new ArgumentOutOfRangeException(nameof(rate), rate, "rate must be ≥ 0.");
-        if (gammaZero <= 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be > 0.");
-        return rate / (AbsorptionQuantumCoefficient * gammaZero);
+        if (!double.IsFinite(rate) || rate < 0)
+            throw new ArgumentOutOfRangeException(nameof(rate), rate, "rate must be finite and >= 0.");
+        if (!double.IsFinite(gammaZero) || gammaZero <= 0)
+            throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "gamma must be finite and > 0.");
+        return rate / (DissipatorCoefficient * gammaZero);
     }
 
-    /// <summary>The Hamming-complement pair-sum on a (k+1)-qubit block:
-    /// <c>2γ₀ · (k+1)</c>. The column bit-flip ρ[a, b] → ρ[a, bar(b)] uses
-    /// n_diff(a, b) + n_diff(a, bar(b)) = (k+1) to map rates 2γ₀·n_diff ↔
-    /// 2γ₀·((k+1) − n_diff); pair-sum is exactly the spectral maximum. F89c
-    /// structural lemma; verified bit-exact at path-2 (3-qubit block, pair-sum =
-    /// 6γ₀) and generalizes to all block sizes.</summary>
-    public double HammingComplementPairSum(int blockSize, double gammaZero)
+    /// <summary>Basis-pair cell-cost sum under the bra Hamming complement:
+    /// <c>2γ n_diff + 2γ(N-n_diff) = 2γN</c>.</summary>
+    public double HammingComplementCellCostSum(int blockSize, double gammaZero)
     {
-        if (blockSize < 1) throw new ArgumentOutOfRangeException(nameof(blockSize), blockSize, "block size must be ≥ 1.");
-        if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");
-        return AbsorptionQuantumCoefficient * gammaZero * blockSize;
+        if (blockSize < 1)
+            throw new ArgumentOutOfRangeException(nameof(blockSize), blockSize, "block size must be >= 1.");
+        ValidateGamma(gammaZero);
+        return DissipatorCoefficient * gammaZero * blockSize;
     }
 
-    /// <summary>True iff the absorption-quantum coefficient matches the literal
-    /// <c>2.0</c> from the proof. Live drift check against
-    /// <see cref="Pi2DyadicLadderClaim.Term"/>(0).</summary>
-    public bool AbsorptionQuantumMatchesLiteral() =>
-        Math.Abs(AbsorptionQuantumCoefficient - 2.0) < 1e-15;
+    public bool DissipatorCoefficientMatchesLiteral() =>
+        Math.Abs(DissipatorCoefficient - 2.0) < 1e-15;
 
     public AbsorptionTheoremClaim(Pi2DyadicLadderClaim ladder)
-        : base("Absorption Theorem: Re(λ) = −2γ₀·⟨n_XY⟩; spectrum quantized in 2γ₀ steps; absorption quantum 2γ₀ = a_0·γ₀; per-coherence rate 2γ₀·n_diff in computational basis; Hamming-complement pair-sum 2γ₀·N",
+        : base("Absorption Theorem: basis-pair dissipator cost 2γ n_diff; eigenmode decay -Re(λ)=2γ<n_XY>_v; coefficient 2=a_0",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md + " +
-               "docs/ANALYTICAL_FORMULAS.md (F33, F50, F55, F64, F65, F66, F67, F68, F74, F89) + " +
-               "experiments/IBM_ABSORPTION_THEOREM.md + " +
-               "experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md + " +
+               "docs/proofs/PROOF_F1_NONUNIFORM_GAMMA.md + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs")
     {
         Ladder = ladder ?? throw new ArgumentNullException(nameof(ladder));
     }
 
     public override string DisplayName =>
-        "Absorption Theorem α = 2γ₀·⟨n_XY⟩ as the rate-quantization root of F33/F50/F55/F64-F68/F74/F89";
+        "Absorption Theorem: basis-pair cell cost and eigenmode light expectation";
 
     public override string Summary =>
-        $"Re(λ) = −2γ₀·⟨n_XY⟩; absorption quantum 2 = a_0 from Pi2 ladder; per-coherence rate 2γ₀·n_diff in computational basis; max rate 2γ₀·N; pair-sum 2γ₀·N under column bit-flip (F89c) ({Tier.Label()})";
+        $"Basis-pair dissipator diagonal/isolated initial slope is 2γ n_diff; eigenmode decay is " +
+        $"-Re(λ)=2γ<n_XY>_v with generally non-integer expectation; coefficient 2=a_0; " +
+        $"2γN is a ceiling, not an eigenvalue step ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return InspectableNode.RealScalar("AbsorptionQuantumCoefficient (= a_0 = 2)", AbsorptionQuantumCoefficient);
-            yield return new InspectableNode("Per-coherence reading (computational basis)",
-                summary: "|A⟩⟨B| decomposes per-site into pure {I, Z} (A_l = B_l) or pure {X, Y} (A_l ≠ B_l); n_XY = n_diff(A, B); per-coherence rate 2γ₀·n_diff. F89c structural lemma uses this directly.");
-            yield return new InspectableNode("Hamming-complement pair-sum (F89c corollary)",
-                summary: $"column bit-flip ρ[a, b] → ρ[a, bar(b)] gives n_diff ↔ N−n_diff; rate-pairs sum to 2γ₀·N exactly = spectral maximum. Sample: 3-qubit block at γ₀=1 yields pair-sum {HammingComplementPairSum(3, 1.0):G6} (F89c path-2 anchor, verified bit-exact)");
+            yield return InspectableNode.RealScalar("dissipator coefficient (= a_0 = 2)", DissipatorCoefficient);
+            yield return new InspectableNode("basis-pair cell reading",
+                summary: "D[|A><B|] contributes -2γ n_diff(A,B)|A><B|. It is the diagonal cell cost and isolated-cell initial slope, not generally an eigenvalue.");
+            yield return new InspectableNode("eigenmode reading",
+                summary: "For a normalized Liouvillian eigenmode v, -Re λ=2γ<n_XY>_v from the Hermitian-part Rayleigh quotient; Hamiltonian mixing permits non-integer expectations.");
+            yield return new InspectableNode("Hamming-complement cell-cost sum",
+                summary: $"n_diff maps to N-n_diff, so the two basis-cell costs sum to 2γN; at N=3, γ=1 the sum is {HammingComplementCellCostSum(3, 1.0):G6}.");
             yield return new InspectableNode("Pi2 anchor drift check",
-                summary: $"AbsorptionQuantumMatchesLiteral = {AbsorptionQuantumMatchesLiteral()} (a_0 = {AbsorptionQuantumCoefficient} vs literal 2.0 in PROOF_ABSORPTION_THEOREM.md)");
-            yield return new InspectableNode("Numerical verification",
-                summary: "N=2..5 Liouvillian eigendecompositions: Re(λ) = −2γ⟨n_XY⟩ verified across 1,342 active modes with CV=0 (max deviation 2.4·10⁻¹⁴ at machine-precision floor); experiments/ABSORPTION_THEOREM_DISCOVERY.md");
-            yield return new InspectableNode("Hardware confirmation",
-                summary: "IBM Torino Q52 single qubit (25 tomography snapshots, T2*=111μs): absorption ratio excess/(2γ) = 1.03 = 3% deviation; experiments/IBM_ABSORPTION_THEOREM.md");
+                summary: $"DissipatorCoefficientMatchesLiteral={DissipatorCoefficientMatchesLiteral()} (a_0={DissipatorCoefficient}).");
         }
+    }
+
+    private static void ValidateGamma(double gammaZero)
+    {
+        if (!double.IsFinite(gammaZero) || gammaZero < 0)
+            throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero,
+                "gamma must be finite and >= 0.");
     }
 }

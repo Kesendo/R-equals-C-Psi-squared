@@ -1,18 +1,13 @@
-"""DECISIVE gate-first probe: is the F89 path-3 octic's DIABOLIC character
-PROTECTED by the XY free-fermion integrability, or a FINE-TUNED coincidence?
+"""A historical locator without a positive-Delta character verdict for N=4 XXZ-Delta.
 
-THE QUESTION
-  At Delta=0 (pure XY) the (SE,DE) coherence block has a DIABOLIC degeneracy at
-  q_EP = sqrt((-1+sqrt13)/6) ~ 0.658983, lam_EP = -4g + 2iJ (g=1, J=q_EP):
-  g1=g2=2, dep=0, the 2x2 restriction L|2D = lam*I (scalar, no Jordan coupling).
-  The from-below mechanism (established in f89_why_diabolic_probe.py): BOTH
-  constituents of L restrict to scalars on the 2D coalescing space --
-  H_eff|2D = 2iJ*I (the pair is born in a 4-fold FREE-FERMION multiplet) AND
-  dephasing|2D = -4g*I (q_EP sits at the overlap-1/2 / rate-midpoint).
-
-  Breaking free-fermion additivity with an XXZ anisotropy Delta (the ZZ term makes
-  the two magnons INTERACT, so E_DE is no longer E_a+E_b) should destroy the
-  H_eff-scalar half IF integrability is the protection. We BREAK it and WATCH.
+At Delta=0 the (SE,DE) block has the independently certified diabolic crossing at
+q=sqrt((-1+sqrt(13))/6). The positive-Delta sweep below only follows a nearby
+numerical pair and minimizes its split. It does not first isolate a corresponding
+full-block algebraic double root. The current shared certificate requires a fixed
+strict full-block coincidence/correspondence tolerance of 1e-6 before alg/geo,
+departure, or Jordan character may be read. Every stored positive-Delta proposal
+misses that gate, so the positive-Delta proposals are Uncertified and establish
+neither persistence, defectiveness, nor lifting.
 
 CONSTRUCTION (robust, Pauli-built -- no hand-rolled magnon interaction)
   H(Delta) = J*sum_{i=0..2}(X_i X_{i+1} + Y_i Y_{i+1})
@@ -26,18 +21,10 @@ CONSTRUCTION (robust, Pauli-built -- no hand-rolled magnon interaction)
    (i)  Pauli-sector assembly (above), reduced at Delta=0 to the committed reference build;
    (ii) the popcount-(1,2) sub-block of the FULL 256x256 XXZ Liouvillian.
 
-GATES / TESTS
-  Stage 0 (MUST PASS or STOP): at Delta=0 reproduce the settled DIABOLIC verdict
-    (8 octic modes; coalescing pair at lam_EP=-4+2i*q_EP; g1=g2=2; dep~0).
-  Decisive scan: for Delta in {0,0.02,0.05,0.1,0.2,0.5}, track the pair coalescing at
-    Delta=0, re-optimize q to its closest approach, report min|lam_a-lam_b|, and the
-    character (g1,g2,dep,||P||,|cos|) by the SAME artifact-free measures (Riesz/dep/
-    geo-vs-alg; NO eig-Petermann), gate-validated on known toys.
-  Classify into (a) PERSISTS DIABOLIC / (b) BECOMES DEFECTIVE / (c) DISSOLVES.
-  Mechanism: at the leading Delta, does H_eff|2D stay scalar (the predicted loss)?
-
-Gate-first ethos: report the ACTUAL numbers; whichever verdict the data shows IS
-the finding.  ASCII console prints only.  numpy + scipy.
+The script retains the Pauli/full-block construction cross-check and Delta=0
+control. Its positive-Delta output is a locator table only. No eigenvector angle,
+single-vector Petermann factor, near-midpoint nullity, or complex-q optimizer is
+used as basis-invariant character evidence. ASCII console prints only.
 """
 from __future__ import annotations
 
@@ -62,6 +49,7 @@ Z = np.array([[1, 0], [0, -1]], dtype=complex)
 
 N = 4
 D = 2 ** N
+STRICT_FULL_BLOCK_TOL = 1e-6
 DE_PAIRS = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
 BASIS = [(i, jk) for i in range(4) for jk in DE_PAIRS]            # 24 (SE site, DE pair)
 INDEX = {b: n for n, b in enumerate(BASIS)}
@@ -92,7 +80,7 @@ def xxz_H(J, Delta):
 def sectors(J, Delta):
     """Return (M_SE 4x4, M_DE 6x6), Pauli-built, including the ZZ diagonal.
     For real J the blocks are real-symmetric (asserted); complex J (used only by
-    the off-axis EP locator) is the analytic continuation -- blocks stay complex."""
+    complex-q exploration) is the analytic continuation -- blocks stay complex."""
     H = xxz_H(J, Delta)
     M_SE = H[np.ix_(SE_IDX, SE_IDX)]
     M_DE = H[np.ix_(DE_IDX, DE_IDX)]
@@ -242,8 +230,8 @@ def closest_pair_near(L, anchor, radius=0.8):
 def characterize_pair(L, la, lb, w):
     """Artifact-free character of the (possibly split) pair (la,lb) of L.
     Contour encloses EXACTLY the 2 eigenvalues nearest the midpoint; the 2x2
-    compression A = V^H L V (V = orthonormal basis of range P) carries dep, the
-    enclosed alg/geo, and the eigenvector-merge |cos|.  Returns a dict."""
+    compression A = V^H L V (V = orthonormal basis of range P) carries dep and
+    the enclosed alg/geo. Returns a dict."""
     lam0 = 0.5 * (la + lb)
     sep = abs(la - lb)
     dist = np.sort(np.abs(w - lam0))
@@ -257,14 +245,9 @@ def characterize_pair(L, la, lb, w):
     U, S, _ = np.linalg.svd(P)
     V = U[:, :m]
     A = V.conj().T @ L @ V
-    eigA, vA = np.linalg.eig(A)
+    eigA = np.linalg.eigvals(A)
     dep = float(np.sqrt(max(0.0, np.linalg.norm(A, 'fro') ** 2 - np.sum(np.abs(eigA) ** 2))))
     A_norm = float(np.linalg.norm(A, 'fro'))
-    # eigenvector-merge |cos| (only meaningful for a 2x2 compression)
-    cosang = float('nan')
-    if m == 2 and vA.shape[1] == 2:
-        vA = vA / np.linalg.norm(vA, axis=0, keepdims=True)
-        cosang = float(abs(np.vdot(vA[:, 0], vA[:, 1])))
     # geometric mult of the compression at its own mean eigenvalue
     lam_bar = complex(np.mean(eigA))
     sA = np.linalg.svd(A - lam_bar * np.eye(A.shape[0]), compute_uv=False)
@@ -272,7 +255,7 @@ def characterize_pair(L, la, lb, w):
                               1e-7 * max(A_norm, 1.0))))
     return dict(lam0=lam0, sep=sep, third=third, isolated=isolated, r=r, pn=pn,
                 m_alg=m_alg, m=m, geo=max(geo, 1), dep=dep, A_norm=A_norm,
-                A=A, eigA=eigA, cos=cosang)
+                A=A, eigA=eigA)
 
 
 # --------------------------------------------------------------------------
@@ -280,7 +263,7 @@ def characterize_pair(L, la, lb, w):
 # --------------------------------------------------------------------------
 def gate0():
     print("=" * 78)
-    print("GATE 0  validate nullity + dep + ||P|| + |cos| on KNOWN answers")
+    print("GATE 0  validate nullity + dep + ||P|| on KNOWN answers")
     print("=" * 78)
     ok = True
     lam = -4.0 + 1.3j
@@ -291,7 +274,7 @@ def gate0():
     okJ = (g1, g2) == (1, 2) and d['dep'] > 0.5
     ok = ok and okJ
     print(f"  defective [[l,1],[0,l]] : g1={g1} g2={g2} (want 1,2)  dep={d['dep']:.3e} (want >0)"
-          f"  |cos|={d['cos']:.4f}  {'PASS' if okJ else 'FAIL'}")
+          f"  {'PASS' if okJ else 'FAIL'}")
 
     Db = np.diag([lam, lam]).astype(complex)                      # DIABOLIC
     g1, g2 = jordan_counts(Db, lam, 1e-8)
@@ -375,7 +358,7 @@ def stage0(q_ep, gamma):
     verdict = ("DIABOLIC" if (g1 == 2 and g2 == 2 and ch['dep'] < 1e-2)
                else "DEFECTIVE" if (g1 == 1 and g2 == 2) else f"? (g1={g1},g2={g2})")
     print(f"  (iv)  g1={g1} g2={g2}  dep={ch['dep']:.3e}  ||P||={ch['pn']:.3f}  "
-          f"|cos|={ch['cos']:.4f}  geo={ch['geo']}/alg={ch['m']}")
+          f"geo={ch['geo']}/alg={ch['m']}")
     print(f"        => {verdict}  {'PASS (matches settled diabolic)' if verdict == 'DIABOLIC' else 'MISMATCH'}")
     ok = ok and verdict == "DIABOLIC"
 
@@ -385,7 +368,7 @@ def stage0(q_ep, gamma):
 
 
 # --------------------------------------------------------------------------
-# DECISIVE SCAN -- break free-fermion with Delta, track the pair, characterize
+# HISTORICAL LOCATOR -- break free-fermion with Delta and propose a nearby pair
 # --------------------------------------------------------------------------
 def optimize_q(Delta, gamma, q_center, anchor, half=0.10):
     """Find q (near q_center) minimizing the tracked-pair distance at this Delta."""
@@ -400,14 +383,14 @@ def optimize_q(Delta, gamma, q_center, anchor, half=0.10):
 
 def scan(q_ep, gamma):
     print("=" * 78)
-    print("DECISIVE SCAN  break free-fermion (Delta>0), track the coalescing pair")
+    print("HISTORICAL LOCATOR  break free-fermion (Delta>0), propose a nearby pair")
     print("=" * 78)
     deltas = [0.0, 0.02, 0.05, 0.1, 0.2, 0.5]
     q_center = q_ep
     anchor = complex(-4 * gamma, 2 * q_ep * gamma)
     rows = []
-    print(f"  {'Delta':>6} {'q*':>10} {'min-dist':>12} {'g1':>3} {'g2':>3} "
-          f"{'dep':>10} {'dep_rel':>9} {'||P||':>8} {'|cos|':>8} {'lam_EP':>22}")
+    print(f"  {'Delta':>6} {'q proposal':>12} {'full-pair gap':>15} "
+          f"{'pair midpoint':>22}  status")
     for Delta in deltas:
         if Delta == 0.0:
             q_star = q_ep                                # analytic EP location
@@ -415,182 +398,30 @@ def scan(q_ep, gamma):
             q_star, _ = optimize_q(Delta, gamma, q_center, anchor)
         L = build_L_sym(q_star * gamma, gamma, Delta)
         dmin, la, lb, w = closest_pair_near(L, anchor)
-        ch = characterize_pair(L, la, lb, w)
-        lam_mid = ch['lam0']
-        # g1,g2 from full-L nullity at the pair midpoint (faithful to the definitive test)
-        g1, g2 = jordan_counts(L, lam_mid, 1e-5)
-        dep_rel = ch['dep'] / max(1.0, ch['A_norm'])
-        rows.append(dict(Delta=Delta, q=q_star, dmin=dmin, g1=g1, g2=g2,
-                         dep=ch['dep'], dep_rel=dep_rel, pn=ch['pn'], cos=ch['cos'],
-                         lam=lam_mid, isolated=ch['isolated'], A=ch['A'], eigA=ch['eigA']))
-        print(f"  {Delta:>6.2f} {q_star:>10.6f} {dmin:>12.3e} {g1:>3} {g2:>3} "
-              f"{ch['dep']:>10.4f} {dep_rel:>9.3e} {ch['pn']:>8.3f} {ch['cos']:>8.4f} "
-              f"{lam_mid.real:>9.4f}{lam_mid.imag:>+8.4f}i")
+        lam_mid = 0.5 * (la + lb)
+        status = ("Delta=0 independently certified"
+                  if Delta == 0.0 else
+                  "Uncertified (pair correspondence not independently certified)")
+        rows.append(dict(Delta=Delta, q=q_star, dmin=dmin, lam=lam_mid,
+                         gap_below_tolerance=dmin <= STRICT_FULL_BLOCK_TOL))
+        print(f"  {Delta:>6.2f} {q_star:>12.8f} {dmin:>15.3e} "
+              f"{lam_mid.real:>9.4f}{lam_mid.imag:>+8.4f}i  {status}")
         # track continuity for the next (larger) Delta
         q_center, anchor = q_star, lam_mid
     print()
     return rows
 
 
-# --------------------------------------------------------------------------
-# OFF-AXIS EP LOCATOR -- the true coalescence lives at COMPLEX q once free-fermion
-# is broken.  Minimize the pair-split over (Re q, Im q); a genuine defective EP
-# reads min-split -> 0 with g1=1<g2=2 there (vs. the Delta=0 diabolic point, which
-# coalesces ON the real-q axis with g1=2).  J=q*gamma analytically continued.
-# --------------------------------------------------------------------------
-def locate_ep_complex_q(Delta, gamma, q0_real, anchor):
-    from scipy.optimize import minimize
-
-    def split(x):
-        q = complex(x[0], x[1])
-        L = build_L_sym(q * gamma, gamma, Delta)
-        d, _, _, _ = closest_pair_near(L, anchor, radius=1.0)
-        return d
-    res = minimize(split, x0=[q0_real, 0.0], method='Nelder-Mead',
-                   options=dict(xatol=1e-9, fatol=1e-12, maxiter=4000))
-    q = complex(res.x[0], res.x[1])
-    L = build_L_sym(q * gamma, gamma, Delta)
-    dmin, la, lb, w = closest_pair_near(L, anchor, radius=1.0)
-    lam0 = 0.5 * (la + lb)
-    ch = characterize_pair(L, la, lb, w)
-    g1, g2 = jordan_counts(L, lam0, 1e-5)
-    return dict(q=q, im=abs(q.imag), split=dmin, lam=lam0, g1=g1, g2=g2,
-                dep=ch['dep'], cos=ch['cos'], pn=ch['pn'])
-
-
-def offaxis(rows, gamma):
+def report_boundary(rows):
     print("=" * 78)
-    print("OFF-AXIS EP LOCATOR  the TRUE coalescence in COMPLEX q (genuine EP, not")
-    print("                     a near-degeneracy): Delta=0 on-axis/diabolic vs")
-    print("                     Delta>0 off-axis/defective")
+    print("CERTIFICATION BOUNDARY")
     print("=" * 78)
-    print(f"  {'Delta':>6} {'Re q_EP':>10} {'|Im q_EP|':>11} {'min-split':>12} "
-          f"{'g1':>3} {'g2':>3} {'dep':>9} {'|cos|':>8}  character")
-    for r in (rows[0], rows[3], rows[5]):          # Delta = 0, 0.10, 0.50
-        Delta = r['Delta']
-        loc = locate_ep_complex_q(Delta, gamma, r['q'], complex(r['lam'].real, r['lam'].imag))
-        char = ("DIABOLIC (semisimple)" if (loc['g1'] == 2 and loc['dep'] < 1e-2)
-                else "DEFECTIVE (Jordan)" if loc['g1'] == 1 else f"? g1={loc['g1']}")
-        print(f"  {Delta:>6.2f} {loc['q'].real:>10.6f} {loc['im']:>11.3e} {loc['split']:>12.3e} "
-              f"{loc['g1']:>3} {loc['g2']:>3} {loc['dep']:>9.4f} {loc['cos']:>8.4f}  {char}")
-    print("  (Delta=0: |Im q_EP|~0 => EP ON the real-q axis, diabolic.  Delta>0: |Im q_EP|>0")
-    print("   => the EP has MOVED OFF the real axis and is a genuine defective Jordan EP.)\n")
-
-
-# --------------------------------------------------------------------------
-# MECHANISM probe -- does the H_eff|2D scalar structure survive Delta?
-# --------------------------------------------------------------------------
-def mechanism(rows, q_ep, gamma):
-    print("=" * 78)
-    print("MECHANISM  H_eff|2D scalar (free-fermion) vs dephasing|2D scalar under Delta")
-    print("=" * 78)
-    print("  At Delta=0: L|2D=lam*I because H_eff|2D=2iJ*I (free-fermion) AND D|2D=-4g*I.")
-    print("  Predicted: ZZ breaks the H_eff scalar half; D|2D (Delta-independent) survives.\n")
-
-    # symmetric-sector representations of H_eff (coherent part) and D (dephasing)
-    def parts_sym(J, Delta):
-        M_SE, M_DE = sectors(J, Delta)
-        Heff = np.zeros((24, 24), dtype=complex)
-        Dmat = np.zeros((24, 24), dtype=complex)
-        for col, (i, jk) in enumerate(BASIS):
-            for i2 in range(4):
-                if M_SE[i2, i] != 0:
-                    Heff[INDEX[(i2, jk)], col] += -1j * M_SE[i2, i]
-            jk_idx = DE_PAIRS.index(jk)
-            for jk2 in range(6):
-                if M_DE[jk_idx, jk2] != 0:
-                    Heff[INDEX[(i, DE_PAIRS[jk2])], col] += 1j * M_DE[jk_idx, jk2]
-            Dmat[col, col] = -2 * gamma if i in jk else -6 * gamma
-        return P_SYM.conj().T @ Heff @ P_SYM, P_SYM.conj().T @ Dmat @ P_SYM
-
-    def scalarness(M2):
-        off = float(np.linalg.norm(M2 - np.diag(np.diag(M2))))
-        # deviation of the diagonal from a single scalar (its own mean)
-        dmean = complex(np.mean(np.diag(M2)))
-        ddev = float(np.linalg.norm(np.diag(M2) - dmean))
-        return off, ddev, dmean
-
-    print(f"  {'Delta':>6} {'q*':>10}  {'H_eff|2D off':>13} {'H_eff diag-dev':>15} "
-          f"{'D|2D off':>10} {'D|2D diag-dev':>14}  H_eff|2D scalar?")
-    for r in rows:
-        Delta, q = r['Delta'], r['q']
-        Hs, Ds = parts_sym(q * gamma, Delta)
-        # 2D coalescing eigenspace from the Riesz range at this (Delta,q)
-        L = build_L_sym(q * gamma, gamma, Delta)
-        dmin, la, lb, w = closest_pair_near(L, complex(r['lam'].real, r['lam'].imag))
-        lam0 = 0.5 * (la + lb)
-        dist = np.sort(np.abs(w - lam0))
-        rr = 0.5 * (dist[1] + dist[2])
-        Pproj = riesz_projector(L, lam0, rr)
-        m = max(int(round(np.trace(Pproj).real)), 1)
-        U, _, _ = np.linalg.svd(Pproj)
-        V = U[:, :m]
-        H2 = V.conj().T @ Hs @ V
-        D2 = V.conj().T @ Ds @ V
-        offH, devH, _ = scalarness(H2)
-        offD, devD, _ = scalarness(D2)
-        is_scalar = offH < 1e-3 and devH < 1e-3
-        print(f"  {Delta:>6.2f} {q:>10.6f}  {offH:>13.3e} {devH:>15.3e} "
-              f"{offD:>10.3e} {devD:>14.3e}  {'YES (scalar)' if is_scalar else 'NO (broken)'}")
-    print()
-
-
-# --------------------------------------------------------------------------
-# VERDICT -- classify (a)/(b)/(c) from the actual numbers
-# --------------------------------------------------------------------------
-def verdict(rows):
-    print("=" * 78)
-    print("VERDICT  (a) PERSISTS DIABOLIC / (b) BECOMES DEFECTIVE / (c) DISSOLVES")
-    print("=" * 78)
-    base = rows[0]
-    pert = rows[1:]
-
-    def classify(r):
-        # PRIMARY discriminator = gate-validated nullity (g1 vs g2) + eigenvector-merge,
-        # NOT the dep magnitude (which merely scales with the perturbation size Delta).
-        # (The residual scan min-dist ~1e-4 for Delta>0 is the SQRT-cusp under-resolution
-        #  of a defective EP -- split ~ sqrt|q-q_EP| -- vs Delta=0's LINEAR cusp -> 7e-15;
-        #  the finer complex-q locator confirms the true split -> ~1e-8 ON the real axis.)
-        jordan = (r['g1'] == 1 and r['g2'] == 2)          # geo 1 < alg 2 = Jordan block
-        diabolic = (r['g1'] == 2 and r['g2'] == 2)        # geo 2 = alg 2 = semisimple
-        merged = r['cos'] > 0.99                          # eigenvectors coalesced
-        if diabolic and r['dep_rel'] < 1e-2:
-            return "(a) DIABOLIC"
-        if jordan or (merged and r['dep'] > 1e-3):
-            return "(b) DEFECTIVE (Jordan / sqrt-EP)"
-        if not jordan and not diabolic and r['dep'] < 1e-3 and r['cos'] < 0.9:
-            return "(c) DISSOLVES"
-        return "AMBIGUOUS"
-
-    print(f"  Delta=0 baseline: min-dist={base['dmin']:.2e} dep={base['dep']:.3e} "
-          f"|cos|={base['cos']:.4f}  -> DIABOLIC (g1=g2={base['g1']})\n")
-    print(f"  {'Delta':>6}  {'min-dist':>11} {'dep_rel':>9} {'|cos|':>7}  classification")
-    tally = {}
-    for r in pert:
-        c = classify(r)
-        key = c.split()[0]
-        tally[key] = tally.get(key, 0) + 1
-        print(f"  {r['Delta']:>6.2f}  {r['dmin']:>11.3e} {r['dep_rel']:>9.3e} "
-              f"{r['cos']:>7.4f}  {c}")
-
-    # overall verdict: what does breaking free-fermion DO to the diabolic point?
-    dom = max(tally, key=tally.get)
-    grows_dep = all(pert[i]['dep_rel'] >= pert[i - 1]['dep_rel'] - 1e-9
-                    for i in range(1, len(pert)))
-    print()
-    if dom == "(b)":
-        outcome = ("BECOMES DEFECTIVE: breaking free-fermion turns the diabolic point "
-                   "generic-defective.\n  => FREE-FERMION INTEGRABILITY WAS THE PROTECTION.")
-    elif dom == "(c)":
-        outcome = ("DISSOLVES: no coalescence survives; the diabolic point was a "
-                   "free-fermion-enabled coincidence.\n  => FREE-FERMION INTEGRABILITY ENABLED IT.")
-    else:
-        outcome = ("PERSISTS DIABOLIC: exact coalescence with dep~0 survives.\n"
-                   "  => free-fermion is NOT the protection (more robust -- re-opens).")
-    print(f"  Dominant Delta>0 outcome: {dom}  ({tally})")
-    print(f"  dep_rel monotone-increasing with Delta: {grows_dep}")
-    print(f"  OVERALL: {outcome}\n")
-    return dom, tally
+    print(f"  strict full-block coincidence/correspondence tolerance: "
+          f"{STRICT_FULL_BLOCK_TOL:.1e}")
+    print("  positive-Delta proposals are Uncertified")
+    print("  A small locator gap alone does not certify pair correspondence or a double root.")
+    print("  No positive-Delta algebraic/geometric multiplicity is reported here.")
+    print("  These rows establish neither persistence, defectiveness, nor lifting.\n")
 
 
 def main():
@@ -607,9 +438,7 @@ def main():
         sys.exit("STAGE 0 failed; construction broken, aborting (do not trust the scan).")
 
     rows = scan(q_ep, gamma)
-    offaxis(rows, gamma)
-    mechanism(rows, q_ep, gamma)
-    verdict(rows)
+    report_boundary(rows)
 
 
 if __name__ == "__main__":

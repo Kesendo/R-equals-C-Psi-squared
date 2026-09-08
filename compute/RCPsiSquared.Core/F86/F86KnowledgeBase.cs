@@ -16,7 +16,7 @@ namespace RCPsiSquared.Core.F86;
 /// <list type="bullet">
 ///   <item><b>Tier 1 (derived)</b>: <see cref="TPeakLaw"/>, <see cref="QEpLaw"/>,
 ///         <see cref="TwoLevelEpModel"/> (pre/at/post-EP traversal and the higher-k
-///         hierarchy), <see cref="ChiralAiiiClassification"/>, <see cref="F71MirrorInvariance"/>,
+///         hierarchy), <see cref="ShiftedGeneratorSectorwisePClaim"/>, <see cref="F71MirrorInvariance"/>,
 ///         <see cref="LEffMirrorAxisClaim"/>, <see cref="PolarityPairQPeakDecompositionClaim"/>;
 ///         c=2-only <see cref="F90F86C2BridgeIdentity"/> and the F86e identity
 ///         <see cref="SigmaZeroCommutatorNormClaim"/> (σ_0 = ‖[Π_HD1, M_H]‖).</item>
@@ -69,7 +69,8 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<InspectableNode> _qAnchorsChildrenGroup;
     public DressedModeWeightClaim DressedModeWeight { get; }
-    public ChiralAiiiClassification AlgebraicClass { get; }
+    public ShiftedGeneratorSectorwisePClaim ShiftedGeneratorSymmetry { get; }
+    public FullIrreducibleSrpClassQuestion FullIrreducibleSrpClass { get; }
     public F71MirrorInvariance F71Mirror { get; }
     public SigmaZeroChromaticityScaling Sigma0Scaling { get; }
     /// <summary>F86 c=2 HWHM_left/Q_peak prediction per BondSubClass (Tier 1 candidate):
@@ -87,13 +88,13 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<C2UniversalShapeDerivation?> _c2UniversalShape;
 
-    /// <summary>Block-independent meta-claim: the F86 ↔ FRAGILE_BRIDGE EP-side relation.
+    /// <summary>Block-independent meta-claim: the F86 EP / FRAGILE_BRIDGE axis-departure comparison.
     /// <see cref="Knowledge.Tier.OpenQuestion"/> after the F86a-retraction 2026-06-21
     /// (demoted from Tier2Verified): the full Σγ=N·γ₀ block is genuinely strongly non-normal
     /// near Q_peak, but that sampled peak is not itself an EP; narrow real-axis defective
     /// seeds are separately certified at N=5,7,9. Whether it has an off-axis
     /// defective EP at all, and thus the "same EP" link to FRAGILE_BRIDGE, is open. The
-    /// surviving shared substrate is the AIII chiral algebra. Exposed at the KB root for any
+    /// surviving shared substrate is the shifted-generator P-type anticommutation. Exposed at the KB root for any
     /// block, not just c=2. Lazy: a single static-data Claim with no compute cost.</summary>
     public LocalGlobalEpLink LocalGlobalEpLink => _localGlobalEpLink.Value;
 
@@ -256,7 +257,8 @@ public sealed class F86KnowledgeBase : IInspectable
                     .ToArray()));
 
         DressedModeWeight = new DressedModeWeightClaim();
-        AlgebraicClass = new ChiralAiiiClassification();
+        ShiftedGeneratorSymmetry = new ShiftedGeneratorSectorwisePClaim();
+        FullIrreducibleSrpClass = new FullIrreducibleSrpClassQuestion();
         F71Mirror = new F71MirrorInvariance();
         Sigma0Scaling = new SigmaZeroChromaticityScaling(block.GammaZero, cache: WitnessCache);
         F86HwhmClosedForm = new F86HwhmClosedFormClaim();
@@ -270,8 +272,9 @@ public sealed class F86KnowledgeBase : IInspectable
             block.C == 2 ? C2UniversalShapeDerivation.Build(block, WitnessCache) : null);
 
         // Block-independent meta-claim comparing the F86 real-axis seed/toy structures with
-        // FRAGILE_BRIDGE's real-γ EP under shared AIII chiral algebra.
-        // Available for any block — the algebraic statement is shared across all c;
+        // FRAGILE_BRIDGE spectral-abscissa axis departure (EP character OPEN) beside the
+        // shared shifted-generator P-type relation.
+        // Available for any block — that secured relation is shared across all c;
         // the pinned witnesses are the c=2 N=5..8 Petermann-K sweep.
         _localGlobalEpLink = new Lazy<LocalGlobalEpLink>(() => LocalGlobalEpLink.Build());
 
@@ -374,6 +377,7 @@ public sealed class F86KnowledgeBase : IInspectable
 
             yield return InspectableNode.Group("open questions",
                 OpenQuestions.Cast<IInspectable>()
+                    .Append(FullIrreducibleSrpClass)
                     // LocalGlobalEpLink (OpenQuestion since the F86a-retraction 2026-06-21):
                     // whether the full Σγ=N·γ₀ block has an off-axis defective EP at all.
                     .Append(LocalGlobalEpLink)
@@ -395,7 +399,7 @@ public sealed class F86KnowledgeBase : IInspectable
         if (HigherKLevels.Count > 1)
             yield return InspectableNode.Group("higher-k EP hierarchy (decay times 1/(4γ₀·k))",
                 HigherKLevels.Cast<IInspectable>().ToArray());
-        yield return AlgebraicClass;
+        yield return ShiftedGeneratorSymmetry;
         yield return F71Mirror;
         yield return LEffMirrorAxis;
         yield return PolarityPairQPeakDecomposition;

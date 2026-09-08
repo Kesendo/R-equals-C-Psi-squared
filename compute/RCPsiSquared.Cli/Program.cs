@@ -124,6 +124,8 @@ public static class Program
         Console.WriteLine("                    classify each (semisimple vs defective), Re vs -4 (AT rung-2) vs -N (palindrome centre)");
         Console.WriteLine("              --delta-flip [--q re,im] [--lam re,im] [--deltas 0,0.02,..]: track a diabolic under XXZ");
         Console.WriteLine("                    anisotropy Delta; finite-N Delta response tests the conditional residual mechanism (--k 3 reproduces N=4)");
+        Console.WriteLine("                    --exact uses compressed proposals: independent 1e-6 full-pair coincidence/correspondence gate; Uncertified means unknown survival, no alg/geo character");
+        Console.WriteLine("                    --delta-flip: all modes require strict full-block certification; N>=7 without --exact is Uncertified; search nulls do not prove lifting");
         Console.WriteLine();
         Console.WriteLine("  shellcensus the step-3 sectorbraid census: per-block sigma_min of {lambda_A, mu} on the");
         Console.WriteLine("              fundamental-domain shell strip at the real defective seed loci (R-parity split,");

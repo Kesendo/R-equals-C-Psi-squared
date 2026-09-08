@@ -8,7 +8,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// carries the calibration substrate. Three parent edges:
 ///
 /// <list type="bullet">
-///   <item><see cref="AbsorptionTheoremClaim"/>: the single-site absorption rate α = 2γ₀.</item>
+///   <item><see cref="AbsorptionTheoremClaim"/>: the one-disagreement basis-cell cost 2γ₀.</item>
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: the dyadic-ladder anchors a₀, a_{−1}, a₃.</item>
 ///   <item><see cref="PolynomialDiscriminantAnchorClaim"/>: the discriminant a_{−1} = 4
 ///         feeding t_peak = 1/(4γ₀).</item>

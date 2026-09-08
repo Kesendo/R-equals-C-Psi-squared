@@ -14,7 +14,7 @@ Pi^2 w_YZ parity Z2-graded operator algebra, R=CPsi2 primordial qubit algebra --
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (definition of Π)
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (the gap this addresses)
 - [Primordial Qubit Hypothesis](../hypotheses/PRIMORDIAL_QUBIT.md) (the question)
-- [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Π classification: AIII, order 4)
+- [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Π P-type relation and sector-classification boundary)
 
 ---
 
@@ -419,11 +419,11 @@ leakage is controlled, directional, and entirely within the even sector.
 Π is linear. J is anti-linear. No unitary connects them. This
 kills the modular-theory path. But it focuses attention on the correct
 mechanism: not the modular conjugation, but the **Z₂-grading itself**.
-M_{2|2}(C) is the algebraic backbone of the AIII symmetry class. The
-closed path is: palindrome → chiral symmetry → class AIII → M_{2|2}(C)
-super-algebra. The Tomita-Takesaki failure is not a dead end; it
-eliminates the wrong mechanism and leaves the super-algebra as the
-surviving candidate.
+The surviving object is the Z₂-graded super-algebra M_{2|2}(C). The
+palindrome supplies a P-type anticommutation after Π²-sector resolution,
+but that fact alone does not assign AIII or any other full SRP class.
+The Tomita-Takesaki failure eliminates the modular-conjugation mechanism;
+the super-algebra remains an algebraic candidate without a class claim.
 
 ### 4. β = 1/Σγ: the palindrome as temperature
 

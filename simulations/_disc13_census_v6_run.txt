@@ -1,0 +1,140 @@
+=== 1. antiunitary self-fold on (1,3)@N=6, entry-wise ===
+  [PASS] J=0.8: |L + Pf conj(L) Pf^T + 12 I|_max == 0.0 (is 0.0e+00)
+  [PASS] J=2.0: |L + Pf conj(L) Pf^T + 12 I|_max == 0.0 (is 0.0e+00)
+  [PASS] J=4.0: |L + Pf conj(L) Pf^T + 12 I|_max == 0.0 (is 0.0e+00)
+
+=== 2. the fold acts within each R-sector ===
+  [PASS] [Pf, Pr] == 0.0
+  [PASS] [L, Pr] == 0.0 at J=2 (uniform coupling)
+
+=== 3. bipartite gauge T L T == conj(L), character, and sector closure ===
+  [PASS] (1,3)@N=6: T L T == conj(L) and T Pr == +1 Pr T, both exactly 0.0
+  [PASS] (1,2)@N=6: T L T == conj(L) and T Pr == -1 Pr T, both exactly 0.0
+  [PASS] (2,3)@N=6: T L T == conj(L) and T Pr == -1 Pr T, both exactly 0.0
+  [PASS] (0,3)@N=6: T L T == conj(L) and T Pr == -1 Pr T, both exactly 0.0
+  [PASS] (1,2)@N=4: T L T == conj(L) and T Pr == -1 Pr T, both exactly 0.0
+  --- closure verdicts (nearest-neighbour residual, J=2.6/7.4) ---
+  [PASS] (1,3)@N=6 R-even conj-closed (residual 1.6e-13)
+  [PASS] (1,3)@N=6 R-odd conj-closed (residual 1.9e-13)
+  [PASS] (1,2)@N=4 R-even NOT conj-closed (residual 7.5e+00)
+  [PASS] (1,2)@N=4 R-odd NOT conj-closed (residual 7.5e+00)
+  [PASS] (1,2)@N=6 R-even NOT conj-closed (residual 4.5e+00)
+  [PASS] (1,2)@N=6 R-odd NOT conj-closed (residual 4.5e+00)
+  [PASS] (2,3)@N=6 R-even NOT conj-closed (residual 6.1e+00)
+  [PASS] (2,3)@N=6 R-odd NOT conj-closed (residual 6.1e+00)
+  [PASS] (0,3)@N=6 R-even NOT conj-closed (residual 6.6e+00)
+  [PASS] (0,3)@N=6 R-odd NOT conj-closed (residual 6.6e+00)
+
+=== 4. sector disc arg-from-real (filtered, |delta| > 1e-8), J = 0.8/2.0/4.0 ===
+  [PASS] (1,2)@N=4 R-even disc REAL (args 2.7e-14, 5.3e-15, 6.6e-14)
+  [PASS] (1,2)@N=4 R-odd disc REAL (args 1.4e-13, 5.3e-15, 6.8e-14)
+  [PASS] (1,2)@N=6 R-even disc COMPLEX (args 4.0e-01, 9.6e-01, 1.4e+00)
+  [PASS] (1,2)@N=6 R-odd disc COMPLEX (args 4.0e-01, 9.6e-01, 1.4e+00)
+  [PASS] (1,3)@N=6 R-even disc REAL (args 3.2e-12, 3.2e-12, 5.7e-13)
+  [PASS] (1,3)@N=6 R-odd disc REAL (args 1.2e-12, 1.8e-13, 4.2e-12)
+
+=== 5. detector validation: (1,2)@N=4 R-even, the known quartet ===
+  [PASS] exactly the four known loci found as sqrt-branch: [np.float64(0.460212), np.float64(0.854438), np.float64(0.857458), np.float64(1.738181)]
+
+=== 6. the (1,3)@N=6 census, octic q ===
+  R-even: 7 defective, 10 diabolic crossings
+    q* = 0.4630013: lambda = -6.0000000+0.3864821i, exponent 0.500, partner-pair gap 2.0e-07 (conj-doubled)
+    q* = 0.6400121: lambda = -6.0000000+1.2687899i, exponent 0.500, partner-pair gap 8.5e-08 (conj-doubled)
+    q* = 0.7450837: lambda = -6.0000000+1.4621529i, exponent 0.500, partner-pair gap 8.3e-08 (conj-doubled)
+    q* = 0.9184132: lambda = -6.0000000-7.7721940i, exponent 0.500, partner-pair gap 1.9e-07 (conj-doubled)
+    q* = 1.5109958: lambda = -6.0000000+0.9288088i, exponent 0.500, partner-pair gap 4.6e-08 (conj-doubled)
+    q* = 3.0922209: lambda = -6.0000000-1.5169893i, exponent 0.500, partner-pair gap 1.3e-07 (conj-doubled)
+    q* = 3.3536850: lambda = -6.0787877+0.0000000i, exponent 0.500, partner-pair gap 6.0e-08 (s-doubled)
+    q* = 0.4752143: lambda = -6.0000000+0.0000000i, exponent 1.0001, diabolic crossing
+    q* = 0.5887756: lambda = -6.0000000+1.4740511i, exponent 1.0000, diabolic crossing
+    q* = 0.6461172: lambda = -6.3605758-0.0000000i, exponent 1.0000, diabolic crossing
+    q* = 0.6852177: lambda = -6.0000000+1.2918884i, exponent 1.0000, diabolic crossing
+    q* = 0.6998199: lambda = -6.0000000-0.0000000i, exponent 1.0000, diabolic crossing
+    q* = 0.8729312: lambda = -6.0000000+0.6556451i, exponent 1.0000, diabolic crossing
+    q* = 0.8882606: lambda = -6.0000000+3.5420069i, exponent 1.0000, diabolic crossing
+    q* = 1.2858519: lambda = -6.6051123+0.0000000i, exponent 1.0000, diabolic crossing
+    q* = 2.1420472: lambda = -6.0000000-0.9004185i, exponent 1.0000, diabolic crossing
+    q* = 3.4553192: lambda = -6.0000000-0.0000000i, exponent 1.0000, diabolic crossing
+  [PASS] R-even: 7 defective loci
+  [PASS] R-even: 10 diabolic crossings inventoried
+  [PASS] R-even q* = 0.4630013: position and lambda pinned
+  [PASS] R-even q* = 0.4630013: partner pair coalesces at the same q* (doubling)
+  [PASS] R-even q* = 0.4630013: lambda on the fold line Re = -6
+  [PASS] R-even q* = 0.6400121: position and lambda pinned
+  [PASS] R-even q* = 0.6400121: partner pair coalesces at the same q* (doubling)
+  [PASS] R-even q* = 0.6400121: lambda on the fold line Re = -6
+  [PASS] R-even q* = 0.7450837: position and lambda pinned
+  [PASS] R-even q* = 0.7450837: partner pair coalesces at the same q* (doubling)
+  [PASS] R-even q* = 0.7450837: lambda on the fold line Re = -6
+  [PASS] R-even q* = 0.9184132: position and lambda pinned
+  [PASS] R-even q* = 0.9184132: partner pair coalesces at the same q* (doubling)
+  [PASS] R-even q* = 0.9184132: lambda on the fold line Re = -6
+  [PASS] R-even q* = 1.5109958: position and lambda pinned
+  [PASS] R-even q* = 1.5109958: partner pair coalesces at the same q* (doubling)
+  [PASS] R-even q* = 1.5109958: lambda on the fold line Re = -6
+  [PASS] R-even q* = 3.0922209: position and lambda pinned
+  [PASS] R-even q* = 3.0922209: partner pair coalesces at the same q* (doubling)
+  [PASS] R-even q* = 3.0922209: lambda on the fold line Re = -6
+  [PASS] R-even q* = 3.353685: position and lambda pinned
+  [PASS] R-even q* = 3.353685: partner pair coalesces at the same q* (doubling)
+  [PASS] R-even q* = 3.353685: lambda off the fold line Re = -6
+  R-odd: 2 defective, 12 diabolic crossings
+    q* = 1.9567664: lambda = -6.0000000+7.6439946i, exponent 0.500, partner-pair gap 1.6e-07 (conj-doubled)
+    q* = 3.2608458: lambda = -6.0000000+25.1047962i, exponent 0.500, partner-pair gap 3.7e-07 (conj-doubled)
+    q* = 0.4578278: lambda = -6.0000000+0.0000000i, exponent 1.0006, diabolic crossing
+    q* = 0.5626451: lambda = -6.0000000+1.4468476i, exponent 1.0000, diabolic crossing
+    q* = 0.6475381: lambda = -6.0000000+1.0475375i, exponent 1.0000, diabolic crossing
+    q* = 0.6829653: lambda = -6.0000000+0.0992507i, exponent 1.0000, diabolic crossing
+    q* = 0.7474493: lambda = -6.0000000-0.0000000i, exponent 1.0000, diabolic crossing
+    q* = 0.8091086: lambda = -6.0000000+4.3043780i, exponent 1.0000, diabolic crossing
+    q* = 0.8892664: lambda = -6.0000000-2.0158304i, exponent 1.0000, diabolic crossing
+    q* = 1.1675371: lambda = -6.0000000-0.8743669i, exponent 1.0000, diabolic crossing
+    q* = 1.2047941: lambda = -6.0000000+0.0000000i, exponent 1.0000, diabolic crossing
+    q* = 1.5959025: lambda = -6.0000000+11.3557149i, exponent 1.0000, diabolic crossing
+    q* = 2.0364970: lambda = -6.0000000-2.5636263i, exponent 1.0000, diabolic crossing
+    q* = 2.8566153: lambda = -6.0000000-4.9372761i, exponent 1.0000, diabolic crossing
+  [PASS] R-odd: 2 defective loci
+  [PASS] R-odd: 12 diabolic crossings inventoried
+  [PASS] R-odd q* = 1.9567664: position and lambda pinned
+  [PASS] R-odd q* = 1.9567664: partner pair coalesces at the same q* (doubling)
+  [PASS] R-odd q* = 1.9567664: lambda on the fold line Re = -6
+  [PASS] R-odd q* = 3.2608458: position and lambda pinned
+  [PASS] R-odd q* = 3.2608458: partner pair coalesces at the same q* (doubling)
+  [PASS] R-odd q* = 3.2608458: lambda on the fold line Re = -6
+
+=== 6c. channel B: the real-lambda species via the PT-break real-count scan ===
+  [PASS] R-even: 2 real-count transitions
+  [PASS] R-even q* = 0.7026159: transition 12->8 pinned
+  [PASS] R-even q* = 0.7026159: both s-pair members sqrt-branch (defective)
+  [PASS] R-even q* = 0.7026159: measured s-pair sums to -2N = -12 (-6.5624200 + -5.4375800)
+  [PASS] R-even q* = 3.353685: transition 8->12 pinned
+  [PASS] R-even q* = 3.353685: both s-pair members sqrt-branch (defective)
+  [PASS] R-even q* = 3.353685: measured s-pair sums to -2N = -12 (-6.0787877 + -5.9212123)
+  [PASS] R-even: no real-count transitions in [0.002, 0.02)
+  [PASS] R-even: no real-count transitions in [8.0, 25.0)
+  [PASS] R-odd: 3 real-count transitions
+  [PASS] R-odd q* = 0.4635508: transition 12->8 pinned
+  [PASS] R-odd q* = 0.4635508: both s-pair members sqrt-branch (defective)
+  [PASS] R-odd q* = 0.4635508: measured s-pair sums to -2N = -12 (-6.2680671 + -5.7319329)
+  [PASS] R-odd q* = 0.8029541: transition 8->4 pinned
+  [PASS] R-odd q* = 0.8029541: both s-pair members sqrt-branch (defective)
+  [PASS] R-odd q* = 0.8029541: measured s-pair sums to -2N = -12 (-6.6051577 + -5.3948423)
+  [PASS] R-odd q* = 1.2273677: transition 4->0 pinned
+  [PASS] R-odd q* = 1.2273677: both s-pair members sqrt-branch (defective)
+  [PASS] R-odd q* = 1.2273677: measured s-pair sums to -2N = -12 (-6.3760926 + -5.6239074)
+  [PASS] R-odd: no real-count transitions in [0.002, 0.02)
+  [PASS] R-odd: no real-count transitions in [8.0, 25.0)
+  [PASS] UNION: 8 R-even + 5 R-odd = 13 defective loci (8/5)
+
+=== 7. sign-blindness vs the N=4 sign changes ===
+  [PASS] (1,3)@N=6 R-even: ZERO disc sign flips despite the loci (even order)
+  [PASS] (1,3)@N=6 R-odd: ZERO disc sign flips despite the loci (even order)
+  [PASS] (1,2)@N=4 R-even: FOUR sign flips, one at each known locus ([np.float64(0.461), np.float64(0.855), np.float64(0.858), np.float64(1.739)])
+
+=== 6b. the edges are empty ===
+  [PASS] R-even: no loci in [0.002, 0.02)
+  [PASS] R-even: no loci in [8.0, 25.0)
+  [PASS] R-odd: no loci in [0.002, 0.02)
+  [PASS] R-odd: no loci in [8.0, 25.0)
+
+ALL GATES PASS

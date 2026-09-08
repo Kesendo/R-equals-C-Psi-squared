@@ -1,7 +1,7 @@
 # Topological Edge Modes: The Localization Is Geometric
 
 <!-- Keywords: topological edge modes Liouvillian, SSH model palindromic
-spectrum, chiral block structure winding number, Altland-Zirnbauer AIII
+spectrum, chiral block structure winding number, SSH-type diagnostic
 open quantum, standing wave mode localization, sacrifice zone mechanism
 geometric not topological, biorthogonal Berry phase Lindbladian,
 R=CPsi2 topological edge modes -->
@@ -12,7 +12,7 @@ R=CPsi2 topological edge modes -->
 **Data:** [topological_edge_modes.txt](../simulations/results/topological_edge_modes.txt)
 **Depends on:**
 - [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (r = 0.994, the question)
-- [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Pi is chiral, class AIII)
+- [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) (Pi gives a sectorwise P relation; full SRP class open)
 - [Random Matrix Theory](RANDOM_MATRIX_THEORY.md) (Poisson-like spacing statistics)
 - [Analytical Spectrum](ANALYTICAL_SPECTRUM.md) ((0,1) coherence block dispersion)
 
@@ -203,7 +203,7 @@ reflecting the interplay of chain geometry and sector structure.
 
 ## Connection to Previous Results
 
-### RMT (class AIII, Poisson)
+### RMT (finite-N pooled spacings)
 
 The Poisson-like statistics do not prove integrability or topology.
 Invariant sectors can suppress repulsion in pooled spacings; the topology
@@ -211,10 +211,11 @@ verdict here rests on its own block/rank and edge-mode diagnostics, not on RMT.
 
 ### PT-Symmetry Analysis (chiral, order 4)
 
-Pi provides the chiral symmetry for the block decomposition (Phase 2).
-The generalized order-4 structure (Pi^4 = I instead of P^2 = I) creates
-FOUR eigenspaces instead of two, giving two independent chiral
-subsystems. Both subsystems have full rank at N=5 (trivial).
+Pi provides the P-type relation used in the block decomposition (Phase 2).
+Its global order-four structure is resolved through Pi² = U_X; within a
+fixed parity sector, a phase-normalized Pi is involutive. Both tested
+subsystems have full rank at N=5 (trivial), but this does not assign a
+global or fully reduced SRP class.
 
 ### Sacrifice Zone Formula
 
@@ -259,7 +260,7 @@ chain, not from a topological invariant.
 - Topological effects at larger N (only tested N=3, 4, 5)
 - Topological effects in ring or star topology (only tested chain)
 - Topological effects under non-Z dephasing (only tested Z-dephasing)
-- A more exotic topological invariant beyond SSH/AIII winding number
+- A more exotic topological invariant beyond the tested SSH-type winding number
 
 ---
 

@@ -1,0 +1,33 @@
+G1: joint optimization at recorded p2 = 0.5%/2q, M = 1024
+cols: point, grid(T pts x k), shots, gpb, f_leak | D-sign mean, sd, POWER | shots total, ~QPU min
+
+  Q=10 dt=0.15 13x5  8192 gpb3 fl0.53 | +0.00592 0.00352   1.7 | 1.28M   6.8min
+  Q=10 dt=0.15 13x5  8192 gpb2 fl0.53 | +0.00591 0.00196   3.0 | 1.28M   6.8min
+  Q=10 dt=0.15 13x5 16384 gpb3 fl0.53 | +0.00672 0.00351   1.9 | 2.56M  13.6min
+  Q=10 dt=0.15 13x5 16384 gpb2 fl0.53 | +0.00667 0.00179   3.7 | 2.56M  13.6min
+  Q=10 dt=0.15 21x3  8192 gpb3 fl0.53 | +0.00744 0.00300   2.5 | 2.06M  11.0min
+  Q=10 dt=0.15 21x3  8192 gpb2 fl0.53 | +0.00735 0.00242   3.0 | 2.06M  11.0min
+  Q=10 dt=0.15 21x3 16384 gpb3 fl0.53 | +0.00721 0.00283   2.5 | 4.13M  22.0min
+  Q=10 dt=0.15 21x3 16384 gpb2 fl0.53 | +0.00651 0.00130   5.0 | 4.13M  22.0min
+  Q=12 dt=0.10 13x5  8192 gpb3 fl0.53 | +0.00456 0.00424   1.1 | 1.28M   6.8min
+  Q=12 dt=0.10 13x5  8192 gpb2 fl0.53 | +0.00566 0.00212   2.7 | 1.28M   6.8min
+  Q=12 dt=0.10 13x5 16384 gpb3 fl0.53 | +0.00441 0.00303   1.5 | 2.56M  13.6min
+  Q=12 dt=0.10 13x5 16384 gpb2 fl0.53 | +0.00575 0.00248   2.3 | 2.56M  13.6min
+  Q=12 dt=0.10 21x3  8192 gpb3 fl0.53 | +0.00563 0.00263   2.1 | 2.06M  11.0min
+  Q=12 dt=0.10 21x3  8192 gpb2 fl0.53 | +0.00569 0.00235   2.4 | 2.06M  11.0min
+  Q=12 dt=0.10 21x3 16384 gpb3 fl0.53 | +0.00514 0.00306   1.7 | 4.13M  22.0min
+  Q=12 dt=0.10 21x3 16384 gpb2 fl0.53 | +0.00514 0.00137   3.8 | 4.13M  22.0min
+
+PROPOSED FREEZE (cheapest power>=3 at p2=0.5%, worst f_leak):
+  working point Q=10, J*dt=0.15, grid 13 pts x 5 steps (deep end 60), shots 8192/(arm,depth,prep), gates/block 2
+  D-sign dressed center +0.00591, sd 0.00196, power 3.0; budget 1.28M sci shots ~ 6.8 QPU min (0.32 ms/shot delay anchor)
+  H0 (C flown as U): mean +0.000017 sd 0.000400 -> theta_D(3sig) = 0.001200; false-D-sign observed 0.000 (n=30)
+G4: scattered-background budget (compressed level, 4000 draws)
+  Gam_mean=0.25 gbar: (s2 shifts, abs)
+    U : median +6.30e-05  95% [+1.05e-05,+2.34e-04]  base 4.11e-33
+    C : median +5.48e-05  95% [-1.13e-03,+1.33e-03]  base 4.44e-03
+    Cp: median +7.54e-05  95% [-3.52e-04,+5.17e-04]  base 1.48e-03
+  Gam_mean=1.0 gbar: (s2 shifts, abs)
+    U : median +1.02e-03  95% [+1.67e-04,+3.68e-03]  base 4.11e-33
+    C : median +1.05e-03  95% [-3.16e-03,+7.19e-03]  base 4.44e-03
+    Cp: median +1.12e-03  95% [-8.18e-04,+4.11e-03]  base 1.48e-03

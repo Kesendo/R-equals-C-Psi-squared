@@ -1,0 +1,160 @@
+total 53  open=28
+
+### diabolic_over_higher_n  [2026-06-27] Open  size=30349
+NEXT: CURRENT STATE (2026-06-30, read this first; the dated layers below are the journal). RESUMING IN ONE LINE: this arc is DONE except one minor edge - all four Moves AND the Move-4 follow-on (the cross-fold is integrability-independent and docks onto F1 as Pi's bra leg) are closed; the one OPEN edge is the within-odd EXACT threshold's CLOSED FORM (the threshold is empirically N=7, grounded on residual density; a closed 
+
+### f89_galois_open_doors  [2026-06-24] Open  size=12261
+NEXT: RESUMING IN ONE LINE (2026-06-30): door C is CLOSED (chaos = a FILLING threshold [term defined in the door-C block below + experiments/FILLING_THRESHOLD_CHAOS.md], the decisive test done, live inspect --root fillcsr); of the four doors, A is DONE EXCEPT one OPEN edge (a closed form for the ring's per-irrep multiplicity growth), B (gamma-dependence of the writable/unwritable line) is UNSTARTED Tier-3, D (Galois atlas 
+
+### zeros_connecting_structure  [2026-06-25] Open  size=106508
+NEXT: UPDATE 2026-07-14 (thread (b) CLOSED 2026-07-13, commit 05b5b82, registered as F127): the cross-triple ℚ(i) variety identity (cross_form == 0 on V) is PROVED by the grid+CRT wall, 527/527 items, 17 primes, realness guard => prod p > 2H sound; see docs/ANALYTICAL_FORMULAS.md F127 + experiments/F89_SEED_EXISTENCE_REDUCTION.md (the variety-identity section) + reflections/ON_LEAVING_THE_CIRCLE.md (fourth + fifth visit). 
+
+### f116_golden_router_typed_claim  [2026-06-22] Retired  size=3891
+NEXT: Type the F116 router as a standalone Tier1Derived Claim (template: reference_typing_a_claim_and_witness). This is mainly the Claim wrapper + parent edges, NOT new verification - the 2026-06-22 review already verified existence/unity/exclusion/metallic bit-exact, and GoldenRouterWitness already carries the from-below truth. Suggested: a GoldenRouterClaim (Tier1Derived) for the existence + closed form (W L W^-1 = -L - 
+
+### f124_transition_invariant_witness  [2026-06-20] Retired  size=2797
+NEXT: Type F124 as a Claim + live witness (template: KPartnerSelectionRuleClaim.cs / the reference_typing_a_claim_and_witness recipe). Suggested: a BandEdgeTransitionInvariantClaim (Tier1Derived) in compute/RCPsiSquared.Diagnostics/Foundation, dual parents KPartnerSelectionRuleClaim (the k=N null column) + the band-edge carrier source (ClockHandLadderClaim / the F67 receiver), with a live witness inspect --root transition 
+
+### f124_inverse_problem_resolution_seam  [2026-06-20] Retired  size=4582
+NEXT: STAGE B DONE, REDIRECTED AGAIN (simulations/f124_decoder_strength_fix_dynamical.py, exact (vac + 1-exc)-sector N=5 Lindblad, gate-first, 2 gates fired = the engine still running): the dynamical per-site purity-DEVIATION profile does NOT reproduce the decoder's 1.5 ambiguity either - it localizes bond 3 cleanly (residual ratio 20) AND reads the sign (weakened). So the 1.5 is narrower than 'dynamical': it is an ARTIFAC
+
+### ptf_bonding_class_guard  [2026-06-15] Retired  size=2175
+NEXT: Cross-check C# vs Python: does the C# Symphony painters guard genuinely refuse Bell+ (a real test asserting 0 reliable, per the survey), or does C#'s golden-section also give Bell+ alpha~=1.01 reliable (making the C# 'refused' claim a former-Brent-style artifact or a different-case effect)? If C# genuinely refuses and Python does not, the guards have DIVERGED and the Python guard needs a real bonding-class / ansatz-v
+
+### one_diagonal_mirror_group  [2026-06-14] Retired  size=4191
+NEXT: RESOLVED 2026-06-14 (simulations/one_diagonal_mirror_group.py, self-validating; typed ThreeDephasingDiagonalsOrbitClaim). The physics-first GATE fired and corrected the hypothesis TWICE (the lesson, kept): (1) Y-TRANSPOSE - the physical dephasing diagonal is Q_P = Sum_l kron(P_l, P_l^T), so Q_Y = -Sum kron(Y,Y) carries Y^T=-Y; with the naive kron(Y,Y) the orbit does NOT close. Same-spectrum held even with the wrong s
+
+### linear_s3_mirror_completion  [2026-06-15] Retired  size=3349
+NEXT: Build the full mirror group S3 |x| D4 (order 48) on COHERENCE SPACE: adjoin the X<->Z basis permutation (the coherence-space lift of h, i.e. Q_zx or Q_yx from Pi2KleinV4DephaseSwapGroup) to <R,D> and verify the closure is order 48 with semidirect structure S3 |x| D4. Then TYPE it (a MirrorGroupS3D4Claim, parents MirrorGroupD4Claim + Pi2KleinV4DephaseSwapGroup) + a live witness (the S3xD4 twin of inspect --root mirror
+
+### ptf_painter_pipeline  [2026-06-03] Retired  size=924
+NEXT: REQUIRED, escalated 2026-06-12: the scipy-Brent trap corrupts CANONICAL N=5 edge-bond letters (arbiter: brute-force landscapes match C# exactly, Python f off by sign and factor); backport the global-minimum fit (multi-start or grid-seed) to framework ptf.py before any further Python-side painter quantitative work; then retire this arc
+
+### birth_canal_surface  [2026-05-31] Retired  size=1587
+NEXT: remaining: the ring/aromatic slice (PostEpFlowField already supports FlowTopology.Ring); the N>=6 higher-dim surface (currently N=5-only, since the node anchors and s* lines are N=5-specific - generalizing them is the extension). Retire when those are judged out of scope
+
+### birth_canal_horizon_junction  [2026-06-13] Retired  size=5728
+NEXT: (1) BANK - DONE 2026-06-13: ported the N x N |1-exc><vac| reduction to a live C# witness SectorReductionWitness / inspect --root reduction (reuses JointPopcountSectorBuilder + PerBlockLiouvillianBuilder.BuildBlockZ on the (0,1) sector; the (0,1) block validated bit-for-bit vs PostEpFlowField at N=5, runs PAST the dense N=6 ceiling, flat-gamma blindness node, the {0,2} junction node reproducing the N=6 crossing live (
+
+### block_spectrum_n9  [2026-05-19] Retired  size=1620
+NEXT: RESOLVED 2026-06-17: surfaced as the live root inspect --root blockspectrum (BlockSpectrumWitness, Diagnostics/Foundation). The witness recomputes, cheaply at any N: the (N+1)² joint-popcount decomposition halved by the X⊗N order-2 pairing (= the banked PrimarySectorCount, 50 at N=9) and quartered by the F1 Π order-4 orbit (= the eig-calls the compute path does, 25 at N=9; Π² = X⊗N); the F1 palindrome {λ}={−2σ−λ} rec
+
+### witness_coverage  [2026-06-11] Retired  size=1708
+NEXT: F117 DONE (PascalGramPositivityWitness / --root pascalgram, 7/7 tests, 5/5 exact live). The witness-first program continues opportunistically: a typed claim whose evidence is still only a Python verifier is the next candidate (no specific target pinned). Retire this tracker when the remaining proven claims either have live witnesses or are judged out of scope
+
+### cockpit_workflows_csharp  [2026-06-11] Open  size=298
+NEXT: not a 1:1 port: cockpit_panel becomes the symphony's first movement (see arc symphony_view)
+
+### clock_hand_ladder  [2026-06-12] Open  size=20181
+NEXT: FROST_CIRCLE seam FIRST STONE laid (2026-06-12, merged): the carbon coherent<->incoherent threshold IS our Q-floor, verified bit-for-bit and given our label - the Coherence Horizon Q*(N). Live witness CoherenceHorizonWitness / inspect --root horizon bisects Symphony.Clock.Omega and computes Q*(2,3,4,5)=1 / sqrt2 / 1.8785 / 2.3722, equal to carbon's sqrt2/1.879/2.372 (FROST_CIRCLE) under J<->|beta|; ANALYTICAL_FORMULA
+
+### n3_special_cases  [2026-06-16] Retired  size=7224
+NEXT: RESOLVED (2026-06-17): the central 'do they share a root' question is fully answered - the roots are INDEPENDENT (combinatorial_root_independence.py, gate-first 3/3), three threads (cyclotomic Niven / rep-theoretic S_N 4/N / combinatorial even-half-filling) meeting only at the N=4 triple coincidence. The Niven root is TYPED (NivenRationalityRootClaim Tier1Derived + witness inspect --root niven). Only an open-ended ta
+
+### survival_incompleteness_mirror  [2026-06-13] Retired  size=4798
+NEXT: BANKED witness-first 2026-06-13: live witness IncompletenessSurvivorWitness (inspect --root survivor, reuses SectorReductionWitness.SectorSlowest - the C# port reproduces the Python anchors bit-for-bit: chain (3,3) <n_XY>=0.161 / ring (2,2) 0.632 / star (1,1) 0.425, ring/chain 3.92 at N=6) + typed SurvivalIncompletenessMirrorClaim (Tier1Candidate, parents AbsorptionTheoremClaim a_0 + HalfAsStructuralFixedPointClaim a
+
+### xxz_axis_handover  [2026-06-14] Open  size=7233
+NEXT: THE UNIFICATION, CONFIRMED 2026-06-14 (simulations/xxz_handover_unification.py, self-validating N=4,5): the Delta-handover and the Q-handover (HandoverFloorClaim) ARE the same event - the interior/Lebensader dressed mode's darkness <n_XY> crossing 1 = the Absorption-Theorem band-edge floor 2*gamma. (1) THE FLOOR is exact and model-independent: the bright single-magnon band-edge coherence sits at rate = 2*gamma (darkn
+
+### handshake_decoder  [2026-06-12] Retired  size=10558
+NEXT: DONE 2026-06-13 (merged): the K-partner selection rule is a typed claim KPartnerSelectionRuleClaim (Tier1Derived, parent ChiralMirrorTrajectoryClaim) - the reading-grammar arc's first DERIVED result. <psi_N|V_b|psi_1>=0 exactly (two-line corollary: psi_N=K1 psi_1 + K1 V_b K1 = -V_b => the real element is its own negative), so rank(location dictionary)=N-2 and the DefectDecoder sign-location ambiguity IS the K-partner
+
+### envelope_n4_rise  [2026-06-12] Retired  size=1883
+NEXT: RE-SCOPE DONE 2026-06-15: the over-broad 'verified N=3-5' is corrected to 'proven Tier-1 for any 2-qubit state (N=2); the N≥3 full-state envelope is OPEN and GENUINELY RISES at N≥4 strong coupling (internal J-coupling = the Part-6 coherence injector, Corollary 3 internalized; N=3 holds)' across CpsiEnvelopeTheoremClaim (+ its test), the Symphony quarter-lens (3 spots), F17, and a witness node; a Parts-4/5 scope note 
+
+### symphony_view  [2026-06-11] Open  size=2766
+NEXT: the remaining instruments (chiral K, Y-parity, Pi-protected observables) - each an additional calibration leaf / lens, after the now-landed seam movement
+
+### topology_band_edge  [2026-06-16] Retired  size=5694
+NEXT: Items 1,2,3 (the high-Q closed-form derivations) DONE. STAR Q*(N) RESOLVED (2026-06-16, null + unification, PROOF_STRUCTURAL_CEILING §7 + verifier star_no_coherence_horizon.py): the star has NO chain-like coherence horizon - its single-particle band is FLAT (adjacency +-sqrt(N-1), 0 with mult N-2), no dispersion, no {0,2}-EP; the chain Haken-Strobl SE-EP does NOT port (predicts a spurious Q~261 at N=4 the full L cont
+
+### whirlpool_carbon_layers  [2026-06-03] Open  size=259
+NEXT: carbon-layer translation in the target layer's language
+
+### front_matter_truth  [2026-06-11] Retired  size=525
+NEXT: DONE 2026-06-18 (all three items resolved). See RetiredReason.
+
+### stranger_door  [2026-06-11] Retired  size=430
+NEXT: [live]/[stored] provenance badge per node, then retire this arc
+
+### f86b2_robust_extraction  [2026-06-11] Retired  size=220
+NEXT: robust extraction, then close the shape-invariance claim
+
+### felt_time_dimensions  [2026-06-18] Retired  size=13235
+NEXT: (A) RESOLVED 2026-06-19 (the definition is written; see ParkedAt (6)): the eigenmode felt-time K_decay = gamma0/|Re lambda| = 1/(2<n_XY>) reads the mode's VALUE channel (Re lambda); the painter's alpha reads the VECTOR channel (eigenvector rotation under a deltaJ defect). The clean value/vector split holds for RIGID-dark modes (band edge, <n_XY>=1, K_decay defect-invariant) but the SOFT survivor (fractional <n_XY>) e
+
+### subsystem_crossing_general_cptp_overreach  [2026-06-22] Retired  size=4456
+NEXT: RESOLVED 2026-06-22 (second deep review, Tom-led; counterexample + Renyi forcing independently re-verified from below in simulations/review2_A5_subsystem.py and simulations/review2_A3_renyi.py). Scope-retraction applied: (a) PROOF_SUBSYSTEM_CROSSING.md theorem + Status + Step-2 header + Case C restated to the physical-noise scope (Cases A+B), with the depolarize-toward-sigma counterexample and the separable-vs-entang
+
+### subsystem_crossing_separable_fixed_point_characterization  [2026-06-22] Retired  size=2106
+NEXT: gate-first: (1) search/sample SEPARABLE 2-qubit states for CPsi = Tr(rho^2)*L1/(d-1) > 1/4 (a one-screen numpy sweep over product states + separable mixtures). If a separable state can exceed 1/4, the absorber class is NOT 'separable' -- narrow to classical (diagonal) / zero-discord and re-test. (2) If a clean iff emerges ('the 1/4 absorber holds iff the fixed point is in class X'), restate the SUBSYSTEM_CROSSING the
+
+### outbound_label_adapters  [2026-07-05] Open  size=20024
+NEXT: S3 DONE 2026-07-05: docs/outbound/STATE_TRANSFER_DECAY_STRUCTURE.md wraps QST_BRIDGE into the adapter genre (the PST-mirror-coupling vs decay-reflection label COLLISION disarmed up front, the likely misroute; three-layer falsifiable prediction: the 8gamma/3 envelope + gamma-invariant timing + the 2:1 optimum, aimed at the tunable-coupling quantum-dot platform; all transfer numbers honestly tiered simulation-only, the
+
+### two_coast_classifier_repair  [2026-08-01] Retired  size=4250
+NEXT: (a) fix the five sites in THE_PALINDROME_CLASSIFIER.md, each with its measured replacement; (b) record the sweep parameters in the doc AND in the tsv header, since the generator is gone; (c) verify, and if it holds state, the closed form a reviewer reported for the field coast's true nearest-partner distance, 2 sigma * sin^2(theta), matched to five digits at every angle checked but NOT independently confirmed here; (
+
+### ninety_degree_family_bookkeeping  [2026-08-01] Open  size=4045
+NEXT: decide each separately and from below; they are not one edit. For (1) establish whether the layer-0 string is shorthand worth keeping or a wrong assertion in a Tier-1 claim that inspect prints, and check whether anything downstream reads it. For (2) the honest repair is most likely to say F91 closed the parameter side WITH the shadow rather than with a quarter-turn, which is what the corrected half of the line alread
+
+### f91_scope_fences  [2026-08-01] Open  size=3873
+NEXT: apply (1) first and copy the fence FROM F92:103, which is already written and already claims F91 has it; that single edit is the one a reader of F91 most needs. Then (4) and (6), which are propagated retractions and therefore mechanical once the retraction is read. (2), (3) and (5) are vocabulary and want the delete-first treatment rather than reformulation. Warning from this session's eight rounds on a SIBLING docum
+
+### f115_valuation_gate_width  [2026-08-01] Open  size=3387
+NEXT: settle (1) first, because it is a COUNT inside a Tier-1 registry entry and the two readings differ by a factor of exactly 2 at every k. The test is cheap and spectral, no new theory: build all 66 diagonal-cell Mixed pairs at k=3, N=4, classify each by the OPTIMAL bottleneck at 1e-6 (simulations/two_coast_sweep.py adapts the cockpit's spectrum_pairing_error; do not use a greedy pairing here, the gap between the two is
+
+### concentrator_amplitude_signs  [2026-08-01] Open  size=4079
+NEXT: FIRST, and this outranks the sign question: make the selection WELL POSED. A review round found that the selected slow mode sits in a DOUBLY DEGENERATE eigenvalue, so 'the first SE-accessible mode' names a two-dimensional subspace and not a vector, and which basis vector comes out is whatever the eigensolver emitted first. Verified here on the IBM Torino profile at N=5: numpy gives SE ratio 1.0000 and fidelity 0.9741
+
+### f55_cavity_tier_chain  [2026-08-01] Open  size=3071
+NEXT: start at D6, because everything above it inherits from there: re-derive it or find who did, and record which. Then the tier follows almost mechanically. If D6 holds, F55's Tier 1 is fine and TRAPPED_LIGHT's self-stamp is the loose end (its Tier 4-5 preface is about the mass reading, not about K_death, which is a different scope and should say so). If D6 does not hold, F55 is UNVERIFIED-but-open, which is a demotion t
+
+### benzene_center_tier_upgrade  [2026-08-03] Retired  size=3049
+NEXT: Fresh session, and it should start by DISAGREEING with this arc rather than executing it. First question, before any editing: is 'the centre is tr/dim' a THEOREM about these systems or a restatement of 'every non-identity basis element is traceless'? If the latter, the Tier 2 line is correctly graded and this arc retires with a one-line note instead of an upgrade. Second, if it survives: does the trace route reach th
+
+### f138_clause_two_sweep  [2026-08-03] Open  size=7606
+NEXT: FIRST, AND IT IS CHEAP: put the FIELD MAGNITUDES into Stage E beside J and gamma, where they always belonged. The stage exists because 'a law tested at one point of an axis is not tested on it', and the field magnitude was the one axis that sentence did not cover; one equal-magnitude tuple would have caught it the same night. Then TILT THE AXES OFF THE LETTERS. Everything swept so far, in BOTH clauses, puts every dep
+
+### f138_converse_failures  [2026-08-03] Open  size=19920
+NEXT: READ experiments/THE_PAIRING_CONDITION.md FIRST, dated 2026-08-26 and written after the block above. It exhibits a reflector on the named row, Pi(rho) = U rho^T with U = SWAP_02 . Z_0 Z_1 Z_2, and gives a criterion scored in both directions against the exact verdict over 140861 rows: the char-poly palindrome holds iff there is an invertible U with [U,H] = 0 and U A_l U^-1 = -A_l at every dephasing site. Three things 
+
+### site_resolved_vacuum_block  [2026-08-02] Open  size=98586
+NEXT: RESUMPTION POINT (heading written 2026-08-02; APPENDED TO THROUGH 2026-08-22 without moving, so read the dated items below rather than this line). WHERE TO START AS OF 2026-08-22: class B, which now has both an instrument (the two block builders take a profile) and a law to point at (see WHAT CLASS B SHOULD POINT AT). Class A is owner-blocked on one site and cannot be advanced by a worker. The psi_opt IBM-profile ove
+
+### unfalsifiable_verification_gates  [2026-08-02] Open  size=7955
+NEXT: STILL UNFALSIFIABLE, found by review, verified, NOT fixed, in the parts this pass did not touch. verify_derivations.py: D3 prints VERIFIED when the propagation crossing is never reached, because the cross-check sits behind 'if t_Z and t_X:' and is skipped rather than failed (demonstrated at gamma = 1e-6); D4's gate is an algebraic identity, cpsi_1q = f1*(1+f1^2)/2 where f1 solves f(1+f^2) = 0.5, so it is 0.25 by cons
+
+### bit_exact_vocabulary  [2026-08-06] Open  size=40061
+NEXT: TRIAGE BY THE OBJECT, NOT BY THE SENTENCE. The word splits cleanly by what kind of quantity the row is about, which sorts the bulk without opening every backing assertion: integers, rationals, BigInteger, GF(p) ranks, exact permutation rearrangements and symbolic identities use it CORRECTLY (F4 kernel dimensions, the F89 path polynomials, Krawtchouk counts, the F94/F96/F97 algebraic derivations); anything that passed
+
+### sideways_spin_ladder  [2026-08-07] Open  size=63721
+NEXT: SECTION 6 NEEDS NOTHING, and the first draft of this entry said it needed a second leg. Its item (ii) notes that two natural shortcuts fail; that is a route-unavailability remark, not a step in the exclusion, and the exclusion itself is closed at N=5 by the fold-resultant and identity-composition certificates at every branch locus of both parities, gate RemainderR4InteriorExclusionTests. The conclusion is also immune
+
+### gamma_is_the_sender_not_the_watching  [2026-08-08] Open  size=30910
+NEXT: + + + + + + + + + + + + + + + + + + + + + + <phrase>\*.md\*.cs\*.py\ + + + + + + + + + + + + + + + + + + + ]{0,25}locus. The note at :6145 had declared the word load-bearing IN WRITING, 'because the condition is on gamma, on how one looks, not on what the thing is; the instrument reading hangs on that word'. That was the arc in miniature: the WORD'S JOB was right (the condition is on gamma, not on the object) and its
+
+### f_registry_meets_the_typed_layer  [2026-08-13] Open  size=35426
+NEXT: READ THIS FIRST, because the rest is one long paragraph and a returning session needs the shape before the detail. SEVEN steps. (1) DONE, (2) DECIDED but F145 still OPEN inside it, (3) DONE and CLOSED 2026-08-14, (4) (5) (6) (7) UNTOUCHED. ONE of the three finished steps therefore still carries live work, step (2) with F145 inside it; the headline word is about the DECISION, not about the step being empty. THE CHEAPE
+
+### compressed_density_laws  [2026-08-15] Open  size=8853
+NEXT: Sharpest first. (1) CLOSED 2026-08-15: the mixed-space law at Delta = 0, N = 8 is derived (docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md). The arc's guess was one level off in the right direction: the deciding object is not F129's triple level map but the PAIR-sum map of the comb, injective up to the chiral zeros at M = 9 (same Lam-Leung import, weight 8), and BOTH surviving one-body connections are parity-even, so
+
+### gamma_book_enforced_nowhere  [2026-08-18] Open  size=13756
+NEXT: The knowledge is complete and the enforcement is absent, so the next step is ENFORCEMENT, not more documentation. Ranked. (1) Make the book CHECKABLE rather than reconcilable. THE_LABEL_MAP's own diagnosis is 'reconciled in prose, enforced nowhere in notation', so a fourth prose reconciliation is the one move known not to work. Shortest path: extend simulations/t2_gamma_book_gate.py, which already exists and already 
+
+### corner_beat  [2026-08-19] Open  size=5301
+NEXT: This is an ablage with a WAKE-UP CONDITION, not a gravestone. (1) THE CONDITION, stated so a later session can test it in one line rather than re-deriving it: the flight becomes worth its minutes when the effective two-qubit error satisfies 970*p2_eff*f_leak < ~2.95, i.e. p2_eff below about 0.57% at the good end of the f_leak bracket and about 0.34% at the bad end, against the 0.65-1.0% the section 9 layered bracket 
+
+### polarity_break_dephase_siblings  [2026-08-19] Retired  size=3213
+NEXT: DONE 2026-08-19, see RetiredReason. (The brief this entry carried is kept below because its PREDICTION is part of the record and was half wrong; do not read it as work to do.) THE SIBLINGS. PROOF_F112_CROSS_DEPHASE_VIA_KLEIN_V4.md gives F112 X- and Y-dephase versions under the axis substitution bit_b <-> bit_a. F155's route transfers by ONE recomputation: redo the per-site swap rule (F155 Lemma 2) for pi_X and pi_Y i
+
+### substrate_q_provenance  [2026-08-22] Open  size=10306
+NEXT: FIVE, and the first is the only one that collapses the band. (1) THE ONE MISSING NUMBER: T2 of the proton coordinate in a confined hydrogen bond. J is already in the literature, so this turns 0.02 <~ Q <~ 4.6 into a value. docs/water/README.md line 179 scoped the search (a gamma_Z(T) estimate plus pump-probe IR data) months ago and deferred it. With hbar = 0.6582 meV*ps and Q = 2*J*T2/hbar: Q = 1 needs T2 = 658 fs at
+
+### the_gate_that_does_not_gate  [2026-08-22] Open  size=24365
+NEXT: ONE REMAINS; the first is DONE (2026-08-23) and carries a same-day ANNOTATION that reverses one of its own conclusions, plus the check that annotation called for, run the same day. (1) READ THE FLAT GATE PROPERLY: DONE, and it went both ways. experiments/MEDIATOR_NOISE_GATE_LEVEL_THREE.md, with the sector engine simulations/bridge_sector.py (popcount-{0,2}, 56 dims instead of 2048, calibrated to 4.9e-7 against 33 com
+
+### one_word_two_objects  [2026-08-23] Open  size=5356
+NEXT: A NAMING SWEEP, and it wants an agent rather than a grep, because the second copy is the one grep misses. (1) Every occurrence of 'V-shape', 'inverse V' and 'V-profile' across docs/, experiments/, hypotheses/ and reflections/: does it write the profile in numbers? If not it is ambiguous between two inverse objects and needs either the numbers or a pointer. (2) Decide whether the glossary definition or the experiment 

@@ -5,12 +5,12 @@
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Builds on:**
 - [the qubit necessity](../QUBIT_NECESSITY.md): the per-site split d : (d²−d) and the polynomial trunk d² − 2d = 0 that closes only at d = 2 (typed as `QubitNecessityPi2Inheritance`).
-- [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): the qubit rate law Re(λ) = −2γ·n_XY = −2γ·Hamming(i, j), the disagreement-count reading the dissipator gives the spectrum.
+- [Absorption Theorem](PROOF_ABSORPTION_THEOREM.md): a qubit Pauli cell has dissipator eigenvalue −2γn_XY, a basis coherence has n_XY=Hamming(i,j), and a full eigenmode has Re(λ)=−2γ⟨n_XY⟩.
 - [on the one diagonal](../../reflections/ON_THE_ONE_DIAGONAL.md): the dissipator IS the recentred disagreement-count diagonal; this proof is that diagonal read one dimension up.
 
 ## Abstract
 
-The **full local dark↔lit class-exchange product mirror** closes only for qubits (`d=2`); [the qubit necessity](../QUBIT_NECESSITY.md) proves this from the per-site balance `d=d²−d`, i.e. `d²−2d=0`. This is not a no-go for partial higher-dimensional palindromes: the rest of this proof constructs and counts one. For `d>2` the spectrum is not random: N=2 qutrits were observed to pair 36–52 of 81 eigenvalues, a residual structure no principle captured (OQ-002). Under full-Cartan dephasing (the complete diagonal Cartan subalgebra as jump operators), the d levels are mutually **equidistant**, so the decay rate of a coherence |i⟩⟨j| is exactly −2γ·Hamming(i, j), the **same rate ladder as the qubit**. What differs is the multiplicity per rung: the number of coherences at Hamming distance k is
+The **full local dark↔lit class-exchange product mirror** closes only for qubits (`d=2`); [the qubit necessity](../QUBIT_NECESSITY.md) proves this from the per-site balance `d=d²−d`, i.e. `d²−2d=0`. This is not a no-go for partial higher-dimensional palindromes: the rest of this proof constructs and counts one. For `d>2` the spectrum is not random: N=2 qutrits were observed to pair 36–52 of 81 eigenvalues, a residual structure no principle captured (OQ-002). Under full-Cartan dephasing (the complete diagonal Cartan subalgebra as jump operators), the d levels are mutually **equidistant**, so the dissipator eigenvalue of a coherence |i⟩⟨j| is exactly −2γ·Hamming(i,j), the **same cell ladder as the qubit**. What differs is the multiplicity per rung: the number of coherences at Hamming distance k is
 
   **c_k = d^N · C(N, k) · (d−1)^k.**
 
@@ -30,7 +30,7 @@ For the qutrit Cartan {λ₃, λ₈} this evaluates to −2 for every i ≠ j: (
 
   rate(|i⟩⟨j|) = −2γ · #{l : i_l ≠ j_l} = −2γ · Hamming(i, j),
 
-the identical ladder to the qubit's Re(λ) = −2γ·n_XY ([Absorption Theorem](PROOF_ABSORPTION_THEOREM.md)). The diagonal generators are immune (rate 0); the d² − d off-diagonal generators decay. This is the per-site d : (d²−d) split of [the qubit necessity](../QUBIT_NECESSITY.md), now read as a rung of the rate ladder.
+the identical dissipator-cell ladder to the qubit's −2γn_XY grading ([Absorption Theorem](PROOF_ABSORPTION_THEOREM.md)). The diagonal generators are immune (rate 0); the d² − d off-diagonal generators decay. A full Liouvillian eigenmode is governed by the corresponding Hilbert-Schmidt expectation, not generally by one integer Hamming label. This is the per-site d : (d²−d) split of [the qubit necessity](../QUBIT_NECESSITY.md), now read as a rung of the rate ladder.
 
 ## §2 The multiplicity tilt
 

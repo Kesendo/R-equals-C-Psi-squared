@@ -1,0 +1,23 @@
+C13 pair: monic=False W=(99, 99, 46) grid=470,000 spantime=0.0s
+C13 one prime: proved=True control=True 514.2s
+endpoint contrib built 109.1s; keys=[(0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
+Traceback (most recent call last):
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\_smoke_sweep.py", line 29, in <module>
+    pr,ctrl,secs=S.run_endpoint_prime(entries,Wend,p,do_control=(j==0))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\_grid_proof_sweep.py", line 122, in run_endpoint_prime
+    NUM = endpoint_num_span_and_eval(R, entries)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\_grid_proof_sweep.py", line 82, in endpoint_num_span_and_eval
+    dval = [_ev0(R, d, isspan) for d in distinct]
+            ^^^^^^^^^^^^^^^^^^
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\_grid_proof_sweep.py", line 100, in _ev0
+    d = CG._eval_poly(R, poly, getattr(R, "p", None), None)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\core_grid.py", line 253, in _eval_poly
+    val = R.from_mono(gcoef(c, p, ii), k[0], k[1], k[4])
+                      ^^^^^^^^^^^^^^^
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\core_grid.py", line 55, in gcoef
+    return (cr + ii * ci) % p
+                 ~~~^~~~
+TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'

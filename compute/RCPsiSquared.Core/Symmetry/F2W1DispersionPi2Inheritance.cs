@@ -27,9 +27,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Hamiltonian, dimension N, argument π·k/(N+1). Different mathematical
 /// objects in different Hamiltonians.</para>
 ///
-/// <para>Two independent validations of F2: (1) eigenvalue match &lt; 10⁻¹²,
-/// (2) SFF modulation peak
-/// at ω_1 matches to &lt;1% for N=2-4, 6.</para>
+/// <para>The eigenvalue match is &lt; 10⁻¹². Separately, the raw-SFF producer
+/// reports an FFT candidate within 1% of ω_1 at N=2-4 and N=6; it does not
+/// identify that candidate at N=5 or N=7.</para>
 ///
 /// <para>Pi2-Foundation anchors:</para>
 /// <list type="bullet">
@@ -43,8 +43,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list>
 ///
 /// <para>The (N−1) mode count comes from the N-dimensional (0,1) block under the
-/// Heisenberg commutator action (D10 step 4): the zero-frequency stationary mode
-/// is excluded, leaving N−1 oscillation modes. The π/N argument is the open
+/// Heisenberg commutator action (D10 step 4): the zero-frequency decaying mode
+/// at λ = −2γ is excluded, leaving N−1 oscillation modes. It is non-oscillatory,
+/// not stationary, for γ &gt; 0. The π/N argument is the open
 /// chain's NEUMANN boundary condition (D10 steps 3 and 5), not a dimension
 /// count.</para>
 ///
@@ -141,8 +142,8 @@ public sealed class F2W1DispersionPi2Inheritance : Claim, IZ2AxisClaim
                 summary: $"F2 IS W1Dispersion's content at the F-formula registry level. W1Dispersion at (N={W1.N}, J={W1.J}, γ={W1.GammaZero}) gives ω_1 = {W1.Frequencies[0]:G6}; F2.Frequency(N, J, 1) = {Frequency(W1.N, W1.J, 1):G6}; drift check: MatchesW1DispersionParent = {MatchesW1DispersionParent()}");
             yield return new InspectableNode("F2 vs F2b distinction",
                 summary: "F2: the (0,1) LIOUVILLIAN coherence block, Heisenberg, dim N, argument πk/N. F2b: single-excitation HAMILTONIAN, XY, dim N, argument πk/(N+1). Different operators, different sectors, different boundary conditions.");
-            yield return new InspectableNode("two independent validations",
-                summary: "(1) eigenvalue match < 10⁻¹², (2) SFF modulation peak at ω_1 < 1% N=2..4, 6");
+            yield return new InspectableNode("exact and sampled checks",
+                summary: "the block eigenvalues match D10 below 10⁻¹²; the raw-SFF producer separately reports an FFT candidate within 1% of ω_1 at N=2..4 and N=6, but not at N=5 or N=7");
             yield return new InspectableNode("verified frequencies",
                 summary: $"N=4: ω_1 = {Frequency(4, 1.0, 1):G6}, ω_2 = {Frequency(4, 1.0, 2):G6}, ω_3 = {Frequency(4, 1.0, 3):G6}; mode count = {ModeCount(4)}");
         }

@@ -9,7 +9,7 @@ namespace RCPsiSquared.Core.F86.JordanWigner;
 /// with single-particle dispersion ε_k = 2·J·cos(π·k/(N+1)).
 ///
 /// <para><b>Tier outcome: Tier1Derived.</b> Textbook XY Jordan-Wigner identity:
-/// the XY chain Hamiltonian H_XY = J·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) under JW
+/// the XY chain Hamiltonian H_XY = (J/2)·Σ_b (X_b X_{b+1} + Y_b Y_{b+1}) under JW
 /// transformation yields free fermions whose single-particle eigenstates are these sine
 /// modes with the cosine dispersion. The witnesses:</para>
 /// <list type="bullet">

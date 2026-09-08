@@ -47,28 +47,28 @@ public class AbsorptionTheoremClaimRegistrationTests
     }
 
     [Fact]
-    public void RegisterAbsorptionTheoremClaim_AbsorptionQuantumCoefficientIsTwo()
+    public void RegisterAbsorptionTheoremClaim_DissipatorCoefficientIsTwo()
     {
         var registry = BuildBaseRegistry()
             .RegisterAbsorptionTheoremClaim()
             .Build();
 
         Assert.Equal(2.0,
-            registry.Get<AbsorptionTheoremClaim>().AbsorptionQuantumCoefficient,
+            registry.Get<AbsorptionTheoremClaim>().DissipatorCoefficient,
             precision: 14);
     }
 
     [Theory]
     [InlineData(0.05, 0.1)]
     [InlineData(1.0, 2.0)]
-    public void RegisterAbsorptionTheoremClaim_AbsorptionQuantumAcrossRegistry(double gammaZero, double expected)
+    public void RegisterAbsorptionTheoremClaim_SingleDisagreementCellCostAcrossRegistry(double gammaZero, double expected)
     {
         var registry = BuildBaseRegistry()
             .RegisterAbsorptionTheoremClaim()
             .Build();
 
         Assert.Equal(expected,
-            registry.Get<AbsorptionTheoremClaim>().AbsorptionQuantum(gammaZero),
+            registry.Get<AbsorptionTheoremClaim>().SingleDisagreementCellCost(gammaZero),
             precision: 12);
     }
 

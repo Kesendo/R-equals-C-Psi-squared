@@ -1,0 +1,96 @@
+
+====================================================================
+MODEL: Heisenberg (the flown H)
+====================================================================
+
+--- C  (maximizing, flown)   gamma = [2, 0, 0, 2, 2, 0], gamma-bar = 1
+    on the R90 locus (x -> 2*avg - reverse): True
+    kernel dims of (M - lam0)^k at u = 3: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 7: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 13: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    eps^0, eps^1, eps^2 vanish identically, over every prime: [True, True, True]
+    cofactor degree in u: 30 (the proof's N(N-1) = 30)
+    largest |coefficient| 949978046398464 against the CRT modulus 28269553036454145521783675972190872566292745786183585687971407929201188831 (ratio 6.721e-59, so no wrap)
+    J = 0 root multiplicity in w = u^2: 14; reduced g(w) degree 1
+    g(w) = 474989023199232*(w + 2)
+    exceptional coupling: Q* = sqrt(2) = 1.414213562   (distance to the flown Q = 10: 8.585786)
+      kernel dims AT it (exact, mod 2305843009213693921): [3, 4, 4, 4]  -> geometric 3, algebraic 4, Jordan blocks: 2 of size 1, 1 of size 2
+      kernel dims at a neighbour: [3, 3, 3, 3]
+    AT THE FLOWN POINT Q = 10 (float, since conditioning is not an exact question):
+      frozen modes 3; eigenvalue condition numbers [1.134, 1.183, 1.1]
+      separation to the nearest other eigenvalue 0.667171
+      weight of the frozen modes on the POPULATION cells: ['4.61e-15', '4.08e-15', '1.66e-15']
+
+--- C' (non-maximizing, flown)   gamma = [2, 2, 2, 0, 0, 0], gamma-bar = 1
+    on the R90 locus (x -> 2*avg - reverse): True
+    kernel dims of (M - lam0)^k at u = 3: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 7: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 13: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    eps^0, eps^1, eps^2 vanish identically, over every prime: [True, True, True]
+    cofactor degree in u: 30 (the proof's N(N-1) = 30)
+    largest |coefficient| 19703248369745920 against the CRT modulus 28269553036454145521783675972190872566292745786183585687971407929201188831 (ratio 1.394e-57, so no wrap)
+    J = 0 root multiplicity in w = u^2: 12; reduced g(w) degree 3
+    g(w) = 17592186044416*(27*w**3 + 594*w**2 + 288*w + 1120)
+    exceptional coupling: Q* = sqrt(2)*sqrt(-CRootOf(27*x**3 + 297*x**2 + 72*x + 140, 0)) = 4.647043040   (distance to the flown Q = 10: 5.352957)
+      kernel dims AT it (exact, mod 2305843009213693951): [3, 4, 4, 4]  -> geometric 3, algebraic 4, Jordan blocks: 2 of size 1, 1 of size 2
+      kernel dims at a neighbour: [3, 3, 3, 3]
+    AT THE FLOWN POINT Q = 10 (float, since conditioning is not an exact question):
+      frozen modes 3; eigenvalue condition numbers [1.508, 1.383, 1.687]
+      separation to the nearest other eigenvalue 0.672808
+      weight of the frozen modes on the POPULATION cells: ['4.16e-15', '1.97e-15', '2.80e-15']
+
+--- U  (uniform, control)   gamma = [1, 1, 1, 1, 1, 1], gamma-bar = 1
+    on the R90 locus (x -> 2*avg - reverse): True
+    kernel dims of (M - lam0)^k at u = 3: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 7: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 13: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    eps^0, eps^1, eps^2 vanish identically, over every prime: [True, True, True]
+    cofactor degree in u: 30 (the proof's N(N-1) = 30)
+    largest |coefficient| 474989023199232 against the CRT modulus 28269553036454145521783675972190872566292745786183585687971407929201188831 (ratio 3.360e-59, so no wrap)
+    J = 0 root multiplicity in w = u^2: 15; reduced g(w) degree 0
+    g(w) = 474989023199232
+    NO real nonzero exceptional coupling
+
+====================================================================
+MODEL: XY (no ZZ)
+====================================================================
+
+--- C  (maximizing, flown)   gamma = [2, 0, 0, 2, 2, 0], gamma-bar = 1
+    on the R90 locus (x -> 2*avg - reverse): True
+    kernel dims of (M - lam0)^k at u = 3: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 7: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 13: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    eps^0, eps^1, eps^2 vanish identically, over every prime: [True, True, True]
+    cofactor degree in u: 30 (the proof's N(N-1) = 30)
+    largest |coefficient| 1125899906842624 against the CRT modulus 28269553036454145521783675972190872566292745786183585687971407929201188831 (ratio 7.965e-59, so no wrap)
+    J = 0 root multiplicity in w = u^2: 12; reduced g(w) degree 3
+    g(w) = 4398046511104*(49*w**3 + 224*w**2 + 256*w + 256)
+    exceptional coupling: Q* = 2*sqrt(-CRootOf(49*x**3 + 56*x**2 + 16*x + 4, 0)) = 1.872530299   (distance to the flown Q = 10: 8.127470)
+      kernel dims AT it (exact, mod 2305843009213693921): [3, 4, 5, 5]  -> geometric 3, algebraic 5, Jordan blocks: 2 of size 1, 1 of size 3
+      kernel dims at a neighbour: [3, 3, 3, 3]
+
+--- C' (non-maximizing, flown)   gamma = [2, 2, 2, 0, 0, 0], gamma-bar = 1
+    on the R90 locus (x -> 2*avg - reverse): True
+    kernel dims of (M - lam0)^k at u = 3: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 7: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 13: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    eps^0, eps^1, eps^2 vanish identically, over every prime: [True, True, True]
+    cofactor degree in u: 30 (the proof's N(N-1) = 30)
+    largest |coefficient| 9007199254740992 against the CRT modulus 28269553036454145521783675972190872566292745786183585687971407929201188831 (ratio 6.372e-58, so no wrap)
+    J = 0 root multiplicity in w = u^2: 12; reduced g(w) degree 3
+    g(w) = 4398046511104*(49*w**3 + 392*w**2 - 560*w + 2048)
+    exceptional coupling: Q* = 2*sqrt(-CRootOf(49*x**3 + 98*x**2 - 35*x + 32, 0)) = 3.104212033   (distance to the flown Q = 10: 6.895788)
+      kernel dims AT it (exact, mod 2305843009213693921): [3, 4, 5, 5]  -> geometric 3, algebraic 5, Jordan blocks: 2 of size 1, 1 of size 3
+      kernel dims at a neighbour: [3, 3, 3, 3]
+
+--- U  (uniform, control)   gamma = [1, 1, 1, 1, 1, 1], gamma-bar = 1
+    on the R90 locus (x -> 2*avg - reverse): True
+    kernel dims of (M - lam0)^k at u = 3: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 7: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    kernel dims of (M - lam0)^k at u = 13: [3, 3, 3, 3]   (a control point, not a real coupling: u = i*J)
+    eps^0, eps^1, eps^2 vanish identically, over every prime: [True, True, True]
+    cofactor degree in u: 30 (the proof's N(N-1) = 30)
+    largest |coefficient| 215504279044096 against the CRT modulus 28269553036454145521783675972190872566292745786183585687971407929201188831 (ratio 1.525e-59, so no wrap)
+    J = 0 root multiplicity in w = u^2: 15; reduced g(w) degree 0
+    g(w) = 215504279044096
+    NO real nonzero exceptional coupling

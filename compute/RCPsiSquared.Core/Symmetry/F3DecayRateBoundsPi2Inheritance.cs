@@ -25,7 +25,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         ⟨n_XY⟩ ≈ N−1.</item>
 ///   <item><b>bandwidth = 2·(N−2)·γ:</b> max − min = 2·(N−1)·γ − 2·γ.</item>
 ///   <item><b>XOR boundary = 2·N·γ:</b> the XOR drain (⟨n_XY⟩ = N) sits at
-///         2·N·γ, above the max range. Identical to F43's XorSectorRate.</item>
+///         2·N·γ, above the max range. Identical to F43's endpoint-partner rate.</item>
 /// </list>
 ///
 /// <para><b>Caveat resolved (Hamiltonian mixing):</b> below the coupling
@@ -45,12 +45,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         the appropriate weight count (1, N−1, N−2, N). Live from
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(0). Same anchor as F1
 ///         TwoFactor, F50 DecayRateFactor, F33 WeightOneRateCoefficient,
-///         F43 XorRateCoefficient, F44 SumCoefficient.</item>
+///         F43 ReflectionCoefficient, F44 SumCoefficient.</item>
 /// </list>
 ///
 /// <para>Tier1Derived: F3 is a Tier 1 corollary of the Absorption Theorem
 /// α = 2γ·⟨n_XY⟩; min rate IS F50's universal weight-1 eigenvalue position;
-/// XOR boundary IS F43's XOR-sector rate. F3 is composition of F50 + Pi2DyadicLadder
+/// XOR boundary IS F43's endpoint-partner rate. F3 is composition of F50 + Pi2DyadicLadder
 /// + Absorption Theorem.</para>
 ///
 /// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F3 +
@@ -117,7 +117,7 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
 
     /// <summary>The XOR drain boundary rate 2·N·γ. Sits ABOVE the F3 max range
     /// (the XOR drain has ⟨n_XY⟩ = N, exceeding paired-mode N−1). Identical to
-    /// F43's XorSectorRate at the same N, γ.</summary>
+    /// F43's EndpointPartnerRate at the same N, γ.</summary>
     public double XorBoundary(int N, double gammaZero)
     {
         ValidateN(N);
@@ -212,8 +212,8 @@ public sealed class F3DecayRateBoundsPi2Inheritance : Claim, IZ2AxisClaim
             yield return InspectableNode.RealScalar("RateCoefficient (= a_0 = 2)", RateCoefficient);
             yield return new InspectableNode("F50 inheritance (min rate)",
                 summary: $"F3's min rate = 2γ IS F50's |EigenvaluePosition|. F50.DecayRateFactor (= {F50.DecayRateFactor}) is the same '2' as F3's RateCoefficient.");
-            yield return new InspectableNode("F43 sibling (XOR boundary)",
-                summary: "F3's XOR boundary 2Nγ IS F43's XorSectorRate(N, γ); both anchor the same a_0·N·γ structure at the high end of the rate spectrum");
+            yield return new InspectableNode("F43 sibling (endpoint boundary)",
+                summary: "F3's 2Nγ endpoint IS F43's EndpointPartnerRate(N, γ); both anchor the same a_0·N·γ structure at the high end of the rate spectrum");
             yield return new InspectableNode("hybrid-mode caveat",
                 summary: "below Q*_gap(N) (0.50/0.80/1.34/1.82 at N=2..5, Pauli-J) Hamiltonian mixing creates hybrid modes with rates below 2γ (at Q=1.0: N=4: 0.98γ, N=5: 0.62γ); these are not exceptions; they have fractional ⟨n_XY⟩ < 1; α = 2γ·⟨n_XY⟩ holds exactly");
             yield return new InspectableNode("verified at N=5, γ=0.05",

@@ -237,7 +237,7 @@ d = d²−d. This holds only when
 d²−2d=0. No other dimension satisfies the condition. Within the
 framework, no entity with d>2 or non-integer d exists.
 
-**Source:** [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) (the counting argument); the typed [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) records the d=2 selection from d²−2d=0 with d=1 algebraically excluded; closes any "d=anything-else" loophole that would have been needed for a non-qubit noise source within the framework. The same polynomial is the c=0 case of F95's universal quadratic angle formula θ(c; b) ([formula registry](../ANALYTICAL_FORMULAS.md), F95), which tracks what happens when it is perturbed off the degenerate axis.
+**Source:** [QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md) (the counting argument); the typed [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) records the d=2 selection from d²−2d=0 with d=1 algebraically excluded; closes any "d=anything-else" loophole that would have been needed for a non-qubit noise source within the framework. The same polynomial is the c=0 case of F95's finite-positive-b quadratic angle formula θ(c; b) ([formula registry](../ANALYTICAL_FORMULAS.md), F95), which tracks what happens when it is perturbed off the degenerate axis.
 
 **Conclusion:** Eliminated by the framework's own algebra.
 

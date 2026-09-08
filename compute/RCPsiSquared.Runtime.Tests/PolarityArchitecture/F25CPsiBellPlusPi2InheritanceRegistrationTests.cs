@@ -46,7 +46,7 @@ public class F25CPsiBellPlusPi2InheritanceRegistrationTests
             .Select(c => c.GetType()).ToHashSet();
 
         Assert.Contains(typeof(Pi2DyadicLadderClaim), ancestors);
-        // Rung-2 edge (2026-06-10): the Bell+ rate 4γ is two absorption quanta,
+        // Rung-2 edge (2026-06-10): the Bell+ rate 4γ equals the two-disagreement basis-cell cost,
         // per-site −2(γ₁+γ₂) exact.
         Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
     }

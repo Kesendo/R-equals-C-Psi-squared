@@ -1,0 +1,12 @@
+scout: exceptional couplings per block, numeric pencil  (dim cap 4000)
+  N   block    dim  ker   m count  roots
+  8   (3,3)   3136    4   4    40  0.588116743, 0.786987040, 0.790268421, 0.816346485, 0.848211149, 0.872035876, 0.873481303, 0.882070171, 0.882119589, 0.903448138, 0.904818497, 0.925923970, 0.971851305, 0.993647107, 1.046123913, 1.064797985, 1.071013304, 1.072783595, 1.080527296, 1.137722977, 1.267591001, 1.295793066, 1.301302882, 1.322550898, 1.347071511, 1.370608235, 1.628906260, 1.638929272, 1.664511951, 1.678130627, 1.800001160, 1.848286140, 2.149110356, 2.283445500, 2.299970654, 2.346465765, 2.430256352, 2.443355634, 3.430561535, 4.572266053   (547.9 s)
+      every one of the 40 verified by a sign bracket; worst phase stray 0.0e+00; loosest accepted z^2 offset 3.7e-14
+      REJECTED J = 0.000285 (cluster 2, z^2 offset 1.7e-04): inside the z = 0 smear
+
+validation against the exact gate: [(5, None), (6, None), (7, None)] vs [(5, 3), (6, 6), (7, 11)]  -> agrees
+the sequence on block (2,2): []
+  parity quadratics      fits   []
+  floor(((N-2)^2-3)/2)   fits   []
+  (N-4)^2 + 2            fits   []
+  binom(N-2,2)           fits   []

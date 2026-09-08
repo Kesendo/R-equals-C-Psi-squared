@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Entropy Production in the Palindromic Liouvillian
-===================================================
-Phase 1: Entropy production rate σ(t) and decay rate pairing
-Phase 2: Jarzynski-like test (⟨exp(-Δd)⟩ over pairs)
-Phase 3: Crooks-like rate ratio test
-Phase 4: Fragile bridge efficiency (if Phase 1-3 clear)
-Phase 5: CΨ = 1/4 and occupation number variance
+Algebraic and Dynamical Diagnostics of the Palindromic Liouvillian
+===================================================================
+Phase 1: Decay-rate pairing and state-dependent entropy trajectories
+Phase 2: Descriptive exponential transforms of paired rate differences
+Phase 3: Descriptive rate-ratio regression
+Phase 4: Formal balanced gain-loss generator diagnostics
+Phase 5: CΨ and sampled occupation-number variance
 
 Script: simulations/entropy_production.py
 Output: simulations/results/entropy_production.txt
@@ -14,6 +14,7 @@ Output: simulations/results/entropy_production.txt
 
 import numpy as np
 from scipy.linalg import eigvals, eig, expm, logm
+from scipy.optimize import brentq
 import os, sys, time as clock
 
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -116,8 +117,8 @@ def relative_entropy(rho, sigma):
     return np.real(np.trace(rho @ (ln_rho - ln_sigma)))
 
 
-def entropy_production_rate(L, rho0, t):
-    """σ(t) = dS/dt = -Tr(L[ρ(t)] ln ρ(t))."""
+def von_neumann_entropy_rate(L, rho0, t):
+    """State-dependent dS/dt = -Tr(L[rho(t)] ln rho(t))."""
     d2 = L.shape[0]
     d = int(np.sqrt(d2))
     rho = evolve_rho(L, rho0, t)
@@ -161,17 +162,17 @@ def palindromic_pairs(eigenvalues, sigma_gamma):
 
 # ========================================================================
 log("=" * 72)
-log("ENTROPY PRODUCTION IN THE PALINDROMIC LIOUVILLIAN")
+log("ALGEBRAIC AND DYNAMICAL DIAGNOSTICS OF THE PALINDROMIC LIOUVILLIAN")
 log(f"Started: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
 log("=" * 72)
 
 
 # ========================================================================
-# PHASE 1: ENTROPY PRODUCTION AND DECAY RATE PAIRING
+# PHASE 1: DECAY-RATE PAIRING AND STATE-DEPENDENT ENTROPY TRAJECTORIES
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 1: DECAY RATE PAIRING AND ENTROPY PRODUCTION")
+log("PHASE 1: DECAY-RATE PAIRING AND STATE-DEPENDENT ENTROPY TRAJECTORIES")
 log("=" * 72)
 log()
 
@@ -199,16 +200,15 @@ for N in [2, 3, 4]:
     log(f"    Rate pair sums: mean={np.mean(rate_sums):.6f},"
         f" std={np.std(rate_sums):.2e} (should be 2Σγ={2*sigma_gamma:.3f})")
 
-    # σ(t) trajectory for Bell+ initial state
+    # State-dependent trajectory: Bell+ at N=2, |0...0> pointer/H eigenstate otherwise.
     rho0 = np.zeros((d, d), dtype=complex)
-    # Bell+ for N=2, W state for N>2
     if N == 2:
         psi = np.array([1, 0, 0, 1], dtype=complex) / np.sqrt(2)
         rho0 = np.outer(psi, psi.conj())
     else:
         rho0[0, 0] = 1.0  # |0...0⟩
 
-    rho_ss = np.eye(d, dtype=complex) / d
+    rho_ref = np.eye(d, dtype=complex) / d
 
     n_t = 50
     times = np.linspace(0.01, 30, n_t)
@@ -219,18 +219,18 @@ for N in [2, 3, 4]:
 
     for ti, t in enumerate(times):
         rho_t = evolve_rho(L, rho0, t)
-        sigma_arr[ti] = entropy_production_rate(L, rho0, t)
+        sigma_arr[ti] = von_neumann_entropy_rate(L, rho0, t)
         S_arr[ti] = von_neumann_entropy(rho_t)
-        D_arr[ti] = relative_entropy(rho_t, rho_ss)
+        D_arr[ti] = relative_entropy(rho_t, rho_ref)
         P_arr[ti] = np.real(np.trace(rho_t @ rho_t))
 
     # dD/dt should be -σ
     dD_dt = np.gradient(D_arr, times)
 
-    log(f"    σ(t=0.01) = {sigma_arr[0]:.6f}")
-    log(f"    σ peak = {np.max(sigma_arr):.6f} at t = {times[np.argmax(sigma_arr)]:.2f}")
-    log(f"    σ(t→∞) → {sigma_arr[-1]:.6f}")
-    log(f"    D(ρ||ρ_ss): {D_arr[0]:.4f} → {D_arr[-1]:.4f}")
+    log(f"    dS/dt at t=0.01 = {sigma_arr[0]:.6f}")
+    log(f"    largest sampled dS/dt = {np.max(sigma_arr):.6f} at t = {times[np.argmax(sigma_arr)]:.2f} (50-point grid)")
+    log(f"    dS/dt at t=30 = {sigma_arr[-1]:.6f}")
+    log(f"    D(ρ||I/d), chosen I/d reference: {D_arr[0]:.4f} → {D_arr[-1]:.4f}")
     log(f"    Purity: {P_arr[0]:.4f} → {P_arr[-1]:.4f}"
         f" (1/d = {1/d:.4f})")
     log(f"    ({clock.time()-t0:.1f}s)")
@@ -238,15 +238,15 @@ for N in [2, 3, 4]:
 
 
 # ========================================================================
-# PHASE 2: JARZYNSKI-LIKE TEST
+# PHASE 2: EXPONENTIAL TRANSFORMS OF PAIRED DECAY-RATE DIFFERENCES
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 2: JARZYNSKI-LIKE TEST")
+log("PHASE 2: EXPONENTIAL TRANSFORMS OF PAIRED DECAY-RATE DIFFERENCES")
 log("=" * 72)
 log()
-log("  Test: ⟨exp(-(d_fast - d_slow))⟩ = ? over palindromic pairs")
-log("  where d_fast + d_slow = 2Σγ for each pair.")
+log("  Descriptive averages over palindromic decay-rate pairs.")
+log("  The algebraic decay-rate pair sum d_fast+d_slow=2Σγ is not a thermodynamic entropy-production scale.")
 log()
 
 for N in [2, 3, 4, 5]:
@@ -264,36 +264,38 @@ for N in [2, 3, 4, 5]:
         d_j = -ev[j].real
         d_fast = max(d_i, d_j)
         d_slow = min(d_i, d_j)
-        if d_fast > 1e-10:  # exclude zero-rate pairs
-            delta_d.append(d_fast - d_slow)
+        # Phase 2 intentionally retains every palindrome pair, including the
+        # stationary/max-rate endpoint pairs with d_slow = 0.  Phase 3 below is
+        # the separate positive-rate population used by the logarithmic identity.
+        delta_d.append(d_fast - d_slow)
 
     if len(delta_d) == 0:
         continue
 
     delta_d = np.array(delta_d)
 
-    # Jarzynski-like averages
+    # Descriptive exponential transforms; no fluctuation-theorem interpretation.
     exp_neg = np.mean(np.exp(-delta_d))
     exp_neg_norm = np.mean(np.exp(-delta_d / (2 * sigma_gamma)))
 
-    log(f"  N={N} ({len(delta_d)} nonzero pairs, Σγ={sigma_gamma:.3f}):")
+    log(f"  N={N} ({len(delta_d)} all palindrome pairs, Σγ={sigma_gamma:.3f}):")
     log(f"    Δd range: [{np.min(delta_d):.4f}, {np.max(delta_d):.4f}]")
     log(f"    ⟨Δd⟩ = {np.mean(delta_d):.4f}")
-    log(f"    ⟨exp(-Δd)⟩ = {exp_neg:.6f}  (Jarzynski = 1?)")
+    log(f"    ⟨exp(-Δd)⟩ = {exp_neg:.6f}  (descriptive)")
     log(f"    ⟨exp(-Δd / 2Σγ)⟩ = {exp_neg_norm:.6f}  (normalized)")
     log()
 
 
 # ========================================================================
-# PHASE 3: CROOKS-LIKE RATE RATIO
+# PHASE 3: DESCRIPTIVE RATE-RATIO REGRESSION
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 3: CROOKS-LIKE RATE RATIO")
+log("PHASE 3: DESCRIPTIVE RATE-RATIO REGRESSION")
 log("=" * 72)
 log()
 log("  For each pair: ln(d_fast / d_slow) vs (d_fast - d_slow)")
-log("  Crooks form: ln(P_F/P_R) = β(W - ΔF)")
+log("  This is a numerical regression of decay-rate pairs, not a temperature fit.")
 log()
 
 for N in [3, 4, 5]:
@@ -331,18 +333,18 @@ for N in [3, 4, 5]:
     log(f"    Linear fit: ln(d_fast/d_slow) = {a:.4f}·Δd + {b:.4f}")
     log(f"    Residual: {residual:.4f}")
     if residual < 0.1 * np.std(log_ratios):
-        log(f"    Good fit → Crooks-like: β_eff = {a:.4f}")
+        log(f"    residual is small relative to this sample's log-ratio spread")
     else:
-        log(f"    Poor fit → no simple Crooks form")
+        log(f"    residual is not small relative to this sample's log-ratio spread")
     log()
 
 
 # ========================================================================
-# PHASE 4: FRAGILE BRIDGE EFFICIENCY
+# PHASE 4: FORMAL BALANCED GAIN-LOSS GENERATOR
 # ========================================================================
 log()
 log("=" * 72)
-log("PHASE 4: FRAGILE BRIDGE ENERGY FLOW")
+log("PHASE 4: FORMAL BALANCED GAIN-LOSS GENERATOR")
 log("=" * 72)
 log()
 
@@ -354,11 +356,10 @@ L_fb = build_coupled_liouvillian(N_chain, gamma_fb, J=1.0, J_bridge=J_br)
 ev_fb = eigvals(L_fb)
 d_fb = 2**(2 * N_chain)
 
-# At Σγ = 0: eigenvalues pair as λ ↔ -λ
-# Entropy production: the gain side CREATES order, loss side destroys it
-# Net: should be zero at Σγ = 0 (no net dissipation in balanced system)
+# At Σγ = 0 the algebraic spectrum pairs as λ ↔ -λ. Negative dephasing rates
+# make this a formal generator, not a completely positive physical channel.
 
-# Initial state: Bell pair across the bridge
+# Initial state: four-qubit GHZ/cat coherence spanning both chains.
 psi_fb = np.zeros(d_fb, dtype=complex)
 psi_fb[0] = 1.0 / np.sqrt(2)  # |0000⟩
 psi_fb[d_fb - 1] = 1.0 / np.sqrt(2)  # |1111⟩
@@ -370,36 +371,20 @@ for ti, t in enumerate(times_fb):
     rho_t = evolve_rho(L_fb, rho0_fb, t)
     S_fb[ti] = von_neumann_entropy(rho_t)
 
+log("  Initial state: four-qubit GHZ/cat coherence (|0000⟩+|1111⟩)/sqrt(2)")
 log(f"  Fragile bridge: N=2/chain, γ=±{gamma_fb}, J_bridge={J_br}")
-log(f"  Σγ = 0 (gain-loss balanced)")
-log(f"  S(0) = {S_fb[0]:.4f}")
-log(f"  S(t=10) = {S_fb[len(times_fb)//2]:.4f}")
-log(f"  S(t=20) = {S_fb[-1]:.4f}")
-log(f"  S_max = {np.log(d_fb):.4f} (maximally mixed)")
+log(f"  Σγ = 0 (algebraic rate-profile sum)")
+log("  Scope: formal gain-loss generator is not a physical Lindblad channel.")
+log(f"  positive-eigenvalue entropy diagnostic at t=0.01: {S_fb[0]:.4f}")
+log(f"  positive-eigenvalue entropy diagnostic at t≈10: {S_fb[len(times_fb)//2]:.4f}")
+log(f"  positive-eigenvalue entropy diagnostic at t=20: {S_fb[-1]:.4f}")
+log(f"  ln(d) reference = {np.log(d_fb):.4f}")
 log()
-
-# At Σγ = 0 with chiral symmetry: the system oscillates
-# (eigenvalues on imaginary axis). No net entropy production.
-# This IS the second law: a perfectly balanced gain-loss system
-# neither creates nor destroys entropy.
 
 max_re = np.max(ev_fb.real)
 log(f"  Max Re(λ) = {max_re:.2e} ({'stable' if max_re < 1e-6 else 'UNSTABLE'})")
-log(f"  All eigenvalues on imaginary axis: chiral phase.")
-log(f"  No net entropy production in balanced gain-loss system.")
-
-# Effective temperature
-# For dephasing at rate γ: T_eff ~ ℏω / (k_B ln(1 + 1/n̄))
-# At infinite temperature: n̄ → ∞, T → ∞
-# The dephasing IS infinite temperature. No Carnot efficiency definable
-# in the standard sense (T_hot = T_cold = ∞).
-log()
-log("  Carnot efficiency: NOT DEFINABLE.")
-log("  Z-dephasing is an infinite-temperature bath (ρ_ss = I/d).")
-log("  Both chains have T_eff = ∞. Carnot η = 1 - T_cold/T_hot = 0.")
-log("  The palindromic system is not a heat engine; it is a")
-log("  balanced gain-loss oscillator. No work extraction possible")
-log("  from a time-independent Hamiltonian (Alicki 1979).")
+log(f"  Eigenvalue real-part range: [{np.min(ev_fb.real):.2e}, {np.max(ev_fb.real):.2e}]")
+log("  No bath temperature, steady-state uniqueness, efficiency, or thermodynamic entropy-production conclusion is inferred.")
 
 
 # ========================================================================
@@ -408,11 +393,10 @@ log("  from a time-independent Hamiltonian (Alicki 1979).")
 log()
 log()
 log("=" * 72)
-log("PHASE 5: CΨ = 1/4 AND MAXIMUM FLUCTUATION")
+log("PHASE 5: CΨ AND SAMPLED OCCUPATION VARIANCE")
 log("=" * 72)
 log()
-log("  Question: Is CΨ = 1/4 the point of maximum occupation variance?")
-log("  Fermi: ⟨(n-⟨n⟩)²⟩ = f(1-f), max = 1/4 at f = 1/2.")
+log("  Compare the sampled CΨ=1/4 crossing time with the sampled variance maximum.")
 log()
 
 for N in [2, 3]:
@@ -446,38 +430,44 @@ for N in [2, 3]:
             total_var += exp_n2 - exp_n**2
         var_arr[ti] = total_var / N  # per-qubit average
 
-    # Find CΨ = 1/4 crossing
-    cross_idx = None
+    # Bracket and refine the CΨ = 1/4 crossing.  Reporting the left grid
+    # endpoint as the crossing biases this coarse 200-point scan by one bin.
+    cross_bracket = None
     for k in range(len(cpsi_arr) - 1):
         if cpsi_arr[k] > 0.25 and cpsi_arr[k + 1] <= 0.25:
-            cross_idx = k
+            cross_bracket = (times_c[k], times_c[k + 1])
             break
 
-    # Find max variance
-    max_var_idx = np.argmax(var_arr)
-
     log(f"  N={N}:")
-    if cross_idx is not None:
-        log(f"    CΨ crosses 1/4 at t ≈ {times_c[cross_idx]:.2f}")
-        log(f"    Var at CΨ crossing: {var_arr[cross_idx]:.6f}")
+    if cross_bracket is not None:
+        crossing = brentq(
+            lambda t: compute_cpsi(evolve_rho(L, rho0, t)) - 0.25,
+            *cross_bracket)
+        rho_cross = evolve_rho(L, rho0, crossing)
+        crossing_var = 0.0
+        for k in range(N):
+            Zk = op_n(sz, k, N)
+            nk = (np.eye(d) - Zk) / 2
+            exp_n = np.real(np.trace(nk @ rho_cross))
+            exp_n2 = np.real(np.trace(nk @ rho_cross @ nk))
+            crossing_var += exp_n2 - exp_n**2
+        crossing_var /= N
+        log(f"    sampled crossing bracket: [{cross_bracket[0]:.4f}, {cross_bracket[1]:.4f}]")
+        log(f"    refined CΨ=1/4 crossing: t = {crossing:.6f}")
+        log(f"    variance at refined crossing: {crossing_var:.6f}")
     else:
         log(f"    CΨ does not cross 1/4")
 
-    log(f"    Max variance: {var_arr[max_var_idx]:.6f}"
-        f" at t = {times_c[max_var_idx]:.2f}")
+    variance_span = np.ptp(var_arr)
+    log(f"    sampled variance range: [{np.min(var_arr):.6f}, {np.max(var_arr):.6f}]")
+    if variance_span <= 1e-10:
+        log("    sampled variance is constant; no peak time is defined")
+    else:
+        max_var_idx = np.argmax(var_arr)
+        log(f"    largest sampled variance: {var_arr[max_var_idx]:.6f}"
+            f" at t = {times_c[max_var_idx]:.2f}")
     log(f"    Theoretical max (f(1-f)): 0.250000")
     log()
-
-    if cross_idx is not None and max_var_idx > 0:
-        t_cross = times_c[cross_idx]
-        t_maxvar = times_c[max_var_idx]
-        log(f"    CΨ crossing at t={t_cross:.2f},"
-            f" max variance at t={t_maxvar:.2f}")
-        if abs(t_cross - t_maxvar) < 2 * (times_c[1] - times_c[0]):
-            log(f"    *** COINCIDENT: CΨ = 1/4 IS the max fluctuation point!")
-        else:
-            log(f"    Not coincident (Δt = {abs(t_cross - t_maxvar):.2f})")
-        log()
 
 
 # ========================================================================
@@ -488,21 +478,17 @@ log("=" * 72)
 log("SUMMARY")
 log("=" * 72)
 log()
-log("Phase 1: Decay rate pairing d_k + d_k' = 2Σγ confirmed exactly")
-log("  (from palindrome proof). Entropy production σ(t) peaks early,")
-log("  decays to 0 as ρ → ρ_ss. Not decomposable per mode (ln ρ")
-log("  mixes all amplitudes nonlinearly).")
+log("Phase 1: The algebraic decay-rate pair sum d_k+d_k'=2Σγ is checked")
+log("  separately from the state-dependent, grid-sampled dS/dt trajectory.")
+log("  I/d is a chosen I/d reference, not a uniquely selected steady state.")
 log()
-log("Phase 2: Jarzynski-like ⟨exp(-Δd)⟩ computed. Value depends on N")
-log("  and the rate distribution. NOT identically 1. No exact")
-log("  fluctuation theorem from the palindromic pairing alone.")
+log("Phase 2: Exponential transforms of paired rate differences are reported")
+log("  descriptively; 2Σγ is not a thermodynamic entropy-production scale.")
 log()
-log("Phase 3: Crooks-like ln(d_fast/d_slow) vs Δd.")
-log("  If linear: effective β extracted. Data determines quality.")
+log("Phase 3: ln(d_fast/d_slow) vs Δd is a descriptive linear regression.")
 log()
-log("Phase 4: Carnot efficiency NOT DEFINABLE. Z-dephasing = infinite")
-log("  temperature bath. No temperature gradient, no heat engine.")
-log("  Balanced gain-loss: entropy oscillates, no net production.")
+log("Phase 4: The formal gain-loss generator is not a physical Lindblad channel;")
+log("  only its computed spectrum and sampled matrix-evolution diagnostics are reported.")
 log()
 log("Phase 5: CΨ = 1/4 and occupation variance.")
 log("  Whether they coincide: the data speaks.")

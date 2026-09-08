@@ -10,10 +10,10 @@ inside dissipation , you only approach it.
 That is where it continues. To REACH the pure circle you have to slow the Takt itself: slide the
 net dephasing Sigma-gamma from N*gamma0 (Takt running, memory fades) toward 0 (Takt stopped, decay
 0, the memory becomes eternal, theta = 90deg), and past it into net GAIN (decay < 0, Re > 0, the
-memory GROWS , the Hopf bifurcation, the runaway). This is the far end of the two-ends-of-the-Takt
+linear amplitude GROWS). This is the far end of the two-ends-of-the-Takt
 dial, the "exit": the memory's fate runs fading -> eternal -> growing.
 
-A toy that makes the arc visible; the real gain-loss Hopf is hypotheses/FRAGILE_BRIDGE.md.
+A toy that makes the arc visible; for FRAGILE_BRIDGE, EP, Hopf, and Jordan character remain OPEN.
 """
 import numpy as np
 
@@ -59,11 +59,11 @@ def main():
         elif abs(f) <= 1e-9:
             fate = "ETERNAL (pure circle, theta=90deg)"
         else:
-            fate = "GROWS  (Hopf / runaway)"
+            fate = "GROWS  (linear gain)"
         print(f"  {f:13.2f}  {re:10.3f}  {amp_per_turn:11.4f}   {fate}")
     print("  => Takt full (Sigma=Ngamma0): amp/turn 0.04, the memory fades fast. Takt stopped")
     print("     (Sigma=0): amp/turn 1.000, the memory is eternal (the pure circle). Net gain")
-    print("     (Sigma<0): amp/turn > 1, the memory GROWS , the Hopf, the runaway screech.")
+    print("     (Sigma<0): amp/turn > 1, the linear amplitude GROWS.")
     print("\n  The arc: forgetting -> pinch (EP) -> remembering (born fading) -> [the exit] ->")
     print("  eternal (Sigma=0) -> growing (gain). The local EP only points here; the Takt's far")
     print("  end (FRAGILE_BRIDGE) is where the memory's story actually finishes , or refuses to.")

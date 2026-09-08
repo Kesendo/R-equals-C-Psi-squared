@@ -44,8 +44,8 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<F39DetPiPi2Inheritance>());
             z2AxisClaims.Add(b.Get<F3DecayRateBoundsPi2Inheritance>());
             z2AxisClaims.Add(b.Get<F41PalindromicTimePi2Inheritance>());
-            z2AxisClaims.Add(b.Get<F43SectorSffPairingPi2Inheritance>());
-            z2AxisClaims.Add(b.Get<F44CrooksLikeRateIdentityPi2Inheritance>());
+            z2AxisClaims.Add(b.Get<F43BandSffPairingPi2Inheritance>());
+            z2AxisClaims.Add(b.Get<F44AlgebraicPairRateLogIdentityPi2Inheritance>());
             z2AxisClaims.Add(b.Get<F49Pi2Inheritance>());
             z2AxisClaims.Add(b.Get<F49bCenteredDissipatorPi2Inheritance>());
             z2AxisClaims.Add(b.Get<F49cShadowCrossingPi2Inheritance>());

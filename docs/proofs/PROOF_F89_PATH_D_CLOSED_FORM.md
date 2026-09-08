@@ -121,7 +121,7 @@ where c_n = ⟨v_n | ρ_flat⟩ is the overlap of the normalized eigenvector v_n
 
 F89 has two layers, and the Absorption Theorem ([`PROOF_ABSORPTION_THEOREM.md`](PROOF_ABSORPTION_THEOREM.md)) governs only one of them.
 
-**Eigenvalue layer: primitive, closed, Tier-1-Derived.** The AT-lock `λ_n = −2γ₀ + i·y_n` (Setting, above; γ₀ is the uniform dephasing rate written γ there) is the Absorption Theorem read at ⟨n_XY⟩ = 1: the overlap-subspace F_a modes are Hamming-distance-1 coherences, so `Re(λ) = −2γ₀·⟨n_XY⟩ = −2γ₀` exactly. The real part is γ₀; the imaginary part is the Bloch dispersion y_n. Both are spectral primitives. The closure that holds *absolutely* on this layer is F89c, the Hamming-complement pair-sum: a column bit-flip `ρ[a,b] → ρ[a,b̄]` sends ⟨n_XY⟩ = n_diff to N − n_diff, so `α(|a⟩⟨b|) + α(|a⟩⟨b̄|) = 2γ₀·N` exactly, the spectral maximum, Tier-1-Derived, built from γ₀ and the integer count alone. It is the F89 instance of the palindromic sum rule.
+**Eigenvalue layer: primitive, closed, Tier-1-Derived.** The AT-lock `λ_n = −2γ₀ + i·y_n` (Setting, above; γ₀ is the uniform dephasing rate written γ there) is the Absorption Theorem read at ⟨n_XY⟩ = 1: these overlap-subspace F_a eigenmodes stay on the Hamming-distance-1 cell rung, so `Re(λ) = −2γ₀·⟨n_XY⟩ = −2γ₀` exactly. The real part is set by γ₀; the imaginary part is the Bloch dispersion y_n. Both are spectral primitives. The Hamming identity alone says that the column bit flip `ρ[a,b] → ρ[a,b̄]` complements the **dissipator cell costs**, n_diff → N−n_diff. F89c's full-block column-flip relation also transports the Hamiltonian part; that stronger identity yields the spectral pair-sum `α+α'=2γ₀N`. It is the F89 instance of the palindromic sum rule.
 
 **Amplitude layer: residue, Tier-1-Derived.** `σ_n = P_k(y_n) / [D_k·N²(N−1)]` is not an eigenvalue. The numerator `P_k(y_n)` is built from the y primitive, a polynomial in the Bloch dispersion. `D_k` is the denominator of an eigenvector-derived amplitude: neither an eigenvalue, nor a rate, nor γ₀, nor y. D_k is the F89 analogue of F86's g_eff: a non-primitive, downstream of a projection. The amplitude layer reduces to the primitive basis via the Chebyshev-expansion + orbit-polynomial-reduction pipeline (see § "Tier-1-Derived closure" below). The structural parallel to F86's g_eff ([`PROOF_F86B_OBSTRUCTION.md`](PROOF_F86B_OBSTRUCTION.md) § "The diagnosis") remains, but for D_k the algebraic route exists.
 
@@ -333,7 +333,7 @@ The closed form D_k = odd(k)²·2^{E(k)} with E(k) = max(0,⌊(k-5)/2⌋) + v2(k
 
 ## F89c amplitude-layer pair-sum analogue: NOT universal (2026-05-15 probe)
 
-`simulations/f89c_amplitude_pair_sum_probe.py` tests whether σ_n + σ_{k+2−n} (chiral pair under the involution y_n ↔ y_{k+2−n} = −y_n) carries a closed-form structure that mirrors F89c's eigenvalue pair-sum AbsorptionTheoremClaim.HammingComplementPairSum on the amplitude layer.
+`simulations/f89c_amplitude_pair_sum_probe.py` tests whether σ_n + σ_{k+2−n} (chiral pair under the involution y_n ↔ y_{k+2−n} = −y_n) carries a closed-form structure analogous to F89c's full-block spectral pair-sum. The current Absorption-Theorem helper `AbsorptionTheoremClaim.HammingComplementCellCostSum` supplies only the basis-cell cost sum 2γN; the spectral F89c statement additionally uses the Hamiltonian transport in the full-block column-flip relation.
 
 Empirical finding (k=4, 6, 8):
 - k=4: pair (2, 4) → σ_2 + σ_4 = 1/8. Rational. Denominator 2³ ≠ structurally tied to D_4 = 4.
@@ -342,7 +342,7 @@ Empirical finding (k=4, 6, 8):
 
 Algebraic mechanism: σ_n + σ_{k+2−n} = 2·P_even(y_n)/[D·N²(N−1)] where P_even is the even-degree part of P_path. Rational iff y_n² rational, i.e. iff cos²(πn/(k+2)) rational. By Niven's theorem, cos²(2πn/m) is rational only for m ∈ {1, 2, 3, 4, 6}; the chiral-pair-sum reduction therefore yields a clean rational closed form only at k ∈ {2, 4} (m = k+2 ∈ {4, 6}) plus the accidental k=6 (m=8 where cos²(π/4) = 1/2 happens to be rational).
 
-Conclusion: the F89c eigenvalue pair-sum identity does NOT extend universally to an amplitude pair-sum identity. The only universal rational structure on the amplitude layer is the orbit-sum Σ_n σ_n (Galois-invariant via Newton's identities on the cyclotomic minimal polynomial of y_n), which is already typed as `F89UnifiedFaClosedFormClaim.SigmaSum`. The amplitude layer's structure is genuinely richer than F89c's pair-sum form; D_k closure must come from a finer route than chiral pairing.
+Conclusion: the F89c full-block spectral pair-sum identity does NOT extend universally to an amplitude pair-sum identity. The only universal rational structure on the amplitude layer is the orbit-sum Σ_n σ_n (Galois-invariant via Newton's identities on the cyclotomic minimal polynomial of y_n), which is already typed as `F89UnifiedFaClosedFormClaim.SigmaSum`. The amplitude layer's structure is richer than F89c's pair-sum form; D_k closure must come from a finer route than chiral pairing.
 
 ### Tier-1-Derived closure achieved via Chebyshev pipeline (2026-05-15)
 

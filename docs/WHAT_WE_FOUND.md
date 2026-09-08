@@ -403,14 +403,13 @@ times the mode's mean light content. Here ⟨n_XY⟩ counts how many X/Y
 Pauli factors the mode contains on average, weighted by its eigenvector
 decomposition.
 
-Think of it this way: the spectrum is a ladder. Each rung is spaced by
-2γ, the absorption quantum. A mode sitting on rung k has ⟨n_XY⟩ ≈ k,
-meaning k of its Pauli factors are "light" (X or Y, sensitive to
-dephasing) and the rest are "lens" (I or Z, immune to dephasing). The
-Hamiltonian smooths the ladder (⟨n_XY⟩ can be non-integer because the
-Hamiltonian mixes weight sectors). It cannot change the fundamental
-quantum 2γ, which belongs to the dissipator; the endpoints it can
-change, since which rungs get occupied is the Hamiltonian's business
+The dissipator is diagonal in the Pauli-cell basis: a cell of integer XY
+weight k has cost 2γk, so those **cell costs** form a 2γ-spaced ladder.
+A full Liouvillian eigenmode instead has the expectation ⟨n_XY⟩_v,
+which Hamiltonian mixing can make non-integer. Its interacting decay rate
+therefore need not lie on a 2γ grid. The coefficient 2γ belongs to the
+dissipator, while the Hamiltonian determines which expectations and endpoints
+the eigenmodes realize
 (a generic Hermitian H does not reach 2Nγ; the zero is not its to
 move, since L always annihilates the identity, so 0 is in every
 spectrum, but a generic H leaves it only one-dimensional instead of
@@ -538,7 +537,7 @@ What survives even without the philosophy:
 - [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-range-centre): when the F1 palindromizer holds and reaches both spectral endpoints, the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
 - [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation gives spectral boundaries, factor 2 and the palindromic sum rule a common reading within the number-conserving family; the spectral gap it relocates rather than derives (2γ only above a coupling threshold). Verified on 1,342 modes, CV = 0
 - [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
-- [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): coupled gain-loss systems have a finite stability window (Hopf bifurcation, γ_crit × J_bridge = 0.50)
+- [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): the sampled coupled gain-loss systems have a finite stability window and a spectral-abscissa axis departure (EP character OPEN); the sampled maximum is bracketed at J_bridge/J in [1.8, 2.0], and γ_crit × J_bridge reaches 0.508 at J_bridge=100 without establishing a limiting constant
 
 These are concrete findings. They do not require accepting any
 philosophical framework to be useful.
@@ -595,17 +594,19 @@ gain-loss system), the two sides can balance each other. But only within
 a limited range. Too much gain and the system explodes: the state diverges
 exponentially.
 
-The mechanism is a Hopf bifurcation (the point where a stable system
-suddenly starts oscillating, like a microphone that starts screeching
-when the gain is turned up too far). This is the Liouvillian analog of
-chiral symmetry breaking (a transition where the mirror pairing between
-eigenvalues collapses: Π forces λ ↔ −λ pairing at Σγ = 0; eigenvalues
-leave the imaginary axis at γ_crit; see
-[PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)). Three
-regimes emerge: a linear region (small gain, everything stable), an
-optimal region (twice the internal coupling), and a 1/J region (stability
-shrinks as bridge coupling increases). The product of the critical gain
-and the bridge coupling approaches a constant: 0.50.
+At γ_crit the spectral abscissa becomes positive and off-axis quartets appear,
+producing an oscillating linear instability in the sampled modes. The current
+producer independently selects max Re at each γ; it does not continue a branch
+or execute a strict threshold coalescence or Jordan-rank
+certificate. The axis departure is established; EP and Hopf character remain OPEN.
+The exact Π relation and λ ↔ −λ pairing at Σγ = 0 survive this transition; the
+axis departure is not a loss of that mirror
+([PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)). Three
+sampled regimes emerge: a weak-bridge power-law trend, a maximum bracketed at
+J_bridge/J in [1.8, 2.0], and a large-J_bridge region compatible with 1/J_bridge
+scaling over the executed range. The product γ_crit × J_bridge decreases from
+0.578 at J_bridge=10 to 0.508 at J_bridge=100; the sweep has not converged and
+does not determine its limiting value.
 
 ([Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md))
 

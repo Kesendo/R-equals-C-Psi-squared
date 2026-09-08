@@ -1,0 +1,18 @@
+# MKL: active, MaxDegreeOfParallelism = 24
+# pkmono: path-3 monodromy = Galois (generalises the path-3 octic S_8 off path-3)
+# q0=2+0.000i, region re[0.4,1.8] im[-0.02,0.02], cell=0.001
+
+# DIABOLIC HUNT path-3 (N_block=4) [EXACT: residual = complement of the AT invariant subspace, no tracking]: scan q in re[0.4,1.8] im[-0.02,0.02], cell=0.001, q=0 mask 0.20
+# coverage: at region-centre q=1.1+0.000i the block Re(lambda) spans [-6.00, -2.00] (AT rung-2 line = -4; palindrome centre = -N = -4)
+
+5 coalescence(s):
+  q=0.4602-0.000i  lambda=-4.000-1.633i  defective EP  gap=5.48E-004 loopId=False residual=True gap-exponent=0.48
+  q=0.6590+0.000i  lambda=-4.000+1.318i  DIABOLIC (semisimple)  gap=8.52E-008 loopId=True residual=True gap-exponent=0.99
+  q=0.8544-0.000i  lambda=-4.000-1.239i  defective EP  gap=5.96E-004 loopId=False residual=True gap-exponent=0.34
+  q=0.8575+0.000i  lambda=-4.000-1.565i  defective EP  gap=3.48E-004 loopId=False residual=True gap-exponent=0.37
+  q=1.7382-0.000i  lambda=-4.000+9.136i  defective EP  gap=3.74E-005 loopId=False residual=True gap-exponent=0.50
+
+# GATES (zeros_connecting_structure forward edge):
+  Q1 EXISTENCE: PASS - 1 semisimple residual diabolic(s).
+  Q2 LOCATION: q=0.6590, Re(lambda)=-4.000 -> Re=-4 = -N: the N=4 TRIPLE COINCIDENCE (AT rung-2 = palindrome centre = self-fold). Expected at path-3.
+  Q3 CHARACTER: semisimple confirmed (gap-exponent 0.99 ~1 linear; identity loop=True).

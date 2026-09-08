@@ -1,0 +1,43 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  RCPsiSquared.Core -> D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core\bin\Release\net10.0\RCPsiSquared.Core.dll
+  RCPsiSquared.Compute -> D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Compute\bin\Release\net10.0\RCPsiSquared.Compute.dll
+  RCPsiSquared.Core.Tests -> D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\bin\Release\net10.0\RCPsiSquared.Core.Tests.dll
+Test run for D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\bin\Release\net10.0\RCPsiSquared.Core.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\bin\Release\net10.0\RCPsiSquared.Core.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.11)
+[xUnit.net 00:00:00.05]   Discovering: RCPsiSquared.Core.Tests
+[xUnit.net 00:00:00.47]   Discovered:  RCPsiSquared.Core.Tests
+[xUnit.net 00:00:00.48]   Starting:    RCPsiSquared.Core.Tests
+[xUnit.net 02:12:05.61]     N=8 (1,4) scout: F_res parity reads exact over ℤ[i], R-even (the first (p,4) block read) [FAIL]
+[xUnit.net 02:12:05.62]       DERIVED: the ket fold leg fixes (p, N/2) = (p,4) at N = 8, so F_res must be even about Λ₀ = −2N; a failure here says the self-fold does NOT act within the R-sector at this block, which would be a finding about the fold lattice, not about this code
+[xUnit.net 02:12:05.62]       Stack Trace:
+[xUnit.net 02:12:05.62]         D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\F89PathK\Disc14N8ScoutTests.cs(88,0): at RCPsiSquared.Core.Tests.F89PathK.Disc14N8ScoutTests.N8_Weight14_Scout_SturmScoutParityReads()
+[xUnit.net 02:12:05.62]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+[xUnit.net 02:12:05.62]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 02:12:05.62]       Output:
+[xUnit.net 02:12:05.62]         N8 (1,4) R-even: real=False even=False qEven=False atDeg=56 resDeg=224 mDeg=-1 fDeg=218 vQf=0 square=False uDeg=-1 uReal=False compId=False
+[xUnit.net 02:12:05.62]         DECISION: F_res COMPLEX at (1,4)@N=8 => the gauge, not the self-fold, was what made (1,3)@N=6 real, and this block needs the ℚ(i) treatment the (1,2)@N=8 fork retired
+[xUnit.net 02:12:05.63]   Finished:    RCPsiSquared.Core.Tests
+  Failed N=8 (1,4) scout: F_res parity reads exact over ℤ[i], R-even (the first (p,4) block read) [2 h 12 m]
+  Error Message:
+   DERIVED: the ket fold leg fixes (p, N/2) = (p,4) at N = 8, so F_res must be even about Λ₀ = −2N; a failure here says the self-fold does NOT act within the R-sector at this block, which would be a finding about the fold lattice, not about this code
+  Stack Trace:
+     at RCPsiSquared.Core.Tests.F89PathK.Disc14N8ScoutTests.N8_Weight14_Scout_SturmScoutParityReads() in D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\compute\RCPsiSquared.Core.Tests\F89PathK\Disc14N8ScoutTests.cs:line 88
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Standard Output Messages:
+ N8 (1,4) R-even: real=False even=False qEven=False atDeg=56 resDeg=224 mDeg=-1 fDeg=218 vQf=0 square=False uDeg=-1 uReal=False compId=False
+ DECISION: F_res COMPLEX at (1,4)@N=8 => the gauge, not the self-fold, was what made (1,3)@N=6 real, and this block needs the ℚ(i) treatment the (1,2)@N=8 fork retired
+
+
+
+Test Run Failed.
+Total tests: 1
+     Failed: 1
+ Total time: 2,2017 Hours
+
+real	132m7.726s
+user	0m0.015s
+sys	0m0.015s

@@ -187,39 +187,15 @@ public static class XxzCoherenceBlock
     public static EpCharacter.Reading CharacterAt(int n, Complex q, double delta, Complex lambda, double radius)
         => EpCharacter.Characterize(BuildSym(n, q, delta), lambda, radius);
 
-    /// <summary>One Δ-track datum: the character of the coalescence nearest qSeed at this Δ, with the
-    /// refined q*, the merge λ*, and the min gap. <paramref name="gap"/> &gt; liftTol ⟹ the degeneracy has
-    /// LIFTED (no EP nearby); otherwise Kind/Geometric/Departure read defective-vs-diabolic.</summary>
-    public readonly record struct DeltaFlipReading(
-        EpCharacter.EpKind Kind, int Algebraic, int Geometric, double Departure, double ProjectorNorm,
-        Complex QStar, Complex LambdaStar, double Gap);
-
-    /// <summary>Re-locate the coalescence nearest qSeed at this Δ (GapRefine on the symmetric-sector min-gap,
-    /// since Δ shifts the diabolic) and characterize it with an adaptive radius (enclosing only the pair).
-    /// The Δ&gt;0 datum of the flip test: at the N=4 q_EP this reads DIABOLIC at Δ=0 and DEFECTIVE at Δ&gt;0
-    /// (the committed f89_zz_break_gate.py table). <paramref name="lambdaSeed"/> is the expected merge λ
-    /// (advisory; the refiner finds the coalescence by gap).</summary>
-    public static DeltaFlipReading CharacterAtDiabolicNear(
+    /// <summary>Propose a nearby coalescence, then use the same strict full-block certificate as
+    /// <see cref="TrackDiabolicUnderDelta"/>. The caller's lambdaSeed must isolate a pair at Delta=0;
+    /// the candidate must remain in that isolation disk, coincide within the independent 1e-6 bound,
+    /// and have isolated algebraic-2 Diabolic/Defective character. Otherwise the result is Uncertified,
+    /// with unavailable character and unknown survival. A search null never certifies lifting.
+    /// This full-spectrum locator is unsupported at N&gt;=7 and returns Uncertified there.</summary>
+    public static DeltaTrackResult CharacterAtDiabolicNear(
         int n, double delta, Complex qSeed, Complex lambdaSeed, double cell = 0.01)
-    {
-        Func<Complex, Complex[]> roots = qq => SeDeSymSpectrum(n, qq, delta);
-        var qd = PathKMonodromyScout.GapRefine(roots, qSeed, cell);
-        var spec = roots(qd);
-        int ai = 0, bi = 1; double best = double.PositiveInfinity;
-        for (int i = 0; i < spec.Length; i++)
-            for (int j = i + 1; j < spec.Length; j++)
-            {
-                double g = (spec[i] - spec[j]).Magnitude;
-                if (g < best) { best = g; ai = i; bi = j; }
-            }
-        var mid = (spec[ai] + spec[bi]) / 2;
-        double distOther = double.PositiveInfinity;
-        for (int i = 0; i < spec.Length; i++)
-            if (i != ai && i != bi) distOther = Math.Min(distOther, (spec[i] - mid).Magnitude);
-        double radius = Math.Clamp(0.4 * distOther, 0.05, 0.5);
-        var r = EpCharacter.Characterize(BuildSym(n, qd, delta), mid, radius);
-        return new DeltaFlipReading(r.Kind, r.Algebraic, r.Geometric, r.Departure, r.ProjectorNorm, qd, mid, best);
-    }
+        => TrackDiabolicUnderDelta(n, qSeed, lambdaSeed, delta, boxHalf: 0, boxCell: cell);
 
     // The residualOnly Δ-track (N>=6) with LOCAL continuity, so the box scan + descent never re-track from the
     // base per probe (the nested O(boxScan x trackSteps) cost). Anchor the residual roots at qSeed once (one
@@ -229,7 +205,7 @@ public static class XxzCoherenceBlock
     // geo/alg via EpCharacter on the full block at the candidate pair's
     // midpoint with an AT-aware radius (nearest non-pair eigenvalue over the FULL block).
     private static DeltaTrackResult TrackDiabolicUnderDeltaResidual(
-        int n, Complex qSeed, double delta, double boxHalf, double boxCell, double coalesceTol, double depTol, int trackSteps)
+        int n, Complex qSeed, Complex lambdaSeed, double seedRadius, double delta, double boxHalf, double boxCell, int trackSteps)
     {
         int k = n - 1;
         var anchor = ResidualRootsTrackedXxz(k, qSeed, delta, trackSteps);
@@ -277,36 +253,21 @@ public static class XxzCoherenceBlock
             }
             if (moved) { center = best; curGap = bestGap; cur = bestRoots; } else half /= 2;
         }
-        double refined = PathKMonodromyScout.MinGap(cur);
-        if (refined > coalesceTol)
-            return new DeltaTrackResult(DeltaFlipVerdict.Lifted, 0, 0, double.NaN, center, Complex.Zero, refined);
-        // character: closest residual pair -> midpoint; AT-aware radius over the FULL block; EpCharacter (geo/alg).
-        int ai = 0, bi = 1; double bb = double.PositiveInfinity;
-        for (int i = 0; i < cur.Length; i++)
-            for (int j = i + 1; j < cur.Length; j++)
-            { double g = (cur[i] - cur[j]).Magnitude; if (g < bb) { bb = g; ai = i; bi = j; } }
-        var mid = (cur[ai] + cur[bi]) / 2;
-        var ds = SeDeSymSpectrum(n, center, delta).Select(z => (z - mid).Magnitude).OrderBy(x => x).ToArray();
-        double radius = ds.Length > 2 ? Math.Clamp(0.4 * ds[2], 0.05, 0.5) : 0.1;
-        var rr2 = EpCharacter.Characterize(BuildSym(n, center, delta), mid, radius);
-        var verdict = (rr2.Geometric == rr2.Algebraic && rr2.Departure < depTol)
-            ? DeltaFlipVerdict.Diabolic : DeltaFlipVerdict.Defective;
-        return new DeltaTrackResult(verdict, rr2.Algebraic, rr2.Geometric, rr2.Departure, center, mid, bb);
+        // The search proposes q only. Select the pair by the supplied seed, never an unrelated global minimum.
+        var pair = cur.OrderBy(z => (z - lambdaSeed).Magnitude).Take(2).ToArray();
+        var mid = (pair[0] + pair[1]) / 2;
+        return CertifyFullBlockProposal(BuildSym(n, center, delta), center, mid, lambdaSeed, seedRadius);
     }
 
-    // The exact-residual Δ-track (the N=7/path-6 fix): the residual roots are the EXACT complement-compression
-    // (PathKMonodromyScout.ResidualRootsExactXxz), a direct function of q - no anchor, no continuity tracking, so
-    // the F_53 AT-degeneracy flood that breaks ResidualRootsTrackedXxz at k=6 cannot manufacture spurious gap-0
-    // coalescences. Box scan + local descent on the exact residual min-gap locate q*(Δ); the character (geo/alg)
-    // is read on the FULL block (BuildSym) with an AT-aware radius, identically to the tracked residual path.
-    private static DeltaTrackResult TrackDiabolicUnderDeltaExact(
-        int n, Complex qSeed, double delta, double boxHalf, double boxCell, double coalesceTol, double depTol)
+    // Compression supplies proposals only: its fixed Delta=0 AT complement need not remain invariant.
+    // A small compressed gap never certifies a full-block coalescence or a defect/lift verdict.
+    private static DeltaTrackResult TrackDiabolicUnderDeltaCompressed(
+        int n, Complex qSeed, Complex lambdaSeed, double seedRadius, double delta, double boxHalf, double boxCell)
     {
         int k = n - 1;
-        Func<Complex, Complex[]> resRoots = q => PathKMonodromyScout.ResidualRootsExactXxz(k, q, delta);
+        Func<Complex, Complex[]> resRoots = q => PathKMonodromyScout.ResidualRootsCompressedXxz(k, q, delta);
 
-        // box scan re-finds the coalescence region under the Δ-shift on the EXACT residual min-gap (AT-free, a
-        // pure function of q - no anchor, no continuity tracking, so the F_53 AT flood cannot corrupt it).
+        // Box scan and refinement minimize the compressed proposal gap, not a full-block gap.
         double boxMin = double.PositiveInfinity; Complex boxArg = qSeed;
         int steps = Math.Max(1, (int)Math.Round(2 * boxHalf / boxCell));
         for (int ir = 0; ir <= steps; ir++)
@@ -316,67 +277,111 @@ public static class XxzCoherenceBlock
                 double g = PathKMonodromyScout.MinGap(resRoots(q));
                 if (g < boxMin) { boxMin = g; boxArg = q; }
             }
-        // GapRefine on the exact residual min-gap from the box-min resolves the √-cusp; the refined gap (not the
-        // grid-min) decides LIFT, identically to the non-residual path.
         var qd = PathKMonodromyScout.GapRefine(resRoots, boxArg, boxCell);
         var cur = resRoots(qd);
-        double refined = PathKMonodromyScout.MinGap(cur);
-        if (refined > coalesceTol)
-            return new DeltaTrackResult(DeltaFlipVerdict.Lifted, 0, 0, double.NaN, qd, Complex.Zero, refined);
 
-        // character: the coalescing pair is read from the RESIDUAL roots (the full spectrum is AT-flooded at N>=6,
-        // so its closest pair is an AT crossing, not the diabolic); the EpCharacter radius and the geo/alg reading
-        // are on the FULL block (BuildSym) with an AT-aware radius, exactly as the tracked residual path.
+        // Select the full-block pair nearest the proposal midpoint, not the full spectrum's global minimum.
         int ai = 0, bi = 1; double bb = double.PositiveInfinity;
         for (int i = 0; i < cur.Length; i++)
             for (int j = i + 1; j < cur.Length; j++)
             { double g = (cur[i] - cur[j]).Magnitude; if (g < bb) { bb = g; ai = i; bi = j; } }
         var mid = (cur[ai] + cur[bi]) / 2;
-        var ds = SeDeSymSpectrum(n, qd, delta).Select(z => (z - mid).Magnitude).OrderBy(x => x).ToArray();
-        double radius = ds.Length > 2 ? Math.Clamp(0.4 * ds[2], 0.05, 0.5) : 0.1;
-        var rr = EpCharacter.Characterize(BuildSym(n, qd, delta), mid, radius);
-        var verdict = (rr.Geometric == rr.Algebraic && rr.Departure < depTol)
-            ? DeltaFlipVerdict.Diabolic : DeltaFlipVerdict.Defective;
-        return new DeltaTrackResult(verdict, rr.Algebraic, rr.Geometric, rr.Departure, qd, mid, bb);
+        return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);
+    }
+
+    // Numerical coincidence/correspondence floor in the gamma=1 generator's eigenvalue units.
+    // This is independent of caller-controlled proposal-search tolerances, not an exact rank proof.
+    internal const double FullBlockCoincidenceTolerance = 1e-6;
+
+    internal static DeltaFlipVerdict CertifiedCharacterVerdict(EpCharacter.EpKind kind) => kind switch
+    {
+        EpCharacter.EpKind.Diabolic => DeltaFlipVerdict.Diabolic,
+        EpCharacter.EpKind.Defective => DeltaFlipVerdict.Defective,
+        _ => DeltaFlipVerdict.Uncertified
+    };
+
+    internal static DeltaTrackResult CertifyFullBlockProposal(Matrix<Complex> block, Complex qd, Complex mid,
+        Complex? lambdaSeed = null, double seedRadius = double.PositiveInfinity)
+    {
+        var full = block.Evd().EigenValues.OrderBy(z => (z - mid).Magnitude).ToArray();
+        double fullGap = (full[0] - full[1]).Magnitude;
+        // Both roots must correspond to the proposed midpoint; an unrelated coincident AT pair is no certificate.
+        if (lambdaSeed.HasValue && !((mid - lambdaSeed.Value).Magnitude < seedRadius)
+            || !double.IsFinite(fullGap) || fullGap > FullBlockCoincidenceTolerance
+            || !((full[0] - mid).Magnitude <= FullBlockCoincidenceTolerance)
+            || !((full[1] - mid).Magnitude <= FullBlockCoincidenceTolerance))
+            return new DeltaTrackResult(DeltaFlipVerdict.Uncertified, 0, 0, double.NaN, qd, mid, fullGap);
+        mid = (full[0] + full[1]) / 2;
+        var ds = full.Select(z => (z - mid).Magnitude).OrderBy(x => x).ToArray();
+        double radius = ds.Length > 2 ? Math.Min(0.4 * ds[2], 0.5) : 0.1;
+        if (!(radius > 2 * ds[1]))
+            return new DeltaTrackResult(DeltaFlipVerdict.Uncertified, 0, 0, double.NaN, qd, mid, fullGap);
+        var rr = EpCharacter.Characterize(block, mid, radius);
+        var verdict = rr.Algebraic == 2 ? CertifiedCharacterVerdict(rr.Kind) : DeltaFlipVerdict.Uncertified;
+        if (verdict == DeltaFlipVerdict.Uncertified)
+            return new DeltaTrackResult(verdict, 0, 0, double.NaN, qd, mid, fullGap);
+        return new DeltaTrackResult(verdict, rr.Algebraic, rr.Geometric, rr.Departure, qd, mid, fullGap);
     }
 
     /// <summary>The verdict of a Δ-track step. DIABOLIC = the coalescence survives semisimply (geo=alg,
     /// dep≈0); DEFECTIVE = it persists as a Jordan EP (geo&lt;alg); LIFTED = the degeneracy is gone (no
-    /// coalescence in the local q-box). This is a finite-N Delta response, compared with a defective
+    /// coalescence in the local q-box, requiring a separate exclusion certificate; this tracker does not
+    /// issue LIFTED from a search null). This is a finite-N Delta response, compared with a defective
     /// control and consistent with the conditional residual mechanism. DEFECTIVE or LIFTED at a sampled
     /// nonzero Δ does not alone prove causality or all-N protection. DIABOLIC survival would falsify
-    /// the defect-or-lift prediction at that sampled locus and Δ.</summary>
-    public enum DeltaFlipVerdict { Diabolic, Defective, Lifted }
+    /// the defect-or-lift prediction at that sampled locus and Δ.
+    /// UNCERTIFIED means no corresponding isolated full-block coincident pair or no definite
+    /// Diabolic/Defective character was certified numerically. It is neither survival nor death.
+    /// Algebraic/Geometric=0 and Departure=NaN then denote unavailable character, not measured multiplicities.</summary>
+    public enum DeltaFlipVerdict { Diabolic, Defective, Lifted, Uncertified }
 
     public sealed record DeltaTrackResult(
         DeltaFlipVerdict Verdict, int Algebraic, int Geometric, double Departure,
-        Complex QStar, Complex LambdaStar, double Gap)
+        Complex QCandidate, Complex LambdaCandidate, double Gap)
     {
-        public bool Survived => Verdict == DeltaFlipVerdict.Diabolic;
+        /// <summary>True only for a certified Diabolic character; false is not a death verdict.</summary>
+        public bool IsCertifiedDiabolic => Verdict == DeltaFlipVerdict.Diabolic;
+
+        /// <summary>True for Diabolic, false for Defective/Lifted, null for Uncertified (unknown).</summary>
+        public bool? Survived => Verdict switch
+        {
+            DeltaFlipVerdict.Diabolic => true,
+            DeltaFlipVerdict.Defective or DeltaFlipVerdict.Lifted => false,
+            _ => null
+        };
     }
 
-    /// <summary>Track the coalescence near qSeed at this Δ and classify it. R-4: a 2D q-BOX scan re-finds the
-    /// region (not GapRefine-from-previous, which assumes continuity), THEN GapRefine from the box-minimum to
-    /// resolve the cusp — this is essential because a DEFECTIVE EP is a √-branch (a SHARP cusp a coarse grid
-    /// overshoots, so the box-grid-min alone overestimates the gap and reads a false LIFT; the descent drives
-    /// a real coalescence's gap → 0, while a genuine LIFT stays at a shallow min above coalesceTol). Then read
-    /// geo vs alg (the load-bearing discriminant, R-3): refined gap &gt; coalesceTol ⟹ LIFTED (degeneracy
-    /// gone); else geo=alg ∧ dep≈0 ⟹ DIABOLIC (survives), geo&lt;alg ⟹ DEFECTIVE. Box ±boxHalf (the path-4
-    /// diabolics' nearest neighbour is ~0.1 away, so ±0.04 is safe).</summary>
+    /// <summary>Search near qSeed at this Δ, then certify an isolated full-block pair, not a search null.
+    /// For every proposal path, lambdaSeed selects the candidate within its initial
+    /// Delta=0 isolation disk (half the distance from lambdaSeed to the third eigenvalue).
+    /// Leaving that disk is Uncertified, not a claim of identity transport or non-existence.
+    /// Default/residual modes at N&gt;=7 are Uncertified because the dense AT spectrum invalidates their locator.
+    /// The legacy exact flag selects compressed proposals, not an invariant residual restriction.
+    /// All paths ignore legacy coalesceTol/depTol for certification: both full-block roots must lie within
+    /// 1e-6 of the proposal midpoint and each other (gamma=1 units), an isolated pair must be enclosed,
+    /// and EpCharacter must return Diabolic or Defective; otherwise Uncertified, with unknown survival.</summary>
     public static DeltaTrackResult TrackDiabolicUnderDelta(int n, Complex qSeed, Complex lambdaSeed, double delta,
         double boxHalf = 0.04, double boxCell = 0.008, double coalesceTol = 1e-3, double depTol = 1e-6,
         bool residualOnly = false, int trackSteps = 160, bool exact = false)
     {
-        // exact (the N=7/path-6 fix): locate the residual coalescence on the EXACT complement-compression residual
-        // roots (PathKMonodromyScout.ResidualRootsExactXxz), a pure function of q with no continuity tracking, so the
-        // F_53 AT-degeneracy flood that breaks the tracked residual path at k=6 cannot corrupt the gap field.
-        if (exact)
-            return TrackDiabolicUnderDeltaExact(n, qSeed, delta, boxHalf, boxCell, coalesceTol, depTol);
+        var seedPair = SeDeSymSpectrum(n, qSeed, delta).OrderBy(z => (z - lambdaSeed).Magnitude).Take(2).ToArray();
+        if (n >= 7 && !exact)
+            return new DeltaTrackResult(DeltaFlipVerdict.Uncertified, 0, 0, double.NaN, qSeed,
+                lambdaSeed, (seedPair[0] - seedPair[1]).Magnitude);
+        var seedDistances = SeDeSymSpectrum(n, qSeed, 0).Select(z => (z - lambdaSeed).Magnitude).OrderBy(x => x).ToArray();
+        double seedRadius = seedDistances.Length > 2 ? .5 * seedDistances[2] : double.PositiveInfinity;
+        if (!(seedDistances[1] < seedRadius))
+            return new DeltaTrackResult(DeltaFlipVerdict.Uncertified, 0, 0, double.NaN, qSeed,
+                lambdaSeed, (seedPair[0] - seedPair[1]).Magnitude);
 
-        // residualOnly (N>=6): scan the residual strands only, so the box scan + refine cannot be captured by the
-        // AT-locked exact degeneracies that crowd the full sym block at N>=6 (the local-tracking variant below).
+        // Compressed proposals use the same caller-seed isolation disk as every other path.
+        // A coincident pair outside it is not evidence about the requested seed, even at Delta=0.
+        if (exact)
+            return TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell);
+
+        // Local residual labels propose q; they do not establish an invariant subset or exclude AT capture.
         if (residualOnly)
-            return TrackDiabolicUnderDeltaResidual(n, qSeed, delta, boxHalf, boxCell, coalesceTol, depTol, trackSteps);
+            return TrackDiabolicUnderDeltaResidual(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell, trackSteps);
 
         Func<Complex, Complex[]> roots = qq => SeDeSymSpectrum(n, qq, delta);
         double boxMin = double.PositiveInfinity; Complex boxArg = qSeed;
@@ -388,16 +393,10 @@ public static class XxzCoherenceBlock
                 double g = PathKMonodromyScout.MinGap(roots(q));
                 if (g < boxMin) { boxMin = g; boxArg = q; }
             }
-        // GapRefine from the box-minimum resolves the √-cusp; the refined gap (not the box-grid-min) decides LIFT.
+        // Refinement only proposes q; a bounded search cannot certify lifting or seed identity.
         var qd = PathKMonodromyScout.GapRefine(roots, boxArg, boxCell);
-        double refined = PathKMonodromyScout.MinGap(roots(qd));
-        if (refined > coalesceTol)
-            return new DeltaTrackResult(DeltaFlipVerdict.Lifted, 0, 0, double.NaN, qd, Complex.Zero, refined);
-
-        var r = CharacterAtDiabolicNear(n, delta, qd, lambdaSeed, boxCell);
-        var verdict = (r.Geometric == r.Algebraic && r.Departure < depTol)
-            ? DeltaFlipVerdict.Diabolic
-            : DeltaFlipVerdict.Defective;
-        return new DeltaTrackResult(verdict, r.Algebraic, r.Geometric, r.Departure, r.QStar, r.LambdaStar, r.Gap);
+        var proposedPair = roots(qd).OrderBy(z => (z - lambdaSeed).Magnitude).Take(2).ToArray();
+        var mid = (proposedPair[0] + proposedPair[1]) / 2;
+        return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);
     }
 }

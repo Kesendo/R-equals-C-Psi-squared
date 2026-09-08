@@ -25,16 +25,17 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         center block n = (N−1)/2. For even N, c_max = N/2 at the two adjacent
 ///         center blocks n = N/2 − 1 and n = N/2.</item>
 ///   <item><b>Mirror axis at n = (N−1)/2:</b> c(n, N) = c(N−1−n, N); the
-///         chromaticity is palindromic in n. Same axis as F43's sector-pairing
-///         (w → N−w with axis at N/2 for the full sector); F74 lives at the
-///         (n, n+1)-coherence-block level with axis at (N−1)/2.</item>
+///         chromaticity is palindromic in the joint-popcount block label.
+///         F43's distinct object is a reflection of full-spectrum decay-rate
+///         bands, or continuously valued average light under uniform γ.</item>
 /// </list>
 ///
 /// <para>Pi2-Foundation anchor:</para>
 /// <list type="bullet">
 ///   <item><b>RateCoefficient = 2 = a_0</b>: in 2γ₀·HD pure rates. Live from
 ///         <see cref="Pi2DyadicLadderClaim.Term"/>(0). Same anchor as F1
-///         TwoFactor, F50 DecayRateFactor, F3 RateCoefficient, F43 XorRateCoefficient.</item>
+///         TwoFactor, F50 DecayRateFactor, F3 RateCoefficient, and F43
+///         ReflectionCoefficient.</item>
 /// </list>
 ///
 /// <para>The min(n, N−1−n) structure and the +1 offset are combinatorial
@@ -150,7 +151,7 @@ public sealed class F74ChromaticityPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("monochromatic blocks",
                 summary: "n = 0 (vacuum-SE block) and n = N−1 are always c = 1; F73's spatial-sum coherence closure applies to the n=0 monochromatic case");
             yield return new InspectableNode("F43 sibling",
-                summary: "F43's sector-pairing K_freq(w) = K_freq(N−w) lives at the full sector level (axis at N/2). F74's chromaticity palindrome lives at the (n, n+1)-coherence-block level (axis at (N−1)/2). Both are F1's Π palindrome at different decomposition layers.");
+                summary: "F43 reflects full-spectrum decay-rate bands about Nγ (average light x ↔ N−x under uniform γ). F74 instead counts the odd-HD rungs inside each (n,n+1) joint-popcount block and has axis (N−1)/2. The two palindromes act on different objects.");
         }
     }
 }

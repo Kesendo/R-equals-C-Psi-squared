@@ -227,6 +227,9 @@ public class SmokeTests
         Assert.Equal(Math.PI / (4 * Math.Pow(Math.Sin(Math.PI / 8), 2)), Formulas.F41_PalindromicTime(4, 1.0), 9);
         // F44: a palindromic pair d_fast + d_slow = 2 Sg; here Sg=1, d_fast=1.5, d_slow=0.5
         Assert.Equal(Math.Log(1.5 / 0.5), Formulas.F44_LogRatio(1.5, 0.5, 1.0), 10);
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(0.5, 1.5, 1.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(2.0, 0.0, 1.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(double.NaN, 0.5, 1.0));
         Assert.Equal(Math.Sqrt(2.0 / 48), Formulas.F49c_CrossTermCrossing(3), 10);          // shadow-crossing
         Assert.Equal(Math.Log(10), Formulas.F55_KDeath, 9);                                 // K_death
         Assert.Equal(5, Formulas.F55_ImmortalModes(4));                                     // N+1 immortal
@@ -747,6 +750,8 @@ public class SmokeTests
         }
         foreach (var (j, g) in new[] { (1.0, 0.5), (2.0, 0.5), (0.3, 0.6) })        // theta = arctan(Q)
             Assert.Equal(new Clock(W, j, g).ThetaDeg, Formulas.F95_Theta(g * g + j * j, g) * 180.0 / Math.PI, 10);
+        foreach (double b in new[] { -0.5, 0.0, double.NaN, double.PositiveInfinity })
+            Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F95_Theta(1.0, b));
     }
 
     // --- F99: the five canonical trig anchors. alpha(theta) = sin^2(theta)/2 at {0,30,45,60,90}

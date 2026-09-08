@@ -239,17 +239,18 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-101
 
-**Question:** **Petermann factor is uninteresting here.** K_P ~ 1 (the Petermann factor measures how much a non-normal operator's eigenvectors overlap; K_P = 1 means orthogonal).
+**Question:** **The blanket Petermann null is refuted.** Pure Z-dephasing can be strongly non-normal and carries certified defective seeds at N=5,7,9. Which simple isolated modes or invariant subspaces control an experimentally accessible response remains open.
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 329)
 **Section:** 5. Limitations and caveats
 **Date:** April 2, 2026
 
-**Proposed Status:** resolved
-**Confidence:** high
+**Proposed Status:** needs-human / open
+**Confidence:** high that the original negative premise is false; low on the remaining hardware observable
 **Resolving documents:**
-- `experiments/COCKPIT_UNIVERSALITY.md` (line 329): K_P ~ 1 for all pure-dephasing cases; relevance only in PT-symmetric configurations
-**Rationale:** This is a computed negative result: the Petermann factor is near 1 for pure-dephasing Liouvillians, confirming eigenvector near-orthogonality. Not an open question but a documented finding.
+- `experiments/COCKPIT_UNIVERSALITY.md` (Section 5): records the refutation of the old blanket null
+- `docs/proofs/PROOF_F86A_EP_MECHANISM.md`: strong pure-Z-dephasing non-normality and certified defective seeds
+**Rationale:** The early near-1 sample does not generalize. Single-vector Petermann factors apply only to simple isolated modes; at degeneracy the evidence must be formulated with invariant-subspace or Jordan diagnostics.
 **Search terms used:** "Petermann", "K_P", "non-normal", "uninteresting"
 
 ---

@@ -287,7 +287,7 @@ public sealed class F97CardioidHalfFixedPointPi2Inheritance : Claim, IZ2AxisClai
                          "the polarity sides ±1/2 each square to 1/4. " +
                          "By contrast |c|² = 5/16 − (1/4)·cos(φ) is NOT invariant; |c| = 1/4 only at the cusp.");
             yield return new InspectableNode("Sibling at real-axis cusp",
-                summary: "F95AngleAtQuadraticZeroPi2Inheritance: θ(c; b) = arctan(√(c/b² − 1)) for real c > b². " +
+                summary: "F95AngleAtQuadraticZeroPi2Inheritance: θ(c; b) = arctan(√(c/b² − 1)) for real c > b² and finite b>0. " +
                          "F95 covers the angle of the complex root pair past the cusp; F97 covers the full complex-c " +
                          "extension via the cardioid parametrization. F95 and F97 cover complementary regions of the same z² − 2bz + c algebra.");
         }

@@ -21,7 +21,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///   <item>F87-Truly together with single-letter Z-dephasing γ_l = γ₀ on every site
 ///   makes the Absorption Theorem hold bit-exactly: <c>Re(λ) = −2γ₀·⟨n_XY⟩</c>
 ///   for every Liouvillian eigenmode (cf.
-///   <see cref="Core.Symmetry.AbsorptionTheoremClaim.HammingComplementPairSum"/>).</item>
+///   <see cref="Core.Symmetry.AbsorptionTheoremClaim.HammingComplementCellCostSum"/>).</item>
 ///   <item>F89's F_a modes live in the overlap subspace of the (SE, DE) sub-block —
 ///   coherences |i⟩⟨{j, l_pair}| where the SE index i coincides with one DE index.
 ///   These coherences have Hamming distance <c>n_diff = 1</c> in the computational

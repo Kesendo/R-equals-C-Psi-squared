@@ -55,10 +55,9 @@ stability regimes: weak coupling stabilizes close to linearly
 internal strength, and strong coupling destabilizes
 as 1/J_bridge, with γ_crit × J_bridge still drifting downward
 (0.578 to 0.508 over J_bridge = 10 to 100) where the sweep ends.
-The instability is an oscillating divergence at a second-order exceptional
-point (Section 3), not
-monotone), now identified as Liouvillian chiral symmetry breaking
-(see Section 3). Unlike the fold threshold
+The instability is a spectral-abscissa departure from the imaginary axis
+(Section 3); its exceptional-point character remains OPEN. The exact Π mirror pairing
+survives through the transition. Unlike the fold threshold
 (~0.5% of J for the product state, flat in N over the measured N = 2-5,
 geometric), bridge stability depends
 strongly on system size (N=3 is 33× less stable than N=2), making it
@@ -126,27 +125,28 @@ still drifting where the sweep stops:
 at J_bridge = 100** (not converged; a single asymptotic constant is not
 measured)
 
-The system becomes MORE fragile with stronger coupling. Physically:
-the bridge dominates, the two chains merge into one, and gain qubits
-sit directly next to decay qubits with no buffer. The relevant
-quantity is the ratio γ/J_bridge, not the absolute values.
+The sampled threshold becomes smaller at the far end of the strong-coupling
+sweep. This scan measures γ_crit(J_bridge) only; it does not establish chain
+merging, a missing spatial buffer, dimer formation, or resonance as the cause.
+Which mode geometry produces the turnover remains open.
 
-At J_bridge → ∞, the system is unstable at ANY noise level.
-Perfect coupling between gain and loss = immediate instability.
+The sampled large-J_bridge trend is compatible with γ_crit tending to zero as
+J_bridge grows, but the finite sweep does not establish the infinite-coupling
+limit or immediate instability at every nonzero gain.
 
 ### 2.4 Three regimes summary
 
 | Regime | Condition | γ_crit | Physics |
 |--------|-----------|--------|---------|
-| Weak bridge | J_bridge ≤ 2J | 0.189 × J_bridge^1.035 | Linear stabilization |
-| Optimal | J_bridge ∈ [1.8, 2.0] | 0.4058 (sampled maximum) | Resonance |
-| Strong bridge | J_bridge ≫ 2J | ≈ 0.51 / J_bridge at J_bridge = 100 | Dimer formation, destabilization |
+| Weak sampled range | J_bridge ≤ 2J | 0.189 × J_bridge^1.035 | empirical rising trend |
+| Sampled maximum | J_bridge ∈ [1.8, 2.0] | 0.4058 | mechanism open |
+| Strong sampled tail | J_bridge ≫ 2J | γ_crit·J_bridge = 0.508 at J_bridge = 100 | decreasing threshold; limit and mechanism open |
 
 Whether the turnover sits exactly where the bridge equals the total internal
 coupling is not something this grid can decide; it brackets the maximum in
 [1.8, 2.0] and no finer.
 
-## 3. Chiral symmetry breaking at an exceptional point
+## 3. Departure from the imaginary axis with the mirror intact
 
 The instability is an **oscillating** one: a pair that was already
 oscillating at Re = 0 acquires a positive real part, so the system does not
@@ -154,50 +154,55 @@ drift away quietly, it screeches like microphone feedback. That much has
 always been right, and it is the reason this section used to be called a
 Hopf bifurcation.
 
-But the threshold is not a Hopf, and the mechanism is our own palindrome.
-At Σγ = 0 the conjugation operator Π forces exact λ ↔ −λ pairing (chiral
-symmetry, class AIII). That symmetry leaves an eigenvalue only two options:
-sit on the imaginary axis, or have a partner mirrored across it. Below
-γ_crit every eigenvalue takes the first option; at γ_crit a mirror pair
-**coalesces** and leaves the axis together. Coalescence, not crossing, is
-what the symmetry makes available, and it is what the numbers show.
+The finite-offset data neither establish nor exclude a Hopf mechanism. At Σγ = 0
+the conjugation operator Π forces exact inversion pairing λ ↔ −λ through the
+transition. Hermiticity preservation separately gives λ ↔ λ*. Together the two
+relations produce a generic off-axis quartet {λ, λ*, −λ, −λ*}; the across-axis
+partner −λ* is not supplied by Π alone. This P-type relation becomes involutive
+after Π²-parity resolution; the full SRP sector class remains OPEN. Below
+γ_crit every eigenvalue lies on the imaginary axis; above γ_crit at least one
+off-axis quartet appears. The current producer independently selects a
+max-real-part mode at each γ; it does not perform branch continuation or
+execute a strict threshold coalescence or Jordan-rank certificate.
 
 Measured on two two-qubit chains, at J_bridge = 1.0 (γ_crit = 0.1873101)
 and 1.9 (γ_crit = 0.4058524), writing δ = γ/γ_crit − 1
 ([`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py),
 [its output](../simulations/results/fragile_bridge_ep_signature.txt)):
 
-| δ | max Re λ (J_b=1.0) | Re/√δ | gap to the mirror partner | Petermann K |
+| δ | max Re λ (J_b=1.0) | Re/√δ | gap to across-axis partner −λ* | Petermann K |
 |---|---|---|---|---|
-| 10⁻² | 0.02033551 | 0.2034 | 2.07·10⁻² | 40.9 |
-| 10⁻³ | 0.00641845 | 0.2030 | 7.16·10⁻³ | 403.2 |
-| 10⁻⁴ | 0.00202899 | 0.2029 | 3.68·10⁻³ | 4027 |
+| 10⁻² | 0.02033551 | 0.2034 | 4.07·10⁻² | 40.9 |
+| 10⁻³ | 0.00641845 | 0.2030 | 1.28·10⁻² | 403.2 |
+| 10⁻⁴ | 0.00202899 | 0.2029 | 4.06·10⁻³ | 4027 |
 | 10⁻⁵ | 0.00064059 | 0.2026 | 1.28·10⁻³ | 4.04·10⁴ |
 
-Three signatures of a second-order exceptional point, and all three are
-**at real γ = γ_crit**, not near it:
+Three finite-offset trends are recorded near the real threshold γ_crit:
 
-- **Re λ ∝ √δ**, the coefficient constant to three digits over four decades
-  (1.107 / 1.103 / 1.093 at J_b = 1.9). A Hopf bifurcation is by definition
-  a transversal crossing, Re λ ∝ δ with a finite nonzero slope; here the
-  slope at threshold is infinite, so the transversality a Hopf requires is
-  absent.
-- **The mirror pair merges.** The gap to the nearest other eigenvalue falls
-  to 2·Re λ, i.e. to zero, as δ → 0.
-- **The Petermann factor diverges as 1/δ**: 40.9, 403, 4027, 4.04·10⁴, one
-  decade per decade. At an ordinary non-normal point K is large and finite.
+- **Re λ/√δ is nearly constant** over the sampled four decades
+  (1.107 / 1.103 / 1.093 at J_b = 1.9).
+- **The across-axis partner gap is 2|Re λ|.** Its decrease is algebraically
+  equivalent to the reported max-Re onset, not independent EP evidence.
+- **The Petermann readings grow approximately one decade per decade**:
+  40.9, 403, 4027, 4.04·10⁴.
+
+The square-root-like max-Re onset and the simple-mode Petermann sequence
+motivate an EP2 hypothesis; the derived partner gap adds no independent
+evidence. Extrapolating the finite-offset readings to δ=0 does not certify
+eigenvalue/eigenvector coalescence or a Jordan defect. The
+spectral-abscissa axis departure is established; EP, Hopf, and Jordan character remain OPEN.
 
 Below threshold the axis is clean to machine precision: max Re λ is
-2.4·10⁻¹⁴ at δ = −10⁻³ and 1.6·10⁻¹⁴ at δ = −10⁻², which with λ ↔ −λ means
-every eigenvalue is on the imaginary axis, exactly as the symmetry demands.
+2.4·10⁻¹⁴ at δ = −10⁻³ and 1.6·10⁻¹⁴ at δ = −10⁻². This is a measured
+stable-regime property; λ ↔ −λ pairing alone would also allow off-axis pairs.
 
-So it is the same geometry as Hamiltonian PT breaking, rotated 90°: there
-two real eigenvalues merge and become complex, here a mirror pair merges on
-the imaginary axis and acquires a real part. Π is linear rather than
-anti-linear, which is why this is chiral symmetry (AIII) and not PT in the
-strict sense, but the transition is of the same kind and the old table's
-contrast between "eigenvalues merge" and "pair crosses Re = 0" was a
-distinction the measurement does not support.
+The spectral picture resembles Hamiltonian PT breaking rotated 90°: there
+two real eigenvalues merge and become complex, while here off-axis quartets
+appear. Π is linear rather than
+anti-linear, so it supplies a P-type relation rather than PT. After Π²-parity
+resolution it is involutive, but the full SRP sector class is OPEN. The
+current measurement does not establish that the local Jordan mechanism is
+the same.
 See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 The oscillation frequency at threshold decreases with bridge strength:
@@ -208,31 +213,28 @@ The oscillation frequency at threshold decreases with bridge strength:
 | 5.0 | ±0.26 |
 | 10.0 | ±0.12 |
 
-At large J_bridge the oscillation frequency at threshold falls toward zero,
-so the transition approaches a saddle-node in character: almost no
-oscillation, just slow drift into instability.
+The three finite-coupling frequency samples decrease across this table, but
+three finite-coupling frequency samples do not determine a limiting frequency
+or a local bifurcation class. Whether the threshold frequency tends to zero and
+what Jordan/Hopf character the limiting transition has remain open.
 
-### 3.1 Local-EP connection (2026-05-06 → retracted 2026-06-21)
+### 3.1 Relation to the local-EP question
 
-This file's own EP is located, and it is on the real axis at γ_crit itself
-(Section 3). That also disposes of the puzzle the Petermann spike used to
-pose. Its height is not a property of the system but of the grid: K ∝ 1/δ, so
-a scan that happens to sample at δ ≈ 10⁻³ reads about 400 and one that samples
-at 10⁻⁴ reads about 4000. The committed script's 402.7 is K at its own
-distance from threshold, and the "spikes of order 10¹ to 10³" that independent
-rebuilds report at slightly different γ/γ_c are that same law read at their own
-step sizes. Grid-dependent height is what an exceptional point predicts, not
-evidence against one. The producer above also reads K across a wide range: it
-falls to 2.7 by γ/γ_crit = 1.2 and rises again to 39 near 1.46, a secondary
-bump an order of magnitude below the reading at δ = 10⁻³. A height taken at
-one γ and a location taken at another are not one measurement.
+This file locates the spectral-abscissa threshold γ_crit but does not certify
+its EP character. At finite offsets where the selected eigenvalue is simple,
+the producer reports K=40.9, 403.2, 4027 and 4.04·10⁴ as δ decreases from
+10⁻² to 10⁻⁵. These are conditioning readings away from the threshold, not a
+property or character certificate of the threshold. Coarse-scan rows whose
+selected eigenvalue is degenerate omit single-vector K because it is
+basis-dependent within that eigenspace.
 
 What survives is the shared algebra read at two residuals of the F1
 palindrome `Π · L · Π⁻¹ + L + 2Σγ · I = 0` (Σγ = N·γ₀ vs Σγ = 0). The
-genuine EPs are the toy 2×2 rate-channel reduction and **this file's**
-SEPARATE Σγ = 0 gain-loss system at the real parameter γ_crit. Its
-square-root onset and diverging K as γ→γ_crit establish the character;
-K≈403 is one finite-grid approach reading, not another complex-γ locus.
+certified EP is the toy 2×2 rate-channel reduction. This file's SEPARATE
+Σγ = 0 gain-loss system has a spectral-abscissa axis departure; its
+square-root-like max-Re onset and growing finite-offset K motivate but do not
+certify EP character.
+K≈403 is one finite-offset non-normality reading, not another complex-γ locus.
 F89 separately certifies narrow real-q defective EP2s at N=5,7,9; its
 all-odd endpoint-nullity surplus does not extend that character verdict.
 Whether the full Σγ = N·γ₀ block shares a defective-EP structure off
@@ -292,7 +294,7 @@ gain channels to bridge connections.
 |----------|---------------|-----------------|
 | N-dependence | Independent | Strongly dependent |
 | Type | Geometric constant | Topological ratio |
-| Bifurcation | Fold (saddle-node) | exceptional point (oscillating) |
+| Bifurcation | Fold (saddle-node) | oscillatory axis departure; EP character OPEN |
 | What it measures | When irreversibility begins | When coupled gain-loss explodes |
 | Determined by | Palindrome geometry | Gain/bridge topology |
 
@@ -357,10 +359,10 @@ instances. Pairing itself supplies no silence or stability theorem.
    levels with gain-loss generators. Build the combined generator
    and test its spectrum against the isolated-bridge prediction.
 
-4. **Asymptotic constant 0.50:** γ_crit × J_bridge → 0.50 for
-   large J_bridge. Is this exactly 1/2? If so, there may be an
-   analytical derivation. The factor 1/2 appears throughout the
-   framework (σ(1-σ) = 1/4 at σ = 1/2, CΨ fold at 1/4, etc.).
+4. **Large-bridge asymptotics:** Does γ_crit × J_bridge converge as
+   J_bridge grows? The executed values decrease from 0.578 at J_bridge=10 to
+   0.508 at J_bridge=100 and have not converged. If a limit exists, is it 1/2?
+   That value is a hypothesis to derive or falsify, not a measured constant.
 
 5. **Saturation as design principle:** Can an explicitly specified
    quantum gain model with saturation bound its dynamics? Its generator,

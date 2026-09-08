@@ -8,7 +8,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// <summary>The Galois-vs-spectral-chaos witness: the sector-resolved RMT test that asks whether the
 /// H_B-mixed half (whose decay rates have Galois group S_n, no radical closure) is spectrally CHAOTIC
 /// (GinUE) at fixed q. The finding is a clean NULL: at accessible N the H_B half reads Poisson-like /
-/// sub-Poisson (it sits on the integrable frequency lattice), NOT GinUE. Algebraic chaos (Galois over
+/// sub-Poisson (it sits on the structured Delta=0 XY frequency lattice), NOT GinUE. This does not classify the Liouvillian as integrable. Algebraic chaos (Galois over
 /// the q-field) and spectral chaos (RMT at fixed q) are distinct here — the former does not imply the
 /// latter. These tests pin that null on the trusted machine (the same (SE,DE) block, MathNet EVD).</summary>
 public class GaloisSpectralChaosWitnessTests
@@ -21,7 +21,7 @@ public class GaloisSpectralChaosWitnessTests
         // chain N=7: the H_B-mixed factor is the S_53 irreducible (no radical closure). If the
         // Galois-chaos conjecture held it would read GinUE (⟨|z|⟩≈0.738). It does not.
         var (meanAbs, meanCos, avgCount) = GaloisSpectralChaosWitness.HbMixedCsr(7, "chain", Qs());
-        Assert.True(avgCount > 20, $"need enough distinct H_B points for a CSR (got {avgCount:F0}/q)");
+        Assert.True(avgCount > 20, $"need enough finite-precision cluster representatives for a CSR (got {avgCount:F0}/q)");
         Assert.True(meanAbs < 0.66, $"chain H_B ⟨|z|⟩={meanAbs:F3} is Poisson-like/sub-Poisson, NOT GinUE (~0.738)");
         Assert.True(meanCos > -0.10, $"chain H_B ⟨cos θ⟩={meanCos:F3} shows no GinUE angular repulsion (~−0.24)");
     }
@@ -31,7 +31,8 @@ public class GaloisSpectralChaosWitnessTests
     {
         // The other side of the door's comparison: the AT-locked half (rates −2γ/−6γ carrying free-fermion
         // Bloch frequencies) is a sparse structured set, not a GinUE chaos cloud. The discriminator is ⟨|z|⟩
-        // (not the angle): it reads LOW (clustering, below GinUE's ~0.74) over far fewer distinct points
+        // (not the angle): it reads LOW (clustering, below GinUE's ~0.74) over far fewer finite-precision
+        // cluster representatives
         // than the H_B half. Its ⟨cos θ⟩ can run negative (lattice angular order + few-point noise), so the
         // verdict rests on the magnitude, which a genuine GinUE spectrum would push high.
         var qs = Qs();
@@ -53,7 +54,18 @@ public class GaloisSpectralChaosWitnessTests
     [Fact]
     public void Witness_Renders_BothHalves_AsNonChaotic()
     {
-        var children = ((IInspectable)new GaloisSpectralChaosWitness()).Children.ToList();
+        var witness = new GaloisSpectralChaosWitness();
+        Assert.Contains("finite-precision cluster representatives", witness.Summary,
+            System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("tolerance-dependent", witness.Summary,
+            System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("not an exact degeneracy census", witness.Summary,
+            System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("structured Delta=0 XY frequency lattice", witness.Summary,
+            System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("does not classify the Liouvillian as integrable", witness.Summary,
+            System.StringComparison.OrdinalIgnoreCase);
+        var children = ((IInspectable)witness).Children.ToList();
         // the H_B-mixed null
         Assert.Contains(children, c =>
             c.Summary.Contains("not", System.StringComparison.OrdinalIgnoreCase) &&

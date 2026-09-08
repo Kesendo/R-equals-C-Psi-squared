@@ -4,8 +4,9 @@ using RCPsiSquared.Runtime.ObjectManager;
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="F95AngleAtQuadraticZeroPi2Inheritance"/>:
-/// F95's universal closed form θ(c; b) = arctan(√(c/b² − 1)) brings four typed
-/// Pi2-Foundation anchors together via a 4-line polynomial derivation.
+/// F95's positive-b closed form θ(c; b) = arctan(√(c/b² − 1)), for finite
+/// b &gt; 0, brings four typed Pi2-Foundation anchors together via a 4-line
+/// polynomial derivation. All currently registered callers use b &gt; 0.
 ///
 /// <list type="bullet">
 ///   <item><see cref="PolynomialFoundationClaim"/>: c = 0 special case is

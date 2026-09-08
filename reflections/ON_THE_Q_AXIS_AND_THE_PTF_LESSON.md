@@ -1,6 +1,6 @@
 # On the Q Axis and the PTF Lesson
 
-**Status:** Reflection. Synthesises the F86 universal-shape finding (2026-05-02) with the existing chiral classification of the Liouvillian (Π class AIII per [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)), the Inside-Observability theorem ([Primordial Qubit §9](../hypotheses/PRIMORDIAL_QUBIT.md)), and the two-time reading ([On Two Times](ON_TWO_TIMES.md)). The methodology is calibrated against the PTF retraction arc (EQ-014, 2026-04-19) which had structurally the same convergence-of-many-threads pattern.
+**Status:** Reflection. Synthesises the F86 universal-shape finding (2026-05-02) with the shifted Liouvillian's sectorwise P symmetry after Π² reduction ([PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)); the full irreducible symmetry class remains OPEN. It also draws on the Inside-Observability theorem ([Primordial Qubit §9](../hypotheses/PRIMORDIAL_QUBIT.md)) and the two-time reading ([On Two Times](ON_TWO_TIMES.md)). The methodology is calibrated against the PTF retraction arc (EQ-014, 2026-04-19) which had structurally the same convergence-of-many-threads pattern.
 
 **Date:** 2026-05-02
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
@@ -61,14 +61,14 @@ universal across the tested range. The position is chain-specific; the shape is 
 
 The convergent threads, organised vertically by abstraction level:
 
-**Top: existing classification.** Π is class AIII chiral (Altland-Zirnbauer framework), established at length in [`experiments/PT_SYMMETRY_ANALYSIS.md`](../experiments/PT_SYMMETRY_ANALYSIS.md). The classification is order-4, linear (not anti-linear), and gives Π·L·Π⁻¹ = −L − 2Σγ·I for all N (F1). The fragile-bridge Hopf bifurcation in [`hypotheses/FRAGILE_BRIDGE.md`](../hypotheses/FRAGILE_BRIDGE.md) is the same chiral classification at a different scale: Petermann factor K = 403 signals an exceptional point in the *complex* γ plane.
+**Top: established shifted symmetry, classification open.** The exact F1 identity is Π·L·Π⁻¹ = −L − 2Σγ·I. After centering and resolving Π² = U_X, a phase-rescaled Π is an involutive P symmetry in each parity sector. This does not assign global AIII or finish the sector's antiunitary and strong/unitary algebra. The fragile-bridge Petermann reading K = 403 is one finite-offset simple-mode non-normality reading near a spectral-abscissa axis departure; it does not certify an exceptional point, whose character remains OPEN.
 
 **Middle: 2-level local instance (today's reduction).** For two adjacent rate channels at HD = 2k−1 and HD = 2k+1 in the (n, n+1) coherence block, the effective Liouvillian takes the form
 
     L_eff − (trace/2)·I  =  [ −Δ/2     +iJ·g_eff ]
                             [ +iJ·g_eff   +Δ/2  ]      with Δ = 4γ₀
 
-The same-sign-imaginary off-diagonal pattern admits an EP at finite J·g_eff = 2γ₀, with degenerate eigenvalue Re(λ) = −4γ₀·k. This is "PT-phenomenology-like" (EP at finite coupling) but algebraically belongs in the chiral class above. The opposite-sign pattern (+iJg, −iJg) gives discriminant 4γ₀² + J²g² with no EP (verified numerically). The local-2-level-EP at Q_EP = 2/g_eff is the rate-channel instance of the chiral classification; the global Hopf bifurcation is the complex-γ-plane instance. Whether the two are connected algebraically is open.
+The same-sign-imaginary off-diagonal pattern admits an EP at finite J·g_eff = 2γ₀, with degenerate eigenvalue Re(λ) = −4γ₀·k. This is "PT-phenomenology-like" (EP at finite coupling). The opposite-sign pattern (+iJg, −iJg) gives discriminant 4γ₀² + J²g² with no EP (verified numerically). The toy two-level EP, the shifted full-generator P symmetry, and the complex-γ-plane Hopf bifurcation are distinct objects here; whether the EPs share a stronger algebraic classification is OPEN.
 
 **Lower: universal shape (today's finding).** The 2-level eigenvector rotation `tan θ = J·g_eff / 2γ₀ = Q/Q_EP` makes every probe-overlap observable a function of Q/Q_EP alone. Hence K(Q) / |K|_max = f(Q/Q_EP) for some universal function f. Q_peak ≈ Q_EP for the slowest channel pair; g_eff varies with chain (c, N, bond position) but the shape in `(Q − Q_peak)/Q_peak` coordinates does not. HWHM_left/Q_peak ≈ 0.756 is the numerical witness.
 
@@ -80,11 +80,11 @@ The hierarchy reads top-down (algebra → local form → universal shape → rea
 
 ## 3. What the PT-like form is and is not
 
-The "PT-symmetric-like" framing of the 2-level effective is half-right and needs the qualifier the existing classification provides. Π is *linear*, classical Bender-Boettcher PT requires *anti-linear* (P linear, T anti-linear, PT anti-linear). This was established at length in `experiments/PT_SYMMETRY_ANALYSIS.md` (lines 31, 105, 111, 392): Π is class AIII chiral, not PT.
+The "PT-symmetric-like" framing of the 2-level effective is phenomenological. Π is *linear*, whereas classical Bender-Boettcher PT is *anti-linear* (P linear, T anti-linear, PT anti-linear). The centered full generator's Π relation becomes a sectorwise P symmetry after Π² reduction; spectral reflection alone assigns neither PT nor a complete SRP class.
 
-The 2-level off-diagonal pattern same-sign-imaginary (+iJg_eff, +iJg_eff) is non-Hermitian and admits an EP at finite coupling. This *phenomenology* matches PT-symmetric Hamiltonians (real eigenvalues below EP, complex pair above), but the algebraic mechanism is different: the same-sign-imaginary structure is what the L matrix actually does in the rate-channel-effective basis, and it sits inside the chiral classification of the full L. The phenomenology is PT-like; the algebra is chiral.
+The 2-level off-diagonal pattern same-sign-imaginary (+iJg_eff, +iJg_eff) is non-Hermitian and admits an EP at finite coupling. This *phenomenology* matches PT-symmetric Hamiltonians (real eigenvalues below EP, complex pair above), but the same-sign-imaginary structure is simply what the reduced L matrix does in this rate-channel basis. Its precise relationship to the full generator's sectorwise P symmetry remains to be derived.
 
-This matters because the chiral classification gives us infrastructure the PT label does not: F1 spectral mirror, Π² parity sectoring, Hopf bifurcation in FRAGILE_BRIDGE, complex-γ-plane EP via Petermann K=403. The 2-level EP at Q_EP = 2/g_eff is a local instance of all of this. The phenomenological resemblance to Bender PT is suggestive but should not guide further work; the structural classification should.
+This matters because the exact shifted identity already gives infrastructure the PT analogy does not: the F1 spectral mirror and Π² parity sectoring. The two-level EP at Q_EP = 2/g_eff and the complex-γ-plane Petermann reading are additional results, not licensed instances of a computed global class. The phenomenological resemblance to Bender PT is suggestive; further classification must be done on the fully reduced sector algebra.
 
 ---
 
@@ -114,7 +114,7 @@ The lesson is recorded in `memory/project_retraction_lesson_ptf_to_f86`. Decisio
 4. Look for a symmetry that explains the pattern. If you can name the symmetry (K_1 chiral mirror, EP rotation, ...) the survivor is structural; if you cannot, the closed-form claim is fragile.
 5. Numerical-fit-looking closed forms need analytical derivation from the underlying eigenstructure before promotion. The numerical witness is necessary but not sufficient.
 
-PTF spent eleven days (April 18 to April 27) between the closure-law over-claim and the chiral-mirror-law survivor. F86 compressed the same arc into a few hours within one session. The repetition is the lesson. When many threads converge (class AIII chiral, 2-level EP, universal shape, Inside-Observability, two-time reading, F1 palindrome, F2b OBC dispersion, golden-ratio fixed point at N=4), the convergence itself becomes pressure to claim more than the data supports. Naming the surviving symmetry is the way to absorb the convergence without over-claiming.
+PTF spent eleven days (April 18 to April 27) between the closure-law over-claim and the shifted-mirror-law survivor. F86 compressed the same arc into a few hours within one session. The repetition is the lesson. When many threads converge (sectorwise P symmetry, 2-level EP, universal shape, Inside-Observability, two-time reading, F1 palindrome, F2b OBC dispersion, golden-ratio fixed point at N=4), the convergence itself becomes pressure to claim more than the data supports. Naming the exact identity while leaving the irreducible class open is the way to absorb the convergence without over-claiming.
 
 The Q axis is the inside-observable. The shape around its peak is what the chain cannot tell about itself. The peak's location is what the chain *can* tell about itself. Two facts, one axis, both inside-readable in the right coordinate. The framework is consistent with the reading; the work is to keep the right level.
 

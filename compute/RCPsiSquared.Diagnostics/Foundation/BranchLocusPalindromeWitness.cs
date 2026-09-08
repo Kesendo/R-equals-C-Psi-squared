@@ -14,8 +14,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// K conjugation), T L(q) T⁻¹ = −L(q̄) − 2σ (a same-q fold at real q), so the merged-eigenvalue locus is invariant under
 /// the antilinear mirror λ ↦ −λ̄ − 2σ (reflect Re about −σ, preserve Im). Every EP lies on the line or in
 /// a mirror pair across it, no orphan. Semisimplicity follows from the twin-scalar restriction at the N=4 point,
-/// not from being on the mirror line. The sampled XXZ Delta control stays on-line yet defects;
-/// this is not an all-N cause. Typed home: F89BranchLocusPalindromeClaim; reading:
+/// not from being on the mirror line. Only N=4 Delta=0 is certified Diabolic 2/2; N=4/N=5/N=6 positive
+/// Delta proposals remain Uncertified and carry no Jordan-character conclusion. Typed home:
+/// F89BranchLocusPalindromeClaim; reading:
 /// reflections/ON_WHO_WATCHES_WHOM.md; the q-direction sibling of --root galoismonodromy.</summary>
 public sealed class BranchLocusPalindromeWitness : IInspectable
 {
@@ -86,7 +87,9 @@ public sealed class BranchLocusPalindromeWitness : IInspectable
             var (anti, lin) = MirrorClosureResiduals(2.0);
             return $"the EP/diabolic collisions are mirror-symmetric about Re λ = −σ = −4: the octic roots close " +
                    $"under the antiunitary palindrome λ→−λ̄−2σ (residual {anti.ToString("E1", Inv)}) but NOT under the " +
-                   $"linear λ→−λ−2σ (residual {lin.ToString("0.0", Inv)}); so the branch locus is a palindrome, forced.";
+                   $"linear λ→−λ−2σ (residual {lin.ToString("0.0", Inv)}); so the branch locus is a palindrome, forced. " +
+                   $"Only N=4 Delta=0 is certified Diabolic 2/2; N=4/N=5/N=6 positive Delta proposals remain " +
+                   $"Uncertified and carry no Jordan-character conclusion.";
         }
     }
 
@@ -110,7 +113,8 @@ public sealed class BranchLocusPalindromeWitness : IInspectable
                 summary: $"the diabolic collision λ_EP = −4γ + 2iJ ({lamEp.Real.ToString("0.0", Inv)}{lamEp.Imaginary.ToString("+0.000;-0.000", Inv)}i " +
                          $"at q_EP={GaloisMonodromyWitness.QEp.ToString("0.000", Inv)}, γ=1, J=q_EP) is on the line because its pair is overlap-balanced " +
                          "(p=½, the AT-midpoint). Semisimplicity follows from the twin-scalar restriction at the N=4 point, not from being on-line. " +
-                         "The sampled XXZ Delta control stays on-line yet defects: a local restriction/control, not an all-N cause (DIABOLIC_BY_INTEGRABILITY).");
+                         "Only N=4 Delta=0 is certified Diabolic 2/2; N=4/N=5/N=6 positive Delta proposals remain " +
+                         "Uncertified and carry no Jordan-character conclusion.");
 
             var (total, onLine, paired, orphans) = BranchLocusStructure();
             yield return new InspectableNode($"every branch point on the line or in a mirror pair ({orphans} orphans)",

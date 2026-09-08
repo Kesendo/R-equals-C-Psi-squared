@@ -3,11 +3,11 @@
 Spectral Form Factor of the Palindromic Liouvillian
 =====================================================
 Phase 1: Load eigenvalues from RMT CSVs (N=2-7)
-Phase 2: Compute dissipative + frequency SFF
+Phase 2: Compute the raw oscillation-frequency SFF
 Phase 3: Identify palindromic modulation
 Phase 4: Summarize reached windows with the independent-phase reference
 Phase 5: Band-resolved SFF (N=3-5, via Python eigendecomposition)
-Phase 6: Report raw density scale, palindromic period and sampled exceedance
+Phase 6: Report raw density scale and palindromic period
 Phase 7: Connection to previous results
 
 Script: simulations/spectral_form_factor.py
@@ -46,45 +46,6 @@ def load_eigenvalues(N):
 
 
 # ========================================================================
-# SFF computation
-# ========================================================================
-def sff_dissipative(eigenvalues, t_arr):
-    """K_diss(t) = (1/N²) Σ_{j,k} exp(i(λ_j - λ_k*)t)."""
-    N = len(eigenvalues)
-    K = np.zeros(len(t_arr))
-    # K_diss = |Σ_k exp(i λ_k t)|² when λ are eigenvalues of non-Hermitian
-    # Actually: Σ_{j,k} exp(i(λ_j - conj(λ_k))t) = |Σ_k exp(i λ_k t)|²
-    # if we define the sum carefully. Let's compute directly.
-    for ti, t in enumerate(t_arr):
-        phases = np.exp(1j * eigenvalues * t)
-        # Σ_{j,k} exp(i(λ_j - λ_k*)t) = (Σ_j exp(iλ_j t))(Σ_k exp(-iλ_k* t))
-        #                                = (Σ exp(iλt)) * conj(Σ exp(iλ*t))... hmm
-        # More precisely: Σ_{j,k} exp(i(λ_j - conj(λ_k))t)
-        # = (Σ_j exp(i λ_j t)) × (Σ_k exp(-i conj(λ_k) t))
-        # = (Σ_j exp(i λ_j t)) × conj(Σ_k exp(i conj(λ_k) t))... no.
-        # exp(-i conj(λ_k) t) = conj(exp(i λ_k t)) when t is real.
-        # Wait: conj(exp(i λ t)) = exp(-i conj(λ) t) = exp(i (-conj(λ)) t)
-        # So Σ_k exp(-i conj(λ_k) t) = conj(Σ_k exp(i λ_k t))
-        # Therefore K_diss = |Σ_k exp(i λ_k t)|² / N²
-        K[ti] = np.abs(np.sum(phases))**2 / N**2
-    return K
-
-
-def sff_connected(eigenvalues, t_arr):
-    """Connected SFF: K_c(t) = K(t) - |<exp(iλt)>|² (remove disconnected)."""
-    N = len(eigenvalues)
-    K_full = np.zeros(len(t_arr))
-    K_disc = np.zeros(len(t_arr))
-    freqs = eigenvalues.imag
-    for ti, t in enumerate(t_arr):
-        phases = np.exp(1j * freqs * t)
-        s = np.sum(phases)
-        K_full[ti] = np.abs(s)**2 / N**2
-        K_disc[ti] = np.abs(np.mean(phases))**2
-    return K_full - K_disc
-
-
-# ========================================================================
 # Pauli infrastructure for sector analysis
 # ========================================================================
 I2 = np.eye(2, dtype=complex)
@@ -94,7 +55,7 @@ sz = np.array([[1, 0], [0, -1]], dtype=complex)
 PAULIS = [I2, sx, sy, sz]
 
 
-def build_liouvillian_pauli_with_sectors(N, gamma=0.05, J=1.0):
+def build_liouvillian_pauli_with_light_labels(N, gamma=0.05, J=1.0):
     """Build Liouvillian in Pauli basis, return L and XY-weights."""
     dim = 2**N
     num = 4**N
@@ -201,11 +162,10 @@ for N in sorted(all_evals.keys()):
 
     t0 = clock.time()
     K_freq = sff_frequency(ev, t_arr)
-    K_diss = sff_dissipative(ev, t_arr)
     elapsed = clock.time() - t0
 
     sff_results[N] = {
-        't': t_arr, 'K_freq': K_freq, 'K_diss': K_diss,
+        't': t_arr, 'K_freq': K_freq,
         'raw_mean_gap': raw_mean_gap, 'raw_scale': raw_scale, 't_Pi': t_Pi,
         'omega_min': omega_min, 'n_ev': n_ev
     }
@@ -216,7 +176,6 @@ for N in sorted(all_evals.keys()):
     log(f"    ω_min (slowest)  = {omega_min:.4f}")
     log(f"    t_Π (palindromic) = {t_Pi:.2f}")
     log(f"    K_freq range: [{np.min(K_freq):.4e}, {np.max(K_freq):.4f}]")
-    log(f"    K_diss range: [{np.min(K_diss):.4e}, {np.max(K_diss):.4f}]")
     log()
 
 
@@ -228,8 +187,8 @@ log("=" * 72)
 log("PHASE 3: PALINDROMIC MODULATION")
 log("=" * 72)
 log()
-log("  Each palindromic pair (μ, -μ) contributes cos(Im(μ)·t).")
-log("  Expected: periodic modulation with period 2π/ω_min.")
+log("  Each palindromic pair contributes 2*cos(Im(mu)*t) to the trace amplitude.")
+log("  The SFF squares that sum, producing doubled and cross frequencies.")
 log()
 
 for N in sorted(sff_results.keys()):
@@ -289,7 +248,7 @@ log("  The raw multiset density scale is 2*pi / mean adjacent gap(sorted abs non
 log("  It retains multiplicities (abs frequency > 1e-10), so it is multiplicity-dependent.")
 log("  Below/intermediate/beyond are descriptive bins, not physical time regimes or ramp/plateau evidence.")
 log("  Only the reached window is assessed; absent bins are not sampled, not zero.")
-log("  Dissipative overflow/NaN remains unresolved and is not interpreted here.")
+log("  Only the raw oscillation-frequency SFF is computed; no decay-weighted or connected estimator is defined.")
 log()
 
 for N in sorted(sff_results.keys()):
@@ -334,18 +293,16 @@ log()
 
 for N in [3, 4, 5]:
     t0 = clock.time()
-    L, xy_w = build_liouvillian_pauli_with_sectors(N, gamma, J)
+    L, xy_w = build_liouvillian_pauli_with_light_labels(N, gamma, J)
     ev_all = eigvals(L)
 
     # Get unique weights
     weights = sorted(set(xy_w))
     sigma_gamma = N * gamma
 
-    # Map eigenvalues to sectors by diagonalizing L and checking
-    # which Pauli basis vectors contribute to each eigenvector
-    # Simpler approach: compute eigenvalues of L restricted to each sector
-    # But sectors are mixed by H (w -> w±2). So we use the full spectrum
-    # and classify by the DIAGONAL rate structure.
+    # Fixed integer weights are not invariant: H mixes w -> w+/-2.  Use the
+    # labels only to place approximate decay-rate band centres for the full
+    # spectrum.
 
     # Group eigenvalues by approximate decay rate band
     rates = -ev_all.real
@@ -362,24 +319,24 @@ for N in [3, 4, 5]:
             continue
         rate_center = 2 * w * gamma
         band_width = gamma  # approximate
-        in_sector = np.abs(rates - rate_center) < band_width
-        sector_ev = ev_all[in_sector]
+        in_band = np.abs(rates - rate_center) < band_width
+        band_ev = ev_all[in_band]
 
-        if len(sector_ev) < 4:
+        if len(band_ev) < 4:
             continue
 
-        # SFF for this sector
+        # SFF for this finite-width decay-rate band
         omega_min_w = 4 * J * (1 - np.cos(np.pi / N))
         t_max_w = min(20 * 2 * np.pi / omega_min_w, 100)
         t_w = np.linspace(0.01, t_max_w, 500)
-        K_w = sff_frequency(sector_ev, t_w)
+        K_w = sff_frequency(band_ev, t_w)
 
         # Characterize
         K_mean = np.mean(K_w)
         K_std = np.std(K_w)
         K_min = np.min(K_w)
 
-        log(f"    w={w}: {len(sector_ev)} eigenvalues,"
+        log(f"    average-light bin centre={w}: {len(band_ev)} eigenvalues,"
             f" <K>={K_mean:.4f}, std={K_std:.4f}, min={K_min:.4e}")
 
     log()
@@ -404,30 +361,10 @@ for N in sorted(sff_results.keys()):
         f"  {ratio:>10.4f}  {r['omega_min']:>8.4f}  {r['raw_mean_gap']:>8.4f}")
 
 log()
-log("  t_Π = palindromic time = 2π/ω_min (period of slowest mode)")
+log("  t_Π = 2π/ω_min (full period of the slowest pair's trace-amplitude term)")
 log("  Raw multiset density scale = 2*pi / raw mean adjacent gap; multiplicity-dependent.")
 log("  Its ratio to t_Π is descriptive and does not define a physical time-regime boundary.")
 log()
-
-# First sampled exceedance of 1.5x the second-half-of-current-grid mean.
-# This is not a physical time-scale estimate or a Poisson/physical asymptotic baseline.
-log("  Heuristic: first sampled exceedance of 1.5x the second-half-of-current-grid mean:")
-log("  This is not a physical time-scale estimate and not a Poisson/physical asymptotic baseline.")
-for N in sorted(sff_results.keys()):
-    if N < 3:
-        continue
-    r = sff_results[N]
-    K = r['K_freq']
-    t_arr = r['t']
-    second_half_mean = np.mean(K[len(K)//2:]) if len(K) > 10 else 1
-    threshold = 1.5 * second_half_mean
-    above = np.where(K > threshold)[0]
-    if len(above) > 0:
-        first_sampled_exceedance_time = t_arr[above[0]]
-        log(f"    N={N}: first sampled exceedance t ≈ {first_sampled_exceedance_time:.2f}  (t/raw scale = {first_sampled_exceedance_time/r['raw_scale']:.4f})")
-    else:
-        log(f"    N={N}: no sampled exceedance detected")
-
 
 # ========================================================================
 # PHASE 7: CONNECTION TO PREVIOUS RESULTS
@@ -441,17 +378,17 @@ log()
 log("  Poisson/no-ramp behavior is compatible with integrability or block fragmentation;")
 log("  it does not prove integrability. Read the sampled SFF separately from a class claim.")
 log()
-log("  PT analysis said: Pi is chiral (class AIII). The palindromic")
-log("  modulation in the SFF is the TIME-DOMAIN signature of the")
-log("  same spectral pairing that RMT sees in LEVEL STATISTICS.")
+log("  The exact palindrome pairs reflected decay-rate bands. Each pair")
+log("  contributes to the trace amplitude; the SFF then squares the full sum.")
+log("  This reflection alone does not assign a global symmetry class.")
 log()
 log("  Topo analysis said: geometric, not topological. The SFF is")
 log("  independent of localization (it measures spectral correlations,")
 log("  not spatial profiles).")
 log()
 log("  Analytical formulas: ω_min = 4J(1-cos(π/N)) (formula 2, k=1).")
-log("  If the SFF modulation peak matches ω_min, that confirms the")
-log("  (0,1) coherence block's dispersion relation in the time domain.")
+log("  A sampled FFT candidate is associated with omega_min at N=2-4 and N=6;")
+log("  it is not identified at N=5 or N=7 and does not prove the dispersion.")
 
 
 # ========================================================================
@@ -486,8 +423,8 @@ log(f"  Below-bin mean K_freq <= 0.3 (or empty below bin) at {n_below_threshold}
 log()
 log("  The below bin is t < 0.1*raw scale; this threshold is not a spectral-class or no-ramp test.")
 log("  The sampled curves and their modulation are the SFF evidence; no integrability theorem follows.")
-log("  Palindromic modulation provides time-domain fingerprint of")
-log("  the spectral pairing lambda <-> -(lambda + 2*Sigma_gamma).")
+log("  The pair contributes 2*cos(omega*t) to the trace amplitude, not directly to the SFF.")
+log("  Squaring the trace amplitude generates doubled and cross frequencies.")
 log()
 log(f"Completed: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
 log(f"Results: {OUT_PATH}")

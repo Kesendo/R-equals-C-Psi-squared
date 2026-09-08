@@ -1,0 +1,118 @@
+RAW FREQUENCY-MULTISET DIAGNOSTICS IN AVERAGE-LIGHT BANDS
+Heisenberg chain, J=1, gamma=0.05; existing C# CSVs N=2..7.
+Rate window |d-2*w*gamma| < 0.3*gamma; average-light half-width 0.15, not invariant XY-weight sectors.
+Absolute frequencies: zero frequencies and multiplicities retained; no rounding or deduplication.
+Each original adjacent gap pair retained; 0/positive=0; 0/0 undefined; mean over defined ratios only.
+Exact parsed-double ties are counted; near-degenerate splittings are not certified physical resolution.
+These unresolved average-light bands have no standard-ensemble calibration and no integrability verdict.
+
+N=2: 16 eigenvalues
+  w=0:
+      levels=3, gaps=2, zero_gaps=1, adjacent_pairs=1, defined_ratios=1, undefined_zero_zero=0
+      <r> defined = 0
+  w=1:
+      levels=10, gaps=9, zero_gaps=2, adjacent_pairs=8, defined_ratios=8, undefined_zero_zero=0
+      <r> defined = 0.083333333333599824
+  w=2:
+      levels=3, gaps=2, zero_gaps=1, adjacent_pairs=1, defined_ratios=1, undefined_zero_zero=0
+      <r> defined = 0
+
+N=3: 64 eigenvalues
+  w=0:
+      levels=4, gaps=3, zero_gaps=1, adjacent_pairs=2, defined_ratios=2, undefined_zero_zero=0
+      <r> defined = 0.11957980892061902
+  w=1:
+      levels=14, gaps=13, zero_gaps=1, adjacent_pairs=12, defined_ratios=12, undefined_zero_zero=0
+      <r> defined = 0.17628743214513609
+  w=2:
+      levels=14, gaps=13, zero_gaps=3, adjacent_pairs=12, defined_ratios=12, undefined_zero_zero=0
+      <r> defined = 0.12867162378262795
+  w=3:
+      levels=4, gaps=3, zero_gaps=1, adjacent_pairs=2, defined_ratios=2, undefined_zero_zero=0
+      <r> defined = 0.13296379344218967
+
+N=4: 256 eigenvalues
+  w=0:
+      levels=5, gaps=4, zero_gaps=1, adjacent_pairs=3, defined_ratios=3, undefined_zero_zero=0
+      <r> defined = 0.39883114966083366
+  w=1:
+      levels=20, gaps=19, zero_gaps=0, adjacent_pairs=18, defined_ratios=18, undefined_zero_zero=0
+      <r> defined = 0.28876761279224872
+  w=2:
+      levels=152, gaps=151, zero_gaps=1, adjacent_pairs=150, defined_ratios=150, undefined_zero_zero=0
+      <r> defined = 0.18169077812422024
+  w=3:
+      levels=20, gaps=19, zero_gaps=0, adjacent_pairs=18, defined_ratios=18, undefined_zero_zero=0
+      <r> defined = 0.31513844897720855
+  w=4:
+      levels=5, gaps=4, zero_gaps=1, adjacent_pairs=3, defined_ratios=3, undefined_zero_zero=0
+      <r> defined = 0.15196872720062324
+
+N=5: 1024 eigenvalues
+  w=0:
+      levels=6, gaps=5, zero_gaps=1, adjacent_pairs=4, defined_ratios=4, undefined_zero_zero=0
+      <r> defined = 0.2685652534507198
+  w=1:
+      levels=26, gaps=25, zero_gaps=0, adjacent_pairs=24, defined_ratios=24, undefined_zero_zero=0
+      <r> defined = 0.26268078056682681
+  w=2:
+      levels=80, gaps=79, zero_gaps=1, adjacent_pairs=78, defined_ratios=78, undefined_zero_zero=0
+      <r> defined = 0.24815201187882771
+  w=3:
+      levels=80, gaps=79, zero_gaps=0, adjacent_pairs=78, defined_ratios=78, undefined_zero_zero=0
+      <r> defined = 0.27828836818199409
+  w=4:
+      levels=26, gaps=25, zero_gaps=0, adjacent_pairs=24, defined_ratios=24, undefined_zero_zero=0
+      <r> defined = 0.18452666175283561
+  w=5:
+      levels=6, gaps=5, zero_gaps=1, adjacent_pairs=4, defined_ratios=4, undefined_zero_zero=0
+      <r> defined = 0.35324608692445464
+
+N=6: 4096 eigenvalues
+  w=0:
+      levels=7, gaps=6, zero_gaps=1, adjacent_pairs=5, defined_ratios=5, undefined_zero_zero=0
+      <r> defined = 0.20589402637273038
+  w=1:
+      levels=32, gaps=31, zero_gaps=0, adjacent_pairs=30, defined_ratios=30, undefined_zero_zero=0
+      <r> defined = 0.24299304926071513
+  w=2:
+      levels=96, gaps=95, zero_gaps=1, adjacent_pairs=94, defined_ratios=94, undefined_zero_zero=0
+      <r> defined = 0.228424540319379
+  w=3:
+      levels=1948, gaps=1947, zero_gaps=14, adjacent_pairs=1946, defined_ratios=1946, undefined_zero_zero=0
+      <r> defined = 0.1659385190868666
+  w=4:
+      levels=96, gaps=95, zero_gaps=0, adjacent_pairs=94, defined_ratios=94, undefined_zero_zero=0
+      <r> defined = 0.20925036560680269
+  w=5:
+      levels=32, gaps=31, zero_gaps=0, adjacent_pairs=30, defined_ratios=30, undefined_zero_zero=0
+      <r> defined = 0.27771716168721416
+  w=6:
+      levels=7, gaps=6, zero_gaps=1, adjacent_pairs=5, defined_ratios=5, undefined_zero_zero=0
+      <r> defined = 0.0045838314757867355
+
+N=7: 16384 eigenvalues
+  w=0:
+      levels=8, gaps=7, zero_gaps=1, adjacent_pairs=6, defined_ratios=6, undefined_zero_zero=0
+      <r> defined = 0.43397498477774993
+  w=1:
+      levels=38, gaps=37, zero_gaps=1, adjacent_pairs=36, defined_ratios=36, undefined_zero_zero=0
+      <r> defined = 0.24548347740669391
+  w=2:
+      levels=138, gaps=137, zero_gaps=1, adjacent_pairs=136, defined_ratios=136, undefined_zero_zero=0
+      <r> defined = 0.23534562285136609
+  w=3:
+      levels=1710, gaps=1709, zero_gaps=17, adjacent_pairs=1708, defined_ratios=1708, undefined_zero_zero=0
+      <r> defined = 0.19686572210722628
+  w=4:
+      levels=1710, gaps=1709, zero_gaps=7, adjacent_pairs=1708, defined_ratios=1708, undefined_zero_zero=0
+      <r> defined = 0.21256889000702267
+  w=5:
+      levels=138, gaps=137, zero_gaps=1, adjacent_pairs=136, defined_ratios=136, undefined_zero_zero=0
+      <r> defined = 0.28176020111116601
+  w=6:
+      levels=38, gaps=37, zero_gaps=0, adjacent_pairs=36, defined_ratios=36, undefined_zero_zero=0
+      <r> defined = 0.30423960117123766
+  w=7:
+      levels=8, gaps=7, zero_gaps=1, adjacent_pairs=6, defined_ratios=6, undefined_zero_zero=0
+      <r> defined = 0.19866391308001061

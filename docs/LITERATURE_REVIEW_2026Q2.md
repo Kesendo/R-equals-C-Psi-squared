@@ -52,7 +52,7 @@ HTML versions. Result:
 |---|---|---|
 | Popkov-Prosen 2025 ↔ F80 "dissipatively dressed quasiparticles" | 2 | **Rejected** (structural mismatch) |
 | Kullig-Wiersig-Schomerus 2025 ↔ F86b universal resonance shape | 3 | **Applicable with reframing** |
-| Sá-Ribeiro-Prosen 2023 ↔ Π "weak antiunitary, class X" | 1 | **Rejected for headline mapping** (Π is unitary, not antiunitary; shift 2Σγ has no SRP slot); Π² = X⊗N component does fit |
+| Sá-Ribeiro-Prosen 2023 ↔ Π "weak antiunitary, class X" | 1 | **Reframed**: Π is unitary and gives a P-type symmetry of the shifted generator after Π²-sector resolution; the final irreducible-sector class is OPEN |
 | Sayooj-Narayan 2025 ↔ F86a Q_EP location | 3 | **Rejected for localization claim** (Newton polygons characterize EP order, do not locate EPs); applicable for "what EP orders exist in full block-L" |
 | Molina 2026 ↔ F86b "super-Lorentzian" | 3 | **Structural fit unclear** (different observation axis: Q-sweep vs. ω-sweep; setup mismatch chain vs. collective spin; shared Jordan-block mechanism). Decision requires fitting F86b data to Molina's functional form |
 | Paszko-Turner-Rose-Pal 2025 ↔ F1³ orbit count optimality | 1 | **Rejected** (system class mismatch: their theorem requires frustration-free Pauli H, our XY/Heisenberg fails; plus concept conflation between sector-orbiting and operator-space fragmentation) |
@@ -107,16 +107,12 @@ something we can use directly.
 4. **Tenfold-way classification of many-body Lindbladians (Sá,
    Ribeiro, Prosen — Phys. Rev. X 13, 031019, 2023).** Already
    established in the field but missing from our prior review.
-   ~~The correct citation when we use "weak / strong / anti-unitary"
-   language for Π.~~ **Verification (2026-05-23): rejected as the
-   Π citation** (Π is unitary not antiunitary, and the constant
-   shift 2Σγ has no slot in the SRP scheme — Π falls in a gap;
-   the repo's own [the KMS detailed-balance analysis](KMS_DETAILED_BALANCE.md)
-   already documents this. SRP-2023 *is* the correct citation for
-   the Π² = X⊗N strong unitary symmetry component, just not for Π
-   itself.) Each class carries predictions about spectral
-   statistics — a possible consistency check for our spectra **on
-   the X⊗N-symmetry sector only**.
+   SRP is the relevant classification source for the trace-shifted
+   generator. Π is unitary, not antiunitary; after resolving
+   Π² = U_X and fixing parity p_x, `sqrt(p_x) Π` is an involutive
+   sectorwise P generator. A class label and its spectral-statistics
+   prediction require the rest of the symmetry algebra and a fully
+   irreducible block; that calculation is still OPEN for our model.
    - [arXiv:2212.00474](https://arxiv.org/abs/2212.00474)
 
 Honorable mentions: Paszko-Turner-Rose-Pal 2025 (operator-space
@@ -154,14 +150,13 @@ amplitude damping (closed-form Frobenius norm) and thermal baths.
 ### What the literature offers us
 
 **Sá-Ribeiro-Prosen 2022 (arXiv:2212.00474, PRX 2023) — vocabulary
-and classification.** Their tenfold-way (10 base classes, 19 with
-extra symmetry) gives us the standard taxonomy for Π. Two concrete
-uses: (a) a precise label for Π in published work ("weak anti-unitary
-symmetry of the Liouvillian, class X"); (b) their per-class
-predictions about RMT statistics can be cross-checked against our
-empirical spectra — disagreement would suggest Π² = X⊗N is an
-additional symmetry beyond what the classification captures, which
-would itself be a finding.
+and classification.** Their framework classifies the trace-shifted
+Lindbladian after resolution into irreducible symmetry sectors. For Π,
+the usable statement is a sectorwise P symmetry: Π² = U_X is first
+resolved, then `sqrt(p_x) Π` squares to identity in parity sector p_x.
+The paper's local-dephasing examples yield BDI or CI depending on the
+Hamiltonian and parity sector; our label remains OPEN until the same
+full algebra is computed for our irreducible blocks.
 
 **Paszko-Turner-Rose-Pal 2025 (arXiv:2506.16518) — bond / commutant
 algebra as a fragmentation tool.** They derive operator-space
@@ -230,46 +225,11 @@ remembering.
 
 ### Concrete suggestion
 
-Spend one session checking our empirical Liouvillian eigenvalue
-statistics (e.g. nearest-neighbor spacing in the Π²-odd sector)
-against the Sá-Ribeiro-Prosen prediction for the relevant class.
-If they match, we have an external validation. If they don't, the
-deviation is itself a research lead.
-
-> **Verification (2026-05-23, rejected for headline; partial fit
-> for Π² component).** The repo already analyzed this question:
-> [the KMS detailed-balance analysis](KMS_DETAILED_BALANCE.md) lines 97-133
-> walks through the SRP-2023 taxonomy and concludes Π falls in a
-> gap. Specifically:
-> - SRP-2023 classifies by seven generators: T₊, C₊ (antiunitary
->   time-reversal flavors); T₋, C₋ (antiunitary particle-hole
->   flavors); P (unitary chiral/sublattice); Q₊, Q₋ (pseudo- and
->   anti-pseudo-Hermiticity, involving L†).
-> - Cowork suggested labeling Π as "weak anti-unitary, class X".
->   **Π is unitary, not antiunitary**: Π² = X⊗N is a Pauli string,
->   hence unitary; so is Π. No complex conjugation in the conjugation
->   relation.
-> - Our actual relation Π·L·Π⁻¹ = −L − 2Σγ·I is structurally
->   closest to P (chiral) after a shift L → L̃ = L + Σγ·I, since
->   Π·L̃·Π⁻¹ = −L̃. The constant shift 2Σγ has **no slot** in any
->   SRP relation (they assume S·L·S⁻¹ = ±L or ±L†, no shifts).
->   KMS_DETAILED_BALANCE.md names Q₋ as nearest match instead but
->   notes it requires L = L†, which fails for H ≠ 0.
-> - Either way, the conclusion in KMS_DETAILED_BALANCE.md stands:
->   **Π is a shifted anti-similarity of L, not a member of the
->   tenfold/38-fold scheme.**
-> - **What does fit cleanly into SRP:** Π² = X⊗N is a strong
->   unitary symmetry (commutes with H, and the dephasing dissipator
->   is invariant under X·ρ·X conjugation since the (-Z) sign cancels
->   pairwise). The RMT cross-check in suggestion (b) would only
->   probe the X⊗N strong symmetry, not Π.
->
-> Lesson: Cowork's search-only methodology missed an internal repo
-> analysis ([the KMS detailed-balance analysis](KMS_DETAILED_BALANCE.md))
-> that already settled this question. A grep for "tenfold" in docs/
-> would have surfaced it. **Do not cite SRP-2023 as the taxonomy
-> for Π** — cite KMS_DETAILED_BALANCE.md as the analysis instead;
-> SRP-2023 is usable only for the Π² = X⊗N sub-component.
+First complete the SRP classification in irreducible sectors: center L,
+resolve Π² and the other commuting unitary/strong symmetries, and compute
+the remaining antiunitary algebra. Only then compare unfolded within-sector
+statistics with a class prediction. The present global and band-pooled
+finite-N spacing data cannot validate or falsify an SRP class.
 
 ---
 
@@ -668,7 +628,7 @@ phrases.
 | External term | Source | Where it maps in our work | Verification status |
 |---------------|--------|---------------------------|---------------------|
 | Topological isospectrality (vs. geometric bisymmetry) | Cheshkov-Sinitsyn 2026 | ~~Π conjugation (it is topological isospectrality, not geometric)~~ — Π is operator-conjugation, not parameter-exchange. The concept maps to **F71 / F92 / F93** (our parameter-side palindromes), not to Π. Closed-Hamiltonian-to-Liouvillian transfer needs explicit step | **wrong target** (concept real, but mapped to wrong internal primitive) |
-| ~~Weak anti-unitary symmetry, class X~~ | Sá-Ribeiro-Prosen 2022 (tenfold way) | ~~Π in the standard Lindbladian symmetry taxonomy~~ — Π is unitary not antiunitary and falls in a gap (see Cluster 1 verification note); SRP applies only to Π² = X⊗N component | **rejected** for Π; partial for Π² |
+| P-type symmetry of the shifted generator | Sá-Ribeiro-Prosen 2022 (tenfold way) | Π is unitary; after resolving Π² = U_X, `sqrt(p_x) Π` is involutive in each parity sector. Full irreducible-sector class remains OPEN | **applicable with sector reduction** |
 | ~~Dissipatively dressed quasiparticles~~ | Popkov-Zhang-Presilla-Prosen 2025 | ~~F80 cluster values~~ — structural mismatch (see Cluster 2 verification note) | **rejected** |
 | Generalized (renormalized) Petermann factor | Kullig-Wiersig-Schomerus 2025 | F86 EP geometry (testable hypothesis: per-bond-class universality is *our* hypothesis, not their claim) | **applicable with reframing** |
 | ~~Operator-space fragmentation, bond algebra, commutant~~ | Paszko-Turner-Rose-Pal 2025 | ~~The general framework our Π-orbits sit inside~~ — their theorem requires frustration-free Pauli H (we have non-commuting XY bonds); their operator-space fragmentation is structurally different from our sector-label orbit-pairing | **rejected** (system class mismatch + concept conflation) |
@@ -699,18 +659,11 @@ When updating [the literature review](LITERATURE_REVIEW.md):
    side Π is structurally distinct from both Cheshkov-Sinitsyn
    categories."
 
-2. **Sá-Ribeiro-Prosen 2022 missing entirely** — ~~add to the
-   Foundations section ("Symmetries of open quantum systems") as
-   the tenfold-way reference. We have been using weak/strong
-   language since the project began; this is the right citation.~~
-   **Verification (2026-05-23): the suggested citation framing is
-   wrong on two counts.** (a) The "weak / strong" language comes
-   from Buča-Prosen 2012, not from SRP-2023. (b) Π is not in the
-   SRP taxonomy at all (shift 2Σγ has no slot). Correct framing
-   when updating the main review: cite SRP-2023 for the Π² = X⊗N
-   strong unitary symmetry component, and cite KMS_DETAILED_BALANCE.md
-   as the internal analysis showing Π itself sits in a gap between
-   SRP and Buča-Prosen.
+2. **Sá-Ribeiro-Prosen 2022** — add it as the classification source
+   for the shifted generator, while retaining Buča-Prosen 2012 for the
+   weak/strong terminology. State Π as a sectorwise P generator after
+   Π²-parity resolution and leave the final class OPEN until the full
+   irreducible-sector symmetry algebra is computed.
 
 3. **Petermann-factor thread missing** — add Kullig-Wiersig-Schomerus
    2025 + the earlier 2208.14944 as a sub-thread under the
@@ -799,11 +752,10 @@ Eight mappings verified:
 - Kullig-Wiersig-Schomerus → F86b: **applicable with reframing**
   (the paper does not claim bond-class universality — that is
   our hypothesis to test).
-- Sá-Ribeiro-Prosen → Π: **rejected for headline** (Π is unitary
-  not antiunitary; the shift 2Σγ has no slot in the SRP taxonomy);
-  partial fit for the Π² = X⊗N component. The repo's own
-  KMS_DETAILED_BALANCE.md (Q1 2026) already contained this analysis;
-  Cowork did not grep for it.
+- Sá-Ribeiro-Prosen → Π: **applicable after reframing**. Π is unitary,
+  SRP works with the shifted generator, and Π becomes an involutive P
+  generator after Π²-parity resolution. The complete sectorwise class
+  is not yet calculated.
 - Sayooj-Narayan → F86a: **mixed**. Newton polygons do NOT locate
   EPs (Cowork's claim (a) wrong); they DO characterize available
   EP orders at a known EP via convex-hull slopes (claim (b) right).

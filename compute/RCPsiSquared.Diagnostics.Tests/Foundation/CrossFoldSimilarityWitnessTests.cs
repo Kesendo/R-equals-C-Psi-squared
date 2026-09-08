@@ -4,11 +4,12 @@ using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
-/// <summary>Move 4: the (SE,DE) diabolics pair across the (SE,DE)↔(SE,w_{N−2}) cross-block fold, because that
-/// fold is an EXACT antiunitary similarity. The branch-locus palindrome's bra bit-flip ρ[a,b]→ρ[a,b̄] maps the
+/// <summary>The (SE,DE)↔(SE,w_{N−2}) cross-block fold is an exact antiunitary similarity. The branch-locus
+/// palindrome's bra bit-flip ρ[a,b]→ρ[a,b̄] maps the
 /// (w1,w2) block to the (w1,N−2) block; these tests pin the matrix identity
 /// L(1,N−2)(q̄) = −P·conj(L(1,2)(q))·Pᵀ − 2N·I to machine zero (so the whole Jordan structure, hence every
-/// diabolic's character, is preserved across the fold) and reproduce the N=7 real-q diabolic pairing. The
+/// independently certified Jordan character is preserved across the fold) and compare one N=7 proposal gap
+/// without treating it as a character certificate. The
 /// witness for the cross-fold section of experiments/F89_PATH_K_DIABOLIC.md.</summary>
 public class CrossFoldSimilarityWitnessTests
 {
@@ -39,14 +40,16 @@ public class CrossFoldSimilarityWitnessTests
     }
 
     [Fact]
-    public void N7_RealQDiabolic_PairsAcrossTheFold()
+    public void N7_ProposalGap_IsTransportedWithoutCertifyingCharacter()
     {
-        // The N=7 real-q diabolic (q=1.1264, λ=−4.942) in (SE,DE)=(1,2) maps to the partner (1,5) at the fold
-        // image −λ−2N = −9.058; the two coalescence gaps are equal (the exact similarity), and both small.
-        var (g12, gp, partnerLam) = new CrossFoldSimilarityWitness().ReproducePairedDiabolic(7, 1.1264, -4.942);
+        // The exact similarity transports the gap near this proposal, but a small sampled gap does not certify
+        // coincidence, correspondence, or Jordan character.
+        var witness = new CrossFoldSimilarityWitness();
+        var method = typeof(CrossFoldSimilarityWitness).GetMethod("ComparePartnerGapsNearProposal");
+        Assert.NotNull(method);
+        var (g12, gp, partnerLam) = ((double, double, double))method.Invoke(
+            witness, new object[] { 7, 1.1264, -4.942 })!;
         Assert.Equal(-9.058, partnerLam, 3);
-        Assert.True(g12 < 1e-3, $"(1,2) is not a coalescence near λ=−4.942: gap {g12:E2}");
-        Assert.True(gp < 1e-3, $"partner (1,5) is not a coalescence near −9.058: gap {gp:E2}");
         Assert.True(System.Math.Abs(g12 - gp) < 1e-9, $"the paired gaps differ: {g12:E2} vs {gp:E2}");
     }
 
@@ -59,8 +62,7 @@ public class CrossFoldSimilarityWitnessTests
     {
         // The (q,Δ) extension: the antiunitary similarity holds for the FULL interacting XXZ block at Δ≠0, NOT
         // just the integrable XY one (the Δ·ZZ term is even under the global bit-flip). The fold is therefore
-        // integrability-independent. Sampled diabolic defect-or-lift is a finite-N Delta response,
-        // consistent with the conditional residual mechanism, not proof of an all-N cause.
+        // integrability-independent. This residual does not certify sampled positive-Delta character.
         var r = new CrossFoldSimilarityWitness().Read(nBlock, new Complex(1.0, 0), delta);
         Assert.Equal(delta, r.Delta);
         Assert.True(r.SimilarityResidual < 1e-9,
@@ -135,5 +137,25 @@ public class CrossFoldSimilarityWitnessTests
         Assert.Contains("Δ", s);                                              // the Δ-robustness is stated
         Assert.Contains("leg", s, System.StringComparison.OrdinalIgnoreCase); // the two-leg Klein structure is stated
         Assert.False(string.IsNullOrWhiteSpace(s));
+    }
+
+    [Fact]
+    public void Summary_LeavesN5N6PositiveDeltaCharacterUncertified()
+    {
+        var s = new CrossFoldSimilarityWitness().Summary;
+        Assert.Contains("N=4", s);
+        Assert.Contains("N=5/N=6", s);
+        Assert.Contains("positive Delta", s, System.StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Uncertified", s);
+        Assert.DoesNotContain("defect-or-lift", s, System.StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("N=7 real-q diabolic", s, System.StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void OldDiabolicCertificationHelper_IsRemoved()
+    {
+        var type = typeof(CrossFoldSimilarityWitness);
+        Assert.Null(type.GetMethod("ReproducePairedDiabolic"));
+        Assert.NotNull(type.GetMethod("ComparePartnerGapsNearProposal"));
     }
 }

@@ -9,27 +9,36 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The F89 Door-C filling comparison: finite executed CSR evidence compares dilute (SE,DE)=(1,2)
 /// with dense blocks under the same interacting disorder at canonical Delta=1.
-/// Nonzero Delta breaks free-fermion additivity, but uniform XXZ remains Bethe-integrable;
-/// random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions);
+/// Nonzero Delta breaks the underlying Hamiltonian's free-fermion additivity, but uniform XXZ remains Bethe-integrable;
+/// at Delta=0 the random-field XY Hamiltonian remains quadratic (Anderson/free fermions). This Hamiltonian label
+/// does not classify the Z-dephasing Liouvillian as a quadratic free-fermion generator;
 /// generic random field plus Delta!=0 is the interacting disordered nonintegrable test. This harness builds the GENERAL
 /// (wKet,wBra) coherence block (<see cref="WeightCoherenceBlock.Build(int,int,int,Complex,double,double[])"/>) at
 /// EXTENSIVE filling (wKet,wBra near N/2) and re-runs the same disordered CSR. If the DENSE block reaches GinUE
 /// while the dilute one does not, that supports a finite-size filling dependence, not a universal
 /// thermalization cause or a deduction of Hamiltonian integrability from spacings.
 ///
-/// <para>Class A is kept by using UNEQUAL weight (p, p+1): the F1 palindrome Π / conjugation maps the (p,p+1)
-/// coherence block to the conjugate (p+1,p) block, NOT to itself, so there is no residual antiunitary — the GinUE
-/// (class A) reference 0.738/−0.24 is the right target (methodology #5; confirmed empirically by
-/// <see cref="ConjugationMatchFraction"/> ≈ 0 once a field/Δ breaks conjugation symmetry). Methodology inherited
+/// <para>GinUE is retained only as a comparison ensemble. Unequal weight (p,p+1) means the known F1 map leaves
+/// the block, and <see cref="ConjugationMatchFraction"/> can show that one bare conjugation relation is absent.
+/// Neither fact exhausts the unitary/antiunitary algebra after irreducible strong-symmetry reduction, so the
+/// sector's full SRP class remains open. Methodology inherited
 /// from the Door-C harness: pool per-spectrum z's (never raw eigenvalues), bootstrap the CI (shared
-/// <see cref="IntegrabilityBreakingCsr.Reduce"/>), and read in the OffReal domain (|Im| &gt; tol), valid once
-/// conjugation symmetry is broken.</para></summary>
+/// <see cref="IntegrabilityBreakingCsr.Reduce"/>), and read in the OffReal domain (|Im| &gt; tol) for a
+/// like-for-like comparison with the complex GinUE cloud. Every spectrum contributes finite-precision cluster representatives,
+/// one per 1e-9 rounded cluster; the resulting CSR and count are tolerance-dependent and not an exact degeneracy census.</para></summary>
 public static class FillingThresholdCsr
 {
     private const double ImTol = 1e-6;
 
-    /// <summary>Off-real eigenvalues (|Im| &gt; tol) of a coherence block — the valid CSR domain once conjugation
-    /// symmetry is broken (Δ≠0 or a random field), apples-to-apples with the GinUE reference (a full complex cloud).</summary>
+    /// <summary>The numerical clustering boundary shared by every CSR consumer in this harness.</summary>
+    public static string ClusteringScope => ComplexSpacingRatio.ClusteringScope;
+
+    public static string ReferenceScope =>
+        "GinUE comparison only; the full sector symmetry algebra and irreducible SRP class remain open. " +
+        ClusteringScope;
+
+    /// <summary>Off-real eigenvalues (|Im| &gt; tol) used only for the GinUE comparison.
+    /// Selecting this subset does not determine the block's symmetry class.</summary>
     private static List<Complex> OffReal(IEnumerable<Complex> vals)
     {
         var res = new List<Complex>();
@@ -45,8 +54,10 @@ public static class FillingThresholdCsr
 
     /// <summary>The disorder-ensemble pooled CSR of the (wKet,wBra) block at (q, Δ). For each of
     /// <paramref name="realizations"/> realizations draw a per-site field w_k ~ U[−w, w], build the block with that
-    /// field, and pool the OffReal per-spectrum z's; bootstrap a 95% CI. w=0 is deterministic (the clean block, every
-    /// realization identical). Δ=0 is free-fermion + disorder (Anderson-like); Δ≠0 is interacting + disorder.</summary>
+    /// field, and pool the OffReal per-spectrum z's after finite-precision clustering; bootstrap a 95% CI.
+    /// w=0 is deterministic (the clean block, every
+    /// realization identical). At Δ=0 the disordered XY Hamiltonian is quadratic/Anderson-like; this is not a
+    /// quadratic-Liouvillian claim. At Δ≠0 the Hamiltonian is interacting and disordered.</summary>
     public static IntegrabilityBreakingCsr.CsrReading DisorderSweep(
         int n, int wKet, int wBra, double q, double delta, double w, int realizations, int seed)
     {
@@ -66,8 +77,8 @@ public static class FillingThresholdCsr
     }
 
     /// <summary>The clean (disorder-free) pooled CSR of the (wKet,wBra) block at Δ, pooled over the q-grid. The
-    /// integrable/no-disorder control: at Δ=0 the block is free-fermion; at Δ≠0 the Hamiltonian is Bethe-integrable
-    /// but the Liouvillian is not free-fermion (the Δ·ZZ breaks the additivity). OffReal throughout.</summary>
+    /// integrable/no-disorder control: at Δ=0 the underlying XY Hamiltonian is free-fermion; at Δ≠0 the Hamiltonian
+    /// is Bethe-integrable. Neither statement classifies the Z-dephasing Liouvillian as free-fermion. OffReal throughout.</summary>
     public static IntegrabilityBreakingCsr.CsrReading CleanSweep(int n, int wKet, int wBra, double[] qs, double delta)
     {
         var pool = new List<Complex>();
@@ -77,8 +88,9 @@ public static class FillingThresholdCsr
     }
 
     /// <summary>The fraction of eigenvalues λ whose conjugate λ* is also in the spectrum (within tol). ≈ 1 ⟹
-    /// conjugation-symmetric (free-fermion Δ=0, no field), ≈ 0 ⟹ broken (a field or Δ≠0). The class-A guard: a
-    /// near-zero fraction confirms no residual antiunitary, so the GinUE (class A) reference is the right target.
+    /// conjugation-symmetric (Δ=0, no field), ≈ 0 means this particular spectral-conjugation
+    /// match is absent. It does not exclude other antiunitary relations after irreducible-sector reduction and
+    /// therefore does not assign a symmetry class.
     ///
     /// <para>The involution here is λ ↦ λ*, NOT the F1 palindrome λ ↦ −2σ − λ, so this is a different object
     /// from <c>F1SpectrumStatistics.MaxF1PairingDistance</c> and must not be replaced by it. What it does share

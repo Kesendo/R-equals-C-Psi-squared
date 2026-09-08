@@ -18,6 +18,7 @@ public class F86QEpPi2InheritanceRegistrationTests
             .RegisterPi2DyadicLadder()
             // TPeakLaw's rung-2 edge (2026-06-10) requires AbsorptionTheoremClaim.
             .RegisterAbsorptionTheoremClaim()
+            .RegisterF1PalindromeIdentity()
             .RegisterF86Main(GammaZero, GEff);
 
     [Fact]
@@ -67,6 +68,7 @@ public class F86QEpPi2InheritanceRegistrationTests
                 // AbsorptionTheoremClaim registered (TPeakLaw's rung-2 edge, 2026-06-10)
                 // so the only missing piece stays the ladder.
                 .RegisterAbsorptionTheoremClaim()
+                .RegisterF1PalindromeIdentity()
                 .RegisterF86Main(GammaZero, GEff)
                 // Missing: RegisterPi2DyadicLadder
                 .RegisterF86QEpPi2Inheritance()

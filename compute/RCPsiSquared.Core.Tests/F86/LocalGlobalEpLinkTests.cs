@@ -9,8 +9,8 @@ namespace RCPsiSquared.Core.Tests.F86;
 
 /// <summary>F86 ↔ FRAGILE_BRIDGE meta-claim tests, post the 2026-06-21 F86a-retraction.
 /// The claim is now an <see cref="Tier.OpenQuestion"/>: the full Σγ=N·γ₀ block is genuinely
-/// non-normal on the real Q axis but has NO eigenvalue coalescence there (eigenvalues simple),
-/// so the prior real-axis defective-EP reading is dropped along with the grid-sensitive peak
+/// non-normal at the sampled real-Q peaks, whose eigenvalues are simple. Separately certified
+/// real-axis F89 seeds are outside that coarse sweep; the grid-sensitive peak
 /// magnitudes ("6×", K=2384.7, the within-parity growth law, the parity asymmetry). The four
 /// witness rows are retained ONLY as a cautionary non-normality record. These tests pin the
 /// corrected tier, the retained-rows count, the correction note, and KB integration; they do
@@ -41,12 +41,35 @@ public class LocalGlobalEpLinkTests
     {
         var link = LocalGlobalEpLink.Build();
         Assert.NotNull(link.PendingDerivationNote);
-        // The correction: genuine non-normality, NOT an eig artifact; eigenvalues simple on
-        // the real axis (no coalescence); magnitudes retracted; off-axis EP is OPEN.
+        // The current boundary: the sampled peak magnitudes are not EP evidence; certified
+        // real-axis seeds and the distinct open off-axis question remain separate.
         Assert.Contains("non-normal", link.PendingDerivationNote!, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("artifact-free", link.PendingDerivationNote!, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("RETRACTED", link.PendingDerivationNote!, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("OPEN QUESTION", link.PendingDerivationNote!, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("grid-sensitive", link.PendingDerivationNote!, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("remains open", link.PendingDerivationNote!, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("DISTINCT off-real-axis", link.PendingDerivationNote!, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void FragileBridgeSurface_ReportsAxisDepartureWithOpenEpCharacter()
+    {
+        var link = LocalGlobalEpLink.Build();
+        string surface = string.Join("\n", new[]
+        {
+            link.Name,
+            link.DisplayName,
+            link.Summary,
+            link.PendingDerivationNote,
+            link.GlobalInstanceAnchor
+        }.Concat(link.Children.Select(child => $"{child.DisplayName}\n{child.Summary}")));
+
+        Assert.Contains("spectral-abscissa axis departure", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("EP character OPEN", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("toy 2x2 EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("FRAGILE_BRIDGE EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("gain-loss EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("real-gamma EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("firmly-established genuine EPs", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("tracked real-gamma axis departure", surface, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

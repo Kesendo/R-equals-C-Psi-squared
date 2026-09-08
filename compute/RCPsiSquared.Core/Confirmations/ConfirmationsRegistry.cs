@@ -233,7 +233,7 @@ public static class ConfirmationsRegistry
                 "Residuals monotonically shrink as Ω increases (15.7° → 9.2° at Ω 0.13 → 0.25 on Pair A_mid), consistent with a roughly constant natural-Kingston drift contribution becoming a smaller fraction of the driven rotation.",
             HardwareData: "data/ibm_f95_angle_steering_may2026/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json (+ matching PNGs and partial-run JSONs; see README.md in that directory for details)",
             ExperimentDoc: "experiments/CPSI_COMPLEX_PLANE.md (conceptual predecessor; F95 closed form derived 2026-05-16 same day)",
-            FrameworkPrimitive: "F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1))) + " +
+            FrameworkPrimitive: "F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1)), finite b>0) + " +
                 "F25 Lindblad CΨ trajectory + complex CΨ_com signed-sum-of-off-diagonals extension",
             Description:
                 "First hardware verification that the complex-CΨ angle predicted by F95 is actively steerable on IBM Kingston. " +

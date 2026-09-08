@@ -1,6 +1,6 @@
 # Proof of F95: Angle Emergence at Quadratic Discriminant Zero
 
-**Statement:** For any monic quadratic z² − 2bz + c = 0 with real coefficients (b, c) ∈ ℝ², the argument of the complex root pair (when c > b², the discriminant-negative regime) is:
+**Statement:** For a monic quadratic z² − 2bz + c = 0 with real c and finite b > 0, the principal argument of its upper-half-plane root (when c > b², the discriminant-negative regime) is:
 
     θ(c; b) = arctan( √(c/b² − 1) )    for c > b²
     θ = 0                              for c = b²
@@ -20,11 +20,11 @@ which is exactly the θ-compass introduced state-specifically in [`experiments/B
 
 ## Abstract
 
-F95 names the angle that appears when a quadratic crosses its discriminant zero. For any monic z² − 2bz + c with real (b, c), the complex root pair has argument
+F95 names the angle that appears when a positive-b quadratic crosses its discriminant zero. For monic z² − 2bz + c with real c and finite b > 0, the complex root pair has arguments
 
     θ(c; b) = arctan(√(c/b² − 1))   for c > b²,   θ = 0 at c = b²,   undefined for c < b²,
 
-and at the framework's structural fixed point b = 1/2 this collapses to θ(c) = arctan(√(4c − 1)) past the threshold c = 1/4. This is exactly the θ-compass that BOUNDARY_NAVIGATION found state-specifically at the Mandelbrot 1/4 cusp in February; F95 promotes it from a discovery about one trajectory to a universal four-line polynomial identity.
+and at the framework's structural fixed point b = 1/2 this collapses to θ(c) = arctan(√(4c − 1)) past the threshold c = 1/4. This is exactly the θ-compass that BOUNDARY_NAVIGATION found state-specifically at the Mandelbrot 1/4 cusp in February; F95 promotes it from a discovery about one trajectory to the four-line positive-b polynomial identity used by the current callers.
 
 The reading is that the angle is not a quantum postulate but the minimal second coordinate the algebra forces. The PolynomialFoundation d² − 2d = 0 has a mirror at d = 0 where no angle is definable; the moment a magnitude crosses into the discriminant-negative regime a phase becomes necessary, and standard QM's complex amplitude r·e^{iθ} is what that crossing forces, with the Born length-squared its geometric shadow. F95 is the angle side of the local cusp geometry whose magnitude side is F94 ((4/3)·Q²·K³); F97 lifts the same z² − 2bz + c algebra off the real-c axis onto the full complex cardioid, recovering F95's cusp at its φ = 0 tangent. The reflection ON_HOW_THE_ANGLE_APPEARS_AT_ZERO carries the synthesis.
 
@@ -32,7 +32,7 @@ The reading is that the angle is not a quantum postulate but the minimal second 
 
 Take the monic quadratic over the reals:
 
-    p(z) = z² − 2bz + c,    b, c ∈ ℝ
+    p(z) = z² − 2bz + c,    c ∈ ℝ, finite b > 0
 
 with leading coefficient 1, linear-term half b, constant term c. The discriminant is
 
@@ -69,7 +69,7 @@ arg(z+) = arctan( Im(z+) / Re(z+) )
         = arctan( √( c/b² − 1 ) )     (4)  algebraic simplification ∎
 ```
 
-The convention here picks the upper-half-plane root z₊ (positive imaginary part); the lower-half-plane root z₋ is the complex conjugate, with argument −arctan(√(c/b² − 1)), reflecting through the real axis. Both roots together carry a single magnitude (|z±| = √(b² + (c − b²)) = √c) and a paired ±θ angle, the standard polynomial structural fact.
+The convention here picks the upper-half-plane root z₊ (positive imaginary part); because b > 0, its principal argument lies in [0, π/2), and the algebraic step from √(c−b²)/b to √((c−b²)/b²) is valid. The lower-half-plane root z₋ is the complex conjugate, with argument −arctan(√(c/b² − 1)), reflecting through the real axis. Both roots together carry a single magnitude (|z±| = √(b² + (c − b²)) = √c) and a paired ±θ angle. The b < 0 branch would require the second-quadrant principal argument π−θ, while b = 0 gives π/2 for c > 0; neither branch is part of the current F95 API.
 
 ## Framework specialization (b = 1/2)
 

@@ -5,12 +5,12 @@ namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 structural fingerprint: at Q = Q_peak the Dicke probe sits dominantly in
 /// dressed (H-mixed, complex-eigenvalue) modes; far past Q_peak it sits substantially in
-/// pure-rate modes again. This is what makes Q_peak a generalised exceptional-point
-/// resonance condition: ∂S/∂J peaks where probe weight has been pulled off the pure-rate
-/// ladder onto the first complex-conjugate eigenvalue pair just past the EP.
+/// pure-rate modes again. This is an empirical mixed-mode-weight observation near Q_peak.
+/// It does not identify Q_peak with an exceptional point or establish that a particular
+/// complex-conjugate pair causes the response maximum.
 ///
-/// <para><b>Tier 1 candidate.</b> The qualitative structural mechanism (probe-weight
-/// shift onto dressed pair past EP) is sound — it follows from the F86a EP analysis.
+/// <para><b>Tier 2 empirical.</b> The qualitative weight shift is sampled rather than derived,
+/// and its relation to the toy two-level EP is open (see <see cref="LocalGlobalEpLink"/>).
 /// The specific hardcoded values <see cref="WeightAtQPeak"/> = 0.99 and
 /// <see cref="WeightAtPlateau"/> = 0.31 at <see cref="PlateauQ"/> = 20 are
 /// <b>unverified anchors</b>, not derived constants and not witness-backed per (c, N):</para>
@@ -28,7 +28,7 @@ namespace RCPsiSquared.Core.F86;
 /// </list>
 ///
 /// <para><b>To promote Tier 1 candidate → Tier 1 derived:</b> either (a) derive
-/// W(Q_peak) and W(Q_plateau) analytically from the EP 2-level eigenvector rotation, or
+/// W(Q_peak) and W(Q_plateau) analytically without assuming an EP cause, or
 /// (b) replace the hardcoded constants with a per-(c, N) witness collection backed by
 /// actual computation (`simulations/eq022_b1_step_c_time_evolution.py` has the
 /// `dressed_weight` calculator). Per-block tracking would also distinguish c-dependence
@@ -50,15 +50,15 @@ public sealed class DressedModeWeightClaim : Claim
     public double PlateauQ { get; } = 20.0;
 
     public DressedModeWeightClaim()
-        : base("dressed-mode probe weight at Q_peak (qualitative structural fingerprint; specific values unverified anchors)",
-               Tier.Tier1Candidate,
-               "docs/ANALYTICAL_FORMULAS.md F86 EP-based structural mechanism (qualitative); " +
+        : base("dressed-mode probe weight near Q_peak (empirical observation; EP cause open; specific values unverified anchors)",
+               Tier.Tier2Empirical,
+               "docs/ANALYTICAL_FORMULAS.md F86 mixed-mode-weight observation (empirical; EP cause open); " +
                "experiments/Q_SCALE_THREE_BANDS.md (empirical W tables, NOT matching hardcoded 0.99/0.31); " +
                "simulations/eq022_b1_step_c_time_evolution.py (dressed_weight calculator)")
     { }
 
     public override string DisplayName =>
-        "Dicke probe → dressed modes at Q_peak (Tier 1 candidate; structural mechanism, specific values unverified)";
+        "Dicke probe → dressed modes near Q_peak (Tier 2 empirical; EP cause open, specific values unverified)";
 
     public override string Summary =>
         $"qualitative: W(Q_peak) >> W(Q_plateau); hardcoded anchors W(Q_peak)≈{WeightAtQPeak:P0}, W(Q={PlateauQ:F0})≈{WeightAtPlateau:P0} unverified per (c, N) ({Tier.Label()})";
@@ -69,8 +69,8 @@ public sealed class DressedModeWeightClaim : Claim
         {
             yield return InspectableNode.RealScalar("dressed-mode weight at Q_peak (anchor, unverified)", WeightAtQPeak, "P1");
             yield return InspectableNode.RealScalar($"dressed-mode weight at Q={PlateauQ} (anchor, unverified)", WeightAtPlateau, "P1");
-            yield return new InspectableNode("structural mechanism (Tier 1)",
-                summary: "probe pulled off pure-rate ladder onto complex-conjugate pair just past EP — Q_peak is a generalised EP resonance");
+            yield return new InspectableNode("empirical weight shift",
+                summary: "probe weight is larger in H-mixed modes near Q_peak; this does not identify Q_peak with an EP or isolate a causal eigenvalue pair");
             yield return new InspectableNode("specific values caveat",
                 summary: "0.99/0.31 are memorised anchors; empirical W_peak in Q_SCALE_THREE_BANDS.md ranges 0.832-0.9996, W_plateau at Q=50 ranges 0.42-0.86. No per-(c, N) witness collection.");
         }

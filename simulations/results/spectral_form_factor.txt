@@ -1,6 +1,6 @@
 ========================================================================
 SPECTRAL FORM FACTOR OF THE PALINDROMIC LIOUVILLIAN
-Started: 2026-09-07 20:16:25
+Started: 2026-09-08 03:08:13
 ========================================================================
 
 ========================================================================
@@ -24,7 +24,6 @@ PHASE 2: SPECTRAL FORM FACTOR
     ω_min (slowest)  = 4.0000
     t_Π (palindromic) = 1.57
     K_freq range: [6.2500e-02, 1.0000]
-    K_diss range: [1.0000e+00, 24760787356654398410682687803300935650040698740860524665559120758322345033229606499324705238804801090194063696055353858206636140862549790196121459256054623275835804064557329647886121242089267596349991179623165272358494198430150765023878230712667222746041635188964138680320.0000]
 
   N=3 (64 eigenvalues, 0.0s):
     Raw multiset mean adjacent gap = 0.1026
@@ -32,7 +31,6 @@ PHASE 2: SPECTRAL FORM FACTOR
     ω_min (slowest)  = 2.0000
     t_Π (palindromic) = 3.14
     K_freq range: [4.5490e-12, 1.0000]
-    K_diss range: [nan, nan]
 
   N=4 (256 eigenvalues, 0.0s):
     Raw multiset mean adjacent gap = 0.0453
@@ -40,39 +38,35 @@ PHASE 2: SPECTRAL FORM FACTOR
     ω_min (slowest)  = 1.1716
     t_Π (palindromic) = 5.36
     K_freq range: [2.4408e-07, 1.0000]
-    K_diss range: [nan, nan]
 
-  N=5 (1024 eigenvalues, 0.1s):
+  N=5 (1024 eigenvalues, 0.0s):
     Raw multiset mean adjacent gap = 0.0126
     Raw multiset density scale = 497.33
     ω_min (slowest)  = 0.7639
     t_Π (palindromic) = 8.22
     K_freq range: [1.5273e-08, 1.0000]
-    K_diss range: [nan, nan]
 
-  N=6 (4096 eigenvalues, 0.3s):
+  N=6 (4096 eigenvalues, 0.2s):
     Raw multiset mean adjacent gap = 0.0038
     Raw multiset density scale = 1649.44
     ω_min (slowest)  = 0.5359
     t_Π (palindromic) = 11.72
     K_freq range: [4.2834e-10, 1.0000]
-    K_diss range: [nan, nan]
 
-  N=7 (16384 eigenvalues, 1.4s):
+  N=7 (16384 eigenvalues, 0.6s):
     Raw multiset mean adjacent gap = 0.0011
     Raw multiset density scale = 5810.10
     ω_min (slowest)  = 0.3961
     t_Π (palindromic) = 15.86
     K_freq range: [1.0952e-10, 1.0000]
-    K_diss range: [nan, nan]
 
 
 ========================================================================
 PHASE 3: PALINDROMIC MODULATION
 ========================================================================
 
-  Each palindromic pair (μ, -μ) contributes cos(Im(μ)·t).
-  Expected: periodic modulation with period 2π/ω_min.
+  Each palindromic pair contributes 2*cos(Im(mu)*t) to the trace amplitude.
+  The SFF squares that sum, producing doubled and cross frequencies.
 
   N=2:
     ω_min (predicted) = 4.0000
@@ -128,7 +122,7 @@ PHASE 4: RAW FREQUENCY SFF — SAMPLED WINDOWS
   It retains multiplicities (abs frequency > 1e-10), so it is multiplicity-dependent.
   Below/intermediate/beyond are descriptive bins, not physical time regimes or ramp/plateau evidence.
   Only the reached window is assessed; absent bins are not sampled, not zero.
-  Dissipative overflow/NaN remains unresolved and is not interpreted here.
+  Only the raw oscillation-frequency SFF is computed; no decay-weighted or connected estimator is defined.
 
   N=3:
     Reached time: 157.08; raw scale = 61.26; independent-phase reference 1/M = 0.015625
@@ -176,22 +170,22 @@ PHASE 5: BAND-RESOLVED SFF (N=3, 4, 5)
 ========================================================================
 
   N=3 (64 eigenvalues, 0.0s):
-    w=1: 28 eigenvalues, <K>=0.1749, std=0.2802, min=2.5691e-06
-    w=2: 28 eigenvalues, <K>=0.1749, std=0.2802, min=2.5691e-06
-    w=3: 4 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
+    average-light bin centre=1: 28 eigenvalues, <K>=0.1749, std=0.2802, min=2.5691e-06
+    average-light bin centre=2: 28 eigenvalues, <K>=0.1749, std=0.2802, min=2.5691e-06
+    average-light bin centre=3: 4 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
 
   N=4 (256 eigenvalues, 0.1s):
-    w=1: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
-    w=2: 176 eigenvalues, <K>=0.0500, std=0.1073, min=2.1244e-07
-    w=3: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
-    w=4: 5 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
+    average-light bin centre=1: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
+    average-light bin centre=2: 176 eigenvalues, <K>=0.0500, std=0.1073, min=2.1244e-07
+    average-light bin centre=3: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
+    average-light bin centre=4: 5 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
 
-  N=5 (1024 eigenvalues, 2.6s):
-    w=1: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
-    w=2: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
-    w=3: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
-    w=4: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
-    w=5: 6 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
+  N=5 (1024 eigenvalues, 2.8s):
+    average-light bin centre=1: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
+    average-light bin centre=2: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
+    average-light bin centre=3: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
+    average-light bin centre=4: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
+    average-light bin centre=5: 6 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
 
 
 ========================================================================
@@ -207,17 +201,10 @@ PHASE 6: TIMESCALES
     6     11.72     1649.44      0.0071    0.5359    0.0038
     7     15.86     5810.10      0.0027    0.3961    0.0011
 
-  t_Π = palindromic time = 2π/ω_min (period of slowest mode)
+  t_Π = 2π/ω_min (full period of the slowest pair's trace-amplitude term)
   Raw multiset density scale = 2*pi / raw mean adjacent gap; multiplicity-dependent.
   Its ratio to t_Π is descriptive and does not define a physical time-regime boundary.
 
-  Heuristic: first sampled exceedance of 1.5x the second-half-of-current-grid mean:
-  This is not a physical time-scale estimate and not a Poisson/physical asymptotic baseline.
-    N=3: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
-    N=4: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
-    N=5: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
-    N=6: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
-    N=7: first sampled exceedance t ≈ 0.00  (t/raw scale = 0.0000)
 
 
 ========================================================================
@@ -227,17 +214,17 @@ PHASE 7: CONNECTION TO PREVIOUS RESULTS
   Poisson/no-ramp behavior is compatible with integrability or block fragmentation;
   it does not prove integrability. Read the sampled SFF separately from a class claim.
 
-  PT analysis said: Pi is chiral (class AIII). The palindromic
-  modulation in the SFF is the TIME-DOMAIN signature of the
-  same spectral pairing that RMT sees in LEVEL STATISTICS.
+  The exact palindrome pairs reflected decay-rate bands. Each pair
+  contributes to the trace amplitude; the SFF then squares the full sum.
+  This reflection alone does not assign a global symmetry class.
 
   Topo analysis said: geometric, not topological. The SFF is
   independent of localization (it measures spectral correlations,
   not spatial profiles).
 
   Analytical formulas: ω_min = 4J(1-cos(π/N)) (formula 2, k=1).
-  If the SFF modulation peak matches ω_min, that confirms the
-  (0,1) coherence block's dispersion relation in the time domain.
+  A sampled FFT candidate is associated with omega_min at N=2-4 and N=6;
+  it is not identified at N=5 or N=7 and does not prove the dispersion.
 
 
 ========================================================================
@@ -249,8 +236,8 @@ SUMMARY
 
   The below bin is t < 0.1*raw scale; this threshold is not a spectral-class or no-ramp test.
   The sampled curves and their modulation are the SFF evidence; no integrability theorem follows.
-  Palindromic modulation provides time-domain fingerprint of
-  the spectral pairing lambda <-> -(lambda + 2*Sigma_gamma).
+  The pair contributes 2*cos(omega*t) to the trace amplitude, not directly to the SFF.
+  Squaring the trace amplitude generates doubled and cross frequencies.
 
-Completed: 2026-09-07 20:16:30
+Completed: 2026-09-08 03:08:17
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\spectral_form_factor.txt

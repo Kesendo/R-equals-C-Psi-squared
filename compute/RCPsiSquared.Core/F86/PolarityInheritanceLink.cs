@@ -58,12 +58,12 @@ namespace RCPsiSquared.Core.F86;
 /// <para><b>Block-independent meta-claim:</b> registered at the F86 KB root for any block,
 /// not just c=2, mirroring <see cref="LocalGlobalEpLink"/>. The witnesses pin the concrete
 /// c=2 bond-class numbers that motivated the polarity-layer reading; the inheritance claim
-/// itself is shared. Locus 5 (<see cref="LocalGlobalEpLink"/>) carries the parallel EP-side
-/// relation (F86 ↔ FRAGILE_BRIDGE; now OpenQuestion after the F86a-retraction 2026-06-21:
-/// the surviving shared substrate is the AIII chiral algebra, while whether the full block
+    /// itself is shared. Locus 5 (<see cref="LocalGlobalEpLink"/>) carries the parallel comparison
+    /// (the F86 EP structures versus FRAGILE_BRIDGE's spectral-abscissa axis departure; OpenQuestion:
+/// the surviving shared substrate is the shifted-generator sectorwise P-type relation, while whether the full block
 /// has a defective EP linking it to FRAGILE_BRIDGE is open); this Locus 6 claim carries the
 /// symmetry-side closure (F86 ↔ polarity-layer pair under the 0.5-shift ρ = (I + r·σ)/2).
-/// Together they bracket the F86 c=2 derivation with EP-side and symmetry-side parent-claim
+    /// Together they bracket the F86 c=2 derivation with comparison-side and symmetry-side parent-claim
 /// references in <c>Pi2KnowledgeBase</c>.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md</c> Statement 2 (Locus 6 inheritance
@@ -71,7 +71,7 @@ namespace RCPsiSquared.Core.F86;
 /// (PolarityLayerOriginClaim + QubitDimensionalAnchorClaim + HalfAsStructuralFixedPointClaim),
 /// <c>compute/RCPsiSquared.Core/F86/Item1Derivation/C2HwhmRatio.cs</c> (live witness pipeline
 /// the values here are pinned from), and <c>compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs</c>
-/// (parallel Locus 5 EP-side closure).</para>
+    /// (parallel Locus 5 classification comparison).</para>
 /// </summary>
 public sealed class PolarityInheritanceLink : Claim
 {
@@ -82,14 +82,15 @@ public sealed class PolarityInheritanceLink : Claim
     public string PolarityRootAnchor =>
         "Pi2KnowledgeBase: QubitDimensionalAnchorClaim + PolarityLayerOriginClaim + HalfAsStructuralFixedPointClaim";
 
-    /// <summary>The parallel Locus 5 closure: the F86 ↔ FRAGILE_BRIDGE EP-side relation
+    /// <summary>The parallel Locus 5 comparison between F86 EP structures and FRAGILE_BRIDGE's
+    /// spectral-abscissa axis departure (EP character OPEN)
     /// (<see cref="LocalGlobalEpLink"/>, now OpenQuestion after the F86a-retraction
     /// 2026-06-21: the full block is genuinely non-normal on the real axis but has no
     /// real-axis EP, and whether it has an off-axis defective EP at all is open). This
     /// claim is the symmetry-side twin: F86 bond-class split inherits from the
     /// polarity-layer pair via the 0.5-shift ρ = (I + r·σ)/2.</summary>
     public string ParallelLocusReference =>
-        "compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs (Locus 5, EP-side)";
+        "compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs (Locus 5, classification comparison)";
 
     /// <summary>γ₀ used by the underlying <c>C2HwhmRatio</c> witness pipeline. The pinned
     /// witnesses below are the 4-decimal-precision values from the live pipeline at

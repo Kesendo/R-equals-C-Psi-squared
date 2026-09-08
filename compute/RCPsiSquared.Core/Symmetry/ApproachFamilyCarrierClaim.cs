@@ -15,7 +15,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>(1) <see cref="UniversalCarrierClaim"/>: every member shares the slowest mode, the carrier rate
 /// 4γ₀, and collapses onto it at late time. That rate is the <see cref="AbsorptionTheoremClaim"/>: the
 /// per-coherence rate is 2γ₀·n_diff, and the Bell+ coherence |00⟩⟨11| differs on both sites (n_diff = 2),
-/// so 2γ₀·2 = 4γ₀ (the absorption quantum is 2γ₀). The number 4 also reads as the polynomial discriminant
+/// so 2γ₀·2 = 4γ₀ (one-disagreement basis-cell cost 2γ₀). The number 4 also reads as the polynomial discriminant
 /// a₋₁ (the t_peak = 1/(4γ₀) structural reading); both the Absorption Theorem and the discriminant live
 /// inside the Universal Carrier, the carrier the family shares being γ₀ in its universal-carrier role.
 /// And that 1/(4γ₀) time-reading is the clock we built: the live <c>MirrorSystem</c> clock has Takt
@@ -65,7 +65,7 @@ public sealed class ApproachFamilyCarrierClaim : Claim
     public F25CPsiBellPlusPi2Inheritance F25 { get; }
 
     /// <summary>The carrier rate coefficient: the slowest mode decays at 4γ = 2γ₀·n_diff with n_diff = 2
-    /// (the Absorption Theorem, the Bell+ coherence differing on both sites; the absorption quantum is 2γ₀).
+    /// (the Absorption Theorem, the Bell+ coherence differing on both sites; one-disagreement cell cost 2γ₀).
     /// The 4 also reads as the polynomial discriminant a₋₁.</summary>
     public const double CarrierRateCoefficient = 4.0;
 
@@ -144,7 +144,7 @@ public sealed class ApproachFamilyCarrierClaim : Claim
         get
         {
             yield return new InspectableNode("the shared carrier (edge 1)",
-                summary: "every member collapses onto the slowest mode 4γ₀; that rate is the Absorption Theorem, 2γ₀·n_diff with n_diff=2 (the Bell+ coherence |00⟩⟨11| differs on both sites, the absorption quantum 2γ₀); the 4 also reads as the polynomial discriminant a₋₁; both live inside the Universal Carrier, the carrier the family shares (γ₀).");
+                summary: "every member collapses onto the slowest mode 4γ₀; here the closed-form Bell+ coherence differs on two sites, so its isolated basis-cell slope is 2γ₀·2=4γ₀ (one-disagreement cost 2γ₀); the 4 also reads as the polynomial discriminant a₋₁; both live inside the Universal Carrier, the carrier the family shares (γ₀).");
             yield return new InspectableNode("the c=2 doubled-PTF kinship (edge 2, a viewpoint not an identity)",
                 summary: "the family (decay observable) and C2's K_b (susceptibility observable) share the 4γ/12γ 3:1 odd-harmonic ratio and the carrier role; the 12γ harmonic is a purity×coherence cross term here, an HD=3 sector mode there, at different (intensity vs amplitude) levels. Siblings on the shared structure, not the same object.");
             yield return new InspectableNode("the two readings (edge 3)",

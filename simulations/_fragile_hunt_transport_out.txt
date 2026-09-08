@@ -1,0 +1,95 @@
+##############################################################################
+# TRANSPORT LEMMA + A2 + A3 : closing the linchpin of the grid-free F127 proof
+##############################################################################
+==============================================================================
+A3  COUNT RECONCILIATION  (sheets / halfangle groups  ->  eliminated factors)
+==============================================================================
+  43 distinct factors (exact key): {'linear': 6, 'quad': 31, 'w1free': 6}
+[POLES] pole inventory of F0, F1 in w1 over K ...
+  43 distinct denominator factors: {'linear': 6, 'quad': 31, 'w1free': 6}
+  terms with a coincident double factor (both slots equal): 0
+    linear: w1-spans [(-1, 0), (0, 1)]
+    quad: w1-spans [(-2, 0), (-1, 1), (0, 2)]
+    w1free: w1-spans [(0, 0)]
+  factor set matches residue_assembly_close.STEP_POLES exactly: True
+  quad 31 | linear 6 | w1free 6
+  all 31 quad factors certified = norm(c) for a unique monomial c (exact norm_factor identity)
+  norm monomials c: 28 carry w1 (dense, nnz=5) + 3 w1-free (sparse):
+    sparse norm(c=(1, 0, 0, 0, 0, 0)) = norm(z1)  <-  outer cot pole  a1+b3 = 0 (Mo=z1 w3^s)
+    sparse norm(c=(0, 1, 0, 0, 0, 0)) = norm(z2)  <-  outer cot pole  a2+b3 = 0 (Mo=z2 w3^s)
+    sparse norm(c=(0, 0, 1, 0, 0, 0)) = norm(z3)  <-  outer cot pole  a3+b3 = 0 (Mo=z3 w3^s)
+  shared-root structure: 12 pairs {N(c), N(1/c)} (= 24 factors sharing their w1-roots) + 7 factors with no in-family 1/c partner
+    (matches residue_assembly_close.STEP_RES_CERT's quad-quad shared-root grouping)
+  halfangle original-frame w1-pole groups: 38  (6 outer w3-free + 32 inner w3-carrying, all-+-1 Mh)
+    the 32 inner sheets carry all-+-1 Mh (6 nonzero); dropping the w3-sign
+    (M vs conj M, both giving the SAME c) collapses them 2:1 onto 16 monomials c
+  the 6 linear eliminated factors == the 6 outer (w3-free) halfangle poles a_i+b1=0: True
+  [A3 SUMMARY -- the count is NOT a 32-vs-31 off-by-one; the honest structure is:]
+    * 31 quad factors, each EXACTLY = norm(c) for a unique monomial c;
+    * 28 carry w1 (dense) + 3 w1-free sparse = norm(z_i) (the a_i+b3 outer cot poles, Sw makes them w1-quadratic);
+    * the 32 all-+-1 inner sheets -> 16 monomials c by w3-conjugation (2:1);
+    * 12 of the factor PAIRS {N(c),N(1/c)} share their roots (STEP_RES_CERT);
+    * 6 linear = 6 outer (a_i+b1) poles; 6 w1free carry no w1-pole.
+==============================================================================
+A2  SQUAREFREENESS / TANGENCY  (w1-discriminant of every norm is a nonzero K-element)
+==============================================================================
+  cleared w1-degree histogram over the 31 norms: {2: 31}
+  all 31/31 norms: disc_w1(N) is a NONZERO element of K (exact) -- squarefree
+  numeric floor min|disc| over random on-variety points: 4.00e-03  (>0, {disc=0} is a proper closed sublocus)
+  [A2 PASS] the tangency locus {disc=0}={c^2=1}={w3=+-1} is codim>=1; poles simple off it.
+==============================================================================
+A1(i)  NORM IDENTITY  (M-1)(conj M - 1) == N  mod Qw, EXACTLY, per distinct factor
+==============================================================================
+  verified EXACTLY over Q(i) for all 62 distinct w3-carrying cot monomials M
+  => at a simple root r of N (A2), product rule gives N'(r)=(M-1)'_branch*(c^2-1),
+     c^2-1 != 0 (A2): the residue transports with a UNIT factor.
+==============================================================================
+A1(ii)  STEP-2 DIVISIBILITY  A_t + B_t*c^s == 0  mod (Qz, N),  EXACTLY, per incident term
+==============================================================================
+  (num_elim,t = num_orig,t*(conj M -1); conj M = 1 on the branch w3 = c^s, so this
+   vanishes at every root of N.  Hence RF1(N,s) = -c^{-s} RF0(N,s) exactly.)
+  EXACT: all 384 (term x w3-carrying-norm-slot) incidences divisible  (31 distinct norms touched)  (86.7s)
+  [A1(ii) PASS] the F0<->F1 residue relation RF1 = -c^{-s} RF0 holds exactly for every norm.
+==============================================================================
+A1(iii)  G = 0  (the sheet residues) -- referee's GIVEN premise + independent confirmation
+==============================================================================
+  PREMISE (committed exact, referee brief 'GIVEN the sheet identities S2 + core'):
+    for each all-+-1 sheet L, sum of event residues = -(prod L)/4 * T(L o x)  [S2, exact,
+    _fragile_hunt_exactify.py] and T = 0 on V  [core identity, exact,
+    _fragile_hunt_core_identity3.py].  So the sheet residue G(N,s) = 0 for the 28 dense
+    (w1-carrying) norms, which are exactly the all-+-1 sheets.
+  INDEPENDENT CONFIRMATION -- re-run halfangle EXACT residue proof over Q(i):
+    6 outer (w3-free, a_i+b1) poles: residue IDENTICALLY 0 over Q(i) (empty numerator)
+    32 inner (w3-carrying, all-+-1 sheet) poles: residue == 0 mod (Qz, Qw|rho) by exact pseudo-division, leading coeff nonzero on V  (21.5s)
+  THE 3 SPARSE norms norm(z_i) (poles a_i+b3=0) are NOT all-+-1 sheets, so lie
+    outside S2/halfangle-in-w1.  Their residue is IDENTICALLY 0 by the b1<->b3 relabel of
+    the a_i+b1 outer poles above (whose numerator is EMPTY): cross_form is antisymmetric
+    under any transposition of (b1,b2,b3) (same mechanism as the committed S3 b1<->b2,
+    exact), so Res_{a_i+b3} = -Res_{a_i+b1} = 0 identically.  (GF(p) gate below re-checks all 31.)
+==============================================================================
+A1(iv)  END-TO-END GATE: F0, F1 have NO finite w1-pole -- exact GF(p) certificate
+==============================================================================
+  (residue_assembly_close.STEP_RES_CERT; confirms RF0=RF1=0 at every in-field root,
+   three primes, on-variety GF(p) points -- the transport conclusion, numerically exact.)
+[POLES] pole inventory of F0, F1 in w1 over K ...
+  43 distinct denominator factors: {'linear': 6, 'quad': 31, 'w1free': 6}
+  terms with a coincident double factor (both slots equal): 0
+    linear: w1-spans [(-1, 0), (0, 1)]
+    quad: w1-spans [(-2, 0), (-1, 1), (0, 2)]
+    w1free: w1-spans [(0, 0)]
+[COPRIME] per-term factor coprimality in w1 over K ...
+  all terms coprime; 96 quad-quad pairs; min |resultant| on V = 4.61e-03
+  [COPRIME] OK (0.9s)
+[RES] residue vanishing at every w1-root (grouped by root) -- GF(p) certificate ...
+  residues at all in-field w1-roots vanish for F0 and F1: 30 specialisations x 3 primes, 764 (root x point) residues, 0 failures
+  [RES] certificate OK (11.5s)
+==============================================================================
+DONE  (126.3s total)
+==============================================================================
+LOGICAL CLOSURE (over Q(i), modulo the cited committed exact facts):
+  A3  incidence table exact (factor set == STEP_POLES; each quad = norm(c); 6 lin = outer).
+  A2  every norm squarefree on V (disc_w1 a nonzero K-element); simple poles off {c^2=1}.
+  A1  step-2 (exact) => RF1 = -c^{-s} RF0;  norm identity (exact) + A2 => residue
+      transport with unit; G = 0 (halfangle exact + S2/core committed) =>
+      RF0*(1-c^{-2s}) = G = 0 with (1-c^{-2s}) a unit => RF0 = RF1 = 0 at every norm root,
+      and outer residues identically 0. Hence F0, F1 have NO finite w1-pole over Q(i).

@@ -1,11 +1,12 @@
 using RCPsiSquared.Core.F86;
+using RCPsiSquared.Core.F1;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.F86Main;
 
 /// <summary>Registers a subset of the F86 main family: parameter-free Tier-1-derived facts
-/// (<see cref="ChiralAiiiClassification"/>, <see cref="DressedModeWeightClaim"/>,
+/// (<see cref="ShiftedGeneratorSectorwisePClaim"/>, <see cref="DressedModeWeightClaim"/>,
 /// <see cref="F71MirrorInvariance"/>) plus the two parameterised laws
 /// (<see cref="TPeakLaw"/>, <see cref="QEpLaw"/>) that take γ₀ and g_eff respectively.
 ///
@@ -23,6 +24,8 @@ namespace RCPsiSquared.Runtime.F86Main;
 /// parameterisation strategies are settled.</para>
 ///
 /// <para>Requires (since 2026-06-10):
+/// <see cref="PolarityArchitecture.F1PalindromeIdentityRegistration.RegisterF1PalindromeIdentity"/>
+/// for the shifted-generator premise, plus
 /// <see cref="PolarityArchitecture.AbsorptionTheoremClaimRegistration.RegisterAbsorptionTheoremClaim"/>
 /// (and through it Pi2Family + Pi2DyadicLadder), because the
 /// <see cref="TPeakLaw"/> factory declares the rung-2 parent edge.</para></summary>
@@ -33,13 +36,17 @@ public static class F86MainRegistration
         double gammaZero,
         double gEff) =>
         builder
-            .Register<ChiralAiiiClassification>(_ => new ChiralAiiiClassification())
+            .Register<ShiftedGeneratorSectorwisePClaim>(b =>
+            {
+                _ = b.Get<F1PalindromeIdentity>();
+                return new ShiftedGeneratorSectorwisePClaim();
+            })
             .Register<DressedModeWeightClaim>(_ => new DressedModeWeightClaim())
             .Register<F71MirrorInvariance>(_ => new F71MirrorInvariance())
             .Register<TPeakLaw>(b =>
             {
                 // t_peak = 1/(4γ₀): the rung-2 four of the Absorption Theorem
-                // (two absorption quanta, 2γ·2; per-site −2(γ₁+γ₂), exact), NOT the
+                // (the two-disagreement basis-cell cost 2γ·2; per-site −2(γ₁+γ₂), exact), NOT the
                 // discriminant four a₋₁ = d². See PROOF_ABSORPTION_THEOREM.md,
                 // Remark (two different fours). Edge added 2026-06-10.
                 _ = b.Get<AbsorptionTheoremClaim>();

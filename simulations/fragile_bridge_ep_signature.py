@@ -1,24 +1,32 @@
-"""The fragile bridge's threshold is a second-order exceptional point on the REAL gamma axis.
+"""Finite-offset diagnostics around the fragile bridge's spectral-abscissa axis departure.
 
 Two chains of `n_per_chain` qubits, Heisenberg within each, joined by a Heisenberg
 bridge; chain A dephases at +gamma, chain B at -gamma, so Sigma-gamma is exactly 0
-and the palindrome is centred on zero. Pi then forces lambda <-> -lambda, which
-leaves an eigenvalue two options: sit on the imaginary axis, or carry a partner
-mirrored across it. Below gamma_crit every eigenvalue takes the first.
+and the palindrome is centred on zero. Pi forces inversion lambda <-> -lambda;
+Hermiticity preservation separately supplies conjugate pairing.  Together they
+give the generic off-axis quartet {lambda, lambda*, -lambda, -lambda*}.  Below
+gamma_crit every eigenvalue instead lies on the imaginary axis.
 
-This producer measures the three signatures that separate a coalescence from a
-crossing, all at real gamma = gamma_crit:
+This producer independently selects a max-real-part eigenvalue at each gamma; it
+does not perform branch continuation.  It reports two finite-offset diagnostics
+and one derived symmetry value above the numerically bisected spectral-abscissa threshold:
 
   1. Re lambda ~ sqrt(delta), delta = gamma/gamma_crit - 1, the coefficient constant
-     across decades. A Hopf bifurcation is a transversal crossing, Re lambda ~ delta
-     with a finite nonzero slope.
-  2. The gap to the mirror partner closes to zero: the pair merges.
-  3. The Petermann factor of the leading mode diverges as 1/delta. At an ordinary
-     non-normal point it is large and finite, so a quoted "peak height" is a
-     statement about the scan's step size rather than about the system.
+     across the sampled decades.
+  2. The finite-offset gap to the across-axis partner -lambda* equals
+     2*abs(Re lambda), a derived symmetry identity rather than independent evidence.
+  3. The finite-offset Petermann reading grows approximately by a decade per
+     sampled decade of delta.
 
-It also reads the leading mode's K across a wide gamma range, which is what a coarse
-scan sees: a secondary bump well above threshold, unrelated to the divergence at it.
+The square-root-like onset and simple-mode Petermann sequence motivate an EP2
+hypothesis; the derived partner gap adds no independent evidence. The producer
+does not execute a strict threshold
+coalescence or Jordan-rank certificate. The existence of off-axis pairs is established;
+its EP character remains OPEN.
+
+It also reads the max-real-part selected mode's K across a wide gamma range,
+omitting degenerate selections for which a single-vector K is basis-dependent.
+No finite-offset reading is a threshold Jordan-character certificate.
 
 Anchors: hypotheses/FRAGILE_BRIDGE.md Section 3, experiments/PT_SYMMETRY_ANALYSIS.md,
 docs/ANALYTICAL_FORMULAS.md F19.
@@ -115,9 +123,10 @@ def leading_mode(n_per_chain, gamma, J_bridge):
 
 NPC = 2
 DELTAS = (1e-2, 1e-3, 1e-4, 1e-5)
+SIMPLE_MODE_GAP_TOL = 1e-10
 
 log("=" * 78)
-log("The fragile bridge threshold: coalescence, not crossing")
+log("The fragile bridge spectral-abscissa axis departure: EP character remains OPEN")
 log("=" * 78)
 log()
 log("Two chains of 2 qubits, Heisenberg, gain-loss dephasing +/- gamma, Sigma-gamma = 0.")
@@ -127,29 +136,35 @@ for J_BRIDGE in (1.0, 1.9):
     GC = gamma_crit(NPC, J_BRIDGE)
     log("J_bridge = {0}   gamma_crit = {1:.9f}".format(J_BRIDGE, GC))
     log()
-    log("  {0:>8} {1:>15} {2:>15} {3:>15} {4:>13}".format(
-        "delta", "max Re lambda", "Re/sqrt(delta)", "gap to partner", "Petermann K"))
+    log("  {0:>8} {1:>15} {2:>15} {3:>15} {4:>13} {5:>13}".format(
+    "delta", "max Re lambda", "Re/sqrt(delta)", "gap to -lambda*", "nearest gap", "Petermann K"))
     coefficients = []
     ks = []
     last_gap = None
     for DELTA in DELTAS:
         lam, gap, K = leading_mode(NPC, GC * (1.0 + DELTA), J_BRIDGE)
+        if gap <= SIMPLE_MODE_GAP_TOL:
+            raise RuntimeError(
+                "near-threshold Petermann row is not a simple mode: "
+                "J_bridge={0}, delta={1}, nearest gap={2}".format(J_BRIDGE, DELTA, gap))
         coefficients.append(lam.real / np.sqrt(DELTA))
         ks.append(K)
-        last_gap = gap
-        log("  {0:>8.0e} {1:>15.8f} {2:>15.4f} {3:>15.3e} {4:>13.4g}".format(
-            DELTA, lam.real, lam.real / np.sqrt(DELTA), gap, K))
+        last_gap = 2.0 * abs(lam.real)
+        log("  {0:>8.0e} {1:>15.8f} {2:>15.4f} {3:>15.3e} {4:>13.3e} {5:>13.4g}".format(
+            DELTA, lam.real, lam.real / np.sqrt(DELTA), last_gap, gap, K))
+    log("  near-threshold simplicity gate: nearest gap > 1e-10 for every reported K")
     spread = max(coefficients) / min(coefficients)
     decades = np.sqrt(DELTAS[0] / DELTAS[-1])
     log()
     log("  1. Re lambda / sqrt(delta) spans {0:.4f} over four decades of delta."
         " A transversal crossing (Re ~ delta) would make this ratio grow by"
         " {1:.0f} across the same range.".format(spread, decades))
-    log("  2. the gap to the mirror partner falls to {0:.2e}: the pair merges."
+    log("  2. the gap to the across-axis partner -lambda* is 2*abs(Re lambda) = {0:.2e};"
+        " it is derived from max Re and supplies no independent EP evidence."
         .format(last_gap))
     ratios = [ks[i + 1] / ks[i] for i in range(len(ks) - 1)]
-    log("  3. Petermann K multiplies by {0} per decade of delta: the 1/delta"
-        " divergence of an exceptional point.".format(
+    log("  3. Petermann K multiplies by {0} per sampled decade of delta; this"
+        " finite-offset trend is not a Jordan-character certificate.".format(
             ", ".join("{0:.2f}".format(r) for r in ratios)))
     for below in (-1e-3, -1e-2, -1e-1):
         log("     below threshold, delta = {0:>+.0e}: max Re lambda = {1:.2e}".format(
@@ -160,18 +175,24 @@ log("=" * 78)
 log("What a coarse scan sees instead")
 log("=" * 78)
 log()
-log("K diverges only AT threshold, so a scan that never samples close to it reads a")
-log("modest number somewhere else. The leading mode's K across a wide range:")
+log("A finite grid reads sampling-dependent Petermann values for simple selected modes.")
+log("A single-vector K is omitted wherever the selected eigenvalue is degenerate:")
 log()
 GC = gamma_crit(NPC, 1.0)
-log("  {0:>17} {1:>13}".format("gamma/gamma_crit", "Petermann K"))
+log("  {0:>17} {1:>43}".format("gamma/gamma_crit", "Petermann reading"))
 for RATIO in (1.001, 1.01, 1.05, 1.2, 1.46, 1.5, 2.0, 3.0):
-    _, _, K = leading_mode(NPC, GC * RATIO, 1.0)
-    log("  {0:>17.3f} {1:>13.4g}".format(RATIO, K))
+    _, gap, K = leading_mode(NPC, GC * RATIO, 1.0)
+    if gap <= SIMPLE_MODE_GAP_TOL:
+        reading = "single-vector K not reported for a degenerate eigenspace"
+    else:
+        reading = "K={0:.4g} (nearest gap {1:.2e})".format(K, gap)
+    log("  {0:>17.3f} {1:>43}".format(RATIO, reading))
 log()
-log("There is a secondary bump above threshold, near gamma/gamma_crit = 1.46, an order")
-log("of magnitude below the reading at delta = 1e-3. A height and a location quoted")
-log("from different points are not one measurement.")
+log("Degenerate rows do not support a basis-invariant single-eigenvector conditioning value.")
+log("Each gamma independently selects max Re(lambda);")
+log("this producer establishes off-axis-pair existence, not branch continuation.")
+log("It does not execute a strict threshold coalescence or Jordan-rank certificate;")
+log("the local EP character remains OPEN.")
 
 with open(OUT_PATH, "w", encoding="utf-8") as handle:
     handle.write("\n".join(_LINES) + "\n")

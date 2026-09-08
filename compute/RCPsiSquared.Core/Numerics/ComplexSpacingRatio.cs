@@ -8,9 +8,10 @@ namespace RCPsiSquared.Core.Numerics;
 /// <summary>The complex spacing ratio (Sá, Ribeiro, Prosen, PRX 2020), the non-Hermitian RMT
 /// diagnostic for a spectrum in the complex plane: for each eigenvalue λ_k, z_k = (NN−λ_k)/(NNN−λ_k)
 /// where NN/NNN are its nearest and next-nearest neighbours. ⟨|z|⟩ and ⟨cos arg z⟩ classify the
-/// spectrum: a 2D-Poisson cloud (integrable / symmetry-fragmented) reads ⟨|z|⟩≈0.658, ⟨cos⟩≈0; a
+/// spectrum: an uncorrelated 2D-Poisson cloud reads ⟨|z|⟩≈0.658, ⟨cos⟩≈0; a
 /// GinUE spectrum (dissipative quantum chaos) reads ⟨|z|⟩≈0.738, ⟨cos⟩≈−0.241 (level repulsion).
-/// The reference classes are produced by the same diagnostic (no hardcoded comparison values).
+/// The reference ensembles are produced by the same diagnostic (no hardcoded comparison values).
+/// Agreement with the Poisson reference does not prove integrability or classify the measured Liouvillian.
 ///
 /// <para><see cref="ZValues"/> exposes the per-point z's so they can be POOLED across many spectra
 /// (the methodologically correct way to build a CSR statistic over a q-sweep or a disorder ensemble:
@@ -21,16 +22,28 @@ namespace RCPsiSquared.Core.Numerics;
 /// the asymptotic 0.658 / 0.738.</para></summary>
 public static class ComplexSpacingRatio
 {
-    /// <summary>Dedup (round to 1e-9) then the per-point z's: for each distinct point, z = (NN−λ)/(NNN−λ).
-    /// Returns the z list (one per point with a non-degenerate NNN denominator) and the distinct-point
-    /// count. The dephased Liouvillian is massively degenerate, and a coincident NN would give a spurious
-    /// z=0, so the CSR is meaningful only on the distinct spectrum.</summary>
+    public const int ClusterDecimals = 9;
+
+    public const string ClusteringScope =
+        "Rounding to 9 decimal places selects finite-precision cluster representatives. " +
+        "The resulting CSR and cluster count are tolerance-dependent and not an exact degeneracy census.";
+
+    public const string ReferenceScope =
+        "The uncorrelated 2D-Poisson reference is a numerical benchmark. Agreement does not prove integrability " +
+        "and does not classify the measured Liouvillian.";
+
+    /// <summary>Represent each finite-precision cluster once by rounding both coordinates to
+    /// <see cref="ClusterDecimals"/> decimal places, then compute the per-representative z's:
+    /// z = (NN−λ)/(NNN−λ). The clustering is tolerance-dependent, not an exact degeneracy
+    /// test. It avoids zero NN denominators in the chosen numerical resolution but can also merge
+    /// a sufficiently close nondegenerate pair.</summary>
     private static (List<Complex> zs, int distinct) Compute(IReadOnlyList<Complex> points)
     {
         var seen = new HashSet<(long, long)>();
         var pts = new List<Complex>(points.Count);
         foreach (var p in points)
-            if (seen.Add(((long)Math.Round(p.Real * 1e9), (long)Math.Round(p.Imaginary * 1e9))))
+            if (seen.Add(((long)Math.Round(p.Real * Math.Pow(10, ClusterDecimals)),
+                          (long)Math.Round(p.Imaginary * Math.Pow(10, ClusterDecimals)))))
                 pts.Add(p);
 
         int n = pts.Count;
@@ -56,8 +69,9 @@ public static class ComplexSpacingRatio
         return (zs, n);
     }
 
-    /// <summary>⟨|z|⟩, ⟨cos arg z⟩, and the distinct-point count over a complex spectrum. Returns NaN if
-    /// fewer than 10 distinct points remain (or none has a valid neighbour ratio).</summary>
+    /// <summary>⟨|z|⟩, ⟨cos arg z⟩, and the finite-precision cluster-representative count over a
+    /// complex spectrum. Returns NaN if fewer than 10 representatives remain (or none has a valid
+    /// neighbour ratio). The count and CSR are tolerance-dependent.</summary>
     public static (double meanAbs, double meanCos, int count) Of(IReadOnlyList<Complex> points)
     {
         var (zs, distinct) = Compute(points);
@@ -68,9 +82,10 @@ public static class ComplexSpacingRatio
         return (sumAbs / zs.Count, sumCos / zs.Count, distinct);
     }
 
-    /// <summary>The per-point complex spacing ratios z_k over one spectrum (dedup at 1e-9). Empty if
-    /// fewer than 10 distinct points. Pool these across spectra to build a CSR statistic over a q-sweep
-    /// or a disorder ensemble, then bootstrap the pooled list.</summary>
+    /// <summary>The per-cluster-representative complex spacing ratios z_k over one spectrum, using
+    /// the declared finite-precision rounding. Empty if fewer than 10 representatives remain. Pool
+    /// these across spectra to build a CSR statistic over a q-sweep or a disorder ensemble, then
+    /// bootstrap the pooled list. This is not an exact degeneracy census.</summary>
     public static IReadOnlyList<Complex> ZValues(IReadOnlyList<Complex> points) => Compute(points).zs;
 
     /// <summary>A 2D-Poisson cloud: uniform points in the unit disk, seeded RNG (reproducible).</summary>
@@ -98,8 +113,8 @@ public static class ComplexSpacingRatio
         return pts;
     }
 
-    /// <summary>The integrable reference: ⟨|z|⟩, ⟨cos⟩ of a 2D-Poisson cloud, computed live (never
-    /// hardcoded).</summary>
+    /// <summary>The uncorrelated 2D-Poisson reference: ⟨|z|⟩, ⟨cos⟩ of a random point cloud, computed
+    /// live (never hardcoded). This benchmark does not prove integrability.</summary>
     public static (double meanAbs, double meanCos) PoissonDiskReference(int count, int seed)
     {
         var (a, c, _) = Of(PoissonDiskCloud(count, seed));

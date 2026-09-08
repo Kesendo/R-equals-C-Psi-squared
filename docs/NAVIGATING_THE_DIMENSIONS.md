@@ -401,11 +401,10 @@ certified at N=5,7,9, sitting in narrow windows a coarse grid misses. For
 arbitrary odd N F89 proves the nullity-surplus count only; literal drop and
 genericity remain open beyond the certified sizes (see
 [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the
-real-axis EP section). The genuine defective EPs are therefore of three
-kinds: the toy 2×2 above, the F89 seeds of the full block, and the
-SEPARATE Σγ = 0 gain-loss system
-([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md), at the real γ_crit
-plane).
+real-axis EP section). The genuine defective EPs here are the toy 2×2 above
+and the certified F89 seeds of the full block. The SEPARATE Σγ = 0 gain-loss
+system ([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)) has a tracked
+real-γ axis crossing, but its EP character remains OPEN.
 
 And the chip reads the dynamical handover, not a defective pinch: IBM Kingston swept Q and watched a single
 excitation's memory revival stay at the 1/N equipartition floor until Q crossed about Q ≈ 1.5, then lift off,

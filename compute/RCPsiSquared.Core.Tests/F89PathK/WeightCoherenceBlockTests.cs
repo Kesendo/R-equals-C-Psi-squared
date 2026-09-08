@@ -10,9 +10,9 @@ namespace RCPsiSquared.Core.Tests.F89PathK;
 /// <summary>The general (wKet, wBra) coherence-block builder, its ZZ-bond sum, and the F89d cross-fold antiunitary
 /// similarity EXTENDED to the interacting XXZ chain (Δ ≠ 0). The cross-fold identity
 /// L(1,N−2)(q̄,Δ) = −P · conj(L(1,2)(q,Δ)) · Pᵀ − 2N·I holds to machine zero at every Δ, because the Δ·ZZ term is
-/// EVEN under the global bit-flip (zz(b̄) = zz(b)), so the diabolic pairing is integrability-INDEPENDENT.
-/// Sampled defect-or-lift is a finite-N Delta response consistent with the conditional residual mechanism,
-/// not an all-N cause. The discriminant is bit-flip parity: a
+/// EVEN under the global bit-flip (zz(b̄) = zz(b)). Thus the identity and its conditional transport of an
+/// independently certified Jordan character are integrability-independent. Only the N=4, Delta=0 control is
+/// character-certified; every sampled positive-Delta proposal at N=4/N=5/N=6 is Uncertified. The discriminant is bit-flip parity: a
 /// bit-flip-ODD perturbation (a longitudinal Z-field, fe(b̄) = −fe(b)) breaks the fold. The Core gate for
 /// the cross-fold (q,Δ) extension; the live evidence is CrossFoldSimilarityWitness (Diagnostics).</summary>
 public class WeightCoherenceBlockTests

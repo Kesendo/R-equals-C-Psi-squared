@@ -66,13 +66,63 @@ public class ComplexSpacingRatioTests
         Assert.Equal(ofCos, zs.Average(z => Math.Cos(z.Phase)), precision: 12);
     }
 
-    /// <summary>Below the distinct-point gate (10) ZValues returns an empty list, mirroring Of()'s NaN
+    /// <summary>Below the cluster-representative gate (10) ZValues returns an empty list, mirroring Of()'s NaN
     /// gate, so a too-small spectrum contributes nothing to a pool.</summary>
     [Fact]
     public void ZValues_BelowGate_IsEmpty()
     {
         var pts = DeterministicCloud(7);
         Assert.Empty(ComplexSpacingRatio.ZValues(pts));
+    }
+
+    [Fact]
+    public void FinitePrecisionClustering_DeclaresItsTolerance_AndIsNotExactDegeneracyRemoval()
+    {
+        Assert.Equal(9, ComplexSpacingRatio.ClusterDecimals);
+        Assert.Contains("finite-precision", ComplexSpacingRatio.ClusteringScope,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("tolerance-dependent", ComplexSpacingRatio.ClusteringScope,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("not an exact degeneracy", ComplexSpacingRatio.ClusteringScope,
+            StringComparison.OrdinalIgnoreCase);
+
+        var baseline = Enumerable.Range(0, 10).Select(k => new Complex(10 * k, 0)).ToArray();
+        var near = baseline.Append(new Complex(0.4e-9, 0)).ToArray();
+        var resolved = baseline.Append(new Complex(0.6e-9, 0)).ToArray();
+
+        Assert.Equal(10, ComplexSpacingRatio.Of(near).count);
+        Assert.Equal(11, ComplexSpacingRatio.Of(resolved).count);
+    }
+
+    [Fact]
+    public void FinitePrecisionClusterRepresentatives_AreCanonicalAndPermutationInvariant()
+    {
+        var cloud = DeterministicCloud(20);
+        // Both points occupy the same 1e-9 bin.  The representative must not
+        // depend on which eigensolver ordering reaches that bin first.
+        cloud.Add(new Complex(0.4000000001, 0.3000000001));
+        cloud.Add(new Complex(0.4000000004, 0.3000000004));
+
+        var forward = ComplexSpacingRatio.ZValues(cloud).ToArray();
+        cloud.Reverse();
+        var reverse = ComplexSpacingRatio.ZValues(cloud).ToArray();
+
+        Assert.Equal(forward, reverse);
+        var a = ComplexSpacingRatio.Of(cloud);
+        cloud.Sort((x, y) => x.Imaginary.CompareTo(y.Imaginary));
+        var b = ComplexSpacingRatio.Of(cloud);
+        Assert.Equal(a, b);
+    }
+
+    [Fact]
+    public void PoissonReference_IsAnUncorrelatedBenchmark_NotAnIntegrabilityVerdict()
+    {
+        Assert.Contains("uncorrelated 2D-Poisson reference", ComplexSpacingRatio.ReferenceScope,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("does not prove integrability", ComplexSpacingRatio.ReferenceScope,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("does not classify", ComplexSpacingRatio.ReferenceScope,
+            StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>The finite-size reference z-value draws must agree with the existing aggregate

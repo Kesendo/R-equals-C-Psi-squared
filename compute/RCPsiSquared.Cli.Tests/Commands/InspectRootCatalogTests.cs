@@ -192,6 +192,39 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_FillCsr_UsesGinUeComparisonWithoutClassAssignment()
+    {
+        var description = InspectCommand.Catalog.Single(e => e.Name == "fillcsr").Description;
+        Assert.Contains("GinUE comparison only", description);
+        Assert.Contains("full sector", description, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("open", description, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Class A reference", description, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Catalog_CrossFold_LeavesPositiveDeltaCharacterUncertified()
+    {
+        var description = InspectCommand.Catalog.Single(e => e.Name == "crossfold").Description;
+        Assert.Contains("N=4", description);
+        Assert.Contains("N=5/N=6", description);
+        Assert.Contains("positive Delta", description, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Uncertified", description);
+        Assert.DoesNotContain("N=7 real-q diabolic", description, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Catalog_BranchPalindrome_CertifiesOnlyTheDeltaZeroN4Character()
+    {
+        var description = InspectCommand.Catalog.Single(e => e.Name == "branchpalindrome").Description;
+        Assert.Contains("N=4 Delta=0", description, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Diabolic 2/2", description, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("N=4/N=5/N=6 positive Delta", description, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Uncertified", description);
+        Assert.DoesNotContain("defect", description, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("lift", description, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void Catalog_HasF89GaloisRoot_NFree()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "f89galois");

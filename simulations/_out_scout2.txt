@@ -1,0 +1,17 @@
+P3 exception, 6-family                         predicate=clause2-not-orthogonal S found: 0   [10s]
+P3 exception, 72-family                        predicate=clause2-not-common     S found: 0   [10s]
+CONTROL generic mags (breaks)                  predicate=clause2-not-orthogonal S found: 0   [9s]
+CONTROL allowed row                            predicate=HOLDS                  S found: 4   [9s]
+     Pi[YYY] o rho[{'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}] o R(0, 1, 2)
+     Pi[YYY] o rho[{'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}] o R(0, 1, 2)
+     Pi[ZZZ] o rho[{'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}] o R(0, 1, 2)
+     Pi[ZZZ] o rho[{'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}] o R(0, 1, 2)
+
+=== per-site rho, uniform Pi leg, one prime ===
+P3 exception 6-family (persite)                predicate=clause2-not-orthogonal S found: 0   [427s]
+P3 exception 72-family (persite)               predicate=clause2-not-common     S found: 0   [437s]CONTROL allowed row (persite)                  predicate=HOLDS                  S found: 4   [432s]
+     Pi[YYY] o rho[{'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}] o R(0, 1, 2)
+     Pi[YYY] o rho[{'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}] o R(0, 1, 2)
+     Pi[ZZZ] o rho[{'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}, {'X': ('X', 1), 'Y': ('Y', 1), 'Z': ('Z', 1)}] o R(0, 1, 2)
+     Pi[ZZZ] o rho[{'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}, {'X': ('X', 1), 'Y': ('Y', -1), 'Z': ('Z', -1)}] o R(0, 1, 2)
+

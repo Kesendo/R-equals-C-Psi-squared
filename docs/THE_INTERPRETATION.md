@@ -68,12 +68,13 @@ algebra. It holds on arbitrary graphs within the Hamiltonian/channel scope
 stated in the proof; it is not a theorem for every Hamiltonian or every
 dephasing-type channel.
 
-**Why it matters:** This palindromic symmetry is genuinely new: it
-does not appear in the comparison classes surveyed here (KMS, Quantum
-Detailed Balance, Buca-Prosen weak symmetry, Sa-Ribeiro-Prosen 38-fold
-classification). It gives a centered spectral reflection. It does not by
-itself give physical time reversal, spatial standing waves, or rule out the
-partial higher-dimensional palindromes of F121.
+**Why it matters:** The explicit Π identity gives a centered spectral
+reflection and a concrete relationship to several known symmetry frameworks.
+Whether that relationship is an identification with an already classified
+case or a distinct symmetry structure is OPEN until the full irreducible
+sector algebra of the shifted generator has been resolved. The identity does
+not by itself give physical time reversal, spatial standing waves, or rule out
+the partial higher-dimensional palindromes of F121.
 
 ### Notation used in this document
 
@@ -318,12 +319,16 @@ See: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md),
 
 ## 6. Context in Existing Physics
 
-If the palindromic symmetry is real, why has nobody found it before?
-This section places the discovery in the landscape of known symmetries
-and explains why it is not a rediscovery of something already known
-under a different name.
+This section records the currently established relationships to known
+symmetry frameworks. It does not decide priority or novelty. The centered
+shifted generator has a sectorwise P anticommutation after Π² reduction, but
+the remaining antiunitary and strong/unitary algebra has not been exhausted;
+therefore an identity with an existing irreducible class, and any claim that
+the structure is new rather than a rediscovery, remain OPEN.
 
-The palindromic symmetry is genuinely new. It is not equivalent to:
+The following comparisons establish distinctions between stated hypotheses
+and algebraic roles; they are not a proof of inequivalence to every existing
+classification:
 - **KMS (Kubo-Martin-Schwinger) condition:** applies to thermal equilibrium
   states; our systems are driven by dephasing, not thermalization.
 - **Quantum Detailed Balance:** requires a specific relationship between
@@ -331,26 +336,28 @@ The palindromic symmetry is genuinely new. It is not equivalent to:
 - **Buca-Prosen weak symmetry:** our XXX parity commutes with L (weak
   symmetry), but the palindromic pairing comes from Π, not from
   conserved quantities.
-- **Sa-Ribeiro-Prosen 38-fold classification:** a comprehensive taxonomy
-  of Lindbladian symmetries. Π generalizes the P (chiral) class to
-  order 4 (Π⁴ = I instead of P² = I). Two axes, stated separately: the
-  symmetry structure is class AIII (chiral unitary), confirmed by direct
-  Π classification. AIII is a symmetry label; the measured Poisson-like
-  statistics fail the corresponding random-matrix universality prediction,
-  not the symmetry classification. This does not prove integrability.
+- **Sa-Ribeiro-Prosen 38-fold classification:** the applicable taxonomy acts
+  on the shifted generator after reduction to irreducible symmetry sectors.
+  Π gives a P-type anticommutation of L_c; Π² = U_X is resolved first, and
+  `sqrt(p_x) Π` is involutive in parity sector p_x. The remaining sectorwise
+  algebra, and therefore any BDI/CI/other class label, is OPEN. The global
+  finite-N pooled spacing statistics cannot supply that missing classification
+  and do not prove integrability.
   See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
   and [Random Matrix Theory](../experiments/RANDOM_MATRIX_THEORY.md).
 
-The closest known relative is Roberts-Lingenfelter-Clerk hidden TRS
-(PRX Quantum 2021): the concept of hidden time-reversal symmetry in
-open systems. They had the idea. We have the explicit operator and its
-algebraic structure.
+Roberts-Lingenfelter-Clerk hidden TRS (PRX Quantum 2021) is a close comparison:
+it supplies a known hidden-time-reversal framework for open systems, while the
+present result supplies the explicit Π identity for this model family. Whether
+the sector-reduced Π algebra is an instance of that or another known framework
+remains part of the open classification question.
 
 Connection to incoherentons (Haga et al. 2023): In their framework,
 XY-weight counts the number of "incoherentons" (coherence excitations
 above the fully dephased state). Π implements particle-hole symmetry
 in incoherenton space: it maps a state with k incoherentons to one
-with N-k. They had the grading. We found the symmetry operator.
+with N-k. This identifies a structural relationship between their grading and
+the explicit Π action; it does not by itself settle equivalence or novelty.
 
 **Environment-Assisted Quantum Transport (ENAQT):** The field founded
 by Plenio & Huelga (2008) showed that uniform dephasing noise can
@@ -538,9 +545,10 @@ nobody has to guess.
   are interpretation.
 - Consciousness interpretation retired from technical core.
 - CΨ is not privileged over simpler metrics for most practical tasks.
-- KMS independence: Π is computationally verified as new, but a formal
-  mathematical physics proof of independence from all known symmetry
-  classifications has not been published.
+- Classification and novelty: Π's shifted-generator identity is proved for the
+  stated model family, and its sectorwise P action is known after Π² reduction.
+  The remaining irreducible symmetry algebra has not been completed, so both
+  identification with an existing class and any residual novelty claim are OPEN.
 - The `d=2` exclusivity applies to the complete local dark↔lit class-exchange
   product mirror under the stated dephasing split. F121 contains partial
   higher-dimensional palindromes; amplitude damping, thermal noise, and

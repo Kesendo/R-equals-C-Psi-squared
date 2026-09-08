@@ -432,7 +432,7 @@ section for the same split stated at the parent theorem.
   direct sum here is the coarsest layer of that structure.
 - [Fragile Bridge](../../hypotheses/FRAGILE_BRIDGE.md): gain-loss coupled system; odd/even N stability asymmetry
 - [Standing Wave Theory](../STANDING_WAVE_THEORY.md): palindromic mode pairing
-- [PT Symmetry Analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md): AIII chiral classification
+- [PT Symmetry Analysis](../../experiments/PT_SYMMETRY_ANALYSIS.md): Π-sector P relation; full SRP class open
 
 ## External reference
 

@@ -1,0 +1,8 @@
+[1] on V: max|T| = 8.17e+01   off V: min|T| = 1.01e-02
+Traceback (most recent call last):
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\_fragile_hunt_core_identity.py", line 130, in <module>
+    step1()
+  File "D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\_fragile_hunt_core_identity.py", line 61, in step1
+    assert worst_on < 1e-10 and worst_off > 1e-4, "core identity FAILS numerically"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: core identity FAILS numerically

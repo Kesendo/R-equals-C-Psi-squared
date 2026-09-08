@@ -8,8 +8,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The F89 Door-C filling comparison, live: finite executed CSR evidence on dilute (SE,DE)=(1,2)
 /// and dense (wKet,wBra near N/2) coherence blocks under the same interacting disorder at canonical Delta=1.
-/// Nonzero Delta breaks free-fermion additivity, but uniform XXZ remains Bethe-integrable;
-/// random longitudinal Z disorder at Delta=0 remains quadratic (Anderson/free fermions);
+/// Nonzero Delta breaks the underlying Hamiltonian's free-fermion additivity, but uniform XXZ remains Bethe-integrable;
+/// at Delta=0 the random-field XY Hamiltonian remains quadratic (Anderson/free fermions). This does not classify the Z-dephasing Liouvillian
+/// itself as a quadratic free-fermion generator;
 /// generic random field plus Delta!=0 is the interacting disordered nonintegrable test.
 /// Symmetry/cross-fold breaking and Hamiltonian integrability are separate from the measured Liouvillian CSR.
 ///
@@ -18,12 +19,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// The dense radial statistic ⟨|z|⟩ lies near the GinUE reference, and angular repulsion ⟨cosθ⟩ grows with the block
 /// size (N=6→7→8: ≈ −0.09 → −0.13 → −0.16, ≈ 43%→56%→67% of the size-matched GinUE angle), while the dilute (1,2)
 /// block stays near ⟨cosθ⟩ ≈ 0 (≈ 23%) in that comparison. This supports a finite-size filling dependence,
-/// not a universal filling threshold or a thermalization cause. Class A is licensed by the unequal weight (p,p+1): the F1 palindrome Π
-/// maps the (p,p+1) block to the conjugate (p+1,p) block, not to itself, so no residual antiunitary survives — the
-/// GinUE 0.738/−0.24 target is the right one (confirmed live: the disordered spectrum's conjugation-match fraction
-/// is ≈ 0). Live on the trusted machine: <see cref="FillingThresholdCsr"/> (general WeightCoherenceBlock + random
+/// not a universal filling threshold or a thermalization cause. GinUE is a comparison ensemble, not a licensed
+/// class label: the known F1 map leaves the unequal-weight block and the measured conjugation-match fraction is
+/// near zero, but those checks do not exhaust the full sector symmetry algebra, whose irreducible SRP class remains
+/// open. Live on the trusted machine: <see cref="FillingThresholdCsr"/> (general WeightCoherenceBlock + random
 /// field) → MathNet EVD → the Sá-Ribeiro-Prosen complex spacing ratio, pooled per-spectrum with finite-size-matched
-/// references.</para></summary>
+/// references. Every spectrum contributes one representative per 1e-9 finite-precision cluster; the CSR and
+/// representative count are tolerance-dependent and not an exact degeneracy census.</para></summary>
 public sealed class FillingThresholdWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -43,8 +45,11 @@ public sealed class FillingThresholdWitness : IInspectable
         "the F89 Door-C filling-associated crossover evidence at canonical Delta=1 plus disorder, not a causal or thermodynamic threshold theorem. " +
         "The dilute (1,2)=(SE,DE) block stays Poisson-like (⟨cosθ⟩≈0) in the sampled disorder+interactions regime; " +
         "the dense (p,p+1) block near half-filling develops GinUE angular repulsion (⟨cosθ⟩<0, climbing toward " +
-        "GinUE with N), with ⟨|z|⟩ near the GinUE reference. Live: general WeightCoherenceBlock + random Z-field " +
-        "→ MathNet EVD → complex spacing ratio (Sá-Ribeiro-Prosen), pooled per-spectrum, finite-size-matched refs.";
+        "GinUE with N), with ⟨|z|⟩ near the GinUE reference. GinUE comparison only: the full sector symmetry " +
+        "algebra and irreducible SRP class remain open. Live: general WeightCoherenceBlock + random Z-field " +
+        "→ MathNet EVD → complex spacing ratio (Sá-Ribeiro-Prosen), pooled per-spectrum, finite-size-matched refs. " +
+        "Each spectrum contributes finite-precision cluster representatives; counts and CSR are tolerance-dependent, " +
+        "not an exact degeneracy census.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -65,6 +70,9 @@ public sealed class FillingThresholdWitness : IInspectable
                          $"GinUE (dissipative chaos) ⟨|z|⟩={Z(gRef.MeanAbs)} ⟨cos⟩={Cos(gRef.MeanCos)}. The diagnostic " +
                          "DOES separate the classes, so the contrast below is meaningful.");
 
+            yield return new InspectableNode("the numerical CSR clustering boundary",
+                summary: FillingThresholdCsr.ClusteringScope);
+
             yield return new InspectableNode(
                 $"DILUTE (1,2)=(SE,DE), N=6: Poisson — the Door-C null reproduced via the general builder",
                 summary: $"⟨|z|⟩={Z(dilute6.MeanAbs)} [{Z(dilute6.CiLo)},{Z(dilute6.CiHi)}] ⟨cosθ⟩={Cos(dilute6.MeanCos)} " +
@@ -74,14 +82,15 @@ public sealed class FillingThresholdWitness : IInspectable
             yield return DenseNode(6, dense6, gRef.MeanCos);
             yield return DenseNode(7, dense7, gRef.MeanCos);
 
-            // the class-A guard: a random field breaks conjugation symmetry, so OffReal + the GinUE (class A) target.
+            // This probes one conjugation match only; it cannot classify the full irreducible sector.
             var rng = new Random(7);
             var disorderField = Enumerable.Range(0, 6).Select(_ => (2 * rng.NextDouble() - 1) * W).ToArray();
             double conj = FillingThresholdCsr.ConjugationMatchFraction(6, 3, 4, Q, Delta, disorderField);
-            yield return new InspectableNode("class A licensed (live): the disordered block is NOT conjugation-symmetric",
+            yield return new InspectableNode("GinUE comparison scope (live conjugation-match diagnostic)",
                 summary: $"conjugation-match fraction = {conj.ToString("P0", Inv)} (≈ 0). The unequal weight (p,p+1) sends " +
                          "the block under Π to the conjugate (p+1,p) block, not to itself, and the random field breaks " +
-                         "the rest — no residual antiunitary, so the GinUE (class A) reference is the right target, not AI+/AII+.");
+                         "this bare conjugation match. GinUE is a comparison ensemble only; other unitary or antiunitary " +
+                         "relations have not been excluded after full irreducible-sector reduction.");
 
             string trend = (dense7.MeanCos < dense6.MeanCos && dense6.MeanCos < dilute6.MeanCos - 0.02)
                 ? "CONFIRMED: dilute flat at ≈0; dense negative and growing more so with N (toward GinUE)"
@@ -89,8 +98,10 @@ public sealed class FillingThresholdWitness : IInspectable
             yield return new InspectableNode("the verdict: finite-size filling dependence under interacting disorder",
                 summary: $"{trend}. ⟨cosθ⟩: dilute(1,2) {Cos(dilute6.MeanCos)} | dense(3,4) N=6 {Cos(dense6.MeanCos)} → " +
                          $"N=7 {Cos(dense7.MeanCos)} (GinUE ≈{Cos(gRef.MeanCos)}); ⟨|z|⟩ of the dense block lies near the GinUE " +
-                         "reference. The SAME Liouvillian's extensive-filling coherence sector has stronger angular " +
-                         "repulsion than the dilute sector at this operating point. This finite executed CSR evidence " +
+                         "reference. At the same model parameters and disorder distribution, but in separately sampled " +
+                         "realization ensembles, the extensive-filling coherence sector has stronger angular repulsion " +
+                         "than the dilute sector. This finite executed CSR evidence is an ensemble comparison, not a " +
+                         "within-realization causal intervention, and " +
                          "does not establish a universal filling threshold or identify Hamiltonian integrability from spacings.");
         }
     }

@@ -5,13 +5,13 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
 /// <summary>Schicht-1 wiring of <see cref="LindbladAbsorptionMatchAtSixtyDegreesClaim"/>: at
 /// Q = √3 the Lindblad 2×2 sub-block eigenvalue magnitude |λ_±| = γ₀·√(1+Q²) equals the
-/// Absorption Theorem single-site rate 2γ₀, and the F95 angle θ = arctan(Q) lands on the
+/// Absorption Theorem one-disagreement basis-cell cost 2γ₀, and the F95 angle θ = arctan(Q) lands on the
 /// canonical Niven angle 60°. Three parent edges:
 ///
 /// <list type="bullet">
 ///   <item><see cref="F95AngleAtQuadraticZeroPi2Inheritance"/>: the Lindblad 2×2 angle law
 ///         θ = arctan(Q).</item>
-///   <item><see cref="AbsorptionTheoremClaim"/>: the single-site rate α = 2γ₀.</item>
+///   <item><see cref="AbsorptionTheoremClaim"/>: the one-disagreement basis-cell cost α = 2γ₀.</item>
 ///   <item><see cref="CanonicalTrigAnchorPi2Inheritance"/>: the canonical Niven angles, of
 ///         which 60° is the match point.</item>
 /// </list>

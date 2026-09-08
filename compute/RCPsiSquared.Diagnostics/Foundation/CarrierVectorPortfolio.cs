@@ -64,9 +64,9 @@ public sealed record CarrierVector(IReadOnlyList<ChannelRate> Channels)
 /// difference stored in each channel, ⟨Δ_x⟩ ∈ [0,1].</summary>
 public sealed record ChannelDifferencePortfolio(IReadOnlyList<ChannelActivity> Activity)
 {
-    /// <summary>The absorption quantum (Absorption Theorem; the "2" in 2γ·⟨n_XY⟩, the d=2
-    /// root of the Pi2 ladder). Kept as a named constant so the law reads literally.</summary>
-    public const double AbsorptionQuantum = 2.0;
+    /// <summary>The dissipator coefficient (the "2" in 2γ·⟨n_XY⟩, the d=2
+    /// root of the Pi2 ladder). It is not an eigenvalue-grid quantum.</summary>
+    public const double DissipatorCoefficient = 2.0;
 
     /// <summary>The carrier-vector rate law: −Re(λ) = 2·Σ_x γ_x·⟨Δ_x⟩. Validates each
     /// activity lies in [0,1].</summary>
@@ -81,7 +81,7 @@ public sealed record ChannelDifferencePortfolio(IReadOnlyList<ChannelActivity> A
                     nameof(Activity), a.Delta, $"⟨Δ⟩ for channel '{a.Channel}' must lie in [0,1]");
             weighted += carrier.Gamma(a.Channel) * a.Delta;
         }
-        return AbsorptionQuantum * weighted;
+        return DissipatorCoefficient * weighted;
     }
 
     /// <summary>Σ_x ⟨Δ_x⟩: the unweighted total activity (the uniform-γ popcount, when each

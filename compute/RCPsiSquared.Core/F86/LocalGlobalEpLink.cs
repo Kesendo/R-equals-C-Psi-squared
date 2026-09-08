@@ -5,9 +5,10 @@ namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 open question (was an F86a meta-claim, demoted 2026-06-21): whether the
 /// full Σγ = N·γ₀ (n,n+1)-coherence block has a defective exceptional point OFF the real
-/// Q axis AT ALL, and — if so — whether it is the same EP structure as the firmly-established
-/// genuine EPs (the toy 2×2 reduction and the SEPARATE Σγ = 0 gain-loss system,
-/// FRAGILE_BRIDGE, a real-γ EP; K=403 is one finite-grid approach reading).
+/// Q axis AT ALL, and — if so — whether it is connected to the genuine EP of the toy 2×2
+/// reduction or to the SEPARATE Σγ = 0 gain-loss system. FRAGILE_BRIDGE establishes a
+/// spectral-abscissa axis departure; its EP/Jordan character remains OPEN, and K=403 is
+/// one finite-offset non-normality reading.
 ///
 /// <para><b>Tier outcome: OpenQuestion</b> (demoted from Tier2Verified 2026-06-21 by the
 /// F86a-retraction review; the retraction itself corrected in part 2026-07-07, the CORRECTED
@@ -74,14 +75,14 @@ namespace RCPsiSquared.Core.F86;
 /// <c>SeedHolonomyClaim</c>, <c>RealSeedCensusTests</c>, and PROOF_F86A_EP_MECHANISM section The real-axis EP.</para>
 ///
 /// <para>Block-independent meta-claim: registered at the F86 KB root for any block, not
-/// just c=2 (similar to <see cref="ChiralAiiiClassification"/>). The witnesses pin the
+/// just c=2 (similar to <see cref="ShiftedGeneratorSectorwisePClaim"/>). The witnesses pin the
 /// concrete c=2 sweep that motivated the original connection; the open question itself is
 /// shared across all c.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> (F86 local instance, Statement 1),
-/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (separate Σγ=0 gain-loss instance, K=403), and
-/// <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> (AIII chiral classification, the shared
-/// algebraic substrate; its Petermann reading carries the same two-half verdict).</para>
+/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (separate Σγ=0 spectral-abscissa axis departure, EP character OPEN, K=403), and
+/// <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> (shifted-generator P-type relation, the shared
+/// algebraic substrate; the full irreducible SRP class remains open).</para>
 /// </summary>
 public sealed class LocalGlobalEpLink : Claim
 {
@@ -99,25 +100,29 @@ public sealed class LocalGlobalEpLink : Claim
     /// <inheritdoc cref="SweepGammaZero"/>
     public const int SweepQPoints = 121;
 
-    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — one finite-grid near-singularity
-    /// value of the SEPARATE Σγ = 0 gain-loss system approaching its real-γ EP, from
-    /// <c>hypotheses/FRAGILE_BRIDGE.md</c>. Kept as a documentary reference to one of the
-    /// two firmly-established genuine EPs; the prior "the real-axis K-sweep sits ~6× above
+    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — one finite-offset non-normality
+    /// value of the SEPARATE Σγ = 0 gain-loss system beyond its spectral-abscissa axis departure, from
+    /// <c>hypotheses/FRAGILE_BRIDGE.md</c>. Its EP/Jordan character remains open; the prior
+    /// "the real-axis K-sweep sits ~6× above
     /// this" comparison was retracted 2026-06-21 (the magnitudes are grid-sensitive; the
     /// block's real-axis defective seeds sit off the sweep grid, see the class summary).</summary>
     public const double FragileBridgeKReference = 403.0;
 
     /// <summary>Same-sign-imaginary 2×2 algebra, the shared algebraic object:
     /// L_eff − (trace/2)·I = [[−Δ/2, +iJ·g_eff], [+iJ·g_eff, +Δ/2]] (PROOF_F86A_EP_MECHANISM
-    /// Statement 1). AIII chiral classification (PT_SYMMETRY_ANALYSIS): linear Π, Π⁴=I,
-    /// anti-commutation {Π, L_c}=0.</summary>
-    public string SharedAlgebra => "same-sign-imaginary 2×2; AIII chiral";
+    /// Statement 1). Separately, the shifted full generator has the exact sectorwise
+    /// phase-normalized P-type anticommutation; this does not classify the toy model or
+    /// assign the full generator an irreducible SRP class.</summary>
+    public string SharedAlgebra =>
+        "same-sign-imaginary 2×2; shifted-generator sectorwise P-type anticommutation; full SRP class open";
 
     /// <summary>F86 local instance (Σγ = N·γ₀ ≠ 0, real Q_EP = 2/g_eff).</summary>
     public string LocalInstanceAnchor => "F86 Statement 1, PROOF_F86A_EP_MECHANISM.md";
 
-    /// <summary>FRAGILE_BRIDGE global instance (Σγ = 0, real-γ EP; K=403 is a nearby grid reading).</summary>
-    public string GlobalInstanceAnchor => "hypotheses/FRAGILE_BRIDGE.md";
+    /// <summary>FRAGILE_BRIDGE comparison system: Σγ = 0 with a spectral-abscissa axis
+    /// departure; EP character OPEN; K=403 is a finite-offset reading.</summary>
+    public string GlobalInstanceAnchor =>
+        "hypotheses/FRAGILE_BRIDGE.md — spectral-abscissa axis departure; EP character OPEN";
 
     /// <summary>Cautionary record from the c=2 N=5..8 Petermann-K sweep
     /// (pinned to <see cref="SweepGammaZero"/>, <see cref="SweepQMin"/>,
@@ -140,15 +145,16 @@ public sealed class LocalGlobalEpLink : Claim
         "Puiseux-1/2 defective EP2 seeds are certified at N=5,7,9; F89's all-odd-N theorem is only " +
         "the endpoint-nullity surplus r(0⁺)−r(∞)=N−1, with literal drop and character open beyond " +
         "those sizes. Whether the full block has a DISTINCT off-real-axis complex-Q defective EP " +
-        "remains open; the nearest characterized off-axis coalescences were semisimple. The toy " +
-        "2×2 EP and the separate Σγ=0 FRAGILE_BRIDGE EP remain different objects.";
+        "remains open; the nearest characterized off-axis coalescences were semisimple. The genuine toy " +
+        "2x2 EP and the separate Σγ=0 FRAGILE_BRIDGE spectral-abscissa axis departure remain different " +
+        "objects; its EP character remains OPEN.";
 
     private LocalGlobalEpLink()
         : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE) — OPEN",
                Tier.OpenQuestion,
                "docs/proofs/PROOF_F86A_EP_MECHANISM.md (F86 Statement 1, toy 2×2 EP) + " +
-               "hypotheses/FRAGILE_BRIDGE.md (separate Σγ=0 gain-loss EP, K=403) + " +
-               "experiments/PT_SYMMETRY_ANALYSIS.md (AIII chiral, the shared algebraic substrate) + " +
+               "hypotheses/FRAGILE_BRIDGE.md (separate Σγ=0 spectral-abscissa axis departure; EP character OPEN; K=403 finite-offset) + " +
+               "experiments/PT_SYMMETRY_ANALYSIS.md (shifted-generator sectorwise P-type relation; full SRP class open) + " +
                "docs/superpowers/syntheses/2026-05-06-petermann-sweep-c2.md (cautionary non-normality record)")
     { }
 
@@ -159,7 +165,7 @@ public sealed class LocalGlobalEpLink : Claim
     public static LocalGlobalEpLink Build() => new();
 
     public override string DisplayName =>
-        "F86 ↔ FRAGILE_BRIDGE: shared EP under AIII chiral algebra";
+        "F86 EP ↔ FRAGILE_BRIDGE axis-departure comparison — classification link OPEN";
 
     public override string Summary =>
         "OpenQuestion (F86a-retraction 2026-06-21, CORRECTED 2026-07-07): the full Σγ=N·γ₀ block " +
@@ -169,8 +175,9 @@ public sealed class LocalGlobalEpLink : Claim
         "defective EP2 seeds. F89's all-odd-N theorem is only the nullity-surplus count; literal drop " +
         "and character remain open beyond the certified sizes. The 2026-06-21 scan's ΔQ≈0.029 " +
         "grid missed, being 20-30× coarser than the √-EP window ~1e-3 (F86aSeedMaskingTests). What " +
-        "stays OPEN besides that genericity is the DISTINCT off-real-axis complex-Q EP. Genuine EPs still separate: the " +
-        "toy 2×2 and the Σγ=0 gain-loss system (FRAGILE_BRIDGE, K=403).";
+        "stays OPEN besides that genericity is the DISTINCT off-real-axis complex-Q EP. The genuine " +
+        "toy 2x2 EP stays separate from the Σγ=0 FRAGILE_BRIDGE spectral-abscissa axis departure, " +
+        "whose EP character OPEN verdict is not changed by the finite-offset K=403 reading.";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -214,9 +221,9 @@ public sealed class LocalGlobalEpLink : Claim
 }
 
 /// <summary>One row of the c=2 Petermann-K sweep — a frozen, cautionary data point
-/// recording genuine non-normality near Q_peak. It is NOT EP evidence: the full block has
-/// no eigenvalue coalescence on the real axis, and the peak magnitude is grid-sensitive
-/// (retracted 2026-06-21; see <see cref="LocalGlobalEpLink"/>).
+/// recording genuine non-normality near Q_peak. It is NOT EP evidence: the sampled Q_peak
+/// eigenvalue is simple and the peak magnitude is grid-sensitive. Separately certified
+/// real-axis F89 seeds are outside this sweep reading (see <see cref="LocalGlobalEpLink"/>).
 ///
 /// <para>Hosts the per-N spike data: the global Petermann factor maximum across the
 /// Q-grid, the Q at which it peaked, and the per-bond-class breakdown. The

@@ -11,7 +11,7 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///   <item><see cref="Pi2DyadicLadderClaim"/>: provides <c>a_0 = 2</c>
 ///         (IrrepDimensionCoefficient in 2J+1; same anchor as F1 TwoFactor,
 ///         F50 DegeneracyFactor, F66 UpperPoleCoefficient, F43
-///         XorRateCoefficient).</item>
+///         ReflectionCoefficient).</item>
 /// </list>
 ///
 /// <para>Tier consistency: F4 is Tier 1 via Schur-Weyl SU(2)-irrep

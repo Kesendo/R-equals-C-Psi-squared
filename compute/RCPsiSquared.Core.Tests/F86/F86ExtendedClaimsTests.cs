@@ -149,22 +149,23 @@ public class F86ExtendedClaimsTests
     }
 
     [Fact]
-    public void DressedModeWeightClaim_IsTier1Candidate_WithUnverifiedAnchors()
+    public void DressedModeWeightClaim_IsTier2Empirical_WithUnverifiedAnchorsAndOpenEpCause()
     {
-        // Tier-reviewed 2026-05-16: was Tier1Derived, downgraded to Tier1Candidate.
-        // Structural mechanism (probe weight pulled onto dressed modes past EP) IS sound,
-        // but specific hardcoded values 0.99/0.31 at PlateauQ=20 are unverified anchors:
+        // The mixed-mode weight shift is empirical. It does not identify Q_peak with an EP
+        // or isolate a causal eigenvalue pair. Specific hardcoded values 0.99/0.31 at
+        // PlateauQ=20 are unverified anchors:
         // - W_peak in Q_SCALE_THREE_BANDS.md ranges 0.832 (N=4 c=2) to 0.9996 (N=9 c=3),
         //   not universal 0.99
         // - W_plateau is measured at Q=50 in the experiment (not Q=20), and ranges 0.42-0.86,
         //   so the hardcoded 0.31 sits below the empirical range
-        // No C# code computes W(Q) per (c, N). Tier 1 derivation requires either analytical
-        // closed form from EP eigenvector rotation, or per-(c, N) witness collection.
+        // No C# code computes W(Q) per (c, N). Promotion requires either an analytical
+        // derivation without assuming EP causality, or a per-(c, N) witness collection.
         var claim = new DressedModeWeightClaim();
         Assert.Equal(0.99, claim.WeightAtQPeak);
         Assert.Equal(0.31, claim.WeightAtPlateau);
         Assert.Equal(20.0, claim.PlateauQ);
-        Assert.Equal(Tier.Tier1Candidate, claim.Tier);
+        Assert.Equal(Tier.Tier2Empirical, claim.Tier);
+        Assert.DoesNotContain("generalised EP resonance", claim.Summary);
     }
 
     [Fact]
@@ -191,12 +192,43 @@ public class F86ExtendedClaimsTests
     }
 
     [Fact]
-    public void ChiralAiiiClassification_IsTier1Derived_AndNotPT()
+    public void ShiftedGeneratorClaim_ReplacesGlobalAiiiType()
     {
-        var classification = new ChiralAiiiClassification();
-        Assert.Equal(Tier.Tier1Derived, classification.Tier);
-        Assert.Contains("AIII", classification.DisplayName);
-        Assert.Contains("NOT", classification.DisplayName);
+        var assembly = typeof(F86KnowledgeBase).Assembly;
+        Assert.Null(assembly.GetType("RCPsiSquared.Core.F86.ChiralAiiiClassification"));
+        Assert.NotNull(assembly.GetType("RCPsiSquared.Core.F86.ShiftedGeneratorSectorwisePClaim"));
+        Assert.NotNull(assembly.GetType("RCPsiSquared.Core.F86.FullIrreducibleSrpClassQuestion"));
+    }
+
+    [Fact]
+    public void F86KnowledgeBase_ExposesSecuredPTypeAndOpenSrpClassSeparately()
+    {
+        var propertyNames = typeof(F86KnowledgeBase).GetProperties().Select(p => p.Name).ToHashSet();
+        Assert.Contains("ShiftedGeneratorSymmetry", propertyNames);
+        Assert.Contains("FullIrreducibleSrpClass", propertyNames);
+        Assert.DoesNotContain("AlgebraicClass", propertyNames);
+    }
+
+    [Theory]
+    [InlineData(+1)]
+    [InlineData(-1)]
+    public void ShiftedGeneratorClaim_PhaseNormalizesEachPi2SectorToAnInvolution(int px)
+    {
+        var claim = new ShiftedGeneratorSectorwisePClaim();
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
+        Assert.Equal(System.Numerics.Complex.One,
+            ShiftedGeneratorSectorwisePClaim.NormalizedGeneratorSquare(px));
+        Assert.DoesNotContain("AIII", $"{claim.Name} {claim.DisplayName} {claim.Summary}",
+            StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void FullIrreducibleSrpClass_RemainsOpen()
+    {
+        var question = new FullIrreducibleSrpClassQuestion();
+        Assert.Equal(Tier.OpenQuestion, question.Tier);
+        Assert.Contains("strong-symmetry", question.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("open", question.Summary, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
@@ -210,7 +242,10 @@ public class F86ExtendedClaimsTests
         Assert.Equal(BondClass.Endpoint, kb.EndpointPerBondTable.BondClass);
         Assert.Equal(BondClass.Interior, kb.InteriorPerBondTable.BondClass);
         Assert.NotNull(kb.DressedModeWeight);
-        Assert.NotNull(kb.AlgebraicClass);
+        Assert.NotNull(typeof(F86KnowledgeBase).GetProperty("ShiftedGeneratorSymmetry")?.GetValue(kb));
+        var srp = Assert.IsAssignableFrom<Claim>(
+            typeof(F86KnowledgeBase).GetProperty("FullIrreducibleSrpClass")?.GetValue(kb));
+        Assert.Equal(Tier.OpenQuestion, srp.Tier);
         Assert.Equal(3, kb.OpenQuestions.Count);
     }
 

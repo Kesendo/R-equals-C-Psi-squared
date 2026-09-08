@@ -1,6 +1,6 @@
 # The N=4 Twin-Scalar Crossing and the Residual Additivity Hypothesis
 
-**Status:** Exact N=4 twin-scalar restriction and Tier-2 residual interpretation. The N=4 path-3 character is Tier-1-derived (`F89Path3OcticEpClaim`); the sampled Delta response is finite-N evidence, not proof of integrability causality or an all-N protection theorem.
+**Status:** Exact N=4 Delta=0 twin-scalar restriction and Tier-2 residual interpretation. The path-3 character at Delta=0 is Tier-1-derived (`F89Path3OcticEpClaim`). The sampled positive-Delta proposals are split at the fixed independent full-block tolerance, so their character and departure are Uncertified; they establish no Delta-response character or integrability-protection claim.
 **Date:** 2026-06-22
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Origin:** the generative ("why") pass after the F89-octic diabolic *character* correction landed (Plan A + Plan B, master). The typed layer proves *that* it is diabolic; this asks *why* it is diabolic rather than the generic defective. See `docs/CAUGHT_ERRORS.md` (the EP-character trilogy) and `compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs`.
@@ -13,7 +13,7 @@ But a one-parameter coalescence of a **non-normal** operator is *generically def
 
 ## The exact local restriction and the conditional interpretation
 
-The N=4 twin-scalar restriction supplies semisimplicity at the stated point. Free-fermion additivity supplies its Hamiltonian multiplet, but the dephasing restriction is a separate condition. The sampled XXZ anisotropies below change the character. Since uniform XXZ remains Bethe-integrable, this control probes departure from free-fermion additivity, not loss of Hamiltonian integrability.
+The N=4 twin-scalar restriction supplies semisimplicity at the stated Delta=0 point. Free-fermion additivity supplies its Hamiltonian multiplet, but the dephasing restriction is a separate condition. Turning on uniform XXZ anisotropy breaks the free-fermion/Jordan-Wigner additivity used by that explanation, even though the uniform XXZ chain remains Bethe-integrable. The available positive-Delta proposals do not strictly isolate a persisted double root and therefore do not determine its character.
 
 ### The mechanism (from below)
 
@@ -24,20 +24,17 @@ The N=4 twin-scalar restriction supplies semisimplicity at the stated point. Fre
 
 So **L|₂D = (−4γ + 2iJ)·I = λ_EP·I**, semisimple. The discriminant double-zero is the *algebraic shadow* of this twin scalarity, not an independent cause.
 
-### The decisive gate (XXZ-Δ breaks free-fermion additivity)
+### The XXZ-Delta probe: algebra changes, positive-Delta character uncertified
 
-Probe `simulations/f89_zz_break_gate.py` (gate-first; Stage 0 reproduces the Δ=0 diabolic point and confirms the Pauli build equals the committed reference + is a genuine sub-block of the full 256² Liouvillian, both to 0.0e+00). Turning on Δ (the ZZ term makes the two magnons interact, so E_(a,b) ≠ ε_a + ε_b):
+Historical locator `simulations/f89_zz_break_gate.py` (a historical locator without a positive-Delta character verdict; Stage 0 reproduces the Δ=0 diabolic point and confirms the Pauli build equals the committed reference + is a genuine sub-block of the full 256² Liouvillian, both to 0.0e+00). Its positive-Delta sweep supplies numerical pair proposals only. Turning on Δ (the ZZ term makes the two magnons interact, so E_(a,b) ≠ ε_a + ε_b):
 
-| Δ | q* | min pair-dist | g1 | g2 | dep | character |
-|---|---|---|---|---|---|---|
-| 0.00 | 0.658983 | 6.8e-15 | 2 | 2 | 0.000 | **DIABOLIC** |
-| 0.02 | 0.660249 | 3.4e-05 | 1 | 2 | 0.022 | DEFECTIVE (Jordan) |
-| 0.05 | 0.662459 | 7.5e-05 | 1 | 2 | 0.056 | DEFECTIVE |
-| 0.10 | 0.667060 | 8.6e-05 | 1 | 2 | 0.112 | DEFECTIVE |
-| 0.20 | 0.644962 | 1.0e-04 | 1 | 2 | 0.165 | DEFECTIVE |
-| 0.50 | 0.639578 | 4.1e-04 | 1 | 2 | 0.422 | DEFECTIVE |
+| Delta | q seed/proposal | full-pair gap | verdict | alg / geo / departure |
+|---:|---:|---:|---|---|
+| 0.00 | 0.658983 | 6.8e-15 | **Diabolic** | 2 / 2 / 0.000 |
+| 0.02 | 0.6569356343442087 | 4.071225731916435e-5 | **Uncertified** | N/A / N/A / N/A |
+| 0.10 | 0.667060 | 9.85599100644663e-5 | **Uncertified** | N/A / N/A / N/A |
 
-At the sampled nonzero Δ values, g1 changes 2 → 1 (g2 stays 2), the eigenvector-merge |cos| changes 0.60 → 1.0000, and dep grows approximately linearly over the tested range. A complex-q locator reduces the split to ~1e-8 and finds the defective partner on the real-q axis, consistent with the surviving pseudo-Hermiticity Σ L Σ = L†. The restriction probe finds `H_eff|₂D = 2iJ·I` at Δ=0 and non-scalar restrictions at the tested nonzero Δ values (diagonal deviation 0 → 0.30), while the dephasing half stays scalar at the −4γ midpoint. These finite-N measurements support the conditional residual twin-scalar interpretation; they neither isolate integrability as a cause nor establish the response at unsampled Δ or N.
+Only Delta=0 passes the strict full-block double-root/correspondence test and therefore supplies character. At Delta=0.02 and 0.10 the proposed pairs remain split by the gaps shown above, both above the fixed 1e-6 certificate. Algebraic/geometric multiplicities and departure are consequently unavailable. The changed XXZ matrix can still demonstrate loss of the free-fermion identities used by the Delta=0 explanation, but these proposals do not show whether a true degeneracy persists elsewhere, becomes defective, or lifts.
 
 ## What it is NOT (candidates the gate refuted)
 
@@ -50,11 +47,11 @@ The following controls distinguish alternative explanations at the N=4 point; ex
 
 ## Where it sits in the framework
 
-The N=4 Delta control probes departure from free-fermion additivity: uniform XXZ remains Bethe-integrable. The measured character flip and loss of the twin-scalar restriction support the Tier-2 hypothesis, but this control does not isolate integrability causality. Absence of level repulsion likewise does not prove integrability (see `experiments/RANDOM_MATRIX_THEORY.md`). The local observable is semisimplicity of the coalescing pair, not a spectral-statistics classification of the Hamiltonian.
+The N=4 Delta probe shows that the free-fermion algebra used at Delta=0 no longer applies to the perturbed pencil. It does not measure a character flip, because the sampled positive-Delta proposals are not certified coalescences. Absence of level repulsion likewise does not prove integrability (see `experiments/RANDOM_MATRIX_THEORY.md`). The local observable would be semisimplicity of an independently isolated coalescing pair, not a spectral-statistics classification of the Hamiltonian.
 
 The **EP-character trilogy** (`docs/CAUGHT_ERRORS.md`) distinguishes F86a (near-EP, no coalescence), the coherence-horizon defective √-EP, and the F89-octic diabolic. These character readings do not establish a shared integrability cause; the N=4 diabolic has its own twin-scalar restriction, including the overlap p=½ midpoint.
 
-**The line vs the silence (the branch-locus palindrome).** The −4γ AT-midpoint above is exactly the palindrome's mirror centre Re λ = −σ = −4. The palindrome proof is independent of this Tier-2 hypothesis: the exact block identity proves the branch-locus pairing (`experiments/F89_BRANCH_LOCUS_PALINDROME.md`, typed `F89BranchLocusPalindromeClaim`, live at `inspect --root branchpalindrome`). The sampled N=4 Delta control stays on the line yet becomes defective; it is a counterexample separating mirror placement from semisimple character, not a premise of the palindrome proof or proof of general integrability protection. The N=4 character fact has its own twin-scalar restriction. Plain-words sibling: `reflections/ON_WHO_WATCHES_WHOM.md`.
+**The line vs the silence (the branch-locus palindrome).** The −4γ AT-midpoint above is exactly the palindrome's mirror centre Re λ = −σ = −4. The palindrome proof is independent of this Tier-2 hypothesis: the exact block identity proves the branch-locus pairing (`experiments/F89_BRANCH_LOCUS_PALINDROME.md`, typed `F89BranchLocusPalindromeClaim`, live at `inspect --root branchpalindrome`). At positive Delta the mirror identity can survive even while the sampled proposal is split; it supplies neither persistence of the degeneracy nor its character. The certified N=4 Delta=0 character has its own twin-scalar restriction. Plain-words sibling: `reflections/ON_WHO_WATCHES_WHOM.md`.
 
 ## Open / next
 
@@ -64,5 +61,5 @@ The **EP-character trilogy** (`docs/CAUGHT_ERRORS.md`) distinguishes F86a (near-
 ## Anchors
 - Typed *what*: `compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs` (Tier 1 derived, the Correction block); live `inspect --root f89octic` (`F89OcticCharacterWitness`); `compute/RCPsiSquared.Core/F89PathK/F89Path3OcticBlock.cs`.
 - The AT-lock / overlap-no-overlap mirror: `F89PathKAtLockMechanismClaim`, `F89Path3SeDeFactorisationClaim`; `experiments/F89_PATH_K_GALOIS.md` (§ Path-3 octic diabolic-degeneracy location).
-- The *why* probes (gate-first, this hypothesis's evidence): `simulations/f89_zz_break_gate.py` (the decisive Δ-break), `simulations/f89_why_diabolic_probe.py` (the twin-scalar / free-fermion-additivity mechanism).
+- The *why* probes have different scopes: `simulations/f89_zz_break_gate.py` is a historical locator without a positive-Delta character verdict; it supports the Δ=0 build cross-check and supplies positive-Delta proposals, while the strict current verdict is owned by XxzDeltaFlipTests. `simulations/f89_why_diabolic_probe.py` tests the Δ=0 twin-scalar / free-fermion-additivity mechanism.
 - The *line vs silence* downstream (uses the Δ-gate): `experiments/F89_BRANCH_LOCUS_PALINDROME.md` (Tier 1), `F89BranchLocusPalindromeClaim`, `inspect --root branchpalindrome`, `reflections/ON_WHO_WATCHES_WHOM.md`. Order/sheet corroboration only: `inspect --root galoismonodromy` (an identity eigenvalue loop says the pair is single-valued; it does not independently decide Jordan character).

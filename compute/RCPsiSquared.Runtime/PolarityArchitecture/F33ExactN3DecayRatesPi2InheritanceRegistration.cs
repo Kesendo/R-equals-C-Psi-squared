@@ -20,8 +20,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///
 /// <para>F33 documents the Absorption Theorem α = 2γ·⟨n_XY⟩ at three
 /// rational ⟨n_XY⟩ values: 1 (pure w=1), 4/3 (mix), 5/3 (mix). At N ≥ 4 the
-/// internal rates lose their rational closed form (only F50's 2γ and
-/// F43's 2(N−1)γ boundary rates remain universal); F33's rationality is
+/// internal rates lose their rational closed form (F50 retains the 2γ rung and
+/// F43 the separate 2Nγ endpoint-partner rate); F33's rationality is
 /// N=3-specific.</para>
 ///
 /// <para>Tier consistency: F33 is Tier 1 exact-rational (closed form via

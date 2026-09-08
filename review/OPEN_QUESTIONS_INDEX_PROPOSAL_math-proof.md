@@ -143,7 +143,7 @@
 **Question:** Answered by the Absorption Theorem (April 4, 2026)  
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 259)  
 **Proposed status:** resolved  
-**Justification:** Self-documenting: "Answered by the Absorption Theorem (April 4, 2026)." Three formerly open questions resolved: spectral boundary determination, factor-2 origin (standing wave round trip), and spectral gap setting (one absorption quantum).
+**Justification:** The Absorption Theorem resolves the eigenmode-rate expectation and the factor 2 in the dissipator cost. It does not make the full spectral gap universally one absorption quantum: gap=2γ requires the D6 coupling threshold, and weak-coupling mixed modes lie below that floor.
 
 ---
 
@@ -292,7 +292,7 @@
 
 ### OQ-255
 
-**Question:** Does the computed quantum large-bridge asymptote γ_crit × J_bridge → 0.50 have an exact derivation?\
+**Question:** Does γ_crit × J_bridge converge at large bridge coupling, and, if so, is its limit 1/2? The executed values 0.578 at J_bridge=10 and 0.508 at 100 have not converged.\
 **Source:** [hypotheses/FRAGILE_BRIDGE.md](../hypotheses/FRAGILE_BRIDGE.md), section "6. Open questions"\
 **Proposed status:** open\
 **Justification:** The question concerns the quantum gain-loss bridge at its stated internal-coupling convention. It supplies no neural quarter or shared-coupling-window mechanism.

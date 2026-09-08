@@ -5,7 +5,7 @@ namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>Tier1Derived Composition Claim: at <c>Q = √3</c> the Lindblad 2×2 sub-block
 /// eigenvalue magnitude <c>|λ_±| = γ₀·√(1+Q²)</c> hits exactly <c>2γ₀ = α</c> (the
-/// single-site Absorption Theorem rate), AND simultaneously the F95 angle <c>θ = arctan(Q)</c>
+/// one-disagreement basis-cell cost), AND simultaneously the F95 angle <c>θ = arctan(Q)</c>
 /// lands on the canonical Niven angle <c>θ = 60°</c>. The two conditions coincide at the
 /// single Q-value Q=√3.
 ///
@@ -13,7 +13,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <list type="number">
 ///   <item>F95 (<see cref="F95AngleAtQuadraticZeroPi2Inheritance"/>): Lindblad 2×2 sub-block
 ///         has eigenvalues λ_± = −γ₀ ± iJ; |λ_±|² = γ₀² + J² = γ₀²(1 + Q²).</item>
-///   <item>Set |λ_±| = α = 2γ₀ (<see cref="AbsorptionTheoremClaim"/> single-site rate, a_0=2
+///   <item>Set |λ_±| = α = 2γ₀ (<see cref="AbsorptionTheoremClaim"/> one-disagreement cell cost, a_0=2
 ///         on Pi2 dyadic ladder).</item>
 ///   <item>γ₀·√(1+Q²) = 2γ₀ ⇒ 1+Q² = 4 ⇒ Q² = 3 ⇒ <b>Q = √3</b>.</item>
 ///   <item>F95 angle: θ = arctan(√3) = <b>60°</b> (canonical Niven, see
@@ -21,7 +21,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </list></para>
 ///
 /// <para><b>Structural meaning</b>: Q=√3 is the UNIQUE Q-value where the Lindblad 2×2
-/// eigenvalue magnitude matches the Absorption Theorem rate, with the additional property
+/// eigenvalue magnitude matches the one-disagreement basis-cell cost, with the additional property
 /// that this happens at a canonical Niven angle (θ=60°). The F99 anchor at the SAME
 /// canonical angle is α=3/8 (KIntermediate, <see cref="DickeAnchor"/>.KIntermediate). The
 /// γ-axis pair at the same canonical angle is γ=±1/2 (PolarityMirrorMap KIntermediate).
@@ -56,7 +56,8 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class LindbladAbsorptionMatchAtSixtyDegreesClaim : Claim
 {
     /// <summary>The unique Q-value where the Lindblad 2×2 sub-block eigenvalue magnitude
-    /// equals the Absorption Theorem single-site rate α = 2γ₀: <c>Q = √3 ≈ 1.7321</c>.</summary>
+    /// equals the Absorption Theorem one-disagreement basis-cell cost α = 2γ₀:
+    /// <c>Q = √3 ≈ 1.7321</c>. This is a numerical cross-match, not an eigenmode-rate identity.</summary>
     public static readonly double QValue = Math.Sqrt(3.0);
 
     /// <summary>The canonical Niven angle at which the match occurs:
@@ -65,13 +66,13 @@ public sealed class LindbladAbsorptionMatchAtSixtyDegreesClaim : Claim
 
     /// <summary>Lindblad eigenvalue magnitude in units of γ₀ at Q=√3:
     /// <c>|λ_±|/γ₀ = √(1 + Q²) = √(1 + 3) = 2</c>. Matches a_0 = 2 from
-    /// <see cref="Pi2DyadicLadderClaim"/> (= single-site Absorption quantum).</summary>
+    /// <see cref="Pi2DyadicLadderClaim"/> (= one-disagreement dissipator coefficient).</summary>
     public const double LindbladMagnitudeOverGamma0 = 2.0;
 
     /// <summary>Parent: F95 angle law θ = arctan(Q) on the Lindblad 2×2 sub-block.</summary>
     public F95AngleAtQuadraticZeroPi2Inheritance F95 { get; }
 
-    /// <summary>Parent: Absorption Theorem (single-site rate α = 2γ₀ = a_0·γ₀).</summary>
+    /// <summary>Parent: Absorption Theorem (one-disagreement cell cost α = 2γ₀ = a_0·γ₀).</summary>
     public AbsorptionTheoremClaim Absorption { get; }
 
     /// <summary>Parent: Canonical trig anchor structure (θ=60° = Niven canonical).</summary>
@@ -98,12 +99,12 @@ public sealed class LindbladAbsorptionMatchAtSixtyDegreesClaim : Claim
         F95AngleAtQuadraticZeroPi2Inheritance f95,
         AbsorptionTheoremClaim absorption,
         CanonicalTrigAnchorPi2Inheritance canonicalTrig)
-        : base("Q=√3 canonical-θ=60° Lindblad-Absorption Match: |λ_±| = 2γ₀ = α at θ=arctan(√3)=60°",
+        : base("Q=√3 canonical-θ=60° cross-match: |λ_±| equals the 2γ₀ one-disagreement cell cost at θ=60°",
                Tier.Tier1Derived,
                "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs " +
                "(Lindblad 2×2 angle law θ = arctan(Q)) + " +
                "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs " +
-               "(single-site rate α = 2γ₀ = a_0·γ₀) + " +
+               "(one-disagreement cell cost α = 2γ₀ = a_0·γ₀) + " +
                "compute/RCPsiSquared.Core/Symmetry/CanonicalTrigAnchorPi2Inheritance.cs " +
                "(canonical Niven angles {0°,30°,45°,60°,90°}) + " +
                "docs/Q_REGIME_ANCHORS.md (Q-axis anchor list)")
@@ -138,11 +139,11 @@ public sealed class LindbladAbsorptionMatchAtSixtyDegreesClaim : Claim
     public static LindbladAbsorptionMatchAtSixtyDegreesClaim Shared { get; } = Build();
 
     public override string DisplayName =>
-        "Q=√3 canonical anchor: |λ_±|=2γ₀=α at θ=60°";
+        "Q=√3 canonical anchor: |λ_±| equals the 2γ₀ one-disagreement cell cost at θ=60°";
 
     public override string Summary =>
         $"Tier1Derived: Q=√3≈{QValue:F4} is the UNIQUE Q where the Lindblad 2×2 magnitude " +
-        $"|λ_±|=γ₀·√(1+Q²) hits 2γ₀ (Absorption single-site rate), with F95 angle " +
+        $"|λ_±|=γ₀·√(1+Q²) equals the 2γ₀ one-disagreement cell cost, with F95 angle " +
         $"θ=arctan(√3)={CanonicalAngleDegrees}° (canonical Niven). Composition of F95 + " +
         $"AbsorptionTheorem + CanonicalTrigAnchor; algebraic 4-line derivation.";
 
