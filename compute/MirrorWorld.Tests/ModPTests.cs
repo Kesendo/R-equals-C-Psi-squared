@@ -4,7 +4,7 @@ using MirrorWorld;
 namespace MirrorWorldTests;
 
 // From-below guard for ModP, the world's one exact-arithmetic primitive, which Seed, LevelCollision,
-// BlindSeat, Divisor and Crack are all written in.
+// BlindSeat, Divisor, Crack and CollisionGap are all written in.
 //
 // Every gate judges ModP against a route independent OF IT: System.Numerics.BigInteger for the modular
 // arithmetic, trial division for primality, a membership question over every prime up to m for
@@ -360,5 +360,98 @@ public class ModPTests
     {
         Assert.Equal(0, ModP.Rank(new List<long[]>(), Big));
         Assert.Equal(0, ModP.Rank(new List<long[]> { new[] { 0L, 0L }, new[] { 0L, 0L } }, Big));
+    }
+
+    // ---- the cyclotomic setting: a prime the comb can be evaluated at, and its root ----
+    //
+    // CyclotomicPrime is the search LevelCollision carried privately and F161's ladder needs a second
+    // time. It is gated here against routes independent of it: trial division for the primality of what
+    // it returns AND of every candidate it stepped over, the arithmetic congruence read directly, and
+    // the multiplicative order taken by walking the powers rather than by the prime-factor test
+    // RootOfOrder itself uses.
+
+    [Theory]
+    [InlineData(18)]   // 2n at the smallest firing comb, n = 9
+    [InlineData(24)]
+    [InlineData(30)]
+    [InlineData(40)]
+    [InlineData(60)]   // 2n at n = 30, the largest comb of the census
+    public void CyclotomicPrime_IsPrime_Congruent_AndCarriesARootOfExactOrder(int order)
+    {
+        var (p, zeta) = ModP.CyclotomicPrime(order, 0);
+
+        Assert.True(p > 1_000_000L, $"the floor is not respected: {p}");
+        Assert.Equal(1L, p % order);
+
+        bool prime = p > 1;
+        for (long d = 2; d * d <= p; d++) if (p % d == 0) { prime = false; break; }
+        Assert.True(prime, $"{p} is not prime by trial division");
+
+        // the order of zeta, by walking the powers: the FIRST return to 1 must be at `order`.
+        BigInteger z = zeta, acc = 1;
+        int first = 0;
+        for (int e = 1; e <= order; e++)
+        {
+            acc = acc * z % p;
+            if (acc == 1) { first = e; break; }
+        }
+        Assert.Equal(order, first);
+    }
+
+    // The search is the SMALLEST candidate above the floor, at the floor 10^6 AND at a caller's floor,
+    // which is what makes two calls reproducible and what a future change to the search has to turn a
+    // light red to make. Independent route: every earlier member of the progression is refused by trial
+    // division. The skip condition is stated honestly rather than assumed: the search also passes over a
+    // prime for which RootOfOrder finds nothing below its own t = 500, which is a limitation of that
+    // search and not a fact about the prime, so the assertion names both branches and reports which one
+    // fired. The first version of this gate asserted "composite" alone and held only because that second
+    // branch happens not to fire at orders 18 and 60.
+    [Theory]
+    [InlineData(18)]
+    [InlineData(24)]
+    [InlineData(48)]
+    [InlineData(60)]
+    public void CyclotomicPrime_StepsOverNoUsableCandidate(int order)
+    {
+        var (p1, _) = ModP.CyclotomicPrime(order, 0);
+        AssertNoUsableCandidateBetween(order, order * (1_000_000L / order + 1) + 1, p1);
+
+        // and again above a caller's floor, which is the call the census actually makes and which the
+        // first version of this gate never exercised: a floor of 2*above would have passed it
+        var (p2, _) = ModP.CyclotomicPrime(order, p1);
+        Assert.True(p2 > p1);
+        AssertNoUsableCandidateBetween(order, order * (p1 / order + 1) + 1, p2);
+    }
+
+    static void AssertNoUsableCandidateBetween(int order, long from, long to)
+    {
+        for (long q = from; q < to; q += order)
+        {
+            bool prime = q > 1;
+            for (long d = 2; d * d <= q; d++) if (q % d == 0) { prime = false; break; }
+            if (!prime) continue;
+            Assert.True(ModP.RootOfOrder(order, q) == 0,
+                $"{q} is prime, congruent to 1 mod {order} and carries a root, yet the search stepped over it");
+        }
+    }
+
+    // Two independent primes, which is the whole reason the second argument exists: the census reads a
+    // level at both, and a shared prime would make the second reading no evidence at all.
+    [Fact]
+    public void CyclotomicPrime_AboveIsStrict()
+    {
+        var (p1, _) = ModP.CyclotomicPrime(18, 0);
+        var (p2, _) = ModP.CyclotomicPrime(18, p1);
+        Assert.True(p2 > p1, $"the second prime {p2} does not clear the first {p1}");
+        var (p3, _) = ModP.CyclotomicPrime(18, p2);
+        Assert.True(p3 > p2);
+    }
+
+    [Fact]
+    public void CyclotomicPrime_RefusesAnOrderItCannotMean()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => ModP.CyclotomicPrime(0, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ModP.CyclotomicPrime(-6, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ModP.CyclotomicPrime(18, -1));
     }
 }

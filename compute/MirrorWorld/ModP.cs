@@ -4,9 +4,10 @@ namespace MirrorWorld;
 /// mirrorworld_what_is_missing, NextStep (6)).
 ///
 /// Several objects here walk past the wall by refusing floating point: Seed's nullity surplus,
-/// Divisor's multiplicity, BlindSeat's blind count, LevelCollision's cyclotomic levels and Crack's
-/// characteristic-polynomial identity are all EXACT ranks and residues over GF(p) at two primes,
-/// with no eigensolver anywhere. This is the arithmetic all five of them are written in.
+/// Divisor's multiplicity, BlindSeat's blind count, LevelCollision's cyclotomic levels, Crack's
+/// characteristic-polynomial identity and CollisionGap's comb readings are all EXACT ranks and residues
+/// over GF(p) at two primes, with no eigensolver anywhere. This is the arithmetic all six of them are
+/// written in.
 ///
 /// ONE PRIME LIST, and the choice is forced rather than preferred: both primes are 1 mod 4, so -1
 /// is a square at each, and the GAUSSIAN ranks (Divisor works over Z[i], embedding i as a square
@@ -142,6 +143,30 @@ public static class ModP
             if (full) return z;
         }
         return 0;
+    }
+
+    /// <summary>A field the comb can be evaluated in: the smallest prime p &gt; max(above, 10^6) with
+    /// p = 1 (mod order), together with an element zeta of EXACT multiplicative order `order` mod p.
+    /// This is the setting the cosine readings live in, since 2cos(m pi / n) = zeta^m + zeta^-m once
+    /// zeta has order 2n. Pass the first prime as `above` to get a second, independent one.
+    ///
+    /// It is here rather than in one of the objects because two of them need it: the level census
+    /// carried the search privately, and the collision gap's ladder reads the same combs under an
+    /// integer multiplier. Copying it would have been a SECOND copy of this search, in the file that
+    /// exists because five copies of the GF(p) routines had to be collected first; the two counts are
+    /// different and merging them would misreport what was actually prevented here.</summary>
+    public static (long P, long Zeta) CyclotomicPrime(int order, long above)
+    {
+        if (order <= 0) throw new ArgumentOutOfRangeException(nameof(order), order, "a root has a positive order");
+        if (above < 0) throw new ArgumentOutOfRangeException(nameof(above), above, "the floor is a prime already found, or zero");
+        for (long k = Math.Max(above, 1_000_000L) / order + 1; ; k++)
+        {
+            long p = (long)order * k + 1;
+            if (!IsPrime(p)) continue;
+            long zeta = RootOfOrder(order, p);
+            if (zeta == 0) continue;
+            return (p, zeta);
+        }
     }
 
     /// <summary>The rank of the row set over GF(p), by Gaussian elimination. Rows may be longer or

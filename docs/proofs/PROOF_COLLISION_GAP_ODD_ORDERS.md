@@ -16,9 +16,9 @@ outcomes occur in this census. Theorem F (where the ladder stops) is uncondition
 F129's own firing condition. Corollary G (the second order) starts from Theorem D on the
 other ladder and then sharpens the criterion: what a multiplier must be invertible on is
 every minimal PIECE of the pair's vanishing sum, not the whole ring, and under that reading
-Theorems D and E are one criterion at its two ends. The sufficient direction is a proof; the converse at m = 3 is checked on all 2558 pairs of the
-census, against piece signatures that are themselves decided at two primes rather than exactly,
-and identifies them as one named F129 family. **What is READ and not derived:** that all twelve even-n non-mirror
+Theorems D and E are one criterion at its two ends. The sufficient direction is a proof; the converse at m = 3 is checked EXACTLY on all 2558 pairs of the
+census, the vanishing subsets enumerated in ℤ[ζ_2n] with the inventory's greedy two-prime tiling
+kept beside it only as a cross-check, and identifies them as one named F129 family. **What is READ and not derived:** that all twelve even-n non-mirror
 standing pairs of the n ≤ 30 census have both triples of the ROT3 shape AND share a parity
 class. Theorem E turns the shape into the vanishing of c₃ and the parity match into the
 vanishing of c₁; nothing here says a standing pair must have either.
@@ -332,9 +332,9 @@ approaches 1/10 from its own O(u). Four values give two such ratios, and the gat
 which is the model converging rather than one quotient landing in a window. The three cases are
 (N, k) = (14, 4), (14, 9) and (19, 7), and each moves a full decade closer: 0.099983508 to
 0.099998346, 0.09995787 to 0.09999578, 0.099953513 to 0.099995348. That is the model itself,
-not a window a single quotient has to sit inside. There is no exact route to an eigenvalue, so this is one of the two gates on the page that are
-not exact; the other is L13, whose piece signatures come from a decomposition that decides
-vanishing at two primes (see Scope).
+not a window a single quotient has to sit inside. There is no exact route to an eigenvalue, so this is the ONE gate on the page that is
+not exact; everything else, L13 included, is decided exactly in ℤ[ζ_2n] or symbolically in n
+(see Scope).
 
 ## (d) Corollary C: each computed coefficient is a signed combination on a multiplier ladder
 

@@ -90,7 +90,12 @@ public sealed class LevelCollision : GameObject
 
     public CombCensus Census() => CensusOf(Ncomb);
 
-    public static CombCensus CensusOf(int n)
+    /// <summary>The colliding pairs themselves, in the census's own order: two distinct clean triples
+    /// whose levels agree mod BOTH primes. The counts below are read off this list, so a reading that
+    /// walks the pairs and the reading that counts them cannot drift apart. The one-sidedness is the
+    /// header's: distinctness mod one prime proves exact distinctness, so no colliding pair is missed
+    /// and a listed pair is a candidate the law itself confirms.</summary>
+    public static List<((int K1, int K2, int K3) A, (int K1, int K2, int K3) B)> CollidingPairs(int n)
     {
         var triples = CleanTriples(n);
         var (p1, lam1) = CyclotomicLambdas(n, 0);
@@ -104,24 +109,31 @@ public sealed class LevelCollision : GameObject
             if (!groups.TryGetValue(key, out var bucket)) groups[key] = bucket = new List<int>();
             bucket.Add(i);
         }
-        int pairs = 0, disjoint = 0, overlap1 = 0;
-        (int, int, int)? exA = null, exB = null;
+        var pairs = new List<((int, int, int), (int, int, int))>();
         foreach (var bucket in groups.Values)
         {
             if (bucket.Count < 2) continue;
             for (int i = 0; i < bucket.Count; i++)
                 for (int j = i + 1; j < bucket.Count; j++)
-                {
-                    var t = triples[bucket[i]];
-                    var s = triples[bucket[j]];
-                    int shared = SharedModes(t, s);
-                    pairs++;
-                    if (shared == 0) disjoint++;
-                    else if (shared == 1) overlap1++;
-                    if (exA is null) { exA = t; exB = s; }
-                }
+                    pairs.Add((triples[bucket[i]], triples[bucket[j]]));
         }
-        return new CombCensus(n, Fires(n), triples.Count, pairs, disjoint, overlap1, exA, exB);
+        return pairs;
+    }
+
+    public static CombCensus CensusOf(int n)
+    {
+        var triples = CleanTriples(n);
+        var pairs = CollidingPairs(n);
+        int disjoint = 0, overlap1 = 0;
+        (int, int, int)? exA = null, exB = null;
+        foreach (var (t, s) in pairs)
+        {
+            int shared = SharedModes(t, s);
+            if (shared == 0) disjoint++;
+            else if (shared == 1) overlap1++;
+            if (exA is null) { exA = t; exB = s; }
+        }
+        return new CombCensus(n, Fires(n), triples.Count, pairs.Count, disjoint, overlap1, exA, exB);
     }
 
     /// <summary>The law over a range: at every non-firing n zero colliding pairs (injectivity,
@@ -311,16 +323,10 @@ public sealed class LevelCollision : GameObject
     static (long P, long[] Lam) CyclotomicLambdas(int n, long above)
     {
         int order = 2 * n;
-        for (long k = Math.Max(above, 1_000_000L) / order + 1; ; k++)
-        {
-            long p = order * k + 1;
-            if (!ModP.IsPrime(p)) continue;
-            long zeta = ModP.RootOfOrder(order, p);
-            if (zeta == 0) continue;
-            var lam = new long[n];
-            for (int m = 1; m < n; m++)
-                lam[m] = (ModP.ModPow(zeta, m, p) + ModP.ModPow(zeta, order - m, p)) % p;
-            return (p, lam);
-        }
+        var (p, zeta) = ModP.CyclotomicPrime(order, above);
+        var lam = new long[n];
+        for (int m = 1; m < n; m++)
+            lam[m] = (ModP.ModPow(zeta, m, p) + ModP.ModPow(zeta, order - m, p)) % p;
+        return (p, lam);
     }
 }

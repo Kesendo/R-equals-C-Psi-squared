@@ -9085,7 +9085,7 @@ clause.** gcd(m, 2n) = 1 is sufficient and too crude. A collision reduces to a v
 pieces, and what governs a piece is its RATIO-ORDER o (all its exponents sit in one coset of
 ⟨2n/o⟩, so the piece is a unit times a vanishing element of ℤ[ζ_o]), NOT a prime-coset
 structure, which the Conway-Jones and Poonen-Rubinstein classifications exist to refute and
-which fails on the inventory's own pieces of ratio-order 30, 42 and 70. Reading the sum under
+which fails on the inventory's own pieces of ratio-order 30, 42, 66, 70 and 210, of which 30 and 42 occur inside this census. Reading the sum under
 the multiplier m keeps a piece zero exactly while gcd(m, o) = 1. So the sharp statement is *the vanishing survives when SOME minimal
 tiling has every ratio-order coprime to m*, of which global
 invertibility is the special case where every tiling qualifies, every

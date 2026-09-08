@@ -9108,12 +9108,33 @@ public static class OpenArcsRegistry
                 "name, the Claim graph in Core AND the witnesses in Diagnostics, before a line of " +
                 "MirrorWorld is written; the filename grep above is where that check starts, not where it " +
                 "ends. (2) By the rule (an owner Claim, and an object the world's own primitives already " +
-                "hold), the head of the queue is F161 and F162 (cosine combs and integer resultants of " +
-                "Chebyshev-family polynomials, beside the adopted F160 and F157 and on primitives Seed, " +
-                "LevelCollision and Crack hold), then F151 (one character per block, " +
+                "hold), the head of the queue was read as F161 AND F162 together (cosine combs and " +
+                "integer resultants of Chebyshev-family polynomials, beside the adopted F160 and F157), " +
+                "on the ground that both stand on primitives Seed, LevelCollision and Crack hold. That " +
+                "pairing was HALF right, and what follows is its correction rather than a note beside " +
+                "it: F161 is home since 2026-09-08 and F162 does not belong at the head at all. The " +
+                "queue after F161 reads F151 (one character per block, " +
                 "(-1)^((p+q)(N-1)), with a sign rearrangement exact bit for bit), then F132 (a " +
                 "per-string Majorana-degree parity over PauliMode.Enumerate, the 4^N primitive Hardness " +
-                "already walks). F150 sits BEHIND them and not beside F151: its object is the " +
+                "already walks). F161 CAME HOME 2026-09-08 as MirrorWorld/CollisionGap.cs, parent the " +
+                "Crack, and it confirmed the primitive judgement for its half: the comb readings are " +
+                "the search LevelCollision already carried privately, which moved into ModP as " +
+                "CyclotomicPrime rather than being copied a sixth time. The pairing's other half is " +
+                "false: F162's object " +
+                "is a resultant of Chebyshev-family polynomials over Z[t] reached through a pole split " +
+                "g_S = gcd(beta_S, S_p), h_S = beta_S/g_S, and the world has no resultant, no " +
+                "polynomial gcd, no general polynomial division and no fraction arithmetic. The lack is " +
+                "NARROWER than polynomial arithmetic as such, which the world does have in places " +
+                "(Crack carries a univariate BigInteger layer with Chebyshev, Faddeev-LeVerrier, shift " +
+                "and Descartes; Hardness divides in GF(2)[x]; Crack and CollisionGap each carry a " +
+                "rational as a reduced integer pair), and it is exactly the part F162 needs. So F162 " +
+                "belongs beside F150 and behind F151. Two couplings whoever takes it must know, " +
+                "neither of them visible when the pairing was written: BlindSeat.cs does not mention " +
+                "F162 at all, its 128 at N = 9 seat 1 being F157's hop-2 normalisation which F162 " +
+                "explicitly disclaims (the proof's section (a) Remark identifies it as 2^(1*7) at " +
+                "J = 1), and the Python gate H5 in simulations/blind_seat_two_axes_proof.py READS that " +
+                "literal out of BlindSeat.cs by opening the file, so an adoption that edits the comment " +
+                "reddens a committed gate. F150 sits BEHIND them and not beside F151: its object is the " +
                 "coefficient support of a characteristic polynomial in Lambda and q over Z[i] on a " +
                 "fold-fixed block, which needs the q-pencil, the R-sector split and bivariate integer " +
                 "polynomial arithmetic, three primitives the world does not have. F158 is NOT the head " +

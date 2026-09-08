@@ -2739,3 +2739,68 @@ not resolve the kernel sectors.
 `simulations/f86_hardware_rate_book.py`,
 `experiments/PT_SYMMETRY_ANALYSIS.md`, and
 `compute/RCPsiSquared.Core/F86/ShiftedGeneratorSectorwisePClaim.cs`.
+
+
+## 2026-09-08 — adopting F161 into MirrorWorld: five rounds, and the repair itself was the biggest source
+
+The collision gap came home as `compute/MirrorWorld/CollisionGap.cs`. Four empty rounds
+plus a fifth on the repair found twenty-three items. **Not one was in a number**: two
+reviewers re-derived the whole census independently, one in GF(p) and one in exact
+ℤ[ζ_2n], and every literal reproduced. Everything caught was in prose, in naming, or in
+gates that could not fail. Three lessons, in the order they cost the most.
+
+**The repair introduced two of the worst errors, and both were inversions.** A sentence
+written to fix an over-claim then said the zeros are explained “by the gcd at odd n and
+by the shape at even n”. That is the FIRST order's split. The SECOND order lives on the
+M ladder at the fixed rung m = 3, so its criterion is gcd(3, 2n) = 1 and it splits by
+whether 3 divides n — the opposite grouping. Among the nine firing moduli only n = 20 has
+3 ∤ n, and there the gcd kills c₂ for every pair; at every 3|n modulus the gcd fails and
+only Corollary G's local criterion can speak, which the object does not run. So the 40
+deaths at n = 30 were being silently claimed as explained. The second inversion is the
+Theorem E convention: the adoption declared that the bare letter means F160's, when in
+F161's own proof Theorem E IS the ROT3 rung lemma and the parent proof qualifies
+Theorem A by file, not E. Both sentences were written while fixing something else.
+
+**A route can be named for a modulus it cannot reach.** The run mode printed
+“shape (the ROT3 rung lemma)” for every even comb, including n = 20. ROT3 needs 3|n, and
+20 is the one firing modulus in the census without it, so that cell named a lemma with no
+triple to speak about. Nothing was missing — no pair stands at n = 20 — but the table said
+otherwise. The same shape appeared twice more: family L is half of the second-order lower
+bound and its door is 70, so inside the n ≤ 30 census it never fires and the equality at
+n = 20 and n = 30 is family C alone; and the claim “the levels themselves are never
+computed” was false, the u = 0 levels being exactly what `LevelCollision` computes as
+ζ^k + ζ^−k to find the pairs at all.
+
+**Eight mutations survived the first suite and two more survived the second.** The worst
+was the automorphism criterion: replacing gcd(m, 2n) by gcd(m, n) left every gate green,
+because the only caller passes n + 2j and at odd n the two agree. Others: the prefactors
+were pinned at one modulus where (n−3) and (2n−12) both read 6; `WeightDenominator` had
+no caller and no test; the order-2 and order-3 weight magnitudes were invisible to a
+sum-to-zero identity that any antisymmetric pair satisfies; `Rot3ForcesVanishing` was
+replaceable by `j != 3 && j != 6` because the census loop inlined the predicate instead
+of calling it; and `FirstSurvivingRungByShape()` was a constant asserted against its own
+literal in two files. A gate added during the repair then caught the repairer's own
+arithmetic — 2(n−2)(n−4) at n = 12 is 160 over 5184, not 240 over 3888.
+
+**Two committed documents were stale and are repaired here.** The proof said in two
+places that L13 is one of two inexact gates; the gate enumerates vanishing subsets in
+ℤ[ζ_2n] with no primes at all, and the script's own header, the §(j) table, §(k), the
+committed run, the registry entry and `CollisionGapOddOrdersClaim` all said L4 is the
+only inexact one. And `THE_COMB_ON_THE_ROAD.md` said c₃ = 0 rests at even n on the ROT3
+shape for all 223, when the eleven Θ-mirror pairs are carried term by term with no such
+hypothesis and one of them, (6,18,20) ~ (10,12,24) at n = 30, is not of that shape;
+the same page's own Fences paragraph had it right two paragraphs later.
+
+**One finding did not survive being checked.** A round reported that the registry names
+only n = 24 as breaking the ROT3 converse while the proof names n = 24 and n = 12. The
+registry passage is a break-INPUT, one witness, and states nothing about all witnesses,
+so it is shorter and not wrong; it was left alone. The proof's own point, that n = 30
+alone could not have broken the lemma, belongs to the proof and not to the compressed
+store.
+
+**Anchors.** `compute/MirrorWorld/CollisionGap.cs`,
+`compute/MirrorWorld.Tests/CollisionGapTests.cs`,
+`compute/MirrorWorld/ModP.cs`,
+`docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md`,
+`experiments/THE_COMB_ON_THE_ROAD.md`, and the arc `mirrorworld_what_is_missing` in
+`compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`.

@@ -621,6 +621,27 @@ public static class Formulas
         return 0.5 - 1.0 / (n * s * s);
     }
 
+    // F161 (T1): the collision gap on the crack's road, at the CHAIN end u = 0. A level's motion is
+    // E_k(u) = 2cos(theta_k) + sum_m d_m u^m, and each computed coefficient is a signed combination of
+    // neighbouring evaluations of ONE comb under an integer multiplier: the odd orders on
+    // X_2j = -M_{n+2j}, the even orders on M_{2j+1}. Which orders vanish is decided by a gcd, the
+    // multiplier being a Galois automorphism of Q(zeta_2n) exactly when gcd(n + 2j, 2n) = 1, which at
+    // odd n is gcd(j, n) = 1. The PRIMITIVE is CollisionGap's comb readings over GF(p) against
+    // LevelCollision's own pairs; these are the closed integer faces. SCOPE: n is the COMB modulus
+    // (N_sites + 1), never the site count; the expansion point is u = 0 and F160's Theorem E at the
+    // ring end is a different object; the multipliers' parity is a theorem at every order but their
+    // range is not, so nothing is offered past the fifth; and the second-order count is a LOWER BOUND
+    // past the census, being what family membership forces and not what a modulus contains. The two
+    // routes to the first surviving rung are named apart because the gcd one has content only at an odd
+    // comb and the shape one only where 3 divides n, so an even comb with 3 not dividing it, n = 20 in
+    // the census, has neither and needs neither. They are one mechanism at two resolutions (Corollary G)
+    // and reach the same three. These faces are the eta-FREE D_m of Lemma B, d_m being eta^m times them.
+    public static int F161_OddOrderMultiplier(int ncomb, int j) => CollisionGap.OddOrderMultiplier(ncomb, j);
+    public static int F161_EvenOrderMultiplier(int j) => CollisionGap.EvenOrderMultiplier(j);
+    public static int F161_FirstSurvivingOddRungByGcd(int ncomb) => CollisionGap.FirstSurvivingOddRungByGcd(ncomb);
+    public static int F161_FirstSurvivingRungByShape() => CollisionGap.FirstSurvivingRungByShape();
+    public static long F161_SecondOrderZeroLowerBound(int ncomb) => CollisionGap.SecondOrderZeroLowerBound(ncomb);
+
     private static double H2(double x) => -XLog2(x) - XLog2(1.0 - x);
     private static double XLog2(double x) => x <= 0.0 ? 0.0 : x * Math.Log2(x);
 

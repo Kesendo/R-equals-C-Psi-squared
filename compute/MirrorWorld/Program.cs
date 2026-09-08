@@ -337,6 +337,81 @@ if (args.Length > 0 && args[0] == "collision")
     return;
 }
 
+// ---- run mode "gap": the collision gap -- what two agreeing levels do as the road moves ----
+if (args.Length > 0 && args[0] == "gap")
+{
+    int gn = args.Length > 1 ? int.Parse(args[1]) : 30;
+    if (gn < 9) { Console.WriteLine("the smallest firing comb is n = 9; below it there is no collision to have a gap"); return; }
+    Console.WriteLine("the collision gap (F161, what the crack's road does to a level collision -- adopted 2026-09-08)");
+    Console.WriteLine("  sources docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md + experiments/THE_COMB_ON_THE_ROAD.md");
+    Console.WriteLine("  (gate simulations/collision_gap_odd_orders.py)");
+    Console.WriteLine("  A level moves as E_k(u) = 2cos(theta) + sum_m d_m u^m at the CHAIN end u = 0. Each computed");
+    Console.WriteLine("  coefficient reads ONE comb under an integer multiplier: odd orders on X_2j = -M_{n+2j}, even");
+    Console.WriteLine("  orders on M_{2j+1}. Which orders vanish is decided by a GCD: the multiplier is an automorphism");
+    Console.WriteLine("  of Q(zeta_2n) iff gcd(n+2j, 2n) = 1, at odd n iff gcd(j, n) = 1, and an automorphism carries");
+    Console.WriteLine("  the collision DeltaM_1 = 0 onto the rung and kills it. Rung j = 0 is never one, and that is the");
+    Console.WriteLine("  rung which leaves the first order standing. At EVEN n nothing reaches the X ladder and the ROT3");
+    Console.WriteLine("  shape carries the vanishing instead, forced at 3 not dividing j -- one direction only.");
+    Console.WriteLine();
+    Console.WriteLine("  the ladder, rung by rung (kill = the collision reaches it and it dies):");
+    Console.WriteLine($"  {"n",3} {"j=1",7} {"j=2",7} {"j=3",7} {"j=4",7}   first surviving   route");
+    foreach (int n in new[] { 9, 12, 15, 18, 20, 21, 24, 27, 30 })
+    {
+        if (n > gn) break;
+        string cells = "";
+        for (int j = 1; j <= 4; j++) cells += $" {(CollisionGap.GaloisKillsOddRung(n, j) ? "kill" : "live"),6}";
+        bool byGcd = n % 2 == 1;
+        bool byShape = !byGcd && n % 3 == 0;
+        string route = byGcd ? "gcd (Theorem D)" : byShape ? "shape (the ROT3 rung lemma)" : "neither (no ROT3 triple)";
+        string first = byGcd ? CollisionGap.FirstSurvivingOddRungByGcd(n).ToString()
+                     : byShape ? CollisionGap.FirstSurvivingRungByShape().ToString()
+                     : "-";
+        Console.WriteLine($"  {n,3}{cells}   {first,15}   {route}");
+    }
+    Console.WriteLine("  at an even comb every multiplier n+2j is even, so the gcd route kills nothing and the column");
+    Console.WriteLine("  reads live throughout; the three in its first-surviving cell is the SHAPE's, not the gcd's,");
+    Console.WriteLine("  and the two are one mechanism read at two resolutions (Corollary G), not two mechanisms.");
+    Console.WriteLine("  n = 20 has NEITHER: the shape needs 3|n to have a triple to speak about, and it is the one");
+    Console.WriteLine("  firing modulus here with 3 not dividing n. Nothing is missing -- no pair stands there.");
+    Console.WriteLine();
+    Console.WriteLine("  the census the law explains (pairs = LevelCollision's own colliding pairs):");
+    Console.WriteLine($"  {"n",3} {"pairs",6} {"separate",9} {"stand",6} {"mirror",7} {"non-mir",8} {"c2=0",5} {"bound",6}");
+    int tp = 0, ts = 0, tst = 0, tm = 0, tnm = 0, tc2 = 0;
+    foreach (int n in new[] { 9, 12, 15, 18, 20, 21, 24, 27, 30 })
+    {
+        if (n > gn) break;
+        var c = CollisionGap.CensusOf(n);
+        long bound = CollisionGap.SecondOrderZeroLowerBound(n);
+        Console.WriteLine($"  {n,3} {c.Pairs,6} {c.Separating,9} {c.Standing,6} {c.StandingMirror,7} {c.StandingNonMirror,8} {c.SecondOrderZero,5} {bound,6}{(c.SecondOrderZero < bound ? "   BOUND VIOLATED" : "")}");
+        tp += c.Pairs; ts += c.Separating; tst += c.Standing;
+        tm += c.StandingMirror; tnm += c.StandingNonMirror; tc2 += c.SecondOrderZero;
+    }
+    Console.WriteLine($"  tot {tp,6} {ts,9} {tst,6} {tm,7} {tnm,8} {tc2,5}");
+    Console.WriteLine("  the standing set splits by ARGUMENT: the mirror column is carried term by term (sigma = n - tau,");
+    Console.WriteLine("  no shape needed, and one of the eleven is not ROT3 at all). It is all EVEN, and that is a theorem:");
+    Console.WriteLine("  at an odd comb the reflection flips every eta, so o_sigma = 3 - o_tau and DeltaX_0 cannot vanish,");
+    Console.WriteLine("  while DeltaX_2 is dead by Theorem D -- both halves are needed, c_1 running on their difference.");
+    Console.WriteLine("  Of the non-mirror column the twelve at EVEN n need TWO facts, not one: the ROT3 shape kills c_3");
+    Console.WriteLine("  and a parity match kills c_1, the shape alone leaving the first order standing (58 pairs of this");
+    Console.WriteLine("  census are fully shaped and separate anyway). The odd-n rest, 200 of the 223,");
+    Console.WriteLine("  stand on rung j = 0, which the gcd never reaches: their two triples happen to carry the SAME");
+    Console.WriteLine("  odd-label count, and nothing here forces that.");
+    Console.WriteLine("  the c2 column splits the OTHER way, by 3|n and not by parity: its rung is m = 3, so the gcd");
+    Console.WriteLine("  kills it exactly where 3 does not divide n, which here is n = 20 alone (all 20 pairs). The 40");
+    Console.WriteLine("  at n = 30 are Corollary G's LOCAL criterion, which stays in the proof and is not run here.");
+    Console.WriteLine();
+    var gap = new CollisionGap(new Crack(new Cyclotomy(), gn - 1, 0));
+    Console.WriteLine($"    own       (left) : {string.Join(", ", gap.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join("; ", gap.Inherited)}");
+    Console.WriteLine();
+    Console.WriteLine("  boundary: the multipliers' PARITY is a theorem at every order, their RANGE is not, so nothing");
+    Console.WriteLine("  past the fifth is offered; d_4 is computed in the proof and not carried; the sharp piece");
+    Console.WriteLine("  criterion needs F129's label and orbit engines and stays in its proof, so what comes home at");
+    Console.WriteLine("  second order is the BOUND its families C and L force. The ring end (F160 Theorem E) is a");
+    Console.WriteLine("  different object and nothing transfers.");
+    return;
+}
+
 // ---- run mode "seed": the within-block self-dual seed (the shadow's source, as a count) ----
 // Mirror gave the BETWEEN-block folds; this gives the WITHIN-block self-duality they leave untouched:
 // the endpoint-nullity surplus associated with the self-dual seed problem. Held as a COUNT, no

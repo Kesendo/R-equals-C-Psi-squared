@@ -857,6 +857,50 @@ public class SmokeTests
         Assert.True(0.25 == Formulas.F160_SplitCorrection(4, 1));                // N = 4, m = 1: sin(pi/2) = 1 exactly, so exact
     }
 
+    // --- F161: the collision gap's integer faces. The census itself is pinned in
+    // CollisionGapTests; here the faces are pinned against the documented numbers and against
+    // the guards, so a facade that quietly stopped delegating would still have to produce them. ---
+    [Fact]
+    public void F161_Collision_Gap_Faces_Match_The_Documented_Numbers()
+    {
+        // the two ladders: X_2j = -M_{n+2j} and M_{2j+1}
+        Assert.Equal(15, Formulas.F161_OddOrderMultiplier(9, 3));
+        Assert.Equal(9, Formulas.F161_OddOrderMultiplier(9, 0));            // never an automorphism
+        Assert.Equal(7, Formulas.F161_EvenOrderMultiplier(3));
+
+        // three at every odd firing modulus, by the gcd; one at an even comb, where the gcd route
+        // has no content and refuses; the ROT3 shape reaches the same three
+        foreach (int n in new[] { 9, 15, 21, 27, 45, 99 })
+            Assert.Equal(3, Formulas.F161_FirstSurvivingOddRungByGcd(n));
+        foreach (int n in new[] { 12, 20, 24, 30 })
+            Assert.Throws<ArgumentException>(() => Formulas.F161_FirstSurvivingOddRungByGcd(n));
+        Assert.Equal(3, Formulas.F161_FirstSurvivingRungByShape());
+
+        // what the pieces force at second order: families C and L, met inside the census at
+        // n = 20 and n = 30 and a BOUND past it
+        Assert.Equal(0L, Formulas.F161_SecondOrderZeroLowerBound(9));
+        Assert.Equal(20L, Formulas.F161_SecondOrderZeroLowerBound(20));
+        Assert.Equal(40L, Formulas.F161_SecondOrderZeroLowerBound(30));
+        Assert.Equal(140L, Formulas.F161_SecondOrderZeroLowerBound(70));
+        Assert.Equal(420L, Formulas.F161_SecondOrderZeroLowerBound(210));
+
+        // n is the COMB modulus and a comb needs n >= 5, as the object requires
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F161_OddOrderMultiplier(4, 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F161_SecondOrderZeroLowerBound(4));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F161_FirstSurvivingOddRungByGcd(4));
+
+        // the DELEGATION and not only the numbers: a face that stopped calling the object and answered
+        // out of a table of its own would pass every row above
+        for (int n = 9; n <= 60; n++)
+        {
+            Assert.Equal(CollisionGap.SecondOrderZeroLowerBound(n), Formulas.F161_SecondOrderZeroLowerBound(n));
+            if (n % 2 == 1)
+                Assert.Equal(CollisionGap.FirstSurvivingOddRungByGcd(n), Formulas.F161_FirstSurvivingOddRungByGcd(n));
+            for (int j = 0; j <= 5; j++)
+                Assert.Equal(CollisionGap.OddOrderMultiplier(n, j), Formulas.F161_OddOrderMultiplier(n, j));
+        }
+    }
+
     // --- F157: the blind seat's uniform-chain counts, the scalar faces of BlindSeat's Krylov
     // rank. Literals are the committed run's rows (simulations/results/seat_cut_blindness);
     // the from-below cross-pin against the rank itself lives in BlindSeatTests, so here the

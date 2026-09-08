@@ -345,8 +345,9 @@ first order; the road's protected Θ-mirror pairs are at even n. Gate R4c reads 
 for all 223: for the 11 Θ-mirror pairs it sits at the 40-digit floor (worst 2.3e-41), a theorem measured;
 for the other 212, none of which is a Θ-mirror pair, at both parities of n, the odd part starts at u⁵
 (decade ratio within 15% of 1e5 for every one). So c₃ = 0 for every pair that stands at first order, and since 2026-09-02 that is a theorem for
-all 223, unconditional at odd n and resting at even n on the ROT3 shape of R3c, which is read at
-n ≤ 30 and not derived. The exponent 5 is settled too, though not as a theorem about all of them: it is an exact
+all 223: unconditional at odd n; at even n forced term by term for the 11 Θ-mirror pairs, with no
+ROT3 hypothesis at all and one of them not of that shape, and resting for the other 12 on the ROT3
+shape of R3c, which is read at n ≤ 30 and not derived. The exponent 5 is settled too, though not as a theorem about all of them: it is an exact
 decision per pair, ΔX₆ ≠ 0, which holds for all 212 here and fails for exactly the 11 Θ-mirror
 pairs, whose gap is even in u throughout.
 [F161](../docs/ANALYTICAL_FORMULAS.md) carries the level's motion to fifth order and finds each
