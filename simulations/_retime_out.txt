@@ -1,1 +1,0 @@
-C13 monic-compute: W=(99, 99, 46) grid=470,000 proved=True ctrl=True 517.5s

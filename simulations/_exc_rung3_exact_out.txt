@@ -1,5 +1,0 @@
-N=6 block (3,3): dim V = 70, deg q = 68, even = True, restrict ok = True
-  exact count of J > 0 (Sturm): 4
-  roots: [0.804151383, 0.969363535, 1.405807973, 2.473408936]
-  factor degrees carrying a positive root: [12, 20]
-  (11.8 s)

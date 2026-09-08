@@ -1,9 +1,0 @@
-bond-letter axis, N=3, P3, mags (30,22,41), all signs positive
-bond           rows       FP       FN
-XX+YY+ZZ       4096        0        0
-XX+YY          4096        0        0
-XX+ZZ          4096        0        0
-YY+ZZ          4096        0        0
-XX             4096        0        0
-YY             4096        0        0
-ZZ             4096        0        0

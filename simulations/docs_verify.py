@@ -2576,7 +2576,7 @@ def verify_final_five_repairs():
     arc_surface_requirements = {
         "compute/RCPsiSquared.Core.Tests/Inspection/OpenArcsInspectableNodeTests.cs":
             ("gamma_book_enforcement_boundary", "corner_beat"),
-        "simulations/_rescued_arcs_menu.txt":
+        "simulations/results/rescued_arcs_menu.txt":
             ("gamma_book_enforcement_boundary", "corner_beat"),
         "docs/Q_BELONGS_TO_NO_SUBSTANCE.md":
             ("gamma_book_enforcement_boundary",),

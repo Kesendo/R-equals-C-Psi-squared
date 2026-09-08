@@ -1,8 +1,0 @@
-R-even q*=1.183521 lam0=-5.1206 up gap=1.8e-07 sig2=3.0e-02 kappa2=+0.190886 kappa6=-0.190886 defective
-R-even q*=1.319535 lam0=-5.1101 up gap=8.4e-08 sig2=3.9e-02 kappa2=+0.146061 kappa6=-0.146061 defective
-R-even q*=1.698022 lam0=-4.8415 up gap=9.4e-08 sig2=6.5e-02 kappa2=+0.139896 kappa6=-0.139896 defective
-R-even q*=4.275099 lam0=-4.0264 up gap=1.3e-07 sig2=4.4e-01 kappa2=+0.379238 kappa6=-0.379238 defective
-R-odd q*=1.023916 lam0=-4.1581 up gap=6.1e-08 sig2=6.4e-02 kappa2=+0.064236 kappa6=-0.064236 defective
-R-odd q*=1.350748 lam0=-4.4978 up gap=1.9e-07 sig2=3.9e-02 kappa2=+0.090363 kappa6=-0.090363 defective
-R-odd q*=5.523970 lam0=-5.0640 down gap=4.7e-08 sig2=8.5e-02 kappa2=+0.049866 kappa6=-0.049866 defective
-R-odd q*=18.670862 lam0=-5.0817 down gap=7.4e-08 sig2=1.1e-01 kappa2=+0.040848 kappa6=-0.040848 defective
