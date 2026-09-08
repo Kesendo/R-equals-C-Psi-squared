@@ -24,7 +24,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// near zero, but those checks do not exhaust the full sector symmetry algebra, whose irreducible SRP class remains
 /// open. Live on the trusted machine: <see cref="FillingThresholdCsr"/> (general WeightCoherenceBlock + random
 /// field) → MathNet EVD → the Sá-Ribeiro-Prosen complex spacing ratio, pooled per-spectrum with finite-size-matched
-/// references. Every spectrum contributes one representative per 1e-9 finite-precision cluster; the CSR and
+/// references. Its 95% intervals use a whole-spectrum cluster bootstrap over independent disorder realizations;
+/// ratios inside one spectrum are never counted as independent observations. Every spectrum contributes one
+/// representative per 1e-9 finite-precision cluster; the CSR and
 /// representative count are tolerance-dependent and not an exact degeneracy census.</para></summary>
 public sealed class FillingThresholdWitness : IInspectable
 {
@@ -37,6 +39,10 @@ public sealed class FillingThresholdWitness : IInspectable
 
     private static string Z(double x) => x.ToString("0.000", Inv);
     private static string Cos(double x) => x.ToString("+0.000;-0.000", Inv);
+    private static string Interval(IntegrabilityBreakingCsr.CsrReading r) =>
+        r.Uncertainty == IntegrabilityBreakingCsr.UncertaintySemantics.SpectrumClusterBootstrap95
+            ? $"whole-spectrum cluster-bootstrap 95% CI [{Z(r.CiLo)},{Z(r.CiHi)}] over {r.IndependentSpectrumCount} independent disorder realizations"
+            : "no sampling CI";
 
     public string DisplayName =>
         "Filling-associated crossover evidence (finite size; live dilute-vs-dense CSR comparison)";
@@ -48,6 +54,7 @@ public sealed class FillingThresholdWitness : IInspectable
         "GinUE with N), with ⟨|z|⟩ near the GinUE reference. GinUE comparison only: the full sector symmetry " +
         "algebra and irreducible SRP class remain open. Live: general WeightCoherenceBlock + random Z-field " +
         "→ MathNet EVD → complex spacing ratio (Sá-Ribeiro-Prosen), pooled per-spectrum, finite-size-matched refs. " +
+        "Uncertainty uses a whole-spectrum cluster bootstrap over independent disorder realizations and never resamples individual z-values. " +
         "Each spectrum contributes finite-precision cluster representatives; counts and CSR are tolerance-dependent, " +
         "not an exact degeneracy census.";
 
@@ -75,7 +82,7 @@ public sealed class FillingThresholdWitness : IInspectable
 
             yield return new InspectableNode(
                 $"DILUTE (1,2)=(SE,DE), N=6: Poisson — the Door-C null reproduced via the general builder",
-                summary: $"⟨|z|⟩={Z(dilute6.MeanAbs)} [{Z(dilute6.CiLo)},{Z(dilute6.CiHi)}] ⟨cosθ⟩={Cos(dilute6.MeanCos)} " +
+                summary: $"⟨|z|⟩={Z(dilute6.MeanAbs)}; {Interval(dilute6)}; ⟨cosθ⟩={Cos(dilute6.MeanCos)} " +
                          $"(GinUE ⟨cos⟩≈{Cos(gRef.MeanCos)}). This dilute sector shows weak angular repulsion at the " +
                          "executed disorder+interactions operating point; this is not a thermalization proof.");
 
@@ -112,7 +119,7 @@ public sealed class FillingThresholdWitness : IInspectable
         string verdict = r.MeanCos < -0.05 ? "angular repulsion present, ⟨|z|⟩ near GinUE" : "no clear repulsion — investigate";
         return new InspectableNode(
             $"DENSE (3,4) near half-filling, N={n}: {verdict}",
-            summary: $"⟨|z|⟩={Z(r.MeanAbs)} [{Z(r.CiLo)},{Z(r.CiHi)}] ⟨cosθ⟩={Cos(r.MeanCos)} " +
+            summary: $"⟨|z|⟩={Z(r.MeanAbs)}; {Interval(r)}; ⟨cosθ⟩={Cos(r.MeanCos)} " +
                      $"(≈{pct.ToString("0", Inv)}% of the size-matched GinUE angle {Cos(ginueCos)}), over {r.ZCount} pooled z's. " +
                      "The sampled extensive-filling sector shows radial spacing ratios near the GinUE reference and angular " +
                      "repulsion trending toward it with N; CSR alone does not prove thermalization.");

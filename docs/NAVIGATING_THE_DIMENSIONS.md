@@ -403,25 +403,22 @@ genericity remain open beyond the certified sizes (see
 [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the
 real-axis EP section). The genuine defective EPs here are the toy 2×2 above
 and the certified F89 seeds of the full block. The SEPARATE Σγ = 0 gain-loss
-system ([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)) has a tracked
-real-γ axis crossing, but its EP character remains OPEN.
+system ([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)) has a sampled
+spectral-abscissa axis departure on the real-γ grid, with no branch continuation;
+its EP character remains OPEN.
 
-And the chip reads the dynamical handover, not a defective pinch: IBM Kingston swept Q and watched a single
-excitation's memory revival stay at the 1/N equipartition floor until Q crossed about Q ≈ 1.5, then lift off,
-the overdamped→revival handover measured on real hardware. That
-single-excitation transition is compared with the separately computed
-coherence-horizon/EP cluster. The hardware population handover does not itself
-establish defectiveness; that classification belongs to the computed spectral
-gate ([`inspect --root horizon`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md)). The eyepiece for this axis is
-`inspect --root between --axis ep`: the marks, the toy's Takt coalescence, the Rotation lift-off, the
-defectiveness pinch of the 2×2, the Kingston handover onset. The picture is
+And the chip reads a finite-time population handover, not a defective pinch: IBM Kingston swept
+the runner label Q_label=J/Γ. The revival is near the 1/N reference through Q_label=1.5 and is
+larger at Q_label=2.5; because the twirl gives exp(−Γt) while the repository jump √γZ gives
+exp(−2γt), this maps to canonical Q_Lindblad=3→5. The scalar population record supplies no
+critical-damping, coalescence, Jordan, or F86/coherence-horizon certificate. The eyepiece
+`inspect --root between --axis ep` therefore shows two separately scoped objects: the exact toy
+2×2 clock and the Kingston population curve with spectral character open. The picture is
 [ep_transition.py](../simulations/ep_transition.py).
 
-The EP is also a doorway. The regime it opens, where the oscillation lives and a single excitation sloshes
-and flows toward 1/N, is the post-EP flow, the birth canal of the in-between. So the EP and the flow are two
-halves of one Q-journey: the EP the entrance in parameter space (the rotation born), the flow the corridor in
-state space ([`inspect --root flow`](../hypotheses/PERSPECTIVAL_TIME_FIELD.md)) that runs from that birth to
-the 1/N rest. The rotation stilled, the rotation born, and the corridor it opens.
+The population flow at `inspect --root flow` is an independent connected-chain state-space
+calculation at canonical Q>0. This document establishes no branch continuation or doorway from
+the toy EP or the hardware handover into that flow.
 
 ![The exceptional point: the birth of the rotation](../simulations/results/ep_transition/ep_transition.png)
 

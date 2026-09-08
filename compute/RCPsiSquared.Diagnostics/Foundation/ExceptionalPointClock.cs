@@ -28,9 +28,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// falling off as the modes re-separate on either side. This is the defective signature of the toy 2×2
 /// rate-channel EP, a property of the reduction, not a claim that the physical block is defective on the
 /// real axis. The cusp (interior axis) is the mirror event at the same F95 zero: there the rotation
-/// stills (θ → 0 descending to ¼), here it is born (θ lifts off ascending past Q_EP). The post-EP regime
-/// this opens is the BirthCanal of <see cref="PostEpFlowField"/>; hardware-anchored by the IBM Kingston
-/// single-excitation-walk overdamped→revival handover at Q≈1.5.</para></summary>
+/// stills (θ → 0 descending to ¼), here it is born (θ lifts off ascending past Q_EP). This toy clock is
+/// not a hardware calibration: the Kingston population scan uses a different rate book and carries no
+/// spectral or Jordan certificate.</para></summary>
 public static class ExceptionalPointClock
 {
     /// <summary>The resonance peak in x = Q/Q_EP units (the K_b maximum, past the EP).</summary>

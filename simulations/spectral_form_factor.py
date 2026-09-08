@@ -151,7 +151,8 @@ for N in sorted(all_evals.keys()):
     raw_scale = raw_multiset_density_scale(ev)
     raw_mean_gap = 2 * np.pi / raw_scale
 
-    # Palindromic time: t_Pi = 2π / ω_min where ω_min = 4J(1-cos(π/N))
+    # F41 reference period: k=1 in D10's (0,1) block.  This is not
+    # asserted to be the smallest nonzero frequency of the full spectrum.
     omega_min = 4 * J * (1 - np.cos(np.pi / N))
     t_Pi = 2 * np.pi / omega_min
 
@@ -173,8 +174,8 @@ for N in sorted(all_evals.keys()):
     log(f"  N={N} ({n_ev} eigenvalues, {elapsed:.1f}s):")
     log(f"    Raw multiset mean adjacent gap = {raw_mean_gap:.4f}")
     log(f"    Raw multiset density scale = {raw_scale:.2f}")
-    log(f"    ω_min (slowest)  = {omega_min:.4f}")
-    log(f"    t_Π (palindromic) = {t_Pi:.2f}")
+    log(f"    ω_F2 ((0,1)-block k=1 reference) = {omega_min:.4f}")
+    log(f"    t_Π (period of that F1-paired trace-amplitude term) = {t_Pi:.2f}")
     log(f"    K_freq range: [{np.min(K_freq):.4e}, {np.max(K_freq):.4f}]")
     log()
 
@@ -221,10 +222,10 @@ for N in sorted(sff_results.keys()):
         match_2err = abs(match_2freq - 2 * omega_min) / (2 * omega_min) * 100
 
         log(f"  N={N}:")
-        log(f"    ω_min (predicted) = {omega_min:.4f}")
+        log(f"    ω_F2 ((0,1)-block k=1 reference) = {omega_min:.4f}")
         log(f"    Top 3 FFT peaks:   {['%.4f' % f for f in peak_freqs[:3]]}")
-        log(f"    Best match to ω_min:  {match_freq:.4f} (err {match_err:.1f}%)")
-        log(f"    Best match to 2ω_min: {match_2freq:.4f} (err {match_2err:.1f}%)")
+        log(f"    Best match to ω_F2:  {match_freq:.4f} (err {match_err:.1f}%)")
+        log(f"    Best match to 2ω_F2: {match_2freq:.4f} (err {match_2err:.1f}%)")
 
         # Modulation visibility: peak amplitude / mean
         if np.mean(K) > 0:
@@ -351,7 +352,7 @@ log("PHASE 6: TIMESCALES")
 log("=" * 72)
 log()
 
-log(f"  {'N':>3}  {'t_Π':>8}  {'raw scale':>10}  {'t_Π/scale':>10}  {'ω_min':>8}  {'raw gap':>8}")
+log(f"  {'N':>3}  {'t_Π':>8}  {'raw scale':>10}  {'t_Π/scale':>10}  {'ω_F2':>8}  {'raw gap':>8}")
 log(f"  {'─'*55}")
 
 for N in sorted(sff_results.keys()):
@@ -361,7 +362,8 @@ for N in sorted(sff_results.keys()):
         f"  {ratio:>10.4f}  {r['omega_min']:>8.4f}  {r['raw_mean_gap']:>8.4f}")
 
 log()
-log("  t_Π = 2π/ω_min (full period of the slowest pair's trace-amplitude term)")
+log("  t_Π = 2π/ω_F2 (full period of the (0,1)-block k=1 reference pair's trace-amplitude term)")
+log("  ω_F2 is not asserted to be the smallest nonzero frequency of the full spectrum.")
 log("  Raw multiset density scale = 2*pi / raw mean adjacent gap; multiplicity-dependent.")
 log("  Its ratio to t_Π is descriptive and does not define a physical time-regime boundary.")
 log()
@@ -386,8 +388,8 @@ log("  Topo analysis said: geometric, not topological. The SFF is")
 log("  independent of localization (it measures spectral correlations,")
 log("  not spatial profiles).")
 log()
-log("  Analytical formulas: ω_min = 4J(1-cos(π/N)) (formula 2, k=1).")
-log("  A sampled FFT candidate is associated with omega_min at N=2-4 and N=6;")
+log("  Analytical formulas: ω_F2 = 4J(1-cos(π/N)) (formula 2, (0,1)-block k=1).")
+log("  A sampled FFT candidate is associated with this block reference at N=2-4 and N=6;")
 log("  it is not identified at N=5 or N=7 and does not prove the dispersion.")
 
 

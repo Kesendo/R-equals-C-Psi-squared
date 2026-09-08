@@ -16,8 +16,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// both H_unit (XY hopping preserves total excitation in each factor) and Z-dephasing (diagonal in
 /// the coherence basis), so L is block-diagonal across the joint-popcount sectors and the (PCol=0,
 /// PRow=1) block, an N-dimensional sub-block, never mixes with the rest. Its reduced generator is
-/// <c>L_(1,0) = −iQ·h − 2·diag(γ)</c> with h the single-particle hopping matrix. <b>Flat-γ
-/// blindness is analytic at every N</b>: at uniform γ, <c>L_(1,0) = −iQ·h − 2γ·I</c>, and −iQ·h is
+/// <c>L_(1,0) = −i(Q/2)·h − 2·diag(γ)</c> with h the unit-coefficient Pauli hopping matrix. <b>Flat-γ
+/// blindness is analytic at every N</b>: at uniform γ, <c>L_(1,0) = −i(Q/2)·h − 2γ·I</c>, and −i(Q/2)·h is
 /// anti-Hermitian, so Re(λ) = −2γ for every mode of the block, rate Q-invariant by uniformity
 /// alone (the Absorption Theorem read inside this sector).</para>
 ///
@@ -70,8 +70,8 @@ public sealed class VacuumBlockReductionClaim : Claim
     public VacuumBlockReductionClaim(AbsorptionTheoremClaim absorption)
         : base("Vacuum-block reduction: the birth-canal boundary's slowest mode is the odd |1-exc><vac| (0,1) coherence. " +
                "The (0,1) Liouville sector is an exact invariant sub-block (ket#/bra# bi-grading conserved by H_unit + Z-dephasing) - DERIVED; " +
-               "its N-dim block L_(1,0) = -iQ·h - 2·diag(γ) carries the global slowest across the whole γ-surface at N=5 - VERIFIED bit-exact " +
-               "(worst gap 5.9e-12, 80 pts; + SectorReductionWitness vs PostEpFlowField). Flat-γ blindness is analytic at every N (-iQh anti-Hermitian => Re λ = -2γ, Q-invariant). " +
+               "its N-dim block L_(1,0) = -i(Q/2)·h - 2·diag(γ) carries the global slowest across the whole γ-surface at N=5 - VERIFIED bit-exact " +
+               "(worst gap 5.9e-12, 80 pts; + SectorReductionWitness vs PostEpFlowField). Flat-γ blindness is analytic at every N (-i(Q/2)h anti-Hermitian => Re λ = -2γ, Q-invariant). " +
                "SCOPE: N=5; at N>=6 a {0,2}-coherence (the (2,2) block) can become the global slowest (Q-dependent crossing, the birth_canal_horizon_junction arc). " +
                "The V-Effect (w=N/2) self-pair co-locates there but is a DIFFERENT decomposition (RESOLVED 2026-06-14: total weight = n_diff + Z-shadow; the dark {0,2}-coherence peaks at w=N-1, not w=N/2). No aromaticity 4n-vs-4n+2 thesis.",
                Tier.Tier1Derived,
@@ -88,10 +88,10 @@ public sealed class VacuumBlockReductionClaim : Claim
         "preserves total excitation per factor) and by Z-dephasing (diagonal in the coherence " +
         "basis), so L is block-diagonal across the joint-popcount sectors. The (PCol=0, PRow=1) " +
         "block is an N-dim invariant sub-block: |1-exc><vac| coherences never mix with the rest, " +
-        "and L_(1,0) = -iQ·h - 2·diag(γ) with h the single-particle hopping matrix.";
+        "and L_(1,0) = -i(Q/2)·h - 2·diag(γ) with h the unit-coefficient Pauli hopping matrix.";
 
     public string FlatGammaBlindness =>
-        "At uniform γ, L_(1,0) = -iQ·h - 2γ·I; -iQ·h is anti-Hermitian, so Re(λ) = -2γ for every " +
+        "At uniform γ, L_(1,0) = -i(Q/2)·h - 2γ·I; -i(Q/2)·h is anti-Hermitian, so Re(λ) = -2γ for every " +
         "mode of the block, rate Q-invariant by uniformity alone. This is the Absorption Theorem " +
         "(-2γ per active bit) read inside the (0,1) sector; analytic at every N.";
 
@@ -143,11 +143,11 @@ public sealed class VacuumBlockReductionClaim : Claim
 
         // (a) the N=5 canal anchor, bit-exact (the boundary the claim banks).
         var canal = new[] { 0.25, 1.5, 1.5, 1.5, 0.25 };
-        double canalLo = SectorReductionWitness.VacBlockSlowest(5, 1.5, canal, TopologyKind.Chain);
-        double canalHi = SectorReductionWitness.VacBlockSlowest(5, 1000.0, canal, TopologyKind.Chain);
+        double canalLo = SectorReductionWitness.VacBlockSlowest(5, 3.0, canal, TopologyKind.Chain);
+        double canalHi = SectorReductionWitness.VacBlockSlowest(5, 2000.0, canal, TopologyKind.Chain);
         cases.Add(new BatteryCase(
             Name: "N=5 canal anchor (the banked boundary)",
-            Detail: $"(0,1)-block slowest at canal profile, Q=1.5 -> {Round(canalLo)} and Q=1000 -> {Round(canalHi)} (matches PostEpFlowField)",
+            Detail: $"(0,1)-block slowest at canal profile, canonical Q=3 -> {Round(canalLo)} and Q=2000 -> {Round(canalHi)} (matches PostEpFlowField)",
             Expected: $"{Round(1.2482918643729715)} and {Round(4.0 / 3.0)}",
             Actual: $"{Round(canalLo)} and {Round(canalHi)}"));
 
@@ -155,12 +155,12 @@ public sealed class VacuumBlockReductionClaim : Claim
         foreach (int n in new[] { 5, 6 })
         {
             var uni = Enumerable.Repeat(1.0, n).ToArray();
-            double lo = SectorReductionWitness.VacBlockSlowest(n, 1.5, uni, TopologyKind.Chain);
-            double hi = SectorReductionWitness.VacBlockSlowest(n, 1000.0, uni, TopologyKind.Chain);
+            double lo = SectorReductionWitness.VacBlockSlowest(n, 3.0, uni, TopologyKind.Chain);
+            double hi = SectorReductionWitness.VacBlockSlowest(n, 2000.0, uni, TopologyKind.Chain);
             bool ok = Math.Abs(lo - 2.0) < tol && Math.Abs(hi - 2.0) < tol;
             cases.Add(new BatteryCase(
                 Name: $"flat-γ blindness at N={n} (Q-invariant 2γ)",
-                Detail: $"uniform γ=1: rate {Round(lo)} (Q=1.5) and {Round(hi)} (Q=1000), expect 2γ=2 both",
+                Detail: $"uniform γ=1: rate {Round(lo)} (canonical Q=3) and {Round(hi)} (Q=2000), expect 2γ=2 both",
                 Expected: "2γ, Q-invariant",
                 Actual: ok ? "2γ, Q-invariant" : $"{Round(lo)} / {Round(hi)}"));
         }

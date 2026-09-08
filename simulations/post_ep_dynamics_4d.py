@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""The post-EP dynamics in the loop, as the 4D structure Q x bond x t.
+"""The connected single-excitation population flow, as the 4D structure Q x site x t.
 
 The static F86 K-curve collapses the time axis (it is a t-integral / peak). The loop KEEPS t.
 For each Q across the crossover and each site, time-evolve a single excitation (on site 0) and
-track its occupation <n_site>(tau) (tau = gamma*t, the dimensionless tick; Q = J/gamma is the only
-knob, so gamma drops out of L'). Below the crossover the excitation diffuses to uniform (overdamped,
-forgetting); above it hops coherently and sloshes back (underdamped, remembering) before it finally
-decoheres. Printed as the nested  Q -> site -> t-curve  tree , the 4D representation the Object
+track its occupation <n_site>(tau) (tau = gamma*t, the dimensionless tick; canonical Q = J/gamma is
+the only knob, so gamma drops out of L'). The finite sampled traces may or may not resolve return
+turns; that display reading is not a critical-damping or spectral-transition verdict. Printed as
+the nested Q -> site -> t-curve tree, the 4D representation the Object
 Manager renders (here as ASCII sparklines; each leaf would be a Curve payload drawn by --draw).
 (The earlier per-bond <XX+YY> observable was Hamiltonian-invariant , Q-blind , so it showed only
 the dephasing decay; the single-excitation occupation carries the rotation.)
@@ -37,7 +37,7 @@ def bond_op(N, b, P, Qop):
 
 
 def H_xy_unit(N):
-    """H/J for the XY chain: sum_b (X_b X_{b+1} + Y_b Y_{b+1})."""
+    """The unit operator sum_b (X_b X_{b+1} + Y_b Y_{b+1})."""
     H = np.zeros((2 ** N, 2 ** N), complex)
     for b in range(N - 1):
         H += bond_op(N, b, X, X) + bond_op(N, b, Y, Y)
@@ -45,12 +45,12 @@ def H_xy_unit(N):
 
 
 def liouvillian_dimensionless(N, Q):
-    """L' with Q = J/gamma the only knob (gamma factored out; evolve in tau = gamma*t).
+    """L' with canonical Q=J/gamma and H=(Q/2) sum(XX+YY) in tau=gamma*t.
     vec convention: column-stack (flatten 'F'), so [H,.] <-> I (x) H - H^T (x) I."""
     d = 2 ** N
     Id = np.eye(d)
     H1 = H_xy_unit(N)
-    L = -1j * Q * (np.kron(Id, H1) - np.kron(H1.T, Id))
+    L = -1j * (Q / 2.0) * (np.kron(Id, H1) - np.kron(H1.T, Id))
     for l in range(N):
         Zl = op_at(N, l, Z)
         L += np.kron(Zl, Zl) - np.kron(Id, Id)
@@ -100,18 +100,17 @@ def main():
     site_class = lambda b: "edge" if b in (0, N - 1) else "bulk"
     ops = [(np.eye(d) - op_at(N, b, Z)) / 2.0 for b in range(N)]       # n_b = (I - Z_b)/2 per site
     target = 1.0 / N
-    print(f"post-EP dynamics  (N={N} XY chain, Z-dephasing; observable <n_site>(tau) for a single")
-    print(f"  excitation on site 0; tau = gamma*t in [0,6]; Q = J/gamma the dimensionless knob)")
-    print(f"  TARGET every site relaxes to = 1/N = {target:.4f}  (the fully-forgotten, equipartitioned")
+    print(f"connected population flow  (N={N} XY chain, Z-dephasing; observable <n_site>(tau) for a single")
+    print(f"  excitation on site 0; tau = gamma*t in [0,6]; canonical Q = J/gamma; H=(Q/2)sum(XX+YY))")
+    print(f"  CONNECTED-Q TARGET = 1/N = {target:.4f}  (the equipartitioned single-excitation")
     print(f"  state; it equals 1/4 only at N=4 , NOT the CΨ=1/4 fold, which is N-independent)")
-    for Q in [0.5, 1.0, 1.5, 2.5]:
-        regime = "overdamped (diffuses, forgets)" if Q < 1.0 else "underdamped (hops, remembers)"
-        print(f"\n  Q = {Q:.2f}   ({regime})   [target 1/N = {target:.3f}]")
+    for Q in [1.0, 2.0, 3.0, 5.0]:
+        print(f"\n  Q = {Q:.2f}   [finite sampled trace; target 1/N = {target:.3f}]")
         traj = trajectory(N, Q, ops, taus)
         for b in range(N):
             ys = traj[b]
             turns = n_turns(ys)
-            tag = "monotone" if turns <= 1 else f"oscillates ({turns} turns)"
+            tag = "no resolved turns" if turns <= 1 else f"resolved turns ({turns})"
             print(f"    site {b} ({site_class(b):4s})  {sparkline(ys)}  {ys[0]:.2f}->{ys[-1]:.2f}   {tag}")
 
 

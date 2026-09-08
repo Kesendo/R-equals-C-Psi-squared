@@ -80,7 +80,7 @@ remaining sectorwise class is OPEN until the full symmetry algebra is computed.
 
 ## Question 1: Is Π a Known Symmetry Type?
 
-**Classification: PLAUSIBLE (new variant of known framework)**
+**Classification: CONFIRMED algebra / OPEN class and prior-art equivalence**
 
 ### The Buca-Prosen framework (2012)
 
@@ -139,21 +139,17 @@ Its global order four is resolved sectorwise through Π² = U_X. No global AIII,
 BDI, or CI label is assigned here; the irreducible-sector classification remains
 open.
 
-**Literature cross-check, after the fact (2026-06-08).** We built this from the
-dephasing algebra itself, with no literature input; the −2Sγ shift fell out of the
-2:2 per-site Pauli split, not out of a paper. A later scan (an Abgleich, not a
-source) found that the resulting spectral SHAPE is not unnamed: the pairing about
-a nonzero center, λ ↔ −λ − 2Sγ (eigenvalue pairs ±λ + ia), is exactly the
-**"shifted sublattice symmetry"** of Kawasaki, Mochizuki, Obuse (Phys. Rev. B 106,
-035408, 2022): an ordinary chiral/sublattice symmetry plus a constant decay-rate
-shift. So the shifted-spectrum form has a catalogued home, reached independently and
-recognized afterward. The object studied in this repository also includes an
-interacting/k-body reach and a per-site-product-versus-entangled locality question
-for the symmetry operator; the cited shifted-SLS construction is noninteracting at
-the quadratic/Majorana level and uses `S = I₂ ⊗ τ_z`. Whether that interacting and
-locality-resolved extension has prior art and its equivalence to known constructions
-remain OPEN. The 6 → 4 → 2 non-local ceiling is the repository's bounded result,
-not a priority claim.
+**Literature and scope comparison.** The pairing about a nonzero center,
+λ ↔ −λ − 2Sγ (eigenvalue pairs ±λ + ia), has the shifted-sublattice-symmetry
+form catalogued by Kawasaki, Mochizuki, and Obuse (Phys. Rev. B 106, 035408,
+2022): ordinary chiral/sublattice symmetry plus a constant decay-rate shift.
+Their construction is noninteracting at the quadratic/Majorana level and uses
+`S = I₂ ⊗ τ_z`. The object analyzed here is the shifted anti-similarity for the
+stated interacting/k-body model together with a bounded 6 → 4 → 2
+per-site-product-versus-entangled locality result. Prior-art coverage and
+equivalence for that interacting, locality-resolved scope remain OPEN. This is
+an object-and-scope comparison, not an ownership, independence, priority, or
+novelty claim.
 
 ---
 
@@ -466,13 +462,13 @@ to this model without that calculation.
 
 **"Exact Bethe Ansatz Spectrum of a Tight-Binding Chain with Dephasing Noise"**
 
-Their η-pairing symmetry in the Hubbard mapping is the 1D free-fermion
-ancestor of our Π. Key differences:
+Their η-pairing symmetry in the Hubbard mapping is a related 1D free-fermion
+construction. The compared scopes are:
 
 - Their result is restricted to tight-binding (free fermion) chains in 1D
-- Ours works for interacting spins (XXZ with arbitrary δ) on any graph
+- The present algebra covers interacting spins (XXZ with arbitrary δ) on any graph
 - Their η-pairing comes from the Hubbard model's SU(2) symmetry
-- Our Π comes from the Pauli algebra's {I,Z} ↔ {X,Y} structure
+- Here Π is defined by the Pauli algebra's {I,Z} ↔ {X,Y} structure
 
 There is no explicit discussion of detailed balance in their paper.
 The η-pairing is used to identify steady states and leading decay modes,

@@ -167,7 +167,7 @@ public sealed class HandoverFloorClaim : Claim
 
         // 1. THE FLOOR: the (0,1) band edge sits at <n_XY> = 1 (Re=-2g) exactly (the F50 floor the survivor meets).
         double gamma = 1.0 / 2.0;
-        double floor = SectorReductionWitness.SectorSlowest(6, 0.5, Enumerable.Repeat(gamma, 6).ToArray(), 0, 1, TopologyKind.Chain) / (2.0 * gamma);
+        double floor = SectorReductionWitness.SectorSlowest(6, 1.0, Enumerable.Repeat(gamma, 6).ToArray(), 0, 1, TopologyKind.Chain) / (2.0 * gamma);
         cases.Add(new BatteryCase("the F50 floor: the (0,1) band edge <n_XY> = 1 (Re=-2g)",
             $"N=6, Q=2: (0,1) band-edge <n_XY> = {Fmt(floor)}", "1", Math.Abs(floor - 1.0) < 1e-6 ? "1" : Fmt(floor)));
 

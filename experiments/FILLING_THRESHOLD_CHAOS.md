@@ -90,13 +90,15 @@ The general block builder `WeightCoherenceBlock.Build(n, wKet, wBra, q, Δ, fiel
 verbatim physics as the Door-C `XxzCoherenceBlock` extended to any (wKet, wBra) and carrying a per-site
 longitudinal field Σ_k w_k Z_k (the diagonal frequency −i·q·(fe(ket) − fe(bra)), fe(c)=Σ_k w_k·z_k).
 `FillingThresholdCsr.DisorderSweep` draws w_k ~ U[−W, W] per realization, pools the per-spectrum z's of
-the **off-real** bulk (the valid CSR domain once conjugation symmetry is broken), and bootstraps a 95%
-CI. References are finite-size-matched to the measured per-spectrum z-count. Canonical operating point:
+the **off-real** bulk (the valid CSR domain once conjugation symmetry is broken), and reports a 95%
+CI only by resampling whole independent spectra (realization clusters), never individual correlated
+z-values. References are finite-size-matched to the measured per-spectrum z-count. Canonical operating point:
 γ = 1, q = J/γ = 1, interacting Δ = 1, ergodic disorder window W = 0.75.
 
 Methodology is inherited verbatim from the Door-C harness `IntegrabilityBreakingCsr` (it reuses that
-class's `Reduce` and finite-size references): pool per-spectrum z's, never raw eigenvalues across spectra
-(that superimposes independent point processes and fakes Poisson); bootstrap the CI; compare against
+class's `ReduceIndependentSpectra` and finite-size references): pool per-spectrum z's, never raw eigenvalues across spectra
+(that superimposes independent point processes and fakes Poisson); for `SpectrumClusterBootstrap95`,
+resample the whole independent spectra with replacement and recompute the pooled weighted mean; compare against
 finite-size-matched Poisson/GinUE references (not the asymptotic values, which carry the wrong edge bias).
 The shared kernel retains one 1e-9 finite-precision cluster representative per rounded coordinate pair
 before computing z. This numerical rule avoids a zero nearest-neighbour denominator at the declared
@@ -117,7 +119,12 @@ to the per-spectrum z-count):
 | 8 | dilute (1,2) | 224  | 0.680 | −0.035 | −0.243 | ~14% |
 | 8 | **dense (4,5)** | 3920 | **0.718** | **−0.162** | −0.243 | **67%** |
 
-(N=8 with a 95% bootstrap CI: dilute ⟨|z|⟩=0.680 [0.677,0.684], dense ⟨|z|⟩=0.718 [0.715,0.721], over ~14k/16k pooled z's; references finite-size-matched at the 3920-point per-spectrum size.)
+(N=8 recomputed with the current whole-spectrum cluster bootstrap: dilute ⟨|z|⟩=0.680
+[0.676,0.685] from 60 independent spectra (`seed=4001`), dense ⟨|z|⟩=0.718
+[0.716,0.719] from 4 independent spectra (`seed=4002`), using 400 bootstrap resamples and
+13,440/15,680 pooled z-values respectively. These intervals quantify variation between independently
+drawn spectra; their width is not inferred from treating the pooled z-values as independent. References
+are finite-size-matched at the 3920-point per-spectrum size.)
 
 Read across the two filling regimes:
 

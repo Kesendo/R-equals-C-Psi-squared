@@ -230,13 +230,33 @@ public static class Formulas
     // no probability/work ensemble is defined.
     public static double F44_LogRatio(double dFast, double dSlow, double sg)
     {
-        double deltaD = dFast - dSlow;
+        ValidateF44PositivePalindromicPair(dFast, dSlow, sg);
+        double scale = Math.Max(sg, Math.Max(dFast, dSlow));
+        double argument = (dFast / scale - dSlow / scale) / (2.0 * (sg / scale));
+        if (!double.IsFinite(argument) || argument >= 1.0)
+            throw new ArgumentException("F44 requires the strict domain Delta_d < 2 Sg.");
+        return 2.0 * Math.Atanh(argument);
+    }
+
+    private static void ValidateF44PositivePalindromicPair(double dFast, double dSlow, double sg)
+    {
         if (!double.IsFinite(sg) || sg <= 0.0)
             throw new ArgumentOutOfRangeException(nameof(sg), sg, "Sg must be finite and > 0.");
-        if (!double.IsFinite(deltaD) || deltaD < 0.0 || deltaD / sg >= 2.0)
-            throw new ArgumentOutOfRangeException(nameof(dFast), dFast,
-                "d_fast-d_slow must be finite and satisfy 0 <= Delta_d < 2 Sg.");
-        return 2.0 * Math.Atanh((deltaD / sg) / 2.0);
+        if (!double.IsFinite(dFast) || dFast <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(dFast), dFast, "d_fast must be finite and > 0.");
+        if (!double.IsFinite(dSlow) || dSlow <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(dSlow), dSlow, "d_slow must be finite and > 0.");
+        if (dFast < dSlow)
+            throw new ArgumentOutOfRangeException(nameof(dFast), dFast, "The pair must be ordered: d_fast >= d_slow.");
+
+        // Scale first so the redundant-input consistency check cannot overflow. Sixteen unit
+        // roundoffs cover the divisions, sum and subtraction; larger residuals are off the
+        // F44 palindromic-pair manifold rather than floating-point evaluation noise.
+        const double unitRoundoff = 2.2204460492503131e-16;
+        double scale = Math.Max(sg, Math.Max(dFast, dSlow));
+        double pairResidual = Math.Abs(dFast / scale + dSlow / scale - 2.0 * (sg / scale));
+        if (pairResidual > 16.0 * unitRoundoff)
+            throw new ArgumentException("F44 requires d_fast + d_slow = 2 Sg within floating-point roundoff.");
     }
 
     // F49 (T1, proven): cross-term ratio R(N) = sqrt((N-2)/(N 4^{N-1})). N=2: 0 (exact Pythagorean);

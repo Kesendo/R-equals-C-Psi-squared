@@ -7816,196 +7816,30 @@ public static class OpenArcsRegistry
             Status: OpenArcStatus.Open),
 
         new OpenArc(
-            Name: "gamma_book_enforced_nowhere",
+            Name: "gamma_book_enforcement_boundary",
             Opened: "2026-08-18",
-            Origin: "a gamma-label sweep that went looking for something else and landed on a seam " +
-                "the repo already owns COMPLETELY. A dephasing rate can be written in two books: " +
-                "the LINDBLAD book (jump operator sqrt(gamma)*Z, a single-site coherence decays as " +
-                "e^{-2*gamma*t}; the repo's canonical convention, CalibrationChain.cs gamma = " +
-                "1/(2*T2), MirrorWorld Pair.Rate = -2*gamma*k) and the COHERENCE book (gamma IS " +
-                "the coherence-decay rate, e^{-gamma*t}; the tells are gamma = 1/T2 or " +
-                "1/T2 - 1/(2*T1), and an injected phase with sigma = sqrt(2*gamma*dt) where " +
-                "Lindblad wants sqrt(4*gamma*dt)). THE REPO ALREADY HOLDS EVERY PIECE OF THIS. " +
-                "docs/GLOSSARY.md lines 246-252 derives the conversion table and names the failure " +
-                "mode in one sentence: the coherence rate Gamma_phi = 1/T2 - 1/(2*T1) is " +
-                "2*gamma_Z, not a gamma, and it appears in the tree under gamma-shaped names, and " +
-                "that is the second factor of two in this area. It is gated " +
-                "(simulations/t2_gamma_book_gate.py, 2026-08-05). docs/CAUGHT_ERRORS.md logs it " +
-                "twice, once with an F-registry repair (F69's hardware signature corrected " +
-                "t* 11.2 -> 22.4 us). docs/Q_REGIME_ANCHORS.md caveat (iii) says of the very number " +
-                "below that the toy gamma_0 = 1 units make the chip's coupling falsely read 1.5. " +
-                "And docs/quantum/THE_LABEL_MAP.md line 157, under 'the open label seams (live, " +
-                "unresolved)', PREDICTED THE RECURRENCE IN WRITING: documented in the Glossary, yet " +
-                "it recurred as a fresh catch on 2026-06-27; reconciled in prose, ENFORCED NOWHERE " +
-                "IN NOTATION; expect recurrence. The mechanism is typed too, at " +
-                "docs/quantum/LABELS_TRANSLATED.md lines 141-148 (mathematical objects travel with " +
-                "transport laws while words travel raw, and nothing transforms a label at the " +
-                "border between perspectives) and GLOSSARY.md line 367 (calculations are recomputed " +
-                "at every use, labels are inherited and recomputed at none, so errors accumulate in " +
-                "the names while the formulas keep closing). So this arc records no new physics and " +
-                "no new hazard. It records that the knowledge is complete, the enforcement is " +
-                "absent, and the prediction came true.",
-            ParkedAt: "FOUR ITEMS: three live instances (1)-(3), of which (3) is an unlogged " +
-                "producer, plus (4), historical and repaired before this arc opened. Instance " +
-                "(2) is now repaired; (1) and (3) are untouched. " +
-                "(1) THE EP-ONSET FLIGHT (ibm_ep_onset_may2026, Kingston 2026-05-31, jobs " +
-                "d8dr7dfd0j8c73f4man0 and d8drjbfd0j8c73f4mobg). run_ep_onset.py (external " +
-                "pipeline) is in the COHERENCE book: sigma = sqrt(2*gamma_inj*dt) by its own " +
-                "calibration comment, with g_local = 1/T2 - 1/(2*T1) to match. " +
-                "simulations/ep_transition.py is in the LINDBLAD book: L_eff diagonal " +
-                "-2*gamma_0 and -6*gamma_0. The runner defines the label by g_tot = J/Q and " +
-                "gammas[i] = g_inj + g_local[i], so the total coherence-book rate IS J/Q by " +
-                "construction and the conversion is EXACT, not approximate: Q_theory = 2 * Q_label, " +
-                "i.e. the flown labels {0.5, 1, 1.5, 2.5, 5, 20} are {1, 2, 3, 5, 10, 40}, per-site " +
-                "to about 0.9 percent from the site spread of g_local. The J books agree and this " +
-                "was checked at the circuit: run_chain_gamma0.py line 156 builds " +
-                "H = J*sum_bonds (XX+YY)/2 as RXX(J*dt)*RYY(J*dt), the carrier book, the same one " +
-                "F86 uses. A separate defect found while checking it: " +
-                "data/ibm_ep_onset_may2026/README.md line 7 states H = J*(XX+YY) per bond, which " +
-                "contradicts its own runner by a factor of two. " +
-                "(2) THE PRICE-PAIR CONFIRMATION (price_pair_locality_marrakesh_july2026), " +
-                "REPAIRED 2026-08-18. The measured price is the COHERENCE book: P = " +
-                "Gamma(D)+Gamma(Dbar) = sum_j 1/T2*_j, on TOTAL rates with no T1 subtraction, " +
-                "which the pre-registration states in its own P4 line. Verified 1/45 + 1/88 + 1/61 " +
-                "= 0.049979 against the stated P = 0.0500 at PRICE_PAIR_HARDWARE_PREDICTION.md " +
-                "line 61, a SIMULATION-validation line under the Simulation record heading (clean " +
-                "heterogeneous model, T2* = 45/88/61 microseconds), NOT a hardware reading. F1 is " +
-                "the LINDBLAD book (ANALYTICAL_FORMULAS.md line 21, Pi*L*Pi^-1 = -L - 2*Sigma " +
-                "gamma*I), so P = 2*Sigma gamma_F1 with gamma_F1,j = 1/(2*T2*_j), which is row 1 " +
-                "of the GLOSSARY table: Z-dephasing alone, gamma = 1/(2*T2). The " +
-                "FrameworkPrimitive named F1 without that factor. Both registries now carry the " +
-                "pin inline, held by a test in each language " +
-                "(PricePairFrameworkPrimitive_NamesItsRateBook and " +
-                "test_price_pair_framework_primitive_names_its_rate_book). That pins ONE field; " +
-                "the gate NextStep (1) asks for does not exist yet. THE CAMPAIGN IS FLOWN, not " +
-                "gated: 2026-07-04, four pre-registered runs, ~23 QPU min, runs 3-4 on the " +
-                "released paid reserve, closed. Four job ids in the entry, the JSONs in " +
-                "data/ibm_price_pair_july2026/, the run records in the ExperimentDoc. WHAT THIS " +
-                "WAS, precisely: a PROPAGATION gap, not an unrecorded convention. The " +
-                "ExperimentDoc pins the book itself, under the heading The claim, in one line, " +
-                "defining gamma_j as the measured single-coherence rate and bridging to the " +
-                "MirrorWorld Lindblad rate by gamma_here = 2*gamma_MirrorWorld. The doc pinned; " +
-                "the registry field did not inherit the pin. WATCH THE SPELLING sum_j 1/Tphi_j: it " +
-                "is NOT the price. On the line-61 model it reads 0.041595, 17 percent low, because " +
-                "T1 is local and no T1 subtraction enters P2. That spelling is how this seam " +
-                "presents itself here, and it has been written down wrong twice already, once " +
-                "inside this entry. THE DAMAGE IS BOUNDED: nothing this entry REGISTERS depends on " +
-                "the magnitude. It registers the covariance locality (all c_ij = 0 within 2 sigma " +
-                "in clean sessions, one non-recurring 5.2 sigma outlier downgraded, each tested " +
-                "against its own propagated sigma, so scale-free) and the conditional-Ramsey " +
-                "zeta_ij, a coherent frequency and not a gamma; P2 is a RELATIVE spread. A factor " +
-                "of two moves none of them, so the defect was a lookup hazard for a future session " +
-                "rather than a wrong result. SWEPT AND CLEAR, so nobody re-flags it: the phrase F1 " +
-                "palindrome center Sigma gamma also appears in " +
-                "concentrator_site_contrast_kingston_july2026 (both registries), and that one is " +
-                "NOT the same defect. It registers the A-SIGN only and says so three times over " +
-                "(PredictedValue: THIS ENTRY REGISTERS A-SIGN ONLY; MeasuredValue: A-mag " +
-                "OFF-PREDICTION, the magnitude is NOT registered as confirmed; Description: no " +
-                "bare -2*gamma theorem claim is made), its magnitude band comes from a from-below " +
-                "7a density-matrix sim of the flown circuits rather than from F1, and a book " +
-                "factor moves no sign. The inline-scope form of its FrameworkPrimitive is the " +
-                "shape this repair copied. " +
-                "(3) AN UNLOGGED PRODUCER: simulations/f88b_lens_ibm_framework_snapshots.py lines " +
-                "295-300 forms gamma_t1_over_gamma_z with Gamma_phi = 1/T2 - 1/(2*T1) in the " +
-                "denominator, i.e. 2*gamma_Z where a gamma_Z is wanted, and feeds the result to " +
-                "propagate_with_hardware_noise, where framework/lindblad.py line 153 makes it a " +
-                "sqrt(gamma)*Z. MARRAKESH_GAMMA_T1 would then be half the house value. It supplies " +
-                "baselines quoted by regime_uniformity_kingston_uniform_quantum. Not in the " +
-                "glossary, not in CAUGHT_ERRORS, not previously here. VERIFY FROM BELOW BEFORE " +
-                "ACTING: this item came from a reviewer and is the least independently checked " +
-                "thing in this entry. " +
-                "(4) HISTORICAL, already repaired, and the model for the repair: " +
-                "block_cpsi_saturation_kingston_may2026 was DESIGNED cross-book. " +
-                "IBM_BLOCK_CPSI_SATURATION.md line 52 says it plainly, that the analysis is on the " +
-                "right book but the pre-flight planner was not, and the difference would have " +
-                "INVERTED the finding; the flown JSON deliberately keeps the flown value per " +
-                "CAUGHT_ERRORS.md line 688, a record of what was flown, do not edit it, fix the " +
-                "consumer. Both registries now quote the Lindblad value. " +
-                "WHAT INSTANCE (1) COSTS, and it is smaller than this arc's first version said. " +
-                "The handover the flight reads at label Q 1.5 to 2.5 sits at theory-Q 3 to 5. But " +
-                "Q_EP = 2/g_eff = 1.5 is NOT a parameter fitted to the flight: " +
-                "Q_REGIME_ANCHORS.md line 13 and ANALYTICAL_FORMULAS.md line 2801 carry " +
-                "Q_peak in {1.5, 2.5} = 2 +- 1/2 as a Tier-1 schema " +
-                "(PolarityPairQPeakDecompositionClaim) predating the flight, and " +
-                "f86_ep_through_the_clock.py line 72 holds the pair with its comment. What is " +
-                "fitted is the COMMENT on ep_transition.py line 40, 'matching the hardware'. So the " +
-                "repair is deleting a false provenance claim, not re-deriving 4/3. Two further " +
-                "things the axis already knows: 1.5 is filed as Q_PEAK, and Q_REGIME_ANCHORS.md " +
-                "caveat (i) warns in its own words of two EP readings near one Q that must not be " +
-                "conflated; and ep_transition.py line 43 carries Q_PEAK = x_peak*Q_EP = 3.295, " +
-                "which the corrected band 3 to 5 brackets. Whether that is meaningful is unexamined. " +
-                "BLAST RADIUS for instance (1), corrected and extended: README.md line 240 (the " +
-                "repo-root hardware table, the most-copied surface); docs/F86_VALUES_INVENTORY.md " +
-                "line 168, a Tier2Verified hardware row; docs/Q_REGIME_ANCHORS.md; " +
-                "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md lines 165-190 and 309-315, not " +
-                "only line 169; data/ibm_ep_onset_may2026/README.md; " +
-                "compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs line 100, which hardcodes " +
-                "hwQ = {0.5, 1.0, 1.5, 2.5, 5.0, 20.0} and reads it on the toy's own axis inside a " +
-                "LIVE witness; ExceptionalPointClock.cs lines 32-33, hardware-anchored by the IBM " +
-                "Kingston handover at Q about 1.5; InspectCommand.cs line 217; " +
-                "simulations/journey_between_singularities.py line 72 and journey_control.py lines " +
-                "37-48, both plotting a coherence-book axis against the Lindblad Q_EP; " +
-                "experiments/F86_EP_THROUGH_THE_CLOCK.md; and BOTH Confirmations registries, which " +
-                "this arc's first version wrongly excused. They ARE affected: the C# " +
-                "FrameworkPrimitive field carries the EpField hardware node and the Q about 1.5 " +
-                "handover marker, and the Python mirror carries Q_grid as machine-readable data " +
-                "with key names floor_below_ep and liftoff_above_ep, asserting the identification " +
-                "in the field names themselves. Four tests pin the grid " +
-                "(framework/tests/registry/test_confirmations.py line 119; " +
-                "ConfirmationsRegistryTests.cs lines 112-114 and 123). What the registry entry does " +
-                "correctly fence is a DIFFERENT question, whether the SE transition is a genuine " +
-                "defective EP; that fence does not cover which book the axis is in. " +
-                "WHAT IS GENUINELY NOT AFFECTED: the runners, each self-consistent and " +
-                "self-documenting, and every measured datum. A book relabel moves no revival, no " +
-                "price, no count. What moves is what the numbers are compared TO; and in instance " +
-                "(1) the scan grid was DESIGNED around the target, so the aim moved even though the " +
-                "data did not. " +
-                "CLASSIFICATION, and the repo is explicit: this is the RATE-convention trap, NOT " +
-                "the q = Q/2 Hamiltonian-normalization trap and NOT the continuous-vs-Trotter " +
-                "factor in gamma_0_marrakesh_calibration. CONCENTRATOR_AB_MECHANISM_TEST.md lines " +
-                "455-459 and 580-584 forbid the merge in its own words: same numeral, distinct " +
-                "mechanisms, do not lump them; the repo's factor-of-2 traps are several distinct " +
-                "objects, not one costume. This arc's FIRST VERSION lumped them and cited the wrong " +
-                "glossary section, and its conversion table double-counted g_local by mixing a " +
-                "third definition (1/(2*T2)) into the local term instead of halving the runner's " +
-                "own. That is corrected here, and it is itself an instance of the disease, " +
-                "committed inside the record of it.",
-            NextStep: "The knowledge is complete and the enforcement is absent, so the next step is " +
-                "ENFORCEMENT, not more documentation. Ranked. " +
-                "(1) Make the book CHECKABLE rather than reconcilable. THE_LABEL_MAP's own " +
-                "diagnosis is 'reconciled in prose, enforced nowhere in notation', so a fourth " +
-                "prose reconciliation is the one move known not to work. Shortest path: extend " +
-                "simulations/t2_gamma_book_gate.py, which already exists and already owns the " +
-                "conversion, to sweep flight artifacts and registry entries and FAIL on an unpinned " +
-                "rate. Design it so a NEW flight cannot land without naming its book; a gate that " +
-                "only audits the past is satisfied once and then rots. " +
-                "(2) DONE 2026-08-18: instance (2) is repaired in both registries and pinned by a " +
-                "test in each language, which is item (1) done once, by hand, for one field. " +
-                "Generalising that pin is item (1); the two tests are the worked example to copy. " +
-                "Instance (1) is a past flight and can still wait. " +
-                "(3) Verify instance (3) from below, then log it or dismiss it. " +
-                "(4) For instance (1): delete the false provenance on ep_transition.py line 40 and " +
-                "carry the book pin to the enumerated sites, EpField.cs first because it is live. " +
-                "Follow the block_cpsi repair shape: fix the consumer, never the flown artifact. " +
-                "(5) Fix data/ibm_ep_onset_may2026/README.md line 7's H convention, which " +
-                "contradicts its own runner. " +
-                "(6) The structural item, and the largest: every IBM runner's DEFINING book lives " +
-                "in the external AIEvolution pipeline repo, outside every store the CLAUDE.md " +
-                "Stage-0 gate names, and a grep for gamma_inj across docs/ and experiments/ returns " +
-                "nothing. The gate meant to make the repo answer first has a domain boundary " +
-                "exactly where the hardware conventions are defined, which is why this seam is " +
-                "reachable only by going to the other repository by hand. That hole is not specific " +
-                "to this arc. " +
-                "(7) Unswept: gamma0_off_the_lever_kingston_may2026 (ConfirmationsRegistry.cs line " +
-                "269) sits on the same Q = J/gamma_0 axis, same machine, same month, book unstated. " +
-                "Also unswept: the OTHER axis of the same plots (EpField.cs line 101 hardcodes the " +
-                "revival values against a 1/N floor, and that observable has its own normalization), " +
-                "and theory-to-theory joins, since this sweep was hardware-versus-theory shaped. " +
-                "(8) Registry hygiene surfaced alongside, unrelated to books: four entries label " +
-                "F87 as F77 (ConfirmationsRegistry.cs lines 176 and 188, confirmations.py lines " +
-                "161, 192 and 199 - mirrored, so a plain diff cannot see it), and " +
-                "confirmations.py line 275 asserts as current an ep-onset claim the C# entry " +
-                "records as corrected on 2026-07-07.",
+            Origin: "The repository uses two distinct dephasing-rate books. In the canonical " +
+                "Lindblad book the jump is sqrt(gamma_Z)*Z and a one-site coherence decays as " +
+                "exp(-2*gamma_Z*t); hardware pipelines often report the coherence rate " +
+                "Gamma_phi = 1/T2 - 1/(2*T1) = 2*gamma_Z. The Hamiltonian coordinate has a separate " +
+                "factor-two seam: canonical carrier Q uses H=(Q/2)*sum(XX+YY). These conversions " +
+                "must be explicit at every ingestion boundary and must never be inferred from a " +
+                "bare field named gamma or Q.",
+            ParkedAt: "The May-2026 EP-onset record and all current consumers now preserve the flown " +
+                "coherence-book labels, expose Q_theory=2*Q_label, use the raw JSON as source, and " +
+                "fence the finite-time population observable from EP, critical-damping, gamma0, and " +
+                "1/N-equilibration claims. The price-pair confirmation is likewise pinned to its " +
+                "rate book. Enforcement is still local rather than a repository-wide type or schema. " +
+                "One unverified producer remains: simulations/f88b_lens_ibm_framework_snapshots.py " +
+                "forms gamma_t1_over_gamma_z with Gamma_phi in the denominator and passes it to a " +
+                "Lindblad-gamma API. In addition, the defining metadata for new IBM runners lives in " +
+                "the external AIEvolution pipeline, outside this repository's ingestion gates.",
+            NextStep: "Recompute the f88b lens producer from below and either repair its rate conversion " +
+                "or dismiss the finding with a falsifying gate. Then add a required hardware-artifact " +
+                "manifest/type that names Hamiltonian normalization, dephasing-rate book, and every " +
+                "conversion before a new record can enter either confirmation registry; fail when " +
+                "that metadata is absent. Do not relabel immutable flown data and do not reopen the " +
+                "completed May-2026 consumer repair.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -8054,7 +7888,7 @@ public static class OpenArcsRegistry
                 "Jordan block of size two at each, and size THREE in the XY variant, which is a " +
                 "new data point for PROOF_R90_FROZEN_DIVISOR section 12's open block-size " +
                 "question at N = 6); the T1-CLEAN bridge turned from prose into code with 14 " +
-                "tests; and the corner beat's compliance with gamma_book_enforced_nowhere. The " +
+                "tests; and the corner beat's compliance with gamma_book_enforcement_boundary. The " +
                 "pipeline is committed credential-free at simulations/flight/ (135 tests) and the " +
                 "freeze record at simulations/results/corner_beat/.",
             NextStep: "This is an ablage with a WAKE-UP CONDITION, not a gravestone. " +
@@ -8232,7 +8066,7 @@ public static class OpenArcsRegistry
                 "not (GLOSSARY line 319 already called J/gamma_0 the central control " +
                 "parameter; CAUGHT_ERRORS line 785 is an entry about a dephasing rate " +
                 "provenance; and no-arc-on-units contradicted the sentence before it, which " +
-                "cited gamma_book_enforced_nowhere, the units arc). It also missed " +
+                "cited gamma_book_enforcement_boundary, the units arc). It also missed " +
                 "whirlpool_carbon_layers, the substrate-mapping arc for these exact two folders. " +
                 "The previous temperature-derived floor, ratios, and substrate Q band are removed: " +
                 "without a microscopic bath model they had no stated producer. The remaining " +

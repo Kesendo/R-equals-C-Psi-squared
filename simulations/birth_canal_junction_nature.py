@@ -214,7 +214,7 @@ def _stage1_unfreeze_continuation():
 
 # ===================== STAGE 2: THE SEAM -- sterile/birth-canal IS the odd<->even junction ============
 # PostEpFlowField (C#) reads the sterile<->birth-canal boundary as the Q-dependence of the GLOBAL
-# slowest rate: BirthCanalDeviation = rate(Q=1000) - rate(Q=1.5); IsInSterileZone = |Deviation|~0.
+# slowest rate: BirthCanalDeviation = rate(Q=2000) - rate(Q=3); IsInSterileZone = |Deviation|~0.
 # Arc-A reads the SAME boundary as the slowest-SECTOR identity switch (odd (0,1) <-> even (2,2)).
 # The connection (the seam both arcs overlooked): the (0,1) band edge is the -2g Q-FLAT floor
 # (Absorption Theorem), the interior (2,2) is -2g<n_XY>(Q) Q-DEPENDENT. So:
@@ -222,7 +222,7 @@ def _stage1_unfreeze_continuation():
 #   birth canal <=> the interior (2,2) has undercut the floor at low Q (rate Q-modulated, Deviation>0)
 # GATE: IsInBirthCanal MUST coincide bit-for-bit with "the slowest at low Q is NOT the (0,1) band edge".
 def _full_L(N, Q, profile):
-    """The full 4^N Liouvillian (birth_canal_n6 convention: Q*H_unit + per-site profile dephasing)."""
+    """Full 4^N Liouvillian in the public canonical convention H=(Q/2)*H_unit."""
     I2 = np.eye(2)
     X = np.array([[0, 1], [1, 0]], complex)
     Y = np.array([[0, -1j], [1j, 0]], complex)
@@ -243,7 +243,7 @@ def _full_L(N, Q, profile):
             H += t
     d = 2 ** N
     Id = np.eye(d)
-    L = -1j * Q * (np.kron(Id, H) - np.kron(H.T, Id))
+    L = -1j * (Q / 2.0) * (np.kron(Id, H) - np.kron(H.T, Id))
     for l in range(N):
         Zl = op_at(l, Zp)
         L += profile[l] * (np.kron(Zl, Zl) - np.kron(Id, Id))
@@ -272,7 +272,7 @@ def _stage2_seam():
     print("\n[Stage 2 / THE SEAM] how PostEpFlowField's sterile<->birth-canal boundary relates to Arc-A's")
     print("  odd(0,1)<->even(2,2) junction. Both read rate_slow(Q) = min over sectors. CORRECTED (a naive")
     print("  'same boundary' gate fired): the birth canal has TWO mechanisms, and the junction is one of them.\n")
-    QLO, QHI, DEV_TOL = 1.5, 1000.0, 1e-4         # PostEpFlowField's probe points + tolerance (full_L convention)
+    QLO, QHI, DEV_TOL = 3.0, 2000.0, 1e-4         # canonical PostEpFlowField probe points + tolerance
     # the SURVIVOR'S CHANGE-NUMBER dn=|p_col-p_row| is the robust junction discriminator (NOT the sector
     # tuple, which is fooled by F1-conjugate degeneracy: (4,3) and (3,4) are the SAME dn=1 band edge).
     # dn=1 = number-CHANGING band edge (the (0,1)-class, -2g floor); dn=0 = number-CONSERVING interior.
@@ -310,7 +310,7 @@ def _stage2_seam():
     print(f"\n  SEAM (corrected): junction => birth canal (held); converse FALSE. {n_junction} profile(s) enter")
     print("  the birth canal by a JUNCTION (the even (2,2) survivor overtaking = Arc-A / the handover Q*(N)),")
     print(f"  {n_odddrift} by ODD-DRIFT (the same (0,1) edge-survivor drifting under non-uniform gamma; the")
-    print("  (0,1) block -iQh-2diag(g) is Q-flat ONLY at uniform g). So PostEpFlowField's birth canal is the")
+    print("  (0,1) block -i(Q/2)h-2diag(g) is Q-flat ONLY at uniform g). So PostEpFlowField's birth canal is the")
     print("  UNION; Arc-A's junction is the survivor-identity-change sub-mechanism. The two arcs are one")
     print("  object (rate_slow(Q)), meeting where the (2,2) interior undercuts the (0,1) floor.")
 

@@ -83,11 +83,12 @@ worse than no copy, because it looks authoritative.
   [`experiments/CORNER_BEAT_HARDWARE_PREDICTION.md`](../../experiments/CORNER_BEAT_HARDWARE_PREDICTION.md)
 - The committed gate the runner checks its fit against:
   [`simulations/corner_beat_gate.py`](../corner_beat_gate.py)
-- Open questions about the conventions this runner uses: the arc
-  `gamma_book_enforced_nowhere` in
+- Open questions about the conventions this runner uses are now tracked by
+  `gamma_book_enforcement_boundary` in
   [`OpenArcsRegistry.cs`](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs).
-  The flight's own arc, `corner_beat`, does not exist yet; it is due with the
-  freeze commit.
+  The flight's own `corner_beat` arc now exists and records that it was parked,
+  never flown. These are current-truth registry pointers; the runner bytes and
+  hashes above remain the 2026-08-18 record.
 
 ## A note on the split, since it caused a real problem
 
@@ -96,5 +97,5 @@ pre-registration commit check. That direction is fine. The direction that bit us
 is the other one: the runner's own DEFINITIONS, in particular which convention a
 rate is written in, live only in the pipeline tree, so the repository's
 "look here first" convention could not reach them. One factor-of-two seam was
-found this way on 2026-08-18 (arc `gamma_book_enforced_nowhere`). Having the
+found this way on 2026-08-18 (now tracked by `gamma_book_enforcement_boundary`). Having the
 runner in the repository is part of closing that hole.

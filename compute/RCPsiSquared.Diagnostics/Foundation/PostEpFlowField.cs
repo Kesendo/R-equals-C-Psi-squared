@@ -11,30 +11,29 @@ using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Comp
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The post-EP flow as a live Object-Manager GameObject: a single excitation on site 0
+/// <summary>The single-excitation population flow as a live Object-Manager GameObject: an excitation on site 0
 /// of an XY chain under Z-dephasing, evolved across a Q-grid, with per-site occupation ⟨n_site⟩(τ)
-/// relaxing to the equipartitioned target 1/N. The C# home of <c>simulations/post_ep_dynamics_4d.py</c>
+/// relaxing toward the equipartitioned target 1/N for the connected Q &gt; 0 flow. The C# home of <c>simulations/post_ep_dynamics_4d.py</c>
 /// and the loop of <c>experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md</c>.
 ///
-/// <para>Two distinct objects live on this node, the two rungs of the drain-depth / n_XY axis:
+/// <para>Two distinct objects live on this node, the two parity sectors of the drain-depth / n_XY axis:
 /// the EVEN-rung single-excitation FLOW (number-conserving, the occupation trajectories ⟨n⟩(τ)
-/// relaxing to 1/N) and the ODD-rung BIRTH CHANNEL (number-changing, the longest-lived coherence
-/// the <see cref="IsInBirthCanal"/> members read, with maximal saturation
+/// relaxing toward 1/N) and the ODD-rung BIRTH CHANNEL (number-changing, the longest-lived coherence
+/// the N=5 open-chain-only birth/sterile surface reads through <see cref="IsInBirthCanal"/>, with maximal saturation
 /// <see cref="MaxSaturationCeiling"/> = ¼). The flow never enters the birth channel
 /// (<see cref="FlowEntersBirthChannel"/> = false); they are separate readings, not one timescale.</para>
 ///
 /// <para>Built on demand from (N, Q-grid, τ-grid); the trajectories compute lazily on first access.
 /// A plain <see cref="IInspectable"/> (not a Claim): a live reading, not a typed-knowledge assertion.
-/// The dimensionless Liouvillian L'(N,Q) = −iQ[H_unit,·] + Σ_l(Z_lρZ_l − ρ) reuses
-/// <see cref="PauliDephasingDissipator.BuildZ"/> with H = Q·H_unit and γ = 1; Q = J/γ is the only knob,
+/// The dimensionless Liouvillian L'(N,Q) = −i(Q/2)[H_unit,·] + Σ_l(Z_lρZ_l − ρ) reuses
+/// <see cref="PauliDephasingDissipator.BuildZ"/> with H = (Q/2)·H_unit and γ = 1; Q is canonical carrier Q,
 /// τ = γ·t the dimensionless time. Site 0 = leftmost factor; vec is row-major (C-order), matching the
 /// dissipator.</para>
 ///
 /// <para>Numerical note: the trajectory is propagated in the Liouvillian's eigenbasis (eig once,
-/// the same method as the Python prototype and <c>BlockCpsiTrajectory</c>). Exactly at an
-/// exceptional point the Liouvillian is defective and that eigenbasis is singular; at the
-/// generic grid points away from the exact EP it is well-conditioned, which is why the
-/// validated Python reference scans the same Q-grid without issue.</para></summary>
+/// the same method as the Python prototype and <c>BlockCpsiTrajectory</c>). The sampled population
+/// trajectories make no spectral-transition claim; diagonalizability failures are numerical errors,
+/// not silently interpreted as transition evidence.</para></summary>
 public sealed class PostEpFlowField : IInspectable
 {
     public int N { get; }
@@ -45,7 +44,8 @@ public sealed class PostEpFlowField : IInspectable
     /// the unshaped baseline. Use <see cref="NormalizeToTotal"/> to compare shapes at a fixed Σγ.</summary>
     public IReadOnlyList<double> GammaProfile { get; }
 
-    /// <summary>The equipartitioned fixed point every trajectory relaxes to: ⟨n_site⟩(∞) = 1/N.</summary>
+    /// <summary>The equipartitioned fixed point of the connected Q &gt; 0 single-excitation flow:
+    /// ⟨n_site⟩(∞) = 1/N. Q=0 is rejected because every diagonal population is then stationary.</summary>
     public double Target => 1.0 / N;
 
     /// <summary>Chain (open line, the default) or Ring (closed, the extra wrap bond N−1 ↔ 0). The
@@ -59,6 +59,8 @@ public sealed class PostEpFlowField : IInspectable
         QGrid = qGrid ?? throw new ArgumentNullException(nameof(qGrid));
         TauGrid = tauGrid ?? throw new ArgumentNullException(nameof(tauGrid));
         if (qGrid.Count == 0) throw new ArgumentException("qGrid must be non-empty", nameof(qGrid));
+        if (qGrid.Any(q => !double.IsFinite(q) || q <= 0.0))
+            throw new ArgumentException("qGrid entries must be finite and strictly > 0; Q=0 has no connected flow to 1/N", nameof(qGrid));
         if (tauGrid.Count < 2) throw new ArgumentException("tauGrid needs >= 2 points", nameof(tauGrid));
 
         if (gammaProfile is null)
@@ -113,10 +115,11 @@ public sealed class PostEpFlowField : IInspectable
         return xi * xj + yi * yj;
     }
 
-    /// <summary>The dimensionless Liouvillian L'(N,Q) at the given Q (γ = 1, J = Q).</summary>
+    /// <summary>The dimensionless Liouvillian L'(N,Q) at canonical carrier Q (γ=1,
+    /// H=(Q/2)Σ(XX+YY), hop element Q).</summary>
     public ComplexMatrix DimensionlessLiouvillian(double q)
     {
-        return PauliDephasingDissipator.BuildZ(HUnit().Multiply(new Complex(q, 0.0)), GammaProfile);
+        return PauliDephasingDissipator.BuildZ(HUnit().Multiply(new Complex(q / 2.0, 0.0)), GammaProfile);
     }
 
     /// <summary>vec(ρ₀) for the single excitation on site 0, row-major: only entry idx·d+idx = 1,
@@ -179,15 +182,17 @@ public sealed class PostEpFlowField : IInspectable
                 bool isEdge = s == 0 || s == N - 1;
                 sites.Add(new PostEpSiteFlow(s, isEdge, traj[s], NTurns(traj[s])));
             }
-            qFlows.Add(new PostEpQFlow(q, Underdamped: q >= 1.0, sites, SlowestNonKernelRate(ev.Eigenvalues)));
+            qFlows.Add(new PostEpQFlow(q, HasResolvedTurns: sites.Any(s => s.Turns > 1), sites,
+                GlobalSlowestNonKernelRate: SlowestNonKernelRate(ev.Eigenvalues)));
         }
         return qFlows;
     }
 
     /// <summary>The slowest non-kernel relaxation rate: −max{ Re λ : |λ| > tol }. Positive in every
-    /// physical case (returns 0 only if L has no non-kernel mode at all); larger means faster
-    /// forgetting. The kernel modes (|λ| ≈ 0, the 1/N fixed point) are excluded. This is the
-    /// profile-sensitive timescale at fixed Σγ.</summary>
+    /// physical case (returns 0 only if L has no non-kernel mode at all). The kernel modes
+    /// (|λ| ≈ 0) are excluded. This is a GLOBAL spectral reading: the winning mode may be the
+    /// odd number-changing channel and have zero overlap with this even single-excitation flow,
+    /// so it is not called the population trajectory's approach rate.</summary>
     private static double SlowestNonKernelRate(IReadOnlyList<Complex> eigenvalues)
     {
         const double tol = 1e-7;
@@ -200,8 +205,8 @@ public sealed class PostEpFlowField : IInspectable
     // ---- The sterile zone vs the birth canal: where the closed form holds, and where the new is born ----
     // internal (not private) so BirthCanalSurfaceWitness shares these probe points and tolerance and
     // cannot drift from them; same assembly, so no InternalsVisibleTo is needed.
-    internal const double BirthCanalProbeQLow = 1.5;
-    internal const double BirthCanalProbeQHigh = 1000.0;
+    internal const double BirthCanalProbeQLow = 3.0;
+    internal const double BirthCanalProbeQHigh = 2000.0;
     internal const double BirthCanalTolerance = 1e-4;
 
     private double SlowestRateAt(double q)
@@ -210,31 +215,73 @@ public sealed class PostEpFlowField : IInspectable
         return SlowestNonKernelRate(evd.EigenValues.ToArray());
     }
 
-    private double? _birthCanalDeviation;
-    /// <summary>The Q-drift of the slowest-mode rate: rate(high Q) − rate(low Q). The slowest
-    /// non-kernel mode is the longest-lived NUMBER-CHANGING coherence (the odd rung: one light
-    /// quantum, n_XY = 1, pure odd n_XY parity in both zones, verified N=5 uniform/peaked-V/flat-
-    /// bulk-edge), the birth-capable channel whose content is bounded by the maximal saturation
+    private double? _globalSlowestRateDeviation;
+
+    /// <summary>The Q-drift of the global slowest non-kernel rate: rate(high Q) − rate(low Q).
+    /// This numerical reading is available throughout the dense N≤6 domain, without assigning a
+    /// birth/sterile mechanism to the winning sector.</summary>
+    public double GlobalSlowestRateDeviation =>
+        _globalSlowestRateDeviation ??=
+            SlowestRateAt(BirthCanalProbeQHigh) - SlowestRateAt(BirthCanalProbeQLow);
+
+    /// <summary>Whether the verified N=5 birth/sterile surface semantics apply. At N≥6 the global
+    /// slowest mode can switch to an even density sector; use the sector-resolved junction witness.</summary>
+    public bool HasBirthCanalClassification => N == 5 && Topology == FlowTopology.Chain;
+
+    private void RequireBirthCanalClassification()
+    {
+        if (!HasBirthCanalClassification)
+            throw new InvalidOperationException(
+                $"Birth/sterile classification is verified only on the N=5 open-chain surface; " +
+                $"N={N}, topology={Topology} has only the " +
+                "unlabelled GlobalSlowestRateDeviation and may require a min-over-sectors classification.");
+    }
+
+    /// <summary>The N=5 surface's Q-drift of the global slowest rate. On that verified surface the
+    /// winner is the longest-lived NUMBER-CHANGING coherence (one light quantum, pure odd n_XY
+    /// parity for the pinned uniform/peaked-V/flat-bulk-edge profiles), the birth-capable channel
+    /// whose content is bounded by the maximal saturation
     /// C_block ≤ ¼ (<see cref="MaxSaturationCeiling"/>, <see cref="BlockCoherenceContent"/>). It is
     /// NOT the even-rung single-excitation flow the rest of this class propagates: that flow is
     /// number-conserving and never enters this channel (<see cref="FlowEntersBirthChannel"/> is
     /// false). Zero in the sterile zone (the birth channel's lifetime is Q-independent, the closed
     /// form holds, nothing new couples); positive in the birth canal (its lifetime is Q-modulated,
     /// the loop where the coupling drives the birth-capable coherence and new structure can form).
-    /// The exploration ruler: how deep in the birth canal. Always available, never throws.</summary>
-    public double BirthCanalDeviation =>
-        _birthCanalDeviation ??= SlowestRateAt(BirthCanalProbeQHigh) - SlowestRateAt(BirthCanalProbeQLow);
+    /// The exploration ruler: how deep in the N=5 birth canal. Throws outside N=5 rather than
+    /// projecting those semantics onto a different winning sector.</summary>
+    public double BirthCanalDeviation
+    {
+        get
+        {
+            RequireBirthCanalClassification();
+            return GlobalSlowestRateDeviation;
+        }
+    }
 
     /// <summary>True in the birth canal: the Q-dependent loop where the longest-lived
     /// number-changing (odd-rung, birth-capable) coherence has its lifetime modulated by the
-    /// coupling (the closed form fails and the new can be born). False in the sterile zone. Never
-    /// throws.</summary>
-    public bool IsInBirthCanal => Math.Abs(BirthCanalDeviation) > BirthCanalTolerance;
+    /// coupling (the closed form fails and the new can be born). False in the sterile zone. Scoped
+    /// to N=5.</summary>
+    public bool IsInBirthCanal
+    {
+        get
+        {
+            RequireBirthCanalClassification();
+            return Math.Abs(GlobalSlowestRateDeviation) > BirthCanalTolerance;
+        }
+    }
 
     /// <summary>The complement of <see cref="IsInBirthCanal"/>: the Q-independent corridor (the
     /// sterile zone) where the slowest rate is a closed form, the slow mode isolated, decay and
     /// rotation decoupled. Frozen, determined, no creation.</summary>
-    public bool IsInSterileZone => !IsInBirthCanal;
+    public bool IsInSterileZone
+    {
+        get
+        {
+            RequireBirthCanalClassification();
+            return !IsInBirthCanal;
+        }
+    }
 
     /// <summary>The closed-form slowest rate, valid ONLY in the sterile zone (the Q-independent
     /// corridor). In the birth canal it throws: there the rate is Q-dependent, so there is no single
@@ -260,7 +307,7 @@ public sealed class PostEpFlowField : IInspectable
     private double? _peakBetweenBlockSaturation;
     /// <summary>The peak between-block coherence the flow's state reaches over the whole Q × τ grid:
     /// max over τ, over all blocks n ∈ [0, N−1], of C_block(ρ(τ), n) (the (popcount-n, popcount-(n+1))
-    /// block). The post-EP flow is a single excitation, a NUMBER-CONSERVING (even-rung) object, so it
+    /// block). This population flow is a single excitation, a NUMBER-CONSERVING (even-rung) object, so it
     /// carries no between-block coherence: this is ≈ 0 (machine zero), the LIVE measurement that the
     /// flow never enters the birth channel. Between-block coherence (the odd rung, bounded by
     /// <see cref="MaxSaturationCeiling"/> = ¼) is the birth-capable channel; reaching it needs a
@@ -298,25 +345,28 @@ public sealed class PostEpFlowField : IInspectable
     }
 
     /// <summary>The slowest non-kernel mode read through the WHOLE assembly at one Q: the scattered
-    /// pieces brought together where the birth channel lives. Reads its rate; its drain depth
+    /// pieces brought together where the birth channel lives. Reads its spectral-edge rate and
+    /// the tolerance-cluster mean separately; its drain depth
     /// ⟨popcount(i⊕j)⟩ = the light content n_XY (one axis, two names); the per-site light (the
     /// carrier vector); the Absorption-Theorem cross-check rate = 2·Σ_k γ_k·light_k (equal to the
-    /// rate, bit-exact); the parity rung (0 = even, the number-conserving flow rail; 1 = odd, the
-    /// number-changing birth rail); and the maximal-saturation ceiling ¼ of that rail. So depth =
-    /// light = rate (Absorption), the parity rail, and the bilinear ceiling are one reading.</summary>
+    /// cluster mean, not necessarily the spectral edge); the parity-resolved projector support;
+    /// and the maximal-saturation ceiling
+    /// ¼ of the odd rail. The parity can be Mixed when the slow-rate cluster spans both exact
+    /// sectors; it is not inferred from the generally noninteger mean depth.</summary>
     public FlowAssemblyReading ReadAssembly(double q)
     {
         // Basis-free since 2026-06-10: the per-site carrier is read through the orthogonal
         // projector onto the slow invariant subspace (range of the biorthogonal spectral
         // projector over the slowest-rate cluster), see SlowLightDistribution. The former
-        // degeneracy-averaged carrier and its gauge caveat (the |v|² average over a degenerate
-        // cluster of non-orthogonal eigenvectors stayed mildly basis-dependent) are retired:
-        // the projector reading is frame-independent at every degeneracy, keeps the absorption
-        // identity machine-exact, and coincides with the old average wherever Degeneracy = 1.
+        // tolerance-cluster-averaged carrier and its gauge caveat (the |v|² average over
+        // non-orthogonal eigenvectors stayed mildly basis-dependent) are retired:
+        // the projector reading is frame-independent for the selected invariant subspace, keeps the absorption
+        // identity machine-exact for the cluster mean, and coincides with the old average wherever
+        // ClusterDimension = 1.
         var slow = SlowLightDistribution.Compute(DimensionlessLiouvillian(q), N, GammaProfile);
-        int rung = (int)Math.Round(slow.TotalLight) & 1;
-        return new FlowAssemblyReading(slow.Rate, slow.TotalLight, slow.PerSiteLight,
-            slow.AbsorptionRate, rung, rung == 1, MaxSaturationCeiling, slow.Degeneracy);
+        return new FlowAssemblyReading(slow.SpectralEdgeRate, slow.ClusterMeanRate, slow.TotalLight,
+            slow.PerSiteLight, slow.AbsorptionRate, slow.Parity, MaxSaturationCeiling,
+            slow.ClusterDimension);
     }
 
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
@@ -334,19 +384,19 @@ public sealed class PostEpFlowField : IInspectable
         return turns;
     }
 
-    // ---- Object Manager: the post-EP flow as a live IInspectable node ----
+    // ---- Object Manager: the single-excitation population flow as a live IInspectable node ----
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
     public string DisplayName =>
         $"PostEpFlowField (N={N}, target 1/N={Target.ToString("0.0000", Inv)})";
     public string Summary =>
-        $"single excitation → 1/N; {QGrid.Count} Q × {N} sites, {TauGrid.Count} τ-points";
+        $"connected-Q single-excitation flow toward 1/N; {QGrid.Count} Q × {N} sites, {TauGrid.Count} τ-points";
     public IEnumerable<IInspectable> Children
     {
         get
         {
             foreach (var qf in Flows)
             {
-                string regime = qf.Underdamped ? "underdamped (hops, remembers)" : "overdamped (diffuses, forgets)";
+                string regime = qf.HasResolvedTurns ? "sampled population trace has resolved turns" : "no resolved turns on sampled grid";
                 var siteLeaves = new List<IInspectable>(N);
                 foreach (var s in qf.Sites)
                 {
@@ -360,7 +410,7 @@ public sealed class PostEpFlowField : IInspectable
                 }
                 yield return new InspectableNode(
                     displayName: $"Q={qf.Q.ToString("0.00", Inv)}",
-                    summary: $"{regime}; slowest rate {qf.SlowestRate.ToString("0.0000", Inv)}",
+                    summary: $"{regime}; global slowest non-kernel rate {qf.GlobalSlowestNonKernelRate.ToString("0.0000", Inv)} (not a flow-overlap rate)",
                     children: siteLeaves);
             }
         }
@@ -376,28 +426,50 @@ public enum FlowTopology { Chain, Ring }
 /// ⟨n_site⟩(τ) over the τ-grid, and the oscillation (turn) count.</summary>
 public sealed record PostEpSiteFlow(int Site, bool IsEdge, IReadOnlyList<double> Occupation, int Turns);
 
-/// <summary>One Q slice of the flow: the Q value, whether it is above the rotation onset
-/// (underdamped, Q ≥ 1), and the per-site trajectories.</summary>
-public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostEpSiteFlow> Sites, double SlowestRate);
+/// <summary>One Q slice of the flow: canonical Q, whether the finite sampled population traces
+/// contain resolved turns, the per-site trajectories, and the global slowest non-kernel rate.
+/// The global winning mode need not overlap this even single-excitation preparation/readout.
+/// The turn flag is a display reading, not a critical-damping or spectral-transition verdict.</summary>
+public sealed record PostEpQFlow(double Q, bool HasResolvedTurns, IReadOnlyList<PostEpSiteFlow> Sites, double GlobalSlowestNonKernelRate);
 
 /// <summary>The slowest non-kernel rate read through the whole assembly, the scattered pieces in
-/// one place: <paramref name="SlowestRate"/> (−Re λ); <paramref name="SlowestDepth"/> = the drain
+/// one place: <paramref name="SlowestRate"/> (−max Re λ); <paramref name="SlowClusterMeanRate"/>
+/// = −(1/g)Σ Re λ over the selected tolerance cluster, the rate reproduced by the projector-trace
+/// Absorption identity; <paramref name="SlowestDepth"/> = the drain
 /// depth ⟨popcount(i⊕j)⟩ = the light n_XY; <paramref name="PerSiteLight"/> = the carrier vector
 /// ⟨X/Y at k⟩, BASIS-FREE via the orthogonal projector onto the slow invariant subspace
 /// (<see cref="RCPsiSquared.Diagnostics.Ptf.SlowLightDistribution"/>, 2026-06-10; it equals the
-/// per-eigenvector reading wherever <paramref name="Degeneracy"/> = 1);
+/// per-eigenvector reading wherever <paramref name="SlowClusterDimension"/> = 1);
 /// <paramref name="AbsorptionRate"/> = 2·Σ_k γ_k·light_k (the Absorption
-/// Theorem, equal to the rate); <paramref name="Rung"/> = depth mod 2 (0 even = the
-/// number-conserving flow rail, 1 odd = the number-changing birth rail);
-/// <paramref name="OnBirthRail"/> = Rung is odd; <paramref name="MaxSaturationCeiling"/> = ¼, the
-/// rail's bilinear ceiling; <paramref name="Degeneracy"/> = how many modes share the slowest rate
-/// (the dimension of the slow invariant subspace the projector reads).</summary>
+/// Theorem, equal to the cluster-mean rate); <paramref name="Parity"/> is derived from the slow projector's
+/// exact even/odd support, not from its generally noninteger mean depth; <see cref="Rung"/> and
+/// <see cref="OnBirthRail"/> are undefined when that support is mixed;
+/// <paramref name="MaxSaturationCeiling"/> = ¼, the
+/// rail's bilinear ceiling; <paramref name="SlowClusterDimension"/> = the number of modes selected
+/// by the real-rate tolerance, not an assertion of exact degeneracy.</summary>
 public sealed record FlowAssemblyReading(
     double SlowestRate,
+    double SlowClusterMeanRate,
     double SlowestDepth,
     IReadOnlyList<double> PerSiteLight,
     double AbsorptionRate,
-    int Rung,
-    bool OnBirthRail,
+    SlowLightParity Parity,
     double MaxSaturationCeiling,
-    int Degeneracy);
+    int SlowClusterDimension)
+{
+    public double AbsorptionResidual => Math.Abs(SlowClusterMeanRate - AbsorptionRate);
+
+    public int? Rung => Parity switch
+    {
+        SlowLightParity.Even => 0,
+        SlowLightParity.Odd => 1,
+        _ => null,
+    };
+
+    public bool? OnBirthRail => Parity switch
+    {
+        SlowLightParity.Even => false,
+        SlowLightParity.Odd => true,
+        _ => null,
+    };
+}

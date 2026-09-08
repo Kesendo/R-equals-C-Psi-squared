@@ -25,13 +25,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// momentum mode). Lifetime &lt;n_XY&gt; ~ Q^2/N^2, ring/chain -&gt; 4 (cyclic-vs-open k_min^2,
 /// model-independent). Reuses <see cref="SectorReductionWitness.SectorSlowest"/> (no full 4^N).</para>
 ///
-/// <para>Convention (carbon, XY/free-fermion, no ZZ): J=1, gamma=1/Q. SectorReductionWitness builds
-/// H=qh*(XX+YY) (qh=0.5 reproduces J=1) with an absolute gamma profile; rate = -2*gamma*&lt;n_XY&gt;.
+/// <para>Convention (carbon, XY/free-fermion, no ZZ): J=1, gamma=1/Q. SectorReductionWitness takes
+/// canonical Hamiltonian Q=1 and builds H=(1/2)*(XX+YY), reproducing J=1; rate = -2*gamma*&lt;n_XY&gt;.
 /// The python twin is <c>simulations/carbon/incompleteness_survivor.py</c>.</para></summary>
 public sealed class IncompletenessSurvivorWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
-    private const double Qh = 0.5;          // H = qh*(XX+YY) reproduces the carbon J=1
+    private const double HamiltonianQ = 1.0; // H=(Q/2)*(XX+YY), Q=1 reproduces carbon J=1
     private const double KernelTol = 1e-7;
 
     /// <summary>The canonical coherence-horizon EP ladder Q*(N) (F2b corollary / <see cref="CoherenceHorizonClaim"/>),
@@ -68,7 +68,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         cands.Add((0, 1));
         foreach (var (pc, pr) in cands)
         {
-            double gap = SectorReductionWitness.SectorSlowest(n, Qh, profile, pc, pr, topology);
+            double gap = SectorReductionWitness.SectorSlowest(n, HamiltonianQ, profile, pc, pr, topology);
             if (gap > KernelTol && gap < best) { best = gap; bc = pc; br = pr; }
         }
         return (best, bc, br, best / (2.0 * gamma));
@@ -85,7 +85,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
         var profile = Enumerable.Repeat(gamma, n).ToArray();
         var rates = new double[n - 1];
         for (int p = 1; p < n; p++)
-            rates[p - 1] = SectorReductionWitness.SectorSlowest(n, Qh, profile, p, p, topology);
+            rates[p - 1] = SectorReductionWitness.SectorSlowest(n, HamiltonianQ, profile, p, p, topology);
         return rates;
     }
 
@@ -105,7 +105,7 @@ public sealed class IncompletenessSurvivorWitness : IInspectable
     public static double Interior22NXy(int n, double q, TopologyKind topology)
     {
         double gamma = 1.0 / q;
-        double rate = SectorReductionWitness.SectorSlowest(n, Qh, Enumerable.Repeat(gamma, n).ToArray(), 2, 2, topology);
+        double rate = SectorReductionWitness.SectorSlowest(n, HamiltonianQ, Enumerable.Repeat(gamma, n).ToArray(), 2, 2, topology);
         return rate / (2.0 * gamma);
     }
 

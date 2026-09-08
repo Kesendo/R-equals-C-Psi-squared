@@ -188,11 +188,11 @@ We came back to this protocol months later, with the dimensionless ratio
 **Q = J/γ₀** in hand, and the whole thing reads differently, sharper, than
 it could in March. Three things we could not see then.
 
-**The baseline γ was a guess that turned out to be a measurement.** The setup
-table just picks γ = 0.05 as a working value. On 2026-05-29 we extracted the
-local dephasing rate of a real chip from an [IBM Kingston](GAMMA0_IS_ALWAYS_THERE.md)
-J-scan and found γ₀ ≈ 0.05. The number we wrote into the setup line was, in
-hindsight, a prediction of the hardware's actual γ₀.
+**The baseline γ remains a model choice.** The setup table picks γ = 0.05 as
+an illustrative working value. The 2026-05-29 [IBM Kingston](GAMMA0_IS_ALWAYS_THERE.md)
+J-scan only brackets a change in finite-time transfer overshoot between J=0.05
+and J=0.1; it neither isolates the chip's local dephasing rate nor turns this
+baseline into a hardware calibration.
 
 **The three tricks were one knob.** Impedance matching (J=2 vs J=1), the
 quiet phase (γ → γ/10), and the staging clock K/γ are all moves along the
@@ -204,22 +204,21 @@ quiet 2:1 receiver at 400. The anchor map's own caveat names J=1 → Q=20 as
 was identified." This protocol ran on exactly that default. Every value sits a
 full order of magnitude or two above everything that structures the Q axis:
 the exceptional point at Q_EP ≈ 1.5–2, the transfer-resonance peak band at
-1.2–1.8, the onset at 0.2–0.35.
+1.2–1.8, the onset at 0.2–0.35. Those are ideal-model coordinates, not spectral
+character inferred from the population scan.
 
 **That deep-Q placement is not overshoot; it is the only band where transport
 exists.** This is the part [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)
 later made plain. Below the rotation onset (small Q) a single excitation just
 diffuses and decays in place, forgetting; it never reaches the far end. Above
 it, the excitation sloshes site to site as a wave that propagates and reflects,
-remembering. Transport across a chain *is* that slosh, and the slosh lives only
-above the EP, seen on Kingston hardware as an excitation that crossed a 3-site
-chain to the far end and revived. The single-bond resonance peak at Q ≈ 1.5 is
-a local quantity (the birth of the slosh, the EP itself), not arrival at the
-destination. To carry an excitation across eleven sites and have it *arrive*
-rather than equipartition mid-chain, you must sit deep in the memory regime. So
-the relay was twice right before it knew the axis: it guessed γ₀, and it sat in
-the only transport band, the deep plateau, before the EP that defines that band
-was found.
+remembering in the ideal model. The Kingston record establishes a sampled
+population handover and revival on a 3-site chain, but no critical damping,
+exceptional point, mode coalescence, post-EP mode, or reborn mode. The single-bond
+resonance peak near Q ≈ 1.5 belongs to a separate ideal model; it is not a
+spectral label for the hardware population scan. The relay's deep-Q placement
+is therefore an illustrative model design choice, not a hardware-certified
+transport phase.
 
 This reframes the two measured numbers. The quiet phase (Q: 20 → 200) crosses
 no regime boundary; it moves from plateau to deeper plateau, extending the
@@ -232,11 +231,12 @@ flows, toward the receiver. The time axis (Q) is saturated inside the transport
 band; the whole remaining lever is spatial.
 
 One honest new constraint the simulation could not show. The March run was pure
-RK4, where the decay envelope is set by T2. On the real chip the envelope is
-**Trotterization-limited** (~9 μs from two-qubit gate error at ~0.5% per gate),
-not T2-limited (~200 μs). Any hardware version of this protocol must fit its six
-stages (6 × 0.78 = 4.68 time units) inside that gate budget, not the far more
-generous coherence budget the simulation assumes.
+RK4, where the decay envelope is set by T2. On the real chip the observed
+envelope is much shorter than the quoted T2 scale. Accumulated circuit cost is
+a plausible contributor, but the stored record has no calibrated error model
+that assigns a unique cause or a 9 μs Trotterization limit. A hardware version
+must therefore measure its usable depth in-session rather than inherit either
+number as a certified budget.
 
 ---
 
@@ -266,6 +266,6 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 - [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic mode structure as antenna
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length baseline
 - [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md): transport is the slosh above the EP (2026-05-31 revisit)
-- [γ₀ Is Always There](GAMMA0_IS_ALWAYS_THERE.md): the measured γ₀ ≈ 0.05 behind the setup's guessed baseline
+- [γ₀ Is Always There](GAMMA0_IS_ALWAYS_THERE.md): historical locator for the finite-grid transfer-overshoot bracket; it does not measure γ₀
 - [Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md): the Q = J/γ₀ axis the protocol sits on
 - Main README Section 6: eight engineering consequences

@@ -254,7 +254,7 @@ status update below.
 not settle the question.** Three pre-registered runs on ibm_kingston
 uniform-good-T2 lines with an ENGINEERED sink (injected per-step frozen phase
 paths) at three doses: the scramble ceiling and two partial doses anchored to
-the repository's hardware-measured carrier rate γ₀ (injected edge rates
+the repository's illustrative carrier default γ₀=0.05 (not a hardware measurement; injected edge rates
 N·γ₀/2 and N·γ₀, on top of the device's own rate; N·γ₀ is the profile's
 ε → 0 corner value used as a reference, since the additive setting conserves
 no budget and has no formula optimum). The sink

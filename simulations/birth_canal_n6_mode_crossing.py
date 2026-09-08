@@ -37,7 +37,7 @@ def full_L(N, Q, profile):
     d = 2 ** N
     Id = np.eye(d)
     H1 = H_xy_unit(N)
-    L = -1j * Q * (np.kron(Id, H1) - np.kron(H1.T, Id))
+    L = -1j * (Q / 2.0) * (np.kron(Id, H1) - np.kron(H1.T, Id))
     for l in range(N):
         Zl = op_at(N, l, Z)
         L += profile[l] * (np.kron(Zl, Zl) - np.kron(Id, Id))
@@ -49,7 +49,7 @@ def block_slowest(N, Q, profile):
     for i in range(N - 1):
         h[i, i + 1] = 2.0
         h[i + 1, i] = 2.0
-    w = np.linalg.eigvals(-1j * Q * h - 2.0 * np.diag(profile))
+    w = np.linalg.eigvals(-1j * (Q / 2.0) * h - 2.0 * np.diag(profile))
     nz = w[np.abs(w) > 1e-7]
     return -float(np.max(nz.real))
 
@@ -100,14 +100,14 @@ def main():
     N = 6
     deep = np.array([0.25, 1.375, 1.375, 1.375, 1.375, 0.25])
     print(f"N={N} deep-edge {list(deep)}  (two protected gamma=0.25 edges)\n")
-    for Q in (1.5, 1000.0):
+    for Q in (3.0, 2000.0):
         analyze(N, Q, deep, "deep-edge")
     print()
     # control: the N=5 flat-bulk-edge anchor (where part A said block==full)
     N5 = 5
     fbe = np.array([0.25, 1.5, 1.5, 1.5, 0.25])
     print(f"control N={N5} flat-bulk-edge {list(fbe)} (part A: block==full):\n")
-    for Q in (1.5, 1000.0):
+    for Q in (3.0, 2000.0):
         analyze(N5, Q, fbe, "fbe-N5   ")
 
 

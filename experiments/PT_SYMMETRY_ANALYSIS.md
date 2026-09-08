@@ -227,7 +227,7 @@ character remain OPEN.
    The producer does not execute a strict threshold coalescence or Jordan-rank
    certificate, so exceptional-point character remains OPEN.
 
-| System | Symmetric phase | Broken phase | Mechanism |
+| System | Axis-confined regime | Off-axis regime | Mechanism |
 |--------|----------------|-------------|-----------|
 | Hamiltonian PT | Real eigenvalues | Complex conjugate pairs | EP coalescence |
 | Fragile-bridge Liouvillian | Imaginary eigenvalues | Off-axis +/- pairs | spectral-abscissa axis departure; EP character OPEN |
@@ -354,10 +354,12 @@ spectral-abscissa axis departure does not itself assign either an EP character o
 
 ### Bender and Boettcher (PRL 1998)
 
-Standard PT-symmetry: anti-linear PT, real eigenvalues in symmetric
-phase, complex pairs in broken phase. Our system: linear Pi, imaginary
-eigenvalues in symmetric phase, off-axis pairs in broken phase.
-Different operator type, analogous spectral structure.
+Standard Hamiltonian PT-symmetry has real eigenvalues in its PT-symmetric
+phase and complex pairs in its PT-broken phase. The fragile-bridge comparison
+instead has a linear Pi and passes from a Fragile-bridge axis-confined regime
+(imaginary eigenvalues) to a Fragile-bridge off-axis regime. Pi remains exact
+on both sides, so these are not Pi-symmetric and Pi-broken phases. The
+operator types differ; only the rotated spectral pictures are analogous.
 
 ### Minganti et al. (PRA 2019)
 

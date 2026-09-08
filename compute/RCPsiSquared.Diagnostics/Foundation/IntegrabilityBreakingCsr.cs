@@ -15,7 +15,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <list type="bullet">
 ///   <item>POOL the per-spectrum z-values over the q-grid — never concatenate raw eigenvalues across q
 ///         (that superimposes independent point processes and fakes Poisson, erasing a Ginibre signal);</item>
-///   <item>BOOTSTRAP a 95% CI on ⟨|z|⟩, so a 0.08 Poisson-vs-Ginibre gap is callable;</item>
+///   <item>treat a fixed q-grid as a deterministic descriptive sweep with no sampling CI; for random
+///         ensembles, bootstrap whole independently drawn spectra rather than correlated z-values;</item>
 ///   <item>compare against FINITE-SIZE-MATCHED Poisson/GinUE references (pooled over many draws at the
 ///         measurement's ~50-point per-spectrum size), not the asymptotic 0.658/0.738 that carry the
 ///         wrong edge bias.</item>
@@ -37,8 +38,24 @@ public static class IntegrabilityBreakingCsr
     /// <summary>The numerical clustering boundary shared by every CSR consumer in this harness.</summary>
     public static string ClusteringScope => ComplexSpacingRatio.ClusteringScope;
 
-    /// <summary>⟨|z|⟩, ⟨cos arg z⟩, the pooled z count, and a 95% bootstrap CI on ⟨|z|⟩.</summary>
-    public readonly record struct CsrReading(int ZCount, double MeanAbs, double MeanCos, double CiLo, double CiHi);
+    public enum UncertaintySemantics
+    {
+        NoneDeterministicGrid,
+        InsufficientIndependentSpectra,
+        SpectrumClusterBootstrap95
+    }
+
+    /// <summary>⟨|z|⟩ and ⟨cos arg z⟩ over the pooled z-values. A finite CI is present only for a
+    /// whole-spectrum cluster bootstrap with at least two nonempty independently generated spectra.
+    /// A deterministic q-grid has no sampling CI and reports zero independent spectra.</summary>
+    public readonly record struct CsrReading(
+        int ZCount,
+        double MeanAbs,
+        double MeanCos,
+        double CiLo,
+        double CiHi,
+        int IndependentSpectrumCount,
+        UncertaintySemantics Uncertainty);
 
     /// <summary>Upper-half-plane eigenvalues of the (SE,DE) block at (q, Δ), filtered to the chosen half.
     /// AT-locked = Re ∈ {−2, −6} (the absorption-theorem rungs, with frequencies inherited from the free-fermion XY Hamiltonian);
@@ -81,39 +98,40 @@ public static class IntegrabilityBreakingCsr
 
     /// <summary>The pooled per-spectrum z-values of the chosen half over the q-grid. Each spectrum first
     /// contributes one representative per finite-precision cluster under <see cref="ClusteringScope"/>.</summary>
-    private static List<Complex> PooledZ(int n, double delta, double[] qs, Half half, Domain domain)
-    {
-        var pool = new List<Complex>();
-        foreach (var q in qs) pool.AddRange(ComplexSpacingRatio.ZValues(HalfEigs(n, q, delta, half, domain)));
-        return pool;
-    }
+    private static IReadOnlyList<Complex>[] ZGrid(int n, double delta, double[] qs, Half half, Domain domain)
+        => qs.Select(q => (IReadOnlyList<Complex>)ComplexSpacingRatio.ZValues(
+            HalfEigs(n, q, delta, half, domain))).ToArray();
 
-    /// <summary>The pooled-z CSR of the chosen half at anisotropy Δ over the q-grid. Pass the CSR domain
+    /// <summary>The pooled-z CSR of the chosen half at anisotropy Δ over a fixed q-grid. This is a
+    /// deterministic descriptive sweep, not a random sample, so CiLo/CiHi are NaN. Pass the CSR domain
     /// valid for this Δ: UpperHalf at Δ=0 (conjugation-symmetric), OffReal at Δ≠0 (no symmetry).</summary>
     public static CsrReading Sweep(int n, double delta, double[] qs, Half half,
-        Domain domain = Domain.UpperHalf, int bootSeed = 1234)
-        => Reduce(PooledZ(n, delta, qs, half, domain), bootSeed);
+        Domain domain = Domain.UpperHalf)
+        => ReduceDeterministicGrid(ZGrid(n, delta, qs, half, domain));
 
     /// <summary>Stage 2: the random-field disorder-ensemble pooled CSR. For each of <paramref name="realizations"/>
     /// realizations draw a per-site field w_k ~ U[−w, w], build the (SE,DE) block at (q, Δ) + field, and pool
-    /// the chosen-half OffReal z-values across realizations. The random field breaks conjugation symmetry, so
-    /// OffReal is the valid domain; pooling z's across realizations is both the correct ensemble and the
-    /// large-sample source. At Δ=0 the random-field XY Hamiltonian is quadratic (1D Anderson, expected Poisson);
+    /// the chosen-half OffReal z-values across realizations. For w&gt;0 the 95% interval resamples these whole independent
+    /// spectra; z-values within one spectrum are not treated as independent. At w=0 repeated copies are one
+    /// deterministic spectrum and no sampling CI is reported. The random field breaks conjugation
+    /// symmetry, so OffReal is the valid domain. At Δ=0 the random-field XY Hamiltonian is quadratic (1D Anderson, expected Poisson);
     /// this does not make the dephasing Liouvillian a quadratic free-fermion generator. At Δ≠0 the Hamiltonian is
     /// interacting and disordered (the genuine non-integrability / MBL-ergodic test).</summary>
     public static CsrReading DisorderSweep(int n, double q, double delta, double w, int realizations, Half half, int seed)
     {
         var rng = new Random(seed);
-        var pool = new List<Complex>();
+        var spectra = new List<IReadOnlyList<Complex>>();
         for (int r = 0; r < realizations; r++)
         {
             var field = new double[n];
             for (int k = 0; k < n; k++) field[k] = (2 * rng.NextDouble() - 1) * w;        // U[−w, w]
             var block = XxzCoherenceBlock.BuildFullWithField(n, new Complex(q, 0), delta, field);
             var vals = Matrix<Complex>.Build.DenseOfArray(block).Evd().EigenValues;
-            pool.AddRange(ComplexSpacingRatio.ZValues(Filter(vals, half, Domain.OffReal)));
+            spectra.Add(ComplexSpacingRatio.ZValues(Filter(vals, half, Domain.OffReal)));
         }
-        return Reduce(pool, seed + 7919);
+        return w == 0.0
+            ? ReduceDeterministicGrid(spectra)
+            : ReduceIndependentSpectra(spectra, seed + 7919);
     }
 
     /// <summary>Per-q ⟨|z|⟩ of the chosen half (the stationarity check: confirm it is flat across q
@@ -131,42 +149,79 @@ public static class IntegrabilityBreakingCsr
     /// reference carries the SAME finite-size edge bias as the measurement.</summary>
     public static CsrReading PoissonReference(int size, int draws, int seed)
     {
-        var pool = new List<Complex>();
-        for (int d = 0; d < draws; d++) pool.AddRange(ComplexSpacingRatio.PoissonDiskZValues(size, seed + d));
-        return Reduce(pool, seed + 9973);
+        var spectra = new List<IReadOnlyList<Complex>>();
+        for (int d = 0; d < draws; d++) spectra.Add(ComplexSpacingRatio.PoissonDiskZValues(size, seed + d));
+        return ReduceIndependentSpectra(spectra, seed + 9973);
     }
 
     /// <summary>Finite-size-matched GinUE reference: pool the z's of <paramref name="draws"/> GinUE spectra
     /// of <paramref name="size"/> eigenvalues each.</summary>
     public static CsrReading GinueReference(int size, int draws, int seed)
     {
-        var pool = new List<Complex>();
-        for (int d = 0; d < draws; d++) pool.AddRange(ComplexSpacingRatio.GinueZValues(size, seed + d));
-        return Reduce(pool, seed + 9973);
+        var spectra = new List<IReadOnlyList<Complex>>();
+        for (int d = 0; d < draws; d++) spectra.Add(ComplexSpacingRatio.GinueZValues(size, seed + d));
+        return ReduceIndependentSpectra(spectra, seed + 9973);
     }
 
-    /// <summary>⟨|z|⟩, ⟨cos θ⟩ + a 95% bootstrap CI on ⟨|z|⟩ from a pooled z-list. Shared with
-    /// <see cref="FillingThresholdCsr"/> (the Door-C filling-threshold follow-up), the sibling CSR harness.</summary>
-    internal static CsrReading Reduce(IReadOnlyList<Complex> zs, int bootSeed, int bootstraps = 400)
+    internal static CsrReading ReduceDeterministicGrid(IReadOnlyList<IReadOnlyList<Complex>> spectra)
+        => ReducePooled(spectra, independentSpectrumCount: 0,
+            UncertaintySemantics.NoneDeterministicGrid, double.NaN, double.NaN);
+
+    /// <summary>Pool z-values for the point estimate, but bootstrap the independent spectrum clusters.
+    /// Empty filtered spectra contribute no statistic and are not counted as bootstrap units.</summary>
+    internal static CsrReading ReduceIndependentSpectra(
+        IReadOnlyList<IReadOnlyList<Complex>> spectra, int bootSeed, int bootstraps = 400)
     {
-        int nz = zs.Count;
-        if (nz == 0) return new CsrReading(0, double.NaN, double.NaN, double.NaN, double.NaN);
+        var nonempty = spectra.Where(s => s.Count > 0).ToArray();
+        if (nonempty.Length < 2)
+            return ReducePooled(nonempty, nonempty.Length,
+                UncertaintySemantics.InsufficientIndependentSpectra, double.NaN, double.NaN);
 
-        var abs = new double[nz];
-        double sumCos = 0;
-        for (int i = 0; i < nz; i++) { abs[i] = zs[i].Magnitude; sumCos += Math.Cos(zs[i].Phase); }
-        double meanAbs = abs.Average();
-        double meanCos = sumCos / nz;
-
-        var r = new Random(bootSeed);
+        var clusterSums = nonempty.Select(s => s.Sum(z => z.Magnitude)).ToArray();
+        var clusterCounts = nonempty.Select(s => s.Count).ToArray();
+        var rng = new Random(bootSeed);
         var boot = new double[bootstraps];
         for (int b = 0; b < bootstraps; b++)
         {
-            double s = 0;
-            for (int i = 0; i < nz; i++) s += abs[r.Next(nz)];
-            boot[b] = s / nz;
+            double sum = 0.0;
+            int count = 0;
+            for (int i = 0; i < nonempty.Length; i++)
+            {
+                int pick = rng.Next(nonempty.Length);
+                sum += clusterSums[pick];
+                count += clusterCounts[pick];
+            }
+            boot[b] = sum / count;
         }
         Array.Sort(boot);
-        return new CsrReading(nz, meanAbs, meanCos, boot[(int)(0.025 * bootstraps)], boot[(int)(0.975 * bootstraps)]);
+        return ReducePooled(nonempty, nonempty.Length,
+            UncertaintySemantics.SpectrumClusterBootstrap95,
+            boot[(int)(0.025 * bootstraps)], boot[(int)(0.975 * bootstraps)]);
+    }
+
+    private static CsrReading ReducePooled(
+        IReadOnlyList<IReadOnlyList<Complex>> spectra,
+        int independentSpectrumCount,
+        UncertaintySemantics uncertainty,
+        double ciLo,
+        double ciHi)
+    {
+        int nz = spectra.Sum(s => s.Count);
+        if (nz == 0)
+            return new CsrReading(0, double.NaN, double.NaN, double.NaN, double.NaN,
+                independentSpectrumCount, uncertainty);
+
+        double sumAbs = 0.0;
+        double sumCos = 0.0;
+        foreach (var spectrum in spectra)
+        {
+            foreach (var z in spectrum)
+            {
+                sumAbs += z.Magnitude;
+                sumCos += Math.Cos(z.Phase);
+            }
+        }
+        return new CsrReading(nz, sumAbs / nz, sumCos / nz, ciLo, ciHi,
+            independentSpectrumCount, uncertainty);
     }
 }

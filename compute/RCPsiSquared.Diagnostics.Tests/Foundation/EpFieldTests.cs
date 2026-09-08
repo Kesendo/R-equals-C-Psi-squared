@@ -82,4 +82,20 @@ public class EpFieldTests
         Assert.Contains("Rotation", json);
         Assert.Contains("defectiveness", json);
     }
+
+    [Fact]
+    public void HardwareChild_UsesCanonicalLindbladRateBook_WithoutSpectralVerdict()
+    {
+        var f = new EpField();
+        var hardware = Children(f).Single(c => c.DisplayName.Contains("hardware"));
+        var curve = Assert.IsType<InspectablePayload.Curve>(hardware.Payload);
+
+        Assert.Equal(new[] { 1.0, 2.0, 3.0, 5.0, 10.0, 40.0 }, curve.X);
+        Assert.Contains("Q_label", hardware.Summary);
+        Assert.Contains("Q_Lindblad = 2 Q_label", hardware.Summary);
+        Assert.Contains("spectral character remains open", hardware.Summary);
+        Assert.DoesNotContain("critical-damping", hardware.Summary, System.StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("same Q", hardware.Summary, System.StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("post-EP", f.Summary, System.StringComparison.OrdinalIgnoreCase);
+    }
 }

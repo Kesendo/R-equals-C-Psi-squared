@@ -517,7 +517,8 @@ public static class KnowledgeRegistryFactory
             // quadratic's discriminant zero, the cusp at b=½ where the rotation stills, the EP at
             // b=4γ₀ where it lifts off; the EP's F95 angle is bit-exact its clock Rotation). Our
             // state-space bridge name, sibling of the genuine F86 toy 2x2 EP. FRAGILE_BRIDGE's
-            // separate tracked axis departure has EP character OPEN and is not this quadratic. Parent F95.
+            // separate sampled spectral-abscissa axis departure has EP character OPEN and is not
+            // this quadratic; no branch continuation was executed. Parent F95.
             // Wired 2026-06-03.
             .RegisterTransitionBridgeF95SiblingClaim()
             // Crossover mirror = √(NinetyDegreeMirror): the local XZ+YZ / ZX+ZY mirror is the

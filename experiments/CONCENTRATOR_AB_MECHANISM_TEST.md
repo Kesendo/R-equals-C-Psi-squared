@@ -325,11 +325,11 @@ overdosed sink must do exactly what the hardware showed: create early,
 destroy at depth (post-flight note: this sentence reversed the pre-flight
 prediction of a monotone rise with no turnover; see the reckoning's
 signature post-mortem). The correct B-test flies AT the formula dose, and Tom's
-second catch makes the dose MACHINE-FREE: the repo already measured γ₀ on
-IBM (the April chain experiment, `data/ibm_chain_gamma0_april2026/`, and the
-Confirmation `gamma0_off_the_lever_kingston_may2026`: critical damping
-exactly at J = γ₀, the typed `UniversalCarrierClaim.DefaultGammaZero`
-= 0.05). In the circuit's own J-units (the Trotter step carries
+second catch makes the dose dimensionless once a model γ₀ is chosen. The
+repository uses the illustrative default γ₀=0.05; neither the April chain
+record nor the historical locator `gamma0_off_the_lever_kingston_may2026`
+measures that rate or certifies critical damping. In the circuit's own J-units
+(the Trotter step carries
 J·dt = θ/2 = 0.5), the target is a PURE NUMBER: γ_edge = N·γ₀ = 0.25,
 γ_step = γ_edge·(J·dt) = 0.125, per-step retention
 **r* = e^{−0.125} = 0.8825** (post-flight: this mapping dropped the Lindblad 2
@@ -356,8 +356,8 @@ per-step retention meets the γ₀ anchor: r(S) = 0.882497 = e^{−0.125},
 γ_step = N·γ₀·(J·dt) = 5 × 0.05 × 0.5 = 0.125000 exactly, machine-free
 (post-flight: this mapping dropped the Lindblad 2, so this run flew HALF the
 intended edge rate; caught in the RUN 3 pre-registration)
-(anchor: `UniversalCarrierClaim.DefaultGammaZero`, hardware-confirmed in
-`gamma0_off_the_lever_kingston_may2026` and `data/ibm_chain_gamma0_april2026/`).
+(illustrative model reference: `UniversalCarrierClaim.DefaultGammaZero`; the
+named hardware records do not calibrate it).
 The runner's dose knob was validated: S = 1 reproduces the ceiling paths
 bit-exactly; the scaled retention table is recorded per (t, step); the mild
 per-t retention variation and the S≠1 wrap-induced loss of exact negation

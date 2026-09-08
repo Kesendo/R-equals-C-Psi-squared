@@ -113,16 +113,17 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void Lookup_Gamma0OffTheLever_AnchorsTypedCarrierValue()
+    public void Lookup_Gamma0OffTheLever_IsFiniteGridResponseBracket_NotCarrierCalibration()
     {
-        // The first direct hardware read-off of γ₀ from its only lever J, anchoring the
-        // typed UniversalCarrierClaim.DefaultGammaZero = 0.05 on Kingston q13-q14.
         var entry = ConfirmationsRegistry.Lookup("gamma0_off_the_lever_kingston_may2026");
         Assert.NotNull(entry);
         Assert.Equal("ibm_kingston", entry!.Machine);
         Assert.Equal("2026-05-29", entry.Date);
-        Assert.Contains("DefaultGammaZero = 0.05", entry.PredictedValue);
-        Assert.Contains("frequency tracks J", entry.MeasuredValue);
+        Assert.Contains("finite-time transfer maximum", entry.PredictedValue);
+        Assert.Contains("brackets the observed overshoot change", entry.MeasuredValue);
+        Assert.Contains("does not isolate", entry.Description);
+        Assert.DoesNotContain("Confirms the typed", entry.Description);
+        Assert.DoesNotContain("hardware-anchored", entry.Description);
         Assert.Equal(new[] { 13, 14 }, entry.QubitPath);
         // Two confirmations now sit on Kingston q13-q14 (Block-CΨ saturation + this one).
         var onPath = ConfirmationsRegistry.ByPath(new[] { 13, 14 }).Select(c => c.Name).ToList();
@@ -131,20 +132,28 @@ public class ConfirmationsRegistryTests
     }
 
     [Fact]
-    public void Lookup_IbmEpOnset_AnchorsEpFieldHardwareTable()
+    public void Lookup_IbmEpOnset_RecordsRateBookAwarePopulationHandover()
     {
-        // The Kingston EP-onset run: the revival lifts off the 1/N floor as Q crosses
-        // Q_EP. This entry is the registry anchor for the hard-coded hardware table in
-        // Diagnostics/Foundation/EpField.cs (node 5, "the hardware").
+        // The historical slug is retained, but the result is a population handover in
+        // the runner's coherence-rate book, not a critical-damping or EP certificate.
         var entry = ConfirmationsRegistry.Lookup("ibm_ep_onset_may2026");
         Assert.NotNull(entry);
         Assert.Equal("ibm_kingston", entry!.Machine);
         Assert.Equal("2026-05-31", entry.Date);
         Assert.Contains("d8dr7dfd0j8c73f4man0", entry.JobId);
         Assert.Contains("d8drjbfd0j8c73f4mobg", entry.JobId);
-        Assert.Contains("1/N = 1/3 equipartition floor", entry.PredictedValue);
-        Assert.Contains("{0.30, 0.36, 0.34, 0.49, 0.56, 0.70}", entry.MeasuredValue);
-        Assert.Contains("ExceptionalPointClock", entry.FrameworkPrimitive);
+        Assert.Contains("1/N = 1/3 reference level", entry.PredictedValue);
+        Assert.Contains("0.28 → 0.84", entry.PredictedValue);
+        Assert.Contains("0.8417853730254796", entry.MeasuredValue);
+        Assert.Contains("{0.2978515625, 0.3623809814453125, 0.34356689453125, 0.4898834228515625, 0.560699462890625, 0.70330810546875}", entry.MeasuredValue);
+        Assert.Contains("Q_label", entry.MeasuredValue);
+        Assert.Contains("Q_Lindblad = 2 Q_label", entry.MeasuredValue);
+        Assert.Contains("spectral character remains open", entry.Description);
+        Assert.Contains("do not certify convergence", entry.Description);
+        Assert.Contains("without a gate/readout/leakage error model", entry.Description);
+        Assert.DoesNotContain("floor and the onset are clean", entry.Description, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("critical-damping", entry.PredictedValue, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("ExceptionalPointClock", entry.FrameworkPrimitive);
         Assert.Equal(new[] { 13, 14, 15 }, entry.QubitPath);
     }
 

@@ -11,15 +11,18 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// through six lenses plus the two-ray s* punchline. The C# home of the arc
 /// <c>birth_canal_surface</c> and of <c>simulations/birth_canal_boundary_pathdependence.py</c>.
 ///
-/// <para>Not a Claim: a live reading. The physics is the Absorption Theorem
-/// (<see cref="RCPsiSquared.Core.Symmetry.AbsorptionTheoremClaim"/>): rate = 2·Σ_l γ_l·light_l, so
-/// Deviation = rate(Q=1000) − rate(Q=1.5) reads the light-freeze. The reading is
+/// <para>Not a Claim: a live reading. Deviation is the spectral-edge rate at Q=2000 minus
+/// the spectral-edge rate at Q=3, so it probes rate-sterility vs rate drift. Separately, the
+/// Absorption Theorem (<see cref="RCPsiSquared.Core.Symmetry.AbsorptionTheoremClaim"/>) binds the
+/// selected tolerance-cluster's mean rate to 2·Σ_l γ_l·light_l; a light-freeze verdict requires
+/// the separately computed per-site light distribution. The reading is
 /// initial-state-independent (it reads L's slow subspace, not a trajectory from ρ₀) — do not
 /// "fix" it to depend on an initial state.</para>
 ///
 /// <para>R1 (the two sterility kinds): Deviation = 0 is necessary but not sufficient for
-/// light-freeze. At flat γ, rate = 2γ·(total light) is Q-invariant by uniformity alone, so the
-/// probe reads sterile whether or not the light drifts. Genuine freeze (peaked-V, robust, breaks at
+/// light-freeze. At flat γ, the cluster-mean absorption reading 2γ·(total light) is insensitive
+/// to redistribution at fixed total light; separately, the pinned spectral-edge probe is sterile.
+/// Genuine freeze (peaked-V, robust, breaks at
 /// s*=0.709) vs flat-γ distribution-blindness (uniform, fragile, breaks at s*=0.105). The mechanism
 /// and ray nodes tell the two kinds apart.</para>
 ///
@@ -37,8 +40,8 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
     // (w_edge, w_center) ≈ (0.25, 1.94) → (0.92, 1.05)).
     private const double EdgeLo = 0.2, EdgeHi = 1.0, CenterLo = 0.5, CenterHi = 3.0;
 
-    // M4: at the low probe Q an EP makes the eigenbasis singular and the light reading drift, which
-    // shows up as an absorption-residual blow-up. Above this, mask the point as EP-suspect.
+    // M4: a large low-probe absorption residual exposes numerical inconsistency in the selected
+    // subspace/eigendecomposition. It is masked, but never interpreted as an EP certificate.
     private const double AbsorptionResidualThreshold = 1e-3;
 
     public BirthCanalSurfaceWitness(int n = 5, int grid = 9)
@@ -56,16 +59,17 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
 
     /// <summary>One point of the surface: the coordinates, whether the bulk is positive, the
     /// Deviation = rate(Q_high) − rate(Q_low) (= <see cref="PostEpFlowField.BirthCanalDeviation"/>),
-    /// the canal verdict, the EP-suspect flag (M4), the max per-site light drift between the probes
+    /// the canal verdict, the numerical-conditioning flag (M4), the max per-site light drift between the probes
     /// (L2), and the two assembly readings (null when inadmissible).</summary>
     public sealed record SurfacePoint(
         double WEdge, double WCenter, bool Admissible,
-        double Deviation, bool IsCanal, bool EpSuspect, double DriftMax,
+        double Deviation, bool IsCanal, bool NumericalConditioningSuspect, double DriftMax,
         FlowAssemblyReading? Low, FlowAssemblyReading? High);
 
     /// <summary>Read one (w_edge, w_center) point through the per-point engine. Builds the profile,
     /// reads the assembly at both probe Q's via <see cref="PostEpFlowField.ReadAssembly"/>, and
-    /// derives Deviation (L1), the light drift (L2), the absorption residual (L3 / M4 EP-flag).
+    /// derives Deviation (L1), the light drift (L2), and the absorption residual
+    /// (L3 / M4 numerical-conditioning flag, not an EP certificate).
     /// Inadmissible points return Admissible=false with null readings.</summary>
     public SurfacePoint ReadPoint(double wEdge, double wCenter)
     {
@@ -86,11 +90,12 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
         for (int l = 0; l < N; l++)
             drift = Math.Max(drift, Math.Abs(hi.PerSiteLight[l] - lo.PerSiteLight[l]));
 
-        // M4: the low-probe absorption residual is the EP detector (the high probe's residual is
-        // dominated by ‖L‖ growth, not EP-conditioning, so it is not used here).
-        bool epSuspect = Math.Abs(lo.SlowestRate - lo.AbsorptionRate) > AbsorptionResidualThreshold;
+        // M4: the low-probe absorption residual is only a numerical-conditioning diagnostic.
+        // It is not an EP certificate: large residual can come from any ill-conditioned selected
+        // subspace/eigendecomposition. The high-probe residual is dominated by ‖L‖ growth.
+        bool conditioningSuspect = lo.AbsorptionResidual > AbsorptionResidualThreshold;
 
-        return new SurfacePoint(wEdge, wCenter, true, dev, isCanal, epSuspect, drift, lo, hi);
+        return new SurfacePoint(wEdge, wCenter, true, dev, isCanal, conditioningSuspect, drift, lo, hi);
     }
 
     public string DisplayName => $"BirthCanalSurfaceWitness (N={N}, chain, {GridK}x{GridK} grid)";
@@ -99,7 +104,7 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
         "the sterile<->birth-canal boundary as a live 2D slice of gamma-profile space " +
         "(symmetric profiles by w_edge x w_center, bulk solved by sum=N): the whole surface, not the " +
         "s*=0.709 line. Membership = PostEpFlowField.BirthCanalDeviation; mechanism = Absorption " +
-        "Theorem (rate = 2*sum gamma_l*light_l). Two sterility kinds: genuine freeze (robust) vs " +
+        "Theorem (cluster-mean rate = 2*sum gamma_l*light_l). Two sterility kinds: genuine freeze (robust) vs " +
         "flat-gamma blindness (fragile).";
 
     private SurfacePoint[,]? _grid;
@@ -128,7 +133,7 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
 
     /// <summary>The boundary curve, interpolated at grid resolution (M3 — not a quantitative
     /// coordinate source; the L7 bisections are). For each row, every adjacent admissible,
-    /// non-EP-suspect pair whose canal verdict flips contributes a crossing, linearly interpolated
+    /// numerically admissible pair whose canal verdict flips contributes a crossing, linearly interpolated
     /// on (|Deviation| − tolerance) (M2: all crossings per row, not just the first). Returns the
     /// w_edge crossings (X) and their w_center (Y).</summary>
     public (System.Collections.Generic.List<double> X, System.Collections.Generic.List<double> Y) BoundaryCurve()
@@ -141,7 +146,7 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
             {
                 var a = g[i, j];
                 var b = g[i, j + 1];
-                if (!a.Admissible || !b.Admissible || a.EpSuspect || b.EpSuspect) continue;
+                if (!a.Admissible || !b.Admissible || a.NumericalConditioningSuspect || b.NumericalConditioningSuspect) continue;
                 if (a.IsCanal == b.IsCanal) continue;
                 double fa = Math.Abs(a.Deviation) - PostEpFlowField.BirthCanalTolerance;
                 double fb = Math.Abs(b.Deviation) - PostEpFlowField.BirthCanalTolerance;
@@ -155,11 +160,11 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
     private InspectableNode TheSurfaceNode()
     {
         var g = Grid;
-        // Heatmap: |Deviation| over the box; inadmissible / EP-suspect cells -> NaN (rendered blank).
+        // Heatmap: |Deviation| over the box; inadmissible / conditioning-suspect cells -> NaN.
         var heat = ComplexMatrix.Build.Dense(GridK, GridK, (i, j) =>
         {
             var p = g[i, j];
-            return (p.Admissible && !p.EpSuspect)
+            return (p.Admissible && !p.NumericalConditioningSuspect)
                 ? new Complex(Math.Abs(p.Deviation), 0.0)
                 : new Complex(double.NaN, 0.0);
         });
@@ -172,8 +177,8 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
 
         var heatNode = new InspectableNode(
             displayName: "deviation heatmap",
-            summary: $"|rate(Q=1000) - rate(Q=1.5)| over (w_edge x w_center), {GridK}x{GridK}; " +
-                     "blank = inadmissible or EP-suspect (M4)",
+            summary: $"|rate(Q=2000) - rate(Q=3)| over (w_edge x w_center), {GridK}x{GridK}; " +
+                     "blank = inadmissible or numerically conditioning-suspect (M4)",
             payload: new InspectablePayload.MatrixView(
                 "|Deviation| (w_center rows x w_edge cols)", heat, rowLabels, colLabels));
 
@@ -213,27 +218,28 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
             summary: $"sterile, robust: light avoids the strong center (light[center]=" +
                      $"{freeze.Low!.PerSiteLight[2].ToString("0.000", Inv)}), drift " +
                      $"{freeze.DriftMax.ToString("0.0E0", Inv)} ~ 0; breaks only at s*=0.709",
-            payload: LightVector("light (peaked-V, Q=1.5)", freeze.Low!.PerSiteLight));
+            payload: LightVector("light (peaked-V, Q=3)", freeze.Low!.PerSiteLight));
 
         var blindNode = new InspectableNode("flat-gamma blindness (uniform)",
-            summary: $"sterile, FRAGILE: flat gamma makes rate = 2*gamma*total-light Q-invariant by " +
-                     $"uniformity alone (light flat {blind.Low!.PerSiteLight[0].ToString("0.00", Inv)} " +
-                     $"each), blind to spatial drift; breaks early at s*=0.105",
-            payload: LightVector("light (uniform, Q=1.5)", blind.Low!.PerSiteLight));
+            summary: $"sterile, FRAGILE: flat gamma makes the cluster-mean absorption reading " +
+                     $"2*gamma*total-light insensitive to redistribution; the separately sampled " +
+                     $"spectral edge is Q-flat (light flat {blind.Low!.PerSiteLight[0].ToString("0.00", Inv)} " +
+                     $"each); breaks early at s*=0.105",
+            payload: LightVector("light (uniform, Q=3)", blind.Low!.PerSiteLight));
 
         var canalNode = new InspectableNode("the canal (flat-bulk-edge)",
             summary: $"birth canal: light drifts {canal.DriftMax.ToString("0.000", Inv)} between the " +
                      $"probes; rate {canal.Low!.SlowestRate.ToString("0.000", Inv)} -> " +
                      $"{canal.High!.SlowestRate.ToString("0.000", Inv)}",
-            payload: LightVector("light (flat-bulk-edge, Q=1.5)", canal.Low!.PerSiteLight));
+            payload: LightVector("light (flat-bulk-edge, Q=3)", canal.Low!.PerSiteLight));
 
         return new InspectableNode("the mechanism",
             summary: "two sterility kinds (R1): genuine light-freeze (robust) vs flat-gamma " +
                      "distribution-blindness (fragile). Deviation=0 is necessary but not sufficient " +
                      "for light-freeze; the L7 ray node proves the split (0.709 vs 0.105). Absorption " +
-                     $"residual ~0 throughout (L3): freeze " +
-                     $"{Math.Abs(freeze.Low!.SlowestRate - freeze.Low!.AbsorptionRate).ToString("0.0E0", Inv)}, " +
-                     $"canal {Math.Abs(canal.Low!.SlowestRate - canal.Low!.AbsorptionRate).ToString("0.0E0", Inv)}.",
+                      $"residual ~0 throughout (L3, cluster mean vs Absorption): freeze " +
+                      $"{freeze.Low!.AbsorptionResidual.ToString("0.0E0", Inv)}, " +
+                      $"canal {canal.Low!.AbsorptionResidual.ToString("0.0E0", Inv)}.",
             children: new IInspectable[] { freezeNode, blindNode, canalNode });
     }
 
@@ -242,21 +248,27 @@ public sealed class BirthCanalSurfaceWitness : IInspectable
     private InspectableNode APointEveryLensNode()
     {
         var p = ReadPoint(0.25, 1.5);   // the flat-bulk-edge canal point
+        string parity = p.Low!.Parity switch
+        {
+            RCPsiSquared.Diagnostics.Ptf.SlowLightParity.Odd => "odd: number-changing birth rail",
+            RCPsiSquared.Diagnostics.Ptf.SlowLightParity.Even => "even: number-conserving flow rail",
+            _ => "mixed: both parity sectors in the slow-rate cluster",
+        };
         var kids = new List<IInspectable>
         {
             InspectableNode.RealScalar("L1 deviation", p.Deviation, "0.0000"),
             new InspectableNode("L2 light + drift",
-                summary: $"max per-site drift {p.DriftMax.ToString("0.000", Inv)} (Q=1.5 -> Q=1000)",
-                payload: LightVector("light (Q=1.5)", p.Low!.PerSiteLight)),
+                summary: $"max per-site drift {p.DriftMax.ToString("0.000", Inv)} (Q=3 -> Q=2000)",
+                payload: LightVector("light (Q=3)", p.Low!.PerSiteLight)),
             InspectableNode.RealScalar("L3 absorption residual",
-                Math.Abs(p.Low!.SlowestRate - p.Low!.AbsorptionRate), "0.0E0"),
+                p.Low!.AbsorptionResidual, "0.0E0"),
             new InspectableNode("L4 rate",
-                summary: $"rate(Q=1.5) {p.Low!.SlowestRate.ToString("0.0000", Inv)} -> " +
-                         $"rate(Q=1000) {p.High!.SlowestRate.ToString("0.0000", Inv)}"),
+                summary: $"rate(Q=3) {p.Low!.SlowestRate.ToString("0.0000", Inv)} -> " +
+                         $"rate(Q=2000) {p.High!.SlowestRate.ToString("0.0000", Inv)}"),
             new InspectableNode("L5 parity rail",
-                summary: $"rung {p.Low!.Rung} ({(p.Low!.OnBirthRail ? "odd: number-changing birth rail" : "even: number-conserving flow rail")}), " +
-                         $"ceiling {p.Low!.MaxSaturationCeiling.ToString("0.##", Inv)}"),
-            InspectableNode.RealScalar("L6 degeneracy", p.Low!.Degeneracy),
+                summary: $"projector support {parity}; rung {(p.Low.Rung?.ToString() ?? "undefined")}, " +
+                          $"ceiling {p.Low!.MaxSaturationCeiling.ToString("0.##", Inv)}"),
+            InspectableNode.RealScalar("L6 tolerance-cluster dimension", p.Low!.SlowClusterDimension),
         };
         return new InspectableNode("a point, every lens",
             summary: $"the canal point (w_edge=0.25, w_center=1.5) read through L1-L6 on one live " +

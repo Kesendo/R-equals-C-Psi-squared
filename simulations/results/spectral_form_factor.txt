@@ -1,6 +1,6 @@
 ========================================================================
 SPECTRAL FORM FACTOR OF THE PALINDROMIC LIOUVILLIAN
-Started: 2026-09-08 03:08:13
+Started: 2026-09-08 06:58:58
 ========================================================================
 
 ========================================================================
@@ -21,43 +21,43 @@ PHASE 2: SPECTRAL FORM FACTOR
   N=2 (16 eigenvalues, 0.0s):
     Raw multiset mean adjacent gap = 0.0003
     Raw multiset density scale = 25128.81
-    ω_min (slowest)  = 4.0000
-    t_Π (palindromic) = 1.57
+    ω_F2 ((0,1)-block k=1 reference) = 4.0000
+    t_Π (period of that F1-paired trace-amplitude term) = 1.57
     K_freq range: [6.2500e-02, 1.0000]
 
   N=3 (64 eigenvalues, 0.0s):
     Raw multiset mean adjacent gap = 0.1026
     Raw multiset density scale = 61.26
-    ω_min (slowest)  = 2.0000
-    t_Π (palindromic) = 3.14
+    ω_F2 ((0,1)-block k=1 reference) = 2.0000
+    t_Π (period of that F1-paired trace-amplitude term) = 3.14
     K_freq range: [4.5490e-12, 1.0000]
 
   N=4 (256 eigenvalues, 0.0s):
     Raw multiset mean adjacent gap = 0.0453
     Raw multiset density scale = 138.76
-    ω_min (slowest)  = 1.1716
-    t_Π (palindromic) = 5.36
+    ω_F2 ((0,1)-block k=1 reference) = 1.1716
+    t_Π (period of that F1-paired trace-amplitude term) = 5.36
     K_freq range: [2.4408e-07, 1.0000]
 
   N=5 (1024 eigenvalues, 0.0s):
     Raw multiset mean adjacent gap = 0.0126
     Raw multiset density scale = 497.33
-    ω_min (slowest)  = 0.7639
-    t_Π (palindromic) = 8.22
+    ω_F2 ((0,1)-block k=1 reference) = 0.7639
+    t_Π (period of that F1-paired trace-amplitude term) = 8.22
     K_freq range: [1.5273e-08, 1.0000]
 
   N=6 (4096 eigenvalues, 0.2s):
     Raw multiset mean adjacent gap = 0.0038
     Raw multiset density scale = 1649.44
-    ω_min (slowest)  = 0.5359
-    t_Π (palindromic) = 11.72
+    ω_F2 ((0,1)-block k=1 reference) = 0.5359
+    t_Π (period of that F1-paired trace-amplitude term) = 11.72
     K_freq range: [4.2834e-10, 1.0000]
 
   N=7 (16384 eigenvalues, 0.6s):
     Raw multiset mean adjacent gap = 0.0011
     Raw multiset density scale = 5810.10
-    ω_min (slowest)  = 0.3961
-    t_Π (palindromic) = 15.86
+    ω_F2 ((0,1)-block k=1 reference) = 0.3961
+    t_Π (period of that F1-paired trace-amplitude term) = 15.86
     K_freq range: [1.0952e-10, 1.0000]
 
 
@@ -69,45 +69,45 @@ PHASE 3: PALINDROMIC MODULATION
   The SFF squares that sum, producing doubled and cross frequencies.
 
   N=2:
-    ω_min (predicted) = 4.0000
+    ω_F2 ((0,1)-block k=1 reference) = 4.0000
     Top 3 FFT peaks:   ['3.9980', '7.9960', '4.0780']
-    Best match to ω_min:  3.9980 (err 0.1%)
-    Best match to 2ω_min: 7.9960 (err 0.1%)
+    Best match to ω_F2:  3.9980 (err 0.1%)
+    Best match to 2ω_F2: 7.9960 (err 0.1%)
     Modulation visibility: 0.7182
 
   N=3:
-    ω_min (predicted) = 2.0000
+    ω_F2 ((0,1)-block k=1 reference) = 2.0000
     Top 3 FFT peaks:   ['1.9990', '5.9970', '3.9980']
-    Best match to ω_min:  1.9990 (err 0.1%)
-    Best match to 2ω_min: 3.9980 (err 0.1%)
+    Best match to ω_F2:  1.9990 (err 0.1%)
+    Best match to 2ω_F2: 3.9980 (err 0.1%)
     Modulation visibility: 0.2319
 
   N=4:
-    ω_min (predicted) = 1.1716
+    ω_F2 ((0,1)-block k=1 reference) = 1.1716
     Top 3 FFT peaks:   ['2.8260', '3.9878', '1.1618']
-    Best match to ω_min:  1.1618 (err 0.8%)
-    Best match to 2ω_min: 2.8260 (err 20.6%)
+    Best match to ω_F2:  1.1618 (err 0.8%)
+    Best match to 2ω_F2: 2.8260 (err 20.6%)
     Modulation visibility: 0.0422
 
   N=5:
-    ω_min (predicted) = 0.7639
+    ω_F2 ((0,1)-block k=1 reference) = 0.7639
     Top 3 FFT peaks:   ['2.0096', '2.7632', '6.4684']
-    Best match to ω_min:  2.0096 (err 163.1%)
-    Best match to 2ω_min: 2.0096 (err 31.5%)
+    Best match to ω_F2:  2.0096 (err 163.1%)
+    Best match to 2ω_F2: 2.0096 (err 31.5%)
     Modulation visibility: 0.0131
 
   N=6:
-    ω_min (predicted) = 0.5359
+    ω_F2 ((0,1)-block k=1 reference) = 0.5359
     Top 3 FFT peaks:   ['2.0096', '0.5338', '5.4636']
-    Best match to ω_min:  0.5338 (err 0.4%)
-    Best match to 2ω_min: 1.4758 (err 37.7%)
+    Best match to ω_F2:  0.5338 (err 0.4%)
+    Best match to 2ω_F2: 1.4758 (err 37.7%)
     Modulation visibility: 0.0074
 
   N=7:
-    ω_min (predicted) = 0.3961
+    ω_F2 ((0,1)-block k=1 reference) = 0.3961
     Top 3 FFT peaks:   ['3.3912', '1.8212', '4.4902']
-    Best match to ω_min:  0.8478 (err 114.0%)
-    Best match to 2ω_min: 0.8478 (err 7.0%)
+    Best match to ω_F2:  0.8478 (err 114.0%)
+    Best match to 2ω_F2: 0.8478 (err 7.0%)
     Modulation visibility: 0.0024
 
 
@@ -180,7 +180,7 @@ PHASE 5: BAND-RESOLVED SFF (N=3, 4, 5)
     average-light bin centre=3: 35 eigenvalues, <K>=0.1635, std=0.2277, min=6.8480e-06
     average-light bin centre=4: 5 eigenvalues, <K>=1.0000, std=0.0000, min=1.0000e+00
 
-  N=5 (1024 eigenvalues, 2.8s):
+  N=5 (1024 eigenvalues, 2.6s):
     average-light bin centre=1: 28 eigenvalues, <K>=0.2271, std=0.1864, min=4.1380e-05
     average-light bin centre=2: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
     average-light bin centre=3: 478 eigenvalues, <K>=0.0234, std=0.0639, min=6.6019e-09
@@ -192,7 +192,7 @@ PHASE 5: BAND-RESOLVED SFF (N=3, 4, 5)
 PHASE 6: TIMESCALES
 ========================================================================
 
-    N       t_Π   raw scale   t_Π/scale     ω_min   raw gap
+    N       t_Π   raw scale   t_Π/scale      ω_F2   raw gap
   ───────────────────────────────────────────────────────
     2      1.57    25128.81      0.0001    4.0000    0.0003
     3      3.14       61.26      0.0513    2.0000    0.1026
@@ -201,7 +201,8 @@ PHASE 6: TIMESCALES
     6     11.72     1649.44      0.0071    0.5359    0.0038
     7     15.86     5810.10      0.0027    0.3961    0.0011
 
-  t_Π = 2π/ω_min (full period of the slowest pair's trace-amplitude term)
+  t_Π = 2π/ω_F2 (full period of the (0,1)-block k=1 reference pair's trace-amplitude term)
+  ω_F2 is not asserted to be the smallest nonzero frequency of the full spectrum.
   Raw multiset density scale = 2*pi / raw mean adjacent gap; multiplicity-dependent.
   Its ratio to t_Π is descriptive and does not define a physical time-regime boundary.
 
@@ -222,8 +223,8 @@ PHASE 7: CONNECTION TO PREVIOUS RESULTS
   independent of localization (it measures spectral correlations,
   not spatial profiles).
 
-  Analytical formulas: ω_min = 4J(1-cos(π/N)) (formula 2, k=1).
-  A sampled FFT candidate is associated with omega_min at N=2-4 and N=6;
+  Analytical formulas: ω_F2 = 4J(1-cos(π/N)) (formula 2, (0,1)-block k=1).
+  A sampled FFT candidate is associated with this block reference at N=2-4 and N=6;
   it is not identified at N=5 or N=7 and does not prove the dispersion.
 
 
@@ -239,5 +240,5 @@ SUMMARY
   The pair contributes 2*cos(omega*t) to the trace amplitude, not directly to the SFF.
   Squaring the trace amplitude generates doubled and cross frequencies.
 
-Completed: 2026-09-08 03:08:17
+Completed: 2026-09-08 06:59:01
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\spectral_form_factor.txt

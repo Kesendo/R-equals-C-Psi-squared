@@ -8,7 +8,7 @@ crossing: the canal opens when the center dephasing drops low enough that the Ha
 light through it and the slow mode's spatial light starts to drift with Q).
 
 RESULT (2026-06-04, N=5): s* is PATH-SPECIFIC, not a constant.
-  path                     s*       center g2   rate@1.5
+  path                     s*       center g2   rate@Q=3
   peaked-V -> flat-bulk    0.70921  1.936       1.532
   uniform  -> flat-bulk    0.10526  1.053       1.930
   peaked-V -> wide-flat    0.76653  1.774       1.613
@@ -52,7 +52,7 @@ def H_xy_unit(N):
 def slowest(N, Q, profile, H1):
     d = 2 ** N
     Id = np.eye(d)
-    L = -1j * Q * (np.kron(Id, H1) - np.kron(H1.T, Id))
+    L = -1j * (Q / 2.0) * (np.kron(Id, H1) - np.kron(H1.T, Id))
     for l in range(N):
         Zl = op_at(N, l, Z)
         L += profile[l] * (np.kron(Zl, Zl) - np.kron(Id, Id))
@@ -61,7 +61,7 @@ def slowest(N, Q, profile, H1):
 
 
 def delta(N, profile, H1):
-    return slowest(N, 1000.0, profile, H1) - slowest(N, 1.5, profile, H1)
+    return slowest(N, 2000.0, profile, H1) - slowest(N, 3.0, profile, H1)
 
 
 def prof(N, p0, p1, s):
@@ -91,7 +91,7 @@ def main():
         ("uniform  -> wide-flat",            [1.0, 1.0, 1.0, 1.0, 1.0],     [0.4, 1.4, 1.4, 1.4, 0.4]),
     ]
     print(f"N={N}.  Is s* path-specific?  And is the center gamma at the boundary more stable?\n")
-    print(f"  {'path':<34} {'s*':>8} {'center g2':>10} {'bulk g1':>9} {'rate@1.5':>9}")
+    print(f"  {'path':<34} {'s*':>8} {'center g2':>10} {'bulk g1':>9} {'rate@Q=3':>9}")
     for name, p0, p1 in paths:
         # confirm endpoints: p0 sterile, p1 canal
         d0 = abs(delta(N, prof(N, p0, p1, 0.0), H1))
@@ -100,7 +100,7 @@ def main():
             print(f"  {name:<34}  (endpoints not sterile->canal: d0={d0:.1e}, d1={d1:.1e}, skipped)")
             continue
         s_star, p_star = find_star(N, p0, p1, H1)
-        rate = slowest(N, 1.5, p_star, H1)
+        rate = slowest(N, 3.0, p_star, H1)
         print(f"  {name:<34} {s_star:>8.5f} {p_star[2]:>10.5f} {p_star[1]:>9.5f} {rate:>9.5f}")
 
     print("\n  reading: if s* varies across paths but center-g2 (or rate) clusters, the threshold")

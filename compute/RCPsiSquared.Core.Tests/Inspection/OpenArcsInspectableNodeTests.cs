@@ -61,7 +61,7 @@ public class OpenArcsInspectableNodeTests
                                                         // +corner_beat (2026-08-19, PARKED by Tom
                                                         //   before submission; the arc records the
                                                         //   wake-up condition, not a closure),
-                                                        // +gamma_book_enforced_nowhere (2026-08-18),
+                                                        // +gamma_book_enforcement_boundary (2026-08-18),
                                                         // +compressed_density_laws (2026-08-15),
                                                         // +f_registry_meets_the_typed_layer (2026-08-13,
                                                         //   a0feaba opened the arc and did not move this

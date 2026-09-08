@@ -21,9 +21,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>GinUE is retained only as a comparison ensemble. Unequal weight (p,p+1) means the known F1 map leaves
 /// the block, and <see cref="ConjugationMatchFraction"/> can show that one bare conjugation relation is absent.
 /// Neither fact exhausts the unitary/antiunitary algebra after irreducible strong-symmetry reduction, so the
-/// sector's full SRP class remains open. Methodology inherited
-/// from the Door-C harness: pool per-spectrum z's (never raw eigenvalues), bootstrap the CI (shared
-/// <see cref="IntegrabilityBreakingCsr.Reduce"/>), and read in the OffReal domain (|Im| &gt; tol) for a
+/// sector's full SRP class remains open. Methodology inherited from the Door-C harness: pool
+/// per-spectrum z's (never raw eigenvalues), cluster-bootstrap whole independent disorder realizations,
+/// treat a fixed q-grid as descriptive with no sampling CI, and read in the OffReal domain (|Im| &gt; tol) for a
 /// like-for-like comparison with the complex GinUE cloud. Every spectrum contributes finite-precision cluster representatives,
 /// one per 1e-9 rounded cluster; the resulting CSR and count are tolerance-dependent and not an exact degeneracy census.</para></summary>
 public static class FillingThresholdCsr
@@ -54,15 +54,15 @@ public static class FillingThresholdCsr
 
     /// <summary>The disorder-ensemble pooled CSR of the (wKet,wBra) block at (q, Δ). For each of
     /// <paramref name="realizations"/> realizations draw a per-site field w_k ~ U[−w, w], build the block with that
-    /// field, and pool the OffReal per-spectrum z's after finite-precision clustering; bootstrap a 95% CI.
-    /// w=0 is deterministic (the clean block, every
-    /// realization identical). At Δ=0 the disordered XY Hamiltonian is quadratic/Anderson-like; this is not a
+    /// field, and pool the OffReal per-spectrum z's after finite-precision clustering; the 95% interval
+    /// resamples whole spectra, not the correlated ratios inside them. w=0 is deterministic (the clean block, every
+    /// realization identical), so repeated copies report no sampling CI. At Δ=0 the disordered XY Hamiltonian is quadratic/Anderson-like; this is not a
     /// quadratic-Liouvillian claim. At Δ≠0 the Hamiltonian is interacting and disordered.</summary>
     public static IntegrabilityBreakingCsr.CsrReading DisorderSweep(
         int n, int wKet, int wBra, double q, double delta, double w, int realizations, int seed)
     {
         var rng = new Random(seed);
-        var pool = new List<Complex>();
+        var spectra = new List<IReadOnlyList<Complex>>();
         for (int r = 0; r < realizations; r++)
         {
             double[]? field = null;
@@ -71,20 +71,23 @@ public static class FillingThresholdCsr
                 field = new double[n];
                 for (int k = 0; k < n; k++) field[k] = (2 * rng.NextDouble() - 1) * w;   // U[−w, w]
             }
-            pool.AddRange(ComplexSpacingRatio.ZValues(OffRealSpectrum(n, wKet, wBra, q, delta, field)));
+            spectra.Add(ComplexSpacingRatio.ZValues(OffRealSpectrum(n, wKet, wBra, q, delta, field)));
         }
-        return IntegrabilityBreakingCsr.Reduce(pool, seed + 7919);
+        return w == 0.0
+            ? IntegrabilityBreakingCsr.ReduceDeterministicGrid(spectra)
+            : IntegrabilityBreakingCsr.ReduceIndependentSpectra(spectra, seed + 7919);
     }
 
     /// <summary>The clean (disorder-free) pooled CSR of the (wKet,wBra) block at Δ, pooled over the q-grid. The
     /// integrable/no-disorder control: at Δ=0 the underlying XY Hamiltonian is free-fermion; at Δ≠0 the Hamiltonian
-    /// is Bethe-integrable. Neither statement classifies the Z-dephasing Liouvillian as free-fermion. OffReal throughout.</summary>
+    /// is Bethe-integrable. Neither statement classifies the Z-dephasing Liouvillian as free-fermion.
+    /// The q-grid is deterministic, so this method reports no sampling CI. OffReal throughout.</summary>
     public static IntegrabilityBreakingCsr.CsrReading CleanSweep(int n, int wKet, int wBra, double[] qs, double delta)
     {
-        var pool = new List<Complex>();
+        var spectra = new List<IReadOnlyList<Complex>>();
         foreach (var q in qs)
-            pool.AddRange(ComplexSpacingRatio.ZValues(OffRealSpectrum(n, wKet, wBra, q, delta, null)));
-        return IntegrabilityBreakingCsr.Reduce(pool, 13337);
+            spectra.Add(ComplexSpacingRatio.ZValues(OffRealSpectrum(n, wKet, wBra, q, delta, null)));
+        return IntegrabilityBreakingCsr.ReduceDeterministicGrid(spectra);
     }
 
     /// <summary>The fraction of eigenvalues λ whose conjugate λ* is also in the spectrum (within tol). ≈ 1 ⟹

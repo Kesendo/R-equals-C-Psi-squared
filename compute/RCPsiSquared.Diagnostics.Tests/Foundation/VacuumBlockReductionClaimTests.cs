@@ -56,21 +56,21 @@ public class VacuumBlockReductionClaimTests
         // the claim's banked rates are the SectorReductionWitness numbers, pinned here directly.
         var canal = new[] { 0.25, 1.5, 1.5, 1.5, 0.25 };
         Assert.Equal(1.2482918643729715,
-            SectorReductionWitness.VacBlockSlowest(5, 1.5, canal, TopologyKind.Chain), 6);
+            SectorReductionWitness.VacBlockSlowest(5, 3.0, canal, TopologyKind.Chain), 6);
         Assert.Equal(4.0 / 3.0,
-            SectorReductionWitness.VacBlockSlowest(5, 1000.0, canal, TopologyKind.Chain), 5);
+            SectorReductionWitness.VacBlockSlowest(5, 2000.0, canal, TopologyKind.Chain), 5);
     }
 
     [Fact]
     public void Claim_FlatGammaBlindness_IsAnalyticAtEveryN()
     {
-        // DERIVED: at uniform gamma, L_(1,0) = -iQ h - 2 gamma I, -iQh anti-Hermitian -> Re = -2 gamma,
+        // DERIVED: at uniform gamma, L_(1,0) = -i(Q/2)h - 2 gamma I -> Re = -2 gamma,
         // Q-invariant. The claim asserts this analytic blindness; checked here past N=5.
         foreach (int n in new[] { 5, 6 })
         {
             var uni = System.Linq.Enumerable.Repeat(1.0, n).ToArray();
-            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 1.5, uni, TopologyKind.Chain), 9);
-            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 1000.0, uni, TopologyKind.Chain), 9);
+            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 3.0, uni, TopologyKind.Chain), 9);
+            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 2000.0, uni, TopologyKind.Chain), 9);
         }
     }
 

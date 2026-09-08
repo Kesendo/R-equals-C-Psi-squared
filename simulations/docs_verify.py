@@ -617,12 +617,15 @@ def verify_csr_producer_and_crossover_current_truth():
     shared_csr_surfaces = {
         "compute/RCPsiSquared.Core/Numerics/ComplexSpacingRatio.cs": (
             "ClusterDecimals = 9", "finite-precision cluster", "tolerance-dependent",
-            "not an exact degeneracy"),
+            "not an exact degeneracy", "canonically ordered rounded",
+            "OrderBy(key => key.Item1).ThenBy(key => key.Item2)",
+            "new Complex(key.Item1 / scale, key.Item2 / scale)"),
         "compute/RCPsiSquared.Diagnostics/Foundation/GaloisSpectralChaosWitness.cs": (
             "finite-precision cluster representatives", "tolerance-dependent",
             "not an exact degeneracy census"),
     }
-    shared_forbidden = ("distinct spectrum", "distinct-point count", "distinct points/q")
+    shared_forbidden = ("distinct spectrum", "distinct-point count", "distinct points/q",
+                        "pts.Add(p)")
     for path, required in shared_csr_surfaces.items():
         source = (root / path).read_text(encoding="utf-8")
 
@@ -654,15 +657,15 @@ def verify_sff_windows_and_current_boundaries():
     sff_doc = (root / "experiments/SPECTRAL_FORM_FACTOR.md").read_text(encoding="utf-8")
 
     def asymptotic_matches_dispersion(text):
-        matches = re.findall(r"ω_min\s*~\s*(\d*)J?π²/N²", text)
+        matches = re.findall(r"ω_F2\s*~\s*(\d*)J?π²/N²", text)
         return len(matches) == 1 and sp.Integer(matches[0] or "1") == coefficient
 
     check("SFF asymptotic coefficient equals exact dispersion Taylor coefficient",
           asymptotic_matches_dispersion(sff_doc))
     check("SFF asymptotic rejects half coefficient with J",
-          not asymptotic_matches_dispersion("ω_min ~ Jπ²/N²"))
+          not asymptotic_matches_dispersion("ω_F2 ~ Jπ²/N²"))
     check("SFF asymptotic rejects half coefficient at J=1",
-          not asymptotic_matches_dispersion("ω_min ~ π²/N²"))
+          not asymptotic_matches_dispersion("ω_F2 ~ π²/N²"))
     check("SFF asymptotic rejects missing coefficient formula",
           not asymptotic_matches_dispersion("t_Π grows as N²"))
     surfaces = {
@@ -673,20 +676,23 @@ def verify_sff_windows_and_current_boundaries():
             "raw non-unfolded frequency SFF", "1/M", "not sampled", "reached window",
             "not a universality-class proof", "only this raw oscillation-frequency SFF",
             "physical Liouvillian propagation would involve", "requires a specified ensemble or averaging prescription",
-            "raw multiset density scale", "multiplicity-dependent", "N=4 third", "N=6 second", "N=7 has no match", "114%"),
+            "raw multiset density scale", "multiplicity-dependent", "N=4 third", "N=6 second", "N=7 has no match", "114%",
+            "(0,1)-block k=1 reference", "not the smallest nonzero frequency of the full spectrum"),
         "experiments/README.md": ("raw non-unfolded frequency SFF", "reached window", "not a universality-class proof", "raw multiset density scale"),
         "experiments/RANDOM_MATRIX_THEORY.md": ("cannot classify universality",),
         "docs/outbound/SHIFTED_ORDER4_CHIRAL_SYMMETRY.md": ("measured finite-N contrast", "convergence is a proposed extension"),
         "simulations/spectral_form_factor.py": ("independent_phase_reference", "format_sample", "raw non-unfolded frequency SFF",
                                                 "2*cos", "doubled and cross frequencies",
                                                 "raw multiset density scale", "multiplicity-dependent", "RCPSI_SFF_OUTPUT_PATH", "raw_multiset_density_scale(ev)",
-                                                "Only the raw oscillation-frequency SFF is computed", "no decay-weighted or connected estimator is defined"),
+                                                "Only the raw oscillation-frequency SFF is computed", "no decay-weighted or connected estimator is defined",
+                                                "(0,1)-block k=1 reference", "not asserted to be the smallest nonzero frequency of the full spectrum"),
         "simulations/sff_window_summary.py": ("def sff_frequency", "def raw_multiset_density_scale", "multiplicity-dependent"),
         "simulations/results/spectral_form_factor.txt": (
             "independent-phase reference 1/M", "not sampled", "reached window", "not classifiable",
             "2*cos", "doubled and cross frequencies",
             "raw multiset density scale", "multiplicity-dependent",
-            "Only the raw oscillation-frequency SFF is computed", "no decay-weighted or connected estimator is defined"),
+            "Only the raw oscillation-frequency SFF is computed", "no decay-weighted or connected estimator is defined",
+            "(0,1)-block k=1 reference", "not asserted to be the smallest nonzero frequency of the full spectrum"),
     }
     arc = (root / "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs").read_text(encoding="utf-8")
     entry = arc.split('Name: "f89_galois_open_doors"', 1)[1].split("new OpenArc(", 1)[0]
@@ -708,6 +714,7 @@ def verify_sff_windows_and_current_boundaries():
                  "t_H", "Heisenberg time", "t_Th", "Thouless-time estimate",
                  "structurally Poisson", "neither standard Poisson nor GUE",
                  "dominant FFT peak matches", "ω_min peak is present", "first sampled exceedance",
+                 "ω_min (slowest)", "slowest pair's trace-amplitude term",
                  "def sff_dissipative", "def sff_connected", "K_diss", "overflow/NaN")
     for path, required in surfaces.items():
         source = current if path == arc_label else (root / path).read_text(encoding="utf-8")
@@ -810,8 +817,12 @@ def f44_ordered_pair_api_errors(source):
 
 def mirrorworld_f44_ordered_pair_api_errors(source):
     errors = []
-    for token in ("!double.IsFinite(sg)", "sg <= 0.0", "!double.IsFinite(deltaD)",
-                  "deltaD < 0.0", "deltaD / sg >= 2.0"):
+    for token in ("ValidateF44PositivePalindromicPair(dFast, dSlow, sg);",
+                  "!double.IsFinite(sg)", "sg <= 0.0",
+                  "!double.IsFinite(dFast)", "dFast <= 0.0",
+                  "!double.IsFinite(dSlow)", "dSlow <= 0.0",
+                  "Math.Abs(dFast / scale + dSlow / scale - 2.0 * (sg / scale))",
+                  "!double.IsFinite(argument)", "argument >= 1.0"):
         if token not in source:
             errors.append(f"MirrorWorld F44 domain guard missing {token}")
     return errors
@@ -963,12 +974,12 @@ def verify_task8_current_truth():
         "docs/KMS_DETAILED_BALANCE.md": ((
             "No global AIII, BDI, or CI label is assigned here", "irreducible-sector classification remains open",
             "SRP applies negative symmetries to the trace-shifted generator",
+            "Prior-art coverage and equivalence for that interacting, locality-resolved scope remain OPEN",
+            "not an ownership, independence, priority, or novelty claim",
             "Strict GNS/KMS symmetry of the full generator",
             "Alicki/standard QDB permits a separate Hamiltonian derivation",
             "only the dissipative part is self-adjoint",
             "does not force the full generator to have a real spectrum",
-            "Whether that interacting and locality-resolved extension has prior art",
-            "its equivalence to known constructions remain OPEN",
             "For a QDB dissipative semigroup with no unitary part",
             "equal to its Petz recovery map",
             "With an additional commuting unitary part",
@@ -978,8 +989,16 @@ def verify_task8_current_truth():
              "QDB relates L to its adjoint L† (real eigenvalues)",
              "What QDB implies spectrally: all eigenvalues of L are real",
              "what stays ours", "are the new part",
+             "new variant of known framework", "We built this", "with no literature input",
+             "reached independently", "recognized afterward", "Ours works",
              "showed that quantum detailed balance is equivalent to the Petz recovery map",
              "QDB = Petz recovery map being exact channel reversal")),
+        "simulations/universal_carrier_demo.py": ((
+            "fixed Q=J/gamma=20", "J=2.0, gamma_0=gamma_10",
+            "γ-only sweep at fixed J", "not this scaling identity",
+            "joint J,γ scaling"),
+            ("J=1.0, gamma_0=gamma_10", "abs(closest - pred) < 1e-4",
+             "What scales: γ alone", "dimensionless n_XY values: γ-invariant")),
         "docs/THE_INTERPRETATION.md": (("sqrt(p_x) Π", "remaining sectorwise algebra", "class label, is OPEN",
             "do not prove integrability"), ("the global Liouvillian is class AIII",)),
         "experiments/README.md": (("full irreducible-sector SRP class is OPEN",
@@ -1683,6 +1702,9 @@ def verify_round4_artifacts_and_consumers():
             "exponent and weighting were not derived from a work protocol",
             "0 ≤ Δd < 2Σγ", "exact typed API and its linear approximation"),
             ("β_eff = 1/Σγ", "effective inverse temperature")),
+        "docs/proofs/derivations/README.md": ((
+            "D8 (algebraic pair-rate log identity",),
+            ("D8 (Crooks rate identity",)),
         "docs/ANALYTICAL_FORMULAS.md": (("F44. Algebraic pair-rate log identity",
             "algebraic linear coefficient is 1/Σγ", "not a Jarzynski test",
             "0 <= Delta_d < 2*Σγ", "finite b > 0", "positive decay variable `z=−λ`",
@@ -1775,13 +1797,16 @@ def verify_round4_artifacts_and_consumers():
             "does not report single-eigenvector Petermann factors or eigenvector angles",
             "basis-dependent inside a degenerate eigenspace", "invariant subspace-level conditioning",
             "nonstationary spectrum", "trace-preserving stationary eigenvalue remains at lambda = 0",
-            "the stationary zero does not move"),
+            "the stationary zero does not move", "Fragile-bridge axis-confined regime",
+            "Fragile-bridge off-axis regime", "Pi remains exact on both sides"),
             ("The full irreducible SRP class is AIII", "chiral phase",
              "not the protection mechanism", "-(gamma - epsilon/3)", "Effect (2) dominates",
              "rules out the prior Hopf", "is a Hopf bifurcation", "is not a Hopf",
              "the system oscillates but does not grow", "This is the explosion",
              "CHIRAL (sublattice) symmetry", "chiral symmetry of the full operator structure",
              "confirming the chiral symmetry", "MIRROR-PARTNER ANGLE CONTROL",
+             "Our system: linear Pi, imaginary eigenvalues in symmetric phase",
+             "| System | Symmetric phase | Broken phase |",
              "| 1.463 | 402.7", "Above γ_crit: cos(theta) ~ 0.09",
              "by ANY epsilon > 0: eigenvalues immediately develop nonzero Re parts",
              "The eigenvalues move off the imaginary axis")),
@@ -1851,6 +1876,20 @@ def verify_round4_artifacts_and_consumers():
         "compute/RCPsiSquared.Core/F86/F86KnowledgeBase.cs": ((
             "FRAGILE_BRIDGE spectral-abscissa axis departure", "EP character OPEN"),
             ("tracked real-gamma axis departure",)),
+        "docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md": ((
+            "sampled spectral-abscissa axis departure", "EP character is OPEN"),
+            ("tracked real-γ axis crossing",)),
+        "docs/NAVIGATING_THE_DIMENSIONS.md": ((
+            "sampled spectral-abscissa axis departure", "no branch continuation",
+            "EP character remains OPEN"),
+            ("tracked real-γ axis crossing",)),
+        "compute/RCPsiSquared.Diagnostics/Knowledge/KnowledgeRegistryFactory.cs": ((
+            "sampled spectral-abscissa axis departure", "no branch continuation was executed",
+            "EP character OPEN"),
+            ("tracked axis departure",)),
+        "simulations/ep_transition.py": ((
+            "two-level exceptional-point pinch", "spectral character remains open"),
+            ("fragile-bridge pinch",)),
         "compute/RCPsiSquared.Core.Tests/F86/LocalGlobalEpLinkTests.cs": ((
             "spectral-abscissa axis departure", "tracked real-gamma axis departure"),
             ()),
@@ -2039,9 +2078,15 @@ def verify_round4_artifacts_and_consumers():
     mirror_f44_baseline = set(mirrorworld_f44_ordered_pair_api_errors(mirrorworld_source))
     check("MirrorWorld F44 enforces finite ordered-pair domain", not mirror_f44_baseline,
           ascii("; ".join(sorted(mirror_f44_baseline))))
-    changed = mirrorworld_source.replace("deltaD < 0.0 ||", "", 1)
-    check("MirrorWorld F44 mutation rejects negative Delta_d", changed != mirrorworld_source and
-          bool(set(mirrorworld_f44_ordered_pair_api_errors(changed)) - mirror_f44_baseline))
+    for name, old, new in (
+        ("positive d_fast", "dFast <= 0.0", "dFast < 0.0"),
+        ("positive d_slow", "dSlow <= 0.0", "dSlow < 0.0"),
+        ("palindromic pair sum", "Math.Abs(dFast / scale + dSlow / scale - 2.0 * (sg / scale))", "Math.Abs(dFast - dSlow)"),
+        ("public validation call", "ValidateF44PositivePalindromicPair(dFast, dSlow, sg);", ""),
+    ):
+        changed = mirrorworld_source.replace(old, new, 1)
+        check(f"MirrorWorld F44 mutation rejects missing {name}", changed != mirrorworld_source and
+              bool(set(mirrorworld_f44_ordered_pair_api_errors(changed)) - mirror_f44_baseline))
 
     f95_path = "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs"
     f95_source = (root / f95_path).read_text(encoding="utf-8")
@@ -2239,6 +2284,459 @@ def route_b_n6_current_truth_errors(source, label):
     return errors
 
 
+def verify_final_five_repairs():
+    """Guard the final F44/F86/flow/ledger/CSR repairs with same-door mutations."""
+    root = Path(__file__).resolve().parents[1]
+    text_surfaces = {
+        "docs/F86_VALUES_INVENTORY.md": (
+            ("SE-walk population handover", "Q_label", "Q_Lindblad = 2 Q_label",
+             "spectral character remains open", "not an F86-block EP anchor"),
+            ("Q_EP got its hardware anchor", "rotation born at the F86a exceptional point",
+             "Q_EP onset (hardware)", "post-EP dynamics", "reborn mode")),
+        "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md": (
+            ("sampled SE-walk population handover", "Q_label", "Q_Lindblad = 2 Q_label",
+             "spectral character remains open", "fixed positive per-site profile",
+             "not a physical CP dephasing channel", "not an isolated global sink",
+             "global slowest non-kernel mode is not identified with the population-visible approach rate",
+             "0.28 → 0.84", "0.8417853730254796"),
+            ("two modes of L collide and merge", "is a Hopf bifurcation",
+             "At Q_EP the two coalesce defectively", "verified facts are the two singularity types",
+             "reborn mode", "post-EP dynamics", "equipartition floor", "natural Q≈30",
+             "populations converge toward", "simple λ=0 kernel")),
+        "README.md": (
+            ("Q_label = 1.5→2.5", "Q_Lindblad = 3→5", "population handover",
+             "spectral character open"),
+            ("across the EP", "EP onset: revival")),
+        "data/ibm_ep_onset_may2026/README.md": (
+            ("historical run identifier", "Q_label", "Q_Lindblad = 2 Q_label",
+             "population handover", "spectral character remains open", "0.28 → 0.84",
+             "sum 1.103", "not a normalized", "0.8417853730254796"),
+            ("the EP onset on a real chip", "reborn memory", "dephasing EP onset",
+             "equipartition floor", "populations converge toward", "floor and the onset are clean")),
+        "docs/Q_REGIME_ANCHORS.md": (
+            ("not a spectral Q anchor", "Q_label=1.5→2.5", "Q_Lindblad=3→5",
+             "spectral character remains open"),
+            ("single-excitation flow exceptional point", "Birth Canal's birth singularity",
+             "chosen to sit on the flow EP")),
+        "compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs": (
+            ("Q_label", "Q_Lindblad = 2 Q_label", "spectral character remains open",
+             "population handover", "0.28 → 0.84", "sum 1.103",
+             "does not isolate a local Z-dephasing rate", "0.8417853730254796"),
+            ("equipartition floor", "Confirms the typed UniversalCarrierClaim.DefaultGammaZero", "hardware-anchored",
+             "single-excitation walk's critical-damping transition", "the reborn memory",
+             "ExceptionalPointClock (the toy 2×2 reduction")),
+        "simulations/framework/confirmations.py": (
+            ("Q_label_grid", "Q_lindblad_grid", "Q_Lindblad = 2 Q_label",
+             "spectral character remains open", "population handover", "0.28 → 0.84",
+             "sum 1.103", "does not isolate a local Z-dephasing rate", "0.8417853730254796"),
+            ("equipartition floor", "Confirms the typed", "hardware-anchored",
+             "floor_below_ep", "liftoff_above_ep", "critical-damping transition",
+             "the reborn memory", "ExceptionalPointClock (the toy 2×2 reduction")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs": (
+            ("Q_Lindblad = 2 Q_label", "spectral character remains open",
+              "population handover", "F89's scattered seeds"),
+            ("at the same Q_EP", "post-EP regime it opens", "critical-damping",
+             "has NO defective EP there (eigenvalues simple)")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/ExceptionalPointClock.cs": (
+            ("not a hardware calibration",),
+            ("hardware-anchored", "BirthCanal of")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs": (
+            ("single-excitation population flow", "no spectral-transition claim",
+              "H = (Q/2)·H_unit", "new Complex(q / 2.0, 0.0)",
+              "strictly > 0", "not a flow-overlap rate",
+              "HasBirthCanalClassification", "N=5 open-chain-only birth/sterile surface",
+              "N == 5 && Topology == FlowTopology.Chain",
+              "slow.Parity", "SlowClusterMeanRate", "AbsorptionResidual"),
+            ("The post-EP flow as", "post-EP flow is", "every trajectory relaxes",
+             "Always available, never throws", "depth mod 2", "equal to the rate, bit-exact")),
+        "compute/RCPsiSquared.Cli/Commands/AssemblyCommand.cs": (
+            ("1.0,2.0,3.0,5.0,10.0,40.0", "odd support", "even support",
+             "mixed support", "global slow-rate drift", "SlowClusterMeanRate", "abs(mean)"),
+            ("0.5,1.0,1.5,2.5,5.0,20.0", "BIRTH(odd)", "flow(even)",
+             "depth (= light n_XY = rate)")),
+        "compute/RCPsiSquared.Cli/Program.cs": (
+            ("--q-list 1,2,3,5,10,40", "weighted Absorption rate",
+             "projector parity support"),
+            ("--q-list 0.5,1,1.5,2.5,5,20", "depth=light=rate")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/SectorReductionWitness.cs": (
+            ("public Q is the canonical carrier Q", "H=(Q/2)",
+             "new ChainSystem(n, canonicalQ", "canonical Q=3", "canonical Q=2000"),
+            ("new ChainSystem(n, 2.0 *", "rate(Q=1000)", "rate(Q=1.5)")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/VacuumBlockReductionClaim.cs": (
+            ("L_(1,0) = -i(Q/2)", "canonical Q=3", "Q=2000"),
+            ("-iQh", "Q=1.5 ->", "Q=1000 ->")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/BirthCanalSurfaceWitness.cs": (
+            ("rate(Q=2000) - rate(Q=3)", "light (Q=3)", "rate(Q=3)",
+             "lo.AbsorptionResidual", "cluster-mean rate", "probes rate-sterility vs rate drift",
+             "Deviation is the spectral-edge rate at Q=2000 minus",
+             "selected tolerance-cluster's mean rate to 2·Σ_l γ_l·light_l",
+             "light-freeze verdict requires", "NumericalConditioningSuspect",
+             "only a numerical-conditioning diagnostic", "not an EP certificate"),
+            ("rate(Q=1000)", "rate(Q=1.5)", "light (Q=1.5)", "reads the light-freeze",
+             "): rate = 2·Σ_l", "EP detector", "EpSuspect")),
+        "compute/RCPsiSquared.Diagnostics/Ptf/SlowLightDistribution.cs": (
+            ("canonical Q=2000", "rate at Q=3", "at Q=3", "at Q=2000",
+             "rate-sterility", "not sufficient", "N=5", "EvenParityFraction",
+             "OddParityFraction", "SlowLightParity", "SpectralEdgeRate",
+             "double ClusterMeanRate,", "ClusterDimension",
+             "slow tolerance cluster. Membership does not assert exact rate degeneracy."),
+            ("rate at Q=1000", "rate at Q=1.5",
+             "sterile ⇔ this distribution is", "at N ≤ 6", "the slowest rate is")),
+        "compute/RCPsiSquared.Diagnostics.Tests/Ptf/SlowLightDistributionTests.cs": (
+            ("ToleranceCluster_SeparatesSpectralEdgeFromClusterMeanAbsorptionRate",
+             "1.00000025", "ClusterMeanRate", "AbsorptionRate", "ClusterDimension"),
+            ()),
+        "compute/RCPsiSquared.Diagnostics/Foundation/TrichotomyWitness.cs": (
+            ("Public canonical convention", "new ChainSystem(n, canonicalQ",
+             "BirthCanalProbeQLow", "BirthCanalProbeQHigh", "CarbonHamiltonianQ = 1.0"),
+            ("new ChainSystem(n, 2.0 *", "const double qLo = 1.5", "const double qHi = 1000")),
+        "simulations/gamma_profile_isolation.py": (
+            ("distinct finite-scan observables", "without using rate",
+             "drift as an isolation classifier", "Q / 2.0", "rates(N, 3.0",
+             "rates(N, 2000.0", "No isolation verdict"),
+            ("rate(Q=1000) - rate(Q=1.5)", "-1j * Q *",
+             "reveals spectral isolation", "0 = isolated/shortcut",
+             "gap is the isolation itself", "isolated (shortcut)")),
+        "simulations/gamma_profile_shortcut.py": (
+            ("compares orthogonal projectors", "no exact equivalence", "Q / 2.0",
+             "subspace_overlap", "commutator_residual", "not an iff theorem"),
+            ("v(Q=1.5)", "v(Q=1000)", "-1j * Q *", "exactly when",
+             "SHARED eigenvector", "slowest-mode overlap")),
+        "simulations/light_content.py": (
+            ("orthogonal projector", "CLUSTER-MEAN decay rate",
+             "spectral-edge rate is reported separately", "Q / 2.0",
+             "for Q in [3.0, 2000.0]", "slow_subspace", "projector_light",
+             "max per-site distribution drift"),
+            ("Q=1.5 and Q=1000", "-1j * Q *",
+             "for the slowest mode, decompose its eigenvector", "FROZEN (sterile)",
+             "Hamiltonian mixes light in -> birth canal")),
+        "simulations/tests/test_task8_birth_canal_repairs.py": (
+            ("test_tolerance_cluster_separates_edge_from_projector_mean",
+             "assert mean != edge", "assert np.isclose(absorption, mean",
+             "test_shortcut_diagnostics_are_invariant_under_subspace_basis_rotation",
+             "shortcut.subspace_overlap", "shortcut.commutator_residual"),
+            ()),
+        "simulations/birth_canal_junction_nature.py": (
+            ("rate(Q=2000) - rate(Q=3)", "Q / 2.0", "QLO, QHI, DEV_TOL = 3.0, 2000.0",
+             "public canonical convention H=(Q/2)*H_unit"),
+            ("rate(Q=1000) - rate(Q=1.5)", "-1j * Q *",
+             "Q*H_unit + per-site profile dephasing")),
+        "simulations/birth_canal_boundary_pathdependence.py": (
+            ("rate@Q=3", "Q / 2.0", "slowest(N, 2000.0", "slowest(N, 3.0"),
+            ("rate@1.5", "-1j * Q *")),
+        "simulations/birth_canal_n6_mode_crossing.py": (
+            ("Q / 2.0", "for Q in (3.0, 2000.0)"),
+            ("for Q in (1.5, 1000.0)", "-1j * Q *")),
+        "simulations/birth_canal_vacuum_block_verifier.py": (
+            ("PROBE_LO, PROBE_HI = 3.0, 2000.0", "Q / 2.0", "-i(Q/2)"),
+            ("PROBE_LO, PROBE_HI = 1.5, 1000.0", "-1j * Q *", "-iQh")),
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": (
+            ("single-excitation population flow",),
+            ("the post-EP single-excitation flow",)),
+        "simulations/ep_transition.py": (
+            ("population_scan()", "1/N reference level",
+             "spectral character remains open", "population handover"),
+            ("matching the hardware", "memory switches on as Q crosses the EP",
+             "rotation born on a real chip", "confirmed on IBM Kingston")),
+        "simulations/journey_between_singularities.py": (
+            ("map(np.asarray, population_scan())", "H += (Q / 2.0)",
+             "spectral character remains open", "rate-book corrected; spectral character remains open",
+             "1/N reference"),
+            ("reborn memory", "the chip sits on the EP", "EP is reached only by INJECTING noise")),
+        "simulations/journey_control.py": (
+            ("Illustrative dephasing control", "not a calibration of the Kingston runner",
+             "no hardware or EP calibration", "control_domain(starts)",
+             "tau = gamma_per_site * t"),
+            ("Pushing the chip onto the EP", "birth-axis", "newborn rotation", "gamma_total")),
+        "simulations/post_ep_dynamics_4d.py": (
+            ("canonical Q = J/gamma", "Q / 2.0", "not a critical-damping or spectral-transition verdict"),
+            ("post-EP dynamics", "underdamped (hops, remembers)")),
+        "simulations/at_the_target.py": (
+            ("common per-site profile scalar f", "not asserted to be population-visible",
+             "non-CP inverse dephasing", "Q / 2.0"),
+            ("Sigma-gamma (f)", "the Hopf", "SINK (all modes flow in)")),
+        "simulations/the_flow_endpoints.py": (
+            ("N+1-fold semisimple", "Q / 2.0", "no branch continuation"),
+            ("lambda=0 SIMPLE", "TWO SINGULAR ENDPOINTS")),
+        "docs/NAVIGATING_THE_DIMENSIONS.md": (
+            ("Q_label=J/Γ", "canonical Q_Lindblad=3→5", "spectral character open",
+             "no branch continuation or doorway"),
+            ("1/N equipartition floor", "overdamped→revival handover", "post-EP flow")),
+        "experiments/COUPLING_DEFECT_WALK_TIME_STEP.md": (
+            ("Q_label=1.5→2.5", "canonical Q_Lindblad=3→5",
+             "populations supply no Q*, critical-damping, or EP certificate"),
+            ("two hardware-confirmed handovers",)),
+        "experiments/GAMMA0_IS_ALWAYS_THERE.md": (
+            ("finite-grid transfer-overshoot bracket", "not locate a critical point",
+             "does not by itself identify a single local Z-dephasing coefficient"),
+            ("reading the carrier off its only lever", "threshold is γ₀, read off",
+             "chip telling us its true γ₀")),
+        "compute/RCPsiSquared.Core/F86/PolarityPairQPeakDecompositionClaim.cs": (
+            ("Illustrative γ₀ value", "finite-time", "does not isolate a dephasing rate",
+             "unresolved finite-grid/finite-N bracket"),
+            ("Hardware anchor for the Q", "critical-damping threshold", "hardware-anchored axis")),
+        "experiments/RELAY_PROTOCOL.md": (
+            ("baseline γ remains a model choice", "finite-time transfer overshoot",
+             "no critical damping", "no calibrated error model", "does not measure γ₀"),
+            ("turned out to be a measurement", "Trotterization-limited", "post-EP/reborn mode")),
+        "experiments/README.md": (
+            ("finite-time transfer overshoot", "does not measure γ₀", "certify critical damping"),
+            ("Reading the carrier Q = J/γ₀ off its only lever",)),
+        "docs/Q_BELONGS_TO_NO_SUBSTANCE.md": (
+            ("gamma_book_enforcement_boundary", "finite-grid transfer-overshoot bracket",
+             "does not isolate γ₀", "not a hardware calibration"),
+            ("gamma_book_enforced_nowhere", "hardware read-off of γ₀")),
+        "docs/proofs/PROOF_DIFFUSION_RAYLEIGH_CLOSURE.md": (
+            ("chosen repository model point", "not a hardware calibration",
+             "finite-grid population-overshoot change"),
+            ("canonical hardware operating point", "hardware dephasing rate")),
+        "experiments/CONCENTRATOR_AB_MECHANISM_TEST.md": (
+            ("illustrative default", "named hardware records do not calibrate it"),
+            ("critical damping exactly", "hardware-confirmed")),
+        "docs/outbound/SELECTIVE_DECOUPLING_SELECTION_RULE.md": (
+            ("illustrative carrier default", "not a hardware measurement"),
+            ("hardware-measured carrier rate",)),
+        "experiments/CORNER_BEAT_HARDWARE_PREDICTION.md": (
+            ("illustrative model point", "gamma_book_enforcement_boundary",
+             "remaining legacy/future-ingestion schema boundary"),
+            ("canonical hardware regime", "canonical hardware-anchored point",
+             "gamma_book_enforced_nowhere")),
+        "experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md": (
+            ("no dedicated `absorption_rung_ladder` arc exists",
+             "gamma_book_enforcement_boundary", "not registered anywhere"),
+            ("gamma_book_enforced_nowhere",
+             "registered in the arc `absorption_rung_ladder`")),
+        "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs": (
+            ("gamma_book_enforcement_boundary",
+             "corner beat's compliance with gamma_book_enforcement_boundary"),
+            ("gamma_book_enforced_nowhere",)),
+        "simulations/flight/README.md": (
+            ("gamma_book_enforcement_boundary", "`corner_beat` arc now exists",
+             "current-truth registry pointers", "2026-08-18 record"),
+            ("gamma_book_enforced_nowhere", "does not exist yet")),
+        "docs/CAUGHT_ERRORS.md": (
+            ("K≈403 is a finite-grid, finite-offset simple-mode non-normality reading",
+             "FRAGILE_BRIDGE measurement is a spectral-abscissa axis departure",
+             "sectorwise involutive P-type anticommutation",
+             "does not assign a global irreducible SRP/AIII class",
+             "Q_Lindblad = 2 Q_label", "Populations alone certify no critical damping",
+             "H=(Q/2)Σ(XX+YY)", "probe Q=3/2000", "0.8417853730254796",
+             "finite-grid transfer-overshoot bracket", "distinct decompositions"),
+            ()),
+    }
+    for path, (required, forbidden) in text_surfaces.items():
+        source = (root / path).read_text(encoding="utf-8")
+        baseline = set(task8_text_errors(source, required, forbidden))
+        check(f"Final repair current truth: {path}", not baseline,
+              ascii("; ".join(sorted(baseline))))
+        for phrase in required:
+            changed = source.replace(phrase, "")
+            check(f"Final repair mutation rejects missing {ascii(phrase)}: {path}",
+                  changed != source and
+                  bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+        for phrase in forbidden:
+            changed = source + "\n" + phrase
+            check(f"Final repair mutation rejects {ascii(phrase)}: {path}",
+                  bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+
+    # The arc names above are also prose, so substring presence cannot certify the
+    # registry topology: a description may still mention a name after its actual
+    # `Name:` field has disappeared. Parse the fields and gate the three relevant
+    # membership claims directly.
+    arc_registry_path = "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"
+    arc_registry_source = (root / arc_registry_path).read_text(encoding="utf-8")
+
+    def task8_arc_registry_errors(source):
+        names = re.findall(r'\bName:\s*"([^"]+)"', source)
+        errors = []
+        for name in ("gamma_book_enforcement_boundary", "corner_beat"):
+            if names.count(name) != 1:
+                errors.append(f"registry must contain exactly one Name field for {name}")
+        for name in ("absorption_rung_ladder", "gamma_book_enforced_nowhere"):
+            if name in names:
+                errors.append(f"registry must not contain a Name field for {name}")
+        return errors
+
+    arc_baseline = set(task8_arc_registry_errors(arc_registry_source))
+    check("Final repair exact OpenArc registry topology", not arc_baseline,
+          ascii("; ".join(sorted(arc_baseline))))
+    for name in ("gamma_book_enforcement_boundary", "corner_beat"):
+        changed = arc_registry_source.replace(
+            f'Name: "{name}"', f'Name: "{name}_MUTATED"', 1)
+        check(f"Final repair registry mutation rejects renamed {name}",
+              changed != arc_registry_source and
+              bool(set(task8_arc_registry_errors(changed)) - arc_baseline))
+    for name in ("absorption_rung_ladder", "gamma_book_enforced_nowhere"):
+        changed = arc_registry_source + f'\nName: "{name}"\n'
+        check(f"Final repair registry mutation rejects inserted {name}",
+              bool(set(task8_arc_registry_errors(changed)) - arc_baseline))
+
+    # Sweep every active consumer involved in this repair. The generated menu and
+    # test breadcrumb were the two places a registry-only check previously missed.
+    arc_surface_requirements = {
+        "compute/RCPsiSquared.Core.Tests/Inspection/OpenArcsInspectableNodeTests.cs":
+            ("gamma_book_enforcement_boundary", "corner_beat"),
+        "simulations/_rescued_arcs_menu.txt":
+            ("gamma_book_enforcement_boundary", "corner_beat"),
+        "docs/Q_BELONGS_TO_NO_SUBSTANCE.md":
+            ("gamma_book_enforcement_boundary",),
+        "experiments/CORNER_BEAT_HARDWARE_PREDICTION.md":
+            ("gamma_book_enforcement_boundary",),
+        "experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md":
+            ("gamma_book_enforcement_boundary",),
+        "simulations/flight/README.md":
+            ("gamma_book_enforcement_boundary", "corner_beat"),
+    }
+    deprecated_arc_name = "gamma_book_enforced_nowhere"
+
+    def task8_arc_surface_errors(source, required_names):
+        errors = []
+        for name in required_names:
+            if name not in source:
+                errors.append(f"missing current arc name {name}")
+        if deprecated_arc_name in source:
+            errors.append(f"deprecated arc name remains: {deprecated_arc_name}")
+        return errors
+
+    for path, required_names in arc_surface_requirements.items():
+        source = (root / path).read_text(encoding="utf-8")
+        baseline = set(task8_arc_surface_errors(source, required_names))
+        check(f"Final repair OpenArc propagation: {path}", not baseline,
+              ascii("; ".join(sorted(baseline))))
+        for name in required_names:
+            changed = source.replace(name, "")
+            check(f"Final repair OpenArc mutation rejects missing {name}: {path}",
+                  changed != source and
+                  bool(set(task8_arc_surface_errors(changed, required_names)) - baseline))
+        changed = source + "\n" + deprecated_arc_name
+        check(f"Final repair OpenArc mutation rejects deprecated name: {path}",
+              bool(set(task8_arc_surface_errors(changed, required_names)) - baseline))
+
+    # Raw records are the numerical source. Recompute the observable and rate-book map,
+    # and mutate each mechanism so this gate demonstrably fails.
+    data_dir = root / "data/ibm_ep_onset_may2026"
+    hw_record = json.loads((data_dir / "ep_onset_hardware_ep_ibm_kingston_20260531_064022.json").read_text())
+    sim_record = json.loads((data_dir / "ep_onset_simulate_twirl_20260531_063048.json").read_text())
+
+    def raw_population_errors(record, stored_key, q_factor=2.0):
+        rows = record["scan"]
+        q_label = [float(row["Q"]) for row in rows]
+        revival = [max(float(pops[0]) for t, pops in row["pops"].items() if float(t) >= 2.0)
+                   for row in rows]
+        errors = []
+        if [q_factor * q for q in q_label] != [1.0, 2.0, 3.0, 5.0, 10.0, 40.0]:
+            errors.append("canonical Q grid is not 2*Q_label")
+        if any(abs(value - float(row[stored_key])) > 1e-12 for value, row in zip(revival, rows)):
+            errors.append("stored revival disagrees with max n0(t>=2 us)")
+        return errors, revival
+
+    raw_errors, hw_revival = raw_population_errors(hw_record, "revival")
+    check("F86 raw hardware populations define revival and factor-two Q map", not raw_errors,
+          ascii("; ".join(raw_errors)))
+    mutated_factor_errors, _ = raw_population_errors(hw_record, "revival", q_factor=1.0)
+    check("F86 raw rate-book mutation rejects missing factor two", bool(mutated_factor_errors))
+    mutated_hw = json.loads(json.dumps(hw_record))
+    mutated_hw["scan"][0]["pops"]["3.0"][0] += 0.2
+    mutated_pop_errors, _ = raw_population_errors(mutated_hw, "revival")
+    check("F86 raw population mutation rejects stale stored revival", bool(mutated_pop_errors))
+
+    sim_errors, sim_revival = raw_population_errors(sim_record, "revival_max_n0")
+    check("F86 raw exact-twirl endpoints are 0.28 to 0.84",
+          not sim_errors and round(sim_revival[0], 2) == 0.28 and round(sim_revival[-1], 2) == 0.84)
+    exact_twirl_endpoint = repr(sim_revival[-1])
+    exact_twirl_consumers = {
+        "raw-data README": root / "data/ibm_ep_onset_may2026/README.md",
+        "flow synthesis": root / "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md",
+        "C# confirmation registry": root / "compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs",
+        "Python confirmation registry": root / "simulations/framework/confirmations.py",
+    }
+    for label, path in exact_twirl_consumers.items():
+        source = path.read_text(encoding="utf-8")
+        check(f"F86 {label} carries exact raw twirl endpoint", exact_twirl_endpoint in source)
+        mutated = source.replace(exact_twirl_endpoint, "0.837", 1)
+        check(f"F86 {label} exact-endpoint mutation is rejected",
+              mutated != source and exact_twirl_endpoint not in mutated)
+    mutated_sim = json.loads(json.dumps(sim_record))
+    mutated_sim["scan"][-1]["revival_max_n0"] += 0.01
+    mutated_sim_errors, _ = raw_population_errors(mutated_sim, "revival_max_n0")
+    check("F86 raw exact-twirl stored-endpoint mutation is rejected", bool(mutated_sim_errors))
+
+    ep_source = (root / "compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs").read_text(encoding="utf-8")
+    match = re.search(r"var hwRev = new double\[\] \{([^}]+)\}", ep_source, re.S)
+    ep_values = [float(x) for x in re.findall(r"\d+\.\d+", match.group(1))] if match else []
+    check("EpField hardware curve equals raw recomputed revival",
+          len(ep_values) == len(hw_revival) and np.allclose(ep_values, hw_revival, atol=1e-15))
+
+    exact_literal = ", ".join(str(value) for value in hw_revival)
+    registry_sources = {
+        "C# confirmation registry": (root / "compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs").read_text(encoding="utf-8"),
+        "Python confirmation registry": (root / "simulations/framework/confirmations.py").read_text(encoding="utf-8"),
+    }
+    for label, source in registry_sources.items():
+        check(f"{label} revival vector equals raw recomputed values", exact_literal in source)
+        mutated = source.replace(str(hw_revival[0]), str(hw_revival[0] + 0.01), 1)
+        check(f"{label} raw-vector mutation is rejected",
+              mutated != source and exact_literal not in mutated)
+
+    part_a = json.loads((data_dir / "ep_onset_hardware_ibm_kingston_20260531_060943.json").read_text())
+    endpoint = [float(x) for x in part_a["pops"][-1]]
+    check("F86 Part-A endpoint is finite-time and not a normalized one-excitation distribution",
+          part_a["ts_us"][-1] == 20.0 and not np.isclose(sum(endpoint), 1.0))
+
+    csr_surfaces = {
+        "compute/RCPsiSquared.Diagnostics/Foundation/IntegrabilityBreakingCsr.cs": (
+            ("SpectrumClusterBootstrap95", "NoneDeterministicGrid",
+             "InsufficientIndependentSpectra", "ReduceIndependentSpectra",
+             "rng.Next(nonempty.Length)", "ReduceDeterministicGrid",
+             "z-values within one spectrum are not treated as independent",
+             "return w == 0.0", "bootstraps = 400"),
+            ("abs[r.Next(nz)]", "Reduce(IReadOnlyList<Complex> zs")),
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdCsr.cs": (
+            ("cluster-bootstrap whole independent disorder realizations",
+             "treat a fixed q-grid as descriptive with no sampling CI",
+             "ReduceIndependentSpectra(spectra", "ReduceDeterministicGrid(spectra)",
+             "return w == 0.0"),
+            ("IntegrabilityBreakingCsr.Reduce(pool",)),
+        "compute/RCPsiSquared.Diagnostics/Foundation/FillingThresholdWitness.cs": (
+            ("whole-spectrum cluster bootstrap", "independent disorder realizations"),
+            ("individual-z bootstrap",)),
+        "compute/RCPsiSquared.Diagnostics.Tests/Foundation/IntegrabilityBreakingCsrTests.cs": (
+            ("ClusterBootstrap_ResamplesWholeSpectra_NotIndividualSpacingRatios",
+             "ClusterBootstrap_DuplicateIdenticalSpectraDoNotManufacturePrecision",
+             "DeterministicGridReading_DoesNotClaimSamplingConfidenceInterval"),
+            ("with 95% bootstrap CI",)),
+        "experiments/FILLING_THRESHOLD_CHAOS.md": (
+            ("ReduceIndependentSpectra", "whole independent spectra",
+             "SpectrumClusterBootstrap95", "seed=4001", "seed=4002",
+             "400 bootstrap resamples", "[0.676,0.685]", "[0.716,0.719]",
+             "13,440/15,680 pooled z-values"),
+            ("class's `Reduce`", "bootstrap the CI",
+             "[0.677,0.684]", "[0.715,0.721]")),
+        "compute/RCPsiSquared.Diagnostics.Tests/Foundation/FillingThresholdCsrTests.cs": (
+            ("SpectrumClusterBootstrap95", "Assert.Equal(60, dilute.IndependentSpectrumCount)",
+             "Assert.Equal(4, dense.IndependentSpectrumCount)",
+             "seed: 4001", "seed: 4002",
+             "Assert.Equal(0.676, dilute.CiLo, 3)", "Assert.Equal(0.685, dilute.CiHi, 3)",
+             "Assert.Equal(0.716, dense.CiLo, 3)", "Assert.Equal(0.719, dense.CiHi, 3)"),
+            ("Assert.Equal(0.677, dilute.CiLo, 3)", "Assert.Equal(0.684, dilute.CiHi, 3)",
+             "Assert.Equal(0.715, dense.CiLo, 3)", "Assert.Equal(0.721, dense.CiHi, 3)")),
+    }
+    for path, (required, forbidden) in csr_surfaces.items():
+        source = (root / path).read_text(encoding="utf-8")
+        baseline = set(task8_text_errors(source, required, forbidden))
+        check(f"CSR uncertainty current semantics: {path}", not baseline,
+              ascii("; ".join(sorted(baseline))))
+        for phrase in required:
+            changed = source.replace(phrase, "")
+            check(f"CSR uncertainty mutation rejects missing {ascii(phrase)}: {path}",
+                  changed != source and
+                  bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+        for phrase in forbidden:
+            changed = source + "\n" + phrase
+            check(f"CSR uncertainty mutation rejects {ascii(phrase)}: {path}",
+                  bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+
+
 def verify_route_b_a2_current_truth():
     """Guard completion prose and inventory shape; C# owns the local character verdicts."""
     verify_route_b_mechanism_current_truth()
@@ -2248,6 +2746,7 @@ def verify_route_b_a2_current_truth():
     verify_sff_windows_and_current_boundaries()
     verify_task8_current_truth()
     verify_round4_artifacts_and_consumers()
+    verify_final_five_repairs()
     root = Path(__file__).resolve().parents[1]
     surfaces = (
         ("primary", "docs/THE_DOUBLE_ROOT.md"),

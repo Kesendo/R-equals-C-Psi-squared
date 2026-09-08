@@ -19,7 +19,7 @@ This script is the independent ground truth for the BirthCanalSurfaceWitness (wh
   (C) Does the boundary (and the two sterility kinds) survive beyond N=5, where the dense witness
       cannot reach? -> N=6,7,8,10,... at N x N cost; full-4^N cross-check where still affordable.
 
-Analytic backbone (proved here in passing): at FLAT gamma, L = -iQ*h - 2*gamma*I; -iQ*h is
+Analytic backbone (proved here in passing): at FLAT gamma, L = -i(Q/2)*h - 2*gamma*I; -i(Q/2)*h is
 anti-Hermitian (imaginary spectrum), so Re(lambda) = -2*gamma for EVERY mode -> rate = 2*gamma,
 Q-invariant by uniformity alone, blind to eigenvector drift. That is R1's fragile (flat-gamma)
 sterility, now a one-liner, at every N.
@@ -31,7 +31,7 @@ X = np.array([[0, 1], [1, 0]], complex)
 Y = np.array([[0, -1j], [1j, 0]], complex)
 Z = np.array([[1, 0], [0, -1]], complex)
 TOL = 1e-4          # the sterile/canal Deviation tolerance (matches the witness)
-PROBE_LO, PROBE_HI = 1.5, 1000.0
+PROBE_LO, PROBE_HI = 3.0, 2000.0
 
 
 # ---------- symmetric gamma-profile slice (matches C# SymmetricGammaSlice) ----------
@@ -78,7 +78,7 @@ def full_eigs(N, Q, profile):
     d = 2 ** N
     Id = np.eye(d)
     H1 = _H_xy_unit(N)
-    L = -1j * Q * (np.kron(Id, H1) - np.kron(H1.T, Id))
+    L = -1j * (Q / 2.0) * (np.kron(Id, H1) - np.kron(H1.T, Id))
     for l in range(N):
         Zl = _op_at(N, l, Z)
         L += profile[l] * (np.kron(Zl, Zl) - np.kron(Id, Id))
@@ -95,7 +95,7 @@ def block_L(N, Q, profile):
     for i in range(N - 1):
         h[i, i + 1] = 2.0
         h[i + 1, i] = 2.0
-    return -1j * Q * h - 2.0 * np.diag(profile)
+    return -1j * (Q / 2.0) * h - 2.0 * np.diag(profile)
 
 
 def block_eigs(N, Q, profile):
@@ -177,7 +177,7 @@ def part_A_subspectrum(N=5):
 # ---------- (C) does the boundary survive beyond N=5? ----------
 def part_C_scaling():
     print("=== (C) N>5: the boundary + the two sterility kinds, at N x N cost ===")
-    print(f"  {'N':>3} {'uniform rate@1.5':>16} {'@1000':>9} {'flat-blind?':>12}"
+    print(f"  {'N':>3} {'uniform rate@Q=3':>16} {'@2000':>9} {'flat-blind?':>12}"
           f" {'deep-edge dev':>14} {'sterile/canal':>14} {'full-check':>12}")
     worst_check = 0.0
     for N in (5, 6, 7, 8, 10, 12):
@@ -208,7 +208,7 @@ def part_C_scaling():
 
         print(f"  {N:>3} {ru_lo:>16.6f} {ru_hi:>9.6f} {str(blind):>12}"
               f" {dev_block:>14.6f} {zone:>14} {check:>12}")
-    print("\n  flat-gamma blindness (uniform rate = 2*gamma, Q-invariant) is analytic: -iQh is "
+    print("\n  flat-gamma blindness (uniform rate = 2*gamma, Q-invariant) is analytic: -i(Q/2)h is "
           "anti-Hermitian, so Re=-2gamma for every mode, at every N (this part of the reduction "
           "scales).")
     print("  BUT the deep-edge full-check breaks at N=6 (gap ~0.35): the global slowest is no longer "

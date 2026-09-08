@@ -41,7 +41,7 @@ F23 (XOR vanish) -/
 
 F1 (palindrome) ----> D6 (spectral gap)
 F3 (decay bounds) -/
-                        \--> D8 (Crooks rate identity)
+                        \--> D8 (algebraic pair-rate log identity)
                         \--> D9 (reflected-band SFF pairing)
 
 Tight-binding reduction -----> D10 ((0,1) block dispersion)

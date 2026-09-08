@@ -484,7 +484,7 @@ because W carries the two-class law, the design's sharpest comparison.
 DEFINITION, used everywhere in this document and never before stated
 (round-4 repair): **Q ≡ J/γ̄**, the dimensionless working-point knob
 (hops per engineered dephasing; the flight's γ̄ = J/10 is Q = 10; the
-canonical hardware regime γ₀ = 0.05, J = 0.075 is Q = 1.5, §11).
+repository's illustrative model point γ₀ = 0.05, J = 0.075 is Q = 1.5, §11).
 
 The corridor is the PRODUCT of two effects (measured estimator-free in
 rounds 1-3, agreeing on mechanism and magnitude; the committed gate
@@ -2405,7 +2405,7 @@ counts → RECORD (with its own empty round, the house rule).
   model or a measured bound from the CAL/aux record); until then it
   is the largest UNPRICED systematic on the page.
 - The engineered γ̄ = J/10 = 0.1·J is a resolvability choice. The
-  canonical hardware-anchored point is a RATIO, γ₀ = 0.05 WITH
+  repository's illustrative point is a RATIO, γ₀ = 0.05 WITH
   J = 0.075 (Q = 1.5; the pin's owner is docs/Q_REGIME_ANCHORS.md,
   CAUGHT_ERRORS cites it); this flight sits at
   Q = 10, a deliberately far slower dephasing per hop, and no "2×"
@@ -2807,7 +2807,7 @@ store-sweep agents, by store.
   Amendment 2.5, that any failed fit, NaN or guard trip is an instrument failure
   and never a verdict. NOTHING on re-entry.
 - The OpenArcs registry: NO `corner_beat` entry, which the freeze commit
-  opens. `gamma_book_enforced_nowhere`, opened 2026-08-18, governs Amendment 2.6
+  opens. `gamma_book_enforcement_boundary`, opened 2026-08-18, governs Amendment 2.6
   and is answered there.
 - `fw.Confirmations` and its C# mirror, 24 entries in both: NOTHING. No
   entry concerns a decision threshold or the T1 conversion.
@@ -3318,16 +3318,14 @@ which matches §9's own note that the bound is close to non-binding as
 scatter. A degraded chain at T1 = 25 µs correctly reads 0.333 and fails.
 
 **AND IT ANSWERS THE ARC OPENED THE SAME DAY.** The OpenArc
-`gamma_book_enforced_nowhere` records that a dephasing rate is written in
-two books a factor of two apart, that several flights have been compared
-across the seam, and that its first parked step is that a NEW flight must
-not land without naming its book. The corner beat is in the Lindblad book
+`gamma_book_enforcement_boundary` records that a dephasing rate is written in
+two books a factor of two apart and retains the legacy/future-ingestion schema
+boundary after the canonical paths were gated. The corner beat is in the Lindblad book
 throughout (`sigma = sqrt(4*gamma*dt)` in both the runner and the gate),
 and the T1-CLEAN bridge was the one place it could still have acquired
 the other one, which is why it names its book in the docstring and pins
-it with a test. That is the compliant behaviour the arc asks for, done
-once by hand for one field; the arc's own remedy, a gate that refuses an
-unnamed book, is not this amendment's work.
+it with a test. That is the compliant behaviour the arc asks for at this field;
+the remaining legacy/future-ingestion schema boundary stays open repository-wide.
 
 ### Amendment 2.7 The freeze record, as measured
 

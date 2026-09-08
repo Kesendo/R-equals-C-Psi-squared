@@ -167,4 +167,20 @@ def test_producer_has_no_misdefined_decay_or_vacuous_connected_kernel():
 
 def test_f2_frequency_is_block_reference_not_full_spectrum_minimum():
     root = Path(__file__).resolve().parents[2]
-    source = ( = None
+    source = (root / "simulations" / "spectral_form_factor.py").read_text(encoding="utf-8")
+    artifact = (root / "simulations" / "results" / "spectral_form_factor.txt").read_text(encoding="utf-8")
+    document = (root / "experiments" / "SPECTRAL_FORM_FACTOR.md").read_text(encoding="utf-8")
+    combined = source + artifact + document
+
+    assert "(0,1)-block k=1 reference" in combined
+    assert "ω_min (slowest)" not in combined
+    assert "slowest pair's trace-amplitude term" not in combined
+
+    # The N=5 full spectrum itself supplies a stable counterexample to the
+    # old global-minimum label: resolved nonzero frequencies below the F2 k=1
+    # block value occur in the same committed CSV.
+    data = np.loadtxt(root / "simulations" / "results" / "rmt_eigenvalues_N5.csv",
+                      delimiter="\t", skiprows=1)
+    resolved = np.abs(data[:, 1])
+    f2_reference = 4 * (1 - np.cos(np.pi / 5))
+    assert np.any((resolved > 0.1) & (resolved < 0.9 * f2_reference))

@@ -68,9 +68,9 @@ inherited its way into three projects". That is this document's shape one book
 down, and an earlier draft of this sweep reported the store as returning
 nothing.
 
-The OpenArcs registry returned `gamma_book_enforced_nowhere` (`:7415`, open),
-whose finding is the same shape one book down: the knowledge is complete, the
-enforcement is absent. That arc **is** the units arc, so the claim an earlier
+The OpenArcs registry returned `gamma_book_enforcement_boundary` (open),
+whose finding is the same shape one book down: the canonical ingestion paths
+are enforced while legacy/future ingestion remains open. That arc **is** the units arc, so the claim an earlier
 draft of this sweep made, that no arc on units existed, was contradicted by the
 sentence before it. It also returned `whirlpool_carbon_layers` (`:2596`, open
 since 2026-06-03), parked at "water adaptation done; carbon layers and a water
@@ -81,10 +81,11 @@ with this document's third pass, and the open items below are carried there in
 full rather than only here. `fw.Confirmations` returned `gamma_0_marrakesh_calibration`,
 a fitted γ_Z that is model-degenerate (0.05 continuous, 0.1 with Trotter n=3
 modeled, the same data through two physics models), and
-`gamma0_off_the_lever_kingston_may2026` (`confirmations.py:242`), the hardware
-read-off of γ₀ from its only lever J, which is the measured face of the unit
-claim below. It returned **no** entry in which a substrate Q was measured, and
-that narrower statement is the one this document rests on.
+`gamma0_off_the_lever_kingston_may2026` (`confirmations.py:242`), a historical
+locator for a finite-grid transfer-overshoot bracket. It does not isolate γ₀,
+certify critical damping, or validate the model default 0.05. It returned **no**
+entry in which a substrate Q was measured, and that narrower statement is the
+one this document rests on.
 
 `recovered/` returned nothing. `hypotheses/archive/` returned nothing beyond a
 single line in the retired `GAMMA_TO_GRAVITY.md`.
@@ -118,8 +119,9 @@ tick are 2μ_m·Q and no single conversion factor exists. Where the repository
 says "Q rotation periods per tick" the word is loose and the number is Q. And
 the factor 2
 above is the Lindblad book; in the coherence book (γ as the coherence-decay
-rate itself) it is absent. The open arc `gamma_book_enforced_nowhere` exists
-because that seam is unenforced repo-wide.
+rate itself) it is absent. The open arc `gamma_book_enforcement_boundary`
+records the remaining legacy/future-ingestion boundary after the canonical
+paths were gated.
 
 **Language note.** γ sits at the emitting end. The chain is not looked at, it
 stands in light (`docs/quantum/THE_LABEL_MAP.md:120`; working record: the arc
@@ -390,7 +392,8 @@ not.
 - **The shipped defaults read at Q = 20.** `Propagate/Program.cs:1254` and
   `framework/chain_system.py:75` both default to J = 1.0 at γ₀ = 0.05.
   `Q_REGIME_ANCHORS.md:113` names this the pre-Q-band baseline and not a
-  framework anchor. The canonical point is J = 0.075, Q = 1.5.
+  framework anchor. The illustrative repository point is J = 0.075, Q = 1.5;
+  it is not a hardware calibration.
 
 ## Related
 

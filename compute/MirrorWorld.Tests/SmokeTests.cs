@@ -230,6 +230,10 @@ public class SmokeTests
         Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(0.5, 1.5, 1.0));
         Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(2.0, 0.0, 1.0));
         Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(double.NaN, 0.5, 1.0));
+        Assert.Throws<ArgumentException>(() => Formulas.F44_LogRatio(1.5, 1.0, 1.0)); // finite/ordered but not d_fast+d_slow=2 Sg
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(0.5, -0.25, 1.0));
+        Assert.Throws<ArgumentException>(() =>
+            Formulas.F44_LogRatio(2.000000000000001, 1e-300, 1.0)); // tolerant sum, but Δd/(2Sg)>1
         Assert.Equal(Math.Sqrt(2.0 / 48), Formulas.F49c_CrossTermCrossing(3), 10);          // shadow-crossing
         Assert.Equal(Math.Log(10), Formulas.F55_KDeath, 9);                                 // K_death
         Assert.Equal(5, Formulas.F55_ImmortalModes(4));                                     // N+1 immortal

@@ -2,7 +2,10 @@ using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using System.Numerics;
+using RCPsiSquared.Core.Lindblad;
+using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Diagnostics.Foundation;
+using RCPsiSquared.Diagnostics.Ptf;
 using Xunit;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
@@ -14,6 +17,43 @@ public class PostEpFlowFieldTests
         var g = new double[n];
         for (int i = 0; i < n; i++) g[i] = a + (b - a) * i / (n - 1);
         return g;
+    }
+
+    [Fact]
+    public void DimensionlessLiouvillian_UsesCanonicalCarrierQ_HalfCoefficientHamiltonian()
+    {
+        const int n = 2;
+        const double q = 3.0;
+        var x0 = PauliString.SiteOp(n, 0, PauliLetter.X);
+        var x1 = PauliString.SiteOp(n, 1, PauliLetter.X);
+        var y0 = PauliString.SiteOp(n, 0, PauliLetter.Y);
+        var y1 = PauliString.SiteOp(n, 1, PauliLetter.Y);
+        var canonicalH = (x0 * x1 + y0 * y1).Multiply(new Complex(q / 2.0, 0.0));
+        var expected = PauliDephasingDissipator.BuildZ(canonicalH, new[] { 1.0, 1.0 });
+        var actual = new PostEpFlowField(n, new[] { q }, Linspace(0, 1, 2)).DimensionlessLiouvillian(q);
+
+        Assert.True((actual - expected).FrobeniusNorm() < 1e-12);
+    }
+
+    [Fact]
+    public void QNode_ReportsObservedTurns_NotUniversalDampingRegime()
+    {
+        var node = new PostEpFlowField(3, new[] { 3.0 }, Linspace(0, 2, 20)).Children.Single();
+        Assert.Contains("sampled", node.Summary);
+        Assert.DoesNotContain("underdamped", node.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("overdamped", node.Summary, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(-1.0)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void QGrid_RejectsDisconnectedOrNonfiniteCarrier(double q)
+    {
+        var ex = Assert.Throws<ArgumentException>(() =>
+            new PostEpFlowField(3, new[] { q }, Linspace(0, 2, 20)));
+        Assert.Contains("strictly > 0", ex.Message);
     }
 
     [Theory]
@@ -190,25 +230,26 @@ public class PostEpFlowFieldTests
     }
 
     [Fact]
-    public void Profile_ChangesSpectralGap_AtFixedTotal()
+    public void Profile_ChangesGlobalSpectralGap_AtFixedTotal()
     {
         var taus = Linspace(0, 6, 20);
         var vshape = PostEpFlowField.NormalizeToTotal(new[] { 0.2, 0.6, 2.4, 0.6, 0.2 }, 5.0);
         var uniform = new PostEpFlowField(5, new[] { 20.0 }, taus); // uniform, Sum gamma = 5
         var shaped = new PostEpFlowField(5, new[] { 20.0 }, taus, gammaProfile: vshape); // Sum gamma = 5
-        double rateU = uniform.Flows.Single().SlowestRate;
-        double rateV = shaped.Flows.Single().SlowestRate;
+        double rateU = uniform.Flows.Single().GlobalSlowestNonKernelRate;
+        double rateV = shaped.Flows.Single().GlobalSlowestNonKernelRate;
         Assert.True(rateU > 0, $"uniform slowest rate should be positive, got {rateU}");
         Assert.True(rateV > 0, $"shaped slowest rate should be positive, got {rateV}");
         Assert.True(Math.Abs(rateU - rateV) > 1e-6, $"shape should change the gap: uniform={rateU:F6}, vshape={rateV:F6}");
     }
 
     [Fact]
-    public void Tree_QNodeSummary_IncludesSlowestRate()
+    public void Tree_QNodeSummary_LabelsGlobalRateAsNotFlowOverlapRate()
     {
         var field = new PostEpFlowField(4, new[] { 2.5 }, Linspace(0, 6, 20));
         var qNode = field.Children.First();
-        Assert.Contains("rate", qNode.Summary);
+        Assert.Contains("global slowest non-kernel rate", qNode.Summary);
+        Assert.Contains("not a flow-overlap rate", qNode.Summary);
     }
 
     [Fact]
@@ -239,6 +280,29 @@ public class PostEpFlowFieldTests
         Assert.False(field.IsInSterileZone);
         Assert.True(field.BirthCanalDeviation > 0.05, $"expected positive Q-drift, got {field.BirthCanalDeviation}");
         Assert.Throws<InvalidOperationException>(() => field.ClosedFormRate);
+    }
+
+    [Fact]
+    public void BirthCanalClassification_IsScopedToVerifiedN5Surface()
+    {
+        var field = new PostEpFlowField(4, new[] { 3.0 }, Linspace(0, 1, 2));
+
+        Assert.False(field.HasBirthCanalClassification);
+        Assert.Throws<InvalidOperationException>(() => field.BirthCanalDeviation);
+        Assert.Throws<InvalidOperationException>(() => field.IsInBirthCanal);
+        Assert.Throws<InvalidOperationException>(() => field.IsInSterileZone);
+        Assert.Throws<InvalidOperationException>(() => field.ClosedFormRate);
+    }
+
+    [Fact]
+    public void BirthCanalClassification_RejectsUnverifiedN5Ring()
+    {
+        var ring = new PostEpFlowField(5, new[] { 3.0 }, Linspace(0, 1, 2),
+            topology: FlowTopology.Ring);
+
+        Assert.False(ring.HasBirthCanalClassification);
+        Assert.Throws<InvalidOperationException>(() => ring.BirthCanalDeviation);
+        Assert.Throws<InvalidOperationException>(() => ring.IsInBirthCanal);
     }
 
     [Fact]
@@ -295,16 +359,18 @@ public class PostEpFlowFieldTests
         var field = new PostEpFlowField(5, new[] { 20.0 }, Linspace(0, 6, 10));
         var a = field.ReadAssembly(20.0);
         Assert.Equal(1.0, a.SlowestDepth, 4);          // one light quantum
+        Assert.Equal(SlowLightParity.Odd, a.Parity);
         Assert.Equal(1, a.Rung);                        // odd rung
-        Assert.True(a.OnBirthRail);
-        Assert.Equal(a.SlowestRate, a.AbsorptionRate, 6);   // rate = 2·Σ γ_k·light_k (Absorption)
+        Assert.True(a.OnBirthRail is true);
+        Assert.Equal(a.SlowClusterMeanRate, a.AbsorptionRate, 6); // cluster mean = 2·Σ γ_k·light_k
         Assert.Equal(2.0, a.SlowestRate, 4);            // = 2γ uniform
         Assert.Equal(0.25, a.MaxSaturationCeiling, 12);
         // the slowest rate is degenerate; the carrier is basis-free since 2026-06-10: read
         // through the orthogonal projector onto the slow invariant subspace
         // (SlowLightDistribution), not averaged over an eigenvector basis. For the symmetric
         // uniform chain the distribution is exactly equipartitioned, 1/N per site.
-        Assert.True(a.Degeneracy > 1, $"uniform slowest rate should be degenerate, got {a.Degeneracy}");
+        Assert.True(a.SlowClusterDimension > 1,
+            $"uniform slow tolerance cluster should contain multiple modes, got {a.SlowClusterDimension}");
         Assert.Equal(a.PerSiteLight[0], a.PerSiteLight[4], 3);
         Assert.Equal(a.PerSiteLight[1], a.PerSiteLight[3], 3);
         Assert.Equal(1.0, a.PerSiteLight.Sum(), 4);
@@ -320,8 +386,9 @@ public class PostEpFlowFieldTests
         var field = new PostEpFlowField(5, new[] { 20.0 }, Linspace(0, 6, 10),
             gammaProfile: new[] { 0.25, 0.75, 3.0, 0.75, 0.25 });
         var a = field.ReadAssembly(20.0);
-        Assert.Equal(a.SlowestRate, a.AbsorptionRate, 6);
+        Assert.Equal(a.SlowClusterMeanRate, a.AbsorptionRate, 6);
         Assert.Equal(1.0, a.SlowestDepth, 4);           // still one quantum on the odd rail
+        Assert.Equal(SlowLightParity.Odd, a.Parity);
         Assert.Equal(1, a.Rung);
         Assert.Equal(1.0, a.SlowestRate, 4);            // γ-weighted share, not 2γ
     }

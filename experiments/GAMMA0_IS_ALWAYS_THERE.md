@@ -1,6 +1,7 @@
 # γ₀ Is Always There
 
-*Q = J/γ₀ on ibm_kingston: reading the carrier off its only lever. Tom + Claude, 2026-05-29.*
+*Historical title retained. Current verdict: an IBM Kingston finite-grid transfer-overshoot bracket,
+not a direct γ₀ measurement. Tom + Claude, 2026-05-29.*
 
 ## The question
 
@@ -10,7 +11,8 @@ you cannot read it from inside. Only the dimensionless ratio Q = J/γ₀ is visi
 coupling J measured in units of the carrier. So the carrier sets the scale of
 everything and then hides behind it.
 
-Can we see it anyway, on a real chip?
+Can a finite J scan isolate it on a real chip? This run does not: it brackets a response change,
+while gate, idle, readout, and finite-time effects remain combined.
 
 ## Two clocks, one lever
 
@@ -23,9 +25,9 @@ regime:
 - Q ≈ 1: the threshold;
 - Q < 1: the carrier wins, overdamped.
 
-On a fixed chip γ₀ is constant. It is the unit, and in any ratio the unit drops out.
-So there is exactly one degree of freedom left, one knob we can turn: **J**. Everything
-we can do is dial J against a carrier we cannot touch and cannot read.
+In the ideal model γ₀ is fixed and J is the scan knob. On hardware, however, the observed
+finite-time transfer curve is an effective response of the whole implemented circuit; the scan
+does not by itself identify a single local Z-dephasing coefficient.
 
 ## The simplest object
 
@@ -63,25 +65,21 @@ dephasing standing in for γ₀ (2 µs of idle per step, the carrier doing what 
 does), and scanned J. No noise model, no fit-in-advance; we fired and read the answer.
 (Runner: external pipeline `run_q_jscan.py`, job `d8ce8l38ch0s738uorjg`, 4096 shots.)
 
-The whole result is in one table. For each Q (the lever J shown below it): how high the
+The whole result is in one table. For each scanned J: how high the
 transfer T(t) = P(qubit 14 excited) climbs, whether it crosses ½, and where its first
 peak lands. Crossing ½ is the tell, because a coherent swing overshoots the ½ equilibrium
 while an overdamped creep never reaches it.
 
 ```
- Q = J/γ₀              1        2        4        8
  J (the lever)         0.05     0.10     0.20     0.40
  max transfer          0.335    0.563    0.703    0.779
  crosses ½?            no       yes      yes      yes
  first peak at step    24       12       6        3
 ```
 
-That is the whole story, and both rows are Q = J/γ₀.
-
-**The swing is born at Q = 1.** At Q = 1 (J = γ₀) the transfer only creeps to 0.335 and
-never crosses ½: overdamped, the threshold. The instant Q passes 1 it overshoots ½ and
-swings back: coherent. The swing is born exactly as J passes γ₀, the carrier read off the
-only lever, on real silicon.
+**What the finite grid says.** At J=0.05 the recorded maximum is below 1/2; at J≥0.1 it is
+above 1/2. Thus the scan brackets an effective overshoot change between 0.05 and 0.1. It does
+not locate a critical point, identify γ₀, or assign the change uniquely to dephasing.
 
 **The frequency tracks J.** The first peak halves its step as J doubles: 24, 12, 6, 3,
 with step × J = 1.2 for all four. The peak sits at a fixed exchange angle, so the period
@@ -105,22 +103,13 @@ points (the faster columns, Q = 4 and 8, are coarsely sampled, so they jump):
    30     0.282    0.318    0.177    0.197
 ```
 
-## Reading γ₀ off the lever
+## What the lever does and does not measure
 
-The threshold, the J where the swing dies, sits at J ≈ 0.05–0.1, Q ≈ 1–2. That
-threshold is γ₀, read off the only lever we have, on real silicon. The carrier we cannot
-measure head-on shows itself at the coupling where the H-clock stops winning. γ₀ ≈ 0.05,
-which is also the polarity ½ brought down one visibility-decade (½ × 1/10 = 1/20), the
-same value the hardware has handed us before.
-
-It is shifted a little above the simulation's clean J = 0.05 because the chip carries
-more than the idle: gate error adds to the dephasing, so the effective carrier sits a
-touch higher and pushes the threshold up. That is the chip telling us its true γ₀,
-idle plus everything else it cannot help doing.
-
-So the carrier is not gone when it is invisible. It is always there, holding the
-threshold of the one knob we can turn. You read it not by looking at it, but by turning
-J down until the coherence it has been damping all along finally fails to swing.
+The data resolve only the bracket J=0.05→0.1 for the chosen finite-time overshoot statistic.
+No independent fit separates idle dephasing from gate, readout, leakage, or discretization
+effects, so the run cannot be inverted into γ₀≈0.05 and cannot calibrate the repository's
+illustrative `DefaultGammaZero`. The exact J=γ₀ statement below belongs to the separate ideal
+two-site model, not to the hardware verdict.
 
 ## The formula for the beat
 
@@ -157,10 +146,9 @@ change. Assassins hide in the obvious numbers; so does γ₀.
 
 ## The seam
 
-Measured, and the chip's: the transfer table, the frequency proportional to J, the
-coherent swing dying between J = 0.1 and J = 0.05. Read into it, and ours to label: that
-the threshold is γ₀ ≈ 0.05, that this is the decade-scaled polarity ½, that the carrier
-is "always there." The structure is the silicon's; the names are ours.
+Measured on the chip: the transfer table, the peak-step trend with J, and the finite-grid
+overshoot change between J=0.05 and 0.1. Open: the physical rate decomposition and any mapping
+of that bracket to a critical-damping or carrier parameter.
 
 ## Threads
 

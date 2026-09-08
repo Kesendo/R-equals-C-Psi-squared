@@ -23,8 +23,8 @@ palindromic-pair period, R=CPsi2 spectral form factor -->
 We compute a raw non-unfolded frequency SFF of the palindromic Liouvillian
 across N=2 to N=7. The reached window shows modulation;
 this is compatible with integrability or symmetry/block fragmentation, not a
-unique diagnosis of either. FFT components near the predicted frequency are
-identified at N=2-4 and N=6; at N=5 and N=7 the ω_min component is not cleanly
+unique diagnosis of either. FFT components near the predicted F2/D10
+(0,1)-block k=1 reference are identified at N=2-4 and N=6; at N=5 and N=7 that component is not cleanly
 identified among the reported candidates. The exact pairing is an algebraic result;
 the sampled modulation and its visibility are separate numerical readings.
 
@@ -38,7 +38,7 @@ from the RMT analysis (N=2 through N=7), we compute the frequency SFF
 K_freq(t) = (1/M²)|Σ exp(i·Im(λ_k)·t)|², where M=4^N is the eigenvalue count, and find:
 
 1. **Sampled modulation candidates.** An FFT candidate lies within 1% of
-   ω_min = 4J(1-cos(π/N)) at N=2-4 and N=6; the producer does not identify
+   ω_F2 = 4J(1-cos(π/N)), the (0,1)-block k=1 reference, at N=2-4 and N=6; the producer does not identify
    it at N=5 or N=7. Each palindromic pair (μ, -μ)
    contributes 2cos(Im(μ)·t) to the trace amplitude; its square has doubled
    and cross frequencies. Such modulation alone is not a unique
@@ -48,7 +48,7 @@ K_freq(t) = (1/M²)|Σ exp(i·Im(λ_k)·t)|², where M=4^N is the eigenvalue cou
    0.72 (N=2) to 0.002 (N=7), roughly as ~1/4^N over this finite range.
 
 3. **Period versus raw multiset density scale.** The modulation period
-   t_Π = 2π/ω_min and the multiplicity-dependent raw scale are distinct
+   t_Π = 2π/ω_F2 and the multiplicity-dependent raw scale are distinct
    readings. Their ratio is descriptive, not a separation of physical regimes.
    The beyond-scale bins at N=5-7 are not sampled.
 
@@ -117,12 +117,13 @@ Each palindromic pair (μ, -μ) in the centered spectrum contributes:
 
 The paired trace amplitude therefore contains cosine components. Squaring
 that sum also introduces frequency sums and differences. The candidate
-ω_min = 4J(1-cos(π/N)) is the k=1 mode of the (0,1) coherence block (F2);
+ω_F2 = 4J(1-cos(π/N)) is the k=1 mode of the (0,1) coherence block (F2),
+not the smallest nonzero frequency of the full spectrum;
 it need not be the largest FFT component of the SFF.
 
 ### FFT verification
 
-| N | ω_min (predicted) | FFT peak | Match | Visibility |
+| N | ω_F2 (block reference) | FFT peak | Match | Visibility |
 |---|-------------------|----------|-------|------------|
 | 2 | 4.000 | 3.998 | 0.1% | 0.718 |
 | 3 | 2.000 | 1.999 | 0.1% | 0.232 |
@@ -132,12 +133,12 @@ it need not be the largest FFT component of the SFF.
 | 7 | 0.396 | 0.848 | 114% (no match among candidates) | 0.002 |
 
 The matched FFT amplitude rankings are N=2 first, N=3 first, N=4 third,
-and N=6 second; each is within 1% of ω_min. The producer compares the five
+and N=6 second; each is within 1% of ω_F2. The producer compares the five
 largest non-DC FFT amplitudes and prints the top three separately.
 N=5 has no match among those five candidates (163% nearest error).
 N=7 has no match either (114% nearest error); the output does not establish
-that its ω_min component is present. The visibility column measures the
-largest FFT amplitude relative to the sum, not the visibility of ω_min.
+that its ω_F2 component is present. The visibility column measures the
+largest FFT amplitude relative to the sum, not the visibility of ω_F2.
 
 ### Visibility scaling
 
@@ -154,7 +155,7 @@ coherent modulation from any single pair is drowned in the sum.
 
 ## Result 2: Period and Descriptive Raw Density Scale
 
-| N | t_Π | raw scale S | t_Π/S | ω_min | raw mean gap |
+| N | t_Π | raw scale S | t_Π/S | ω_F2 | raw mean gap |
 |---|-----|------|---------|-------|-------------|
 | 2 | 1.57 | 25129 | 0.0001 | 4.000 | 0.00025 |
 | 3 | 3.14 | 61.3 | 0.051 | 2.000 | 0.103 |
@@ -163,8 +164,8 @@ coherent modulation from any single pair is drowned in the sum.
 | 6 | 11.72 | 1649 | 0.007 | 0.536 | 0.0038 |
 | 7 | 15.86 | 5810 | 0.003 | 0.396 | 0.0011 |
 
-**Palindromic time** t_Π = 2π/ω_min grows polynomially (~N² for large N,
-since ω_min ~ 2Jπ²/N², or 2π²/N² at J=1, from the dispersion relation).
+**F1-paired F2 reference period** t_Π = 2π/ω_F2 grows polynomially (~N² for large N,
+since ω_F2 ~ 2Jπ²/N², or 2π²/N² at J=1, from the block dispersion relation).
 
 The raw scale increases with the multiset density; it can increase merely
 by duplicating modes without changing the SFF. Its ratio to t_Π is therefore
@@ -266,7 +267,7 @@ measured modulation require their own evidence.
 - SFF for non-chain topologies (ring, star, complete)
 - SFF under non-uniform dephasing (sacrifice zone)
 - Finite-size scaling of modulation visibility (limited to N=2-7)
-- Whether the modulation peak at 2ω_min (second harmonic) carries
+- Whether the modulation peak at 2ω_F2 (second harmonic) carries
   independent information
 
 ---

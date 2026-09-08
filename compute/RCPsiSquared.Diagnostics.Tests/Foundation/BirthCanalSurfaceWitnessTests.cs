@@ -23,8 +23,8 @@ public class BirthCanalSurfaceWitnessTests
         var p = W.ReadPoint(0.25, 1.5);                          // flat-bulk-edge
         Assert.True(p.IsCanal);
         Assert.True(p.Deviation > 1e-3);
-        Assert.Equal(1.2483, p.Low!.SlowestRate, 3);            // rate(Q=1.5)
-        Assert.Equal(4.0 / 3.0, p.High!.SlowestRate, 2);        // rate(Q=1000) -> 4/3
+        Assert.Equal(1.2483, p.Low!.SlowestRate, 3);            // q=1.5 = canonical Q=3
+        Assert.Equal(4.0 / 3.0, p.High!.SlowestRate, 2);        // q=1000 = canonical Q=2000
         Assert.True(p.DriftMax > 5e-2);                          // max per-site light drift ~7.8e-2
     }
 
@@ -41,16 +41,16 @@ public class BirthCanalSurfaceWitnessTests
     {
         // M7: the grid value IS the codebase's BirthCanalDeviation, not a reimplementation.
         var profile = SymmetricGammaSlice.Profile(5, 0.25, 1.5);
-        var field = new PostEpFlowField(5, new[] { 1.5, 1000.0 }, new[] { 0.0, 1.0 }, profile);
+        var field = new PostEpFlowField(5, new[] { 3.0, 2000.0 }, new[] { 0.0, 1.0 }, profile);
         Assert.Equal(field.BirthCanalDeviation, W.ReadPoint(0.25, 1.5).Deviation, 9);
     }
 
     [Fact]
     public void ReadPoint_AbsorptionResidualIsMachineZero_L3()
     {
-        // L3 / M4: rate == 2*sum gamma_l*light_l at the low probe, both sterile and canal.
-        Assert.True(Math.Abs(W.ReadPoint(1.0, 1.0).Low!.SlowestRate - W.ReadPoint(1.0, 1.0).Low!.AbsorptionRate) < 1e-6);
-        Assert.True(Math.Abs(W.ReadPoint(0.25, 1.5).Low!.SlowestRate - W.ReadPoint(0.25, 1.5).Low!.AbsorptionRate) < 1e-6);
+        // L3 / M4: cluster mean == 2*sum gamma_l*light_l at the low probe, both sterile and canal.
+        Assert.True(W.ReadPoint(1.0, 1.0).Low!.AbsorptionResidual < 1e-6);
+        Assert.True(W.ReadPoint(0.25, 1.5).Low!.AbsorptionResidual < 1e-6);
     }
 
     [Fact]
@@ -93,7 +93,7 @@ public class BirthCanalSurfaceWitnessTests
         Assert.Contains("L1 deviation", set);
         Assert.Contains("L4 rate", set);
         Assert.Contains("L5 parity rail", set);
-        Assert.Contains("L6 degeneracy", set);
+        Assert.Contains("L6 tolerance-cluster dimension", set);
     }
 
     [Fact]

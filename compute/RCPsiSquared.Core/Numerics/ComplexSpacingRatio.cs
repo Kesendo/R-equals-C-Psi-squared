@@ -32,19 +32,25 @@ public static class ComplexSpacingRatio
         "The uncorrelated 2D-Poisson reference is a numerical benchmark. Agreement does not prove integrability " +
         "and does not classify the measured Liouvillian.";
 
-    /// <summary>Represent each finite-precision cluster once by rounding both coordinates to
-    /// <see cref="ClusterDecimals"/> decimal places, then compute the per-representative z's:
+    /// <summary>Represent each finite-precision cluster once by its canonically ordered rounded
+    /// coordinate at <see cref="ClusterDecimals"/> decimal places, then compute the per-representative z's:
     /// z = (NN−λ)/(NNN−λ). The clustering is tolerance-dependent, not an exact degeneracy
     /// test. It avoids zero NN denominators in the chosen numerical resolution but can also merge
     /// a sufficiently close nondegenerate pair.</summary>
     private static (List<Complex> zs, int distinct) Compute(IReadOnlyList<Complex> points)
     {
         var seen = new HashSet<(long, long)>();
-        var pts = new List<Complex>(points.Count);
+        double scale = Math.Pow(10, ClusterDecimals);
         foreach (var p in points)
-            if (seen.Add(((long)Math.Round(p.Real * Math.Pow(10, ClusterDecimals)),
-                          (long)Math.Round(p.Imaginary * Math.Pow(10, ClusterDecimals)))))
-                pts.Add(p);
+            seen.Add(((long)Math.Round(p.Real * scale),
+                      (long)Math.Round(p.Imaginary * scale)));
+
+        // Use the rounded coordinate itself, in a canonical order, rather than
+        // whichever raw eigensolver point happened to reach a bin first.
+        // Thus both the representative population and equidistance tie order
+        // are independent of the incoming EVD order.
+        var pts = seen.OrderBy(key => key.Item1).ThenBy(key => key.Item2)
+            .Select(key => new Complex(key.Item1 / scale, key.Item2 / scale)).ToList();
 
         int n = pts.Count;
         var zs = new List<Complex>(n);

@@ -16,9 +16,11 @@ between the anchors Q=0, Q_EP, Q_peak:
      vertically into the oscillating pair (the √-branch-point, the rotation born);
   2. the clock hands vs Q: the decay pins at 4γ₀ at the EP, the Rotation angle lifts off 0;
   3. the defectiveness vs Q: the eigenvectors coalesce (overlap → 1) and the Petermann factor
-     spikes (→ ∞) at the EP, the fragile-bridge pinch;
-  4. the hardware: IBM Kingston (ep_onset_may2026, job d8drjbfd0j8c73f4mobg) swept Q and the memory
-     revival stayed at the 1/N floor until Q crossed ~Q_EP, then lifted off.
+     spikes (→ ∞) at the EP, the two-level exceptional-point pinch;
+  4. a separately scoped hardware population handover: IBM Kingston
+     (historical run id ep_onset_may2026, job d8drjbfd0j8c73f4mobg) swept the runner's
+     coherence-rate label Q_label. Canonical Lindblad Q is 2 Q_label; populations alone
+     do not identify an EP or its Jordan character.
 
 Console sibling (clock + defectiveness, text): simulations/f86_ep_through_the_clock.py.
 Produces: simulations/results/ep_transition/ep_transition.png
@@ -33,11 +35,13 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from f86_hardware_rate_book import population_scan
+
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 G0 = 1.0
-G_EFF = 4.0 / 3.0           # Q_EP = 2/g_eff = 1.5 (the c=2 peak orbit, matching the hardware)
+G_EFF = 4.0 / 3.0           # toy-only choice: Q_EP = 2/g_eff = 1.5
 Q_EP = 2.0 / G_EFF
 X_PEAK = 2.196910329331     # C2BareDoubledPtfClosedForm: the resonance peak in x = Q/Q_EP units
 Q_PEAK = X_PEAK * Q_EP
@@ -124,7 +128,7 @@ def main() -> None:
     l2, lab2 = ax_t.get_legend_handles_labels()
     ax_clock.legend(l1 + l2, lab1 + lab2, loc="center right", fontsize=8)
 
-    # ── Panel 3: the defectiveness vs Q (the fragile-bridge pinch) ──
+    # ── Panel 3: the defectiveness vs Q (the two-level exceptional-point pinch) ──
     Qd = np.linspace(0.05, 2.5 * Q_EP, 600)
     Qd = Qd[np.abs(Qd - Q_EP) > 1e-3]      # skip exactly the EP (eig is singular there)
     overlap = np.array([defectiveness(Q)[0] for Q in Qd])
@@ -140,26 +144,26 @@ def main() -> None:
     ax_def.axvline(Q_EP, color="red", ls="--", lw=1.2, alpha=0.8)
     ax_def.annotate("Q_EP: the eigenvectors coalesce\n(defective, Jordan block)", (Q_EP, 0.5),
                     fontsize=8, color="red", ha="center")
-    ax_def.set_title("The defectiveness: the eigenvectors collapse to one and the\nPetermann sensitivity spikes at the EP (the fragile-bridge pinch)")
+    ax_def.set_title("The defectiveness: the eigenvectors collapse to one and the\nPetermann sensitivity spikes at the EP (the two-level exceptional-point pinch)")
     l1, lab1 = ax_def.get_legend_handles_labels()
     l2, lab2 = ax_p.get_legend_handles_labels()
     ax_def.legend(l1 + l2, lab1 + lab2, loc="upper right", fontsize=8)
 
-    # ── Panel 4: the hardware (Kingston EP onset, Part B) ──
-    hw_Q = np.array([0.5, 1.0, 1.5, 2.5, 5.0, 20.0])
-    hw_rev = np.array([0.30, 0.36, 0.34, 0.49, 0.56, 0.70])   # data/ibm_ep_onset_may2026 README, job d8drjbfd0j8c73f4mobg
-    ax_hw.axhline(1.0 / 3.0, color="gray", ls=":", lw=1.2, alpha=0.7, label="1/N equipartition floor")
-    ax_hw.plot(hw_Q, hw_rev, "o-", color="#1F6FB2", lw=1.6, markersize=9, markeredgecolor="black",
+    # ── Panel 4: hardware population handover (historical runner label, Part B) ──
+    hw_q_label, hw_q_lindblad, hw_rev = map(np.asarray, population_scan())
+    ax_hw.axhline(1.0 / 3.0, color="gray", ls=":", lw=1.2, alpha=0.7, label="1/N reference level")
+    ax_hw.plot(hw_q_lindblad, hw_rev, "o-", color="#1F6FB2", lw=1.6, markersize=9, markeredgecolor="black",
                markeredgewidth=0.5, label="IBM Kingston revival (max ⟨n₀⟩)")
-    ax_hw.axvline(Q_EP, color="red", ls="--", lw=1.2, alpha=0.8)
-    ax_hw.annotate("Q_EP ≈ 1.5", (Q_EP, 0.66), fontsize=9, color="red", ha="center")
-    ax_hw.annotate("overdamped\n(forgotten)", (0.7, 0.30), fontsize=8, color="#555", ha="center")
-    ax_hw.annotate("memory lifts off →", (4.0, 0.45), fontsize=8, color="#1F6FB2")
+    ax_hw.axvspan(3.0, 5.0, color="#1F6FB2", alpha=0.10, label="sampled handover bracket")
+    ax_hw.annotate("Q_label 1.5→2.5\nQ_Lindblad 3→5", (4.0, 0.66), fontsize=8,
+                   color="#1F6FB2", ha="center")
+    ax_hw.annotate("population return grows →", (6.0, 0.45), fontsize=8, color="#1F6FB2")
     ax_hw.set_xscale("log")
-    ax_hw.set_xlim(0.4, 25)
+    ax_hw.set_xlim(0.8, 50)
     ax_hw.set_ylim(0.25, 0.75)
-    ax_hw.set_title("The hardware: the memory switches on as Q crosses the EP\n(IBM Kingston, 2026-05-31, the rotation born on a real chip)")
-    ax_hw.set_xlabel("Q = J/γ₀  (log)")
+    ax_hw.set_title("Hardware population handover (IBM Kingston, 2026-05-31)\n"
+                    "spectral character remains open")
+    ax_hw.set_xlabel("canonical Q_Lindblad = 2 Q_label  (log)")
     ax_hw.set_ylabel("revival (memory return)")
     ax_hw.grid(True, alpha=0.2, which="both")
     ax_hw.legend(loc="upper left", fontsize=8)
@@ -167,7 +171,7 @@ def main() -> None:
     fig.suptitle(
         "The exceptional point, in detail between the anchors (Q=0, Q_EP, Q_peak): the birth of the rotation.\n"
         "Two real decay channels converge, coalesce defectively at the EP (the Takt pins at 4γ₀, the eigenvectors "
-        "collapse), and split into an oscillating pair, the Rotation hand lifting off, confirmed on IBM Kingston.",
+        "collapse), and split into an oscillating pair. The hardware panel is a separate population observable.",
         y=0.99, fontsize=11)
     plt.tight_layout(rect=[0, 0, 1, 0.95])
 

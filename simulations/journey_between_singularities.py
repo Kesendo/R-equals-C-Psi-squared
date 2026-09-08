@@ -1,27 +1,14 @@
 #!/usr/bin/env python3
-"""The journey between the two singularities, closed: born in Q, dies in tau.
+"""A sampled hardware population handover beside a simulated flow to the 1/N fixed point.
 
-THE_FLOW_BETWEEN_TWO_SINGULARITIES says the flow is bracketed by two singularities
-of DIFFERENT kinds, and that difference is the whole point:
+The Kingston runner recorded only populations and used coherence-rate labels Q_label=J/Gamma.
+Its random-phase twirl gives exp(-Gamma*t), whereas the repository jump sqrt(gamma) Z gives
+exp(-2*gamma*t). Therefore Q_Lindblad=2*Q_label. The hardware panel makes no EP, critical-
+damping, coalescence, or Jordan claim. The state-space panel independently propagates a
+single-excitation model at fixed canonical Q to its 1/N kernel.
 
-  - the EP (the BIRTH): parameter space, at Q_EP = 2/g_eff = 1.5, DEFECTIVE (a Jordan
-    block, the two slow eigenvectors coalesce, the Petermann sensitivity diverges). Below
-    it: overdamped, no memory (the revival sits on the 1/N floor). Above it: the rotation
-    is born, the memory sloshes back.
-
-  - the target (the DEATH): state space, the 1/N equipartitioned fixed point, SIMPLE (the
-    lambda = 0 kernel of L). Reached by letting TIME run at a fixed Q above the EP: the
-    reborn memory sloshes, fades, and the excitation spreads to 1/N per site.
-
-The carrier gamma_0 is REAL: ~0.05 on the chip, not the toy 1.0. That matters here. Q_EP =
-2/g_eff = 1.5 is gamma_0-invariant (J = Q*gamma_0 cancels it), and so is the whole
-dimensionless clock (theta, the eigenvector overlap, the flow vs tau): gamma_0 is a pure
-SCALE, the journey's SHAPE does not depend on it. But the physical coupling does: J_EP =
-Q_EP*gamma_0 = 0.075, while the chip runs at J = 1.5 rad/us, i.e. Q = J/gamma_0 ~ 30, deep
-above the EP. Setting gamma_0 = 1 hides this by forcing J = Q, which makes J_EP = 1.5
-coincide with the chip's J = 1.5 and falsely reads as "the chip sits on the EP". It does not:
-the chip lives in the deep-memory regime, and the EP is reached only by INJECTING noise
-(Part B pushed Q down from ~30 toward 1.5). That is the important thing the toy value buried.
+The filename is retained as a historical locator. It does not mean that the measured
+population handover and the fixed point are two certified spectral singularities.
 
 Produces: simulations/results/journey_between_singularities/journey.png
 """
@@ -35,19 +22,19 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from f86_hardware_rate_book import population_scan
+
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # ----------------------------------------------------------------------------------------
-# The REAL scale. gamma_0 is the chip's carrier (~0.05), not the toy 1.0.
+# An illustrative scale for the separate toy 2x2 clock. It is not inferred from Kingston.
 # ----------------------------------------------------------------------------------------
-G0 = 0.05                       # the hardware carrier Gamma_0 ~ 0.05 (the real value)
+G0 = 0.05                       # illustrative toy-clock scale; not inferred from this hardware scan
 G_EFF = 4.0 / 3.0               # Q_EP = 2/g_eff = 1.5, gamma_0-invariant
 Q_EP = 2.0 / G_EFF
 X_PEAK = 2.196910329331         # C2BareDoubledPtfClosedForm resonance peak, in x = Q/Q_EP units
 Q_PEAK = X_PEAK * Q_EP
-J_HW = 1.5                      # the hardware coupling (rad/us), fixed; Part B injected gamma to scan Q
-Q_HOME = J_HW / G0              # the chip's natural operating point ~ 30 (deep memory, no injection)
 
 
 def l_eff(Q: float, gamma0: float = G0) -> np.ndarray:
@@ -68,13 +55,12 @@ def clock(Q: float, gamma0: float = G0):
     return decay[i], omega[i], np.degrees(np.arctan2(omega[i], decay[i])), min(overlap, 1.0)
 
 
-# Part B hardware: the revival (max <n_0> for t >= 2us) vs Q (job d8drjbfd0j8c73f4mobg)
-HW_Q = np.array([0.5, 1.0, 1.5, 2.5, 5.0, 20.0])
-HW_REV = np.array([0.30, 0.36, 0.34, 0.49, 0.56, 0.70])
+# Part B hardware: recomputed from the raw populations, then converted to canonical Lindblad Q.
+HW_Q_LABEL, HW_Q_LINDBLAD, HW_REV = map(np.asarray, population_scan())
 
 # ----------------------------------------------------------------------------------------
 # Leg 2: the death (state space). N=3 single excitation, XY chain under Z-dephasing,
-# the flow to 1/N. Read dimensionlessly (gamma_0-invariant): L'(Q) = -iQ[H_unit,.] +
+# the flow to 1/N. Read dimensionlessly (gamma_0-invariant): L'(Q) = -i(Q/2)[H_unit,.] +
 # Sum_l(Z_l rho Z_l - rho), tau = gamma_0 * t. (Any gamma_0 gives the same curve vs tau.)
 # ----------------------------------------------------------------------------------------
 I2 = np.eye(2, dtype=complex)
@@ -96,7 +82,7 @@ def flow_to_target(Q: float, N: int, taus: np.ndarray):
     d = 1 << N
     H = np.zeros((d, d), dtype=complex)
     for b in range(N - 1):
-        H += Q * (site_op(X, b, N) @ site_op(X, b + 1, N) + site_op(Y, b, N) @ site_op(Y, b + 1, N))
+        H += (Q / 2.0) * (site_op(X, b, N) @ site_op(X, b + 1, N) + site_op(Y, b, N) @ site_op(Y, b + 1, N))
     Id = np.eye(d, dtype=complex)
     # column-stacking vec: vec(A rho B) = (B^T kron A) vec(rho)
     Lsup = -1j * (np.kron(Id, H) - np.kron(H.T, Id))
@@ -123,7 +109,7 @@ def flow_to_target(Q: float, N: int, taus: np.ndarray):
 def main() -> None:
     print("=" * 84)
     print(f"  THE JOURNEY  gamma0={G0}  g_eff={G_EFF:.4f}  Q_EP={Q_EP:.3f}  Q_peak={Q_PEAK:.3f}")
-    print(f"  J_EP = Q_EP*gamma0 = {Q_EP * G0:.4f}   |   chip: J={J_HW} -> Q_home = J/gamma0 = {Q_HOME:.1f}")
+    print("  hardware: Q_Lindblad = 2 Q_label; population observable; spectral character open")
     print("=" * 84)
 
     # ---- gamma_0-invariance check: the dimensionless clock is identical at 1.0 and 0.05 ----
@@ -135,9 +121,9 @@ def main() -> None:
         print(f"  {Q:6.2f} | {th1:13.4f} {th2:14.4f} | {ov1:12.5f} {ov2:13.5f}")
 
     # ---- Leg 1: the birth, the closed-form clock, with PHYSICAL J alongside Q ----
-    print("\n  LEG 1 - the birth (parameter space). Q, x=Q/Q_EP, physical J=Q*gamma0, the clock:")
+    print("\n  SEPARATE TOY CLOCK (parameter space). Q, x=Q/Q_EP, illustrative J=Q*gamma0:")
     print(f"  {'Q':>6} {'x':>6} {'J':>7} {'decay':>7} {'omega':>7} {'theta':>7} {'overlap':>8}   regime")
-    for Q in [0.3, 0.5, 0.75, 1.0, 1.5, 2.5, Q_PEAK, 5.0, 10.0, 20.0, Q_HOME]:
+    for Q in [0.3, 0.5, 0.75, 1.0, 1.5, 2.5, Q_PEAK, 5.0, 10.0, 20.0, 40.0]:
         d, w, th, ov = clock(Q)
         x = Q / Q_EP
         J = Q * G0
@@ -145,8 +131,6 @@ def main() -> None:
             reg = "overdamped (pre-birth)"
         elif abs(Q - Q_EP) < 1e-6:
             reg = "THE EP (defective pinch)"
-        elif abs(Q - Q_HOME) < 1e-6:
-            reg = "<- the chip's natural home (deep memory)"
         else:
             reg = "rotation born"
         print(f"  {Q:6.2f} {x:6.2f} {J:7.4f} {d:7.4f} {w:7.4f} {th:7.1f} {ov:8.3f}   {reg}")
@@ -160,7 +144,7 @@ def main() -> None:
     for tau in (0.0, 0.2, 0.5, 1.0, 2.0, 4.0):
         j = int(np.argmin(np.abs(taus - tau)))
         print(f"  tau={taus[j]:5.2f}  " + " ".join(f"<n{l}>={flow[l, j]:5.3f}" for l in range(N)))
-    print(f"  target 1/N = {1.0 / N:.4f}  (the chip's home Q~{Q_HOME:.0f} sloshes far longer, same arc)")
+    print(f"  target 1/N = {1.0 / N:.4f}")
 
     # ====================================================================================
     # The figure: the two legs on one canvas
@@ -173,41 +157,19 @@ def main() -> None:
     overlap = np.array([clock(Q)[3] for Q in Qc])
 
     axL.axhline(1.0 / 3.0, color="gray", ls=":", lw=1.2, alpha=0.7)
-    axL.plot(HW_Q, HW_REV, "o-", color="#1F6FB2", lw=1.8, markersize=9, markeredgecolor="black",
-             markeredgewidth=0.5, label="IBM Kingston revival (Part B: inject noise, scan Q)", zorder=5)
-    axL.annotate("1/N floor\n(forgotten)", (0.34, 0.335), fontsize=8, color="#555", ha="center", va="bottom")
+    axL.plot(HW_Q_LINDBLAD, HW_REV, "o-", color="#1F6FB2", lw=1.8, markersize=9, markeredgecolor="black",
+             markeredgewidth=0.5, label="IBM Kingston population return", zorder=5)
+    axL.annotate("1/N reference", (1.1, 0.335), fontsize=8, color="#555", ha="center", va="bottom")
     axL.set_xscale("log")
-    axL.set_xlim(0.3, 40)
+    axL.set_xlim(0.8, 50)
     axL.set_ylim(0.0, 1.0)
-    axL.set_xlabel("Q = J / gamma_0   (the chip rests at Q~30; the EP is reached by ADDING noise, lowering Q)")
+    axL.set_xlabel("canonical Q_Lindblad = 2 Q_label")
     axL.set_ylabel("revival  (memory return)", color="#1F6FB2")
-    axL.axvline(Q_EP, color="red", ls="--", lw=1.3, alpha=0.85)
-    axL.axvline(Q_PEAK, color="orange", ls="--", lw=1.0, alpha=0.6)
-    axL.axvline(Q_HOME, color="#2E8B57", ls="-.", lw=1.6, alpha=0.85)
-    axL.annotate("Q_EP = 1.5\n(J_EP = 0.075)\nthe defective pinch", (1.5, 0.085), fontsize=8.5,
-                 color="red", ha="center")
-    axL.annotate("Q_peak", (Q_PEAK, 0.50), fontsize=8, color="orange", ha="center", rotation=90)
-    axL.annotate("the chip's home\nJ=1.5, gamma_0~0.05\nQ~30 (deep memory)", (30, 0.27), fontsize=8.5,
-                 color="#1d6b3f", ha="center")
-
-    # physical coupling J on a secondary top axis: J_EP=0.075 vs the chip's J=1.5 both visible
-    secax = axL.secondary_xaxis("top", functions=(lambda q: q * G0, lambda j: j / G0))
-    secax.set_xlabel("physical coupling  J = Q * gamma_0   [rad/us]   (gamma_0 ~ 0.05, the chip's carrier)")
-
-    axLt = axL.twinx()
-    axLt.plot(Qc, theta, "-", color="#AA33CC", lw=2.2, label="Rotation angle theta (the F95 angle)")
-    axLt.plot(Qc, overlap * 90.0, "-", color="#CC3333", lw=1.8, alpha=0.8,
-              label="eigenvector overlap min(x,1/x)  [x90, peaks =1 at the EP]")
-    axLt.set_ylabel("theta [deg]   /   overlap [x90]", color="#7733AA")
-    axLt.set_ylim(0, 95)
-    axLt.annotate("theta -> 90 deg\n(pure rotation)", (24.0, 70), fontsize=8, color="#AA33CC", ha="center")
-
-    lA, labA = axL.get_legend_handles_labels()
-    lAt, labAt = axLt.get_legend_handles_labels()
-    axL.legend(lA + lAt, labA + labAt, loc="center left", fontsize=7.8, framealpha=0.9)
-    axL.set_title("THE BIRTH  -  parameter space.  The dimensionless clock is gamma_0-invariant\n"
-                  "(a pure scale), but the chip rests at Q~30: the EP is a NOISE-degraded regime.",
-                  fontsize=10)
+    axL.axvspan(3.0, 5.0, color="#1F6FB2", alpha=0.10)
+    axL.annotate("sampled handover\nQ_label 1.5→2.5\nQ_Lindblad 3→5", (4.0, 0.72),
+                 fontsize=8.5, color="#1F6FB2", ha="center")
+    axL.legend(loc="upper left", fontsize=8.5, framealpha=0.9)
+    axL.set_title("HARDWARE POPULATION HANDOVER\nrate-book corrected; spectral character remains open", fontsize=10)
 
     # ---- Panel B (right): the death, state space, the tau-axis ----
     colors = ["#1F6FB2", "#2E8B57", "#CC7722"]
@@ -215,24 +177,23 @@ def main() -> None:
     for l in range(N):
         axR.plot(taus, flow[l], "-", color=colors[l], lw=2.2, label=labels[l])
     axR.axhline(1.0 / N, color="black", ls="--", lw=1.4, alpha=0.8)
-    axR.annotate("1/N target  (the simple lambda=0 kernel:\nthe equipartitioned death, the memory forgotten)",
+    axR.annotate("1/N target in the one-excitation sector\n(global kernel has N+1 stationary sectors)",
                  (2.0, 1.0 / N), xytext=(1.7, 0.52), fontsize=8.5, ha="center",
                  arrowprops=dict(arrowstyle="->", color="black", lw=0.8))
     axR.set_xlim(0, 4)
     axR.set_ylim(0, 1.0)
-    axR.set_xlabel("tau = gamma_0 * t   (time, at fixed Q above the EP)")
+    axR.set_xlabel("tau = gamma * t   (time at fixed canonical Q)")
     axR.set_ylabel("per-site occupation  <n_site>")
-    axR.set_title(f"THE DEATH  -  state space (let time run, Q={Q_death:.0f} above the EP)\n"
-                  "the reborn memory sloshes, fades, and spreads to 1/N: the flow into the future.",
+    axR.set_title(f"SIMULATED POPULATION FLOW (canonical Q={Q_death:.0f})\n"
+                  "the site occupations spread toward the 1/N fixed point.",
                   fontsize=10)
     axR.legend(loc="upper right", fontsize=8.5, framealpha=0.9)
     axR.grid(True, alpha=0.2)
 
     fig.suptitle(
-        "The journey between the two singularities, closed: born in Q, dies in tau   (gamma_0 ~ 0.05, the real carrier).\n"
-        "Left: the BIRTH in parameter space; the clock's SHAPE is gamma_0-invariant, but the chip rests at Q~30 and the "
-        "EP (Q=1.5, J=0.075) is reached only by injecting noise (Kingston Part B).\n"
-        "Right: the DEATH in state space; the reborn memory relaxing over time to the simple 1/N kernel (Kingston Part A).",
+        "From a sampled population handover to the 1/N fixed point.\n"
+        "Left: Kingston populations in canonical Lindblad Q. Right: an independent state-space propagation.\n"
+        "No spectral transition is inferred from the hardware population curve.",
         y=1.0, fontsize=10.5)
     plt.tight_layout(rect=[0, 0, 1, 0.90])
 

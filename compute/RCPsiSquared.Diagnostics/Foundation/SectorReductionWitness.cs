@@ -17,9 +17,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// EVEN {0,2}-coherence in the 2-excitation density block (the coherence-horizon mode; see the
 /// <c>birth_canal_horizon_junction</c> arc). Reuses the per-sector machinery, no full 4^N.
 ///
-/// <para>Convention: H_unit*Q (coeff 1, single-particle off-diag 2) = ChainSystem(N, J=2Q).
-/// BuildHamiltonian() (XY = (J/2)(XX+YY), off-diag J); the (0,1) block's -2*gamma_l-per-bit
-/// dephasing matches PostEpFlowField, pinned by the validation test.</para>
+/// <para>Convention: the public Q is the canonical carrier Q used by <see cref="PostEpFlowField"/>:
+/// H=(Q/2)·Σ(XX+YY) = ChainSystem(N, J=Q).BuildHamiltonian(). The (0,1) block's
+/// -2*gamma_l-per-bit dephasing matches PostEpFlowField at the SAME Q input, pinned by test.</para>
 ///
 /// <para>Honest scope: this banks the N=5 birth-canal result and the analytic flat-gamma blindness.
 /// The V-Effect (w=N/2) self-pair is NOT the {0,2}-coherence (RESOLVED 2026-06-14): different
@@ -41,11 +41,11 @@ public sealed class SectorReductionWitness : IInspectable
         N = n; Gamma = gamma; Topology = topology;
     }
 
-    /// <summary>H = Q*H_unit = Q*Sum_b(X_bX_{b+1}+Y_bY_{b+1}). ChainSystem XY builds (J/2)(XX+YY),
-    /// so J=2Q gives coeff Q. The GammaZero arg is unused for H (dephasing lives in the dissipator);
+    /// <summary>H = (Q/2)*H_unit. ChainSystem XY builds (J/2)(XX+YY),
+    /// so J=Q. The GammaZero arg is unused for H (dephasing lives in the dissipator);
     /// pass any &gt;0.</summary>
-    private static ComplexMatrix QHUnit(int n, double q, TopologyKind topology) =>
-        new ChainSystem(n, 2.0 * q, 1.0, HamiltonianType.XY, topology).BuildHamiltonian();
+    private static ComplexMatrix QHUnit(int n, double canonicalQ, TopologyKind topology) =>
+        new ChainSystem(n, canonicalQ, 1.0, HamiltonianType.XY, topology).BuildHamiltonian();
 
     /// <summary>The flat indices of the (PCol, PRow) sector.</summary>
     private static int[] SectorFlat(int n, int pCol, int pRow)
@@ -59,10 +59,10 @@ public sealed class SectorReductionWitness : IInspectable
 
     /// <summary>The slowest non-kernel rate of the (PCol,PRow) sector block: -max{ Re lambda :
     /// |lambda| &gt; tol }.</summary>
-    public static double SectorSlowest(int n, double q, IReadOnlyList<double> gammaProfile,
+    public static double SectorSlowest(int n, double canonicalQ, IReadOnlyList<double> gammaProfile,
         int pCol, int pRow, TopologyKind topology)
     {
-        var H = QHUnit(n, q, topology);
+        var H = QHUnit(n, canonicalQ, topology);
         var block = PerBlockLiouvillianBuilder.BuildBlockZ(H, gammaProfile, SectorFlat(n, pCol, pRow));
         var ev = block.Evd().EigenValues;
         double maxRe = double.NegativeInfinity;
@@ -73,28 +73,29 @@ public sealed class SectorReductionWitness : IInspectable
 
     /// <summary>The |1-exc><vac| (PCol=0, PRow=1) block slowest rate - the birth-canal boundary's
     /// mode, reproducing PostEpFlowField at N=5 (pinned by test).</summary>
-    public static double VacBlockSlowest(int n, double q, IReadOnlyList<double> gammaProfile, TopologyKind topology) =>
-        SectorSlowest(n, q, gammaProfile, pCol: 0, pRow: 1, topology);
+    public static double VacBlockSlowest(int n, double canonicalQ, IReadOnlyList<double> gammaProfile, TopologyKind topology) =>
+        SectorSlowest(n, canonicalQ, gammaProfile, pCol: 0, pRow: 1, topology);
 
     private double Deviation(int n, double[] profile, TopologyKind topo) =>
-        VacBlockSlowest(n, 1000.0, profile, topo) - VacBlockSlowest(n, 1.5, profile, topo);
+        VacBlockSlowest(n, PostEpFlowField.BirthCanalProbeQHigh, profile, topo)
+        - VacBlockSlowest(n, PostEpFlowField.BirthCanalProbeQLow, profile, topo);
 
     private InspectableNode TheVacReductionNode()
     {
         var kids = new List<IInspectable>();
         // flat-gamma blindness (uniform): rate == 2*gamma, Q-invariant (analytic).
         var uni = Enumerable.Repeat(Gamma, N).ToArray();
-        double uLo = VacBlockSlowest(N, 1.5, uni, Topology), uHi = VacBlockSlowest(N, 1000.0, uni, Topology);
+        double uLo = VacBlockSlowest(N, 3.0, uni, Topology), uHi = VacBlockSlowest(N, 2000.0, uni, Topology);
         kids.Add(new InspectableNode("flat-gamma blindness",
-            summary: $"uniform gamma={Gamma.ToString("0.###", Inv)}: rate {uLo.ToString("0.0000", Inv)} (Q=1.5) -> " +
-                     $"{uHi.ToString("0.0000", Inv)} (Q=1000) = 2*gamma, Q-invariant (analytic: -iQh anti-Hermitian)"));
+            summary: $"uniform gamma={Gamma.ToString("0.###", Inv)}: rate {uLo.ToString("0.0000", Inv)} (canonical Q=3) -> " +
+                     $"{uHi.ToString("0.0000", Inv)} (canonical Q=2000) = 2*gamma, Q-invariant (analytic: -i(Q/2)h anti-Hermitian)"));
         // N=5 validation breadcrumb (the canal anchor reproduces PostEpFlowField; see test).
         if (N == 5)
         {
             var canal = new[] { 0.25, 1.5, 1.5, 1.5, 0.25 };
             kids.Add(new InspectableNode("N=5 validation (canal anchor)",
-                summary: $"(0,1)-block rate {VacBlockSlowest(5, 1.5, canal, Topology).ToString("0.0000", Inv)} -> " +
-                         $"{VacBlockSlowest(5, 1000.0, canal, Topology).ToString("0.0000", Inv)} == PostEpFlowField " +
+                summary: $"(0,1)-block rate {VacBlockSlowest(5, 3.0, canal, Topology).ToString("0.0000", Inv)} -> " +
+                         $"{VacBlockSlowest(5, 2000.0, canal, Topology).ToString("0.0000", Inv)} == PostEpFlowField " +
                          "(bit-identical, see SectorReductionWitnessTests); the N-dim block IS the full boundary at N=5"));
         }
         // past N=5: the block builds at this N regardless (the dense witness cannot beyond N=6).
@@ -144,14 +145,14 @@ public sealed class SectorReductionWitness : IInspectable
                 summary: "the odd<->even crossing is visible at N=6..8 (the (2,2) density block, " +
                          "C(N,2)^2-dim); set N in 6..8 to read it. At N=5 the (0,1) mode always wins.");
         var deep = DeepEdge(N);
-        double vacLo = VacBlockSlowest(N, 1.5, deep, Topology);
-        var (densLo, rigLo, histLo, wHistLo) = DensityMode(N, 1.5, deep, 2, 2);
+        double vacLo = VacBlockSlowest(N, 3.0, deep, Topology);
+        var (densLo, rigLo, histLo, wHistLo) = DensityMode(N, 3.0, deep, 2, 2);
         bool crosses = densLo < vacLo;
         string h0 = histLo.GetValueOrDefault(0).ToString("0.00", Inv), h2 = histLo.GetValueOrDefault(2).ToString("0.00", Inv);
         int peakW = wHistLo.Count == 0 ? 0 : wHistLo.OrderByDescending(kv => kv.Value).First().Key;
         string massHalf = wHistLo.GetValueOrDefault(N / 2).ToString("0.00", Inv);
         return new InspectableNode("the {0,2} junction",
-            summary: $"deep-edge, N={N}, Q=1.5: (0,1) odd rate {vacLo.ToString("0.000", Inv)} vs (2,2) density rate " +
+            summary: $"deep-edge, N={N}, canonical Q=3: (0,1) odd rate {vacLo.ToString("0.000", Inv)} vs (2,2) density rate " +
                      $"{densLo.ToString("0.000", Inv)} -> {(crosses ? "the {0,2} density mode WINS (the crossing): " : "(0,1) still wins: ")}" +
                      $"n_diff hist {{0:{h0}, 2:{h2}}}, rigidity {rigLo.ToString("0.000", Inv)}. This is where birth_canal " +
                      "meets coherence_horizon (the {0,2}-coherence = its EP mode). V-EFFECT IDENTITY RESOLVED (distinct): " +
@@ -162,10 +163,10 @@ public sealed class SectorReductionWitness : IInspectable
     private InspectableNode TheChainVsRingNode()
     {
         var deep = DeepEdge(N);
-        double chain = VacBlockSlowest(N, 1.5, deep, TopologyKind.Chain);
-        double ring = N >= 3 ? VacBlockSlowest(N, 1.5, deep, TopologyKind.Ring) : double.NaN;
+        double chain = VacBlockSlowest(N, 3.0, deep, TopologyKind.Chain);
+        double ring = N >= 3 ? VacBlockSlowest(N, 3.0, deep, TopologyKind.Ring) : double.NaN;
         return new InspectableNode("chain vs ring",
-            summary: $"the (0,1) reduction on both substrates (N={N}, deep-edge, Q=1.5): chain rate " +
+            summary: $"the (0,1) reduction on both substrates (N={N}, deep-edge, canonical Q=3): chain rate " +
                      $"{chain.ToString("0.0000", Inv)}, ring rate {ring.ToString("0.0000", Inv)} (the aromatic " +
                      "substrate; the wrap bond shifts it). No aromaticity 4n-vs-4n+2 thesis here (open; C8 breaks it).");
     }

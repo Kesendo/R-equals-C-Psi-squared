@@ -42,6 +42,10 @@ def test_output_surface_reports_sectorwise_p_and_open_full_class():
     normalized = " ".join(document.split())
     assert "negative P-type relation" in normalized
     assert "does not assign a global irreducible symmetry class" in normalized
+    assert "Fragile-bridge axis-confined regime" in normalized
+    assert "Fragile-bridge off-axis regime" in normalized
+    assert "Our system: linear Pi, imaginary eigenvalues in symmetric phase" not in normalized
+    assert "| System | Symmetric phase | Broken phase |" not in normalized
 
 
 def test_generated_artifact_has_current_sectorwise_scope():

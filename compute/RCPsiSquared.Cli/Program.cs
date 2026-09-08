@@ -132,9 +132,10 @@ public static class Program
         Console.WriteLine("              window-gated, LP64-deferred blocks named). Verdict PASS/PARTIAL/DISAGREE + CSV.");
         Console.WriteLine("              args: --n <5|7|9|11> [--seed <qStar> | --all-seeds] [--max-sector-dim 46000] [--out dir]");
         Console.WriteLine();
-        Console.WriteLine("  assembly    play the locked picture through a Q-sweep (depth=light=rate, parity rung,");
-        Console.WriteLine("              Absorption cross-check, per-site carrier, birth-canal/sterile, saturation)");
-        Console.WriteLine("              args: --N <1..6> [--q-list 0.5,1,1.5,2.5,5,20] [--topology chain|ring]");
+        Console.WriteLine("  assembly    play the locked picture through a canonical-Q sweep (depth/light,");
+        Console.WriteLine("              spectral edge, cluster-mean weighted Absorption rate, projector parity support,");
+        Console.WriteLine("              N=5 chain birth-canal/rate-sterile scope, saturation)");
+        Console.WriteLine("              args: --N <1..6> [--q-list 1,2,3,5,10,40] [--topology chain|ring]");
         Console.WriteLine("                    [--gamma-profile w0,...,w(N-1)] [--fix-total]");
         Console.WriteLine();
         Console.WriteLine("  query       ask typed questions of the F86 knowledge graph");

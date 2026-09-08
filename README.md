@@ -245,7 +245,7 @@ they carry data-file timestamps rather than IBM job IDs):
 | Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) = 1 | 1.03 | ibm_torino |
 | Truly/soft/hard trichotomy, ⟨X₀Z₂⟩ fingerprint | all three classes resolved at 13-47σ | ibm_marrakesh, 2026-04 |
 | F25 cusp trajectory CΨ(t) closed form | RMS residual 0.0097 | ibm_kingston |
-| EP onset: revival pinned at 1/N below Q_EP ≈ 1.5, liftoff above | 0.34 → 0.49 → 0.70 across the EP | ibm_kingston, 2026-05 |
+| SE-walk population handover (spectral character open) | 0.34 → 0.49 across Q_label = 1.5→2.5, i.e. Q_Lindblad = 3→5 | ibm_kingston, 2026-05 |
 | Moment-tower pump channel: the double null + the firing rung | null at z = 0.04, girth 2 read from hardware | ibm_kingston, 2026-06 |
 
 The last row is the newest kind of result: a protocol with **not one

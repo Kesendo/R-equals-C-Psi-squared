@@ -19,13 +19,12 @@ public class TrichotomyWitnessTests
     [Fact] // the two reads MUST stay on DIFFERENT conventions — guards against re-merging them onto one
     public void TwoReads_StayOnDifferentConventions()  // (the Round-2 defect this whole feature fixed)
     {
-        // At the same nominal q=1.5 the two reads see DIFFERENT survivors, because they are different
-        // physical sweeps: the CARBON un-freeze read (ClassifyUnfreeze, J/γ=Q) sees the frozen (p,p)
-        // interior below Q*(5)≈2.374; the ABSOLUTE read (SurvivorSector, what ClassifySeam uses) sees the
-        // (0,1) band edge (J/γ=3, above Q*). If a future change re-merges them onto one convention, one of
+        // The two reads see DIFFERENT survivors because they are different physical sweeps: the CARBON
+        // un-freeze read at Q=1.5 sees the frozen (p,p) interior below Q*(5)≈2.374; the absolute-profile
+        // read at canonical Q=3 sees the (0,1) band edge above Q*. If a future change re-merges them, one of
         // these Δn flips and this fails — re-introducing the chain mislabel the two-read split removed.
         Assert.Equal(0, TrichotomyWitness.ClassifyUnfreeze(TopologyKind.Chain, 5, 1.5).Dn);   // carbon: interior
-        var (pc, pr, _) = TrichotomyWitness.SurvivorSector(TopologyKind.Chain, 5, 1.5, Uniform(5, 0.5));
+        var (pc, pr, _) = TrichotomyWitness.SurvivorSector(TopologyKind.Chain, 5, 3.0, Uniform(5, 0.5));
         Assert.Equal(1, Math.Abs(pc - pr));                                                  // absolute: band edge
     }
 
@@ -35,19 +34,32 @@ public class TrichotomyWitnessTests
         // The convention pin (R2): the (0,1) survivor rate on the absolute SectorSlowest scale equals
         // the full-L PostEpFlowField slowest rate to 9 digits. Same (q, profile) convention as the
         // existing SectorReductionWitnessTests pin (VacBlock_SlowestRate_EqualsPostEpFlowField_AtN5):
-        // q in {1.5, 1000.0}, tauGrid {0.0, 1.0}, ReadAssembly(q).SlowestRate as ground truth.
-        const int n = 5; const double q = 1.5;
+        // Both APIs receive the same canonical Q; neither side may hide q=Q/2.
+        const int n = 5; const double q = 3.0;
         var profile = Uniform(n, 0.5);
         var (pc, pr, rate) = TrichotomyWitness.SurvivorSector(TopologyKind.Chain, n, q, profile);
-        var expected = new PostEpFlowField(n, new[] { 1.5, 1000.0 }, new[] { 0.0, 1.0 }, profile)
+        var expected = new PostEpFlowField(n, new[] { 3.0, 2000.0 }, new[] { 0.0, 1.0 }, profile)
             .ReadAssembly(q).SlowestRate;
         Assert.Equal(expected, rate, 9);
+    }
+
+    [Theory]
+    [InlineData(TopologyKind.Chain, 5)] // full-L PostEp branch
+    [InlineData(TopologyKind.Ring, 5)]  // sector branch
+    [InlineData(TopologyKind.Star, 5)]  // sector branch
+    [InlineData(TopologyKind.Chain, 7)] // N>6 sector branch boundary
+    public void Deviation_UsesTheSameCanonicalProbeQ_OnEveryBranch(TopologyKind topology, int n)
+    {
+        var profile = Uniform(n, 1.0);
+        double expected = TrichotomyWitness.SurvivorSector(topology, n, 2000.0, profile).Rate
+                        - TrichotomyWitness.SurvivorSector(topology, n, 3.0, profile).Rate;
+        Assert.Equal(expected, TrichotomyWitness.Deviation(topology, n, profile), 8);
     }
 
     [Fact]
     public void Survivor_Star5_IsTheOneOneCommutant()
     {
-        var (pc, pr, _) = TrichotomyWitness.SurvivorSector(TopologyKind.Star, 5, 1.5, Uniform(5, 0.5));
+        var (pc, pr, _) = TrichotomyWitness.SurvivorSector(TopologyKind.Star, 5, 3.0, Uniform(5, 0.5));
         Assert.Equal((1, 1), (pc, pr));
     }
 
@@ -130,7 +142,7 @@ public class TrichotomyWitnessTests
     {
         const int n = 5; const double Q = 1.5;
         var (gap, pc, pr, _) = IncompletenessSurvivorWitness.Survivor(n, Q, TopologyKind.Chain);
-        // The carbon |Im|/rigidity block is built the SAME way Survivor builds its block (Qh=0.5,
+        // The carbon |Im|/rigidity block is built the SAME way Survivor builds its block (canonical H-Q=1,
         // uniform γ=1/Q). Its slowest non-kernel rate must equal Survivor.Gap to ~9 digits, else
         // the |Im| we read belongs to a different block. CarbonSlowestRate exposes that rate.
         double carbonRate = TrichotomyWitness.CarbonSlowestRate(TopologyKind.Chain, n, Q, pc, pr);

@@ -43,17 +43,16 @@ namespace RCPsiSquared.Core.F86;
 /// in PolarityInheritanceLink show ~10% finite-size deviation across c=2 N=5..8 and
 /// growing-with-N at c=4. The schema is robust; the bit-exact closure is open.</para>
 ///
-/// <para><b>Hardware anchor for the Q = J/γ₀ axis (2026-05-29)</b>: a basic
-/// exchange-bond J-scan on ibm_kingston (Confirmation
+/// <para><b>Illustrative γ₀ value; no hardware Q-axis calibration (2026-05-29)</b>: a basic
+/// exchange-bond J-scan on ibm_kingston (historical Confirmation locator
 /// <c>gamma0_off_the_lever_kingston_may2026</c>,
-/// <c>experiments/GAMMA0_IS_ALWAYS_THERE.md</c>) reads the carrier directly off its
-/// only lever J: the coherent swing dies where J crosses γ₀ ≈ 0.05 (=
-/// <see cref="UniversalCarrierClaim.DefaultGammaZero"/>), the critical-damping
-/// threshold. That confirms the Q = J/γ₀ law this Q_peak decomposition lives on. So
-/// the residual ~10% Q_peak deviation here reads as numerical, not structural: the
-/// scan grid/resolution plus finite-size N (the c=3 K-peak still wants fine-grid
-/// scans at N≥9), measured against a now hardware-anchored axis. The deviation is in
-/// the resolution, not in the law.</para>
+/// <c>experiments/GAMMA0_IS_ALWAYS_THERE.md</c>) shows only that a finite-time
+/// population-transfer overshoot changes between the sampled J=0.05 and J=0.1.
+/// It does not isolate a dephasing rate, certify critical damping, validate
+/// <see cref="UniversalCarrierClaim.DefaultGammaZero"/>, or anchor this F86 Q axis.
+/// The value γ₀=0.05 remains an illustrative model default. The ~10% Q_peak
+/// discrepancy is therefore an unresolved finite-grid/finite-N bracket, not a
+/// hardware-calibrated numerical residual or proof of the law.</para>
 /// </summary>
 public sealed class PolarityPairQPeakDecompositionClaim : Claim
 {

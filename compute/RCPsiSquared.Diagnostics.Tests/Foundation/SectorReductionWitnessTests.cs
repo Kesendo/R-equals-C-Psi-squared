@@ -17,10 +17,10 @@ public class SectorReductionWitnessTests
         double g0, double g1, double g2, double g3, double g4)
     {
         var profile = new[] { g0, g1, g2, g3, g4 };
-        foreach (double q in new[] { 1.5, 1000.0 })
+        foreach (double q in new[] { 3.0, 2000.0 })
         {
             double block = SectorReductionWitness.VacBlockSlowest(5, q, profile, TopologyKind.Chain);
-            var field = new PostEpFlowField(5, new[] { 1.5, 1000.0 }, new[] { 0.0, 1.0 }, profile);
+            var field = new PostEpFlowField(5, new[] { 3.0, 2000.0 }, new[] { 0.0, 1.0 }, profile);
             double full = field.ReadAssembly(q).SlowestRate;
             Assert.Equal(full, block, 9);   // the (0,1) block reproduces the full global slowest at N=5
         }
@@ -30,19 +30,19 @@ public class SectorReductionWitnessTests
     public void VacBlock_CanalAnchor_MatchesThePinnedRates()
     {
         var canal = new[] { 0.25, 1.5, 1.5, 1.5, 0.25 };
-        Assert.Equal(1.2482918643729715, SectorReductionWitness.VacBlockSlowest(5, 1.5, canal, TopologyKind.Chain), 6);
-        Assert.Equal(4.0 / 3.0, SectorReductionWitness.VacBlockSlowest(5, 1000.0, canal, TopologyKind.Chain), 5);
+        Assert.Equal(1.2482918643729715, SectorReductionWitness.VacBlockSlowest(5, 3.0, canal, TopologyKind.Chain), 6);
+        Assert.Equal(4.0 / 3.0, SectorReductionWitness.VacBlockSlowest(5, 2000.0, canal, TopologyKind.Chain), 5);
     }
 
     [Fact]
     public void FlatGammaBlindness_RateIsTwoGamma_AtEveryN()
     {
-        // analytic: at uniform gamma, L = -iQ h - 2 gamma I, -iQh anti-Hermitian -> Re=-2gamma all modes.
+        // analytic: at uniform gamma, L = -i(Q/2)h - 2 gamma I -> Re=-2gamma all modes.
         foreach (int n in new[] { 5, 6, 8 })
         {
             var uni = System.Linq.Enumerable.Repeat(1.0, n).ToArray();   // gamma_l = 1
-            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 1.5, uni, TopologyKind.Chain), 9);
-            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 1000.0, uni, TopologyKind.Chain), 9);
+            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 3.0, uni, TopologyKind.Chain), 9);
+            Assert.Equal(2.0, SectorReductionWitness.VacBlockSlowest(n, 2000.0, uni, TopologyKind.Chain), 9);
         }
     }
 
@@ -59,16 +59,16 @@ public class SectorReductionWitnessTests
     [Fact]
     public void Junction_AtN6DeepEdge_GlobalSlowestCrossesToTheO2DensityMode()
     {
-        // birth_canal_n6_mode_crossing.py in C#: at N=6 deep-edge, Q=1.5 the (2,2) density block's
+        // birth_canal_n6_mode_crossing.py in C#: at N=6 deep-edge, canonical Q=3 the (2,2) density block's
         // slowest non-kernel rate is LESS than the (0,1) block's -> the {0,2} mode wins (the crossing).
         var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
-        double vac10 = SectorReductionWitness.VacBlockSlowest(6, 1.5, deep, TopologyKind.Chain);    // ~1.471
-        double dens22 = SectorReductionWitness.SectorSlowest(6, 1.5, deep, 2, 2, TopologyKind.Chain); // ~1.120
-        Assert.True(dens22 < vac10, $"(2,2) {dens22} should be slower than (0,1) {vac10} at N=6 deep-edge Q=1.5");
+        double vac10 = SectorReductionWitness.VacBlockSlowest(6, 3.0, deep, TopologyKind.Chain);    // ~1.471
+        double dens22 = SectorReductionWitness.SectorSlowest(6, 3.0, deep, 2, 2, TopologyKind.Chain); // ~1.120
+        Assert.True(dens22 < vac10, $"(2,2) {dens22} should be slower than (0,1) {vac10} at N=6 deep-edge canonical Q=3");
         // and at high Q the (0,1) mode is back to (or below) the density mode:
-        double vac10Hi = SectorReductionWitness.VacBlockSlowest(6, 1000.0, deep, TopologyKind.Chain);
-        double dens22Hi = SectorReductionWitness.SectorSlowest(6, 1000.0, deep, 2, 2, TopologyKind.Chain);
-        Assert.True(vac10Hi <= dens22Hi + 1e-9, "at Q=1000 the (0,1) odd mode is the global slowest again");
+        double vac10Hi = SectorReductionWitness.VacBlockSlowest(6, 2000.0, deep, TopologyKind.Chain);
+        double dens22Hi = SectorReductionWitness.SectorSlowest(6, 2000.0, deep, 2, 2, TopologyKind.Chain);
+        Assert.True(vac10Hi <= dens22Hi + 1e-9, "at canonical Q=2000 the (0,1) odd mode is the global slowest again");
     }
 
     [Fact]
@@ -86,8 +86,8 @@ public class SectorReductionWitnessTests
     public void ChainAndRing_GiveDifferentRates()
     {
         var deep = new[] { 0.25, 1.375, 1.375, 1.375, 1.375, 0.25 };
-        double chain = SectorReductionWitness.VacBlockSlowest(6, 1.5, deep, TopologyKind.Chain);
-        double ring = SectorReductionWitness.VacBlockSlowest(6, 1.5, deep, TopologyKind.Ring);
+        double chain = SectorReductionWitness.VacBlockSlowest(6, 3.0, deep, TopologyKind.Chain);
+        double ring = SectorReductionWitness.VacBlockSlowest(6, 3.0, deep, TopologyKind.Ring);
         Assert.True(Math.Abs(chain - ring) > 1e-6, $"ring wrap bond must matter: chain {chain}, ring {ring}");
     }
 }

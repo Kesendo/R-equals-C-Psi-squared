@@ -2683,3 +2683,59 @@ reconcile. A1 retains its 56 w roots / 112 q-loci, all simple-zero EP2.
 `experiments/F89_BETA_EXOTIC_GENERICITY.md`, `simulations/o2b_gcd_certificate.py`,
 `simulations/docs_verify.py`, and
 `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`.
+
+## 2026-09-08 — F86 hardware handover and FRAGILE character were conflated
+
+**What was wrong.** The earlier F86 repair entry correctly removed the real-axis
+block-EP claim but its `SURVIVE` sentence retained two unsupported promotions.
+It called the FRAGILE_BRIDGE axis-departure reading a gain-loss EP with K=403,
+and called the trace-shifted generator globally AIII. The same vocabulary also
+leaked into the F86 hardware inventory and the population-flow report.
+
+**Current boundary.** The FRAGILE_BRIDGE measurement is a spectral-abscissa axis departure.
+K≈403 is a finite-grid, finite-offset simple-mode non-normality reading, not a
+threshold limit or Jordan certificate; EP, Hopf, and Jordan character remain open.
+After Π² sector reduction there is sectorwise involutive P-type anticommutation,
+which does not assign a global irreducible SRP/AIII class. The Kingston experiment
+measured an SE-walk population handover. Its runner used a coherence-rate book:
+Q_label=J/Γ with exp(−Γt), while the canonical Lindblad jump √γ Z gives exp(−2γt).
+Thus Q_Lindblad = 2 Q_label and the sampled bracket Q_label=1.5→2.5 maps to
+Q_Lindblad=3→5. Populations alone certify no critical damping, EP, coalescence,
+or Jordan character. The `1/N` line is only a scalar reference for the finite-time
+revival: Part A ends at raw marginals 0.339/0.426/0.338 (sum 1.103), so it does
+not certify equipartition, convergence, or the ideal one-excitation asymptote.
+Likewise, the earlier four-point J scan brackets a transfer-overshoot response
+change between J=0.05 and 0.1; it does not isolate γ₀=0.05 or hardware-anchor F86.
+
+**Fix and gate.** Living F86 and flow surfaces now separate the rate-book-corrected
+hardware population handover, the exact toy 2×2 EP, and the open full-operator
+character. Both confirmation registries, `EpField`, CLI summaries, producers, and
+current docs carry that split. The canonical population producers now use
+H=(Q/2)Σ(XX+YY), reject Q=0 for the connected-flow-to-1/N contract, call the
+global odd-channel slow rate a global spectral reading rather than the even-flow
+approach rate, and describe the full λ=0 kernel as N+1-fold semisimple rather than
+a simple isolated sink. The raw JSON gate reconstructs revival as max n₀(t≥2 μs),
+derives Q_Lindblad=2Q_label, checks the exact registry/EpField vectors, and mutates
+both the raw population and rate-book factor. The documentation gate removes each
+required boundary in turn and rejects restoration of the EP/Hopf/floor/convergence/
+hardware-anchor phrasing.
+
+The final consumer pass closed two more copies of the same normalization error.
+`SectorReductionWitness`, `TrichotomyWitness`, the BirthCanal surface and all seven
+linked Python producers now expose the same canonical Q with
+`H=(Q/2)Σ(XX+YY)` and probe Q=3/2000; public-label and API mutations reject the
+retired half-Q book. The exact-twirl Q_label=20 endpoint is read from raw JSON as
+0.8417853730254796 and gated into both registries and both connected documents.
+All eight descendants of the May-29 γ₀ story now call 0.05 an illustrative
+model value and the hardware datum a finite-grid transfer-overshoot bracket, not a
+critical-damping or carrier calibration. Finally, the N+1 number-sector kernel and
+the two drain-depth parity rails are stated as distinct decompositions; parity does
+not resolve the kernel sectors.
+
+**Anchors.** `docs/F86_VALUES_INVENTORY.md`,
+`experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md`,
+`data/ibm_ep_onset_may2026/README.md`,
+`compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs`,
+`simulations/f86_hardware_rate_book.py`,
+`experiments/PT_SYMMETRY_ANALYSIS.md`, and
+`compute/RCPsiSquared.Core/F86/ShiftedGeneratorSectorwisePClaim.cs`.

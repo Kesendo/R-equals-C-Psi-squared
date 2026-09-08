@@ -166,7 +166,7 @@ public static class InspectCommand
         return new SelfMirrorObject(new MirrorSystem(N, hamiltonian, channels));   // the object inherits the system
     }
 
-    /// <summary>The post-EP flow GameObject: a single excitation evolved across a Q-grid, with
+    /// <summary>The single-excitation population flow GameObject: an excitation evolved across a Q-grid, with
     /// per-site occupation ⟨n_site⟩(τ) relaxing to 1/N. Args: <c>--N 1..6</c>,
     /// <c>--q-list 0.5,1.0,1.5,2.5</c>, <c>--t-max 6.0</c>, <c>--t-points 60</c> (Python defaults).
     /// Pair with <c>--draw</c> to plot the trajectory curves.</summary>
@@ -214,8 +214,8 @@ public static class InspectCommand
     /// and <c>--axis ep</c> (the toy 2×2 rate-channel exceptional point: sweeps Q across Q_EP=2/g_eff and
     /// reads the birth of the rotation in the 2-level reduction, the toy's two real decay channels coalescing
     /// defectively at −4γ₀ [the Takt pins], the Rotation angle lifting off [the F95 angle], the toy eigenvector
-    /// overlap min(x,1/x)→1 [the toy EP pinch], and the IBM Kingston single-excitation-walk overdamped→revival
-    /// handover at Q≈1.5. The defectiveness is the toy reduction's; the physical (n,n+1) chain block is
+    /// overlap min(x,1/x)→1 [the toy EP pinch], plus a separately scoped IBM Kingston population handover
+    /// plotted in canonical Lindblad Q after conversion from its coherence-rate labels. The defectiveness is the toy reduction's; the physical (n,n+1) chain block is
     /// non-normal near Q_peak; its own real-axis defective EPs are F89's scattered seeds, not this clean
     /// Q_EP pinch [F86a-retraction corrected 2026-07-07, see LocalGlobalEpLink / PROOF_F86A section The real-axis EP]. Extra args <c>--g-eff</c> default 4/3, <c>--q-lo</c> default
     /// 0.3, <c>--q-hi</c> default 4, <c>--q-points</c> default 41; N-free, uses <c>--gamma</c> only). Shared args (crossover /
@@ -680,7 +680,7 @@ public static class InspectCommand
         new("decoder", "reading power measured live: Fisher information vs Q per readout basis - resolution grows with the Q-factor; the exceptional point reads worst",
             c => new ReadingPowerWitness(c.Parser.HasFlag("N") ? c.N : 4),
             RequiresN: false, HonorsOptionalN: true),
-        new("flow", "the post-EP single-excitation flow to 1/N",
+        new("flow", "the single-excitation population flow to 1/N",
             c => BuildFlowRoot(c.Parser, c.N)),
         new("surface", "the sterile<->birth-canal boundary computed as a live surface in gamma-profile " +
             "space (N=5): the light-freeze mechanism read through every lens (the whole surface, not the " +

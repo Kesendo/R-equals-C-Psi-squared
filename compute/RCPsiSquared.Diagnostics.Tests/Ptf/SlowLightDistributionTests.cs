@@ -12,13 +12,13 @@ namespace RCPsiSquared.Diagnostics.Tests.Ptf;
 /// <para>All numbers pinned against the Python reference run (N=5 dimensionless XY chain,
 /// γ-profiles summing to N, same construction as <c>simulations/light_content.py</c> /
 /// <c>simulations/birth_canal_boundary_pathdependence.py</c>): uniform is sterile with the
-/// distribution exactly [0.2]⁵ frozen between Q=1.5 and Q=1000 (drift ~10⁻¹⁷ in the
+/// distribution exactly [0.2]⁵ frozen between canonical Q=3 and Q=2000 (drift ~10⁻¹⁷ in the
 /// reference); flat-bulk-edge [0.25,1.5,1.5,1.5,0.25] is in the birth canal, its distribution
 /// drifting [0.35034, 0.02180, 0.25572, …] → [⅓, 0, ⅓, 0, ⅓] (max per-site drift 7.76·10⁻²)
 /// with the rate following 1.24829 → 4/3; the absorption cross-check rate = 2·Σ_l γ_l·light_l
 /// is machine-exact even on an asymmetric degenerate cluster where the raw projector diagonal
 /// (residual 7.3·10⁻²) and the PP† diagonal (3.2·10⁻²) both fail; and the projector reading
-/// coincides with the per-eigenvector |v|² average wherever Degeneracy = 1.</para></summary>
+/// coincides with the per-eigenvector |v|² average wherever ClusterDimension = 1.</para></summary>
 public class SlowLightDistributionTests
 {
     private static readonly double[] Uniform5 = { 1.0, 1.0, 1.0, 1.0, 1.0 };
@@ -35,25 +35,25 @@ public class SlowLightDistributionTests
 
     // One Evd per (profile, Q), shared across the facts that read it.
     private static readonly Lazy<SlowLightDistribution.Reading> UniformLow =
-        new(() => Read(5, 1.5, Uniform5));
+        new(() => Read(5, 3.0, Uniform5));
     private static readonly Lazy<SlowLightDistribution.Reading> UniformHigh =
-        new(() => Read(5, 1000.0, Uniform5));
+        new(() => Read(5, 2000.0, Uniform5));
     private static readonly Lazy<SlowLightDistribution.Reading> CanalLow =
-        new(() => Read(5, 1.5, FlatBulkEdge5));
+        new(() => Read(5, 3.0, FlatBulkEdge5));
     private static readonly Lazy<SlowLightDistribution.Reading> CanalHigh =
-        new(() => Read(5, 1000.0, FlatBulkEdge5));
+        new(() => Read(5, 2000.0, FlatBulkEdge5));
 
     [Fact]
     public void Uniform_N5_Sterile_DistributionIsQFrozenAndEquipartitioned()
     {
         // Sterile zone: the slow subspace's light distribution is Q-invariant. For the uniform
-        // chain it is exactly equipartitioned, [0.2]⁵, at Q=1.5 and at Q=1000 (Python reference
+        // chain it is exactly equipartitioned, [0.2]⁵, at canonical Q=3 and Q=2000 (Python reference
         // drift 5.6·10⁻¹⁷). The slowest rate is the closed form 2γ = 2 on the odd rail.
         var lo = UniformLow.Value;
         var hi = UniformHigh.Value;
 
-        Assert.Equal(2.0, lo.Rate, 7);
-        Assert.Equal(50, lo.Degeneracy);
+        Assert.Equal(2.0, lo.SpectralEdgeRate, 7);
+        Assert.Equal(50, lo.ClusterDimension);
         Assert.Equal(1.0, lo.TotalLight, 7);
         for (int l = 0; l < 5; l++)
         {
@@ -73,15 +73,15 @@ public class SlowLightDistributionTests
         var lo = CanalLow.Value;
         var hi = CanalHigh.Value;
 
-        Assert.Equal(10, lo.Degeneracy);
-        Assert.Equal(1.2482919, lo.Rate, 6);
+        Assert.Equal(10, lo.ClusterDimension);
+        Assert.Equal(1.2482919, lo.SpectralEdgeRate, 6);
         Assert.Equal(0.3503416, lo.PerSiteLight[0], 6);
         Assert.Equal(0.0217967, lo.PerSiteLight[1], 6);
         Assert.Equal(0.2557233, lo.PerSiteLight[2], 6);
         Assert.Equal(0.0217967, lo.PerSiteLight[3], 6);
         Assert.Equal(0.3503416, lo.PerSiteLight[4], 6);
 
-        Assert.Equal(4.0 / 3.0, hi.Rate, 5);
+        Assert.Equal(4.0 / 3.0, hi.SpectralEdgeRate, 5);
         Assert.Equal(1.0 / 3.0, hi.PerSiteLight[2], 5);
 
         double maxDrift = 0.0;
@@ -95,7 +95,7 @@ public class SlowLightDistributionTests
     public void AbsorptionCrossCheck_MachineExact_InBothZones()
     {
         // rate = 2·Σ_l γ_l·light_l exactly (block-triangularity on the invariant subspace).
-        // Python reference residuals at Q=1.5: 4.2·10⁻¹⁴ (uniform), 1.3·10⁻¹⁴ (flat-bulk-edge).
+        // Python reference residuals at doubled-book q=1.5 = canonical Q=3.
         Assert.True(UniformLow.Value.AbsorptionResidual < 1e-9,
             $"uniform absorption residual {UniformLow.Value.AbsorptionResidual:E3}");
         Assert.True(CanalLow.Value.AbsorptionResidual < 1e-9,
@@ -109,9 +109,9 @@ public class SlowLightDistributionTests
         // projector diagonal fails the cross-check at 7.3·10⁻² and goes negative, the PP†
         // diagonal fails at 3.2·10⁻²; the orthogonal-projector reading is exact (1.7·10⁻¹⁴ in
         // the Python reference) and stays in [0, 1] per site.
-        var r = Read(5, 1.5, Asymmetric5);
-        Assert.Equal(20, r.Degeneracy);
-        Assert.Equal(1.6620717, r.Rate, 6);
+        var r = Read(5, 3.0, Asymmetric5);
+        Assert.Equal(20, r.ClusterDimension);
+        Assert.Equal(1.6620717, r.SpectralEdgeRate, 6);
         Assert.Equal(0.0254708, r.PerSiteLight[2], 6);
         Assert.True(r.AbsorptionResidual < 1e-9, $"absorption residual {r.AbsorptionResidual:E3}");
         foreach (double lk in r.PerSiteLight)
@@ -123,8 +123,8 @@ public class SlowLightDistributionTests
     {
         // The sterile peaked-V profile: the slow subspace puts its one light quantum on the
         // weak edges and none on the strong center, light = [¼, ¼, 0, ¼, ¼], rate 1.
-        var r = Read(5, 1.5, PeakedV5);
-        Assert.Equal(1.0, r.Rate, 7);
+        var r = Read(5, 3.0, PeakedV5);
+        Assert.Equal(1.0, r.SpectralEdgeRate, 7);
         Assert.Equal(0.25, r.PerSiteLight[0], 9);
         Assert.Equal(0.25, r.PerSiteLight[1], 9);
         Assert.Equal(0.0, r.PerSiteLight[2], 9);
@@ -134,19 +134,19 @@ public class SlowLightDistributionTests
     }
 
     [Fact]
-    public void Projector_MatchesEigenvectorAverage_WhereDegeneracyIsOne()
+    public void Projector_MatchesEigenvectorAverage_WhereClusterDimensionIsOne()
     {
-        // At Degeneracy = 1 the orthogonal projector is |m⟩⟨m|/‖m‖², so the projector light
+        // At ClusterDimension = 1 the orthogonal projector is |m⟩⟨m|/‖m‖², so the projector light
         // must equal the per-eigenvector Rayleigh light, the regime where the old averaged
         // carrier was already exact. N=2, profile [0.7, 1.3], Q=0.2: a unique real slowest
         // mode (rate 0.16696972).
         const int n = 2;
         var profile = new[] { 0.7, 1.3 };
-        var liouvillian = Liouvillian(n, 0.2, profile);
+        var liouvillian = Liouvillian(n, 0.4, profile);
         var r = SlowLightDistribution.Compute(liouvillian, n, profile);
 
-        Assert.Equal(1, r.Degeneracy);
-        Assert.Equal(0.1669697220, r.Rate, 9);
+        Assert.Equal(1, r.ClusterDimension);
+        Assert.Equal(0.1669697220, r.SpectralEdgeRate, 9);
 
         // The eigenvector-averaged reading, computed the pre-2026-06-10 way.
         int d = 1 << n;
@@ -190,5 +190,51 @@ public class SlowLightDistributionTests
             SlowLightDistribution.Compute(liouvillian, 3, new[] { 1.0, 1.0, 1.0 }));
         Assert.Throws<ArgumentException>(() =>
             SlowLightDistribution.Compute(liouvillian, 2, new[] { 1.0 }));
+    }
+
+    [Fact]
+    public void Parity_ComesFromProjectorSupport_NotRoundedMeanDepth()
+    {
+        // Two exactly degenerate slow basis modes: |00><01| has odd disagreement
+        // depth 1, while |00><11| has even disagreement depth 2. Their projector
+        // average has TotalLight=1.5; rounding that mean would falsely report even.
+        var L = ComplexMatrix.Build.Dense(16, 16);
+        L[1, 1] = -Complex.One;
+        L[3, 3] = -Complex.One;
+
+        var r = SlowLightDistribution.Compute(L, 2, new[] { 1.0, 1.0 });
+
+        Assert.Equal(SlowLightParity.Mixed, r.Parity);
+        Assert.Equal(0.5, r.EvenParityFraction, 12);
+        Assert.Equal(0.5, r.OddParityFraction, 12);
+        Assert.Equal(1.5, r.TotalLight, 12);
+    }
+
+    [Fact]
+    public void ToleranceCluster_SeparatesSpectralEdgeFromClusterMeanAbsorptionRate()
+    {
+        // Pure Z-dephasing, H=0. Odd coherences at site 0 decay at 1.0 and at
+        // site 1 at 1.0000005; both enter the default 1e-6 real-rate cluster.
+        // The spectral edge is 1.0, whereas the projector trace/Absorption
+        // identity returns their cluster mean 1.00000025.
+        const int n = 2, d = 1 << n;
+        var gamma = new[] { 0.5, 0.50000025 };
+        var L = ComplexMatrix.Build.Dense(d * d, d * d);
+        for (int x = 0; x < d * d; x++)
+        {
+            int diff = (x / d) ^ (x % d);
+            double rate = 0.0;
+            for (int l = 0; l < n; l++)
+                if (((diff >> (n - 1 - l)) & 1) != 0) rate += 2.0 * gamma[l];
+            L[x, x] = -rate;
+        }
+
+        var r = SlowLightDistribution.Compute(L, n, gamma);
+
+        Assert.Equal(1.0, r.SpectralEdgeRate, 12);
+        Assert.Equal(1.00000025, r.ClusterMeanRate, 12);
+        Assert.Equal(r.ClusterMeanRate, r.AbsorptionRate, 12);
+        Assert.Equal(8, r.ClusterDimension);
+        Assert.True(r.AbsorptionResidual < 1e-12);
     }
 }

@@ -9,13 +9,62 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The F89 Door-C CSR sweep (docs/superpowers/plans/2026-06-27-f89-door-c-csr-integrability-sweep.md):
 /// does breaking the underlying XY Hamiltonian's free-fermion additivity (XXZ anisotropy Δ) drive the
-/// fixed-q complex spacing ratio from Poisson toward Ginibre? Methodology per review round 2: pool the
-/// per-spectrum z-values over the q-grid (never raw eigenvalues), bootstrap the CI, and compare against
+/// fixed-q complex spacing ratio from Poisson toward Ginibre? Pool per-spectrum z-values over a fixed q-grid
+/// (never raw eigenvalues) without attaching a sampling CI; for disorder/reference ensembles, cluster-bootstrap
+/// whole independent spectra rather than within-spectrum ratios, and compare against
 /// finite-size-MATCHED Poisson/GinUE references (not the asymptotic 0.658/0.738).</summary>
 public class IntegrabilityBreakingCsrTests
 {
     private readonly ITestOutputHelper _out;
     public IntegrabilityBreakingCsrTests(ITestOutputHelper output) => _out = output;
+
+    [Fact]
+    public void ClusterBootstrap_ResamplesWholeSpectra_NotIndividualSpacingRatios()
+    {
+        var lowSpectrum = Enumerable.Repeat(new Complex(0.1, 0.0), 100).ToArray();
+        var highSpectrum = Enumerable.Repeat(new Complex(0.9, 0.0), 100).ToArray();
+
+        var reading = IntegrabilityBreakingCsr.ReduceIndependentSpectra(
+            new IReadOnlyList<Complex>[] { lowSpectrum, highSpectrum }, bootSeed: 7, bootstraps: 400);
+
+        Assert.Equal(2, reading.IndependentSpectrumCount);
+        Assert.Equal(IntegrabilityBreakingCsr.UncertaintySemantics.SpectrumClusterBootstrap95,
+            reading.Uncertainty);
+        Assert.Equal(0.1, reading.CiLo, 12);
+        Assert.Equal(0.9, reading.CiHi, 12);
+    }
+
+    [Fact]
+    public void ClusterBootstrap_DuplicateIdenticalSpectraDoNotManufacturePrecision()
+    {
+        IReadOnlyList<Complex> spectrum = new[] { new Complex(0.2, 0.0), new Complex(0.8, 0.0) };
+        var two = IntegrabilityBreakingCsr.ReduceIndependentSpectra(
+            new[] { spectrum, spectrum }, bootSeed: 11, bootstraps: 400);
+        var six = IntegrabilityBreakingCsr.ReduceIndependentSpectra(
+            Enumerable.Repeat(spectrum, 6).ToArray(), bootSeed: 11, bootstraps: 400);
+
+        Assert.Equal(two.CiLo, six.CiLo, 12);
+        Assert.Equal(two.CiHi, six.CiHi, 12);
+        Assert.Equal(two.MeanAbs, two.CiLo, 12);
+        Assert.Equal(two.MeanAbs, two.CiHi, 12);
+    }
+
+    [Fact]
+    public void DeterministicGridReading_DoesNotClaimSamplingConfidenceInterval()
+    {
+        var reading = IntegrabilityBreakingCsr.ReduceDeterministicGrid(
+            new IReadOnlyList<Complex>[]
+            {
+                new[] { new Complex(0.2, 0.0), new Complex(0.4, 0.0) },
+                new[] { new Complex(0.6, 0.0), new Complex(0.8, 0.0) }
+            });
+
+        Assert.Equal(IntegrabilityBreakingCsr.UncertaintySemantics.NoneDeterministicGrid,
+            reading.Uncertainty);
+        Assert.Equal(0, reading.IndependentSpectrumCount);
+        Assert.True(double.IsNaN(reading.CiLo));
+        Assert.True(double.IsNaN(reading.CiHi));
+    }
 
     private static double[] Qs(int count)
     {
@@ -46,6 +95,9 @@ public class IntegrabilityBreakingCsrTests
         var r = IntegrabilityBreakingCsr.Sweep(n: 7, delta: 0.0, qs: Qs(20), half: IntegrabilityBreakingCsr.Half.HbMixed);
         Assert.True(r.ZCount > 200, $"need a real pool, got {r.ZCount}");
         Assert.InRange(r.MeanAbs, 0.40, 0.72);     // Poisson-like, NOT GinUE 0.738
+        Assert.Equal(IntegrabilityBreakingCsr.UncertaintySemantics.NoneDeterministicGrid, r.Uncertainty);
+        Assert.Equal(0, r.IndependentSpectrumCount);
+        Assert.True(double.IsNaN(r.CiLo) && double.IsNaN(r.CiHi));
     }
 
     /// <summary>Finite-size-matched references at the measurement's per-spectrum size must still SEPARATE
@@ -60,7 +112,7 @@ public class IntegrabilityBreakingCsrTests
             $"finite-size refs must separate: Poisson {pois.MeanAbs:F3} vs GinUE {gin.MeanAbs:F3}");
     }
 
-    /// <summary>Reconnaissance: the headline sweep — pooled H_B-mixed ⟨|z|⟩ (with 95% bootstrap CI) vs Δ,
+    /// <summary>Reconnaissance: the headline sweep — pooled H_B-mixed ⟨|z|⟩ over a deterministic q-grid (no sampling CI) vs Δ,
     /// against finite-size-matched Poisson/GinUE references. Does breaking Hamiltonian free-fermion additivity drive
     /// the fixed-q CSR toward Ginibre, or do you need to break the Hamiltonian's integrability too?</summary>
     [Fact]
@@ -72,8 +124,8 @@ public class IntegrabilityBreakingCsrTests
         {
             _out.WriteLine($"N={n}  (domain valid per Δ: UpperHalf at Δ=0 [conj-symmetric], " +
                            "OffReal at Δ>0 [conj-symmetry broken]; refs size-matched per Δ)");
-            _out.WriteLine("   Δ    | dom   | ⟨|z|⟩  [95% CI]        | ⟨cosθ⟩ | Npool | refs P/G");
-            _out.WriteLine("  ------|-------|-----------------------|--------|-------|----------");
+            _out.WriteLine("   Δ    | dom   | ⟨|z|⟩ (fixed q-grid; no sampling CI) | ⟨cosθ⟩ | Npool | refs P/G");
+            _out.WriteLine("  ------|-------|--------------------------------------|--------|-------|----------");
             foreach (double d in deltas)
             {
                 var dom = d == 0.0 ? IntegrabilityBreakingCsr.Domain.UpperHalf : IntegrabilityBreakingCsr.Domain.OffReal;
@@ -82,7 +134,7 @@ public class IntegrabilityBreakingCsrTests
                 var pRef = IntegrabilityBreakingCsr.PoissonReference(perSpec, draws: 60, seed: 100 + n);
                 var gRef = IntegrabilityBreakingCsr.GinueReference(perSpec, draws: 60, seed: 200 + n);
                 _out.WriteLine($"  {d,5:F2} | {(dom == IntegrabilityBreakingCsr.Domain.UpperHalf ? "upper" : "offRl")} | " +
-                               $"{r.MeanAbs:F3} [{r.CiLo:F3}, {r.CiHi:F3}] | {r.MeanCos,+6:F3} | {r.ZCount,5} | " +
+                               $"{r.MeanAbs:F3}                              | {r.MeanCos,+6:F3} | {r.ZCount,5} | " +
                                $"{pRef.MeanAbs:F3}/{gRef.MeanAbs:F3}");
             }
             _out.WriteLine("");
@@ -102,6 +154,12 @@ public class IntegrabilityBreakingCsrTests
         Assert.True(r1.ZCount > 50, $"need a real per-realization pool, got {r1.ZCount}");
         Assert.Equal(r1.ZCount * 3, r3.ZCount);              // identical copies pool linearly
         Assert.Equal(r1.MeanAbs, r3.MeanAbs, 9);             // no disorder ⟹ identical statistic
+        Assert.Equal(IntegrabilityBreakingCsr.UncertaintySemantics.NoneDeterministicGrid, r1.Uncertainty);
+        Assert.Equal(0, r1.IndependentSpectrumCount);
+        Assert.True(double.IsNaN(r1.CiLo) && double.IsNaN(r1.CiHi));
+        Assert.Equal(IntegrabilityBreakingCsr.UncertaintySemantics.NoneDeterministicGrid, r3.Uncertainty);
+        Assert.Equal(0, r3.IndependentSpectrumCount);
+        Assert.True(double.IsNaN(r3.CiLo) && double.IsNaN(r3.CiHi));
     }
 
     /// <summary>Stage 2 reconnaissance: at Delta=0 the random-field XY Hamiltonian remains Anderson/free-fermion,
@@ -127,11 +185,11 @@ public class IntegrabilityBreakingCsrTests
             _out.WriteLine($"N={n}, q={q}, R={R} -- {label}");
             _out.WriteLine($"   refs (~{perSpec} pts): Poisson ⟨|z|⟩={pRef.MeanAbs:F3} ⟨cos⟩={pRef.MeanCos:+0.000;-0.000} | " +
                            $"GinUE ⟨|z|⟩={gRef.MeanAbs:F3} ⟨cos⟩={gRef.MeanCos:+0.000;-0.000}");
-            _out.WriteLine("    W    | ⟨|z|⟩  [95% CI]        | ⟨cosθ⟩ | Npool");
+            _out.WriteLine("    W    | ⟨|z|⟩  [whole-spectrum cluster 95% CI] | ⟨cosθ⟩ | Npool | spectra");
             foreach (double W in new[] { 0.0, 0.5, 1.0, 2.0, 4.0 })
             {
                 var r = IntegrabilityBreakingCsr.DisorderSweep(n, q, delta, W, R, IntegrabilityBreakingCsr.Half.HbMixed, 1000);
-                _out.WriteLine($"  {W,5:F2} | {r.MeanAbs:F3} [{r.CiLo:F3},{r.CiHi:F3}] | {r.MeanCos,+6:F3} | {r.ZCount}");
+                _out.WriteLine($"  {W,5:F2} | {r.MeanAbs:F3} [{r.CiLo:F3},{r.CiHi:F3}] | {r.MeanCos,+6:F3} | {r.ZCount} | {r.IndependentSpectrumCount}");
             }
             _out.WriteLine("");
         }

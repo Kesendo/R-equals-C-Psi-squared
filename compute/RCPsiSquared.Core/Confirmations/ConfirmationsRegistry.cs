@@ -254,61 +254,55 @@ public static class ConfirmationsRegistry
             JobId: "d8ce8l38ch0s738uorjg",
             Observable: "Transfer T(t) = P(qubit 1 excited) from |10⟩ under exchange H = J·(XX+YY)/2 + idle Z-dephasing, scanned over J (the only lever)",
             PredictedValue:
-                "Q = J/γ₀ with the typed carrier γ₀ = UniversalCarrierClaim.DefaultGammaZero = 0.05. " +
-                "Coherent swing (T overshoots ½, the H-clock wins) for Q > 1 (J > γ₀); overdamped creep (T → ½, the carrier wins) for Q ≤ 1; " +
-                "critical damping exactly at J = γ₀ = 0.05 (Q = 1, max T = ½). Sim q_basic_jscan.py puts the swing-death at J = γ₀.",
+                "The separate ideal two-site model with γ₀=0.05 predicts loss of transfer overshoot near J=γ₀. " +
+                "The four-point hardware scan can test only whether the finite-time transfer maximum lies above or below 1/2; it cannot identify γ₀ or certify critical damping.",
             MeasuredValue:
-                "q13-q14, J ∈ {0.05, 0.1, 0.2, 0.4} (Q ≈ {1, 2, 4, 8}): max T = {0.335, 0.563, 0.703, 0.779}. " +
+                "q13-q14, J ∈ {0.05, 0.1, 0.2, 0.4}: max T = {0.335, 0.563, 0.703, 0.779}. " +
                 "Coherent swing (overshoot past ½) present for J ≥ 0.1, absent for J = 0.05 (creeps to 0.335). " +
                 "First transfer peak at step ∝ 1/J (the H-clock frequency tracks J). " +
-                "Swing dies between J = 0.1 and J = 0.05 → γ₀ ≈ 0.05–0.1 read off the lever (idle carrier + gate error shift the threshold slightly above the pure 0.05).",
+                "The finite grid brackets the observed overshoot change between J=0.05 and 0.1; gate, idle, readout, and finite-time effects are not separated.",
             HardwareData: "external (AIEvolution.UI/experiments/ibm_quantum_tomography/results/q_jscan_hardware_ibm_kingston_20260529_025757.json)",
             ExperimentDoc: "experiments/GAMMA0_IS_ALWAYS_THERE.md",
-            FrameworkPrimitive: "UniversalCarrierClaim.DefaultGammaZero (γ₀ = 0.05) + Q = J/γ₀ regime axis; run_q_jscan.py (external pipeline)",
+            FrameworkPrimitive: "q_basic_jscan.py ideal-model comparator + run_q_jscan.py external finite-grid hardware scan",
             Description:
-                "First direct read-off of the carrier γ₀ from its only lever J on hardware. The basic Q = J/γ₀ exchange-bond J-scan: " +
-                "the H-clock frequency tracks J (first transfer peak ∝ 1/J), and the coherent swing dies where J crosses γ₀ (critical damping, T = ½). " +
-                "Confirms the typed UniversalCarrierClaim.DefaultGammaZero = 0.05 on Kingston q13-q14, made readable via the swing-death threshold even though γ₀ is invisible head-on (Inside-Observability: only Q = J/γ₀ is accessible from inside). " +
-                "Within-state ratios (the popcount/absorption ladder) wash on hardware (distance-blind noise, nothing cancels); this between-regime J-scan is the clean carrier probe. " +
-                "Sits on the same Q = J/γ₀ axis as the F86 Q-peak (Q ≈ 1.5, where |K_CC_pr| maxes): the residual F86 empirical deviation is grid/resolution-limited (fine-grid scans N≥9 pending), not a break in the structure now hardware-anchored.",
+                "Finite-grid transfer-overshoot observation under a J scan. It brackets an effective response change between J=0.05 and 0.1, but does not isolate a local Z-dephasing rate, calibrate UniversalCarrierClaim.DefaultGammaZero, certify critical damping, or anchor the F86 Q-peak. " +
+                "The name is a historical locator for the lever experiment, not a direct carrier measurement.",
             QubitPath: new[] { 13, 14 }),
 
         new Confirmation(
             Name: "ibm_ep_onset_may2026",
             Date: "2026-05-31",
             Machine: "ibm_kingston",
-            JobId: "d8dr7dfd0j8c73f4man0 (Part A, flow to 1/3) + d8drjbfd0j8c73f4mobg (Part B, EP onset)",
+            JobId: "d8dr7dfd0j8c73f4man0 (Part A, finite-time population trajectory) + d8drjbfd0j8c73f4mobg (Part B, historical 'EP onset' runner label)",
             Observable:
                 "Per-site populations ⟨n_l⟩ of a single-excitation walk on a 3-site chain (q13-q14-q15, Z-basis, no tomography); " +
-                "Part B revival = max ⟨n_0⟩ for t ≥ 2 μs under injected random-Z-twirl dephasing, Q = J/γ swept over {0.5, 1, 1.5, 2.5, 5, 20}",
+                "Part B revival = max ⟨n_0⟩ for t ≥ 2 μs under injected random-Z-twirl dephasing. The runner labels " +
+                "Q_label = J/Γ over {0.5, 1, 1.5, 2.5, 5, 20}, where coherences decay as exp(−Γt).",
             PredictedValue:
-                "SE-walk overdamped→revival handover reading: revival pinned at the 1/N = 1/3 equipartition floor below Q ≈ 1.5 (overdamped, no memory return), " +
-                "lifting off above it (the single-excitation walk's critical-damping transition; real, measured). " +
-                "Whether that SE transition is itself a genuine defective EP is under a SEPARATE open review (the coherence-horizon √-EP cluster, inspect --root horizon); not asserted here. " +
-                "Twirl simulate (K=16 exact statevector): revival 0.31 → 0.84 across the same Q scan. " +
-                "Part A flow target: per-site populations converge to 1/N = 1/3 at late t (the post-handover flow fixed point).",
+                "SE-walk population handover reading: the finite-time revival remains near the 1/N = 1/3 reference level through Q_label=1.5 and is larger at Q_label=2.5. " +
+                "This population observable does not locate a spectral transition; coalescence and Jordan character remain unmeasured. " +
+                "Twirl simulate (K=16 exact statevector): revival 0.28 → 0.84 across the same Q scan. " +
+                "Separate ideal-model theorem: with number conservation, positive dephasing, and connected hopping, the one-excitation sector relaxes asymptotically to its uniform 1/N stationary state; Part A hardware does not test that asymptote.",
             MeasuredValue:
-                "Q = {0.5, 1, 1.5, 2.5, 5, 20} → revival = {0.30, 0.36, 0.34, 0.49, 0.56, 0.70}: " +
-                "floor ~1/3 for Q ≤ 1.5, liftoff 0.49 → 0.56 → 0.70 as Q crosses 2.5 → 5 → 20. " +
-                "Part A late-t populations 0.34 / 0.43 / 0.34 at 20 μs (converging to 1/3). " +
-                "High-Q side suppressed (0.70 vs 0.84 simulate at Q=20) by two-qubit gate error (~160 RZZ gates by 20 μs at ~0.5%); the floor and the onset are clean.",
+                "Q_label = {0.5, 1, 1.5, 2.5, 5, 20}; Q_Lindblad = 2 Q_label = {1, 2, 3, 5, 10, 40}; " +
+                "revival = {0.2978515625, 0.3623809814453125, 0.34356689453125, 0.4898834228515625, 0.560699462890625, 0.70330810546875}. The sampled population handover is bracketed by Q_label=1.5→2.5, equivalently Q_Lindblad=3→5. " +
+                "Part A finite-time marginals 0.339 / 0.426 / 0.338 at 20 μs (sum 1.103; no readout/leakage correction or asymptotic claim). " +
+                "At Q_label=20 the measured revival 0.703 is below the exact-twirl value 0.842 (raw 0.8417853730254796); that discrepancy is consistent with accumulated circuit/gate cost, but the stored record has no calibrated error model that assigns a unique cause.",
             HardwareData:
                 "data/ibm_ep_onset_may2026/ (Part A ep_onset_hardware_ibm_kingston_20260531_060943.json, " +
                 "Part B ep_onset_hardware_ep_ibm_kingston_20260531_064022.json + same-day simulate JSONs)",
             ExperimentDoc: "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md",
             FrameworkPrimitive:
-                "ExceptionalPointClock (the toy 2×2 reduction: decay pinning at 4γ₀, F95 rotation angle, eigenvector overlap min(x,1/x)) + " +
-                "EpField hardware node (inspect --axis ep); Q ≈ 1.5 handover marker",
+                "EpField hardware node (inspect --axis ep), with the hardware curve converted from the runner's coherence-rate labels to canonical Lindblad Q",
             Description:
-                "The single-excitation-walk overdamped→revival handover watched switching the memory on, on a real chip, populations only. " +
-                "Part A (job d8dr7dfd0j8c73f4man0) at the chip's natural Q ≫ 1: the excitation sloshes 0 → 2 → 1 → 0 with ~3 μs period (the reborn memory), " +
-                "the site-0 revival fades 0.84 → 0.43 over 15 μs (the forgetting), and the populations converge to 1/3 = 1/N at 20 μs (the flow target). " +
+                "The single-excitation-walk population handover is a real-chip population-only observation. " +
+                "Part A (job d8dr7dfd0j8c73f4man0) records finite-time site-to-site sloshing and a site-0 revival that falls from 0.84 to 0.43 over 15 μs. " +
+                "Its three Z-basis marginals move closer together by 20 μs, but they are not a normalized one-excitation distribution and do not certify convergence or an asymptotic fixed point. " +
                 "Part B (job d8drjbfd0j8c73f4mobg) injects dephasing via a random-Z twirl (K=16 instances; the RZ gates are virtual on IBM, so the injection is error-free) " +
-                "to push Q = J/γ down through Q ≈ 1.5: the revival sits on the equipartition floor (~1/3) for Q ≤ 1.5 and lifts off as Q crosses 1.5 → 2.5 " +
-                "(0.34 → 0.49 → 0.56 → 0.70): a clean overdamped→revival handover at Q ≈ 1.5 on real hardware (the SE walk's critical-damping transition; real, measured). " +
-                "Whether that SE transition is itself a genuine defective EP is under a SEPARATE open review (the coherence-horizon √-EP cluster, inspect --root horizon); not asserted here. " +
-                "The F86a coherence-block 'real-axis EP' this entry formerly cited was retracted 2026-06-21 (genuine non-normality near Q_peak, large but finite Petermann); that retraction's 'no real-axis defective EP' was itself corrected 2026-07-07, F89 locates a real-axis defective seed on the full block (PROOF_F86A section The real-axis EP). This hardware entry depends on neither reading: it measures the SE-walk overdamped->revival handover, not the block EP. " +
-                "The revival decay envelope is gate-cost-limited (Trotterization, ~9 μs), not T2-limited (~200 μs); only the rate is gate cost, the floor and the onset are physics. " +
+                "to scan Q_label = J/Γ. Its random-phase variance σ²=2Γdt gives coherence decay exp(−Γt), whereas the repository Lindblad jump √γ Z gives exp(−2γt). Thus γ=Γ/2 and Q_Lindblad = 2 Q_label. " +
+                "The observed bracket Q_label=1.5→2.5 is therefore Q_Lindblad=3→5. It is a population handover only: spectral character remains open; no critical damping, EP, mode coalescence, or Jordan structure was measured. " +
+                "The F86a coherence-block 'real-axis EP' this entry formerly cited was retracted 2026-06-21 (genuine non-normality near Q_peak, large but finite Petermann); that retraction's 'no real-axis defective EP' was itself corrected 2026-07-07, F89 locates a real-axis defective seed on the full block (PROOF_F86A section The real-axis EP). This hardware entry depends on neither reading: it measures only the finite-time SE-walk population handover, not the block EP. " +
+                "The faster hardware envelope than the T1/T2-only simulation is consistent with accumulated circuit/gate cost; without a gate/readout/leakage error model it is not an exclusive causal identification. " +
                 "This table is the hardware node of EpField (Diagnostics/Foundation/EpField.cs) and the overlay in simulations/ep_transition.py.",
             QubitPath: new[] { 13, 14, 15 }),
 

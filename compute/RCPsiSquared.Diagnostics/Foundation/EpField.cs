@@ -9,17 +9,17 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// readings: the marks (Q_EP, Q_peak, t_peak=1/(4γ₀)); the Takt (the toy slow mode's decay coalescing the
 /// two real channels at −4γ₀ and pinning there); the Rotation (the angle θ lifting off 0 above the toy
 /// EP, the oscillation born, = the F95 angle); the defectiveness (the toy eigenvector overlap min(x,1/x)
-/// → 1 at the toy EP, the Jordan-block pinch of the 2×2 reduction); and the hardware (the IBM Kingston
-/// single-excitation-walk overdamped→revival handover, the memory revival lifting off the 1/N floor as Q
-/// crosses Q≈1.5). Closed-form, N-free, 2-level. The mirror of the interior axis: there the rotation
-/// stills at ¼, here it is born at Q_EP (the cusp/EP F95 siblinghood). The post-EP regime it opens is the
-/// BirthCanal of <see cref="PostEpFlowField"/>.
+/// → 1 at the toy EP, the Jordan-block pinch of the 2×2 reduction); plus a separately scoped hardware
+/// population handover. The IBM Kingston curve is converted from its coherence-rate labels to the
+/// repository's canonical Lindblad Q; it is not evidence for the toy EP or for chain spectral character.
+/// Closed-form, N-free, 2-level.
 ///
 /// <para><b>Scope (F86a-retraction, 2026-06-21):</b> every "EP / defective / Jordan-block / overlap→1"
 /// reading on this field is a property of the toy 2×2 rate-channel reduction, which IS genuinely
 /// defective at Q_EP. The full physical (n,n+1)-coherence block of the chain is genuinely non-normal on
-/// the real Q axis (large but finite Petermann) but has NO defective EP there (eigenvalues simple); do
-/// not read this telescope as the chain block's real-axis behaviour. See
+/// the real Q axis (large but finite Petermann), and F89 has separate scattered real-axis defective
+/// seeds; it does not inherit the toy's clean Q_EP pinch. Do not read this telescope as the chain
+/// block's real-axis behaviour. See
 /// <c>RCPsiSquared.Core.F86.LocalGlobalEpLink</c> (OpenQuestion) and
 /// <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> §The real-axis EP.</para></summary>
 public sealed class EpField : IInspectable
@@ -55,8 +55,8 @@ public sealed class EpField : IInspectable
         $"oscillation born), the 2×2 eigenvectors collapse (overlap→1). This defectiveness is the toy reduction's clean pinch AT Q_EP, NOT " +
         $"the physical chain block's behaviour there (the block is non-normal at Q_peak; its own real-axis defective EPs are " +
         $"F89's scattered seeds, not a clean Q_EP pinch, the retraction's 'no real-axis EP' corrected 2026-07-07; see LocalGlobalEpLink). " +
-        $"The cusp's mirror: there the rotation stills at ¼, here it is born. Hardware-anchored by the IBM Kingston " +
-        "single-excitation-walk overdamped→revival handover at Q≈1.5. The post-EP regime it opens is the BirthCanal.";
+        $"The hardware child is a separate population handover, not a calibration or confirmation of this toy EP; " +
+        "its spectral character remains open.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -95,19 +95,23 @@ public sealed class EpField : IInspectable
                          "'no real-axis coalescence' was corrected 2026-07-07); see LocalGlobalEpLink / PROOF_F86A section The real-axis EP.",
                 payload: new InspectablePayload.Curve("eigenvector overlap vs Q", _qGrid, overlap, "Q", "|⟨v₊|v₋⟩| (→1 at the EP)"));
 
-            // 5. The hardware (IBM Kingston single-excitation-walk overdamped→revival handover, Part B).
+            // 5. The hardware (IBM Kingston finite-time population handover, Part B).
             // Registry anchor: ConfirmationsRegistry.Lookup("ibm_ep_onset_may2026") (mirrored in simulations/framework/confirmations.py).
-            var hwQ = new double[] { 0.5, 1.0, 1.5, 2.5, 5.0, 20.0 };
-            var hwRev = new double[] { 0.30, 0.36, 0.34, 0.49, 0.56, 0.70 };   // data/ibm_ep_onset_may2026 README, job d8drjbfd0j8c73f4mobg
+            var hwQLabel = new double[] { 0.5, 1.0, 1.5, 2.5, 5.0, 20.0 };
+            var hwQLindblad = hwQLabel.Select(q => 2.0 * q).ToArray();
+            // Exact raw-record values; simulations/docs_verify.py checks this array against the JSON populations.
+            var hwRev = new double[] { 0.2978515625, 0.3623809814453125, 0.34356689453125,
+                0.4898834228515625, 0.560699462890625, 0.70330810546875 };
             yield return new InspectableNode(
-                displayName: "the hardware (IBM Kingston single-excitation-walk overdamped→revival handover)",
-                summary: "IBM Kingston 2026-05-31 (real data): a single-excitation walk under injected dephasing, Q swept {0.5,1,1.5,2.5,5,20}. " +
-                         "The memory revival (max⟨n₀⟩) stays at the 1/N≈0.33 equipartition floor (overdamped, no memory return) up to Q≈1.5, then lifts " +
-                         "off (0.34→0.49→0.56→0.70): a clean overdamped→revival handover at Q≈1.5 on a real chip (ep_onset_may2026, job d8drjbfd0j8c73f4mobg). " +
-                         "This is a measured population-level handover; whether the handover is itself a genuine defective EP of the chain is a SEPARATE open " +
-                         "review (the coherence-horizon √-EP cluster, inspect --root horizon), not asserted here. The toy 2×2 puts its defective EP at the same " +
-                         "Q_EP≈1.5, which is why this field overlays the two; the chip is NOT claimed to sit on a defective EP (F86a-retraction; see LocalGlobalEpLink).",
-                payload: new InspectablePayload.Curve("Kingston revival vs Q", hwQ, hwRev, "Q", "revival (memory return)"));
+                displayName: "the hardware (IBM Kingston single-excitation-walk population handover)",
+                summary: "IBM Kingston 2026-05-31 (real data): single-excitation populations under injected random-Z-twirl dephasing. " +
+                         "The runner uses coherence-rate labels Q_label=J/Γ: σ²=2Γdt gives exp(−Γt). The repository jump √γ Z gives exp(−2γt), " +
+                         "so γ=Γ/2 and Q_Lindblad = 2 Q_label. The sampled population handover Q_label=1.5→2.5 is therefore Q_Lindblad=3→5 " +
+                         "(revival 0.344→0.490). The 1/N line is only a reference level for this finite-time scalar, not a lower floor or an equipartition certificate. " +
+                         "Populations alone do not locate an EP, critical damping, or mode coalescence; spectral character remains open. " +
+                         "The historical ep_onset_may2026 name identifies the run, not its present verdict.",
+                payload: new InspectablePayload.Curve("Kingston revival vs canonical Lindblad Q", hwQLindblad, hwRev,
+                    "Q_Lindblad = 2 Q_label", "revival (population return)"));
         }
     }
 

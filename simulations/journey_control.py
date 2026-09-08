@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
-"""Pushing the chip onto the EP is control, not loss: the steering wheel for the start.
+"""Illustrative dephasing control for the single-excitation population flow.
 
-The chip rests at Q ~ 30 (deep memory, no injection). Injecting dephasing raises the total
-rate gamma_total = gamma_0 + gamma_inj and lowers Q = J / gamma_total, so the injected noise
-is a CONTROL: it places the starting point anywhere on the birth-axis. The EP (Q_EP = 1.5) is
-one stop, the birth threshold; you can park just above it (the rotation just turning), at home
-(Q ~ 30, deep memory), or push below (overdamped, pre-birth, back in the dark). One control, a
-whole family of starting points, one of which is the EP. From each start, time runs the leg-2
-flow to the 1/N target: a family of journeys, and you choose which one.
-
-This is the "lifetime of the new" knob: Q is the lifetime of the born memory, so dialing the
-noise is choosing how long the newborn rotation lives before it forgets into 1/N.
+At fixed coupling, increasing the canonical Lindblad rate lowers Q=J/gamma. This script shows
+that mathematical control relation and propagates population trajectories for several chosen Q.
+It is not a calibration of the Kingston runner and makes no critical-damping or EP claim.
 
 Produces: simulations/results/journey_between_singularities/journey_control.png
 """
@@ -30,34 +23,38 @@ import journey_between_singularities as jbs   # reuse l_eff/clock/flow_to_target
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-G0, J_HW, Q_EP = jbs.G0, jbs.J_HW, jbs.Q_EP
-Q_HOME = J_HW / G0                       # ~ 30, the chip's natural start (no injection)
+Q_BASE = 40.0
 
 
-def q_of_inj(g_inj: float) -> float:
-    """The starting point Q reached by injecting dephasing g_inj (total = gamma_0 + g_inj)."""
-    return J_HW / (G0 + g_inj)
+def q_of_inj(relative_increase: float) -> float:
+    """Canonical Q after increasing gamma by a dimensionless fraction."""
+    return Q_BASE / (1.0 + relative_increase)
 
 
 def inj_for_q(Q: float) -> float:
-    """The injected dephasing needed to steer the start to a target Q."""
-    return J_HW / Q - G0
+    """Relative canonical-rate increase needed to steer from Q_BASE to Q."""
+    return Q_BASE / Q - 1.0
+
+
+def control_domain(q_values) -> tuple[float, float]:
+    """Plot domain containing every selected canonical-Q marker."""
+    injections = [inj_for_q(Q) for Q in q_values]
+    return min(injections), max(injections)
 
 
 def main() -> None:
-    starts = [1.5, 2.5, 5.0, 10.0, Q_HOME]      # chosen starting points; 1.5 = the EP, 30 = home
+    starts = [3.0, 5.0, 10.0, 20.0, Q_BASE]
+    min_injection, max_injection = control_domain(starts)
     print("=" * 78)
-    print("  THE CONTROL: inject noise -> steer the start down the birth-axis")
-    print(f"  chip J={J_HW}, gamma_0={G0}; home Q={Q_HOME:.0f} (no injection); EP at Q={Q_EP}")
+    print("  CANONICAL CONTROL: increase gamma -> lower Q")
+    print(f"  illustrative base Q={Q_BASE:.0f}; no hardware or spectral-transition calibration")
     print("=" * 78)
     print(f"  {'target Q':>9} {'gamma_inj':>10} {'theta':>7}   regime / role")
     for Q in starts:
         gi = inj_for_q(Q)
         th = jbs.clock(Q)[2]
-        if abs(Q - Q_EP) < 1e-9:
-            role = "THE EP (the birth threshold, one of many)"
-        elif abs(Q - Q_HOME) < 1e-9:
-            role = "home, no injection (deep memory)"
+        if abs(Q - Q_BASE) < 1e-9:
+            role = "baseline, no added dephasing"
         else:
             role = "rotation already turning"
         print(f"  {Q:9.2f} {gi:10.3f} {th:7.1f}   {role}")
@@ -65,67 +62,52 @@ def main() -> None:
     fig, (axA, axB) = plt.subplots(1, 2, figsize=(15.5, 6.3))
 
     # ---- Panel A: the steering map (injected noise -> starting Q) ----
-    g = np.linspace(0.0, 3.0, 500)
+    g = np.linspace(min_injection, max_injection, 500)
     Qg = q_of_inj(g)
     axA.plot(g, Qg, "-", color="#333333", lw=2.6, zorder=3)
-    # the overdamped (pre-birth) band, below the EP
-    axA.axhspan(Qg.min(), Q_EP, color="#cfcfcf", alpha=0.45, zorder=0)
-    axA.axhline(Q_EP, color="red", ls="--", lw=1.3, alpha=0.85)
-    axA.annotate("overdamped: pre-birth (push past the EP, back into the dark)",
-                 (1.55, (Qg.min() * Q_EP) ** 0.5), fontsize=8, color="#555", ha="center", va="center")
     # the chosen starting points
     for Q in starts:
         gi = inj_for_q(Q)
-        if abs(Q - Q_EP) < 1e-9:
-            axA.plot(gi, Q, "*", color="red", ms=20, markeredgecolor="black", markeredgewidth=0.6, zorder=5)
-            axA.annotate("the EP\n(birth lit)", (gi, Q), xytext=(gi + 0.35, Q * 0.62), fontsize=8.5,
-                         color="red", ha="center", arrowprops=dict(arrowstyle="->", color="red", lw=0.8))
-        elif abs(Q - Q_HOME) < 1e-9:
+        if abs(Q - Q_BASE) < 1e-9:
             axA.plot(gi, Q, "o", color="#2E8B57", ms=12, markeredgecolor="black", markeredgewidth=0.5, zorder=5)
-            axA.annotate("home: no injection\nQ~30 (deep memory)", (gi, Q), xytext=(0.55, 21),
+            axA.annotate("baseline: no added dephasing", (gi, Q), xytext=(0.55, 28),
                          fontsize=8.5, color="#1d6b3f", ha="left",
                          arrowprops=dict(arrowstyle="->", color="#2E8B57", lw=0.8))
         else:
             axA.plot(gi, Q, "o", color="#1F6FB2", ms=9, markeredgecolor="black", markeredgewidth=0.5, zorder=5)
     axA.set_yscale("log")
-    axA.set_xlim(0, 3.0)
-    axA.set_ylim(Qg.min(), 40)
-    axA.set_xlabel("injected dephasing  gamma_inj   (the control knob)")
-    axA.set_ylabel("starting point  Q = J / (gamma_0 + gamma_inj)")
-    axA.set_title("THE CONTROL: the injected noise is a steering wheel\n"
-                  "dial it, place the start anywhere on the birth-axis", fontsize=10)
+    axA.set_xlim(min_injection, max_injection)
+    axA.set_ylim(min(starts), Q_BASE)
+    axA.set_xlabel("relative increase of canonical Lindblad gamma")
+    axA.set_ylabel("canonical Q = Q_base / (1 + relative increase)")
+    axA.set_title("ILLUSTRATIVE CONTROL MAP\nno hardware or EP calibration", fontsize=10)
     axA.grid(True, alpha=0.2, which="both")
 
     # ---- Panel B: a family of journeys, one per starting point ----
     taus = np.linspace(0.0, 5.0, 700)
     cmap = matplotlib.colormaps["viridis"]
-    order = [1.5, 2.5, 5.0, 10.0, Q_HOME]
+    order = starts
     for k, Q in enumerate(order):
         n0 = jbs.flow_to_target(Q, 3, taus)[0]      # site-0 occupation (the drop site)
         frac = k / (len(order) - 1)
-        is_ep = abs(Q - Q_EP) < 1e-9
-        is_home = abs(Q - Q_HOME) < 1e-9
-        lab = (f"Q={Q:.0f} (home, gamma_inj=0)" if is_home else
-               f"Q={Q:.1f} = the EP (gamma_inj={inj_for_q(Q):.2f})" if is_ep else
-               f"Q={Q:.1f} (gamma_inj={inj_for_q(Q):.2f})")
-        axB.plot(taus, n0, "-", color=cmap(frac), lw=2.0 if not is_home else 1.2,
-                 alpha=1.0 if not is_home else 0.55, label=lab)
+        is_base = abs(Q - Q_BASE) < 1e-9
+        lab = f"Q={Q:.0f} (relative increase={inj_for_q(Q):.2f})"
+        axB.plot(taus, n0, "-", color=cmap(frac), lw=1.2 if is_base else 2.0,
+                 alpha=0.55 if is_base else 1.0, label=lab)
     axB.axhline(1.0 / 3.0, color="black", ls="--", lw=1.3, alpha=0.8)
     axB.annotate("1/N target", (4.4, 1.0 / 3.0), xytext=(4.4, 0.46), fontsize=8.5, ha="center",
                  arrowprops=dict(arrowstyle="->", color="black", lw=0.8))
     axB.set_xlim(0, 5)
     axB.set_ylim(0, 1.0)
-    axB.set_xlabel("tau = gamma_total * t   (time, from the chosen start)")
-    axB.set_ylabel("site-0 occupation  <n_0>  (the memory's return)")
-    axB.set_title("A FAMILY OF JOURNEYS, one per start (the EP is one of many)\n"
-                  "faint birth at the EP, livelier the higher you start, all -> 1/N", fontsize=10)
+    axB.set_xlabel("tau = gamma_per_site * t   (uniform per-site rate)")
+    axB.set_ylabel("site-0 occupation  <n_0>  (population return)")
+    axB.set_title("POPULATION TRAJECTORIES AT CHOSEN Q\nall approach the 1/N fixed point", fontsize=10)
     axB.legend(loc="upper right", fontsize=8, framealpha=0.9)
     axB.grid(True, alpha=0.2)
 
     fig.suptitle(
-        "Pushing the chip onto the EP is control, not loss: the injected noise chooses where the journey begins.\n"
-        "Left: the steering wheel (gamma_inj sets the starting Q). Right: the family it opens, the EP one chosen start "
-        "of many, each carried by time to 1/N.",
+        "Canonical dephasing control and the single-excitation population flow.\n"
+        "Illustrative model only; the Kingston population handover has separate rate-book provenance.",
         y=1.0, fontsize=10.5)
     plt.tight_layout(rect=[0, 0, 1, 0.92])
 

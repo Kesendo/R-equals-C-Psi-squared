@@ -131,19 +131,38 @@ def test_confirmations_lookup_palindrome_trichotomy():
 
 
 def test_confirmations_lookup_ibm_ep_onset():
-    # The Kingston EP-onset run: the revival lifts off the 1/N floor as Q crosses
-    # Q_EP ≈ 1.5. Registry anchor for the hard-coded hardware table in
-    # compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs (node 5, "the hardware").
+    # The historical slug is retained, but the result is a population handover in
+    # the runner's coherence-rate book, not a critical-damping or EP certificate.
     e = fw.Confirmations.lookup('ibm_ep_onset_may2026')
     assert e['date'] == '2026-05-31'
     assert e['machine'] == 'ibm_kingston'
     assert 'd8dr7dfd0j8c73f4man0' in e['job_id']
     assert 'd8drjbfd0j8c73f4mobg' in e['job_id']
-    assert e['measured_value']['Q_grid'] == [0.5, 1.0, 1.5, 2.5, 5.0, 20.0]
-    assert e['measured_value']['revival'] == [0.30, 0.36, 0.34, 0.49, 0.56, 0.70]
-    assert '1/N = 1/3 equipartition floor' in e['predicted_value']['se_walk_handover_reading']
-    assert 'ExceptionalPointClock' in e['framework_primitive']
+    assert e['measured_value']['Q_label_grid'] == [0.5, 1.0, 1.5, 2.5, 5.0, 20.0]
+    assert e['measured_value']['Q_lindblad_grid'] == [1.0, 2.0, 3.0, 5.0, 10.0, 40.0]
+    assert e['measured_value']['revival'] == [0.2978515625, 0.3623809814453125,
+                                              0.34356689453125, 0.4898834228515625,
+                                              0.560699462890625, 0.70330810546875]
+    assert '1/N = 1/3 reference level' in e['predicted_value']['se_walk_handover_reading']
+    assert '0.28 → 0.84' in e['predicted_value']['twirl_simulate_revival']
+    assert '0.8417853730254796' in e['measured_value']['high_Q_discrepancy']
+    assert 'Q_Lindblad = 2 Q_label' in e['measured_value']['rate_book']
+    assert 'spectral character remains open' in e['description']
+    assert 'do not certify convergence' in e['description']
+    assert 'no calibrated error model' in e['description']
+    assert 'floor and the onset are clean' not in e['description']
+    assert 'critical-damping' not in e['predicted_value']['se_walk_handover_reading']
+    assert 'ExceptionalPointClock' not in e['framework_primitive']
     assert e['experiment_doc'] == 'experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md'
+
+
+def test_gamma0_lever_entry_is_a_finite_grid_bracket_not_a_carrier_calibration():
+    e = fw.Confirmations.lookup('gamma0_off_the_lever_kingston_may2026')
+    assert 'finite-time transfer maximum' in e['predicted_value']
+    assert 'brackets an effective response change' in e['measured_value']
+    assert 'does not isolate' in e['description']
+    assert 'Confirms the typed' not in e['description']
+    assert 'hardware-anchored' not in e['description']
 
 
 def test_confirmations_unknown_raises():

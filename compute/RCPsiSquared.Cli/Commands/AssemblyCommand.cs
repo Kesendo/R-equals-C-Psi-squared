@@ -1,12 +1,14 @@
 using System.Globalization;
 using RCPsiSquared.Diagnostics.Foundation;
+using RCPsiSquared.Diagnostics.Ptf;
 
 namespace RCPsiSquared.Cli.Commands;
 
 /// <summary>The assembly read across a Q-sweep, the whole locked picture played through on one
-/// substrate: for each Q the slowest mode's rate, its drain depth (= light n_XY = rate), its parity
-/// rung (flow / birth), the Absorption-Theorem cross-check (rate = 2·Σγ·light), and the per-site
-/// carrier vector; then once the birth-canal vs sterile verdict and the maximal-saturation ceiling.
+/// substrate: for each canonical Q the global slowest mode's rate, its dimensionless drain depth
+/// (= light n_XY), its projector parity support, the distinct weighted Absorption rate
+/// 2·Σγ_l·light_l, and the per-site carrier vector; then, where scoped, the N=5 open-chain
+/// birth-canal vs rate-sterile verdict and the maximal-saturation ceiling.
 /// Chain (open line) or ring (the aromatic substrate: benzene C₆, cyclobutadiene C₄).</summary>
 public static class AssemblyCommand
 {
@@ -16,7 +18,7 @@ public static class AssemblyCommand
         p.RequireNoPositional();
         int N = p.RequireInt("N");
 
-        string qListStr = p.OptionalString("q-list") ?? "0.5,1.0,1.5,2.5,5.0,20.0";
+        string qListStr = p.OptionalString("q-list") ?? "1.0,2.0,3.0,5.0,10.0,40.0";
         var qGrid = qListStr.Split(',')
             .Select(s => double.Parse(s.Trim(), CultureInfo.InvariantCulture)).ToArray();
 
@@ -45,24 +47,33 @@ public static class AssemblyCommand
             ? "uniform"
             : "[" + string.Join(",", profile.Select(w => w.ToString("0.###", CultureInfo.InvariantCulture))) + "]";
         Console.WriteLine($"Assembly read: N={N}, topology={topology}, gamma-profile={profLabel}");
-        Console.WriteLine($"  {"Q",7}  {"rate",8}  {"depth",6}  {"rung",11}  {"absorp",7}  per-site light <X/Y at k>");
+        Console.WriteLine($"  {"Q",7}  {"edge",8}  {"mean",8}  {"depth",6}  {"parity",13}  {"abs(mean)",9}  per-site light <X/Y at k>");
         foreach (double q in qGrid)
         {
             var a = field.ReadAssembly(q);
-            string rung = a.OnBirthRail ? "BIRTH(odd)" : "flow(even)";
-            string ok = Math.Abs(a.SlowestRate - a.AbsorptionRate) < 1e-6 ? "ok" : "MISMATCH";
+            string rung = a.Parity switch
+            {
+                SlowLightParity.Odd => "odd support",
+                SlowLightParity.Even => "even support",
+                _ => "mixed support",
+            };
+            string ok = a.AbsorptionResidual < 1e-6 ? "ok" : "MISMATCH";
             string light = "[" + string.Join(" ",
                 a.PerSiteLight.Select(x => x.ToString("0.00", CultureInfo.InvariantCulture))) + "]";
-            Console.WriteLine($"  {q,7:0.##}  {a.SlowestRate,8:0.0000}  {a.SlowestDepth,6:0.000}  {rung,11}  {ok,7}  deg{a.Degeneracy,3}  {light}");
+            Console.WriteLine($"  {q,7:0.##}  {a.SlowestRate,8:0.0000}  {a.SlowClusterMeanRate,8:0.0000}  {a.SlowestDepth,6:0.000}  {rung,13}  {ok,9}  cluster{a.SlowClusterDimension,3}  {light}");
         }
 
         Console.WriteLine();
-        string zone = field.IsInBirthCanal
-            ? $"BIRTH CANAL (Q-drift δ = {field.BirthCanalDeviation.ToString("0.0000", CultureInfo.InvariantCulture)})"
-            : "STERILE (the birth channel's lifetime is Q-independent)";
+        string zone = field.HasBirthCanalClassification
+            ? field.IsInBirthCanal
+                ? $"BIRTH CANAL (Q-drift δ = {field.BirthCanalDeviation.ToString("0.0000", CultureInfo.InvariantCulture)})"
+                : "RATE-STERILE on the verified N=5 surface"
+            : $"UNCLASSIFIED outside the N=5 surface (global slow-rate drift δ = " +
+              $"{field.GlobalSlowestRateDeviation.ToString("0.0000", CultureInfo.InvariantCulture)})";
         Console.WriteLine($"  zone: {zone}");
         Console.WriteLine($"  max saturation ceiling C_block = {PostEpFlowField.MaxSaturationCeiling.ToString("0.00", CultureInfo.InvariantCulture)} (= 1/4); " +
-            $"flow's peak between-block = {field.PeakBetweenBlockSaturation.ToString("E2", CultureInfo.InvariantCulture)} (~0, the flow rides the even rail)");
+            $"flow's peak between-block = {field.PeakBetweenBlockSaturation.ToString("E2", CultureInfo.InvariantCulture)} " +
+            "(~0, the prepared single-excitation flow has fixed excitation number)");
         return 0;
     }
 }

@@ -1,26 +1,22 @@
 #!/usr/bin/env python3
-"""What happens AT the target, the 1/N fixed point, and how does it go on?
+"""What happens at the sector-uniform stationary state under a formal gain continuation?
 
-The post-EP loop converges to one point: the 1/N equipartitioned state, the kernel of L.
-This probe looks at that point the way f86_ep_through_the_clock looked at the EP, and asks
-Tom's question: a point, and then how does it continue?
+For canonical Q>0, a localized single excitation approaches the sector-uniform state. Globally,
+the number-conserving Liouvillian has an (N+1)-dimensional semisimple kernel: one stationary state
+per excitation-number sector. This probe follows the one-excitation representative only.
 
 Three readings, all computed:
 
-  1. The point is reached only ASYMPTOTICALLY. The approach rate is the spectral gap (the
-     slowest non-kernel mode, the Lebensader). In finite time you never arrive; you only get
-     exponentially closer. |<n> - 1/N| halves at a fixed rate set by the gap.
+  1. The sector state is reached only ASYMPTOTICALLY. The printed global non-kernel spectral
+     abscissa is not identified with the population-visible approach rate: its winning mode may
+     have zero overlap with this preparation/readout.
 
-  2. The point is a SINK (for net dephasing Sigma-gamma > 0): every non-kernel mode has
-     Re < 0, so all nearby states flow in. The arrow of time points at the point.
+  2. It attracts the transient complement at fixed one-excitation trace. Kernel-direction
+     perturbations remain stationary and generally approach another sector mixture.
 
-  3. How it goes on is NOT the trajectory continuing (it stops at the point), but the point's
-     ROLE inverting as the net dephasing Sigma-gamma slides across the mirror (ZERO_IS_THE_MIRROR).
-     The 1/N state stays the fixed point for EVERY Sigma-gamma (L.vec(1/N) = 0 always), but:
-        Sigma-gamma > 0  ->  SINK    (max non-kernel Re < 0; the flow falls in; the end of history)
-        Sigma-gamma = 0  ->  NEUTRAL (max non-kernel Re = 0; eternal oscillation; the mirror)
-        Sigma-gamma < 0  ->  SOURCE  (max non-kernel Re > 0; the flow is pushed away; the Hopf)
-     The point does not move. The arrows around it flip. That is how it continues.
+  3. A formal common-scalar continuation f of one positive per-site profile changes the transient
+     spectral abscissa. f<0 is non-CP inverse dephasing that amplifies coherences, not an energy-gain
+     bath and not a Hopf certificate. This says nothing universal about arbitrary mixed-sign profiles.
 """
 import numpy as np
 
@@ -45,11 +41,11 @@ def bond_op(N, b, P, Q):
 
 
 def liouvillian(N, Q, f):
-    """L = -i*Q*[H,.] + f * Sum_l (Z_l (x) Z_l - I).  f scales the net dephasing Sigma-gamma."""
+    """L = -i*(Q/2)*[sum(XX+YY),.] + f*sum_l(Z_l(.)Z_l-I)."""
     d = 2 ** N
     Id = np.eye(d)
     H1 = sum(bond_op(N, b, X, X) + bond_op(N, b, Y, Y) for b in range(N - 1))
-    L = -1j * Q * (np.kron(Id, H1) - np.kron(H1.T, Id))
+    L = -1j * (Q / 2.0) * (np.kron(Id, H1) - np.kron(H1.T, Id))
     for l in range(N):
         Zl = op_at(N, l, Z)
         L += f * (np.kron(Zl, Zl) - np.kron(Id, Id))
@@ -69,7 +65,7 @@ def uniform_rho(N):
 
 
 def gap_and_stability(L, tol=1e-9):
-    """Return (max non-kernel Re lambda, |slowest non-kernel Re| = approach rate)."""
+    """Return global non-kernel spectral-abscissa data; no preparation overlap is applied."""
     w = np.linalg.eigvals(L)
     nonker = w[np.abs(w) > tol]
     re = nonker.real
@@ -77,13 +73,13 @@ def gap_and_stability(L, tol=1e-9):
 
 
 def part1_the_approach(N=4, Q=2.0):
-    """Reading 1 + 2: the point is a sink reached asymptotically at the gap rate."""
+    """Sector relaxation plus the separately labelled global spectral rate."""
     d = 2 ** N
     L = liouvillian(N, Q, 1.0)
     max_re, rate = gap_and_stability(L)
-    print(f"Reading 1 + 2  (N={N}, Q={Q}, Sigma-gamma > 0):")
-    print(f"  max non-kernel Re(lambda) = {max_re:+.4f}  -> {'SINK (all modes flow in)' if max_re < 0 else 'not a sink'}")
-    print(f"  approach rate (slowest non-kernel |Re|) = {rate:.4f}  = the Lebensader, the last mode to fade")
+    print(f"Reading 1 + 2  (N={N}, Q={Q}, common per-site f=1):")
+    print(f"  max non-kernel Re(lambda) = {max_re:+.4f}  (global transient spectral abscissa)")
+    print(f"  global slowest non-kernel |Re| = {rate:.4f}; not asserted to be population-visible")
 
     # the excitation starts localized at site 0; watch |<n_0> - 1/N| shrink, never reaching 0
     w, V = np.linalg.eig(L)
@@ -95,7 +91,7 @@ def part1_the_approach(N=4, Q=2.0):
     n0 = (I2 - Z) / 2
     n0_op = op_at(N, 0, np.array([[0, 0], [0, 1]], complex))  # |1><1| at site 0
     target = 1.0 / N
-    print(f"  the approach (never arrives, only halves):  target 1/N = {target:.4f}")
+    print(f"  fixed-one-excitation-sector approach: target 1/N = {target:.4f}")
     print(f"  {'t':>5}  {'<n_0>(t)':>9}  {'|<n_0> - 1/N|':>13}")
     prev = None
     for t in [1.0, 2.0, 4.0, 8.0, 16.0]:
@@ -106,27 +102,27 @@ def part1_the_approach(N=4, Q=2.0):
         ratio = f"  (x{res / prev:.3f})" if prev else ""
         print(f"  {t:5.0f}  {n_val:9.4f}  {res:13.2e}{ratio}")
         prev = res
-    print("  => exponential decay at the gap rate; the point is approached forever, never landed.")
+    print("  => the sampled sector residual decreases; no global-gap equality is inferred.")
 
 
 def part2_how_it_goes_on(N=4, Q=2.0):
-    """Reading 3: slide Sigma-gamma across the mirror; the point stays, its role inverts."""
-    print(f"\nReading 3  (N={N}, Q={Q}):  the 1/N point persists for every Sigma-gamma; its ROLE flips")
+    """Common-scalar formal continuation; not arbitrary mixed-sign rates."""
+    print(f"\nReading 3  (N={N}, Q={Q}): common per-site profile scalar f")
     rho = uniform_rho(N).flatten(order="F")
-    print(f"  {'Sigma-gamma (f)':>15}  {'L.vec(1/N)':>11}  {'max non-ker Re':>14}   role")
+    print(f"  {'per-site f':>15}  {'L.vec(1/N)':>11}  {'max non-ker Re':>14}   transient role")
     for f in [1.0, 0.5, 0.1, 0.0, -0.1, -0.5]:
         L = liouvillian(N, Q, f)
         res = float(np.linalg.norm(L @ rho))
         max_re, _ = gap_and_stability(L)
         if max_re < -1e-9:
-            role = "SINK    (falls in, the end of history)"
+            role = "DECAY   (transient complement contracts)"
         elif abs(max_re) <= 1e-9:
             role = "NEUTRAL (eternal oscillation, the mirror)"
         else:
-            role = "SOURCE  (pushed away, the Hopf, runaway)"
+            role = "SOURCE  (formal inverse-dephasing amplification)"
         print(f"  {f:15.2f}  {res:11.0e}  {max_re:+14.4f}   {role}")
-    print("  => the point does not move (L.vec(1/N) = 0 throughout). The arrows around it flip:")
-    print("     sink (decay) -> neutral (mirror) -> source (gain). That is how it goes on.")
+    print("  => the sector state remains stationary; the transient linear stability changes.")
+    print("     f<0 is non-CP inverse dephasing, not an energy-gain bath or Hopf certificate.")
 
 
 def main():
