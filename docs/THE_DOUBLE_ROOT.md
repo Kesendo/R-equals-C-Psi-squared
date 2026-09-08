@@ -382,6 +382,11 @@ below. Each parity total equals its certified A₂ degree.
 | odd | 133 | 59 | 74 | 0 | 133 Diabolic, alg=geo=2 |
 | total | 266 | 118 | 148 | 0 | 266 Diabolic; 0 Defective |
 
+The [N=6 Route-B A₂ locus atlas](../experiments/ROUTE_B_N6_A2_LOCUS_ATLAS.md)
+draws one midpoint representative for each of the 266 certified boxes, their
+96 conjugation/parity orbits and the executed three-contour evidence without
+treating those display midpoints as roots.
+
 The full physical operator is built from the coherences |i⟩⟨j,k|: the ket
 hops with −2iq, either occupied bra site hops with +2iq, and the dephasing
 diagonal is −2 when i belongs to {j,k}, −6 otherwise. Reflection combines

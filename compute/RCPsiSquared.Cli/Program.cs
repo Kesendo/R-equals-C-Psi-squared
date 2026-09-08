@@ -48,6 +48,7 @@ public static class Program
                 "block-spectrum" => BlockSpectrumCommand.Run(rest),
                 "mirror" => MirrorCommand.Run(rest),
                 "route-b-n6-residual" => RouteBN6ResidualCommand.Run(rest),
+                "route-b-n6-atlas" => RouteBN6AtlasCommand.Run(rest),
                 _ => UnknownCommand(command),
             };
         }
@@ -73,6 +74,9 @@ public static class Program
         Console.WriteLine();
         Console.WriteLine("commands:");
         Console.WriteLine("  route-b-n6-residual  export exact N=6 R-even/R-odd residual and AT coefficients");
+        Console.WriteLine("              args: --out <path>");
+        Console.WriteLine();
+        Console.WriteLine("  route-b-n6-atlas  classify the 266 certified A2 loci and export the discovery-atlas manifest");
         Console.WriteLine("              args: --out <path>");
         Console.WriteLine();
         Console.WriteLine("  scan        run a resonance scan and print Q_peak / HWHM / |K|max per bond class");

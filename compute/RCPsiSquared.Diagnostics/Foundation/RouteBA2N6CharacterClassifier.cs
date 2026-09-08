@@ -54,8 +54,19 @@ public sealed class RouteBA2N6CharacterClassifier
     /// Numerical character is stable evidence, never an exact-rank certificate.
     /// The margin is the minimum returned middle-contour margin among numerical
     /// character readings; +Infinity means no numerical character was needed.</summary>
-    public RouteBA2N6ReconciliationReport ReconcileAll() => ReconcileReadings(
-        inventory.Loci.OrderBy(locus => locus.Id, StringComparer.Ordinal).Select(Classify));
+    public RouteBA2N6ReconciliationReport ReconcileAll() => BuildAtlasManifest().Reconciliation;
+
+    /// <summary>Classify every certified locus once and bind the accepted readings to the
+    /// exact inventory geometry used by the N=6 discovery atlas.</summary>
+    public RouteBA2N6AtlasManifest BuildAtlasManifest()
+    {
+        var classified = inventory.Loci.OrderBy(locus => locus.Id, StringComparer.Ordinal)
+            .Select(locus => (Locus: locus, Contours: ClassifyRadii(locus)))
+            .ToArray();
+        RouteBA2N6ReconciliationReport reconciliation = ReconcileReadings(
+            classified.Select(item => item.Contours[1]));
+        return RouteBA2N6AtlasManifestBuilder.Build(inventory, classified, reconciliation);
+    }
 
     internal RouteBA2N6ReconciliationReport ReconcileReadings(IEnumerable<A2CharacterReading> readings)
     {

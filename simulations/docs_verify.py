@@ -2258,6 +2258,7 @@ def route_b_n6_current_truth_errors(source, label):
         required += ["consumes all 266 locus IDs once in ordinal order", "ExactAlgebraic=266",
                      "the loci and algebraic multiplicity, while character has the separate sources",
                      "| R parity | direct-t loci | HermitianAxis | EpCharacterStable | ExactRankExecuted | verdict |",
+                     "ROUTE_B_N6_A2_LOCUS_ATLAS.md", "their 96 conjugation/parity orbits",
                      "| even | 133 | 59 | 74 | 0 | 133 Diabolic, alg=geo=2 |",
                      "| odd | 133 | 59 | 74 | 0 | 133 Diabolic, alg=geo=2 |",
                      "| total | 266 | 118 | 148 | 0 | 266 Diabolic; 0 Defective |",

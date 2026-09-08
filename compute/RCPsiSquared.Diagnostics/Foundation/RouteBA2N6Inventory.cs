@@ -45,6 +45,7 @@ public sealed class RouteBA2N6Inventory
     public N6LayerIdentity LayerIdentity { get; }
     public IReadOnlyList<RouteBA2N6Locus> Loci { get; }
     public IReadOnlyList<A2ExactRankCertificate> ExactRankCertificates { get; }
+    public string SourcePayloadSha256 { get; private init; } = "";
 
     private RouteBA2N6Inventory(int schemaVersion, int n, N6A2Degrees a2Degrees,
         N6LayerIdentity layerIdentity, IReadOnlyList<RouteBA2N6Locus> loci,
@@ -176,7 +177,10 @@ public sealed class RouteBA2N6Inventory
                 dto.LayerIdentity.Valuation, dto.LayerIdentity.A1Degree, dto.LayerIdentity.A2Degree,
                 dto.LayerIdentity.Constant, dto.LayerIdentity.ProofModulus, dto.LayerIdentity.ProofBound);
             return new(dto.SchemaVersion, dto.N, degrees, identity, loci.AsReadOnly(),
-                Array.Empty<A2ExactRankCertificate>());
+                Array.Empty<A2ExactRankCertificate>())
+            {
+                SourcePayloadSha256 = Convert.ToHexString(SHA256.HashData(payload)).ToLowerInvariant()
+            };
         }
         catch (Exception error) when (error is JsonException or FormatException or OverflowException
             or ArgumentException or NullReferenceException)

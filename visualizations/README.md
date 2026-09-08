@@ -288,6 +288,39 @@ dotnet run --project compute/RCPsiSquared.Cli -- gmscan --graph-png visualizatio
 
 The live witnesses are `inspect --root galoismonodromy` (the S₈ generation) and `inspect --root monodromymirror` (the mirror split: q → −q̄ intertwines the braiding, the Re λ = −4 fold σ_T does not); the Galois groups and the topology-writability classification live in [F89_TOPOLOGY_ORBIT_CLOSURE](../experiments/F89_TOPOLOGY_ORBIT_CLOSURE.md) and [F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY](../experiments/F89_TOPOLOGY_CONTROLS_GALOIS_WRITABILITY.md).
 
+## The N=6 Route-B A₂ Locus Atlas
+
+The N=4 branch-locus image above was the flashlight. The N=6 atlas is the map
+left after the direct-*t* search: 266 certified A₂ boxes, 133 per R-parity,
+compressed by the carrier's conjugation and parity maps into 96 orbits.
+The scope is the open uniform nearest-neighbour XY chain (Δ=0, zero field),
+uniform local Z-dephasing γ=1 and the SE-ket/DE-bra coherence block. Coordinates
+use *t*=i·`qCSharp` with `qCSharp=J/γ`, and Λ=2λ; *t* is the exact quarter-turn
+of the earlier N=4 *q* plane, not a different coupling normalization.
+
+![The 266 N=6 Route-B A2 loci.](route_b_a2_n6_constellation.png)
+
+![The 96 conjugation/parity orbits.](route_b_a2_n6_orbit_map.png)
+
+![The executed Hermitian-axis and three-contour evidence.](route_b_a2_n6_evidence_profile.png)
+
+Cyan/violet encodes R-even/R-odd, diamond/circle encodes
+`HermitianAxis`/`EpCharacterStable`, gold outlines the 266 diabolic verdicts,
+and magenta is reserved for a defective locus (none was found). Coordinates
+are exact rational box midpoints converted only for display; the graphics do
+not promote them to algebraic roots. The orbit map contains exactly the two
+partner fields in the schema-3 carrier and infers no crossfold relation.
+In the log evidence panel, 22 exact-zero departures are placed at the labelled
+10⁻¹⁸ display floor; that floor is not evidence.
+
+The [scientific note](../experiments/ROUTE_B_N6_A2_LOCUS_ATLAS.md) owns the
+interpretation and scope. Reproduce the manifest and all PNG/SVG pairs with:
+
+```powershell
+dotnet run --project compute/RCPsiSquared.Cli -c Release -- route-b-n6-atlas --out simulations/results/route_b_a2_n6_atlas.json
+python simulations/route_b_a2_n6_atlas.py --manifest simulations/results/route_b_a2_n6_atlas.json --out-dir visualizations
+```
+
 ---
 
 *Back to [main repository](../README.md) | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) | [Experiments](../experiments/)*
