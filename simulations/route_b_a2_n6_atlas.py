@@ -26,6 +26,8 @@ INK = "#e8edf6"
 MUTED = "#8f9aad"
 GRID = "#303846"
 BACKGROUND = "#11151c"
+VERDICT_OUTLINE = {"Diabolic": GOLD, "Defective": MAGENTA}
+SOURCE_STYLE = {"HermitianAxis": ("D", 18), "EpCharacterStable": ("o", 12)}
 
 
 def _rational(value: dict) -> Fraction:
@@ -178,40 +180,55 @@ def _save(fig, output_dir: Path, stem: str) -> list[Path]:
 
 def _legend() -> list[Line2D]:
     return [
-        Line2D([], [], marker="o", linestyle="none", markerfacecolor=CYAN,
-               markeredgecolor=GOLD, label="R-even"),
-        Line2D([], [], marker="o", linestyle="none", markerfacecolor=VIOLET,
-               markeredgecolor=GOLD, label="R-odd"),
-        Line2D([], [], marker="D", linestyle="none", markerfacecolor=MUTED,
-               markeredgecolor=GOLD, label="HermitianAxis"),
-        Line2D([], [], marker="o", linestyle="none", markerfacecolor=MUTED,
-               markeredgecolor=GOLD, label="EpCharacterStable"),
-        Line2D([], [], color=GOLD, linewidth=1.8, label="Diabolic (alg = geo = 2)"),
-        Line2D([], [], color=MAGENTA, linewidth=1.8, label="Defective (reserved; none)"),
+        Line2D([], [], marker="s", linestyle="none", markerfacecolor=CYAN,
+               markeredgecolor=CYAN, label="Fill: R-even (R = chain reflection)"),
+        Line2D([], [], marker="s", linestyle="none", markerfacecolor=VIOLET,
+               markeredgecolor=VIOLET, label="Fill: R-odd"),
+        Line2D([], [], marker="D", linestyle="none", markerfacecolor=INK,
+               markeredgecolor=INK, label="Shape: diamond = real-t Hermitian classifier"),
+        Line2D([], [], marker="o", linestyle="none", markerfacecolor=INK,
+               markeredgecolor=INK, label="Shape: circle = off-axis EP check (stable at 3 radii)"),
+        Line2D([], [], marker="o", linestyle="none", markerfacecolor="none",
+               markeredgecolor=VERDICT_OUTLINE["Diabolic"], markeredgewidth=1.8,
+               label="Outline: Diabolic (266 loci)"),
+        Line2D([], [], marker="o", linestyle="none", markerfacecolor="none",
+               markeredgecolor=VERDICT_OUTLINE["Defective"], markeredgewidth=1.8,
+               label="Outline: Defective (none in atlas)"),
     ]
 
 
 def _constellation(data: dict, output_dir: Path) -> list[Path]:
-    fig, ax = plt.subplots(figsize=(9.4, 6.8), facecolor=BACKGROUND)
-    for source, marker, size in (("HermitianAxis", "D", 34),
-                                 ("EpCharacterStable", "o", 24)):
-        for parity, color in (("E", CYAN), ("O", VIOLET)):
+    fig, axes = plt.subplots(1, 2, figsize=(13.2, 7.2), facecolor=BACKGROUND,
+                             sharey=True)
+    for ax, parity, color, title in (
+            (axes[0], "E", CYAN, "R-even (133 loci)"),
+            (axes[1], "O", VIOLET, "R-odd (133 loci)")):
+        for source, (marker, size) in SOURCE_STYLE.items():
             points = [locus for locus in data["loci"]
                       if locus["characterSource"] == source and locus["parity"] == parity]
             ax.scatter([p["tReal"] for p in points], [p["tImag"] for p in points],
-                       s=size, marker=marker, facecolors=color, edgecolors=GOLD,
-                       linewidths=0.75, alpha=0.9, zorder=3)
-    ax.axhline(0, color=MUTED, linewidth=0.8, alpha=0.8)
-    ax.axvline(0, color=MUTED, linewidth=0.8, alpha=0.8)
-    _style_axis(ax, r"Re $t$  (box-midpoint display coordinate)",
-                r"Im $t$  (box-midpoint display coordinate)")
-    ax.set_aspect("equal", adjustable="box")
-    ax.set_title(r"N=6 Route-B $A_2$ locus constellation — 266 certified boxes",
-                 color=INK, pad=14)
-    ax.legend(handles=_legend(), loc="upper right", frameon=False,
-              labelcolor=INK, fontsize=8, ncol=2)
-    fig.text(0.5, 0.015,
+                       s=size, marker=marker, facecolors=color,
+                       edgecolors=[VERDICT_OUTLINE[p["verdict"]] for p in points],
+                       linewidths=0.75, alpha=1.0, zorder=3)
+        ax.axhline(0, color=MUTED, linewidth=0.8, alpha=0.8)
+        ax.axvline(0, color=MUTED, linewidth=0.8, alpha=0.8)
+        _style_axis(ax, r"Re $t$  (box-midpoint display coordinate)",
+                    r"Im $t$  (box-midpoint display coordinate)")
+        ax.set_aspect("equal", adjustable="box")
+        ax.set_title(title, color=color, pad=10)
+    fig.suptitle(r"N=6 Route-B $A_2$ midpoint overview: 266 certified boxes",
+                 color=INK, y=0.94)
+    fig.subplots_adjust(left=0.07, right=0.77, bottom=0.18, top=0.88, wspace=0.08)
+    fig.legend(handles=_legend(), loc="upper left", bbox_to_anchor=(0.79, 0.88),
+               frameon=False, labelcolor=INK, fontsize=9, ncol=1)
+    fig.text(0.5, 0.078,
              "Displayed points are exact rational t-box midpoints converted to float; they are not algebraic roots.",
+             color=MUTED, ha="center", fontsize=8)
+    fig.text(0.5, 0.046,
+             "t = i qCSharp, qCSharp = J/γ. Non-real qCSharp is analytic continuation; real t is a classification axis.",
+             color=MUTED, ha="center", fontsize=8)
+    fig.text(0.5, 0.014,
+             "Panels obey t ↦ -t. Dense clusters overlap; visible dots are not the census. Exact table: simulations/results/route_b_a2_n6_atlas.json",
              color=MUTED, ha="center", fontsize=8)
     return _save(fig, output_dir, "route_b_a2_n6_constellation")
 
