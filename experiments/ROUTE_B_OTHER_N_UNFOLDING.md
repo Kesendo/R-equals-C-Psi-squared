@@ -1,5 +1,19 @@
 # The end-bond crossing at N=4 and N=5
 
+**Date:** 2026-09-09
+
+## What this is about
+
+After finding how the ends of a six-spin chain move a crossing, we ask
+whether the same relation survives when the chain is smaller. Four and
+five spins let us look at different sizes without changing the question:
+how do the effects of moving one end, both ends together, or the ends in
+opposite directions fit together? The tested crossings keep the same
+coefficient relation. That gives us a bridge between sizes while leaving
+open what happens at crossings we have not certified individually.
+
+## Abstract
+
 The local coefficient relation of F163 also appears at the smaller chains:
 two N=4 crossings at one positive-real q, and all 58 stored N=5 A2 q loci.
 The new instance checks are numerical. The relation itself has a

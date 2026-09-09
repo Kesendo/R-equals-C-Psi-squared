@@ -1,5 +1,18 @@
 # How far the N=4 self-mirrored EP branches run
 
+**Date:** 2026-09-09
+
+## What this is about
+
+A formula close to a crossing tells us which way to start walking. It does
+not tell us how far the path goes. Here we change the two end bonds of a
+four-spin chain and follow the resulting meetings of modes. Sometimes a
+third mode joins them; sometimes the path simply bends back in the parameter
+we were using to follow it. Those are different events. Separating them
+keeps us from mistaking a turn in the road for the end of the road.
+
+## Abstract
+
 The N=4 real EP paths encounter two different boundaries: a triple
 eigenvalue (EP3), or a turning point in the end-perturbation parameter
 while the eigenvalue remains an EP2. Seven such boundary points are
@@ -9,6 +22,8 @@ equal-end germ to its turn and infinity, with two cross-parity coincidences
 of character J₂ ⊕ J₁ along the incoming segment. The other seed connections
 and the identification of first parameter turns remain numerical. The
 seven point certificates alone do not prove maximal intervals.
+
+## Context and path map
 
 The source is the [local self-fold theorem](../docs/proofs/PROOF_ROUTE_B_N4_SELF_FOLD.md).
 The repository survey searched the F-registry, proofs, Core/Diagnostics,

@@ -1,0 +1,184 @@
+{
+  "preparations": 24,
+  "readouts": 72,
+  "times": 401,
+  "q": 2,
+  "gamma": 1,
+  "rows": [
+    {
+      "center_offset": -0.2,
+      "epsilon_shift": -0.05,
+      "time": 0.375,
+      "preparation": {
+        "excited_site": 2,
+        "superposition_site": 1,
+        "phase_pi_over_2": 1
+      },
+      "readout": {
+        "site": 2,
+        "quadrature": "X",
+        "spectator_mask": 2
+      },
+      "signal": -0.2039137962562006,
+      "difference": -0.014751323237188918,
+      "shots_each": 87587.44135476935,
+      "baseline_shots_each": 346067.0821906672,
+      "shot_reduction": 3.951103912134352
+    },
+    {
+      "center_offset": -0.2,
+      "epsilon_shift": 0.05,
+      "time": 0.365,
+      "preparation": {
+        "excited_site": 2,
+        "superposition_site": 1,
+        "phase_pi_over_2": 1
+      },
+      "readout": {
+        "site": 2,
+        "quadrature": "X",
+        "spectator_mask": 2
+      },
+      "signal": -0.2152310257179414,
+      "difference": 0.014532276846701664,
+      "shots_each": 87392.19874134853,
+      "baseline_shots_each": 386296.0527145054,
+      "shot_reduction": 4.420257852280518
+    },
+    {
+      "center_offset": 0.0,
+      "epsilon_shift": -0.05,
+      "time": 0.34500000000000003,
+      "preparation": {
+        "excited_site": 2,
+        "superposition_site": 1,
+        "phase_pi_over_2": 1
+      },
+      "readout": {
+        "site": 2,
+        "quadrature": "X",
+        "spectator_mask": 2
+      },
+      "signal": -0.18151839852117568,
+      "difference": -0.01364584852405104,
+      "shots_each": 88862.41292052476,
+      "baseline_shots_each": 598837.3533876601,
+      "shot_reduction": 6.73892744644733
+    },
+    {
+      "center_offset": 0.0,
+      "epsilon_shift": 0.05,
+      "time": 0.34,
+      "preparation": {
+        "excited_site": 1,
+        "superposition_site": 2,
+        "phase_pi_over_2": 1
+      },
+      "readout": {
+        "site": 1,
+        "quadrature": "X",
+        "spectator_mask": 4
+      },
+      "signal": -0.18718745665314906,
+      "difference": 0.013301551220813002,
+      "shots_each": 89946.54972716361,
+      "baseline_shots_each": 721418.1585148937,
+      "shot_reduction": 8.020520639237231
+    },
+    {
+      "center_offset": 0.2,
+      "epsilon_shift": -0.05,
+      "time": 0.315,
+      "preparation": {
+        "excited_site": 2,
+        "superposition_site": 1,
+        "phase_pi_over_2": 1
+      },
+      "readout": {
+        "site": 2,
+        "quadrature": "X",
+        "spectator_mask": 2
+      },
+      "signal": -0.16439797106178577,
+      "difference": -0.012395603631254526,
+      "shots_each": 94579.34801638375,
+      "baseline_shots_each": 920401.428430479,
+      "shot_reduction": 9.731526466761435
+    },
+    {
+      "center_offset": 0.2,
+      "epsilon_shift": 0.05,
+      "time": 0.31,
+      "preparation": {
+        "excited_site": 2,
+        "superposition_site": 1,
+        "phase_pi_over_2": 1
+      },
+      "readout": {
+        "site": 2,
+        "quadrature": "X",
+        "spectator_mask": 2
+      },
+      "signal": -0.17019348256984207,
+      "difference": 0.012047757247786506,
+      "shots_each": 96541.15055239132,
+      "baseline_shots_each": 853089.4770394596,
+      "shot_reduction": 8.836537291696166
+    }
+  ],
+  "transferred_ep_protocols": [
+    {
+      "epsilon_shift": -0.05,
+      "center_offset": -0.2,
+      "best_time": 0.375,
+      "shots_each_best_time": 87587.44135476935,
+      "shots_each_fixed_ep_time": 89466.29756719997
+    },
+    {
+      "epsilon_shift": -0.05,
+      "center_offset": 0.0,
+      "best_time": 0.34500000000000003,
+      "shots_each_best_time": 88862.41292052476,
+      "shots_each_fixed_ep_time": 88862.41292052476
+    },
+    {
+      "epsilon_shift": -0.05,
+      "center_offset": 0.2,
+      "best_time": 0.315,
+      "shots_each_best_time": 94579.34801638375,
+      "shots_each_fixed_ep_time": 97157.42057364617
+    },
+    {
+      "epsilon_shift": 0.05,
+      "center_offset": -0.2,
+      "best_time": 0.365,
+      "shots_each_best_time": 87392.19874134882,
+      "shots_each_fixed_ep_time": 89066.93148338996
+    },
+    {
+      "epsilon_shift": 0.05,
+      "center_offset": 0.0,
+      "best_time": 0.34,
+      "shots_each_best_time": 89946.54972716361,
+      "shots_each_fixed_ep_time": 89946.54972716361
+    },
+    {
+      "epsilon_shift": 0.05,
+      "center_offset": 0.2,
+      "best_time": 0.31,
+      "shots_each_best_time": 96541.15055239396,
+      "shots_each_fixed_ep_time": 99666.68183000939
+    }
+  ],
+  "canonical_winner_jordan": {
+    "a": [
+      8.868773770931424e-17,
+      -0.052083333333333266
+    ],
+    "b": [
+      -0.041666666666666595,
+      1.023486850826316e-16
+    ]
+  },
+  "scope": "Finite ideal mean-SNR search; M each setting, 2M total; design search is numerical, not experimental shots."
+}

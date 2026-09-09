@@ -6,6 +6,27 @@
 
 **Authors:** Thomas Wicht and Codex
 
+## What this is about
+
+A search has found many places where modes of the six-spin chain meet.
+This atlas asks what kind of meetings they are and how the mirror arranges
+them. Equal eigenvalues alone do not mean that the modes have lost their
+independence. In this inventory they remain independent at every classified
+crossing. The map gives the later end-bond experiments their starting
+points, including crossings reached by mathematical continuation into
+complex coupling rather than by a physical control knob.
+
+## Abstract
+
+The exact N = 6 Route-B carrier contains 266 isolated direct-t A₂ loci.
+Classification in the full SE-ket/DE-bra block identifies all 266 as diabolic,
+with no defective or unresolved entries. The atlas displays this finite
+inventory and its mirror relations using t = i qCSharp and Λ = 2λ.
+It supplies a map and character audit of the stored crossings, not an
+all-size theorem or a hardware measurement.
+
+## Model and prior work
+
 **Physical scope and coordinates:** Open uniform nearest-neighbour XY chain
 (Δ=0, zero field) with uniform local Z-dephasing γ=1, restricted to the
 SE-ket/DE-bra coherence block. The carrier uses the same `qCSharp=J/γ`

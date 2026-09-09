@@ -1,5 +1,19 @@
 # From a diabolic seed to a Hamiltonian resonance
 
+**Date:** 2026-09-09
+
+## What this is about
+
+Two modes of a four-spin chain can meet and still remain independent.
+Changing the end bonds opens paths on which they instead share one
+eigenvector. We follow one such path. What first looks like its end is a
+bend: the path turns back in the end-bond parameter while the coupling
+keeps growing. Following it all the way connects the original crossing to
+a limiting resonance of the Hamiltonian. The story is one continuous path,
+with the mirror symmetry helping us identify which modes meet along it.
+
+## Abstract
+
 The equal-end branch leaving the N = 4 diabolic seed with negative
 dq/dε has a validated continuation through (ε,q,ω) = (√2−2,2,2)
 to the negative-√5 Hamiltonian-resonance germ at infinity. There are
@@ -7,6 +21,12 @@ to the negative-√5 Hamiltonian-resonance germ at infinity. There are
 the turn to infinity. For every finite q > q₀ the selected mode is
 an EP2 in the reflection-even sector. Two cross-sector coincidences
 have full-block character J₂ ⊕ J₁; the seed itself is semisimple.
+
+## Context and continuation
+
+The [virtual product-state readout](ROUTE_B_N4_VIRTUAL_READOUT.md) tests
+the measurable Jordan overlap at the exact turn and the shot cost of
+distinguishing nearby end profiles with one fixed measurement.
 
 The repo survey used F89d/F163, the uniform-octic inventory in Core and
 Diagnostics, the F-registry, proofs, OpenArcs, framework, GLOSSARY,

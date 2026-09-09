@@ -1,0 +1,49 @@
+{
+  "model": {
+    "n": 4,
+    "q": 2,
+    "gamma": 1,
+    "epsilon_ep": -0.5857864376269049,
+    "initial_masks": [
+      1,
+      3
+    ],
+    "time_grid": [
+      0,
+      2,
+      401
+    ]
+  },
+  "jordan_readout": {
+    "a": [
+      0.12499999999999992,
+      0.020833333333333384
+    ],
+    "b": [
+      0.0833333333333333,
+      1.747302376127311e-17
+    ],
+    "nilpotent_norm": 1.999999999999996
+  },
+  "comparisons": [
+    {
+      "epsilon_shift": -0.05,
+      "best_grid_time": 0.685,
+      "signal_ep": -0.040637044784325005,
+      "signal_other": -0.04515806747244816,
+      "difference": -0.004521022688123155,
+      "acceptance_ep": 0.2395858819394528,
+      "shots_per_setting_for_mean_snr_5": 598837.3533876546
+    },
+    {
+      "epsilon_shift": 0.05,
+      "best_grid_time": 0.68,
+      "signal_ep": -0.04183497198617096,
+      "signal_other": -0.03781432265321896,
+      "difference": 0.0040206493329520004,
+      "acceptance_ep": 0.24118929591646704,
+      "shots_per_setting_for_mean_snr_5": 721418.1585148162
+    }
+  ],
+  "caveat": "Grid optimum, ideal independent ternary shots; mean SNR is not a test power or EP certificate."
+}

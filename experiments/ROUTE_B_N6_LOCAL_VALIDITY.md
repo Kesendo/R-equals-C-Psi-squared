@@ -1,9 +1,32 @@
 # How far the local crossing formula carries
 
+**Date:** 2026-09-09
+
+## What this is about
+
+We have a small-change formula for how a crossing moves when the end bonds
+change. How long can we trust its first prediction? This note compares it
+with the full six-spin calculation. Strengthening one end while weakening
+the other makes the leading formula stay accurate farther in the tested
+example than changing both ends together. The question is accuracy along
+this particular path, not whether the formula works everywhere. Part of
+the path also uses complex coupling, so it is a mathematical exploration
+rather than a sequence of laboratory settings.
+We then add the next correction and ask a stricter question: within what
+small region can we bound everything the truncated formula leaves out?
+
+## Abstract
+
 At `N6-E-A2-T-007`, the leading F163 formula stays accurate appreciably farther
 along the antisymmetric end direction than along the one-sided or symmetric
 ones. This is a numerical accuracy reading for one crossing, not the convergence
 radius of the Taylor series and not a bound uniform over all 266 crossings.
+The document also derives the next coefficient from the full-block
+reduction, certifies both branches on conservative complex parameter
+disks, and bounds the remaining Taylor tail there. Those certified disks
+are distinct from the wider numerical accuracy scan. The relation between
+the three profiles' coefficients is exact under F163 and applies to all
+266 loci covered by its certificate.
 
 ## Object and measurement
 
