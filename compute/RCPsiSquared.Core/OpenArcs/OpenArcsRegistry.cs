@@ -69,15 +69,38 @@ public static class OpenArcsRegistry
                 "(Jordan-Wigner) holds at every N, but that fact alone does not prove residual semisimplicity " +
                 "or a Delta response at every N; among the sampled tracker controls, only the N=4 response is presently character-certified. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
-            NextStep: "CURRENT STATE (2026-09-07, read this first; the dated layers below are the journal). " +
+            NextStep: "CURRENT STATE (2026-09-09, read this first; the dated layers below are the journal). " +
                 "RESUMING IN ONE LINE: Route B is complete at N=6 as a parity-labelled direct-t inventory. ExactAlgebraic owns all " +
                 "266 loci (133 per parity), consumed exactly once with 0 unresolved; character is Diabolic with alg=geo=2 at every locus: " +
                 "118 by executed full-sector HermitianAxis and 148 by stable EpCharacterStable readings, with ExactRankExecuted=0. " +
                 "The numerical rule uses all three intrinsic radii, relative departure <1e-6, and minimum returned middle-contour " +
                 "isolation margin 0.06589058580248003 in physical-lambda units at gamma=1. No exact fallback was used. " +
                 "PSC1 supplies algebraic pair uniqueness and S1 supplies the repeated-lambda seed; neither determines Jordan character. " +
-                "ROUTE_B_A2_N6_RECONCILE is the executable owner. This is not an all-N theorem and creates no new F number. " +
-                "MECHANISM BOUNDARY: the AT-locked semisimplicity route is Tier 1; for residual coalescences, additivity supplies " +
+                "ROUTE_B_A2_N6_RECONCILE owns those stored readings. F163 independently proves all 266 semisimple by " +
+                "irreducibility of the direct-t A2 factor plus a Hermitian field embedding, and gives exact local EP unfolding " +
+                "for one-end, equal-end and opposite-end bond profiles, at orders epsilon, epsilon and epsilon^2. " +
+                "Read docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md; reproduce with python simulations/route_b_n6_exact_unfolding.py. " +
+                "The family theorem supplies no uniform radius and is not an all-N statement. For N6-E-A2-T-007, " +
+                "PROOF_ROUTE_B_N6_REMAINDER_BOUND and route_b_n6_remainder_ball.py certify both EP branches and the corrected Taylor tail " +
+                "on common epsilon disks 2^-20 (one), 2^-18 (equal), 2^-10 (opposite), with eta=epsilon^2 for opposite ends. " +
+                "These conservative sufficient disks are not maximal convergence radii; the broader epsilon<=0.1 readings remain numerical. " +
+                "F89d transports all q-coordinate response coefficients by conjugation and carries this selected N=6 certificate " +
+                "unchanged to its (1,4) partner; PROOF_ROUTE_B_N6_UNFOLDING section 6 distinguishes this palindrome transport " +
+                "from spatial reflection's sorting of epsilon orders. " +
+                "ROUTE_B_OTHER_N_UNFOLDING compares two N=4 crossings and all 58 stored N=5 q loci: numerical epsilon/epsilon^2 " +
+                "responses and the dimension-independent conditional coefficient identity agree. The real-positive N5-O-A2-W-006-Q-plus " +
+                "representative has numerical real-q EP continuations. PROOF_ROUTE_B_N4_SELF_FOLD and route_b_n4_self_fold.py " +
+                "prove exact distinct real leading coefficients at N=4; uniqueness fixes both EP branches at real q and Re lambda=-4 locally. " +
+                "ROUTE_B_N4_RANGE tracks the three N4 end profiles and certifies seven EP3/EP2-turn boundary points; " +
+                "the equal-end turn is exactly epsilon=sqrt(2)-2,q=2,lambda=-4+2i. ROUTE_B_N4_SECOND_ARM certifies its incoming " +
+                "negative-slope seed branch with 934 uniform real-ball tiles and the outgoing arm " +
+                "to the exact Hamiltonian-resonance limit epsilon=sqrt(3)-2 using 197 uniform real-ball tiles on z in [0,1/2]. " +
+                "Endpoint containment joins the exact turn to the negative-sqrt(5) germ, with full-block EP2 character for every finite q>=2 " +
+                "and -2<epsilon<sqrt(3)-2<0 for q>=2. The combined R+ branch exists for every finite q>q0. " +
+                "Exactly two incoming cross-parity encounters have full-block J2+J1 character, not EP3; interval strip monotonicity " +
+                "proves completeness and independently certified point boxes are joined to the path. The seed remains semisimple. " +
+                "Four local infinity EP2 germs are proved. No common N4/N5 complex-epsilon Taylor disk or exact all-58 unfolding certificate is claimed. " +
+                "MECHANISM BOUNDARY: F163 claims no single-multiplet descent. In that separate explanation, additivity supplies " +
                 "the H-half of the twin-scalar condition only after single-multiplet descent is independently certified, while the D-half remains a locus-specific obligation. All sampled " +
                 "positive-Delta N=4/N=5/N=6 proposals are Uncertified after strict full-block checking, while their Delta=0 controls remain Diabolic with alg=geo=2. Free-fermion " +
                 "(Jordan-Wigner) integrability alone does not prove residual semisimplicity or a Delta response at every N; use F89e and " +
@@ -130,7 +153,7 @@ public static class OpenArcsRegistry
                 "similarity preserves Jordan structure, so every (SE,DE) diabolic at (q,lambda) pairs with a (SE,w_{N-2}) diabolic at " +
                 "(qbar, -lambdabar-2N) with IDENTICAL character and gap, for all N and all q at once - no enumeration. N=4 is the " +
                 "degenerate partner=self within-block self-fold; for N>=5 the N=4 on-line 'zeros' become cross-block mirror partners. " +
-                "Verified: the N=7 real-q diabolic (q=1.1264, lam=-4.942, gap 4.19e-5) pairs with (1,5) at -9.058, same gap. LANDED: a " +
+                "The fold transports any certified source character; a small sampled gap does not certify a diabolic. LANDED: a " +
                 "shared Core builder WeightCoherenceBlock (general (wKet,wBra) block + BraComplementPermutation, promoted from " +
                 "FoldCrossCommand.BuildBlock which now delegates to it), the live witness CrossFoldSimilarityWitness " +
                 "('inspect --root crossfold', TDD-gated CrossFoldSimilarityWitnessTests), and REGISTERED as F89d " +
@@ -269,17 +292,17 @@ public static class OpenArcsRegistry
                 "--- THE JOURNAL (how we got here) --- " +
                 "Concrete moves, cheapest first (binary: dotnet run --project compute/RCPsiSquared.Cli -- " +
                 "<cmd>). (1) LOCATE: run 'pkmono --diabolic --k 5' (N=6) and --k 6 " +
-                "(N=7) over a scaled q-region; confirm the path-4 pattern holds — diabolics exist, ALL at complex " +
-                "q, NONE at real q (the self-fold being N=4-only predicts no physical diabolic at any N≥5; the " +
-                "only real-q feature should be defective EPs). Record the in-region count. (2) DELTA-TEST: " +
+                "(N=7) over a scaled q-region; determine whether residual diabolics occur at complex " +
+                "q or real q, with character certified independently; self-fold alone predicts neither placement nor absence. " +
+                "Record the in-region count. (2) DELTA-TEST: " +
                 "TrackDiabolicUnderDelta on a sample of the located path-5/6 diabolics + a defective " +
                 "control; first certify an isolated full-block algebraic pair, then ask whether it stays semisimple, turns defective, or lifts. pkmono --delta-flip " +
                 "--k 5 --q .. --lam .. is the surface. (3) COUNT-vs-N: how does the in-region diabolic count grow " +
                 "with N (relate to F_d and the integrable level-crossing density)? State the coverage box; do NOT " +
                 "claim completeness (obstacle 1). (4) Q4 CROSS-FOLD: build the partner (SE,w_{N-2}) block (the " +
                 "FoldCrossCommand.BuildBlock route, made (q,Δ)-linear) and test whether each (SE,DE) diabolic has " +
-                "a cross-fold mirror diabolic at −λ̄_d−2N in the partner. (5) If a path-5 diabolic ever lands at " +
-                "REAL q, that refutes the self-fold=real-placement reading — investigate the new pinning. " +
+                "a cross-fold mirror diabolic at −λ̄_d−2N in the partner. (5) Real-q placement requires its own mechanism; " +
+                "the positive-real N=5 R-odd example already excludes an all-N absence rule from loss of self-fold. " +
                 "Tooling to extend only when k>6: F89PathKFdOracle + F89AtFactorReconstruction.ForPathK (locator " +
                 "only; the Δ-test block needs nothing). See experiments/F89_PATH_K_DIABOLIC.md, " +
                 "hypotheses/DIABOLIC_BY_INTEGRABILITY.md, and the zeros_connecting_structure arc. " +
@@ -307,7 +330,7 @@ public static class OpenArcsRegistry
                 "16 semisimple residual DIABOLICS + 5 defective EPs (vs path-4's 11+4). COUNT-vs-N (move 3) GROWS: " +
                 "N=5 -> 11, N=6 -> 16. COMPLEX-q-ONLY HOLDS (move 1/5): the re=0 diabolics sit on the IMAGINARY axis (analytic " +
                 "continuation, like path-3's +-0.876i), the rest at complex q; the near-real ones (im ~ 0.01-0.05) are GHOSTS " +
-                "like path-4's q=0.6118+-0.012i - NONE at physical real q, so the self-fold = N=4-only reading survives to N=6. " +
+                "like path-4's q=0.6118+-0.012i - NONE at physical real q in this scan. This does not follow from loss of self-fold. " +
                 "Caveat: 16 is the EpCharacter count in this box at cell .05 (completeness NOT claimed); a few have gap-exponent " +
                 "disagreements (e.g. q=0.6508+0.052i: EpChar + loop = diabolic but exp 0.49) that need the path-4-style " +
                 "per-point reconciliation. STILL OPEN: N=7 (k=6) broad scan - per-EVAL cost is now optimal, but the broad N=7 " +
@@ -1461,11 +1484,11 @@ public static class OpenArcsRegistry
                 "level crossings of the additive free-fermion spectrum E_DE=ε_j+ε_k, abundant at all N, semisimple " +
                 "because H and the diagonal dissipator do not mix occupation sectors), only they sit at COMPLEX q " +
                 "(conjugate pairs straddling the real axis, closest 0.6118±0.012i, confirmed SPLIT at cell 0.002), " +
-                "NONE at physical real q; at real q only LOUD defective EPs (e.g. q≈1.0776). So integrability = " +
-                "EXISTENCE of the diabolics (complex q), the self-fold = the N=4-ONLY bridge that makes one " +
-                "crossing-q self-conjugate (real, q_EP=0.659). This RECONCILES the surprise with the plan's " +
-                "R-1/R-2: codim/self-fold govern real-axis PLACEMENT (no physical diabolic at N≥5), integrability " +
-                "governs EXISTENCE. Both right about different things; at N=4 they coincided. The tool (pkmono " +
+                "NONE at physical real q in that R-even scan; real-q defective EPs also occur (e.g. q≈1.0776). Integrability leaves " +
+                "a separate existence question. Self-fold supplies pairing, while real placement and character need " +
+                "independent premises. N=5 also has a positive-real R-odd diabolic in the completed Route-B inventory. " +
+                "For N=4 end perturbations, PROOF_ROUTE_B_N4_SELF_FOLD supplies the distinct real slopes that " +
+                "fix individual EP branches locally; it gives no exclusion for other N. The tool (pkmono " +
                 "--diabolic, FindDiabolics, gate-validated at path-3 incl. the imaginary diabolics) is committed. " +
                 "RESOLVED (loop-radius sweep): the 2 near-axis pairs ARE true diabolics — the fixed 0.02 loop was " +
                 "contaminated by a neighbour EP at the dense path-4 spectrum (identity at r≤0.008, transposition " +

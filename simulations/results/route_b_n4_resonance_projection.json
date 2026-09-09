@@ -1,0 +1,40 @@
+{
+  "scope": "Exact first-order resonant projection at N4 end weights sqrt(3)/2.\n\nGamma=1, XY, qCSharp; commutator frequencies measured in units q.\n",
+  "resonant_dimension": 5,
+  "reflection": "+I",
+  "D_projection": "Matrix([[-39/8, -3*sqrt(3)/8, -sqrt(3)/8, -1/8, -1/2], [-sqrt(3)/16, -95/16, -21/16, 9*sqrt(3)/16, -3*sqrt(3)/4], [15*sqrt(3)/16, -15/16, -69/16, 25*sqrt(3)/16, -3*sqrt(3)/4], [9/8, -3*sqrt(3)/8, -sqrt(3)/8, -17/8, -1/2], [-9/16, 3*sqrt(3)/16, sqrt(3)/16, -15/16, -11/4]])",
+  "end_hop_projection": "Matrix([[-sqrt(3)/2, 3/2, 3/2, -sqrt(3)/2, sqrt(3)], [0, sqrt(3), 0, 0, 0], [0, 0, sqrt(3), 0, 0], [3*sqrt(3)/2, -3/2, -3/2, 3*sqrt(3)/2, -sqrt(3)], [3*sqrt(3)/2, -3/2, -3/2, sqrt(3)/2, 0]])",
+  "effective_determinant": "I*(u**2 - 8*u*v + 16*v**2 + 64)*(u**3 - 4*u**2*v - 16*u*v**2 - 8*u + 64*v**3 + 40*v)/1024",
+  "residual_cubic": "u**3 - 4*u**2*v - 16*u*v**2 - 8*u + 64*v**3 + 40*v",
+  "quotient": "I*u**2/1024 - I*u*v/128 + I*v**2/64 + I/16",
+  "single_particle_energies": [
+    -3,
+    -1,
+    1,
+    3
+  ],
+  "script_sha256": "51f178443d18bd2143950c53b7b1039189fcd96479dcf94ce893ed02b7042141",
+  "effective_ranks": [
+    {
+      "u": "-2*sqrt(2)",
+      "v": "-sqrt(2)/4",
+      "rank": 4
+    },
+    {
+      "u": "2*sqrt(2)",
+      "v": "sqrt(2)/4",
+      "rank": 4
+    },
+    {
+      "u": "-5*sqrt(5)/4",
+      "v": "-sqrt(5)/16",
+      "rank": 4
+    },
+    {
+      "u": "5*sqrt(5)/4",
+      "v": "sqrt(5)/16",
+      "rank": 4
+    }
+  ],
+  "scalar_dissipator_control_rejected": true
+}

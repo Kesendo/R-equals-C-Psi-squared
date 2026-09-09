@@ -1,0 +1,75 @@
+{
+  "scope": "Exact local infinity germs of the equal-end N4 frequency octic.\n\nSource: range_polynomial's full-block factor identity; F89d supplies the\nself-fold and F163 the distinction between local existence and path transport.\nThese are local full-block EP2 germs. Association with a finite seed\nor its second fold arm is a separate continuation question.\nRun: python simulations/route_b_n4_fold_infinity.py\n",
+  "coordinates": "z=1/q; r=omega/q; k=(epsilon+2)^2; r=1+z*v; k=3+z*u",
+  "compactified_polynomial": "9*k**4 - 28*k**3*r**2 + 16*k**3*r - 64*k**3 + 30*k**2*r**4 - 32*k**2*r**3 - 56*k**2*r**2 + 320*k**2*r - 64*k**2 - 12*k*r**6 + 16*k*r**5 + 144*k*r**4 - 128*k*r**3 - 384*k*r**2 + 256*k*r + r**8 - 24*r**6 + 144*r**4 - 256*r**2 + 256*z**8 + z**6*(-256*k + 256*r**2 - 512) + z**4*(-32*k**2 - 320*k*r**2 + 256*k*r + 1280*k + 96*r**4 - 640*r**2 - 1792) + z**2*(48*k**3 + 48*k**2*r**2 - 128*k**2*r - 416*k**2 - 112*k*r**4 + 128*k*r**3 + 896*k*r**2 - 1024*k*r + 1536*k + 16*r**6 - 224*r**4 + 128*r**2 - 1024)",
+  "leading_polynomial": "-8*u + 40*v + (u - 4*v)**2*(u + 4*v)",
+  "resultant": "1048576*(u**2 - 8)*(16*u**2 - 125)",
+  "limiting_epsilon": "sqrt(3)-2",
+  "germs": [
+    {
+      "u0": "-2*sqrt(2)",
+      "v0": "-sqrt(2)/4",
+      "jacobian_determinant": "-192*sqrt(2)",
+      "H_u": "6",
+      "H_vv": "-32*sqrt(2)",
+      "u1": "-111/16",
+      "v1": "-385/64",
+      "epsilon_1_over_q": "-sqrt(6)/3",
+      "epsilon_1_over_q_squared": "-365*sqrt(3)/288",
+      "omega_constant": "-sqrt(2)/4",
+      "omega_1_over_q": "-385/64",
+      "P4_leading_coefficient": "1056"
+    },
+    {
+      "u0": "2*sqrt(2)",
+      "v0": "sqrt(2)/4",
+      "jacobian_determinant": "192*sqrt(2)",
+      "H_u": "6",
+      "H_vv": "32*sqrt(2)",
+      "u1": "-111/16",
+      "v1": "-385/64",
+      "epsilon_1_over_q": "sqrt(6)/3",
+      "epsilon_1_over_q_squared": "-365*sqrt(3)/288",
+      "omega_constant": "sqrt(2)/4",
+      "omega_1_over_q": "-385/64",
+      "P4_leading_coefficient": "1056"
+    },
+    {
+      "u0": "-5*sqrt(5)/4",
+      "v0": "-sqrt(5)/16",
+      "jacobian_determinant": "192*sqrt(5)",
+      "H_u": "12",
+      "H_vv": "16*sqrt(5)",
+      "u1": "-383/128",
+      "v1": "2813/1024",
+      "epsilon_1_over_q": "-5*sqrt(15)/24",
+      "epsilon_1_over_q_squared": "-1399*sqrt(3)/2304",
+      "omega_constant": "-sqrt(5)/16",
+      "omega_1_over_q": "2813/1024",
+      "P4_leading_coefficient": "1104"
+    },
+    {
+      "u0": "5*sqrt(5)/4",
+      "v0": "sqrt(5)/16",
+      "jacobian_determinant": "-192*sqrt(5)",
+      "H_u": "12",
+      "H_vv": "-16*sqrt(5)",
+      "u1": "-383/128",
+      "v1": "2813/1024",
+      "epsilon_1_over_q": "5*sqrt(15)/24",
+      "epsilon_1_over_q_squared": "-1399*sqrt(3)/2304",
+      "omega_constant": "sqrt(5)/16",
+      "omega_1_over_q": "2813/1024",
+      "P4_leading_coefficient": "1104"
+    }
+  ],
+  "mutation_rejected": true,
+  "spectator_P4_leading": "16*(u**2 - 8*u*v + 16*v**2 + 64)",
+  "spectator_other_octic_constant": "-6912",
+  "interpretation": "Implicit function theorem: each nonzero Jacobian gives a unique real analytic (u(z),v(z)) germ. omega=q+v0+v1/q+O(q^-2); epsilon=sqrt(3)-2+e1/q+e2/q^2+O(q^-3). Nonzero Hvv gives multiplicity two; the spectator factors stay nonzero. Nonzero Hu gives nonzero epsilon derivative of the full determinant at its root, excluding matrix nullity >=2 by the adjugate derivative identity, hence EP2. No finite-path connection or explicit radius certified.",
+  "source_hashes": {
+    "simulations\\route_b_n4_fold_infinity.py": "0979a8b8897a3848431ea8b543e936f021c3830246ffa62377589773def85f63",
+    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
+    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9"
+  }
+}

@@ -272,7 +272,7 @@ def _orbit_map(data: dict, output_dir: Path) -> list[Path]:
     ax.legend(handles=handles, loc="upper right", frameon=False,
               labelcolor=INK, fontsize=8, ncol=2)
     fig.text(0.5, 0.015,
-             "Only the two partner maps present in the certified carrier are drawn; no crossfold edge is inferred.",
+             "Only the two partner maps present in the certified carrier are drawn; the F89d cross-fold leaves this dataset.",
              color=MUTED, ha="center", fontsize=8)
     return _save(fig, output_dir, "route_b_a2_n6_orbit_map")
 

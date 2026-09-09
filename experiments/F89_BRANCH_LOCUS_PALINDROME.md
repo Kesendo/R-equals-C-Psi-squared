@@ -55,6 +55,23 @@ It is tempting, and wrong, to say the diabolic is silent *because* it is its own
 
 The N=4 Delta=0 control in [DIABOLIC_BY_INTEGRABILITY](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md) is certified diabolic. The sampled positive-Delta proposals remain split under the independent full-block certificate, so they establish neither persistence of an on-line degeneracy nor defective character. The palindrome proof is independent of this unresolved local-character question: the exact block identity supplies the mirror and its pairing, while local character requires its own strict restriction or Jordan test.
 
+## Individual real branches at the N=4 crossing
+
+For the one-end, equal-end and opposite-end XY bond profiles, the
+[exact N=4 end-response calculation](../docs/proofs/PROOF_ROUTE_B_N4_SELF_FOLD.md)
+supplies the additional condition that fixes individual branches: their
+two leading q coefficients are real and distinct. The self-fold conjugates
+these coefficients, so uniqueness forces it to return each branch to
+itself. For real sufficiently small ε the emerging EP2 locations therefore
+have real q and Re λ = −4 exactly. This holds to all orders locally;
+no numerical ε radius is supplied. The seed is semisimple, but the
+perturbed collisions are defective. The mirror fixes their decay rate,
+not their character or frequency.
+
+The proof includes a self-folded family with nonreal conjugate leading
+coefficients: its branches are exchanged and leave real q. Thus the
+positive leading discriminants of the actual N=4 block are essential.
+
 ## Verification
 
 - **Algebraic, on the committed literal.** The eight roots of `F89Path3OcticBlock.OcticCoefficientsAtQ2()` at q = 2 close under λ ↦ −λ̄ − 8 to 4·10⁻¹³; they do NOT close under the bare linear λ ↦ −λ − 8 (off by 4.3) nor under bare conjugation (off by 4.3), pinning the operative symmetry as the antiunitary vertical mirror. The four on-line roots and two mirror pairs are explicit (rates summing to 8 at equal frequency).
@@ -68,6 +85,66 @@ The picture of the branch locus ([visualizations](../visualizations/README.md), 
 The typed home is `F89BranchLocusPalindromeClaim` (Tier 1 derived; parents `F1PalindromeIdentity` and `F89Path3OcticEpClaim`), live at `inspect --root branchpalindrome` (the two-sided gate, the centre, the diabolic, the 0-orphan count, recomputed each call).
 
 Scope, now **checked** (2026-06-26, the `foldlift` probe over path-k blocks: `rcpsi foldlift`, feeding the exact `F89PathKSeDeBlock` builder, a spectrum check, no monodromy rebuild): the within-(SE,DE)-block self-fold is **N_block = 4 only**. The block spectrum closes under the antiunitary λ ↦ −λ̄ − 2σ at N=4 (residual 3·10⁻¹⁴, four on-line zeros) but **not** at N=5,6,7 (residual ~1, zero on-line strands). The reason is from below: the rung-swap weight-complement P needs the overlap rung (−2γ, n_diff=1, **2** states per DE pair) and the no-overlap rung (−6γ, n_diff=3, **N−2** states per DE pair) balanced, **2 = N−2**, true only at N_block = 4. This is the branch-locus face of the same half-filling self-complement DE = popcount-2 = bar(popcount-2) already isolated for **mode population** in [`F89_TOPOLOGY_ORBIT_CLOSURE.md`](F89_TOPOLOGY_ORBIT_CLOSURE.md) (and one of the catalogued N=4 coincidences, the retired `small_n_specials` arc). Two guards keep this a sharpening, not a contradiction: **(i)** the *global* palindrome Π L Π⁻¹ = −L − 2σ still holds for all N (proven, F1). Its column bit-flip ρ[a,b] → ρ[a,bar(b)] pairs the (SE,DE) = (w₁,w₂) block with **(SE, w_{N−2}) = (w₁, w_{N−2})** (the bra index complements; n_diff(a,b) + n_diff(a,bar(b)) = N, so the two rungs complement, the [F89c lemma](F89_TOPOLOGY_ORBIT_CLOSURE.md)), and only the case where that partner *is* (SE,DE) itself (w_{N−2} = w₂, i.e. N=4) gives the within-block self-fold. The `foldcross` probe (`rcpsi foldcross`) confirms it: the cross-fold spec(SE,DE) ↔ spec(SE,w_{N−2}) under λ ↦ −λ̄ − 2σ holds to ~10⁻¹³ about σ = N for N = 4,5,6 (the two block centroids sit symmetric about −N, e.g. −4.4 / −5.6 about −5), while the (SE,DE) self-fold breaks at N ≥ 5. So the global palindrome **lifts to all N as a cross-block mirror**; the N=4 self-fold is the degenerate partner = self case. The earlier "the weight-complement P is topology-general" read conflated the global Π (which lifts, cross-block) with the block-internal P (N=4-only). **(ii)** the multiplicity count 2 = N−2 is distinct from the eigenvector overlap-fraction p = ½ of the diabolic crossing above (a basis-state count, not an eigenvector weight). So "where do the N=4 zeros go for N ≥ 5?" is answered: the on-line self-mirror strands become cross-block mirror partners ((SE,DE) ↔ (SE,w_{N−2})), not gone. The remaining open step is the monodromy / "± is the road" route structure *among* those cross-block partners, which still needs the path-3 witness generalized. The "palindrome is the inherited root" framing belongs to [`OBSERVER_INHERITANCE`](../reflections/OBSERVER_INHERITANCE.md) and the mirror family.
+
+## Two mirrors in the end-bond response
+
+The [N=4/5/6 end-bond studies](ROUTE_B_OTHER_N_UNFOLDING.md) reveal two
+separate roles of the repository's mirrors. Spatial reversal R acts on both
+indices of a coherence and leaves its disagreement count unchanged. Bra
+complementation B changes only the bra index and sends disagreement k to
+N-k. For example, at N=5 the cell |00001><00110| pays -6; its bra-complement
+|00001><11001| pays -4. Their sum is -10, twice the palindrome center -5.
+Spatial reversal preserves the -6 cell cost instead.
+
+| Operation | Action on the end-bond problem | Exact consequence |
+|---|---|---|
+| Spatial reversal R, F131/F92 | Exchanges the two end strengths inside the same block | Odd end direction maps epsilon to -epsilon; on a scalar-parity two-plane the effective response is even |
+| Palindrome bra leg B with conjugation, F89d | Maps (1,2) to (1,N-2), q to conjugate q and epsilon to conjugate epsilon | Entire eigenvalue and EP branches have mirror partners, including their Taylor coefficients and remainder bounds |
+
+The two operations commute. Breaking spatial reflection by making the ends
+unequal does not break the palindromic partner relation: the latter holds
+for every real-coefficient XY bond profile in this study. Keeping spatial
+reflection by changing both ends equally does not prevent the diabolic
+crossing from opening into EPs. Neither statement is a contradiction:
+spatial reversal sorts the allowed orders; the palindrome pairs the response.
+
+For the selected crossings the partner coordinates are:
+
+| N | Source and partner blocks | Source lambda | Partner lambda |
+|---:|---|---|---|
+| 4 | (1,2) to itself, 24D | -4+1.317965927 i | -4+1.317965927 i |
+| 5 | (1,2) to (1,3), 50D | -4.791960365 | -5.208039635 |
+| 6 | (1,2) to (1,4), 90D | -4.279627831-0.760231389 i | -7.720372169-0.760231389 i |
+
+The N=4/5 q seeds are real. At N=6 the source q is
+1.672594146+1.096813948 i and its partner is the conjugate. The rate reflects
+about -N while the frequency is preserved. At N=4 the selected seed is its
+own vertical-fold image; self-folding alone does not guarantee that every
+perturbed q branch stays real or every merged eigenvalue stays on the line.
+
+The [response transport proof](../docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md#6-the-palindrome-transports-the-entire-response)
+shows that the spectral projector conjugates and the reduced resolvent
+minus-conjugates under B. Each virtual-mode contribution to the quadratic
+response therefore has an equally large mirrored contribution. In particular,
+the large N=4 response found by removing its nearest opposite-parity residue
+has a matching image; the palindrome does not bound that response's size.
+
+Every q-coordinate Taylor coefficient conjugates, while every nonconstant
+lambda coefficient minus-conjugates. The N=6 certified epsilon radii
+2^-20 (one end), 2^-18 (equal ends), and 2^-10 (opposite ends) transfer
+unchanged to the (1,4) partner, as do the relative Taylor remainder bounds.
+This uses the proven source certificate and exact mirror identity, not a
+second numerical certification. It gives no new radius for the N=4/5 examples.
+
+Reproduce the from-below checks with
+`python simulations/route_b_mirror_response.py` and OPENBLAS_NUM_THREADS=1.
+The [JSON](../simulations/results/route_b_mirror_response.json) retains 18
+exact dyadic family identities, the disagreement-rung pairing, independently
+rebuilt partner-plane readings and an incorrect-complex-epsilon control.
+Conjugating q but forgetting to conjugate complex epsilon fails. The maximum
+normalized next-coefficient error is below 4.2e-13; the full-space B2 transport
+residual reaches about 1.84e-10 at the sensitive N=4 seed. These floating
+readings corroborate the algebra, rather than proving it by a tolerance.
 
 ## Related
 

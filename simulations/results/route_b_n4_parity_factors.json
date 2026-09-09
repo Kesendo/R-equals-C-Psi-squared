@@ -1,0 +1,31 @@
+{
+  "scope": "Exact spatial-reflection ownership of N4 equal-end characteristic factors.\n\nGamma=1, XY, end weights (1+epsilon/2,1,1+epsilon/2), lambda=-4+i*omega.\nBuild the full coherence matrix and exact integer reflection orbit bases.\nThis factor identity is not a numerical root or Jordan-character certificate.\n",
+  "sectors": [
+    {
+      "parity": 1,
+      "dimension": 12,
+      "frequency_octic": "F(omega,q,epsilon)",
+      "quartic": "e**4*q**4 + 8*e**3*q**4 + 24*e**2*q**4 - 4*e**2*q**3*w - 2*e**2*q**2*w**2 + 8*e**2*q**2 + 32*e*q**4 - 16*e*q**3*w - 8*e*q**2*w**2 + 32*e*q**2 + 16*q**4 - 16*q**3*w - 4*q**2*w**2 + 48*q**2 + 4*q*w**3 + 16*q*w + w**4 + 8*w**2 + 16",
+      "exact_intertwining": true,
+      "exact_division_remainder": "0"
+    },
+    {
+      "parity": -1,
+      "dimension": 12,
+      "frequency_octic": "F(-omega,q,epsilon)",
+      "quartic": "e**4*q**4 + 8*e**3*q**4 + 24*e**2*q**4 + 4*e**2*q**3*w - 2*e**2*q**2*w**2 + 8*e**2*q**2 + 32*e*q**4 + 16*e*q**3*w - 8*e*q**2*w**2 + 32*e*q**2 + 16*q**4 + 16*q**3*w - 4*q**2*w**2 + 48*q**2 - 4*q*w**3 - 16*q*w + w**4 + 8*w**2 + 16",
+      "exact_intertwining": true,
+      "exact_division_remainder": "0"
+    }
+  ],
+  "quartic_product_equals_P4": true,
+  "wrong_parity_control_rejected": true,
+  "character_rule": "At an F=Fw=0, Fww!=0, Fe!=0 point with F(-w)=0 and its w derivative nonzero, and both quartics nonzero: R+ has EP2 and R- a simple eigenvalue; full character is J2 plus J1, not J3.",
+  "source_hashes": {
+    "simulations\\route_b_n4_parity_factors.py": "0c0d0b4cf48af5704b5e4cf0359ff328872b6ff58d8d73c8995af71ec8c12156",
+    "simulations\\route_b_other_n_unfolding.py": "dcc1f5f62d4fc2d7ef58a08a4dabdc4e801a8f7df530639c9cf4566b08a0ac6c",
+    "simulations\\route_b_n4_range_polynomial.py": "101e88e4e3f2cfe9a768eba34cb8534d882855c6e5d44776e98de0d9ec879dd0",
+    "simulations\\results\\route_b_n4_range_polynomial.json": "98c875f8e8281d14bcc1d2a75bcd6ac494668f2eb4437f62c2b75ba848b566f9",
+    "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
+  }
+}

@@ -3358,7 +3358,7 @@ Asymptotic rate 4γ₀ universal across m (matches F73 vac-SE rate). The cos(4Jt
 
     L_(1,N−2)(q̄)  =  −P · conj(L_(1,2)(q)) · Pᵀ  −  2N·I
 
-exact to **machine zero** for N = 4..9 at every q (real and complex; the partner block at the conjugate coupling q̄, the F1 antiunitary form T L(q) T⁻¹ = −L(q̄) − 2σ). This upgrades the spectrum-level fold (the F89 branch-locus palindrome / the `foldcross` probe: spec(SE,DE) ↔ spec(SE,w_{N−2}) about σ = N) to a **Jordan-structure-preserving** similarity: complex conjugation, the permutation similarity P·Pᵀ, and the affine −(·) − 2N each preserve the dimensions of generalized eigenspaces, so a semisimple coalescence maps to a semisimple coalescence. Hence every (SE,DE) **diabolic** (a *silent*, semisimple eigenvalue coalescence, as opposed to a *defective* exceptional point where the eigenvectors also merge into a Jordan block) at (q, λ) has a partner diabolic at (q̄, −λ̄ − 2N) in the (SE,w_{N−2}) block, with identical character and coalescence gap, for all N and all q at once (no enumeration). The N=4 within-block self-fold (which placed one diabolic on the real axis, the degenerate w_{N−2} = w2 partner = self case) is recovered; for N ≥ 5 the N=4 on-line "zeros" become cross-block mirror partners. Verified bit-exact: the N=7 real-q diabolic (q = 1.1264, λ = −4.942, full-block coalescence gap 4.19·10⁻⁵) pairs with the (1,5) block at the fold image −λ − 2N = −9.058, same gap. **Typed:** `F89CrossFoldSimilarityClaim` (parents F1 + `F89BranchLocusPalindromeClaim`); **live witness** `inspect --root crossfold` (`CrossFoldSimilarityWitness` on the shared `WeightCoherenceBlock` builder + the bra-complement permutation). The Move-4 grounding of the `diabolic_over_higher_n` arc. **Source:** [F89_PATH_K_DIABOLIC](../experiments/F89_PATH_K_DIABOLIC.md) (the cross-fold section), [F89_BRANCH_LOCUS_PALINDROME](../experiments/F89_BRANCH_LOCUS_PALINDROME.md).
+exact to **machine zero** for N = 4..9 at every q (real and complex; the partner block at the conjugate coupling q̄, the F1 antiunitary form T L(q) T⁻¹ = −L(q̄) − 2σ). This upgrades the spectrum-level fold (the F89 branch-locus palindrome / the `foldcross` probe: spec(SE,DE) ↔ spec(SE,w_{N−2}) about σ = N) to a **Jordan-structure-preserving** similarity: complex conjugation, the permutation similarity P·Pᵀ, and the affine −(·) − 2N each preserve the dimensions of generalized eigenspaces, so a semisimple coalescence maps to a semisimple coalescence. Hence every (SE,DE) **diabolic** (a *silent*, semisimple eigenvalue coalescence, as opposed to a *defective* exceptional point where the eigenvectors also merge into a Jordan block) at (q, λ) has a partner diabolic at (q̄, −λ̄ − 2N) in the (SE,w_{N−2}) block, with identical character and coalescence gap, for all N and all q at once (no enumeration). The N=4 within-block self-fold (whose independently known real-q diabolic is fixed by the fold, the degenerate w_{N−2} = w2 partner = self case) is recovered; for N ≥ 5 the N=4 on-line "zeros" become cross-block mirror partners. The matrix identity transports Jordan character after the source character has been independently established; a small sampled eigenvalue gap does not establish a diabolic point. **Typed:** `F89CrossFoldSimilarityClaim` (parents F1 + `F89BranchLocusPalindromeClaim`); **live witness** `inspect --root crossfold` (`CrossFoldSimilarityWitness` on the shared `WeightCoherenceBlock` builder + the bra-complement permutation). The Move-4 grounding of the `diabolic_over_higher_n` arc. **Source:** [F89_PATH_K_DIABOLIC](../experiments/F89_PATH_K_DIABOLIC.md) (the cross-fold section), [F89_BRANCH_LOCUS_PALINDROME](../experiments/F89_BRANCH_LOCUS_PALINDROME.md).
 
 **The cross-fold is integrability-INDEPENDENT (the (q,Δ) extension, Tier 1 derived 2026-06-30).** The same antiunitary similarity holds for the FULL interacting XXZ block at *every* anisotropy Δ:
 
@@ -9247,6 +9247,165 @@ polynomial primitive in order to compare two routes that differ by a constant.
 [`simulations/blind_seat_two_axes_proof.py`](../simulations/blind_seat_two_axes_proof.py) block W,
 run committed at
 [`blind_seat_two_axes_proof_run.txt`](../simulations/results/blind_seat_two_axes/blind_seat_two_axes_proof_run.txt).
+
+---
+
+### F163. The N=6 Route-B A₂ crossings unfold into two EPs: a quadratic location formula, with first-order equal-end response and second-order opposite-end response (Tier 1, derived and exact-arithmetic certified)
+
+The 90D (one ket excitation, two bra excitations) block of the open N=6 XY
+chain under uniform Z dephasing has 133 A₂ loci per spatial reflection parity.
+All 266 are semisimple by algebraic conjugacy: the degree-133 direct-t A₂
+factor is irreducible, and its real embeddings give real symmetric blocks.
+The characteristic multiplicity and the number-field eigenvalue are fixed
+by an exact discriminant identity and a good modular specialization.
+
+Use γ=1, Δ=0, t=i qCSharp and physical λ (the source fixture uses Λ=2λ).
+Write L=D+tT, with T_L,T_R the two end-bond contributions to T, and
+V₊=(T_L+T_R)/2, V₋=(T_L−T_R)/2. At a uniform-chain A₂ locus (t₀,λ₀), let P
+be the spectral projector onto its double eigenspace, Q=I−P, and
+S=Q(λ₀I−L₀|ran Q)⁻¹Q. All matrices below act on ran P:
+
+    A = PTP,
+    B₊ = P t₀V₊ P,
+    B₂ = P t₀V₋ S t₀V₋ P,
+    δ(M) = 2 tr(M²) − tr(M)²,
+    α = δ(A),   β = 4 tr(AB) − 2 tr(A) tr(B),   γ₀ = δ(B),
+    c± = (−β ± √(β²−4αγ₀))/(2α).
+
+γ₀ here is a polynomial coefficient, not the dephasing rate. The coefficients
+are exact algebraic elements: P=g(L₀)/g(λ₀), where
+χ(x)=(x−λ₀)²g(x), gives a finite rational construction over ℚ[t₀].
+
+| End strengths, interior bonds fixed at 1 | B in the formula | Leading EP locations |
+|---|---|---|
+| (1+ε, 1) | B₊ | t±=t₀+c±ε+O(ε²) |
+| (1+ε/2, 1+ε/2) | B₊ | t±=t₀+c±ε+O(ε²) |
+| (1+ε/2, 1−ε/2) | B₂ | t±=t₀+c±ε²+O(ε⁴) |
+
+The first two rows have identical leading coefficients. For each row,
+α≠0 and β²−4αγ₀≠0 are certified over the number field, hence at every
+embedding. They imply two distinct local EP2 branches for sufficiently
+small nonzero ε, not just a split at the old location. In q coordinates
+multiply t₀ and c± by −i. Along a branch the common eigenvalue is
+λ₀+½tr(c±A+B)ε^m+O(ε^(2m)), with m=1 or 2.
+
+**Mechanism:** [F131](#f131) supplies PV₋P=0 and an even reduced matrix for
+opposite-end variation. The nonzero second-order discriminant is the extra
+instance information: the excursion into the opposite-parity complement
+and its return really open the crossing. Equal-end variation preserves
+spatial reflection and still opens it. Every profile retains a quadratic
+XY Hamiltonian.
+
+**Next-order relation:** write the first two profiles as
+t_j=t₀+c_jε+d_jε²+O(ε³), matched by their common c_j, and denote the
+opposite-end leading coefficients by a±. Then
+`{d_one,+−d_equal,+, d_one,−−d_equal,−}={a+,a−}` as an unordered pair.
+Reflection gives the same B₂ excursion; the shared complex bilinear
+symmetry makes the two coefficient differences its two discriminant roots.
+This algebraic corollary is proved in [§4a](proofs/PROOF_ROUTE_B_N6_UNFOLDING.md#4a-the-next-coefficient-links-the-three-profiles).
+The algebraic corollary alone supplies no remainder bound or explicit ε radius.
+
+Its proof is dimension-independent under the same isolated semisimple
+two-plane, scalar reflection (+I or -I), common complex bilinear symmetry
+and nonzero leading-discriminant hypotheses. The
+[N=4/5 comparison](../experiments/ROUTE_B_OTHER_N_UNFOLDING.md) checks two
+N=4 crossings and all 58 stored N=5 q loci numerically; it does not certify
+those hypotheses at every N or extend the N=6 ball radii to another chain.
+
+**Palindromic response transport:** F89d carries the full end-bond family to
+(1,N-2) with (q,epsilon) mapped to (conj(q),conj(epsilon)). In q coordinates
+all EP-location Taylor coefficients conjugate; in t=i q coordinates they
+minus-conjugate. The reduced resolvent minus-conjugates as well, so each
+opposite-parity excursion is mirrored with the same magnitude. The selected
+N=6 remainder certificate therefore transfers to its (1,4) partner with
+identical radii and relative bounds. This is inherited from the exact fold,
+not an independently recomputed certificate. See
+[section 6](proofs/PROOF_ROUTE_B_N6_UNFOLDING.md#6-the-palindrome-transports-the-entire-response).
+
+**N=4 self-fold corollary:** at q₀=√((√13−1)/6), λ₀=−4+2iq₀,
+the full 24D (1,2) block has two individually fixed EP branches for each
+of the same end profiles. Write q=q₀+cη+O(η²), with η=ε for one/equal
+ends and η=ε² for opposite ends. Then c=q₀(−b±√(b²−4g))/2, where
+
+| Profile | b | g |
+|---|---|---|
+| One/equal | (663−131√13)/299 | (87−25√13)/26 |
+| Opposite | −(11323+557√13)/1196 | −(12373651+3475859√13)/9568 |
+
+Both discriminants are strictly positive. Distinct real leading
+coefficients and local uniqueness force the self-fold to fix each branch,
+so real sufficiently small ε gives real q and Re λ=−4 exactly, including
+all higher orders. Self-fold alone only pairs branches and is insufficient.
+The [N=4 proof and exact number-field certificate](proofs/PROOF_ROUTE_B_N4_SELF_FOLD.md)
+establish this local corollary, without an explicit ε radius. It also holds
+at the conjugate seed; it does not extend the N=6 ball radii.
+
+**N=4 range boundary:** for equal-end variation, the exact frequency
+octic has an EP2 projection turn at ε_c=√2−2, q_c=2, λ_c=−4+2i.
+Locally ε−ε_c=(q−2)²/(8√2)+O((q−2)³); real branches lie on the
+ε>ε_c side. The [range companion](../experiments/ROUTE_B_N4_RANGE.md)
+gives the octic derivative identities and seven ball-certified boundary
+points across the three profiles, including EP3 collisions. Numerical
+continuation connects them to the seed branches; no maximal interval or
+Taylor convergence radius is certified by those point enclosures.
+
+**N=4 second arm at infinity:** with z=1/q, ω=q+v and
+(ε+2)²=3+zu, the exact leading EP equations are H=Hᵥ=0 for
+H=(u+4v)(u−4v)²+40v−8u. Their four real solutions
+(u,v)=(±2√2,±√2/4),(±5√5/4,±√5/16) have nonzero Jacobians
+and give full-block EP2 germs at ε→√3−2. The independently projected
+five-mode Hamiltonian resonance at end weights √3/2 reproduces H.
+The validated second arm of the q=2 turn approaches the
+negative-√5 germ:
+ω=q−√5/16+2813/(1024q)+O(q⁻²),
+ε=√3−2−5√15/(24q)−1399√3/(2304q²)+O(q⁻³).
+A chain of 197 uniform real-ball contractions on z∈[0,½] connects
+the exact turn to this germ. Endpoint-enclosure containment identifies
+the same analytic branch across every tile; nonzero derivatives and
+spectator factors certify full-block EP2 character for every finite
+q≥2. Positive k and negative u give −2<ε<√3−2<0, excluding a return
+to uniform end bonds.
+
+**N=4 incoming connection and parity coincidences:** 934 uniform real-ball
+tiles join the negative-slope equal-end seed germ to the exact q=2 turn.
+The exact seed blow-up removes its quadratic determinant zero. Combined
+with the outgoing bridge, this gives the selected real analytic branch
+for every finite q>q₀. Its R=+1 mode is an EP2 throughout; the seed is
+semisimple. Exact 12D reflection-sector factorization places F(ω) in R=+1
+and F(−ω) in R=−1. There are precisely two encounters with the latter
+factor, at (q,ε)≈(0.6651211675,−0.01164250656) and
+(0.9893218998,−0.3751206357). Interval derivative signs and boundary
+signs prove the count; independent point boxes are contained in the
+continued branch's uniqueness boxes. Both full-block eigenvalues have
+character J₂⊕J₁, certified by sector ownership and rank-22 minors,
+not EP3. At every other finite q>q₀ the selected eigenvalue is an isolated
+full-block EP2. This is one forward branch, not a complete parameter-locus
+census or a complex-ε Taylor disk.
+See [the connected-path derivation and producers](../experiments/ROUTE_B_N4_SECOND_ARM.md).
+
+**Selected-locus remainder:** for `N6-E-A2-T-007`, the
+[complex-ball companion](proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md) certifies
+both branches on common ε disks of radii 2^-20 (one end), 2^-18 (equal ends),
+and 2^-10 (opposite ends). It bounds the full tail after the next Taylor
+coefficient by a Cauchy estimate. These are conservative sufficient radii
+for this locus, not maximal convergence radii or a family-wide bound.
+
+**Certificate:** Rabin irreducibility modulo 367; exact 45D characteristic
+identities at 46 integer t values per parity; bounded-CRT discriminant
+identity; and at p=101,t=31,λ=24, the nonzero residues
+α=19, Ω₊=16, Ω₂=23. The proof explains why nonzero modular reductions certify
+these algebraic nonzero statements without expanding all field coefficients.
+
+**Family scope:** this N=6 A₂ layer and the three stated bond profiles;
+the neighborhood of ε=0 is not quantified uniformly over the loci. This is complex-parameter spectral
+geometry; no physical-real-q operating point follows. F131 alone does not
+force a nonzero quadratic response, and another direction, N, rate profile
+or ZZ term needs its own nonzero checks.
+**Replaces:** finding the leading EP locations by repeated numerical searches
+and deciding their initial character from near-degenerate eigenvectors.
+**Source:** [PROOF_ROUTE_B_N6_UNFOLDING](proofs/PROOF_ROUTE_B_N6_UNFOLDING.md);
+[`route_b_n6_exact_unfolding.py`](../simulations/route_b_n6_exact_unfolding.py),
+[exact certificate](../simulations/results/route_b_n6_exact_unfolding.json).
 
 ---
 

@@ -38,7 +38,7 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// is therefore a structural/algebraic property of the Liouvillian, not a free-fermion artifact.</para>
 ///
 /// <para>At N=4 the partner w_{N−2} = w2 = DE, so the partner IS the (SE,DE) block (the N=4-only within-block
-/// self-fold, the degenerate partner=self case that put one diabolic on the real axis); for N ≥ 5 the partner is
+/// self-fold, which fixes the independently known real-q diabolic); for N ≥ 5 the partner is
 /// a different block ((SE,TE) at N=5, (SE,QE) at N=6, …), and the N=4 on-line "zeros" become cross-block mirror
 /// partners. The N=7 proposal (λ=−4.942 ↔ partner −9.058) is retained only as an equal-gap similarity read, not
 /// as a coincidence or character certificate.</para>

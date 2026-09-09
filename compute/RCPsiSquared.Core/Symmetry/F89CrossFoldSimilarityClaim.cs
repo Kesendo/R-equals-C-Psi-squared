@@ -47,7 +47,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// preserve the dimensions of generalized eigenspaces. Therefore an independently certified semisimple
 /// coalescence has a partner with identical character and coalescence gap. The similarity itself does not turn a
 /// sampled small gap into that certificate. The N=4 within-
-/// block self-fold (the palindrome that placed one diabolic on the real axis, <see cref="F89BranchLocusPalindromeClaim"/>)
+/// block self-fold (which fixes the independently known real-q diabolic, <see cref="F89BranchLocusPalindromeClaim"/>)
 /// is the degenerate w_{N−2} = w2 partner = self case; for N ≥ 5 the N=4 on-line "zeros" become these cross-block
 /// mirror partners.</para>
 ///

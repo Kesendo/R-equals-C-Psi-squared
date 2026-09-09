@@ -1,0 +1,1764 @@
+{
+  "seed_id": "N6-E-A2-T-007",
+  "source_sha256": "679a6d41283bb43c7c1f75793ffbeb9e27c168051108103b81e0a257f97cd114",
+  "script_sha256": "a4403b19613e1cca2168e207cef2de60a0404bf4e5136049b79b1daa3b3a1bd0",
+  "scope": "Numerical validity of F163 at N6-E-A2-T-007; no certified epsilon radius.\nRun with OPENBLAS_NUM_THREADS=1: python simulations/route_b_n6_validity_probe.py\nErrors are relative to actual branch displacement, not total q.\n",
+  "contours": [
+    {
+      "radius": 0.17146403333452637,
+      "nodes": 512,
+      "sampled_min_sigma": 0.08920364553310847,
+      "angular_correction": 0.0010520884813481676,
+      "continuum_lower_estimate": 0.08815155705176031
+    },
+    {
+      "radius": 0.2743424533352422,
+      "nodes": 512,
+      "sampled_min_sigma": 0.12677435444030785,
+      "angular_correction": 0.0016833415701570681,
+      "continuum_lower_estimate": 0.1250910128701508
+    },
+    {
+      "radius": 0.34292806666905273,
+      "nodes": 512,
+      "sampled_min_sigma": 0.1437396858647887,
+      "angular_correction": 0.002104176962696335,
+      "continuum_lower_estimate": 0.14163550890209237
+    },
+    {
+      "radius": 0.41151368000286326,
+      "nodes": 512,
+      "sampled_min_sigma": 0.15383676325313456,
+      "angular_correction": 0.002525012355235602,
+      "continuum_lower_estimate": 0.15131175089789894
+    },
+    {
+      "radius": 0.5143921000035792,
+      "nodes": 512,
+      "sampled_min_sigma": 0.15215421585017153,
+      "angular_correction": 0.0031562654440445027,
+      "continuum_lower_estimate": 0.148997950406127
+    }
+  ],
+  "profiles": {
+    "one": {
+      "order": 1,
+      "rows": [
+        {
+          "epsilon": 0.0001,
+          "branch": 0,
+          "q": {
+            "real": 1.6720936974597356,
+            "imag": 1.0966156658680613
+          },
+          "lambda_value": {
+            "real": -4.279809167657391,
+            "imag": -0.7599887715101311
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.00035124298184405493,
+          "third_distance": 0.685764277667699,
+          "scaled_discriminant_residual": 7.113318604942506e-11,
+          "eigenvalue_gap": 8.43404920838295e-10,
+          "traceless_compression_norm": 6.378245720565907e-05,
+          "perturbation_norm": 0.004966736221026606,
+          "fixed_contour_neumann_ratio": 0.03282452414669383
+        },
+        {
+          "epsilon": 0.0003,
+          "branch": 0,
+          "q": {
+            "real": 1.6710939154813433,
+            "imag": 1.096218892758554
+          },
+          "lambda_value": {
+            "real": -4.280171611067617,
+            "imag": -0.7595042891002466
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0010539764120098777,
+          "third_distance": 0.685580678329366,
+          "scaled_discriminant_residual": 8.429093146848129e-11,
+          "eigenvalue_gap": 2.7543027851279013e-09,
+          "traceless_compression_norm": 0.00019130371138671888,
+          "perturbation_norm": 0.014891281287890856,
+          "fixed_contour_neumann_ratio": 0.0984145725597947
+        },
+        {
+          "epsilon": 0.001,
+          "branch": 0,
+          "q": {
+            "real": 1.6676063664043506,
+            "imag": 1.094828038019943
+          },
+          "lambda_value": {
+            "real": -4.281437728907839,
+            "imag": -0.7578164916788828
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0035161333144509642,
+          "third_distance": 0.6849392632628197,
+          "scaled_discriminant_residual": 4.228393809244445e-10,
+          "eigenvalue_gap": 2.0563058647109007e-08,
+          "traceless_compression_norm": 0.0006371701177978059,
+          "perturbation_norm": 0.04953351980611266,
+          "fixed_contour_neumann_ratio": 0.3273606941442144
+        },
+        {
+          "epsilon": 0.01,
+          "branch": 0,
+          "q": {
+            "real": 1.6243632915652788,
+            "imag": 1.0766934480479293
+          },
+          "lambda_value": {
+            "real": -4.297362676457478,
+            "imag": -0.737181076249706
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.000629447065901992,
+              0.00019927472491588341,
+              6.302334657449588e-05,
+              1.9929960609110935e-05
+            ],
+            "gap_exponents": [
+              0.4995069951788709,
+              0.4999507575637363,
+              0.49999502039396315
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.098451659459593,
+            "minimum_discriminant_on_loop": 3.9608000198759895e-07
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.6831875679909554,
+                1.4488182181643527,
+                2.5858150281473477e-16,
+                1.653844633388773e-16
+              ],
+              "idempotency": 1.4819952634939599e-15,
+              "traceless_compression_norm": 0.00630686377403342,
+              "plane_distance": 1.911160148372164e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.6831875679909556,
+                1.4488182181643527,
+                2.724179179744009e-16,
+                1.6538446333887732e-16
+              ],
+              "idempotency": 1.1834530524711095e-15,
+              "traceless_compression_norm": 0.006306863774034539,
+              "plane_distance": 1.9292574077180484e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.6831875679909558,
+                1.4488182181643523,
+                3.0413457080760507e-16,
+                1.6538446333887735e-16
+              ],
+              "idempotency": 1.2186686779689794e-15,
+              "traceless_compression_norm": 0.006306863774033899,
+              "plane_distance": 1.9187069570672855e-14
+            }
+          ],
+          "relative_displacement_error": 0.035520201062665915,
+          "third_distance": 0.676864622994659,
+          "scaled_discriminant_residual": 4.860515326957495e-13,
+          "eigenvalue_gap": 6.971739615732572e-09,
+          "traceless_compression_norm": 0.00630686377403686,
+          "perturbation_norm": 0.4820580912975326,
+          "fixed_contour_neumann_ratio": 3.1858602417654414
+        },
+        {
+          "epsilon": 0.02,
+          "branch": 0,
+          "q": {
+            "real": 1.57968086542082,
+            "imag": 1.0561815827952574
+          },
+          "lambda_value": {
+            "real": -4.31422492842817,
+            "imag": -0.7164462065966961
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.07179008361302605,
+          "third_distance": 0.6682964908227931,
+          "scaled_discriminant_residual": 7.204706280938794e-13,
+          "eigenvalue_gap": 1.6976108247697756e-08,
+          "traceless_compression_norm": 0.012472032276727758,
+          "perturbation_norm": 0.9351548742913427,
+          "fixed_contour_neumann_ratio": 6.180318902808545
+        },
+        {
+          "epsilon": 0.03,
+          "branch": 0,
+          "q": {
+            "real": 1.5383493373220787,
+            "imag": 1.0355497473271091
+          },
+          "lambda_value": {
+            "real": -4.33013431381859,
+            "imag": -0.6978296852435073
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.10873676804142787,
+          "third_distance": 0.6601839145477575,
+          "scaled_discriminant_residual": 4.401400779280121e-13,
+          "eigenvalue_gap": 1.9902916121393138e-08,
+          "traceless_compression_norm": 0.018498932678987043,
+          "perturbation_norm": 1.360322572925313,
+          "fixed_contour_neumann_ratio": 8.990197819092199
+        },
+        {
+          "epsilon": 0.05,
+          "branch": 0,
+          "q": {
+            "real": 1.4648533044737904,
+            "imag": 0.9948104174467125
+          },
+          "lambda_value": {
+            "real": -4.358898107824928,
+            "imag": -0.6661969719483289
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.001486295204701985,
+              0.00047011398835221965,
+              0.0001486664507995225,
+              4.701255587410215e-05
+            ],
+            "gap_exponents": [
+              0.49990190269692875,
+              0.49999020052765014,
+              0.4999991108004559
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.09824818053854001,
+            "minimum_discriminant_on_loop": 2.2085304388911072e-06
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.7543750747526161,
+                1.4081048807599088,
+                1.7261827910447215e-16,
+                1.7261827910447215e-16
+              ],
+              "idempotency": 1.5125941802449524e-15,
+              "traceless_compression_norm": 0.03015062955418695,
+              "plane_distance": 2.560741382545681e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.754375074752615,
+                1.408104880759909,
+                2.831053662538207e-16,
+                1.7261827910447208e-16
+              ],
+              "idempotency": 1.3643282193420529e-15,
+              "traceless_compression_norm": 0.030150629554187406,
+              "plane_distance": 2.574138701771198e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.7543750747526154,
+                1.4081048807599084,
+                3.975268960861373e-16,
+                3.6565541906601146e-16
+              ],
+              "idempotency": 1.3721628967764722e-15,
+              "traceless_compression_norm": 0.03015062955418725,
+              "plane_distance": 2.5589113177630173e-14
+            }
+          ],
+          "relative_displacement_error": 0.1843885600866565,
+          "third_distance": 0.6453669486872335,
+          "scaled_discriminant_residual": 5.77848595644763e-13,
+          "eigenvalue_gap": 3.800817660861815e-08,
+          "traceless_compression_norm": 0.030150629554183114,
+          "perturbation_norm": 2.1319106120213607,
+          "fixed_contour_neumann_ratio": 14.08952443792628
+        },
+        {
+          "epsilon": 0.075,
+          "branch": 0,
+          "q": {
+            "real": 1.3877911926516826,
+            "imag": 0.9465132456416245
+          },
+          "lambda_value": {
+            "real": -4.3889569084680335,
+            "imag": -0.6353896622281028
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.28161089143275664,
+          "third_distance": 0.5560974517572026,
+          "scaled_discriminant_residual": 1.9912007914217003e-11,
+          "eigenvalue_gap": 3.346715472182699e-07,
+          "traceless_compression_norm": 0.043996219849019295,
+          "perturbation_norm": 2.963404306836805,
+          "fixed_contour_neumann_ratio": 19.58475986994843
+        },
+        {
+          "epsilon": 0.1,
+          "branch": 0,
+          "q": {
+            "real": 1.3239541570269557,
+            "imag": 0.9025671892287654
+          },
+          "lambda_value": {
+            "real": -4.412644692786923,
+            "imag": -0.6121415192027413
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.38097318174960065,
+          "third_distance": 0.47600883880898237,
+          "scaled_discriminant_residual": 3.840578928091922e-11,
+          "eigenvalue_gap": 6.19724045692268e-07,
+          "traceless_compression_norm": 0.057100714164786764,
+          "perturbation_norm": 3.6684838438722958,
+          "fixed_contour_neumann_ratio": 24.24454030901862
+        },
+        {
+          "epsilon": 0.0001,
+          "branch": 1,
+          "q": {
+            "real": 1.6724419759415774,
+            "imag": 1.0967482993228503
+          },
+          "lambda_value": {
+            "real": -4.2796698445352614,
+            "imag": -0.7600508925930918
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.00031247818383806655,
+          "third_distance": 0.6859683812672451,
+          "scaled_discriminant_residual": 2.787048496185033e-10,
+          "eigenvalue_gap": 1.6694455655052165e-09,
+          "traceless_compression_norm": 5.707494214695483e-05,
+          "perturbation_norm": 0.001484581851498018,
+          "fixed_contour_neumann_ratio": 0.009811411491099415
+        },
+        {
+          "epsilon": 0.0003,
+          "branch": 1,
+          "q": {
+            "real": 1.672137481208627,
+            "imag": 1.0966167324992742
+          },
+          "lambda_value": {
+            "real": -4.279753945794762,
+            "imag": -0.7596900651954122
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0009357348974979385,
+          "third_distance": 0.6861926010516217,
+          "scaled_discriminant_residual": 1.724469130976473e-11,
+          "eigenvalue_gap": 1.2458018373235871e-09,
+          "traceless_compression_norm": 0.00017115585769093166,
+          "perturbation_norm": 0.004455866441108362,
+          "fixed_contour_neumann_ratio": 0.0294482511415459
+        },
+        {
+          "epsilon": 0.001,
+          "branch": 1,
+          "q": {
+            "real": 1.6710701268482837,
+            "imag": 1.096153450410742
+          },
+          "lambda_value": {
+            "real": -4.280049060802796,
+            "imag": -0.758428916182329
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0030993843055065035,
+          "third_distance": 0.6869744740209524,
+          "scaled_discriminant_residual": 1.0785709344602054e-11,
+          "eigenvalue_gap": 3.2841603713281197e-09,
+          "traceless_compression_norm": 0.0005697162075530742,
+          "perturbation_norm": 0.014877537226121795,
+          "fixed_contour_neumann_ratio": 0.0983237398142379
+        },
+        {
+          "epsilon": 0.01,
+          "branch": 1,
+          "q": {
+            "real": 1.6571306012094662,
+            "imag": 1.0898373489599547
+          },
+          "lambda_value": {
+            "real": -4.2839342461815875,
+            "imag": -0.7424565351554713
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.0006323027675748282,
+              0.00019970615868422482,
+              6.314486466824615e-05,
+              1.9967911632344873e-05
+            ],
+            "gap_exponents": [
+              0.5005336245471359,
+              0.5000534213587734,
+              0.5000053907648352
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.0984536700142522,
+            "minimum_discriminant_on_loop": 3.975792233829167e-07
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.6768124028732823,
+                1.4734842563251114,
+                1.672995979995075e-16,
+                1.6484275266527871e-16
+              ],
+              "idempotency": 1.683665577350538e-15,
+              "traceless_compression_norm": 0.005595676178275336,
+              "plane_distance": 2.8420936530958448e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.6768124028732831,
+                1.4734842563251112,
+                2.4897824944850963e-16,
+                1.6484275266527876e-16
+              ],
+              "idempotency": 1.165448013100468e-15,
+              "traceless_compression_norm": 0.005595676178275498,
+              "plane_distance": 2.8308306195186734e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.6768124028732836,
+                1.4734842563251107,
+                1.762527425776514e-16,
+                1.6484275266527881e-16
+              ],
+              "idempotency": 1.2569518250425304e-15,
+              "traceless_compression_norm": 0.005595676178275027,
+              "plane_distance": 2.83973704170597e-14
+            }
+          ],
+          "relative_displacement_error": 0.028592095867387257,
+          "third_distance": 0.6966295200804584,
+          "scaled_discriminant_residual": 5.682092242370397e-13,
+          "eigenvalue_gap": 7.537965403456291e-09,
+          "traceless_compression_norm": 0.00559567617828048,
+          "perturbation_norm": 0.15180925800351477,
+          "fixed_contour_neumann_ratio": 1.0032879608005563
+        },
+        {
+          "epsilon": 0.02,
+          "branch": 1,
+          "q": {
+            "real": 1.6412107155627516,
+            "imag": 1.0821497070010162
+          },
+          "lambda_value": {
+            "real": -4.288390337194737,
+            "imag": -0.7252388622466799
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0523886591734181,
+          "third_distance": 0.7065104760978602,
+          "scaled_discriminant_residual": 2.360791646636984e-13,
+          "eigenvalue_gap": 9.717595683371446e-09,
+          "traceless_compression_norm": 0.010973428870698486,
+          "perturbation_norm": 0.3097457920559868,
+          "fixed_contour_neumann_ratio": 2.047070304969208
+        },
+        {
+          "epsilon": 0.03,
+          "branch": 1,
+          "q": {
+            "real": 1.6249021471273342,
+            "imag": 1.0739124484462101
+          },
+          "lambda_value": {
+            "real": -4.292912037524853,
+            "imag": -0.7085819342783922
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.07214222349342517,
+          "third_distance": 0.7155329180548932,
+          "scaled_discriminant_residual": 1.812681363599984e-13,
+          "eigenvalue_gap": 1.27726787606985e-08,
+          "traceless_compression_norm": 0.01614478714387818,
+          "perturbation_norm": 0.4728098798244503,
+          "fixed_contour_neumann_ratio": 3.124739995530747
+        },
+        {
+          "epsilon": 0.05,
+          "branch": 1,
+          "q": {
+            "real": 1.5914025400319196,
+            "imag": 1.056311463627766
+          },
+          "lambda_value": {
+            "real": -4.301876177732009,
+            "imag": -0.6769637593550344
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.0014879308411527,
+              0.00047036624516448924,
+              0.00014873783996801717,
+              4.70348625919459e-05
+            ],
+            "gap_exponents": [
+              0.5001465977591023,
+              0.5000146777698796,
+              0.5000015905833227
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.0982485172692229,
+            "minimum_discriminant_on_loop": 2.210615524510686e-06
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.7120751541331405,
+                1.5065445051327118,
+                1.7843742867606733e-16,
+                1.6862733338709739e-16
+              ],
+              "idempotency": 1.3172063407167032e-15,
+              "traceless_compression_norm": 0.025911754630409893,
+              "plane_distance": 1.7849736361568118e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.7120751541331398,
+                1.506544505132712,
+                1.8744113750694852e-16,
+                1.7776013959488692e-16
+              ],
+              "idempotency": 1.288085217064671e-15,
+              "traceless_compression_norm": 0.025911754630409352,
+              "plane_distance": 1.7847068218113e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.7120751541331398,
+                1.506544505132712,
+                3.2294590789934417e-16,
+                3.099695897377326e-16
+              ],
+              "idempotency": 1.2887056399606615e-15,
+              "traceless_compression_norm": 0.025911754630409255,
+              "plane_distance": 1.7781143461517188e-14
+            }
+          ],
+          "relative_displacement_error": 0.10191344438314787,
+          "third_distance": 0.7185067289106825,
+          "scaled_discriminant_residual": 5.633627201496444e-13,
+          "eigenvalue_gap": 3.7528746320309066e-08,
+          "traceless_compression_norm": 0.025911754630408755,
+          "perturbation_norm": 0.8103769467876352,
+          "fixed_contour_neumann_ratio": 5.355677546382075
+        },
+        {
+          "epsilon": 0.075,
+          "branch": 1,
+          "q": {
+            "real": 1.5485815499407485,
+            "imag": 1.0332016343260277
+          },
+          "lambda_value": {
+            "real": -4.312386550978102,
+            "imag": -0.6406364300106775
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.12545182979287356,
+          "third_distance": 0.6281966958071236,
+          "scaled_discriminant_residual": 4.0366393359977856e-13,
+          "eigenvalue_gap": 4.765091422521455e-08,
+          "traceless_compression_norm": 0.037146521599650914,
+          "perturbation_norm": 1.2445784494681746,
+          "fixed_contour_neumann_ratio": 8.225259717653934
+        },
+        {
+          "epsilon": 0.1,
+          "branch": 1,
+          "q": {
+            "real": 1.505589198102532,
+            "imag": 1.0098149646008714
+          },
+          "lambda_value": {
+            "real": -4.321577550328643,
+            "imag": -0.6078335550303953
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.13833599460315554,
+          "third_distance": 0.5457217627724498,
+          "scaled_discriminant_residual": 1.1397831953989357e-13,
+          "eigenvalue_gap": 3.37606752805529e-08,
+          "traceless_compression_norm": 0.04744067055565356,
+          "perturbation_norm": 1.6817179105356164,
+          "fixed_contour_neumann_ratio": 11.114258479966926
+        }
+      ]
+    },
+    "even": {
+      "order": 1,
+      "rows": [
+        {
+          "epsilon": 0.0001,
+          "branch": 0,
+          "q": {
+            "real": 1.6720936622425728,
+            "imag": 1.096615689940594
+          },
+          "lambda_value": {
+            "real": -4.2798091815131585,
+            "imag": -0.7599887462756176
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.00028051268992812143,
+          "third_distance": 0.6857642729964628,
+          "scaled_discriminant_residual": 4.538459151271013e-11,
+          "eigenvalue_gap": 6.736808703882731e-10,
+          "traceless_compression_norm": 6.379255191464954e-05,
+          "perturbation_norm": 0.004919436647315966,
+          "fixed_contour_neumann_ratio": 0.03251192731644132
+        },
+        {
+          "epsilon": 0.0003,
+          "branch": 0,
+          "q": {
+            "real": 1.6710935984936377,
+            "imag": 1.0962191088684898
+          },
+          "lambda_value": {
+            "real": -4.2801717360136635,
+            "imag": -0.7595040621462847
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0008416522516308245,
+          "third_distance": 0.6855806361419681,
+          "scaled_discriminant_residual": 6.622354556553493e-11,
+          "eigenvalue_gap": 2.4413355158392593e-09,
+          "traceless_compression_norm": 0.00019139454780142367,
+          "perturbation_norm": 0.014750844256341931,
+          "fixed_contour_neumann_ratio": 0.09748644218845501
+        },
+        {
+          "epsilon": 0.001,
+          "branch": 0,
+          "q": {
+            "real": 1.667602843128665,
+            "imag": 1.094830418159467
+          },
+          "lambda_value": {
+            "real": -4.28143912664765,
+            "imag": -0.7578139760885642
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.002806836368925739,
+          "third_distance": 0.6849387888631089,
+          "scaled_discriminant_residual": 1.635931337061863e-10,
+          "eigenvalue_gap": 1.2790353150174795e-08,
+          "traceless_compression_norm": 0.0006381787921172497,
+          "perturbation_norm": 0.04908249032500845,
+          "fixed_contour_neumann_ratio": 0.32437989801683004
+        },
+        {
+          "epsilon": 0.01,
+          "branch": 0,
+          "q": {
+            "real": 1.624010779120793,
+            "imag": 1.076904882453485
+          },
+          "lambda_value": {
+            "real": -4.297513974607966,
+            "imag": -0.7369377078191712
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.0006341427427080139,
+              0.00020075761610712084,
+              6.349221459806288e-05,
+              2.0078222922104665e-05
+            ],
+            "gap_exponents": [
+              0.4995149966218456,
+              0.4999515545591869,
+              0.49999520370304684
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.09844711686713259,
+            "minimum_discriminant_on_loop": 4.0201390220056714e-07
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.6825632503420835,
+                1.4484395773819505,
+                2.531175761881571e-16,
+                1.652136600678247e-16
+              ],
+              "idempotency": 1.581351118000475e-15,
+              "traceless_compression_norm": 0.006406935384979048,
+              "plane_distance": 1.7926151765018472e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.6825632503420844,
+                1.4484395773819505,
+                3.216145853631857e-16,
+                1.6521366006782476e-16
+              ],
+              "idempotency": 1.1621974594320847e-15,
+              "traceless_compression_norm": 0.006406935384978797,
+              "plane_distance": 1.791390020891594e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.6825632503420846,
+                1.4484395773819505,
+                6.341640532802171e-16,
+                3.726312800902706e-16
+              ],
+              "idempotency": 1.4049271832873099e-15,
+              "traceless_compression_norm": 0.0064069353849793365,
+              "plane_distance": 1.7934205947387688e-14
+            }
+          ],
+          "relative_displacement_error": 0.028234663082547632,
+          "third_distance": 0.676810477394843,
+          "scaled_discriminant_residual": 1.4150463311838274e-12,
+          "eigenvalue_gap": 1.1895571996267465e-08,
+          "traceless_compression_norm": 0.006406935384976971,
+          "perturbation_norm": 0.479793169037866,
+          "fixed_contour_neumann_ratio": 3.1708916603682513
+        },
+        {
+          "epsilon": 0.02,
+          "branch": 0,
+          "q": {
+            "real": 1.578280638430148,
+            "imag": 1.0569146565400755
+          },
+          "lambda_value": {
+            "real": -4.314875851463537,
+            "imag": -0.7155113422918189
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.056819719491330585,
+          "third_distance": 0.6680548833892183,
+          "scaled_discriminant_residual": 1.5292373430590382e-12,
+          "eigenvalue_gap": 2.4732467269231658e-08,
+          "traceless_compression_norm": 0.012868760403915139,
+          "perturbation_norm": 0.9357473976294606,
+          "fixed_contour_neumann_ratio": 6.1842348137315355
+        },
+        {
+          "epsilon": 0.03,
+          "branch": 0,
+          "q": {
+            "real": 1.5352423969656113,
+            "imag": 1.0369609068780574
+          },
+          "lambda_value": {
+            "real": -4.331688950366937,
+            "imag": -0.6958164547096021
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.08572649761864858,
+          "third_distance": 0.6595947776742863,
+          "scaled_discriminant_residual": 3.583266485810167e-13,
+          "eigenvalue_gap": 1.795811748828131e-08,
+          "traceless_compression_norm": 0.019383422538811,
+          "perturbation_norm": 1.3689484836753534,
+          "fixed_contour_neumann_ratio": 9.04720535947722
+        },
+        {
+          "epsilon": 0.05,
+          "branch": 0,
+          "q": {
+            "real": 1.4566027162604414,
+            "imag": 0.9975466228680738
+          },
+          "lambda_value": {
+            "real": -4.363615975446493,
+            "imag": -0.6611159208003152
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.0015303460828962033,
+              0.00048403579040783023,
+              0.0001530684659834416,
+              4.840399983013223e-05
+            ],
+            "gap_exponents": [
+              0.4999121809547972,
+              0.49999174546154823,
+              0.5000044790800722
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.09824203705959178,
+            "minimum_discriminant_on_loop": 2.341405959103664e-06
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.7380726349883064,
+                1.3998829720368438,
+                1.7034703227366623e-16,
+                1.7034703227366623e-16
+              ],
+              "idempotency": 1.3799896355658385e-15,
+              "traceless_compression_norm": 0.0325601035135773,
+              "plane_distance": 2.2309953710741534e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.7380726349883067,
+                1.399882972036844,
+                1.703470322736662e-16,
+                1.703470322736662e-16
+              ],
+              "idempotency": 1.245415429144459e-15,
+              "traceless_compression_norm": 0.032560103513577104,
+              "plane_distance": 2.2282269585019433e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.7380726349883069,
+                1.3998829720368435,
+                4.753991222961453e-16,
+                2.7949137693100265e-16
+              ],
+              "idempotency": 1.3718500442329006e-15,
+              "traceless_compression_norm": 0.032560103513577,
+              "plane_distance": 2.2323565255148857e-14
+            }
+          ],
+          "relative_displacement_error": 0.144402249958683,
+          "third_distance": 0.6435585431157231,
+          "scaled_discriminant_residual": 2.700079228997507e-11,
+          "eigenvalue_gap": 2.5981143301428765e-07,
+          "traceless_compression_norm": 0.032560103513582406,
+          "perturbation_norm": 2.171481753247698,
+          "fixed_contour_neumann_ratio": 14.351045046811697
+        },
+        {
+          "epsilon": 0.075,
+          "branch": 0,
+          "q": {
+            "real": 1.3706728895530869,
+            "imag": 0.9499321112207866
+          },
+          "lambda_value": {
+            "real": -4.4003221820428315,
+            "imag": -0.6253655598239974
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.21913803611918115,
+          "third_distance": 0.5373651974412673,
+          "scaled_discriminant_residual": 2.595035265754453e-10,
+          "eigenvalue_gap": 1.2081834864733419e-06,
+          "traceless_compression_norm": 0.04927038282999067,
+          "perturbation_norm": 3.0660226559108823,
+          "fixed_contour_neumann_ratio": 20.26295140804861
+        },
+        {
+          "epsilon": 0.1,
+          "branch": 0,
+          "q": {
+            "real": 1.296454787061442,
+            "imag": 0.9048113530237399
+          },
+          "lambda_value": {
+            "real": -4.433593226829137,
+            "imag": -0.5966698523586315
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.2951653792509593,
+          "third_distance": 0.4460862715952596,
+          "scaled_discriminant_residual": 2.0755681358560403e-10,
+          "eigenvalue_gap": 1.440683218426605e-06,
+          "traceless_compression_norm": 0.0661835742188972,
+          "perturbation_norm": 3.854745010517208,
+          "fixed_contour_neumann_ratio": 25.475516525602067
+        },
+        {
+          "epsilon": 0.0001,
+          "branch": 1,
+          "q": {
+            "real": 1.672441998283356,
+            "imag": 1.0967483380651473
+          },
+          "lambda_value": {
+            "real": -4.279669837462292,
+            "imag": -0.7600508797285372
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 4.2629861680935854e-05,
+          "third_distance": 0.6859684085355976,
+          "scaled_discriminant_residual": 8.328156859708168e-11,
+          "eigenvalue_gap": 9.125873579941905e-10,
+          "traceless_compression_norm": 5.708397472057003e-05,
+          "perturbation_norm": 0.0013491035411843117,
+          "fixed_contour_neumann_ratio": 0.008916052673890808
+        },
+        {
+          "epsilon": 0.0003,
+          "branch": 1,
+          "q": {
+            "real": 1.6721376822002758,
+            "imag": 1.0966170807207871
+          },
+          "lambda_value": {
+            "real": -4.279753882370478,
+            "imag": -0.7596899494331071
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.00012753415589895252,
+          "third_distance": 0.686192846426178,
+          "scaled_discriminant_residual": 3.85273887485649e-11,
+          "eigenvalue_gap": 1.8621130436605722e-09,
+          "traceless_compression_norm": 0.0001712371124233684,
+          "perturbation_norm": 0.004047711690518232,
+          "fixed_contour_neumann_ratio": 0.026750808621925984
+        },
+        {
+          "epsilon": 0.001,
+          "branch": 1,
+          "q": {
+            "real": 1.6710723567804668,
+            "imag": 1.0961573017366422
+          },
+          "lambda_value": {
+            "real": -4.280048365101763,
+            "imag": -0.758427630653714
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.00042097711492173213,
+          "third_distance": 0.6869771988088309,
+          "scaled_discriminant_residual": 8.429854366088975e-12,
+          "eigenvalue_gap": 2.9034211485916016e-09,
+          "traceless_compression_norm": 0.0005706175476410959,
+          "perturbation_norm": 0.013497009727342354,
+          "fixed_contour_neumann_ratio": 0.08920001022557573
+        },
+        {
+          "epsilon": 0.01,
+          "branch": 1,
+          "q": {
+            "real": 1.6573489052665373,
+            "imag": 1.090200339886403
+          },
+          "lambda_value": {
+            "real": -4.283875878211377,
+            "imag": -0.7423287888245873
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.000637070833635854,
+              0.00020121579865295584,
+              6.362230470388622e-05,
+              2.0118869658656245e-05
+            ],
+            "gap_exponents": [
+              0.5005256459021744,
+              0.5000526794960727,
+              0.5000058202376023
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.09844926278021493,
+            "minimum_discriminant_on_loop": 4.036329421897017e-07
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.6762179359298282,
+                1.4735316418265347,
+                1.7029507602922798e-16,
+                1.6469024551622424e-16
+              ],
+              "idempotency": 1.4770377244483924e-15,
+              "traceless_compression_norm": 0.005683930868379038,
+              "plane_distance": 1.8938581399607055e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.6762179359298282,
+                1.4735316418265343,
+                2.501416556820332e-16,
+                1.6469024551622424e-16
+              ],
+              "idempotency": 1.2112302469604015e-15,
+              "traceless_compression_norm": 0.005683930868379701,
+              "plane_distance": 1.890200558914711e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.676217935929828,
+                1.4735316418265345,
+                2.6726590740899617e-16,
+                2.5422786288199616e-16
+              ],
+              "idempotency": 1.2743108459747481e-15,
+              "traceless_compression_norm": 0.005683930868379132,
+              "plane_distance": 1.8922501063692097e-14
+            }
+          ],
+          "relative_displacement_error": 0.0036995082627780417,
+          "third_distance": 0.6968996637969674,
+          "scaled_discriminant_residual": 1.7369373025057343e-11,
+          "eigenvalue_gap": 4.167657978416336e-08,
+          "traceless_compression_norm": 0.005683930868378598,
+          "perturbation_norm": 0.1355097963988299,
+          "fixed_contour_neumann_ratio": 0.8955669047162651
+        },
+        {
+          "epsilon": 0.02,
+          "branch": 1,
+          "q": {
+            "real": 1.642059860805506,
+            "imag": 1.0835096594294775
+          },
+          "lambda_value": {
+            "real": -4.288203399520912,
+            "imag": -0.7247306001754804
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.006353193767497414,
+          "third_distance": 0.7075784911485475,
+          "scaled_discriminant_residual": 9.230216267934746e-12,
+          "eigenvalue_gap": 6.076254197426156e-08,
+          "traceless_compression_norm": 0.011318396540545861,
+          "perturbation_norm": 0.27198362413020555,
+          "fixed_contour_neumann_ratio": 1.7975049691529423
+        },
+        {
+          "epsilon": 0.03,
+          "branch": 1,
+          "q": {
+            "real": 1.6267526964331933,
+            "imag": 1.0767799516832466
+          },
+          "lambda_value": {
+            "real": -4.29258883135159,
+            "imag": -0.7074429545385911
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.008087798696994358,
+          "third_distance": 0.7179034339072476,
+          "scaled_discriminant_residual": 2.616246106352957e-12,
+          "eigenvalue_gap": 4.852444225045417e-08,
+          "traceless_compression_norm": 0.01690349690639903,
+          "perturbation_norm": 0.40907554724732925,
+          "fixed_contour_neumann_ratio": 2.703527946903227
+        },
+        {
+          "epsilon": 0.05,
+          "branch": 1,
+          "q": {
+            "real": 1.5961778033158665,
+            "imag": 1.063322068975074
+          },
+          "lambda_value": {
+            "real": -4.301463579430955,
+            "imag": -0.6738178064218853
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.0015356942885405127,
+              0.00048547721419069995,
+              0.0001535165744225999,
+              4.8546063762245706e-05
+            ],
+            "gap_exponents": [
+              0.5001359179037809,
+              0.5000135802036234,
+              0.5000012489887988
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.09824300470621372,
+            "minimum_discriminant_on_loop": 2.355078129358569e-06
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.697972338381927,
+                1.5078291242373187,
+                3.073982663878683e-16,
+                1.7149953162077423e-16
+              ],
+              "idempotency": 1.5900637866432818e-15,
+              "traceless_compression_norm": 0.02792689591966627,
+              "plane_distance": 1.7247288557312305e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.697972338381927,
+                1.5078291242373192,
+                2.901235813520566e-16,
+                1.6687018374765023e-16
+              ],
+              "idempotency": 1.2544488503701238e-15,
+              "traceless_compression_norm": 0.02792689591966677,
+              "plane_distance": 1.7149584398573033e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.6979723383819265,
+                1.5078291242373196,
+                2.961410960871913e-16,
+                2.7005414893256885e-16
+              ],
+              "idempotency": 1.3047536238078384e-15,
+              "traceless_compression_norm": 0.027926895919666416,
+              "plane_distance": 1.7244472924896794e-14
+            }
+          ],
+          "relative_displacement_error": 0.009239991376284578,
+          "third_distance": 0.715493050801312,
+          "scaled_discriminant_residual": 9.09554488288353e-13,
+          "eigenvalue_gap": 4.768528306218684e-08,
+          "traceless_compression_norm": 0.027926895919669452,
+          "perturbation_norm": 0.6839055516862559,
+          "fixed_contour_neumann_ratio": 4.519844279296833
+        },
+        {
+          "epsilon": 0.075,
+          "branch": 1,
+          "q": {
+            "real": 1.5582420714820437,
+            "imag": 1.046720336152504
+          },
+          "lambda_value": {
+            "real": -4.312614607891923,
+            "imag": -0.6335966963653855
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.007395307746179886,
+          "third_distance": 0.6200356542813326,
+          "scaled_discriminant_residual": 1.8721051771385432e-11,
+          "eigenvalue_gap": 3.2450873056674925e-07,
+          "traceless_compression_norm": 0.041436580185534824,
+          "perturbation_norm": 1.0260936924801711,
+          "fixed_contour_neumann_ratio": 6.781321915787963
+        },
+        {
+          "epsilon": 0.1,
+          "branch": 1,
+          "q": {
+            "real": 1.5208592509277667,
+            "imag": 1.0305589919348235
+          },
+          "lambda_value": {
+            "real": -4.323690697053574,
+            "imag": -0.5953989288967001
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.004641867471874075,
+          "third_distance": 0.5291532562835894,
+          "scaled_discriminant_residual": 2.021539315615196e-12,
+          "eigenvalue_gap": 1.42180846657178e-07,
+          "traceless_compression_norm": 0.05465782889164894,
+          "perturbation_norm": 1.3640082475840767,
+          "fixed_contour_neumann_ratio": 9.014555971297115
+        }
+      ]
+    },
+    "odd": {
+      "order": 2,
+      "rows": [
+        {
+          "epsilon": 0.01,
+          "branch": 0,
+          "q": {
+            "real": 1.6723708421712529,
+            "imag": 1.0964263505091774
+          },
+          "lambda_value": {
+            "real": -4.279698654599958,
+            "imag": -0.7603600760498337
+          },
+          "local_signature": {
+            "q_radii": [
+              5.936455629503068e-05,
+              5.936455629503069e-06,
+              5.936455629503068e-07,
+              5.936455629503068e-08
+            ],
+            "gaps": [
+              5.767228307299104e-05,
+              1.90938044607809e-05,
+              6.064493233130345e-06,
+              1.91859692458441e-06
+            ],
+            "gap_exponents": [
+              0.48007467351757366,
+              0.4980979548556025,
+              0.49981077181407535
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.10709448958878509,
+            "minimum_discriminant_on_loop": 3.3137091531561414e-09
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.671015393726171,
+                1.4638790308072573,
+                2.5213423467121273e-16,
+                1.642557576023081e-16
+              ],
+              "idempotency": 1.1898901446203862e-15,
+              "traceless_compression_norm": 9.096243767119748e-05,
+              "plane_distance": 2.291398128598378e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.6710153937261705,
+                1.463879030807257,
+                2.9097925284620885e-16,
+                1.6425575760230802e-16
+              ],
+              "idempotency": 1.1402475522358424e-15,
+              "traceless_compression_norm": 9.09624376704872e-05,
+              "plane_distance": 2.2710646504245784e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.6710153937261707,
+                1.4638790308072573,
+                2.7474517766691257e-16,
+                1.6425575760230804e-16
+              ],
+              "idempotency": 1.243138355655854e-15,
+              "traceless_compression_norm": 9.096243767024212e-05,
+              "plane_distance": 2.2757013955075047e-14
+            }
+          ],
+          "relative_displacement_error": 0.0004015957726577625,
+          "third_distance": 0.6855835435245085,
+          "scaled_discriminant_residual": 2.004084131353308e-10,
+          "eigenvalue_gap": 1.4156567844478788e-09,
+          "traceless_compression_norm": 9.096243766810534e-05,
+          "perturbation_norm": 0.06084218919003003,
+          "fixed_contour_neumann_ratio": 0.40209824305770336
+        },
+        {
+          "epsilon": 0.02,
+          "branch": 0,
+          "q": {
+            "real": 1.671702855089808,
+            "imag": 1.0952645219847619
+          },
+          "lambda_value": {
+            "real": -4.279910705486287,
+            "imag": -0.7607465014486221
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0016060900077027843,
+          "third_distance": 0.6847671624716382,
+          "scaled_discriminant_residual": 3.7468867127273065e-11,
+          "eigenvalue_gap": 2.448472736291685e-09,
+          "traceless_compression_norm": 0.0003641234553829926,
+          "perturbation_norm": 0.12351256146035493,
+          "fixed_contour_neumann_ratio": 0.8162787141607915
+        },
+        {
+          "epsilon": 0.03,
+          "branch": 0,
+          "q": {
+            "real": 1.6705959228043785,
+            "imag": 1.093331367189254
+          },
+          "lambda_value": {
+            "real": -4.2802627213094375,
+            "imag": -0.761391755999697
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.003612601225706458,
+          "third_distance": 0.6834111327638531,
+          "scaled_discriminant_residual": 8.846282011733906e-12,
+          "eigenvalue_gap": 2.67684299679762e-09,
+          "traceless_compression_norm": 0.0008203084258040768,
+          "perturbation_norm": 0.18823891809202697,
+          "fixed_contour_neumann_ratio": 1.244046922826539
+        },
+        {
+          "epsilon": 0.05,
+          "branch": 0,
+          "q": {
+            "real": 1.667106602106929,
+            "imag": 1.0871725436947
+          },
+          "lambda_value": {
+            "real": -4.281377415012445,
+            "imag": -0.7634666072331264
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.00039657047183895653,
+              0.00012577594070277892,
+              3.9785508742180815e-05,
+              1.2581650925313462e-05
+            ],
+            "gap_exponents": [
+              0.4987227998445644,
+              0.49987265837360273,
+              0.49998728418259003
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.09883659998525607,
+            "minimum_discriminant_on_loop": 1.5722294343076224e-07
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.6857318151518332,
+                1.462879630985085,
+                2.0305866418928048e-16,
+                1.66010074287112e-16
+              ],
+              "idempotency": 1.460815362491647e-15,
+              "traceless_compression_norm": 0.002287895933440741,
+              "plane_distance": 1.5838171276857487e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.6857318151518332,
+                1.4628796309850844,
+                2.8041152324248124e-16,
+                1.6601007428711202e-16
+              ],
+              "idempotency": 1.2294950144431613e-15,
+              "traceless_compression_norm": 0.002287895933440647,
+              "plane_distance": 1.5937150628237142e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.6857318151518335,
+                1.4628796309850842,
+                2.979903740869873e-16,
+                2.7504667126320396e-16
+              ],
+              "idempotency": 1.252851110855809e-15,
+              "traceless_compression_norm": 0.002287895933440837,
+              "plane_distance": 1.5880260895994872e-14
+            }
+          ],
+          "relative_displacement_error": 0.010025173021355882,
+          "third_distance": 0.6791100189591041,
+          "scaled_discriminant_residual": 2.0358616356075702e-11,
+          "eigenvalue_gap": 1.1280130860299147e-08,
+          "traceless_compression_norm": 0.002287895933437389,
+          "perturbation_norm": 0.32485940306163735,
+          "fixed_contour_neumann_ratio": 2.1469542261846115
+        },
+        {
+          "epsilon": 0.075,
+          "branch": 0,
+          "q": {
+            "real": 1.6605170323206002,
+            "imag": 1.0752648768559059
+          },
+          "lambda_value": {
+            "real": -4.283503146431164,
+            "imag": -0.7675618115058209
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.022513032249420698,
+          "third_distance": 0.6708724147069469,
+          "scaled_discriminant_residual": 2.739397351020951e-10,
+          "eigenvalue_gap": 9.310007750246359e-08,
+          "traceless_compression_norm": 0.005189470360964498,
+          "perturbation_norm": 0.5125807051294685,
+          "fixed_contour_neumann_ratio": 3.3875802909408144
+        },
+        {
+          "epsilon": 0.1,
+          "branch": 0,
+          "q": {
+            "real": 1.6517674265263025,
+            "imag": 1.0588678931299416
+          },
+          "lambda_value": {
+            "real": -4.286366233957867,
+            "imag": -0.7733852463734703
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.03991299975814677,
+          "third_distance": 0.6596838100448025,
+          "scaled_discriminant_residual": 9.8401013892849e-10,
+          "eigenvalue_gap": 3.136893589091747e-07,
+          "traceless_compression_norm": 0.009333601531693927,
+          "perturbation_norm": 0.7266571336979929,
+          "fixed_contour_neumann_ratio": 4.802384014367274
+        },
+        {
+          "epsilon": 0.01,
+          "branch": 1,
+          "q": {
+            "real": 1.6729460903996802,
+            "imag": 1.0965729947388687
+          },
+          "lambda_value": {
+            "real": -4.2794894380015975,
+            "imag": -0.7604837441317126
+          },
+          "local_signature": {
+            "q_radii": [
+              5.936455629503068e-05,
+              5.936455629503069e-06,
+              5.936455629503068e-07,
+              5.936455629503068e-08
+            ],
+            "gaps": [
+              6.35640693111237e-05,
+              1.9282157366206437e-05,
+              6.071137263957426e-06,
+              1.9190252576618273e-06
+            ],
+            "gap_exponents": [
+              0.5180560696254468,
+              0.5018855708552077,
+              0.5001893612305199
+            ],
+            "discriminant_winding": 1.0,
+            "maximum_phase_step": 0.10709955607674893,
+            "minimum_discriminant_on_loop": 3.3144217459559516e-09
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.671028566751232,
+                1.4643146220577516,
+                2.8732721787257943e-16,
+                1.6425801588392475e-16
+              ],
+              "idempotency": 1.3003333791844324e-15,
+              "traceless_compression_norm": 0.00010163371310040505,
+              "plane_distance": 1.7939980692963538e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.671028566751232,
+                1.4643146220577519,
+                2.792042460032745e-16,
+                1.692238429190387e-16
+              ],
+              "idempotency": 1.1365002070567832e-15,
+              "traceless_compression_norm": 0.00010163371310015178,
+              "plane_distance": 1.8068107083433718e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.671028566751232,
+                1.4643146220577528,
+                2.737409096033748e-16,
+                1.6425801588392475e-16
+              ],
+              "idempotency": 1.2396773468377634e-15,
+              "traceless_compression_norm": 0.00010163371309966084,
+              "plane_distance": 1.7929808048481563e-14
+            }
+          ],
+          "relative_displacement_error": 0.0005176153017704558,
+          "third_distance": 0.6859027055061339,
+          "scaled_discriminant_residual": 1.5067669201960492e-10,
+          "eigenvalue_gap": 1.2275043463043418e-09,
+          "traceless_compression_norm": 0.00010163371309806086,
+          "perturbation_norm": 0.06035640108384898,
+          "fixed_contour_neumann_ratio": 0.3988877316248613
+        },
+        {
+          "epsilon": 0.02,
+          "branch": 1,
+          "q": {
+            "real": 1.6739994312839341,
+            "imag": 1.0958510185989336
+          },
+          "lambda_value": {
+            "real": -4.279074608667214,
+            "imag": -0.7612398782238537
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.0020713327724526578,
+          "third_distance": 0.6860417206370771,
+          "scaled_discriminant_residual": 9.776265031192672e-12,
+          "eigenvalue_gap": 1.250680776613612e-09,
+          "traceless_compression_norm": 0.0004067217838091781,
+          "perturbation_norm": 0.1215285512699705,
+          "fixed_contour_neumann_ratio": 0.8031666446842893
+        },
+        {
+          "epsilon": 0.03,
+          "branch": 1,
+          "q": {
+            "real": 1.6757467268205066,
+            "imag": 1.0946506958609332
+          },
+          "lambda_value": {
+            "real": -4.278384378795492,
+            "imag": -0.7624970037620245
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.004663771604741514,
+          "third_distance": 0.6862710933964792,
+          "scaled_discriminant_residual": 1.0640825833913556e-10,
+          "eigenvalue_gap": 9.283894078171068e-09,
+          "traceless_compression_norm": 0.0009158250233072451,
+          "perturbation_norm": 0.18368793955051296,
+          "fixed_contour_neumann_ratio": 1.2139700879838513
+        },
+        {
+          "epsilon": 0.05,
+          "branch": 1,
+          "q": {
+            "real": 1.6812694179784464,
+            "imag": 1.0908350619669724
+          },
+          "lambda_value": {
+            "real": -4.27618511257366,
+            "imag": -0.7664938233657144
+          },
+          "local_signature": {
+            "q_radii": [
+              0.0001,
+              1e-05,
+              1.0000000000000002e-06,
+              1.0000000000000001e-07
+            ],
+            "gaps": [
+              0.0004004416156488668,
+              0.00012624956209719045,
+              3.991154322799681e-05,
+              1.2620745454438327e-05
+            ],
+            "gap_exponents": [
+              0.5013093245183252,
+              0.5001313597924911,
+              0.500013513011944
+            ],
+            "discriminant_winding": 1.0000000000000002,
+            "maximum_phase_step": 0.09884528971293127,
+            "minimum_discriminant_on_loop": 1.581865610853086e-07
+          },
+          "contours": [
+            {
+              "fraction": 0.25,
+              "projector_singular_values": [
+                1.685886733447843,
+                1.4736863832108062,
+                2.974290958112764e-16,
+                1.660301037483603e-16
+              ],
+              "idempotency": 1.1492889641196927e-15,
+              "traceless_compression_norm": 0.0025501893570032325,
+              "plane_distance": 2.949041660885621e-14
+            },
+            {
+              "fraction": 0.5,
+              "projector_singular_values": [
+                1.6858867334478427,
+                1.4736863832108058,
+                1.660301037483603e-16,
+                1.660301037483603e-16
+              ],
+              "idempotency": 1.2442964245237583e-15,
+              "traceless_compression_norm": 0.0025501893570038675,
+              "plane_distance": 2.9511384232622095e-14
+            },
+            {
+              "fraction": 0.75,
+              "projector_singular_values": [
+                1.6858867334478425,
+                1.4736863832108062,
+                3.005981603838511e-16,
+                2.832675691714828e-16
+              ],
+              "idempotency": 1.280340060374889e-15,
+              "traceless_compression_norm": 0.002550189357003629,
+              "plane_distance": 2.93913227255754e-14
+            }
+          ],
+          "relative_displacement_error": 0.012984115221078325,
+          "third_distance": 0.6869860202341987,
+          "scaled_discriminant_residual": 6.213468921696343e-11,
+          "eigenvalue_gap": 1.970639001963631e-08,
+          "traceless_compression_norm": 0.00255018935700092,
+          "perturbation_norm": 0.31169401419686976,
+          "fixed_contour_neumann_ratio": 2.059945855805954
+        },
+        {
+          "epsilon": 0.075,
+          "branch": 1,
+          "q": {
+            "real": 1.6917620619280822,
+            "imag": 1.083498151667908
+          },
+          "lambda_value": {
+            "real": -4.271929398736826,
+            "imag": -0.7741863655031038
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.02934358126426764,
+          "third_distance": 0.6883024144793379,
+          "scaled_discriminant_residual": 1.4948433616309136e-09,
+          "eigenvalue_gap": 2.1748052381558934e-07,
+          "traceless_compression_norm": 0.005765292020085622,
+          "perturbation_norm": 0.4807337154071404,
+          "fixed_contour_neumann_ratio": 3.177107610971513
+        },
+        {
+          "epsilon": 0.1,
+          "branch": 1,
+          "q": {
+            "real": 1.7058280513845538,
+            "imag": 1.0734959108493585
+          },
+          "lambda_value": {
+            "real": -4.266053206448085,
+            "imag": -0.7847050965767564
+          },
+          "local_signature": null,
+          "contours": null,
+          "relative_displacement_error": 0.05249233139537269,
+          "third_distance": 0.689981715979358,
+          "scaled_discriminant_residual": 2.943511331229237e-12,
+          "eigenvalue_gap": 1.7156664393841936e-08,
+          "traceless_compression_norm": 0.010317358108235548,
+          "perturbation_norm": 0.6637440955223397,
+          "fixed_contour_neumann_ratio": 4.386599795347132
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,517 @@
+{
+  "scope": "F89d palindrome and F131 spatial-reflection action on F163 response objects.\nN=4,5,6 selected seeds; XY, gamma=1, q=qCSharp. Real-coefficient end profiles.\nExact dyadic matrix identities plus numerical independent partner-plane readings.\nRun: python simulations/route_b_mirror_response.py\n",
+  "script_sha256": "8b2cf00f16dbc94317fb26a6573cb39b8a3b4e8a137abd85ef6874b292bd8636",
+  "dependencies": {
+    "simulations\\route_b_n6_end_profile_probe.py": "87304dc5d0b0766789bc0b1c80ec0447c0efa3539fee07dd0c8b84342a9c32b7",
+    "simulations\\route_b_n6_next_coefficient.py": "8da37eb0c27586187101f257bb9e0c105d23f0eca36a14533125c86281bba630",
+    "simulations\\route_b_n6_leakage_probe.py": "63688efc139e4f0bd8d8d901a4c065ff81270931dd563f53ce7e737b74fc8d07",
+    "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
+  },
+  "sources": {
+    "simulations\\results\\route_b_other_n_unfolding.json": "0e6e7f44eb6d2cbf091e9b35aeb56201060547f2951fb254f21598d9d9e319c2",
+    "simulations\\results\\route_b_n6_end_profile_probe.json": "679a6d41283bb43c7c1f75793ffbeb9e27c168051108103b81e0a257f97cd114"
+  },
+  "readings": [
+    {
+      "n": 4,
+      "seed_id": "N4-real-lambda-plus",
+      "source_block": [
+        1,
+        2
+      ],
+      "partner_block": [
+        1,
+        2
+      ],
+      "dimension": 24,
+      "disagreement_rung_pairs": [
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "q": {
+        "real": 0.6589829632931832,
+        "imag": 0.0
+      },
+      "lambda0": {
+        "real": -4.0,
+        "imag": 1.3179659265863664
+      },
+      "partner_q": {
+        "real": 0.6589829632931832,
+        "imag": -0.0
+      },
+      "partner_lambda": {
+        "real": -4.0,
+        "imag": 1.3179659265863664
+      },
+      "exact_checks": [
+        {
+          "profile": "one",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "one",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "even",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "even",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "odd",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "odd",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        }
+      ],
+      "unconjugated_epsilon_control": 1.0458250331675945,
+      "profiles": {
+        "one": {
+          "transport_residuals": {
+            "P": 3.8381762232790967e-13,
+            "S": 1.5944598237161587e-11,
+            "B1": 1.8252660559308774e-12,
+            "B2": 1.842931964867419e-10
+          },
+          "source_gap": 0.023547858876904915,
+          "partner_gap": 0.023547858876904915,
+          "source_resolvent_norm": 113.11379712657727,
+          "partner_resolvent_norm": 113.11379712657727,
+          "coefficient_conjugation_error": 4.892550381503216e-14,
+          "next_coefficient_conjugation_error": 5.075110040226088e-12,
+          "next_coefficient_relative_error": 1.3344535913141096e-13
+        },
+        "even": {
+          "transport_residuals": {
+            "P": 3.8381762232790967e-13,
+            "S": 1.5944598237161587e-11,
+            "B1": 1.194724518000476e-12,
+            "B2": 1.2157816725706027e-12
+          },
+          "source_gap": 0.023547858876904915,
+          "partner_gap": 0.023547858876904915,
+          "source_resolvent_norm": 113.11379712657727,
+          "partner_resolvent_norm": 113.11379712657727,
+          "coefficient_conjugation_error": 1.629291313895127e-15,
+          "next_coefficient_conjugation_error": 3.3184340075890914e-15,
+          "next_coefficient_relative_error": 3.3184340075890914e-15
+        },
+        "odd": {
+          "transport_residuals": {
+            "P": 3.8381762232790967e-13,
+            "S": 1.5944598237161587e-11,
+            "B1": 1.1108654690784837e-12,
+            "B2": 5.104366508812012e-11
+          },
+          "source_gap": 0.023547858876904915,
+          "partner_gap": 0.023547858876904915,
+          "source_resolvent_norm": 113.11379712657727,
+          "partner_resolvent_norm": 113.11379712657727,
+          "coefficient_conjugation_error": 1.1364772463076185e-12,
+          "next_coefficient_conjugation_error": 1.777053295066249e-08,
+          "next_coefficient_relative_error": 5.750154878697112e-14
+        }
+      }
+    },
+    {
+      "n": 5,
+      "seed_id": "N5-O-A2-W-006-Q-plus",
+      "source_block": [
+        1,
+        2
+      ],
+      "partner_block": [
+        1,
+        3
+      ],
+      "dimension": 50,
+      "disagreement_rung_pairs": [
+        [
+          1,
+          4
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "q": {
+        "real": 1.1292509708747671,
+        "imag": 0.0
+      },
+      "lambda0": {
+        "real": -4.791960365179641,
+        "imag": 0.0
+      },
+      "partner_q": {
+        "real": 1.1292509708747671,
+        "imag": -0.0
+      },
+      "partner_lambda": {
+        "real": -5.208039634820359,
+        "imag": 0.0
+      },
+      "exact_checks": [
+        {
+          "profile": "one",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "one",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "even",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "even",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "odd",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "odd",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        }
+      ],
+      "unconjugated_epsilon_control": 1.3975424859373686,
+      "profiles": {
+        "one": {
+          "transport_residuals": {
+            "P": 3.069040650621534e-14,
+            "S": 2.6077210102619316e-14,
+            "B1": 3.3686032254030144e-14,
+            "B2": 1.5364333171467946e-13
+          },
+          "source_gap": 1.1614749462469405,
+          "partner_gap": 1.16147494624694,
+          "source_resolvent_norm": 4.05802787807579,
+          "partner_resolvent_norm": 4.0580278780757855,
+          "coefficient_conjugation_error": 3.260571062373505e-14,
+          "next_coefficient_conjugation_error": 1.9000712544798274e-13,
+          "next_coefficient_relative_error": 7.18344081766595e-14
+        },
+        "even": {
+          "transport_residuals": {
+            "P": 3.069040650621534e-14,
+            "S": 2.6077210102619316e-14,
+            "B1": 2.882494324185468e-14,
+            "B2": 2.896551887262155e-14
+          },
+          "source_gap": 1.1614749462469405,
+          "partner_gap": 1.16147494624694,
+          "source_resolvent_norm": 4.05802787807579,
+          "partner_resolvent_norm": 4.0580278780757855,
+          "coefficient_conjugation_error": 3.418446689407614e-14,
+          "next_coefficient_conjugation_error": 3.378429109018756e-14,
+          "next_coefficient_relative_error": 3.378429109018756e-14
+        },
+        "odd": {
+          "transport_residuals": {
+            "P": 3.069040650621534e-14,
+            "S": 2.6077210102619316e-14,
+            "B1": 2.6507557728194018e-14,
+            "B2": 1.1199917695010907e-13
+          },
+          "source_gap": 1.1614749462469405,
+          "partner_gap": 1.16147494624694,
+          "source_resolvent_norm": 4.05802787807579,
+          "partner_resolvent_norm": 4.0580278780757855,
+          "coefficient_conjugation_error": 6.367704195886739e-14,
+          "next_coefficient_conjugation_error": 6.181806820548627e-13,
+          "next_coefficient_relative_error": 4.929057907813652e-14
+        }
+      }
+    },
+    {
+      "n": 6,
+      "seed_id": "N6-E-A2-T-007",
+      "source_block": [
+        1,
+        2
+      ],
+      "partner_block": [
+        1,
+        4
+      ],
+      "dimension": 90,
+      "disagreement_rung_pairs": [
+        [
+          1,
+          5
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "q": {
+        "real": 1.6725941457514577,
+        "imag": 1.0968139484731172
+      },
+      "lambda0": {
+        "real": -4.27962783064844,
+        "imag": -0.7602313894679747
+      },
+      "partner_q": {
+        "real": 1.6725941457514577,
+        "imag": -1.0968139484731172
+      },
+      "partner_lambda": {
+        "real": -7.72037216935156,
+        "imag": -0.7602313894679747
+      },
+      "exact_checks": [
+        {
+          "profile": "one",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "one",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "even",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "even",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "odd",
+          "q": {
+            "real": 0.75,
+            "imag": 0.0
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        },
+        {
+          "profile": "odd",
+          "q": {
+            "real": 0.75,
+            "imag": 0.25
+          },
+          "epsilon": {
+            "real": 0.125,
+            "imag": 0.0625
+          },
+          "fold_residual": 0,
+          "spatial_residual": 0
+        }
+      ],
+      "unconjugated_epsilon_control": 1.7455300054711176,
+      "profiles": {
+        "one": {
+          "transport_residuals": {
+            "P": 8.944918305504366e-14,
+            "S": 8.588914680330909e-14,
+            "B1": 2.898533801350946e-13,
+            "B2": 5.085457454813697e-13
+          },
+          "source_gap": 0.6858561333381055,
+          "partner_gap": 0.6858561333381159,
+          "source_resolvent_norm": 2.0424127679908914,
+          "partner_resolvent_norm": 2.042412767990913,
+          "coefficient_conjugation_error": 3.479509100190943e-13,
+          "next_coefficient_conjugation_error": 3.0501036224103804e-12,
+          "next_coefficient_relative_error": 1.6128958789808653e-13
+        },
+        "even": {
+          "transport_residuals": {
+            "P": 8.944918305504366e-14,
+            "S": 8.588914680330909e-14,
+            "B1": 2.834721401318371e-13,
+            "B2": 6.073024485496876e-13
+          },
+          "source_gap": 0.6858561333381055,
+          "partner_gap": 0.6858561333381159,
+          "source_resolvent_norm": 2.0424127679908914,
+          "partner_resolvent_norm": 2.042412767990913,
+          "coefficient_conjugation_error": 2.859272438462008e-13,
+          "next_coefficient_conjugation_error": 2.170419171575882e-12,
+          "next_coefficient_relative_error": 4.151120474371659e-13
+        },
+        "odd": {
+          "transport_residuals": {
+            "P": 8.944918305504366e-14,
+            "S": 8.588914680330909e-14,
+            "B1": 3.820260288691347e-14,
+            "B2": 1.1196743055045831e-13
+          },
+          "source_gap": 0.6858561333381055,
+          "partner_gap": 0.6858561333381159,
+          "source_resolvent_norm": 2.0424127679908914,
+          "partner_resolvent_norm": 2.042412767990913,
+          "coefficient_conjugation_error": 7.525776633081928e-13,
+          "next_coefficient_conjugation_error": 8.95536607397988e-12,
+          "next_coefficient_relative_error": 4.05485487039485e-13
+        }
+      }
+    }
+  ]
+}

@@ -15,6 +15,27 @@ reported isolation margin in physical λ units is the carrier's Λ margin
 divided by two. Complex *t* (equivalently complex *q*) is analytic
 continuation, not a physical coupling.
 
+**What the stores returned.** `docs/THE_DOUBLE_ROOT.md` already carried the N=5
+and N=6 inventories, so what follows is that inventory's picture and its orbit
+bookkeeping, not a second measurement. `docs/ANALYTICAL_FORMULAS.md` returned
+F89c and F89d, the second of which fixes where these loci's partners sit and is
+used below. The OpenArcs registry's `diabolic_over_higher_n` owns the over-*N*
+question and records the N=7 F₅₃ layer as unmeasured.
+`experiments/F89_BRANCH_LOCUS_PALINDROME.md` is the N=4 predecessor and supplies
+the mirror this layer inherits. `docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md`
+supplies the semisimplicity mechanism and its boundary. The typed layer answers
+in both halves, and thinly. No `Claim` owns Route B and no `IInspectable`
+witness does either, so the executed readings live in the Diagnostics types
+`RouteBA2N6Inventory`, `RouteBA2N6CharacterClassifier` and
+`RouteBA2N6AtlasManifest`, with the reconciliation gate as their only owner,
+while `F89CrossFoldSimilarityClaim` owns the fold and is live at
+`inspect --root crossfold`. `docs/CAUGHT_ERRORS.md` returned its three
+2026-06-21 entries, the EP-character trilogy, which is why character here is an
+executed verdict and never an inferred one. `fw.Confirmations` holds one
+EP-labelled hardware node whose own record states that no EP, mode coalescence
+or Jordan structure was measured, so nothing on hardware bears on the character
+of this layer.
+
 ## A map after the search
 
 The Route-B calculation did not merely return a count. It left 266 small
@@ -51,8 +72,9 @@ opposite-parity image.
 
 *Solid grey joins the carrier's conjugation partners; dotted gold joins its
 parity partners. These are the only edges present in the schema-3 artifact.
-The figure deliberately draws no “crossfold” relation: adding one from visual
-symmetry alone would turn the atlas into a second, unsupported dataset.*
+The cross-fold that joins each locus to a partner in a neighbouring block is
+drawn nowhere here, because that block is not in this dataset; it is stated
+below, where it is inherited rather than read off the figure.*
 
 This is the useful compression: 266 certified local events become 96 rooms
 without discarding a locus. It is also a practical search index. A later
@@ -115,25 +137,102 @@ contour readings.
 
 ## The earlier flashlight
 
-The visual ancestor is the N=4
+The ancestor is
+[`F89_BRANCH_LOCUS_PALINDROME`](F89_BRANCH_LOCUS_PALINDROME.md), the N=4 reading
+of this same layer, and its picture
 [`f89_octic_branch_locus.png`](../visualizations/f89_octic_branch_locus.png).
-That image searched the complex *q* plane with a min-gap heatmap and showed a
-mixed branch locus: 20 exceptional points and four diabolic points. This atlas
-does something narrower and later. It maps only the N=6 direct-*t* A₂ layer,
-with no heatmap and no A₁ exceptional points. The two figures share a visual
-grammar: magenta for defective seams, gold for silent crossings, and the same
-`qCSharp` normalization; the displayed N=6 *t* plane is exactly the N=4 *q*
-plane quarter-turned by multiplication with i. They do not share N, sector,
-dataset, or claim.
+That document is where the mirror this atlas inherits is proved. With T the
+antiunitary weight-complement symmetry carried on the block,
+T L(q) T⁻¹ = −L(q̄) − 2σ, so every coalescence either lies on Re λ = −σ or
+carries a partner the same distance across it, and no orphan is possible. The
+separation of the N=4 locus is algebraic, read off the exact discriminant
+disc_λ(F₈) = const · q²⁴ · (3q⁴ + q² − 1)² · P₂₀(q): twenty exceptional points at
+the simple zeros of P₂₀, four diabolic points at the zeros of the quartic factor
+that enters squared. The min-gap heatmap is the picture of that locus and is
+resolution-limited, which is why the near-twins at q ≈ ±0.857 and ±0.854, 0.003
+apart, render as one dot each.
+
+This atlas does something narrower and later. It maps only the N=6 direct-*t*
+A₂ layer, with no heatmap and no A₁ exceptional points. The two figures share a
+visual grammar: magenta for defective seams, gold for silent crossings, and the
+same `qCSharp` normalization; the displayed N=6 *t* plane is exactly the N=4 *q*
+plane quarter-turned by multiplication with i. They do not share N, sector, or
+dataset. They do share the mirror, and at N=6 that mirror leaves the block.
+
+## The partner block is this one, folded
+
+At N=4 the mirror folds the (SE,DE) block onto itself, and that self-fold is
+what puts one diabolic on the real *q* axis, at q ≈ ±0.659. It is an N=4
+property: it needs the overlap rung (2 states) and the no-overlap rung (N−2
+states) balanced, so 2 = N−2. At N=6 the fold leaves the block. The exact
+statement is F89d, the cross-block antiunitary similarity
+
+    L_(1,N−2)(q̄)  =  −P · conj(L_(1,2)(q)) · Pᵀ  −  2N·I
+
+with P the bra-complement permutation, machine zero for N = 4..9 at every *q*,
+real and complex; live at `inspect --root crossfold`, typed as
+[`F89CrossFoldSimilarityClaim`](../compute/RCPsiSquared.Core/Symmetry/F89CrossFoldSimilarityClaim.cs).
+At N=6 the partner is the (SE, w₄) block, which the witness names (SE,QE).
+
+This is a similarity of the whole block, not a statement about single points,
+and it is onto. The displayed map is antiunitary rather than linear: the
+permutation
+[`BraComplementPermutation`](../compute/RCPsiSquared.Core/F89PathK/WeightCoherenceBlock.cs)
+supplies the basis bijection, onto because C(n, wBra) = C(n, n−wBra) and the ket
+weight is unchanged, here 6·15 = 90 on both sides, and the entry conjugation,
+q → q̄ and the affine shift complete it. Each of those factors preserves the
+dimensions of generalized eigenspaces, which is why the layer split travels with
+the spectrum rather than merely alongside it: a branch that is constant in q
+stays constant in q, so no rate-locked strand can arrive as a residual one. The
+rungs are the visible face of that. (SE,DE) carries −2γ and −6γ, (SE, w₄) carries
+−6γ and −10γ, and r ↦ −r − 2N sends −2γ to −10γ while holding −6γ fixed: the two
+blocks share one rung and exchange the other.
+
+The A₂ layer of the partner block is therefore this atlas, conjugated in *q* and
+reflected in λ: the same 266, the same characters and coalescence gaps, at
+(q̄, −λ̄ − 12). The count holds per R-parity as well, 133 and 133, because the
+bra-complement commutes with the site reflection, so the grading rides along.
+That is a structural consequence and not a census. No second enumeration of the
+(SE, w₄) A₂ layer has been run, here or anywhere else in the repo.
+
+That the partner really is a different block is measured rather than inferred,
+and the measurement is the `foldlift` probe recorded with the palindrome: the
+(SE,DE) spectrum closes under λ ↦ −λ̄ − 2σ at N=4, residual 3·10⁻¹⁴ with four
+on-line strands, and fails at N=5, 6 and 7, residual ~1 with none. The atlas
+cannot add to that reading. Its λ enclosures are not the certified object: the
+tight boxes are in *t*, at most 4·10⁻²⁹ wide, while the derived λ boxes reach
+10¹⁰⁸ and 76 of them straddle Re λ = −6. Only the *t* geometry above is
+certified at the width the figures imply.
+
+What the fold does not supply is the count. It relates 133 at N=6 to itself, not
+to N. That number remains the measured degree of one exact factor.
 
 ## Boundary of the atlas
 
 The map establishes the finite N=6 inventory, its two exact partner
 involutions, and the executed local character at the committed seeds. It does
-not turn box midpoints into exact roots, prove stability under Δ, disorder or
-topology changes, infer a crossfold edge, or settle the F₅₃ N=7 doubled layer.
+not turn box midpoints into exact roots, establish the character at Δ > 0, prove
+stability under disorder or topology changes, reach any coherence block outside
+the folded pair, or settle the F₅₃ N=7 doubled layer. On Δ the repo's position is
+sharper than caution: every sampled positive-Δ proposal at N = 4, 5 and 6 is
+Uncertified under strict full-block checking, and only the Δ=0 controls remain
+Diabolic with alg=geo=2.
 
-What it gives us is a better place from which to ask those questions. Instead
-of hunting “another point,” we can now choose a room, its mirror, its parity
-partner and the evidence route that made it visible, and design a perturbation
-that is capable of breaking exactly one of those relations.
+The local end-bond question has an exact answer in
+[F163](../docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md). The degree-133 A₂ factor
+is irreducible, and one real, Hermitian embedding carries semisimplicity to
+every conjugate. The parity transport covers all 266 loci. Changing one end
+or both ends equally opens two local EP branches at first order; changing
+the ends oppositely opens them at second order. The leading locations have
+a quadratic algebraic formula. The family theorem supplies no uniform radius
+and does not alter the stored classifier routes or its empty exact-rank-fallback
+array. For `N6-E-A2-T-007`, the [ball-arithmetic companion](../docs/proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md)
+certifies explicit conservative disks and the corrected Taylor remainder for
+both branches of all three profiles.
+
+The mirror therefore does something more specific than hold these crossings
+together: it decides which perturbation orders can reach the two-plane.
+The equal-end change keeps the mirror and still opens the crossing; the
+opposite-end change must leave the plane and return before its first effect
+appears. The exact result comes from the same finite atlas, read as one
+algebraic family rather than as 266 separate numerical points.

@@ -308,8 +308,10 @@ Cyan/violet encodes R-even/R-odd, diamond/circle encodes
 `HermitianAxis`/`EpCharacterStable`, gold outlines the 266 diabolic verdicts,
 and magenta is reserved for a defective locus (none was found). Coordinates
 are exact rational box midpoints converted only for display; the graphics do
-not promote them to algebraic roots. The orbit map contains exactly the two
-partner fields in the schema-3 carrier and infers no crossfold relation.
+not promote them to algebraic roots. The orbit map draws exactly the two
+partner fields the schema-3 carrier holds; the F89d cross-fold, which sends
+each locus to a partner in the (SE, w₄) block, joins nothing inside this
+dataset and is carried by the note rather than by the figure.
 In the log evidence panel, 22 exact-zero departures are placed at the labelled
 10⁻¹⁸ display floor; that floor is not evidence.
 

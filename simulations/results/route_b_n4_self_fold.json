@@ -1,0 +1,63 @@
+{
+  "scope": "Exact N4 end-response coefficients over Q(t), 3t^4-t^2-1=0.\n\nThe embedding is t=i*q0, q0=sqrt((sqrt(13)-1)/6), gamma=1.\nRun: python simulations/route_b_n4_self_fold.py\n",
+  "q0": "sqrt(-1/6 + sqrt(13)/6)",
+  "lambda0": "-4+2*i*q0",
+  "dimension": 24,
+  "nullity": 2,
+  "squared_nullity": 2,
+  "alpha_relative": "7319728/196249 - 9469200*t**2/196249",
+  "profiles": {
+    "one": {
+      "relative_polynomial": {
+        "b": "51/23 - 131*sqrt(13)/299",
+        "g": "87/26 - 25*sqrt(13)/26",
+        "discriminant": "-41072/6877 + 13088*sqrt(13)/6877"
+      },
+      "q_slopes": [
+        "sqrt(-6 + 6*sqrt(13))*(-17/92 - sqrt(-33371 + 10634*sqrt(13))/897 + 131*sqrt(13)/3588)",
+        "sqrt(-6 + 6*sqrt(13))*(-17/92 + sqrt(-33371 + 10634*sqrt(13))/897 + 131*sqrt(13)/3588)"
+      ],
+      "q_slopes_decimal": [
+        "-0.5208808000870880",
+        "0.1006463000731454"
+      ]
+    },
+    "even": {
+      "relative_polynomial": {
+        "b": "51/23 - 131*sqrt(13)/299",
+        "g": "87/26 - 25*sqrt(13)/26",
+        "discriminant": "-41072/6877 + 13088*sqrt(13)/6877"
+      },
+      "q_slopes": [
+        "sqrt(-6 + 6*sqrt(13))*(-17/92 - sqrt(-33371 + 10634*sqrt(13))/897 + 131*sqrt(13)/3588)",
+        "sqrt(-6 + 6*sqrt(13))*(-17/92 + sqrt(-33371 + 10634*sqrt(13))/897 + 131*sqrt(13)/3588)"
+      ],
+      "q_slopes_decimal": [
+        "-0.5208808000870880",
+        "0.1006463000731454"
+      ]
+    },
+    "odd": {
+      "relative_polynomial": {
+        "b": "-871/92 - 557*sqrt(13)/1196",
+        "g": "-3475859*sqrt(13)/9568 - 12373651/9568",
+        "discriminant": "36210033/6877 + 10053738*sqrt(13)/6877"
+      },
+      "q_slopes": [
+        "sqrt(-6 + 6*sqrt(13))*(-sqrt(52303381 + 14522066*sqrt(13))/1196 + 557*sqrt(13)/14352 + 871/1104)",
+        "sqrt(-6 + 6*sqrt(13))*(557*sqrt(13)/14352 + 871/1104 + sqrt(52303381 + 14522066*sqrt(13))/1196)"
+      ],
+      "q_slopes_decimal": [
+        "-30.14871477687491",
+        "37.49411138767033"
+      ]
+    }
+  },
+  "fold_mutation_rejected": true,
+  "swapped_branch_control": "q=1 +/- i*epsilon, lambda=-4",
+  "dependencies": {
+    "simulations\\route_b_other_n_unfolding.py": "dcc1f5f62d4fc2d7ef58a08a4dabdc4e801a8f7df530639c9cf4566b08a0ac6c",
+    "simulations\\framework\\weight_coherence_block.py": "b5278668723bf323831acf46853bd5400b2a557b59816bd7c9898e48bde4aec6"
+  },
+  "script_sha256": "da0d7af271cbd1d50f7ef68f0302634029ac0601ecd14f18d82448ff8af2346d"
+}
