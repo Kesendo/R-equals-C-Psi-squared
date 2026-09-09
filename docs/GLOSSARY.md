@@ -340,6 +340,30 @@ The relation is **q = Q/2** (equivalently J_F89 = J_F86/2; the F90 bridge relabe
 
 **Two thresholds on this axis, not one:** the coherence horizon **Q\*(N)** (1, √2, 1.8787, 2.3737 in carrier-clock units; the single-excitation EP where the longest-lived mode changes character, `CoherenceHorizonClaim`) and the gap threshold **Q\*_gap(N)** (the coupling below which the spectral gap drops under 2γ: a |Δpopcount| = 0 population mode is Zeno-suppressed below the 2γ floor, while at **uniform γ** every coherence sector keeps its minimum at or above its rung at every coupling, [the Absorption Theorem §4.3](proofs/PROOF_ABSORPTION_THEOREM.md), which derives that floor and measures its attainment separately. Under a per-site rate profile neither the value nor the ladder carries over unchanged, and what does is in [`band_edge_profile_fence_gate.py`](../simulations/band_edge_profile_fence_gate.py)). Q\*_gap is bisected in **Pauli-J units** (H = J·Σ(XX+YY+ZZ)): Heisenberg chain 0.5000 / 0.8002 / 1.3422 / 1.8194 at N = 2..5, XY chain 0.5000 / 0.7071 / 0.9393 / 1.1861, so it belongs to the Hamiltonian, not to N alone. Converted to carrier units (×2), the XY gap threshold matches the horizon to bisection precision at N = 2 and N = 3 (1.000000 and 1.414214, i.e. 1 and √2 to six places) and separates measurably from N = 4 on (1.878541 vs 1.87874, then 2.372175 vs 2.37367). The coincidence at low N is where both reduce to the same clean 2×2 block, and it is exact there for a reason: the coalescing pair sits ON the floor Re = −2γ if and only if its coherence share is exactly ½ (Absorption Theorem, Re λ = −2γ⟨n_diff⟩), the 2×2 forces that share at N = 2, 3 (the plane spanned by |0⟩⟨0| − |N−1⟩⟨N−1| and its commutator with the hopping closes entry-wise, and fails from N = 4), so the pair's darker real branch reaches the floor at the EP itself. From N = 4 the coalescer's light exceeds 1 by 2w2 − 1 (w2 = 0.5072 / 0.5177 at N = 4 / 5), it sits below the floor by 2γ(2w2 − 1), the darker branch reaches the floor before the EP, and for the XY chain Q\*_gap = Q\* − ((2w2 − 1)/c)² to leading order, c the square-root splitting coefficient of the branches: the trace dressing, live at `inspect --root horizon`. The XY Q\*_gap is the handover Q_h of `HandoverFloorClaim` read on the gap axis. The Heisenberg row is a different event: its gap threshold lies ABOVE the (1,1) pair's own EP (2.243 / 2.886 in carrier units at N = 4 / 5), so a mode of another block sets it. Sources: [D06](proofs/derivations/D06_SPECTRAL_GAP.md), [Absorption Theorem proof §4.3](proofs/PROOF_ABSORPTION_THEOREM.md), [`absorption_ladder_regimes.py`](../simulations/absorption_ladder_regimes.py).
 
+### Classified and certified (a degeneracy's character)
+
+The two words are not synonyms in this repo, and reading them as one manufactures a
+contradiction that is not there. Stating it once, here, because two readers in a row
+have made exactly that mistake on the same locus.
+
+| Word | What it means | What it rests on |
+|------|---------------|------------------|
+| **classified** | a stable numerical `EpCharacter` reading, typically at several isolating radii, giving a kind (Diabolic or Defective) and the pair (alg, geo) | an eigensolver and a tolerance |
+| **certified** | an exact statement, from integer or number-field arithmetic | no eigensolver, no tolerance |
+
+A locus can be classified and uncertified at the same time, and many are. The N=5
+positive-real R-odd A₂ locus is the clean example: `docs/THE_DOUBLE_ROOT.md` puts both
+halves in one breath, "all 34 stable EpCharacter readings are Diabolic, alg=geo=2 …
+No exact fallback was used; the artifact exactRankCertificates array is empty", while
+`docs/CAUGHT_ERRORS.md` calls the same 34 loci "character-uncertified". Those two
+sentences agree. The tell in the artifacts is the `exactRankCertificates` list: empty
+means classified only.
+
+Related, and a different axis: **algebraic** multiplicity is the root order in the
+characteristic polynomial, **geometric** multiplicity the kernel dimension. An
+order-two discriminant zero gives the first and never the second by itself; that
+inference is in the ledger as a caught error.
+
 **Two more uses of the same letter, not this ratio:** lowercase q is also the right-popcount index in a "(p,q)-block" (the coherences between popcount-p and popcount-q basis states, an integer sector label). And the literature's quality factor Q is a different quantity again ("different objects, same letter").
 
 **In plain language:** q and Q both ask how much turning happens in one γ₀-tick. One book (the F89 octic) counts the coupling at double strength, so its number is half. Halve a Q, or double a q, before you compare the two.
