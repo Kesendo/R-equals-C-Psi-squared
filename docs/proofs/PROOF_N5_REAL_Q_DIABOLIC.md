@@ -1,8 +1,11 @@
 # The N=5 real-q diabolic is semisimple, by Galois conjugacy
 
 **Tier 1, derived.** The A₂ locus at q = ±1.129 250 970 874 767 1, λ = −4.791 960 365 179 641 0
-carries a **semisimple** double eigenvalue. The proof is a field argument over two
-facts the repo already certifies exactly. The proof itself uses no eigensolver and
+carries a **semisimple** double eigenvalue. The proof is a number-field argument
+over two facts the repo already certifies exactly. ("Field" throughout this document
+is the algebraic object, never MirrorWorld's `Field`; "pair" is a pair of
+eigenvalues, never MirrorWorld's `Pair`. The "(1,2) coherence block" is the repo's
+`Block`, the joint-popcount one.) The proof itself uses no eigensolver and
 no tolerance; the gate beside it is numerical, and says so.
 
 **The repo classifies this locus and does not certify it, and it says so
