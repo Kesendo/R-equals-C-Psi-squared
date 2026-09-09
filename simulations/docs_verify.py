@@ -2262,19 +2262,22 @@ def route_b_n6_current_truth_errors(source, label):
                      "| even | 133 | 59 | 74 | 0 | 133 Diabolic, alg=geo=2 |",
                      "| odd | 133 | 59 | 74 | 0 | 133 Diabolic, alg=geo=2 |",
                      "| total | 266 | 118 | 148 | 0 | 266 Diabolic; 0 Defective |",
-                     "EpCharacterStable records stable numerical character from the isolated two-dimensional restriction; it is not an exact rank proof"]
+                     "EpCharacterStable records stable numerical character from the isolated two-dimensional restriction; it is not an exact rank proof",
+                     "The semisimplicity itself does not rest on those readings"]
     elif label == "arc":
         required += ["ExactAlgebraic owns all 266 loci (133 per parity), consumed exactly once with 0 unresolved",
                      "character is Diabolic with alg=geo=2 at every locus",
                      "118 by executed full-sector HermitianAxis and 148 by stable EpCharacterStable readings, with ExactRankExecuted=0",
                      "The numerical rule uses all three intrinsic radii", "No exact fallback was used",
-                     "neither determines Jordan character"]
+                     "neither determines Jordan character",
+                     "F163 independently proves all 266 semisimple"]
     else:
         required += ["consumes 266 distinct loci once", "ExactAlgebraic=266",
                      "HermitianAxis=118, EpCharacterStable=148, ExactRankExecuted=0",
                      "parity contributes 59 HermitianAxis and 74 EpCharacterStable readings",
                      "All 266 are Diabolic with alg=geo=2; 0 are Defective",
-                     "not an exact rank proof", "exactRankCertificates array is empty"]
+                     "not an exact rank proof", "exactRankCertificates array is empty",
+                     "Semisimplicity itself is settled algebraically for all 266"]
         required += (["133 per parity", "EpCharacterStable is numerical evidence"] if label == "path experiment"
                      else ["133 in each parity", "is stable numerical evidence"])
     # The exact algebraic/structural sources do not license a positive exact-rank
@@ -2781,6 +2784,13 @@ def verify_route_b_a2_current_truth():
         ):
             check(f"Route B N6 {label} mutation rejects {mutation_name}",
                   bool(set(route_b_n6_current_truth_errors(wrong_source, label)) - baseline))
+        # The F163 pointer is what keeps the numerical routes from reading as the
+        # strongest available statement; deleting it must be caught, not tolerated.
+        f163_sentence = ("The semisimplicity itself does not rest on those readings" if label == "primary"
+                         else "F163 independently proves all 266 semisimple" if label == "arc"
+                         else "Semisimplicity itself is settled algebraically for all 266")
+        check(f"Route B N6 {label} mutation rejects dropping the F163 semisimplicity pointer",
+              bool(set(route_b_n6_current_truth_errors(source.replace(f163_sentence, ""), label)) - baseline))
         if label == "primary":
             wrong_counts = source.replace("266 Diabolic; 0 Defective", "200 Diabolic; 66 Defective")
             wrong_proof = source.replace(

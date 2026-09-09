@@ -397,6 +397,14 @@ is Hermitian and its degeneracies are semisimple. HermitianAxis uses that exact
 structural reason and an executed normalized Hermiticity residual below 1e-12.
 Off that axis EpCharacterStable records stable numerical character from the
 isolated two-dimensional restriction; it is not an exact rank proof.
+The semisimplicity itself does not rest on those readings.
+[F163](proofs/PROOF_ROUTE_B_N6_UNFOLDING.md) proves the R-even degree-133 A₂
+factor irreducible and carries semisimplicity from one real Hermitian
+embedding to each of its conjugates; a diagonal sign operator exchanging the
+two reflection sectors then transports the verdict to the 133 odd loci,
+covering all 266.
+That argument leaves the classifier's stored routes and its empty
+exact-rank-fallback array unchanged.
 
 The fixed numerical contract orders distances from the exported physical λ
 seed as d₀≤d₁≤d₂, requires d₂>100d₁, and uses radii

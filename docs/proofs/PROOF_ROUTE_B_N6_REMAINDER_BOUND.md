@@ -5,6 +5,46 @@ complex neighborhood on which both EP-location branches are holomorphic and
 their corrected Taylor remainder is bounded. This is a local computation
 for one crossing, not a radius uniform over the 266-locus family.
 
+## What the repo already held
+
+The stores were searched by this proof's primitives: a certified parameter disk, a
+Banach contraction with a fixed preconditioner, and a Taylor remainder bound at one
+Route-B crossing.
+
+The contraction design is not new here, and its source is in the same arc. The N=4
+certificates already choose a fixed nonsingular matrix Y, bound the row sums of
+I − Y·∂E/∂x below one, keep the Newton image strictly inside the chosen radius, and
+close with Banach's theorem in outward-rounded high-precision balls:
+[`ROUTE_B_N4_SECOND_ARM`](../../experiments/ROUTE_B_N4_SECOND_ARM.md) over 197 tiles
+on z, and [`ROUTE_B_N4_RANGE`](../../experiments/ROUTE_B_N4_RANGE.md), whose
+inclusion inequality is the one restated below. What is new is the object the design
+is applied to, and it is why nothing could be imported: the N=4 certificates run real
+balls on a scalar polynomial system, while the crossing here is a complex-ball problem
+on the 90-dimensional Schur-complement pencil with an eta = epsilon^2 triangular
+desingularization for the opposite-end profile.
+
+[F163](../ANALYTICAL_FORMULAS.md) states the gap this proof fills, that "the algebraic
+corollary alone supplies no remainder bound or explicit ε radius". Two stores already
+carry this result's radii by value, the registry and the OpenArcs arc
+`diabolic_over_higher_n`; the parent proof [F163](PROOF_ROUTE_B_N6_UNFOLDING.md) and the
+locus atlas name the disks without their sizes. All four say the family theorem supplies
+no uniform radius, and nothing in the repo claims one.
+
+The remaining stores return nothing. `docs/proofs/` holds no other ball or interval
+arithmetic anywhere. There is no NULL result on uniform radii or all-N extension; what
+exists instead is a chain of stated non-extensions, and this proof's fences agree with
+every one of them. `docs/GLOSSARY.md` defines no term for a certified parameter radius;
+its one "radius" entry, the F135 record radius, is a different object. `docs/CAUGHT_ERRORS.md` holds nothing on radius arithmetic. `fw.Confirmations`
+holds no hardware measurement touching this.
+
+The typed layer returns nothing in either half, and that is a gap rather than a
+comfort: no `Claim` and no witness holds this result, and `N6-E-A2-T-007` appears in no
+C# source outside one OpenArcs prose string. The third half is not empty:
+`RouteBN6ResidualProducerTests` gates the even sector's dimension 45 and the residual's
+Λ-degree 32, the algebraic base this proof starts from, though no test reaches the radii
+themselves. Under the repository's C# witness rule this producer is a witness waiting to
+be ported.
+
 ## Statement and conventions
 
 Use the full 90D (ket weight 1, bra weight 2) block, N=6, XY (Delta=0),

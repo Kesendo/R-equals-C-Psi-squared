@@ -12,6 +12,57 @@ spin and reading the other makes a small change in the end bonds much
 easier to distinguish. The same improvement works nearby, away from the
 special point. The useful discovery here is how to look at the chain.
 
+## What the repo already held
+
+The stores were searched by the primitive this note uses: the readout discrimination
+power of a Lindblad trajectory under a parameter perturbation, on the (1,2) coherence
+block of the N=4 XY chain with Z dephasing.
+
+The Diagnostics half answers.
+[`ReadoutFisher`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadoutFisher.cs) is a
+live readout lab: `DiscriminationMax` sums (p_A − p_B)²/p_clean over the outcomes of a
+rotated basis and maximises it over the time grid.
+[`ReadingPowerWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadingPowerWitness.cs)
+reports that the classical Fisher information of a bond defect is monotone increasing in
+Q across its swept grid Q = 20 down to 1, in the Z, X and Y readouts, so nothing peaks
+anywhere on that grid; it is gated at N=4 by
+`ReadingPowerWitnessTests.NoEpPeak_InAnyBasis_FiMonotoneInQ`. Its grid contains no point
+at the N=4 coherence horizon Q*(4) = 1.87874 and stops at Q = 1, so it is a statement
+about that sweep and not about a specific degeneracy. Neither object has a `Claim` in
+`compute/RCPsiSquared.Core/`.
+
+[`COHERENCE_HORIZON_EP_SENSOR_DEBATE`](COHERENCE_HORIZON_EP_SENSOR_DEBATE.md) parked the
+metrological verdict in June, saying it "needs an input-output measurement model the
+toolkit does not carry", and records Wiersig and Rotter's "the QFI can be further
+increased by moving away from the EP".
+[`F130_HW_INFEASIBILITY`](F130_HW_INFEASIBILITY.md) is the genre precedent: a
+design-stage null result with no QPU spent.
+
+The OpenArcs registry is not silent. The arc `zeros_connecting_structure` records that
+"the loud transition IS the EP amplification studied as EP-SENSING
+(COHERENCE_HORIZON_EP_SENSOR_DEBATE, the Petermann factor)", and the arc
+`f124_inverse_problem_resolution_seam` names `ReadingPowerWitness` and
+`inspect --root decoder` directly.
+
+What did come back empty: `docs/ANALYTICAL_FORMULAS.md` holds no F number for shot cost
+or a Fisher readout, its nearest entry being F124's matched-filter resolution limit;
+`docs/proofs/` holds nothing on readout cost; the `Claim` graph in
+`compute/RCPsiSquared.Core/` holds nothing on discrimination; `fw.Confirmations` has no
+hardware measurement of any exceptional point; `docs/GLOSSARY.md` defines no house term
+for Petermann factor, SNR, shot or Fisher information, though its q versus Q entry
+applies, this note being in the q book with hop 2J; `docs/CAUGHT_ERRORS.md` holds EP
+character mislabelling and nothing on measurement cost.
+
+## What this settles, and what it does not
+
+Two results, and they point opposite ways. The methodological one is positive and is the
+reason to keep this note: moving the preparation and the readout cuts the shot cost by
+between 6.74 and 8.02 times. The EP one is negative, in this note's own words below:
+"There is no privileged EP advantage in these comparisons; the lower-ε center is slightly
+cheaper when its time is chosen." The protocol that wins on shots has the SMALLER Jordan
+coefficient |b|, so what improved was where to listen, not proximity to the degeneracy.
+The improvement is a readout finding; the degeneracy contributes nothing to it.
+
 ## Abstract
 
 The [first virtual experiment](ROUTE_B_N4_VIRTUAL_READOUT.md) reads a

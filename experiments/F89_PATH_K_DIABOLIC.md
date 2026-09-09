@@ -411,7 +411,14 @@ AT: |i⟩⟨j,k| has ket hopping −2iq, bra hopping +2iq, and diagonal dephasin
 real symmetric, so the full block is Hermitian and the pair semisimple;
 HermitianAxis also requires executed normalized Hermiticity residual <1e-12.
 EpCharacterStable is numerical evidence for the isolated two-dimensional
-restriction, not an exact rank proof. The distances d₀≤d₁≤d₂ from the exported
+restriction, not an exact rank proof.
+Semisimplicity itself is settled algebraically for all 266 by
+[F163](../docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md): the R-even degree-133 A₂
+factor is irreducible, one real Hermitian embedding carries semisimplicity to
+each of its conjugates, and a diagonal sign operator exchanging the two
+reflection sectors transports the verdict to the 133 odd loci. The stored
+classifier routes are unchanged by it.
+The distances d₀≤d₁≤d₂ from the exported
 physical λ seed must obey d₂>100d₁. Each radius r=d₁+f(d₂−d₁),
 f=0.25,0.5,0.75, must enclose exactly two eigenvalues, and the three character
 readings must agree. Relative departure departure/max(1,compression norm)

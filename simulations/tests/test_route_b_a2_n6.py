@@ -192,8 +192,14 @@ raise SystemExit('incorrectly certified a non-squarefree or noncoprime decomposi
 
 @pytest.fixture(scope="module")
 def canonical_proof():
-    if os.environ.get("ROUTE_B_N6_FULL_PROOF") != "1":
-        pytest.skip("full CRT proof opt-in: ROUTE_B_N6_FULL_PROOF=1")
+    # Runs by default. These are the only tests in the module that EXECUTE the CRT
+    # layer proof rather than reading the stored artifact, so without them the only
+    # check on the layer identity is a comparison against literals held by the module
+    # that wrote it. Module-scoped, so the proof is paid once for the seven tests that
+    # consume it. The opt-out is for iterating on the cheap tests, not for reporting
+    # a result.
+    if os.environ.get("ROUTE_B_N6_SKIP_FULL_PROOF") == "1":
+        pytest.skip("full CRT proof skipped by request: ROUTE_B_N6_SKIP_FULL_PROOF=1")
     e = load_exact_pencils(RAW)["E"]
     cert = prove_layer_identity(e, workers=int(os.environ.get("ROUTE_B_N6_WORKERS", "1")))
     return e, cert

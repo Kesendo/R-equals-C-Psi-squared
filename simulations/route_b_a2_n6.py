@@ -31,6 +31,13 @@ else:
     import o2b_gcd_certificate as arithmetic
 
 Lambda, t = sp.symbols("Lambda t")
+# A falsifiable PROPOSAL, not an assumption: all four are checked against the
+# freshly computed modular discriminant at every prime in the stream, so a wrong
+# table raises rather than propagates. Two gates, one frame apart: _lift_layers
+# checks degD itself, and layers_from_disc checks the valuation and the two layer
+# degrees from the table it is handed. The artifact verifier below
+# repeats the same four literals as a cheap structural read; the test that closes
+# the loop against an independently executed proof is the canonical_proof fixture.
 N6_TABLE = {"degD": 926, "valuation": 536, "A1": 124, "A2": 133}
 # Semantic digest of the exact C# source fixture, independent of JSON whitespace.
 N6_SOURCE_PENCIL_DIGEST="cf1549c54a116132373e481d0ce7a7ea03409c07f75e3f6ab5b9fd0f738dc916"

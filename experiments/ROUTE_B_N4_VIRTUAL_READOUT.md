@@ -13,6 +13,56 @@ change in the end bonds changes the measured signal only slightly. This is
 our first estimate of how much repetition that difference would cost, before
 choosing a machine or designing a hardware run.
 
+## What the repo already held
+
+The stores were searched by the primitive this note uses: the readout discrimination
+power of a Lindblad trajectory under a parameter perturbation, on the (1,2) coherence
+block of the N=4 XY chain with Z dephasing.
+
+The Diagnostics half answers.
+[`ReadoutFisher`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadoutFisher.cs) is a
+live readout lab: `DiscriminationMax` sums (p_A − p_B)²/p_clean over the outcomes of a
+rotated basis and maximises it over the time grid.
+[`ReadingPowerWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadingPowerWitness.cs)
+reports that the classical Fisher information of a bond defect is monotone increasing in
+Q across its swept grid Q = 20 down to 1, in the Z, X and Y readouts, so nothing peaks
+anywhere on that grid; it is gated at N=4 by
+`ReadingPowerWitnessTests.NoEpPeak_InAnyBasis_FiMonotoneInQ`. Its grid contains no point
+at the N=4 coherence horizon Q*(4) = 1.87874 and stops at Q = 1, so it is a statement
+about that sweep and not about a specific degeneracy. Neither object has a `Claim` in
+`compute/RCPsiSquared.Core/`.
+
+[`COHERENCE_HORIZON_EP_SENSOR_DEBATE`](COHERENCE_HORIZON_EP_SENSOR_DEBATE.md) parked the
+metrological verdict in June, saying it "needs an input-output measurement model the
+toolkit does not carry", and records Wiersig and Rotter's "the QFI can be further
+increased by moving away from the EP".
+[`F130_HW_INFEASIBILITY`](F130_HW_INFEASIBILITY.md) is the genre precedent: a
+design-stage null result with no QPU spent.
+
+The OpenArcs registry is not silent. The arc `zeros_connecting_structure` records that
+"the loud transition IS the EP amplification studied as EP-SENSING
+(COHERENCE_HORIZON_EP_SENSOR_DEBATE, the Petermann factor)", and the arc
+`f124_inverse_problem_resolution_seam` names `ReadingPowerWitness` and
+`inspect --root decoder` directly.
+
+What did come back empty: `docs/ANALYTICAL_FORMULAS.md` holds no F number for shot cost
+or a Fisher readout, its nearest entry being F124's matched-filter resolution limit;
+`docs/proofs/` holds nothing on readout cost; the `Claim` graph in
+`compute/RCPsiSquared.Core/` holds nothing on discrimination; `fw.Confirmations` has no
+hardware measurement of any exceptional point; `docs/GLOSSARY.md` defines no house term
+for Petermann factor, SNR, shot or Fisher information, though its q versus Q entry
+applies, this note being in the q book with hop 2J; `docs/CAUGHT_ERRORS.md` holds EP
+character mislabelling and nothing on measurement cost.
+
+## What this settles, and what it does not
+
+This note does not compare the exceptional point against a neighbour, and says so
+itself below: it "establishes numerical overlap and a baseline measurement cost, not
+experimental EP certification or a metrological advantage", and adds that it does not
+demonstrate an advantage over a non-EP operating point. Half a million shots per setting
+is the price of a transverse parameter comparison, and it is the input the sibling notes
+then improve on. The EP-versus-off-EP verdict is theirs, not this one's.
+
 ## Abstract
 
 The [connected equal-end branch](ROUTE_B_N4_SECOND_ARM.md) supplies an exact

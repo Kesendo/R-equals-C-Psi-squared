@@ -17,7 +17,12 @@ symmetry from a tracked-branch statement. The F-registry, typed Core and
 Diagnostics, OpenArcs, GLOSSARY, CAUGHT_ERRORS, experiments, hypotheses,
 reflections, recovered, framework and MirrorWorld were searched by these
 primitives. The previous N=4 end-response coefficients were numerical;
-MirrorWorld owns the fold, not these EP paths. The Confirmations registry
+MirrorWorld owns the fold, not these EP paths. The Cli half of the typed layer holds one
+result this proof does not need but a reader will ask for: the `foldtopo` gate
+(`compute/RCPsiSquared.Cli/Commands/FoldTopoCommand.cs`) reports that the within-block
+self-fold is N=4-only for the chain, the star AND the ring, with on-fold zeros 8, 24 and
+20 at N=4 and none at N=5 or N=6, so the N=4-ness here is not chain-specific. It is a
+runnable command whose reading lives in its own documentation, not a gated claim. The Confirmations registry
 contains a dissipator-half pairing measurement, not this EP result.
 
 ## 1. Model and exact local data

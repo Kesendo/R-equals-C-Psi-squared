@@ -239,6 +239,13 @@ sharper than caution: every sampled positive-Δ proposal at N = 4, 5 and 6 is
 Uncertified under strict full-block checking, and only the Δ=0 controls remain
 Diabolic with alg=geo=2.
 
+One lift a reader may expect here is absent for a reason the registry already records.
+[F150](../docs/ANALYTICAL_FORMULAS.md)'s support-parity law would give a q-evenness on a
+fold-fixed block, and this block is not one: `(1,2)@N=6` is F150's own **negative
+control**, fold-fixed on neither leg, measured at sign 0 on F_res and on the full
+characteristic polynomial. So the inventory below is built without that lift, and
+correctly.
+
 The local end-bond question has an exact answer in
 [F163](../docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md). The degree-133 A₂ factor
 is irreducible, and one real, Hermitian embedding carries semisimplicity to

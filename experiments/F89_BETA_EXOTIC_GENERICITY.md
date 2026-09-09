@@ -731,7 +731,13 @@ Four facts per sector, at each of the three N (grades per fact and per N in the 
    +2iq and a dephasing diagonal −2 for overlap, −6 otherwise. Exactly real t
    makes the hopping real symmetric, giving the HermitianAxis semisimplicity
    reason (executed normalized Hermiticity residual <1e-12). Off-axis character
-   is stable numerical evidence, not an exact rank proof. From distances
+   is stable numerical evidence, not an exact rank proof.
+   Semisimplicity itself is settled algebraically for all 266 by
+   [F163](../docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md): the R-even
+   degree-133 A₂ factor is irreducible, one real Hermitian embedding
+   carries semisimplicity to each of its conjugates, and a diagonal sign
+   operator exchanging the two reflection sectors transports the verdict
+   to the 133 odd loci. The stored classifier routes are unchanged by it. From distances
    d₀≤d₁≤d₂ to the exported physical λ seed, require d₂>100d₁ and exactly two
    eigenvalues inside each r=d₁+f(d₂−d₁), f=0.25,0.5,0.75. All three readings
    must agree: relative departure departure/max(1,compression norm) <1e-6

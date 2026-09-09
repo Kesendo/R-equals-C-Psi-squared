@@ -15,6 +15,38 @@ rather than a sequence of laboratory settings.
 We then add the next correction and ask a stricter question: within what
 small region can we bound everything the truncated formula leaves out?
 
+## What the repo already held
+
+The stores were searched by this note's primitive: how far a leading local unfolding
+formula stays accurate away from one Route-B crossing.
+
+The certified half of the same question is already owned next door.
+[F163](../docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md) supplies the exact leading
+coefficients, and its
+[ball-arithmetic companion](../docs/proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md)
+certifies the branches on epsilon disks of 2^-20, 2^-18 and 2^-10 for the one-end,
+equal-end and opposite-end profiles. Those certified disks do not reach the range
+scanned here, so this note is a scout and not a certificate, and the two numbers must
+not be read as one: the disks are conservative sufficient radii, the readings below
+are numerical exploration up to |epsilon| = 0.05 and 0.10.
+
+The F-registry, the parent proof, the locus atlas and the OpenArcs arc
+`diabolic_over_higher_n` all state that the family theorem supplies no radius uniform
+over the 266 loci, and nothing here widens that. The N=4 siblings
+[`ROUTE_B_N4_RANGE`](ROUTE_B_N4_RANGE.md) and
+[`ROUTE_B_N4_SECOND_ARM`](ROUTE_B_N4_SECOND_ARM.md) say the same of themselves, that
+none of their enclosures is a Taylor convergence-radius theorem.
+
+The remaining stores return nothing. There is no NULL result anywhere on uniform radii
+or on all-N extension; the repo records stated non-extensions instead. `docs/proofs/`
+holds no other radius machinery. `docs/GLOSSARY.md` defines no term for a certified
+parameter radius. `docs/CAUGHT_ERRORS.md` holds nothing on radius arithmetic, though
+its standing shape applies: an abstract that widens its own scope, caught by the table
+below it. `fw.Confirmations` holds nothing. Neither half of the typed layer holds this
+object, no `Claim` and no witness, but the third half is not empty:
+`RouteBN6ResidualProducerTests` gates the even sector's dimension 45 and the residual's
+Λ-degree 32, which are the algebraic base the readings below stand on.
+
 ## Abstract
 
 At `N6-E-A2-T-007`, the leading F163 formula stays accurate appreciably farther
