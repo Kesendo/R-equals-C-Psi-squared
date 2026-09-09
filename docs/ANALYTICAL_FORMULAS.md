@@ -9409,5 +9409,67 @@ and deciding their initial character from near-degenerate eigenvectors.
 
 ---
 
+### F164. The N=5 real-q A₂ locus is semisimple by Galois conjugacy: irreducibility of the R-odd A₂ layer puts the physical point in one orbit with the Hermitian axis (Tier 1, derived and registered 2026-09-09)
+
+The open N=5 XY chain under uniform local Z dephasing has, in the (1,2)
+coherence block and R-odd sector at Δ=0 and γ=1, exactly one A₂ root in the layer
+parameter w whose coupling and eigenvalue are both real. It lifts to the two q
+loci counted by the inventory, q = ±1.129 250 970 874 767 1, at the same
+λ = −4.791 960 365 179 641 0; below, one root and two loci. They are the only
+operating points one can actually set in the Route-B corpus at N=5 and N=6; at
+N=6 none of the 266 loci is real, counting the stored atlas by a float read of a
+field that artifact calls a display midpoint rather than an algebraic root.
+Its double eigenvalue is **semisimple**, and the argument needs no eigensolver
+and no tolerance.
+
+Let w₀ be the positive real root of the R-odd A₂ layer and t = √(−w). A₂_O is
+irreducible over ℚ of degree 13, so ℚ(w₀) is a degree-13 subfield of ℝ, while
+t₀ = √(−w₀) is nonzero purely imaginary and therefore lies outside it. Hence
+[ℚ(t₀) : ℚ] = 26, the minimal polynomial of t₀ is A₂_O(−t²), and its 26 roots
+form a **single** Galois orbit: 1 positive w gives 2 imaginary t, 6 negative w
+give 12 real t, 6 nonreal w give 12 nonreal t. At each of the 12 real t the
+block L_O = D_O + t·K_O is real symmetric, so geometric multiplicity equals
+algebraic multiplicity there. Rank is preserved by every embedding, because a
+minor is zero or nonzero before and after it, and both multiplicities are
+Galois invariant. The orbit therefore carries the Hermitian-axis verdict to
+the physical point.
+
+**Scope:** the 2 real-q loci of the 34 that carried only a stable numerical
+`EpCharacter` reading; the other 32 keep the reading. The chain never uses the
+value 2, which is what keeps it clear of χ = AT·F_res, whose AT factor has real
+roots at negative w. This is not an all-N theorem, and it says nothing
+metrological.
+
+**Error model for the gate beside it:** at w₀ the sector-restricted singular value
+σ₂ of (L_O − λ₀I), scaled by ‖L_O‖, is linear in a coupling detune, σ₂ = c·(δJ/J),
+with the ratio flat to 1.000 18 over eight decades. The constant is direction-
+dependent and no parity fixes it: three palindromic directions give c = 5.8391e-2,
+8.3097e-2 and 1.1004e-1, a factor 1.885 within one parity. What the direction's
+parity under the chain reflection decides is whether a response exists at all, and
+that is a theorem: L is affine in the bond couplings and the reflection carries
+∂L/∂J_b to ∂L/∂J_{N−2−b}, so an anti-palindromic delta obeys R V R = −V and U_Oᵀ V U_O
+vanishes identically. That is a property of the delta alone, holding at every N and on
+any base, and the restricted block is then unchanged bit for bit at every detune size,
+`max|L_O(detuned) − L_O(base)| = 0.0` over ten decades, so no threshold enters. The
+base's symmetry buys something else: the R-odd subspace is L-invariant only there, and
+off it the reflection stops commuting, `max|RL − LR| = 2.03`, while the delta still
+projects to exactly zero. It is a blind spot of the sector reading rather than a null
+response: PVP = 0 inside the sector, while the physical pair splits through the even
+sector at second order, 9.69·(δJ/J)², already 9.7e-4 apart at δJ/J = 1e-2. The gate
+measures that split beside the projection.
+
+**Replaces:** reading this locus's character off a floating-point contour
+classifier and recording it as classified-not-certified.
+**Source:** [PROOF_N5_REAL_Q_DIABOLIC](proofs/PROOF_N5_REAL_Q_DIABOLIC.md);
+[`n5_a2_rodd_character_gate.py`](../simulations/n5_a2_rodd_character_gate.py).
+Sibling: [F163](#f163-the-n6-route-b-a-crossings-unfold-into-two-eps-a-quadratic-location-formula-with-first-order-equal-end-response-and-second-order-opposite-end-response-tier-1-derived-and-exact-arithmetic-certified)
+does the same job at N=6 for the whole layer: the R-even
+degree-133 A₂ factor is irreducible, one real Hermitian embedding carries
+semisimplicity to each of its conjugates, and a diagonal sign operator exchanging
+the two reflection sectors transports the verdict to the 133 odd loci, covering all
+266.
+
+---
+
 *Each formula in this document is a Liouvillian that does not need
 to be built.*

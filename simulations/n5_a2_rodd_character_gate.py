@@ -48,8 +48,12 @@ WHAT EACH STEP IS SENSITIVE TO.
                        to the coupling detune, sigma2 = c * (dJ/J) with c flat
                        across eight decades, while at the defective point sigma2 is
                        pinned at the coupling scale and does not move.  The
-                       failure is therefore ONE-SIDED: a defective point cannot be
-                       misread as semisimple.
+                       failure is one-sided AT THE DEFECTIVE POINT MEASURED, whose
+                       Jordan coupling is 1.95e-2, eight orders above NULL_TOL.  That
+                       is a measurement, not a bound: nothing here bounds the Jordan
+                       coupling from below, so a defective point with a weak enough
+                       coupling would read nullity 2 and be called semisimple.  The
+                       field argument does not depend on this reading.
 
 Run: python simulations/n5_a2_rodd_character_gate.py
 """
@@ -149,8 +153,12 @@ INVENTORY = "simulations/results/route_b_a2_n5.json"
 LAM0 = -4.7919603651796410238703898211366803970127689805559
 DEFECTIVE_Q_PHYS = 2.804888          # experiments/F89_PATH_K_DIABOLIC.md:146, six digits
 DEFECTIVE_LAM_SEED = -4.4882
-NULL_TOL = 1e-10
-CLEAR_TOL = 1e-3
+# The error model these two thresholds are read against is STEP 4's measured coupling
+# law, sigma2 = c*(dJ/J) with c flat over eight decades, not a second model stated
+# here. Inverting it turns any sigma2 into an implied coupling error in ULP of J,
+# which is the unit both thresholds are reported in at the end of the run.
+NULL_TOL = 1e-10                            # a null read must land far BELOW this
+CLEAR_TOL = 1e-3                            # a clear read must land far ABOVE it
 
 
 def sectors(j_scalar, bonds=None):
@@ -233,7 +241,11 @@ check("L is EXACTLY Hermitian at real t (== 0.0)", res_herm == 0.0,
 # reports that the hopping is present, not that the Hermiticity check discriminates.
 L_phys, _, _ = sectors(MAG)
 res_phys = np.max(np.abs(L_phys - L_phys.conj().T))
-check("and the physical axis is not Hermitian (a presence read, = 2*MAG)", res_phys > 1e-1,
+# Not a threshold: 2*MAG is what this residual equals by construction, so it is compared
+# to that value exactly. It reports that the hopping is present and discriminates nothing
+# else; the Hermiticity verdict is the read above it.
+check("and the physical axis is not Hermitian (a presence read, EXACTLY 2*MAG)",
+      res_phys == 2 * MAG,
       f"max|L - L^H| = {res_phys:.4f}")
 
 # The sector split is legitimate only if R commutes with L.  R is a permutation, so both
@@ -268,6 +280,28 @@ check("K_O is EXACTLY symmetric and INTEGER in the orbit basis (== 0.0, on a non
       res_ko == 0.0 and int_res == 0.0 and np.max(np.abs(Ko)) > 0.5,
       f"max|K_O - K_O^T| = {res_ko!r}, max|K_O - round(K_O)| = {int_res!r}, "
       f"max|K_O| = {np.max(np.abs(Ko))!r}")
+
+# The other half of "L_O = D_O + t*K_O over Q", which steps 2 and 3 consume just as much:
+# D_O must restrict to a RATIONAL DIAGONAL on the odd sector, or the block would not be
+# real symmetric at real t no matter what K_O does. Exact route, so exact comparison.
+Do = 0.5 * (UO_INT.T @ sectors(0.0)[0] @ UO_INT)
+off_do = np.max(np.abs(Do - np.diag(np.diag(Do))))
+vals_do = sorted(set(np.round(np.diag(Do).real, 12)))
+check("D_O is EXACTLY diagonal on the odd sector, with the AT dephasing values (== 0.0)",
+      off_do == 0.0 and np.max(np.abs(np.diag(Do).imag)) == 0.0 and vals_do == [-6.0, -2.0],
+      f"max|off-diagonal| = {off_do!r}, diagonal values = {vals_do}")
+
+# The second q lift is not a second theorem: L_O(-t) = conj(L_O(t)) entry for entry and
+# lambda0 is real, so the two shifted matrices are complex conjugates and share every rank.
+# Exact route, read as 0.0; the nullity is then read at BOTH lifts rather than assumed.
+Lp_lift, Lm_lift = sectors(SCALE * QPHYS)[2], sectors(-SCALE * QPHYS)[2]
+res_lift = np.max(np.abs(Lm_lift - np.conj(Lp_lift)))
+n_plus, s_plus = nullity(Lp_lift, LAM0)
+n_minus, s_minus = nullity(Lm_lift, LAM0)
+check("the SECOND q lift is the conjugate of the first (== 0.0) and reads the same nullity",
+      res_lift == 0.0 and n_plus == n_minus == 2,
+      f"max|L(-J) - conj(L(J))| = {res_lift!r}; nullity {n_plus} at +q and {n_minus} at -q, "
+      f"sigma2 {s_plus[1]:.4e} vs {s_minus[1]:.4e}")
 
 # CONSTRUCTION check, and it is here because no spectral check can do it: flipping the
 # bra-side sign conjugates the whole R-odd spectrum, and the A2 inventory is closed under
@@ -346,8 +380,18 @@ def pair_gap(j):
     return abs(ev[0] - ev[1])
 
 
-res = minimize_scalar(pair_gap, bracket=(J_DEF_SEED - 8e-4, J_DEF_SEED, J_DEF_SEED + 8e-4),
-                      method="brent", options={"xtol": 1e-14})
+try:
+    res = minimize_scalar(pair_gap, bracket=(J_DEF_SEED - 8e-4, J_DEF_SEED, J_DEF_SEED + 8e-4),
+                          method="brent", options={"xtol": 1e-14})
+except ValueError as exc:
+    # A wrong anchor (a mis-set QPHYS, a wrong book) moves the defective seed out of the
+    # bracket and the optimiser raises. Report it as a failed check so the run ends on its
+    # own verdict line rather than on a traceback from one screen earlier.
+    check("the defective control's bracket still contains a minimum", False,
+          f"minimize_scalar refused the bracket around J = {J_DEF_SEED:.6f}: {exc}")
+    print("")
+    print("RED: " + str(FAIL))
+    sys.exit(1)
 J_def = res.x
 ev = np.linalg.eigvals(sectors(J_def)[2])
 lam_def = float(np.mean(ev[np.argsort(np.abs(ev - DEFECTIVE_LAM_SEED))][:2]).real)
@@ -360,6 +404,24 @@ expo = np.polyfit(np.log(hs), np.log(gaps), 1)[0]
 check("the defective control is a SQUARE-ROOT coalescence (exponent 1/2, so a Jordan block)",
       abs(expo - 0.5) < 0.02 and res.fun < 100 * np.sqrt(1e-14),
       f"J = {J_def:.12f}, gap exponent = {expo:.4f}, residual gap = {res.fun:.2e}")
+
+# The exponent is the two-sided discriminator, so the SEMISIMPLE side is measured too and
+# not merely named: a semisimple pair separates LINEARLY in the coupling, a defective one
+# as a square root. A reading between the two would say the classification is wrong.
+def w0_pair_gap(j):
+    ev = np.linalg.eigvals(sectors(j)[2])
+    two = ev[np.argsort(np.abs(ev - LAM0))][:2]
+    return abs(two[0] - two[1])
+
+
+J_W0 = SCALE * QPHYS
+w0_hs = [1e-10, 1e-8, 1e-6, 1e-4]
+w0_up = np.polyfit(np.log(w0_hs), np.log([w0_pair_gap(J_W0 + h) for h in w0_hs]), 1)[0]
+w0_dn = np.polyfit(np.log(w0_hs), np.log([w0_pair_gap(J_W0 - h) for h in w0_hs]), 1)[0]
+check("the w0 pair separates LINEARLY (exponent 1, against the defective control's 1/2)",
+      abs(w0_up - 1.0) < 0.01 and abs(w0_dn - 1.0) < 0.01,
+      f"exponent {w0_up:.7f} from above and {w0_dn:.7f} from below, against {expo:.4f} at "
+      f"the defective point; the gap at J* itself is {w0_pair_gap(J_W0):.2e}")
 
 for tag, j, lam, want in (("A2 locus w0        (claim: SEMISIMPLE)", SCALE * QPHYS, LAM0, 2),
                           ("defective EP control (must read 1)", J_def, lam_def, 1),
@@ -384,29 +446,129 @@ for d in DELTAS:
     print(f"        {d:8.0e}  {s_w0[1]:14.4e} {s_w0[1]/d:10.4e}   {s_df[1]:26.4e}")
 spread = max(ratios) / min(ratios)
 check("sigma2 at w0 is LINEAR in the UNIFORM coupling detune (ratio flat over eight decades)",
-      spread < 1.02, f"max/min ratio = {spread:.5f}, c = {np.mean(ratios):.4e} (uniform detune; "
-      f"c depends on the detune direction, the flatness does not)")
+      spread < 1.02, f"max/min ratio = {spread:.5f}, c = {np.mean(ratios):.4e} (uniform detune)")
 
-s0 = sigma3(sectors(SCALE * QPHYS)[2], LAM0)
-c = float(np.mean(ratios))
-implied = s0[1] / c
-check("at zero detune the read sits at the float floor, not at a tuned threshold",
-      implied < 1e-14, f"sigma2 = {s0[1]:.2e} corresponds to dJ/J = {implied:.2e}")
+# Which directions the law above covers, and it is a theorem rather than a sample.
+# L is affine in the bond couplings, so a bond detune gives V = sum_b w_b * J_b * dL/dJ_b.
+# The chain reflection R is a real symmetric involution carrying dL/dJ_b to dL/dJ_{N-2-b},
+# so an ANTI-palindromic delta pattern (w reversed = -w) obeys R V R = -V. For two R-odd
+# vectors u, v one then has v^T V u = (Rv)^T (RVR) (Ru) = -v^T V u, hence U_O^T V U_O
+# vanishes IDENTICALLY. That is a property of the DELTA alone: it holds at every N, on any
+# base, symmetric or not, and the checks below use the exact integer orbit basis so the
+# statement is read as == 0.0 rather than against a threshold.
+#
+# What the BASE's symmetry buys is different and is easy to mis-state: it makes the R-odd
+# subspace L-INVARIANT, so that the restricted sigma2 is a spectral quantity of an actual
+# invariant block rather than a compression of one. The control below separates the two.
+L_base = sectors(0.0, [SCALE * QPHYS] * (N - 1))[0]
+BASE_ODD_INT = UO_INT.T @ sectors(0.0, [SCALE * QPHYS] * (N - 1))[0] @ UO_INT
+constants = {}
+antis = []
+for pattern, palindromic in (([1, 1, 1, 1], True), ([1, 0, 0, 1], True), ([1, -1, -1, 1], True),
+                             ([1, -1, 1, -1], False), ([1, 0, 0, -1], False), ([0, 1, -1, 0], False)):
+    V = sectors(0.0, [SCALE * QPHYS * (1 + w) for w in pattern])[0] - L_base
+    reach_exact = np.max(np.abs(UO_INT.T @ V @ UO_INT))     # integer basis: an EXACT route
+    if palindromic:
+        dirs = [sigma3(sectors(0.0, [SCALE * QPHYS * (1 + d * w) for w in pattern])[2], LAM0)[1] / d
+                for d in DELTAS]
+        constants[tuple(pattern)] = float(np.mean(dirs))
+        check(f"palindromic detune {pattern} reaches the R-odd sector and responds linearly",
+              reach_exact > 0.0 and max(dirs) / min(dirs) < 1.05,
+              f"exact-basis reach = {reach_exact:.4e}, c = {np.mean(dirs):.4e}, "
+              f"ratio spread = {max(dirs) / min(dirs):.5f}")
+    else:
+        # The nonzero guard has an exact route too: max|V| is J*max|w| to the last bit, so it
+        # is compared to that rather than to a threshold. Without it the pattern [0,0,0,0]
+        # would pass on a perturbation that is not there.
+        want_v = SCALE * QPHYS * max(abs(w) for w in pattern)
+        check(f"anti-palindromic detune {pattern} misses the R-odd sector EXACTLY (theorem, == 0.0)",
+              reach_exact == 0.0 and np.max(np.abs(V)) == want_v,
+              f"max|U_O^T V U_O| in the integer orbit basis = {reach_exact!r}, on a V with "
+              f"max|V| = {np.max(np.abs(V))!r} = J*max|w|")
+        # The consequence, and it needs no threshold at all: the restricted block is not
+        # merely hard to move, it is the SAME MATRIX, bit for bit, at every detune size.
+        # Any function of it, sigma2 included, is therefore unchanged by construction.
+        worst = max(np.max(np.abs(UO_INT.T @ sectors(0.0, [SCALE * QPHYS * (1 + d * w)
+                                                           for w in pattern])[0] @ UO_INT
+                                  - BASE_ODD_INT))
+                    for d in DELTAS + [1e-3, 1e-2])
+        antis += [sigma3(sectors(0.0, [SCALE * QPHYS * (1 + d * w) for w in pattern])[2], LAM0)[1]
+                  for d in DELTAS + [1e-3, 1e-2]]
+        check(f"and the R-odd block is then UNCHANGED bit for bit over ten decades",
+              worst == 0.0,
+              f"max|L_O(detuned) - L_O(base)| over 7 detunes = {worst!r}")
 
-# One-sidedness, measured as MOVEMENT rather than restated from STEP 3: across the same
-# eight decades the defective sigma2 stays pinned at the coupling scale.
-def_s2 = [sigma3(sectors(0.0, [J_def * (1 + d)] * (N - 1))[2], lam_def)[1] for d in DELTAS]
-def_swing = max(def_s2) / min(def_s2)
-check("at the defective point sigma2 stays at the coupling scale under the same detune",
-      def_swing < 1.001 and min(def_s2) > 1e-2,
-      f"sigma2 in [{min(def_s2):.4e}, {max(def_s2):.4e}], swing = {def_swing:.6f}; "
-      f"this reads NOT-SEMISIMPLE, and it is STEP 3's nullity-1 read that reads DEFECTIVE")
+# The blindness is a PROJECTION, not the physics. On the full block the same anti-palindromic
+# detune splits the pair quadratically, through the even sector. The law is the FLATNESS of
+# split/delta^2 across the decades; its control is the palindromic direction read at the SAME
+# power, where the split is linear so the quotient must run away as 1/delta, exactly 1e4 over
+# these three decades.
+def split_over(power, pattern):
+    out = []
+    for d in (1e-6, 1e-4, 1e-2):
+        lf = np.linalg.eigvals(sectors(0.0, [SCALE * QPHYS * (1 + d * w) for w in pattern])[0])
+        lo = np.argsort(np.abs(lf - LAM0))[:2]
+        out.append(abs(lf[lo[0]] - lf[lo[1]]) / d ** power)
+    return out
+
+
+blind = split_over(2, [1, -1, 1, -1])
+seeing = split_over(2, [1, 1, 1, 1])
+check("the sector's blindness is a PROJECTION, not the physics: on the full block the same "
+      "anti-palindromic detune splits the pair QUADRATICALLY",
+      max(blind) / min(blind) < 1.02 and abs(max(seeing) / min(seeing) / 1e4 - 1) < 0.02,
+      f"split/delta^2 = {[round(b, 3) for b in blind]}, flat to {max(blind) / min(blind):.5f}; "
+      f"the palindromic control read at the same power runs away by "
+      f"{max(seeing) / min(seeing):.4e} against the 1e4 its linear law predicts; at dJ/J = 1e-2 "
+      f"the pair is already {np.mean(blind) * 1e-4:.2e} apart while the R-odd block has not "
+      f"changed a bit")
+
+# What the ORTHONORMAL basis reads instead, and why it is not a second finding: the same zero
+# arrives there through a 1/sqrt(2) scaling, so sigma2 wanders over the SVD's last bits.
+check("the orthonormal reading of that same zero is float noise, not a response",
+      max(antis) / min(antis) < 3.0 and max(antis) < 1e-15,
+      f"sigma2 over {len(antis)} anti-palindromic reads spans [{min(antis):.4e}, "
+      f"{max(antis):.4e}], a factor {max(antis) / min(antis):.2f} with no trend in delta")
+
+# The constants are NOT set by the parity: all three palindromic directions share a parity
+# and give three different c. Parity decides only whether there is a response to be linear in.
+spread_c = max(constants.values()) / min(constants.values())
+check("the constant c is direction-dependent WITHIN one parity (so parity fixes existence, not size)",
+      spread_c > 1.5, f"c ranges over {sorted(round(v, 6) for v in constants.values())}, "
+      f"a factor {spread_c:.3f} across three directions of the SAME parity")
+
+# The hypothesis, measured, and it is about INVARIANCE rather than about the theorem above:
+# on a NON-palindromic base the reflection stops commuting with L, so the R-odd subspace is
+# not L-invariant and a restricted sigma2 there is a compression rather than a sub-spectrum.
+# The theorem itself survives: an anti-palindromic DELTA still projects to exactly zero.
+bad_base = [SCALE * QPHYS * x for x in (1.0, 1.3, 0.7, 1.9)]
+L_bad = sectors(0.0, bad_base)[0]
+comm_bad = np.max(np.abs(Rperm @ L_bad - L_bad @ Rperm))
+V_bad = sectors(0.0, [b + SCALE * QPHYS * w for b, w in zip(bad_base, [1, -1, 1, -1])])[0] - L_bad
+reach_bad = np.max(np.abs(UO_INT.T @ V_bad @ UO_INT))
+check("a NON-palindromic base breaks the sector's INVARIANCE while the theorem still holds",
+      comm_bad > 1e-6 and reach_bad == 0.0,
+      f"max|RL - LR| = {comm_bad:.4f} against 0.0 on the symmetric base, so the R-odd subspace "
+      f"is no longer L-invariant; the anti-palindromic delta nevertheless projects to "
+      f"{reach_bad!r}, because R V R = -V is a property of the DELTA and not of the base")
 
 tight_s3 = min(sigma3(sectors(SCALE * (1j * np.sqrt(-float(r["wSeed"]["real"])) / 2.0))[2],
                       float(r["lambdaSeed"]["real"]))[2] for r in negs)
-print(f"\n        THRESHOLD WINDOW: NULL_TOL = {NULL_TOL:.0e}; CLEAR_TOL = {CLEAR_TOL:.0e} has a")
-print(f"        factor {tight_s3 / CLEAR_TOL:.2f} of headroom against the tightest sigma3 "
-      f"({tight_s3:.2e}), which is the narrow side; the w0 read's own margin is far wider.")
+null_w0 = sigma3(sectors(SCALE * QPHYS)[2], LAM0)[1]
+C_LAW = float(np.mean(ratios))       # STEP 4 measured this on the UNIFORM detune
+# ULP of J is a count of absolute steps, so the relative dJ/J must be multiplied by J first.
+ULP_PER_J = (SCALE * QPHYS) / np.spacing(SCALE * QPHYS)
+print("")
+print(f"        THRESHOLD WINDOW, in the coupling unit STEP 4 measured on the uniform detune")
+print(f"        (sigma2 = {C_LAW:.4e}*dJ/J; the other two directions carry their own constant):")
+print(f"        the null pair at w0 implies dJ/J = {null_w0 / C_LAW:.2e}, which is "
+      f"{null_w0 / C_LAW * ULP_PER_J:.1f} units in the last place of J: no coupling error.")
+print(f"        NULL_TOL = {NULL_TOL:.0e} implies {NULL_TOL / C_LAW * ULP_PER_J:.1e} ULP, so the "
+      f"null read has {NULL_TOL / null_w0:.1e} of room against it.")
+print(f"        CLEAR_TOL = {CLEAR_TOL:.0e} is not in that unit: it separates a nonzero singular "
+      f"value from the pair, and the tightest one over the Hermitian anchors is {tight_s3:.2e}, a "
+      f"factor {tight_s3 / CLEAR_TOL:.2f} above it. That factor is the narrow side, and it is a "
+      f"separation of the operator rather than a measurement error.")
 
 print("\n" + ("ALL GREEN" if not FAIL else "RED: " + str(FAIL)))
 sys.exit(1 if FAIL else 0)

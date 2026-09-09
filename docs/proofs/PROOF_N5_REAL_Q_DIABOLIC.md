@@ -27,17 +27,23 @@ That is not in tension with the stores that call the locus classified. The two w
 carry different weight here, and `docs/THE_DOUBLE_ROOT.md:348-351` uses both in one
 breath about the same 34 loci: "all 34 stable EpCharacter readings are Diabolic,
 alg=geo=2, on the full sector at three isolating radii. **No exact fallback was
-used; the artifact exactRankCertificates array is empty.**" CLASSIFIED means a stable
-numerical `EpCharacter` reading; CERTIFIED means an exact one. Every store agrees
-that this locus has the first and lacks the second. What follows supplies the second,
-for the 2 real-q loci of those 34; the other 32 keep only the reading.
+used; the artifact exactRankCertificates array is empty.**" The reconciling
+distinction is the one `docs/GLOSSARY.md` states: CLASSIFIED is a stable numerical
+`EpCharacter` reading, resting on an eigensolver and a tolerance; CERTIFIED is an
+exact statement, from integer or number-field arithmetic. That is a distinction this
+work draws rather than one the stores were written against, so it is what reconciles
+them: read through it, every store has this locus classified and uncertified, with no
+tension left. What follows supplies the certification, for the 2 real-q loci of those
+34; the other 32 keep only the reading.
 
 The locus: the open N=5 XY chain under uniform local Z dephasing, in the (1,2)
 coherence block, R-odd sector, at Δ = 0 and γ = 1 per site. Both q and λ are real,
 so this is an operating point one can set, not an analytic continuation. It is the
 only such point in the Route-B corpus at these two N: at N=5, 2 of the 58 q-loci
-are strictly real and they are ±the same point; at N=6, counting the stored atlas
-by `tReal == 0`, **0 of 266** are, with 118 at purely imaginary q where the block
+are strictly real and they are ±the same point; at N=6, counting
+`simulations/results/route_b_a2_n6_atlas.json` by `tReal == 0`, **0 of 266** are,
+a float read of a field that artifact itself calls a display midpoint rather than an
+algebraic root, with 118 at purely imaginary q where the block
 is Hermitian and 148 generic complex.
 
 ## The sweep, stores by name
@@ -59,7 +65,7 @@ defective control used below, the R-odd real EP at q ≈ 2.804888, λ ≈ −4.4
 and, in its N=5 character table at lines 332-337 and the prose at 348-351, the same
 verdict. `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs` carries the
 mechanism under `diabolic_over_higher_n` and its walls, and the verdict again at
-line 274, "the positive R-odd A2 pair is already classified Diabolic with
+line 279, "the positive R-odd A2 pair is already classified Diabolic with
 alg=geo=2". The same arc entry states the gap this document closes, at lines 58-59:
 "No exact fallback was used; the artifact exactRankCertificates array is empty.
 PSC1 supplies algebraic pair uniqueness and S1 supplies the repeated-lambda seed;
@@ -93,9 +99,9 @@ The typed layer, both halves, plus the tests. `DiabolicReflectionParityWitness`
 (`inspect --root diabolicparity`) is live and grounds the odd-N mechanism, but reads
 the **R-even** sector across N=5..9, so it does not reach this locus. Diagnostics
 also carries `RouteBA2Inventory` and `RouteBA2CharacterClassifier`. No `Claim` and
-no `IInspectable` owns this character; the C# gate named at the top does, and it is
-a test rather than either half of the typed layer, which is why an earlier draft of
-this sweep missed it.
+no `IInspectable` owns this character; the verdict is gated in an xUnit TEST, which is
+a third place a result can live, neither of the two halves a sweep of the typed layer
+looks in.
 
 **Step 2 below is prior work, and saying so strengthens it.** The Hermitian anchors
 are not asserted here for the first time: `experiments/F89_PATH_K_DIABOLIC.md:145`
@@ -114,8 +120,10 @@ the same care the χ = AT·F_res remark below takes.
 instrument at this block, but it is Theorem A's two regimes of silence, a different
 mechanism.
 
-`docs/GLOSSARY.md` returns nothing on A₂ loci or Route B, but carries the q versus
-Q factor-2 trap at line 339 that the gate's anchor had to pin. `fw.Confirmations`
+`docs/GLOSSARY.md` returns nothing on A₂ loci or Route B. It carries the q versus
+Q factor-2 trap at line 339 that the gate's anchor had to pin, and the classified
+versus certified table, which is what lets the apparent disagreement between the stores
+above resolve. `fw.Confirmations`
 (24 entries) returns one EP entry, `ibm_ep_onset_may2026`, an IBM Kingston
 population trajectory from 2026-05-31; it is not a reading of this locus. No
 hardware measurement of this point exists.
@@ -201,6 +209,14 @@ preserving their multiplicities, so alg(σt₀, σλ₀) = alg(t₀, λ₀). Cha
 
 which is semisimplicity at w₀. ∎
 
+**Both lifts, not one.** The argument fixes t₀ = √(−w₀), and w₀ carries a second
+parameter value, −t₀, which is the q = −1.129 250 970 874 767 1 locus. Nothing extra is
+needed for it: step 1 puts **both** imaginary t in the one orbit, so the chain above runs
+verbatim with −t₀ in place of t₀. It is also visible without the orbit, since
+L_O(−t) = conj(L_O(t)) entry for entry and λ₀ is real, so the two shifted matrices are
+complex conjugates and share every rank. The gate measures that identity as an exact 0.0
+rather than restating it.
+
 The chain never needs the *value* of the multiplicity, only that the two agree, and
 that is what makes it safe: the characteristic polynomial of the sector is
 χ = AT·F_res, and the certificate of `o2b_gcd_certificate.py` item 3b bounds
@@ -257,9 +273,17 @@ basis, `max|K_O − K_Oᵀ| = 0.0` and `max|K_O − round(K_O)| = 0.0`, on a K_O
 largest entry is 1.0, which is the nonzero paired read. Integrality is the property
 the proof consumes, and the restriction is taken as the exact halving ½·U_Oᵀ K U_O
 rather than by a least-squares solve, which would have measured only rounding.
-The physical-axis Hermiticity companion returns 1.4270, which is 2·MAG by
-construction, so it reports that the hopping is present rather than discriminating
-anything, and is labelled that way.
+D_O, the other half of `L_O = D_O + t·K_O over ℚ`, is read the same way: exactly
+diagonal on the odd sector with off-diagonal `0.0` and zero imaginary part, carrying
+only the two AT dephasing values −2 and −6. Without it the block would not be real
+symmetric at real t no matter what K_O did.
+The second q lift costs nothing: `max|L_O(−J) − conj(L_O(J))| = 0.0`, and since λ₀ is
+real the two shifted matrices are conjugates and read the same nullity, 2 at both. That
+identity holds by construction, the diagonal being real and the hopping ∓i·J, so the read
+records the second lift rather than testing it; the argument for it is step 1's orbit.
+The physical-axis Hermiticity companion returns 1.4270, which is 2·MAG exactly and
+is compared to that value rather than to a threshold, so it reports that the hopping
+is present rather than discriminating anything, and is labelled that way.
 
 A fourth check in this step is a **construction** check, on the commutator sign,
 and it is there because no spectral check can do the job. Flipping the bra-side
@@ -280,9 +304,12 @@ controls run on the same code path in the same sector: the defective EP reads
 nullity **1** (σ₂ = 1.96e-02), and a generic λ 0.137 away reads nullity **0**. The
 repo records the defective point to six digits only, so the gate refines it, and
 certifies that the refined point really is defective by the local law: the pair
-splits as C·√|J − J*|, measured exponent **0.4997**, where a semisimple coalescence
-would return 1.0. The assert keeps a residual-gap bound beside the exponent, but it
-is the exponent that discriminates.
+splits as C·√|J − J*|, measured exponent **0.4997**. The other half of that
+discriminator is measured on this side too rather than named: at w₀ the pair
+separates linearly, exponent **0.999 999 4** approaching from above and
+**1.000 009 0** from below, with the gap at J* itself down at 6.22e-15. Half against
+one is a separation no threshold has to arbitrate. The assert keeps a residual-gap
+bound beside the exponent, but it is the exponent that discriminates.
 
 **Error model.** The thresholds rest on a measured law rather than on a chosen
 number. Detuning the coupling by δJ/J and re-reading at w₀:
@@ -297,7 +324,37 @@ number. Detuning the coupling by δJ/J and re-reading at w₀:
 
 The ratio is flat to 1.000 18 across eight decades, so σ₂ = 5.84e-2 · (δJ/J) at w₀ under a uniform detune,
 while at the defective point σ₂ stays pinned at the coupling scale and does not
-move at all. (the constant c depends on the detune direction; the flatness does not). At zero
+move at all. The direction enters twice and the two ways are different. The constant c changes with
+the direction and no parity fixes it: [1,1,1,1], [1,0,0,1] and [1,-1,-1,1] all share a
+parity and give c = 5.8391e-2, 8.3097e-2 and 1.1004e-1, ratios flat to 1.00018, 1.00043
+and 1.00067, a factor 1.885 across one parity. What parity decides is whether there is a
+response to be linear in at all, and that is a theorem rather than a sample. L is affine
+in the bond couplings, so a detune gives V = Σ_b w_b·J_b·∂L/∂J_b, and the chain reflection
+carries ∂L/∂J_b to ∂L/∂J_{N−2−b}; an anti-palindromic delta pattern therefore obeys
+R V R = −V. For two R-odd vectors u and v that forces vᵀVu = −vᵀVu, so U_Oᵀ V U_O
+vanishes identically. That is a property of the DELTA and of nothing else: it holds at
+every N and on any base, symmetric or not, and in the integer orbit basis it is exactly
+0.0. The consequence needs no threshold either, because the restricted block is not merely
+hard to move: it is the SAME MATRIX, bit for bit, at every detune size, and the gate reads
+`max|L_O(detuned) − L_O(base)| = 0.0` over ten decades. Any function of it, σ₂ included, is
+therefore unchanged by construction.
+
+What the base's symmetry buys is a different thing, and it is easy to put in the wrong
+place: it makes the R-odd subspace L-invariant, so that a restricted σ₂ is a sub-spectrum
+rather than a compression. On the base [1, 1.3, 0.7, 1.9]·J the reflection stops commuting,
+`max|RL − LR| = 2.03` against 0.0 on the symmetric base, while an anti-palindromic delta
+there still projects to exactly 0.0. The gate measures both halves so the two cannot be
+confused.
+
+That is a blind spot of this reading, not a null response. Inside the sector degenerate
+perturbation theory sees PVP = 0. The orthonormal restriction, which reaches the same zero
+through a 1/√2 scaling, wanders over [6.4468e-17, 1.2883e-16] across the twenty-one
+anti-palindromic reads, a factor 2.00 with no trend in the detune: the SVD's last bits, not
+a response. The physical pair does move, through the even sector at second order, splitting
+as 9.69·(δJ/J)² so that at δJ/J = 1e-2 the two eigenvalues are already 9.7e-4 apart while
+the R-odd block has not changed a bit. An apparatus detuned anti-palindromically would read
+a perfect nullity 2 here while its degeneracy had lifted, which is why the gate measures
+that quadratic split beside the projection instead of only the projection. At zero
 detune σ₂ = 7.53e-17 corresponds to δJ/J = 1.29e-15, about 6.6 units in the last
 place of J, so the read sits on the rounding floor of the eigen path rather than at
 a tuned threshold. Two further things the gate measures rather than restates: across

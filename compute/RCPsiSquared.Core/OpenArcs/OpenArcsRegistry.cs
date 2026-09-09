@@ -76,7 +76,12 @@ public static class OpenArcsRegistry
                 "The numerical rule uses all three intrinsic radii, relative departure <1e-6, and minimum returned middle-contour " +
                 "isolation margin 0.06589058580248003 in physical-lambda units at gamma=1. No exact fallback was used. " +
                 "PSC1 supplies algebraic pair uniqueness and S1 supplies the repeated-lambda seed; neither determines Jordan character. " +
-                "ROUTE_B_A2_N6_RECONCILE owns those stored readings. F163 independently proves all 266 semisimple by " +
+                "ROUTE_B_A2_N6_RECONCILE owns those stored readings. At N=5 the 2 real-q loci among the 34 stable-reading " +
+                "loci are additionally CERTIFIED semisimple by exact algebra, F164 (docs/proofs/PROOF_N5_REAL_Q_DIABOLIC.md, " +
+                "typed as RouteBN5RealQSemisimpleClaim, live at inspect --root n5diabolic): A2_O is irreducible of degree 13, " +
+                "so the positive-real w root shares one Galois orbit with the 12 real t where L_O is real symmetric, and rank " +
+                "is preserved by every embedding. The other 32 keep only the reading, and this is not an all-N theorem. " +
+                "F163 independently proves all 266 semisimple by " +
                 "irreducibility of the direct-t A2 factor plus a Hermitian field embedding, and gives exact local EP unfolding " +
                 "for one-end, equal-end and opposite-end bond profiles, at orders epsilon, epsilon and epsilon^2. " +
                 "Read docs/proofs/PROOF_ROUTE_B_N6_UNFOLDING.md; reproduce with python simulations/route_b_n6_exact_unfolding.py. " +

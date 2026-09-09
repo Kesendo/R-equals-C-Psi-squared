@@ -921,6 +921,16 @@ public static class KnowledgeRegistryFactory
             // an exact remainder instead of readings in the node field; the gate is
             // simulations/blind_seat_two_axes_proof.py block W.
             .RegisterBlindSeatSectorFactorisationClaim()
+            // F164, the N=5 real-q A2 locus (Tier 1 derived, docs/proofs/PROOF_N5_REAL_Q_DIABOLIC.md): the only
+            // Route-B point at N=5 or N=6 whose coupling AND eigenvalue are both real carries a SEMISIMPLE double
+            // eigenvalue, by a field argument rather than a contour reading. A2_O irreducible of degree 13 puts the
+            // physical t0 in one Galois orbit with the twelve real t where the block is real symmetric, and rank is
+            // preserved by every embedding, so the Hermitian-axis verdict transfers. It supplies the exact half for
+            // the 2 real-q loci of the 34 that carried only a stable numerical EpCharacter reading; the other 32
+            // keep the reading. Parent F89Path3OcticEpClaim, the same block one chain shorter with the same verdict
+            // reached numerically. Live witness RouteBN5RealQSemisimpleWitness, inspect --root n5diabolic, which
+            // pins the coupling book by spectrum and reads the real-symmetry residual against 0.0 exactly.
+            .RegisterRouteBN5RealQSemisimpleClaim()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()

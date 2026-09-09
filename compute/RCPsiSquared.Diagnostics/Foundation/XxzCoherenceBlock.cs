@@ -64,9 +64,14 @@ public static class XxzCoherenceBlock
         return (basis, index);
     }
 
-    /// <summary>The full (SE,DE) coherence block at complex q and real Δ.</summary>
-    public static Complex[,] BuildFull(int n, Complex q, double delta)
+    /// <summary>The full (SE,DE) coherence block at complex q and real Δ. <paramref name="bondWeights"/>
+    /// scales the hopping bond by bond (length n−1, in chain order); null is the uniform chain and
+    /// reproduces the plain block exactly. A non-uniform profile breaks the site reflection unless it is
+    /// itself palindromic, so the R-sector builders below stay meaningful only on a palindromic profile.</summary>
+    public static Complex[,] BuildFull(int n, Complex q, double delta, double[] bondWeights = null)
     {
+        if (bondWeights is not null && bondWeights.Length != n - 1)
+            throw new ArgumentException($"expected {n - 1} bond weights", nameof(bondWeights));
         var (basis, index) = Basis(n);
         int d = basis.Count;
         var l = new Complex[d, d];
@@ -81,12 +86,14 @@ public static class XxzCoherenceBlock
                 if ((kc & (1 << s)) != 0)
                     foreach (int s2 in new[] { s - 1, s + 1 })
                         if (s2 >= 0 && s2 < n && (kc & (1 << s2)) == 0)
-                            l[index[((kc & ~(1 << s)) | (1 << s2), bc)], col] += new Complex(0, -2) * q;
+                            l[index[((kc & ~(1 << s)) | (1 << s2), bc)], col] +=
+                                new Complex(0, -2) * q * (bondWeights?[Math.Min(s, s2)] ?? 1.0);
             for (int s = 0; s < n; s++)                                  // bra excitation hops +2qi
                 if ((bc & (1 << s)) != 0)
                     foreach (int s2 in new[] { s - 1, s + 1 })
                         if (s2 >= 0 && s2 < n && (bc & (1 << s2)) == 0)
-                            l[index[(kc, (bc & ~(1 << s)) | (1 << s2))], col] += new Complex(0, 2) * q;
+                            l[index[(kc, (bc & ~(1 << s)) | (1 << s2))], col] +=
+                                new Complex(0, 2) * q * (bondWeights?[Math.Min(s, s2)] ?? 1.0);
         }
         return l;
     }
@@ -143,6 +150,48 @@ public static class XxzCoherenceBlock
         }
         var p = Matrix<Complex>.Build.Dense(d, cols.Count, (r, c) => cols[c][r]);
         return p.ConjugateTranspose() * full * p;
+    }
+
+    /// <summary>Columns spanning the R = −1 (site reflection) sector of the full block. Reflection-fixed
+    /// coherences carry no odd component and are dropped; each free pair contributes e_col − e_mirror.
+    /// <paramref name="integerBasis"/> leaves the entries at ±1, so U<sup>T</sup>·M·U is an exact
+    /// rearrangement with no 1/√2 rounding in it and residuals there can be compared to 0.0; the default
+    /// normalises to an orthonormal basis. The two differ by the exact factor 2 in U<sup>T</sup>U.</summary>
+    public static Matrix<Complex> BuildOddColumns(int n, bool integerBasis = false)
+    {
+        var (basis, index) = Basis(n);
+        int d = basis.Count;
+        double scale = integerBasis ? 1.0 : 1.0 / Math.Sqrt(2);
+        var cols = new List<Complex[]>();
+        var handled = new HashSet<int>();
+        for (int col = 0; col < d; col++)
+        {
+            if (handled.Contains(col)) continue;
+            var (kc, bc) = basis[col];
+            int mirror = index[(Reflect(n, kc), Reflect(n, bc))];
+            handled.Add(col);
+            if (mirror == col) continue;                    // reflection-fixed: purely even
+            handled.Add(mirror);
+            var v = new Complex[d];
+            v[col] = scale; v[mirror] = -scale;
+            cols.Add(v);
+        }
+        return Matrix<Complex>.Build.Dense(d, cols.Count, (r, c) => cols[c][r]);
+    }
+
+    /// <summary>The site reflection s → n−1−s as a permutation matrix on the full block. Exact: both sides
+    /// of R·L = L·R are the same float values rearranged, so the commutator is compared to 0.0.</summary>
+    public static Matrix<Complex> ReflectionPermutation(int n)
+    {
+        var (basis, index) = Basis(n);
+        int d = basis.Count;
+        var r = Matrix<Complex>.Build.Dense(d, d);
+        for (int i = 0; i < d; i++)
+        {
+            var (kc, bc) = basis[i];
+            r[index[(Reflect(n, kc), Reflect(n, bc))], i] = Complex.One;
+        }
+        return r;
     }
 
     /// <summary>The spectrum of the R=+1 symmetric (SE,DE) sector at (q, Δ). At Δ=0, N=4 this reproduces

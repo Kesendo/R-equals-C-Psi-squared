@@ -606,6 +606,9 @@ public static class InspectCommand
             c => new NoiseOriginExclusionWitness(
                 c.Parser.OptionalDouble("max-d") is { } m ? (int)m : NoiseOriginExclusionWitness.DefaultMaxD),
             RequiresN: false),
+        new("n5diabolic", "F164, the N=5 real-q A₂ locus: the only Route-B point at N=5 or N=6 whose coupling AND eigenvalue are both real (q = ±1.1292509708747671, λ = −4.7919603651796410) carries a SEMISIMPLE double eigenvalue, by Galois conjugacy rather than a contour reading. Recomputes the structure the field argument is applied to: the sector split 50 = 26 + 24, the coupling book PINNED by spectrum rather than assumed (q and Q differ by a factor of two), the real-symmetry residual on the Hermitian axis read against 0.0 exactly at three real t, the nullity-2 reading at the physical point, the reflection commutator that makes that restriction a sub-spectrum rather than a compression, and the direction-parity law read in the ±1 orbit basis where it is exact: an anti-palindromic bond detune projects onto the R-odd sector as exactly 0.0, a palindromic one at the coupling's size, and a direction that is neither is outside the theorem and does reach. It supplies the exact half for the 2 real-q loci of the 34 that carried only a numerical reading; the other 32 keep the reading, this is not an all-N theorem, and no metrological claim follows. The irreducibility of A₂_O is consumed from simulations/o2b_gcd_certificate.py, not redone here",
+            c => new RouteBN5RealQSemisimpleWitness(),
+            RequiresN: false),
         new("f87", "F87 trichotomy knowledge base",
             c => BuildF87Root(c.Parser, c.N)),
         new("pi2", "Π² polarity knowledge base",
