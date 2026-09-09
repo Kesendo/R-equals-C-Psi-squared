@@ -1,0 +1,162 @@
+{
+  "protocol": "mask4+i mask6, X site2 and Z spectators; fixed across all rows",
+  "accounting": "M shots each, 2M total, known-model weights; mean SNR5 not test power",
+  "rows": [
+    {
+      "center_offset": -0.2,
+      "shift": -0.05,
+      "methods": {
+        "original_mean": {
+          "best_time": 0.375,
+          "shots_each": 87587.44135478021,
+          "shots_each_at_original_time": 87587.44135478021
+        },
+        "ternary": {
+          "best_time": 0.455,
+          "shots_each": 18032.443599691665,
+          "shots_each_at_original_time": 20459.02551316575
+        },
+        "spectators": {
+          "best_time": 0.43,
+          "shots_each": 14593.101086573271,
+          "shots_each_at_original_time": 15147.784610343804
+        },
+        "full": {
+          "best_time": 0.44,
+          "shots_each": 14137.101661488667,
+          "shots_each_at_original_time": 14907.255402919878
+        }
+      }
+    },
+    {
+      "center_offset": -0.2,
+      "shift": 0.05,
+      "methods": {
+        "original_mean": {
+          "best_time": 0.365,
+          "shots_each": 87392.1987413419,
+          "shots_each_at_original_time": 87392.1987413419
+        },
+        "ternary": {
+          "best_time": 0.445,
+          "shots_each": 19045.84513332318,
+          "shots_each_at_original_time": 21687.539115052674
+        },
+        "spectators": {
+          "best_time": 0.41500000000000004,
+          "shots_each": 15464.746734168173,
+          "shots_each_at_original_time": 15957.217724639038
+        },
+        "full": {
+          "best_time": 0.425,
+          "shots_each": 14952.077346860422,
+          "shots_each_at_original_time": 15685.916583850165
+        }
+      }
+    },
+    {
+      "center_offset": 0.0,
+      "shift": -0.05,
+      "methods": {
+        "original_mean": {
+          "best_time": 0.34500000000000003,
+          "shots_each": 88862.41292051766,
+          "shots_each_at_original_time": 88862.41292051766
+        },
+        "ternary": {
+          "best_time": 0.41500000000000004,
+          "shots_each": 22581.34598662146,
+          "shots_each_at_original_time": 25245.935753633326
+        },
+        "spectators": {
+          "best_time": 0.37,
+          "shots_each": 18242.180041629734,
+          "shots_each_at_original_time": 18412.85719417998
+        },
+        "full": {
+          "best_time": 0.385,
+          "shots_each": 17569.438761312824,
+          "shots_each_at_original_time": 17993.489455613802
+        }
+      }
+    },
+    {
+      "center_offset": 0.0,
+      "shift": 0.05,
+      "methods": {
+        "original_mean": {
+          "best_time": 0.34,
+          "shots_each": 89946.54972715031,
+          "shots_each_at_original_time": 89946.54972715031
+        },
+        "ternary": {
+          "best_time": 0.405,
+          "shots_each": 23929.123542156114,
+          "shots_each_at_original_time": 26477.495377806288
+        },
+        "spectators": {
+          "best_time": 0.355,
+          "shots_each": 19210.783877463193,
+          "shots_each_at_original_time": 19289.329078481558
+        },
+        "full": {
+          "best_time": 0.375,
+          "shots_each": 18496.23001487922,
+          "shots_each_at_original_time": 18799.083342641945
+        }
+      }
+    },
+    {
+      "center_offset": 0.2,
+      "shift": -0.05,
+      "methods": {
+        "original_mean": {
+          "best_time": 0.315,
+          "shots_each": 94579.34801639407,
+          "shots_each_at_original_time": 94579.34801639407
+        },
+        "ternary": {
+          "best_time": 0.375,
+          "shots_each": 28509.01451052433,
+          "shots_each_at_original_time": 31668.1099970106
+        },
+        "spectators": {
+          "best_time": 0.32,
+          "shots_each": 22193.094626108905,
+          "shots_each_at_original_time": 22198.327909842297
+        },
+        "full": {
+          "best_time": 0.335,
+          "shots_each": 21406.041050985423,
+          "shots_each_at_original_time": 21575.282070299552
+        }
+      }
+    },
+    {
+      "center_offset": 0.2,
+      "shift": 0.05,
+      "methods": {
+        "original_mean": {
+          "best_time": 0.31,
+          "shots_each": 96541.15055240307,
+          "shots_each_at_original_time": 96541.15055240307
+        },
+        "ternary": {
+          "best_time": 0.365,
+          "shots_each": 30225.525233535358,
+          "shots_each_at_original_time": 33287.39185998572
+        },
+        "spectators": {
+          "best_time": 0.31,
+          "shots_each": 23207.67329639863,
+          "shots_each_at_original_time": 23207.67329639863
+        },
+        "full": {
+          "best_time": 0.325,
+          "shots_each": 22407.813489207027,
+          "shots_each_at_original_time": 22502.38204404613
+        }
+      }
+    }
+  ]
+}

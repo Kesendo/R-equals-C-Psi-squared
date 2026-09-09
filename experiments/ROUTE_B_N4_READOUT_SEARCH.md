@@ -96,7 +96,7 @@ contrast. The original baseline is reproduced against the separate
 exponential-action propagation. The selected Jordan contribution is
 evaluated independently of the contrast score by contour projection.
 
-The next question is whether the full spectator-resolved outcome record
-contains useful information discarded by reducing it to one mean.
-That comparison can reuse the same shots, but requires a specified
-likelihood-based discrimination or estimation criterion.
+The [histogram-filter comparison](ROUTE_B_N4_HISTOGRAM_FILTER.md) tests
+information discarded by this mean using optimally weighted outcome
+scores under the same mean-SNR criterion. It reuses the same measurement
+record and compares full, ternary and spectator-only processing.
