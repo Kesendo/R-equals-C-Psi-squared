@@ -264,7 +264,9 @@ a quadratic algebraic formula. The family theorem supplies no uniform radius
 and does not alter the stored classifier routes or its empty exact-rank-fallback
 array. For `N6-E-A2-T-007`, the [ball-arithmetic companion](../docs/proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md)
 certifies explicit conservative disks and the corrected Taylor remainder for
-both branches of all three profiles.
+both branches of all three profiles, and the
+[local-validity scout](ROUTE_B_N6_LOCAL_VALIDITY.md) reads how far the leading
+formula carries beyond them.
 
 The mirror therefore does something more specific than hold these crossings
 together: it decides which perturbation orders can reach the two-plane.
