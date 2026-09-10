@@ -16,6 +16,7 @@ every multiplet of the block straddles them evenly, which is why -4 is the
 block's own centre rather than this eigenspace's property.
 """
 import json
+from collections import Counter
 from pathlib import Path
 import sympy as s
 from sympy.polys.matrices import DomainMatrix as DM
@@ -137,9 +138,8 @@ def main():
     # one-excitation differences ARE this comb, so the equal spacing -3,-1,1,3
     # and the integer comb are one statement.
     single=sorted(energies);pairs=[a+b for i,a in enumerate(single) for b in single[i+1:]]
-    from collections import Counter
     assert Counter(int(x-y) for x in pairs for y in single)==Counter(comb),'the comb IS the spacing'
-    assert len(comb)==8 and sum(comb.values())==24
+    assert len(comb)==8
     # And the fifth state is the equal spacing itself. The value +1 sits on a
     # multiplicity-four factor only at this end weight, and there, and only
     # there, a SIMPLE factor passes through +1 as well: four plus one.
@@ -160,17 +160,15 @@ def main():
 
     # The twin-scalar split of PROOF_CODIM1_BY_ADDITIVITY needs the two
     # coalescing directions to descend from ONE degenerate free-fermion
-    # multiplet. They do not. T' sees the four-plus-one split as its own
-    # spectrum, the two multiplets' differing slopes, and the coalescing plane
-    # lies inside NEITHER of its eigenspaces: a plane contained in one would
-    # join it at that eigenspace's own dimension, and every joint rank below
-    # exceeds it. The premise fails, so the lemma reaches nothing here.
+    # multiplet. They do not. T' splits along the same four-plus-one line,
+    # so the plane's INTERSECTION with its eigenspaces IS the premise: one
+    # direction in the fourfold eigenspace and the other in neither is two
+    # multiplets, not one.
     slopes=s.simplify(TT).eigenvals()
     assert slopes=={s.sqrt(3):4,-s.sqrt(3):1}
     eigenspaces={str(k):s.Matrix.hstack(*(TT-k*s.eye(5)).applyfunc(s.simplify).nullspace())
                  for k in slopes}
     assert {k:m.cols for k,m in eigenspaces.items()}=={str(k):m for k,m in slopes.items()}
-    assert len(ranks)==4
     twin=[]
     for row in ranks:
         uu,vv=s.sympify(row['u']),s.sympify(row['v'])
@@ -193,9 +191,18 @@ def main():
         # The condition PROOF_CODIM1_BY_ADDITIVITY actually measures, which the
         # non-invariance above only implies: neither compression is scalar.
         inverse=(coalescing.T*coalescing).inv()*coalescing.T
-        entry['compression_scalar']={name:s.simplify(s.simplify(inverse*A*coalescing)
-                                                     -s.simplify(inverse*A*coalescing)[0,0]*s.eye(2)).is_zero_matrix
-                                     for name,A in (('end_weight_term',s.I*uu/(4*s.sqrt(3))*TT),('dephasing_term',DD))}
+        def compression(A):
+            block=s.simplify(inverse*A*coalescing)
+            return s.simplify(block-block[0,0]*s.eye(2)).is_zero_matrix
+        terms=(('end_weight_term',s.I*uu/(4*s.sqrt(3))*TT),('dephasing_term',DD))
+        entry['compression_scalar']={name:compression(A) for name,A in terms}
+        # The complement is a convention; the Hermitian one must not change the
+        # verdict, and the doc says so, so it is read rather than assumed.
+        hermitian=(coalescing.H*coalescing).inv()*coalescing.H
+        def conjugate(A):
+            block=s.simplify(hermitian*A*coalescing)
+            return s.simplify(block-block[0,0]*s.eye(2)).is_zero_matrix
+        assert {name:conjugate(A) for name,A in terms}==entry['compression_scalar']
         assert entry['compression_scalar']=={'end_weight_term':False,'dephasing_term':False}
         twin.append(entry)
 
@@ -222,7 +229,7 @@ def main():
                scalar_dephasing_determinant=str(flattened),
                scalar_dephasing_line={'eigenvalue':'sqrt(3)','algebraic':algebraic,'geometric':geometric},
                end_weight_term_slopes={str(k):m for k,m in sorted(slopes.items(),key=str)},
-               effective_term_plane_ranks=twin)
+               effective_term_plane_readings=twin)
     (Path(__file__).parent/'results/route_b_n4_resonance_projection.json').write_text(json.dumps(out,indent=2)+'\n')
 
 

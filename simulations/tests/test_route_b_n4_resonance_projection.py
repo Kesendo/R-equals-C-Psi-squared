@@ -7,6 +7,7 @@ answer, because an instrument that cannot report the other answer reports
 nothing.
 """
 import hashlib
+from collections import Counter
 import json
 import os
 from pathlib import Path
@@ -163,6 +164,13 @@ def test_the_degeneracy_is_free_fermion_and_the_equal_spacing_only_sets_its_size
     assert sorted({str(root) for m, roots in at_resonance if m == 4
                    for root in roots if root.is_positive})         == certificate['end_weight_lifting_the_multiplet_to_five'] == ['sqrt(3)/2']
     assert certificate['resonance_is_four_plus_one'] is True
+    # The hand-written single-excitation chain is not a separate object: its
+    # two-excitation minus one-excitation differences ARE this comb, which is
+    # what ties the equal spacing -3, -1, 1, 3 to the integers above.
+    energies = certificate['single_particle_energies']
+    assert sorted(energies) == [-3, -1, 1, 3]
+    pairs = [a+b for i, a in enumerate(energies) for b in energies[i+1:]]
+    assert Counter(x-y for x in pairs for y in energies) == Counter(comb)
     # The control: the same instrument on a Jordan block falls short of the
     # dimension, so reaching it is semisimplicity and not arithmetic.
     defective = DM.from_Matrix(s.Matrix([[1, 1], [0, 1]])).convert_to(block['field']).to_dense()
@@ -212,6 +220,7 @@ def test_every_multiplet_splits_evenly_between_the_strata_so_minus_four_is_the_b
         means[str(k)] = s.simplify(compress(space, block['dissipator']).trace()/space.shape[1])
         weights[str(k)] = s.simplify(compress(space, projector).trace()/space.shape[1])
     assert len(recorded) == 8
+    assert set(recorded) == set(certificate['coherent_half_frequency_comb']), 'all of them'
     assert means == {k: s.Integer(v) for k, v in recorded.items()}
     assert set(means.values()) == {s.Integer(-4)}
     # The reason, and it is the block's and not this eigenspace's: every
@@ -284,7 +293,7 @@ def test_the_four_points_carry_a_double_root_of_geometric_multiplicity_one(block
         assert DM.from_Matrix(control).convert_to(numberfield).rank() == row['scalar_dephasing_control_rank'] == RESONANT
 
 
-def test_the_coalescing_plane_straddles_two_multiplets_so_the_descent_premise_fails(block, certificate):
+def test_the_plane_meets_one_multiplet_and_not_the_other_so_the_descent_premise_fails(block, certificate):
     dephasing = compress(block['resonant'], block['dissipator'])
     hopping = compress(block['resonant'], block['ends'])
     u = s.symbols('u', real=True)
@@ -297,7 +306,7 @@ def test_the_coalescing_plane_straddles_two_multiplets_so_the_descent_premise_fa
     assert {str(k): m for k, m in sorted(slopes.items(), key=str)} == certificate['end_weight_term_slopes']
     eigenspaces = {str(k): s.Matrix.hstack(*(hopping-k*s.eye(RESONANT)).applyfunc(s.simplify).nullspace())
                    for k in slopes}
-    recorded = {row['u']: row for row in certificate['effective_term_plane_ranks']}
+    recorded = {row['u']: row for row in certificate['effective_term_plane_readings']}
     assert len(recorded) == len(certificate['effective_ranks']) == 4
     for row in certificate['effective_ranks']:
         uu, vv = s.sympify(row['u']), s.sympify(row['v'])
@@ -328,6 +337,10 @@ def test_the_coalescing_plane_straddles_two_multiplets_so_the_descent_premise_fa
         # fourfold multiplet meets it in two, so a one is a measurement.
         inside = eigenspaces['sqrt(3)'][:, :2]
         assert {slope: meet(space, inside) for slope, space in eigenspaces.items()}             == {'sqrt(3)': 2, '-sqrt(3)': 0}
+        # And the control the zero above cannot give, on the SIMPLE branch: a
+        # plane touching it meets it in one.
+        touching = s.Matrix.hstack(eigenspaces['-sqrt(3)'], eigenspaces['sqrt(3)'][:, 0])
+        assert {slope: meet(space, touching) for slope, space in eigenspaces.items()}             == {'sqrt(3)': 1, '-sqrt(3)': 1}
         # And the condition the lemma actually measures, which non-invariance
         # only implies: neither compression is a multiple of the identity.
         def scalar(columns, operator):

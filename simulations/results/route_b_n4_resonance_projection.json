@@ -13,7 +13,7 @@
     1,
     3
   ],
-  "script_sha256": "0fa14cd25bca5be9c186fb39b222d27064a07373070cab1d1dcc7a56f59c1523",
+  "script_sha256": "3b27be5abf40be2364b7fd5a644ff454f2eec0573caedee78b79c7b6b9fd72ea",
   "dependencies": {
     "simulations/framework/__init__.py": "8fb68f5f776607e6a696e1a84a8e42d4612595b1f75fb4dc0520d71640b23b97",
     "simulations/framework/chain_system.py": "12c861f710dffc490cc7b9e3a086d0a91d821a5be3fe7f884ef83064bc7f499b",
@@ -187,7 +187,7 @@
     "-sqrt(3)": 1,
     "sqrt(3)": 4
   },
-  "effective_term_plane_ranks": [
+  "effective_term_plane_readings": [
     {
       "u": "-2*sqrt(2)",
       "end_weight_term": 3,

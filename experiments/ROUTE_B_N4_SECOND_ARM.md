@@ -433,30 +433,37 @@ For the absorption diagonal it is −4γ, on all eight multiplets alike.
 
 The twin-scalar split of
 [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
-§8 does not decide these four points, and both of its conditions fail
-rather than one.
+§8 does not decide these four points. Its premise fails, and what its
+condition would decide is already known from the rank.
 
-Its premise is that the two coalescing directions descend from a single
+The premise is that the two coalescing directions descend from a single
 degenerate free-fermion multiplet. They do not. The resonant eigenspace
 is four plus one, and the end-weight deviation T′ = W(T_left+T_right)U
-reads that split as its own spectrum, √3 with multiplicity four and −√3
-once. The coalescing plane P = ker(μI−M)², taken at each point's own u
-and v, meets the fourfold eigenspace in dimension one and the simple one
-in dimension zero: one direction sits inside the fourfold multiplet, the
-other sits in neither.
+splits along the same line, √3 with multiplicity four and −√3 once. The
+coalescing plane P = ker(μI−M)², at each point's own u and v, meets the
+fourfold eigenspace in dimension one and the simple one in dimension
+zero: one direction lies in the fourfold eigenspace, the other in
+neither. The identification of that eigenspace with the multiplet rests
+on the dimensions matching, four and one, and on nothing else computed
+here.
 
-Its condition is that the coherent part restrict to a multiple of the
-identity on P, and neither term of M(u) does. Both 2×2 compressions are
-non-scalar, exactly, at all four points, and neither term even preserves
-P, rank[P | A P] = 3.
+The condition is that the pencil restrict to a multiple of the identity
+on P, and at a defective point it cannot: that restriction is the Jordan
+block itself, so the condition repeats the rank rather than adding to
+it. Splitting it between the two terms of M(u) carries one bit, because
+the two compressions sum to that same Jordan block and so at most one of
+them could have been scalar. We read the bit: neither is, at all four
+points, so the failure cannot be laid at one term. The compressions are
+taken along ker(Pᵀ); the Hermitian complement gives the same verdict.
 
-One caution the section keeps rather than resolves. These are germs at
-the profile's own limit, and §8's scalar condition is not continuous
-there: at the limit the coherent restriction is exactly iq·I, while at
-every nearby profile it is non-scalar at first order in the deviation.
-The condition therefore has to be read on the first-order operator,
-which is what the numbers above do; read at the limit point alone it
-reports the opposite.
+One note on what T′ is doing in that reading. At the limit profile the
+coherent restriction on any subspace of the resonant eigenspace is
+exactly iq·I, by the definition of that eigenspace, so §8's condition
+read there is empty. The profile dependence sits in the first-order
+term, and along each of the four germ directions that term is
+non-scalar on P. The condition therefore cannot be quoted without
+saying at which point it was read; at the limit alone it reports the
+opposite.
 
 The free-fermion-kernel rule of `EpCharacterWitness`
 (`inspect --root epcharacter`) does not classify them either. That rule
@@ -474,9 +481,10 @@ where both halves restrict to scalars on the coalescing plane and the
 character is diabolic. The path therefore runs from a twin-scalar
 diabolic seed at uniform bonds, where both restrictions are scalar, to
 germs at infinity where neither is and the coalescing plane holds one
-direction of the fourfold multiplet and one of no multiplet at all. The two ends differ in profile, in
-coupling, and in whether the object is a finite-q operator or a q = ∞
-germ, and only the −5√5/4 germ is connected to the validated arm.
+direction of the fourfold eigenspace and one of neither. The two ends
+differ in profile, in coupling, and in whether the object is a finite-q
+operator or a q = ∞ germ, and only the −5√5/4 germ is connected to the
+validated arm.
 
 ## What the path tells us about the mirror
 
@@ -513,7 +521,9 @@ python -m pytest simulations/tests/test_route_b_n4_resonance_projection.py
 
 The last line is the gate on the projection's certificate: nine checks,
 eight of them re-derived from `parts(4)` and compared against the
-committed artifact and one on its provenance, each with the mutation or
-control that makes its own instrument read the other answer.
+committed artifact and one on its provenance. Most carry the mutation or
+control that makes their own instrument read the other answer; the
+cardinality checks and the structural identities do not, having no other
+answer to give.
 
 Each producer stores a corresponding JSON in simulations/results.
