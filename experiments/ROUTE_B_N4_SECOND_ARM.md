@@ -378,8 +378,9 @@ absorption diagonal, D = −2γ·Hamming(bra, ket)
 ([absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)), so
 on this block it is a diagonal matrix taking two values: the twelve
 cells at Hamming 1 pay −2γ, the twelve at Hamming 3 pay −6γ. The
-coherent part is the commutator frequency matrix T₀ at the end weight
-a, written T(a), and it is real symmetric at every a, so iqT(a) is
+coherent part is the commutator frequency matrix at the end weight a,
+written T(a), of which the T₀ above is the value at a = √3/2, and it is
+real symmetric at every a, so iqT(a) is
 skew-Hermitian and any scalar added to it leaves a normal, hence
 diagonalisable, operator at every profile and every coupling.
 Defectiveness lives only in the sum of the two halves.
@@ -432,19 +433,30 @@ For the absorption diagonal it is −4γ, on all eight multiplets alike.
 
 The twin-scalar split of
 [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
-§8 does not reach these four points, and what fails is its premise, not
-its verdict. The lemma asks that the two coalescing directions descend
-from one degenerate free-fermion multiplet. Here they descend from two.
-The resonant eigenspace is four plus one, and the end-weight deviation
-T′ = W(T_left+T_right)U reads that split as its own spectrum: √3 with
-multiplicity four and −√3 once, the two multiplets' differing slopes. A
-coalescing plane lying inside one multiplet would join that multiplet's
-eigenspace at its own dimension; at all four points both joints exceed
-it, 5 against 4 and 3 against 1, over the exact number field. The plane
-straddles the two. Consistently, neither term of M(u) preserves it,
-rank[P | A P] = 3 for A either term, with P = ker(μI−M)². Since the
-premise is unmet, this section claims nothing about the lemma's verdict
-in either direction.
+§8 does not decide these four points, and both of its conditions fail
+rather than one.
+
+Its premise is that the two coalescing directions descend from a single
+degenerate free-fermion multiplet. They do not. The resonant eigenspace
+is four plus one, and the end-weight deviation T′ = W(T_left+T_right)U
+reads that split as its own spectrum, √3 with multiplicity four and −√3
+once. The coalescing plane P = ker(μI−M)², taken at each point's own u
+and v, meets the fourfold eigenspace in dimension one and the simple one
+in dimension zero: one direction sits inside the fourfold multiplet, the
+other sits in neither.
+
+Its condition is that the coherent part restrict to a multiple of the
+identity on P, and neither term of M(u) does. Both 2×2 compressions are
+non-scalar, exactly, at all four points, and neither term even preserves
+P, rank[P | A P] = 3.
+
+One caution the section keeps rather than resolves. These are germs at
+the profile's own limit, and §8's scalar condition is not continuous
+there: at the limit the coherent restriction is exactly iq·I, while at
+every nearby profile it is non-scalar at first order in the deviation.
+The condition therefore has to be read on the first-order operator,
+which is what the numbers above do; read at the limit point alone it
+reports the opposite.
 
 The free-fermion-kernel rule of `EpCharacterWitness`
 (`inspect --root epcharacter`) does not classify them either. That rule
@@ -460,9 +472,9 @@ not an independent point: q₀ = √((√13−1)/6) is the octic q_EP of
 [diabolic by integrability](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md),
 where both halves restrict to scalars on the coalescing plane and the
 character is diabolic. The path therefore runs from a twin-scalar
-diabolic seed at uniform bonds, where both restrictions are scalar and
-the two directions share a multiplet, to germs at infinity where the
-coalescing plane straddles two. The two ends differ in profile, in
+diabolic seed at uniform bonds, where both restrictions are scalar, to
+germs at infinity where neither is and the coalescing plane holds one
+direction of the fourfold multiplet and one of no multiplet at all. The two ends differ in profile, in
 coupling, and in whether the object is a finite-q operator or a q = ∞
 germ, and only the −5√5/4 germ is connected to the validated arm.
 
@@ -501,9 +513,7 @@ python -m pytest simulations/tests/test_route_b_n4_resonance_projection.py
 
 The last line is the gate on the projection's certificate: nine checks,
 eight of them re-derived from `parts(4)` and compared against the
-committed artifact and one on its provenance. Most carry the mutation or
-control that makes their own instrument read the other answer; the
-exceptions are the structural identities, where the instrument has no
-other answer to give.
+committed artifact and one on its provenance, each with the mutation or
+control that makes its own instrument read the other answer.
 
 Each producer stores a corresponding JSON in simulations/results.

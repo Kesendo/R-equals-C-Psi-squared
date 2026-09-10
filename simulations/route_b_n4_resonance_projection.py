@@ -65,7 +65,7 @@ def main():
     print('quotient by H:',s.cancel(polynomial/H),flush=True)
     # Single-particle Hamiltonian in the same hopping convention.
     h=s.Matrix([[0,s.sqrt(3),0,0],[s.sqrt(3),0,2,0],[0,2,0,s.sqrt(3)],[0,0,s.sqrt(3),0]])
-    eigenvalues=h.eigenvals();assert eigenvalues=={-3:1,-1:1,1:1,3:1}
+    energies=h.eigenvals();assert energies=={-3:1,-1:1,1:1,3:1}
 
     # THE COHERENT HALF, at every end weight rather than at this one: the
     # frequency matrix is real symmetric for a SYMBOLIC weight, so -4*I + i*q*T
@@ -132,7 +132,14 @@ def main():
     # whole spectrum and the semisimplicity; the sum can only undercount.
     assert sum(comb.values())==24 and set(means)==set(comb)
     assert set(means.values())=={s.Integer(-4)}
-    assert max(comb.values())==5 and comb[1]==5,'equal spacing sets the multiplet SIZE'
+    assert max(comb.values())==5 and comb[1]==5
+    # The hand-written chain is not a separate object: its two-excitation minus
+    # one-excitation differences ARE this comb, so the equal spacing -3,-1,1,3
+    # and the integer comb are one statement.
+    single=sorted(energies);pairs=[a+b for i,a in enumerate(single) for b in single[i+1:]]
+    from collections import Counter
+    assert Counter(int(x-y) for x in pairs for y in single)==Counter(comb),'the comb IS the spacing'
+    assert len(comb)==8 and sum(comb.values())==24
     # And the fifth state is the equal spacing itself. The value +1 sits on a
     # multiplicity-four factor only at this end weight, and there, and only
     # there, a SIMPLE factor passes through +1 as well: four plus one.
@@ -163,22 +170,33 @@ def main():
     eigenspaces={str(k):s.Matrix.hstack(*(TT-k*s.eye(5)).applyfunc(s.simplify).nullspace())
                  for k in slopes}
     assert {k:m.cols for k,m in eigenspaces.items()}=={str(k):m for k,m in slopes.items()}
+    assert len(ranks)==4
     twin=[]
     for row in ranks:
         uu,vv=s.sympify(row['u']),s.sympify(row['v'])
         numberfield=s.QQ.algebraic_field(s.I,uu,s.sqrt(3))
         shifted=((-4+s.I*vv)*s.eye(5)-effective.subs(u,uu)).applyfunc(s.simplify)
         coalescing=s.Matrix.hstack(*(shifted*shifted).applyfunc(s.simplify).nullspace()).applyfunc(s.simplify)
-        assert coalescing.shape==(5,2),'algebraic multiplicity two: the double root'
+        assert coalescing.shape==(5,2),'the eigenvalue is not semisimple'
         joint=lambda A:DM.from_Matrix(s.Matrix.hstack(coalescing,(A*coalescing).applyfunc(s.simplify))).convert_to(numberfield).rank()
         entry=dict(u=row['u'],end_weight_term=joint((s.I*uu/(4*s.sqrt(3))*TT).applyfunc(s.simplify)),dephasing_term=joint(DD))
         assert entry['end_weight_term']==3 and entry['dephasing_term']==3
-        containment={}
+        # Intersection DIMENSIONS, not a joint rank: a two-plane meets a
+        # one-dimensional eigenspace above its dimension for free, so only the
+        # dimension of the meet is a measurement on both branches.
+        meet={}
         for slope,space in eigenspaces.items():
             columns=s.Matrix.hstack(space,coalescing)
-            containment[slope]=[DM.from_Matrix(columns).convert_to(numberfield).rank(),space.cols]
-            assert containment[slope][0]>space.cols,'the plane is not inside this multiplet'
-        entry['multiplet_containment']=containment
+            meet[slope]=space.cols+2-DM.from_Matrix(columns).convert_to(numberfield).rank()
+        assert meet=={'sqrt(3)':1,'-sqrt(3)':0}
+        entry['multiplet_meet']=meet
+        # The condition PROOF_CODIM1_BY_ADDITIVITY actually measures, which the
+        # non-invariance above only implies: neither compression is scalar.
+        inverse=(coalescing.T*coalescing).inv()*coalescing.T
+        entry['compression_scalar']={name:s.simplify(s.simplify(inverse*A*coalescing)
+                                                     -s.simplify(inverse*A*coalescing)[0,0]*s.eye(2)).is_zero_matrix
+                                     for name,A in (('end_weight_term',s.I*uu/(4*s.sqrt(3))*TT),('dephasing_term',DD))}
+        assert entry['compression_scalar']=={'end_weight_term':False,'dephasing_term':False}
         twin.append(entry)
 
     provenance=artifact_provenance(Path(__file__),Path(__file__))

@@ -211,6 +211,7 @@ def test_every_multiplet_splits_evenly_between_the_strata_so_minus_four_is_the_b
         assert space.shape[1] > 0
         means[str(k)] = s.simplify(compress(space, block['dissipator']).trace()/space.shape[1])
         weights[str(k)] = s.simplify(compress(space, projector).trace()/space.shape[1])
+    assert len(recorded) == 8
     assert means == {k: s.Integer(v) for k, v in recorded.items()}
     assert set(means.values()) == {s.Integer(-4)}
     # The reason, and it is the block's and not this eigenspace's: every
@@ -297,6 +298,7 @@ def test_the_coalescing_plane_straddles_two_multiplets_so_the_descent_premise_fa
     eigenspaces = {str(k): s.Matrix.hstack(*(hopping-k*s.eye(RESONANT)).applyfunc(s.simplify).nullspace())
                    for k in slopes}
     recorded = {row['u']: row for row in certificate['effective_term_plane_ranks']}
+    assert len(recorded) == len(certificate['effective_ranks']) == 4
     for row in certificate['effective_ranks']:
         uu, vv = s.sympify(row['u']), s.sympify(row['v'])
         numberfield = s.QQ.algebraic_field(s.I, uu, s.sqrt(3))
@@ -312,18 +314,32 @@ def test_the_coalescing_plane_straddles_two_multiplets_so_the_descent_premise_fa
         # first-order operator preserves it.
         assert joint(half) == recorded[row['u']]['end_weight_term'] == 3
         assert joint(dephasing) == recorded[row['u']]['dephasing_term'] == 3
-        # The premise itself: a plane inside a multiplet would join that
-        # multiplet at its own dimension. Both joints exceed it.
-        for slope, space in eigenspaces.items():
-            columns = s.Matrix.hstack(space, plane)
-            rank = DM.from_Matrix(columns).convert_to(numberfield).rank()
-            assert [rank, space.cols] == recorded[row['u']]['multiplet_containment'][slope]
-            assert rank > space.cols
-        # The control: a plane genuinely inside the fourfold multiplet joins it
-        # at four, so exceeding is straddling and not the instrument's floor.
+        # The premise itself, read as intersection DIMENSIONS. A joint rank
+        # would be vacuous on the one-dimensional branch, where a two-plane
+        # exceeds the dimension for free whatever the operator.
+        def meet(space, columns):
+            joint = DM.from_Matrix(s.Matrix.hstack(space, columns)).convert_to(numberfield).rank()
+            return space.cols+columns.cols-joint
+
+        measured = {slope: meet(space, plane) for slope, space in eigenspaces.items()}
+        assert measured == {'sqrt(3)': 1, '-sqrt(3)': 0} == recorded[row['u']]['multiplet_meet']
+        # One direction lies in the fourfold multiplet and the other in neither,
+        # so the two do not share one. The control: a plane genuinely inside the
+        # fourfold multiplet meets it in two, so a one is a measurement.
         inside = eigenspaces['sqrt(3)'][:, :2]
-        columns = s.Matrix.hstack(eigenspaces['sqrt(3)'], inside)
-        assert DM.from_Matrix(columns).convert_to(numberfield).rank() == 4
+        assert {slope: meet(space, inside) for slope, space in eigenspaces.items()}             == {'sqrt(3)': 2, '-sqrt(3)': 0}
+        # And the condition the lemma actually measures, which non-invariance
+        # only implies: neither compression is a multiple of the identity.
+        def scalar(columns, operator):
+            compression = s.simplify((columns.T*columns).inv()*columns.T*operator*columns)
+            return s.simplify(compression-compression[0, 0]*s.eye(columns.cols)).is_zero_matrix
+
+        assert {name: scalar(plane, operator) for name, operator
+                in (('end_weight_term', half), ('dephasing_term', dephasing))}             == {'end_weight_term': False, 'dephasing_term': False}             == recorded[row['u']]['compression_scalar']
+        # The control on THAT instrument: inside the fourfold multiplet the
+        # end-weight term compresses to a multiple of the identity, so it can
+        # report scalar when scalar is the answer.
+        assert scalar(inside, hopping)
         # The control: a plane the operator DOES preserve reads two, so three
         # is non-invariance and not the instrument's floor.
         vectors = [vector for _, _, basis in dephasing.eigenvects() for vector in basis][:2]

@@ -13,7 +13,7 @@
     1,
     3
   ],
-  "script_sha256": "ee722cadfb6c6e045a402a5e1f41b4d36188169d59b3898f7584b0cc45d51adc",
+  "script_sha256": "0fa14cd25bca5be9c186fb39b222d27064a07373070cab1d1dcc7a56f59c1523",
   "dependencies": {
     "simulations/framework/__init__.py": "8fb68f5f776607e6a696e1a84a8e42d4612595b1f75fb4dc0520d71640b23b97",
     "simulations/framework/chain_system.py": "12c861f710dffc490cc7b9e3a086d0a91d821a5be3fe7f884ef83064bc7f499b",
@@ -192,60 +192,52 @@
       "u": "-2*sqrt(2)",
       "end_weight_term": 3,
       "dephasing_term": 3,
-      "multiplet_containment": {
-        "sqrt(3)": [
-          5,
-          4
-        ],
-        "-sqrt(3)": [
-          3,
-          1
-        ]
+      "multiplet_meet": {
+        "sqrt(3)": 1,
+        "-sqrt(3)": 0
+      },
+      "compression_scalar": {
+        "end_weight_term": false,
+        "dephasing_term": false
       }
     },
     {
       "u": "2*sqrt(2)",
       "end_weight_term": 3,
       "dephasing_term": 3,
-      "multiplet_containment": {
-        "sqrt(3)": [
-          5,
-          4
-        ],
-        "-sqrt(3)": [
-          3,
-          1
-        ]
+      "multiplet_meet": {
+        "sqrt(3)": 1,
+        "-sqrt(3)": 0
+      },
+      "compression_scalar": {
+        "end_weight_term": false,
+        "dephasing_term": false
       }
     },
     {
       "u": "-5*sqrt(5)/4",
       "end_weight_term": 3,
       "dephasing_term": 3,
-      "multiplet_containment": {
-        "sqrt(3)": [
-          5,
-          4
-        ],
-        "-sqrt(3)": [
-          3,
-          1
-        ]
+      "multiplet_meet": {
+        "sqrt(3)": 1,
+        "-sqrt(3)": 0
+      },
+      "compression_scalar": {
+        "end_weight_term": false,
+        "dephasing_term": false
       }
     },
     {
       "u": "5*sqrt(5)/4",
       "end_weight_term": 3,
       "dephasing_term": 3,
-      "multiplet_containment": {
-        "sqrt(3)": [
-          5,
-          4
-        ],
-        "-sqrt(3)": [
-          3,
-          1
-        ]
+      "multiplet_meet": {
+        "sqrt(3)": 1,
+        "-sqrt(3)": 0
+      },
+      "compression_scalar": {
+        "end_weight_term": false,
+        "dephasing_term": false
       }
     }
   ]
