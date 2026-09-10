@@ -1,5 +1,5 @@
 {
-  "scope": "Exact first-order resonant projection at N4 end weights sqrt(3)/2.\n\nGamma=1, XY, qCSharp; commutator frequencies measured in units q.\n",
+  "scope": "Exact first-order resonant projection at N4 end weights sqrt(3)/2.\n\nGamma=1, XY, qCSharp; commutator frequencies measured in units q.\n\nThe projection also separates the two halves of the generator. Neither can\ncarry a Jordan block alone: the dephasing half is a diagonal matrix, the\nabsorption diagonal -2*gamma*hamming(bra, ket), and the coherent half is real\nsymmetric at EVERY end weight, so a scalar dephasing leaves the block normal at\nevery coupling. The dephasing does not create the coincidence either: flatten\nit to the scalar -4 and the four isolated double roots are replaced by a\nfourfold SEMISIMPLE line. What the spread does is resolve that line into\nisolated points, four of which keep a Jordan block, and it can do so because\nthe resonant eigenspace MEETS both absorption strata and therefore carries the\nextreme rates -2 and -6 themselves. Straddling the strata would not be enough;\nevery multiplet of the block straddles them evenly, which is why -4 is the\nblock's own centre rather than this eigenspace's property.\n",
   "resonant_dimension": 5,
   "reflection": "+I",
   "D_projection": "Matrix([[-39/8, -3*sqrt(3)/8, -sqrt(3)/8, -1/8, -1/2], [-sqrt(3)/16, -95/16, -21/16, 9*sqrt(3)/16, -3*sqrt(3)/4], [15*sqrt(3)/16, -15/16, -69/16, 25*sqrt(3)/16, -3*sqrt(3)/4], [9/8, -3*sqrt(3)/8, -sqrt(3)/8, -17/8, -1/2], [-9/16, 3*sqrt(3)/16, sqrt(3)/16, -15/16, -11/4]])",
@@ -13,28 +13,240 @@
     1,
     3
   ],
-  "script_sha256": "51f178443d18bd2143950c53b7b1039189fcd96479dcf94ce893ed02b7042141",
+  "script_sha256": "ee722cadfb6c6e045a402a5e1f41b4d36188169d59b3898f7584b0cc45d51adc",
+  "dependencies": {
+    "simulations/framework/__init__.py": "8fb68f5f776607e6a696e1a84a8e42d4612595b1f75fb4dc0520d71640b23b97",
+    "simulations/framework/chain_system.py": "12c861f710dffc490cc7b9e3a086d0a91d821a5be3fe7f884ef83064bc7f499b",
+    "simulations/framework/coherence_block.py": "5dad26bb2e6e7e3c579a6cbf396344a3c5c68aaa721b11470d75785b41a1925d",
+    "simulations/framework/confirmations.py": "80571a8ea36a5578f3fb040c0b21c107595551d8de7434732b4950078f9506e2",
+    "simulations/framework/diagnostics/__init__.py": "80d3ca4dae4fe4bfcec89207ae5d2631a0efc94739ae77307f89884b4405e8f6",
+    "simulations/framework/diagnostics/crossover_product_pi.py": "b4878851ccb4be30a70042cb6eab59bbbcd3cd50b1c99a132ffae2fc83ea034b",
+    "simulations/framework/diagnostics/d_zero.py": "cb8e767d995745f3f95cd03acc1b12e8044ab50b4437107311f79df80e065018",
+    "simulations/framework/diagnostics/f120_moment_tower.py": "28e585ce154fd1579ac2642caf65f55059c22a9bfdb9d1af47dd91118bb5cb87",
+    "simulations/framework/diagnostics/f49_frobenius_scaling.py": "6e93073cd340e73e161ff9cc538d12db08582a9d9dfce424e83e2af994a85f9d",
+    "simulations/framework/diagnostics/f77_trichotomy.py": "a02144ecf765b7762da2f4f75524887ab8f639a43490029f3a7ba49016b54661",
+    "simulations/framework/diagnostics/f80_bloch_signwalk.py": "61915c1e506891a6699f7e49ce52e2435f136c8bae8d4a20d801c71d5275f5aa",
+    "simulations/framework/diagnostics/f81_pi_decomposition.py": "4a09baa732681989b01ea4e59a0ae17d44e0964305c41e48e7e84c63a9b384b6",
+    "simulations/framework/diagnostics/f82_t1_dissipator.py": "afc053faeeded51ef92c00df42f6c1cb8ee206dfad8cd1be56bce48eb2a750f0",
+    "simulations/framework/diagnostics/f83_anti_fraction.py": "68ffe9601b7d4341154584717820a75bc8d7fb0eaf2dae0f79ff31d4348b64b9",
+    "simulations/framework/diagnostics/f84_amplitude_damping.py": "a7271deea1701ad563fd56cd9e2fb98b1b52c42dc839aabe4f4a326bc9e7387e",
+    "simulations/framework/diagnostics/polarity.py": "445f962b4dd51d9d0f4e415160c17b6a2090da32e814826f020fcc844d697027",
+    "simulations/framework/diagnostics/polarity_coordinates.py": "3afd3178aef34c0f24fbe6e7c52fef127393fb73102c0ef3b7f0704c48e99947",
+    "simulations/framework/diagnostics/ptf.py": "a885ba66674dd2b48a4a30fa8ecec3a4c7ccd0927c8bf52253acc19e8f82d74e",
+    "simulations/framework/diagnostics/q_family_routing.py": "94042b2f7c5cb3a0d47b55cac0fbe6a70f74dae003afec9175d40fa29dc7c5ce",
+    "simulations/framework/lebensader.py": "e090f3864e087571384b8565cf192bea5d0b49e48dee5e64c74fd22b0fac8311",
+    "simulations/framework/lindblad.py": "24475c7ade39e9908797b4b37b646572d6d06bde6cdc1c64905b8558be0fbdfc",
+    "simulations/framework/observables.py": "b7cbc02b44e890658c6162a017c52774a8a8913aecd21e7eb5009f13b2ff5a88",
+    "simulations/framework/pauli.py": "278fc1a6938781c53e5d01c1915ccd8fac1482607b98b8c03c1fb555b5433c99",
+    "simulations/framework/pauli_hamiltonian.py": "44e38bc90d642e4d212b71d8e4553af4f55bad1d3059470e305f98bd7dafce6b",
+    "simulations/framework/receiver.py": "6df7514fd16404b7c384ba8ca4aa60c30830c94086dd47c4f87d955c01d9757a",
+    "simulations/framework/sine_slater.py": "6a13d6672e10f86f1541c648e7f792439da2e54b6ff20eedb7aebd64af0b5ca2",
+    "simulations/framework/symmetry.py": "97232388a5b78cf67b2f6bb2a7010e4b838cb7649b002b0b895669150bb0f4a7",
+    "simulations/framework/weight_coherence_block.py": "516c2d740b0635f7291f8bdabb152fff6fc2ef80115b24f1821dcdac488b02bf",
+    "simulations/framework/workflows/__init__.py": "04b39f643b110fc5566735ba2e964557353fa01f68ab62c37592f4e7c16c41b9",
+    "simulations/framework/workflows/_propagation.py": "c71b683fafdf8201a2a2244fc1a7b483414ef6e0f97679f4ba19546721f901c3",
+    "simulations/framework/workflows/bridge_dynamics.py": "3310c0943e15aae5d8ea7b4cc70707005e3bdcdab69db9bd34e64b36198252a2",
+    "simulations/framework/workflows/bridge_panel.py": "bd2283c4a062c6136c3f10ac2592af7a8b18bfe24fe02ee6145ad89350e87a1f",
+    "simulations/framework/workflows/cockpit_panel.py": "8d92cbc7e86d725770af101e9779d7dbe75d4b9f6ed5d1157ce2aa6a22b43d1f",
+    "simulations/framework/workflows/diagnose_hardware.py": "1a096aae99cd4558b65ec767755d7fbef9042b3ee0dd0f0cf6dc635400e54370",
+    "simulations/framework/workflows/gamma_probe.py": "dbae3499871ec594f797646df31d5cee6acc93dea7a9018b9a8fbfb617490b0a",
+    "simulations/framework/workflows/handshake.py": "aa39b5129705cdd986e6b870c0d02e034bdf073be8aa6708b6a7126b7bb108ec",
+    "simulations/framework/workflows/lens.py": "9ad90a8a9bb8cfcb14228e7d46357992ee3b6a3516c4a9717ae9e04e6e5ad731",
+    "simulations/framework/workflows/polarity_fingerprint.py": "ff3ce0ce978a05bce20c9d7edaa99328dfcd82f5b287169fb73798883210dd14",
+    "simulations/framework/workflows/predict_residual_with_hardware_noise.py": "1b2e5d428e4faf5b4ab8e761ea97e588de432e84a56e1702a6fda1bb06029e0a",
+    "simulations/framework/workflows/predict_signature_table.py": "5178e493bdbb4a50430d4dfd2eb83c9eb1f22b0752ce4e752e0a45fe5a7c3317",
+    "simulations/framework/workflows/propagate_with_hardware_noise.py": "416a770e1b464aa82341edd473886adfaa851391067f59d406322ed6fdcd5638",
+    "simulations/framework/workflows/ptf.py": "b3136a13af065ffc31cac6506e33555bd38f0409b501e15712cd36d8f1a3cf16",
+    "simulations/framework/workflows/residual_norm.py": "35de253fc41d6538ada7406f0e52afff9daace6b05fc2510dfe1e1e332032883",
+    "simulations/framework/workflows/zn_mirror.py": "c644ef5e7c3315a2a71ef9e62b4ed56756522c58dfdd44f47d1c36b07680f746",
+    "simulations/route_b_artifact_provenance.py": "dc779d5f18097384ee2c78ddb2846fed2d1ba9fa0be746d41c615cea4bbb2006",
+    "simulations/route_b_n6_end_profile_probe.py": "87304dc5d0b0766789bc0b1c80ec0447c0efa3539fee07dd0c8b84342a9c32b7",
+    "simulations/route_b_n6_leakage_probe.py": "63688efc139e4f0bd8d8d901a4c065ff81270931dd563f53ce7e737b74fc8d07",
+    "simulations/route_b_n6_next_coefficient.py": "03cadb20d806f38c2b45ac991009dea1ec250885f6a3b75204897d45c0deb436",
+    "simulations/route_b_other_n_unfolding.py": "1d5703475810e8dd6080897a068f75ba5d4434d65e481e750172687d221a58f3"
+  },
   "effective_ranks": [
     {
       "u": "-2*sqrt(2)",
       "v": "-sqrt(2)/4",
-      "rank": 4
+      "rank": 4,
+      "scalar_dephasing_control_rank": 5
     },
     {
       "u": "2*sqrt(2)",
       "v": "sqrt(2)/4",
-      "rank": 4
+      "rank": 4,
+      "scalar_dephasing_control_rank": 5
     },
     {
       "u": "-5*sqrt(5)/4",
       "v": "-sqrt(5)/16",
-      "rank": 4
+      "rank": 4,
+      "scalar_dephasing_control_rank": 5
     },
     {
       "u": "5*sqrt(5)/4",
       "v": "sqrt(5)/16",
-      "rank": 4
+      "rank": 4,
+      "scalar_dephasing_control_rank": 5
     }
   ],
-  "scalar_dissipator_control_rejected": true
+  "absorption_rate_per_stratum": {
+    "1": -2,
+    "3": -6
+  },
+  "hamming_strata": {
+    "1": 12,
+    "3": 12
+  },
+  "resonance_rank_per_stratum": {
+    "1": 4,
+    "3": 4
+  },
+  "resonance_stratum_intersections": {
+    "1": 1,
+    "3": 1
+  },
+  "restricted_dissipator_rates": [
+    "-2",
+    "-4",
+    "-4 + sqrt(10)/4",
+    "-4 - sqrt(10)/4",
+    "-6"
+  ],
+  "restricted_dissipator_mean": -4,
+  "restricted_mean_per_multiplet": {
+    "-7": -4,
+    "-5": -4,
+    "-3": -4,
+    "-1": -4,
+    "1": -4,
+    "3": -4,
+    "5": -4,
+    "7": -4
+  },
+  "stratum_weight_per_multiplet": {
+    "-7": "1/2",
+    "-5": "1/2",
+    "-3": "1/2",
+    "-1": "1/2",
+    "1": "1/2",
+    "3": "1/2",
+    "5": "1/2",
+    "7": "1/2"
+  },
+  "coherent_half_symmetric_at_symbolic_weight": true,
+  "free_fermion_factor_multiplicities_over_Qw": [
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      1
+    ]
+  ],
+  "end_weight_lifting_the_multiplet_to_five": [
+    "sqrt(3)/2"
+  ],
+  "resonance_is_four_plus_one": true,
+  "coherent_half_frequency_comb": {
+    "-7": 1,
+    "-5": 2,
+    "-3": 4,
+    "-1": 5,
+    "1": 5,
+    "3": 4,
+    "5": 2,
+    "7": 1
+  },
+  "coherent_half_geometric_total": 24,
+  "scalar_dephasing_determinant": "I*(u - 4*v)**4*(u + 4*v)/1024",
+  "scalar_dephasing_line": {
+    "eigenvalue": "sqrt(3)",
+    "algebraic": 4,
+    "geometric": 4
+  },
+  "end_weight_term_slopes": {
+    "-sqrt(3)": 1,
+    "sqrt(3)": 4
+  },
+  "effective_term_plane_ranks": [
+    {
+      "u": "-2*sqrt(2)",
+      "end_weight_term": 3,
+      "dephasing_term": 3,
+      "multiplet_containment": {
+        "sqrt(3)": [
+          5,
+          4
+        ],
+        "-sqrt(3)": [
+          3,
+          1
+        ]
+      }
+    },
+    {
+      "u": "2*sqrt(2)",
+      "end_weight_term": 3,
+      "dephasing_term": 3,
+      "multiplet_containment": {
+        "sqrt(3)": [
+          5,
+          4
+        ],
+        "-sqrt(3)": [
+          3,
+          1
+        ]
+      }
+    },
+    {
+      "u": "-5*sqrt(5)/4",
+      "end_weight_term": 3,
+      "dephasing_term": 3,
+      "multiplet_containment": {
+        "sqrt(3)": [
+          5,
+          4
+        ],
+        "-sqrt(3)": [
+          3,
+          1
+        ]
+      }
+    },
+    {
+      "u": "5*sqrt(5)/4",
+      "end_weight_term": 3,
+      "dephasing_term": 3,
+      "multiplet_containment": {
+        "sqrt(3)": [
+          5,
+          4
+        ],
+        "-sqrt(3)": [
+          3,
+          1
+        ]
+      }
+    }
+  ]
 }

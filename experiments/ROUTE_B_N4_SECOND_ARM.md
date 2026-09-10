@@ -39,7 +39,28 @@ incoming arm; the local self-fold proof supplies the exact seed germ.
 chains, but does not own this profile or this EP asymptote. F129's uniform
 cosine-comb collision law and F88b/F98's popcount Krawtchouk identities
 are different objects and are not premises here. The Confirmations
-registry has no hardware measurement of this EP path.
+registry has no hardware measurement of this EP path; `ibm_ep_onset_may2026`
+names an EP but disclaims measuring coalescence or Jordan character.
+
+The half-supplies-what reading below was swept separately. The Claim
+graph and the live witnesses own it already, as the free-fermion-kernel
+rule in `CoherenceHorizonClaim` and `EpCharacterWitness`, gated by
+`EpCharacterWitnessTests`. That rule supplies the vocabulary used below
+but does not classify these four points, and the section says so rather
+than folding them in. `PROOF_CODIM1_BY_ADDITIVITY` §8 and
+`DIABOLIC_BY_INTEGRABILITY` own the twin-scalar condition and the
+scalar-restriction case. `PROOF_ABSORPTION_THEOREM` owns the −2γ·Hamming
+diagonal, and GammaFold owns a scalar dissipator being a pure
+translation. The F-registry, OpenArcs, PREDICTIONS, CAUGHT_ERRORS and
+the GLOSSARY hold nothing on which half supplies defectiveness; the
+arcs nearest by content, `diabolic_over_higher_n` and
+`site_resolved_vacuum_block`, ask counting and profile questions rather
+than this one. `F89_BRANCH_LOCUS_PALINDROME` owns the −4γ centre as a
+palindrome fixed point, and `DIABOLIC_BY_INTEGRABILITY` already carries
+the division at the octic seed, free fermions supplying the degenerate
+origin and dephasing the splitting. What is new below is that division
+at this profile, with the coherent half closed structurally rather than
+by sample.
 
 ![The seed, turn and infinity limit, with the selected frequency offset.](../visualizations/route_b_n4_second_arm.png)
 
@@ -339,17 +360,111 @@ This independently reproduces H from the actual dephasing and hopping
 matrices. The extra quadratic factor is nonzero for real u,v; its two
 roots have leading decay rates −2 and −6. The remaining three modes
 carry the cubic response. At each of the four real double-root points,
-the effective matrix has exact rank four after subtracting μI, hence
-one Jordan block of size two. Replacing the projected dissipator by the
-scalar −4I removes these four roots. Equally spaced Hamiltonian energies
-alone therefore do not supply the EPs: the dissipator's action in their
-resonance space is essential.
+the effective matrix has exact rank four after subtracting μI, so the
+double root of the determinant has geometric multiplicity one: a Jordan
+block of size two.
 
 U is not orthonormal; the displayed coordinates of M need not be
 symmetric. Neither physical nonnormality nor a state-population claim
 is inferred from those coordinate entries. This projection explains
 the limiting operator; the compactified polynomial proves the actual
 finite-q EP germs.
+
+## Which half supplies what
+
+Neither half of the generator can carry a Jordan block on its own, and
+that is settled before any computation. The dephasing part is the
+absorption diagonal, D = −2γ·Hamming(bra, ket)
+([absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)), so
+on this block it is a diagonal matrix taking two values: the twelve
+cells at Hamming 1 pay −2γ, the twelve at Hamming 3 pay −6γ. The
+coherent part is the commutator frequency matrix T₀ at the end weight
+a, written T(a), and it is real symmetric at every a, so iqT(a) is
+skew-Hermitian and any scalar added to it leaves a normal, hence
+diagonalisable, operator at every profile and every coupling.
+Defectiveness lives only in the sum of the two halves.
+
+What the equally spaced energies contribute is the size of the
+degenerate multiplet, not the degeneracy. Free-fermion additivity makes
+T(a) fourfold degenerate at every end weight, and that is derived rather
+than sampled: over ℚ(a) the characteristic polynomial carries two
+quadratic factors to the fourth power. At a = √3/2 the
+single-excitation energies are −3, −1, 1, 3 and the comb collapses onto
+the integers, ±1 (×5), ±3 (×4), ±5 (×2), ±7 (×1). The resonant eigenspace
+of this section is the five-dimensional space at +1, and it is four plus
+one rather than one multiplet: the value +1 lies on the
+multiplicity-four factor at this end weight and at no other positive
+one, and there a simple factor passes through +1 as well.
+
+The dephasing does not create the coincidence. It resolves one. Flatten
+the projected dephasing to the scalar −4I and the determinant becomes
+
+    det(ivI₅ − iu·T′/(4√3)) = i(u−4v)⁴(u+4v)/1024,
+
+a fourfold root along the whole line v = u/4, and a semisimple one:
+T′ = W(T_left+T_right)U, the end-weight deviation in the projected
+coordinates, carries √3 with algebraic and geometric multiplicity four
+alike. The four isolated double-root points are not there; a
+degenerate line is.
+Put the spread back and that line breaks into isolated points, and at
+four of them the break leaves the Jordan block above.
+
+What makes the restricted dephasing non-scalar is that the resonant
+eigenspace meets each stratum: dim(U ∩ Hamming k) = 1 for k = 1 and for
+k = 3, so the restriction carries D's extreme rates −2 and −6
+themselves, beside −4 and −4 ± √10/4. Straddling the two strata would
+not be enough on its own; the plane spanned by two sums of one
+Hamming-1 cell and one Hamming-3 cell straddles both strata and
+compresses to exactly −4·I₂.
+
+The −4γ those rates average to is the block's palindrome centre, owned
+as such by the [branch-locus palindrome](F89_BRANCH_LOCUS_PALINDROME.md):
+the Hamming-1 and Hamming-3 rungs are F1 weight-complement partners
+summing to 2σ = 8γ, so −4γ is their fixed point. It is not a property
+of this eigenspace. Every multiplet of the block, whatever its
+dimension, carries exactly half its weight in each stratum, so any
+Hamming-indexed dephasing has, on every multiplet, the normalized trace
+its two rung values average to. The restriction itself is not that
+number, as the five rates above show; only its trace per dimension is.
+For the absorption diagonal it is −4γ, on all eight multiplets alike.
+
+## What this reading does not license
+
+The twin-scalar split of
+[PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
+§8 does not reach these four points, and what fails is its premise, not
+its verdict. The lemma asks that the two coalescing directions descend
+from one degenerate free-fermion multiplet. Here they descend from two.
+The resonant eigenspace is four plus one, and the end-weight deviation
+T′ = W(T_left+T_right)U reads that split as its own spectrum: √3 with
+multiplicity four and −√3 once, the two multiplets' differing slopes. A
+coalescing plane lying inside one multiplet would join that multiplet's
+eigenspace at its own dimension; at all four points both joints exceed
+it, 5 against 4 and 3 against 1, over the exact number field. The plane
+straddles the two. Consistently, neither term of M(u) preserves it,
+rank[P | A P] = 3 for A either term, with P = ker(μI−M)². Since the
+premise is unmet, this section claims nothing about the lemma's verdict
+in either direction.
+
+The free-fermion-kernel rule of `EpCharacterWitness`
+(`inspect --root epcharacter`) does not classify them either. That rule
+reads a defective coalescence as γ-driven and a diabolic one as a
+frequency coincidence already present at γ = 0. The +1 resonance here is
+present at γ = 0, with multiplicity five, which is the rule's diabolic
+side, and these points are defective all the same. A γ = 0 degeneracy
+resolved defectively by dephasing is a third case, and this section
+leaves it as one rather than folding it into the two.
+
+The seed of this document's own path is the other end of the contrast,
+not an independent point: q₀ = √((√13−1)/6) is the octic q_EP of
+[diabolic by integrability](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md),
+where both halves restrict to scalars on the coalescing plane and the
+character is diabolic. The path therefore runs from a twin-scalar
+diabolic seed at uniform bonds, where both restrictions are scalar and
+the two directions share a multiplet, to germs at infinity where the
+coalescing plane straddles two. The two ends differ in profile, in
+coupling, and in whether the object is a finite-q operator or a q = ∞
+germ, and only the −5√5/4 germ is connected to the validated arm.
 
 ## What the path tells us about the mirror
 
@@ -381,6 +496,14 @@ python simulations/route_b_n4_self_fold.py
 python simulations/route_b_n4_parity_factors.py
 python simulations/route_b_n4_incoming_crossing.py
 python simulations/route_b_n4_incoming_certificate.py
+python -m pytest simulations/tests/test_route_b_n4_resonance_projection.py
 ```
+
+The last line is the gate on the projection's certificate: nine checks,
+eight of them re-derived from `parts(4)` and compared against the
+committed artifact and one on its provenance. Most carry the mutation or
+control that makes their own instrument read the other answer; the
+exceptions are the structural identities, where the instrument has no
+other answer to give.
 
 Each producer stores a corresponding JSON in simulations/results.
