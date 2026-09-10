@@ -1,7 +1,9 @@
 using System.Globalization;
 using System.Numerics;
+using System.Text.Json;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -10,9 +12,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// contour reading. This witness executes the parts of that argument that are self-contained structure,
 /// and names the one input it consumes from elsewhere.
 ///
-/// <para><b>Scope.</b> It supplies the exact half for the 2 real-q loci of the 34 that carried only a
-/// stable numerical <c>EpCharacter</c> reading; the other 32 keep the reading. Not an all-N theorem, and
-/// no metrological claim follows from it.</para>
+/// <para><b>Scope.</b> Of the N=5 inventory's 58 q-loci, all 24 imaginary-q loci are directly
+/// Hermitian-certified. F164 certifies the complete 26-member R-odd orbit, overlapping 12 Hermitian loci
+/// and adding the 2 real-q plus 12 nonreal-q loci. Thus 38 distinct loci are exact-certified semisimple;
+/// only the 20 nonreal-q R-even loci remain numerical-only. The classifier still reads all 32 nonreal-q
+/// loci. The artifact's empty <c>exactRankCertificates</c> array is classifier-local provenance, not the
+/// current verdict. Not an all-N theorem, and no metrological claim follows from it.</para>
 ///
 /// <para><b>What the proof does, and which half lives here.</b> Let w₀ be the positive real root of the
 /// R-odd A₂ layer and t = √(−w). The proof's first step is arithmetic: A₂_O is irreducible over ℚ of
@@ -35,17 +40,28 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// response σ₂ = c·(δJ/J). The constant is direction-dependent and no parity fixes it: three PALINDROMIC
 /// directions give three different c. What parity decides is whether a response exists at all, and that is
 /// a theorem rather than a sample. L is affine in the bond couplings and the chain reflection carries
-/// ∂L/∂J_b to ∂L/∂J_{N−2−b}, so on a REFLECTION-SYMMETRIC base an ANTI-palindromic pattern obeys
-/// R V R = −V, and for two R-odd vectors u, v that forces vᵀVu = −vᵀVu; hence U_Oᵀ V U_O vanishes
-/// identically, at every N. The base's symmetry is a hypothesis and not a convenience: without it R
-/// does not commute with L and the R-odd sector is not an invariant subspace at all.
+/// ∂L/∂J_b to ∂L/∂J_{N−2−b}, so an ANTI-palindromic pattern obeys R V R = −V at every base point.
+/// For two R-odd vectors u, v that forces vᵀVu = −vᵀVu; hence P_- V P_- vanishes identically, at every
+/// N and independently of the base point. Reflection symmetry of the base is needed only so the R-even
+/// and R-odd subspaces are invariant under L.
 /// <see cref="DirectionReach"/> recomputes it as a projection norm ratio, with no eigensolver.
 /// It is a BLIND SPOT of the sector reading and not a null response: inside the sector PVP = 0 holds σ₂
 /// on its floor, while the physical pair splits through the EVEN sector at second order. A reading that
 /// stopped at the projection would call such a detune harmless.</para></summary>
+public sealed record N6RealQExclusionReading(int LocusCount, int RealAxisTouchCount)
+{
+    public int ExcludedCount => LocusCount - RealAxisTouchCount;
+    public bool AllExcluded => LocusCount == 266 && RealAxisTouchCount == 0;
+    public string Summary => $"{ExcludedCount} of {LocusCount} certified exact rational tBox.real intervals " +
+                             $"exclude zero; real-axis touches = {RealAxisTouchCount}";
+}
+
 public sealed class RouteBN5RealQSemisimpleWitness : IInspectable
 {
     private const int Sites = 5;
+    private const string N6AtlasCanonicalSha256 = "c4b19015a750e56a55b0c8fdba3d05534c0c133bc5355a74eb89b77020532d47";
+    private const string N6Model = "open-uniform-XY-delta0-field0-gamma1-SEket-DEbra";
+    private const string N6ParameterConvention = "t=i*qCSharp;qCSharp=-i*t";
 
     /// <summary>The stored physical eigenvalue at the locus (route_b_a2_n5.json, R-odd positive-real root).</summary>
     public const double Lambda0 = -4.7919603651796410;
@@ -65,14 +81,129 @@ public sealed class RouteBN5RealQSemisimpleWitness : IInspectable
         {
             var book = PinnedBook;
             var axis = HermitianAxisResidual;
-            return $"the one Route-B operating point with real q and real λ (q = ±1.1292509708747671, " +
-                   $"λ = {Lambda0.ToString("0.0000000000", CultureInfo.InvariantCulture)}); book pinned to " +
-                   $"{book}; on the Hermitian axis the R-odd block is real symmetric with residual " +
+            var n6 = N6RealQExclusion;
+            return $"the only real-q points in the N=5/N=6 A2 inventories have settable parameter q = ±1.1292509708747671 " +
+                   $"and resulting spectral eigenvalue λ = {Lambda0.ToString("0.0000000000", CultureInfo.InvariantCulture)}; " +
+                   $"q is the settable parameter and lambda is the resulting spectral eigenvalue; " +
+                   $"book pinned by spectrum/operator reconstruction to {book}; " +
+                   $"on the Hermitian axis the R-odd block is real symmetric with residual " +
                    $"{axis.ToString("0.###e+00", CultureInfo.InvariantCulture)}, so the orbit carries " +
-                   $"semisimplicity to the physical point. Exact half for 2 of the 34 classified-not-certified " +
-                   $"loci, the other 32 keeping the reading; not an all-N theorem (Tier 1, derived)";
+                   $"semisimplicity to every R-odd conjugate. N=5: 24 imaginary-q directly Hermitian-certified; " +
+                   $"F164 certifies all 26 R-odd loci, so 38 distinct loci are exact-certified and only 20 " +
+                   $"nonreal-q R-even loci are numerical-only; empty exactRankCertificates is " +
+                   $"classifier-local provenance. N=6: {n6.Summary}; not an all-N theorem (Tier 1, derived)";
         }
     }
+
+    /// <summary>Exact N=6 real-q exclusion from the committed atlas. Since t=i q, q is real iff
+    /// Re(t)=0; every certified rational real-part interval must therefore exclude zero. No display
+    /// midpoint participates in this reading.</summary>
+    public N6RealQExclusionReading N6RealQExclusion
+    {
+        get
+        {
+            string path = Path.Combine(RepoRootLocator.Require(), "simulations", "results", "route_b_a2_n6.json");
+            return ReadN6RealQExclusion(File.ReadAllText(path));
+        }
+    }
+
+    /// <summary>Read the exact rational t-boxes from an N=6 atlas payload. Public so the gate can mutate
+    /// one interval to touch zero and prove that the same decision path rejects it.</summary>
+    public static N6RealQExclusionReading ReadN6RealQExclusion(string json)
+    {
+        using JsonDocument document = JsonDocument.Parse(json);
+        JsonElement root = document.RootElement;
+        if (root.ValueKind != JsonValueKind.Object)
+            throw new InvalidDataException("the N=6 atlas root must be an object");
+        if (ReadInt32(root, "schemaVersion") != 3 || ReadInt32(root, "n") != 6)
+            throw new InvalidDataException("the real-q exclusion requires schemaVersion=3 and n=6");
+        if (Required(root, "model", JsonValueKind.String).GetString() != N6Model)
+            throw new InvalidDataException("the real-q exclusion requires the canonical N=6 model");
+        JsonElement conventions = Required(root, "conventions", JsonValueKind.Object);
+        if (Required(conventions, "parameter", JsonValueKind.String).GetString() != N6ParameterConvention
+            || Required(conventions, "eigenvalue", JsonValueKind.String).GetString() != "Lambda=2*lambda"
+            || Required(conventions, "coefficientOrder", JsonValueKind.String).GetString()
+                != "lambda-lowest-first,t-lowest-first")
+            throw new InvalidDataException("the real-q exclusion requires the canonical t/q/lambda conventions");
+
+        JsonElement degrees = Required(root, "a2Degrees", JsonValueKind.Object);
+        if (ReadInt32(degrees, "E") != 133 || ReadInt32(degrees, "O") != 133)
+            throw new InvalidDataException("the N=6 atlas must declare A2 degrees E=133 and O=133");
+
+        JsonElement loci = Required(root, "loci", JsonValueKind.Array);
+        if (loci.GetArrayLength() != 266)
+            throw new InvalidDataException("the N=6 atlas must contain exactly 266 certified loci");
+
+        var ids = new HashSet<string>(StringComparer.Ordinal);
+        int even = 0, odd = 0;
+        int touching = 0;
+        foreach (JsonElement locus in loci.EnumerateArray())
+        {
+            if (locus.ValueKind != JsonValueKind.Object)
+                throw new InvalidDataException("every N=6 locus must be an object");
+            string id = Required(locus, "id", JsonValueKind.String).GetString()!;
+            if (string.IsNullOrWhiteSpace(id) || !ids.Add(id))
+                throw new InvalidDataException("the N=6 atlas must contain 266 unique nonempty locus ids");
+
+            string parity = Required(locus, "parity", JsonValueKind.String).GetString()!;
+            if (parity == "E") even++;
+            else if (parity == "O") odd++;
+            else throw new InvalidDataException($"{id}: parity must be E or O");
+            if (ReadInt32(locus, "algebraicMultiplicity") != 2)
+                throw new InvalidDataException($"{id}: certified A2 locus must have algebraicMultiplicity=2");
+
+            JsonElement tBox = Required(locus, "tBox", JsonValueKind.Object);
+            JsonElement interval = Required(tBox, "real", JsonValueKind.Object);
+            var lower = ReadRational(Required(interval, "lower", JsonValueKind.Object));
+            var upper = ReadRational(Required(interval, "upper", JsonValueKind.Object));
+            if (Compare(lower, upper) > 0)
+                throw new InvalidDataException($"{id}: tBox.real interval has lower > upper");
+            if (lower.Numerator.Sign <= 0 && upper.Numerator.Sign >= 0)
+                touching++;
+        }
+        if (even != 133 || odd != 133)
+            throw new InvalidDataException($"the N=6 atlas parity counts must be E=133 and O=133, got E={even}, O={odd}");
+        if (RouteBN6UnfoldingCertificate.CanonicalUtf8LfSha256(json) != N6AtlasCanonicalSha256)
+            throw new InvalidDataException("the N=6 boxes are detached from the semantically certified canonical carrier");
+        return new N6RealQExclusionReading(loci.GetArrayLength(), touching);
+    }
+
+    private readonly record struct Rational(BigInteger Numerator, BigInteger Denominator);
+
+    private static Rational ReadRational(JsonElement value)
+    {
+        BigInteger numerator = ReadBigInteger(value, "numerator");
+        BigInteger denominator = ReadBigInteger(value, "denominator");
+        if (denominator.Sign <= 0)
+            throw new InvalidDataException("a rational box endpoint must have a positive denominator");
+        return new Rational(numerator, denominator);
+    }
+
+    private static JsonElement Required(JsonElement parent, string name, JsonValueKind kind)
+    {
+        if (!parent.TryGetProperty(name, out JsonElement value) || value.ValueKind != kind)
+            throw new InvalidDataException($"{name} must be a JSON {kind}");
+        return value;
+    }
+
+    private static int ReadInt32(JsonElement parent, string name)
+    {
+        JsonElement value = Required(parent, name, JsonValueKind.Number);
+        if (!value.TryGetInt32(out int result))
+            throw new InvalidDataException($"{name} must be an exact 32-bit integer");
+        return result;
+    }
+
+    private static BigInteger ReadBigInteger(JsonElement parent, string name)
+    {
+        string text = Required(parent, name, JsonValueKind.String).GetString()!;
+        if (!BigInteger.TryParse(text, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out BigInteger result))
+            throw new InvalidDataException($"{name} must be an exact integer string");
+        return result;
+    }
+
+    private static int Compare(Rational left, Rational right) =>
+        (left.Numerator * right.Denominator).CompareTo(right.Numerator * left.Denominator);
 
     // ---------------------------------------------------------------- the block
 
@@ -281,10 +412,16 @@ public sealed class RouteBN5RealQSemisimpleWitness : IInspectable
                          $"reflection into {full} = {even} even + {odd} odd; the A₂ layer the proof " +
                          $"consumes is the odd one, of degree 13.");
 
-            yield return new InspectableNode("the coupling book, pinned by measurement",
+            yield return new InspectableNode("the coupling book, pinned by spectrum/operator reconstruction",
                 summary: $"{PinnedBook}. Scanned over the three candidate scalings rather than assumed, " +
                          $"because the repository's q and Q differ by a factor of two.",
                     provenance: NodeProvenance.Live);
+
+            var n6 = N6RealQExclusion;
+            yield return new InspectableNode("N=6 real-q exclusion from exact rational boxes",
+                summary: $"{n6.Summary}. Since t=i q, q is real iff Re(t)=0. " +
+                         $"This exact interval decision does not inspect display midpoints.",
+                provenance: NodeProvenance.Live);
 
             double axis = HermitianAxisResidual;
             yield return new InspectableNode("step 2: the orbit meets the Hermitian axis",
@@ -337,8 +474,9 @@ public sealed class RouteBN5RealQSemisimpleWitness : IInspectable
                 yield return new InspectableNode($"detune direction {label} ({kind})",
                     summary: $"largest entry of U_Oᵀ V U_O in the ±1 orbit basis = " +
                              $"{DirectionReach(pattern).ToString("0.###e+00", CultureInfo.InvariantCulture)}. " +
-                             (anti ? "Exactly zero, by R V R = −V, so this direction cannot move THIS SECTOR " +
-                                     "at all. The physical pair still splits, through the even sector at second " +
+                             (anti ? "Exactly zero, by R V R = −V, independently of the base point. Reflection " +
+                                     "symmetry of the base is needed only to make the parity subspaces invariant. " +
+                                     "The physical pair still splits, through the even sector at second " +
                                      "order: a blind spot of the sector reading, not a null response."
                               : pal ? "Of the coupling's size, so the response here is linear, with a constant " +
                                       "of its own that no parity fixes."

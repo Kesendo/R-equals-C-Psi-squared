@@ -6,6 +6,25 @@ namespace RCPsiSquared.Cli.Tests.Commands;
 
 public class InspectRootCatalogTests
 {
+    [Fact]
+    public void Catalog_AddsFixedN6UnfoldingRootWithLocalComplexScope()
+    {
+        var entry = Assert.Single(InspectCommand.Catalog, e => e.Name == "n6unfolding");
+        Assert.False(entry.RequiresN);
+        Assert.False(entry.HonorsOptionalN);
+        Assert.Contains("F163", entry.Description);
+        Assert.Contains("266", entry.Description);
+        Assert.Contains("epsilon/epsilon/epsilon^2", entry.Description);
+        Assert.Contains("complex-q", entry.Description);
+        Assert.Contains("not an all-N", entry.Description);
+        var context = new InspectRootContext(new ArgParser(new[] { "--N", "9" }), N: 9,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var root = entry.Factory(context);
+        Assert.Equal("RouteBN6A2UnfoldingWitness", root.GetType().Name);
+        Assert.Contains("N=6", root.Summary);
+        Assert.DoesNotContain("N=9", root.Summary);
+    }
+
     // The roots that were hardcoded in the InspectCommand switch before the catalog refactor.
     private static readonly string[] PreviouslyHardcodedRoots =
     {
@@ -289,6 +308,31 @@ public class InspectRootCatalogTests
         var entry = InspectCommand.Catalog.Single(e => e.Name == "decoder");
         Assert.False(entry.RequiresN);
         Assert.Contains("Q-factor", entry.Description);
+        Assert.Contains("seven-point", entry.Description);
+        Assert.Contains("Q=1", entry.Description);
+        Assert.Contains("lowest sampled endpoint", entry.Description);
+        Assert.Contains("Q*=1.87874", entry.Description);
+        Assert.Contains("unsampled", entry.Description);
+        Assert.Contains("no EP verdict", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_N5DiabolicRootCarriesTheExactCurrentEvidenceSplit()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "n5diabolic");
+        Assert.Contains("only real-q points in the N=5/N=6 A2 inventories", entry.Description);
+        Assert.Contains("q is the settable parameter", entry.Description);
+        Assert.Contains("lambda is the resulting spectral eigenvalue", entry.Description);
+        Assert.Contains("coupling book pinned by spectrum/operator reconstruction", entry.Description);
+        Assert.DoesNotContain("observed eigenvalue", entry.Description);
+        Assert.DoesNotContain("pinned by measurement", entry.Description);
+        Assert.Contains("24 imaginary-q", entry.Description);
+        Assert.Contains("2 real-q", entry.Description);
+        Assert.Contains("32 nonreal-q", entry.Description);
+        Assert.Contains("classifier-local provenance", entry.Description);
+        Assert.Contains("exact rational tBox.real intervals", entry.Description);
+        Assert.Contains("independent of the base point", entry.Description);
+        Assert.Contains("invariant subspaces", entry.Description);
     }
 
     [Fact]

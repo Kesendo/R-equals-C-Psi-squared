@@ -921,15 +921,20 @@ public static class KnowledgeRegistryFactory
             // an exact remainder instead of readings in the node field; the gate is
             // simulations/blind_seat_two_axes_proof.py block W.
             .RegisterBlindSeatSectorFactorisationClaim()
+            // F163: N=6 complex-q A2 semisimplicity and local end-bond unfolding.
+            // Parents supply F131 order sorting and F89d partner-block transport only.
+            .RegisterRouteBN6A2UnfoldingClaim()
             // F164, the N=5 real-q A2 locus (Tier 1 derived, docs/proofs/PROOF_N5_REAL_Q_DIABOLIC.md): the only
-            // Route-B point at N=5 or N=6 whose coupling AND eigenvalue are both real carries a SEMISIMPLE double
-            // eigenvalue, by a field argument rather than a contour reading. A2_O irreducible of degree 13 puts the
+            // Route-B point at N=5 or N=6 whose parameter q and resulting spectral eigenvalue lambda are both real carries a
+            // SEMISIMPLE double eigenvalue, by a field argument rather than a contour reading. A2_O irreducible of degree 13 puts the
             // physical t0 in one Galois orbit with the twelve real t where the block is real symmetric, and rank is
-            // preserved by every embedding, so the Hermitian-axis verdict transfers. It supplies the exact half for
-            // the 2 real-q loci of the 34 that carried only a stable numerical EpCharacter reading; the other 32
-            // keep the reading. Parent F89Path3OcticEpClaim, the same block one chain shorter with the same verdict
-            // reached numerically. Live witness RouteBN5RealQSemisimpleWitness, inspect --root n5diabolic, which
-            // pins the coupling book by spectrum and reads the real-symmetry residual against 0.0 exactly.
+            // preserved by every embedding, so the Hermitian-axis verdict transfers across the complete 26-member
+            // R-odd orbit. Current N=5 status: 38 distinct exact-certified semisimple loci and 20 nonreal-q R-even
+            // numerical-only loci; the classifier independently reads all 32 nonreal-q loci;
+            // an empty exactRankCertificates array is classifier-local provenance. At N=6, exact rational tBox.real
+            // intervals exclude zero for all 266 loci. No typed parents or ancestors. Live witness
+            // RouteBN5RealQSemisimpleWitness, inspect --root n5diabolic, pins the coupling book by spectrum, reads
+            // real symmetry against 0.0, and gates the N=6 exclusion from the rational intervals rather than midpoints.
             .RegisterRouteBN5RealQSemisimpleClaim()
             // Open questions
             .RegisterF1OpenQuestions()

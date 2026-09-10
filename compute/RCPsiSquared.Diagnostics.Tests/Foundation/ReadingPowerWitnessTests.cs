@@ -8,12 +8,25 @@ public class ReadingPowerWitnessTests
     static ReadingPowerWitness W() => new ReadingPowerWitness(n: 4);
 
     [Fact]
-    public void NoEpPeak_InAnyBasis_FiMonotoneInQ()
+    public void FiIsMonotoneOnTheSevenPointSampledQGrid_InEveryBasis()
     {
         var w = W();
+        Assert.Equal(new[] { 20.0, 10.0, 5.0, 2.5, 5.0 / 3.0, 1.25, 1.0 }, w.SampledQGrid);
         foreach (var basis in new[] { ReadoutBasis.Z, ReadoutBasis.X, ReadoutBasis.Y })
             Assert.True(w.IsMonotoneInQ(basis),
-                $"FI(Q) must be monotone increasing in {basis} (no EP peak in this readout)");
+                $"FI(Q) must be monotone on the sampled grid in {basis}");
+    }
+
+    [Fact]
+    public void SampledGridDoesNotContainTheRelevantN4ExceptionalPoint()
+    {
+        var w = W();
+        Assert.Equal(1.0, w.SampledQGrid.Min());
+        Assert.DoesNotContain(w.SampledQGrid, q => Math.Abs(q - 1.87874) < 1e-12);
+        Assert.Contains("lowest sampled endpoint", w.Summary);
+        Assert.Contains("Q*=1.87874", w.Summary);
+        Assert.Contains("unsampled", w.Summary);
+        Assert.Contains("no EP verdict", w.Summary);
     }
 
     [Fact]
@@ -29,6 +42,12 @@ public class ReadingPowerWitnessTests
     {
         var w = W();
         Assert.True(w.SpanRatio(ReadoutBasis.X) > 10 * w.SpanRatio(ReadoutBasis.Z));
+        Assert.InRange(w.SpanRatio(ReadoutBasis.X), 1555.2, 1555.4);
+        Assert.True(double.IsFinite(w.SpanRatio(ReadoutBasis.X)),
+            "the nonzero Q=1 coherence FI must not be described as no readout");
+        var node = ((IInspectable)w).Children.Single(c => c.DisplayName.Contains("basis ordering"));
+        Assert.Contains("population basis remains much stronger", node.Summary);
+        Assert.DoesNotContain("only the population basis still reads", node.Summary);
     }
 
     [Fact]
@@ -36,8 +55,19 @@ public class ReadingPowerWitnessTests
     {
         var labels = ((IInspectable)W()).Children.Select(c => c.DisplayName).ToList();
         Assert.Contains(labels, l => l.Contains("resolution law"));
-        Assert.Contains(labels, l => l.Contains("no EP peak"));
+        Assert.Contains(labels, l => l.Contains("sampled-grid monotonicity"));
         Assert.Contains(labels, l => l.Contains("basis ordering"));
+    }
+
+    [Fact]
+    public void ComputedSweepFitAndMonotonicityNodesAreLive()
+    {
+        var children = ((IInspectable)W()).Children.ToList();
+        foreach (var label in new[] { "the sweep", "the resolution law", "sampled-grid monotonicity", "basis ordering" })
+        {
+            var node = children.Single(c => c.DisplayName.Contains(label));
+            Assert.Equal(NodeProvenance.Live, node.Provenance);
+        }
     }
 
     [Fact]
@@ -74,9 +104,12 @@ public class ReadingPowerWitnessTests
     }
 
     [Fact]
-    public void Guard_RejectsNOutsideThreeToFive()
+    public void Guard_RestrictsTheN4SpecificWitnessToN4()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => new ReadingPowerWitness(2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new ReadingPowerWitness(3));
+        _ = new ReadingPowerWitness(4);
+        Assert.Throws<ArgumentOutOfRangeException>(() => new ReadingPowerWitness(5));
         Assert.Throws<ArgumentOutOfRangeException>(() => new ReadingPowerWitness(6));
     }
 }

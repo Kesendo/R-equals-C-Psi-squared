@@ -266,7 +266,7 @@ the law is FI ≈ c·Q: linear in the resonator quality factor Q = J/γ₀.
 | 2.5 | 0.181 (K=0.56) | 1.69e-4 (K=0.67) |
 | 1.67 | 0.131 (K=0.81) | 1.03e-4 (K=0.87) |
 | 1.25 | 0.104 (K=1.00) | 7.62e-5 (K=1.00) |
-| 1.0 (EP) | 0.072 (K=1.00) | 5.14e-5 (K=1.00) |
+| 1.0 (lowest sampled point) | 0.072 (K=1.00) | 5.14e-5 (K=1.00) |
 
 **X-basis and Y-basis (coherence) readout, strength-FI, same protocol:**
 
@@ -275,7 +275,7 @@ the law is FI ≈ c·Q: linear in the resonator quality factor Q = J/γ₀.
 | 20 | 0.669 | 0.669 |
 | 5 | 0.0495 | 0.0495 |
 | 1.7 | 0.0023 | 0.0023 |
-| 1.0 (EP) | 0.0004 | 0.0004 |
+| 1.0 (lowest sampled point) | 0.0004 | 0.0004 |
 
 Resolving power is the Q-factor in its hundred-year-old sense: frequency over linewidth, the
 coherent cycles per lifetime. Two lines resolve when split by more than their width, so a
@@ -284,11 +284,14 @@ rates the two routes to high Q differently (raising J wins per lab-second; lower
 stretches the run, so the gain is per dose only); in inside-units (K) the law is clean,
 which is itself evidence for the carrier-relative thesis.
 
-The exceptional point Q = 1 is the worst reading point in every basis tested, by 22× in
-strength and 50× in location against Q = 20. Coherence readouts (X/Y) fade fastest toward
-low Q: their slope is steeper (1670× across the range versus 22× for Z) because the light
-erases the bright letters first. Near Q = 1 only the population basis still reads at all. The
-live instrument is `inspect --root decoder`.
+Across the seven sampled Q values, Q=1 is the lowest endpoint and has the weakest
+reading in every basis tested: by 22× in strength and 50× in location against Q=20.
+Coherence readouts (X/Y) fade fastest toward low Q: their live max/min span is
+1555.3× across the range versus about 22× for Z because the light erases the bright
+letters first. At the sampled endpoint Q=1, X/Y remain nonzero, while the population basis remains much stronger. The
+relevant N=4 coherence-horizon EP is Q*(4)=1.87874, which this grid does not sample;
+the sweep therefore makes no EP-specific verdict. The live instrument is
+`inspect --root decoder`.
 
 > **Tier 2.** Measured by two independent implementations and the C# witness. The linearity
 > is leading-order; the worst residual across the sweep is ~15%.
@@ -320,12 +323,12 @@ then read is how you recall what is written in the dark. γ₀ erases only the b
 > **Read-cost (tested 2026-06-20: qualitatively yes, quantitatively not ~2/Q).** If the dark
 > sector is the disk and L_H the head, one recall rotates dark → bright (dwell ~ 1/J) while the
 > bright pays the light (~2γ), so the mechanism *estimates* the dose cost of one read at ~2/Q:
-> high-Q systems read their memory almost free; at the EP every read erases of order what it
+> high-Q systems read their memory almost free; at stronger damping a read erases more of what it
 > reads. Measured on the FI apparatus (N = 5 chain, Z-population, the same curve as the
 > resolution law; [`handshake_read_cost.py`](../simulations/handshake_read_cost.py),
 > [`handshake_read_cost_diag.py`](../simulations/handshake_read_cost_diag.py)): the
 > **qualitative** law holds. Cost-per-recall (the dose K_peak at which FI is maximal) falls
-> overall with Q, from 1.65 at the EP (Q = 1) to 0.10 at Q = 35, neither flat nor inverted, so
+> overall with Q, from 1.65 at the sampled Q=1 endpoint to 0.10 at Q = 35, neither flat nor inverted, so
 > the stated falsification line is not crossed. But the **quantitative** ~2/Q does not survive a
 > strict gate: the exponent is ≈ −0.7, not −1, and K_peak·Q drifts from ≈ 1.3 to ≈ 3.6 rather
 > than holding at 2, with a regime break near Q ≈ 8 where the best read jumps to a later coherent

@@ -18,18 +18,16 @@ The stores were searched by the primitive this note uses: the readout discrimina
 power of a Lindblad trajectory under a parameter perturbation, on the (1,2) coherence
 block of the N=4 XY chain with Z dephasing.
 
-The Diagnostics half answers.
-[`ReadoutFisher`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadoutFisher.cs) is a
-live readout lab: `DiscriminationMax` sums (p_A − p_B)²/p_clean over the outcomes of a
-rotated basis and maximises it over the time grid.
-[`ReadingPowerWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadingPowerWitness.cs)
-reports that the classical Fisher information of a bond defect is monotone increasing in
-Q across its swept grid Q = 20 down to 1, in the Z, X and Y readouts, so nothing peaks
-anywhere on that grid; it is gated at N=4 by
-`ReadingPowerWitnessTests.NoEpPeak_InAnyBasis_FiMonotoneInQ`. Its grid contains no point
-at the N=4 coherence horizon Q*(4) = 1.87874 and stops at Q = 1, so it is a statement
-about that sweep and not about a specific degeneracy. Neither object has a `Claim` in
-`compute/RCPsiSquared.Core/`.
+The Diagnostics half answers. [`ReadoutFisher`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadoutFisher.cs)
+is a static calculation helper: `DiscriminationMax` sums
+(p_A − p_B)²/p_clean over the outcomes of a rotated basis and maximises it over
+the time grid. [`ReadingPowerWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadingPowerWitness.cs)
+is the live `IInspectable` at `inspect --root decoder`. It reports that the
+classical Fisher information of a bond defect increases across its seven sampled
+Q values from the lowest endpoint Q=1 to Q=20 in the Z, X and Y readouts, gated
+by `ReadingPowerWitnessTests.FiIsMonotoneOnTheSevenPointSampledQGrid_InEveryBasis`.
+The grid does not sample the N=4 coherence-horizon EP Q*(4)=1.87874 and makes no
+EP-specific verdict. Neither object has a `Claim` in `compute/RCPsiSquared.Core/`.
 
 [`COHERENCE_HORIZON_EP_SENSOR_DEBATE`](COHERENCE_HORIZON_EP_SENSOR_DEBATE.md) parked the
 metrological verdict in June, saying it "needs an input-output measurement model the
@@ -55,13 +53,12 @@ character mislabelling and nothing on measurement cost.
 
 ## What this settles, and what it does not
 
-Two results, and they point opposite ways. The methodological one is positive: keeping
-the whole measurement record instead of collapsing it to +1, −1 and zero cuts the shot
-cost again, on the same shots and with no new basis. The EP one is negative, in this
-note's own words below: "The benefit persists away from the EP", the off-EP centre at
-−0.2 is the cheapest of the three, and "most of this contrast is already accessible from
-the spectator populations. It does not identify a Jordan signature." The gain is in the
-record, not in the degeneracy.
+Keeping the whole measurement record instead of collapsing it to +1, −1 and zero
+cuts the shot cost again, on the same shots and with no new basis. The benefit
+persists at the tested off-EP centres, and most of the measured contrast is already
+accessible from the spectator populations. Retaining the record therefore explains
+the measured gain; this finite comparison does not isolate a Jordan- or EP-specific
+contribution.
 
 The score derived here, g = Σ dᵢ²/sᵢ maximised over a time grid, is the same statistic
 family that `ReadoutFisher.DiscriminationMax` already computes, differing in the

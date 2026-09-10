@@ -700,16 +700,21 @@ Four facts per sector, at each of the three N (grades per fact and per N in the 
    all semisimple with alg=geo=2. The 12 negative-real w roots give 24 imaginary-q
    loci certified semisimple by executed full-sector Hermiticity in HS-orthonormal
    coordinates (maximum normalized Frobenius residual 0, below 1e-12), with the
-   target pair isolated at each S1 λ seed. The positive-real R-odd root at
-   w ≈ 5.100831 gives 2 real-q loci and the 16 nonreal w roots give 32 nonreal-q
-   loci: all 34 stable EpCharacter readings are Diabolic, alg=geo=2, at three
-   full-sector isolating radii. No exact fallback was used; the artifact
-   exactRankCertificates array is empty. The [exact export](../simulations/results/route_b_a2_n5.json)
+   target pair isolated at each S1 λ seed. F164's Galois-conjugacy argument
+   certifies the complete 26-member R-odd orbit, overlapping 12 Hermitian loci
+   and adding the 2 real-q plus 12 nonreal-q loci. Combined with the other 12
+   Hermitian loci, 38 distinct loci are exact-certified; only the 20 nonreal-q
+   R-even loci remain numerical-only. The classifier still gives all 32
+   nonreal-q loci stable full-sector `EpCharacter` readings at three isolating
+   radii. The inventory
+   artifact's empty `exactRankCertificates` array records only that its classifier
+   used no exact-rank fallback. The [exact export](../simulations/results/route_b_a2_n5.json)
    stores w=qUnitHop² and qPhysicalCSharp=qUnitHop/2; [export tests](../simulations/tests/test_o2b_a2_character_export.py)
    own the exact isolation and PSC1/S1 seed boundary, while
    [`ROUTE_B_A2_RECONCILE`](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2InventoryTests.cs)
-   joins all 58 locus IDs to local character. This is not an all-N theorem and
-   creates no new F number. A1's 56 w roots / 112 q-loci
+   joins all 58 locus IDs to local character. The exact R-odd-orbit owner is
+   `RouteBN5RealQSemisimpleClaim` (F164), live at `inspect --root n5diabolic`.
+   This is not an all-N theorem. A1's 56 w roots / 112 q-loci
    are certified Puiseux-1/2 defective EP2 by the simple-zero lemma.
 
    Route B is complete at N=6 as a parity-labelled direct-t inventory of A₂.
@@ -892,9 +897,10 @@ none of which the two hypotheses subsume. That two-hypothesis shape for the simp
 separates the simple-layer seeds from the order-two candidates on A₂ without
 assigning a Jordan character to the whole doubled layer. At N=5 R-even has no
 positive-real A₂ root; R-odd has exactly one at w ≈ 5.100831. Both q lifts are
-Diabolic, alg=geo=2, by stable full-sector EpCharacter readings in the completed
-29 A2(w) roots / 58 q-loci inventory at N=5. This local character comes from
-`ROUTE_B_A2_RECONCILE`, not from the two simple-layer hypotheses.
+   semisimple with alg=geo=2 in the completed 29 A2(w) roots / 58 q-loci
+   inventory at N=5. `ROUTE_B_A2_RECONCILE` supplies the stable numerical
+   cross-check; F164 supplies the exact Galois-conjugacy certificate. Neither
+   verdict comes from the two simple-layer hypotheses.
 The four positive-real A₁ roots at N=5 are exactly the four
 seeds, as asserted over ℤ by the committed verifier.
 

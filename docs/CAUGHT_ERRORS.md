@@ -2684,6 +2684,29 @@ reconcile. A1 retains its 56 w roots / 112 q-loci, all simple-zero EP2.
 `simulations/docs_verify.py`, and
 `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`.
 
+### 2026-09-10 — The September 6 boundary was no longer current
+
+**Caught.** The event record above correctly preserves what was known on
+September 6, but its heading `Current boundary` became misleading after the
+completed character work and had no later in-file handoff. A returning reader
+could therefore recover the obsolete 24-certified / 34-uncertified split after
+the living proof had already moved on.
+
+**Current boundary.** The N=5 A2 inventory still has 58 q-loci. Its 24
+imaginary-q loci are directly Hermitian-certified. F164 certifies the complete
+26-member R-odd Galois orbit, overlapping 12 of those Hermitian loci and adding
+2 real-q plus 12 nonreal-q loci. The union is 38 distinct exact-certified
+semisimple loci; only the 20 nonreal-q R-even loci remain numerical-only. The
+classifier still reads all 32 nonreal-q loci, and its empty
+`exactRankCertificates` array describes only that producer route. N=6 is a
+separate F163 result: all 266 A2 loci are exactly semisimple, with N=7 still
+unmeasured at the doubled-layer character/completeness edge.
+
+**Anchors.** `docs/proofs/PROOF_N5_REAL_Q_DIABOLIC.md`,
+`docs/ANALYTICAL_FORMULAS.md` F164, `RouteBN5RealQSemisimpleClaim`,
+`inspect --root n5diabolic`, `RouteBN6A2UnfoldingClaim`, and
+`inspect --root n6unfolding`.
+
 ## 2026-09-08 — F86 hardware handover and FRAGILE character were conflated
 
 **What was wrong.** The earlier F86 repair entry correctly removed the real-axis

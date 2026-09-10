@@ -1,18 +1,29 @@
 """Virtual ternary readout at the N4 equal-end EP. No hardware model.
 
-Run with OPENBLAS_NUM_THREADS=1. Time is gamma*t; gamma=1, q=2,
+BLAS/OpenMP threads are pinned to one. Time is gamma*t; gamma=1, q=2,
 XY hopping=2*q*weight. Masks use site zero as the least significant bit.
 """
 import json
+import os
 from pathlib import Path
+
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
+os.environ['OMP_NUM_THREADS'] = '1'
+
 import numpy as np
 import scipy.linalg as la
 from scipy.sparse.linalg import expm_multiply
 from route_b_other_n_unfolding import parts
+from route_b_artifact_provenance import (
+    canonical_text_sha256 as _canonical_text_sha256,
+    artifact_provenance as _artifact_provenance,
+    verify_artifact_provenance as _verify_artifact_provenance,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 EP = np.sqrt(2)-2
 TIMES = np.linspace(0, 2, 401)
+SOURCE = ROOT/'simulations/results/route_b_n4_self_fold.json'
 
 
 def generator(epsilon, q=2):
@@ -25,6 +36,36 @@ def generator(epsilon, q=2):
     decay = np.array([-2*(a ^ b).bit_count()
                       for a in range(16) for b in range(16)])
     return -1j*(np.kron(h, np.eye(16))-np.kron(np.eye(16), h.T))+np.diag(decay)
+
+
+def verify_generator_contract(builder=generator):
+    """Check the q=2 end-bias convention against the independent (1,2) pencil.
+
+    parts() builds the coherence block directly, without this Hilbert-space
+    generator. At q=2 its entries use exact binary scalings of the integer
+    pencil, so equality is entrywise, with no eigensolver tolerance. The two
+    displaced inputs expose a rescaling about EP that the EP alone cannot see.
+    """
+    d, c, left, right, _ = parts(4)
+    indices = [16*a+b for a in (1, 2, 4, 8) for b in (3, 5, 6, 9, 10, 12)]
+    for shift in (0., -.05, .05):
+        epsilon = EP+shift
+        expected = d+2*(c+epsilon*(left+right)/2)
+        actual = builder(epsilon, q=2)[np.ix_(indices, indices)]
+        if not np.array_equal(actual, expected):
+            residual = float(np.max(abs(actual-expected)))
+            raise ValueError(f'generator contract failed at epsilon={epsilon}: '
+                             f'max entry residual={residual}')
+
+
+def artifact_provenance(script):
+    """Canonical source and transitive-import manifest for the N4 artifact."""
+    return _artifact_provenance(script, SOURCE)
+
+
+def verify_artifact_provenance(artifact, script):
+    """Reject absent/stale source, script or dependency hashes before writing."""
+    _verify_artifact_provenance(artifact, script, SOURCE)
 
 
 def run(epsilon, q=2):
@@ -44,12 +85,12 @@ def run(epsilon, q=2):
 
 
 def main():
+    verify_generator_contract(builder=generator)
     d, c, left, right, _ = parts(4)
     block = d+2*(c+EP*(left+right)/2)
     pairs = [(a, b) for a in range(16) if a.bit_count() == 1
              for b in range(16) if b.bit_count() == 2]
     indices = [16*a+b for a, b in pairs]
-    assert la.norm(generator(EP)[np.ix_(indices, indices)]-block) < 1e-13
     states, signal, acceptance, probs = run(EP)
     initial = states[0].ravel()[indices]
     block_states = expm_multiply(block, initial, start=0, stop=2, num=len(TIMES))
@@ -100,8 +141,10 @@ def main():
                   jordan_readout=dict(a=[a.real, a.imag], b=[b.real, b.imag],
                                       nilpotent_norm=float(la.norm(nil))),
                   comparisons=rows,
-                  caveat='Grid optimum, ideal independent ternary shots; mean SNR is not a test power or EP certificate.')
+                  caveat='Grid optimum, ideal independent ternary shots; mean SNR is not a test power or EP certificate.',
+                  **artifact_provenance(__file__))
     path = ROOT/'simulations/results/route_b_n4_virtual_readout.json'
+    verify_artifact_provenance(output, __file__)
     path.write_text(json.dumps(output, indent=2)+'\n', encoding='utf-8')
     import matplotlib
     matplotlib.use('Agg')

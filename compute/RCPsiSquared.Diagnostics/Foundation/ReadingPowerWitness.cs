@@ -16,18 +16,20 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// per dose. A least-squares line through the origin, FI ≈ c·Q, is fit and the worst relative
 /// residual reported (PASS under 25%).</para>
 ///
-/// <para>(2) NO EXCEPTIONAL-POINT PEAK — the Fisher information is monotone increasing in Q in
-/// every readout basis tested (Z, X, Y). The exceptional point Q = 1 is the WORST reading point,
-/// not a resonance: nothing peaks there.</para>
+/// <para>(2) SAMPLED-GRID MONOTONICITY — the Fisher information is monotone increasing on the seven
+/// sampled Q values in every readout basis tested (Z, X, Y). Q = 1 is only the lowest sampled endpoint,
+/// not an exceptional point. The relevant N=4 exceptional point Q* = 1.87874 is not sampled, so this
+/// sweep makes no exceptional-point verdict.</para>
 ///
 /// <para>(3) BASIS ORDERING — coherence-basis readouts (X, Y) lose resolving power toward low Q far
 /// faster than the population readout (Z). The span ratio FI(Q_max)/FI(Q_min) of the X readout
-/// exceeds ten times that of Z; near Q = 1 only the population basis still reads.</para>
+/// exceeds ten times that of Z. At Q = 1 the X/Y Fisher information remains nonzero, while the
+/// population basis remains much stronger.</para>
 ///
 /// <para>The sweep is built once (lazy <c>??=</c>) and every basis is evaluated on the same shared
 /// trajectories via <see cref="ReadoutFisher.FiMax"/> / <see cref="ReadoutFisher.DiscriminationMax"/>.
-/// Honest scope: a fixed dose window K ∈ (0, 1], a forward δJ difference (O(δJ) bias ≈ 1%), N fixed
-/// per instance, the law is per-DOSE. Design:
+/// Honest scope: a fixed dose window K ∈ (0, 1], a forward δJ difference (O(δJ) bias ≈ 1%), N=4,
+/// the law is per-DOSE. Design:
 /// docs/superpowers/specs/2026-06-12-handshake-decoder-reading-grammar-design.md</para></summary>
 public sealed class ReadingPowerWitness : IInspectable
 {
@@ -43,6 +45,10 @@ public sealed class ReadingPowerWitness : IInspectable
     /// <summary>The PASS threshold for the Z-readout linearity (max relative residual).</summary>
     public const double LinearityThreshold = 0.25;
 
+    /// <summary>The exact seven-point Q grid consumed by every readout. Q=1 is its lowest endpoint;
+    /// the relevant N=4 exceptional point Q*=1.87874 is absent.</summary>
+    public IReadOnlyList<double> SampledQGrid => Gammas.Select(g => J / g).ToArray();
+
     public int SweepCount { get; private set; }
 
     sealed record SweepRow(double Q, double FiZ, double FiX, double FiY, double DLocZ);
@@ -50,8 +56,8 @@ public sealed class ReadingPowerWitness : IInspectable
 
     public ReadingPowerWitness(int n = 4)
     {
-        if (n < 3 || n > 5) throw new ArgumentOutOfRangeException(nameof(n),
-            "the reading-power sweep is specified for N in 3..5 (location needs an interior bond; cost grows fast above)");
+        if (n != 4) throw new ArgumentOutOfRangeException(nameof(n),
+            "the reading-power witness is scoped to N=4; its sampled-grid EP boundary is N-specific");
         N = n;
     }
 
@@ -78,7 +84,7 @@ public sealed class ReadingPowerWitness : IInspectable
     static double Fi(SweepRow r, ReadoutBasis b) => b switch
     { ReadoutBasis.X => r.FiX, ReadoutBasis.Y => r.FiY, _ => r.FiZ };
 
-    /// <summary>FI(Q) is monotone increasing in Q for the given readout basis (no EP peak).</summary>
+    /// <summary>FI(Q) is monotone increasing over the seven sampled Q values for the given basis.</summary>
     public bool IsMonotoneInQ(ReadoutBasis b)
     {
         var rows = Rows().OrderBy(r => r.Q).ToList();
@@ -116,14 +122,15 @@ public sealed class ReadingPowerWitness : IInspectable
         {
             double c = ZLinearitySlope();
             double resid = ZLinearityRelativeResidual();
-            bool noPeak = IsMonotoneInQ(ReadoutBasis.Z)
-                       && IsMonotoneInQ(ReadoutBasis.X)
-                       && IsMonotoneInQ(ReadoutBasis.Y);
+            bool monotoneOnGrid = IsMonotoneInQ(ReadoutBasis.Z)
+                               && IsMonotoneInQ(ReadoutBasis.X)
+                               && IsMonotoneInQ(ReadoutBasis.Y);
             return $"resolving power grows with Q = J/γ: FI ≈ c·Q on the Z readout " +
                    $"(c = {c.ToString("0.####", Inv)}, residual {(resid * 100).ToString("0.#", Inv)} %" +
                    $"{(resid < LinearityThreshold ? "" : " ABOVE 25% threshold")}), " +
-                   $"{(noPeak ? "no basis peaks at the exceptional point" : "WARNING: a basis peaks at the exceptional point")}, " +
-                   $"and coherence readouts fade fastest toward low Q. " +
+                   $"seven-point sampled Q grid monotone in every basis = {monotoneOnGrid}; Q=1 is the lowest sampled " +
+                   $"endpoint, not an EP; the relevant N=4 EP Q*=1.87874 is unsampled, so there is no EP verdict. " +
+                   $"Coherence readouts fade fastest toward low Q. " +
                    $"Design: docs/superpowers/specs/2026-06-12-handshake-decoder-reading-grammar-design.md";
         }
     }
@@ -147,7 +154,8 @@ public sealed class ReadingPowerWitness : IInspectable
                 displayName: "the sweep (FI of the defect readout over Q = J/γ)",
                 summary: $"{rows.Count} rows, Q from {rows.Max(r => r.Q).ToString("0.##", Inv)} down to " +
                          $"{rows.Min(r => r.Q).ToString("0.##", Inv)}. " + string.Join("  |  ", tableLines),
-                payload: new InspectablePayload.Curve("FI_Z vs Q", qAxis, fiZAxis, "Q = J/γ", "Fisher information (Z readout)"));
+                payload: new InspectablePayload.Curve("FI_Z vs Q", qAxis, fiZAxis, "Q = J/γ", "Fisher information (Z readout)"),
+                provenance: NodeProvenance.Live);
 
             // 2. The resolution law FI = c·Q on the Z readout.
             double c = ZLinearitySlope();
@@ -160,18 +168,21 @@ public sealed class ReadingPowerWitness : IInspectable
                          $"power per dose. Fitted slope c = {c.ToString("0.######", Inv)}, " +
                          $"worst relative residual = {(resid * 100).ToString("0.##", Inv)} % ⟹ " +
                          $"{(lawPasses ? "PASS" : "FAIL")} at the 25% bar.",
-                payload: new InspectablePayload.Real("max relative residual", resid));
+                payload: new InspectablePayload.Real("max relative residual", resid),
+                provenance: NodeProvenance.Live);
 
-            // 3. No exceptional-point peak: monotone in all three bases.
+            // 3. Monotonicity on the sampled grid only; the relevant exceptional point is unsampled.
             bool monoZ = IsMonotoneInQ(ReadoutBasis.Z);
             bool monoX = IsMonotoneInQ(ReadoutBasis.X);
             bool monoY = IsMonotoneInQ(ReadoutBasis.Y);
-            bool noPeak = monoZ && monoX && monoY;
+            bool monotoneOnGrid = monoZ && monoX && monoY;
             yield return new InspectableNode(
-                displayName: "no EP peak (FI monotone in Q, every basis)",
-                summary: $"no readout basis peaks at the exceptional point Q = 1; it is the worst reading " +
-                         $"point in every basis tested. Monotone increasing in Q: " +
-                         $"Z = {monoZ}, X = {monoX}, Y = {monoY} ⟹ {(noPeak ? "PASS" : "FAIL")}.");
+                displayName: "sampled-grid monotonicity (seven Q values, every basis)",
+                summary: $"Q=1 is the lowest sampled endpoint, not an EP. The relevant N=4 EP " +
+                         $"Q*=1.87874 is unsampled, so this node makes no EP verdict. Monotone increasing " +
+                         $"on the sampled grid: Z = {monoZ}, X = {monoX}, Y = {monoY} ⟹ " +
+                         $"{(monotoneOnGrid ? "PASS" : "FAIL")}.",
+                provenance: NodeProvenance.Live);
 
             // 4. Basis ordering: coherence readouts fall faster than population.
             double spanZ = SpanRatio(ReadoutBasis.Z);
@@ -181,16 +192,20 @@ public sealed class ReadingPowerWitness : IInspectable
             yield return new InspectableNode(
                 displayName: "basis ordering (coherence readouts fade faster than population)",
                 summary: $"coherence-basis readouts (X/Y) lose resolving power toward low Q faster than the " +
-                         $"population basis (Z); near Q = 1 only the population basis still reads. " +
+                         $"population basis (Z). At Q = 1 the X/Y Fisher information remains nonzero, while the " +
+                         $"population basis remains much stronger. " +
                          $"Span ratio FI(Q_max)/FI(Q_min): Z = {spanZ.ToString("0.###", Inv)}, " +
                          $"X = {spanX.ToString("0.###", Inv)}, Y = {spanY.ToString("0.###", Inv)} ⟹ " +
                          $"X span / Z span = {(spanX / spanZ).ToString("0.#", Inv)}× " +
-                         $"({(ordering ? "PASS" : "FAIL")} at the 10× bar).");
+                         $"({(ordering ? "PASS" : "FAIL")} at the 10× bar).",
+                provenance: NodeProvenance.Live);
 
             // 5. Honest scope.
             yield return new InspectableNode(
                 displayName: "honest scope",
-                summary: $"fixed dose window K ∈ (0, 1] ({Points} grid points); forward difference at " +
+                summary: $"seven sampled Q values ({string.Join(", ", SampledQGrid.Select(q => q.ToString("0.#####", Inv)))}); " +
+                         $"Q=1 is the lowest sampled endpoint and N=4 Q*=1.87874 is unsampled, hence no EP verdict. " +
+                         $"Fixed dose window K ∈ (0, 1] ({Points} time grid points); forward difference at " +
                          $"δJ = {DeltaJ.ToString(Inv)} (O(δJ) bias ≈ 1%); N = {N} fixed per instance. " +
                          $"The law is per-DOSE: a fixed lab-time budget rates the two routes to high Q " +
                          $"(raise J, or lower γ) differently. Defect strength read at bond 0; location " +

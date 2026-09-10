@@ -1,9 +1,17 @@
 """Covariance-weighted histogram contrast with the fixed N4 product protocol."""
 import json
+import os
+
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
+os.environ['OMP_NUM_THREADS'] = '1'
+
 import numpy as np
 import scipy.linalg as la
 from scipy.sparse.linalg import expm_multiply
-from route_b_n4_virtual_readout import ROOT, EP, TIMES, generator
+from route_b_n4_virtual_readout import (
+    ROOT, EP, TIMES, generator, verify_generator_contract,
+    artifact_provenance, verify_artifact_provenance,
+)
 
 
 def record(epsilon):
@@ -46,6 +54,7 @@ def matched(p, q):
 
 
 def main():
+    verify_generator_contract(builder=generator)
     rows = []
     for offset in [-.2, 0., .2]:
         p = record(EP+offset)
@@ -89,7 +98,9 @@ def main():
     assert matched(p.reshape(1, 2, 2).sum(2), q.reshape(1, 2, 2).sum(2))[0][0] == 0
     assert np.isinf(matched(np.array([[1., 0]]), np.array([[0., 1]]))[0][0])
     output = dict(protocol='mask4+i mask6, X site2 and Z spectators; fixed across all rows',
-        accounting='M shots each, 2M total, known-model weights; mean SNR5 not test power', rows=rows)
+        accounting='M shots each, 2M total, known-model weights; mean SNR5 not test power', rows=rows,
+        **artifact_provenance(__file__))
+    verify_artifact_provenance(output, __file__)
     (ROOT/'simulations/results/route_b_n4_histogram_filter.json').write_text(json.dumps(output, indent=2)+'\n', encoding='utf-8')
     print('ALL PASS')
 

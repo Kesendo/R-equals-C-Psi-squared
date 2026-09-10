@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
@@ -20,6 +21,126 @@ public class RouteBN5RealQSemisimpleWitnessTests
     [Fact]
     public void TheCouplingBookIsUnambiguous()
         => Assert.DoesNotContain("AMBIGUOUS", W.PinnedBook, StringComparison.Ordinal);
+
+    [Fact]
+    public void N6ExactRationalTBoxesExcludeTheRealQAxis()
+    {
+        var reading = W.N6RealQExclusion;
+        Assert.Equal(266, reading.LocusCount);
+        Assert.Equal(0, reading.RealAxisTouchCount);
+        Assert.True(reading.AllExcluded);
+    }
+
+    [Fact]
+    public void SummarySeparatesExactFromNumericalEvidenceAndNamesParameterVersusSpectralResult()
+    {
+        Assert.Contains("q is the settable parameter", W.Summary);
+        Assert.Contains("lambda is the resulting spectral eigenvalue", W.Summary);
+        Assert.DoesNotContain("observed eigenvalue", W.Summary);
+        Assert.Contains("F164 certifies all 26 R-odd loci", W.Summary);
+        Assert.Contains("38 distinct loci are exact-certified", W.Summary);
+        Assert.Contains("20 nonreal-q R-even loci are numerical-only", W.Summary);
+        Assert.Contains("classifier-local provenance", W.Summary);
+    }
+
+    [Fact]
+    public void N6ExactRationalAxisGateRejectsABoxThatTouchesZero()
+    {
+        var json = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        var real = json["loci"]![0]!["tBox"]!["real"]!;
+        real["lower"] = RationalNode(0, 1);
+        real["upper"] = RationalNode(0, 1);
+
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(json.ToJsonString()));
+        var reading = new N6RealQExclusionReading(266, 1);
+        Assert.False(reading.AllExcluded);
+        Assert.Contains("265 of 266", reading.Summary);
+        Assert.DoesNotContain("266 of 266", reading.Summary);
+    }
+
+    [Fact]
+    public void N6ReaderRejectsAMissingLocus()
+    {
+        var json = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        json["loci"]!.AsArray().RemoveAt(0);
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(json.ToJsonString()));
+    }
+
+    [Fact]
+    public void N6ReaderRejectsAFabricatedOneLocusDocument()
+    {
+        var source = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        var one = new JsonObject
+        {
+            ["schemaVersion"] = 3,
+            ["n"] = 6,
+            ["a2Degrees"] = new JsonObject { ["E"] = 133, ["O"] = 133 },
+            ["loci"] = new JsonArray(source["loci"]![0]!.DeepClone()),
+        };
+        Assert.False(new N6RealQExclusionReading(1, 0).AllExcluded);
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(one.ToJsonString()));
+    }
+
+    [Fact]
+    public void N6ReaderRejectsDuplicateIdsAndWrongSchema()
+    {
+        var duplicate = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        duplicate["loci"]![1]!["id"] = duplicate["loci"]![0]!["id"]!.GetValue<string>();
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(duplicate.ToJsonString()));
+
+        var wrongSchema = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        wrongSchema["schemaVersion"] = 2;
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(wrongSchema.ToJsonString()));
+
+        var wrongN = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        wrongN["n"] = 5;
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(wrongN.ToJsonString()));
+    }
+
+    [Fact]
+    public void N6ReaderRejectsAParameterConventionThatChangesTheRealQAxis()
+    {
+        var changed = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        changed["conventions"]!["parameter"] = "t=qCSharp";
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(changed.ToJsonString()));
+    }
+
+    [Fact]
+    public void N6ReaderRejectsBoxesDetachedFromTheSemanticallyCertifiedCarrier()
+    {
+        var changed = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        foreach (JsonNode? locus in changed["loci"]!.AsArray())
+        {
+            locus!["tBox"]!["real"] = new JsonObject
+            {
+                ["lower"] = RationalNode(1, 1),
+                ["upper"] = RationalNode(2, 1),
+            };
+        }
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(changed.ToJsonString()));
+    }
+
+    [Fact]
+    public void N6ReaderRejectsWrongParityCountsAndUncertifiedMultiplicity()
+    {
+        var parity = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        parity["loci"]![0]!["parity"] = "O";
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(parity.ToJsonString()));
+
+        var multiplicity = JsonNode.Parse(File.ReadAllText(N6AtlasPath()))!;
+        multiplicity["loci"]![0]!["algebraicMultiplicity"] = 1;
+        Assert.Throws<InvalidDataException>(() =>
+            RouteBN5RealQSemisimpleWitness.ReadN6RealQExclusion(multiplicity.ToJsonString()));
+    }
 
     /// <summary>Step 2: at real t the R-odd block is real symmetric. Exact route, so exact comparison.</summary>
     [Fact]
@@ -134,5 +255,23 @@ public class RouteBN5RealQSemisimpleWitnessTests
     {
         Assert.NotEmpty(W.Summary);
         Assert.All(W.Children.ToList(), child => Assert.NotEmpty(child.Summary));
+    }
+
+    private static JsonObject RationalNode(long numerator, long denominator) => new()
+    {
+        ["numerator"] = numerator.ToString(System.Globalization.CultureInfo.InvariantCulture),
+        ["denominator"] = denominator.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    };
+
+    private static string N6AtlasPath()
+    {
+        DirectoryInfo? cursor = new(AppContext.BaseDirectory);
+        while (cursor is not null)
+        {
+            string candidate = Path.Combine(cursor.FullName, "simulations", "results", "route_b_a2_n6.json");
+            if (File.Exists(candidate)) return candidate;
+            cursor = cursor.Parent;
+        }
+        throw new FileNotFoundException("Could not locate simulations/results/route_b_a2_n6.json");
     }
 }

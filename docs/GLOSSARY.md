@@ -349,15 +349,19 @@ have made exactly that mistake on the same locus.
 | Word | What it means | What it rests on |
 |------|---------------|------------------|
 | **classified** | a stable numerical `EpCharacter` reading, typically at several isolating radii, giving a kind (Diabolic or Defective) and the pair (alg, geo) | an eigensolver and a tolerance |
-| **certified** | an exact statement, from integer or number-field arithmetic | no eigensolver, no tolerance |
+| **certified** | a statement backed by a certificate that excludes the alternatives | exact algebra, or rigorous outward-rounded interval/ball arithmetic; never an eigensolver tolerance alone |
 
-A locus can be classified and uncertified at the same time, and many are. The N=5
-positive-real R-odd A₂ locus is the clean example: `docs/THE_DOUBLE_ROOT.md` puts both
-halves in one breath, "all 34 stable EpCharacter readings are Diabolic, alg=geo=2 …
-No exact fallback was used; the artifact exactRankCertificates array is empty", while
-`docs/CAUGHT_ERRORS.md` calls the same 34 loci "character-uncertified". Those two
-sentences agree. The tell in the artifacts is the `exactRankCertificates` list: empty
-means classified only.
+A locus can be classified and uncertified at the same time, and many are; it can
+also be classified numerically by one producer and certified independently by
+another. The N=5 A₂ inventory is the clean example: 24 imaginary-q loci are
+directly Hermitian-certified, while F164 certifies the complete 26-member R-odd
+orbit, overlapping 12 Hermitian loci and adding 2 real-q plus 12 nonreal-q loci.
+The distinct total is therefore 38 exact-certified and 20 nonreal-q R-even
+numerical-only; the classifier still reads all 32 nonreal-q loci. An artifact
+field describes that producer's route, not the
+repository's total knowledge: the inventory's empty `exactRankCertificates` list
+says that its classifier used no exact-rank fallback, while the independent F164
+proof still certifies the full R-odd orbit.
 
 Related, and a different axis: **algebraic** multiplicity is the root order in the
 characteristic polynomial, **geometric** multiplicity the kernel dimension. An

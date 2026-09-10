@@ -4,9 +4,8 @@ using RCPsiSquared.Diagnostics.Knowledge;
 
 namespace RCPsiSquared.Runtime.Tests.F1Family;
 
-/// <summary>Wiring tests for <see cref="RouteBN5RealQSemisimpleClaim"/> (F164), whose one typed parent is
-/// <see cref="F89Path3OcticEpClaim"/>: the same (1,2) coherence block one chain shorter, the same character
-/// question, the same verdict reached numerically rather than by exact arithmetic.</summary>
+/// <summary>Wiring tests for the parameterless F164 claim. Its prior-work anchors are provenance,
+/// not typed claim dependencies, so it has no direct parents or ancestors.</summary>
 public class RouteBN5RealQSemisimpleClaimRegistrationTests
 {
     [Fact]
@@ -14,28 +13,23 @@ public class RouteBN5RealQSemisimpleClaimRegistrationTests
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         Assert.True(registry.Contains<RouteBN5RealQSemisimpleClaim>());
-        Assert.Equal(Tier.Tier1Derived, registry.Get<RouteBN5RealQSemisimpleClaim>().Tier);
+        var claim = registry.Get<RouteBN5RealQSemisimpleClaim>();
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
+        Assert.Contains("F164 certifies all 26 R-odd loci", claim.Summary);
+        Assert.Contains("38 distinct exact-certified loci", claim.Summary);
+        Assert.Contains("20 nonreal-q R-even loci numerical-only", claim.Summary);
     }
 
     [Fact]
-    public void TheTypedParentIsTheOcticSiblingAndIsShared()
+    public void TheClaimHasNoTypedParentsOrAncestors()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<RouteBN5RealQSemisimpleClaim>();
-        var ancestors = registry.AncestorsOf<RouteBN5RealQSemisimpleClaim>().Select(c => c.GetType()).ToHashSet();
-        Assert.Contains(typeof(F89Path3OcticEpClaim), ancestors);
-        Assert.Same(registry.Get<F89Path3OcticEpClaim>(), claim.OcticSibling);
-    }
-
-    /// <summary>The tier rule: a Tier1Derived claim may not rest on a weaker parent.</summary>
-    [Fact]
-    public void TheParentIsNotWeakerThanTheChild()
-    {
-        var registry = KnowledgeRegistryFactory.BuildDefault();
-        Assert.Equal(Tier.Tier1Derived, registry.Get<F89Path3OcticEpClaim>().Tier);
+        Assert.Empty(registry.AncestorsOf<RouteBN5RealQSemisimpleClaim>());
+        Assert.DoesNotContain(claim.Children, child => child is Claim);
     }
 
     [Fact]
-    public void TheClaimRejectsANullParent()
-        => Assert.Throws<ArgumentNullException>(() => new RouteBN5RealQSemisimpleClaim(null!));
+    public void TheClaimConstructsWithoutParameters()
+        => Assert.Equal(Tier.Tier1Derived, new RouteBN5RealQSemisimpleClaim().Tier);
 }

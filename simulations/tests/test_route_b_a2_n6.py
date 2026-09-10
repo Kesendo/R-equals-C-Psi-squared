@@ -5,6 +5,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -964,6 +965,124 @@ def test_actual_inventory_structural_contract():
     assert len(payload["loci"])==266
 
 
+@pytest.fixture(scope="module")
+def canonical_inventory_proof(canonical_proof):
+    from simulations import route_b_a2_n6 as m
+    source,layer=canonical_proof
+    # A serial raw-S1 build exceeded the production 600-second phase cap. Use
+    # the same bounded parallel producer as the CLI, once for the semantic replay.
+    workers=min(8,os.cpu_count() or 1)
+    started=time.perf_counter()
+    s1=m._bounded_exact_phase("s1",(source.residual,workers),600,16*1024**3)
+    print(f"semantic fixture: raw S1 proof workers={workers} seconds={time.perf_counter()-started:.3f}",flush=True)
+    return source,layer,s1,workers
+
+
+@pytest.fixture(scope="module")
+def canonical_inventory_semantics(canonical_inventory_proof):
+    from simulations import route_b_a2_n6 as m
+    source,layer,s1,workers=canonical_inventory_proof
+    path=Path(__file__).parents[1]/"results/route_b_a2_n6.json"
+    data=m.verify_inventory_artifact_structure(path)
+    counted=[]; compared=[]
+    original_count=m.exact_count_in_box
+    original_compare=m.verify_inventory_payload_against_canonical
+    def observe_serial_count(poly,box):
+        result=original_count(poly,box)
+        counted.append((box,result))
+        return result
+    def observe_compare(payload,canonical):
+        compared.append((payload,canonical))
+        return original_compare(payload,canonical)
+    class ObservedCounts(m.ProcessPoolExecutor):
+        def map(self,function,*iterables,**kwargs):
+            if function is m._count_job:
+                jobs=tuple(iterables[0])
+                counts=tuple(super().map(function,jobs,**kwargs))
+                counted.extend((box,count) for (_,box),count in zip(jobs,counts))
+                return iter(counts)
+            return super().map(function,*iterables,**kwargs)
+    started=time.perf_counter()
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(m,"exact_count_in_box",observe_serial_count)
+        patch.setattr(m,"ProcessPoolExecutor",ObservedCounts)
+        patch.setattr(m,"verify_inventory_payload_against_canonical",observe_compare)
+        canonical=m.verify_inventory_artifact_semantics(path,source,layer,s1,workers=workers)
+    print(f"semantic canonical replay seconds={time.perf_counter()-started:.3f}",flush=True)
+    assert canonical==data
+    assert compared==[(data,canonical)]
+    assert compared[0][0] is not compared[0][1] and compared[0][1] is canonical
+    return canonical,counted
+
+
+def test_actual_inventory_semantic_replay_counts_every_e_box(request):
+    from simulations import route_b_a2_n6 as m
+    assert hasattr(m,"verify_inventory_payload_against_canonical"), "shared semantic comparator is missing"
+    canonical,counted=request.getfixturevalue("canonical_inventory_semantics")
+    expected=[]
+    for row in canonical["loci"][:133]:
+        axes=[]
+        for axis in ("real","imag"):
+            axes.append(tuple(Fraction(int(row["tBox"][axis][edge]["numerator"]),
+                                      int(row["tBox"][axis][edge]["denominator"]))
+                              for edge in ("lower","upper")))
+        expected.append(m.ExactRootBox(*axes))
+    # Execute every E count once; the odd sheet is only the exact t -> -t pullback.
+    assert sorted(counted,key=lambda item:(item[0].real,item[0].imag))==[(box,1) for box in expected]
+
+
+@pytest.mark.parametrize("field",["linked_zero_lambda_seeds","lambda_box","tSeed",
+    "qPhysicalCSharpSeed","lambdaClearedSeed","lambdaPhysicalSeed","layer_constant","a2_degree_type"])
+def test_actual_inventory_semantics_rejects_contained_mutations(tmp_path,request,field):
+    from simulations import route_b_a2_n6 as m
+    data=json.loads((Path(__file__).parents[1]/"results/route_b_a2_n6.json").read_text())
+    by_id={row["id"]:row for row in data["loci"]}
+    even,odd=(by_id[key] for key in ("N6-E-A2-T-000","N6-O-A2-T-132"))
+    assert even["parityPartnerId"]==odd["id"] and odd["parityPartnerId"]==even["id"]
+    if field=="linked_zero_lambda_seeds":
+        for row in (even,odd):
+            assert Fraction(row["lambdaClearedSeed"]["real"])!=0
+            row["lambdaClearedSeed"]={"real":"0","imag":"0"}
+            row["lambdaPhysicalSeed"]={"real":"0","imag":"0"}
+    elif field=="lambda_box":
+        value=even["lambdaClearedBox"]["real"]
+        lo,hi=(Fraction(int(value[edge]["numerator"]),int(value[edge]["denominator"]))
+               for edge in ("lower","upper"))
+        widened=m.ExactRootBox((lo-1,hi+1),(Fraction(0),Fraction(0)))
+        for row in (even,odd):
+            row["lambdaClearedBox"]=m._box_json(widened)
+            row["lambdaPhysicalBox"]=m._box_json(m._box_half(widened))
+    elif field=="layer_constant":
+        data["layerIdentity"]["constant"]=str(int(data["layerIdentity"]["constant"])+1)
+    elif field=="a2_degree_type":
+        data["a2Degrees"]["E"]=133.0
+    else:
+        value=even[field]["real"]
+        even[field]["real"]=value+"0" if "." in value else value+".0"
+    path=tmp_path/(field+".json")
+    path.write_bytes((json.dumps(data,indent=2,ensure_ascii=False)+"\n").encode("utf-8"))
+    # The exact same mutated artifact stays green at the existing cheap door.
+    assert m.verify_inventory_artifact_structure(path)==data
+    assert hasattr(m,"verify_inventory_payload_against_canonical"), "shared semantic comparator is missing"
+    canonical,_=request.getfixturevalue("canonical_inventory_semantics")
+    started=time.perf_counter()
+    # This is the production verifier's comparator, against its one executed
+    # canonical replay; no source, root counter, or mathematical result is mocked.
+    with pytest.raises(ValueError,match="canonical semantic"):
+        m.verify_inventory_payload_against_canonical(data,canonical)
+    print(f"semantic comparator mutation={field} seconds={time.perf_counter()-started:.3f}",flush=True)
+
+
+def test_actual_inventory_structure_remains_a_cheap_check(monkeypatch):
+    from simulations import route_b_a2_n6 as m
+    def forbidden(*_args,**_kwargs):
+        pytest.fail("cheap structure verification ran an exact semantic proof")
+    for name in ("verify_inventory_source","exact_count_in_box","build_quotient_ring_certificate"):
+        monkeypatch.setattr(m,name,forbidden)
+    data=m.verify_inventory_artifact_structure(Path(__file__).parents[1]/"results/route_b_a2_n6.json")
+    assert len(data["loci"])==266
+
+
 def test_actual_inventory_layer_metadata_matches_independent_source_proof(canonical_proof):
     # Separate from the cheap JSON check: the fixture executes the CRT proof.
     from simulations import route_b_a2_n6 as m
@@ -1231,3 +1350,31 @@ def test_direct_exact_entry_points_reject_oversized_pools(entry):
         elif entry=="certify_e": m.certify_a2_boxes(None,None,workers=1000000)
         elif entry=="certify_o": m.certify_odd_transport(None,None,workers=1000000)
         else: next(m._disc_stream(None,iter(()),1000000))
+
+
+def test_f163_consumed_certificate_binds_the_exact_source_producer():
+    import hashlib
+    from simulations import route_b_n6_exact_unfolding as certificate
+    root = RAW.parents[3]
+    artifact = json.loads((root / "simulations/results/route_b_n6_exact_unfolding.json")
+                          .read_text(encoding="utf-8"))
+    expected = hashlib.sha256((root / "simulations/route_b_a2_n6.py").read_text(
+        encoding="utf-8-sig").replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")).hexdigest()
+    assert artifact["provenance"]["source_producer_sha256"] == expected
+    assert certificate.canonical_utf8_lf_sha256(
+        (root / "simulations/route_b_a2_n6.py").read_bytes()) == expected
+
+
+def test_f163_consumed_certificate_binds_transitive_source_producer_dependencies():
+    from simulations.route_b_artifact_provenance import artifact_provenance
+    root = RAW.parents[3]
+    producer = root / "simulations/route_b_a2_n6.py"
+    artifact = json.loads((root / "simulations/results/route_b_n6_exact_unfolding.json")
+                          .read_text(encoding="utf-8"))
+    expected = artifact_provenance(producer, producer)["dependencies"]
+    assert set(expected) == {
+        "simulations/o2b_gcd_certificate.py",
+        "simulations/o2b_krein_sign_law.py",
+        "simulations/seed_existence_nullity_check.py",
+    }
+    assert artifact["provenance"]["source_producer_dependencies"] == expected

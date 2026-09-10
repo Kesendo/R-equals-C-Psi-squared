@@ -1611,8 +1611,9 @@ def _write_generic_inventory(path,layer,s1,a2,roots,odd_certificate=None,payload
 def verify_inventory_artifact_structure(path):
     """Cheap persisted-schema check, NOT a root-count or source-pencil proof.
 
-    Mathematical source binding belongs to verify_inventory_source during the
-    writer phase; no executed-count provenance is recoverable from JSON alone.
+    Containment and exact partner relations do not bind seeds to the pencil.
+    Use verify_inventory_artifact_semantics for an executed mathematical replay;
+    no executed-count provenance is recoverable from JSON alone.
     """
     def require(condition):
         if not condition: raise ValueError("invalid persisted N6 inventory structure")
@@ -1699,6 +1700,122 @@ def verify_inventory_artifact_structure(path):
         return data
     except (KeyError,TypeError,ZeroDivisionError,UnicodeError) as exc:
         raise ValueError("invalid persisted N6 inventory structure") from exc
+
+
+def verify_inventory_payload_against_canonical(payload,canonical):
+    """Pure strict comparison against a completed exact replay's canonical payload.
+
+    This comparator issues no mathematical certificate. Its canonical argument
+    must come from the executed replay, not from the candidate being checked.
+    JSON serialization preserves decimal seed text and distinguishes 133.0 from
+    the integer 133, which ordinary Python dictionary equality does not.
+    """
+    if type(payload) is not dict or type(canonical) is not dict:
+        raise ValueError("canonical semantic comparison requires payload dictionaries")
+    try:
+        options=dict(sort_keys=True,ensure_ascii=False,allow_nan=False,separators=(",",":"))
+        actual=json.dumps(payload,**options)
+        expected=json.dumps(canonical,**options)
+    except (TypeError,ValueError) as exc:
+        raise ValueError("invalid canonical semantic payload serialization") from exc
+    if actual!=expected:
+        raise ValueError("persisted N6 payload differs from canonical semantic replay")
+    return True
+
+
+def verify_inventory_artifact_semantics(path,source_pencil,layer,s1,workers=1):
+    """Replay the persisted N6 inventory from exact source and algebraic proofs.
+
+    Every E box receives a fresh exact count; their disjoint degree coverage
+    transfers to O by t -> -t. Rebuild H/D from the localized raw S1, then require
+    the stored Lambda boxes and all serialized seeds to equal the canonical
+    construction. Decimal seeds remain evaluation points, not exact roots.
+    """
+    _validate_workers(workers)
+    data=verify_inventory_artifact_structure(path)
+    canonical=_reconstruct_inventory_semantics(data,source_pencil,layer,s1,workers)
+    verify_inventory_payload_against_canonical(data,canonical)
+    return canonical
+
+
+def _reconstruct_inventory_semantics(data,source_pencil,layer,s1,workers):
+    """Execute all mathematical steps after the public entry's structure check."""
+    started=time.perf_counter()
+    verify_inventory_source(source_pencil,layer,s1,workers)
+    print(f"semantic replay: source proofs workers={workers} seconds={time.perf_counter()-started:.3f}",flush=True)
+    expected_proof={"discriminantDegree":layer.deg_d,"valuation":layer.valuation,
+                    "a1Degree":layer.a1.degree(),"a2Degree":layer.a2.degree(),
+                    "constant":str(layer.constant),"proofModulus":str(layer.proof_modulus),
+                    "proofBound":str(layer.proof_bound)}
+    if data["layerIdentity"]!=expected_proof:
+        raise ValueError("persisted layer metadata differs from source-pencil proof")
+
+    def read_box(value):
+        axes=[]
+        for axis in ("real","imag"):
+            axes.append(tuple(Fraction(int(value[axis][edge]["numerator"]),
+                                      int(value[axis][edge]["denominator"]))
+                              for edge in ("lower","upper")))
+        return ExactRootBox(*axes)
+
+    rows=data["loci"]
+    e=tuple(read_box(row["tBox"]) for row in rows if row["parity"]=="E")
+    a2=layer.a2
+    if len(e)!=a2.degree() or any(not _box_disjoint(a,b) for i,a in enumerate(e) for b in e[i+1:]):
+        raise ValueError("persisted E boxes lack disjoint degree coverage")
+    sturm=build_exact_sturm_chain(a2)
+    jobs=[(sturm if box.imag==(0,0) else a2,box) for box in e]
+    if workers>1:
+        with ProcessPoolExecutor(max_workers=workers) as executor:
+            counts=list(executor.map(_count_job,jobs))
+    else:
+        counts=[_count_job(job) for job in jobs]
+    if any(count!=1 for count in counts) or sum(counts)!=a2.degree():
+        raise ValueError("persisted E exact root counts do not exhaust degree")
+    # The authoritative pencils obey F_O(Lambda,t)=F_E(Lambda,-t); no numerical
+    # proposals, O root finder, or run-local count-carrier seal enters this replay.
+    o=tuple(sorted((_box_neg(box) for box in e),key=lambda box:(box.real,box.imag)))
+    if tuple(read_box(row["tBox"]) for row in rows if row["parity"]=="O")!=o:
+        raise ValueError("persisted O boxes differ from exact parity transport")
+
+    localized=localize_monomial_quotient(a2,s1.a_raw,s1.b_raw,expected_valuation=496)
+    ring=build_quotient_ring_certificate(a2,localized)
+    verify_quotient_ring_certificate(a2,localized,ring)
+    lambda_e=tuple(quotient_ring_lambda_box(ring,box) for box in e)
+    seed_a,seed_b=_quotient_source_polynomials(localized)
+    loci=[]
+    for parity,boxes in (("E",e),("O",o)):
+        for index,box in enumerate(boxes):
+            sign=1 if parity=="E" else -1
+            e_index=index if parity=="E" else _find_exact_partner(e,_box_neg(box))
+            lambda_box=lambda_e[e_index]
+            tr,t_real=_decimal_in_interval(box.real)
+            ti,t_imag=_decimal_in_interval(box.imag)
+            lr_target,li_target=_projective_seed_target(seed_a,seed_b,sign*t_real,sign*t_imag)
+            lr,lr_value=_decimal_in_interval(lambda_box.real,lr_target)
+            li,li_value=_decimal_in_interval(lambda_box.imag,li_target)
+            qr=ti
+            qi=("-"+tr if not tr.startswith("-") and t_real else tr[1:] if tr.startswith("-") else tr)
+            if t_real==0: qi="0"
+            pr,_=_decimal_in_interval((lr_value/2,lr_value/2))
+            pi,_=_decimal_in_interval((li_value/2,li_value/2))
+            other="O" if parity=="E" else "E"
+            other_boxes=o if parity=="E" else e
+            conjugation_index=_find_exact_partner(boxes,_box_conjugate(box))
+            parity_index=_find_exact_partner(other_boxes,_box_neg(box))
+            loci.append({"id":f"N6-{parity}-A2-T-{index:03d}","parity":parity,
+                "algebraicMultiplicity":2,"tBox":_box_json(box),
+                "qPhysicalCSharpBox":_box_json(_box_rotate_t_to_q(box)),
+                "lambdaClearedBox":_box_json(lambda_box),"lambdaPhysicalBox":_box_json(_box_half(lambda_box)),
+                "tSeed":_seed_text(tr,ti),"qPhysicalCSharpSeed":_seed_text(qr,qi),
+                "lambdaClearedSeed":_seed_text(lr,li),"lambdaPhysicalSeed":_seed_text(pr,pi),
+                "conjugationPartnerId":f"N6-{parity}-A2-T-{conjugation_index:03d}",
+                "parityPartnerId":f"N6-{other}-A2-T-{parity_index:03d}"})
+    return {"schemaVersion":3,"n":6,"model":"open-uniform-XY-delta0-field0-gamma1-SEket-DEbra",
+        "conventions":{"parameter":"t=i*qCSharp;qCSharp=-i*t","eigenvalue":"Lambda=2*lambda",
+                       "coefficientOrder":"lambda-lowest-first,t-lowest-first"},
+        "a2Degrees":{"E":a2.degree(),"O":a2.degree()},"layerIdentity":expected_proof,
+        "loci":loci,"exactRankCertificates":[],"sourcePencilDigest":source_pencil.source_digest}
 
 
 class _ProcessTreeSampler:

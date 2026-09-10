@@ -18,18 +18,16 @@ The stores were searched by the primitive this note uses: the readout discrimina
 power of a Lindblad trajectory under a parameter perturbation, on the (1,2) coherence
 block of the N=4 XY chain with Z dephasing.
 
-The Diagnostics half answers.
-[`ReadoutFisher`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadoutFisher.cs) is a
-live readout lab: `DiscriminationMax` sums (p_A − p_B)²/p_clean over the outcomes of a
-rotated basis and maximises it over the time grid.
-[`ReadingPowerWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadingPowerWitness.cs)
-reports that the classical Fisher information of a bond defect is monotone increasing in
-Q across its swept grid Q = 20 down to 1, in the Z, X and Y readouts, so nothing peaks
-anywhere on that grid; it is gated at N=4 by
-`ReadingPowerWitnessTests.NoEpPeak_InAnyBasis_FiMonotoneInQ`. Its grid contains no point
-at the N=4 coherence horizon Q*(4) = 1.87874 and stops at Q = 1, so it is a statement
-about that sweep and not about a specific degeneracy. Neither object has a `Claim` in
-`compute/RCPsiSquared.Core/`.
+The Diagnostics half answers. [`ReadoutFisher`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadoutFisher.cs)
+is a static calculation helper: `DiscriminationMax` sums
+(p_A − p_B)²/p_clean over the outcomes of a rotated basis and maximises it over
+the time grid. [`ReadingPowerWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/ReadingPowerWitness.cs)
+is the live `IInspectable` at `inspect --root decoder`. It reports that the
+classical Fisher information of a bond defect increases across its seven sampled
+Q values from the lowest endpoint Q=1 to Q=20 in the Z, X and Y readouts, gated
+by `ReadingPowerWitnessTests.FiIsMonotoneOnTheSevenPointSampledQGrid_InEveryBasis`.
+The grid does not sample the N=4 coherence-horizon EP Q*(4)=1.87874 and makes no
+EP-specific verdict. Neither object has a `Claim` in `compute/RCPsiSquared.Core/`.
 
 [`COHERENCE_HORIZON_EP_SENSOR_DEBATE`](COHERENCE_HORIZON_EP_SENSOR_DEBATE.md) parked the
 metrological verdict in June, saying it "needs an input-output measurement model the
@@ -55,13 +53,12 @@ character mislabelling and nothing on measurement cost.
 
 ## What this settles, and what it does not
 
-Two results, and they point opposite ways. The methodological one is positive and is the
-reason to keep this note: moving the preparation and the readout cuts the shot cost by
-between 6.74 and 8.02 times. The EP one is negative, in this note's own words below:
-"There is no privileged EP advantage in these comparisons; the lower-ε center is slightly
-cheaper when its time is chosen." The protocol that wins on shots has the SMALLER Jordan
-coefficient |b|, so what improved was where to listen, not proximity to the degeneracy.
-The improvement is a readout finding; the degeneracy contributes nothing to it.
+The methodological result is positive: moving the preparation and the readout cuts
+the shot cost by between 6.74 and 8.02 times. The improvement survives at the two
+tested off-EP centres, so this finite catalogue shows no privileged EP advantage.
+The protocol that wins on shots has the smaller Jordan coefficient |b|. This
+isolates a readout improvement, but it does not prove that the degeneracy contributes
+zero for other preparations, measurements, or estimation tasks.
 
 ## Abstract
 

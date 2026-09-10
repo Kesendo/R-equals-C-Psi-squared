@@ -16,8 +16,21 @@ from flint import fmpz_mat, fmpz_poly, fmpz_mod_poly_ctx, nmod_mat, nmod_poly
 import sympy as sp
 
 import route_b_a2_n6 as exact
+from route_b_artifact_provenance import artifact_provenance
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def canonical_utf8_lf_sha256(payload: bytes) -> str:
+    """Hash decoded UTF-8 text after BOM removal and newline normalization to LF."""
+    text = payload.decode('utf-8-sig').replace('\r\n', '\n').replace('\r', '\n')
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+
+def check_canonical_hash_contract() -> None:
+    expected = 'e49c81e2d2f84e259d40e2fb8192f3bcd198b355184845d76d8f58807d0d78ee'
+    variants = (b'alpha\nbeta\n', b'alpha\r\nbeta\r\n', b'alpha\rbeta\r')
+    assert all(canonical_utf8_lf_sha256(payload) == expected for payload in variants)
 
 
 def integer_pencil():
@@ -186,6 +199,7 @@ def modular_witness(d, hop, bonds, reflection, a2_coefficients, fixture, p=101):
 
 def main():
     started = time.perf_counter()
+    check_canonical_hash_contract()
     fixture_path = ROOT/'simulations/tests/fixtures/route_b_a2_n6_residual.json'
     fixture = json.loads(fixture_path.read_text())
     d, bonds, reflection, stagger = integer_pencil()
@@ -202,6 +216,8 @@ def main():
     else:
         raise AssertionError('Rabin check accepted a reducible polynomial')
     witness = modular_witness(d, hop, bonds, reflection, coefficients, fixture)
+    source_producer_path = ROOT/'simulations/route_b_a2_n6.py'
+    source_provenance = artifact_provenance(source_producer_path, source_producer_path)
     report = {'conventions': __doc__, 'builder': builder, 'irreducibility': irreducibility,
         'reducible_control_rejected': reducible_control_rejected,
         'layer': {'a2_coefficients_lowest_first': list(map(str, coefficients)),
@@ -209,8 +225,10 @@ def main():
                   'proof_prime_count': len(layer.proof_primes), 'a2_degree': layer.a2.degree(),
                   'discriminant_degree': layer.deg_d, 'a2_exponent': 2},
         'modular_witness': witness,
-        'provenance': {'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-            'fixture_sha256': hashlib.sha256(fixture_path.read_bytes()).hexdigest(),
+        'provenance': {'script_sha256': canonical_utf8_lf_sha256(Path(__file__).read_bytes()),
+            'source_producer_sha256': source_provenance['script_sha256'],
+            'source_producer_dependencies': source_provenance['dependencies'],
+            'fixture_sha256': canonical_utf8_lf_sha256(fixture_path.read_bytes()),
             'source_pencil_digest': exact.N6_SOURCE_PENCIL_DIGEST},
         'runtime_seconds': time.perf_counter()-started}
     output = ROOT/'simulations/results/route_b_n6_exact_unfolding.json'

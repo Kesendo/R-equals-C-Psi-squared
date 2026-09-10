@@ -1,7 +1,7 @@
 # Analytical Formulas Reference
 
 **Status:** Living formula registry. Each formula carries its own tier label.
-**Date:** March 31, 2026, last refreshed 2026-09-05 (the change history lives in git)
+**Date:** March 31, 2026, last refreshed 2026-09-10 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Opus 4.6/4.7/4.8, Fable 5)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -9416,9 +9416,10 @@ coherence block and R-odd sector at Δ=0 and γ=1, exactly one A₂ root in the 
 parameter w whose coupling and eigenvalue are both real. It lifts to the two q
 loci counted by the inventory, q = ±1.129 250 970 874 767 1, at the same
 λ = −4.791 960 365 179 641 0; below, one root and two loci. They are the only
-operating points one can actually set in the Route-B corpus at N=5 and N=6; at
-N=6 none of the 266 loci is real, counting the stored atlas by a float read of a
-field that artifact calls a display midpoint rather than an algebraic root.
+real-q points in the N=5 and N=6 Route-B A₂ inventories. At N=6, t=iq makes
+real q equivalent to Re(t)=0, and every one of the 266 persisted exact rational
+`tBox.real` intervals excludes zero. The absence is therefore exact and does not
+depend on a floating-point display midpoint.
 Its double eigenvalue is **semisimple**, and the argument needs no eigensolver
 and no tolerance.
 
@@ -9434,8 +9435,13 @@ minor is zero or nonzero before and after it, and both multiplicities are
 Galois invariant. The orbit therefore carries the Hermitian-axis verdict to
 the physical point.
 
-**Scope:** the 2 real-q loci of the 34 that carried only a stable numerical
-`EpCharacter` reading; the other 32 keep the reading. The chain never uses the
+**Scope:** The inventory has 24 imaginary-q loci in total. F164 certifies the
+complete 26-member R-odd Galois orbit: 12 imaginary-q Hermitian anchors, 2
+real-q loci and 12 nonreal-q loci. Combined with the other 12 imaginary-q
+Hermiticity certificates, 38 distinct N=5 A₂ loci are
+exact-certified semisimple; only the 20 nonreal-q R-even loci remain
+numerical-only. The classifier independently retains stable `EpCharacter`
+readings for all 32 nonreal-q loci. The chain never uses the
 value 2, which is what keeps it clear of χ = AT·F_res, whose AT factor has real
 roots at negative w. This is not an all-N theorem, and it says nothing
 metrological.
@@ -9458,8 +9464,10 @@ response: PVP = 0 inside the sector, while the physical pair splits through the 
 sector at second order, 9.69·(δJ/J)², already 9.7e-4 apart at δJ/J = 1e-2. The gate
 measures that split beside the projection.
 
-**Replaces:** reading this locus's character off a floating-point contour
-classifier and recording it as classified-not-certified.
+**Typed/live owner:** `RouteBN5RealQSemisimpleClaim`; live witness
+`RouteBN5RealQSemisimpleWitness` at `inspect --root n5diabolic`.
+**Replaces:** treating the classifier artifact's empty exact-rank field as the
+repository's total certification status.
 **Source:** [PROOF_N5_REAL_Q_DIABOLIC](proofs/PROOF_N5_REAL_Q_DIABOLIC.md);
 [`n5_a2_rodd_character_gate.py`](../simulations/n5_a2_rodd_character_gate.py).
 Sibling: [F163](#f163-the-n6-route-b-a-crossings-unfold-into-two-eps-a-quadratic-location-formula-with-first-order-equal-end-response-and-second-order-opposite-end-response-tier-1-derived-and-exact-arithmetic-certified)

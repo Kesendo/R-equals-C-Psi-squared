@@ -4,9 +4,17 @@ Not a global measurement optimum, Fisher information, or EP certificate.
 Run: OPENBLAS_NUM_THREADS=1 python simulations/route_b_n4_readout_search.py
 """
 import json
+import os
+
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
+os.environ['OMP_NUM_THREADS'] = '1'
+
 import numpy as np
 import scipy.linalg as la
-from route_b_n4_virtual_readout import ROOT, EP, TIMES, generator
+from route_b_n4_virtual_readout import (
+    ROOT, EP, TIMES, generator, verify_generator_contract,
+    artifact_provenance, verify_artifact_provenance,
+)
 
 
 def preparations():
@@ -71,6 +79,7 @@ def scores(first, second):
 
 
 def main():
+    verify_generator_contract(builder=generator)
     prep, initial = preparations()
     read, means, seconds = measurements()
     for pi, label in enumerate(prep):
@@ -147,7 +156,9 @@ def main():
     output = dict(preparations=len(prep), readouts=len(read), times=len(TIMES),
                   q=2, gamma=1, rows=rows, transferred_ep_protocols=transfers,
                   canonical_winner_jordan=jordan,
-                  scope='Finite ideal mean-SNR search; M each setting, 2M total; design search is numerical, not experimental shots.')
+                  scope='Finite ideal mean-SNR search; M each setting, 2M total; design search is numerical, not experimental shots.',
+                  **artifact_provenance(__file__))
+    verify_artifact_provenance(output, __file__)
     (ROOT/'simulations/results/route_b_n4_readout_search.json').write_text(json.dumps(output, indent=2)+'\n', encoding='utf-8')
     print('ALL PASS')
 

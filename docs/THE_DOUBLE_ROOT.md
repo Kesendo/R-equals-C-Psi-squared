@@ -345,10 +345,15 @@ imaginary symmetric, so imaginary q makes L Hermitian. The classifier builds the
 full parity block at every exported seed, including AT strands, and measures
 ‖L−L†‖_F/max(1,‖L‖_F); its maximum over the 24 loci is 0, below 1e-12. It also
 isolates exactly the target pair at the S1 λ seed in that full-sector spectrum.
-The positive-real R-odd root gives 2 real-q loci and the 16 nonreal w roots give
-32 nonreal-q loci: all 34 stable EpCharacter readings are Diabolic, alg=geo=2,
-on the full sector at three isolating radii. No exact fallback was used; the
-artifact exactRankCertificates array is empty.
+F164's Galois-conjugacy argument certifies the complete 26-member R-odd orbit:
+12 imaginary-q Hermitian anchors, the 2 real-q loci, and 12 nonreal-q loci. It
+therefore overlaps 12 of the 24 direct Hermiticity certificates and adds 14 exact
+loci. Of the 58 A₂ q-loci, 38 distinct loci are exact-certified semisimple and
+only the 20 nonreal-q R-even loci remain numerical-only. The classifier still
+gives stable full-sector `EpCharacter` readings for all 32 nonreal-q loci at three
+isolating radii. The inventory artifact's `exactRankCertificates` array is empty
+because that producer used no exact-rank fallback; producer provenance does not
+override the independent F164 certificate.
 
 The exact producer is the default N=5 run of
 [`o2b_gcd_certificate.py`](../simulations/o2b_gcd_certificate.py); its
@@ -359,7 +364,9 @@ w=qUnitHop² and qPhysicalCSharp=qUnitHop/2. The
 isolation, PSC1/S1 and the exported λ/q seeds. The C#
 [`ROUTE_B_A2_RECONCILE` tests](../compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2InventoryTests.cs)
 join every locus ID to its local character and reject a real-q control on the
-same Hermiticity path. This is not an all-N theorem and creates no new F number.
+same Hermiticity path. This is not an all-N theorem. The two real-q loci are
+owned by typed claim `RouteBN5RealQSemisimpleClaim` (F164) and the live
+`RouteBN5RealQSemisimpleWitness` at `inspect --root n5diabolic`.
 
 Route B is complete at N=6 as a parity-labelled direct-t inventory of the A₂
 layer. The model is the open uniform nearest-neighbour XY chain, Δ=0, zero

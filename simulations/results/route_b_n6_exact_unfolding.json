@@ -203,9 +203,15 @@
     "even_admixture_breaks_first_order_suppression": true
   },
   "provenance": {
-    "script_sha256": "c0bfe09517bfa6f1bf9ec5776c030cd93e802e3ba9ded133d2042a0380e58fcd",
+    "script_sha256": "5cb935f179ab96583606afe2f5afe02a12c0caaf97c434164e9b71f86bf98519",
+    "source_producer_sha256": "52015770f14e59f756aea6aa7eb8ca394e207b9caa6086beace20b777c5d8f31",
+    "source_producer_dependencies": {
+      "simulations/o2b_gcd_certificate.py": "8c768a6bd740a8df91f14dc617c3b37233fc1a5d96ff45ee46df5bffc049387f",
+      "simulations/o2b_krein_sign_law.py": "5e6e5aa45b0a7b52e66312dd9e11696dfe85c52a5b991f2fb0f49dd072fdc74b",
+      "simulations/seed_existence_nullity_check.py": "7a578458f1533610fcfbcfe9e919a386db23d3a8f2c53a19f70f2ea7d6868855"
+    },
     "fixture_sha256": "bd29017c3e85590ab91f55086afa6ee93569ab04facf03e1f0bd30ae62afa256",
     "source_pencil_digest": "cf1549c54a116132373e481d0ce7a7ea03409c07f75e3f6ab5b9fd0f738dc916"
   },
-  "runtime_seconds": 85.206682
+  "runtime_seconds": 91.22100430000137
 }

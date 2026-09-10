@@ -8,68 +8,49 @@ eigenvalues, never MirrorWorld's `Pair`. The "(1,2) coherence block" is the repo
 `Block`, the joint-popcount one.) The proof itself uses no eigensolver and
 no tolerance; the gate beside it is numerical, and says so.
 
-**The repo classifies this locus and does not certify it, and it says so
-consistently.** The verdict is gated in
-`compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBA2PositiveAnchorTests.cs`,
-at these very numbers (`WAnchor = 5.10083102`, `LambdaAnchor = -4.79196037`, both q
-lifts, R-odd), asserting `EpKind.Diabolic` with `Algebraic == 2` and
-`Geometric == 2`. That gate is floating point throughout: `distances[1] < 1e-4`,
-relative departure `< 1e-6`, dephase departure `< 1e-6`. `docs/CAUGHT_ERRORS.md`
-(2026-09-06, the same day) caught an inference at this locus, that an order-two
-discriminant zero gives semisimplicity, and closed with the sentence that
-"`EpCharacter` on the isolated local operator or exact rank must determine its
-**geometric multiplicity**", and its "Current boundary" paragraph then states that
-"the positive-real R-odd A2 root and 16 nonreal w roots (34 q-loci together) remain
-**character-uncertified**. Route B remains open until all 29 w roots / 58 q-loci
-reconcile" (lines 2675-2680).
+**The repository has two independent routes to this character.**
+`RouteBA2PositiveAnchorTests` and `RouteBA2CharacterClassifier` give the stable
+full-sector numerical `EpCharacter` reading at three isolating radii. F164 gives
+the exact number-field certificate in this document, typed as
+`RouteBN5RealQSemisimpleClaim` and live at `inspect --root n5diabolic` through
+`RouteBN5RealQSemisimpleWitness`. The inventory artifact's empty
+`exactRankCertificates` list describes only what its classifier producer emitted;
+it is not a census of every proof elsewhere in the repository.
 
-That is not in tension with the stores that call the locus classified. The two words
-carry different weight here, and `docs/THE_DOUBLE_ROOT.md:348-351` uses both in one
-breath about the same 34 loci: "all 34 stable EpCharacter readings are Diabolic,
-alg=geo=2, on the full sector at three isolating radii. **No exact fallback was
-used; the artifact exactRankCertificates array is empty.**" The reconciling
-distinction is the one `docs/GLOSSARY.md` states: CLASSIFIED is a stable numerical
-`EpCharacter` reading, resting on an eigensolver and a tolerance; CERTIFIED is an
-exact statement, from integer or number-field arithmetic. That is a distinction this
-work draws rather than one the stores were written against, so it is what reconciles
-them: read through it, every store has this locus classified and uncertified, with no
-tension left. What follows supplies the certification, for the 2 real-q loci of those
-34; the other 32 keep only the reading.
+The complete N=5 A2 population therefore has overlapping evidence routes. All
+24 imaginary-q loci are certified semisimple directly by full-sector
+Hermiticity. F164 certifies the complete 26-member R-odd Galois orbit: it overlaps
+12 of those Hermitian loci and additionally covers the 2 real-q and 12 nonreal-q
+R-odd loci. Thus 38 distinct loci are exact-certified semisimple; only the 20
+nonreal-q R-even loci remain numerical-only. The inventory classifier still
+supplies stable `EpCharacter` readings for all 32 nonreal-q loci. Source labels
+and total epistemic status are different ledgers.
 
 The locus: the open N=5 XY chain under uniform local Z dephasing, in the (1,2)
-coherence block, R-odd sector, at Δ = 0 and γ = 1 per site. Both q and λ are real,
-so this is an operating point one can set, not an analytic continuation. It is the
-only such point in the Route-B corpus at these two N: at N=5, 2 of the 58 q-loci
-are strictly real and they are ±the same point; at N=6, counting
-`simulations/results/route_b_a2_n6_atlas.json` by `tReal == 0`, **0 of 266** are,
-a float read of a field that artifact itself calls a display midpoint rather than an
-algebraic root, with 118 at purely imaginary q where the block
-is Hermitian and 148 generic complex.
+coherence block, R-odd sector, at Δ = 0 and γ = 1 per site. Here q is the settable
+parameter and lambda is the resulting spectral eigenvalue, not a second control. These are the
+only real-q points in the N=5/N=6 A2 inventories: at N=5, 2 of the 58 q-loci are
+strictly real and they are ±the same point. At N=6, real q would
+require Re(t)=0 because t=iq; every one of the 266 persisted exact rational
+`tBox.real` intervals excludes zero. Thus the N=6 absence is an exact interval
+statement, not a count of floating-point display midpoints. Of those 266 loci,
+118 have purely imaginary q where the block is Hermitian and 148 are generic
+complex.
 
 ## The sweep, stores by name
 
-`experiments/F89_PATH_K_DIABOLIC.md` holds this locus, and it holds **both** things.
-Lines 126 and 137 flag a gap: "This does not settle the positive-real R-odd A2
-locus at N=5", "These R-even readings do not decide the R-odd A2 character at
-N=5". The gap is one of scope, because the reflection-parity mechanism that
-grounds the odd-N real-q diabolics was read entirely on the **R-even** sector and
-this locus is R-odd. Lines 3 and 283 then record the answer that arrived by the
-other route; line 283 has it in full, "both q lifts of the positive-real R-odd A2
-root are Diabolic, alg=geo=2, by stable full-sector EpCharacter readings", and line
-3 the shorter form, "classifies both lifts of the positive-real R-odd A2 root as
-diabolic". The same file supplies the
+`experiments/F89_PATH_K_DIABOLIC.md` holds both the bounded R-even scan and the
+complete Route-B inventory. The former does not reach this R-odd locus; the latter
+contains it and records the stable numerical character, while F164 supplies its
+exact certificate. The same file supplies the
 defective control used below, the R-odd real EP at q ≈ 2.804888, λ ≈ −4.4882
 (line 146).
 
-`docs/THE_DOUBLE_ROOT.md` holds the N=5 layer certificate (both layers irreducible)
-and, in its N=5 character table at lines 332-337 and the prose at 348-351, the same
-verdict. `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs` carries the
-mechanism under `diabolic_over_higher_n` and its walls, and the verdict again at
-line 279, "the positive R-odd A2 pair is already classified Diabolic with
-alg=geo=2". The same arc entry states the gap this document closes, at lines 58-59:
-"No exact fallback was used; the artifact exactRankCertificates array is empty.
-PSC1 supplies algebraic pair uniqueness and S1 supplies the repeated-lambda seed;
-**neither determines Jordan character.**"
+`docs/THE_DOUBLE_ROOT.md` holds the N=5 layer certificate, the complete character
+table, and the 24/2/32 evidence split. `OpenArcsRegistry` carries the surrounding
+`diabolic_over_higher_n` mechanism and its walls. PSC1 supplies algebraic pair
+uniqueness and S1 supplies the repeated-lambda seed; neither determines Jordan
+character. The F164 Galois argument is the independent exact character route.
 
 `simulations/results/route_b_a2_n5.json` holds the inventory: 29 A₂(w) roots, 58
 q-loci, exact isolation boxes. Its `exactRankCertificates` list is **empty**, and
@@ -95,13 +76,13 @@ what the N=5 lift below has to buy. Neither document makes an N=5 character clai
 fold-checkerboard and gauge criteria that decide when a sector discriminant is
 real; neither decides a Jordan type.
 
-The typed layer, both halves, plus the tests. `DiabolicReflectionParityWitness`
-(`inspect --root diabolicparity`) is live and grounds the odd-N mechanism, but reads
-the **R-even** sector across N=5..9, so it does not reach this locus. Diagnostics
-also carries `RouteBA2Inventory` and `RouteBA2CharacterClassifier`. No `Claim` and
-no `IInspectable` owns this character; the verdict is gated in an xUnit TEST, which is
-a third place a result can live, neither of the two halves a sweep of the typed layer
-looks in.
+The typed layer has a direct owner. `RouteBN5RealQSemisimpleClaim` is F164 and
+`RouteBN5RealQSemisimpleWitness` is live at `inspect --root n5diabolic`.
+`DiabolicReflectionParityWitness` (`inspect --root diabolicparity`) instead grounds
+the R-even odd-N mechanism and does not reach this R-odd locus. Diagnostics also
+carries the numerical predecessors `RouteBA2Inventory` and
+`RouteBA2CharacterClassifier`; they remain useful independent readings rather
+than the current exact owner.
 
 **Step 2 below is prior work, and saying so strengthens it.** The Hermitian anchors
 are not asserted here for the first time: `experiments/F89_PATH_K_DIABOLIC.md:145`
@@ -229,14 +210,19 @@ agreement with the C# gate's reading.
 
 ## What is held, and what is not
 
-Held: the geometric multiplicity at the positive real R-odd A₂ root of N=5, for the
-uniform chain at γ = 1 per site, Δ = 0.
+Held: semisimplicity throughout the complete 26-member R-odd A₂ orbit at N=5,
+for the uniform chain at γ = 1 per site, Δ = 0. The proof above may start at any
+orbit member and send it to a real-t Hermitian anchor; S1 supplies the unique
+repeated λ at every A₂ root and rank is preserved by the embedding. This includes
+12 imaginary-q, 2 real-q and 12 nonreal-q R-odd loci. Together with the 12
+R-even imaginary-q Hermitian loci, 38 of the 58 N=5 A₂ loci are exact-certified
+semisimple. The remaining 20 nonreal-q R-even loci are numerical-only.
 
-Not held. Nothing about the other 57 N=5 q-loci beyond what the Hermitian axis
-already gives, nothing about the R-even sector's scan, nothing about any N ≥ 6. No
-ε radius and no perturbative statement; F163's unfolding is a separate object.
-Nothing at Δ ≠ 0, where the ZZ term breaks the free-fermion structure and the A₂
-layer is a different polynomial. No metrological claim and no hardware proposal.
+Not held: an exact character certificate for those 20 R-even nonreal-q loci,
+anything about N ≥ 6, an ε radius or a perturbative statement; F163's unfolding
+is a separate object. Nothing at Δ ≠ 0, where the ZZ term breaks the free-fermion
+structure and the A₂ layer is a different polynomial. No metrological claim and
+no hardware proposal.
 
 The remark that alg = 2 leans on a third input beyond the two below, namely that AT
 does not vanish at (λ₀, w₀). That one is read off the repo's own description of the

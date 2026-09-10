@@ -164,7 +164,7 @@ def verify_route_b_mechanism_current_truth():
             "Residual semisimplicity is conditional on the twin-scalar restriction",
             "Tier 2 for the residual integrability mechanism",
             "They do not supply an all-N existence theorem",
-            "Last refreshed 2026-09-07",
+            "Last refreshed 2026-09-10",
             "analytic-defective collisions can split linearly",
             "analytic-split candidate", "full-sector geometric multiplicity decides character",
         ),
@@ -2270,7 +2270,7 @@ def route_b_n6_current_truth_errors(source, label):
                      "118 by executed full-sector HermitianAxis and 148 by stable EpCharacterStable readings, with ExactRankExecuted=0",
                      "The numerical rule uses all three intrinsic radii", "No exact fallback was used",
                      "neither determines Jordan character",
-                     "F163 independently proves all 266 semisimple"]
+                     "F163 (typed as RouteBN6A2UnfoldingClaim, live at inspect --root n6unfolding) independently proves all 266 semisimple"]
     else:
         required += ["consumes 266 distinct loci once", "ExactAlgebraic=266",
                      "HermitianAxis=118, EpCharacterStable=148, ExactRankExecuted=0",
@@ -2286,6 +2286,93 @@ def route_b_n6_current_truth_errors(source, label):
     if "an exact rank proof" in source.casefold().replace("not an exact rank proof", ""):
         errors.append("numerical character promoted to an exact rank proof")
     return errors
+
+
+def _route_b_exact_integer(value):
+    """Parse an integer JSON atom without accepting bools, floats, or decimal strings."""
+    if type(value) is int:
+        return value
+    if isinstance(value, str) and re.fullmatch(r"[+-]?\d+", value):
+        return int(value)
+    raise ValueError("not an exact integer")
+
+
+def route_b_n6_real_q_exclusion_errors(inventory):
+    """Validate the schema-3 N=6 certificate and require every exact t-box to exclude Re(t)=0."""
+    errors = []
+    if not isinstance(inventory, dict):
+        return ["N6 inventory root must be an object"]
+    if type(inventory.get("schemaVersion")) is not int or inventory.get("schemaVersion") != 3:
+        errors.append("N6 inventory must have integer schemaVersion=3")
+    if type(inventory.get("n")) is not int or inventory.get("n") != 6:
+        errors.append("N6 inventory must have integer n=6")
+    if inventory.get("model") != "open-uniform-XY-delta0-field0-gamma1-SEket-DEbra":
+        errors.append("N6 inventory must use the canonical model")
+    conventions = inventory.get("conventions")
+    if (not isinstance(conventions, dict)
+            or conventions.get("parameter") != "t=i*qCSharp;qCSharp=-i*t"
+            or conventions.get("eigenvalue") != "Lambda=2*lambda"
+            or conventions.get("coefficientOrder") != "lambda-lowest-first,t-lowest-first"):
+        errors.append("N6 inventory must use the canonical t/q/lambda conventions")
+
+    degrees = inventory.get("a2Degrees")
+    if (not isinstance(degrees, dict)
+            or type(degrees.get("E")) is not int or degrees.get("E") != 133
+            or type(degrees.get("O")) is not int or degrees.get("O") != 133):
+        errors.append("N6 inventory must declare integer A2 degrees E=133 and O=133")
+
+    loci = inventory.get("loci")
+    if not isinstance(loci, list) or len(loci) != 266:
+        errors.append("N6 inventory must contain exactly 266 certified loci")
+        return errors
+
+    ids = set()
+    parity_counts = {"E": 0, "O": 0}
+    for locus in loci:
+        locus_id = locus.get("id", "<missing-id>") if isinstance(locus, dict) else "<invalid-locus>"
+        if not isinstance(locus, dict):
+            errors.append("<invalid-locus>: locus must be an object")
+            continue
+        if not isinstance(locus_id, str) or not locus_id.strip() or locus_id in ids:
+            errors.append(f"{locus_id}: locus id must be nonempty and unique")
+        else:
+            ids.add(locus_id)
+        parity = locus.get("parity")
+        if parity not in parity_counts:
+            errors.append(f"{locus_id}: parity must be E or O")
+        else:
+            parity_counts[parity] += 1
+        if type(locus.get("algebraicMultiplicity")) is not int or locus.get("algebraicMultiplicity") != 2:
+            errors.append(f"{locus_id}: certified A2 locus must have integer algebraicMultiplicity=2")
+        try:
+            interval = locus["tBox"]["real"]
+            lo = interval["lower"]
+            hi = interval["upper"]
+            lo_num = _route_b_exact_integer(lo["numerator"])
+            lo_den = _route_b_exact_integer(lo["denominator"])
+            hi_num = _route_b_exact_integer(hi["numerator"])
+            hi_den = _route_b_exact_integer(hi["denominator"])
+            if lo_den <= 0 or hi_den <= 0:
+                errors.append(f"{locus_id}: nonpositive rational denominator")
+            elif lo_num * hi_den > hi_num * lo_den:
+                errors.append(f"{locus_id}: inverted tBox.real interval")
+            elif lo_num <= 0 <= hi_num:
+                errors.append(f"{locus_id}: tBox.real does not exclude zero")
+        except (KeyError, TypeError, ValueError):
+            errors.append(f"{locus_id}: malformed exact tBox.real interval")
+    if parity_counts != {"E": 133, "O": 133}:
+        errors.append(f"N6 inventory parity counts must be E=133 and O=133, got {parity_counts}")
+    semantic_digest = hashlib.sha256(json.dumps(
+        inventory, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    ).encode("utf-8")).hexdigest()
+    if semantic_digest != "6ae3c0fb76d3415177d8a9bec932ba7abfb9bf9be42b8a341e931cb672532eda":
+        errors.append("N6 boxes are detached from the semantically certified canonical carrier")
+    return errors
+
+
+READING_POWER_MONOTONICITY_TEST = (
+    "ReadingPowerWitnessTests.FiIsMonotoneOnTheSevenPointSampledQGrid_InEveryBasis"
+)
 
 
 def verify_final_five_repairs():
@@ -2787,7 +2874,7 @@ def verify_route_b_a2_current_truth():
         # The F163 pointer is what keeps the numerical routes from reading as the
         # strongest available statement; deleting it must be caught, not tolerated.
         f163_sentence = ("The semisimplicity itself does not rest on those readings" if label == "primary"
-                         else "F163 independently proves all 266 semisimple" if label == "arc"
+                         else "F163 (typed as RouteBN6A2UnfoldingClaim, live at inspect --root n6unfolding) independently proves all 266 semisimple" if label == "arc"
                          else "Semisimplicity itself is settled algebraically for all 266")
         check(f"Route B N6 {label} mutation rejects dropping the F163 semisimplicity pointer",
               bool(set(route_b_n6_current_truth_errors(source.replace(f163_sentence, ""), label)) - baseline))
@@ -2801,8 +2888,9 @@ def verify_route_b_a2_current_truth():
             check("Route B N6 mutation rejects numerical character promoted to exact rank",
                   bool(set(route_b_n6_current_truth_errors(wrong_proof, label)) - baseline))
         required = ["Route B is complete at N=5 as a root-by-root inventory",
-                    "PSC1", "S1", "all 34 stable EpCharacter",
-                    "No exact fallback was used", "not an all-N theorem"]
+                    "PSC1", "S1", "24 imaginary-q", "2 real-q", "32 nonreal-q",
+                    "26-member R-odd", "38 distinct", "20 nonreal-q R-even",
+                    "F164", "not an all-N theorem"]
         # Sensitive to deleting any N=6 completion/provenance boundary or restoring
         # the obsolete N=6-open statement; numerical character must stay numerical.
         required += ["Route B is complete at N=6 as a parity-labelled direct-t inventory",
@@ -2811,14 +2899,18 @@ def verify_route_b_a2_current_truth():
         if label != "arc":
             required += ["29 A2(w) roots / 58 q-loci", "24 imaginary-q loci",
                          "executed full-sector Hermiticity", "alg=geo=2",
-                         "exactRankCertificates array is empty", "ROUTE_B_A2_RECONCILE"]
+                         "exactRankCertificates", "ROUTE_B_A2_RECONCILE"]
         if label == "primary":
             required += ["Route B is complete at N=5 as a root-by-root inventory: 29 A2(w) roots / 58 q-loci, all semisimple with alg=geo=2.",
                          "12 negative-real w roots", "2 real-q loci", "32 nonreal-q loci",
                          "three isolating radii", "neither is a local Jordan character test"]
         surface_forbidden = forbidden
+        surface_forbidden += (
+            "32 nonreal-q loci remain numerical-only",
+            "the other 32 keep only the reading",
+        )
         if label == "path experiment":
-            required.append("N=6 Route B is the parity-labelled direct-t A2 inventory (266 loci, 133 per parity, all Diabolic with alg=geo=2)")
+            required.append("N=6 Route B is the parity-labelled direct-t A2 inventory (266 loci, 133 per parity, all semisimple by F163)")
             surface_forbidden += (
                 "higher-N completeness remains open",
                 "positive-real R-odd A2 locus; its Jordan character remains open",
@@ -2837,13 +2929,25 @@ def verify_route_b_a2_current_truth():
                 "Outside the still-open Route B inventory",
                 "This does not close Route B or the positive R-odd A2 character.",
             )
+        contract_baseline = set(task8_text_errors(source, required, surface_forbidden))
+        check(f"Route B {label}: N5/F164 text contract", not contract_baseline,
+              ascii("; ".join(sorted(contract_baseline))))
         for phrase in required:
             check(f"Route B {label}: {phrase}", phrase in source,
                   f"{relative_path}: missing current-truth statement")
+            changed = re.sub(re.escape(phrase), "", source, flags=re.IGNORECASE)
+            check(f"Route B {label} mutation rejects missing {phrase}",
+                  changed != source and
+                  bool(set(task8_text_errors(changed, required, surface_forbidden)) - contract_baseline),
+                  f"{relative_path}: required phrase mutation was ineffective")
         for phrase in surface_forbidden:
             check(f"Route B {label}: excludes {phrase}",
                   phrase.casefold() not in source.casefold(),
                   f"{relative_path}: stale Route B claim")
+            changed = source + " " + phrase
+            check(f"Route B {label} mutation rejects forbidden {phrase}",
+                  bool(set(task8_text_errors(changed, required, surface_forbidden)) - contract_baseline),
+                  f"{relative_path}: forbidden phrase mutation was ineffective")
 
     # The exact producer/export tests own root isolation and PSC1/S1 validity.
     # Do not infer no-NearEp or classification sources from this JSON: those
@@ -2860,6 +2964,103 @@ def verify_route_b_a2_current_truth():
         check("Route B artifact: no exact rank certificates used", inventory["exactRankCertificates"] == [])
     except (OSError, ValueError, KeyError, TypeError) as error:
         check("Route B artifact: readable schema", False, str(error))
+
+    try:
+        n6_inventory = json.loads((root / "simulations/results/route_b_a2_n6.json").read_text(encoding="utf-8"))
+        baseline = set(route_b_n6_real_q_exclusion_errors(n6_inventory))
+        check("Route B N6 artifact: all 266 exact tBox.real intervals exclude zero",
+              not baseline, ascii("; ".join(sorted(baseline))))
+        mutated = json.loads(json.dumps(n6_inventory))
+        mutated["loci"][0]["tBox"]["real"]["upper"]["numerator"] = "0"
+        check("Route B N6 artifact mutation rejects a tBox.real touching zero",
+              bool(set(route_b_n6_real_q_exclusion_errors(mutated)) - baseline))
+        wrong_n = json.loads(json.dumps(n6_inventory))
+        wrong_n["n"] = 5
+        check("Route B N6 artifact mutation rejects n=5",
+              bool(set(route_b_n6_real_q_exclusion_errors(wrong_n)) - baseline))
+        float_inverted = json.loads(json.dumps(n6_inventory))
+        real_interval = float_inverted["loci"][0]["tBox"]["real"]
+        real_interval["lower"]["numerator"] = 1.25
+        real_interval["upper"]["numerator"] = -1.25
+        check("Route B N6 artifact mutation rejects float inverted interval",
+              bool(set(route_b_n6_real_q_exclusion_errors(float_inverted)) - baseline))
+        duplicate = json.loads(json.dumps(n6_inventory))
+        duplicate["loci"][1]["id"] = duplicate["loci"][0]["id"]
+        check("Route B N6 artifact mutation rejects duplicate locus id",
+              bool(set(route_b_n6_real_q_exclusion_errors(duplicate)) - baseline))
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        check("Route B N6 artifact: readable exact t boxes", False, str(error))
+
+    current_surfaces = {
+        "docs/proofs/PROOF_N5_REAL_Q_DIABOLIC.md": (
+            ("RouteBN5RealQSemisimpleClaim", "RouteBN5RealQSemisimpleWitness",
+             "inspect --root n5diabolic", "24 imaginary-q", "2 real-q", "32 nonreal-q",
+             "26-member R-odd", "38 distinct", "20 nonreal-q R-even", "numerical-only",
+             "every one of the 266 persisted exact rational", "tBox.real",
+             "only real-q points in the N=5/N=6 A2 inventories",
+             "q is the settable parameter", "lambda is the resulting spectral eigenvalue"),
+            ("No `Claim` and no `IInspectable` owns", "float read of a field", "classified and uncertified")),
+        "docs/ANALYTICAL_FORMULAS.md": (
+            ("RouteBN5RealQSemisimpleClaim", "RouteBN5RealQSemisimpleWitness",
+             "inspect --root n5diabolic", "24 imaginary-q", "2 real-q", "32 nonreal-q",
+             "26-member R-odd", "38 distinct", "20 nonreal-q R-even", "numerical-only",
+             "every one of the 266 persisted exact rational"),
+            ("classified-not-certified", "float read of a field")),
+        "docs/GLOSSARY.md": (
+            ("outward-rounded interval/ball arithmetic", "artifact field describes that producer's route",
+             "24 imaginary-q", "2 real-q", "32 nonreal-q", "26-member R-odd",
+             "38 exact-certified", "20 nonreal-q R-even", "numerical-only"),
+            ("empty means classified only",)),
+    }
+    for relative_path, (required, forbidden) in current_surfaces.items():
+        source = (root / relative_path).read_text(encoding="utf-8")
+        source = " ".join(source.split())
+        baseline = set(task8_text_errors(source, required, forbidden))
+        check(f"Route B living surface current truth: {relative_path}",
+              not baseline, ascii("; ".join(sorted(baseline))))
+        for phrase in required:
+            changed = re.sub(re.escape(phrase), "", source, flags=re.IGNORECASE)
+            check(f"Route B living surface mutation rejects missing {ascii(phrase)}: {relative_path}",
+                  changed != source and bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+        for phrase in forbidden:
+            changed = source + "\n" + phrase
+            check(f"Route B living surface mutation rejects {ascii(phrase)}: {relative_path}",
+                  bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+
+    readout_surfaces = {
+        path: (
+            ("ReadoutFisher", "static calculation helper", "ReadingPowerWitness",
+             "live `IInspectable`", "inspect --root decoder", "lowest endpoint Q=1",
+             "does not sample the N=4 coherence-horizon EP", "no EP-specific verdict",
+             READING_POWER_MONOTONICITY_TEST),
+            ("live readout lab", "NoEpPeak_InAnyBasis_FiMonotoneInQ",
+             "exceptional point Q = 1", "Q = 1 (EP)"))
+        for path in (
+            "experiments/ROUTE_B_N4_VIRTUAL_READOUT.md",
+            "experiments/ROUTE_B_N4_READOUT_SEARCH.md",
+            "experiments/ROUTE_B_N4_HISTOGRAM_FILTER.md",
+        )
+    }
+    readout_surfaces["hypotheses/HANDSHAKE_GEOMETRY.md"] = (
+        ("Q=1 is the lowest endpoint", "Q*(4)=1.87874", "does not sample",
+         "no EP-specific verdict", "sampled Q=1 endpoint", "1555.3×",
+         "X/Y remain nonzero", "population basis remains much stronger"),
+        ("Q = 1 (EP)", "exceptional point Q = 1", "at the EP every read",
+         "from 1.65 at the EP", "1670×", "only the population basis still reads"))
+    for relative_path, (required, forbidden) in readout_surfaces.items():
+        source = (root / relative_path).read_text(encoding="utf-8")
+        source = " ".join(source.split())
+        baseline = set(task8_text_errors(source, required, forbidden))
+        check(f"ReadingPower living surface current truth: {relative_path}",
+              not baseline, ascii("; ".join(sorted(baseline))))
+        for phrase in required:
+            changed = re.sub(re.escape(phrase), "", source, flags=re.IGNORECASE)
+            check(f"ReadingPower mutation rejects missing {ascii(phrase)}: {relative_path}",
+                  changed != source and bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
+        for phrase in forbidden:
+            changed = source + "\n" + phrase
+            check(f"ReadingPower mutation rejects {ascii(phrase)}: {relative_path}",
+                  bool(set(task8_text_errors(changed, required, forbidden)) - baseline))
 
 
 def verify_f151_route_b_current_truth():

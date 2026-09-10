@@ -377,6 +377,9 @@ python simulations/route_b_n6_exact_unfolding.py
 The run rebuilds integer matrices, proves the source-polynomial identities,
 reruns the bounded-CRT discriminant proof, executes the Rabin checks and
 the modular nonzero witnesses, and writes the exact JSON certificate.
+The certificate binds the wrapper, the exact source producer, every transitive
+local Python dependency discovered from that producer, and the integer fixture
+by LF-normalized SHA-256; the C# consumer requires the complete dependency set.
 It invokes no eigenvalue solver and no floating-point rank tolerance.
 The companion numerical probe evaluates (1) and checks the local paths;
 its decimal values are not premises of this proof.
