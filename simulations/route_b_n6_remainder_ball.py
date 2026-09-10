@@ -6,7 +6,7 @@ import hashlib,json,time
 import flint
 from pathlib import Path
 from flint import acb,arb,acb_mat
-from route_b_n6_ball_base import build_base,identity
+from route_b_n6_ball_base import build_base,identity,canonical_utf8_lf_sha256
 ROOT=Path(__file__).resolve().parents[1]
 def midpoint(x): return acb(x.real.mid(),x.imag.mid())
 def diskbox(center,r): return center+acb(arb(0,r),arb(0,r))
@@ -78,10 +78,10 @@ def main():
     source=ROOT/'simulations/results/route_b_n6_end_profile_probe.json'
     old=json.loads(source.read_text())
     output=dict(scope=__doc__,precision=base['precision'],seed_id=old['seed_id'],
-        script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        base_script_sha256=hashlib.sha256((ROOT/'simulations/route_b_n6_ball_base.py').read_bytes()).hexdigest(),
-        source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),flint_version=flint.__version__,
-        premises={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT/'simulations/results/route_b_n6_exact_unfolding.json',ROOT/'simulations/results/route_b_a2_n6.json',ROOT/'simulations/tests/fixtures/route_b_a2_n6_residual.json']},profiles={})
+        script_sha256=canonical_utf8_lf_sha256(Path(__file__).read_bytes()),
+        base_script_sha256=canonical_utf8_lf_sha256((ROOT/'simulations/route_b_n6_ball_base.py').read_bytes()),
+        source_sha256=canonical_utf8_lf_sha256(source.read_bytes()),flint_version=flint.__version__,
+        premises={p.relative_to(ROOT).as_posix():canonical_utf8_lf_sha256(p.read_bytes()) for p in [ROOT/'simulations/results/route_b_n6_exact_unfolding.json',ROOT/'simulations/results/route_b_a2_n6.json',ROOT/'simulations/tests/fixtures/route_b_a2_n6_residual.json']},profiles={})
     transformed,high=odd_base(base)
     profiles=[('one',base,base['left']),('even',base,(base['left']+base['right'])/2),('odd',transformed,high)]
     for name,current,V in profiles:

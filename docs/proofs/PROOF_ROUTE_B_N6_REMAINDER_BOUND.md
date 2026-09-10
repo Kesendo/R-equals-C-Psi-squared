@@ -37,13 +37,23 @@ every one of them. `docs/GLOSSARY.md` defines no term for a certified parameter 
 its one "radius" entry, the F135 record radius, is a different object. `docs/CAUGHT_ERRORS.md` holds nothing on radius arithmetic. `fw.Confirmations`
 holds no hardware measurement touching this.
 
-The typed layer returns nothing in either half, and that is a gap rather than a
-comfort: no `Claim` and no witness holds this result, and `N6-E-A2-T-007` appears in no
-C# source outside one OpenArcs prose string. The third half is not empty:
-`RouteBN6ResidualProducerTests` gates the even sector's dimension 45 and the residual's
-Λ-degree 32, the algebraic base this proof starts from, though no test reaches the radii
-themselves. Under the repository's C# witness rule this producer is a witness waiting to
-be ported.
+The typed layer holds this result on its claim side only.
+`RouteBN6RemainderBoundClaim` carries the statement with F163 as its single typed parent,
+and `RouteBN6RemainderBoundClaimTests` reads the certified radii, the η orders, ρ, the
+worst-branch remainders, every Newton image and every producer and premise digest back out
+of the committed certificate, so a producer rerun that moves a radius, or a premise that
+moves underneath it, turns the gate red instead of leaving this page ahead of its evidence:
+
+```powershell
+dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "Category=ROUTE_B_A2_N6_REMAINDER"
+dotnet test compute/RCPsiSquared.Runtime.Tests -c Release --filter "Category=ROUTE_B_A2_N6_REMAINDER"
+```
+
+No witness
+recomputes the balls at inspect time, which is the honest state: the ball arithmetic lives
+in the Python producer, and under the repository's C# witness rule that producer is a
+witness waiting to be ported. `RouteBN6ResidualProducerTests` gates the even sector's
+dimension 45 and the residual's Λ-degree 32, the algebraic base this proof starts from.
 
 ## Statement and conventions
 

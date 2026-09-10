@@ -383,3 +383,16 @@ by LF-normalized SHA-256; the C# consumer requires the complete dependency set.
 It invokes no eigenvalue solver and no floating-point rank tolerance.
 The companion numerical probe evaluates (1) and checks the local paths;
 its decimal values are not premises of this proof.
+
+The typed layer consumes that certificate. `RouteBN6A2UnfoldingClaim` (F163)
+carries the statement, `RouteBN6A2UnfoldingWitness` recomputes the reading at
+inspect time, and both are gated under one category:
+
+```powershell
+dotnet run --project compute/RCPsiSquared.Cli -- inspect --root n6unfolding
+dotnet test compute/RCPsiSquared.Diagnostics.Tests -c Release --filter "Category=ROUTE_B_A2_N6_UNFOLDING"
+dotnet test compute/RCPsiSquared.Runtime.Tests -c Release --filter "Category=ROUTE_B_A2_N6_UNFOLDING"
+```
+
+The witness reads the certificate rather than the proof text, so a producer
+rerun that changes any bound hash fails the witness before it reaches a number.

@@ -46,7 +46,7 @@ public class ReadoutFisherTests
     // difference, strength at bond 0, K-window (0,1], 80 points.
     [Theory]
     [InlineData(ReadoutBasis.Z, 0.05, 1.594, 0.02)]   // Q=20
-    [InlineData(ReadoutBasis.Z, 1.00, 0.0715, 0.005)] // Q=1 (the exceptional point)
+    [InlineData(ReadoutBasis.Z, 1.00, 0.0715, 0.005)] // Q=1 (the lowest sampled point)
     [InlineData(ReadoutBasis.X, 0.05, 0.669, 0.02)]   // Q=20
     [InlineData(ReadoutBasis.X, 1.00, 0.0004, 0.0002)]// Q=1
     public void StrengthFi_MatchesReferenceValues(ReadoutBasis basis, double gamma,

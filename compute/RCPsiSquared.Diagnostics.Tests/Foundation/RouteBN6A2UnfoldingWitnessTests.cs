@@ -5,6 +5,7 @@ using RCPsiSquared.Diagnostics.Foundation;
 
 namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
+[Trait("Category", "ROUTE_B_A2_N6_UNFOLDING")]
 public class RouteBN6A2UnfoldingWitnessTests
 {
     private static RouteBN6A2UnfoldingWitness NewWitness(string? path = null) => new(path);

@@ -45,12 +45,20 @@ question and records the N=7 F₅₃ layer as unmeasured.
 `experiments/F89_BRANCH_LOCUS_PALINDROME.md` is the N=4 predecessor and supplies
 the mirror this layer inherits. `docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md`
 supplies the semisimplicity mechanism and its boundary. The typed layer answers
-in both halves, and thinly. No `Claim` owns Route B and no `IInspectable`
-witness does either, so the executed readings live in the Diagnostics types
-`RouteBA2N6Inventory`, `RouteBA2N6CharacterClassifier` and
-`RouteBA2N6AtlasManifest`, with the reconciliation gate as their only owner,
-while `F89CrossFoldSimilarityClaim` owns the fold and is live at
-`inspect --root crossfold`. `docs/CAUGHT_ERRORS.md` returned its three
+in both halves, and unevenly. `RouteBN6A2UnfoldingClaim` (F163) owns the
+unfolding and is live at `inspect --root n6unfolding`, and its witness loads
+this page's inventory and reports the 266-locus count at inspect time, so the
+CENSUS is held by a claim and a witness both.
+`RouteBN5RealQSemisimpleClaim` (F164) owns the N=5 real-q locus and, with it,
+the N=6 real-q exclusion; `F89CrossFoldSimilarityClaim` owns the fold at
+`inspect --root crossfold`. F164 also carries the character
+split, naming the 118 Hermitian-axis and 148 generic-complex loci and reading
+`ExactRankExecuted = 0` as a statement about the classifier's route rather than
+about the loci. One number on this page is held by no claim and no witness at
+all, the minimum isolation margin: it lives in
+`RouteBA2N6CharacterClassifier` and is gated only in the reconciliation
+category, which is the third place a verdict can sit, an xUnit trait with
+neither a `Claim` nor a witness above it. `docs/CAUGHT_ERRORS.md` returned its three
 2026-06-21 entries, the EP-character trilogy, which is why character here is an
 executed verdict and never an inferred one. `fw.Confirmations` holds one
 EP-labelled hardware node whose own record states that no EP, mode coalescence

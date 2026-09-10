@@ -9388,7 +9388,10 @@ See [the connected-path derivation and producers](../experiments/ROUTE_B_N4_SECO
 both branches on common ε disks of radii 2^-20 (one end), 2^-18 (equal ends),
 and 2^-10 (opposite ends). It bounds the full tail after the next Taylor
 coefficient by a Cauchy estimate. These are conservative sufficient radii
-for this locus, not maximal convergence radii or a family-wide bound.
+for this locus, not maximal convergence radii or a family-wide bound. That
+companion is typed on its own as `RouteBN6RemainderBoundClaim`, with F163 as
+its single parent and its radii gated against the committed certificate; it
+carries no F number of its own, being one crossing of one N.
 
 **Certificate:** Rabin irreducibility modulo 367; exact 45D characteristic
 identities at 46 integer t values per parity; bounded-CRT discriminant

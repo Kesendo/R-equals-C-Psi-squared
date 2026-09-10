@@ -2827,3 +2827,70 @@ store.
 `docs/proofs/PROOF_COLLISION_GAP_ODD_ORDERS.md`,
 `experiments/THE_COMB_ON_THE_ROAD.md`, and the arc `mirrorworld_what_is_missing` in
 `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`.
+
+## 2026-09-10: a provenance hardening broke a reproduction path, invisibly
+
+`72c93c81` moved the N=6 unfolding artifact's provenance to a canonical digest, BOM- and
+line-ending-independent, so that the C# consumer reads the same hash however the file was
+checked out. `simulations/route_b_n6_ball_base.py` still hashed raw bytes. On a Windows
+checkout the producer file carries CRLF, so the two digests disagree
+(`49bd95933f27ba4e…` raw against `5cb935f179ab9658…` canonical) and the helper's premise
+assertion fails before any arithmetic runs. From that commit until this one,
+`python simulations/route_b_n6_remainder_ball.py`, the reproduction command printed in
+`docs/proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md`, could not run at all.
+
+Nothing reported it because nothing ran it. No C# test consumed the ball certificate, and
+the certificate's own `premises` map, which exists precisely to catch a premise moving
+underneath a frozen result, was read by no gate; it had been failing on
+`route_b_n6_exact_unfolding.json` since the same commit. The whole binding was decoration
+until something read it.
+
+The repair moves the ball chain to the same canonical digest, so the two halves share one
+book, and records the premise and producer digests in a gate
+(`RouteBN6RemainderBoundClaimTests.EveryProducerAndPremiseDigest_StillMatchesTheFileOnDisk`).
+The certificate was regenerated: every mathematical value is bit-identical, the whole
+`profiles` subtree included, and only the digests, the premise keys, now POSIX rather than
+Windows-separated, and the elapsed time moved.
+
+**This is the second instance of one shape**, the first being the `PYTHONIOENCODING`
+finding of 2026-09-04: a documented reproduction path that is broken and invisible at the
+same time, because the people who could notice have a habit that steps around it. There
+the habit was an environment variable typed from reflex; here it was never running the
+command, only citing it.
+
+**Two review findings did not survive being checked**, and they are worth keeping beside
+the ones that did. A round reported the claim's largest Newton image `0.003865486` as a
+wrong last digit; it is the correct UPPER rounding of `0.0038654854588457965`, which is
+what a conservative enclosure must report, and the defect was that the claim repeated the
+rounded figure without saying it was one. Another round reported the worst-branch
+remainders as understated 3.3×, giving `0.11816 %` for the wider branch at half the common
+radius; that branch sits at s = 1/8 there, not s = 1/2, and 0.11816 % is its value at half
+its OWN radius. The claimed `0.03630 / 0.03630 / 0.04582` are right.
+
+A third round then caught the dismissal itself, and it was the worst finding of the day.
+The first rejection was written as "a smaller s, so it cannot be the worst", which does not
+follow: the bound is ρ/(|z|−ρ)·s²/(1−s), the two branches differ in BOTH factors, and here
+the wider branch carries a prefactor 3.26 times larger. It loses only because f(1/8)/f(1/2)
+= 1/28 outweighs that. The verdict was right and the reason was invented, and the invented
+reason had already been copied into the claim, into a test docstring and into this ledger
+before anyone checked it. The gate now reads which branch is worst off the certificate
+instead of arguing it. The same round found two more repair defects: the atlas repair
+asserted that no witness holds the 266-locus census while F163's witness loads that very
+inventory and reports the count, and the new digest helper was justified by a rule about
+importing producers that does not describe the module in question, which
+`route_b_n6_ball_base.py` already imported. Four copies of one digest existed for an hour
+inside the gate written to catch two copies disagreeing; there are now two production
+copies, the Python producer and the C# certificate consumer, beside the deliberate
+independent oracle in `simulations/tests/test_route_b_a2_n6.py`, which open-codes the
+digest on purpose so that it checks the helper rather than repeating it.
+
+Both early rounds were right about the prose: the claim named no branch-specific radius and
+no worst-branch reading, and `experiments/ROUTE_B_N6_LOCAL_VALIDITY.md:256-257` had both
+words already.
+
+**Anchors.** `simulations/route_b_n6_ball_base.py`,
+`simulations/route_b_n6_remainder_ball.py`,
+`simulations/results/route_b_n6_remainder_ball.json`,
+`compute/RCPsiSquared.Core/Symmetry/RouteBN6RemainderBoundClaim.cs`,
+`compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBN6RemainderBoundClaimTests.cs`,
+`docs/proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md`.

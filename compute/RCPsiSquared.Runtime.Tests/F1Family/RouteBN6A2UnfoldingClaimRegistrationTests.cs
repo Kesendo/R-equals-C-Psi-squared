@@ -5,6 +5,7 @@ using RCPsiSquared.Diagnostics.Knowledge;
 
 namespace RCPsiSquared.Runtime.Tests.F1Family;
 
+[Trait("Category", "ROUTE_B_A2_N6_UNFOLDING")]
 public class RouteBN6A2UnfoldingClaimRegistrationTests
 {
     private static readonly Lazy<RCPsiSquared.Runtime.ObjectManager.ClaimRegistry> Registry =

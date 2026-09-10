@@ -90,6 +90,8 @@ public static class OpenArcsRegistry
                 "PROOF_ROUTE_B_N6_REMAINDER_BOUND and route_b_n6_remainder_ball.py certify both EP branches and the corrected Taylor tail " +
                 "on common epsilon disks 2^-20 (one), 2^-18 (equal), 2^-10 (opposite), with eta=epsilon^2 for opposite ends. " +
                 "These conservative sufficient disks are not maximal convergence radii; the broader epsilon<=0.1 readings remain numerical. " +
+                "The remainder result is typed as RouteBN6RemainderBoundClaim with F163 as its single parent, its radii gated against " +
+                "the committed certificate; no witness recomputes the balls, so the Python producer remains a witness waiting to be ported. " +
                 "F89d transports all q-coordinate response coefficients by conjugation and carries this selected N=6 certificate " +
                 "unchanged to its (1,4) partner; PROOF_ROUTE_B_N6_UNFOLDING section 6 distinguishes this palindrome transport " +
                 "from spatial reflection's sorting of epsilon orders. " +

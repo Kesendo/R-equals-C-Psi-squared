@@ -936,6 +936,16 @@ public static class KnowledgeRegistryFactory
             // RouteBN5RealQSemisimpleWitness, inspect --root n5diabolic, pins the coupling book by spectrum, reads
             // real symmetry against 0.0, and gates the N=6 exclusion from the rational intervals rather than midpoints.
             .RegisterRouteBN5RealQSemisimpleClaim()
+            // The certified local remainder at the N=6 crossing N6-E-A2-T-007 (Tier 1 derived,
+            // docs/proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md): F163 proves the crossing semisimple and states
+            // that the algebraic corollary supplies no remainder bound and no explicit epsilon radius. A 512-bit
+            // complex-ball Banach contraction closes exactly that, for this one crossing: both EP2 branches are
+            // holomorphic on certified eta disks 2^-20 / 2^-18 / 2^-20 for the one/even/odd end profiles, the odd
+            // profile being analytic in eta = epsilon^2 so that its disk reads |epsilon| <= 2^-10, and the corrected
+            // Taylor tail is bounded relative to the actual displacement q(eta)-q0. Sufficient neighborhoods, not
+            // maximal ones; no radius uniform over the 266-locus family. Single typed parent F163, whose exact
+            // rank, semisimplicity, factorization and unique-repeated-root results are explicit premises here.
+            .RegisterRouteBN6RemainderBoundClaim()
             // Open questions
             .RegisterF1OpenQuestions()
             .RegisterF86OpenQuestions()
