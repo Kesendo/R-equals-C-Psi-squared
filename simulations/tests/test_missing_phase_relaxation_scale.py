@@ -17,6 +17,34 @@ def row_stack(x):
     return np.asarray(x, dtype=complex).reshape(-1, order="C")
 
 
+def test_float_construction_and_generator_use_literal_scale_and_normalization():
+    epsilon = 0.125
+    gamma = 0.3
+    expected_h = np.zeros((7, 7), dtype=complex)
+    for site, bond in enumerate([2.25, 2.0, 2.0, 2.0, 2.0, 2.0]):
+        expected_h[site, site + 1] = expected_h[site + 1, site] = bond
+    assert np.array_equal(mprs.hopping_float(epsilon), expected_h)
+
+    expected_v = np.array(
+        [1.0, 0.0, -1.125, 0.0, 1.125, 0.0, -1.125], dtype=complex
+    )
+    expected_v /= np.linalg.norm(expected_v)
+    actual_v = mprs.blind_vector_float(epsilon)
+    assert np.linalg.norm(actual_v) == pytest.approx(1.0, abs=1e-15)
+    assert np.array_equal(actual_v, expected_v)
+
+    identity = np.eye(7, dtype=complex)
+    z = np.eye(7, dtype=complex)
+    z[3, 3] = -1.0
+    expected_generator = (
+        -1j * (np.kron(expected_h, identity) - np.kron(identity, expected_h.T))
+        + gamma * (np.kron(z, z.T) - np.eye(49, dtype=complex))
+    )
+    assert np.array_equal(
+        mprs.a_generator_float(epsilon, gamma), expected_generator
+    )
+
+
 def test_two_sided_invariant_embedding_has_exact_double_cluster():
     epsilon = 0.125
     gamma = 0.3
