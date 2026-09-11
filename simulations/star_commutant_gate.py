@@ -2,7 +2,7 @@
 
 RESOLVED 2026-06-20 (see star_survivor_heisenberg.py + THE_STAR_FROZEN_SEAM.md 'Model scope'): NO bug.
 This gate is HEISENBERG (H_SE includes the ZZ potential V), so it reads the Heisenberg star survivor
-darkness 4/N -- NOT the docs' 4/(N-1), which is the XY (hopping-only) value the typed StructuralCeiling/
+light content 4/N -- NOT the docs' 4/(N-1), which is the XY (hopping-only) value the typed StructuralCeiling/
 StarFrozenSeam framework uses by design. The mismatch this gate found is a MODEL difference (the ZZ term),
 not an error. Yes: the survivor is the [H,rho]=0 commutant, but only in the high-Q LIMIT (||[H,rho]|| ~ 1/Q),
 frozen at every Q -- in both models.

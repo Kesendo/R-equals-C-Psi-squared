@@ -25,7 +25,7 @@ GATES (gate-first; a FIRING gate is the FIND -- diagnose, do not loosen):
       PREDICTION: X -> -1 (dark anti-fixed, control), R -> +1 (the real self-mirror),
       U -> the open question.  A clean separation X(-1)/R(+1) IS the find.
   G3  CAUSE vs CORRELATION: across the (p,p) spectrum, does S-parity sort DARK from BRIGHT
-      (<n_XY> = -Re(lambda)/2gamma, the Absorption Theorem)?  Is darkness == a definite parity?
+      (<n_XY> = -Re(lambda)/2gamma, the Absorption Theorem)?  Is light content == a definite parity?
   MATH-LENS GUARD: U and X must COMPLEMENT (|a> -> |~a>), non-trivial on diagonals;
       a pure Z-string would fix ANY diagonal mode trivially.  Assert they actually complement.
 """
@@ -225,7 +225,7 @@ def run(N, J, g, topo, model):
         print(f"      {kind:4s}: fidelity={fid:.4f}  sign={sign:+.0f}   -> {eig}", flush=True)
 
     # G3 -- cause vs correlation: does parity sort dark from bright across the block?
-    print("G3  parity vs darkness across the half-filling block (<n_XY> = -Re/2g):", flush=True)
+    print("G3  parity vs light content across the half-filling block (<n_XY> = -Re/2g):", flush=True)
     w, V = np.linalg.eig(L)
     for kind, S in ops.items():
         if rel(S @ L, L @ S) > 1e-8:

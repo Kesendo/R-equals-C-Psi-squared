@@ -66,7 +66,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <see cref="ClockHandLadderClaim"/>), and the ring 2-excitation (2,2)/(N−2,N−2) doublet V-Effect seam
 /// (NOT half-filling: at N=6 the (2,2) block's handover Q_h matches the full-L survivor, the half-filling
 /// (3,3) block does not) is resolved by docs/proofs/PROOF_RING_HANDOVER_SLOPE.md: slope Q_h → N·√3/(2π),
-/// the darkness-1 sibling of Q*, adversarially reviewed 2026-07-19 (two refute-first lenses, independent
+/// the ⟨n_XY⟩ = 1 sibling of Q*, adversarially reviewed 2026-07-19 (two refute-first lenses, independent
 /// rebuilds; the proof's Review section holds the record). Concrete ring instance:
 /// the N=6 ring's own Q* = 1.609 (simulations/carbon/benzene_two_clocks.py).</para>
 ///
@@ -201,7 +201,7 @@ public sealed class CoherenceHorizonClaim : Claim
                          "2-excitation V-Effect seam opens: the mode that " +
                          "overtakes the band-edge beat in the FULL 4^6 Liouvillian is a DOUBLE-excitation coherence " +
                          "(filling sector (2,2)/(4,4)), so the full-L handover Q_h = 2.0000000 (the (2,2)-sector root solve on the " +
-                         "darkness=1 criterion, simulations/ring_handover_qh.py; 2 is this ring's value and not a law, the " +
+                         "<n_XY> = 1 criterion, simulations/ring_handover_qh.py; 2 is this ring's value and not a law, the " +
                          "same solve giving 2.35038584 at N=8 and 2.83519426 at N=10 against the derived slope √3/(2π)) " +
                          "SPLITS from the clean SE-EP Uhr 2 " +
                          "(1.609). For the open chains the Absorption Theorem co-locates the two at Re = −2γ (that IS the " +

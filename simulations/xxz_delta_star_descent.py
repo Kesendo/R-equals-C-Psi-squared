@@ -278,7 +278,7 @@ def verdict(fits):
     print(f"     [{lo:.3f}, {hi:.3f}]; every computed Delta*(N<=14) stays >1 (no finite-N crossing). A limit far")
     print(f"     from 1 (|L-1| >~ 0.1) is excluded by every fit; the small above/below offset is a fit-form")
     print(f"     systematic centered on the critical point. The original 4-point ambiguity is collapsed.")
-    print(f"  [bonus] Q*(N)~0.59N GROWS while Delta*(N) DESCENDS: the SAME band-edge floor (darkness=1)")
+    print(f"  [bonus] Q*(N)~0.59N GROWS while Delta*(N) DESCENDS: the SAME band-edge floor (<n_XY> = 1)")
     print(f"          on two axes (dephasing Q, anisotropy Delta) -- one principle, opposite N-trends.")
 
 

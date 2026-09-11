@@ -7,7 +7,7 @@ a contradiction the agent surfaces is a FLAG to gate, not a fact. So we compute,
 RESOLVED 2026-06-20 (see star_survivor_heisenberg.py + THE_STAR_FROZEN_SEAM.md 'Model scope'): the docs
 are NOT wrong. The committed mechanism is correct -- the survivor IS the [H,rho]=0 commutant, but only in
 the high-Q LIMIT (||[H,rho]|| ~ 1/Q -> 0), frozen at every Q. This gate is HEISENBERG (H has the ZZ term),
-so its survivor darkness is 4/N; the docs' 4/(N-1) is the XY (hopping-only) value, by design. The
+so its survivor light content is 4/N; the docs' 4/(N-1) is the XY (hopping-only) value, by design. The
 ||[H,rho]||~2g the lens-agent saw is the finite-Q (non-limit) residual, not a refutation of the commutant.
 """
 import sys

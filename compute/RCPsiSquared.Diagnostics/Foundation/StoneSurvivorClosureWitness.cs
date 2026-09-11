@@ -182,7 +182,7 @@ public sealed class StoneSurvivorClosureWitness : IInspectable
             summary: $"Sum ln alpha = {m.Closure.ToString("+0.0000;-0.0000", Inv)} " +
                      $"({(m.InWindow ? "IN" : "OUT")} the +-{ClosureWindow.ToString("0.##", Inv)} window), " +
                      $"sign-coherence coh={m.SignCoherence.ToString("0.00", Inv)} ({m.Reliable}/{m.Sites} reliable sites) -> " +
-                     $"{(m.IsRateShift ? "RATE-SHIFT (K_decay moves; soft darkness)" : m.InWindow ? "FROZEN (K_decay defect-invariant; rigid darkness)" : "out-of-window but sign-mixed (redistribution, NOT a rate shift)")}");
+                     $"{(m.IsRateShift ? "RATE-SHIFT (K_decay moves; soft light content)" : m.InWindow ? "FROZEN (K_decay defect-invariant; rigid light content)" : "out-of-window but sign-mixed (redistribution, NOT a rate shift)")}");
 
     public InspectablePayload Payload => InspectablePayload.Empty;
 }

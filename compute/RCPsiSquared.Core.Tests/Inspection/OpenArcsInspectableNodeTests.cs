@@ -14,11 +14,9 @@ public class OpenArcsInspectableNodeTests
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
         Assert.Equal(60, OpenArcsRegistry.All.Count);   // +darkness_names_the_light
-                                                        //   (2026-09-11: the noun names the
-                                                        //   light content and the comparative
-                                                        //   reads the axis the other way; the
-                                                        //   landed change is a fence and the
-                                                        //   rename is the debt, 181 sites)
+                                                        //   (2026-09-11, retired the same day:
+                                                        //   the quantity is the light content,
+                                                        //   and dark keeps the mode)
                                                         // +adjacency_has_no_instrument
                                                         //   (2026-09-11: the repo-side home for
                                                         //   Tom's 2026-08-07 rule, plus the one

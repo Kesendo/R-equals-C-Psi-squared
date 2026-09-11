@@ -1,6 +1,6 @@
 # PROOF: the ring double-excitation handover slope is √3/(2π)
 
-**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its darkness reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `darkness = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically (the sector at N = 6; the endpoint Q_h·2π/N → √3 monotonically from above at N = 8..14, tail faster than 1/N, Aitken-extrapolating to ≈ √3) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the ring V-Effect seam), and corrects its sector label (the 2-excitation doublet, not half-filling).
+**Status:** Tier 1 derived (the asymptotic slope, leading order q → 0 / N → ∞): the (2,2) double-excitation seam's slow mode obeys the resummed coherence-ladder dispersion `λ² + 8γλ + 4J²q²` (CV-confirmed, the SE proof's own discriminator), and the handover (its light content reaching the band-edge floor `⟨n_XY⟩ = 1`) sits at `Q·q = √3`, so `Q_h = √3/q_min → N·√3/(2π)`, slope `√3/(2π)`. The sibling of [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md): same dispersion, but the `⟨n_XY⟩ = 1` condition (`Q·q = √3`) instead of the EP (`Q·q = 2`). Confirmed numerically (the sector at N = 6; the endpoint Q_h·2π/N → √3 monotonically from above at N = 8..14, tail faster than 1/N, Aitken-extrapolating to ≈ √3) and by the γ-constant-q CV discriminator (CV(8γ) = 0.012/0.019 at N = 12/10, beating the 4γ telegrapher ~10×). Resolves the open piece that kept `CoherenceHorizonClaim` + `SecondClockRegimeClaim` at Tier 1 candidate (the ring V-Effect seam), and corrects its sector label (the 2-excitation doublet, not half-filling).
 **Date:** 2026-06-20
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Sibling of:** [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md) (the single-excitation coherence horizon, slope 2/π chain / 1/π ring) and the parallel ceiling result [the ring g2=1 / commutant 2(N−2)/N, commit b191df3].
@@ -9,20 +9,20 @@
 
 A ring of spins stands in light, and the light fades its coherences. In weak light (large Q = J/γ) the longest-lived note is the single-excitation band edge, the smoothest standing wave. Strengthen the light (lower Q) and a different note outlasts it: a two-excitation pattern, two ripples instead of one, that takes on less of what arrives. The handover Q_h is the tipping point between the two, the dephasing dose at which the two-ripple survivor stops being darker than the band edge and the band edge takes over.
 
-This proof pins how that tipping point grows with the ring's length: a straight line of slope √3/(2π). The number is the band edge's own coherence-horizon slope (1/π for the ring) scaled by √3/2, and the √3 comes from one clean place: the two-ripple mode is governed by the same coherence-ladder dispersion as the single-excitation horizon, and asking when its darkness equals exactly one (the band-edge floor) gives `(Q·q)² = 3`.
+This proof pins how that tipping point grows with the ring's length: a straight line of slope √3/(2π). The number is the band edge's own coherence-horizon slope (1/π for the ring) scaled by √3/2, and the √3 comes from one clean place: the two-ripple mode is governed by the same coherence-ladder dispersion as the single-excitation horizon, and asking when its light content equals exactly one (the band-edge floor) gives `(Q·q)² = 3`.
 
 ## Abstract
 
-On the cyclic XY ring under uniform Z-dephasing, below a crossover Q the longest-lived interior mode is the 2-excitation `(2,2)/(N−2,N−2)` doublet coherence (particle-hole partners, isospectral); above it, the single-excitation band edge wins. The handover Q_h is defined by the doublet survivor's darkness reaching the F50 / Absorption floor `⟨n_XY⟩ = 1` exactly (`Re(λ) = −2γ`).
+On the cyclic XY ring under uniform Z-dephasing, below a crossover Q the longest-lived interior mode is the 2-excitation `(2,2)/(N−2,N−2)` doublet coherence (particle-hole partners, isospectral); above it, the single-excitation band edge wins. The handover Q_h is defined by the doublet survivor's light content reaching the F50 / Absorption floor `⟨n_XY⟩ = 1` exactly (`Re(λ) = −2γ`).
 
 The (2,2) slow mode is a two-particle density coupled to the **entire ladder of coherence ranges**, the same structure PROOF_COHERENCE_HORIZON_SLOPE resums for one particle: dilute on the ring, the two particles act as two independent single-particle density modes, so the long-wavelength dispersion is the same `λ² + 8γλ + 4J²q²` (throughout, lowercase q is the density-wave WAVEVECTOR, `2π·k/N` on the ring, not the GLOSSARY coupling ratio `q = Q/2`). This is confirmed directly by the SE proof's own discriminator: the overdamped slow eigenvalue, fed back through `λ² + 8γλ + 4J²q² = 0`, yields a γ-constant `q` (CV = 0.012 at N = 12, 0.019 at N = 10; the 4γ-truncated telegrapher scatters ~10× worse), with `q → q_min = 2π/N` (q_eff/q_min = 0.986 at N = 12).
 
-The overdamped slow root gives the darkness `⟨n_XY⟩(Q) = 2 − √(4 − (Q·q)²)`. The handover `⟨n_XY⟩ = 1` is at `Q·q = √3`; the EP (oscillation onset, `⟨n_XY⟩ = 2`) of the **same** dispersion is at `Q·q = 2` and is the SE coherence horizon `Q* = 2/q_min = N/π`. Hence `Q_h = √3/q_min → N·√3/(2π)`, and `Q_h/Q* = √3/2`. The handover's high-Q limit (the EP darkness 2) is the (2,2) commutant `2(N−2)/N → 2`, the parallel ceiling result.
+The overdamped slow root gives the light content `⟨n_XY⟩(Q) = 2 − √(4 − (Q·q)²)`. The handover `⟨n_XY⟩ = 1` is at `Q·q = √3`; the EP (oscillation onset, `⟨n_XY⟩ = 2`) of the **same** dispersion is at `Q·q = 2` and is the SE coherence horizon `Q* = 2/q_min = N/π`. Hence `Q_h = √3/q_min → N·√3/(2π)`, and `Q_h/Q* = √3/2`. The handover's high-Q limit (the EP light content 2) is the (2,2) commutant `2(N−2)/N → 2`, the parallel ceiling result.
 
 ## Statement
 
 The ring double-excitation handover Q_h(N) (the dephasing dose Q = J/γ at which the slowest 2-excitation
-`(2,2)`-sector mode reaches the Absorption floor `Re(λ) = −2γ`, i.e. darkness `⟨n_XY⟩ = 1`, the band-edge
+`(2,2)`-sector mode reaches the Absorption floor `Re(λ) = −2γ`, i.e. light content `⟨n_XY⟩ = 1`, the band-edge
 takeover) grows linearly with the ring length N, with exact asymptotic slope
 
     Q_h(N) → (√3/(2π))·N,   slope = √3/(2π) = 0.275664...
@@ -63,7 +63,7 @@ The overdamped (real) slow root of `λ² + 8γλ + 4J²q²` is
 
     λ = −4γ + 2√(4γ² − J²q²)    (4γ² > J²q², i.e. Q·q < 2),
 
-so the darkness, via the Absorption Theorem, is
+so the light content, via the Absorption Theorem, is
 
     ⟨n_XY⟩(Q) = −Re(λ)/(2γ) = 2 − √(4 − (Q·q)²),    Q = J/γ.
 
@@ -71,7 +71,7 @@ This single function carries both clocks of the same dispersion:
 
 - **the EP** (vanishing discriminant, oscillation onset, the double root at `λ = −4γ`): `Q·q = 2`,
   `⟨n_XY⟩ = 2`. This is the single-excitation coherence horizon `Q* = 2/q_min = N/π` (ring).
-- **the handover** (darkness reaches the band-edge floor): `⟨n_XY⟩ = 1`, i.e.
+- **the handover** (light content reaches the band-edge floor): `⟨n_XY⟩ = 1`, i.e.
 
       2 − √(4 − (Q·q)²) = 1   ⟹   √(4 − (Q·q)²) = 1   ⟹   (Q·q)² = 3   ⟹   **Q·q = √3.**
 
@@ -80,8 +80,8 @@ The handover is the **longest-wavelength** mode (smallest q, the last to reach t
 
     Q_h(N) = √3/q_min → N·√3/(2π),   **slope = √3/(2π) = (√3/2)·(1/π).**
 
-The factor √3/2 against the SE coherence horizon is exactly the darkness-1 vs EP-2 condition on the one
-dispersion: `√3 = √(Qq)²|_{D=1}` against `2 = (Qq)|_{EP}`.
+The factor √3/2 against the SE coherence horizon is exactly the `⟨n_XY⟩ = 1` vs `⟨n_XY⟩ = 2` condition on the one
+dispersion: `√3 = √(Qq)²|_{⟨n_XY⟩=1}` against `2 = (Qq)|_{⟨n_XY⟩=2}` (the EP).
 
 ## Cross-checks
 
@@ -96,8 +96,8 @@ dispersion: `√3 = √(Qq)²|_{D=1}` against `2 = (Qq)|_{EP}`.
 2. **The dispersion, directly (the discriminator).** The γ-constant-q CV test above: CV(8γ) = 0.012 / 0.019
    (N = 12 / 10) vs CV(4γ) = 0.16, the resummed 8γ dispersion is the fixed mode, the truncated telegrapher
    refuted, exactly as in the SE proof (`ring_handover_dispersion_cv.py`).
-3. **The high-Q limit = the parallel ceiling.** The EP darkness of the same dispersion is 2; the finite-N
-   high-Q `(2,2)` darkness is `2(N−2)/N` (1.333 / 1.500 / 1.600 / 1.667 at N = 6 / 8 / 10 / 12, exact to
+3. **The high-Q limit = the parallel ceiling.** The EP light content of the same dispersion is 2; the finite-N
+   high-Q `(2,2)` light content is `2(N−2)/N` (1.333 / 1.500 / 1.600 / 1.667 at N = 6 / 8 / 10 / 12, exact to
    4-5 digits), which equals the parallel-session commutant closed form `2(N−2)/N → 2` (b191df3): the
    handover's overdamped curve and the high-Q ceiling are the two ends of one dispersion. One object.
 4. **The sector.** The full-Liouvillian survivor at N = 6 is the `(2,2)/(4,4)` doublet (verified, 100%
@@ -117,21 +117,21 @@ COM density wave); the chain handover is the floor crossing of the SE pair (fill
 mechanism: it equals the SE-EP at N=2,3 and sits just below it from N=4.
 
 Axis: the dephasing Q-axis (XY, free fermions) only. The XXZ anisotropy Δ-axis handover (`Δ*`, the same
-`darkness = 1` floor driven by the anisotropy instead of Q; ANALYTICAL_FORMULAS "the handover Δ",
+`⟨n_XY⟩ = 1` floor driven by the anisotropy instead of Q; ANALYTICAL_FORMULAS "the handover Δ",
 `Δ*(N) → 1`) is a **distinct, interacting mechanism**: turning on the ZZ term moves the handover off
 `Q·q = √3` (gate-checked, `simulations/ring_handover_zz_extension.py`: at N = 6, 8 the (2,2) handover
 `Q_h·q_min` shifts at Δ = 0.5 and the crossing leaves the range by Δ = 1), so √3 is XY/free-fermion-specific
 and the dispersion `λ² + 8γλ + 4J²q²` does not survive the ZZ coupling. The two handovers mirror only
-through the shared `darkness = 1` floor (Q_h grows ~N, Δ* descends to 1); the Δ* closed form stays the open
+through the shared `⟨n_XY⟩ = 1` floor (Q_h grows ~N, Δ* descends to 1); the Δ* closed form stays the open
 Bethe-ansatz problem.
 
 ## Links
 
 - Sibling proof: [the coherence horizon slope](PROOF_COHERENCE_HORIZON_SLOPE.md) (same dispersion, the EP
-  condition `Q·q = 2 → N/π`; this proof is its `darkness = 1`, `Q·q = √3` sibling).
+  condition `Q·q = 2 → N/π`; this proof is its `⟨n_XY⟩ = 1`, `Q·q = √3` sibling).
 - Parallel ceiling: the ring `g2 = 1` (no high-Q ceiling) and the `(1,1)/(2,2)/(N/2,N/2)` commutant
   `2(N−2)/N → 2` (commit b191df3, `StructuralCeilingWitness` RingNode, `ring_ceiling_commutant_sweep.py`):
-  the EP-darkness limit of this proof's curve.
+  the EP limit `⟨n_XY⟩ = 2` of this proof's curve.
 - Typed homes: `CoherenceHorizonClaim`, `SecondClockRegimeClaim` (the ring 2-excitation doublet V-Effect
   seam was their Tier 1 candidate reason; resolved here, both graduated Tier 1 derived 2026-07-19),
   arc `clock_hand_ladder`.
@@ -146,7 +146,7 @@ Bethe-ansatz problem.
 Reviewed 2026-07-19, two adversarial refute-first lenses, both with independent from-scratch rebuilds; GO.
 
 - Mathematical lens: root selection (the `+` branch IS the slow root; the other root never slower in the
-  overdamped window), the darkness algebra, the `Q·q = √3` crossing, the EP at `Q·q = 2`, the monotone
+  overdamped window), the light content algebra, the `Q·q = √3` crossing, the EP at `Q·q = 2`, the monotone
   smallest-q-last selection behind `Q_h = √3/q_min`, the ring/chain factor against the SE sibling, the
   numbers `√3/(2π) = 0.275664` and `2(N−2)/N`, and the GLOSSARY Q-convention: all verified exact. The one
   MAJOR found: cross-check 1's original "O(1/N) tail exactly as predicted" was contradicted by its own four
@@ -161,5 +161,5 @@ Reviewed 2026-07-19, two adversarial refute-first lenses, both with independent 
 
 Standing caveat (unchanged, also in Scope): the two-particle EOM resummation is operationally confirmed by
 the CV discriminator, not written out term-by-term; the CV test discriminates through the sub-leading λ²
-term (both forms share the leading diffusion constant D = J²/2γ), and the fixed-q_min darkness curve is a
+term (both forms share the leading diffusion constant D = J²/2γ), and the fixed-q_min light content curve is a
 leading-order limit, not a finite-N identity (the implied q_eff drifts below q_min toward the EP).

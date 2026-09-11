@@ -118,6 +118,7 @@ The repository performing the same act on its own names.
 | Z₄, the four-sided mirror | Z₂: the four sectors carry no physical content, Π² = conjugation by X^⊗N is the real conserved structure | [The Interpretation](../THE_INTERPRETATION.md) (What Fell #7), [The Other Side](../../hypotheses/THE_OTHER_SIDE.md) |
 | "Sacrifice zone" | A concentrator: the edge qubit sacrifices nothing, it concentrates the noise into structure; both names true, one per side of the γ-boundary | [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md) |
 | "The watching" (γ as an eye on the chain) | The sending: γ sits at the sending end, not at the eye; the chain is not looked at, it stands in light. Not one rate, price, or measured number moved; the founding chapter was repainted, the typed core renamed `HeldLetterRoutingClaim`, and the "watching locus" became the mirror-balanced locus | [Dephasing Translated](DEPHASING_TRANSLATED.md), [On the Sending End](../../reflections/ON_THE_SENDING_END.md); the working record is the open arc `gamma_is_the_sender_not_the_watching` |
+| "Darkness" for −Re λ/(2γ) | The light content ⟨n_XY⟩, which at a uniform γ is what that ratio reads. The number measures the LIGHT, so under that noun the immortal mode is the one with "darkness 0" while the repo's own comparative reads the axis the other way. "Dark" keeps the mode and stays spent besides on the F135/F136 record class, the lens letters {I, Z} and a site carrying γ_l = 0, and the comparative is not uniform either. Not one number moved. | [Glossary](../GLOSSARY.md), the section "The light content, and what 'dark' names" (the owner; it states the uniform-γ scope the registry definition omits and lists the senses it does NOT own); the working record is the retired arc `darkness_names_the_light` |
 
 ---
 
@@ -189,13 +190,6 @@ Caught by reviews; the chronological record is
   or a defined graph role, or a real qubit, the word stays; where γ or the
   dissipator is made the agent, it goes. Tracked as
   `gamma_is_the_sender_not_the_watching`.
-- **"Darkness" is a second name for the light content, and its own comparative
-  reads the axis the other way.** The noun is the quantity itself, so darkness 0
-  is the immortal mode; "darker" and "darkest" mean a smaller value and a longer
-  life. Fenced at the door, not renamed, in the [Glossary](../GLOSSARY.md) section
-  "Darkness: the noun, the comparative, and which way each points", which owns this
-  entry and states the uniform-γ scope the registry definition omits. The rename is
-  the fix; the surface is measured in the arc `darkness_names_the_light`.
 
 ---
 

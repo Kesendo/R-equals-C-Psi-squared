@@ -4,7 +4,7 @@ with a gamma-CONSTANT q?  (finite-N-robust, unlike a full-curve fit.)
 
 If q^2_eff = -(lambda^2 + 8 g lambda)/(4 J^2) is gamma-constant (low coefficient of variation) across a
 gamma-sweep at fixed N, the 8g dispersion holds -> the handover Q_h = sqrt3/q is DERIVED (the SE coherence-
-ladder mechanism, darkness=1 instead of the EP). Compare the truncated telegrapher 4g/2J^2q^2 (should scatter
+ladder mechanism, <n_XY> = 1 instead of the EP). Compare the truncated telegrapher 4g/2J^2q^2 (should scatter
 worse, as in the SE proof). Also report q_eff vs the ring q_min=2pi/N (does the 2-particle mode use q_min?).
 
 GATE: the 8g form has CV < ~0.02 AND beats the 4g form; q_eff is gamma-constant. A firing gate = the
@@ -85,7 +85,7 @@ def main():
         sys.exit(1)
     else:
         print("ALL GATES PASS -> the (2,2) slow mode obeys lambda^2+8g*lambda+4J^2 q^2 with constant q. The SE")
-        print("coherence-ladder dispersion governs the handover; Q_h = sqrt3/q (darkness=1) is DERIVED, the EP-")
+        print("coherence-ladder dispersion governs the handover; Q_h = sqrt3/q (<n_XY> = 1) is DERIVED, the EP-")
         print("sibling (Qq=2 -> N/pi) of the SE coherence horizon. Tier1-standard (leading-order slope sqrt3/(2pi)).")
     print("=" * 100)
 

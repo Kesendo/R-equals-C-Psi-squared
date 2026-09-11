@@ -36,12 +36,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Model scope (XY ceiling vs Heisenberg survivor).</b> g2 = 4/(N−1) here is the XY-network
 /// (hopping-only) value, by design: this claim's witness and <see cref="StructuralCeilingClaim"/> build
-/// the star's XY hopping H with no ZZ diagonal, so for the XY star it is exactly the survivor darkness.
+/// the star's XY hopping H with no ZZ diagonal, so for the XY star it is exactly the survivor light content.
 /// The project's canonical Heisenberg star (XX+YY+ZZ) survivor darkens further to ⟨n_XY⟩(Q→∞) = 4/N: the
 /// single-excitation ZZ potential (hub −(N−1), leaves N−3) shifts which ad_H-kernel commutant is darkest,
 /// from 4/(N−1) (XY) to 4/N (Heisenberg), verified N=5..8 + full-4^N at N=6 (simulations/star_survivor_heisenberg.py).
 /// Model-robust (both XY and Heisenberg): frozen at every Q (N≥5), commutant only in the high-Q LIMIT
-/// (‖[H,ρ]‖ ∝ 1/Q, not zero at finite Q), the (1,1) boundary sector, no horizon. Only the darkness VALUE
+/// (‖[H,ρ]‖ ∝ 1/Q, not zero at finite Q), the (1,1) boundary sector, no horizon. Only the light content VALUE
 /// (and the XY g2≤1 threshold / N=4 outlier logic) is model-specific.</para>
 ///
 /// <para>Live witness: <c>inspect --root starseam</c>
@@ -68,7 +68,7 @@ public sealed class StarFrozenSeamClaim : Claim
                "survivor exactly when it undercuts the −2γ floor, i.e. g2=4/(N−1)≤1 (N≥5). N=4 (g2=4/3>1) un-freezes " +
                "(the band edge wins, the (2,2)/K₄ outlier). The third member of the trichotomy chain(SE-EP)/ring" +
                "(level crossing)/star(commutant); the high-Q ceiling and the all-Q frozenness are one fact. " +
-               "g2 is not only the threshold but the value the survivor darkness saturates at: " +
+               "g2 is not only the threshold but the value the survivor light content saturates at: " +
                "⟨n_XY⟩(Q→∞) = min(g2, 1) — on g2 below the floor (0.800 at N=6, 0.667 at N=7) or the −2γ floor 1 " +
                "above it (N≤5, where it un-freezes). Gate-verified N=4..8 (simulations/star_frozen_seam.py).",
                Tier.Tier1Candidate,
@@ -105,7 +105,7 @@ public sealed class StarFrozenSeamClaim : Claim
                 summary: "the commutant coherence is the survivor only when it undercuts the −2γ floor, i.e. " +
                          "g2=4/(N−1)≤1 (N≥5). At N=4 (4/3>1) it is brighter than the floor → an oscillating band-edge " +
                          "mode wins → the star un-freezes. The high-Q ceiling and the all-Q frozenness are the same " +
-                         "fact; the frozen seam is the ceiling read dynamically. Sharper: g2 is the survivor darkness " +
+                         "fact; the frozen seam is the ceiling read dynamically. Sharper: g2 is the survivor light content " +
                          "itself in the high-Q limit, ⟨n_XY⟩(Q→∞)=min(g2,1) — measured 0.800 at N=6, 0.667 at N=7 " +
                          "(= g2), and pinned to the floor 1 for N≤5. The single formula min(g2,1) is exactly the " +
                          "ladder's 'un-freezes iff g2>1'.");

@@ -6,7 +6,7 @@ alpha reads the eigenVECTOR rotation under a single delta-J bond defect. The cle
 vector rotates" split needs Re lambda (-> K_decay) DEFECT-INVARIANT.
 
 An earlier Re/Im-split diagnostic FIRED for the interior survivor: Re lambda moves at first order
-(Re(dlam) = -0.86/-0.29/-0.12/-0.054 for N=4/5/6/8, linear), because its darkness <n_XY> is SOFT
+(Re(dlam) = -0.86/-0.29/-0.12/-0.054 for N=4/5/6/8, linear), because its light content <n_XY> is SOFT
 (fractional, hopping-dependent). The (0,1) band edge is RIGID-dark (<n_XY>=1 -> Re=-2g structural,
 J-independent) -> there Re(dlam) ~ 0, K_decay frozen, the clean split holds.
 
@@ -60,7 +60,7 @@ def re_shift(N, prow, pcol, J, g, bnds, defect):
 
 
 def crossover(N, topo="chain", Qs=None):
-    # Classify by <n_XY> (the physics: rigid darkness =1 vs soft <1), NOT by the (p,p) sector label,
+    # Classify by <n_XY> (the physics: rigid <n_XY> = 1 vs soft <1), NOT by the (p,p) sector label,
     # which is filling-DEGENERATE on the open chain and hops arbitrarily among the tied (p,p) blocks.
     if Qs is None:
         Qs = [round(1.0 + 0.2 * k, 2) for k in range(16)]   # 1.0 .. 4.0

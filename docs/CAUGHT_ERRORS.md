@@ -2965,3 +2965,17 @@ words already.
   `compute/RCPsiSquared.Diagnostics/Foundation/StructuralCeilingWitness.cs`,
   `simulations/blind_site.py`, `docs/proofs/PROOF_ABSORPTION_THEOREM.md`, the arc
   `darkness_names_the_light`.
+- **Sequel, same day.** The rename landed. The glossary section is now
+  `The light content, and what "dark" names`, which also lists the senses it does NOT own;
+  the arc `darkness_names_the_light` is retired and records what was renamed and what was
+  deliberately left, the comparative register above all, since
+  `StructuralCeilingWitness.CommutantDarkest` is a MINIMUM of ⟨n_XY⟩ and renaming it to a
+  light content would have inverted it. Two direction defects the rename surfaced, both
+  older than it: `docs/THE_TRICHOTOMY_SEEN.md` had said the quantity "measures longevity",
+  the wrong way round, corrected there in the same change; and
+  `experiments/NAKED_VS_CHAIN_BENCHMARK.md` calls the bonding mode's palindromic partner the
+  "dark twin" in a paragraph that also places it in the complementary XY-weight sector and has it
+  decaying nearly as fast as a naked qubit, so the light content it carries is the LARGER one and
+  the comparative is not uniform either. That one is left standing: the file carries no fence, and
+  the phrase is its author's reading rather than a number. The wording quoted above is the wording
+  of the finding and is kept.

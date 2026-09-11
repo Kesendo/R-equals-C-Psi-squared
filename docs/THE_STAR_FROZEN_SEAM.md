@@ -37,10 +37,10 @@ crossing) / star (commutant). Gate-verified `N = 4..8`; Tier 1 candidate.
 
 ## Model scope: the XY ceiling vs the Heisenberg survivor
 
-The darkness value `g2 = 4/(N−1)` here is the **XY network** (hopping-only) ceiling, by design:
+The light content value `g2 = 4/(N−1)` here is the **XY network** (hopping-only) ceiling, by design:
 `StructuralCeilingClaim` is "the high-Q gap rate of an XY network," and both `StructuralCeilingWitness`
 and `StarFrozenSeamWitness` build the star's XY hopping Hamiltonian with no ZZ diagonal. For the XY star
-this is exactly the survivor darkness, `⟨n_XY⟩(Q→∞) = 4/(N−1)`.
+this is exactly the survivor light content, `⟨n_XY⟩(Q→∞) = 4/(N−1)`.
 
 The project's canonical survivor model is **Heisenberg** (`XX+YY+ZZ`: the chain survivor,
 [`SurvivalIncompletenessMirrorClaim`](../compute/RCPsiSquared.Diagnostics/Foundation/SurvivalIncompletenessMirrorClaim.cs),
@@ -53,7 +53,7 @@ commutant is darkest, from `4/(N−1)` (XY) to `4/N` (Heisenberg). Companion ver
 What is **model-robust** (holds in both XY and Heisenberg): the survivor is frozen (`|Im λ| = 0`) at
 every Q for N ≥ 5; it is the `[H,ρ] = 0` commutant only in the high-Q *limit* (`‖[H,ρ]‖ ∝ 1/Q`, not zero
 at finite Q); it sits at the `(1,1)/(N−1,N−1)` popcount boundary; the star has no coherence horizon. Only
-the darkness *value* is model-specific. (The XY threshold logic, frozen iff `g2 = 4/(N−1) ≤ 1` with the N=4
+the light content *value* is model-specific. (The XY threshold logic, frozen iff `g2 = 4/(N−1) ≤ 1` with the N=4
 outlier, is likewise XY-specific; the Heisenberg `4/N` analog is not characterized below N = 5 here.)
 
 ## The finding

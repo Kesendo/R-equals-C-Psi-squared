@@ -306,7 +306,7 @@ slope (≈0.59 at N=14, ≈0.62 at N=120) approaches 2/π from below with an O(1
 **The handover Q, resolved 2026-06-14** (`simulations/carbon/handover_q.py`, self-validating).
 Q*(N) is one face of a topology-universal HANDOVER. The diagonal (p,p) "incompleteness survivor"
 decays at −2γ·⟨n_XY⟩ with fractional ⟨n_XY⟩ < 1 (the Absorption Theorem), out-surviving the bare band
-edge until, as Q rises, its darkness reaches the F50-pinned off-diagonal floor ⟨n_XY⟩ = 1 (the (0,1)
+edge until, as Q rises, its light content reaches the F50-pinned off-diagonal floor ⟨n_XY⟩ = 1 (the (0,1)
 band edge / Uhr 1, Re = −2γ exactly). That meeting is the handover: a closed, F50-grounded condition
 (spectral, state-independent, depends only on Q = J/γ). Its solution is topology-specific.
 **Chain:** filling-degenerate (free-fermion/OBC, the (1,1)-only handover equals the all-(p,p)
@@ -315,8 +315,8 @@ pair: it equals the EP Q*(N) only at the clean-2×2 N=2,3, where ⟨n_XY⟩ reac
 and stays 1 above it (a √-approach, so the contact is not tangential: the derivative diverges there).
 From N=4 it sits below the EP by the trace dressing Q* − Q_h = ((2w2−1)/c_d)² to leading order, the
 excess light squared over c_d, the coefficient of the √-split of the two real branches read in the
-DARKNESS −Re λ/(2γ) against √(Q*−Q) at fixed γ: c_d = 1.0293 / 0.9139 / 0.8278 at N=4/5/6. Both
-halves of that definition are load-bearing: read the split in λ instead of the darkness, or against a
+LIGHT CONTENT −Re λ/(2γ) against √(Q*−Q) at fixed γ: c_d = 1.0293 / 0.9139 / 0.8278 at N=4/5/6. Both
+halves of that definition are load-bearing: read the split in λ instead of the light content, or against a
 swept γ instead of a swept J, and the coefficient is a different one; and this c_d is not the c of
 λ²+4γλ+c·J² above. It gives 0.000197 / 0.001499 / 0.005004 against the measured gaps
 0.000197 / 0.001496 / 0.004972, the leading-order error growing 0.04% / 0.23% / 0.66% / 1.3% /
@@ -326,8 +326,8 @@ full-Liouvillian-verified at N=6, NOT half-filling, correcting an earlier label)
 frozen LEVEL CROSSING (|Im| ≈ 1e-15, a different sector than the SE-EP), growing linearly with
 **asymptotic slope √3/(2π) ≈ 0.276, DERIVED** (2026-06-20, [the ring handover-slope proof](proofs/PROOF_RING_HANDOVER_SLOPE.md),
 Tier1-standard, reviewed 2026-07-19): the (2,2) slow mode obeys the SE coherence-ladder dispersion
-λ² + 8γλ + 4J²q² (CV-confirmed), darkness = 2 − √(4 − (Qq)²), so the handover (darkness = 1) is at
-Qq = √3, the **darkness-1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
+λ² + 8γλ + 4J²q² (CV-confirmed), light content = 2 − √(4 − (Qq)²), so the handover (⟨n_XY⟩ = 1) is at
+Qq = √3, the **⟨n_XY⟩ = 1 sibling** of the SE coherence horizon (the same dispersion's EP at Qq = 2 →
 Q* = N/π); Q_h/Q* = √3/2 asymptotically. (The earlier "c_eff ≈ 12 flat, ~0.29N" was the finite-N Q_h/N,
 refuted as a constant, c_eff climbs toward 4π²/3 = 13.16.) So the V-Effect seam is NOT "co-located at even N": the ring handover and the ring
 SE-EP are mechanistically distinct and their values merely CROSS near N≈10 (the N=6 ring's 2.0-vs-1.609
@@ -340,7 +340,7 @@ N=2..8).
 
 **The handover Δ (the anisotropy axis), resolved 2026-06-14** (`simulations/xxz_delta_star_descent.py`,
 self-validating to N=14; experiment `XXZ_AXIS_BANDEDGE_TO_LEBENSADER`). The SAME band-edge-floor
-handover (darkness ⟨n_XY⟩ = 1) driven along the XXZ anisotropy Δ instead of the dephasing Q: Δ* is
+handover (light content ⟨n_XY⟩ = 1) driven along the XXZ anisotropy Δ instead of the dephasing Q: Δ* is
 where the half-filling Lebensader rate crosses 2γ. In the γ→0 limit it is a property of the XXZ
 Hamiltonian alone, **Δ* ⟺ gap(R) = 2**, R the Z-coupled classical rate matrix among the half-filling
 XXZ eigenstates (a Pauli / Fermi-golden-rule relaxation; γ·gap(R) reproduces the full-Liouvillian
@@ -350,7 +350,7 @@ fits give L just above 1 (≈ 1.02 / 1.05 even/odd), a fixed-1/N ansatz just bel
 two forms bracketing Δ = 1; no finite-N crossing (all Δ*(N ≤ 14) > 1). No clean closed form (φ is a
 1.6e-3 N=4-only accident in the γ→0 regime; the fitted exponent is non-universal, α ≈ 1.16–1.73,
 consistent with the SU(2)-point marginal/log corrections). The two handover axes mirror: **Q*(N) GROWS
-(~0.59N) while Δ*(N) DESCENDS to 1**, one band-edge floor (darkness = 1), two axes, opposite N-trends.
+(~0.59N) while Δ*(N) DESCENDS to 1**, one band-edge floor (⟨n_XY⟩ = 1), two axes, opposite N-trends.
 Open: a rigorous Bethe-ansatz derivation that the limit is exactly Δ = 1.
 
 ### AT. Absorption Theorem (Tier 1, proven)

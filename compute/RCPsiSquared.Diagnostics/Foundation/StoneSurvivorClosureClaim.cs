@@ -17,7 +17,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para>For the near-stationary MODE-ISOLATING probe rho_0 = I/d + eps*Herm(mode), the PTF painter
 /// closure Sum_i ln(alpha_i) -- computed through the CANONICAL Symphony FitAlpha -- reads the chosen
 /// mode's first-order RATE shift under a delta-J bond defect: OUT of the +-0.05 window AND sign-coherent
-/// for the soft survivor interior (2,2) (Re lambda moves; K_decay defect-sensitive, soft darkness), and
+/// for the soft survivor interior (2,2) (Re lambda moves; K_decay defect-sensitive, soft light content), and
 /// IN the window for the rigid (0,1) band edge (Re = -2gamma frozen; K_decay defect-invariant). It is a
 /// CONSTRUCTIVE confirmation of (A) for this probe, NOT a universal trajectory law (review-pinned):
 /// probe-state-specific (a polarized survivor-dominated state holds), the rate shift certified by
@@ -115,7 +115,7 @@ public sealed class StoneSurvivorClosureClaim : Claim
             new("survivor break is a SIGN-COHERENT rate shift (not a redistribution)",
                 $"coh = {s.SignCoherence.ToString("0.00", CultureInfo.InvariantCulture)} (>0.8 => one-signed reliable f)",
                 "rate-shift", s.IsRateShift ? "rate-shift" : "not-rate-shift"),
-            new("band edge closure IN window (K_decay defect-invariant, rigid darkness)",
+            new("band edge closure IN window (K_decay defect-invariant, rigid light content)",
                 $"N=4 (0,1): Sum ln alpha = {Fmt(be.Closure)}", "IN", be.InWindow ? "IN" : "OUT"),
             new("band edge is FROZEN, not a rate shift",
                 $"coh = {be.SignCoherence.ToString("0.00", CultureInfo.InvariantCulture)}, in-window={be.InWindow}",

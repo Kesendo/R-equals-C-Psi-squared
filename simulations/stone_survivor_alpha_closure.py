@@ -1,7 +1,7 @@
 """Gate-first PYTHON probe of THE STONE (felt_time_dimensions arc, step B). 2026-06-19.
 
 (A) found, at the EIGENVALUE level, that under a deltaJ bond defect the survivor's Re lambda
-(-> K_decay) MOVES (soft darkness) while the rigid band edge's is frozen. (B) tests the
+(-> K_decay) MOVES (soft light content) while the rigid band edge's is frozen. (B) tests the
 TRAJECTORY-level dual: the PTF painter closure Sum_i ln(alpha_i).
 
 CLAIM (precise, two-lens reviewed 2026-06-19): for the mode-isolating probe rho_0 = I/d + eps*Herm(mode),

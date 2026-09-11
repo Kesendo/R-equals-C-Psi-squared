@@ -1,7 +1,7 @@
 """Does the sqrt3 handover derivation EXTEND to the XXZ / Delta axis? Gate-first check.
 
 My derivation Q_h = N*sqrt3/(2pi) rests on the FREE-FERMION (XY) coherence-ladder dispersion
-lambda^2+8g*lambda+4J^2 q^2, whose darkness=1 point is Qq=sqrt3. The Delta* handover (ANALYTICAL_FORMULAS
+lambda^2+8g*lambda+4J^2 q^2, whose <n_XY> = 1 point is Qq=sqrt3. The Delta* handover (ANALYTICAL_FORMULAS
 "the handover Delta") is XXZ (ZZ term -> interacting fermions) and DESCENDS to Delta=1, not linear.
 
 Structural prediction: the ZZ term breaks the free-fermion dispersion, so the (2,2) handover's Qq=sqrt3
@@ -49,8 +49,8 @@ def hamming(s1, s2):
     return len(s1 ^ s2)
 
 
-def darkness_22_xxz(N, Delta, Q):
-    """darkness <n_XY> = -Re/(2g) of the slowest interior (2,2) mode of the XXZ ring at J=1, gamma=1/Q."""
+def nxy_22_xxz(N, Delta, Q):
+    """light content <n_XY> = -Re/(2g) of the slowest interior (2,2) mode of the XXZ ring at J=1, gamma=1/Q."""
     g = 1.0 / Q
     H, states = H_xxz_2exc(N, Delta)
     D = len(states)
@@ -64,15 +64,15 @@ def darkness_22_xxz(N, Delta, Q):
 
 
 def qh(N, Delta, lo=0.5, hi=8.0):
-    flo = darkness_22_xxz(N, Delta, lo) - 1
-    fhi = darkness_22_xxz(N, Delta, hi) - 1
+    flo = nxy_22_xxz(N, Delta, lo) - 1
+    fhi = nxy_22_xxz(N, Delta, hi) - 1
     if flo * fhi > 0:
         return float("nan")
     for _ in range(30):
         if hi - lo < 0.01:
             break
         mid = 0.5 * (lo + hi)
-        fm = darkness_22_xxz(N, Delta, mid) - 1
+        fm = nxy_22_xxz(N, Delta, mid) - 1
         if flo * fm < 0:
             hi = mid
         else:
@@ -119,7 +119,7 @@ def main():
     if not GATE["fired"]:
         print("  Delta=0 sits at sqrt3 (the XY derivation) AND the ZZ term moves it -> sqrt3 is XY/free-fermion")
         print("  -specific; the derivation does NOT extend to the XXZ Delta axis. The two handovers share the")
-        print("  darkness=1 floor but are distinct mechanisms (XY free-fermion dispersion vs XXZ interacting;")
+        print("  <n_XY> = 1 floor but are distinct mechanisms (XY free-fermion dispersion vs XXZ interacting;")
         print("  Q_h grows ~N, Delta* descends to 1). The Delta* closed form stays the open Bethe-ansatz problem.")
     else:
         print(f"  GATES FIRED: {GATE['fired']} -- diagnose (did Delta=0 not give sqrt3? did ZZ NOT move it?).")

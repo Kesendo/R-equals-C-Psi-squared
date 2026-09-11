@@ -2,12 +2,6 @@
 a known chain solution, a distinct ring one). Resolves the open loose end of the
 survival_incompleteness_mirror + clock_hand_ladder arcs and the F2b corollary "Open remainder".
 
-NAMING, and this file is one of the places it bites: "darkness" below is the LIGHT CONTENT
-<n_XY>, so larger is shorter-lived and darkness 0 is the immortal mode, while "darker" two
-lines below and in the assert near the end means the SMALLER value and the longer life. See the
-Glossary section "Darkness: the noun, the comparative, and which way each points" and the
-2026-09-11 entry of docs/CAUGHT_ERRORS.md; the rename is the arc darkness_names_the_light.
-
 THE QUESTION (arc, verbatim): "whether the handover Q (where the incomplete stops winning and
 the odd band edge takes over) has a closed form."
 
@@ -17,7 +11,7 @@ Re(lambda) = -2g <n_XY>, Q = J/g; the handover is a SPECTRAL property, state-ind
 depends only on Q=J/g, NOT on J and g separately).
 
 1. THE CONDITION (exact, universal, F50-grounded). The diagonal (p,p) "incompleteness survivor"
-   decays at -2g<n_XY> with FRACTIONAL darkness <n_XY> < 1, so it out-survives the bare band edge.
+   decays at -2g<n_XY> with FRACTIONAL light content <n_XY> < 1, so it out-survives the bare band edge.
    As Q rises <n_XY> brightens; the HANDOVER is where it reaches the F50-pinned OFF-diagonal floor
    <n_XY> = 1 (the (0,1) band edge / Uhr 1, Re = -2g EXACTLY, F50 weight-1 degeneracy). Below: the
    dressed interior mode is darker (the incomplete survives). Above: it crosses and the F50 floor
@@ -38,7 +32,7 @@ depends only on Q=J/g, NOT on J and g separately).
    Hamiltonian bound pair). Its handover is a LEVEL CROSSING (|Im| ~ 1e-15, the frozen (2,2) mode
    meets the floor), a different SECTOR/mechanism than the single-excitation SE-EP (a coalescence).
    It grows ~linearly, Q_h ~ N/sqrt(c_eff) with c_eff ~ 12 FLAT in N (so faster than sqrt(N); not
-   saturating) = ~4x the chain's darkness constant, so ~half the chain's handover slope (~0.29N vs
+   saturating) = ~4x the chain's light content constant, so ~half the chain's handover slope (~0.29N vs
    ~0.59N). The handover and the ring SE-EP are mechanistically distinct but their VALUES CROSS near
    N~=10 (handover slope ~0.24 < SE-EP slope ~0.32): the benzene "split" (2.0 vs 1.609, gap 0.39) is
    a small-N feature, NOT a clean universal separation. N=6 ~ exactly 2 is a hexagon coincidence.
@@ -86,7 +80,7 @@ def block_slowest(N, prow, pcol, J, g, bnds):
 
 
 def interior_nxy(N, J, g, bnds, ps):
-    """darkness of the global interior survivor = min over given (p,p) of the block slowest <n_XY>."""
+    """light content of the global interior survivor = min over given (p,p) of the block slowest <n_XY>."""
     best = None
     for p in ps:
         r = block_slowest(N, p, p, J, g, bnds)
@@ -135,7 +129,7 @@ def qstar_se(N, J=1.0, ring=False, lo=0.02, hi=12.0):
 
 # ============================ 1. THE CONDITION: the F50 floor ============================
 def _assert_condition():
-    # 1a. the (0,1) band edge sits at darkness EXACTLY 1 (Re=-2g), the F50 weight-1 floor, every N/topology.
+    # 1a. the (0,1) band edge sits at light content EXACTLY 1 (Re=-2g), the F50 weight-1 floor, every N/topology.
     for N in (4, 5, 6):
         for topo in ("chain", "ring"):
             nxy, _ = block_slowest(N, 0, 1, 1.0, 1.0 / 1.7, bonds(N, topo))

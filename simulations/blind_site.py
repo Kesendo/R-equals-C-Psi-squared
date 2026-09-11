@@ -1,7 +1,7 @@
 """Blind sites: which single-excitation states a Z-dephasing channel cannot touch.
 
-"Blind" and not "dark": in this repo "dark" already means the Absorption-Theorem
-darkness <n_XY> = 0 (AT, docs/ANALYTICAL_FORMULAS.md:316) and an F135/F136 record
+"Blind" and not "dark": in this repo "dark" already names a mode of zero light
+content <n_XY> (the AT entry of docs/ANALYTICAL_FORMULAS.md) and an F135/F136 record
 class, and neither is this.
 
 WHICH OBJECT.  Two, and the arc `site_resolved_vacuum_block` says to name them

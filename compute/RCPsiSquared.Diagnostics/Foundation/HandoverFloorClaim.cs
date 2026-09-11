@@ -14,7 +14,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>THE CONDITION (closed, F50-grounded).</b> The diagonal (p,p) "incompleteness survivor"
 /// decays at −2γ·⟨n_XY⟩ with fractional ⟨n_XY⟩ &lt; 1 (the Absorption Theorem, parent
 /// <see cref="AbsorptionTheoremClaim"/>), out-surviving the bare band edge - until, as Q rises, its
-/// darkness reaches the F50-pinned OFF-diagonal floor ⟨n_XY⟩ = 1 (the (0,1) band edge / Uhr 1, Re = −2γ
+/// light content reaches the F50-pinned OFF-diagonal floor ⟨n_XY⟩ = 1 (the (0,1) band edge / Uhr 1, Re = −2γ
 /// exactly; parent <see cref="F50WeightOneDegeneracyPi2Inheritance"/>). That meeting is the handover.
 /// Spectral (state-independent), depends only on Q = J/γ.</para>
 ///
@@ -32,7 +32,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// an earlier label), in pure XY a free-fermion dephasing mode. Its handover is a frozen LEVEL CROSSING
 /// (a different sector than the SE-EP), growing linearly with asymptotic slope √3/(2π) ≈ 0.276 (DERIVED
 /// 2026-06-20, docs/proofs/PROOF_RING_HANDOVER_SLOPE.md, reviewed 2026-07-19: the (2,2) slow mode obeys the SE
-/// coherence-ladder dispersion λ²+8γλ+4J²q², darkness = 2−√(4−(Qq)²), handover at Qq=√3, the darkness-1
+/// coherence-ladder dispersion λ²+8γλ+4J²q², light content = 2−√(4−(Qq)²), handover at Qq=√3, the ⟨n_XY⟩ = 1
 /// sibling of the SE coherence horizon's EP at Qq=2; ratio Q_h/Q* = √3/2). The earlier "~0.29N, c_eff≈12
 /// flat" was the finite-N Q_h/N, refuted as a constant (c_eff climbs toward 4π²/3 = 13.16). Handover and
 /// ring SE-EP are mechanistically distinct, their finite-N values crossing near N≈10.</para>
@@ -42,12 +42,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (the live handover node).</para></summary>
 public sealed class HandoverFloorClaim : Claim
 {
-    /// <summary>Typed parent: the survival law Re = −2γ·⟨n_XY⟩ that sets the survivor's darkness.
-    /// NAMING: "darkness" here is the LIGHT CONTENT ⟨n_XY⟩, larger meaning shorter-lived, while
-    /// "the darker one" in the class comment above means the SMALLER value and the longer life.
-    /// One quantity, two directions, one comment; see the Glossary section "Darkness: the noun,
-    /// the comparative, and which way each points" and docs/CAUGHT_ERRORS.md, 2026-09-11. The
-    /// rename is the open arc darkness_names_the_light.</summary>
+    /// <summary>Typed parent: the survival law Re = −2γ·⟨n_XY⟩ that sets the survivor's
+    /// light content.</summary>
     public AbsorptionTheoremClaim Survival { get; }
 
     /// <summary>Typed parent: the F50 off-diagonal floor (Re = −2γ, ⟨n_XY⟩ = 1) the survivor rises to.</summary>
@@ -80,7 +76,7 @@ public sealed class HandoverFloorClaim : Claim
                "= the EP Q*(N) exactly at the clean-2x2 N=2,3 (the EP sits on the floor, w2 = 1/2), below it from N>=4 by " +
                "((2w2-1)/c)^2, the trace dressing (1.97e-4 / 1.50e-3 / 4.97e-3 at N=4/5/6). RING: a DISTINCT " +
                "2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling) free-fermion LEVEL CROSSING, asymptotic slope " +
-               "sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the darkness-1 sibling of Q*, ratio sqrt3/2; " +
+               "sqrt3/(2pi)~0.276 DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the <n_XY> = 1 sibling of Q*, ratio sqrt3/2; " +
                "the earlier ~0.29N/c_eff~12 was the finite-N Q_h/N, refuted, c_eff climbs toward 4pi^2/3=13.16); " +
                "NOT co-located with the ring SE-EP (their values cross near N~10, benzene's 2.0-vs-1.609 is small-N). " +
                "Tier1Candidate: the chain identity and the mechanism are derived+live (witness bit-for-bit vs Python), and the " +
@@ -127,14 +123,14 @@ public sealed class HandoverFloorClaim : Claim
             yield return new InspectableNode("ring = a distinct (2,2) level crossing, growing",
                 summary: "the wrap bond breaks filling-degeneracy; the 2-excitation (2,2)/(N-2,N-2) doublet (NOT half-filling; a " +
                          "free-fermion dephasing mode) hands over by a frozen level crossing, asymptotic slope sqrt3/(2pi)~0.276 " +
-                         "DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the darkness-1 sibling of Q*, ratio sqrt3/2; the earlier " +
+                         "DERIVED (PROOF_RING_HANDOVER_SLOPE, reviewed 2026-07-19; the <n_XY> = 1 sibling of Q*, ratio sqrt3/2; the earlier " +
                          "~0.29N/c_eff~12 was finite-N Q_h/N, refuted); its values cross the ring SE-EP near N~10. " +
                          "Live: inspect --root survivor (the handover node).");
             yield return new InspectableNode("cross-axis universality: the same floor governs the XXZ Delta-axis",
                 summary: "CONFIRMED 2026-06-14 (simulations/xxz_handover_unification.py; arc xxz_axis_handover): the band-edge " +
-                         "floor (darkness=1 = the Absorption-Theorem 2*gamma) is the handover threshold on BOTH the dephasing (Q) " +
+                         "floor (<n_XY> = 1, the Absorption-Theorem rate 2*gamma) is the handover threshold on BOTH the dephasing (Q) " +
                          "axis AND the Hamiltonian-anisotropy (Delta) axis. Walking H=J(XX+YY)+Delta*ZZ, the Lebensader (the " +
-                         "dead-centre I/Z survivor) overtakes the band edge exactly where its darkness crosses 1, a LEVEL CROSSING " +
+                         "dead-centre I/Z survivor) overtakes the band edge exactly where its light content crosses 1, a LEVEL CROSSING " +
                          "(frozen Lebensader meets oscillating band edge, the ring family). RESOLVED to N=14 (gamma->0 reduction " +
                          "Delta*<=>gap(R)=2, simulations/xxz_delta_star_descent.py): Delta*(N) descends MONOTONICALLY to the " +
                          "SU(2)/Heisenberg point Delta=1 (the closed-system critical point), consistent with EXACTLY 1 (free-exponent " +

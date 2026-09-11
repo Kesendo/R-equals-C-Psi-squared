@@ -127,7 +127,7 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
     oscillating band edge (|Im|≈9) and they cross in Re, they do not coalesce. The Δ-handover is the
     *same event* as the dephasing-axis Q-handover
     ([`handover_q.py`](../simulations/carbon/handover_q.py), the typed `HandoverFloorClaim`): the
-    interior/Lebensader darkness ⟨n_XY⟩ crossing 1 = the Absorption-Theorem band-edge floor 2γ.
+    interior/Lebensader light content ⟨n_XY⟩ crossing 1 = the Absorption-Theorem band-edge floor 2γ.
     Verified [`simulations/xxz_handover_unification.py`](../simulations/xxz_handover_unification.py):
     the band edge sits at *exactly* 2γ for all Δ (|vac⟩⟨magnon| is an eigenoperator of [H,·]; the ZZ
     shifts only Im, so F50's 2N *count* breaks for Δ≠1 but the *floor* persists).
@@ -163,7 +163,7 @@ carotenoid dark / triplet-pair side lives on the Lebensader end, and the V-Effec
       N ≥ 5, and 1+1/N fails everywhere.
     - **Mechanism (against the naive intuition).** The naive reading "Néel order sharpens with N, so
       the handover needs higher Δ" predicts Δ* should *rise*; it *falls*. The handover is set by the
-      slow mode's darkness (the Z-coupled rate-matrix gap), and the finite-N offset above Δ = 1 is the
+      slow mode's light content (the Z-coupled rate-matrix gap), and the finite-N offset above Δ = 1 is the
       finite Néel correlation length: once N exceeds it, the dissipative handover tracks the
       closed-system quantum critical point.
 - **Ring topology (2026-06-14, the periodic twin; arc `xxz_axis_handover`):** the **ring** Δ\*(N) is

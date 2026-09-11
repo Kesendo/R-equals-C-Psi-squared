@@ -5,7 +5,7 @@ figure and one tree so it is legible without running anything.
 **Date:** 2026-06-18
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.8)
 **Witness:** `inspect --root trichotomy` ([`TrichotomyWitness`](../compute/RCPsiSquared.Diagnostics/Foundation/TrichotomyWitness.cs))
-**Figures:** [`trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py) (darkness),
+**Figures:** [`trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py) (light content),
 [`trichotomy_ep_figure.py`](../simulations/trichotomy_ep_figure.py) (the rigidity EP),
 [`trichotomy_petermann.py`](../simulations/trichotomy_petermann.py) (the Petermann factor K=1/r²)
 
@@ -17,7 +17,7 @@ one browsable object. This note shows what that object looks like, in one figure
 (with two further figures below opening the rigidity axis and its Petermann reading),
 so the picture is legible without running anything.
 
-The survivor's **darkness** is `⟨n_XY⟩ = Re(λ) / (−2γ)`: how slowly the longest-lived coherence decays,
+The survivor's **light content** is `⟨n_XY⟩ = Re(λ) / (−2γ)`: how fast the longest-lived coherence decays,
 in units of the dephasing. `⟨n_XY⟩ = 1` is the `−2γ` Absorption floor (the band edge). `Q = J/γ` is the
 coupling-to-dephasing ratio; raising it means weakening the dephasing (watching the chain less hard).
 
@@ -28,7 +28,7 @@ whichever sector holds the longest-lived mode; at half filling `m = N/2` the int
 
 ## The one figure
 
-![survivor darkness ⟨n_XY⟩ vs Q for chain, ring, star at N=6](figures/trichotomy_nxy_vs_q.png)
+![survivor light content ⟨n_XY⟩ vs Q for chain, ring, star at N=6](figures/trichotomy_nxy_vs_q.png)
 
 The question the trichotomy answers: **does the longest-lived survivor reach the floor, or the ceiling?**
 
@@ -39,11 +39,12 @@ The question the trichotomy answers: **does the longest-lived survivor reach the
   frozen at **every** `Q`; its survivor is the `[H,A] = 0` commutant coherence, dark by construction.
 
 That saturation at 0.8 is the structural ceiling (F122) read **dynamically**: the proof's high-Q closed
-form `g₂ = 4/(N−1)` is exactly the value the darkness lands on.
+form `g₂ = 4/(N−1)` is exactly the value the light content lands on.
 
-A note on the coordinate: `⟨n_XY⟩` measures longevity, and `1` is its top, the band-edge value the chain and
-ring climb *up* to. "Floor" names the `−2γ` rate floor seen from the spectrum; "ceiling" names the structural
-cap `g₂` on the commutant darkness. For `N ≥ 6` that cap sits below `1`, so here the ceiling is numerically
+A note on the coordinate: `⟨n_XY⟩` is a decay rate in units of `2γ`, so a SMALLER value is a longer
+life; `1` is the band-edge value the chain and ring climb *up* to. "Floor" names the `−2γ` rate
+floor seen from the spectrum; "ceiling" names the structural
+cap `g₂` on the commutant light content. For `N ≥ 6` that cap sits below `1`, so here the ceiling is numerically
 *below* the floor, and the star stops short of the band edge.
 
 ## The rendered tree
@@ -177,11 +178,11 @@ artifact-free result.)
    the star never (its commutant survivor is frozen by construction). The map they were narrated across
    is now one read, and the rigidity `r` (above) **measures** the three mechanisms, rather than asserting
    them: `r → 0` at the chain EP, bounded for the ring crossing, no oscillation onset for the star.
-2. **The structural ceiling is a dynamical fact, floor-capped.** The star's darkness saturates on
+2. **The structural ceiling is a dynamical fact, floor-capped.** The star's light content saturates on
    `min(g₂, 1)` with `g₂ = 4/(N−1)`: for `N ≥ 6` (`g₂ < 1`) it lands on `g₂` and stays frozen *below* the
    floor (0.800 at N=6, 0.667 at N=7, the F122 high-Q closed form, proven by a principal-angle argument,
    is the value the slowest mode's decay actually approaches); for `N ≤ 5` (`g₂ ≥ 1`) the ceiling is above
-   the `−2γ` floor, so the darkness hits `1` and the star **un-freezes** like the chain and ring (the N=4
+   the `−2γ` floor, so the light content hits `1` and the star **un-freezes** like the chain and ring (the N=4
    outlier, N=5 marginal). The single statement `⟨n_XY⟩(Q→∞) = min(g₂, 1)` is exactly the threshold
    ladder's "un-freezes iff `g₂ > 1`". The static proof and the dynamical sweep meet on one number.
 3. **Un-freezing is a sector switch.** Where the chain/ring reach the floor, the survivor's identity
@@ -207,7 +208,7 @@ found this, and the split is the fix.
   [`proofs/PROOF_STRUCTURAL_CEILING.md`](proofs/PROOF_STRUCTURAL_CEILING.md) (F122),
   [`proofs/PROOF_COHERENCE_HORIZON_SLOPE.md`](proofs/PROOF_COHERENCE_HORIZON_SLOPE.md).
 - Regenerate the figures: [`simulations/trichotomy_witness_figure.py`](../simulations/trichotomy_witness_figure.py)
-  (darkness, data verbatim from `inspect --root trichotomy --N 6`) and
+  (light content, data verbatim from `inspect --root trichotomy --N 6`) and
   [`simulations/trichotomy_ep_figure.py`](../simulations/trichotomy_ep_figure.py) (the rigidity EP, from a
   half-filling-sector `Q`-sweep of the witness' public `CarbonImAndRigidity` / `CarbonSlowestRate`) and
   [`simulations/trichotomy_petermann.py`](../simulations/trichotomy_petermann.py) (the Petermann factor

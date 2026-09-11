@@ -1,9 +1,9 @@
-"""Heisenberg-companion to the XY structural ceiling: the star survivor darkness (2026-06-20, gate-first).
+"""Heisenberg-companion to the XY structural ceiling: the star survivor light content (2026-06-20, gate-first).
 
 RESOLVED (no bug). The typed structural-ceiling / star-frozen-seam framework is, BY DESIGN, the XY
 network (hopping only): StructuralCeilingClaim says "g2 = strict_gap/2gamma of an XY network",
 StructuralCeilingWitness.SectorH and StarFrozenSeamWitness.FullSlowest both build XY hopping with NO ZZ
-diagonal. For the XY star that gives g2 = 4/(N-1), correctly = the XY star survivor darkness.
+diagonal. For the XY star that gives g2 = 4/(N-1), correctly = the XY star survivor light content.
 
 The rest of the survivor framework (SurvivalIncompletenessMirrorClaim, SURVIVOR_FLIP_AND_REFLECTION_ODD)
 is the canonical HEISENBERG model (XX+YY+ZZ). The Heisenberg star survivor is a DIFFERENT number:
@@ -15,12 +15,12 @@ mismatch that opened this thread.)
 
 What holds in BOTH models (the StarFrozenSeam qualitative content): the survivor is frozen (|Im|=0) at
 every Q for N>=5; it is the [H,rho]=0 commutant only in the high-Q LIMIT (||[H,rho]||/||rho|| ~ 1/Q,
-NOT zero at finite Q); it sits at the (1,1)/(N-1,N-1) popcount boundary. Only the darkness VALUE is
+NOT zero at finite Q); it sits at the (1,1)/(N-1,N-1) popcount boundary. Only the light content VALUE is
 model-specific: XY 4/(N-1), Heisenberg 4/N.
 
 GATES (a firing gate is the find; do not loosen):
-  G1  XY star (1,1) survivor darkness -> 4/(N-1)   (reproduces the docs' g2; the docs are right for XY)
-  G2  Heisenberg star (1,1) survivor darkness -> 4/N   (the canonical-model companion)
+  G1  XY star (1,1) survivor light content -> 4/(N-1)   (reproduces the docs' g2; the docs are right for XY)
+  G2  Heisenberg star (1,1) survivor light content -> 4/N   (the canonical-model companion)
   G3  the ad_H-kernel darkest commutant flips 4/(N-1) (XY) -> 4/N (Heisenberg) when the ZZ potential is
       added -- the ZZ term is the whole difference
   G4  both frozen (|Im|~0) and approach the exact commutant as Q grows (||[H,rho]|| ~ 1/Q)
@@ -81,7 +81,7 @@ def kernel_darkest(N, with_zz):
 
 
 def main():
-    print("=== star survivor darkness: XY (docs) vs Heisenberg (canonical) -- the ZZ term is the difference ===\n",
+    print("=== star survivor light content: XY (docs) vs Heisenberg (canonical) -- the ZZ term is the difference ===\n",
           flush=True)
     g1 = g2 = g3 = g4 = True
     print(f"{'N':>3} {'XY <nXY>':>9} {'4/(N-1)':>8} {'Heis <nXY>':>11} {'4/N':>7} {'XY ker':>7} {'Heis ker':>9}",

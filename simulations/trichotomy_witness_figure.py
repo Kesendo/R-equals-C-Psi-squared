@@ -1,4 +1,4 @@
-"""The chain/ring/star trichotomy in one figure: survivor darkness <n_XY>(Q) at N=6.
+"""The chain/ring/star trichotomy in one figure: survivor light content <n_XY>(Q) at N=6.
 
 Data is verbatim from the live witness:
     dotnet run --project compute/RCPsiSquared.Cli -c Release -- inspect --root trichotomy --N 6
@@ -68,7 +68,7 @@ ax.set_xticklabels(["1", "2", "3", "6", "12", "25", "50"])
 ax.set_xlim(0.93, 58)
 ax.set_ylim(0, 1.09)
 ax.set_xlabel("Q = J/γ   (coupling-to-dephasing ratio, log scale)")
-ax.set_ylabel("survivor darkness   ⟨n_XY⟩ = Re(λ) / (−2γ)")
+ax.set_ylabel("survivor light content   ⟨n_XY⟩ = Re(λ) / (−2γ)")
 ax.set_title("The chain / ring / star trichotomy in one view  (N = 6)\n"
              "does the longest-lived survivor reach the floor (un-freeze) or the ceiling (stay frozen)?",
              fontsize=11)

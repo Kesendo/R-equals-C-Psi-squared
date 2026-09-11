@@ -4,7 +4,7 @@ clock_hand_ladder arc (keeps CoherenceHorizonClaim + SecondClockRegimeClaim at T
 THE OBJECT (operational, from handover_q.py, reframed via the Absorption Theorem):
   On the closed XY ring under Z-dephasing, below a crossover Q the longest-lived interior mode is a
   diagonal (k,k)-sector coherence (the "double-excitation seam"); above it, the single-excitation band
-  edge takes over. The handover Q_h is where the (k,k) survivor's darkness <n_XY> reaches the F50 floor
+  edge takes over. The handover Q_h is where the (k,k) survivor's light content <n_XY> reaches the F50 floor
   EXACTLY 1. By the Absorption Theorem Re(lam) = -2g*<n_XY>, so:
 
      Q_h(N) = the Q at which the SLOWEST interior mode of the (k,k) Liouvillian sector has Re = -2g.
@@ -19,7 +19,7 @@ THE OPEN QUESTION THIS GATES: which sector k? Benzene N=6 survivor is the 2-exci
 matches the full-L survivor.
 
   STAGE 0  GROUND TRUTH (full 4^N L, N=6): the global interior survivor below Q_h, its (ket#,bra#) sector
-           and darkness; the (k,k)-block reproduces it. Plus Hk(N=4,k=2) = 2sqrt2 J (anti-periodic gate).
+           and light content; the (k,k)-block reproduces it. Plus Hk(N=4,k=2) = 2sqrt2 J (anti-periodic gate).
   STAGE 1  SECTOR DISCRIMINATOR: Q_h(N) for k=2 AND k=N/2 (even N); which is linear ~0.29N, which saturates.
   STAGE 2  THE LAW: c_eff = (N/Q_h)^2 -- flat (not sqrt-N)?  closed form (c_eff=12 -> Q_h=N/(2sqrt3))?
 
@@ -80,7 +80,7 @@ def Lkk_sparse(N, k, gamma):
     return (L - 2 * gamma * sp.diags(deph)).tocsc()
 
 
-def darkness(N, k, Q):
+def nxy(N, k, Q):
     """<n_XY> = -Re/(2g) of the slowest interior (Re<0) mode of the (k,k) sector at J=1, gamma=1/Q.
     Dense eigvals for small blocks; sparse SHIFT-INVERT (sigma just right of 0 -> the rightmost = slowest
     modes) for large -- ARPACK 'LR' fails to converge on the near-anti-Hermitian L, shift-invert does not."""
@@ -99,17 +99,17 @@ def darkness(N, k, Q):
 
 
 def qh_sector(N, k, lo=1.2, hi=5.0):
-    """Q where darkness(N,k,Q) = 1 (bisection; nan if no bracket in [lo,hi]). Coarse width break
-    (~8 evals): Q_h to +-0.01 is plenty for the slope fit, and each darkness() eval is a full eig."""
-    flo = darkness(N, k, lo) - 1
-    fhi = darkness(N, k, hi) - 1
+    """Q where nxy(N,k,Q) = 1 (bisection; nan if no bracket in [lo,hi]). Coarse width break
+    (~8 evals): Q_h to +-0.01 is plenty for the slope fit, and each nxy() eval is a full eig."""
+    flo = nxy(N, k, lo) - 1
+    fhi = nxy(N, k, hi) - 1
     if flo * fhi > 0:
         return float('nan')
     for _ in range(30):
         if hi - lo < 0.02:
             break
         mid = 0.5 * (lo + hi)
-        fm = darkness(N, k, mid) - 1
+        fm = nxy(N, k, mid) - 1
         if abs(fm) < 1e-7:
             return mid
         if flo * fm < 0:
@@ -146,7 +146,7 @@ def popcount(x):
 
 
 def full_survivor(N, Q):
-    """Global slowest interior mode of the full 4^N L: darkness, dominant (ket#,bra#) sector, its weight."""
+    """Global slowest interior mode of the full 4^N L: light content, dominant (ket#,bra#) sector, its weight."""
     gamma = 1.0 / Q
     d = 2 ** N
     ev, evec = np.linalg.eig(full_L(N, gamma))
@@ -187,14 +187,14 @@ def main():
     qh26 = qh_sector(6, 2)
     Qchk = max(qh26 - 0.3, 1.0)
     dk_full, dom, frac = full_survivor(6, Qchk)
-    dk_blk = darkness(6, 2, Qchk)
+    dk_blk = nxy(6, 2, Qchk)
     print(f"   N=6 at Q={Qchk:.2f} (below Q_h~{qh26:.3f}): full-L survivor sector (ket#,bra#)={tuple(int(x) for x in dom)} "
-          f"({frac*100:.0f}%), darkness={dk_full:.4f}; (2,2)-block darkness={dk_blk:.4f}")
+          f"({frac*100:.0f}%), light content={dk_full:.4f}; (2,2)-block light content={dk_blk:.4f}")
     # the survivor is the 2-EXCITATION DOUBLET {(2,2),(N-2,N-2)} -- particle-hole partners, isospectral, so
-    # the (2,2) block computes its darkness/Q_h exactly even when the full-L dominant component is (N-2,N-2).
+    # the (2,2) block computes its light content/Q_h exactly even when the full-L dominant component is (N-2,N-2).
     gate("N=6: the full-L survivor is the 2-excitation doublet {(2,2),(4,4)} (particle-hole partners)",
          dom in {(2, 2), (4, 4)}, f"sector {tuple(int(x) for x in dom)}")
-    gate("N=6: the (2,2)-block darkness equals the full-L survivor darkness (PH-isospectral, the right object)",
+    gate("N=6: the (2,2)-block light content equals the full-L survivor light content (PH-isospectral, the right object)",
          abs(dk_full - dk_blk) < 1e-3, f"full {dk_full:.5f} vs block {dk_blk:.5f}")
 
     # ===================================================================== STAGE 1: sector discriminator

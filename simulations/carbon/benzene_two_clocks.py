@@ -23,7 +23,7 @@ pi-hopping model. The seam mode (sector (2,2)/(4,4)) is a frozen DRESSED magnon-
 effective light content is FRACTIONAL (<n_XY> = 0.72 at Q=1.6, not 1), Absorption-Theorem-governed
 exactly like CHAIN_GAP_SECTOR_DIAGNOSTIC's half-filling slow mode. But that diagnostic is HEISENBERG
 (XXX, with ZZ), where the same survivor sits at the dead-center (3,3) and is darker (<n_XY> = 0.23 at
-ring N=6 Q=2). Same law (the Absorption Theorem), same kind of object; the ZZ retunes the darkness and
+ring N=6 Q=2). Same law (the Absorption Theorem), same kind of object; the ZZ retunes the light content and
 the sector. So do NOT compare this XY computation's numbers directly against CHAIN_GAP's Heisenberg
 ones - the model differs; _xy_vs_heisenberg_slowmode.py shows both side by side (and confirms this
 builder reproduces CHAIN_GAP's -0.230 (3,3) bit-for-bit once the ZZ is added).

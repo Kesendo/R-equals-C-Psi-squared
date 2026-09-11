@@ -29,7 +29,7 @@ public class StoneSurvivorClosureWitnessTests
     public void Band_edge_holds_the_closure(int n)
     {
         var w = new StoneSurvivorClosureWitness(n);
-        Assert.True(w.BandEdge.InWindow);               // IN window: K_decay frozen (rigid darkness)
+        Assert.True(w.BandEdge.InWindow);               // IN window: K_decay frozen (rigid light content)
         Assert.False(w.BandEdge.IsRateShift);
     }
 }

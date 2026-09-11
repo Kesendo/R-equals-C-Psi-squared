@@ -25,7 +25,7 @@ FINDINGS (run it; asserts pin the anchors):
     STAR breaks the dispersive pattern: its survivor sits at the popcount BOUNDARY (1,1)/(N-1,N-1)
     (no spatial dispersion -> no central momentum mode). So "the incomplete survives longest" is a
     DISPERSIVE-topology statement; the star is the counterexample.
-  HOW LONG: the interior survivor's darkness <n_XY> ~ c*Q^2/N^2 (the magnon-admixture inheritance),
+  HOW LONG: the interior survivor's light content <n_XY> ~ c*Q^2/N^2 (the magnon-admixture inheritance),
     ring ~ 4x chain - a SEPARATE 1/N^2 inheritance from the Pi2 dyadic ladder (which carries the
     constants, not the N-scaling)."""
 import sys
@@ -161,7 +161,7 @@ def _assert_where():
 def _report_scaling(Ns=(4, 5, 6, 7)):
     Q = 1.5
     g = 1.0 / Q
-    print(f"[3] HOW LONG: interior survivor darkness <n_XY> vs N (Q={Q}); c = <n_XY>*N^2/Q^2:")
+    print(f"[3] HOW LONG: interior survivor light content <n_XY> vs N (Q={Q}); c = <n_XY>*N^2/Q^2:")
     print(f"     {'N':>3} | {'chain <n_XY>':>13} {'c':>6} | {'ring <n_XY>':>12} {'c':>6} | {'ring/chain':>10}")
     rows = {}
     for N in Ns:

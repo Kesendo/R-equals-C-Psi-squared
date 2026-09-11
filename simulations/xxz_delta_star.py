@@ -1,7 +1,7 @@
 """Hunt the closed form for the XXZ handover Delta*(N) (the xxz_axis_handover arc's last-open item).
 
 Delta* = where the Lebensader (the dead-centre (ceil(N/2),ceil(N/2)) half-filling slow mode of the
-XXZ chain under Z-dephasing) rate crosses the band-edge floor 2*gamma (= where its darkness <n_XY>=1).
+XXZ chain under Z-dephasing) rate crosses the band-edge floor 2*gamma (= where its light content <n_XY>=1).
 The arc recast the open "closed form for Delta*(N)" as the closed form for THIS Lebensader rate law.
 
 Known (experiments/XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md, full L): Delta*(4)=1.618(=phi), Delta*(5)=1.525.
@@ -21,7 +21,7 @@ import numpy as np
 import framework as fw
 
 GAMMA = 0.05          # the doc's deep-quantum regime, Q=J/gamma=20
-FLOOR = 2.0 * GAMMA   # the band-edge rate (darkness <n_XY>=1)
+FLOOR = 2.0 * GAMMA   # the band-edge rate (light content <n_XY>=1)
 
 
 # ---------- the XXZ p-excitation Hamiltonian on the open chain ----------

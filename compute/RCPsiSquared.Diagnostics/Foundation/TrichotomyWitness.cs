@@ -8,7 +8,8 @@ using ComplexMatrix = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Comp
 namespace RCPsiSquared.Diagnostics.Foundation;
 
 /// <summary>The chain/ring/star survivor trichotomy as one swept artifact: per (topology, N, Q, γ-profile)
-/// the survivor sector + freeze-route + Δn + darkness + birth-canal deviation. Pure assembly of the
+/// the survivor sector + freeze-route + Δn + the light content (read at UNIFORM γ only,
+/// from IncompletenessSurvivorWitness.Survivor) + birth-canal deviation. Pure assembly of the
 /// existing route-detectors (horizon / starseam / ceiling / surface); no new linear algebra, no new Claim.
 /// Breadcrumbs StarFrozenSeamClaim / CoherenceHorizonClaim / HandoverFloorClaim / SecondClockRegimeClaim /
 /// VacuumBlockReductionClaim. C# twin of simulations/birth_canal_junction_nature.py + star_frozen_seam.py.
