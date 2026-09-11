@@ -8,6 +8,13 @@ N = 7
 SEAT = 3
 
 
+def _exact_scalar(value):
+    value = sympy.sympify(value)
+    if value.has(sympy.Float):
+        raise TypeError("exact reduction requires exact scalar inputs")
+    return value
+
+
 def hopping_float(epsilon: float, both_ends: bool = False) -> np.ndarray:
     """Return the N=7 path Hamiltonian with the requested end detuning."""
     r = 1.0 + epsilon
@@ -62,8 +69,8 @@ def row_stack_adjoint_embedding(v: np.ndarray, u_plus: np.ndarray) -> np.ndarray
 
 def exact_reduction_objects(epsilon, gamma):
     """Return h, z, the blind vector, and K over exact SymPy scalars."""
-    epsilon = sympy.sympify(epsilon)
-    gamma = sympy.sympify(gamma)
+    epsilon = _exact_scalar(epsilon)
+    gamma = _exact_scalar(gamma)
     r = 1 + epsilon
     h = sympy.zeros(N, N)
     for site, bond in enumerate((2 * r, 2, 2, 2, 2, 2)):

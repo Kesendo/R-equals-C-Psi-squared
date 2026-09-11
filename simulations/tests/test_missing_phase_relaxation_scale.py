@@ -17,6 +17,17 @@ def row_stack(x):
     return np.asarray(x, dtype=complex).reshape(-1, order="C")
 
 
+def independent_generator(h, gamma, seat=3):
+    generator = np.empty((49, 49), dtype=complex)
+    for coordinate in range(49):
+        basis = np.zeros((7, 7), dtype=complex)
+        basis[np.unravel_index(coordinate, (7, 7), order="C")] = 1.0
+        generator[:, coordinate] = row_stack(
+            independent_action(h, gamma, basis, seat=seat)
+        )
+    return generator
+
+
 def test_float_construction_and_generator_use_literal_scale_and_normalization():
     epsilon = 0.125
     gamma = 0.3
@@ -43,6 +54,17 @@ def test_float_construction_and_generator_use_literal_scale_and_normalization():
     assert np.array_equal(
         mprs.a_generator_float(epsilon, gamma), expected_generator
     )
+
+
+def test_full_generator_matches_columnwise_action_oracle():
+    epsilon = 0.125
+    gamma = 0.3
+    expected_h = np.zeros((7, 7), dtype=complex)
+    for site, bond in enumerate([2.25, 2.0, 2.0, 2.0, 2.0, 2.0]):
+        expected_h[site, site + 1] = expected_h[site + 1, site] = bond
+
+    oracle = independent_generator(expected_h, gamma)
+    assert np.linalg.norm(mprs.a_generator_float(epsilon, gamma) - oracle) < 1e-12
 
 
 def test_two_sided_invariant_embedding_has_exact_double_cluster():
@@ -100,6 +122,18 @@ def test_exact_reduction_identity_for_basis_and_general_vectors(epsilon, gamma):
         x = u * sympy.conjugate(v.T)
         target = k * u * sympy.conjugate(v.T)
         assert mprs.exact_a_action(h, z, gamma, x) - target == zero_matrix
+
+
+@pytest.mark.parametrize(
+    ("epsilon", "gamma"),
+    [
+        (0.125, sympy.Rational(3, 10)),
+        (sympy.Rational(1, 8), 0.3),
+    ],
+)
+def test_exact_reduction_rejects_inexact_scalars(epsilon, gamma):
+    with pytest.raises(TypeError):
+        mprs.exact_reduction_objects(epsilon, gamma)
 
 
 def test_row_stack_mutation_distinguishes_the_invariant_side():
