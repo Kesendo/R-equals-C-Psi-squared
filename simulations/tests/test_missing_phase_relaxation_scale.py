@@ -552,6 +552,7 @@ def test_b_generator_is_priced_negative_adjoint_of_a():
 
 def test_b_boundary_has_no_peripheral_direction_and_control_can_create_one():
     boundary = mprs.exact_b_boundary_certificate()
+    assert boundary["defect_epsilon"] == 0
     assert boundary["h_outer_times_u"] == sympy.Matrix([0, 4, 0, 0, 4, 0])
     assert boundary["has_peripheral_b_mode"] is False
     assert boundary["peripheral_dimension"] == 0
@@ -562,6 +563,20 @@ def test_b_boundary_has_no_peripheral_direction_and_control_can_create_one():
     assert control["has_peripheral_b_mode"] is True
     assert control["peripheral_dimension"] == 1
     assert control["direct_generator_residual"] == sympy.zeros(49, 1)
+
+
+def test_uniform_centre_boundary_has_complete_a_census_and_positive_b_gap():
+    certificate = mprs.exact_control_subspaces(
+        sympy.Integer(0), sympy.Rational(3, 10)
+    )
+    assert certificate["blind_dimension"] == 3
+    assert certificate["stationary_dimension"] == 4
+    assert certificate["peripheral_dimension"] == 10
+
+    result = mprs.direct_float_gaps(0.0, 0.3)
+    assert result["a_gap"] == pytest.approx(0.0, abs=2e-11)
+    assert result["b_gap"] > 1e-3
+    assert result["classified_a_dimension"] == 49
 
 
 def test_b_gap_uses_the_maximum_a_rate_not_the_a_gap():
@@ -579,6 +594,30 @@ def test_each_b_rate_is_the_individually_paired_a_rate_with_the_price():
     paired_rates = result["paired_rate_residuals"]
     assert len(paired_rates) == 49
     assert max(paired_rates) < 2e-12
+    assert result["max_complex_spectrum_residual"] < 2e-12
+
+
+def test_complex_b_spectrum_shift_is_rejected_even_when_all_rates_still_match(
+    monkeypatch,
+):
+    original_eigvals = np.linalg.eigvals
+    call_count = 0
+
+    def eigenvalues_with_imaginary_b_shift(matrix):
+        nonlocal call_count
+        values = original_eigvals(matrix)
+        if call_count == 1:
+            values = values + 0.01j
+        call_count += 1
+        return values
+
+    monkeypatch.setattr(
+        mprs.np.linalg,
+        "eigvals",
+        eigenvalues_with_imaginary_b_shift,
+    )
+    with pytest.raises(AssertionError, match="complex|spectrum|A/B"):
+        mprs.direct_float_gaps(0.1, 0.3)
 
 
 def test_a_rate_classifier_rejects_an_unstable_unclassified_eigenvalue():

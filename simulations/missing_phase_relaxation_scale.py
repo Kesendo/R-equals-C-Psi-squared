@@ -721,7 +721,7 @@ def _centre_first_partition(h, seat=SEAT):
 def exact_b_boundary_certificate():
     """Certify that the physical centre/outer boundary has no B-peripheral mode."""
     h, z, _, _ = exact_reduction_objects(
-        sympy.Rational(1, 8), sympy.Rational(3, 10)
+        sympy.Integer(0), sympy.Rational(3, 10)
     )
     h_outer, u = _centre_first_partition(h)
     _, invariant = _zero_cost_invariant_subspace_for_dissipator(
@@ -731,6 +731,7 @@ def exact_b_boundary_certificate():
     if product != sympy.Matrix([0, 4, 0, 0, 4, 0]):
         raise AssertionError("centre/outer product changed")
     return {
+        "defect_epsilon": sympy.Integer(0),
         "h_outer_times_u": product,
         "has_peripheral_b_mode": invariant.cols != 0,
         "peripheral_dimension": invariant.cols,
@@ -819,6 +820,8 @@ def exact_control_subspaces(epsilon, gamma, *, seat=SEAT, both_ends=False):
         sympy.Rational(11, 10),
     ):
         expected = (4, 10)
+    elif not both_ends and seat == SEAT and epsilon == 0:
+        expected = (4, 10)
     elif not both_ends and seat == SEAT and epsilon != 0:
         expected = (2, 2)
     elif not both_ends and seat == 2 and epsilon == 0:
@@ -901,6 +904,37 @@ def classify_a_rates(
     }
 
 
+def match_b_spectrum(a_values, b_values, gamma, matrix_scale):
+    """Match the full complex B spectrum to the priced A-adjoint spectrum."""
+    a_values = np.asarray(a_values, dtype=complex)
+    b_values = np.asarray(b_values, dtype=complex)
+    if a_values.size != N * N or b_values.size != N * N:
+        raise AssertionError("A/B spectrum match requires all 49 eigenvalues")
+    expected_b = -2 * gamma - np.conj(a_values)
+    cost = np.abs(b_values[:, None] - expected_b[None, :])
+    b_indices, a_indices = linear_sum_assignment(cost)
+    residuals = cost[b_indices, a_indices]
+    # Dense nonsymmetric eigensolves carry a dimension-amplified backward error.
+    # 1024 eps ||L|| is safely above the measured 27 eps ||L|| control residual.
+    tolerance = 1024 * np.finfo(float).eps * max(1.0, matrix_scale)
+    maximum = float(np.max(residuals))
+    if maximum > tolerance:
+        raise AssertionError("full complex A/B spectrum map exceeds backward error")
+    rate_residuals = [
+        abs(
+            -b_values[b_index].real
+            - (2 * gamma - (-a_values[a_index].real))
+        )
+        for b_index, a_index in zip(b_indices, a_indices)
+    ]
+    return {
+        "complex_residuals": residuals.tolist(),
+        "max_complex_residual": maximum,
+        "complex_tolerance": float(tolerance),
+        "rate_residuals": rate_residuals,
+    }
+
+
 def direct_float_gaps(epsilon, gamma, *, seat=SEAT, both_ends=False):
     """Read all 49 A/B eigenvalues after exact case-specific classification."""
     exact_epsilon = _public_float_as_exact(epsilon)
@@ -946,19 +980,7 @@ def direct_float_gaps(epsilon, gamma, *, seat=SEAT, both_ends=False):
         positive_a_rates[0],
     )
 
-    expected_b = -2 * gamma - np.conj(a_values)
-    cost = np.abs(b_values[:, None] - expected_b[None, :])
-    b_indices, a_indices = linear_sum_assignment(cost)
-    spectral_residuals = cost[b_indices, a_indices]
-    paired_rate_residuals = [
-        abs(
-            -b_values[b_index].real
-            - (2 * gamma - (-a_values[a_index].real))
-        )
-        for b_index, a_index in zip(b_indices, a_indices)
-    ]
-    if len(spectral_residuals) != N * N:
-        raise AssertionError("full A/B spectrum was not matched")
+    spectrum_match = match_b_spectrum(a_values, b_values, gamma, scale)
     b_gap = min(-b_values.real)
     return {
         "stationary_dimension": certificate["stationary_dimension"],
@@ -968,7 +990,10 @@ def direct_float_gaps(epsilon, gamma, *, seat=SEAT, both_ends=False):
         "next_distinct_a_rate": float(next_distinct_a_rate),
         "max_a_rate": float(max_a_rate),
         "b_gap": float(b_gap),
-        "paired_rate_residuals": paired_rate_residuals,
+        "paired_rate_residuals": spectrum_match["rate_residuals"],
+        "complex_spectrum_residuals": spectrum_match["complex_residuals"],
+        "max_complex_spectrum_residual": spectrum_match["max_complex_residual"],
+        "complex_spectrum_tolerance": spectrum_match["complex_tolerance"],
         "classified_a_dimension": classification["classified_dimension"],
     }
 
