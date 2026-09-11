@@ -273,3 +273,168 @@ def test_each_displayed_branch_component_is_required_through_cubic_order():
 
     for real_term in (components["quadratic_real"], components["cubic_real"]):
         assert has_residual_through_cubic(branch - 2 * real_term)
+
+
+def test_uniform_peripheral_census_is_complete_and_not_just_the_kernel():
+    census = mprs.exact_uniform_peripheral_census(sympy.Rational(3, 10))
+    assert census == {
+        "blind_dimension": 3,
+        "end_blind_algebra_dimension": 9,
+        "identity_outer_dimension": 1,
+        "kernel_dimension": 4,
+        "peripheral_dimension": 10,
+        "frequency_multiplicities": {
+            "-4sqrt2i": 1,
+            "-2sqrt2i": 2,
+            "0": 4,
+            "+2sqrt2i": 2,
+            "+4sqrt2i": 1,
+        },
+    }
+    assert census["peripheral_dimension"] != census["kernel_dimension"]
+
+
+@pytest.mark.parametrize(
+    "epsilon",
+    [sympy.Rational(1, 8), sympy.Rational(-1, 8), sympy.Rational(1, 16)],
+)
+def test_punctured_certificate_has_only_the_two_stationary_zero_cost_modes(epsilon):
+    certificate = mprs.exact_punctured_kernel_certificate(
+        epsilon, sympy.Rational(3, 10)
+    )
+    assert certificate["kernel_dimension"] == 2
+    assert certificate["stationary_rank"] == 2
+    assert certificate["zero_cost_invariant_dimension"] == 2
+    assert certificate["nonzero_imaginary_axis_dimension"] == 0
+    polynomial = certificate["restricted_characteristic_polynomial"]
+    assert polynomial.as_expr() == polynomial.gen**2
+
+
+def _expected_effective_operators(gamma):
+    root2 = sympy.sqrt(2)
+    return {
+        "first": {
+            "-4sqrt2i": sympy.Matrix([[-sympy.I * root2]]),
+            "-2sqrt2i": -sympy.I / root2 * sympy.eye(2),
+            "0": sympy.zeros(4),
+            "+2sqrt2i": sympy.I / root2 * sympy.eye(2),
+            "+4sqrt2i": sympy.Matrix([[sympy.I * root2]]),
+        },
+        "second": {
+            "-4sqrt2i": sympy.Matrix([[-gamma - 3 * root2 * sympy.I / 8]]),
+            "-2sqrt2i": (-gamma / 2 - 3 * root2 * sympy.I / 16) * sympy.eye(2),
+            "0": sympy.Matrix(
+                [
+                    [-gamma, 0, 0, gamma / 2],
+                    [0, 0, 0, 0],
+                    [0, 0, -gamma, gamma / 2],
+                    [gamma / 2, 0, gamma / 2, -gamma / 2],
+                ]
+            ),
+            "+2sqrt2i": (-gamma / 2 + 3 * root2 * sympy.I / 16) * sympy.eye(2),
+            "+4sqrt2i": sympy.Matrix([[-gamma + 3 * root2 * sympy.I / 8]]),
+        },
+    }
+
+
+def test_kato_feshbach_effective_operators_and_polynomials_are_exact():
+    gamma = sympy.symbols("gamma", positive=True)
+    actual = mprs.exact_effective_operators(gamma)
+    expected = _expected_effective_operators(gamma)
+
+    for order in ("first", "second"):
+        for frequency, matrix in expected[order].items():
+            assert actual[order][frequency] == matrix
+            polynomial = actual["characteristic_polynomials"][order][frequency]
+            assert polynomial == matrix.charpoly(polynomial.gen)
+
+    zero_polynomial = actual["characteristic_polynomials"]["second"]["0"]
+    lam = zero_polynomial.gen
+    assert sympy.expand(
+        zero_polynomial.as_expr()
+        - lam**2 * (lam + gamma) * (2 * lam + 3 * gamma) / 2
+    ) == 0
+
+
+def test_kato_feshbach_projector_and_reduced_resolvent_identities_are_exact():
+    gamma = sympy.symbols("gamma", positive=True)
+    result = mprs.exact_effective_operators(gamma)
+    for block in result["certificates"].values():
+        l0 = block["generator"]
+        projector = block["projector"]
+        right = block["right_basis"]
+        left = block["left_basis"]
+
+        assert left.conjugate().T * right == sympy.eye(right.cols)
+        assert projector * projector == projector
+        assert l0 * projector == projector * l0
+        assert block["basis_dimension"] == 49
+        assert sum(len(part["indices"]) for part in block["resolvent_blocks"]) == 49
+        assert len(
+            {
+                coordinate
+                for part in block["resolvent_blocks"]
+                for coordinate in part["indices"]
+            }
+        ) == 49
+        for part in block["resolvent_blocks"]:
+            size = len(part["indices"])
+            # S=M+P has SP=PS=P.  Together with SS^-1=S^-1S=I and
+            # P^2=P this is exactly the two-sided identity
+            # M(S^-1-P)=(S^-1-P)M=I-P, without expanding the 16x16 inverse.
+            assert part["shifted_is_invertible"]
+            assert part["unshifted"] == part["shifted"] - part["projector"]
+            assert part["shifted"] * part["projector"] == part["projector"]
+            assert part["projector"] * part["shifted"] == part["projector"]
+
+
+def test_effective_multiplicities_and_local_minimality_mutations_are_detected():
+    gamma = sympy.symbols("gamma", positive=True)
+    result = mprs.exact_effective_operators(gamma)
+    expected = _expected_effective_operators(gamma)
+    root2 = sympy.sqrt(2)
+    expected_multiplicities = {
+        "first": {
+            "-4sqrt2i": {-root2 * sympy.I: 1},
+            "-2sqrt2i": {-sympy.I / root2: 2},
+            "0": {sympy.Integer(0): 4},
+            "+2sqrt2i": {sympy.I / root2: 2},
+            "+4sqrt2i": {root2 * sympy.I: 1},
+        },
+        "second": {
+            "-4sqrt2i": {-gamma - 3 * root2 * sympy.I / 8: 1},
+            "-2sqrt2i": {-gamma / 2 - 3 * root2 * sympy.I / 16: 2},
+            "0": {sympy.Integer(0): 2, -gamma: 1, -3 * gamma / 2: 1},
+            "+2sqrt2i": {-gamma / 2 + 3 * root2 * sympy.I / 16: 2},
+            "+4sqrt2i": {-gamma + 3 * root2 * sympy.I / 8: 1},
+        },
+    }
+    expected_geometric = {
+        order: {
+            frequency: dict(multiplicities)
+            for frequency, multiplicities in by_frequency.items()
+        }
+        for order, by_frequency in expected_multiplicities.items()
+    }
+
+    for order in ("first", "second"):
+        for frequency, matrix in result[order].items():
+            assert matrix.eigenvals() == expected_multiplicities[order][frequency]
+            for eigenvalue, geometric_expected in expected_geometric[order][frequency].items():
+                geometric = len((matrix - eigenvalue * sympy.eye(matrix.rows)).nullspace())
+                assert geometric == geometric_expected
+
+    damping_mutant = result["first"]["-2sqrt2i"] - gamma * sympy.eye(2)
+    assert damping_mutant.charpoly().as_expr() != result["characteristic_polynomials"]["first"]["-2sqrt2i"].as_expr()
+
+    reactive_mutant = result["second"]["-4sqrt2i"].applyfunc(sympy.re)
+    assert reactive_mutant.charpoly().as_expr() != result["characteristic_polynomials"]["second"]["-4sqrt2i"].as_expr()
+
+    zero_minor = result["second"]["0"].extract([0, 1, 2], [0, 1, 2])
+    assert zero_minor.charpoly().as_expr() != result["characteristic_polynomials"]["second"]["0"].as_expr()
+
+    peripheral = mprs.exact_uniform_peripheral_census(sympy.Rational(3, 10))
+    kernel_only = dict(peripheral)
+    kernel_only["peripheral_dimension"] = kernel_only["kernel_dimension"]
+    kernel_only["frequency_multiplicities"] = {"0": 4}
+    assert kernel_only != peripheral
