@@ -1,8 +1,12 @@
 import math
+import sys
+from pathlib import Path
 
 import numpy as np
 import pytest
 import sympy
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from simulations import missing_phase_relaxation_scale as mprs
 
@@ -535,3 +539,161 @@ def test_effective_multiplicities_and_local_minimality_mutations_are_detected():
     kernel_only["peripheral_dimension"] = kernel_only["kernel_dimension"]
     kernel_only["frequency_multiplicities"] = {"0": 4}
     assert kernel_only != peripheral
+
+
+def test_b_generator_is_priced_negative_adjoint_of_a():
+    epsilon, gamma = 0.125, 0.3
+    la = mprs.a_generator_float(epsilon, gamma)
+    lb = mprs.b_generator_float(epsilon, gamma)
+    assert np.linalg.norm(
+        lb - (-2 * gamma * np.eye(49) - la.conj().T)
+    ) < 1e-13
+
+
+def test_b_boundary_has_no_peripheral_direction_and_control_can_create_one():
+    boundary = mprs.exact_b_boundary_certificate()
+    assert boundary["h_outer_times_u"] == sympy.Matrix([0, 4, 0, 0, 4, 0])
+    assert boundary["has_peripheral_b_mode"] is False
+    assert boundary["peripheral_dimension"] == 0
+
+    control = mprs.exact_b_boundary_control()
+    assert control["u_nonzero"] is True
+    assert control["h_outer_times_u"] == sympy.zeros(6, 1)
+    assert control["has_peripheral_b_mode"] is True
+    assert control["peripheral_dimension"] == 1
+    assert control["direct_generator_residual"] == sympy.zeros(49, 1)
+
+
+def test_b_gap_uses_the_maximum_a_rate_not_the_a_gap():
+    epsilon, gamma = 0.1, 0.3
+    result = mprs.direct_float_gaps(epsilon, gamma)
+    assert result["b_gap"] == pytest.approx(
+        2 * gamma - result["max_a_rate"], rel=2e-10, abs=2e-12
+    )
+    assert abs(result["b_gap"] - (2 * gamma - result["a_gap"])) > 1e-3
+    assert result["next_distinct_a_rate"] > result["a_gap"]
+
+
+def test_each_b_rate_is_the_individually_paired_a_rate_with_the_price():
+    result = mprs.direct_float_gaps(0.1, 0.3)
+    paired_rates = result["paired_rate_residuals"]
+    assert len(paired_rates) == 49
+    assert max(paired_rates) < 2e-12
+
+
+@pytest.mark.parametrize("r", [0.9, 1.1])
+def test_symmetric_double_end_detuning_preserves_ten_peripheral_directions(r):
+    epsilon = r - 1.0
+    exact_epsilon = sympy.Rational(-1, 10) if r < 1 else sympy.Rational(1, 10)
+    certificate = mprs.exact_control_subspaces(
+        exact_epsilon,
+        sympy.Rational(3, 10),
+        both_ends=True,
+    )
+    assert certificate["blind_dimension"] == 3
+    assert mprs.float_peripheral_count(epsilon, 0.3, both_ends=True) == 10
+    result = mprs.direct_float_gaps(epsilon, 0.3, both_ends=True)
+    assert result["stationary_dimension"] == 4
+    assert result["peripheral_dimension"] == 10
+    assert result["nonstationary_peripheral_dimension"] == 6
+    assert result["a_gap"] == pytest.approx(0.0, abs=2e-11)
+    assert result["next_distinct_a_rate"] > 1e-3
+
+
+def test_moving_watch_to_seat_two_opens_a_finite_gap():
+    result = mprs.direct_float_gaps(0.0, 0.3, seat=2)
+    assert result["stationary_dimension"] == 1
+    assert result["peripheral_dimension"] == 1
+    assert result["a_gap"] > 1e-3
+
+
+def test_exact_control_certificates_reject_float_scalars_at_the_exact_door():
+    with pytest.raises(TypeError):
+        mprs.exact_control_subspaces(0.1, sympy.Rational(3, 10))
+    with pytest.raises(TypeError):
+        mprs.exact_control_subspaces(sympy.Rational(1, 10), 0.3)
+
+
+def test_quadratic_defect_path_has_fourth_order_gap():
+    values = [mprs.tracked_reduced_gap(e * e, 0.3) for e in (2**-5, 2**-6, 2**-7)]
+    exponents = [math.log(values[i] / values[i + 1], 2) for i in range(2)]
+    assert min(exponents) > 3.8
+
+
+@pytest.mark.parametrize("epsilon", [0.125, -0.125, 0.3])
+def test_site_zero_phase_gauge_is_epsilon_to_minus_two_minus_epsilon(epsilon):
+    assert mprs.tracked_reduced_gap(epsilon, 0.3) == pytest.approx(
+        mprs.tracked_reduced_gap(-2.0 - epsilon, 0.3),
+        rel=2e-10,
+        abs=2e-12,
+    )
+    assert abs(
+        mprs.tracked_reduced_gap(epsilon, 0.3)
+        - mprs.tracked_reduced_gap(-epsilon, 0.3)
+    ) > 1e-8
+
+
+@pytest.mark.parametrize("epsilon", [0.1, -0.1])
+def test_new_a_builder_matches_historical_run_la_without_changing_it(epsilon):
+    from simulations.missing_phase_long_time import Run
+
+    old = Run(epsilon, 0.3).la
+    new = mprs.a_generator_float(epsilon, 0.3)
+    assert np.linalg.norm(old - new, ord=2) < 1e-14
+
+
+def test_global_flip_carrier_copies_are_identical():
+    blocks = mprs.direct_carrier_blocks(
+        sympy.Rational(1, 8), sympy.Rational(3, 10)
+    )
+    assert blocks["A_11"] == blocks["A_66"]
+    assert blocks["B_16"] == blocks["B_61"]
+    assert blocks["A_11"] is not blocks["A_66"]
+    assert blocks["B_16"] is not blocks["B_61"]
+
+
+def test_legacy_real_part_sorted_index_is_not_a_branch_at_epsilon_zero():
+    root2 = float(sympy.sqrt(2))
+    values = np.array(
+        [
+            0j,
+            0j,
+            0j,
+            0j,
+            -2j * root2,
+            -2j * root2,
+            +2j * root2,
+            +2j * root2,
+            -4j * root2,
+            +4j * root2,
+        ]
+    )
+    pick = lambda xs: xs[np.argsort(-xs.real, kind="stable")[2]]
+    seen = {
+        pick(values[permutation])
+        for permutation in (
+            np.arange(10),
+            np.arange(10)[::-1],
+            np.roll(np.arange(10), 4),
+        )
+    }
+    assert len(seen) > 1
+    census = mprs.exact_uniform_peripheral_census(sympy.Rational(3, 10))
+    assert census["frequency_multiplicities"]["+2sqrt2i"] == 2
+
+
+def test_b_adjoint_mutation_breaks_the_entrywise_operator_map():
+    result = mprs.b_operator_mutation_residuals(
+        sympy.Rational(1, 8), sympy.Rational(3, 10)
+    )
+    assert result["correct"] == 0
+    assert result["omitted_adjoint"] != 0
+
+
+def test_b_missing_right_action_and_price_mutations_break_the_full_spectrum_map():
+    result = mprs.b_spectrum_mutation_residuals(
+        sympy.Rational(1, 8), sympy.Rational(3, 10)
+    )
+    assert result["correct"] == 0
+    assert result["missing_right_action"] != 0
+    assert result["wrong_price_sign"] != 0

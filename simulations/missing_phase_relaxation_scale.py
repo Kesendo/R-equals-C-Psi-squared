@@ -2,6 +2,7 @@
 
 import numpy as np
 import sympy
+from scipy.optimize import linear_sum_assignment
 from sympy.polys.matrices import DomainMatrix
 
 
@@ -65,9 +66,15 @@ def k_reduced_float(epsilon: float, gamma: float, *, seat: int = SEAT) -> np.nda
     return -1j * hopping_float(epsilon) - 2.0 * gamma * projector
 
 
-def a_generator_float(epsilon: float, gamma: float, seat: int = SEAT) -> np.ndarray:
+def a_generator_float(
+    epsilon: float,
+    gamma: float,
+    seat: int = SEAT,
+    *,
+    both_ends: bool = False,
+) -> np.ndarray:
     """Assemble the 49-dimensional A generator for row-major stacking."""
-    h = hopping_float(epsilon)
+    h = hopping_float(epsilon, both_ends=both_ends)
     identity = np.eye(N, dtype=complex)
     z = watched_involution_float(seat)
     return (
@@ -639,4 +646,381 @@ def exact_punctured_kernel_certificate(epsilon, gamma):
         "restricted_characteristic_polynomial": restricted_polynomial,
         "stationary_basis": stationary_basis,
         "zero_cost_invariant_basis": invariant_basis,
+    }
+
+
+def b_generator_float(epsilon: float, gamma: float, *, seat: int = SEAT) -> np.ndarray:
+    """Build the B carrier directly, before using the priced-adjoint identity."""
+    h = hopping_float(epsilon)
+    z = watched_involution_float(seat)
+    identity = np.eye(N, dtype=complex)
+    return (
+        -1j * (np.kron(h, identity) - np.kron(identity, h.T))
+        - gamma * (np.kron(z, z.T) + np.eye(N * N, dtype=complex))
+    )
+
+
+def _exact_action(h_left, h_right, z_left, z_right, gamma, matrix):
+    return (
+        -sympy.I * (h_left * matrix - matrix * h_right)
+        + gamma * (z_left * matrix * z_right - matrix)
+    ).applyfunc(sympy.expand)
+
+
+def _exact_generator_from_actions(h_left, h_right, z_left, z_right, gamma):
+    columns = []
+    for coordinate in range(N * N):
+        basis = sympy.zeros(N, N)
+        basis[coordinate // N, coordinate % N] = 1
+        columns.append(
+            _row_stack_exact(
+                _exact_action(h_left, h_right, z_left, z_right, gamma, basis)
+            )
+        )
+    return sympy.Matrix.hstack(*columns)
+
+
+def _exact_b_generator_from_h_z(h, z, gamma):
+    return _exact_generator_from_actions(h, h, z, -z, gamma)
+
+
+def _zero_cost_invariant_subspace_for_dissipator(h, z, *, carrier):
+    """Find the largest commutator-invariant subspace with zero dissipation."""
+    commutator_columns = []
+    dissipator_columns = []
+    for coordinate in range(N * N):
+        basis = sympy.zeros(N, N)
+        basis[coordinate // N, coordinate % N] = 1
+        commutator_columns.append(
+            _row_stack_exact(-sympy.I * (h * basis - basis * h))
+        )
+        if carrier == "A":
+            dissipator = z * basis * z - basis
+        elif carrier == "B":
+            dissipator = -(z * basis * z + basis)
+        else:
+            raise ValueError("carrier must be A or B")
+        dissipator_columns.append(_row_stack_exact(dissipator))
+    commutator = sympy.Matrix.hstack(*commutator_columns)
+    dissipator = sympy.Matrix.hstack(*dissipator_columns)
+    charged_coordinates = [
+        index for index in range(N * N) if dissipator[index, index] != 0
+    ]
+    forbidden_rows = sympy.zeros(len(charged_coordinates), N * N)
+    for row, coordinate in enumerate(charged_coordinates):
+        forbidden_rows[row, coordinate] = 1
+    return commutator, _largest_invariant_subspace(commutator, forbidden_rows)
+
+
+def _centre_first_partition(h, seat=SEAT):
+    order = [seat] + [index for index in range(N) if index != seat]
+    permuted = h.extract(order, order)
+    return permuted[1:, 1:], permuted[1:, 0]
+
+
+def exact_b_boundary_certificate():
+    """Certify that the physical centre/outer boundary has no B-peripheral mode."""
+    h, z, _, _ = exact_reduction_objects(
+        sympy.Rational(1, 8), sympy.Rational(3, 10)
+    )
+    h_outer, u = _centre_first_partition(h)
+    _, invariant = _zero_cost_invariant_subspace_for_dissipator(
+        h, z, carrier="B"
+    )
+    product = h_outer * u
+    if product != sympy.Matrix([0, 4, 0, 0, 4, 0]):
+        raise AssertionError("centre/outer product changed")
+    return {
+        "h_outer_times_u": product,
+        "has_peripheral_b_mode": invariant.cols != 0,
+        "peripheral_dimension": invariant.cols,
+        "peripheral_basis": invariant,
+    }
+
+
+def exact_b_boundary_control():
+    """Build a boundary with nonzero u in ker(h_outer) and verify the B case."""
+    gamma = sympy.Rational(3, 10)
+    u = sympy.Matrix([0, 0, 2, 2, 0, 0])
+    h_outer = sympy.zeros(6, 6)
+    h_outer[0, 1] = h_outer[1, 0] = 2
+    h_outer[4, 5] = h_outer[5, 4] = 2
+    h = sympy.zeros(N, N)
+    h[0, 1:] = u.T
+    h[1:, 0] = u
+    h[1:, 1:] = h_outer
+    z = sympy.diag(-1, 1, 1, 1, 1, 1, 1)
+    generator = _exact_b_generator_from_h_z(h, z, gamma)
+    _, invariant = _zero_cost_invariant_subspace_for_dissipator(
+        h, z, carrier="B"
+    )
+    if invariant.cols != 1:
+        raise AssertionError("control must create exactly one peripheral B direction")
+    witness = sympy.zeros(N, N)
+    witness[0, 1:] = u.T
+    witness[1:, 0] = u
+    residual = generator * _row_stack_exact(witness)
+    if residual != sympy.zeros(N * N, 1):
+        raise AssertionError("displayed control B direction is not stationary")
+    return {
+        "u_nonzero": u != sympy.zeros(6, 1),
+        "h_outer_times_u": h_outer * u,
+        "has_peripheral_b_mode": invariant.cols != 0,
+        "peripheral_dimension": invariant.cols,
+        "direct_generator_residual": residual,
+    }
+
+
+def _public_float_as_exact(value):
+    """Recover intended short decimal controls without introducing SymPy Float."""
+    if not isinstance(value, (float, int, np.floating, np.integer)):
+        return _exact_scalar(value)
+    return sympy.Rational(str(float(value))).limit_denominator(10**9)
+
+
+def _exact_control_h_z(epsilon, *, seat, both_ends):
+    epsilon = _exact_scalar(epsilon)
+    r = 1 + epsilon
+    h = sympy.zeros(N, N)
+    bonds = (2 * r, 2, 2, 2, 2, 2 * r if both_ends else 2)
+    for site, bond in enumerate(bonds):
+        h[site, site + 1] = h[site + 1, site] = bond
+    z = sympy.eye(N)
+    z[seat, seat] = -1
+    return h, z
+
+
+def exact_control_subspaces(epsilon, gamma, *, seat=SEAT, both_ends=False):
+    """Return exact stationary/peripheral bases for the three Task-4 controls."""
+    epsilon = _exact_scalar(epsilon)
+    gamma = _positive_exact_numeric_gamma(gamma)
+    h, z = _exact_control_h_z(epsilon, seat=seat, both_ends=both_ends)
+    generator = _exact_generator_from_h_z(h, z, gamma)
+    commutator, peripheral = _zero_cost_invariant_subspace_for_dissipator(
+        h, z, carrier="A"
+    )
+    watched = sympy.eye(N).col(seat)
+    krylov = sympy.Matrix.hstack(*[(h**power) * watched for power in range(N)])
+    blind_dimension = len(krylov.T.nullspace())
+    gram = sympy.conjugate(peripheral.T) * peripheral
+    restricted = (
+        gram.inv()
+        * sympy.conjugate(peripheral.T)
+        * commutator
+        * peripheral
+    )
+    stationary_coefficients = restricted.nullspace()
+    stationary = sympy.Matrix.hstack(
+        *[peripheral * vector for vector in stationary_coefficients]
+    )
+
+    if both_ends and seat == SEAT and 1 + epsilon in (
+        sympy.Rational(9, 10),
+        sympy.Rational(11, 10),
+    ):
+        expected = (4, 10)
+    elif not both_ends and seat == SEAT and epsilon != 0:
+        expected = (2, 2)
+    elif not both_ends and seat == 2 and epsilon == 0:
+        expected = (1, 1)
+    else:
+        raise ValueError("unsupported exact Task-4 control")
+
+    stationary_dimension = _exact_rank(stationary)
+    peripheral_dimension = _exact_rank(peripheral)
+    if (stationary_dimension, peripheral_dimension) != expected:
+        raise AssertionError("control subspace dimensions changed")
+    if peripheral_dimension != blind_dimension**2 + 1:
+        raise AssertionError("peripheral space is not the complete blind algebra plus identity")
+    if generator * stationary != sympy.zeros(N * N, stationary.cols):
+        raise AssertionError("stationary basis failed the exact generator gate")
+    complement = (
+        sympy.eye(N * N)
+        - peripheral * gram.inv() * sympy.conjugate(peripheral.T)
+    )
+    if complement * commutator * peripheral != sympy.zeros(
+        N * N, peripheral.cols
+    ):
+        raise AssertionError("peripheral span failed the exact invariance gate")
+    dissipator_residual = generator * peripheral - commutator * peripheral
+    if dissipator_residual != sympy.zeros(N * N, peripheral.cols):
+        raise AssertionError("peripheral span is not zero-cost")
+    return {
+        "stationary_basis": stationary,
+        "peripheral_basis": peripheral,
+        "stationary_dimension": stationary_dimension,
+        "peripheral_dimension": peripheral_dimension,
+        "blind_dimension": blind_dimension,
+        "restricted_commutator": restricted,
+    }
+
+
+def _float_generators(epsilon, gamma, *, seat, both_ends):
+    a = a_generator_float(
+        epsilon, gamma, seat=seat, both_ends=both_ends
+    )
+    h = hopping_float(epsilon, both_ends=both_ends)
+    z = watched_involution_float(seat)
+    identity = np.eye(N, dtype=complex)
+    b = (
+        -1j * (np.kron(h, identity) - np.kron(identity, h.T))
+        - gamma * (np.kron(z, z.T) + np.eye(N * N, dtype=complex))
+    )
+    return a, b
+
+
+def direct_float_gaps(epsilon, gamma, *, seat=SEAT, both_ends=False):
+    """Read all 49 A/B eigenvalues after exact case-specific classification."""
+    exact_epsilon = _public_float_as_exact(epsilon)
+    exact_gamma = _public_float_as_exact(gamma)
+    certificate = exact_control_subspaces(
+        exact_epsilon,
+        exact_gamma,
+        seat=seat,
+        both_ends=both_ends,
+    )
+    a, b = _float_generators(
+        epsilon, gamma, seat=seat, both_ends=both_ends
+    )
+    a_values = np.linalg.eigvals(a)
+    b_values = np.linalg.eigvals(b)
+    scale = max(1.0, np.linalg.norm(a, ord=2), np.linalg.norm(b, ord=2))
+    tolerance = 128 * np.finfo(float).eps * scale
+    peripheral_mask = np.abs(a_values.real) <= tolerance
+    stationary_mask = np.abs(a_values) <= tolerance
+    if int(np.count_nonzero(peripheral_mask)) != certificate["peripheral_dimension"]:
+        raise AssertionError("float peripheral count disagrees with exact certificate")
+    if int(np.count_nonzero(stationary_mask)) != certificate["stationary_dimension"]:
+        raise AssertionError("float stationary count disagrees with exact certificate")
+
+    positive_a_rates = sorted(
+        -value.real for value in a_values if -value.real > tolerance
+    )
+    if not positive_a_rates:
+        raise AssertionError("control has no decaying A eigenvalue")
+    max_a_rate = max(-a_values.real)
+    nonstationary_peripheral = (
+        certificate["peripheral_dimension"] - certificate["stationary_dimension"]
+    )
+    a_gap = 0.0 if nonstationary_peripheral else positive_a_rates[0]
+    next_distinct_a_rate = next(
+        (
+            rate
+            for rate in positive_a_rates
+            if rate > a_gap + tolerance
+        ),
+        positive_a_rates[0],
+    )
+
+    expected_b = -2 * gamma - np.conj(a_values)
+    cost = np.abs(b_values[:, None] - expected_b[None, :])
+    b_indices, a_indices = linear_sum_assignment(cost)
+    spectral_residuals = cost[b_indices, a_indices]
+    paired_rate_residuals = [
+        abs(
+            -b_values[b_index].real
+            - (2 * gamma - (-a_values[a_index].real))
+        )
+        for b_index, a_index in zip(b_indices, a_indices)
+    ]
+    if len(spectral_residuals) != N * N:
+        raise AssertionError("full A/B spectrum was not matched")
+    b_gap = min(-b_values.real)
+    return {
+        "stationary_dimension": certificate["stationary_dimension"],
+        "peripheral_dimension": certificate["peripheral_dimension"],
+        "nonstationary_peripheral_dimension": nonstationary_peripheral,
+        "a_gap": float(a_gap),
+        "next_distinct_a_rate": float(next_distinct_a_rate),
+        "max_a_rate": float(max_a_rate),
+        "b_gap": float(b_gap),
+        "paired_rate_residuals": paired_rate_residuals,
+    }
+
+
+def float_peripheral_count(epsilon, gamma, *, seat=SEAT, both_ends=False):
+    """Return the numerical imaginary-axis count after exact classification."""
+    return direct_float_gaps(
+        epsilon, gamma, seat=seat, both_ends=both_ends
+    )["peripheral_dimension"]
+
+
+def tracked_reduced_gap(epsilon, gamma):
+    """Coarsely continue the reduced root nearest -2 sqrt(2) i."""
+    values = np.linalg.eigvals(k_reduced_float(epsilon, gamma))
+    target = -2j * np.sqrt(2.0)
+    root = values[np.argmin(np.abs(values - target))]
+    return float(-root.real)
+
+
+def direct_carrier_blocks(epsilon, gamma):
+    """Construct all four global-flip carrier blocks from their own actions."""
+    epsilon = _exact_scalar(epsilon)
+    gamma = _positive_exact_numeric_gamma(gamma)
+    h_1, z_1 = _exact_control_h_z(epsilon, seat=SEAT, both_ends=False)
+    h_6, z_6_positive = _exact_control_h_z(
+        epsilon, seat=SEAT, both_ends=False
+    )
+    z_6 = -z_6_positive
+    return {
+        "A_11": _exact_generator_from_actions(h_1, h_1, z_1, z_1, gamma),
+        "A_66": _exact_generator_from_actions(h_6, h_6, z_6, z_6, gamma),
+        "B_16": _exact_generator_from_actions(h_1, h_6, z_1, z_6, gamma),
+        "B_61": _exact_generator_from_actions(h_6, h_1, z_6, z_1, gamma),
+    }
+
+
+def _coefficient_residual(left, right):
+    differences = [
+        sympy.expand(a - b)
+        for a, b in zip(left.charpoly().all_coeffs(), right.charpoly().all_coeffs())
+    ]
+    return sympy.simplify(
+        sum(sympy.conjugate(value) * value for value in differences)
+    )
+
+
+def b_spectrum_mutation_residuals(epsilon, gamma):
+    """Gate the full monic B spectrum against mutations that change its spectrum."""
+    epsilon = _exact_scalar(epsilon)
+    gamma = _positive_exact_numeric_gamma(gamma)
+    blocks = direct_carrier_blocks(epsilon, gamma)
+    a = blocks["A_11"]
+    b = blocks["B_16"]
+    identity = sympy.eye(N * N)
+    correct = -2 * gamma * identity - a.conjugate().T
+    h, z = _exact_control_h_z(epsilon, seat=SEAT, both_ends=False)
+    missing_right_action = _exact_generator_from_actions(
+        h, sympy.zeros(N, N), z, -z, gamma
+    )
+    wrong_price_sign = 2 * gamma * identity - a.conjugate().T
+    return {
+        "correct": _coefficient_residual(b, correct),
+        "missing_right_action": _coefficient_residual(
+            b, missing_right_action
+        ),
+        "wrong_price_sign": _coefficient_residual(b, wrong_price_sign),
+    }
+
+
+def b_operator_mutation_residuals(epsilon, gamma):
+    """Detect the adjoint entrywise; its omission is isospectral in this case."""
+    epsilon = _exact_scalar(epsilon)
+    gamma = _positive_exact_numeric_gamma(gamma)
+    blocks = direct_carrier_blocks(epsilon, gamma)
+    a = blocks["A_11"]
+    b = blocks["B_16"]
+    identity = sympy.eye(N * N)
+    correct = -2 * gamma * identity - a.conjugate().T
+    omitted_adjoint = -2 * gamma * identity - a
+
+    def entrywise_residual(candidate):
+        delta = b - candidate
+        return sympy.simplify(
+            sum(sympy.conjugate(value) * value for value in delta)
+        )
+
+    return {
+        "correct": entrywise_residual(correct),
+        "omitted_adjoint": entrywise_residual(omitted_adjoint),
     }
