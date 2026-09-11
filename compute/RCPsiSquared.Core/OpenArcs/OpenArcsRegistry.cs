@@ -9336,6 +9336,127 @@ public static class OpenArcsRegistry
                 + "records, the one whose heading is about a caveat outliving its gate: a check can be "
                 + "exact, cheap, correctly derived, and still not be a check of the claim.",
             Status: OpenArcStatus.Open),
+        new OpenArc(
+            Name: "adjacency_has_no_instrument",
+            Opened: "2026-09-11",
+            Origin: "Tom, 2026-08-07: at this density the highest-value move is no longer finding an " +
+                "answer, it is finding that two answers are the SAME OBJECT, and rediscovery is the " +
+                "expected texture rather than a failure. Halves of that rule are committed already, the " +
+                "lookup half as the Stage-0 gate and the document-layer half as .githooks/" +
+                "check_back_edges.py; what has no repo-side home is the RULE, which lives in a private " +
+                "memory file (connecting_is_the_new_stage_zero) the repo cannot read, and giving it one " +
+                "is most of what this arc is. It is already owned four ways and " +
+                "this entry cites them because not citing them is the exact defect it is about: the lens " +
+                "naming-what-we-already-own (2026-08-26) carries the measured diagnosis, the repository " +
+                "is not name-ignorant but NAME-FRAGMENTED and what it does not own is the edge between " +
+                "the file holding a name and the file using the object, plus the acceptance test that " +
+                "binds the next step (if joining two names hands you no theorem, no method and no new " +
+                "question, it did not fire; a renaming is not a finding); reflections/" +
+                "ON_FIVE_PAGES_THAT_NEVER_MET.md:202-207 already audited check_back_edges.py from below " +
+                "and named its blind spots, chiefly a link missing on BOTH sides, which is what an " +
+                "adjacency scan has to find and a back-edge scan structurally cannot; the arc " +
+                "sideways_spin_ladder records a deliberate run of the instrument, an adjacency " +
+                "sweep asked not for errors but for two results about the same object that never cite " +
+                "each other, returning F125 and F142, an adjacency that had been one grep away for " +
+                "months (that is the arc's OPENING; a later session closing an item without citing the " +
+                "same arc is the SEPARATE event the Stage-0 bullet narrates, and conflating the two " +
+                "turns an instrument success into a gate failure); and f_registry_meets_the_typed_layer " +
+                "already owns half of the next step below. " +
+                "WHAT IS NEW AND MEASURED, verified in the source on 2026-09-11 and written down " +
+                "nowhere: our typed layer is two different kinds of object and only one of them is a " +
+                "store. On the physics side there is no operation that places a claim under a parent. " +
+                "Register<T> records a FACTORY and no claim exists until Build() invokes it; the only " +
+                "thing that creates an EDGE is a child calling " +
+                "b.Get<Parent>() while constructing itself, and the edge records that as its Reason " +
+                "string (RCPsiSquared.Runtime/ObjectManager/ClaimRegistryBuilder.cs:169-188, the sole " +
+                "PRODUCTION site tree-wide; the only other constructions are inside EdgeTests). The relation carries a derivation-only invariant, parent.Tier at least " +
+                "as strong as child.Tier, whose hint asks you to downgrade the child or strengthen the " +
+                "foundation under the parent (same file, 88-100), which is meaningless under a " +
+                "containment reading; the registry is keyed by TYPE, Dictionary<Type, Claim>, and Claim " +
+                "carries Name, Tier and Anchor and no owner field. The genre is stated outright at " +
+                "Claim.cs:10-13, each concrete subclass IS its own computation, and at IInspectable.cs:" +
+                "5-6, every implementer is a computational unit and not a data carrier, with storage the " +
+                "exceptional case that must be confessed as NodeProvenance.Stored. The half whose " +
+                "subject is this project itself is not that: the CLI glossary node and OpenArc carry no " +
+                "pointer FIELD (OpenArc.cs:28-36), their cross-references living in free prose like the " +
+                "file paths in this very sentence, which is why no tool can follow them; and " +
+                "Confirmation carries three one-directional pointer fields (HardwareData, ExperimentDoc, " +
+                "FrameworkPrimitive), of which ExperimentDoc is already half-plumbed into the one field " +
+                "the tree DOES walk, since HardwareConfirmationClaim passes it in as the Claim Anchor " +
+                "and only two exclusions keep it out of the anchor audit (the DeferredClaims allowlist, " +
+                "and having no parameterless ctor). That makes Confirmation the cheapest first target " +
+                "rather than part of an undifferentiated flat half. " +
+                "THREE FENCES THIS ARC KEEPS, each of them a first-draft claim that did not survive its " +
+                "review rounds. FIRST, the walk is NOT the edge relation: ClaimGraphWalker is reflection " +
+                "over typed Claim-valued properties, not over Edge, nothing of it routes through the " +
+                "builder, and that second relation is NOT tier-checked, so the two halves of the " +
+                "argument are about two different relations; whether they differ EXTENSIONALLY on the " +
+                "live registry is not measured. ClaimGraphWalker is also referenced from nothing but " +
+                "its own test file, while the instrument the Stage-0 bullet names, knowledge ancestors, " +
+                "runs on the Edge relation. Its reach is narrower than its own class " +
+                "comment: the comment says F99-anchor information is reconstructible from F97 by " +
+                "parent-walking, and the test in the same suite, WalkFromF97_BuildsPartialMap_" +
+                "OnlyParents_NoDirectClaim, asserts CoveredAnchors EMPTY, all five anchors gaps, and " +
+                "calls F97's vantage F99-anchor-BLIND; what the walk recovers is two Parent-role " +
+                "foundations. SECOND, possession is not the defect: MirrorWorld's Own declares what the " +
+                "object PRODUCES itself rather than what it computes or holds (GameObject.cs:3-5), and " +
+                "Inherited is walked rather than stored (16-19). THIRD, and this is the one that cost " +
+                "the evening: the measured asymmetry explains NO MISS EXAMINED HERE, and the first " +
+                "draft's evidence that it explains ours collapsed under review. The 2026-08-07 case (commit e8b70e22, " +
+                "whose title says two arcs and whose body says two DOCUMENTS, F142 then appearing in no " +
+                "arc at all) is the instrument SUCCEEDING, not the gate failing; the 2026-09-03 F153 " +
+                "case is filed in docs/CAUGHT_ERRORS.md:1642-1658 as a coverage defect, a store named " +
+                "but not searched and one of the typed layer's two halves in no store list, i.e. fixed " +
+                "by a more thorough lookup; and mirrorworld_owns_no_time is an EMPTY STORE, a finding " +
+                "never written down, which no walk would have reached either since there was no node. " +
+                "That is three cases and not a survey, and the scoped form is the honest one, because the " +
+                "repo DOES hold one measured miss of the adjacency shape and it is none of these three: " +
+                "reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md:151-153 counts three of the fifty-six " +
+                "possible directed links among eight pages, and :177-182 records a page on file five " +
+                "months before the same result was derived a second time. No more thorough lookup " +
+                "reaches that one; the pages were IN the stores. The lookup question and the adjacency " +
+                "question are two questions, and the second one is unasked; that the first one is the " +
+                "WRONG question is not shown and is not claimed.",
+            ParkedAt: "Nothing is BUILT. The only measurement is the calibration in the next step, the " +
+                "presence-test census over this ledger, taken so the recipe would not be proposed " +
+                "untested. The Stage-0 bullet in CLAUDE.md and " +
+                "AGENTS.md now names the adjacency step and the two instruments that exist, but both " +
+                "files are gitignored, so this entry is the only carrier of the rule that reaches a " +
+                "clone. The source-layer inventory above was read once, by hand, on 2026-09-11.",
+            NextStep:
+                "Build the adjacency scan for the flat registries, which is the one layer with no edges " +
+                "to walk and the case ON_FIVE_PAGES_THAT_NEVER_MET named as the back-edge hook's blind " +
+                "spot (a link missing on BOTH sides). For every pair of arcs in this registry, count the " +
+                "shared load-bearing tokens (F-numbers, Claim and witness type names, proof and " +
+                "experiment filenames, run-mode names), keep the pairs that mention each other in neither " +
+                "direction, and RANK them. The token currency exists but must be EXTENDED, not merely " +
+                "reused: .githooks/check_coupling.py:30-37 implements " +
+                "F-numbers, PROOF_ names, D-numbers, .md filenames and repo paths, and covers NEITHER " +
+                "bare Claim and witness type names NOR run-mode names, which is two of the five classes " +
+                "above. AND PRESENCE IS NOT A THRESHOLD, measured before proposing it: run over the 59 " +
+                "arcs on 2026-09-11 with those patterns alone, 366 of 1711 pairs share at least one " +
+                "token and 335 of those cite each other in neither direction, the top pairs being " +
+                "hub-shaped rather than adjacent. So the RANKING is the instrument, not the matching: " +
+                "weight a shared token by its rarity across the ledger and a pair by the rarest token it " +
+                "shares. Measured the same day, that one move cuts 335 to 48: the pairs whose rarest " +
+                "shared token appears in NO other arc. A list nobody can read is the same as no list. " +
+                "Confirmation " +
+                "is the cheaper second target because it already carries pointer FIELDS, one of which " +
+                "(ExperimentDoc) is already plumbed into the walked Anchor, so the parsing is half done. For the third target, the F-registry against the Claim graph, do NOT " +
+                "re-measure: f_registry_meets_the_typed_layer ran registry-to-code on 2026-08-13 and " +
+                "records the other direction as its own open work, so fold into it. Three cautions. " +
+                "FIRST, a shared token is not a shared object, and the over-connection trap is already " +
+                "owned at docs/CAUGHT_ERRORS.md:493-497 (a numerical coincidence dressed as one " +
+                "mechanism) with its mirror, over-separation, at 542-549; the output is therefore a " +
+                "READING LIST and not a finding, as the back-edge hook is non-blocking and asks a " +
+                "question rather than asserting a defect. SECOND, having found a candidate pair, read " +
+                "the HOST document end to end before claiming to join them: the 2026-08-07 evening lost " +
+                "three of its four consequences to the fact that they were already written in section 6 " +
+                "of the document being extended. THIRD, do not add a parent field to OpenArc to make a " +
+                "walk possible: an arc's edges are not derivations, the tier invariant would be a lie on " +
+                "them, and inventing structure to fit the instrument is how a measurement stops " +
+                "measuring.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;
