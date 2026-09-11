@@ -1,14 +1,404 @@
 import math
+import hashlib
+import json
 import sys
 from pathlib import Path
 
 import numpy as np
 import pytest
 import sympy
+import mpmath as mp
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from simulations import missing_phase_relaxation_scale as mprs
+
+
+def trusted_precision_fixture():
+    return mprs.PrecisionDiagnostics(
+        rank=2,
+        eigenvalue_error=1e-12,
+        gap=1e-4,
+        sep_complex=1e-2,
+        sep_sylvester=1e-2,
+        subspace_error=1e-10,
+        projector_difference=1e-11,
+        light=2e-4,
+        light_difference=1e-10,
+        max_principal_angle=1e-5,
+        eigenvalue_pair_error=1e-13,
+    )
+
+
+def test_precision_contract_accepts_only_the_complete_trusted_fixture():
+    value = trusted_precision_fixture()
+    assert mprs.classify_precision_pair(
+        value, value, independently_reconstructed=True
+    ) == "TRUSTED"
+
+
+def test_precision_contract_rejects_reuse_rank_and_nonfinite_fields():
+    value = trusted_precision_fixture()
+    assert mprs.classify_precision_pair(
+        value, value, independently_reconstructed=False
+    ) == "UNRESOLVED"
+    rank_one = mprs.replace_diagnostic(value, rank=1)
+    assert mprs.classify_precision_pair(
+        rank_one, value, independently_reconstructed=True
+    ) == "UNRESOLVED"
+    for field in mprs.PrecisionDiagnostics.__dataclass_fields__:
+        if field != "rank":
+            nonfinite = mprs.replace_diagnostic(value, **{field: float("nan")})
+            assert mprs.classify_precision_pair(
+                nonfinite, value, independently_reconstructed=True
+            ) == "UNRESOLVED"
+
+
+def test_precision_contract_rejects_every_geometric_and_spectral_failure():
+    value = trusted_precision_fixture()
+    cases = [
+        {"sep_sylvester": 0.0},
+        {"subspace_error": 2e-10},
+        {"eigenvalue_error": 6e-5, "subspace_error": 6e-3},
+        {"sep_complex": 3e-12},
+        {"max_principal_angle": math.pi / 2},
+    ]
+    for change in cases:
+        bad = mprs.replace_diagnostic(value, **change)
+        assert mprs.classify_precision_pair(
+            bad, value, independently_reconstructed=True
+        ) == "UNRESOLVED"
+
+
+def test_precision_contract_rejects_half_radius_even_if_projector_bound_passes():
+    value = trusted_precision_fixture()
+    bad = mprs.replace_diagnostic(
+        value,
+        sep_sylvester=1e-12 / 0.3,
+        subspace_error=0.3,
+        projector_difference=0.1,
+    )
+    assert bad.projector_difference <= 2 * bad.subspace_error
+    assert mprs.classify_precision_pair(
+        bad, bad, independently_reconstructed=True
+    ) == "UNRESOLVED"
+
+
+def test_precision_contract_projector_light_sylvester_and_both_records_fail():
+    value = trusted_precision_fixture()
+    rotated = mprs.replace_diagnostic(
+        value, projector_difference=3e-10, light_difference=0.0
+    )
+    touches_zero = mprs.replace_diagnostic(
+        value, light=1e-10, light_difference=6e-11
+    )
+    weak_sylvester = mprs.replace_diagnostic(
+        value, sep_complex=1.0, sep_sylvester=1e-30,
+        subspace_error=1e18,
+    )
+    bad_pair = mprs.replace_diagnostic(value, eigenvalue_pair_error=1e-6)
+    for bad in (rotated, touches_zero, weak_sylvester, bad_pair):
+        assert mprs.classify_precision_pair(
+            value, bad, independently_reconstructed=True
+        ) == "UNRESOLVED"
+
+
+def test_precision_local_builds_parse_exact_tokens_and_allocate_fresh_storage():
+    low_k = mprs.build_k_mp("1/8", "3/10", 53)
+    high_k = mprs.build_k_mp("1/8", "3/10", 106)
+    another_high_k = mprs.build_k_mp("1/8", "3/10", 106)
+    assert low_k.token < high_k.token < another_high_k.token
+    assert low_k.matrix is not high_k.matrix
+    assert high_k.matrix is not another_high_k.matrix
+    with mp.workprec(106):
+        assert high_k.matrix[0, 1] == -mp.j * mp.mpf(9) / 4
+        assert high_k.matrix[3, 3] == -mp.mpf(3) / 5
+
+    low_a = mprs.build_a_mp("1/8", "3/10", 53)
+    high_a = mprs.build_a_mp("1/8", "3/10", 106)
+    low_b = mprs.build_b_mp("1/8", "3/10", 53)
+    high_b = mprs.build_b_mp("1/8", "3/10", 106)
+    assert len({low_a.token, high_a.token, low_b.token, high_b.token}) == 4
+    assert low_a.matrix.rows == high_a.matrix.rows == 49
+    assert low_b.matrix.rows == high_b.matrix.rows == 49
+    with mp.workprec(106):
+        assert high_a.matrix[0, 1] == mp.j * mp.mpf(9) / 4
+        assert high_b.matrix[0, 1] == mp.j * mp.mpf(9) / 4
+
+
+def test_promoting_a_low_matrix_is_not_independent_and_build_discrepancy_survives():
+    low = mprs.build_a_mp("1/8", "3/10", 53)
+    high = mprs.build_a_mp("1/8", "3/10", 106)
+    promoted = mprs.promote_precision_matrix(low, 106)
+    assert promoted.independently_reconstructed is False
+    assert mprs.precision_build_discrepancy(promoted, high) >= 0
+
+    mutant = mprs.perturb_precision_matrix(low, 0, 1, "1/1000000")
+    identity_vector = mp.matrix(
+        [1 if index // 7 == index % 7 else 0 for index in range(49)]
+    )
+    residual = mprs.right_eigen_residual_for_matrix(
+        mutant.matrix, identity_vector, mp.mpf("0")
+    )
+    # This deliberately exact one-coordinate eigenpair belongs to the mutant,
+    # yet the independent construction discrepancy still exposes the mutation.
+    assert residual == 0
+    assert mprs.precision_build_discrepancy(mutant, high) > 0
+
+    assert mprs.precision_matrices_are_independent(low, high)
+    assert not mprs.precision_matrices_are_independent(low, promoted)
+    value = trusted_precision_fixture()
+    assert mprs.classify_precision_build_pair(value, value, low, high) == "TRUSTED"
+    assert mprs.classify_precision_build_pair(value, value, low, promoted) == "UNRESOLVED"
+
+
+def test_overlap_ambiguity_gate_is_dimensionless_under_time_rescaling():
+    original = mprs.candidate_overlap_is_ambiguous(0.9, 0.8, 1e-8, 2e-8, 1e-4)
+    scaled = mprs.candidate_overlap_is_ambiguous(0.9, 0.8, 7e-8, 14e-8, 7e-4)
+    assert original == scaled
+
+
+def test_spectral_norm_is_not_the_frobenius_norm():
+    matrix = mp.diag([3, 4])
+    assert mprs.spectral_norm_mp(matrix) == pytest.approx(4.0)
+
+
+def test_precision_decision_exposes_the_single_failure_source_of_truth():
+    good = trusted_precision_fixture()
+    bad = mprs.replace_diagnostic(good, rank=1)
+    decision = mprs.decide_precision_pair(
+        bad, good, independently_reconstructed=True
+    )
+    assert decision.status == "UNRESOLVED"
+    assert "rank" in " ".join(decision.failures).lower()
+    assert mprs.classify_precision_pair(
+        bad, good, independently_reconstructed=True
+    ) == decision.status
+
+
+def test_zero_seed_is_the_full_rank_two_right_and_left_cluster():
+    seed = mprs.seed_cluster_at_zero("3/10", 53)
+    assert seed.epsilon_token == "0"
+    assert seed.rank == 2
+    assert seed.right_basis.rows == seed.left_basis.rows == 49
+    assert seed.right_basis.cols == seed.left_basis.cols == 2
+    a = mprs.build_a_mp("0", "3/10", 53).matrix
+    aadj = a.transpose_conj()
+    assert mp.norm(a * seed.right_basis - seed.right_basis * mp.diag(seed.right_ritz)) < mp.mpf("1e-12")
+    assert mp.norm(aadj * seed.left_basis - seed.left_basis * mp.diag(seed.left_ritz)) < mp.mpf("1e-12")
+
+
+def test_cluster_tracking_and_ordered_block_form_use_two_sided_subspaces():
+    seed = mprs.seed_cluster_at_zero("3/10", 53)
+    a = mprs.build_a_mp("1/8", "3/10", 53).matrix
+    state = mprs.track_cluster(
+        a, a.transpose_conj(), seed, "1/8", 53, mp.mpf("0.3")
+    )
+    assert state is not None
+    assert state.rank == 2
+    assert max(abs(value - 2j * mp.sqrt(2)) for value in state.right_ritz) < mp.mpf("0.3")
+    tr, pr, lower_r = mprs.ordered_block_form(a, state.right_basis)
+    tl, pl, lower_l = mprs.ordered_block_form(a.transpose_conj(), state.left_basis)
+    assert (tr.rows, pr.rows, pr.cols) == (2, 47, 47)
+    assert (tl.rows, pl.rows, pl.cols) == (2, 47, 47)
+    assert mp.norm(lower_r) < mp.mpf("1e-10")
+    assert mp.norm(lower_l) < mp.mpf("1e-10")
+
+
+@pytest.mark.parametrize("epsilon_token", ["1/8", "-1/8"])
+def test_adaptive_bridge_resolves_the_gamma_point_zero_three_direct_jump(epsilon_token):
+    seed = mprs.seed_cluster_at_zero("3/100", 53)
+    radius = mprs.ordinary_cluster_separation(
+        mprs.build_a_mp("0", "3/100", 53).matrix, seed
+    ) / 3
+    target = mprs.build_a_mp(epsilon_token, "3/100", 53).matrix
+    assert mprs.track_cluster(
+        target, target.transpose_conj(), seed, epsilon_token, 53, radius
+    ) is None
+    bridged, bridge_tokens = mprs.adaptive_track_from_zero(
+        epsilon_token, "3/100", 53
+    )
+    assert bridged is not None
+    assert bridged.rank == 2
+    assert bridge_tokens[0] == "0"
+    assert bridge_tokens[-1] == epsilon_token
+    # The rank-two branch is the reduced K root doubled by the two embeddings.
+    k_values = mp.eig(mprs.build_k_mp(epsilon_token, "3/100", 53).matrix, left=False, right=False)
+    selected = min(k_values, key=lambda value: abs(value - 2j * mp.sqrt(2)))
+    assert max(abs(value - selected) for value in bridged.right_ritz) < mp.mpf("1e-10")
+
+
+@pytest.mark.parametrize("epsilon_token", ["1/8", "-1/8"])
+def test_precision_diagnostics_certify_both_orthogonal_absorption_lights(epsilon_token):
+    result = mprs.measure_precision_pair(epsilon_token, "3/10", 53, 106)
+    assert result["status"] == "TRUSTED"
+    assert result["low"].rank == result["high"].rank == 2
+    for side in ("right", "left"):
+        assert abs(result["absorption_residuals"][side]) <= result["absorption_error"]
+        assert result["unnormalized_lights"][side] == pytest.approx(
+            2 * result["lights"][side], rel=1e-10
+        )
+    assert result["biorthogonal_light"] != pytest.approx(result["lights"]["right"], rel=1e-8)
+    assert result["biorthogonal_light"] != pytest.approx(result["lights"]["left"], rel=1e-8)
+    assert result["right_projector_difference"] > 0
+    assert result["left_projector_difference"] > 0
+    assert result["right_light_difference"] >= 0
+    assert result["left_light_difference"] >= 0
+    assert result["full_b_match_residual"] <= result["full_b_match_error"]
+    assert result["global_flip_copy_residual"] == 0
+
+
+def test_measured_mutations_reach_unresolved_without_status_override():
+    tail = mprs.fixed_kernel_cutoff_mutation("3/10", cutoff=1e-8, maximum_power=13)
+    assert tail["misclassified"]
+    assert tail["status"] == "UNRESOLVED"
+
+    toy = mprs.nonnormal_sylvester_mutation()
+    assert toy["sep_complex"] > 0.5
+    assert toy["sep_sylvester"] < 1e-6
+    assert toy["status"] == "UNRESOLVED"
+
+    projectors = mprs.equal_light_rotated_projector_mutation()
+    assert projectors["light_difference"] == pytest.approx(0.0, abs=1e-15)
+    assert projectors["projector_difference"] > 0.1
+    assert projectors["status"] == "UNRESOLVED"
+
+
+def test_exact_one_plus_six_liouville_decomposition_gates_the_full_49_matrix():
+    build = mprs.build_a_mp("1/8", "3/10", 53)
+    decomposition = mprs.carrier_block_decomposition(build, "1/8")
+    assert decomposition["dimensions"] == [1, 6, 6, 36]
+    assert decomposition["unitarity_residual"] < 1e-14
+    assert decomposition["off_block_residual"] < 1e-14
+    assert decomposition["full_spectrum_union_residual"] < 1e-10
+    assert decomposition["full_eigen_residual"] < 1e-10
+
+
+def test_native_block_separation_solves_at_most_the_36_dimensional_complement():
+    build = mprs.build_a_mp("1/8", "3/10", 53)
+    state = mprs.reduced_cluster_state("1/8", "3/10", 53)
+    separation = mprs.native_block_separation(build.matrix, state, "1/8", 53)
+    assert separation["block_dimensions"] == [1, 5, 5, 36]
+    assert separation["sep_complex"] > 0
+    assert separation["sep_sylvester"] > 0
+    assert separation["off_block_residual"] < 1e-12
+    assert separation["lower_left_residual"] < 1e-12
+
+
+def test_fresh_b_operator_map_is_entrywise_and_not_a_cluster_only_claim():
+    result = mprs.measure_precision_pair("1/8", "3/10", 53, 106)
+    assert result["b_operator_map_residual"] == 0
+    assert result["b_operator_map_bound"] > 0
+    a = mprs.build_a_mp("1/8", "3/10", 106)
+    adjoint = mprs.build_a_adjoint_mp("1/8", "3/10", 106)
+    assert a.token != adjoint.token
+    assert a.matrix is not adjoint.matrix
+    assert max(
+        abs(adjoint.matrix[i, j] - a.matrix.transpose_conj()[i, j])
+        for i in range(49) for j in range(49)
+    ) == 0
+
+    a1 = mprs.build_global_flip_carrier_mp("1/8", "3/10", 106, "A", "original")
+    a2 = mprs.build_global_flip_carrier_mp("1/8", "3/10", 106, "A", "global_flip")
+    b1 = mprs.build_global_flip_carrier_mp("1/8", "3/10", 106, "B", "original")
+    b2 = mprs.build_global_flip_carrier_mp("1/8", "3/10", 106, "B", "global_flip")
+    assert len({a1.token, a2.token, b1.token, b2.token}) == 4
+    assert a1.exact_input_fingerprint != a2.exact_input_fingerprint
+    assert b1.exact_input_fingerprint != b2.exact_input_fingerprint
+    assert a1.matrix == a2.matrix
+    assert b1.matrix == b2.matrix
+    mutation = mprs.global_flip_copy_mutation_residuals("1/8", "3/10", 106)
+    assert mutation["correct_A"] == 0
+    assert mutation["correct_B"] == 0
+    assert mutation["one_sided_B_flip"] > 0
+
+
+@pytest.mark.parametrize("epsilon_token", ["1/8", "-1/8"])
+def test_factor_continuation_selects_the_same_full49_cluster_as_direct_tracking(epsilon_token):
+    seed = mprs.seed_cluster_at_zero("3/10", 53)
+    zero = mprs.build_a_mp("0", "3/10", 53).matrix
+    radius = mprs.ordinary_cluster_separation(zero, seed) / 3
+    matrix = mprs.build_a_mp(epsilon_token, "3/10", 53).matrix
+    direct = mprs.track_cluster(
+        matrix, matrix.transpose_conj(), seed, epsilon_token, 53, radius
+    )
+    factor, record = mprs.factor_track_cluster(
+        matrix, seed, epsilon_token, "3/10", 53, radius
+    )
+    assert direct is not None and factor is not None
+    assert record["candidate_count"] in (2, 3, 4)
+    assert record["overlap_margin"] > record["dimensionless_uncertainty"]
+    assert np.linalg.norm(
+        mprs._mp_to_numpy(direct.right_basis * direct.right_basis.transpose_conj())
+        - mprs._mp_to_numpy(factor.right_basis * factor.right_basis.transpose_conj()),
+        2,
+    ) < 1e-10
+
+
+def test_real_branch_validation_runs_the_prescribed_path_for_every_gamma():
+    paths = mprs._branch_paths(("1/10", "-1/10", "1/8", "-1/8", "1/16", "-1/16"))
+    for gamma in ("3/100", "3/10", "3"):
+        records = mprs.validate_continuation_paths(paths, gamma, 53)
+        assert set(records) == {"positive", "negative"}
+        for branch, steps in records.items():
+            assert [step["epsilon_token"] for step in steps] == paths[branch][1:]
+            assert all(step["status"] == "TRACKED" for step in steps)
+
+
+def test_compact_certificate_schema_scaling_and_deterministic_atomic_bytes(tmp_path):
+    kwargs = {
+        "gamma_tokens": ("3/10",),
+        "epsilon_tokens": ("1/8", "-1/8", "1/16", "-1/16"),
+    }
+    first = mprs.build_certificate(**kwargs)
+    second = mprs.build_certificate(**kwargs)
+    assert first["schema"] == "missing-phase-relaxation-scale/v1"
+    assert first["scope"] == {
+        "N": 7, "sector": [1, 1], "seat": 3, "path": "r=1+epsilon"
+    }
+    assert first["verdict"] == "PASS"
+    assert len(first["rows"]) == 4
+    assert first["scaling"]
+    for row in first["rows"]:
+        assert row["status"] == "TRUSTED"
+        assert "right_light" in row and "left_light" in row
+        assert "right_projector_difference" in row
+        assert "left_projector_difference" in row
+        assert "vectors" not in row and "spectrum" not in row
+    for read in first["scaling"]:
+        for name in ("p_plus", "p_minus", "c2", "c3"):
+            assert math.isfinite(float(read[name]["value"]))
+            assert len(read[name]["interval"]) == 2
+
+    output = tmp_path / "certificate.json"
+    mprs.write_atomic_json(output, first)
+    bytes_one = output.read_bytes()
+    mprs.write_atomic_json(output, second)
+    bytes_two = output.read_bytes()
+    assert hashlib.sha256(bytes_one).digest() == hashlib.sha256(bytes_two).digest()
+    assert bytes_one.endswith(b"\n")
+    assert json.loads(bytes_one)["verdict"] == "PASS"
+    assert not output.with_suffix(output.suffix + ".tmp").exists()
+
+
+def test_exception_atomically_replaces_a_stale_pass_with_structured_unresolved(tmp_path):
+    output = tmp_path / "certificate.json"
+    output.write_text('{"verdict":"PASS"}\n', encoding="utf-8")
+
+    def broken_measure(*_args):
+        raise RuntimeError("injected eigensolver failure")
+
+    exit_code = mprs.run_certificate(
+        output,
+        gamma_tokens=("3/10",),
+        epsilon_tokens=("1/8",),
+        measure=broken_measure,
+    )
+    document = json.loads(output.read_text(encoding="utf-8"))
+    assert exit_code != 0
+    assert document["verdict"] == "UNRESOLVED"
+    assert "injected eigensolver failure" in document["rows"][0]["attempts"][0]["failures"][0]
+    assert not output.with_suffix(output.suffix + ".tmp").exists()
 
 
 def independent_action(h, gamma, x, seat=3):
