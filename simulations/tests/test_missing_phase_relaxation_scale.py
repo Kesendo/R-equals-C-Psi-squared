@@ -294,6 +294,61 @@ def test_uniform_peripheral_census_is_complete_and_not_just_the_kernel():
     assert census["peripheral_dimension"] != census["kernel_dimension"]
 
 
+def test_uniform_census_uses_ranks_and_rejects_a_duplicated_frequency_vector():
+    gamma = sympy.Rational(3, 10)
+    certificate = mprs.exact_uniform_peripheral_certificate(gamma)
+    assert certificate["per_frequency_ranks"] == {
+        "-4sqrt2i": 1,
+        "-2sqrt2i": 2,
+        "0": 4,
+        "+2sqrt2i": 2,
+        "+4sqrt2i": 1,
+    }
+    assert certificate["combined_operator_rank"] == 10
+    assert certificate["zero_cost_invariant_dimension"] == 10
+    assert certificate["combined_span_rank"] == 10
+
+    mutated = {
+        frequency: list(basis)
+        for frequency, basis in certificate["operator_bases"].items()
+    }
+    mutated["-2sqrt2i"][1] = mutated["-2sqrt2i"][0]
+    assert sum(len(basis) for basis in mutated.values()) == 10
+    with pytest.raises(AssertionError, match="rank|span|complete"):
+        mprs.certify_uniform_peripheral_bases(gamma, mutated)
+
+
+@pytest.mark.parametrize(
+    "gamma",
+    [
+        sympy.Integer(0),
+        sympy.Rational(-3, 10),
+        sympy.Symbol("gamma"),
+        0.3,
+    ],
+)
+def test_numeric_certificates_reject_nonpositive_or_inexact_gamma(gamma):
+    with pytest.raises((TypeError, ValueError)):
+        mprs.exact_uniform_peripheral_census(gamma)
+    with pytest.raises((TypeError, ValueError)):
+        mprs.exact_punctured_kernel_certificate(sympy.Rational(1, 8), gamma)
+
+
+@pytest.mark.parametrize(
+    "gamma",
+    [
+        sympy.Integer(0),
+        sympy.Integer(-1),
+        sympy.Rational(3, 10),
+        sympy.Symbol("gamma"),
+        0.3,
+    ],
+)
+def test_symbolic_effective_certificate_requires_a_positive_real_indeterminate(gamma):
+    with pytest.raises((TypeError, ValueError)):
+        mprs.exact_effective_operators(gamma)
+
+
 @pytest.mark.parametrize(
     "epsilon",
     [sympy.Rational(1, 8), sympy.Rational(-1, 8), sympy.Rational(1, 16)],

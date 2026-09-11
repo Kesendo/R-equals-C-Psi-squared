@@ -16,6 +16,24 @@ def _exact_scalar(value):
     return value
 
 
+def _positive_exact_numeric_gamma(value):
+    value = _exact_scalar(value)
+    if value.is_number is not True:
+        raise TypeError("gamma must be an exact numeric scalar")
+    if value.is_real is not True or value.is_positive is not True:
+        raise ValueError("gamma must be strictly positive and real")
+    return value
+
+
+def _positive_real_indeterminate(value):
+    value = _exact_scalar(value)
+    if not isinstance(value, sympy.Symbol):
+        raise TypeError("gamma must be a symbolic indeterminate")
+    if value.is_real is not True or value.is_positive is not True:
+        raise ValueError("gamma indeterminate must be declared positive and real")
+    return value
+
+
 def hopping_float(epsilon: float, both_ends: bool = False) -> np.ndarray:
     """Return the N=7 path Hamiltonian with the requested end detuning."""
     r = 1.0 + epsilon
@@ -229,32 +247,73 @@ def _peripheral_bases():
     return h, eigenspaces, outer_identity, frequencies, operators
 
 
-def exact_uniform_peripheral_census(gamma):
-    """Count the complete uniform peripheral algebra in exact arithmetic."""
-    gamma = _exact_scalar(gamma)
-    h, eigenspaces, outer_identity, frequencies, operators = _peripheral_bases()
+def certify_uniform_peripheral_bases(gamma, operator_bases):
+    """Certify independence and exhaustive peripheral completeness."""
+    gamma = _positive_exact_numeric_gamma(gamma)
+    h, eigenspaces, outer_identity, frequencies, _ = _peripheral_bases()
     _, z, _, _ = exact_reduction_objects(sympy.Integer(0), gamma)
 
-    counted = {}
-    for key, basis in operators.items():
+    per_frequency_ranks = {}
+    stacked_by_frequency = {}
+    for key, basis in operator_bases.items():
         frequency = frequencies[key]
         for operator in basis:
             if exact_a_action(h, z, gamma, operator) != frequency * operator:
                 raise AssertionError("peripheral operator failed its exact frequency gate")
-        counted[key] = len(basis)
+        stacked = sympy.Matrix.hstack(
+            *[_row_stack_exact(operator) for operator in basis]
+        )
+        stacked_by_frequency[key] = stacked
+        per_frequency_ranks[key] = _exact_rank(stacked)
+        if per_frequency_ranks[key] != len(basis):
+            raise AssertionError(f"{key} peripheral basis failed its rank gate")
+
+    combined_operator_basis = sympy.Matrix.hstack(
+        *(stacked_by_frequency[key] for key in frequencies)
+    )
+    combined_operator_rank = _exact_rank(combined_operator_basis)
+    _, zero_cost_invariant_basis = _zero_cost_invariant_subspace(h, z)
+    combined_span_rank = _exact_rank(
+        sympy.Matrix.hstack(combined_operator_basis, zero_cost_invariant_basis)
+    )
+    if (
+        combined_operator_rank != zero_cost_invariant_basis.cols
+        or combined_span_rank != zero_cost_invariant_basis.cols
+    ):
+        raise AssertionError("peripheral operator span is not complete")
 
     generator = exact_a_generator(sympy.Integer(0), gamma)
     kernel_dimension = N * N - _exact_rank(generator)
     if _exact_rank(outer_identity) != 4:
         raise AssertionError("outer Hilbert complement must have dimension four")
-    return {
+    census = {
         "blind_dimension": len(eigenspaces),
         "end_blind_algebra_dimension": len(eigenspaces) ** 2,
         "identity_outer_dimension": 1,
         "kernel_dimension": kernel_dimension,
-        "peripheral_dimension": sum(counted.values()),
-        "frequency_multiplicities": counted,
+        "peripheral_dimension": combined_operator_rank,
+        "frequency_multiplicities": per_frequency_ranks,
     }
+    return {
+        "census": census,
+        "operator_bases": operator_bases,
+        "per_frequency_ranks": per_frequency_ranks,
+        "combined_operator_rank": combined_operator_rank,
+        "zero_cost_invariant_dimension": zero_cost_invariant_basis.cols,
+        "combined_span_rank": combined_span_rank,
+    }
+
+
+def exact_uniform_peripheral_certificate(gamma):
+    """Return the exact rank-and-invariance certificate at uniform coupling."""
+    gamma = _positive_exact_numeric_gamma(gamma)
+    _, _, _, _, operator_bases = _peripheral_bases()
+    return certify_uniform_peripheral_bases(gamma, operator_bases)
+
+
+def exact_uniform_peripheral_census(gamma):
+    """Return the certified uniform census for exact numeric gamma>0."""
+    return exact_uniform_peripheral_certificate(gamma)["census"]
 
 
 def _polynomial_inverse(matrix, gamma):
@@ -379,8 +438,8 @@ def _resolvent_blocks(l0, frequency, projector, gamma):
 
 
 def exact_effective_operators(gamma):
-    """Derive first/second Kato operators and their exact certificates."""
-    gamma = _exact_scalar(gamma)
+    """Derive Kato operators for a positive-real symbolic gamma."""
+    gamma = _positive_real_indeterminate(gamma)
     h, eigenspaces, _, frequencies, _ = _peripheral_bases()
 
     # A sparse reflection-even Krylov basis completes the three derived blind
@@ -512,26 +571,8 @@ def _largest_invariant_subspace(operator, forbidden_rows):
     raise AssertionError("invariant-subspace iteration did not stabilize")
 
 
-def exact_punctured_kernel_certificate(epsilon, gamma):
-    """Certify the rational punctured cases without a floating eigensolver."""
-    epsilon = _exact_scalar(epsilon)
-    gamma = _exact_scalar(gamma)
-    if epsilon == 0:
-        raise ValueError("punctured certificate requires nonzero epsilon")
-    h, z, blind_vector, _ = exact_reduction_objects(epsilon, gamma)
-    generator = exact_a_generator(epsilon, gamma)
-
-    blind_vector = _normalized(blind_vector)
-    stationary = [
-        blind_vector * sympy.conjugate(blind_vector.T),
-        sympy.eye(N) - blind_vector * sympy.conjugate(blind_vector.T),
-    ]
-    stationary_basis = sympy.Matrix.hstack(
-        *[_row_stack_exact(operator) for operator in stationary]
-    )
-    if generator * stationary_basis != sympy.zeros(N * N, 2):
-        raise AssertionError("displayed stationary operators must lie in ker A")
-
+def _zero_cost_invariant_subspace(h, z):
+    """Return -i ad_h and its largest invariant subspace in ker D_z."""
     commutator_columns = []
     dissipator_columns = []
     for coordinate in range(N * N):
@@ -551,7 +592,30 @@ def exact_punctured_kernel_certificate(epsilon, gamma):
     forbidden_rows = sympy.zeros(len(charged_coordinates), N * N)
     for row, coordinate in enumerate(charged_coordinates):
         forbidden_rows[row, coordinate] = 1
-    invariant_basis = _largest_invariant_subspace(commutator, forbidden_rows)
+    return commutator, _largest_invariant_subspace(commutator, forbidden_rows)
+
+
+def exact_punctured_kernel_certificate(epsilon, gamma):
+    """Certify rational punctured cases for exact numeric gamma>0."""
+    epsilon = _exact_scalar(epsilon)
+    gamma = _positive_exact_numeric_gamma(gamma)
+    if epsilon == 0:
+        raise ValueError("punctured certificate requires nonzero epsilon")
+    h, z, blind_vector, _ = exact_reduction_objects(epsilon, gamma)
+    generator = exact_a_generator(epsilon, gamma)
+
+    blind_vector = _normalized(blind_vector)
+    stationary = [
+        blind_vector * sympy.conjugate(blind_vector.T),
+        sympy.eye(N) - blind_vector * sympy.conjugate(blind_vector.T),
+    ]
+    stationary_basis = sympy.Matrix.hstack(
+        *[_row_stack_exact(operator) for operator in stationary]
+    )
+    if generator * stationary_basis != sympy.zeros(N * N, 2):
+        raise AssertionError("displayed stationary operators must lie in ker A")
+
+    commutator, invariant_basis = _zero_cost_invariant_subspace(h, z)
 
     gram = sympy.conjugate(invariant_basis.T) * invariant_basis
     restricted = gram.inv() * sympy.conjugate(invariant_basis.T) * commutator * invariant_basis
