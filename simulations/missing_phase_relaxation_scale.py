@@ -257,35 +257,55 @@ def exact_uniform_peripheral_census(gamma):
     }
 
 
-def _domain_solve(matrix, rhs):
-    """Solve a small exact block over an explicit algebraic function field."""
-    symbols = sorted(
-        set().union(
-            *(entry.free_symbols for entry in matrix),
-            *(entry.free_symbols for entry in rhs),
-        ),
-        key=str,
+def _polynomial_inverse(matrix, gamma):
+    """Return an exact numerator/denominator inverse over K[gamma]."""
+    coefficient_field = sympy.QQ.algebraic_field(sympy.sqrt(2), sympy.I)
+    polynomial_ring = coefficient_field.poly_ring(gamma)
+    domain_matrix = DomainMatrix.from_Matrix(matrix).convert_to(polynomial_ring)
+    numerator, denominator = domain_matrix.inv_den(method="rref")
+    return numerator, denominator, polynomial_ring
+
+
+def _positive_denominator_certificate(expression, gamma):
+    """Prove non-vanishing on gamma>0 by an exact real/imaginary gcd."""
+    real_part = sympy.expand(sympy.re(expression))
+    imaginary_part = sympy.expand(sympy.im(expression))
+    extension = [sympy.sqrt(2)]
+    real_polynomial = (
+        sympy.Poly(real_part, gamma, extension=extension)
+        if real_part != 0
+        else None
     )
-    domain = sympy.QQ.algebraic_field(sympy.I, sympy.sqrt(2))
-    if symbols:
-        domain = domain.frac_field(*symbols)
-    domain_matrix = DomainMatrix.from_Matrix(matrix).convert_to(domain)
-    domain_rhs = DomainMatrix.from_Matrix(rhs).convert_to(domain)
-    numerator, denominator = domain_matrix.solve_den(domain_rhs, method="rref")
-    return numerator.to_Matrix() / domain.to_sympy(denominator)
-
-
-def _algebraic_function_rank(matrix):
-    symbols = sorted(
-        set().union(*(entry.free_symbols for entry in matrix)), key=str
+    imaginary_polynomial = (
+        sympy.Poly(imaginary_part, gamma, extension=extension)
+        if imaginary_part != 0
+        else None
     )
-    domain = sympy.QQ.algebraic_field(sympy.I, sympy.sqrt(2))
-    if symbols:
-        domain = domain.frac_field(*symbols)
-    return DomainMatrix.from_Matrix(matrix).convert_to(domain).rank()
+    if real_polynomial is None:
+        common_real_zeros = imaginary_polynomial
+    elif imaginary_polynomial is None:
+        common_real_zeros = real_polynomial
+    else:
+        common_real_zeros = sympy.gcd(real_polynomial, imaginary_polynomial)
+    zero_root_multiplicity = min(
+        monomial[0] for monomial, _ in common_real_zeros.terms()
+    )
+    away_from_zero = common_real_zeros.exquo(
+        sympy.Poly(gamma**zero_root_multiplicity, gamma, extension=extension)
+    )
+    positive_real_root_count = away_from_zero.count_roots(0, sympy.oo)
+    return {
+        "real_part": real_part,
+        "imaginary_part": imaginary_part,
+        "common_real_zero_polynomial": common_real_zeros,
+        "zero_root_multiplicity": zero_root_multiplicity,
+        "positive_axis_polynomial": away_from_zero,
+        "positive_real_root_count": positive_real_root_count,
+        "holds": positive_real_root_count == 0,
+    }
 
 
-def _resolvent_blocks(l0, frequency, projector):
+def _resolvent_blocks(l0, frequency, projector, gamma):
     """Describe the full 49-dimensional reduced resolvent by invariant blocks."""
     shifted = l0 - frequency * sympy.eye(N * N) + projector
     blind = range(3)
@@ -295,37 +315,67 @@ def _resolvent_blocks(l0, frequency, projector):
     index_blocks.extend([[left * N + right for left in outer] for right in blind])
     index_blocks.append([left * N + right for left in blind for right in blind])
     index_blocks.append([left * N + right for left in outer for right in outer])
-    blocks = [
-        {
-            "indices": tuple(indices),
-            "shifted": shifted.extract(indices, indices),
-            "unshifted": (l0 - frequency * sympy.eye(N * N)).extract(indices, indices),
-            "projector": projector.extract(indices, indices),
-        }
-        for indices in index_blocks
-    ]
-    for block in blocks:
-        block["shifted_is_invertible"] = (
-            _algebraic_function_rank(block["shifted"])
-            == len(block["indices"])
+    blocks = []
+    polynomial_ring = None
+    for indices in index_blocks:
+        local_shifted = shifted.extract(indices, indices)
+        numerator, denominator, polynomial_ring = _polynomial_inverse(
+            local_shifted, gamma
         )
-    return blocks
+        blocks.append(
+            {
+                "indices": tuple(indices),
+                "shifted": local_shifted,
+                "unshifted": (
+                    l0 - frequency * sympy.eye(N * N)
+                ).extract(indices, indices),
+                "projector": projector.extract(indices, indices),
+                "inverse_numerator_domain": numerator,
+                "inverse_denominator_domain": denominator,
+            }
+        )
 
-
-def _apply_reduced_resolvent(blocks, projector, source):
-    """Apply G to source via exact local solves; skip identically zero blocks."""
-    projected_source = (sympy.eye(N * N) - projector) * source
-    image = sympy.zeros(N * N, source.cols)
+    common_denominator = blocks[0]["inverse_denominator_domain"]
+    for block in blocks[1:]:
+        common_denominator = polynomial_ring.lcm(
+            common_denominator, block["inverse_denominator_domain"]
+        )
+    common_denominator_expression = polynomial_ring.to_sympy(common_denominator)
+    global_numerator = sympy.zeros(N * N, N * N)
+    assembled_shifted = sympy.zeros(N * N, N * N)
     for block in blocks:
         indices = list(block["indices"])
-        local_rhs = projected_source.extract(indices, range(source.cols))
-        if local_rhs == sympy.zeros(len(indices), source.cols):
-            continue
-        local_image = _domain_solve(block["shifted"], local_rhs)
+        denominator = block["inverse_denominator_domain"]
+        scale = polynomial_ring.exquo(common_denominator, denominator)
+        projector_domain = DomainMatrix.from_Matrix(block["projector"]).convert_to(
+            polynomial_ring
+        )
+        reduced_numerator = (
+            block["inverse_numerator_domain"] - projector_domain * denominator
+        ) * scale
+        reduced_numerator_matrix = reduced_numerator.to_Matrix()
         for local_row, global_row in enumerate(indices):
-            for column in range(source.cols):
-                image[global_row, column] = local_image[local_row, column]
-    return image
+            for local_column, global_column in enumerate(indices):
+                global_numerator[global_row, global_column] = (
+                    reduced_numerator_matrix[local_row, local_column]
+                )
+                assembled_shifted[global_row, global_column] = block["shifted"][
+                    local_row, local_column
+                ]
+        block["inverse_denominator"] = polynomial_ring.to_sympy(denominator)
+        del block["inverse_numerator_domain"]
+        del block["inverse_denominator_domain"]
+
+    positive_certificate = _positive_denominator_certificate(
+        common_denominator_expression, gamma
+    )
+    return {
+        "blocks": blocks,
+        "numerator": global_numerator,
+        "denominator": common_denominator_expression,
+        "shifted_off_block_residual": shifted - assembled_shifted,
+        "positive_denominator_certificate": positive_certificate,
+    }
 
 
 def exact_effective_operators(gamma):
@@ -387,14 +437,24 @@ def exact_effective_operators(gamma):
         right = sympy.Matrix.hstack(*vectors)
         left = right
         projector = right * sympy.conjugate(left.T)
-        blocks = _resolvent_blocks(l0, frequency, projector)
+        resolvent = _resolvent_blocks(l0, frequency, projector, gamma)
+        blocks = resolvent["blocks"]
         f1 = (sympy.conjugate(left.T) * l1 * right).applyfunc(sympy.simplify)
-        resolvent_image = _apply_reduced_resolvent(
-            blocks, projector, l1 * right
+        f2_numerator = (
+            -sympy.conjugate(left.T)
+            * l1
+            * resolvent["numerator"]
+            * l1
+            * right
         )
-        f2 = (
-            -sympy.conjugate(left.T) * l1 * resolvent_image
-        ).applyfunc(sympy.simplify)
+        f2 = f2_numerator.applyfunc(
+            lambda entry: sympy.simplify(
+                sympy.cancel(
+                    entry / resolvent["denominator"],
+                    extension=[sympy.sqrt(2), sympy.I],
+                )
+            )
+        )
         first[key] = f1
         second[key] = f2
         variable = sympy.Dummy("lambda")
@@ -407,7 +467,17 @@ def exact_effective_operators(gamma):
             "left_basis": left,
             "projector": projector,
             "resolvent_blocks": blocks,
-            "resolvent_image_of_l1_right": resolvent_image,
+            "resolvent_numerator": resolvent["numerator"],
+            "resolvent_denominator": resolvent["denominator"],
+            "shifted_off_block_residual": resolvent[
+                "shifted_off_block_residual"
+            ],
+            "denominator_nonzero_for_positive_gamma": resolvent[
+                "positive_denominator_certificate"
+            ]["holds"],
+            "positive_denominator_certificate": resolvent[
+                "positive_denominator_certificate"
+            ],
             "basis_dimension": sum(len(block["indices"]) for block in blocks),
         }
     return {

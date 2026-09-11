@@ -369,6 +369,18 @@ def test_kato_feshbach_projector_and_reduced_resolvent_identities_are_exact():
         assert projector * projector == projector
         assert l0 * projector == projector * l0
         assert block["basis_dimension"] == 49
+        assert block["denominator_nonzero_for_positive_gamma"]
+        denominator_certificate = block["positive_denominator_certificate"]
+        assert denominator_certificate["holds"]
+        assert denominator_certificate["positive_real_root_count"] == 0
+        if block["frequency"] == 0:
+            assert block["resolvent_denominator"] == gamma**3
+            assert denominator_certificate["zero_root_multiplicity"] == 3
+            assert denominator_certificate["positive_axis_polynomial"].degree() == 0
+        else:
+            assert denominator_certificate[
+                "common_real_zero_polynomial"
+            ].degree() == 0
         assert sum(len(part["indices"]) for part in block["resolvent_blocks"]) == 49
         assert len(
             {
@@ -377,15 +389,45 @@ def test_kato_feshbach_projector_and_reduced_resolvent_identities_are_exact():
                 for coordinate in part["indices"]
             }
         ) == 49
+        shifted_generator = l0 - block["frequency"] * sympy.eye(49)
+        numerator = block["resolvent_numerator"]
+        denominator = block["resolvent_denominator"]
+        complement = sympy.eye(49) - projector
+        assert block["shifted_off_block_residual"] == sympy.zeros(49)
+        assert (
+            shifted_generator * numerator - complement * denominator
+        ).applyfunc(sympy.expand) == sympy.zeros(49)
+        assert (
+            numerator * shifted_generator - complement * denominator
+        ).applyfunc(sympy.expand) == sympy.zeros(49)
         for part in block["resolvent_blocks"]:
-            size = len(part["indices"])
-            # S=M+P has SP=PS=P.  Together with SS^-1=S^-1S=I and
-            # P^2=P this is exactly the two-sided identity
-            # M(S^-1-P)=(S^-1-P)M=I-P, without expanding the 16x16 inverse.
-            assert part["shifted_is_invertible"]
             assert part["unshifted"] == part["shifted"] - part["projector"]
             assert part["shifted"] * part["projector"] == part["projector"]
             assert part["projector"] * part["shifted"] == part["projector"]
+
+
+def test_off_block_mutation_escapes_the_old_local_check_but_fails_global_gate():
+    gamma = sympy.symbols("gamma", positive=True)
+    certificate = mprs.exact_effective_operators(gamma)["certificates"]["-2sqrt2i"]
+    blocks = certificate["resolvent_blocks"]
+    shifted_generator = (
+        certificate["generator"] - certificate["frequency"] * sympy.eye(49)
+    )
+    mutant = shifted_generator.copy()
+    source = blocks[0]["indices"][0]
+    target = blocks[1]["indices"][0]
+    mutant[source, target] += 1
+
+    for part in blocks:
+        indices = list(part["indices"])
+        assert mutant.extract(indices, indices) == part["unshifted"]
+
+    numerator = certificate["resolvent_numerator"]
+    denominator = certificate["resolvent_denominator"]
+    complement = sympy.eye(49) - certificate["projector"]
+    assert (
+        mutant * numerator - complement * denominator
+    ).applyfunc(sympy.expand) != sympy.zeros(49)
 
 
 def test_effective_multiplicities_and_local_minimality_mutations_are_detected():
