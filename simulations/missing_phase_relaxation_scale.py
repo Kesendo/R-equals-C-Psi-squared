@@ -869,6 +869,38 @@ def _float_generators(epsilon, gamma, *, seat, both_ends):
     return a, b
 
 
+def classify_a_rates(
+    eigenvalues,
+    tolerance,
+    *,
+    expected_peripheral,
+    expected_stationary,
+):
+    """Partition every A eigenvalue into peripheral or strictly decaying."""
+    values = np.asarray(eigenvalues, dtype=complex)
+    peripheral_mask = np.abs(values.real) <= tolerance
+    decaying_mask = -values.real > tolerance
+    unstable_mask = values.real > tolerance
+    if np.any(unstable_mask):
+        raise AssertionError("unstable A eigenvalue escaped the physical half-plane")
+    classified = int(np.count_nonzero(peripheral_mask)) + int(
+        np.count_nonzero(decaying_mask)
+    )
+    if classified != values.size:
+        raise AssertionError("not all A eigenvalues were classified")
+    if int(np.count_nonzero(peripheral_mask)) != expected_peripheral:
+        raise AssertionError("float peripheral count disagrees with exact certificate")
+    stationary_mask = np.abs(values) <= tolerance
+    if int(np.count_nonzero(stationary_mask)) != expected_stationary:
+        raise AssertionError("float stationary count disagrees with exact certificate")
+    return {
+        "peripheral_mask": peripheral_mask,
+        "decaying_mask": decaying_mask,
+        "stationary_mask": stationary_mask,
+        "classified_dimension": classified,
+    }
+
+
 def direct_float_gaps(epsilon, gamma, *, seat=SEAT, both_ends=False):
     """Read all 49 A/B eigenvalues after exact case-specific classification."""
     exact_epsilon = _public_float_as_exact(epsilon)
@@ -886,15 +918,17 @@ def direct_float_gaps(epsilon, gamma, *, seat=SEAT, both_ends=False):
     b_values = np.linalg.eigvals(b)
     scale = max(1.0, np.linalg.norm(a, ord=2), np.linalg.norm(b, ord=2))
     tolerance = 128 * np.finfo(float).eps * scale
-    peripheral_mask = np.abs(a_values.real) <= tolerance
-    stationary_mask = np.abs(a_values) <= tolerance
-    if int(np.count_nonzero(peripheral_mask)) != certificate["peripheral_dimension"]:
-        raise AssertionError("float peripheral count disagrees with exact certificate")
-    if int(np.count_nonzero(stationary_mask)) != certificate["stationary_dimension"]:
-        raise AssertionError("float stationary count disagrees with exact certificate")
+    classification = classify_a_rates(
+        a_values,
+        tolerance,
+        expected_peripheral=certificate["peripheral_dimension"],
+        expected_stationary=certificate["stationary_dimension"],
+    )
 
     positive_a_rates = sorted(
-        -value.real for value in a_values if -value.real > tolerance
+        -value.real
+        for value, decaying in zip(a_values, classification["decaying_mask"])
+        if decaying
     )
     if not positive_a_rates:
         raise AssertionError("control has no decaying A eigenvalue")
@@ -935,6 +969,7 @@ def direct_float_gaps(epsilon, gamma, *, seat=SEAT, both_ends=False):
         "max_a_rate": float(max_a_rate),
         "b_gap": float(b_gap),
         "paired_rate_residuals": paired_rate_residuals,
+        "classified_a_dimension": classification["classified_dimension"],
     }
 
 

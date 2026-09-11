@@ -581,6 +581,42 @@ def test_each_b_rate_is_the_individually_paired_a_rate_with_the_price():
     assert max(paired_rates) < 2e-12
 
 
+def test_a_rate_classifier_rejects_an_unstable_unclassified_eigenvalue():
+    values = np.linalg.eigvals(mprs.a_generator_float(0.1, 0.3))
+    tolerance = 128 * np.finfo(float).eps * max(
+        1.0, np.linalg.norm(mprs.a_generator_float(0.1, 0.3), ord=2)
+    )
+    values[np.argmin(values.real)] = 1e-3 + 2j
+    with pytest.raises(AssertionError, match="unstable|49|classif"):
+        mprs.classify_a_rates(
+            values,
+            tolerance,
+            expected_peripheral=2,
+            expected_stationary=2,
+        )
+
+
+def test_direct_gap_route_cannot_bypass_complete_rate_classification(monkeypatch):
+    original_eigvals = np.linalg.eigvals
+    call_count = 0
+
+    def eigenvalues_with_one_unstable_a_mode(matrix):
+        nonlocal call_count
+        values = original_eigvals(matrix)
+        if call_count == 0:
+            values[np.argmin(values.real)] = 1e-3 + 2j
+        call_count += 1
+        return values
+
+    monkeypatch.setattr(
+        mprs.np.linalg,
+        "eigvals",
+        eigenvalues_with_one_unstable_a_mode,
+    )
+    with pytest.raises(AssertionError, match="unstable|49|classif"):
+        mprs.direct_float_gaps(0.1, 0.3)
+
+
 @pytest.mark.parametrize("r", [0.9, 1.1])
 def test_symmetric_double_end_detuning_preserves_ten_peripheral_directions(r):
     epsilon = r - 1.0
