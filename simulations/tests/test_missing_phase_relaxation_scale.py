@@ -234,6 +234,17 @@ def test_gap_series_and_first_asymmetry_term_are_exact():
     assert sympy.expand(gap - gap.subs(epsilon, -epsilon) - gamma * epsilon**3) == 0
 
 
+def test_gap_series_is_the_negative_real_part_of_the_branch_germ():
+    epsilon, gamma = sympy.symbols("epsilon gamma", real=True)
+    branch = mprs.minus_branch_series(epsilon, gamma)
+    gap = mprs.gap_series(epsilon, gamma)
+    assert sympy.simplify(gap + sympy.re(branch)) == 0
+
+    for real_term in (-gamma * epsilon**2 / 2, -gamma * epsilon**3 / 2):
+        sign_flipped_branch = branch - 2 * real_term
+        assert sympy.simplify(gap + sympy.re(sign_flipped_branch)) != 0
+
+
 def test_each_displayed_branch_component_is_required_through_cubic_order():
     lam, r, epsilon, gamma = sympy.symbols("lambda r epsilon gamma")
     branch = mprs.minus_branch_series(epsilon, gamma)
