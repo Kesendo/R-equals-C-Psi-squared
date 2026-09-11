@@ -117,3 +117,31 @@ def reduction_mutation_residuals(epsilon, gamma):
         name: squared_frobenius(mutant - target)
         for name, mutant in mutants.items()
     }
+
+
+def characteristic_polynomial(lam, r, gamma):
+    """Return det(lambda I - K) from the exact reduced 7x7 construction."""
+    lam = _exact_scalar(lam)
+    r = _exact_scalar(r)
+    gamma = _exact_scalar(gamma)
+    _, _, _, k = exact_reduction_objects(r - 1, gamma)
+    return sympy.expand((lam * sympy.eye(N) - k).det())
+
+
+def minus_branch_series(epsilon, gamma):
+    """Return the cubic germ of the branch from lambda = -2 sqrt(2) i."""
+    epsilon = _exact_scalar(epsilon)
+    gamma = _exact_scalar(gamma)
+    return (
+        -2 * sympy.sqrt(2) * sympy.I
+        - sympy.I * epsilon / sympy.sqrt(2)
+        - (gamma / 2 + 3 * sympy.sqrt(2) * sympy.I / 16) * epsilon**2
+        - (gamma / 2 - 19 * sympy.sqrt(2) * sympy.I / 64) * epsilon**3
+    )
+
+
+def gap_series(epsilon, gamma):
+    """Return the cubic local relaxation-gap germ."""
+    epsilon = _exact_scalar(epsilon)
+    gamma = _exact_scalar(gamma)
+    return gamma * epsilon**2 / 2 + gamma * epsilon**3 / 2

@@ -169,3 +169,96 @@ def test_sign_seat_and_minus_identity_mutations_break_reduction():
         "watched_seat": sympy.Rational(7137, 400),
         "missing_minus_identity": sympy.Rational(2763, 200),
     }
+
+
+def test_characteristic_polynomial_matches_displayed_q_exactly():
+    lam, r, gamma = sympy.symbols("lambda r gamma")
+    determinant = sympy.expand(mprs.characteristic_polynomial(lam, r, gamma))
+    expected_q = (
+        lam**6
+        + 2 * gamma * lam**5
+        + (4 * r**2 + 20) * lam**4
+        + (8 * gamma * r**2 + 24 * gamma) * lam**3
+        + (64 * r**2 + 96) * lam**2
+        + (64 * gamma * r**2 + 64 * gamma) * lam
+        + 192 * r**2
+        + 64
+    )
+
+    assert sympy.expand(determinant - lam * expected_q) == 0
+    assert sympy.rem(
+        determinant,
+        lam,
+        domain=sympy.QQ.frac_field(r, gamma),
+    ) == 0
+
+
+def test_uniform_characteristic_factor_and_target_roots_are_exact_and_simple():
+    lam, gamma = sympy.symbols("lambda gamma")
+    determinant = sympy.expand(mprs.characteristic_polynomial(lam, 1, gamma))
+    expected_q = (lam**2 + 8) * (
+        lam**4 + 2 * gamma * lam**3 + 16 * lam**2 + 16 * gamma * lam + 32
+    )
+    assert sympy.expand(determinant - lam * expected_q) == 0
+
+    for root in (-2 * sympy.sqrt(2) * sympy.I, 2 * sympy.sqrt(2) * sympy.I):
+        assert sympy.simplify(expected_q.subs(lam, root)) == 0
+        assert sympy.simplify(sympy.diff(expected_q, lam).subs(lam, root)) != 0
+
+
+def test_minus_branch_series_solves_through_cubic_but_not_quartic():
+    lam, r, epsilon, gamma = sympy.symbols("lambda r epsilon gamma")
+    branch = mprs.minus_branch_series(epsilon, gamma)
+    expected = (
+        -2 * sympy.sqrt(2) * sympy.I
+        - sympy.I / sympy.sqrt(2) * epsilon
+        - (gamma / 2 + 3 * sympy.sqrt(2) * sympy.I / 16) * epsilon**2
+        - (gamma / 2 - 19 * sympy.sqrt(2) * sympy.I / 64) * epsilon**3
+    )
+    assert sympy.expand(branch - expected) == 0
+
+    residual = sympy.expand(
+        mprs.characteristic_polynomial(lam, r, gamma).subs(
+            {lam: branch, r: 1 + epsilon}
+        )
+    )
+    for order in range(4):
+        assert sympy.simplify(residual.coeff(epsilon, order)) == 0
+    assert sympy.simplify(residual.coeff(epsilon, 4)) != 0
+
+
+def test_gap_series_and_first_asymmetry_term_are_exact():
+    epsilon, gamma = sympy.symbols("epsilon gamma")
+    gap = mprs.gap_series(epsilon, gamma)
+    assert sympy.expand(gap - gamma * epsilon**2 / 2 - gamma * epsilon**3 / 2) == 0
+    assert sympy.expand(gap - gap.subs(epsilon, -epsilon) - gamma * epsilon**3) == 0
+
+
+def test_each_displayed_branch_component_is_required_through_cubic_order():
+    lam, r, epsilon, gamma = sympy.symbols("lambda r epsilon gamma")
+    branch = mprs.minus_branch_series(epsilon, gamma)
+    components = {
+        "constant_imaginary": -2 * sympy.sqrt(2) * sympy.I,
+        "linear_imaginary": -sympy.I / sympy.sqrt(2) * epsilon,
+        "quadratic_real": -gamma * epsilon**2 / 2,
+        "quadratic_imaginary": -3 * sympy.sqrt(2) * sympy.I * epsilon**2 / 16,
+        "cubic_real": -gamma * epsilon**3 / 2,
+        "cubic_imaginary": 19 * sympy.sqrt(2) * sympy.I * epsilon**3 / 64,
+    }
+
+    def has_residual_through_cubic(mutated_branch):
+        residual = sympy.expand(
+            mprs.characteristic_polynomial(lam, r, gamma).subs(
+                {lam: mutated_branch, r: 1 + epsilon}
+            )
+        )
+        return any(
+            sympy.simplify(residual.coeff(epsilon, order)) != 0
+            for order in range(4)
+        )
+
+    for component in components.values():
+        assert has_residual_through_cubic(branch - component)
+
+    for real_term in (components["quadratic_real"], components["cubic_real"]):
+        assert has_residual_through_cubic(branch - 2 * real_term)
