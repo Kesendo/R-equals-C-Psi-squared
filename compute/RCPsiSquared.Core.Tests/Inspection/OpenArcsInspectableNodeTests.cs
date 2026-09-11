@@ -7,13 +7,19 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasFiftyNineEntries()
+    public void Registry_HasSixtyEntries()
     {
         // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
         // 0144649 to 52, neither updating this line, so this test was RED across two commits.
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
-        Assert.Equal(59, OpenArcsRegistry.All.Count);   // +adjacency_has_no_instrument
+        Assert.Equal(60, OpenArcsRegistry.All.Count);   // +darkness_names_the_light
+                                                        //   (2026-09-11: the noun names the
+                                                        //   light content and the comparative
+                                                        //   reads the axis the other way; the
+                                                        //   landed change is a fence and the
+                                                        //   rename is the debt, 181 sites)
+                                                        // +adjacency_has_no_instrument
                                                         //   (2026-09-11: the repo-side home for
                                                         //   Tom's 2026-08-07 rule, plus the one
                                                         //   measured half, the Claim graph is a

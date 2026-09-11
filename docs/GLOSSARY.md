@@ -114,6 +114,64 @@ For what it means in plain language, see [What We Found](WHAT_WE_FOUND.md).
 
 ---
 
+## Darkness: the noun, the comparative, and which way each points
+
+"Darkness" is this repository's most-used name for the number the **Light and lens**
+row above defines as a mode's **light content**, and the noun and its own comparative
+point in opposite directions. Read this before reading either word.
+
+| Word | What it names | Direction |
+|------|---------------|-----------|
+| **the light content**, ⟨n_XY⟩ | the eigenmode's mean {X,Y} letter COUNT, in [0, N], the thing the dephasing charges for | larger = shorter-lived |
+| **darkness** (the noun) | the same number, written −Re λ/(2γ) | larger = shorter-lived, so darkness 0 is the immortal mode |
+| **darker**, **darkest** | a SMALLER value of that same number, in every use found in this repo | smaller = longer-lived, the quantum-optics state a dephasing cannot touch |
+
+**The scope.** The equality −Re λ/(2γ) = ⟨n_XY⟩ is Theorem 1 of
+[the Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) and holds at a UNIFORM
+rate γ. Under a per-site profile the theorem's own Theorem 2 applies,
+Re(λ) = −2 Σ_l γ_l·light_l(v), the quotient by any single 2γ is not a light count, and
+it is not bounded by N. The proof says so about exactly this elision: a restatement
+that drops the word "uniform" is not a shorthand for Theorem 1, it is a different
+claim.
+
+**Where the two directions meet.** `simulations/carbon/handover_q.py` calls the quantity
+`FRACTIONAL darkness <n_XY> < 1`, says it "brightens" as Q rises, two lines later calls
+the mode with the smaller value "darker", and asserts `nxy22 < nxy11` with the message
+"not darker than".
+`HandoverFloorClaim.cs:16-26` carries "its darkness reaches the ... floor ⟨n_XY⟩ = 1", "the excess
+light" and "the darker one reaches the floor" for one quantity in one comment.
+`StructuralCeilingWitness.CommutantDarkest` is the smallest nonzero eigenvalue of
+N_XY on the ad_H kernel. The noun occurs 214 times across 42 files, and the comparative is
+a further register beside it.
+
+**What to do.** For the noun, write **the light content**: it is the name that carries
+its own scope, and the code already selects by that quantity rather than by the word.
+For the comparative, say which end you mean, because "darker" alone is read
+by different readers as the longer-lived mode and as the larger number. "Above" and
+"below the floor" need the same care: some sites read them in Re units, where below
+means a larger ⟨n_XY⟩, and others in ⟨n_XY⟩ units, where it means a smaller one.
+
+**This is a fence, and a fence is not a fix.** The repository's own lesson on that is
+the `N_node` rename ([Caught Errors](CAUGHT_ERRORS.md), 2026-09-01 second entry): a
+disclosure at the door protects only the reader who comes through that door. The fix
+is the rename, and the measured surface and the plan are the open arc
+`darkness_names_the_light`. Until then this section is the door.
+
+**Glyph note.** "Dark" carries a second, unrelated sense in this file, the F135/F136
+**record class**, an exact zero in the record laws below; that is the sense
+[The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) means when it says "the
+glossary's sense", and it is not this one. `simulations/blind_site.py:3-5` names both
+senses at its door and is worth reading beside this section. Its phrase "the
+Absorption-Theorem darkness ⟨n_XY⟩ = 0" parses correctly under the noun, the quantity
+taking the value zero; what carries the collision is calling that state dark.
+
+**In plain language:** one number says how much of a mode stands in the light, and the
+more of it there is the sooner the mode is gone. The repo sometimes calls that number
+the light and sometimes the darkness, and then uses "darker" for the quiet, long-lived
+end. Nothing computed is affected; the word is the only thing that turns around.
+
+---
+
 ## XOR space (discovered March 16, 2026)
 
 XOR space names the endpoint eigenspace at `Re λ=−2Σγ` in the scoped

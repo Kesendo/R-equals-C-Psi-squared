@@ -2,6 +2,12 @@
 a known chain solution, a distinct ring one). Resolves the open loose end of the
 survival_incompleteness_mirror + clock_hand_ladder arcs and the F2b corollary "Open remainder".
 
+NAMING, and this file is one of the places it bites: "darkness" below is the LIGHT CONTENT
+<n_XY>, so larger is shorter-lived and darkness 0 is the immortal mode, while "darker" two
+lines below and in the assert near the end means the SMALLER value and the longer life. See the
+Glossary section "Darkness: the noun, the comparative, and which way each points" and the
+2026-09-11 entry of docs/CAUGHT_ERRORS.md; the rename is the arc darkness_names_the_light.
+
 THE QUESTION (arc, verbatim): "whether the handover Q (where the incomplete stops winning and
 the odd band edge takes over) has a closed form."
 

@@ -9457,6 +9457,87 @@ public static class OpenArcsRegistry
                 "them, and inventing structure to fit the instrument is how a measurement stops " +
                 "measuring.",
             Status: OpenArcStatus.Open),
+        new OpenArc(
+            Name: "darkness_names_the_light",
+            Opened: "2026-09-11",
+            Origin: "A label sweep on one word, recorded in docs/CAUGHT_ERRORS.md under 2026-09-11. " +
+                "-Re lambda/(2*gamma) is a mode's LIGHT CONTENT, and the dynamics documents, several " +
+                "typed claims and the carbon scripts call it a mode's DARKNESS, so under that noun a " +
+                "mode of darkness 0 is the immortal one; the comparative in the same corpus means the " +
+                "other direction, a SMALLER value and a longer life, which is the quantum-optics " +
+                "reading of a dark state. Both live inside single files: handover_q.py writes " +
+                "FRACTIONAL darkness, says it brightens as Q rises, calls the smaller-valued mode " +
+                "darker two lines later, and asserts nxy22 < nxy11 with the message not darker " +
+                "than (phrases rather than line numbers, because the rename below moves them); " +
+                "HandoverFloorClaim.cs:16-26 carries its darkness reaches, the excess light and the " +
+                "darker one reaches the floor for one quantity in one doc comment; " +
+                "StructuralCeilingWitness.CommutantDarkest is a min over the same number. " +
+                "THE SURFACE, MEASURED 2026-09-11: the noun occurs 214 times across 42 tracked " +
+                "files, on 181 lines (the LINE count is what git grep -c returns and is not the " +
+                "site count), with the comparative darker/darkest a further register beside it. " +
+                "The census is NOT one word: inside those 214 sit at least three other objects, " +
+                "the F135/F136 record class as a NOUN (simulations/qd_heavyhex_map.py, girth >= 5 " +
+                "is sufficient for darkness), an axis NAME in the neural rulebook, and ordinary " +
+                "English (hypotheses/THE_OTHER_SIDE.md, the darkness is not empty). So step zero " +
+                "of the rename is a TRIAGE of the 214, not a sweep of them. The word is also a live IDENTIFIER, not only prose: ring_handover_qh.py " +
+                "defines darkness(N, k, Q) and two gates bisect on it, xxz_handover_unification.py " +
+                "binds darkness as a dict field and asserts on it, and n4_polygon_uniqueness.py has " +
+                "darkest_sector. So this is a rename across prose, code identifiers and one public " +
+                "API name, not a prose pass. " +
+                "WHY IT IS AN ARC AND NOT A DONE THING. The landed change is a FENCE, a glossary " +
+                "section and a label-map row, and this repository's own lesson says a fence is not a " +
+                "fix: the 2026-09-01 second entry of docs/CAUGHT_ERRORS.md, the N_node rename, " +
+                "concludes that naming a collision at the door protects only the reader who comes " +
+                "through that door, and its own fix was a NAME at six surfaces. The cost argument " +
+                "used to defer here, that the word is load-bearing at many sites, is the argument " +
+                "that entry overrules. So the fence is the door and this arc is the debt.",
+            ParkedAt: "The fence is landed and nothing is renamed. Two adjacent items found by the " +
+                "same sweep are NOT recorded here because they belong to a class this ledger already " +
+                "parked: the registry's definition of darkness omits the uniform-gamma hypothesis " +
+                "Theorem 1 requires, and the (0,1) band edge's exact -2*gamma is attributed to F50 " +
+                "when, AT UNIFORM gamma, it follows from Theorem 1 given that H conserves " +
+                "excitation number and the block is therefore L-invariant (F50 supplies the " +
+                "multiplicity at that value, and its own entry records a gap in the upper-bound " +
+                "proof; PROOF_STRUCTURAL_CEILING.md already derives that edge without needing " +
+                "number conservation as the premise, reading it as an ad_H-eigenblock inside the " +
+                "(0,1) sector where every coherence has hamming 1). Both sit in the whole sector at " +
+                "Re = -2*gamma class that the 2026-08-20 ledger entry parked in " +
+                "site_resolved_vacuum_block expressly so it would not be re-found; it was re-found " +
+                "anyway, by a sweep that did not go there first. Add them there, not here. " +
+                "One more item for that same arc rather than for this one: handover_q.py's condition " +
+                "gate asserts |<n_XY> - 1| < 1e-9 on the (0,1) block for six (N, topology) pairs, and " +
+                "on that block the dephasing array is a constant multiple of the identity by " +
+                "construction, so the six-fold loop tests one fact six times and cannot fail for the " +
+                "reason its comment gives.",
+            NextStep:
+                "Do the rename, in the order that makes each step checkable. FIRST decide the two " +
+                "targets, because there are two objects and only one of them is a naming problem: the " +
+                "NOUN becomes the light content, which is the glossary's own canonical name and the " +
+                "one that carries its scope; the COMPARATIVE keeps the ordinary sense but must name " +
+                "its end, since darker alone is read by different readers as the longer-lived mode " +
+                "and as the larger number. SECOND the code, and only PART of it is checked for you: " +
+                "darkness(N, k, Q) with its two bisecting gates, darkest_sector, and the public " +
+                "CommutantDarkest are identifiers a compiler or an import error catches, while " +
+                "xxz_handover_unification.py binds darkness as a dict STRING KEY and reads it back " +
+                "as a string at seven sites, where a partial rename raises KeyError only on an " +
+                "executed path and nothing checks it statically. CommutantDarkest is also the one " +
+                "surface an outside consumer could be holding. THIRD the typed layer, " +
+                "where the doc comments are claim surface and a rename is a claim-string edit. " +
+                "FOURTH the prose, last, because by then the vocabulary is settled, " +
+                "and with an EXEMPT SET named before starting: docs/CAUGHT_ERRORS.md is append-only " +
+                "and quotes the old word on purpose, and so do the glossary section and this arc. " +
+                "Two surfaces sit outside the four steps: simulations/results/rescued_arcs_menu.txt " +
+                "is tracked script OUTPUT carrying the word, so whatever prints it is re-run rather " +
+                "than edited; and the fence itself grew the surface it measured, putting the word " +
+                "into three more files on the day the 214 was taken, so re-measure rather than " +
+                "trust it. Two cautions, " +
+                "both paid for. A regex rename bit three times during the N_node pass, once by " +
+                "reading a product as a method call, so every pattern gets a dry run and a diff read " +
+                "by eye. And the NOUN itself carries the F135/F136 record-class sense, not only " +
+                "the adjective blind_site.py:3-5 names at its door: qd_heavyhex_map.py writes " +
+                "darkness for a graph property with no eigenvalue in it. A rename that does not " +
+                "triage first will convert that into a light content, and no test will notice.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

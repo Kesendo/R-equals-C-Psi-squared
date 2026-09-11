@@ -189,6 +189,13 @@ Caught by reviews; the chronological record is
   or a defined graph role, or a real qubit, the word stays; where γ or the
   dissipator is made the agent, it goes. Tracked as
   `gamma_is_the_sender_not_the_watching`.
+- **"Darkness" is a second name for the light content, and its own comparative
+  reads the axis the other way.** The noun is the quantity itself, so darkness 0
+  is the immortal mode; "darker" and "darkest" mean a smaller value and a longer
+  life. Fenced at the door, not renamed, in the [Glossary](../GLOSSARY.md) section
+  "Darkness: the noun, the comparative, and which way each points", which owns this
+  entry and states the uniform-γ scope the registry definition omits. The rename is
+  the fix; the surface is measured in the arc `darkness_names_the_light`.
 
 ---
 

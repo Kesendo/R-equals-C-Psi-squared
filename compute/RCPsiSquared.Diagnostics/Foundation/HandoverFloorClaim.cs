@@ -42,7 +42,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (the live handover node).</para></summary>
 public sealed class HandoverFloorClaim : Claim
 {
-    /// <summary>Typed parent: the survival law Re = −2γ·⟨n_XY⟩ that sets the survivor's darkness.</summary>
+    /// <summary>Typed parent: the survival law Re = −2γ·⟨n_XY⟩ that sets the survivor's darkness.
+    /// NAMING: "darkness" here is the LIGHT CONTENT ⟨n_XY⟩, larger meaning shorter-lived, while
+    /// "the darker one" in the class comment above means the SMALLER value and the longer life.
+    /// One quantity, two directions, one comment; see the Glossary section "Darkness: the noun,
+    /// the comparative, and which way each points" and docs/CAUGHT_ERRORS.md, 2026-09-11. The
+    /// rename is the open arc darkness_names_the_light.</summary>
     public AbsorptionTheoremClaim Survival { get; }
 
     /// <summary>Typed parent: the F50 off-diagonal floor (Re = −2γ, ⟨n_XY⟩ = 1) the survivor rises to.</summary>

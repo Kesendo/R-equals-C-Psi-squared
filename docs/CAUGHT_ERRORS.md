@@ -2894,3 +2894,74 @@ words already.
 `compute/RCPsiSquared.Core/Symmetry/RouteBN6RemainderBoundClaim.cs`,
 `compute/RCPsiSquared.Diagnostics.Tests/Foundation/RouteBN6RemainderBoundClaimTests.cs`,
 `docs/proofs/PROOF_ROUTE_B_N6_REMAINDER_BOUND.md`.
+
+## 2026-09-11 — "darkness" names the light, and its own comparative reads the axis the other way
+
+- **What was wrong:** −Re λ/(2γ) is a mode's light content, and the dynamics documents,
+  several typed claims and the carbon scripts call it a mode's darkness. Under that noun
+  a mode of darkness 0 is the immortal one. The comparative in the same corpus means the
+  other direction, a SMALLER value of that number and a longer life, which is the
+  quantum-optics reading of a dark state. The two live inside single files:
+  `simulations/carbon/handover_q.py` writes `FRACTIONAL darkness <n_XY> < 1`, says it
+  "brightens" as Q rises, calls the mode with the smaller value "darker" two lines later,
+  and asserts `nxy22 < nxy11` with the message "not darker than";
+  `HandoverFloorClaim.cs:16-26` carries "its darkness reaches the ... floor ⟨n_XY⟩ = 1", "the excess
+  light" and "the darker one reaches the floor" for one quantity in one doc comment.
+  `StructuralCeilingWitness.CommutantDarkest` is a `min` over the nonzero ⟨n_XY⟩.
+  Measured surface: the noun occurs 214 times across 42 tracked files, on 181 lines, the
+  typed claims and one public API name among them.
+- **Why it survived:** the noun and the comparative are each locally true. Read as a
+  RATE of darkening the noun is consistent, read as a STATE the comparative is
+  consistent, and no sentence has to choose, so a reader who agrees with either half
+  reads on. The word also had no entry in `docs/GLOSSARY.md` and no row in
+  `docs/quantum/THE_LABEL_MAP.md`, the two places that exist for exactly this, so
+  neither of the repo's own instruments was ever pointed at it. The one existing fence,
+  `simulations/blind_site.py:3-5`, names two senses at its door and carries the
+  inversion itself, calling ⟨n_XY⟩ = 0 "the Absorption-Theorem darkness" when under the
+  noun that state is darkness ZERO.
+- **How caught:** a label sweep on one word, run as the third thread of a naming game,
+  with three scouts (a repo-wide occurrence census, a from-below check of the Absorption
+  Theorem's scope, and an adjacency sweep asking which documents about this one object
+  never cite each other), then two fresh review rounds on the draft. The rounds found
+  fourteen defects in the draft itself, including a miscount, a mis-cited flagship
+  exhibit and a derivation missing its premise; this entry is what survived them.
+- **Fix:** a fence at the door, not a rename. `docs/GLOSSARY.md` gains the section
+  "Darkness: the noun, the comparative, and which way each points", carrying the table
+  of the three words with their directions, the uniform-γ scope that Theorem 1 requires
+  and the registry definition omits, the instruction to write the light content for the
+  noun and to name the end when using the comparative, the glyph note against the
+  F135/F136 record-class sense already in that file, and the statement that the rename
+  is the fix. `THE_LABEL_MAP.md` section 5 indexes it and names the glossary section as
+  its owner.
+- **Not fixed, and deliberately:** the rename itself, at all 214 of them. The measured
+  surface, the order of surfaces and the two cautions are in the arc
+  `darkness_names_the_light` so they are not re-found. The repository's own lesson says
+  this fence is not the end of it: the 2026-09-01 second entry above, the `N_node`
+  rename, concludes that naming a collision at the door protects only the reader who
+  comes through that door.
+- **Two further items belong to a class this ledger already parked, and are recorded in
+  the arc rather than here.** The registry's definition of darkness omits the uniform-γ
+  hypothesis, and the (0,1) band edge's exact −2γ is attributed to F50 when, AT UNIFORM
+  γ, it follows from Theorem 1 given that H conserves excitation number and the block is
+  therefore L-invariant; F50 supplies the multiplicity at that value, and its own entry
+  records a gap in the upper-bound proof. The repo already derives that edge, without
+  needing number conservation as the premise: `docs/proofs/PROOF_STRUCTURAL_CEILING.md`
+  reads it as an ad_H-eigenblock inside the (0,1) sector where every coherence has
+  hamming 1, so N_XY is the identity there and the rate is exactly 2γ at all Q. The
+  second item sits inside the "whole sector at Re = −2γ" class that the 2026-08-20 entry
+  "a uniform-γ lemma was carried into two documents that advertise arbitrary rates"
+  parked in `site_resolved_vacuum_block` expressly so it would not be re-found; the
+  first belongs to that entry's wider subject, a hypothesis living inside a symbol,
+  rather than to the sector class itself. Both were re-found anyway, by a sweep that did
+  not go there first.
+- **Lesson:** a noun and its own comparative can name opposite directions on one axis
+  and neither will ever look wrong locally, because each is read in a different
+  register, one as a rate and one as a state. The collision is invisible to every check
+  that reads a sentence at a time, which is every check we have. What surfaced it was
+  counting the word instead of reading it.
+- **Anchors.** `docs/GLOSSARY.md` (the Darkness section),
+  `docs/quantum/THE_LABEL_MAP.md` section 5, `simulations/carbon/handover_q.py`,
+  `compute/RCPsiSquared.Diagnostics/Foundation/HandoverFloorClaim.cs`,
+  `compute/RCPsiSquared.Diagnostics/Foundation/StructuralCeilingWitness.cs`,
+  `simulations/blind_site.py`, `docs/proofs/PROOF_ABSORPTION_THEOREM.md`, the arc
+  `darkness_names_the_light`.
