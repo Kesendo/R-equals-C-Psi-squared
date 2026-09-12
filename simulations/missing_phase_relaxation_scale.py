@@ -2,15 +2,18 @@
 
 import argparse
 from dataclasses import asdict, dataclass
+import hashlib
 import itertools
 import json
 import math
 import os
+import platform
 from pathlib import Path
 from fractions import Fraction
 
 import mpmath as mp
 import numpy as np
+import scipy
 import sympy
 from scipy.optimize import linear_sum_assignment
 from sympy.polys.matrices import DomainMatrix
@@ -19,6 +22,23 @@ from sympy.polys.matrices import DomainMatrix
 N = 7
 SEAT = 3
 RESULT_PATH = Path(__file__).resolve().parent / "results" / "missing_phase_relaxation_scale.json"
+
+REQUIRED_B_MUTATION_GATES = frozenset({
+    "correct_operator_residual_zero",
+    "omitted_adjoint_entrywise_detected",
+    "correct_spectrum_residual_zero",
+    "missing_right_action_spectrum_detected",
+    "wrong_price_sign_spectrum_detected",
+})
+REQUIRED_EXACT_GATES = frozenset({
+    "polynomial_match",
+    "gap_series_match",
+    "effective_operator_match",
+    "uniform_peripheral_dimension_match",
+    "uniform_kernel_dimension_match",
+    "punctured_kernel_dimension_match",
+    "b_boundary_match",
+})
 
 
 @dataclass(frozen=True)
@@ -53,6 +73,21 @@ class PrecisionMatrix:
 
 
 @dataclass(frozen=True)
+class _BuildRecord:
+    build_id: int
+    matrix_id: int
+    bits: int
+    exact_input_fingerprint: tuple
+    source_build_token: int | None
+
+
+@dataclass(frozen=True)
+class _MeasurementRecord:
+    result_id: int
+    fingerprint: str
+
+
+@dataclass(frozen=True)
 class ClusterState:
     epsilon_token: str
     rank: int
@@ -63,6 +98,115 @@ class ClusterState:
 
 
 _build_counter = itertools.count(1)
+_build_registry = {}
+_measurement_counter = itertools.count(1)
+_measurement_registry = {}
+
+
+def _measurement_fingerprint_value(value):
+    """Freeze a measured attempt without trusting caller-visible metadata."""
+    if value is None or isinstance(value, (bool, int, str)):
+        return value
+    if isinstance(value, float):
+        return ("float", repr(value))
+    if isinstance(value, Fraction):
+        return ("fraction", value.numerator, value.denominator)
+    if isinstance(value, mp.mpf):
+        return ("mpf", value._mpf_)
+    if isinstance(value, mp.mpc):
+        return ("mpc", value._mpc_)
+    if isinstance(value, mp.matrix):
+        return (
+            "matrix",
+            value.rows,
+            value.cols,
+            tuple(
+                _measurement_fingerprint_value(value[row, column])
+                for row in range(value.rows)
+                for column in range(value.cols)
+            ),
+        )
+    if isinstance(value, PrecisionMatrix):
+        return (
+            "PrecisionMatrix",
+            id(value),
+            id(value.matrix),
+            value.bits,
+            value.token,
+            value.independently_reconstructed,
+            _measurement_fingerprint_value(value.exact_input_fingerprint),
+            value.source_build_token,
+            _measurement_fingerprint_value(value.matrix),
+        )
+    if isinstance(value, ClusterState):
+        return (
+            "ClusterState",
+            value.epsilon_token,
+            value.rank,
+            id(value.right_basis),
+            _measurement_fingerprint_value(value.right_basis),
+            id(value.left_basis),
+            _measurement_fingerprint_value(value.left_basis),
+            _measurement_fingerprint_value(value.right_ritz),
+            _measurement_fingerprint_value(value.left_ritz),
+        )
+    if isinstance(value, PrecisionDiagnostics):
+        return ("PrecisionDiagnostics",) + tuple(
+            _measurement_fingerprint_value(field_value)
+            for field_value in asdict(value).values()
+        )
+    if isinstance(value, PrecisionDecision):
+        return (
+            "PrecisionDecision",
+            value.status,
+            _measurement_fingerprint_value(value.failures),
+        )
+    if isinstance(value, dict):
+        return tuple(
+            (key, _measurement_fingerprint_value(item))
+            for key, item in sorted(value.items())
+            if key != "_measurement_token"
+        )
+    if isinstance(value, (list, tuple)):
+        return tuple(_measurement_fingerprint_value(item) for item in value)
+    raise TypeError(f"unsupported measurement evidence type: {type(value).__name__}")
+
+
+def _measurement_fingerprint(result):
+    frozen = _measurement_fingerprint_value(result)
+    return hashlib.sha256(repr(frozen).encode("utf-8")).hexdigest()
+
+
+def _register_measurement_result(result):
+    token = next(_measurement_counter)
+    result["_measurement_token"] = token
+    _measurement_registry[token] = _MeasurementRecord(
+        result_id=id(result),
+        fingerprint=_measurement_fingerprint(result),
+    )
+
+
+def _seal_measurement_result(result):
+    token = result.get("_measurement_token")
+    record = _measurement_registry.get(token)
+    if record is None or record.result_id != id(result):
+        raise AssertionError("measurement result cannot be sealed without provenance")
+    _measurement_registry[token] = _MeasurementRecord(
+        result_id=id(result),
+        fingerprint=_measurement_fingerprint(result),
+    )
+
+
+def _measurement_result_is_authentic(result):
+    if not isinstance(result, dict):
+        return False
+    record = _measurement_registry.get(result.get("_measurement_token"))
+    if record is None or record.result_id != id(result):
+        return False
+    try:
+        return record.fingerprint == _measurement_fingerprint(result)
+    except (AttributeError, TypeError, ValueError):
+        return False
 
 
 def _mp_rational(token: str) -> mp.mpf:
@@ -92,14 +236,24 @@ def _new_precision_matrix(
     exact_input_fingerprint=(),
     source_build_token=None,
 ):
-    return PrecisionMatrix(
-        matrixrezz.copy(),
+    matrix_copy = matrixrezz.copy()
+    token = next(_build_counter)
+    result = PrecisionMatrix(
+        matrix_copy,
         bits,
-        next(_build_counter),
-        independently_reconstructed,
+        token,
+        source_build_token is None,
         tuple(exact_input_fingerprint),
         source_build_token,
     )
+    _build_registry[token] = _BuildRecord(
+        id(result),
+        id(matrix_copy),
+        bits,
+        tuple(exact_input_fingerprint),
+        source_build_token,
+    )
+    return result
 
 
 def build_k_mp(epsilon_token: str, gamma_token: str, bits: int) -> PrecisionMatrix:
@@ -259,15 +413,25 @@ def precision_build_discrepancy(low, high):
 
 
 def precision_matrices_are_independent(low, high):
+    low_record = _build_registry.get(low.token)
+    high_record = _build_registry.get(high.token)
+    if low_record is None or high_record is None:
+        return False
     return (
-        low.bits * 2 == high.bits
+        low_record.build_id == id(low)
+        and high_record.build_id == id(high)
+        and low_record.matrix_id == id(low.matrix)
+        and high_record.matrix_id == id(high.matrix)
+        and low_record.bits == low.bits
+        and high_record.bits == high.bits
+        and low_record.bits * 2 == high_record.bits
         and low.token != high.token
         and low.matrix is not high.matrix
-        and low.exact_input_fingerprint == high.exact_input_fingerprint
-        and low.source_build_token is None
-        and high.source_build_token is None
-        and low.independently_reconstructed
-        and high.independently_reconstructed
+        and low_record.exact_input_fingerprint == low.exact_input_fingerprint
+        and high_record.exact_input_fingerprint == high.exact_input_fingerprint
+        and low_record.exact_input_fingerprint == high_record.exact_input_fingerprint
+        and low_record.source_build_token is None
+        and high_record.source_build_token is None
     )
 
 
@@ -277,6 +441,572 @@ def classify_precision_build_pair(low_diagnostic, high_diagnostic, low_build, hi
         high_diagnostic,
         independently_reconstructed=precision_matrices_are_independent(low_build, high_build),
     )
+
+
+def decide_certificate_attempt(result):
+    if not _measurement_result_is_authentic(result):
+        return PrecisionDecision(
+            "UNRESOLVED", ("measurement result provenance is invalid",)
+        )
+    precision = decide_precision_pair(
+        result["low"],
+        result["high"],
+        independently_reconstructed=precision_matrices_are_independent(
+            result["low_build"], result["high_build"]
+        ),
+    )
+    failures = list(precision.failures)
+    a_build_error = precision_build_discrepancy(
+        result["low_build"], result["high_build"]
+    )
+    a_component_fields = (
+        "right_cluster_residual",
+        "left_cluster_residual",
+        "biorthogonal_sigma_min",
+        "condition_number",
+        "construction_discrepancy",
+        "rounding_term",
+        "eigenvalue_error",
+    )
+    for label in ("low", "high"):
+        state = result.get(f"{label}_state")
+        stored = result.get(f"{label}_diagnostic_components", {})
+        if state is None:
+            failures.append(f"{label} A diagnostic has no bound cluster state")
+            continue
+        actual = _a_residual_components(
+            result[f"{label}_build"], state, a_build_error
+        )
+        if (
+            any(
+                field not in stored
+                or not math.isfinite(float(stored[field]))
+                or not math.isclose(
+                    float(stored[field]),
+                    float(actual[field]),
+                    rel_tol=1e-12,
+                    abs_tol=0.0,
+                )
+                for field in a_component_fields
+            )
+            or not math.isclose(
+                result[label].eigenvalue_error,
+                actual["eigenvalue_error"],
+                rel_tol=1e-12,
+                abs_tol=0.0,
+            )
+        ):
+            failures.append(f"{label} A diagnostic components are not bound to its build")
+    k_builds = result.get("k_builds", ())
+    k_builds_valid = (
+        len(k_builds) == 2 and precision_matrices_are_independent(*k_builds)
+    )
+    if not k_builds_valid:
+        failures.append("fresh K p/2p construction provenance is invalid")
+    k_pair_error = result.get("k_eigenvalue_pair_error", float("nan"))
+    k_pair_bound = result.get("k_eigenvalue_pair_bound", float("nan"))
+    k_build_discrepancy = result.get("k_build_discrepancy", float("nan"))
+    recomputed_k = {}
+    if k_builds_valid:
+        actual_k_discrepancy = precision_build_discrepancy(*k_builds)
+        for label, build in zip(("low", "high"), k_builds):
+            with mp.workprec(build.bits):
+                actual_value, actual_components = _k_eigenvalue_diagnostic(
+                    build,
+                    mp.mpc(0, 2 * mp.sqrt(2)),
+                    actual_k_discrepancy,
+                )
+            recomputed_k[label] = (actual_value, actual_components)
+        if not math.isclose(
+            float(k_build_discrepancy),
+            float(actual_k_discrepancy),
+            rel_tol=1e-12,
+            abs_tol=0.0,
+        ):
+            failures.append("K p/2p build discrepancy is not bound to registered builds")
+    if (
+        not math.isfinite(float(k_pair_error))
+        or not math.isfinite(float(k_pair_bound))
+        or not math.isfinite(float(k_build_discrepancy))
+        or k_pair_bound < 0
+        or k_build_discrepancy < 0
+        or k_build_discrepancy > k_pair_bound
+        or k_pair_error > k_pair_bound
+    ):
+        failures.append("K p/2p discrepancy or eigenvalue pair exceeds its certified bound")
+    for label in ("low", "high"):
+        components = result.get(f"{label}_k_diagnostic_components", {})
+        agreement = result.get(f"{label}_a_k_eigenvalue_agreement", float("nan"))
+        agreement_bound = result.get(
+            f"{label}_a_k_eigenvalue_agreement_bound", float("nan")
+        )
+        required_components = (
+            "right_residual",
+            "left_residual",
+            "left_right_pair_residual",
+            "biorthogonal_sigma_min",
+            "condition_number",
+            "construction_discrepancy",
+            "rounding_term",
+            "eigenvalue_error",
+            "gap",
+            "sep_complex",
+        )
+        finite_components = all(
+            name in components and math.isfinite(float(components[name]))
+            for name in required_components
+        )
+        derived_k_error = (
+            components.get("condition_number", float("nan"))
+            * (
+                max(
+                    components.get("right_residual", float("nan")),
+                    components.get("left_residual", float("nan")),
+                    components.get("left_right_pair_residual", float("nan")),
+                )
+                + components.get("construction_discrepancy", float("nan"))
+                + components.get("rounding_term", float("nan"))
+            )
+        )
+        expected_agreement_bound = (
+            getattr(result[label], "eigenvalue_error", float("nan"))
+            + components.get("eigenvalue_error", float("nan"))
+        )
+        actual_value, actual_components = recomputed_k.get(
+            label, (mp.mpc("nan"), {})
+        )
+        stored_value = result.get(f"{label}_k_eigenvalue", mp.mpc("nan"))
+        components_match_build = all(
+            name in actual_components
+            and name in components
+            and math.isclose(
+                float(components[name]),
+                float(actual_components[name]),
+                rel_tol=1e-12,
+                abs_tol=0.0,
+            )
+            for name in required_components
+        )
+        state = result.get(f"{label}_state")
+        if state is not None and k_builds_valid:
+            build = k_builds[0 if label == "low" else 1]
+            with mp.workprec(build.bits + 32):
+                actual_agreement = max(
+                    abs(value - actual_value) for value in state.right_ritz
+                )
+        else:
+            actual_agreement = mp.inf
+        actual_agreement_bound = (
+            getattr(result[label], "eigenvalue_error", float("nan"))
+            + actual_components.get("eigenvalue_error", float("nan"))
+        )
+        k_checks = (
+            (finite_components, "K diagnostic components are finite"),
+            (components_match_build, "K diagnostic components match the registered build"),
+            (
+                abs(mp.mpc(stored_value) - actual_value)
+                <= k_pair_bound,
+                "K Ritz value matches the registered build",
+            ),
+            (components.get("biorthogonal_sigma_min", 0) > 0, "K sigma_min is positive"),
+            (components.get("condition_number", 0) >= 1, "K condition number is at least one"),
+            (components.get("eigenvalue_error", -1) >= 0, "K eigenvalue error is nonnegative"),
+            (
+                math.isclose(
+                    components.get("construction_discrepancy", float("nan")),
+                    k_build_discrepancy,
+                    rel_tol=1e-12,
+                    abs_tol=0.0,
+                ),
+                "K construction discrepancy matches p/2p builds",
+            ),
+            (
+                math.isclose(
+                    components.get("eigenvalue_error", float("nan")),
+                    derived_k_error,
+                    rel_tol=1e-12,
+                    abs_tol=0.0,
+                ),
+                "K eigenvalue error is derived from K residuals",
+            ),
+            (
+                2 * components.get("eigenvalue_error", float("inf")) < min(
+                    components.get("gap", float("nan")),
+                    components.get("sep_complex", float("nan")) / 2,
+                ),
+                "K isolation inequality holds",
+            ),
+            (math.isfinite(float(agreement)), "A/K agreement is finite"),
+            (
+                math.isfinite(float(agreement_bound)) and agreement_bound >= 0,
+                "A/K agreement bound is finite and nonnegative",
+            ),
+            (
+                math.isclose(
+                    agreement_bound,
+                    expected_agreement_bound,
+                    rel_tol=1e-12,
+                    abs_tol=0.0,
+                ),
+                "A/K agreement bound is derived from stored diagnostics",
+            ),
+            (
+                abs(float(agreement) - float(actual_agreement))
+                <= float(actual_agreement_bound + k_pair_bound),
+                "A/K agreement matches registered build and state",
+            ),
+            (
+                actual_agreement <= actual_agreement_bound + k_pair_bound,
+                "registered A/K Ritz values agree within p/2p bounds",
+            ),
+            (
+                math.isclose(
+                    float(agreement_bound),
+                    float(actual_agreement_bound),
+                    rel_tol=1e-12,
+                    abs_tol=0.0,
+                ),
+                "A/K agreement bound matches registered diagnostics",
+            ),
+            (agreement <= agreement_bound, "A/K agreement lies within its bound"),
+        )
+        failures.extend(
+            f"{label} {description} failed"
+            for passed, description in k_checks if not passed
+        )
+    expected_k_pair_bound = sum(
+        recomputed_k.get(label, (None, {}))[1].get(
+            "eigenvalue_error", float("nan")
+        ) for label in ("low", "high")
+    )
+    expected_k_pair_error = (
+        abs(recomputed_k["low"][0] - recomputed_k["high"][0])
+        if len(recomputed_k) == 2 else mp.nan
+    )
+    if not math.isclose(
+        k_pair_bound, expected_k_pair_bound, rel_tol=1e-12, abs_tol=0.0
+    ) or not math.isclose(
+        float(k_pair_error), float(expected_k_pair_error), rel_tol=1e-12, abs_tol=0.0
+    ):
+        failures.append("K p/2p eigenvalue pair bound is not derived from K diagnostics")
+    b_builds = result.get("b_builds", ())
+    a_fingerprint = result["low_build"].exact_input_fingerprint
+    expected_b_fingerprint = ("B", *a_fingerprint[1:])
+    b_builds_valid = (
+        len(b_builds) == 2
+        and precision_matrices_are_independent(*b_builds)
+        and all(build.matrix.rows == build.matrix.cols == 49 for build in b_builds)
+        and all(
+            build.exact_input_fingerprint == expected_b_fingerprint
+            for build in b_builds
+        )
+    )
+    if not b_builds_valid:
+        failures.append("fresh B p/2p construction provenance is invalid")
+    flip_pairs = result.get("global_flip_build_pairs", ())
+    epsilon_token, gamma_token = a_fingerprint[1:]
+    expected_flip_fingerprints = (
+        ("A", "original", epsilon_token, gamma_token, 1, 1),
+        ("A", "global_flip", epsilon_token, gamma_token, -1, -1),
+        ("B", "original", epsilon_token, gamma_token, 1, -1),
+        ("B", "global_flip", epsilon_token, gamma_token, -1, 1),
+    )
+    flip_pairs_valid = not (
+        len(flip_pairs) != 4
+        or any(
+            len(pair) != 2 or not precision_matrices_are_independent(*pair)
+            for pair in flip_pairs
+        )
+        or any(
+            pair[0].exact_input_fingerprint != fingerprint
+            or pair[1].exact_input_fingerprint != fingerprint
+            or pair[0].matrix.rows != 49
+            or pair[0].matrix.cols != 49
+            or pair[1].matrix.rows != 49
+            or pair[1].matrix.cols != 49
+            for pair, fingerprint in zip(flip_pairs, expected_flip_fingerprints)
+        )
+    )
+    if not flip_pairs_valid:
+        failures.append("global-flip carrier construction provenance is invalid")
+    absorption_error = result["absorption_error"]
+    if not math.isfinite(float(absorption_error)) or absorption_error < 0:
+        failures.append("absorption interval is not finite and nonnegative")
+    for side, residual in result["absorption_residuals"].items():
+        if not math.isfinite(float(residual)) or abs(residual) > absorption_error:
+            failures.append(f"{side} absorption identity exceeds its interval")
+    if b_builds_valid:
+        b_build_error = precision_build_discrepancy(*b_builds)
+        with mp.workprec(b_builds[1].bits):
+            gamma = _mp_rational(gamma_token)
+            operator_delta = (
+                b_builds[1].matrix
+                + 2 * gamma * mp.eye(49)
+                + result["high_build"].matrix.transpose_conj()
+            )
+            actual_b_residual = (
+                mp.mpf(0) if not any(operator_delta)
+                else spectral_norm_mp(operator_delta)
+            )
+            actual_b_bound = a_build_error + b_build_error
+        if (
+            not math.isclose(
+                float(result["b_operator_map_residual"]),
+                float(actual_b_residual),
+                rel_tol=1e-12,
+                abs_tol=0.0,
+            )
+            or not math.isclose(
+                float(result["b_operator_map_bound"]),
+                float(actual_b_bound),
+                rel_tol=1e-12,
+                abs_tol=0.0,
+            )
+        ):
+            failures.append("fresh B operator evidence is not bound to registered builds")
+    if (
+        not math.isfinite(float(result["b_operator_map_residual"]))
+        or not math.isfinite(float(result["b_operator_map_bound"]))
+        or result["b_operator_map_bound"] < 0
+        or result["b_operator_map_residual"] > result["b_operator_map_bound"]
+    ):
+        failures.append("fresh B operator identity exceeds the construction bound")
+    if flip_pairs_valid and b_builds_valid:
+        (_, a_original), (_, a_copy), (_, b_original), (_, b_copy) = flip_pairs
+        with mp.workprec(result["high_build"].bits):
+            a_delta = a_original.matrix - a_copy.matrix
+            b_delta = b_original.matrix - b_copy.matrix
+            actual_copy_residual = max(
+                mp.mpf(0) if not any(a_delta) else spectral_norm_mp(a_delta),
+                mp.mpf(0) if not any(b_delta) else spectral_norm_mp(b_delta),
+            )
+            pair_drifts = [
+                mp.norm(mp.matrix(low.matrix) - high.matrix)
+                for low, high in flip_pairs
+            ]
+            actual_copy_bound = max(
+                pair_drifts[0] + pair_drifts[1],
+                pair_drifts[2] + pair_drifts[3],
+            )
+        if (
+            not math.isclose(
+                float(result["global_flip_copy_residual"]),
+                float(actual_copy_residual),
+                rel_tol=1e-12,
+                abs_tol=0.0,
+            )
+            or not math.isclose(
+                float(result["global_flip_copy_bound"]),
+                float(actual_copy_bound),
+                rel_tol=1e-12,
+                abs_tol=0.0,
+            )
+        ):
+            failures.append("global-flip evidence is not bound to registered carriers")
+    if (
+        not math.isfinite(float(result["global_flip_copy_residual"]))
+        or not math.isfinite(float(result["global_flip_copy_bound"]))
+        or result["global_flip_copy_bound"] < 0
+        or result["global_flip_copy_residual"] > result["global_flip_copy_bound"]
+    ):
+        failures.append("global-flip carrier copies exceed the construction bound")
+    decomposition_gates = result.get("decomposition_gates", ())
+    expected_bits = {result["low_build"].bits, result["high_build"].bits}
+    if (
+        len(decomposition_gates) != 2
+        or {gate.get("precision_bits") for gate in decomposition_gates} != expected_bits
+    ):
+        failures.append("decomposition gates do not cover both p and 2p builds")
+    for gate in decomposition_gates:
+        for field in (
+            "unitarity_residual",
+            "off_block_residual",
+            "full_operator_reconstruction_residual",
+            "full_eigen_residual",
+        ):
+            if (
+                not math.isfinite(float(gate[field]))
+                or not math.isfinite(float(gate["bound"]))
+                or gate["bound"] < 0
+                or gate[field] > gate["bound"]
+            ):
+                failures.append(
+                    f"{gate['precision_bits']}-bit decomposition {field} exceeds its bound"
+                )
+    kernel_bounds = {
+        gate.get("precision_bits"): gate.get("bound", float("nan"))
+        for gate in decomposition_gates
+    }
+    for label, bits in (
+        ("low", result["low_build"].bits),
+        ("high", result["high_build"].bits),
+    ):
+        kernel_bound = kernel_bounds.get(bits, float("nan"))
+        residual = result.get(f"{label}_kernel_residual", float("nan"))
+        lower_left = result.get(f"{label}_kernel_lower_left_residual", float("nan"))
+        if (
+            result.get(f"{label}_exact_stationary_dimension") != 2
+            or not math.isfinite(float(kernel_bound))
+            or not math.isfinite(float(residual))
+            or not math.isfinite(float(lower_left))
+            or residual > kernel_bound
+            or lower_left > kernel_bound
+        ):
+            failures.append(f"{label} exact stationary-space projection gate failed")
+    next_rate = result.get("next_distinct_a_rate", float("nan"))
+    rate_tolerance = result.get("next_distinct_a_rate_tolerance", float("nan"))
+    if (
+        not math.isfinite(float(next_rate))
+        or not math.isfinite(float(rate_tolerance))
+        or rate_tolerance <= 0
+        or next_rate <= result["high"].gap + rate_tolerance
+    ):
+        failures.append("next distinct A rate is not separated from the tracked rate class")
+    continuation = result.get("continuation_records", ())
+    if len(continuation) != 2 or any(
+        record is None or record.get("status") != "TRACKED"
+        for record in continuation
+    ):
+        failures.append("p/2p continuation record is not TRACKED")
+    return PrecisionDecision(
+        "TRUSTED" if not failures else "UNRESOLVED", tuple(failures)
+    )
+
+
+def certificate_verdict(rows, continuation_failures, b_mutations, exact_gates):
+    failures = list(continuation_failures)
+    if not rows:
+        failures.append("certificate contains no measured rows")
+    elif any(row.get("status") != "TRUSTED" for row in rows):
+        failures.append("one or more certificate rows are UNRESOLVED")
+    elif any(not row.get("measurement_registry_bound", False) for row in rows):
+        failures.append("one or more certificate rows lack authoritative measurement provenance")
+    missing_b = REQUIRED_B_MUTATION_GATES.difference(b_mutations)
+    if missing_b:
+        failures.append(f"missing B mutation gates: {', '.join(sorted(missing_b))}")
+    for name, passed in b_mutations.items():
+        if not passed:
+            failures.append(f"B mutation gate failed: {name}")
+    missing_exact = REQUIRED_EXACT_GATES.difference(exact_gates)
+    if missing_exact:
+        failures.append(f"missing exact theorem gates: {', '.join(sorted(missing_exact))}")
+    for name, passed in exact_gates.items():
+        if not passed:
+            failures.append(f"exact theorem gate failed: {name}")
+    return PrecisionDecision("PASS" if not failures else "UNRESOLVED", tuple(failures))
+
+
+def next_distinct_a_rate(eigenvalues, cluster_ritz, *, rate_tolerance):
+    """Remove the continued rate class from a stationary-projected spectrum."""
+    tolerance = mp.mpf(rate_tolerance)
+    if not mp.isfinite(tolerance) or tolerance <= 0:
+        raise ValueError("rate_tolerance must be finite and positive")
+    values = [mp.mpc(value) for value in eigenvalues]
+    targets = [mp.mpc(value) for value in cluster_ritz]
+    targets.extend(mp.conj(value) for value in cluster_ritz)
+    rows = _minimum_cost_target_assignment_mp(values, targets)
+    if len(rows) != 4 or max(
+        abs(values[row] - targets[column])
+        for column, row in enumerate(rows)
+    ) > tolerance:
+        raise AssertionError("continued conjugate rate class was not resolved")
+    remaining = [
+        value for index, value in enumerate(values) if index not in set(rows)
+    ]
+    cluster_rate = -mp.re(sum(targets[:2]) / 2)
+    rates = [-mp.re(value) for value in remaining]
+    if any(rate < -tolerance for rate in rates):
+        raise AssertionError("unstable A mode remains after exact stationary projection")
+    if any(rate <= tolerance for rate in rates):
+        raise AssertionError("stationary A mode remains after exact stationary projection")
+    if any(abs(rate - cluster_rate) <= tolerance for rate in rates):
+        raise AssertionError("continued rate class was not completely removed")
+    positive = sorted(rates)
+    if not positive:
+        raise AssertionError("no positive complementary A rate remains")
+    return float(positive[0])
+
+
+def _minimum_cost_target_assignment_mp(values, targets):
+    """Assign a small target list without demoting costs to float64."""
+    full_mask = (1 << len(targets)) - 1
+    states = {0: (mp.mpf(0), ())}
+    for value_index, value in enumerate(values):
+        updated = dict(states)
+        for mask, (cost, chosen) in states.items():
+            for target_index, target in enumerate(targets):
+                bit = 1 << target_index
+                if mask & bit:
+                    continue
+                candidate = (
+                    cost + abs(value - target),
+                    chosen + ((target_index, value_index),),
+                )
+                prior = updated.get(mask | bit)
+                if prior is None or candidate[0] < prior[0]:
+                    updated[mask | bit] = candidate
+        states = updated
+    if full_mask not in states:
+        raise AssertionError("not enough eigenvalues for target assignment")
+    assignment = [None] * len(targets)
+    for target_index, value_index in states[full_mask][1]:
+        assignment[target_index] = value_index
+    return tuple(assignment)
+
+
+def structured_spectrum_mp(build, epsilon_token):
+    """Read the complete spectrum from mp-native 1+6+6+36 blocks."""
+    with mp.workprec(build.bits):
+        _, blocks = _mp_liouville_blocks(build.matrix, epsilon_token, build.bits)
+        values = []
+        for block in blocks:
+            block_values = mp.eig(block, left=False, right=False)
+            if isinstance(block_values, tuple):
+                block_values = block_values[0]
+            values.extend(block_values)
+        if len(values) != 49:
+            raise AssertionError("structured spectrum did not contain 49 modes")
+        return tuple(values)
+
+
+def _stationary_complement_blocks_mp(build, epsilon_token):
+    """Remove the exact two-dimensional stationary space before eigensolving."""
+    with mp.workprec(build.bits):
+        unitary, blocks = _mp_liouville_blocks(
+            build.matrix, epsilon_token, build.bits
+        )
+        outer_identity = mp.zeros(36, 1)
+        for index in range(6):
+            outer_identity[index * 6 + index] = 1
+        outer_identity /= mp.sqrt(6)
+        outer_complement, lower_left = _local_complement(
+            blocks[3], outer_identity, build.bits
+        )
+        stationary_basis = mp.matrix(49, 2)
+        stationary_basis[:, 0] = unitary[:, 0]
+        stationary_basis[:, 1] = unitary[:, 13:49] * outer_identity
+        kernel_residual = spectral_norm_mp(build.matrix * stationary_basis)
+        evidence = {
+            "exact_stationary_dimension": 2,
+            "kernel_residual": float(kernel_residual),
+            "lower_left_residual": float(spectral_norm_mp(lower_left)),
+        }
+        return (blocks[1], blocks[2], outer_complement), evidence
+
+
+def stationary_complement_spectrum_mp(build, epsilon_token):
+    """Return all 47 nonstationary eigenvalues after exact-space projection."""
+    with mp.workprec(build.bits):
+        blocks, evidence = _stationary_complement_blocks_mp(build, epsilon_token)
+        values = []
+        for block in blocks:
+            block_values = mp.eig(block, left=False, right=False)
+            if isinstance(block_values, tuple):
+                block_values = block_values[0]
+            values.extend(block_values)
+        if len(values) != 47:
+            raise AssertionError("stationary complement spectrum did not contain 47 modes")
+        return tuple(values), evidence
 
 
 def right_eigen_residual_for_matrix(matrix, vector, eigenvalue):
@@ -477,15 +1207,35 @@ def _mp_to_numpy(matrix):
 
 def ordinary_cluster_separation(matrix, state):
     """Read the complex-plane cluster/complement distance from the full spectrum."""
-    values = np.linalg.eigvals(_mp_to_numpy(matrix))
-    centres = np.array([complex(value) for value in state.right_ritz])
-    cost = np.abs(values[:, None] - centres[None, :])
-    rows, columns = linear_sum_assignment(cost)
-    selected_rows = {int(rows[index]) for index in range(len(rows)) if columns[index] < 2}
-    # rectangular assignment gives exactly two rows for the two cluster centres
-    selected = values[sorted(selected_rows)]
-    complement = np.delete(values, sorted(selected_rows))
-    return mp.mpf(str(float(np.min(np.abs(selected[:, None] - complement[None, :])))))
+    bits = mp.mp.prec
+    with mp.workprec(bits):
+        _, blocks = _mp_liouville_blocks(matrix, state.epsilon_token, bits)
+        values = []
+        for block in blocks:
+            block_values = mp.eig(block, left=False, right=False)
+            if isinstance(block_values, tuple):
+                block_values = block_values[0]
+            values.extend(block_values)
+        best = min(
+            (
+                max(
+                    abs(values[first] - state.right_ritz[0]),
+                    abs(values[second] - state.right_ritz[1]),
+                ),
+                first,
+                second,
+            )
+            for first in range(len(values))
+            for second in range(len(values))
+            if first != second
+        )
+        selected_indices = {best[1], best[2]}
+        selected = [values[index] for index in selected_indices]
+        complement = [
+            value for index, value in enumerate(values)
+            if index not in selected_indices
+        ]
+        return min(abs(left - right) for left in selected for right in complement)
 
 
 def _fraction_token(value):
@@ -540,6 +1290,50 @@ def _nearest_eigenpair(matrix, target):
     index = min(range(len(values)), key=lambda item: abs(values[item] - target))
     vector = vectors[index] / mp.norm(vectors[index])
     return values[index], vector
+
+
+def _k_eigenvalue_diagnostic(build, target, build_discrepancy):
+    """Bound one K eigenvalue using its own residuals and p/2p drift."""
+    with mp.workprec(build.bits):
+        values, vectors = _eigenpairs(build.matrix)
+        index = min(range(len(values)), key=lambda item: abs(values[item] - target))
+        value = values[index]
+        right = vectors[index] / mp.norm(vectors[index])
+        sep_complex = min(
+            abs(value - candidate)
+            for candidate_index, candidate in enumerate(values)
+            if candidate_index != index
+        )
+        left_value, left = _nearest_eigenpair(
+            build.matrix.transpose_conj(), mp.conj(value)
+        )
+        sigma = abs((left.transpose_conj() * right)[0])
+        if sigma == 0:
+            raise AssertionError("K left/right eigenvectors are biorthogonally singular")
+        kappa = 1 / sigma
+        right_residual = mp.norm(build.matrix * right - value * right)
+        left_residual = mp.norm(
+            build.matrix.transpose_conj() * left - left_value * left
+        )
+        left_right_pair_residual = abs(left_value - mp.conj(value))
+        rounding = mp.eps * mp.norm(build.matrix) * 128
+        error = kappa * (
+            max(right_residual, left_residual, left_right_pair_residual)
+            + build_discrepancy
+            + rounding
+        )
+        return value, {
+            "right_residual": float(right_residual),
+            "left_residual": float(left_residual),
+            "left_right_pair_residual": float(left_right_pair_residual),
+            "biorthogonal_sigma_min": float(sigma),
+            "condition_number": float(kappa),
+            "construction_discrepancy": float(build_discrepancy),
+            "rounding_term": float(rounding),
+            "eigenvalue_error": float(error),
+            "gap": float(-mp.re(value)),
+            "sep_complex": float(sep_complex),
+        }
 
 
 def _row_stack_outer_mp(left, right):
@@ -650,23 +1444,22 @@ def native_block_separation(matrix, state, epsilon_token, bits, *, compute_compl
                 for cluster_value in state.right_ritz
                 for complement_value in complement_values
             )
-        centre = sum(state.right_ritz) / 2
-        cluster_spread = max(abs(value - centre) for value in state.right_ritz)
-        sylvester_bounds = []
+        t_cluster = state.right_basis.transpose_conj() * matrix * state.right_basis
+        sylvester_values = []
         for block in complement_blocks:
-            sigma = min(mp.svd(block - centre * mp.eye(block.rows), compute_uv=False))
-            sylvester_bounds.append(max(mp.mpf(0), sigma - cluster_spread))
-        sep_sylvester = min(sylvester_bounds)
+            sylvester_values.append(sylvester_separation_mp(t_cluster, block))
+        sep_sylvester = min(sylvester_values)
         transformed = unitary.transpose_conj() * matrix * unitary
         block_diagonal = mp.zeros(49)
         for start, block in zip((0, 1, 7, 13), blocks):
             block_diagonal[start:start + block.rows, start:start + block.cols] = block
         off_block = transformed - block_diagonal
-        off_block_residual = max(abs(off_block[i, j]) for i in range(49) for j in range(49))
+        off_block_residual = mp.norm(off_block)
         return {
             "block_dimensions": [block.rows for block in complement_blocks],
             "sep_complex": sep_complex,
             "sep_sylvester": sep_sylvester,
+            "t_cluster": t_cluster,
             "off_block_residual": off_block_residual,
             "lower_left_residual": max(lower_residuals),
         }
@@ -697,87 +1490,24 @@ def _choose_overlap_candidate(matrix, values, vectors, previous_basis, bits, rad
 def factor_track_cluster(matrix, previous, epsilon_token, gamma_token, bits, candidate_radius):
     """Solve the two 6D cross blocks, then validate their lifted 49D cluster."""
     with mp.workprec(bits):
-        full_values = np.linalg.eigvals(_mp_to_numpy(matrix))
-        previous_centres = np.array([complex(value) for value in previous.right_ritz])
-        mask = np.min(np.abs(full_values[:, None] - previous_centres[None, :]), axis=1) <= float(candidate_radius)
-        pool = np.flatnonzero(mask)
-        if len(pool) < 2 or len(pool) > 4:
-            return None, {
-                "epsilon_token": epsilon_token,
-                "candidate_count": int(len(pool)),
-                "status": "UNRESOLVED",
-                "failures": ["candidate union did not contain between two and four eigenvalues"],
-            }
-        if len(pool) == 2:
-            candidate = reduced_cluster_state(epsilon_token, gamma_token, bits)
-            rows, columns = linear_sum_assignment(
-                np.abs(
-                    full_values[pool, None]
-                    - np.array([complex(value) for value in candidate.right_ritz])[None, :]
-                )
-            )
-            match_error = float(np.max(np.abs(
-                full_values[pool[rows]]
-                - np.array([complex(candidate.right_ritz[index]) for index in columns])
-            )))
-            adjoint_build = build_a_adjoint_mp(epsilon_token, gamma_token, bits)
-            right_residual = spectral_norm_mp(
-                (mp.eye(49) - _orthogonal_projector(candidate.right_basis))
-                * matrix * candidate.right_basis
-            )
-            left_residual = spectral_norm_mp(
-                (mp.eye(49) - _orthogonal_projector(candidate.left_basis))
-                * adjoint_build.matrix * candidate.left_basis
-            )
-            score = _smallest_singular_value(
-                previous.right_basis.transpose_conj() * candidate.right_basis
-            )
-            left_score = _smallest_singular_value(
-                previous.left_basis.transpose_conj() * candidate.left_basis
-            )
-            margin = min(score, left_score)
-            uncertainty = max(right_residual, left_residual) / candidate_radius
-            pair_error, _ = _pair_distance(candidate.left_ritz, candidate.right_ritz)
-            pair_bound = right_residual + left_residual + mp.power(2, -bits + 8) * mp.norm(matrix)
-            right_angle = _maximum_principal_angle(previous.right_basis, candidate.right_basis)
-            left_angle = _maximum_principal_angle(previous.left_basis, candidate.left_basis)
-            failures = []
-            if match_error > 1024 * np.finfo(float).eps * max(1.0, np.linalg.norm(_mp_to_numpy(matrix), 2)):
-                failures.append("factor Ritz values do not match the two full49 candidates")
-            if margin <= uncertainty:
-                failures.append("dimensionless overlap margin is not resolved")
-            if pair_error > pair_bound:
-                failures.append("independent left/right Ritz pairing exceeds residual bounds")
-            if max(right_angle, left_angle) >= mp.pi / 2:
-                failures.append("principal angle reached pi/2")
-            record = {
-                "epsilon_token": epsilon_token,
-                "candidate_count": 2,
-                "candidate_radius": float(candidate_radius),
-                "right_overlap_score": float(score),
-                "left_overlap_score": float(left_score),
-                "overlap_margin": float(margin),
-                "dimensionless_uncertainty": float(uncertainty),
-                "right_principal_angle": float(right_angle),
-                "left_principal_angle": float(left_angle),
-                "left_right_ritz_pair_error": float(pair_error),
-                "full49_candidate_match_error": match_error,
-                "full49_invariance_residual": float(max(right_residual, left_residual)),
-                "fresh_adjoint_build_token": adjoint_build.token,
-                "status": "UNRESOLVED" if failures else "TRACKED",
-                "failures": failures,
-            }
-            return (None if failures else candidate), record
         right_values, right_vectors = _cross_block_candidates(
             matrix, epsilon_token, bits, previous.right_ritz, candidate_radius
         )
+        candidate_count = len(right_values)
+        if candidate_count < 2 or candidate_count > 4:
+            return None, {
+                "epsilon_token": epsilon_token,
+                "candidate_count": candidate_count,
+                "status": "UNRESOLVED",
+                "failures": ["candidate union did not contain between two and four eigenvalues"],
+            }
         chosen_right = _choose_overlap_candidate(
             matrix, right_values, right_vectors, previous.right_basis, bits, candidate_radius
         )
         if chosen_right is None:
             return None, {
                 "epsilon_token": epsilon_token,
-                "candidate_count": int(len(pool)),
+                "candidate_count": candidate_count,
                 "status": "UNRESOLVED",
                 "failures": ["right cross-block overlap selection is ambiguous"],
             }
@@ -792,6 +1522,14 @@ def factor_track_cluster(matrix, previous, epsilon_token, gamma_token, bits, can
             tuple(mp.conj(value) for value in right_ritz),
             candidate_radius,
         )
+        if len(left_values) < 2 or len(left_values) > 4:
+            return None, {
+                "epsilon_token": epsilon_token,
+                "candidate_count": candidate_count,
+                "left_candidate_count": len(left_values),
+                "status": "UNRESOLVED",
+                "failures": ["left candidate union did not contain between two and four eigenvalues"],
+            }
         chosen_left = _choose_overlap_candidate(
             adjoint_build.matrix,
             left_values,
@@ -803,7 +1541,7 @@ def factor_track_cluster(matrix, previous, epsilon_token, gamma_token, bits, can
         if chosen_left is None:
             return None, {
                 "epsilon_token": epsilon_token,
-                "candidate_count": int(len(pool)),
+                "candidate_count": candidate_count,
                 "status": "UNRESOLVED",
                 "failures": ["left cross-block overlap selection is ambiguous"],
             }
@@ -816,7 +1554,7 @@ def factor_track_cluster(matrix, previous, epsilon_token, gamma_token, bits, can
         if distance > pair_bound:
             return None, {
                 "epsilon_token": epsilon_token,
-                "candidate_count": int(len(pool)),
+                "candidate_count": candidate_count,
                 "status": "UNRESOLVED",
                 "failures": ["independent left/right Ritz pairing exceeds residual bounds"],
             }
@@ -830,13 +1568,13 @@ def factor_track_cluster(matrix, previous, epsilon_token, gamma_token, bits, can
         if max(right_angle, left_angle) >= mp.pi / 2:
             return None, {
                 "epsilon_token": epsilon_token,
-                "candidate_count": int(len(pool)),
+                "candidate_count": candidate_count,
                 "status": "UNRESOLVED",
                 "failures": ["principal angle reached pi/2"],
             }
         return candidate, {
             "epsilon_token": epsilon_token,
-            "candidate_count": int(len(pool)),
+            "candidate_count": candidate_count,
             "candidate_radius": float(candidate_radius),
             "right_overlap_score": float(score),
             "left_overlap_score": float(left_score),
@@ -894,6 +1632,37 @@ def _centre_light(projector):
     return mp.re(total) / 2
 
 
+def _a_residual_components(build, state, build_error):
+    with mp.workprec(build.bits):
+        matrix = build.matrix
+        right = state.right_basis
+        left = state.left_basis
+        identity = mp.eye(N * N)
+        right_projector = _orthogonal_projector(right)
+        left_projector = _orthogonal_projector(left)
+        right_residual = spectral_norm_mp(
+            (identity - right_projector) * matrix * right
+        )
+        left_residual = spectral_norm_mp(
+            (identity - left_projector) * matrix.transpose_conj() * left
+        )
+        sigma = _smallest_singular_value(left.transpose_conj() * right)
+        kappa = 1 / sigma
+        rounding_term = mp.eps * mp.norm(matrix) * 256
+        eigenvalue_error = kappa * (
+            max(right_residual, left_residual) + build_error + rounding_term
+        )
+        return {
+            "right_cluster_residual": float(right_residual),
+            "left_cluster_residual": float(left_residual),
+            "biorthogonal_sigma_min": float(sigma),
+            "condition_number": float(kappa),
+            "construction_discrepancy": float(build_error),
+            "rounding_term": float(rounding_term),
+            "eigenvalue_error": float(eigenvalue_error),
+        }
+
+
 def _diagnostic_at_precision(
     build,
     state,
@@ -906,24 +1675,18 @@ def _diagnostic_at_precision(
     max_principal_angle,
 ):
     with mp.workprec(build.bits):
-        matrix = build.matrix
         right = state.right_basis
         left = state.left_basis
         pr = _orthogonal_projector(right)
         pl = _orthogonal_projector(left)
-        identity = mp.eye(N * N)
-        rr = (identity - pr) * matrix * right
-        rl = (identity - pl) * matrix.transpose_conj() * left
-        sigma = _smallest_singular_value(left.transpose_conj() * right)
-        kappa = 1 / sigma
-        residual = max(spectral_norm_mp(rr), spectral_norm_mp(rl))
-        eigen_error = kappa * (residual + build_error + mp.eps * mp.norm(matrix) * 256)
+        components = _a_residual_components(build, state, build_error)
+        eigen_error = components["eigenvalue_error"]
         gap = -mp.re(sum(state.right_ritz) / 2)
         sep_complex = mp.mpf(sep_complex)
         sep_sylvester = mp.mpf(sep_sylvester)
         subspace_error = eigen_error / sep_sylvester
         light = min(_centre_light(pr), _centre_light(pl))
-        return PrecisionDiagnostics(
+        diagnostic = PrecisionDiagnostics(
             2,
             float(eigen_error),
             float(gap),
@@ -936,6 +1699,7 @@ def _diagnostic_at_precision(
             float(max_principal_angle),
             float(pair_error),
         )
+        return diagnostic, components
 
 
 def _pair_ritz_error(low, high):
@@ -973,27 +1737,31 @@ def carrier_block_decomposition(build, epsilon_token):
         for start, block in zip(starts, blocks):
             block_diagonal[start:start + block.rows, start:start + block.cols] = block
         unitarity = unitary.transpose_conj() * unitary - mp.eye(N * N)
-        unitarity_residual = max(abs(unitarity[i, j]) for i in range(49) for j in range(49))
+        unitarity_residual = mp.norm(unitarity)
         off_block = transformed - block_diagonal
-        off_block_residual = max(abs(off_block[i, j]) for i in range(49) for j in range(49))
-
-    full = _mp_to_numpy(build.matrix)
-    full_values, full_vectors = np.linalg.eig(full)
-    union_values = np.concatenate([np.linalg.eigvals(_mp_to_numpy(block)) for block in blocks])
-    rows, columns = linear_sum_assignment(np.abs(full_values[:, None] - union_values[None, :]))
-    union_residual = float(np.max(np.abs(full_values[rows] - union_values[columns])))
-    eigen_residual = float(max(
-        np.linalg.norm(full @ full_vectors[:, i] - full_values[i] * full_vectors[:, i])
-        for i in range(49)
-    ))
-    return {
-        "dimensions": [block.rows for block in blocks],
-        "blocks": tuple(blocks),
-        "unitarity_residual": float(unitarity_residual),
-        "off_block_residual": float(off_block_residual),
-        "full_spectrum_union_residual": union_residual,
-        "full_eigen_residual": eigen_residual,
-    }
+        off_block_residual = mp.norm(off_block)
+        # This is an operator reconstruction residual.  The separately stored
+        # lifted-eigenpair residual is the only spectral read made here; no
+        # forward nonnormal spectral perturbation bound is claimed.
+        union_residual = mp.norm(off_block)
+        eigen_residuals = []
+        for block, start in zip(blocks, starts):
+            values, vectors = _eigenpairs(block)
+            carrier = unitary[:, start:start + block.rows]
+            for value, vector in zip(values, vectors):
+                lifted = carrier * vector
+                lifted /= mp.norm(lifted)
+                eigen_residuals.append(
+                    spectral_norm_mp(build.matrix * lifted - value * lifted)
+                )
+        return {
+            "dimensions": [block.rows for block in blocks],
+            "blocks": tuple(blocks),
+            "unitarity_residual": float(unitarity_residual),
+            "off_block_residual": float(off_block_residual),
+            "full_operator_reconstruction_residual": float(union_residual),
+            "full_eigen_residual": float(max(eigen_residuals)),
+        }
 
 
 def measure_precision_pair(
@@ -1004,10 +1772,51 @@ def measure_precision_pair(
     *,
     low_state=None,
     high_state=None,
+    low_track_record=None,
+    high_track_record=None,
 ):
     """Measure a fresh p/2p doubled cluster and all trust-contract quantities."""
+    target_fraction = Fraction(epsilon_token)
+    sign = 1 if target_fraction > 0 else -1
+    support_tokens = tuple(dict.fromkeys((
+        _fraction_token(Fraction(sign, 10)),
+        _fraction_token(Fraction(sign, 8)),
+        epsilon_token,
+    )))
+    local_paths = _branch_paths(support_tokens)
+
+    def tracked_at(bits):
+        records, states = prepare_continuation_paths(local_paths, gamma_token, bits)
+        record = next(
+            step for steps in records.values() for step in steps
+            if step["epsilon_token"] == epsilon_token
+        )
+        return states[epsilon_token], record
+
+    if low_state is None or low_track_record is None:
+        low_state, low_track_record = tracked_at(low_bits)
+    if high_state is None or high_track_record is None:
+        high_state, high_track_record = tracked_at(high_bits)
     low_build = build_a_mp(epsilon_token, gamma_token, low_bits)
     high_build = build_a_mp(epsilon_token, gamma_token, high_bits)
+    low_k_build = build_k_mp(epsilon_token, gamma_token, low_bits)
+    high_k_build = build_k_mp(epsilon_token, gamma_token, high_bits)
+    with mp.workprec(high_bits + 32):
+        k_build_discrepancy = precision_build_discrepancy(
+            low_k_build, high_k_build
+        )
+    with mp.workprec(low_bits):
+        low_k_value, low_k_components = _k_eigenvalue_diagnostic(
+            low_k_build,
+            mp.mpc(0, 2 * mp.sqrt(2)),
+            k_build_discrepancy,
+        )
+    with mp.workprec(high_bits):
+        high_k_value, high_k_components = _k_eigenvalue_diagnostic(
+            high_k_build,
+            mp.mpc(0, 2 * mp.sqrt(2)),
+            k_build_discrepancy,
+        )
     low_state = low_state or reduced_cluster_state(epsilon_token, gamma_token, low_bits)
     high_state = high_state or reduced_cluster_state(epsilon_token, gamma_token, high_bits)
     low_pr = _orthogonal_projector(low_state.right_basis)
@@ -1043,42 +1852,46 @@ def measure_precision_pair(
         right_angle = mp.acos(min(mp.mpf(1), max(mp.mpf(0), right_sigma)))
         left_angle = mp.acos(min(mp.mpf(1), max(mp.mpf(0), left_sigma)))
         precision_angle = max(right_angle, left_angle)
-        overlap_sigma = _smallest_singular_value(
-            high_state.left_basis.transpose_conj() * high_state.right_basis
-        )
-        cluster_kappa = 1 / overlap_sigma
-    right_separation = native_block_separation(
+    low_adjoint = build_a_adjoint_mp(epsilon_token, gamma_token, low_bits)
+    high_adjoint = build_a_adjoint_mp(epsilon_token, gamma_token, high_bits)
+    low_left_state = ClusterState(
+        epsilon_token, 2, low_state.left_basis, low_state.right_basis,
+        low_state.left_ritz, low_state.right_ritz,
+    )
+    high_left_state = ClusterState(
+        epsilon_token, 2, high_state.left_basis, high_state.right_basis,
+        high_state.left_ritz, high_state.right_ritz,
+    )
+    low_right_separation = native_block_separation(
+        low_build.matrix, low_state, epsilon_token, low_bits
+    )
+    low_left_separation = native_block_separation(
+        low_adjoint.matrix, low_left_state, epsilon_token, low_bits
+    )
+    high_right_separation = native_block_separation(
         high_build.matrix, high_state, epsilon_token, high_bits
     )
-    high_adjoint = build_a_adjoint_mp(epsilon_token, gamma_token, high_bits)
-    high_left_state = ClusterState(
-        epsilon_token,
-        2,
-        high_state.left_basis,
-        high_state.right_basis,
-        high_state.left_ritz,
-        high_state.right_ritz,
-    )
-    left_separation = native_block_separation(
+    high_left_separation = native_block_separation(
         high_adjoint.matrix,
         high_left_state,
         epsilon_token,
         high_bits,
-        compute_complex=False,
     )
-    high_sep_complex = right_separation["sep_complex"]
+    low_sep_complex = min(
+        low_right_separation["sep_complex"], low_left_separation["sep_complex"]
+    )
+    low_sep_sylvester = min(
+        low_right_separation["sep_sylvester"], low_left_separation["sep_sylvester"]
+    )
+    high_sep_complex = min(
+        high_right_separation["sep_complex"], high_left_separation["sep_complex"]
+    )
     high_sep_sylvester = min(
-        right_separation["sep_sylvester"], left_separation["sep_sylvester"]
-    )
-    low_sep_complex = max(
-        mp.mpf("1e-300"), high_sep_complex - 2 * cluster_kappa * build_error
-    )
-    low_sep_sylvester = max(
-        mp.mpf("1e-300"), high_sep_sylvester - build_error
+        high_right_separation["sep_sylvester"], high_left_separation["sep_sylvester"]
     )
     projector_difference = max(right_difference, left_difference)
     light_difference = max(right_light_difference, left_light_difference)
-    low_diagnostic = _diagnostic_at_precision(
+    low_diagnostic, low_components = _diagnostic_at_precision(
         low_build,
         low_state,
         build_error,
@@ -1089,7 +1902,7 @@ def measure_precision_pair(
         low_sep_sylvester,
         precision_angle,
     )
-    high_diagnostic = _diagnostic_at_precision(
+    high_diagnostic, high_components = _diagnostic_at_precision(
         high_build,
         high_state,
         build_error,
@@ -1099,9 +1912,6 @@ def measure_precision_pair(
         high_sep_complex,
         high_sep_sylvester,
         precision_angle,
-    )
-    status = classify_precision_build_pair(
-        low_diagnostic, high_diagnostic, low_build, high_build
     )
     gamma = mp.mpf(Fraction(gamma_token).numerator) / Fraction(gamma_token).denominator
     gap = -mp.re(sum(high_state.right_ritz) / 2)
@@ -1126,38 +1936,104 @@ def measure_precision_pair(
             b_build.matrix + 2 * gamma_high * mp.eye(49)
             + high_build.matrix.transpose_conj()
         )
-        operator_map_residual = max(
-            abs(operator_delta[i, j]) for i in range(49) for j in range(49)
+        operator_map_residual = (
+            mp.mpf(0) if not any(operator_delta)
+            else spectral_norm_mp(operator_delta)
         )
         operator_map_bound = (
             precision_build_discrepancy(low_build, high_build)
             + precision_build_discrepancy(low_b_build, b_build)
         )
-    a_original = build_global_flip_carrier_mp(
-        epsilon_token, gamma_token, high_bits, "A", "original"
+    flip_pairs = tuple(
+        (
+            build_global_flip_carrier_mp(
+                epsilon_token, gamma_token, low_bits, carrier, copy
+            ),
+            build_global_flip_carrier_mp(
+                epsilon_token, gamma_token, high_bits, carrier, copy
+            ),
+        )
+        for carrier, copy in (
+            ("A", "original"),
+            ("A", "global_flip"),
+            ("B", "original"),
+            ("B", "global_flip"),
+        )
     )
-    a_copy = build_global_flip_carrier_mp(
-        epsilon_token, gamma_token, high_bits, "A", "global_flip"
+    (_, a_original), (_, a_copy), (_, b_original), (_, b_copy) = flip_pairs
+    with mp.workprec(high_bits):
+        a_copy_delta = a_original.matrix - a_copy.matrix
+        b_copy_delta = b_original.matrix - b_copy.matrix
+        copy_residual = max(
+            mp.mpf(0) if not any(a_copy_delta) else spectral_norm_mp(a_copy_delta),
+            mp.mpf(0) if not any(b_copy_delta) else spectral_norm_mp(b_copy_delta),
+        )
+        copy_bounds = []
+        for low_flip, high_flip in flip_pairs:
+            copy_bounds.append(mp.norm(mp.matrix(low_flip.matrix) - high_flip.matrix))
+        copy_bound = max(
+            copy_bounds[0] + copy_bounds[1],
+            copy_bounds[2] + copy_bounds[3],
+        )
+    decomposition_gates = []
+    for current_build in (low_build, high_build):
+        decomposition = carrier_block_decomposition(current_build, epsilon_token)
+        with mp.workprec(current_build.bits):
+            bound = (
+                8192 * mp.power(2, -current_build.bits)
+                * max(mp.mpf(1), mp.norm(current_build.matrix))
+            )
+        decomposition_gates.append({
+            "precision_bits": current_build.bits,
+            "unitarity_residual": decomposition["unitarity_residual"],
+            "off_block_residual": decomposition["off_block_residual"],
+            "full_operator_reconstruction_residual": decomposition["full_operator_reconstruction_residual"],
+            "full_eigen_residual": decomposition["full_eigen_residual"],
+            "bound": float(bound),
+        })
+    with mp.workprec(high_bits + 32):
+        k_pair_error = abs(mp.mpc(low_k_value) - mp.mpc(high_k_value))
+    k_pair_bound = (
+        low_k_components["eigenvalue_error"]
+        + high_k_components["eigenvalue_error"]
     )
-    b_original = build_global_flip_carrier_mp(
-        epsilon_token, gamma_token, high_bits, "B", "original"
+    with mp.workprec(low_bits + 32):
+        low_a_k_agreement = max(
+            abs(value - low_k_value) for value in low_state.right_ritz
+        )
+    with mp.workprec(high_bits + 32):
+        high_a_k_agreement = max(
+            abs(value - high_k_value) for value in high_state.right_ritz
+        )
+    low_a_k_bound = (
+        low_diagnostic.eigenvalue_error
+        + low_k_components["eigenvalue_error"]
     )
-    b_copy = build_global_flip_carrier_mp(
-        epsilon_token, gamma_token, high_bits, "B", "global_flip"
+    high_a_k_bound = (
+        high_diagnostic.eigenvalue_error
+        + high_k_components["eigenvalue_error"]
     )
-    copy_residual = max(
-        abs(a_original.matrix[i, j] - a_copy.matrix[i, j])
-        for i in range(49) for j in range(49)
+    _, low_kernel_evidence = _stationary_complement_blocks_mp(
+        low_build, epsilon_token
     )
-    copy_residual = max(
-        copy_residual,
-        max(abs(b_original.matrix[i, j] - b_copy.matrix[i, j])
-            for i in range(49) for j in range(49)),
+    a_values, high_kernel_evidence = stationary_complement_spectrum_mp(
+        high_build, epsilon_token
     )
-    return {
-        "status": status,
+    with mp.workprec(high_bits):
+        spectrum_scale = max(mp.mpf(1), *(abs(value) for value in a_values))
+        rate_tolerance = max(
+            mp.mpf(8) * high_diagnostic.eigenvalue_error,
+            mp.mpf(8) * high_diagnostic.eigenvalue_pair_error,
+            mp.power(2, -high_bits + 8) * spectrum_scale,
+        )
+        next_rate = next_distinct_a_rate(
+            a_values, high_state.right_ritz, rate_tolerance=rate_tolerance
+        )
+    result = {
         "low": low_diagnostic,
         "high": high_diagnostic,
+        "low_diagnostic_components": low_components,
+        "high_diagnostic_components": high_components,
         "lights": lights,
         "unnormalized_lights": {side: 2 * value for side, value in lights.items()},
         "absorption_residuals": absorption,
@@ -1172,15 +2048,51 @@ def measure_precision_pair(
         "b_operator_map_residual": float(operator_map_residual),
         "b_operator_map_bound": float(operator_map_bound),
         "global_flip_copy_residual": float(copy_residual),
+        "global_flip_copy_bound": float(copy_bound),
+        "b_builds": (low_b_build, b_build),
+        "k_builds": (low_k_build, high_k_build),
+        "low_k_eigenvalue": low_k_value,
+        "high_k_eigenvalue": high_k_value,
+        "k_eigenvalue_pair_error": float(k_pair_error),
+        "k_eigenvalue_pair_bound": float(k_pair_bound),
+        "k_build_discrepancy": float(k_build_discrepancy),
+        "low_k_diagnostic_components": low_k_components,
+        "high_k_diagnostic_components": high_k_components,
+        "low_a_k_eigenvalue_agreement": float(low_a_k_agreement),
+        "high_a_k_eigenvalue_agreement": float(high_a_k_agreement),
+        "low_a_k_eigenvalue_agreement_bound": float(low_a_k_bound),
+        "high_a_k_eigenvalue_agreement_bound": float(high_a_k_bound),
+        "next_distinct_a_rate": float(next_rate),
+        "next_distinct_a_rate_tolerance": float(rate_tolerance),
+        "low_exact_stationary_dimension": low_kernel_evidence["exact_stationary_dimension"],
+        "high_exact_stationary_dimension": high_kernel_evidence["exact_stationary_dimension"],
+        "low_kernel_residual": low_kernel_evidence["kernel_residual"],
+        "high_kernel_residual": high_kernel_evidence["kernel_residual"],
+        "low_kernel_lower_left_residual": low_kernel_evidence["lower_left_residual"],
+        "high_kernel_lower_left_residual": high_kernel_evidence["lower_left_residual"],
+        "global_flip_build_pairs": flip_pairs,
         "low_build": low_build,
         "high_build": high_build,
+        "low_state": low_state,
+        "high_state": high_state,
         "state": high_state,
-        "native_block_dimensions": right_separation["block_dimensions"],
-        "right_native_off_block_residual": float(right_separation["off_block_residual"]),
-        "left_native_off_block_residual": float(left_separation["off_block_residual"]),
-        "right_native_lower_left_residual": float(right_separation["lower_left_residual"]),
-        "left_native_lower_left_residual": float(left_separation["lower_left_residual"]),
+        "native_block_dimensions": high_right_separation["block_dimensions"],
+        "right_native_off_block_residual": float(high_right_separation["off_block_residual"]),
+        "left_native_off_block_residual": float(high_left_separation["off_block_residual"]),
+        "right_native_lower_left_residual": float(high_right_separation["lower_left_residual"]),
+        "left_native_lower_left_residual": float(high_left_separation["lower_left_residual"]),
+        "separation_calls": [
+            [low_bits, "right"], [low_bits, "left"],
+            [high_bits, "right"], [high_bits, "left"],
+        ],
+        "decomposition_gates": decomposition_gates,
+        "continuation_records": [low_track_record, high_track_record],
     }
+    _register_measurement_result(result)
+    result["decision"] = decide_certificate_attempt(result)
+    result["status"] = result["decision"].status
+    _seal_measurement_result(result)
+    return result
 
 
 def _diagnostic_from_measured_mutation(*, sep_sylvester, projector_difference=0.0, light_difference=0.0):
@@ -1288,20 +2200,63 @@ def _serialize_diagnostic(value):
 
 
 def _row_from_measurement(epsilon_token, gamma_token, low_bits, high_bits, result, attempts):
+    if (
+        not _measurement_result_is_authentic(result)
+        or result.get("status") != "TRUSTED"
+        or not isinstance(result.get("decision"), PrecisionDecision)
+        or result["decision"].status != "TRUSTED"
+    ):
+        raise AssertionError("measurement provenance is not sealed as TRUSTED")
     state = result["state"]
-    k = build_k_mp(epsilon_token, gamma_token, high_bits).matrix
-    target = mp.mpc(0, 2 * mp.sqrt(2))
-    k_value, _ = _nearest_eigenpair(k, target)
-    a_values = np.linalg.eigvals(_mp_to_numpy(result["high_build"].matrix))
     gap = result["high"].gap
-    error = result["high"].eigenvalue_error
-    positive = sorted(-value.real for value in a_values if -value.real > max(1e-15, gap + 4 * error))
+    next_rate = result["next_distinct_a_rate"]
+    rate_tolerance = result["next_distinct_a_rate_tolerance"]
     b_values = np.linalg.eigvals(_mp_to_numpy(build_b_mp(epsilon_token, gamma_token, high_bits).matrix))
     return {
         "epsilon_token": epsilon_token,
         "gamma_token": gamma_token,
         "precision_bits": [low_bits, high_bits],
-        "K_gap": _decimal(-mp.re(k_value)),
+        "K_gap": _decimal(-mp.re(result["high_k_eigenvalue"])),
+        "low_K_gap": _decimal(-mp.re(result["low_k_eigenvalue"])),
+        "K_eigenvalue_pair_error": _decimal(result["k_eigenvalue_pair_error"]),
+        "K_eigenvalue_pair_bound": _decimal(result["k_eigenvalue_pair_bound"]),
+        "K_build_discrepancy": _decimal(result["k_build_discrepancy"]),
+        "low_K_diagnostic_components": {
+            key: _decimal(value)
+            for key, value in result["low_k_diagnostic_components"].items()
+        },
+        "high_K_diagnostic_components": {
+            key: _decimal(value)
+            for key, value in result["high_k_diagnostic_components"].items()
+        },
+        "low_A_K_eigenvalue_agreement": _decimal(
+            result["low_a_k_eigenvalue_agreement"]
+        ),
+        "high_A_K_eigenvalue_agreement": _decimal(
+            result["high_a_k_eigenvalue_agreement"]
+        ),
+        "low_A_K_eigenvalue_agreement_bound": _decimal(
+            result["low_a_k_eigenvalue_agreement_bound"]
+        ),
+        "high_A_K_eigenvalue_agreement_bound": _decimal(
+            result["high_a_k_eigenvalue_agreement_bound"]
+        ),
+        "build_registry_gates": {
+            "A_p2p_independent": precision_matrices_are_independent(
+                result["low_build"], result["high_build"]
+            ),
+            "K_p2p_independent": precision_matrices_are_independent(
+                *result["k_builds"]
+            ),
+            "B_p2p_independent": precision_matrices_are_independent(
+                *result["b_builds"]
+            ),
+            "global_flip_p2p_independent": all(
+                precision_matrices_are_independent(*pair)
+                for pair in result["global_flip_build_pairs"]
+            ),
+        },
+        "measurement_registry_bound": _measurement_result_is_authentic(result),
         "A_gap": _decimal(gap),
         "cluster_rank": state.rank,
         "right_light": _decimal(result["lights"]["right"]),
@@ -1311,17 +2266,44 @@ def _row_from_measurement(epsilon_token, gamma_token, low_bits, high_bits, resul
         "absorption_error": _decimal(result["absorption_error"]),
         "low_diagnostics": _serialize_diagnostic(result["low"]),
         "high_diagnostics": _serialize_diagnostic(result["high"]),
+        "low_diagnostic_components": {
+            key: _decimal(value)
+            for key, value in result["low_diagnostic_components"].items()
+        },
+        "high_diagnostic_components": {
+            key: _decimal(value)
+            for key, value in result["high_diagnostic_components"].items()
+        },
         "right_projector_difference": _decimal(result["right_projector_difference"]),
         "left_projector_difference": _decimal(result["left_projector_difference"]),
         "right_light_difference": _decimal(result["right_light_difference"]),
         "left_light_difference": _decimal(result["left_light_difference"]),
-        "next_distinct_A_rate": _decimal(positive[0]),
+        "next_distinct_A_rate": _decimal(next_rate),
+        "next_distinct_A_rate_tolerance": _decimal(rate_tolerance),
+        "low_exact_stationary_dimension": result["low_exact_stationary_dimension"],
+        "high_exact_stationary_dimension": result["high_exact_stationary_dimension"],
+        "low_kernel_residual": _decimal(result["low_kernel_residual"]),
+        "high_kernel_residual": _decimal(result["high_kernel_residual"]),
+        "low_kernel_lower_left_residual": _decimal(
+            result["low_kernel_lower_left_residual"]
+        ),
+        "high_kernel_lower_left_residual": _decimal(
+            result["high_kernel_lower_left_residual"]
+        ),
         "B_gap": _decimal(min(-b_values.real)),
         "B_operator_map_residual": _decimal(result["b_operator_map_residual"]),
         "B_operator_map_bound": _decimal(result["b_operator_map_bound"]),
         "full_B_match_numerical_read": _decimal(result["full_b_match_residual"]),
         "full_B_match_backward_error_read": _decimal(result["full_b_match_error"]),
         "global_flip_copy_residual": _decimal(result["global_flip_copy_residual"]),
+        "global_flip_copy_bound": _decimal(result["global_flip_copy_bound"]),
+        "decomposition_gates": [
+            {
+                key: (value if key == "precision_bits" else _decimal(value))
+                for key, value in gate.items()
+            }
+            for gate in result["decomposition_gates"]
+        ],
         "native_block_dimensions": result["native_block_dimensions"],
         "right_native_off_block_residual": _decimal(result["right_native_off_block_residual"]),
         "left_native_off_block_residual": _decimal(result["left_native_off_block_residual"]),
@@ -1403,12 +2385,217 @@ def _branch_paths(epsilon_tokens):
         if eighth in values:
             branch.append(eighth)
         branch.extend(sorted(
-            (value for value in values if value * sign > 0 and abs(value) < Fraction(1, 8)),
+            (
+                value
+                for value in values
+                if value * sign > 0
+                and abs(value) < Fraction(1, 8)
+                and value != historical
+            ),
             key=abs,
             reverse=True,
         ))
         paths[label] = [_fraction_token(value) for value in branch]
     return paths
+
+
+def _expected_effective_operators_for_certificate(gamma):
+    root2 = sympy.sqrt(2)
+    return {
+        "first": {
+            "-4sqrt2i": sympy.Matrix([[-sympy.I * root2]]),
+            "-2sqrt2i": -sympy.I / root2 * sympy.eye(2),
+            "0": sympy.zeros(4),
+            "+2sqrt2i": sympy.I / root2 * sympy.eye(2),
+            "+4sqrt2i": sympy.Matrix([[sympy.I * root2]]),
+        },
+        "second": {
+            "-4sqrt2i": sympy.Matrix([[-gamma - 3 * root2 * sympy.I / 8]]),
+            "-2sqrt2i": (-gamma / 2 - 3 * root2 * sympy.I / 16) * sympy.eye(2),
+            "0": sympy.Matrix([
+                [-gamma, 0, 0, gamma / 2],
+                [0, 0, 0, 0],
+                [0, 0, -gamma, gamma / 2],
+                [gamma / 2, 0, gamma / 2, -gamma / 2],
+            ]),
+            "+2sqrt2i": (-gamma / 2 + 3 * root2 * sympy.I / 16) * sympy.eye(2),
+            "+4sqrt2i": sympy.Matrix([[-gamma + 3 * root2 * sympy.I / 8]]),
+        },
+    }
+
+
+def _serialize_sympy_matrix(matrix):
+    return [[str(matrix[row, column]) for column in range(matrix.cols)]
+            for row in range(matrix.rows)]
+
+
+def exact_top_level_gates():
+    """Execute every exact claim serialized by the certificate header."""
+    lam, r, gamma = sympy.symbols("lambda r gamma")
+    determinant = sympy.expand(characteristic_polynomial(lam, r, gamma))
+    displayed_q = (
+        lam**6 + 2 * gamma * lam**5 + (4 * r**2 + 20) * lam**4
+        + (8 * gamma * r**2 + 24 * gamma) * lam**3
+        + (64 * r**2 + 96) * lam**2
+        + (64 * gamma * r**2 + 64 * gamma) * lam
+        + 192 * r**2 + 64
+    )
+    polynomial_match = sympy.expand(determinant - lam * displayed_q) == 0
+
+    epsilon = sympy.symbols("epsilon", real=True)
+    gamma_real = sympy.symbols("gamma_positive", positive=True, real=True)
+    branch = minus_branch_series(epsilon, gamma_real)
+    substituted = sympy.expand(
+        characteristic_polynomial(lam, r, gamma_real).subs(
+            {lam: branch, r: 1 + epsilon}
+        )
+    )
+    series_gate = all(
+        sympy.simplify(substituted.coeff(epsilon, order)) == 0
+        for order in range(4)
+    ) and sympy.simplify(gap_series(epsilon, gamma_real) + sympy.re(branch)) == 0
+
+    effective = exact_effective_operators(gamma_real)
+    expected_effective = _expected_effective_operators_for_certificate(gamma_real)
+    effective_gate = (
+        all(
+            effective[order][frequency] == expected_matrix
+            and effective["characteristic_polynomials"][order][frequency]
+            == expected_matrix.charpoly(
+                effective["characteristic_polynomials"][order][frequency].gen
+            )
+            for order in ("first", "second")
+            for frequency, expected_matrix in expected_effective[order].items()
+        )
+        and all(
+            certificate["denominator_nonzero_for_positive_gamma"]
+            and certificate["shifted_off_block_residual"] == sympy.zeros(49)
+            for certificate in effective["certificates"].values()
+        )
+    )
+
+    uniform_certificate = exact_uniform_peripheral_certificate(
+        sympy.Rational(3, 10)
+    )
+    uniform = uniform_certificate["census"]
+    punctured = exact_punctured_kernel_certificate(
+        sympy.Rational(1, 8), sympy.Rational(3, 10)
+    )
+    punctured_polynomial = punctured["restricted_characteristic_polynomial"]
+    boundary = exact_b_boundary_certificate()
+    denominator_gates = {
+        key: {
+            "denominator": str(certificate["resolvent_denominator"]),
+            "zero_root_multiplicity": int(
+                certificate["positive_denominator_certificate"][
+                    "zero_root_multiplicity"
+                ]
+            ),
+            "positive_axis_polynomial": str(
+                certificate["positive_denominator_certificate"][
+                    "positive_axis_polynomial"
+                ].as_expr()
+            ),
+            "positive_real_root_count": int(
+                certificate["positive_denominator_certificate"][
+                    "positive_real_root_count"
+                ]
+            ),
+        }
+        for key, certificate in effective["certificates"].items()
+    }
+    values = {
+        "polynomial_match": bool(polynomial_match),
+        "characteristic_polynomial": str(determinant),
+        "uniform_peripheral_dimension": int(uniform["peripheral_dimension"]),
+        "uniform_kernel_dimension": int(uniform["kernel_dimension"]),
+        "frequency_multiplicities": {
+            key: int(value)
+            for key, value in uniform["frequency_multiplicities"].items()
+        },
+        "uniform_combined_operator_rank": int(
+            uniform_certificate["combined_operator_rank"]
+        ),
+        "uniform_zero_cost_invariant_dimension": int(
+            uniform_certificate["zero_cost_invariant_dimension"]
+        ),
+        "effective_denominator_gates": denominator_gates,
+        "effective_operators": {
+            order: {
+                frequency: _serialize_sympy_matrix(matrix)
+                for frequency, matrix in effective[order].items()
+            }
+            for order in ("first", "second")
+        },
+        "effective_characteristic_polynomials": {
+            order: {
+                frequency: str(polynomial.as_expr())
+                for frequency, polynomial in
+                effective["characteristic_polynomials"][order].items()
+            }
+            for order in ("first", "second")
+        },
+        "punctured_kernel_dimension": int(punctured["kernel_dimension"]),
+        "punctured_stationary_rank": int(punctured["stationary_rank"]),
+        "punctured_zero_cost_invariant_dimension": int(
+            punctured["zero_cost_invariant_dimension"]
+        ),
+        "punctured_nonzero_imaginary_axis_dimension": int(
+            punctured["nonzero_imaginary_axis_dimension"]
+        ),
+        "punctured_restricted_characteristic_polynomial": str(
+            punctured["restricted_characteristic_polynomial"].as_expr()
+        ),
+        "b_boundary_has_peripheral_mode": bool(boundary["has_peripheral_b_mode"]),
+        "B_boundary_peripheral_dimension": int(boundary["peripheral_dimension"]),
+        "B_boundary_h_outer_times_u": [
+            str(value) for value in boundary["h_outer_times_u"]
+        ],
+    }
+    checks = {
+        "polynomial_match": values["polynomial_match"],
+        "gap_series_match": bool(series_gate),
+        "effective_operator_match": bool(effective_gate),
+        "uniform_peripheral_dimension_match": values["uniform_peripheral_dimension"] == 10,
+        "uniform_kernel_dimension_match": values["uniform_kernel_dimension"] == 4,
+        "punctured_kernel_dimension_match": (
+            values["punctured_kernel_dimension"] == 2
+            and values["punctured_stationary_rank"] == 2
+            and values["punctured_zero_cost_invariant_dimension"] == 2
+            and values["punctured_nonzero_imaginary_axis_dimension"] == 0
+            and punctured_polynomial.as_expr() == punctured_polynomial.gen**2
+        ),
+        "b_boundary_match": (
+            not values["b_boundary_has_peripheral_mode"]
+            and values["B_boundary_peripheral_dimension"] == 0
+        ),
+    }
+    return checks, values
+
+
+def producer_provenance():
+    source = Path(__file__).read_text(encoding="utf-8").replace("\r\n", "\n")
+    return {
+        "producer_revision": "source-sha256-normalized-lf",
+        "source_sha256_normalized_lf": hashlib.sha256(
+            source.encode("utf-8")
+        ).hexdigest(),
+        "dependencies": {
+            "python": platform.python_version(),
+            "mpmath": mp.__version__,
+            "numpy": np.__version__,
+            "scipy": scipy.__version__,
+            "sympy": sympy.__version__,
+        },
+        "exact_producers": [
+            "characteristic_polynomial",
+            "minus_branch_series",
+            "exact_effective_operators",
+            "exact_uniform_peripheral_certificate",
+            "exact_punctured_kernel_certificate",
+            "exact_b_boundary_certificate",
+        ],
+    }
 
 
 def build_certificate(
@@ -1417,6 +2604,7 @@ def build_certificate(
     epsilon_tokens=EPSILON_TOKENS,
     measure=measure_precision_pair,
 ):
+    exact_gates, exact_values = exact_top_level_gates()
     paths = _branch_paths(epsilon_tokens)
     continuation = {}
     continuation_failures = []
@@ -1429,6 +2617,14 @@ def build_certificate(
                 paths, gamma_token, bits
             )
         return continuation_cache[key]
+
+    def track_record(records, epsilon_token):
+        return next(
+            step
+            for steps in records.values()
+            for step in steps
+            if step["epsilon_token"] == epsilon_token
+        )
 
     for gamma_token in gamma_tokens:
         try:
@@ -1458,8 +2654,8 @@ def build_certificate(
             for low_bits, high_bits in PRECISION_PAIRS:
                 try:
                     if measure is measure_precision_pair:
-                        _, low_states = prepared(gamma_token, low_bits)
-                        _, high_states = prepared(gamma_token, high_bits)
+                        low_records, low_states = prepared(gamma_token, low_bits)
+                        high_records, high_states = prepared(gamma_token, high_bits)
                         result = measure(
                             epsilon_token,
                             gamma_token,
@@ -1467,16 +2663,12 @@ def build_certificate(
                             high_bits,
                             low_state=low_states[epsilon_token],
                             high_state=high_states[epsilon_token],
+                            low_track_record=track_record(low_records, epsilon_token),
+                            high_track_record=track_record(high_records, epsilon_token),
                         )
                     else:
                         result = measure(epsilon_token, gamma_token, low_bits, high_bits)
-                    decision = decide_precision_pair(
-                        result["low"],
-                        result["high"],
-                        independently_reconstructed=precision_matrices_are_independent(
-                            result["low_build"], result["high_build"]
-                        ),
-                    )
+                    decision = decide_certificate_attempt(result)
                     attempts.append({
                         "precision_bits": [low_bits, high_bits],
                         "status": decision.status,
@@ -1494,17 +2686,23 @@ def build_certificate(
                         "failures": [f"{type(error).__name__}: {error}"],
                     })
             rows.append(accepted or _unresolved_row(epsilon_token, gamma_token, attempts))
-    verdict = (
-        "PASS"
-        if not continuation_failures and all(row["status"] == "TRUSTED" for row in rows)
-        else "UNRESOLVED"
-    )
     operator_mutation = b_operator_mutation_residuals(
         sympy.Rational(1, 8), sympy.Rational(3, 10)
     )
     spectrum_mutation = b_spectrum_mutation_residuals(
         sympy.Rational(1, 8), sympy.Rational(3, 10)
     )
+    b_mutations = {
+        "correct_operator_residual_zero": operator_mutation["correct"] == 0,
+        "omitted_adjoint_entrywise_detected": operator_mutation["omitted_adjoint"] != 0,
+        "correct_spectrum_residual_zero": spectrum_mutation["correct"] == 0,
+        "missing_right_action_spectrum_detected": spectrum_mutation["missing_right_action"] != 0,
+        "wrong_price_sign_spectrum_detected": spectrum_mutation["wrong_price_sign"] != 0,
+    }
+    top_decision = certificate_verdict(
+        rows, continuation_failures, b_mutations, exact_gates
+    )
+    verdict = top_decision.status
     document = {
         "schema": "missing-phase-relaxation-scale/v1",
         "scope": {"N": 7, "sector": [1, 1], "seat": 3, "path": "r=1+epsilon"},
@@ -1514,28 +2712,19 @@ def build_certificate(
             "observable_lifetime_claimed": False,
             "full_liouvillian_gap_claimed": False,
         },
-        "exact": {
-            "polynomial_match": True,
-            "uniform_peripheral_dimension": 10,
-            "uniform_kernel_dimension": 4,
-            "punctured_kernel_dimension": 2,
-            "b_boundary_has_peripheral_mode": False,
-        },
+        "exact": exact_values,
+        "provenance": producer_provenance(),
         "rows": rows,
         "controls": {
             "continuation_paths": paths,
             "continuation_records": continuation,
             "continuation_failures": continuation_failures,
+            "verdict_failures": list(top_decision.failures),
             "candidate_radius_rule": "one third of preceding trusted sep_complex; never widened",
             "B_relation_gate": "fresh full operators: B + 2*gamma*I + A_dagger",
             "full_B_spectrum": "numerical read; certification follows from the operator gate",
-            "B_mutations": {
-                "correct_operator_residual_zero": operator_mutation["correct"] == 0,
-                "omitted_adjoint_entrywise_detected": operator_mutation["omitted_adjoint"] != 0,
-                "correct_spectrum_residual_zero": spectrum_mutation["correct"] == 0,
-                "missing_right_action_spectrum_detected": spectrum_mutation["missing_right_action"] != 0,
-                "wrong_price_sign_spectrum_detected": spectrum_mutation["wrong_price_sign"] != 0,
-            },
+            "B_mutations": b_mutations,
+            "exact_gates": exact_gates,
         },
         "verdict": verdict,
     }
@@ -1655,6 +2844,24 @@ def classify_precision_pair(
 def spectral_norm_mp(matrix):
     values = mp.svd(matrix, compute_uv=False)
     return max(values[index] for index in range(len(values))) if len(values) else mp.mpf(0)
+
+
+def kronecker_mp(left, right):
+    result = mp.zeros(left.rows * right.rows, left.cols * right.cols)
+    for i in range(left.rows):
+        for j in range(left.cols):
+            for k in range(right.rows):
+                for ell in range(right.cols):
+                    result[i * right.rows + k, j * right.cols + ell] = left[i, j] * right[k, ell]
+    return result
+
+
+def sylvester_separation_mp(cluster, complement):
+    operator = (
+        kronecker_mp(mp.eye(complement.rows), cluster)
+        - kronecker_mp(complement.transpose(), mp.eye(cluster.rows))
+    )
+    return min(mp.svd(operator, compute_uv=False))
 
 
 def _exact_scalar(value):

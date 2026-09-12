@@ -150,6 +150,24 @@ def test_promoting_a_low_matrix_is_not_independent_and_build_discrepancy_survive
     value = trusted_precision_fixture()
     assert mprs.classify_precision_build_pair(value, value, low, high) == "TRUSTED"
     assert mprs.classify_precision_build_pair(value, value, low, promoted) == "UNRESOLVED"
+    spoofed = mprs.PrecisionMatrix(
+        high.matrix.copy(),
+        high.bits,
+        high.token,
+        True,
+        high.exact_input_fingerprint,
+        None,
+    )
+    assert not mprs.precision_matrices_are_independent(low, spoofed)
+    spoofed_wrapper = mprs.PrecisionMatrix(
+        high.matrix,
+        high.bits,
+        high.token,
+        True,
+        high.exact_input_fingerprint,
+        None,
+    )
+    assert not mprs.precision_matrices_are_independent(low, spoofed_wrapper)
 
 
 def test_overlap_ambiguity_gate_is_dimensionless_under_time_rescaling():
@@ -161,6 +179,21 @@ def test_overlap_ambiguity_gate_is_dimensionless_under_time_rescaling():
 def test_spectral_norm_is_not_the_frobenius_norm():
     matrix = mp.diag([3, 4])
     assert mprs.spectral_norm_mp(matrix) == pytest.approx(4.0)
+
+
+def test_true_sylvester_svd_cannot_be_replaced_by_centre_minus_spread():
+    cluster = mp.matrix([[0, 8], [0, mp.mpf("0.2")]])
+    complement = mp.matrix([[1]])
+    actual = mprs.sylvester_separation_mp(cluster, complement)
+    operator = (
+        mprs.kronecker_mp(mp.eye(1), cluster)
+        - mprs.kronecker_mp(complement.transpose(), mp.eye(2))
+    )
+    assert actual == min(mp.svd(operator, compute_uv=False))
+    centre = sum(cluster[i, i] for i in range(2)) / 2
+    spread = max(abs(cluster[i, i] - centre) for i in range(2))
+    shortcut = max(mp.mpf(0), abs(complement[0, 0] - centre) - spread)
+    assert abs(actual - shortcut) > mp.mpf("0.5")
 
 
 def test_precision_decision_exposes_the_single_failure_source_of_truth():
@@ -246,6 +279,256 @@ def test_precision_diagnostics_certify_both_orthogonal_absorption_lights(epsilon
     assert result["left_light_difference"] >= 0
     assert result["full_b_match_residual"] <= result["full_b_match_error"]
     assert result["global_flip_copy_residual"] == 0
+    assert result["separation_calls"] == [
+        [53, "right"], [53, "left"], [106, "right"], [106, "left"]
+    ]
+    assert mprs.decide_certificate_attempt(result).status == "TRUSTED"
+
+
+def test_attempt_decision_consumes_absorption_operator_copy_and_decomposition_gates():
+    result = mprs.measure_precision_pair("1/8", "3/10", 53, 106)
+    assert result["status"] == "TRUSTED"
+    mutations = []
+    for field, value in (
+        ("absorption_residuals", {"right": 1.0, "left": 0.0}),
+        ("absorption_residuals", {"right": float("nan"), "left": 0.0}),
+        ("b_operator_map_residual", 1.0),
+        ("global_flip_copy_residual", 1.0),
+        ("next_distinct_a_rate", result["high"].gap / 2),
+        ("high_kernel_residual", 1.0),
+        ("k_build_discrepancy", float("nan")),
+        ("high_a_k_eigenvalue_agreement", 1.0),
+        ("continuation_records", []),
+    ):
+        mutant = dict(result)
+        mutant[field] = value
+        mutations.append(mutant)
+    decomposition = dict(result)
+    decomposition["decomposition_gates"] = [
+        {
+            "precision_bits": 53,
+            "unitarity_residual": 1.0,
+            "off_block_residual": 0.0,
+            "full_operator_reconstruction_residual": 0.0,
+            "full_eigen_residual": 0.0,
+            "bound": 1e-10,
+        }
+    ]
+    mutations.append(decomposition)
+    missing_high_decomposition = dict(result)
+    missing_high_decomposition["decomposition_gates"] = result["decomposition_gates"][:1]
+    mutations.append(missing_high_decomposition)
+    for mutant in mutations:
+        decision = mprs.decide_certificate_attempt(mutant)
+        assert decision.status == "UNRESOLVED"
+        assert decision.failures
+
+    for field, value in (
+        ("right_residual", 1.0),
+        ("eigenvalue_error", 1e9),
+        ("biorthogonal_sigma_min", 1e-12),
+        ("gap", 100.0),
+        ("sep_complex", 100.0),
+    ):
+        k_component_mutation = dict(result)
+        components = dict(result["high_k_diagnostic_components"])
+        components[field] = value
+        k_component_mutation["high_k_diagnostic_components"] = components
+        assert mprs.decide_certificate_attempt(k_component_mutation).status == "UNRESOLVED"
+
+    a_component_mutation = dict(result)
+    a_components = dict(result["high_diagnostic_components"])
+    a_components["right_cluster_residual"] = 1.0
+    a_component_mutation["high_diagnostic_components"] = a_components
+    assert mprs.decide_certificate_attempt(a_component_mutation).status == "UNRESOLVED"
+
+    low_b, high_b = result["b_builds"]
+    spoofed_b = mprs.PrecisionMatrix(
+        high_b.matrix.copy(), high_b.bits, high_b.token, True,
+        high_b.exact_input_fingerprint, None,
+    )
+    b_provenance = dict(result)
+    b_provenance["b_builds"] = (low_b, spoofed_b)
+    assert mprs.decide_certificate_attempt(b_provenance).status == "UNRESOLVED"
+
+    wrong_registered_b = dict(result)
+    wrong_registered_b["b_builds"] = result["k_builds"]
+    assert mprs.decide_certificate_attempt(wrong_registered_b).status == "UNRESOLVED"
+
+    first_low_copy, first_high_copy = result["global_flip_build_pairs"][0]
+    spoofed_copy = mprs.PrecisionMatrix(
+        first_low_copy.matrix.copy(),
+        first_low_copy.bits,
+        first_low_copy.token,
+        True,
+        first_low_copy.exact_input_fingerprint,
+        None,
+    )
+    copy_provenance = dict(result)
+    copy_provenance["global_flip_build_pairs"] = (
+        (spoofed_copy, first_high_copy),
+        *result["global_flip_build_pairs"][1:],
+    )
+    assert mprs.decide_certificate_attempt(copy_provenance).status == "UNRESOLVED"
+
+    wrong_sign_pairs = tuple(
+        (
+            mprs._build_signed_carrier_mp(
+                "1/8", "3/10", bits, carrier, copy, 1, 1
+            ),
+            mprs._build_signed_carrier_mp(
+                "1/8", "3/10", bits * 2, carrier, copy, 1, 1
+            ),
+        )
+        for bits in (53,)
+        for carrier, copy in (
+            ("A", "original"),
+            ("A", "global_flip"),
+            ("B", "original"),
+            ("B", "global_flip"),
+        )
+    )
+    wrong_signs = dict(result)
+    wrong_signs["global_flip_build_pairs"] = wrong_sign_pairs
+    assert mprs.decide_certificate_attempt(wrong_signs).status == "UNRESOLVED"
+
+    low_k, high_k = result["k_builds"]
+    spoofed_k = mprs.PrecisionMatrix(
+        high_k.matrix.copy(), high_k.bits, high_k.token, True,
+        high_k.exact_input_fingerprint, None,
+    )
+    k_provenance = dict(result)
+    k_provenance["k_builds"] = (low_k, spoofed_k)
+    assert mprs.decide_certificate_attempt(k_provenance).status == "UNRESOLVED"
+
+    widened_absorption = dict(result)
+    widened_absorption["absorption_residuals"] = {"right": 1.0, "left": 1.0}
+    widened_absorption["absorption_error"] = 1.0
+    assert mprs.decide_certificate_attempt(widened_absorption).status == "UNRESOLVED"
+
+    invented_next_rate = dict(result)
+    invented_next_rate["next_distinct_a_rate"] = 999.0
+    assert mprs.decide_certificate_attempt(invented_next_rate).status == "UNRESOLVED"
+
+    invented_continuation = dict(result)
+    invented_continuation["continuation_records"] = [
+        {"status": "TRACKED"},
+        {"status": "TRACKED"},
+    ]
+    assert mprs.decide_certificate_attempt(invented_continuation).status == "UNRESOLVED"
+
+    invented_decomposition = dict(result)
+    invented_decomposition["decomposition_gates"] = [
+        {
+            **gate,
+            "unitarity_residual": 0.0,
+            "off_block_residual": 0.0,
+            "full_operator_reconstruction_residual": 0.0,
+            "full_eigen_residual": 0.0,
+        }
+        for gate in result["decomposition_gates"]
+    ]
+    assert mprs.decide_certificate_attempt(invented_decomposition).status == "UNRESOLVED"
+
+    invented_kernel = dict(result)
+    for field in (
+        "low_kernel_residual",
+        "high_kernel_residual",
+        "low_kernel_lower_left_residual",
+        "high_kernel_lower_left_residual",
+    ):
+        invented_kernel[field] = 0.0
+    assert mprs.decide_certificate_attempt(invented_kernel).status == "UNRESOLVED"
+
+    original_next_rate = result["next_distinct_a_rate"]
+    result["next_distinct_a_rate"] = 999.0
+    in_place = mprs.decide_certificate_attempt(result)
+    assert in_place.status == "UNRESOLVED"
+    assert in_place.failures == ("measurement result provenance is invalid",)
+    result["next_distinct_a_rate"] = original_next_rate
+    assert mprs._measurement_result_is_authentic(result)
+
+    copied_for_row = dict(result)
+    copied_for_row["next_distinct_a_rate"] = 999.0
+    with pytest.raises(AssertionError, match="provenance"):
+        mprs._row_from_measurement("1/8", "3/10", 53, 106, copied_for_row, [])
+
+    original_decision = result["decision"]
+    original_status = result["status"]
+    result["decision"] = mprs.PrecisionDecision("UNRESOLVED", ("invented",))
+    result["status"] = "UNRESOLVED"
+    assert not mprs._measurement_result_is_authentic(result)
+    result["decision"] = original_decision
+    result["status"] = original_status
+    assert mprs._measurement_result_is_authentic(result)
+
+
+def test_build_recomputes_the_single_attempt_decision_after_a_measured_gate_breaks():
+    trusted = mprs.measure_precision_pair("1/8", "3/10", 53, 106)
+    assert trusted["decision"].status == "TRUSTED"
+    mutant = dict(trusted)
+    mutant["absorption_residuals"] = {"right": 1.0, "left": 0.0}
+
+    document = mprs.build_certificate(
+        gamma_tokens=("3/10",),
+        epsilon_tokens=("1/8",),
+        measure=lambda *_args, **_kwargs: mutant,
+    )
+
+    assert document["rows"][0]["status"] == "UNRESOLVED"
+    assert document["verdict"] == "UNRESOLVED"
+    assert "measurement result provenance" in " ".join(
+        failure
+        for attempt in document["rows"][0]["attempts"]
+        for failure in attempt["failures"]
+    )
+
+
+def test_top_level_verdict_consumes_b_mutation_booleans():
+    rows = [{"status": "TRUSTED", "measurement_registry_bound": True}]
+    good = {
+        "correct_operator_residual_zero": True,
+        "omitted_adjoint_entrywise_detected": True,
+        "correct_spectrum_residual_zero": True,
+        "missing_right_action_spectrum_detected": True,
+        "wrong_price_sign_spectrum_detected": True,
+    }
+    exact = {
+        "polynomial_match": True,
+        "gap_series_match": True,
+        "effective_operator_match": True,
+        "uniform_peripheral_dimension_match": True,
+        "uniform_kernel_dimension_match": True,
+        "punctured_kernel_dimension_match": True,
+        "b_boundary_match": True,
+    }
+    assert mprs.certificate_verdict(rows, [], good, exact).status == "PASS"
+    unbound_rows = [{"status": "TRUSTED", "measurement_registry_bound": False}]
+    unbound = mprs.certificate_verdict(unbound_rows, [], good, exact)
+    assert unbound.status == "UNRESOLVED"
+    assert "measurement provenance" in " ".join(unbound.failures)
+    bad = dict(good)
+    bad["wrong_price_sign_spectrum_detected"] = False
+    decision = mprs.certificate_verdict(rows, [], bad, exact)
+    assert decision.status == "UNRESOLVED"
+    assert "wrong_price_sign" in " ".join(decision.failures)
+    bad_exact = dict(exact)
+    bad_exact["polynomial_match"] = False
+    decision = mprs.certificate_verdict(rows, [], good, bad_exact)
+    assert decision.status == "UNRESOLVED"
+    assert "polynomial" in " ".join(decision.failures)
+
+    missing_exact = dict(exact)
+    del missing_exact["effective_operator_match"]
+    decision = mprs.certificate_verdict(rows, [], good, missing_exact)
+    assert decision.status == "UNRESOLVED"
+    assert "missing" in " ".join(decision.failures)
+
+    missing_mutation = dict(good)
+    del missing_mutation["wrong_price_sign_spectrum_detected"]
+    decision = mprs.certificate_verdict(rows, [], missing_mutation, exact)
+    assert decision.status == "UNRESOLVED"
+    assert "missing" in " ".join(decision.failures)
 
 
 def test_measured_mutations_reach_unresolved_without_status_override():
@@ -270,7 +553,7 @@ def test_exact_one_plus_six_liouville_decomposition_gates_the_full_49_matrix():
     assert decomposition["dimensions"] == [1, 6, 6, 36]
     assert decomposition["unitarity_residual"] < 1e-14
     assert decomposition["off_block_residual"] < 1e-14
-    assert decomposition["full_spectrum_union_residual"] < 1e-10
+    assert decomposition["full_operator_reconstruction_residual"] < 1e-10
     assert decomposition["full_eigen_residual"] < 1e-10
 
 
@@ -283,6 +566,28 @@ def test_native_block_separation_solves_at_most_the_36_dimensional_complement():
     assert separation["sep_sylvester"] > 0
     assert separation["off_block_residual"] < 1e-12
     assert separation["lower_left_residual"] < 1e-12
+
+
+def test_theorem_tracking_and_decomposition_do_not_call_float64_eigensolvers(monkeypatch):
+    def forbidden(*_args, **_kwargs):
+        raise AssertionError("float64 eigensolver entered a theorem diagnostic")
+
+    zero = mprs.build_a_mp("0", "3/10", 53).matrix
+    seed = mprs.seed_cluster_at_zero("3/10", 53)
+    radius = mprs.ordinary_cluster_separation(zero, seed) / 3
+    target = mprs.build_a_mp("1/10", "3/10", 53).matrix
+    monkeypatch.setattr(np.linalg, "eigvals", forbidden)
+    tracked, record = mprs.factor_track_cluster(
+        target, seed, "1/10", "3/10", 53, radius
+    )
+    assert tracked is not None
+    assert record["status"] == "TRACKED"
+
+    decomposition = mprs.carrier_block_decomposition(
+        mprs.build_a_mp("1/10", "3/10", 53), "1/10"
+    )
+    assert decomposition["full_operator_reconstruction_residual"] < 1e-10
+    assert decomposition["full_eigen_residual"] < 1e-10
 
 
 def test_fresh_b_operator_map_is_entrywise_and_not_a_cluster_only_claim():
@@ -313,6 +618,55 @@ def test_fresh_b_operator_map_is_entrywise_and_not_a_cluster_only_claim():
     assert mutation["one_sided_B_flip"] > 0
 
 
+def test_next_distinct_rate_removes_the_full_conjugate_cluster_class_after_stationary_projection(monkeypatch):
+    monkeypatch.setattr(
+        mprs,
+        "linear_sum_assignment",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("float64 assignment entered the certified A-rate path")
+        ),
+    )
+    cluster = (-0.001 + 2j, -0.001 + 2j)
+    values = np.array(
+        [
+            -0.001 + 2j,
+            -0.0010000000002 + 2j,
+            -0.0010000000001 - 2j,
+            -0.0009999999999 - 2j,
+            -0.2 + 1j,
+            -0.3 - 1j,
+        ]
+    )
+    assert mprs.next_distinct_a_rate(
+        values, cluster, rate_tolerance=1e-10
+    ) == pytest.approx(0.2)
+
+
+def test_stationary_complement_spectrum_uses_the_exact_two_dimensional_projection():
+    build = mprs.build_a_mp("1/8", "3/10", 53)
+    values, evidence = mprs.stationary_complement_spectrum_mp(build, "1/8")
+    assert len(values) == 47
+    assert evidence["exact_stationary_dimension"] == 2
+    assert evidence["kernel_residual"] < 1e-12
+    assert evidence["lower_left_residual"] < 1e-12
+    assert min(abs(value) for value in values) > 1e-8
+
+
+@pytest.mark.parametrize("extra", [0j, 1e-4 + 1j])
+def test_next_distinct_rate_rejects_stationary_or_unstable_modes_left_in_the_complement(extra):
+    cluster = (-0.001 + 2j, -0.001 + 2j)
+    values = [
+        -0.001 + 2j,
+        -0.0010000000002 + 2j,
+        -0.0010000000001 - 2j,
+        -0.0009999999999 - 2j,
+        -0.2 + 1j,
+        extra,
+    ]
+    with pytest.raises(AssertionError, match="stationary|unstable"):
+        mprs.next_distinct_a_rate(values, cluster, rate_tolerance=1e-10)
+
+
 @pytest.mark.parametrize("epsilon_token", ["1/8", "-1/8"])
 def test_factor_continuation_selects_the_same_full49_cluster_as_direct_tracking(epsilon_token):
     seed = mprs.seed_cluster_at_zero("3/10", 53)
@@ -337,6 +691,10 @@ def test_factor_continuation_selects_the_same_full49_cluster_as_direct_tracking(
 
 def test_real_branch_validation_runs_the_prescribed_path_for_every_gamma():
     paths = mprs._branch_paths(("1/10", "-1/10", "1/8", "-1/8", "1/16", "-1/16"))
+    assert paths == {
+        "positive": ["0", "1/10", "1/8", "1/16"],
+        "negative": ["0", "-1/10", "-1/8", "-1/16"],
+    }
     for gamma in ("3/100", "3/10", "3"):
         records = mprs.validate_continuation_paths(paths, gamma, 53)
         assert set(records) == {"positive", "negative"}
@@ -357,6 +715,33 @@ def test_compact_certificate_schema_scaling_and_deterministic_atomic_bytes(tmp_p
         "N": 7, "sector": [1, 1], "seat": 3, "path": "r=1+epsilon"
     }
     assert first["verdict"] == "PASS"
+    assert first["exact"]["frequency_multiplicities"]["+2sqrt2i"] == 2
+    assert first["exact"]["punctured_stationary_rank"] == 2
+    assert first["exact"]["punctured_zero_cost_invariant_dimension"] == 2
+    assert first["exact"]["effective_denominator_gates"]
+    assert set(first["exact"]["effective_operators"]) == {"first", "second"}
+    assert all(
+        len(first["exact"]["effective_operators"][order]) == 5
+        for order in ("first", "second")
+    )
+    assert all(
+        len(first["exact"]["effective_characteristic_polynomials"][order]) == 5
+        for order in ("first", "second")
+    )
+    assert all(
+        gate["positive_real_root_count"] == 0
+        for gate in first["exact"]["effective_denominator_gates"].values()
+    )
+    assert first["exact"]["B_boundary_peripheral_dimension"] == 0
+    assert len(first["provenance"]["source_sha256_normalized_lf"]) == 64
+    assert first["provenance"]["exact_producers"] == [
+        "characteristic_polynomial",
+        "minus_branch_series",
+        "exact_effective_operators",
+        "exact_uniform_peripheral_certificate",
+        "exact_punctured_kernel_certificate",
+        "exact_b_boundary_certificate",
+    ]
     assert len(first["rows"]) == 4
     assert first["scaling"]
     for row in first["rows"]:
@@ -364,6 +749,15 @@ def test_compact_certificate_schema_scaling_and_deterministic_atomic_bytes(tmp_p
         assert "right_light" in row and "left_light" in row
         assert "right_projector_difference" in row
         assert "left_projector_difference" in row
+        assert float(row["low_kernel_residual"]) < 1e-12
+        assert float(row["high_kernel_residual"]) < 1e-12
+        assert float(row["K_build_discrepancy"]) >= 0
+        assert float(row["high_A_K_eigenvalue_agreement"]) <= float(
+            row["high_A_K_eigenvalue_agreement_bound"]
+        )
+        assert all(row["build_registry_gates"].values())
+        assert row["measurement_registry_bound"] is True
+        assert "condition_number" in row["high_diagnostic_components"]
         assert "vectors" not in row and "spectrum" not in row
     for read in first["scaling"]:
         for name in ("p_plus", "p_minus", "c2", "c3"):
