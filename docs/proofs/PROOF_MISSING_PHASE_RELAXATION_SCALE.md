@@ -34,20 +34,38 @@ proved relaxation time for `d_out`, `d_2`, leakage, or any other observable.
 This is not the gap of the full `4^7` Liouvillian and not an all-N theorem.
 No F-number is assigned.
 
-Before this proof was written, the named stores were read as one object.
-`docs/ANALYTICAL_FORMULAS.md` contained the absorption and blind-seat
-ingredients but no epsilon-to-zero law; the absorption and blind-seat proofs
-contained the two structural inputs but not their local composition; the
-owning experiment contained the reduction, the historical `+/-0.1` readings,
-and this question; neither Confirmations registry nor the hardware pages
-contained a relevant flight; the glossary fixed the meanings of seat,
-blindness, stationary span, and light content; the OpenArcs registry held the
-question under `relaxation_scale_as_the_defect_vanishes`; and
-`docs/CAUGHT_ERRORS.md` warned against substituting a short-time exact witness,
-a sorted eigenvalue index, or a characteristic polynomial alone for the
-object required here. The new content is therefore the local composition and
-its exact perturbative calculation, not a re-derivation of an already owned
-claim.
+The prior-work surface has two typed halves. The Core Claim graph contains the
+Absorption Theorem and the blind-seat theorem; the Diagnostics live-object
+layer contains `JDefectLightMigrationClaim`, which already owns the general
+bond-defect mechanism
+
+```text
+Re lambda(delta J) = -2 sum_l gamma_l light_l(v(delta J))
+```
+
+for every eigenmode at every value of the defect. Section 8 is the N = 7,
+centre-only instance of that identity, not a new general drift law.
+`MissingPhaseOnsetWitness` in the same layer owns the exact short-time
+recurrence for this end-bond knob. The owning experiment contains the
+historical `+/-0.1` finite-time readings, while neither the Confirmations
+registry nor the hardware pages contains a relevant flight. The glossary fixes
+the meanings of seat, blindness, stationary span, and light content, and the
+OpenArcs registry holds this question under
+`relaxation_scale_as_the_defect_vanishes`.
+
+Two neighbouring systems already show a quadratic departure under a one-bond
+detuning: the N = 3 open-chain `{0,2}` modes in
+`PROOF_CHAIN_GAP_DOMINANCE` Section 4.3 and the departing cracked-ring pair in
+`THE_CRACKED_BELL` gate C3. They are exponent analogies only: their sectors,
+topologies, defect conventions, and coefficients are different from the
+present A-sector theorem. The new content here is the N = 7 coefficient
+`gamma/2`, its cubic germ, the complete peripheral Kato/Feshbach splitting,
+and the proof that the rank-two `+/-2 sqrt(2)i` cluster is locally the slowest
+nonstationary A cluster because its quadratic centre-light/rate coefficient is
+the smallest in the complete second-order peripheral split.
+`docs/CAUGHT_ERRORS.md` supplies the remaining fences: a short-time witness, a
+sorted eigenvalue index, or a characteristic polynomial alone is not the
+object required for that conclusion.
 
 ## 2. The N=7 A generator
 

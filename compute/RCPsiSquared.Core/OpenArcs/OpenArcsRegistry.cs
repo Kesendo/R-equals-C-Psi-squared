@@ -9303,10 +9303,14 @@ public static class OpenArcsRegistry
                 "neither a full-4^7 Liouvillian gap nor an observable lifetime.",
             NextStep:
                 "Do not reopen this retired arc for the separate extensions below. If an all-odd-N successor " +
-                "is explicitly opened, its first move is to use the exact routines in " +
-                "simulations/missing_phase_relaxation_scale.py at N = 9 to compute the complete epsilon = 0 " +
-                "peripheral Kato/Feshbach spectrum before proposing any N-dependent coefficient; do not " +
-                "extrapolate from the selected N = 7 branch or extend the floating sweep first. The separate " +
+                "is explicitly opened, begin with the two families that the centre-seat zero mode separates: " +
+                "for N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray, whereas for " +
+                "N ≡ 3 (mod 4) one zero-energy blind ray survives. The existing certificate script is " +
+                "hard-coded to N = 7 and its 49-dimensional A block; it cannot be run at N = 9. Build a " +
+                "new general-N 81-dimensional (1,1)-block Kato/Feshbach route for N = 9 and use it to compute " +
+                "the complete epsilon = 0 peripheral splitting and the punctured local branches before " +
+                "proposing any N-dependent coefficient. Do not extrapolate the N = 7 rank-two cluster or " +
+                "extend the floating sweep first. The separate " +
                 "questions are to derive or refute the law for all odd N, control the " +
                 "punctured-neighbourhood radius uniformly in gamma if possible, and determine which " +
                 "preparations and observables couple to the slow rank-two cluster so that an observable " +

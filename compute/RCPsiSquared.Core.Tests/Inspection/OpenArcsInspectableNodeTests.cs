@@ -170,6 +170,25 @@ public class OpenArcsInspectableNodeTests
     }
 
     [Fact]
+    public void RelaxationScaleArc_AllOddNSuccessorSplitsModFourAndRequiresAFreshN9Route()
+    {
+        var arc = OpenArcsRegistry.All.Single(
+            a => a.Name == "relaxation_scale_as_the_defect_vanishes");
+
+        Assert.Contains(
+            "N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray",
+            arc.NextStep);
+        Assert.Contains(
+            "N ≡ 3 (mod 4) one zero-energy blind ray survives",
+            arc.NextStep);
+        Assert.Contains(
+            "hard-coded to N = 7 and its 49-dimensional A block; it cannot be run at N = 9",
+            arc.NextStep);
+        Assert.Contains("new general-N 81-dimensional", arc.NextStep);
+        Assert.DoesNotContain("use the exact routines", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void OneDiagonalMirrorGroup_IsRetired_SpunOutToLinearS3()
     {
         var entry = OpenArcsRegistry.Lookup("one_diagonal_mirror_group");
