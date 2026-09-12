@@ -170,6 +170,28 @@ public class OpenArcsInspectableNodeTests
     }
 
     [Fact]
+    public void ForcedAndMetArc_ClosesUniformCentreBondIff_AndKeepsAdjacentDebtOpen()
+    {
+        var arc = OpenArcsRegistry.All.Single(a => a.Name == "the_forced_and_the_met");
+
+        Assert.Equal(OpenArcStatus.Open, arc.Status);
+        Assert.Contains("PROOF_NODE_PAIR_RESOLVENT", arc.NextStep);
+        Assert.Contains("SUFFICIENT direction", arc.NextStep);
+        Assert.Contains("uniform centre-watched", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("pointwise iff", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("r != 0,+1,-1", arc.NextStep);
+        Assert.Contains("off-centre", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("nonuniform", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("all-knob fixed-energy derivative test has a different", arc.NextStep);
+        Assert.Contains("does not determine the pointwise count", arc.NextStep);
+        Assert.Contains("EQUALITY branch", arc.NextStep);
+        Assert.Contains("STRADDLING failures", arc.NextStep);
+        Assert.Contains("epsilon = -2", arc.NextStep);
+        Assert.DoesNotContain("a proof of the bond face", arc.NextStep);
+        Assert.DoesNotContain("criterion is a READING and not a theorem", arc.NextStep);
+    }
+
+    [Fact]
     public void RelaxationScaleArc_AllOddNSuccessorSplitsModFourAndRequiresAFreshN9Route()
     {
         var arc = OpenArcsRegistry.All.Single(

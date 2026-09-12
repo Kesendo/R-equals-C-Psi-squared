@@ -180,7 +180,14 @@ the five days are the same five days.
 N × N Haken-Strobl density block. The **counting** of §5 runs on **h_SE, the
 N-dimensional single-excitation Hamiltonian**, and the blind dimension is a
 dimension of that Hilbert space: a count of **states**, not of operators. The
-blind operator space inside the (1,1) block is larger and is not computed here.
+operator-space question now has a scoped successor rather than one undifferentiated answer. In
+the uniform `N=2m+1` centre-watched (1,1) family at `epsilon=0`, [The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md)
+§8 separates `dim ker L_D=(N-1)^2+1`,
+`dim(maximal A-invariant peripheral subspace inside ker L_D)=m^2+1`, and
+`dim ker A=m+1`. Thus the raw dissipator-killed operator space, its maximal invariant peripheral
+part, and the stationary space do **not** coincide; `|0><0|` is an explicit element of the first
+that is not stationary. That answer is scoped to the successor's uniform centre-watched family
+and does not promote this page's more general state-count sweep into an operator theorem.
 The third is the **(0,1) vacuum-coherence block** of F152 and F64, where §5
 shows the same count holds. None of the three is the Pauli w = 1 sector, which
 is not L-invariant.
@@ -1064,15 +1071,13 @@ what §7 uses it for and all it may be used for.
 
 What is still open:
 
-- The blind **operator** space inside the (1,1) block, which is larger than the
-  state count here and is the number F66 would compare against.
-  [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §2 and §3 measure a neighbouring
-  object, the **stationary** operators of the whole Liouvillian on the
-  single-excitation sector, and find their count is exactly 1 + the blind state
-  dimension, §2 for any bond profile with no zero bond (the 330-pair sweep) and
-  §3 as the uniform evaluation, with the same Jacobi
-  simplicity as the reason. The two objects are still not shown to coincide: one is killed by the
-  dissipator, the other by the dissipator and the commutator together.
+- The three operator-space dimensions are separated for the uniform centre-watched family by
+  [The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md) §8; the answer to the old
+  coincidence question is **no**. What remains open is the analogous maximal-invariant
+  peripheral dimension beyond that scope: off-centre seats, nonuniform zero-free chains,
+  several watched seats, higher popcount and other topologies. [The Seat That Cuts](THE_SEAT_THAT_CUTS.md)
+  §2 and §3 still measure the neighbouring stationary kernel, exactly `1+blind` on a zero-free
+  chain; that is the third dimension above, not the raw dissipator kernel.
 - Whether anything is blind in **popcount ≥ 2** for any topology, or whether the
   N = 11 zeros of §7 are a theorem. Those zeros are certified at one prime
   already, since a Krylov space of full rank mod p has full rank over ℚ.

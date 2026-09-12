@@ -3045,3 +3045,88 @@ words already.
   `simulations/node_pair_resolvent.py`, `docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md`,
   `docs/proofs/PROOF_MISSING_PHASE_RELAXATION_SCALE.md`,
   `compute/RCPsiSquared.Diagnostics/Foundation/MissingPhaseRelaxationScaleWitness.cs`, F65, F163.
+
+## 2026-09-12, the node-pair repair needed one more independent read
+
+- **The coefficient survived; its ownership did not.** The identity
+  `c_k = |psi_k(1)|^2 = (2/(N+1)) sin^2(2 pi k/(N+1))` is exact on the gated arm-1 bonds.
+  Calling it the folded chain's F65 endpoint amplitude was wrong: site 1 is interior once the
+  half chain has at least three sites, and the doubled index lies outside F65's declared mode
+  range. The living proof and producer now state the coefficient directly from F2b's sine mode
+  and attach no F65 ownership to it.
+- **The bond result is a general sufficient bond theorem, not an unrestricted iff.** A node at
+  either endpoint
+  of a non-incident moved bond preserves the blind energy and a blind eigenvector while the chain
+  remains zero-free (`epsilon != -1`). Equality of the full blind count with that node lower bound
+  is only a sampled reading. The exact control `N=5, seat=2, bond=0, epsilon=-2` has node lower
+  bound 0 and Krylov blind count 2: changing the bond from +2 to -2 is a sign-gauge return. The
+  uniform centre-watched pointwise iff also follows away from `r=0,+1,-1`; only the off-centre
+  and nonuniform pointwise converse, equality branch and straddling mechanism remain open in the
+  OpenArc. The
+  all-knob fixed-energy necessity follows separately from Hellmann-Feynman and does not answer
+  that pointwise count question.
+- **The zero-frequency gate had become fail-open.** G8c treated unequal list lengths as evidence
+  that the measured and predicted spectra differed, so retaining only the stationary branch made
+  the gate green. It now first requires exactly `m+1` measured and predicted branches, then compares
+  equal-size multisets. Mutation M5 sends the stationary-only acquisition through the same
+  predicate and requires rejection before comparison. G8a is labelled as the float implementation
+  control it is; `A[I]=0` is the algebraic statement, while NumPy supplies a bit-zero reading on
+  three inputs rather than an exact certificate.
+- **Three operator spaces were one sentence.** In the uniform centre-watched `(1,1)` block at
+  the unperturbed reference point `epsilon=0` and `N=2m+1`, the raw dissipator kernel has
+  dimension `(N-1)^2+1`, the maximal generator-invariant
+  peripheral subspace inside it has dimension `m^2+1`, and the stationary kernel has dimension
+  `m+1`. They do not coincide. The proof now answers `THE_BLIND_SITE`'s question with no, while
+  retaining the verified peripheral theorem. It also restores reflection as the protection of the
+  uniform centre-watched family, keeps the general node-pair theorem symmetry-free, removes the
+  continuum label from the finite-chain result, and fences the cut point `epsilon=-1` out of
+  Corollary B.
+- **Durable surface.** `NodePairResolventClaim` exposes Theorem 1, the general sufficient bond
+  corollary, and the uniform-centre pointwise iff as Tier 1 derived, with
+  `SeatCutBlindnessClaim` as its single typed parent and the exact
+  proof sections as anchor. Its registry tests pin the tier, scope, parent edge and discoverability.
+- **A complete list was not yet a finite list.** The first G8c repair checked multiplicity but
+  still accepted a full-length acquisition containing `NaN` or either infinity whenever another
+  finite branch differed. The shared predicate now rejects non-finite values on both the measured
+  and predicted sides before comparing spectra. Mutations M6a-c keep the stationary zero and all
+  three slots, inject `NaN`, `+Inf`, or `-Inf`, and require both placements to be rejected.
+- **The same non-finite hole existed on the nonzero-frequency path.** G8b's comparison could
+  accept a full-length acquisition containing `NaN`, because `abs(NaN-prediction) > tolerance`
+  is false, while another finite branch could still match. The shared nonzero-frequency matcher
+  now validates the length and every measured/predicted frequency and rate before pairing.
+  Mutations M7a-c replace an actually acquired nonzero-frequency rate with `NaN`, `+Inf`, or
+  `-Inf` and send all three through the same matching path; each full-length acquisition is
+  rejected.
+- **The pointwise converse was open on too large a family.** For the uniform odd chain watched at
+  its centre, a left nonincident bond has
+  `chi_L(E;r)=P_m(E)-J^2(r^2-1)P_b(E)P_(m-b-2)(E)` while `chi_R=P_m`. At a baseline blind root,
+  `r != 0,+1,-1` therefore makes continued blindness equivalent, by Lemma J, to a node at one
+  bond endpoint. G9b-d and M8 gate the factorization, both zero- and positive-node cases, the
+  three exceptional fibres, and a wrong linear-in-r correction. Only the off-centre and
+  nonuniform pointwise converse remains open. The all-knob fixed-energy necessity remains a
+  different quantifier; D6's 570 cells remain the all-knob reading they were.
+- **G9's nonzero control trusted a residual expression.** `sp.simplify(value) != 0` is fail-open:
+  SymPy leaves the seven-root zero identity `sum(cos(2*pi*k/7), k=1..6)+1` unsimplified and the
+  old predicate calls it nonzero. The control and the theorem cells now use one exact polynomial
+  oracle: an expression in `epsilon` is identically zero exactly when `exact_zero` certifies every
+  coefficient. The seven-root identity must return false, while the corresponding genuinely
+  nonzero five-term trigonometric sequence must return true.
+- **One ε and a bare tolerance did not gate a germ.** G8b now acquires every nonzero-frequency
+  branch at `epsilon=10^-2,10^-3,10^-4`, keeps the completeness/finiteness precondition at each
+  point, and requires the normalized error to shrink linearly after an explicit eigensolver
+  rounding reserve. M9 sends the constant `1.003` coefficient mutation through that same
+  multi-decade path and it fails; the true formula passes. Together with the new exact-polynomial
+  oracle control, the producer now reports 73 checks and mutations M1-M9.
+- **Corollary B was proved generally but narrated centrally.** Its scope is an arbitrary zero-free
+  real symmetric Jacobi chain and any watched seat. A right-side bond is handled by local order
+  reversal of the right principal block, not by a global reflection that fixes a centre. Only
+  Corollary C needs the uniform odd centre-watched family.
+- **The C# surface now recomputes rather than only points.** `NodePairResolventWitness` performs
+  exact rational resolvent, determinant, iff/control, and exceptional-set calculations at inspect
+  time; `inspect --root nodepair` exposes it. The Core Claim reaches it by a string breadcrumb,
+  preserving the Core-to-Diagnostics dependency direction.
+- **Anchors.** `docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md`,
+  `simulations/node_pair_resolvent.py`, `compute/RCPsiSquared.Core/Symmetry/NodePairResolventClaim.cs`,
+  `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`,
+  `compute/RCPsiSquared.Diagnostics/Foundation/NodePairResolventWitness.cs`,
+  `compute/RCPsiSquared.Cli/Commands/InspectCommand.cs`.

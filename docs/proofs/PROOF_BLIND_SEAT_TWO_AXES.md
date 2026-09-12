@@ -1468,8 +1468,11 @@ suffices alone, which the centre seat answers one way and every other seat the o
   seat blind at EVERY knob value and so contains every locus for free, and that branch is read by an
   overlap criterion on the unperturbed chain's blind eigenvectors, Corollary D of
   [the span and node-lemma proof](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md), whose status is mixed:
-  sufficiency is a theorem, necessity is a theorem only when the perturbed sites lie on one side of
-  the seat and is false when they straddle it, and the bond face is measured rather than proved. Which interior
+  diagonal sufficiency is a theorem, diagonal necessity is a theorem only when the perturbed sites lie on one side of
+  the seat and is false when they straddle it. The bond successor is
+  [the node-pair resolvent proof](PROOF_NODE_PAIR_RESOLVENT.md): general zero-free sufficiency and
+  the uniform centre-watched pointwise iff at `r != 0,+1,-1`; off-centre/nonuniform pointwise
+  necessity remains open. Which interior
   perturbations carry the locus on the branch that is about the locus is still open. Lemma 1 says why the end pair is the one the crack meets,
   and says nothing about why a symmetric interior diagonal pair comes close.
 - **"The end pair is special" is still refuted** for the locus, as the companion page found, and

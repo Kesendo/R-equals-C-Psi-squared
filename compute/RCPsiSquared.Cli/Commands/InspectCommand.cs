@@ -854,6 +854,13 @@ public static class InspectCommand
             "Args: --N (default 9)",
             c => new SeatBlindnessDeltaLocusWitness(c.Parser.HasFlag("N") ? c.N : 9),
             RequiresN: false, HonorsOptionalN: true),
+        new("nodepair", "PROOF_NODE_PAIR_RESOLVENT live exact witness: the symmetry-free node-pair " +
+            "resolvent zero, its nonzero control, the determinant factorization behind the " +
+            "uniform-centre iff, and the r = 0,+1,-1 exceptional fences. The uniform-centre " +
+            "pointwise converse is closed only for a nonincident bond; the off-centre and " +
+            "nonuniform pointwise converse remains open.",
+            _ => new NodePairResolventWitness(),
+            RequiresN: false, HonorsOptionalN: false),
         new("twoend", "F158 THE PALINDROME AS A COUNT OF THE TWO ENDS (proof " +
             "PROOF_PALINDROME_TWO_END_COUNT.md, claim PalindromeTwoEndCountClaim): the spectrum pairs about " +
             "−σ exactly when dim ker L = dim ker(L + 2σ), so the criterion is two nullities compared and there " +

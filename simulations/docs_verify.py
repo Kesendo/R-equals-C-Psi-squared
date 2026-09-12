@@ -3082,6 +3082,129 @@ def verify_f151_route_b_current_truth():
               "docs/ANALYTICAL_FORMULAS.md F151: missing current-truth statement")
 
 
+def verify_node_pair_current_truth():
+    """Keep the producer, proof, typed claim, and remaining OpenArc on one scoped statement."""
+    root = Path(__file__).resolve().parents[1]
+    paths = {
+        "proof": root / "docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md",
+        "producer": root / "simulations/node_pair_resolvent.py",
+        "claim": root / "compute/RCPsiSquared.Core/Symmetry/NodePairResolventClaim.cs",
+        "witness": root / "compute/RCPsiSquared.Diagnostics/Foundation/NodePairResolventWitness.cs",
+        "knowledge": root / "compute/RCPsiSquared.Diagnostics/Knowledge/KnowledgeRegistryFactory.cs",
+        "cli": root / "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs",
+        "arcs": root / "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs",
+        "f157": root / "docs/ANALYTICAL_FORMULAS.md",
+        "parent": root / "docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md",
+        "blindsite": root / "experiments/THE_BLIND_SITE.md",
+        "road": root / "experiments/THE_BLIND_SEAT_ON_THE_ROAD.md",
+        "twoaxes": root / "docs/proofs/PROOF_BLIND_SEAT_TWO_AXES.md",
+        "ledger": root / "docs/CAUGHT_ERRORS.md",
+    }
+    try:
+        source = {name: path.read_text(encoding="utf-8") for name, path in paths.items()}
+        arc = source["arcs"].split('Name: "the_forced_and_the_met"', 1)[1].split("new OpenArc(", 1)[0]
+        f157 = source["f157"].split("### F157.", 1)[1].split("### F158.", 1)[0]
+        ledger = source["ledger"].split(
+            "## 2026-09-12, the node-pair repair needed one more independent read", 1
+        )[1]
+    except (OSError, IndexError) as error:
+        check("Node-pair surfaces are readable and discoverable", False, str(error))
+        return
+
+    required = {
+        "proof": ("Three spaces must be kept separate", "dim ker L_D",
+                  "(N−1)² + 1", "m² + 1", "dim ker A", "m + 1",
+                  "zero-free knob domain", "**No.**",
+                  "Theorem 1 and Corollaries A-B are parity-free and seat-general",
+                  "Corollary C is restricted to the uniform odd chain watched at its centre",
+                  "arbitrary zero-free real symmetric Jacobi chain", "any watched seat",
+                  "local order reversal of the right principal block",
+                  "three acquisitions spanning two decades", "73 current checks", "M1-M9",
+                  "M9",
+                  "Hellmann-Feynman", "570-cell resultant reading", "Mutations M6a-c",
+                  "every measured and predicted value to be finite", "Mutations M7a-c",
+                  "Corollary C (derived, pointwise iff", "r != 0,+1,-1",
+                  "chi_L(E;r) = P_m(E) - J²(r²-1)"),
+        "producer": ("complete_zero_frequency_mismatch", "M5 G8c", "M6 G8c",
+                     "np.isfinite", "measured mutation accepted", "predicted mutation accepted",
+                     "epsilon=-2 sign-gauge return", "sampled generic-count reading",
+                     "complete_nonzero_frequency_match", "M7a G8b rejects full-length",
+                     "M7b G8b rejects full-length", "M7c G8b rejects full-length",
+                     "def exact_polynomial_nonzero", "seven-root zero identity",
+                     "G8b multi-decade germ", "M9 G8b constant 1.003 coefficient",
+                     "G9b uniform-centre determinant factorization",
+                     "G9c uniform-centre pointwise iff", "M8 G9b linear-in-r correction"),
+        "claim": ("Tier.Tier1Derived", "PROOF_NODE_PAIR_RESOLVENT.md",
+                  "epsilon != -1", "uniform centre-watched", "if and only if",
+                  "r != 0,+1,-1", "off-centre and nonuniform", "inspect --root nodepair"),
+        "witness": ("NodePairResolventWitness : IInspectable", "CanonicalReducedResolvent",
+                    "FactorizationMatches", "CriterionCases", "ExceptionalCases",
+                    "BigRationalMatrixCharpoly"),
+        "knowledge": ("general sufficient bond theorem", "uniform-centre pointwise iff",
+                      "The off-centre and nonuniform pointwise converses remain open"),
+        "cli": ('new("nodepair"', "PROOF_NODE_PAIR_RESOLVENT", "uniform-centre iff",
+                "off-centre", "new NodePairResolventWitness()"),
+        "arc": ("SUFFICIENT direction", "PROOF_NODE_PAIR_RESOLVENT",
+                "UNIFORM CENTRE-WATCHED", "pointwise iff", "r != 0,+1,-1",
+                "OFF-CENTRE", "NONUNIFORM", "epsilon = -2",
+                "all-knob fixed-energy derivative test has a different",
+                "does not determine the pointwise count"),
+        "f157": ("node-pair resolvent proof", "Corollary C proves", "r != 0,+1,-1",
+                 "off-centre seats and nonuniform", "inspect --root nodepair"),
+        "parent": ("node-pair resolvent proof", "sufficient bond direction generally",
+                   "uniform centre-watched family", "off-centre and nonuniform pointwise converses"),
+        "blindsite": ("dim ker L_D=(N-1)^2+1", "=m^2+1", "dim ker A=m+1",
+                      "do **not** coincide", "The Node Pair"),
+        "road": ("The Node Pair", "pointwise iff", "off-centre", "nonuniform"),
+        "twoaxes": ("node-pair resolvent proof", "pointwise iff", "off-centre/nonuniform"),
+        "ledger": ("uniform centre-watched", "unperturbed reference point `epsilon=0`",
+                   "dimension `(N-1)^2+1`", "dimension `m^2+1`",
+                   "stationary kernel has dimension", "`m+1`. They do not coincide",
+                   "off-centre", "nonuniform pointwise", "all-knob fixed-energy necessity",
+                   "A complete list was not yet a finite list", "Mutations M6a-c",
+                   "same non-finite hole", "Mutations M7a-c", "pointwise converse was open",
+                   "G9b-d and M8", "inspect --root nodepair",
+                   "general sufficient bond theorem", "uniform-centre pointwise iff",
+                   "seven-root zero identity", "constant `1.003`", "local order reversal",
+                   "producer now reports 73 checks", "mutations M1-M9"),
+    }
+    for label, phrases in required.items():
+        text = arc if label == "arc" else ledger if label == "ledger" else f157 if label == "f157" else source[label]
+        normalized = " ".join(text.split())
+        for phrase in phrases:
+            check(f"Node-pair {label} carries {ascii(phrase)}", phrase in normalized,
+                  f"missing from {paths.get(label, paths['arcs']).relative_to(root)}")
+
+    forbidden = {
+        "proof": ("bound state in the continuum", "It is not protected by a symmetry",
+                  "The pointwise converse at a specified nonzero knob",
+                  "§4 and §5 are parity-free",
+                  "count reading for off-centre seats or nonuniform zero-free chains",
+                  "which fixes the centre seat", "at one ε and a float tolerance",
+                  "gated once, at one ε"),
+        "producer": ("(1/2)*F65(2k)", "stays blind at eps != 0 exactly when",
+                     "control_nonzero += sp.simplify(val) != 0"),
+        "claim": ("The pointwise fixed-knob converse remains open",),
+        "arc": ("a proof of the bond face", "criterion is a READING and not a theorem",
+                "the pointwise fixed-knob converse of the sufficient bond theorem"),
+        "knowledge": ("generic pointwise fixed-knob converse away from r^2=1",),
+        "ledger": ("leaves the pointwise fixed-knob",
+                   "OpenArc now closes only the sufficient bond direction",
+                   "only the sufficient bond"),
+        "f157": ("bond face is a reading, exact over every cell swept and proved nowhere",),
+        "parent": ("nothing below is proved for a bond", "nothing here proves it"),
+        "blindsite": ("blind operator space inside the (1,1) block is larger and is not computed here",),
+        "road": ("bond face is a reading, not a theorem", "bond face is measured and not proved"),
+        "twoaxes": ("bond face is measured rather than proved",),
+    }
+    for label, phrases in forbidden.items():
+        text = arc if label == "arc" else ledger if label == "ledger" else f157 if label == "f157" else source[label]
+        normalized = " ".join(text.split())
+        for phrase in phrases:
+            check(f"Node-pair {label} excludes {ascii(phrase)}", phrase not in normalized,
+                  f"stale wording remains in {paths.get(label, paths['arcs']).relative_to(root)}")
+
+
 if __name__ == "__main__":
     print("=" * 70)
     print("SCOPED ROUTE-B CURRENT-TRUTH AND NUMERICAL DOCUMENTATION GATE")
@@ -3094,6 +3217,7 @@ if __name__ == "__main__":
     verify_route_b_a2_current_truth()
     verify_docs_gate_scope_description()
     verify_f151_route_b_current_truth()
+    verify_node_pair_current_truth()
 
     # =============================================================
     # GLOSSARY.md claims

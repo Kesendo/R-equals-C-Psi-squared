@@ -360,7 +360,11 @@ seats with a nonempty Δ-locus, over odd N = 5..17: 94 cells, 0 disagreements. T
 every centre seat, whose Δ-resultant vanishes identically, and the centre seat is exactly where the
 converse fails, so gate D8b reads the same rows over ALL seats of the same N and finds 8
 disagreements of 149 cells, every one of them at a centre seat. Gate D6 reads the bond face over 570
-cells, and the bond face is a reading, not a theorem.
+cells as an all-knob census. Its theorem successor is
+[The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md): Corollary B proves the endpoint-node
+condition sufficient on any zero-free real symmetric open chain, and Corollary C closes the
+pointwise iff for the uniform centre-watched family at `r != 0,+1,-1`. Only the off-centre and
+nonuniform pointwise converse remains open.
 
 An earlier version of this paragraph said the bond rows were a second mechanism and that what it is
 stays open. They are not, and it does not: that version had transplanted the diagonal's condition,
@@ -505,9 +509,9 @@ tests.
    left LIVE for that perturbation, the 48 minus the 32 it leaves blind at every knob value; the same
    twelve seats the table reads as 12 of 48. What stays
    open is the equality branch itself: which seats, and why those. Two smaller things the closing
-   exposed: the bond face is measured and not proved, since a blind eigenvector with a node at one end of
-   the bond is not itself preserved by the perturbation, only its level is stationary to first
-   order; and when the perturbed sites straddle the seat the converse is false, first at the centre
+   exposed: the bond face's general sufficient direction and uniform-centre pointwise iff now
+   live in [The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md), while off-centre and
+   nonuniform pointwise necessity remains open; and when the perturbed sites straddle the seat the converse is false, first at the centre
    seat at |S| = 2 and away from it at |S| = 3, with the number of failures growing with N.
 3. **Ask each comb law which modulus its comb is on.** F157 survives detuning because its comb moves
    from the spectrum to the parameter, on the seat-dependent N_node. For F89's seed resonance,

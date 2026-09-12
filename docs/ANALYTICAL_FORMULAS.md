@@ -8471,7 +8471,7 @@ agree, and blindness itself is Lemma J through the resultant.
 **Which perturbations cannot move a blind seat at all (2026-09-04).** Beside the Δ axis
 sits a second question, which knobs leave a seat blind at EVERY value of themselves, and
 **Corollary D** of [the span and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)
-reads it as one overlap criterion, on a diagonal proved and on a bond measured: some
+reads it as one overlap criterion: some
 blind eigenvector of the unperturbed chain must have zero overlap with the perturbation
 direction, and the overlap is a sum of squares for a diagonal on a site set S, so a node on every site of S, and a product
 for a bond, so a node at either end. With h = gcd(j+1, N+1), the letter this entry already
@@ -8479,7 +8479,13 @@ uses for that integer, the two faces read: there is some c ∈ 1..h−1 with h |
 every m ∈ S, respectively with h | c·(j − b) or h | c·(j − b − 1). Sufficiency is a theorem
 for a diagonal, and so is necessity when the perturbed sites lie on ONE side of the seat;
 when they straddle it necessity is FALSE, first at the reflection-fixed centre seat. The
-bond face is a reading, exact over every cell swept and proved nowhere. It is NOT a
+bond face now has a theorem successor:
+[the node-pair resolvent proof](proofs/PROOF_NODE_PAIR_RESOLVENT.md) Corollary B proves the
+endpoint-node condition sufficient for any zero-free real symmetric open chain and any
+non-incident moved bond. In the uniform odd chain watched at its centre, Corollary C proves the
+pointwise iff for every bond ratio `r != 0,+1,-1` from the exact half-path factorization
+`chi_L=P_m-J²(r²-1)P_b P_(m-b-2)`. The all-knob D6 census remains the evidence it was; the
+pointwise converse for off-centre seats and nonuniform zero-free chains remains open. It is NOT a
 statement about the Δ-locus: it names the branch of the road page's containment column that
 is not about the locus at all.
 The ceiling blind(j) ≤ min(j, N−1−j) belongs to the two-halves criterion and not
@@ -8646,7 +8652,10 @@ both recomputed at inspect time), and the second live witness
 `inspect --root blindlocus` (`SeatBlindnessDeltaLocusWitness`,
 [compute/RCPsiSquared.Diagnostics/Foundation/SeatBlindnessDeltaLocusWitness.cs](../compute/RCPsiSquared.Diagnostics/Foundation/SeatBlindnessDeltaLocusWitness.cs)),
 which carries the whole Δ axis: the node modulus per seat, the locus as an integer polynomial
-by two routes, and a rank sweep over GF(p) that meets the irrational members through their images.
+by two routes, and a rank sweep over GF(p) that meets the irrational members through their images;
+`NodePairResolventClaim` (single typed parent `SeatCutBlindnessClaim`) with the independent live
+exact witness `inspect --root nodepair`, which carries the resolvent zero, its nonzero control,
+the uniform-centre determinant iff and the exceptional-set fences.
 
 ### F158. The palindrome is a count of the two ends: for L(ρ) = −i[H,ρ] + Σγ_l(A_lρA_l − ρ) with H Hermitian, every A_l Hermitian and squaring to 1, and every γ_l > 0, the spectrum multiset pairs about −σ **if and only if** dim ker L = dim ker(L + 2σ) (Tier 1 derived, both directions proved 2026-08-28; the near kernel is the commutant of ⟨H, A_l⟩ and the far one is the same space with the jump sign flipped, both by a Cauchy-Schwarz equality case; registered 2026-08-29)
 

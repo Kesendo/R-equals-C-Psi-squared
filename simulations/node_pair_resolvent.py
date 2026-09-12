@@ -19,7 +19,8 @@ WHAT IS GATED, AND WHAT IS ONLY READ.
     G1b  anti-vacuity: the same sum on node/non-node pairs, where it must NOT vanish.
     G1c  the zero mode's stronger vanishing: <x|R_k0|y> = 0 for every SAME-PARITY pair,
          node or not, forced by the chiral pairing E_k = -E_{N+1-k}.
-    G2   c_k = (1/2)*F65(2k) on the bonds whose profile level is 1/2.  Exact, per mode.
+    G2   c_k = psi_k(1)^2 = (2/(N+1))*sin^2(2*pi*k/(N+1)) on the bonds whose
+         profile level is 1/2.  Exact, per mode, directly against the sine eigenvector.
          M1 substitutes psi_k(0)^2 and must go red.
     G3   the profile sum_k c_k(b) = (1/2) min(b+1, m-1-b), exact, every bond; and the
          LEVEL STRUCTURE, that the whole c-vector is a function of the level alone.
@@ -31,25 +32,37 @@ WHAT IS GATED, AND WHAT IS ONLY READ.
          i a square root of -1, no eigensolver.  M4 moves the charged-cell set to another
          seat and requires the dimension to CHANGE (a mutation of the object, not of the
          prediction).
-    G6   the one-node criterion, by the EXACT route: F157's blind count of the DETUNED chain
-         by Krylov rank over Q at two rational eps, against the node prediction, at the
-         CENTRE seat and every non-incident bond.  Replaces a float threshold with the
-         repo's own instrument.
+    G6   the one-node sufficient condition, by the EXACT route: F157's blind count of the
+         DETUNED chain by Krylov rank over Q at two rational eps, against the node lower
+         bound, at the CENTRE seat and every non-incident bond.  The sampled generic-count
+         equality is a reading, not a converse.  The epsilon=-2 sign-gauge return is an
+         exact control where extra blind modes survive.
     G7   control, and a fence on this file's own scope: a bond INCIDENT on the watched seat
          is struck away with the seat, so both principal blocks are eps-free and the blind
          count is unchanged at EVERY eps, not merely to second order.  Owned and called
          trivial by PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA; gated here so this file cannot
          re-sell it.
-    G9   Corollary B at ALL orders: a node at an end of the moved bond makes the left
-         block's characteristic polynomial vanish at E_k IDENTICALLY in eps, so the mode
-         keeps its energy and its node at every eps, not merely to second order.  The
-         control requires the no-node cells NOT to be identically zero.
+    G9   Corollary B at ALL orders on the zero-free knob domain: a node at an end of the
+         moved bond makes the left block's characteristic polynomial vanish at E_k
+         IDENTICALLY in eps, so the mode keeps its energy and its node for eps != -1, not
+         merely to second order.  On the UNIFORM CENTRE-WATCHED family the exact determinant
+         factorization closes the pointwise converse for r=1+eps outside r=0,+1,-1.  The
+          control requires the no-node cells NOT to be identically zero, using an exact
+          coefficient-wise polynomial oracle with a seven-root zero identity as its own
+          fail-open control.  G9 fences the three exceptional ratios, and M8 rejects a
+          linear-in-r mutation of the factorization.
     G8   the rate statement, correctly scoped: 2 gamma (c_i + c_j) is the DIAGONAL of the
          second-order effective operator in the dyad basis.  It is the rate on every
          omega != 0 peripheral block (gated against the generator), and it is NOT on the
          omega = 0 block, which always carries vec(I) at rate exactly 0 because z^2 = I.
          The omega = 0 mismatch at N = 9 is gated as a POSITIVE fact, so a version of this
-         file that "fixed" the mismatch would go red.
+         file that "fixed" the mismatch would go red.  M5 rejects a truncated acquisition;
+         M6a-c reject full-length acquisitions containing NaN or either infinity.  G8b also
+          validates the whole acquisition before matching.  Its three-acquisition germ gate
+          spans two decades and requires the normalized error to shrink linearly in epsilon,
+          after an explicit eigensolver-rounding reserve.  M7a-c replace a nonzero-frequency
+          branch with NaN or either infinity, and M9 scales every prediction by 1.003; all
+          must be rejected through that same multi-decade path.
 
   WHAT THE MUTATIONS ACTUALLY MUTATE.  M4 mutates the OBJECT (the charged-cell set moves
   to another seat and the dimension collapses to 1).  M1, M2 and M3 mutate the PREDICTION
@@ -87,6 +100,16 @@ def exact_zero(expr):
     polynomial is an exact certificate and is fast.
     """
     return sp.minimal_polynomial(expr, _T) == _T
+
+
+def exact_polynomial_nonzero(expr, symbol):
+    """True iff a polynomial in `symbol` has a coefficient certified nonzero.
+
+    `simplify(expr) != 0` is fail-open for unsimplified algebraic zeroes.  A polynomial is
+    identically zero exactly when every algebraic coefficient is certified zero.
+    """
+    coefficients = sp.Poly(sp.expand(expr), symbol).all_coeffs()
+    return any(not exact_zero(coefficient) for coefficient in coefficients)
 
 
 def exact_rational(expr):
@@ -289,6 +312,99 @@ def check(name, ok, detail):
     print(f"  [{'PASS' if ok else 'FAIL'}] {name}: {detail}")
 
 
+def complete_zero_frequency_mismatch(measured, predicted, expected_count, tolerance=1e-3):
+    """Whether two complete equal-size zero-frequency multisets disagree.
+
+    Missing or non-finite branches are failed acquisition, not evidence of disagreement.
+    """
+    return (len(measured) == expected_count
+            and len(predicted) == expected_count
+            and all(np.isfinite(value) for values in (measured, predicted) for value in values)
+            and any(abs(a - b) > tolerance for a, b in zip(measured, predicted)))
+
+
+def nonzero_frequency_normalized_error(measured, predicted_by_frequency,
+                                       frequency_tolerance=1e-6):
+    """Maximum normalized rate error after a complete, finite frequency match."""
+    expected_count = sum(len(rates) for omega, rates in predicted_by_frequency.items()
+                         if np.isfinite(omega) and abs(omega) >= frequency_tolerance)
+    acquired_count = sum(1 for omega, _ in measured
+                         if np.isfinite(omega) and abs(omega) >= frequency_tolerance)
+    if (not all(np.isfinite(omega) and np.isfinite(rate) for omega, rate in measured)
+            or not all(np.isfinite(omega) and np.isfinite(rate)
+                       for omega, rates in predicted_by_frequency.items() for rate in rates)):
+        return None, acquired_count, expected_count
+
+    predicted = {omega: rates for omega, rates in predicted_by_frequency.items()
+                 if abs(omega) >= frequency_tolerance}
+    acquired = [(omega, rate) for omega, rate in measured
+                if abs(omega) >= frequency_tolerance]
+    if len(acquired) != expected_count:
+        return None, len(acquired), expected_count
+
+    errors = []
+    for omega, rates in predicted.items():
+        got = sorted(rate for measured_omega, rate in acquired
+                     if abs(measured_omega - omega) < frequency_tolerance)
+        if len(got) != len(rates):
+            return None, len(acquired), expected_count
+        for actual, expected in zip(got, sorted(rates)):
+            errors.append(abs(actual - expected) / max(1.0, abs(expected)))
+    if len(errors) != expected_count:
+        return None, len(acquired), expected_count
+    return max(errors, default=0.0), len(acquired), expected_count
+
+
+def complete_nonzero_frequency_match(measured, predicted_by_frequency,
+                                     frequency_tolerance=1e-6, rate_tolerance=3e-3):
+    """Whether the complete nonzero-frequency acquisition matches its grouped prediction."""
+    error, acquired_count, expected_count = nonzero_frequency_normalized_error(
+        measured, predicted_by_frequency, frequency_tolerance)
+    return error is not None and error <= rate_tolerance, acquired_count, expected_count
+
+
+def complete_nonzero_frequency_germ(acquisitions, predicted_by_frequency, gamma,
+                                    linear_error_budget=2.0, shrink_slack=1.25):
+    """Gate complete finite rate acquisitions at three or more points spanning two decades.
+
+    Each tuple is (epsilon, measured, ||A_0||).  In normalized rate units, each acquisition
+    gets the explicit error budget `linear_error_budget*|epsilon| + rounding_reserve`, where
+    `rounding_reserve = NOISE_FACTOR*eps_machine*||A_0||/(gamma*epsilon^2)`.  After that
+    reserve is removed, adjacent maximum errors must shrink linearly with epsilon; the named
+    `shrink_slack` allows for sampling a finite interval rather than the asymptotic limit.
+    """
+    if (not np.isfinite(gamma) or gamma <= 0
+            or any(not np.isfinite(eps) or eps == 0 or not np.isfinite(norm_a) or norm_a < 0
+                   for eps, _, norm_a in acquisitions)):
+        return False, []
+
+    rows = []
+    for eps, measured, norm_a in sorted(acquisitions, key=lambda item: -abs(item[0])):
+        rounding_reserve = NOISE_FACTOR * EPSM * norm_a / (gamma * eps * eps)
+        budget = linear_error_budget * abs(eps) + rounding_reserve
+        matched, acquired_count, expected_count = complete_nonzero_frequency_match(
+            measured, predicted_by_frequency, rate_tolerance=budget)
+        error, _, _ = nonzero_frequency_normalized_error(measured, predicted_by_frequency)
+        rows.append({"eps": abs(eps), "matched": matched, "acquired": acquired_count,
+                     "expected": expected_count, "error": error, "budget": budget,
+                     "rounding_reserve": rounding_reserve})
+
+    distinct_epsilons = {row["eps"] for row in rows}
+    spans_two_decades = (len(rows) >= 3 and len(distinct_epsilons) == len(rows)
+                         and rows[0]["eps"] / rows[-1]["eps"] >= 100.0 * (1.0 - 1e-12))
+    if (not spans_two_decades
+            or any(not row["matched"] or row["error"] is None for row in rows)):
+        return False, rows
+
+    for large, small in zip(rows, rows[1:]):
+        epsilon_ratio = small["eps"] / large["eps"]
+        large_resolved = max(0.0, large["error"] - large["rounding_reserve"])
+        small_resolved = max(0.0, small["error"] - small["rounding_reserve"])
+        if small_resolved > shrink_slack * epsilon_ratio * large_resolved:
+            return False, rows
+    return True, rows
+
+
 def gate_G1():
     print("\nG1  Theorem 1: <x|R_k|y> = 0 whenever psi_k has a node at both x and y")
     for N in (7, 9, 11, 13):
@@ -332,7 +448,7 @@ def gate_G1():
 
 
 def gate_G2():
-    print("\nG2  c_k = (1/2)*F65(2k) = (2/(N+1)) sin^2(2 pi k/(N+1)) on the level-1/2 bonds")
+    print("\nG2  c_k = psi_k(1)^2 = (2/(N+1)) sin^2(2 pi k/(N+1)) on the level-1/2 bonds")
     for N in (7, 9, 11):
         c = (N - 1) // 2
         psi, _ = sym_modes(N)
@@ -425,11 +541,13 @@ def gate_G5():
 
 
 def gate_G6():
-    print("\nG6  the one-node criterion, by F157's own instrument in EXACT arithmetic:")
+    print("\nG6  the one-node sufficient condition, by F157's own instrument in EXACT arithmetic:")
     print("    blind(seat) of the DETUNED chain = N - rank Krylov(e_seat) over Q.")
-    print("    A mode blind at eps = 0 stays blind at eps != 0 exactly when it has a node")
-    print("    at an end of the moved bond, so the surviving count is the node count.")
-    agree = mismatch = 0
+    print("    A node at an end of the moved bond guarantees survival for eps != -1.")
+    print("    Equality with that lower bound at the two sampled generic knobs is a reading,")
+    print("    not the converse: eps = -2 is a sign-gauge return with extra blind modes.")
+    lower_bound_holds = lower_bound_fails = 0
+    sampled_equal = sampled_unequal = 0
     nontrivial = 0
     for N in (5, 7, 9, 11):
         c = (N - 1) // 2
@@ -440,15 +558,29 @@ def gate_G6():
                        if (k * (b + 1)) % (N + 1) == 0 or (k * (b + 2)) % (N + 1) == 0)
             for eps in (sp.Rational(7, 5), sp.Rational(-3, 11)):
                 got = blind_count_exact(N, c, b, eps)
-                if got == pred:
-                    agree += 1
+                if got >= pred:
+                    lower_bound_holds += 1
                 else:
-                    mismatch += 1
+                    lower_bound_fails += 1
+                if got == pred:
+                    sampled_equal += 1
+                else:
+                    sampled_unequal += 1
             nontrivial += pred != len(blind_modes(N, c))
-    check("G6 exact blind count vs the node prediction", mismatch == 0 and agree > 0,
-          f"{agree}/{agree + mismatch} (N, bond, eps) cells agree over N = 5..11 at two "
-          f"rational eps; {nontrivial} of the bonds predict a count BELOW the unperturbed "
-          f"one, so the criterion is not the trivial always-blind answer")
+    check("G6 sufficient node lower bound", lower_bound_fails == 0 and lower_bound_holds > 0,
+          f"{lower_bound_holds}/{lower_bound_holds + lower_bound_fails} (N, bond, eps) cells "
+          f"meet blind count >= node count over N = 5..11 at eps = 7/5 and -3/11")
+    check("G6 sampled generic-count reading", sampled_unequal == 0 and sampled_equal > 0,
+          f"{sampled_equal}/{sampled_equal + sampled_unequal} sampled cells equal the node lower "
+          f"bound; {nontrivial} bonds put that bound below the unperturbed count")
+
+    sign_gauge_got = blind_count_exact(5, 2, 0, sp.Integer(-2))
+    sign_gauge_pred = sum(1 for k in blind_modes(5, 2)
+                          if (k * 1) % 6 == 0 or (k * 2) % 6 == 0)
+    check("G6 control epsilon=-2 sign-gauge return",
+          sign_gauge_pred == 0 and sign_gauge_got == 2,
+          f"N=5, seat=2, bond=0: node lower bound {sign_gauge_pred}, exact blind count "
+          f"{sign_gauge_got}; changing one bond from +2 to -2 is gauge-equivalent")
 
 
 def gate_G7():
@@ -470,13 +602,17 @@ def gate_G8():
     print("\nG8  the rate statement, correctly scoped.  2 gamma (c_i + c_j) is the DIAGONAL")
     print("    of the second-order effective operator in the dyad basis.  It is the rate on")
     print("    every omega != 0 peripheral block, and NOT on the omega = 0 block.")
-    gamma, eps = 0.3, 1e-4
-    print("  G8a  vec(I) is an exact steady state at every eps, because z^2 = I")
+    gamma = 0.3
+    germ_epsilons = (1e-2, 1e-3, 1e-4)
+    print("  G8a  float implementation control for the algebraic identity A[I] = 0")
     for N, e in ((7, 0.3), (9, 0.13), (11, 0.77)):
         c = (N - 1) // 2
         r = np.linalg.norm(A_generator(N, c, 0, e, 0.7) @ np.eye(N).reshape(-1))
-        check(f"G8a N={N} eps={e}", r == 0.0, f"||A vec(I)|| = {r:.1e} (exactly 0.0 required)")
-    print("  G8b  omega != 0 blocks: the diagonal IS the rate")
+        check(f"G8a N={N} eps={e}", r == 0.0,
+              f"float64 construction gives ||A vec(I)|| = {r:.1e} (bit-zero required)")
+    print("  G8b multi-decade germ: omega != 0 blocks have the predicted rate")
+    print("       in three acquisitions spanning two decades; normalized error must shrink")
+    print("       linearly in epsilon after the explicit eigensolver-rounding reserve")
     print("  G8c  omega = 0 block: the diagonal is NOT the rate, and the mismatch is gated")
     for N in (7, 9, 11):
         c = (N - 1) // 2
@@ -487,14 +623,17 @@ def gate_G8():
         normA = np.linalg.norm(A0, 2)
         w0 = np.linalg.eigvals(A0)
         per = [k for k in range(N * N) if abs(w0[k].real) < 1e-10 * max(1.0, gamma)]
-        w = np.linalg.eigvals(A_generator(N, c, 0, eps, gamma))
-        used, meas = set(), []   # normA is used by G8c's resolution floor below
-        for k in per:
-            for idx in np.argsort(np.abs(w - w0[k])):
-                if idx not in used:
-                    used.add(idx)
-                    meas.append((w0[k].imag, -w[idx].real / (gamma * eps * eps)))
-                    break
+        acquisitions = []
+        for eps in germ_epsilons:
+            w = np.linalg.eigvals(A_generator(N, c, 0, eps, gamma))
+            used, meas = set(), []
+            for k in per:
+                for idx in np.argsort(np.abs(w - w0[k])):
+                    if idx not in used:
+                        used.add(idx)
+                        meas.append((w0[k].imag, -w[idx].real / (gamma * eps * eps)))
+                        break
+            acquisitions.append((eps, meas, normA))
         # off-diagonal dyads, grouped by frequency
         offdiag = {}
         for i in cs:
@@ -502,21 +641,43 @@ def gate_G8():
                 if i == j:
                     continue
                 offdiag.setdefault(round(Es[i] - Es[j], 6), []).append(2 * (cs[i] + cs[j]))
-        ok_nonzero, checked = True, 0
-        for omega, pred in offdiag.items():
-            if abs(omega) < 1e-9:
-                continue
-            got = sorted(r for o, r in meas if abs(o - omega) < 1e-6)
-            if len(got) != len(pred):
-                ok_nonzero = False
-                continue
-            checked += len(got)
-            for a, b in zip(got, sorted(pred)):
-                if abs(a - b) > 3e-3 * max(1.0, b):
-                    ok_nonzero = False
-        check(f"G8b N={N}", ok_nonzero and checked > 0,
-              f"{checked} rates on omega != 0 blocks match 2 gamma (c_i+c_j) "
-              f"within the eps-germ")
+        ok_nonzero, germ_rows = complete_nonzero_frequency_germ(
+            acquisitions, offdiag, gamma)
+        germ_detail = "; ".join(
+            f"eps={row['eps']:.0e}: {row['acquired']}/{row['expected']}, "
+            f"error={row['error'] if row['error'] is None else format(row['error'], '.3e')}, "
+            f"budget={row['budget']:.3e}, reserve={row['rounding_reserve']:.3e}"
+            for row in germ_rows)
+        check(f"G8b N={N} three-point germ",
+              ok_nonzero and germ_rows[0]["expected"] > 0, germ_detail)
+        if N == 7:
+            middle_eps, middle_meas, _ = acquisitions[1]
+            nonzero_index = next(index for index, (omega, _) in enumerate(middle_meas)
+                                 if abs(omega) >= 1e-6)
+            for mutation_name, label, nonfinite in (
+                    ("M7a G8b rejects full-length NaN", "NaN", np.nan),
+                    ("M7b G8b rejects full-length +Inf", "+Inf", np.inf),
+                    ("M7c G8b rejects full-length -Inf", "-Inf", -np.inf)):
+                mutated = list(middle_meas)
+                omega, _ = mutated[nonzero_index]
+                mutated[nonzero_index] = (omega, nonfinite)
+                mutated_acquisitions = list(acquisitions)
+                mutated_acquisitions[1] = (middle_eps, mutated, normA)
+                accepted, mutation_rows = complete_nonzero_frequency_germ(
+                    mutated_acquisitions, offdiag, gamma)
+                mutation_row = mutation_rows[1]
+                check(mutation_name, not accepted,
+                      f"replaced one nonzero-frequency rate at omega={omega:.6f}; "
+                      f"acquisition remained {mutation_row['acquired']}/"
+                      f"{mutation_row['expected']}; multi-decade path accepted={accepted}")
+            scaled_prediction = {omega: [1.003 * rate for rate in rates]
+                                 for omega, rates in offdiag.items()}
+            mutation_accepted, mutation_rows = complete_nonzero_frequency_germ(
+                acquisitions, scaled_prediction, gamma)
+            check("M9 G8b constant 1.003 coefficient", not mutation_accepted,
+                  f"same three-acquisition path accepted={mutation_accepted}; errors="
+                  f"{[None if row['error'] is None else float(row['error']) for row in mutation_rows]}")
+        eps, meas, _ = acquisitions[-1]  # G8c uses the smallest-epsilon acquisition below
         # The omega = 0 diagonal multiset has m+1 entries: 4 c_k for each diagonal dyad,
         # and I_E's own entry, which is 4*(sum_k c_k)/(m+1) (its first-order change is
         # -sum_i (d_i delta_i^dag + h.c.), so its charged weight is 2 sum_k c_k over
@@ -526,9 +687,9 @@ def gate_G8():
         zero_meas = sorted(round(r, 4) for o, r in meas if abs(o) < 1e-9)
         zero_diag = sorted([round(4 * cs[k], 4) for k in cs]
                            + [round(4 * sum(cs.values()) / (m + 1), 4)])
-        differ = (len(zero_meas) != len(zero_diag)
-                  or any(abs(a - b) > 1e-3 for a, b in zip(zero_meas, zero_diag)))
-        # vec(I) has rate exactly 0; that exactness is G8a's, tested on the generator.
+        expected_zero = m + 1
+        differ = complete_zero_frequency_mismatch(zero_meas, zero_diag, expected_zero)
+        # Algebra gives vec(I) exact rate 0; G8a only checks the float construction.
         # Here the rate comes from an eigensolver, so the honest statement is that the
         # block carries a rate below what the read can resolve: NOISE_FACTOR * eps_machine
         # * ||A||, divided by the gamma eps^2 the column is normalised by.
@@ -536,21 +697,61 @@ def gate_G8():
         smallest = min(abs(r) for o, r in meas if abs(o) < 1e-9)
         check(f"G8c N={N}", differ and smallest < floor,
               f"omega=0 measured {zero_meas} vs the full diagonal multiset {zero_diag} "
-              f"(m dyads + I_E, same length): they differ; the smallest measured rate is "
+              f"(m dyads + I_E, {len(zero_meas)}/{expected_zero} branches acquired): they "
+              f"differ; the smallest measured rate is "
               f"{smallest:.1e} against a resolution floor of {floor:.1e}")
+        truncated = [min(zero_meas, key=abs)]
+        check(f"M5 G8c N={N} (retain only stationary branch)",
+              not complete_zero_frequency_mismatch(truncated, zero_diag, expected_zero),
+              f"truncated acquisition has {len(truncated)}/{expected_zero} branches and is "
+              f"rejected before spectral comparison")
+
+    finite_measured = [0.0, 0.25, 0.75]
+    finite_predicted = [0.0, 0.5, 0.5]
+    finite_control = complete_zero_frequency_mismatch(finite_measured, finite_predicted, 3)
+    for label, nonfinite in (("NaN", np.nan), ("+Inf", np.inf), ("-Inf", -np.inf)):
+        measured_mutation = [0.0, nonfinite, 0.75]
+        predicted_mutation = [0.0, nonfinite, 0.5]
+        measured_accepted = complete_zero_frequency_mismatch(measured_mutation, finite_predicted, 3)
+        predicted_accepted = complete_zero_frequency_mismatch(finite_measured, predicted_mutation, 3)
+        check(f"M6 G8c rejects full-length {label}",
+              finite_control and not measured_accepted and not predicted_accepted,
+              f"finite control accepted={finite_control}; 3/3 measured mutation accepted="
+              f"{measured_accepted}; 3/3 predicted mutation accepted={predicted_accepted}")
 
 
 def gate_G9():
-    """The criterion at ALL orders, by the route the parent named and did not take."""
-    print("\nG9  Corollary B at ALL orders, not merely first.  Expand the left block's")
+    """The all-orders sufficient direction and the uniform-centre pointwise converse."""
+    print("\nG9  Corollary B at ALL orders for eps != -1, not merely first.  Expand the left block's")
     print("    characteristic polynomial along the moved bond:")
     print("      chi_L = P*Q - (J(1+eps))^2 * P'*Q',   P = chi(0..b), Q = chi(b+1..c-1),")
     print("      P' = chi(0..b-1), Q' = chi(b+2..c-1).")
     print("    A node at b splits the left block there, so by (J3) E_k is a root of both")
     print("    pieces: P'(E_k) = Q(E_k) = 0, and BOTH terms vanish.  A node at b+1 gives")
     print("    P(E_k) = Q'(E_k) = 0, same conclusion.  So chi_L(E_k; eps) is identically")
-    print("    zero in eps and the mode keeps its energy AND its node at every eps.")
-    lam, e = sp.Symbol("lam"), sp.Symbol("e")
+    print("    zero in eps; while the chain stays zero-free, the mode keeps its energy AND node.")
+    lam, e, r = sp.symbols("lam e r")
+
+    seven_root_zero = sum(sp.cos(2 * sp.pi * k / 7) for k in range(1, 7)) + 1
+    seven_root_nonzero = sum(sp.cos(2 * sp.pi * k / 7) for k in range(1, 6)) + 1
+    zero_classified_nonzero = exact_polynomial_nonzero((1 + e) * seven_root_zero, e)
+    nonzero_classified_nonzero = exact_polynomial_nonzero((1 + e) * seven_root_nonzero, e)
+    check("G9-control exact polynomial oracle (seven-root zero identity)",
+          not zero_classified_nonzero and nonzero_classified_nonzero,
+          f"six-root sum + 1 classified nonzero={zero_classified_nonzero}; the genuine "
+          f"five-root nonzero trigonometric sequence classified nonzero="
+          f"{nonzero_classified_nonzero}")
+
+    def path_poly(n):
+        """Characteristic polynomial of the uniform n-site path with hopping 2."""
+        p0, p1 = sp.Integer(1), lam
+        if n == 0:
+            return p0
+        if n == 1:
+            return p1
+        for _ in range(2, n + 1):
+            p0, p1 = p1, sp.expand(lam * p1 - 4 * p0)
+        return p1
 
     def chi_left(N, c, b, eps):
         t = [sp.Integer(2)] * (N - 1)
@@ -572,20 +773,65 @@ def gate_G9():
                 val = sp.simplify(sp.expand(P.subs(lam, Ek)))
                 node = ((k * (b + 1)) % (N + 1) == 0) or ((k * (b + 2)) % (N + 1) == 0)
                 if node:
-                    if sp.simplify(val) == 0:
+                    if not exact_polynomial_nonzero(val, e):
                         hit += 1
                     else:
                         miss += 1
                 else:
                     control_tot += 1
-                    control_nonzero += sp.simplify(val) != 0
-    check("G9 all-orders criterion", miss == 0 and hit > 0,
+                    control_nonzero += exact_polynomial_nonzero(val, e)
+    check("G9 all-orders sufficient identity", miss == 0 and hit > 0,
           f"{hit}/{hit + miss} node-carrying (N, bond, mode) cells give chi_L(E_k; eps) "
           f"identically 0 in eps over N = 5..13")
     check("G9 control (no node at either end)", control_nonzero == control_tot
           and control_tot > 0,
           f"{control_nonzero}/{control_tot} cells WITHOUT a node are not identically zero, "
           f"so the criterion is not a property of chi_L alone")
+
+    factorized = mutated = total = 0
+    for m in range(2, 7):
+        N, c = 2 * m + 1, m
+        for b in range(m - 1):
+            direct = sp.expand(chi_left(N, c, b, r - 1))
+            correction = 4 * (r ** 2 - 1) * path_poly(b) * path_poly(m - b - 2)
+            formula = sp.expand(path_poly(m) - correction)
+            wrong = sp.expand(path_poly(m)
+                              - 4 * (r - 1) * path_poly(b) * path_poly(m - b - 2))
+            total += 1
+            factorized += sp.expand(direct - formula) == 0
+            mutated += sp.expand(direct - wrong) != 0
+    check("G9b uniform-centre determinant factorization", factorized == total and total > 0,
+          f"{factorized}/{total} left nonincident (m,b) cells exactly satisfy "
+          f"chi_L=P_m-4(r^2-1)P_b P_(m-b-2)")
+    check("M8 G9b linear-in-r correction", mutated == total,
+          f"{mutated}/{total} cells reject replacing r^2-1 by r-1")
+
+    iff_hit = iff_total = node_positive = node_zero = 0
+    for N in (5, 7, 9, 11, 13):
+        c = (N - 1) // 2
+        for b in range(c - 1):
+            node_count = sum(1 for k in blind_modes(N, c)
+                             if (k * (b + 1)) % (N + 1) == 0
+                             or (k * (b + 2)) % (N + 1) == 0)
+            node_positive += node_count > 0
+            node_zero += node_count == 0
+            for ratio in (sp.Rational(2, 3), sp.Rational(3, 2), sp.Integer(-2)):
+                got = blind_count_exact(N, c, b, ratio - 1)
+                iff_total += 1
+                iff_hit += got == node_count
+    check("G9c uniform-centre pointwise iff outside r=0,+1,-1",
+          iff_hit == iff_total and node_positive > 0 and node_zero > 0,
+          f"{iff_hit}/{iff_total} exact Krylov counts equal the endpoint-node count at "
+          f"r=2/3,3/2,-2; bond populations include {node_positive} positive and "
+          f"{node_zero} zero-node cells")
+
+    N, c, b = 7, 3, 0
+    exceptional = {ratio: blind_count_exact(N, c, b, sp.Integer(ratio) - 1)
+                   for ratio in (-1, 0, 1)}
+    check("G9d exceptional-set fence r=0,+1,-1",
+          exceptional[-1] == c and exceptional[1] == c and exceptional[0] < c,
+          f"N=7, seat=3, bond=0 exact blind counts are {exceptional}: r=+1 is the "
+          f"unperturbed chain, r=-1 is its sign gauge, and r=0 cuts the zero-free chain")
 
 
 # -------------------------------------------------------------------------------- reads

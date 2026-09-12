@@ -878,6 +878,16 @@ public static class KnowledgeRegistryFactory
             // closes in the popcount-1 sector and leaves open above it.
             // Live: inspect --root blind (SeatCutBlindnessWitness, exact GF(p) Krylov ranks, no eigensolver).
             .RegisterSeatCutBlindnessClaim()
+            // The node-pair resolvent theorem (Tier 1 derived, 2026-09-12): on a zero-free real
+            // symmetric open chain, nodes at both ends of a reduced-resolvent matrix element force
+            // it to vanish. The general sufficient bond theorem says that a node at either
+            // endpoint of a non-incident moved bond preserves a blind mode while that bond remains
+            // nonzero. On the uniform odd chain watched at its centre, the determinant
+            // factorization closes the uniform-centre pointwise iff for r != 0,+1,-1.
+            // The off-centre and nonuniform pointwise converses remain open, as do the
+            // equality branch and straddling mechanism. Parent:
+            // F157, whose Jacobi node lemma supplies the premise. Gate: simulations/node_pair_resolvent.py.
+            .RegisterNodePairResolventClaim()
             .RegisterMissingPhaseRelaxationScaleClaim()
             .RegisterPalindromeTwoEndCountClaim()
             // F160, the cracked ring is exactly solvable (Tier 1 derived, 2026-09-02; the law derived and gated
