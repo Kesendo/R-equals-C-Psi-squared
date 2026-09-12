@@ -2979,3 +2979,69 @@ words already.
   the comparative is not uniform either. That one is left standing: the file carries no fence, and
   the phrase is its author's reading rather than a number. The wording quoted above is the wording
   of the finding and is kept.
+
+## 2026-09-12, a second-order law written on a degenerate block, and a headline the repo already called trivial
+
+- **The work.** A new result on what one detuned bond does to a mode blind to a watched seat:
+  `docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md` and `simulations/node_pair_resolvent.py`. Three
+  empty rounds (referee, record auditor with recompute, mathematician) before commit.
+- **The blocker, found independently by two of the three rounds.** The draft wrote the
+  second-order rate of a dyad `|d_i⟩⟨d_j|` as `2γ(c_i + c_j)ε²` and read it as an eigenvalue
+  everywhere. It is the DIAGONAL of the second-order effective operator in the dyad basis, and
+  the dyads are eigenvectors only where the frequency `E_i − E_j` is non-degenerate. The
+  zero-frequency block holds the m diagonal dyads together with `I_E` and mixes them. What
+  forces the mixing is exact and holds at every ε: `z² = I`, so `A[I] = 0`, and
+  `I = Σ_i d_i d_i† + I_E` lies in that block, which therefore always carries an eigenvalue
+  exactly zero. Measured at N = 7 the block is {0, 0, γ, 3γ/2}·ε² where the draft predicted
+  {0, γ, γ} plus an `I_E` it assigned 3γ/2; at N = 9 the measured block contains two values no
+  dyad pair can produce. The draft also claimed to reproduce five of six entries of
+  `PROOF_MISSING_PHASE_RELAXATION_SCALE` §7 while contradicting that proof's own exact
+  `F_0^(2)` spectrum, and mislabelled the 3γ/2 direction: it is `|d₋⟩⟨d₋| + |d₊⟩⟨d₊| − I_E/2`,
+  and `MissingPhaseRelaxationScaleWitness`, live since that morning, already carried the
+  correct antisymmetric label for the γ direction. No gate saw it, by construction: the only
+  rate the producer compared was the slowest, and the minimum sits on a non-degenerate block.
+- **The headline was owned, called trivial, and weaker than the truth.** The draft sold "the two
+  bonds at the watched seat open nothing" as its surprise, fenced to second order.
+  `PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md:176` says in its setup that a perturbation on a bond
+  incident on the seat "is struck away with the seat and changes neither block; those cells are
+  trivial and the gates EXCLUDE them". Measured exactly over ℚ, the blind count is unchanged at
+  ε = 9, a bond stretched tenfold, so the fence "at this order" was an over-fence on something
+  true at all orders. The draft had read and quoted line 210 of that same section and not the
+  setup line 176 above it: a store is swept when it has been SEARCHED, not when one of its
+  entries has been read and quoted. The same sentence at 210 carries the clause that refutes
+  the draft's other overclaim, "only its level is stationary to first order", between the two
+  fragments the draft quoted from it.
+- **Two numbers that were one hard-coded constant.** §9 stated a saturated rate `1/(2γ)` and a
+  crossover at `γε = 1`. The producer hard-wires the hopping at 2; restoring it gives
+  `rate·γ/J² = 0.125000` at J = ½, 1, 2, 4, so the rate is `A(N)·J²/γ` with A N-dependent, and
+  the crossing is `γε = J√(2A)`. As displayed, `½γε² = 1/(2γ)` was also dimensionally
+  inconsistent, a rate set equal to a time.
+- **A closed form that was an owned one re-indexed.** `c_k = (2/(N+1))sin²(2πk/(N+1))` is
+  `|ψ_k(1)|²`, which on the folded chain is F65's endpoint amplitude; gated exactly at
+  N = 7, 9, 11.
+  The draft presented it as new and wrote that the repo "has never multiplied" the two halves of
+  such a coefficient, which F163 and D6 refute, and the session's own sweep agent had reported
+  F163's second-order sandwich before the sentence was written.
+- **Five gate defects, all one shape, all found by running rather than re-reading.** A detail
+  string composed from the intent ("all exactly 0") printed on a failing check; an anti-vacuity
+  control that was a second instance of the theorem it was meant to contrast with; an
+  anti-constant guard demanding three distinct values where the object has two; a noise floor
+  reintroduced one copy later as an absolute constant after the same defect had been diagnosed
+  and fixed elsewhere in the same file; and a marker comparing the measured coefficient against
+  ½ instead of against the law's own ½(1+ε), which flagged the cubic germ as a breakdown at
+  every γ. Three further checks could not go red at all (a mutation entailed by its own gate, a
+  tautology, and an index-forced zero); the repair removed two of them and the third, the
+  entailed mutation, is declared as such in the producer's header rather than dressed as
+  evidence. A fourth, introduced by the repair itself, compared a length-(m+1) list against a
+  length-m one and so could never report a difference; it now compares the full diagonal
+  multiset, and its exactness claim, which an eigensolver cannot support, moved to the one
+  gate that can test it on the generator.
+- **Lesson.** The fifth gate defect is the one to keep. A wrong error model does not only
+  mis-mark cells; it hides the structure the cells were measuring. Fixing the marker made the
+  table legible, and the legible table showed a second law, the saturation, that had been
+  sitting in the data being read as an anomaly, then as a precision artifact, then as an
+  outlier. Each of those three readings was written down before the marker was fixed.
+- **Anchors.** `docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md`,
+  `simulations/node_pair_resolvent.py`, `docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md`,
+  `docs/proofs/PROOF_MISSING_PHASE_RELAXATION_SCALE.md`,
+  `compute/RCPsiSquared.Diagnostics/Foundation/MissingPhaseRelaxationScaleWitness.cs`, F65, F163.
