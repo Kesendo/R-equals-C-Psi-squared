@@ -878,6 +878,7 @@ public static class KnowledgeRegistryFactory
             // closes in the popcount-1 sector and leaves open above it.
             // Live: inspect --root blind (SeatCutBlindnessWitness, exact GF(p) Krylov ranks, no eigensolver).
             .RegisterSeatCutBlindnessClaim()
+            .RegisterMissingPhaseRelaxationScaleClaim()
             .RegisterPalindromeTwoEndCountClaim()
             // F160, the cracked ring is exactly solvable (Tier 1 derived, 2026-09-02; the law derived and gated
             // 2026-08-31 in experiments/THE_CRACKED_BELL.md): one bond of the XY ring detuned to u*J has
