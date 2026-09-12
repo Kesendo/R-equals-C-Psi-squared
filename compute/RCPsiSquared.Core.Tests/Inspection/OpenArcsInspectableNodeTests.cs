@@ -175,17 +175,70 @@ public class OpenArcsInspectableNodeTests
         var arc = OpenArcsRegistry.All.Single(
             a => a.Name == "relaxation_scale_as_the_defect_vanishes");
 
-        Assert.Contains(
-            "N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray",
-            arc.NextStep);
-        Assert.Contains(
-            "N ≡ 3 (mod 4) one zero-energy blind ray survives",
-            arc.NextStep);
+        AssertMissingPhaseContinuation(arc.NextStep);
         Assert.Contains(
             "hard-coded to N = 7 and its 49-dimensional A block; it cannot be run at N = 9",
             arc.NextStep);
         Assert.Contains("new general-N 81-dimensional", arc.NextStep);
         Assert.DoesNotContain("use the exact routines", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void RelaxationScaleArc_HandoffGateRejectsEachLoadBearingDeletion()
+    {
+        string current = OpenArcsRegistry.All.Single(
+            a => a.Name == "relaxation_scale_as_the_defect_vanishes").NextStep;
+
+        string[] loadBearingPhrases =
+        {
+            "r != 0",
+            "r^2 != 1",
+            "N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray",
+            "N ≡ 3 (mod 4) one zero-energy blind ray survives",
+            "P_0 = 1, P_1 = x, P_k = x P_(k-1) - 4 P_(k-2)",
+            "det(x I - h_r) = x P_(N-1) - 4 r^2 P_(N-2)",
+            "P_k(x) = 2^k U_k(x/4)",
+            "experiments/THE_BLIND_SITE.md Section 5",
+            "simulations/seat_pencil.py",
+            "adjugate/cofactor",
+            "K_r carries an embedded A branch only for N ≡ 3 (mod 4), not at N = 9",
+            "not quadratic",
+            "must be computed separately",
+        };
+
+        Assert.All(loadBearingPhrases, phrase =>
+        {
+            string mutation = current.Replace(phrase, "", StringComparison.Ordinal);
+            Assert.NotEqual(current, mutation);
+            Assert.ThrowsAny<Exception>(() => AssertMissingPhaseContinuation(mutation));
+        });
+    }
+
+    private static void AssertMissingPhaseContinuation(string nextStep)
+    {
+        Assert.Contains("r != 0", nextStep);
+        Assert.Contains("r^2 != 1", nextStep);
+        Assert.Contains(
+            "N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray",
+            nextStep);
+        Assert.Contains(
+            "N ≡ 3 (mod 4) one zero-energy blind ray survives",
+            nextStep);
+        Assert.Contains(
+            "P_0 = 1, P_1 = x, P_k = x P_(k-1) - 4 P_(k-2)",
+            nextStep);
+        Assert.Contains(
+            "det(x I - h_r) = x P_(N-1) - 4 r^2 P_(N-2)",
+            nextStep);
+        Assert.Contains("P_k(x) = 2^k U_k(x/4)", nextStep);
+        Assert.Contains("experiments/THE_BLIND_SITE.md Section 5", nextStep);
+        Assert.Contains("simulations/seat_pencil.py", nextStep);
+        Assert.Contains("adjugate/cofactor", nextStep);
+        Assert.Contains(
+            "K_r carries an embedded A branch only for N ≡ 3 (mod 4), not at N = 9",
+            nextStep);
+        Assert.Contains("not quadratic", nextStep);
+        Assert.Contains("must be computed separately", nextStep);
     }
 
     [Fact]

@@ -128,6 +128,41 @@ introduce a square root. Thus a seven-dimensional invariant family produces
 the candidate eigenvalue branch. The 49-dimensional generator is constructed
 separately and is not defined by this reduction.
 
+The blind carrier has an exact all-odd-N scope even though the relaxation
+theorem does not. Let `N=2m+1 >= 3`, retain the zero diagonal and centre
+`c=m`, put `h_01=2r`, and leave every other hopping equal to `2`. On this
+one-end family require `r != 0` (the path is zero-free) and `r^2 != 1` (away
+from the uniform point and its site-zero gauge copy). For `m >= 2`, define
+
+```text
+P_0(lambda)=1,  P_1(lambda)=lambda,
+P_k(lambda)=lambda P_(k-1)(lambda)-4P_(k-2)(lambda).
+```
+
+The two principal blocks left by striking the centre have characteristic
+polynomials
+
+```text
+chi_R(lambda)=P_m(lambda),
+chi_L(lambda)=P_m(lambda)+4(1-r^2)P_(m-2)(lambda).
+```
+
+Because `r^2 != 1`, a shared root must be shared by `P_m` and `P_(m-2)`.
+The recurrence and coprimality of consecutive zero-free path polynomials then
+force that root to be `lambda=0`; zero is a root exactly when `m` is odd.
+The blind-seat node lemma turns this gcd degree into the centre blind
+dimension. Consequently the punctured one-end family has exactly one blind
+zero ray for `N = 3 mod 4` and no blind ray for `N = 1 mod 4`. The
+`m=1` (`N=3`) case follows directly from the
+two one-site principal blocks.
+
+This congruence statement owns only the existence or absence of the
+N-dimensional invariant family `u v_r^dagger`. It supplies neither the
+N = 7 coefficient `gamma/2`, nor that case's doubled cluster, complete
+peripheral census, local gap ordering, or missing-phase protocol. In
+particular, the owning experiment excludes `N=3` because its two encoded
+copies are not orthogonal on the outer sites.
+
 ## 4. Two-sided row-stack embedding and doubled clusters
 
 The adjoint-side family is invariant as well. If
@@ -173,6 +208,25 @@ Q_r(lambda) = lambda^6 + 2 gamma lambda^5
   + 192r^2+64.
 ```
 
+Its affine dependence on `gamma` is the seat-pencil identity already owned by
+[The Blind Site](../../experiments/THE_BLIND_SITE.md) Section 5 and gated by
+[`seat_pencil.py`](../../simulations/seat_pencil.py). With
+`M=lambda I+i h_r`, multilinearity in the watched column, equivalently the
+adjugate/cofactor form of the rank-one determinant identity, gives
+
+```text
+det(lambda I-K_r)
+  = det(M) + 2 gamma e_c^T adj(M)e_c
+  = det(M) + 2 gamma det(M with row and column c struck).
+```
+
+No inverse is used, so the identity remains valid at singular Hamiltonian
+roots. Affinity of the characteristic polynomial does not make its
+discriminant quadratic in `gamma`: at `N=7` and `N=9` it is higher-degree,
+not quadratic. It is a separate resultant of the characteristic polynomial
+and its `lambda` derivative and must be computed separately before any
+exceptional-point census.
+
 At the uniform point `r=1`,
 
 ```text
@@ -204,6 +258,19 @@ The conjugate branch has the same real part. Consequently
 
 The cubic term matters: the positive and negative defects need not have equal
 finite-epsilon rates even though both share the same quadratic leading law.
+The exact relation on the other side of the defect axis is instead a full
+generator similarity. For `S=diag(-1,1,...,1)`,
+
+```text
+S h_r S = h_(-r),       [S,P_c]=[S,z]=0,
+L_A(-r)(S X S) = S L_A(r)(X) S.
+```
+
+Thus the complete A spectra, and hence their gaps, agree at `r` and `-r`.
+Since `r=1+epsilon`, this is
+`Delta_A(epsilon)=Delta_A(-2-epsilon)`. The Hamiltonian characteristic
+polynomial's dependence on `r^2` is a shadow of this operator-space
+similarity, not by itself the gap argument.
 
 ## 6. The complete epsilon=0 peripheral space
 

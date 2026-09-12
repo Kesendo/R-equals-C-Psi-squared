@@ -9303,14 +9303,23 @@ public static class OpenArcsRegistry
                 "neither a full-4^7 Liouvillian gap nor an observable lifetime.",
             NextStep:
                 "Do not reopen this retired arc for the separate extensions below. If an all-odd-N successor " +
-                "is explicitly opened, begin with the two families that the centre-seat zero mode separates: " +
-                "for N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray, whereas for " +
-                "N ≡ 3 (mod 4) one zero-energy blind ray survives. The existing certificate script is " +
-                "hard-coded to N = 7 and its 49-dimensional A block; it cannot be run at N = 9. Build a " +
-                "new general-N 81-dimensional (1,1)-block Kato/Feshbach route for N = 9 and use it to compute " +
-                "the complete epsilon = 0 peripheral splitting and the punctured local branches before " +
-                "proposing any N-dependent coefficient. Do not extrapolate the N = 7 rank-two cluster or " +
-                "extend the floating sweep first. The separate " +
+                "is explicitly opened, begin with the two families that the centre-seat zero mode separates " +
+                "on THIS otherwise-uniform one-end family: with r != 0 and r^2 != 1, for N ≡ 1 (mod 4) " +
+                "the one-end defect leaves no punctured blind ray, whereas for N ≡ 3 (mod 4) one " +
+                "zero-energy blind ray survives. Before an 81-dimensional build, carry the exact Hamiltonian " +
+                "backbone P_0 = 1, P_1 = x, P_k = x P_(k-1) - 4 P_(k-2), with " +
+                "det(x I - h_r) = x P_(N-1) - 4 r^2 P_(N-2) and normalization " +
+                "P_k(x) = 2^k U_k(x/4). Reuse the seat-pencil identity already owned by " +
+                "experiments/THE_BLIND_SITE.md Section 5 and simulations/seat_pencil.py: its " +
+                "adjugate/cofactor form makes det(lambda I - K_r) affine in gamma without using an inverse at " +
+                "a singular Hamiltonian root. That affinity does not make the discriminant quadratic: over " +
+                "Q(r), at N = 7 and N = 9, it is higher-degree, not quadratic, and must be computed separately. " +
+                "K_r carries an embedded A branch only for N ≡ 3 (mod 4), not at N = 9. The existing " +
+                "certificate script is hard-coded to N = 7 and its 49-dimensional A block; it cannot be run " +
+                "at N = 9. Therefore build a new general-N 81-dimensional (1,1)-block Kato/Feshbach route for " +
+                "N = 9 and use it to compute the complete epsilon = 0 peripheral splitting and the punctured " +
+                "local branches before proposing any N-dependent coefficient. Do not extrapolate the N = 7 " +
+                "rank-two cluster or extend the floating sweep first. The separate " +
                 "questions are to derive or refute the law for all odd N, control the " +
                 "punctured-neighbourhood radius uniformly in gamma if possible, and determine which " +
                 "preparations and observables couple to the slow rank-two cluster so that an observable " +
