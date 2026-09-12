@@ -24,11 +24,10 @@ public class OpenArcsInspectableNodeTests
                                                         //   derivation graph while the registries
                                                         //   about ourselves carry no walked edge)
                                                         // +relaxation_scale_as_the_defect_vanishes
-                                                        //   (2026-09-05: the singular order of limits
-                                                        //   in THE_MOTION_AND_THE_MISSING_PHASE's
-                                                        //   closing question, opened carrying the
-                                                        //   short-time adoption as its inventory so a
-                                                        //   sweep can find it)
+                                                        //   (opened 2026-09-05; retired 2026-09-11 by
+                                                        //   the N = 7 local A-sector theorem; broader
+                                                        //   all-odd-N and observable-coupling questions
+                                                        //   remain)
                                                         // +mirrorworld_owns_no_time (2026-09-05: no
                                                         //   GameObject owns a duration, the two
                                                         //   time readings are static classes, and
@@ -155,6 +154,19 @@ public class OpenArcsInspectableNodeTests
         Assert.All(
             OpenArcsRegistry.All.Where(a => a.Status == OpenArcStatus.Retired),
             a => Assert.False(string.IsNullOrWhiteSpace(a.RetiredReason)));
+    }
+
+    [Fact]
+    public void RelaxationScaleArc_IsRetiredByTheN7LocalTheorem()
+    {
+        var arc = OpenArcsRegistry.All.Single(
+            a => a.Name == "relaxation_scale_as_the_defect_vanishes");
+        Assert.Equal(OpenArcStatus.Retired, arc.Status);
+        Assert.Contains("PROOF_MISSING_PHASE_RELAXATION_SCALE", arc.ParkedAt);
+        Assert.Contains("N = 7", arc.ParkedAt);
+        Assert.Contains("observable", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        Assert.False(string.IsNullOrWhiteSpace(arc.RetiredReason));
+        Assert.Contains("completed", arc.RetiredReason!, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

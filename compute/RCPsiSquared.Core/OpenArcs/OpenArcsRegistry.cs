@@ -9286,56 +9286,35 @@ public static class OpenArcsRegistry
             Name: "relaxation_scale_as_the_defect_vanishes",
             Opened: "2026-09-05",
             Origin:
-                "THE QUESTION, which is experiments/THE_MOTION_AND_THE_MISSING_PHASE.md's own closing one: " +
-                "how the long relaxation scale of that page's system depends on the end defect as epsilon " +
-                "goes to zero. The two limits already disagree and the disagreement is the subject. At " +
-                "epsilon = 0 the encoding is invariant and d_out(t) = 0 for every t. Taking t to infinity " +
-                "FIRST and then epsilon to zero through nonzero defects gives the blind weight p -> 1/2 and " +
-                "d_out -> 3/4, by the stationary form of that page's section 10.1. So the order of limits is " +
-                "singular, and what has to come out of the generator is the RATE at which the relaxation " +
-                "slows, not a finite-time jump read off a plot. " +
-                "THE INVENTORY, so that the next session does not rebuild any of it. The exact short-time " +
-                "side IS DONE (2026-09-05): MissingPhaseOnsetWitness + inspect --root missingphase + " +
-                "MissingPhaseOnsetWitnessTests, which iterate that page's section 9 recurrence in exact Q(i) " +
-                "and meet every closed form of its section 8 at N = 5, 7, 9, 11, 13, at epsilon = 1/3 and at " +
-                "epsilon = -1/3, -1 (a severed end bond) and -3, and which also gate the section 8.1 " +
-                "two-block reduction against the full 2^N Lindbladian at N = 5. The arithmetic that made it " +
-                "possible is Core/Numerics/GaussianRational.cs, Q(i) with division, lifted the same day out " +
-                "of a private struct inside FoldResultantCertificate so that the field exists once rather " +
-                "than twice. The finite-time side is simulations/missing_phase_long_time.py with its four " +
-                "JSON records, but it is HARDWIRED to N = 7 and to epsilon = +-0.1 and it errors out on any " +
-                "other defect, so a sweep in epsilon needs its domain opened first, which its own page says. " +
-                "WHY THE ARC EXISTS AT ALL: five review rounds on the adoption found that nothing in this " +
-                "registry named the object, so the short-time work was findable only by someone who already " +
-                "knew the witness was there. That is the shape of the 2026-09-03 entry in docs/CAUGHT_ERRORS.md, " +
-                "where a design proposed building what had been live for three weeks. The inventory above is " +
-                "here to be found by a sweep, not to be read as a result.",
+                "The former question from experiments/THE_MOTION_AND_THE_MISSING_PHASE.md: determine from " +
+                "the generator how the N = 7 centre-dephased system's slow spectral scale diverges when its " +
+                "one-end defect epsilon tends to zero, rather than reading the singular order of limits as a " +
+                "finite-time jump. The preserved Stage-0 inventory is the exact short-time " +
+                "MissingPhaseOnsetWitness, the historical epsilon = +-0.1 finite-time producer and four JSON " +
+                "records, the blind-seat/kernel theorem, and the Absorption Theorem's rate/light identity. " +
+                "None of those ingredients by itself fixed the epsilon-to-zero rate.",
             ParkedAt:
-                "2026-09-05, at the point where the two regimes are both instrumented and neither reaches " +
-                "the other. The witness is SHORT-TIME: it returns the first nonzero Taylor order and its " +
-                "leading coefficient, and every one of those coefficients carries epsilon linearly or " +
-                "quadratically, so they all vanish smoothly as epsilon goes to zero and say nothing about a " +
-                "diverging timescale. The producer is FINITE-TIME but at two defect values only. The " +
-                "quantity the question asks for, the slowest nonzero decay rate of the reduced generator as " +
-                "a function of epsilon, is computed nowhere: the page's section 11 reports it at " +
-                "epsilon = +-0.1 (alpha_A = 0.00164538 and 0.00134810) and those two numbers are the whole " +
-                "of what is known about its epsilon dependence.",
+                "Resolved by docs/proofs/PROOF_MISSING_PHASE_RELAXATION_SCALE.md and " +
+                "simulations/missing_phase_relaxation_scale.py plus its JSON certificate. For N = 7, the " +
+                "49-dimensional A block in joint-popcount sector (1,1), centre seat 3, one end hopping " +
+                "2(1+epsilon), and fixed gamma > 0, Delta_A = (gamma/2)epsilon^2 + " +
+                "(gamma/2)epsilon^3 + O(epsilon^4), hence the inverse spectral scale is asymptotic to " +
+                "2/(gamma epsilon^2). The neighbourhood radius is not claimed uniform in gamma; this is " +
+                "neither a full-4^7 Liouvillian gap nor an observable lifetime.",
             NextStep:
-                "Take it from the generator rather than from trajectories. The reduced A generator is " +
-                "N^2 x N^2 and its slow mode is the one the Absorption Theorem prices at alpha = 2*gamma*w_c, " +
-                "w_c being the share of the mode's squared weight on the cells the centre dephasing charges. " +
-                "At epsilon = 0 the reflection-odd sector is exactly blind, w_c = 0, and the mode does not " +
-                "decay at all; the question is the leading behaviour of w_c in epsilon, which perturbation " +
-                "theory on the blind subspace should give in closed form, and the two measured alphas above " +
-                "are the check on whatever it gives. Two cautions from the adoption. FIRST, the blind space " +
-                "off epsilon = 0 is one-dimensional while at epsilon = 0 it is m-dimensional, so the " +
-                "perturbation is degenerate and the limit is where the degeneracy breaks, which is likely " +
-                "the whole content of the singular order of limits. SECOND, do not reach for the short-time " +
-                "witness for this: its readings are exact but they are the wrong regime, and an exact number " +
-                "answering a different question is the failure the 2026-08-31 entry of docs/CAUGHT_ERRORS.md "
-                + "records, the one whose heading is about a caveat outliving its gate: a check can be "
-                + "exact, cheap, correctly derived, and still not be a check of the claim.",
-            Status: OpenArcStatus.Open),
+                "Do not reopen this retired arc for the separate extensions below. If an all-odd-N successor " +
+                "is explicitly opened, its first move is to use the exact routines in " +
+                "simulations/missing_phase_relaxation_scale.py at N = 9 to compute the complete epsilon = 0 " +
+                "peripheral Kato/Feshbach spectrum before proposing any N-dependent coefficient; do not " +
+                "extrapolate from the selected N = 7 branch or extend the floating sweep first. The separate " +
+                "questions are to derive or refute the law for all odd N, control the " +
+                "punctured-neighbourhood radius uniformly in gamma if possible, and determine which " +
+                "preparations and observables couple to the slow rank-two cluster so that an observable " +
+                "lifetime can be stated.",
+            Status: OpenArcStatus.Retired,
+            RetiredReason: "Completed locally for the N = 7 A-sector by " +
+                "PROOF_MISSING_PHASE_RELAXATION_SCALE; broader all-odd-N and observable-coupling questions " +
+                "remain separate."),
         new OpenArc(
             Name: "adjacency_has_no_instrument",
             Opened: "2026-09-11",
