@@ -589,6 +589,45 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_HasMissingPhaseScaleImmediatelyAfterOnset_WithRigidN7Scope()
+    {
+        var entries = InspectCommand.Catalog.ToList();
+        int onsetIndex = entries.FindIndex(entry => entry.Name == "missingphase");
+        int scaleIndex = entries.FindIndex(entry => entry.Name == "missingphasescale");
+        var entry = entries[scaleIndex];
+
+        Assert.Equal(onsetIndex + 1, scaleIndex);
+        Assert.False(entry.RequiresN);
+        Assert.False(entry.HonorsOptionalN);
+        Assert.Contains("fixed N=7", entry.Description);
+        Assert.Contains("live spectral/geometry companion", entry.Description);
+        Assert.Contains("not the short-time onset", entry.Description);
+        Assert.Contains("not an all-N theorem", entry.Description);
+        Assert.Contains("not the full Liouvillian gap", entry.Description);
+        Assert.Contains("not an observable lifetime", entry.Description);
+    }
+
+    [Fact]
+    public void Catalog_MissingPhaseScaleFactoryBuildsTheFixedWitnessAndItsFourViews()
+    {
+        var entry = InspectCommand.Catalog.Single(e => e.Name == "missingphasescale");
+        var context = new InspectRootContext(
+            new ArgParser(new[] { "--epsilon", "0.01", "--gamma", "0.3" }), N: 11,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+
+        var witness = Assert.IsType<MissingPhaseRelaxationScaleWitness>(entry.Factory(context));
+
+        Assert.Equal(7, MissingPhaseRelaxationScaleWitness.SiteCount);
+        Assert.Equal(0.01, witness.Epsilon);
+        Assert.Equal(0.3, witness.Gamma);
+        Assert.Equal(2, witness.Clusters.Count);
+        Assert.Equal(3, witness.HilbertModes.Count);
+        Assert.Equal(5, witness.DyadCoefficients.Count);
+        Assert.Contains("N=7", witness.DisplayName);
+        Assert.DoesNotContain("N=11", witness.Summary);
+    }
+
+    [Fact]
     public void SymphonyFactory_TempoRatio_GrowsTheClockMovement()
     {
         var symphony = InspectCommand.Catalog.Single(e => e.Name == "symphony");

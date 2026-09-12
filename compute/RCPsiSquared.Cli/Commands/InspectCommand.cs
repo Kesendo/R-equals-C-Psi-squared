@@ -641,6 +641,11 @@ public static class InspectCommand
             _ => new CoherenceHorizonWitness(), RequiresN: false),
         new("missingphase", "the onsets of THE_MOTION_AND_THE_MISSING_PHASE §8, recomputed in exact ℚ(i): one end bond detuned and the light on the centre seat, the three readings starting at t^(m+1), t^(m+1 or m+2) and ±t^(2m+1), each against the page's closed form. Carries §9's exact checks at N = 5..13, and gates the §8.1 reduction against the full Lindbladian at N = 5",
             _ => new MissingPhaseOnsetWitness(), RequiresN: false),
+        new("missingphasescale", "fixed N=7 live spectral/geometry companion to PROOF_MISSING_PHASE_RELAXATION_SCALE: the A/(1,1) rank-two clusters are independently read from A and A†, while a separate 7x7 Hilbert route reads the centre-light germ and five non-I_E Kato coefficients. This is not the short-time onset, not an all-N theorem, not the full Liouvillian gap, and not an observable lifetime",
+            c => new MissingPhaseRelaxationScaleWitness(
+                c.Parser.OptionalDouble("epsilon") ?? MissingPhaseRelaxationScaleWitness.DefaultEpsilon,
+                c.Parser.OptionalDouble("gamma") ?? MissingPhaseRelaxationScaleWitness.DefaultGamma),
+            RequiresN: false),
         new("epcharacter", "the artifact-free EP-character diagnostic (Riesz ‖P‖ / departure-from-normality / geo-vs-alg): the non-eig sibling of PhaseRigidity that confirms the coherence-horizon √-EP is genuinely DEFECTIVE (a Jordan block, dep≈4, geo 1<alg 2), not a diabolic degeneracy. Gate-first (toy Jordan→DEFECTIVE, diag→DIABOLIC); the family that misfired in the F86a retraction is here corroborating-but-not-load-bearing",
             _ => new EpCharacterWitness(), RequiresN: false),
         new("f89octic", "the F89 path-3 octic EP-character (live EpCharacter): DIABOLIC (semisimple — eigenvalues coalesce, eigenvectors independent; geo=alg=2, dep≈0), NOT a defective EP. The exact double discriminant factor locates an analytic crossing after pair isolation; character comes from the twin-scalar restriction and live diagnostics, not from even order alone. The diabolic sibling of the coherence-horizon defective √-EP (--root epcharacter)",
