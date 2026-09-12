@@ -171,8 +171,8 @@ NEXT: (1) The inheritance first. Item (6) of f_registry_meets_the_typed_layer is
 ### mirrorworld_owns_no_time  [2026-09-05] Open  size=5733
 NEXT: (1) THE SMALL MOVE FIRST, because it needs no theory of time: give Clock its N and both hands. Adopt ClockHandLadderClaim properly, so the object owns the Takt hand 2 gamma, the coherence hand omega_mem already sitting in Formulas, and the GEARED angle arctan(Q cos(pi/(N+1))) with its N=2 branch, instead of the ungeared arctan(Q) it owns now. That is one adoption in this world's own genre, and it is the crack in the
 
-### relaxation_scale_as_the_defect_vanishes  [2026-09-05] Retired  size=2903
-NEXT: Do not reopen this retired arc for the separate extensions below. If an all-odd-N successor is explicitly opened, begin with the two families that the centre-seat zero mode separates on THIS otherwise-uniform one-end family: with r != 0 and r^2 != 1, for N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray, whereas for N ≡ 3 (mod 4) one zero-energy blind ray survives. Before an 81-dimensional build, carry t
+### relaxation_scale_as_the_defect_vanishes  [2026-09-05] Retired  size=2148
+NEXT: Do not reopen this retired arc for the separate extensions below. If an all-odd-N successor is explicitly opened, begin with the two families that the centre-seat zero mode separates: for N ≡ 1 (mod 4) the one-end defect leaves no punctured blind ray, whereas for N ≡ 3 (mod 4) one zero-energy blind ray survives. The existing certificate script is hard-coded to N = 7 and its 49-dimensional A block; it cannot be run at
 
 ### adjacency_has_no_instrument  [2026-09-11] Open  size=9501
 NEXT: Build the adjacency scan for the flat registries, which is the one layer with no edges to walk and the case ON_FIVE_PAGES_THAT_NEVER_MET named as the back-edge hook's blind spot (a link missing on BOTH sides). For every pair of arcs in this registry, count the shared load-bearing tokens (F-numbers, Claim and witness type names, proof and experiment filenames, run-mode names), keep the pairs that mention each other in

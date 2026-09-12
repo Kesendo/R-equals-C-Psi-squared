@@ -221,10 +221,10 @@ det(lambda I-K_r)
 ```
 
 No inverse is used, so the identity remains valid at singular Hamiltonian
-roots. Affinity of the characteristic polynomial does not make its
-discriminant quadratic in `gamma`: at `N=7` and `N=9` it is higher-degree,
-not quadratic. It is a separate resultant of the characteristic polynomial
-and its `lambda` derivative and must be computed separately before any
+roots. Affinity of the characteristic polynomial does not establish a
+quadratic discriminant in `gamma` or otherwise determine its degree. The
+discriminant is a separate resultant of the characteristic polynomial and its
+`lambda` derivative and must be computed separately before any
 exceptional-point census.
 
 At the uniform point `r=1`,

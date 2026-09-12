@@ -9312,8 +9312,8 @@ public static class OpenArcsRegistry
                 "P_k(x) = 2^k U_k(x/4). Reuse the seat-pencil identity already owned by " +
                 "experiments/THE_BLIND_SITE.md Section 5 and simulations/seat_pencil.py: its " +
                 "adjugate/cofactor form makes det(lambda I - K_r) affine in gamma without using an inverse at " +
-                "a singular Hamiltonian root. That affinity does not make the discriminant quadratic: over " +
-                "Q(r), at N = 7 and N = 9, it is higher-degree, not quadratic, and must be computed separately. " +
+                "a singular Hamiltonian root. That affinity does not establish a quadratic discriminant or " +
+                "otherwise determine its degree; the discriminant must be computed separately. " +
                 "K_r carries an embedded A branch only for N ≡ 3 (mod 4), not at N = 9. The existing " +
                 "certificate script is hard-coded to N = 7 and its 49-dimensional A block; it cannot be run " +
                 "at N = 9. Therefore build a new general-N 81-dimensional (1,1)-block Kato/Feshbach route for " +

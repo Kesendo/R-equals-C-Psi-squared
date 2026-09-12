@@ -202,7 +202,7 @@ public class OpenArcsInspectableNodeTests
             "simulations/seat_pencil.py",
             "adjugate/cofactor",
             "K_r carries an embedded A branch only for N ≡ 3 (mod 4), not at N = 9",
-            "not quadratic",
+            "does not establish a quadratic discriminant",
             "must be computed separately",
         };
 
@@ -237,7 +237,7 @@ public class OpenArcsInspectableNodeTests
         Assert.Contains(
             "K_r carries an embedded A branch only for N ≡ 3 (mod 4), not at N = 9",
             nextStep);
-        Assert.Contains("not quadratic", nextStep);
+        Assert.Contains("does not establish a quadratic discriminant", nextStep);
         Assert.Contains("must be computed separately", nextStep);
     }
 
