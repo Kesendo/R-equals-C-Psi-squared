@@ -1,13 +1,25 @@
-# IBM Kingston Cusp-Precision Run, April 26 2026
+<!-- QUARTER-CURRENT -->
+# IBM Kingston finite radial-precision run, April 26 2026
 
-The dense point-by-point confirmation of the CΨ = 1/4 crossing (F25), curated copy of an
-external full run. Single Bell⁺ pair, sampled densely right across the cusp.
+Current reading: the immutable rows sample a normalized-purity/coherence proxy
+near a scalar radial value. The saved phase is unavailable; the saved payload has no phase observable, so the
+run does not establish a real-axis path, zero imposed phase, head-on cusp approach,
+or physical recurrence trajectory.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the original cusp-precision description follows with the
+measured payload and acquisition caveats intact.
+
+# IBM Kingston radial-scalar precision run, April 26 2026
+
+A curated copy of one Bell⁺-pair run sampled densely around the scalar value
+CΨ=1/4. It tests an F25 magnitude fit; it does not measure a recurrence cusp.
 
 ## What is in this directory
 
 | File | Description |
 |------|-------------|
-| `cusp_precision_ibm_kingston_20260426_115939.json` | The 19-delay trajectory: per-delay real CΨ, the F25 fit, and the pointwise residuals (the headline run) |
+| `cusp_precision_ibm_kingston_20260426_115939.json` | The 19-delay trajectory: per-delay scalar CΨ magnitude, the F25 fit, and the pointwise residuals (the headline run) |
 | `cusp_precision_ibm_kingston_20260426_115053.json` | The same morning's second run, same pair (14,15), 17 delays over the WIDE window 2.26–39.6 μs (job `d7mtuoraq2pc73a24pjg`): covers the April-16 crossing region and finds the coherence already dead there (CΨ ≈ 0.05 at 22.6 μs); its F25 fit γ_fit = 0.015039 is the source of the headline run's γ_calib = 0.015 |
 | `cusp_precision_ibm_kingston_20260426_113534.json` | The morning's first run, auto-selected pair (149,150), 15 delays around its echo-predicted 25.0 μs (job `d7mtnmlqrg3c738ln1c0`): the same collapse on a second pair, γ_fit = 0.0269 = 18.0× its echo-γ |
 
@@ -22,18 +34,21 @@ which is the 9.08× gap tracked in EQ-025.
 
 ## Why this run is here
 
-This is the experiment with extremely many data points exactly at 1/4. Where the April-16
+This is the experiment with points sampled densely near and straddling the
+selected radial line at `1/4`. None of the 19 saved scalar values is exactly
+`1/4`. Where the April-16
 [cusp-slowing run](../ibm_cusp_slowing_april2026/) used only six delays per pair to bracket the
 crossing (but saved full density matrices, so it carries phase), this run sampled the crossing
-**densely**: 19 delays at factors 0.05 to 3.0 of the predicted t_cross, with about eight of them
-packed across the fold (factors 0.85 to 1.15, CΨ ≈ 0.22 to 0.26). It is the point-by-point F25
-confirmation.
+**densely**: 19 delays at factors 0.05 to 3.0 of the model-selected `t_cross`,
+with about eight of them straddling the radial line (factors 0.85 to 1.15,
+CΨ approximately 0.22 to 0.26). It is a point-by-point finite F25 fit check,
+not an exact-quarter or recurrence-cusp measurement.
 
-**It carries no phase.** The JSON stores only a real scalar `cpsi` per delay (the F25 magnitude),
-not the 4×4 density matrices. So this trajectory lives on the **real axis** of the c-plane: it is
-the dense 1D crossing (the Ω = 0, head-on case), not a 2D spiral. The spiral structure (a complex
-CΨ leaving the real axis) is the sparse, phase-carrying April-16 run; this run is the dense,
-real-only magnitude crossing. The two are complementary, not the same experiment.
+**It carries no phase.** The JSON stores only a scalar `cpsi` magnitude per delay,
+not the 4×4 density matrices. Therefore phase is unknown: the rows cannot place
+the trajectory on any axis, infer Ω=0, or determine a crossing argument. The
+phase-carrying April-16 run is a separate dataset; this one is a dense radial
+magnitude trace.
 
 ## Experiment summary
 

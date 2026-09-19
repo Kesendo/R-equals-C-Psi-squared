@@ -1,9 +1,15 @@
-# Uniqueness of the 1/4 Boundary
+<!-- QUARTER-CURRENT -->
+# Algebraic Uniqueness of 1/4 Within the Assumed Recurrence
 
-**Status:** Tier 1 derived (algebraic proof) + Tier 2 verified (computational, all standard CPTP channels cross at 1/4 with zero exceptions)
+Current reading: one-quarter is the unique displayed fold product within the
+stated normalized recurrence family.  This conditional algebra neither derives
+that recurrence from quantum dynamics nor makes the quarter a universal phase
+boundary.
+
+**Status:** Tier 1 conditional algebra for the stated recurrence; named finite channel catalogue plus a conditional convergence implication
 **Date:** 2026-03-21, last refreshed 2026-07-20 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** The fixed-point equation `R = C(Ψ + R)²` has discriminant `D = 1 − 4CΨ`; the unique boundary is `CΨ = 1/4`. The power is 2 because purity is `Tr(ρ²)` (the unique degree-2 basis-independent invariant); the *universality* of the value 1/4 (its state-independence) is forced by α = 2 being the unique Rényi order with a Ψ-independent fold threshold (Step 6).
+**Statement:** Given the assumed recurrence `R = C(Ψ + R)²`, its fixed-point polynomial has discriminant `D = 1 − 4CΨ`; in that chosen normalization its real-root fold is `CΨ = 1/4`. Within the assumed recurrence family `R=C_α(Ψ+R)^α`, α=2 is the unique member whose displayed fold product is Ψ-independent. Neither degree two nor that family derives the recurrence from quantum dynamics; the physical derivation remains open.
 **Typed claim:** [`PolynomialDiscriminantAnchorClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/PolynomialDiscriminantAnchorClaim.cs) (Tier 1 derived; 1/4 is the Pi2 dyadic-ladder mirror partner of the polynomial discriminant 4: a₃ · a₋₁ = (1/4)·4 = 1).
 
 ---
@@ -15,45 +21,48 @@ how many real solutions the equation has: positive means two, zero means
 exactly one (the boundary), negative means none. Every student of algebra
 knows this.
 
-The R = CΨ² recursion is a quadratic. Its discriminant is `1 − 4CΨ`.
+The assumed R = C(Ψ+R)² recurrence gives a quadratic fixed-point equation. Its discriminant is `1 − 4CΨ`.
 The boundary, where the discriminant is zero, sits at `CΨ = 1/4`. This
-boundary is not a parameter we chose. Given the recursion form, it is fixed
-by the algebra of quadratic equations; and the *power* is 2 because purity is
-`Tr(ρ²)`, a degree-2 quantity in the density matrix entries. The deeper reason
-the value 1/4 is universal (the same for every state) is that α = 2 is the
-unique Rényi order whose bifurcation threshold does not depend on the state
-(Step 6 below).
+coordinate is fixed once this recurrence and normalization have been chosen.
+Purity `Tr(ρ²)` motivates studying the α=2 member, but its degree does not
+derive the particular feedback law. Within the assumed Rényi-power family,
+α=2 is the unique member whose fold product does not depend explicitly on Ψ
+(Step 6 below). That is a family-internal statement, not a physical forcing.
 
-The same 1/4 reappears in the
-[Mandelbrot cardioid cusp](../../experiments/MANDELBROT_CONNECTION.md)
-and in many F-formulas across the project (F60, F62, F64, F69). All
-descend from this single discriminant identity. The full seven-layer
+The same number reappears at the real cusp after the chosen
+[Mandelbrot change of variables](../../experiments/MANDELBROT_CONNECTION.md)
+and in several F-formulas (F60, F62, F64, F69). Each occurrence needs its
+own derivation; numerical equality alone does not give it this discriminant as
+a common physical cause. The full seven-layer
 roadmap of the boundary lives in
 [Proof Roadmap Quarter Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md);
-this document covers Layer 1 (algebraic uniqueness), Layer 2 (CPTP
-contractivity), and Layer 6 (why the recursion is quadratic).
+this document covers Layer 1 (conditional algebra), Layer 2 (named channels
+and conditional convergence), and Layer 6 (the assumed power-family comparison).
 
 ---
 
 ## Theorem Statement
 
-**Theorem (Uniqueness of the 1/4 Boundary).** Let R(R_in) = C(Ψ + R_in)²
-be the self-referential purity map where C is the correlation bridge
-(0 ≤ C ≤ 1) and Ψ is the normalized l1-coherence (0 ≤ Ψ ≤ 1). The
+**Theorem (fold of the assumed normalized recurrence).** Let R(R_in) = C(Ψ + R_in)²
+be the posited scalar map with `0 < C ≤ 1` and `0 ≤ Ψ ≤ 1`. The
 abstract proof treats C and Ψ as opaque scalars; every NUMBER in this
 document (the σ counterexample, the crossing table) is computed in the
 purity book, C = Tr(ρ²), so CΨ = Tr(ρ²)·L₁/(d−1). The three C-books and
 their seams are documented in [THE_CPSI_LENS](../THE_CPSI_LENS.md). Then:
 
-(i) The fixed-point equation R = C(Ψ + R)² has exactly two real solutions
+(i) Its fixed-point equation has exactly two real algebraic solutions
     when CΨ < 1/4, exactly one when CΨ = 1/4, and none when CΨ > 1/4.
 
-(ii) The value 1/4 is uniquely determined by the quadratic structure
-     of the map.
+(ii) In this chosen normalization, the value 1/4 is the unique discriminant-zero
+     product coordinate of that polynomial. Counts of roots in a physical
+     interval require an additional interval check.
 
-(iii) The quadratic structure is a consequence of purity being Tr(ρ²),
-      which is the unique degree-2 basis-independent polynomial in the
-      density matrix elements.
+(iii) At `C = 0`, division by C is unavailable and the original fixed-point
+      equation is handled separately: `R = 0`.
+
+(iv) Within the assumed recurrence family `R=C_α(Ψ+R)^α`, α=2 alone removes
+     the explicit Ψ factor from the displayed fold product. This does not
+     derive that family, or the concrete α=2 recurrence, from physics.
 
 ---
 
@@ -64,62 +73,61 @@ their seams are documented in [THE_CPSI_LENS](../THE_CPSI_LENS.md). Then:
 **Step 2.** Discriminant (the expression under the square root that determines whether solutions are real or complex) D = (2CΨ - 1)² - 4C²Ψ² = 1 - 4CΨ.
 
 **Step 3.** D = 0 iff CΨ = 1/4. D > 0 iff CΨ < 1/4. D < 0 iff CΨ > 1/4.
-This proves (i) and (ii).
+This proves (i) and (ii) for `0<C≤1`; the `C=0` case gives `R=0` directly.
 
-**Step 4.** The factor 4 in b² - 4ac is a consequence of completing the
-square in any quadratic ax² + bx + c = 0. It is built into the definition
-of "quadratic equation." To move the 1/4 would require a different power.
+**Step 4.** The factor 4 in `b²−4ac` comes from completing the square. The
+coordinate 1/4 also uses this polynomial's coefficients and normalization;
+another quadratic or a reparameterized control coordinate can report its
+double root at another number without changing the fold type.
 
-**Step 5 (why the power is 2).** Purity = Tr(ρ²) is degree 2 in the matrix
+**Step 5 (why α=2 is worth comparing).** Purity = Tr(ρ²) is degree 2 in the matrix
 elements of ρ, and the Lindblad equation d/dt ρ = L(ρ) gives
-d/dt Tr(ρ²) = 2 Tr(ρ L(ρ)) exactly. This is *why* the physical recursion is
-built on the power α = 2. It is, however, only motivation for (iii): degree-2-
-ness alone does not force the value 1/4. The discriminant 1 − 4CΨ comes from
+d/dt Tr(ρ²) = 2 Tr(ρ L(ρ)) exactly. This motivates the α=2 lens; it does not
+derive a self-referential scalar recurrence. Degree-2-ness alone does not
+force the value 1/4. The discriminant 1 − 4CΨ comes from
 the specific recursion form R = C(Ψ + R)² (Steps 1-3); a generic degree-2
 fixed-point map aR² + bR + c = 0 has its discriminant vanish at b² = 4ac, an
-arbitrary locus. So Steps 1-4 establish (i)-(ii) rigorously *given* the
-recursion form, and Step 5 supplies the physical reason the power is 2.
+arbitrary locus. So Steps 1-4 establish (i)-(iii) rigorously *given* the
+recursion form, while a physical derivation of that form remains open.
 
-**Step 6 (the load-bearing forcing: Rényi α=2 state-independence).** Consider
-the generalized recursion R = C(Ψ + R)^α, where α is the Rényi order (α = 2 is
-purity). Its fold-bifurcation (tangency) threshold, where the two fixed points
+**Step 6 (an assumed Rényi-power family).** Consider, as a mathematical comparison,
+the generalized recurrence R = C_α(Ψ + R)^α for `α>1` and `Ψ>0`. Its fold
+(tangency) threshold, where two fixed points
 merge, is
 
     CΨ*_α = (α − 1)^(α − 1) / (α^α · Ψ^(α − 2)).
 
-This threshold is independent of the state Ψ (the boundary is the same for
-every state) **if and only if α = 2**, where it equals exactly 1/4. For any
+This threshold has no explicit Ψ dependence **if and only if α = 2**, where it
+equals exactly 1/4 in this normalization. For any
 other α it carries a Ψ^(α − 2) factor and depends on the coherence. So 1/4 is
-singled out not merely because purity is degree 2, but because α = 2 is the
-unique Rényi order whose critical boundary is state-independent. This is the
-genuine forcing behind (ii)-(iii). (Derived from scratch and verified
+singled out within this assumed recurrence family. It is not a derivation of
+the family from Rényi entropy or Lindblad dynamics. (Derived algebraically and verified
 symbolically in `simulations/review2_A3_renyi.py`; full treatment in the
-[roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md), Layer 6.) QED.
+[roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md), Layer 6.) QED for the conditional algebra.
 
 ---
 
 ## Product-Power Classification (Layer 1)
 
-Among all product-power forms C^a Ψ^b that could appear in a purity recursion:
+For orientation, compare these product-power forms without claiming that
+purity derives any of their recurrences:
 
 | Form | Recursion | Bifurcation | Status |
 |------|-----------|-------------|--------|
-| CΨ (a=1, b=1) | Linear | No bifurcation, single fixed point | Rejected |
-| CΨ² (a=1, b=2) | Quadratic | D = 1 - 4CΨ, boundary at 1/4 | **The physical case** |
-| CΨ³ (a=1, b=3) | Cubic | Different boundary | Not purity (Tr(ρ³) ≠ purity) |
-| C²Ψ (a=2, b=1) | Different quadratic | Different boundary | C² has no standard physical meaning |
+| CΨ (a=1, b=1) | Linear | No quadratic fold | Comparison member |
+| CΨ² (a=1, b=2) | Quadratic | D = 1 - 4CΨ, boundary at 1/4 | Assumed α=2 member |
+| CΨ³ (a=1, b=3) | Cubic | Different fold equation | Comparison member |
+| C²Ψ (a=2, b=1) | Different quadratic | Different discriminant | Outside the stated α-family |
 
-The selection principle: Purity is Tr(ρ²), not Tr(ρ³) or Tr(ρ^k) for any
-other k. This is the unique degree-2 Rényi entropy (a family of entropy measures parameterized by order; S₂ = -log Tr(ρ²)).
-No other Renyi index gives degree 2 in the matrix elements. CΨ² is therefore
-the unique product-power form built on purity; that α = 2 also gives the unique
-*state-independent* bifurcation threshold (= 1/4) is the load-bearing forcing,
-shown in Step 6.
+Purity `Tr(ρ²)` is the degree-two member of this comparison, and so it motivates
+looking at α=2. Step 6 proves that α=2 is the only member of the *assumed*
+Rényi-power recurrence family whose fold product has no explicit Ψ factor.
+That is the full uniqueness result here. It neither selects this family from
+all scalar reductions nor derives `R=C(Ψ+R)²` from purity or Lindblad dynamics.
 
-The question "why not Tr(ρ³)?" has a definitive answer: Tr(ρ³) is not
-purity. Purity is defined as Tr(ρ²). This is not a convention. It is the
-unique real-valued, basis-independent, degree-2 polynomial in ρ that equals
-1 for pure states and 1/d for maximally mixed states.
+The question "why compare α=2 rather than α=3?" therefore has a modest answer:
+`Tr(ρ²)` is purity, while `Tr(ρ³)` is a different spectral moment. Which scalar
+recurrence, if any, a physical decomposition obeys is a separate open problem.
 
 The same selection sits in the typed
 [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs):
@@ -133,78 +141,53 @@ two-anchor structure that puts it in the same family as the discriminant 4.
 
 ---
 
-## CPTP Contractivity Argument (Layer 2)
+## Conditional convergence argument (Layer 2)
 
-For any CPTP (completely positive trace-preserving; the most general physically allowed quantum operation) map E that is not unitary:
+This layer does not follow from the algebraic discriminant and is not a universal CPTP contractivity
+theorem. The exact statement is conditional:
 
-1. The l1-norm of coherence is a monotone under all incoherent CPTP maps
-   (Baumgratz, Cramer, Plenio, PRL 2014). Therefore Ψ(t) is non-increasing
-   under any such map.
+1. If a continuous trajectory converges, `ρ(t)→ρ*`, then continuity of CΨ gives
+   `CΨ(ρ(t))→CΨ(ρ*)`.
+2. If additionally `CΨ(ρ*)<1/4`, the trajectory eventually stays below 1/4. If it starts above, it crosses
+   downward at least once. No monotonicity or unique crossing follows.
+3. A computational-basis-diagonal target has L₁=0 and hence CΨ=0. Named basis-aligned T1/T2/depolarizing
+   models can therefore use the implication after their convergence and target have been established.
+4. Neither locality, separability, unitality, nor primitivity alone supplies the premise. The primitive-CPTP
+   channel targeting `σ=0.95|Φ⁺⟩⟨Φ⁺|+0.05I/4` has `CΨ(σ)=0.2935`; the separable product |+⟩⊗|+⟩ has
+   CΨ=1.
 
-2. Purity is non-increasing under unital CPTP maps (channels that map the maximally mixed state to itself): Tr(E(ρ)²) ≤ Tr(ρ²).
-   For non-unital maps (amplitude damping toward |0⟩), purity may temporarily
-   increase but the fixed point is diagonal in the computational basis
-   (e.g. |0…0⟩), so L₁ = 0 and CΨ = 0.
-
-3. Physical, computational-basis-aligned noise fixes a state with CΨ = 0:
-   unital channels fix I/d (CΨ = 0), amplitude damping fixes a computational-
-   basis-diagonal state such as |0…0⟩ (CΨ = 0). This does NOT extend to all
-   primitive CPTP maps: a primitive channel can fix an off-diagonal state with
-   CΨ > 1/4 (e.g. σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has CΨ = 0.2935), and
-   "product/separable" alone does not bound CΨ (|+⟩ ⊗ |+⟩ is separable with
-   CΨ = 1). The operative property is computational-basis-diagonality, L₁ = 0.
-   See [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) Case C.
-
-4. Computational verification: all seven standard channels tested cross
-   CΨ = 1/4 and stay below. No unitary revival pulse (0 to π) can push
-   CΨ permanently back above 1/4.
-
-The formal proof of CΨ monotonicity has since been established for
-2-qubit Bell+ states under all local Markovian channels (generalized
-Pauli + amplitude damping); see
-[CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md) (March 22, 2026,
-one day after this document). The eventual-crossing complement, that
-every pair with CΨ > 1/4 crosses below in finite time under physical,
-computational-basis-aligned noise, is in
-[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md). The general
-primitive-CPTP version is FALSE, not merely open (counterexample σ above;
-scope-retracted 2026-06-22, mechanism corrected 2026-06-28): a primitive
-channel can fix an off-diagonal state with CΨ > 1/4. The crossing is a
-property of computational-basis-aligned physical noise, which the standard
-Markovian channels (T1, T2, depolarizing) satisfy.
+The repaired [CΨ Dynamics Boundary](PROOF_MONOTONICITY_CPSI.md) preserves named Bell+ Z/Pauli/amplitude-
+damping formulas and instantaneous Pauli invariance, but retracts the former universal pointwise,
+absorbing, and local-control claims. In particular, a local Hadamard sends CΨ from 0 to 1/3, and a fixed
+local Markovian semigroup crosses upward through 1/4. The autonomous N=2 successive-peak claim remains
+unproved. See [Conditional Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) for the exact implication.
 
 ---
 
-## Why the Recursion Must Be Quadratic (Layer 6)
+## Why the Assumed Family Singles Out α=2 (Layer 6)
 
-The recursion R = CΨ² is not a choice. It is a consequence of:
+The logical order matters:
 
-1. Purity is defined as Tr(ρ²). This is the standard definition in quantum
-   information theory. It is the unique real-valued, basis-independent,
-   degree-2 polynomial in the density matrix elements.
+1. Purity is `Tr(ρ²)`, and its Lindblad derivative is exactly
+   `2 Tr(ρ L(ρ))`. Those facts motivate a degree-two lens.
+2. They do not imply a closed scalar recurrence for a residual R.
+3. The feedback recurrence `R_{n+1}=C(Ψ+R_n)²` is an additional model
+   assumption. Its derivation from a subsystem decomposition remains open.
+4. Once the family `R=C_α(Ψ+R)^α` is assumed, α=2 is uniquely the member
+   whose fold product is independent of an explicit power of Ψ.
+5. Once its α=2 member and normalization are chosen, the discriminant is
+   `1-4CΨ` and its double-root coordinate is `CΨ=1/4`.
 
-2. The Lindblad equation preserves trace and positivity. The purity
-   evolution d/dt Tr(ρ²) follows directly. No higher-order terms.
-
-3. When Tr(ρ²) is decomposed into subsystem contributions (correlation
-   bridge C, coherence Ψ, residual R), the decomposition is algebraic.
-   R = CΨ² is exact for pure states and first-order for mixed states.
-
-4. The recursion R_{n+1} = C(Ψ + R_n)² models iterated application of the
-   channel. The quadratic form comes from purity being degree 2. Not from
-   a choice. From a definition.
-
-5. Therefore: the recursion IS quadratic. The discriminant IS 1 - 4CΨ.
-   The boundary IS 1/4. There is no free parameter.
-
-The question "why not cubic?" has a simple answer: Tr(ρ³) is not purity.
-Purity is Tr(ρ²). The degree is fixed by the definition.
+Thus the degree of purity helps explain why α=2 is interesting; it does not
+force the concrete recurrence. The theorem is a conditional classification
+inside the assumed family, and the missing physical derivation is part of the
+invitation rather than something the algebra has already supplied.
 
 ---
 
 ## Computational Verification
 
-All standard Markovian quantum channels cross CΨ = 1/4:
+The following named Bell+ channel calculations cross CΨ=1/4:
 
 | Channel | t_cross (γ=0.05) | Crossing value |
 |---------|-------------------|----------------|
@@ -216,8 +199,9 @@ All standard Markovian quantum channels cross CΨ = 1/4:
 | Amplitude damping (γ=0.05) | 2.059 | 0.2500 |
 | Amplitude damping (γ=0.10) | 1.029 | 0.2500 |
 
-Non-Markovian revival test: no unitary pulse (θ from 0 to π) can push CΨ
-back above 1/4 after crossing. The boundary is absorbing.
+This table is a finite named-channel catalogue, not a universal channel classification. An active Pauli
+pulse preserves CΨ only at its application instant and can alter the subsequent laboratory-frame
+derivative; a local Hadamard can change CΨ immediately.
 
 IBM hardware confirmed the crossing three ways: the first crossing ever
 seen ([ibm_torino q52, February 2026](../../experiments/IBM_QUANTUM_TOMOGRAPHY.md)),
@@ -234,9 +218,9 @@ Source: [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 ## References
 
 - [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer roadmap (this document covers Layers 1, 2, 6)
-- [CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md): closes Layer 2 for Bell+ under local Markovian channels (March 22, 2026)
-- [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md): every entangled pair with CΨ > 1/4 crosses in finite time
-- [Mandelbrot Connection](../../experiments/MANDELBROT_CONNECTION.md): CΨ ↔ c mapping; cardioid cusp at CΨ = 1/4 IS this same boundary
+- [CΨ Dynamics Boundary](PROOF_MONOTONICITY_CPSI.md): named formulas, exact counterexamples, and the open peak-sequence question
+- [Conditional Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md): convergence to a low-CΨ target implies eventual stay-below
+- [Mandelbrot Connection](../../experiments/MANDELBROT_CONNECTION.md): in the chosen coordinates `c=CΨ`, the same normal form has its real cusp at 1/4
 - [Boundary Navigation](../../experiments/BOUNDARY_NAVIGATION.md): theta compass
 - [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md): hardware confirmation at 1.9%
 - [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md): fold catastrophe, Feigenbaum

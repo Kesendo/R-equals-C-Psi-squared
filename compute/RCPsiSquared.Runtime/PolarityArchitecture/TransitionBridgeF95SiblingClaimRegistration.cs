@@ -3,15 +3,16 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
-/// <summary>Schicht-1 wiring of <see cref="TransitionBridgeF95SiblingClaim"/>: the cusp CΨ = ¼ (our
-/// TransitionBridge) and the genuine F86 toy 2x2 exceptional point are F95 siblings, two instances of the angle at a
-/// quadratic's discriminant zero, at two positive anchors b (the cusp at ½, the EP at 4γ₀ in
+/// <summary>Schicht-1 wiring of <see cref="TransitionBridgeF95SiblingClaim"/>: two distinct
+/// positive-b quadratic applications reuse F95's coordinate, one at b=½ in z_rec and the
+/// genuine F86 toy 2x2 exceptional point at b=4γ₀ in
 /// the decay variable z=−λ), with angle zero
 /// at each boundary. The separate FRAGILE_BRIDGE axis departure has OPEN EP/Hopf/Jordan character. One typed parent,
 /// <see cref="F95AngleAtQuadraticZeroPi2Inheritance"/>, the shared lens.
 ///
-/// <para>Requires <see cref="F95AngleAtQuadraticZeroPi2InheritanceRegistration.RegisterF95AngleAtQuadraticZeroPi2Inheritance"/>
-/// (which itself requires the Pi2 family).</para></summary>
+/// <para>Requires only the standalone, parentless
+/// <see cref="F95AngleAtQuadraticZeroPi2InheritanceRegistration.RegisterF95AngleAtQuadraticZeroPi2Inheritance"/>
+/// registration.</para></summary>
 public static class TransitionBridgeF95SiblingClaimRegistration
 {
     public static ClaimRegistryBuilder RegisterTransitionBridgeF95SiblingClaim(

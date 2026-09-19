@@ -36,7 +36,7 @@ So our past/future interpretation inverts:
 But this only matters for direction. The symmetry around k=(N+1)/2 is what
 we really test.
 
-Predictions:
+Finite questions tested:
   1. c_1(psi_4+vac) is structurally special (exactly 0 or maximum).
   2. c_1(psi_k+vac) and c_1(psi_{N+1-k}+vac) are related:
      - identical if Pi-symmetric initial state
@@ -46,7 +46,7 @@ Predictions:
      on these sites does not couple. Under bond (0,1) perturbation,
      which touches sites 0 and 1, psi_4 has amplitude at site 0
      (nonzero) but NOT site 1 (node). So the perturbation "sees" only
-     half the usual bonding-mode amplitude -> smaller c_1 expected.
+     half the usual bonding-mode amplitude; the run measures the resulting c_1.
 """
 from __future__ import annotations
 
@@ -58,23 +58,37 @@ from pathlib import Path
 import numpy as np
 from scipy.linalg import eig
 
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
-sys.path.insert(0, str(Path(__file__).parent))
-from pi_pair_closure_investigation import (
-    GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS, T_FIT_MAX,
-    build_H_XY, build_liouvillian_matrix,
-    vacuum_ket, single_excitation_mode, density_matrix,
-    per_site_purity, fit_alpha,
-)
-
 RESULTS_DIR = Path(__file__).parent / "results" / "c1_past_future_test"
-RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 N = 7
 DJ_EXTRACT = 0.01
 DJ_PROBE = [-DJ_EXTRACT, +DJ_EXTRACT]
+
+
+def _load_pi_pair_runtime():
+    """Load the captured heavy producer only when this script is executed."""
+    try:
+        from simulations.pi_pair_closure_investigation import (
+            GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+            build_H_XY, build_liouvillian_matrix,
+            vacuum_ket, single_excitation_mode, density_matrix,
+            per_site_purity, fit_alpha,
+        )
+    except ModuleNotFoundError as exc:
+        if exc.name != "simulations":
+            raise
+        from pi_pair_closure_investigation import (
+            GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+            build_H_XY, build_liouvillian_matrix,
+            vacuum_ket, single_excitation_mode, density_matrix,
+            per_site_purity, fit_alpha,
+        )
+    return (
+        GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+        build_H_XY, build_liouvillian_matrix,
+        vacuum_ket, single_excitation_mode, density_matrix,
+        per_site_purity, fit_alpha,
+    )
 
 
 def v_effect(N):
@@ -110,13 +124,27 @@ def propagate(eigvals, V_R, V_Linv, rho_0, times):
 
 
 def main():
+    global GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS
+    global build_H_XY, build_liouvillian_matrix
+    global vacuum_ket, single_excitation_mode, density_matrix
+    global per_site_purity, fit_alpha
+    (
+        GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+        build_H_XY, build_liouvillian_matrix,
+        vacuum_ket, single_excitation_mode, density_matrix,
+        per_site_purity, fit_alpha,
+    ) = _load_pi_pair_runtime()
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
     print("="*70)
     print(f"c_1 past/future test at N = {N}")
     print("="*70)
     d = 2**N
     print(f"  gamma_0 = {GAMMA_0}, J = {J_UNIFORM}")
     print(f"  V({N}) = {v_effect(N):.4f}")
-    print(f"  Prediction for psi_1+vac: c_1 ~ 0.5 * V(N) = {0.5 * v_effect(N):.4f}")
+    print(f"  Historical comparison candidate for psi_1+vac: 0.5 * V(N) = {0.5 * v_effect(N):.4f}")
     print(f"  EQ-014 reports c_1(psi_1) = 0.97 at N=7 (for comparison)")
 
     Es = single_excitation_H_spectrum(N, J_UNIFORM)
@@ -250,8 +278,17 @@ def main():
         "H_spectrum": Es.tolist(),
         "results_by_state": results,
         "pi_pair_analysis": pi_pair_data,
+        # Historical schema key retained for payload continuity; comparator only.
         "prediction_psi_1": 0.5 * v_effect(N),
         "eq014_psi_1_match": 0.97,
+        "current_reading": "Finite N=7 coefficient and Pi-pair table.",
+        "evidence_scope": ("The 0.5*V(N) value is a historical comparison candidate, "
+                           "not a prediction; this finite table does not demonstrate "
+                           "convergence or a bilinear/cavity mechanism."),
+        "provenance": {
+            "producer": "simulations/c1_past_future_test.py",
+            "execution": "captured heavy producer; not rerun during the label repair",
+        },
     }
     path = RESULTS_DIR / "past_future_test.json"
     with open(path, "w") as f:

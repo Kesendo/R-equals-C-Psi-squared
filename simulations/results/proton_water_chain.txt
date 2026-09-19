@@ -1,3 +1,11 @@
+VEFFECT-CURRENT
+Current reading (2026-09-15): Phase 1 contains the within-N Heisenberg F6
+Q-edge gain V(N)=1+cos(pi/N).  The Phase-5 V(N) column in the historical
+capture is instead Q_max(N)/Q_max(N=1) for a transverse-field-Ising generator;
+it is a cross-N reference quotient, not F6.  The finite frequency counts do not
+show that adding a proton creates modes or identify a universal mechanism.
+VEFFECT-HISTORICAL
+
 ========================================================================
 PROTON WATER CHAIN (GROTTHUSS): THE MISSING RUNG
 Started: 2026-04-01 18:17:17

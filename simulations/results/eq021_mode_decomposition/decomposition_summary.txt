@@ -1,3 +1,10 @@
+QUARTER-CURRENT
+Current reading: finite N=4 and N=5 fitted coefficients and mode tables; the comparator does not demonstrate convergence and is not a prediction.
+Provenance: captured heavy producer; the historical numeric body is preserved below.
+
+QUARTER-HISTORICAL
+Historical record: byte-preserved numeric output from the captured run.
+=== BEGIN HISTORICAL NUMERIC BODY ===
 EQ-021 Phase 1 Summary
 ==================================================
 
@@ -8,3 +15,4 @@ For (|vac> + |psi_1>)/sqrt(2) at bond (0,1) with delta_J = +/- 0.01:
   5   1.8090     0.9045    +0.9222     1.0196
 
 Per-site mode-decomposition details in mode_contributions_N*.json.
+=== END HISTORICAL NUMERIC BODY ===

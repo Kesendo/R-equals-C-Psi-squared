@@ -1,8 +1,9 @@
-"""
-V-Effect Gamma Sweep: Finding the Perfect Breaking.
+"""Historical gamma sweep with a current bounded reading.
 
-The V-Effect creates complexity through coupling: 2+2 = 104 frequencies.
-But gamma is what ENABLES the fold, making the V-Effect irreversible.
+The Q5/Q2 column is a cross-N reference quotient, not the within-N F6 Q-edge
+gain and not a mechanism. All 19 displayed uniform-gamma rows tie at 1.81x to
+printed precision, so the first row is not a unique peak. The protection and
+heartbeat maxima occur on opposite sampled boundaries; optimization stays open.
 
 This script sweeps gamma/J ratio across three V-Effect levels:
   Level 0: N=2 (single bond, Q=1 at reference gamma)
@@ -13,9 +14,7 @@ At each gamma, we measure:
   - Eigenvalue Q-factor (resonator quality)
   - Frequency diversity (distinct oscillation frequencies)
   - CΨ heartbeat (crossing count at 1/4 boundary)
-  - V-Effect gain: how much does coupling AMPLIFY what gamma creates?
-
-The "perfect breaking" is the gamma where V-Effect gain peaks.
+  - Q5/Q2, a finite cross-N Q quotient.
 """
 
 import numpy as np
@@ -175,7 +174,7 @@ def main():
         lines.append(s)
 
     out("=" * 70)
-    out("V-EFFECT GAMMA SWEEP: Finding the Perfect Breaking")
+    out("HISTORICAL V-EFFECT GAMMA SWEEP: BOUNDED CURRENT READING")
     out("=" * 70)
 
     J = 1.0
@@ -226,10 +225,12 @@ def main():
             f" | {v_gain:8.2f}x")
         results_spectral.append(row)
 
-    # Find peak V-gain
+    # Every displayed row ties to two decimals; max() merely returns the first.
     peak_vg = max(results_spectral, key=lambda r: r['v_gain'])
-    out(f"\nPeak V-Effect gain: {peak_vg['v_gain']:.2f}x"
-        f" at gamma/J = {peak_vg['gamma']}")
+    tied_vg = [row for row in results_spectral
+               if round(row['v_gain'], 2) == round(peak_vg['v_gain'], 2)]
+    out(f"\nQ5/Q2 reference quotient: {peak_vg['v_gain']:.2f}x in all"
+        f" {len(tied_vg)} displayed rows; no unique gamma selected")
     out(f"  N=2: Q={peak_vg['Q_2']:.1f}, {peak_vg['freq_2']} freq")
     out(f"  N=5: Q={peak_vg['Q_5']:.1f}, {peak_vg['freq_5']} freq")
 
@@ -275,13 +276,13 @@ def main():
             f" | {prot:6.2f}x")
 
     peak_sac = max(results_sacrifice, key=lambda r: r['max_Q'])
-    out(f"\nPeak Q-factor: {peak_sac['max_Q']:.1f}"
-        f" at edge gamma = {peak_sac['g_edge']}"
+    out(f"\nLargest sampled Q-factor: {peak_sac['max_Q']:.1f}"
+        f" at the edge-gamma boundary {peak_sac['g_edge']}"
         f" (contrast {peak_sac['contrast']:.0f}x)")
 
     peak_prot = max(results_sacrifice, key=lambda r: r['protection'])
-    out(f"Peak protection: {peak_prot['protection']:.2f}x"
-        f" at edge gamma = {peak_prot['g_edge']}")
+    out(f"Largest sampled protection: {peak_prot['protection']:.2f}x"
+        f" at the edge-gamma boundary {peak_prot['g_edge']}")
 
     # ================================================================
     # Part 3: CΨ heartbeat sweep (N=3, Bell + bath)
@@ -321,20 +322,20 @@ def main():
             f" | {crossings:9d} {peak_cpsi:8.4f} {m['max_Q']:6.1f}")
 
     peak_hb = max(results_heartbeat, key=lambda r: r['crossings'])
-    out(f"\nPeak heartbeat: {peak_hb['crossings']} crossings"
-        f" at g_bath = {peak_hb['g_bath']}"
-        f" (contrast {peak_hb['contrast']:.0f}x)")
+    out(f"\nLargest sampled heartbeat: {peak_hb['crossings']} crossings"
+        f" at the lower bath-gamma boundary {peak_hb['g_bath']}"
+        f" (contrast {peak_hb['contrast']:.1f}x)")
 
     # ================================================================
-    # Part 4: Full V-Effect level comparison at sweet spot
+    # Part 4: finite level comparison at the heartbeat boundary row
     # ================================================================
     out("\n" + "=" * 70)
-    out("PART 4: V-Effect across levels at peak gamma")
+    out("PART 4: Finite level comparison at the sampled heartbeat boundary")
     out("=" * 70)
 
-    # Use the gamma that gave peak heartbeat
+    # Use the sampled boundary row; this is not an optimum.
     g_opt = peak_hb['g_bath']
-    out(f"\nOptimal gamma (from heartbeat): {g_opt}")
+    out(f"\nSelected sampled gamma (heartbeat boundary row): {g_opt}")
 
     for N, label in [(2, "Level 0 (single bond)"),
                      (3, "Level 1 (mediator)"),
@@ -373,23 +374,17 @@ def main():
     # Summary
     # ================================================================
     out("\n" + "=" * 70)
-    out("SUMMARY: The Perfect Breaking")
+    out("SUMMARY: BOUNDED READINGS")
     out("=" * 70)
 
-    out(f"\n1. Eigenvalue Q peaks at gamma/J = {peak_vg['gamma']}"
-        f" (V-gain {peak_vg['v_gain']:.1f}x)")
-    out(f"2. Sacrifice protection peaks at edge gamma ="
+    out(f"\n1. Q5/Q2 = {peak_vg['v_gain']:.1f}x in all 19 displayed uniform rows")
+    out(f"2. Largest sampled protection is at the upper edge-gamma boundary"
         f" {peak_prot['g_edge']}")
-    out(f"3. Heartbeat peaks at {peak_hb['crossings']} crossings"
-        f" at g_bath/g_pair = {peak_hb['contrast']:.0f}x")
-
-    out(f"\nThe V-Effect gain (Q_N5 / Q_N2) tells us: coupling")
-    out(f"AMPLIFIES resonator quality by {peak_vg['v_gain']:.1f}x")
-    out(f"at the optimal gamma. Too little gamma: no fold,")
-    out(f"Q is infinite but meaningless (no irreversibility).")
-    out(f"Too much gamma: everything dies, Q collapses.")
-    out(f"The sweet spot is where gamma creates just enough")
-    out(f"breaking for the V-Effect to build maximum complexity.")
+    out(f"3. Largest sampled heartbeat is {peak_hb['crossings']} crossings"
+        f" at the lower bath-gamma boundary, contrast {peak_hb['contrast']:.1f}x")
+    out("\nThese finite boundary readings do not identify an optimum. The Q5/Q2")
+    out("reference quotient is not F6, and no irreversibility or complexity")
+    out("mechanism is inferred. The optimization question remains OPEN.")
 
     out("\n=== DONE ===")
 

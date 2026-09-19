@@ -10,21 +10,23 @@ Script:  simulations/monotonicity_remaining.py
 Output:  simulations/results/monotonicity_remaining.txt
 """
 
+import argparse
+from pathlib import Path
+import sys
+import time as _time
+
 import numpy as np
 from scipy.linalg import expm
-import os, sys, time as _time
 
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        "results", "monotonicity_remaining.txt")
-_outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+OUT_PATH = Path(__file__).parent / "results" / "monotonicity_remaining.txt"
+_lines = None
 
 
 def log(msg=""):
+    if _lines is None:
+        raise RuntimeError("log() is available only during main().")
     print(msg, flush=True)
-    _outf.write(msg + "\n")
-    _outf.flush()
+    _lines.append(str(msg))
 
 
 I2 = np.eye(2, dtype=complex)
@@ -101,7 +103,7 @@ def heisenberg_H(nq, J=1.0):
 
 
 def envelope_monotonic(cpsi_arr, threshold=0.25):
-    """Check if the LOCAL MAXIMA of CΨ above threshold are monotonically decreasing."""
+    """Check whether local maxima above threshold / 2 decrease monotonically."""
     peaks = []
     for i in range(1, len(cpsi_arr) - 1):
         if cpsi_arr[i] > cpsi_arr[i-1] and cpsi_arr[i] >= cpsi_arr[i+1]:
@@ -111,6 +113,28 @@ def envelope_monotonic(cpsi_arr, threshold=0.25):
         return True, peaks
     mono = all(peaks[i] >= peaks[i+1] for i in range(len(peaks)-1))
     return mono, peaks
+
+
+def rising_steps_above_quarter(cpsi_arr, threshold=0.25):
+    """Count sampled upward steps whose left endpoint is above threshold."""
+    return sum(cpsi_arr[i] > cpsi_arr[i - 1] and cpsi_arr[i - 1] > threshold
+               for i in range(1, len(cpsi_arr)))
+
+
+def eligible_crossing_verdict(eligible_count, crossed_count):
+    """A universal summary is defined only when at least one row is eligible."""
+    return eligible_count > 0 and crossed_count == eligible_count
+
+
+def task_a_random_density_matrices(dimension, count=10, seed=42):
+    """Build the historical Test-A catalogue without mutating NumPy's global RNG."""
+    rng = np.random.RandomState(seed)
+    densities = []
+    for _ in range(count):
+        vector = rng.randn(dimension) + 1j * rng.randn(dimension)
+        vector /= np.linalg.norm(vector)
+        densities.append(np.outer(vector, vector.conj()))
+    return tuple(densities)
 
 
 # ====================================================================
@@ -146,16 +170,16 @@ def test_A():
                     ("|11>", np.kron(dn,dn)), ("|+,+>", np.kron(plus,plus)),
                     ("|+,->", np.kron(plus,(up-dn)/np.sqrt(2)))]:
         states[name] = np.outer(s, s.conj())
-    # Random states (10 Haar-random)
-    np.random.seed(42)
-    for i in range(10):
-        v = np.random.randn(d) + 1j * np.random.randn(d)
-        v /= np.linalg.norm(v)
-        states[f"Rand{i}"] = np.outer(v, v.conj())
+    # Historical local-MT19937 random catalogue (10 Haar-random states)
+    for i, rho in enumerate(
+        task_a_random_density_matrices(dimension=d, count=10, seed=42)
+    ):
+        states[f"Rand{i}"] = rho
 
     log(f"  J={J}, gamma={gamma} (Z-dephasing), t_max={t_max}")
+    log("  Finite catalogue: 19 initial states on the stated t=0..80, dt=0.02 grid.")
     log()
-    log(f"  {'State':>10}  {'CPsi0':>7}  {'t_cross':>8}  {'#Osc':>5}  {'EnvMono':>7}  "
+    log(f"  {'State':>10}  {'CPsi0':>7}  {'t_cross':>8}  {'#Rise':>5}  {'EnvMono':>7}  "
         f"{'#Peaks':>6}  {'Final':>8}")
     log("  " + "-" * 62)
 
@@ -170,12 +194,10 @@ def test_A():
 
         # Find crossing
         t_cross = None
-        n_osc = 0  # oscillations above 1/4 (increases)
+        n_rising_steps = rising_steps_above_quarter(cpsi_arr)
         for i in range(1, len(t_arr)):
             if cpsi_arr[i-1] > 0.25 and cpsi_arr[i] <= 0.25 and t_cross is None:
                 t_cross = t_arr[i]
-            if cpsi_arr[i] > cpsi_arr[i-1] and cpsi_arr[i-1] > 0.25:
-                n_osc += 1
 
         env_mono, peaks = envelope_monotonic(cpsi_arr)
 
@@ -186,7 +208,7 @@ def test_A():
 
         tc = f"{t_cross:.2f}" if t_cross else ("N/A" if cpsi_arr[0] < 0.25 else "NEVER")
         em = "YES" if env_mono else "NO"
-        log(f"  {name:>10}  {cpsi_arr[0]:7.4f}  {tc:>8}  {n_osc:5d}  {em:>7}  "
+        log(f"  {name:>10}  {cpsi_arr[0]:7.4f}  {tc:>8}  {n_rising_steps:5d}  {em:>7}  "
             f"{len(peaks):6d}  {cpsi_arr[-1]:8.6f}")
 
     log()
@@ -227,7 +249,7 @@ def test_B():
     ]
 
     log(f"  Bell+ initial, J={J}")
-    log(f"  {'Noise':>20}  {'gamma':>6}  {'t_cross':>8}  {'#Osc':>5}  {'Mono':>5}  {'Final':>8}")
+    log(f"  {'Noise':>20}  {'gamma':>6}  {'t_cross':>8}  {'#Rise':>5}  {'Mono':>5}  {'Final':>8}")
     log("  " + "-" * 60)
 
     for gamma in [0.05, 0.1]:
@@ -241,16 +263,14 @@ def test_B():
                 cpsi_arr[i] = cpsi(rho)
 
             t_cross = None
-            n_osc = 0
+            n_rising_steps = rising_steps_above_quarter(cpsi_arr)
             for i in range(1, len(t_arr)):
                 if cpsi_arr[i-1] > 0.25 and cpsi_arr[i] <= 0.25 and t_cross is None:
                     t_cross = t_arr[i]
-                if cpsi_arr[i] > cpsi_arr[i-1] and cpsi_arr[i-1] > 0.25:
-                    n_osc += 1
 
             tc = f"{t_cross:.3f}" if t_cross else "NEVER"
-            mono = "YES" if n_osc == 0 else f"NO({n_osc})"
-            log(f"  {name:>20}  {gamma:6.2f}  {tc:>8}  {n_osc:5d}  {mono:>5}  "
+            mono = "YES" if n_rising_steps == 0 else f"NO({n_rising_steps})"
+            log(f"  {name:>20}  {gamma:6.2f}  {tc:>8}  {n_rising_steps:5d}  {mono:>5}  "
                 f"{cpsi_arr[-1]:8.6f}")
         log()
 
@@ -272,7 +292,6 @@ def test_C():
 
     for nq in [3, 4, 5]:
         d = 2 ** nq
-        t0 = _time.time()
         H = heisenberg_H(nq, J)
         c_ops = [np.sqrt(gamma) * site_op(sz, k, nq) for k in range(nq)]
         Liouv = build_liouvillian(H, c_ops)
@@ -313,33 +332,41 @@ def test_C():
                     rho_pair = partial_trace_keep(rho, list(p), nq)
                     pair_results[p].append(cpsi(rho_pair))
 
-            log(f"  {'Pair':>8}  {'CPsi0':>7}  {'t_cross':>8}  {'#Osc':>5}  "
+            log(f"  {'Pair':>8}  {'CPsi0':>7}  {'t_cross':>8}  {'#Rise':>5}  "
                 f"{'EnvMono':>7}  {'Final':>8}")
             log("  " + "-" * 52)
 
-            all_cross = True
+            eligible_count = 0
+            crossed_count = 0
             for p in pairs:
                 cpsi_arr = np.array(pair_results[p])
                 t_cross = None
-                n_osc = 0
+                n_rising_steps = rising_steps_above_quarter(cpsi_arr)
                 for idx in range(1, len(t_arr)):
                     if cpsi_arr[idx-1] > 0.25 and cpsi_arr[idx] <= 0.25 and t_cross is None:
                         t_cross = t_arr[idx]
-                    if cpsi_arr[idx] > cpsi_arr[idx-1] and cpsi_arr[idx-1] > 0.25:
-                        n_osc += 1
 
                 env_mono, peaks = envelope_monotonic(cpsi_arr)
                 tc = f"{t_cross:.2f}" if t_cross else ("N/A" if cpsi_arr[0] < 0.25 else "NEVER")
                 em = "YES" if env_mono else "NO"
 
-                if cpsi_arr[0] > 0.25 and t_cross is None:
-                    all_cross = False
+                if cpsi_arr[0] > 0.25:
+                    eligible_count += 1
+                    if t_cross is not None:
+                        crossed_count += 1
 
                 log(f"  ({p[0]},{p[1]}){' ':>4}  {cpsi_arr[0]:7.4f}  {tc:>8}  "
-                    f"{n_osc:5d}  {em:>7}  {cpsi_arr[-1]:8.6f}")
+                    f"{n_rising_steps:5d}  {em:>7}  {cpsi_arr[-1]:8.6f}")
 
-            elapsed = _time.time() - t0
-            log(f"  All subsystems cross 1/4: {all_cross}  ({elapsed:.1f}s)")
+            all_eligible_crossed = eligible_crossing_verdict(
+                eligible_count, crossed_count
+            )
+            if eligible_count:
+                log(f"  Eligible pairs crossing 1/4: {crossed_count}/{eligible_count}; "
+                    f"all eligible crossed: {all_eligible_crossed}")
+            else:
+                log("  Eligible pairs crossing 1/4: 0/0; all eligible crossed: "
+                    "not applicable (0 eligible).")
             log()
 
 
@@ -347,9 +374,16 @@ def test_C():
 # Main
 # ====================================================================
 
-if __name__ == "__main__":
-    t_start = _time.time()
+def main(output_path=OUT_PATH):
+    global _lines
+    started = _time.perf_counter()
+    if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    _lines = []
 
+    log("QUARTER-CURRENT")
+    log("Current reading: a finite state-and-grid catalogue, including explicit vacuity counts.")
+    log()
     log("Monotonicity: Remaining Gaps")
     log("=" * 70)
     log()
@@ -367,7 +401,16 @@ if __name__ == "__main__":
     log("C: N>2 subsystems - all pairs cross 1/4?")
     log()
 
-    total = _time.time() - t_start
-    log(f"Total runtime: {total:.1f}s ({total/60:.1f} min)")
-    log(f"Results saved to: {OUT_PATH}")
-    _outf.close()
+    log("Completed: deterministic rerun")
+    log("Results: simulations/results/monotonicity_remaining.txt")
+
+    destination = Path(output_path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_bytes(("\n".join(_lines) + "\n").encode("utf-8"))
+    print(f"Elapsed runtime: {_time.perf_counter() - started:.3f}s")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", default=OUT_PATH)
+    main(output_path=parser.parse_args().output)

@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# A scale-free proxy crossing in one free-|+> dephasing model
+
+Current reading: for the stated free single-transmon `|+>` pure-dephasing
+model, the normalized-purity-times-l1 proxy reaches `1/4` when
+`x^3+x=1/2`, giving `t*/T2=0.858367` under that convention.  This is not a
+universal lifetime, platform qualification, or entanglement-decay law.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical reading:** the lifetime and platform narrative below is retained
+as the path to the exact cubic, not as its present interpretation.
+
 # Universal Quantum Lifetime: The Cubic x³ + x = ½ and the 85.8% Coherence Window
 
 <!-- Keywords: universal quantum lifetime cubic equation, x3+x=1/2 crossing time,

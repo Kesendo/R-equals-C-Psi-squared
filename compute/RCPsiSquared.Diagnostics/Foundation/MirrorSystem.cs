@@ -183,13 +183,17 @@ public sealed class MirrorSystem : IInspectable
     /// Takt and the spectrum read the one number instead of two; its reciprocal is the longest breath
     /// before the slow mode reaches the centre (<see cref="TaktReading.Tau"/>). Read live off that
     /// floor, so it shows what the modes actually do, not an assumed 2γ. At γ=0 the floor is 0 and the
-    /// clock stands still (<see cref="TaktReading.Stopped"/>): no felt time, only frozen Hamiltonian
-    /// oscillation.</para>
+    /// clock stands still (<see cref="TaktReading.Stopped"/>): there is no decay clock, while any
+    /// Hamiltonian oscillation that exists remains undamped.</para>
     ///
-    /// <para>The clock is a circle: a single mode winds as e^(λt) = e^(−αt)·e^(iωt), a radius e^(−αt)
-    /// (decay, set by γ) turning an angle e^(iωt) (rotation, set by J) into a logarithmic spiral. This
-    /// is the <i>radial</i> hand, the inward winding. The <i>angular</i> hand, the rotation ω=2J and the
-    /// angle θ=arctan(Q), is a later voice; the circle closes then. Computed once, lazily, from this
+    /// <para>The clock is a circle: each spectral mode winds as
+    /// e^(λt) = e^(−αt)·e^(iωt), with its measured decay rate α and oscillation frequency ω.
+    /// Takt exposes the slowest-rate shelf as the radial scalar α = Gap and its reciprocal τ.
+    /// Takt keeps the exact Gap &gt; 0 versus Gap &lt;= 0 statement; its split is not Rotation's
+    /// numerical boundary. Rotation uses the slowest-rate shelf only when Gap &gt; 1e-9.
+    /// Gap &lt;= 1e-9 is treated as a numerically unresolved/no-decay-style read of the most-rotating mode; this
+    /// includes exact γ=0 but is not equivalent to it. The two voices therefore share the spectrum,
+    /// not the same branch boundary or a fixed coupling formula. Computed once, lazily, from this
     /// system's input.</para></summary>
     public TaktReading Takt => _takt ??= ComputeTakt();
 
@@ -204,20 +208,27 @@ public sealed class MirrorSystem : IInspectable
     private RotationReading? _rotation;
 
     /// <summary>The Rotation: the angular hand of the circular quantum clock. A single mode winds as
-    /// e^(λt) = e^(−αt)·e^(iωt); the <see cref="Takt"/> reads the radius e^(−αt) (the inward decay set
-    /// by γ), this voice reads the angle e^(iωt) (the turning set by J), on the same memory mode the
-    /// Takt's Tau tracks. Together the two hands trace the memory mode's logarithmic spiral.
+    /// e^(λt) = e^(−αt)·e^(iωt). The <see cref="Takt"/> reads the slowest-rate shelf as one radial
+    /// scalar. Rotation first selects a frequency: above its numerical Gap boundary it takes the
+    /// largest |ω| on that shelf; at or below the boundary it takes the largest |ω| in the spectrum.
+    /// The shelf need not contain a unique mode.
     ///
-    /// <para>The reading is the memory mode's rotation ω = Im(λ) (<see cref="RotationReading.Frequency"/>,
-    /// the slowest mortal mode's oscillation) and its angle θ = arctan(ω/Gap)
-    /// (<see cref="RotationReading.Angle"/>), the F95 angle (= arctan(Q) for the 2-level case), the seam
-    /// between the radial bank (past, {I,Z}) and the angular bank (future, {X,Y}). θ is stored in
-    /// radians, canonical and composing with F95; the CLI renders it in degrees.</para>
+    /// <para>The resolved shelf branch selects the representative with largest |Im(λ)| on the
+    /// slowest mortal decay shelf. Its frequency ω = |Im(λ)|
+    /// (<see cref="RotationReading.Frequency"/>) and angle θ = atan2(ω, Gap)
+    /// (<see cref="RotationReading.Angle"/>) are the selected slow mode's measured angle, not a
+    /// coupling-ratio substitution. Turning is a numerical classification: true iff the selected |ω| &gt; 1e-9;
+    /// it is not a mathematical ω ≠ 0 statement. On this resolved branch the angle is still evaluated:
+    /// a retained 0 &lt; |ω| &lt;= 1e-9 can have Turning = false and a small nonzero atan2 angle.
+    /// This selected-mode reading meets F95
+    /// only when an independently demonstrated finite positive-b quadratic in z = −λ maps a root to this same selected mode.
+    /// θ is stored in radians; the CLI renders it in degrees.</para>
     ///
-    /// <para>Pairs with the Takt: when γ=0 the radial hand stops (<see cref="TaktReading.Stopped"/>) and
-    /// the angle reaches its maximum θ = π/2, the pure circle turning forever with no inward pull. When
-    /// J=0 nothing rotates (all ω=0), so the hand does not turn (<see cref="RotationReading.Turning"/> is
-    /// false) and θ = 0, pure radial decay. Computed once, lazily, from this system's input.</para></summary>
+    /// <para>On the numerically unresolved/no-decay-style branch, the same |ω| &gt; 1e-9 test sets
+    /// <see cref="RotationReading.Turning"/>. The branch sets θ = π/2 when that thresholded read is true;
+    /// otherwise θ = 0, even if the retained frequency is nonzero but at or below 1e-9. This branch
+    /// does not imply that the Takt is stopped: Takt keeps its independent exact positive/zero Gap
+    /// statement. Computed once, lazily, from this system's input.</para></summary>
     public RotationReading Rotation => _rotation ??= ComputeRotation();
 
     private RotationReading ComputeRotation()
@@ -235,7 +246,10 @@ public sealed class MirrorSystem : IInspectable
             return new RotationReading(frequency > tol, frequency, Math.Atan2(frequency, gap));
         }
 
-        // γ=0, the pure-circle limit (Takt.Stopped): no decay floor, read the turning over all modes.
+        // Numerically unresolved/no-decay-style rotation branch (gap <= tol): read the largest
+        // frequency over all modes. Takt.Stopped is true only at its exact gap <= 0 boundary.
+        // Only a selected frequency above tol gives the π/2 circle. A retained sub-tolerance
+        // frequency is reported but receives angle 0, just like a fully still spectrum.
         double freq = Spectrum.Modes
             .Select(m => Math.Abs(m.OscillationFrequency)).DefaultIfEmpty(0.0).Max();
         bool turning = freq > tol;
@@ -394,8 +408,8 @@ public sealed record MemoryRotationReading(
 public sealed record EnergyMemoryImage(double Energy, double MemoryAxisValue);
 
 /// <summary>The Takt reading: the unit of felt time <see cref="MirrorSystem.Evolve"/> counts in.
-/// <see cref="Stopped"/> is true at γ=0, when there is no decay clock, only frozen Hamiltonian
-/// oscillation. <see cref="Gap"/> is the spectrum's <see cref="CarrierPortfolioSpectrum.SlowestRate"/>
+/// <see cref="Stopped"/> is true at γ=0, when there is no decay clock; Hamiltonian oscillation may
+/// remain but is not implied. <see cref="Gap"/> is the spectrum's <see cref="CarrierPortfolioSpectrum.SlowestRate"/>
 /// (the framework's shared memory floor, the 2γ floor of felt motion at small N), <c>0.0</c> when
 /// stopped. <see cref="Tau"/> = 1/Gap is the longest felt duration, the slowest breath before the
 /// slow mode reaches the centre; <see cref="double.PositiveInfinity"/> when stopped. This is the
@@ -404,8 +418,12 @@ public sealed record TaktReading(bool Stopped, double Gap, double Tau);
 
 /// <summary>The Rotation reading: the angular hand of the circular quantum clock
 /// e^(λt) = e^(−αt)·e^(iωt), the companion to <see cref="TaktReading"/>'s radial hand.
-/// <see cref="Turning"/> is true when the memory mode rotates (ω ≠ 0, i.e. J ≠ 0). <see cref="Frequency"/>
-/// is ω = |Im(λ)| of the memory mode, its turning rate. <see cref="Angle"/> is θ = arctan(ω/Gap) in
-/// radians, the F95 angle (= arctan(Q) for the 2-level case): θ → π/2 at the pure circle (γ=0, the
-/// radial hand stopped, turning forever) and θ = 0 for pure radial decay (J=0, no turning).</summary>
+/// The record's Turning is true iff its selected Frequency &gt; 1e-9, not iff ω ≠ 0. <see cref="Frequency"/> is
+/// ω = |Im(λ)| of the most-rotating representative on the resolved slowest-rate shelf, or of the
+/// most-rotating mode in the numerically unresolved/no-decay-style branch.
+/// <see cref="Angle"/> is branch-dependent and stored in radians.
+/// On the resolved shelf branch, the angle is θ = atan2(ω, Gap).
+/// On the numerically unresolved/no-decay-style branch, the angle is π/2 iff the thresholded Turning is true, and 0 otherwise.
+/// Thus a retained sub-tolerance nonzero frequency has angle 0 on the unresolved branch, while on
+/// the resolved branch its atan2 angle can remain small and nonzero despite Turning being false.</summary>
 public sealed record RotationReading(bool Turning, double Frequency, double Angle);

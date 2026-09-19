@@ -1,3 +1,14 @@
+<!-- QUARTER-CURRENT -->
+# Curated period-table fractions compared with framework anchors
+
+Current reading: this is an exact Fraction grouping of a curated input table and
+a numerical comparison with framework anchor values.  It is not a carbon,
+material, biological, or dynamical derivation.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the comparison narrative and curated rows follow as the
+record of that finite arithmetic exercise.
+
 # Period 2 + 3 Table Fractions Compared with Framework Polarity Anchors
 
 **Date:** 2026-05-17 night

@@ -1,3 +1,12 @@
+<!-- F14-CURRENT -->
+
+CΨ_max is the sampled maximum for t>=0.01; excludes t=0.
+The initial value is printed separately, not included in that maximum.
+
+CURRENT READING
+
+This finite two-qubit scan uses CΨ=concurrence²/3, not purity times normalized l1 coherence. The sampled alpha and J/gamma rows are retained. The alpha=30-degree row is initial equality in exact arithmetic; the printed NO is the unchanged floating-point threshold implementation. Hamiltonian-dead |++> still loses purity under local dephasing while remaining separable. Two explicit temporary outputs reproduced the payload below; only the old no-dynamics summary was corrected.
+
 ======================================================================
 Minimum Crossing Energy: Coherence Barrier, Not Energy Barrier
 ======================================================================
@@ -54,5 +63,7 @@ No energy threshold for CΨ crossing.
 Critical angle: α = 30.0° (CΨ(0) = 1/4).
 |01>/|10> family: all cross (exchange interaction generates entanglement).
 Product states: J/γ ~ 5-10 needed (coherence barrier, not energy barrier).
-Eigenstates of H (|0,0>, |1,1>, |+,+>): no dynamics, no crossing, no time.
+|00> and |11> are stationary for this full generator.
+|++> is Hamiltonian-dead but purity changes under dephasing;
+its separable trajectory has zero tangle and no quarter crossing.
 ======================================================================

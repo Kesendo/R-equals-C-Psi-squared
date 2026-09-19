@@ -1,4 +1,4 @@
-# EQ-021: c_1 ≈ 0.5·V(N) is an asymptotic pattern, not a derivable identity (partial)
+# EQ-021: finite c_1 versus 0.5·V(N) coefficient census
 
 **Date:** 2026-04-20
 **Authors:** Thomas Wicht, Claude
@@ -12,15 +12,17 @@ the ΔN=0 steady-state space and the |ΔN|=1 single-excitation coherence
 sector contribute to site-local purities P_i(t) for the (|vac⟩+|ψ_1⟩)/√2
 initial state. The dominant oscillatory modes have Im(λ) = E_1 = 2J·cos(π/(N+1))
 and Re(λ) = −2γ₀, matching the Absorption Theorem for a one-excitation
-coherence. Mode expansion reproduces direct RK4 to 10⁻¹⁶.
+coherence. The mode-pair expansion and the second purity route are a
+same-eigensystem reconstruction: both reuse the same L_A eigendecomposition,
+and their 10⁻¹⁶ agreement is a regrouping check, not an independent propagation control.
 
 No clean structural derivation of c_1 = 0.5·V(N) emerged. The per-site α
 pattern shows spatial redistribution (near-bond sites α > 1, far sites α < 1)
 whose signed sum gives c_1. That sum does not factor cleanly into a
 0.5·V(N) closed form at N=4, 5. The empirical ratio c_1/(0.5·V(N)) sits
-at 1.019 to 1.092 for N=4..7 with no monotonic structure, consistent with
-an asymptotic approximation plus finite-size corrections rather than an
-exact identity.
+at 1.019 to 1.092 for N=4..7 with no monotonic structure. That finite
+near-match does not demonstrate convergence or an asymptotic law, and it is
+not a prediction.
 
 The N=3 outlier (ratio 0.35) is explained by geometry: at N=3 the
 endpoint bond (0,1) already carries 70% of the ψ_1 bond density
@@ -57,8 +59,9 @@ At N ∈ {4, 5}:
 4. Per-mode single-site marginals M_{s,i} = Tr_{¬i}(M_s), stored as 2×2.
 5. Per-site purity rebuilt from modes:
    P_i(t) = Σ_{s,s'} c_s c_s'* · e^{(λ_s + λ_s'*) t} · Tr(M_{s,i} M_{s',i}†).
-6. Cross-check vs direct vectorised propagation: max residual 4.4e-16 (N=4),
-   7.8e-16 (N=5).
+6. Same-eigensystem reconstruction from the same `V_R`, `W†`, and eigenvalues:
+   max regrouping residual 4.4e-16 (N=4), 7.8e-16 (N=5). This is not an
+   independent propagation control.
 7. Fit α_i, compute closure sums Σ ln(α_i(δJ)), extract c_1 via symmetric
    difference.
 
@@ -220,7 +223,7 @@ log-log regression on c_1(ψ_1+vac, endpoint) at N=3..6:
 
 Neither fit is clean. A steep q ≈ 6 for V(N)^q is a flag that the
 "c_1 = 0.5·V(N)" relation is not a power law at all; it is a near-match
-of two quantities that happen to converge to 1 at large N. The actual
+in the finite rows. Only the comparator's large-N limit is known here. The actual
 fit quality is dominated by the N=3 outlier, and the remaining N=4..6
 ratio scatters 1.02 to 1.09.
 
@@ -234,15 +237,14 @@ Bond sum divided by number of bonds:
 
 No simple relation to V(N) emerges at bond-summed level.
 
-## Assessment: is c_1 = 0.5·V(N) exact, asymptotic, or coincidental?
+## Assessment: what does the finite comparison establish?
 
-**Asymptotic, coincidental, and state-specific.** The Phase 2 data support:
+**A state-, bond-, and window-specific near-match.** The Phase 2 data establish:
 
-- c_1(N, ψ_1+vac, endpoint) → some limit ≤ 1 as N → ∞ (c_1 is bounded,
-  data trend is sub-monotonic).
-- 0.5·V(N) → 1 as N → ∞.
-- Both approach the same limit, and within the tested N=4..7 window
-  they agree to 2–10%.
+- The measured endpoint `c_1` rows cover only the displayed finite N window;
+  they do not demonstrate a limit or convergence.
+- The closed-form comparator `0.5·V(N)` has its own limit, but the data do not
+  show that `c_1` shares it. Within N=4..7 the two agree to 2–10%.
 - There is no term-by-term identity between c_1 and 0.5·V(N) visible in
   the mode decomposition. V(N) = 1 + cos(π/N) does not match the spectral
   factor 2cos(π/(N+1)) = E_1 that actually appears in the dynamics.
@@ -253,11 +255,9 @@ No simple relation to V(N) emerges at bond-summed level.
   0.23). The relation fails under change of initial single-excitation
   mode.
 
-Best short statement: c_1 ≈ 0.5·V(N) is an endpoint-and-ψ_1-specific
-numerical coincidence in a narrow N regime, not a theorem. Both
-quantities happen to sit near unity at small N; the structural content of
-c_1 lives in the signed bond-profile, not in any single-number scaling
-law.
+Best short statement: `c_1 ≈ 0.5·V(N)` is a finite
+endpoint-and-ψ_1-specific numerical near-match, not a theorem, asymptotic
+law, or prediction. The measured content lives in the signed bond profile.
 
 ## What would close the question
 

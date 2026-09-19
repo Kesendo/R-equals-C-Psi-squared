@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Proof of F96: three named N=4-ring subdominant slopes
+
+Current reading: for the same named ring setup as F94, the exact leading slopes
+are `-16/9`, `-16/9`, and `-8/3` for outcomes `|01>`, `|10>`, and `|11>` from
+their own M/U elements.  They are not topology-universal: the N=4 chain gives
+the `|10>` slope `-4/3`.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the longer ring derivation follows; the current slopes
+and chain counterexample are stated above.
+
 # Proof of F96: Subdominant Born Deviation Slopes
 
 **Statement:** For the subdominant outcomes of pair (0, 2) of |0+0+⟩ N = 4 Heisenberg ring + Z-dephasing (the same setup as F94), the per-outcome Born-rule deviation in the deep perturbative regime is linear in K and Q-independent:
@@ -5,7 +17,8 @@
     Δ_|01⟩(K) = Δ_|10⟩(K) = −(16/9) · K + O(higher)
     Δ_|11⟩(K)             = −(8/3)  · K + O(higher)
 
-with K = γt the Universal-Carrier observable. All three slopes are simple algebraic expressions in the F94 coefficient 4/3:
+with K=γt as the short-time coordinate in this setup. Numerically, all three
+slopes can be written as simple expressions in the F94 coefficient 4/3:
 
     Δ_|01⟩ = −(4/3)² · K
     Δ_|10⟩ = −(4/3)² · K
@@ -32,9 +45,15 @@ F96 completes the per-outcome Born-deviation table that F94 opened. Same setup (
 
     Δ_|01⟩ = Δ_|10⟩ = −(16/9)·K = −(4/3)²·K,   Δ_|11⟩ = −(8/3)·K = −2·(4/3)·K.
 
-Every slope is a simple algebraic expression in the single F94 anchor 4/3: the singly-flipped pair squares it, the doubly-flipped outcome doubles and negates it. The Q-independence is the Universal-Carrier signature: from inside the pair only the product K = γt is visible at this order, the dissipator acting at first order while the dominant outcome's drift waits for the third.
+Every slope happens to be a simple algebraic expression in the ring's 4/3
+coefficient. Q cancels at this order because the same J power occurs in the
+numerator and denominator. This is setup-specific algebra, not a universal
+cross-setup invariant.
 
-The closed forms are bit-exact from direct evaluation of the Dyson sym₃ and sym₅ matrix elements against the unitary normalizations A and B, and they close the books on this setup: the single number 4/3 sets every subdominant magnitude (its square and its double), while the signs come from the Dyson elements themselves, the dominant deviation positive (running above its unitary baseline), the three subdominant deviations negative (below it). F96 is the subdominant twin of F94; F95 and F97 carry the same geometry on the angle and cardioid sides.
+The Dyson matrix elements and rational divisions are exact. Separate floating
+Lindblad runs approach those slopes. The simple relation to 4/3 is an identity
+inside this four-row ring table; it is not typed ancestry, and F95/F97 are
+different quadratic objects.
 
 ## Setup
 
@@ -46,7 +65,7 @@ At t = 0 the initial state has q_0 = q_2 = 0 deterministically and q_1, q_3 in |
 
 so P_unitary(|00⟩, 0) = 1 and P_unitary(\|01⟩, 0) = P_unitary(\|10⟩, 0) = P_unitary(\|11⟩, 0) = 0. F94 handles the dominant outcome where the leading P_unitary is constant; F96 handles the three outcomes where P_unitary starts at higher order in t.
 
-## Universal slope formula for subdominant outcomes
+## Conditional leading-slope quotient
 
 For an outcome with P_unitary(i, t) ≈ (t^{2k} / (2k)!) · U^{(i)}_{2k} as the leading term (with U^{(i)}_{2k} = ⟨i\|_pair Tr_{1,3}[L_h^{2k} ρ_0]\|i⟩_pair the raw matrix element, h := H/J), the linear-K slope of Δ_i comes from the lowest-order non-vanishing γ¹ Dyson term. Tracing the powers of J, γ, t:
 
@@ -63,7 +82,9 @@ so:
     Δ_i = ΔP_i / P_u(i, t) = γt · [M_{2k+1}^{(i)} · (2k)!] / [(2k+1)! · U^{(i)}_{2k}]
                            = K · M_{2k+1}^{(i)} / [(2k+1) · U^{(i)}_{2k}]
 
-This is the universal slope formula. The (2k+1) factor in the denominator is the surviving rational from (2k+1)! / (2k)! after cancellation; it is the only place where the unitary order k enters the slope.
+Whenever the stated leading orders and nonzero denominator hold, this quotient
+follows by Taylor-series division. Those hypotheses are not automatic across
+states, observables, topologies, Hamiltonians, or dissipators.
 
 The formula is automatically Q-independent: the J^{2k} factors in numerator and denominator cancel, and γt = K is the only surviving dimensionful combination.
 
@@ -84,7 +105,7 @@ Hence:
 
 For |11⟩:
 - k = 2 (P_unitary(|11⟩, t) starts at t⁴; both q_0 and q_2 must flip, requiring two H actions on each, hence 4 H actions minimum)
-- M_3^{(11)} = 0 (the lower-order γ¹ J² Dyson term vanishes by parity), so the universal slope formula at k = 2 applies.
+- M_3^{(11)} = 0 in this ring row, so the conditional quotient at k=2 applies.
 - Need M_5^{(11)} and U_4^{(11)}.
 
 Direct evaluation at J = γ = 1:
@@ -105,7 +126,9 @@ Each subdominant slope is a clean algebraic expression in F94's 4/3 anchor:
 
 Two non-trivial structural observations:
 
-1. **Ratio M_n/U_{n−1} universality**: at k = 1 the ratio M_3 / U_2 equals −16/3 for the |01⟩, |10⟩ outcomes, and the same ratio (M_3 / A with A = ⟨i\|Tr[L_h² ρ_0]\|i⟩) for the dominant |00⟩ outcome equals 8 / (−3/2) = −16/3, identically. The signs of M_3 and A flip together, leaving the ratio invariant. This is a non-trivial cross-outcome symmetry of the Dyson + unitary matrix-element structure: the K-slope of the subdominant outcomes equals (1/3) × (M_3 / U_2)|_dominant = (1/3) · (−16/3) = −16/9.
+1. **Ring-row ratio coincidence**: at k=1, M_3/U_2 equals −16/3 for
+   |01⟩ and |10⟩, and the analogous ratio for |00⟩ has the same value in
+   this setup. The chain counterexample below prevents a universal reading.
 
 2. **Doubled rate for the doubly-subdominant outcome**: Δ_|11⟩ = −2 · (4/3) · K is exactly twice the F94 coefficient (with a sign flip). The "2" plausibly counts the two independent flip channels (q_0 from 0 → 1 AND q_2 from 0 → 1) required for the |11⟩ outcome; each independent channel contributes the 4/3 baseline factor, and they add. This is interpretive (Tier 2); the bit-exact −8/3 stands either way.
 
@@ -139,11 +162,17 @@ Putting F94 + F96 together, the full per-outcome Born-deviation closed form for 
     Δ_|10⟩(K)   = −(4/3)² · K + O(higher)        (Q-independent)
     Δ_|11⟩(K)   = −2 · (4/3) · K + O(higher)    (Q-independent)
 
-The 4/3 anchor of F94 is the structural unit: the dominant gets exactly one copy at order Q²K³; the singly-subdominant degenerate pair gets minus its square at order K; the doubly-subdominant gets minus twice it at order K. Every coefficient in this 4-outcome closed-form table is generated from the single 4/3 number (F94's dominant residue a_{−1} = 4, divided by 3).
+The four ring coefficients admit this compact rewriting. Each value is earned
+independently from its own M/U elements; the notation does not generate one
+claim from another.
 
-## Universality remarks
+## Scope and chain counterexample
 
-The slope formula slope_i = M_{2k+1}^{(i)} / [(2k+1) · U_{2k}^{(i)}] is universal across (initial state, Hamiltonian, dissipator) where the unitary leading order is 2k and the γ¹ Dyson at order 2k+1 is the lowest non-vanishing γ-correction. The specific values (−16/9, −8/3) are specific to this (|0+0+⟩, Heisenberg ring N = 4, Z-deph, pair (0,2)) setup. Other setups will give other rationals via the same recipe.
+The quotient is a conditional series identity. The values −16/9 and −8/3
+are specific to `|0+0+⟩`, the N=4 Heisenberg ring, Z dephasing, and pair
+(0,2). On the chain, the exact sym₃ row is `(5,-4,-1,0)` and the |10⟩
+slope is −4/3 rather than −16/9. That chain counterexample rules out
+topology and cross-outcome universality.
 
 The algebraic connection to F94's 4/3 (Δ_|01⟩ = −(4/3)², Δ_|11⟩ = −2·(4/3)) is plausibly setup-specific too; it is an observation about this particular table, not a derived universal pattern. Future Tier-1 closed forms for other dominant outcomes in other setups will determine whether the "subdominant = simple algebraic function of dominant" pattern is general or accidental here.
 
@@ -153,6 +182,5 @@ The algebraic connection to F94's 4/3 (Δ_|01⟩ = −(4/3)², Δ_|11⟩ = −2�
 - F94 (dominant outcome): [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`F94 ANALYTICAL_FORMULAS entry`](../ANALYTICAL_FORMULAS.md#f94)
 - Born-rule precursors (Februar 2026): [`experiments/BORN_RULE_MIRROR.md`](../../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../../experiments/BORN_RULE_SHADOW.md)
 - Companion magnitude-side closed form: [F94](../ANALYTICAL_FORMULAS.md#f94)
-- Companion angle-side closed form (same cusp geometry): [F95](../ANALYTICAL_FORMULAS.md#f95)
-- Universal Carrier (Q-K invariance is its operational signature): [`compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs)
-- F94 typed claim (parent anchor for the 4/3 unit): [`F94BornDeviationFourThirdsPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F94BornDeviationFourThirdsPi2Inheritance.cs)
+- Separate positive-b quadratic: [F95](../ANALYTICAL_FORMULAS.md#f95)
+- F94 typed claim (related ring row, not a parent): [`F94BornDeviationFourThirdsPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F94BornDeviationFourThirdsPi2Inheritance.cs)

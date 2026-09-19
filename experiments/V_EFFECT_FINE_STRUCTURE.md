@@ -1,4 +1,9 @@
+<!-- QUARTER-CURRENT -->
 # V-Effect Fine Structure: Hard vs Soft Breaks via Framework
+
+Current reading: the 36-pair framework census classifies those finite Pauli-pair
+inputs by the stated operator and spectral tests.  It does not turn the quarter
+into a universal boundary or extrapolate beyond that catalogue.
 
 **Status:** Computational (Tier 1-2). Framework-based re-examination of the V-Effect's 14-of-36 result. Reproduces March 2026 finding via stricter operator-equation test, plus reveals a 19-case "soft break" intermediate category that the spectrum-pairing test missed.
 **Date:** 2026-04-25
@@ -10,7 +15,11 @@
 
 ## What this clarifies
 
-The V-Effect (March 2026) found that of 36 two-term Pauli-pair Hamiltonians H = J(term1 + term2) at N=3 with two bonds, exactly **14 break** the palindromic structure and **22 do not**. The test used was eigenvalue pairing λ ↔ −λ − 2Σγ.
+The finite N=3 **V-Effect census** uses the nine two-site labels
+`{XX,XY,XZ,YX,YY,YZ,ZX,ZY,ZZ}` and their 36 unordered **distinct** pairs;
+self-pairs are excluded. Of those 36 two-term Hamiltonians
+`H = J(term1 + term2)` on the two bonds, exactly **14** fail the numerical
+eigenvalue-pairing criterion `λ ↔ −λ − 2Σγ` and **22** pass it.
 
 The framework's `palindrome_residual` function tests the stricter operator equation Π·L·Π⁻¹ + L + 2Σγ·I = 0. Operator equation implies eigenvalue pairing; the converse does not hold. Re-running all 36 combos with both criteria gives:
 
@@ -19,11 +28,12 @@ The framework's `palindrome_residual` function tests the stricter operator equat
 | Operator equation (strict) | **33** | **3** |
 | Eigenvalue pairing (V-Effect) | **14** | **22** |
 
-The 22 V-Effect-unbroken cases decompose into:
+The 22 pairing-unbroken cases decompose into:
 - **3 truly unbroken**: {XX+YY, XX+ZZ, YY+ZZ}, both terms in the both-parity-even set.
 - **19 soft-broken**: operator equation residual ~22-45 (substantial), but eigenvalue pairing accurate to ~10⁻¹⁴ (machine precision).
 
-The 14 hard-broken cases break both criteria simultaneously. These are the V-Effect's original 14.
+The 14 hard-broken cases break both criteria simultaneously. Thus the exact
+36-distinct-pair split is **14 hard / 19 soft / 3 truly**.
 
 ## Numerical results
 

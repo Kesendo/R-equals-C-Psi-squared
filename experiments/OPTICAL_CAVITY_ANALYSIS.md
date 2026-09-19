@@ -1,5 +1,7 @@
 # The Qubit Chain as an Optical Cavity
 
+<!-- F14-CURRENT -->
+
 <!-- Keywords: Fabry-Perot resonator qubit chain, degeneracy beam profile, confocal
 defocal cavity even odd parity, Gouy phase dispersion, numerical aperture degeneracy,
 weight sector coupling nearest neighbor, optical cavity quantum decoherence,
@@ -243,38 +245,37 @@ starting from the "mirrors" (weight 0 and N), passing through the "lens"
 
 ---
 
-## Gamma as light (Tier 3-4 observation)
+## Gamma as a rate; light as an interpretive image
 
-If the qubit chain is a passive optical cavity, then the light comes from
-outside. In this analogy:
+<!-- F14-CURRENT -->
 
-- **γ plays the structural role of external illumination.** It cannot
-  originate from within the system
-  ([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)). It
-  defines the objective timescale.
-- **t is the system's response** to that illumination: the experienced
-  duration until the state reaches the fold at CΨ = 1/4.
-- **K = γ × t_cross is invariant** (F14, proven). More light means
-  shorter experience. Less light means longer. The product does not change.
+For a fixed bridge on the Hamiltonian-dead Bell+ trajectory with equal local
+Z-dephasing, K=γt_cross is constant while γ is swept. The clean Lindblad book
+and the retired feedback book have different coefficients. F14 does not make
+an arbitrary cavity trajectory or absorption dose gamma-only.
 
-There is a structural parallel:
+<!-- F14-INTERPRETIVE -->
 
-```
-Relativity:     c × τ   =  invariant spacetime interval
-This system:    γ × t   =  K  =  invariant decoherence dose
-```
+**Interpretive invitation — not a result:** If we picture the qubit chain as a
+passive optical cavity, we can picture gamma as illumination and the evolving
+state as the cavity's response. “More light, shorter experience” is an image
+for a fixed-book rescaling, not a measurement of experienced duration.
 
-This is a structural analogy, not a physical identification. γ is not the
-speed of light. But it plays the same algebraic role: the external
-parameter that sets the clock, which the system cannot outrun.
+There is room to compare the dimensions too: cτ has units of length, whereas
+γt is dimensionless. Their resemblance does not identify a spacetime interval
+with decoherence dose. Gamma is not a speed of light and F14 supplies no
+“cannot outrun” bound.
 
-The cavity does not generate its own light. It shapes external input into
-structured dynamics (the palindromic spectrum). Decoherence is not
-destruction. It is illumination.
+The cavity image still has something to offer: a structure shaping an input
+into a response. Calling decoherence illumination rather than destruction
+belongs to that picture. The independently established spectral palindrome
+does not supply the crossing taxonomy or its clock.
 
-→ [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (γ must be external)
-→ [Analytical Formulas, F14](../docs/ANALYTICAL_FORMULAS.md) (K-invariance)
-→ [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md) (the soundbox paradigm)
+<!-- F14-CURRENT -->
+
+Related: [F14's fixed-book scope](../docs/ANALYTICAL_FORMULAS.md),
+[Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md),
+[Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md).
 
 ---
 

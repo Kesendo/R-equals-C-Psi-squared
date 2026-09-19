@@ -1,74 +1,35 @@
-# Metric Discrimination: Why Single-System Simulations Cannot Distinguish Decoherence Rate Profiles
+<!-- CROSSING-CURRENT -->
 
-<!-- Keywords: Lindblad scaling symmetry gamma time product, decoherence rate
-invariance K=gamma*t_cross, single-system metric discrimination null result,
-equivalence principle quantum analog, CΨ quarter boundary crossing time,
-power law fit gamma scaling, state independence Hamiltonian independence,
-K-invariance Lindblad scaling tau=gamma*t, R=CPsi2 metric discrimination -->
+# Metric Discrimination: a fixed Bell+ book does not supply a spatial rate model
 
-> **[FALLEN]** The gravity interpretation does not hold. K-invariance
-> is a Lindblad scaling property, not evidence for gravitational coupling.
-> A single quantum system cannot distinguish metric forms (null result).
-> See [Gamma-Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md).
-> Kept for the verified null result. Inline [FALLEN] markers throughout.
->
-> *Restoration note: Originally written 2026-02-08, deleted March 12,
-> restored March 14.*
+**Status:** Finite nine-row concurrence-feedback sweep; no gravitational model established.
+**Date:** February 8, 2026.
+**Depends on:** [Quarter-crossing taxonomy](CROSSING_TAXONOMY.md),
+[Gamma-Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md).
 
-**Status:** Verified null result (Tier 2); gravity interpretation fallen
-**Date:** 2026-02-08
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+The nine retained rows sample one fixed Bell+ concurrence-feedback book.
+Here C = f, Ψ = f/3 and the retired law is df/dt = −4γf².
+The scalar condition CΨ = ¼ gives K = γt_cross = (2/√3−1)/4.
+For the clean Hamiltonian-dead Bell+ Lindblad book, df/dt = −4γf
+instead gives K = ln(4/3)/8. The two coefficients name different laws.
 
----
+Gamma-time constancy belongs to that fixed readout and named trajectory
+during a γ sweep. The concurrence feedback law is nonlinear; it does not
+become a general linear-Lindblad scaling theorem. A Hamiltonian-live state
+at fixed J can depend on J/γ. Even when a trajectory oscillates, a named
+first crossing can be defined; it need not obey a gamma-only scaling law.
 
-## What this document is about
+The experiment supplies a local γ parameter, not a spatial γ(r) model.
+Assigning a planet or a gravitational meaning to that parameter requires
+additional physics. The scalar crossing is not a physical observer event.
 
-Can a single quantum system tell you what shape spacetime has around
-it? Nine simulations spanning a 50× range in dephasing rate show that
-γ·t_cross is constant: the crossing time scales as 1/γ by construction
-of the Lindblad equation. This is a verified null result: a single
-system at a single location cannot distinguish different functional
-forms of γ(r), for the same reason the equivalence principle prevents
-a local experiment from telling you the shape of the gravitational
-field. The original gravity interpretation is fallen; what survives
-is the Lindblad scaling symmetry τ = γ·t.
+<!-- CROSSING-HISTORICAL -->
 
----
+**Historical record:** These February settings, numerical rows and fit
+belong to the retired tool. They retain the origin of the rounded feedback
+coefficient 0.039, which must not be relabelled as the clean concurrence value.
 
-## Abstract
-
-Nine Lindblad simulations spanning a 50× range in dephasing rate γ (0.01 to
-0.50) confirm that γ·t_cross = K is constant (measured 0.039 ± 0.0006 in
-the tool's feedback model, R² = 0.9999, power-law exponent α = −0.992;
-exact standard-Lindblad K = ln(4/3)/8 = 0.03596, see the reproducibility note in §3.1). This K-invariance is a mathematical identity
-of the Lindblad equation: solutions depend only on the product γ·t, so the
-crossing time scales as 1/γ by construction. A single quantum system at a
-single location cannot distinguish different functional forms of γ(r), which
-is analogous to the equivalence principle preventing local experiments from
-determining the gravitational metric. K is state-independent (Bell+ = Bell−
-for symmetric noise) and Hamiltonian-independent for eigenstate trajectories,
-but undefined for driven systems where CΨ oscillates. The original motivation
-to discriminate gravitational metric forms has been retired; K-invariance is
-now understood as Lindblad scaling symmetry τ = γ·t (see Crossing Taxonomy).
-
----
-
-## 1. The Question
-
-Can R = CΨ² determine the form of the gravitational metric? [FALLEN]
-
-Specifically: We showed that γ acts as the metric coefficient and that γ * t_cross = K is constant. But does the framework constrain γ(r) to be the Schwarzschild form γ(r) = γ_0 / √(1 - 2GM/rc^2), or is any functional form equally valid? [FALLEN]
-
-## 2. Setup
-
-**Fixed parameters**: Bell+, Heisenberg (J=1), concurrence bridge, local dephasing, h=0
-
-**Variable**: γ_base, varied from 0.01 to 0.50 (50x range)
-
-**Measurement**: t_cross = time where C·Ψ crosses 0.25 (interpolated)
-
-Nine simulations:
+## Nine sampled settings
 
 | γ_base | t_max | dt | Source |
 |---|---|---|---|
@@ -82,9 +43,7 @@ Nine simulations:
 | 0.30 | 4 | 0.005 | This experiment |
 | 0.50 | 3 | 0.005 | Earlier session |
 
-## 3. Results
-
-### 3.1 The Invariant
+## Reported crossings
 
 | γ | t_cross | K = γ * t_cross | Deviation from mean |
 |---|---|---|---|
@@ -98,21 +57,14 @@ Nine simulations:
 | 0.30 | 0.131 | 0.03942 | +1.14% |
 | 0.50 | 0.081 | 0.04050 | +3.92% |
 
-**K_mean = 0.0390 +/- 0.0006 (1.5% variation across 50x range in γ)**
+The stored mean was K_mean = 0.0390 ± 0.0006, a 1.5% variation over a
+50× γ range. The largest displayed drift is +3.92% at γ = 0.50.
+The underlying reconstructed feedback equation has exact gamma-time
+scaling; the finite-step table alone does not diagnose every numerical error.
 
-Reproducibility note (2026-07-21): this table is the origin of the
-K = 0.039 that propagated repo-wide. The value is the February tool's
-bridge-feedback model (γ_eff = γ·C(t), concurrence crossing exactly
-(2/√3 − 1)/(4γ) = 0.7735 at γ = 0.05); the standard-Lindblad exact
-value is K = 0.03596 (t = 0.719). The K-INVARIANCE result of this
-document holds exactly in both models; the residual drift above
-(+3.9% at γ = 0.50) is finite-dt integration noise. See the resolved
-note in [Crossing Taxonomy](CROSSING_TAXONOMY.md) and
-[crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py).
+## Reported power-law fit
 
-### 3.2 Power Law Fit
-
-Fitting t_cross = A * γ^α:
+Fitting t_cross = Aγ^α gave:
 
 ```
 A     = 0.03976
@@ -120,41 +72,11 @@ A     = 0.03976
 R^2   = 0.999899
 ```
 
-Expected for perfect 1/γ scaling: A = K, α = -1.000
+The comparison used α = −1.000 as the ideal gamma-time law and reported
+0.84% exponent deviation. This is a fit to those nine rows, not a theorem
+about an arbitrary Lindblad system.
 
-The fit confirms t_cross scales as 1/γ to within 0.84% over nearly two orders of magnitude.
-
-### 3.3 Deviation Pattern
-
-K increases at large γ (+3.9% at γ=0.5). This comes from the dynamic feedback mechanism: the simulator uses γ_eff = γ_base * bridge(t), so effective γ drops as the bridge decays. At large γ_base, the system crosses 1/4 in fewer timesteps, giving the feedback less time to act. This is a numerical artifact, not physics.
-
-## 4. The Null Result
-
-### 4.1 Why Discrimination Fails
-
-The Lindblad equation is:
-
-```
-d(ρ)/dt = -i[H, ρ] + γ * L[ρ]
-```
-
-If γ is constant, the solution depends only on the product γ * t. This means t_cross = K / γ is a **mathematical identity**, not a physical constraint.
-
-Three candidate metric forms: [FALLEN]
-
-```
-Schwarzschild:   γ(r) = γ_0 / sqrt(1 - r_s/r)
-Inverse:         γ(r) = γ_0 * r_0/r
-Inverse-square:  γ(r) = γ_0 * (r_0/r)^2
-```
-
-At any given radius r, each produces some value of γ. The simulation only sees the γ value, not where it came from. A single quantum system at a single location cannot tell you the functional form of γ(r). It can only tell you the local value of γ.
-
-This is analogous to the equivalence principle (Einstein's observation that a local experiment cannot distinguish gravitational acceleration from uniform acceleration). You need **nonlocal** information (comparisons across space) to determine the metric. [FALLEN]
-
-### 4.2 What This Means
-
-The invariance γ * t_cross = K is real and confirmed. But it tells us that γ acts as a time scaling factor. It does NOT tell us what determines γ at a given location. These are two different questions:
+## The original question table
 
 | Question | Answer | Status |
 |---|---|---|
@@ -163,81 +85,23 @@ The invariance γ * t_cross = K is real and confirmed. But it tells us that γ a
 | Does γ encode gravitation? | Consistent | Structural match with GR | [FALLEN]
 | Does the framework derive γ(r)? | No | Requires additional structure |
 
-## 5. What Would Be Needed
+The gravitational consistency label in this historical table is not a
+current result. A single local-rate sweep does not specify a spacetime
+metric or test an equivalence principle.
 
-To derive the Schwarzschild metric from the framework, we need one of: [FALLEN]
+## Auxiliary finite observations
 
-### 5.1 Spatial Coupling (computationally testable)
+Bell− at γ = 0.05 gave t_cross = 0.773 and K = 0.0386 in the
+same symmetric feedback setting. Bell+ with XY and Heisenberg coupling
+gave the same reading because the entire named dephasing trajectory remains
+Hamiltonian-dead. This agreement does not establish state independence.
 
-Multiple qubits at different positions with position-dependent γ values. The Hamiltonian couples neighboring qubits, so the system "feels" the gradient of γ across space.
+With an Ising Hamiltonian and transverse field h = 0.5, the reported C,
+Ψ and CΨ curves oscillated and crossed 0.25 in both directions.
+That is a different dynamics book. It cannot be replaced by an invariant
+“decoherence envelope” without a separate derivation.
 
-**Requires**: Modified delta_calc with per-qubit γ_base values (γ_1, γ_2, ..., γ_N).
-
-**Tests**: Set γ values according to different candidate metrics at different "radii". Check whether the coupled system dynamics constrain the allowed γ gradients. If only Schwarzschild-like gradients produce self-consistent dynamics (e.g., the bridge between qubits at different γ converges to a specific form), that would discriminate.
-
-**Feasibility**: Moderate. Needs simulator modification but no new physics.
-
-### 5.2 Self-Consistency Equation (theoretical)
-
-If mass is concentrated R (collapsed possibility), and R determines C, and C determines γ, then:
-
-```
-γ(r) = F(R(r), C(r))  where  R = CΨ²
-```
-
-If this equation has a unique solution, it constrains γ(r).
-
-**Requires**: Formalization of what C(r) and R(r) mean for continuous fields, not just discrete qubits.
-
-**Tests**: Solve the self-consistency equation and check if the solution has Schwarzschild form.
-
-**Feasibility**: Difficult. Requires field-theoretic extension of the framework.
-
-### 5.3 Energy Argument (analytical)
-
-Gravitational time dilation arises from energy conservation: a photon leaving a gravity well loses energy. If γ encodes energy density: [FALLEN]
-
-```
-γ(r) / γ(inf) = E(r) / E(inf) = 1 / sqrt(1 - 2GM/rc^2)
-```
-
-**Requires**: Interpretation of γ as energy-related quantity within the framework.
-
-**Tests**: Derive the energy relation from R = CΨ² first principles.
-
-**Feasibility**: Speculative but elegant if it works.
-
-### 5.4 Information Density (speculative)
-
-The Bekenstein-Hawking formula (the result that a black hole's entropy equals its horizon area divided by four Planck areas) says S = A / (4 * l_P^2). Note the factor of 4. The framework has the bound C·Ψ <= 1/4. If γ is the rate of quantum information loss, and information density follows the Bekenstein bound near mass: [FALLEN]
-
-```
-γ(r) ~ information_density(r)
-```
-
-**Requires**: Explicit connection between γ, decoherence, and information loss.
-
-**Tests**: Does the 1/4 in C·Ψ <= 1/4 connect to the 4 in S = A/4?
-
-**Feasibility**: Highly speculative. But the coincidence of 1/4 appearing in both is suggestive.
-
-## 6. Auxiliary Findings
-
-### 6.1 State Independence
-
-Bell- with Heisenberg at γ=0.05 gives t_cross = 0.773, K = 0.0386, identical to Bell+. This is expected: dephasing (σ_z noise) treats both Bell states identically because both are maximally entangled.
-
-### 6.2 Hamiltonian Independence (Eigenstate Regime)
-
-Bell+ with XY Hamiltonian gives identical results to Bell+ with Heisenberg. Both Bell states are eigenstates of both Hamiltonians, so the unitary evolution produces only phases that don't affect concurrence. The dynamics are purely decoherence-driven.
-
-### 6.3 Hamiltonian Dependence (Non-Eigenstate Regime)
-
-Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, and C·Ψ. The concurrence drops to 0 and recovers repeatedly (Hamiltonian-driven oscillations competing with decoherence). C·Ψ crosses 0.25 multiple times in both directions. The simple t_cross analysis breaks down.
-
-**Implication**: K = γ * t_cross is well-defined only for monotonic C·Ψ trajectories. When the Hamiltonian drives the system, the "first crossing" time depends on the Hamiltonian frequency, not just γ. This does not invalidate the invariance; it means the invariance applies to the decoherence envelope, not the oscillatory dynamics.
-
-## 7. Summary
+## Original finite-run summary
 
 | What we tested | Result |
 |---|---|
@@ -247,19 +111,35 @@ Bell+ with Ising + transverse field (h=0.5) shows wild oscillations in C, Ψ, an
 | Is K state-dependent? | NO (Bell+ = Bell- for symmetric noise) |
 | Is K Hamiltonian-dependent? | NO for eigenstates, UNDEFINED for driven systems |
 
-**The experiment confirms the invariance law to high precision but honestly reports that metric discrimination requires additional structure beyond what the current simulator provides.**
+The unqualified state/Hamiltonian and “undefined” glosses in this table are
+historical claims, not the current conclusion.
 
-**UPDATE**: The self-consistency approach (Path 5.2) succeeded. See [Self-Consistency: Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) (Tier 4, not restored). [FALLEN]
+<!-- CROSSING-INTERPRETIVE -->
 
-**UPDATE 2026-02-18**: K-invariance has been extended to all three crossing bridges (concurrence K=0.039, mutual_info K=0.033, correlation K=0.072; all three are the February tool's feedback-model readings, the standard-Lindblad values being 0.03596 / 0.02966 / 0.07192). More importantly, K-invariance is now understood as a consequence of Lindblad scaling symmetry τ = γ·t, not a specific property of the ¼ boundary. See [Crossing Taxonomy](CROSSING_TAXONOMY.md).
+**Interpretive invitation, not a result:** The falling-gravity question was
+whether local rates could be glued into a spatial picture. Candidate forms
+such as γ₀/√(1−r_s/r), γ₀r₀/r and γ₀(r₀/r)² suggested different
+geometries. A local γ sweep cannot choose among them. Neither a mass field
+nor a connection between dephasing and gravitational time has been supplied.
 
-## 8. Recommended Next Steps
+The conditional self-consistency story in
+[Self-Consistency: Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md)
+and its coupled-chain falsification remain part of that research trail.
+The quarter in the recurrence can prompt a comparison with other appearances
+of one quarter; a resemblance does not derive a horizon, entropy law or
+cosmological event.
 
-1. **Immediate**: Implement per-qubit γ in delta_calc (Path 5.1)
-2. **Medium-term**: Explore self-consistency equation for field-theoretic C(r) (Path 5.2)
-3. **Long-term**: Investigate 1/4 connection to Bekenstein-Hawking (Path 5.4)
+<!-- CROSSING-CURRENT -->
 
----
+## The surviving result
 
-*Previous: [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md), γ as local time rate*
-*See also: [Boundary Navigation](BOUNDARY_NAVIGATION.md), the 1/4 crossing observation*
+The [two-book producer](../simulations/crossing_taxonomy_books.py) reconstructs
+the five scalar bridges on the Hamiltonian-dead Bell+ family. At γ = 0.05,
+feedback concurrence gives t ≈ 0.7735 and clean concurrence t ≈ 0.7192.
+The other clean K values are about 0.02966 and 0.07192 for mutual
+information and correlation; feedback gives about 0.03265 and 0.07192.
+These are bridge- and book-specific values.
+
+The unresolved spatial question is a model-building question. The finite
+rows above establish no universal Hamiltonian-independent envelope and no
+γ(r) constraint.

@@ -1,4 +1,9 @@
+<!-- QUARTER-CURRENT -->
 # Analytical Formulas Reference
+
+Current reading: this is a formula registry, not a single physical narrative.
+Quarter-valued entries are algebraic or named-model objects with the scope
+stated in their individual rows.
 
 **Status:** Living formula registry. Each formula carries its own tier label.
 **Date:** March 31, 2026, last refreshed 2026-09-10 (the change history lives in git)
@@ -654,20 +659,22 @@ numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
 
 ---
 
-## Q-Factor and V-Effect (replace resonator analysis)
+## Q-factor and F6 Q-edge gain (replace within-N resonator analysis)
 
-### F6. V-Effect gain (Tier 1-2, verified N=2-6)
+### F6. Q-edge gain (historical alias: V-Effect gain) (Tier 1-2, verified N=2-6)
 
     V(N) = 1 + cos(pi/N) = 2*cos^2(pi/(2N))
 
-Q-factor amplification from coupling. γ-independent (cancels in ratio).
+Within-N edge-to-mean Q-factor ratio. It is γ-independent because γ cancels
+in this ratio; it does not say that coupling created either Q-factor and is
+separate from the finite V-Effect census.
 For N=5: (5+sqrt(5))/4 = 1.80902. For N→∞: V = 2 (saturation).
 Under non-uniform γ: applies only to the extremal (best-Q) mode.
 
 **Valid for:** Heisenberg chain, Z-dephasing, all N.
 **Physically validated:** proton water chain N=1-5, machine-precision
 match ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
-**Replaces:** paired Liouvillian diagonalization for V-Effect measurement.
+**Replaces:** paired Liouvillian diagonalization for this within-N Q-edge ratio.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
 ### F7. Q-factor spectrum (Tier 1, corollary of D10)
@@ -771,75 +778,70 @@ Platform-independent. Bell states: ~10x entanglement penalty.
 **Replaces:** CΨ(t) trajectory simulation for crossing time.
 **Source:** [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md)
 
-### F13. r* threshold (Tier 2-3, 24,073 records)
+### F13. r* threshold (Tier 2-3, calibration-model proxy)
 
     r* = T2 / (2*T1) = 0.2128
 
-Separates crossers from non-crossers. Precision 0.000014. Zero false
-positives across 133 qubits, 181 days.
+Within the same-equation, self-classifying calibration-model proxy, this
+threshold partitions the model output: 2,417 / 24,073 proxy-below rows, and
+112 / 133 histories contain at least one proxy-below row. No tomography was
+performed for these calibration rows. The classifications are not observed
+crossing frequencies and not a false-positive validation.
 
 **Valid for:** single qubit, amplitude damping + dephasing, T2echo basis.
-**Replaces:** CΨ(t) simulation for crossing prediction per qubit.
-**Source:** [IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)
+**Replaces:** repeated CΨ(t) evaluation inside this proxy only; it does not
+replace tomography or predict observed crossings per qubit.
+**Source:** [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md),
+[IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)
 
-### F14. K-invariance (Tier 2, Lindblad scaling)
+<a id="f14-k-invariance-tier-2-lindblad-scaling"></a>
 
-    K = gamma * t_cross = constant per bridge type
+<!-- F14-CURRENT -->
 
-K_concurrence = ln(4/3)/8 = 0.03596. K_MI = 0.02966. K_correlation = 0.07192.
-(Exact standard-Lindblad values; the February tool's feedback-model
-readings were 0.039 / 0.033 / 0.072, see the resolved note in the
-source doc and simulations/crossing_taxonomy_books.py.)
+### F14. K-invariance (Tier 2, fixed-book scaling)
 
-The concurrence value has a closed form and is not a decimal:
-**K_concurrence = ln(4/3)/8 = 0.035960259...**, so write the exact
-expression wherever the word "exact" is attached. Which C is meant decides
-the number, and three coexist for this one state and channel: the Wootters
-concurrence gives ln(4/3)/8, the framework's own CPsi = f(1+f^2)/6 gives
-0.0374 as F25 prints it, 0.03735 unrounded ([F25](#f25), Tier 1 proven), and the February
-tool's feedback model on the concurrence book gives 0.0387. The
-discriminator is in [GLOSSARY.md](GLOSSARY.md), entry 0.036/gamma.
-Standard Lindblad time-rescaling (τ = γt), not deep physics.
+    K = gamma * t_cross = constant within a fixed dimensionless evolution book.
 
-**Scope note (2026-08-29).** The "Valid for" line below is too wide as written.
-The derivation in [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
-reaches K-invariance through "all observables depend on τ = γt", and that step
-is false in general: the Lindblad generator's scaling symmetry is **joint**,
-L(λJ, λγ) = λ·L(J, γ), so holding J while sweeping γ moves Q = J/γ. Measured
-failing on the same chain at fixed J in
-[γ–Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md), where the tau
-collapse fails on all five observables, the concurrence spread reaching 0.861. What carries the step for the K values above is the STATE: Bell⁺ sits in
-a sector the Hamiltonian cannot reach: Bell⁺ is an eigenstate of
-J(XX+YY+ZZ), the commutator is exactly zero entry for entry, and Z-dephasing
-maps that manifold into itself (only ρ₀₃ decays, the diagonal is frozen), so J
-is absent from the trajectory at every time and not merely at t = 0. Its
-observables are therefore functions of τ alone, and its K reproduces the exact
-closed form ln(4/3)/8 = 0.035960 at γ = 0.02, 0.05, 0.10 with 0.0000% spread,
-crossing the threshold exactly once at each rate. Whether K actually MOVES off
-that sector is untested here: a fair test needs a state above the threshold
-that crosses once, and the two candidates tried on 2026-08-29 (|01⟩, and
-(|00⟩+|11⟩+|01⟩)/√3) cross it repeatedly, so neither carries a first crossing.
-**Watch the book:** 0.035960 is the Wootters-concurrence bridge; the same
-state in the purity bridge gives F25's 0.03735, and the paragraph above is
-about exactly that confusion. Gate:
-[`simulations/gamma_unit_scaling_gate.py`](../simulations/gamma_unit_scaling_gate.py)
-part F3 (concurrence book, bisected) and part F (the τ collapse itself, read on
-purity: 6.7·10⁻¹⁶ for Bell⁺ against 4.6·10⁻² for |01⟩ at fixed J).
+Choose the bridge/readout, then the dynamics, then the scalar equation
+C(f)f/3=1/4. For Bell+ under isotropic Heisenberg coupling and equal local
+Z-dephasing, the entire trajectory is Hamiltonian-dead. In the clean linear
+Lindblad book f=exp(-4 gamma t): concurrence gives K=ln(4/3)/8=0.035960259...,
+the rescaled-MI bridge gives K≈0.02966, and ZZ correlation gives K=ln(4/3)/4≈0.07192.
+These finite values belong to the stated bridges; they are not physical
+observer-event times. The two other bridges in the catalogue never cross.
 
-**Interpretation:** In the [optical cavity analogy](../experiments/OPTICAL_CAVITY_ANALYSIS.md),
-γ is read as external illumination and `K=γt` as exposure. The invariance in
-this entry belongs to the Hamiltonian-blind Bell+ sector described above; it
-is not a general trade between illumination and "experienced duration."
+The purity-times-l1 readout is a different book: F25's root
+f(1+f²)=3/2 gives K≈0.03735 (printed 0.0374). The retired nonlinear
+concurrence-feedback dynamics γ_eff=γC(f) gives K=(2/√3-1)/4≈0.03868.
+Its historical three-value shorthand was 0.039 / 0.033 / 0.072. Those old
+rounded values are not the clean-Lindblad constants.
 
-**Connection to Absorption Theorem:** the dissipator charges `2γ` per X/Y
-factor. Multiplying by time makes `K=γt` dimensionless, but the theorem does
-not make it a universal total dose or parameter-independent crossing value.
-See [K-Dosimetry](../experiments/K_DOSIMETRY.md).
+**Valid for:** a fixed dimensionless generator/evolution law, initial state,
+readout, target and crossing convention. A gamma-only sweep meets that condition
+on this Hamiltonian-dead Bell+ trajectory. In general the generator scaling is
+joint: L(aJ,aγ)=aL(J,γ); sweeping γ at fixed J changes Q=J/γ. No universality
+across states, channels, Hamiltonians or spatial profiles follows.
 
-**Valid for:** a state whose sector is blind to the Hamiltonian (Bell⁺ under
-Heisenberg + Z-dephasing is the measured case); any bridge metric. **Not** any
-Lindblad system: see the scope note above.
-**Replaces:** multi-γ parameter sweeps for crossing time.
+**Positive arm and boundary:** [gamma_unit_scaling_gate.py](../simulations/gamma_unit_scaling_gate.py)
+F3 bisects the Wootters-concurrence crossing at γ=0.02,0.05,0.10, finds one
+crossing at each and K=ln(4/3)/8 with 0.0000% printed spread. Part F compares
+purity collapse: 6.7×10⁻¹⁶ for Bell+ versus 4.6×10⁻² for |01⟩ at fixed J.
+The latter is a gamma-only-scaling negative control, not a second matched
+single-crossing arm. A first crossing can be defined for an oscillatory curve
+once the convention is stated; repeated crossings do not justify a
+state-independent K.
+
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** The [optical-cavity picture](../experiments/OPTICAL_CAVITY_ANALYSIS.md)
+may call gamma illumination and K exposure. It does not derive experienced
+duration or a universal absorption dose. The exact dissipator charge 2γ per
+X/Y factor is a different object; multiplying it by time does not establish
+a state-independent crossing coefficient.
+
+<!-- F14-CURRENT -->
+
+**Replaces:** repeated gamma sweeps only within the fixed book just specified.
 **Source:** [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
 
 ### F15. θ compass (Tier 2)
@@ -852,7 +854,7 @@ Angular distance from CΨ = 1/4 boundary. θ = 0 at crossing.
 **Replaces:** nothing directly, but provides geometric intuition.
 **Source:** [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md)
 
-### F24. Generalized crossing equation (Tier 1, algebraic + hardware-validated)
+### F24. Generalized crossing equation (Tier 1, algebraic; one-run fitted comparison)
 
     C   = 1 - b^r + b^{2r}/2 + b^2/2
     Psi = b
@@ -871,8 +873,11 @@ Polynomial approximation (max error < 0.001):
 | r = 0.5    | 0.950  | T1 = 2*T2        |
 | r = 1      | 1.141  | T1 = T2          |
 
-Hardware validated: IBM Torino qubit 52 (MAE = 0.053 with fitted T2*).
-The 1/4 crossing emerges from a global fit (1/4 was not a fit target).
+One-run fitted comparison: IBM Torino qubit 52 Model 3 fits T₁ and T₂ freely
+across the same 25 tomography points (MAE = 0.053). Its fitted curve crosses
+1/4; 1/4 was not a fit target. This is a descriptive feature of the
+same fitted record, not independent validation, and it does not validate the
+model outside this run.
 
 **Valid for:** single qubit |+> under combined T1 + T2* decay.
 **Replaces:** F12 when T1 is finite; numerical CΨ(t)
@@ -957,34 +962,27 @@ reproduces to 8e-16, against u(1 + u²)/6 off by 0.167.
 **Replaces:** per-channel crossing time derivation.
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
-### F28. Fixed-point absorber theorem (Tier 1 for physical noise; general-CPTP version FALSE)
+### F28. Conditional fixed-point crossing (Tier 1 implication)
 
-    CPsi(rho*) = 0    for physical noise channels (unital / local / Pauli / amplitude-damping)
+    rho(t) -> rho*  and  CPsi(rho*) < 1/4
+    => there is T such that CPsi(rho(t)) < 1/4 for every t >= T
 
-Proven analytically:
-- Case A: unital maps (rho* = I/d, CΨ = 0)
-- Case B: local channels (rho* computational-basis-diagonal, CΨ = 0)
+This is continuity, conditional on convergence to the stated target. If the trajectory starts above 1/4,
+it crosses downward at least once; it need not cross only once or move monotonically. Named basis-aligned
+T1/T2/depolarizing models can use the implication only after their convergence and diagonal target have
+been established. A diagonal target has L₁=0 and hence CΨ=0.
 
-Consequence: for physical noise, CΨ = 1/4 is an eventual absorber. Every
-initial state with CΨ > 1/4 eventually crosses below 1/4.
-
-**SCOPE-RETRACTED 2026-06-22 (deep review).** The general "CPsi(rho*) < 1/4 for
-ALL primitive CPTP maps" is FALSE. Counterexample: ε(ρ) = (1−p)ρ + p·Tr(ρ)·σ with
+The former “all primitive CPTP maps” and broad “physical noise” absorber readings are false. Counterexample:
+ε(ρ) = (1−p)ρ + p·Tr(ρ)·σ with
 σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 is primitive (unique fixed point, second eigenvalue
 1−p < 1) and full-rank, yet CΨ(σ) = 0.2935 > 1/4 in the proof's own metric
 CΨ = Tr(ρ²)·L₁/(d−1), and iterating from Bell+ never crosses below 1/4. The old
 "100 random maps, max 0.138" is a Ginibre n_kraus=4 sampling artifact (the same
-sweep at n_kraus=2 violates ~8.5%). The crossing is a property of computational-
-basis-aligned physical noise (fixed point diagonal in the computational basis,
-L₁ = 0, so CΨ = 0), not of separability, locality, or primitivity. A separable
-product state |+⟩ ⊗ |+⟩ has CΨ = 1; the operative axis is computational-basis
-coherence, which CΨ measures. Verifier: simulations/review2_A5_subsystem.py.
+sweep at n_kraus=2 violates ~8.5%). Separability, locality, and primitivity do not bound CΨ: the separable
+product |+⟩⊗|+⟩ has CΨ=1. Verifier: `simulations/review2_A5_subsystem.py`.
 
-**Valid for:** physical noise channels (unital / local / Pauli / amplitude-damping),
-2 qubits. NOT valid for general primitive CPTP maps.
-**Replaces:** per-channel verification that a physical-noise fixed point sits at CΨ = 0.
-**Hardware:** the physical-noise 1/4 crossing is IBM-confirmed (cusp cluster:
-experiments/CRITICAL_SLOWING_AT_THE_CUSP.md, experiments/IBM_RUN3_PALINDROME.md).
+**Valid for:** any continuous trajectory with the two displayed hypotheses, in any finite dimension.
+**Does not replace:** the generator-specific convergence and target calculation.
 **Source:** [Subsystem Crossing Proof](proofs/PROOF_SUBSYSTEM_CROSSING.md)
 
 ---
@@ -1000,20 +998,19 @@ Boundary at CΨ = 1/4 (discriminant of fixed-point equation).
 
 **Source:** [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)
 
-### F17. CΨ monotonicity (Tier 1, proven for N=2)
+### F17. CΨ dynamics boundary (historical monotonicity index; corrected)
 
-    dCPsi/dt < 0  for all local Markovian channels (2-qubit)
+The universal pointwise, forward-invariant/absorbing, and local-control/trajectory package is false. Exact
+two-qubit local-Markov examples give CΨ'(0)=+1/6, a local Hadamard changes CΨ from 0 to 1/3, an active Z
+pulse changes the following derivative, and one fixed local semigroup crosses upward through 1/4.
 
-Envelope theorem for any 2-qubit state (N=2): 300 random CPTP maps, 0
-exceptions; CΨ is Pauli-invariant (DD cannot change it). The N≥3 FULL-state
-envelope is OPEN and genuinely RISES at N≥4 strong coupling (the internal
-J-coupling is the Part-6 coherence injector; live `EnvelopeTheoremWitness`,
-arc `envelope_n4_rise`), the "N=3-5" checks were subsystem pairs, not the
-full-state envelope. The boundary is charted
-(`experiments/ENVELOPE_RISE_BOUNDARY.md`, `EnvelopeBoundaryTests`): a pure
-(N, Q=J/γ) observable (the J- and γ-sweeps collapse, certified bit-identical),
-an N≥4 floor (N=3 never rises, Q_c(3)=∞) times a threshold Q_c(N) that climbs
-with N (Q_c(4)≈27, Q_c(5)≈45).
+What remains Tier 1 here is smaller: the named Bell+ formulas F25–F27; instantaneous N-qubit Pauli
+invariance; the algebraic quarter owned by F16; and F28's conditional convergence implication. The old
+autonomous N=2 successive-local-maxima claim is unproved: these exact examples do not settle it.
+
+`EnvelopeTheoremWitness` is now a finite atlas. Named N=4/N=5 rows resolve rises, one N=3/Q=2000 row
+resolves none, and one same-(N,Q,K) pair agrees to six decimals. Samples establish no all-Q/all-N boundary,
+absence theorem, or mechanism; `envelope_n4_rise` remains open.
 
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
@@ -1022,7 +1019,8 @@ with N (Q_c(4)≈27, Q_c(5)≈45).
     Σγ_crit / J = 0.00249 (|+⟩^N product state, mean over N = 2-5)
     Σγ_crit / J = 0.00038 (Bell, N = 2; no threshold exists for GHZ at N ≥ 3)
 
-Below: no fold, CΨ oscillates forever. Above: CΨ crosses 1/4 irreversibly.
+In the named sampled windows, rows below and above this preparation-dependent threshold showed different
+crossing behavior. “Irreversible” does not follow from the threshold scan.
 The producer gives max/min = 1.0218 over N = 2-5 for |+⟩^N, so the
 product-state threshold is set by the preparation rather than by the chain
 length over that range; beyond N = 5 it is not measured.
@@ -1197,17 +1195,28 @@ the stated comparison, not a global optimum.
 channel capacity analysis from scratch.
 **Source:** [Gamma as Signal](../experiments/GAMMA_AS_SIGNAL.md)
 
-### F31. Relay protocol MI bound (Tier 2, N=11)
+<!-- CROSSING-CURRENT -->
 
-    MI improvement = +83%    (relay + 2:1 coupling vs passive)
+### F31. Relay protocol MI comparison (Tier 2, finite N=11 run)
 
-Six relay stages, each t_stage = K/gamma. Receiving qubits get
-10x noise reduction during their reception phase. Combines three
-results: K/gamma timing (F14), quiet receiver (F29),
-and 2:1 impedance matching.
+    100*(0.131700/0.071576-1) = 84.0002235386...%: about +84.0%.
 
-**Valid for:** N=11 Heisenberg chain, Z-dephasing, Bell pair initial.
-**Replaces:** passive propagation baseline for long chains.
+The stored six-decimal denominator is the passive sampled maximum at t=4.00;
+the numerator is the relay+2:1 final value at integrated t=4.50.
+This is a finite unmatched-time, unmatched-dose comparison, not an MI bound.
+
+Six stages request nominal 0.78 each (4.68 total, historically printed t=4.7).
+The integer loop executes 15×0.05=0.75 each, 90 RK4 updates and 4.50 total.
+This is a historical heuristic, not F14 or palindrome-derived transfer timing.
+
+Statistic-attached exposures: **2.200 at t=4.00 versus 2.17125 at t=4.50**.
+The separate equal-time counterfactual at 4.50 is **2.475 versus 2.17125**;
+it is not the denominator book for about +84.0%. The historical coarse +83%
+comes only from 0.132/0.072. Neither the old relay-only +18% nor the total
+isolates temporal versus spatial causes, and no optimization is established.
+
+**Valid for:** the stored N=11 Heisenberg/Z-dephasing Bell-on-vacuum run.
+**Replaces:** no passive baseline without a controlled follow-up.
 **Source:** [Relay Protocol](../experiments/RELAY_PROTOCOL.md)
 
 ### F32. Withdrawn eigenvector-coordinate optimization (N=3)
@@ -1337,7 +1346,7 @@ density of states. Max frequency error < 5e-9.
 **Valid for:** Heisenberg chain, the (0,1) coherence block, large N.
 **Replaces:** numerical mode density estimation.
 
-### D2. V-Effect = Q_max / Q_mean (from F6 + F7) [VERIFIED]
+### D2. F6 Q-edge gain = Q_max / Q_mean (from F6 + F7) [VERIFIED]
 
     V(N) = Q_max / Q_mean = (1 + cos(pi/N)) / 1
 
@@ -1692,33 +1701,37 @@ typed claim [`F49NonUniformCrossTermClaim`](../compute/RCPsiSquared.Core/F1/F49N
 
 ---
 
-## Cockpit and Diagnostics (replace full tomography)
+## Cockpit and Diagnostics (finite simulated dashboard; hardware cost open)
 
-### F51. Decoherence cockpit: 3-observable reduction (Tier 2, verified N=2-5, IBM-validated)
+### F51. Decoherence cockpit: PCA of selected simulated features (Tier 2, finite N=2-5)
 
-    n_eff = 3    (Purity, Concurrence, Ψ-norm)
-    coverage = 88-96%    (of trajectory variance, via PCA)
-    cost = 3 measurements per pair    (vs 4^N for full tomography)
+    n_eff = 3 PCs
+    coverage = 88-96% of selected simulated dashboard variance
+    hardware measurement cost = not established
 
-PCA selects automatically which observable is PC1: Concurrence
-dominates in sparse topologies (chains, stars at small N), Purity
-dominates in dense topologies (rings, complete, chains at large N).
-The effective dimensionality n95 grows as ~N, but the first 3 PCs
-always capture 88-96%. Two practical regimes: monitoring (3 PCs,
-88-96%) and full diagnostics (~N PCs, 95%).
+Across the selected simulated feature panels, PCA chooses different leading
+loadings for different finite topologies. Purity, Concurrence, and Ψ-norm are
+computed features; this PCA does not turn each one into a direct hardware
+measurement or establish a three-setting protocol.
 
-θ is the most sensitive instrument near the ¼ boundary: 1.68×
-amplification over CΨ under concentrator optimization, because
-the arctan mapping amplifies small CΨ changes near ¼.
+The displayed N=2-5 panels put 88-96% of their variance in the first three
+PCs, while reaching 95% takes roughly N PCs on that finite sample. Whether
+this yields a cheaper monitoring protocol remains open.
 
-**Hardware validation:** IBM Torino Q52, CΨ = ¼ crossing predicted
-at 114.7 μs, measured at 115.0 μs (0.3% error). Selective DD beats
-uniform DD by 3.2× in mutual information on 5-qubit chain.
-**Valid for:** Heisenberg chain, Z-dephasing and depolarizing, N=2-5,
-9 topologies tested.
-**Replaces:** full quantum state tomography for decoherence monitoring.
-**Caveat:** Concurrence (PC1 proxy, 57% variance) never validated on
-a qubit pair. Single-qubit instruments consistent, 2-qubit untested.
+Among three equal-budget N=5 noise profiles, θ has the largest displayed
+relative Edge/Uniform change, 1.68×. Its nonlinear map from CΨ magnifies
+changes near ¼; this finite comparison does not establish θ as an optimal
+hardware objective, isolate a cause, or certify a concentrator mechanism.
+
+**Hardware comparison:** Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The legacy 115.0-versus-114.7 comparison recomputed the same
+hardware record; it was not an independent prediction. The separate
+5-qubit run found selective DD 3.2× above uniform DD in mutual information.
+**Finite scope:** Heisenberg-chain and related simulated dashboards, N=2-5,
+with the hardware evidence limited to the stated observables and runs.
+**Scope:** this does not replace tomography; a hardware monitoring protocol and its cost
+remain unestablished.
+**Caveat:** Concurrence is not validated on a qubit pair; the available
+single-qubit readings do not supply that missing two-qubit validation.
 **Source:** [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)
 
 ### F52. Thermal oscillating-count census (Tier 2, numerical N=4)
@@ -1758,16 +1771,16 @@ cross-references.*
 ### F55. Absorption dose K_death (Tier 1 above Q*_gap(N), from D6)
 
     K_death = ln(10) = 2.303    (dose for 99% absorption)
-    K_death / K_fold ~ 62       (ratio to CΨ = ¼ crossing dose)
+    K_death / K_final,Z ~ 62    (ratio to Bell+/Z final stay-below crossing dose)
     Immortal modes = N + 1      (zero absorption rate, all N)
 
-K_fold is the dose K = gamma*t at which CPsi crosses 1/4, read off the F25
+K_final,Z is the Bell+/Z final stay-below crossing dose K = gamma*t, read off the F25
 closed form for CPsi(t): f*(1 + f*^2) = 3/2 gives CPsi = 1/4 exactly, at
-K_fold = 0.03735. So K_death / K_fold = 2.302585 / 0.03735 = 61.65. The fold
+K_final,Z = 0.03735. So K_death / K_final,Z = 2.302585 / 0.03735 = 61.65. This crossing
 is EARLY and the death dose is nearly two orders later, which is the point:
 CPsi crosses 1/4 long before the slowest mortal mode is spent.
 **Scope of the ratio:** K_death is N-, gamma- and topology-independent, but
-K_fold is F25's, whose validity line is Bell+ under Z-dephasing at N=2. So the
+K_final,Z is F25's, whose validity line is Bell+ under Z-dephasing at N=2. So the
 ratio is a Bell+ number; it is the dose scale of THAT initial state measured
 against a universal death dose, not an N-independent constant.
 
@@ -2097,7 +2110,7 @@ equivalently in Liouvillian-eigenvalue units:
 
     α = 2γ_B · |a_B|²           (Liouvillian decay constant, α = -Re(λ))
 
-where a_B is the B-site amplitude of the single-excitation Hamiltonian eigenvector. The factor of 2 between the two forms is the standard QM convention: ρ_{ij}(t) ∝ exp(-γ_eff·t) corresponds to a Liouvillian eigenvalue λ = -2γ_eff. Both express the same content; choose the convention that fits the surrounding context. This is the Absorption Theorem (F1/AT) applied to the single-excitation sector: α = 2γ_B · ⟨n_XY⟩_B. The identity α = 2γ_B · ⟨n_XY⟩_B holds to machine precision ([`factor_two_clarification.py`](../simulations/factor_two_clarification.py)); the second step ⟨n_XY⟩_B = |a_B|² with a_B read off the *Hamiltonian* eigenvector is first-order in γ_B/J (see F65, "Perturbative nature": the full-Liouvillian rate shifts by O((γ_B/J)²)). The exact form at any γ_B replaces the H-eigenvector by the eigenvector of the coherence-sector Liouvillian itself: −Re(λ_k) = 2γ_B·|v_k(B)|² with v_k the L_coh eigenvector, mode by mode, max relative error 6.2·10⁻¹³ across chain, ring, star (hub and leaf), Y-junction, and K₅ at the swept γ_B = 0.01 (the identity itself is algebraic in γ_B) ([EQ-015 closure](../review/EMERGING_QUESTIONS.md#eq-015)). Two objects share the name a_B; the perturbative one is the H-eigenvector reading.
+where a_B is the B-site amplitude of the single-excitation Hamiltonian eigenvector. The factor of 2 between the two forms is the standard QM convention: ρ_{ij}(t) ∝ exp(-γ_eff·t) corresponds to a Liouvillian eigenvalue λ = -2γ_eff. Both express the same content; choose the convention that fits the surrounding context. This is the Absorption Theorem (F1/AT) applied to the single-excitation sector: α = 2γ_B · ⟨n_XY⟩_B. The identity α = 2γ_B · ⟨n_XY⟩_B holds to machine precision ([`factor_two_clarification.py`](../simulations/factor_two_clarification.py)); the second step ⟨n_XY⟩_B = |a_B|² with a_B read off the *Hamiltonian* eigenvector is first-order in γ_B/J (see F65, "Perturbative nature": the relative full-Liouvillian rate shift is O((γ_B/J)²), equivalently the absolute shift is O(γ_B³/J²)). The exact form at any γ_B replaces the H-eigenvector by the eigenvector of the coherence-sector Liouvillian itself: −Re(λ_k) = 2γ_B·|v_k(B)|² with v_k the L_coh eigenvector, mode by mode, max relative error 6.2·10⁻¹³ across chain, ring, star (hub and leaf), Y-junction, and K₅ at the swept γ_B = 0.01 (the identity itself is algebraic in γ_B) ([EQ-015 closure](../review/EMERGING_QUESTIONS.md#eq-015)). Two objects share the name a_B; the perturbative one is the H-eigenvector reading.
 
 γ_B appears as a constant prefactor. It is not diminished by intervening sites.
 
@@ -2120,49 +2133,55 @@ Derived from the 3×3 single-excitation Hamiltonian eigenvalues {0, ±√(J_SM²
 **Scripts:** [`primordial_gamma_analytical.py`](../simulations/primordial_gamma_analytical.py), [`primordial_gamma_stacking_4qubit.py`](../simulations/primordial_gamma_stacking_4qubit.py), [`factor_two_clarification.py`](../simulations/factor_two_clarification.py), [`f64_topology_scan.py`](../simulations/f64_topology_scan.py) (topology generalization).
 **Source:** [Primordial Gamma as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md), [F64 on non-chain topologies](../experiments/F64_TOPOLOGY_GENERALIZATION.md)
 
-### F65. Single-excitation spectrum of uniform open XX chain (Tier 1, proven, verified N=3..30)
+<a id="f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n3-30"></a>
+### F65. First-order endpoint-rate coefficient comb of the uniform open XX chain (Tier 1, proven, verified N=3..30)
 
-For the uniform open XX chain (all couplings J, N sites) with Z-dephasing at rate γ₀ on endpoint B = site N-1, the single-excitation dissipation rates are:
+For the uniform open XX chain with one dephased endpoint (all couplings J, N sites; Z-dephasing rate γ₀ at B = site N−1), define the exact first-order endpoint coefficient
 
-    α_k / γ₀ = (4 / (N+1)) · sin²(kπ / (N+1)),    k = 1, ..., N
+    a_k = (4/(N+1))·sin²(kπ/(N+1)),    k = 1, ..., N.
+
+The corresponding finite-coupling full-Liouvillian rate has the perturbative expansion
+
+    α_k^full = γ₀·a_k + O(γ₀³/J²),
+    α_k^full/γ₀ = a_k + O((γ₀/J)²).
 
 This is F64 evaluated on the analytically known eigenvectors ψ_k(i) = √(2/(N+1)) · sin(πk(i+1)/(N+1)) of the N×N tridiagonal single-excitation Hamiltonian. The endpoint amplitude |ψ_k(N-1)|² = (2/(N+1)) · sin²(kπ/(N+1)), and the Absorption Theorem gives α_k = 2γ₀ · |a_B|².
 
-**Properties:**
-- All α_k lie in \[0, 2γ₀\].
-- Internal symmetry: α_k = α_{N+1-k}, from sin²(kπ/(N+1)) = sin²((N+1-k)π/(N+1)). This mirror is within the single-excitation spectrum; the palindromic pairing α_a + α_b = 2γ₀ of F1 in general maps single-excitation modes to multi-excitation sectors.
-- Maximum rate: α_max / γ₀ = 4/(N+1) when N is odd (then k = (N+1)/2 is integer and sin² = 1 is attained exactly); when N is even the maximum lies strictly below 4/(N+1). The single-excitation sector never reaches 2γ₀ for N ≥ 2; its maximum decays as 4/(N+1) → 0 for growing N.
+**Properties of the first-order comb:**
+- All a_k lie in \[0, 2\].
+- Internal symmetry: a_k = a_{N+1-k}, from sin²(kπ/(N+1)) = sin²((N+1-k)π/(N+1)). This mirror is within the first-order single-excitation coefficient comb; the exact palindromic pairing α_a + α_b = 2γ₀ of F1 generally maps single-excitation modes to multi-excitation sectors.
+- Maximum coefficient: a_max = 4/(N+1) when N is odd (then k = (N+1)/2 is integer and sin² = 1 is attained exactly); when N is even the maximum lies strictly below 4/(N+1). The first-order single-excitation comb never reaches the coefficient 2 for N ≥ 2; its maximum decays as 4/(N+1) → 0 for growing N.
 
-**Niven rationality.** All α_k/γ₀ are rational if and only if N+1 ∈ {1, 2, 3, 4, 6}, i.e., N ∈ {0, 1, 2, 3, 5}. For all other N the values are algebraic irrationals (golden-ratio family at N=4,9; √2 family at N=7; general cyclotomic otherwise). This follows from Niven's theorem applied to α_k/γ₀ = (2/(N+1))·(1 − cos(2kπ/(N+1))):
-the rate is rational iff cos(2kπ/(N+1)) is rational, and for rational q the only rational
+**Niven rationality.** Exact Niven rationality belongs to the first-order coefficient comb, not to the finite-γ₀/J full-L rates. All a_k are rational if and only if N+1 ∈ {1, 2, 3, 4, 6}: in the physical F65 domain N ≥ 2 this means N ∈ {2, 3, 5}; the formal extension is N ∈ {0, 1, 2, 3, 5}. For all other N the comb contains algebraic irrational coefficients (golden-ratio family at N=4,9; √2 family at N=7; general cyclotomic otherwise). Rational and irrational coefficients can coexist: at N=7, a_2 = 1/4 and a_1 = 1/4 − √2/8. This follows from Niven's theorem applied to a_k = (2/(N+1))·(1 − cos(2kπ/(N+1))):
+the coefficient is rational iff cos(2kπ/(N+1)) is rational, and for rational q the only rational
 values of cos(qπ) are {0, ±1/2, ±1}. Every k clears that bar exactly when N+1 ∈ {1, 2, 3, 4, 6}
 (the criterion is on cos(2rπ), so N=3 qualifies via cos(π/2)=0 even though sin(π/4) is irrational).
 
-**Verified values:**
-- N=3: α/γ₀ ∈ {1/2, 1, 1/2}
-- N=4: α/γ₀ ∈ {0.276393, 0.723607, 0.723607, 0.276393} (algebraic irrationals from sin²(π/5), sin²(2π/5); golden-ratio family)
-- N=5: α/γ₀ ∈ {1/6, 1/2, 2/3, 1/2, 1/6}
+**Verified coefficient values:**
+- N=3: a ∈ {1/2, 1, 1/2}
+- N=4: a ∈ {0.276393, 0.723607, 0.723607, 0.276393} (algebraic irrationals from sin²(π/5), sin²(2π/5); golden-ratio family)
+- N=5: a ∈ {1/6, 1/2, 2/3, 1/2, 1/6}
 
-**Band-edge companion (the IM-face of the same Niven root).** The rate criterion above is the *real* (decay) face, on the angle 2π/(N+1). The *imaginary* (frequency) face is the band edge ω/J = 2cos(π/(N+1)) (F2b corollary / TopologyBandEdge), on the angle π/(N+1): it is rational only for N ≤ 2 (last N=2 = 1), a single quadratic surd a±√b for N ≤ 5 (√2, **φ**, √3 at N=3,4,5; φ = 2cos(π/5) the golden ratio), and algebraic degree ≥ 3 (first a cubic) from N=6, the exact degree being φ_euler(2(N+1))/2. So N=4 is the **first golden** on both single-excitation faces (the rates carry √5, the band edge *is* φ), while the V-Effect gain 1+cos(π/N) (a third face, angle π/N) has its golden shifted to N=5, see `docs/carbon/OFF_NIVEN_AS_WAVE_BREAKING.md`. The two SE cutoffs differ ({1,2,3,4,6} for the rates vs N+1≤6 for the band edge) because of the double angle; this is exactly why N=3's rate is rational while its band edge is √2. Gate-first sympy-exact verifier: `simulations/niven_rationality_root.py`; collected with the small-N anomalies in the `n3_special_cases` open arc.
+**Band-edge companion (the IM-face of the same Niven root).** The coefficient criterion above is the *real* (decay) face, on the angle 2π/(N+1). The *imaginary* (frequency) face is the band edge ω/J = 2cos(π/(N+1)) (F2b corollary / TopologyBandEdge), on the angle π/(N+1): its algebraic degree is at most 2 iff N ≤ 5. Within that range it is rational for N ≤ 2 (last N=2 = 1), and a single quadratic surd a±√b exactly for N ∈ {3,4,5} (√2, **φ**, √3; φ = 2cos(π/5) is the golden ratio). Its algebraic degree is ≥ 3 (first a cubic) from N=6, the exact degree being φ_euler(2(N+1))/2. So N=4 is the **first golden** on both single-excitation faces (the first-order comb carries √5, the band edge *is* φ), while the F6 Q-edge gain 1+cos(π/N) (historical alias: V-Effect gain; a third face, angle π/N) has its golden shifted to N=5, see `docs/carbon/OFF_NIVEN_AS_WAVE_BREAKING.md`. The two SE cutoffs differ ({1,2,3,4,6} for the coefficient comb vs the degree-at-most-two condition N+1≤6 for the band edge) because of the double angle; this is exactly why N=3's coefficient is rational while its band edge is √2. Gate-first exact verifier: the complete low-totient classification supplies the all-N cutoff, while the bounded SymPy minimal-polynomial cross-check through N=10 is a control (`simulations/niven_rationality_root.py`); collected with the small-N anomalies in the `n3_special_cases` open arc.
 
 **The road's velocity (2026-09-02).** The same comb appears a third time, as a
 derivative. Along F160's road (proof
 [PROOF_CRACKED_RING_EXACT_CURVE](proofs/PROOF_CRACKED_RING_EXACT_CURVE.md)), the open
 chain closed by a wrap bond of strength u·J, every chain level moves at first order by
 
-    dE_k/du |_{u=0} = 2·ψ_k(0)·ψ_k(N−1) = (−1)^{k+1} · α_k/γ₀        (units of J),
+    dE_k/du |_{u=0} = 2·ψ_k(0)·ψ_k(N−1) = (−1)^{k+1} · a_k        (units of J),
 
-so the rate a level pays under one dephased endpoint is, up to the chain reflection's
+so the first-order coefficient a level pays under one dephased endpoint is, up to the chain reflection's
 sign (F75's mirror sign η), the speed at which the wrap bond moves it, dE/du along the
 road and not F2b's group velocity dE/dk (Theorem G there, from the
 polynomial's derivative 2/P′(x_k) and from these eigenvectors, two routes to one
 number). Its first use is [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md):
 F129's collisions on the chain comb move at first order by the signed sums of these
-rates, and which survive is decided exactly there.
+coefficients, and which survive is decided exactly there.
 
-**Verified:** Formula matches the tridiagonal N×N single-excitation eigendecomposition to machine precision (max error 1.2 · 10⁻¹⁵) for N=3..30. All single-excitation rates confirmed present (to within O((γ₀/J)²) perturbative corrections, see below) in the full 4^N Liouvillian spectrum for N=3..7. Dynamical check at γ₀ = 0.01, where second-order shifts are ~10⁻⁶: formula predicts the decay rate of coherence operators ρ_k = |ψ_k⟩⟨0| under full Liouvillian propagation to within 10⁻⁴ relative error for all k at N=5. Asymptotic 1/(N+1)³ scaling of α_min verified; ratio to 4π²/(N+1)³ rises monotonically from 0.81 at N=3 to 0.99 at N=15.
+**Verified:** The coefficient formula matches the tridiagonal N×N single-excitation eigendecomposition to machine precision (max error 1.2 · 10⁻¹⁵) for N=3..30. The corresponding full-L rates were identified with relative O((γ₀/J)²) corrections for N=3..7. The γ₀ = 0.01 dynamical check predicts the decay rate of coherence operators ρ_k = |ψ_k⟩⟨0| under full Liouvillian propagation to within 10⁻⁴ relative error for all k at N=5. Asymptotic 1/(N+1)³ scaling of a_min was verified; its ratio to 4π²/(N+1)³ rises monotonically from 0.81 at N=3 to 0.99 at N=15.
 
-**Perturbative nature.** The formula is derived by applying the Absorption Theorem (AT) to single-excitation coherence operators |ψ_k⟩⟨vac|, treating them as decoupled Liouvillian right eigenvectors. This is exact to first order in γ₀/J. At finite γ₀ the Lindblad dissipator mixes |ψ_k⟩⟨vac| with other sectors, and the full-Liouvillian eigenvalue shifts by O((γ₀/J)²) relative to the formula. For γ₀/J = 0.05 and N=5, the relative shift is ≈ 4·10⁻³ (verified via full eigendecomposition in `palindromic_partner_f67.py`). The palindromic pairing F1 survives this shift exactly: α_b + α_p = 2γ₀ to machine precision, even as each individual rate deviates from its first-order value (see F68).
+**Perturbative nature.** The coefficient formula is derived by applying the Absorption Theorem (AT) to single-excitation coherence operators |ψ_k⟩⟨vac|, treating them as decoupled Liouvillian right eigenvectors. It gives the full-L rate only to first order in γ₀/J: α_k^full = γ₀·a_k + O(γ₀³/J²), equivalently α_k^full/γ₀ = a_k + O((γ₀/J)²). Thus the relative full-L rate shift is O((γ₀/J)²), equivalently the absolute shift δα_k = O(γ₀³/J²), and no exact finite-γ₀/J full-L rationality is claimed. For γ₀/J = 0.05 and N=5, the relative shift is ≈ 4·10⁻³ (verified via full eigendecomposition in `palindromic_partner_f67.py`). The palindromic pairing F1 survives this shift exactly: α_b + α_p = 2γ₀ to machine precision, even as each individual rate deviates from its first-order value (see F68).
 **Scripts:** [`single_excitation_spectrum.py`](../simulations/single_excitation_spectrum.py), [`f65_dynamic_verification.py`](../simulations/f65_dynamic_verification.py)
 **Source:** [Primordial Gamma as Framework Constant](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [The Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md)
 
@@ -3225,7 +3244,7 @@ Equivalently in Π²-class language (cf. F79, F85), using the bit_a/bit_b conven
 
 The trichotomy uses F1 as its **discriminator** (M as the test object), F49 / F85 as its **‖M‖² closed forms** (the latter generalising F49 to k-body), F78 + F79 as its **M-structure decomposition** (single-body additivity and 2-body Π²-block respectively), F80 as its **Π²-odd spectral identity** (Spec(M) = ±2i · Spec(H_non-truly)), F81 as its **Π · M · Π⁻¹ split** (M_anti = L_{H_odd}), F82 + F84 as its **T1 / thermal amplitude-damping corrections**, and F83 as its **anti-fraction closed form for mixed cases**. F87 is the entry point of the F-chain; F85 lifts the criterion to arbitrary k-body and propagates the rest of the chain accordingly.
 
-**Origin (2026-04-24 to 2026-05-03).** Three earlier observations converged on the trichotomy. (1) On 2026-04-24, commit 6e262ae assigned the registry slot F77 to the unrelated "Multi-drop MM(0) saturates at 1 bit" asymptotic, so F77 was already booked when the trichotomy was being developed. (2) On 2026-04-25, commit 95386cd added [V-Effect Fine Structure](../experiments/V_EFFECT_FINE_STRUCTURE.md): the V-Effect's 14-of-36 bond-pair Hamiltonians at N=3 were re-tested with both the strict operator equation and the eigenvalue-pairing test, splitting the 22 V-Effect-unbroken cases into 19 soft and 3 truly, giving the **14 hard / 19 soft / 3 truly** count over the 36 unordered bond-pair enumeration at N=3. (3) On 2026-04-26, commits 96ed6da and 6438fef extended Π-protected-observable testing to a separate 120-element unordered enumeration at N=4 and N=5, where the partition is **15 truly / 46 soft / 59 hard**, N-stable through N=3, 4, 5 (so the 36-enum and 120-enum are different sample spaces with internally consistent counts). Note that the two triples are conventionally written in opposite order, hard-first for the 36-enum and truly-first for the 120-enum. The truly counts are the ones the combinatorics pins: 3 = C(3,2) over {XX, YY, ZZ} for the 36-enum, and 15 = C(6,2) over the six two-site operators with #Y and #Z both even (II, IX, XI, XX, YY, ZZ) for the 120-enum, since a Hamiltonian is truly exactly when both of its terms are. ("Pair" here is a pair of Hamiltonian TERMS, not the repo's `Pair` object, which is a bare coherence |i⟩⟨j|.) (4) Commit 81caf67 (2026-04-27) derived the partition combinatorially from Pauli-pair compatibility rules (BPE membership, bit_a-partner conflicts, bond-flip / Z-align, Π-letter hierarchy), giving 36/36 agreement at N=3.
+**Origin (2026-04-24 to 2026-05-03).** Three earlier observations converged on the trichotomy. (1) On 2026-04-24, commit 6e262ae assigned the registry slot F77 to the unrelated "Multi-drop MM(0) saturates at 1 bit" asymptotic, so F77 was already booked when the trichotomy was being developed. (2) On 2026-04-25, commit 95386cd added [V-Effect Fine Structure](../experiments/V_EFFECT_FINE_STRUCTURE.md): the V-Effect census's 14-of-36 bond-pair Hamiltonians at N=3 were re-tested with both the strict operator equation and the eigenvalue-pairing test, splitting the 22 not-hard cases into 19 soft and 3 truly, giving the **14 hard / 19 soft / 3 truly** count over the 36 distinct unordered pairs of nine fully-lit bilinears. (3) On 2026-04-26, commits 96ed6da and 6438fef tested a separate alphabet of the 15 non-II two-site Pauli words. Its combinations with replacement give 120 entries, including 15 self-pairs, and the partition is **15/46/59 (truly/soft/hard)**, N-stable through N=3, 4, 5. The two triples are conventionally written in opposite order. The 15 truly entries are exactly the pairs with repetition from {IX, XI, XX, YY, ZZ}; the identity-only word II is not in this alphabet. ("Pair" here is a pair of Hamiltonian TERMS, not the repo's `Pair` object, which is a bare coherence |i⟩⟨j|.) (4) Commit 81caf67 (2026-04-27) derived the partition combinatorially from Pauli-pair compatibility rules (BPE membership, bit_a-partner conflicts, bond-flip / Z-align, Π-letter hierarchy), giving 36/36 agreement at N=3.
 
 The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc73a1pk4g`, observable ⟨X₀ Z₂⟩) measured Δ(soft − truly) = −0.722, matching the Trotter-n3 prediction of −0.723 (residual 0.001; the 0.0014 figure cited in the Confirmations registry is computed against an unrounded predicted value); see [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/). The classifier was extracted into a free function on 2026-04-30 (commit 23b2154) and given the filename `f77_trichotomy.py` after the function's existing internal label, even though the registry F77 slot was already occupied by MM(0). The dephase-axis extension (commit 435c4b2, 2026-05-01) generalised the classifier to X, Y, Z dephasing letters. F87 is the registry-formal entry for the trichotomy, filed retrospectively on 2026-05-03 alongside the typed `F87KnowledgeBase` cleanup that surfaced the F77/F87 naming collision.
 
@@ -3545,210 +3564,125 @@ i.e. **J is F71-anti-palindromic around its mean**. The full L operator generall
 
 **Anchor:** [`PROOF_F93_DETUNING_ANTI_PALINDROMIC.md`](proofs/PROOF_F93_DETUNING_ANTI_PALINDROMIC.md), [`F93DetuningAntiPalindromicSpectralInvariance.cs`](../compute/RCPsiSquared.Core/SymmetryFamily/F93DetuningAntiPalindromicSpectralInvariance.cs), `docs/SYMMETRY_FAMILY_INVENTORY.md`.
 
-### F94. Born deviation dominant-outcome coefficient: |0+0+⟩ N=4 Heisenberg + Z-deph (Tier 1 derived, Dyson sym3 = 8 bit-exact; 2026-05-16)
+<a id="f94"></a>
 
-**For the dominant outcome |00⟩ of pair (0,2) of |0+0+⟩ N=4 Heisenberg ring + Z-dephasing, the per-outcome Born-rule deviation in the deep perturbative regime is**
+### F94. N=4 ring dominant-outcome deviation coefficient (Tier 1, exact named Dyson coefficient; 2026-05-16)
 
-    Δ_|00⟩(Q, K) = (4/3) · Q² · K³ + O(Q³K⁴)
-    where Q = J/γ, K = γt, Δ_|00⟩ = P_lindblad(|00⟩) / P_unitary(|00⟩) − 1
+**Owned object — parentless exact formula.** For the named N=4 `|0+0+⟩` Heisenberg ring with uniform local Z-dephasing, reduce to pair `(0,2)` and its `|00⟩` outcome. With
 
-**equivalently in physical units:**
+    Δ_|00⟩ = P_L(|00⟩) / P_U(|00⟩) − 1,    Q = J/γ,    K = γt,
 
-    ΔP_|00⟩(J, γ, t) = (4/3) · J² · γ · t³ + ...
+the leading term is
 
-**Scope:** specific to (initial state |0+0+⟩, Heisenberg ring at N=4, Z-dephasing on all 4 sites, pair (0,2) reduction, |00⟩ outcome). The Q²·K³ shape is structurally universal for dominant outcomes (3rd-order time-dependent perturbation theory with 1 dissipator-vertex and 2 Hamiltonian-vertices); the coefficient 4/3 is setup-specific.
+    Δ_|00⟩ = (4/3) J²γt³ + unspecified higher-order remainder
+            = (4/3) Q²K³ + unspecified higher-order remainder.
 
-**Derivation (Tier 1):** the leading γ¹-coefficient of L³ in the time-Taylor expansion ρ(t) = ρ_0 + Lt·ρ_0 + L²t²/2·ρ_0 + L³t³/6·ρ_0 + ... is the symmetric ordering
+Here `P_U(|00⟩)=1+O(t²)`, so the same coefficient leads the absolute population difference `P_L-P_U`.
 
-    sym3 = L_H²·L'_dis + L_H·L'_dis·L_H + L'_dis·L_H²
+**Exact owner.** The term linear in γ and quadratic in J in `L³` is
 
-where L_H[ρ] = −i[H, ρ] and L'_dis[ρ] = Σ_l (Z_l ρ Z_l − ρ) is the γ-free dephasing operator. Direct evaluation of ⟨00|_pair Tr_{1,3}[sym3·ρ_0]|00⟩_pair at J=γ=1 yields **8 bit-exact**. With the t³/6 Taylor prefactor and P_unitary(0) = 1, the coefficient is **c = 8/6 = 4/3 bit-exact**.
+    sym3 = L_H² L'_dis + L_H L'_dis L_H + L'_dis L_H².
 
-**Numerical verification:** 16 (γ, J, t) configurations sampled in the deep perturbative regime gave c_empirical = 1.32992 ± 0.006, consistent with 4/3 = 1.3333 to 0.3%. Sampling deeper would close the residual; the symbolic derivation is the actual proof.
+For this state, ring, reduction and outcome, its projected integer is `8`. The Taylor denominator is `3!=6`, hence the coefficient is `8/6 = 4/3`. The 32 surviving Pauli-ordering contributions are a finer enumeration of that same named `sym3=8`; they are not a second source for the coefficient.
 
-**Qudit generalization (2026-06-17):** the faithful SU(d) lift (H = (J/4)Σλ^aλ^a Gell-Mann = (J/2)·SWAP dynamics; equidistant dephasing −2γ·Hamming; |+⟩ = (Σ_k|k⟩)/√d) gives the coefficient **c(d) = 4(d+2)(d−1)/(3d²)** (= 4/3 at d=2, 40/27 at d=3, peak 3/2 at d=4, → 4/3 as d→∞), gate-verified d=2..7 in [`simulations/f94_qutrit_born_mirror.py`](../simulations/f94_qutrit_born_mirror.py). This **refutes the "4/3 = a_{−1}/3 = d²/3" reading** (which would need c→3 at the qutrit): the (J/4) bond factor is the spin (1/2)² normalization (= 1/d² only at d=2), not the squared-dimension discriminant; F94's 4 is the setup-specific surviving-diagram count. See PROOF_F94 § Qudit generalization.
+**Scope boundary.** This calculation owns one leading coefficient in one setup. A vanishing lower-order term here does not rule out other powers, cancellations or zero coefficients for another state, Hamiltonian, topology, dissipator, reduction or outcome. No topology-independent remainder or coefficient follows. The remainder is deliberately left unspecified rather than assigned a monomial the calculation did not derive.
 
-**Born-rule generalization context:** this is the first Tier-1 closed form for a per-outcome Born deviation under the framework's Q-K-invariant convention (Universal Carrier). Generalizes BORN_RULE_MIRROR's R_i = C_i · Ψ_i² (Tier 2/3, Feb 2026) to a specific case with explicit C_i closed form. The Δ_i values for other outcomes of the same setup scale linearly in K (1st-order diagrams) rather than as Q²·K³; their coefficients are separately Tier-1-derivable via the same Dyson method.
+**Finite corroboration.** Sixteen small-parameter samples gave `1.32992 ± 0.006` against `4/3`; this is a floating reconstruction. Exactness comes from the integer/rational reduction above. A separate finite SU(d) continuation is useful as a counterexample to dimension-independent provenance, not as an extension of this F94 object.
 
-**The "8" structurally (bit-explained 2026-05-17):** direct enumeration of all 4·4·4·3·3·3 = 1728 (b₁, b₂, s, ord, c₁, c₂) sextuples in sym3 shows exactly **32 non-vanishing diagrams**, each contributing **1/4** in the J = γ = 1 normalization (raw Pauli value 4 per diagram, divided by the (J/4)² = 1/a_{−1}² = 1/16 Heisenberg coupling), so **8 = 32 × (1/4)**. The 32 split into 3 disjoint cells: 8 diagrams in (ord=1, XX, adjacent bonds sharing a kept-pair site) + 16 in (ord=2, XX, self ∪ adj-kept) + 8 in (ord=2, YY, self only); equivalently topologically: 16 self-bond-pair diagrams + 16 adj-bond-pair diagrams. Three structural rules govern survival: (1) only (X,X) and (Y,Y) component pairs (no cross, no ZZ); (2) only orderings 1 and 2 (L'_dis last gives zero); (3) adjacent bond pairs must share a kept-pair site (vertex 0 or 2), not a |+⟩ site (1 or 3). The coefficient reads: **4/3 = 32 / (a_{−1} · 3!) = 32 / (4 · 6) = 32/24** (the structural-count reading), equivalent to **4/3 = a_{−1} / 3** (the typed-anchor inheritance reading). See [`PROOF_F94 § Structural decomposition`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) for the cell table and [`simulations/born_rule_sym3_decomposition.py`](../simulations/born_rule_sym3_decomposition.py) for the enumeration script.
+**Anchors:** [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`born_rule_tier1_derivation.py`](../simulations/born_rule_tier1_derivation.py), [`born_rule_delta_dominant_coefficient.py`](../simulations/born_rule_delta_dominant_coefficient.py), and [`born_rule_sym3_decomposition.py`](../simulations/born_rule_sym3_decomposition.py). The discovery path remains in [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md).
 
-**Anchor:** [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`simulations/born_rule_tier1_derivation.py`](../simulations/born_rule_tier1_derivation.py), [`simulations/born_rule_delta_dominant_coefficient.py`](../simulations/born_rule_delta_dominant_coefficient.py), [`simulations/born_rule_sym3_decomposition.py`](../simulations/born_rule_sym3_decomposition.py) (bit-explained 32-diagram enumeration, 2026-05-17), [reflection: `ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Companion angle-side closed form (same cusp geometry, dual axis): [F95](#f95) θ(c) = arctan(√(4c − 1)).
+<a id="f95"></a>
 
-### F95. Angle emergence at quadratic discriminant zero: universal form of the θ-compass (Tier 1 derived, 4-line polynomial calculation; 2026-05-16)
+### F95. Positive-b real-quadratic root angle (Tier 1, exact formula; 2026-05-16)
 
-**For a monic quadratic <c>z² − 2bz + c = 0</c> with real c and finite b > 0, the principal angle of its upper-half-plane root (when the discriminant goes negative, c > b²) is:**
+**Owned object — parentless exact formula.** For the monic quadratic `z²−2bz+c=0` with finite b > 0 and real c, the principal angle of the upper-half-plane root is
 
-    θ(c; b) = arctan( √(c/b² − 1) )    for c > b²
-    θ = 0                              for c = b²  (degenerate double root at z = b)
-    θ undefined                        for c < b²  (real distinct roots, no complex angle)
+    θ(c;b) = arctan(√(c/b² − 1))    for c > b²,
+    θ(c;b) = 0                      for c = b²,
+    θ(c;b) undefined                for c < b² (two real roots).
 
-**Framework specialization at b = `HalfAsStructuralFixedPointClaim` = 1/2:**
+The framework's `b=1/2` case is only a specialization:
 
-    threshold = b² = 1/4 = `QuarterAsBilinearMaxvalClaim`
-    θ(c) = arctan( √(4c − 1) )         for c > 1/4
+    threshold c = b² = 1/4,
+    θ(c;1/2) = arctan(√(4c−1))    for c > 1/4.
 
-**This is exactly the Februar 2026 θ-compass** of [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md): θ = arctan(√(4CΨ − 1)) was discovered there as the Mandelbrot/CΨ-specific angular distance from the 1/4 boundary. F95 promotes it from a state-specific compass to the positive-b quadratic-foundation identity used by the current callers, with the b = 1/2 specialization recovering the Februar form. For b < 0 the upper root lies in the second quadrant and has principal argument π−θ; b = 0 gives π/2 when c > 0. Those branches are outside this API.
+For `b<0`, the upper root instead has second-quadrant principal argument `π−θ`; for `b=0` and `c>0`, it has argument `π/2`. Neither branch belongs to this API.
 
-**Derivation (4 lines, bit-exact):**
+**Derivation.** When `c>b²`,
 
-```
-z² − 2bz + c = 0
-z = b ± √(b² − c)          (quadratic formula)
-z = b ± i·√(c − b²)         when c > b²  (complex regime)
-arg(z₊) = arctan(Im/Re) = arctan(√(c − b²)/b) = arctan(√(c/b² − 1))
-```
+    z± = b ± i√(c−b²),
+    arg(z+) = arctan(√(c−b²)/b) = arctan(√(c/b²−1)).
 
-**Numerical verification:** all five non-boundary points from BOUNDARY_NAVIGATION.md's θ-compass table (CΨ ∈ {1/3, 0.308, 0.286, 0.266, 0.250}) reproduce within numerical precision; the single 0.3° drift at CΨ=0.256 is the Februar table's t-sampling rounding, not a formula discrepancy.
+At `c=b²`, the roots meet at `z=b` and the angle is zero. F95 and the period-one cardioid formula F97 use the same quadratic at the selected `b=1/2` point, but they are sibling formulas, not typed ancestors.
 
-**Anchoring to typed Pi2-Foundation:**
+**Named Lindblad instance.** For the written 2×2 pair `λ²+2γ₀λ+(γ₀²+J²)=0`, use the positive decay variable `z=−λ`. Then `b=γ₀>0`, `c=γ₀²+J²`, and F95 gives the principal magnitude `θ=arctan(|J|/γ₀)`. For the repository's `J≥0` convention this is `arctan(J/γ₀)`; a signed clock angle is an oriented extension. A Kingston RZ scan steered `arg(CΨ_com)`, not this quadratic-root angle.
 
-| F95 element | Typed Pi2 anchor |
-|---|---|
-| b = 1/2 (linear-term half) | `HalfAsStructuralFixedPointClaim` |
-| b² = 1/4 (discriminant threshold) | `QuarterAsBilinearMaxvalClaim` |
-| Polynomial structure | `PolynomialFoundationClaim` (d²−2d=0 is the c=0 case; F95 perturbs c off zero and tracks the complex-root angle that emerges) |
-| ±1/2 polarity at d=2 (where b=1/2 lives) | `PolarityLayerOriginClaim` (the +0/−0 layer at d=0 inherits to the {−0.5, +0.5} pair at d=2 via the 0.5-shift ρ = (I + r·σ)/2) |
-| i (complex angle generator) | `NinetyDegreeMirrorMemoryClaim` |
-| i⁴ = 1 (angle Z₄ closure) | `Pi2I4MemoryLoopClaim` |
+**Interpretive invitation — not a result:** two real roots meet and leave the axis as a conjugate pair, so a compass picture is genuinely useful. That picture does not derive quantum amplitudes, the Born postulate, a polarity grading or a universal open-system clock.
 
-**Structural reading:** the polynomial d²−2d = 0 has two real roots (d = 0 mirror, d = 2 qubit dimension): the unperturbed case. F95 is what happens when the polynomial is perturbed off the c=0 axis: as c crosses b² = 1/4 from below, the two real roots merge at z = b, then split into a complex conjugate pair whose argument is θ(c). The angle is the necessary minimal-parametrization coordinate of "above-threshold magnitude", the same structural pattern as today's z = sym + i·anti F71-decomposition where arg(z) becomes the structural carrier once |z| > 0.
+**Anchors:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and [`angle_at_zero_tier1_candidate.py`](../simulations/angle_at_zero_tier1_candidate.py). The speculative visual route remains in [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) and [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).
 
-**Polarity-fold reading:** in shifted-and-scaled coordinates u = z − 1/2 (centered at the b = 1/2 fixed point), the polynomial reads u² + (c − 1/4) = 0. At c = 0 (unperturbed) the roots are u = ±1/2, the framework's structural polarity pair around 0 (inherited from `PolarityLayerOriginClaim` via the 0.5-shift). The squaring map u → u² sends both polarity sides to the same value 1/4, the apex; this is the "middle viewed from two sides" reading of the b² = 1/4 threshold: arithmetic midpoint of ±1/2 is 0 (on the polarity axis), but the quadratic projection middle is 1/4 (on the perpendicular axis). As c crosses 1/4 from below, the polarity contracts to 0 at the cusp and lifts onto the imaginary axis past it. See [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) for the full geometric picture (parabola, fold, three loci on one quadratic).
+<a id="f96"></a>
 
-**Lindblad specialization (γ₀ as a scale):** the stated 2×2 Liouvillian
-sub-block has characteristic polynomial `λ²+2γ₀λ+(γ₀²+J²)=0`. In the positive
-decay variable `z=−λ` it becomes `z²−2γ₀z+(γ₀²+J²)=0`, which is F95's parent
-equation with `b=γ₀>0`, `c=γ₀²+J²`. The angle from the negative λ-axis,
-equivalently the principal angle of z, obeys `θ=arctan(J/γ₀)=arctan(Q)`, and
-`θ=0` gives `λ=−γ₀`. This is a
-sub-block identity, not an experienced-time law. The Kingston confirmation
-`f95_angle_steering_kingston_may2026` measured and steered `arg(CΨ_com)` via
-RZ injection; it did **not** measure this quadratic eigenvalue angle θ. The
-two angles must remain distinct.
+### F96. N=4 ring subdominant relative-deviation slopes (Tier 1, exact named Dyson ratios; 2026-05-17)
 
-**Born-rule connection:** standard QM's complex amplitudes α = r·e^{iθ}, β = ... are not postulated. They are forced by the same polynomial-foundation algebra: any state that has crossed the d=0 mirror needs a second coordinate beyond magnitude, and that coordinate is the F95 angle. The Born rule's |α|² is the geometric length squared of the angle-vector's basis-projection.
+**Owned object — parentless exact formula.** In the named N=4 ring only—the same state, dephasing, pair and outcome basis specified in F94—the subdominant relative population deviations have the leading small-`K` slopes
 
-**Anchor:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`simulations/angle_at_zero_tier1_candidate.py`](../simulations/angle_at_zero_tier1_candidate.py). Reflections (2026-05-16 chain): [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) (the angle's emergence above the discriminant zero), [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) (Lindblad specialization θ = arctan(Q)), [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) (polarity-fold geometry of the b² = 1/4 threshold). Februar precursor (Mandelbrot-specific case): [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Hardware Confirmation: `Confirmations.lookup('f95_angle_steering_kingston_may2026')` (Kingston Heron r2 2026-05-16; complex-CΨ angle actively steerable via RZ injection at rate Ω; 3 of 4 conditions, residuals 6.81° to 15.69°). Companion magnitude-side closed form: [F94](#f94) Δ_|00⟩ = (4/3)·Q²·K³.
+    Δ_|01⟩ = Δ_|10⟩ = −(16/9)K + higher order,
+    Δ_|11⟩             = −(8/3)K  + higher order,
+    K = γt.
 
-### F96. Born deviation subdominant-outcome slopes: |0+0+⟩ N=4 Heisenberg + Z-deph, pair (0,2) (Tier 1 derived, bit-exact Dyson + unitary matrix elements; 2026-05-17)
+F96 obtains these numbers from its own `M_3/U_2` and `M_5/U_4` elements. If the unitary population first appears at order `2k` and the linear-γ Dyson term at order `2k+1`, division gives, in this calculation,
 
-**For the subdominant outcomes of pair (0,2) of |0+0+⟩ N=4 under the same setup as [F94](#f94) (Heisenberg ring + Z-dephasing), the per-outcome Born-rule deviation in the deep perturbative regime is linear in K and Q-independent:**
+    slope_i = M_(2k+1)^(i) / [(2k+1) U_(2k)^(i)].
 
-    Δ_|01⟩(K) = Δ_|10⟩(K) = −(16/9) · K = −(4/3)² · K + O(higher)
-    Δ_|11⟩(K)             = −(8/3)  · K = −2·(4/3) · K + O(higher)
+The exact ring elements are
 
-with K = γt the Universal-Carrier observable.
+    |01⟩: M_3 = −4, U_2 = 3/4  ⇒  −4/(3·3/4) = −16/9,
+    |10⟩: the same by the ring's 0↔2 symmetry,
+    |11⟩: M_3 = U_2 = 0; M_5 = −20, U_4 = 3/2  ⇒  −20/(5·3/2) = −8/3.
 
-**Combined per-outcome table** (F94 + F96):
+The absolute third-order population vector is `(8,−4,−4,0)` and sums to zero. That is the trace-preserving check; an unweighted sum of the relative deviations is not.
 
-| Outcome | Closed form | P_u(t) order | leading γ¹ Dyson order |
+**One named table, two independent owners:**
+
+| Outcome | Leading relative deviation | Leading unitary order | linear-γ Dyson order |
 |---|---|---|---|
-| \|00⟩ | Δ = +(4/3) · Q²·K³ | t⁰ (= 1) | sym₃ (J², t³) |
-| \|01⟩ | Δ = −(4/3)² · K | t² (= J²t²·3/8) | sym₃ (J², t³) |
-| \|10⟩ | Δ = −(4/3)² · K | t² (= J²t²·3/8) | sym₃ (J², t³) |
-| \|11⟩ | Δ = −2·(4/3) · K | t⁴ (= J⁴t⁴·1/16) | sym₅ (J⁴, t⁵) |
+| \|00⟩ | `+(4/3)Q²K³` (F94) | `t⁰` | `sym3` |
+| \|01⟩ | `−(16/9)K` (F96) | `J²t²·3/8` | `sym3` |
+| \|10⟩ | `−(16/9)K` (F96) | `J²t²·3/8` | `sym3` |
+| \|11⟩ | `−(8/3)K` (F96) | `J⁴t⁴·1/16` | `sym5` |
 
-**All four closed forms are simple algebraic expressions in F94's 4/3 anchor.**
+**Topology boundary.** The canonical chain's `|10⟩` slope is `-4/3`, so the ring slopes are not topology-universal. A finite ring/K4 probe agrees within its numerical tolerance for this lens; that comparison does not derive an all-topology law or a cancellation mechanism.
 
-**Universal subdominant slope formula:** for an outcome with leading unitary P_u(t) ≈ J^{2k} t^{2k} / (2k)! · U^{(i)}_{2k} and lowest non-vanishing γ¹ Dyson at order (2k+1):
+**Interpretive invitation — not a result:** `−16/9=−(4/3)²` and `−8/3=−2(4/3)` are memorable numeric rhymes, not derivational inputs. They make the four-outcome table easy to see, while each coefficient keeps its own Dyson owner.
 
-    slope_i = M_{2k+1}^{(i)} / [(2k+1) · U_{2k}^{(i)}]
+**Anchors:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`born_rule_subdominant_dyson.py`](../simulations/born_rule_subdominant_dyson.py), and the chain/ring/K4 comparison in [`f94_topology_visibility_probe.py`](../simulations/f94_topology_visibility_probe.py).
 
-where M_n^{(i)} = ⟨i|_pair Tr_{1,3}[sym_n^1 · ρ_0]|i⟩_pair and U_{2k}^{(i)} = ⟨i|_pair Tr_{1,3}[L_h^{2k} · ρ_0]|i⟩_pair (h := H/J). The J^{2k} factors cancel automatically → Q-independence; only γt = K survives.
+<a id="f97"></a>
 
-**Bit-exact derivation:**
+### F97. Period-one cardioid parametrization (Tier 1, exact algebraic identity; 2026-05-17)
 
-    |01⟩: M_3^{(01)} = −4,  U_2^{(01)} = 3/4  →  slope = −4 / (3 · 3/4) = −16/9
-    |10⟩: (same by 0 ↔ 2 site-permutation symmetry)
-    |11⟩: M_3^{(11)} = 0 AND U_2^{(11)} = 0 (lower-order vanishes)
-           M_5^{(11)} = −20,  U_4^{(11)} = 3/2  →  slope = −20 / (5 · 3/2) = −8/3
+**Owned object — parentless exact formula.** For the map `z↦z²+c`, a period-one fixed point obeys `c=z*−z*²`. Its multiplier is `μ=2z*`. On the marginal boundary `|2z*|=1`, write
 
-**Numerical Lindblad verification:** at Q = 50, γ = 0.01 the slope-per-K converges to the theoretical values as K → 0:
+    z*(φ) = (1/2)e^(iφ),
+    c(φ)  = z*(φ)(1−z*(φ))
+          = (1/2)e^(iφ) − (1/4)e^(2iφ),    0 ≤ φ < 2π.
 
-| outcome | K | slope/K | theory |
-|---|---|---|---|
-| \|01⟩ | 0.005 | −1.748 | −1.778 = −16/9 |
-| \|11⟩ | 0.001 | −2.662 | −2.667 = −8/3 |
+Thus `|z*|=1/2` is selected by F97's own multiplier condition `|2z*|=1`; it is not imported from another Claim.
 
-**Structural reading:** the F94 unit 4/3 = a_{−1}/3 generates the entire 4-outcome table for this setup. The dominant gets +1·(4/3) at order Q²K³; the singly-subdominant degenerate pair gets −(4/3)² at order K; the doubly-subdominant gets −2·(4/3) at order K. The signs are all reading-pattern: dominant **gains** probability beyond unitary (positive Δ), all subdominants **lose** probability beyond unitary (negative Δ). The "2" in Δ_|11⟩ plausibly counts the two independent flip channels (q_0 and q_2) required to populate |11⟩; interpretive, not derived.
+**Landmarks and cusp distinction.** At `φ=0`, `c=1/4`, `|c|=1/4`, and `|c|²=1/16`. At `φ=π`, `c=−3/4`; at `φ=π/2`, `c=1/4+i/2` and `z*=i/2`. Around the curve,
 
-**Cross-outcome universality:** the ratio M_3 / U_2 equals −16/3 for both the dominant (|00⟩: 8 / (−3/2)) and the singly-subdominant (|01⟩: −4 / (3/4)) outcomes; the signs of M_3 and U_2 flip together, leaving the ratio invariant. This is a non-trivial structural identity of the Heisenberg + Z-dephasing dynamics at the pair (0,2) reduction; whether it generalizes to other initial states / Hamiltonians / dissipators is open.
+    |c(φ)|² = 5/16 − (1/4)cos(φ),
 
-**Anchoring to typed Pi2-Foundation:**
+so the squared magnitude ranges from 1/16 at the cusp to 9/16 at the tail, while `|c|` ranges from 1/4 to 3/4. The Quarter b² = 1/4 equals |c| only at the cusp; it does not equal `|c|²` there.
 
-| F96 element | Typed Pi2 anchor |
-|---|---|
-| 4/3 building block | F94's `FourFactor / ThreeDenominator` (a_{−1} = 4 dyadic ladder, 3 from Taylor reduction) |
-| Linear-K Q-independence | `UniversalCarrierClaim` (the Universal Carrier signature for subdominant outcomes) |
-| Site-permutation symmetry (\|01⟩ ≡ \|10⟩) | F1 / F71 spatial mirror |
+**Relation to F95.** At the common real point `b=1/2, c=1/4`, F95 has a double root and angle zero, while F97 has the cardioid cusp. Past that point on the real axis, F95 follows the angle of a conjugate root pair; F97 follows a complex-parameter stability boundary. The relation is sibling, not an extension, and creates no typed graph edge.
 
-**Anchor:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`simulations/born_rule_subdominant_dyson.py`](../simulations/born_rule_subdominant_dyson.py). F94 companion (dominant outcome): [F94](#f94). Born-rule precursors: [`experiments/BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md). Reflection that named the empirical subdominant slopes as the next step: [`ON_HOW_FOUR_THIRDS_APPEARED.md`](../reflections/ON_HOW_FOUR_THIRDS_APPEARED.md).
+**Coordinate seam.** F97 is an identity in the iteration's parameter plane, not a hardware trajectory. A measured or simulated `CΨ_com(t)` path can be drawn in the same complex coordinate plane, but the drawing does not make it a Mandelbrot orbit or establish a boundary crossing, stable-interior entry or approach law.
 
-### F97. Mandelbrot cardioid parametrization at framework b = 1/2 (Tier 1 derived, bit-exact algebraic identity; 2026-05-17)
+**Interpretive invitation — not a result:** the cardioid and a spiral may still share a page; the visual rhyme is precisely what makes the comparison worth exploring. The iteration law and the finite open-system path remain two different objects.
 
-**The main Mandelbrot cardioid is the locus in the complex-c plane where the period-1 fixed point of z² + c has magnitude exactly b = 1/2 (the framework's `HalfAsStructuralFixedPointClaim` anchor). It admits the explicit parametrization:**
-
-    c(φ) = b·e^(iφ) − b²·e^(2iφ)              for φ ∈ [0, 2π)
-    z*(φ) = b·e^(iφ)                          (the period-1 fixed point)
-    c(φ) = z*(φ) · (1 − z*(φ))                (algebraic identity)
-
-with two structural invariants on the curve:
-
-    |z*(φ)| = b = 1/2     (magnitude pinned to HalfAsStructuralFixedPoint)
-    arg(z*(φ)) = φ        (cardioid parameter)
-
-**Framework specialization at b = 1/2:**
-
-    c(φ) = (1/2)·e^(iφ) − (1/4)·e^(2iφ)
-    cusp at φ = 0: c = 1/4 (recovers [F95](#f95) / [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) real-axis tangent)
-    tail at φ = π: c = −3/4 (period-doubling boundary)
-    top at φ = π/2: c = 1/4 + i/2, z* = i/2
-
-**Derivation (4 lines, bit-exact):**
-
-```
-z² + c = z  ⟹  z² − z + c = 0  ⟹  z = b ± √(b² − c)         (b = 1/2)
-Multiplier μ = 2z; marginal stability ⟺ |μ| = 1 ⟺ |z| = b
-Parametrize μ = e^(iφ):  z*(φ) = μ/2 = b·e^(iφ)
-c(φ) = z*(φ) − z*(φ)² = b·e^(iφ) − b²·e^(2iφ)
-```
-
-**Numerical verification:** machine-precision algebraic identity c(φ) = z*(1 − z*) verified to max residual 1.24 × 10⁻¹⁶ over 1000 sampled φ ∈ [0, 2π].
-
-**Relation to F95 (complementary regions of the same algebra):**
-
-| Region | F95 | F97 |
-|---|---|---|
-| Real c > 1/4 (real axis, past cusp) | θ(c; b) = arctan(√(c/b² − 1)) for the angle of the repelling complex root pair | (off the cardioid; not covered) |
-| Complex c on cardioid boundary | (φ = 0 specialization recovers cusp) | full parametrization c(φ), z*(φ) on the marginally-stable curve |
-
-Both share the same z² − 2bz + c = 0 algebra; F95 projects the angle on the real-c axis where the period-1 fixed point is repelling; F97 traces the full complex-c boundary where it is marginally stable.
-
-**Both anchors invariant on the cardioid, at two metric powers:**
-
-    |z*(φ)|  = b  = 1/2          (HalfAsStructuralFixedPoint, argmax side)
-    |z*(φ)|² = b² = 1/4          (QuarterAsBilinearMaxval, maxval side)
-
-Both hold for all φ ∈ [0, 2π); the cardioid is the joint locus. This is exactly the argmax/maxval pair of [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER`](../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) (2026-05-16), now geometric: the Half and Quarter anchors are two metric-power readings of the same fixed-point quantity on the same curve. The identity `1/2 = 2 · (1/4)` sits on the dyadic ladder (`a_2 = 2 · a_3`); the polarity pair ±1/2 squares to the same 1/4 from either side; on the cardioid the two real-axis endpoints z*(0) = +1/2 and z*(π) = −1/2 carry the polarity sides explicitly.
-
-By contrast, `|c(φ)|² = 5/16 − (1/4)·cos(φ)` is **not** invariant around the cardioid: |c| ranges from 1/4 at the cusp (φ = 0) to 3/4 at the tail (φ = π). The Quarter b² = 1/4 equals |c|² only at the cusp; elsewhere |c| varies but |z*| and |z*|² stay invariant.
-
-**Role table (four typed parents):**
-
-| Anchor | Role on cardioid |
-|---|---|
-| `HalfAsStructuralFixedPointClaim` (b = 1/2) | \|z*\| invariant around the whole curve (argmax side) |
-| `QuarterAsBilinearMaxvalClaim` (b² = 1/4) | \|z*\|² invariant around the whole curve (maxval side); also \|c\| at the real-axis cusp only |
-| `NinetyDegreeMirrorMemoryClaim` (i, 90°) | Complex-parameter generator that lifts c from the real axis to the full complex plane |
-| `PolynomialFoundationClaim` (d² − 2d = 0) | The c = 0 case where z* = 0 (degenerate fixed point at the origin) |
-
-**Structural reading:** the cardioid carries BOTH typed anchors as invariants of the same z*, at two metric powers (Half = magnitude, Quarter = squared magnitude). F95 names the angle at the real-axis tangent point (cusp); F97 names the dual-anchor invariance that holds around the whole curve.
-
-**Hardware connection:** the [`CPSI_COMPLEX_PLANE`](../experiments/CPSI_COMPLEX_PLANE.md) Kingston run (2026-04-16) observed Bell⁺ pairs tracing 2D logarithmic spirals in the complex-c plane around the cusp at c = 1/4. F97 places these spirals into the cardioid framing: the trajectories cross the cardioid boundary (the |z*| = b stability transition) before spiraling into the stable interior. The [`f95_angle_steering_kingston_may2026`](#f95) Confirmation actively steered Ω during the spiral; F97 names the geometric locus those steered spirals approach.
-
-**Roadmap closure:** [`PROOF_ROADMAP_QUARTER_BOUNDARY`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) Layer 7 explicitly named "promoting F95 to the full cardioid parametrization" as the next move (status PARTIALLY ANSWERED before F97). F97 closes that direction: the real-c angle (F95) plus the complex-c cardioid parametrization (F97) together cover both projections of the quadratic discriminant structure on the Mandelbrot c-plane.
-
-**Anchor:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md), [`simulations/cardioid_parametrization_tier1.py`](../simulations/cardioid_parametrization_tier1.py). F95 companion (real-c angle): [F95](#f95). Hardware 2D-extension precursor: [`experiments/CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16). Februar boundary precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md). Mandelbrot connection synthesis: [`experiments/MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md). Quarter-boundary roadmap (Layer 7 next-move slot): [`docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md`](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
+**Anchors:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md) and [`cardioid_parametrization_tier1.py`](../simulations/cardioid_parametrization_tier1.py). Coordinate-side context lives in [`CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md), [`BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md), and [`MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md).
 
 ### F98. KIntermediate Dicke long-time Π²-odd asymptote = (N+2)/[4(N+1)] → 1/4 (Tier 1 derived, bit-exact N=4..16; 2026-05-17)
 
@@ -5748,7 +5682,7 @@ road u = J′/J on the wrap bond of the ring whose u = 0 end is this comb (n = N
 one of the 2558 exact collision pairs at the nine firing n ≤ 30 separates as the road
 leaves the comb (and at u = 1/2 none is closed, to forty digits). 2335 do so at
 first order in u, a theorem per pair: the first-order gap is Σ_τ(−1)^{k+1}w_k −
-Σ_σ(−1)^{k+1}w_k with w_k = (4/n)·sin²(kπ/n), F65's endpoint rates as a comb carrying F75's mirror sign,
+Σ_σ(−1)^{k+1}w_k with w_k = (4/n)·sin²(kπ/n), F65's first-order endpoint coefficients carrying F75's mirror sign,
 n·D decided exactly in ℤ[ζ_2n] and found nonzero. The other 223 stand at first order and all
 leave at second, read there at 40 digits and exact since F161 (ΔM₃ ≠ 0 in
 ℤ[ζ_2n] on every one). At odd n the
@@ -8969,7 +8903,7 @@ that item asked for and does not close it: the item asks whether a comb LAW
 the comb, and on 2026-09-01 none of those had been run on this road. Since 2026-09-02
 F129 has, on [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md): every
 one of its 2558 exact collision pairs at n ≤ 30 separates along this road, 2335 at
-first order by a theorem (the first-order gap is F65's endpoint rates signed, Theorem G
+first order by a theorem (the first-order gap is F65's endpoint coefficients signed, Theorem G
 of the proof) and all 223 others at second order (read at 40 digits there, exact since F161),
 and the other four laws' conclusions are shown not to transport to a level list (F89's
 predicates and F146's hypothesis do). `fw.Confirmations`:
@@ -9019,7 +8953,7 @@ and a Bézout identity forbidding a common zero unless u² = 1: the spectrum is 
 for every u ≥ 0 except u = 1); the two ends; Theorem D the join; Theorem E the
 split's next order written out to c_m; Theorem F the departures from the two linear
 factors and Weyl's inequality, the parity of N in the statement; Theorem G the
-chain-end velocity dE_k/du = (−1)^{k+1}·α_k/γ₀, F65's endpoint rates signed, from the
+chain-end velocity dE_k/du = (−1)^{k+1}·a_k, F65's first-order endpoint coefficients signed, from the
 polynomial's derivative and from the eigenvectors; nine symbolic gates, no floating
 point, in
 [`simulations/cracked_ring_exact_curve_proof.py`](../simulations/cracked_ring_exact_curve_proof.py).

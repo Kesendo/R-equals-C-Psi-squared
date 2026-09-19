@@ -149,5 +149,12 @@
   "prediction_psi_1": 0.9504844339512095,
   "eq014_psi_1_match": 0.97,
   "source_log": "simulations/results/c1_past_future_test_fullrun.log",
-  "note": "c_1 values recovered from console log after the main script crashed on a format-string bug in the Pi-pair table header. All heavy computation (3 dense eigendecomps + 7 state propagations at N=7) completed successfully."
+  "note": "c_1 values recovered from console log after the main script crashed on a format-string bug in the Pi-pair table header. All heavy computation (3 dense eigendecomps + 7 state propagations at N=7) completed successfully.",
+  "current_reading": "Finite N=7 recovered coefficient and Pi-pair table.",
+  "evidence_scope": "The 0.5*V(N) value is a historical comparison candidate, not a prediction; this finite table does not demonstrate convergence or a bilinear/cavity mechanism.",
+  "provenance": {
+    "producer": "simulations/c1_past_future_analysis.py",
+    "source_log": "simulations/results/c1_past_future_test_fullrun.log",
+    "execution": "cheap recovery writer; heavy propagation not rerun"
+  }
 }

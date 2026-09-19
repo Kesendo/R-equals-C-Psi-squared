@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Theta, palindrome, and echo as separate finite readings
+
+Current reading: the retained finite sample reports correlation `r=0.87` in its
+named dataset and concurrence `C=0.598` at `Cpsi=0.154` for its named state and
+channel.  Those observations do not make theta a universal channel coordinate,
+nor scalar bins a lifetime, collapse, or measurement classifier.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical reading:** the channel-window and expiry narrative below records
+the hypothesis that organized the finite table.  Its ontology is not current.
+
 # Theta-Palindrome-Echo: θ Connects to the Channel, Not the Echo
 
 <!-- Keywords: theta compass channel fidelity correlation, echo transport CΨ below

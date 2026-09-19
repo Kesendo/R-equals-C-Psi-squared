@@ -3,18 +3,13 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The Object Manager's telescope onto the interior axis in 2D: the complex-plane spiral into
-/// the cusp circle |CΨ| = ¼. Where <see cref="InteriorHorizonField"/> reads the approach on the real
-/// line, this reads it in the plane, when a common Z-drift Ω winds the coherence. The cusp point becomes
-/// a circle; every spiral crosses it at the same time (the radial law is Ω-independent), and only the
-/// crossing angle is free, the one IBM Kingston steered on demand.
+/// <summary>The Object Manager's view of a named Bell+/pure-Z complex-coherence trajectory.
+/// A common Z-drift Ω winds the phase while the F25 magnitude decays. The ring
+/// |CΨ_com|=¼ is a radial readout set, not the period-one cardioid and not a recurrence root locus.
 ///
-/// <para>Five readings for one (γ, Ω, φ₀): the cusp circle (the contract in 2D, the point seen
-/// edge-on); the spiral itself (CΨ_com(t) winding in, crossing the circle); the winding read along a
-/// geometric Ω-ladder (the crossing time flat, the crossing angle moving, the steerable freedom); the
-/// hardware (the two Kingston spirals and the on-demand steering, from the Confirmations registry); and
-/// the F95 √-kinship (the angular winding carrying the same √-form the 1D heading does, kept at the
-/// label). N-free, closed-form. The horizon is a dephasing fold, never gravitational.</para></summary>
+/// <para>Five readings for one (γ, Ω, φ₀): the radial ring; the spiral; an Ω-ladder; finite
+/// Kingston measurements; and an explicit comparison that keeps the radial, recurrence, and F95
+/// quadratics separate. The closed forms are N-free within this setup.</para></summary>
 public sealed class ComplexCuspSpiralField : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -65,7 +60,7 @@ public sealed class ComplexCuspSpiralField : IInspectable
     }
 
     public string DisplayName =>
-        $"ComplexCuspSpiralField (the interior axis in 2D, γ={_gamma.ToString("0.###", Inv)}, Ω={_omega.ToString("0.###", Inv)}, winding Ω/4γ={ComplexCuspSpiral.WindingRate(_gamma, _omega).ToString("0.##", Inv)})";
+        $"ComplexCuspSpiralField (Bell+/pure-Z complex readout, γ={_gamma.ToString("0.###", Inv)}, Ω={_omega.ToString("0.###", Inv)}, winding Ω/4γ={ComplexCuspSpiral.WindingRate(_gamma, _omega).ToString("0.##", Inv)})";
 
     public string Summary
     {
@@ -73,9 +68,8 @@ public sealed class ComplexCuspSpiralField : IInspectable
         {
             double tc = ComplexCuspSpiral.CrossingTime(_gamma);
             double angle = ComplexCuspSpiral.CrossingArgument(_gamma, _omega, _phi0) * 180.0 / Math.PI;
-            return $"the cusp ¼ is a circle |CΨ|=¼; the spiral crosses it at t={tc.ToString("0.###", Inv)} (Ω-independent) " +
-                   $"at angle {angle.ToString("0.#", Inv)}° (Ω-set). Every spiral crosses the same circle; only the angle is free, " +
-                   "the one Kingston steered. The 1D point seen in 2D; no gravity.";
+            return $"the Bell+/pure-Z magnitude reaches the radial ring |CΨ_com|=¼ at t={tc.ToString("0.###", Inv)} (Ω-independent) " +
+                   $"with argument {angle.ToString("0.#", Inv)}° (Ω-set). The ring is a finite readout set; the recurrence boundary and cardioid are separate objects.";
         }
     }
 
@@ -83,7 +77,7 @@ public sealed class ComplexCuspSpiralField : IInspectable
     {
         get
         {
-            // 1. The cusp circle (the contract in 2D): |CΨ| = ¼, the point seen edge-on.
+            // 1. The selected radial readout ring |CΨ_com| = ¼.
             const int circlePts = 200;
             var cx = new double[circlePts];
             var cy = new double[circlePts];
@@ -94,9 +88,9 @@ public sealed class ComplexCuspSpiralField : IInspectable
                 cy[i] = ComplexCuspSpiral.CircleRadius * Math.Sin(a);
             }
             yield return new InspectableNode(
-                displayName: "the cusp circle (the contract in 2D)",
-                summary: $"|CΨ|=¼ is a circle (radius {ComplexCuspSpiral.CircleRadius}, center 0): the 1D cusp point seen edge-on. Inert, universal; every spiral crosses it.",
-                payload: new InspectablePayload.Curve("the ¼-circle", cx, cy, "Re(CΨ)", "Im(CΨ)"));
+                displayName: "the radial ring (finite readout set)",
+                summary: $"|CΨ_com|=¼ is a radial ring (radius {ComplexCuspSpiral.CircleRadius}, center 0). It is not the F97 cardioid; only c=+¼ is that cardioid's cusp.",
+                payload: new InspectablePayload.Curve("the quarter-radius ring", cx, cy, "Re(CΨ_com)", "Im(CΨ_com)"));
 
             // 2. The spiral (one trajectory): CΨ_com(t) winding into the circle.
             var tGrid = TimeGrid();
@@ -105,7 +99,7 @@ public sealed class ComplexCuspSpiralField : IInspectable
             double turns = ComplexCuspSpiral.WindingNumber(_omega, tGrid[^1]);
             yield return new InspectableNode(
                 displayName: "the spiral (one trajectory, winding in)",
-                summary: $"CΨ_com(t) = |CΨ|·e^(i(φ₀−Ωt)) from 1/3 inward, {turns.ToString("0.##", Inv)} turns over the grid; crosses the ¼-circle once. Ω=0 would be the real-axis line (the 1D axis).",
+                summary: $"CΨ_com(t) = |CΨ_com|·e^(i(φ₀−Ωt)) from 1/3 inward, {turns.ToString("0.##", Inv)} turns over the grid; reaches the quarter-radius ring once. Ω=0 gives a real-axis instance of this named trajectory.",
                 payload: new InspectablePayload.Curve("the spiral CΨ_com(t)", re, im, "Re(CΨ)", "Im(CΨ)"));
 
             // 3. The winding (geometric Ω-ladder): the crossing time flat, the crossing angle moving.
@@ -113,21 +107,20 @@ public sealed class ComplexCuspSpiralField : IInspectable
             var angles = _omegaLadder.Select(w => ComplexCuspSpiral.CrossingArgument(_gamma, w, _phi0) * 180.0 / Math.PI).ToArray();
             yield return new InspectableNode(
                 displayName: "the winding (the angle is the free thing)",
-                summary: $"across Ω the crossing time is flat at t={tCrossFlat.ToString("0.###", Inv)} (the radial law is Ω-independent); the crossing angle sweeps {angles[0].ToString("0.#", Inv)}°..{angles[^1].ToString("0.#", Inv)}°. The steerable freedom (Kingston f95_angle_steering).",
+                summary: $"across Ω the radial crossing time is flat at t={tCrossFlat.ToString("0.###", Inv)}; the argument sweeps {angles[0].ToString("0.#", Inv)}°..{angles[^1].ToString("0.#", Inv)}°. Saved Kingston rows measure this phase response without asserting F95 roots.",
                 payload: new InspectablePayload.Curve("crossing angle vs Ω", _omegaLadder, angles, "Ω", "crossing angle°"));
 
             // 4. The hardware (Kingston): the two observed spirals + the on-demand steering.
             yield return new InspectableNode(
                 displayName: "the hardware (the Kingston spirals)",
-                summary: "IBM Kingston 2026-04: Pair A spirals clockwise (arg −8°→−60°), Pair B counter-clockwise (+15°→+79°), both crossing |CΨ|=¼ " +
+                summary: "IBM Kingston 2026-04: Pair A spirals clockwise (arg −8°→−60°), Pair B counter-clockwise (+15°→+79°), both reaching |CΨ_com|=¼ " +
                          "(f25_cusp_trajectory, f57_kdwell_gamma_invariance). 2026-05: the crossing angle steered on demand by an injected Ω " +
-                         "(f95_angle_steering_kingston_may2026, three crossings, 6.8°–15.7° residual). The angle is real and controllable.");
+                         "(f95_angle_steering_kingston_may2026, three crossings, 6.8°–15.7° residual). These are finite phase measurements, not cardioid or root-locus measurements.");
 
-            // 5. The F95 √-kinship (the reading): the angular winding carries the 1D heading's √-form.
+            // 5. Keep the three quarter-valued constructions explicitly separate.
             yield return new InspectableNode(
-                displayName: "the F95 √-kinship (the reading, at the label)",
-                summary: "the radial dwell is F57, the angular winding carries the F95 √-form, and ¼ is the discriminant zero where they meet (CPSI_COMPLEX_PLANE.md). " +
-                         "Sibling of the interior heading θ=arctan(√(4CΨ−1)); the solid cusp/EP F95 algebra is typed in TransitionBridgeF95SiblingClaim. Kept at the label, not asserted here.");
+                displayName: "the object comparison (radial, recurrence, F95)",
+                summary: "this radial ring is one finite readout set. The recurrence boundary c=¼ is a double root of z²−z+c=0. F95 is a positive-b quadratic angle. A shared scalar or angle value does not merge the three objects.");
         }
     }
 

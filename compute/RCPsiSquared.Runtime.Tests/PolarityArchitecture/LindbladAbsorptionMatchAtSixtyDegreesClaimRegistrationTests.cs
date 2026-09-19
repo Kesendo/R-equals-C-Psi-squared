@@ -9,12 +9,6 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimRegistrationTests
 {
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
-            .RegisterPi2Family()
-            .RegisterPi2DyadicLadder()
-            .RegisterDickeSuperpositionQuarterPi2Inheritance()
-            .RegisterKIntermediateAsymptoteQuarterInheritance()
-            .RegisterCanonicalTrigAnchorPi2Inheritance()
-            .RegisterAbsorptionTheoremClaim()
             .RegisterF95AngleAtQuadraticZeroPi2Inheritance();
 
     [Fact]
@@ -39,7 +33,7 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimRegistrationTests
     }
 
     [Fact]
-    public void RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim_AncestorsContainAllThreeParents()
+    public void RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim_HasOnlyF95Ancestor()
     {
         var registry = BuildBaseRegistry()
             .RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim()
@@ -49,22 +43,16 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimRegistrationTests
             .Select(c => c.GetType()).ToHashSet();
 
         Assert.Contains(typeof(F95AngleAtQuadraticZeroPi2Inheritance), ancestors);
-        Assert.Contains(typeof(AbsorptionTheoremClaim), ancestors);
-        Assert.Contains(typeof(CanonicalTrigAnchorPi2Inheritance), ancestors);
+        Assert.DoesNotContain(typeof(AbsorptionTheoremClaim), ancestors);
+        Assert.DoesNotContain(typeof(CanonicalTrigAnchorPi2Inheritance), ancestors);
+        Assert.Single(ancestors);
     }
 
     [Fact]
-    public void RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim_WithoutCanonicalTrig_Throws()
+    public void RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim_WithoutF95_Throws()
     {
         Assert.Throws<InvariantViolationException>(() =>
             new ClaimRegistryBuilder()
-                .RegisterPi2Family()
-                .RegisterPi2DyadicLadder()
-                .RegisterDickeSuperpositionQuarterPi2Inheritance()
-                .RegisterKIntermediateAsymptoteQuarterInheritance()
-                .RegisterAbsorptionTheoremClaim()
-                .RegisterF95AngleAtQuadraticZeroPi2Inheritance()
-                // Missing: RegisterCanonicalTrigAnchorPi2Inheritance
                 .RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim()
                 .Build());
     }

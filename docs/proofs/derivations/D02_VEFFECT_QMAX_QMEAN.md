@@ -1,8 +1,8 @@
-# D2: V-Effect = Q_max / Q_mean
+# D2: F6 Q-edge gain = Q_max / Q_mean
 
-**What this derivation is about:** The V-Effect (the complexity explosion when two simple systems are coupled) has a closed formula: V(N) = 1 + cos(π/N). It equals the ratio of the best Q-factor (quality factor: oscillation cycles before half-decay) to the average. A key intermediate result: the mean Q-factor is always exactly 2J/γ, independent of chain length N.
+**What this derivation is about:** The **F6 Q-edge gain** has the closed formula V(N) = 1 + cos(π/N). It is the within-N ratio of the best Q-factor to the average Q-factor. “V-Effect gain” is retained only as a qualified historical alias; this exact ratio is separate from the finite **V-Effect census**. A key intermediate result is Q_mean = 2J/γ in the declared single-excitation model.
 
-**Source formulas:** 6 (V-Effect gain), 7 (Q-factor spectrum)
+**Source formulas:** 6 (F6 Q-edge gain; historical alias: V-Effect gain), 7 (Q-factor spectrum)
 **Tier:** 1 (algebraic identity)
 **Status:** VERIFIED (N=2-5, deviation < 3e-15)
 
@@ -19,7 +19,7 @@ The cosine sum vanishes exactly:
 
     Let w = e^{i*pi/N}. Geometric series:
     Sum = (w - w^N) / (1 - w) = (w + 1) / (1 - w)
-    Multiply by e^{-i*pi/(2N)}: = -i * cot(pi/(2N))
+    Multiply by e^{-i*pi/(2N)}: = +i * cot(pi/(2N))
     Re[...] = 0.  QED.
 
 Therefore: Q_mean = 2J/gamma (exactly).
@@ -28,10 +28,15 @@ Therefore: Q_mean = 2J/gamma (exactly).
          = [2J/gamma * (1 + cos(pi/N))] / [2J/gamma]
          = 1 + cos(pi/N)
 
-This is F6. The V-Effect measures how much the best
-mode exceeds the average Q-factor.
+This is F6. It measures how much the best Q-factor exceeds the average
+within the same N and model; it is not the V-Effect census or a coupling-causality claim.
 
-## Numerical verification
+## Exact and numerical verification
+
+For `w=cos(x)+i sin(x)`, the verifier simplifies the denominator-cleared
+residual `(w+1)-i*cot(x/2)*(1-w)` to exact zero in SymPy. Flipping the sign
+leaves `2+2i` at N=2. This sign-sensitive identity is independent of the
+floating-point cosine-sum and ratio checks below.
 
 | N | Q_mean (numerical) | Q_mean (formula) | V(N) error |
 |---|-------------------|-----------------|------------|

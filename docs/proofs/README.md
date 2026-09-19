@@ -1,16 +1,21 @@
+<!-- QUARTER-CURRENT -->
 # Proofs: The Mathematical Foundation of R = CΨ²
+
+Current reading: this directory distinguishes exact algebra, conditional
+trajectory statements, finite catalogues, and interpretation.  The quarter is
+not assigned one common dynamical meaning across those objects.
 
 <!-- Keywords: R=CPsi2 proof collection, palindromic spectral symmetry proof,
 quarter boundary uniqueness discriminant, fold catastrophe Mandelbrot equivalence,
-CΨ monotonicity Markovian channels, subsystem crossing Perron-Frobenius,
+CΨ named-channel formulas, conditional subsystem crossing,
 incompleteness d2-2d=0 noise origin, complete mathematical documentation,
 seven-layer proof roadmap -->
 
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
-This directory contains the formal mathematical proofs and the master
-reference for all verified results. Every claim here is analytically
-proven and computationally verified. No interpretation, no speculation.
+This directory contains formal proofs, finite computational readings, and the master reference for the
+project's mathematical core. Each document marks its own scope. In particular, the old universal CΨ
+monotonicity and absorber labels have been repaired without discarding the named formulas that survived.
 
 ---
 
@@ -18,11 +23,11 @@ proven and computationally verified. No interpretation, no speculation.
 
     R = CΨ²
 
-where C = Tr(ρ²) is purity, Ψ = l₁(ρ)/(d−1) is Baumgratz-normalized
-l₁-coherence. The fixed-point equation R = C(Ψ+R)² has discriminant
-D = 1 − 4CΨ. At CΨ = ¼: bifurcation. Above: no real attractor (quantum).
-Below: two real fixed points (classical). This is the fold catastrophe,
-structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
+In the purity book, C = Tr(ρ²) and Ψ = l₁(ρ)/(d−1). For the chosen
+recurrence `R=C(Ψ+R)²`, the fixed-point polynomial has discriminant
+`D=1−4CΨ`, hence two, one, or no real algebraic roots below, at, or above
+the quarter. This root count does not by itself supply stability, an
+attractor, a physical interval, or a trajectory law.
 
 ---
 
@@ -37,16 +42,17 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 
 **Then the boundary:**
 
-2. [Uniqueness Proof](UNIQUENESS_PROOF.md) - CΨ = ¼ is the unique
-   bifurcation. α=2 is the only Rényi order with a state-independent
-   threshold.
+2. [Uniqueness Proof](UNIQUENESS_PROOF.md) - The chosen recurrence has its
+   double root at CΨ=¼. Within the assumed power family, α=2 alone removes
+   the explicit Ψ factor; physical derivation of the recurrence remains open.
 
-3. [CΨ Monotonicity](PROOF_MONOTONICITY_CPSI.md) - dCΨ/dt < 0 under
-   all local Markovian channels. General Envelope Theorem.
+3. [CΨ Dynamics Boundary](PROOF_MONOTONICITY_CPSI.md) - exact decreasing
+   Bell+ formulas for named channels, exact local-Markov counterexamples to the universal package,
+   instantaneous Pauli invariance, and an open autonomous N=2 peak-sequence question.
 
-4. [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) - Every entangled
-   pair with CΨ > ¼ eventually crosses. Perron-Frobenius + fixed-point
-   bound. 300 random maps, 0 exceptions.
+4. [Conditional Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) - A continuous
+   trajectory converging to ρ* with CΨ(ρ*)<¼ eventually stays below. Named basis-aligned channels still
+   require a convergence/target check; a primitive CPTP counterexample has CΨ(ρ*)=0.2935.
 
 **The deeper structure:**
 
@@ -78,8 +84,8 @@ structurally stable, and equivalent to the Mandelbrot cusp at c = ¼.
 
 9. [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) - Seven-layer
    architecture from single qubit to arbitrary dimension and channel.
-   Documents every step: what is proven, what is verified, what remains
-   open. This is the most detailed document in the repository.
+    Documents every step: what is proven, what is a finite reading, and what remains open. This is the
+    most detailed document in the repository.
 
 **The master reference:**
 
@@ -102,10 +108,11 @@ Mirror Symmetry Proof          Uniqueness Proof
  palindromic)                   bifurcation)
         │                              │
         ├──────────────┐               ▼
-        ▼              ▼         Subsystem Crossing
-  Parity Selection   CΨ Monotonicity    (all pairs cross
-  Rule (V_even,      (dCΨ/dt < 0)       eventually)
-   V_odd blocks)           │
+        ▼              ▼         Conditional Crossing
+  Parity Selection   CΨ Dynamics       (convergent low-CΨ
+  Rule (V_even,      (named formulas;   targets stay below)
+   V_odd blocks)      universal claim false)
+                              │
         │                  ▼
         ▼            Incompleteness
   Direct-Sum         (openness certified;
@@ -118,7 +125,7 @@ Mirror Symmetry Proof          Uniqueness Proof
         ▼
   Proof Roadmap ──────► Complete Math Doc
   (7 layers,             (master reference,
-   all closed)            all results)
+   scoped layers)         current results)
 ```
 
 The Proof Roadmap is the spine: it tracks seven layers from single
@@ -138,6 +145,7 @@ synthesized.
 | Palindromic eigenvalues verified | 87,376 (zero exceptions) | [Mirror Symmetry](MIRROR_SYMMETRY_PROOF.md) |
 | IBM hardware deviation | 1.9% | [Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) |
 | General primitive CPTP crossing | FALSE (Case C counterexample, entangled fixed point CΨ=0.2935; the old 300-map sweep was a sampling artifact) | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
+| Conditional stay-below implication | `ρ(t)→ρ*`, `CΨ(ρ*)<1/4` ⇒ eventually below | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
 | Internal noise candidates eliminated | 0; the survey constrains forms but does not determine origin | [Incompleteness](INCOMPLETENESS_PROOF.md) |
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |

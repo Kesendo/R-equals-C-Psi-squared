@@ -1,52 +1,37 @@
-# K-Dosimetry: The Exposure Number of Quantum Mechanics
+<!-- F14-CURRENT -->
 
-<!-- Keywords: K invariance exposure number, quantum dosimetry, reciprocity law
-Bunsen-Roscoe, Schwarzschild effect quantum, dose-response H&D curve,
-multi-qubit dose scaling, sacrifice zone dose, R=CPsi2 K dosimetry -->
+# K-Dosimetry: finite purity-threshold readings and an unresolved discrepancy
 
-**Status:** Confirmed with caveats (reciprocity holds at extreme γ, fails at intermediate)
-**Date:** April 4, 2026
-**Authors:** Thomas Wicht, Claude (Anthropic)
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Standing Waves](FACTOR_TWO_STANDING_WAVES.md),
-[Concentrator Optics](CONCENTRATOR_OPTICS.md),
-[Decoherence Relativity](DECOHERENCE_RELATIVITY.md)
-**Verification:** [`simulations/k_dosimetry.py`](../simulations/k_dosimetry.py)
+**Status:** Unregenerated legacy calculation; the intermediate-rate discrepancy is unresolved.
+**Date:** April 4, 2026.
+**Source:** [k_dosimetry.py](../simulations/k_dosimetry.py),
+[stored output](../simulations/results/k_dosimetry.txt).
 
----
+The stored J = 1 calculation reports a 61.816% intermediate-rate deviation in
+K = γt for |++⟩ at target purity 0.26. This is a historical numerical
+discrepancy, not a certified physical reciprocity failure. With isotropic
+two-qubit coupling and equal local Z-dephasing the stated swap-symmetric
+preparation remains Hamiltonian-dead throughout its trajectory.
 
-## What this means
+That distinction matters: F14 concerns a fixed readout and a fixed
+dimensionless evolution book. A general fixed-J state can depend on J/γ,
+but this particular symmetric preparation does not supply that counterexample.
+The exact product-trajectory explanation is given in
+[Observer-Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md). The legacy source
+pairs independently computed eigensystems by column without proving their
+correspondence. This repair leaves that reconstruction unchanged and does not
+assign the discrepancy to a diagnosed mechanism.
 
-A photographer sets the aperture (how much light per second) and the
-shutter speed (how long). Their product is the exposure: the total light
-that hits the film. Bright scene, fast shutter. Dim scene, slow shutter.
-Same exposure, same photograph.
+The target here is **purity 0.26**, not CΨ = ¼. A purity-target time
+must not be relabelled as a scalar quarter crossing or a measurement event.
 
-K = γ × t_cross is the exposure number of the quantum cavity. The total
-dose of light absorbed before the standing wave pattern crystallizes at
-the fold CΨ = ¼ (the threshold where quantum behavior gives way to
-classical). At extreme illumination (very bright or very dim), the dose
-is the same regardless of how fast the light arrives. At intermediate
-illumination, the cavity's internal vibrations interfere with the
-exposure process, just as the Schwarzschild effect in photography causes
-reciprocity failure between brightness and exposure time.
+<!-- F14-HISTORICAL -->
 
----
+**Historical record:** The following tables retain the finite calculations.
+They are not regenerated in this label repair; the source writes its result
+at module scope and includes larger computations.
 
-## What this document is about
-
-K = γ × t_cross is proven invariant (F14). Through the old lens,
-this was "just Lindblad time-rescaling." Through the new lens, K is a
-dose: the total absorbed light before crystallization. This document
-tests the dose interpretation quantitatively: reciprocity, dose-response
-curves, multi-qubit scaling, and the sacrifice zone.
-
----
-
-## Result 1: K is state-dependent
-
-Different initial states need different total doses to crystallize.
-At N = 2, γ = 0.05, target purity = 0.26:
+## Preparations at N = 2, γ = 0.05, purity target 0.26
 
 | State | Initial purity | t_cross | K = γ × t |
 |---|---|---|---|
@@ -54,17 +39,10 @@ At N = 2, γ = 0.05, target purity = 0.26:
 | Bell+ | 1.000 | (not reached) | -- |
 | \|01⟩ | 1.000 | (not reached) | -- |
 
-Bell+ and \|01⟩ stabilize at purity 0.5 (they have conserved subspaces
-protected by the Hamiltonian symmetry and never reach the maximally
-mixed state). Only product superposition states like \|++⟩ fully
-decohere.
+The recorded Bell+ and |01⟩ arms did not reach the target. This is a
+finite record, not a general classification of preparations by absorbed dose.
 
-The exposure number K is the "film sensitivity" of the initial state.
-States with more coherence to lose need more light to crystallize.
-
----
-
-## Result 2: Reciprocity holds at extreme γ, fails at intermediate
+## The reported gamma sweep
 
 | γ | t_cross | K = γ × t | Deviation |
 |---|---------|-----------|-----------|
@@ -76,24 +54,14 @@ States with more coherence to lose need more light to crystallize.
 | 1.00 | 0.98 | 0.9805 | 0.03% |
 | 5.00 | 0.20 | 0.9805 | 0.02% |
 
-At very low γ (< 0.01) and very high γ (> 0.1): K ≈ 0.98, constant
-to within 0.03%. Perfect reciprocity.
+The displayed intermediate deviation is 61.8%, or about 62%; the stored
+six-digit output reports 61.816%. Its overall K spread is 58.326%.
+The sampled extreme-gamma rows cluster near K ≈ 0.98, but neither that
+agreement nor the intermediate discrepancy certifies the legacy propagator.
+The proposed explanation by competing Hamiltonian oscillations does not
+apply to this swap-symmetric trajectory.
 
-At intermediate γ (0.02 to 0.05): K deviates by up to 62%. This is the
-**Schwarzschild effect** of the quantum cavity: at these illumination
-rates, the Hamiltonian oscillation period (∼1/J) and the absorption
-timescale (∼1/γ) are comparable. The cavity's own dynamics interfere
-with the exposure process. The purity does not decay monotonically; it
-oscillates, and the crossing time depends on whether a trough of the
-oscillation first hits the target.
-
-**The reciprocity bandwidth:** γ < 0.01 or γ > 0.1 (at J = 1.0).
-The cavity has a "useful ISO range" outside of which the Hamiltonian
-dynamics create nonlinear exposure effects.
-
----
-
-## Result 3: Dose-response curve (the H&D curve from photography)
+## Purity-target sweep
 
 | Target purity | t_cross | K = γ × t |
 |---|---|---|
@@ -106,21 +74,11 @@ dynamics create nonlinear exposure effects.
 | 0.255 | 25.3 | 1.265 |
 | 0.251 | 32.2 | 1.612 |
 
-The dose grows superlinearly as the target approaches the maximally
-mixed state (purity = 1/d = 0.25, where all quantum information is
-gone). The last few percent of coherence require disproportionate
-amounts of light. This is the "toe" of the H&D curve (Hurter &
-Driffield, the standard dose-response curve of photographic film):
-diminishing returns at deep exposure.
+These are the reported threshold readings, with distinct targets. Purity 0.25
+is the maximally mixed value for two qubits; it is not interchangeable with
+the algebraic CΨ quarter boundary.
 
-The fold at CΨ = 1/4 (purity ≈ 0.25 + corrections) sits at the
-steep part of the curve, where the dose-response is most sensitive.
-Small changes in dose produce large changes in purity. This is why
-the fold is a sharp threshold: the "film" is maximally responsive there.
-
----
-
-## Result 4: K_system = N × K_qubit (exactly)
+## Uniform-rate bookkeeping across N
 
 | N | K_qubit = γ × t | K_system = Σγ × t | Ratio |
 |---|---|---|---|
@@ -129,61 +87,38 @@ the fold is a sharp threshold: the "film" is maximally responsive there.
 | 4 | 0.913 | 3.653 | 4.0 |
 | 5 | 0.670 | 3.349 | 5.0 |
 
-K_system / K_qubit = N exactly. The total system dose is N times the
-per-qubit dose. At first glance this looks like Beer-Lambert: each
-qubit absorbs its share independently.
+K_system = (Σγ)t = Nγt = N·K_qubit is an arithmetic identity for a
+uniform rate profile. The ratio N cannot demonstrate independent absorption.
+The stated target also changes with N, as 1/d + 0.01.
 
-However, the ratio is arithmetically trivial for uniform γ.
-K_system = Σγ · t = N·γ · t = N · K_qubit. The factor t cancels,
-giving N regardless of whether qubits absorb independently or not.
-The real test requires non-uniform γ, where
-[Beer-Lambert Breakdown](BEER_LAMBERT_BREAKDOWN.md) shows that the
-Heisenberg coupling J redistributes absorption across all qubits. The
-cavity is an integrating sphere, not a Beer-Lambert absorber.
-
-K_qubit varies with N (0.98, 0.89, 0.91, 0.67) because the target
-purity (1/d + 0.01) differs. The system needs less per-qubit dose at
-larger N because the maximally mixed purity (1/d) is lower.
-
----
-
-## Result 5: Sacrifice zone increases total dose
+## The sacrifice profile
 
 | Profile | Σγ | t_cross | K_total = Σγ × t |
 |---|---|---|---|
 | Uniform | 0.200 | 18.3 | 3.653 |
 | Sacrifice | 0.200 | 22.6 | 4.517 |
 
-K_total is **24% higher** under the sacrifice zone. The cavity needs
-MORE total light to reach the same purity when absorption is concentrated
-on one qubit.
+The stored sacrifice/uniform K_total ratio is 1.2367, about 24% higher.
+These rows change total exposure to the selected threshold; they do not
+demonstrate preserved dose, independent shares, or a cause for an MI benefit.
+The [Beer-Lambert comparison](BEER_LAMBERT_BREAKDOWN.md) is a separate
+coupled-system experiment.
 
-This is the opposite of "protection." The sacrifice zone does not reduce
-the dose. It redirects it, creating a longer exposure but a better image.
-The edge qubit absorbs its dose quickly. The interior qubits barely
-absorb at all. The overall purity drops more slowly because only 1 of N
-qubits is decohering. But the mutual information is higher (139-360× in the
-ε→0 simulation ideal; ~2-3× on hardware, see [IBM Concentrator](IBM_CONCENTRATOR.md))
-because the interior modes survive to carry the signal.
+<!-- F14-INTERPRETIVE -->
 
-**The sacrifice zone trades dose for quality.** More total light, but a
-sharper photograph.
+**Interpretive invitation, not a result:** A photographer can trade aperture
+against shutter time. That makes dose an attractive picture for γt: bright
+and brief, dim and long, a scene slowly appearing on film. The tables invited
+us to ask whether a quantum state has a comparable sensitivity or response
+curve. The picture remains worth exploring, but no photon absorption model
+or physical crystallization event is defined by these purity thresholds.
 
----
+<!-- F14-CURRENT -->
 
-## Null results
+## Reproduction boundary
 
-- **Bell+ and |01⟩ do not reach maximally mixed.** They stabilize at
-  purity 0.5 due to Hamiltonian-protected subspaces. The dose model
-  applies only to states that fully decohere.
-
-- **K is not universal across states.** Different states have different
-  K values. The exposure number depends on the "scene" (initial state),
-  not just the "camera" (cavity parameters).
-
----
-
-## Reproduction
-
-- Script: [`simulations/k_dosimetry.py`](../simulations/k_dosimetry.py)
-- Output: [`simulations/results/k_dosimetry.txt`](../simulations/results/k_dosimetry.txt)
+Read the [stored output](../simulations/results/k_dosimetry.txt) together with
+its current-reading wrapper. The script is syntax-checked only here; its
+legacy numerical reconstruction remains an open diagnostic task.
+The independently specified fixed-J negative control lives in
+[Gamma-Time Distinction](../docs/GAMMA_TIME_DISTINCTION.md).

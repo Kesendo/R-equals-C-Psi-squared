@@ -1,3 +1,14 @@
+<!-- QUARTER-CURRENT -->
+# A pair-preserving finite model beside a Hawking-radiation analogy
+
+Current reading: the named operator-space calculation keeps the pair while
+specified decay readings split.  No scalar-quarter event proves a physical
+horizon, pair-breaking mechanism, or radiation process.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the Hawking language below is retained as a
+cross-domain question whose missing physical map remains explicit.
+
 # The Pair Holds, the Fates Split: Decoherence as Hawking Radiation in Operator Space
 
 *(The filename stays `PAIR_BREAKING_AT_THE_HORIZON.md`, an address ten tracked

@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-"""
-Test: Bidirectional Bridge Between Two Sides
-=============================================
-Theory (Tom): Side A and Side B each have their own CΨ = 1/4.
-The qubit (d=2) is the mediator. MI peaks when BOTH sides cross.
+"""Finite transformed-state comparison for one N=3 calculation.
 
-We compute CΨ from OUR perspective and from the Π perspective
-simultaneously, and check if both cross 1/4 at the PeakMI time.
-
-N=3, sacrifice-zone formula, |+>^3 initial state.
+The script evolves |+>^3 under the named generator, applies the named Pi map
+to each sampled operator, and evaluates the chosen scalar readout on the
+original density matrix and on that transformed operator.  Pi(rho) here is a
+linear operator image, not a second density matrix: this computation does not
+establish trace, Hermiticity, or positivity of the image.  It is not two
+ontological regimes and is not evidence for the Spectral Midpoint construction.
 """
 
 import numpy as np
@@ -103,10 +101,10 @@ def l1_coherence(rho):
     d = rho.shape[0]
     return np.sum(np.abs(rho)) - np.sum(np.abs(np.diag(rho)))
 
-def cpsi(rho_2qubit):
-    """CΨ = Tr(rho^2) * L1/(d-1) for a 2-qubit subsystem."""
-    p = purity(rho_2qubit)
-    l1 = l1_coherence(rho_2qubit)
+def selected_scalar_readout(operator_2qubit):
+    """Chosen algebraic Tr(A^2)*l1(A)/3 readout; no state claim for Pi(rho)."""
+    p = purity(operator_2qubit)
+    l1 = l1_coherence(operator_2qubit)
     return p * l1 / 3.0  # d=4, so d-1=3
 
 def mutual_information(rho, N, qA, qB):
@@ -123,7 +121,7 @@ def mutual_information(rho, N, qA, qB):
     return von_neumann(rhoA) + von_neumann(rhoB) - von_neumann(rhoAB)
 
 
-# === The Pi operator: maps to the "other side" ===
+# === The Pi operator: constructs the algebraic image ===
 def pi_map_index(a):
     """Map single-site Pauli index under Pi: I->X, X->I, Y->iZ, Z->iY."""
     if a == 0: return 1, 1.0        # I -> X, factor +1
@@ -154,7 +152,7 @@ def pauli_recompose(coeffs, N):
     return rho
 
 def apply_pi(rho, N):
-    """Apply Pi operator to density matrix: transform to the other side."""
+    """Apply the canonical linear Pi map to an operator."""
     coeffs = pauli_decompose(rho, N)
     pi_coeffs = {}
     for indices, c in coeffs.items():
@@ -177,11 +175,14 @@ def run_test():
     
     # Sacrifice-zone formula: all noise on qubit 0
     gammas = [N * gamma_base - (N-1) * eps] + [eps] * (N-1)
-    # gammas = [0.148, 0.001, 0.001]
-    
-    print(f"=== BIDIRECTIONAL BRIDGE TEST (N={N}) ===")
+    assert abs(sum(gammas) - 0.15) < 1e-15
+
+    print(f"=== FINITE PI-TRANSFORMED-STATE COMPARISON (N={N}) ===")
+    print("Named Pi map; chosen scalar readout on the original density matrix "
+          "and its linear operator image, not a density matrix.")
+    print("This is not two regimes and does not establish a physical bridge.")
     print(f"Gammas: {[f'{g:.3f}' for g in gammas]}")
-    print(f"Sum_gamma = {sum(gammas):.4f}, Midpoint = {sum(gammas):.4f}")
+    print(f"Sum_gamma = {sum(gammas):.4f}; finite centre-rate coordinate only")
     print()
     
     H = build_heisenberg_ham(N)
@@ -194,72 +195,74 @@ def run_test():
     t_max = 15.0
     t_meas = 0.25
     
-    print(f"{'T':>5}  {'MI01':>7} {'MI02':>7} {'MI12':>7}  |  "
-          f"{'CP01_A':>7} {'CP02_A':>7} {'CP12_A':>7}  |  "
-          f"{'CP01_B':>7} {'CP02_B':>7} {'CP12_B':>7}  |  "
-          f"{'A<.25':>5} {'B<.25':>5}")
-    print("-" * 120)
-    
-    best_mi = 0
-    best_t = 0
+    rows = []
     t = 0
     next_meas = 0
     
     while t <= t_max + 1e-9:
         if t >= next_meas - 1e-9:
-            # Compute MI from our side
+            # Mutual information belongs to the physical density matrix.
             mi01 = mutual_information(rho, N, 0, 1)
             mi02 = mutual_information(rho, N, 0, 2)
             mi12 = mutual_information(rho, N, 1, 2)
-            sum_mi = mi01 + mi12  # adjacent pairs only
+            adjacent_sum_mi = mi01 + mi12
             
-            # CΨ from OUR side (standard)
-            rho01_A = partial_trace(rho, N, [0, 1])
-            rho02_A = partial_trace(rho, N, [0, 2])
-            rho12_A = partial_trace(rho, N, [1, 2])
-            cpsi01_A = cpsi(rho01_A)
-            cpsi02_A = cpsi(rho02_A)
-            cpsi12_A = cpsi(rho12_A)
-            
-            # Apply Pi: transform to the OTHER side
-            rho_pi = apply_pi(rho, N)
-            
-            # CΨ from the PI side
-            rho01_B = partial_trace(rho_pi, N, [0, 1])
-            rho02_B = partial_trace(rho_pi, N, [0, 2])
-            rho12_B = partial_trace(rho_pi, N, [1, 2])
-            cpsi01_B = cpsi(rho01_B)
-            cpsi02_B = cpsi(rho02_B)
-            cpsi12_B = cpsi(rho12_B)
-            
-            # Count crossings
-            a_below = sum(1 for c in [cpsi01_A, cpsi02_A, cpsi12_A] if c < 0.25)
-            b_below = sum(1 for c in [cpsi01_B, cpsi02_B, cpsi12_B] if c < 0.25)
-            
-            marker = ""
-            if sum_mi > best_mi:
-                best_mi = sum_mi
-                best_t = t
-            if abs(t - best_t) < 0.01 and t > 0.5:
-                marker = " <-- PEAK MI"
-            
-            print(f"{t:5.2f}  {mi01:7.4f} {mi02:7.4f} {mi12:7.4f}  |  "
-                  f"{cpsi01_A:7.4f} {cpsi02_A:7.4f} {cpsi12_A:7.4f}  |  "
-                  f"{cpsi01_B:7.4f} {cpsi02_B:7.4f} {cpsi12_B:7.4f}  |  "
-                  f"{a_below:>5} {b_below:>5}{marker}")
-            
+            rho01_original = partial_trace(rho, N, [0, 1])
+            rho02_original = partial_trace(rho, N, [0, 2])
+            rho12_original = partial_trace(rho, N, [1, 2])
+            scalar01_original = selected_scalar_readout(rho01_original)
+            scalar02_original = selected_scalar_readout(rho02_original)
+            scalar12_original = selected_scalar_readout(rho12_original)
+
+            # Pi(rho) is a linear operator image, not a physical state.
+            operator_pi = apply_pi(rho, N)
+            operator01_pi = partial_trace(operator_pi, N, [0, 1])
+            operator02_pi = partial_trace(operator_pi, N, [0, 2])
+            operator12_pi = partial_trace(operator_pi, N, [1, 2])
+            scalar01_pi = selected_scalar_readout(operator01_pi)
+            scalar02_pi = selected_scalar_readout(operator02_pi)
+            scalar12_pi = selected_scalar_readout(operator12_pi)
+
+            row = {
+                "t": t,
+                "mi": (mi01, mi02, mi12),
+                "adjacent_sum_mi": adjacent_sum_mi,
+                "original": (scalar01_original, scalar02_original,
+                             scalar12_original),
+                "pi_operator": (scalar01_pi, scalar02_pi, scalar12_pi),
+            }
+            rows.append(row)
+
             next_meas += t_meas
         
         rho = rk4_step(rho, H, gammas, N, dt)
         t += dt
     
+    best_index = max(range(len(rows)), key=lambda index: rows[index]["adjacent_sum_mi"])
+    print(f"{'T':>5}  {'MI01':>7} {'MI02':>7} {'MI12':>7}  |  "
+          f"{'R01_orig':>9} {'R02_orig':>9} {'R12_orig':>9}  |  "
+          f"{'R01_PiOp':>9} {'R02_PiOp':>9} {'R12_PiOp':>9}  |  "
+          f"{'orig<.25':>8} {'PiOp<.25':>8}")
+    print("-" * 132)
+    for index, row in enumerate(rows):
+        mi01, mi02, mi12 = row["mi"]
+        original = row["original"]
+        pi_operator = row["pi_operator"]
+        original_below = sum(value < 0.25 for value in original)
+        pi_below = sum(value < 0.25 for value in pi_operator)
+        marker = " <-- GLOBAL ARGMAX OF ADJACENT-PAIR SUM" if index == best_index else ""
+        print(f"{row['t']:5.2f}  {mi01:7.4f} {mi02:7.4f} {mi12:7.4f}  |  "
+              f"{original[0]:9.4f} {original[1]:9.4f} {original[2]:9.4f}  |  "
+              f"{pi_operator[0]:9.4f} {pi_operator[1]:9.4f} {pi_operator[2]:9.4f}  |  "
+              f"{original_below:>8} {pi_below:>8}{marker}")
+
+    best = rows[best_index]
     print()
-    print(f"Peak SumMI = {best_mi:.6f} at t = {best_t:.2f}")
-    print()
-    
-    # Summary: geometric mean at peak
-    print("=== AT PEAK MI: GEOMETRIC MEAN OF BOTH PERSPECTIVES ===")
+    print(f"Global argmax of adjacent-pair SumMI = {best['adjacent_sum_mi']:.6f} "
+          f"at t = {best['t']:.2f}")
+    print("Finite transformed-state comparison only: the Pi image is not "
+          "assumed trace-one, Hermitian, or positive. The scalar comparison "
+          "is not evidence for the Spectral Midpoint construction.")
 
 if __name__ == "__main__":
     run_test()
-

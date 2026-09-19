@@ -3,22 +3,21 @@
 
 Three Heron-r2 chips, 156 qubits each, same CZ-coupling pattern (heavy-hex
 honeycomb). What changes between them is the per-qubit T1/T2 distribution
-and the spatial pattern of which qubits are stably quantum-side. This
+and the spatial pattern of which rows are below R*. This
 script asks four questions:
 
 1. **Score distribution**: how do the chips compare on aggregate
    per-qubit quality? Median + top-10 + bottom-10 score percentiles.
 
-2. **Stable-quantum population**: how many qubits sit at r < R* on each
-   chip (instantaneous snapshot proxy for the 91-day PulseStable archetype)?
+2. **Below-R* population**: how many qubit rows sit at r < R* on each chip?
 
-3. **Topology-addressable stable-quantum chains**: for each chip, find
-   CZ-coupled pairs and triples among the stable-quantum qubits. This
-   is the addressable-uniform-quantum question we ran on Marrakesh:
+3. **Topology-addressable below-R* chains**: for each chip, find
+   CZ-coupled pairs and triples among those rows. This is an addressability
+   and normalized-purity proxy question:
    does Kingston or Fez open chains we couldn't build there?
 
-4. **Best 3- and 5-chains by score**: today's pick on each chip,
-   addressable + stable. Candidates for the next hardware run.
+4. **Best 3- and 5-chains by score**: one snapshot's score-ranked paths on
+   each chip. They are screening rows, not multi-day stability findings.
 
 Hardware access via AIEvolution (external pipeline). This script informs
 the chip-and-path decision; the actual job submission lives elsewhere.
@@ -46,36 +45,37 @@ SNAPS = {
 }
 
 
-def stable_quantum(qubits, r_threshold=R_STAR):
-    """Qubits with r = T2/(2*T1) < R_STAR (instantaneous quantum-side)."""
-    return [q for q in qubits if q.t1_us > 0 and (q.t2_us / (2 * q.t1_us)) < r_threshold]
+def below_rstar_rows(qubits):
+    """Single-snapshot rows with raw r = T2/(2*T1) strictly below fixed R*."""
+    return [q for q in qubits
+            if q.t1_us > 0 and (q.t2_us / (2 * q.t1_us)) < R_STAR]
 
 
-def cz_pairs_among(quantum_qubits, full_qubits):
-    """CZ-coupled pairs where both qubits are in the stable-quantum set."""
-    quantum_ids = {q.qubit for q in quantum_qubits}
+def cz_pairs_among(below_rstar_qubits, full_qubits):
+    """CZ-coupled pairs where both rows are below R*."""
+    below_rstar_ids = {q.qubit for q in below_rstar_qubits}
     by_id = {q.qubit: q for q in full_qubits}
     pairs = set()
-    for q in quantum_qubits:
+    for q in below_rstar_qubits:
         for nbr_id in by_id[q.qubit].cz_neighbours:
-            if nbr_id in quantum_ids and nbr_id != q.qubit:
+            if nbr_id in below_rstar_ids and nbr_id != q.qubit:
                 pair = tuple(sorted([q.qubit, nbr_id]))
                 pairs.add(pair)
     return sorted(pairs)
 
 
-def cz_triples_among(quantum_qubits, full_qubits):
-    """CZ-coupled paths of three qubits where all are stable-quantum."""
-    quantum_ids = {q.qubit for q in quantum_qubits}
+def cz_triples_among(below_rstar_qubits, full_qubits):
+    """CZ-coupled paths of three qubits where all rows are below R*."""
+    below_rstar_ids = {q.qubit for q in below_rstar_qubits}
     by_id = {q.qubit: q for q in full_qubits}
     triples = []
     seen = set()
-    for q in quantum_qubits:
+    for q in below_rstar_qubits:
         for n1 in by_id[q.qubit].cz_neighbours:
-            if n1 not in quantum_ids:
+            if n1 not in below_rstar_ids:
                 continue
             for n2 in by_id[n1].cz_neighbours:
-                if n2 == q.qubit or n2 not in quantum_ids:
+                if n2 == q.qubit or n2 not in below_rstar_ids:
                     continue
                 key = (q.qubit, n1, n2)
                 rev = (n2, n1, q.qubit)
@@ -107,29 +107,29 @@ def main():
         rng = f"[{scores[-1]:.0f} .. {scores[0]:.0f}]"
         print(f"  {name:<12} {len(qubits):>7} {op:>4} {median:>9.2f} {top10:>9.2f} {bot10:>9.2f} {rng:>14}")
 
-    # --- Section 2: stable-quantum population ---
+    # --- Section 2: below-R* population ---
     print()
-    print(f"2. STABLE-QUANTUM POPULATION (r < R* = {R_STAR:.4f})")
+    print(f"2. BELOW-R* POPULATION (R* = {R_STAR:.17g}; equality is at-or-above-R*)")
     print()
-    print(f"  {'backend':<12} {'sq count':>9} {'sq fraction':>12}")
+    print(f"  {'backend':<12} {'below rows':>10} {'below fraction':>14}")
     print("  " + "-" * 40)
-    sq_per_backend = {}
+    below_per_backend = {}
     for name, qubits in loaded.items():
-        sq = stable_quantum(qubits)
-        sq_per_backend[name] = sq
-        frac = len(sq) / len(qubits) * 100
-        print(f"  {name:<12} {len(sq):>9} {frac:>11.1f}%")
+        below_rows = below_rstar_rows(qubits)
+        below_per_backend[name] = below_rows
+        frac = len(below_rows) / len(qubits) * 100
+        print(f"  {name:<12} {len(below_rows):>10} {frac:>13.1f}%")
 
-    # --- Section 3: topology-addressable stable-quantum CZ structures ---
+    # --- Section 3: topology-addressable below-R* CZ structures ---
     print()
-    print("3. STABLE-QUANTUM CZ-COUPLED STRUCTURES PER BACKEND")
+    print("3. BELOW-R* CZ-COUPLED STRUCTURES PER BACKEND")
     print()
-    print(f"  {'backend':<12} {'sq pairs':>9} {'sq triples':>11}")
+    print(f"  {'backend':<12} {'below pairs':>11} {'below triples':>13}")
     print("  " + "-" * 40)
     for name, qubits in loaded.items():
-        sq = sq_per_backend[name]
-        pairs = cz_pairs_among(sq, qubits)
-        triples = cz_triples_among(sq, qubits)
+        below_rows = below_per_backend[name]
+        pairs = cz_pairs_among(below_rows, qubits)
+        triples = cz_triples_among(below_rows, qubits)
         print(f"  {name:<12} {len(pairs):>9} {len(triples):>11}")
         for p in pairs[:5]:
             scores = [score_qubit(next(q for q in qubits if q.qubit == qid)) for qid in p]
@@ -178,16 +178,17 @@ def main():
     print("=" * 78)
     print("READING")
     print()
-    sq_counts = {name: len(sq) for name, sq in sq_per_backend.items()}
-    print(f"  Stable-quantum populations: marrakesh {sq_counts['marrakesh']}, "
-          f"kingston {sq_counts['kingston']}, fez {sq_counts['fez']}")
+    below_counts = {name: len(rows) for name, rows in below_per_backend.items()}
+    print(f"  Below-R* populations: marrakesh {below_counts['marrakesh']}, "
+          f"kingston {below_counts['kingston']}, fez {below_counts['fez']}")
     print(f"  All three are 156-qubit Heron r2 chips with the same heavy-hex CZ graph,")
-    print(f"  so structural differences come from per-qubit T1/T2 variation, not topology.")
+    print("  Counts are cross-backend, path, and date associations; calibration and")
+    print("  other backend differences remain confounded despite the shared topology.")
     print()
-    print(f"  Pick logic for the next hardware run:")
+    print("  Empirical screen for a later reviewed hardware choice:")
     print(f"    A. continuity (same path as prior runs)  → marrakesh [48, 49, 50]")
     print(f"    B. best current score on any chip        → see Section 4")
-    print(f"    C. uniform-quantum experiment            → see Section 3 pairs/triples")
+    print(f"    C. all-below-R* comparison                → see Section 3 pairs/triples")
 
 
 if __name__ == "__main__":

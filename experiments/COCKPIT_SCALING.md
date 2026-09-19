@@ -12,25 +12,25 @@
 
 ## What this document is about
 
-The cockpit framework introduced in [Cockpit Universality](COCKPIT_UNIVERSALITY.md) showed that for small Heisenberg systems (N=2 to 5), three observables capture 88 to 96 percent of the decoherence trajectory variance. The natural follow-up question is whether this still works when the system gets bigger. If the framework is going to be useful for real hardware monitoring, it needs to survive the jump from toy systems to systems with at least ten qubits.
+The cockpit framework introduced in [Cockpit Universality](COCKPIT_UNIVERSALITY.md) was evaluated by PCA: the first three PCs of a selected simulated feature dashboard explain 88 to 96 percent of its trajectory variance for finite Heisenberg systems (N=2 to 5). This is a statement about computed features; it does not establish three hardware observables, and a hardware-monitoring protocol or cost remains open. The follow-up question here is whether the finite PCA pattern persists at the larger simulated sizes that the propagation engine can reach.
 
-This document extends the test to N=7, 9, and 11 using the C# matrix-free propagation engine, which can handle these sizes where the Python pipeline runs out of memory. We test two topologies (Heisenberg chain and star), with the Bell pair always placed on the two central qubits so that the observed pair is the same physical object regardless of system size. The result is that the cockpit framework scales, but not in the way the small-N baseline would have predicted.
+This document extends the finite calculation to N=7, 9, and 11 using the C# propagation engine, which uses its dense path at these sizes and reaches cases where the Python pipeline runs out of memory. We test two topologies (Heisenberg chain and star), with the Bell pair always placed on the two central qubits so that the observed pair is the same physical object regardless of system size. The result is a table of PCA variances, feature correlations, and separately measured ESD times, not a hardware-monitoring protocol.
 
-The scaling behavior is governed by a physical effect that does not appear at N=5: Entanglement Sudden Death. When a Bell pair sits inside a growing dephasing environment, its concurrence does not decay smoothly to zero. It collapses to exactly zero in finite time, often within a single time unit, and the rest of the trajectory is classical decoherence on what is essentially a separable mixed state. The effective dimensionality of the cockpit trajectory therefore depends on how much of the trajectory occurs before versus after this collapse. For chain topology the collapse happens at roughly the same time regardless of N, so longer trajectories are dominated by the post-collapse classical phase and become structurally simpler. For star topology the collapse time grows with N (more leaves distribute the entanglement load and prolong its lifetime), so the trajectory retains more of its quantum richness.
+The displayed ESD threshold times and PCA component counts are a finite association, not an identified mechanism. Concurrence crosses the stated numerical threshold at finite sampled times, and the fraction of each trajectory sampled after that crossing differs among the rows. Placing those timings beside `n95` is descriptive: it does not show that the crossing causes the component count, that chain boundaries are screened, or that star geometry prolongs entanglement.
 
-Both topologies pass the cockpit threshold (3-PC coverage above 90 percent) at every N tested, but for different physical reasons. The interesting finding is not just that the framework scales, but that the scaling shape (n95 falling rather than rising with N) is set by a known physical mechanism with predictive power.
+In every displayed chain and star panel, the first three PCs explain above 90 percent of the selected-feature variance. The fall in `n95` is associated in these rows with the length of the post-ESD part of the sampled trajectory; the PCA does not by itself identify a mechanism or establish a measurement-cost advantage.
 
 ---
 
 ## Abstract
 
-For Heisenberg spin chains and star topologies under uniform local Z-dephasing, with a Bell pair initialized on the two central qubits and the remaining qubits in `|+>` product states, the 3-observable cockpit framework continues to capture 91.9 to 99.0 percent of the trajectory variance for the entangled-observer pair across N=5 to N=11. The effective dimensionality n95 decreases sharply for chain topology (from 4 at N=5 to 2 at N=11) and decreases gently for star topology (from 4 to 3). This difference is traced to topology-dependent Entanglement Sudden Death timing: the chain center pair loses its concurrence at t ~ 1 regardless of N, while the star center pair retains concurrence until t ~ 3.9 at N=11 (versus t ~ 0.5 at N=5). Purity is the dominant PC1 proxy in every tested configuration. The cockpit framework scales beyond the small-N baseline, with the qualification that the scaling shape (n95 falling rather than rising with N) is set by ESD timing rather than by any change in the framework's observable count.
+For Heisenberg spin chains and star topologies under uniform local Z-dephasing, with a Bell pair initialized on the two central qubits and the remaining qubits in `|+>` product states, the first three PCs explain 91.9 to 99.0 percent of the variance of the selected active simulated features across the displayed N=5 to N=11 trajectories. The effective dimensionality `n95` decreases from 4 to 2 for the chain and from 4 to 3 for the star. The sampled ESD times co-vary with that finite pattern, but the PCA does not establish the ESD mechanism. This covariance does not identify a cause. It does not establish a hardware measurement protocol. Purity has the largest absolute correlation with PC1 in every tested configuration; that proxy correlation is not an observable-count result.
 
 ---
 
 ![Cockpit scaling: 3-PC coverage and effective dimensionality from N=5 to N=11](../simulations/results/cockpit_scaling/cockpit_scaling_curve.png)
 
-*Four-panel scaling result for the Bell pair observer (center_bell pair) across topologies and system sizes. **Panel A** shows 3-PC cumulative variance: chain (blue) rises from 94.4 percent at N=5 to 99.0 percent at N=11, star (orange) rises more gently from 91.9 percent to 95.3 percent. The 0.85 reference line marks the practical usefulness threshold; both topologies stay well above it across all tested N. **Panel B** shows the effective dimensionality n95 as a function of N: chain drops from 4 to 2 (and stabilizes at 2 from N=7 onward), while star drops only from 4 to 3 at N=11. The COCKPIT_UNIVERSALITY small-N extrapolation tentatively suggested `n95 ~ N` (one extra dimension per added qubit); both topologies sit well below this prediction across all tested N. **Panel C** shows the PC1 variance fraction, the share of the trajectory captured by the single dominant axis: chain rises sharply from about 47 percent at N=5 to 74 percent at N=11, indicating that the post-ESD classical regime dominates the longer trajectories. Star stays flatter at around 50 to 60 percent, reflecting its more sustained quantum dynamics. **Panel D** shows that Purity is the dominant PC1 proxy in every analyzed configuration (all 8 center_bell points across both topologies, with correlation strength near 1.00), confirming that the cockpit's dominant axis maintains a stable physical interpretation across the N range.*
+*Four-panel finite summary for the Bell-pair observer (`center_bell`) across the displayed topologies and sizes. **Panel A** shows 3-PC cumulative variance: chain (blue) rises from 94.4 percent at N=5 to 99.0 percent at N=11, while star (orange) rises from 91.9 percent to 95.3 percent. The 0.85 line is a plotted reference line, not a hardware-usefulness threshold. **Panel B** shows `n95`: chain changes from 4 to 2 and star from 4 to 3. **Panel C** reports the PC1 variance fraction, without assigning its change to ESD. **Panel D** reports that Purity has the largest absolute correlation with PC1 in the eight displayed `center_bell` rows. These covariance summaries do not identify a cause or give PC1 one stable physical meaning.*
 
 ---
 
@@ -48,7 +48,7 @@ The center_bell pair is the headline subject. The adjacent pair provides context
 
 ### Initial state choice and the V1 lesson
 
-A previous version of this experiment (now archived) placed the Bell pair on the boundary qubits `(0, 1)` and analyzed the center pair as the observer. This produced what looked like a striking scaling result (3-PC coverage rising from 88 percent to 99.8 percent) that turned out to be an initial-state artifact: at N greater than 5, the center pair no longer contained any qubit from the Bell pair, so its trajectory was the trivial decoherence of a `|+>|+>` product state with concurrence exactly zero throughout. The "high coverage" was PCA on numerical noise after standardization. The current experiment fixes this by anchoring the Bell pair to the center for every N, so that the entangled observer is the same physical object across all tested sizes.
+A previous version of this experiment (now archived) placed the Bell pair on the boundary qubits `(0, 1)` and analyzed the center pair as the observer. At N greater than 5, that center pair no longer contained a Bell-pair qubit and its concurrence stayed zero, so the 88 to 99.8 percent coverage was outside the headline entangled-observer scope. It was not PCA on numerical noise: seven active computed features, including a large purity change under local dephasing, still varied. The current experiment instead anchors the Bell pair to the center so that the headline pair is the same kind of object at every tested size.
 
 ### Sanity gates
 
@@ -64,15 +64,15 @@ All 8 center_bell configurations passed Gate 1. The lowest center_bell concurren
 
 At N=5 chain, the center_bell pair (2,3) is the Bell pair embedded between two `|+>` qubits on the left and one on the right. The C# code asserts at startup that the initial reduced state on (c1, c2) has purity 1.0 and concurrence 1.0; if either fails the run aborts. The PCA result for N=5 chain center_bell gave n95=4 and 3-PC coverage of 94.4 percent, with Purity as the PC1 proxy at correlation 1.00. These match the expected ranges for a Bell pair embedded in a small Heisenberg chain.
 
-As an additional independent check, the trajectory of the center_bell pair was reproduced on April 7, 2026, by direct spectral evolution of the full 32x32 Liouvillian, starting from the same initial state convention (`|Phi+><Phi+|_{2,3}` tensor `|+><+|^{otimes 3}`, with the spectator qubits explicitly in the pure `|+>` state, NOT maximally mixed). The two methods agree to about 0.001 in concurrence at every sampled time point, including the entanglement revival between t=1.9 and t=2.4. See Section 11 for the full cross-validation, the open analytical question it raised, and a one-line warning to the next person who tries to predict ESD timing from the spectrum alone.
+As an additional independent check, the trajectory of the `center_bell` pair was reproduced on April 7, 2026, by direct spectral evolution. The 32x32 Hilbert-space density matrix and Hamiltonian are distinct from the full 1024x1024 Liouvillian. Starting from the same initial state convention (`|Phi+><Phi+|_{2,3}` tensor `|+><+|^{otimes 3}`, with the spectator qubits in the pure `|+>` state), the spectral route and the C# dense propagation path agree to about 0.001 in concurrence at every sampled time point. Section 11 gives the scope of that numerical cross-check.
 
 ### Compute
 
-The C# matrix-free propagation engine ([Program.cs cockpit mode](../compute/RCPsiSquared.Propagate/Program.cs)) was used for all 8 configurations. Total runtime was approximately 19 minutes on the home PC (16-core, 128 GB RAM). The N=11 runs each took about 9 minutes and used roughly 4 GB RAM in the dense path. No matrix-free path was needed for N less than or equal to 13, so the matrix-free option remains available but unused for this experiment.
+The C# propagation engine ([Program.cs cockpit mode](../compute/RCPsiSquared.Propagate/Program.cs)) used its dense propagation path for all 8 configurations. Total runtime was approximately 19 minutes on the home PC (16-core, 128 GB RAM). The N=11 runs each took about 9 minutes and used roughly 4 GB RAM. The separate matrix-free option begins above this experiment's size range and was not used here.
 
 ---
 
-## 2. Entanglement Sudden Death is the central mechanism
+## 2. Finite ESD timing and PCA association
 
 ### What we measured
 
@@ -89,25 +89,25 @@ ESD time here is defined as the first sampled time at which the concurrence drop
 
 ### Chain: ESD time is approximately N-independent
 
-For the chain topology, the ESD time hovers around 1.0 for every tested N. The Bell pair on qubits (c1, c2) sees the same local environment (one Heisenberg coupling J=1.0 to each immediate neighbor, one local Z-dephasing rate gamma=0.05 on each Bell qubit, plus the next layer of neighbors at one bond removed). Whether the chain extends to length 5 or length 11, the local dynamics that drive the entanglement collapse are the same. The non-local part of the chain only contributes by changing the boundary effects, which for a center pair are screened by the intermediate qubits.
+For the chain topology, the four sampled threshold times cluster near 1.0. The Bell pair has the same immediate couplings and local dephasing rate in these rows, which suggests a locality question for a future controlled calculation. These four displayed rows do not identify a mechanism, do not isolate boundary distance, and do not show that intermediate qubits screen the boundary.
 
-A small refinement: at N=5, the chain center_bell pair shows entanglement revival. Concurrence drops below 0.001 at t=0.9, but recovers briefly to about 0.114 at t=2.0 before collapsing again. This is non-Markovian behavior: the bath is small enough that information can flow back from environment qubits to the Bell pair before being fully dissipated. At N greater than or equal to 7 the revival disappears, the concurrence stays flat at zero after the first collapse, and the dynamics become effectively Markovian. The threshold N=7 represents the smallest chain for which the bath is "large enough" to absorb the entanglement irreversibly.
+At N=5, concurrence first falls below 0.001 at `t=0.9` and later reaches about 0.114 at `t=2.0`; the displayed N=7, 9, and 11 samples show no corresponding revival. A revival in one reduced-state observable does not establish information backflow or failure of CP divisibility, and its absence at the sampled times does not establish a Markovian threshold or irreversible absorption. Those classifications require a channel-level test that this experiment did not run.
 
 ### Star: ESD time grows with N
 
-For the star topology, ESD time increases substantially with N: from 0.5 at N=5 to 3.9 at N=11, a factor of about 8 over a factor of 2.2 in N. The mechanism is monogamy of entanglement combined with the star's hub-and-spoke geometry. The Bell pair sits on two leaves; the central hub qubit is connected to all leaves. As N grows, the hub couples to more spectator leaves, which adds more channels for the entanglement to spread into. Counterintuitively, having more leaves slows down the per-pair entanglement collapse, because the available "entanglement budget" on the central hub gets distributed more thinly across more qubits, and the rate at which any single pair loses its share is reduced.
+For the star topology, the displayed threshold time increases from 0.5 at N=5 to 3.9 at N=11. The Bell pair sits on two leaves while the hub connects to every leaf; redistribution is one possible story, while monogamy remains an interpretive hypothesis worth testing. The four rows do not isolate either effect, do not provide an entanglement budget, and do not establish why the threshold time changes.
 
-This is consistent with known results on entanglement distribution in star networks. The cockpit framework here is providing an indirect measurement of a structural quantum-information property of the topology, which is a useful side benefit.
+The finite star/chain contrast motivates a topology-controlled experiment; this PCA does not indirectly measure a topological property.
 
 ### Why this matters for the cockpit
 
-The post-ESD phase of a Bell pair trajectory is structurally low-dimensional: purity decays smoothly, the off-diagonal Bell fidelities decay smoothly, and the von Neumann entropy is a deterministic function of the eigenvalues. A single principal component can capture most of the variance in this phase, because purity and SvN are nearly perfectly anti-correlated and the Bell fidelities co-decay along with them. The pre-ESD phase, by contrast, has independent variation in concurrence and the Bell fidelities, contributing additional principal components that PCA assigns to PC2 and beyond.
+The sampled post-threshold intervals contain several strongly correlated dashboard features, while earlier intervals include additional variation in concurrence and Bell fidelities. PCA summarizes that covariance; it does not label a quantum/classical phase or show that ESD creates a principal component.
 
-When the post-ESD phase is long compared to pre-ESD (chain at N greater than or equal to 7, where ESD is at t ~ 1 and the total trajectory runs to t = 20), the post-ESD variance dominates the total and PC1 alone covers around 74 percent. PC2 picks up the pre-ESD residual and brings cumulative coverage above 95 percent, so n95 = 2. When the post-ESD phase is shorter relative to pre-ESD (star at all tested N, where ESD ranges from t=0.5 to t=3.9), more PCs are needed to capture the larger pre-ESD variance fraction, so n95 stays at 3 or 4.
+In the displayed chain rows, the threshold occurs near `t=1` within a trajectory sampled to `t=20`, and PC1 explains up to 74 percent. The star rows have later thresholds and `n95=3` or 4. These quantities co-vary in this finite table, but no windowed-PCA intervention was run to assign the variance difference to the time before or after the threshold.
 
-So the chain n95 dropping from 4 (at N=5, where ESD is at t=0.9 and the trajectory has time for Markovian-plus-revival behavior) to 2 (at N greater than or equal to 7, where ESD is at t ~ 1 and the rest of the t=20 trajectory is purely classical) is not a sign that "the cockpit gets simpler with bigger systems". It is a sign that **the post-ESD classical phase dominates the longer trajectories**. The star n95 staying at 3 to 4 reflects the longer ESD time and the corresponding longer quantum phase.
+The PCA component count and sampled ESD times are associated measurements, not a derived causal chain. In particular, the table does not establish a classical phase after the threshold, a Markovian transition at N=7, or a one-parameter explanation of `n95`.
 
-This is the core finding of the experiment. Section 8 below gives the same explanation in the optical cavity language that the rest of the repository uses; readers familiar with the Absorption Theorem and the V-Effect cavity reframing may want to skip ahead.
+This is the core finite finding of the experiment. Section 8 offers a separate optical-cavity interpretation; it is not a derivation from the cavity census.
 
 ---
 
@@ -120,13 +120,13 @@ This is the core finding of the experiment. Section 8 below gives the same expla
 | 9  | 8        | 2   | 98.4%         | 73%          | Purity         |
 | 11 | 8        | 2   | 99.0%         | 74%          | Purity         |
 
-The 3-PC coverage rises monotonically from 94.4 percent to 99.0 percent. The effective dimensionality n95 drops from 4 to 2 between N=5 and N=7, then stays constant at 2 for N=9 and N=11. The number of active features falls from 9 to 8 at N greater than or equal to 7 because ph03 (the phase angle of the off-diagonal element) drops below the std=1e-6 threshold; under Markovian Z-dephasing the off-diagonal phase becomes effectively frozen.
+The 3-PC coverage rises monotonically from 94.4 percent to 99.0 percent. The effective dimensionality `n95` drops from 4 to 2 between N=5 and N=7, then stays at 2 for N=9 and N=11. The active-feature count falls from 9 to 8 because the numerical `ph03` branch has sub-threshold variance in those chain rows. The global spin-flip symmetry makes the relevant pair coherence real at every tested N; apparent phase variation can instead come from a zero crossing or a `0`-to-`pi` branch change.
 
-PC1 has Purity as its dominant proxy at every tested N, but the PC1 loadings actually have similar magnitudes on Purity, von Neumann entropy, and several Bell fidelities. The reason PC1 covers so much variance at N=11 (74 percent) is that under post-ESD classical decoherence, Purity, SvN, and the Bell fidelities all evolve as deterministic functions of a single underlying mixture parameter, so they collapse onto one principal component.
+Purity has the largest absolute correlation with PC1 at every tested N, while the PC1 loadings also have similar magnitudes on von Neumann entropy and several Bell fidelities. At N=11 PC1 explains 74 percent of the selected-feature variance. That covariance does not identify a one-parameter mechanism or prove that a post-threshold trajectory is classical.
 
-PC2 at N=11 chain is loaded primarily on `psi_plus` (-0.69), `concurrence` (+0.51), and `phi_plus` (+0.38), and explains 22.7 percent of the variance. This is the "pre-ESD signature" axis: it captures the brief window between t=0 and the ESD time during which the Bell pair is still entangled and the Bell fidelities can move independently of the purity. This PC contributes meaningfully to coverage even though it lives in only a small fraction of the trajectory's wall-clock duration, because the variance it captures during the pre-ESD window is large.
+PC2 at N=11 chain is loaded primarily on `psi_plus` (-0.69), `concurrence` (+0.51), and `phi_plus` (+0.38), and explains 22.7 percent of the variance. Calling it a "pre-ESD signature" is only a reading suggested by those loadings; this analysis did not recompute PCA on separated time windows to establish that attribution.
 
-Together, PC1 and PC2 cover 97.2 percent of the chain center_bell N=11 variance. PC3 adds another 1.8 percent. The cockpit's "3-observable" claim is satisfied with room to spare.
+Together, PC1 and PC2 cover 97.2 percent of the selected chain `center_bell` N=11 feature variance. PC3 adds another 1.8 percent. These are three principal components of the computed dashboard, not a certificate that three hardware observables suffice.
 
 ---
 
@@ -139,9 +139,9 @@ Together, PC1 and PC2 cover 97.2 percent of the chain center_bell N=11 variance.
 | 9  | 9        | 4   | 94.8%         | 54%          | Purity         |
 | 11 | 9        | 3   | 95.3%         | 58%          | Purity         |
 
-The star topology shows a flatter scaling profile than the chain. Coverage rises gently from 91.9 to 95.3 percent. n95 stays at 4 for N=5, 7, 9 and drops to 3 only at N=11. All 9 features remain active across every tested N: unlike the chain, the star center_bell trajectory keeps its phase angle ph03 above the std=1e-6 threshold. This is a topological consequence of the star's hub-and-spoke connectivity: the central hub qubit redistributes Hamiltonian-driven dynamics between Bell pair and spectator leaves, which keeps the off-diagonal phase oscillating long enough to register variance.
+The star topology shows a flatter finite profile than the chain. Coverage rises from 91.9 to 95.3 percent; `n95` stays at 4 for N=5, 7, and 9 and is 3 at N=11. All nine computed features pass the variance gate in these rows. The pair coherence phase remains real by the same global spin-flip symmetry as in the chain; numerical `ph03` activity records zero crossings or a `0`/`pi` branch, not a continuously rotating phase. The different gate outcome does not establish a topological cause.
 
-PC1 in star topology stays close to 50 to 58 percent of total variance across all N, indicating that the dominant axis is less dominant than in the chain case. The star trajectory is more genuinely multi-dimensional because the longer ESD time leaves more room for independent variation of the Bell fidelities and the concurrence.
+PC1 in star topology explains 50 to 58 percent of the selected-feature variance. The later sampled ESD thresholds and the larger `n95` values appear in the same four rows, but that association does not establish that longer ESD times cause the component count.
 
 ---
 
@@ -149,9 +149,9 @@ PC1 in star topology stays close to 50 to 58 percent of total variance across al
 
 At chain N greater than or equal to 7 the analysis script drops one feature (ph03) before standardization because its variance falls below 1e-6. This is reported in the `n_active` column above as 8 instead of 9.
 
-The empirical observation is that ph03 stays at exactly zero throughout the trajectory for chain center_bell pairs at N greater than or equal to 7 (numerically the standard deviation is around 6e-18, which is floating-point noise around exact zero). The mechanism is presumably a symmetry of the initial state preserved by the combined Hamiltonian and dephasing dynamics: Bell+ has a real off-diagonal element `rho[0,3] = 0.5`, and the combined Heisenberg-plus-Z-dephasing evolution appears to preserve this realness for chain initial states with `|+>^(N-2)` tensor factors. A formal proof of this symmetry is not attempted here; the empirical observation is sufficient for the gate to drop the feature correctly.
+The global spin-flip proof in Limitation 6 makes the relevant reduced coherence real at every N and in both displayed topologies. Thus `ph03` is restricted to `0` or `pi`; apparent variance arises near zero crossings or a 0-to-pi branch change. The chain N=7, 9, and 11 rows happen to remain on one branch, giving the reported standard deviation near `6e-18`.
 
-This is not a failure of the feature set, it is a correct identification by the gate that ph03 carries no usable PCA information for these specific configurations. In the star case, where the Hamiltonian dynamics are richer due to the hub coupling, ph03 stays above threshold and remains active.
+The gate therefore drops `ph03` when that branch label carries no usable variance. Its retention in the displayed star rows reflects branch changes in those trajectories, not an N-dependent freezing mechanism or evidence that hub dynamics are intrinsically richer.
 
 A future iteration of the cockpit feature set could replace ph03 with something more informative for chain topologies, for example the magnitude of `rho[0,3]` (which is non-trivially decaying) instead of its phase. This is logged as a follow-up question, not a problem with the current result.
 
@@ -161,9 +161,9 @@ A future iteration of the cockpit feature set could replace ph03 with something 
 
 The far_edge pair was included in the experiment as an expected-trivial control class: two `|+>` qubits at the chain boundary, far from the central Bell pair, expected to show degenerate dynamics dominated by local dephasing without quantum-information content. The expectation was that the sanity gates would catch and drop these configurations as trivial.
 
-What actually happened: at N greater than or equal to 7, the chain far_edge pair has concurrence exactly zero throughout the trajectory (max = 0, std = 2.5e-22, which is floating point noise around zero) and ph03 exactly zero (std = 6.6e-18, same situation). However, the other features (purity, von Neumann entropy, Bell fidelities, psi_norm) do show variation, because the two boundary `|+>` qubits undergo their own local dephasing dynamics. Purity ranges from 1.0 to 0.256 over the trajectory, exactly the same range as the center_bell pair, because the local decoherence of `|+>|+>` is structurally identical to the post-ESD phase of a Bell pair.
+What actually happened: at N greater than or equal to 7, the chain far_edge pair has concurrence exactly zero throughout the trajectory (max = 0, std = 2.5e-22, which is floating point noise around zero) and ph03 exactly zero (std = 6.6e-18, same situation). However, the other features (purity, von Neumann entropy, Bell fidelities, psi_norm) do show variation as the two boundary `|+>` qubits evolve under the displayed finite protocol. Purity ranges from 1.0 to 0.256 over the trajectory, the same displayed numerical range as for the center_bell pair. Matching that one feature range does not make the two trajectories structurally identical.
 
-This means: 7 of 9 features are active, the purity range is large, Gates 2 and 3 both pass. Gate 1 does not apply to far_edge. The PCA on this trajectory gives n95=1 and 3-PC coverage above 99 percent, but the result is not informative about the cockpit framework's ability to monitor entangled observers; it is just confirming that classical decoherence is one-dimensional.
+This means: seven active selected features remain, the purity range is large, and Gates 2 and 3 both pass. Gate 1 does not apply to far_edge. The PCA on this trajectory gives n95=1 and 3-PC coverage above 99 percent: one covariance direction explains at least 95 percent of the variance within this selected dashboard. The row is not informative about the cockpit framework's ability to monitor entangled observers, and it does not establish that the full dynamics are one-dimensional or classical.
 
 The far_edge pair therefore reports as "analyzed" rather than "dropped", but its high coverage number is not a contribution to the headline scaling result. The cockpit framework's relevant scope is the entangled observer class (center_bell), not arbitrary pairs in the system. Reporting the far_edge numbers in the same table as center_bell would be misleading; this section exists to make that explicit.
 
@@ -182,99 +182,94 @@ The far_edge pair therefore reports as "analyzed" rather than "dropped", but its
 
 The adjacent pair is initially separable (one `|+>` qubit and one Bell-pair qubit, initial purity 0.5, initial concurrence 0) but is Hamiltonian-coupled to the Bell pair. Its trajectory therefore picks up dynamics indirectly. The 3-PC coverage stays in the 89 to 97 percent range across all N for both topologies, comfortably above the 85 percent threshold.
 
-The interesting feature here is the PC1 proxy transition from Purity to Psi-norm at N=9 for chain (and at N=7 for star). At small N, the dominant axis of variation is bulk mixture (Purity). At larger N, it shifts to coherence magnitude (Psi-norm), reflecting that as the chain or star grows the adjacent pair's dynamics become coherence-driven rather than mixture-driven. This is a qualitative transition, not just a quantitative shift, and it would be worth following up in a separate experiment that asks whether the adjacent pair's PC1 identity transition has a precise N at which it occurs (and whether it corresponds to a topological or spectral threshold).
+The PC1 proxy label changes from Purity to Psi-norm at N=9 for the chain and at N=7 for the star. A proxy is the computed feature with the largest absolute correlation to a PC score, so this proxy switch is a correlation-label change. It does not establish a coherence-driven transition, a sharp N-threshold, or a topological mechanism; those remain follow-up questions.
 
 ---
 
 ## 8. Cavity reframing: the same result in optical language
 
-Everything in this document so far has been written in the quantum-information vocabulary that the original COCKPIT_UNIVERSALITY paper used: concurrence, entanglement, Bell pair lifetime, monogamy of entanglement. That language is correct, but it is not the language the rest of this repository uses. Since early April 2026 the canonical framing has been the optical cavity reframing introduced in [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) and developed in [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md), [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md), and the [Absorption Theorem](ABSORPTION_THEOREM_DISCOVERY.md). In that language, the cockpit scaling result is not a new finding so much as a direct empirical application of theorems that already exist in the repo.
+Everything in this document so far has been written in quantum-information vocabulary: concurrence, entanglement, Bell-pair lifetime, and monogamy. The cavity vocabulary below is an interpretive translation. These time-domain PCA and ESD rows are **not derived from the cavity census**. The Absorption Theorem supplies exact **per-mode decay rates**, but those rates are **insufficient** by themselves to determine the first zero of **nonlinear ESD**.
 
-This section translates the result into cavity language and shows the connections.
+**Interpretive invitation — not a result:** this section translates the measured trajectory into cavity language and asks which connections might be useful. It does not promote that language to a second proof of the data.
 
 ### Translation table
 
-| Quantum-information language | Optical cavity language |
-|------------------------------|-------------------------|
-| Bell pair initial state on `(c1, c2)` | Coherent input mode pumped into the cavity at qubits `c1, c2` |
-| Concurrence of the Bell pair | Magnitude of the cavity's coherent (light) component |
-| Entanglement Sudden Death | Absorption of the coherent mode by the illumination `gamma` |
-| ESD time | Mode absorption time, i.e. cavity finesse for this specific mode |
-| Z-dephasing rate gamma | External illumination intensity per site |
-| Heisenberg coupling J | Internal cavity coupling between elements |
-| Markovian limit (N greater than or equal to 7) | Bath large enough that absorbed light does not return |
-| Entanglement revival (chain N=5) | Non-Markovian re-emission from a finite cavity |
-| Monogamy of entanglement | Aperture distribution of light over multiple collection elements |
-| n95 (effective dimensionality) | Effective number of cavity modes the trajectory traverses |
-| Purity as PC1 proxy | Mode purity as the dominant trajectory axis |
-| post-ESD classical phase | Post-absorption classical diffusion regime |
-| pre-ESD quantum phase | Pre-absorption coherent mode lifetime |
+| Measured or computed object | Interpretive cavity question (not an identity) |
+|-----------------------------|-----------------------------------------------|
+| Bell-pair initial state on `(c1, c2)` | Could it be pictured as an input prepared at two sites? |
+| Wootters concurrence | Is there a useful optical analogy for this nonlinear reduced-state functional? |
+| First sampled concurrence threshold crossing | Can an absorption picture help organize the timing without predicting it? |
+| Z-dephasing rate `gamma` | What is gained or lost by picturing local dephasing as illumination? |
+| Heisenberg coupling `J` | Can coupling be pictured as internal cavity transport? |
+| Concurrence revival in the N=5 row | What channel-level test would distinguish memory from finite-system recurrence? |
+| `n95` of the selected dashboard | Why do a few feature-covariance directions explain these finite trajectories? |
+| Purity's correlation with PC1 | Why does state purity correlate with the leading dashboard direction? |
 
 ### The Bell pair as cavity input
 
-The Bell+ state on the central pair has a clean Pauli decomposition: `rho_Bell+ = (1/4)(II + ZZ + XX - YY)`. Three of the four Pauli strings are weight-zero or pure-Z (`II`, `ZZ`), one weights as `n_XY = 2` per string (`XX` and `YY` both contain two transverse Pauli factors). In the cavity language, the Bell pair is half "structure" (the `II + ZZ` content, immune to illumination) and half "light" (the `XX - YY` content, fully exposed to absorption). The entangled part of the Bell pair is precisely the light-bearing part: concurrence reads exactly the same Pauli content that the Absorption Theorem says will be absorbed.
+The Bell+ state on the central pair has the Pauli decomposition `rho_Bell+ = (1/4)(II + ZZ + XX - YY)`: two structure terms and two transverse terms. This is a decomposition into operators, not probabilities assigned to persistent components. The Absorption Theorem labels eigenoperator decay rates; Hamiltonian mixing means this initial decomposition does not by itself identify which part of Wootters concurrence decays at which rate.
 
-This is why ESD looks like sudden absorption rather than smooth decay. The light-bearing components `XX` and `YY` are not eigenmodes of the Lindbladian; they get mixed by the Hamiltonian into multiple cavity modes, each of which has its own `n_XY` and absorbs at rate `2*gamma*n_XY`. The Bell pair concurrence is a non-linear function of how much of the original light content survives across all those modes simultaneously. When enough of the light is absorbed, the concurrence drops to zero in finite time, even though the underlying mode magnitudes are still decaying smoothly.
+The decomposition invites asking whether absorption language can help organize the finite threshold crossing. It does not answer the question: Wootters concurrence is a nonlinear function of a reduced density matrix, and the per-eigenmode decay identity alone does not determine its first zero.
 
 ### The chain vs star asymmetry as an aperture effect
 
-The Absorption Theorem says: every Liouvillian eigenmode has decay rate `Re(lambda) = -2*gamma*<n_XY>`. The implication for the Bell pair is that the absorption time of its light-bearing components depends on how the Hamiltonian distributes the `XX, YY` content across the eigenmodes. If the relevant modes have high `<n_XY>` (concentrated light), absorption is fast. If the modes have low `<n_XY>` (distributed light), absorption is slow.
+The Absorption Theorem gives `Re(lambda) = -2*gamma*<n_XY>` for each Liouvillian eigenmode. Connecting those linear mode rates to a Bell-pair concurrence threshold additionally requires the expansion coefficients, phases, reduced-state map, and nonlinear Wootters construction. This document has not derived that connection.
 
-**Chain cavity.** A linear arrangement, `N - 1` bonds. The Hamiltonian mixes the Bell pair light into modes that span the chain, but the light density per mode is set by the local geometry around the Bell pair position and is approximately N-independent for a center pair (the boundary qubits are too far away to matter). The dominant Bell-pair-bearing modes therefore have approximately constant `<n_XY>` regardless of N. Absorption rate is constant. Bell pair lifetime (ESD time) is constant at t ~ 1.
+**Chain invitation.** The four chain threshold times cluster near `t=1`. One may ask whether locality or eigenmode weights help explain that row, but no relevant-mode census or boundary-distance intervention was performed here.
 
-**Star cavity.** A hub with `N - 1` leaves, all bonds going through the same central qubit. The Bell pair sits on two leaves, but because every leaf is coupled to the hub, the Hamiltonian distributes the Bell pair light across **all leaves** through the central node. With more leaves (larger N), the same total light is spread across more cavity modes. Each individual mode has lower `<n_XY>`, lower absorption rate, longer lifetime. The Bell pair lifetime grows with N because the cavity has a larger collection aperture for distributing the light over more modes.
+**Star invitation.** The displayed star threshold times rise with N. An aperture analogy suggests asking how hub connectivity redistributes eigenoperator weights, but those weights were not compared across the four rows and no aperture mechanism is established.
 
-This is what the [V-Effect cavity reframing](VEFFECT_CAVITY_MODES.md) already showed at N=5 with a different observable: chain has 112 distinct frequencies but Q_max = 72.4, while star has only 42 frequencies but Q_max = 100.0. Star has fewer modes but each one lives longer. Today's cockpit scaling result is the time-domain version of that frequency-domain finding: chain has fast absorption per mode and short ESD, star has slow absorption per mode and long ESD.
+The [finite cavity inventory](VEFFECT_CAVITY_MODES.md) separately reports, at N=5 with a different observable, 112 chain frequency bins with Q_max = 72.4 and 42 star bins with Q_max = 100.0. Setting those rows beside the cockpit trajectories suggests a comparison, but the time-domain PCA/ESD result is not a consequence or confirmation of that bin table.
 
 ### What `n95` actually counts
 
-In the quantum-information language, `n95` is the number of principal components needed to capture 95 percent of the trajectory variance. In the cavity language, it is the number of distinct cavity modes whose evolution the trajectory traces out before absorption renders them indistinguishable.
+Here `n95` is the number of PCA directions needed to explain 95 percent of the covariance of eight or nine selected computed features. PCA directions are not Liouvillian eigenmodes, and `n95` is not a count of cavity resonances.
 
-A low `n95` (chain post-ESD, n95 = 2) means: after absorption, the cavity is in a single dominant classical diffusion mode (PC1, dominated by purity decay) plus a small residual coherent component captured by PC2. The trajectory has effectively collapsed to two dimensions because all the originally distinct light-bearing modes have been absorbed and the remaining dynamics is one-dimensional classical mixing.
+A low displayed `n95` means only that a few feature-covariance directions explain the selected dashboard. A collapsed-mode mechanism is not established, and PC1/PC2 cannot be identified with physical diffusion/coherent modes from this PCA.
 
-A higher `n95` (star, n95 = 3 to 4) means: the absorption is slower, so multiple light-bearing modes remain distinguishable for a substantial fraction of the trajectory. PCA picks them up as independent principal components.
+Likewise, a higher displayed `n95` does not show that more light-bearing eigenmodes survive or that absorption is slower; those are separate spectral and dynamical questions.
 
-The cockpit framework's "first 3 PCs cover 88 to 96 percent" claim from COCKPIT_UNIVERSALITY is, in this language, the statement that any cavity dominated by absorption settles to a low-mode regime within a few absorption times. The 3-observable cockpit is sufficient because the cavity dynamics is structurally sparse, not because the observables are particularly clever.
+The "first 3 PCs cover 88 to 96 percent" row from COCKPIT_UNIVERSALITY is only a finite covariance summary for its selected simulated features. Cavity language offers an interpretive question about why the rows are low-dimensional; it does not derive the PCA coverage or establish a three-observable cockpit.
 
 ### Purity as the natural cavity coordinate
 
-Purity = `Tr(rho^2)` measures how much of the cavity mass is concentrated in a single quantum state versus distributed across many. In cavity language, this is **mode purity**: the inverse participation ratio of the cavity's instantaneous state across the basis of eigenmodes. Purity equals 1 when the cavity is in a single coherent mode. It drops as the mode content spreads out under absorption and Hamiltonian mixing.
+Purity is the basis-independent state functional `Tr(rho^2)`. It equals one for any pure state, even when that state or its density operator has many components in a chosen basis; purity is not a Liouvillian-mode inverse participation ratio, especially for a generally non-normal eigenbasis.
 
-The reason Purity is the universal PC1 proxy across topologies and across N is that it directly reads the cavity's mode purity, which is the natural coordinate for any cavity description. The cockpit framework is, at its core, a Purity-driven monitor, with the other observables (Bell fidelities, von Neumann entropy, concurrence) serving as orthogonal corrections that pick up the residual dynamics not captured by the mode purity axis.
+Purity has the largest absolute correlation with PC1 in the displayed panels. Calling it a cavity coordinate is an interpretive gloss on that correlation, not a proof that Purity directly reads an eigenmode population or that it supplies a universal hardware monitor. The other computed features contribute to the PCA loadings; the experiment does not turn those loadings into measurement settings.
 
 ### Why this matters for what comes next
 
-Three immediate consequences of taking the cavity reframing seriously:
+Three questions, not consequences, suggested by the cavity reframing:
 
-1. **The Absorption Theorem is the natural predictor of ESD time, not an external reference.** Instead of measuring ESD empirically, we should be able to compute it from the spectrum of the Liouvillian directly: identify the slowest-absorbing mode that has support on the Bell pair light components, and read its absorption rate as `2*gamma*<n_XY>`. This is the analytical follow-up the experiment has been waiting for, and it lives entirely within the existing repo theorems.
+1. **A nonlinear ESD predictor remains open.** The Absorption Theorem gives each eigenmode's rate `2*gamma*<n_XY>`. Wootters concurrence combines the full evolved density matrix nonlinearly, so no single rate or bin count determines its first zero. A successful predictor must retain the full spectral coefficients and phases, the reduced-state map, and the nonlinear Wootters threshold; interference is not established as the cause.
 
-2. **The topology lever is an aperture lever.** The factor-of-4 lifetime improvement of star over chain at N=11 is not "monogamy magic". It is the same kind of improvement an optical system gets by widening its collection aperture. Topologies that distribute light over many modes win. This unifies the cockpit scaling result with the existing sacrifice zone work (which is also about distributing absorption optimally, just along a different axis: per-site instead of per-mode).
+2. **Could topology act like an aperture?** The star/chain timing contrast motivates a calculation of eigenoperator weights and reduced-state concurrence under controlled topology changes. The current rows do not show that a wider optical aperture is the cause or that either topology "wins".
 
-3. **The Bell pair is not the only useful input.** The cockpit framework has been using Bell+ as the canonical entangled observer, but the cavity reframing makes it natural to ask which input states maximize the cavity's response. A pure-light input (something with `<n_XY>` close to N) would absorb fastest. A pure-structure input (something close to `II + ZZ`) would never absorb at all. The cockpit's effective dimensionality is a function of the input choice, not just of the system. This connects directly to [What Qubits Experience](../hypotheses/WHAT_QUBITS_EXPERIENCE.md) and [Gamma is Light](../hypotheses/GAMMA_IS_LIGHT.md).
+3. **How does the input change the dashboard?** The cockpit uses Bell+ as its canonical entangled observer. Individual eigenoperators with different `<n_XY>` have different decay rates, but an initial state is mixed by `H`; this section does not rank input states by absorption speed or prove an `II+ZZ` preparation immune. Comparing inputs remains an open experiment connected to [What Qubits Experience](../hypotheses/WHAT_QUBITS_EXPERIENCE.md) and [Gamma is Light](../hypotheses/GAMMA_IS_LIGHT.md).
 
-The honest summary of this section: the cockpit scaling result of N=5 to N=11 is, in retrospect, a numerical confirmation of two theorems already proved in the repo (the Absorption Theorem from April 4, and the V-Effect cavity geometry from April 4). The data was new today; the explanation was waiting in the repo since three days ago. The next iteration of cockpit work should start from the cavity language and use the Absorption Theorem as the predictive tool, with quantum-information observables (concurrence, n95) as derived measurements rather than primary objects.
+The honest summary of this section: the trajectory solver cross-checks the Lindblad evolution and the spectral calculation independently verifies the per-mode absorption identity. The finite cavity census, the PCA rows, and the nonlinear ESD times remain different measurements. Cavity language may guide the next analytical attempt, but it is not itself the missing ESD predictor.
 
 ---
 
 ## 9. Verdict
 
-**The cockpit framework scales for the entangled observer class, mediated by Entanglement Sudden Death.**
+**Finite PCA summary for the selected entangled-observer dashboards.**
 
-For Bell pair observers in Heisenberg systems under uniform local Z-dephasing, the 3-observable cockpit framework continues to capture more than 90 percent of the trajectory variance across N=5 to N=11 in both chain and star topologies. The effective dimensionality n95 decreases for chain (4 to 2) and decreases more gently for star (4 to 3), but in both cases stays at or below the original small-N values rather than growing linearly with N as the COCKPIT_UNIVERSALITY extrapolation tentatively suggested.
+For Bell-pair trajectories in Heisenberg systems under uniform local Z-dephasing, the first three PCs explain more than 90 percent of the variance of the selected active simulated features across the displayed N=5 to N=11 chain and star panels. The effective dimensionality `n95` decreases from 4 to 2 for the chain and from 4 to 3 for the star. This finite result does not establish that three observables suffice; hardware monitoring remains open.
 
-The decrease in n95 is not a "magical simplification" of the dynamics. It is a consequence of Entanglement Sudden Death: once the Bell pair's concurrence collapses to zero (which happens at t ~ 1 for chain regardless of N, and at t ~ 0.5 to 3.9 for star depending on N), the rest of the trajectory is classical decoherence on a separable mixed state, which is structurally low-dimensional. The cockpit's "first 3 PCs" are sufficient because the trajectory itself only has 2 to 4 effective dimensions. The framework's claim ("3 observables suffice") was conservative for the post-ESD phase; the new finding is that this remains true even when the pre-ESD phase contributes a meaningful but small variance fraction.
+The decrease in `n95` accompanies a longer post-ESD portion of the sampled trajectories: concurrence first falls below the stated threshold at about `t ~ 1` for the displayed chain rows and between `t ~ 0.5` and `3.9` for the star rows. This association helps organize the finite data, but neither PCA nor the absorption theorem alone derives the nonlinear ESD time or proves that it causes the component count.
 
-Purity is the dominant PC1 proxy in every analyzed configuration. This is consistent with the original COCKPIT_UNIVERSALITY result (which found Purity dominant for chain at N greater than or equal to 4) and extends it to N=11 and to star topology.
+Purity has the largest absolute correlation with the computed PC1 score in every analyzed configuration. It is therefore the leading candidate proxy in this finite simulation, not a demonstrated one-setting measurement of PC1.
 
-**What is confirmed:**
-- 3-observable coverage stays above 90 percent for the entangled observer class up to N=11
-- Purity is the dominant cockpit observable across topologies and system sizes
-- The framework is consistent with known physics (ESD, monogamy of entanglement) rather than dependent on accidental low-dimensional embeddings
+**What the finite computation reports:**
+- first-three-PC coverage stays above 90 percent for the selected feature dashboards through the displayed N=11 rows
+- Purity has the largest absolute correlation with PC1 across the displayed topologies and sizes
+- the reported PCA rows and ESD times are separate measurements whose association remains descriptive
 
 **What is qualified:**
-- The framework's effective dimensionality at large N is set by ESD timing, which is topology-dependent
-- The cockpit's "richness" comes increasingly from the post-ESD classical phase as N grows; the pre-ESD quantum phase contributes to PC2 but its time-share decreases
-- The n95 numbers reported here are conservative for the entangled observer class only; arbitrary pairs in the system can show artificially low n95 due to one-dimensional classical decoherence (see Section 6)
+- the observed component counts are not a theorem about large N, arbitrary states, or a causal ESD mechanism
+- principal components are not individual observables; a hardware protocol, validation, and measurement cost remain open
+- The n95 numbers reported here are conservative for the entangled observer class only; an arbitrary pair can show low n95 for this selected dashboard even when concurrence stays zero (see Section 6), without classifying its full dynamics as one-dimensional or classical
 
 ---
 
@@ -282,7 +277,7 @@ Purity is the dominant PC1 proxy in every analyzed configuration. This is consis
 
 1. **Heisenberg interactions and Z-dephasing only.** All results assume the standard Heisenberg coupling (XX+YY+ZZ) and uniform local Z-dephasing. Other coupling schemes (XX-only, anisotropic, long-range) and other noise models (depolarizing, amplitude damping, non-Markovian) are not tested. The COCKPIT_UNIVERSALITY baseline included depolarizing noise at N=2-4 and showed similar dimensionality, but extending depolarizing tests to N=11 is a separate task.
 
-2. **N=11 is the largest tested.** The C# matrix-free propagator can handle N=15, but the runs were not executed for this experiment because the trend stabilized clearly at N=11. A future experiment could verify that the chain n95=2 plateau continues to N=15, but the prediction is that it will, since the ESD-driven mechanism does not depend on system size beyond the threshold where the bath becomes effectively Markovian.
+2. **N=11 is the largest tested.** The propagation code has a separate matrix-free path for larger N, but it was not used in these N=5-11 rows. The scope is finite: no N=15 plateau prediction is made. Whether `n95=2` persists, and whether any ESD association persists with it, requires another run. A causal mechanism and Markovian threshold remain open.
 
 3. **Three pair types per configuration.** Only the center_bell, adjacent, and far_edge (or center_leaf, far_leaf for star) pairs are extracted. The full pair-distance scan that is available at N=5 in COCKPIT_UNIVERSALITY (all 10 pairs) is not reproduced here. This is sufficient to answer the scaling question, but a comprehensive distance-resolved scaling map would require extracting more pairs per N.
 
@@ -296,26 +291,26 @@ Purity is the dominant PC1 proxy in every analyzed configuration. This is consis
 
 ## 11. Cross-validation against direct spectral evolution (April 7, 2026)
 
-The N=5 chain center_bell trajectory was independently reproduced by direct spectral evolution of the full Liouvillian, as a sanity check on the C# matrix-free propagator and as a concrete application of the Absorption Theorem (Section 8). The script [path_d_bell_pair_absorption.py](../simulations/path_d_bell_pair_absorption.py) builds the Heisenberg Hamiltonian, constructs the 1024 by 1024 Liouvillian (column-stacking vectorisation, so each Pauli string becomes one basis vector in the operator space), and diagonalises it. Every right eigenoperator is decomposed in the Pauli basis to obtain the weighted average `<n_XY>` per mode. The initial state `|Phi+><Phi+|_{2,3}` tensor `|+><+|^{otimes 3}` is then projected onto the eigenoperators and evolved exactly to `rho(t)` at 301 time points between t=0 and t=3. Reduced 2-qubit density matrices and Wootters concurrence are computed from the result.
+The N=5 chain `center_bell` trajectory was independently reproduced by direct spectral evolution of the full Liouvillian, as a sanity check on the C# dense propagator and as a concrete application of the Absorption Theorem (Section 8). The script [path_d_bell_pair_absorption.py](../simulations/path_d_bell_pair_absorption.py) builds the 32x32 Heisenberg Hamiltonian, constructs the 1024x1024 Liouvillian (column-stacking vectorisation, so each Pauli string becomes one basis vector in operator space), and diagonalises it. Every right eigenoperator is decomposed in the Pauli basis to obtain the weighted average `<n_XY>` per mode. The initial state `|Phi+><Phi+|_{2,3}` tensor `|+><+|^{otimes 3}` is projected onto the eigenoperators and evolved to `rho(t)` at 301 time points between `t=0` and `t=3`. Reduced two-qubit density matrices and Wootters concurrence are then computed.
 
 **Theorem verification.** The Absorption Theorem `Re(lambda) = -2 * gamma * <n_XY>` holds for all 1024 Liouvillian modes of the N=5 chain to a maximum deviation of 2.4e-14, consistent with floating-point precision. This is a redundant check (the theorem has already been verified across 1,342 modes in [Absorption Theorem Discovery](ABSORPTION_THEOREM_DISCOVERY.md)), but it confirms that the spectral pipeline used here is consistent with the existing proof.
 
-**Trajectory match.** The spectral concurrence trajectory matches the empirical CSV from `cockpit_scaling_N5_chain.csv` to a maximum deviation of 0.001144 (RMS 0.000353) across 31 sampled time points, well within CSV write precision. The match includes the smooth Markovian decay from t=0 to t=0.9, the entanglement sudden death at t=0.9, the entanglement revival to a peak of 0.158 at t=2.1, and the final death at t=2.4. Purity matches to the same precision.
+**Trajectory match.** The spectral concurrence trajectory matches the CSV from `cockpit_scaling_N5_chain.csv` to a maximum deviation of 0.001144 (RMS 0.000353) across 31 sampled time points, within CSV write precision. The match includes the first threshold crossing at `t=0.9`, the revival to a peak of 0.158 at `t=2.1`, and the later crossing at `t=2.4`; it does not classify the channel as Markovian or non-Markovian. Purity matches to the same precision.
 
-![Path D cross-validation: empirical cockpit_scaling trajectory from the C# matrix-free engine (red circles) vs direct spectral evolution (blue curve) for the Bell pair on qubits 2,3 of the N=5 Heisenberg chain at gamma=0.05. Concurrence (top) and purity (bottom) are reproduced to within 0.001 across all sampled time points, including the entanglement sudden death at t=0.9 and the revival peak of 0.158 at t=2.1.](../simulations/results/cockpit_scaling/path_d_comparison.png)
+![Path D cross-validation: trajectory from the C# dense propagation path (red circles) versus direct spectral evolution (blue curve) for the Bell pair on qubits 2,3 of the N=5 Heisenberg chain at gamma=0.05. Concurrence (top) and purity (bottom) agree to within 0.001 across the sampled times, including the threshold crossing at t=0.9 and revival peak of 0.158 at t=2.1.](../simulations/results/cockpit_scaling/path_d_comparison.png)
 
-**Open analytical question.** The spectrum reveals a clean structural picture for the Bell pair as input. There are exactly 50 Liouvillian modes sitting at `Re(lambda) = -0.2`, the n_XY=2 absorption plateau predicted by the theorem. All 50 have `<n_XY>` exactly equal to 2.000000 to floating-point precision, confirming they form a sharply defined sector rather than a smeared band. The broader n_XY=2 sector (defined as modes with `<n_XY>` between 1.5 and 2.5) contains 478 modes and carries a total initial-state overlap of 0.565. The 50-mode plateau at exactly `Re(lambda) = -0.2` accounts for about 47 percent of that sector's overlap (0.267 out of 0.565). Within the plateau the overlap is moderately concentrated: the top 2 modes carry about 32 percent of the plateau-internal weight, the top 6 about 67 percent, and 15 modes are needed to reach 90 percent. The weight is thus spread across the plateau rather than concentrated in a few dominant modes. Despite this clean spectral picture, predicting the ESD time t=0.9 from the spectrum alone is not straightforward: taking the slowest mode in the broad n_XY~2 sector with significant overlap and computing `-log(threshold) / rate` gives t_ESD around 88, off by a factor of about 100. The actual ESD time is governed by destructive interference among many modes through the Wootters concurrence functional, which is intrinsically nonlinear in the density matrix. A clean analytical formula for ESD time as a function of the spectrum (in the spirit of the Absorption Theorem itself) does not yet exist for entangled observers and remains an open question.
+**Open analytical question.** There are 50 computed Liouvillian eigenmodes at `Re(lambda)=-0.2`, each with `<n_XY>=2.000000` to floating-point precision. A wider window `1.5 < <n_XY> < 2.5` contains 478 modes with total initial-state overlap 0.565; the 50-mode plateau carries 0.267 of that overlap. Within one backend-dependent eigenbasis of the degenerate plateau, the top 2, 6, and 15 coefficients carry about 32, 67, and 90 percent of its weight. A single-rate estimate gives `t~88`, far from the sampled concurrence crossing at `t=0.9`. This mismatch shows that one rate is insufficient; it does not establish destructive interference as the cause. A derivation must propagate the full density matrix through the nonlinear Wootters construction.
 
-**Connection to the cavity picture.** The diffuse mode distribution is not a complication; it is the expected behavior when the cavity framework ([Gamma is Light](../hypotheses/GAMMA_IS_LIGHT.md), [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md)) is taken seriously. The Bell pair decomposes as `(II + ZZ + XX - YY)/4`: half structure (n_XY=0, immune to absorption), half light (n_XY=2, fully exposed). When this light enters the Heisenberg cavity, the Hamiltonian does not funnel it into a few dominant modes. It distributes it broadly, the same way broadband light entering a multimode Fabry-Perot populates many resonances rather than locking into a single one. The 478 modes in the n_XY~2 sector, with the 50-mode plateau carrying less than half the weight and even that spread across 15+ modes for 90 percent coverage, are the spectral fingerprint of broadband cavity illumination.
+**Interpretive cavity question.** The broad coefficient distribution invites comparison with broadband excitation in a multimode cavity. It is not a spectral fingerprint of physical cavity illumination: the coefficients depend on an arbitrary basis inside the degenerate subspace, and the mapping from this expansion to concurrence has not been derived.
 
-This is why the naive single-mode ESD prediction fails by a factor of 100. A single-mode picture assumes one resonance dominates and reads its decay rate. But broadband illumination in a multimode cavity does not extinguish by the slowest mode decaying to zero; it extinguishes by destructive interference across many modes. The Wootters concurrence is the nonlinear detector that registers this interference: it measures the coherent sum of all surviving light-bearing components, and that sum can reach zero (ESD) long before any individual mode has decayed appreciably. This is the cavity analogue of broadband cancellation, where many frequencies with different phases add to zero at a specific time even though each individual frequency is still ringing.
+Wootters concurrence is computed from the ordered square roots of eigenvalues associated with the spin-flipped reduced-state construction. It is not a coherent sum of mode amplitudes. The present calculation shows only that the one-rate estimate fails; the cancellation or threshold structure responsible for the first zero remains to be derived.
 
-The open analytical question, rephrased in cavity language: given the full mode spectrum and the initial light distribution across modes, at what time does the coherent sum first vanish? This is a well-posed interference problem, not fundamentally different from computing the first dark fringe of a broadband source. The difficulty is that the "detector" (Wootters concurrence) is a nonlinear functional of the density matrix rather than a linear field amplitude, so standard Fourier techniques do not apply directly. A closed-form solution would connect the Absorption Theorem's per-mode rates to the Bell pair's lifetime in the same way that a cavity's finesse connects its mirror reflectivity to its ringdown time, but for a nonlinear observable on a multimode input.
+The open problem is to derive the first zero of Wootters concurrence from the evolved density matrix and its spectral expansion. Here, broadband and dark-fringe language remains an interpretive question, not a reduction to a linear interference problem. Any closed form would have to retain the reduced-state and spin-flip eigenvalue operations that the analogy omits.
 
-**Robustness note.** numpy.linalg.eig chooses an arbitrary basis within each degenerate eigenvalue subspace, depending on the BLAS backend, so the per-mode overlap distribution among the 50 plateau modes is not unique across machines; the percentages above (32 percent, 67 percent, etc.) are representative but may shift with a different BLAS implementation. The concurrence trajectory is identical regardless, because Wootters concurrence depends on the total density matrix, not on any individual mode's coefficient. The cockpit framework is robust because it does not depend on identifying any individual mode as special.
+**Robustness note.** `numpy.linalg.eig` chooses an arbitrary basis within each degenerate eigenvalue subspace, depending on the BLAS backend, so the per-mode overlap distribution among the 50 plateau modes is not unique across machines; the percentages above are representative and may shift. The reconstructed density matrix and concurrence trajectory are basis-independent. The PCA result itself does not identify an individual Liouvillian mode as special.
 
 **What this cross-validation establishes:**
-1. The cockpit_scaling trajectories are numerically equivalent to the textbook Lindblad spectral solution. The C# matrix-free propagator and the spectral pipeline produce the same dynamics with no hidden numerical drift in either.
+1. The sampled `cockpit_scaling` trajectory agrees with the textbook Lindblad spectral solution to the stated tolerance. The C# dense propagator and spectral pipeline produce the same displayed dynamics.
 2. The Absorption Theorem alone correctly identifies the absorption rate of every Liouvillian mode, but it is not yet sufficient to predict the ESD time of an entangled observer. ESD is a threshold effect on a nonlinear functional of the density matrix, and that nonlinearity is not yet folded into a closed-form prediction.
 
 ---
@@ -331,9 +326,9 @@ The open analytical question, rephrased in cavity language: given the full mode 
 - [cockpit_scaling_curve.png](../simulations/results/cockpit_scaling/cockpit_scaling_curve.png) -- the four-panel scaling figure embedded above
 - [path_d_bell_pair_absorption.py](../simulations/path_d_bell_pair_absorption.py) -- the spectral cross-validation script described in Section 11
 - [path_d_comparison.png](../simulations/results/cockpit_scaling/path_d_comparison.png) -- visual overlay of empirical vs spectral concurrence and purity trajectories
-- [the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) -- the Lindblad rate structure that directly determines ESD timing in this experiment via `Re(lambda) = -2*gamma*<n_XY>`
+- [the Absorption Theorem proof](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) -- the Lindblad per-mode rate structure; insufficient alone for nonlinear ESD timing
 - [Absorption Theorem Discovery](ABSORPTION_THEOREM_DISCOVERY.md) -- the empirical discovery of the absorption identity, the source of the `<n_XY>` interpretation used in Section 8
-- [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) -- the topology Q-factor table (chain N=5: Q_max=72.4, star N=5: Q_max=100.0) that this experiment confirms in the time domain
+- [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) -- a separate finite topology/Q table, not a theorem derived or confirmed by the time-domain PCA rows
 - [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) -- the original Fabry-Perot reframing that introduced the cavity language used in Section 8
 - [Gamma is Light](../hypotheses/GAMMA_IS_LIGHT.md) -- the hypothesis that gamma is external illumination, central to the Section 8 reading
 

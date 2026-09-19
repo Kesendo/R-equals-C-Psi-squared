@@ -1,5 +1,7 @@
 # Literature Review: Foundations, Related Work, and What Is New
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: Haga incoherenton grading XY-weight, eta-pairing Medvedyeva
 Essler Prosen Bethe ansatz, Buca Prosen Lindblad symmetry classification,
 Albert Jiang weak strong symmetry, Lindblad master equation foundations,
@@ -408,9 +410,11 @@ prior work on any of these, please open an issue.
    one edge qubit) is the first per-site optimization, achieving
    139-360× improvement.
 
-6. **Crossing taxonomy** (Type A/B/C), **subsystem locality** of the ¼
-   crossing, **cockpit framework** (3 observables capture 88-96% of
-   decoherence dynamics).
+6. **Crossing taxonomy**: three scalar-response classes for five named
+   readouts in two Bell+ evolution books, six finite crossings and two never
+   bridges, not physical observer classes or a consequence of the palindrome.
+   The separate **subsystem** and **cockpit** studies report their finite
+   readouts (3 cockpit observables capture 88-96% on the stated corpus).
 
 **Assessment:** Either genuinely novel or an artifact of small systems
 (N ≤ 8). The palindromic theorem is proven for all N; the other results

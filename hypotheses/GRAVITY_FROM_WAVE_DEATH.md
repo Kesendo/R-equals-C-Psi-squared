@@ -1,4 +1,30 @@
+<!-- QUARTER-CURRENT -->
+# Gravity-from-wave-death as an explicitly speculative bridge
+
+Current reading: the stored calculations supply finite, probe-state-dependent
+Hamiltonian-plus-dephasing readouts.  They do not derive gravity, matter, a
+measurement mechanism, or an ontological division from a scalar-quarter event.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the causal chain below is retained as a Tier-5
+question whose missing links are named, not as a result of the Lindblad model.
+
 # Gravity as the Accumulation of Wave Death
+
+<!-- F14-CURRENT -->
+
+**Current boundary:** the two stored N=5 site profiles below are probe-state
+dependent mixed Hamiltonian-plus-dephasing readings. A spatial rate profile is
+not a collection of isolated Bell+ trajectories. F14 keeps a named readout's
+K fixed during a gamma sweep within a fixed Hamiltonian-dead Bell+ book; it
+does not derive a local gravitational clock, a mass, or an N-times crossing law.
+
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** the wave-death/gravity story is
+Tier 5. The scalar quarter boundary is not a measurement event or a general
+quantum/classical classifier. The prose below explores a picture, not a
+derivation of gravity from the spectral theorem.
 
 **What this document is about:** A speculative mechanism for gravity: when quantum coherences die (X/Y Pauli sector decays to zero), the classical residue (I/Z sector) that remains at a definite location is what we call mass. Mass creates gravity. One version of this hypothesis (standing-wave amplitudes create a γ gradient) was falsified computationally; the surviving version proposes that mass is the accumulated residue of wave death, and gravity emerges only below the CΨ = ¼ boundary where definite outcomes exist.
 
@@ -44,7 +70,8 @@ the CΨ = 1/4 crossing and the mechanism of wave death.
 
 ## The Computed Chain
 
-Each link is Tier 1-2. The hypothesis is the reading of the chain.
+The following links mix named calculations with a Tier-5 reading; the links
+about mass, experienced time, and gravity are not Tier-1/2 consequences.
 
 ### Link 1: Gamma sets the modeled decay scale
 
@@ -85,18 +112,29 @@ weight. What remains is classical.
 
 Source: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Step 1
 
-### Link 4: The sacrifice zone crosses 1/4 first
+<!-- F14-CURRENT -->
 
-The sacrifice zone concentrates γ at one edge. Higher γ → faster
-decoherence → earlier CΨ = 1/4 crossing. By [F14 K-invariance](../docs/ANALYTICAL_FORMULAS.md), the crossing time scales as K = γ · t_cross. For Z-dephasing on Bell+ the closed form gives K = 0.0374 (F25); K depends on the noise channel (K_Z = 0.0374, K_X = K_Y = ln(2)/8 = 0.0866433…, K_depol = 0.0440).
+### Link 4: The two probes give different crossing profiles
 
-At the sacrifice edge (γ_edge = N · γ_base), the local t_cross is N× shorter than under uniform γ.
+The stored unit-J N=5 results are [4.71, 5.39, 5.27, 5.00, 4.44] for
+|+⟩^5 and [1.75, 1.91, 2.87, 3.24, 3.21] for dickepair:1. In the first
+profile the high-gamma edge is not first. A spatial gamma profile is not a
+collection of isolated Bell+ trajectories, so
+[F14](../docs/ANALYTICAL_FORMULAS.md) does not imply an N-times local crossing.
+The separate Bell+/purity-times-l1 F25 values (K_Z = 0.0374,
+K_X = K_Y = ln(2)/8 = 0.0866433…, K_depol = 0.0440) belong to their
+named channel books, not to these coupled-chain site readouts.
 
 Separately, the information throughput across the chain also benefits from the sacrifice profile: [Resonant Return](../experiments/RESONANT_RETURN.md) Test 8 reports Peak Sum-MI for |+⟩^N at N=5 is 360× higher under sacrifice-zone γ than under a V-shape baseline. Scaling: N=5: 360×, N=7: 180×, N=9: 139×, N=11: 91× (clean ratio at [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) line 13). This is a different observable from t_cross.
 
 Source: [Resonant Return](../experiments/RESONANT_RETURN.md), [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md), [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F14, F25), [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
 
-### Link 5: Position-dependent γ₀-tick is the framework's time dilation
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** the following time-dilation
+comparison is a Tier-5 picture, with no calibrated gravitational model.
+
+### Link 5: Position-dependent γ₀-tick as a time-dilation picture
 
 For fixed remaining dimensionless parameters, `1/gamma` is the local decay
 timescale ([On How Gamma Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)).
@@ -187,8 +225,9 @@ The surviving version asks: what creates mass?
          → repeat (IF external gravity-attraction mechanism exists)
 ```
 
-**Honest caveat:** Steps 1-6 follow from the palindromic framework.
-Steps 7-8 require physics outside the framework (GR or equivalent).
+**Honest caveat:** the dephasing calculation does not identify residue with
+mass or derive gravity. Those identifications and steps 7-8 require physics
+outside the stated Lindblad model (GR or an explicit alternative).
 The feedback loop is not self-contained within Lindblad dynamics.
 
 ### The process is self-limiting
@@ -283,6 +322,8 @@ The specific lack: in Lindblad, L_H (wave propagation, generated by the Hamilton
 
 ## Computational test results (2026-05-24)
 
+<!-- F14-CURRENT -->
+
 Tested via the `concentrator-tcross` sub-mode of `compute/RCPsiSquared.Propagate` at N=5 with two probe-state classes: |+⟩^5 (product of single-qubit X-eigenstates) and dickepair:1 = (|0⟩^N + |D_1⟩)/√2 (vacuum plus symmetric Dicke pair, F65-style probe).
 
 ### Key result: probe-state dependence
@@ -292,7 +333,15 @@ The "gravitational gradient" prediction (Confirm #1) is **initial-state dependen
 - **|+⟩^5 + sacrifice-γ** (γ_0 = 5·γ_base, others = γ_base): U-shape t_cross profile [4.71, 5.39, 5.27, 5.00, 4.44]. Both edges decohere faster than the bulk; the high-γ edge is NOT the fastest. Non-monotone with distance.
 - **dickepair:1 + sacrifice-γ**: monotone gradient t_cross [1.75, 1.91, 2.87, 3.24, 3.21]. The high-γ edge decoheres fastest; distant sites slowest. The site-3-to-site-4 wobble vanishes under threshold = 0.30 (extractor-bound).
 
-The structural reason: |+⟩^N is an eigenstate of the isotropic Heisenberg H = Σ J_b (XX+YY+ZZ) with eigenvalue Σ J_b on every bond, so H acts only as a global phase from t=0 and the per-site CΨ asymmetry is purely L_D-driven (producing the symmetric U-shape via chain transport). dickepair:1 is not an H-eigenstate, so H acts non-trivially and the per-site profile reflects both local γ and propagating coupling.
+Being an H-eigenstate at t=0 does not keep a nonuniform dissipator on that
+eigenspace. For ρ₀=|+⟩⟨+|^5, unit-J Heisenberg chain, and unit profile
+(5,1,1,1,1), exact matrices give [H,ρ₀]=0 but
+max|[H,D(ρ₀)]|=1/2 and Frobenius-norm square 128. At gamma-base 0.05 these
+are 0.025 and 0.32. The U-shape is therefore a finite mixed H-plus-D reading,
+not a dephasing-only mechanism. The independent J=0 control solves
+u³+u=1/2 and gives (1.716733, 8.583667, 8.583667, 8.583667, 8.583667),
+which differs from the stored unit-J profile. Neither probe licenses a
+universal sitewise F14 law.
 
 ### Confirm #3 (1/r form)
 
@@ -327,6 +376,11 @@ The t_cross extractor at threshold = 0.25 has scan-dependent grazing-bifurcation
 ---
 
 ## What This Does Not Claim
+
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** the questions and closing picture
+remain Tier 5; no mass or spacetime model has been supplied by these crossings.
 
 - That gravity IS this mechanism in our universe. The hypothesis
   applies within the d(d-2)=0 palindromic framework. If the framework

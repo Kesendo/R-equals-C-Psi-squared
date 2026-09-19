@@ -1,4 +1,4 @@
-"""Full Lebensader cockpit panel orchestrator (skeleton + trace + cusp + chiral + Y-parity)."""
+"""Cockpit orchestrator for the silent census, trace and quarter classifier."""
 from __future__ import annotations
 
 import numpy as np
@@ -10,7 +10,11 @@ from ..lebensader import cockpit_panel as _cockpit_panel_primitive
 def cockpit_panel(chain, receiver, terms=None, gamma_t1=None,
                   t_max=10.0, dt=0.005,
                   threshold=1e-9, cluster_tol=1e-8):
-    """Full Lebensader cockpit panel: skeleton + trace + cusp + chiral + Y-parity.
+    """Run the panel while retaining ``skeleton``/``cusp`` compatibility keys.
+
+    ``skeleton`` is a state-conditioned silent-observable census; ``cusp`` is
+    a clamped quarter-trace crossing classifier.  Neither key names a universal
+    protected subspace or a physical cusp.
 
     Args:
         receiver: Receiver instance providing ρ_0.

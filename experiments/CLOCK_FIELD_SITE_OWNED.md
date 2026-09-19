@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Site-resolved calibration rates and three preregistered finite questions
+
+Current reading: the hardware rows compare site-resolved calibration values and
+derived rates across four named machines and dates.  Their quarter label is the
+normalized-purity proxy of a free single-transmon `|+>` model; it is not a field
+of physical clocks or a causal phase boundary.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the clock-field narrative and preregistration below are
+retained with the measured rows and their original questions.
+
 # The Clock Field Is Site-Owned: Three Pre-Registered Questions to Four Machines
 
 <!-- Keywords: per-site clock field IBM calibration, 1/T2 dephasing rate site property,

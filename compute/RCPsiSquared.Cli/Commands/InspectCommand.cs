@@ -202,13 +202,14 @@ public static class InspectCommand
     /// seam, and the γ-invariant dwell carrying Bell+ through the fold; extra args <c>--eps-lo</c>
     /// default 1e-4, <c>--eps-hi</c> default 0.25, <c>--eps-points</c> default 13, <c>--tol</c> default
     /// 1e-12, <c>--rel-k</c> default 1e-3; N-free, uses <c>--gamma</c> only),
-    /// <c>--axis spiral</c> (the interior axis in 2D: the cusp ¼ as a circle |CΨ|=¼ that every spiral
-    /// crosses, the crossing angle the only free thing, the one Kingston steered; extra args
+    /// <c>--axis spiral</c> (the interior axis in 2D: the radial readout circle |CΨ|=¼ crossed by every plotted spiral;
+    /// only c=+¼ is the period-one cardioid cusp. The crossing angle is the free plotted parameter, the one Kingston steered; extra args
     /// <c>--omega</c> default 0.4, <c>--phi0</c> default 0, <c>--omega-points</c> default 9,
     /// <c>--tmax-factor</c> default 4; N-free, uses <c>--gamma</c> only),
     /// <c>--axis approach</c> (the family of approach shapes: the partial-entanglement start
-    /// |ψ(α)⟩=cosα|00⟩+sinα|11⟩ swept over s=sin2α; CΨ(0)=s/3, crosses ¼ iff s>3/4, harmonic fraction
-    /// s²/2, every member shares the carrier 4γ; extra args <c>--s-lo</c> default 0.3, <c>--s-hi</c>
+    /// |ψ(α)⟩=cosα|00⟩+sinα|11⟩ swept over s=sin2α; s is the initial pure-state concurrence,
+    /// CΨ(0)=s/3 is one third of it, and a temporal downward crossing occurs iff γ&gt;0 and s&gt;3/4; cubic-term fraction
+    /// s²/2 for s&gt;0 (continued as 0 at s=0); Absorption n_diff=2 gives f=e^(−4γt) to every nonzero member, while s=0 is identically zero; extra args <c>--s-lo</c> default 0.3, <c>--s-hi</c>
     /// default 1.0, <c>--s-points</c> default 8, <c>--tmax-factor</c> default 6; N-free, uses
     /// <c>--gamma</c> only),
     /// and <c>--axis ep</c> (the toy 2×2 rate-channel exceptional point: sweeps Q across Q_EP=2/g_eff and
@@ -597,7 +598,7 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("gamma") ?? 0.05,
                 c.Parser.OptionalDouble("J") ?? 1.0),
             RequiresN: false, HonorsOptionalN: true),
-        new("quarter-uniqueness", "UNIQUENESS_PROOF, the typed argument behind the ¼ value: α=2 is the UNIQUE Rényi order whose fold threshold CΨ*_α=(α−1)^(α−1)/(α^α·Ψ^(α−2)) is state-independent (the Ψ^(α−2) factor vanishes only there), where it equals ¼; and the α=2 fixed-point discriminant D=1−4CΨ has its single zero at ¼, the unique bifurcation boundary. Sweeps α at two probe states (spread=0 only at α=2) + the discriminant across CΨ; elementary arithmetic, exact. --psi-low / --psi-high set the probe states",
+        new("quarter-uniqueness", "UNIQUENESS_PROOF, the typed argument behind the chosen ¼ normal form. Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. In that family the Ψ^(α−2) factor vanishes only at α=2, and its fixed-point discriminant D=1−4CΨ has its zero at ¼. Sweeps α at two probe states (spread=0 only at α=2) + the discriminant across CΨ; elementary arithmetic, exact. --psi-low / --psi-high set the probe states",
             c => new QuarterBoundaryUniquenessWitness(
                 c.Parser.OptionalDouble("psi-low") ?? 0.3,
                 c.Parser.OptionalDouble("psi-high") ?? 0.7),
@@ -621,7 +622,7 @@ public static class InspectCommand
             c => BuildMirrorRoot(c.Parser, c.N)),
         new("symphony", "the zoom-out: one system, one evolution, every lens on a shared timeline",
             c => BuildSymphonyRoot(c.Parser, c.N)),
-        new("envelope", "the Envelope Theorem checked live: global CΨ peaks non-increasing (theorem) vs the carrier pair's beating rise (freedom)",
+        new("envelope", "finite CΨ rise atlas: named global/local N-Q-K windows, reporting bar and refinement controls; no theorem or absence verdict from samples",
             c => new EnvelopeTheoremWitness(c.N)),
         new("clock", "the two clocks: the γ-protected band-edge ladder (N≥3) and the γ-pulled exceptional point (N=2)",
             c => new ClockHandLadderWitness(
@@ -683,7 +684,7 @@ public static class InspectCommand
             _ => new SecondClockRegimeWitness(), RequiresN: false),
         new("starseam", "the star's frozen seam: the longest-lived coherence never un-freezes (N≥5) — its survivor is the [H,A]=0 commutant (1,1) coherence, frozen by construction, the survivor iff g2=4/(N−1)≤1; N=4 (4/3>1) un-freezes (the (2,2)/K₄ outlier). The third member of chain(SE-EP)/ring(frozen crossing)/star(frozen commutant): the structural ceiling read dynamically",
             _ => new StarFrozenSeamWitness(), RequiresN: false),
-        new("niven", "the Niven root: Niven's theorem on the SE cyclotomic angle π/(N+1) is the number-theoretic ceiling on the spectrum's closed forms (three faces; N=4 = first golden, band edge = φ); the arithmetic root of the small-N specials",
+        new("niven", "the Niven root: for the uniform open XX chain with one dephased endpoint, a_k = (4/(N+1))·sin²(kπ/(N+1)), α_k^full = γ₀·a_k + O(γ₀³/J²), and α_k^full/γ₀ = a_k + O((γ₀/J)²); exact Niven rationality belongs to F65's first-order coefficient comb — exact Niven rationality belongs to the first-order coefficient comb alone. At finite γ₀/J the relative full-L rate shift is O((γ₀/J)²), equivalently the absolute shift δα_k = O(γ₀³/J²), so no exact finite-γ₀/J full-L rationality is claimed. N=4 remains the first golden on the two SE faces (band edge = φ); the arithmetic root of the small-N specials",
             _ => new NivenRationalityRootWitness(), RequiresN: false),
         new("transition", "F124 the band-edge transition invariant: the full bond-transition matrix M[b,k]=⟨ψ_k|V_b|ψ_1⟩ (all N modes) has ‖M‖_F² + λ_min(MMᵀ) = z = 2 exactly (‖M‖_F²=2−E, λ_min=E=(4/(N+1))sin²(π/(N+1))). The real content λ_min=E is the Dirichlet-edge coupling (an SSH/Peierls edge effect); frame reading λ_min=σ_min²=the lower frame bound, kernel = the K-partner ψ_N. Only the band-edge carrier makes staggered the genuine minimum (interior carrier → sum<2); the location dictionary k=2..N gives λ_min=0",
             _ => new BandEdgeTransitionInvariantWitness(), RequiresN: false),

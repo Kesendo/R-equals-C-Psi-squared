@@ -1,20 +1,18 @@
-"""Search for a uniform-quantum-side CZ-coupled chain on Marrakesh.
+"""Search for a CZ-coupled chain whose calibration rows are all below R*.
 
-Question: the F88b-Lens reading on path [0, 1, 2] (mixed regimes) gave
-truly-baseline 0.0297; on [48, 49, 50] (uniform classical-side) it gave
-0.0013 (23× cleaner). The 91-day biography review surfaced Q0 as the only
-stable quantum-side qubit on any documented path. What if we find a chain
-that is uniform-QUANTUM-side (all qubits with r << 0.213, all pulse-stable
-over 91 days)? Run F88b-Lens on that and we can test whether the truly-
-baseline reads cleaner *or* dirtier than uniform-classical, separating
-"good qubits" from "regime-uniform qubits" as causes of the 23× effect.
+Question: the F88b-Lens reading on path [0, 1, 2] (mixed R* bands) gave
+truly-baseline 0.0297; on [48, 49, 50] (all at-or-above-R*) it gave 0.0013.
+The 91-day proxy biography surfaced Q0 as the only stable-below history on a
+documented path. Finding an all-below-R* triple permits another finite
+comparison, but backend, path, date, and calibration all remain confounded;
+the 23× association is not a causal band effect.
 
 Method:
-  1. Score every qubit by 91-day stability + quantum-side strength
+  1. Score every qubit by 91-day stability + distance below R*
   2. Use the Apr-25 calibration's CZ-coupled graph (still topology-correct
      for Marrakesh today; bond locations are stable, only error rates drift)
   3. DFS: find a path of length 3 through CZ-coupled qubits where every
-     qubit is pulse-stable (r mean < 0.20, walk < 0.05)
+     qubit is stable-below (r mean < 0.20, walk < 0.05)
 """
 from __future__ import annotations
 
@@ -45,41 +43,41 @@ def main():
     stats = {}
     for qid, recs in by_qubit.items():
         rs = np.array([rec[3] for rec in recs])
-        crossing = (rs < R_STAR).mean()
-        signs = np.sign(rs - R_STAR)
-        walk = int(np.sum(np.diff(signs) != 0)) / max(len(rs) - 1, 1)
+        below_flags = rs < R_STAR
+        below_fraction = below_flags.mean()
+        walk = int(np.sum(below_flags[1:] != below_flags[:-1])) / max(len(rs) - 1, 1)
         stats[qid] = {
             "mean": float(rs.mean()),
             "std": float(rs.std()),
-            "crossing": crossing,
+            "below_fraction": below_fraction,
             "walk": walk,
             "arch": archetype_from_series(rs),
         }
 
-    # Stable quantum-side qubits: archetype pulse-stable AND mean clearly < R*
-    quantum_stable = sorted(
-        [qid for qid, s in stats.items() if s["arch"] == "pulse-stable" and s["mean"] < 0.20],
+    # Stable below-R* histories with a conservative margin.
+    below_rstar_stable = sorted(
+        [qid for qid, s in stats.items() if s["arch"] == "stable-below" and s["mean"] < 0.20],
         key=lambda qid: stats[qid]["mean"]
     )
-    print(f"Stable quantum-side qubits ({len(quantum_stable)}):")
-    print(f"  {'qubit':>6} {'r mean':>8} {'r std':>8} {'cross %':>8} {'walk':>6}")
+    print(f"Stable below-R* histories ({len(below_rstar_stable)}):")
+    print(f"  {'qubit':>6} {'r mean':>8} {'r std':>8} {'below %':>8} {'walk':>6}")
     print("  " + "-" * 50)
-    for qid in quantum_stable:
+    for qid in below_rstar_stable:
         s = stats[qid]
-        print(f"  {qid:>6} {s['mean']:>8.4f} {s['std']:>8.4f} {s['crossing']*100:>7.1f}% {s['walk']:>6.3f}")
+        print(f"  {qid:>6} {s['mean']:>8.4f} {s['std']:>8.4f} {s['below_fraction']*100:>7.1f}% {s['walk']:>6.3f}")
     print()
 
-    quantum_set = set(quantum_stable)
+    below_rstar_set = set(below_rstar_stable)
 
-    # Find all CZ-coupled triples within the quantum-stable set
-    print("CZ-coupled triples among stable quantum-side qubits:")
+    # Find all CZ-coupled triples within the stable below-R* set.
+    print("CZ-coupled triples among stable below-R* histories:")
     found_triples = []
-    for q in quantum_stable:
+    for q in below_rstar_stable:
         for n1 in cz_neighbours.get(q, {}):
-            if n1 not in quantum_set:
+            if n1 not in below_rstar_set:
                 continue
             for n2 in cz_neighbours.get(n1, {}):
-                if n2 == q or n2 not in quantum_set:
+                if n2 == q or n2 not in below_rstar_set:
                     continue
                 triple = (q, n1, n2)
                 if triple not in found_triples and (n2, n1, q) not in found_triples:
@@ -93,14 +91,14 @@ def main():
             walks = [stats[q]["walk"] for q in triple]
             print(f"  {list(triple)}: r means {means}, walks {walks}")
 
-    # Find all CZ-coupled pairs within quantum-stable (lower bar)
+    # Find all CZ-coupled pairs within the stable below-R* set (lower bar).
     pairs = set()
-    for q in quantum_stable:
+    for q in below_rstar_stable:
         for n1 in cz_neighbours.get(q, {}):
-            if n1 in quantum_set and n1 != q:
+            if n1 in below_rstar_set and n1 != q:
                 pairs.add(tuple(sorted([q, n1])))
     print()
-    print(f"CZ-coupled pairs among stable quantum-side qubits: {len(pairs)}")
+    print(f"CZ-coupled pairs among stable below-R* histories: {len(pairs)}")
     for a, b in sorted(pairs):
         print(f"  ({a}, {b})  r={stats[a]['mean']:.4f}, {stats[b]['mean']:.4f}")
 
@@ -111,9 +109,9 @@ def main():
         s = stats.get(n)
         if s:
             print(f"  Q{n}: archetype={s['arch']}, r mean={s['mean']:.4f}, "
-                  f"crossing={s['crossing']*100:.1f}%")
+                  f"below_fraction={s['below_fraction']*100:.1f}%")
 
-    # Also check 2-hop neighbours of Q0 for an alternative quantum-stable chain
+    # Also check two-hop neighbours of Q0 for an alternative below-R* chain.
     print()
     print(f"Q0's 2-hop neighbours (Q0 - X - Y triples):")
     for n1 in sorted(cz_neighbours.get(0, {}).keys()):
@@ -122,26 +120,24 @@ def main():
                 continue
             s1 = stats.get(n1)
             s2 = stats[n2]
-            if s1 and (s1["arch"] in ("pulse-stable", "lifecycle") or s2["arch"] in ("pulse-stable", "lifecycle")):
-                print(f"  [0, {n1}, {n2}]: arch=[pulse-stable, {s1['arch']}, {s2['arch']}], "
+            if s1 and (s1["arch"] in ("stable-below", "multi-band") or s2["arch"] in ("stable-below", "multi-band")):
+                print(f"  [0, {n1}, {n2}]: arch=[stable-below, {s1['arch']}, {s2['arch']}], "
                       f"r=[0.086, {s1['mean']:.3f}, {s2['mean']:.3f}]")
 
     print()
     print("Reading:")
     if found_triples:
-        print(f"  - Found {len(found_triples)} fully-quantum-stable CZ-coupled triples:")
+        print(f"  - Found {len(found_triples)} all-below-R* CZ-coupled triples:")
         for t in found_triples:
             print(f"      {list(t)}")
-        print("  - Running F88b-Lens on one of these tests the regime-uniformity hypothesis.")
-        print("    Predict: truly-baseline cleaner than the regime-mixed [0,1,2] (0.030)")
-        print("    and possibly comparable to or different from uniform-classical")
-        print("    [48,49,50] (0.0013).")
+        print("  - These enable a finite comparison with mixed-band [0,1,2] (0.030)")
+        print("    and all-at-or-above-R* [48,49,50] (0.0013).")
+        print("    Backend/path/date differences keep the association confounded.")
     else:
-        print("  - No fully-quantum-stable triples on Marrakesh's CZ graph at the strict")
-        print("    pulse-stable + r mean < 0.20 cutoff.")
-        print("  - Q0 is structurally isolated (its quantum-side neighbours, if any, are")
-        print("    not pulse-stable). The next-best test is a 'mostly-quantum' triple")
-        print("    (Q0 + lifecycle quantum-side neighbours).")
+        print("  - No all-below-R* triples on Marrakesh's CZ graph at the strict")
+        print("    stable-below + r mean < 0.20 cutoff.")
+        print("  - Q0 is structurally isolated from other stable-below histories.")
+        print("    A mixed-band triple is a different, explicitly confounded comparison.")
 
 
 if __name__ == "__main__":

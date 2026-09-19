@@ -5,12 +5,16 @@ Minimum Crossing Energy: No Energy Threshold, Only a Coherence Barrier
 2-qubit Heisenberg system under Z-dephasing. Tracks CΨ = τ/(d-1) where
 τ = concurrence² (tangle) for the 2-qubit density matrix.
 
+CΨ_max is the sampled maximum for t>=0.01; excludes t=0.
+The separately printed CΨ(0) is not included in this maximum.
+
 Tests:
 1. cos(alpha)|00> + sin(alpha)|11> family: same energy, different crossing.
    Critical angle = 30 degrees exactly (CΨ(0) = 1/4).
 2. cos(alpha)|01> + sin(alpha)|10> family: all states cross.
 3. Product states: |0,1> crosses (Hamiltonian generates entanglement),
-   |+,+> never does (eigenstate of H, no dynamics).
+   |+,+> never does in this tangle readout: its Hamiltonian-dead
+   trajectory stays separable while its purity changes.
 4. J/gamma sweep for |0,1>: critical J/gamma ~ 5-10.
 
 Script:  simulations/minimum_energy.py
@@ -27,15 +31,12 @@ import os, sys
 # ============================================================
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "results", "minimum_energy.txt")
-_outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+_lines = []
 
 
 def log(msg=""):
     print(msg, flush=True)
-    _outf.write(msg + "\n")
-    _outf.flush()
+    _lines.append(str(msg))
 
 
 # ============================================================
@@ -133,124 +134,144 @@ def cpsi_max_and_cross(L, rho0, t_max=10.0, dt=0.01):
     return c_max, t_max_val, crossed
 
 
-# ============================================================
-# TEST 1: cos(alpha)|00> + sin(alpha)|11>
-# ============================================================
-log("=" * 70)
-log("Minimum Crossing Energy: Coherence Barrier, Not Energy Barrier")
-log("=" * 70)
-log()
+def main(output_path=OUT_PATH):
+    """Run the unchanged finite grids; write only to an explicitly selected output."""
+    global _lines
+    _lines = []
+    if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    # ============================================================
+    # TEST 1: cos(alpha)|00> + sin(alpha)|11>
+    # ============================================================
+    log("=" * 70)
+    log("Minimum Crossing Energy: Coherence Barrier, Not Energy Barrier")
+    log("=" * 70)
+    log()
 
-J = 1.0
-gamma = 0.05
-H = build_H(J)
-L = build_L(H, gamma)
+    J = 1.0
+    gamma = 0.05
+    H = build_H(J)
+    L = build_L(H, gamma)
 
-log("Test 1: cos(α)|00⟩ + sin(α)|11⟩ — same energy, different crossing")
-log("-" * 70)
-log(f"  J = {J}, γ = {gamma}, ⟨H⟩ = +J for all α")
-log(f"{'α (deg)':>8}  {'⟨H⟩':>5}  {'CΨ(0)':>8}  {'CΨ_max':>8}  {'Crosses?':>9}")
+    log("Test 1: cos(α)|00⟩ + sin(α)|11⟩ — same energy, different crossing")
+    log("-" * 70)
+    log(f"  J = {J}, γ = {gamma}, ⟨H⟩ = +J for all α")
+    log(f"{'α (deg)':>8}  {'⟨H⟩':>5}  {'CΨ(0)':>8}  {'CΨ_max':>8}  {'Crosses?':>9}")
 
-alphas_deg = [45, 35, 31, 30, 25, 15]
-for a_deg in alphas_deg:
-    a = np.radians(a_deg)
-    psi = np.cos(a) * np.kron(up, up) + np.sin(a) * np.kron(dn, dn)
-    rho0 = ket2dm(psi)
-    c0 = cpsi(rho0)
-    c_max, t_max_val, crossed = cpsi_max_and_cross(L, rho0)
-    log(f"{a_deg:8d}  {'J':>5}  {c0:8.4f}  {c_max:8.4f}  {'YES' if crossed else 'NO':>9}")
+    alphas_deg = [45, 35, 31, 30, 25, 15]
+    for a_deg in alphas_deg:
+        a = np.radians(a_deg)
+        psi = np.cos(a) * np.kron(up, up) + np.sin(a) * np.kron(dn, dn)
+        rho0 = ket2dm(psi)
+        c0 = cpsi(rho0)
+        c_max, t_max_val, crossed = cpsi_max_and_cross(L, rho0)
+        log(f"{a_deg:8d}  {'J':>5}  {c0:8.4f}  {c_max:8.4f}  {'YES' if crossed else 'NO':>9}")
 
-# Binary search for critical angle
-log()
-log("Binary search for critical α:")
-lo, hi = 0.0, 45.0
-for _ in range(50):
-    mid = (lo + hi) / 2
-    a = np.radians(mid)
-    psi = np.cos(a) * np.kron(up, up) + np.sin(a) * np.kron(dn, dn)
-    c0 = cpsi(ket2dm(psi))
-    if c0 > 0.25:
-        hi = mid
-    else:
-        lo = mid
-crit = (lo + hi) / 2
-log(f"  α_critical = {crit:.6f}° (sin²(2α)/(d-1) = 0.250000)")
+    # Binary search for critical angle
+    log()
+    log("Binary search for critical α:")
+    lo, hi = 0.0, 45.0
+    for _ in range(50):
+        mid = (lo + hi) / 2
+        a = np.radians(mid)
+        psi = np.cos(a) * np.kron(up, up) + np.sin(a) * np.kron(dn, dn)
+        c0 = cpsi(ket2dm(psi))
+        if c0 > 0.25:
+            hi = mid
+        else:
+            lo = mid
+    crit = (lo + hi) / 2
+    log(f"  α_critical = {crit:.6f}° (sin²(2α)/(d-1) = 0.250000)")
 
-# ============================================================
-# TEST 2: cos(alpha)|01> + sin(alpha)|10>
-# ============================================================
-log()
-log("Test 2: cos(α)|01⟩ + sin(α)|10⟩ — all cross")
-log("-" * 70)
-log(f"{'α (deg)':>8}  {'CΨ(0)':>8}  {'CΨ_max':>8}  {'t(max)':>7}  {'Crosses?':>9}")
+    # ============================================================
+    # TEST 2: cos(alpha)|01> + sin(alpha)|10>
+    # ============================================================
+    log()
+    log("Test 2: cos(α)|01⟩ + sin(α)|10⟩ — all cross")
+    log("-" * 70)
+    log(f"{'α (deg)':>8}  {'CΨ(0)':>8}  {'CΨ_max':>8}  {'t(max)':>7}  {'Crosses?':>9}")
 
-alphas2 = [45, 25, 15, 5]
-for a_deg in alphas2:
-    a = np.radians(a_deg)
-    psi = np.cos(a) * np.kron(up, dn) + np.sin(a) * np.kron(dn, up)
-    rho0 = ket2dm(psi)
-    c0 = cpsi(rho0)
-    c_max, t_max_val, crossed = cpsi_max_and_cross(L, rho0)
-    log(f"{a_deg:8d}  {c0:8.4f}  {c_max:8.4f}  {t_max_val:7.2f}  {'YES' if crossed else 'NO':>9}")
+    alphas2 = [45, 25, 15, 5]
+    for a_deg in alphas2:
+        a = np.radians(a_deg)
+        psi = np.cos(a) * np.kron(up, dn) + np.sin(a) * np.kron(dn, up)
+        rho0 = ket2dm(psi)
+        c0 = cpsi(rho0)
+        c_max, t_max_val, crossed = cpsi_max_and_cross(L, rho0)
+        log(f"{a_deg:8d}  {c0:8.4f}  {c_max:8.4f}  {t_max_val:7.2f}  {'YES' if crossed else 'NO':>9}")
 
-# ============================================================
-# TEST 3: Product states
-# ============================================================
-log()
-log("Test 3: Product states — Hamiltonian creates the crossing")
-log("-" * 70)
+    # ============================================================
+    # TEST 3: Product states
+    # ============================================================
+    log()
+    log("Test 3: Product states — Hamiltonian creates the crossing")
+    log("-" * 70)
 
-product_states = {
-    "|0,1>": np.kron(up, dn),
-    "|1,0>": np.kron(dn, up),
-    "|+,0>": np.kron(plus, up),
-    "|0,+>": np.kron(up, plus),
-    "|+,1>": np.kron(plus, dn),
-    "|+,+>": np.kron(plus, plus),
-    "|0,0>": np.kron(up, up),
-    "|1,1>": np.kron(dn, dn),
-}
+    product_states = {
+        "|0,1>": np.kron(up, dn),
+        "|1,0>": np.kron(dn, up),
+        "|+,0>": np.kron(plus, up),
+        "|0,+>": np.kron(up, plus),
+        "|+,1>": np.kron(plus, dn),
+        "|+,+>": np.kron(plus, plus),
+        "|0,0>": np.kron(up, up),
+        "|1,1>": np.kron(dn, dn),
+    }
 
-log(f"{'State':>8}  {'CΨ(0)':>8}  {'CΨ_max':>8}  {'Crosses?':>9}")
+    log(f"{'State':>8}  {'CΨ(0)':>8}  {'CΨ_max':>8}  {'Crosses?':>9}")
 
-for name, psi in product_states.items():
-    rho0 = ket2dm(psi)
-    c0 = cpsi(rho0)
-    c_max, _, crossed = cpsi_max_and_cross(L, rho0, t_max=20.0)
-    log(f"{name:>8}  {c0:8.3f}  {c_max:8.3f}  {'YES' if crossed else 'NO':>9}")
+    for name, psi in product_states.items():
+        rho0 = ket2dm(psi)
+        c0 = cpsi(rho0)
+        c_max, _, crossed = cpsi_max_and_cross(L, rho0, t_max=20.0)
+        log(f"{name:>8}  {c0:8.3f}  {c_max:8.3f}  {'YES' if crossed else 'NO':>9}")
 
-# ============================================================
-# TEST 4: J/gamma sweep for |0,1>
-# ============================================================
-log()
-log("Test 4: J/γ sweep for |0,1⟩ product state")
-log("-" * 70)
+    # ============================================================
+    # TEST 4: J/gamma sweep for |0,1>
+    # ============================================================
+    log()
+    log("Test 4: J/γ sweep for |0,1⟩ product state")
+    log("-" * 70)
 
-psi_01 = np.kron(up, dn)
-rho0_01 = ket2dm(psi_01)
+    psi_01 = np.kron(up, dn)
+    rho0_01 = ket2dm(psi_01)
 
-j_gamma_ratios = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0]
-gamma_fixed = 0.05
+    j_gamma_ratios = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0]
+    gamma_fixed = 0.05
 
-log(f"{'J/γ':>7}  {'CΨ_max':>8}  {'Crosses?':>9}")
+    log(f"{'J/γ':>7}  {'CΨ_max':>8}  {'Crosses?':>9}")
 
-for jg in j_gamma_ratios:
-    J_val = jg * gamma_fixed
-    H_val = build_H(J_val)
-    L_val = build_L(H_val, gamma_fixed)
-    c_max, _, crossed = cpsi_max_and_cross(L_val, rho0_01, t_max=20.0)
-    log(f"{jg:7.1f}  {c_max:8.3f}  {'YES' if crossed else 'NO':>9}")
+    for jg in j_gamma_ratios:
+        J_val = jg * gamma_fixed
+        H_val = build_H(J_val)
+        L_val = build_L(H_val, gamma_fixed)
+        c_max, _, crossed = cpsi_max_and_cross(L_val, rho0_01, t_max=20.0)
+        log(f"{jg:7.1f}  {c_max:8.3f}  {'YES' if crossed else 'NO':>9}")
 
-# ============================================================
-# SUMMARY
-# ============================================================
-log()
-log("=" * 70)
-log("No energy threshold for CΨ crossing.")
-log(f"Critical angle: α = {crit:.1f}° (CΨ(0) = 1/4).")
-log("|01>/|10> family: all cross (exchange interaction generates entanglement).")
-log("Product states: J/γ ~ 5-10 needed (coherence barrier, not energy barrier).")
-log("Eigenstates of H (|0,0>, |1,1>, |+,+>): no dynamics, no crossing, no time.")
-log("=" * 70)
+    # ============================================================
+    # SUMMARY
+    # ============================================================
+    log()
+    log("=" * 70)
+    log("No energy threshold for CΨ crossing.")
+    log(f"Critical angle: α = {crit:.1f}° (CΨ(0) = 1/4).")
+    log("|01>/|10> family: all cross (exchange interaction generates entanglement).")
+    log("Product states: J/γ ~ 5-10 needed (coherence barrier, not energy barrier).")
+    log("|00> and |11> are stationary for this full generator.")
+    log("|++> is Hamiltonian-dead but purity changes under dephasing;")
+    log("its separable trajectory has zero tangle and no quarter crossing.")
+    log("=" * 70)
 
-_outf.close()
+
+    if output_path is not None:
+        os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+        with open(output_path, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("\n".join(_lines) + "\n")
+    return 0
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", help="Explicit output path; omitted means stdout only.")
+    sys.exit(main(parser.parse_args().output))

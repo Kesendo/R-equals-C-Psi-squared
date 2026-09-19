@@ -1,140 +1,160 @@
-"""Hardware version of bellplus_trajectory_on_mandelbrot.png.
+#!/usr/bin/env python3
+"""Embed the frozen April-26 hardware samples in a Mandelbrot-plane drawing.
 
-Same Mandelbrot background and trajectory style as the April original
-(critical_slowing_mandelbrot_overlay.py) but the points along the
-trajectory are the actual hardware measurements from
-`run_cusp_precision.py` on Kingston pair (14, 15).
-
-Reads:
-    cusp_precision_ibm_kingston_*.json  (pass path as 1st arg)
-
-Writes:
-    visualizations/bellplus_trajectory_on_mandelbrot_hardware.png
-    visualizations/bellplus_trajectory_on_mandelbrot_hardware_zoom.png
+The measured scalar samples are mapped to the real plotting coordinate
+``c_plot=CΨ``.  They are not iterates of ``z_(n+1)=z_n^2+c``.  The selected
+quarter reference on that real line is shown beside, but not identified with,
+the cardioid's algebraic cusp at ``c=+1/4``.
 """
+
+from __future__ import annotations
+
+import argparse
+import hashlib
 import json
-import math
-import os
-import sys
+from operator import itemgetter
 from pathlib import Path
 
-import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-
-if len(sys.argv) < 2:
-    print("Usage: python plot_cusp_mandelbrot_hardware.py <cusp_precision_*.json>")
-    sys.exit(1)
-
-json_path = Path(sys.argv[1])
-with open(json_path, encoding='utf-8') as f:
-    data = json.load(f)
-
-t_meas = np.array([d['t_us'] for d in data['cpsi_data']])
-cpsi_meas = np.array([d['cpsi'] for d in data['cpsi_data']])
-gamma_fit = data['gamma_fit']
-backend = data.get('backend', 'unknown')
-pair = data['pair']['qubits']
-
-# ====================================================================
-#  Mandelbrot set (vectorised escape time)
-# ====================================================================
-print("Computing Mandelbrot set...")
+import numpy as np
 
 
-def compute_mandelbrot(x_range, y_range, nx, ny, max_iter=200):
-    x = np.linspace(*x_range, nx)
-    y = np.linspace(*y_range, ny)
-    X, Y = np.meshgrid(x, y)
-    C = X + 1j * Y
-    escape = np.zeros_like(X, dtype=int)
-    Z = np.zeros_like(C)
-    mask = np.ones_like(X, dtype=bool)
-    for i in range(max_iter):
-        Z[mask] = Z[mask] ** 2 + C[mask]
-        escaped = mask & (np.abs(Z) > 2)
-        escape[escaped] = i
-        mask = mask & ~escaped
-    escape[mask] = max_iter
-    return X, Y, escape
+APRIL26_JSON = "data/ibm_cusp_precision_april2026/cusp_precision_ibm_kingston_20260426_115939.json"
+APRIL26_SHA256 = "DAC33BA260594B7262D329C2D17E0629130D478A6C6D94927D467882EBB25211"
 
 
-# ====================================================================
-#  Theoretical trajectory at γ_fit
-# ====================================================================
-
-t_theory = np.linspace(0, 8.0, 2000)
-f_theory = np.exp(-4 * gamma_fit * t_theory)
-cpsi_theory = f_theory * (1 + f_theory ** 2) / 6
-
-VIS_DIR = Path(__file__).parent.parent / "visualizations"
-VIS_DIR.mkdir(exist_ok=True)
+def require_exact_json_path(json_path, expected_relative):
+    repo_root = Path(__file__).parent.parent
+    supplied = Path(json_path)
+    resolved = supplied if supplied.is_absolute() else repo_root / supplied
+    expected = repo_root / expected_relative
+    if resolved.resolve() != expected.resolve():
+        raise ValueError(f"expected immutable input {expected_relative}")
 
 
-def make_plot(x_range, y_range, nx, ny, suffix, figsize=(14, 10)):
-    X, Y, escape = compute_mandelbrot(x_range, y_range, nx, ny)
-    log_escape = np.log(escape.astype(float) + 1)
+def load_frozen_json(relative_path, expected_sha256):
+    payload = (Path(__file__).parent.parent / relative_path).read_bytes()
+    actual_sha256 = hashlib.sha256(payload).hexdigest().upper()
+    if actual_sha256 != expected_sha256:
+        raise ValueError(f"immutable JSON digest mismatch: {relative_path}")
+    parsed = json.loads(payload)
+    return parsed
 
-    fig, ax = plt.subplots(figsize=figsize)
 
-    # Mandelbrot background — same style as critical_slowing_mandelbrot_overlay.py
-    ax.imshow(log_escape,
-              extent=[x_range[0], x_range[1], y_range[0], y_range[1]],
-              origin='lower', cmap='bone',
-              aspect='equal', interpolation='bilinear')
+def compute_mandelbrot(x_range, y_range, nx, ny, max_iter):
+    x_values = np.linspace(x_range[0], x_range[1], nx)
+    y_values = np.linspace(y_range[0], y_range[1], ny)
+    x_grid, y_grid = np.meshgrid(x_values, y_values)
+    c_grid = x_grid + 1j * y_grid
+    escape = np.zeros_like(x_grid, dtype=int)
+    z_grid = np.zeros_like(c_grid)
+    active = np.ones_like(x_grid, dtype=bool)
+    for iteration in range(max_iter):
+        z_grid[active] = z_grid[active] ** 2 + c_grid[active]
+        escaped = active & (np.abs(z_grid) > 2)
+        escape[escaped] = iteration
+        active = active & ~escaped
+    escape[active] = max_iter
+    return escape
 
-    # Theoretical trajectory (faint line on the real axis)
-    ax.plot(cpsi_theory, np.zeros_like(cpsi_theory), color='lightblue',
-            linewidth=1.0, alpha=0.7, label=fr'F25 theory at $\gamma^{{fit}} = {gamma_fit*1e3:.2f}$/ms')
 
-    # Hardware points colored by time
-    sc = ax.scatter(cpsi_meas, np.zeros_like(cpsi_meas),
-                    c=t_meas, cmap='viridis', s=80, zorder=5,
-                    edgecolor='black', linewidth=0.6,
-                    label=f'Hardware ({backend}, qubits {pair})')
+def bellplus_readout(times, gamma):
+    f = np.exp(-4.0 * gamma * times)
+    return f * (1.0 + f * f) / 6.0
 
-    # Cusp marker
-    ax.plot(0.25, 0, 'X', color='lime', markersize=18, mew=2.5,
-            label=r'$C\Psi = 1/4$  (cardioid cusp)', zorder=6)
 
-    # Start and end markers
-    ax.plot(1/3, 0, 'o', color='red', markersize=12,
-            label=r'$t = 0$:  $C\Psi = 1/3$', zorder=6)
-    ax.plot(0, 0, 's', color='cyan', markersize=10,
-            label=r'$t \to \infty$:  $C\Psi \to 0$', zorder=6)
+def period_one_cardioid(n_pts):
+    theta = np.linspace(0, 2 * np.pi, n_pts)
+    return (np.exp(1j * theta) / 2.0) - (np.exp(2j * theta) / 4.0)
 
-    # Annotations
-    if suffix == "":
-        ax.annotate("Cardioid cusp\n$c = 1/4$",
-                    xy=(0.25, 0), xytext=(0.45, 0.45),
-                    fontsize=10, color='green', ha='center',
-                    arrowprops=dict(arrowstyle='->', color='green', lw=1.2))
-        ax.annotate("Mandelbrot set\n(bound orbits)",
-                    xy=(-0.7, -0.6), fontsize=11, ha='center', color='dimgray')
-        ax.annotate("Divergence\nzone", xy=(0.42, 0.15), fontsize=9, color='orange')
 
-    ax.set_xlabel(r"$\mathrm{Re}(c)$", fontsize=12)
-    ax.set_ylabel(r"$\mathrm{Im}(c)$", fontsize=12)
-    ax.set_title(
-        fr"Bell$^+$ decoherence trajectory on the Mandelbrot set"
-        fr"  —  $\mathtt{{{backend}}}$  (qubits {pair})",
-        fontsize=12,
+def make_plot(output_path, x_range, y_range, nx, ny, figsize, zoom,
+              t_meas, cpsi_meas, t_theory, cpsi_theory,
+              gamma_fit, backend, pair):
+    escape = compute_mandelbrot(x_range, y_range, nx, ny, 200)
+    figure, axis = plt.subplots(figsize=figsize)
+    axis.imshow(
+        np.log(escape.astype(float) + 1.0),
+        extent=[x_range[0], x_range[1], y_range[0], y_range[1]],
+        origin="lower", cmap="bone", aspect="equal", interpolation="bilinear",
     )
-    ax.legend(loc='upper left', fontsize=9)
-    ax.grid(alpha=0.2)
 
-    cbar = plt.colorbar(sc, ax=ax, label=r"$t$  $[\mu s]$", shrink=0.7)
+    axis.plot(
+        cpsi_theory, np.zeros_like(cpsi_theory), color="lightblue",
+        linewidth=1.0, alpha=0.7,
+        label=f"finite F25 model at fitted gamma={gamma_fit * 1000.0:.2f}/ms",
+    )
+    samples = axis.scatter(
+        cpsi_meas, np.zeros_like(cpsi_meas), c=t_meas, cmap="viridis",
+        s=80, zorder=5, edgecolor="black", linewidth=0.6,
+        label=f"saved hardware samples ({backend}, qubits {pair})",
+    )
+    axis.plot(
+        0.25, 0.0, "X", color="lime", markersize=18, mew=2.5,
+        label="selected radial CΨ=1/4 reference", zorder=6,
+    )
+    axis.plot(
+        cpsi_theory[0], 0.0, "o", color="red", markersize=12,
+        label=f"finite model t={t_theory[0]:.0f}", zorder=6,
+    )
+    axis.plot(
+        cpsi_theory[-1], 0.0, "s", color="cyan", markersize=10,
+        label=f"finite plotted endpoint t={t_theory[-1]:.1f}", zorder=6,
+    )
 
-    out = VIS_DIR / f"bellplus_trajectory_on_mandelbrot_hardware{suffix}.png"
-    fig.tight_layout()
-    fig.savefig(out, dpi=150)
-    plt.close(fig)
-    print(f"Saved: {out}")
+    cardioid = period_one_cardioid(1000)
+    axis.plot(
+        cardioid.real, cardioid.imag, "--", color="lime", alpha=0.4,
+        linewidth=1.0, label="period-one cardioid boundary",
+    )
+    if zoom:
+        axis.set_title(
+            "quarter reference; cardioid cusp is a separate algebraic marker"
+        )
+    else:
+        axis.set_title("hardware samples embedded as c_plot = CΨ")
+    axis.set_xlabel("Re(c_plot)")
+    axis.set_ylabel("Im(c_plot)")
+    axis.legend(loc="upper left", fontsize=9)
+    axis.grid(alpha=0.2)
+    figure.colorbar(samples, ax=axis, label="t [microseconds]", shrink=0.7)
+    figure.tight_layout()
+    figure.savefig(output_path, dpi=150)
+    plt.close(figure)
 
 
-# Full view
-make_plot((-2.2, 0.8), (-1.2, 1.2), 1200, 900, "", figsize=(14, 10))
+def main(json_path, output_dir) -> None:
+    destination = Path(output_dir)
+    require_exact_json_path(json_path, APRIL26_JSON)
+    data = load_frozen_json(json_path, APRIL26_SHA256)
+    cpsi_rows = data["cpsi_data"]
+    t_meas = np.array(list(map(itemgetter("t_us"), cpsi_rows)))
+    cpsi_meas = np.array(list(map(itemgetter("cpsi"), cpsi_rows)))
+    gamma_fit = data["gamma_fit"]
+    backend = data["backend"]
+    pair = data["pair"]["qubits"]
+    t_theory = np.linspace(0.0, 8.0, 2000)
+    cpsi_theory = bellplus_readout(t_theory, gamma_fit)
 
-# Zoomed near cardioid cusp — taller aspect to keep equal axes readable
-make_plot((-0.10, 0.50), (-0.20, 0.20), 1200, 800, "_zoom", figsize=(12, 6))
+    full_output = destination / "bellplus_trajectory_on_mandelbrot_hardware.png"
+    zoom_output = destination / "bellplus_trajectory_on_mandelbrot_hardware_zoom.png"
+    make_plot(
+        full_output, (-2.2, 0.8), (-1.2, 1.2), 1200, 900, (14, 10), False,
+        t_meas, cpsi_meas, t_theory, cpsi_theory, gamma_fit, backend, pair,
+    )
+    make_plot(
+        zoom_output, (-0.10, 0.50), (-0.20, 0.20), 1200, 800, (12, 6), True,
+        t_meas, cpsi_meas, t_theory, cpsi_theory, gamma_fit, backend, pair,
+    )
+    print(f"saved: {full_output}")
+    print(f"saved: {zoom_output}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("json_path")
+    parser.add_argument("--output-dir", dest="output_dir", required=True)
+    args = parser.parse_args()
+    main(args.json_path, args.output_dir)

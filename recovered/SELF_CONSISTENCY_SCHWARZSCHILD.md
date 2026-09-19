@@ -1,3 +1,22 @@
+<!-- F14-CURRENT -->
+
+# Schwarzschild-like Metrics: A Failed Universal-Curve Premise
+
+**Status:** Historical argument, not a derivation or selection of a metric.
+The nine retained Bell+ concurrence-feedback rows establish only that
+named book's gamma sweep. The clean Hamiltonian-dead Bell+/Wootters book
+instead has K=ln(4/3)/8. Neither supplies one decoherence curve for arbitrary
+states, Hamiltonians, channels, or spatial profiles. The retained coupled
+N=8 chain reports concentration ratio approximately 1.0 for all three metrics;
+this is the independent control against the proposed spatial inference.
+The uncoupled comparison and every table below remain a historical record.
+
+<!-- F14-HISTORICAL -->
+
+> Historical record: the universal-curve premise and horizon-selection
+> conclusions below are not current claims. The numerical profiles remain
+> visible so the failed inference can be inspected without rerunning a producer.
+
 # Self-Consistency Argument for Schwarzschild-like Metrics
 
 **Tier:** 3 (Speculative interpretation of model behavior)
@@ -23,7 +42,7 @@ not a derivation from first principles.
 
 ## 1. The Problem
 
-The [Metric Discrimination](METRIC_DISCRIMINATION.md) experiment showed that single-system simulations cannot distinguish between candidate metric forms. γ · t_cross = K is a mathematical identity: it holds for any constant γ regardless of origin.
+The [Metric Discrimination](../experiments/METRIC_DISCRIMINATION.md) experiment showed that single-system simulations cannot distinguish between candidate metric forms. γ · t_cross = K is a mathematical identity: it holds for any constant γ regardless of origin.
 
 But Tom pointed out: "Reality formed at one location must be real from all perspectives. What has become real must remain real from every viewpoint."
 

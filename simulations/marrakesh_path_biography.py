@@ -6,9 +6,9 @@ Cross-references:
 - `qubit_biography.py`: full classifier (used here)
 - `docs/BOTH_SIDES_VISIBLE.md`: original Torino 180-day analysis
 
-Question: which path qubits are stable archetypes (good for F88b-Lens) vs
-volatile (bad for F88b-Lens)? The 5-day window gave a snapshot; 91 days gives
-the regime each qubit actually lives in.
+Question: which path qubits have stable versus variable histories under the
+free-single-transmon `|+>` normalized-purity proxy? The labels describe neutral
+R* bands in finite calibration records, not physical regimes.
 """
 from __future__ import annotations
 
@@ -47,7 +47,7 @@ def main():
 
     print()
     print(f"  {'qubit':>6} {'archetype':>16} {'r mean':>8} {'r std':>8} "
-          f"{'cross %':>8} {'walk':>6}")
+          f"{'below %':>8} {'walk':>6}")
     print("  " + "-" * 70)
     qstats = {}
     for qid in all_path_qubits:
@@ -55,13 +55,13 @@ def main():
             print(f"  Q{qid:<5} (no calibration data)")
             continue
         rs = np.array([rec[3] for rec in by_qubit[qid]])
-        crossing = (rs < R_STAR).mean() * 100
-        signs = np.sign(rs - R_STAR)
-        walk = int(np.sum(np.diff(signs) != 0)) / max(len(rs) - 1, 1)
+        below_flags = rs < R_STAR
+        below_fraction = below_flags.mean() * 100
+        walk = int(np.sum(below_flags[1:] != below_flags[:-1])) / max(len(rs) - 1, 1)
         arch = archetype_from_series(rs)
-        qstats[qid] = (arch, rs.mean(), rs.std(), crossing, walk)
+        qstats[qid] = (arch, rs.mean(), rs.std(), below_fraction, walk)
         print(f"  {qid:>6} {arch:>16} {rs.mean():>8.4f} {rs.std():>8.4f} "
-              f"{crossing:>7.1f}% {walk:>6.3f}")
+              f"{below_fraction:>7.1f}% {walk:>6.3f}")
     print()
 
     print("Path-level summary:")
@@ -76,7 +76,8 @@ def main():
     print()
 
     print("Per-qubit fingerprints (91-day strings):")
-    print(f"  legend: . silent  _ classic  X pulse  ~ twitch  / fade  \\ tune  ! anomaly")
+    print("  legend: . well-above  _ at-or-above  X below  ~ variable-near")
+    print("          / rising-through  \\ falling-through  ! outlier")
     print()
     for qid in all_path_qubits:
         if qid not in by_qubit:
@@ -93,8 +94,9 @@ def main():
 
     print("Reading:")
     print("  Path-quality on F88b-Lens timescale = (a) per-qubit archetype + (b) co-stability.")
-    print("  Pulse-stable + silent-stable are reliable; lifecycle is moderate; twitch is")
-    print("  unreliable (the F88b-Lens reading on a twitcher will jitter day-to-day).")
+    print("  Stable-below and stable-at-or-above are the lowest-walk R* histories.")
+    print("  Variable-near histories warn that a later run may see another proxy band;")
+    print("  this is a scheduling caveat, not a submission verdict.")
 
 
 if __name__ == "__main__":

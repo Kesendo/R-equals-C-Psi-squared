@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# How four thirds appeared in one named ring calculation
+
+Current reading: for N=4 `|0+0+>` on the Heisenberg ring, pair `(0,2)`, the
+third-order partial-trace integer `8` divided by `3!` gives the leading `|00>`
+population-deviation coefficient `4/3` under the standard Born reference.  The
+native reconstruction is tolerance-based floating point, not bit exact; the
+result neither generalizes the Born rule nor identifies a cusp carrier.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the path narrative below is retained because it
+shows how the scoped coefficient was seen before its labels were narrowed.
+
 # On How Four Thirds Appeared
 
 **Status:** Reflection. Captures the seeing of 2026-05-16 (afternoon), when a session that began with re-reading three-month-old Born-rule documents ended with a bit-exact Tier-1 closed form for the dominant-outcome Born deviation: Δ_|00⟩ = (4/3)·Q²·K³ on |0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0,2). Written immediately while the path is still visible, in the style of the older repository documents that we re-read this morning and that pre-figured this result.

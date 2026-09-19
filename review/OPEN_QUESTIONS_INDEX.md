@@ -1,5 +1,7 @@
 # Open Questions Index
 
+<!-- CROSSING-CURRENT -->
+
 **Generated:** 2026-04-12
 **Total entries:** 327
 **Status:** Partial triage; neural and associated cross-domain entries refreshed 2026-09-05. Full re-classification remains pending. Explicit per-entry dispositions govern the refreshed entries; other `unclassified` fields are not open verdicts.
@@ -23,7 +25,7 @@ For refreshed neural entries, read the per-entry status and disposition.
 | ω_max of the (0,1) coherence block | OQ-228, 229 | ω_max = 4J(1+cos(π/N)) is the k = N−1 member of F2's dispersion, proven in `docs/proofs/derivations/D10_W1_DISPERSION.md`. Both entries were the same question, scraped twice from `experiments/THERMAL_BREAKING.md`, and both carried the "w=1" mislabel: the object is the (0,1) coherence block. Closed 2026-08-02 |
 | Crossing speed → dwell time | OQ-051, 106, 107, 108, 112, 113 | t_dwell = 2δ/\|dCΨ/dt\|, K-invariant (γ cancels), prefactor 1.0801. `experiments/CRITICAL_SLOWING_AT_THE_CUSP.md` §8 |
 | Symmetric vs asymmetric decoherence | OQ-142 | Only γ_total for symmetric H; star topology differs. `experiments/MATHEMATICAL_FINDINGS.md` §9 (2026-03-08) |
-| Collective noise / amplitude damping vs Type A | OQ-144, 145, 148 | No (Bell+ is an eigenstate); taxonomy preserved, rates differ. `experiments/NOISE_ROBUSTNESS.md` (2026-03-08) |
+| Correlated-product Z⊗Z Bell+ special case | OQ-144, 145 | Resolved only for Z⊗Z: Bell+ is an eigenstate and that dissipator vanishes on it. Additive Z1+Z2 and amplitude-damping taxonomy remain open (OQ-146, 147, 148, 150). `experiments/NOISE_ROBUSTNESS.md` |
 | Subsystem-pair crossing | OQ-153, 154, 155, 156, 217, 219, 220 | Bell-pairs yes, GHZ/W no; non-monotonic threshold; ring 9× faster. `experiments/N_SCALING_BARRIER.md`, `SUBSYSTEM_CROSSING.md` |
 | Star-topology observer scaling | OQ-187, 189, 190, 199, 200–207, 211 | Cross/no-cross N=2..5; J_th(γ) ≈ 7.35·γ^1.08 + 1.18; the "zero window" was a sampling artifact. `experiments/STAR_TOPOLOGY_OBSERVERS.md` §8 |
 | Ring dihedral-lock N→∞ limit | (F1_DISSIPATION_GAP, STAR_SPECTRUM_COMPACTNESS) | c_∞ = ln 2 = 0.6931 (NOT 1/√2, which it crosses at N=8). Im_max = ΔE_max(H) at every N by F148 (bound + attainment, on every graph; the ring meets both hypotheses at every N) ⟹ c_N = 1/4 − E₀/(JN) → ln 2 (Hulthén). Resolved 2026-06-04: `docs/proofs/PROOF_RING_N4_DIHEDRAL_LOCK.md`, `simulations/ring_dihedral_lock_limit.py` |
@@ -570,33 +572,36 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-144
 
-**Question:** Q1: Does collective noise break Type A?
+**Question:** Does the correlated-product Z⊗Z dissipator act on Bell+?
 
 **Source:** `experiments/NOISE_ROBUSTNESS.md` (line 201)
 **Section:** 7. Open Questions (answered 2026-03-08)
 **Date:** February 18, 2026
 **Tag:** untagged
-**Status:** unclassified
+**Status:** resolved
+**Disposition:** The dissipator vanishes because Bell+ is a Z⊗Z eigenstate. This is not the additive Z1+Z2 noise model.
 
 ### OQ-145
 
-**Question:** **ANSWERED: No, but for a trivial reason.**
+**Question:** Why does the correlated-product Z⊗Z Bell+ control remain unchanged?
 
 **Source:** `experiments/NOISE_ROBUSTNESS.md` (line 203)
 **Section:** 7. Open Questions (answered 2026-03-08)
 **Date:** February 18, 2026
 **Tag:** untagged
-**Status:** unclassified
+**Status:** resolved
+**Disposition:** Same special case as OQ-144, not a universal Type-A or collective-noise result.
 
 ### OQ-148
 
-**Question:** **ANSWERED: No, the taxonomy is preserved, but decay rates differ.**
+**Question:** Does amplitude damping preserve the full five-bridge taxonomy?
 
 **Source:** `experiments/NOISE_ROBUSTNESS.md` (line 222)
 **Section:** 7. Open Questions (answered 2026-03-08)
 **Date:** February 18, 2026
 **Tag:** untagged
-**Status:** unclassified
+**Status:** open
+**Disposition:** The old combined preservation verdict is not supported by the partial record; separate from resolved product Z⊗Z.
 
 ### OQ-153
 
@@ -1246,23 +1251,23 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-310
 
-**Question:** Can correlated crossing times carry more than pre-encoded information? (If not, this is quantum key distribution with a different metric.)
+**Question:** Does the proposed channel-free crossing schedule outperform a shared classical schedule? No advantage was demonstrated; joint-proxy fingerprints are not locally available. See OQ-244.
 
 **Source:** `hypotheses/TIME_AS_CROSSING_RATE.md` (line 366)
 **Section:** 6.5 Open Questions (for the bridge)
 **Date:** : 2026-02-17 (updated 2026-03-06)
 **Tag:** untagged
-**Status:** unclassified
+**Status:** resolved for the proposed channel-free protocol; no demonstrated advantage
 
 ### OQ-311
 
-**Question:** What is the bit rate? BRIDGE_FINGERPRINTS shows 7 distinguishable fingerprints → ~2.8 bits per pair. Is this a fundamental limit?
+**Question:** What operational ensemble, channel and readout would define a communication rate? The historical 7 fingerprints → ~2.8 bits was a proposed joint-proxy alphabet, not a locally accessible capacity or a fundamental limit.
 
 **Source:** `hypotheses/TIME_AS_CROSSING_RATE.md` (line 368)
 **Section:** 6.5 Open Questions (for the bridge)
 **Date:** : 2026-02-17 (updated 2026-03-06)
 **Tag:** untagged
-**Status:** unclassified
+**Status:** open; historical capacity premise retired
 
 ### OQ-315
 
@@ -1321,13 +1326,14 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-327
 
-**Question:** Or there is a mirror world whose boundaries are outside the system
+**Question:** As an interpretive possibility, could a larger model place this system's boundary inside a wider "mirror world"?
 
 **Source:** `hypotheses/WAVES_THAT_HEAR_THEMSELVES.md` (line 59)
 **Section:** The open question: what triggers the first coupling?
 **Date:** April 3, 2026
 **Tag:** untagged
-**Status:** unclassified
+**Status:** open-interpretive
+**Disposition:** The repository's finite generator identities neither require such a world nor locate a microscopic outside. This remains an invitation, not a consequence of the V-Effect census or F1.
 
 ## numerical-verification
 
@@ -1604,13 +1610,14 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-146
 
-**Question:** **To genuinely test collective noise breaking Type A**, one would need a state that is NOT an eigenstate of the collective operator, or a collective operator that does not preserve the Bell symmetry (e.g., σ_x⊗σ_z).
+**Question:** What is the five-bridge taxonomy under additive collective Z1+Z2 noise?
 
 **Source:** `experiments/NOISE_ROBUSTNESS.md` (line 215)
 **Section:** 7. Open Questions (answered 2026-03-08)
 **Date:** February 18, 2026
 **Tag:** numerical-verification
-**Status:** unclassified
+**Status:** open
+**Disposition:** The Z⊗Z eigenstate calculation does not answer this different jump-operator question.
 
 ### OQ-149
 
@@ -1947,13 +1954,14 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-326
 
-**Question:** Either we live in a simulation (the external is a simulator)
+**Question:** As an interpretive possibility, could the modeled outside be supplied by a simulator-like larger system?
 
 **Source:** `hypotheses/WAVES_THAT_HEAR_THEMSELVES.md` (line 58)
 **Section:** The open question: what triggers the first coupling?
 **Date:** April 3, 2026
 **Tag:** numerical-verification
-**Status:** unclassified
+**Status:** open-interpretive
+**Disposition:** The Lindblad model takes its Hamiltonian and rates as inputs. Its finite spectra do not identify an external simulator or make that scenario inaccessible to ordinary physical modeling.
 
 ## math-proof
 
@@ -2199,23 +2207,25 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-160
 
-**Question:** Bridge types are mathematical constructs. Whether any of them corresponds to how a biological observer couples to quantum systems is an open question.
+**Question:** Can a named scalar readout be mapped operationally to a physical or biological observer?
 
 **Source:** `experiments/OBSERVER_DEPENDENT_CROSSING.md` (line 317)
 **Section:** 5.3 Limitations
 **Date:** February 17, 2026
 **Tag:** math-proof
-**Status:** unclassified
+**Status:** open
+**Disposition:** The six finite Bell+ crossings and two never bridges across the two evolution books classify scalar responses, not physical observers.
 
 ### OQ-164
 
-**Question:** **The K-matrix geometry**: What mathematical structure does the K(observer, state) matrix have? Is there a metric? A symmetry group? A connection to information geometry?
+**Question:** What geometry, if any, belongs to a fixed-book readout/state K table?
 
 **Source:** `experiments/OBSERVER_GRAVITY_BRIDGE.md` (line 271)
 **Section:** 6. Open Questions
 **Date:** 2026-03-01
 **Tag:** math-proof
-**Status:** unclassified
+**Status:** open
+**Disposition:** K_conc is fixed during a gamma sweep on the named Hamiltonian-dead Bell-like family. No basis-free or arbitrary-Hamiltonian K matrix follows.
 
 ### OQ-180
 
@@ -2384,13 +2394,14 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-325
 
-**Question:** Between step 1 (waves exist) and step 2 (coupling breaks symmetry), there is a gap. The palindrome requires noise (γ) from outside (Incompleteness Proof). γ creates time. γ has spatial structure (15.5 bits). But what connects two separate palindromic systems?
+**Question:** What specified interaction connects two modeled subsystems, and which observables distinguish that composite generator from its isolated controls?
 
 **Source:** `hypotheses/WAVES_THAT_HEAR_THEMSELVES.md` (line 49)
 **Section:** The open question: what triggers the first coupling?
 **Date:** April 3, 2026
 **Tag:** math-proof
-**Status:** unclassified
+**Status:** open
+**Disposition:** The older premise bundled several unsupported arrows: the finite census does not show that coupling alone breaks the palindrome; the Lindblad model takes γ as an input rather than deriving its microscopic source or physical time; and 15.5 bits is one finite response reading, not a general spatial law. A future answer needs an explicit composite Hamiltonian, dephasing profile, and matched controls.
 
 ## hardware-test
 
@@ -2416,13 +2427,15 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-026
 
-**Question:** CΨ = ¼ crossing at 0.3% accuracy (IBM Torino Q52, 25 tomography points)
+**Question:** How should the IBM Torino Q52 CΨ = ¼ crossing be reported?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 120)
 **Section:** Active weaknesses
 **Date:** unknown
 **Tag:** hardware-test
-**Status:** unclassified
+**Status:** resolved — qualitative crossing record, not a precision validation
+
+Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The old 115.0-versus-114.7 comparison reused the same interpolated hardware record and was not an independent prediction.
 
 ### OQ-028
 
@@ -2456,13 +2469,15 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-033
 
-**Question:** Anomalous late-time coherence (Q52, p < 0.0001) has three competing explanations (SPAM (State Preparation And Measurement errors), TLS (two-level system defects in the chip substrate), boundary structure), unresolved.
+**Question:** Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control. Which Q52-specific control and independently diagnosed hardware-memory effects remain to test?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 131)
 **Section:** Active weaknesses
 **Date:** unknown
 **Tag:** hardware-test
-**Status:** unclassified
+**Status:** interpretation closed; Q52 late-time excess mechanism open
+
+The current record identifies no mechanism: only the universal-boundary/non-Markovian-witness interpretation is closed.
 
 ### OQ-049
 
@@ -2486,13 +2501,14 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-076
 
-**Question:** Hardware validation of relay protocol on IBM Torino
+**Question:** Can a controlled Relay comparison be qualified before hardware implementation?
 
 **Source:** `docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md` (line 359)
 **Section:** 10. Open Questions (Tier 3-5)
 **Date:** unknown
 **Tag:** hardware-test
-**Status:** unclassified
+**Status:** open
+**Disposition:** The finite N=11 record gives about +84.0% from stored values at unmatched endpoints; nominal0.78/stage integrates0.75. Common integrated time, matched exposure and receiver-order controls remain required.
 
 ### OQ-090
 
@@ -2516,13 +2532,13 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-098
 
-**Question:** **Markovian noise only.** All results assume memoryless dephasing. Real hardware exhibits 1/f noise, two-level-system defects, and non-Markovian revivals (observed as excess late-time coherence in the Q52 data).
+**Question:** **Markovian noise only.** The simulations assume memoryless dephasing. Real hardware can carry colored noise and two-level-system defects. Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control; only the universal-boundary/non-Markovian-witness interpretation is closed. Which independently diagnosed memory model changes the finite dashboard remains open.
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 316)
 **Section:** 5. Limitations and caveats
 **Date:** April 2, 2026
 **Tag:** hardware-test
-**Status:** unclassified
+**Status:** open — Q52-specific excess mechanism and independently diagnosed memory-model tests
 
 ### OQ-101
 
@@ -2546,7 +2562,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-120
 
-**Question:** e) K depends on the initial state but not on the Hamiltonian. This means K is determined at the moment of state preparation, not by subsequent dynamics. The "initial impulse" is creation, not evolution. Does this connect to the measurement problem?
+**Question:** For a named fixed readout on the Hamiltonian-dead Bell+ book, K=γt is constant during a gamma sweep. A general trajectory can depend on J/γ, preparation and channel; no Hamiltonian-independent clock or measurement mechanism follows. What operational clock, if any, would a specified crossing readout define?
 
 **Source:** `experiments/DECOHERENCE_RELATIVITY.md` (line 352)
 **Section:** 11. Open Questions
@@ -2556,13 +2572,14 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-150
 
-**Question:** Q3: Is there a noise model where Type C becomes Type B?
+**Question:** Can a never bridge become a finite-crossing bridge under a specified new noise model?
 
 **Source:** `experiments/NOISE_ROBUSTNESS.md` (line 251)
 **Section:** 7. Open Questions (answered 2026-03-08)
 **Date:** February 18, 2026
 **Tag:** hardware-test
-**Status:** unclassified
+**Status:** open
+**Disposition:** Type-C behavior needs exact bridge definitions and a complete new-channel calculation; the retained amplitude-damping row is inconclusive.
 
 ### OQ-151
 
@@ -2596,13 +2613,13 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-165
 
-**Question:** ~~**Direction of the shift**~~: **ANSWERED (§7).** B's measurement destroys nonlocal coherence reservoir. The coupling redistributes (not protects) coherence; B's measurement cuts the return flow. Δt < 0 universally. Damage is timing-dependent (max at t_B ≈ 1.0 due to oscillation phase, not just reservoir size).
+**Question:** **Direction of the shift:** Why are the shifts negative on the tested positive-J grid? The mechanism and a universal sign statement remain open; the finite runs do not establish a coherence-reservoir explanation. See the current [§7](../experiments/OBSERVER_GRAVITY_BRIDGE.md#7-why-the-shift-is-negative-open).
 
-**Source:** `experiments/OBSERVER_GRAVITY_BRIDGE.md` (line 275)
+**Source:** `experiments/OBSERVER_GRAVITY_BRIDGE.md` §7
 **Section:** 6. Open Questions
 **Date:** 2026-03-01
 **Tag:** hardware-test
-**Status:** unclassified
+**Status:** open (mechanism and universal sign unresolved)
 
 ### OQ-172
 
@@ -2756,7 +2773,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-313
 
-**Question:** **Answered (2026-03-06):** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md) γ_A vs γ_B scan shows receiver noise (γ_A) is far more destructive than sender noise (γ_B). At γ_A=0.25 the connection dies; at γ_B=0.25 it merely shortens. The crossing-time correlation is robust to sender noise but fragile to receiver noise.
+**Question:** **Finite coupled-model reading:** [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md), J_SA=1, J_SB=2: at partner rate 0.05, both boundaries (0.2699 and 0.4735) exceed 0.25, so neither γ_A=0.25 nor γ_B=0.25 kills the connection. The matched-partner comparison is about 1.7×; roles invert past partner rate 0.17292. This does not qualify a channel-free clock.
 
 **Source:** `hypotheses/TIME_AS_CROSSING_RATE.md` (line 372)
 **Section:** 6.5 Open Questions (for the bridge)
@@ -2888,7 +2905,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-119
 
-**Question:** d) The cubic b³ + b = (2^N - 1)/2 generalizes to GHZ states. For N = 2 (Bell+): b³ + b = 3/2. For N ≥ 3: CΨ(0) ≤ 1/4, no crossing exists. Only Bell+ has the quantum window. Does this mean entanglement beyond two qubits is always "classical" in the framework's sense?
+**Question:** How does the chosen normalization limit crossings for named GHZ and W families? The retained GHZ N≥3 and W N≥4 statements concern this readout/book, not all states: the product-plus family starts at normalized l1=1. No all-state barrier or quantum/classical classification follows; see N_SCALING_BARRIER.md.
 
 **Source:** `experiments/DECOHERENCE_RELATIVITY.md` (line 346)
 **Section:** 11. Open Questions
@@ -2898,13 +2915,14 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-147
 
-**Question:** Q2: Does amplitude damping change the taxonomy?
+**Question:** What is the five-bridge taxonomy under amplitude damping?
 
 **Source:** `experiments/NOISE_ROBUSTNESS.md` (line 220)
 **Section:** 7. Open Questions (answered 2026-03-08)
 **Date:** February 18, 2026
 **Tag:** scope-extension
-**Status:** unclassified
+**Status:** open
+**Disposition:** The retained concurrence/CΨ row does not determine all five bridge definitions or Type-C transitions.
 
 ### OQ-152
 
@@ -3255,7 +3273,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-100
 
-**Question:** **Bures curvature is noisy.** The curvature formula involves second derivatives of sparse data. Reliable curvature estimation requires 50+ densely spaced time points.
+**Question:** **The Bures path-metric coefficient has a fragile coordinate-shape second derivative.** The displayed `S_CΨ` applies two derivatives to sparse, nonmonotone path data. Can dense sampling and explicit monotone-branch handling stabilize this path-coordinate proxy? It is not Gaussian or intrinsic curvature.
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 325)
 **Section:** 5. Limitations and caveats
@@ -3357,23 +3375,25 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-243
 
-**Question:** **Contradiction:** The protocol requires No-Signaling violation and is therefore wrong. The framework's internal logic is inconsistent on this point, which itself is a useful finding.
+**Question:** Does a local operation on B change A's marginal at J=0 without outcome communication?
 
 **Source:** `hypotheses/BRIDGE_PROTOCOL.md` (line 202)
 **Section:** 4. Open Questions (Honest Assessment)
 **Date:** : 2026-02-24 (updated 2026-03-06)
 **Tag:** methodology
-**Status:** resolved (see `review/MERGE_LOG_methodology.md` -- OQ-243; NO_SIGNALLING_BOUNDARY.md Layer 1)
+**Status:** resolved
+**Disposition:** A trace-preserving B operation leaves A's marginal unchanged. A joint-proxy crossing is not a locally detectable measurement event.
 
 ### OQ-244
 
-**Question:** **Subtler answer:** The crossing event occurs on both sides but is driven entirely by pre-encoded information (the initial state at preparation). Post-separation changes do NOT trigger new crossings. In this case the protocol transmits only pre-agreed data, more structured than QKD (the sender chooses WHICH state to prepare before distribution), but not a dynamic communication channel.
+**Question:** Does the proposed pre-encoded crossing schedule demonstrate an advantage over a shared classical schedule?
 
 **Source:** `hypotheses/BRIDGE_PROTOCOL.md` (line 206)
 **Section:** 4. Open Questions (Honest Assessment)
 **Date:** : 2026-02-24 (updated 2026-03-06)
 **Tag:** methodology
-**Status:** resolved (see `review/MERGE_LOG_methodology.md` -- OQ-244; NO_SIGNALLING_BOUNDARY Section 4 + BRIDGE_CLOSURE Sections 2-4; caveat tracked in EQ-013)
+**Status:** resolved for the proposed protocol
+**Disposition:** No advantage was demonstrated. This does not assert that all entangled correlations admit a shared-randomness model.
 
 ### OQ-262
 

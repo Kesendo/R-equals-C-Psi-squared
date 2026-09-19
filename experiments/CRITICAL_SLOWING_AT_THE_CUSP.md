@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# Recurrence iteration counts near a cusp, beside finite model paths
+
+Current reading: the logarithmic count belongs to an algorithm and its stopping
+tolerance for the exact recurrence `z -> z^2+c`.  The saved model trajectory and
+hardware samples are separate finite objects; a radial crossing does not become
+a physical cusp transit or a slowing theorem for the quantum state.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the original cusp-slowing narrative, tables, and captions
+are retained below as provenance for the separated recurrence and trajectory
+questions.
+
 # Critical Slowing at the Mandelbrot Cusp
 
 **Status:** Verified (asymptotic analytical expansion, April 5, 2026; hardware
@@ -36,8 +49,10 @@ The second half treats one continuous case: the ideal N=2 Bell+ trajectory
 under pure Z-dephasing, whose closed form depends on `f=exp(-4γt)`. For that
 fixed state, Hamiltonian action and channel, the dwell interval in `K=γt`
 is exactly γ-independent. This does not make K a universal crossing dose:
-the coupled-Hamiltonian sweeps in K-Dosimetry change `J/γ` and show up to
-62% reciprocity failure at intermediate γ.
+the K-Dosimetry record reports 61.816% (about 62%) as an unresolved legacy
+stored numerical discrepancy, not a physical reciprocity counterexample.
+Its isotropic two-qubit |++> preparation with equal local dephasing remains
+Hamiltonian-dead; see [K-Dosimetry](K_DOSIMETRY.md).
 
 ---
 

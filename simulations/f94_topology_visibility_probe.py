@@ -8,17 +8,14 @@ Does F94 see the same K_4 vs ring topology dependence?
 
 Findings (2026-05-17):
 
-  (1) For F94's canonical lens (|0+0+⟩, pair (0,2)): K_4 and Ring give
-      bit-identical sym3 matrix elements across all 4 outcomes. K_4's
-      extra bonds (0,2) and (1,3) cancel pairwise because they sit in the
-      "symmetric blind spots" of the initial state and pair: bond (0,2)
-      between the kept-pair sites (both |0⟩) and bond (1,3) between the
-      traced-out sites (both |+⟩). The cancellation is exact.
+  (1) For F94's canonical lens (|0+0+⟩, pair (0,2)), K_4 and Ring give
+      sym3 matrix elements agreeing in this finite 1e-9 comparison. That
+      numerical agreement does not establish exact equality and does not
+      identify a cancellation mechanism for the two extra K_4 bonds.
 
-  (2) F96 universal slopes (chain, ring, K_4 all give -16/9 and -8/3 for
-      |01⟩ and |11⟩ subdominant slopes) — F96 inherits F94's blindness
-      because the slopes are ratios of matrix elements that all match
-      between ring and K_4.
+  (2) Ring |10> slope -16/9, while chain |10> slope -4/3. This refutes
+      topology universality. Ring and K_4 agree only for the named lens;
+      that agreement does not extend to the chain or to arbitrary states.
 
   (3) For asymmetric initial states (|++00⟩, |10+0⟩): F94's sym3 IS
       sensitive to K_4 vs ring. The K_4 - Ring difference is an
@@ -38,12 +35,6 @@ from __future__ import annotations
 
 import sys
 import numpy as np
-
-if sys.platform == "win32":
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
 
 PAULI = {
     "I": np.eye(2, dtype=complex),
@@ -121,7 +112,26 @@ def sym3_matrix_elements(N, bonds, state, pair):
     return [r[i, i].real for i in range(4)]
 
 
+def unitary_second_order_elements(N, bonds, state, pair):
+    """Return the raw pair diagonal of L_H^2 rho_0."""
+    H = heisenberg(N, bonds)
+    rho_0 = np.outer(state, state.conj())
+    lh2 = L_H_apply(L_H_apply(rho_0, H), H)
+    r = reduced(lh2, N, pair)
+    return [r[i, i].real for i in range(4)]
+
+
+def normalized_dyson_slope(dyson_element, order, unitary_element):
+    return dyson_element / (order * unitary_element)
+
+
 def main():
+    if sys.platform == "win32":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
     plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
     zero = np.array([1, 0], dtype=complex)
     one = np.array([0, 1], dtype=complex)
@@ -144,6 +154,7 @@ def main():
         "Ring":  [(0, 1), (1, 2), (2, 3), (3, 0)],
         "K_4":   [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)],
     }
+    comparison_tolerance = 1e-9
 
     print("=" * 78)
     print("F94 sym3 visibility of K_4 vs Ring topology, across initial-state choices")
@@ -159,22 +170,44 @@ def main():
             rows[t_name] = vals
             print(f"  {t_name:>10} " + " ".join(f"{v:>10.4f}" for v in vals))
         diff_RvK = [rows["K_4"][i] - rows["Ring"][i] for i in range(4)]
-        visible = any(abs(d) > 1e-9 for d in diff_RvK)
+        visible = any(abs(d) > comparison_tolerance for d in diff_RvK)
         if visible:
             print(f"  → K_4 vs Ring DIFFERENCE: {diff_RvK}  ★ topology visible")
         else:
-            print(f"  → K_4 = Ring exactly (topology invisible at this lens)")
+            print("  → no difference resolved by this finite 1e-9 comparison")
         print()
 
     print("=" * 78)
     print("Key finding:")
     print("=" * 78)
     print()
-    print("F94's canonical setup (|0+0+⟩, pair=(0,2)) gives K_4 = Ring exactly.")
-    print("The +2 extra K_4 bonds (0,2) and (1,3) cancel pairwise because:")
-    print("  - Bond (0,2) is between the kept-pair sites (both prepared as |0⟩)")
-    print("  - Bond (1,3) is between the traced-out sites (both prepared as |+⟩)")
-    print("Both fall in the 'symmetric blind spots' of (|0+0+⟩, pair=(0,2)).")
+    canonical_state, canonical_pair = test_states[
+        "|0+0+⟩ pair=(0,2) [F94 canonical]"
+    ]
+    canonical_ring = sym3_matrix_elements(
+        4, topologies["Ring"], canonical_state, canonical_pair
+    )
+    canonical_k4 = sym3_matrix_elements(
+        4, topologies["K_4"], canonical_state, canonical_pair
+    )
+    canonical_difference = [
+        canonical_k4[index] - canonical_ring[index] for index in range(4)
+    ]
+    max_abs_difference = max(abs(value) for value in canonical_difference)
+    print(
+        "Named-lens finite 1e-9 comparison: "
+        f"max |K_4 - Ring| = {max_abs_difference:.3e}"
+    )
+    print("This does not establish exact equality and does not identify a cancellation mechanism.")
+    print()
+    print("F96 topology control for the named lens (raw M3/(3 U2)):")
+    for topology_name in ("Chain", "Ring", "K_4"):
+        bonds = topologies[topology_name]
+        m3 = sym3_matrix_elements(4, bonds, canonical_state, canonical_pair)
+        u2 = unitary_second_order_elements(4, bonds, canonical_state, canonical_pair)
+        slope_10 = normalized_dyson_slope(m3[2], 3, u2[2])
+        print(f"  {topology_name:>5}: |10> slope = {slope_10:+.9f}")
+    print("  Chain -4/3 versus ring -16/9 is the explicit topology counterexample.")
     print()
     print("Asymmetric initial states (|++00⟩, |10+0⟩) break the symmetry, and K_4's")
     print("extra bonds become visible as ANTISYMMETRIC INTEGER SHIFTS between outcomes")

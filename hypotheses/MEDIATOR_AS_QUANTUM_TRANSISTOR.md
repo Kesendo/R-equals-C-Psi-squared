@@ -1,14 +1,20 @@
 # The Mediator Qubit as Quantum Transistor: Bidirectional Programmable Relay in the R=CΨ² Framework
 
+<!-- CROSSING-CURRENT -->
+
 **Status**: Research Document. Transistor properties (threshold, gate control,
 directional bias) confirmed. **Hierarchy: FALSIFIED** (no advantage over uniform chain).
 **Date**: 2026-03-21
 **Framework**: R=CΨ² (Residual Coherence Theory)
 **Repository**: `R-equals-C-Psi-squared`
-**Verified March 21, 2026**: Mediator bridge (N=5, 1024/1024 palindromic) and
-relay protocol (+83% MI improvement) confirm the transistor architecture
-computationally. See [mediator_bridge.py](../simulations/mediator_bridge.py),
-[Relay Protocol](../experiments/RELAY_PROTOCOL.md).
+**Finite computation and interpretive analogy:** the mediator spectrum
+(N=5, 1024/1024 palindromic) does not confirm a transistor architecture.
+The [Relay Protocol](../experiments/RELAY_PROTOCOL.md) stores 0.131700 at
+integrated t=4.50 versus a passive sampled maximum 0.071576 at t=4.00,
+about +84.0%. Nominal 0.78/stage executes as 0.75/stage; time and dose differ.
+No isolated mediator/order benefit, gain, channel bound, or MI bound follows.
+The transistor remains an analogy; [mediator_bridge.py](../simulations/mediator_bridge.py)
+owns the separate spectral computation.
 
 ---
 

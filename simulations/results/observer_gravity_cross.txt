@@ -1,3 +1,13 @@
+<!-- F14-CURRENT -->
+
+CURRENT READING
+
+The six gamma rows read a fixed Wootters-concurrence book on the Hamiltonian-dead Bell+ family. The cos(alpha)|00>+sin(alpha)|11> family stays Hamiltonian-dead for isotropic Heisenberg coupling with equal local Z-dephasing. K_conc=ln(4*sin(2alpha)^2/3)/8 holds where a positive-time crossing exists; alpha30 degrees starts at equality. Observer and planetary names are historical labels, not measured gravitational settings. The Bell+ MI/4 readout approaches the threshold asymptotically, so its finite MI-crossing/ratio rows below are not endorsed; see experiments/OBSERVER_GRAVITY_BRIDGE.md.
+
+<!-- F14-HISTORICAL -->
+
+Historical record: unregenerated original output follows; its numerical and as-run lines are retained.
+
 ======================================================================
 Observer-Gravity Crossing: t_cross = K / γ
 ======================================================================

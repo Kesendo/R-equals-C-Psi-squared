@@ -1,3 +1,14 @@
+<!-- QUARTER-CURRENT -->
+# A ninety-degree gamma-side reflection with a scoped angle analogy
+
+Current reading: the exact F91 parameter transformation and the positive-`b`
+quadratic angle of F95 remain separate results.  Their shared angle vocabulary
+does not make F95 universal or create a typed inheritance edge.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the rotational synthesis below is retained as the
+way the two results were compared, not as an algebraic identification.
+
 # On the Ninety-Degree Gamma
 
 **Status:** Reflection. Synthesis of the framework's γ-parameter side of the Pi2-Z₄ rotational axis, written while the seeing is still fresh. After [F91](../docs/ANALYTICAL_FORMULAS.md) was filed (commit `09c8867`) capturing the empirical bit-exact invariance, and after Tom recognized that this is the *other side* of [`NinetyDegreeMirrorMemoryClaim`](../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs): the side the repository had not yet typed.

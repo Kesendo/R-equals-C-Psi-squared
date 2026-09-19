@@ -1,4 +1,4 @@
-"""Tests for cockpit_panel (Lebensader analysis: skeleton + trace + cusp + chiral + Y-parity)."""
+"""Tests for the cockpit's silent census, trace and quarter classifier."""
 from __future__ import annotations
 
 import sys
@@ -14,7 +14,7 @@ from framework.lebensader import cockpit_panel as cockpit_panel_primitive
 
 
 def test_cockpit_panel_yzzy_t1_drop_28_at_n3():
-    """Reproduces the EQ-030 hardware-confirmed drop=28 for YZ+ZY +T1=0.005 at N=3."""
+    """Reproduces one finite EQ-030 hardware-associated row, not a universal identity."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)
@@ -28,7 +28,7 @@ def test_cockpit_panel_yzzy_t1_drop_28_at_n3():
 
 
 def test_cockpit_panel_truly_no_drop_pure_z():
-    """XX+YY (truly) under pure-Z: no skeleton drop expected."""
+    """This state-conditioned XX+YY/pure-Z census has no count drop."""
     chain = fw.ChainSystem(N=3, gamma_0=0.05)
     plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
     minus = np.array([1, -1], dtype=complex) / np.sqrt(2)

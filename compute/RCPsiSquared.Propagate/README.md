@@ -1,5 +1,7 @@
 # RCPsiSquared.Propagate
 
+<!-- CROSSING-CURRENT -->
+
 C# time-domain propagation engine for Lindblad master equation dynamics on N-qubit systems (tested through N=13, targeting N=15). Integrates drho/dt via RK4 with zero-allocation hot loop, computing mutual information, CΨ, concurrence, and Pauli correlators at specified measurement times.
 
 ## What it does
@@ -8,7 +10,10 @@ Where `RCPsiSquared.Compute` diagonalizes the Liouvillian to get the *spectrum*,
 
 - **Profile mode** (March 2026): Evaluate any spatial dephasing profile on a Heisenberg chain. This is the engine behind the sacrifice-zone formula scaling results (N=5 through N=13, targeting N=15).
 - **Default mode**: Mediator bridge topology tests - cross-bridge information flow, coupling/noise sweeps, standing wave correlators (N=5 and N=11).
-- **Pull mode**: Scaling curves, coupling optimization, and the relay protocol (+83% MI improvement, N=3 through N=11).
+- **Pull mode**: Scaling curves, finite coupling comparisons, and the N=11
+  relay record: about +84.0% from stored six-decimal values in a finite
+  unmatched-time, unmatched-dose comparison. Read the [Relay clock and exposure
+  fence](../../experiments/RELAY_PROTOCOL.md) before interpreting that ratio.
 
 ## Requirements
 
@@ -49,6 +54,10 @@ dotnet run -c Release -- pull
 # Profile mode: evaluate a single gamma profile (sacrifice-zone formula, optimizer output, etc.)
 dotnet run -c Release -- profile <N> <g1,g2,...,gN> [--tmax 20] [--dt 0.05]
 ```
+
+The `pull` command rewrites its tracked output. During protected dirty-label
+work, build this project but do not execute `pull`; no matched Relay comparison
+is implemented by the historical run.
 
 Default and pull results are written to `simulations/results/mediator_bridge_scale.txt` or `simulations/results/pull_principle.txt`. Profile mode writes to stdout only (single machine-parseable RESULT line).
 
@@ -121,7 +130,18 @@ Initial state is always |+>^N. Product states are the optimal choice because eac
 
 **Precomputed dephasing mask.** The Z-dephasing dissipator reduces to element-wise multiplication: `drho[i,j] += mask[i,j] * rho[i,j]` where mask depends only on the XOR of basis indices. Computed once, stored as flat double array. Used by both paths.
 
-**Staged propagation for relay protocol.** The relay protocol changes γ profiles between stages. Each stage builds a new `LindbladPropagator` with different gammas, then propagates for one stage duration. The density matrix carries over between stages.
+**Staged propagation for relay protocol.** The density matrix carries across
+six rate profiles without reset. The requested stage is nominal 0.78, but
+`(int)(0.78/0.05)=15` RK4 steps integrate 0.75. Thus nominal total 4.68
+(the old `t=4.7` display) differs from integrated total 4.50, or 90 steps.
+The source's scalar-crossing heuristic is not a palindrome timing theorem.
+
+The stored A:D ratio uses relay final 0.131700 at 4.50 against passive sampled
+maximum 0.071576 at 4.00: about +84.0%. Statistic-attached sum-rate exposures
+are 2.200 at 4.00 versus 2.17125 at 4.50. The separate equal-4.50 counterfactual
+exposure is 2.475 versus 2.17125; it does not supply a passive MI denominator.
+These unmatched statistics establish no MI bound, isolated staging effect or
+schedule optimum. See the [primary comparison](../../experiments/RELAY_PROTOCOL.md).
 
 ## Topology: The hierarchical mediator bridge
 
@@ -141,7 +161,7 @@ Each level wraps the previous in a pair-mediator-pair structure. Level 3 connect
 | [Resonant Return](../../experiments/RESONANT_RETURN.md) | Sacrifice-zone formula validation (profile mode), N=5 through N=13 |
 | [Signal Analysis: Scaling](../../experiments/SIGNAL_ANALYSIS_SCALING.md) | Formula scaling curve, quadratic growth analysis |
 | [IBM Concentrator](../../experiments/IBM_CONCENTRATOR.md) | Simulation baselines for IBM hardware comparison |
-| [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) | Staged γ relay, +83% MI improvement |
+| [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) | about +84.0% stored-value ratio; finite unmatched-time, unmatched-dose comparison |
 | [Scaling Curve](../../experiments/SCALING_CURVE.md) | MI vs N, hierarchical vs uniform |
 | [Star Topology Observers](../../experiments/STAR_TOPOLOGY_OBSERVERS.md) | Entanglement echo, Bohr frequencies |
 

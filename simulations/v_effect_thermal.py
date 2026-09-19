@@ -282,12 +282,12 @@ def main():
             f" | {vg:5.2f} {row.get('pal', 0):10.2e}")
 
     # ================================================================
-    # Part 3: What breaks the 1.81x constant?
+    # Part 3: finite cross-N reference quotients across channel choices
     # ================================================================
     out("\n" + "=" * 70)
-    out("PART 3: V-Effect gain across noise types")
+    out("PART 3: Cross-N Q5/Q2 reference quotient across channel choices")
     out("=" * 70)
-    out("\nFixed J=1.0. Compare V-gain = Q(N=5)/Q(N=2)")
+    out("\nFixed J=1.0. Q5/Q2 is not the within-N F6 Q-edge gain.")
 
     configs = [
         ("Pure Z-dephasing (gz=0.1)",
@@ -311,8 +311,8 @@ def main():
     ]
 
     out(f"\n{'Config':>45} | {'Q_N2':>6} {'Q_N5':>6}"
-        f" {'V-gain':>7} | {'f_N2':>5} {'f_N5':>5}"
-        f" {'f-gain':>7} | {'F1 eps*rho':>10}")
+        f" {'Q5/Q2':>7} | {'f_N2':>5} {'f_N5':>5}"
+        f" {'f5/f2':>7} | {'F1 eps*rho':>10}")
 
     for label, cfg in configs:
         row = {}

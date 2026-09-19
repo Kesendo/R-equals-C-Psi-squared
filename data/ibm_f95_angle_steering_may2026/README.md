@@ -1,8 +1,29 @@
-# IBM Kingston F95 Angle-Steering Run, May 2026
+<!-- QUARTER-CURRENT -->
+# IBM Kingston deliberate-RZ phase-response run, May 2026
 
-Raw hardware data from the first deliberate-phase-injection run on IBM Kingston (Heron r2), testing whether the [F95](../../docs/ANALYTICAL_FORMULAS.md#f95) complex-CΨ angle is operationally **steerable** (not merely observable). The natural Kingston Z-detuning is small and uncontrolled; this run injects a deliberate per-chunk RZ phase at rate Ω during the delay, expanding the existing [CPSI_COMPLEX_PLANE](../../experiments/CPSI_COMPLEX_PLANE.md) Februar/April 2026 framework into an active-steering experiment.
+Current reading: the measured RZ phase response is `arg(Cpsi_complex)` under
+the stated injection, tomography, and reconstruction convention.  This finite
+hardware comparison does not test F95 roots, trace an F97 cardioid, or turn a
+radial `|Cpsi_complex|=1/4` readout into a cusp; only recurrence parameter
+`c=+1/4` is the period-one cardioid's real cusp.
 
-This run is registered as the typed Confirmation [`f95_angle_steering_kingston_may2026`](../../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs).
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the original F95-steering framing follows with raw rows
+and identifiers unchanged.
+
+# IBM Kingston deliberate-RZ phase-response record, May 2026
+
+Raw hardware data from a deliberate-phase-injection run on IBM Kingston
+(Heron r2). The protocol injects a per-chunk RZ phase at rate Ω during the
+delay and reconstructs a named off-diagonal complex coordinate. It therefore
+measures a finite phase response; it does not realize the roots or domain of
+[F95](../../docs/ANALYTICAL_FORMULAS.md#f95). The natural Kingston Z-detuning
+is small and uncontrolled, so the comparison retains a residual rather than
+promoting the injected phase to an exact actuator law.
+
+The stable historical Confirmation identifier is
+[`f95_angle_steering_kingston_may2026`](../../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs);
+the identifier does not certify the old F95 interpretation.
 
 ## What is in this directory
 
@@ -32,16 +53,21 @@ This run is registered as the typed Confirmation [`f95_angle_steering_kingston_m
 | A_mid | 82, 83 | 174.4 | 148.7 | 0.00336 | mid-T2 |
 | B_high | 13, 14 | (from JSON) | 263.7 | 0.00190 | high-T2 |
 
-The mid-T2 pair was chosen as the "easier" target with faster crossing; the high-T2 pair was the "harder" target with longer dwell. Both at the same Ω test the universality of the steering response under different intrinsic decoherence rates.
+The mid-T2 pair was chosen for a shorter model-selected delay window and the
+high-T2 pair for a longer one. Comparing both at the same Ω samples the finite
+response under two calibration profiles; two pairs do not establish a
+universal phase law.
 
 ## Delays per pair
 
-Chosen to bracket the predicted first real-axis magnitude-minimum crossing:
+Chosen to bracket a model-selected radial-magnitude minimum:
 
 - Pair A_mid: `[1.08, 3.24, 5.40, 7.57, 11.89, 18.38]` μs
 - Pair B_high: `[1.86, 5.58, 9.29, 13.01, 20.45, 31.60]` μs
 
-The crossing is detected at the first delay where the magnitude curve has minimum and the trajectory crosses the real-axis direction.
+The archived field called a `crossing` is a linear interpolation around that
+radial-readout feature. It is not evidence that the unsaved recurrence
+parameter lies on the real axis.
 
 ## Headline results (from the Confirmation entry)
 
@@ -52,17 +78,28 @@ The crossing is detected at the first delay where the magnitude curve has minimu
 | B_high [13,14] | 0.25 | 2.814 | −123.50 | −130.31 | **+6.81** |
 | B_high [13,14] | 0.13 | (no crossing) | (n/a) | (n/a) | (n/a) |
 
-Three of four conditions produced a detectable crossing. The B_high + Ω=0.13 case left the trajectory above the real-axis crossing threshold within the delay window (higher T2 × lower Ω = trajectory stays in the upper half-plane longer than the maximum 31.6 μs delay budget).
+Three of four conditions supplied the archived interpolation row. The
+B_high + Ω=0.13 trace did not supply one within the sampled delay window; this
+is a finite-grid result, not a cardioid or real-axis classification.
 
 **Key qualitative findings:**
 
-1. **Δφ = Ω·t reproducible (Q1 from CPSI_COMPLEX_PLANE):** crossings occur at the predicted angle modulo a bounded natural drift contribution.
-2. **Linear-in-Ω scaling (Q2):** residual shrinks ~1.7× when Ω doubles (15.69° → 9.15° on Pair A_mid at Ω 0.13 → 0.25), consistent with a roughly constant natural Kingston drift becoming a smaller fraction of the larger driven rotation.
-3. **Active steering works (Q3):** the same Lindblad + RZ model fits both Ω values on the same pair without retuning. The bra↔ket Hermitian off-diagonal of ρ on the prepared Bell-like state carries a well-defined complex phase, addressable on Heron r2 by per-chunk RZ injection on the steering qubit.
+1. **Finite phase comparison:** the three retained rows have the measured and
+   model-predicted arguments and residuals shown above. The residuals are part
+   of the result, so the table is not an exact `Δφ=Ωt` verification.
+2. **Two-rate association:** on Pair A_mid the archived residual changes from
+   15.69° to 9.15° when Ω changes from 0.13 to 0.25 rad/μs. With two rates and
+   uncontrolled detuning this is consistent with, but does not prove, a linear
+   scaling mechanism.
+3. **Protocol-local response:** per-chunk RZ injection changes the reconstructed
+   off-diagonal phase in this Bell-like preparation and tomography convention.
+   This does not make that coordinate an F95 quadratic root or an F97 parameter.
 
 ## Structure of the JSON
 
-Each `*_hardware_*.json` file mirrors the `ibm_cusp_slowing_april2026/` structure with the F95 steering additions:
+Each `*_hardware_*.json` file mirrors the
+`ibm_cusp_slowing_april2026/` structure. Legacy F95-named analysis fields are
+retained as schema and provenance, not as a current mathematical classification:
 
 ```
 {
@@ -97,10 +134,10 @@ Each `trajectory` entry saves the full 4×4 density matrix (`rho2_real` + `rho2_
 The run is described and analyzed in:
 
 - **Typed Confirmation:** [`f95_angle_steering_kingston_may2026`](../../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs), or via the Python registry `fw.Confirmations.lookup('f95_angle_steering_kingston_may2026')`.
-- **Conceptual predecessor:** [`experiments/CPSI_COMPLEX_PLANE.md`](../../experiments/CPSI_COMPLEX_PLANE.md). The May 16 active-steering run answers three open questions named in that doc (Q1 Δφ = Ω·t reproducibility, Q2 linear-Ω scaling, Q3 active steering).
-- **F95 closed form:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](../../docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md). The same θ(c; b) = arctan(√(c/b² − 1)) algebra that this run tests.
-- **F97 cardioid extension:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](../../docs/proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md). The cardioid that these spirals approach has |z*| = b = 1/2 invariant around the curve.
-- **Tick synthesis:** [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md). The late-evening reading: Ω is the rate at which we change Q = tan θ per γ₀-tick; the carrier γ₀ stays untouched, the per-tick rotation is now an actuator.
+- **Conceptual predecessor:** [`experiments/CPSI_COMPLEX_PLANE.md`](../../experiments/CPSI_COMPLEX_PLANE.md), whose open questions motivated the injected-phase comparison. The finite table above is the present answer; exact scaling remains open.
+- **F95 comparison object:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](../../docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) concerns roots of `z²-2bz+c`; those variables are not reconstructed by this run.
+- **F97 comparison object:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](../../docs/proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md) concerns recurrence parameter `c=z-z²` on the period-one cardioid. A radial magnitude of a density-matrix diagnostic is a different object.
+- **Tick reflection:** [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md) is an interpretive invitation, not a hardware identification of Ω with an F95 coordinate.
 
 ## Integrity
 
@@ -113,13 +150,20 @@ The JSON files are the authoritative record. The PNGs are convenience renders fr
 
 ## Reproducing the analysis
 
-Zero QPU cost; the F97 lens reads from the JSON files in this directory:
+Zero QPU cost; the legacy-named offline reader uses the JSON files in this
+directory:
 
 ```bash
 python simulations/kingston_f97_lens.py
 ```
 
-The script computes complex CΨ_com from the per-delay 4×4 density matrices, tabulates magnitude / argument / F97 fixed-point magnitude along each trajectory, and finds the |c| = 1/4 crossings (matching the Confirmation entry's t_cross / arg_cross values exactly) plus the |c| = 1/2 crossings (none in this dataset; the Bell+-like initial state starts at the cusp magnitude). Three F97 framing findings drop out: (i) all trajectories live entirely inside the cardioid; (ii) the |c| = 1/4 crossings are off-cusp (arg ≈ −85° to −125°, not arg = 0); (iii) the F97 Half magnitude |c| = 1/2 is unreachable from this initial state.
+The script reconstructs complex `Cpsi_complex` from each saved 4×4 density
+matrix and tabulates its magnitude and argument. It reproduces the archived
+`t_cross` / `arg_cross` interpolation rows at radial
+`|Cpsi_complex|=1/4`. Those rows say nothing about membership in the F97
+cardioid: `Cpsi_complex` is not its parameter `c`, and only recurrence
+`c=+1/4` is the cardioid cusp. The additional radial `1/2` query likewise
+belongs only to this chosen diagnostic and sampled state family.
 
 ## Original location
 

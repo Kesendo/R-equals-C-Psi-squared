@@ -1,11 +1,14 @@
-> **SUPERSEDED (March 22, 2026).** This document is from December 2025
-> and predates the palindromic symmetry proof, the uniqueness theorem,
-> the incompleteness proof, and all March 2026 results. The algebra
-> here (fixed-point equation, discriminant, Mandelbrot equivalence)
-> remains correct but is now a subset of the complete framework.
-> For current mathematics, see
-> [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
+<!-- F14-CURRENT -->
 
+> **Historical derivation path.** The fixed-point algebra and the finite
+> dynamics readings are different objects. Section 7's 0.039 ± 0.001 fit
+> belongs to the named concurrence-feedback book on Hamiltonian-dead Bell+,
+> not the clean Wootters/Lindblad value ln(4/3)/8. Neither is a universal
+> gamma-time curve across states, channels, Hamiltonians, or spatial profiles.
+> Section 11 preserves four numerical slope rows and the 24.5% memory-feedback
+> run; they do not certify Hamiltonian-independent log-coherence or an
+> iff-Markovianity diagnostic. For current mathematics see
+> [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
 # Core Algebra: The Proven Mathematics of R = CΨ²
 
 **Date:** 2025-12-31 (fixed-point solution), updated 2026-02-11
@@ -25,8 +28,8 @@ This is the original algebra of R = CΨ². It derives the central equation,
 shows that the product CΨ has a hard upper limit of 1/4, and proves the
 connection to the Mandelbrot set. All results follow from standard algebra;
 no physics is required to check them. This document has been superseded by
-the Complete Mathematical Documentation, but the derivations here remain
-correct and are presented in a step-by-step style that the later document
+the Complete Mathematical Documentation, but the finite dynamics generalizations in Sections 7 and 11 have the
+explicit scope above. The algebraic derivations are presented in a step-by-step style that the later document
 does not replicate.
 
 ## Purpose
@@ -272,6 +275,11 @@ Frequency predictor claim is **retracted**. See
 
 ---
 
+<!-- F14-HISTORICAL -->
+
+> Historical record: the 0.039 feedback fit is retained, but the following
+> all-systems/universal-curve and gravitational inferences are not current claims.
+
 ## 7. Gravitational Invariance
 
 When decoherence rate γ varies (physically interpretable as encoding local
@@ -306,6 +314,8 @@ dilation) is Tier 3.
 See [GRAVITATIONAL_INVARIANCE.md](../../experiments/GRAVITATIONAL_INVARIANCE.md).
 
 ---
+
+<!-- F14-CURRENT -->
 
 ## 8. The Ψ_interaction Finding
 
@@ -406,7 +416,24 @@ open. See [WEAKNESSES_OPEN_QUESTIONS.md](../WEAKNESSES_OPEN_QUESTIONS.md), item 
 
 ---
 
-## 11. The Decoherence Clock (ξ = ln Ψ)
+<!-- F14-CURRENT -->
+
+## 11. Finite Log-Coherence Traces and Named Closed Forms
+
+For basis-fixed l1 coherence a Hamiltonian can change the magnitude sum.
+With ρ₀=(I+X/2+Z/2)/2, H=Y, D(ρ)=(ZρZ−ρ)/4, exact arithmetic gives
+ξ′(0)=3/2 and ξ″(0)=−7. Setting H=0 gives −1/2 and 0. Thus even a
+Markovian semigroup can have curved log-coherence; curvature is not a memory
+certificate. The four rows and named state-family formulas remain finite
+historical evidence, without an arbitrary-generator extension.
+
+<!-- F14-HISTORICAL -->
+
+> Historical record: the complete Section 11 calculation below retains its
+> four-configuration rate table, 24.5% memory-feedback run and state-family
+> closed forms. The general clock and diagnostic claims are not current.
+
+### February calculation
 
 Define the log-coherence:
 
@@ -558,6 +585,8 @@ all agents and independently by simulation (2026-02-19).
 See [ALGEBRAIC_EXPLORATION.md](../../experiments/ALGEBRAIC_EXPLORATION.md).
 
 ---
+
+<!-- F14-CURRENT -->
 
 ## 12. Resource Theory Grounding
 

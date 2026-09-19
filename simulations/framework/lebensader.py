@@ -1,9 +1,10 @@
-"""Lebensader cockpit_panel — composes skeleton + trace + cusp + chiral + Y-parity.
+"""Lebensader cockpit panel: silent census + trace + quarter classifier + diagnostics.
 
-The Lebensader is the bridge concept that holds operator-level skeleton
-(Π-protected observable count) and state-level trace (θ-trajectory geometry)
-together via Π·L·Π⁻¹ + L + 2Σγ·I = 0. cockpit_panel computes both views
-in one pass plus the cusp-pattern classifier, chiral panel, and Y-parity panel.
+The compatibility key ``skeleton`` contains a state/tolerance/cluster-conditioned
+silent-observable census.  The state-functional θ trace is computed beside it;
+the two displayed readings are not asserted to be identical.  The compatibility
+key ``cusp`` contains a clamped quarter-trace crossing classifier, not a
+discriminant or exceptional-point detector.
 
 The same Π-palindrome funnel appears at the operator-algebra layer too
 (F78/F79 in docs/ANALYTICAL_FORMULAS.md): single-body M decomposes additively
@@ -13,8 +14,9 @@ and operator-layer (F78/F79) are the same broad-in → focused-out funnel
 observed at different abstraction heights — the Lebensader is the through-line
 that holds The Connection upright across all layers.
 
-Hardware-confirmed: EQ-030 closure on Marrakesh April 26 (drop=28 for YZ+ZY,
-Pearson(drop, Δ∫θ) = +0.85, Bures velocity null as third axis).
+Finite hardware-associated row: EQ-030 on Marrakesh April 26 reports drop=28
+for YZ+ZY, Pearson(drop, Δ∫θ)=+0.85, and a Bures-velocity null as a third
+recorded axis.  One row does not identify the census with the trace.
 
 Public API:
   cockpit_panel(H, gamma_l, rho_0, N, gamma_t1_l=None, t_max, dt, ...)
@@ -127,7 +129,7 @@ def cockpit_panel(H, gamma_l, rho_0, N,
                   gamma_t1_l=None,
                   t_max=10.0, dt=0.005,
                   threshold=1e-9, cluster_tol=1e-8):
-    """Lebensader cockpit panel: skeleton + trace + cusp + chiral + Y-parity.
+    """Lebensader panel with compatibility keys ``skeleton`` and ``cusp``.
 
     Returns dict with:
       'lebensader':  {skeleton, trace, rating, skeleton_status, trace_status}
@@ -136,16 +138,18 @@ def cockpit_panel(H, gamma_l, rho_0, N,
       'y_parity':    y_parity_panel output
       '_trajectory_for_inspection': {times, cpsi, theta}
 
-    Skeleton: Π-protected counts under pure-Z and (optionally) +T1; drop is
-    the difference. Trace: θ-trajectory metrics (max, tail duration, α
-    descent exponent). Rating combines both with status labels.
+    ``skeleton`` is a state/tolerance/cluster-conditioned silent-observable
+    census under pure-Z and (optionally) +T1; drop is the count difference.
+    Trace is a separate state-functional θ trajectory.  ``cusp`` classifies
+    clamped quarter-trace crossings.  Rating displays census and trace status
+    side by side; it is not an algebraic identity between them.
     """
     _validate_rho(np.asarray(rho_0, dtype=complex), N)
     if gamma_t1_l is None:
         gamma_t1_l = [0.0] * N
     times = np.linspace(0.0, t_max, int(t_max / dt) + 1)
 
-    # Skeleton: Π-protected counts pure-Z + T1
+    # Compatibility key "skeleton": state-conditioned silent census.
     pi_pure = pi_protected_observables(
         H, gamma_l, rho_0, N, threshold=threshold, cluster_tol=cluster_tol,
     )
@@ -222,7 +226,7 @@ def cockpit_panel(H, gamma_l, rho_0, N,
             coef = np.polyfit(x, y, 1)
             alpha_descent = float(coef[0])
 
-    # Cusp pattern + dominant mode
+    # Compatibility key "cusp": clamped quarter-trace crossing classifier.
     if not crossings:
         pattern = 'never crosses'
         dom_eigval = None

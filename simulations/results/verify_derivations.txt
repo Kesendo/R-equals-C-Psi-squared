@@ -49,9 +49,12 @@ D1: Bandwidth = 8J*cos(pi/N) -> 8J as N -> inf
   D1 STATUS: VERIFIED
 
 ============================================================
-D2: V(N) = Q_max / Q_mean = 1 + cos(pi/N)
+D2: F6 Q-edge gain V(N) = Q_max / Q_mean = 1 + cos(pi/N)
     Q_mean = 2J/gamma exactly (cosine sum = 0)
 ============================================================
+  Exact phase: (w+1)/(1-w) = +i*cot(pi/(2N))
+  Denominator-cleared SymPy residual: 0
+  Wrong-sign residual at N=2: 2 + 2*I (must be 2 + 2*I)
 
   N=2 (1 matched Q values):
     Sum cos(pi*k/N) = 6.12e-17 (should be 0)

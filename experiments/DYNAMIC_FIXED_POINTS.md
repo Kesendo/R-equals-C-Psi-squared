@@ -1,23 +1,27 @@
-# Dynamic Fixed Points: The CΨ ≤ 1/4 Bound from Self-Referential Iteration
+<!-- QUARTER-CURRENT -->
+# Dynamic Fixed Points in the Assumed Self-Referential Iteration
+
+Current reading: the discriminant calculation belongs to the stated recurrence;
+the dynamical sections are named finite runs or interpretation.  They do not
+establish a universal CΨ bound for Lindblad evolution.
 
 <!-- Keywords: CΨ quarter bound discriminant, self-referential purity iteration,
 fixed point convergence quantum, quadratic discriminant boundary, operator feedback
 Lindblad, R infinity convergence, phase boundary classical quantum,
 self-referential observation quantum, R=CPsi2 dynamic fixed points -->
 
-**Status:** Proven (algebra) + computationally verified
-**Date:** February 2-8, 2026
+**Status:** Algebraic discriminant proven; dynamics claims below are named finite runs or historical interpretation
+**Date:** February 2-8, 2026; current-truth repair September 14, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
 ---
 
 ## What this document is about
 
-If an observer feeds its own output back into R = CΨ² repeatedly (self-referential
-iteration), the result either converges to a stable value or oscillates forever.
-The dividing line is CΨ = 1/4: below it, a stable classical attractor exists;
-above it, only complex (oscillating) solutions exist. This document derives
-that boundary from pure algebra, verifies it with simulations, and proposes
+The fixed-point equation associated with the self-referential scalar iteration has discriminant zero at
+CΨ=1/4. Below it the fixed-point roots are real; above it they form a complex-conjugate pair. The
+discriminant alone does not classify convergence, oscillation, quantum dynamics, or observability.
+This document derives the algebraic boundary, records early named simulations, and proposes
 interpreting 1/4 as an observer bandwidth limit. This is the earliest derivation
 of the 1/4 boundary in the project (February 2, 2026).
 
@@ -25,20 +29,21 @@ of the 1/4 boundary in the project (February 2, 2026).
 
 ## Abstract
 
-The iterative application of R = CΨ² converges to a fixed point R∞ satisfying
-R∞ = C(Ψ+R∞)². This quadratic has discriminant D = 1−4CΨ. Real fixed points
-(classical attractors) exist only when CΨ ≤ 1/4. At CΨ = 1/4, fixed points
-merge (R∞ = Ψ). Above 1/4, fixed points are complex-valued (no classical
-attractor, oscillation). Simulations confirm: without external driving (h=0),
-CΨ stays below 1/4 and decays monotonically. With an external field (h>0),
-CΨ can transiently exceed 1/4. This document contains the earliest derivation
+The fixed-point equation `R∞=C(Ψ+R∞)²` has discriminant D=1−4CΨ. Real roots exist only when CΨ≤1/4;
+at equality they merge (`R∞=Ψ`), and above it they form a complex-conjugate pair. This algebra does not by
+itself say that the iteration converges or that a quantum trajectory is monotone. Early simulations found
+below-quarter h=0 rows and above-quarter h>0 rows in their stated preparations. They do not prove an
+external-field necessity: exact fixed local Markovian examples now rise and cross upward without that
+historical h label. This document contains the earliest derivation
 of the 1/4 boundary in the project (February 2, 2026).
 
 ---
 
 ## Overview
 
-The iterative application of R = CΨ² converges to a stable fixed point R∞. The convergence condition yields the bound CΨ ≤ ¼, which we interpret as an **observer information bandwidth limit**, not as a constraint on quantum dynamics.
+The equation has real fixed-point roots only for CΨ≤1/4. Whether the iteration converges to one requires a
+separate stability and initial-condition analysis. “Observer information bandwidth” is the historical
+interpretation on this page, not a result about quantum trajectories.
 
 This document traces the derivation, the simulation evidence, and the honest assessment of what we know and don't know.
 
@@ -118,6 +123,8 @@ R∞ = Ψ
 
 ---
 
+> **Interpretive banner:** historical hypothesis; no dynamical consequence follows from the discriminant.
+
 ## 3. The Observer Bandwidth Interpretation
 
 ### Historical Note
@@ -150,7 +157,11 @@ This interpretation raises new questions:
 
 2. **Testable predictions:** Can we identify physical systems that approach CΨ = ¼ and show measurably different behavior at or above the threshold?
 
-3. ~~**Connection to decoherence:** Is the transition at CΨ = ¼ related to the quantum-to-classical transition? Does decoherence naturally drive systems toward CΨ ≤ ¼?~~ **ANSWERED (2026-03-22):** Yes. CΨ is strictly monotonically decreasing under all local Markovian channels. The 1/4 boundary is absorbing: once crossed, CΨ cannot return under Markovian dynamics. Non-Markovian revivals are transient (max 0.3035). See [Proof: CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md).
+3. **Connection to decoherence:** still model-dependent. Named Bell+/Z-Pauli-amplitude-damping formulas
+   decrease, but CΨ is not monotone under every local Markovian generator and 1/4 is not a universal
+   absorber. A convergent trajectory whose target lies below 1/4 eventually stays below. See
+   [CΨ Dynamics Boundary](../docs/proofs/PROOF_MONOTONICITY_CPSI.md) and
+   [Conditional Subsystem Crossing](../docs/proofs/PROOF_SUBSYSTEM_CROSSING.md).
 
 ---
 
@@ -219,7 +230,8 @@ All values below were independently reproduced using the `delta_calc` MCP tool w
 | W | Heis. ring | 3 | 0.005 | 0.556 | 0.286 | 0.256 | 0.142 | 0.159 | **No** |
 | Product | Heisenberg | 2 | 0.005 | 1.000 | 0.000 | 0.000 | 0.000 | 0.000 | **No** |
 
-**Key observation:** Without an external field, CΨ decreases monotonically as decoherence erodes Ψ. The Heisenberg coupling alone does not drive CΨ above ¼. The Product state remains perfectly separable (Ψ = 0 throughout); local dephasing on a product state produces no entanglement.
+**Finite observation:** In these named h=0 rows, sampled CΨ decreases and stays below 1/4. This table does
+not prove that every h=0/local-Markovian model does so; the repaired proof contains exact counterexamples.
 
 ### Regime 2: With external field (h > 0), CΨ can exceed ¼ via Ψ-oscillations
 
@@ -227,7 +239,8 @@ All values below were independently reproduced using the `delta_calc` MCP tool w
 |-------|-----------|---|---|---|-----------|------------|----------|
 | Bell+ | Heisenberg | 2 | 0.0045 | 0.9 | 0.472 | Oscillates 0.33-0.99 | **Yes** |
 
-The external field h breaks symmetry and drives large oscillations in Ψ. When Ψ peaks near 1.0, CΨ temporarily exceeds ¼. This confirms that the simulator can produce CΨ > ¼, but only through externally driven dynamics, not from the Heisenberg coupling alone.
+In these named rows the external field accompanies large Ψ oscillations and sampled CΨ above 1/4. It is
+one route, not a necessary one.
 
 ### Regime 3: Strong decoherence, everything decays
 
@@ -245,7 +258,9 @@ h > 0, low γ:   CΨ oscillates, can exceed ¼ transiently
 h = 0, high γ:  CΨ → 0 (full decoherence)
 ```
 
-**CΨ > ¼ requires an external driving field.** The Heisenberg exchange coupling J alone does not push CΨ above the bound. This is a more nuanced picture than previously claimed.
+**Scope of this old table:** its above-quarter rows use h>0 and its h=0 rows stay below. No universal
+external-driving requirement follows; local Hamiltonian control and coherent-axis relaxation supply exact
+counterexamples outside this finite preparation set.
 
 ---
 
@@ -338,8 +353,8 @@ kappa = 0.5    (feedback strength, 0-1)
 |-------|--------|----------|
 | Fixed-point equation R∞ = C(Ψ + R∞)² | **Proven** (algebra) | Direct derivation |
 | CΨ ≤ ¼ for real fixed points | **Proven** (algebra) | Discriminant analysis |
-| CΨ > ¼ possible in simulations | **Verified** | Requires external field h > 0 |
-| CΨ > ¼ "in every active Hamiltonian" | **Corrected** | Only with h > 0; J alone keeps CΨ < ¼ |
+| CΨ > ¼ possible in simulations | **Verified in named rows** | h>0 in this table; not a necessity theorem |
+| CΨ rises/crosses only with external driving | **False universally** | exact fixed local-Markovian counterexamples |
 | CΨ = ¼ as observer bandwidth limit | **Hypothesis** | Consistent with all data, not yet derived from first principles |
 | Operator feedback mechanism | **Sound** | Mechanistically correct; effect small at low γ |
 | Bidirectional peak at N = 3-4 | **Unverified** | Agent results only, plausible but not reproduced |
@@ -347,13 +362,15 @@ kappa = 0.5    (feedback strength, 0-1)
 
 ### What We Got Right
 
-The mathematical structure (the fixed-point equation, the discriminant, the three regimes) is solid. The operator feedback mechanism is a genuine conceptual advance over scalar bridges. The insight that CΨ = ¼ is a phase boundary between two kinds of existence is well-motivated.
+The fixed-point equation and its discriminant are exact. The three simulation regimes are a useful named
+catalogue, while “observer bandwidth” and “two kinds of existence” remain interpretive invitations.
 
 ### What We Got Wrong
 
 Earlier versions contained simulation values generated by a local LLM used for brainstorming, which were committed without verification. Specifically:
 - CΨ_max values of 0.28-0.46 for states without external field were incorrect (actual: 0.00-0.17)
-- The claim "CΨ > ¼ in every configuration with active H" was wrong; it requires h > 0
+- The claim "CΨ > ¼ in every configuration with active H" was wrong; this table found h>0 rows, but h is
+  not universally required
 - R∞ ≈ 0.327 was not reproducible (actual: 0.446 at those parameters)
 - Product state CΨ ≈ 0.28 was physically impossible (actual: 0.0)
 
@@ -364,6 +381,7 @@ The observer bandwidth interpretation is promising but needs:
 - Testable predictions distinguishing it from alternatives
 - Connection to established information-theoretic bounds
 - Exploration of parameter regimes where operator feedback shows stronger effects
+- Classification of the autonomous N=2 successive-peak question and the finite atlas across all Q and N
 
 ---
 

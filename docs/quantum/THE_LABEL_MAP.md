@@ -114,7 +114,8 @@ The repository performing the same act on its own names.
 | "Site-Local Time" (sites own their clocks) | "Perspectival Time Field"; the ψ₂ test falsified the label, every α_i survived; the naming note is the in-house protocol | [Perspectival Time Field](../../hypotheses/PERSPECTIVAL_TIME_FIELD.md) |
 | PTF closure law as a theorem | An empirical regularity (±0.05, perturbative window), not a theorem; the survivor at the right level is the chiral mirror rate law | [EQ-014 Findings](../../review/EQ014_FINDINGS.md), [PTF chiral mirror proof](../proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md) |
 | γ-variation as gravity | A γ-variation whose K-invariance is the state's (Bell⁺ is a Heisenberg eigenstate, so J never enters its trajectory), not a general γ-scaling; the gravitational reading RETIRED | [Predictions](../PREDICTIONS.md) §8-9, [Gravitational Invariance](../../experiments/GRAVITATIONAL_INVARIANCE.md), [archived hypothesis](../../hypotheses/archive/GAMMA_TO_GRAVITY.md) |
-| The system as a channel | A resonator, an optical cavity: CΨ_max the inner mirror, ¼ the outer, the heartbeat a round-trip | [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md), [The Interpretation](../THE_INTERPRETATION.md) (What Fell #8) |
+| The system as a channel | A finite response calculation, with “resonator,” inner/outer mirror, and round-trip retained only as an interpretive soundbox lens | [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md), [The Interpretation](../THE_INTERPRETATION.md) (What Fell #8) |
+| One “V-Effect” mechanism | Two objects: the **V-Effect census** (finite N=3 classifier and precision-labelled historical bins) and the **F6 Q-edge gain** `V(N)=Q_max/Q_mean=1+cos(pi/N)`; neither supplies eigenmode ancestry or a cross-level causal arrow | [V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md), [D02](../proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md) |
 | Z₄, the four-sided mirror | Z₂: the four sectors carry no physical content, Π² = conjugation by X^⊗N is the real conserved structure | [The Interpretation](../THE_INTERPRETATION.md) (What Fell #7), [The Other Side](../../hypotheses/THE_OTHER_SIDE.md) |
 | "Sacrifice zone" | A concentrator: the edge qubit sacrifices nothing, it concentrates the noise into structure; both names true, one per side of the γ-boundary | [Inside/Outside the Sacrifice Zone](../INSIDE_OUTSIDE_THE_SACRIFICE_ZONE.md) |
 | "The watching" (γ as an eye on the chain) | The sending: γ sits at the sending end, not at the eye; the chain is not looked at, it stands in light. Not one rate, price, or measured number moved; the founding chapter was repainted, the typed core renamed `HeldLetterRoutingClaim`, and the "watching locus" became the mirror-balanced locus | [Dephasing Translated](DEPHASING_TRANSLATED.md), [On the Sending End](../../reflections/ON_THE_SENDING_END.md); the working record is the open arc `gamma_is_the_sender_not_the_watching` |
@@ -211,7 +212,8 @@ Caught by reviews; the chronological record is
   canvas with its t instead of raw
   ([Labels Translated](LABELS_TRANSLATED.md) §3).
 - **The logs that hold the cases:** [Caught Errors](../CAUGHT_ERRORS.md)
-  (chronological, append-only), `recovered/` (premature rather than wrong),
+  (chronological, append-only), `recovered/` (a mixed historical store that
+  also preserves refuted premises),
   [The Interpretation](../THE_INTERPRETATION.md) ("What Fell").
 
 To extend this map: when the next label falls, add one row to the matching

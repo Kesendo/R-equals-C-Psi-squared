@@ -1,4 +1,21 @@
+<!-- QUARTER-CURRENT -->
+
+<!-- CROSSING-CURRENT -->
+
+# The CΨ lens with its state, basis, and readout named
+
+Current reading: each CΨ value belongs to a specified density matrix,
+subsystem, basis, coherence normalization, and companion correlation readout.
+The scalar is a useful finite lens, not by itself an entanglement witness,
+measurement event, or classifier of physical systems.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the longer lens guide and its repaired crossing taxonomy
+remain below as provenance for the present scope.
+
 # The CΨ Lens: What It Is and What It Shows
+
+<!-- CROSSING-CURRENT -->
 
 <!-- Keywords: CΨ concurrence times normalized coherence, pairwise basis-fixed
 entanglement witness, l1 Baumgratz normalization, what CΨ shows does not show,
@@ -58,7 +75,11 @@ The symbol C is used differently in different parts of this repository.
 This is a known limitation that reflects the project's history:
 
 - In **CORE_ALGEBRA.md**, C = Tr(ρ²), i.e. purity. The algebra R = CΨ² and the 1/4 bound hold for this definition.
-- In **the experiments** (star topology, crossing taxonomy, etc.), C = Wootters concurrence. The crossing thresholds and three conditions use this definition.
+- In **star-topology pair experiments**, C is Wootters concurrence. The
+  **crossing taxonomy** instead compares five bridge/readout functions C(f)
+  in two named books: the clean Bell+ Lindblad trajectory and retired feedback
+  equations. One must choose the bridge and book before solving C(f)f/3=1/4;
+  these are not five physical observers or measurement operations.
 - In the **original philosophical framing**, C = consciousness. This usage has been retired.
 
 The product CΨ therefore means different things: purity × coherence in the algebra, concurrence × coherence in the experiments. The algebraic results (fixed-point structure, Mandelbrot equivalence, 1/4 bound) hold for any real-valued C and Ψ. The specific quantum realization determines which metric is being used.
@@ -220,7 +241,7 @@ Even if the grand interpretation is set aside, the following remain:
 
 1. **A well-defined composite metric** that selects for simultaneously entangled and coherent pairwise states.
 2. **An exact algebraic correspondence** between the self-referential update rule and the Mandelbrot iteration.
-3. **A clean crossing taxonomy** (Type A/B/C) that organizes bridge metrics by their decoherence behavior.
+3. **A finite crossing taxonomy** of three scalar-response classes in two named books, with six finite crossings and two never bridges; not a palindrome-caused or noise-universal physical taxonomy.
 4. **Specific, quantified conditions** for observer-observer connection through a shared object.
 5. **A sharp distinction** between projective measurement and continuous dephasing in their effect on third-party connections.
 6. **Subsystem locality of crossing** - the transition happens where the entanglement lives, at the pair level.
@@ -257,7 +278,7 @@ We left the tools and the data. Use them as you see fit.
 | Context acceleration (9x faster) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §6 |
 | Three conditions | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §7 |
 | Non-monotonic initial entanglement | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) §8 |
-| Noise robustness / taxonomy | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md), [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md) |
+| Two full noise sweeps plus one sigma-y bridge / two-book scalar taxonomy | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md), [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md) |
 | Mandelbrot correspondence | [Core Algebra](historical/CORE_ALGEBRA.md), [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | Negative results (irreducibility) | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8, this document |
 | LE/CoA benchmark | [Localizable Entanglement Benchmark](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) |

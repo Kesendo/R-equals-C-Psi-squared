@@ -8,18 +8,12 @@ namespace RCPsiSquared.Core.Knowledge;
 /// <see cref="Claim"/> or a subclass, recursively, collecting every reachable
 /// claim into a set.
 ///
-/// <para>The Bauplan property: every Claim with typed parent injections
-/// (via constructor) carries those parents as public properties. The walker
-/// treats those property edges as the inheritance graph, and a traversal
-/// from any starting node reaches the full upstream foundation set.</para>
-///
-/// <para>What this verifies: from a topically distant claim (e.g. F97
-/// Mandelbrot cardioid, which is about complex-c geometry), the walker
-/// reaches the Pi2 foundation claims (HalfAsStructuralFixedPointClaim,
-/// QuarterAsBilinearMaxvalClaim) — and those foundations implement
-/// <see cref="Symmetry.IF99AnchorBearing"/>. So F99-anchor information is
-/// reconstructible from F97 purely by parent-walking the typed graph,
-/// even though F97 carries no F99-anchor metadata of its own.</para>
+/// <para>Every public property whose declared type derives from <see cref="Claim"/>
+/// is an executable parent edge. The walker follows exactly those edges; a
+/// same number, similar shape, filename, or prose cross-reference creates no
+/// ancestry. Parentless claims therefore return only themselves. Focused
+/// regressions cover a genuine application-to-formula edge and a separate
+/// parentless formula.</para>
 ///
 /// <para>Implementation: BFS over typed Claim properties. Each property
 /// that returns a Claim subclass is followed; null returns are skipped.

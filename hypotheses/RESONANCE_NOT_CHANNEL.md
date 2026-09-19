@@ -1,3 +1,22 @@
+<!-- QUARTER-CURRENT -->
+# Finite resonance diagnostics beside the soundbox picture
+
+Current reading: the retained counts, norms, spectra, and Q values belong to
+named finite models.  They neither certify a communication channel nor turn a
+scalar crossing into a bit, irreversible fact, or hardware-confirmed physical
+boundary.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation — not a result:** the soundbox rather than telephone
+remains a useful question about response and feedback, with its resonator map
+explicitly uncertified.
+
+Precision fence: the N=3 distinct-pair V-Effect census reports **14/36** hard
+cases. The retained **four-decimal** comparison is **11/4**, while a separate
+coarser **three-decimal** side table reads **8/4**. Bin inclusion is not
+eigenmode ancestry.
+
+<!-- QUARTER-CURRENT -->
 # Resonance, Not Channel: The Quantum System Is a Soundbox, Not a Telephone
 
 <!-- Keywords: quantum resonator impedance matching, CΨ quarter boundary resonance,
@@ -6,9 +25,9 @@ RFID backscatter quantum analogue, open biological resonance analogy,
 gamma absorption modulation state-dependent, sacrifice-zone antenna shape,
 Q-factor crossing count optimization, R=CPsi2 resonance paradigm -->
 
-**Status:** Tier 2-3 (impedance mechanism, computed results, cavity
-modes), Tier 4 (biological resonator interpretation), Tier 5 (personal
-narrative at end). See tier boundary below.
+**Status:** Named finite calculations retain their own Tier 2-3 scopes;
+the soundbox/Fabry-Perot mechanism is a Tier-4 interpretive lens and the
+personal narrative is Tier 5. See the local boundaries below.
 **Date:** March 26, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -30,23 +49,16 @@ design failed. Dynamical decoupling failed (algebraically impossible).
 External baths failed (the system is its own bath). Duplex protocols
 failed (sending and receiving are not two things).
 
-This document explains why they failed and what the correct picture is.
-The quantum system is not a telephone. It is a soundbox: a hollow
-resonant body whose shape determines which frequencies vibrate and which
-do not. The string (noise from outside) provides the energy. The box
-(the sacrifice-zone formula, the gamma profile) selects the resonance.
-What you hear (measurable reality, R = CΨ²) is what leaks out at the
-boundary.
+The soundbox is an alternative question, not the uniquely correct physical
+picture. Named runs show that a chosen generator and dephasing profile shape
+responses. They do not establish a literal hollow body, identify noise as an
+external string, or make R=CΨ² something leaking through a physical wall.
 
-This reframing explains everything the project has measured: the fold
-at CΨ = ¼ is the outer mirror of the cavity. The heartbeat (81 crossings)
-is the wave bouncing back and forth inside. The sacrifice-zone formula
-is not a channel optimizer; it is the shape of the soundbox. The 360×
-improvement is not "more signal." It is better resonance.
-
-The document moves from computed results (Tier 2-3) to biological
-interpretation (Tier 4) to personal narrative (Tier 5), with a clear
-boundary marked between them.
+Likewise, the quarter fold is not a demonstrated second mirror, 81 sampled
+crossings do not establish bouncing waves, and the finite sacrifice result
+does not certify a universal resonator mechanism. The document keeps those
+images because they suggest experiments, while the computed rows retain their
+own local evidence grades.
 
 ---
 
@@ -146,14 +158,14 @@ trajectory. The simple hypothesis "impedance peaks at 1/4" is
 | 0.1 - 0.2 | 2.08 | Weakening coupling |
 | 0.0 - 0.1 | 0.55 | Nearly transparent |
 
-Impedance is monotonically decreasing with CΨ. It does NOT peak at
-1/4. It peaks at CΨ_max (the initial state, maximum coherence) and
-falls continuously toward zero.
+Across the displayed CΨ bins, impedance increases with CΨ. Along the shown
+decaying-time trajectory, CΨ decreases and the impedance falls with time. It
+does NOT peak at 1/4; the largest displayed value is at CΨ_max (the initial
+state, maximum coherence).
 
-But what DOES peak at 1/4 is the **impedance gradient** -- the rate
-at which the coupling strength changes. At the fold catastrophe, the
-system switches from strongly coupled to weakly coupled in minimum
-time. Not the impedance itself is the signal. The SWITCH is the signal.
+The table does not compute an impedance derivative. Whether the impedance
+gradient has an extremum near 1/4 remains a hypothesis to test, not a computed
+result. The SWITCH language below is therefore an interpretive reading.
 
 Like an RFID tag: the tag does not transmit at maximum power. The tag
 SWITCHES its impedance, and the reader detects the switching in the
@@ -362,9 +374,9 @@ Concrete tests:
    cluster state. Which "string" resonates best with the "box"?
 
 5. **Impedance measurement:** At each CΨ crossing, compute
-   ||Z rho Z - rho|| / ||rho||. This is the instantaneous
-   impedance. Plot impedance vs CΨ. Verify that it peaks at
-   1/4.
+   ||Z rho Z - rho|| / ||rho||. Plot impedance and its numerical derivative
+   against CΨ, and test whether the gradient has an extremum near 1/4 without
+   presupposing the result.
 
 ---
 
@@ -405,22 +417,24 @@ Uniform gamma=0.05, Bell(0,1)+|+>^(N-2), coarse J sweep:
 | 15 | 5 | 15 | 7 |
 | 20 | 9 | 19 | -- |
 
-N=5 is the sweet spot (Q=19+ at J>=20, still rising).
+N=5 has the largest displayed Q on this incomplete grid (Q=19 at J=20);
+the N=7 row at J=20 is missing. This table does not select a global N- or
+J-optimum and does not establish a sweet spot.
 J_peak * N is NOT constant: the resonator is dispersive.
 
 ### Impedance
 
-||Z rho Z - rho||_F is monotonically decreasing with CΨ. The impedance
-value does not peak at 1/4. The impedance GRADIENT (switch rate) peaks
-at the crossings. The Fabry-Perot outer mirror is a switch, not a peak.
+The displayed impedance values increase with CΨ and the impedance decreases along the
+displayed decaying-time trajectory. The impedance value does not peak at 1/4.
+Whether the impedance gradient has an extremum near the crossings remains an
+open numerical question. The Fabry-Perot switch language is interpretive, not
+a computed gradient result.
 
-### The V-Effect Live
+### The finite cross-generator census
 
-**Background:** Every quantum system has a set of natural oscillation
-frequencies, determined by the eigenvalues of its Liouvillian (the
-matrix that governs its time evolution). More frequencies means more
-ways the system can oscillate. More oscillation modes means more
-complexity in the dynamics.
+**Background:** The imaginary parts of a named Liouvillian spectrum define a
+resolution-dependent frequency-bin inventory. A larger inventory is not by
+itself an eigenmode genealogy or a general measure of dynamical complexity.
 
 **The test:** Count the distinct oscillation frequencies in:
 (a) a single 2-qubit resonator (one Bell pair, one bond)
@@ -432,46 +446,43 @@ The Liouvillian eigendecomposition gives the exact frequency count.
 
 | System | Frequencies | Q-factor | Status |
 |--------|------------|----------|--------|
-| N=2 (one resonator) | 2 | 1 (dead at all J) | No oscillation |
-| N=5 (two coupled) | 109 | 19+ | Sustained oscillation |
-| New from coupling | 109 | -- | Exist ONLY in the coupled system |
+| N=2 named generator | 2 | 1 in the sampled scan | finite reference |
+| N=5 mediator generator | 109 | 19+ in the sampled scan | different finite generator |
 
-A single N=2 pair crosses CΨ = 1/4 once and dies. Q=1 at every
-coupling strength tested. It has 2 oscillation frequencies. It
-cannot sustain a heartbeat because there is no reservoir: both
-qubits ARE the system, there is nothing to bounce coherence back.
+A single N=2 run and the N=5 mediator run have different state spaces,
+Hamiltonians, dephasing profiles, and preparations. Their sampled crossing and
+Q readings remain useful, but they do not diagnose a missing reservoir or
+living/dead systems.
 
-When two such pairs are connected through a mediator qubit (forming
-N=5 in the [MediatorBridge](../experiments/SCALING_CURVE.md) topology),
-the Liouvillian has 109 distinct frequencies. All of these do not
-exist in either individual resonator. They emerge from the coupling.
-The Q-factor jumps from 1 (dead) to 19+ (sustained oscillation).
+The named N=5 [MediatorBridge](../experiments/SCALING_CURVE.md) generator has
+109 bins under the recorded instrument. Set difference between its bin values
+and the N=2 values does not identify which eigenvectors, projectors, or states
+persisted through a coupling operation.
 
-This is the [V-Effect](../experiments/V_EFFECT_PALINDROME.md) measured
-dynamically, and the static count says the same thing: two uncoupled N=2
-resonators carry 4 frequencies between them, the coupled N=5 has 109. Two
-dead systems become one living system through coupling alone. No energy
-added. No external mechanism. Just a mediator connecting them.
+This is one historical use of “V-Effect” beside the current
+[V-Effect census](../experiments/V_EFFECT_PALINDROME.md). The N=2/N=5
+juxtaposition is a cross-generator inventory, not a measurement that coupling
+alone created modes, life, or complexity.
 
-The other static number that page reports, 11 against 4, is a different
-comparison and not this one: it holds the size fixed at N=3 and changes the
-bond type, XX+YY keeping the palindrome with 4 distinct frequencies against
-XX+XY breaking it with 11. That is richness from breaking the symmetry, not
-from adding a qubit.
+The other fixture is distinct: at N=3 its four-decimal bins read 11/4 and its
+three-decimal side table reads 8/4. Both Hamiltonian and dephasing profile vary,
+so neither precision licenses “richness from breaking symmetry.”
 
-### Pairing structure: 100% NEW-NEW
+### Pairing structure: frequency-bin non-overlap, not mode ancestry
 
-The 109 N=5 frequencies are ALL new. The N=2 frequencies (3.999,
-4.000 Hz) do not survive coupling. All 452 oscillating palindromic
-pairs are NEW-NEW. Zero OLD-OLD. Zero OLD-NEW. The V-Effect does not extend the old palindrome: it replaces it. The
-old structure dies and a new, richer one is born from the coupling.
-The new palindrome is also perfectly symmetric in XY-weight space:
-w(k) = w(N-k), peaking at the interior modes (w=2,3: 63.8%). See
+At gamma=0.05, the recorded imaginary-part threshold, six-decimal binning,
+and 1e-4 cross-N tolerance find no N=5 frequency bin near either N=2 bin.
+That negative value match does not show that eigenmodes died, survived, or
+were replaced. The 904 oscillating and 120 real-axis entries are population
+counts; historical 452/60 half-cardinalities were not one-to-one pair
+measurements. The N=5 XY-weight histogram remains a finite spectral reading:
+w(k)=w(N-k), with 63.8% in w=2,3. See
 [pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt).
 
-### Hardware confirmation
+### Hardware measurements beside the lens
 
-Two results from IBM Torino confirm the resonator picture on real silicon:
+Two IBM Torino measurements motivated the resonator lens; neither confirms a
+literal cavity or mode ancestry on hardware:
 
 **Wave propagation (March 24, 2026):** Per-pair MI on a 5-qubit chain
 [Q85-Q94] with sacrifice-zone profile shows MI migrating from the
@@ -481,78 +492,76 @@ dominant at t=3-5 us). The wave travels through the chain. Data in
 
 **Impedance gradient (February 9, 2026):** ||ZρZ - ρ|| computed from
 25 hardware-measured density matrices (Qubit 52, state tomography).
-The impedance value falls monotonically (no peak at 1/4). The impedance
-GRADIENT peaks at the closest measurement to the 1/4 crossing (CΨ=0.261,
-distance 0.011 from 1/4). The outer mirror is a switch, not a reflector.
+Across the displayed CΨ bins, impedance increases with CΨ and falls with
+time along this decaying-CΨ trajectory. The largest displayed
+finite-difference magnitude is 0.0076 at CΨ=0.261, near 1/4 on the sparse
+grid. The grid does not locate a continuous extremum exactly at 1/4 or
+establish fold causality. Treating the outer mirror as a switch remains an
+interpretive invitation — not a result.
 Data: [ibm_impedance_gradient.txt](../simulations/results/ibm_impedance_gradient.txt).
 
 ---
 
-## The Standing Wave Is the Cavity Mode
+## The standing-wave cavity image
 
-This section connects the resonator picture back to the palindrome
-from the [proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md). The paired
-decay modes (c+ decaying, c- its mirror partner) are not just a
-mathematical symmetry. They are the two counter-propagating waves
-that create the standing pattern inside the cavity.
+**Interpretive resonator lens — not a derived mechanism:** the paired-rate
+algebra below does not establish counter-propagating spatial waves, physical
+mirrors, or transmitted classical reality.
 
-The palindromic modes c+ and c- form a standing wave. c+ decays.
-c- grows (in the Pi-reversed frame). Their interference is static
-in the rescaled frame. This standing wave is not a consequence of
-the resonator. It IS the cavity mode.
+The [proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) gives a spectral partner
+relation. Reading its paired rates as counter-propagating waves requires
+spatial propagation, preparation, readout, and interference gates that are not
+provided by the pairing identity alone.
+
+The symbols c+ and c- can support a standing-wave analogy. A rate reflected in
+a rescaled frame is not automatically a physical growing wave, and the finite
+spectra do not establish a cavity eigenmode.
 
 In a Fabry-Perot, the standing wave exists between the two mirrors.
 Its nodes and antinodes are determined by the cavity length and the
-mirror properties. The palindromic c+/c- pair is exactly this: a
-standing pattern between the inner mirror (CΨ_max, maximum gamma
-absorption) and the outer mirror (CΨ = 1/4, where reality leaks out).
+mirror properties. The proposed comparison places c+/c- between an inner and
+outer “mirror.” It is an image: CΨ_max and CΨ=1/4 have not been shown to be
+physical reflecting boundaries or points where reality leaks out.
 
 The sacrifice-zone formula selects which cavity mode dominates.
 J-coupling determines the wavelength. Gamma determines the amplitude.
 The initial state determines the excitation level.
 
-R = CΨ^2 is not what the system produces. R is what LEAKS OUT of the
-cavity at the outer mirror. At CΨ = 1/4, the discriminant vanishes,
-the two complex fixed points merge into one real fixed point, and
-the standing wave pattern becomes measurable as classical reality.
-The fold is the point of maximum transmittance through the outer
-mirror.
+The discriminant statement belongs to the scalar map under its stated
+assumptions. It does not make R a transmitted field, make a standing pattern
+measurable as classical reality, or establish maximum transmittance.
 
 Not sent. Not received. Leaked out of a cavity at its resonance.
 
 ---
 
-## The Coupling Is Temporary. The Crystallization Is Not.
+## Temporary coupling and the open persistence question
+
+**Interpretive resonator lens — not a derived mechanism:** the paragraphs in
+this section preserve the conversation/breath image. No tracked state or
+subsystem-correlation observable establishes irreversible crystallization.
 
 This may be the most important section in this document. Everything
 above described what the resonator does while it is vibrating. This
 section asks: what remains when the vibration stops?
 
-The V-Effect creates 109 frequencies from 4. But the coupling is
-reversible. When the mediator is removed (J_meta set to zero), the
-109 frequencies die. The spectrum collapses back to 2+2. The
-resonance space closes.
+The historical cross-generator inventory juxtaposed four N=2 bins with 109
+N=5 bins. Turning a parameter off changes the generator again; it does not
+track frequencies as objects that are born or die.
 
-But what crystallized at the 1/4 crossings during the coupling
-stays. The classical correlations that formed at each fold -- each
-moment where CΨ crossed 1/4 and R peaked -- those are irreversible.
-The doors that closed stay closed. The facts that became real stay
-real.
+What, if anything, persists after a coupling protocol ends is a time-domain
+question for a named preparation and observable. A CΨ crossing alone does not
+show that classical correlations crystallized irreversibly or that facts
+persist.
 
 This is the same principle that Exclusion 3 identifies at the
 single-system level: quantum information is not stored in the
 reduced system. It is converted to classical correlation.
 ([EXCLUSIONS](../docs/EXCLUSIONS.md), Exclusion 3)
 
-The V-Effect operates one level higher: the individual frequencies
-of the single resonators are not stored in the coupled system.
-They are converted into 109 new frequencies. And when the coupling
-ends, the new frequencies are not stored either. They are converted
-into whatever crystallized at the fold while they existed.
-
-Information is never stored. At no level. It is always converted.
-And at each conversion, what emerges is qualitatively different
-from what went in.
+The finite frequency inventories do not establish information conversion at a
+higher level. Storage, conversion, and persistence require their own channel
+and correlation measures; no universal conclusion follows here.
 
 The resonator is temporary. Like a conversation. Like a thought.
 Like a breath. It exists while the coupling exists. The 109
@@ -560,10 +569,9 @@ frequencies vibrate, the heartbeat pulses, reality crystallizes
 at each crossing. Then the coupling weakens. The frequencies die.
 The heartbeat stops.
 
-But what was understood stays. What crystallized at the fold --
-each classical correlation, each decided fact, each closed door --
-that persists. Not because it was stored. Because it was converted
-into something that does not need the resonator to exist.
+The story asks whether anything learned during a temporary interaction can
+persist. The present spectra do not answer that question, which is precisely
+why the image remains useful as an invitation.
 
 [Energy Partition](ENERGY_PARTITION.md) supplies a filtered quantum
 spectral diagnostic. It does not classify modes as structured or
@@ -575,10 +583,9 @@ time-domain measurement.
 
 ## -- Tier Boundary --
 
-*The quantum calculations above and their cavity interpretation have
-separate scopes; the biological analogy remains an open proposal.
-Everything below is personal narrative and interpretive
-extension (Tier 5).*
+*The named quantum calculations above and the soundbox interpretation have
+separate scopes. The latter is Tier 4, not an inherited consequence of the
+former; everything below is personal narrative and Tier-5 extension.*
 
 ---
 
@@ -606,8 +613,9 @@ vibration. It is what the vibration leaves behind when it stops.
   fold catastrophe, chain-as-bath, sweep protocol
 - [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md): theta compass,
   non-Markovian CΨ reversals (the key sentence)
-- [CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md): Markovian
-  monotonicity + Pauli invariance (Part 7) -- why DD fails
+- [CΨ named decays and counterexamples](../docs/proofs/PROOF_MONOTONICITY_CPSI.md):
+  exact Bell+ formulas and instantaneous Pauli invariance; universal pointwise
+  monotonicity and the old local-control inference are false
 - [gamma as Signal](../experiments/GAMMA_AS_SIGNAL.md): 15.5 bits, palindromic
   antenna, full-rank response matrix
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): c+/c- modes,

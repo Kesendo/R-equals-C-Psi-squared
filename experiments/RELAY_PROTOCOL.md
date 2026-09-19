@@ -1,89 +1,38 @@
-# Relay Protocol: Staged Quantum State Transfer with Time-Dependent Dephasing
+# Relay protocol: a finite N=11 mutual-information comparison
 
-<!-- Keywords: quantum state transfer relay protocol, time-dependent dephasing
-optimization, staged quantum relay mediator chain, dynamical decoupling quantum
-transfer, palindromic spectral relay design, asymmetric coupling quantum channel,
-Lindblad time-dependent noise control, quantum repeater staged protocol,
-end-to-end mutual information improvement, spin chain relay dephasing,
-R=CPsi2 relay protocol -->
+<!-- CROSSING-CURRENT -->
 
-**Status:** Computationally verified (N=11, C# RK4 propagation)
-**Date:** March 21, 2026
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Script:** compute/RCPsiSquared.Propagate/ (C#, `dotnet run -c Release -- pull`)
-**Data:** [`simulations/results/pull_principle.txt`](../simulations/results/pull_principle.txt)
+**Status:** Tier 2 finite computational record, hypothesis-generating rather
+than a controlled comparison. No mutual-information bound or timing optimum
+is established.
 
----
+**Source:** [C# RK4 propagation](../compute/RCPsiSquared.Propagate/Program.cs),
+`dotnet run -c Release -- pull`.
+**Stored output:** [pull_principle.txt](../simulations/results/pull_principle.txt).
 
-## What this document is about
+## The question, and what was actually compared
 
-Sending quantum information through a chain of qubits is like passing
-a whisper down a line of people in a noisy room. The standard approach
-treats every person the same: same volume, same timing. This document
-asks: what if we told each person in turn to cup their ear (reduce
-noise) right when the whisper reaches them, then go back to normal?
+Passing a whisper down a noisy line suggests a simple experiment: let the
+next listener cup an ear, then return to the usual noise level. Here that
+image becomes a six-stage prescribed dephasing profile on eleven qubits.
+It is a candidate protocol, not evidence that mediators must behave this way.
 
-That is the relay protocol. Instead of treating qubits as passive
-wire, we treat them as active relay stations that take turns listening.
-Combined with a second trick (making the receiving end pull harder than
-the sending end pushes, like a 2:1 gear ratio), this improves
-information transfer by 83%. No new physics, no extra hardware: just
-reshaping when and where the noise is quiet.
+The stored comparison is **about +84.0% from the stored six-decimal values**:
 
----
+    100 * (0.131700 / 0.071576 - 1) = 84.0002235386...%.
 
-## Abstract
+The denominator is the passive sampled maximum at t=4.00 on the integer
+0..20 grid; the numerator is the relay+2:1 final value at integrated t=4.50.
+This is an **unmatched-time, unmatched-dose comparison**, not two endpoints
+at one common horizon. The historical +83% is only the coarse-table estimate
+from 0.132/0.072.
 
-Standard quantum state transfer through a spin chain treats mediator qubits
-as passive wire: fixed coupling, fixed dephasing, hope for the best. We
-propose a **relay protocol** that treats mediators as active relay stations.
-Each mediator alternates between a quiet phase (dephasing reduced 10×,
-receiving information) and a normal phase (relaying onward). Combined with
-2:1 asymmetric coupling (receiver-side J=2, sender-side J=1), this improves
-end-to-end mutual information by **+83%** over passive propagation on an
-11-qubit Heisenberg chain. The staging schedule derives directly from the
-palindromic spectral structure: each relay stage lasts t_stage = K/γ (the
-crossing time from [Crossing Taxonomy](CROSSING_TAXONOMY.md)), and the
-quiet-phase principle implements the receiver sensitivity rule from
-[Star Topology](STAR_TOPOLOGY_OBSERVERS.md). No new physics is required;
-the protocol reshapes existing dephasing noise in time.
+The schedule requested 0.78 time units per stage but executed 15 RK4 steps
+of 0.05: 0.75 per stage and 4.50 across six stages. The nominal total is
+4.68; the old print `t=4.7` rounds that nominal clock, not propagated time.
+Neither F14 nor the spectral palindrome selects this transfer schedule.
 
----
-
-## Background
-
-### Why mediators are not just wire
-
-In a spin chain, quantum information propagates through Hamiltonian coupling
-between nearest neighbors. Dephasing noise at each site degrades the signal.
-The standard approach treats every qubit identically: same coupling, same
-noise, same role. But the palindromic spectral analysis shows that different
-positions in the chain have different roles: edge qubits (sender/receiver)
-need low noise to preserve coherence, while central qubits (mediators) can
-tolerate higher noise because they act as relay stations, not storage.
-
-### The three design principles combined
-
-This protocol combines three results from the project:
-
-1. **The crossing time K/γ** ([Crossing Taxonomy](CROSSING_TAXONOMY.md)):
-   CΨ crosses 1/4 at t_cross = K/γ. This sets the natural timescale for
-   each relay stage. Information must be transferred before the receiving
-   qubit decoheres past the boundary.
-
-2. **Quiet receiver** ([Star Topology](STAR_TOPOLOGY_OBSERVERS.md)):
-   The receiver must have low dephasing to accept information. This is the
-   "pull principle": reception requires quiet, not loud.
-
-3. **2:1 impedance matching** ([QST Bridge](QST_BRIDGE.md)):
-   Impedance matching is a concept from electrical engineering: for
-   maximum power transfer, the receiver's "pull" must match the
-   sender's "push." Here, setting mediator-to-receiver coupling at
-   twice mediator-to-sender coupling optimizes transfer fidelity.
-
----
-
-## Setup
+## Setup and the unchanged six-stage schedule
 
 | Parameter | Value |
 |-----------|-------|
@@ -94,23 +43,15 @@ This protocol combines three results from the project:
 | Initial state | Bell pair on qubits 0-1, rest in \|0⟩ |
 | Integration | RK4 (Runge-Kutta 4th order, a standard numerical method for evolving differential equations step by step), dt = 0.05 |
 
-The chain is divided into relay segments:
+The geometry is
 
 ```
 (0-1) → m1(2) → (3-4) → M(5) → (6-7) → m2(8) → (9-10)
 Pair A   relay   Pair B   meta    Pair C   relay   Pair D
 ```
 
----
-
-## The Protocol
-
-Six relay stages, each lasting t_stage = K/γ = 0.039/0.05 = 0.78 time
-units (K = 0.039 is the February tool's feedback-model concurrence
-value; the exact standard-Lindblad book gives K = 0.036, t_stage = 0.72.
-The protocol below was designed and run with 0.78; its +83% result
-stands as measured, and the stage length is a design choice, not a
-physics constant):
+The table preserves the receiving order. “Receives” is the protocol's role
+label; it is not an independently demonstrated causal mechanism.
 
 | Stage | Receiving qubits | γ_receive | What happens |
 |-------|-----------------|-----------|-------------|
@@ -121,18 +62,88 @@ physics constant):
 | 5 | 8 (m2) | 0.005 | m2 receives from Pair C |
 | 6 | 9, 10 (Pair D) | 0.005 | Pair D receives (final destination) |
 
-During each stage, receiving qubits have γ reduced 10× (0.005 instead of
-0.05). All other qubits remain at γ = 0.05. Total protocol time:
-6 × 0.78 = 4.68 time units.
+At each stage receiving sites have γ=0.005 and all others γ=0.05.
+The propagator is rebuilt with the new profile while the density matrix
+continues without reset, measurement or classical communication.
 
-Between stages, the Lindblad propagator (the mathematical engine that
-evolves the quantum state forward in time, including both coherent
-dynamics and noise) is reconstructed with updated dephasing rates. The density matrix evolves continuously (no resets, no
-measurements, no classical communication).
+    stepsPerStage = (int)(0.78 / 0.05) = 15
+    integrated stage = 15 * 0.05 = 0.75
+    nominal total = 6 * 0.78 = 4.68
+    integrated total = 6 * 0.75 = 4.50
+    total RK4 updates per staged arm = 90.
 
----
+Both the uniform-coupling relay and relay+2:1 arm use that truncating loop.
+The chosen 0.78 was a historical heuristic associated with the February
+concurrence-feedback value K≈0.039. The clean Bell+ concurrence clock instead
+has K=ln(4/3)/8. Neither crossing book makes its K/γ a natural or required
+information-transfer time for this many-body trajectory.
 
-## Results
+## Results: maximum versus final value
+
+| Protocol | MI(Bridge A:B) | MI(Pair A:D) | Statistic |
+|----------|---------------|-------------|-----------|
+| Passive (constant γ) | 0.733686 | 0.071576 | Separate sampled maxima on integer times 0..20 |
+| Relay only | 0.759168 | 0.084584 | Final values at integrated t=4.50 |
+| Relay + 2:1 coupling | 0.723129 | 0.131700 | Final values at integrated t=4.50 |
+
+The A:D ratio is about +84.0%, not a guarantee. The coarse relay-only +18%
+also compares a final value to a passive maximum at a different horizon and
+dose, so it is not an isolated staging effect. Changing the coupling as well
+does not divide the total into independent temporal and spatial causes.
+
+## Two exposure books, kept separate
+
+### Exposures attached to the reported statistics
+
+Passive: 11×0.05×4.00 = **2.200 at t=4.00**.
+Staged: **2.17125 at t=4.50**, using receiver sizes (1,2,1,2,1,2):
+
+    3*(10*0.05+0.005)*0.75 + 3*(9*0.05+2*0.005)*0.75 = 2.17125.
+
+That is 1.306818...% lower integrated sum-rate, but the horizons differ.
+It is bookkeeping attached to the reported pair, not an effective-decoherence
+model and not an explanation of the mutual-information ratio.
+
+### Equal-time counterfactual exposure at t=4.50
+
+At the staged horizon, a passive arm would carry **2.475 versus 2.17125**
+integrated sum-rate, a 12.2727...% difference. No stored passive comparison
+statistic at t=4.50 supplies the denominator of about +84.0%. This separate
+equal-time dose calculation does not make the reported MI comparison matched.
+
+## The Q coordinates describe the arms, not one isolated knob
+
+The four local ratios remain Q∈{20,40,200,400}: baseline/sender 20, the 2:1
+receiver side 40, a quiet site 200, and a quiet 2:1 receiver 400. They are useful
+labels for the chosen model parameters. But the arms also changed clock,
+statistic-attached exposure, gamma profile and coupling. They do not isolate
+one physical knob.
+
+The proposed lifetime/orthogonal-axis explanation is likewise not established.
+The quiet phase is not an isolated +18% staging effect; the rest is not a
+purely spatial effect. These are not complementary optimizations. Controlled
+equal-time and matched-dose arms, followed by a receiver-order control, are
+needed before such a causal decomposition.
+
+The baseline γ remains a model choice; γ=0.05 is the illustrative value used
+here. The later [IBM Kingston population scan](GAMMA0_IS_ALWAYS_THERE.md)
+brackets a finite-time transfer overshoot between J=0.05 and J=0.1;
+it does not measure γ₀. It supplies no critical damping verdict and has
+no calibrated error model. It neither calibrates this gamma nor certifies a
+transport phase. The separate ideal-model landmarks
+Q_EP≈1.5–2, transfer-resonance band 1.2–1.8 and onset 0.2–0.35 are not
+spectral labels inferred from that hardware record.
+
+A hardware version would also have to measure usable depth in-session.
+The stored experiment does not assign a unique cause to a shortened envelope,
+or certify a 9 μs Trotterization budget.
+
+<!-- CROSSING-HISTORICAL -->
+
+**Historical record:** The original coarse table is retained below. Its
+percentages were whole-percent display estimates; the last row's current
+stored-value ratio is about +84.0%. The old +18% and +83% labels do not isolate
+staging and spatial effects.
 
 | Protocol | MI(Bridge A:B) | MI(Pair A:D) | vs Baseline |
 |----------|---------------|-------------|-------------|
@@ -140,132 +151,28 @@ measurements, no classical communication).
 | Relay only | 0.759 | 0.085 | +18% |
 | **Relay + 2:1 coupling** | 0.723 | **0.132** | **+83%** |
 
-The relay protocol alone gives +18% (modest). Combined with 2:1 asymmetric
-coupling, the improvement reaches +83%. The two optimizations are
-complementary: the relay shapes noise in time, the coupling shapes signal
-flow in space.
+<!-- CROSSING-INTERPRETIVE -->
 
----
+**Interpretive invitation — not a result:** The whisper-line picture is still
+a useful way to imagine scheduled quiet. The 2:1 gear or impedance-matching
+image suggests a second question about asymmetric coupling. What would happen
+if the listener order, duration and dose were controlled independently?
+The record motivates that experiment; it does not answer it.
 
-## What This Does Not Cover
+<!-- CROSSING-CURRENT -->
 
-- Only Z-dephasing tested (other noise types open)
-- Only N=11 tested (scaling with N not characterized)
-- Only one staging schedule (equal-length stages at K/γ)
-- Optimal stage timing, γ_quiet value, and number of stages not explored
-- No comparison with existing repeater protocols (entanglement swapping,
-  purification-based repeaters)
+## What remains open
 
----
+Only Z-dephasing, N=11 and one historical schedule were used. Stage timing,
+quiet rate, receiver order and coupling optimization remain open. No matched
+time/dose trial, MI inequality, repeater comparison or palindrome-timing
+witness is provided here.
 
-## Connection to Later Results
+For reproduction, both Propagate projects can be built without running the
+expensive producer. The `pull` run rewrites its tracked artifact; during this
+label repair it is not executed. The independent read-only sector control
+reproduces the passive maximum on the full production grid.
 
-The **γ Control** experiment ([γ Control](GAMMA_CONTROL.md)) extended
-the relay principle to static γ profiles and dynamical decoupling; its
-repaired reading is the two-lever law, less Σγ within a shape and
-concentration at the chain centre at fixed Σγ (up to +46%). The relay
-protocol is the *time-domain* version; profile shaping and DD are
-*spatial-domain* versions of the same move: choose where and when the
-noise sits.
-
-The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) explains
-*why* noise shaping works at a deeper level: the palindromic mode structure
-creates a full-rank response matrix linking per-site γ to observable mode
-amplitudes. Shaping γ (in time or space) is equivalent to tuning the antenna
-that reads the external dephasing signal. The relay protocol optimizes the
-antenna's temporal response pattern.
-
-The **Bridge Optimization** ([bridge_optimization.txt](../simulations/results/bridge_optimization.txt))
-showed that time-series measurements provide the largest single improvement
-(3.1×) for reading γ profiles. The relay protocol creates exactly this kind
-of time-varying γ pattern that maximizes temporal diversity.
-
----
-
-## Seen again through the Q axis (2026-05-31)
-
-We came back to this protocol months later, with the dimensionless ratio
-**Q = J/γ₀** in hand, and the whole thing reads differently, sharper, than
-it could in March. Three things we could not see then.
-
-**The baseline γ remains a model choice.** The setup table picks γ = 0.05 as
-an illustrative working value. The 2026-05-29 [IBM Kingston](GAMMA0_IS_ALWAYS_THERE.md)
-J-scan only brackets a change in finite-time transfer overshoot between J=0.05
-and J=0.1; it neither isolates the chip's local dephasing rate nor turns this
-baseline into a hardware calibration.
-
-**The three tricks were one knob.** Impedance matching (J=2 vs J=1), the
-quiet phase (γ → γ/10), and the staging clock K/γ are all moves along the
-single [Q axis](../docs/Q_REGIME_ANCHORS.md). Dividing each configuration by
-γ₀ places the whole protocol at Q ∈ {20, 40, 200, 400}: passive and the
-sender side at 20, the 2:1 receiver side at 40, the quiet phase at 200, the
-quiet 2:1 receiver at 400. The anchor map's own caveat names J=1 → Q=20 as
-"the original deep-quantum baseline from before the framework Q-band structure
-was identified." This protocol ran on exactly that default. Every value sits a
-full order of magnitude or two above everything that structures the Q axis:
-the exceptional point at Q_EP ≈ 1.5–2, the transfer-resonance peak band at
-1.2–1.8, the onset at 0.2–0.35. Those are ideal-model coordinates, not spectral
-character inferred from the population scan.
-
-**That deep-Q placement is not overshoot; it is the only band where transport
-exists.** This is the part [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)
-later made plain. Below the rotation onset (small Q) a single excitation just
-diffuses and decays in place, forgetting; it never reaches the far end. Above
-it, the excitation sloshes site to site as a wave that propagates and reflects,
-remembering in the ideal model. The Kingston record establishes a sampled
-population handover and revival on a 3-site chain, but no critical damping,
-exceptional point, mode coalescence, post-EP mode, or reborn mode. The single-bond
-resonance peak near Q ≈ 1.5 belongs to a separate ideal model; it is not a
-spectral label for the hardware population scan. The relay's deep-Q placement
-is therefore an illustrative model design choice, not a hardware-certified
-transport phase.
-
-This reframes the two measured numbers. The quiet phase (Q: 20 → 200) crosses
-no regime boundary; it moves from plateau to deeper plateau, extending the
-*lifetime* of the carrying memory against decay rather than switching transport
-on. That is why it helps only modestly (+18%): the slosh already arrives at
-Q=20, and more Q only stretches the coherence, it does not change whether the
-wave reaches the end. The +83% lives on a different, orthogonal axis: the 2:1
-asymmetry breaks the chain's left-right symmetry and biases *where* the wave
-flows, toward the receiver. The time axis (Q) is saturated inside the transport
-band; the whole remaining lever is spatial.
-
-One honest new constraint the simulation could not show. The March run was pure
-RK4, where the decay envelope is set by T2. On the real chip the observed
-envelope is much shorter than the quoted T2 scale. Accumulated circuit cost is
-a plausible contributor, but the stored record has no calibrated error model
-that assigns a unique cause or a 9 μs Trotterization limit. A hardware version
-must therefore measure its usable depth in-session rather than inherit either
-number as a certified budget.
-
----
-
-## Reproducibility
-
-| Component | Location |
-|-----------|----------|
-| C# propagation engine | compute/RCPsiSquared.Propagate/ |
-| Run command | `dotnet run -c Release -- pull` |
-| Results | [`simulations/results/pull_principle.txt`](../simulations/results/pull_principle.txt) |
-
-The C# engine uses RK4 integration of the Lindblad equation on the full
-density matrix (2048×2048 for N=11). Validated against QuTiP eigendecomposition
-at N=5 (MI agreement to 6 decimal places). Runtime: ~10 minutes on
-Intel Core Ultra 9 285k.
-
-Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
-
----
-
-## References
-
-- [Crossing Taxonomy](CROSSING_TAXONOMY.md): K/γ crossing time (staging schedule)
-- [Star Topology](STAR_TOPOLOGY_OBSERVERS.md): quiet receiver principle
-- [QST Bridge](QST_BRIDGE.md): 2:1 impedance matching
-- [γ Control](GAMMA_CONTROL.md): the two-lever noise law; centre concentration +46% at matched Σγ
-- [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic mode structure as antenna
-- [Scaling Curve](SCALING_CURVE.md): MI vs chain length baseline
-- [The Flow Between Two Singularities](THE_FLOW_BETWEEN_TWO_SINGULARITIES.md): transport is the slosh above the EP (2026-05-31 revisit)
-- [γ₀ Is Always There](GAMMA0_IS_ALWAYS_THERE.md): historical locator for the finite-grid transfer-overshoot bracket; it does not measure γ₀
-- [Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md): the Q = J/γ₀ axis the protocol sits on
-- Main README Section 6: eight engineering consequences
+Related: [Crossing Taxonomy](CROSSING_TAXONOMY.md) for fixed-book scalar clocks,
+[QST Bridge](QST_BRIDGE.md), [Scaling Curve](SCALING_CURVE.md),
+[Q-Regime Anchor Map](../docs/Q_REGIME_ANCHORS.md).

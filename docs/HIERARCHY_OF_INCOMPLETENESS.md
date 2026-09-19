@@ -12,6 +12,11 @@ magnetism macroscopic mirroring, R=CPsi2 hierarchy incompleteness -->
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Qubit Necessity](QUBIT_NECESSITY.md), [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)
 
+V-Effect precision fence: the N=3 distinct-pair census reports **14/36** hard
+cases. The retained **four-decimal** bin comparison is **11/4**; its separate
+coarser **three-decimal** side table is **8/4**. These finite rows motivate the
+hierarchy image but do not prove a cross-level causal mechanism.
+
 ---
 
 ## The idea in one paragraph
@@ -213,10 +218,10 @@ Take two pairs of qubits. Each pair, on its own, is perfectly
 palindromic: every decay rate has a partner, every mode is paired.
 The mirror is complete. Now connect them through a shared element.
 
-In the stated N=3 two-term Pauli census, 14 of 36 combinations fail F1. A
-specified frequency-bin protocol reports 4 bins in one baseline and 11 in
-one coupled case. Those are model-, tolerance- and protocol-scoped counts;
-they do not define a general amount of created complexity.
+In the stated N=3 distinct-pair Pauli census, 14 of 36 cases are hard. A
+specified frequency-bin protocol reports 11/4 at four decimals, while its
+separate three-decimal side table reports 8/4. Those are model-, tolerance-
+and protocol-scoped counts; they do not define created complexity.
 
 The breaking is localized to intermediate XY-weight sectors in that
 classifier. Calling them half-classical/half-quantum, carbon-like, connective
@@ -227,7 +232,7 @@ or creative is the proposed analogy, not what the sector calculation proves.
 | C = 0.5 analogy | intermediate w=1,2 sectors |
 | C = 1 analogy | extreme w=0,3 sectors |
 | Open-valence analogy | unmatched entries in a tolerance-scoped census |
-| Coupled protocol | 11 reported frequency bins instead of 4 in one comparison |
+| Compared finite generators | 11/4 bins at four decimals; 8/4 at three decimals |
 | Steady-state count | 2 instead of 4 in the stated model |
 
 The noble-gas/carbon language for extreme and intermediate weight sectors is
@@ -235,10 +240,10 @@ an analogy only. A tolerance match does not show that an unmatched entry
 "remembers" a partner, and the frequency-bin change does not establish a
 frustration mechanism.
 
-The V-Effect supplies a within-model change under a second bond. It does not
-establish that transitions between physical levels are topological, that a
-chemical bond follows the same onset, or that unmatched tolerance assignments
-are physical orphan modes.
+The V-Effect page supplies finite comparisons under named generator changes.
+It does not isolate a second bond as the cause, establish that transitions
+between physical levels are topological, or turn unmatched tolerance
+assignments into physical orphan modes.
 
 ---
 

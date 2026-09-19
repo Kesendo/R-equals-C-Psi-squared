@@ -50,7 +50,7 @@ For pure Z-dephasing, γ₀ is not divided out, it is *algebraically expelled*. 
 ### Mechanism C: structurally absent, or cancels in a ratio
 
 - **F89 (path-D denominator D_k).** γ₀ never enters: the F_a eigenvalue is AT-locked at `λ_n = −2γ + i·y_n` exactly, because the overlap-subspace dephasing rate is exactly 2γ regardless of N, and the amplitude is built from N-cancelling Bloch normalisation. *Consequence:* the odd part `odd(k)²` closes (Bloch normalisation, path-3 exact); the three 2-power terms stay open, the v₂(k) = 2 threshold "structurally specific and unexplained." Per the F90 corollary this is the *same wall* as F86's g_eff ([`PROOF_F90_F86C2_BRIDGE.md`](proofs/PROOF_F90_F86C2_BRIDGE.md)).
-- **D02 (V-Effect).** `V(N) = 1 + cos(π/N)` ([`D02_VEFFECT_QMAX_QMEAN.md`](proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md)). γ cancels in the ratio Q_max/Q_mean. *Consequence:* a fully closed, parameter-free V(N); γ₀ and J are both lost by design, V depends only on N.
+- **D02 (F6 Q-edge gain; “V-Effect gain” is a historical alias).** `V(N) = 1 + cos(π/N)` ([`D02_VEFFECT_QMAX_QMEAN.md`](proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md)). γ cancels in the within-N ratio Q_max/Q_mean. *Consequence:* a closed, parameter-free V(N) in this model; this is separate from the finite V-Effect census.
 
 ---
 
@@ -102,7 +102,7 @@ One caution this investigation does **not** dissolve, and should not be read as 
 - [`PROOF_SVD_CLUSTER_STRUCTURE.md`](proofs/PROOF_SVD_CLUSTER_STRUCTURE.md): the Master Lemma (M depends only on H).
 - [`MIRROR_SYMMETRY_PROOF.md`](proofs/MIRROR_SYMMETRY_PROOF.md): F1, σ = Σγ as the spectral mirror axis.
 - [`PROOF_BLOCK_CPSI_QUARTER.md`](proofs/PROOF_BLOCK_CPSI_QUARTER.md): Theorem 3, the inverse case (J cancels, γ₀ kept).
-- [`D02_VEFFECT_QMAX_QMEAN.md`](proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md), [`D10_W1_DISPERSION.md`](proofs/derivations/D10_W1_DISPERSION.md): V-Effect and Q-factor derivations.
+- [`D02_VEFFECT_QMAX_QMEAN.md`](proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md), [`D10_W1_DISPERSION.md`](proofs/derivations/D10_W1_DISPERSION.md): F6 Q-edge-gain and Q-factor derivations.
 - [`ANALYTICAL_FORMULAS.md`](ANALYTICAL_FORMULAS.md): the F-registry; F74 chromaticity, the F76 "0.93 envelope is the γ₀ signature" note.
 - [`PERSPECTIVAL_TIME_FIELD.md`](../hypotheses/PERSPECTIVAL_TIME_FIELD.md): the "atmospheric constant", K_i = γ·α_i·t.
 - [`PRIMORDIAL_GAMMA_CONSTANT.md`](../hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), [`PRIMORDIAL_QUBIT.md`](../hypotheses/PRIMORDIAL_QUBIT.md): γ₀ as framework constant; the inside-observability theorem.

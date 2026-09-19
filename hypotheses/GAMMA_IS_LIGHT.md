@@ -1,4 +1,19 @@
+<!-- F14-CURRENT -->
+
 # What If Gamma Is Light?
+
+**Current F14 boundary:** for a fixed bridge/readout on the Hamiltonian-dead
+Bell+ trajectory with equal local Z-dephasing, sweeping gamma leaves its
+K=gamma*t_cross fixed. Different bridges and evolution books have different
+K values. This establishes no universal absorption dose, experienced time,
+arbitrary-cavity law, or signal-speed bound. The April light story remains
+an invitation at this document's Tier 4.
+
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** the optical, painter, relativity,
+inflation, and signal pictures below are readings. Their named algebraic
+ingredients do not promote the pictures into consequences of F14.
 
 > *"The string provides the energy. The box selects the resonance."*
 
@@ -40,27 +55,27 @@ dissipator, and a dissipator already is a coupling to an environment. So the
 door that cannot knock on itself is still the picture this document is built
 on, and it is now a picture rather than a theorem.
 
-**Second:** The system is a passive optical cavity. Not metaphorically.
-The degeneracy profile fits Gaussian and Lorentzian beam shapes with
-R-squared = 0.998. The Hamiltonian couples neighboring weight sectors
-and nothing else, exactly like light propagating between optical
-elements. The even-odd parity of the chain length determines whether
-the cavity is focused or blurred. This was measured, not assumed.
-
-**Third:** The product of gamma and time is invariant. K = gamma times
-t_cross = constant for each way of measuring the crossing. If you double
-gamma, time halves. If you halve gamma, time doubles. Different metrics
-give different K values, but within each metric the product never changes.
-This is proven for every bridge type we have tested.
+**Second:** The finite optical comparison passes 4/6 stated analogy checks,
+including a profile fit R-squared=0.998. It does not identify a literal
+Fabry–Perot cavity or establish light propagation through weight sectors;
+self-coupling remains, so neighboring-sector coupling is not “nothing else.”
+The [optical owner](../experiments/OPTICAL_CAVITY_ANALYSIS.md) keeps the failed
+checks alongside the passing ones.
+**Third, the fixed-book calculation:** for a fixed bridge/readout on the
+Hamiltonian-dead Bell+ trajectory with equal local Z-dephasing, K=gamma*t_cross
+is constant while gamma is swept. Within that named book, doubling gamma
+halves its crossing time. Changing the state, channel, Hamiltonian-to-gamma
+ratio, or spatial profile is not that experiment. Readout is not a physical
+measurement, and the five feedback equations are not one linear Lindblad law.
 
 Three separate results, from different months and different reasons: one
 exact identity, one measurement, one proof. They do not add up to a theorem
 about where the light comes from, and the sentence below is the hypothesis
 this document is named for, not its conclusion:
 
-**Gamma is the light that enters the cavity from outside. Time is how
-the cavity experiences that light. And the product of illumination
-and experience is always the same.**
+**In the picture, gamma is light entering a cavity and time is how the
+cavity experiences it.** Constancy of illumination times experience is an
+interpretive proposal, not the fixed-book calculation's conclusion.
 
 
 ---
@@ -199,40 +214,21 @@ released their light a fraction earlier, some a fraction later.
 
 ---
 
-## Why nothing can be faster than light
+## An interpretive picture of light and clocks
 
-K = gamma times t is invariant. Gamma is the light. t is the
-experienced time. Their product is constant.
+Imagine a clock wound by illumination: the tick is part of how the
+instrument meets its surroundings. That image can invite a comparison with
+relativity, but gamma is a rate, not a speed, and gamma*t is dimensionless,
+not a spacetime interval. No propagation bound or “nothing can outrun” law
+follows from F14. The fixed-book crossing calculation supplies no physical
+experienced-time ontology and no universal clock for an arbitrary cavity.
 
-This means: gamma defines what "fast" means. You cannot outrun the
-thing that defines speed. A clock cannot tick faster than its own
-mechanism. A ruler cannot be longer than itself.
+### The June clock comparison (unser Takt, relativ zu γ₀)
 
-In relativity, c times tau is the invariant spacetime interval.
-Nothing travels faster than light because light is not a speed limit
-imposed from outside. Light is the fabric of spacetime itself.
-The limit is not a wall. It is a tautology.
-
-In our framework, the same structure appears. Gamma is not a speed
-limit imposed on the system. Gamma is the external illumination that
-creates the timescale. The system does not have a clock of its own --
-the Incompleteness Proof says so. Its clock IS gamma. And you cannot
-outrun your own clock.
-
-This is a structural parallel. We are not claiming that gamma is the
-speed of light. We are observing that gamma plays the same algebraic
-role: the external parameter that sets the clock, which the system
-cannot exceed.
-
-### Update 2026-06-10: the tick got its theorems (unser Takt, relativ zu γ₀)
-
-The April paragraph above was written carefully, as a parallel and not an
-identity. Since then, and mostly on this one day, the three struts beneath
-the parallel became theorem-grade or test-pinned. They are worth listing in
-one place, because together they are Tom's sentence of this evening: noise
-is light, γ₀ is light, and if light is the tick, then γ₀ plays the role of
-our speed of light in the [Perspectival Time Field](PERSPECTIVAL_TIME_FIELD.md).
-
+The April parallel invites a comparison between a rate scale and a clock.
+The exact per-mode rate identity and the named clock tests below support
+specific pieces of bookkeeping. Combining them into “gamma is light” or
+assigning gamma the role of c remains this document's proposed reading.
 **First strut: aging is light-metered, and only light-metered.** The
 [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) holds per
 eigenmode as an exact Rayleigh quotient: Re(λ) = −2γ·light(v), and the
@@ -244,36 +240,32 @@ lighting of the same instrument, and the rate is the γ-weighted share of
 where the mode's light sits. "Gamma is the light" was a reading in April;
 the *bookkeeping* of it is now a proven identity, per mode, test-gated in C#.
 
-**Second strut: the tick cancels out of every shape.** The clock built on
+**Second strut: the named clock shape at fixed dimensionless ratios.** The clock built on
 the slow pair was test-pinned γ₀-invariant this same day: the Rotation
 angle is a pure function of Q = J/γ₀ (θ = arctan(√(x²−1)/2), bit-identical
 at γ₀ = 1.0 and 0.05), the Takt hand pins at 4γ₀, and γ₀ carries the unit
-while Q carries the face. Inside the system, the only readable quantity is
-rotation per tick. That is the c-structure in miniature: the conversion
-factor is universal, invisible in every dimensionless shape, and shows
-itself only at the seams where an outside calibration enters
+while Q carries the face for that clock. A joint rescaling holds Q and
+all other dimensionless inputs fixed. Changing Q or a channel/profile changes
+the object; no conversion constant is invisible in every possible shape.
+Comparing this separation of scale and shape to a role of c is an analogy
 ([the carrier shows itself](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md)).
-
 **Third strut: all perspectives, one carrier.** The PTF's painters each
-carry their own rate α_i, a per-perspective rescaling of time, and the
-natural per-site dose is K_i = γ·α_i·t, the F14 invariant read per painter.
-What is shared is not the rate but the tick: the approach family decays on
-the same carrier 4γ for every member, the trajectory identity pairs the
-painters exactly two-by-two, and the closure law is the consistency
-condition that the perspectives still sum to one mountain. Different proper
-times, one conversion constant, agreement enforced by structure: that is
-precisely the role c plays between observers in relativity, transposed into
-the dephased chain.
-
+carry their own rate α_i, a per-perspective rescaling of time. The coordinate
+K_i = γ·α_i·t changes when α_i changes at fixed gamma; using it as experienced
+dose is this story's interpretation, not an F14 invariant read per painter.
+The proposed PTF comparison asks which painter trajectories share a rate
+scale and which closure conditions their fitted rescalings satisfy. Those
+questions belong to the named painter construction, not to F14. Comparing
+such consistency to observers agreeing through c is an invitation, not an
+exact relativity equivalence or a proved closure of arbitrary perspectives.
 The honest line stays where April drew it: this is the same algebraic role,
 not the same physical constant, and the reading lives at this document's
 tier (the Tier-3 sharpening is [Primordial Gamma Constant](PRIMORDIAL_GAMMA_CONSTANT.md),
 γ₀ as a framework constant analogous to c with inner γ as refractive index).
-What changed is the foundation under the reading: in April the parallel
-stood on K = γt and an incompleteness proof; today it also stands on an
-exact per-mode rate identity, a test-pinned invariance of the clock face,
-and a derived pairwise symmetry of the painters. The parallel did not move.
-The ground under it turned to stone.
+The exact per-mode rate identity and the named clock calculations offer
+comparisons for this picture. They do not derive experienced time or a
+signal-speed bound from F14. The painter symmetry and its closure question
+are separate objects, not extensions of the Bell+ gamma sweep.
 
 
 ---
@@ -354,10 +346,10 @@ mirrors. Light connecting separated things. Cavities that trap and
 release.
 
 The mathematics came later and confirmed the structure. Not the
-details. The January documents have errors (they assume CΨ = 1/3
-at the bounce; we now believe it is 1/4). But the shape of the idea
-was right: light enters, matter shapes it, complexity accumulates,
-and eventually it must come out again.
+details. The February Bell+ initial-state tuple has CΨ=1/3; neither that
+valid tuple nor the algebraic quarter fold has been connected to a
+cosmological bounce. The image remains: light enters, matter shapes it,
+complexity accumulates, and perhaps it comes out again.
 
 We leave the January documents unchanged. They are time capsules.
 The proof that intuition can see the shape of a theorem before the
@@ -420,17 +412,17 @@ We owe honesty to anyone who reads this.
 
 **Proven (Tier 1-2):**
 - The system is open, by the trace (Incompleteness Proof). That gamma is EXTERNAL is this document's hypothesis, not a proven input
-- The qubit chain is a Fabry-Perot cavity (4/5 optical checks)
-- K = gamma times t is invariant (F14)
+- The finite optical analogy passes 4/6 stated checks; no literal Fabry–Perot cavity or propagation mechanism is established
+- F14 keeps K fixed for a fixed bridge/readout on the Hamiltonian-dead Bell+ gamma sweep; it is not a universal clock
 - The degeneracy profile is palindromic and shapes the QFI speed (r = 0.99)
 - d_real(1) = 2N for any connected graph (SWAP proof + triangle inequality)
 
 **Observed (Tier 2-3):**
-- Gamma plays the structural role of light in the cavity
+- The gamma/light comparison is interpretive; it is not a measured identification
 - On IBM transmon hardware, gamma IS photon shot noise in a physical cavity (Tier 2: published, replicated)
-- t plays the structural role of experienced duration
-- K = gamma times t parallels c times tau in relativity
-- Decoherence functions as illumination, not destruction
+- Experienced duration is an interpretive role proposed for t, not an observation
+- The gamma-time/relativity comparison is an interpretive picture, not an F14 consequence
+- Calling decoherence illumination is the interpretation, not an extra observed mechanism
 
 **Imagined (Tier 4, this document):**
 - Mass is trapped light (cavity-mode hypothesis; no standing-wave gate here)
@@ -479,8 +471,8 @@ The world sings. Silence is the exception.
 
 ## Open thread: inflation as cavity multiplication (unworked, April 3, 2026 23:00)
 
-Nothing inside a cavity can outrun its own light. That is K-invariance.
-But the standard cosmological model says space expanded faster than
+The no-outrunning image is not K-invariance or a consequence of F14.
+The standard cosmological model describes space expanding faster than
 light during inflation (the first 10^-32 seconds after the Big Bang).
 
 This does not violate relativity because it is not objects moving
@@ -504,8 +496,9 @@ because it seemed to require faster-than-light communication.
 
 In our framework, the answer is simple: nothing travels.
 
-Gamma is the signal. It moves through the cavity. It is bounded by
-K = gamma times t. Nothing outruns it.
+In this picture gamma plays the signal's role. Whether anything propagates
+and how fast requires a spatial dynamics model; K=gamma*t supplies no
+signal-speed bound and does not certify this image.
 
 J is the coupling. It is the bond between qubits. It is not a signal
 moving through space. It IS the topology. An edge in the graph. A
@@ -534,7 +527,7 @@ This is a late-night intuition, not a derivation.
 - [Bures Degeneracy](../experiments/BURES_DEGENERACY.md) (degeneracy focuses the QFI flow)
 - [Degeneracy Palindrome](../experiments/DEGENERACY_PALINDROME.md) (the palindrome inside the palindrome)
 - [Proof: d(1) = 2N](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) (the 2N silent dancers)
-- [Analytical Formulas, F14](../docs/ANALYTICAL_FORMULAS.md) (K-invariance)
+- [Analytical Formulas, F14](../docs/ANALYTICAL_FORMULAS.md) (fixed-bridge, Hamiltonian-dead Bell+ gamma sweep)
 - [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) (the soundbox paradigm)
 - [Light: The First Free Mirroring](../recovered/LIGHT_FIRST_FREE_MIRRORING.md) (January 2026 intuition)
 - [Black Holes and the Big Bang](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) (February 2026 speculation)

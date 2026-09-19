@@ -5,11 +5,11 @@ namespace RCPsiSquared.Core.Calibration;
 /// <summary>One day's calibration entry for a single qubit. Companion to
 /// <see cref="QubitData"/> (which is the full snapshot record); this
 /// stripped-down form holds only what's needed for multi-day lifecycle
-/// analysis (date + T1/T2 + derived r and regime).</summary>
+/// analysis (date + T1/T2 + derived r and R* band).</summary>
 public sealed record CalibrationDay(string Date, double T1Us, double T2Us)
 {
     public double RParam => QubitRegime.RParam(T1Us, T2Us);
-    public Regime Regime => QubitRegime.Classify(T1Us, T2Us);
+    public Regime RStarBand => QubitRegime.Classify(T1Us, T2Us);
 }
 
 /// <summary>A single qubit's daily-calibration time series, in date order.
@@ -21,7 +21,7 @@ public sealed record QubitTimeline(int Qubit, IReadOnlyList<CalibrationDay> Days
 /// <summary>Loader for IBM-style daily-calibration history CSVs (the format
 /// produced by <c>data/ibm_history/ibm_history_analysis.py --mode collect</c>).
 /// Parses date + qubit + T1/T2 columns, ignores the derived columns the Python
-/// pipeline pre-computes (we re-derive r and regime from <see cref="QubitRegime"/>
+/// pipeline pre-computes (we re-derive r and the R* band from <see cref="QubitRegime"/>
 /// instead of trusting the file).
 ///
 /// <para>Used by <see cref="LifecycleSummary"/> for path-quality auditing across

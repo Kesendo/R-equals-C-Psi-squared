@@ -1,3 +1,12 @@
+<!-- VEFFECT-CURRENT -->
+=== CURRENT READING (2026-09-15) ===
+This retained thermal-channel capture uses finite N=2,3,5 models and
+four-decimal frequency bins. Every historical “V-gain” column below is actually
+the cross-N reference quotient Q_max(5)/Q_max(2), not the within-N F6 Q-edge
+gain V(N)=Q_max/Q_mean. Its channel-dependent rows establish no heat-production,
+mode-ancestry, or biological mechanism. The numerical body is retained as run.
+
+<!-- VEFFECT-HISTORICAL -->
 ======================================================================
 FINITE-OCCUPATION AMPLITUDE-CHANNEL SPECTRAL CENSUS
 ======================================================================

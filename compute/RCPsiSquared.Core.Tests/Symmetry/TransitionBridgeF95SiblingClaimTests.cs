@@ -11,18 +11,16 @@ public class TransitionBridgeF95SiblingClaimTests
     [Fact]
     public void Tier_IsTier1Derived()
     {
-        // The algebra is Tier 1: both bridges are the F95 angle at a quadratic's discriminant zero,
-        // bit-exact. ("TransitionBridge" the label and the quantum-classical reading are Tier-4, not
-        // asserted by this claim.)
+        // The algebra is Tier 1. "TransitionBridge" and any physical interpretation are not.
         Assert.Equal(Tier.Tier1Derived, BuildClaim().Tier);
     }
 
     [Fact]
-    public void EpClockAngle_EqualsEpF95Angle_BitExact_AboveTheEp()
+    public void EpClockAngle_EqualsEpF95AngleWithinTolerance_AboveTheEp()
     {
         // The heart of the siblinghood: above the EP the F86 2-level eigenvalue is −4γ₀ ± iω, so its
-        // clock Rotation arctan(ω/gap) is EXACTLY the F95 angle arctan(√(c/b²−1)) of its quadratic
-        // (b=4γ₀, c=12γ₀²+J²g_eff²). Checked at two (g_eff, Q) above the EP, both γ₀-units.
+        // clock Rotation and F95 are the same algebraic expression. Floating evaluations are
+        // compared with a tolerance.
         var c = BuildClaim();
         foreach (var (gEff, q) in new[] { (4.0 / 3.0, 2.5), (0.8, 3.0), (4.0 / 3.0, 2.0) })
         {
@@ -92,6 +90,95 @@ public class TransitionBridgeF95SiblingClaimTests
     public void TypedParent_F95_IsExposed()
     {
         Assert.NotNull(BuildClaim().F95);
+    }
+
+    [Fact]
+    public void Surface_SeparatesRecurrenceVariableFromLiouvillianDecayVariable()
+    {
+        var claim = BuildClaim();
+        string surface = string.Join("\n", new[] { claim.Name, claim.DisplayName, claim.Summary }
+            .Concat(claim.Children.Select(child => $"{child.DisplayName}\n{child.Summary}")));
+
+        Assert.Contains("z_rec", surface, StringComparison.Ordinal);
+        Assert.Contains("z_decay=−λ", surface, StringComparison.Ordinal);
+        Assert.DoesNotContain("λ=−γ₀ alone", surface, StringComparison.Ordinal);
+        Assert.DoesNotContain("bit-exact", surface, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Surface_NamesTwoDistinctQuadraticApplications_NotOneSiblingObject()
+    {
+        var claim = BuildClaim();
+        string surface = string.Join("\n", new[] { claim.Name, claim.DisplayName, claim.Summary }
+            .Concat(claim.Children.Select(child => $"{child.DisplayName}\n{child.Summary}")));
+
+        Assert.Contains("two distinct positive-b quadratic applications", surface,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("are F95 siblings", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("the siblinghood", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("same whirlpool", surface, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void EpRoots_PinPositiveDecaySignSumAndAnchorB()
+    {
+        const double gamma0 = 0.7;
+        const double q = 3.0;
+        const double gEff = 0.8;
+        var claim = BuildClaim();
+
+        var lambda = claim.EpLiouvillianRoots(gamma0, q, gEff);
+        var decay = claim.EpDecayRoots(gamma0, q, gEff);
+
+        Assert.Equal(-4.0 * gamma0, lambda.Plus.Real, precision: 13);
+        Assert.Equal(-4.0 * gamma0, lambda.Minus.Real, precision: 13);
+        Assert.Equal(-lambda.Plus.Real, decay.FromLambdaPlus.Real, precision: 13);
+        Assert.Equal(-lambda.Plus.Imaginary, decay.FromLambdaPlus.Imaginary, precision: 13);
+        Assert.Equal(-lambda.Minus.Real, decay.FromLambdaMinus.Real, precision: 13);
+        Assert.Equal(-lambda.Minus.Imaginary, decay.FromLambdaMinus.Imaginary, precision: 13);
+        Assert.Equal(8.0 * gamma0, (decay.FromLambdaPlus + decay.FromLambdaMinus).Real, precision: 13);
+        Assert.Equal(0.0, (decay.FromLambdaPlus + decay.FromLambdaMinus).Imaginary, precision: 13);
+        Assert.Equal(4.0 * gamma0, claim.EpAnchorB(gamma0), precision: 13);
+        Assert.True(claim.EpAnchorB(gamma0) > 0.0);
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(-0.1)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void EpF95Surface_RejectsNonPositiveGamma0(double gamma0)
+    {
+        var claim = BuildClaim();
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpAnchorB(gamma0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpLiouvillianRoots(gamma0, 3.0, 0.8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpDecayRoots(gamma0, 3.0, 0.8));
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(-0.8)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void EpF95Surface_RejectsInvalidGEff(double gEff)
+    {
+        var claim = BuildClaim();
+        Assert.Throws<ArgumentOutOfRangeException>(() => TransitionBridgeF95SiblingClaim.QEp(gEff));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpLiouvillianRoots(1.0, 3.0, gEff));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpClockAngle(1.0, 3.0, gEff));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpF95Angle(1.0, 3.0, gEff));
+    }
+
+    [Theory]
+    [InlineData(-0.1)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void EpF95Surface_RejectsInvalidQ(double q)
+    {
+        var claim = BuildClaim();
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpLiouvillianRoots(1.0, q, 0.8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpClockAngle(1.0, q, 0.8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.EpF95Angle(1.0, q, 0.8));
     }
 
     [Fact]

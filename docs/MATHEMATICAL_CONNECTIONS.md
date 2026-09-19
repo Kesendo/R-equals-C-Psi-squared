@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# Mathematical connections with object boundaries intact
+
+Current reading: the positive-`b` quadratic angle, the recurrence cardioid, the
+F25 finite trajectory, Liouvillian exceptional points, and scalar-quarter
+readouts are distinct mathematical objects.  Shared numbers motivate analogies
+and questions, not identities or physical classifications.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the fold, Feigenbaum, holographic, and periodic-table
+connections below are retained as a map of questions.  Each needs an explicit
+map or mechanism before becoming a claim.
+
 # Mathematical Connections: Fold Catastrophe, Feigenbaum, Periodic Table, and Beyond
 
 <!-- Keywords: fold catastrophe Thom-Arnold normal form, Feigenbaum period

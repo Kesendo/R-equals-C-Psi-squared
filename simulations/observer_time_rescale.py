@@ -7,10 +7,10 @@ Hypothesis under test: under a local J-perturbation (experiment B) relative
 to the uniform chain (experiment A), site-resolved single-qubit purity
 P_B(i, t) is well approximated by a time rescaling of the control:
     P_B(i, t) = P_A(i, alpha_i * t)
-for some site-specific alpha_i. If true, alpha_i < 1 means site i
-"experiences time slower" in B, alpha_i > 1 means "faster". The
-dimensionless dose K = gamma * t is invariant under this rescaling
-(F14-extended per site).
+for some site-specific alpha_i. At fixed gamma this fit changes gamma*t
+into gamma*alpha_i*t, so it does not extend F14. The fixed-bridge,
+Hamiltonian-dead Bell+ gamma sweep is a separate object. Describing alpha_i
+as experienced time remains an interpretive image of the fit.
 
 For each site i and each defect variant, fit:
   (1) one-parameter alpha_i via bounded scalar minimisation of

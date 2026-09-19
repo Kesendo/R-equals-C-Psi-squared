@@ -1,13 +1,25 @@
+<!-- QUARTER-CURRENT -->
+# Proof of F94: named-ring leading coefficient 4/3
+
+Current reading: for the named N=4 ring, `|0+0+>`, pair `(0,2)`, outcome
+`|00>`, the exact third-order row is `Sym3=(8,-4,-4,0)`.  Thus
+`Delta=(8/6)J^2 gamma t^3=(4/3)Q^2 K^3` at leading order.  No fixed next-order
+monomial is derived here; the remainder is only unspecified higher order.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the longer derivation follows; the current theorem and
+remainder scope are stated above.
+
 # Proof of F94: Born Deviation Dominant-Outcome Coefficient 4/3
 
 **Statement:** For the dominant outcome |00⟩ of pair (0,2) of the initial state |0+0+⟩ on N=4 qubits, under the Heisenberg ring Hamiltonian H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}) (4 bonds, ring topology) and uniform Z-dephasing dissipator L_dis[ρ] = γ Σ_l (Z_l ρ Z_l − ρ), the per-outcome Born-rule deviation in the deep perturbative regime is
 
     Δ_|00⟩(Q, K) = P_lindblad(|00⟩)/P_unitary(|00⟩) − 1
-                 = (4/3) · Q² · K³ + O(Q³·K⁴)
+                 = (4/3) · Q² · K³ + unspecified higher order
 
-with Q = J/γ and K = γt (the dimensionless Carrier invariants).
+with Q = J/γ and K = γt as dimensionless coordinates for this named setup.
 
-**Status:** Tier 1 derived. Bit-exact symbolic derivation matches numerical extraction to 0.3% in the deep perturbative regime; the gap is higher-order corrections beyond the leading Q²·K³.
+**Status:** Tier 1 derived. The symbolic third-order coefficient is exact; a separate floating reconstruction approaches it to 0.3% in the sampled short-time regime, with unspecified higher-order terms.
 
 **Date:** 2026-05-16.
 
@@ -15,13 +27,21 @@ with Q = J/γ and K = γt (the dimensionless Carrier invariants).
 
 ## Abstract
 
-F94 is the first Tier-1 closed form for a per-outcome Born-rule deviation under the Universal-Carrier convention. Take the alternating product state |0+0+⟩ on a 4-qubit Heisenberg ring under Z-dephasing, keep the (0,2) pair, and ask how far the dominant outcome |00⟩ drifts from its unitary Born probability. In the deep perturbative regime the answer is
+F94 is a setup-specific leading coefficient. Take the alternating product state
+|0+0+⟩ on the named four-qubit Heisenberg ring under Z-dephasing, keep pair
+(0,2), and compare the |00⟩ probability with unitary evolution. At third order:
 
-    Δ_|00⟩(Q, K) = P_lindblad/P_unitary − 1 = (4/3) · Q² · K³ + O(Q³·K⁴),
+    Δ_|00⟩(Q, K) = P_lindblad/P_unitary − 1 = (4/3) · Q² · K³ + unspecified higher-order terms,
 
-with the two dimensionless Carrier invariants Q = J/γ and K = γt. The coefficient 4/3 is not fitted: it is bit-exact from the third-order Dyson expansion, a pure counting result (the surviving sym₃ diagrams weighted by the Heisenberg coupling, divided by the 3! of the t³ Taylor coefficient). The positive sign means dephasing holds the dominant outcome above its unitary baseline (its probability still decays in time, just slower than coherent evolution alone would take it), and the Q²·K³ shape makes that deviation small and slow, reachable only through the joint action of coupling and noise.
+with Q=J/γ and K=γt. The coefficient 4/3 is not fitted: it is the exact
+rational result of the third-order Dyson row (surviving sym₃ diagrams divided
+by 3!). The sign and monomial describe this state, topology, pair, observable,
+and leading order; no universal carrier or fixed next monomial follows.
 
-This 4/3 is the anchor of a whole table: F96 generates the three subdominant outcomes as clean algebraic functions of it (−(4/3)²·K and −2·(4/3)·K), so a single number fixes all four outcomes and their signs. F94 governs the magnitude of the Born drift; its companion F95 governs the angle of the same complex-fixed-point geometry, and both sit on the b=1/2 Mandelbrot cardioid that F97 parametrizes. The reflection ON_HOW_FOUR_THIRDS_APPEARED records that the February R_i = C_i Ψ² intuition was waiting for exactly this derivation to catch up.
+F96 independently evaluates the other three leading rows in the same ring and
+their numerical coefficients happen to be simple functions of 4/3. That rhyme
+is setup-specific, not typed ancestry. F95's positive-b quadratic and F97's
+period-one cardioid are separate algebraic objects.
 
 ## Setup
 
@@ -59,9 +79,9 @@ This is the leading non-vanishing γ-contribution at the J² order to ρ(t) at t
 
 Set J = γ = 1 and compute sym3·ρ_0 as a 16×16 matrix (full state space), then partial-trace on qubits 1 and 3 to a 4×4 pair (0,2) reduced state, then read off the |00⟩⟨00| element.
 
-This is done numerically with exact-rational tracking in `simulations/born_rule_tier1_derivation.py`. The result is
+This is a tolerance-based NumPy reconstruction in `simulations/born_rule_tier1_derivation.py`; `Fraction.limit_denominator` recognizes a nearby rational but is not an exact certificate. Exact N=4 value 8 and coefficient 8/6 are supplied separately by the algebraic Dyson derivation and the exact dyadic from-below test; they do not come from the float read. The reconstructed result is
 
-    ⟨00|_pair Tr_{1,3}[sym3·ρ_0] |00⟩_pair = 8.000...   (exact integer to all available precision)
+    ⟨00|_pair Tr_{1,3}[sym3·ρ_0] |00⟩_pair = 8.000...   (finite NumPy reconstruction within tolerance)
 
 ## Coefficient
 
@@ -79,7 +99,7 @@ Substituting Q = J/γ and K = γt:
 
 so:
 
-    Δ_|00⟩(Q, K) = (4/3) · Q² · K³ + O(Q³·K⁴) ∎
+    Δ_|00⟩(Q, K) = (4/3) · Q² · K³ + unspecified higher-order terms ∎
 
 ## Numerical verification
 
@@ -87,7 +107,9 @@ Sixteen (γ, J, t) configurations sampled in the deep perturbative regime (Q²·
 
     c_empirical = mean = 1.32992,    std = 0.00567,    range = [1.320, 1.342]
 
-The bit-exact closed form gives 4/3 = 1.33333.... The 0.3% residual is leading O(Q³K⁴) correction with positive or negative sign depending on the (Q, K) point, accumulating to a small negative bias in the mean of the sample.
+The exact rational coefficient is 4/3. The floating samples differ by about
+0.3%; this document has not derived a unique monomial or sign for that
+higher-order residual.
 
 ## Structural decomposition of the integer 8
 
@@ -130,7 +152,7 @@ The same 32 split orthogonally by bond-pair topology:
 
 Sixteen self-bond-pair diagrams (8 XX + 8 YY, all ord = 2) and sixteen adjacent-bond-pair diagrams (all XX, 8 ord = 1 + 8 ord = 2). Both subsets contribute 16 × (1/4) = 4, summing to 8.
 
-### Reading 4/3 against the Pi2 anchors
+### Historical anchor numerology and its counterexample
 
 The coefficient now reads:
 
@@ -144,13 +166,18 @@ with:
 - **a_{−1} = 4**: Pi2 dyadic-ladder term (the same "4" that appears in F86 t_peak = 1/(4γ₀) and F77's MM correction denominator), sitting in the denominator via the (J/4)² = (1/a_{−1})² Heisenberg-coupling normalization that each bond Hamiltonian carries
 - **3! = 6**: Taylor factorial of the t³ term
 
-Equivalent reading via the typed-claim sibling: 4/3 = a_{−1} / 3, with a_{−1} appearing in the numerator after the (1/a_{−1}) factor cancels into the per-diagram contribution. Both readings hold; the structural decomposition above is the bit-explained derivation, the a_{−1}/3 reading is the typed-anchor inheritance.
+The equality 4/3=a_{−1}/3 is numerical at d=2. It is not a typed inheritance
+or a derivation: the qutrit control below breaks the proposed genealogy.
 
 > **Caution (the a_{−1}/3 reading is a d=2 coincidence; qutrit-refuted 2026-06-17).** The "4/3 = a_{−1}/3" reading suggests the 4 is the squared-dimension discriminant a_{−1} = d² (which would give c → d²/3 = 3 at the qutrit). It is **not**: the qutrit generalization (see "Qudit generalization" below) gives c(d) = 4(d+2)(d−1)/(3d²), with c(2) = 4/3 but c(3) = 40/27, **not** 3. The (J/4) per-bond factor is the spin S = σ/2 normalization (1/2)², equal to 1/d² **only at d=2**, and the dynamics is the d-independent (J/2)·SWAP. So a_{−1} = d² and the (J/4) coupling coincide only at the qubit; F94's 4 is the setup-specific diagram count, not the discriminant. Verifier: [`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py).
 
-## Universality remarks
+## Scope and topology counterexample
 
-The form Q² · K³ for the dominant-outcome deviation is universal across (initial state, Hamiltonian, dissipator): it is the dimensional shape of the leading 3rd-order Dyson term with one γ-vertex and two H-vertices, applicable wherever the dominant outcome's direct 1st-order γ correction vanishes by parity / commutation. The coefficient 4/3 is specific to this setup. The structural decomposition of 8 just above shows that the coefficient counts a clean 32 surviving Dyson diagrams modulated by the Heisenberg-bond and Taylor normalizations; a different (initial-state, Hamiltonian, dissipator) triple would change the surviving-diagram count and possibly the per-diagram value, but the general 4/3 = N_diagrams / (a_{−1} · 3!) form should hold whenever Heisenberg-style (J/4)·XYZ bonds and Z-dephasing apply.
+The third-order row is exact only for the named ring setup. A different state,
+observable, Hamiltonian, dissipator, or topology can change both the first
+nonzero order and its coefficient. In particular the corresponding chain row
+is `(5,-4,-1,0)`, not `(8,-4,-4,0)`. Dimensional rewriting alone does not make
+the Q²K³ form universal.
 
 ## Qudit generalization (2026-06-17): c(d) = 4(d+2)(d−1) / (3d²), refuting the d² reading
 
@@ -160,14 +187,14 @@ The "setup-specific" caveat above is now quantitative. Lift the F94 setup to loc
 - **L'_dis**[ρ]_{a,b} = −2·Hamming(a,b)·ρ_{a,b} (the full-Cartan equidistant dephasing; = Σ_l (Z_l ρ Z_l − ρ) at d=2).
 - **|+⟩** = (Σ_k |k⟩)/√d (equal superposition); ρ_0 = |0+0+⟩.
 
-Computing c = ⟨00|_pair Tr_{1,3}[sym₃ ρ_0]|00⟩_pair / (6 · P_u0) gives, bit-exact for d = 2..7 ([`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py), gate-first; Gell-Mann and (J/2)·SWAP builds agree):
+Computing c = ⟨00|_pair Tr_{1,3}[sym₃ ρ_0]|00⟩_pair / (6 · P_u0) gives a row numerically reconstructed for d=2..7 within tolerance by [`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py); its Gell-Mann and (J/2)·SWAP builds agree numerically. The exact closed-form candidate/evaluation is a separate symbolic statement:
 
     c(d) = 4(d+2)(d−1) / (3d²) = (4/3)·(1 + 1/d − 2/d²)
 
     d :  2     3      4     5      6      7
     c : 4/3  40/27  3/2  112/75  40/27  72/49
 
-This **refutes the family-A / "4 = d²" reading**: family A would require c → d²/3 = 3 at d=3, but c(3) = 40/27 ≈ 1.48. Instead the coefficient is a bounded curve: c(2) = 4/3 is both the qubit value and the d → ∞ limit, and the finite-d correction (d+2)(d−1)/d² **peaks at d = 4** (= 2²; c(4) = 3/2) before decaying back to 4/3. The 4/3 = a_{−1}/3 numerology holds only at the qubit, where the (J/4) spin normalization (1/2)² coincides with 1/d². F94's "4" is the setup-specific surviving-diagram count, classified in the discriminant anchor's genealogy as the **falsified family-A candidate** ([`PolynomialDiscriminantAnchorClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/PolynomialDiscriminantAnchorClaim.cs)).
+This **refutes the family-A / "4 = d²" reading**: family A would require c → d²/3 = 3 at d=3, but c(3) = 40/27 ≈ 1.48. Instead the coefficient is a bounded curve: c(2) = 4/3 is both the qubit value and the d → ∞ limit, and the finite-d correction (d+2)(d−1)/d² **peaks at d = 4** (= 2²; c(4) = 3/2) before decaying back to 4/3. The 4/3 = a_{−1}/3 numerology holds only at the qubit, where the (J/4) spin normalization (1/2)² coincides with 1/d². F94's "4" is the setup-specific surviving-diagram count. The former discriminant-family label is retained only as a falsified historical candidate; F94 has no typed parent in the current registry.
 
 ## Diagnostic application: F94 as a (state, pair)-symmetry signature
 
@@ -210,12 +237,15 @@ The Q²·K³ scaling has:
 - **Q² factor:** two Hamiltonian-vertices from the Dyson sym3 ordering; J² scaling expected from 2nd-order perturbation in the Heisenberg-bond coupling.
 - **K³ factor:** three time-integrals from the t³ Taylor coefficient; combined with one dissipator-vertex (the γ¹ piece of L³).
 
-The "4" in 4/3 is plausibly the Pi2 dyadic ladder's a_{−1} = 4 (the same "4" in F86 t_peak = 1/(4γ₀) and F77's correction denominator). Promoting this to a typed claim parallels F90 (F86 ↔ F89 bridge): a derived identity that pulls together two typed F-formulas via algebraic structure.
+The integer `4` also appears in unrelated repository formulas. No derivation
+here connects those appearances: F94 is the setup-specific `8/6` coefficient
+of the named N=4 ring calculation, and its typed claim is parentless.
 
 ## Anchors
 
 - Numerical verification: [`simulations/born_rule_delta_dominant_coefficient.py`](../../simulations/born_rule_delta_dominant_coefficient.py)
-- Symbolic derivation: [`simulations/born_rule_tier1_derivation.py`](../../simulations/born_rule_tier1_derivation.py)
+- Finite NumPy reconstruction: [`simulations/born_rule_tier1_derivation.py`](../../simulations/born_rule_tier1_derivation.py)
+- Exact dyadic from-below test: [`compute/MirrorWorld.Tests/SmokeTests.cs`](../../compute/MirrorWorld.Tests/SmokeTests.cs), method `F94_F96_BornDeviationTable_From_Exact_Dyson`
 - Structural decomposition (32 surviving diagrams enumeration): [`simulations/born_rule_sym3_decomposition.py`](../../simulations/born_rule_sym3_decomposition.py)
 - Q-K invariance test: [`simulations/born_rule_carrier_Q_sweep.py`](../../simulations/born_rule_carrier_Q_sweep.py)
 - 2D (Q, K) map: [`simulations/born_rule_delta_QK_map.py`](../../simulations/born_rule_delta_QK_map.py)
@@ -223,4 +253,5 @@ The "4" in 4/3 is plausibly the Pi2 dyadic ladder's a_{−1} = 4 (the same "4" i
 - Born-rule precursors (Februar/April 2026): [`experiments/BORN_RULE_MIRROR.md`](../../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../../experiments/BORN_RULE_SHADOW.md)
 - F-formula registry entry: [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) F94
 - Sibling state-specific closed-form F-claims: F25 (Bell+ CΨ), F60 (GHZ pair-CΨ), F62 (W-state pair-CΨ)
-- Universal Carrier typed parent (Q, K invariance is its operational signature): [`compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs)
+- Historical Q/K sweep: useful as a scale check inside the same N=4 ring setup,
+  but not a typed parent or a universality theorem

@@ -1,4 +1,4 @@
-"""Π-protected observables — algebraic skeleton of which Pauli expectations stay zero.
+"""State-conditioned silent-observable census (legacy public spelling retained).
 
 Public API:
   pi_protected_observables(H, gamma_l, rho_0, N, threshold, cluster_tol)
@@ -14,7 +14,11 @@ from .pauli import (
 
 
 def pi_protected_observables(H, gamma_l, rho_0, N, threshold=1e-9, cluster_tol=1e-8):
-    """Identify Pauli-string observables σ_α with ⟨σ_α(t)⟩ = 0 for all t.
+    """Census Pauli strings silent for this H, state, tolerance and clustering.
+
+    The public name is retained for compatibility.  The returned ``protected``
+    list is operational and state-conditioned: it is not a state-independent
+    algebraic protected-observable subspace.
 
     Under L = -i[H, ·] + Σ_l γ_l (Z_l ρ Z_l - ρ), the time-evolved expectation
     is a sum of exponentials with rates λ_k (eigenvalues of L_pauli):
@@ -22,7 +26,8 @@ def pi_protected_observables(H, gamma_l, rho_0, N, threshold=1e-9, cluster_tol=1
         ⟨σ_α(t)⟩ = 2^N · Σ_λ S_λ(α) · exp(λ t)
 
     where S_λ(α) = Σ_{k: λ_k=λ} V[α, k] · c[k] sums right-eigenvector
-    components within each degenerate cluster. σ_α is Π-protected iff
+    components within each tolerance-defined degenerate cluster.  This finite
+    implementation places σ_α in the compatibility-key ``protected`` iff
     S_λ(α) = 0 for every cluster.
 
     This is strictly weaker than "each V[α,k]·c[k] vanishes" — degenerate-
@@ -30,7 +35,7 @@ def pi_protected_observables(H, gamma_l, rho_0, N, threshold=1e-9, cluster_tol=1
     chain on |+−+⟩ via SU(2)-multiplet cancellation).
 
     Returns dict with:
-      'protected': list of {'k', 'pauli', 'max_cluster_contribution'}
+      'protected': state-conditioned silent census entries
       'active':    list of same plus 'dominant_eigenvalue'
       'eigenvalues': L_pauli eigenvalues
       'n_clusters': number of distinct eigenvalue clusters

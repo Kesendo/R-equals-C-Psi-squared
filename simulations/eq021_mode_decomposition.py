@@ -4,9 +4,10 @@
 EQ-021 Phase 1: Decompose c_1 into per-mode contributions.
 
 c_1 is the first-order coefficient of the PTF closure sum
-Sigma_i ln(alpha_i) under a bond perturbation delta_J. Empirically
-c_1 ~ 0.5 * V(N) for the initial state (|vac> + |psi_1>)/sqrt(2) at
-bond (0,1), for N >= 4. The 0.5 factor has no derivation yet.
+Sigma_i ln(alpha_i) under a bond perturbation delta_J.  The finite N=4,5
+rows compare it with 0.5*V(N).  That regressor is not a prediction, and the
+comparison does not demonstrate convergence, an asymptotic law, or a
+bilinear/cavity mechanism.
 
 This script diagonalises the Liouvillian L_A (uniform XY chain + Z
 dephasing) at small N, projects the initial state onto L_A eigenmodes,
@@ -20,6 +21,10 @@ and M_{s, i} = Tr_{not i}(M_s).
 Under perturbation the mode-pair contributions shift; the shift's
 decomposition into C, lambda, and partial-trace corrections tells
 us which modes drive c_1.
+
+The reported 1e-16 comparison is a same-eigensystem reconstruction: both
+routes reuse the same L_A eigenvalues and eigenvectors. It is a regrouping
+check, not an independent propagation control.
 
 At N = 4, 5, 6 the Liouvillian is small enough that we can enumerate
 all mode pairs and identify the dominant contributions.
@@ -39,22 +44,36 @@ from pathlib import Path
 import numpy as np
 from scipy.linalg import eig
 
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
-sys.path.insert(0, str(Path(__file__).parent))
-from pi_pair_closure_investigation import (
-    GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
-    build_H_XY, build_liouvillian_matrix,
-    vacuum_ket, single_excitation_mode, density_matrix,
-    per_site_purity, fit_alpha, partial_trace_keep_site_fast,
-)
-
 RESULTS_DIR = Path(__file__).parent / "results" / "eq021_mode_decomposition"
-RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 DJ_EXTRACT = 0.01
 T_FIT_MAX = 20.0
+
+
+def _load_pi_pair_runtime():
+    """Load the captured heavy producer only when this script is executed."""
+    try:
+        from simulations.pi_pair_closure_investigation import (
+            GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+            build_H_XY, build_liouvillian_matrix,
+            vacuum_ket, single_excitation_mode, density_matrix,
+            per_site_purity, fit_alpha, partial_trace_keep_site_fast,
+        )
+    except ModuleNotFoundError as exc:
+        if exc.name != "simulations":
+            raise
+        from pi_pair_closure_investigation import (
+            GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+            build_H_XY, build_liouvillian_matrix,
+            vacuum_ket, single_excitation_mode, density_matrix,
+            per_site_purity, fit_alpha, partial_trace_keep_site_fast,
+        )
+    return (
+        GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+        build_H_XY, build_liouvillian_matrix,
+        vacuum_ket, single_excitation_mode, density_matrix,
+        per_site_purity, fit_alpha, partial_trace_keep_site_fast,
+    )
 
 
 def v_effect(N):
@@ -190,20 +209,25 @@ def run_N(N):
     P_A_modes = compute_all_per_site_P(c_s_A, ev_A, mode_margs_A, times, N)
     print(f"  P_A(i, t) from modes: {time.time() - t0:.2f} s")
 
-    # Cross-check with direct propagation
+    # Same-eigensystem reconstruction/regrouping check, not an independent propagation control.
     rho0_vec = rho_0.flatten(order='F')
     c0 = W_dag_A @ rho0_vec
-    P_A_direct = np.zeros((len(times), N))
+    P_A_reconstructed = np.zeros((len(times), N))
     for k_t, t in enumerate(times):
         rho_vec_t = V_R_A @ (np.exp(ev_A * t) * c0)
         rho_t = rho_vec_t.reshape(d, d, order='F')
         for i in range(N):
             rho_i = partial_trace_keep_site_fast(rho_t, i, N)
-            P_A_direct[k_t, i] = float(np.trace(rho_i @ rho_i).real)
-    direct_vs_modes_diff = np.max(np.abs(P_A_modes - P_A_direct))
-    print(f"  max |P_modes - P_direct|: {direct_vs_modes_diff:.2e}")
-    if direct_vs_modes_diff > 1e-8:
-        print(f"  WARNING: mode expansion and direct propagation disagree!")
+            P_A_reconstructed[k_t, i] = float(np.trace(rho_i @ rho_i).real)
+    reconstruction_vs_modes_diff = np.max(
+        np.abs(P_A_modes - P_A_reconstructed)
+    )
+    print(
+        "  max |P_modes - P_same_eigensystem_reconstruction|: "
+        f"{reconstruction_vs_modes_diff:.2e}"
+    )
+    if reconstruction_vs_modes_diff > 1e-8:
+        print("  WARNING: the two same-eigensystem regroupings disagree!")
 
     # Same for L_B+
     c_s_Bp = project_rho0_onto_modes(rho_0, W_dag_Bp)
@@ -261,6 +285,14 @@ def run_N(N):
              "lambda_sp_imag": float(lam_sp.imag)}
             for rank, (abs_, contrib, s, sp, lam_s, lam_sp) in enumerate(top_pairs_0)
         ],
+        "current_reading": f"Finite N={N} mode and fitted-coefficient census.",
+        "evidence_scope": ("The 0.5*V(N) value is a comparator, not a prediction; "
+                           "this finite row does not demonstrate convergence or a "
+                           "bilinear/cavity mechanism."),
+        "provenance": {
+            "producer": "simulations/eq021_mode_decomposition.py",
+            "execution": "captured heavy producer; not rerun during the label repair",
+        },
     }
     path = RESULTS_DIR / f"mode_contributions_N{N}.json"
     with open(path, "w") as f:
@@ -270,6 +302,20 @@ def run_N(N):
 
 
 def main():
+    global GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS
+    global build_H_XY, build_liouvillian_matrix
+    global vacuum_ket, single_excitation_mode, density_matrix
+    global per_site_purity, fit_alpha, partial_trace_keep_site_fast
+    (
+        GAMMA_0, J_UNIFORM, T_FINAL, N_STEPS,
+        build_H_XY, build_liouvillian_matrix,
+        vacuum_ket, single_excitation_mode, density_matrix,
+        per_site_purity, fit_alpha, partial_trace_keep_site_fast,
+    ) = _load_pi_pair_runtime()
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
     print("=" * 70)
     print("EQ-021 Phase 1: Liouvillian mode decomposition of c_1")
     print("=" * 70)
@@ -282,6 +328,13 @@ def main():
 
     summary_path = RESULTS_DIR / "decomposition_summary.txt"
     with open(summary_path, "w", encoding="utf-8") as f:
+        f.write("QUARTER-CURRENT\n")
+        f.write("Current reading: finite N=4 and N=5 fitted coefficients and mode tables; "
+                "the comparator does not demonstrate convergence and is not a prediction.\n")
+        f.write("Provenance: captured heavy producer; the historical numeric body is preserved below.\n\n")
+        f.write("QUARTER-HISTORICAL\n")
+        f.write("Historical record: byte-preserved numeric output from the captured run.\n")
+        f.write("=== BEGIN HISTORICAL NUMERIC BODY ===\n")
         f.write("EQ-021 Phase 1 Summary\n")
         f.write("=" * 50 + "\n\n")
         f.write(f"For (|vac> + |psi_1>)/sqrt(2) at bond (0,1) with delta_J = "
@@ -295,6 +348,7 @@ def main():
                     f"{r['c_1_over_05V']:>10.4f}\n")
         f.write("\nPer-site mode-decomposition details in "
                 "mode_contributions_N*.json.\n")
+        f.write("=== END HISTORICAL NUMERIC BODY ===\n")
     print(f"\nSaved: {summary_path}")
 
 

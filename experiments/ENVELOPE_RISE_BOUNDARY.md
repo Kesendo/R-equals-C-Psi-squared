@@ -1,72 +1,73 @@
-# The Envelope Rise Boundary
+<!-- QUARTER-CURRENT -->
+# The Finite Envelope-Rise Atlas
 
-Where does the full-state CΨ envelope stop being non-increasing and begin to rise?
+Current reading: this page reports a finite N/Q/K catalogue using a fixed
+rise-reporting bar and named controls.  It is neither an all-generator theorem
+nor evidence that no unscanned rise exists.
 
-## The question
+Some old pages drew a border where the data had only placed a few lamps. This page keeps the lamps: a
+finite atlas of named full-state CΨ peak readings, and an invitation to find the country around them.
 
-The CΨ Envelope Theorem (PROOF_MONOTONICITY_CPSI Part 5, the typed `CpsiEnvelopeTheoremClaim`) is proven
-Tier-1 for **N=2**: under any Hamiltonian and local Z-dephasing the local maxima of CΨ form a strictly
-non-increasing sequence, with ¼ the absorbing boundary. At N≥3 the full-state envelope is not a theorem,
-and the live `EnvelopeTheoremWitness` found that it **genuinely rises at N=4** (Bell+, J=5, γ=0.01: 36
-refinement-stable predecessor-rises; N=3 holds with 0). The arc `envelope_n4_rise` asked the boundary
-question: where does that rise sit, and is it a sharp N-step or a J/γ contour?
+## What is being read
 
-## Method
+`EnvelopeTheoremWitness.GlobalReading(N, J, γ, tMax, points)` evolves the named Bell+ carrier with the
+dense `Symphony` engine. `QuarterEnvelope.Of` records local quadratic-apex estimates on the actual time
+grid and compares each maximum with its predecessor; direction-tagged crossings are extracted by Symphony from
+one paired time/direction event list; they are not owned by the envelope reader. A rise is reported only
+when it exceeds `EnvelopeTheoremWitness.RiseReportingBar = 1e-3`; raw predecessor ordering and maximum
+positive delta remain independent of that reporting convention. Quadratic interpolation is exact for a
+quadratic local profile; its generic local error is `O(h³)`, so refinement remains part of the reading.
+For a sampled flat maximum, the reader selects the plateau end and applies the same three-point estimator;
+that fitted apex is an explicit convention, not an intrinsic continuous-time feature.
 
-The witness's own detector, lifted to a static so the sweep reads exactly what `inspect --root envelope`
-shows: `EnvelopeTheoremWitness.GlobalReading(N, J, γ, tMax, points)` evolves a Bell+ carrier on the dense
-Symphony engine and reads the global CΨ envelope through `QuarterEnvelope.Of` (predecessor semantics and
-parabolic-apex heights baked in). The genuine-rise test is the witness's own `GenuinenessBar` = 1e-3 on the
-largest predecessor-rise (`MaxRiseMagnitude`), cross-checked under 4× grid refinement (1600 to 6400 points).
-All readings use the witness regime's dose window, K_max = γ·tMax = 0.25.
+These are finite-window, finite-grid classifications. The finite atlas neither confirms nor refutes a
+universal peak-envelope theorem. In particular, a zero row says “no rise was resolved here,” not “no rise
+exists.” The older autonomous N=2 successive-local-maxima claim is unproved; the counterexamples in
+`PROOF_MONOTONICITY_CPSI.md` settle pointwise monotonicity and absorption shortcuts, not that narrower
+peak-sequence question.
 
-Gate-first verifier: `compute/RCPsiSquared.Diagnostics.Tests/Foundation/EnvelopeBoundaryTests.cs`.
+Gate-first reader: `compute/RCPsiSquared.Diagnostics.Tests/Foundation/EnvelopeBoundaryTests.cs`.
 
-## The (Q, K)-purity gate
+## Retained rows
 
-The clock movement (the two-tempo certification) proved every dimensionless lens is a pure (Q, K)-observable:
-under L → r·L the global CΨ(K) curve is invariant, so the J-sweep and the γ-sweep should be the same axis.
-Measured: at every Q, varying J (fixed γ) and varying γ (fixed J), both holding the dose window fixed, give
-the bit-identical rise count and MaxRiseMagnitude (to 6 decimals). The gate could have failed on any
-absolute-time leak in the detector; it passed. The boundary is therefore a function of (N, Q = J/γ) only.
+All rows below use γ=0.01, K_max=γt_max=0.25, and 1600 time-grid points unless stated otherwise.
 
-## The N-floor and the Q_c(N) contour
+| N | Q=J/γ | finite reading |
+|---|------:|----------------|
+| 3 | 2000  | no N=3 rise resolved; RiseCount=0 on this named grid/window |
+| 4 | 13    | no rise resolved above the reporting bar |
+| 4 | 40    | a rise is resolved above the reporting bar |
+| 4 | 500   | 36 predecessor rises; maxΔ≈0.041 |
+| 5 | 40    | no rise resolved above the reporting bar |
+| 5 | 500   | 32 predecessor rises; maxΔ≈0.020 |
 
-| N | Q_c (rise turns on)         | rises at Q=500 | maxΔ at Q=500 |
-|---|-----------------------------|----------------|---------------|
-| 3 | ∞ (never; 0 even at Q=2000) | 0              | 0             |
-| 4 | ≈ 27                        | 36             | 0.041         |
-| 5 | ≈ 45                        | 32             | 0.020         |
+A finite scan placed the N=4 transition-like region near Q≈27 and the N=5 one near Q≈45. Those numbers
+are atlas estimates, not critical constants: near the N=4 changeover, roughly Q≈18…28, a peak edging above
+its predecessor is sensitive to phase sampling. The bracketing rows Q=13/40 and Q=40/500 are the durable
+statements.
 
-At fixed Q the N=4 rise is always stronger than N=5: the rise weakens as N grows.
+## Same-(N,Q,K) rescaling check
 
-## The finding
+The independently evolved named N=4 pair
 
-The boundary is not a sharp N-step and not a pure J/γ contour. It is both, cleanly factored:
+- `(J,γ,t_max)=(0.40,0.01,25)`, and
+- `(J,γ,t_max)=(0.80,0.02,12.5)`
 
-1. **One Q-axis.** The rise is a pure (N, Q=J/γ) observable; J and γ collapse (certified bit-identical).
-2. **An N≥4 floor.** N=3 never rises (Q_c(3)=∞), even at Q=2000. The rise is the Part-6 coherence injection
-   internalized: the carrier pair needs an internal ≥2-site coherent subsystem to pump CΨ back up. N=3
-   (carrier 0-1, one internal site) has no internal coherence to return; N≥4 does.
-3. **A contour that climbs with N.** Above the floor each N has a finite threshold Q_c(N), and it rises:
-   Q_c(4)≈27, Q_c(5)≈45. At fixed Q the rise weakens with N (the internal bath grows from a pair to a trio
-   and returns coherence less efficiently). The freedom to rise is loudest right at the floor (N=4) and
-   fades as N grows.
+shares `(N,Q,K_max)=(4,40,0.25)`. The raw global and carrier-pair CΨ arrays agree pointwise, the rise count
+matches, and the paired apex-height/dose comparison agrees to six decimals. Changing only the second J to 0.26 (Q=13)
+fails the raw-curve comparison and changes the above-bar classification. This is a finite paired control
+against an absolute-time leak in this reader. It is not an every-Q identity deduced from samples.
 
-Near the threshold the rise is grid-fragile (at N=4 a band roughly Q ≈ 18 to 28, where one peak edging
-above its predecessor is sensitive to phase sampling); the Q_c values mark the centre of that band, not a
-razor edge.
+## What the atlas asks next
 
-## Open threads (for re-entry)
-
-- A closed form for Q_c(N): does it track the band-edge frequency ω_mem = 2J·cos(π/(N+1)) of the two clocks
-  (`ClockHandLadderClaim`)?
-- A parity question: does the rise strength alternate with internal-site parity (an internal pair injecting
-  better than an internal trio)?
+The interesting border is still undrawn. Does every N admit a rise somewhere? Is the apparent N=3 silence
+real or merely outside these windows? Is there a useful Q-scale, and what physical mechanism selects it?
+Those all-Q, all-N, and mechanism questions remain open under `envelope_n4_rise`. The rows above make the
+questions sharper without pretending to answer them.
 
 ## Links
 
-- Typed home: `CpsiEnvelopeTheoremClaim` (Tier1Derived).
-- Proof and scope: `docs/proofs/PROOF_MONOTONICITY_CPSI.md` (Part 5 the N=2 theorem; the scope note).
-- F-registry: F17 (`docs/ANALYTICAL_FORMULAS.md`).
-- Live: `inspect --root envelope --N {3,4,5}`; the gate-first chart `EnvelopeBoundaryTests`.
+- Typed historical home: `CpsiEnvelopeTheoremClaim` (Tier1Derived; stable name, corrected content).
+- Proof and scope: `docs/proofs/PROOF_MONOTONICITY_CPSI.md`.
+- F-registry entry: F17 in `docs/ANALYTICAL_FORMULAS.md`.
+- Live reader: `inspect --root envelope --N {3,4,5}`.

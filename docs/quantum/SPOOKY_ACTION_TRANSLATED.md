@@ -1,5 +1,7 @@
 # Spooky Action Translated: The Excess, Not the Action
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: spooky action at a distance translation, spukhafte Fernwirkung
 Einstein Born letter, entanglement correlation not signal, no signalling
 marginal unchanged machine precision, Bell theorem excess over local story,
@@ -243,18 +245,13 @@ walks.**
 Stated in the star-topology work (whose three sites form an A-S-B chain):
 "the entanglement information lives in the correlations, not in S alone"
 ([Star Topology](../../experiments/STAR_TOPOLOGY_OBSERVERS.md)). And
-when correlation has to get somewhere in continuous dynamics, this
-repository has watched how: hop by hop along bonds, stage by stage in
-time, +18% end-to-end mutual information when the receiving stations are
-quieted tenfold in turn (a lifetime extension, the relay's own reading, and
-by its own γ schedule a comparison whose arms differ in Σγ), +83% with the spatial 2:1 coupling
-asymmetry added, on an 11-qubit chain
-with no
-measurements and no classical channel
-([Relay Protocol](../../experiments/RELAY_PROTOCOL.md), computationally
-verified at N = 11, C# RK4). Nothing in this repository has ever seen
-correlation jump. It has watched it walk, and it has priced what it costs to
-stand still.
+the [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) compares two
+finite N=11 C# RK4 readings: 0.131700 at integrated t=4.50 and the passive
+sampled maximum 0.071576 at t=4.00, about +84.0%. Nominal 0.78/stage
+executes as 0.75/stage. Time, dose, and coupling differ between the arms,
+so this record does not isolate a lifetime or staging benefit and does not
+establish a nonlocal mechanism. It is separate from the exact no-signalling
+statement above.
 
 **And you can watch the pages not turn.** MirrorWorld runs this entry as a
 named composition (`compute/MirrorWorld/SpookyAction.cs`: the Bell skeleton
@@ -355,24 +352,20 @@ the same disclaimer.
 
 ## 7. The in-repo cousin
 
-The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) is what
-correlation transport looks like when it is real: relay stations along
-an 11-qubit chain take turns stepping out of the light on a schedule (each
-receiving station's rate cut tenfold while it receives), and end-to-end
-mutual information arrives at +18% for that quieting, which the relay itself
-reads as a lifetime extension rather than transport switched on;
-add the spatial 2:1 coupling asymmetry, which biases where the wave
-flows, and it reaches +83% over
-passive propagation, with no resets, no measurements, no classical
-communication. The [teleportation entry](TELEPORTATION_TRANSLATED.md)
-already wrote the shared punchline once: in both protocols the thing
-that travels is correlation, and correlation travels along structure,
-not through space as a payload. The spooky-action label is what that
-fact sounds like when the structure is forgotten and only the two
-endpoints remain in view: take away the bonds, the shared origin, the
-pre-paid entry, and a correlation with no visible path reads as a
-reach across the void. Restore the structure and the void was never
-crossed, because it was never empty.
+The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) is a schedule
+candidate suggested by the unmatched finite record in Section 4. Its nominal
+4.68 total is integrated as 4.50; the passive denominator belongs to t=4.00.
+Neither a matched-time/dose comparison nor a nonlocal mechanism is established.
+
+<!-- CROSSING-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** picture the relay as a walk
+along bonds, a cousin of the [teleportation entry](TELEPORTATION_TRANSLATED.md)'s
+correlation image. Take away the shared origin and visible structure, and a
+correlation can sound like a reach across a void. Restoring that structure is
+a useful way to tell the story; it is not a causal inference from the Relay ratio.
+
+<!-- CROSSING-CURRENT -->
 
 ---
 

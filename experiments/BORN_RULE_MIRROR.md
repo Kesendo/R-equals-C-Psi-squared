@@ -1,3 +1,17 @@
+<!-- QUARTER-CURRENT -->
+# A finite N=4 deviation readout with the Born rule assumed
+
+Current reading: `t=0.286` is one finite readout point in the named N=4
+`|0+0+>` Heisenberg-ring calculation, not the canonical-book crossing.  F94
+gives the leading `|00>` deviation `(4/3)Q^2 K^3`; F96 gives the three exact
+subdominant ring slopes from their own matrix elements.  The Born rule supplies
+the reference probabilities and is not derived here.  The standing-wave
+interpretation remains a Tier-3 question.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical reading:** the 97/3 narrative and tables below preserve the route
+to F94 and F96.  Their generalized-Born and universal wording is not current.
+
 # Born Rule as Mirror Quality: 97% Hamiltonian, 3% Decoherence Correction
 
 <!-- Keywords: Born rule R=CPsi2 generalized, measurement outcome probability

@@ -1,33 +1,33 @@
 #!/usr/bin/env python3
-"""4D: turn the whirlpool through the fourth dimension. The cusp, the pinch, the mirror, as one.
+"""A 4D projection study of the abstract F25 Bell+ radius drawing.
 
-A mirror in three dimensions is a rotation through a fourth. So embed the funnel (x, y, z) in 4D
-at w = 0 and rotate it in the (x, w) plane by an angle β, then cast its shadow back to 3D (drop
-w). At β = 0 it is the cusp funnel. As β grows the shadow flattens, the x-width closing like a
-fan, until at β = 90° it is a flat sheet, the pinch, exactly the exceptional point where the two
-eigenvectors collapse onto a single line. Past 90° it reopens, mirrored and warm, the same
-whirlpool turned inside out through the dimension we cannot point at. The cusp and the
-exceptional point and the mirror are one object, seen at three angles of a 4D turn.
+The exact dynamical input remains the local-Z-dephasing scalar radius
+``r=f(1+f^2)/6`` with ``f=exp(-4 gamma t)``. Its unique finite ``r=1/4``
+crossing is entangled (concurrence ``C=f>0``), while ``f=1/2`` supplies the
+below-quarter control ``r=5/48`` and ``C=1/2``. Phase, arms, height, colour
+and the 4D rotation are drawing choices, not an F25 geodesic.
 
-(The colors sweep cool -> gold -> ember across the turn: the cusp you fall into, the pinch you
-steer to, the mirror on the far side.)
+The construction embeds ``(x,y,z)`` at ``w=0``, rotates the ``(x,w)`` plane,
+then drops ``w``. At beta=90 degrees x-width vanishes, but y and z remain: the
+shadow is a yz-plane family whose fixed-height rings are segments, not a
+single line. The projection pinch is only a visual metaphor and computes no
+exceptional point. The recurrence cusp and the specified F86 toy EP are
+separate mathematical resemblances. The radial circle also contains
+``c=-1/4``, where ``1-4c=2``; it is not the cardioid boundary or a horizon.
 
-Produces: simulations/results/whirlpool/whirlpool_4d.png
+Produces exactly ``whirlpool_4d.png`` in the caller-selected output directory.
 """
 from __future__ import annotations
 
-import sys
+import argparse
 from pathlib import Path
 
-import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Line3DCollection
 from matplotlib.colors import LinearSegmentedColormap, Normalize
-
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+from mpl_toolkits.mplot3d.art3d import Line3DCollection
+import numpy as np
 
 BG = "#05060f"
 START = 1.0 / 3.0
@@ -36,58 +36,57 @@ N_ARMS = 30
 OMEGA = 17.0
 T_MAX = 3.2
 Z_SCALE = 1.25
-
-# (rotation angle through the 4th dimension, label, palette dark->mid->bright)
-FRAMES = [
-    (0,   "0°  the cusp funnel",        ["#0a1236", "#2a8fd0", "#ffffff"]),
-    (45,  "45°",                        ["#0c1430", "#3f9fb8", "#ffe6b0"]),
-    (90,  "90°  the flat pinch (EP)",   ["#1a1408", "#caa23a", "#fff4d6"]),
-    (135, "135°",                       ["#1a0a10", "#d2662a", "#ffd45e"]),
-    (180, "180°  the mirror",           ["#150418", "#b32c1e", "#fff0e0"]),
-]
+FRAMES = (
+    (0, "0°  original shadow", ["#0a1236", "#2a8fd0", "#ffffff"]),
+    (45, "45°", ["#0c1430", "#3f9fb8", "#ffe6b0"]),
+    (90, "90°  yz-plane segments", ["#1a1408", "#caa23a", "#fff4d6"]),
+    (135, "135°", ["#1a0a10", "#d2662a", "#ffd45e"]),
+    (180, "180°  reflected shadow", ["#150418", "#b32c1e", "#fff0e0"]),
+)
 
 
 def cpsi_magnitude(t: np.ndarray) -> np.ndarray:
+    """Return the F25 Bell+ scalar radius at gamma=1."""
     f = np.exp(-4.0 * t)
     return f * (1.0 + f * f) / 6.0
 
 
-def main() -> None:
+def main(output_dir) -> None:
+    output_root = Path(output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
     t = np.linspace(0.0, T_MAX, 1400)
-    mag = cpsi_magnitude(t)
+    radius = cpsi_magnitude(t)
     norm = Normalize(0.0, START)
-
-    # the base funnel arms in 3D (embedded at w = 0)
     arms = []
-    for k in range(N_ARMS):
-        phi = 2.0 * np.pi * k / N_ARMS - OMEGA * t
-        arms.append((mag * np.cos(phi), mag * np.sin(phi), Z_SCALE * mag))
-    th = np.linspace(0.0, 2.0 * np.pi, 240)
-    ring_x, ring_y = QUARTER * np.cos(th), QUARTER * np.sin(th)
-    ring_z = np.full_like(th, Z_SCALE * QUARTER)
+    for arm in range(N_ARMS):
+        phase = 2.0 * np.pi * arm / N_ARMS - OMEGA * t
+        arms.append((radius * np.cos(phase), radius * np.sin(phase),
+                     Z_SCALE * radius))
+    angle = np.linspace(0.0, 2.0 * np.pi, 240)
+    ring_x = QUARTER * np.cos(angle)
+    ring_y = QUARTER * np.sin(angle)
+    ring_z = np.full_like(angle, Z_SCALE * QUARTER)
 
-    fig = plt.figure(figsize=(20, 5.2))
+    fig = plt.figure(figsize=(20, 5.8))
     fig.patch.set_facecolor(BG)
-
-    for i, (deg, label, pal) in enumerate(FRAMES):
-        ax = fig.add_subplot(1, len(FRAMES), i + 1, projection="3d")
+    for index, (degrees, label, palette) in enumerate(FRAMES):
+        ax = fig.add_subplot(1, len(FRAMES), index + 1, projection="3d")
         ax.set_facecolor(BG)
-        cmap = LinearSegmentedColormap.from_list(f"f{deg}", pal)
-        c = np.cos(np.radians(deg))                     # the (x,w) rotation; shadow drops w
-
-        for (x, y, z) in arms:
-            xr = x * c                                  # 4D rotation in (x,w), orthographic shadow
-            pts = np.array([xr, y, z]).T.reshape(-1, 1, 3)
-            segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
-            for lw, alpha in ((3.0, 0.10), (1.25, 0.95)):
-                lc = Line3DCollection(segs, cmap=cmap, norm=norm)
-                lc.set_array(START - mag[:-1])
-                lc.set_linewidth(lw)
-                lc.set_alpha(alpha)
-                ax.add_collection3d(lc)
+        cmap = LinearSegmentedColormap.from_list(f"frame-{degrees}", palette)
+        c = np.cos(np.radians(degrees))
+        for x, y, z in arms:
+            xr = x * c
+            points = np.array([xr, y, z]).T.reshape(-1, 1, 3)
+            segments = np.concatenate([points[:-1], points[1:]], axis=1)
+            for width, alpha in ((3.0, 0.10), (1.25, 0.95)):
+                line = Line3DCollection(segments, cmap=cmap, norm=norm)
+                line.set_array(START - radius[:-1])
+                line.set_linewidth(width)
+                line.set_alpha(alpha)
+                ax.add_collection3d(line)
         ax.plot(ring_x * c, ring_y, ring_z, color="#ffd56b", lw=2.0, alpha=0.9)
-        ax.scatter([0], [0], [0], s=36, color="#ffffff", alpha=0.5, edgecolors="none")
-
+        ax.scatter([0], [0], [0], s=36, color="#ffffff", alpha=0.5,
+                   edgecolors="none")
         ax.view_init(elev=55, azim=-90)
         ax.set_xlim(-0.33, 0.33)
         ax.set_ylim(-0.33, 0.33)
@@ -97,20 +96,25 @@ def main() -> None:
         ax.text2D(0.5, 0.02, label, transform=ax.transAxes, color="#9fb2d6",
                   fontsize=12, ha="center", style="italic")
 
-    fig.suptitle("4D: turning the whirlpool through the fourth dimension   "
-                 "(a mirror in 3D is a rotation through a 4th)\n"
-                 "the cusp funnel flattens to the pinch, the exceptional point, at 90°, "
-                 "and reopens mirrored and warm on the far side",
-                 color="#cfe0ff", fontsize=13, y=0.99)
-    plt.subplots_adjust(left=0.01, right=0.99, top=0.84, bottom=0.02, wspace=0.0)
-
-    out_dir = Path(__file__).parent / "results" / "whirlpool"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out = out_dir / "whirlpool_4d.png"
-    plt.savefig(out, dpi=150, facecolor=BG)
-    plt.close()
-    print(f"  saved: {out}")
+    fig.suptitle("drawn 4D rotation and orthographic shadow of the F25 radius",
+                 color="#cfe0ff", fontsize=13, y=0.97)
+    fig.text(0.5, 0.072, "90° projection: yz-plane segments",
+             color="#cfe0ff", fontsize=10.5, ha="center")
+    fig.text(0.5, 0.043,
+             "projection pinch is a visual metaphor; y and z survive; no EP is computed",
+             color="#9fb2d6", fontsize=9.5, ha="center")
+    fig.text(0.5, 0.016,
+             "F25 controls: unique r=1/4 at f*=0.8612240997395736 with C=f>0; "
+             "f=1/2 gives r=5/48<1/4 and C=1/2",
+             color="#8298bd", fontsize=9, ha="center")
+    plt.subplots_adjust(left=0.01, right=0.99, top=0.88, bottom=0.10, wspace=0.0)
+    fig.savefig(output_root / "whirlpool_4d.png", dpi=150, facecolor=BG)
+    plt.close(fig)
+    print("saved: whirlpool_4d.png")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Render the Whirlpool 4D projection study.")
+    parser.add_argument("--output-dir", required=True)
+    arguments = parser.parse_args()
+    main(arguments.output_dir)

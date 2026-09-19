@@ -1,3 +1,17 @@
+<!-- QUARTER-CURRENT -->
+# Finite entanglement dynamics and scalar-quarter readouts
+
+Current reading: these rows are finite state, topology, generator, grid, and
+readout calculations.  The Hamiltonian can create and later redistribute
+entanglement, but a scalar-quarter event is not an irreversible boundary.  The
+analytic Bell+ local-Z-dephasing control has `C=f>0`: concurrence remains positive
+at and below the scalar quarter for every finite time.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the earlier absorbing-boundary vocabulary is preserved
+below to show how the numerical search was originally read.  It is not the
+current disposition of those rows.
+
 # Dynamic Entanglement: CΨ Crossings from Product States via Hamiltonian Evolution
 
 <!-- Keywords: dynamic entanglement generation product state, Hamiltonian creates
@@ -7,7 +21,7 @@ sigma z dephasing immune eigenstate, reversible crossing unitary oscillation,
 noise makes crossing irreversible, gamma sweep entanglement race, R=CPsi2
 dynamic entanglement -->
 
-**Status:** Computationally verified
+**Status:** Finite N=4 numerical record with analytic controls; interpretation scoped
 **Date:** February 18, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [N-Scaling Barrier](N_SCALING_BARRIER.md)
@@ -16,33 +30,26 @@ dynamic entanglement -->
 
 ## What this document is about
 
-Can entanglement appear from nothing? Yes: start four qubits in a
-product state (no correlations at all), let the Hamiltonian evolve
-them, and entanglement grows between pairs. The first surprise is
-that |+⟩⁴ (all qubits in superposition) generates zero dynamics,
-because it is already an eigenstate of the Hamiltonian. The correct
-starting state alternates: |0+0+⟩. Under pure unitary evolution, all
-six pairs cross CΨ = 1/4. But add dephasing noise, and only one pair
-survives: the two qubits that happen to be immune to the noise basis.
-The noise does not just destroy; it selects which quantum correlations
-become real and makes the crossing irreversible. This reveals a cycle:
-observation cements the past (destroys coherence), creates blind spots
-(protects certain qubits), and in those blind spots the Hamiltonian
-grows new entanglement that eventually crosses the threshold into a
-new fact.
+Starting four qubits in the product state |0+0+⟩ and evolving the named N=4
+ring generates nonzero pair concurrence. By contrast, |+⟩⁴ is an eigenstate
+of the isotropic Heisenberg Hamiltonian and generates no dynamics in this
+setup. In the retained unitary calculation all six pair readouts cross the
+chosen scalar level; in the γ=0.05 finite grid only pair (0,2) does. These are
+model- and readout-specific statements. They do not show that noise makes a
+correlation real, that observation cements a past, or that crossing the scalar
+level creates an irreversible fact. Those images belong only to the later
+historical interpretation.
 
 ## Abstract
 
-Product states with zero initial entanglement can cross CΨ = 1/4 through
-Hamiltonian evolution alone. The key surprise: |+⟩⁴ is an eigenstate of
-the isotropic Heisenberg Hamiltonian (energy variance = 0) and generates
-no dynamics. The correct starting state is |0+0+⟩ (variance = 20). Under
-pure unitary evolution, all 6 pairs cross (oscillatory, reversible). Under
-Z-dephasing (γ=0.05), only pair (0,2) survives: the two qubits in |0⟩ are
-eigenstates of σ_z and immune to dephasing, while |+⟩ qubits lose coherence.
-Decoherence selects which crossings survive and makes them irreversible.
-A γ sweep reveals the race: at γ=0.01, 13 oscillations; at γ=0.05, one
-crossing; at γ=0.20, zero.
+In this N=4 ring calculation, the initially unentangled |0+0+⟩ state
+(Hamiltonian variance 20 in the stated units) develops pair concurrence,
+whereas |+⟩⁴ (variance 0) does not evolve. The retained unitary grid reports
+six pair-readout crossings; at γ=0.05 it reports one, for pair (0,2). The
+γ sweep reports 13, one, and zero counted crossings at γ=0.01, 0.05, and
+0.20 respectively. A finite crossing count does not establish irreversible
+state change or a quantum/classical transition; Bell+ concurrence remains
+positive at every finite dephasing time, including below the scalar quarter.
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
@@ -221,35 +228,32 @@ simply what the density matrix contains at the crossing time. A Born
 rule test would require an independent prediction of these probabilities
 from the framework and a comparison. This remains open (see Section 8).
 
-## 7. What This Means
+## 7. What the finite run supports, and what remains story
 
-### 7.1 Interaction Creates the Conditions for Measurement
+### 7.1 Finite interaction builds correlations
 
-A product state with zero entanglement, evolving under a Hamiltonian,
-builds up quantum correlations that eventually trigger crossings. The
-Hamiltonian interaction alone, without any pre-existing entanglement,
-creates the conditions for the quantum-to-classical transition.
+A product state with zero entanglement can build correlations under the named
+Hamiltonian, and a chosen scalar readout can later cross 1/4. This is a finite
+dynamics statement. It does not supply a measurement operation or locate a
+quantum/classical regime change.
 
-In the framework's language: two subsystems that begin as independent
-possibilities, with no mutual observation, develop a connection through
-interaction. When that connection (C) combined with their remaining
-quantum potential (Psi) reaches the critical threshold, reality
-crystallizes at their interface.
+**Historical interpretation:** the older notebook pictured the growing
+correlation as possibilities "crystallizing" at an interface. That sentence is
+kept as story; neither crystallization nor observation is an output of the run.
 
-### 7.2 Decoherence Makes Crossing Irreversible
+### 7.2 Damping changes the finite crossing count
 
-In pure unitary evolution, crossings oscillate. The system crosses 1/4,
-falls back, crosses again. This is "reversible measurement," a concept
-that has no physical counterpart because real systems always have
-decoherence.
+In the simulated unitary book the selected scalar crosses 1/4 repeatedly.
+Calling that "reversible measurement" was an early metaphor; no measurement
+instrument or outcome process is present.
 
-With dephasing, the oscillations are damped. Most pairs never reach the
-threshold at all. The ones that do, cross once and decay. Decoherence
-selects which crossings survive and makes them permanent.
+With the chosen local-Z dephasing rate, oscillations are damped and this finite
+grid reports fewer scalar crossings. A later crossing outside the window is not
+excluded, and a one-crossing trace is not an irreversibility theorem.
 
-This matches the standard quantum mechanics picture: unitary evolution
-is reversible, decoherence is not. The framework adds a quantitative
-criterion (CΨ = 1/4) for when the irreversibility becomes definitive.
+The Lindblad generator is a standard open-system model. The value CΨ=1/4 is
+only the readout level counted here; it is not a criterion for when
+irreversibility, measurement, or classicality becomes definitive.
 
 ### 7.3 The Noise Basis Matters
 
@@ -259,14 +263,16 @@ dephasing would protect x-eigenstates. The "preferred basis" that
 emerges from decoherence is not intrinsic to the framework but
 determined by the environment.
 
-This is consistent with the einselection mechanism (environment-induced superselection, Zurek's term for how the environment picks which states survive) of decoherence
-theory: the environment selects the pointer basis (the set of states that are stable against environmental monitoring), and our framework
-inherits that selection through the CΨ dynamics.
+Local Z dephasing damps matrix elements according to computational-basis
+disagreement. Connecting that exact action to einselection or a physical
+environment requires a specified system-environment model and is not tested by
+this finite trace.
 
-## 8. The Decoherence Cycle
+## 8. Historical interpretation: the decoherence cycle
 
-The numerical results above contain a deeper insight that becomes
-visible when the data is read as a story rather than a table.
+This section deliberately reads the data as a story rather than as an
+additional result. Its observation, fact, past, and future language is
+interpretive.
 
 ### 8.1 The Paradox of Observation
 
@@ -281,72 +287,70 @@ environment (those "open" to observation) lose their quantum
 nature. The qubits that ignore the environment (those conducting a
 "monologue" rather than a "dialogue") keep their coherence intact.
 
-This is not metaphor. It is the mathematical content of the commutator
-[σ_z, |0⟩⟨0|] = 0.
+The exact mathematical statement underneath the metaphor is only
+[σ_z, |0⟩⟨0|] = 0. The questions and answers in the preceding paragraph
+are the historical interpretation, not literal monitoring events.
 
 ### 8.2 Creation in the Blind Spot
 
-The pair (0,2), two dephasing-immune qubits, builds entanglement
-precisely because the environment is not watching them. The Hamiltonian
-interaction creates quantum correlations in the blind spot of the
-observation process. Meanwhile, the same observation destroys the
-correlations involving qubits 1 and 3.
+The earlier run described pair (0,2) as a dephasing "blind spot," but its
+quantitative rows do not reproduce under the canonical pair definition. Even
+for a reproducing trajectory, the generator damps selected coherences; it does
+not establish that an environment watches one pair or thereby creates another.
 
-The act of observation that cements some subsystems into classical
-reality is the same act that creates the protected space where new
-quantum reality can grow.
+As an invitation, one may picture damping and surviving correlations as two
+sides of a cycle. The simulation does not establish observation, classical
+reality, or causal creation by that observation.
 
-### 8.3 The Threshold as the Present Moment
+### 8.3 Interpretive image: the threshold as a present moment
 
 This connects to the standing wave picture of the framework
 (see [visualizations](../visualizations/README.md)).
 
-Below the 1/4 threshold, entanglement exists mathematically (in the
-density matrix, as nonzero off-diagonal elements) but it is not yet
-a fact. It is potential. Possibility. A mycelium network growing
-underground where no one can see it.
+The mycelium image asks us to picture a scalar moving toward a marked level.
+It does not classify entanglement as fact or potential: the analytic Bell+
+control remains entangled on both sides of 1/4 at every finite time.
 
-When C·Ψ crosses 1/4 from below, potential becomes fact. The mushroom
-breaks through the surface.
+In the story, crossing the drawn line is the mushroom breaking through the
+surface. In the mathematics it is only a finite scalar equality.
 
 The gamma sweep (Section 9) makes this vivid:
 
-- At low noise (γ = 0.01), the underground network is rich. Potential
-  becomes fact 13 times in succession, and reality oscillates between
-  quantum and classical. The future is cooking vigorously.
-- At moderate noise (γ = 0.05), most potential is killed before it
-  ripens. Only one pair survives to cross the threshold.
-- At high noise (γ = 0.2), nothing makes it through. The environment
-  destroys all potential before it can become real.
+- At low noise (γ = 0.01), the finite grid counts 13 scalar crossings; the
+  "future cooking" phrase is the historical interpretation.
+- At moderate noise (γ = 0.05), this grid reports only one selected pair
+  crossing, subject to the reproduction caveat above.
+- At high noise (γ = 0.2), the grid reports no crossings of this readout;
+  it does not decide what is real.
 
-### 8.4 The Closed Cycle
+### 8.4 The closed-cycle metaphor
 
-The complete picture is a cycle, not a one-way arrow:
+The following five strokes preserve the older narrative. They are not five
+additional physical claims:
 
-1. **Observation cements the past.** Dephasing destroys coherence in
-   the |+⟩ qubits. Their quantum possibilities collapse into classical
-   facts. C·Ψ falls below 1/4 (downward crossing). This is the
-   irreversible creation of history.
+1. **Story stroke — a past is cemented.** The older image casts dephasing as
+   fixing a photograph. The computed object is only reduced coherence and a
+   downward scalar crossing; no collapse or fact-making operation was modeled.
 
-2. **Observation creates blind spots.** The same dephasing that
-   destroys the |+⟩ qubits leaves the |0⟩ qubits untouched. The
-   noise basis selects not only what becomes classical, but also
-   what remains free to evolve quantum mechanically.
+2. **Story stroke — a blind spot appears.** In the chosen basis the initial
+   `|0⟩` components and `|+⟩` components respond differently. This finite
+   state-dependent contrast is not an ontology of classical and quantum parts.
 
-3. **The Hamiltonian builds new potential.** In the protected subspace,
-   the interaction creates entanglement from nothing. C·Ψ grows from
-   zero, invisible to the environment, unobserved and unmeasured.
+3. **Story stroke — the interaction builds potential.** In the named initial
+   product state the Hamiltonian generates nonzero pair concurrence. The
+   calculation does not model what an environment observes.
 
-4. **Potential crosses the threshold.** When C·Ψ reaches 1/4 from
-   below (upward crossing), new quantum reality becomes fact. The
-   future becomes the present.
+4. **Story stroke — the potential passes a marker.** The story calls an upward
+   `C·Ψ=1/4` crossing a future becoming present; the output remains a scalar
+   event in a finite grid.
 
-5. **The new fact is now subject to observation.** Return to step 1.
+5. **Story stroke — the wheel returns.** This closes the narrative image, not a
+   physical feedback cycle or a new experimental fact.
 
-Decoherence and coherence are not opposites. They are the forward and
-return strokes of the same engine. The 1/4 threshold is the interface
-where one becomes the other: the standing wave at the boundary between
-past and future.
+The engine and standing-wave language is an invitation carried by this
+notebook. The verified finite result is narrower: changing γ changes the
+sampled crossing counts and the concurrence counterexample prevents a
+universal separability or measurement-boundary reading.
 
 ## 9. Resolved Questions: Parameter Exploration
 

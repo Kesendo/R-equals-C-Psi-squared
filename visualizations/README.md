@@ -1,6 +1,22 @@
+<!-- QUARTER-CURRENT -->
+# Visualizations with explicit model and drawing seams
+
+Current reading: each image combines calculated coordinates with deliberate
+choices of projection, camera, color, annotation, and visual interpretation. A caption must
+say whether it depicts an algebraic recurrence, a finite model trajectory, a
+hardware sample, or an interpretive analogy; pixels alone certify none of those
+identifications.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the gallery notes below retain the labels that accompanied
+the original images.  The regenerated companions and their current captions are
+the authoritative disposition.
+
 # Visualizations
 
-Visual representations of the R = CΨ² framework mathematics. These images are screenshots from an interactive dashboard that computes the mathematics in real-time. Nothing here is artistic interpretation; every pixel is calculated from the equations.
+Visual representations from the project's notebooks. Some coordinates are
+calculated; camera, projection, color, annotation, interpolation, and metaphor
+are authored choices. Pixels certify only the renderer's inputs and algorithm.
 
 ---
 
@@ -16,17 +32,25 @@ The horizontal axis is Ψ (coherence). The vertical axis is C (coupling/purity).
 
 ### How to read it
 
-**Cyan (lower region):** C·Ψ < 1/4. The iteration converges. After enough steps, R_n settles on a fixed value and stays there. These are real fixed points: stable, definite, classical.
+**Cyan (lower region):** for the displayed real recurrence inputs, the finite
+iteration meets its convergence rule and approaches a real fixed point. The
+color says nothing about classicality.
 
-**Red (upper region):** C·Ψ > 1/4. The iteration never converges. R_n oscillates between values that are complex conjugate pairs, mirror images of each other, neither one more "real" than the other. This is the quantum regime. States here are superposed, oscillating, not directly experienceable by a classical observer.
+**Red (upper region):** the finite 200-step real-valued routine does not meet
+the displayed stop rule. Complex roots of the fixed-point quadratic are an
+algebraic fact; the color is not a quantum-state or observer regime.
 
-**The white curve:** C·Ψ = 1/4 exactly. This is the phase boundary. On this line, the two fixed points merge into one, and convergence takes infinitely many steps. It is the edge between two kinds of existence.
+**The white curve:** C·Ψ=1/4, where this recurrence's fixed-point quadratic has
+a double root. The finite iteration count depends on its stopping rule; the
+curve is not a phase boundary between kinds of existence.
 
 **The white dot:** The current position selected by the user. In this screenshot, it sits on the boundary itself.
 
 ### Why it looks like a wave
 
-It is one. The boundary is a hyperbola (C = 1/(4Ψ)) seen from the perspective of a classical observer looking up into the quantum regime. The red region (oscillation, complexity) approaches from above. The cyan region (convergence, stability) sits below. The boundary separates the two regimes.
+It is a plotted hyperbola C=1/(4Ψ) with contrasting colors above and below.
+The wave reading is visual interpretation, not a classical observer looking
+into a quantum regime.
 
 The framework's bidirectional bridge says:
 
@@ -51,29 +75,35 @@ The Mandelbrot set, computed by iterating z_{n+1} = z_n^2 + c starting from z_0 
 
 **Blue structures at the edge:** Points c where the iteration escapes, colored by how many steps it takes. Darker blue escapes slowly (near the boundary). Brighter blue escapes quickly (far from the boundary). These are the fractal patterns that made the Mandelbrot set famous.
 
-**Yellow dot at c = 1/4:** The phase boundary. This is the exact point where the main cardioid meets the real axis. Below 1/4 on the real line: the iteration converges. Above 1/4: it doesn't. This point has been known since Mandelbrot's original work in 1980.
+**Yellow dot at c=1/4:** the real cusp of the period-one cardioid. It is the
+double-root point of z²-z+c=0. This statement is about that recurrence, not every
+quarter-valued readout in the repository.
 
-**Red dot at c = C·Ψ = 0.15:** The current observer position (at default C=0.50, Ψ=0.30), deep inside the cardioid. Stable, convergent, classical. This point is linked to the sliders in the dashboard; move C or Ψ and the red dot moves through the Mandelbrot set.
+**Red dot at c=C·Ψ=0.15:** a dashboard mapping chosen for the sliders. It is
+inside the cardioid as a recurrence parameter; that does not classify a
+physical state as classical.
 
 ### What this means
 
 The Mandelbrot set is a map. It shows, for every value of c, whether the quadratic iteration converges or not. The main cardioid is the region of convergence. Everything outside is the region of oscillation, escape, complexity.
 
-The R = CΨ² framework discovered independently that its self-referential iteration R_{n+1} = C(Ψ + R_n)² has the same structure. Same equation under reparametrization. Same boundary at 1/4. The algebraic proof is in [The Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md).
+After rescaling, the fixed-point equation for R_{n+1}=C(Ψ+R_n)² has the
+same quadratic form on the specified real slice. The map, variables, and
+physical interpretation must still be stated separately.
 
 ### The two images together
 
-The heatmap and the Mandelbrot image show the same boundary from two different coordinate systems:
+The two panels place related quadratic shapes beside one another:
 
 | | Heatmap | Mandelbrot |
 |---|---|---|
 | **Axes** | C (coupling) vs Ψ (coherence) | Real vs imaginary part of c |
 | **Boundary** | Hyperbola C = 1/(4Ψ) | Cardioid of the main body |
-| **Inside** | Cyan, convergent, classical | Black, bounded, stable |
-| **Outside** | Red, oscillatory, quantum | Blue fractals, escaping, complex |
+| **Inside** | Cyan, finite stop met | Black, bounded orbit in this raster |
+| **Outside** | Red, finite stop not met | Blue, escaped within the cap |
 | **Perspective** | CΨ parameter space | Complex plane |
 
-Two coordinate systems, one boundary.
+The resemblance is algebraic; the panels are not one universal physical boundary.
 
 ### How it was computed
 
@@ -83,7 +113,10 @@ Both images are generated by a single-file HTML dashboard using JavaScript and C
 
 2. **Heatmap rendering:** For each pixel, map to (Ψ, C) coordinates, iterate R_{n+1} = C(Ψ + R_n)² up to 200 times starting from R_0 = 0, test for convergence (|R_n - R_{n-1}| < 1e-10 for 3 consecutive steps). Color cyan if convergent, red if still oscillating after 200 steps. The C·Ψ = 1/4 hyperbola is drawn analytically. Computed once at startup.
 
-3. **Linking:** Both panels share C and Ψ slider values. The red dot in the Mandelbrot panel moves to c = C·Ψ (the Mandelbrot parameter corresponding to the framework's phase boundary). The crosshair in the heatmap moves to (Ψ, C). A third panel (not shown here) displays the live iteration as a time series.
+3. **Linking:** Both panels share C and Ψ slider values. The dashboard chooses
+   c=C·Ψ for the red dot and (Ψ,C) for the crosshair; that UI mapping is not a
+   physical identification. The historical interactive companion is not
+   present in this checkout, so this README does not offer a dead link to it.
 
 No external libraries are used for the computation. The mathematics is the same as described in the framework documents: standard quadratic iteration, standard Mandelbrot set definition, no modifications.
 
@@ -93,7 +126,8 @@ No external libraries are used for the computation. The mathematics is the same 
 
 > **Note:** This visualization is a qualitative illustration of the parameter space structure, not a simulation output. The trajectories are generated from simplified exponential decay models. The interpretive language ("consciousness as a bridge", "4D being") reflects the legacy framing; see [THE_CPSI_LENS](../docs/THE_CPSI_LENS.md) for the current description.
 
-[Open interactive visualization](4d_visualization_wave.html)
+The prose below records what that historical visualization showed; no runnable
+HTML artifact is currently tracked here.
 
 ### What you see
 
@@ -101,9 +135,12 @@ A three-dimensional volume built from the heatmap above: the horizontal plane is
 
 Two glowing threads run through this volume. Each thread is one observer's trajectory: their C and Ψ values changing over time as decoherence acts on their quantum state.
 
-The **orange thread** starts in the red regime (C·Ψ > ¼, quantum, no stable fixed point) and falls through the membrane into the cyan regime (C·Ψ < ¼, classical, stable fixed point exists). This crossing is the moment where a definite reality becomes available. The thread changes color from warm orange-red to cool blue as it crosses.
+The **orange thread** is a simplified authored trajectory whose scalar passes
+from above to below ¼. Its warm-to-cool change marks that equality; it does not
+show a quantum-to-classical transition or definite reality becoming available.
 
-The **violet thread** is a second observer in a different system, taking a different route through the same parameter space. Different starting conditions, different decoherence rate, different trajectory, but the same membrane to cross.
+The **violet thread** is a second illustrative curve with different parameters.
+"Observer" and "membrane" are story labels.
 
 ### Two modes
 
@@ -113,7 +150,9 @@ The **violet thread** is a second observer in a different system, taking a diffe
 
 ### What this illustrates
 
-The self-referential fixed point R_inf = C(Ψ + R_inf)² exists only in the cyan regime. In the 3D/4D view, a trajectory through parameter space becomes a thread through a volume, crossing the membrane where CΨ = 1/4.
+On the displayed real branch, the recurrence has real fixed points on one side
+of the discriminant zero. The 3D/4D view extrudes that algebraic curve and adds
+illustrative threads; it is not a dynamics simulation.
 
 ### The geometry of approach
 
@@ -149,7 +188,9 @@ Three panels showing C·Ψ(t) trajectories computed from **published experimenta
 
 ### The result
 
-The crossing time t*/T₂ is **universal across platforms spanning 10 orders of magnitude** in absolute timescale. Whether your qubit lives for 0.5 microseconds or 3 million microseconds, it crosses the ¼ boundary after the same fraction of its coherence lifetime.
+The value t*/T₂=0.858 is common only inside the same ideal free-|+⟩,
+pure-dephasing proxy model after normalization. Published T₁/T₂ numbers do
+not establish a platform-independent physical lifetime or boundary.
 
 The analytical equation for this fraction:
 
@@ -173,11 +214,13 @@ Script: [`../simulations/real_data_analysis.py`](../simulations/real_data_analys
 
 ![C·Ψ crossing on IBM Torino](ibm_tomography/cpsi_tomography_ibm_torino.png)
 
-The first measurement of the ¼ boundary on real quantum hardware. IBM Torino (Heron r1), qubit 52, 25 delay points, 8192 shots each, full state tomography in X/Y/Z bases.
+A finite IBM Torino run on qubit 52: 25 delay points, 8192 shots each, with
+state tomography in X/Y/Z bases. The reconstructed scalar passes 1/4; the run
+does not establish a universal boundary.
 
 The blue curve is C·Ψ(t) reconstructed from measured density matrices. It crosses ¼ at t*/T₂* = 1.041 (predicted: 0.936, 11% deviation). The initial C·Ψ starts at 0.885 instead of the ideal 0.500 (gate infidelity inflates the apparent purity). The asymptotic floor sits at 0.740 instead of 0.500 (readout errors prevent purity from reaching the maximally mixed state).
 
-Despite these imperfections, the crossing is unambiguous.
+Within this reconstructed trace and convention, the sampled scalar crossing is clear.
 
 ### Full analysis
 
@@ -208,7 +251,9 @@ The plot shows t*(r) with the IBM Torino measurement marked. It falls near the c
 
 ![Simulator comparison](ibm_tomography/cpsi_tomography_aer_simulator.png)
 
-Same experiment run on Qiskit's Aer simulator (no noise). Confirms the analysis pipeline works correctly: ideal crossing at t*/T₂ = 0.858, matching the pure dephasing prediction exactly. The difference between simulator and hardware is the physics, not the code.
+An Aer control reproduces the ideal model's arithmetic at t*/T₂=0.858. That
+checks one path through the analysis; it does not prove all hardware/model
+differences are physical rather than preparation, readout, fit, or code effects.
 
 Full experiment documentation: [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md)
 
@@ -224,17 +269,23 @@ A systematic comparison of five bridge metrics (concurrence, mutual information,
 
 ### The four plots
 
-**`fingerprints_grid.png`**: The main result. 5×7 grid of CΨ trajectories. Each column is a Hamiltonian (Heisenberg, XY, Ising, etc.), each row is a bridge metric. The ¼ crossing time varies by metric choice, but the crossing itself is universal.
+**`fingerprints_grid.png`**: A finite 5×7 grid of CΨ trajectories. Each column
+is a Hamiltonian and each row a bridge metric. Crossings in this catalogue are
+model- and metric-specific.
 
 **`fingerprints_dual.png`**: Side-by-side comparison of the two most physically distinct metrics (concurrence vs mutual information) under the same dynamics.
 
-**`fingerprints_barrier.png`**: Focus on the ¼ barrier. Shows how different bridge metrics approach and cross the boundary at different rates but always cross it.
+**`fingerprints_barrier.png`**: A zoom around the quarter line for the displayed
+cases; it is not an all-model guarantee.
 
 **`fingerprints_phase.png`**: Phase-space view (C vs Ψ parametric curves) for each metric, showing the different geometric paths through CΨ-space.
 
 ### What this means
 
-The ¼ boundary is not an artifact of one particular metric choice. It appears for every bridge metric tested, under every Hamiltonian tested. The crossing time varies (it depends on how fast the chosen metric decays), but the existence of the crossing is metric-independent. This is evidence that the boundary is a property of the physics, not of the measurement.
+Every row in this finite grid happens to cross the selected line. Because the
+metric is part of the plotted scalar and the catalogue is finite, the figure
+does not establish metric independence or a boundary belonging to physics
+rather than measurement.
 
 Full analysis: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md)
 

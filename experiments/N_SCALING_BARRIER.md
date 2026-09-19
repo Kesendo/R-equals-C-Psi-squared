@@ -1,43 +1,38 @@
-# N-Scaling Barrier: Why Full-System Crossing Fails at Large N
+<!-- QUARTER-CURRENT -->
 
-<!-- Keywords: N scaling quantum crossing barrier, Hilbert space dimension CΨ,
-l1 coherence normalization d-1, GHZ W state scaling failure, full system
-crossing impossible large N, subsystem pair resolution, exponential coherence
-gap quantum, quantum classical transition scaling, CΨ quarter boundary N
-dependence, R=CPsi2 N scaling barrier -->
+<!-- CROSSING-CURRENT -->
 
-**Status:** Computationally verified (resolved by subsystem analysis)
-**Date:** February 18, 2026 (updated March 8, 2026)
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Crossing Taxonomy](CROSSING_TAXONOMY.md), [Noise Robustness](NOISE_ROBUSTNESS.md)
+# N-scaling facts for named state families and readouts
 
----
+Current reading: with `Psi=l1/(2^N-1)`, the stored GHZ and W formulas are exact
+for those families, while the retained pair rows are finite calculations.  They
+do not classify all states, and a pair readout is not a full-system readout.
 
-## What this document is about
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the body below includes the crossing-taxonomy repair and
+the earlier scaling narrative.  It is retained as quarter-specific context.
 
-For two qubits, CΨ starts above 1/4 and crosses down through it: this is
-the quantum-classical transition. But for four or more qubits, CΨ starts
-*below* 1/4 and never gets there. The denominator in the normalization
-grows exponentially with system size, while coherence only grows
-polynomially. This looked like a fatal flaw. The resolution: crossing is
-a local phenomenon. It happens between individual entangled pairs, not at
-the global system level. The full-system metric correctly says "no global
-crossing," and the pair-level metric correctly says "local crossings
-happen wherever entanglement lives."
+# N-Scaling: Finite GHZ/W Normalization and Subsystem Readouts
 
-## Abstract
+<!-- CROSSING-CURRENT -->
 
-Standard entangled states cannot reach CΨ = 1/4 at the full-system level
-for large N because l1-coherence grows polynomially while the normalization
-d−1 = 2^N−1 grows exponentially. GHZ has l1 = 1 for all N (fails at N ≥ 3).
-W has l1 = N−1 (fails at N ≥ 4). The resolution: crossing is a **local
-phenomenon** operating at the pair level. A 4-qubit Bell+⊗Bell+ state has
-full-system Ψ(0) = 0.200 but its entangled pairs cross individually. See
-[Subsystem Crossing](SUBSYSTEM_CROSSING.md). Type A (correlation C = 1.0)
-holds at N=3 and N=4; the observer mechanism is intact. The bottleneck is
-Ψ(0), not the observer.
+**Status:** Finite state-family calculation, not an all-state crossing barrier.
+With the basis-fixed normalization Ψ=l1/(2^N−1), GHZ has l1=1 and W
+has l1=N−1. Their initial full-system values fall below 1/4 at N≥3 and
+N≥4 respectively. The separable |+>^N family instead starts at Ψ=1;
+these named GHZ/W facts do not classify all states as quantum or classical.
+The retained N=3,4 correlation rows are finite readout observations, not a
+physical observer mechanism or a noise-universal taxonomy. A pair readout
+and a full-system readout answer different questions; no universal locality
+law follows. For the Bell+ taxonomy choose C(f), then the clean Lindblad
+or retired feedback book, then solve C(f)f/3=1/4: six finite crossings and
+two never bridges. See [Crossing Taxonomy](CROSSING_TAXONOMY.md).
 
----
+<!-- CROSSING-HISTORICAL -->
+
+> Historical record: the dated GHZ/W study and subsystem discussion below
+> retain every numerical table and the original questions. Their all-state
+> barrier, observer-mechanism, and quantum/classical readings are not current claims.
 
 ## 1. The Question
 

@@ -1,5 +1,7 @@
 # RCPsiSquared.Compute
 
+<!-- CROSSING-CURRENT -->
+
 C# compute engine for Liouvillian spectral analysis of open quantum networks (2-8 qubits). Constructs the Lindblad superoperator, diagonalizes it via native LAPACK, and scores the palindromic mirror symmetry of the decay rate spectrum.
 
 ## What it does
@@ -195,12 +197,22 @@ All timings measured on Intel Core Ultra 9 285k (24 cores), 128 GB RAM, Windows 
 | [XOR Space](../../experiments/XOR_SPACE.md) | Eigenvalue-to-mode mapping. GHZ vs W initial state spectral decomposition |
 | [Standing Wave Analysis](../../experiments/STANDING_WAVE_ANALYSIS.md) | Spectral structure behind XX/YY oscillation and ZZZ static behavior |
 | [Structural Cartography](../../experiments/STRUCTURAL_CARTOGRAPHY.md) | 3D spectral manifold, rate count statistics, topology survey |
-| [Crossing Taxonomy](../../experiments/CROSSING_TAXONOMY.md) | K-invariance from Lindblad eigenvalue scaling |
 | [Cavity Modes Formula](../../experiments/CAVITY_MODES_FORMULA.md) | Zero-noise eigenfrequencies N=2-7. Closed-form via Clebsch-Gordan. Topology comparison |
 | [IBM Cavity Spectral](../../experiments/IBM_CAVITY_SPECTRAL_ANALYSIS.md) | Sacrifice zone protects cavity modes at 2.80x. Real IBM T2* data |
-| [Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md) | Eigenvector Pauli decomposition: protected modes are center-localized (r = 0.994) |
 | [Random Matrix Theory](../../experiments/RANDOM_MATRIX_THEORY.md) | Direct raw-multiset consecutive-gap ratios of 21,840 eigenvalues (N=2-7), including zero gaps and separately counted undefined 0/0; no standard-ensemble calibration for this degenerate unresolved population. The centered shifted generator has a sectorwise P symmetry after resolving Π²; its full irreducible symmetry class remains OPEN. Uses `rmt` CSV export |
 | [PTF Palindrome-Breaking Perturbations](../../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md) | Full left+right eigendecomposition at N=7 (XY chain, PTF convention) for EP / channel-uniform mode geometry. Uses `ptf` binary export |
+
+## Related standalone analyses (no Compute dependency)
+
+[Crossing Taxonomy](../../experiments/CROSSING_TAXONOMY.md) is owned by
+`simulations/crossing_taxonomy_books.py`, not by this Compute engine.
+It fixes the readout C(f), chooses one of two evolution books, and solves
+C(f)f/3=1/4: six finite crossings and two never bridges. This is a finite
+scalar-response classification, not an eigenvalue or physical-observer theorem.
+
+[Cavity Mode Localization](../../experiments/CAVITY_MODE_LOCALIZATION.md)
+is owned by `simulations/cavity_mode_localization.py`; it is a standalone
+Python analysis, not a Compute export consumer.
 
 ## See also
 

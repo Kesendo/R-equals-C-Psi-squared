@@ -1,5 +1,7 @@
 # The Mediator Noise Gate at N=11
 
+<!-- CROSSING-CURRENT -->
+
 **Status:** Tier 1 (measured, reproduced from the committed record).
 **Date:** 2026-08-23.
 **Arc:** `the_gate_that_does_not_gate`, NextStep (1), in
@@ -98,11 +100,15 @@ run itself is a clean one-factor sweep, all eleven rates at 0.05 with `gammas[5]
 overridden alone (`Program.cs` lines 874 to 880). What does not exist is such a
 sweep on a measurement grid fine enough to read, which is the whole of Reading 1.
 One other committed N=11 run touches the mediator's rate:
-[RELAY_PROTOCOL](RELAY_PROTOCOL.md) lines 115 to 141 lowers site 5 from 0.05 to
+[RELAY_PROTOCOL](RELAY_PROTOCOL.md), in its six-stage schedule, lowers site 5 from 0.05 to
 0.005, but as stage 3 of a six-stage protocol that lowers a different site group
 at each stage, and its three headline numbers are not one observable: 0.734 is a
 maximum over the integer grid, while 0.759 and 0.723 are single readings at
-t = 4.68, and 0.723 is a different Hamiltonian (2:1 couplings, not uniform J).
+t = 4.50 integrated (4.68 is nominal), and 0.723 is a different Hamiltonian
+(2:1 couplings, not uniform J). Each requested 0.78 stage executes 15 steps
+of 0.05, hence 0.75. The end-to-end MI comparison is a different statistic:
+0.131700 at t=4.50 versus 0.071576 at the passive sampled maximum t=4.00,
+about +84.0%, with unmatched time and dose. No isolated staging effect follows.
 It is not a γ_M contrast and its numbers are not comparable to this page's.
 
 **The precedent for the artefact is committed and is the same shape.** The

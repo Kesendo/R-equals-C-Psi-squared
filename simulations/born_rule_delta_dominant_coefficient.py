@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Attempt Tier-1 coefficient for Δ_|00⟩ ≈ c · Q² · K³ at dominant outcome.
+"""Floating fit for the named N=4 ring coefficient in Δ_|00⟩ ≈ c · Q² · K³.
 
 Strategy:
   1. Sample Δ_|00⟩ on a fine grid of very small (Q, K) — deep in perturbative regime.
@@ -10,8 +10,8 @@ Strategy:
      L'_disL_H². This is the leading non-vanishing γ-contribution in the time-Taylor
      expansion of e^{Lt} ρ_0.
 
-  4. Compare numerical c with the symbolic derivation. If they match, that IS the
-     Tier-1 coefficient (provided the Dyson term is the leading one).
+  4. Compare numerical c with the analytic named-ring coefficient.  Agreement is
+     a numerical tolerance reconstruction, not a proof of the coefficient.
 
 This is the Februar-style 'try to derive, see if it lands' move.
 """
@@ -139,7 +139,7 @@ def main():
                   f"{Q:>6.1f}  {K:>8.5f}  {Q2K3:>10.5g}    "
                   f"{d:>12.5g}    {c:>13.5g}")
 
-    # Filter for very small Q²K³ (deepest perturbative regime)
+    # Filter for very small Q²K³ in this finite floating fit.
     small = [s for s in samples if s[2] < 0.01]
     if small:
         c_values = [s[4] for s in small]
@@ -151,12 +151,12 @@ def main():
         print(f"  std   = {c_std:.5f}")
         print(f"  range = [{min(c_values):.5f}, {max(c_values):.5f}]")
         print()
-        print(f"Empirical (Tier-2):  Δ_|00⟩ ≈ {c_mean:.4f} · Q² · K³  in the deep")
+        print(f"Floating fit (named N=4 ring):  Δ_|00⟩ ≈ {c_mean:.4f} · Q² · K³  in the deep")
         print(f"                                                       perturbative regime.")
     print()
 
     # Sketch of the derivation pathway:
-    print("Derivation pathway (Tier-1 attempt):")
+    print("Analytic comparison for the named N=4 ring (the floating fit is not a proof):")
     print()
     print("  The Liouvillian is L = L_H + γ · L'_dis where")
     print("    L_H[ρ]    = -i[H, ρ]                    (∝ J)")
@@ -180,9 +180,9 @@ def main():
     print()
     print("  Need to evaluate this matrix element with H = Heisenberg ring (N=4),")
     print("  Z-dephasing on each site, |0+0+⟩ initial state. Tractable in principle —")
-    print("  this script verifies c numerically; the explicit symbolic computation")
-    print("  (yielding e.g. c = 3/2 or similar rational/integer-combinatoric form) is")
-    print("  the next step toward Tier-1.")
+    print("  this script reconstructs c only within numerical tolerance.  The exact")
+    print("  named-ring calculation gives c = 4/3; that derivation lives in the typed")
+    print("  F94 claim rather than in this floating fit.")
 
 
 if __name__ == "__main__":

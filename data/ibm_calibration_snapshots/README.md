@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# IBM calibration snapshots
+
+Current reading: these immutable fixture rows feed the neutral `QubitData` API.
+Where `r=T2/(2*T1)` is evaluated under the free single-transmon `|+>` proxy
+model, report below/near/at-or-above the numerical `R*`; do not infer a physical
+regime from the label.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the fixture inventory and earlier prose labels follow;
+the measured values themselves are unchanged.
+
 # IBM Calibration Snapshots
 
 Single-day snapshots of IBM Quantum backend calibration data, used as test

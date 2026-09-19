@@ -28,8 +28,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// A separate 120-element unordered enumeration extended via Π-protected-observable testing
 /// (commit 96ed6da N=4, 2026-04-26; commit 6438fef N=5, 2026-04-26) gave 15 truly / 46 soft /
 /// 59 hard N-stable through N=3, 4, 5. Note the order: the 36-enum is written hard-first and
-/// this one truly-first. The 15 is C(6,2), the pairs of the six two-site operators carrying
-/// #Y and #Z both even (II, IX, XI, XX, YY, ZZ), exactly as the 36-enum's 3 is C(3,2) over
+/// this one truly-first. Its alphabet is the 15 non-II two-site Pauli words and its 120
+/// entries are combinations with replacement, including 15 self-pairs. The 15 truly entries
+/// are the pairs with repetition from {IX, XI, XX, YY, ZZ}; the identity-only word II is not
+/// in the alphabet. The 36 distinct-pair census separately has 3 truly entries over
 /// {XX, YY, ZZ}. Commit 81caf67 (2026-04-27) derived the partition
 /// combinatorially from Pauli-pair compatibility rules. Marrakesh hardware Δ(soft − truly)
 /// = −0.722 confirmation 2026-04-26 (job d7mjnjjaq2pc73a1pk4g). Registered as F87

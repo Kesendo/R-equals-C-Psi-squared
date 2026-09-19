@@ -568,7 +568,13 @@ void RunPull3()
     int d = 1 << n;
     double gamma = 0.05;
     double gammaQuiet = 0.005;
-    double stageTime = 0.78;    // 0.039/gamma = 0.039/0.05
+    double stageTime = 0.78;    // Nominal historical heuristic, not a palindrome or F14 timing law.
+    // Requested 0.78/stage (4.68 total); integrated 0.75/stage (4.50 total).
+    // 6 * 15 = 90 RK4 updates per staged arm. The old t=4.7 display was nominal.
+    // Stored A:D 0.131700 / passive sampled maximum 0.071576 gives about +84.0%.
+    // This is unmatched in time/dose: 2.200 at t=4.00 versus 2.17125 at t=4.50.
+    // Equal-time counterfactual exposure at 4.50: passive 2.475 versus 2.17125.
+    // No MI bound, isolated staging effect, optimization, or palindrome timing follows.
 
     // Bell(0,1) initial
     var psi = BellPair(0, 1, n);
@@ -582,7 +588,7 @@ void RunPull3()
     var bonds = Topology.MediatorBridge(3);
     var H = Topology.BuildHamiltonian(n, bonds);
 
-    // (a) Passive baseline
+    // (a) Passive baseline: sampled maximum on the integer 0..20 grid, not an endpoint.
     {
         var gammas = Enumerable.Repeat(gamma, n).ToArray();
         var prop = new LindbladPropagator(H, gammas, n);
@@ -603,7 +609,7 @@ void RunPull3()
     }
 
     // (b) Relay protocol (staged gamma)
-    // 6 stages, each ~0.8 time units
+    // 6 stages: nominal 0.78 each, integrated 0.75 each; 4.68 versus 4.50 total.
     // Stage k: qubit receiving[k] has low gamma, rest normal
     int[][] relayReceivers = {
         new[]{ 2 },       // m1 receives from Pair A
@@ -629,7 +635,7 @@ void RunPull3()
 
             // Propagate this stage
             double tEnd = (stage + 1) * stageTime;
-            int nSteps = (int)(stageTime / 0.05);
+            int nSteps = (int)(stageTime / 0.05); // 15 steps = 0.75 integrated, not 0.78.
             for (int step = 0; step < nSteps; step++)
             {
                 var k1 = prop.EvalRHS(rho);
@@ -644,7 +650,7 @@ void RunPull3()
 
         double miAB = DensityMatrixTools.MutualInformation(rho, n, bridgeA, bridgeB);
         double miAD = DensityMatrixTools.MutualInformation(rho, n, pairA, pairD);
-        Log($"  Relay:    MI(BA:BB)={miAB:F6}  MI(A:D)={miAD:F6}  (t={t:F1})");
+        Log($"  Relay:    MI(BA:BB)={miAB:F6}  MI(A:D)={miAD:F6}  (nominal_t={t:F2}; integrated_t={relayReceivers.Length * (int)(stageTime / 0.05) * 0.05:F2})");
     }
 
     // (c) Relay + 2:1 pull
@@ -666,7 +672,7 @@ void RunPull3()
 
             var prop = new LindbladPropagator(H21, gammas, n);
 
-            int nSteps = (int)(stageTime / 0.05);
+            int nSteps = (int)(stageTime / 0.05); // 15 steps = 0.75 integrated, not 0.78.
             for (int step = 0; step < nSteps; step++)
             {
                 var k1 = prop.EvalRHS(rho);
@@ -681,7 +687,7 @@ void RunPull3()
 
         double miAB = DensityMatrixTools.MutualInformation(rho, n, bridgeA, bridgeB);
         double miAD = DensityMatrixTools.MutualInformation(rho, n, pairA, pairD);
-        Log($"  Relay+2:1 MI(BA:BB)={miAB:F6}  MI(A:D)={miAD:F6}  (t={t:F1})");
+        Log($"  Relay+2:1 MI(BA:BB)={miAB:F6}  MI(A:D)={miAD:F6}  (nominal_t={t:F2}; integrated_t={relayReceivers.Length * (int)(stageTime / 0.05) * 0.05:F2})");
     }
 
     Log();

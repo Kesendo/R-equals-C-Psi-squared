@@ -4,11 +4,19 @@ Resonant Return: Palindrome-Derived γ Profiles
 ================================================
 Test 1: SVD-optimal γ profiles vs hand-designed (N=5)
 Test 2: Frequency-matched γ pulsing (N=5)
-Test 3: Palindrome-timed relay (N=11) - flagged for C# if too slow
+Test 3: Deferred per-segment spectral-timing candidate (N=11), not a relay result
 Test 4: Scaling with N (N=3, 5, 7)
 
 Script:  simulations/resonant_return.py
 Output:  simulations/results/resonant_return.txt
+
+Test 3 preserves a nominal 0.78 baseline, actually integrated as 0.75 per
+stage in the referenced C# run (4.68 nominal, 4.50 integrated total).
+The pi/rate candidate near 31.4 was never used by a relay trajectory here.
+A baseline/candidate/oracle comparison remains deferred; no palindrome
+transfer-time theorem or implemented timing optimization is claimed.
+Import opens the tracked output; syntax/read-only inspection only during
+protected label repair. Do not import or run this legacy writer for validation.
 
 Hypothesis: hypotheses/RESONANT_RETURN.md
 Builds on: gamma_signal_analysis.py, reading_the_30_percent.py
@@ -489,12 +497,12 @@ def run_test_2(N=5, gamma_base=0.05):
 
 
 # ============================================================
-# TEST 3: PALINDROME-TIMED RELAY (N=11)
+# TEST 3: DEFERRED SPECTRAL-DURATION CANDIDATE (N=11)
 # ============================================================
 
 def run_test_3():
     log("=" * 70)
-    log("TEST 3: PALINDROME-TIMED RELAY (N=11)")
+    log("TEST 3: DEFERRED SPECTRAL-DURATION CANDIDATE (N=11)")
     log("=" * 70)
     log()
 
@@ -511,8 +519,8 @@ def run_test_3():
     log("  Python expm/eigvals on this size takes >1 hour and >30 GB RAM.")
     log()
     log("  Structure for C# implementation:")
-    log("  1. Fixed timing:      t_stage = K/gamma = 0.039/0.05 = 0.78")
-    log("  2. Palindrome timing: t_stage_k = pi / Re(lambda_dominant_k)")
+    log("  1. Baseline: nominal 0.78, integrated 0.75/stage in the historical C# run")
+    log("  2. Deferred candidate: t_stage_k = pi / positive_decay_rate_k (not an oscillation period)")
     log("     - Bridge A (q0-4):  5-qubit Heisenberg chain dominant rate")
     log("     - Meta (q4-6):      3-qubit star dominant rate")
     log("     - Bridge B (q6-10): 5-qubit Heisenberg chain dominant rate")
@@ -553,14 +561,14 @@ def run_test_3():
         log(f"  {seg_name}:")
         log(f"    Dominant decay rate: {dominant_rate:.6f}")
         log(f"    Half-life: {t_half:.4f}")
-        log(f"    Palindrome stage time (pi/rate): {t_palindrome:.4f}")
+        log(f"    Deferred candidate duration (pi/rate): {t_palindrome:.4f}")
         log(f"    Dominant osc. frequency: {dom_freq:.4f}")
-        log(f"    Fixed stage time (K/gamma): {0.039/gamma_base:.4f}")
+        log(f"    Historical nominal heuristic (0.039/gamma): {0.039/gamma_base:.4f}")
         log()
 
-    log("  To run full relay comparison, use:")
-    log("  dotnet run -c Release -- pull   (in compute/RCPsiSquared.Propagate/)")
-    log("  with modified stage timing from the rates above.")
+    log("  Full baseline/candidate/oracle comparison is DEFERRED, not implemented.")
+    log("  The existing C# pull command does not implement that comparison.")
+    log("  A future implementation needs explicit timing and matched-control contracts.")
     log()
 
 
@@ -672,7 +680,7 @@ if __name__ == "__main__":
     log(f"Test 2 runtime: {_time.time() - t2_start:.1f}s")
     log()
 
-    # Test 3: Palindrome-timed relay (N=11)
+    # Test 3: Deferred spectral-duration candidate (N=11)
     t3_start = _time.time()
     run_test_3()
     log(f"Test 3 runtime: {_time.time() - t3_start:.1f}s")
@@ -724,7 +732,7 @@ if __name__ == "__main__":
         log("     SKIPPED (no oscillating modes)")
 
     log()
-    log("  3. Palindrome-timed relay outperforms fixed:")
+    log("  3. Spectral-duration candidate versus fixed schedule: comparison deferred")
     log("     DEFERRED to C# implementation (N=11 too large for Python)")
 
     log()

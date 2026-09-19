@@ -1,4 +1,3 @@
-using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 using Xunit;
@@ -23,30 +22,59 @@ public class ApproachFamilyCarrierClaimTests
     }
 
     [Fact]
-    public void FourTypedParents_AreExposed()
+    public void TwoMathematicalParents_AreExposed()
     {
         var c = BuildClaim();
-        Assert.NotNull(c.Carrier);
-        Assert.NotNull(c.C2Ptf);
-        Assert.NotNull(c.TwoReadings);
+        Assert.NotNull(c.Absorption);
         Assert.NotNull(c.F25);
+        Assert.Null(typeof(ApproachFamilyCarrierClaim).GetProperty("Carrier"));
+        Assert.Null(typeof(ApproachFamilyCarrierClaim).GetProperty("C2Ptf"));
+        Assert.Null(typeof(ApproachFamilyCarrierClaim).GetProperty("TwoReadings"));
     }
 
     [Fact]
     public void Constructor_RejectsNullParents()
     {
         var c = BuildClaim();
-        Assert.Throws<ArgumentNullException>(() => new ApproachFamilyCarrierClaim(null!, c.C2Ptf, c.TwoReadings, c.F25));
-        Assert.Throws<ArgumentNullException>(() => new ApproachFamilyCarrierClaim(c.Carrier, null!, c.TwoReadings, c.F25));
-        Assert.Throws<ArgumentNullException>(() => new ApproachFamilyCarrierClaim(c.Carrier, c.C2Ptf, null!, c.F25));
-        Assert.Throws<ArgumentNullException>(() => new ApproachFamilyCarrierClaim(c.Carrier, c.C2Ptf, c.TwoReadings, null!));
+        var constructor = Assert.Single(typeof(ApproachFamilyCarrierClaim).GetConstructors());
+        Assert.Equal(2, constructor.GetParameters().Length);
+        Assert.Throws<ArgumentNullException>(() => new ApproachFamilyCarrierClaim(null!, c.F25));
+        Assert.Throws<ArgumentNullException>(() => new ApproachFamilyCarrierClaim(c.Absorption, null!));
     }
 
     [Fact]
-    public void Summary_NamesTheKinshipNotIdentity()
+    public void Summary_NamesNonAncestralComparisonsAndExactBellSpecialization()
     {
-        // The honesty seam: the C2 connection is a kinship/sibling, explicitly NOT a same-object identity.
         var s = BuildClaim().Summary.ToLowerInvariant();
-        Assert.Contains("kinship not identity", s);
+        Assert.Contains("prose comparison", s);
+        Assert.Contains("bell+", s);
+        Assert.Contains("f25", s);
+        Assert.Contains("absorption theorem", s);
+        Assert.Contains("n_diff=2", s);
+        Assert.DoesNotContain("mode", s);
+        Assert.DoesNotContain("excites", s);
+    }
+
+    [Fact]
+    public void Claim_RestrictsTheLateTimeCarrierToNonzeroMembers()
+    {
+        var name = BuildClaim().Name.ToLowerInvariant();
+        Assert.Contains("every nonzero member", name);
+        Assert.Contains("0<s≤1", name);
+        Assert.DoesNotContain("all members share", name);
+    }
+
+    [Fact]
+    public void Claim_LabelsTheInitialReadoutAndTemporalCrossingExactly()
+    {
+        var claim = BuildClaim();
+        var text = $"{claim.Name} {claim.Summary}";
+
+        Assert.Contains("s is the pure-state concurrence", text, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("one third", text, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("iff γ>0 and s>3/4", text, StringComparison.Ordinal);
+        Assert.Contains("γ=0", text, StringComparison.Ordinal);
+        Assert.Contains("constant", text, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("entanglement itself", text, StringComparison.OrdinalIgnoreCase);
     }
 }

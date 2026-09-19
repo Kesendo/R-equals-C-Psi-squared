@@ -1,3 +1,13 @@
+<!-- F14-CURRENT -->
+
+CURRENT READING
+
+The stated Bell+ trajectory remains Hamiltonian-dead for the isotropic Heisenberg coupling and equal local Z-dephasing. Test1b prints zero maximum differences for all five observables at J=1; Test1c keeps the same book at J=0,1,5. This run does not exhibit tau-scaling failure. The fixed-J non-eigenstate negative control is docs/GAMMA_TIME_DISTINCTION.md. Q2 rows remain a separate historical calculation.
+
+<!-- F14-HISTORICAL -->
+
+Historical record: unregenerated original output follows; its numerical and as-run lines are retained.
+
 Two Open Questions: K-scaling and Renyi Entropies
 ======================================================================
 

@@ -1,3 +1,6 @@
+QUARTER-CURRENT
+Current reading: this preserved menu is a historical inventory of open, retired, and completed arcs. Its invitations are navigation aids, not theorem statements or current evidence for a universal quarter mechanism.
+=== BEGIN CAPTURED PAYLOAD ===
 total 60  open=33
 
 ### diabolic_over_higher_n  [2026-06-27] Open  size=36402
@@ -179,3 +182,5 @@ NEXT: Build the adjacency scan for the flat registries, which is the one layer w
 
 ### darkness_names_the_light  [2026-09-11] Retired  size=5925
 NEXT: Do the rename, in the order that makes each step checkable. FIRST decide the two targets, because there are two objects and only one of them is a naming problem: the NOUN becomes the light content, which is the glossary's own canonical name and the one that carries its scope; the COMPARATIVE keeps the ordinary sense but must name its end, since darker alone is read by different readers as the longer-lived mode and as
+=== END CAPTURED PAYLOAD ===
+Current note: the captured inventory body is unchanged; consult each live arc and its gates for present status.

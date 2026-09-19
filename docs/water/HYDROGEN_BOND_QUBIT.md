@@ -183,7 +183,9 @@ Parameters: J_intra = 1.0 meV, J_inter = 0.1 meV, K = 0.1 meV,
 - Finite numerical pairing check: pair-sum std = 3.5e-2; it is not an
   assertion of theorem-level exactness.
 - Distinct frequencies: **126**
-- V-Effect: 11 per molecule → 126 coupled = **104 new frequencies**
+- V-Effect census: 11 bins per isolated model molecule versus 126 bins for the
+  coupled generator, a finite count excess **126 - 2*11 = 104**. No individual
+  eigenmode ancestry is measured.
 
 Full-system CΨ does not cross 1/4 (N-scaling suppression, d-1 = 15).
 Subsystem CΨ for the selected pair (q2, q3) across the H-bond would need a
@@ -208,17 +210,17 @@ insufficient; it is not directly comparable with a water Q (see
 |--------|---------------------|
 | Single molecule (N=2) | 11 |
 | Two molecules coupled (N=4) | 126 |
-| New from coupling | **104** |
+| Count excess `126 - 2*11` | **104** |
 | Ratio | 5.73 |
 
-For this N=4 model and its displayed parameters, coupling changes the
-calculated frequency count by 104 relative to the two selected isolated-model
-counts. This is the model's V-Effect reading, not a count established for
-physical hydrogen bonds generally.
+For this N=4 model and its displayed parameters, the coupled-generator count
+exceeds two copies of the selected isolated-model count by 104. This is a
+finite V-Effect census reading, not evidence that coupling alone creates
+persistent modes or that physical hydrogen bonds generally share the count.
 
-Note: the abstract qubit V-Effect (N=5 MediatorBridge) produces 109
-total frequencies. The numbers differ: 104 NEW at N=4 H-bond vs 109
-at N=5 abstract.
+Note: the separate abstract N=5 MediatorBridge census reports 109 total bins.
+That is a different generator and denominator: 104 is an N=4 count excess,
+whereas 109 is an N=5 total.
 
 ---
 

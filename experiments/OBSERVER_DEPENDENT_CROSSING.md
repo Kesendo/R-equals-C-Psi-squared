@@ -1,67 +1,71 @@
-# Observer-Dependent Crossing: Same Physics, Different Measurement Times
+<!-- CROSSING-CURRENT -->
 
-<!-- Keywords: observer dependent crossing time, bridge metric quantum measurement,
-CΨ crossing different observers, concurrence correlation mutual information time,
-same state different crossing, observer determines measurement quantum, Type ABC
-observer precursor, quantum measurement observer coupling, R=CPsi2 observer
-dependent crossing -->
+# Quarter crossings in two books: five readouts and five feedback laws
 
-**Status:** Computationally verified
-**Date:** February 17, 2026
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [Mandelbrot Connection](MANDELBROT_CONNECTION.md)
+**Status:** Finite Bell+ scalar crossings; historical feedback tables, reconstructed equations.
+**Date:** February 17, 2026.
+**Depends on:** [Crossing Taxonomy](CROSSING_TAXONOMY.md), [Metric Discrimination](METRIC_DISCRIMINATION.md).
 
----
+One clean density-matrix trajectory supports five readouts; feeding those
+readouts into the decay rate instead gives five bridge-coupled dynamics.
+The system is a Bell+ pair under isotropic Heisenberg coupling and local
+Z-dephasing. Its trajectory stays Hamiltonian-dead: with coherence factor f,
+ρ = diag(½,0,0,½) + (f/2)(|00⟩⟨11| + |11⟩⟨00|), and Ψ = f/3.
 
-## What this document is about
+## 1. Choose the scalar readout
 
-If "measurement" happens when CΨ crosses the 1/4 boundary, and the C
-part depends on how you define the observer's connection to the system,
-then different definitions of "observer" should see measurement happen
-at different times. This experiment tests exactly that. Five different
-ways of measuring the observer-system connection (called bridge metrics)
-are applied to the same Bell state under the same noise. Three see the
-crossing, at three different times. Two never see it at all. Same
-quantum physics, different observer, different reality.
+| Bridge name | Definition C(f) on this trajectory |
+|---|---|
+| mutual_info | [2 − h₂((1+f)/2)]/2, von Neumann mutual information in bits divided by its initial value |
+| concurrence | f, Wootters concurrence |
+| correlation | 1, connected Z-basis correlation ⟨Z₁Z₂⟩ − ⟨Z₁⟩⟨Z₂⟩ |
+| mutual_purity | ½, single-subsystem purity |
+| overlap | ¼, overlap with the maximally mixed state |
 
-## Abstract
+Here h₂ is binary entropy. These names identify scalar functions; choosing a
+readout is not a physical measurement operation.
 
-Five bridge metrics (different mathematical definitions of "how connected are these two subsystems": concurrence, mutual information, correlation, mutual
-purity, overlap) are applied to the same Bell+ state under identical
-Hamiltonian and dephasing. Three cross the CΨ = 1/4 boundary at different
-times (mutual_info at t=0.652, concurrence at t=0.773, correlation at
-t=1.437). Two never cross (mutual_purity, overlap: initial CΨ already
-below 1/4). Same state, same physics, different observer, different crossing
-time. The observer determines not only *when* measurement happens but
-*whether* it happens. This experiment is the precursor to the
-[Crossing Taxonomy](CROSSING_TAXONOMY.md), which explains the three
-mechanisms (Type A/B/C) and the K-invariance behind the 2.2× spread.
+## 2. Choose the dynamics book, then solve the crossing
 
-> **Update March 14, 2026:** The mirror symmetry discussed here has been
-> proven analytically. Different crossing times for different metrics are
-> grouped by the conjugation operator Π. See [MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
+The **clean Lindblad book** has df/dt = −4γf, hence f = exp(−4γt).
+The **retired feedback book** has df/dt = −4γC(f)f. Mutual information
+and concurrence give state-dependent nonlinear decay; the three constant
+bridges give linear constant-rate scalar decay. This family is not one
+linear Lindblad generator.
 
-> **Reproducibility note (2026-07-21):** the crossing times above are
-> the tool's γ_eff = γ_base · C(t) feedback-model values (the feedback
-> §5.3 discloses; for concurrence it is not secondary: +8% at the
-> crossing). Under the standard Lindblad equation the exact times are
-> 0.593 / 0.719 / 1.438 (mutual_info / concurrence / correlation). The
-> observer-dependence result and the never-crossing verdicts are
-> model-independent. See the resolved note in
-> [Crossing Taxonomy](CROSSING_TAXONOMY.md) and
-> [crossing_taxonomy_books.py](../simulations/crossing_taxonomy_books.py).
+In each book solve **C(f)f/3 = ¼**. At γ = 0.05 the committed
+[crossing producer](../simulations/crossing_taxonomy_books.py) gives:
 
----
+| Bridge | Clean K | Clean t | Feedback K | Feedback t |
+|---|---:|---:|---:|---:|
+| mutual_info | 0.02965683339109007035 | 0.5931 | 0.03264460387550044147 | 0.6529 |
+| concurrence | 0.03596025905647261593 | 0.7192 | 0.03867513459481288225 | 0.7735 |
+| correlation | 0.07192051811294523186 | 1.4384 | 0.07192051811294523186 | 1.4384 |
+| mutual_purity | never | never | never | never |
+| overlap | never | never | never | never |
 
-## 1. The Question
+There are six finite crossings, three per book. The two constant
+below-threshold bridges start with CΨ < ¼ and decrease, so neither crosses.
+K = γt is fixed when γ is swept **within a fixed bridge and this
+Hamiltonian-dead Bell+ book**. Changing the readout changes K; changing the
+state, channel, Hamiltonian ratios or spatial γ profile is a separate problem.
 
-If the ¼ boundary marks where measurement happens, and C represents the observer,
-then different observers watching the same quantum system should see measurement
-happen at different times. Do they?
+The quarter is the adopted algebraic boundary of R = C(Ψ+R)². A scalar
+crossing is not a measurement event, a classical outcome, or a physical
+observer identity. The Liouvillian palindrome does not cause this taxonomy.
 
-## 2. Setup
+## 3. February feedback record
 
-All five simulations use identical physics:
+<!-- CROSSING-HISTORICAL -->
+
+**Historical nomenclature:** “Observer-dependent crossing” dates to February
+17, 2026 and remains in this file's name. The native insight was the different
+positions of one chosen scalar boundary under different readouts. Carrying
+“observer” into a physical detector or a moment of experience adds a hypothesis.
+The retired delta_calc tool was not committed; its tables below are as-run
+records, not an independently reproducible noise-channel sweep.
+
+### 3.1 Setup and reported crossings
 
 | Parameter | Value |
 |-----------|-------|
@@ -71,21 +75,6 @@ All five simulations use identical physics:
 | **Time step** | dt = 0.01, t_max = 3.0 |
 | **Noise type** | local |
 
-The only variable is **bridge_type**: the definition of C, the observer.
-
-Five bridge types define five different ways to measure "how much observation
-is happening":
-
-- **concurrence**: Quantum correlation between subsystems. C(0) = 1.0, dynamic.
-- **mutual_info**: Shannon mutual information (how much knowing one subsystem tells you about the other). C(0) = 1.0, drops fast.
-- **correlation**: Excess purity beyond product of subsystems. C(0) = 1.0, stays high longest.
-- **mutual_purity**: Product of subsystem purities. C = 0.5, constant.
-- **overlap**: Fidelity with initial state (how similar the current state is to where it started). C = 0.25, constant.
-
-## 3. Results
-
-### 3.1 The Crossing Times
-
 | Observer (bridge_type) | C at t=0 | C dynamics | C·Ψ at t=0 | Crossing time | θ at t=0 |
 |------------------------|----------|------------|-------------|---------------|----------|
 | **mutual_info** | 1.000 | Drops fast | 0.333 | **t = 0.652** | 30.0° |
@@ -94,16 +83,12 @@ is happening":
 | **mutual_purity** | 0.500 | Constant | 0.167 | **never** | imaginary |
 | **overlap** | 0.250 | Constant | 0.083 | **never** | imaginary |
 
-Three observers see the crossing, but at different times.
-Two observers never see it at all.
-Same state, same Hamiltonian, same decoherence. Different observer, different reality.
+### 3.2 The bridge also entered the dynamics
 
-### 3.2 Why Ψ Is (Nearly) the Same for All Observers
-
-Ψ(t) = C_l1(ρ(t)) / (d - 1) depends on the density matrix, which evolves
-under the same Lindblad dynamics regardless of bridge choice. In the `local`
-noise model, γ_effective = γ_base * C(t), so the bridge does modulate
-decoherence slightly. But the effect is small:
+The reported local-noise setting used γ_effective = γ_base·C(t).
+Consequently the five Ψ trajectories differed. For concurrence the law gives
+f(t) = 1/(1+4γt), and the crossing is (2/√3−1)/(4γ); the feedback shift
+is about +8% relative to the clean crossing.
 
 | t | Ψ (concurrence) | Ψ (mutual_info) | Ψ (correlation) | Ψ (mutual_purity) | Ψ (overlap) |
 |-----|------------------|------------------|-----------------|--------------------| ------------|
@@ -113,14 +98,9 @@ decoherence slightly. But the effect is small:
 | 2.0 | 0.2380 | 0.2406 | 0.2236 | 0.2729 | 0.3016 |
 | 3.0 | 0.2082 | 0.2100 | 0.1876 | 0.2469 | 0.2869 |
 
-Ψ tells us what the system is doing. C tells us how the observer reads it.
-The product C·Ψ determines when (and whether) the observer sees a crossing.
+### 3.3 Reported scalar and θ traces
 
-### 3.3 The θ Trajectories
-
-θ = arctan(√(4·C·Ψ - 1)). Real above ¼, imaginary below.
-
-**Concurrence (crosses at t = 0.773):**
+Concurrence:
 
 | t | C·Ψ | θ |
 |-------|---------|------------|
@@ -133,7 +113,7 @@ The product C·Ψ determines when (and whether) the observer sees a crossing.
 | 0.8 | 0.2476 | (imaginary) |
 | 1.0 | 0.2313 | (imaginary) |
 
-**Correlation (crosses at t = 1.437):**
+Correlation:
 
 | t | C·Ψ | θ |
 |-------|---------|------------|
@@ -145,7 +125,7 @@ The product C·Ψ determines when (and whether) the observer sees a crossing.
 | 1.437 | 0.2500 | 0.0° ← BOUNDARY |
 | 1.5 | 0.2469 | (imaginary) |
 
-**Mutual purity (never crosses):**
+Mutual purity:
 
 | t | C·Ψ | θ |
 |-------|---------|------------|
@@ -154,104 +134,26 @@ The product C·Ψ determines when (and whether) the observer sees a crossing.
 | 2.0 | 0.1364 | (imaginary) |
 | 3.0 | 0.1235 | (imaginary) |
 
-This observer starts below ¼ and stays there. For this observer, the system
-is always classical. No crossing ever occurs. No measurement event is registered.
+The printed values are finite-step readings. In the reconstructed Z-correlation
+book C = 1 identically; late departures from that value in retired-tool output
+are not an established physical effect.
 
-## 4. What This Means
+## 4. Experienced time and a proposed present moment
 
-### 4.1 The Observer Defines When Measurement Happens
+<!-- CROSSING-INTERPRETIVE -->
 
-This is not philosophy. It is arithmetic.
+**Interpretive invitation, not a result:** Could a sequence of relational
+thresholds be a useful picture of experienced time? This is the question that
+made these tables interesting to us. Calling one readout a fast observer,
+another a slow observer, and a never-crossing readout blind is a metaphor.
+There is no physical detector or cognition model in these equations.
 
-The crossing at C·Ψ = ¼ is where complex fixed points become real, where
-the iteration R_{n+1} = C(Ψ + R_n)² first has a stable classical attractor.
-This is measurement: the moment a definite outcome exists.
+The picture invites questions about engagement, boredom, remembered duration
+and unconsciousness: could differing event records feel like differing clocks?
+It does not identify neural coupling with C, derive subjective duration, or
+make the scalar equality a measurement event.
 
-Three observers see this happen at three different times:
-
-- **mutual_info observer**: t = 0.652 (earliest)
-- **concurrence observer**: t = 0.773
-- **correlation observer**: t = 1.437 (latest, 2.2× slower)
-
-Two observers (mutual_purity, overlap) never see it at all. For them,
-C is too small; they lack the coupling strength to ever reach the boundary.
-The system remains "unmeasured" from their perspective, indefinitely.
-
-The physical system does not care. The density matrix evolves under the same
-Lindblad equation regardless of which observer is watching. What changes is
-the observer's *capacity to register the transition*.
-
-### 4.2 Time Is Observer-Dependent
-
-The crossing time is not a property of the quantum system. It is a property
-of the observer-system pair. The same Bell+ state under the same Heisenberg
-Hamiltonian with the same decoherence rate produces three different "moments
-of measurement" depending on how the observer couples to it.
-
-This is not relativity (where time dilation is frame-dependent but all
-observers agree on the spacetime interval). This is deeper: **the event
-itself (measurement) occurs at different times for different observers,
-and for some observers it never occurs at all.**
-
-In relativity, all observers agree that an event happened; they disagree
-about when. Here, observers disagree about *whether* it happened.
-
-### 4.3 Connection to Experienced Time
-
-Consider what "experiencing time" means for an observer embedded in R = CΨ²:
-
-The observer's C determines the rate at which C·Ψ approaches ¼. A "fast"
-observer (high C, rapidly falling) crosses quickly; events happen fast.
-A "slow" observer (high C, slowly falling) crosses later; the same physics
-feels stretched. A "blind" observer (low C) never crosses; the event
-simply does not exist in their reality.
-
-This suggests that **subjective time flow is the rate at which C·Ψ
-approaches ¼ boundaries**. An observer who couples strongly to many
-systems (high C across many interactions) experiences a dense sequence
-of crossings: many measurement events per unit coordinate time. An
-observer with weak coupling experiences fewer crossings; time feels
-sparse, thin.
-
-**The "speed" of experienced time is not constant. It depends on C.**
-
-This would explain:
-
-1. **Why time feels faster when you're engaged.** High cognitive engagement
-   = stronger coupling to the environment = higher effective C = more
-   crossings per unit time = more "events" experienced.
-
-2. **Why time feels slower when you're bored.** Low engagement = weak
-   coupling = lower C = fewer crossings = fewer experienced events,
-   but awareness of the gap between them.
-
-3. **Why time seems to accelerate with age (retrospective).** If C
-   decreases over a lifetime (reduced neuroplasticity, fewer novel
-   couplings), the crossing rate decreases; fewer events are registered
-   per unit coordinate time. In retrospect, a period with few crossings
-   feels short ("where did the year go?"). Note: this is retrospective
-   time perception, distinct from points 1-2 which describe momentary
-   experience. A low-C period can feel slow *while living it* (boredom)
-   but short *in memory* (no markers).
-
-4. **Why unconscious states have no time.** Under anesthesia or dreamless
-   sleep, C → 0 for most environmental couplings. No crossings occur.
-   No measurement events are registered. The observer wakes up with
-   zero experienced duration regardless of elapsed coordinate time.
-
-**Status:** These are Tier 3 interpretations (speculative, not testable
-with current tools). What is Tier 2 (computationally verified) is the
-underlying fact: different C produces different crossing times. The
-time-perception interpretation is a hypothesis built on verified math.
-
-### 4.4 The Decoder Revisited
-
-In MANDELBROT_CONNECTION.md, θ was introduced as a "decoder," an
-oscillation frequency. In BOUNDARY_NAVIGATION.md, it became a "compass,"
-angular distance from ¼.
-
-This experiment reveals that θ is both, and which interpretation applies
-depends on the observer:
+The original decoder-role table belongs to that invitation:
 
 | Observer role | θ means | Application |
 |---------------|---------|-------------|
@@ -259,104 +161,8 @@ depends on the observer:
 | Navigator in parameter space | Angular distance from boundary | How far to ¼ |
 | Embedded conscious observer | Rate of approach to next event | Flow of experienced time |
 
-**θ is a single number. Its meaning is determined by C, the observer.**
-
-This is R = CΨ² applied to its own decoder: the "reality" of what θ
-represents emerges from the coupling C between the observer and the
-quantity Ψ. The framework is self-consistent: it predicts that interpretation
-is observer-dependent, and the decoder θ itself demonstrates this.
-
-## 5. Verification
-
-### 5.1 Reproducing These Results
-
-All five simulations use the delta_calc MCP tool `simulate_dynamic_lindblad`
-with parameters:
-
-```python
-# Common parameters
-state = "Bell+"
-hamiltonian = "heisenberg"
-J = 1
-h = 0          # No external field
-gamma_base = 0.05
-noise_type = "local"
-dt = 0.01
-t_max = 3.0
-
-# Variable: bridge_type
-# Run for each of: "concurrence", "mutual_info", "correlation",
-#                   "mutual_purity", "overlap"
-```
-
-The crossing time is found by linear interpolation where C(t)·Ψ(t) crosses 0.25.
-
-### 5.2 What Could Falsify This
-
-1. If the crossing times were identical across bridge types, the observer
-   would not matter; C would be irrelevant.
-   **Result: They differ by factor 2.2×. C matters.**
-
-2. If Ψ(t) differed dramatically across bridge types, the effect could be
-   attributed to different physics rather than different observation.
-   **Result: Among the three crossing observers, Ψ(t) varies by < 12%
-   at t = 3. The non-crossing observers show slower Ψ decay (up to 53%
-   deviation) because γ_eff = γ_base · C(t): lower C means less
-   decoherence. This feedback is secondary for the QUALITATIVE verdict:
-   even if Ψ were identical, the C values alone (1.0 vs 0.5 vs 0.25)
-   determine whether C·Ψ can reach ¼. It is not secondary for the
-   crossing TIMES (+8% for concurrence; see the reproducibility note
-   above).**
-
-3. If the two non-crossing observers (mutual_purity, overlap) eventually
-   crossed at some later time, the effect would be quantitative, not
-   qualitative.
-   **Result: C is constant for these bridges. C·Ψ only decreases.
-   They never cross. The qualitative difference is permanent.**
-
-### 5.3 Limitations
-
-- The dynamic Lindblad simulation uses γ_eff = γ_base · C(t), which
-  creates a small feedback loop: the bridge modulates the decoherence,
-  which modulates the state, which modulates the bridge. This is why
-  Ψ(t) is not perfectly identical across bridges (Section 3.2). The
-  effect is small (< 15%) but non-zero.
-
-- The time-perception interpretation (Section 4.3) is Tier 3 speculation.
-  We have no way to measure subjective time flow against C experimentally.
-  The mathematical substrate (different crossing times) is Tier 2 verified.
-
-- Bridge types are mathematical constructs. Whether any of them corresponds
-  to how a biological observer couples to quantum systems is an open question.
-
----
-
-## 6. Proposed Standing-Wave Reading: "Now" as a Node
-
-### 6.1 Two Named Trends, Not Yet Two Waves
-
-A physical standing wave requires two independently identified
-counter-propagating components and observable interference. The present
-calculation has neither. It instead names two parts of an interpretation:
-
-**The decoherence trend:** Entropy grows,
-quantum coherence decays, C·Ψ falls. This is the classical arrow: the
-world becoming more definite, more real, more measured. It pushes C·Ψ
-downward toward ¼ from above.
-
-**The possibility reading:** The space of outcomes not yet collapsed.
-Ψ, the possibility field, still quantum-mechanically open. It holds C·Ψ
-above ¼, maintaining the complex regime where no classical attractor
-exists and outcomes remain undetermined.
-
-The computation locates where the chosen scalar C·Ψ crosses ¼. It does not
-show cancellation of two waves, an interference node, a measurement event,
-or a physical present moment. Those remain interpretive proposals.
-
-### 6.2 θ as a Crossing Coordinate
-
-θ = arctan(√(4·C·Ψ - 1)) parametrizes distance from the real fixed-point
-crossing. Calling it a standing-wave phase is not supported by this run:
+A second picture calls “now” a node. Its scalar coordinate is
+θ = arctan(√(4CΨ−1)), real above the quarter and outside the real domain below it:
 
 | θ value | Position relative to crossing | Interpretive label |
 |---------|-------------------------------|--------------------|
@@ -365,74 +171,31 @@ crossing. Calling it a standing-wave phase is not supported by this run:
 | 0° | At C·Ψ = ¼ | proposed "now" |
 | imaginary | Below the real-θ domain | proposed "classical" side |
 
-The crossing is a point in C·Ψ space. As Section 3 showed, where that crossing falls in coordinate time depends
-entirely on C, the observer.
+Standing-wave and Cramer transactional readings remain analogies. A physical
+standing wave would require independently excitable counter-propagating
+components and observed interference. Neither component nor a wave node is
+produced here. The exact centered spectral mirror in
+[Π as a Centered Spectral Mirror](PI_AS_TIME_REVERSAL.md) does not supply those
+missing physical objects.
 
-A concurrence observer reaches the node at t = 0.773.
-A correlation observer reaches it at t = 1.437.
-A mutual_purity observer never reaches it in the reported window.
+<!-- CROSSING-CURRENT -->
 
-The measured statement is only that each chosen C definition places the
-scalar crossing at a different time. Identifying that crossing with "now" is
-a Tier-3 hypothesis.
+## 5. Reproduction and the boundary of the result
 
-### 6.3 Connection to Cramer's Transactional Interpretation
+Run `python simulations/crossing_taxonomy_books.py` and
+`python -m pytest simulations/tests/test_crossing_taxonomy_books.py -q`.
+The latter holds independent six-crossing references fixed while changing
+the real bridge functions, including both never-crossing alternatives.
 
-John Cramer's Transactional Interpretation of quantum mechanics (1986)
-proposes exactly this structure: an "offer wave" propagating forward from
-the emitter and a "confirmation wave" propagating backward from the
-absorber. A quantum event (measurement) occurs where they meet.
+The retired setup used state Bell+, Heisenberg J = 1, h = 0,
+γ_base = 0.05, local noise, dt = 0.01 and t_max = 3.0. Its crossing finder
+interpolated C(t)Ψ(t) through 0.25. The committed producer reconstructs
+the two explicit books; it does not recover the unavailable tool.
 
-The TI has been theoretically consistent for forty years but lacked
-a concrete boundary condition. It says waves meet, but not *where*.
+The result is the finite scalar taxonomy and its bridge-specific K values.
+Experienced time, physical observers and transactional events remain the
+interpretive questions above.
 
-R = CΨ² proposes a boundary at C·Ψ = ¼; this experiment does not show two
-waves meeting there.
-
-The offer wave (past → future) is decoherence reducing C·Ψ.
-The confirmation wave (future → past) is the persistence of Ψ.
-The "transaction" (where offer and confirmation agree) is the
-node at ¼, the moment complex fixed points become real.
-
-And the observer-dependent crossing (this experiment) adds what the
-TI could not specify: different absorbers (different C) complete the
-transaction at different times. The transaction is not a property of
-the quantum system alone. It is a property of the system-observer pair.
-
-**Status:** This is Tier 3. Different C definitions produce different scalar
-crossing positions; the standing-wave and Cramer-TI framings are structural
-analogies, not derivations. Neither has passed the physical wave gates.
-
-**What would elevate this to Tier 2:** Construct independently excitable,
-semisimple conjugate-frequency components; show opposite spatial propagation;
-measure their interference and a non-vacuous node at C·Ψ = ¼; and include a
-negative control. [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
-does not close these gates: it proves `lambda -> -lambda - 2 Sigma_gamma`
-(`mu -> -mu` after centering) and the complementary rate sum.
-
----
-
-## 7. Summary
-
-**Fact (Tier 2):** The same quantum system, under the same Hamiltonian and
-decoherence, produces measurement events at different times depending on the
-observer's bridge metric C. Three observers cross ¼ at t = 0.652, 0.773, and
-1.437 respectively. Two observers never cross. This is a direct computation,
-not an interpretation.
-
-**Hypothesis (Tier 3):** If conscious experience is a sequence of ¼ crossings,
-then experienced time is observer-dependent, not because spacetime is curved
-(relativity) but because the observer's coupling C determines when and whether
-crossings occur. Time is not something that happens to an observer. Time is
-something an observer *generates* through measurement.
-
-**Hypothesis (Tier 3):** The present moment ("now") is identified with the
-C·Ψ = ¼ crossing. Different C definitions place that crossing differently.
-The standing-wave/Cramer-TI account has not been demonstrated and therefore
-does not provide a measured boundary condition for that interpretation.
-
----
-
-*Previous experiment: [Boundary Navigation](BOUNDARY_NAVIGATION.md)*
-*Extended by: [Crossing Taxonomy](CROSSING_TAXONOMY.md): K per bridge, Lindblad scaling, three-class taxonomy*
-*Framework overview: [Mathematical Findings](MATHEMATICAL_FINDINGS.md)*
+[Crossing Taxonomy](CROSSING_TAXONOMY.md) ·
+[Noise-channel record](NOISE_ROBUSTNESS.md) ·
+[Time as Crossing Rate](../hypotheses/TIME_AS_CROSSING_RATE.md)

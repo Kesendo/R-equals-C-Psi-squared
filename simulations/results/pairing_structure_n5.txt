@@ -1,30 +1,38 @@
-=== PAIRING STRUCTURE OF V-EFFECT (N=2 -> N=5) ===
-N=2: 16 eigenvalues, 2 frequencies (3.999, 4.000), 16/16 paired
-N=5: 1024 eigenvalues, 109 frequencies, 1024/1024 paired
+=== FINITE V-EFFECT FREQUENCY CENSUS (N=2 -> N=5) ===
+Current reading: gamma=0.05, |Im(lambda)|>0.01, six-decimal absolute-frequency
+bins, OLD/NEW comparison tolerance 1e-4. OLD means a tolerance-matched N=2
+frequency value; NEW means unmatched. No eigenvector transport is measured.
+Producer: simulations/pairing_structure.py. This captured N=5 book is not a
+fresh eigensolve; its histogram depends on the returned eigenbasis.
 
-OLD frequencies in N=5: 0 (N=2 frequencies do not survive)
-NEW frequencies in N=5: 109 (all from coupling)
+N=2: 16 eigenvalues, 2 frequencies (3.999, 4.000 as displayed)
+N=5: 1024 eigenvalues, 109 frequencies
+OLD frequency bins in N=5: 0
+NEW frequency bins in N=5: 109
 
-Pairing structure (optimal-assignment matching, max pairing error 1.24e-13):
-  OLD-OLD: 0 (0.0%)
-  NEW-NEW: 452 (100.0% of oscillating; 904 oscillating modes)
-  OLD-NEW: 0 (0.0%)
-  DECAY-DECAY: 60 (120 pure-decay modes)
-  UNPAIRED: 0
+Historical assignment reading: 16/16 and 1024/1024 entries matched;
+N=5 maximum assignment distance 1.24e-13. This is a finite numerical reading,
+not a certificate of unordered pairs. Current F1 counting uses the shared
+holomorphic map lambda -> -lambda-2*sum(gamma) with one-use target indices.
 
-The coupling creates a completely self-contained palindrome.
-Old N=2 frequencies are destroyed. All 109 new frequencies
-pair with each other. Not one old mode survives.
+Spectral populations at the stated 0.01 threshold:
+  Oscillatory: 904 entries; all have unmatched N=2 frequency values.
+  Complement near the real axis: 120 entries, including stationary entries.
+  Historical half-cardinalities: 452 and 60, not identified pair counts.
+  Historical unmatched-entry count: 0.
 
-=== XY-WEIGHT DISTRIBUTION OF NEW FREQUENCIES ===
+The cross-N mismatch does not establish destruction, creation or survival
+of modes. N-dependent frequency shifts alone can defeat value matching.
 
-w=0:  2.5%  #             fully classical (I/Z only)
+=== AS-RUN XY-WEIGHT HISTOGRAM OF OSCILLATORY EIGENVECTORS ===
+
+w=0:  2.5%  #             I/Z only
 w=1: 15.6%  #######       boundary
 w=2: 31.9%  ###########   interior (peak)
 w=3: 31.9%  ###########   interior (peak)
 w=4: 15.6%  #######       boundary
-w=5:  2.5%  #             fully quantum (X/Y only)
+w=5:  2.5%  #             X/Y only
 
-Perfectly symmetric: w(k) = w(N-k) for all k.
-The new palindrome is balanced across XY-weight sectors.
+The displayed histogram is symmetric to its printed precision.
+These are averaged Pauli coefficient-mass shares, not integer mode counts.
 Interior (w=2,3): 63.8%. Boundary (w=1,4): 31.1%. Extremes (w=0,5): 5.1%.

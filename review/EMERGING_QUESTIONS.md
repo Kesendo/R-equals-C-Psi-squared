@@ -891,9 +891,9 @@ At N=5, Σ f shrinks monotonically site → pair → triple at every k, no sign 
 ## EQ-021
 
 **Date:** 2026-04-20
-**Source:** [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md), [OPEN_THREAD_GAMMA0_INFORMATION](OPEN_THREAD_GAMMA0_INFORMATION.md), [F6 V-Effect](../docs/ANALYTICAL_FORMULAS.md)
+**Source:** [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md), [OPEN_THREAD_GAMMA0_INFORMATION](OPEN_THREAD_GAMMA0_INFORMATION.md), [F6 Q-edge gain](../docs/ANALYTICAL_FORMULAS.md)
 
-For the PTF standard initial state (|vac⟩ + |ψ_1⟩)/√2 and endpoint bond (0, 1), the measured c_1 scales empirically as c_1 ≈ 0.5 · V(N) for N ≥ 4, where V(N) = 1 + cos(π/N) is the V-Effect. Measurement:
+For the PTF standard initial state (|vac⟩ + |ψ_1⟩)/√2 and endpoint bond (0, 1), the measured c_1 was compared with the candidate regressor `0.5·V(N)` for N ≥ 4, where `V(N)=1+cos(π/N)` is the **F6 Q-edge gain**. This was a finite numerical comparison, not a V-Effect mechanism. Measurement:
 
 | N | c_1 | 0.5·V(N) | ratio |
 |---|-----|----------|-------|
@@ -903,7 +903,7 @@ For the PTF standard initial state (|vac⟩ + |ψ_1⟩)/√2 and endpoint bond (
 | 6 | 1.019 | 0.933 | 1.09 |
 | 7 | 0.970 | 0.951 | 1.02 |
 
-The coefficient 0.5 matches three other project-signature occurrences of 0.5: the connection maximum C = 0.5 ([THE_CPSI_LENS](../docs/THE_CPSI_LENS.md)), the first non-trivial V-Effect gain V(3) − 1 = 0.5, and twice the fold-boundary ¼. Is this empirical match at ~5 % level an accident, a special property of the bonding-mode-plus-vacuum state, or a derivable structural fact?
+The coefficient 0.5 matches three other project-signature occurrences of 0.5: the connection maximum C = 0.5 ([THE_CPSI_LENS](../docs/THE_CPSI_LENS.md)), the first non-trivial F6 Q-edge-gain increment `V(3)-1=0.5`, and twice the fold-boundary ¼. Is this empirical match at ~5 % level an accident, a special property of the bonding-mode-plus-vacuum state, or a derivable structural fact?
 
 The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version of a theorem that excludes N=3 specifically (where only two bonds exist and both are endpoint-touching), or is the pattern a large-N approximation that happens to work at small N ≥ 4?
 
@@ -915,7 +915,7 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 
 **Two independent reasons for closure.**
 
-**1. Category error (conceptual).** The V-Effect is an inter-layer emergence phenomenon: two complete systems connected produce structure that neither contains alone (2+2 frequencies become 109, 14/36 palindromes break at N=3). See [V_EFFECT_PALINDROME](../experiments/V_EFFECT_PALINDROME.md), [V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md). V(N) = 1 + cos(pi/N) is a formula that captures Q_max/Q_mean within a single chain (D2 in ANALYTICAL_FORMULAS.md), but the V-Effect as a concept describes what happens when a NEW connection is created between systems. c_1 is an intra-layer perturbation sensitivity: how an existing bond's strength change shifts per-site purity dynamics. Connecting c_1 to V(N) was a category confusion between "perturbing an existing coupling" and "creating new structure through coupling." Even if the numbers had matched exactly, the conceptual mapping would have been wrong.
+**1. Category error (conceptual).** The **V-Effect census** is a finite routing/bin classification for named generators; it does not establish an inter-layer emergence mechanism or show that connecting systems creates structure. The **F6 Q-edge gain** `V(N)=1+cos(pi/N)` is the within-one-N ratio `Q_max/Q_mean`. The c_1 observable is a state- and bond-dependent perturbation response. Reusing the historical letter V as though all three were one mechanism conflated distinct objects. Even an exact numerical match would still need a derivation.
 
 **2. Numerical falsification.** The mode decomposition (eq021_mode_decomposition.py, N=4 and N=5) identifies the dominant spectral constant as E_1 = 2cos(pi/(N+1)), not V(N) = 1 + cos(pi/N). These are structurally different expressions (argument N+1 vs N) that both converge to 2 for large N, explaining the numerical near-match in the narrow window N=4..7. Additional falsification evidence:
 
@@ -931,7 +931,7 @@ The N=3 case does NOT follow the 0.5·V(N) scaling. Is there an N ≥ 4 version 
 3. **Endpoint dominance is a sine-basis geometry effect,** not a cavity-focusing effect. The ψ_1 mode amplitude at the boundary (sin(pi/(N+1))) controls the endpoint sensitivity. The "cavity window" metaphor was evocative but the mechanism is open-boundary Fourier geometry.
 4. **E_1 = 2cos(pi/(N+1)) is the relevant spectral constant** for the dominant oscillatory modes contributing to c_1. Now formalized as F2b in ANALYTICAL_FORMULAS.md (XY OBC single-excitation spectrum). Distinct from F2 (the Heisenberg chain's (0,1) coherence block) and from V(N).
 
-**V(N) vs V-Effect, category note.** V(N) = 1 + cos(π/N) is an intra-layer scalar (single-chain Q_max/Q_mean, D2 in ANALYTICAL_FORMULAS). The V-Effect as a phenomenon is inter-layer emergence: what appears when two systems are connected (2+2 → 109 frequencies, N=3 palindrome breaking). Same name V, different levels. The c_1 ~ 0.5·V(N) hypothesis tried to read an inter-layer effect via an intra-layer metric, which is the wrong level even if the numbers had matched. A V-Effect signature cannot be measured directly with V(N).
+**Two objects, plus the c_1 regressor.** The F6 Q-edge gain `V(N)=1+cos(π/N)` is the within-one-N ratio `Q_max/Q_mean`. The V-Effect census instead records finite routing and precision-labelled bin counts; it does not prove that the N=2/N=5 comparison is an inter-layer transition or that coupling causes the difference. The `c_1 ~ 0.5·V(N)` hypothesis was only a regressor test, and its numerical/mechanistic reading failed.
 
 **Scripts:** simulations/c1_veffect_scaling_small.py, simulations/eq021_mode_decomposition.py.
 **Results:** simulations/results/c1_veffect_scaling/c1_vs_N_small.json, simulations/results/eq021_mode_decomposition/.
@@ -1339,11 +1339,11 @@ The April-26 dense-sampling cusp run on Kingston pair (14, 15) found γ_fit / γ
 
 The framework refines V-Effect's 14/22 partition into 14 hard / 19 soft / 3 truly_unbroken at N=3 for two-term Pauli-pair Hamiltonians. The 19 soft cases pass the spectrum-pairing test but fail the operator equation Π·L·Π⁻¹ + L + 2Σγ·I = 0. **Does the 14/19/3 partition extend to N ≥ 4? Specifically: does the soft category (spectrum-paired, operator-broken) survive at larger N, and what is its scaling?**
 
-The combinatorial enumeration grows (16 single-Paulis squared minus identities = 36 ordered pairs at any N), but the dynamics differ by N. Soft cases at N=3 may collapse to truly or hard at N=4, or new soft structure may emerge.
+Two finite sample spaces were used. The original 36 rows are the distinct unordered pairs of nine fully-lit bilinears. The later catalog uses the 15 non-II two-site Pauli words and combinations with replacement: 120 rows including 15 self-pairs. Changing 36 to 120 changes the alphabet and inclusion of self-pairs, not the chain length.
 
 **Status:** partially closed by experiment ([pi_protected_test_n4.py](../simulations/pi_protected_test_n4.py), commit 96ed6da)
 
-**Result at N=4:** Trichotomy structure preserved. Counts: **15 truly / 46 soft / 59 hard** out of 120 unordered two-Pauli-pair Hamiltonians. The 36-enum and the 120-enum are not the same enumeration at two chain lengths; they are different sample spaces over different alphabets, the 36 over the nine traceless bond bilinears and the 120 over the sixteen two-site strings. Both are N-stable, and the 120-enum already reads 15/46/59 at N=3, so the step from 3/19/14 to 15/46/59 is a change of alphabet, not growth with N.
+**Result at N=4:** Trichotomy structure preserved. Counts: **15/46/59 (truly/soft/hard)** out of 120 unordered two-Pauli-pair Hamiltonians. The 36-enum and the 120-enum are not the same enumeration at two chain lengths; they are different sample spaces over different alphabets, the 36 over distinct pairs of nine fully-lit bond bilinears and the 120 over combinations with replacement from 15 non-II two-site strings. Both are N-stable, and the 120-enum already reads 15/46/59 at N=3, so the step from 3/19/14 to 15/46/59 is a change of alphabet, not growth with N.
 
 **Surprising new structure at N=4:** the soft category itself becomes granular via `pi_protected_observables`. The number of Π-protected Pauli-string observables ranges from 3 to 240 across the 46 soft cases, exposing a sub-spectrum invisible at N=3:
 - High-protected soft (YZ+ZY: 240 protected, 15 active): leaks only 15 of 255 Pauli observables; almost truly.

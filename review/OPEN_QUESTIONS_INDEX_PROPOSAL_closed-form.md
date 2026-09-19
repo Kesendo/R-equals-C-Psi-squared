@@ -72,7 +72,7 @@
 
 ### OQ-100
 
-**Question:** **Bures curvature is noisy.** The curvature formula involves second derivatives of sparse data. Reliable curvature estimation requires 50+ densely spaced time points.
+**Question:** **The Bures path-metric coefficient has a fragile coordinate-shape second derivative.** The displayed `S_CΨ` applies two derivatives to sparse, nonmonotone path data. Can dense sampling and explicit monotone-branch handling stabilize this path-coordinate proxy? It is not Gaussian or intrinsic curvature.
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 325)
 **Section:** 5. Limitations and caveats
@@ -81,8 +81,8 @@
 **Proposed Status:** open
 **Confidence:** high
 **Resolving documents:** none
-**Rationale:** The Bures curvature is computed and shown to be finite (K approximately -25 at CΨ approximately 1/4) in `experiments/INFORMATION_GEOMETRY.md`, but the specific data-sparsity limitation remains unaddressed. No follow-up document increases the time-point density or proposes a noise-robust curvature estimator.
-**Search terms used:** "Bures curvature", "curvature", "second derivative", "sparse data", "time points", "INFORMATION_GEOMETRY"
+**Rationale:** A one-dimensional path has zero intrinsic Riemann curvature. The stored value near -25 is the producer's coordinate-dependent second derivative of the pulled-back path-metric coefficient, not an intrinsic or Gaussian curvature. The narrower numerical question remains open: the sampled path is sparse and nonmonotone in `CΨ`, and no follow-up supplies a dense monotone-branch stability study.
+**Search terms used:** "Bures path metric", "coordinate shape", "S_CΨ", "second derivative", "sparse data", "monotone branch", "INFORMATION_GEOMETRY"
 
 ---
 

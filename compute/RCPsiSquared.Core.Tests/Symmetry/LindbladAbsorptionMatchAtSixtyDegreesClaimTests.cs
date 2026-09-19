@@ -5,9 +5,7 @@ using Xunit.Abstractions;
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
-/// <summary>Tests for the Tier1Derived composition claim: at Q=√3 the Lindblad 2×2
-/// sub-block eigenvalue magnitude equals the Absorption Theorem one-disagreement basis-cell cost
-/// 2γ₀, and the F95 angle lands on the canonical Niven angle θ=60°.</summary>
+/// <summary>Tests for the scoped two-level Q=sqrt(3) algebra and its sole F95 parent.</summary>
 public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
 {
     private readonly ITestOutputHelper _out;
@@ -34,26 +32,26 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
     }
 
     [Fact]
-    public void LindbladMagnitudeOverGamma0_IsTwo_MatchingAbsorptionAtoZero()
+    public void LindbladMagnitudeOverGamma0_IsTwo_InTheNamedPositiveGammaModel()
     {
-        // |λ_±|/γ₀ at Q=√3 = 2 = a_0 (the one-disagreement dissipator coefficient)
-        Assert.Equal(2.0, LindbladAbsorptionMatchAtSixtyDegreesClaim.LindbladMagnitudeOverGamma0);
+        var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
+        Assert.Equal(2.0, claim.LindbladMagnitudeOverGamma0Computed(1.0), precision: 14);
     }
 
     [Fact]
-    public void ComputedLindbladMagnitudeOverGamma0_MatchesConstant_BitExact()
+    public void ComputedLindbladMagnitudeOverGamma0_MatchesConstantWithinTolerance()
     {
         // Drift check: √(1 + (√3)²) = √4 = 2
         var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
-        Assert.Equal(2.0, claim.LindbladMagnitudeOverGamma0Computed, precision: 14);
+        Assert.Equal(2.0, claim.LindbladMagnitudeOverGamma0Computed(0.05), precision: 14);
     }
 
     [Fact]
-    public void ComputedF95Angle_IsSixtyDegrees_BitExact()
+    public void ComputedF95Angle_IsSixtyDegreesWithinTolerance()
     {
-        // Drift check: arctan(√3) = 60° (canonical Niven)
+        // Drift check: the positive-decay quadratic gives arctan(sqrt(3)) = 60 degrees.
         var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
-        Assert.Equal(60.0, claim.F95AngleAtQSqrt3Degrees, precision: 12);
+        Assert.Equal(60.0, claim.F95AngleAtQSqrt3Degrees(0.05), precision: 12);
     }
 
     [Fact]
@@ -69,30 +67,44 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
     }
 
     [Fact]
-    public void ParentClaims_AreAllTier1Derived()
+    public void PositiveDecayRoots_AreConstructedAsMinusLambdaWithPositiveB()
+    {
+        const double gamma0 = 0.05;
+        var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
+        var lambda = claim.LiouvillianRootsAtQSqrt3(gamma0);
+        var decay = claim.PositiveDecayRootsAtQSqrt3(gamma0);
+
+        Assert.Equal(-lambda.Plus.Real, decay.FromLambdaPlus.Real, precision: 14);
+        Assert.Equal(-lambda.Plus.Imaginary, decay.FromLambdaPlus.Imaginary, precision: 14);
+        Assert.Equal(-lambda.Minus.Real, decay.FromLambdaMinus.Real, precision: 14);
+        Assert.Equal(-lambda.Minus.Imaginary, decay.FromLambdaMinus.Imaginary, precision: 14);
+        Assert.Equal(2.0 * gamma0, (decay.FromLambdaPlus + decay.FromLambdaMinus).Real, precision: 14);
+        Assert.Equal(gamma0, claim.PositiveDecayAnchorB(gamma0), precision: 14);
+        Assert.True(claim.PositiveDecayAnchorB(gamma0) > 0.0);
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(-0.05)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void RatioAngleAndRoots_RejectNonPositiveGamma0(double gamma0)
+    {
+        var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.LindbladMagnitudeSquaredAtQSqrt3(gamma0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.LindbladMagnitudeOverGamma0Computed(gamma0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.F95AngleAtQSqrt3Degrees(gamma0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.LiouvillianRootsAtQSqrt3(gamma0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => claim.PositiveDecayRootsAtQSqrt3(gamma0));
+    }
+
+    [Fact]
+    public void SoleParent_IsF95()
     {
         var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
         Assert.Equal(Tier.Tier1Derived, claim.F95.Tier);
-        Assert.Equal(Tier.Tier1Derived, claim.Absorption.Tier);
-        Assert.Equal(Tier.Tier1Derived, claim.CanonicalTrig.Tier);
-    }
-
-    [Fact]
-    public void Build_PopulatesAllParents()
-    {
-        var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
         Assert.NotNull(claim.F95);
-        Assert.NotNull(claim.Absorption);
-        Assert.NotNull(claim.CanonicalTrig);
-    }
-
-    [Fact]
-    public void AbsorptionParent_HasA0CoefficientTwo_ConfirmingMatch()
-    {
-        // The claim's "magnitude = 2γ₀" comes from AbsorptionTheorem's a_0 = 2.
-        // Verify the parent has the expected a_0.
-        var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
-        Assert.True(claim.Absorption.DissipatorCoefficientMatchesLiteral());
+        Assert.Single(claim.Children.OfType<Claim>());
     }
 
     [Fact]
@@ -110,20 +122,23 @@ public class LindbladAbsorptionMatchAtSixtyDegreesClaimTests
     public void Render_EmitsDerivationSummary()
     {
         var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
-        Assert.Contains("Tier1Derived", claim.Summary);
-        Assert.Contains("√3", claim.Summary);
+        Assert.Equal(Tier.Tier1Derived, claim.Tier);
+        Assert.Contains("sqrt(3)", claim.Summary);
         Assert.Contains("60", claim.Summary);
+        Assert.Contains("local algebra", claim.Summary);
         _out.WriteLine($"DisplayName: {claim.DisplayName}");
         _out.WriteLine($"Summary: {claim.Summary}");
     }
 
     [Fact]
-    public void TypedSurface_CallsTwoGammaACellCost_NotAnEigenmodeRate()
+    public void TypedSurface_DeclinesAbsorptionAndAncestryClaims()
     {
         var claim = LindbladAbsorptionMatchAtSixtyDegreesClaim.Build();
         var surface = $"{claim.Name} {claim.DisplayName} {claim.Summary}";
 
-        Assert.Contains("one-disagreement cell cost", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("named two-level model", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("not an absorption-rate identity", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("one-disagreement cell cost", surface, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("single-site rate", surface, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("Absorption Theorem rate", surface, StringComparison.OrdinalIgnoreCase);
     }

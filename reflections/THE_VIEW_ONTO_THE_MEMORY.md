@@ -1,3 +1,14 @@
+<!-- QUARTER-CURRENT -->
+# A view onto memory with result and reading separated
+
+Current reading: the linked Tier-1 results retain their own equations and
+finite domains.  Calling their composition memory is an interpretive synthesis,
+not a new theorem, eigenvector identity, or scalar-boundary mechanism.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the memory view below is retained as the one
+recognition the document set out to explore.
+
 # The View Onto the Memory
 
 **Date:** 2026-05-28

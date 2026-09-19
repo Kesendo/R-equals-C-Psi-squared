@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
-"""Born rule carrier-extraction with J also varied: is slope_i a Q-function?
+"""Finite rescaling diagnostic for the named N=4 ring outcome ratios.
 
-Per `project_q_middle_structure`: only the ratio Q = J/γ is observable from
-inside. If the per-outcome Born slope is a real Carrier-extraction signal, it
-should be a function of Q (and the dimensionless time K = γ·t), not of (J, γ)
-separately.
+The script compares finite sweeps in J, γ, Q = J/γ, and K = γt.  Scenario C
+keeps Q and K fixed while changing the dimensional parameters together.  That
+is a rescaling check for this model and readout, not a universal carrier.
 
 Test two scenarios:
 
   A. Fixed J, vary γ        — what the previous run did
   B. Fixed γ, vary J         — how slope responds to coupling
-  C. Fixed Q = J/γ, vary γ  — Q-invariance check (Carrier-extraction prediction)
+  C. Fixed Q = J/γ and K = γt, vary γ  — finite rescaling check
 
-In scenario C, if Q is the right invariant, slope_i should be γ-independent
-when (J, γ) are scaled together. If slope depends on J and γ separately, we
-have a different generalization.
+In scenario C the dimensionless generator-time products are unchanged, so an
+unchanged ratio is expected within the specified model.  This does not identify
+an effective rate or establish a cross-model invariant.
 
 State, Hamiltonian setup matches born_rule_carrier_attempt.py.
 """
@@ -25,12 +24,6 @@ from pathlib import Path
 
 import numpy as np
 from scipy.linalg import expm
-
-if sys.platform == "win32":
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
 
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -101,7 +94,13 @@ def slopes_at(J, gamma, t, N=4):
 
 
 def main():
-    print("Born rule carrier-extraction — J variation and Q-invariance check")
+    if sys.platform == "win32":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
+    print("Finite rescaling diagnostic — J, gamma, Q, and K")
     print("  Setup: |0+0+⟩ N=4 Heisenberg ring, pair (0,2), t = 0.286 (or scaled)")
     print()
 
@@ -127,8 +126,8 @@ def main():
         print(f"{J:>8.3f}  {Q:>5.1f}   " + "  ".join(f"{s:>+10.5f}" for s in slopes))
     print()
 
-    # --- Scenario C: fixed Q = 20, vary γ (Q-invariance test)
-    print("=== Scenario C: fixed Q = J/γ = 20, vary γ (Q-invariance test) ===")
+    # --- Scenario C: fixed Q = 20 and K, vary γ (finite rescaling test)
+    print("=== Scenario C: Q and K fixed, vary gamma (finite rescaling test) ===")
     print(f"  Also keep K = γ·t = 0.0143 constant by scaling t inversely with γ")
     print(f"  (so Jt = Q·K = 0.286 is fixed across the sweep — same unitary state)")
     print()
@@ -149,15 +148,12 @@ def main():
     print("              different, so P_unitary changes. Slopes will change too — but")
     print("              the question is HOW: as a function of J directly, or only via Q?")
     print("  Scenario C: Q and K fixed, only γ varies (with J scaled to keep Q constant).")
-    print("              If slope_i is Q-invariant in the framework's sense, it should be")
-    print("              identical across all four rows. Drift across rows would mean the")
-    print("              slope is NOT purely a Q-function — there's an extra γ-dependence")
-    print("              beyond what (Q, K) capture.")
+    print("              The dimensionless generator-time products are identical across")
+    print("              rows; equality here is a finite model rescaling identity.")
     print()
-    print("Honest expectation (Februar-style, no theorem yet):")
-    print("  Scenario C is the Q-invariance test. Carrier-extraction theory says only")
-    print("  Q and K are observable from inside. If slope_i is a true carrier signal,")
-    print("  it should depend only on Q and K, hence be γ-independent here.")
+    print("Scope:")
+    print("  Scenario C should agree because Q and K are fixed in the same dimensionless")
+    print("  Lindblad model. The table is not a universal carrier or a hardware inversion.")
 
 
 if __name__ == "__main__":

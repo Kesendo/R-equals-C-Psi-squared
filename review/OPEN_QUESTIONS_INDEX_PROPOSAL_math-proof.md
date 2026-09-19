@@ -1,4 +1,9 @@
+<!-- QUARTER-CURRENT -->
 # Classification Proposal: math-proof (43 entries)
+
+Current reading: this is a finite classification proposal for the listed
+open-question entries.  Quarter-related rows retain the status and scope stated
+per entry; the batch summary is not a new physical theorem.
 
 **Batch:** 6 of 8  
 **Date:** 2026-04-12  
@@ -50,16 +55,16 @@
 
 ### OQ-018
 
-**Question:** Every quadratic map has a saddle-node bifurcation. CΨ² is the unique product-power form with a genuine phase transition AND Mandelbrot mapping (proven), but "why does nature choose this form?" remains open.  
+**Question:** Can the normalized recurrence/power family—and its α=2 member—be derived from a physical decomposition, rather than assumed?
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 84)  
 **Proposed status:** open  
-**Justification:** Listed as Active Weakness #1 in WEAKNESSES_OPEN_QUESTIONS.md. Algebraic uniqueness is proven but the physical "why" is unaddressed.
+**Justification:** Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. The chosen α=2 normal form has exact algebra, but that algebra does not select the family.
 
 ---
 
 ### OQ-019
 
-**Question:** In plain language: the ¼ boundary appears in a whole family of mathematical equations, not just ours. We have proven that our specific combination of observables is the only one... But we cannot yet explain why nature uses this particular combination...  
+**Question:** In plain language: purity makes α=2 a natural lens, but what physical assumptions—if any—select this recurrence and normalization?
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 89)  
 **Proposed status:** needs-human  
 **Justification:** Near-duplicate of OQ-018 (same source file, consecutive lines). OQ-018 is the technical statement, OQ-019 is the "plain language" restatement. Candidate for merge or removal.
@@ -68,10 +73,10 @@
 
 ### OQ-020
 
-**Question:** Status: Partially addressed. Algebraic uniqueness proven, physical specificity not.  
+**Question:** Status: the conditional family calculation is addressed; derivation or physical selection of that family is not.
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 97)  
 **Proposed status:** partially-resolved  
-**Justification:** Self-documenting: "Partially addressed. Algebraic uniqueness proven, physical specificity not." The uniqueness proof exists; the physical motivation does not.
+**Justification:** The assumed-family calculation identifies the α=2 member and its chosen-form coordinate. A physical derivation, or a counterfamily showing another viable selection, remains open.
 
 ---
 
@@ -158,10 +163,15 @@
 
 ### OQ-072
 
-**Question:** Formal proof of CΨ monotonicity above 1/4 for arbitrary CPTP maps  
-**Source:** `docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md` (line 355)  
-**Proposed status:** open  
-**Justification:** Explicitly stated as open in UNIQUENESS_PROOF.md: "The formal proof of CΨ monotonicity above 1/4 for arbitrary CPTP maps remains open." Computational evidence covers all standard Markovian channels, but the analytical proof is missing.
+**Question:** After the universal pointwise claim fails, what can be said about successive local maxima for
+an autonomous N=2 local-Z Lindblad trajectory, and how do finite rise classifications extend across Q and N?
+**Source:** `docs/proofs/PROOF_MONOTONICITY_CPSI.md` and `experiments/ENVELOPE_RISE_BOUNDARY.md`
+**Proposed status:** partially-resolved
+**Justification:** The broad “CΨ is monotone for arbitrary CPTP/Markovian dynamics” premise is refuted, not
+merely missing a proof: exact local examples give CΨ'(0)=+1/6 and an upward 1/4 crossing under a fixed
+Markovian semigroup. The old peak proof also has a real gap, but those counterexamples do not settle the
+narrower successive-local-maxima question. Named N=3/4/5 rows form a finite atlas; all-Q/all-N
+classification and mechanism remain open.
 
 ---
 
@@ -409,7 +419,7 @@
 
 ## Duplicate / overlap clusters
 
-**Cluster 1: "Why does nature choose CΨ²?"**  
+**Cluster 1: Physical selection of the assumed recurrence family**
 OQ-018 (technical), OQ-019 (plain language restatement), OQ-020 (status summary)  
 All from `docs/WEAKNESSES_OPEN_QUESTIONS.md` lines 84-97. Recommend merging into a single entry.
 
@@ -432,6 +442,6 @@ All three ask: "Does u carry independent information on complex trajectories?" R
 
 3. **Consciousness retirement:** OQ-300 is obsolete because the consciousness interpretation was formally retired from the technical work (WEAKNESSES_OPEN_QUESTIONS.md lines 102-111).
 
-4. **Deepest open questions:** OQ-308 separates proven conditional algebra from the open physical-reduction and biological-instance questions. OQ-072 (CΨ monotonicity proof for arbitrary CPTP maps), and OQ-012 (why exactly 14 survive at N >= 3) remain listed as open in this proposal.
+4. **Deepest open questions:** OQ-308 separates proven conditional algebra from the open physical-reduction and biological-instance questions. OQ-072 is now partially resolved: the universal pointwise premise is false, while the autonomous N=2 peak-sequence and all-Q/all-N atlas questions remain open. OQ-012 (why exactly 14 survive at N >= 3) also remains open.
 
 5. **PAIR_BREAKING_AT_THE_HORIZON cluster:** OQ-282, OQ-287 both remain open and relate to the spatial-vs-algebraic gap in the ER bridge analogy. Note that this hypothesis file was not marked FALLEN but also not strengthened since its writing.

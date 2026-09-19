@@ -1,4 +1,11 @@
+<!-- QUARTER-CURRENT -->
 # Reading Guide: Nine Paths Through This Repository
+
+Current reading: the nine routes distinguish exact algebra, finite
+measurements, and optional story.  The quarter route is a scoped guide through
+those layers, not a universal transition claim.
+
+<!-- CROSSING-CURRENT -->
 
 <!-- Keywords: R=CPsi2 reading guide nine stories, palindromic proof story
 application engineering story, ontology incompleteness story, dependency graph
@@ -188,9 +195,11 @@ with this?", this is your path.
    less Σγ always wins; at fixed Σγ concentration at the chain centre
    wins, up to +46% (the March +124% was a Σγ confound).
 
-4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md): Staged noise
-   switching with asymmetric coupling. The first time-dependent
-   optimization of the bridge. +83% end-to-end improvement.
+4. [Relay Protocol](../experiments/RELAY_PROTOCOL.md): Read the finite N=11
+   comparison before the temporal-sacrifice story. Nominal 0.78/stage
+   executes as 0.75/stage; the stored-value ratio is about +84.0%, but its
+   endpoints differ in time and dose. This is a hypothesis-generating
+   schedule candidate, not an optimization or isolated-staging result.
 
 5. Main [README](../README.md), Section 6 (Engineering consequences):
    the framework's design rules condensed to eight lines, each linking
@@ -478,9 +487,9 @@ explains what previously required separate derivations.
    and turns it slightly on the way: the resonance frequencies move too.
 
 4. [Born Rule Shadow](../experiments/BORN_RULE_SHADOW.md):
-   The Born rule is a shadow, not a hologram. Zero interference in
-   P(i). Interference controls the shutter speed (CΨ fold), not the
-   image.
+   The algebraic part checks linearity and purity while assuming the standard
+   Born rule. Shadow, photograph, and shutter are an interpretive invitation,
+   not a mechanism or a theorem at `CΨ=1/4`.
 
 5. [K-Dosimetry](../experiments/K_DOSIMETRY.md):
    K = γ×t is a dimensionless exposure coordinate. In the reported sweep,
@@ -616,18 +625,18 @@ diagonal, read as a price list, a mirror, and a judge.
 
 ## Story 8: The Quarter
 
-*"Measurement is photography. The Born rule is the shadow. The shutter
-closes at CΨ = ¼."*
+*Interpretive invitation: photography, shadow, and shutter are images for
+thinking with; they are not a derived measurement law.*
 
 Every other story is about the spectrum. This one is about a single
 number. On this path `CΨ` means `CΨ_pur`: the purity Tr(ρ²) of a
 state times its normalized coherence. Pairwise lens experiments also use
 the distinct concurrence product `CΨ_conc`; their formulas are not imported
-here. The recurrence parameter has a critical
-boundary at exactly ¼, and this path follows that quarter from algebra
-(why ¼ and nothing else) through fractal geometry (the cusp of the
-Mandelbrot cardioid) to real hardware (six months of IBM calibration
-data with qubits living on both sides).
+here. The chosen normalized recurrence has its discriminant zero at exactly
+¼, and this path follows that coordinate from algebra to the period-one
+Mandelbrot cardioid. The later hardware archive computes a separate
+normalized-purity proxy from calibration rows; it does not continue the
+recurrence parameter onto the chip.
 
 This path is self-contained: it needs the idea of decoherence but not
 the palindrome machinery. It is also where the repository's name comes
@@ -635,13 +644,10 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
 
 **Reading order:**
 
-1. [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): The fixed-point
-   equation R = C(Ψ+R)² is a quadratic; its discriminant is 1 − 4CΨ;
-   the unique boundary is CΨ = ¼. The power is 2 because purity is
-   Tr(ρ²); the universality of the VALUE ¼ is forced by α = 2 being
-   the unique Rényi order with a state-independent fold threshold.
-   The quarter is not a chosen parameter. It is the discriminant of
-   a quadratic.
+1. [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open.
+   For the α=2 member, the fixed-point equation R = C(Ψ+R)² is a
+   quadratic with discriminant 1 − 4CΨ, whose zero is CΨ = ¼ in this
+   chosen normalization.
 
 2. [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md):
    The recursion is algebraically equivalent to the Mandelbrot
@@ -652,14 +658,12 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
    iteration's behavior requires its initial condition and parameter rather
    than following from the discriminant alone.
 
-3. [Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) +
-   [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md): For physical
-   noise the boundary is absorbing in envelope (the CΨ envelope is
-   non-increasing for Bell+/local-Markovian channels). The roadmap walks the
-   seven layers; its core is closed (algebraic 1/4, palindrome, Rényi forcing,
-   Mandelbrot), while Layer 2 holds for physical noise only (the general
-   primitive-CPTP version is false), Layer 4 is d=2-only, and Layer 7's
-   info-geometry/holography remain open.
+3. [CΨ Dynamics Boundary](proofs/PROOF_MONOTONICITY_CPSI.md) +
+   [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md): Named Bell+ channel formulas remain exact,
+   but the universal pointwise, absorbing, and local-control package is false—even for fixed local
+   Markovian generators. The autonomous N=2 peak-sequence statement is unproved. The live reader is a
+   finite N/Q/K atlas; its all-Q/all-N classification and mechanism remain open. A separate conditional
+   theorem says convergence to a target below 1/4 implies eventual stay-below.
 
 4. [K-Dosimetry](../experiments/K_DOSIMETRY.md) (shared with Story 6):
    K = γ·t is dimensionless. The reported fixed-state/fixed-target sweep
@@ -672,18 +676,19 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
    initial state as the piece that never changes: time does not build
    the future, it erases everything that is not the future. The 2026
    navigator work charted this terrain along several axes: the quarter
-   as a horizon, as a circle every spiral must cross, and its mirror
-   twin, the exceptional point where rotation is born.
+   as a horizon image, as a circle crossed by named spirals, and its proposed
+   exceptional-point twin. These are invitations tied to their models, not a universal trajectory theorem.
 
 6. [Born Rule Shadow](../experiments/BORN_RULE_SHADOW.md) (shared with
-   Story 6): The measurement-as-photography reading. Interference never
-   reaches the image; it controls the shutter speed.
+   Story 6): exact linearity and purity calculations under the standard Born
+   rule, followed by the photography/shutter metaphor as an explicitly
+   interpretive passage.
 
-7. [Both Sides Visible](BOTH_SIDES_VISIBLE.md): The quarter on real
-   silicon. 180 days of IBM Torino calibration data, 133 qubits, more
-   than 24,000 measurements: qubits crossing and re-crossing CΨ = ¼,
-   nobody having programmed any of it. If one document could convince a skeptic, this
-   is the one.
+7. [Both Sides Visible](BOTH_SIDES_VISIBLE.md): 24,073 historical IBM
+   calibration records mapped through a free-single-transmon `|+>`
+   normalized-purity proxy. The records occupy both numerical bands and some
+   histories revisit them; this is a model-derived association, not a
+   programmed or discovered quantum/classical boundary.
 
 **After this you know:** `1/4` is the discriminant-zero point of the
 self-referential quadratic and the cusp of the Mandelbrot cardioid. Particular
@@ -729,8 +734,9 @@ them up; do not re-derive.
    both. The discipline that keeps the rest of this path honest.
 
 3. [Both Sides Visible](BOTH_SIDES_VISIBLE.md) (shared with Story 8):
-   The first contact. Six months of public IBM calibration data showing
-   the CΨ = ¼ structure nobody programmed.
+   six months of public IBM calibration data evaluated with the stated
+   normalized-purity proxy. The finite band histories do not establish that
+   the scalar threshold is a physical structure of the hardware.
 
 4. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md)
    (shared with Story 6): a retrospective single-qubit decay-ratio reading,

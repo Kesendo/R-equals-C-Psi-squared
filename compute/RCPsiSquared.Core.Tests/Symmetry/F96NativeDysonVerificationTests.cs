@@ -9,7 +9,7 @@ using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
-/// <summary>Native C# verification of F96's bit-exact Dyson matrix elements
+/// <summary>Native C# tolerance reconstruction of F96's exact Dyson matrix elements
 /// (M_3 = −4 for |01⟩, M_5 = −20 for |11⟩, U_2 = 3/4 for |01⟩, U_4 = 3/2 for
 /// |11⟩) on the same setup as F94. Reuses Core/Pauli + Core/ChainSystems +
 /// Core/States/PartialTrace primitives.
@@ -19,7 +19,7 @@ namespace RCPsiSquared.Core.Tests.Symmetry;
 /// verifies (a) the singly-subdominant sym3 element (= −4 on |01⟩) and U_h²
 /// element (= 3/4 on |01⟩), and (b) the doubly-subdominant sym5 element
 /// (= −20 on |11⟩) and L_h⁴ element (= 3/2 on |11⟩). From these the F96 slopes
-/// −16/9 and −8/3 follow algebraically.</para>
+/// −16/9 and −8/3 follow algebraically for this named N=4 ring setup.</para>
 /// </summary>
 public class F96NativeDysonVerificationTests
 {
@@ -51,6 +51,11 @@ public class F96NativeDysonVerificationTests
         new ChainSystem(N: N, J: 1.0, GammaZero: 0.0,
                         HType: HamiltonianType.Heisenberg,
                         Topology: TopologyKind.Ring).BuildHamiltonian();
+
+    private static ComplexMatrix BuildHeisenbergChain() =>
+        new ChainSystem(N: N, J: 1.0, GammaZero: 0.0,
+                        HType: HamiltonianType.Heisenberg,
+                        Topology: TopologyKind.Chain).BuildHamiltonian();
 
     private static IReadOnlyList<ComplexMatrix> BuildZSites() =>
         Enumerable.Range(0, N)
@@ -128,7 +133,7 @@ public class F96NativeDysonVerificationTests
     [Fact]
     public void NativeDerivation_M3_SingleFlipped_EqualsMinusFour()
     {
-        // ⟨01|_pair Tr_{1,3}[sym3 · ρ_0] |01⟩_pair = -4 bit-exact.
+        // Numerical reconstruction of the exact named-ring element -4.
         // This is F96.M3_SingleFlipped, derived natively in C#.
         var H = BuildHeisenbergRing();
         var ZSites = BuildZSites();
@@ -141,7 +146,7 @@ public class F96NativeDysonVerificationTests
     [Fact]
     public void NativeDerivation_U2_SingleFlipped_EqualsThreeQuarters()
     {
-        // ⟨01|_pair Tr_{1,3}[L_h² · ρ_0] |01⟩_pair = 3/4 bit-exact.
+        // Numerical reconstruction of the exact named-ring element 3/4.
         // F96 stores this as U2_SingleFlipped_TimesFour = 3 (implicit denom 4).
         var H = BuildHeisenbergRing();
         var lh2 = BuildLHPowerRhoZero(H, 2);
@@ -154,7 +159,7 @@ public class F96NativeDysonVerificationTests
     [Fact]
     public void NativeDerivation_M5_DoubleFlipped_EqualsMinusTwenty()
     {
-        // ⟨11|_pair Tr_{1,3}[sym5 · ρ_0] |11⟩_pair = -20 bit-exact.
+        // Numerical reconstruction of the exact named-ring element -20.
         // F96.M5_DoubleFlipped.
         var H = BuildHeisenbergRing();
         var ZSites = BuildZSites();
@@ -167,7 +172,7 @@ public class F96NativeDysonVerificationTests
     [Fact]
     public void NativeDerivation_U4_DoubleFlipped_EqualsThreeHalves()
     {
-        // ⟨11|_pair Tr_{1,3}[L_h⁴ · ρ_0] |11⟩_pair = 3/2 bit-exact.
+        // Numerical reconstruction of the exact named-ring element 3/2.
         // F96 stores this as U4_DoubleFlipped_TimesTwo = 3 (implicit denom 2).
         var H = BuildHeisenbergRing();
         var lh4 = BuildLHPowerRhoZero(H, 4);
@@ -191,6 +196,18 @@ public class F96NativeDysonVerificationTests
     }
 
     [Fact]
+    public void NamedRing_Sym3VectorIncludesIndependentRowTwoAndSumsToZero()
+    {
+        var h = BuildHeisenbergRing();
+        var reduced = PartialTrace.Of(BuildSym3RhoZero(h, BuildZSites()), N, new[] { 0, 2 });
+        double[] sym3 = Enumerable.Range(0, 4).Select(i => reduced[i, i].Real).ToArray();
+
+        Assert.Equal(new[] { 8.0, -4.0, -4.0, 0.0 }, sym3, new DoubleToleranceComparer(1e-10));
+        Assert.Equal(-4.0, sym3[2], precision: 10);
+        Assert.Equal(0.0, sym3.Sum(), precision: 10);
+    }
+
+    [Fact]
     public void NativeDerivation_U2_DoubleFlipped_IsZero()
     {
         // ⟨11|_pair Tr_{1,3}[L_h² · ρ_0] |11⟩_pair = 0 (P_u(|11⟩) starts at t⁴,
@@ -205,7 +222,7 @@ public class F96NativeDysonVerificationTests
     [Fact]
     public void NativeDerivation_SlopeSingleFlipped_EqualsMinus16Over9()
     {
-        // Combining native M_3 and U_2 via F96's universal slope formula
+        // Combining the named-ring M_3 and U_2 through the local leading-ratio formula
         // slope_i = M_{2k+1} / ((2k+1) · U_{2k}) at k = 1:
         // slope = -4 / (3 · 3/4) = -16/9. Self-verifies F96.SlopeSingleFlipped.
         var H = BuildHeisenbergRing();
@@ -234,11 +251,10 @@ public class F96NativeDysonVerificationTests
     }
 
     [Fact]
-    public void NativeDerivation_CrossOutcomeRatio_EqualsMinus16Over3()
+    public void NamedRing_CrossOutcomeRatioCoincidesWithoutExportingIt()
     {
-        // F96's cross-outcome universality drift check: M_3 / U_2 = -16/3 identically
-        // for both dominant (|00⟩: 8/(-3/2)) and singly-subdominant (|01⟩: -4/(3/4)).
-        // Both ratios verified natively in C# from the same H and ρ_0.
+        // In this one ring setup M_3/U_2 = -16/3 for both |00> and |01>.
+        // The chain counterexample below prevents promotion to a topology-wide law.
         var H = BuildHeisenbergRing();
         var ZSites = BuildZSites();
         var sym3 = BuildSym3RhoZero(H, ZSites);
@@ -255,5 +271,32 @@ public class F96NativeDysonVerificationTests
         Assert.Equal(-16.0 / 3.0, ratio_dominant, precision: 10);
         Assert.Equal(-16.0 / 3.0, ratio_subdom, precision: 10);
         Assert.Equal(ratio_dominant, ratio_subdom, precision: 10);
+    }
+
+    [Fact]
+    public void ChainDescendant_HasDifferentSym3VectorAndMinusFourThirdsSlope()
+    {
+        var h = BuildHeisenbergChain();
+        var zSites = BuildZSites();
+        var sym3Reduced = PartialTrace.Of(BuildSym3RhoZero(h, zSites), N, new[] { 0, 2 });
+        var u2Reduced = PartialTrace.Of(BuildLHPowerRhoZero(h, 2), N, new[] { 0, 2 });
+
+        double[] sym3 = Enumerable.Range(0, 4).Select(i => sym3Reduced[i, i].Real).ToArray();
+        double[] u2 = Enumerable.Range(0, 4).Select(i => u2Reduced[i, i].Real).ToArray();
+
+        Assert.Equal(new[] { 5.0, -4.0, -1.0, 0.0 }, sym3, new DoubleToleranceComparer(1e-10));
+        Assert.Equal(new[] { -1.0, 0.75, 0.25, 0.0 }, u2, new DoubleToleranceComparer(1e-10));
+        Assert.Equal(0.0, sym3.Sum(), precision: 10);
+
+        double slope10 = sym3[2] / (3.0 * u2[2]);
+        Assert.Equal(-4.0 / 3.0, slope10, precision: 10);
+        Assert.True(Math.Abs(slope10 - (-16.0 / 9.0)) > 0.1);
+        Assert.True(Math.Abs(slope10 - (-8.0 / 3.0)) > 0.1);
+    }
+
+    private sealed class DoubleToleranceComparer(double tolerance) : IEqualityComparer<double>
+    {
+        public bool Equals(double x, double y) => Math.Abs(x - y) <= tolerance;
+        public int GetHashCode(double value) => 0;
     }
 }

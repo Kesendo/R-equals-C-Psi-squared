@@ -143,5 +143,11 @@
       "lambda_sp_real": -0.1000000000000009,
       "lambda_sp_imag": 1.6180339887499096
     }
-  ]
+  ],
+  "current_reading": "Finite N=4 mode and fitted-coefficient census.",
+  "evidence_scope": "The 0.5*V(N) value is a comparator, not a prediction; this finite row does not demonstrate convergence or a bilinear/cavity mechanism.",
+  "provenance": {
+    "producer": "simulations/eq021_mode_decomposition.py",
+    "execution": "captured heavy producer; not rerun during the label repair"
+  }
 }

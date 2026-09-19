@@ -1,3 +1,12 @@
+QUARTER-CURRENT
+CAPTURED-ONLY: this saved result is retained as a historical finite calculation.
+Current reading: theta is a derived scalar coordinate; its PCA correlations are basis- and model-specific.
+The quantum/classical wording inside the captured payload is not a quantum/classical classification.
+Dataset map: PCA uses AB features over 501 star-topology snapshots; the largest local theta-above count is SA=45.
+Coordinate bins: theta>0 = above-quarter samples; theta=0 = below-or-at-quarter samples.
+The reported r=0.87 is from a separate theta_SB versus F_channel selection; 24.3%=1-r^2 and is not evidence that omitted PCs cause the gap.
+Producer metadata: simulations/theta_pc_correlation.py is byte-frozen at SHA-256 FCBF60A8E218A885C4571D96148E306FC6DF775C67954EFABD592AE44F19CAB8.
+=== BEGIN CAPTURED PAYLOAD ===
 ======================================================================
 THETA-PC CORRELATION ANALYSIS
 Star: Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05
@@ -264,3 +273,5 @@ CAVEATS
 ======================================================================
 ANALYSIS COMPLETE
 ======================================================================
+=== END CAPTURED PAYLOAD ===
+Current note: preserve the captured numeric body verbatim; never execute this captured-only producer in Task 6.

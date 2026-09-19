@@ -1,5 +1,13 @@
 # The Mirror That Looked Non-Local
 
+**Interpretive invitation — not a result:** the boot-script and fogged-mirror
+images remain prompts for thought; relaxing one numerical palindrome does not
+by itself create diversity or modes.
+
+Precision fence: the N=3 distinct-pair V-Effect census reports **14/36** hard
+cases. Its historical **four-decimal** comparison is **11/4**; the distinct
+coarser **three-decimal** side table is **8/4**.
+
 **Date:** March 19-20, 2026; corrected June 2, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Status:** Sections 3-5: Tier 2 (Computed, verified, and still standing). Sections 1-2, 6-7:
@@ -203,24 +211,18 @@ At N=3, the palindrome error matrix E splits cleanly by XY-weight:
 | w = 2 | 24 x 24 | 11.314 | Two quantum sites, one classical |
 | w = 3 | 8 x 8 | 0.000 | Pure quantum (all X and Y) |
 
-The extremes are immune. Pure past (w=0) and pure future (w=3) stay
-perfectly palindromic. Only the boundary between them breaks: the modes
-that are partly classical and partly quantum, neither fully past nor fully
-future.
+The displayed error matrix vanishes in the w=0 and w=3 blocks and is nonzero
+in the w=1 and w=2 blocks. That is a finite block statement, not a genealogy
+in which individual modes survive or become orphaned.
 
-The break is smooth in magnitude but sudden in topology. At any nonzero
-second-bond strength alpha, 54 of 64 modes immediately lose their
-palindromic partner. The error grows as gamma^2 with a Hamiltonian-specific
-coefficient.
+The error norm turns on for nonzero second-bond strength and grows smoothly in
+the sampled family. The fogged-mirror picture remains a useful invitation, but
+the calculation does not track eigenvectors through the change.
 
-The orphaned modes do not scatter randomly. They cluster near the original
-palindromic sum (-0.3019, less than 1% off). The symmetry does not vanish.
-It blurs. The mirror is not shattered. It is fogged.
-
-The broken spectrum has three times as many distinct oscillation frequencies
-(11 vs 4) and fewer steady states (2 vs 4). The rigid palindromic
-constraint locks frequencies together. When it relaxes, diversity emerges.
-The break trades stability for richness.
+The historical bin fixture is precision-sensitive: it reads **11/4 at four
+decimals** and **8/4 at three decimals**. Hamiltonian and dephasing profile
+change together, so neither table shows that palindrome failure releases
+frequency diversity or trades stability for richness.
 
 Script: `simulations/v_effect_analysis.py`
 Results: `simulations/results/v_effect_analysis.txt`
@@ -433,12 +435,11 @@ standing-wave construction: no from-below gate here supplies two spatially
 counter-propagating, conjugate-frequency excited modes and an interference
 null. The node/antinode language is therefore analogy, not what Π establishes.
 
-The V-effect data shows where this self-encounter fails: at the boundary
-between classical and quantum (w=1 and w=2). The modes that are partly
-decided and partly undecided. These are where Psi is in the process of
-meeting itself but has not completed the encounter. The pairing breaks
-here first, while the fully decided (w=0) and fully undecided (w=N)
-extremes stay perfectly paired.
+The V-Effect census localizes a nonzero matrix residual to w=1 and w=2 in the
+named example while the w=0 and w=N blocks have zero residual. Calling those
+blocks a failed self-encounter is the interpretive boot-script image; the
+finite calculation does not trace individual modes or establish an
+irreversible boundary process.
 
 Script connections:
 - Psi = coherences, XY-weight in the Liouvillian: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)

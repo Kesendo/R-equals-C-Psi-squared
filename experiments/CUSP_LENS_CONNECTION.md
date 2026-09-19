@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Finite cusp-lens overlaps and accessibility counterexamples
+
+Current reading: the retained tables report finite overlaps and
+single-excitation accessibility for named state families and topologies.  They
+include counterexamples to a universal two-exit picture and do not establish
+two physical sheets or an ontological transition.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical reading:** the original two-exit story below records the hypothesis
+that led to the lens survey; it is not the current verdict.
+
 # Cusp-Lens Connection: Two Exits from the Quantum Regime
 
 **Status:** Universal result (April 10, 2026). Two distinct decoherence exits exist for the Heisenberg chain under Z-dephasing, proven from sector conservation.

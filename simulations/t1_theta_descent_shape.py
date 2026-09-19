@@ -9,11 +9,13 @@ that survives down to the cusp.
 
 Algebraically:
   θ = arctan(√(4·CΨ − 1)),  CΨ = Purity × Ψ-norm
-  Near CΨ = 1/4:  θ ≈ √(4·CΨ − 1)  (linear in the small offset)
+  Near CΨ = 1/4:  θ ≈ √(4·CΨ − 1)
   dθ/dCΨ ≈ 2/√(4·CΨ − 1) → ∞ at the boundary
 
-So θ(t) ALWAYS lands on 0 with a vertical tangent — the "krasser Winkel"
-is geometric, intrinsic to the cusp geometry. What differs between cases:
+The divergent derivative with respect to CΨ does not fix the time slope.  If
+CΨ−1/4 ~ A·(t*−t)^p, then in radians
+θ(t) ~ 2√A·(t*−t)^(p/2): the time slope diverges only for p<2, is finite for
+p=2, and vanishes for p>2.  What differs between sampled cases:
   - the height θ holds before plummeting (the "memory plateau")
   - the rate at which CΨ approaches 1/4 from above (dCΨ/dt at t*)
   - whether the trajectory oscillates across the boundary (recovers θ > 0
@@ -259,13 +261,13 @@ def main():
 
     print()
     print("Reading guide:")
-    print("  α = 0.5 is the generic cusp-geometry exponent")
-    print("    (θ ~ √(CΨ−1/4), CΨ−1/4 ~ linear in t* − t at the crossing).")
-    print("  α < 0.5 = sharper-than-generic descent (CΨ approaches 1/4 with")
-    print("    nonzero higher-order curvature; the cusp is hit faster than")
-    print("    the linear approach implies). The 'krasser Winkel'.")
-    print("  α > 0.5 = smoother-than-generic descent (CΨ approaches 1/4 with")
-    print("    zero linear term — degenerate crossing). The trace lingers.")
+    print("  If CΨ−1/4 ~ A·(t*−t)^p, then in radians")
+    print("    θ(t) ~ 2√A·(t*−t)^(p/2).")
+    print("  The θ time slope diverges for p<2, is finite for p=2, and")
+    print("    vanishes for p>2.")
+    print("  The reported α is a finite-grid fit to θ ~ (t*−t)^α; it is")
+    print("    a measured descriptor unless an asymptotic power law is")
+    print("    established independently (then α=p/2).")
     print()
     print("  tail (0<θ<5°) = duration of the fragile-trace regime, the last")
     print("    plateau before crossing — Tom's 'letzte Erinnerung'.")

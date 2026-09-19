@@ -1,62 +1,50 @@
-# Proof: CΨ Monotonicity Under Markovian Channels
+<!-- QUARTER-CURRENT -->
+# Named CΨ Decays, and Where the Old Monotonicity Story Broke
 
-**Status:** Tier 1 derived (Bell+ closed-form for all single-axis Markovian channels + Envelope Theorem for any 2-qubit state under local Z-dephasing) + Tier 2 verified (19 initial states including 10 Haar-random, GHZ/W subsystems N=3-5, 124/124 channel configurations)
-**Date:** 2026-03-22 (Parts 1-5) + 2026-03-26 (Part 7: Pauli invariance); last refreshed 2026-07-20 (the change history lives in git)
-**Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** `dCΨ/dt < 0` strictly for all t > 0 under any local Markovian channel; the local maxima of CΨ form a strictly non-increasing sequence under any Hamiltonian + local Z-dephasing (Envelope Theorem). 1/4 is the absorbing boundary.
-**Reference formulas:** [F25](../ANALYTICAL_FORMULAS.md) (Bell+ Z closed-form), [F26](../ANALYTICAL_FORMULAS.md) (Bell+ Pauli closed-form), [F27](../ANALYTICAL_FORMULAS.md) (K values per channel) in the F-formula registry; [F28](../ANALYTICAL_FORMULAS.md) (fixed-point absorber) is scope-retracted for general CPTP maps and owned by [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md).
+Current reading: Parts 1–3 prove the named Bell+ channel formulas; exact local
+Markov counterexamples rule out the universal pointwise and absorbing-boundary
+statements.  The autonomous N=2 successive-local-maxima question remains open.
 
----
-
-## What this proof says, in plain language
-
-A ball rolling downhill never spontaneously rolls back up. Water flows
-from higher elevation to lower, never the reverse. Heat moves from
-warmer to cooler. These are everyday examples of monotonicity: a
-quantity that only changes in one direction.
-
-This document proves that CΨ, the project's quantum-classical boundary
-indicator, behaves the same way under quantum noise. Once CΨ starts
-decreasing under any standard Markovian channel (Z-dephasing, Pauli,
-depolarizing, amplitude damping, or any combination), it never
-increases back. Quantum coherence flows downstream, and the 1/4
-boundary is the lake it settles into: once crossed below, never
-re-crossed.
-
-Parts 1-3 handle each channel type with closed-form algebra. Parts 4-5
-extend to states with Hamiltonian-induced oscillations: even then the
-local peaks of CΨ form a strictly decreasing sequence (Envelope
-Theorem). Part 6 finds the exact boundary where the proof stops:
-non-Markovian dynamics with a coherent bath can briefly push CΨ back
-above 1/4, but the revival always dies. The 1/4 IS the
-Markovian / non-Markovian watershed. Part 7 (added March 26) adds a
-corollary: Pauli operators leave CΨ invariant, so dynamical decoupling
-cannot help; only external coherence injection (a coupled coherent
-reservoir, i.e. J-coupling to another system) can transiently push CΨ
-back above 1/4.
-
-This is Layer 5 of the seven-layer
-[roadmap of the 1/4 boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md),
-working together with Layer 1 [Uniqueness](UNIQUENESS_PROOF.md) (the
-boundary itself is unique) and the eventual-crossing complement in
-[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md).
+**Status:** Tier 1 for the named Bell+/channel formulas in Parts 1–3 and the instantaneous Pauli invariance
+in Part 7. The former universal pointwise, absorbing-boundary, and local-control package is false. The
+autonomous N=2 successive-local-maxima claim is open: the old argument did not prove it, and the exact
+counterexamples below do not settle it.
+**Date:** 2026-03-22; current-truth repair 2026-09-14 (history remains in git)
+**Authors:** Thomas Wicht, Claude (Anthropic), Codex
+**Reference formulas:** [F25](../ANALYTICAL_FORMULAS.md) (Bell+ Z closed form),
+[F26](../ANALYTICAL_FORMULAS.md) (Bell+ Pauli closed forms), and
+[F27](../ANALYTICAL_FORMULAS.md) (named-channel K values). The old universal F28 absorber reading is
+withdrawn; [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) retains the conditional convergence result.
 
 ---
 
-## Theorem
+## What survived the sharper look
 
-For any 2-qubit Bell+ state under local Markovian noise (generalized Pauli
-or amplitude damping), CΨ(t) = Tr(ρ²) × L₁(ρ)/(d-1) is strictly
-monotonically decreasing for all t > 0.
+The old story imagined a ball that could only roll downhill. That image is right for several named
+trajectories, but CΨ is not a Lyapunov function for arbitrary local Markovian evolution. A local Hamiltonian
+can turn population into computational-basis coherence, a Pauli pulse can change the following derivative
+while leaving the instantaneous value fixed, and a local Lindblad semigroup can cross upward through 1/4.
 
-**Consequence:** The 1/4 boundary is absorbing. Once CΨ crosses below 1/4,
-it cannot return (under Markovian dynamics).
+The useful structure remains. Parts 1–3 preserve exact Bell+ formulas for named Z, Pauli, and amplitude-
+damping channels. Part 4 preserves the familiar |01⟩ strong-coupling approximation as a named trajectory,
+not a universal template. Part 5 records the failed proof step and exact counterexamples. Part 6 states the
+conditional result that really is available: convergence to a fixed state below 1/4 implies eventual stay
+below. Part 7 keeps instantaneous N-qubit Pauli invariance, without promoting it to trajectory invariance.
 
-**Geometric interpretation (April 2026):** The monotone decrease
-dCΨ/dt < 0 is approximately the gradient flow along the shortest
-Bures geodesic (the path of minimum statistical distance between quantum states; deviation 9.1 × 10⁻⁴ for N=2 Bell state). Decoherence
-follows the geometrically optimal path to equilibrium.
-See [Information Geometry](../../experiments/INFORMATION_GEOMETRY.md).
+This correction makes the landscape more interesting, not less: named rivers still run downhill, while
+the general dynamics can bend, turn, and cross. The finite rise atlas asks where those turns live.
+
+---
+
+## Exact positive statements
+
+For the named Bell+ preparations and channel models below,
+
+`CΨ(t) = Tr(ρ(t)²) · L₁(ρ(t))/(d-1)`
+
+has the displayed closed form and negative derivative for t>0. These are trajectory theorems with named
+initial states and generators. They are not a theorem for every state, every Hamiltonian, or every local
+Markovian channel.
 
 ---
 
@@ -291,54 +279,48 @@ effect (Bell+ is eigenstate of H_Heisenberg).
 
 ## Summary
 
-| Channel Family | Monotonicity Proven | K Value | Method |
-|---------------|--------------------:|---------|--------|
-| Pure Z-dephasing | **YES** | 0.0374 | Analytical (Part 1) |
-| Pure X-noise | **YES** | ln(2)/8 = 0.0866433… | Analytical (Part 2) |
-| Pure Y-noise | **YES** | ln(2)/8 = 0.0866433… | Analytical (Part 2; functional form identical to pure X, the YY coherence is decoherence-free, see Part 2 K table) |
-| Depolarizing | **YES** | 0.0440 | Analytical (Part 2) |
-| Any (γ_x,γ_y,γ_z) | **YES** | varies | Analytical (Part 2) |
-| Amplitude damping | **YES** | 0.1029 | Analytical (Part 3) |
-| Combined AD + Z | **YES** | varies | Numerical (124/124) |
+| Named Bell+ channel family | Result on that trajectory | K value | Basis |
+|----------------------------|---------------------------|---------|-------|
+| Pure Z-dephasing | strictly decreasing | 0.0373501… | exact (Part 1) |
+| Pure X-noise | strictly decreasing | ln(2)/8 = 0.0866433… | exact (Part 2) |
+| Pure Y-noise | strictly decreasing | ln(2)/8 = 0.0866433… | exact (Part 2) |
+| Depolarizing | strictly decreasing | 0.0440… | exact (Part 2) |
+| General Pauli rates `(γ_x,γ_y,γ_z)` | strictly decreasing in the stated ordering | varies | exact (Part 2) |
+| Amplitude damping | strictly decreasing | 0.1029… | exact (Part 3) |
+| Combined AD + Z | decreasing in 124 named configurations | varies | finite numerical catalogue |
 
-**Conjecture 5.2 is now PROVEN for Bell+ under all local Markovian channels
-(unital and non-unital).**
-
-The 1/4 boundary is absorbing under Markovian dynamics.
+Nothing in this table promotes the named Bell+ result to arbitrary initial states or generators, and it does
+not make 1/4 an absorbing set for all Markovian dynamics.
 
 ---
 
-## Extension: General States, Collective Noise, N>2 (March 22, 2026)
+## Earlier finite extensions (March 22, 2026)
 
 **Script:** [monotonicity_remaining.py](../../simulations/monotonicity_remaining.py)
 
 ### General initial states (Test A)
 
-19 states tested (4 Bell, 5 product, 10 Haar-random). ALL states starting
-above 1/4 cross below. ALL envelopes monotonically decreasing - even states
-with up to 107 Hamiltonian-induced oscillations. The CΨ value oscillates
-but the peaks always decrease. **Envelope monotonicity confirmed universally.**
+Nineteen states were sampled (4 Bell, 5 product, 10 Haar-random). In those finite runs, every state that
+started above 1/4 crossed below, and no increasing sequence of sampled peaks was resolved. That is a
+catalogue observation, not a universal quantifier or a proof of the successive-local-maxima claim.
 
 ### Collective noise (Test B)
 
-Local and collective Z/X noise give identical CΨ trajectories on Bell+.
-Anti-correlated Z noise (Z₁-Z₂) has zero effect on Bell+ (decoherence-free
-subspace, a state that is immune to a particular noise type by symmetry; not a violation). **Monotonicity confirmed for all collective
-noise types.**
+The named local and collective Z/X runs gave the same CΨ trajectories on Bell+. Anti-correlated Z noise
+`Z₁-Z₂` leaves Bell+ in a decoherence-free subspace. These finite and symmetry-specific facts do not
+classify all collective noise.
 
 ### N > 2 subsystems (Test C)
 
-GHZ (N=3,4,5) and W (N=3,4) states: subsystem pair CΨ starts below 1/4
-(monogamy of entanglement: the more qubits share entanglement, the less each pair gets).
-All pairs stay below 1/4 and converge to 0. The N=2 analytical proof
-covers the fundamental mechanism - the 1/4 crossing is a local property
-of each entangled pair.
+For the sampled GHZ (N=3,4,5) and W (N=3,4) preparations, the selected two-qubit reductions started below
+1/4, stayed below on the sampled window, and approached zero. These named reduced-state runs do not inherit
+a universal N=2 envelope theorem and do not establish an all-subsystem law.
 
-## Part 4: Explicit Solution for |01⟩ (Oscillatory Case)
+## Part 4: Named strong-coupling |01⟩ approximation
 
 ### Setup
 
-|01⟩ under Heisenberg J + Z-dephasing γ. The state stays in the
+This section follows the named |01⟩ preparation under Heisenberg J + Z-dephasing γ. The state stays in the
 {|01⟩, |10⟩} subspace. Define a = ρ_{01,01} (population), v = Im(ρ_{01,10})
 (the only nonzero off-diagonal component, since Re = 0 by symmetry).
 
@@ -358,9 +340,13 @@ With x = a - 1/2, the characteristic equation is λ² + 4γλ + 16J² = 0:
 For J >> γ (typical regime): ω ≈ 4J.
 
 ```
-a(t) ≈ 1/2 + (1/2) e^{-2γt} cos(ωt)       (J ≫ γ; the exact bracket carries an extra (γ/ω)·sin(ωt) term)
-v(t) = [J/√(4J²-γ²)] e^{-2γt} sin(ωt) ≡ V₀ e^{-2γt} sin(ωt)     (exact)
+a(t) = 1/2 + (1/2)e^{-2γt}[cos(ωt) + (2γ/ω)sin(ωt)]             (exact)
+v(t) = [J/√(4J²-γ²)]e^{-2γt}sin(ωt) ≡ V₀e^{-2γt}sin(ωt)        (exact)
 ```
+
+The coefficient `2γ/ω` is fixed by the initial data `a(0)=1`, `v(0)=0`: it makes
+`a'(0)=0` and satisfies both equations above. In the named `J≫γ` approximation the sine correction is
+small, leaving `a(t)≈1/2+(1/2)e^{-2γt}cos(ωt)` and `ω≈4J`.
 
 ### CΨ for |01⟩
 
@@ -371,7 +357,7 @@ In the full 4×4 basis, only ρ_{01,10} and ρ_{10,01} are nonzero off-diagonal:
 - **Ψ:** Ψ = 2|v|/3
 - **CΨ = [1/2 + 2(x² + v²)] × 2|v|/3**
 
-### Envelope at local maxima
+### Approximate peak curve in the regime J ≫ γ
 
 At the peaks of |sin(ωt)| (where |v| is maximal and cos(ωt) ≈ 0):
 
@@ -381,13 +367,13 @@ x² + v² ≈ e^{-4γt} [(1/4)cos²(ωt) + V₀²sin²(ωt)]
 
 Since V₀ ≈ 1/2 for J >> γ: x² + v² ≈ (1/4)e^{-4γt}
 
-**At local maxima of CΨ:**
+**At the named approximate peaks:**
 
 ```
 CΨ_max(t) ≈ [1/2 + (1/2)e^{-4γt}] × (2V₀/3)e^{-2γt}
 ```
 
-### Derivative of envelope
+### Derivative of the approximate peak curve
 
 ```
 dCΨ_max/dt = (V₀/3) e^{-2γt} [-2γ(1 + e^{-4γt}) - 4γe^{-4γt}]
@@ -395,132 +381,81 @@ dCΨ_max/dt = (V₀/3) e^{-2γt} [-2γ(1 + e^{-4γt}) - 4γe^{-4γt}]
            < 0   for all γ > 0, t ≥ 0.
 ```
 
-**Therefore the envelope of CΨ for |01⟩ is strictly monotonically
-decreasing. QED (|01⟩ case).**
+Thus this strong-coupling approximation decreases for the named |01⟩ trajectory. It is useful intuition,
+not a proof for every J/γ, every initial state, or the autonomous N=2 peak sequence.
 
 ---
 
-## Part 5: General Envelope Theorem
+## Part 5: The historical envelope argument and its missing step
 
-### Theorem (Envelope Monotonicity)
+The historical claim said that, for every two-qubit state under arbitrary H and local Z-dephasing, the
+successive local maxima of CΨ are non-increasing. Its spectral argument does not establish that claim.
 
-For any 2-qubit initial state under local Z-dephasing (rate γ) with
-any Hamiltonian H, the local maxima of CΨ(t) form a non-increasing
-sequence.
+A stable linear generator can expand a trajectory into decaying modes, but this gives only a decaying
+upper bound on distance from a stationary subspace. It does not make a nonlinear, basis-dependent
+functional monotone. In particular:
 
-### Proof
+1. In the interaction picture, noncommuting H rotates the dephasing operators. Computational-basis
+   off-diagonal entries need not obey independent scalar decays.
+2. A decreasing bound `CΨ(t) ≤ B(t)` does not order the values of CΨ, or its local maxima, at two times.
+3. CΨ is not a coordinatewise increasing function of absolute Liouvillian-mode amplitudes; modes can
+   interfere and can create computational-basis coherence from populations.
+4. Consecutive maxima need not have a common period or “similar oscillatory phase.”
 
-**Step 1: Spectral decomposition of the Liouvillian.**
+So the former Step 5 assumed the ordering it needed to prove. The autonomous N=2 successive-local-maxima
+claim remains an interesting question, but it is presently unproved.
 
-The Liouvillian L has eigenvalues λ_k with Re(λ_k) ≤ 0. For any
-non-trivial dephasing, all eigenvalues except the steady state have
-Re(λ_k) < 0. Let σ_max = max_{k: λ_k ≠ 0} Re(λ_k) < 0 be the
-spectral gap (the slowest decay rate among all non-stationary modes).
+### Exact pointwise and control counterexamples
 
-**Step 2: Density matrix element bound.**
+Use `d=4`, `CΨ=P·L₁/3`, and first-site Z dephasing
+`D(ρ)=(Z₁ρZ₁-ρ)/4`. Let
 
-Each element ρ_{ij}(t) is a sum of modes:
-ρ_{ij}(t) = ρ_{ij}^{(ss)} + Σ_k a_{ijk} e^{λ_k t}
+`ρ₀=((I+X/2+Z/2)/2) ⊗ |0⟩⟨0|`, `H=Y⊗I`.
 
-where ρ^{(ss)} is the steady state. Therefore:
-|ρ_{ij}(t) - ρ_{ij}^{(ss)}| ≤ Σ_k |a_{ijk}| e^{Re(λ_k)t} ≤ A_{ij} e^{σ_max t}
+This is a positive, trace-one density matrix, `CΨ(ρ₀)=1/8`, and no previously zero off-diagonal entry is
+used in the one-sided derivative. Exact evaluation gives
 
-**Step 3: Off-diagonal decay bound.**
+`(P'(0), L₁'(0), CΨ'(0)) = (-1/8, +3/4, +1/6)`.
 
-For local Z-dephasing on 2 qubits, elements ρ_{ij} where |i⟩ and |j⟩
-differ in k qubit positions decay at rate ≥ 2kγ. In the interaction
-picture (a reference frame that rotates with the Hamiltonian, isolating the effect of noise), the off-diagonal elements satisfy:
+Thus **CΨ'(0) = +1/6** under a time-independent local Markovian generator. The H→0 mutation gives
 
-|ρ̃_{ij}(t)| = |ρ̃_{ij}(0)| e^{-r_{ij}γ t}
+`(P'(0), L₁'(0), CΨ'(0)) = (-1/8, -1/4, -1/12)`,
 
-where r_{ij} ≥ 2 for all i ≠ j. Going back to the lab frame:
+so **CΨ'(0) = -1/12** and the same exact gate distinguishes coherent creation from dephasing decay.
 
-|ρ_{ij}(t)| ≤ Σ_{kl} |U_{ik}(t)| |ρ̃_{kl}(0)| e^{-r_{kl}γ t} |U_{jl}(t)|
+Two controls sharpen the basis dependence:
 
-Since |U_{ik}| ≤ 1 and r_{kl} ≥ 2 for k ≠ l:
+- A local Hadamard sends `|00⟩` from `CΨ=0` to `CΨ=1/3`.
+- An active first-site Z pulse preserves the instantaneous `CΨ=1/8`, yet under the same laboratory H it
+  changes the derivative from `+1/6` to `-1/3`. In a passive frame, transforming H to `Z₁HZ₁` as well,
+  the derivative remains `+1/6`.
 
-**L₁(ρ(t)) ≤ M₀ e^{-2γt}**
+These examples disprove universal pointwise monotonicity and the shortcut from instantaneous Pauli
+invariance to trajectory invariance. A positive initial derivative is not by itself a pair of successive
+local maxima, so it **does not settle the successive-local-maxima question**.
 
-for some M₀ depending on the initial state.
+### What the finite atlas says
 
-**Step 4: CΨ bound.**
-
-CΨ(t) = Tr(ρ²) × L₁(ρ)/(d-1) ≤ 1 × M₀ e^{-2γt}/3
-
-The bound B(t) = M₀ e^{-2γt}/3 is strictly monotonically decreasing.
-
-**Step 5: Envelope tracking.**
-
-At each local maximum t_k*, the oscillatory modes are at phases that
-maximize CΨ. Between consecutive maxima, the exponential amplitudes
-decrease by factor e^{σ_max · T_osc} < 1 where T_osc is the oscillation
-period. Since CΨ at the maximum depends continuously on these amplitudes
-and all amplitudes decrease, CΨ(t_{k+1}*) < CΨ(t_k*).
-
-More precisely: at consecutive maxima with similar oscillatory phase,
-the amplitudes of all Liouvillian modes have decreased by at least
-e^{σ_max · T_osc}. Since CΨ_max is a continuous, monotonically
-increasing function of these amplitudes (near the steady state), the
-maximum values decrease. **QED.**
-
-### Corollary
-
-The 1/4 boundary is absorbing for the CΨ envelope under any local
-Markovian dynamics. Once the envelope of CΨ drops below 1/4, CΨ
-cannot sustain values above 1/4 (individual oscillations may briefly
-cross, but the peaks decrease monotonically toward 0).
-
-### Numerical verification
-
-19 initial states tested (4 Bell, 5 product, 10 Haar-random):
-- ALL envelopes monotonically decreasing
-- States with up to 107 oscillations above 1/4: envelope still monotonic
-- 0 exceptions in 19 tests
-
-### Scope: Part 5 is the 2-qubit theorem; the N≥3 full-state envelope is open
-
-Part 5 proves envelope monotonicity for **any 2-qubit state (N=2)**. The proof's
-load-bearing steps are N=2-specific: every off-diagonal ρ_{ij} decays at rate ≥ 2γ, and
-L₁ = Σ|ρ_{ij}| is bounded across the 4×4 density. At N ≥ 3 the full-state density is
-2^N × 2^N, off-diagonals between basis states differing in k > 1 qubits decay faster
-(≥ 2kγ), and how the Hamiltonian couples different k-values is H- and topology-dependent,
-not universal. So the proof does **not** extend to the full-state envelope at N ≥ 3.
-
-The "N=3-5" checks elsewhere are NOT a full-state envelope test: Test C verifies
-GHZ/W **subsystem pairs** (2-qubit reduced densities, which obey the N=2 proof and stay
-below ¼), and F17's 300 CPTP maps are N=2 channel-robustness. (Test C lives in the "General
-States, Collective Noise, N>2" Extension section above, not in Part 3.)
-
-Indeed the full-state envelope **genuinely rises at N ≥ 4 under strong coupling** (J ≫ γ):
-verified live by `EnvelopeTheoremWitness` (N=4, Bell+, J=5, γ=0.01: 36 refinement-stable
-predecessor-rises; N=3 holds with 0 rises in the same regime). This is Part 6's coherence
-injection, **internalized**: the extra sites form a coherent internal bath, and the internal
-J-coupling pushes CΨ back up (Part 6, Corollary 3: coupled resonators bypass the one-way
-door). The N=2 theorem stands; the N≥3 full-state envelope is an open question.
-
-Its boundary is now **charted** (arc `envelope_n4_rise`, `experiments/ENVELOPE_RISE_BOUNDARY.md`,
-gate-first `EnvelopeBoundaryTests`): it is **not** a sharp N-step and **not** a pure J/γ contour, but
-both, cleanly factored. (i) The rise is a pure **(N, Q=J/γ)** observable: the J-sweep and the γ-sweep
-give the bit-identical reading over a fixed dose window (the clock movement's (Q,K)-purity applied to
-the rise), so there is one Q-axis, not two. (ii) An **N≥4 floor**: N=3 holds non-increasing even at
-Q=2000 (one internal site cannot inject); the rise needs an internal ≥2-site coherent subsystem. (iii)
-Above the floor a threshold **Q_c(N) that climbs with N**: Q_c(4)≈27, Q_c(5)≈45, the rise strength at
-fixed Q falling with N (maxΔ N=4: 0.041 > N=5: 0.020 at Q=500).
+`EnvelopeTheoremWitness` now exposes a finite rise atlas. Named Bell+ runs at N=4 and N=5 resolve
+predecessor rises above a reporting bar, while one named N=3 run resolves none. The retained same-(N,Q,K)
+pair agrees to six decimals. Those are finite numerical observations: they neither decide the autonomous
+N=2 peak question nor yield an all-Q/all-N classification, an absence claim, or a mechanism. See
+[The Finite Envelope-Rise Atlas](../../experiments/ENVELOPE_RISE_BOUNDARY.md).
 
 ---
 
-## Part 6: The Threshold - Non-Markovian Dynamics
+## Part 6: Crossing is not a Markovian/non-Markovian watershed
 
-The Markovian proof (Parts 1-5) has a precise boundary: **Markovianity
-itself.** Non-Markovian dynamics violate the theorem, and this violation
-defines the exact scope of the 1/4 absorbing property.
+The old page assigned upward crossing to bath memory. The fixed local Lindblad semigroup below crosses
+upward without memory, so Markovianity is not the dividing line. Earlier structured-bath runs remain
+interesting named trajectories, not evidence for an exclusive mechanism.
 
-### The violation exists
+### Earlier structured-bath sightings
 
 **Script:** [non_markovian_revival.py](../../simulations/non_markovian_revival.py)
 
-A structured bath (2 system qubits + 1 bath qubit in |+⟩) produces
-CΨ revivals above 1/4 after the system has crossed below:
+A named structured-bath model (2 system qubits + 1 bath qubit in |+⟩) produced sampled subsystem-CΨ
+revivals above 1/4 after an earlier downward crossing:
 
 | J_SB | γ_B | Max Revival | Crossings ↑ | Sustained |
 |------|-----|-------------|-------------|-----------|
@@ -530,80 +465,63 @@ CΨ revivals above 1/4 after the system has crossed below:
 | 2.0 | 0.01 | 0.2731 | 37 | 1.4 |
 | 0.5 | 0.01 | 0.2566 | 11 | 5.0 |
 
-Best revival: **CΨ = 0.3035** (21% above threshold).
+Largest value in this finite table: **CΨ = 0.3035**. It is one model catalogue, not a general statement
+about non-Markovian dynamics or eventual behavior.
 
-### Why Markovianity is the threshold
+### An exact upward crossing under a fixed local semigroup
 
-The proof relies on **Step 2**: each Liouvillian mode decays as
-e^{Re(λ_k)t} with Re(λ_k) < 0. This follows from the Lindblad
-structure with time-independent coefficients. Non-Markovian dynamics
-break this because:
+Take two local jumps with H=0,
 
-1. **Information backflow.** A coherent bath stores system coherence
-   and returns it later. This creates effective time-dependent rates
-   γ(t) that can become negative - violating the Lindblad positivity
-   condition.
+`L₁=|+⟩⟨-|⊗I`, `L₂=I⊗|0⟩⟨1|`.
 
-2. **Bath memory.** The Markovian approximation assumes the bath forgets
-   instantly. A finite bath (1 qubit in |+⟩) has memory time ~ 1/γ_B.
-   During this time, coherence flows back into the system.
+Their Liouvillian has one-dimensional kernel. Its unique stationary density is
+`ρ*=|+0⟩⟨+0|`, and each dissipator separately annihilates that state. Hence `CΨ(ρ*)=1/3`, already above
+1/4. Replacing the coherent-axis first jump by computational-axis damping `|0⟩⟨1|⊗I` changes the unique
+target to `|00⟩⟨00|`, with CΨ=0; this mutation fails the same stationary-target gate.
 
-3. **Spectral gap reversal.** In the non-Markovian regime, the effective
-   spectral gap σ_max(t) can temporarily become positive, allowing
-   transient amplification of decaying modes.
+There is also an explicit path, not merely an endpoint argument. Start at `|00⟩⟨00|` and write `q=e^{-t}`.
+The exact trajectory obeys
 
-### Why the violation is always transient
+`CΨ(t)=((1-q)(q²-q+2))/6`,
 
-Despite breaking the monotonicity, the revivals always die:
+and
 
-1. **Bath decoherence.** The bath itself decoheres at rate γ_B > 0.
-   Each backflow cycle returns less coherence. The revivals are a
-   geometric series with ratio < 1.
+`dCΨ/dt=q(3q²-4q+3)/6 > 0` for `0<q≤1`.
 
-2. **Total system convergence.** The system + bath together form a
-   Markovian system (the bath's bath is Markovian). The TOTAL system
-   CΨ is monotonically decreasing. The subsystem revival is borrowed
-   from the bath, not created.
+At `q=1/8`,
 
-3. **Fixed point attraction.** The combined system converges to a
-   product state |00⟩⊗|0⟩ (or maximally mixed, depending on noise
-   type). This fixed point has CΨ = 0 for every subsystem.
+`CΨ=847/3072=1/4+79/3072`.
 
-### The complete picture
+So one fixed, local, time-independent Markovian semigroup carries a state from below 1/4 to above it. This
+refutes the universal absorbing-set claim. The curve has no finite interior local maxima, so it does not
+settle the successive-local-maxima question either.
 
-```
-                    Markovian                Non-Markovian
-                    ─────────                ─────────────
-CΨ trajectory:      Monotonic envelope       Oscillatory revival
-1/4 boundary:       ABSORBING                Not absorbing, but
-                                             ATTRACTING (always
-                                             returns to below 1/4)
-Final state:        CΨ → 0                   CΨ → 0
-Mechanism:          Irreversible decay        Decay + backflow,
-                                             but backflow weakens
-Proof status:       PROVEN (Parts 1-5)       CHARACTERIZED (48 configs)
-```
+### The conditional statement that survives
 
-**The 1/4 boundary is the Markovian/non-Markovian watershed:**
-- Markovian: CΨ cannot return. The fixed point has won.
-- Non-Markovian: CΨ can briefly return. But the fixed point still wins.
+Let `ρ(t)` be a continuous trajectory with `ρ(t) → ρ*`. Because CΨ is continuous, if
+`CΨ(ρ*) < 1/4` and the trajectory starts above 1/4, then it eventually stays below 1/4. It need not cross
+only once and need not be monotone on the way. Named basis-aligned T1/T2/depolarizing models may use this
+conclusion only under their stated convergence assumptions. See
+[Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md), which also records a separable primitive-CPTP fixed-state
+counterexample with CΨ≈0.2935.
 
-In the language of the framework: the fixed point is the attractor of
-the quadratic map R = CΨ². It exists below 1/4 and does not exist
-above 1/4. Non-Markovian dynamics can temporarily push the system into
-the regime without a fixed point. But without a stable destination,
-the system falls back. The fixed point always wins because it is the
-only stable equilibrium.
+The repaired picture has two independent questions:
+
+- What does a named generator do along a named trajectory? Parts 1–3 answer several such cases exactly.
+- Where does a trajectory converge? A target below 1/4 gives eventual stay-below; a target above 1/4 can
+  instead attract upward.
+
+Neither question turns 1/4 into a universal one-way membrane. That loss of a slogan opens a better search:
+classify generators, stationary states, and finite peak sequences separately.
 
 ---
 
-## Part 7: CΨ Is Pauli-Invariant (March 26, 2026)
+## Part 7: Instantaneous N-qubit Pauli invariance (March 26, 2026)
 
 ### Theorem
 
-CΨ is exactly invariant under the full N-qubit Pauli group. For any
-density matrix rho and any N-qubit Pauli operator U (tensor product of
-{I, X, Y, Z}):
+CΨ is exactly invariant under the full N-qubit Pauli group at the instant of conjugation. For any density
+matrix rho and any N-qubit Pauli operator U (tensor product of {I, X, Y, Z}):
 
     CΨ(U rho U+) = CΨ(rho)     (exact, not approximate)
 
@@ -622,60 +540,20 @@ elements (I,X,Y,Z)^2: delta CΨ = 0.00e+00 in every case. Non-Pauli
 unitaries (Ry, Rx, Hadamard, CNOT, random U(4)) change CΨ by up to
 -0.24 (H x I on a typical state).
 
-### Corollary 1: Dynamical Decoupling cannot change CΨ
+### What instantaneous invariance does—and does not—say
 
-DD sequences use Pauli gates (X, Y, Z pulses). Since CΨ is Pauli-
-invariant, DD cannot change CΨ at any point in time, under any
-protocol, for any state. This is not a practical limitation: it is
-algebraically impossible.
+An active Pauli pulse leaves CΨ unchanged at that instant. It may still change the subsequent laboratory-
+frame trajectory because the state has changed while H and the dissipators have not. The exact Z-pulse
+example in Part 5 flips `CΨ'(0)` from `+1/6` to `-1/3` under the same H. Only a passive change of frame,
+which conjugates the generator too, preserves the derivative.
 
-Consequence: DD cannot push CΨ back above 1/4. DD cannot sustain a
-CΨ heartbeat. DD cannot refresh the quantum-classical boundary.
+Consequently, this algebraic identity does not establish trajectory invariance for dynamical decoupling,
+does not forbid future upward crossing, and does not make local non-Pauli unitaries harmless. The local
+Hadamard example `|00⟩→|+0⟩` changes CΨ from 0 to 1/3. Earlier periodic-pulse simulations remain named
+protocol runs; they cannot be universalized from Pauli invariance alone.
 
-Periodic DD (X x X every T_dd) tested at T_dd = 0.5, 1.0, 2.0, 4.0:
-CΨ trajectory identical to free evolution at every timestep. Zero
-effect on crossings, zero effect on decay rate, zero effect on
-envelope.
-
-### Corollary 2: The 1/4 boundary is a one-way door under local unitaries
-
-For an N=2 system under Z-dephasing that has crossed below CΨ = 1/4:
-no local unitary (Pauli or non-Pauli) can push CΨ back above 1/4.
-
-Tested: all Ry(theta) for theta in [0, pi], applied at the exact
-moment CΨ = 0.25. Every angle makes CΨ worse (Ry(pi/4) gives -18%,
-Ry(pi/2) gives -60%). The best angle is theta=pi, which is equivalent
-to X (Pauli), giving delta = 0.
-
-The mechanism: dephasing destroys coherences irreversibly. Unitaries
-can redistribute surviving coherences among basis elements, but cannot
-create new coherence from populations. The redistribution always
-reduces L1 or at best preserves it (Pauli case).
-
-Only external coherence injection (non-Markovian backflow from a
-coupled system, i.e. J-coupling to a coherent reservoir) can push
-CΨ back above 1/4. This is the mechanism behind the CΨ heartbeat
-observed in [Temporal Sacrifice](../../experiments/TEMPORAL_SACRIFICE.md).
-
-### Corollary 3: Coupled resonators bypass the one-way door
-
-The monotonicity dCΨ/dt < 0 holds for the TOTAL system under
-Markovian dynamics. But subsystem CΨ can oscillate when the rest of
-the system acts as a coherent reservoir providing non-Markovian backflow.
-
-A single N=2 pair: Q=1 at every J. The pair crosses 1/4 and dies.
-Two N=2 pairs coupled through a mediator (N=5): Q=19. The pairs
-exchange coherence through J-coupling. Each subsystem is the other's
-reservoir. The total system still has dCΨ/dt < 0 (monotonic overall),
-but the subsystem CΨ oscillates around 1/4 because coherence flows
-back through the mediator before it fully decays.
-
-The coupling also creates 109 new oscillation frequencies that do not
-exist in either individual pair (the [V-Effect](../../experiments/V_EFFECT_PALINDROME.md)).
-These new modes are the mechanism of complexity growth through coupling.
-
-See [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md)
-for the full resonator framework.
+Subsystem oscillations in coupled systems remain legitimate measured phenomena. They simply are not the
+only route to an upward CΨ crossing, because Part 6 supplies a fixed local Markovian route as well.
 
 ---
 
@@ -683,14 +561,14 @@ for the full resonator framework.
 
 ### Sibling proofs in the 1/4-boundary roadmap
 
-- [Uniqueness Proof](UNIQUENESS_PROOF.md): Layer 1, the boundary itself is unique (March 21, 2026; one day before this proof)
-- [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md): the eventual-crossing complement, every entangled pair with CΨ > 1/4 crosses below in finite time
+- [Uniqueness Proof](UNIQUENESS_PROOF.md): Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. Layer 1 pins the discriminant-zero coordinate of the chosen α=2 normal form.
+- [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md): the conditional convergence implication and the primitive-CPTP counterexample
 - [Proof Roadmap Quarter Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer master roadmap; this proof is Layer 5
 
 ### F-formula registry
 
 - [F25, F26, F27 in ANALYTICAL_FORMULAS](../ANALYTICAL_FORMULAS.md): Bell+ closed forms (Z and general Pauli) and K-values per channel, derived here
-- F28 (fixed-point absorber): scope-retracted for general CPTP maps (separable counterexample) and re-sourced to [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md); the physical-noise scope this proof uses is unaffected
+- F28 (historical fixed-point absorber): withdrawn as a universal claim; the conditional replacement lives in [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md)
 
 ### Scripts
 
@@ -702,6 +580,6 @@ for the full resonator framework.
 ### Related experiments and hypotheses
 
 - [Information Geometry](../../experiments/INFORMATION_GEOMETRY.md): Bures-geodesic interpretation of dCΨ/dt
-- [Temporal Sacrifice](../../experiments/TEMPORAL_SACRIFICE.md): the CΨ heartbeat that Part 7's Pauli-invariance corollary explains away (only J-coupling can reproduce it, not local gates)
-- [V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md): coupled-resonator complexity growth (the 100 new oscillation frequencies in N=5 mediator-bridge)
-- [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md): the resonator framework that Corollary 3 builds on
+- [Temporal Sacrifice](../../experiments/TEMPORAL_SACRIFICE.md): a named CΨ-heartbeat experiment; instantaneous Pauli invariance alone does not explain its whole trajectory
+- [V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md): finite frequency-bin and F87 routing censuses under explicitly different generators; no mode ancestry or coupling-only complexity mechanism is inferred
+- [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md): the resonator framework around the named coupled-system runs

@@ -2,95 +2,122 @@ using RCPsiSquared.Core.Calibration;
 
 namespace RCPsiSquared.Core.Tests.Calibration;
 
-/// <summary>Tests for <see cref="QubitLifecycle"/>'s archetype classifier,
-/// covering both synthetic timelines (one per archetype) and the Marrakesh
-/// 91-day anchor (Q0 should land in PulseStable since the 2026-04-26 path
-/// biography review showed walk 0.022 over the window).</summary>
+/// <summary>Tests the empirical lifecycle classifier, including every strict
+/// threshold boundary so equality cannot silently change branch.</summary>
 public class QubitLifecycleTests
 {
-    private static Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d => CalibrationFixtures.Marrakesh91d;
+    private static Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d =>
+        CalibrationFixtures.Marrakesh91d;
 
     [Fact]
-    public void Classify_AlwaysQuantumSide_IsPulseStable()
+    public void Classify_AlwaysBelow_IsPulseStable()
     {
-        var t = CalibrationFixtures.StableTimeline(qid: 0, days: 30, t1Us: 100, t2Us: 30);  // r ≈ 0.15 < R*
+        var t = CalibrationFixtures.StableTimeline(qid: 0, days: 30, t1Us: 100, t2Us: 30);
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(t));
-        Assert.Equal(0.0, QubitLifecycle.WalkRate(t));
-        Assert.Equal(1.0, QubitLifecycle.CrossingFraction(t), precision: 6);
+        Assert.Equal(0.0, QubitLifecycle.RStarBandSwitchRate(t));
+        Assert.Equal(1.0, QubitLifecycle.BelowRStarFraction(t), precision: 6);
     }
 
     [Fact]
-    public void Classify_AlwaysClassical_IsSilentStable()
+    public void Classify_AlwaysAtOrAbove_IsSilentStable()
     {
-        var t = CalibrationFixtures.StableTimeline(qid: 0, days: 30, t1Us: 100, t2Us: 80);  // r = 0.40 > R*
+        var t = CalibrationFixtures.StableTimeline(qid: 0, days: 30, t1Us: 100, t2Us: 80);
         Assert.Equal(LifecycleArchetype.SilentStable, QubitLifecycle.Classify(t));
-        Assert.Equal(0.0, QubitLifecycle.WalkRate(t));
-        Assert.Equal(0.0, QubitLifecycle.CrossingFraction(t));
+        Assert.Equal(0.0, QubitLifecycle.RStarBandSwitchRate(t));
+        Assert.Equal(0.0, QubitLifecycle.BelowRStarFraction(t));
     }
 
     [Fact]
     public void Classify_AlternatingDays_IsTwitch()
     {
-        // 30 days alternating r=0.10 (quantum) and r=0.40 (classical) → walk = 1.0
         var t = CalibrationFixtures.AlternatingTimeline(qid: 0, days: 30);
         Assert.Equal(LifecycleArchetype.Twitch, QubitLifecycle.Classify(t));
-        Assert.True(QubitLifecycle.WalkRate(t) > QubitLifecycle.TwitchWalkThreshold);
+        Assert.True(
+            QubitLifecycle.RStarBandSwitchRate(t) > QubitLifecycle.HighSwitchRateThreshold);
     }
 
     [Fact]
-    public void Classify_LongRunsThenSwitch_IsLifecycle()
+    public void Classify_ModerateSwitchRate_IsLifecycle()
     {
-        // 15 days quantum-side, 15 days classical-side: walk = 1/29 ≈ 0.034.
-        // To land in Lifecycle (walk > 0.05) we need a few more flips.
         var days = new List<CalibrationDay>();
         for (int i = 0; i < 30; i++)
         {
-            // 4 flips over 30 days → walk ≈ 4/29 ≈ 0.138 (in lifecycle band)
             int phase = (i / 7) % 2;
-            double t2 = phase == 0 ? 20.0 : 80.0;
-            days.Add(new CalibrationDay($"2026-01-{i + 1:D2}", T1Us: 100, T2Us: t2));
+            days.Add(new CalibrationDay($"2026-01-{i + 1:D2}", 100, phase == 0 ? 20 : 80));
         }
-        var t = new QubitTimeline(0, days);
-        double walk = QubitLifecycle.WalkRate(t);
-        Assert.True(walk > QubitLifecycle.LifecycleWalkThreshold);
-        Assert.True(walk <= QubitLifecycle.TwitchWalkThreshold);
-        Assert.Equal(LifecycleArchetype.Lifecycle, QubitLifecycle.Classify(t));
+
+        var timeline = new QubitTimeline(0, days);
+        double rate = QubitLifecycle.RStarBandSwitchRate(timeline);
+        Assert.True(rate > QubitLifecycle.ModerateSwitchRateThreshold);
+        Assert.True(rate <= QubitLifecycle.HighSwitchRateThreshold);
+        Assert.Equal(LifecycleArchetype.Lifecycle, QubitLifecycle.Classify(timeline));
     }
 
     [Fact]
-    public void Classify_OneDay_IsInsufficientData()
+    public void SwitchRate_EqualityAtPointTwenty_IsLifecycleNotTwitch()
     {
-        var t = new QubitTimeline(0, new[] { new CalibrationDay("2026-01-01", 100, 50) });
-        Assert.Equal(LifecycleArchetype.InsufficientData, QubitLifecycle.Classify(t));
+        var timeline = TimelineFromBands(false, false, false, true, true, true);
+        Assert.Equal(0.20, QubitLifecycle.RStarBandSwitchRate(timeline), precision: 14);
+        Assert.Equal(LifecycleArchetype.Lifecycle, QubitLifecycle.Classify(timeline));
     }
 
     [Fact]
-    public void Classify_EmptyTimeline_IsInsufficientData()
+    public void SwitchRate_EqualityAtPointZeroFive_StaysInStableBranch()
     {
-        var t = new QubitTimeline(0, Array.Empty<CalibrationDay>());
-        Assert.Equal(LifecycleArchetype.InsufficientData, QubitLifecycle.Classify(t));
+        var bands = Enumerable.Repeat(false, 10).Concat(Enumerable.Repeat(true, 11)).ToArray();
+        var timeline = TimelineFromBands(bands);
+        Assert.Equal(0.05, QubitLifecycle.RStarBandSwitchRate(timeline), precision: 14);
+        Assert.Equal(LifecycleArchetype.ClassicStable, QubitLifecycle.Classify(timeline));
     }
 
     [Fact]
-    public void Q0_OnMarrakesh91d_IsPulseStable()
+    public void BelowFraction_EqualityAtPointOne_StaysClassicStable()
     {
-        var t = Marrakesh91d.Value[0];
-        Assert.Equal(91, t.Days.Count);
-        Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(t));
-        Assert.True(QubitLifecycle.CrossingFraction(t) > 0.95,
-            $"Q0 crossing fraction was {QubitLifecycle.CrossingFraction(t):F3}; expected > 0.95");
-        Assert.True(QubitLifecycle.WalkRate(t) < QubitLifecycle.LifecycleWalkThreshold,
-            $"Q0 walk rate was {QubitLifecycle.WalkRate(t):F3}; expected < {QubitLifecycle.LifecycleWalkThreshold}");
+        var bands = Enumerable.Repeat(true, 4).Concat(Enumerable.Repeat(false, 36)).ToArray();
+        var timeline = TimelineFromBands(bands);
+        Assert.Equal(0.10, QubitLifecycle.BelowRStarFraction(timeline), precision: 14);
+        Assert.True(QubitLifecycle.RStarBandSwitchRate(timeline) <= 0.05);
+        Assert.Equal(LifecycleArchetype.ClassicStable, QubitLifecycle.Classify(timeline));
     }
 
     [Fact]
-    public void Q126_Q127_OnMarrakesh91d_AreBothPulseStable()
+    public void BelowFraction_EqualityAtPointSeven_StaysClassicStable()
     {
-        // The only CZ-coupled stable-quantum pair on Marrakesh per the
-        // 2026-05-05 uniform-quantum search.
+        var bands = Enumerable.Repeat(true, 28).Concat(Enumerable.Repeat(false, 12)).ToArray();
+        var timeline = TimelineFromBands(bands);
+        Assert.Equal(0.70, QubitLifecycle.BelowRStarFraction(timeline), precision: 14);
+        Assert.True(QubitLifecycle.RStarBandSwitchRate(timeline) <= 0.05);
+        Assert.Equal(LifecycleArchetype.ClassicStable, QubitLifecycle.Classify(timeline));
+    }
+
+    [Fact]
+    public void Classify_FewerThanTwoDays_IsInsufficientData()
+    {
+        var one = new QubitTimeline(0, new[] { new CalibrationDay("2026-01-01", 100, 50) });
+        var none = new QubitTimeline(0, Array.Empty<CalibrationDay>());
+        Assert.Equal(LifecycleArchetype.InsufficientData, QubitLifecycle.Classify(one));
+        Assert.Equal(LifecycleArchetype.InsufficientData, QubitLifecycle.Classify(none));
+    }
+
+    [Fact]
+    public void MarrakeshAnchors_PreserveMeasuredLifecycleRows()
+    {
         var h = Marrakesh91d.Value;
+        Assert.Equal(91, h[0].Days.Count);
+        Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(h[0]));
+        Assert.True(QubitLifecycle.BelowRStarFraction(h[0]) > 0.95);
+        Assert.True(
+            QubitLifecycle.RStarBandSwitchRate(h[0]) < QubitLifecycle.ModerateSwitchRateThreshold);
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(h[126]));
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(h[127]));
     }
 
+    private static QubitTimeline TimelineFromBands(params bool[] below)
+    {
+        var days = below.Select((isBelow, i) => new CalibrationDay(
+            $"2026-{i / 28 + 1:D2}-{i % 28 + 1:D2}",
+            T1Us: 100,
+            T2Us: isBelow ? 20 : 80)).ToArray();
+        return new QubitTimeline(0, days);
+    }
 }

@@ -1,5 +1,7 @@
 # Quantum State Transfer Bridge: Connecting the Palindrome to 20 Years of QST Research
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: quantum state transfer spin chain, palindromic QST channel,
 asymmetric coupling fidelity optimization, Heisenberg chain state transfer,
 2:1 coupling ratio quantum channel, star topology quantum transfer,
@@ -233,10 +235,12 @@ That is the contribution: not new physics, but new understanding of existing phy
 
 ## Connection to Later Results
 
-The **Relay Protocol** ([Relay Protocol](RELAY_PROTOCOL.md)) applies the 2:1
-coupling ratio found here to an 11-qubit chain with time-dependent γ switching,
-achieving +83% end-to-end MI. The 2:1 ratio is the spatial optimization; the
-relay is the temporal optimization. They are complementary.
+The [Relay Protocol](RELAY_PROTOCOL.md) retains a finite N=11 comparison:
+0.131700 at integrated t=4.50 versus the passive sampled maximum 0.071576
+at t=4.00, about +84.0% from stored six-decimal values. Its nominal
+0.78/stage (4.68 total) executes as 0.75/stage (4.50 total). The endpoints
+are unmatched in time and dose; this does not isolate staging from coupling
+or establish an optimized QST protocol. It motivates a controlled follow-up.
 
 The **γ as Signal** result ([γ as Signal](GAMMA_AS_SIGNAL.md)) reframes
 the entire QST picture: the channel is not just carrying quantum states from
@@ -275,7 +279,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ### Project-internal
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome theorem
-- [Relay Protocol](RELAY_PROTOCOL.md): +83% with time-dependent γ
+- [Relay Protocol](RELAY_PROTOCOL.md): finite unmatched-endpoint MI comparison, about +84.0%; not a controlled QST result
 - [Scaling Curve](SCALING_CURVE.md): MI vs chain length
 - [γ Control](GAMMA_CONTROL.md): the two-lever noise law; centre concentration +46%, V-shape +6% at matched Σγ
 - [γ as Signal](GAMMA_AS_SIGNAL.md): palindromic channel as antenna

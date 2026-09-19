@@ -1,17 +1,15 @@
-"""F88b-Lens applied to today's Kingston run on uniform-quantum chain [43, 56, 63].
+"""F88b-Lens applied to a predominantly below-R* Kingston path [43, 56, 63].
 
 The hardware run (job d7sqjpiudops73976960, 2026-05-05 10:28 UTC) is the
-first F87 trichotomy test on a uniform-quantum CZ-coupled triple. Multi-day
-biographies confirm all three qubits PulseStable across 91 days (mean r
-in [0.09, 0.10], all crossing the boundary on > 95% of days, deeply
-quantum-side).
+first F87 trichotomy test on a CZ-coupled triple whose calibration histories
+are below-R* on more than 95% of sampled days (mean r in [0.09, 0.10]). R* is
+the free-single-transmon |+> normalized-purity proxy threshold.
 
 Question: how does the F88b-Lens Π²-odd-memory reading on this chain compare
-to the regime-mixed Marrakesh [0, 1, 2] (April 26, framework_snapshots) and
-the uniform-classical Marrakesh [48, 49, 50] (April 26, soft_break)? The
-BOTH_SIDES_VISIBLE update flagged the 22.8× truly-baseline gap (Marrakesh
-[48, 49, 50] = 0.0013 vs Marrakesh [0, 1, 2] = 0.0297) as a possible
-regime-uniformity effect; this run is the first uniform-quantum data point.
+to the mixed-band Marrakesh [0, 1, 2] and the all-at-or-above-R* Marrakesh
+[48, 49, 50]? The 22.8× finite gap and this cross-backend row are confounded
+by path, backend, date, preparation, and calibration. This is an association
+screen, not a causal proxy-band experiment.
 """
 from __future__ import annotations
 
@@ -42,16 +40,16 @@ def lens_for(json_path):
 
 
 def main():
-    print("F88b-Lens cross-regime comparison: Kingston uniform-quantum vs Marrakesh uniform-classical")
+    print("F88b-Lens cross-archive comparison: Kingston predominantly below-R* vs Marrakesh at-or-above-R*")
     print("=" * 78)
 
     sb_kingston, lens_kingston = lens_for(KINGSTON_JSON)
     sb_marrakesh, lens_marrakesh = lens_for(MARRAKESH_JSON)
 
     print()
-    print(f"  Kingston   [{', '.join(map(str, sb_kingston['path']))}] uniform-quantum")
+    print(f"  Kingston   [{', '.join(map(str, sb_kingston['path']))}] predominantly below-R* (>95% sampled days)")
     print(f"             job {sb_kingston['job_id']}, {sb_kingston['parameters']['shots']} shots, t={sb_kingston['parameters']['t']}")
-    print(f"  Marrakesh  [48, 49, 50] uniform-classical")
+    print(f"  Marrakesh  [48, 49, 50] all at-or-above-R*")
     print(f"             job {sb_marrakesh['job_id']}, {sb_marrakesh['parameters']['shots']} shots, t={sb_marrakesh['parameters']['t']}")
     print()
     print(f"  {'category':<22} {'Kingston':>12} {'Marrakesh':>12} {'ratio':>8}")
@@ -72,7 +70,7 @@ def main():
             print(f"  {label:<22} {k:>12.4f} {m:>12.4f} {ratio:>8.2f}×")
 
     print()
-    print("Full per-category F88b-Lens output (Kingston uniform-quantum):")
+    print("Full per-category F88b-Lens output (Kingston predominantly below-R* archive):")
     print(f"  {'category':<22} {'trace':>8} {'purity':>8} {'static':>9} {'memory':>9} {'Π²-odd/mem':>12}")
     print("  " + "-" * 70)
     for cat in ["truly_unbroken", "pi2_odd_pure", "pi2_even_nontruly", "mixed_anti_one_sixth"]:
@@ -89,23 +87,19 @@ def main():
     truly_m = lens_marrakesh["truly_unbroken"]["pi2_odd_in_memory"]
     soft_k = lens_kingston["pi2_odd_pure"]["pi2_odd_in_memory"]
     soft_m = lens_marrakesh["soft_broken"]["pi2_odd_in_memory"]
-    print(f"  truly-baseline:  Kingston uniform-quantum  = {truly_k:.4f}")
-    print(f"                   Marrakesh uniform-classical = {truly_m:.4f}")
+    print(f"  truly-baseline:  Kingston predominantly below-R* = {truly_k:.4f}")
+    print(f"                   Marrakesh at-or-above-R* = {truly_m:.4f}")
     print(f"                   ratio (Kingston / Marrakesh) = {truly_k / max(truly_m, 1e-9):.2f}×")
     print()
     print(f"  soft-pumping:    Kingston = {soft_k:.4f}")
     print(f"                   Marrakesh = {soft_m:.4f}")
-    print(f"                   substrate-independence: {abs(soft_k - soft_m) / max(soft_k, soft_m) * 100:.1f}% relative spread")
+    print(f"                   cross-archive relative spread: {abs(soft_k - soft_m) / max(soft_k, soft_m) * 100:.1f}%")
     print()
-    print("  Interpretation guide:")
-    print("    - if regime-uniformity is what cleans the truly-baseline:")
-    print("        Kingston uniform-quantum truly should be similar to Marrakesh uniform-classical")
-    print("        (the 22.8× framework_snapshots [0,1,2] vs [48,49,50] gap was 0.0297 vs 0.0013)")
-    print("    - if quantum-side dephasing dominates:")
-    print("        Kingston uniform-quantum truly should be LARGER than Marrakesh classical")
-    print("        (more T2-driven dephasing accumulating in the truly-baseline noise floor)")
-    print("    - if the chip's overall noise floor matters most:")
-    print("        the truly-baseline reflects Kingston's calibration quality, not regime")
+    print("  Scope:")
+    print("    - each number is a finite archive read under its stated protocol")
+    print("    - the 22.8x within-Marrakesh contrast and this cross-backend comparison")
+    print("      remain a confounded association; they identify no band mechanism")
+    print("    - no row establishes substrate independence or a quantum/classical split")
 
 
 if __name__ == "__main__":

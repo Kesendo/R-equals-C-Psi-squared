@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
 """
-Observer-Gravity Crossing: t_cross = K(Observer, State) / γ
-=============================================================
-2-qubit system cos(α)|00⟩+sin(α)|11⟩ under Heisenberg coupling (J=1.0)
-and Z-dephasing. The crossing time factorizes: K is γ-invariant.
+Fixed Wootters-concurrence crossings on a Hamiltonian-dead family
+==============================================================
+The entire cos(α)|00⟩+sin(α)|11⟩ trajectory under isotropic Heisenberg
+coupling and equal local Z-dephasing remains Hamiltonian-dead.
+For this fixed Wootters-concurrence book K_conc=ln(4*sin(2α)^2/3)/8
+where a positive-time crossing exists; α=30° is equality initially.
+Observer and planetary names are historical labels, not physical observers
+or calibrated gravitational environments. The stored MI-ratio rows are a
+legacy calculation whose Bell+ MI crossing is refuted in the owner document.
 
 Test 1: Sweep γ (six environments), verify K_conc = const.
-Test 2: Sweep α, show K(Conc)/K(MI) is state-dependent.
-Test 3: States below α=30° never cross.
+Test 2: Historical MI/4 ratio table; the Bell+ finite crossing is refuted.
+        The Bell+ MI/4 threshold is approached asymptotically, not crossed.
+Test 3: Below α=30° this concurrence readout does not cross; α=30° is initial equality.
+
+DO NOT IMPORT OR RUN FOR VALIDATION: this legacy module executes at import
+and rewrites its tracked output. Use syntax/read-only inspection only.
 
 Script:  simulations/observer_gravity_cross.py
 Output:  simulations/results/observer_gravity_cross.txt
@@ -138,7 +147,7 @@ def find_crossing(L, rho0, metric_fn, threshold=0.25, dt=0.001, t_max=100.0):
 # TEST 1: K_conc invariant across γ
 # ============================================================
 log("=" * 70)
-log("Observer-Gravity Crossing: t_cross = K / γ")
+log("Fixed Wootters-concurrence book: Hamiltonian-dead two-qubit crossings")
 log("=" * 70)
 log()
 
@@ -180,10 +189,10 @@ if K_values:
     log(f"\n  K_conc = {K_mean:.5f} ± {K_std:.5f}, CV = {cv:.2f}%")
 
 # ============================================================
-# TEST 2: K ratio across states
+# TEST 2: HISTORICAL MI/4 RATIO TABLE; BELL+ FINITE CROSSING REFUTED
 # ============================================================
 log()
-log("Test 2: K(Conc)/K(MI) is state-dependent")
+log("Test 2: HISTORICAL MI/4 ratio table; Bell+ finite crossing refuted; alpha=30 initial equality")
 log("-" * 70)
 
 gamma = 0.05
@@ -216,8 +225,8 @@ for a_deg in alphas:
 # ============================================================
 log()
 log("=" * 70)
-log("t_cross = K(Observer, State) / γ. K is γ-invariant.")
-log("K(Conc)/K(MI) is state-dependent. States below α=30° never cross.")
+log("K_conc is fixed in each stated Hamiltonian-dead concurrence book during a gamma sweep.")
+log("The MI-ratio table is legacy; at alpha=30 degrees concurrence starts at equality.")
 log("=" * 70)
 
 _outf.close()

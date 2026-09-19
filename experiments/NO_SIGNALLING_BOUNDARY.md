@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# No-signalling control for a global scalar readout
+
+Current reading: the specified local operation leaves the reduced state
+`rho_A` exactly unchanged, which is the no-signalling statement.  A custom
+global scalar built from a maximum eigenvalue and purity may change without
+creating a local signal, but its bins do not establish a measurement or divide
+physical systems into regimes.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical reading:** the earlier boundary narrative and finite output are
+retained below as the route to the reduced-state control.
+
 # The No-Signalling Boundary: CΨ Sees a Regime Change That No Local Observer Can Detect
 
 <!-- Keywords: no-signalling theorem CΨ regime change, Bell state measurement

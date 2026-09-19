@@ -34,14 +34,14 @@ public enum QBand
 /// band/role this anchor names, the tier label of its grounding, and the documenting
 /// source.
 ///
-/// <para><b>The 9 canonical anchors</b> (per <c>docs/Q_REGIME_ANCHORS.md</c>):
+/// <para><b>The 10 canonical anchors</b> (per <c>docs/Q_REGIME_ANCHORS.md</c>):
 /// 0.2 onset start, 0.35 onset end, 1.0 Balance, 1.2 peak start, 1.5 F86 Q_peak c=2,
-/// 1.6 F86 Q_peak c=3, 1.8 F86 Q_peak c=4/c=5 + peak end, 2.0 Q_EP at g_eff=1
-/// idealized, 2.5 Endpoint orbit (candidate).</para>
+/// 1.6 F86 Q_peak c=3, sqrt(3) named two-level cross-reading, 1.8 F86 Q_peak c=4/c=5
+/// + peak end, 2.0 Q_EP at g_eff=1 idealized, 2.5 Endpoint orbit (candidate).</para>
 ///
 /// <para><b>Viewpoints</b> (Painter-Principle pluralism on Q):
 /// <list type="bullet">
-///   <item><see cref="Q"/>: the structural Q-value (substrate-invariant ratio).</item>
+///   <item><see cref="Q"/>: the stored dimensionless coordinate for the named source.</item>
 ///   <item><see cref="JAtGamma0Point05"/>: the J = Q·γ₀ at the code convention.</item>
 ///   <item><see cref="Band"/>: which framework band this anchor names.</item>
 ///   <item><see cref="Role"/>: short prose description (e.g., "Balance", "F86 Q_peak (c=2)").</item>
@@ -49,10 +49,12 @@ public enum QBand
 ///   <item><see cref="DocumentingSource"/>: where the anchor is grounded.</item>
 /// </list></para>
 ///
-/// <para><b>Derived viewpoints</b> (helper methods): <see cref="JAt(double)"/> gives J
-/// at arbitrary γ₀ (substrate-invariant); <see cref="ThetaDegrees"/> gives the F95 angle
-/// θ = arctan(Q) in degrees, the per-γ₀-tick rotation angle of the Liouvillian
-/// eigenvalue complex pair.</para>
+/// <para><b>Derived viewpoints</b> (helper methods): <see cref="JAt(double)"/> performs
+/// the coordinate conversion J=Qγ₀; <see cref="ThetaDegrees"/> returns the generic dimensionless dial
+/// arctan(Q) in degrees. A host may interpret that dial as an F95
+/// principal angle only after it explicitly supplies the positive-decay roots
+/// z=-lambda of a named lambda=-gamma0+/-iJ pair. It is not a universal many-body
+/// mode angle.</para>
 /// </summary>
 public sealed record QBasisAnker(
     double Q,
@@ -62,14 +64,13 @@ public sealed record QBasisAnker(
     Tier Tier,
     string DocumentingSource)
 {
-    /// <summary>J = Q · γ₀ at arbitrary γ₀ (substrate-invariant per
-    /// <see cref="UniversalCarrierClaim"/>).</summary>
+    /// <summary>Coordinate conversion J = Q·γ₀ for the supplied γ₀.</summary>
     public double JAt(double gamma0) => Q * gamma0;
 
-    /// <summary>F95 angle θ = arctan(Q) in degrees. The per-γ₀-tick rotation angle of
-    /// the Liouvillian eigenvalue complex pair, per
-    /// <see cref="F95AngleAtQuadraticZeroPi2Inheritance"/> and
-    /// <c>reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md</c>. At Q=1 (Balance) θ = 45°
-    /// (diagonal in Re/Im plane); at Q→∞ θ → 90°.</summary>
+    /// <summary>The generic coordinate arctan(Q) in degrees. For the separately
+    /// declared pair lambda=-gamma0+/-iJ with gamma0&gt;0 and J&gt;=0, its positive
+    /// decay roots z=-lambda make this coordinate an F95 principal angle. Other
+    /// Liouvillian modes need their own measured omega/gap. At Q=1 the coordinate
+    /// is 45 degrees; as Q tends to infinity it tends to 90 degrees.</summary>
     public double ThetaDegrees() => AnchorConstants.RadiansToDegrees(Math.Atan(Q));
 }

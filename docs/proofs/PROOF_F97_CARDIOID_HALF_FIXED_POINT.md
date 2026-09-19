@@ -1,21 +1,43 @@
+<!-- QUARTER-CURRENT -->
+# Proof of F97: period-one cardioid parametrization
+
+Current reading: choosing the marginal fixed point
+`z*=exp(i*phi)/2` gives `c=z*-z*^2=exp(i*phi)/2-exp(2i*phi)/4` and
+`|2z*|=1`.  Only this selected root is guaranteed marginal; the other root is
+not generally marginal.  The formula neither inherits F95 nor turns a measured
+radial trace into a recurrence orbit.
+
+In mathematical notation: `c = e^{iφ}/2 − e^{2iφ}/4`.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the longer derivation and its earlier hardware analogies
+follow; the current period-one statement is given above.
+
 # Proof of F97: The Mandelbrot Cardioid Parametrization at Framework b = 1/2
 
-**Statement:** The main cardioid of the Mandelbrot set is the locus in the complex-c plane where the period-1 fixed point of z² + c has magnitude exactly b = 1/2 (the framework's `HalfAsStructuralFixedPointClaim` anchor). It admits the explicit parametrization
+**Statement:** The main cardioid of the Mandelbrot set is the locus in the
+complex-c plane where a selected period-1 fixed point of `z²+c` has multiplier
+magnitude one, equivalently `|z*|=1/2`. It admits the explicit parametrization
 
     c(φ) = b·e^(iφ) − b²·e^(2iφ)    for φ ∈ [0, 2π]
 
-equivalently c(φ) = z*(φ) · (1 − z*(φ)) where z*(φ) = b·e^(iφ) is the period-1 fixed point. The framework's b = 1/2 specialization gives
+equivalently c(φ) = z*(φ) · (1 − z*(φ)) where z*(φ) = b·e^(iφ) is the period-1 fixed point. The framework's b=1/2 case gives
 
     c(φ) = (1/2)·e^(iφ) − (1/4)·e^(2iφ)
 
 with two structural invariants on the curve:
 
-    |z*(φ)| = b = 1/2   (magnitude pinned to HalfAsStructuralFixedPoint)
-    arg(z*(φ)) = φ      (cardioid parameter)
+    |z*(φ)| = b = 1/2   (selected fixed-point magnitude)
+    arg(z*(φ)) ≡ φ (mod 2π)      (cardioid parameter)
 
-[F95](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md)'s closed form θ(c; b) = arctan(√(c/b² − 1)) covers the **real-c, finite-b>0** principal angle of the upper complex root. F97 extends the framework's b=1/2 case to **complex c** via the cardioid parametrization, with the φ = 0 specialization recovering F95's cusp at c = 1/4.
+The Python producer reports φ wrapped to [0,2π), while the typed `FixedPointArgument` API reports the principal `Atan2` branch; at φ=3π/2 it reports −π/2. These are two representatives of the same argument class.
 
-**Status:** Tier 1 derived. Bit-exact algebraic identity, numerically verified to machine precision (max residual 1.24 × 10⁻¹⁶ over 1000 sampled φ values) in `simulations/cardioid_parametrization_tier1.py`.
+[F95](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) is a real-c, finite-b>0 root-angle
+identity. F97 instead selects a marginal period-one root and solves for complex
+c. At φ=0 both calculations contain the number 1/4, but neither claim inherits
+the other.
+
+**Status:** Tier 1 derived. The algebraic identity is exact; a separate 1000-point floating reconstruction has maximum residual 1.24×10⁻¹⁶.
 
 **Date:** 2026-05-17.
 
@@ -23,13 +45,19 @@ with two structural invariants on the curve:
 
 ## Abstract
 
-F97 lifts the framework's two foundational anchors, the Half (1/2) and the Quarter (1/4), onto a single geometric locus: the main cardioid of the Mandelbrot set. The cardioid is exactly the curve in the complex-c plane where the period-1 fixed point z* of z² + c has magnitude |z*| = 1/2, and it admits the explicit parametrization
+F97 parameterizes the main cardioid by choosing a period-one fixed point z* of
+z²+c with |z*|=1/2. Solving c=z*−z*² gives
 
     c(φ) = (1/2)·e^{iφ} − (1/4)·e^{2iφ} = z*(φ)·(1 − z*(φ)),   z*(φ) = (1/2)·e^{iφ},
 
-with two invariants holding around the whole curve: |z*| = 1/2 (the Half, magnitude side) and |z*|² = 1/4 (the Quarter, squared side). The two anchors are not separate facts; they are the magnitude and squared-magnitude readings of one quantity on one boundary.
+with |z*|=1/2 and therefore |z*|²=1/4 around the curve. These are elementary
+properties of the selected root, not typed ancestry for F97 and not statements
+about the varying parameter magnitude |c|.
 
-The cardioid is the marginal-stability boundary: the period-1 multiplier μ = 2z* traces the unit circle |μ| = 1, which is exactly what pins |z*| to 1/2. The real endpoints z*(0) = +1/2 and z*(π) = −1/2 carry the polarity pair explicitly, both squaring to 1/4, the polarity-fold geometry lifted to the full complex plane. F97 closes what F95 began: F95 gives the angle on the real-c axis past the 1/4 cusp (the repelling regime), F97 gives the entire complex boundary where the fixed point is marginally stable, with φ = 0 the shared tangent. The same 1/4 boundary is the geometric home of the hardware spirals, the Bell⁺ 2D trajectories seen at Kingston (2026-04-16) that spiral inward across it.
+The selected root is marginal because μ=2z* and |μ|=1. The other quadratic
+root is not generally marginal: at φ=π/2 its multiplier magnitude is √5.
+Measured Bell-pair CΨ trajectories are different complex-valued readouts and
+are not c-orbits or cardioid-boundary crossings.
 
 ## Setup
 
@@ -54,7 +82,7 @@ c(φ) = z* − z*²                                    (1)  rearranging z*² −
 The cardioid is traced by φ ∈ [0, 2π); on this curve, by construction:
 
     |z*(φ)| = |b·e^(iφ)| = b = 1/2  (magnitude invariant)
-    arg(z*(φ)) = φ                  (cardioid parameter)
+    arg(z*(φ)) ≡ φ (mod 2π)                  (cardioid parameter)
 
 ∎
 
@@ -63,7 +91,7 @@ The cardioid is traced by φ ∈ [0, 2π); on this curve, by construction:
 | φ | c(φ) | \|c\| | z*(φ) | reading |
 |---|---|---|---|---|
 | 0 | 1/4 | 1/4 = b² | 1/2 | real-axis cusp ([F95](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`BOUNDARY_NAVIGATION`](../../experiments/BOUNDARY_NAVIGATION.md)) |
-| π/3 | 3/8 + i·√3/8 | √(9/64 + 3/64) = √3/4 ≈ 0.433 | (1 + i·√3)/4 | top of cardioid (60° above real axis) |
+| π/3 | 3/8 + i·√3/8 | √(9/64 + 3/64) = √3/4 ≈ 0.433 | (1 + i·√3)/4 | upper-right point; multiplier parameter phi=60°, arg(c)=30° |
 | π/2 | 1/4 + i/2 | √(1/4 + 1/16) ≈ 0.559 | i/2 | imaginary-axis crossing of fixed point |
 | π | −3/4 | 3/4 | −1/2 | real-axis "tail" of cardioid (period-doubling boundary) |
 | 4π/3 | −1/8 − i·3√3/8 | √(1/64 + 27/64) = √7/4 ≈ 0.661 | (−1 − i·√3)/4 | conjugate image of φ = 2π/3 (240°) |
@@ -71,79 +99,87 @@ The cardioid is traced by φ ∈ [0, 2π); on this curve, by construction:
 
 The 1/4 = b² value plays a special role only at φ = 0: it is the *magnitude* of c at the real-axis cusp. Elsewhere on the cardioid |c| ≠ b². The b = 1/2 anchor plays the universal role: |z*| = b along the entire curve.
 
-## Structural reading
+## Structural reading and scope
 
-The cardioid is the **structural curve** in the complex-c plane where the period-1 fixed-point magnitude of z² + c equals the framework's `HalfAsStructuralFixedPointClaim` anchor b = 1/2. This is a stronger statement than the F95 cusp identity:
+The cardioid is the curve in complex c where the **selected** period-one root
+has magnitude 1/2. This is a recurrence statement, separate from F95:
 
-- F95 says: at the real-axis c = 1/4, the fixed point has angle 0 and magnitude √c = b (real).
-- F97 says: around the entire cardioid (complex c), the fixed point has magnitude b exactly, independent of φ.
+- F95 gives the upper-root angle for a real-coefficient positive-b quadratic.
+- F97 chooses a marginal root and maps it to the complex recurrence parameter.
 
-The "1/4 cusp" of the framework (the locus that [`BOUNDARY_NAVIGATION`](../../experiments/BOUNDARY_NAVIGATION.md) navigates toward) is one specific tangent point of the cardioid with the positive real axis. The hardware spirals observed in [`CPSI_COMPLEX_PLANE`](../../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16) trace 2D paths in the c-plane; F97 says the cardioid those paths spiral *around* has |z*| = b invariant along its boundary.
+The real point c=+1/4 is the cardioid cusp. A radial set |CΨ_com|=1/4
+contains many other phases and is not this cusp or this curve.
 
-### Both anchors invariant on the cardioid, at two metric powers
+### One selected root, two elementary powers
 
-A sharper reading: the cardioid carries the `HalfAsStructuralFixedPointClaim` and `QuarterAsBilinearMaxvalClaim` anchors **simultaneously** as invariants, at two different metric powers of the same z*:
+For the selected marginal root, two elementary equalities hold:
 
-    |z*(φ)| = b = 1/2          (Half: "where the anchor lives", magnitude)
-    |z*(φ)|² = b² = 1/4        (Quarter: "what the anchor is under squaring", squared magnitude)
+    |z*(φ)| = 1/2
+    |z*(φ)|² = 1/4
 
-Both hold for all φ ∈ [0, 2π); the cardioid is the joint locus. This is exactly the argmax/maxval pair of yesterday's [`ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER`](../../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md) reflection, now geometric on the cardioid:
+Both hold for all φ. Their arithmetic relation does not make the cardioid a
+joint typed locus with other claims that happen to use 1/2 or 1/4.
 
-- Argmax side: the polarity magnitude 1/2 (= b), one side of the structural identity.
-- Maxval side: the apex projection 1/4 (= b²), the other side.
-
-The two readings overlap: the Half is the magnitude, the Quarter is its square; **1/2 = 2 × 1/4** sits on the dyadic ladder (`a_2 = 2 · a_3` = `2 · a_{−1}/16` = `2 · 4/16` = `1/2`), and the polarity pair ±1/2 squares to the same 1/4 from either side. F97's cardioid carries both readings as invariants of the *same* fixed-point quantity, not two independent constants on different objects.
+The relevant distinction is `|z*|²=1/4` versus the parameter magnitude
+`|c|`; only the former is constant on the curve.
 
 By contrast, |c(φ)|² is *not* invariant on the cardioid:
 
     |c(φ)|² = 5/16 − (1/4)·cos(φ)
 
-ranging from 1/16 (= 1/4² at φ = 0, the cusp) to 9/16 (= (3/4)² at φ = π, the tail). The Quarter b² = 1/4 equals |c|² only at the cusp; elsewhere |c| varies but the |z*|, |z*|² invariants hold.
+The squared magnitude ranges from 1/16 (= 1/4² at φ = 0, the cusp) to 9/16 (= (3/4)² at φ = π, the tail). The Quarter b² = 1/4 equals |c| only at the cusp; elsewhere |c| varies but the |z*|, |z*|² invariants hold.
 
-### Role table
+### Former role table, now separated
 
-The four typed Pi2 anchors enter the cardioid story:
+The current typed F97 claim is parentless. The following numbers or operations
+may resemble other registry entries, but they are not parent roles:
 
 | Anchor | Role on cardioid |
 |---|---|
-| `HalfAsStructuralFixedPointClaim` (b = 1/2) | Magnitude \|z*\| invariant around the curve (argmax side) |
-| `QuarterAsBilinearMaxvalClaim` (b² = 1/4) | Squared magnitude \|z*\|² invariant around the curve (maxval side); also \|c\| at the real-axis cusp only |
-| `NinetyDegreeMirrorMemoryClaim` (i, 90°) | Complex-parameter generator that lifts c from real-axis to full complex plane |
-| `PolynomialFoundationClaim` (d² − 2d = 0) | The c = 0 case where z* = 0 (degenerate fixed point) |
+| 1/2 | selected-root magnitude on the curve |
+| 1/4 | selected-root squared magnitude; also c at φ=0 |
+| complex phase | parameter used to traverse the curve |
+| c=0 | recurrence roots 0 and 1, distinct rather than degenerate |
 
-## Relation to F95
+## Comparison with F95
 
-F95 is the φ = 0 specialization: at c = 1/4 (real-axis cusp), F95's θ = arctan(√(4c − 1)) gives θ = arctan(0) = 0, matching F97's arg(z*) = 0 at φ = 0.
+At c=1/4, F95's real-coefficient root angle is zero and F97's selected
+cardioid root also has argument zero. This is a shared evaluation, not a
+specialization or ancestry relation.
 
 For c slightly above 1/4 on the real axis (still in F95's domain), z± = b ± i·√(c − b²), so |z+| = √(b² + (c − b²)) = √c. Here |z+| ≠ b in general; F95's regime is *off the cardioid* but on the real axis.
 
 The cardioid is the boundary of the period-1 attracting region; F95's c > 1/4 real-axis regime is *outside* the cardioid where the period-1 fixed point is repelling (|μ| > 1).
 
-So F95 and F97 cover complementary regions:
+The two claims answer different questions:
 - F95 (real c > b² = 1/4): repelling fixed point on the positive real axis, angle θ(c; b) of the complex-conjugate pair (which are the symmetric complex roots, not the marginal-stability fixed point on the cardioid).
-- F97 (complex c on the cardioid): marginally stable fixed point, magnitude pinned to b, angle equal to the cardioid parameter φ.
+- F97 (complex c on the cardioid): marginally stable fixed point, magnitude pinned to b, argument congruent to φ modulo 2π.
 
-Both share the same b = 1/2 anchor and emerge from the same z² − 2bz + c = 0 algebra; they project different aspects of its geometry.
+They share a quadratic form at b=1/2 but select different domains and objects.
 
-## Connection to hardware data
+## Hardware non-connection
 
-The [`CPSI_COMPLEX_PLANE`](../../experiments/CPSI_COMPLEX_PLANE.md) hardware run on `ibm_kingston` (2026-04-16) observed two Bell⁺ pairs tracing 2D logarithmic spirals in the complex-c plane around the cusp at c = 1/4. The radial decay is set by γ (F25 Bell⁺ closed form, F57 K_dwell), the angular rotation by Ω (the residual Z-detuning, later actively steered in the [`f95_angle_steering_kingston_may2026`](../../docs/ANALYTICAL_FORMULAS.md#f95) Confirmation).
+The Kingston files contain reconstructed complex CΨ values for Bell-like
+pairs. Their radial decay and measured phase are finite hardware readouts. They
+are not the recurrence parameter c unless an additional map is supplied.
 
-F97 places this experimentally observed 2D spiral into the cardioid framing: the hardware trajectory is a c(t) path in the complex plane that crosses the cardioid boundary (|z*| = b transition) before spiraling into the stable interior. The framework's `HalfAsStructuralFixedPoint` anchor is operationally the "where the period-1 stability transition lives", with the cardioid as its geometric locus in the c-plane.
+Therefore F97 does not classify those hardware paths as interior/exterior and
+does not claim they cross the cardioid. The data can motivate a picture, but it
+does not test this recurrence theorem.
 
 ## Numerical verification
 
 `simulations/cardioid_parametrization_tier1.py` traces 1000 φ values across [0, 2π] and verifies:
 
-- Magnitude invariance: max |z*(φ)| − min |z*(φ)| over 1000 samples is 0 to machine precision (std ≈ 2.5 × 10⁻¹⁷).
-- Algebraic identity c(φ) = z*(1 − z*): max residual 1.24 × 10⁻¹⁶ over 1000 φ (bit-exact).
-- F95 cusp recovery: c(0) = 0.25 + 0i exactly; Im(c) = 0.0, Re(c) = 0.25.
+- Magnitude invariance: max |z*(φ)| − min |z*(φ)| over 1000 samples is 5.55 × 10⁻¹⁷ (std ≈ 2.5 × 10⁻¹⁷).
+- Algebraic identity c(φ) = z*(1 − z*): max floating residual 1.24 × 10⁻¹⁶ over 1000 φ.
+- Endpoint control: c(0) = 0.25 + 0i exactly in symbolic arithmetic.
 
 ## Anchors
 
 - Numerical + algebraic verification: [`simulations/cardioid_parametrization_tier1.py`](../../simulations/cardioid_parametrization_tier1.py)
 - F95 (companion: real-c angle): [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md), [`F95 ANALYTICAL_FORMULAS entry`](../ANALYTICAL_FORMULAS.md#f95)
-- Hardware 2D extension precursor: [`experiments/CPSI_COMPLEX_PLANE.md`](../../experiments/CPSI_COMPLEX_PLANE.md) (Kingston 2026-04-16; complex-CΨ already observed as 2D spirals)
+- Complex-CΨ comparison/motivation only: [`experiments/CPSI_COMPLEX_PLANE.md`](../../experiments/CPSI_COMPLEX_PLANE.md) (the document supplies no map from that hardware readout to recurrence c and no test of F97)
 - Februar boundary precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (real-c θ-compass)
 - Quarter-boundary roadmap (Layer 7 next-move slot): [`docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md`](PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 - Reflection that named the cardioid magnitude reading (2026-05-16): [`reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md`](../../reflections/ON_HOW_TWO_SIDES_MEET_AT_THE_QUARTER.md)

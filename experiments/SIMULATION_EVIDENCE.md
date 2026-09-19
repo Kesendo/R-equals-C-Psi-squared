@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Finite simulation evidence for named CΨ readouts
+
+Current reading: this document inventories finite states, generators, grids,
+and readouts.  Some named trajectories exceed `1/4`; that catalogue is neither
+an all-state theorem nor a measurement or phase-boundary result.  Retired
+artifacts are historical controls and do not override the current producer.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the earlier synthesis below is retained to show which
+experiments motivated the current finite inventory.
+
 # Simulation Evidence: CΨ Routinely Exceeds ¼ Under Active Hamiltonians
 
 <!-- Keywords: Lindblad simulation CΨ exceeds quarter boundary, operator

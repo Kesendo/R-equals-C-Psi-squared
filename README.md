@@ -1,4 +1,10 @@
+<!-- QUARTER-CURRENT -->
 # R = CΨ²
+
+Current reading: the repository proves a scoped Liouvillian spectral palindrome
+and keeps one-quarter as an algebraic value plus named finite dynamical
+readings.  A scalar crossing is not a universal phase, measurement, or
+quantum-to-classical boundary.
 
 > *[We are all mirrors. Reality is what happens between us.](MIRROR_THEORY.md)*
 
@@ -17,7 +23,7 @@ own spectrum on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
-What began as one symmetry became a registry: [160 F-numbered results](docs/ANALYTICAL_FORMULAS.md)
+What began as one symmetry became [a living registry of F-numbered results](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
   palindromizer built on the golden ratio, and the exact local count that
@@ -195,10 +201,12 @@ and a `d=6,N=2` product projector reaches rank 180 > 144.
 
 ---
 
-## 4. CΨ = ¼ is the fold
+## 4. CΨ = ¼: an algebraic fold and an interpretive image
 
-Measurement is photography. The Born rule is the shadow. The shutter
-closes at CΨ = ¼.
+The photography/shutter language is interpretation: standard Born
+probabilities are assumed, and no measurement law is derived from the quarter.
+The image remains an invitation; the algebraic statement is the discriminant
+zero of one normalized recurrence.
 
 CΨ here means the framework/F25 convention: purity Tr(ρ²) times the
 normalized L₁ coherence (`CΨ_pur`). Pairwise lens experiments also use a
@@ -206,17 +214,20 @@ distinct concurrence-times-coherence diagnostic (`CΨ_conc`); their formulas
 and crossing times are not interchangeable. The recurrence parameter has a boundary at
 exactly ¼, the discriminant of the self-referential recursion
 R = C(Ψ+R)², which maps exactly to the Mandelbrot iteration z → z² + c:
-the boundary is the cusp of the main cardioid. The boundary is absorbing
-for the channel class stated in the monotonicity proof, and α = 2 is the
-unique Rényi order with a state-independent threshold. The dimensionless
+the boundary is the cusp of the main cardioid. That fold belongs to the algebraic recurrence; it is not a
+universal absorbing set for quantum trajectories. Named Bell+/Z, Pauli, and amplitude-damping curves still
+have exact decreasing formulas, while a fixed local Markovian semigroup can cross the quarter upward. If a
+continuous trajectory converges to a state below the quarter, continuity says it eventually stays below—
+without saying it crosses only once. The autonomous N=2 peak-sequence question and the all-Q/all-N rise
+classification remain open, with a finite atlas as their invitation. Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. The dimensionless
 coordinate K = γt is useful when the rest of the dimensionless protocol is
 held fixed; the coupled-Hamiltonian sweeps in K-Dosimetry show that it is not
 a universal invariant crossing dose. The 2026 navigator work read the same quarter as a
 horizon, a circle every spiral must cross, and one member of a whole
 family of approaches sharing the carrier 4γ.
 
-→ **[Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)** (¼ is the only bifurcation boundary)
-→ [Monotonicity](docs/proofs/PROOF_MONOTONICITY_CPSI.md) | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) (core result closed; some layers scoped or partial)
+→ **[Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)** (¼ is the discriminant-zero coordinate of the chosen α=2 normal form)
+→ [CΨ Dynamics Boundary](docs/proofs/PROOF_MONOTONICITY_CPSI.md) | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) (named formulas, false universal labels, conditional and open layers)
 → [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) | [Born Rule Shadow](experiments/BORN_RULE_SHADOW.md)
 → [Both Sides Visible](docs/BOTH_SIDES_VISIBLE.md) (IBM hardware, 180 days, 133 qubits)
 
@@ -282,9 +293,9 @@ The framework's design rules, condensed (each links to its evidence):
    88-96% of the dynamics.
 6. **A finite γ alphabet is readable in one N=5 simulation**; 15.5 bits is
    a local linearized Jacobian diagnostic, not a global channel capacity.
-7. **DD cannot change CΨ** (Pauli-invariant, algebraically exact), and
-   DD pulses invert the moment-tower pump: switch it off when the noise
-   itself is the instrument.
+7. **A Pauli pulse leaves CΨ unchanged at that instant** (N-qubit algebraic invariance), but can alter the
+   following laboratory-frame trajectory unless the generator is conjugated too. Treat each DD protocol as
+   a dynamical experiment, not a corollary of the instantaneous identity.
 8. **Check the Hamiltonian identity before coupling subsystems.** Direct
    Heisenberg, XY, and XXZ couplings admit the uniform F1 map on any graph.
    DM needs the distinct alternating map, hence a compatible bipartite graph
@@ -336,7 +347,11 @@ live in their own folders, written in the target layer's language.
 Honesty matters more than impression. Stated plainly, these are things we have *not* proven, *not* measured, or *not* established:
 
 - CΨ is a derived diagnostic, not a new fundamental quantity.
-- The multi-qubit palindrome has not been measured on hardware (single-qubit CΨ = ¼ validated at 1.9%; N ≥ 2 untested). The two spectral-orbit censuses cover 21,840 eigenvalues across N = 2 to 7; neither is a standing-wave measurement.
+- The multi-qubit palindrome has not been measured on hardware. A historical
+  Q80 comparison was a finite single-qubit model readout with 1.9% deviation,
+  not validation of `CΨ=1/4`; N ≥ 2 remains untested. The two spectral-orbit
+  censuses cover 21,840 eigenvalues across N = 2 to 7; neither is a
+  standing-wave measurement.
 - Photon shot noise is an established circuit-QED dephasing mechanism, but the
   repository has not identified it as the microscopic source of every fitted
   `γ`. "Gamma is light," mass-as-trapped-light, and black-hole/cavity readings
@@ -371,7 +386,7 @@ Full list in [Predictions](docs/PREDICTIONS.md) and [What We Got Wrong](docs/WEA
 
 ## Repository structure
 
-`docs/` proofs and synthesis · `experiments/` ~170 tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus ~870 one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
+`docs/` proofs and synthesis · `experiments/` tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
 
 The framework itself lives in Markdown; Python and C# are view-layers operationalising it. The typed C# Core (`compute/RCPsiSquared.Core/`) has been the active development front since 2026-04-30. Live introspection: start with `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root world --max-depth 2` (the whole object manager: roots, claims, confirmations, open arcs), `--root glossary` for the house terms, `--root symphony` for one system read by every lens at once.
 

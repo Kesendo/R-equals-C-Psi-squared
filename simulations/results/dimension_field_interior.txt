@@ -1,40 +1,38 @@
-# MKL: active, MaxDegreeOfParallelism = 24
-InteriorHorizonField (the ¼-to-½ interior, 13 rungs, |ε| 1E-004..0.25)  —  the horizon CΨ=¼: heading θ → 0 from the interior (θ=45° at the far rung), the recursion crawls to 975 steps at the nearest rung (time stops at the fold); the slowing is ours (relative stop → constant); dwell γ-invariant (Kingston-confirmed). Structural horizon, no gravity.
-├── the marks (the contract)  —  CΨ=¼ the horizon (θ=0, the saddle-node cusp); CΨ=½ the anchor (θ=45°). Inert, tabulated, hardware-observed.
-├── the heading from the interior (θ → 0 at the horizon)  —  θ = arctan(√(4·CΨ−1)): 45° at CΨ=0.5 down to 0° at the horizon. The compass on the quantum side (complex roots).  [curve[14]]
-│       45 ┤             █
-│          │            ██
-│          │          ▂███
-│          │        ▂▅████
-│        0 ┤ ▁▁▂▃▄▅▇██████
-│          └ CΨ (interior) 0.25 .. 0.5
-├── the recursion at the fold (the horizon, live)  —  u → u²+c run live: 975 steps at the nearest rung, diverging as CΨ → ¼⁻ (the recursion crawls, time stops). Rescaled K=9.75 matches the closed form 9.74.  [curve[13]]
-│       975 ┤█            
-│           │█▆           
-│           │██▆          
-│           │████▄▁       
-│         1 ┤██████▆▄▃▂▁▁ 
-│           └ CΨ (classical) 0.25 .. 0
-├── the slowing is ours (relative stop is flat)  —  rescaled K with a relative stop tol=k·ε is the constant ½·ln(4/k)=4.15; the absolute-tol K drifts. The slowing belonged to the stop criterion, not the cusp (the cusp is inert).
-│   ├── K with absolute tol (drifts)  —  the rescaled iteration count under a fixed tolerance  [curve[13]]
-│   │       10.769 ┤▄▅▆▇████▇▄▁  
-│   │              │███████████▂ 
-│   │              │████████████ 
-│   │              │████████████ 
-│   │          0.5 ┤████████████ 
-│   │              └ |ε| 0 .. 0.25
-│   └── K with relative stop (flat = ½·ln(4/k))  —  converges to 4.147  [curve[13]]
-│           4.05 ┤██▇▇▆▅▃▁     
-│                │████████▇▂   
-│                │██████████▅  
-│                │███████████▇ 
-│            0.5 ┤████████████ 
-│                └ |ε| 0 .. 0.25
-└── the dwell and the hardware (the dose)  —  K_dwell = γ·t_dwell = 1.080088·δ (F57), γ-invariant: a fixed dose carries Bell+ through the fold. Confirmed on IBM Kingston (f25_cusp_trajectory point-by-point; f57_kdwell_gamma_invariance two pairs, 6% spread, prefactor 0.67 under T1 damping). At the cusp θ→0 the Liouvillian eigenvalue is −γ₀ alone (pure decay): the horizon is where the carrier shows itself.  [curve[41]]
+InteriorHorizonField (recurrence coordinate near ¼, 13 rungs, |ε| 1E-010..0.01)  —  recurrence boundary c=¼: angle θ → 0 from the complex-root side (θ=11.3° at the far rung), the recurrence takes 299807 steps at the nearest two-real-root rung under the fixed stop; a relative stop makes the rescaled count approach a constant, while the Bell+/pure-Z dwell is a separate setup-specific reading.  [live]
+├── the marks (the contract)  —  c=¼ is the recurrence's double-root value and θ=0; c=½ is an angle anchor with θ=45°. These are scalar coordinates, not state-regime labels.  [stored]
+├── the positive-b quadratic angle (θ → 0 at the boundary)  —  θ = arctan(√(4·c−1)): 11.3° at c=0.26 down to 0° at the recurrence boundary. This labels the complex-root coordinate of that quadratic.  [stored]  [curve[14]]
+│       11.31 ┤             █
+│             │             █
+│             │            ▃█
+│             │           ▁██
+│           0 ┤        ▁▂▄███
+│             └ c (complex-root side) 0.25 .. 0.26
+├── the recurrence at the double-root boundary (live)  —  u → u²+c run live: 299807 steps at the nearest rung under the fixed stopping rule as c → ¼⁻. Rescaled K=3; the finite-ε asymptotic gives 3.  [stored]  [curve[13]]
+│       299807 ┤█
+│              │█
+│              │█▇
+│              │██▅
+│          107 ┤███▇▄▂▁▁
+│              └ c (two-real-root side) 0.25 .. 0.24
+├── the slowing is ours (relative stop flattens onto ½·ln(4/k))  —  rescaled K with a relative stop tol=k·ε tends to ½·ln(4/k)=4.147 as ε → 0, reading 4.147 at the nearest rung |ε|=1E-010 and drifting to 3.4 at |ε|=1E-002, where ε is no longer small; the absolute-tol K drifts across the whole ladder (3 to 10.7). This control separates the stopping-rule contribution from the recurrence boundary.  [stored]
+│   ├── K with absolute tol (drifts)  —  the rescaled iteration count under a fixed tolerance  [stored]  [curve[13]]
+│   │       10.722 ┤         ▃▆██
+│   │              │       ▄▇████
+│   │              │     ▄███████
+│   │              │   ▄█████████
+│   │        2.998 ┤ ▄███████████
+│   │              └ |ε| 0 .. 0.01
+│   └── K with relative stop (flat = ½·ln(4/k))  —  converges to 4.147  [stored]  [curve[13]]
+│           4.147 ┤██████▇▇▅▃
+│                 │██████████▆
+│                 │███████████▆
+│                 │████████████
+│             3.4 ┤████████████
+│                 └ |ε| 0 .. 0.01
+└── the named Bell+/pure-Z dwell and hardware comparison  —  K_dwell = γ·t_dwell = 1.080088·δ (F57) for the ideal Bell+/pure-Z trajectory. Saved Kingston rows report finite crossings and compare two pairs at 2.55× different fitted γ; their 6.4% agreement at prefactor 0.67 rather than 1.0801 does not isolate the cause of the gap. Neither the scalar crossing nor that association identifies a recurrence root with a Liouvillian mode.  [stored]  [curve[41]]
         0.333 ┤█▆▄▃▁                                    
               │█████▇▆▅▃▂                               
               │███████████▇▆▅▄▂▁                        
               │██████████████████▇▆▅▅▄▃▂▁▁              
         0.119 ┤████████████████████████████▇▆▆▅▄▄▃▃▂▂▁  
               └ t 0 .. 0.299
-

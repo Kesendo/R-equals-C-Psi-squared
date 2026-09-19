@@ -1,3 +1,26 @@
+<!-- CROSSING-CURRENT -->
+
+CURRENT READING
+
+Test 3 is a deferred baseline/candidate/oracle comparison, not an implemented
+relay result. The historical baseline is nominal 0.78 but integrated 0.75
+per stage in the referenced C# run: 4.68 nominal versus 4.50 integrated total.
+The sub-segment rate 0.100 and pi/rate=31.4159 (about 31.4) are retained
+candidate calculations; no relay trajectory used that duration. Calling it
+a full standing-wave period is an untested interpretation, not transfer timing.
+
+The separate Relay record's about +84.0% ratio uses 0.131700 final at 4.50
+versus passive maximum 0.071576 at 4.00, unmatched in time and dose; the
+statistic-attached exposures are 2.17125 versus 2.200. No current palindrome
+timing, MI bound or optimization follows. The source opens this tracked
+output on import and is syntax-checked only during this repair.
+
+<!-- CROSSING-HISTORICAL -->
+
+Historical record: the complete timestamped original output follows unchanged,
+including its deferred Test-3 labels. No new relay run is represented below.
+
+
 === RESONANT RETURN: PALINDROME-DERIVED gamma PROFILES ===
 Started: 2026-03-23 17:41:47
 

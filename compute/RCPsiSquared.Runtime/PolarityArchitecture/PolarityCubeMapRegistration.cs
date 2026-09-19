@@ -87,10 +87,6 @@ public static class PolarityCubeMapRegistration
             z2AxisClaims.Add(b.Get<F91Pi2Inheritance>());
             z2AxisClaims.Add(b.Get<F92Pi2Inheritance>());
             z2AxisClaims.Add(b.Get<F93Pi2Inheritance>());
-            z2AxisClaims.Add(b.Get<F94BornDeviationFourThirdsPi2Inheritance>());
-            z2AxisClaims.Add(b.Get<F95AngleAtQuadraticZeroPi2Inheritance>());
-            z2AxisClaims.Add(b.Get<F96BornSubdominantSlopesPi2Inheritance>());
-            z2AxisClaims.Add(b.Get<F97CardioidHalfFixedPointPi2Inheritance>());
             z2AxisClaims.Add(b.Get<QubitNecessityPi2Inheritance>());
             z2AxisClaims.Add(b.Get<KleinFourCellClaim>());
             z2AxisClaims.Add(b.Get<F89F88aKleinPpAnchor>());

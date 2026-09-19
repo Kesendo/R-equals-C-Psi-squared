@@ -13,6 +13,10 @@ gamma decays coherences at 2*gamma. See docs/GLOSSARY.md, "The T2 -> gamma
 conversion", and the gate simulations/t2_gamma_book_gate.py. The CSV column is
 "T2_us" with no echo/Ramsey marker, so this code does not assume which it is.
 
+The archived CSV field ``crosses_quarter`` is read only through a schema
+adapter.  It is a normalized-purity-proxy below-R* flag, not an active C_Psi
+crossing produced by this script.
+
 Repaired 2026-08-05, and it was NOT the conversion: the palindrome score used to
 measure its own matcher. spectral_analysis paired each rate with the FIRST
 partner within an absolute 1e-4, while 927 of 959 nearest-neighbour level gaps
@@ -282,11 +286,14 @@ def main():
             date = row['date']
             qubit = int(row['qubit'])
             t2 = float(row['T2_us']) if row['T2_us'] else None
-            crosses = row.get('crosses_quarter', 'False') == 'True'
+            proxy_below_rstar = row.get('crosses_quarter', 'False') == 'True'
             if t2 and t2 > 0:
                 if date not in qubit_data:
                     qubit_data[date] = {}
-                qubit_data[date][qubit] = {'T2': t2, 'crosses': crosses}
+                qubit_data[date][qubit] = {
+                    'T2': t2,
+                    'normalized_purity_proxy_below_rstar': proxy_below_rstar,
+                }
             dates.add(date)
 
     sorted_dates = sorted(dates, reverse=True)
@@ -326,7 +333,10 @@ def main():
     for chain in chains:
         g = [gammas.get(q, 0) for q in chain]
         t2 = [data[q]['T2'] for q in chain if q in data]
-        crosses = [data[q]['crosses'] for q in chain if q in data]
+        proxy_flags = [
+            data[q]['normalized_purity_proxy_below_rstar']
+            for q in chain if q in data
+        ]
 
         if any(gi <= 0 for gi in g):
             continue
@@ -352,7 +362,7 @@ def main():
             'mean_T2': np.mean(t2),
             'min_T2': min(t2),
             'sum_gamma': sum(g),
-            'n_crossers': sum(crosses),
+            'n_proxy_below_rstar': sum(proxy_flags),
         })
 
     out(f"  Scored chains: {len(chain_scores)}")
@@ -366,18 +376,18 @@ def main():
     out(f"\n{'='*80}")
     out("TOP 10: SACRIFICE-ZONE RANKING")
     out(f"{'='*80}")
-    out(f"{'Rank':>4} {'Chain':>25} {'Score':>7} {'mean_T2':>8} {'sum_g':>8} {'min_T2':>7} {'Cross':>5}")
+    out(f"{'Rank':>4} {'Chain':>25} {'Score':>7} {'mean_T2':>8} {'sum_g':>8} {'min_T2':>7} {'Proxy<R*':>9}")
     for i, cs in enumerate(by_sacrifice[:10]):
         chain_str = str(cs['chain'])
-        out(f"{i+1:4d} {chain_str:>25} {cs['best_sacrifice']:7.2f} {cs['mean_T2']:8.1f} {cs['sum_gamma']:8.4f} {cs['min_T2']:7.1f} {cs['n_crossers']:5d}")
+        out(f"{i+1:4d} {chain_str:>25} {cs['best_sacrifice']:7.2f} {cs['mean_T2']:8.1f} {cs['sum_gamma']:8.4f} {cs['min_T2']:7.1f} {cs['n_proxy_below_rstar']:9d}")
 
     out(f"\n{'='*80}")
     out("TOP 10: MEAN-T2 RANKING")
     out(f"{'='*80}")
-    out(f"{'Rank':>4} {'Chain':>25} {'Score':>7} {'mean_T2':>8} {'sum_g':>8} {'min_T2':>7} {'Cross':>5}")
+    out(f"{'Rank':>4} {'Chain':>25} {'Score':>7} {'mean_T2':>8} {'sum_g':>8} {'min_T2':>7} {'Proxy<R*':>9}")
     for i, cs in enumerate(by_mean_t2[:10]):
         chain_str = str(cs['chain'])
-        out(f"{i+1:4d} {chain_str:>25} {cs['best_sacrifice']:7.2f} {cs['mean_T2']:8.1f} {cs['sum_gamma']:8.4f} {cs['min_T2']:7.1f} {cs['n_crossers']:5d}")
+        out(f"{i+1:4d} {chain_str:>25} {cs['best_sacrifice']:7.2f} {cs['mean_T2']:8.1f} {cs['sum_gamma']:8.4f} {cs['min_T2']:7.1f} {cs['n_proxy_below_rstar']:9d}")
 
     # Overlap analysis
     top_sac_set = set(tuple(cs['chain']) for cs in by_sacrifice[:10])

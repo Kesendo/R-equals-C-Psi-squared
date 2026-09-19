@@ -1,3 +1,28 @@
+<!-- CROSSING-CURRENT -->
+
+CURRENT READING
+
+This finite N=11 record compares a passive sampled maximum 0.071576 at
+t=4.00 with relay+2:1 final 0.131700 at integrated t=4.50. The stored
+six-decimal ratio is about +84.0% (84.0002235386...%), an unmatched-time,
+unmatched-dose comparison. The historical +83% was the coarse 0.132/0.072
+display estimate, not this stored-value ratio.
+
+Each stage is nominally 0.78 but (int)(0.78/0.05)=15 RK4 steps integrate
+0.75. Six stages request 4.68 and execute 4.50; printed t=4.7 (t=4,7 below)
+is the rounded nominal clock. Statistic-attached exposures are 2.200 at
+4.00 versus 2.17125 at 4.50. The separate equal-4.50 counterfactual exposure
+is 2.475 versus 2.17125; no stored passive MI at 4.50 supplies the ratio.
+There is no matched-time/dose comparison, MI bound, isolated staging effect,
+optimization or palindrome-based timing claim.
+
+<!-- CROSSING-HISTORICAL -->
+
+Historical record: the complete original as-run output follows unchanged.
+The C# pull producer is build-only during this label repair; it is not rerun
+against this tracked destination.
+
+
 ﻿MKL: active
 Threads: 24
 The Mediator Bridge Scales (Level 3, N=11, Time Propagation)

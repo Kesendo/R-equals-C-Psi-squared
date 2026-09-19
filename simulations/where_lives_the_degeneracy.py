@@ -4,11 +4,11 @@ Two ORTHOGONAL cuts, easy to conflate:
   REAL axis -> past (slow, rate < Sg) / future (fast, rate > Sg): the drain-depth / memory axis.
   IMAG axis -> static (Im=0) / oscillating (Im != 0): my degeneracy is measured on Im != 0.
 
-Tom recalls "97% past, 3% future". This script resolves it with data:
+The historical "97% past, 3% future" reading is tested here against the data:
   1. The past/future split BY MODE COUNT is NOT 97/3. The palindrome makes rates symmetric about Sg,
      and the spectral mass sits at hamming ~ N/2 (rate ~ Sg, the MIDDLE), so past and future are the
-     two minority rims, not a 97/3. The "97/3" is Tr(rho_past^2), a STATE purity (F94), not a mode
-     count -- so there is no "3% future" mode room for the 94% to live inside.
+     two minority rims, not a 97/3. A separate state-purity reading would need
+     its own source; F94 is a named N=4 Dyson coefficient, not this mode count.
   2. WHERE the degeneracy actually lives: collapse% in the past-oscillating vs future-oscillating
      halves. If it is future-heavy, Tom's geometric hunch has real content; if even, it does not.
 
@@ -72,14 +72,14 @@ print("\n" + "-" * 100)
 print("READING:")
 print("-" * 100)
 print("* %past / %future by mode count is NOT 97/3 -- it is roughly balanced (the rim split), with a")
-print("  fat %mid at rate~Sg (hamming~N/2). The memory's 97% is a state PURITY (F94), not this count.")
+print("  fat %mid at rate~Sg (hamming~N/2). No 97/3 state reading is inferred from this count.")
 print("* collapse past = collapse future EXACTLY (bit-equal, every row). The degeneracy is NOT confined")
 print("  to a 'future room'; it is split evenly across both rims. THIS IS F1, the palindrome, read in")
 print("  the multiplicity: Pi conjugation (Pi L Pi^-1 = -L - 2Sg) is a bijection past<->future that")
 print("  preserves eigenvalue multiplicity, so every degenerate slow mode has an equally degenerate")
 print("  fast partner. So Tom's hunch is right -- the two structures DO connect -- but via Pi, not via")
-print("  '97', and the degeneracy is mirror-symmetric, not future-heavy. The number 97/3 stays a state")
-print("  purity (F94); the real link between my degeneracy and the past/future axis is the palindrome.")
+print("  '97', and the degeneracy is mirror-symmetric, not future-heavy. F94's named N=4 Dyson")
+print("  coefficient is separate; the link between degeneracy and the slow/fast axis is the palindrome.")
 print("* ALREADY KNOWN: this multiplicity-mirror is the central result of")
 print("  experiments/DEGENERACY_PALINDROME.md ('The Palindrome Inside the Palindrome', 2026-04-03):")
 print("  d_total(k) = d_total(N-k) proven from Pi, with the full per-grid sequence and closed forms.")

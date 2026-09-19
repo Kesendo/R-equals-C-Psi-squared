@@ -1,4 +1,23 @@
+<!-- QUARTER-CURRENT -->
+# Experiments: finite objects before labels
+
+Current reading: every quarter-bearing entry in this index must name its state,
+generator, topology, grid, and scalar readout.  Exact recurrence facts, finite
+simulations, and hardware measurements remain separate objects; index summaries
+do not promote one into another.
+
+V-Effect precision fence: the N=3 **V-Effect census** reports **14/36** hard
+cases. Its retained **four-decimal** frequency-bin comparison is **11/4**; the
+separate coarser **three-decimal** side table is **8/4**. The **F6 Q-edge gain**
+`V(N)=Q_max/Q_mean=1+cos(pi/N)` is a different, within-N object.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the index below preserves older titles so links remain
+stable.  Follow each target's current-reading door for its present scope.
+
 # Experiments: Open Quantum Systems Under Dephasing
+
+<!-- CROSSING-CURRENT -->
 
 <!-- Keywords: open quantum system experiments, Lindblad dephasing simulation,
 palindromic Liouvillian spectrum, quantum decoherence channel capacity,
@@ -52,14 +71,16 @@ in the γ profile can be decoded from internal quantum observables with
 → **[Dephasing Noise as Information Channel (γ as Signal)](GAMMA_AS_SIGNAL.md)**
 → **[Practical γ Control (the two-lever noise law)](GAMMA_CONTROL.md)**
 
-### 3. The CΨ = 1/4 boundary (IBM hardware validated)
+### 3. The recurrence quarter and a separate hardware model readout
 The product CΨ = Tr(ρ²) × L₁/(d−1) has a recurrence boundary at exactly
 1/4, determined by the discriminant of R = C(Ψ+R)². This is not a
 quantum/classical or decoherence threshold: pure coherent GHZ_N states have
 CΨ = 1/(2^N−1) < 1/4 for N ≥ 3.
-Validated on IBM Torino at 1.9% deviation.
+A historical IBM Torino Q80 fit gave a finite single-qubit readout at 1.9%
+deviation from its selected model. It did not validate the recurrence boundary
+or a hardware phase transition.
 
-→ **[IBM Hardware Validation](IBM_RUN3_PALINDROME.md)**
+→ **[IBM Run 3 finite model comparison](IBM_RUN3_PALINDROME.md)**
 → **[Crossing Taxonomy (Type A/B/C)](CROSSING_TAXONOMY.md)**
 → **[Boundary Navigation (θ compass)](BOUNDARY_NAVIGATION.md)**
 
@@ -84,7 +105,7 @@ interference require additional gates.
 |-----------|------------|
 | [γ as Signal](GAMMA_AS_SIGNAL.md) | The bidirectional bridge: γ profiles are 100% classifiable, 15.5 bits capacity, 5 independent SVD channels, 21.5× optimization |
 | [γ Control](GAMMA_CONTROL.md) | Two-lever noise law: within a shape less Σγ wins; at fixed Σγ concentration at the centre wins (+46%, the V-shape only +6%; the March +124% was a Σγ confound); AC modulation falsified; the March decoder's resolution figure did not survive its control |
-| [Relay Protocol](RELAY_PROTOCOL.md) | Staged transfer with time-dependent γ: +83% end-to-end mutual information |
+| [Relay Protocol](RELAY_PROTOCOL.md) | Finite N=11 comparison: about +84.0% from stored values at unmatched time/dose; nominal 0.78/stage executes as 0.75/stage, not an isolated scheduling benefit |
 | [Scaling Curve](SCALING_CURVE.md) | MI vs chain length (N=3 to N=11), hierarchy falsification, push vs pull principle |
 | [Resonant Return](RESONANT_RETURN.md) | SVD-optimal profiles (10×), sacrifice-zone formula (360× at N=5 through 68× at N=15, peak Sum-MI transport, ε→0 sim), frequency pulsing falsified. The formula: gamma_edge = N*gamma_base - (N-1)*epsilon |
 | [Finite-N SumMI Scan](SIGNAL_ANALYSIS_SCALING.md) | Edge-concentrated profile evaluated at N=2–15. SumMI increases on the sampled rows, but the quadratic fit misses N=11/13/15 by 6%/12%/19%; no asymptotic law, constant brake, or two-channel mechanism is inferred |
@@ -97,14 +118,14 @@ interference require additional gates.
 
 | Experiment | Key finding |
 |-----------|------------|
-| [Crossing Taxonomy](CROSSING_TAXONOMY.md) | Three observer types: Type A (pure-Ψ, K=0.072), Type B (mixed, K=0.039 in the February tool's feedback model, ln(4/3)/8 = 0.03596 in standard Lindblad), Type C (never crosses). K-invariance from Lindblad scaling |
+| [Crossing Taxonomy](CROSSING_TAXONOMY.md) | Three scalar-response classes in two named books: C(f), evolution law, then C(f)f/3=1/4. Six finite crossings, two never bridges; fixed Hamiltonian-dead Bell+ gamma scaling, not physical observer types |
 | [Boundary Navigation](BOUNDARY_NAVIGATION.md) | θ = arctan(√(4CΨ−1)) as compass to the 1/4 transition. Triangulation: WHERE (1/4), HOW FAR (θ), HOW LONG (t_coh) |
 | [Subsystem Crossing](SUBSYSTEM_CROSSING.md) | Crossing is local to entangled pairs, not a whole-system property |
-| [N-Scaling Barrier](N_SCALING_BARRIER.md) | Full-system CΨ drops below 1/4 at large N due to Hilbert space dimension, but subsystem pairs still cross |
+| [N-Scaling Barrier](N_SCALING_BARRIER.md) | Finite GHZ/W normalization comparison and subsystem readouts; no all-state barrier or quantum/classical classifier |
 | [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md) | Product states can cross 1/4 upward (entanglement generation) |
-| [Noise Robustness](NOISE_ROBUSTNESS.md) | Type A/B/C taxonomy is identical under σ_x, σ_y, σ_z dephasing |
+| [Noise Robustness](NOISE_ROBUSTNESS.md) | Full σ_z/σ_x class sweeps agree; one σ_y correlation bridge only; no depolarizing sweep; amplitude-damping taxonomy inconclusive |
 | [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) | The CΨ ≤ 1/4 bound as attractor of the self-referential map |
-| [Observer Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) | Different observers see different crossing times for the same system |
+| [Observer Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md) | Different scalar readouts/evolution books give different finite roots, not different physical observers |
 | [Observer Dependent Visibility](OBSERVER_DEPENDENT_VISIBILITY.md) | γ-dependent visibility windows |
 | [Mandelbrot Connection](MANDELBROT_CONNECTION.md) | CΨ ↔ c maps the 1/4 boundary to the Mandelbrot cardioid cusp |
 | [Critical Slowing at the Cusp](CRITICAL_SLOWING_AT_THE_CUSP.md) | Asymptotic K(ε,tol) = (1/2)ln(4ε/tol) + α(tol)√ε with zero fit parameters and recorded finite-ε residuals. Dwell time K_dwell = 1.080·δ (γ-independent) |
@@ -126,7 +147,7 @@ interference require additional gates.
 | [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md) | Palindrome extends beyond Heisenberg to XY, Ising, XXZ, DM interaction. Two Π families (P1/P4) |
 | [XOR Space](XOR_SPACE.md) | Endpoint count and F22 operator support; the GHZ/W state-weight and Pauli-correlation readings are retired |
 | [Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md) | Why depolarizing noise breaks the palindrome: 1:3 per-site split vs 2:2 for Z-dephasing |
-| [V-Effect](V_EFFECT_PALINDROME.md) | What happens when the palindrome breaks: immune extremes, 3× more frequencies |
+| [V-Effect](V_EFFECT_PALINDROME.md) | Finite broken/control census: N=3 has 14/36 hard cases; the four-decimal fixture is 11/4 and the separate three-decimal side table is 8/4. In the cross-generator comparison, simultaneous Hamiltonian and dephasing-profile changes prevent attributing the extra bins to palindrome failure; in the within-N 11/4 fixture, H changes while dephasing is held fixed, so it likewise is not a causal palindrome-failure mutation. |
 | [N→∞ Palindrome](N_INFINITY_PALINDROME.md) | Bare Z-dephasing dissipator only: Pauli-string counts C(N,k)·2^N give a binomial rate census over k, whose centered large-N counting profile approaches a Gaussian. This does not establish the interacting Liouvillian's density or an operational past/future boundary |
 | [Error Correction](ERROR_CORRECTION_PALINDROME.md) | Finite-code overlap diagnostics under an F1-compatible generator; the former 90% right-eigenvector-coordinate hierarchy is withdrawn as basis-dependent for a non-normal Liouvillian. Π is represented as an order-four operator |
 | [Cavity Modes Formula](CAVITY_MODES_FORMULA.md) | At Σγ = 0: Stat(N) = Sum_J m(J,N)*(2J+1)^2 (Clebsch-Gordan). Exact for chain, lower bound for symmetric topologies. Star has N-1 harmonic frequencies, chain has rich irrational spectrum |
@@ -145,7 +166,7 @@ interference require additional gates.
 | [Symmetry Census](SYMMETRY_CENSUS.md) | Four symmetries enumerated for Heisenberg + Z-dephasing Liouvillian: U(1) excitation number (block-diagonalizes into (N+1)² sectors), n_XY parity (redundant with U(1), proof), spin-flip X⊗N, reflection (uniform γ only). Π is spectral mirror but not block-diagonalizing. Max multiplicity N=5: 14 (uniform γ) → 6 (sacrifice γ) |
 | [Finite-Occupation Amplitude Channels](THERMAL_BREAKING.md) | Correctly directed sigma-minus/sigma-plus channel with a one-qubit endpoint gate; finite N=2/3/5 Q and four-decimal frequency-bin census as `n_bar` is varied externally; pure amplitude pairing follows F137 while co-axial Z plus amplitude breaks it. No self-heating, temperature, or biological mechanism is inferred |
 | [Concentrator Optics](CONCENTRATOR_OPTICS.md) | The concentrator as entrance pupil / AR coating: Q_max 2-7x, T_eff up. The analogy holds on the absorption side only; the concentrator also moves the resonance frequencies, the ω=0 level most |
-| [N=5 Optimal Cavity Size](N5_OPTIMAL_CAVITY_SIZE.md) | N=5 is Goldilocks (richness vs resolution), not golden ratio. φ in V(5) is cos(π/5), not organizing principle |
+| [N=5 Optimal Cavity Size](N5_OPTIMAL_CAVITY_SIZE.md) | The Goldilocks phrase is a tested image/question over bounded N=(3,4,5): omega_2/omega_1=2+phi, distinct from F6 Q-edge gain=1+phi/2. This finite scan does not select a global N-optimum. |
 | [Palindromic Orbit Census](FACTOR_TWO_STANDING_WAVES.md) | Across N=2..7, linear F1 (`λ→−λ−2Σγ`) gives 10,903 two-member orbits plus 34 fixed eigenvalues at `λ=−Σγ`; the conjugate-composite map gives 9,921 two-member orbits plus 1,998 fixed on `Re(λ)=−Σγ`. Both account for all 21,840 eigenvalues; neither is a physical wave count |
 | [Thermal Blackbody](THERMAL_BLACKBODY.md) | Finite N=4 spectral census with externally varied `n_bar`: from 0 to 50, `Q_max` decreases 54.627 → 0.986 (~55×) while the tolerance-defined oscillatory fraction changes 82.031% → 80.469%. No phase transition, blackbody law, or cavity-degradation conclusion follows from this census |
 | [Primordial Superalgebra](PRIMORDIAL_SUPERALGEBRA_CAVITY.md) | {L_H, L_D+Σγ}=0 exact at N=2, aberration decreases with N (14.4%→2.6%). Palindromic weight swap: fast[k]=slow[N-k]. Seidel: pure sectors immune, interior-dominated, perfectly palindromic |
@@ -184,8 +205,8 @@ interference require additional gates.
 
 | Experiment | Key finding |
 |-----------|------------|
-| **[Cockpit Universality](COCKPIT_UNIVERSALITY.md)** | **3 observables (Purity, Concurrence, Psi-norm) capture 88-96% of decoherence dynamics across 9 topologies, 2 noise types, N=2-5. PC1 self-calibrates. theta most sensitive for noise engineering (1.68x). Hardware-validated on IBM Torino (0.3% crossing accuracy)** |
-| [Cockpit Scaling](COCKPIT_SCALING.md) | Cockpit framework extended to N=7-11 (chain and star) using C# matrix-free engine. n95 does NOT grow linearly with N as small-N suggested; instead it decreases (chain 4 to 2, star 4 to 3) due to Entanglement Sudden Death. Chain ESD time approximately N-independent (~1), star ESD time grows with N (0.5 to 3.9) due to monogamy of entanglement. 3-PC coverage stays above 90% in all 8 tested configurations. Purity remains the dominant PC1 proxy throughout |
+| **[Cockpit Universality](COCKPIT_UNIVERSALITY.md)** | **The first three PCs explain 88-96% of the variance in a selected simulated nine-feature dashboard across finite N=2-5 panels. In the three displayed equal-budget N=5 profiles, theta has the largest Edge/Uniform ratio (1.68x); this does not make it an optimal noise-engineering objective. The IBM crossing is a separate arithmetic comparison, not strong cockpit validation, and hardware measurement cost is not established.** |
+| [Cockpit Scaling](COCKPIT_SCALING.md) | PCA of 8-9 active computed features was extended to N=7-11 chain and star trajectories. The first three PCs explain above 90% of the selected-dashboard variance in all 8 reported configurations; candidate observables such as Purity only correlate with the PC scores, so neither a three-observable monitor nor its hardware cost follows. The reported ESD times are companion finite measurements, not a result derived from the PCA or the cavity census. |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | theta is not a function of a single PC. It reads a diagonal of the manifold, requiring all 3 PCs (R^2 = 0.87). Strongest correlation with PC3 (Psi- sector), not PC1 |
 | [Dwell Prefactor from Weights](DWELL_PREFACTOR_FROM_WEIGHTS.md) | For Bell+, dwell-time prefactor at CΨ = 1/4 is pure weight function: (2+4W₂)/(1+6W₂). Fails for odd-weight states (needs coefficient magnitudes) |
 | [Dwell Prefactor Generalized](DWELL_PREFACTOR_GENERALIZED.md) | Two-sector generalization: prefactor = (4/k)·(W₀+W_k)/(W₀+3W_k). Bell+ (k=2, W₀=1/2) and W₃ (k=2, W₀=1/3) both match direct simulation at <0.001%. For GHZ_N, CΨ(0) = 1/(2^N−1) < 1/4 at N≥3; a no-crossing conclusion additionally requires dynamics that keep the GHZ poles invariant |
@@ -211,8 +232,8 @@ interference require additional gates.
 
 | Experiment | Key finding |
 |-----------|------------|
-| **[IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)** | **All IBM data combined: r* threshold at precision 0.000014, fold one-way, sacrifice MI gradient, 12 permanent crossers (24,073 records, 133 qubits, 181 days)** |
-| [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | CΨ = 1/4 crossing confirmed at 1.9% deviation on ibm_torino (Heron r1, Qubit 80); the single-qubit fold, not the N-qubit pairing |
+| **[IBM Hardware Synthesis](IBM_HARDWARE_SYNTHESIS.md)** | **24,073 calibration records, 133 qubits, 181 days, evaluated through the free-`|+>` normalized-purity proxy threshold `R*`; finite band histories and confounded associations, not a fold or phase transition** |
+| [IBM Run 3: Palindrome Validation](IBM_RUN3_PALINDROME.md) | Finite single-qubit fit readout on ibm_torino Q80: `t*=15.29 μs` versus model `15.01 μs` (1.9% deviation). It neither validates a `CΨ=1/4` fold nor measures the N-qubit palindrome |
 | [IBM Concentrator](IBM_CONCENTRATOR.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Two 5-site profiles carrying real IBM gammas (no DD), from an early mapping search whose finder used a synthetic graph: neither is a path on Torino. Protection 2.86x vs 1.06x confirmed spectrally for those profiles. The concentrator score is a within-chain metric; between chains, total noise dominates |
@@ -250,7 +271,7 @@ interference require additional gates.
 |-----------|------------|
 | [QST Bridge](QST_BRIDGE.md) | Connecting to 20 years of quantum state transfer literature |
 | [Localizable Entanglement](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) | LE vs CΨ comparison: three-layer separation (CoA/LE/CΨ) |
-| [Metric Discrimination](METRIC_DISCRIMINATION.md) | Null result: single-system simulation cannot discriminate metric forms locally. K-invariance confirmed across 50× γ range (R²=0.9999) |
+| [Metric Discrimination](METRIC_DISCRIMINATION.md) | Nine retained Bell+ concurrence-feedback rows over 50× gamma (R²=0.9999), fixed book; no general Lindblad or gravitational metric discrimination |
 | [Q-Scale Three Bands](Q_SCALE_THREE_BANDS.md) | Dimensionless scale Q = J/γ₀ governs dynamics; three algebraic bands: pre-onset Q<0.3 (no mixing), transition Q∈[1.2,2.0] (maximal H-mixing), plateau Q>2. Peak responsiveness is chromaticity-specific: Q_peak(c=2)=1.5, Q_peak(c=3)=1.6, Q_peak(c=4)=1.8, stable N=4-8. Enables γ₀-extraction via J*/Q_peak(c) |
 | [Naked vs Chain Benchmark](NAKED_VS_CHAIN_BENCHMARK.md) | A naked Bell pair under Z-dephasing against F67 bonding-mode chain encoding with dephasing only at the far end: protection 4.0× at N=3, 7.2× at N=4, 12.0× at N=5, at the cost of reduced initial concurrence |
 | [Receiver vs γ-Sacrifice](RECEIVER_VS_GAMMA_SACRIFICE.md) | γ-profile sacrifice-zone engineering against receiver choice at uniform γ₀, via C# brecher scans at N=5, 7, 9. Tier 2: receiver choice wins by 11.5× in absolute Peak Sum-MI, 15.4× with moderate J-modulation. Carries a correction note on superseded coarse-grid Python numbers |
@@ -333,7 +354,7 @@ interference require additional gates.
 | [Gravitational Invariance](GRAVITATIONAL_INVARIANCE.md) | Gravitational analogy exploration |
 | [Observer Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md) | γ gradient as gravitational analogue |
 | [Operator Feedback](OPERATOR_FEEDBACK.md) | Operator feedback dynamics |
-| [Universal Quantum Lifetime](UNIVERSAL_QUANTUM_LIFETIME.md) | Universal lifetime scaling |
+| [Universal Quantum Lifetime](UNIVERSAL_QUANTUM_LIFETIME.md) | Scale-free proxy crossing `x³+x=1/2`, `t*/T2=0.858367`, for the stated free-`|+>` pure-dephasing model; no universal quantum lifetime |
 | [Sum-versus-Product Question](WHY_THE_SUM.md) | Null result: the affine Liouvillian palindrome selects neither the sum-squared nor product expression and supplies no physical handoff |
 | [Dyad Experiment](DYAD_EXPERIMENT.md) | Two-observer dynamics |
 | [QKD Eavesdropping Forensics](QKD_EAVESDROPPING_FORENSICS.md) | Application to quantum key distribution |
@@ -341,9 +362,9 @@ interference require additional gates.
 | [Weight-2 Kernel](WEIGHT2_KERNEL.md) | Topology-dependent commutator kernel at weight 2 |
 | [Bures Degeneracy](BURES_DEGENERACY.md) | QFI speed correlates with degeneracy at even N |
 | [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) | Qubit chain as Fabry-Perot: 4/5 optical checks pass |
-| [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) | The V-Effect is not coupling but metamorphosis: 1 bond supports 2 modes, 4 bonds support 112. Degeneracy predicts mode richness (r > 0.999). Gamma illuminates but does not create modes (100% cold-cavity survival). Topology determines the instrument: chain has most modes, star has highest Q. First experiment in the cavity language |
-| [Born Rule Shadow](BORN_RULE_SHADOW.md) | Born rule is a shadow, not photograph: zero interference in P(i), interference sets shutter speed (CΨ fold) |
-| [K-Dosimetry](K_DOSIMETRY.md) | K = γ×t is the exposure number: reciprocity holds (±0.03%), Schwarzschild effect at intermediate γ, sacrifice zone trades dose for quality |
+| [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) | Finite N=2..5 frequency-census comparison. Each cold-target frequency has a reusable warm-target frequency within the stated strict `< 0.1` tolerance; this is one-sided numerical coverage, not eigenvector identity, mode survival, or a causal account of complexity. |
+| [Born Rule Shadow](BORN_RULE_SHADOW.md) | Exact linearity and purity calculations with standard Born probabilities assumed; the photography interpretation is an invitation, not a shutter mechanism or quarter-boundary theorem |
+| [K-Dosimetry](K_DOSIMETRY.md) | Finite legacy J=1 purity-target record: 61.816% intermediate-rate discrepancy on a Hamiltonian-dead two-qubit trajectory, unresolved numerics rather than a physical reciprocity/Schwarzschild effect; fixed-book F14 scope is separate |
 | [Neural Gamma Cavity](NEURAL_GAMMA_CAVITY.md) | WITHDRAWN 2026-08-25: 97.3% pairing was the matching tolerance, Dale's law made no difference, the 18 unpaired modes were an ordering artifact. Standing: a limit cycle at the same parameters, shortest sampled period 5.74 time constants, growing towards both folds; and a zero-multiplicity excess in the wiring. The band label does not stand: the integrated model has no time constant, so its Hz are a stipulation |
 | [Trapped Light Localization](TRAPPED_LIGHT_LOCALIZATION.md) | K_death = 2.303 universal; surviving mode energy center-localized (ratio 1.3-1.4); N+1 immortal modes; gamma plays algebraic role of c (Tier 4-5) |
 | [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md) | Zundel cation proton crosses CΨ = 1/4 fold 6 times in 21 fs; every water molecule produces ~10-70 fold crossings per picosecond |

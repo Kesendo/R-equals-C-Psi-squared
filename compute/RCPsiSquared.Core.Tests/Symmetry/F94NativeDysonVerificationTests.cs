@@ -9,15 +9,16 @@ using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
-/// <summary>Native C# verification of F94's bit-exact Dyson constants. Builds
+/// <summary>Native C# tolerance reconstruction of F94's exact Dyson constants. Builds
 /// the Heisenberg ring + Z-dephasing apparatus from Core/Pauli + Core/ChainSystems
 /// primitives, applies the F94 sym3 expansion to ρ_0 = |0+0+⟩⟨0+0+|, partial-traces
 /// to pair (0, 2), and verifies the matrix elements against F94's asserted constants.
 ///
 /// <para>Mirrors the Python script <c>simulations/born_rule_tier1_derivation.py</c>
 /// and its enumeration sibling <c>born_rule_sym3_decomposition.py</c>, but as a
-/// self-contained C# test — no external Python dependency. If these tests pass,
-/// the F94 typed-claim constants are bit-exact from-scratch verified.</para>
+/// self-contained C# test — no external Python dependency. The typed constants
+/// are exact integers/rationals; this MathNet route reconstructs them numerically
+/// within the asserted tolerances.</para>
 /// </summary>
 public class F94NativeDysonVerificationTests
 {
@@ -95,7 +96,7 @@ public class F94NativeDysonVerificationTests
     [Fact]
     public void NativeDerivation_Sym3PairElement_Equals_F94_Constant()
     {
-        // ⟨00|_pair Tr_{1,3}[sym3 · ρ_0] |00⟩_pair = 8 bit-exact.
+        // Numerical reconstruction of the exact element 8.
         // This is F94.Sym3PartialTraceInteger, derived natively in C#.
         var H = BuildHeisenbergRing();
         var ZSites = BuildZSites();

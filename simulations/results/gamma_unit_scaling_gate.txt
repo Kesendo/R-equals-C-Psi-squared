@@ -1,3 +1,9 @@
+<!-- F14-CURRENT -->
+
+CURRENT READING
+
+The fixed-generator joint scaling is distinguished from a gamma-only sweep. F3 is one positive arm: the Hamiltonian-dead Bell+ trajectory with the Wootters-concurrence readout has K=ln(4/3)/8 under equal local Z-dephasing. The separate |01> control does not turn this into a universal crossing law. Two explicit temporary outputs reproduced the complete payload below, including 107 passing gates.
+
 ==============================================================================
 The rate is a unit; a gamma-only sweep is a Q-move; a Q-move needs a
 sector that sees J. Plus the two scope traps.

@@ -1,5 +1,7 @@
 # Dephasing Translated: The Sending, Not the Noise
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: noise translation dephasing, decoherence not random disturbance,
 held letter dephasing basis, held letter routing, absorption theorem light content,
 gamma the sending itemized bill, the watching register retired, Shannon channel
@@ -312,11 +314,13 @@ included) beats a smoothly graded
 profile by 360× at N = 5, 139× at N = 9, in simulation (a peak created
 nearest-neighbour Sum-MI ratio, a transport number, not a lifetime), while
 on ibm_torino the companion measurement beat uniform
-decoupling by up to 3.2×, its mechanism attribution still open. The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
-shapes WHEN: relay stations take turns standing in the light, each stage
-clocked at t = K/γ, for +18% end-to-end mutual information alone, +83% once
-the spatial 2:1 coupling asymmetry is added. Neither protocol adds
-hardware or fights the channel; both steer it. Nobody steers static.
+decoupling by up to 3.2×, its mechanism attribution still open.
+The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) is a distinct finite
+N=11 schedule candidate: nominal 0.78/stage (4.68 total) executes as
+0.75/stage (4.50 total). Its 0.131700 final reading versus the passive
+sampled maximum 0.071576 at t=4.00 gives about +84.0%, with unmatched time
+and dose. No isolated staging effect, optimized dephasing dose, or
+palindrome-selected timing follows; F14 does not derive this schedule.
 
 ---
 

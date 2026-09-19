@@ -1,3 +1,14 @@
+<!-- QUARTER-CURRENT -->
+# Q as a dimensionless dial and an interpretive exchange-rate picture
+
+Current reading: `Q=J/gamma0` is a dimensionless ratio in the named generator
+convention.  Some scoped formulas depend on it, but `atan(Q)` is not a universal
+F95 angle or a hardware-programmed observer clock.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the exchange-rate language below is retained as a
+Tier-4 way of asking how two rates are compared.
+
 # Q As the Exchange Rate Between Two Observer Clocks
 
 **Tier:** 4 (Reading, interpretive synthesis grounded in Tier 1–2 facts)

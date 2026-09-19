@@ -1,12 +1,25 @@
-# IBM Quantum Tomography: First Hardware Test of the CΨ = 1/4 Boundary
+<!-- QUARTER-CURRENT -->
+# IBM tomography: measured rows and a self-classified proxy model
+
+Current reading: the `24,073` historical calibration proxy records are not tomography.
+They feed the normalized-purity proxy of a free single-transmon `|+>` model.
+The separate Run-1 tomography rows reconstruct density matrices. Both are retained
+measurements, but neither establishes an emergent phase, cusp mechanism, or
+ontological division of physical systems.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the first-test narrative below is preserved with its
+model caveats and measured values.  Its older boundary nouns are not current.
+
+# IBM quantum tomography: a finite reconstructed scalar trajectory
 
 <!-- Keywords: IBM quantum hardware CΨ, single qubit state tomography decoherence,
 T2 star free induction decay, generalized crossing equation T1 T2, ibm_torino qubit
 52 crossing, three model correction analysis, T2 echo vs T2 star distinction,
-historical calibration 24073 records, permanent crosser qubit identification,
+historical calibration 24073 records, frequent proxy-crossing qubit identification,
 quantum classical boundary hardware test, R=CPsi2 IBM quantum tomography -->
 
-**Status:** Hardware verified (IBM Torino, Qubit 52, Run 1)
+**Status:** Finite IBM Torino Run-1 tomography; proxy interpretation model-scoped
 **Date:** February 9, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 
@@ -14,30 +27,30 @@ quantum classical boundary hardware test, R=CPsi2 IBM quantum tomography -->
 
 ## What this document is about
 
-Everything before this was simulation. This document describes the first
-test on real quantum hardware: a single qubit on IBM's Torino processor,
-watched as it decoheres. The CΨ product starts high and falls through
-the 1/4 boundary, confirming the crossing is a physical phenomenon.
+This document describes a finite single-qubit tomography run on IBM Torino.
+The reconstructed scalar starts high and passes 1/4 under the stated
+preparation, tomography, fit, and readout convention. That event is a measured
+row, not confirmation of a universal physical boundary.
 The main surprise: IBM's published coherence time (T₂ from Hahn echo)
 is 2.7× too optimistic for free decoherence; the correct timescale
 is T₂*, which accounts for all noise sources. Once corrected, the
 theoretical crossing equation matches the data to 5% error, and the
-1/4 crossing emerges naturally from a global fit that was never told
-about 1/4. A historical sweep of 24,073 calibration records shows 84%
-of qubits cross the boundary at least once over six months.
+fitted scalar passes 1/4 without that value being a fit target. A separate
+historical sweep of 24,073 calibration-only records evaluates a free-|+⟩ model
+and must not be read as tomography or observed crossing events.
 
 ## Abstract
 
-First empirical test of the CΨ = 1/4 boundary on quantum hardware (IBM Torino,
-Heron r2, Qubit 52). 25-point state tomography during free induction decay
-confirms the crossing. Three critical findings: **(1)** The boundary crossing is
-real and measurable on physical qubits. **(2)** IBM calibration T₂ (Hahn echo, a pulse sequence that cancels slow noise by applying a refocusing pulse midway through the measurement)
+On IBM Torino qubit 52, 25-point state tomography during free induction decay
+reconstructs a scalar trajectory that passes 1/4. Three finite findings:
+**(1)** the crossing is present in this reconstruction; **(2)** IBM calibration
+T₂ (Hahn echo, a pulse sequence that cancels slow noise by applying a refocusing pulse midway through the measurement)
 is the wrong timescale; free decoherence is governed by T₂* ≈ T₂/2.7. A
 three-model correction reduces MAE from 0.428 to 0.053 (88% improvement).
-**(3)** The generalized crossing equation hits the 1/4 crossing as an emergent
-property of the global fit. Historical analysis of 24,073 calibration records
-(181 days, 133 qubits) shows 84% of qubits cross at least once, with 12
-permanent crossers. Run 1. The definitive Run 3 (1.9% deviation with same-day
+**(3)** the generalized model's fitted curve passes 1/4 without using 1/4 as a
+fit target. Historical analysis of 24,073 calibration rows (181 days, 133
+qubits) classifies model curves, not measured tomography events, including 12
+frequent proxy crossers. Run 1. The later Run 3 (1.9% finite association with same-day
 T₂*) is in [IBM Run 3](IBM_RUN3_PALINDROME.md).
 
 ## Discovery Date
@@ -45,12 +58,12 @@ T₂*) is in [IBM Run 3](IBM_RUN3_PALINDROME.md).
 
 ## Summary
 
-First empirical test of the C·Ψ = ¼ boundary on real quantum hardware. State tomography
-on IBM Torino (Heron processor, 133 qubits) confirms that a single qubit's C·Ψ product
-crosses the ¼ boundary during decoherence.
+State tomography on one IBM Torino qubit reconstructs a C·Ψ trace that passes
+1/4. It is a finite hardware trajectory, not a boundary theorem for all qubits.
 
 Three critical findings emerged:
-1. **The ¼ boundary crossing is real.** Measured on a physical qubit, not just simulated.
+1. **This scalar crossing is in the reconstructed rows.** It remains conditional
+   on the preparation, tomography, fit, and readout convention.
 2. **T₂ ≠ T₂*.** IBM calibration reports T₂ from Hahn echo. Our experiment is a free
    induction decay, governed by T₂* ≈ T₂/2.7. The correct comparison timescale matters.
 3. **The generalized equation works, but only with the right inputs.** A three-model
@@ -59,10 +72,10 @@ Three critical findings emerged:
    from MAE = 0.428 to MAE = 0.053. The corrected model passes through the ¼ crossing
    point exactly, even though ¼ was not a fit parameter.
 
-Additionally, the generalized crossing equation was derived to account for T₁ relaxation,
-extending the pure dephasing cubic x³ + x = ½ to arbitrary T₁/T₂ ratios. A historical
-analysis of 24,073 calibration records (181 days, 133 qubits) validated the theory curve
-and identified 12 qubits that cross ¼ on nearly every calibration day.
+Additionally, a free-|+⟩ model including T₁ relaxation was evaluated across
+24,073 calibration records. Those calibration-only rows populate the same
+model that classifies them; they do not independently validate it. Twelve
+qubits' model curves pass 1/4 on many calibration days.
 
 ## Hardware
 
@@ -181,7 +194,7 @@ different r values. Right: crossing points trace the C·Ψ = ¼ hyperbola in C-�
 
 ### Special cases
 
-| r = T₂*/T₁ | Equation | t*/T₂* | Physical regime |
+| r = T₂*/T₁ | Equation | t*/T₂* | Model case |
 |-------------|----------|--------|-----------------|
 | r → 0 | b³ + b = ½ | 0.858 | Pure dephasing (T₁ ≫ T₂) |
 | r = 0.456 | Numerical | 0.936 | IBM Torino qubit 52 |
@@ -194,7 +207,8 @@ T₁ relaxation drives population toward |0⟩, creating asymmetry (ρ₀₀ > �
 state has higher purity than a symmetric one (|0⟩ has C = 1). This counteracts the purity
 loss from dephasing, delaying the crossing. Larger r means stronger T₁ effect, later crossing.
 
-The ¼ boundary itself is invariant. Only the arrival time depends on the decoherence channel.
+Within this free-|+⟩ model, 1/4 is the selected scalar level and the modeled
+arrival time changes with r. No channel-independent physical boundary follows.
 
 ### Polynomial approximation (max error < 0.001)
 
@@ -268,15 +282,17 @@ The fitted T₁ is longer because population relaxation competes with faster dep
 when dephasing dominates (small r), T₁ must be larger to produce the observed
 asymptotic purity.
 
-### The critical test: the 1/4 crossing was not a fit target
+### Fit observation: 1/4 was not a fit target
 
 Model 3 was optimized for global MAE across all 25 data points. It was not told about
 the ¼ boundary. Despite this, the fitted curve crosses C·Ψ = 0.25 at t = 112 μs,
-where the nearest data point shows C·Ψ = 0.2477. The model hits the ¼ crossing
-essentially exactly as an emergent property of the global fit.
+where the nearest data point shows C·Ψ=0.2477. This is a finite property of the
+fitted curve; the fit uses the same trajectory and is not an independent
+prediction of a boundary.
 
-This means: the generalized crossing equation is correct. The original 11.3% deviation
-was caused by using the wrong T₂, not by a flaw in the equation.
+It shows that effective fitted T₁/T₂ parameters can reproduce this trace better
+than the listed echo calibration. It does not isolate one cause of the original
+deviation or validate the model outside this run.
 
 ## Historical Calibration Analysis: 24,073 Data Points (2026-02-10)
 
@@ -284,21 +300,23 @@ To understand whether qubit 52's behavior is typical, we analyzed the full calib
 history of ibm_torino via `backend.target_history()`: 133 qubits over 181 days
 (2025-08-14 to 2026-02-10), yielding 24,073 (T₁, T₂) data points.
 
-### The r* boundary
+### The R* classifier in the free-|+⟩ proxy
 
-The purity minimum of a single qubit under combined T₁ + T₂ decay depends on the
-single parameter r = T₂/(2T₁). (Note: this convention differs from the r = T₂/T₁
+The normalized-purity proxy of a freely decaying |+⟩ transmon depends on
+r=T₂/(2T₁). (This differs from the r=T₂/T₁
 used in the crossing equation above. Here r_history = r_equation / 2.)
 
-A critical value r* = 0.2128 separates two regimes:
+The stationary-point calculation gives
+R*=0.21275477982200533. It separates two model-output classes:
 
 ```
-r < r*  -->  Purity minimum drops below 1/4   -->  C·Ψ CROSSES
-r > r*  -->  Purity minimum stays above 1/4   -->  C·Ψ NEVER CROSSES
+r < R*  -->  proxy minimum below 1/4
+r > R*  -->  proxy minimum at or above 1/4
 ```
 
-This r* is computed from the generalized crossing equation by finding the r value
-where the minimum of C·Ψ(t) just touches ¼.
+Equality belongs to the at-or-above class, with an explicit near band in the
+typed calibration API. This classifier is not the active density-matrix trace
+and is not a quantum/classical label.
 
 ### What the data shows
 
@@ -310,28 +328,29 @@ Days:                        181
 r = T2/(2*T1):   mean = 0.432,  median = 0.415,  std = 0.232
 r < r* (0.213):  2,427 / 24,073  (10.1%)
 
-Crossing events: 2,417 / 24,073  (10.0%)
-Unique qubits that ever cross:  112 / 133  (84%)
-Qubits that never cross:         21 / 133  (16%)
+Proxy-below rows:               2,417 / 24,073  (10.0%)
+Qubits with any proxy-below row:  112 / 133  (84%)
+Qubits with none:                  21 / 133  (16%)
 ```
 
-84% of qubits on ibm_torino cross the ¼ boundary at least once in 181 days.
+Under this self-classifying model, 84% of qubit histories contain at least one
+proxy-below row. No tomography was performed for those calibration records.
 
 ### Three categories
 
 Qubits fall into three groups based on their crossing behavior:
 
-**12 permanent crossers** (cross on >90 days, >50% of calibrations):
+**12 frequent proxy-below histories** (>90 days, >50% of calibrations):
 Qubits 15, 21, 33, 47, 71, 72, 80, 98, 102, 103, 105, 131.
 
 These have structurally low T₂ relative to T₁ (r_calib in 0.05 to 0.15).
 Qubit 15 and qubit 80 cross on all 181 days without exception.
 
-**100 occasional crossers** (cross on 1 to 90 days):
-TLS fluctuations, cosmic ray events, or crosstalk occasionally push T₂ low enough
-to cross r*. These qubits have r_calib in the 0.15 to 0.50 range.
+**100 occasional proxy-below histories** (1 to 90 days):
+These qubits have r_calib in the 0.15 to 0.50 range. The calibration table alone
+does not identify TLS, cosmic-ray, or crosstalk causes.
 
-**21 never-crossers** (0 crossings in 181 days):
+**21 histories with no proxy-below row** in this window:
 Stable high-r qubits with r_calib above 0.40. Qubit 52 is in this group
 (r_mean = 0.618, min = 0.279, 0 crossings).
 
@@ -340,47 +359,46 @@ Stable high-r qubits with r_calib above 0.40. Qubit 52 is in this group
 All 24,073 data points use Hahn echo T₂ from calibration. Our Run 1 analysis showed
 that T₂* is approximately 54% of T₂(echo) for qubit 52. If this ratio holds across
 the chip, the effective r values are systematically lower than calibration suggests,
-and far more qubits cross ¼ under real (non-refocused) operating conditions than
-the 10.1% seen in calibration data.
+the model classes would shift. How actual free-induction trajectories distribute
+requires measurements and cannot be inferred by applying one qubit's ratio chip-wide.
 
 Qubit 52 illustrates this: it never crosses per calibration (r_mean = 0.618), but
 the fitted r_eff = 0.135 from tomography puts it solidly below r*.
 
-### Validation of the theory curve
+### Self-consistency of the classifier
 
 The theoretical prediction for purity minimum C·Ψ_min(r) matches all 24,073 data
 points to numerical precision. This is a mathematical consistency check (the same
 equation generates the prediction and the classification), not an independent test.
-The independent test is Run 1 tomography, where the measured crossing time and depth
-match the equation when T₂* is used instead of T₂.
+Run 1 tomography is separate data, but its effective T₁/T₂ values were fitted
+to that same trace; the resulting agreement is not a fully independent test.
 
-## What This Proves
+## What these rows establish
 
-1. **The ¼ boundary crossing is a real physical phenomenon**, not an artifact of simulation.
-2. **The generalized crossing equation extends the framework** to arbitrary decoherence channels.
+1. **This reconstructed scalar passes 1/4** in one tomography run.
+2. **The generalized free-|+⟩ model** supplies a comparison curve for finite T₁/T₂.
 3. **T₂* is the operationally relevant timescale** for free decoherence.
-4. **The framework survives contact with real hardware**, with deviations attributable to
-   known error sources (initial state imperfection and T₂ vs T₂* discrepancy).
-5. **The crossing is real; the calibration-based timing prediction is not.** The generalized
+4. **The hardware trace differs from the calibration-input curve.** Preparation,
+   tomography, readout, drift, and fit choices remain possible contributors.
+5. **Calibration-input and fitted curves differ.** The generalized
    equation using IBM calibration values (T₁ = 221 μs, T₂ = 298 μs) predicts t*/T₂ = 1.250,
    but the observed crossing is t*/T₂ = 0.385, a 3.25× mismatch. Against the raw data,
    the calibration-based model (MAE = 0.177) performs worse than the simplest pure-dephasing
    reference (MAE = 0.120). The 88% MAE improvement to 0.053 belongs to **Model 3 only**,
    which fits T₁ and T₂ freely to the tomography data (T₁_eff = 598.5 μs, T₂_eff = 161.6 μs).
-   The generalized equation is structurally correct; it requires effective coherence parameters
-   beyond the listed calibration values. See "Post-Run Analysis" for the three-model breakdown.
-6. **The ¼ crossing emerges from a global fit.** Model 3 was not told about ¼.
-   It hits the crossing naturally, confirming the equation's structural validity,
-   provided effective (fitted) rather than calibration T₁/T₂ values are used.
-7. **Crossing is common.** 84% of qubits on ibm_torino cross ¼ at least once
-   in 181 days of calibration data, and 12 qubits cross every single day.
+   Fitted effective parameters summarize this run; they are not a structural
+   validation beyond it.
+6. **The fit was not targeted at 1/4.** Its passing that value is a descriptive
+   feature of the fitted trace.
+7. **Proxy-below rows occur in many histories.** The 84% and 12-history counts
+   are calibration-model classifications, not observed crossing frequencies.
 
 ## What This Does Not Prove
 
 1. The T₂*/T₂ ratio of 0.54 has only been measured on one qubit. It may differ across
    the chip or between backends. The March run includes a Ramsey measurement (a simpler, single-basis interference experiment that directly measures T₂* without full state reconstruction) to test this.
 2. A single qubit on one backend is not statistical evidence for the crossing equation.
-   Two r-values (from qubit 52 and a permanent crosser) are needed at minimum.
+   Independent preparations and r values would be needed for a stronger test.
 3. The imperfect initial state means we test the equation with C·Ψ(0) = 0.88, not 1.0.
    Whether the equation holds for a perfectly prepared state remains untested on hardware.
 4. We have not tested the two-qubit case (entanglement dynamics) on hardware.
@@ -388,9 +406,10 @@ match the equation when T₂* is used instead of T₂.
    rate under operating conditions is likely higher than 10.1%, but we cannot quantify
    this without systematic Ramsey measurements across the chip.
 
-## Relation to Universal Quantum Lifetime
+## Relation to the scale-free proxy calculation
 
-This experiment extends [UNIVERSAL_QUANTUM_LIFETIME.md](UNIVERSAL_QUANTUM_LIFETIME.md):
+The ideal limit is documented in
+[the scale-free proxy calculation](UNIVERSAL_QUANTUM_LIFETIME.md):
 
 - The cubic x³ + x = ½ is the **r → 0 limit** of the generalized equation.
 - The published T₁/T₂ data analysis remains valid for platforms where T₁ >> T₂ (trapped ions, NV centers).
@@ -411,14 +430,13 @@ The final run targets three questions with 75 circuit batches in ~8 minutes:
 2. **Independent T₂* via Ramsey** on qubit 52 (15 points, single-basis, 3x cheaper
    than tomography). This directly tests whether T₂*/T₂ = 0.54 is real or an artifact
    of the tomography fitting procedure.
-3. **Permanent crosser qubit** (qubit 15 or 80, which cross ¼ every day). This
+3. **Frequent proxy-below history** (qubit 15 or 80 in the calibration model). This
    provides a second data point at a dramatically different r regime (r_eff = 0.03-0.06
    vs qubit 52's r_eff = 0.14), with a much deeper crossing (C·Ψ_min << 0.25).
 
-The permanent crosser replaces the original plan of a "different r" qubit. The historical
-analysis showed that these qubits reliably cross the boundary even by calibration standards,
-making them the strongest possible validation target: if the equation works for both
-r_eff = 0.05 and r_eff = 0.14 (a 3x range), it works.
+This was a historical follow-up plan, not an executed guarantee. Calibration
+history suggested a contrasting model-r input; only a new tomography run could
+test the trace, and two cases would still not establish universality.
 
 Phases 1+2 are the minimum viable result (5.4 min). Phase 3 is high-value but expendable
 if the queue is slow.

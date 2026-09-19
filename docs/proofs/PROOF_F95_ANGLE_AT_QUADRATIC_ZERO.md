@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# Proof of F95: root angle for a positive-b quadratic
+
+Current reading: for `z^2-2bz+c=0` with finite `b>0`, the upper root has
+`theta=atan(sqrt(c/b^2-1))` when `c>b^2`, and `theta=0` at `c=b^2`; the angle is
+undefined in this upper-complex-root sense below the boundary.  This formula has
+no automatic probability, Liouvillian, hardware, or recurrence interpretation.
+F95 has no typed parent in the current claim graph.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the longer derivation and its earlier framework analogies
+follow; the current theorem and domain are stated above.
+
 # Proof of F95: Angle Emergence at Quadratic Discriminant Zero
 
 **Statement:** For a monic quadratic z² − 2bz + c = 0 with real c and finite b > 0, the principal argument of its upper-half-plane root (when c > b², the discriminant-negative regime) is:
@@ -6,11 +19,13 @@
     θ = 0                              for c = b²
     θ undefined                        for c < b²
 
-With b = 1/2 (the framework's `HalfAsStructuralFixedPointClaim`) the threshold is b² = 1/4 (the `QuarterAsBilinearMaxvalClaim`) and the formula collapses to
+With the numerical specialization b=1/2, the threshold is b²=1/4 and the
+formula becomes
 
     θ(c) = arctan( √(4c − 1) )         for c > 1/4
 
-which is exactly the θ-compass introduced state-specifically in [`experiments/BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md) (Feb 8, 2026) for the Mandelbrot recursion R = C(Ψ + R)² at the 1/4 cardioid cusp.
+The same arithmetic appeared in the February angle table, but that finite
+state readout and the recurrence are separate applications of a quadratic.
 
 **Status:** Tier 1 derived. 4-line polynomial calculation. Numerical verification against the Februar θ-compass table matches all five non-rounded points within machine precision.
 
@@ -24,9 +39,15 @@ F95 names the angle that appears when a positive-b quadratic crosses its discrim
 
     θ(c; b) = arctan(√(c/b² − 1))   for c > b²,   θ = 0 at c = b²,   undefined for c < b²,
 
-and at the framework's structural fixed point b = 1/2 this collapses to θ(c) = arctan(√(4c − 1)) past the threshold c = 1/4. This is exactly the θ-compass that BOUNDARY_NAVIGATION found state-specifically at the Mandelbrot 1/4 cusp in February; F95 promotes it from a discovery about one trajectory to the four-line positive-b polynomial identity used by the current callers.
+and at b=1/2 this becomes θ(c)=arctan(√(4c−1)) beyond c=1/4.
+The identity is scale-invariant under `(b,c)→(sb,s²c)` for s&gt;0. A finite
+angle table may use it as a coordinate without becoming a recurrence orbit.
 
-The reading is that the angle is not a quantum postulate but the minimal second coordinate the algebra forces. The PolynomialFoundation d² − 2d = 0 has a mirror at d = 0 where no angle is definable; the moment a magnitude crosses into the discriminant-negative regime a phase becomes necessary, and standard QM's complex amplitude r·e^{iθ} is what that crossing forces, with the Born length-squared its geometric shadow. F95 is the angle side of the local cusp geometry whose magnitude side is F94 ((4/3)·Q²·K³); F97 lifts the same z² − 2bz + c algebra off the real-c axis onto the full complex cardioid, recovering F95's cusp at its φ = 0 tangent. The reflection ON_HOW_THE_ANGLE_APPEARS_AT_ZERO carries the synthesis.
+The proved reading is narrower: a discriminant-negative positive-b quadratic
+has a complex root, and its principal argument needs this second coordinate.
+That algebra does not force complex amplitudes in a physical theory. F94's
+Dyson coefficient and F97's period-one cardioid are independent claims with no
+typed ancestry through F95.
 
 ## Setup
 
@@ -71,20 +92,20 @@ arg(z+) = arctan( Im(z+) / Re(z+) )
 
 The convention here picks the upper-half-plane root z₊ (positive imaginary part); because b > 0, its principal argument lies in [0, π/2), and the algebraic step from √(c−b²)/b to √((c−b²)/b²) is valid. The lower-half-plane root z₋ is the complex conjugate, with argument −arctan(√(c/b² − 1)), reflecting through the real axis. Both roots together carry a single magnitude (|z±| = √(b² + (c − b²)) = √c) and a paired ±θ angle. The b < 0 branch would require the second-quadrant principal argument π−θ, while b = 0 gives π/2 for c > 0; neither branch is part of the current F95 API.
 
-## Framework specialization (b = 1/2)
+## Numerical specialization (b = 1/2)
 
-Substituting b = `HalfAsStructuralFixedPointClaim` = 1/2 collapses the threshold and the formula:
+Substituting b=1/2 gives:
 
-    threshold:  b² = 1/4 = `QuarterAsBilinearMaxvalClaim`
+    threshold:  b² = 1/4
     formula:    θ(c) = arctan( √(c/(1/4) − 1) ) = arctan( √(4c − 1) )
 
-which reproduces the Februar θ-compass of `BOUNDARY_NAVIGATION.md` line 25.
+which numerically reproduces the February table when its scalar is used as c.
 
 ## Numerical verification
 
 The script [`simulations/angle_at_zero_tier1_candidate.py`](../../simulations/angle_at_zero_tier1_candidate.py) implements `angle_at_quadratic_crossing(c, b)` and checks against the Februar θ-compass table:
 
-| CΨ | Februar θ (deg) | F95 derived (deg) | match |
+| c used in the table | Februar θ (deg) | F95 derived (deg) | match |
 |---|---|---|---|
 | 1/3 = 0.3333 | 30.0 | 30.0000 | ✓ exact |
 | 0.308 | 25.8 | 25.7184 | ✓ within 0.1° |
@@ -93,15 +114,24 @@ The script [`simulations/angle_at_zero_tier1_candidate.py`](../../simulations/an
 | 0.256 | 9.1 | 8.8062 | ✗ 0.3° drift (Februar table t-sampling rounding, not formula error) |
 | 0.250 | 0.0 | 0.0000 | ✓ exact (threshold) |
 
-The single drift at 0.256 is attributable to the Februar table's `t = 0.7` snapshot being a Lindblad-evolution sample, not the precise CΨ; that t doesn't necessarily land on exactly CΨ = 0.256, and the small CΨ mismatch produces the 0.3° angle drift. The formula itself agrees bit-exactly at every CΨ tested.
+The single drift at 0.256 is attributable to the February table's rounded
+Lindblad snapshot rather than an exact c input. Direct floating evaluation of
+the closed form agrees at unrounded inputs to machine precision; that numerical
+comparison is not a bit-exact hardware or trajectory result.
 
-## Structural reading
+## Scope: a quadratic identity, not a genealogy
 
-The polynomial d²−2d = 0 of `PolynomialFoundationClaim` is the c = 0 case of F95's parent equation z² − 2z + c = 0 (with b = 1, so the threshold is b² = 1 in that case). The two roots d = 0 (mirror) and d = 2 (qubit dimension) sit on the real axis, separated by the maximum gap 2√(b² − 0) = 2. F95 is the family of perturbations c ≠ 0: as c increases from 0, the roots move toward each other on the real axis (still real for c < b² = 1); at c = b² = 1 they merge at d = 1; past c = b², they go complex with the F95 angle.
+The identity applies to any finite real b&gt;0 and real c in the stated domain.
+One may substitute b=1 or b=1/2, but a shared polynomial shape does not make
+another claim a parent or a physical realization of F95.
 
-For the Mandelbrot/CΨ case the same algebra is applied at b = 1/2 (the framework's structural half), and the boundary is at b² = 1/4 (the framework's Quarter). The angle that emerges is the **inheritance of the polarity layer at d = 2**: what one gets by crossing the d = 0 mirror through a c-perturbation.
+For the recurrence `z²-z+c=0`, b=1/2 is one genuine application. The
+TransitionBridge decay-root quadratic is another. A CΨ angle table is only a
+coordinate application unless its physical equation is separately supplied.
 
-The angle is not a postulate. It is the polynomial-foundation's necessary minimal-parametrization coordinate for any quadratic state that has crossed the c = b² discriminant zero. Standard QM's complex amplitudes are special cases of this geometry.
+The angle is the principal argument of one selected quadratic root. No
+conclusion about a "quadratic state" or physical amplitude follows from that
+fact alone.
 
 ## Anchors
 
@@ -109,10 +139,5 @@ The angle is not a postulate. It is the polynomial-foundation's necessary minima
 - F-registry entry: [`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md) §F95
 - Companion reflection: [`reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md)
 - Februar Mandelbrot-specific precursor: [`experiments/BOUNDARY_NAVIGATION.md`](../../experiments/BOUNDARY_NAVIGATION.md)
-- Typed Pi2-Foundation anchors:
-  - [`PolynomialFoundationClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (d²−2d=0, the c=0 special case)
-  - [`HalfAsStructuralFixedPointClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (b = 1/2)
-  - [`QuarterAsBilinearMaxvalClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (b² = 1/4 threshold)
-  - [`NinetyDegreeMirrorMemoryClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs) (i angle generator)
-  - [`Pi2I4MemoryLoopClaim`](../../compute/RCPsiSquared.Core/Symmetry/Pi2I4MemoryLoopClaim.cs) (i⁴ = 1 closure)
-- Sibling F-formula on the magnitude side: [F94 = (4/3)·Q²·K³](../ANALYTICAL_FORMULAS.md#f94) (the same Born-deviation pattern with magnitude scaling; F95 is the angle-side companion)
+- Typed claim: [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs), currently parentless despite its historical class name
+- Independent comparison: [F94](../ANALYTICAL_FORMULAS.md#f94), a named-ring Dyson coefficient rather than a magnitude-side sibling

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Tier-1 derivation attempt: evaluate the Dyson sym3 = L_H²L'_dis + L_HL'_disL_H + L'_disL_H²
-acting on ρ_0 directly, then extract c via partial trace.
+"""Finite floating reconstruction of F94's named N=4 ring coefficient.
 
-If c_derived = 4/3 bit-exact, the Tier-1 closed form is:
-  Δ_|00⟩(Q, K) = (4/3) · Q² · K³ + O(Q³K⁴)
-for the dominant outcome of |0+0+⟩ pair (0,2) under Heisenberg ring + Z-dephasing.
+The exact owner fixes |0+0+>, pair (0,2), and the absolute outcome vector
+sym3=(8,-4,-4,0).  Its leading |00> term is (4/3) * Q^2 * K^3.  This NumPy
+script reconstructs that leading coefficient within tolerance; it is not an
+exact-arithmetic certificate, and it claims only unspecified higher order.
 """
 from __future__ import annotations
 
@@ -13,12 +13,6 @@ from pathlib import Path
 from fractions import Fraction
 
 import numpy as np
-
-if sys.platform == "win32":
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
 
 SX = np.array([[0, 1], [1, 0]], dtype=complex)
 SY = np.array([[0, -1j], [1j, 0]], dtype=complex)
@@ -78,14 +72,25 @@ def reduced_density(rho, N, keep):
     return rho_tensor.reshape((2 ** n_keep, 2 ** n_keep))
 
 
+def leading_delta_coefficient(sym3_element, p_u0):
+    """Return the third-order Taylor coefficient sym3/(3! P_u(0))."""
+    return sym3_element / (6 * p_u0)
+
+
 def main():
+    if sys.platform == "win32":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
     N = 4
     plus = np.array([1, 1], dtype=complex) / np.sqrt(2)
     zero = np.array([1, 0], dtype=complex)
     psi_0 = np.kron(zero, np.kron(plus, np.kron(zero, plus)))
     rho_0 = np.outer(psi_0, psi_0.conj())
 
-    print("Tier-1 derivation attempt for Δ_|00⟩")
+    print("Finite floating reconstruction of the named-ring leading coefficient")
     print(f"  Setup: |0+0+⟩ N=4 Heisenberg ring, pair (0,2), |00⟩ outcome")
     print()
 
@@ -131,8 +136,8 @@ def main():
     # And Δ = ΔP / P_u0:
     #   Δ = (sym3_element / (6 · P_u0)) · J²γt³ = (sym3_element / (6·P_u0)) · Q²K³
 
-    c_derived = sym3_element / (6.0 * P_u0)
-    print(f"  Predicted coefficient c = sym3_element / (6 · P_u0)")
+    c_derived = leading_delta_coefficient(sym3_element, P_u0)
+    print(f"  Floating coefficient c = sym3_element / (6 · P_u0)")
     print(f"                          = {sym3_element} / ({6 * P_u0})")
     print(f"                          = {c_derived}")
     print()
@@ -143,16 +148,20 @@ def main():
     print(f"  c_derived - 4/3 = {c_derived - four_thirds:+.10e}")
     print()
 
-    # Try to identify a clean rational
-    print(f"  As fraction (approximation):")
+    # This float reconstruction is compared with the exact owner; it does not
+    # turn binary floating output into a symbolic certificate.
+    print(f"  As a rational approximation to the floating reconstruction:")
     frac = Fraction(c_derived).limit_denominator(100)
     print(f"    c ≈ {frac} = {float(frac)}")
     print()
 
-    # Cross-check numerically
-    print(f"  Numerical extraction (from previous run, mean over 16 samples): c ≈ 1.32992")
-    print(f"  Symbolic prediction:                                            c = {c_derived:.5f}")
-    print(f"  Match within numerical precision: {abs(c_derived - 1.32992) < 0.01}")
+    # Compare two finite floating reads without promoting their difference to a
+    # symbolic or exact-binary identity.
+    finite_fit = 1.32992
+    fit_difference = abs(c_derived - finite_fit)
+    print(f"  Retained finite fit (mean over 16 samples): c = {finite_fit:.5f}")
+    print(f"  Named-ring Dyson expression in floating arithmetic: c = {c_derived:.5f}")
+    print(f"  absolute difference from retained finite fit = {fit_difference:.10e}")
 
 
 if __name__ == "__main__":

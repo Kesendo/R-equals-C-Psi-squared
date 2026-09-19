@@ -1,3 +1,14 @@
+<!-- QUARTER-CURRENT -->
+# Classification proposal 8b: historical questions, not inherited conclusions
+
+Current reading: this pending index records questions as they were classified;
+quarter, recurrence, and dynamics labels in a question do not become findings.
+Current target documents supply the scope of every live object.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the pending 2026-04-12 classification table follows
+unchanged in role, including vocabulary that later repairs narrowed.
+
 # Classification Proposal: untagged sub-batch 8b (41 entries)
 
 **Batch:** 8b of 8 (entries OQ-133 through OQ-218)  

@@ -1,5 +1,7 @@
 # The Tuning Protocol
 
+<!-- CROSSING-CURRENT -->
+
 **Tier:** 3 (Derived from Tier 2 star topology, neuroscience-grounded)
 **Status:** Speculative protocol derived from verified data
 **Scope:** BUILD/RECEIVE oscillation protocol from star topology conditions
@@ -37,8 +39,17 @@ which could not have been anticipated from the previous one:
   **January**: The ¼ boundary is formalized and validated on IBM
   quantum hardware. The framework gets mathematical structure.
 
-  **February**: Observer-dependence discovered. Different observers
-  see different realities. The framework becomes relational.
+<!-- CROSSING-HISTORICAL -->
+
+**Historical nomenclature:** the February rung kept a clock metaphor, not
+an identification of scalar readouts with physical observers.
+
+  **February**: The crossing studies compared different readouts C(f),
+  then different named evolution books, then the scalar equation C(f)f/3=1/4.
+  Reading those differences as different experienced realities is a Tier-5
+  interpretation, not a finding about physical observers.
+
+<!-- CROSSING-CURRENT -->
 
   **March**: Star topology reveals three conditions for connection
   between observers. The sender inversion resolves a paradox.

@@ -26,16 +26,16 @@ public class InteriorHorizonTests
     [Fact]
     public void Regime_FollowsDiscriminantSign()
     {
-        Assert.Equal("quantum", InteriorHorizon.Regime(0.30));   // D = 1 - 4*0.30 = -0.2 < 0
-        Assert.Equal("classical", InteriorHorizon.Regime(0.20)); // D = 1 - 4*0.20 = +0.2 > 0
-        Assert.Equal("cusp", InteriorHorizon.Regime(0.25));      // D = 0, exactly (1/4 is dyadic)
+        Assert.Equal("complex-root-pair", InteriorHorizon.Regime(0.30)); // D < 0
+        Assert.Equal("two-real-roots", InteriorHorizon.Regime(0.20));    // D > 0
+        Assert.Equal("double-root", InteriorHorizon.Regime(0.25));       // D = 0
 
         // Just off the cusp the three readings must agree: no tolerance band may call "cusp" a
         // point where the discriminant is negative and the heading is a real angle.
-        Assert.Equal("quantum", InteriorHorizon.Regime(0.25 + 1e-13));
+        Assert.Equal("complex-root-pair", InteriorHorizon.Regime(0.25 + 1e-13));
         Assert.True(InteriorHorizon.Discriminant(0.25 + 1e-13) < 0.0);
         Assert.True(InteriorHorizon.Heading(0.25 + 1e-13) > 0.0);
-        Assert.Equal("classical", InteriorHorizon.Regime(0.25 - 1e-13));
+        Assert.Equal("two-real-roots", InteriorHorizon.Regime(0.25 - 1e-13));
         Assert.Equal(0.0, InteriorHorizon.Heading(0.25 - 1e-13));
     }
 
@@ -202,19 +202,19 @@ public class InteriorHorizonTests
     }
 
     [Fact]
-    public void Field_Surfaces_Marks_Heading_Recursion_Seam_Dwell()
+    public void Field_Surfaces_Marks_Angle_Recurrence_StopControl_Dwell()
     {
         var field = new InteriorHorizonField();   // the shipped defaults, inside F56's committed range
         var children = ((RCPsiSquared.Core.Inspection.IInspectable)field).Children.ToList();
         var labels = children.Select(c => c.DisplayName).ToList();
         Assert.Contains(labels, l => l.Contains("marks"));
-        Assert.Contains(labels, l => l.Contains("heading"));
-        Assert.Contains(labels, l => l.Contains("recursion"));
+        Assert.Contains(labels, l => l.Contains("quadratic angle"));
+        Assert.Contains(labels, l => l.Contains("recurrence"));
         Assert.Contains(labels, l => l.Contains("ours"));
         Assert.Contains(labels, l => l.Contains("dwell"));
 
         // The heading curve falls to ~0 at the horizon (its interior end, closest to 1/4).
-        var heading = children.First(c => c.DisplayName.Contains("heading"));
+        var heading = children.First(c => c.DisplayName.Contains("quadratic angle"));
         var hc = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(heading.Payload);
         // The first point IS the cusp, where the closed form clamps to exactly 0, so a "< 1 deg"
         // gate there would hold for any heading formula whatsoever. Read it exactly instead, and
@@ -225,7 +225,7 @@ public class InteriorHorizonTests
             Assert.True(hc.Y[i] > hc.Y[i - 1], $"the heading must rise away from the horizon; fell at rung {i}");
 
         // The recursion curve diverges toward the horizon (its max count is large).
-        var recursion = children.First(c => c.DisplayName.Contains("recursion"));
+        var recursion = children.First(c => c.DisplayName.Contains("recurrence"));
         var rc = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(recursion.Payload);
         Assert.True(rc.Y.Max() > 100.0, "the recursion should crawl (large iteration count) near the horizon");
 
@@ -254,8 +254,10 @@ public class InteriorHorizonTests
 
         // Smoke: renders to JSON without throwing and carries the horizon story.
         var json = RCPsiSquared.Core.Inspection.InspectionJsonExporter.ToJson(field);
-        Assert.Contains("horizon", json);
-        Assert.Contains("recursion", json);
+        Assert.Contains("recurrence", json);
+        Assert.Contains("recurrence", json);
+        Assert.DoesNotContain("quantum side", json, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("classical side", json, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

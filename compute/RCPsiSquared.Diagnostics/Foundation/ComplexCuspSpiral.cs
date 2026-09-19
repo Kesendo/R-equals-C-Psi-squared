@@ -1,12 +1,12 @@
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The complex-plane face of the interior horizon: when a common Z-drift Ω sits under the
-/// dephasing, the Bell+ coherence CΨ_com = C·Ψ_com becomes complex (ρ₀₃ = ½·e^{i(φ₀−Ωt)}) and the
-/// trajectory winds inward as a logarithmic spiral. The cusp CΨ = ¼, a point on the real line
-/// (<see cref="InteriorHorizon"/>), is the circle |CΨ| = ¼ here.
+/// <summary>A named Bell+/pure-Z complex-coherence trajectory. With a common Z-drift Ω,
+/// CΨ_com = C·Ψ_com winds inward while its magnitude follows F25. The set |CΨ_com|=¼ is a
+/// radial readout ring. It is not the period-one cardioid, whose boundary is parameterized by
+/// c=e^{iφ}/2−e^{2iφ}/4 and has only the real point c=+¼ as its cusp.
 ///
 /// <para>Logarithmic is the right word and it was measured, not assumed: over the observed run
-/// from |CΨ_com| = 1/3 to the ¼ circle, ln|CΨ_com| is linear in the phase to 0.0018 out of a
+/// from |CΨ_com| = 1/3 to the ¼ radial ring, ln|CΨ_com| is linear in the phase to 0.0018 out of a
 /// total change of 0.288, i.e. 0.6%. It stays that good further out (2% over thirty e-folds of
 /// f), because the only departure from linearity is the slowly varying factor
 /// <see cref="MagnitudeEFoldRate"/>/4γ = (1+3f²)/(1+f²), which moves from 2 to 1.85 across the
@@ -15,18 +15,15 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>The radial magnitude is unchanged and Ω-independent: |CΨ_com|(t) = f(1+f²)/6, f = e^{−4γt}
 /// (F25, the same law <see cref="InteriorHorizon.BellPlusCpsi"/> reads on the line). So every spiral
-/// crosses the same ¼-circle at the same time; only the crossing angle φ₀ − Ω·t_cross is free, and that
-/// angle is the one IBM Kingston steered on demand (Confirmations f95_angle_steering_kingston_may2026).
-/// At Ω = 0 the spiral crosses ¼ head-on on the real axis: it is the 1D interior axis.</para>
+/// reaches the same radial ring at the same time; only the argument φ₀ − Ω·t_cross is free. Saved
+/// Kingston rows show that argument changing under an injected Z rotation. They do not realize
+/// F95 roots or trace the F97 cardioid.</para>
 ///
-/// <para>The documented reading (experiments/CPSI_COMPLEX_PLANE.md): the radial dwell is F57, the angular
-/// winding carries the F95 √-form, and ¼ is the discriminant zero where they meet. That reading stays at
-/// the label; the solid cusp/EP F95 algebra is typed in <c>TransitionBridgeF95SiblingClaim</c>.
-/// Closed-form, N-free, structural (a dephasing fold), never gravitational.</para></summary>
+/// <para>The same scalar number may label the recurrence double root and this radial crossing, but
+/// the equations and objects remain distinct. Closed-form and N-free within the named setup.</para></summary>
 public static class ComplexCuspSpiral
 {
-    /// <summary>The cusp circle in the complex c-plane: |CΨ| = ¼, the saddle-node fold (the 1D cusp
-    /// point seen edge-on).</summary>
+    /// <summary>The selected radial readout radius |CΨ_com| = ¼.</summary>
     public const double CircleRadius = 0.25;
 
     /// <summary>The maximum reachable magnitude, |CΨ_com|(0) = 1/3 (Bell+ at t = 0). No circle of
@@ -59,7 +56,7 @@ public static class ComplexCuspSpiral
     /// only as f → 0. At the ¼ crossing it is 4γ·1.8517012, and that factor is F25's crossing
     /// derivative |dCΨ/dt|/γ itself, not a number that resembles it: the rate is |dCΨ/dt|/|CΨ| and
     /// |CΨ| is ¼ there, so the two agree exactly whenever f(1+f²) = 3/2. Averaged across the run
-    /// from the start 1/3 to the ¼ circle the true figure is Ω·t_cross / ln(4/3)
+    /// from the start 1/3 to the ¼ radial ring the true figure is Ω·t_cross / ln(4/3)
     /// = Ω/(4γ) · (−ln f*)/ln(4/3), which is Ω/(4γ) divided by 1.9255760, at every γ and
     /// Ω.</para></summary>
     public static double WindingRate(double gamma, double omega) => omega / (4.0 * gamma);
@@ -75,7 +72,7 @@ public static class ComplexCuspSpiral
 
     /// <summary>Radians of phase swept per e-fold of the MAGNITUDE, averaged over the run from the
     /// start |CΨ_com| = 1/3 to the circle of the given radius: Ω·t_cross / ln((1/3)/radius). This is
-    /// the figure <see cref="WindingRate"/> is often mistaken for; at the cusp circle it is
+    /// the figure <see cref="WindingRate"/> is often mistaken for; at the quarter-radius ring it is
     /// Ω/(4γ) divided by 1.9255760, independently of γ and Ω. NaN where there is no
     /// crossing.</summary>
     public static double PhasePerMagnitudeEFold(double gamma, double omega, double radius = CircleRadius)
@@ -88,7 +85,7 @@ public static class ComplexCuspSpiral
     /// <summary>The number of full turns |Ω|·tMax/(2π) the spiral makes over [0, tMax].</summary>
     public static double WindingNumber(double omega, double tMax) => Math.Abs(omega) * tMax / (2.0 * Math.PI);
 
-    /// <summary>The time the magnitude reaches a circle of the given radius (default the cusp ¼),
+    /// <summary>The time the magnitude reaches a radial ring of the given radius (default ¼),
     /// Ω-independent: solves f³ + f = 6·radius for f ∈ (0, 1] (Newton from f = 1), then t = −ln(f)/(4γ).
     /// The radial crossing every spiral shares. NaN if radius is not in (0, 1/3] (the magnitude starts at
     /// 1/3 and only decreases, so no larger circle is crossed). 0 exactly at radius = 1/3 (the start).</summary>
@@ -111,9 +108,9 @@ public static class ComplexCuspSpiral
         return -Math.Log(f) / (4.0 * gamma);
     }
 
-    /// <summary>The angle at which the spiral crosses the circle of the given radius:
-    /// arg at <see cref="CrossingTime"/> = φ₀ − Ω·t_cross. 0 at Ω = 0 (head-on, the real axis, the 1D
-    /// interior crossing). The steerable freedom (Kingston f95_angle_steering). NaN if there is no
+    /// <summary>The argument at which the spiral reaches the radial ring of the given radius:
+    /// arg at <see cref="CrossingTime"/> = φ₀ − Ω·t_cross. Saved Kingston rows report this
+    /// setup-dependent argument under injected Z rotation. NaN if there is no
     /// crossing.</summary>
     public static double CrossingArgument(double gamma, double omega, double phi0, double radius = CircleRadius)
     {

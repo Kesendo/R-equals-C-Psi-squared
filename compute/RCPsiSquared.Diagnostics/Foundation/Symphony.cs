@@ -36,7 +36,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///         (C = Tr(ρ²) = Σ|ρ_ij|², Ψ = ℓ₁-coherence/(d−1), the repo's canonical convention where
 ///         Bell+ has CΨ(0) = 1/3); curve payload, ¼-crossing times.</item>
 ///   <item><b>dose (K)</b> — the dimensionless dose K = γ·t along the same grid; the dose of the
-///         fold is K at the absorbing envelope fold.</item>
+///         final-stay-below crossing is K at the finite window's last downward ¼ crossing whose suffix stays below.</item>
 ///   <item><b>light</b> — the state's light content over time, the purity-weighted mean
 ///         popcount(i⊕j) over the coherences |i⟩⟨j| (popcount(i⊕j) = the number of sites where ket
 ///         and bra differ = the Absorption-Theorem light channel); curve payload.</item>
@@ -129,7 +129,7 @@ public sealed class Symphony : IInspectable
         Topology = topology;
         InitialState = initialState;
         TPoints = tPoints;
-        // Default window: long enough that the slow (carrier 4γ) coherence folds well past ¼ —
+        // Default window: long enough that the slow (carrier 4γ) coherence decays well past ¼ —
         // 1/γ is several carrier times; runs in milliseconds at these N.
         TMax = double.IsNaN(tMax) ? 1.0 / gamma : tMax;
         if (TMax <= 0) throw new ArgumentOutOfRangeException(nameof(tMax), $"t-max must be positive; got {TMax}");
@@ -332,7 +332,7 @@ public sealed class Symphony : IInspectable
     /// <summary>The local CΨ: the canonical <see cref="Cpsi"/> of the reduced 2-site density matrix on
     /// the <see cref="CarrierPair"/>. At N=2 with the default pair this equals the global CΨ exactly
     /// (the partial trace keeps both qubits), reproducing F25; for N≥3 it reads the coherence where it
-    /// sits — in the carrier pair — so the fold stays audible where the global /(d−1) normalization
+    /// sits — in the carrier pair — so its quarter crossing stays visible where the global /(d−1) normalization
     /// has pushed CΨ(0) below ¼.</summary>
     public double LocalCpsi(ComplexMatrix rho)
         => Cpsi(PartialTrace.Of(rho, N, new[] { CarrierPair.Site1, CarrierPair.Site2 }));
@@ -504,11 +504,9 @@ public sealed class Symphony : IInspectable
             });
     }
 
-    /// <summary>lens: quarter (CΨ) — the global CΨ(t), now the Envelope-Theorem witness. Reports the
-    /// direction-split ¼-crossing count, the live envelope verdict (the peaks form a non-increasing
-    /// sequence — proven Tier-1 for N=2, the N≥3 full-state envelope tested live here (open, RISES at
-    /// N≥4 strong coupling), PROOF_MONOTONICITY_CPSI), and the envelope fold (the
-    /// absorbing ¼ crossing; "the fold" now means THIS, never an upward oscillation).</summary>
+    /// <summary>lens: quarter (CΨ) — a finite global CΨ(t) reading. Reports direction-tagged
+    /// ¼ crossings, parabolic-apex predecessor rises above the reporting bar, and the last downward
+    /// crossing whose sampled suffix stays below. It does not infer a theorem from this grid.</summary>
     private InspectableNode QuarterLens()
     {
         var cpsi = _cpsi!;
@@ -523,27 +521,28 @@ public sealed class Symphony : IInspectable
             ? "no ¼ crossing in window"
             : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑{gridClause}";
 
-        var env = QuarterEnvelope.Of(cpsi, tGrid);
-        string envClause = env.IsNonIncreasing
-            ? "envelope non-increasing ✓ (the N=2 Envelope Theorem holds live; the N≥3 full-state envelope is not guaranteed — proven Tier-1 for N=2, PROOF_MONOTONICITY_CPSI)"
+        var env = QuarterEnvelope.Of(cpsi, tGrid,
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        string envClause = env.RiseCount == 0
+            ? $"no predecessor rise above the reporting bar resolved in this finite window " +
+              $"(raw max positive Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)}; not an absence theorem)"
             : $"envelope shows {env.RiseCount} predecessor-rise(s), max Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
               $"(peak-clip floor on this grid ≈ {floor.ToString("0.#####", Inv)}) — grid-sensitive, verify with ≥4× t-points; " +
-              "a rise that SURVIVES refinement is the N≥3 freedom (the N=2 theorem does not extend; the full-state envelope RISES at N≥4 strong coupling, see EnvelopeTheoremWitness)";
-        string foldClause = env.EnvelopeFoldTime is { } ft
-            ? $"the fold (envelope, absorbing) at t={ft.ToString("0.###", Inv)} (K={(Gamma * ft).ToString("0.####", Inv)})"
-            : "no envelope fold in window";
+              "a rise that survives refinement is a finite atlas reading, not a theorem verdict";
+        string crossingClause = env.LastStayBelowCrossingTime is { } ft
+            ? $"last-stay-below crossing at t={ft.ToString("0.###", Inv)} (K={(Gamma * ft).ToString("0.####", Inv)})"
+            : "no last-stay-below crossing in this window";
 
         return new InspectableNode("lens: quarter (CΨ)",
             summary: $"CΨ(0) = {start.ToString("0.####", Inv)}, min = {min.ToString("0.####", Inv)}; {crossClause}. " +
-                     $"{envClause}. {foldClause}.",
+                     $"{envClause}. {crossingClause}.",
             payload: new InspectablePayload.Curve("CΨ(t)", tGrid, cpsi, "t", "CΨ"));
     }
 
-    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site carrier-pair state along the one
-    /// trajectory. Audible at N≥3 where the global lens is silent. Direction-split ¼-crossing count,
-    /// plus the envelope verdict: unlike the global CΨ (theorem-bound non-increasing), the reduced open
-    /// subsystem has NO such theorem, so its beat envelope can genuinely RISE — the freedom. A detected
-    /// rise is reported grid-sensitive (parabolic-apex + predecessor semantics; verify under refinement).
+    /// <summary>lens: quarter (local CΨ) — CΨ of the reduced 2-site carrier-pair state along this
+    /// configured finite trajectory. Reports its direction-split ¼-crossing count and finite envelope
+    /// reading. The reduced open subsystem has no general monotonicity guarantee. A detected
+    /// predecessor rise is reported with its bar and grid; refinement is a separate finite reading.
     /// See QuarterEnvelope and PROOF_MONOTONICITY_CPSI.</summary>
     private InspectableNode LocalQuarterLens()
     {
@@ -554,14 +553,13 @@ public sealed class Symphony : IInspectable
 
         var dirs = QuarterCrossingDirections(local);
 
-        // The carrier pair begins with no shared coherence (local CΨ(0) ≈ 0) and never folds: a single
-        // excitation, say, places no coherence on the pair, and although the Hamiltonian pumps some in by
-        // hopping, it stays below ¼. There is no quarter-fold to report.
+        // In this branch the carrier pair begins with no shared coherence (local CΨ(0) ≈ 0), and this
+        // configured finite trajectory has no quarter crossing. This is a named-window reading.
         if (start <= 1e-12 && dirs.Length == 0)
             return new InspectableNode("lens: quarter (local CΨ)",
                 summary: $"2-site reduced ρ on carrier pair {pair}: no pair coherence in this initial " +
-                         $"state (local CΨ(0) ≈ 0); the Hamiltonian pumps it to at most " +
-                         $"{max.ToString("0.####", Inv)} (< ¼), so no fold.",
+                         $"state (local CΨ(0) ≈ 0); the sampled curve reaches at most " +
+                         $"{max.ToString("0.####", Inv)} (< ¼), so no quarter crossing in this finite window.",
                 payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
 
         int down = dirs.Count(d => d < 0), up = dirs.Count(d => d > 0);
@@ -569,13 +567,16 @@ public sealed class Symphony : IInspectable
             ? "no ¼ crossing in window"
             : $"{dirs.Length} ¼ crossing(s): {down}↓ + {up}↑";
 
-        var env = QuarterEnvelope.Of(local, tGrid);
+        var env = QuarterEnvelope.Of(local, tGrid,
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
         var (_, _, floor) = GridFitness(max);
         string envClause = env.RiseCount > 0 && env.FirstRiseTime is { } rt
-            ? $"envelope RISES: {env.RiseCount} predecessor-rise(s), max Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
-              $"at t={rt.ToString("0.###", Inv)} — the freedom (beating; no theorem binds the reduced open subsystem; " +
-              $"peak-clip floor ≈ {floor.ToString("0.#####", Inv)}). The rise is grid-sensitive: verify with ≥4× t-points"
-            : "envelope non-increasing in this window (no rise resolved on this grid)";
+            ? $"envelope RISES: {env.RiseCount} predecessor-rise(s) above the reporting bar, " +
+              $"max positive Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)} at t={rt.ToString("0.###", Inv)} " +
+              $"(no theorem binds the reduced open subsystem; peak-clip floor ≈ {floor.ToString("0.#####", Inv)}). " +
+              "This is a named finite-grid reading; compare a separately evolved refinement"
+            : $"no predecessor rise above the reporting bar resolved on this grid " +
+              $"(raw max positive Δ={env.MaxRiseMagnitude.ToString("0.#####", Inv)})";
 
         return new InspectableNode("lens: quarter (local CΨ)",
             summary: $"2-site reduced ρ on carrier pair {pair}: local CΨ(0) = {start.ToString("0.####", Inv)}, " +
@@ -584,20 +585,22 @@ public sealed class Symphony : IInspectable
             payload: new InspectablePayload.Curve("local CΨ(t)", tGrid, local, "t", "local CΨ"));
     }
 
-    /// <summary>lens: dose (K) — K = γ·t marks; "the dose of the fold" is K at the ENVELOPE fold (the
-    /// absorbing ¼ crossing), for both the global and the local carrier-pair curve.</summary>
+    /// <summary>lens: dose (K) — K = γ·t marks, including the finite-window
+    /// last-stay-below crossing for both global and local carrier-pair curves.</summary>
     private InspectableNode DoseLens()
     {
-        var gEnv = QuarterEnvelope.Of(_cpsi!, _tGrid!);
-        string doseClause = gEnv.EnvelopeFoldTime is { } gft
-            ? $"the dose of the fold: K = {(Gamma * gft).ToString("0.####", Inv)} at the global envelope fold (t={gft.ToString("0.###", Inv)})"
-            : "no global envelope fold in window, so no global fold dose";
+        var gEnv = QuarterEnvelope.Of(_cpsi!, _tGrid!,
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        string doseClause = gEnv.LastStayBelowCrossingTime is { } gft
+            ? $"global final-stay-below dose K = {(Gamma * gft).ToString("0.####", Inv)} (t={gft.ToString("0.###", Inv)})"
+            : "no global last-stay-below crossing in this window";
 
-        var lEnv = QuarterEnvelope.Of(_localCpsi!, _tGrid!);
-        string localClause = lEnv.EnvelopeFoldTime is { } lft
-            ? $"; the local fold: K = {(Gamma * lft).ToString("0.####", Inv)} at the local envelope fold " +
+        var lEnv = QuarterEnvelope.Of(_localCpsi!, _tGrid!,
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        string localClause = lEnv.LastStayBelowCrossingTime is { } lft
+            ? $"; local final-stay-below dose K = {(Gamma * lft).ToString("0.####", Inv)} " +
               $"(carrier pair {CarrierPair.Site1},{CarrierPair.Site2}, t={lft.ToString("0.###", Inv)})"
-            : "; no local envelope fold in window";
+            : "; no local last-stay-below crossing in this window";
 
         return new InspectableNode("lens: dose (K)",
             summary: $"K = γ·t reaches {(Gamma * TMax).ToString("0.####", Inv)} at the window end; {doseClause}{localClause}.",
@@ -668,48 +671,42 @@ public sealed class Symphony : IInspectable
         var light = _light!;
         var events = new List<SymphonyEvent>();
 
-        // lens quarter (global): direction-tagged ¼ crossings + the absorbing envelope fold.
-        // "the fold" is the envelope fold, NOT every crossing (upward crossings are coherence pumping
-        // back up, the opposite of a quantum→classical collapse).
-        var globalTimes = QuarterCrossingTimes();
-        var globalDirs = QuarterCrossingDirections(cpsi);
-        System.Diagnostics.Debug.Assert(globalTimes.Count == globalDirs.Length,
-            "QuarterCrossingTimes and QuarterCrossingDirections must return order-aligned, equal-length results");
-        for (int k = 0; k < globalTimes.Count; k++)
+        // lens quarter (global): direction-tagged ¼ crossings plus the finite-window
+        // last-stay-below crossing. An upward crossing remains a separately tagged observation.
+        var globalCrossings = ThresholdCrossings.Extract(cpsi, tGrid, 0.25);
+        foreach (var crossing in globalCrossings)
         {
-            double tc = globalTimes[k];
-            string dir = globalDirs[k] < 0 ? "down" : "up";
+            double tc = crossing.Time;
+            string dir = crossing.Direction < 0 ? "down" : "up";
             events.Add(new SymphonyEvent(tc, Gamma * tc, "quarter",
                 $"global CΨ crosses ¼ ({dir})"));
         }
-        var gEnv = QuarterEnvelope.Of(cpsi, tGrid);
-        if (gEnv.EnvelopeFoldTime is { } gft)
+        var gEnv = QuarterEnvelope.Of(cpsi, tGrid,
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        if (gEnv.LastStayBelowCrossingTime is { } gft)
             events.Add(new SymphonyEvent(gft, Gamma * gft, "quarter",
-                "global CΨ envelope fold (the absorbing ¼ crossing)"));
+                "global CΨ last-stay-below crossing (finite window)"));
 
-        // lens local quarter: the carrier-pair fold (audible at N≥3 where the global one is silent),
-        // counted in both directions (the open-subsystem heartbeat).
-        var localTimes = QuarterCrossingTimes(_localCpsi!, tGrid);
-        var localDirs = QuarterCrossingDirections(_localCpsi!);
-        System.Diagnostics.Debug.Assert(localTimes.Count == localDirs.Length,
-            "QuarterCrossingTimes and QuarterCrossingDirections must return order-aligned, equal-length results");
-        for (int k = 0; k < localTimes.Count; k++)
+        // lens local quarter: direction-tagged carrier-pair quarter crossings for this named finite
+        // configuration and window.
+        var localCrossings = ThresholdCrossings.Extract(_localCpsi!, tGrid, 0.25);
+        foreach (var crossing in localCrossings)
         {
-            double tc = localTimes[k];
-            string dir = localDirs[k] < 0 ? "down" : "up";
+            double tc = crossing.Time;
+            string dir = crossing.Direction < 0 ? "down" : "up";
             events.Add(new SymphonyEvent(tc, Gamma * tc, "local quarter",
                 $"local CΨ (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}) crosses ¼ ({dir})"));
         }
 
-        // lens local quarter: the absorbing envelope fold, and — when the beat envelope rises — the
-        // freedom (carried with its grid-sensitive caveat so a single-grid rise is never read as fact).
-        var lEnv = QuarterEnvelope.Of(_localCpsi!, tGrid);
-        if (lEnv.EnvelopeFoldTime is { } lft)
+        // lens local quarter: the finite-window last-stay-below crossing and any above-bar predecessor rise.
+        var lEnv = QuarterEnvelope.Of(_localCpsi!, tGrid,
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        if (lEnv.LastStayBelowCrossingTime is { } lft)
             events.Add(new SymphonyEvent(lft, Gamma * lft, "local quarter",
-                $"local CΨ envelope fold (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; absorbing)"));
+                $"local CΨ last-stay-below crossing (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; finite window)"));
         if (lEnv.RiseCount > 0 && lEnv.FirstRiseTime is { } lrt)
             events.Add(new SymphonyEvent(lrt, Gamma * lrt, "local quarter",
-                $"local CΨ envelope rises (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; the freedom, beating; grid-sensitive)"));
+                $"local CΨ envelope rises (carrier pair {CarrierPair.Site1},{CarrierPair.Site2}; above reporting bar on this named grid)"));
 
         // lens dose: K reaching the milestones, within the window.
         foreach (double kMark in new[] { 0.25, 0.5, 1.0 })
@@ -760,40 +757,21 @@ public sealed class Symphony : IInspectable
         return events;
     }
 
-    /// <summary>The ¼-crossing times of a CΨ array on its t grid, linearly interpolated between the
-    /// bracketing grid points (both downward and upward crossings, in case a trajectory dips and
-    /// recovers). Static so both the global and the local curves can share it.</summary>
+    /// <summary>The ¼-crossing times projected from the shared paired extractor. Strict transitions
+    /// are interpolated; an interior equality plateau uses its last equality sample. Same-side touches,
+    /// constant traces, and boundary plateaux are not crossings.</summary>
     public static List<double> QuarterCrossingTimes(double[] cpsi, double[] tGrid, double threshold = 0.25)
-    {
-        var times = new List<double>();
-        for (int s = 1; s < cpsi.Length; s++)
-        {
-            double a = cpsi[s - 1] - threshold;
-            double b = cpsi[s] - threshold;
-            if (a == 0.0) { times.Add(tGrid[s - 1]); continue; }
-            if (a * b < 0.0)
-            {
-                double frac = a / (a - b);
-                times.Add(tGrid[s - 1] + frac * (tGrid[s] - tGrid[s - 1]));
-            }
-        }
-        return times;
-    }
+        => ThresholdCrossings.Extract(cpsi, tGrid, threshold).Select(crossing => crossing.Time).ToList();
 
     /// <summary>The direction of each ¼ crossing of a CΨ array: −1 for a downward crossing (CΨ falls
     /// through ¼), +1 for an upward crossing (it rises back through ¼). Same order as
     /// <see cref="QuarterCrossingTimes(double[], double[], double)"/>.</summary>
     public static int[] QuarterCrossingDirections(double[] cpsi, double threshold = 0.25)
     {
-        var dirs = new List<int>();
-        for (int s = 1; s < cpsi.Length; s++)
-        {
-            double a = cpsi[s - 1] - threshold;
-            double b = cpsi[s] - threshold;
-            if (a == 0.0) { dirs.Add(b < 0 ? -1 : +1); continue; }
-            if (a * b < 0.0) dirs.Add(a > 0 ? -1 : +1);
-        }
-        return dirs.ToArray();
+        ArgumentNullException.ThrowIfNull(cpsi);
+        double[] indexGrid = Enumerable.Range(0, cpsi.Length).Select(index => (double)index).ToArray();
+        return ThresholdCrossings.Extract(cpsi, indexGrid, threshold)
+            .Select(crossing => crossing.Direction).ToArray();
     }
 
     /// <summary>The ¼-crossing times of the GLOBAL CΨ curve (the one trajectory's CΨ(t)).</summary>
@@ -1399,8 +1377,8 @@ public sealed class PaintersMovement : IInspectable
 /// <summary>The clock movement: the two-tempo certification. γ₀ is the Universal Carrier — invisible from
 /// inside, where only Q = J/γ₀ and K = γ₀·t are real. This plays the SAME piece at a second tempo r·γ₀
 /// (every dimensionful coupling scaled by r: J, γ, and the painters' δJ; the window ÷r; the same tPoints,
-/// so the K-grid K_i = γ·t_i is identical) and checks that every dimensionless lens curve is bit-identical
-/// at matched K — i.e. a pure (Q,K)-observable.
+/// so the K-grid K_i = γ·t_i is identical) and checks that every dimensionless lens curve agrees within
+/// the configured numerical tolerance at matched K, as predicted by the exact generator scaling identity.
 ///
 /// <para>This CERTIFIES the instruments; it does NOT confirm a law of nature. The invariance is exact
 /// algebra: scaling J and γ by r scales the whole Lindbladian L → r·L, so ρ(t; r·L) = ρ(r·t; L)
@@ -1471,8 +1449,17 @@ public sealed class TempoCertificationMovement : IInspectable
     /// residual. Static and pure so the guard logic is directly testable.</summary>
     public static double MaxAbsDiff(double[] a, double[] b)
     {
-        double m = 0.0; int n = Math.Min(a.Length, b.Length);
-        for (int i = 0; i < n; i++) m = Math.Max(m, Math.Abs(a[i] - b[i]));
+        ArgumentNullException.ThrowIfNull(a);
+        ArgumentNullException.ThrowIfNull(b);
+        if (a.Length != b.Length)
+            throw new ArgumentException("curves must have equal length.");
+        double m = 0.0;
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (!double.IsFinite(a[i]) || !double.IsFinite(b[i]))
+                throw new ArgumentException("curve values must be finite.");
+            m = Math.Max(m, Math.Abs(a[i] - b[i]));
+        }
         return m;
     }
 
@@ -1566,10 +1553,9 @@ public sealed class SeamMovement : IInspectable
     /// <summary>Regime / gate tolerance (matches ClockHandLadderWitness.BandEdgeIsTheGapMode = 1e-6).</summary>
     public const double Tol = 1e-6;
 
-    /// <summary>The closed-form N=2 carrier-pair CΨ envelope fold K_fold (from the F25/F86 closed form,
-    /// NOT a sampled ρ(t) value — the witness is spectrum-only). Aliases the canonical typed home
-    /// <see cref="CpsiBellPlus.CuspK.PureZ"/> (F25 closed form), so the fold dose can never drift.</summary>
-    public const double KFoldN2 = CpsiBellPlus.CuspK.PureZ;
+    /// <summary>The closed-form N=2 Bell+/Z final-stay-below crossing dose from F25, not a sampled
+    /// ρ(t) value. This consumer points directly at the canonical typed constant.</summary>
+    public const double KFinalStayBelowCrossingDoseN2 = CpsiBellPlus.CuspK.PureZ;
 
     public Symphony Parent { get; }
     public SeamMovement(Symphony parent) { Parent = parent; }
@@ -1772,8 +1758,8 @@ public sealed class SeamMovement : IInspectable
 
     /// <summary>the chain collapse — the payoff. Given one external peg (the takt reading in lab units),
     /// the whole chain above the leaf collapses to lab units. State-free: τ = 1/(2γ₀), ω_mem. State-class
-    /// (N=2): t_peak (Bell+) = 1/(4γ₀), the envelope fold (carrier-pair) = K_fold/γ₀ from the closed form
-    /// (K_fold = 0.0374, NOT a sampled ρ(t) value — the witness stays spectrum-only).</summary>
+    /// (N=2): t_peak (Bell+) = 1/(4γ₀), and the Bell+/Z final-stay-below crossing time from F25
+    /// (K = 0.0374, not a sampled ρ(t) value — the witness stays spectrum-only).</summary>
     private InspectableNode ChainCollapseLens()
     {
         var p = Parent;
@@ -1787,10 +1773,10 @@ public sealed class SeamMovement : IInspectable
         if (p.N == 2)
         {
             double tPeak = 1.0 / (4.0 * _gammaRec);
-            double fold = KFoldN2 / _gammaRec;
+            double crossing = KFinalStayBelowCrossingDoseN2 / _gammaRec;
             stateClass = $" State-class (N=2): t_peak (Bell+) = 1/(4γ₀) = {tPeak.ToString("0.###", Inv)} {u}; " +
-                         $"envelope fold (carrier-pair) = K_fold/γ₀ = {fold.ToString("0.###", Inv)} {u} " +
-                         $"(K_fold = {KFoldN2.ToString("0.####", Inv)}, closed form, not sampled).";
+                         $"Bell+/Z final-stay-below crossing = K/γ₀ = {crossing.ToString("0.###", Inv)} {u} " +
+                         $"(K = {KFinalStayBelowCrossingDoseN2.ToString("0.####", Inv)}, F25 closed form, not sampled).";
         }
         return new InspectableNode("the chain collapse",
             summary: $"given one external peg (the takt reading in {u}), the chain above the leaf collapses to lab " +

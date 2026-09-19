@@ -38,7 +38,7 @@ public static class CpsiBellPlus
         /// <summary>Pure Z: u³ + u = 3/2 at the crossing with u = e^{−4K}. The cubic has negative
         /// discriminant, so its real root is reachable by real radicals and K_Z = −¼·ln(u*) is
         /// exact too; 0.03735013… is a four-place reading of it, not a missing closed form. Kept
-        /// as a decimal const because Symphony.KFoldN2 chains off it at compile time.</summary>
+        /// as a decimal const because SeamMovement.KFinalStayBelowCrossingDoseN2 chains off it at compile time.</summary>
         public const double PureZ = 0.0374;
 
         /// <summary>Pure X: the l₁-coherence NORM max(|c_x|, |c_y|) is pinned (the XX correlation is

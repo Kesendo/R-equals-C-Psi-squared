@@ -1,48 +1,41 @@
 #!/usr/bin/env python3
 """
-No-Signalling Boundary: CΨ Sees a Regime Change That No Local Observer Can Detect
-==================================================================================
-Bell+ pair. B measures Z (averaged over outcomes). A's reduced state rho_A
-is unchanged (no-signalling). But CΨ = C × Ψ drops from 0.500 to 0.250,
-exactly onto the 1/4 boundary.
+No-signalling with a separate scalar quarter-band readout.
 
-Convention: C = Tr(rho_AB^2) (global purity), Ψ = max eigenvalue of rho_A.
+For a Bell+ pair, B is dephased in the Z basis and outcomes are averaged.
+A's reduced state rho_A is unchanged. The separately defined scalar
+Tr(rho_AB^2) times the largest eigenvalue of rho_A moves from 0.500 to 0.250.
 
 Script:  simulations/test2_no_signalling.py
 Output:  simulations/results/test2_no_signalling.txt
 Docs:    experiments/NO_SIGNALLING_BOUNDARY.md
 """
 
+import argparse
+from pathlib import Path
+import sys
+
 import numpy as np
 from scipy.linalg import expm
-import os, sys
 
-# ============================================================
-# OUTPUT
-# ============================================================
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        "results", "test2_no_signalling.txt")
-_outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+OUT_PATH = Path(__file__).parent / "results" / "test2_no_signalling.txt"
+_lines = None
 
 
 def log(msg=""):
+    if _lines is None:
+        raise RuntimeError("log() is available only during main().")
     print(msg, flush=True)
-    _outf.write(msg + "\n")
-    _outf.flush()
+    _lines.append(str(msg))
 
 
-# ============================================================
-# INFRASTRUCTURE (N=2)
-# ============================================================
 I2 = np.eye(2, dtype=complex)
 sx = np.array([[0, 1], [1, 0]], dtype=complex)
 sy = np.array([[0, -1j], [1j, 0]], dtype=complex)
 sz = np.array([[1, 0], [0, -1]], dtype=complex)
 up = np.array([1, 0], dtype=complex)
 dn = np.array([0, 1], dtype=complex)
-plus = (up + dn) / np.sqrt(2)
 
 N = 2
 d = 4
@@ -52,32 +45,34 @@ d2 = 16
 def site_op(op, k, nq=N):
     ops = [I2] * nq
     ops[k] = op
-    r = ops[0]
-    for o in ops[1:]:
-        r = np.kron(r, o)
-    return r
+    result = ops[0]
+    for other in ops[1:]:
+        result = np.kron(result, other)
+    return result
 
 
 def build_H(J=1.0):
-    H = np.zeros((d, d), dtype=complex)
-    for P in [sx, sy, sz]:
-        H += J * site_op(P, 0) @ site_op(P, 1)
-    return H
+    hamiltonian = np.zeros((d, d), dtype=complex)
+    for pauli in (sx, sy, sz):
+        hamiltonian += J * site_op(pauli, 0) @ site_op(pauli, 1)
+    return hamiltonian
 
 
-def build_L(H, gamma):
-    Id = np.eye(d)
-    L = -1j * (np.kron(H, Id) - np.kron(Id, H.T))
+def build_L(hamiltonian, gamma):
+    identity = np.eye(d)
+    generator = -1j * (
+        np.kron(hamiltonian, identity) - np.kron(identity, hamiltonian.T)
+    )
     for k in range(N):
-        Zk = site_op(sz, k)
-        L += gamma * (np.kron(Zk, Zk.conj()) - np.eye(d2))
-    return L
+        z_k = site_op(sz, k)
+        generator += gamma * (np.kron(z_k, z_k.conj()) - np.eye(d2))
+    return generator
 
 
-def evolve(L, rho, t):
-    v = expm(L * t) @ rho.flatten()
-    rho_out = v.reshape(d, d)
-    return (rho_out + rho_out.conj().T) / 2
+def evolve(generator, rho, time):
+    vector = expm(generator * time) @ rho.flatten()
+    evolved = vector.reshape(d, d)
+    return (evolved + evolved.conj().T) / 2
 
 
 def ptrace_A(rho):
@@ -91,177 +86,159 @@ def ket2dm(psi):
 
 
 def purity(rho):
-    return np.real(np.trace(rho @ rho))
+    return float(np.real(np.trace(rho @ rho)))
 
 
 def von_neumann_entropy(rho):
-    eigvals = np.real(np.linalg.eigvalsh(rho))
-    eigvals = eigvals[eigvals > 1e-15]
-    return -np.sum(eigvals * np.log2(eigvals))
+    eigenvalues = np.real(np.linalg.eigvalsh(rho))
+    eigenvalues = eigenvalues[eigenvalues > 1e-15]
+    return float(-np.sum(eigenvalues * np.log2(eigenvalues)))
 
 
 def apply_B_measurement_Z(rho):
-    """B measures in Z basis (averaged over outcomes)."""
-    P0 = site_op(np.outer(up, up.conj()), 1)
-    P1 = site_op(np.outer(dn, dn.conj()), 1)
-    return P0 @ rho @ P0.conj().T + P1 @ rho @ P1.conj().T
+    """Apply the outcome-averaged local Z measurement channel on B."""
+    p0 = site_op(np.outer(up, up.conj()), 1)
+    p1 = site_op(np.outer(dn, dn.conj()), 1)
+    return p0 @ rho @ p0.conj().T + p1 @ rho @ p1.conj().T
 
 
 def cpsi(rho_AB):
-    """CΨ = Tr(rho_AB^2) × max eigenvalue of rho_A."""
-    C = purity(rho_AB)
+    """Separately defined scalar for the fixed A|B subsystem split."""
     rho_A = ptrace_A(rho_AB)
-    Psi = np.max(np.real(np.linalg.eigvalsh(rho_A)))
-    return C * Psi
+    psi_readout = np.max(np.real(np.linalg.eigvalsh(rho_A)))
+    return purity(rho_AB) * psi_readout
 
 
-def regime(val):
-    if val > 0.2501:
-        return "quantum"
-    elif val > 0.2499:
-        return "boundary"
-    else:
-        return "classical"
+def quarter_band(value, tolerance=1e-4):
+    if value > 0.25 + tolerance:
+        return "above 1/4"
+    if value < 0.25 - tolerance:
+        return "below 1/4"
+    return "equal to 1/4"
 
 
-# ============================================================
-# TEST 1: Static (no evolution) — B measures Z on Bell+
-# ============================================================
-log("=" * 70)
-log("No-Signalling Boundary: CΨ Regime Change")
-log("=" * 70)
-log()
+def no_signalling_reading(rho_A_before, rho_A_after, tolerance=1e-12):
+    """Return the reduced-state distance and its tolerance-scoped equality."""
+    delta = float(np.linalg.norm(rho_A_before - rho_A_after))
+    unchanged = bool(np.allclose(
+        rho_A_before, rho_A_after, atol=tolerance, rtol=0.0
+    ))
+    return delta, unchanged
 
-bell_plus = (np.kron(up, up) + np.kron(dn, dn)) / np.sqrt(2)
-rho_before = ket2dm(bell_plus)
-rho_after = apply_B_measurement_Z(rho_before)
 
-rho_A_before = ptrace_A(rho_before)
-rho_A_after = ptrace_A(rho_after)
-delta = np.linalg.norm(rho_A_before - rho_A_after)
+def main(output_path=OUT_PATH):
+    global _lines
+    if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    _lines = []
 
-log("Test 1: Bell+ pair, B measures Z (averaged over outcomes)")
-log("-" * 70)
-log(f"  ||Δρ_A|| = {delta:.10f}")
-log()
+    log("QUARTER-CURRENT")
+    log("Current reading: reduced-state equality carries no-signalling; the scalar bin is separate.")
+    log()
+    log("=" * 70)
+    log("No-signalling and a separate scalar quarter-band readout")
+    log("=" * 70)
+    log()
 
-# Full observable table
-log(f"  {'Quantity':>20}  {'Before':>10}  {'After':>10}  {'Changed?':>9}  {'A sees?':>8}")
-log("  " + "-" * 62)
+    bell_plus = (np.kron(up, up) + np.kron(dn, dn)) / np.sqrt(2)
+    rho_before = ket2dm(bell_plus)
+    rho_after = apply_B_measurement_Z(rho_before)
 
-observables = [
-    ("rho_A", "I/2", "I/2", delta < 1e-12, False),
-]
+    rho_A_before = ptrace_A(rho_before)
+    rho_A_after = ptrace_A(rho_after)
+    delta, no_signalling = no_signalling_reading(rho_A_before, rho_A_after)
 
-# Pauli expectations on A
-for name, P in [("⟨σx⟩_A", sx), ("⟨σy⟩_A", sy), ("⟨σz⟩_A", sz)]:
-    before = np.real(np.trace(rho_A_before @ P))
-    after = np.real(np.trace(rho_A_after @ P))
-    changed = abs(before - after) > 1e-12
-    log(f"  {name:>20}  {before:10.3f}  {after:10.3f}  {'YES' if changed else 'NO':>9}  {'-':>8}")
+    log("Test 1: Bell+ pair, averaged local Z measurement channel on B")
+    log("-" * 70)
+    log(f"  ||delta rho_A|| = {delta:.10f}")
+    log()
+    log(f"  {'Quantity':>20}  {'Before':>10}  {'After':>10}  {'Changed?':>9}")
+    log("  " + "-" * 55)
 
-# Purity of A
-pur_A_before = purity(rho_A_before)
-pur_A_after = purity(rho_A_after)
-log(f"  {'Purity(rho_A)':>20}  {pur_A_before:10.3f}  {pur_A_after:10.3f}  "
-    f"{'YES' if abs(pur_A_before - pur_A_after) > 1e-12 else 'NO':>9}  {'-':>8}")
+    for name, pauli in (("<sigma_x>_A", sx), ("<sigma_y>_A", sy), ("<sigma_z>_A", sz)):
+        before = float(np.real(np.trace(rho_A_before @ pauli)))
+        after = float(np.real(np.trace(rho_A_after @ pauli)))
+        changed = abs(before - after) > 1e-12
+        log(f"  {name:>20}  {before:10.3f}  {after:10.3f}  {'YES' if changed else 'NO':>9}")
 
-# Entropy of A
-S_before = von_neumann_entropy(rho_A_before)
-S_after = von_neumann_entropy(rho_A_after)
-log(f"  {'S(rho_A)':>20}  {S_before:10.3f}  {S_after:10.3f}  "
-    f"{'YES' if abs(S_before - S_after) > 1e-12 else 'NO':>9}  {'-':>8}")
+    purity_A_before = purity(rho_A_before)
+    purity_A_after = purity(rho_A_after)
+    log(f"  {'Purity(rho_A)':>20}  {purity_A_before:10.3f}  {purity_A_after:10.3f}  "
+        f"{'YES' if abs(purity_A_before - purity_A_after) > 1e-12 else 'NO':>9}")
 
-# Ψ = max eigenvalue of rho_A
-Psi_before = np.max(np.real(np.linalg.eigvalsh(rho_A_before)))
-Psi_after = np.max(np.real(np.linalg.eigvalsh(rho_A_after)))
-log(f"  {'Ψ (max eig rho_A)':>20}  {Psi_before:10.3f}  {Psi_after:10.3f}  "
-    f"{'YES' if abs(Psi_before - Psi_after) > 1e-12 else 'NO':>9}  {'-':>8}")
+    entropy_before = von_neumann_entropy(rho_A_before)
+    entropy_after = von_neumann_entropy(rho_A_after)
+    log(f"  {'S(rho_A)':>20}  {entropy_before:10.3f}  {entropy_after:10.3f}  "
+        f"{'YES' if abs(entropy_before - entropy_after) > 1e-12 else 'NO':>9}")
 
-# C = Tr(rho_AB^2)
-C_before = purity(rho_before)
-C_after = purity(rho_after)
-log(f"  {'C = Tr(rho_AB²)':>20}  {C_before:10.3f}  {C_after:10.3f}  "
-    f"{'YES' if abs(C_before - C_after) > 1e-12 else 'NO':>9}  {'NO':>8}")
+    psi_before = float(np.max(np.real(np.linalg.eigvalsh(rho_A_before))))
+    psi_after = float(np.max(np.real(np.linalg.eigvalsh(rho_A_after))))
+    global_purity_before = purity(rho_before)
+    global_purity_after = purity(rho_after)
+    scalar_before = global_purity_before * psi_before
+    scalar_after = global_purity_after * psi_after
 
-# CΨ
-cpsi_before = C_before * Psi_before
-cpsi_after = C_after * Psi_after
-log(f"  {'CΨ':>20}  {cpsi_before:10.3f}  {cpsi_after:10.3f}  "
-    f"{'YES' if abs(cpsi_before - cpsi_after) > 1e-12 else 'NO':>9}  {'NO':>8}")
+    log(f"  {'max eig(rho_A)':>20}  {psi_before:10.3f}  {psi_after:10.3f}  "
+        f"{'YES' if abs(psi_before - psi_after) > 1e-12 else 'NO':>9}")
+    log(f"  {'Tr(rho_AB^2)':>20}  {global_purity_before:10.3f}  {global_purity_after:10.3f}  "
+        f"{'YES' if abs(global_purity_before - global_purity_after) > 1e-12 else 'NO':>9}")
+    log(f"  {'scalar readout':>20}  {scalar_before:10.3f}  {scalar_after:10.3f}  "
+        f"{'YES' if abs(scalar_before - scalar_after) > 1e-12 else 'NO':>9}")
+    log(f"  {'quarter band':>20}  {quarter_band(scalar_before):>10}  "
+        f"{quarter_band(scalar_after):>10}  {'YES':>9}")
 
-# Regime
-log(f"  {'Regime':>20}  {regime(cpsi_before):>10}  {regime(cpsi_after):>10}  "
-    f"{'YES':>9}  {'NO':>8}")
+    if not no_signalling:
+        raise AssertionError(f"rho_A changed: ||delta rho_A||={delta:.3e}")
+    log()
+    log("No-signalling verdict: rho_A is unchanged under the averaged local channel on B.")
+    log(f"Global purity: {global_purity_before:.3f} -> {global_purity_after:.3f}")
+    log(f"Scalar readout: {scalar_before:.3f} -> {scalar_after:.3f} "
+        f"({quarter_band(scalar_before)} -> {quarter_band(scalar_after)}).")
 
-log()
-if delta < 1e-12:
-    log("PASS: No-signalling holds exactly. rho_A unchanged.")
-    log(f"  CΨ: {cpsi_before:.3f} → {cpsi_after:.3f} ({regime(cpsi_before)} → {regime(cpsi_after)})")
-else:
-    log(f"FAIL: ||Δρ_A|| = {delta:.2e}")
+    log()
+    log("Test 2: Bell+ under local Z dephasing; apply the same channel at each sampled time")
+    log("-" * 70)
+    gamma = 0.05
+    hamiltonian = build_H(1.0)
+    generator = build_L(hamiltonian, gamma)
+    rho0 = ket2dm(bell_plus)
+    log(f"  {'t':>6}  {'scalar(no)':>12}  {'scalar(B->Z)':>12}  "
+        f"{'||delta rho_A||':>16}  {'band(no)':>14}  {'band(Z)':>14}")
+    for time in (0.0, 0.5, 1.0, 2.0, 5.0, 10.0):
+        rho_t = evolve(generator, rho0, time)
+        rho_bz = apply_B_measurement_Z(rho_t)
+        local_delta = np.linalg.norm(ptrace_A(rho_t) - ptrace_A(rho_bz))
+        scalar_no = cpsi(rho_t)
+        scalar_bz = cpsi(rho_bz)
+        log(f"  {time:6.1f}  {scalar_no:12.4f}  {scalar_bz:12.4f}  "
+            f"{local_delta:16.2e}  {quarter_band(scalar_no):>14}  "
+            f"{quarter_band(scalar_bz):>14}")
 
-# ============================================================
-# TEST 2: Time evolution with dephasing
-# ============================================================
-log()
-log("Test 2: Bell+ under dephasing, B measures Z at t=2")
-log("-" * 70)
+    log()
+    log("Test 3: finite scalar trajectories after applying the channel at t=2")
+    log("-" * 70)
+    rho_t2 = evolve(generator, rho0, 2.0)
+    rho_t2_bz = apply_B_measurement_Z(rho_t2)
+    log(f"  {'t':>6}  {'scalar(no)':>12}  {'scalar(channel@2)':>18}  {'difference':>12}")
+    for after in (0.0, 0.5, 1.0, 2.0, 5.0):
+        scalar_no = cpsi(evolve(generator, rho_t2, after))
+        scalar_bz = cpsi(evolve(generator, rho_t2_bz, after))
+        log(f"  {2.0 + after:6.1f}  {scalar_no:12.4f}  {scalar_bz:18.4f}  "
+            f"{scalar_bz - scalar_no:12.4f}")
 
-gamma = 0.05
-J = 1.0
-H = build_H(J)
-L = build_L(H, gamma)
+    log()
+    log("=" * 70)
+    log("The exact reduced-state equality carries the no-signalling statement.")
+    log("The scalar quarter-band change is not a physical boundary.")
+    log("Completed: deterministic rerun")
+    log("Results: simulations/results/test2_no_signalling.txt")
 
-rho0 = ket2dm(bell_plus)
+    destination = Path(output_path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_bytes(("\n".join(_lines) + "\n").encode("utf-8"))
 
-# Evolve to several time points, apply B measurement, compare rho_A
-log(f"  {'t':>6}  {'CΨ(no meas)':>12}  {'CΨ(B→Z)':>10}  {'||Δρ_A||':>12}  {'Regime(no)':>11}  {'Regime(Z)':>10}")
 
-check_times = [0.0, 0.5, 1.0, 2.0, 5.0, 10.0]
-for t in check_times:
-    rho_t = evolve(L, rho0, t)
-    rho_Bz = apply_B_measurement_Z(rho_t)
-
-    rho_A_no = ptrace_A(rho_t)
-    rho_A_Bz = ptrace_A(rho_Bz)
-    diff = np.linalg.norm(rho_A_no - rho_A_Bz)
-
-    cpsi_no = cpsi(rho_t)
-    cpsi_Bz = cpsi(rho_Bz)
-
-    log(f"  {t:6.1f}  {cpsi_no:12.4f}  {cpsi_Bz:10.4f}  {diff:12.2e}  "
-        f"{regime(cpsi_no):>11}  {regime(cpsi_Bz):>10}")
-
-# ============================================================
-# TEST 3: CΨ trajectory comparison (with/without measurement)
-# ============================================================
-log()
-log("Test 3: CΨ trajectory — measurement at t=2, then continue evolving")
-log("-" * 70)
-
-rho_t2 = evolve(L, rho0, 2.0)
-rho_t2_Bz = apply_B_measurement_Z(rho_t2)
-
-log(f"  {'t':>6}  {'CΨ(no meas)':>12}  {'CΨ(meas@t=2)':>14}  {'ΔCΨ':>8}")
-
-for dt_after in [0.0, 0.5, 1.0, 2.0, 5.0]:
-    rho_no = evolve(L, rho_t2, dt_after)
-    rho_Bz = evolve(L, rho_t2_Bz, dt_after)
-
-    c_no = cpsi(rho_no)
-    c_Bz = cpsi(rho_Bz)
-
-    log(f"  {2.0 + dt_after:6.1f}  {c_no:12.4f}  {c_Bz:14.4f}  {c_Bz - c_no:8.4f}")
-
-# ============================================================
-# SUMMARY
-# ============================================================
-log()
-log("=" * 70)
-log("CΨ sees the regime change (0.500 → 0.250). A cannot see it.")
-log("C drops (1.0 → 0.5). Ψ stays (0.5 → 0.5). rho_A unchanged.")
-log("Dynamic bridge eliminated: B cannot send new information to A.")
-log("=" * 70)
-
-_outf.close()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", default=OUT_PATH)
+    main(output_path=parser.parse_args().output)

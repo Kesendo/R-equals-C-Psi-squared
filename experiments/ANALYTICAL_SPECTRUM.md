@@ -91,18 +91,18 @@ Now: evaluate cos(πk/N) for k=1..N-1. Instant for any N.
 
 ## Derived Results
 
-### A. The V-Effect gain for every mode
+### A. N=2-reference frequency quotients and the F6 edge
 
-The [V-Effect gain](THERMAL_BREAKING.md) V(N) = 1+cos(π/N) was the
-ratio of maximum frequencies. The full spectrum gives a gain for each
-mode index k (comparing the k-th frequency at chain length N to that
-at N=2):
+For each mode index `k`, the full spectrum gives a cross-N reference quotient
+against the only N=2 frequency:
 
     ω_k(N) / ω_1(2) = (1 - cos(πk/N)) / (1 - cos(π/2)) = 1 - cos(πk/N)
 
-Since ω_1(2) = 4J (the only N=2 frequency), the gain for mode k at
-chain length N relative to the single N=2 mode is simply 1-cos(πk/N).
-The maximum (at k=N-1) gives V(N) = 1+cos(π/N) as before.
+Since `ω_1(2)=4J`, this quotient is `1-cos(πk/N)`. These per-mode
+N=2-reference quotients are not the V-Effect census and are not F6. Only their
+maximum happens to equal the separately defined **F6 Q-edge gain**
+`V(N)=Q_max/Q_mean=1+cos(π/N)` because the within-N mean here is `2J/γ`.
+“V-Effect gain” is only the historical alias for that F6 edge ratio.
 
 ### B. Q-factor spectrum for any N
 

@@ -31,11 +31,31 @@ public class CpsiEnvelopeTheoremClaimRegistrationTests
     }
 
     [Fact]
-    public void Register_AncestorsContainBothParents()
+    public void Register_DirectGetDependencies_AreExactlyF25AndQuarter()
     {
         var registry = BuildBaseRegistry().RegisterCpsiEnvelopeTheoremClaim().Build();
-        var ancestors = registry.AncestorsOf<CpsiEnvelopeTheoremClaim>().ToList();
-        Assert.Contains(ancestors, a => a is F25CPsiBellPlusPi2Inheritance);
-        Assert.Contains(ancestors, a => a is QuarterAsBilinearMaxvalClaim);
+        var directEdges = registry.EdgesInto<CpsiEnvelopeTheoremClaim>().ToList();
+        var directParentTypes = directEdges.Select(edge => edge.Parent).ToHashSet();
+
+        Assert.Equal(2, directEdges.Count);
+        Assert.Equal(2, directParentTypes.Count);
+        Assert.Equal(
+            new[]
+            {
+                typeof(F25CPsiBellPlusPi2Inheritance),
+                typeof(QuarterAsBilinearMaxvalClaim),
+            }.OrderBy(type => type.FullName),
+            directParentTypes.OrderBy(type => type.FullName));
+    }
+
+    [Fact]
+    public void Register_ExposesRepairedClaimInsteadOfHistoricalAbsorber()
+    {
+        var claim = BuildBaseRegistry().RegisterCpsiEnvelopeTheoremClaim().Build()
+            .Get<CpsiEnvelopeTheoremClaim>();
+        Assert.Contains("historical Envelope package is false", claim.Name);
+        Assert.Contains("remains unproved", claim.Name);
+        Assert.Contains("conditional convergence implication", claim.Name);
+        Assert.DoesNotContain("confirmed universally", claim.Name);
     }
 }

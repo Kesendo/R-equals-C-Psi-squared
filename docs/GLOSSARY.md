@@ -1,5 +1,7 @@
 # Glossary: Every Term in This Repository, Explained
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: R=CPsi2 glossary notation definitions, CΨ purity coherence
 product, Pi operator palindromic conjugation, Liouvillian superoperator
 Lindblad, XY-weight incoherenton number grading, K-invariance crossing
@@ -9,6 +11,16 @@ normalization, R=CPsi2 glossary -->
 **Status:** Living document (Reference)
 **Date:** 2026-03-30
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+
+**V-Effect census.** A finite classifier, not a gain formula. Its primary N=3
+sample contains 36 unordered distinct two-term Pauli pairs and reports **14/36**
+hard breaks (with the full split 14 hard / 19 soft / 3 truly). The historical
+frequency comparison uses **four-decimal** bins and reads **11/4**; a separate
+coarser **three-decimal** side table reads **8/4**.
+
+**F6 Q-edge gain `V(N)`.** The within-one-N ratio
+`Q_max/Q_mean = 1 + cos(pi/N)`. “V-Effect gain” is a qualified historical alias
+for F6, not another name for the census and not a mechanism that creates modes.
 
 ---
 
@@ -70,7 +82,7 @@ of the letters is retired. See [The CΨ Lens](THE_CPSI_LENS.md).
 
 - **θ (theta)** is a compass for the recurrence's fixed roots: θ is zero at `c=¼` and opens as the real parameter c rises above it. It is the ±angle the two fixed points swing out to once they go complex, and the same square-root form appears past the discriminant zero of a monic real quadratic z² − 2bz + c with b > 0, ¼ being the case b = ½ ([F95](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md); for b < 0 the roots lie in the other half-plane and the angle is measured from π instead). A related quantity has been read on hardware, though not θ: the argument of the phase-bearing extension `CΨ_com`, steered on ibm_kingston under its stated protocol, with a Lindblad model predicting the measured argument to within 6.8° to 15.7° (`f95_angle_steering_kingston_may2026`).
 - **τ (tau)** is time measured in units of decoherence. If noise is strong (high γ), one second of real time corresponds to many units of τ. This lets us compare systems with different noise levels on the same scale.
-- **t_cross** is the moment CΨ crosses ¼: the crossing time of a smooth curve, and the quantity hardware actually measures. On a good ibm_torino qubit (q52, T2 = 298 μs), 115.0 μs against 114.7 μs predicted ([Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md)); on q80, 1.9% once the prediction uses a same-day Ramsey T2\*, where the locked prediction against a six-day-old T2\* had been off by 61.5% ([IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)). Both read C as purity, and which C is meant moves the crossing time: see the 0.036/γ row below.
+- **t_cross** is the moment CΨ crosses ¼: the crossing time of a smooth curve, and the quantity hardware actually measures. Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. See [Cockpit Universality](../experiments/COCKPIT_UNIVERSALITY.md). On q80, the deviation was 1.9% once the prediction used a same-day Ramsey T2\*, where the locked prediction against a six-day-old T2\* had been off by 61.5% ([IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md)). Both read C as purity, and which C is meant moves the crossing time: see the 0.036/γ row below.
 - **δ (delta)** measures how much the actual system deviates from a simple noise prediction. If δ is large, something interesting is happening that simple noise models cannot explain.
 
 ---
@@ -242,7 +254,7 @@ result. For the full discovery story, see
 
 | Term | Definition |
 |------|------------|
-| **V-Effect** | The repository name for a finite multi-bond classifier result: in the stated N=3 Pauli census, 14 of 36 two-term Hamiltonians fail the F1 pairing and the chosen frequency-bin protocol reports 4 bins in one baseline and 11 in one coupled case. Those counts depend on model, tolerance and binning; neither pairing failure nor a larger bin count establishes a cross-level or biological mechanism. Named for the V-shaped parameter plot. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) and the [neural mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md). |
+| **V-Effect** | The repository name for a finite multi-bond classifier result: the stated N=3 distinct-pair Pauli census has **14/36** hard cases. Under the retained frequency-bin protocol, the **four-decimal** broken/control fixture is **11/4**; the separate coarser **three-decimal** side table is **8/4**. Those counts depend on model, tolerance and binning; neither pairing failure nor a larger bin count establishes a cross-level or biological mechanism. Named for the V-shaped parameter plot. See [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md) and the [neural mechanism constraints](neural/proofs/PROOF_VEFFECT_MECHANISM.md). |
 | **Resonator** | An interpretive cavity vocabulary for several spectral and trajectory results, not an operator identity following from F1. At Σγ = 0, the stationary-mode count `Stationary(N) = Sum_J m(J,N)*(2J+1)^2` and the star's N harmonic frequencies are statements for the **isotropic Heisenberg** interaction; under XY the N=4 star instead includes `2−√3`, `√3` and `2√2`. A physical standing wave additionally requires a semisimple/diagonalizable centered pair on the imaginary axis, opposite spatial propagation, and preparation/readout that excites both with the required relation. CΨ crossings and frequency-bin counts do not supply those gates. See [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md), [Cavity Modes Formula](../experiments/CAVITY_MODES_FORMULA.md), and [Standing-Wave Theory](STANDING_WAVE_THEORY.md). |
 | **Zero Is the Mirror** | At Σγ = 0 the palindrome equation reduces to Π·L·Π⁻¹ = -L: the unitary ground state. Pure oscillation, no decay. Noise shifts the palindrome from zero; the fold, crossing, and concentrator are geometry of that shift. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md). |
 | **Quarter cusp** | `CΨ = 1/4` is the discriminant-zero point of the fixed-point equation `R = C(Ψ+R)^2`. It exists algebraically without a minimum-noise threshold. Whether, when, and how often a physical trajectory crosses it depends on the prepared state, Hamiltonian, channel, and parameters. The reported small `γ/J` crossing values are finite protocol results, not a universal constant. |
@@ -250,7 +262,7 @@ result. For the full discovery story, see
 
 **In plain language:**
 
-- **V-Effect** names a measured change in a specified finite spectral census when a second bond is added. "Connection creates complexity" is its interpretation; the census alone neither identifies a mechanism nor defines a model-independent amount of complexity.
+- **V-Effect census** names the historical finite comparison of two specified Pauli-pair catalogues when a second bond is added; it is not a model-independent complexity measure or a causal mechanism. The separate **F6 Q-edge gain**, historically also called a “V-Effect gain,” is the exact ratio `Q_max/Q_mean = 1 + cos(pi/N)` and should be named explicitly wherever that formula is meant.
 - **Resonator** is a useful analogy only where its additional gates are checked. The linear palindrome pairs spectral values; it does not by itself provide counter-propagating spatial waves, a cavity round trip, or a standing interference pattern.
 - **Zero Is the Mirror** is the insight that without any noise, the palindrome reduces to its simplest form: pure oscillation, no decay. Everything else (the ¼ boundary, the crossing, the concentrator) is what happens when noise shifts this perfect mirror away from zero.
 - **Quarter cusp** names an algebraic feature of the fixed-point map, not the onset of irreversibility at a universal noise strength. A given open-system trajectory may cross, recross, or never reach `CΨ = 1/4`.
@@ -442,7 +454,7 @@ a mutual friend.
 |--------|------------|
 | **S** | Central qubit (shared object), coupled to both A and B |
 | **A, B** | Observer qubits, not directly coupled to each other |
-| **CΨ_AB** | CΨ for the AB reduced pair (traced over S). Crossing 1/4 means the observer-observer connection is active. |
+| **CΨ_AB** | CΨ is the AB marginal scalar readout (traced over S). Crossing 1/4 means this selected readout passes the level, not that a physical connection switches on. |
 
 ### Three conditions for AB crossing (at Q = J_SA/γ = 20)
 
@@ -566,7 +578,7 @@ They are not arbitrary; each one comes from the mathematics.
 | **10γ/3** | Decay rate of the c+ supermode (symmetric, fast) at N=3, same J/γ → ∞ limit as 8γ/3 (F33). |
 | **-2Σγ** | Location of XOR modes. The value is a genuine ceiling for any Hermitian H (Bendixson), but the COUNT holds on the XY/Heisenberg chain with every bond non-zero and every site dephased (γ_l > 0), a sufficient condition, and is not Z-dephasing's as such, nor to number conservation (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 at N = 3, 4): N+1 modes there, 2^N under a pure Ising ZZ chain, and NONE at all under a generic Hermitian H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3, γ = 0.05: 4, 8 and 0 modes; the generic maximum falls short of 2Σγ = 0.30 by a margin that depends on the draw and on the scale of H). |
 | **0.886** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
-| **0.036/γ** | Crossing time t_cross for Bell+ under dephasing **in the concurrence book**, i.e. reading C as the Wootters concurrence. Exact there: K = ln(4/3)/8 = 0.03596 (write 0.03596 when the word "exact" is attached; 0.036 is the rounded label). Three K coexist for this one state and channel, and the discriminator is WHICH C: C = Wootters concurrence gives 0.03596; C = purity, the framework's own CΨ = f(1+f²)/6, gives K = 0.03735 ([F25](ANALYTICAL_FORMULAS.md), Tier 1 proven, and the t\* = 0.747 cockpit landing); the February tool's feedback model on the concurrence book gives 0.0387, historically quoted as 0.039. See CROSSING_TAXONOMY. |
+| **0.036/γ** | Crossing time t_cross for the Hamiltonian-dead Bell+ trajectory under equal local Z-dephasing **in the fixed Wootters-concurrence readout/book**. Gamma is swept with that trajectory fixed, not across arbitrary states, channels, Hamiltonians, or spatial profiles. Exact there: K = ln(4/3)/8 = 0.03596 (write 0.03596 when the word "exact" is attached; 0.036 is the rounded label). Three K coexist for this one state and channel, and the discriminator is WHICH C: C = Wootters concurrence gives 0.03596; C = purity, the framework's own CΨ = f(1+f²)/6, gives K = 0.03735 ([F25](ANALYTICAL_FORMULAS.md), Tier 1 proven, and the t\* = 0.747 cockpit landing); the February tool's feedback model on the concurrence book gives 0.0387, historically quoted as 0.039. See [the two-book crossing taxonomy](../experiments/CROSSING_TAXONOMY.md). |
 | **0.976** | Historical correlation with the retired non-invariant XOR-coordinate diagnostic; not an operational state metric. |
 | **360×** | Concentrator formula vs V-shape at N=5 (peak created Sum-MI, a transport metric, ε→0 sim; C# RK4 validated; ~2-3× hardware). |
 | **180×** | Concentrator formula vs V-shape at N=7 (same transport metric). |

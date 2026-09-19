@@ -6,8 +6,8 @@ Modules:
   pauli         — Pauli matrices, basis transforms, _build_bilinear
   symmetry      — Π conjugation, F71 chain-mirror, chiral panel, Y-parity panel
   lindblad      — Lindbladian, palindrome residual, ‖M‖² scaling
-  observables   — Π-protected observables (Section 10)
-  lebensader    — cockpit_panel (Section 11): skeleton + trace + cusp
+  observables   — state-conditioned silent census (compatibility API retained)
+  lebensader    — cockpit_panel: census + trace + quarter classifier
   chain_system  — ChainSystem (Section 18 cockpit, the workhorse class)
   receiver      — Receiver (state-bearing F71-aware wrapper)
   confirmations — Confirmations (hardware-confirmed predictions registry)

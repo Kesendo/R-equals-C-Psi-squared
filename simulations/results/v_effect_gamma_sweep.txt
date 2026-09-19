@@ -1,3 +1,17 @@
+<!-- VEFFECT-CURRENT -->
+=== CURRENT READING (2026-09-15) ===
+The table below is a historical captured sweep. All 19 displayed uniform-gamma
+rows tie at Q5/Q2 = 1.81x to printed precision; gamma/J=0.001 is merely the
+first row, not a unique peak. Q5/Q2 is a finite cross-N reference quotient,
+not the within-N F6 Q-edge gain. The largest sampled protection lies at the
+upper edge-gamma boundary (10.0), while the largest sampled heartbeat lies at
+the lower bath-gamma boundary (0.001, contrast 0.1x; the old 0x display rounded
+that value to zero). Neither boundary locates an optimum. No irreversibility,
+mode-creation, or complexity mechanism follows from these rows; optimization
+remains open.
+
+<!-- VEFFECT-HISTORICAL -->
+=== HISTORICAL CAPTURE (numeric body retained) ===
 ======================================================================
 V-EFFECT GAMMA SWEEP: Finding the Perfect Breaking
 ======================================================================

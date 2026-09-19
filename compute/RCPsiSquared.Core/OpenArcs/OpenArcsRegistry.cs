@@ -2196,7 +2196,7 @@ public static class OpenArcsRegistry
             Opened: "2026-06-11",
             Origin: "QuditPartialPalindromeWitness, the first live witness",
             ParkedAt: "four claims recompute their evidence live (F121 qudit, F116 router, the " +
-                "CPsi Envelope Theorem via EnvelopeTheoremWitness / --root envelope, and now the two clocks " +
+                "finite CΨ envelope-rise atlas via EnvelopeTheoremWitness / --root envelope, and now the two clocks " +
                 "via ClockHandLadderWitness / --root clock: the coherence hand = gamma-protected band edge " +
                 "2J*cos(pi/(N+1)) for N>=3 vs the gamma-pulled 2*sqrt(J^2-gamma^2) at N=2 stopping at Q=1; " +
                 "typed home ClockHandLadderClaim, see arc clock_hand_ladder); FIVE: CoherenceHorizonWitness / " +
@@ -2264,13 +2264,17 @@ public static class OpenArcsRegistry
                 "ROOT IDENTIFIED (2026-06-17, niven_rationality_root.py, gate-first sympy-exact): the small-N specials do " +
                 "NOT all share one root - there are (at least) TWO. (A) THE NUMBER-THEORETIC ROOT = Niven's theorem on the " +
                 "cyclotomic angle pi/(N+1) (the only rational cosines of rational-pi angles are 0,+-1/2,+-1), with THREE " +
-                "faces by angle convention: RE the dissipator rates -2g*sin^2(k*pi/(N+1)) rational iff N+1 in {1,2,3,4,6} " +
-                "(the crystallographic set, F65/F99 'Niven rationality'; N=3 last rational before the gap, N=5 a rational " +
-                "island); IM the band edge 2cos(pi/(N+1)) rational iff N<=2, a single quadratic surd (a+-sqrt b) iff N<=5 " +
-                "(sqrt2/phi/sqrt3 at N=3/4/5), first cubic at N=6 (degree = euler_phi(2(N+1))/2; NEW, not previously " +
-                "documented); V the V-Effect gain 1+cos(pi/N) Niven-rational iff N in {2,3}, golden at N=5 " +
+                "faces by angle convention: for the uniform open XX chain with one dephased endpoint, RE the F65 first-order endpoint coefficient a_k = (4/(N+1))·sin²(kπ/(N+1)) " +
+                "is rational for every k iff N+1 in {1,2,3,4,6}; α_k^full = γ₀·a_k + O(γ₀³/J²) and " +
+                "α_k^full/γ₀ = a_k + O((γ₀/J)²), so exact Niven rationality belongs to the first-order coefficient comb, " +
+                "while the relative full-L rate shift is O((γ₀/J)²), equivalently the absolute shift δα_k = O(γ₀³/J²), " +
+                "and no exact finite-γ₀/J full-L rationality is claimed (the crystallographic set, F65/F99; N=3 last rational before the gap, N=5 a rational " +
+                "island); IM the band edge 2cos(pi/(N+1)) has degree at most 2 iff N<=5: it is rational iff N<=2 " +
+                "and a quadratic surd (a+-sqrt b) exactly for N in {3,4,5} (sqrt2/phi/sqrt3); its degree is >=3 from N=6 (first cubic) " +
+                "by the complete low-totient classification (degree = euler_phi(2(N+1))/2), with a bounded SymPy minimal-polynomial cross-check through N=10 (now documented); F6 the Q-edge gain 1+cos(pi/N) (historical alias: V-Effect gain), " +
+                "Niven-rational iff N in {2,3}, golden at N=5 " +
                 "(OFF_NIVEN_AS_WAVE_BREAKING.md). N=4 = FIRST GOLDEN on the two SE faces (band edge = phi = 2cos(pi/5); " +
-                "rates carry sqrt5); the V-face golden is N=5 (angle pi/N), so 'first golden' is convention-dependent. THIS " +
+                "first-order coefficients carry sqrt5); the F6-face golden is N=5 (angle pi/N), so 'first golden' is convention-dependent. THIS " +
                 "is why the clean closed forms (Q* clean-2x2, band edge) exist at small N and degrade beyond: a " +
                 "number-theoretic ceiling, not a physics accident. (B) THE COMBINATORIAL ROOT = small-N filling maximality " +
                 "(the (n,n)/{0,2} extra modes at N=3, the (2,2) N=4 anomalies above), independent of the arithmetic; " +
@@ -2283,7 +2287,7 @@ public static class OpenArcsRegistry
                 "the Im axis (frequencies, L_H graph spectrum) IS the cyclotomic ladder 2cos(pi/(N+1)) directly; the Re axis " +
                 "(decay, L_D commutant) is RATIONAL (the structural ceiling g2=4/N, S_N standard-rep principal angle " +
                 "lambda2=(N-2)/N). The (2,2) half-filling anomaly is where a polygon surd LEAKS onto the Re side. CAVEAT: " +
-                "'Re rational / Im surd' is not exact - the F65 single-excitation rates are Re-values yet cyclotomically " +
+                "'Re rational / Im surd' is not exact - F65's first-order single-excitation coefficients are Re-face values yet cyclotomically " +
                 "flavored (rational only on {1,2,3,4,6}), and the (2,2) ceiling is itself a surd; the sharper axis is " +
                 "graph-spectral (cyclotomic) vs S_N-standard-rep (rational). N=4 POLYGON CONFLUENCE: at the first even " +
                 "half-filled N, three sectors light three DISTINCT polygons at once - single-excitation band edge = pentagon " +
@@ -2492,46 +2496,30 @@ public static class OpenArcsRegistry
             Name: "envelope_n4_rise",
             Opened: "2026-06-12",
             Origin: "EnvelopeTheoremWitness, day one: inspect --root envelope --N 4 fired the honest branch",
-            ParkedAt: "the full-state CPsi envelope GENUINELY RISES at N=4 (Bell+, J=5, gamma=0.01): 36 apex-predecessor rises, refinement-stable to 5 decimals (t=4.14: 0.04132 at 1600 and 6400 pts), 2-4% magnitudes, two independent implementations agree; N=3 holds in the same regime (0 rises, three densities). NOT a falsification of the proof: the Envelope Theorem is proven for N=2 only, and the Tier-2 'N=3-5' verification covered channel monotonicity / GHZ-W subsystems, not the H-included envelope at strong coupling; the over-broad paraphrase lived in our claim/lens text. Mechanism = the proof's own Part 6, internalized: internal J-coupling is its own coherence injector",
-            NextStep: "RE-SCOPE DONE 2026-06-15: the over-broad 'verified N=3-5' is corrected to 'proven Tier-1 " +
-                "for any 2-qubit state (N=2); the N≥3 full-state envelope is OPEN and GENUINELY RISES at N≥4 strong " +
-                "coupling (internal J-coupling = the Part-6 coherence injector, Corollary 3 internalized; N=3 holds)' " +
-                "across CpsiEnvelopeTheoremClaim (+ its test), the Symphony quarter-lens (3 spots), F17, and a " +
-                "witness node; a Parts-4/5 scope note was added to PROOF_MONOTONICITY_CPSI (the r_{ij}≥2γ off-diag " +
-                "bound + the 4×4 density structure are N=2-specific; at N≥3 the decay is H/topology-dependent). The " +
-                "witness root Summary was already honest (bc59bc8). En route, caught + fixed a committed FitAlpha " +
-                "regression (the ptf_painter_pipeline grid-seed's 1e-9 refine broke the tempo-purity certification, " +
-                "PaintersResidual 3.7e-9 > 1e-9 PassTol; reverted the refine to 1e-7, keeping the trap fix). " +
-                "REMAINING (the only open piece): chart the boundary — sweep (N=3,4,5 at J=5,γ=0.01; J at N=4 for " +
-                "J_c; γ at N=4 for the Q=J/γ threshold) via Symphony + QuarterEnvelope.Of to find where the " +
-                "N=3-holds/N=4-rises boundary sits and whether it is a sharp N-step or a J/γ contour.",
-            Status: OpenArcStatus.Retired,
-            RetiredReason: "RESOLVED 2026-06-15: boundary charted (experiments/ENVELOPE_RISE_BOUNDARY.md, " +
-                "gate-first EnvelopeBoundaryTests; the static detector EnvelopeTheoremWitness.GlobalReading " +
-                "lifted from the witness so the sweep reads exactly what inspect --root envelope shows). THE " +
-                "ANSWER: not a sharp N-step and not a pure J/γ contour, but both, cleanly factored. (1) The rise " +
-                "is a pure (N, Q=J/γ) observable: the J-sweep and the γ-sweep give the bit-identical reading over " +
-                "a fixed dose window (the clock movement's (Q,K)-purity applied to the rise) and collapse to one " +
-                "Q-axis (the (Q,K)-purity gate could have fired on an absolute-time leak; it passed). (2) An N≥4 " +
-                "FLOOR: N=3 never rises (Q_c(3)=∞, 0 even at Q=2000); the rise needs an internal ≥2-site coherent " +
-                "subsystem (the Part-6 injector), which N=3's single internal site lacks. (3) Above the floor a " +
-                "threshold Q_c(N) that CLIMBS with N: Q_c(4)≈27, Q_c(5)≈45, the rise strength at fixed Q falling " +
-                "with N (maxΔ N=4: 0.041 > N=5: 0.020 at Q=500). Open threads for re-entry: a closed form for " +
-                "Q_c(N) (does it track the band-edge ω_mem=2J·cos(π/(N+1))?); the internal-site parity question " +
-                "(an internal pair vs an internal trio injecting)."),
+            ParkedAt: "a finite atlas now preserves the named Bell+ rows without promoting samples into a border: " +
+                "N=3/Q=2000 resolves no rise on its stated grid; N=4 brackets a reporting-bar change between Q=13 " +
+                "and Q=40; N=5 is below the bar at Q=40 and above it at Q=500. One same-(N,Q,K) rescaling pair " +
+                "agrees to six decimals. PROOF_MONOTONICITY_CPSI separately retracts the historical pointwise, " +
+                "absorbing, and local-control package; its exact examples do not settle the autonomous N=2 " +
+                "successive-local-maxima question.",
+            NextStep: "Use the landed finite atlas as re-entry, then seek an all-Q classification at each named N, " +
+                "an all-N existence or absence result, and an independently gated physical mechanism. A null sample " +
+                "must remain 'no rise resolved' and a positive sample numerical evidence; neither decides a theorem. " +
+                "Candidate questions include whether a controlled frequency scale or parity organizes the rows, but " +
+                "those mechanisms are not yet owned.",
+            Status: OpenArcStatus.Open),
 
         new OpenArc(
             Name: "symphony_view",
             Opened: "2026-06-11",
             Origin: "Tom's founding Object Manager idea, sharpened: each of the 122 formulas is a maximum-zoom view; the symphony is the zoom-out",
-            ParkedAt: "second movement round 2: the quarter lenses are envelope-aware. Global lens " +
-                "checks the Envelope Theorem live (peaks non-increasing, proven N=2 / verified N>=3) and " +
-                "'the fold' = the absorbing envelope fold (upward crossings no longer mislabeled the " +
-                "quantum->classical boundary). Local carrier-pair lens surfaces the genuine BEATING rise " +
-                "(the freedom, no theorem binds the reduced open subsystem) via parabolic-apex + " +
-                "predecessor semantics; every single-grid rise is grid-sensitive (SingleExcitation rises " +
-                "vanish under refinement, Bell+ persist - the artifact control). QuarterEnvelope primitive " +
-                "+ GridFitness; EvolveCount-guarded one evolution preserved. THIRD movement (2026-06-12): the " +
+            ParkedAt: "second movement round 2: the quarter lenses became finite readers. The global lens " +
+                "reports parabolic apexes, predecessor rises, and direction-tagged quarter crossings without " +
+                "issuing a theorem verdict. Its event is the last stay-below crossing in the sampled window; " +
+                "the algebraic fold keeps its separate name. The local carrier-pair lens preserves the finite " +
+                "Bell+ rise sightings and their grid/reporting-bar contract, while a null sample remains only " +
+                "'no rise resolved.' QuarterEnvelope primitive + GridFitness; EvolveCount-guarded one evolution " +
+                "preserved. THIRD movement (2026-06-12): the " +
                 "clock - gamma_0 as the Taktgeber. The clock node (Takt gap, tau, omega_mem, Q=J/gamma) is " +
                 "promoted to the base symphony; --tempo-ratio r grows 'movement: the clock', the two-tempo " +
                 "certification: play the piece at gamma_0 and r*gamma_0 (every dimensionful coupling scaled by " +
@@ -3762,7 +3750,7 @@ public static class OpenArcsRegistry
                 + "in one sentence written by the PREVIOUS SESSION THE SAME DAY and named in the dropped page's "
                 + "own sweep record. The sweep had reported 'no document states the law'; the true statement was "
                 + "'no F-entry states it', and an indexing gap is not a result. "
-                + "WHAT SURVIVES AND IS COMMITTED: the gate simulations/gamma_unit_scaling_gate.py (106 gates), "
+                + "WHAT SURVIVES AND IS COMMITTED: the gate simulations/gamma_unit_scaling_gate.py (107 gates), "
                 + "which labels in place which of its own readings are restatements; a CAUGHT_ERRORS entry for "
                 + "the gamma inventory as an OBJECT error, the ledger's first on this letter; the "
                 + "PRIMORDIAL_GAMMA_CONSTANT repair, whose regress termination had rested on the withdrawn "
@@ -6947,7 +6935,7 @@ public static class OpenArcsRegistry
                 "reading plus 'survived real hardware' in sect. 7, corrected to the peak " +
                 "created-MI transport number with open hardware attribution; 'bit-exact over " +
                 "1,342 modes' corrected to the proof's 14-decimal ratio, an eigensolver result; " +
-                "the +83% relay figure split honestly into +18% staging + 2:1 spatial coupling; " +
+                "the Relay record gives about +84.0% from stored six-decimal values at unmatched time/dose, not an isolated staging effect; " +
                 "the ~10^4 Hz hardware gamma corrected to ~5*10^3 Hz under gamma = 1/(2*T2); the " +
                 "87,376 re-attached to the pairing with the operator identity fenced at N<=5) " +
                 "plus smaller fences (uniform-vs-per-site theorem forms, the immortal-diagonal " +
@@ -6971,8 +6959,8 @@ public static class OpenArcsRegistry
                 "carried defects of their own: the k=2 pair row's -4gamma presented as a decay " +
                 "rate at every N (exact eigenmode only at N=2, the empty-world fence now on the " +
                 "table); 'every rotated shared question tells the two apart' false on the " +
-                "n_x^2=n_y^2 great circles, now 'almost every'; the +83% relay figure split into " +
-                "+18% staging + 2:1 spatial at both sites; CAT's 'sorting literally reversible at " +
+                "n_x^2=n_y^2 great circles, now 'almost every'; the Relay comparison uses nominal " +
+                "0.78 but integrated 0.75 per stage; unmatched endpoints preclude isolated staging; CAT's 'sorting literally reversible at " +
                 "small N' corrected (echo refocuses the quasi-static part, the Markovian bill is " +
                 "contractive at every N); the horizon's 'slowest global coherence' re-fenced to " +
                 "single-excitation with the Tier-1-derived graduation; F60 qualified global; the " +
@@ -6992,8 +6980,8 @@ public static class OpenArcsRegistry
                 "with the transpose filling the cube (Z2^3, all eight sign-mirrors) while D4's " +
                 "generators are D and the one-sided R, the transpose's coherence-space avatar D " +
                 "being the only bridge (the post-fix round caught my first repair claiming the " +
-                "transpose generates D4, the same shape again); the +83% relay split " +
-                "landed here too, fourth site; the delivery sentence now conditions on Alice's " +
+                "transpose generates D4, the same shape again); the Relay finite MI comparison " +
+                "has no matched-time/dose or isolated-scheduling witness; the delivery sentence now conditions on Alice's " +
                 "recorded outcome). LABELS_TRANSLATED and THE_LABEL_MAP moved with them: :98 " +
                 "'watched letter' -> held letter (the sibling chapters had left it the odd one " +
                 "out), the map's section 7 outbound bullet corrected from outreach-ready to " +
@@ -7350,7 +7338,7 @@ public static class OpenArcsRegistry
                 "THE TWENTY-ONE SPLIT BY GENRE, and only one half is a gap. Sixteen are a coherent spring " +
                 "block, fifteen of them Tier 2 and F24 the exception named at the end of the list: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
                 "V-effect, F21 the local amplitude-channel stationary population, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
-                "relay bound, F32 the optimal protection state, F35 the lifetime ratio, F45 to F48 the Bures " +
+                "Relay protocol MI comparison (Tier 2, finite N=11 run, not an MI bound), F32 the optimal protection state, F35 the lifetime ratio, F45 to F48 the Bures " +
                 "geometry at the fold, F51 the cockpit reduction. Those live on the propagation, Python and " +
                 "hardware side; the C# layer is the structural and spectral engine, so their absence there is " +
                 "a genre fact rather than a debt. The exception inside that block is F24, Tier 1 and " +
@@ -8274,7 +8262,7 @@ public static class OpenArcsRegistry
                 "nine firing n <= 30 separates as the road leaves the comb (and none is closed at u = 1/2 to " +
                 "forty digits), 2335 at first order by a THEOREM (the " +
                 "first-order gap is F65's endpoint rate comb with the chain reflection's sign, " +
-                "dE_k/du = (-1)^(k+1) alpha_k/gamma_0, PROOF_CRACKED_RING_EXACT_CURVE Theorem G, n times the gap " +
+                "dE_k/du = (-1)^(k+1) a_k, PROOF_CRACKED_RING_EXACT_CURVE Theorem G, n times the gap " +
                 "decided exactly in Z[zeta_2n]) and all 223 others at second order, a 40-digit reading then and exact since F161 " +
                 "(c3 = 0 for all 223; for the 11 Theta-mirror pairs sigma = n - tau the gap is " +
                 "even in u to all orders, K H(u) K = -H(-u) at odd N, the zeta^2 anti-protection law with u for zeta). " +
@@ -9264,8 +9252,8 @@ public static class OpenArcsRegistry
                 "the source. Two smaller finds sit beside it, owned by no arc: Formulas.D6_MixingTime " +
                 "(n log 4 / 2 gamma) is a genuine DURATION and is UNTESTED, printed at Program.cs:1767 " +
                 "while SmokeTests pins D6_Gap beside it and not it; and two live tensions in the main " +
-                "repo, TRAPPED_LIGHT_LOCALIZATION.md:160 still calling gamma times t = K proven after " +
-                "F14 took a state-scope fence on 2026-08-29, and hypotheses/WHAT_QUBITS_EXPERIENCE.md " +
+                "repo: F14 in TRAPPED_LIGHT_LOCALIZATION now carries its fixed-readout, Hamiltonian-dead " +
+                "Bell+ gamma-sweep scope, not a universal time theorem; hypotheses/WHAT_QUBITS_EXPERIENCE.md " +
                 "stating the arrow-as-bent-angle reading that its own typed claim marks EXCLUDED.",
             NextStep: "(1) THE SMALL MOVE FIRST, because it needs no theory of time: give Clock its N " +
                 "and both hands. Adopt ClockHandLadderClaim properly, so the object owns the Takt hand " +

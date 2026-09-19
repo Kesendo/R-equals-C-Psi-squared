@@ -278,14 +278,16 @@ print(f"  Distinct frequencies: {len(freqs4)}")
 print(f"  Palindromic pair sums: mean={pair_sum4:.4f}, std={pair_std4:.2e}")
 print(f"  Palindrome: {'EXACT' if pair_std4 < 1e-4 else 'approximate'}")
 
-# V-Effect: compare with single molecule
-print(f"\n  V-Effect check:")
+# Finite frequency-bin census: compare with two isolated model molecules.
+print(f"\n  V-Effect census (finite generator-bin comparison):")
 print(f"    Single molecule (N=2): {len(freqs)} distinct frequencies")
 print(f"    Two molecules (N=4):   {len(freqs4)} distinct frequencies")
 print(f"    Ratio: {len(freqs4)} / (2 x {len(freqs)}) = "
       f"{len(freqs4) / (2 * len(freqs)) if len(freqs) > 0 else 'inf':.2f}")
 if len(freqs4) > 2 * len(freqs):
-    print(f"    >>> V-EFFECT: {len(freqs4) - 2*len(freqs)} new frequencies!")
+    print(f"    Count excess: {len(freqs4)} - 2*{len(freqs)} = "
+          f"{len(freqs4) - 2*len(freqs)} bins")
+    print("    No eigenvector transport or coupling-only mechanism was computed.")
 
 # CΨ across the hydrogen bond (qubits 2 and 3)
 rho0_4 = np.zeros((d4, d4), dtype=complex)

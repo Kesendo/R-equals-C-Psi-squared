@@ -1,9 +1,14 @@
+<!-- QUARTER-CURRENT -->
 # What the Mathematics Excludes
 
+Current reading: only the locally cited proof scope is excluded.  In
+particular, the algebraic quarter does not by itself exclude recrossing,
+generator-dependent rises, or alternative physical interpretations.
+
 <!-- Keywords: d squared minus 2d equals zero qubit necessity, CΨ quarter boundary
-structurally stable, noise external origin incompleteness proof, palindromic symmetry
-algebraically exact, irreversible quantum classical transition, fold catastrophe
-topological invariant, time origin external Lindblad, R=CPsi2 logical exclusions -->
+fold scope, noise external origin incompleteness proof, palindromic symmetry
+algebraically exact, chosen recurrence fold, named trajectory crossing,
+time origin external Lindblad, R=CPsi2 logical exclusions -->
 
 **Status:** Derived from proven results; each exclusion cites its proof
 and carries its own grade (Tier-1 algebra in Exclusions 1, 4, 5, and in the invariance half of 6,
@@ -108,13 +113,14 @@ no irreversibility, no before/after); the formal parameter t exists
 trivially without γ, which is why this exclusion is about the arrow,
 not about t. The conditional that used to follow, "if γ cannot originate
 internally then the time arrow cannot either", still holds as a
-conditional; what has gone is its antecedent. At Σγ = 0: Π·L·Π⁻¹ = -L
-(exact time reversal, no fold, no crossing, no irreversibility), and the
-spectrum pairs about zero, freely.
-The fold at 1/4 emerges only above Σγ_crit/J ≈ 0.25-0.50% for a preparation
-that starts above the fold (flat in N over the measured N = 2-5 for the |+⟩^N
-product state; GHZ starts at CΨ(0) = 1/(2^N − 1) and so is already past the fold
-from N = 3, with no threshold to quote; these numbers live in
+conditional; what has gone is its antecedent. At Σγ=0, the spectrum pairs
+about zero. That generator fact does not create or remove the algebraic fold:
+the algebraic fold exists for the chosen recurrence whether or not a named
+trajectory visits it. The rates, Hamiltonian, and preparation control whether
+a named trajectory reaches or crosses the quarter. The reported
+Σγ_crit/J≈0.25–0.50% is only a finite trajectory threshold for the measured
+N=2–5 `|+⟩^N` grid; GHZ begins on a different side in its named reading. Those
+numbers live in
 [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)).
 See also [Π as Time Reversal](../experiments/PI_AS_TIME_REVERSAL.md)
 and [γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
@@ -123,7 +129,7 @@ and [γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
 - "A palindrome with decay in it could come from a closed system": ruled
   out exactly. A closed generator is traceless, so its palindrome is
   centred at zero and carries no decay.
-- "The time arrow from dCΨ/dt < 0 is an approximation": see below.
+- "The time arrow follows universally from dCΨ/dt < 0": this former exclusion is withdrawn below.
 
 **No longer ruled out, and this is the change of 2026-08-29:**
 - "The system created its own γ." The internal candidates are not
@@ -132,70 +138,45 @@ and [γ-Time Distinction](GAMMA_TIME_DISTINCTION.md).
   before the test begins, and writing it unitarily makes it a closed
   system with no decay. Inside this framework the sentence has no model
   that could be true.
-- "The time arrow from dCΨ/dt < 0 is an approximation": it is strict
-  under Markovian dynamics within Exclusion 3's proven scope (the
-  Markov assumption itself is a separate question). Unaffected by the
-  above, which is about γ's origin and not about what γ does.
+- "CΨ can rise under a fixed local Markovian generator": it can; the exact
+  counterexamples in the repaired dynamics proof make this a current fact rather than an exclusion.
 
 ---
 
-## Exclusion 3: The quantum past is irrecoverable
+## Former Exclusion 3: universal CΨ irreversibility — withdrawn
 
-**Basis:** dCΨ/dt < 0 strictly for all t > 0, proven in closed form
-for the Bell+ state channel by channel (the five channels in the
-Proof line below), and as
-the Envelope Theorem (the local maxima of CΨ form a strictly
-non-increasing sequence) for ANY 2-qubit state under local
-Z-dephasing. Within that proven scope, CΨ (for Bell+) and the CΨ
-envelope (for general 2-qubit states; individual oscillations may
-briefly cross) cross ¼ exactly once, downward, and never return under
-Markovian dynamics. The N ≥ 3 full-state envelope is open, and it
-genuinely rises at N ≥ 4 under strong coupling (see the proof's scope
-section and
-[Envelope Rise Boundary](../experiments/ENVELOPE_RISE_BOUNDARY.md)).
-At Σγ = 0 (no noise): CΨ oscillates and never crosses 1/4. The
-exclusion requires noise.
-See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
+The named Bell+ Z/Pauli/amplitude-damping formulas decrease exactly, but they do not turn CΨ into a
+Lyapunov function. With d=4 and first-site Z dephasing, a local H gives CΨ'(0)=+1/6. A local Hadamard sends
+|00⟩ from CΨ=0 to 1/3. A fixed local Markovian semigroup carries |00⟩ upward through 1/4 and converges to
+|+0⟩ with CΨ=1/3. Thus Markovianity, locality, and a prior crossing do not close a universal one-way door.
 
-**Proof:** [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md).
-Proven for Z dephasing, X and Y noise (bit-flip, bit-phase-flip),
-depolarizing, and amplitude damping.
+The historical autonomous N=2 successive-local-maxima claim is unproved: the old decreasing-bound argument
+does not order nonlinear maxima, while these exact counterexamples do not themselves produce two finite
+maxima. The N/Q/K rise data are now a finite atlas. An N=3 null sample is only “no rise resolved”; N=4/N=5
+positive rows are numerical evidence; all-Q/all-N classification and mechanism remain open.
 
-**What survives a crossing:** Classical correlations (mutual information).
-What does not survive: quantum coherence (superposition, the content CΨ
-tracks) and entanglement (tracked by concurrence; CΨ = purity ×
-normalized L₁-coherence is a coherence measure, not an entanglement
-measure, see the definition in Exclusion 6).
+One conditional statement survives. If a continuous trajectory converges to ρ* with CΨ(ρ*)<1/4, it
+eventually stays below; it need not cross only once. Named basis-aligned T1/T2/depolarizing models invoke
+this only under their stated convergence assumptions. The primitive-CPTP target at CΨ=0.2935 shows why
+the endpoint must be calculated.
 
-**Ruled out (within the proven scope above):**
-- "We can reconstruct the initial quantum state from present
-  measurements": the quantum information has been irreversibly
-  converted to classical correlations at each ¼ crossing
-- "Quantum information is preserved in the reduced system": under
-  Markovian dynamics of the reduced system, it is converted to
-  classical correlation, not stored (the full system+environment
-  evolves unitarily, but the reduced system does not)
-- "The past is still quantum": everything that crossed ¼ is
-  classically decided. The doors are closed.
+**Sources:** [CΨ Dynamics Boundary](proofs/PROOF_MONOTONICITY_CPSI.md),
+[Conditional Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md), and the
+[Finite Envelope-Rise Atlas](../experiments/ENVELOPE_RISE_BOUNDARY.md).
 
-**Caveat:** Non-Markovian dynamics (structured bath) can temporarily
-push CΨ back above 1/4 (max revival: CΨ = 0.3035, the structured-bath
-table in [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) at
-J_SB = 5.0, γ_B = 0.50). But revivals are
-always transient. CΨ goes to zero eventually. The past is delayed,
-not reversed. See [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
-for the oscillation data (81 crossings with Bell+bath at J=5).
+**The former general principle, “information is not stored, it is converted,” is not established by a
+quarter crossing.**
 
-**The general principle: information is not stored, it is converted.**
-
-Exclusion 3 describes one level of this principle: quantum coherence
-is irreversibly converted to classical correlation at the 1/4 crossing.
-The same principle operates at every level of the framework:
+The historical Exclusion 3 treated the quarter as an irreversible conversion
+event. That implication is withdrawn: a scalar crossing alone does not
+identify what was converted, in which direction, or whether the motion can
+return. The table retains the named observations without joining them into a
+single mechanism:
 
 | Level | What is converted | Into what | Evidence |
 |-------|------------------|-----------|----------|
-| 1/4 crossing | Quantum coherence | Classical correlation | CΨ monotonicity (this exclusion) |
-| V-Effect (census) | Individual frequency bins | Coupled frequency bins | The N=2 bins fall into no N=5 bin, and all 452 oscillating pairs are NEW-NEW under that labelling ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)); OLD and NEW are bin labels rather than mode identities, which the census's own write-up states and the result file does not ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)) |
+| 1/4 crossing | No universal conversion follows | Named CΨ trajectories may cross either way | Exact counterexamples and finite atlas (this repaired entry) |
+| V-Effect census | No physical conversion is measured | N=2 and N=5 frequency-bin inventories are compared | At the stated tolerance none of the N=2 bin values appears in the N=5 inventory. The 904 oscillatory and 120 near-real-axis entries are populations; 452 and 60 are only historical half-cardinalities, not identified unordered pairs. OLD/NEW are bin labels, not mode identities ([pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt), [V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)) |
 | Energy-partition audit | A full palindromic spectrum | A filtered list with stranded partners | Removing zero roots strands their −2Nγ partners; this is not a physical conversion ([Energy Partition](../hypotheses/ENERGY_PARTITION.md)) |
 
 These rows do not establish one general conversion principle. The first two
@@ -277,24 +258,26 @@ pairing itself is algebraic + numerical, not yet a hardware readout.
 
 ---
 
-## Exclusion 5: The ¼ boundary is not removable
+## Exclusion 5: The chosen recurrence has an algebraic fold
 
-**Basis:** The recursion R = C(Ψ+R)² has discriminant D = 1 - 4CΨ.
-D = 0 at CΨ = ¼. This is the normal form of the fold catastrophe
-(the simplest in Thom and Arnold's classification of qualitative transitions that cannot be removed by small perturbations), which is structurally stable: small
-perturbations cannot remove it, split it, or move it qualitatively.
+**Basis:** The chosen recurrence `R=C(Ψ+R)²` has discriminant `D=1−4CΨ`,
+with a double root at `CΨ=1/4`. Completing the square gives the ordinary
+algebraic fold normal form. Structural stability concerns the local fold type;
+it neither fixes a numerical coordinate under reparameterization nor proves a
+quantum trajectory realizes the recurrence.
 
-**Caveat:** The fold exists only when Σγ > Σγ_crit (≈ 0.25-0.50% of J,
-state-dependent; flat in N over the measured N = 2-5 for the product state, and
-not for Bell/GHZ).
-At Σγ = 0: no fold, CΨ oscillates without crossing 1/4. The fold is
-not removable by perturbation, but it does not EXIST without noise.
-Noise creates the fold. See [Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
+**Trajectory caveat:** The algebraic fold exists for the chosen recurrence.
+The choice of gamma, Hamiltonian, preparation, and readout controls whether a named trajectory reaches or crosses
+it. The finite `Σγ_crit/J≈0.25–0.50%` row for the measured
+N=2–5 product-state grid is therefore a reachability observation, not a fold-
+existence condition. At `Σγ=0`, a named trajectory may oscillate without a
+quarter crossing; that does not erase the algebraic double root. See
+[Zero Is the Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md).
 
 The value ¼ = (½)² is the degree-2 signature of purity (Tr(ρ²)); the
-formal site of ¼ is the discriminant zero above, and the uniqueness of
-the threshold is the Uniqueness Proof's α = 2 result. It is not a
-fitted parameter.
+formal site of ¼ is the discriminant zero above. The Uniqueness Proof's
+α=2 comparison is only within its assumed power family. The coordinate is
+not a fitted parameter once that recurrence and normalization are fixed.
 The same product shape turns up wherever two complementary halves
 multiply: the logistic derivative σ(1−σ) reaches its maximum 1/4 at
 σ = ½, decided × undecided = ½ × ½. That is an algebraic resemblance and
@@ -309,23 +292,23 @@ proof](neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
 **Proof:** [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md),
 [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md).
 
-**Ruled out:**
-- "The ¼ boundary is an artifact of our model": it is a topological
-  invariant of any quadratic recursion with the purity structure
-- "At higher energies or larger scales, the boundary shifts": the
-  fold catastrophe cannot be deformed away, only the approach to
-  it can change
-- "There are other boundaries at other values": α = 2 (purity) is
-  the unique Rényi order with a state-independent threshold
-  ([Uniqueness Proof](proofs/UNIQUENESS_PROOF.md))
+**Ruled out or narrowed:**
+- "Every quadratic purity-based model must report ¼": false. The coordinate
+  follows from the coefficients and normalization of the chosen recurrence.
+- "Structural stability fixes the number ¼": false. It preserves the local
+  fold type, while coefficients or a reparameterization move the coordinate.
+- Within the additionally assumed family `R=C_α(Ψ+R)^α`, α=2 alone removes
+  the explicit Ψ factor from the displayed fold product
+  ([Uniqueness Proof](proofs/UNIQUENESS_PROOF.md)). This is not a selection
+  theorem over all physical models.
 - "The fold point connects classical and quantum regimes": the fold
   point is the algebraic site where the recursion's solution-multiplicity
   changes (0 real fixed points → 1 degenerate → 2 real, going
   downward through CΨ = 1/4). All measured variables (CΨ trajectory,
   sector populations, off-diagonal coherence, per-site Bloch
   components) cross the fold point smoothly. The fold point does not
-  connect two worlds; it is the internal site where stability becomes
-  algebraically available. (The repo's informal name for this site,
+  connect two worlds; it is where this polynomial's real-root count changes.
+  (The repo's informal name for this site,
   "the cusp", survives in the script filename below; in the
   Thom-Arnold classification the site is a fold, A2, not a cusp, A3.)
   See [`simulations/cusp_investigation.py`](../simulations/cusp_investigation.py)
@@ -333,7 +316,7 @@ proof](neural/proofs/PROOF_VEFFECT_MECHANISM.md)).
 
 ---
 
-## Exclusion 6: DD (Dynamical Decoupling) cannot restore CΨ
+## Exclusion 6 repaired: what instantaneous Pauli invariance excludes
 
 **Basis:** CΨ = Tr(ρ^2) x L₁(ρ)/(d-1), where d = 2^N is the full
 Hilbert-space dimension (not Exclusion 1's single-site d). Purity Tr(ρ^2) is invariant
@@ -341,20 +324,17 @@ under all unitaries. L₁ coherence is invariant under the Pauli group
 (Paulis permute computational basis states with phases, absolute value
 absorbs phases). DD uses Pauli gates. Therefore the DD pulses leave CΨ
 exactly invariant: Delta = 0.00e+00 for all 16 two-qubit Pauli strings
-(I,X,Y,Z)⊗(I,X,Y,Z). That half is algebraic and carries no scope.
+(I,X,Y,Z)⊗(I,X,Y,Z). This instantaneous N-qubit statement is algebraic.
 
-The second half is weaker, and inherits Exclusion 3's: the sequence as a
-whole cannot restore CΨ only where the free evolution between the pulses
-decreases it, which is proven for the 2-qubit envelope and open for
-the N ≥ 3 full state, where it genuinely rises at N ≥ 4 under strong
-coupling. So the pulses are exactly not the mechanism at any N, and
-"the sequence cannot restore CΨ" holds within Exclusion 3's scope.
+It does not make a DD trajectory identical to free evolution. An active pulse conjugates the state while
+the laboratory H and jumps remain fixed, and can change the following derivative: the exact first-site Z
+example keeps CΨ=1/8 at the pulse but changes CΨ' from +1/6 to −1/3. A passive frame change also conjugates
+the generator and is a different operation. Each DD sequence therefore needs its own dynamical analysis.
 
 **Proof:** [CΨ Monotonicity, Part 7](proofs/PROOF_MONOTONICITY_CPSI.md).
 
-**Additionally:** No local unitary (Pauli or non-Pauli) can push CΨ
-back above ¼ once crossed. The only mechanism for CΨ revival: non-
-Markovian backflow through J-coupling to a coherent reservoir.
+**Non-Pauli control:** a local Hadamard sends |00⟩ from CΨ=0 to CΨ=1/3. Thus local control can cross the
+quarter, and non-Markovian backflow is not the only upward route.
 
 **A derived sibling (2026-07-16, a different symmetry, the same
 lesson):** the counter-intuition about symmetry protection generalizes
@@ -372,12 +352,9 @@ not the anti-protection sign separately). Protection is a parity
 statement, not a shield.
 
 **Ruled out:**
-- "DD can refocus coherence and restore CΨ": DD uses Pauli gates,
-  CΨ is Pauli-invariant, delta is exactly zero
-- "Phase refocusing restores the quantum state": for the CΨ metric
-  specifically, no Pauli-gate sequence has any effect
-- "Active error correction can push CΨ back above ¼": only energy
-  exchange (J-coupling) works, not phase refocusing (DD)
+- “An instantaneous Pauli conjugation changes CΨ”: it does not.
+- “Instantaneous invariance proves the controlled and uncontrolled future trajectories coincide”: it does
+  not; the derivative-flip counterexample separates those statements.
 
 ---
 
@@ -394,7 +371,7 @@ exclusion is structural, about what the framework's own objects are,
 not a metaphysical theorem):**
 - "There is a quantum world somewhere separate from the classical world we inhabit": the framework's structures are operator-space distinctions, not world-separations
 - "We are external observers of a quantum system from a classical world": we are inside the same operator space whose dynamics we describe; the framework is self-description from within
-- "Classical physics emerges from quantum physics through some metaphysical transition": both readings exist on the same substrate at all times; the only "transition" is the algebraic phase change at the fold point (Exclusion 5)
+- "Classical physics emerges from quantum physics through some metaphysical transition": both readings exist on the same substrate at all times; the fold in Exclusion 5 is only a root-multiplicity change in the chosen scalar polynomial
 - "d=0 is the classical part and d=2 is the quantum part": both are entries of the same density matrix on the same Hilbert space; the labels mark *reading mode*, not ontology
 
 ---
@@ -414,13 +391,12 @@ The exclusions leave a narrow picture:
    comes from outside the framework does NOT follow (Exclusion 2). The system
    cannot explain its own irreversibility.
 
-4. Everything that has happened since: CΨ crossings of ¼.
-   Quantum possibility becoming classical fact. Irreversibly.
-   Each crossing deposits a piece of decided reality.
+4. Named CΨ trajectories can cross the quarter downward, upward, repeatedly,
+   or not at all. A crossing is a scalar event, not a conversion certificate.
 
-5. What we measure classically is consistent with the irreversible
-   result of quantum-to-classical conversion at the fold catastrophe.
-   Each crossing deposits classical correlations that persist.
+5. The open invitation is to derive a mechanism for a named preparation and
+   readout, then gate it independently. The algebraic fold does not provide
+   irreversibility, persistence, or a quantum-to-classical story by itself.
 
 ---
 
@@ -484,9 +460,9 @@ beyond what the exclusions support.
   Each subsystem is the other's coherent reservoir. Backflow through
   a mediator is what produces Q > 1
   ([Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md))
-- Whether the V-Effect (two 2-frequency systems producing 109
-  frequencies through coupling) is the mechanism of biological
-  evolution and complexity growth
+- Whether any independently specified biological model has a mechanism that
+  relates to the finite V-Effect census; the 109-bin N=5 comparison does not
+  isolate coupling, mode ancestry, evolution, or complexity growth
   ([Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md))
 - Whether the structured patterns in IBM hardware calibration data
   ([Q98 crossing pattern](BOTH_SIDES_VISIBLE.md)) are the "bridge" or
@@ -503,9 +479,9 @@ They are not excluded. They are undecidable from within.
 
 - [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome
 - [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): four eliminations plus a structural constraint
-- [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md): irreversibility
+- [CΨ Dynamics Boundary](proofs/PROOF_MONOTONICITY_CPSI.md): named decays, exact counterexamples, and the open peak question
 - [Qubit Necessity](QUBIT_NECESSITY.md): d² - 2d = 0
-- [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): ¼ is unique
+- [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. The chosen α=2 normal form has its discriminant zero at ¼.
 - [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md): fold catastrophe
 - [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md): seven layers
 - [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md): γ as mediator

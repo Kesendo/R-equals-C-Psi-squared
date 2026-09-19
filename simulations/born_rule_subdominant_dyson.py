@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Subdominant Born-deviation Dyson coefficients for F94's setup.
+"""Subdominant Born-deviation Dyson coefficients for F94's named N=4 ring only.
 
-F94 (Tier 1, 2026-05-16) covers the dominant outcome Δ_|00⟩ = (4/3)·Q²·K³ via
+F94 (Tier 1, 2026-05-16) covers the dominant outcome's leading
+Δ_|00⟩ = (4/3)·Q²·K³ term via
 the γ¹·J² (sym3) Dyson term. The reflection ON_HOW_FOUR_THIRDS_APPEARED also
 reports empirical slopes-per-K for the subdominant outcomes:
 
@@ -20,7 +21,8 @@ outcomes P_u(t) ∝ J²t²/2·A_i (not 1), so
                 = K · M_3^{(i)} / (3 · A_i)
 
 where A_i = <i|_pair Tr[L_h² ρ_0]|i>_pair is the **raw** L_h² pair element
-(not the /2 Taylor-normalized U_2). This IS Q-independent and linear in K.
+(not the /2 Taylor-normalized U_2). This leading coefficient is Q-independent
+and linear in K; the finite-K quantity has unspecified higher-order terms.
 This script:
 
 1. Computes M_n^{(i)} = <i|_pair Tr_{1,3}[sym_n^1 · ρ_0]|i>_pair for n=1,2,3
@@ -29,18 +31,19 @@ This script:
 3. Reads off slope_i = M_3^{(i)} / (3 · A_i) for subdominants where A_i ≠ 0.
 4. Compares to empirical: |01⟩ ≈ -1.8, |11⟩ ≈ -2.6.
 5. If clean rationals: candidate Tier-1 closed forms.
+
+The exact ring summary is: ring sym3=(8,-4,-4,0), so the absolute
+sym3 sum is zero. Ring slopes |01>=|10>=-16/9 and |11>=-8/3. The
+relative-deviation sum is not a trace and is not assigned a conservation
+meaning. A chain |10> slope -4/3 is the topology counterexample. All displayed
+coefficients are leading small-K slopes plus higher-order terms, not finite-K
+identities.
 """
 from __future__ import annotations
 
 import sys
 from fractions import Fraction
 import numpy as np
-
-if sys.platform == "win32":
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
 
 SX = np.array([[0, 1], [1, 0]], dtype=complex)
 SY = np.array([[0, -1j], [1j, 0]], dtype=complex)
@@ -118,7 +121,18 @@ def pair_element(rho_full, N, keep_pair, outcome_index):
     return float(val.real)
 
 
+def normalized_dyson_slope(dyson_element, order, unitary_element):
+    """Normalize a one-dissipator Dyson element by its unitary denominator."""
+    return dyson_element / (order * unitary_element)
+
+
 def main():
+    if sys.platform == "win32":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
     N = 4
     rho_0 = initial_state_0p0p(N)
     H = heisenberg_ring(N, J=1.0)  # J=1
@@ -158,6 +172,12 @@ def main():
     # Unitary 2nd-order: U_2 = L_H² · ρ_0 (then matrix element / 2 for Taylor)
     LH_rho = L_H_apply(rho_0, H)
     LH2_rho = L_H_apply(LH_rho, H)
+    sym3_values = tuple(pair_element(sym3, N, keep_pair, idx) for idx in outcomes.values())
+    unitary_raw = tuple(
+        pair_element(LH2_rho, N, keep_pair, idx) for idx in outcomes.values()
+    )
+    slope_01 = normalized_dyson_slope(sym3_values[1], 3, unitary_raw[1])
+    slope_10 = normalized_dyson_slope(sym3_values[2], 3, unitary_raw[2])
 
     # Print matrix elements
     print("=" * 70)
@@ -168,7 +188,7 @@ def main():
     for label, idx in outcomes.items():
         m1 = pair_element(sym1, N, keep_pair, idx)
         m2 = pair_element(sym2, N, keep_pair, idx)
-        m3 = pair_element(sym3, N, keep_pair, idx)
+        m3 = sym3_values[idx]
         print(f"{label:<10} {m1:>+10.4f} {m2:>+10.4f} {m3:>+10.4f}")
     print()
 
@@ -178,24 +198,24 @@ def main():
     print(f"{'outcome':<10} {'A_i = <i|Tr[L_h²ρ_0]|i>':>26} {'U_2 = A_i/2 (P_u(i) t² coeff)':>32}")
     print("-" * 70)
     for label, idx in outcomes.items():
-        a_i = pair_element(LH2_rho, N, keep_pair, idx)
+        a_i = unitary_raw[idx]
         u2 = a_i / 2
         print(f"{label:<10} {a_i:>+26.4f} {u2:>+32.4f}")
     print()
 
-    # --- Predicted slopes (Q-independent K-coefficient of Δ_i for subdominant) ---
+    # --- Leading small-K slopes for this named ring readout ---
     print("=" * 70)
-    print("Predicted slope_i = M_3 / (3 · A_i) for subdominant outcomes")
-    print("(Δ_i = ΔP_i^{γ¹J²,t³} / P_u(i, t) ≈ K · M_3 / (3 · A_i))")
+    print("Leading small-K slopes for the subdominant outcomes")
+    print("(Δ_i/K approaches M_3/(3 A_i); finite K has plus higher-order terms)")
     print("=" * 70)
     print(f"{'outcome':<10} {'M_3':>10} {'A_i':>10} {'slope predicted':>30} {'empirical':>12}")
     print("-" * 80)
     empirical = {"00": "Q²K³ form (F94)", "01": "≈ -1.8", "10": "≈ -1.8", "11": "≈ -2.6"}
     for label, idx in outcomes.items():
-        m3 = pair_element(sym3, N, keep_pair, idx)
-        a_i = pair_element(LH2_rho, N, keep_pair, idx)
+        m3 = sym3_values[idx]
+        a_i = unitary_raw[idx]
         if abs(a_i) > 1e-12 and abs(m3) > 1e-12:
-            slope = m3 / (3 * a_i)
+            slope = normalized_dyson_slope(m3, 3, a_i)
             slope_str = f"{slope:>+10.6f}"
             frac = Fraction(slope).limit_denominator(100)
             slope_str += f" ≈ {frac} = {float(frac):+.4f}"
@@ -212,8 +232,8 @@ def main():
     print("=" * 70)
     print("Verify F94 dominant: M_3^{(00)} should equal 8")
     print("=" * 70)
-    m3_00 = pair_element(sym3, N, keep_pair, 0)
-    a_00 = pair_element(LH2_rho, N, keep_pair, 0)
+    m3_00 = sym3_values[0]
+    a_00 = unitary_raw[0]
     print(f"  M_3^{{(00)}} = {m3_00:.6f}  (expect 8.0)")
     print(f"  A^{{(00)}} = {a_00:.6f}  (P_u(|00⟩, t) ≈ 1 + (t²/2)·(-1.5) = 1 - 0.75·t²)")
     print()
@@ -252,7 +272,7 @@ def main():
     m4_11 = pair_element(sym4, N, keep_pair, 3)
     m5_11 = pair_element(sym5, N, keep_pair, 3)
     b_11 = pair_element(LH4, N, keep_pair, 3)
-    slope_11 = m5_11 / (5 * b_11) if abs(b_11) > 1e-12 else float("nan")
+    slope_11 = normalized_dyson_slope(m5_11, 5, b_11) if abs(b_11) > 1e-12 else float("nan")
     frac_11 = Fraction(slope_11).limit_denominator(100)
     print(f"  M_4^{{(11)}} = {m4_11:.6f}  (expect 0)")
     print(f"  M_5^{{(11)}} = {m5_11:.6f}")
@@ -265,20 +285,22 @@ def main():
     print(f"  Empirical: ≈ -2.66 at K=0.001 (matches -8/3 = -2.6667)")
     print()
 
-    # --- Summary: all 4 outcome closed forms ---
+    # --- Summary: leading coefficients, not finite-K identities ---
     print("=" * 70)
-    print("SUMMARY: closed forms for all 4 outcomes of pair (0,2) of |0+0+⟩ N=4")
+    print("SUMMARY: leading small-K slopes for pair (0,2) of |0+0+⟩ N=4")
     print("=" * 70)
-    print("  Outcome    Closed form                        Decomposition")
-    print("  -------    ------------------------------     -----------------------")
-    print("  |00⟩      Δ = (4/3) · Q² · K³                F94: M_3 / 3! = 8/6 = 4/3")
-    print("  |01⟩      Δ = -(16/9) · K = -(4/3)² · K     M_3/(3A) = -4/(3·3/4) = -16/9")
-    print("  |10⟩      Δ = -(16/9) · K = -(4/3)² · K     (same as |01⟩ by symmetry)")
-    print("  |11⟩      Δ = -(8/3) · K = -2·(4/3) · K     M_5/(5B) = -20/(5·3/2) = -8/3")
+    dominant_coefficient = sym3_values[0] / 6.0
+    print(f"  absolute sym3 vector from this body: {sym3_values}")
+    print("  Computed from the displayed Dyson and unitary rows:")
+    print(f"  |00> leading Delta/(Q^2 K^3) = {dominant_coefficient:+.9f} plus higher-order terms")
+    print(f"  |01> leading Delta/K = {slope_01:+.9f} plus higher-order terms")
+    print(f"  |10> leading Delta/K = {slope_10:+.9f} plus higher-order terms")
+    print(f"  |11> leading Delta/K = {slope_11:+.9f} plus higher-order terms")
     print()
-    print("  Structural unity: all 4 outcomes are simple algebraic expressions")
-    print("  in F94's 4/3 anchor:  4/3,  -(4/3)²,  -(4/3)²,  -2·(4/3).")
-    print("  Sum: (4/3)·Q²·K³ − 2·(4/3)²·K − 2·(4/3)·K  (total of 4 outcomes).")
+    print("  Scope: these coefficients belong to the named ring, state, pair, and outcomes.")
+    print(f"  The computed absolute sym3 sum is {sum(sym3_values):+.1f}.")
+    print("  Summing the normalized relative deviations is not a trace identity.")
+    print("  Topology control: the chain |10> slope is -4/3, not the ring's -16/9.")
     print()
 
     # --- Verify |01⟩ slope -16/9 with actual Lindblad ---

@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Why d(-gamma)=2N in the named weight-1 sector
+
+Current reading: the proof counts a commutator kernel and the resulting
+eigenvalue multiplicity under its stated chain/symmetry assumptions.  A centered
+rate or invariant eigenspace does not make each vector individually Pi-fixed or
+self-mirrored.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the detailed sector proof follows with its original
+interpretive vocabulary.
+
 # Why d(−γ) = 2N: The Commutator Kernel in the Weight-1 Sector
 
 <!-- Keywords: commutator kernel, Heisenberg Hamiltonian weight-1 sector, Liouvillian

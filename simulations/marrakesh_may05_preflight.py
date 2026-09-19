@@ -10,16 +10,17 @@ Threefold view:
 
 2. **Per-named-path summary** across all three snapshots: framework_snapshots
    [0, 1, 2], soft_break/zn_mirror [48, 49, 50], the Apr-25 / Apr-30 best
-   chains, plus today's best. Score, regime composition, F87 confirmations
+   chains, plus today's best. Score, R* band composition, F87 confirmations
    already on the path.
 
-3. **Drift verdict from 91-day history** for each candidate path. Combines
-   snapshot regime (RegimeSummary equivalent) with multi-day archetype
+3. **Drift readout from 91-day history** for each candidate path. Combines
+   snapshot proxy band with multi-day archetype
    (LifecycleSummary equivalent) so we know which candidates are not just
    high-scoring today but also stable over the experiment-window timescale.
 
-Goal: pick one path for the next QPU run. Both score and stability matter;
-the May-5 snapshot alone can mis-rank a recently-flipped cluster.
+The final ranking is an empirical composite heuristic with a volatility penalty,
+not a submit recommendation. Hardware review and current calibration remain
+separate required decisions.
 """
 from __future__ import annotations
 
@@ -52,13 +53,13 @@ NAMED_PATHS = [
 ]
 
 
-def regime_count(qubits, path):
+def band_count(qubits, path):
     by_id = {q.qubit: q for q in qubits}
     q = sum(1 for qid in path if by_id[qid].t2_us / (2.0 * by_id[qid].t1_us) < R_STAR)
     return q, len(path) - q
 
 
-STABLE_ARCHETYPES = frozenset({"pulse-stable", "silent-stable", "classic-stable"})
+STABLE_ARCHETYPES = frozenset({"stable-below", "stable-at-or-above", "mixed-stable"})
 
 
 def archetype_for_path(history, path):
@@ -130,26 +131,26 @@ def main():
             trend = "≈"
         print(f"  {label:<45} {s_apr25:>10.2f} {s_apr30:>10.2f} {s_may05:>10.2f}  {trend}")
 
-    # --- Section 3: regime + lifecycle audit per path ---
+    # --- Section 3: proxy band + lifecycle audit per path ---
     print()
     print("=" * 78)
-    print("3. REGIME (May-5 snapshot) + LIFECYCLE (91-day history) PER PATH")
+    print("3. R* PROXY BAND (May-5 snapshot) + HISTORY LABEL PER PATH")
     print()
-    print(f"  {'path':<45} {'regime':>22} {'archetypes (per qubit)'}")
+    print(f"  {'path':<45} {'R* band':>28} {'history labels (per qubit)'}")
     print("  " + "-" * 100)
     for label, path in all_paths:
-        q, c = regime_count(snap05, path)
-        regime_label = (f"uniform-quantum ({q}/{len(path)})" if q == len(path) else
-                        f"uniform-classical ({c}/{len(path)})" if c == len(path) else
-                        f"mixed ({q}q/{c}c)")
+        below, at_or_above = band_count(snap05, path)
+        regime_label = (f"all below-R* ({below}/{len(path)})" if below == len(path) else
+                        f"all at-or-above-R* ({at_or_above}/{len(path)})" if at_or_above == len(path) else
+                        f"mixed ({below} below/{at_or_above} at-or-above)")
         archs = archetype_for_path(history, path)
         archs_short = [a.replace("-stable", "").replace("drifty-", "drifty") for a in archs]
         print(f"  {label:<45} {regime_label:>22}  {', '.join(archs_short)}")
 
-    # --- Section 4: recommendation ---
+    # --- Section 4: empirical heuristic ---
     print()
     print("=" * 78)
-    print("4. RECOMMENDATION")
+    print("4. EMPIRICAL COMPOSITE HEURISTIC (NOT A SUBMIT VERDICT)")
     print()
     # Score + stability composite
     best_combo = None
@@ -160,8 +161,8 @@ def main():
         if "missing" in archs:
             continue
         n_stable = sum(1 for a in archs if a in STABLE_ARCHETYPES)
-        n_twitch = sum(1 for a in archs if a == "twitch")
-        composite = (n_stable * 100) - (n_twitch * 200) + s
+        n_variable = sum(1 for a in archs if a == "variable-near")
+        composite = (n_stable * 100) - (n_variable * 200) + s
         if composite > best_combo_score:
             best_combo_score = composite
             best_combo = (label, path, s, archs)
@@ -171,12 +172,12 @@ def main():
         print(f"  → {label}")
         print(f"    May-05 score: {s:.2f}")
         print(f"    91-day archetypes: {', '.join(archs)}")
-        print(f"    Composite (score + stability bonus - twitch penalty): {best_combo_score:.2f}")
+        print(f"    Composite (score + stability bonus - variable-near penalty): {best_combo_score:.2f}")
     print()
-    print("  Reading: the composite weights twitch qubits at -200/each so any path with")
-    print("  a twitcher gets pushed below alternatives at comparable score. With current")
+    print("  Reading: this empirical composite heuristic applies a -200 volatility penalty")
+    print("  per variable-near history; it is not a hard veto. With the current")
     print("  score range ~800-1500 and stable-bonus ~100-500, score still dominates ties")
-    print("  among non-twitch paths; stability matters mainly as a veto on twitch chains.")
+    print("  among other paths. This screen cannot authorize submission.")
 
 
 if __name__ == "__main__":

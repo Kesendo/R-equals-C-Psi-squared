@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Diagnostics.Foundation;
@@ -9,6 +11,21 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 public class MirrorSystemTests
 {
+    private static string ReadMirrorSystemSource([CallerFilePath] string testFile = "")
+    {
+        string testDirectory = Path.GetDirectoryName(testFile)
+            ?? throw new InvalidOperationException("test source directory is unavailable");
+        var testProject = Directory.GetParent(testDirectory)
+            ?? throw new InvalidOperationException("test project directory is unavailable");
+        var computeDirectory = testProject.Parent
+            ?? throw new InvalidOperationException("compute directory is unavailable");
+        return File.ReadAllText(Path.Combine(
+            computeDirectory.FullName,
+            "RCPsiSquared.Diagnostics",
+            "Foundation",
+            "MirrorSystem.cs"));
+    }
+
     private static Matrix<Complex> Heisenberg2(double J)
     {
         var X = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, 1 }, { 1, 0 } });
@@ -235,12 +252,143 @@ public class MirrorSystemTests
     [Fact]
     public void Rotation_Angle_IsArctanOfOmegaOverGap()
     {
-        // N=3 Heisenberg, gamma = 0.05, J = 1: the memory mode's angle theta = arctan(omega / Gap),
-        // the F95 angle (= arctan Q for the 2-level case), wired off Takt.Gap and the captured omega.
+        // N=3 Heisenberg, gamma = 0.05, J = 1: select the most-rotating mode on the
+        // slowest positive-rate shelf, then read its measured angle as atan2(|Im lambda|, gap).
         var sys = new MirrorSystem(3, HeisenbergChain(3, 1.0),
             new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
 
-        Assert.Equal(Math.Atan2(sys.Rotation.Frequency, sys.Takt.Gap), sys.Rotation.Angle, precision: 9);
+        double gap = sys.Spectrum.SlowestRate;
+        double selectedFrequency = sys.Spectrum.Modes
+            .Where(m => Math.Abs(m.ActualDecayRate - gap) <= 1e-9)
+            .Select(m => Math.Abs(m.OscillationFrequency))
+            .DefaultIfEmpty(0.0)
+            .Max();
+
+        Assert.Equal(selectedFrequency, sys.Rotation.Frequency, precision: 9);
+        Assert.Equal(Math.Atan2(selectedFrequency, gap), sys.Rotation.Angle, precision: 9);
+    }
+
+    [Fact]
+    public void Rotation_SourceNamesSelectedModeMeasurement_NumericalBoundary_AndFencesF95()
+    {
+        string source = ReadMirrorSystemSource();
+        string sourceWithoutWhitespace = string.Concat(source.Where(c => !char.IsWhiteSpace(c)));
+
+        Assert.Contains("selected slow mode's measured angle", source);
+        Assert.Contains(
+            "only when an independently demonstrated finite positive-b quadratic in z = −λ maps a root to this same selected mode",
+            source);
+        Assert.Equal(1, source.Split("F95").Length - 1);
+        Assert.DoesNotContain("the F95 angle", source);
+        Assert.DoesNotContain("canonical and composing with F95", source);
+        Assert.DoesNotContain("ω=2J", sourceWithoutWhitespace);
+        Assert.DoesNotContain("arctan(Q)", sourceWithoutWhitespace);
+        Assert.DoesNotContain("Takt'sTautracks", sourceWithoutWhitespace);
+        Assert.DoesNotContain("i.e.J≠0", sourceWithoutWhitespace);
+        Assert.DoesNotContain("J=0", sourceWithoutWhitespace);
+        Assert.DoesNotContain("atan(J/γ", source);
+        Assert.Contains("Takt exposes the slowest-rate shelf", source);
+        Assert.Contains("Rotation uses the slowest-rate shelf only when Gap &gt; 1e-9", source);
+        Assert.Contains(
+            "Gap &lt;= 1e-9 is treated as a numerically unresolved/no-decay-style read",
+            source);
+        Assert.Contains("includes exact γ=0 but is not equivalent to it", source);
+        Assert.Contains(
+            "Takt keeps the exact Gap &gt; 0 versus Gap &lt;= 0 statement",
+            source);
+        Assert.Contains("constdoubletol=1e-9;", sourceWithoutWhitespace);
+        Assert.Contains("if(gap>tol)", sourceWithoutWhitespace);
+        Assert.DoesNotContain("when α &gt; 0", source);
+        Assert.DoesNotContain("at α = 0 it separately reads", source);
+        Assert.DoesNotContain("When Gap &gt; 0, the reading selects", source);
+        Assert.Contains(
+            "most-rotating mode in the numerically unresolved/no-decay-style branch",
+            source);
+        Assert.Contains(
+            "On the resolved shelf branch, the angle is θ = atan2(ω, Gap)",
+            source);
+        Assert.Contains(
+            "On the numerically unresolved/no-decay-style branch, the angle is π/2 iff the thresholded Turning is true, and 0 otherwise",
+            source);
+        Assert.Contains(
+            "Turning is a numerical classification: true iff the selected |ω| &gt; 1e-9",
+            source);
+        Assert.Contains("not a mathematical ω ≠ 0 statement", source);
+        Assert.Contains(
+            "a retained 0 &lt; |ω| &lt;= 1e-9 can have Turning = false and a small nonzero atan2 angle",
+            source);
+        Assert.Contains(
+            "otherwise θ = 0, even if the retained frequency is nonzero but at or below 1e-9",
+            source);
+        Assert.Contains(
+            "The record's Turning is true iff its selected Frequency &gt; 1e-9, not iff ω ≠ 0",
+            source);
+        Assert.DoesNotContain("most-rotating mode in the no-decay spectrum", source);
+        Assert.DoesNotContain("π/2 only for a no-decay reading", source);
+        Assert.DoesNotContain(
+            "<see cref=\"Angle\"/> is θ = atan2(ω, Gap)",
+            source);
+        Assert.DoesNotContain("contains an oscillatory mode,", source);
+        Assert.DoesNotContain("Only an oscillatory mode gives the π/2 circle", source);
+        Assert.DoesNotContain("is true when the selected reading has ω ≠ 0", source);
+        Assert.DoesNotContain("If Turning is false, the angle is 0", source);
+    }
+
+    [Fact]
+    public void Rotation_UnresolvedBranch_RetainsSubToleranceFrequency_ButThresholdsTurningAndAngle()
+    {
+        var sys = new MirrorSystem(1, Z2.Multiply((Complex)2e-10),
+            new[] { new ChannelRate("a", 1e-10) });
+
+        Assert.InRange(sys.Takt.Gap, 1e-12, 1e-9);
+        Assert.False(sys.Takt.Stopped);
+        Assert.InRange(sys.Rotation.Frequency, double.Epsilon, 1e-9);
+        Assert.False(sys.Rotation.Turning);
+        Assert.Equal(0.0, sys.Rotation.Angle);
+    }
+
+    [Fact]
+    public void Rotation_ResolvedBranch_CanKeepNonzeroAtan2Angle_WhenTurningIsFalse()
+    {
+        var sys = new MirrorSystem(1, Z2.Multiply((Complex)2e-10),
+            new[] { new ChannelRate("a", 1e-8) });
+
+        Assert.True(sys.Takt.Gap > 1e-9);
+        Assert.InRange(sys.Rotation.Frequency, double.Epsilon, 1e-9);
+        Assert.False(sys.Rotation.Turning);
+        Assert.True(sys.Rotation.Angle > 0.0);
+        Assert.Equal(
+            Math.Atan2(sys.Rotation.Frequency, sys.Takt.Gap),
+            sys.Rotation.Angle,
+            tolerance: 1e-12);
+    }
+
+    [Fact]
+    public void Rotation_SelectsTheSlowShelfRepresentative_NotTheGlobalFastMode()
+    {
+        // This helper writes J·(XX+YY), so J=0.5 is the unit-hopping convention used
+        // by the independent shelf/global benchmark below.
+        var sys = new MirrorSystem(3, XYChain(3, 0.5),
+            new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+
+        double gap = sys.Spectrum.SlowestRate;
+        double shelfFrequency = sys.Spectrum.Modes
+            .Where(m => Math.Abs(m.ActualDecayRate - gap) <= 1e-9)
+            .Select(m => Math.Abs(m.OscillationFrequency))
+            .DefaultIfEmpty(0.0)
+            .Max();
+        double globalFrequency = sys.Spectrum.Modes
+            .Select(m => Math.Abs(m.OscillationFrequency))
+            .DefaultIfEmpty(0.0)
+            .Max();
+
+        Assert.True(Math.Abs(shelfFrequency - globalFrequency) > 1.0,
+            $"fixture must separate shelf {shelfFrequency:R} from global {globalFrequency:R}");
+        Assert.Equal(0.1, gap, precision: 6);
+        Assert.Equal(1.4142135624, shelfFrequency, precision: 8);
+        Assert.Equal(2.8261057708, globalFrequency, precision: 8);
+        Assert.Equal(shelfFrequency, sys.Rotation.Frequency, precision: 9);
+        Assert.Equal(Math.Atan2(shelfFrequency, gap), sys.Rotation.Angle, precision: 9);
     }
 
     [Fact]
@@ -266,7 +414,23 @@ public class MirrorSystemTests
 
         Assert.True(sys.Takt.Stopped);
         Assert.True(sys.Rotation.Turning);
+        Assert.Equal(
+            sys.Spectrum.Modes.Select(m => Math.Abs(m.OscillationFrequency)).Max(),
+            sys.Rotation.Frequency,
+            precision: 9);
         Assert.Equal(Math.PI / 2.0, sys.Rotation.Angle, tolerance: 1e-9);
+    }
+
+    [Fact]
+    public void Rotation_NoDecayAndNoOscillation_ReturnsZeroAngle()
+    {
+        var sys = new MirrorSystem(3, HeisenbergChain(3, 0.0),
+            new[] { new ChannelRate("a", 0.0), new ChannelRate("b", 0.0), new ChannelRate("c", 0.0) });
+
+        Assert.True(sys.Takt.Stopped);
+        Assert.False(sys.Rotation.Turning);
+        Assert.Equal(0.0, sys.Rotation.Frequency);
+        Assert.Equal(0.0, sys.Rotation.Angle);
     }
 
     // ---- Object Manager: the conductor's stand as a live IInspectable node ----

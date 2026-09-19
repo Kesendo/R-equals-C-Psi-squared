@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """
-Subsystem Crossing Theorem
-============================
-Conjecture 2.1: Every entangled pair with CΨ > 1/4 must cross below 1/4
-under any non-unitary CPTP map.
+Finite subsystem-crossing catalogue
+====================================
+This is a captured-result producer retained for a finite channel catalogue.
+Its valid theorem-shaped content is only the conditional convergence implication:
+if a channel trajectory converges to a fixed point with CΨ < 1/4, continuity
+eventually puts that trajectory below 1/4.  A primitive CPTP counterexample with
+CΨ = 0.2935 shows that no universal crossing theorem follows.
 
 Test 1: N=3,4 with pair (0,1) starting at CΨ > 1/4 (Bell+ ⊗ |0...0⟩)
 Test 2: Random initial states with high pair CΨ
@@ -17,19 +20,17 @@ Output:  simulations/results/subsystem_crossing.txt
 
 import numpy as np
 from scipy.linalg import expm
-import os, sys, time as _time
+import argparse
+from pathlib import Path
+import sys, time as _time
 
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        "results", "subsystem_crossing.txt")
-_outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+DEFAULT_OUTPUT = Path(__file__).parent / "results" / "subsystem_crossing.txt"
+out = []
 
 
 def log(msg=""):
     print(msg, flush=True)
-    _outf.write(msg + "\n")
-    _outf.flush()
+    out.append(msg)
 
 
 I2 = np.eye(2, dtype=complex)
@@ -93,6 +94,14 @@ def psi_norm(rho):
 
 def cpsi(rho):
     return purity(rho) * psi_norm(rho)
+
+
+def primitive_replacement_fixed_point():
+    """Full-rank fixed point of the primitive replacement channel E(rho)=sigma."""
+    bell = (np.kron(np.array([1, 0]), np.array([1, 0]))
+            + np.kron(np.array([0, 1]), np.array([0, 1]))) / np.sqrt(2)
+    bell_projector = np.outer(bell, bell.conj())
+    return 0.95 * bell_projector + 0.05 * np.eye(4) / 4
 
 
 def heisenberg_H(nq, J=1.0):
@@ -273,7 +282,7 @@ def test_2_random_cptp():
         for trial, cf in failures[:10]:
             log(f"    Trial {trial}: final CΨ = {cf:.6f}")
     else:
-        log(f"  All maps drove CΨ below 1/4.")
+        log("  This finite random ensemble drove CΨ below 1/4; it is not universal.")
 
     log(f"  Max final CΨ among non-crossers: {max_cpsi_final:.6f}")
     log()
@@ -320,8 +329,8 @@ def test_3_adversarial():
         rho = apply_cptp(rho, K_list)
     log(f"  After {n_iter} iterations: CΨ = {cpsi(rho):.6f}")
     log(f"  Bell+ is FIXED POINT of this map: CΨ stays at 1/3")
-    log(f"  BUT: this map is a projective measurement, not a noise channel.")
-    log(f"  The system is in the range of the projector - the map acts as identity.")
+    log("  This is a nonunitary CPTP projection/dephasing channel.")
+    log("  It is non-primitive with an invariant Bell block, on which this state is fixed.")
     log()
 
     # Adversarial map 3: Near-identity with tiny perturbation
@@ -357,7 +366,7 @@ def test_4_contractivity():
     log("TEST 4: CONTRACTIVITY ARGUMENT")
     log("=" * 70)
     log()
-    log("  THEOREM: For any non-unitary CPTP map ε with a unique fixed point ρ*,")
+    log("  CONDITIONAL CONVERGENCE IMPLICATION:")
     log("  if CΨ(ρ*) < 1/4, then ε^n(ρ) has CΨ < 1/4 for sufficiently large n.")
     log()
     log("  PROOF:")
@@ -368,7 +377,7 @@ def test_4_contractivity():
     log("  3. CΨ is continuous: CΨ(ε^n(ρ)) → CΨ(ρ*) < 1/4")
     log("  4. By convergence: ∃ N such that CΨ(ε^n(ρ)) < 1/4 for all n ≥ N. QED.")
     log()
-    log("  CRITICAL QUESTION: Does every non-unitary CPTP have CΨ(ρ*) ≤ 1/4?")
+    log("  The fixed-point premise must be checked channel by channel.")
     log()
 
     # Verify fixed point CΨ for various channel types
@@ -418,23 +427,34 @@ def test_4_contractivity():
     log(f"  {'Random CPTP (100 maps)':>25}  {'max=' + f'{max_fp_cpsi:.6f}':>8}  "
         f"{'YES' if max_fp_cpsi < 0.25 else 'NO':>6}")
 
+    sigma = primitive_replacement_fixed_point()
+    sigma_cpsi = cpsi(sigma)
+    log(f"  {'Primitive replacement':>25}  {sigma_cpsi:8.6f}  "
+        f"{'YES' if sigma_cpsi < 0.25 else 'NO':>6}")
+    log("  Primitive CPTP counterexample: E(rho)=sigma has a unique full-rank")
+    log("  fixed point with CΨ = 0.2935 > 1/4, so it never crosses below.")
     log()
-    log("  If ALL fixed points have CΨ < 1/4, the contractivity proof closes")
-    log("  the Subsystem Crossing Theorem for primitive CPTP maps.")
+    log("  The finite catalogue therefore supports only the conditional statement")
+    log("  for channels whose actual attracting fixed point lies below 1/4.")
     log()
 
 
 # ====================================================================
-# Main
+# Captured-only main
 # ====================================================================
 
-if __name__ == "__main__":
+def main(output_path=DEFAULT_OUTPUT):
+    global out
+    out = []
+    destination = Path(output_path)
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     t_start = _time.time()
 
-    log("Subsystem Crossing Theorem")
+    log("FINITE SUBSYSTEM-CROSSING CATALOGUE")
     log("=" * 70)
-    log("Conjecture 2.1: Every entangled pair with CΨ > 1/4 must cross below 1/4")
-    log("under any non-unitary CPTP map (repeated application).")
+    log("Current scope: finite channels plus a conditional convergence implication.")
+    log("Primitive CPTP counterexample: CΨ = 0.2935 > 1/4.")
     log()
 
     test_1_subsystem_pairs()
@@ -446,17 +466,24 @@ if __name__ == "__main__":
     log("VERDICT")
     log("=" * 70)
     log()
-    log("The Subsystem Crossing Theorem holds if:")
-    log("  (a) All primitive CPTP maps have fixed points with CΨ ≤ 1/4")
-    log("  (b) Contractivity drives ε^n(ρ) → ρ*")
-    log("  (c) Continuity of CΨ gives the crossing")
+    log("The conditional convergence implication applies when:")
+    log("  (a) the specified trajectory converges to a fixed point with CΨ < 1/4")
+    log("  (b) ε^n(ρ) → ρ*")
+    log("  (c) continuity of CΨ gives eventual stay-below behavior")
     log()
-    log("Exception: non-primitive maps (projective measurements with Bell+")
-    log("as eigenstate) can preserve CΨ > 1/4 indefinitely. These are trivial")
-    log("cases where the map acts as identity on the initial state.")
+    log("Non-primitive projector examples and the primitive replacement channel")
+    log("show why this condition is not a universal law of CPTP dynamics.")
     log()
 
     total = _time.time() - t_start
-    log(f"Total runtime: {total:.1f}s ({total/60:.1f} min)")
-    log(f"Results saved to: {OUT_PATH}")
-    _outf.close()
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text("\n".join(out) + "\n", encoding="utf-8", newline="\n")
+    print(f"Total runtime: {total:.1f}s ({total/60:.1f} min)")
+    print(f"Results saved to: {destination}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
+    args = parser.parse_args()
+    main(args.output)

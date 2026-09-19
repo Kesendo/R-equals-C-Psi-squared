@@ -39,7 +39,7 @@ HALF = FrameworkAnchor(
 
 QUARTER = FrameworkAnchor(
     Fraction(1, 4), "QuarterAsBilinearMaxval",
-    "maxval of p(1−p) at p=1/2; (1/2)²; Mandelbrot cardioid maxval (F97)",
+    "maxval of p(1−p) at p=1/2; (1/2)²; squared magnitude of F97's selected |z*|=1/2 fixed point",
     "Tier 1 derived")
 
 F86B_KINTERMEDIATE_ODD = FrameworkAnchor(

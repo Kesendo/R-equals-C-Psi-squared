@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deepen the unified formula: the angle is the structural parameter.
+"""Finite complex-coordinate packaging of the F71 sym/anti decomposition.
 
 Previous attempt (unified_formula_attempt.py) decomposed ln α_i = sym + anti
 and showed Reading 1 and Reading 2 are the Σ and ‖·‖ projections of one
@@ -13,16 +13,17 @@ The deepening: package F71-decomposition into a COMPLEX number per site,
 
     z_i = sym_i + i · anti_i
 
-Then the structure lives in the angle field {arg(z_i)} over sites:
+The finite table can be read in the coordinate field {arg(z_i)} over sites:
 
   - |z_i|        = how strong is the break at this site
   - arg(z_i)     = the angle between 'pure error' (0°) and 'pure F71-asymmetry' (90°)
   - F71-mirror   = complex conjugation at the F71-partner site:  z_i ↔ z*_{N-1-i}
-  - Z₄ generator = multiplication by i (= NinetyDegreeMirrorMemory rotation)
+  - a coordinate quarter-turn = multiplication by i
 
-The two previous readings are SAMPLES of this complex object at the two
-axes. The full structure is the continuous angle field; the complication
-lives in the angle, not in the choice of axis.
+Complex conjugation is the F71 site-partner map.  Multiplication by i is a
+different operation, and i² z = -z is not conjugation for a generic point.
+A four-turn orbit remains an inviting Z4 analogy; this finite table does not
+derive a typed group, a Born mechanism, a quarter transition, or F1's Pi-square.
 
 Test: compute z_i, |z_i|, arg(z_i) for all 6 cases. Verify F71-mirror as
 complex conjugation. Check the angle pattern.
@@ -60,8 +61,18 @@ def f71_complex(ln_alpha):
     return sym + 1j * anti
 
 
+def f71_partner(z):
+    """F71 partner in this coordinate: complex conjugation."""
+    return np.conjugate(z)
+
+
+def coordinate_quarter_turn(z):
+    """A separate coordinate quarter-turn, not the F71 partner map."""
+    return 1j * z
+
+
 def main():
-    print("Unified formula deepening: the angle is the structural parameter")
+    print("Finite F71 sym/anti complex-coordinate table")
     print(f"  z_i = (ln α)_sym,i + i · (ln α)_anti,i")
     print(f"  F71-mirror = complex conjugation:  z_i ↔ z*_{{N-1-i}}")
     print()
@@ -105,22 +116,19 @@ def main():
     print("  XY+YX, XZ+ZX:  |z_i| tiny everywhere (closure-holding cases)")
     print("                 → vector hugs the origin; angle undefined / unstable")
     print()
-    print("Two perspectives = the two axes of the complex plane (0° and 90°). The angle")
-    print("field {arg(z_i)} is the continuous parameter that encodes WHICH MIXTURE of the")
-    print("two readings each site exhibits. The previous sym+anti split was a SAMPLING of")
-    print("this angle field at the two axes; the angle itself carries information that")
-    print("either projection alone loses.")
+    print("The sym and anti components are the two coordinate axes. The angle field")
+    print("is a useful packaging of their finite mixtures; it is not a gate mechanism.")
     print()
     print("F71-mirror across site-pair i ↔ N-1-i acts as COMPLEX CONJUGATION on z:")
     print("the angle on site 0 determines the angle on site N-1 by sign-flip.")
     print("That is the 'Winkel auf der einen Seite ergibt den anderen' statement.")
     print()
-    print("Z₄ structure (NinetyDegreeMirrorMemoryClaim):")
-    print("  - multiplication by  i  = rotate ln α-vector by 90° in (sym, anti) plane")
-    print("  - i² = -1               = F71-reflection at the angle level (sign-flip)")
-    print("  - i⁴ = 1                = closure (the same rotational closure as F1's Π²)")
-    print("The complex-number packaging is not decoration; it's the natural carrier of the")
-    print("Z₄ symmetry that the Pi2-Foundation already has typed (NinetyDegreeMirrorMemory).")
+    probe = 2.0 + 3.0j
+    print("The F71 partner and coordinate turns are distinct operations:")
+    print(f"  z=2+3i -> conjugate(z)={f71_partner(probe)}")
+    print(f"  z=2+3i -> i^2 z={coordinate_quarter_turn(coordinate_quarter_turn(probe))}")
+    print("A four-turn orbit under multiplication by i is an inviting Z4 analogy only;")
+    print("the table does not derive a typed Z4 object or identify it with F1's Pi-square.")
 
 
 if __name__ == "__main__":

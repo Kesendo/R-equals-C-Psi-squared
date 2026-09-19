@@ -513,10 +513,10 @@ public static class KnowledgeRegistryFactory
             .RegisterF26CPsiPauliChannelsPi2Inheritance()
             .RegisterF94BornDeviationFourThirdsPi2Inheritance()
             .RegisterF95AngleAtQuadraticZeroPi2Inheritance()
-            // TransitionBridge: the cusp CΨ=¼ and the F86 EP are F95 siblings (both the angle at a
-            // quadratic's discriminant zero, the cusp at b=½ where the rotation stills, the EP at
-            // b=4γ₀ where it lifts off; the EP's F95 angle is bit-exact its clock Rotation). Our
-            // state-space bridge name, sibling of the genuine F86 toy 2x2 EP. FRAGILE_BRIDGE's
+            // TransitionBridgeF95SiblingClaim compares two distinct positive-b quadratic applications:
+            // z_rec at b=½ and the genuine F86 z_decay=-lambda polynomial at b=4γ₀. Within F86,
+            // the two angle evaluations agree within the declared floating tolerance; no object
+            // identity follows. FRAGILE_BRIDGE's
             // separate sampled spectral-abscissa axis departure has EP character OPEN and is not
             // this quadratic; no branch continuation was executed. Parent F95.
             // Wired 2026-06-03.
@@ -537,13 +537,11 @@ public static class KnowledgeRegistryFactory
             .RegisterPi2KleinBilinearTable()
             .RegisterLindbladAbsorptionMatchAtSixtyDegreesClaim()
             .RegisterC2BareDoubledPtfClosedForm()
-            // The cusp-approach family CΨ(α,t)=w₀e^(−4γt)+w₁e^(−12γt) wired into the typed graph
-            // (no longer an isolated fifth eyepiece). Four typed parents, all resolved above:
-            // UniversalCarrierClaim (shared 4γ₀ carrier), C2BareDoubledPtfClosedForm (c=2 doubled-
-            // PTF kinship, decay-face sibling of the K_b susceptibility-face), TwoReadingsClaim
-            // (algebra vs Lindblad dynamics), F25CPsiBellPlusPi2Inheritance (the Bell+ member s=1).
-            // Tier1Derived. Implemented as Diagnostics OddHarmonicApproach / ApproachFamilyField
-            // (the --axis approach eyepiece). Wired 2026-06-03.
+            // The exact free-two-qubit approach family CΨ(α,t)=w₀e^(−4γt)+w₁e^(−12γt).
+            // Its two typed parents are AbsorptionTheoremClaim (n_diff=2 gives f=e^(−4γt) to every nonzero member;
+            // at s=0 both weights vanish) and F25CPsiBellPlusPi2Inheritance (the exact Bell+ member s=1). The matching C2 3:1
+            // ratio and algebra/dynamics language are prose comparisons, not ancestry edges.
+            // Tier1Derived; implemented by Diagnostics OddHarmonicApproach / ApproachFamilyField.
             .RegisterApproachFamilyCarrierClaim()
             // The two clocks (Tier1Derived; landed 2026-06-12, graduated 2026-06-16 when the chain
             // gap-dominance was proven, PROOF_CHAIN_GAP_DOMINANCE): the Symphony clock node's coherence
@@ -623,12 +621,18 @@ public static class KnowledgeRegistryFactory
             // inspect --root starseam.
             .RegisterStarFrozenSeamClaim()
             // The Niven root (Tier1Derived, 2026-06-17): Niven's theorem on the SE cyclotomic angle π/(N+1)
-            // is the number-theoretic ceiling on the spectrum's closed forms, with three faces — RE the
-            // dissipator rates (rational iff N+1 ∈ {1,2,3,4,6}, F65/F99), IM the band edge (rational iff N≤2,
-            // quadratic surd √2/φ/√3 iff N≤5, degree φ_euler(2(N+1))/2), V the V-Effect gain (golden at N=5).
+            // is the number-theoretic ceiling on the cyclotomic forms, with three faces.
+            // RE is the uniform open XX chain with one dephased endpoint: a_k = (4/(N+1))·sin²(kπ/(N+1)),
+            // α_k^full = γ₀·a_k + O(γ₀³/J²), and α_k^full/γ₀ = a_k + O((γ₀/J)²). Its first-order-in-γ₀/J H-eigenmode
+            // rate-comb coefficients are rational iff N+1 ∈ {1,2,3,4,6} (F65/F99): exact Niven rationality belongs to the first-order coefficient comb.
+            // At finite γ₀/J the relative full-L rate shift is O((γ₀/J)²),
+            // equivalently the absolute shift δα_k = O(γ₀³/J²), so no exact finite-γ₀/J full-L rationality is claimed.
+            // IM is the band edge (degree at most 2 iff N≤5: rational iff N≤2 and quadratic surd exactly for
+            // N∈{3,4,5}, namely √2/φ/√3; degree φ_euler(2(N+1))/2), F6 the Q-edge gain (golden at N=5;
+            // historical alias: V-Effect gain).
             // N=4 = first golden on both SE faces (band edge = φ = 2cos(π/5)). Two Tier1Derived typed parents,
             // both registered above: TopologyBandEdgeClaim (the IM-face) + F65XxChainSpectrumPi2Inheritance (the
-            // RE-face). Gate-first sympy-exact verifier simulations/niven_rationality_root.py; live witness
+            // RE-face first-order comb). Gate-first sympy-exact verifier simulations/niven_rationality_root.py; live witness
             // NivenRationalityRootWitness (inspect --root niven). Folds the n3_special_cases arc's number-theoretic root.
             .RegisterNivenRationalityRootClaim()
             .RegisterF86HwhmClosedFormClaim()
@@ -897,7 +901,7 @@ public static class KnowledgeRegistryFactory
             // F2b) and the ring comb (u = 1); the condition is the walk-time step's transmission amplitude with
             // one round trip of phase; the split's next order is c_m = 1/2 - 1/(N sin^2 k_m); the departures past
             // u = 1 are a parity law read off two linear factors, at most one per side by Weyl's inequality; and the
-            // road's velocity at the chain end is F65's rate comb with alternating sign. Parents
+            // road's velocity at the chain end is F65's first-order coefficient comb a_k with alternating sign. Parents
             // TopologyBandEdgeClaim (the ring row and the Scope fence that is this curve's Perron root) and
             // F2bXyChainSpectrumPi2Inheritance (the u = 0 end). No Diagnostics witness: the from-below home is
             // MirrorWorld's Crack (compute/MirrorWorld/Crack.cs), which meets the identity over the integers.

@@ -1,68 +1,57 @@
-# Proof: Subsystem Crossing Theorem
+<!-- QUARTER-CURRENT -->
+# Conditional Subsystem Crossing
 
-**Status:** SCOPE-RETRACTED 2026-06-22 (deep review). Tier 1 derived for PHYSICAL noise channels (Case A unital + Case B local: fixed point I/d or computational-basis-diagonal, CΨ = 0; N=3-5 physical subsystem pairs all cross). The GENERAL claim "for any primitive CPTP map" is FALSE (Case C): a primitive, full-rank channel can have an entangled fixed point with CΨ = 0.2935 > 1/4. Refined 2026-06-28: the surviving-scope mechanism is computational-basis-diagonality of the fixed point (L₁ = 0 ⇒ CΨ = 0), NOT separability (a separable |+⟩ ⊗ |+⟩ has CΨ = 1) and NOT mere locality; the Case B lemma and the cross-doc "separable fixed point" framing (UNIQUENESS_PROOF, README, roadmap, F28) were corrected to match (gate-verified).
-**Date:** 2026-03-22
-**Authors:** Thomas Wicht, Claude (Anthropic)
-**Statement:** For any *physical noise channel* ε on a 2-qubit system (unital: dephasing, depolarizing, any Pauli channel; or local independent noise including amplitude damping), the fixed point has `CΨ = 0`, so every initial state with `CΨ(ρ₀) > 1/4` eventually has `CΨ(εⁿ(ρ₀)) < 1/4`. The 1/4 boundary is an eventual absorber *for physical noise*. The general "any primitive CPTP map" version is FALSE: a primitive, full-rank channel can have an entangled fixed point with `CΨ = 0.2935 > 1/4` (see Step 2, Case C).
-**Reference formula:** [F28 (Fixed-point absorber theorem)](../ANALYTICAL_FORMULAS.md) in the F-formula registry; this proof is its analytical home.
-**Resolves:** Conjecture 2.1 from [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md) (Layer 2 of the seven-layer roadmap).
+Current reading: convergence to a limit below one-quarter implies eventual
+stay-below for that trajectory, and continuity gives at least one downward
+crossing from above.  Neither premise supplies universal monotonicity or an
+absorbing set for other generators.
+
+**Status:** Tier 1 conditional convergence implication. The former universal primitive-CPTP and “physical
+noise” absorber claims are withdrawn.
+**Date:** 2026-03-22; current-truth repair 2026-09-14 (history remains in git)
+**Authors:** Thomas Wicht, Claude (Anthropic), Codex
+**Statement:** If a continuous trajectory satisfies `ρ(t) → ρ*` and `CΨ(ρ*) < 1/4`, then it eventually
+stays below 1/4. Starting above 1/4 guarantees at least one downward crossing by continuity. It does not
+guarantee a unique crossing, pointwise monotonicity, or an absorbing set shared by other generators.
+**Reference formula:** F28 in the registry is retained as a historical index with this corrected scope.
 
 ---
 
 ## What this document is about
 
-A pinball loses energy with every bumper, every flipper, every flat run
-across the table. Eventually it sinks into the drain. Quantum systems
-under noise behave the same way: each application of the noise channel
-takes them closer to the drain (the fixed point of the channel).
+A destination can answer an eventual question without telling us how the journey moves. If a trajectory
+really converges to a state whose CΨ lies below the quarter, continuity supplies an eventual stay-below
+statement. It supplies no monotone route and no “crosses once” claim.
 
-This document proves that any quantum system under *physical* noise will
-eventually have CΨ drop below ¼ and stay there. The proof combines
-three ingredients: convergence to a fixed point (quantum Perron-Frobenius),
-the fact that physical-noise fixed points have CΨ = 0 (Cases A and B below),
-and continuity. Together they guarantee that CΨ = ¼ is an eventual
-absorber for physical noise: once crossed, it is never permanently re-crossed.
-(The stronger claim "for *all* primitive CPTP maps" is false; a primitive
-channel can relax toward an entangled fixed point above ¼. See Step 2, Case C.)
-
-This is the third proof in the 1/4-boundary trilogy:
-[Uniqueness](UNIQUENESS_PROOF.md) (Layer 1: the boundary value 1/4 is
-structurally unique), [Monotonicity](PROOF_MONOTONICITY_CPSI.md)
-(Layer 5: CΨ envelope decreases under Markovian dynamics), and this
-proof (Layer 2: every primitive-noise trajectory eventually crosses
-below). Together they pin down the geometry: the 1/4 is unique, the
-motion toward it is monotone in envelope, and arrival is guaranteed
-for any primitive noise.
+That distinction matters here. Named basis-aligned T1/T2/depolarizing models often have a diagonal limit,
+so the implication is useful **under the stated convergence assumptions**. But locality, Markovianity,
+primitivity, separability, and the informal label “physical noise” do not by themselves force a low-CΨ
+fixed state. The counterexample below makes the boundary visible.
 
 ---
 
-## Theorem
+## Theorem: conditional convergence implication
 
-For any *physical noise channel* ε on a 2-qubit system, unital (dephasing,
-depolarizing, any Pauli channel) or local (independent single-qubit noise,
-including amplitude damping): the fixed point ρ* has CΨ(ρ*) = 0. Hence for
-any initial state ρ₀ with CΨ(ρ₀) > 1/4 there exists N ∈ ℕ such that
-CΨ(εⁿ(ρ₀)) < 1/4 for all n ≥ N.
+Let `ρ:[0,∞)→M_d` be a continuous trajectory with **ρ(t) → ρ***. If
+**CΨ(ρ*) < 1/4**, then there is a finite T such that `CΨ(ρ(t))<1/4` for every `t≥T`: the trajectory
+**eventually stays below**. If `CΨ(ρ(0))>1/4`, the intermediate-value theorem also gives at least one
+downward crossing before T.
 
-Equivalently: for such a physical Lindblad generator L, any initial state
-with CΨ > 1/4 will have CΨ(e^{Lt}ρ₀) < 1/4 for sufficiently large t.
-
-**The 1/4 boundary is an eventual absorber for physical noise channels.**
-The general version, "for *all* primitive CPTP maps", is FALSE: a primitive,
-full-rank channel can have an entangled fixed point with CΨ = 0.2935 > 1/4
-(Step 2, Case C).
+The discrete analogue holds for a sequence `εⁿ(ρ₀)→ρ*`. Neither version asserts monotonicity or forbids
+earlier re-crossings.
 
 ---
 
 ## Proof
 
-The proof has three steps: convergence, fixed-point bound, and crossing.
+The theorem needs only convergence, a low-CΨ limit, and continuity. The channel discussions that follow
+show where those hypotheses do and do not arise; their labels are not substitutes for checking them.
 
 ### Step 1: Convergence (Quantum Perron-Frobenius)
 
-A CPTP map (completely positive, trace-preserving: the most general physically allowed quantum operation) ε on M_d is **primitive** if it has a unique fixed point ρ*
-and the spectral radius of ε restricted to the traceless subspace is
-strictly less than 1.
+A CPTP map ε on M_d is **primitive** here when it has a unique full-rank fixed point ρ* and its powers
+converge to that state; equivalently for the finite-dimensional channel used below, the spectral radius on
+the traceless subspace is strictly less than 1.
 
 **Fact (Quantum Perron-Frobenius):** For any primitive CPTP map ε:
 
@@ -73,24 +62,25 @@ strictly less than 1.
 where r < 1 is the spectral radius and C depends on the initial state.
 This is the quantum analogue of ergodic convergence. ∎
 
-For Lindblad generators: L is primitive iff it has a unique steady state.
-Then ||e^{Lt}ρ₀ - ρ*||₁ ≤ C · e^{-λt} where λ > 0 is the spectral gap.
+For a relaxing finite-dimensional Lindblad semigroup with a unique target and no additional peripheral
+modes, `||e^{Lt}ρ₀-ρ*||₁→0` (exponentially when a positive relaxation gap is available). The theorem assumes
+this convergence; uniqueness alone is not silently used as a replacement for it.
 
-### Step 2: Fixed-Point Bound - CΨ(ρ*) = 0 for physical noise
+### Step 2: Identify the actual limiting state
 
-This is the core of the proof. We show that the fixed point of any
-*physical* noise channel (unital or local) has CΨ(ρ*) = 0 < 1/4. We then
-show (Case C) that this does NOT extend to all primitive CPTP maps.
+Several named basis-aligned channels converge to a diagonal state and hence have CΨ(ρ*)=0. That fact must
+be checked together with convergence. Case C shows why no broad channel adjective can replace this step.
 
-#### Case A: Unital maps (ε(I/d) = I/d)
+#### Case A: a convergent unital channel with unique fixed point
 
-The fixed point is ρ* = I/d (maximally mixed state). For d = 4:
+If the unital channel converges to a unique fixed point, that point is ρ*=I/d. For d=4:
 
 ```
 Tr((I/4)²) = 1/4,  L₁(I/4) = 0,  CΨ(I/4) = 0 < 1/4  ✓
 ```
 
-This covers: dephasing, depolarizing, all Pauli channels, any unital noise.
+This covers the named strictly contractive depolarizing and Pauli mixtures when their convergence hypotheses
+are met. It does not say that every unital channel is relaxing.
 
 (Primitivity caveat. Strictly-contractive unital channels, e.g. depolarizing,
 have the *unique* fixed point I/d. Pure Z-dephasing is unital but NON-primitive:
@@ -99,9 +89,9 @@ its fixed points are the entire computational-basis-diagonal manifold
 point is diagonal with L₁ = 0, so CΨ = 0; for a strict unique-steady-state
 crossing combine dephasing with amplitude damping or depolarizing.)
 
-#### Case B: Local channels (ε = ε₁ ⊗ ε₂)
+#### Case B: a convergent product of local channels
 
-For independent local noise on each qubit, the fixed point factorizes:
+If each local factor converges to its unique fixed point, the product channel converges to:
 
 ```
 ρ* = ρ₁* ⊗ ρ₂*
@@ -110,24 +100,23 @@ For independent local noise on each qubit, the fixed point factorizes:
 A product state has zero entanglement, but zero entanglement does NOT bound
 CΨ: CΨ measures computational-basis coherence (through L₁), and a *separable*
 product state can carry it fully, |+⟩ ⊗ |+⟩ has L₁ = 3 and CΨ = 1. What bounds
-CΨ is the **computational-basis alignment** of the noise. The physical local
-channels (amplitude damping toward the ground state |0⟩, depolarizing,
-Pauli/Z-dephasing) have a single-qubit fixed point that is diagonal in the
-computational basis (ρ₀₁* = 0), so
+CΨ is the **computational-basis alignment** of the target. Named amplitude damping toward the ground
+state |0⟩ and depolarizing have a single-qubit target diagonal in the computational basis (`ρ₀₁*=0`), so
 
 ```
 L₁(ρ₁* ⊗ ρ₂*) = L₁(ρ₁*)·Tr(ρ₂*) + Tr(ρ₁*)·L₁(ρ₂*) + L₁(ρ₁*)·L₁(ρ₂*) = 0
 ```
 
-giving CΨ(ρ*) = 0 < 1/4. ✓ This covers amplitude damping (fixed point |0⟩) and
-depolarizing (fixed point I/2), both primitive with a diagonal fixed point.
+giving CΨ(ρ*)=0<1/4. Pure T2/Z dephasing has a diagonal fixed manifold rather than one unique target; a
+particular trajectory may still converge to a diagonal limit, but that limit must be established for the
+model at hand.
 
 *Locality alone is not sufficient.* A primitive local channel engineered to
 relax toward a coherent axis, amplitude damping conjugated by a Hadamard whose
 fixed point is |+⟩ with |ρ₀₁*| = 1/2, gives the product fixed point |+⟩ ⊗ |+⟩
 with CΨ = 1. The operative property is alignment of the noise with the
-computational (measurement) basis, which the physical T1/T2/depolarizing
-channels satisfy; it is not separability, locality, or primitivity per se.
+computational basis. Thus **basis-aligned T1/T2/depolarizing** are named useful models only **under the
+stated convergence assumptions**; separability, locality, or primitivity per se is insufficient.
 
 #### Case C: General primitive maps - the general claim is FALSE
 
@@ -165,25 +154,18 @@ violates ~8.5% (max CΨ ≈ 0.55), and trace-and-replace channels toward a rando
 target reach CΨ up to ~0.99. Random sampling never explored the region where
 the fixed point is entangled.
 
-**What is true (the surviving scope).** The crossing holds for *physical*
-noise (Cases A + B): unital channels have ρ* = I/d (CΨ = 0) and the physical
-local channels have a computational-basis-diagonal ρ* (CΨ = 0). The
-distinguishing structural fact is that physical noise relaxes toward a fixed
-point that is **diagonal in the computational basis** (L₁ = 0), whereas the
-counterexample has an off-diagonal (here entangled) fixed point. Neither
-primitivity NOR separability bounds CΨ(ρ*): a separable product state such as
-|+⟩ ⊗ |+⟩ has CΨ = 1; what bounds CΨ is computational-basis-diagonality of the
-fixed point, the very property CΨ measures (L₁ = 0). This is exactly the scope
-the IBM cusp hardware backs (`experiments/CRITICAL_SLOWING_AT_THE_CUSP.md`,
-all runs are physical dephasing + T1).
+**What is true.** Once convergence to a target is established, the target's actual CΨ decides the eventual
+conclusion. A computational-basis-diagonal target has L₁=0 and therefore CΨ=0. The counterexample instead
+has an off-diagonal target. Neither primitivity nor separability supplies the needed bound: for example,
+the separable product |+⟩⊗|+⟩ has CΨ=1. The IBM cusp runs are named dephasing+T1 trajectories and may be
+read within their own calibrated models; they do not certify the wider channel class.
 
-**Status:** Cases A and B proven analytically (Tier 1). The general
-primitive-CPTP claim is FALSE (Case C counterexample). Surviving scope:
-physical noise channels (unital / local / Pauli / amplitude-damping).
+**Status:** the continuity implication is Tier 1. The diagonal-target calculation and primitive-CPTP
+counterexample are exact. Each application still owes an independent convergence and target check.
 
 ### Step 3: Crossing (Continuity)
 
-Given Steps 1 and 2:
+For any trajectory satisfying the theorem's two hypotheses:
 
 1. εⁿ(ρ₀) → ρ* in trace norm (Step 1)
 2. CΨ(ρ*) < 1/4 (Step 2)
@@ -206,49 +188,38 @@ Given Steps 1 and 2:
 CΨ(εⁿ(ρ₀)) < CΨ(ρ*) + ε < 1/4
 ```
 
-**Therefore CΨ crosses below 1/4 and stays there. QED.** ∎
+**Therefore a trajectory that starts above crosses downward at least once and eventually stays below.**
+It may cross more than once. ∎
 
 ---
 
-## The Exception: Non-Primitive Maps
+## Why primitivity and locality are not the answer
 
-The theorem requires primitivity (unique fixed point). Non-primitive maps
-can have entangled fixed points:
+Non-primitive maps can plainly have high-CΨ fixed states:
 
 **Example:** The Lüders projection (the quantum analogue of Bayesian updating: it collapses the state into subspaces defined by the measurement) ε(ρ) = PρP + (I-P)ρ(I-P) where
 P = |Bell+⟩⟨Bell+|. This map has Bell+ as a fixed point with CΨ = 1/3 > 1/4.
 
-This particular map is a trivial exception:
-- The map acts as identity on Bell+ (it doesn't actually "do" anything)
-- It is not a noise channel in any physical sense
-- It has multiple fixed points (non-primitive)
+This projection has multiple fixed points, so it does not satisfy the convergence hypothesis.
 
 But primitivity is NOT sufficient on its own (see Step 2, Case C): the
 primitive, full-rank channel ε(ρ) = (1-p)ρ + p·Tr(ρ)·σ with
 σ = 0.95·|Φ⁺⟩⟨Φ⁺| + 0.05·I/4 has an entangled fixed point with CΨ = 0.2935 > 1/4
-and never crosses. So the absorber requires more than primitivity.
-
-**Physically:** any channel with genuine *computational-basis-aligned* local
-noise (non-zero Z-dephasing, amplitude damping toward |0⟩, or depolarizing on at
-least one qubit) relaxes toward a computational-basis-diagonal fixed point with
-CΨ = 0, so the theorem applies. The crossing is a property of computational-
-basis-aligned physical noise, not of primitivity, locality, or separability alone.
+and never crosses. So primitivity alone is insufficient. A coherent-axis local relaxation target shows
+that locality is insufficient too. What works is the explicit conjunction used by the theorem: convergence
+to a target whose CΨ is below 1/4.
 
 ---
 
 ## Extension to N-Qubit Subsystems
 
-**Corollary:** For any N-qubit system under Lindblad dynamics with *on-site,
-computational-basis-aligned* noise (Z-dephasing and/or amplitude damping at each
-site, the lab T1/T2 case), every 2-qubit subsystem pair (i,j) with
-CΨ_{ij}(0) > 1/4 will eventually have CΨ_{ij}(t) < 1/4.
+**Conditional corollary:** Suppose an N-qubit trajectory converges to a global state diagonal in the
+computational basis. Every two-qubit marginal then converges to a diagonal marginal with CΨ=0. Any such
+pair that starts above 1/4 crosses downward at least once and eventually stays below.
 
-**Proof:** Such dynamics drive the *global* steady state to a fixed point
-diagonal in the computational basis (on-site dephasing kills every off-diagonal
-ρ_{ab}, a ≠ b; amplitude damping pulls the diagonal toward |0…0⟩). The pair
-marginal ρ*_{ij} = Tr_{rest}(ρ*) of a computational-basis-diagonal global state
-is itself computational-basis-diagonal, so L₁(ρ*_{ij}) = 0 and CΨ_{ij}(ρ*) = 0.
-Convergence + continuity (Step 3) give the crossing.
+Named on-site, basis-aligned T1/T2/depolarizing models are common ways to obtain this premise, but only
+after convergence of the stated Hamiltonian-plus-noise model has been established. The corollary does not
+claim that the channel labels alone force it.
 
 *This does NOT follow from "Step 2 on the effective 2-qubit channel":* the
 partial-trace channel on a pair is a general CPTP map, neither unital nor local,
@@ -257,56 +228,45 @@ N = 2 the pair is the whole system, and the Case C counterexample σ has
 CΨ = 0.2935). The corollary holds because the *global* aligned noise forces a
 diagonal global fixed point, whose marginals are diagonal.
 
-**Numerical verification:** N = 3, 4, 5 tested with Bell+(0,1) ⊗ |0⟩^{N-2}
-and Ψ+(0,1) ⊗ |+⟩^{N-2}. All pairs with CΨ > 1/4 cross below. ✓
+**Finite catalogue:** N=3,4,5 was sampled with Bell+(0,1)⊗|0⟩^{N-2} and
+Ψ+(0,1)⊗|+⟩^{N-2}. Every pair above 1/4 in those named runs crossed below on the recorded window. This is
+a regression set, not the proof of the conditional corollary.
 
 ---
 
 ## Connection to the 1/4-Boundary Trilogy
 
-This proof is the third member of the 1/4-boundary trilogy, working
-together with [Uniqueness](UNIQUENESS_PROOF.md) (Layer 1: the boundary
-value itself is unique by the discriminant of the quadratic recursion)
-and [Monotonicity](PROOF_MONOTONICITY_CPSI.md) (Layer 5: CΨ envelope
-decreases under Markovian dynamics). The full architecture lives in
-the [seven-layer roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md);
-Uniqueness Section 5 ("CPTP Contractivity Argument, Layer 2") sketches
-the fixed-point bound that this document proves *for physical noise* (the
-general primitive-CPTP version is false; see Step 2, Case C).
+[Uniqueness](UNIQUENESS_PROOF.md) owns the algebraic quarter of the recursion. This page owns only the
+conditional topological move from a convergent trajectory to its low-CΨ limit. The repaired
+[Monotonicity](PROOF_MONOTONICITY_CPSI.md) owns exact decreasing formulas for named Bell+ channels and
+counterexamples to the former universal dynamics package; it does not supply a general peak ordering.
 
-The most direct comparison is with Monotonicity, since both are about
-CΨ trajectories under noise:
+| Question | Current answer |
+|----------|----------------|
+| Why 1/4 in the algebraic recursion? | the discriminant, owned by Uniqueness |
+| Does arbitrary Markovian evolution decrease CΨ? | no; exact local counterexamples exist |
+| If a continuous trajectory converges to `ρ*` with `CΨ(ρ*)<1/4`? | it eventually stays below |
+| Do “primitive,” “local,” or “physical” force that premise? | no |
 
-| Property | Monotonicity | Crossing (this proof) |
-|----------|-------------|----------|
-| Claim | CΨ envelope decreases | CΨ eventually < 1/4 |
-| Scope | Continuous Lindblad | Physical noise (unital / local) |
-| Method | dCΨ/dt < 0, spectral gap | Convergence + continuity |
-| Non-Markov | Transient revival possible | Still crosses (eventual) |
-| Strength | Stronger (monotone) | Weaker (eventual) but broader |
-
-Together with Uniqueness, the three give: **the boundary is structurally
-unique (Uniqueness), the motion toward it is monotone in envelope
-(Monotonicity), and arrival is guaranteed for physical noise (this proof;
-the general primitive-CPTP version is false). Non-Markovian dynamics can
-transiently push CΨ back above 1/4, but the eventual crossing still holds
-for physical noise.**
+This division is deliberately less sweeping. It tells a future calculation exactly which missing fact it
+must supply: the actual limiting state of the actual generator.
 
 ---
 
 ## Numerical Evidence Summary
 
-Physical noise (the surviving scope) crosses with zero exceptions:
+Named aligned-noise runs in the retained finite catalogue crossed with zero sampled exceptions:
 
 | Test | N_tests | Crossed? | Max CΨ(ρ*) |
 |------|---------|----------|-------------|
-| N=3,4,5 Lindblad pairs | 10 pairs | ALL | 0 |
-| Adversarial (p=0.001) | 1 | YES (n=1000) | 0.023 |
-| Standard channels | 7 types | ALL | 0 |
+| N=3,4,5 Lindblad pairs | 10 pairs | all sampled | 0 |
+| Adversarial slow-convergence row (p=0.001) | 1 | yes by n=1000 | 0.023 |
+| Named standard-channel configurations | 7 types | all sampled | 0 |
 
-(The random-CPTP-on-Bell+ sweep is deliberately NOT listed here: it is not
-physical noise but the Ginibre ensemble below, and at n_kraus=4 its fixed points
-sit at CΨ ≈ 0.14-0.20, not 0. It is an artifact, characterized in the next table.)
+(The random-CPTP-on-Bell+ sweep is deliberately not listed here: it is a
+physical CPTP ensemble but not representative of a named or calibrated noise ensemble.
+At n_kraus=4 its fixed points sit at CΨ≈0.14–0.20, not 0; the next table
+characterizes that sampling artifact.)
 
 The "random fixed points" sweep is an **ensemble artifact**, not evidence for
 the general claim (verifier: `simulations/review2_A5_subsystem.py`):
@@ -319,8 +279,8 @@ the general claim (verifier: `simulations/review2_A5_subsystem.py`):
 | **counterexample σ = 0.95·Φ⁺ + 0.05·I/4** | 1 | **0.2935** | **never crosses** |
 
 The old "300 maps, 0 exceptions" lived entirely in the strongly-mixing
-n_kraus=4 corner; it is consistent with the truth (physical noise crosses) but
-says nothing about the general primitive-CPTP claim, which is false.
+n_kraus=4 corner; it says nothing about the general primitive-CPTP claim, which the exact counterexample
+already disproves.
 
 ---
 
@@ -328,13 +288,13 @@ says nothing about the general primitive-CPTP claim, which is false.
 
 ### Sibling proofs in the 1/4-boundary trilogy
 
-- [Uniqueness Proof](UNIQUENESS_PROOF.md): Layer 1, the boundary itself is unique (March 21, 2026; one day before this proof and Monotonicity); Section 5 of Uniqueness ("CPTP Contractivity, Layer 2") sketches the bound this document proves for physical noise (the general-CPTP version is false)
-- [CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md): Layer 5, continuous-time monotonicity under Markovian dynamics
+- [Uniqueness Proof](UNIQUENESS_PROOF.md): the algebraic quarter from the quadratic discriminant
+- [CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md): named decreasing channel formulas, exact counterexamples, and the open peak-sequence question
 - [Proof Roadmap Quarter Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer master roadmap; this proof is Layer 2 (Conjecture 2.1)
 
 ### F-formula registry
 
-- [F28 (Fixed-point absorber theorem)](../ANALYTICAL_FORMULAS.md): the typed home of Step 2 of this proof in the F-formula registry
+- [F28](../ANALYTICAL_FORMULAS.md): historical registry index, now scoped to the conditional convergence implication
 
 ### Scripts
 

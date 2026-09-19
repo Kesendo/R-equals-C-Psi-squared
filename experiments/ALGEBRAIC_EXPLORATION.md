@@ -1,8 +1,18 @@
-# Algebraic Exploration: Decoherence Clock ξ = ln(Ψ) and Coherence-Purity Bound
+# Algebraic Exploration: Finite Log-Coherence Traces and the Coherence-Purity Bound
+
+<!-- F14-CURRENT -->
+
+The four retained slope rows are finite, unregenerated trajectory readings,
+not a clock theorem for arbitrary Hamiltonians. l1 coherence is basis-fixed;
+Hamiltonian motion can redistribute it. For the exact Markovian control
+ρ₀=(I+X/2+Z/2)/2, H=Y, D(ρ)=(ZρZ−ρ)/4, one gets ξ′(0)=3/2 and
+ξ″(0)=−7; at H=0 these become −1/2 and 0. Curvature therefore does not
+by itself establish memory. The named state-family closed forms and the
+Cauchy–Schwarz bound below remain distinct from that clock conjecture.
 
 <!-- Keywords: decoherence clock xi ln psi linear decay, coherence purity
 Cauchy-Schwarz bound resource theory, effective decoherence rate gamma_eff,
-Hamiltonian does not affect coherence decay, C(xi) closed form Bell+ W GHZ,
+basis-fixed coherence and Hamiltonian redistribution, C(xi) closed form Bell+ W GHZ,
 Baumgratz normalization convention dependence, agent v025 v027 algebraic
 exploration, R=CPsi2 algebraic exploration -->
 
@@ -19,39 +29,21 @@ exploration, R=CPsi2 algebraic exploration -->
 
 ## What this document is about
 
-Four AI agents (running locally on a 120B model) were given the R=CΨ²
-framework and tasked with pure algebraic exploration: find new variables,
-connect to known physics, and stress-test everything. Out of many
-proposals, two survived verification. First, ξ = ln(Ψ) is a natural
-"decoherence clock" that ticks at a perfectly constant rate, turning
-all observables into simple exponentials. Second, the CΨ ≤ ¼ boundary
-is not a static resource-theoretic constraint but a dynamic threshold
-that Lindblad dynamics forces every trajectory to cross. Five other
-proposals were correctly identified as trivial, model-specific, or
-tautological.
-
+Four AI agents explored new coordinates and standard coherence bounds.
+The retained four-configuration slope table reports variation below 0.01%
+on its declared grid. It does not extend that finite log-linearity to every
+Lindblad trajectory. The separate coherence-purity bound is a static
+Cauchy–Schwarz inequality, not a clock or a mandatory-crossing theorem.
 ---
 
 ## Abstract
 
-AI agents (Alpha/Beta/Gamma/Delta) exploring the R = CΨ² framework in
-pure algebraic mode discovered two verified results and rejected five
-trivial or model-specific proposals. (1) The decoherence clock ξ = ln(Ψ)
-decays linearly in time with slope variation < 0.01%, providing a
-natural time variable where all observables become exponentials:
-C = f(e^ξ), CΨ = g(e^ξ). The Hamiltonian contributes zero to dξ/dt;
-only the noise model and initial state determine the effective rate
-γ_eff (≈ 2γ for local dephasing on Bell+, ≈ 4γ for collective).
-(2) The standard Cauchy-Schwarz coherence-purity bound
-Ψ ≤ √[d·(C−1/d)/(d−1)] is always satisfied, but CΨ ≤ ¼ is not a
-static resource-theoretic constraint: it is a dynamic threshold where
-Lindblad dynamics force the (C,Ψ) trajectory to intersect the
-bifurcation hyperbola. A v027 continuation (85 messages) produced three
-state-specific C(ξ) closed forms verified to machine precision
-(< 2.3×10⁻¹⁶). Rejected findings include λ = −ln(CΨ) (trivial),
-β-function (model-specific), and entropic bound (algebraically identical
-to CΨ ≤ ¼).
-
+The finite record contains four nearly log-linear traces, named
+state-family C(ξ) closed forms, and a standard coherence-purity bound.
+Its 2.010/4.041/2.235 rate ratios and <0.01% slope variations remain
+unregenerated historical numbers. Neither zero unitary contribution nor
+Hamiltonian-independent log-coherence follows from them. The exact
+Markovian counterexample above separates curvature from memory.
 ---
 
 ## Context
@@ -71,6 +63,12 @@ This document records what survived independent verification.
 ---
 
 ## Verified Findings
+
+<!-- F14-HISTORICAL -->
+
+> Historical record: this four-configuration clock conjecture and its
+> heuristic explanations are retained with their original numbers. They are
+> not a general Lindblad or Hamiltonian-independence result.
 
 ### Finding 1: The Decoherence Clock (ξ = ln Ψ)
 
@@ -132,6 +130,8 @@ evidence suggests it holds more broadly but the scope is unknown).
 
 ---
 
+<!-- F14-CURRENT -->
+
 ### Finding 2: Resource Theory Grounding (Coherence-Purity Bound)
 
 **Proposed by:** Beta (message #4092), stress-tested by Gamma
@@ -179,9 +179,9 @@ produce CΨ ≤ 1/4.
 The 1/4 boundary appears because **Lindblad dynamics forces both monotones to
 decay at different rates**, driving the (C, Ψ) trajectory to intersect the
 hyperbola CΨ = 1/4. Specifically:
-- ξ = ln(Ψ) decays linearly (Finding 1)
+- ξ = ln(Ψ) was nearly linear in the four retained traces (Finding 1), not for every Hamiltonian
 - C decays sub-linearly (purity approaches 1/d asymptotically)
-- The product CΨ therefore crosses any threshold in the range (0, CΨ(0))
+- The crossing of a selected threshold must be checked on the specified trajectory
 
 The coherence-purity bound is **static** (holds for all states at all times).
 The 1/4 crossing is **dynamic** (requires decoherence to drive the trajectory).

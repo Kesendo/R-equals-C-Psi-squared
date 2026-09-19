@@ -6,6 +6,11 @@
 **Depends on:** [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md),
 [Resonant Return](../experiments/RESONANT_RETURN.md) (the concentrator formula)
 
+**Interpretive invitation — not a result:** the protein mapping below asks
+whether a biochemical system could realize a profile analogous to the finite
+qubit calculation. No protein implementation or cross-level mechanism is
+established here.
+
 **Naming note (2026-07-05):** renamed from "The Protein as Sacrifice Zone".
 The edge element sacrifices nothing; it concentrates environmental noise and
 turns it into structure (the misnomer was resolved 2026-03-28, and the
@@ -45,10 +50,10 @@ Two perspectives on the same element:
 - From the inside (protected core): a shield that absorbs noise
 - From the outside (full system): a concentrator that enables
 
-The mediator in the V-Effect plays a structurally similar role: it
-concentrates coupling into one point, enabling 109 new frequencies.
-Whether this similarity is algebraic (same mechanism) or analogical
-(similar pattern, different mechanism) is an open question.
+The historical V-Effect comparison reports 109 frequency bins for its finite
+N=5 MediatorBridge generator. Calling the mediator a concentrator is an analogy:
+the calculation neither isolates coupling as the cause of the count nor shows
+that the protein and qubit profiles share a mechanism.
 
 ## The Analogy
 
@@ -80,22 +85,22 @@ hypothesis needs is a measured T₂ at an active site against one in
 bulk, not a ratio against an assumed classical baseline. See
 [Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md).
 
-The protein does not "catalyze" in the traditional sense (lowering
-a barrier). It catalyzes by being a CONCENTRATOR: absorbing
-environmental noise so the quantum coherence of the proton transfer
-survives long enough to cross the fold.
+If the proposed mapping were borne out, the protein environment could be
+described as a concentrator in addition to the usual barrier-lowering account.
+The present calculation does not show that an active-site proton reaches the
+fold or that this is how catalysis works.
 
 ## Hardware Evidence
 
-The concentrator principle has been validated on IBM Torino hardware:
+The named qubit control protocol has been measured on IBM Torino hardware:
 selective DD (protecting inner qubits while leaving the concentrator qubit
 unprotected) outperforms uniform DD by up to 3.2x (peaking at t = 4 μs,
 about 2x on average across t = 1-5 μs, non-monotonic). At later times the
 *measured* advantage runs increasingly ahead of the *formula's prediction*
 (2.9x measured vs ~1.3x predicted at t = 5 μs), as DD-gate imperfections
 accumulate on the fragile concentrator qubit and worsen the uniform
-configuration. This is the first quantitative hardware evidence that
-the concentrator effect works beyond simulation.
+configuration. This supports that finite hardware comparison; it is not
+evidence that a protein implements the same profile.
 See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
 
 ## What Would Confirm This

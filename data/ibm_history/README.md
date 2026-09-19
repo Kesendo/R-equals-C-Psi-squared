@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# IBM Torino calibration history
+
+Current reading: this archive contains `24,073` calibration records.  The legacy
+CSV fields `r_param` and `crosses_quarter` are schema-adapter names; current
+analysis maps immediately to the normalized-purity proxy `r=T2/(2*T1)` for a
+free single-transmon `|+>` model and below/near/at-or-above the numerical
+`R*=0.21275477982200533`.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the original archive description follows; measured rows
+are unchanged, while old regime nouns are superseded by the adapter above.
+
 # IBM Torino Calibration History
 
 ## What is this?
@@ -12,7 +25,7 @@ They are measured automatically by the system, not by us.
 
 | File | Content |
 |------|---------|
-| `ibm_torino_history.csv` | 24,074 records: daily T1, T2, frequency, r\_param, CΨ metrics for 133 qubits |
+| `ibm_torino_history.csv` | 24,073 records: daily T1, T2, frequency, legacy r\_param/proxy fields for 133 qubits |
 | `ibm_history_analysis.py` | Python script to fetch and analyze the data (requires IBM Quantum account) |
 
 ## CSV Columns

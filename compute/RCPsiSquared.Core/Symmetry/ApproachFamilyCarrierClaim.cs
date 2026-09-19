@@ -1,162 +1,103 @@
-using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 
 namespace RCPsiSquared.Core.Symmetry;
 
-/// <summary>The cusp-approach family (our "family of approach shapes") wired into the typed graph. The
-/// partial-entanglement initial state |ψ(α)⟩ = cosα|00⟩ + sinα|11⟩ under Z-dephasing has the coherence
-/// CΨ(α,t) = w₀·e^(−4γt) + w₁·e^(−12γt), w₀ = s(1−s²/2)/3, w₁ = s³/6, s = sin2α (Tier-1, verified
-/// bit-exact against the Lindblad evolution; implemented in
-/// <c>RCPsiSquared.Diagnostics.Foundation.OddHarmonicApproach</c> / <c>ApproachFamilyField</c>, the
-/// <c>--axis approach</c> eyepiece). This Claim places that family in the existing typed graph instead of
-/// leaving it isolated, via four edges.
+/// <summary>
+/// The exact two-qubit Z-dephasing approach family
+/// <c>CΨ(s,t)=w₀e^(-4γt)+w₁e^(-12γt)</c>, with
+/// <c>w₀=s(1-s²/2)/3</c>, <c>w₁=s³/6</c> and <c>s=sin(2α)</c> for
+/// <c>|ψ(α)⟩=cos(α)|00⟩+sin(α)|11⟩</c>, on <c>0≤s≤1</c>.
+/// Here <c>s</c> is the pure-state concurrence of the initial state, whereas
+/// <c>CΨ(0)=s/3</c> is a distinct linear readout equal to one third of it.
+/// A genuine temporal downward crossing of the scalar quarter occurs iff
+/// <c>γ&gt;0</c> and <c>s&gt;3/4</c>; equality is a t=0 touch, and at γ=0 the curve is constant.
+/// At the endpoint <c>s=0</c>, both weights vanish and there is no late-time
+/// exponential term; every nonzero member <c>0&lt;s≤1</c> has the 4γ term.
 ///
-/// <para>(1) <see cref="UniversalCarrierClaim"/>: every member shares the slowest mode, the carrier rate
-/// 4γ₀, and collapses onto it at late time. That rate is the <see cref="AbsorptionTheoremClaim"/>: the
-/// per-coherence rate is 2γ₀·n_diff, and the Bell+ coherence |00⟩⟨11| differs on both sites (n_diff = 2),
-/// so 2γ₀·2 = 4γ₀ (one-disagreement basis-cell cost 2γ₀). The number 4 also reads as the polynomial discriminant
-/// a₋₁ (the t_peak = 1/(4γ₀) structural reading); both the Absorption Theorem and the discriminant live
-/// inside the Universal Carrier, the carrier the family shares being γ₀ in its universal-carrier role.
-/// And that 1/(4γ₀) time-reading is the clock we built: the live <c>MirrorSystem</c> clock has Takt
-/// τ = 1/(slowest rate), which is 1/(4γ₀) at the F86 exceptional point (the slowest mode pins at 4γ₀),
-/// and its Rotation hand is the F95 angle arctan(ω/gap) (the one typed in
-/// <see cref="TransitionBridgeF95SiblingClaim"/>, zero for pure dephasing as the rotation stills at the
-/// cusp, lifting off with a Z-drift as the 2D spiral winds). So 4γ₀ is the carrier's decay RATE
-/// (absorption) and 1/(4γ₀) its clock TIME tick, the two faces, both already in C#.</para>
-///
-/// <para>(2) <see cref="C2BareDoubledPtfClosedForm"/>: a c=2 doubled-PTF kinship. The family is a
-/// two-mode structure (the 4γ carrier + a 12γ harmonic, the 3:1 odd-harmonic ratio), the state-space
-/// DECAY observable; C2's K_b is the parameter-space SUSCEPTIBILITY observable carrying the same 3:1
-/// ratio and the same carrier role. Siblings on the shared structure, NOT a hidden identity: the family's
-/// 12γ harmonic is a purity×coherence cross term, while the block / K_b harmonic is the HD=3 sector mode,
-/// and the two live at different (intensity vs amplitude) levels. The 3:1 ratio and the carrier are what
-/// they share; a viewpoint, not a thing (as with the cusp/EP F95 siblinghood).</para>
-///
-/// <para>(3) <see cref="TwoReadingsClaim"/>: the closed form (algebra) and the Lindblad trajectory
-/// (dynamics) are two readings of the one approach. "The slowing is ours" is this pair: the carrier
-/// reading is steady, the apparent slowing lives in the observable.</para>
-///
-/// <para>(4) <see cref="F25CPsiBellPlusPi2Inheritance"/>: the Bell+ member (s = 1, weights 1/6, 1/6)
-/// reproduces F25's two-exponential exactly; the family is F25's one-parameter generalization.</para>
-///
-/// <para>Tier-1 derived for the closed form and the four edges; the "decay-face sibling of the
-/// susceptibility-face" framing is a viewpoint (the shared two-mode carrier structure), not an asserted
-/// same-object identity. The cusp's other typed home is <see cref="TransitionBridgeF95SiblingClaim"/>
-/// (the F95 angle); these carrier / PTF edges are orthogonal to that one.</para>
-///
-/// <para>Anchors: <c>compute/RCPsiSquared.Diagnostics/Foundation/OddHarmonicApproach.cs</c> +
-/// <c>docs/NAVIGATING_THE_DIMENSIONS.md</c> ("The family of approach shapes") +
-/// <c>simulations/approach_family.py</c>.</para></summary>
+/// <para>The typed graph records two mathematical edges. The
+/// <see cref="AbsorptionTheoremClaim"/> supplies <c>f=e^(−4γt)</c> because the
+/// coherence |00⟩⟨11| has <c>n_diff=2</c>,
+/// and <see cref="F25CPsiBellPlusPi2Inheritance"/> is the exact Bell+ member at
+/// <c>s=1</c>. The matching 3:1 ratio in the C2 doubled-PTF calculation and the
+/// algebra/dynamics description are illuminating prose comparisons, not ancestry
+/// edges or same-object identities.</para>
+/// </summary>
 public sealed class ApproachFamilyCarrierClaim : Claim
 {
-    /// <summary>Edge 1: the shared carrier 4γ₀ (γ₀ in its universal-carrier role). The rate 4γ₀ = 2γ₀·n_diff
-    /// is the Absorption Theorem (n_diff = 2, the Bell+ coherence differs on both sites); the "4" also reads
-    /// as the polynomial discriminant a₋₁.</summary>
-    public UniversalCarrierClaim Carrier { get; }
+    /// <summary>The exact dephasing cost that produces f=e^(−4γt) at n_diff=2.</summary>
+    public AbsorptionTheoremClaim Absorption { get; }
 
-    /// <summary>Edge 2: the c=2 doubled-PTF kinship (shared 3:1 ratio + carrier; decay vs susceptibility; kinship not identity).</summary>
-    public C2BareDoubledPtfClosedForm C2Ptf { get; }
-
-    /// <summary>Edge 3: algebra (closed form) vs dynamics (Lindblad), two readings of the one approach.</summary>
-    public TwoReadingsClaim TwoReadings { get; }
-
-    /// <summary>Edge 4: the Bell+ member (s=1) reproduces F25; the family generalizes F25.</summary>
+    /// <summary>The exact Bell+ specialization at s=1.</summary>
     public F25CPsiBellPlusPi2Inheritance F25 { get; }
 
-    /// <summary>The carrier rate coefficient: the slowest mode decays at 4γ = 2γ₀·n_diff with n_diff = 2
-    /// (the Absorption Theorem, the Bell+ coherence differing on both sites; one-disagreement cell cost 2γ₀).
-    /// The 4 also reads as the polynomial discriminant a₋₁.</summary>
     public const double CarrierRateCoefficient = 4.0;
-
-    /// <summary>The harmonic rate coefficient: the fast mode decays at 12γ = 3 × the carrier (the 3:1 ratio).</summary>
     public const double HarmonicRateCoefficient = 12.0;
-
-    /// <summary>The entanglement threshold s = 3/4: the approach crosses ¼ iff s &gt; 3/4 (CΨ(0)=s/3 &gt; ¼).</summary>
     public const double CrossingThresholdS = 0.75;
 
     public ApproachFamilyCarrierClaim(
-        UniversalCarrierClaim carrier,
-        C2BareDoubledPtfClosedForm c2Ptf,
-        TwoReadingsClaim twoReadings,
+        AbsorptionTheoremClaim absorption,
         F25CPsiBellPlusPi2Inheritance f25)
-        : base("The cusp-approach family CΨ(α,t)=w₀e^(−4γt)+w₁e^(−12γt) (|ψ(α)⟩=cosα|00⟩+sinα|11⟩) shares the " +
-               "universal carrier 4γ₀ (every member collapses onto it), is a c=2 two-mode decay sibling of the F86 " +
-               "K_b susceptibility (C2 bare-doubled-PTF) on the shared 4γ/12γ 3:1 skeleton (kinship, not identity), " +
-               "its algebra and Lindblad dynamics are a two-readings pair, and the Bell+ member is F25",
-               Tier.Tier1Derived,
-               "compute/RCPsiSquared.Diagnostics/Foundation/OddHarmonicApproach.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs + " +
-               "compute/RCPsiSquared.Core/F86/Item1Derivation/C2BareDoubledPtfClosedForm.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/TwoReadingsClaim.cs + " +
-               "compute/RCPsiSquared.Core/Symmetry/F25CPsiBellPlusPi2Inheritance.cs + " +
-               "docs/NAVIGATING_THE_DIMENSIONS.md + simulations/approach_family.py")
+        : base(
+            "For the named two-qubit Z-dephasing family, CΨ(s,t)=w₀e^(−4γt)+w₁e^(−12γt); " +
+            "s is the pure-state concurrence of the initial state and CΨ(0)=s/3 is exactly one third of it; " +
+            "a temporal downward crossing of the scalar quarter occurs iff γ>0 and s>3/4, while at γ=0 the curve is constant; " +
+            "s=0 has w₀=w₁=0, every nonzero member (0<s≤1) has the late-time 4γ term, " +
+            "and the Bell+ member s=1 is exactly F25",
+            Tier.Tier1Derived,
+            "compute/RCPsiSquared.Diagnostics/Foundation/OddHarmonicApproach.cs + " +
+            "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs + " +
+            "compute/RCPsiSquared.Core/Symmetry/F25CPsiBellPlusPi2Inheritance.cs + " +
+            "docs/NAVIGATING_THE_DIMENSIONS.md + simulations/approach_family.py")
     {
-        Carrier = carrier ?? throw new ArgumentNullException(nameof(carrier));
-        C2Ptf = c2Ptf ?? throw new ArgumentNullException(nameof(c2Ptf));
-        TwoReadings = twoReadings ?? throw new ArgumentNullException(nameof(twoReadings));
+        Absorption = absorption ?? throw new ArgumentNullException(nameof(absorption));
         F25 = f25 ?? throw new ArgumentNullException(nameof(f25));
     }
 
-    /// <summary>Builds the claim with fresh parent chains (for standalone use; the registry wires via b.Get).
-    /// None of the four parents expose a Build()/Shared factory, so the parent chains are constructed
-    /// directly (TransitionBridgeF95SiblingClaim.Build() style). A single Pi2DyadicLadderClaim and a single
-    /// PolynomialFoundationClaim are shared across the sub-chains that need them (the ladder feeds Absorption,
-    /// the discriminant, the Universal Carrier, and F25; the polynomial feeds the discriminant and TwoReadings).</summary>
+    /// <summary>Builds the claim and its two genuine parent chains for standalone use.</summary>
     public static ApproachFamilyCarrierClaim Build()
     {
-        // Shared Pi2-Foundation roots (parameterless ctors).
         var ladder = new Pi2DyadicLadderClaim();
-        var polynomial = new PolynomialFoundationClaim();
-        var qubit = new QubitDimensionalAnchorClaim();
         var quarter = new QuarterAsBilinearMaxvalClaim();
 
-        // Edge 1: UniversalCarrierClaim(AbsorptionTheoremClaim, Pi2DyadicLadderClaim, PolynomialDiscriminantAnchorClaim).
         var absorption = new AbsorptionTheoremClaim(ladder);
-        var discriminant = new PolynomialDiscriminantAnchorClaim(polynomial, qubit, ladder);
-        var carrier = new UniversalCarrierClaim(absorption, ladder, discriminant);
-
-        // Edge 2: C2BareDoubledPtfClosedForm (parameterless ctor).
-        var c2Ptf = new C2BareDoubledPtfClosedForm();
-
-        // Edge 3: TwoReadingsClaim(PolynomialFoundationClaim).
-        var twoReadings = new TwoReadingsClaim(polynomial);
-
-        // Edge 4: F25CPsiBellPlusPi2Inheritance(Pi2DyadicLadderClaim, QuarterAsBilinearMaxvalClaim).
         var f25 = new F25CPsiBellPlusPi2Inheritance(ladder, quarter);
 
-        return new ApproachFamilyCarrierClaim(carrier, c2Ptf, twoReadings, f25);
+        return new ApproachFamilyCarrierClaim(absorption, f25);
     }
 
-    /// <summary>Shared singleton; the claim is a structural synthesis, block-independent.</summary>
     public static ApproachFamilyCarrierClaim Shared { get; } = Build();
 
     public override string DisplayName =>
-        "Approach family carrier wiring (cusp-approach as a carried c=2 decay reading; Bell+ = F25)";
+        "Two-qubit approach family (Absorption n_diff=2 gives 4γ; s=0 is zero; Bell+ = F25)";
 
     public override string Summary =>
-        "the cusp-approach family CΨ(α,t)=w₀e^(−4γt)+w₁e^(−12γt) shares the universal carrier 4γ₀, is a c=2 " +
-        "two-mode decay sibling of the F86 K_b susceptibility (kinship not identity), its algebra/dynamics are a " +
-        $"two-readings pair, and the Bell+ member (s=1) is F25; crosses ¼ iff s>3/4 ({Tier.Label()})";
+        "the named two-qubit family has s as the initial pure-state concurrence and CΨ(0)=s/3 as a distinct linear readout equal to one third of it; " +
+        "its exact weights are w₀=s(1−s²/2)/3 and w₁=s³/6 at rates 4γ and 12γ. A temporal downward crossing occurs iff γ>0 and s>3/4; " +
+        "at s=3/4 there is only a t=0 touch, and at γ=0 the curve is constant and does not cross. " +
+        "At s=0 both weights vanish; every nonzero member 0<s≤1 has the late-time 4γ term. The claim has two typed parents: the Absorption Theorem at n_diff=2 " +
+        "and the exact Bell+ F25 specialization. The C2 3:1 resemblance and algebra/dynamics pairing are prose comparisons, not ancestry.";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return new InspectableNode("the shared carrier (edge 1)",
-                summary: "every member collapses onto the slowest mode 4γ₀; here the closed-form Bell+ coherence differs on two sites, so its isolated basis-cell slope is 2γ₀·2=4γ₀ (one-disagreement cost 2γ₀); the 4 also reads as the polynomial discriminant a₋₁; both live inside the Universal Carrier, the carrier the family shares (γ₀).");
-            yield return new InspectableNode("the c=2 doubled-PTF kinship (edge 2, a viewpoint not an identity)",
-                summary: "the family (decay observable) and C2's K_b (susceptibility observable) share the 4γ/12γ 3:1 odd-harmonic ratio and the carrier role; the 12γ harmonic is a purity×coherence cross term here, an HD=3 sector mode there, at different (intensity vs amplitude) levels. Siblings on the shared structure, not the same object.");
-            yield return new InspectableNode("the two readings (edge 3)",
-                summary: "the closed form (algebra) and the Lindblad trajectory (dynamics) are two readings of the one approach; 'the slowing is ours' is this pair, the carrier reading steady, the apparent slowing in the observable.");
-            yield return new InspectableNode("the Bell+ member = F25 (edge 4)",
-                summary: "s=1 gives weights (1/6, 1/6), so CΨ(1,t)=(1/6)e^(−4γt)+(1/6)e^(−12γt)=f(1+f²)/6, exactly F25; the family is F25's one-parameter (entanglement) generalization.");
-            yield return InspectableNode.RealScalar("carrier rate coefficient (×γ)", CarrierRateCoefficient);
-            yield return InspectableNode.RealScalar("harmonic rate coefficient (×γ, = 3×carrier)", HarmonicRateCoefficient);
-            yield return InspectableNode.RealScalar("entanglement crossing threshold s = sin2α", CrossingThresholdS);
-            yield return Carrier;
-            yield return C2Ptf;
-            yield return TwoReadings;
+            yield return new InspectableNode(
+                "exact family formula",
+                summary: "s is the initial pure-state concurrence; CΨ(0)=s/3 is exactly one third of it, and CΨ(s,t)=s(1−s²/2)e^(−4γt)/3+s³e^(−12γt)/6 for the named free two-qubit Z-dephasing setup");
+            yield return new InspectableNode(
+                "shared late-time exponential",
+                summary: "the Absorption Theorem gives f=e^(−4γt) for the n_diff=2 coherence; for 0<s≤1 the nonzero w₀ term contains f, while the 12γ term is f³; at s=0 both weights vanish");
+            yield return new InspectableNode(
+                "non-ancestral comparisons",
+                summary: "C2 also displays a 3:1 pair of coefficients, while a closed form and a Lindblad trajectory describe the same calculation; these are prose comparisons, not typed derivations");
+            yield return new InspectableNode(
+                "Bell+ specialization",
+                summary: "s=1 gives w₀=w₁=1/6, hence (e^(−4γt)+e^(−12γt))/6, exactly F25");
+            yield return InspectableNode.RealScalar("slow-rate coefficient (×γ)", CarrierRateCoefficient);
+            yield return InspectableNode.RealScalar("fast-rate coefficient (×γ)", HarmonicRateCoefficient);
+            yield return InspectableNode.RealScalar("temporal downward-crossing threshold s (for γ>0)", CrossingThresholdS);
+            yield return Absorption;
             yield return F25;
         }
     }

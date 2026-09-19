@@ -6,31 +6,32 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The live lab for the CΨ Envelope Theorem (the typed claim is
-/// <c>CpsiEnvelopeTheoremClaim</c>). The proof PREDICTS the full-state envelope is non-increasing; this
-/// witness CONFIRMS it live and shows the theorem's BOUNDARY — the reduced carrier pair escapes it (its
-/// beat envelope rises, the freedom). Two independent computations meeting: the theorem vs the live
-/// evolution.
+/// <summary>The live finite rise atlas associated with the historically named
+/// <c>CpsiEnvelopeTheoremClaim</c>. It reports what selected N/Q/K windows resolve. A zero sampled
+/// rise is not an absence theorem, and a positive sampled rise is numerical evidence only after the
+/// stated reporting bar and refinement controls are applied.
 ///
 /// <para>It reuses <see cref="Symphony"/> as the evolve-CΨ engine and <see cref="QuarterEnvelope.Of"/>
 /// to read the envelope, exactly as the Symphony tests do — it does not re-implement the propagation.
-/// Strong-coupling regime J=5, γ=0.01, tMax=25, where the freedom is loud.</para>
+/// The named J=5, γ=0.01, tMax=25 grid resolves above-bar carrier-pair rises.</para>
 ///
-/// <para>Guard: N in 3..<see cref="Symphony.MaxN"/>. NOT N=2: there the carrier pair IS the full state
-/// (the partial trace is the identity), so local ≡ global and the freedom vanishes by construction, not
-/// physics. The N=2-proven case is the claim's domain; the freedom needs a bath.</para>
+/// <para>Guard: N in 3..<see cref="Symphony.MaxN"/>. At N=2 the carrier pair is the full state, so
+/// local and global readings coincide. That identity is all this guard asserts: the autonomous N=2
+/// successive-local-maxima question remains unproved, and the five exact examples do not refute it.
+/// The finite global/local comparison needs a bath.</para>
 ///
-/// <para>Children: the theorem (global, RiseCount 0), the freedom (local pair, rises above the
-/// genuineness bar; grows with N), and the state-class triptych control (SingleExcitation = sub-bar
-/// artifacts that vanish under refinement; BondingMode = silent H-eigenstate; vs Bell+ = genuine), plus
-/// the local CΨ(t) curve payload.</para></summary>
+/// <para>Children: the finite global reading, the local carrier-pair reading, and the named-state
+/// triptych control (SingleExcitation = two named grid readings; BondingMode = initial H-eigenstate
+/// plus no above-bar rise on its named grid; Bell+ = above-bar reading on the named grid), plus the local CΨ(t) curve
+/// payload.</para></summary>
 public sealed class EnvelopeTheoremWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
-    /// <summary>A real beating rise exceeds this; grid-clip artifacts sit far below (genuine ≥ 8.9e-3,
-    /// SingleExcitation artifact ≈ 5.5e-4). The convention-robust separator between signal and noise.</summary>
-    public const double GenuinenessBar = 1e-3;
+    /// <summary>A reporting convention for the finite atlas. A predecessor rise above this value is
+    /// resolved on this named grid; refinement comparisons are reported separately. The bar does not
+    /// separate physical signal from noise.</summary>
+    public const double RiseReportingBar = 1e-3;
 
     private const double JStrong = 5.0, GammaStrong = 0.01, TMaxStrong = 25.0;
     private const int FinePoints = 1600, CoarsePoints = 400;
@@ -42,9 +43,8 @@ public sealed class EnvelopeTheoremWitness : IInspectable
         if (n < 3 || n > Symphony.MaxN)
             throw new ArgumentOutOfRangeException(nameof(n),
                 $"the witness needs N in 3..{Symphony.MaxN}: at N=2 the carrier pair IS the full state " +
-                "(the partial trace is the identity), so local ≡ global and the freedom vanishes by " +
-                "construction, not physics — the identity case. The N=2-proven theorem is the claim's " +
-                $"domain; the freedom needs a bath (N≥3). Got {n}.");
+                "(the partial trace is the identity), so local ≡ global. The finite global/local comparison " +
+                $"needs a larger system; the autonomous N=2 peak question remains unproved. Got {n}.");
         N = n;
     }
 
@@ -62,7 +62,7 @@ public sealed class EnvelopeTheoremWitness : IInspectable
         var t = bell.TimeGrid.ToArray();
         var localCurve = bell.States.Select(bell.LocalCpsi).ToArray();
         _globalBell = GlobalEnvelope(bell);   // the same core the static GlobalReading uses — no drift
-        _localBell = QuarterEnvelope.Of(localCurve, t);
+        _localBell = QuarterEnvelope.Of(localCurve, t, riseTol: RiseReportingBar);
         _payloadT = t;
         _payloadCurve = localCurve;
 
@@ -75,25 +75,27 @@ public sealed class EnvelopeTheoremWitness : IInspectable
     {
         var s = new Symphony(n: N, j: JStrong, gamma: GammaStrong,
             initialState: init, tMax: TMaxStrong, tPoints: points);
-        return QuarterEnvelope.Of(s.States.Select(s.LocalCpsi).ToArray(), s.TimeGrid.ToArray());
+        return QuarterEnvelope.Of(s.States.Select(s.LocalCpsi).ToArray(), s.TimeGrid.ToArray(),
+            riseTol: RiseReportingBar);
     }
 
     /// <summary>The full-state (global) CΨ envelope on an already-evolved engine — the exact detector the
-    /// witness reads for its theorem child. A shared core so the live witness and the boundary sweep
+    /// witness reads for its finite global child. A shared core so the live witness and the atlas sweep
     /// cannot drift.</summary>
     private static EnvelopeReading GlobalEnvelope(Symphony bell) =>
-        QuarterEnvelope.Of(bell.States.Select(Symphony.Cpsi).ToArray(), bell.TimeGrid.ToArray());
+        QuarterEnvelope.Of(bell.States.Select(Symphony.Cpsi).ToArray(), bell.TimeGrid.ToArray(),
+            riseTol: RiseReportingBar);
 
     /// <summary>The global CΨ envelope reading for a Bell+ carrier at (<paramref name="n"/>,
     /// <paramref name="j"/>, <paramref name="gamma"/>) over [0, <paramref name="tMax"/>] on
     /// <paramref name="points"/> grid points — the witness's own detector, parameterised so the
-    /// envelope_n4_rise boundary sweep reuses it verbatim instead of re-deriving it.</summary>
+    /// envelope_n4_rise finite atlas reuses it verbatim instead of re-deriving it.</summary>
     public static EnvelopeReading GlobalReading(int n, double j, double gamma, double tMax, int points) =>
         GlobalEnvelope(new Symphony(n: n, j: j, gamma: gamma,
             initialState: InitialStateKind.BellPair, tMax: tMax, tPoints: points));
 
-    /// <summary>The number of predecessor-rises in the global CΨ envelope at (N, J, γ): 0 means the
-    /// full-state envelope is non-increasing (the N=2 theorem's behaviour), &gt;0 means it RISES.</summary>
+    /// <summary>The number of predecessor rises exceeding <see cref="RiseReportingBar"/> in this
+    /// finite global CΨ window. Zero means none was resolved on this grid, not that none exists.</summary>
     public static int GlobalRiseCount(int n, double j, double gamma, double tMax, int points) =>
         GlobalReading(n, j, gamma, tMax, points).RiseCount;
 
@@ -104,22 +106,22 @@ public sealed class EnvelopeTheoremWitness : IInspectable
     public EnvelopeReading LocalBonding { get { Ensure(); return _localBonding; } }
 
     public string DisplayName =>
-        $"EnvelopeTheoremWitness (the theorem live, N={N}, J={JStrong.ToString("0.#", Inv)}, γ={GammaStrong.ToString("0.###", Inv)})";
+        $"EnvelopeTheoremWitness (finite rise atlas, N={N}, J={JStrong.ToString("0.#", Inv)}, γ={GammaStrong.ToString("0.###", Inv)})";
 
     public string Summary
     {
         get
         {
             Ensure();
-            string globalClause = _globalBell.IsNonIncreasing
-                ? $"At N={N} the live evolution CONFIRMS it (global RiseCount = 0, non-increasing)"
-                : $"At N={N} the live evolution REFUTES it (global RiseCount = {_globalBell.RiseCount} rises): a candidate " +
-                  "falsification of the over-broad 'verified N=3-5' paraphrase (the proof is Tier-1 for the 2-qubit case only)";
-            return $"the CΨ Envelope Theorem live (typed home: CpsiEnvelopeTheoremClaim): the proof predicts the " +
-                   $"full-state envelope is non-increasing. {globalClause}. The reduced carrier pair has no theorem and " +
-                   $"its beat envelope rises (local RiseCount = {_localBell.RiseCount}, max Δ = " +
-                   $"{_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} > {GenuinenessBar.ToString("0.###", Inv)}, the " +
-                   "freedom, beating). Two independent computations meeting (theorem vs live evolution).";
+            string globalClause = _globalBell.RiseCount == 0
+                ? $"At N={N}, no global predecessor rise above the reporting bar was resolved (RiseCount = 0)"
+                : $"At N={N}, this finite grid resolves {_globalBell.RiseCount} global predecessor rises above the reporting bar";
+            return $"finite CΨ rise atlas (historical typed home: CpsiEnvelopeTheoremClaim): {globalClause}. " +
+                   "That finite reading neither proves absence nor decides the still-unproved autonomous N=2 peak-sequence claim. " +
+                   "The reduced carrier pair has no general monotonicity guarantee; " +
+                   $"this named grid reports local RiseCount = {_localBell.RiseCount} and raw max positive Δ = " +
+                   $"{_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} against the reporting bar " +
+                   $"{RiseReportingBar.ToString("0.###", Inv)}. The named grids invite a wider atlas; they do not draw a theorem boundary.";
         }
     }
 
@@ -129,42 +131,42 @@ public sealed class EnvelopeTheoremWitness : IInspectable
         {
             Ensure();
 
-            yield return new InspectableNode("the theorem (global, live)",
+            yield return new InspectableNode("the finite global reading",
                 summary: $"full-state CΨ at N={N}, J={JStrong.ToString("0.#", Inv)}, γ={GammaStrong.ToString("0.###", Inv)}, " +
-                         $"1600 pts: envelope RiseCount = {_globalBell.RiseCount} " +
-                         $"({(_globalBell.IsNonIncreasing ? "non-increasing ✓ — consistent with the N=2 theorem (N≥3 is not guaranteed)" : "RISES — the N≥3 full-state envelope is OPEN; at N≥4 strong coupling the internal J-coupling is the Part-6 coherence injector, NOT a falsification of the N=2 theorem")}). " +
-                         "Proven Tier-1 for N=2; N≥3 OPEN (PROOF_MONOTONICITY_CPSI Part 5 / CpsiEnvelopeTheoremClaim). " +
-                         "The rise boundary is charted (EnvelopeBoundaryTests): an N≥4 floor, Q_c(4)≈27, Q_c(5)≈45.");
+                         $"1600 pts: predecessor rises above {RiseReportingBar.ToString("0.###", Inv)} = {_globalBell.RiseCount}; " +
+                         $"max Δ = {_globalBell.MaxRiseMagnitude.ToString("0.#####", Inv)}. " +
+                         "No-rise rows are finite null samples; rise rows are finite numerical evidence. " +
+                         "PROOF_MONOTONICITY_CPSI retracts the old universal package and leaves the autonomous N=2 peak question unproved.");
 
-            yield return new InspectableNode("the freedom (local carrier pair)",
-                summary: $"the reduced carrier-pair CΨ has no theorem and its beat envelope RISES: RiseCount = " +
+            yield return new InspectableNode("the local carrier-pair reading",
+                summary: $"the reduced carrier-pair CΨ has no theorem; this named grid reports RiseCount = " +
                          $"{_localBell.RiseCount}, max Δ = {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
-                         $"(> the genuineness bar {GenuinenessBar.ToString("0.###", Inv)}), grid-sensitive: verify with ≥4× t-points. " +
-                         "The freedom grows with N (a richer bath)" +
-                         (N < Symphony.MaxN ? $"; try --N {N + 1} for a larger rise." : "."));
+                         $"against the reporting bar {RiseReportingBar.ToString("0.###", Inv)}. Compare a separately evolved refined grid. " +
+                         "This is one named N/Q/K window" +
+                         (N < Symphony.MaxN ? $"; try --N {N + 1} to add another atlas row." : "."));
 
-            // The artifact control is N-dependent: at N=3 SingleExcitation's apparent rises are sub-bar grid
-            // noise that vanish under refinement; at N=4 the richer bath lets even the localized state beat,
-            // so the bar no longer cleanly separates it. Report which case is live rather than hardcoding N=3.
-            bool singleIsArtifact = _singleCoarse.MaxRiseMagnitude < GenuinenessBar
-                                    && _singleFine.MaxRiseMagnitude < GenuinenessBar
-                                    && _singleFine.RiseCount == 0;
-            string singleClause = singleIsArtifact
-                ? $"SingleExcitation = artifacts only (max Δ {_singleCoarse.MaxRiseMagnitude.ToString("0.#####", Inv)} at 400 pts " +
+            // The grid comparison is N-dependent: at N=3 SingleExcitation's sub-bar rise is absent on
+            // the finer grid; at N=4 the named localized-state row also rises above the bar. Report which
+            // finite case is live rather than hardcoding N=3 or inferring a mechanism.
+            bool singleBelowBarOnBoth = _singleCoarse.RiseCount == 0 && _singleFine.RiseCount == 0;
+            string singleClause = singleBelowBarOnBoth
+                ? $"SingleExcitation = sub-bar grid readings (max Δ {_singleCoarse.MaxRiseMagnitude.ToString("0.#####", Inv)} at 400 pts " +
                   $"and {_singleFine.MaxRiseMagnitude.ToString("0.#####", Inv)} at 1600 pts, both < bar; RiseCount " +
-                  $"{_singleFine.RiseCount} at 1600: they vanish under refinement)"
-                : $"SingleExcitation = ALSO beating at this N (max Δ {_singleFine.MaxRiseMagnitude.ToString("0.#####", Inv)} at 1600 pts " +
-                  $"{(_singleFine.MaxRiseMagnitude >= GenuinenessBar ? "> bar" : "< bar")}, RiseCount {_singleFine.RiseCount} at 1600: " +
-                  "the richer bath lets even the localized state beat, so the bar no longer cleanly separates it here)";
-            yield return new InspectableNode("the state-class control (beats / artifacts / silent)",
-                summary: $"Bell+ = genuine beating (max Δ {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} > bar); " +
+                  $"{_singleFine.RiseCount} at 1600)"
+                : $"SingleExcitation = an above-bar finite row at this N (max Δ {_singleFine.MaxRiseMagnitude.ToString("0.#####", Inv)} at 1600 pts " +
+                  $"{(_singleFine.MaxRiseMagnitude >= RiseReportingBar ? "> bar" : "< bar")}, RiseCount {_singleFine.RiseCount} at 1600: " +
+                  "this is only the stated grid classification)";
+            yield return new InspectableNode("the named-state control (above bar / two grids / H-eigenstate)",
+                summary: $"Bell+ = rise above the reporting bar on this named grid (max Δ {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} > bar); " +
                          $"{singleClause}; " +
-                         $"BondingMode = silent (RiseCount {_localBonding.RiseCount}: an H-eigenstate's pair CΨ decays without beating). " +
-                         "Genuine rise needs a state that is not an H-mode and survives refinement.");
+                         $"BondingMode = initial H-eigenstate with no rise above the reporting bar on its named grid " +
+                         $"(RiseCount {_localBonding.RiseCount}). " +
+                         "These are finite numerical classifications; the two-grid comparison supplies no cause or convergence claim, " +
+                         "the reporting bar does not separate physical signal from noise, and no general state-class law is inferred.");
 
-            yield return new InspectableNode("the local CΨ(t) (the beating)",
-                summary: $"the carrier-pair CΨ over t for Bell+ at the strong-coupling regime; the late-time beat " +
-                         "envelope is where the freedom's rises sit.",
+            yield return new InspectableNode("the local CΨ(t) finite curve",
+                summary: $"the carrier-pair CΨ over t for Bell+ in the named J={JStrong.ToString("0.#", Inv)}, " +
+                         $"γ={GammaStrong.ToString("0.###", Inv)} finite window.",
                 payload: new InspectablePayload.Curve("local CΨ(t)", _payloadT, _payloadCurve, "t", "local CΨ"));
         }
     }

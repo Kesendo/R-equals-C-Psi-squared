@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""The spiral slows, but the carrier does not: the slowing is ours.
+"""A finite Bell+ local-Z-dephasing readout drawn as a spiral.
 
-A reading of one thing the eye catches in cusp_spiral_2d: the spiral visibly slows as it
-winds into the cusp. It really does, but not because of the rotation, and not because of
-a brake at ¼. Split the coherence into its two factors,
+A reading of one thing the eye catches in ``cusp_spiral_2d``: the plotted
+trajectory visibly crowds inward.  This is a finite model trajectory, not a
+Mandelbrot orbit and not a physical transition at ¼.  Split the selected
+readout into its two factors,
 
     CΨ = purity · coherence,   purity = Tr(ρ²) = ½(1+f²),   coherence = f/3,   f = e^(−4γt),
 
-and the story is clean: the bare coherence (the off-diagonal, the carrier, the eigenvalue
-−γ₀) descends at a perfectly constant rate −4γ. It never slows. What slows is CΨ, because
+and the story is clean: the bare coherence (the off-diagonal carrier) has
+decay factor ``exp(-4 gamma t)`` and rate ``4 gamma``. It never slows. What slows is CΨ, because
 it folds in the purity, which collapses fast early (pure Bell → mixed floor ½) then
 flattens. So CΨ's log-rate halves, −8γ → −4γ, and in the linear-radius picture the main
 figure draws, that flattening looks even more dramatic. The rotation only bends this
@@ -21,7 +22,7 @@ Produces: simulations/results/cusp_spiral_2d/spiral_slowing.png
 """
 from __future__ import annotations
 
-import sys
+import argparse
 from pathlib import Path
 
 import numpy as np
@@ -29,20 +30,27 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
 CUSP = 0.25
 
 
-def main() -> None:
+def bellplus_decay(times, gamma):
+    return np.exp(-4.0 * gamma * times)
+
+
+def bellplus_readout(times, gamma):
+    f = np.exp(-4.0 * gamma * times)
+    return f * (1.0 + f * f) / 6.0
+
+
+def main(output_path) -> None:
+    destination = Path(output_path)
     gamma, omega, phi0 = 0.05, 0.4, 0.0
     wind = omega / (4 * gamma)
 
     # Fine grid for curves; equal-time dots for the "crowding" panel.
     t = np.linspace(0.0, 30.0, 600001)
-    f = np.exp(-4 * gamma * t)
-    mag = f * (1 + f**2) / 6          # |CΨ|, the observable
+    f = bellplus_decay(t, gamma)
+    mag = bellplus_readout(t, gamma)  # |CΨ|, the observable
     coh = f / 3.0                     # the bare coherence (the carrier), exp at rate 4γ
     c = mag * np.exp(1j * (phi0 - omega * t))
 
@@ -57,30 +65,31 @@ def main() -> None:
     print(f"  CΨ descent rate:   {dlog_cpsi[0]:.2f}γ at start  ->  {dlog_cpsi[-1]:.2f}γ late")
     print(f"  carrier rate:      {dlog_coh[0]:.2f}γ throughout (constant)")
     print(f"  per-turn shrink:   e^(-2π/{wind:.0f}) = {np.exp(-2*np.pi/wind):.4f}")
-    print(f"  crosses ¼ at t={t_cross:.2f}, |CΨ| still falling at finite pace there")
+    print(f"  reaches the selected radial ¼ readout at t={t_cross:.2f}; the pace is finite")
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(19, 6.2))
 
     # ── Panel 1: the spiral with equal-time dots (the slowing you see) ──
     circ = CUSP * np.exp(1j * np.linspace(0, 2 * np.pi, 400))
     ax1.plot(circ.real, circ.imag, "--", color="red", lw=1.4, alpha=0.9,
-             label="cusp circle |CΨ| = 1/4")
+             label="selected radial circle, radius 1/4")
     ax1.plot(0.0, 0.0, "+", color="gray", markersize=9)
     ax1.plot(c.real, c.imag, "-", color="#AA33CC", lw=1.3, alpha=0.6, zorder=3)
     n_dots = 46
     td = np.linspace(0.0, t[-1], n_dots)
-    fd = np.exp(-4 * gamma * td)
-    magd = fd * (1 + fd**2) / 6
+    magd = bellplus_readout(td, gamma)
     cd = magd * np.exp(1j * (phi0 - omega * td))
     ax1.scatter(cd.real, cd.imag, c=td, cmap="viridis", s=42, edgecolor="black",
                 linewidths=0.4, zorder=5)
     ax1.plot(c.real[i_cross], c.imag[i_cross], "*", color="gold", markeredgecolor="black",
-             markeredgewidth=0.7, markersize=20, zorder=6, label="crosses ¼")
+             markeredgewidth=0.7, markersize=20, zorder=6,
+             label="selected radial crossing")
     ax1.set_xlim(-0.36, 0.40)
     ax1.set_ylim(-0.38, 0.38)
     ax1.set_aspect("equal")
     ax1.grid(True, alpha=0.2)
-    ax1.set_title("Equal time-steps, crowding inward:\nthe spiral slows as it winds in")
+    ax1.set_title("Equal time-steps, crowding inward:\n"
+                  "finite Bell+ local-Z-dephasing readout")
     ax1.set_xlabel("Re(CΨ_com)")
     ax1.set_ylabel("Im(CΨ_com)")
     ax1.legend(loc="lower left", fontsize=8)
@@ -93,7 +102,7 @@ def main() -> None:
     ax2.axhline(CUSP, color="red", ls=":", lw=1.0, alpha=0.7)
     ax2.plot(t_cross, CUSP, "*", color="gold", markeredgecolor="black",
              markeredgewidth=0.6, markersize=16, zorder=6)
-    ax2.annotate("|CΨ| = 1/4", (t_cross, CUSP), textcoords="offset points",
+    ax2.annotate("radial reference |CΨ| = 1/4", (t_cross, CUSP), textcoords="offset points",
                  xytext=(8, 6), fontsize=8, color="red")
     ax2.annotate("carrier: constant −4γ\n(a straight line in log)", (22, coh[int(22/t[-1]*len(t))]),
                  textcoords="offset points", xytext=(-150, 20), fontsize=8, color="#2E8B57")
@@ -123,18 +132,18 @@ def main() -> None:
 
     fig.suptitle(
         "Does the spiral slow? Yes, but the carrier does not. The carrier (the coherence, the\n"
-        "eigenvalue −γ₀) falls at a constant rate; CΨ only seems to slow, through the purity and the "
-        "linear lens. The rotation just winds it into a spiral. The slowing is ours.",
+        "decay factor exp(-4 gamma t); rate 4 gamma) falls steadily; CΨ bends through the purity and the "
+        "linear lens. The 1/4 line is not a cusp or horizon.",
         y=1.02, fontsize=11)
     plt.tight_layout(rect=[0, 0, 1, 0.94])
 
-    out_dir = Path(__file__).parent / "results" / "cusp_spiral_2d"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out = out_dir / "spiral_slowing.png"
-    plt.savefig(out, dpi=170, bbox_inches="tight")
+    fig.savefig(destination, dpi=170, bbox_inches="tight")
     plt.close()
-    print(f"  saved: {out}")
+    print(f"  saved: {destination}")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", dest="output_path", required=True)
+    args = parser.parse_args()
+    main(args.output_path)

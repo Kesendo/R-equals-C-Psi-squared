@@ -1,3 +1,10 @@
+QUARTER-CURRENT
+Current reading: this is a historical finite-output capture for the named Born-shadow calculation.
+The historical helper called CΨ actually computed purity Tr(rho^2).
+Its search target was purity 0.27, not CΨ=1/4.
+Bell+ and |01> rows at t=50 are terminal no-hit samples, not crossings.
+|++> is the sole row that reached the 0.27 purity target. The retained numbers decompose linearity and purity; photography, shutter, and measurement language is interpretation, not a Born-rule derivation.
+=== BEGIN CAPTURED PAYLOAD ===
 ===========================================================================
 BORN RULE AS INTERFERENCE PATTERN
 ===========================================================================
@@ -150,3 +157,5 @@ SUMMARY
    different probability distributions at the crossing, confirming
    that the 'photograph' depends on what the cavity was doing before
    the light arrived.
+=== END CAPTURED PAYLOAD ===
+Current note: the captured numeric body above is preserved verbatim; present claims use the finite model and its explicit assumptions.

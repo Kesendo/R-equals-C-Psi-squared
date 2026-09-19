@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# IBM hardware synthesis: finite proxy records and confounded associations
+
+Current reading: the `24,073` calibration records are classified by the
+normalized-purity proxy `r=T2/(2*T1)` for a free single-transmon `|+>` model and
+the numerical `R*`.  Use below/near/at-or-above `R*`.  The rows do not prove a
+phase transition, fold mechanism, or zero fixed point; cross-backend, path, and
+date ratios are confounded associations.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the synthesis below preserves measured rows and the
+route to the proxy.  Its old regime and causal labels are not current.
+
 # IBM Hardware Synthesis: Theory Meets 24,073 Calibration Records
 
 <!-- Keywords: IBM hardware validation synthesis, r parameter threshold
@@ -336,7 +349,7 @@ constructed matrices and molecular calculations are separate model results.
 | Edge/interior response decay | Fitted class-mean ratio **≈1.91x** | No neural 2x law from F36 | Not tested | Specified IBM protocol |
 | 1/4 boundary | **1.9% dev**, r* 0.000014 | F36 supplies no neural threshold | 0.46 ps (water model) | IBM observation and separate molecular calculation |
 | Sacrifice zone | **2.02x** MI, **3.71x** LR | Not tested | Protein (Tier 4) | Qubit confirmed |
-| V-Effect | MI enhancement grows with time | Protocol-dependent frequency bins; coupled odd construction fails F36 | Coupled model: 126 total, 104 new (11 per isolated side) | Distinct response and spectral diagnostics; common mechanism unestablished |
+| V-Effect census / response | MI enhancement grows with time in the named protocol | Protocol-dependent frequency bins; coupled odd construction fails F36 | Finite generator: 126 bins versus 11 per isolated side, so count excess `126 - 2*11 = 104`; no eigenmode ancestry measured | Distinct response and spectral diagnostics; common mechanism unestablished |
 | CΨ oscillation | Qualitative measurement proposal; no committed numeric producer | Not tested | 6 crossings (Zundel) | Proposed measurement (Exp B) |
 | GHZ vs W | No supported universal ratio; J=0 pure-dephasing control gives 1.5x | Not applicable | Not applicable | Proposed measurement (Exp A) |
 | Long-range MI | **3.71x** (2,4) pair | Not tested | Not tested | Qubit confirmed |

@@ -1,3 +1,24 @@
+# Black Holes, White Holes, and the Big Bang: An Interpretive Notebook
+
+<!-- F14-CURRENT -->
+
+**Status:** Retained wrong-turn story; the universal-curve premise is not restored.
+F14 keeps K=γt constant for a fixed readout on the Hamiltonian-dead Bell+
+trajectory during a gamma sweep. It is not a cosmological curve shared by
+all states, channels, Hamiltonians, or spatial profiles. The nine feedback
+rows do not derive a horizon, a bounce, a Page curve, or a CMB prediction.
+The independent coupled-chain result in
+[Self-Consistency](SELF_CONSISTENCY_SCHWARZSCHILD.md) is a negative control,
+not support for the universal premise. Optical-cavity and Gamma-Is-Light
+analogies do not restore that premise.
+
+<!-- F14-INTERPRETIVE -->
+
+> Interpretive invitation, not a result: the retained February story below
+> asks what a horizon might look like in this vocabulary. Its claims of a
+> universal curve and physical consequences are part of the imagined model,
+> not deductions from F14. All original tables and equations remain readable.
+
 # Black Holes, White Holes, and the Big Bang
 ## Speculative interpretation of the tau = 0 transition point
 

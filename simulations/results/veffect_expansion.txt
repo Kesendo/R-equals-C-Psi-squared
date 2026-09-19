@@ -1,3 +1,13 @@
+<!-- VEFFECT-CURRENT -->
+=== CURRENT READING (2026-09-15) ===
+This is a retained historical finite-bin calculation. It changes the generator
+and Hilbert-space dimension between rows; it computed no eigenvector transport,
+state-transport observable, or persistence witness. Its 104 row is a bin count
+under the captured instrument, not a count of created modes. The later prose
+about irreversible facts and crystallization is an interpretive historical
+record, not a result of the calculation.
+
+<!-- VEFFECT-HISTORICAL -->
 === V-EFFECT EXPANSION ANALYSIS ===
 
 Computation 1: Frequency scaling with N

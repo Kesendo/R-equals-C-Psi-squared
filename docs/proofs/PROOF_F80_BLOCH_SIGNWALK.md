@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Proof of F80: operator-cluster sign-walk formula
+
+Current reading: F80 is a formula for named open-chain two-body operator
+clusters and their finite verification range.  Operator-space parity and an
+invariant subspace do not imply that each Liouvillian eigenvector is individually
+self-conjugate or Pi-fixed.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the detailed proof and its older Majorana wording follow;
+read eigenvector-level interpretations through the current scope above.
+
 # Proof of F80: Bloch-Mode Sign-Walk Formula for Chain Π²-Odd 2-Body M-Clusters
 
 **Tier:** 1 for the open-chain two-body cluster-value formula; numerically verified through N=7.

@@ -10,20 +10,17 @@ Output: simulations/results/two_qubits_no_noise.txt
 
 import numpy as np
 from scipy.linalg import expm
-from scipy.optimize import linear_sum_assignment
-import os, sys, time as clock
+import argparse
+from pathlib import Path
+import sys
+import time as clock
 
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        "results", "two_qubits_no_noise.txt")
-_outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if __package__:
+    from .pairing_structure import f1_partner, maximum_cardinality_f1_match
+else:
+    from pairing_structure import f1_partner, maximum_cardinality_f1_match
 
-def log(msg=""):
-    print(msg, flush=True)
-    _outf.write(msg + "\n")
-    _outf.flush()
-
+OUT_PATH = Path(__file__).parent / "results" / "two_qubits_no_noise.txt"
 I2 = np.eye(2, dtype=complex)
 sx = np.array([[0, 1], [1, 0]], dtype=complex)
 sy = np.array([[0, -1j], [1j, 0]], dtype=complex)
@@ -90,194 +87,206 @@ def von_neumann(rho):
     return -np.sum(evals * np.log2(evals))
 
 
-# ============================================================
-H = build_H()
-ZZ = site_op(sz, 0) @ site_op(sz, 1)
-XY = site_op(sx, 0) @ site_op(sy, 1)
+def count_palindromic(evals, Sg, tolerance=1e-6):
+    """Count one-use F1 matches at the generator's own centre."""
+    return maximum_cardinality_f1_match(evals, Sg, tolerance)
 
-states = {
-    'Bell+': np.outer((np.kron(up, up) + np.kron(dn, dn)) / np.sqrt(2),
-                       (np.kron(up, up) + np.kron(dn, dn)).conj() / np.sqrt(2)),
-    '|+0>':  np.outer(np.kron(plus, up), np.kron(plus, up).conj()),
-    '|01>':  np.outer(np.kron(up, dn), np.kron(up, dn).conj()),
-}
 
-tlist = np.arange(0, 50.01, 0.1)
+def main(output_path=OUT_PATH):
+    """Run the fixed N=2 book and write a deterministic, explicit destination."""
+    started = clock.perf_counter()
+    if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    def build_payload():
+        lines = []
 
-log("Two Qubits, No Noise, Just Time")
-log(f"Started: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
-log()
+        def log(msg=""):
+            print(msg, flush=True)
+            lines.append(str(msg))
 
-# ============================================================
-# Main sweep: gamma=0 for each initial state
-# ============================================================
-L0 = build_L(H, [0, 0])
+        log("QUARTER-CURRENT")
+        log("Current reading: finite N=2 scalar crossings and spectrum counts in the stated books.")
+        log()
 
-for sname, rho0 in states.items():
-    log("=" * 70)
-    log(f"Initial state: {sname}, gamma = 0")
-    log("=" * 70)
-    log()
+        # ============================================================
+        H = build_H()
+        ZZ = site_op(sz, 0) @ site_op(sz, 1)
+        XY = site_op(sx, 0) @ site_op(sy, 1)
 
-    crossings_down = 0; crossings_up = 0
-    prev_above = cpsi(rho0) > 0.25
-    recurrence_t = None
+        states = {
+            'Bell+': np.outer((np.kron(up, up) + np.kron(dn, dn)) / np.sqrt(2),
+                               (np.kron(up, up) + np.kron(dn, dn)).conj() / np.sqrt(2)),
+            '|+0>':  np.outer(np.kron(plus, up), np.kron(plus, up).conj()),
+            '|01>':  np.outer(np.kron(up, dn), np.kron(up, dn).conj()),
+        }
 
-    log(f"  {'t':>6}  {'CPsi':>8}  {'Conc':>8}  {'PurA':>8}  {'Dist':>8}  "
-        f"{'S_A':>8}  {'<ZZ>':>8}  {'<XY>':>8}  {'Pur':>8}")
-    log(f"  {'-'*78}")
+        tlist = np.arange(0, 50.01, 0.1)
 
-    for t in tlist:
-        rho = evolve(L0, rho0, t)
-        rA = ptrace_A(rho)
-        rA = (rA + rA.conj().T) / 2
+        log("Two Qubits, No Noise, Just Time")
 
-        cp = cpsi(rho)
-        conc = concurrence(rho)
-        purA = np.real(np.trace(rA @ rA))
-        dist = trace_dist(rho, rho0)
-        sA = von_neumann(rA)
-        zz = np.real(np.trace(ZZ @ rho))
-        xy = np.real(np.trace(XY @ rho))
-        pur_full = np.real(np.trace(rho @ rho))
+        log()
 
-        above = cp > 0.25
-        if prev_above and not above: crossings_down += 1
-        if not prev_above and above: crossings_up += 1
-        prev_above = above
+        # ============================================================
+        # Main sweep: gamma=0 for each initial state
+        # ============================================================
+        L0 = build_L(H, [0, 0])
 
-        if recurrence_t is None and t > 0.5 and dist < 0.01:
-            recurrence_t = t
+        for sname, rho0 in states.items():
+            log("=" * 70)
+            log(f"Initial state: {sname}, gamma = 0")
+            log("=" * 70)
+            log()
 
-        if abs(t % 5) < 0.05 or t < 0.15:
-            log(f"  {t:>6.1f}  {cp:>8.4f}  {conc:>8.4f}  {purA:>8.4f}  {dist:>8.4f}  "
-                f"{sA:>8.4f}  {zz:>8.4f}  {xy:>8.4f}  {pur_full:>8.6f}")
+            crossings_down = 0; crossings_up = 0
+            prev_above = cpsi(rho0) > 0.25
+            recurrence_t = None
 
-    log()
-    log(f"  CPsi crossings downward through 1/4: {crossings_down}")
-    log(f"  CPsi crossings upward through 1/4: {crossings_up}")
-    log(f"  Recurrence (D < 0.01): {'t = ' + f'{recurrence_t:.1f}' if recurrence_t else 'not found in [0, 50]'}")
-    log(f"  Full system purity at t=50: {np.real(np.trace(evolve(L0, rho0, 50) @ evolve(L0, rho0, 50))):.10f}")
-    log()
+            log(f"  {'t':>6}  {'CPsi':>8}  {'Conc':>8}  {'PurA':>8}  {'Dist':>8}  "
+                f"{'S_A':>8}  {'<ZZ>':>8}  {'<XY>':>8}  {'Pur':>8}")
+            log(f"  {'-'*78}")
 
-# ============================================================
-# Comparison table: gamma=0 vs gamma=0.05
-# ============================================================
-log("=" * 70)
-log("COMPARISON: gamma=0 vs gamma=0.05 (initial state |01>)")
-log("=" * 70)
-log()
+            for t in tlist:
+                rho = evolve(L0, rho0, t)
+                rA = ptrace_A(rho)
+                rA = (rA + rA.conj().T) / 2
 
-rho0 = states['|01>']
-L_noisy = build_L(H, [0.05, 0.05])
+                cp = cpsi(rho)
+                conc = concurrence(rho)
+                purA = np.real(np.trace(rA @ rA))
+                dist = trace_dist(rho, rho0)
+                sA = von_neumann(rA)
+                zz = np.real(np.trace(ZZ @ rho))
+                xy = np.real(np.trace(XY @ rho))
+                pur_full = np.real(np.trace(rho @ rho))
 
-# gamma=0
-cross_down_0 = 0; cross_up_0 = 0; prev_above = cpsi(rho0) > 0.25
-rec_0 = None
-for t in tlist:
-    rho = evolve(L0, rho0, t)
-    cp = cpsi(rho)
-    above = cp > 0.25
-    if prev_above and not above: cross_down_0 += 1
-    if not prev_above and above: cross_up_0 += 1
-    prev_above = above
-    if rec_0 is None and t > 0.5 and trace_dist(rho, rho0) < 0.01: rec_0 = t
+                above = cp > 0.25
+                if prev_above and not above: crossings_down += 1
+                if not prev_above and above: crossings_up += 1
+                prev_above = above
 
-rho_50_clean = evolve(L0, rho0, 50)
-pur_50_clean = np.real(np.trace(rho_50_clean @ rho_50_clean))
-zz_50_clean = np.real(np.trace(ZZ @ rho_50_clean))
+                if recurrence_t is None and t > 0.5 and dist < 0.01:
+                    recurrence_t = t
 
-# gamma=0.05
-cross_down_n = 0; cross_up_n = 0; prev_above = cpsi(rho0) > 0.25
-rec_n = None
-for t in tlist:
-    rho = evolve(L_noisy, rho0, t)
-    cp = cpsi(rho)
-    above = cp > 0.25
-    if prev_above and not above: cross_down_n += 1
-    if not prev_above and above: cross_up_n += 1
-    prev_above = above
-    if rec_n is None and t > 0.5 and trace_dist(rho, rho0) < 0.01: rec_n = t
+                if abs(t % 5) < 0.05 or t < 0.15:
+                    log(f"  {t:>6.1f}  {cp:>8.4f}  {conc:>8.4f}  {purA:>8.4f}  {dist:>8.4f}  "
+                        f"{sA:>8.4f}  {zz:>8.4f}  {xy:>8.4f}  {pur_full:>8.6f}")
 
-rho_50_noisy = evolve(L_noisy, rho0, 50)
-pur_50_noisy = np.real(np.trace(rho_50_noisy @ rho_50_noisy))
-zz_50_noisy = np.real(np.trace(ZZ @ rho_50_noisy))
+            log()
+            log(f"  CPsi crossings downward through 1/4: {crossings_down}")
+            log(f"  CPsi crossings upward through 1/4: {crossings_up}")
+            log(f"  Recurrence (D < 0.01): {'t = ' + f'{recurrence_t:.1f}' if recurrence_t else 'not found in [0, 50]'}")
+            log(f"  Full system purity at t=50: {np.real(np.trace(evolve(L0, rho0, 50) @ evolve(L0, rho0, 50))):.10f}")
+            log()
 
-# Palindromic check
-evals_clean = np.linalg.eigvals(L0)
-evals_noisy = np.linalg.eigvals(L_noisy)
-Sg = 0.10
+        # ============================================================
+        # Comparison table: gamma=0 vs gamma=0.05
+        # ============================================================
+        log("=" * 70)
+        log("COMPARISON: gamma=0 vs gamma=0.05 (initial state |01>)")
+        log("=" * 70)
+        log()
 
-def count_palindromic(evals, Sg):
-    """How many eigenvalues find a partner under lambda -> -2*Sg - lambda.
+        rho0 = states['|01>']
+        L_noisy = build_L(H, [0.05, 0.05])
 
-    Matched with removal (Hungarian), never a nearest-neighbour scan: a scan
-    lets one partner serve many eigenvalues, so a multiset like {1,1,1,-1}
-    scores a perfect 4/4 while no bijection exists. The count and the worst
-    matched distance are returned together, because a count alone cannot say
-    how close the misses were."""
-    ev = np.asarray(evals)
-    target = -2 * Sg - ev
-    cost = np.abs(ev[:, None] - target[None, :])
-    rows, cols = linear_sum_assignment(cost)
-    d = cost[rows, cols]
-    return int(np.sum(d < 1e-6))
+        # gamma=0
+        cross_down_0 = 0; cross_up_0 = 0; prev_above = cpsi(rho0) > 0.25
+        rec_0 = None
+        for t in tlist:
+            rho = evolve(L0, rho0, t)
+            cp = cpsi(rho)
+            above = cp > 0.25
+            if prev_above and not above: cross_down_0 += 1
+            if not prev_above and above: cross_up_0 += 1
+            prev_above = above
+            if rec_0 is None and t > 0.5 and trace_dist(rho, rho0) < 0.01: rec_0 = t
 
-# Each spectrum is scored at ITS OWN centre. A multiset closed under
-# lambda -> 2c - lambda has c = trace(L)/dim identically (F137), so there is
-# one candidate centre per generator and it is read off the generator, never
-# searched. The two centres here are different numbers: the clean generator is
-# traceless, so its centre is 0, while the noisy one sits at -Sg. Scoring both
-# at -Sg would report the clean spectrum as broken for using the wrong mirror.
-pal_noisy = count_palindromic(evals_noisy, Sg)
-pal_clean = count_palindromic(evals_clean, -np.real(np.trace(L0)) / L0.shape[0])
+        rho_50_clean = evolve(L0, rho0, 50)
+        pur_50_clean = np.real(np.trace(rho_50_clean @ rho_50_clean))
+        zz_50_clean = np.real(np.trace(ZZ @ rho_50_clean))
 
-log(f"  {'Property':>40}  {'gamma=0':>15}  {'gamma=0.05':>15}")
-log(f"  {'-'*75}")
-log(f"  {'CPsi crosses 1/4 downward':>40}  {cross_down_0:>15}  {cross_down_n:>15}")
-log(f"  {'CPsi crosses 1/4 upward':>40}  {cross_up_0:>15}  {cross_up_n:>15}")
-log(f"  {'<ZZ> at t=50':>40}  {zz_50_clean:>15.4f}  {zz_50_noisy:>15.4f}")
-rec_0_str = f"t={rec_0:.1f}" if rec_0 else "not found"
-rec_n_str = f"t={rec_n:.1f}" if rec_n else "no"
-log(f"  {'Recurrence (D < 0.01)':>40}  {rec_0_str:>15}  {rec_n_str:>15}")
-log(f"  {'Tr(rho^2) at t=50':>40}  {pur_50_clean:>15.10f}  {pur_50_noisy:>15.10f}")
-log(f"  {'Palindromic pairs (out of 16)':>40}  {pal_clean:>15}  {pal_noisy:>15}")
-log(f"  {'  ... about its own centre':>40}  {'c = 0':>15}  {'c = -0.10':>15}")
+        # gamma=0.05
+        cross_down_n = 0; cross_up_n = 0; prev_above = cpsi(rho0) > 0.25
+        rec_n = None
+        for t in tlist:
+            rho = evolve(L_noisy, rho0, t)
+            cp = cpsi(rho)
+            above = cp > 0.25
+            if prev_above and not above: cross_down_n += 1
+            if not prev_above and above: cross_up_n += 1
+            prev_above = above
+            if rec_n is None and t > 0.5 and trace_dist(rho, rho0) < 0.01: rec_n = t
 
-# Eigenvalue spectra
-log()
-log("  Liouvillian eigenvalues (gamma=0, purely imaginary):")
-for ev in sorted(evals_clean, key=lambda x: x.imag):
-    if abs(ev) > 1e-10:
-        log(f"    Re={ev.real:>10.6f}  Im={ev.imag:>10.6f}")
+        rho_50_noisy = evolve(L_noisy, rho0, 50)
+        pur_50_noisy = np.real(np.trace(rho_50_noisy @ rho_50_noisy))
+        zz_50_noisy = np.real(np.trace(ZZ @ rho_50_noisy))
 
-log()
-log("  Liouvillian eigenvalues (gamma=0.05, real parts = decay rates):")
-for ev in sorted(evals_noisy, key=lambda x: x.real):
-    if abs(ev) > 1e-10:
-        log(f"    Re={ev.real:>10.6f}  Im={ev.imag:>10.6f}")
+        # Palindromic check
+        evals_clean = np.linalg.eigvals(L0)
+        evals_noisy = np.linalg.eigvals(L_noisy)
+        Sg = 0.10
 
-log()
-log("=" * 70)
-log("CONCLUSION")
-log("=" * 70)
-log()
-log("Time without noise: oscillation, reversibility, recurrence.")
-log("Nothing is ever decided. No arrow. No absorbing boundary.")
-log("The palindrome is there and it is free: the clean generator is traceless,")
-log("so its centre is zero and the spectrum pairs 16/16 about it. What a")
-log("palindrome at zero carries is unitarity. Decay is what a NONZERO centre")
-log("carries, and that is the only thing the mirror can testify to.")
-log("CΨ crosses 1/4 freely in both directions.")
-log()
-log("Time WITH noise: irreversibility, the arrow, the palindrome,")
-log("the absorbing 1/4 boundary, classical emergence.")
-log("CΨ crosses 1/4 once and stays below.")
-log()
-log("Time is the stage. Noise is the play.")
-log("The stage exists without the play. But only the play has a plot.")
-log()
+        # Each spectrum is scored at ITS OWN centre. A multiset closed under
+        # lambda -> 2c - lambda has c = trace(L)/dim identically (F137), so there is
+        # one candidate centre per generator and it is read off the generator, never
+        # searched. The two centres here are different numbers: the clean generator is
+        # traceless, so its centre is 0, while the noisy one sits at -Sg. Scoring both
+        # at -Sg would report the clean spectrum as broken for using the wrong mirror.
+        pal_noisy = count_palindromic(evals_noisy, Sg)
+        pal_clean = count_palindromic(evals_clean, -np.real(np.trace(L0)) / L0.shape[0])
 
-log(f"Total runtime: {clock.time():.0f}s")
-log(f"Results: {OUT_PATH}")
-_outf.close()
+        log(f"  {'Property':>40}  {'gamma=0':>15}  {'gamma=0.05':>15}")
+        log(f"  {'-'*75}")
+        log(f"  {'CPsi crosses 1/4 downward':>40}  {cross_down_0:>15}  {cross_down_n:>15}")
+        log(f"  {'CPsi crosses 1/4 upward':>40}  {cross_up_0:>15}  {cross_up_n:>15}")
+        log(f"  {'<ZZ> at t=50':>40}  {zz_50_clean:>15.4f}  {zz_50_noisy:>15.4f}")
+        rec_0_str = f"t={rec_0:.1f}" if rec_0 else "not found"
+        rec_n_str = f"t={rec_n:.1f}" if rec_n else "no"
+        log(f"  {'Recurrence (D < 0.01)':>40}  {rec_0_str:>15}  {rec_n_str:>15}")
+        log(f"  {'Tr(rho^2) at t=50':>40}  {pur_50_clean:>15.10f}  {pur_50_noisy:>15.10f}")
+        log(f"  {'F1 matched entries (out of 16)':>40}  {pal_clean:>15}  {pal_noisy:>15}")
+        log(f"  {'  ... about its own centre':>40}  {'c = 0':>15}  {'c = -0.10':>15}")
+
+        # Eigenvalue spectra
+        log()
+        log("  Liouvillian eigenvalues (gamma=0, purely imaginary):")
+        for ev in sorted(evals_clean, key=lambda x: x.imag):
+            if abs(ev) > 1e-10:
+                log(f"    Re={ev.real:>10.6f}  Im={ev.imag:>10.6f}")
+
+        log()
+        log("  Liouvillian eigenvalues (gamma=0.05, real parts = decay rates):")
+        for ev in sorted(evals_noisy, key=lambda x: x.real):
+            if abs(ev) > 1e-10:
+                log(f"    Re={ev.real:>10.6f}  Im={ev.imag:>10.6f}")
+
+        log()
+        log("=" * 70)
+        log("CONCLUSION")
+        log("=" * 70)
+        log()
+        log("QUARTER-CURRENT: fixed N=2 Heisenberg chain, J=1, local Z dephasing.")
+        log(f"For |01>, the sampled t=0..50 grid has {cross_down_0} down and {cross_up_0} up crossings")
+        log(f"at gamma=0; at gamma=0.05 it has {cross_down_n} down and {cross_up_n} up crossings.")
+        log("These are finite scalar crossings of CΨ=1/4, not an absorbing boundary.")
+        log("The clean and noisy spectra match 16/16 entries about their own")
+        log("centres, 0 and -0.10. This count does not identify unordered pairs.")
+        log()
+        log("Interpretation: time is the stage; noise changes the play.")
+        log("The stage/play image invites a reading, not a dynamical theorem.")
+        log()
+        log("Completed: deterministic rerun")
+        log("Results: simulations/results/two_qubits_no_noise.txt")
+        return lines
+
+    payload_lines = build_payload()
+    destination = Path(output_path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_bytes(("\n".join(payload_lines) + "\n").encode("utf-8"))
+    print(f"Elapsed runtime: {clock.perf_counter() - started:.3f}s")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", default=OUT_PATH)
+    main(output_path=parser.parse_args().output)

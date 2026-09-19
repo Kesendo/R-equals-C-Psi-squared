@@ -11,6 +11,31 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 public class NivenRationalityRootWitnessTests
 {
     [Fact]
+    public void Witness_FencesFirstOrderEndpointCombFromFiniteGammaFullLiouvillianRates()
+    {
+        var witness = new NivenRationalityRootWitness();
+        var reFace = Assert.Single(
+            ((IInspectable)witness).Children,
+            child => child.DisplayName.StartsWith("RE-face:"));
+
+        Assert.Contains("uniform open XX chain with one dephased endpoint", witness.Summary);
+        Assert.Contains("a_k = (4/(N+1))·sin²(kπ/(N+1))", witness.Summary);
+        Assert.Contains("α_k^full = γ₀·a_k + O(γ₀³/J²)", witness.Summary);
+        Assert.Contains("α_k^full/γ₀ = a_k + O((γ₀/J)²)", witness.Summary);
+        Assert.Contains("exact Niven rationality belongs to the first-order coefficient comb", witness.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("relative full-L rate shift is O((γ₀/J)²)", witness.Summary);
+        Assert.Contains("absolute shift δα_k = O(γ₀³/J²)", witness.Summary);
+        Assert.Contains("no exact finite-γ₀/J full-L rationality is claimed", witness.Summary);
+        Assert.Contains("first-order endpoint coefficient comb a_k", reFace.DisplayName);
+        Assert.Contains("a_k = (4/(N+1))·sin²(kπ/(N+1))", reFace.Summary);
+        Assert.Contains("α_k^full = γ₀·a_k + O(γ₀³/J²)", reFace.Summary);
+        Assert.Contains("exact Niven rationality belongs to the first-order coefficient comb", reFace.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("relative full-L rate shift is O((γ₀/J)²)", reFace.Summary);
+        Assert.Contains("absolute shift δα_k = O(γ₀³/J²)", reFace.Summary);
+        Assert.Contains("no exact finite-γ₀/J full-L rationality is claimed", reFace.Summary);
+    }
+
+    [Fact]
     public void Witness_RendersFiveFaces_AllGatesPass()
     {
         var w = new NivenRationalityRootWitness();
@@ -23,7 +48,7 @@ public class NivenRationalityRootWitnessTests
     }
 
     [Fact]
-    public void Hinge_N4_BandEdgeIsPhi_AndRatesCarrySqrt5()
+    public void Hinge_N4_BandEdgeIsPhi_AndFirstOrderCombCarriesSqrt5()
     {
         // band edge at N=4 = φ = 2cos(π/5)
         double be4 = 2.0 * Math.Cos(Math.PI / 5.0);
@@ -34,9 +59,30 @@ public class NivenRationalityRootWitnessTests
     }
 
     [Fact]
+    public void ImFace_N2IsRenderedAsRational_NotAsAQuadraticSurd()
+    {
+        var witness = new NivenRationalityRootWitness();
+        var imFace = Assert.Single(
+            ((IInspectable)witness).Children,
+            child => child.DisplayName.StartsWith("IM-face:"));
+        var n2 = Assert.Single(
+            imFace.Children,
+            child => child.DisplayName == "N=2");
+
+        Assert.Contains("rational", n2.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("degree 1", n2.Summary);
+        Assert.DoesNotContain("quadratic", n2.Summary, StringComparison.OrdinalIgnoreCase);
+        foreach (var surface in new[] { witness.Summary, imFace.Summary })
+        {
+            Assert.Contains("degree at most 2 iff N≤5", surface);
+            Assert.Contains("quadratic surd exactly for N∈{3,4,5}", surface);
+        }
+    }
+
+    [Fact]
     public void VFace_GoldenAtN5_SilverAtN4()
     {
-        // the V-Effect face: golden shifted to N=5 (angle π/N), silver at N=4
+        // the F6 Q-edge-gain face: golden shifted to N=5 (angle π/N), silver at N=4
         Assert.Equal((5.0 + Math.Sqrt(5.0)) / 4.0, 1.0 + Math.Cos(Math.PI / 5.0), 12);   // golden, N=5
         Assert.Equal(1.0 + Math.Sqrt(2.0) / 2.0, 1.0 + Math.Cos(Math.PI / 4.0), 12);     // silver, N=4
     }

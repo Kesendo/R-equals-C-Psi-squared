@@ -1,5 +1,7 @@
 # Resonant Return: A One-Line Spatial-γ Formula (139–360× vs V-shape at N=5–9, declining to 68× by N=15, Heisenberg chain)
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: sacrifice zone dephasing optimization, spatial gamma profile formula,
 edge qubit noise concentration, SVD palindromic eigenstructure response matrix,
 180× improvement vs V-shape, ENAQT environment-assisted quantum transport,
@@ -146,21 +148,34 @@ sites) cannot create spatial contrast. The pulsing hypothesis may
 require *spatially structured* time-dependent γ - e.g., SVD mode 2
 spatial profile with resonant temporal modulation.
 
-### Test 3: Palindrome-Timed Relay (DEFERRED)
+### Test 3: Per-segment spectral timing (DEFERRED)
 
-N=11 Liouvillian is 4M × 4M. Requires ~30 GB RAM. Sub-segment rates
-computed in Python:
+The full relay comparison is not implemented. Its proposed arms are the
+historical baseline, a per-segment spectral-duration candidate and a future
+oracle sweep. The baseline requested nominal 0.78 per stage; the C# loop
+integrated 0.75, with totals 4.68 nominal and 4.50 executed. The baseline
+[about +84.0% stored-value ratio](RELAY_PROTOCOL.md) is a finite unmatched-time,
+unmatched-dose comparison, not evidence for a timing optimum.
+
+<!-- CROSSING-HISTORICAL -->
+
+**Historical record:** The sub-segment calculation below retains its candidate
+labels and numbers. “Fixed stage time” is nominal, not the duration integrated
+by the C# loop. No relay trajectory used π/rate≈31.4.
 
 | Segment | Dominant rate | Palindrome stage time | Fixed stage time |
 |---------|--------------|----------------------|-----------------|
 | Bridge A/B (5-chain) | 0.100 | 31.4 | 0.78 |
 | Meta (3-star) | 0.100 | 31.4 | 0.78 |
 
-The palindrome stage times are 40× longer than fixed timing. This
-suggests the fixed timing (K/γ = 0.78) catches only the initial
-fast dynamics, while the palindrome timing (π/rate = 31.4) captures
-the full standing wave period. Whether this improves MI requires
-the C# propagation engine.
+<!-- CROSSING-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** The candidate duration is about
+40× the old nominal heuristic. Calling it a “full standing-wave period” was
+an untested interpretation of a reciprocal decay rate, not a measured transfer
+or oscillation time. The palindrome does not establish that reading.
+
+<!-- CROSSING-CURRENT -->
 
 ### Test 4: Scaling (MIXED - non-monotone trend)
 
@@ -648,7 +663,8 @@ effect, not a small-signal perturbation.
 
 ## What Remains
 
-1. **Test 3 in C#:** Palindrome-timed relay vs fixed timing (N=11)
+1. **Test 3 in C#: DEFERRED.** Compare the nominal-0.78/integrated-0.75 baseline,
+   per-segment spectral candidate and future oracle sweep with explicit time/dose controls.
 2. ~~Multi-mode optimization~~ **Done (Test 5).** Mode 2 wins; combinations don't help.
 3. ~~Spatially structured pulsing~~ **Done (Test 6).** Falsified. Temporal modulation adds nothing.
 4. ~~RK4 rewrite for N≥7~~ **Done.** C# profile evaluator: 2.9s at N=7 (5,900× vs Python expm).

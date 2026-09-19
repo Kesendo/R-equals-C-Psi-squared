@@ -1,31 +1,27 @@
-"""
-Cockpit at N=5: The Missing Sweet Spot
-=======================================
-N=5 Heisenberg chain, the sweet spot throughout the repo.
-PCA dimensionality, all 7 instruments, sacrifice zone comparison.
+"""Cockpit at N=5: one finite tested row.
 
-V(5) = 1.81 = 90% of max. 2+2=104 frequencies. 360x sacrifice improvement.
-Liouvillian: 1024 x 1024. Pair (0,1)-(4,3) edge, (1,2)-(2,3) center.
+PCA dimensionality, all seven instruments, and the sacrifice-profile
+comparison are time-domain readings. They are not derived from the separate
+cavity frequency census and do not select a global N-optimum.
 
-April 2, 2026
+April 2, 2026; current scope label repaired September 15, 2026.
 """
 import numpy as np
 from scipy import linalg, stats
 from scipy.optimize import curve_fit
-import sys, os, io, time
+import sys, os
+import textwrap
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import star_topology_v3 as gpt
+try:
+    from simulations import star_topology_v3 as gpt
+except ModuleNotFoundError as exc:  # Direct execution from the simulations directory.
+    if exc.name != "simulations":
+        raise
+    import star_topology_v3 as gpt
 
-results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
-os.makedirs(results_dir, exist_ok=True)
-results_path = os.path.join(results_dir, 'cockpit_n5.txt')
-_lines = []
-
-def out(s=""):
-    print(s)
-    _lines.append(s)
+DEFAULT_RESULTS_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "results", "cockpit_n5.txt"
+)
 
 
 # ================================================================
@@ -114,15 +110,88 @@ def theta_deg(cpsi_val):
     return float(np.degrees(np.arctan(np.sqrt(4*cpsi_val - 1)))) if cpsi_val > 0.25 else 0.0
 
 
+def sacrifice_zone_cpsi_summary(results):
+    """Describe only the named finite maximum-center-pair CΨ comparison."""
+    uniform = float(np.max(results["Uniform"]["cpsi_focus"]))
+    edge = float(np.max(results["Edge sacrifice"]["cpsi_focus"]))
+    relation = "higher" if edge > uniform else "not higher"
+    return (
+        f"Edge-sacrifice maximum center-pair CΨ is {relation} than uniform "
+        f"({edge:.4f} vs {uniform:.4f})."
+    )
+
+
+def n5_sacrifice_profiles(gamma):
+    """Return the three finite N=5 profiles at one exact total-rate budget."""
+    n_qubits = 5
+    total_gamma = n_qubits * gamma
+    edge_rate = 0.20
+    double_edge_rate = 0.10
+    profiles = {
+        "Uniform": [gamma] * n_qubits,
+        "Edge sacrifice": [edge_rate]
+        + [(total_gamma - edge_rate) / (n_qubits - 1)] * (n_qubits - 1),
+        "Double edge": [double_edge_rate]
+        + [(total_gamma - 2 * double_edge_rate) / (n_qubits - 2)]
+        * (n_qubits - 2)
+        + [double_edge_rate],
+    }
+    if not all(np.isclose(sum(rates), total_gamma, rtol=0.0, atol=1e-15)
+               for rates in profiles.values()):
+        raise AssertionError("sacrifice profiles must share one total gamma")
+    return profiles
+
+
+def uniform_dephasing_fastest_rate(n_qubits, gamma):
+    """Return the exact decay rate of X^⊗N under uniform local Z dephasing."""
+    return 2 * n_qubits * gamma
+
+
+def entanglement_threshold_status(concurrence, times, threshold=0.01):
+    """Separate never-created, dead-by-end, and alive-at-end threshold states."""
+    concurrence = np.asarray(concurrence)
+    times = np.asarray(times)
+    above = concurrence > threshold
+    if not np.any(above):
+        return f"never>{threshold:g}"
+    if above[-1]:
+        return "alive@end"
+    crossings = np.flatnonzero(above[:-1] & ~above[1:])
+    if crossings.size == 0:
+        raise ValueError("threshold status is inconsistent with sampled endpoints")
+    return f"t={times[int(crossings[0]) + 1]:.2f}"
+
+
+def scaling_focus_pair(n_qubits):
+    """Return the pair actually used in the finite N=2..5 scaling rows."""
+    if n_qubits not in (2, 3, 4, 5):
+        raise ValueError("the finite cockpit scaling table contains only N=2..5")
+    return (0, 1) if n_qubits <= 4 else (1, 2)
+
+
+def canonicalize_pca_signs(loadings, scores):
+    """Fix each SVD component's free sign by its first max-|loading| entry."""
+    canonical_loadings = np.array(loadings, copy=True)
+    canonical_scores = np.array(scores, copy=True)
+    for component, row in enumerate(canonical_loadings):
+        pivot = int(np.argmax(np.abs(row)))
+        if row[pivot] < 0:
+            canonical_loadings[component] *= -1
+            canonical_scores[:, component] *= -1
+    return canonical_loadings, canonical_scores
+
+
 def bures_distance(rho, sigma):
-    try:
-        sqrt_rho = linalg.sqrtm(rho)
-        prod = sqrt_rho @ sigma @ sqrt_rho
-        ev = np.real(np.linalg.eigvalsh(prod))
-        fid = float(np.sum(np.sqrt(np.maximum(ev, 0))))**2
-        return float(np.sqrt(max(0, 2*(1 - np.sqrt(max(0, min(1, fid)))))))
-    except Exception:
-        return 0.0
+    if not np.all(np.isfinite(rho)) or not np.all(np.isfinite(sigma)):
+        raise ValueError("Bures inputs must be finite")
+    sqrt_rho = linalg.sqrtm(rho)
+    prod = sqrt_rho @ sigma @ sqrt_rho
+    ev = np.real(np.linalg.eigvalsh(prod))
+    fid = float(np.sum(np.sqrt(np.maximum(ev, 0))))**2
+    distance = float(np.sqrt(max(0, 2*(1 - np.sqrt(max(0, min(1, fid)))))))
+    if not np.isfinite(distance):
+        raise FloatingPointError("Bures distance is not finite")
+    return distance
 
 
 feat_names = ['Phi+', 'Phi-', 'Psi+', 'Psi-', 'Pur', 'SvN', 'C', 'Psi', 'ph03']
@@ -203,6 +272,7 @@ def simulate_and_analyze(name, n_qubits, gammas, H, focus_pair=(1,2)):
     var_exp = S**2 / np.sum(S**2)
     cum_var = np.cumsum(var_exp)
     scores = X_norm @ Vt.T
+    Vt, scores = canonicalize_pca_signs(Vt, scores)
 
     n95 = int(np.searchsorted(cum_var, 0.95)) + 1
 
@@ -235,305 +305,318 @@ def simulate_and_analyze(name, n_qubits, gammas, H, focus_pair=(1,2)):
         'focus_pur': pur_arr, 'focus_psi': psi_arr,
         'focus_bures': np.array(focus_bures),
         'cpsi_focus': cpsi_focus, 'theta_focus': theta_focus,
-        'conc_focus': conc_focus,
+        'conc_focus': conc_focus, 'focus_pair': tuple(focus_pair),
     }
 
 
 # ================================================================
 # PHASE 1: PCA AT N=5
 # ================================================================
-out("=" * 70)
-out("COCKPIT AT N=5: THE MISSING SWEET SPOT")
-out("Heisenberg chain [0-1-2-3-4], J=1.0, gamma=0.05")
-out("Bell+(0,1) x |+>^3, focus pair: (1,2) center")
-out("=" * 70)
+def run_analysis(output_path):
+    output_path = os.fspath(output_path)
+    os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    lines = []
 
-N = 5
-gamma = 0.05
-H5 = build_chain_H(N, J=1.0)
-gammas_uniform = [gamma]*N
+    def out(s=""):
+        print(s)
+        lines.append(s)
 
-t0 = time.time()
-r = simulate_and_analyze("Chain N=5 uniform", N, gammas_uniform, H5, focus_pair=(1,2))
-t_sim = time.time() - t0
-out(f"\n  Simulation: {t_sim:.1f}s, {r['n_pts']} snapshots")
+    out("=" * 70)
+    out("COCKPIT AT N=5: ONE FINITE TESTED ROW")
+    out("N-optimum status: OPEN; this calculation does not select one.")
+    out("Heisenberg chain [0-1-2-3-4], J=1.0, gamma=0.05")
+    out("Bell+(0,1) x |+>^3, focus pair: (1,2) center")
+    out("=" * 70)
 
-out(f"\n  PCA DIMENSIONALITY:")
-out(f"  {'PC':>3} {'Var%':>7} {'Cum%':>7}")
-out(f"  {'-'*20}")
-for i in range(min(6, len(r['var_exp']))):
-    out(f"  {i+1:>3} {r['var_exp'][i]*100:>7.1f} {r['cum_var'][i]*100:>7.1f}")
-out(f"\n  PCs for 95% variance: {r['n95']}")
+    N = 5
+    gamma = 0.05
+    H5 = build_chain_H(N, J=1.0)
+    gammas_uniform = [gamma]*N
 
-out(f"\n  PC LOADINGS:")
-out(f"  {'':>8} | {'PC1':>7} {'PC2':>7} {'PC3':>7}")
-out(f"  {'-'*35}")
-for j in range(len(feat_names)):
-    out(f"  {feat_names[j]:>8} | {r['Vt'][0,j]:>+7.3f} {r['Vt'][1,j]:>+7.3f} {r['Vt'][2,j]:>+7.3f}")
+    n5_focus = scaling_focus_pair(N)
+    r = simulate_and_analyze(
+        "Chain N=5 uniform", N, gammas_uniform, H5, focus_pair=n5_focus
+    )
+    out(f"\n  Simulation: {r['n_pts']} deterministic snapshots")
 
-out(f"\n  PC PROXIES:")
-for k, (pname, pr) in enumerate(r['proxies']):
-    out(f"    PC{k+1} ~ {pname} (|r|={pr:.3f})")
+    out(f"\n  PCA DIMENSIONALITY:")
+    out(f"  {'PC':>3} {'Var%':>7} {'Cum%':>7}")
+    out(f"  {'-'*20}")
+    for i in range(min(6, len(r['var_exp']))):
+        out(f"  {i+1:>3} {r['var_exp'][i]*100:>7.1f} {r['cum_var'][i]*100:>7.1f}")
+    out(f"\n  PCs for 95% variance: {r['n95']}")
+
+    out(f"\n  PC LOADINGS:")
+    out(f"  {'':>8} | {'PC1':>7} {'PC2':>7} {'PC3':>7}")
+    out(f"  {'-'*35}")
+    for j in range(len(feat_names)):
+        out(f"  {feat_names[j]:>8} | {r['Vt'][0,j]:>+7.3f} {r['Vt'][1,j]:>+7.3f} {r['Vt'][2,j]:>+7.3f}")
+
+    out(f"\n  PC PROXIES:")
+    for k, (pname, pr) in enumerate(r['proxies']):
+        out(f"    PC{k+1} ~ {pname} (|r|={pr:.3f})")
 
 
-# ================================================================
-# PHASE 2: ALL 7 INSTRUMENTS
-# ================================================================
-out(f"\n{'=' * 70}")
-out("PHASE 2: DASHBOARD (N=5, uniform noise)")
-out("=" * 70)
+    # ================================================================
+    # PHASE 2: ALL 7 INSTRUMENTS
+    # ================================================================
+    out(f"\n{'=' * 70}")
+    out("PHASE 2: DASHBOARD (N=5, uniform noise)")
+    out("=" * 70)
 
-# CPsi and theta per pair -- ALL 10 PAIRS
-out(f"\n  CPsi RANGES PER PAIR (all {len(r['all_pairs'])} pairs):")
-out(f"  {'Pair':>6} | {'min CPsi':>8} {'max CPsi':>8} {'max theta':>9} {'theta>0':>8} | {'Type':>8}")
-out(f"  {'-'*60}")
-for p in r['all_pairs']:
-    cp = r['pair_cpsi'][p]
-    th = r['pair_theta'][p]
-    dist = abs(p[1] - p[0])
-    if dist == 1:
-        ptype = "NN-edge" if 0 in p or N-1 in p else "NN-cent"
+    # CPsi and theta per pair -- ALL 10 PAIRS
+    out(f"\n  CPsi RANGES PER PAIR (all {len(r['all_pairs'])} pairs):")
+    out(f"  {'Pair':>6} | {'min CPsi':>8} {'max CPsi':>8} {'max theta':>9} {'theta>0':>8} | {'Type':>8}")
+    out(f"  {'-'*60}")
+    for p in r['all_pairs']:
+        cp = r['pair_cpsi'][p]
+        th = r['pair_theta'][p]
+        dist = abs(p[1] - p[0])
+        if dist == 1:
+            ptype = "NN-edge" if 0 in p or N-1 in p else "NN-cent"
+        else:
+            ptype = f"dist-{dist}"
+        out(f"  {str(p):>6} | {cp.min():>8.4f} {cp.max():>8.4f} {th.max():>9.1f} "
+            f"{int(np.sum(th>0)):>4}/{r['n_pts']} | {ptype:>8}")
+
+    # Dashboard at key times
+    key_t = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0]
+    out(f"\n  DASHBOARD (center pair (1,2)):")
+    out(f"  {'t':>5} | {'theta':>6} {'CPsi':>7} {'C':>6} {'Pur':>6} {'Psi':>6} | "
+        f"{'PC1':>7} {'PC2':>7} {'PC3':>7} | {'v_B':>7}")
+    out(f"  {'-'*80}")
+    dt_sample = 0.005 * 4
+    for tk in key_t:
+        idx = int(np.argmin(np.abs(r['times'] - tk)))
+        vB = r['focus_bures'][idx] / dt_sample if idx > 0 else 0
+        out(f"  {r['times'][idx]:>5.2f} | {r['theta_focus'][idx]:>6.1f} "
+            f"{r['cpsi_focus'][idx]:>7.4f} {r['conc_focus'][idx]:>6.3f} "
+            f"{r['focus_pur'][idx]:>6.3f} {r['focus_psi'][idx]:>6.3f} | "
+            f"{r['scores'][idx,0]:>+7.2f} {r['scores'][idx,1]:>+7.2f} "
+            f"{r['scores'][idx,2]:>+7.2f} | {vB:>7.4f}")
+
+    # Liouvillian eigenvalues
+    out(f"\n  LIOUVILLIAN SPECTRUM (1024x1024):")
+    L_super = build_liouvillian(H5, gammas_uniform, N)
+    eigvals = linalg.eigvals(L_super)
+    out("  Eigendecomposition: dense finite N=5 calculation")
+
+    unique_rates = sorted(set(np.round(-eigvals.real, 5)))
+    gap = unique_rates[1] if len(unique_rates) > 1 else 0
+    fastest = unique_rates[-1]
+    out(f"  Spectral gap (slowest decay): {gap:.5f}")
+    out(f"  Fastest decay rate: {fastest:.4f}")
+    out(f"  Number of distinct rates: {len(unique_rates)}")
+    out(f"  Predicted gap: 2*gamma = {2*gamma:.3f}")
+    out(
+        f"  Predicted fastest: 2*N*gamma = "
+        f"{uniform_dephasing_fastest_rate(N, gamma):.3f}"
+    )
+
+    # Concurrence: edge vs center
+    out(f"\n  ENTANGLEMENT DYNAMICS: ALL 10 PAIRS")
+    out(f"  {'Pair':>6} {'Type':>8} | {'max C':>7} {'C(t=5)':>8} {'status':>12}")
+    out(f"  {'-'*52}")
+    for p in r['all_pairs']:
+        conc = r['pair_conc'][p]
+        threshold_status = entanglement_threshold_status(conc, r['times'])
+        dist = abs(p[1] - p[0])
+        ptype = f"NN" if dist == 1 else f"d={dist}"
+        if dist == 1 and (0 in p or N-1 in p):
+            ptype = "NN-edge"
+        elif dist == 1:
+            ptype = "NN-cent"
+        out(f"  {str(p):>6} {ptype:>8} | {conc.max():>7.3f} "
+            f"{conc[min(250,len(conc)-1)]:>8.4f} "
+            f"{threshold_status:>12}")
+
+    # One-dimensional Bures path coefficient and a coordinate-shape stencil.
+    # The latter is not intrinsic/Gaussian curvature: no 2D metric is built,
+    # and the sampled CΨ trajectory is not globally monotone.
+    out(f"\n  Bures path-metric coefficient (center pair (1,2)):")
+    out("  coordinate-shape second derivative S_CPsi "
+        "(finite path-coordinate proxy; not intrinsic curvature)")
+    bv = r['focus_bures'].copy()
+    bv[0] = bv[1] if len(bv) > 1 else 0
+    dt_s = 0.005 * 4
+    bures_vel = bv / dt_s
+    dcpsi = np.gradient(r['cpsi_focus'], r['times'])
+    g_path_n5 = np.zeros(len(r['times']))
+    for i in range(len(r['times'])):
+        if abs(dcpsi[i]) > 1e-12 and bures_vel[i] > 0:
+            g_path_n5[i] = (bures_vel[i] / abs(dcpsi[i]))**2
+
+    valid_g = g_path_n5 > 1e-8
+    if np.sum(valid_g) > 6:
+        cpsi_g = r['cpsi_focus'][valid_g]
+        g_path = g_path_n5[valid_g]
+        lng = np.log(g_path + 1e-30)
+        d2lng = np.gradient(np.gradient(lng, cpsi_g), cpsi_g)
+        shape_n5 = -d2lng / (2 * g_path + 1e-30)
+
+        out(f"  {'CPsi':>7} | {'g_path(CPsi)':>12} {'S_CPsi':>10}")
+        out(f"  {'-'*30}")
+        for cpsi_t in [0.28, 0.25, 0.22, 0.20, 0.18, 0.15]:
+            idx = int(np.argmin(np.abs(cpsi_g - cpsi_t)))
+            if abs(cpsi_g[idx] - cpsi_t) < 0.03:
+                out(f"  {cpsi_g[idx]:>7.3f} | {g_path[idx]:>12.2f} {shape_n5[idx]:>+10.1f}")
+
+        idx_fold = int(np.argmin(np.abs(cpsi_g - 0.25)))
+        out(f"\n  S_CPsi at sampled fold point (CPsi~0.25): {shape_n5[idx_fold]:.1f}")
+        out(f"  N=2 prior path-coordinate proxy: S_CPsi = -25")
     else:
-        ptype = f"dist-{dist}"
-    out(f"  {str(p):>6} | {cp.min():>8.4f} {cp.max():>8.4f} {th.max():>9.1f} "
-        f"{int(np.sum(th>0)):>4}/{r['n_pts']} | {ptype:>8}")
-
-# Dashboard at key times
-key_t = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0, 7.0, 10.0]
-out(f"\n  DASHBOARD (center pair (1,2)):")
-out(f"  {'t':>5} | {'theta':>6} {'CPsi':>7} {'C':>6} {'Pur':>6} {'Psi':>6} | "
-    f"{'PC1':>7} {'PC2':>7} {'PC3':>7} | {'v_B':>7}")
-out(f"  {'-'*80}")
-dt_sample = 0.005 * 4
-for tk in key_t:
-    idx = int(np.argmin(np.abs(r['times'] - tk)))
-    vB = r['focus_bures'][idx] / dt_sample if idx > 0 else 0
-    out(f"  {r['times'][idx]:>5.2f} | {r['theta_focus'][idx]:>6.1f} "
-        f"{r['cpsi_focus'][idx]:>7.4f} {r['conc_focus'][idx]:>6.3f} "
-        f"{r['focus_pur'][idx]:>6.3f} {r['focus_psi'][idx]:>6.3f} | "
-        f"{r['scores'][idx,0]:>+7.2f} {r['scores'][idx,1]:>+7.2f} "
-        f"{r['scores'][idx,2]:>+7.2f} | {vB:>7.4f}")
-
-# Liouvillian eigenvalues
-out(f"\n  LIOUVILLIAN SPECTRUM (1024x1024):")
-t0 = time.time()
-L_super = build_liouvillian(H5, gammas_uniform, N)
-eigvals = linalg.eigvals(L_super)
-t_eig = time.time() - t0
-out(f"  Eigendecomposition: {t_eig:.1f}s")
-
-unique_rates = sorted(set(np.round(-eigvals.real, 5)))
-gap = unique_rates[1] if len(unique_rates) > 1 else 0
-fastest = unique_rates[-1]
-out(f"  Spectral gap (slowest decay): {gap:.5f}")
-out(f"  Fastest decay rate: {fastest:.4f}")
-out(f"  Number of distinct rates: {len(unique_rates)}")
-out(f"  Predicted gap: 2*gamma = {2*gamma:.3f}")
-out(f"  Predicted fastest: 2*(N-1)*gamma = {2*(N-1)*gamma:.3f}")
-
-# Concurrence: edge vs center
-out(f"\n  ENTANGLEMENT DYNAMICS: ALL 10 PAIRS")
-out(f"  {'Pair':>6} {'Type':>8} | {'max C':>7} {'C(t=5)':>8} {'death':>10}")
-out(f"  {'-'*50}")
-for p in r['all_pairs']:
-    conc = r['pair_conc'][p]
-    t_death = None
-    for i in range(1, len(conc)):
-        if conc[i-1] > 0.01 and conc[i] < 0.01:
-            t_death = r['times'][i]
-            break
-    dist = abs(p[1] - p[0])
-    ptype = f"NN" if dist == 1 else f"d={dist}"
-    if dist == 1 and (0 in p or N-1 in p):
-        ptype = "NN-edge"
-    elif dist == 1:
-        ptype = "NN-cent"
-    out(f"  {str(p):>6} {ptype:>8} | {conc.max():>7.3f} "
-        f"{conc[min(250,len(conc)-1)]:>8.4f} "
-        f"{'t='+f'{t_death:.2f}' if t_death else '  alive':>10}")
-
-# Bures curvature at N=5
-out(f"\n  BURES CURVATURE (center pair (1,2)):")
-bv = r['focus_bures'].copy()
-bv[0] = bv[1] if len(bv) > 1 else 0
-dt_s = 0.005 * 4
-bures_vel = bv / dt_s
-dcpsi = np.gradient(r['cpsi_focus'], r['times'])
-g_n5 = np.zeros(len(r['times']))
-for i in range(len(r['times'])):
-    if abs(dcpsi[i]) > 1e-12 and bures_vel[i] > 0:
-        g_n5[i] = (bures_vel[i] / abs(dcpsi[i]))**2
-
-valid_g = g_n5 > 1e-8
-if np.sum(valid_g) > 6:
-    cpsi_g = r['cpsi_focus'][valid_g]
-    g_g = g_n5[valid_g]
-    lng = np.log(g_g + 1e-30)
-    d2lng = np.gradient(np.gradient(lng, cpsi_g), cpsi_g)
-    K_n5 = -d2lng / (2 * g_g + 1e-30)
-
-    out(f"  {'CPsi':>7} | {'g(CPsi)':>8} {'K_Gauss':>10}")
-    out(f"  {'-'*30}")
-    for cpsi_t in [0.28, 0.25, 0.22, 0.20, 0.18, 0.15]:
-        idx = int(np.argmin(np.abs(cpsi_g - cpsi_t)))
-        if abs(cpsi_g[idx] - cpsi_t) < 0.03:
-            out(f"  {cpsi_g[idx]:>7.3f} | {g_g[idx]:>8.2f} {K_n5[idx]:>+10.1f}")
-
-    idx_fold = int(np.argmin(np.abs(cpsi_g - 0.25)))
-    out(f"\n  K at fold (CPsi~0.25): {K_n5[idx_fold]:.1f}")
-    out(f"  N=2 simulation: K = -25 at fold")
-else:
-    out(f"  Insufficient valid g(CPsi) points for curvature")
+        out(f"  Insufficient valid g_path(CPsi) points for the coordinate-shape stencil")
 
 
-# ================================================================
-# PHASE 3: SACRIFICE ZONE
-# ================================================================
-out(f"\n{'=' * 70}")
-out("PHASE 3: SACRIFICE ZONE (N=5)")
-out("Same total gamma = 0.25, different distributions")
-out("=" * 70)
+    # ================================================================
+    # PHASE 3: SACRIFICE ZONE
+    # ================================================================
+    out(f"\n{'=' * 70}")
+    out("PHASE 3: SACRIFICE ZONE (N=5)")
+    out("Same total gamma = 0.25, different distributions")
+    out("=" * 70)
 
-total_gamma = N * gamma  # 0.25
-profiles = {
-    'Uniform':      [gamma]*N,
-    'Edge sacrifice':  [0.20, 0.0125, 0.0125, 0.0125, 0.0125],
-    'Double edge':  [0.10, 0.0167, 0.0167, 0.0167, 0.10],
-}
+    profiles = n5_sacrifice_profiles(gamma)
 
-sacrifice_results = {}
-for prof_name, gammas in profiles.items():
-    out(f"\n  Running {prof_name}: gamma={[f'{g:.4f}' for g in gammas]}...")
-    t0 = time.time()
-    sr = simulate_and_analyze(prof_name, N, gammas, H5, focus_pair=(1,2))
-    out(f"    ({time.time()-t0:.1f}s)")
-    sacrifice_results[prof_name] = sr
+    sacrifice_results = {}
+    for prof_name, gammas in profiles.items():
+        out(f"\n  Running {prof_name}: gamma={[f'{g:.4f}' for g in gammas]}...")
+        sr = simulate_and_analyze(prof_name, N, gammas, H5, focus_pair=(1,2))
+        sacrifice_results[prof_name] = sr
 
-# Comparison table
-out(f"\n  SACRIFICE ZONE COMPARISON (center pair (1,2)):")
-out(f"\n  {'Instrument':>25} | {'Uniform':>10} {'Edge Sacr':>10} {'Double':>10} | {'Best':>12}")
-out(f"  {'-'*75}")
+    # Comparison table
+    out(f"\n  SACRIFICE ZONE COMPARISON (center pair (1,2)):")
+    out(f"\n  {'Instrument':>25} | {'Uniform':>10} {'Edge Sacr':>10} {'Double':>10} | {'Best':>12}")
+    out(f"  {'-'*75}")
 
-instruments = [
-    ('Max theta (center)', lambda r: r['theta_focus'].max()),
-    ('Max CPsi (center)', lambda r: r['cpsi_focus'].max()),
-    ('Max Concurrence (center)', lambda r: r['conc_focus'].max()),
-    ('CPsi(t=5, center)', lambda r: r['cpsi_focus'][min(250, r['n_pts']-1)]),
-    ('Conc(t=5, center)', lambda r: r['conc_focus'][min(250, r['n_pts']-1)]),
-    ('CPsi(t=10, center)', lambda r: r['cpsi_focus'][-1]),
-    ('PCs for 95%', lambda r: float(r['n95'])),
-    ('PC1 variance %', lambda r: r['var_exp'][0]*100),
-]
+    instruments = [
+        ('Max theta (center)', lambda r: r['theta_focus'].max()),
+        ('Max CPsi (center)', lambda r: r['cpsi_focus'].max()),
+        ('Max Concurrence (center)', lambda r: r['conc_focus'].max()),
+        ('CPsi(t=5, center)', lambda r: r['cpsi_focus'][min(250, r['n_pts']-1)]),
+        ('Conc(t=5, center)', lambda r: r['conc_focus'][min(250, r['n_pts']-1)]),
+        ('CPsi(t=10, center)', lambda r: r['cpsi_focus'][-1]),
+        ('PCs for 95%', lambda r: float(r['n95'])),
+        ('PC1 variance %', lambda r: r['var_exp'][0]*100),
+    ]
 
-for inst_name, inst_fn in instruments:
-    vals = {}
-    for pn, sr in sacrifice_results.items():
-        vals[pn] = inst_fn(sr)
-    best = max(vals, key=vals.get)
-    out(f"  {inst_name:>25} | {vals['Uniform']:>10.4f} {vals['Edge sacrifice']:>10.4f} "
-        f"{vals['Double edge']:>10.4f} | {best:>12}")
+    for inst_name, inst_fn in instruments:
+        vals = {}
+        for pn, sr in sacrifice_results.items():
+            vals[pn] = inst_fn(sr)
+        best = max(vals, key=vals.get)
+        out(f"  {inst_name:>25} | {vals['Uniform']:>10.4f} {vals['Edge sacrifice']:>10.4f} "
+            f"{vals['Double edge']:>10.4f} | {best:>12}")
 
-# Most sensitive instrument
-out(f"\n  MOST SENSITIVE INSTRUMENT (largest ratio Edge/Uniform):")
-for inst_name, inst_fn in instruments:
-    v_uni = inst_fn(sacrifice_results['Uniform'])
-    v_edge = inst_fn(sacrifice_results['Edge sacrifice'])
-    if v_uni > 1e-6:
-        ratio = v_edge / v_uni
-        out(f"    {inst_name:>25}: Edge/Uniform = {ratio:.2f}x")
+    # Most sensitive instrument
+    out(f"\n  MOST SENSITIVE INSTRUMENT (largest ratio Edge/Uniform):")
+    for inst_name, inst_fn in instruments:
+        v_uni = inst_fn(sacrifice_results['Uniform'])
+        v_edge = inst_fn(sacrifice_results['Edge sacrifice'])
+        if v_uni > 1e-6:
+            ratio = v_edge / v_uni
+            out(f"    {inst_name:>25}: Edge/Uniform = {ratio:.2f}x")
 
 
-# ================================================================
-# PHASE 4: SUMMARY TABLE N=2-5
-# ================================================================
-out(f"\n{'=' * 70}")
-out("PHASE 4: SCALING TABLE N=2 THROUGH N=5")
-out("=" * 70)
+    # ================================================================
+    # PHASE 4: SUMMARY TABLE N=2-5
+    # ================================================================
+    out(f"\n{'=' * 70}")
+    out("PHASE 4: SCALING TABLE N=2 THROUGH N=5")
+    out("=" * 70)
 
-# Run N=2, N=3, N=4 for comparison
-scaling_results = []
-for n in [2, 3, 4]:
-    H_n = build_chain_H(n, J=1.0)
-    gammas_n = [gamma]*n
-    fp = (0, 1)
-    sr = simulate_and_analyze(f"Chain N={n}", n, gammas_n, H_n, focus_pair=fp)
-    scaling_results.append(sr)
+    # Run N=2, N=3, N=4 for comparison
+    scaling_results = []
+    for n in [2, 3, 4]:
+        H_n = build_chain_H(n, J=1.0)
+        gammas_n = [gamma]*n
+        fp = scaling_focus_pair(n)
+        sr = simulate_and_analyze(f"Chain N={n}", n, gammas_n, H_n, focus_pair=fp)
+        scaling_results.append(sr)
 
-# Add N=5
-scaling_results.append(r)
+    # Add N=5
+    scaling_results.append(r)
 
-out(f"\n  {'N':>3} | {'n95':>3} | {'PC1%':>5} {'PC2%':>5} {'PC3%':>5} | "
-    f"{'PC1~':>12} {'|r|':>5} | {'max_th':>6} {'th>0':>6}")
-out(f"  {'-'*70}")
+    out(f"\n  {'N':>3} {'Focus':>7} | {'n95':>3} | {'PC1%':>5} {'PC2%':>5} {'PC3%':>5} | "
+        f"{'PC1~':>12} {'|r|':>5} | {'max_th':>6} {'th>0':>6}")
+    out(f"  {'-'*78}")
 
-for i, sr in enumerate(scaling_results):
-    n = [2, 3, 4, 5][i]
-    nq = sr['n_pts']
-    n_theta = int(np.sum(sr['theta_focus'] > 0))
-    out(f"  {n:>3} | {sr['n95']:>3} | {sr['var_exp'][0]*100:>5.1f} "
-        f"{sr['var_exp'][1]*100:>5.1f} {sr['var_exp'][2]*100:>5.1f} | "
-        f"{sr['proxies'][0][0]:>12} {sr['proxies'][0][1]:>5.2f} | "
-        f"{sr['theta_focus'].max():>6.1f} {n_theta:>4}/{nq}")
+    for i, sr in enumerate(scaling_results):
+        n = [2, 3, 4, 5][i]
+        nq = sr['n_pts']
+        n_theta = int(np.sum(sr['theta_focus'] > 0))
+        out(f"  {n:>3} {str(sr['focus_pair']):>7} | {sr['n95']:>3} | {sr['var_exp'][0]*100:>5.1f} "
+            f"{sr['var_exp'][1]*100:>5.1f} {sr['var_exp'][2]*100:>5.1f} | "
+            f"{sr['proxies'][0][0]:>12} {sr['proxies'][0][1]:>5.2f} | "
+            f"{sr['theta_focus'].max():>6.1f} {n_theta:>4}/{nq}")
 
-# Dimensionality trend
-dims = [sr['n95'] for sr in scaling_results]
-out(f"\n  Dimensionality trend: {dims}")
-if len(set(dims[1:])) == 1:
-    out(f"  STABLE at {dims[1]} for N >= 3")
-elif max(dims[1:]) - min(dims[1:]) <= 1:
-    out(f"  STABLE within +/-1: {min(dims[1:])}-{max(dims[1:])} for N >= 3")
-else:
-    out(f"  GROWING: dimensionality increases with N")
+    # Four displayed rows with a changed N=5 focus are not a size-only trend.
+    dims = [sr['n95'] for sr in scaling_results]
+    out(f"\n  Displayed n95 rows: {dims}")
+    out("  Focus pair changes from (0,1) to (1,2) only at N=5.")
+    out("  These four rows do not establish an n95 scaling law.")
 
-# PC1 trend
-pc1s = [sr['proxies'][0][0] for sr in scaling_results]
-out(f"  PC1 identity: {pc1s}")
+    # PC1 trend
+    pc1s = [sr['proxies'][0][0] for sr in scaling_results]
+    out(f"  Candidate PC1 proxy correlations: {pc1s}")
 
 
-# ================================================================
-# PHASE 5: FRAMEWORK IMPLICATIONS
-# ================================================================
-out(f"\n{'=' * 70}")
-out("PHASE 5: WHAT N=5 REVEALS ABOUT THE FRAMEWORK")
-out("=" * 70)
+    # ================================================================
+    # PHASE 5: FRAMEWORK IMPLICATIONS
+    # ================================================================
+    out(f"\n{'=' * 70}")
+    out("PHASE 5: WHAT N=5 REVEALS ABOUT THE FRAMEWORK")
+    out("=" * 70)
 
-n5_n95 = r['n95']
-n5_pc1 = r['proxies'][0][0]
-n5_pc1_r = r['proxies'][0][1]
+    n5_n95 = r['n95']
+    n5_pc1 = r['proxies'][0][0]
+    n5_pc1_r = r['proxies'][0][1]
 
-out(f"""
-  1. DIMENSIONALITY AT N=5: {n5_n95} PCs for 95% variance.
-     This {'confirms' if n5_n95 <= 4 else 'extends beyond'} the 3-4D pattern from N=3,4.
-     The cockpit {'scales' if n5_n95 <= 4 else 'needs more instruments'} to N=5.
+    out(textwrap.dedent(f"""
+      1. DIMENSIONALITY AT N=5: {n5_n95} PCs for 95% variance.
+         This {'confirms' if n5_n95 <= 4 else 'extends beyond'} the 3-4D pattern from N=3,4.
+         This does not state how many hardware instruments are needed.
 
-  2. PC1 AT N=5: {n5_pc1} (|r|={n5_pc1_r:.3f}).
-     {'Consistent with N=4 chain (also Purity).' if n5_pc1 == 'Purity' else 'Different from N=4.'}
+      2. PC1 AT N=5: {n5_pc1} (|r|={n5_pc1_r:.3f}).
+         {'Consistent with N=4 chain (also Purity).' if n5_pc1 == 'Purity' else 'Different from N=4.'}
 
-  3. THE 3-OBSERVABLE COCKPIT: For N=5 Heisenberg chain,
-     monitoring {r['proxies'][0][0]}, {r['proxies'][1][0]}, and {r['proxies'][2][0]}
-     captures {r['cum_var'][2]*100:.0f}% of the decoherence dynamics.
-     This is 3 measurements instead of 4^5 = 1024 tomographic bases.
+      3. THREE-PC VARIANCE SUMMARY: For the N=5 Heisenberg chain,
+         The first three PCs explain {r['cum_var'][2]*100:.0f}% of the selected nine-feature dashboard variance.
+         Their candidate feature proxies by correlation are {r['proxies'][0][0]},
+         {r['proxies'][1][0]}, and {r['proxies'][2][0]}.
+         This does not establish a three-observable monitor; hardware measurement cost is open.
 
-  4. SACRIFICE ZONE: Edge sacrifice {'enhances' if inst_fn(sacrifice_results['Edge sacrifice']) > inst_fn(sacrifice_results['Uniform']) else 'does not help'} center-pair coherence.
-     The most sensitive instrument identifies where to look.
+      4. SACRIFICE ZONE: {sacrifice_zone_cpsi_summary(sacrifice_results)}
+         This is a finite profile comparison, not a causal attribution.
 
-  5. SPECTRAL GAP: {gap:.4f} (predicted 2*gamma = {2*gamma:.3f}).
-     {'Matches prediction.' if abs(gap - 2*gamma) < 0.001 else f'Deviates by {abs(gap-2*gamma):.4f}.'}
-""")
+      5. SPECTRAL GAP: {gap:.4f} (predicted 2*gamma = {2*gamma:.3f}).
+         {'Matches prediction.' if abs(gap - 2*gamma) < 0.001 else f'Deviates by {abs(gap-2*gamma):.4f}.'}
+    """))
 
-out(f"\n  OPEN QUESTIONS (CORRECTED):")
-out(f"  1. N=5 sweet spot: DONE (this analysis)")
-out(f"  2. N=5 -> N=7: Does dimensionality hold?")
-out(f"     (N=7 Liouvillian: 16384x16384, needs C# engine)")
-out(f"  3. Non-Markovian noise: Does the cockpit hold?")
-out(f"  4. Universal optimization: Which 3 observables +")
-out(f"     which noise strategy optimizes any N?")
+    out(f"\n  OPEN QUESTIONS (CORRECTED):")
+    out(f"  1. Is there a global N-optimum? OPEN; N=5 is one tested row.")
+    out(f"  2. N=5 -> N=7: Does dimensionality hold?")
+    out(f"     (N=7 Liouvillian: 16384x16384, needs C# engine)")
+    out(f"  3. Non-Markovian noise: Does the cockpit hold?")
+    out(f"  4. Which computed features and noise profiles remain useful beyond")
+    out(f"     this finite N=5 dashboard?")
 
-out(f"\n{'=' * 70}")
-out("ANALYSIS COMPLETE")
-out("=" * 70)
+    out(f"\n{'=' * 70}")
+    out("ANALYSIS COMPLETE")
+    out("=" * 70)
 
-# Save
-with open(results_path, 'w', encoding='utf-8') as f:
-    f.write('\n'.join(_lines) + '\n')
-print(f"\nResults saved to {results_path}")
+    # Save
+    with open(output_path, 'w', encoding='utf-8', newline='\n') as f:
+        f.write('\n'.join(lines) + '\n')
+    print(f"\nResults saved to {output_path}")
+
+
+def main(output_path=None):
+    if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    destination = os.fspath(output_path) if output_path is not None else DEFAULT_RESULTS_PATH
+    return run_analysis(destination)
+
+
+if __name__ == "__main__":
+    main()

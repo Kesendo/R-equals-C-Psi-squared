@@ -1,6 +1,6 @@
 # N=5 Check: Special or Selection-Biased?
 
-**Status:** Complete. N=5 is not structurally special. All metrics are monotonic with N.
+**Status:** Complete finite comparison. No global structural verdict follows.
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/three_values.py` (Track C)
@@ -16,9 +16,9 @@ N=5 appears repeatedly in this repo: IBM Torino had 5-qubit chains, CONCENTRATOR
 | N | d² | Max mult | Frac distinct | Slow rate | Slow/Σγ | Max sector dim |
 |---|-----|----------|--------------|-----------|-----------------|----------------|
 | 3 | 64 | 6 | 0.406 | 0.266 | 0.887 | 9 |
-| 4 | 256 | 14 | 0.496 | 0.299 | 0.748 | 36 |
-| **5** | **1,024** | **14** | **0.477** | **0.319** | **0.637** | **100** |
-| 6 | 4,096 | 19 | 0.539 | 0.332 | 0.553 | 400 |
+| 4 | 256 | 14 | 0.4961 | 0.299 | 0.748 | 36 |
+| **5** | **1,024** | **14** | **0.4766** | **0.319** | **0.637** | **100** |
+| 6 | 4,096 | 19 | 0.5388 | 0.332 | 0.553 | 400 |
 | 7 | 16,384 | 22 | 0.497 | 0.340 | 0.485 | 1,225 |
 | 8 | 65,536 | n/a | n/a | 0.347 | 0.433 | 4,900 |
 
@@ -28,7 +28,10 @@ N=8 max multiplicity and frac distinct are not available (would require full 655
 
 **Max multiplicity {6, 14, 14, 19, 22}:** Monotonically non-decreasing. N=5 ties with N=4, not a peak.
 
-**Fraction distinct {0.406, 0.496, 0.477, 0.539, 0.497}:** Oscillates between 0.4 and 0.54. N=5 is a local minimum but not extreme; N=3 is lower. No clear N=5 peak.
+**Fraction distinct {0.406, 0.4961, 0.4766, 0.5388, 0.497}:** N=5 is a
+strict local minimum between N=4 and N=6 for this metric. It is not the minimum
+of the displayed N=3..7 window, because N=3 is lower. This is a real local
+feature and not a global size-selection result.
 
 **Slow-mode rate {0.266, 0.299, 0.319, 0.332, 0.340, 0.347}:** Monotonically increasing, approaching an asymptotic limit. N=5 is not an inflection point (the rate of increase slows smoothly).
 
@@ -38,11 +41,12 @@ N=8 max multiplicity and frac distinct are not available (would require full 655
 
 ## Verdict
 
-**N=5 is not structurally special.** None of the five tabulated metrics shows N=5 as an extremum or inflection point (the sixth, palindromic pairs, is constant at 100%). Every metric either increases or decreases monotonically with N, or oscillates without a consistent N=5 peak.
-
-The repeated appearance of N=5 in this repo is **selection bias**: the IBM Torino chain happened to have 5 qubits, so N=5 became the testbed. Once N=5 was the testbed, all subsequent experiments (CONCENTRATOR_GEOMETRY, CUSP_LENS_CONNECTION, boundary straddling) used N=5 as the reference. The physics at N=5 is representative of the general N trend, not an outlier.
-
-This is a useful negative result: it means the repo's findings generalize to other N without needing special-case analysis.
+Four of the five displayed metrics do not select N=5 inside this window. The
+distinct-frequency fraction does: `0.4961 -> 0.4766 -> 0.5388` makes N=5 a
+strict local minimum. The table does not establish why that feature occurs,
+whether it continues, or whether some other predeclared metric would select a
+different N. Hardware history explains why N=5 was sampled often, but it is not
+a proof that every N=5 feature is an artifact.
 
 ---
 
@@ -55,4 +59,5 @@ This is a useful negative result: it means the repo's findings generalize to oth
 
 ---
 
-*April 12, 2026. Tom's intuition ("N=5 hat sich schon oefters als perfekt gezeigt") is selection bias, not physics. The data are monotonic.*
+*April 12, 2026; current reading September 15, 2026. The displayed window
+contains one strict local N=5 minimum and no licensed global verdict.*

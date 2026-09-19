@@ -9,19 +9,20 @@ namespace RCPsiSquared.Core.Symmetry;
 /// on the γ-axis.
 ///
 /// <para><b>Canonical 10 anchors</b> (per <c>docs/Q_REGIME_ANCHORS.md</c>):
-/// onset edges 0.2 / 0.35, Balance 1.0, peak band 1.2 / 1.5 / 1.6 / 1.8, plateau
-/// Q_EP 2.0, Endpoint orbit candidate 2.5.</para>
+/// onset edges 0.2 / 0.35, Balance 1.0, peak band 1.2 / 1.5 / 1.6 / sqrt(3) / 1.8,
+/// plateau Q_EP 2.0, Endpoint orbit candidate 2.5. The sqrt(3) entry is the named
+/// two-level cross-reading, not a universal many-body anchor.</para>
 ///
 /// <para><b>What this map promotes</b>: the previous bare
 /// <c>FractionReferenceGraph.QBasisAnkers = { 1.0, 1.5, 2.0 }</c> captured only the
-/// three wave-breaking-scan anchors. The full 9-anchor structure was documented but
-/// not typed; this map types it.</para>
+/// three wave-breaking-scan anchors. The full ten-anchor structure was documented but
+/// not typed; this map types ten entries.</para>
 ///
 /// <para><b>Wave-breaking-scan subset</b>: the original three QBasisAnkers (Q=1, 1.5,
 /// 2.0) are the only anchors documented in <c>simulations/wave_breaking_q_anchor_scan.py</c>
 /// with explicit dynamical-visibility properties (e.g., Q=1 hits F99 ankers at N=2,3,5).
-/// The other six anchors (0.2, 0.35, 1.2, 1.6, 1.8, 2.5) are documented structural
-/// markers without dedicated simulator sweeps.</para>
+/// The other seven anchors (0.2, 0.35, 1.2, 1.6, sqrt(3), 1.8, 2.5) are documented
+/// structural or named-model markers without dedicated wave-breaking simulator sweeps.</para>
 ///
 /// <para><b>What this map does NOT modify</b>: all F86 typed claims
 /// (<see cref="F86.QEpLaw"/>, <see cref="F86.TPeakLaw"/>,
@@ -88,13 +89,13 @@ public sealed class QAnchorMap
             // shows c=3 Interior Q_peak at N=7,8 = {1.743, 1.750} (within ~2% of √3),
             // but with non-monotone N-drift (+0.011 → +0.018), so the asymptote question
             // needs fine-grid scans at N=9,10,11+. This entry types only the bare-2×2
-            // Lindblad-Absorption-Match anchor (Tier1Derived algebra).
+            // named two-level magnitude/angle cross-reading (Tier1Derived algebra).
             new(Q: 1.7320508075688772,
                 JAtGamma0Point05: 0.05 * 1.7320508075688772,
                 Band: QBand.Peak,
-                Role: "Q=√3 canonical θ=60° Lindblad-Absorption-Match (|λ_±|=2γ₀=α)",
+                Role: "Q=√3 named two-level cross-reading (|λ_±|/γ₀=2; F95 angle θ=60°)",
                 Tier: Tier.Tier1Derived,
-                DocumentingSource: "LindbladAbsorptionMatchAtSixtyDegreesClaim (Tier1Derived composition: F95 + AbsorptionTheorem + CanonicalTrigAnchor); bare-2×2 Lindblad eigenvalue magnitude equals single-site Absorption rate at the unique Q=√3, which is also a canonical Niven angle θ=60°; empirical F86 c=3 K-peak (N=7,8 ≈ 1.74-1.75) is suggestively close but the connection stays open (needs finer grid at N≥9)"),
+                DocumentingSource: "LindbladAbsorptionMatchAtSixtyDegreesClaim (Tier1Derived named-model algebra with sole parent F95): for λ_±=−γ₀±iJ, |λ_±|/γ₀=√(1+Q²)=2 and θ=arctan(Q)=60° at Q=√3. This is not an AbsorptionTheorem rate identity or canonical-angle ancestry; the empirical F86 c=3 K-peak connection stays open"),
 
             new(Q: 1.8,
                 JAtGamma0Point05: 0.090,
@@ -157,7 +158,7 @@ public sealed class QAnchorMap
         sb.AppendLine($"  Total anchors: {Anchors.Count}");
         sb.AppendLine($"  Wave-breaking-scan subset: {WaveBreakingScanSubset.Count}");
         sb.AppendLine();
-        sb.AppendLine($"  {"Q",6} {"J(γ₀=0.05)",12} {"θ°",8} {"band",-16} {"tier",-22} {"role"}");
+        sb.AppendLine($"  {"Q",6} {"J(γ₀=0.05)",12} {"atan(Q)°",8} {"band",-16} {"tier",-22} {"role"}");
         sb.AppendLine($"  {new string('-', 6)} {new string('-', 12)} {new string('-', 8)} {new string('-', 16)} {new string('-', 22)} {new string('-', 30)}");
 
         foreach (var band in Enum.GetValues<QBand>())

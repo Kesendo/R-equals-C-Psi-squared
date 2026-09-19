@@ -1,3 +1,6 @@
+QUARTER-CURRENT
+Current reading: this historical capture records finite named-state trajectories. For the analytic C=f family, concurrence remains positive when the scalar reaches 1/4 and at every finite later time; the scalar crossing alone is not an entanglement classifier.
+=== BEGIN CAPTURED PAYLOAD ===
 Subsystem Crossing Theorem
 ======================================================================
 Conjecture 2.1: Every entangled pair with CΨ > 1/4 must cross below 1/4
@@ -172,3 +175,5 @@ cases where the map acts as identity on the initial state.
 
 Total runtime: 1309.4s (21.8 min)
 Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\subsystem_crossing.txt
+=== END CAPTURED PAYLOAD ===
+Current note: paths, timings, and theorem language belong to the captured historical record, not the current evidence claim.

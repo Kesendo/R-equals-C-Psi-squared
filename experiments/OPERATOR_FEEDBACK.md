@@ -1,3 +1,14 @@
+<!-- QUARTER-CURRENT -->
+# Finite state-dependent jump-operator comparisons
+
+Current reading: the tables compare specified states, Hamiltonians, jump
+operators, strengths, grids, and CΨ readouts.  They show model-dependent
+differences and do not turn `1/4` into a phase or physical-regime boundary.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the earlier feedback interpretation and parameter tables
+are retained below as the route to these finite comparisons.
+
 # Operator Feedback: State-Dependent Decoherence via Lindblad Jump Operators
 
 <!-- Keywords: operator feedback state-dependent decoherence, Lindblad jump

@@ -8,7 +8,6 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
 {
     private static ClaimRegistryBuilder BuildBaseRegistry() =>
         new ClaimRegistryBuilder()
-            .RegisterPi2Family()
             .RegisterF95AngleAtQuadraticZeroPi2Inheritance();
 
     [Fact]
@@ -38,5 +37,18 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
         string surface = string.Join("\n", claim.Children.Select(c => $"{c.DisplayName}\n{c.Summary}"));
         Assert.Contains("EP/Hopf/Jordan character OPEN", surface, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("FRAGILE_BRIDGE (the EP", surface, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void RegisteredClaim_HasOnlyTheStandaloneF95Ancestor()
+    {
+        var registry = BuildBaseRegistry()
+            .RegisterTransitionBridgeF95SiblingClaim()
+            .Build();
+
+        var ancestors = registry.AncestorsOf<TransitionBridgeF95SiblingClaim>();
+        Assert.Single(ancestors);
+        Assert.IsType<F95AngleAtQuadraticZeroPi2Inheritance>(ancestors[0]);
+        Assert.False(registry.Contains<Pi2DyadicLadderClaim>());
     }
 }

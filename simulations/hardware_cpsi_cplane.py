@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """
-Hardware CΨ in the complex plane: extracts complex CΨ_com from the
-saved density matrices of the 2026-04-16 cusp-slowing run on ibm_kingston.
+Hardware CΨ in the complex plane: a finite readout from the saved density
+matrices of the 2026-04-16 run on ibm_kingston.
 
 The cusp-slowing JSON stores the full 4×4 density matrix for each delay
 point via rho2_real + rho2_imag. We can therefore compute complex
 CΨ_com = C · (Σ ρ_{ij} off-diagonal, signed) / (d-1) without a new QPU
-run: the 2D trajectory is already in the data if Kingston's natural
-detuning on qubits 124-125 / 14-15 produced any phase rotation.
+run. The plotted CΨ_com is a basis-chosen one-coherence readout embedded in a
+copy of the Mandelbrot parameter plane. It is not an iteration orbit, and its
+radial quarter reference is not the cardioid cusp.
+The resolved phase change is only this sparse, basis-dependent coordinate
+readout, not a standalone detuning or calibration estimate.
 
 Plots:
   (1) c-plane trajectories for both hardware pairs with Mandelbrot cardioid
@@ -19,24 +22,25 @@ Date: 2026-04-16
 
 from __future__ import annotations
 
+import argparse
+import hashlib
 import json
-import sys
 from pathlib import Path
 
 import numpy as np
 
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
-
 # ── Paths ─────────────────────────────────────────────────────────
-# Public repo: reads hardware JSON from data/ibm_cusp_slowing_april2026/
-# (self-contained, no dependency on the private run-script location).
-REPO_ROOT = Path(__file__).parent.parent
-DATA_DIR = REPO_ROOT / "data" / "ibm_cusp_slowing_april2026"
-PUBLIC_RESULTS = Path(__file__).parent / "results"
-PUBLIC_RESULTS.mkdir(exist_ok=True)
-OUT = PUBLIC_RESULTS / "hardware_cpsi_cplane.png"
+APRIL16_JSON = "data/ibm_cusp_slowing_april2026/cusp_slowing_ibm_kingston_20260416_212042.json"
+APRIL16_SHA256 = "7210E6F31C1211F8C1236A4DC6020E569DDCF8F0585CEFA423F7AEC70669AE36"
+
+
+def load_frozen_json(relative_path, expected_sha256):
+    payload = (Path(__file__).parent.parent / relative_path).read_bytes()
+    actual_sha256 = hashlib.sha256(payload).hexdigest().upper()
+    if actual_sha256 != expected_sha256:
+        raise ValueError(f"immutable JSON digest mismatch: {relative_path}")
+    parsed = json.loads(payload)
+    return parsed
 
 
 # ── CΨ metrics ────────────────────────────────────────────────────
@@ -71,22 +75,20 @@ def period_2_bulb(n_pts: int = 200) -> np.ndarray:
 
 # ── Analysis ──────────────────────────────────────────────────────
 def extract_trajectory(pair_data: dict) -> dict:
-    traj = pair_data.get("trajectory", [])
-    ts, cpsi_c, cpsi_r = [], [], []
-    for p in traj:
-        if "rho2_real" not in p:
-            continue
-        rho = (np.array(p["rho2_real"], dtype=complex)
-               + 1j * np.array(p["rho2_imag"], dtype=complex))
-        ts.append(p["t_us"])
-        cpsi_c.append(cpsi_complex_from_rho(rho))
-        cpsi_r.append(cpsi_real_from_rho(rho))
-    return {"t_us": ts, "cpsi_complex": cpsi_c, "cpsi_real": cpsi_r,
+    points = [point for point in pair_data["trajectory"]
+              if "rho2_real" in point]
+    matrices = [
+        np.array(point["rho2_real"], dtype=complex)
+        + 1j * np.array(point["rho2_imag"], dtype=complex)
+        for point in points
+    ]
+    return {"t_us": [point["t_us"] for point in points],
+            "cpsi_complex": [cpsi_complex_from_rho(rho) for rho in matrices],
+            "cpsi_real": [cpsi_real_from_rho(rho) for rho in matrices],
             "pair": pair_data.get("pair", {})}
 
 
-def plot_all(pair_a: dict, pair_b: dict, freeze_sim: dict | None,
-             out_png: Path) -> None:
+def plot_all(pair_a: dict, pair_b: dict, out_png: Path) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -103,7 +105,7 @@ def plot_all(pair_a: dict, pair_b: dict, freeze_sim: dict | None,
         ax.plot(c_bulb.real, c_bulb.imag, "-", color="#888", linewidth=0.5,
                 alpha=0.4, label="period-2 bulb")
         ax.plot(0.25, 0, "o", color="red", markersize=10, zorder=5,
-                label="cusp c = 1/4")
+                label="cardioid cusp c=+1/4 (algebraic reference)")
         ax.axhline(0, color="gray", linewidth=0.3, alpha=0.4)
         ax.axvline(0, color="gray", linewidth=0.3, alpha=0.4)
 
@@ -133,11 +135,11 @@ def plot_all(pair_a: dict, pair_b: dict, freeze_sim: dict | None,
     ax_full.set_xlabel("Re(CΨ_com)")
     ax_full.set_ylabel("Im(CΨ_com)")
 
-    # Zoom to cusp region
+    # Zoom around the shared numerical value, without identifying the objects.
     ax_zoom.set_xlim(0.15, 0.30)
     ax_zoom.set_ylim(-0.04, 0.04)
     ax_zoom.set_aspect("equal")
-    ax_zoom.set_title("Zoom to the cusp c = 1/4 (fold crossing)")
+    ax_zoom.set_title("Radial hardware samples beside the algebraic cusp")
     ax_zoom.grid(True, alpha=0.2)
     ax_zoom.set_xlabel("Re(CΨ_com)")
     ax_zoom.set_ylabel("Im(CΨ_com)")
@@ -161,20 +163,22 @@ def plot_all(pair_a: dict, pair_b: dict, freeze_sim: dict | None,
         ax_phase_twin.plot(ts, args, "--", color=col, alpha=0.6, linewidth=1,
                             label=f"{label}: arg(CΨ_com)")
     ax_phase.axhline(0.25, color="red", linestyle=":", linewidth=1.2,
-                     alpha=0.7, label="|CΨ| = 1/4 (fold)")
+                     alpha=0.7, label="|CΨ| = 1/4 (radial reference)")
     ax_phase.set_xlabel("delay t (μs)")
     ax_phase.set_ylabel("|CΨ_com|", color="#444")
     ax_phase_twin.set_ylabel("arg(CΨ_com) [°]", color="#888")
-    ax_phase.set_title("|CΨ_com|(t) and arg(CΨ_com)(t)\n"
-                       "(phase ≈ constant ⇒ Kingston has little Z-drift)")
+    ax_phase.set_title(
+        "|CΨ_com|(t) and arg(CΨ_com)(t)\n"
+        "not standalone detuning/calibration evidence"
+    )
     ax_phase.grid(True, alpha=0.2)
     ax_phase.legend(loc="upper right", fontsize=7)
     ax_phase_twin.legend(loc="center right", fontsize=7)
 
     fig.suptitle(
-        "Hardware CΨ in the complex plane, ibm_kingston Bell⁺ pairs\n"
-        "Real-axis trajectory = the 1D case of BOUNDARY_NAVIGATION; "
-        "deviation from the real axis is Kingston Z-detuning",
+        "saved April-16 density matrices\n"
+        "radial quarter reference; cardioid cusp is separate\n"
+        "embedded coordinate c_plot = CΨ_com",
         y=1.00,
     )
     plt.tight_layout(rect=[0, 0, 1, 0.95])
@@ -184,47 +188,32 @@ def plot_all(pair_a: dict, pair_b: dict, freeze_sim: dict | None,
 
 
 # ── Main ──────────────────────────────────────────────────────────
-if __name__ == "__main__":
+def main(output_path) -> None:
+    destination = Path(output_path)
     print("=" * 70)
     print("  Hardware CΨ in the complex plane (c-plane extension)")
     print("=" * 70)
 
-    jsons = sorted(DATA_DIR.glob("cusp_slowing_*.json"))
-    if not jsons:
-        print(f"ERROR: no cusp_slowing_*.json found in {DATA_DIR}")
-        sys.exit(1)
-    json_path = jsons[-1]
-    print(f"\n  input: {json_path.relative_to(REPO_ROOT)}")
-
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    pair_runs = data.get("pair_runs", {})
-    pair_a = extract_trajectory(pair_runs.get("A_mid", {}))
-    pair_b = extract_trajectory(pair_runs.get("B_high", {}))
+    data = load_frozen_json(APRIL16_JSON, APRIL16_SHA256)
+    pair_runs = data["pair_runs"]
+    pair_a = extract_trajectory(pair_runs["A_mid"])
+    pair_b = extract_trajectory(pair_runs["B_high"])
 
     print(f"\n  Pair A (mid-T2): {len(pair_a['t_us'])} delay points")
-    print(f"    {'t (μs)':>8}  {'|CΨ_com|':>10}  {'arg (deg)':>10}  "
-          f"{'Re':>10}  {'Im':>10}")
-    for t, c in zip(pair_a["t_us"], pair_a["cpsi_complex"]):
-        print(f"    {t:>8.2f}  {abs(c):>10.4f}  "
-              f"{np.degrees(np.angle(c)):>+10.2f}  "
-              f"{c.real:>+10.4f}  {c.imag:>+10.4f}")
-
     print(f"\n  Pair B (high-T2): {len(pair_b['t_us'])} delay points")
-    print(f"    {'t (μs)':>8}  {'|CΨ_com|':>10}  {'arg (deg)':>10}  "
-          f"{'Re':>10}  {'Im':>10}")
-    for t, c in zip(pair_b["t_us"], pair_b["cpsi_complex"]):
-        print(f"    {t:>8.2f}  {abs(c):>10.4f}  "
-              f"{np.degrees(np.angle(c)):>+10.2f}  "
-              f"{c.real:>+10.4f}  {c.imag:>+10.4f}")
 
-    plot_all(pair_a, pair_b, None, OUT)
+    plot_all(pair_a, pair_b, destination)
 
     print()
     print("Interpretation:")
-    print("  If all arg(CΨ_com) are ≈ 0, Kingston's rotating frame was well-")
-    print("  calibrated: Bell+ stays on the real axis, 1D trajectory.")
-    print("  If arg drifts linearly with t, there's residual Z-detuning and")
-    print("  the trajectory is a 2D spiral in the c-plane.")
-    print("  Either way, the cusp at c = 1/4 sits at the red marker.")
+    print("  The small resolved phase changes belong to this sparse,")
+    print("  basis-dependent coordinate readout.")
+    print("  They do not by themselves estimate residual detuning or calibration.")
+    print("  The red marker is the separate algebraic cusp c=+1/4.")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", dest="output_path", required=True)
+    args = parser.parse_args()
+    main(args.output_path)

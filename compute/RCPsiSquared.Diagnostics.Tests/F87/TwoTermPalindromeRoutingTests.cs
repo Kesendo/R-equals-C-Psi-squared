@@ -11,7 +11,7 @@ namespace RCPsiSquared.Diagnostics.Tests.F87;
 /// <summary>The Liouvillian-free two-term palindrome router (<see cref="TwoTermPalindromeRouting"/>)
 /// reproduces both the spectral fate (truly / soft / hard) AND the hidden-symmetry Q family
 /// (P1 / uniform / alternating / continuous / none) from the two bond bilinears' letters alone,
-/// bit-exactly across all 36 unordered two-term combos.
+/// bit-exactly across all 45 unordered two-term combos including self-pairs.
 ///
 /// <para>Ported from <c>simulations/framework/diagnostics/q_family_routing.py</c>
 /// (<c>classify_two_term_palindrome</c>), whose docstring guarantees a 0-mismatch reproduction of
@@ -23,7 +23,7 @@ public class TwoTermPalindromeRoutingTests
     private static PauliTerm T(string label) => new(PauliLabel.Parse(label), Complex.One);
 
     /// <summary>The nine canonical two-letter bilinears (the only letter pairs with both sites lit).
-    /// The 36 unordered combos are the upper triangle (a, b) with b at or after a.</summary>
+    /// The 45 unordered combos are the upper triangle (a, b) with b at or after a.</summary>
     private static readonly string[] Bilinears = { "XX", "YY", "ZZ", "XY", "YX", "XZ", "ZX", "YZ", "ZY" };
 
     /// <summary>Expected (fate, family) verdict for each unordered pair, generated once from the Python
@@ -99,7 +99,7 @@ public class TwoTermPalindromeRoutingTests
     };
 
     [Fact]
-    public void Routing_ReproducesPythonFateAndFamily_OverAll36Combos()
+    public void Routing_ReproducesPythonFateAndFamily_OverAll45Combos()
     {
         var mismatches = new List<string>();
         for (int i = 0; i < Bilinears.Length; i++)
@@ -165,11 +165,11 @@ public class TwoTermPalindromeRoutingTests
     }
 
     // -------------------------------------------------------------------------------------------
-    // The substance: bit-exact agreement with the spectral authority over all 36 combos at N = 4.
+    // The substance: bit-exact agreement with the spectral authority over all 45 combos at N = 4.
     // -------------------------------------------------------------------------------------------
 
     [Fact]
-    public void Routing_AgreesWithSpectralAuthority_OverAll36Combos_N4()
+    public void Routing_AgreesWithSpectralAuthority_OverAll45Combos_N4()
     {
         var chain = new ChainSystem(4, 1.0, 0.05);
         var mismatches = new List<string>();

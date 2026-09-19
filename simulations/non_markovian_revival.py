@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Non-Markovian CΨ Revival Test
-===============================
-Can non-Markovian dynamics push CΨ permanently back above 1/4?
+Finite CΨ Recrossing Catalogue
+================================
+Which configured trajectories cross the scalar 1/4 readout more than once?
 
 Test 1: Markovian baseline (constant γ, J>0) - do oscillations cross 1/4?
 Test 2: Structured bath - 2 system qubits coupled to 1 bath qubit
@@ -14,25 +14,27 @@ Script:  simulations/non_markovian_revival.py
 Output:  simulations/results/non_markovian_revival.txt
 """
 
+import argparse
+from pathlib import Path
+import sys
+import time as _time
+
 import numpy as np
 from scipy.linalg import expm
-import os, sys, time as _time
 
 # ====================================================================
 # Output
 # ====================================================================
 
-OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        "results", "non_markovian_revival.txt")
-_outf = open(OUT_PATH, "w", encoding="utf-8", buffering=1)
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+OUT_PATH = Path(__file__).parent / "results" / "non_markovian_revival.txt"
+_lines = None
 
 
 def log(msg=""):
+    if _lines is None:
+        raise RuntimeError("log() is available only during main().")
     print(msg, flush=True)
-    _outf.write(msg + "\n")
-    _outf.flush()
+    _lines.append(str(msg))
 
 
 # ====================================================================
@@ -165,11 +167,9 @@ def analyze_crossings(t_arr, cpsi_arr, threshold=0.25):
         if not above and now_above:
             cross_up += 1
             above_since = t_arr[i]
-            if first_below_t is not None:
-                revival = cpsi_arr[i]
-                if revival > max_revival:
-                    max_revival = revival
-                    max_revival_t = t_arr[i]
+        if first_below_t is not None and now_above and cpsi_arr[i] > max_revival:
+            max_revival = cpsi_arr[i]
+            max_revival_t = t_arr[i]
         above = now_above
 
     # Final sustained period
@@ -201,6 +201,13 @@ def log_analysis(info, label=""):
     log(f"    Final CΨ: {info['final_cpsi']:.6f}")
 
 
+def best_revival_row(rows):
+    """Return the label and value of the largest finite sampled recrossing."""
+    if not rows:
+        raise ValueError("At least one configured row is required.")
+    return max(rows, key=lambda row: row[1])
+
+
 # ====================================================================
 # Test 1: Markovian baseline
 # ====================================================================
@@ -228,6 +235,7 @@ def test_1_markovian():
     n_steps = int(round(t_max / dt))
     t_arr = np.array([i * dt for i in range(n_steps + 1)])
 
+    markov_control = None
     for gamma, state_name, rho_init in [
         (0.05, "Bell+", rho0),
         (0.05, "|01>", rho0_01),
@@ -243,9 +251,15 @@ def test_1_markovian():
             cpsi_arr[i] = cpsi(rho)
 
         info = analyze_crossings(t_arr, cpsi_arr)
+        if gamma == 0.05 and state_name == "|01>":
+            markov_control = info
         log(f"  γ={gamma}, J={J}, state={state_name}, t_max={t_max}")
         log_analysis(info)
         log()
+
+    if markov_control is None:
+        raise RuntimeError("The configured constant-gamma |01> control is missing.")
+    return markov_control
 
 
 # ====================================================================
@@ -276,8 +290,7 @@ def test_2_structured_bath():
     log()
 
     # Sweep J_SB (system-bath coupling) and γ_B (bath dephasing)
-    best_revival = 0.0
-    best_params = {}
+    revival_rows = []
 
     configs = [
         # J_SB, γ_B, γ_sys, label
@@ -313,16 +326,15 @@ def test_2_structured_bath():
         log(f"  {label}")
         log_analysis(info)
 
-        if info['max_revival'] > best_revival:
-            best_revival = info['max_revival']
-            best_params = {'label': label, 'info': info}
+        revival_rows.append((label, info['max_revival']))
         log()
 
-    log(f"  BEST REVIVAL: CΨ={best_revival:.4f} ({label})")
+    best_label, best_revival = best_revival_row(revival_rows)
+    log(f"  BEST SAMPLED RECROSSING: CΨ={best_revival:.4f} ({best_label})")
     if best_revival > 0.25:
-        log(f"  *** CΨ CROSSED BACK ABOVE 1/4! ***")
+        log("  The finite structured-bath trajectory crossed back above 1/4.")
     else:
-        log(f"  CΨ never returned above 1/4")
+        log("  No configured structured-bath trajectory returned above 1/4.")
     log()
 
 
@@ -524,10 +536,9 @@ def test_5_worst_case():
     log(f"  BEST REVIVAL: CΨ = {best_overall:.4f}")
     log(f"  Parameters: {best_label}")
     if best_overall > 0.25:
-        log(f"  *** NON-MARKOVIAN REVIVAL ABOVE 1/4 FOUND! ***")
-        log(f"  The 1/4 boundary is NOT absorbing under non-Markovian dynamics.")
+        log("  Structured-bath recrossing above 1/4 occurs in this finite sweep.")
     else:
-        log(f"  1/4 boundary holds: no revival above 1/4 found.")
+        log("  No structured-bath recrossing above 1/4 occurs in this finite sweep.")
     log()
 
 
@@ -535,15 +546,22 @@ def test_5_worst_case():
 # Main
 # ====================================================================
 
-if __name__ == "__main__":
-    t_start = _time.time()
+def main(output_path=OUT_PATH):
+    global _lines
+    started = _time.perf_counter()
+    if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    _lines = []
 
-    log("Non-Markovian CΨ Revival Test")
+    log("QUARTER-CURRENT")
+    log("Current reading: finite configured recrossings; recrossing alone does not classify memory.")
+    log()
+    log("Finite CΨ Recrossing Catalogue")
     log("=" * 70)
-    log(f"Question: Can non-Markovian dynamics push CΨ back above 1/4?")
+    log("Question: which configured trajectories recross the scalar 1/4 readout?")
     log()
 
-    test_1_markovian()
+    markov_control = test_1_markovian()
     test_2_structured_bath()
     test_3_pulsed()
     test_4_oscillating()
@@ -553,16 +571,22 @@ if __name__ == "__main__":
     log("SUMMARY")
     log("=" * 70)
     log()
-    log("If ANY test shows sustained CΨ > 1/4 after first crossing below:")
-    log("  → 1/4 is NOT an absorbing boundary under non-Markovian dynamics")
-    log("  → Layer 5 remains OPEN")
-    log()
-    log("If NO test shows revival above 1/4:")
-    log("  → Strong evidence that 1/4 is absorbing even non-Markovianly")
-    log("  → Layer 5 can be considered closed (pending formal proof)")
+    log("This is a finite configured catalogue, not a memory classifier.")
+    log(f"The constant-gamma Markovian |01> control: "
+        f"{markov_control['cross_down']} down, {markov_control['cross_up']} up.")
+    log("Recrossing alone does not classify memory.")
     log()
 
-    total = _time.time() - t_start
-    log(f"Total runtime: {total:.1f}s ({total/60:.1f} min)")
-    log(f"Results saved to: {OUT_PATH}")
-    _outf.close()
+    log("Completed: deterministic rerun")
+    log("Results: simulations/results/non_markovian_revival.txt")
+
+    destination = Path(output_path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_bytes(("\n".join(_lines) + "\n").encode("utf-8"))
+    print(f"Elapsed runtime: {_time.perf_counter() - started:.3f}s")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", default=OUT_PATH)
+    main(output_path=parser.parse_args().output)

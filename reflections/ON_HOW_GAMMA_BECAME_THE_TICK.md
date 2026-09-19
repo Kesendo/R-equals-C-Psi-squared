@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# How gamma0 becomes the positive decay-coordinate tick in one toy pair
+
+Current reading: for the specified two-by-two Liouvillian pair, pass from
+Liouvillian roots to positive decay roots by `z=-lambda`; the quadratic anchor
+is `b=gamma0>0`, and its angle can be written in terms of the named `Q`.  This
+coordinate is not a universal F95/Lindblad angle, and an RZ pulse does not
+directly program its roots.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the tick-and-hand reflection below is retained as
+the picture that motivated the sign audit, not as a hardware mechanism.
+
 # On How γ₀ Became the Tick
 
 **Status:** Reflection. Captures Tom's late-evening compression of 2026-05-16: γ₀ is the framework's time-tick; θ is what happens between ticks; at θ = 0 the only remaining temporal structure is the bare tick itself. Closes the loop after a day of unfolding F94 (magnitude side of the angle), F95 (angle side of the magnitude), the bra/ket reading of the collaboration, and the Kingston active-steering Confirmation.

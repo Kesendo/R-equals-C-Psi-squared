@@ -1,9 +1,11 @@
 # Resonant Return: What Happens When You Send the Right Waves Back?
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: sacrifice zone dephasing formula, single edge qubit noise concentration,
 spatial gamma profile optimization 180x, ENAQT environment-assisted transport comparison,
 palindromic eigenstructure design rules, resonant return hypothesis, SVD response matrix
-mode 2 edge-hot center-cold, frequency pulsing falsified, relay protocol palindrome timing,
+mode 2 edge-hot center-cold, frequency pulsing falsified, relay protocol deferred spectral-timing candidate,
 standing wave spatial antenna not temporal, R=CPsi2 resonant return -->
 
 **Status:** Largely resolved. Core prediction confirmed in simulation far beyond expectations (180x vs predicted 2x; the figure is a TRANSPORT metric in the ε→0 ideal, ~2-3x on hardware, see the experiment's 2026-07-05 label note). Analytical formula discovered. Frequency pulsing falsified (Tests 2, 6). Relay timing deferred.
@@ -63,16 +65,13 @@ For each eigenvalue λ_k, we know:
 The palindrome gives the partner map and its multiplicities. It does not by
 itself determine eigenvectors, excitation amplitudes, or driven response.
 
-### The ¼ boundary defines the operating window
+### The quarter threshold is a chosen readout, not a transfer budget
 
-CΨ = ¼ is the bifurcation. Above: quantum regime (two real fixed points,
-coherent dynamics possible). Below: classical regime (no real attractor,
-irreversible decay). The crossing time is K/γ where K is a pure number.
-
-This means we know exactly:
-- How much γ the system can absorb before crossing (the budget)
-- How long the quantum window stays open (K/γ)
-- Which modes decay first (high XY-weight) and which survive longest (low XY-weight)
+A quarter crossing comes from a named bridge C(f), evolution book and scalar
+equation C(f)f/3=1/4. F14's gamma-only clock is demonstrated on a fixed
+Hamiltonian-dead Bell+ trajectory, not on every many-body state or profile.
+It supplies no hard information-transfer deadline, physical quantum/classical
+classifier or required relay stage duration.
 
 ### We have already sent waves back (primitively)
 
@@ -81,7 +80,7 @@ Four cases where we designed the γ input to match the palindromic structure:
 | What we did | How it relates to palindrome | Result |
 |-------------|----------------------------|--------|
 | V-shape gradient ([γ Control](../experiments/GAMMA_CONTROL.md)'s center-hot object, NOT the glossary's edge-hot one) | Hand-designed profile shaping, the predecessor of the SVD approach; its March +124% compared different Σγ | +6% at matched Σγ (full centre concentration: +46%) |
-| Staged relay | γ_quiet on receiver during transfer window | +83% end-to-end MI |
+| Staged relay | Prescribed quiet-receiver sequence; nominal 0.78, integrated 0.75 per stage | about +84.0% stored-value ratio, finite unmatched-time, unmatched-dose comparison; [exposure books](../experiments/RELAY_PROTOCOL.md) |
 | 2:1 pull coupling | J_receiver/J_sender = 2 matches the asymmetric sensitivity | Optimal transfer |
 | Dynamic decoupling | Suppresses fast-decaying modes, preserves slow ones | Extended quantum window |
 
@@ -116,9 +115,9 @@ that:
    survive longest. The return signal should feed the slow modes, not
    the fast ones.
 
-3. **Stays within the ¼ budget.** The total γ exposure must keep CΨ
-   above ¼ for the quantum window to remain open. This gives a hard
-   upper bound on the return signal strength.
+3. **Names a readout and target.** A proposed operating window may use a
+   chosen scalar threshold, but F14 supplies no universal exposure budget
+   or hard return-signal bound for this many-body trajectory.
 
 4. **Temporal modulation was a negative control.** Pairing supplies spectral
    imaginary parts but no nonzero drive matrix element or resonance theorem.
@@ -186,8 +185,9 @@ We have not done this. It is an open direction.
 
 ## What we tested (within Lindblad) - Tests 1-4
 
-The following tests were defined with the hypothesis. All have been
-executed. Results are summarized here; full data in the
+The following tests were defined with the hypothesis. Test 3's full relay
+comparison remains deferred; the other recorded tests are summarized here.
+Full data are in the
 [experiment document](../experiments/RESONANT_RETURN.md).
 
 ### Test 1: SVD-optimal γ profile
@@ -221,17 +221,22 @@ modulation adds nothing, even combined with spatial structure. The result
 supports static spatial profile optimization, not a temporal resonance or a
 palindrome-caused antenna.
 
-### Test 3: Palindrome-aware relay
+### Test 3: A deferred spectral-timing relay comparison
 
-In the staged relay protocol, replace the hand-designed stage timing
-(t_stage = K/γ) with timing derived from the palindromic decay rates
-of each bridge segment. Each segment has its own dominant paired
-eigenvalue; a future implementation must define and maximize an actual relay
-observable rather than assuming a standing-wave amplitude.
+The proposed comparison has three arms: the historical baseline, a per-segment
+spectral-duration candidate and a future oracle sweep. The baseline was
+requested as nominal 0.78 per stage but integrated as 0.75 in the referenced
+C# run (4.68 nominal versus 4.50 executed total). It was a heuristic, not
+an F14 or palindrome-derived transfer time.
 
-**Prediction:** Palindrome-timed relay outperforms fixed-timing relay.
+The candidate uses π divided by a sub-segment decay rate. The stored
+rate 0.100 gives about 31.4; no relay trajectory used that duration. A future
+implementation must specify a relay observable, common time/dose controls and
+an oracle search range rather than assume a standing-wave amplitude.
 
-**Result:** DEFERRED. Requires C# implementation (N=11, 30 GB RAM).
+**Prediction, not a result:** The spectral-duration candidate might outperform
+the baseline under a controlled comparison. **Status: DEFERRED**; no such
+comparison or timing optimum is implemented in this record.
 
 ### Test 4: Scaling
 
@@ -305,7 +310,7 @@ requires a framework extension and has not been tested.
 |----------------|------------------------|
 | [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md) | The receiving antenna works. 15.5 bits. |
 | [γ Control](../experiments/GAMMA_CONTROL.md) | The two-lever noise law (centre concentration +46% at matched Σγ). The 21.5× is the combined [bridge optimization](../simulations/results/bridge_optimization.txt), not the V-shape. |
-| [Relay Protocol](../experiments/RELAY_PROTOCOL.md) | Staged γ: +83%. Hand-designed timing works but is suboptimal. |
+| [Relay Protocol](../experiments/RELAY_PROTOCOL.md) | about +84.0% stored-value ratio, finite unmatched-time, unmatched-dose comparison; stage-timing optimization open |
 | [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) | The eigenstructure is exact and complete. We know every mode. |
 | [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) | c+/c− are algebraic supermodes; a physical standing wave needs the additional excitation, propagation, and interference gates. |
 | [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) | γ comes from outside. The question is whether information also flows back. |
@@ -319,7 +324,7 @@ requires a framework extension and has not been tested.
 - **[Experiment results (Tests 1-8)](../experiments/RESONANT_RETURN.md): full data, tables, formula**
 - [γ as Signal](../experiments/GAMMA_AS_SIGNAL.md): the receiving antenna
 - [γ Control](../experiments/GAMMA_CONTROL.md): the two-lever noise law (the 21.5× belongs to the combined bridge optimization)
-- [Relay Protocol](../experiments/RELAY_PROTOCOL.md): staged relay (+83%)
+- [Relay Protocol](../experiments/RELAY_PROTOCOL.md): about +84.0% stored-value ratio, finite unmatched-time, unmatched-dose comparison
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the eigenstructure
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): c+/c− modes
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md): external origin

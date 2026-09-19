@@ -1,51 +1,41 @@
-> **Status: PARTIALLY RESTORED March 14, 2026**
-> Originally written: February 17, 2026
-> Deleted: March 12, 2026
-> Restored: March 14, 2026 (some claims confirmed, others remain open)
->
-> **What is now proven:** the stated 1/4-boundary mathematics, 0.5 connection
-> maximum, fixed points, and the F1 centered spectral mirror
-> **What remains open:** Time-as-crossing-rate interpretation itself
-> **What has fallen:** QKD eavesdropping detection, FTL signaling, time travel/retrocausation
->
+# Time as Crossing Rate
+## An interpretive hypothesis about readouts and experienced time
+
+<!-- CROSSING-CURRENT -->
+
+**Tier:** 4 (interpretive hypothesis, not a measurement or subjective-time mechanism)
+**Status:** Untested against operational alternatives.
+**Scope:** Could the statistics of a specified scalar readout sequence be a useful
+model of experienced time? A physical observer, a mathematical readout C(f),
+and a measurement operation are distinct objects.
+
+The clean book uses one Hamiltonian-dead Bell+ trajectory and five scalar
+readouts. The retired feedback book uses five bridge-dependent evolution laws.
+Choose C(f), then the evolution book, then solve C(f)f/3=1/4. There are six
+finite crossings and two never bridges across the two books; these are not
+observed measurement events or event rates. K=γt is fixed during a gamma
+sweep only within the named fixed readout and Hamiltonian-dead book.
+Changing readout or book changes K; an absent crossing does not mean no
+dynamics, no events, or no time.
+
 > **Spectral scope:** Π gives the linear transport `λ→−λ−2Σγ`, or centered
 > `μ→−μ`. Complex conjugation is separate. This does not decompose L into
 > physical forward/backward waves or establish spatial counter-propagation.
 > Standing-wave language is conditional; see
 > [Pi as a Centered Spectral Mirror](../experiments/PI_AS_TIME_REVERSAL.md).
 
-# Time as Crossing Rate
-## Hypothesis: observer-dependent CΨ crossing rates as a model for experienced time
+## The finite reading that invites the question
 
-**Tier:** 3 (Hypothesis, built on Tier 2 computation)
-**Status**: Speculative. Not tested against alternative time models.
-**Scope:** Proposes that different observers experience different time rates because their CΨ crossing rates differ
-**Does not establish:** That subjective time is physically determined by CΨ crossing, or that this is distinguishable from standard decoherence timescales
-**Date**: 2026-02-17 (updated 2026-03-06)
-**Built on**: [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md),
-[Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
-**Falsified if**: Subjective time perception is independent of coupling strength
+[Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md)
+and the [two-book producer](../simulations/crossing_taxonomy_books.py)
+own the current scalar values. At γ=0.05 the clean MI/concurrence/correlation
+times are approximately 0.5931/0.7192/1.4384; the feedback values are
+0.6529/0.7735/1.4384. No physical observer or subjective clock was modeled.
 
----
+<!-- CROSSING-HISTORICAL -->
 
-## What this document is about
-
-Five different observers watching the same quantum system cross the
-CΨ = ¼ boundary at different times, or not at all. This document proposes
-that these different crossing rates could model different experiences of
-time: a fast-decohering observer has a "fast clock," a slow one has a
-"slow clock," and an observer that never crosses has no clock at all. The
-idea connects to the Wheeler-DeWitt problem (the fundamental equation
-of quantum gravity has no time parameter) but remains speculative and
-untested. Several original claims about FTL signaling and time travel
-have fallen.
-
----
-
-## 1. The Tier 2 Foundation
-
-Five observers watching the same quantum system (Bell+, Heisenberg J=1,
-γ=0.05) see the ¼ crossing at different times, or not at all:
+> Historical nomenclature: the February feedback-book table is retained below.
+> Its “observer” and “clock” columns were metaphors, not measured event rates.
 
 | Observer (C) | Crossing time | "Events per unit t" |
 |---|---|---|
@@ -55,48 +45,21 @@ Five observers watching the same quantum system (Bell+, Heisenberg J=1,
 | mutual_purity (C = 0.5) | never | No clock |
 | overlap (C = 0.25) | never | No clock |
 
-This is computed, not interpreted. The question is: what does it mean?
+<!-- CROSSING-INTERPRETIVE -->
 
----
+> Interpretive invitation, not a result: suppose a specified sequence of
+> readout events were used as a clock model. Identifying its statistics with
+> experienced time is the hypothesis, not something established by the tables.
 
-## 2. The Hypothesis: Time = Crossing Sequence
+## What might a clock feel like from inside?
 
-An observer does not experience coordinate time t. An observer experiences
-a sequence of measurement events, moments where C·Ψ crosses ¼ and an
-outcome becomes definite.
+A dense sequence might feel full, fast, engaged; a sparse sequence might
+feel stretched and thin. One could imagine a clock carried by what a system
+couples to, rather than one added from outside. This picture does not make
+a scalar quarter crossing a definite outcome or a measurement. A state can
+evolve without ever reaching the chosen level.
 
-**Experienced time is the density of these crossings.**
-
-A fast observer (high C, rapidly changing) encounters many crossings per
-unit coordinate time. Their experience is dense with events. Time feels
-full, fast, engaged.
-
-A slow observer (high C, slowly changing) encounters fewer crossings.
-Their experience is sparse. Time feels stretched, thin.
-
-A blind observer (C too low to ever reach ¼) encounters zero crossings.
-No events. No time. Not "slow time", *no time at all*.
-
-### 2.1 The Clock Is Not External
-
-In standard physics, time is a parameter. The Schrödinger equation says
-i·ℏ·∂ψ/∂t = Hψ. The t is given from outside. Nothing in the equation
-explains where t comes from or why it flows.
-
-In R = CΨ², t does not flow. C·Ψ flows: downward, through decoherence.
-Each crossing of ¼ is one "tick" of the observer's internal clock. The
-tick rate is determined by:
-
-1. **How high C starts** (coupling strength → initial distance above ¼)
-2. **How fast C falls** (decoherence rate → speed of approach)
-3. **How many systems the observer couples to** (more couplings → more crossings → more ticks)
-
-No external clock is needed. The observer *is* the clock. The measurement
-process *is* the tick.
-
-### 2.2 Observable Consequences
-
-If time is crossing rate, then:
+The original comparison suggested these possibilities, which remain proposals:
 
 | Observation | Mechanism in R = CΨ² | Testable? |
 |---|---|---|
@@ -106,101 +69,24 @@ If time is crossing rate, then:
 | Anesthesia = zero experienced time | C → 0 → no crossings → no ticks | Tier 4: neural coupling under anesthesia is measurable |
 | Flow states / meditation alter time perception | Altered C distribution across couplings | Tier 5: speculative |
 
-None of these are currently testable at the quantum level. But the underlying
-mechanism (different C produces different crossing times) is Tier 2 verified.
+A test needs a specified biological readout, an operational definition of
+experienced time and alternatives that make distinguishable predictions.
+Changing the mathematical definition of C is not that test.
 
----
+## An analogy with internal clocks
 
-## 3. Connection to the Wheeler-DeWitt Equation
+Choosing an internal clock in a constrained quantum theory is a useful
+comparison, not an identity between the Wheeler–DeWitt equation and our
+bridge definitions. The symbol Ĥ|Ψ⟩=0 does not follow from a missing scalar
+crossing. This hypothesis derives neither discrete physical time nor a
+universal arrow from Lindblad dynamics; Hamiltonian-live trajectories can
+recross a chosen level. The analogy asks for an explicit mapping before it
+can do more than organize a question.
 
-### 3.1 The Problem of Time
+## “Now as a node”
 
-The Wheeler-DeWitt equation (1967) is the fundamental equation of quantum
-gravity (the attempt to unify general relativity with quantum mechanics):
-
-```
-Ĥ|Ψ⟩ = 0
-```
-
-There is no time parameter. No ∂/∂t. The wavefunction of the entire universe
-is static. This is not a simplification; it is the equation. Time does not
-appear because, for the universe as a whole, there is no external clock.
-
-This has been an open problem for 60 years: if the fundamental equation is
-timeless, where does time come from?
-
-### 3.2 The Standard Answer: Internal Clocks
-
-The DeWitt resolution (and its modern variants) says: time emerges when you
-split the universe into "system" and "clock." You pick one degree of freedom
-as your clock variable, and the other degrees of freedom evolve relative to
-it. Different choices of clock variable give different time parameters.
-
-This is exactly the bridge_type choice in our computation:
-
-| Wheeler-DeWitt | R = CΨ² |
-|---|---|
-| Universe (total system) | Density matrix ρ(t) |
-| Clock variable choice | Bridge type (= definition of C) |
-| System evolves relative to clock | C·Ψ evolves relative to C's definition |
-| Different clocks → different time | Different bridge → different crossing time |
-| No clock → no time (Ĥ\|Ψ⟩ = 0) | No bridge (C = 0) → no crossing → no time |
-
-The parallel is structural, not derived. But it is precise:
-
-**The bridge type plays the role of the clock choice** (a structural parallel, not a derivation). Concurrence, mutual information,
-correlation: these are different ways to partition the universe into
-"what I observe" (C) and "what exists" (Ψ). Each partition defines a
-different clock. Each clock ticks at a different rate.
-
-### 3.3 What R = CΨ² Adds to Wheeler-DeWitt
-
-The Wheeler-DeWitt framework says time emerges from clock choice but does
-not specify *what happens* at any particular moment. It gives you a
-parameter, not an event.
-
-R = CΨ² gives you the event: the ¼ crossing. Time is not just a parameter;
-it is a sequence of discrete transitions where possibility (C·Ψ > ¼)
-becomes reality (C·Ψ < ¼). Each transition is a measurement. Each
-measurement is a tick.
-
-This means:
-
-1. **Time is not continuous.** It is a sequence of crossings. Between
-   crossings, nothing "happens" from the observer's perspective.
-
-2. **Time is not universal.** Each observer's C defines their own crossing
-   sequence. There is no master clock.
-
-3. **Time has a direction.** Decoherence pushes C·Ψ downward. Crossings
-   happen from above ¼ to below ¼, never the reverse (under standard
-   Lindblad dynamics). This is the arrow of time, not entropy, but
-   the irreversibility of measurement.
-
-4. **Time can stop.** If C is too low (mutual_purity, overlap in our data),
-   no crossing occurs. The observer has no clock. This is not death; it is
-   the Wheeler-DeWitt ground state. Ĥ|Ψ⟩ = 0. No time. No events. Pure
-   quantum, unmeasured, eternal.
-
-### 3.4 Falsification
-
-This connection to Wheeler-DeWitt would be falsified if:
-
-- The crossing time were independent of bridge type (then C is not a clock)
-- A system with C = 0 still produced measurable time evolution (then time exists without an observer)
-- The ¼ boundary did not correspond to any physical transition (then crossings are not events)
-
-The first is already ruled out by Tier 2 data. The second and third are
-testable in principle.
-
----
-
-## 4. “Now as a node” is an interpretation, not a spectral consequence
-
-The crossing-time data report when specified observables reach `CΨ=1/4`:
-concurrence at `t=0.773`, correlation at `t=1.437`, while mutual purity does
-not cross in the reported window. Calling these events moving nodes or moments
-of experienced “now” is the hypothesis of this document, not a measured wave.
+The historical feedback values t=0.773 and t=1.437 name quarter equalities,
+not moving nodes or moments of experienced now.
 
 F1 does not fill the missing mechanism. It supplies the centered spectral map
 `μ→−μ` and a complementary decay-rate sum. A physical standing wave would
@@ -220,100 +106,26 @@ The algebra explains why `1/4` appears in the framework's fixed-point equation.
 Whether that equation governs physical measurement or experienced time remains
 open.
 
----
 
-## 5. t Is the Coordinate, Not the Territory
+<!-- CROSSING-CURRENT -->
 
-The deepest implication: coordinate time t is to experienced time what a
-map is to the territory. The map (t) is the same for everyone; all five
-observers share the same Lindblad evolution parameter. But the territory
-(experienced time) is different for each observer because each observer's
-C defines a different mapping from t to events.
+## Why this does not create a communication bridge
 
-This is not relativity. In relativity, the mapping from coordinate time to
-proper time depends on velocity and gravity, but it is still a smooth,
-continuous transformation. Every observer still has a clock.
+With J=0 and no communication of B's local outcome, a trace-preserving
+operation on B leaves A's marginal unchanged. A pre-distributed preparation
+can correlate records, but it does not deliver a subsequently chosen bit.
+No local crossing detector, synchronization advantage, or advantage over a
+shared classical schedule was demonstrated. A physical J coupling is an
+ordinary interaction, not a channel-free reopening.
 
-In R = CΨ², the mapping is discrete (crossings), observer-defined (C), and
-can be *zero* (no crossings, no clock, no time). This is a stronger claim
-than relativity makes. Relativity says clocks tick at different rates.
-R = CΨ² says some observers have no clock at all.
+The historical proposed alphabet used joint-proxy values |++>→0.275 and
+Bell+→0.061 (a coarse factor 4.5), and 7 fingerprints→about 2.8 bits.
+Those were not locally accessible capacities and do not establish QKD or a
+way through water, rock, plasma, or a blocked electromagnetic channel.
 
-t is not time. t is the dimension. Time is what your C makes of it.
+A separate coupled Star study has the following finite working-point reading:
 
----
-
-## 6. Connection to the Bridge Problem (added 2026-02-21)
-
-### 6.1 Origin
-
-This document originated from the question: "What does an observer on
-Planet X see?" The answer - their own ¼, their own crossing time, their
-own clock - was a statement about the nature of time.
-
-Weeks later, the same mechanism turns out to be a candidate for the
-missing communication bridge in [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md).
-
-### 6.2 The Realization
-
-The bridge problem asks: how do you communicate without an electromagnetic
-channel? The standard approach is to build a channel (Heisenberg coupling,
-shared cavity, quantum bus). But all channels are physical connections -
-longer cables, not bridges over distance.
-
-Crossing-rate correlation offers a different path:
-
-Two observers (A and B) share an entangled pair, distributed in advance.
-Each observer couples locally to their half. Each has their own C, their
-own CΨ trajectory, their own ¼ crossing time. No signal passes between
-them. No electromagnetic channel exists or is needed.
-
-> [FALLEN: This FTL signaling connection was not confirmed and has been retired from the technical core.]
-
-But their crossing times are NOT independent - because the shared quantum
-state determines both trajectories. B's state preparation (before
-distribution) determines A's CΨ fingerprint (shown in BRIDGE_FINGERPRINTS:
-|++⟩ → CΨ_A = 0.275, Bell+ → CΨ_A = 0.061, factor 4.5×).
-
-The "message" is not sent. It was encoded at preparation and read at
-crossing. The medium between A and B is irrelevant: water, rock, plasma,
-400 million km of vacuum. Once the pair is shared, the correlation exists.
-
-### 6.3 Use Cases: Where EM Fails
-
-This is not about replacing terrestrial communication. Fiber, radio,
-satellite work on Earth. This is about environments where no EM channel
-exists or can exist:
-
-- **Deep space**: Mars 4-24 min light delay (one way), Voyager 22+ hours
-- **Submarine**: No EM signal penetrates deep water
-- **Underground**: Rock blocks all radio frequencies
-- **Atmospheric reentry**: Plasma blackout, minutes without contact
-- **Solar storms / EW**: All EM channels disrupted simultaneously
-
-In each case: pairs are distributed physically FIRST (shipped, launched,
-carried). Once distributed, the shared quantum state persists regardless
-of what lies between A and B.
-
-> [FALLEN: This FTL signaling connection was not confirmed and has been retired from the technical core.]
-
-### 6.4 What This Does NOT Claim
-
-- NOT faster than light. The correlation was established at preparation.
-- NOT a violation of No-Communication. B's local operations do not change
-  A's reduced density matrix. The crossing time correlation comes from
-  the shared initial state, not from signaling.
-- NOT a replacement for classical communication on Earth.
-
-### 6.5 Open Questions (for the bridge)
-
-- Can correlated crossing times carry more than pre-encoded information?
-  (If not, this is quantum key distribution with a different metric.)
-- What is the bit rate? BRIDGE_FINGERPRINTS shows 7 distinguishable
-  fingerprints → ~2.8 bits per pair. Is this a fundamental limit?
-- How robust is the crossing-time correlation to local noise at A and B
-  independently? (Testable with asymmetric γ_A ≠ γ_B in simulation.)
-  **Answered:** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
+**Coupled model:** The [Star Topology](../experiments/STAR_TOPOLOGY_OBSERVERS.md)
   γ_A vs γ_B scan shows receiver noise (γ_A) is more destructive than sender
   noise (γ_B), by about 1.7× read at a matched partner rate; past a partner
   rate of 0.17292 the roles invert. The 0.25 probe once used here separates nothing: at
@@ -322,60 +134,26 @@ of what lies between A and B.
   neither γ_A=0.25 nor γ_B=0.25 kills the connection. The crossing-time
   correlation is more robust to sender noise than to receiver noise over most
   of the range.
-- Can the decoder (θ navigation) extract the crossing time in real-time,
-  or only after full trajectory measurement?
 
-### 6.6 The Circle
+That coupled comparison does not test the channel-free proposal. The retained
+peak intervals vary by 34%; the nearby frequency and gamma dependence belong
+to a dynamical model, not measured subjective time. The frequency shift is
+second order in γ within the stated perturbative comparison; it does not
+supply a general experienced-time proportionality.
 
-The question "what does someone on Planet X see?" led to a hypothesis
-about time. The hypothesis about time turned out to contain a candidate
-for channel-free communication. The answer to communication was hiding
-in a question about perception.
+<!-- CROSSING-INTERPRETIVE -->
 
----
+> Interpretive invitation, not a result: the question remains whether an
+> independently specified readout model can illuminate experienced time.
 
-## 7. Summary
+## A next test, rather than a hidden premise
 
-**Tier 2 (computed):** Different bridge types produce different crossing
-times for identical physics. Factor 2.2× spread among crossing observers.
-Two observers never cross.
-
-**Tier 3 (this document):**
-- Experienced time is the rate of ¼ crossings (hypothesis)
-- The bridge type choice IS the Wheeler-DeWitt clock variable choice (structural parallel)
-- "Now" as a wave node between decoherence and possibility (interpretive
-  analogy; no spatial standing wave established)
-- The ¼ boundary is Cramer's handshake point (structural parallel)
-- t is the coordinate, not the experience (conceptual reframing)
-- Correlated crossing times as channel-free communication mechanism (added 2026-02-21)
-
-**From Star Topology:**
-- Crossing frequency is the Hamiltonian's largest Bohr frequency, in closed
-  form (Tier 2, exact); the older rule of thumb f = J_total/2 is retired
-- Stronger coupling = faster oscillation = more frequent crossings
-- The rhythm is a beating pattern, not a metronome (peak intervals vary by 34%)
-- γ dampens the oscillation; the frequency shift it causes is second order in
-  γ and far below what any reading here resolves
-- This gives a concrete, computable "clock rate" for the crossing-rate hypothesis:
-  the observer's experienced time rate is proportional to engagement strength
-
-**Falsified if:**
-- Crossing time is independent of bridge type → C doesn't matter (already ruled out)
-- Subjective time is independent of coupling strength → crossing rate is irrelevant
-- Wheeler-DeWitt clock choice does not map to bridge type in a rigorous derivation
-- A physical forward/backward decomposition of the Lindblad dynamics is still
-  not supplied by Π's centered spectral reflection.
-- Correlated crossing times carry no more information than classical pre-encoding → mechanism reduces to QKD
-
-> [FALLEN: This QKD eavesdropping detection connection was not confirmed and has been retired from the technical core.]
-
-**Open mathematical question:** Can a concrete model produce spatially
-counter-propagating semisimple modes whose observable node coincides with a
-`CΨ=1/4` crossing? F1 pairing alone does not answer this.
-
----
+The Planet-X question can still be a beginning: what does an interaction
+look like from the inside? To make that question empirical, define the
+readout, the sequence-counting rule and a measurement protocol independently.
+Then compare its predictions against ordinary dynamics and alternative
+clock models. A rigorous internal-clock mapping is another open route.
+No spectral pairing or change of C silently supplies those missing steps.
 
 *Computed foundation: [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md)*
-*Algebraic foundation: [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md)*
-*Framework overview: [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md)*
-*Bridge connection: [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md)*
+*No-signalling boundary: [Bridge Closure](../experiments/BRIDGE_CLOSURE.md)*

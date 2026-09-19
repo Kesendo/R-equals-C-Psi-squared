@@ -1,3 +1,4 @@
+using System;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -8,14 +9,26 @@ public class QuarterEnvelopeTests
     [Fact]
     public void Maxima_ParabolicApex_ReportsAboveSample()
     {
-        // One interior peak at i=1; its true apex (parabola through 0.8,0.9,0.7) sits ABOVE 0.9.
+        // The fitted apex uses both the values and their actual time coordinates.
         double[] cpsi = { 0.8, 0.9, 0.7 };
         double[] t = { 0.0, 1.0, 2.0 };
         var e = QuarterEnvelope.Of(cpsi, t);
         Assert.Single(e.Maxima);
-        Assert.Equal(1.0, e.Maxima[0].Time, 12);
-        Assert.Equal(0.904167, e.Maxima[0].ApexValue, 5);   // parabolic apex > the 0.9 sample
+        Assert.Equal(5.0 / 6.0, e.Maxima[0].Time, 12);
+        Assert.Equal(217.0 / 240.0, e.Maxima[0].ApexValue, 12);
         Assert.True(e.IsNonIncreasing);                      // a single maximum is trivially non-increasing
+    }
+
+    [Fact]
+    public void Maxima_NonuniformGrid_RecoversExactParabolaVertex()
+    {
+        // q(t)=1-(t-3)^2/16 sampled nonuniformly at t=0,2,5.
+        double[] cpsi = { 7.0 / 16.0, 15.0 / 16.0, 3.0 / 4.0 };
+        double[] t = { 0.0, 2.0, 5.0 };
+        var e = QuarterEnvelope.Of(cpsi, t);
+        Assert.Single(e.Maxima);
+        Assert.Equal(3.0, e.Maxima[0].Time, 12);
+        Assert.Equal(1.0, e.Maxima[0].ApexValue, 12);
     }
 
     [Fact]
@@ -51,27 +64,46 @@ public class QuarterEnvelopeTests
         double[] t = { 0, 1, 2, 3, 4, 5 };
         var e = QuarterEnvelope.Of(cpsi, t, threshold: 0.25, riseTol: 0.02);
         Assert.Equal(0, e.RiseCount);   // 0.01 rise is below the 0.02 tolerance
-        Assert.True(e.IsNonIncreasing);
+        Assert.Equal(0.01, e.MaxRiseMagnitude, 9); // raw maximum rise is independent of the reporting bar
+        Assert.False(e.IsNonIncreasing);           // raw mathematical nonincrease is independent too
     }
 
     [Fact]
-    public void EnvelopeFold_IsLastAbsorbingDownCrossing()
+    public void LastStayBelowCrossing_IsLastDownCrossingWhoseSuffixStaysBelow()
     {
-        // Crosses ¼ down (s=1), back up (0.3 at s=2), then down-for-good (s=3): the fold is the s=3 crossing.
+        // Crosses ¼ down (s=1), back up (0.3 at s=2), then down for the rest of this finite window.
         double[] cpsi = { 0.4, 0.2, 0.3, 0.1, 0.05 };
         double[] t = { 0, 1, 2, 3, 4 };
         var e = QuarterEnvelope.Of(cpsi, t);
-        Assert.NotNull(e.EnvelopeFoldTime);
-        Assert.Equal(2.25, e.EnvelopeFoldTime!.Value, 9);   // interp: 2 + (0.3-0.25)/(0.3-0.1)
+        Assert.NotNull(e.LastStayBelowCrossingTime);
+        Assert.Equal(2.25, e.LastStayBelowCrossingTime!.Value, 9); // interp: 2 + (0.3-0.25)/(0.3-0.1)
     }
 
     [Fact]
-    public void EnvelopeFold_NullWhenNeverSettlesBelow()
+    public void LastStayBelowCrossing_NullWhenFiniteSuffixDoesNotStayBelow()
     {
         double[] cpsi = { 0.4, 0.2, 0.3 };   // ends ABOVE ¼
         double[] t = { 0, 1, 2 };
         var e = QuarterEnvelope.Of(cpsi, t);
-        Assert.Null(e.EnvelopeFoldTime);
+        Assert.Null(e.LastStayBelowCrossingTime);
+    }
+
+    [Fact]
+    public void LastStayBelowCrossing_ExactThresholdSampleStartsStrictlyBelowSuffix()
+    {
+        double[] cpsi = { 0.4, 0.25, 0.2, 0.1 };
+        double[] t = { 0, 1, 2, 3 };
+        var e = QuarterEnvelope.Of(cpsi, t);
+        Assert.Equal(1.0, e.LastStayBelowCrossingTime!.Value, 12);
+    }
+
+    [Fact]
+    public void LastStayBelowCrossing_EqualityPlateauUsesLastEqualityBeforeStrictBelowSuffix()
+    {
+        double[] cpsi = { 0.4, 0.25, 0.25, 0.2, 0.1 };
+        double[] t = { 0, 1, 2, 3, 4 };
+        var e = QuarterEnvelope.Of(cpsi, t);
+        Assert.Equal(2.0, e.LastStayBelowCrossingTime!.Value, 12);
     }
 
     [Fact]
@@ -92,20 +124,43 @@ public class QuarterEnvelopeTests
     }
 
     [Fact]
-    public void EmptyArray_NoMaximaNoFold()
+    public void PlateauMaximum_UsesPlateauEndThreePointEstimatorConvention()
     {
-        var e = QuarterEnvelope.Of(new double[0], new double[0]);
-        Assert.Empty(e.Maxima);
-        Assert.Equal(0, e.RiseCount);
-        Assert.True(e.IsNonIncreasing);
-        Assert.Null(e.EnvelopeFoldTime);
+        var e = QuarterEnvelope.Of(new[] { 0.0, 1.0, 1.0, 0.0 }, new[] { 0.0, 1.0, 2.0, 3.0 });
+        Assert.Single(e.Maxima);
+        Assert.Equal(1.5, e.Maxima[0].Time, 12);
+        Assert.Equal(1.125, e.Maxima[0].ApexValue, 12);
     }
 
     [Fact]
-    public void SinglePoint_NoMaximaNoFold()
+    public void InvalidInputs_AreRejectedBeforeAnalysis()
     {
-        var e = QuarterEnvelope.Of(new[] { 0.5 }, new[] { 0.0 });
-        Assert.Empty(e.Maxima);
-        Assert.Null(e.EnvelopeFoldTime);
+        double[] values = { 0.4, 0.2 };
+        double[] times = { 0.0, 1.0 };
+        Assert.Throws<ArgumentNullException>(() => QuarterEnvelope.Of(null!, times));
+        Assert.Throws<ArgumentNullException>(() => QuarterEnvelope.Of(values, null!));
+        Assert.Throws<ArgumentException>(() => QuarterEnvelope.Of(values, new[] { 0.0, 1.0, 2.0 }));
+        Assert.Throws<ArgumentException>(() => QuarterEnvelope.Of(new[] { 0.4, double.NaN }, times));
+        Assert.Throws<ArgumentException>(() => QuarterEnvelope.Of(values, new[] { 0.0, double.PositiveInfinity }));
+        Assert.Throws<ArgumentException>(() => QuarterEnvelope.Of(values, new[] { 0.0, 0.0 }));
+        Assert.Throws<ArgumentOutOfRangeException>(() => QuarterEnvelope.Of(values, times, threshold: double.NaN));
+        Assert.Throws<ArgumentOutOfRangeException>(() => QuarterEnvelope.Of(values, times, riseTol: -1e-3));
+        Assert.Throws<ArgumentOutOfRangeException>(() => QuarterEnvelope.Of(values, times, riseTol: double.PositiveInfinity));
+    }
+
+    [Fact]
+    public void EmptyAndSinglePointInputsHaveNoMaximaOrCrossings()
+    {
+        var empty = QuarterEnvelope.Of(Array.Empty<double>(), Array.Empty<double>());
+        Assert.Empty(empty.Maxima);
+        Assert.Equal(0, empty.RiseCount);
+        Assert.True(empty.IsNonIncreasing);
+        Assert.Null(empty.LastStayBelowCrossingTime);
+
+        var single = QuarterEnvelope.Of(new[] { 0.5 }, new[] { 0.0 });
+        Assert.Empty(single.Maxima);
+        Assert.Equal(0, single.RiseCount);
+        Assert.True(single.IsNonIncreasing);
+        Assert.Null(single.LastStayBelowCrossingTime);
     }
 }

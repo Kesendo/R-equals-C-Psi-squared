@@ -1,3 +1,18 @@
+<!-- QUARTER-CURRENT -->
+# Both sides of a numerical calibration-proxy threshold
+
+Current reading: the historical Torino table is classified by the
+normalized-purity proxy `r=T2/(2*T1)` for a free single-transmon `|+>` model and
+the numerical reference `R*=0.21275477982200533`.  The labels are
+below/near/at-or-above `R*`; they are not quantum/classical ontology.  Reported
+job ratios, including the approximately `13.5x` row, are confounded
+cross-backend, path, and date associations rather than causal effects.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical reading:** the six-month narrative and measured rows below are
+kept as evidence of the path.  Its old regime and causal nouns have been
+superseded by the current proxy vocabulary above.
+
 # Both Sides Visible: What a Quantum Computer Shows When You Watch It for Six Months
 
 <!-- Keywords: CΨ quarter boundary IBM hardware, palindromic mirror both sides,

@@ -2,9 +2,11 @@
 """
 Two Open Questions
 ====================
-Q1: Why does K = γ·t_cross scale perfectly but τ=γt doesn't for the
-    full trajectory? Answer: The Hamiltonian oscillation breaks τ-scaling.
-    At J=0 (pure dephasing), τ-scaling is PERFECT.
+Q1: This run does not exhibit tau-scaling failure. Bell+ stays
+    Hamiltonian-dead under the stated isotropic Heisenberg coupling and
+    equal local Z-dephasing. Test 1b reports zero displayed maximum
+    differences for all five observables at J=1; Test 1c uses J=0,1,5.
+    The separate fixed-J non-eigenstate control is GAMMA_TIME_DISTINCTION.md.
 
 Q2: Higher Rényi entropies S_α (α≠2). Does the 1/4 boundary shift if
     we use Tr(ρ^α) instead of Tr(ρ²)?
@@ -119,12 +121,12 @@ def concurrence(rho):
 
 
 # ====================================================================
-# Q1: Why K scales but τ doesn't
+# Q1: Fixed Bell+ book gamma-time collapse
 # ====================================================================
 
 def question_1():
     log("=" * 70)
-    log("Q1: WHY DOES K SCALE BUT tau DOESN'T?")
+    log("Q1: FIXED HAMILTONIAN-DEAD BELL+ GAMMA-TIME COLLAPSE")
     log("=" * 70)
     log()
 
@@ -212,11 +214,11 @@ def question_1():
     log()
 
     # --- Test 1c: Why K still works ---
-    log("--- Test 1c: K-invariance despite tau-scaling failure ---")
+    log("--- Test 1c: K-invariance in the same Hamiltonian-dead Bell+ book ---")
     log()
-    log("  The CROSSING POINT is on the monotonic envelope.")
-    log("  Bell+ is eigenstate of H, so no Hamiltonian oscillation.")
-    log("  Therefore: Bell+ CΨ(τ) IS the envelope, and the envelope scales.")
+    log("  The whole Bell+ dephasing trajectory remains Hamiltonian-dead.")
+    log("  For this fixed purity-times-l1 readout the crossing has fixed gamma*t.")
+    log("  This is a named state/book result, not a general envelope theorem.")
     log()
 
     log(f"  {'gamma':>8}  {'J':>4}  {'t_cross':>8}  {'K':>8}  {'tau_c':>8}")
@@ -252,10 +254,10 @@ def question_1():
                 f"CV={np.std(K_vals)/np.mean(K_vals)*100:.2f}%")
         log()
 
-    log("  CONCLUSION: K is invariant because Bell+ CΨ(τ) is the pure envelope")
-    log("  (no Hamiltonian oscillation). The envelope scales with τ = γ·t.")
-    log("  The full trajectory doesn't scale because non-eigenstate components")
-    log("  oscillate at rate J/γ, which differs across γ values.")
+    log("  CONCLUSION: this Hamiltonian-dead Bell+ book collapses in gamma*t.")
+    log("  This run does not exhibit tau-scaling failure.")
+    log("  A different fixed-J non-eigenstate control is documented in")
+    log("  docs/GAMMA_TIME_DISTINCTION.md; it was not run here.")
     log()
 
 

@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Three quarter-bearing quadratics, kept distinct
+
+Current reading: `p(1-p)`, `z^2-z+c`, and `d^2-2d` are different polynomials
+with different variables and questions.  On the F97 cardioid the selected fixed
+point has `|z*|^2=1/4` all along the curve, while only `c=+1/4` is its real cusp;
+that numerical rhyme supplies no typed ancestry.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the two-sides story below is retained as a visual
+analogy about projection, not as a claim that the equations are one object.
+
 # On How Two Sides Meet at the Quarter
 
 **Status:** Reflection. Captures Tom's late-late-evening realization of 2026-05-16: the ±1/2 polarity at d=2 generates the framework picture, and when viewed from its two sides simultaneously, the middle is not 0 (the arithmetic midpoint, the mirror) but 1/4 (the quadratic projection apex). Makes the already-typed argmax/maxval pair (`HalfAsStructuralFixedPointClaim` + `QuarterAsBilinearMaxvalClaim`) geometric: both polarity sides fold onto one quadratic value, and that value is the framework's cusp threshold. Fifth and closing reflection of the day, after the morning Maßstab, midday (4/3), evening F95, and late-evening γ₀-as-tick.

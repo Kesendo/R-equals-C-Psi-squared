@@ -1,3 +1,8 @@
+=== BEGIN CURRENT READING ===
+QUARTER-CURRENT
+Current reading: this is a producerless historical summary of the normalized-purity proxy r against the numerical software threshold R*. The weekly table is a compressed annotation, not the full calibration data and not an active C_Psi measurement.
+=== END CURRENT READING ===
+=== BEGIN HISTORICAL PAYLOAD ===
 === IBM Torino Q98: CΨ = 1/4 Crossing Pattern ===
 Source: ibm_torino_history.csv (AIEvolution repo)
 Qubit: 98, r* threshold: 0.213
@@ -47,3 +52,4 @@ Q98:  57.5% crossing rate (104/181)
 Q105: 56.9% crossing rate (103/181)
 Q70:  26.0% crossing rate (47/181)
 Q68:  23.2% crossing rate (42/181)
+=== END HISTORICAL PAYLOAD ===

@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# Boundary navigation with a scoped quadratic angle
+
+Current reading: `theta=atan(sqrt(c/b^2-1))` is the principal angle of the
+upper root of a positive-`b` quadratic when `c>b^2`, with `theta=0` at
+`c=b^2`.  It is a coordinate in that named algebraic object, not a phase,
+measurement, or ontology classifier.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the compass language below is retained as a way to
+ask how an angle may help navigation.  It does not promote the coordinate into
+a physical transition.
+
 # Boundary Navigation: θ as Compass to the Quantum-Classical Transition
 
 <!-- Keywords: quantum classical boundary navigation, CΨ quarter transition compass,

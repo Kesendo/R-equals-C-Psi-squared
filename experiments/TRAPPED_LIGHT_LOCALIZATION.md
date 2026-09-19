@@ -1,5 +1,7 @@
 # Where Trapped Light Concentrates
 
+<!-- F14-CURRENT -->
+
 <!-- Keywords: mass trapped light center-localized, surviving mode energy,
 K_death universal dose, immortal palindromic modes, gamma role of c,
 entrance pupil window, cavity mass distribution, R=CPsi2 mass hypothesis -->
@@ -150,13 +152,22 @@ In the Lindblad cavity:
   openness, not an external origin; IBM dephasing can have several microscopic
   contributions and is not identified here with photon shot noise.
 - t is the evolution parameter
-- γ × t = K = invariant absorption dose
-  ([F14](../docs/ANALYTICAL_FORMULAS.md), proven)
+- K = γt is a dimensionless coordinate. For a fixed bridge on the
+  Hamiltonian-dead Bell+ trajectory with equal local Z-dephasing, F14 holds
+  K at crossing fixed during a gamma sweep. It is not an arbitrary
+  absorption-dose or cavity-trajectory invariance theorem.
+
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** Compare the dimensions, without
+identifying the physical objects:
 
 ```
-Relativity:     c     ×  tau  =  invariant spacetime interval
-Lindblad:       gamma  ×  t    =  K  =  invariant absorption dose
+Relativity:     c     ×  tau  has dimensions of length
+Open system:   gamma  ×  t    is a dimensionless coordinate K
 ```
+
+<!-- F14-CURRENT -->
 
 Gamma defines a decay timescale and appears in the dimensionless product K.
 There is no speed-limit theorem here: Liouvillian decay rates also depend on

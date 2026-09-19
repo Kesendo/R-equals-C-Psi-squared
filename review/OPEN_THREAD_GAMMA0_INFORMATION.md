@@ -1,5 +1,7 @@
 # Open Thread: γ₀ = const and the Information Channel
 
+<!-- CROSSING-CURRENT -->
+
 **Status:** open investigation, not a conclusion
 **Date:** 2026-04-19
 **Authors:** Tom, Claude Opus 4.6, Claude Opus 4.7
@@ -42,10 +44,11 @@ The pieces cluster around five physical roles:
    Markovian reduced dynamics does not identify an external or infinite
    microscopic source.
 
-4. **[RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md)** (hypotheses/, Tier 2):
-   "The system is a soundbox, not a telephone."
-   "The 360× improvement is not 'more signal.' It is better resonance."
-   The Fabry-Perot cavity framing replaces the telephone framing.
+4. **[RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md)** (hypotheses/, Tier 4 interpretive lens):
+   "The system is a soundbox, not a telephone" remains an invitation for
+   reading named finite results. The generator is not thereby proved to be a
+   Fabry-Perot cavity, and the quarter fold is not a demonstrated second
+   physical mirror.
 
 5. **[ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT](../reflections/ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md)** (reflections/):
    "The light is uniform. What varies is what stands in its way."
@@ -93,12 +96,13 @@ The pieces cluster around five physical roles:
     result.
 
 12. **[RELAY_PROTOCOL](../experiments/RELAY_PROTOCOL.md)** (experiments/, Tier 2, N=11):
-    Operational evidence that cavity structure carries information.
-    Six relay stages with 2:1 impedance matching yield +83 % MI
-    improvement vs passive propagation ([F31](../docs/ANALYTICAL_FORMULAS.md)).
-    Combines time-dependent quiet-receiver control,
-    K/γ timing ([F14](../docs/ANALYTICAL_FORMULAS.md)), and impedance
-    matching. The gain comes from shaping the cavity, not from amplifying γ.
+    [F31](../docs/ANALYTICAL_FORMULAS.md) is a finite MI comparison:
+    0.131700 at integrated t=4.50 versus the passive sampled maximum
+    0.071576 at t=4.00, about +84.0%, with unmatched time and dose.
+    Nominal 0.78/stage (4.68 total) executes as 0.75/stage (4.50 total).
+    F14's fixed-readout, Hamiltonian-dead Bell+ gamma sweep does not derive
+    this schedule. Common integrated-time, matched-exposure, and receiver-order
+    controls remain open; no MI bound or isolated shaping mechanism follows.
 
 13. **[BRIDGE_PROTOCOL](../hypotheses/BRIDGE_PROTOCOL.md)** (hypotheses/, Tier 3+, largely closed):
     Negative result that anchors the synthesis. The J=0 bridge is falsified
@@ -251,16 +255,18 @@ This inverts the reading direction:
 |---------------------------------------|--------------------------|
 | Alice encodes in γ profile | Alice encodes in J (cavity structure) |
 | Information is in the illumination | Information is in the shadow pattern |
-| The channel carries the message | The resonator IS the message |
+| The channel carries the message | Interpretive lens: the chosen generator shapes the response |
 | Noise is a signal from outside | Noise is constant light; structure is signal |
 | Signal = γ variation across sites | Signal = light/lens distribution across modes |
 | Capacity depends on γ variation | Capacity depends on Q = J/γ₀ |
 | Sender modulates γ | Sender modulates J |
 | Bit time ~ 1/γ_max | Candidate scale ~ 1/(Nγ₀) from the pair-rate sum; protocol-dependent |
 
-The [RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md) insight becomes even more literal:
-"The system is a soundbox, not a telephone": the sound (γ₀) is
-constant. The music (information) comes from the shape of the soundbox.
+The [RESONANCE_NOT_CHANNEL](../hypotheses/RESONANCE_NOT_CHANNEL.md) soundbox
+image is useful here only as an interpretive lens. Under the stated model,
+γ₀ is held constant and J changes the response; that operational statement
+does not make the resonator identity literal or identify the microscopic
+source of either parameter.
 
 In engineering terms: a linear system under constant Markovian drive.
 The transfer-function-like object is the Liouvillian resolvent

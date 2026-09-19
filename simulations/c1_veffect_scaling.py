@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """c1_veffect_scaling.py
 
-Scaling of the closure-breaking coefficient c_1 with chain length N, and
-comparison against the V-Effect V(N) = 1 + cos(π/N).
+Scaling of the closure-breaking coefficient c_1 with chain length N, and a
+regression comparison against the F6 Q-edge gain V(N) = 1 + cos(π/N).
 
 From ClaudeTasks/TASK_C1_VEFFECT_SCALING.md.
 
-Hypothesis: c_1 at the endpoint bond (0,1) might scale with V(N) because
-endpoints are the cavity windows where gamma_0 couples to the chain.
+Open candidate: c_1 at the endpoint bond (0,1) might be usefully fitted by
+V(N).  This finite comparison does not derive a V-Effect mechanism or identify
+the endpoint with a physical cavity window.
 
 Procedure per N in {3, 4, 5, 6, 7}:
   * Build XY chain L_A (uniform J=1) and L_B (J_bond(0,1) = 1 + dJ).
@@ -60,7 +61,13 @@ DJ_PROBE = [-DJ_EXTRACT, +DJ_EXTRACT]
 
 
 def v_effect(N):
+    """Historical compatibility name for the F6 within-N Q-edge ratio."""
     return 1.0 + np.cos(np.pi / N)
+
+
+def f6_q_edge_gain(N):
+    """The F6 within-N Q-edge ratio, used here only as a regressor."""
+    return v_effect(N)
 
 
 def bonding_plus_vacuum(N, k=1):
@@ -132,7 +139,7 @@ def compute_c1_for_bond(N, bond_idx, state, times, dJ_list):
 
 def main():
     print("="*70)
-    print("c_1 vs N scaling + V-Effect comparison")
+    print("c_1 vs N scaling + F6 Q-edge-gain regressor comparison")
     print("="*70)
     print(f"  gamma_0 = {GAMMA_0}, J = {J_UNIFORM}")
     print(f"  dJ for c_1 extraction = +/- {DJ_EXTRACT}")
@@ -158,11 +165,11 @@ def main():
         plus_cl = next(e["closure"] for e in r["entries"] if e["dJ"] > 0)
         minus_cl = next(e["closure"] for e in r["entries"] if e["dJ"] < 0)
         decomp_B = np.mean([e["decomp_time_s"] for e in r["entries"]])
-        print(f"  {N:>3d} {v_effect(N):>8.4f} {r['c_1']:>+15.5f} "
+        print(f"  {N:>3d} {f6_q_edge_gain(N):>8.4f} {r['c_1']:>+15.5f} "
               f"{r['c_2_approx']:>+12.4f} "
               f"{plus_cl:>+14.6f} {minus_cl:>+14.6f} "
               f"{r['L_A_decomp_time_s']:>10.2f} {decomp_B:>10.2f}")
-        step12[N] = {"V_N": v_effect(N), "c_1": r["c_1"],
+        step12[N] = {"V_N": f6_q_edge_gain(N), "c_1": r["c_1"],
                      "c_2_approx": r["c_2_approx"],
                      "closure_plus": plus_cl, "closure_minus": minus_cl,
                      "alpha_plus": r["entries"][1]["alpha"],
@@ -173,16 +180,16 @@ def main():
     # Scaling fits
     Ns = sorted(step12.keys())
     c1s = np.array([step12[N]["c_1"] for N in Ns])
-    Vs = np.array([v_effect(N) for N in Ns])
+    Vs = np.array([f6_q_edge_gain(N) for N in Ns])
     # Power fit c_1 ~ A * N^p
     log_c1 = np.log(np.abs(c1s))
     log_N = np.log(Ns)
     p_N, logA_N = np.polyfit(log_N, log_c1, 1)
-    # Power fit c_1 ~ B * V(N)^q
+    # Candidate fit c_1 ~ B * [F6 Q-edge gain]^q; this is not a mechanism.
     log_V = np.log(Vs)
     p_V, logB_V = np.polyfit(log_V, log_c1, 1)
-    # Test c_1 ~ A * N^2 * V(N) ?
-    ansatz_N2V = np.array([N**2 * v_effect(N) for N in Ns])
+    # Test the finite candidate c_1 ~ A * N^2 * [F6 Q-edge gain].
+    ansatz_N2V = np.array([N**2 * f6_q_edge_gain(N) for N in Ns])
     log_N2V = np.log(ansatz_N2V)
     p_N2V, logA_N2V = np.polyfit(log_N2V, log_c1, 1)
 
@@ -196,13 +203,13 @@ def main():
     print(f"    c_1 ~ B * V(N)^q:        q = {p_V:.3f}, "
           f"B = {np.exp(logB_V):.4f}, residuals:")
     for N, c in zip(Ns, c1s):
-        pred = np.exp(logB_V) * v_effect(N)**p_V
+        pred = np.exp(logB_V) * f6_q_edge_gain(N)**p_V
         print(f"      N={N}: actual={c:+.4f}, pred={pred:+.4f}, "
               f"ratio={c/pred:.3f}")
     print(f"    c_1 ~ A * (N^2 V(N))^r:  r = {p_N2V:.3f}, "
           f"A = {np.exp(logA_N2V):.4f}, residuals:")
     for N, c in zip(Ns, c1s):
-        pred = np.exp(logA_N2V) * (N**2 * v_effect(N))**p_N2V
+        pred = np.exp(logA_N2V) * (N**2 * f6_q_edge_gain(N))**p_N2V
         print(f"      N={N}: actual={c:+.4f}, pred={pred:+.4f}, "
               f"ratio={c/pred:.3f}")
     all_results["step12_fits"] = {
@@ -249,8 +256,8 @@ def main():
         state = (vacuum_ket(N) + single_excitation_mode(N, k=2)) / np.sqrt(2.0)
         r = compute_c1_for_bond(N, bond_idx=0, state=state,
                                 times=times, dJ_list=DJ_PROBE)
-        print(f"  {N:>3d} {v_effect(N):>8.4f} {r['c_1']:>+15.5f}")
-        step4[N] = {"V_N": v_effect(N), "c_1": r["c_1"]}
+        print(f"  {N:>3d} {f6_q_edge_gain(N):>8.4f} {r['c_1']:>+15.5f}")
+        step4[N] = {"V_N": f6_q_edge_gain(N), "c_1": r["c_1"]}
     all_results["step4_psi2_endpoint_scan"] = step4
 
     # Save
@@ -262,14 +269,14 @@ def main():
     # Summary TXT
     summary_path = RESULTS_DIR / "c1_scaling_summary.txt"
     with open(summary_path, "w", encoding="utf-8") as f:
-        f.write(f"c_1 scaling with N and V-Effect comparison\n")
+        f.write(f"c_1 scaling with N and F6 Q-edge-gain regressor comparison\n")
         f.write(f"{'='*60}\n\n")
         f.write(f"Setup: XY chain, gamma_0 = {GAMMA_0}, J = {J_UNIFORM}\n")
         f.write(f"dJ probe = +/- {DJ_EXTRACT}\n\n")
         f.write(f"Step 1+2: psi_1+vac, endpoint bond (0,1)\n")
         f.write(f"{'N':>3} {'V(N)':>8} {'c_1':>12}\n")
         for N in Ns:
-            f.write(f"{N:>3} {v_effect(N):>8.4f} "
+            f.write(f"{N:>3} {f6_q_edge_gain(N):>8.4f} "
                     f"{step12[N]['c_1']:>+12.5f}\n")
         f.write(f"\nFits:\n")
         f.write(f"  c_1 ~ N^p:       p = {p_N:.3f}\n")

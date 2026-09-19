@@ -64,7 +64,7 @@ class ChainSystem:
     (e.g. `fw.classify_pauli_pair(chain, terms)`,
     `fw.predict_residual_norm_squared_from_terms(chain, terms, gamma_t1=...)`,
     `fw.pi_decompose_M(chain, terms, ...)`). Workflow flows that
-    propagate ρ(t), run the cockpit panel, or hold cusp/probe state live
+    propagate ρ(t), run the cockpit panel, or hold quarter-classifier/probe state live
     in `framework.workflows` (e.g. `fw.cockpit_panel(chain, receiver, ...)`,
     `fw.propagate_with_hardware_noise(chain, ρ_0, t, ...)`).
     """

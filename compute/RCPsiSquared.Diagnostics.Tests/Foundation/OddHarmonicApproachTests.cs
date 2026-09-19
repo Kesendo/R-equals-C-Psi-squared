@@ -98,23 +98,31 @@ public class OddHarmonicApproachTests
         Assert.True(Math.Abs(wrong - CpsiFromDensityMatrix(s, gamma, t)) > 1e-3);
     }
 
-    [Theory]
-    [InlineData(0.0)]
-    [InlineData(-0.05)]
-    public void CrossingTime_RefusesNonPositiveGamma(double gamma)
+    [Fact]
+    public void CrossingTime_AtZeroGamma_IsNaNBecauseTheCurveIsConstant()
     {
-        // Without the guard the bracketing loop doubles hi forever at γ < 0 (CΨ grows), and
-        // returns +Infinity at γ = 0 (CΨ is constant above the cusp).
-        Assert.Throws<ArgumentOutOfRangeException>(() => OddHarmonicApproach.CrossingTime(1.0, gamma));
+        Assert.True(double.IsNaN(OddHarmonicApproach.CrossingTime(1.0, 0.0)));
     }
 
     [Fact]
-    public void Crosses_IffSAboveThreeQuarters()
+    public void CrossingTime_RefusesNegativeGamma()
     {
-        Assert.True(OddHarmonicApproach.Crosses(0.8));
-        Assert.True(OddHarmonicApproach.Crosses(1.0));
-        Assert.False(OddHarmonicApproach.Crosses(0.75));
-        Assert.False(OddHarmonicApproach.Crosses(0.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => OddHarmonicApproach.CrossingTime(1.0, -0.05));
+    }
+
+    [Theory]
+    [InlineData(0.80, 0.05, true)]
+    [InlineData(1.00, 0.05, true)]
+    [InlineData(0.75, 0.05, false)]
+    [InlineData(0.50, 0.05, false)]
+    [InlineData(1.00, 0.00, false)]
+    [InlineData(1.00, -0.05, false)]
+    public void HasDownwardCrossing_IffGammaPositiveAndSAboveThreeQuarters(
+        double s,
+        double gamma,
+        bool expected)
+    {
+        Assert.Equal(expected, OddHarmonicApproach.HasDownwardCrossing(s, gamma));
     }
 
     [Fact]

@@ -1,33 +1,27 @@
-"""where_the_carrier_hides.py - the Massstab cannot hide; it hides in the obvious numbers.
+"""Finite scale and coordinate comparisons behind the old carrier story.
 
 Tests Tom's claim (2026-05-28): a scale (Massstab / carrier gamma0) cannot fully
 hide, else it would not be a scale. Only its VALUE (the absolute second) is gauge;
-its PRESENCE is deposited in the obvious numbers - 1/2, 1/4, 2, the canonical
-angles - which are the fixed points of the scale-gauge, dressed as "mathematical
-necessity." The assassin in the crowd, not in the shadows.
+the finite computations show which dimensionless values survive a joint scale
+change.  Repeated values such as 1/2, 1/4, 2, and 60 degrees are a numeric
+rhyme, not shared ancestry.  The assassin-in-the-crowd line remains a story,
+not a causal identification.
 
-Three bit-exact computations, each able to fail:
+Three numerical diagnostics, each able to fail:
 
   PART 1  Two CPUs. Same dynamics at two absolute clocks (gamma0 and g*gamma0).
-          Every dimensionless observable (theta, |lambda|/gamma0, the fold 1/4,
-          the dimensionless crossing gamma*t) is identical; only the dimensionful
-          spectrum and crossing TIME scale by g. The value hides.
+          Finite N=1/N=2 rescaling observations compare theta,
+          |lambda|/gamma0, and a selected Bell+ purity-coherence readout line.
+          The dimensionful spectrum and selected readout time scale by g.
 
-  PART 2  Overdetermination. The obvious numbers {1/2, 1/4, 2, 60deg} are pinned
-          by many independent framework structures (controls by none), and ALL of
-          them are elementary masks of the single root d=2 (1/2=1/d, 1/4=1/d^2,
-          2=d, 60deg=arctan(sqrt(d^2-1))). One carrier, many obvious masks.
+  PART 2  A finite occurrence census for {1/2, 1/4, 2, 60deg}. Rewriting those
+          values with d=2 is arithmetic, not evidence for one common source.
 
-  PART 3  The quarter is the n_Y switch (the morning seam). In the F95 b=1/2
-          quadratic, 1/4 is the exact threshold where the imaginary (Y / n_Y-odd)
-          part of the fixed point is born; above it Re=1/2 is frozen (the carrier
-          mask, the kept past) and Im carries all the change (the future). And both
-          pictures sit at |Re|=1/2 for INDEPENDENT reasons (F95 because b=1/2; the
-          Lindblad eigenvalue because Re/absorption = gamma0/2gamma0 = 1/2). Under
-          that shared 1/2 the natural dictionary c = 1/4 + Q^2/4 makes the two angles
-          coincide and 1/4 <=> Q=0 <=> no Y. This BRIDGES the seam at the carrier's
-          1/2; it does not FORCE it (the imaginary-part identification is natural,
-          not derived). The remaining question is whether a deeper identity forces it.
+  PART 3  The F95 b=1/2 roots acquire an imaginary coordinate above c=1/4.
+          That imaginary coordinate is not a literal n_Y observable. The
+          constructed dictionary c=1/4+Q^2/4 gives a tautological angle identity
+          with atan(Q) for the named 2x2 decay pair; it is a comparison, not a
+          bridge or a physical identification.
 
 Tom + Claude, 2026-05-28. Run: python simulations/where_the_carrier_hides.py
 """
@@ -77,6 +71,7 @@ def build_L(N, J, gamma):
 
 def part1(g=10.0):
     print("PART 1  - two CPUs (clock gamma0 vs g*gamma0): the value hides, the ratios stay")
+    print("          finite N=1/N=2 rescaling observations")
     for N in (1, 2):
         J_A, gamma_A = 1.0, 0.3
         J_B, gamma_B = g * J_A, g * gamma_A          # World B = World A run g times faster
@@ -96,24 +91,24 @@ def part1(g=10.0):
         thB = np.degrees(np.arctan2(abs(osc_B.imag), abs(osc_B.real)))
         report(f"N={N}: theta identical across the two clocks", abs(thA - thB))
 
-    # The fold crossing: Bell+ under Z-dephasing crosses CPsi = 1/4. The crossing
-    # TIME scales with the clock; the crossing VALUE 1/4 and gamma*t* do not.
+    # This selected Bell+ purity-coherence readout line reaches 1/4. Its time
+    # scales with the clock; this is not a claim about every quarter-valued object.
     roots = np.roots([1.0, 0.0, 1.0, -1.5])            # u^3 + u - 3/2 = 0  (CPsi=1/4)
     u_star = [r.real for r in roots if abs(r.imag) < 1e-9 and 0 < r.real <= 1][0]
     gA, gB = 0.3, g * 0.3
     tA, tB = -np.log(u_star) / (4 * gA), -np.log(u_star) / (4 * gB)
-    report("Bell+ crossing value is exactly 1/4 (clock-independent)",
+    report("selected Bell+ purity-coherence readout line evaluates to 1/4",
            abs(cpsi_bell_plus(0, 0, gA, tA) - 0.25))
     report("dimensionless crossing gamma*t* is identical across clocks",
            abs(gA * tA - gB * tB))
     report("but the crossing TIME scales by the hidden clock g (t*_A / t*_B = g)",
            abs(tA / tB - g))
     print(f"          t*_A = {tA:.5f},  t*_B = {tB:.5f},  ratio = {tA / tB:.5f} = g={g}")
-    print("          -> the absolute second is the only thing you cannot read from inside.")
+    print("          -> these finite normalized observations do not recover the absolute second.")
 
 
 # ----------------------------------------------------------------------
-# PART 2 - the obvious numbers are overdetermined, and all are masks of d=2
+# PART 2 - occurrence census and an explicitly constructed d=2 rewrite
 # ----------------------------------------------------------------------
 
 def structural_generators():
@@ -143,7 +138,7 @@ def count_pinnings(value, gens, tol=1e-9):
 
 
 def part2():
-    print("\nPART 2  - the obvious numbers are overdetermined; all are masks of the one root d=2")
+    print("\nPART 2  - finite occurrence census; repeated values do not establish one cause")
     gens = structural_generators()
     obvious = {"1/2": 0.5, "1/4": 0.25, "2": 2.0, "60deg": 60.0}
     controls = {"0.37": 0.37, "0.611": 0.611, "0.123": 0.123, "50deg": 50.0}
@@ -159,9 +154,9 @@ def part2():
         hits = count_pinnings(val, gens)
         report(f"control {name} pinned by 0 structures", float(len(hits)), tol=0.5)
 
-    # Trace to the single root: every obvious number is an elementary function of d=2.
+    # A deliberately constructed arithmetic rewrite at d=2. It does not infer ancestry.
     d = 2.0
-    print("          one carrier, many masks - each obvious number is d=2 in disguise:")
+    print("          constructed d=2 rewrite (numeric rhyme, not shared ancestry):")
     report("1/2 = 1/d", abs(0.5 - 1.0 / d))
     report("1/4 = 1/d^2", abs(0.25 - 1.0 / d ** 2))
     report("2 = d", abs(2.0 - d))
@@ -169,53 +164,59 @@ def part2():
 
 
 # ----------------------------------------------------------------------
-# PART 3 - the quarter is the n_Y switch; the seam closes through the carrier's 2
+# PART 3 - positive-b quadratic coordinates and a constructed dictionary
 # ----------------------------------------------------------------------
 
+def constructed_angle_dictionary(q_values):
+    """Return the two equal angles after defining c=1/4+Q^2/4."""
+    q_values = np.asarray(q_values, dtype=float)
+    c_values = 0.25 + q_values ** 2 / 4.0
+    pair_angle = np.degrees(np.arctan(q_values))
+    quadratic_angle = np.degrees(np.arctan(np.sqrt(4.0 * c_values - 1.0)))
+    return c_values, pair_angle, quadratic_angle
+
+
 def part3():
-    print("\nPART 3  - 1/4 is the n_Y-odd birth; theta_Lindblad = theta_F95 via the absorption 2gamma0")
+    print("\nPART 3  - quadratic threshold and a constructed angle dictionary")
     b = 0.5
 
     # (a) In the F95 b=1/2 quadratic, the imaginary part is born exactly at c = b^2 = 1/4.
     cs = np.linspace(0.0, 1.0, 1_000_001)
     disc = b * b - cs                                   # roots z = b +- sqrt(b^2 - c)
     im_born = cs[np.argmax(disc < 0)]                   # first c where roots go complex
-    report("F95: imaginary (Y / n_Y-odd) part is born exactly at c = b^2 = 1/4",
+    report("F95: the roots acquire an imaginary coordinate above c = b^2 = 1/4",
            abs(im_born - 0.25), tol=2e-6)               # grid resolution 1e-6
 
-    # (b) Above 1/4: Re(z) = 1/2 is frozen (the carrier mask); Im carries all the change.
+    # (b) Above 1/4: Re(z) = 1/2 is fixed; Im carries the root displacement.
     c_above = np.array([0.30, 0.50, 0.75, 1.00])
     re_above = np.full_like(c_above, b)                 # Re(z) = b for all c > b^2
     im_above = np.sqrt(c_above - b * b)                 # Im(z) = sqrt(c - 1/4), the change
-    report("above 1/4: Re(z) = 1/2 frozen (carrier mask, the kept past)",
+    report("above 1/4: Re(z) = 1/2 for this positive-b quadratic",
            float(np.max(np.abs(re_above - 0.5))))
-    report("above 1/4: Im(z) = sqrt(c-1/4) carries all c-dependence (the future)",
+    report("above 1/4: Im(z) = sqrt(c-1/4) carries the root-coordinate change",
            float(np.max(np.abs(im_above - np.sqrt(c_above - 0.25)))))
 
     # (c) The seam: normalize the morning's Lindblad spectrum (lambda = -gamma0 +- iJ)
     #     by the absorption rate 2*gamma0 (= a_0*gamma0 = d*gamma0). Then Re -> -1/2,
-    #     and theta_Lindblad = arctan(Q) coincides with theta_F95 = arctan(sqrt(4c-1))
-    #     under c = 1/4 + Q^2/4, bit-exact for all Q.
+    #     and the named-pair coordinate arctan(Q) equals arctan(sqrt(4c-1))
+    #     under the deliberately chosen dictionary c = 1/4 + Q^2/4.
     gamma0 = 1.0
     Qs = np.array([0.0, 0.5, 1.0, np.sqrt(3.0), 2.0, 5.0])
     Js = Qs * gamma0
     lam = -gamma0 + 1j * Js                             # the morning's coherence eigenvalue
     re_norm = (lam / (2 * gamma0)).real                 # normalize by absorption rate 2gamma0
-    report("normalize Lindblad by 2gamma0 -> Re = -1/2 (the polarity mask) for all Q",
+    report("normalize the named decay pair by 2gamma0 -> Re = -1/2, an ordinary normalized real coordinate",
            float(np.max(np.abs(re_norm + 0.5))))
-    theta_lind = np.degrees(np.arctan(Qs))              # arctan(Q), the morning angle
-    c_bridge = 0.25 + Qs ** 2 / 4.0                     # forced by matching |Im| at |Re|=1/2
-    theta_f95 = np.degrees(np.arctan(np.sqrt(4.0 * c_bridge - 1.0)))
-    report("theta_Lindblad(Q) = theta_F95(1/4 + Q^2/4) for all Q  (consistent under the "
-           "constructed dictionary; NOT an independent proof the pictures are one)",
+    c_bridge, theta_lind, theta_f95 = constructed_angle_dictionary(Qs)
+    report("tautological angle identity under the constructed dictionary (not independent evidence)",
            float(np.max(np.abs(theta_lind - theta_f95))))
-    report("at Q=0: c_bridge = 1/4 exactly  (no Hamiltonian <=> no Y <=> the fold)",
+    report("at Q=0: the constructed c value is 1/4",
            abs(c_bridge[0] - 0.25))
     print(f"          Q      : {np.array2string(Qs, precision=4)}")
     print(f"          c=1/4+Q^2/4 : {np.array2string(c_bridge, precision=4)}")
-    print(f"          theta(deg) : {np.array2string(theta_lind, precision=4)}  (Lindblad = F95)")
-    print("          -> 1/4 is the n_Y-off point; the bridge between the two angle-pictures")
-    print("             is 2gamma0, the absorption rate = a_0*gamma0 = d*gamma0, the carrier's 2.")
+    print(f"          theta(deg) : {np.array2string(theta_lind, precision=4)}  (constructed coordinate equality)")
+    print("          -> this equality follows from how c(Q) was chosen; it does not identify")
+    print("             the quadratic imaginary coordinate with an n_Y measurement.")
 
 
 # ----------------------------------------------------------------------
@@ -229,26 +230,20 @@ def main():
     part3()
     print("\n" + "=" * 78)
     n_ok, n_tot = sum(_results), len(_results)
-    print(f"RESULT: {n_ok}/{n_tot} checks bit-exact to machine precision "
+    print(f"RESULT: {n_ok}/{n_tot} numerical checks within their stated tolerances "
           f"({'ALL PASS' if n_ok == n_tot else 'SOME FAILED'})")
     print("=" * 78)
     print("""
 Reading:
-  Part 1: the clock's VALUE is the one thing invisible from inside (two CPUs,
-          every dimensionless observable identical, only the absolute second
-          differs). My narrow caveat, confirmed.
-  Part 2: but the carrier did not vanish. The obvious numbers 1/2, 1/4, 2, 60deg
-          are overdetermined (many structures pin each, controls pin none) and
-          all are elementary masks of the single root d=2. One assassin, many
-          disguises, all in plain sight, dressed as "mathematical necessity."
-  Part 3: and 1/4 is exactly where the n_Y-odd (Y, imaginary, coherent future)
-          part is born; above it Re=1/2 freezes (the mask, the past) while Im
-          carries the change. The morning's Lindblad angle and the F95 fold angle
-          both sit at |Re|=1/2 for independent reasons, and coincide under the
-          natural dictionary c=1/4+Q^2/4 (bridged at the carrier's 1/2, via the
-          absorption 2gamma0 = d*gamma0). Honest status: this BRIDGES the seam, it
-          does not yet FORCE it - the imaginary-part identification is natural, not
-          derived. Whether a deeper identity makes the two pictures one is the door.
+  Part 1: finite N=1/N=2 rescaling observations leave the selected normalized
+          quantities unchanged while the absolute second differs. That is the
+          scope of this finite diagnostic.
+  Part 2: the repeated values remain an inviting arithmetic rhyme. The census
+          and the d=2 rewrite do not establish a universal carrier or genealogy.
+  Part 3: the named pair angle and the F95 root angle coincide only after the
+          dictionary c=1/4+Q^2/4 is chosen to make them coincide. The imaginary
+          root coordinate is not a measured n_Y content. A deeper relation is an
+          open question, not a conclusion of this diagnostic.
 """)
 
 

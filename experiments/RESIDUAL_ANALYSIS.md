@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Finite residual analysis for IBM Torino qubit 52
+
+Current reading: the saved residuals, phase directions, and null calculations
+belong to the named Q52 dataset and preprocessing choices.  They motivate noise
+and drift hypotheses but do not establish a scalar-boundary mechanism or an
+ontological change.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the post-crossing interpretation below is retained with
+the finite measurements that prompted it.
+
 # Residual Analysis: Late-Time Coherence Anomaly in IBM Torino Qubit 52
 
 <!-- Keywords: IBM Torino qubit 52 residual coherence anomaly, late-time

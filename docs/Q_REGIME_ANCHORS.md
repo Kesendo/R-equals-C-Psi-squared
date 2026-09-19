@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Q anchor map for a dimensionless generator dial
+
+Current reading: `Q=J/gamma0` and `atan(Q)` are convenient coordinates under the
+named rate convention.  The ten tabulated anchors, including `sqrt(3)`, do not
+form universal physical regimes and do not all inherit F95 or a Liouvillian
+root interpretation.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the original band vocabulary and anchor table follow as
+a map of hard-coded finite script values.
+
 # Q-Regime Anchor Map (Q = J/γ₀)
 
 The framework's three Q-bands (onset, peak, plateau) materialized as a table of (Q, J)-pairs at the code-convention γ₀ = 0.05. Use this when reading any script that hard-codes a J value: divide by γ₀ to recover the Q-regime it sits in.

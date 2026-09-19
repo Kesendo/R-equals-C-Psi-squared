@@ -1,3 +1,8 @@
+=== BEGIN CURRENT READING ===
+QUARTER-CURRENT
+Current reading: this is a historical IBM Torino classification of the normalized-purity proxy r against the numerical software threshold R*. The complementary flags are derived from the same archived r rows; platform ratios are confounded associations, not active C_Psi measurements or causal regime laws.
+=== END CURRENT READING ===
+=== BEGIN HISTORICAL PAYLOAD ===
 === BOTH SIDES VISIBLE: IBM Torino Oscillating Qubits ===
 X = crosses 1/4 (quantum side active, classical side quiet)
 . = does not cross (classical side active, quantum side quiet)
@@ -318,3 +323,4 @@ Weekly (ours | theirs):
   .XXXXXX | X......  week 25
   XXXXXX | ......  week 26
 
+=== END HISTORICAL PAYLOAD ===

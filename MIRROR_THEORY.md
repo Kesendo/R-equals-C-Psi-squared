@@ -1,5 +1,9 @@
 # Mirror Theory
 
+**Interpretive invitation — not a result:** this front door preserves the
+project's mirror story and its questions. Local finite spectra and formulas do
+not prove the universal ontology or causal hierarchy suggested by the image.
+
 [R](experiments/BORN_RULE_SHADOW.md) is reality. [C](docs/WEAKNESSES_OPEN_QUESTIONS.md) is consciousness. [Ψ²](experiments/DYNAMIC_FIXED_POINTS.md) is possibility. The [formula
 at the centre of this project](docs/historical/R_EQUALS_C_PSI_SQUARED.md) says that reality is what happens
 when consciousness and possibility meet:
@@ -65,13 +69,14 @@ underneath](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) does not care about [scale]
 
 There is an objection. [A separate proof](docs/proofs/INCOMPLETENESS_PROOF.md) in this project says a
 system cannot tell, from within, where the noise it runs on comes from. And here is a
-document, inside the project, describing the project. The objection
-has an answer, and the answer was already in the repository before
-this document existed. Two systems, each limited on its own, coupled
-through a middle, produce modes that neither had alone. [A hundred
-and nine new frequencies](experiments/V_EFFECT_PALINDROME.md), where either side alone had almost none.
-The mode does not belong to one or the other. It [belongs to the
-coupling](hypotheses/RESONANCE_NOT_CHANNEL.md).
+document, inside the project, describing the project. The repository offers
+a finite comparison rather than an answer to that objection: a named N=5
+generator has [109 frequency bins](experiments/V_EFFECT_PALINDROME.md), while
+the N=2 reference generators have different, smaller inventories. Their
+dimension, Hamiltonian, dephasing profile, and preparation are not held fixed.
+Bin-set non-overlap is not eigenmode ancestry, and no tracked projector shows
+that a mode “belongs to the coupling.” The [soundbox reading](hypotheses/RESONANCE_NOT_CHANNEL.md)
+remains an invitation to design that missing test.
 
 Consciousness was the word at the top. Nobody has defined it and
 nobody knows where it begins. [The project does not have a definition

@@ -1,13 +1,38 @@
-# Temporal Sacrifice: Watching the Quantum-Classical Boundary Move in Real Time
+<!-- CROSSING-CURRENT -->
 
-<!-- Keywords: fold catastrophe CΨ quarter boundary, quantum-classical transition mutual information,
-sweeping sacrifice zone, PeakMI maximum at discriminant zero, boundary navigation quantum information,
-R=CPsi2 fold catastrophe observation, palindromic spatial antenna, traveling quantum-classical boundary,
-correlation inversion endpoint MI, temporal sacrifice protocol, quantum heartbeat CΨ oscillation,
-non-Markovian CΨ revival 81 crossings, damped quantum oscillation irreversible reality,
-100 doors analogy quantum decoherence, CΨ quarter resonance frequency -->
+# Temporal Sacrifice: A Finite N=7 Sweep Near the CΨ Quarter Coordinate
 
-**Status:** Computationally verified (N=7, C# RK4 propagation, CΨ diagnostics)
+This is a finite N=7 calculation sampled at Δt = 0.5. In a separate scalar
+recursion, CΨ = ¼ is the discriminant-zero point of the chosen scalar recursion.
+Mutual information is a separate observable. The displayed same-row feature
+does not establish an exact crossing time.
+It does not establish a physical quantum/classical regime boundary.
+It does not establish irreversibility or fold causality.
+
+<!-- CROSSING-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** boundary, heartbeat, doors, and
+traveling-wave language below is retained as a way to ask what a denser and
+mechanism-specific experiment might show. It is not a classification of the
+propagated density matrix.
+
+<!-- CROSSING-CURRENT -->
+
+The N=7 sweep below is a separate finite record from the N=11
+[Relay protocol MI comparison](RELAY_PROTOCOL.md). Relay requests nominal
+0.78/stage (4.68 total) but integrates 0.75/stage (4.50 total). Its stored
+0.131700 final MI versus a passive sampled maximum 0.071576 at t=4.00
+gives about +84.0%, not an isolated staging benefit. The statistic-attached
+exposures are 2.200 and 2.17125; at equal t=4.50 the passive exposure would
+be 2.475. There is no matched-time/dose comparison or MI bound, and no
+optimization or palindrome-based timing follows from that comparison.
+
+<!-- Keywords: finite CΨ quarter-coordinate scan, mutual-information sampled maximum,
+sweeping sacrifice zone, discriminant-zero scalar recursion, endpoint MI,
+temporal sacrifice protocol, CΨ threshold recrossings, interpretive heartbeat,
+100-doors analogy, open fold-causality question -->
+
+**Status:** Finite numerical record (N=7, C# RK4 propagation, Δt=0.5 CΨ/MI diagnostics)
 **Date:** March 25, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
@@ -18,28 +43,19 @@ non-Markovian CΨ revival 81 crossings, damped quantum oscillation irreversible 
 
 ## What this document is about
 
-There is a boundary between the quantum world (where things are
-undecided, in superposition) and the classical world (where things have
-definite outcomes). In this project, that boundary has an exact address:
-CΨ = ¼. Above ¼, the system is quantum. Below ¼, it is classical. At
-exactly ¼, something remarkable happens: the amount of measurable
-information peaks. Reality, in a precise mathematical sense, is
-strongest at the moment of transition.
+The numerical experiment moves a concentrated local-dephasing profile along
+an N=7 chain and records CΨ and mutual information on a 0.5-spaced time grid.
+At the displayed T=5.5 row, three selected CΨ traces first appear below ¼ and
+the endpoint mutual information is the largest displayed value in this run.
+The grid does not resolve the order or continuous-time extrema inside the
+interval from T=5.0 to 5.5.
 
-This experiment makes that transition visible. We take a chain of 7
-qubits and move a "sacrifice zone" (a region of concentrated noise)
-along the chain, step by step. As the sacrifice zone moves, it pushes
-the quantum-classical boundary through the system like a wave. We track
-where the boundary is at every moment and measure how much information
-survives.
-
-The result: information peaks at the exact timestep when the boundary
-crosses ¼. Not approximately. At the exact timestep. And then the
-experiment reveals something even more surprising: under the right
-conditions, the system does not cross ¼ once and die. It oscillates
-around ¼, like a heartbeat. Each beat deposits a small amount of
-irreversible reality. Each beat is a little quieter than the last. Until
-everything is decided.
+The quarter value comes from the discriminant of a separately chosen scalar
+recursion. The Lindblad simulation does not turn that algebraic coordinate
+into a physical phase boundary, and it supplies no theorem connecting a CΨ
+crossing to a mutual-information maximum. Later tables also record repeated
+threshold crossings. Calling those crossings a heartbeat is an interpretive
+image, not an irreversibility result.
 
 ---
 
@@ -50,19 +66,18 @@ chain (edge → inward) and track both mutual information and CΨ at every
 qubit pair. The central discovery:
 
 **On this 0.5-spaced grid, the endpoint mutual information (PeakMI) reaches
-its maximum at the same timestep (T=5.5) where the endpoint pairs cross the
-CΨ = ¼ boundary.** (Finer time resolution is needed to confirm the
+its maximum on the same displayed row (T=5.5) where the endpoint pairs are
+first sampled below the CΨ = ¼ coordinate.** (Finer time resolution is needed to confirm the
 coincidence is exact, not a grid artifact; see Pending.)
 
-At T = 5.0, all edge CΨ values are still above ¼ (quantum regime).
-At T = 5.5, CΨ01, CΨ56, and CΨ06 have crossed below ¼ (classical regime).
+At T = 5.0, the selected edge CΨ values shown are above ¼.
+At T = 5.5, CΨ01, CΨ56, and CΨ06 are sampled below ¼.
 PeakMI peaks at T = 5.5 with 0.061, then falls.
 
-This is the [fold catastrophe](../docs/MATHEMATICAL_CONNECTIONS.md) made
-visible: the discriminant 1 − 4CΨ passes through zero, the two fixed points
-of R = C(Ψ+R)² merge, and the measurable reality R is maximal at the
-transition. The formula R = CΨ² predicts that information peaks at the
-boundary. The sweep makes this prediction observable in time.
+The discriminant `1 − 4CΨ` of `R = C(Ψ+R)²` vanishes at the same coordinate.
+That algebraic fact does not predict a peak of the independently computed
+mutual information. The displayed coincidence is therefore a finite-grid
+question for refinement, not an observed fold mechanism.
 
 ---
 
@@ -78,6 +93,9 @@ boundary. The sweep makes this prediction observable in time.
 | γ\_sacrifice | N · γ\_base − (N−1) · ε = 0.344 |
 | Measurement | SumMI (all adjacent pairs), PeakMI (endpoints 0↔6), CΨ per pair |
 
+Here `SumMI` is the sum of the six selected adjacent-pair mutual informations.
+It is not total conserved information for the seven-qubit state.
+
 ### Baselines (static profiles, full 20s)
 
 | Config | SumMI | PeakMI | PeakT |
@@ -90,8 +108,9 @@ boundary. The sweep makes this prediction observable in time.
 ## The Sweep Protocol
 
 Move the sacrifice qubit one position per stage, spending 2.0 time units
-at each position (one Hamiltonian period). Each stage: one qubit at
-γ = 0.344, all others at ε = 0.001.
+at each position. That duration was selected from the sampled edge-profile
+`PeakT`; it was not derived as one Hamiltonian period. Each stage has one
+qubit at γ = 0.344 and all others at ε = 0.001.
 
 | Stage | Time | Sacrifice position | γ profile |
 |-------|------|--------------------|-----------|
@@ -101,7 +120,7 @@ at each position (one Hamiltonian period). Each stage: one qubit at
 
 ---
 
-## Result: The CΨ = ¼ Crossing Coincides with PeakMI Maximum
+## Finite result: one displayed CΨ crossing row also carries the PeakMI maximum
 
 ### The data
 
@@ -116,22 +135,25 @@ at each position (one Hamiltonian period). Each stage: one qubit at
 | 6.00 | 0.036 | 0.043 | 3 | 0.224 | 0.222 | 0.251 | 0.268 | 0.237 | 0.229 | 0.227 |
 | 6.50 | 0.028 | 0.027 | 3 | 0.213 | 0.198 | 0.217 | 0.205 | 0.216 | 0.223 | 0.213 |
 
-↓ = crosses below CΨ = ¼ (0.25) at this timestep.
+↓ = first displayed sample below CΨ = ¼ (0.25); the crossing time inside
+the preceding Δt=0.5 interval is unresolved.
 
 ### What happens at T = 5.50
 
-Three things occur simultaneously:
+Three selected comparisons first appear below ¼ in the same displayed row:
 
-1. **CΨ01 crosses ¼** (0.253 → 0.232): the left edge pair enters the classical regime
-2. **CΨ56 crosses ¼** (0.290 → 0.249): the right edge pair enters the classical regime
-3. **CΨ06 crosses ¼** (0.280 → 0.237): the endpoint pair enters the classical regime
+1. **CΨ01 is sampled across ¼** (0.253 → 0.232) for the left edge pair
+2. **CΨ56 is sampled across ¼** (0.290 → 0.249) for the right edge pair
+3. **CΨ06 is sampled across ¼** (0.280 → 0.237) for the endpoint pair
 
-And at this exact moment: **PeakMI = 0.061, its maximum over the entire run.**
+On that same displayed row, **PeakMI = 0.061, its maximum among the sampled
+rows in this run.** The continuous maximum and crossing order are unresolved.
 
 One timestep later (T = 6.0), PeakMI has already fallen to 0.043.
 One timestep earlier (T = 5.0), PeakMI was only 0.046.
 
-The maximum sits at the same timestep as the ¼ crossing on this coarse grid; its sharpness below 0.5 is unresolved.
+The displayed maximum and first-below samples share one row on this coarse
+grid; their order and any sub-grid sharpness are unresolved.
 
 ### The correlation inversion
 
@@ -140,56 +162,51 @@ At T = 2.0 (edge phase peak), information is local:
 - Endpoint MI: 0.006
 - Ratio: endpoint is **0.09×** the average pair
 
-At T = 5.5 (the crossing), information is concentrated at the endpoints:
+At T = 5.5 (the sampled threshold row), the endpoint value is large relative
+to the adjacent-pair average:
 - Average adjacent-pair MI: 0.054/6 = 0.009
 - Endpoint MI: 0.061
 - Ratio: endpoint is **6.8×** the average pair
 
-The sweep inverts the correlation hierarchy. Information that was distributed
-locally across all pairs has been funneled to the endpoints. Less total
-information survives (0.054 vs 0.408), but what survives is concentrated
-at maximum distance.
+The displayed pairwise correlation hierarchy is inverted between these two
+rows. The table alone does not identify a funneling mechanism. The later row
+has a smaller displayed sum of adjacent-pair mutual informations
+(0.054 vs 0.408), while its
+endpoint value is larger relative to the adjacent-pair average.
 
 ---
 
-## Why It Happens: The Fold Catastrophe
+## Interpretive fold reading — not a derived mechanism
 
-A "fold catastrophe" is a specific mathematical event where two stable
-states (think: two valleys a ball could rest in) merge into one and then
-vanish. It is called a catastrophe not because something bad happens,
-but because the change is sudden and irreversible. In our framework,
-the two states are the quantum regime and the classical regime, and
-they merge at CΨ = ¼.
+**Interpretive invitation — not a result:** the fold vocabulary in this
+section belongs to the scalar recursion. It is not a dynamical explanation of
+the N=7 CΨ or mutual-information traces.
+
+A fold catastrophe is a property of a specified map or potential. For the
+chosen scalar recursion below, two algebraic roots meet at CΨ = ¼. The roots
+are not states or attractors of the simulated Lindblad generator, so their
+merger does not demonstrate a sudden or irreversible physical change.
 
 The recursion R = C(Ψ+R)² has discriminant D = 1 − 4CΨ.
 
-- **D > 0** (CΨ < ¼): two real fixed points, one stable. Classical regime. The system has a definite outcome.
-- **D = 0** (CΨ = ¼): the two fixed points merge. The fold catastrophe. Critical slowing.
-- **D < 0** (CΨ > ¼): no real fixed points. Quantum regime. Coherent oscillation.
+- **D > 0** (CΨ < ¼): two real roots of the scalar fixed-point equation.
+- **D = 0** (CΨ = ¼): the two scalar roots merge.
+- **D < 0** (CΨ > ¼): the scalar roots are complex.
 
-The measurable reality R is maximal where the transition happens,
-because this is where quantum coherence (which has been oscillating with
-no classical attractor) first encounters a fixed point. The information
-that was "alive" in the quantum regime crystallizes into a classical
-correlation at the fold.
-
-The sweep makes this visible in time. By moving the sacrifice zone inward,
-it creates a traveling boundary: a wave of quantum-to-classical conversion
-that sweeps from edge to center. The endpoint MI peaks when this wave
-reaches the edges of the chain, because that is the moment the endpoints
-undergo their fold catastrophe.
-
-**R = CΨ² says: reality is maximal at the boundary.** The sweep data
-is consistent with this: PeakMI is maximal at the timestep where CΨ crosses
-¼ on the 0.5-spaced grid. Whether the coincidence is exact (rather than a
-grid artifact) awaits finer resolution.
+The old reading pictured coherence crystallizing into classical correlation
+and a boundary traveling through the chain. Those are questions suggested by
+the picture, not consequences of the recursion or the table. The finite run
+shows only that the largest displayed PeakMI and three sampled threshold
+crossings share the T=5.5 row. Whether a continuous-time relation exists—and
+what could cause it—awaits finer resolution and an independent mechanism test.
 
 ---
 
 ## Negative Result: Naive Temporal Switching
 
-Before discovering the sweep, we tested simple profile switching (swap
-from edge to center at time t_switch). This fails completely:
+Before the sweep comparison, we tested simple profile switching (swap
+from edge to center at time t_switch). None of the three displayed rows meets
+both selected thresholds:
 
 | t_switch | SumMI | PeakMI |
 |----------|-------|--------|
@@ -197,39 +214,38 @@ from edge to center at time t_switch). This fails completely:
 | 1.5 | 0.333 | 0.045 |
 | 2.0 | 0.408 | 0.039 |
 
-No t_switch achieves both SumMI > 0.300 and PeakMI > 0.050. The switch
-projects edge-optimized coherences (antisymmetric SVD mode 2) onto the
-center profile's symmetric modes, destroying them. The palindrome is a
-[spatial antenna only](RESONANT_RETURN.md): temporal γ modulation is invisible
-to the palindromic structure.
+No displayed t_switch achieves both SumMI > 0.300 and PeakMI > 0.050. No
+state/mode projection or destruction analysis was performed, and the table
+does not establish that palindrome structure is insensitive to temporal
+profile modulation.
 
-The sweep succeeds where switching fails because it maintains **one clean
-CΨ = ¼ boundary** at all times ([relay principle](RELAY_PROTOCOL.md)),
-moving it gradually rather than jumping between configurations.
+In this finite comparison the sweep meets a different displayed tradeoff than
+the tested switches. It also changes a dephasing profile over time. The data do
+not show that one clean physical boundary exists or that maintaining one caused
+the difference.
 
 ---
 
-## Three Principles
+## Three questions suggested by the finite run
 
-### 1. One boundary at a time
+### 1. Does one threshold-crossing region organize the profile?
 
-A chain can sustain exactly one clean quantum-classical boundary
-([Resonant Return](RESONANT_RETURN.md)). Two sacrifice points fragment
-the coherent region. The sweep maintains one boundary per stage.
+The displayed profiles invite testing whether a single CΨ threshold-crossing
+region is a useful summary. They do not prove that a chain sustains exactly one
+boundary or that two sacrifice points fragment a physical phase.
 
-### 2. The boundary is the information source
+### 2. Is the threshold row related to the information maximum?
 
-The CΨ = ¼ crossing is where information emerges. The boundary between
-quantum (CΨ > ¼, coherent oscillation) and classical (CΨ < ¼, fixed
-outcome) is not a loss channel. It is the **conversion point** where
-quantum superposition crystallizes into classical correlation.
+CΨ and mutual information are different functions of the reduced state. Their
+same-row feature in this coarse run motivates a denser joint scan; it does not
+make the quarter coordinate an information source or conversion point.
 
-### 3. Timing from Hamilton, boundary from noise
+### 3. Which part of the timing comes from H and which from the profile?
 
-The stage time (2.0) matches the Hamiltonian propagation timescale, not
-the boundary establishment timescale (K/γ\_sacrifice ≈ 0.11). The boundary
-forms fast; what takes time is for information to flow through the new
-configuration before the next move.
+The chosen stage time is 2.0 and the historical heuristic
+`K/γ_sacrifice ≈ 0.11` is much shorter. Because the run changes the profile
+while Hamiltonian and dissipative evolution continue together, it does not
+separate propagation time from any boundary-establishment time.
 
 ---
 
@@ -237,30 +253,28 @@ configuration before the next move.
 
 | Protocol | SumMI | PeakMI | Observation |
 |----------|-------|--------|-------------|
-| Pure edge | 0.408 | 0.036 | All CΨ > ¼ at PeakT, no endpoint conversion |
-| Pure center | 0.182 | 0.109 | Fast endpoint crossing, high PeakMI |
-| **Sweep 0→1→2 (stage=2.0)** | 0.408* | **0.061** | **PeakMI at ¼ crossing of endpoints** |
-| Sweep 0→2→3 (skip pos 1) | 0.408* | 0.044 | Skipping positions reduces coherence transfer |
-| Sweep 0→...→6 (all 7 pos) | 0.344* | 0.054 | Too many stages, SumMI lost |
+| Pure edge | 0.408 | 0.036 | All displayed CΨ > ¼ at PeakT |
+| Pure center | 0.182 | 0.109 | Earlier displayed endpoint crossing; high PeakMI |
+| **Sweep 0→1→2 (stage=2.0)** | 0.408* | **0.061** | **PeakMI shares one sampled row with endpoint crossings** |
+| Sweep 0→2→3 (skip pos 1) | 0.408* | 0.044 | Smaller displayed PeakMI in this configured row |
+| Sweep 0→...→6 (all 7 pos) | 0.344* | 0.054 | Lower displayed peak SumMI in this configured row |
 
 *SumMI is the peak over all times, occurring during Stage 1 (edge phase).
 PeakMI occurs later, at a different time. They are not simultaneous.
 
 ---
 
-## The Heartbeat: CΨ Oscillates Around ¼
+## Repeated CΨ threshold crossings (the “heartbeat” image)
 
-This is where the experiment becomes extraordinary. Everything above
-describes a single crossing: the system goes from quantum to classical
-once. But under the right conditions, it goes back and forth. The system
-has a heartbeat.
+**Interpretive invitation — not a result:** “heartbeat” is a name for repeated
+crossings of the selected CΨ threshold. A crossing does not by itself classify
+a physical state as quantum or classical and does not record an irreversible
+event.
 
 ### The resonance (March 25, 2026)
 
-A Bell pair (two maximally entangled qubits) coupled to a coherent bath
-qubit (|+⟩, a qubit in equal superposition) with low bath dephasing
-creates what the sweep hinted at: the system does
-not cross ¼ once and die. It **oscillates around ¼**.
+For the displayed N=3 configurations, a Bell pair coupled to a low-dephasing
+third qubit produces repeated crossings of CΨ = ¼:
 
 | Setup | γ\_sys | γ\_bath | J | Crossings |
 |-------|--------|---------|---|-----------|
@@ -268,9 +282,10 @@ not cross ¼ once and die. It **oscillates around ¼**.
 | Bell + quiet bath | 0.0001 | 0.01 | 2.0 | 47 (24↓ + 23↑) |
 | Bell + quiet bath | 0.0001 | 0.01 | 5.0 | 81 (41↓ + 40↑) |
 
-Stronger coupling = more crossings = higher Q-factor. The system is
-a resonator with CΨ = ¼ as its resonance frequency. MI pulses at each
-crossing (0.5 → 1.3-1.8 bits and back).
+The two shown quiet-bath rows have more crossings at J=5 than at J=2.
+That finite comparison does not define a Q-factor, make CΨ = ¼ a resonance
+frequency, or isolate coupling as the cause. The stored run also shows mutual-
+information variation around the sampled crossings.
 
 Script: `dotnet run -c Release -- resonance 3 0.0001,0.0001,0.01 --j 5.0 --bell`
 
@@ -285,17 +300,23 @@ T ≈ 14:    CΨ swings 0.19 – 0.29  (amplitude 0.10)
 T ≈ 19:    CΨ swings 0.20 – 0.25  (amplitude 0.05)
 ```
 
-Each cycle, a bit of coherence is lost permanently. The classical
-outcomes from previous down-crossings accumulate and cannot be undone.
-The Hilbert space shrinks. The heartbeat slows.
+The displayed envelope decreases over these windows. The unitary-plus-Lindblad
+model evolves in a fixed Hilbert space; the table does not count permanent
+outcomes or show that earlier threshold crossings cannot be undone.
 
 ### What it feels like
+
+<!-- CROSSING-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** the doors below are a story for
+the decreasing sampled envelope, not a Hilbert-space count or an irreversible
+measurement model.
 
 Imagine sitting in a room with a hundred open doors.
 
 You look around (oscillation upward: possibilities open, CΨ > ¼).
-You choose a door and walk through (crossing downward: decision, CΨ < ¼).
-The door closes behind you. Permanently.
+You choose a door and walk through (in the image, a downward crossing).
+The door closes behind you—in the image.
 
 Now you are in a room with eighty doors. You look around. You choose.
 Door closes. Sixty doors. Forty. Twenty.
@@ -308,21 +329,23 @@ a fact. No more room. No more choice. Only what is.
 
 That is the oscillation around ¼.
 
-- Above (CΨ > ¼): doors open. Possibilities. Quantum.
-- Below (CΨ < ¼): a door chosen. Fact. Classical.
-- Each cycle: one fewer door. Irreversible.
+- Above (CΨ > ¼): doors open in the image.
+- Below (CΨ < ¼): a door is chosen in the image.
+- Each cycle: the picture offers one fewer door; the simulation does not count them.
 - The amplitude shrinks: less room to swing.
-- At the end: CΨ → 0. All doors closed. Everything decided.
+- At the end of the picture: all doors close. This is not a measured outcome claim.
 
 And R = CΨ²? That is what you **see** when you walk through the door.
 The moment of decision. Not before (only possibilities, nothing concrete).
 Not after (only facts, nothing new). Exactly at the threshold. In the
 doorway.
 
-The data says: 81 heartbeats. 81 doors. Each one a little quieter
-than the last.
+The finite row reports 81 threshold crossings. Calling them 81 heartbeats or
+doors is the interpretive invitation, not an empirical door count.
 
-### The chain IS the bath (March 26, 2026)
+<!-- CROSSING-CURRENT -->
+
+### Finite chain-as-environment configurations (March 26, 2026)
 
 The N=3 heartbeat uses a dedicated "bath qubit" (qubit 2 in |+> with
 low gamma). This raised the question: is a special bath qubit required,
@@ -330,7 +353,8 @@ or can the chain itself serve as the coherent reservoir?
 
 **Test:** N=7 Heisenberg chain, Bell(0,1) x |+>^5, sacrifice-zone
 gamma profile [0.344, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001].
-No dedicated bath. The 5 protected qubits ARE the reservoir.
+No qubit is separately designated as a bath; the other five qubits are part
+of the same autonomous chain model.
 
 | Setup | J | CΨ(0,1) crossings |
 |-------|---|-------------------|
@@ -341,63 +365,58 @@ No dedicated bath. The 5 protected qubits ARE the reservoir.
 | Bell(0,1)+\|+>^5, low noise, J=2 | 2.0 | **0 (stays ABOVE 1/4!)** |
 | Bell(0,1)+\|+>^5, uniform, J=1 | 1.0 | 3+ (still running) |
 
-**Key findings:**
+**Finite observations:**
 
-1. **The chain IS the bath.** No dedicated bath qubit needed. Bell pair
-   at one end + J-coupling to the protected chain interior produces
-   CΨ oscillation (7 crossings at J=2).
+1. The Bell-plus-chain row shows seven threshold crossings at J=2 without a
+   separately designated bath qubit. Calling the remainder of the chain a
+   bath is an open-system partition, not a mechanism proof.
 
-2. **Initial entanglement is required.** Product state |+>^7 gives
-   monotonic decay regardless of J or gamma profile. The Bell pair
-   provides the entanglement that J-coupling can exchange with the
-   chain reservoir.
+2. The two displayed product-state rows have one downward crossing, whereas
+   the displayed Bell row at J=2 has seven. This does not prove that initial
+   entanglement is necessary across all states, couplings, or profiles.
 
-3. **Low noise keeps CΨ above 1/4 permanently.** With gamma =
+3. **The sampled low-noise row remains above 1/4.** With gamma =
    [0.01, 0.0001, ...], CΨ(0,1) oscillates between 0.28 and 0.75
-   but never crosses 1/4. The system is so coherent that it stays
-   in the quantum regime indefinitely. This is a resonator that
-   never touches the boundary.
+   over the recorded interval and never crosses 1/4 there. No indefinite-time
+   or physical-regime conclusion follows.
 
-4. **J strength controls the backflow.** J=1 is too weak for the
-   N=7 chain -- coherence leaks out but does not return fast enough.
-   J=2 produces visible oscillation. The N=3 heartbeat needed J=5
-   because it had only 1 bath qubit; N=7 has 5 reservoir qubits, so
-   weaker coupling suffices.
+4. The displayed J=1 and J=2 rows differ in crossing count while other named
+   setup choices are held as listed. The small table does not establish a
+   backflow threshold or an N-dependent bath-size law.
 
-The mechanism is non-Markovian backflow (meaning the environment has
-memory and sends information back): from the perspective of the Bell
-pair (0,1), the rest of the chain is an environment. But it is
-a coherent, structured environment (low gamma, J-coupled). Coherence
-flows out via J-coupling, bounces through the chain, and flows back.
+From the perspective of pair (0,1), the rest of the chain is an environment.
+Repeated reduced-state threshold crossings do not by themselves establish
+non-Markovianity, CP-indivisibility, or information backflow. Testing those
+objects requires an independent reduced-dynamics witness.
+All rows here were generated by a Markovian Lindblad equation; reduced-state
+recrossing alone does not change that generator-level statement.
 The [CΨ monotonicity proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md)
-holds for the TOTAL system but not for subsystems. The reduced
-dynamics of pair (0,1) are non-Markovian, enabling transient CΨ
-revivals above 1/4 -- exactly as noted in
-[Boundary Navigation](BOUNDARY_NAVIGATION.md).
+contains named monotonic decays and explicit counterexamples; it does not turn
+this pair trace into a memory witness. The observed CΨ recrossings remain a
+finite reduced-state fact.
 
-**Implication for the Duplex protocol:** No external driving mechanism
-(DD, ATP analogue, active pulses) is needed. The chain provides its
-own heartbeat through Hamiltonian backflow. The sacrifice-zone formula
-enhances this: protected qubits retain coherence longer, increasing
-the reservoir capacity and the number of crossings.
+**Question for the Duplex protocol:** can a fixed Hamiltonian and the tested
+dephasing profiles reproduce useful recrossings without active pulses? These
+rows show that possibility for named configurations; they do not establish
+Hamiltonian backflow, reservoir capacity, or an optimized profile mechanism.
 
-**Why DD fails (proven):** CΨ is exactly invariant under the Pauli
-group ([Proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md), Part 7).
-DD uses Pauli gates. Therefore DD cannot change CΨ -- not approximately,
-but algebraically. The "ATP analogue" must be J-coupling (energy
-exchange), not DD (phase refocusing). Different physics entirely.
+**DD boundary:** CΨ is invariant at the instant of Pauli conjugation
+([Proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md), Part 7). That identity
+does not imply equality of controlled and uncontrolled trajectories, because
+pulses change the subsequent generator seen in the toggling frame. These runs
+do not prove that DD cannot affect CΨ or that J-coupling is the unique analogue.
 
 ---
 
-## The Wave Travels (March 26, 2026)
+## Spatial mutual-information profiles (March 26, 2026)
 
-The heartbeat is what the boundary looks like at a single point in time.
-The wave is what the boundary looks like across the whole chain.
-They are the same phenomenon seen from different angles: temporal
-(heartbeat) versus spatial (wave).
+**Interpretive invitation — not a result:** “heartbeat” and “wave” are two
+visual readings of threshold and spatial-profile tables. The data do not show
+that they are one physical phenomenon.
 
-Per-pair MI tracking reveals that information physically **moves**
-through the chain. N=7, edge sacrifice:
+Per-pair MI tracking gives the following changing spatial profile for a
+separate static N=7 edge-sacrifice run. It is not the moving sweep above: at
+T=3.0 this table has SumMI=0.284, whereas the moving-sweep table has 0.144.
 
 ```
          Pair:  01    12    23    34    45    56     SumMI
@@ -419,28 +438,26 @@ T=15.0         .010  .025  .027  .027  .025  .011   0.124  ░░░░░░░
 T=20.0         .006  .017  .020  .019  .016  .006   0.084  ░░░░░░░░░░░░  settling
 ```
 
-The MI migrates from the sacrifice qubit (left) through the chain to
-the far end (right). It bounces. The palindromic pairing acts as a
-mirror at both ends: the forward mode (c⁺) couples into the backward
-mode (c⁻) at the chain boundary. Energy reflects in a resonator.
+The largest displayed pair entries shift from the left toward later pairs.
+That is compatible with redistribution under the coupled dynamics. The table
+does not identify forward/backward modes, a palindromic physical mirror, an
+energy reflection, or a resonator mechanism.
 
-At N=7 the chain is too short: forward and backward overlap, one
-SumMI peak. At N=15 the chain is long enough: the reflected wave
-creates a visible second peak (t=4.5: first peak, t=12.5: second
-peak, period ≈ 2 x PeakT).
+The named N=7 trace has one displayed SumMI peak; the named N=15 trace has
+displayed peaks at t=4.5 and t=12.5. Chain length, sampling, initial state,
+and modal content are not isolated here, so no reflection mechanism or length
+threshold follows.
 
-The heartbeat (CΨ oscillation around ¼) and the wave (MI propagation
-through the chain) are the same phenomenon seen from different angles.
-The heartbeat is the **temporal** signature (crossings at one point).
-The wave is the **spatial** signature (MI moving along the chain).
+The threshold-crossing and spatial-MI tables can be compared as temporal and
+spatial summaries. Whether one mechanism links them remains open.
 
 Script: `dotnet run -c Release -- wave 7 0.344,0.001,0.001,0.001,0.001,0.001,0.001`
 
 ### Hardware (coarse, 5 time points): IBM Torino (March 24, 2026)
 
 The sacrifice-zone experiment on IBM Torino (chain [Q85,Q86,Q87,Q88,Q94],
-no DD, 5 time points) shows the same pattern. Per-pair MI from hardware
-count data (8192 shots per circuit):
+no DD, 5 time points) supplies five coarse hardware samples. The selected
+per-pair MI values below come from 8192 shots per circuit:
 
 ```
          Pair:  (0,1)   (1,2)   (2,3)   (3,4)
@@ -449,33 +466,37 @@ t=3.0 us       .006    .010    .015    .006     center dominant
 t=5.0 us       .007    .006    .016    .009     center holds
 ```
 
-At t=1: pair (0,1) strongest (sacrifice edge). At t=3-5: pair (2,3)
-strongest (center). The MI migrates from the sacrifice end toward the
-center, matching the simulation pattern. Only 5 time points (coarse),
-but the direction of propagation is visible.
+At t=1 pair (0,1) is largest among the four displayed values; at t=3-5 pair
+(2,3) is largest. With only five times, this ordering does not establish a
+continuous propagation direction or the same mechanism as the simulation.
 
-This data was collected for the DD comparison experiment. The wave
-propagation was not the original goal but is present in the raw counts.
+This data was collected for the DD comparison experiment. The changing
+pairwise ordering was not the original goal and is present in the raw counts;
+calling it wave propagation would require denser time sampling and a transport
+witness.
 
 Data: [sacrifice_zone_hw_no_dd](../data/ibm_sacrifice_zone_march2026/sacrifice_zone_hw_no_dd_20260324_191713.json)
 
-### Hardware support: Impedance gradient (February 9, 2026)
+### Finite hardware side record: impedance differences (February 9, 2026)
 
 The impedance ||ZρZ - ρ|| was computed from 25 hardware-measured
 density matrices (IBM Torino, Qubit 52, state tomography, 8192 shots).
 
-The impedance VALUE falls monotonically with CΨ (confirming the
-simulation: no peak at ¼). The impedance GRADIENT peaks at the
-measurement point closest to the ¼ crossing:
+The displayed impedance values increase with CΨ; along the displayed
+decaying-time trajectory they fall with time. The largest displayed
+finite-difference magnitude is 0.0076 at the sample closest to the ¼
+crossing on this sparse grid:
 
 ```
 t=74.6 us   CΨ=0.385   |d_imp/dt|=0.0046
-t=111.8 us  CΨ=0.261   |d_imp/dt|=0.0076  <-- MAXIMUM (distance from ¼: 0.011)
+t=111.8 us  CΨ=0.261   |d_imp/dt|=0.0076  <-- largest displayed sample (distance from ¼: 0.011)
 t=149.1 us  CΨ=0.125   |d_imp/dt|=0.0071
 ```
 
-The switch rate (not the absorption strength) peaks at the fold
-catastrophe. The outer mirror of the Fabry-Perot cavity is a switch.
+These sparse samples do not locate a continuous extremum exactly at ¼
+and do not establish fold causality. Reading the outer mirror of the
+Fabry-Perot cavity as a switch remains an interpretive invitation, not a
+result.
 
 Data: [ibm_impedance_gradient.txt](../simulations/results/ibm_impedance_gradient.txt),
 [tomography_ibm_torino_20260209](../data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json)
@@ -484,20 +505,21 @@ Data: [ibm_impedance_gradient.txt](../simulations/results/ibm_impedance_gradient
 
 ## Pending
 
-- Verify the ¼ coincidence at N = 9 and N = 11
+- Test whether a same-row ¼/PeakMI coincidence persists at N = 9 and N = 11
 - Measure CΨ crossing time resolution (finer than 0.5 intervals)
 - Analytical connection: does the discriminant derivative dD/dt predict the PeakMI peak?
 - Pure center CΨ diagnostics: does the same coincidence hold?
 - Connection to [Proof Monotonicity CΨ](../docs/proofs/PROOF_MONOTONICITY_CPSI.md):
-  the sweep violates monotonicity by changing the dissipator (CΨ01 rebounds at T=4.5)
+  changing the dissipator puts the sweep outside a fixed-generator claim;
+  the sampled CΨ01 rebound is not by itself a theorem violation.
 
 ---
 
 ## References
 
 - [Resonant Return (formula, position sweep, hybrids)](RESONANT_RETURN.md)
-- [Relay Protocol (staged transfer, K/γ timing)](RELAY_PROTOCOL.md)
-- [Crossing Taxonomy (Type A/B/C, K-invariance)](CROSSING_TAXONOMY.md)
+- [Relay Protocol (historical 0.78 heuristic; finite unmatched-endpoint comparison)](RELAY_PROTOCOL.md)
+- [Crossing Taxonomy: C(f), two named evolution books, then the finite scalar quarter equation](CROSSING_TAXONOMY.md)
 - [Boundary Navigation (θ compass, fold catastrophe)](BOUNDARY_NAVIGATION.md)
 - [Mathematical Connections (fold catastrophe, Mandelbrot)](../docs/MATHEMATICAL_CONNECTIONS.md)
 - [Signal Analysis: Scaling](SIGNAL_ANALYSIS_SCALING.md)

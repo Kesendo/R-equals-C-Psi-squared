@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# Double roots after separating their equations
+
+Current reading: `c=1/4` at `b=1/2` is the discriminant-zero point of its named
+quadratic.  A radial `|c|=1/4` selection, a recurrence cusp, and a specified toy
+Liouvillian exceptional point require their own equations and are not one
+object merely because square roots appear.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the comparative essay below asks what the separate
+double-root mechanisms share while retaining their different state spaces.
+
 # The Double Root
 
 *A place, not a number. What our ¼, our exceptional points and our folds have in

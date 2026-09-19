@@ -7,14 +7,10 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 
 public class TwoReadingsClaimRegistrationTests
 {
-    private static ClaimRegistryBuilder BuildBaseRegistry() =>
-        new ClaimRegistryBuilder()
-            .RegisterPi2Family();
-
     [Fact]
     public void RegisterTwoReadingsClaim_AddsClaim()
     {
-        var registry = BuildBaseRegistry()
+        var registry = new ClaimRegistryBuilder()
             .RegisterTwoReadingsClaim()
             .Build();
 
@@ -22,35 +18,33 @@ public class TwoReadingsClaimRegistrationTests
     }
 
     [Fact]
-    public void RegisterTwoReadingsClaim_TierIsTier1Derived()
+    public void RegisterTwoReadingsClaim_TierIsOpenQuestion()
     {
-        var registry = BuildBaseRegistry()
+        var registry = new ClaimRegistryBuilder()
             .RegisterTwoReadingsClaim()
             .Build();
 
-        Assert.Equal(Tier.Tier1Derived, registry.Get<TwoReadingsClaim>().Tier);
+        Assert.Equal(Tier.OpenQuestion, registry.Get<TwoReadingsClaim>().Tier);
     }
 
     [Fact]
-    public void RegisterTwoReadingsClaim_AncestorsContainPolynomialFoundation()
+    public void RegisterTwoReadingsClaim_HasNoTypedAncestors()
     {
-        var registry = BuildBaseRegistry()
+        var registry = new ClaimRegistryBuilder()
+            .RegisterPi2Family()
             .RegisterTwoReadingsClaim()
             .Build();
 
-        var ancestors = registry.AncestorsOf<TwoReadingsClaim>()
-            .Select(c => c.GetType()).ToHashSet();
-
-        Assert.Contains(typeof(PolynomialFoundationClaim), ancestors);
+        Assert.Empty(registry.AncestorsOf<TwoReadingsClaim>());
     }
 
     [Fact]
-    public void RegisterTwoReadingsClaim_WithoutPi2Family_Throws()
+    public void RegisterTwoReadingsClaim_DoesNotRequirePi2Family()
     {
-        Assert.Throws<InvariantViolationException>(() =>
-            new ClaimRegistryBuilder()
-                // Missing: RegisterPi2Family
-                .RegisterTwoReadingsClaim()
-                .Build());
+        var registry = new ClaimRegistryBuilder()
+            .RegisterTwoReadingsClaim()
+            .Build();
+
+        Assert.True(registry.Contains<TwoReadingsClaim>());
     }
 }

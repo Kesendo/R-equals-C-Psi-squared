@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# Proof: the block-CΨ quarter bound from AM-GM and Dicke weights
+
+Current reading: the exact object is the stated block normalization and its
+tight AM-GM/Dicke-family bound.  A block maximum, a subsystem scalar event, a
+positive-`b` quadratic root, and the recurrence cardioid remain separate
+objects; the proof supplies no typed ancestry among them.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the original inheritance narrative and full derivation
+follow.  The exact block argument remains readable, while its one-boundary
+unification is not current.
+
 # Proof: Block-CΨ at 1/4 (chromaticity-universal inheritance from R=CΨ²)
 
 *Date: 2026-05-07*

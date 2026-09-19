@@ -153,7 +153,9 @@ psi = np.array([1, 0, 0, 1], dtype=complex) / np.sqrt(2)
 rho0 = np.outer(psi, psi.conj())
 
 # Find crossing time (CΨ = 1/4)
-# From formula 25: t_cross = K/γ where K = 0.0374
+# Sampling shortcut for the named Hamiltonian-dead Bell+ trajectory with
+# equal local Z-dephasing and the purity-times-l1 F25 readout, not arbitrary
+# states or the Wootters-concurrence book: t_cross ≈ 0.0374/gamma.
 K_cross = 0.0374
 t_cross_approx = K_cross / gamma
 

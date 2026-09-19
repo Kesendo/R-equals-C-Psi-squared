@@ -6,8 +6,8 @@ using Xunit.Abstractions;
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
 /// <summary>Tests for the Q-axis QAnchorMap (Q = J/γ₀ structural anchors). Verifies
-/// the 9 canonical anchors, the J = Q·γ₀ identity, the F95 θ = arctan(Q) angle, band
-/// queries, and the wave-breaking-scan subset.</summary>
+/// the ten canonical anchors, the J = Q·γ₀ coordinate conversion, the generic
+/// arctan(Q) dial, band queries, and the wave-breaking-scan subset.</summary>
 public class QAnchorMapTests
 {
     private readonly ITestOutputHelper _out;
@@ -42,18 +42,18 @@ public class QAnchorMapTests
     }
 
     [Fact]
-    public void JAt_SubstrateInvariant_ComputesQTimesGamma0()
+    public void JAt_ComputesQTimesGamma0ForTheStoredCoordinate()
     {
         var m = new QAnchorMap();
         var balance = m.AnkerAt(1.0);
         Assert.NotNull(balance);
         Assert.Equal(0.025, balance!.JAt(0.025), precision: 12);
         Assert.Equal(0.10, balance.JAt(0.10), precision: 12);
-        // Substrate invariance per UniversalCarrierClaim: same Q, different γ₀, same role.
+        // This checks the coordinate conversion only; it makes no carrier-universality claim.
     }
 
     [Fact]
-    public void ThetaDegrees_AtBalance_IsFortyFiveDegrees()
+    public void ThetaDegrees_AtBalance_IsTheArctanCoordinate()
     {
         var m = new QAnchorMap();
         var balance = m.AnkerAt(1.0);
@@ -91,9 +91,9 @@ public class QAnchorMapTests
     }
 
     [Fact]
-    public void PeakBand_ContainsFiveAnchors_IncludingSqrt3CanonicalAngleAnchor()
+    public void PeakBand_ContainsFiveAnchors_IncludingSqrt3NamedModelReading()
     {
-        // 1.2 peak start + 1.5 c=2 Q_peak + 1.6 c=3 Q_peak + √3 canonical θ=60°
+        // 1.2 peak start + 1.5 c=2 Q_peak + 1.6 c=3 Q_peak + √3 named-model θ=60°
         // (via LindbladAbsorptionMatchAtSixtyDegreesClaim) + 1.8 c=4/5 Q_peak / peak end
         var m = new QAnchorMap();
         var peak = m.ByBand(QBand.Peak);
@@ -128,7 +128,7 @@ public class QAnchorMapTests
     public void Tier1DerivedAnchors_AreFiveSchemaGroundedAnchors()
     {
         // The five schema-derived Q-anchors: Balance (J=γ₀), Interior pole (2−1/2),
-        // Lindblad-Absorption-Match (√3 at θ=60°), Q_EP idealized (2), Endpoint pole (2+1/2).
+        // named two-level reading (√3 at θ=60°), Q_EP idealized (2), Endpoint pole (2+1/2).
         var m = new QAnchorMap();
         var tier1 = m.ByTier(Tier.Tier1Derived);
         Assert.Equal(5, tier1.Count);
@@ -159,6 +159,7 @@ public class QAnchorMapTests
         Assert.Contains("Q-Anchor Map", rendered);
         Assert.Contains("Total anchors: 10", rendered);
         Assert.Contains("Wave-breaking-scan subset: 3", rendered);
+        Assert.Contains("atan(Q)°", rendered);
         Assert.Contains("Balance", rendered);
         Assert.Contains("F86 Q_peak (c=2)", rendered);
         Assert.Contains("Endpoint orbit", rendered);

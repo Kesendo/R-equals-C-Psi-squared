@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# Navigating dimensions while keeping the objects distinct
+
+Current reading: the F25 Bell+ local-Z-dephasing scalar is one finite trajectory;
+`|Cpsi_com|=1/4` is a radial locus.  Separately, only `c=+1/4` is the real cusp
+of the period-one cardioid.  The specified toy EP is another equation.  Projection,
+camera, and linked-flow language is non-certified interpretation.
+
+<!-- QUARTER-INTERPRETIVE -->
+**Interpretive invitation:** the navigation essay below keeps the in-between,
+the eyepiece, and the live-engine question while the current door prevents their
+visual kinship from becoming identity.
+
 # Navigating the Dimensions: the in-between, and why it needs a live engine
 
 **Status:** Interpretive navigation document. Exact results and live readings
@@ -341,7 +354,7 @@ the slowing is ours and not the carrier's, now visible in the spiral.
 
 ![The spiral slows, but the carrier does not: the slowing is ours](../simulations/results/cusp_spiral_2d/spiral_slowing.png)
 
-## The family of approach shapes (2026-06-03)
+## The two-qubit decay family and its quarter crossing (2026-06-03)
 
 So far one state, Bell+, has done all the approaching. But the interior axis reads a coherence falling
 toward ¼, and different states fall differently. Sweep the start across the partially-entangled family
@@ -351,22 +364,26 @@ two-exponential; only the weights move:
 CΨ(α, t) = w₀·e^(−4γt) + w₁·e^(−12γt),  w₀ = s(1−s²/2)/3,  w₁ = s³/6,  s = sin 2α,
 
 which the algebra hands over exactly (checked against the Lindblad evolution to machine precision). Three
-scaling laws fall straight out. The start height is the entanglement itself, CΨ(0) = s/3, nothing else
-sets it. The crossing is a threshold: a state reaches ¼ only if it is entangled past s = 3/4; below that
-it starts under the cusp and never touches it, and exactly at s = 3/4 it begins life sitting on ¼. And the
-fast mode, the 12γ harmonic, carries a fraction s²/2 of the start, growing quadratically, so only strong
-entanglement excites it; Bell+ is the one member that splits its weight fifty-fifty.
+scaling laws fall straight out. Here s = sin 2α is the pure-state concurrence of the initial state. CΨ is
+a separate readout: at t = 0 it is linear in s and equals exactly one third of that concurrence,
+CΨ(0) = s/3. A genuine temporal downward crossing occurs iff γ > 0 and s > 3/4. Below that
+threshold the curve starts under ¼; at s = 3/4 it only touches ¼ at t = 0 and does not cross; at γ = 0
+the curve is constant and does not cross for any s. For every s > 0 the cubic 12γ term is present,
+with relative weight s²/2 of the start; that share grows
+quadratically and becomes appreciable toward Bell+, which splits its weight fifty-fifty.
+At s = 0 the total start is zero, so s²/2 is only the continuous value of the shape parameter, not a
+ratio of nonzero weights.
 
-The fourth fact is the one that ties the family back to everything before it: every member shares the
-carrier 4γ. Late in time the 12γ harmonic has died and each trajectory runs parallel to that one slowest
-mode and collapses onto it. So the whole family is a single carrier wearing different early transients.
-That is the slowing-is-ours reading made plural: the carrier, the eigenvalue −γ₀, is universal across
-every start; the shape, the thing that tells one approach from another, lives entirely in the harmonic
-that fades. The eyepiece is `inspect --root between --axis approach` (the starts, the threshold, the
-shape parameter, the carrier collapse); the picture is
+The fourth fact comes directly from the Absorption Theorem: the |00⟩⟨11| coherence has n_diff = 2, so
+its dephasing factor is f = e^(−4γt). Every member with 0 < s ≤ 1 has a nonzero w₀f term. Late in time
+the cubic w₁f³ term has died first and each such trajectory has the same 4γ exponent. The endpoint s = 0
+remains part of the exact family, but there w₀ = w₁ = 0 and the curve is
+identically zero, so it carries no late-time term. Across the nonzero starts, the different shapes live in
+the weights and in the 12γ transient that fades. The eyepiece is `inspect --root between --axis approach`
+(the starts, the threshold, the shape parameter, the nonzero-member carrier); the picture is
 [approach_family.py](../simulations/approach_family.py).
 
-![The family of approach shapes; every member shares the carrier](../simulations/results/approach_family/approach_family.png)
+![The exact two-qubit decay family; every nonzero member has the 4γ late-time term](../simulations/results/approach_family/approach_family.png)
 
 ## The sixth axis: the exceptional point (2026-06-03)
 

@@ -20,6 +20,21 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 /// RCPsiSquared.Diagnostics.Tests/F87/F87Pi2InheritanceZ2AxisTests.cs.</para></summary>
 public class PolarityCubeMapRegistrationTests
 {
+    [Fact]
+    public void ExactFormulaClaimsAreNotPolarityCubeMembers()
+    {
+        var registry = KnowledgeRegistryFactory.BuildDefault();
+        var cubeMap = registry.Get<PolarityCubeMap>();
+        var types = cubeMap.BitAClaims.Concat(cubeMap.BitBClaims)
+            .Select(claim => claim.GetType())
+            .ToHashSet();
+
+        Assert.DoesNotContain(typeof(F94BornDeviationFourThirdsPi2Inheritance), types);
+        Assert.DoesNotContain(typeof(F95AngleAtQuadraticZeroPi2Inheritance), types);
+        Assert.DoesNotContain(typeof(F96BornSubdominantSlopesPi2Inheritance), types);
+        Assert.DoesNotContain(typeof(F97CardioidHalfFixedPointPi2Inheritance), types);
+    }
+
     private static readonly Assembly CoreAssembly = typeof(Claim).Assembly;
 
     /// <summary>Concrete Core-assembly IZ2AxisClaim types intentionally NOT yet wired into

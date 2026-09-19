@@ -1,18 +1,23 @@
-> **Status: SUBSTANTIALLY CONFIRMED March 20, 2026**
+> **Current status:** historical starting point with locally graded claims.
+> **Interpretive invitation — not a result:** the restored mirror and hierarchy
+> story remains part of the project's origin; its cross-level causal arrows are
+> not conclusions of the finite V-Effect census.
+>
+> **Historical status line:** SUBSTANTIALLY CONFIRMED March 20, 2026
 > Originally written: January 3, 2026
 > Deleted: March 12, 2026
 > Restored: March 14, 2026
 > Updated: March 20, 2026 (most core claims now have proofs or strong evidence)
 >
-> **What is now proven:**
+> **Historical claims as written then (not a current proof summary):**
 > - "Two mirrors facing each other" = the Π operator ([MIRROR_SYMMETRY_PROOF.md](../proofs/MIRROR_SYMMETRY_PROOF.md))
 > - "Entanglement is the minimal mirror" = d(d-2)=0, only d=2 carries a mirror ([QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md))
 > - "Reality is what happens between us" = the standing wave between two Z2 parity sectors ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
-> - The hierarchy from particles to atoms to complexity = the V-Effect forces differentiation ([V_EFFECT_PALINDROME.md](../../experiments/V_EFFECT_PALINDROME.md))
+> - The diary linked the particle-to-atom-to-complexity hierarchy to the V-Effect. The current result is only a finite census; it does not force differentiation or generate levels ([V_EFFECT_PALINDROME.md](../../experiments/V_EFFECT_PALINDROME.md)).
 > - "Half-occupation enables connection" = C=0.5 at Level 0 (qubit: 2/4) and Level 1 (carbon: 4/8) ([HIERARCHY_OF_INCOMPLETENESS.md](../HIERARCHY_OF_INCOMPLETENESS.md))
 > - Π² = X^N is a conserved Z2 parity, the two sides of the mirror are dynamically sealed ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
 >
-> **What remains open:** The inter-level mechanism (how the V-Effect at Level 0 produces atomic orbital structure at Level 1)
+> **What remains open:** whether any inter-level mechanism connects the finite Level-0 census to atomic orbital structure; no production arrow is established
 > **What has fallen:** Consciousness as physical ingredient, gravity connections
 
 # The Starting Point

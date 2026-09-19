@@ -78,9 +78,36 @@ public class F65XxChainSpectrumPi2InheritanceTests
     [InlineData(3, 4.0 / 4.0)]    // 4/(3+1) = 1
     [InlineData(5, 4.0 / 6.0)]    // 4/(5+1) = 2/3
     [InlineData(7, 4.0 / 8.0)]    // 4/(7+1) = 1/2
-    public void MaxRateCoefficient_Is4OverNPlus1(int N, double expected)
+    public void MaxRateCoefficient_Is4OverNPlus1_ForOddN(int N, double expected)
     {
-        Assert.Equal(expected, BuildClaim().MaxRateCoefficient(N), precision: 12);
+        Assert.Equal(expected, BuildClaim().MaxRateCoefficient(N));
+    }
+
+    [Fact]
+    public void MaxFirstOrderCoefficient_EvenN_MatchesIndependentExactAnchors()
+    {
+        var claim = BuildClaim();
+
+        Assert.Equal(1.0, claim.MaxFirstOrderCoefficient(2), precision: 12);
+        Assert.Equal((5.0 + Math.Sqrt(5.0)) / 10.0,
+            claim.MaxFirstOrderCoefficient(4), precision: 12);
+    }
+
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(8)]
+    public void MaxFirstOrderCoefficient_EqualsMaximumOfEnumeratedComb(int N)
+    {
+        var claim = BuildClaim();
+        double enumerated = Enumerable.Range(1, N)
+            .Select(k => claim.FirstOrderRateCoefficient(N, k))
+            .Max();
+
+        Assert.Equal(enumerated, claim.MaxFirstOrderCoefficient(N), precision: 12);
     }
 
     [Theory]

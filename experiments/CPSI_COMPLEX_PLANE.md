@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# Complex CΨ as a finite radial-and-phase readout
+
+Current reading: the saved matrices, imposed or fitted phase, and
+`|Cpsi_com|=1/4` events belong to named finite trajectories.  That locus is a
+radial selection.  Separately, only `c=+1/4` is the recurrence cardioid's real
+cusp, and F25 supplies a finite scalar path rather than a
+geodesic.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the original complex-plane interpretation and hardware
+questions remain below with their data references.
+
 # CΨ in the Complex Plane: the 2D Extension of Boundary Navigation
 
 **Status:** Hardware-observed on Kingston (2026-04-16). Formal theoretical extension and deliberate-phase hardware run pending.

@@ -1,3 +1,13 @@
+<!-- F14-CURRENT -->
+
+CURRENT READING
+
+The stored J=1 |++> purity-target 0.26 sweep reports 61.816% intermediate-rate discrepancy and 58.326% total spread. With isotropic two-qubit coupling and equal local Z-dephasing this swap-symmetric trajectory is Hamiltonian-dead, so the discrepancy is unresolved legacy numerics, not a certified physical reciprocity failure. The separate eigensystems are paired by column without a demonstrated pairing; no cause is assigned here. K_system=N*K_qubit is a uniform-rate arithmetic identity. The stored sacrifice ratio 1.2367 changes K_total. The old summaries below do not certify universal dose, independent absorption, or preserved exposure.
+
+<!-- F14-HISTORICAL -->
+
+Historical record: unregenerated original output follows; its numerical and as-run lines are retained.
+
 ===========================================================================
 K-DOSIMETRY: THE EXPOSURE NUMBER OF QUANTUM MECHANICS
 ===========================================================================

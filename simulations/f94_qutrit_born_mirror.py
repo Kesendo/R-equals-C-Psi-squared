@@ -1,4 +1,4 @@
-"""Gate-first: does F94's 4/3 = a_-1/3 become d^2/3 = 3 at the qutrit? (the deepest family-A test)
+"""Qudit counterexample to a dimension-universal reading of the F94 coefficient.
 
 CONTEXT. F94: for |0+0+> on an N=4 Heisenberg ring + Z-dephasing, pair (0,2), |00> outcome,
   Delta_|00>(Q,K) = (4/3) Q^2 K^3,   c = sym3_element / (6 * P_u0) = 8/6 = 4/3,
@@ -19,10 +19,10 @@ THE MODEL (pre-registered, faithful: reduces to F94 EXACTLY at d=2).
   * |+> = (|0> + ... + |d-1>) / sqrt(d)  (equal superposition; at d=2 = (|0>+|1>)/sqrt2). rho_0 = |0+0+>.
   * pair (0,2), |00> outcome, P_u0 = <00|Tr_{1,3}[rho_0]|00> = 1 (sites 0,2 are |0>).
 
-  STAGE 0 (port fidelity): d=2 reproduces c = 4/3 bit-close. MUST pass.
-  STAGE 1 (the probe): d=3 -> c(3). Gate asserts the FAMILY-A hypothesis c = d^2/3 = 3. A firing gate IS
-    the find: diagnose whether c stays 4/3 (the 4 is a setup-count, d-independent) or is something else
-    (setup-specific, as the proof's own universality remark warns). Decompose to show what carries d.
+  STAGE 0 (port fidelity): d=2 gives a numerical tolerance reconstruction of c = 4/3.
+  STAGE 1 (the probe): c(3) = 40/27, rather than d^2/3 = 3.  This finite
+    counterexample refutes a d-universal genealogy; it does not supply ancestry
+    for the setup-specific qubit coefficient.
 
 Run:  python simulations/f94_qutrit_born_mirror.py
 """
@@ -162,10 +162,11 @@ elem2, pu2, c2 = f94_coefficient(2)
 elem2s, pu2s, c2s = f94_coefficient(2, use_swap=True)
 print(f"  d=2 Gell-Mann (J/4)*sum(lambda lambda): sym3_elem = {elem2:.6f}, P_u0 = {pu2:.6f}, c = {c2:.9f}")
 print(f"  d=2 SWAP      (J/2)*SWAP             : sym3_elem = {elem2s:.6f}, P_u0 = {pu2s:.6f}, c = {c2s:.9f}")
-assert abs(elem2 - 8.0) < 1e-9, f"STAGE 0 GATE: d=2 sym3 element {elem2} != 8 (F94 bit-exact)"
+assert abs(elem2 - 8.0) < 1e-9, f"STAGE 0 GATE: d=2 sym3 element {elem2} != 8 within tolerance"
 assert abs(c2 - 4.0 / 3.0) < 1e-9, f"STAGE 0 GATE: d=2 coefficient {c2} != 4/3"
 assert abs(c2 - c2s) < 1e-9, "STAGE 0 GATE: Gell-Mann and SWAP builds disagree (the constant should drop)"
-print(f"\nSTAGE 0 PASS: d=2 gives sym3 element = 8 and c = 4/3 EXACTLY (Gell-Mann == SWAP, the identity part "
+print(f"\nSTAGE 0 PASS: d=2 gives a numerical tolerance reconstruction of sym3 element = 8 and c = 4/3 "
+      f"(Gell-Mann == SWAP, the identity part "
       f"drops).\n  The faithful port reproduces F94.")
 
 # ====================================================================================================
@@ -218,7 +219,9 @@ for d in (2, 3, 4, 5, 6, 7):
     print(f"  {d:>2} {c:>14.9f} {str(cf) + ' = ' + format(float(cf), '.6f'):>22} "
           f"{('YES' if abs(c - float(cf)) < 1e-9 else 'NO'):>7}")
 assert worst < 1e-9, f"STAGE 2 GATE FIRED: c(d) != 4(d+2)(d-1)/(3 d^2) (worst {worst:.2e})"
-print(f"\nSTAGE 2 PASS: c(d) = 4(d+2)(d-1)/(3 d^2) EXACTLY for d=2..7 (worst {worst:.1e}).")
+assert c_closed(3) == Fraction(40, 27)
+print(f"\nSTAGE 2 PASS: the exact closed form has c(3) = 40/27; its numerical reconstruction "
+      f"matches for d=2..7 within tolerance (worst {worst:.1e}).")
 print("  Reading: c = (4/3)*(1 + 1/d - 2/d^2). The '4/3' is the BASE (the d=2 value AND the d->oo limit);"
       "\n  the finite-d correction (d+2)(d-1)/d^2 PEAKS at d=4 (= 2^2; c(4)=3/2) and decays back to 4/3.")
 print("\n  VERDICT: F94's 4/3 is NOT family A (d^2 -> 9/3=3). It is a SETUP-SPECIFIC coefficient with its own"

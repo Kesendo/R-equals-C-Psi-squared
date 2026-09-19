@@ -1,3 +1,16 @@
+<!-- QUARTER-CURRENT -->
+# A recurrence analogy beside measured CΨ trajectories
+
+Current reading: the exact algebraic object is the recurrence fixed-point
+equation `c=z-z^2` and its period-one cardioid.  A measured or simulated
+`Cpsi_com(t)` trace is not thereby an iteration orbit, and a radial
+`|Cpsi_com|=1/4` crossing is not the cardioid boundary.  Only `c=+1/4` is the
+real cusp of this recurrence.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical reading:** the equivalence narrative below is retained as the
+analogy that prompted separate recurrence and trajectory tests.
+
 # The Mandelbrot Connection: Algebraic Equivalence of R = CΨ² and z → z² + c
 
 <!-- Keywords: Mandelbrot iteration quantum decoherence, self-referential purity

@@ -1,3 +1,15 @@
+<!-- QUARTER-CURRENT -->
+# MirrorWorld
+
+Current reading: the running engine adopts the exact rules named below.
+`theta=atan(Q)` is a coordinate of the specified two-by-two clock model only; it
+does not inherit F95, a quarter-boundary ontology, or a Born-rule meaning.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the long-form object history follows.  Its run modes and
+exact adopted formulas remain operational; quarter analogies are scoped by the
+current door above.
+
 # MirrorWorld
 
 *World of Mirrors (the name reversed: WoW, the Object Manager genre). Built 2026-06-28.*

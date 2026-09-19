@@ -9,7 +9,7 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>The Symphony first movement: ONE evolution, many lenses, one timeline, the events axis.
 /// The assertions guard the contract — the trajectory is built exactly once and every lens reads it;
-/// CΨ falls monotonically under pure dephasing (the proven dCΨ/dt &lt; 0); the events list is sorted;
+/// the exact Bell+/N=2/local-Z/H-dead F25 curve decreases; the events list is sorted;
 /// all lens curves share the one t grid; and the N=2 Bell+ trajectory reproduces the F25 closed form
 /// CΨ(t) = f(1+f²)/6, f = e^{−4γt}.</summary>
 public class SymphonyTests
@@ -82,8 +82,7 @@ public class SymphonyTests
     [Fact]
     public void Cpsi_MonotoneDecreasing_UnderPureDephasing_N2Bell()
     {
-        // dCΨ/dt < 0 is proven for local Markovian channels (PROOF_MONOTONICITY_CPSI / F25). The clean
-        // pure-dephasing case is N=2 Bell+: |00⟩ and |11⟩ both sit in the XY hopping kernel (the hop
+        // F25 proves this exact Bell+/N=2/local-Z/H-dead curve. |00⟩ and |11⟩ both sit in the XY hopping kernel (the hop
         // connects |01⟩↔|10⟩ only), so the Hamiltonian does nothing and only Z-dephasing acts — CΨ
         // falls monotonically along F25. (At N=3 the |110⟩ component CAN hop to |101⟩, so Bell+ is no
         // longer a kernel state and the Hamiltonian briefly raises CΨ; that is real physics, not a
@@ -147,7 +146,7 @@ public class SymphonyTests
     {
         // The global Ψ-normalization /(d−1) puts CΨ(0) = 1/(d−1) = 1/7 ≈ 0.143 < ¼ at N=3 (d=8): a
         // state that begins below ¼ has NO crossing. The witness must say so honestly, not report a
-        // t=0 fold.
+        // t=0 crossing.
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
         Assert.Equal(1.0 / 7.0, Symphony.Cpsi(s.States[0]), 9);
         Assert.True(Symphony.Cpsi(s.States[0]) < 0.25);
@@ -249,15 +248,50 @@ public class SymphonyTests
     [Fact]
     public void QuarterCrossings_TagDirection_DownThenUp()
     {
-        // A hand-built curve that dips below ¼ and recovers ABOVE ¼ must yield one down then one up crossing.
-        double[] curve = { 0.40, 0.30, 0.20, 0.18, 0.30, 0.40 };  // down (idx 1→2), up (idx 3→4)
+        double[] curve = { 0.40, 0.20, 0.30 };
+        double[] grid = { 0.0, 1.0, 2.0 };
         var dirs = Symphony.QuarterCrossingDirections(curve);
         Assert.Equal(new[] { -1, +1 }, dirs);
-
-        // Times and directions must be EQUAL-LENGTH and order-aligned (the refactor's central contract).
-        double[] grid = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0 };
         var times = Symphony.QuarterCrossingTimes(curve, grid);
         Assert.Equal(times.Count, dirs.Length);
+        Assert.Equal(new[] { 0.75, 1.5 }, times, new DoubleComparer(1e-12));
+    }
+
+    [Fact]
+    public void QuarterCrossings_CollapseEqualityPlateausByStrictSides()
+    {
+        AssertCrossings(new[] { 0.4, 0.25, 0.25, 0.2 }, new[] { 0.0, 1.0, 2.0, 3.0 },
+            new[] { 2.0 }, new[] { -1 });
+        AssertCrossings(new[] { 0.2, 0.25, 0.25, 0.4 }, new[] { 0.0, 1.0, 2.0, 3.0 },
+            new[] { 2.0 }, new[] { +1 });
+        AssertCrossings(new[] { 0.25, 0.25, 0.25 }, new[] { 0.0, 1.0, 2.0 },
+            Array.Empty<double>(), Array.Empty<int>());
+        AssertCrossings(new[] { 0.4, 0.25, 0.25, 0.3 }, new[] { 0.0, 1.0, 2.0, 3.0 },
+            Array.Empty<double>(), Array.Empty<int>());
+        AssertCrossings(new[] { 0.2, 0.25, 0.25, 0.1 }, new[] { 0.0, 1.0, 2.0, 3.0 },
+            Array.Empty<double>(), Array.Empty<int>());
+        AssertCrossings(new[] { 0.25, 0.25, 0.2 }, new[] { 0.0, 1.0, 2.0 },
+            Array.Empty<double>(), Array.Empty<int>());
+        AssertCrossings(new[] { 0.2, 0.25, 0.25 }, new[] { 0.0, 1.0, 2.0 },
+            Array.Empty<double>(), Array.Empty<int>());
+        AssertCrossings(new[] { 0.4, 0.25, 0.2 }, new[] { 0.0, 1.0, 2.0 },
+            new[] { 1.0 }, new[] { -1 });
+    }
+
+    private static void AssertCrossings(
+        double[] curve, double[] grid, double[] expectedTimes, int[] expectedDirections)
+    {
+        var times = Symphony.QuarterCrossingTimes(curve, grid);
+        var directions = Symphony.QuarterCrossingDirections(curve);
+        Assert.Equal(expectedTimes, times, new DoubleComparer(1e-12));
+        Assert.Equal(expectedDirections, directions);
+        Assert.Equal(times.Count, directions.Length);
+    }
+
+    private sealed class DoubleComparer(double tolerance) : System.Collections.Generic.IEqualityComparer<double>
+    {
+        public bool Equals(double x, double y) => Math.Abs(x - y) <= tolerance;
+        public int GetHashCode(double value) => 0;
     }
 
     [Fact]
@@ -268,12 +302,12 @@ public class SymphonyTests
     }
 
     [Fact]
-    public void LocalQuarterLens_N3Default_FoldsWhereGlobalIsSilent()
+    public void LocalQuarterLens_N3Default_ReportsTheNamedLocalDownwardCrossing()
     {
-        // Default Symphony(n:3): global CΨ(0)=1/7 < ¼ so the global lens never crosses; the local lens
-        // starts at 1/3 and folds through ¼ once. The audible fold the second movement exists for.
+        // In the named default N=3 configuration and finite window, global CΨ starts at 1/7 < ¼ and
+        // has no crossing; local CΨ starts at 1/3 and has one downward quarter crossing.
         var s = new Symphony(n: 3, initialState: InitialStateKind.BellPair);
-        Assert.Null(s.FirstQuarterCrossing());   // global silent
+        Assert.Null(s.FirstQuarterCrossing());   // no global crossing in this named finite window
         var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
         Assert.Contains("↓", lens.Summary);      // at least one downward crossing reported
     }
@@ -287,21 +321,22 @@ public class SymphonyTests
     }
 
     [Fact]
-    public void LocalEnvelope_Rises_TheFreedom_BeatingAtStrongCoupling()
+    public void LocalEnvelope_NamedStrongCouplingGridReportsAboveBarRise()
     {
-        // The reduced carrier pair has no theorem; its beat envelope genuinely rises. Verified: at
-        // J=5, γ=0.01, 1600 points the local envelope has 5 predecessor-rises, max Δ≈0.0122.
+        // The reduced carrier pair has no theorem. On the named J=5, γ=0.01, 1600-point grid,
+        // the local envelope has 5 predecessor rises and max Δ≈0.0122 above the reporting bar.
         var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
             tMax: 25.0, tPoints: 1600);
         var local = s.States.Select(s.LocalCpsi).ToArray();
-        var env = QuarterEnvelope.Of(local, s.TimeGrid.ToArray());
-        Assert.True(env.RiseCount >= 1, $"expected a beating rise; got {env.RiseCount}");
-        Assert.True(env.MaxRiseMagnitude > 1e-3, $"expected a real (>1e-3) rise; got {env.MaxRiseMagnitude}");
+        var env = QuarterEnvelope.Of(local, s.TimeGrid.ToArray(),
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        Assert.True(env.RiseCount >= 1, $"expected an above-bar rise on the named grid; got {env.RiseCount}");
+        Assert.True(env.MaxRiseMagnitude > EnvelopeTheoremWitness.RiseReportingBar,
+            $"expected a rise above the reporting bar on this named grid; got {env.MaxRiseMagnitude}");
 
         var lens = Children(s).Single(c => c.DisplayName == "lens: quarter (local CΨ)");
-        Assert.Contains("freedom", lens.Summary);
-        Assert.Contains("beating", lens.Summary);
-        Assert.Contains("grid-sensitive", lens.Summary);
+        Assert.Contains("named finite-grid reading", lens.Summary);
+        Assert.Contains("separately evolved refinement", lens.Summary);
     }
 
     [Fact]
@@ -318,8 +353,8 @@ public class SymphonyTests
     [Fact]
     public void Events_SurfaceUpwardLocalCrossing_AtHeartbeat()
     {
-        // At strong coupling the carrier pair re-crosses ¼ upward (coherence pumps back); the events axis
-        // must surface that recovery as a "(up)" local-quarter event, not only the downward folds.
+        // In this named finite strong-coupling run the carrier-pair curve re-crosses ¼ upward; the events
+        // axis must surface that direction as an "(up)" local-quarter event, not only downward crossings.
         var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
             tMax: 25.0, tPoints: 500);
         var eventsNode = Children(s).Single(c => c.DisplayName == "events");
@@ -332,21 +367,21 @@ public class SymphonyTests
     public void DoseLens_ReportsFirstLocalCrossing_N2CoincidesWithGlobal()
     {
         // At N=2 the local and global curves are identical, so the first-local-crossing dose must equal
-        // the global fold dose (K = 0.0374, F25).
+        // the global final-stay-below dose (K = 0.0374, F25).
         var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 120);
         var dose = Children(s).Single(c => c.DisplayName == "lens: dose (K)");
-        Assert.Contains("local fold", dose.Summary);
+        Assert.Contains("local final-stay-below", dose.Summary);
         Assert.Contains("0.037", dose.Summary);   // K of the first local crossing ≈ global 0.0374
     }
 
     [Fact]
-    public void DoseLens_PointsAtEnvelopeFold_N2RegressionToF25()
+    public void DoseLens_PointsAtFinalStayBelowCrossing_N2RegressionToF25()
     {
-        // At N=2 the curve is monotone: the single downward crossing IS the envelope fold, so the dose
-        // lens still reports the F25 fold dose K ≈ 0.0374 — the redefinition did not move N=2.
+        // At N=2 Bell+/Z the single downward crossing is also the last-stay-below crossing, so the dose
+        // lens still reports the F25 dose K ≈ 0.0374.
         var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair, tMax: 6.0, tPoints: 120);
         var dose = Children(s).Single(c => c.DisplayName == "lens: dose (K)");
-        Assert.Contains("envelope fold", dose.Summary);
+        Assert.Contains("global final-stay-below", dose.Summary);
         Assert.Contains("0.0374", dose.Summary);
     }
 
@@ -364,7 +399,7 @@ public class SymphonyTests
         Assert.True(crossings >= 3, $"expected the local heartbeat (≥3 ¼ crossings); got {crossings}");
         var dirs = Symphony.QuarterCrossingDirections(local);
         Assert.Contains(-1, dirs);   // at least one downward
-        Assert.Contains(+1, dirs);   // and at least one upward (the recovery the global theorem forbids)
+        Assert.Contains(+1, dirs);   // and at least one upward on this finite trajectory
     }
 
     [Fact]
@@ -385,29 +420,30 @@ public class SymphonyTests
     }
 
     [Fact]
-    public void GlobalEnvelope_NonIncreasing_AtBothRegimes_TheoremLive()
+    public void GlobalEnvelope_NamedN3WindowsResolveNoRiseAboveReportingBar()
     {
-        // The Envelope Theorem (proven N=2, verified N≥3): the global CΨ peaks never rise. Verified at
-        // the gentle (J=1) and strong-coupling (J=5) regimes, at two grid densities.
+        // Three named finite N=3 windows resolve no rise above the reporting bar. This is not an
+        // all-parameter absence statement and does not decide the autonomous N=2 peak question.
         foreach (var (j, gamma, tmax, pts) in new[]
             { (1.0, 0.1, 10.0, 400), (5.0, 0.01, 25.0, 400), (5.0, 0.01, 25.0, 1600) })
         {
             var s = new Symphony(n: 3, j: j, gamma: gamma, initialState: InitialStateKind.BellPair,
                 tMax: tmax, tPoints: pts);
             var global = s.States.Select(Symphony.Cpsi).ToArray();
-            var env = QuarterEnvelope.Of(global, s.TimeGrid.ToArray());
+            var env = QuarterEnvelope.Of(global, s.TimeGrid.ToArray(),
+                riseTol: EnvelopeTheoremWitness.RiseReportingBar);
             Assert.Equal(0, env.RiseCount);
-            Assert.True(env.IsNonIncreasing);
+            Assert.True(env.MaxRiseMagnitude >= 0.0);
         }
-        // The global lens names the theorem.
+        // The global lens carries the finite-window caveat and the new crossing name.
         var lens = Children(new Symphony(n: 3, j: 5.0, gamma: 0.01, tMax: 25.0, tPoints: 1600))
             .Single(c => c.DisplayName == "lens: quarter (CΨ)");
-        Assert.Contains("Envelope Theorem", lens.Summary);
-        Assert.Contains("the fold", lens.Summary);   // "the fold" now means the envelope fold
+        Assert.Contains("finite window", lens.Summary);
+        Assert.Contains("last-stay-below", lens.Summary);
     }
 
     [Fact]
-    public void Events_GlobalRelabelled_FoldsAndFreedom_AtHeartbeat()
+    public void Events_GlobalRelabelled_CrossingsAndFiniteRise_AtHeartbeat()
     {
         var s = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
             tMax: 25.0, tPoints: 1600);
@@ -418,11 +454,11 @@ public class SymphonyTests
         Assert.Contains(summaries, sm => sm.Contains("global CΨ crosses ¼ (up)"));
         Assert.Contains(summaries, sm => sm.Contains("global CΨ crosses ¼ (down)"));
         Assert.DoesNotContain(summaries, sm => sm.Contains("quantum→classical boundary"));
-        // the absorbing global envelope fold is its own event
-        Assert.Contains(summaries, sm => sm.Contains("global CΨ envelope fold"));
-        // the local freedom: an envelope fold and an envelope-rise event carrying the grid caveat
-        Assert.Contains(summaries, sm => sm.Contains("local CΨ envelope fold") && sm.Contains("carrier pair"));
-        Assert.Contains(summaries, sm => sm.Contains("local CΨ envelope rises") && sm.Contains("grid-sensitive"));
+        // finite-window last-stay-below readings are their own events
+        Assert.Contains(summaries, sm => sm.Contains("global CΨ last-stay-below crossing"));
+        // the local finite reading: a last-stay-below and an above-bar envelope-rise event
+        Assert.Contains(summaries, sm => sm.Contains("local CΨ last-stay-below crossing") && sm.Contains("carrier pair"));
+        Assert.Contains(summaries, sm => sm.Contains("local CΨ envelope rises") && sm.Contains("above reporting bar"));
     }
 
     [Fact]
@@ -437,21 +473,31 @@ public class SymphonyTests
     }
 
     [Fact]
-    public void LocalEnvelope_SingleExcitation_RisesAreGridArtifacts_VanishUnderRefinement()
+    public void LocalEnvelope_SingleExcitation_NestedGridsAreIndependentFiniteReadings()
     {
-        // The control that proves the detector separates real beating from grid noise: SingleExcitation's
-        // local-envelope rises are pure sampling artifacts — present at 400 points, GONE at 1600 — whereas
-        // Bell+ (LocalEnvelope_Rises_TheFreedom...) persists. Verified: RiseCount 1 → 0.
+        // Two independently evolved nested grids give finite classifications only. Matching shared
+        // samples checks the evolution; it does not assign a cause to any rise-count difference.
         var coarse = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
-            tMax: 25.0, tPoints: 400);
+            tMax: 25.0, tPoints: 401);
         var fine = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
-            tMax: 25.0, tPoints: 1600);
-        int coarseRises = QuarterEnvelope.Of(coarse.States.Select(coarse.LocalCpsi).ToArray(),
-            coarse.TimeGrid.ToArray()).RiseCount;
-        int fineRises = QuarterEnvelope.Of(fine.States.Select(fine.LocalCpsi).ToArray(),
-            fine.TimeGrid.ToArray()).RiseCount;
-        Assert.True(coarseRises > 0, $"expected coarse-grid artifacts; got {coarseRises}");
-        Assert.Equal(0, fineRises);   // artifacts vanish under refinement
+            tMax: 25.0, tPoints: 1601);
+        var coarseCurve = coarse.States.Select(coarse.LocalCpsi).ToArray();
+        var fineCurve = fine.States.Select(fine.LocalCpsi).ToArray();
+        for (int i = 0; i < coarseCurve.Length; i++)
+            Assert.Equal(coarseCurve[i], fineCurve[4 * i], 9);
+        var coarseEnvelope = QuarterEnvelope.Of(coarseCurve, coarse.TimeGrid.ToArray(),
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        var fineEnvelope = QuarterEnvelope.Of(fineCurve, fine.TimeGrid.ToArray(),
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        Assert.Equal(0, coarseEnvelope.RiseCount);
+        Assert.Equal(0, fineEnvelope.RiseCount);
+        Assert.True(coarseEnvelope.MaxRiseMagnitude < EnvelopeTheoremWitness.RiseReportingBar);
+        Assert.True(fineEnvelope.MaxRiseMagnitude < EnvelopeTheoremWitness.RiseReportingBar);
+
+        var changedJ = new Symphony(n: 3, j: 4.5, gamma: 0.01,
+            initialState: InitialStateKind.SingleExcitation, tMax: 25.0, tPoints: 401);
+        var changedCurve = changedJ.States.Select(changedJ.LocalCpsi).ToArray();
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(coarseCurve, changedCurve) > 1e-6);
     }
 
     [Fact]
@@ -489,6 +535,55 @@ public class SymphonyTests
     }
 
     [Fact]
+    public void TempoCertification_MaxAbsDiff_RejectsVacuousPrefixesAndNonfiniteValues()
+    {
+        Assert.Throws<ArgumentNullException>(() => TempoCertificationMovement.MaxAbsDiff(null!, new[] { 0.1 }));
+        Assert.Throws<ArgumentNullException>(() => TempoCertificationMovement.MaxAbsDiff(new[] { 0.1 }, null!));
+        Assert.Throws<ArgumentException>(() => TempoCertificationMovement.MaxAbsDiff(new[] { 0.1 }, new[] { 0.1, 0.2 }));
+        Assert.Throws<ArgumentException>(() => TempoCertificationMovement.MaxAbsDiff(new[] { double.NaN }, new[] { 0.1 }));
+        Assert.Throws<ArgumentException>(() => TempoCertificationMovement.MaxAbsDiff(new[] { 0.1 }, new[] { double.PositiveInfinity }));
+    }
+
+    [Fact]
+    public void TempoRescaling_IndependentRawCurvesAndExplicitBarSeparateQ40FromMutation()
+    {
+        var a = new Symphony(n: 4, j: 0.40, gamma: 0.01,
+            initialState: InitialStateKind.BellPair, tMax: 25.0, tPoints: 1600);
+        var b = new Symphony(n: 4, j: 0.80, gamma: 0.02,
+            initialState: InitialStateKind.BellPair, tMax: 12.5, tPoints: 1600);
+        var bBad = new Symphony(n: 4, j: 0.26, gamma: 0.02,
+            initialState: InitialStateKind.BellPair, tMax: 12.5, tPoints: 1600);
+
+        var globalA = a.States.Select(Symphony.Cpsi).ToArray();
+        var globalB = b.States.Select(Symphony.Cpsi).ToArray();
+        var globalBad = bBad.States.Select(Symphony.Cpsi).ToArray();
+        var localA = a.States.Select(a.LocalCpsi).ToArray();
+        var localB = b.States.Select(b.LocalCpsi).ToArray();
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(globalA, globalB) <= 1e-9);
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(localA, localB) <= 1e-9);
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(globalA, globalBad) > 1e-6);
+        for (int i = 0; i < a.TimeGrid.Count; i++)
+            Assert.Equal(a.Gamma * a.TimeGrid[i], b.Gamma * b.TimeGrid[i], 12);
+
+        var envelopeA = QuarterEnvelope.Of(globalA, a.TimeGrid.ToArray(),
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        var envelopeB = QuarterEnvelope.Of(globalB, b.TimeGrid.ToArray(),
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        var envelopeBad = QuarterEnvelope.Of(globalBad, bBad.TimeGrid.ToArray(),
+            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+        Assert.Equal(envelopeA.RiseCount, envelopeB.RiseCount);
+        Assert.True(envelopeA.RiseCount > 0);
+        Assert.Equal(0, envelopeBad.RiseCount);
+        Assert.Equal(envelopeA.Maxima.Count, envelopeB.Maxima.Count);
+        for (int i = 0; i < envelopeA.Maxima.Count; i++)
+        {
+            Assert.Equal(envelopeA.Maxima[i].ApexValue, envelopeB.Maxima[i].ApexValue, 6);
+            Assert.Equal(a.Gamma * envelopeA.Maxima[i].Time,
+                b.Gamma * envelopeB.Maxima[i].Time, 6);
+        }
+    }
+
+    [Fact]
     public void TempoCertification_OneEvolutionPerSymphony_SecondPerformanceCounted()
     {
         var s = new Symphony(n: 3, j: 1.0, gamma: 0.1, tempoRatio: 20.0);
@@ -498,16 +593,16 @@ public class SymphonyTests
     }
 
     [Fact]
-    public void TempoCertification_N2FoldDose_IdenticalAtBothTempos_KNumber()
+    public void TempoCertification_N2QuarterCrossingDose_IdenticalAtBothTempos_KNumber()
     {
         var s = new Symphony(n: 2, gamma: 0.1, initialState: InitialStateKind.BellPair,
             tMax: 6.0, tPoints: 120, tempoRatio: 20.0);
-        var foldA = s.FirstQuarterCrossing();
-        var foldB = s.TempoCertification!.Second.FirstQuarterCrossing();
-        Assert.NotNull(foldA);
-        Assert.NotNull(foldB);
-        Assert.Equal(0.0374, foldA!.Value.Dose, 3);
-        Assert.Equal(foldA!.Value.Dose, foldB!.Value.Dose, 9);
+        var crossingA = s.FirstQuarterCrossing();
+        var crossingB = s.TempoCertification!.Second.FirstQuarterCrossing();
+        Assert.NotNull(crossingA);
+        Assert.NotNull(crossingB);
+        Assert.Equal(0.0374, crossingA!.Value.Dose, 3);
+        Assert.Equal(crossingA!.Value.Dose, crossingB!.Value.Dose, 9);
     }
 
     [Fact]

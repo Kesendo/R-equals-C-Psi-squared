@@ -1,86 +1,94 @@
-# Observer-Gravity Bridge: Interval Shift Mechanics, Gravity Interpretation Fallen
+# Observer-Gravity Bridge: fixed-book clocks and coupled interval shifts
+
+<!-- F14-CURRENT -->
 
 <!-- Keywords: interval shift coupling J measurement time, crossing time
 factorization K observer state gamma, interval shift measurement coupling,
-swap symmetry J-free product state, no threshold J>0 continuous
-shift, product state local coherence clock, Bell+ no local clock, Lieb-Robinson
+swap symmetry J-free product state, finite positive-J scan,
+interval shift, product state local coherence clock, Bell+ no local clock, Lieb-Robinson
 bound velocity, R=CPsi2 observer gravity bridge fallen -->
 
-> **Fallen hypothesis.** The interval shift mechanics (J > 0 produces measurable
-> crossing time shift) are verified Tier 2. The gravitational bridge hypothesis
-> (gravity provides universal always-on J), all FTL claims, and the two-axis
-> time dilation interpretation have **fallen**. Inline [FALLEN] markers.
+The fixed-book concurrence clock below is exact on a Hamiltonian-dead family.
+The interval-shift tables are finite numerical records of physically coupled
+qubits. Neither is a calibrated gravitational environment or an experienced-time
+law. Historical and interpretive regions identify the gravitational story.
 
 ## What this document is about
 
 Two coupled qubits: when B measures, A's CΨ crossing time shifts.
-The shift has no threshold: any coupling J > 0 produces it, from
-a 2.5% shift at J = 0.01 to 84% at J = 1.0. The mechanism is not
+No threshold was seen in the sampled positive-J range, from
+a 2.5% shift at J = 0.01 to 84% at J = 1.0; detectability requires a specified acquisition/error model. The mechanism is not
 that coupling "protects" A; on a state the Hamiltonian can reach it
 accelerates A's local decoherence against isolation. Why the shift
 runs negative is open. The original idea that gravity could provide this
 coupling universally (connecting all massive particles) has fallen:
-the gravitational coupling is too weak by 25 orders of magnitude to
-be measurable. What survives is CΨ crossing time as a sensitive
-detector for weak quantum couplings, like a lock-in amplifier that
-accumulates tiny signals over the full decoherence trajectory.
+the NV-center estimates lie roughly 25 orders of magnitude below the modeled
+coupling range. No measurement sensitivity is established. What survives is a finite joint-model
+comparison of local crossing times. A lock-in-like detector remains a proposed
+measurement protocol; sensitivity or channel capacity is not established.
 
 **Status:** Interval mechanics verified (Tier 2); gravity bridge fallen
 **Date:** 2026-03-01
 **Authors:** Thomas Wicht, with Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Scripts:** [`simulations/interval_shift.py`](../simulations/interval_shift.py), [`simulations/shift_mechanism.py`](../simulations/shift_mechanism.py)
+**Scripts:** [observer_gravity_cross.py](../simulations/observer_gravity_cross.py) and its
+[historical output](../simulations/results/observer_gravity_cross.txt), alongside
+[interval_shift.py](../simulations/interval_shift.py) and
+[shift_mechanism.py](../simulations/shift_mechanism.py).
 **Depends on:** [Observer-Dependent Crossing](OBSERVER_DEPENDENT_CROSSING.md), [Bridge Closure](BRIDGE_CLOSURE.md)
 
 ---
 
 ## Abstract
 
-The crossing time factorizes as t_cross = K(observer,state)/γ, where K is
-γ-invariant and state-dependent: on the cosα|00⟩ + sinα|11⟩ family
-K_conc(α) = ln(4 sin²(2α)/3)/8 in closed form, reaching 0 at α = 30°.
-Any coupling J > 0 produces a measurable interval shift in
-A's crossing time when B measures, with no threshold: at J = 0.01 the
-shift is 2.5%, at J = 1.0 it is 84%. The coupling does NOT protect A; on
+For the fixed Wootters-concurrence readout CΨ=C_conc²/3 on
+cosα|00⟩ + sinα|11⟩, equal local Z-dephasing and isotropic Heisenberg
+coupling give an entirely Hamiltonian-dead trajectory. Thus
+K_conc(α) = ln(4 sin²(2α)/3)/8 where a positive-time crossing exists.
+At α = 30° equality is initial; below it there is no downward crossing.
+This is a fixed-book gamma sweep, not a universal K(observer,state)/γ law.
+In the sampled positive-J range, A's crossing time shifts when B's
+measurement is included in the coupled model: at J = 0.01 the shift is
+2.5%, at J = 1.0 it is 84%. No all-J or detectability theorem follows. The coupling does NOT protect A; on
 a state the Hamiltonian can reach it accelerates A's local crossing
 against isolation. Why the shift is negative is left open here (section
 7). The
 original gravitational bridge hypothesis (gravity provides universal
 J > 0 between all massive particles via Penrose/Diósi, models where gravity collapses superpositions proportional to mass) has been retired:
-at J_grav ~ 10⁻²⁹ for NV centers, the shift is unmeasurable. What
-survives is CΨ crossing time as a sensitive detector for weak quantum
-couplings (lock-in amplifier for quantum interactions).
+at J_grav ~ 10⁻²⁹ for NV centers, the estimate lies far below the modeled range;
+detectability is unassessed. What
+survives is a finite crossing-time comparison, not a qualified weak-coupling
+detector. A lock-in measurement remains an operational proposal.
 
 ---
 
 ## 1. Context: What the Bridge Closure Actually Says
 
-The bridge closure (BRIDGE_CLOSURE.md) proved:
-
-> Pre-shared entanglement without a classical channel = shared randomness.
-> A's information ⊆ {ρ_A(0), E_A}. CΨ fingerprints require ρ_AB.
-
-This kills the bridge for J = 0 (zero coupling). But the closure
-document itself noted:
-
-> "With physical coupling (J > 0): Works. But this is a local
-> interaction, not 'bridge'."
-
-This document investigates that footnote.
-
+At J=0, a trace-preserving local operation on B whose outcome is not
+communicated to A leaves A's reduced state unchanged. No post-separation
+message or advantage for the proposed pre-encoded crossing schedule was
+demonstrated. This no-signalling result does not identify all entangled
+correlations with shared classical randomness. Physical coupling can change
+local statistics through an ordinary interaction, not a channel-free bridge.
+This document studies those separately coupled readouts.
 ---
 
-## 2. Discovery 1: The Crossing Time Factorizes
+## 2. The fixed concurrence book
 
-The crossing time for a given quantum system decomposes into two
-independent factors:
+The bridge comes first: CΨ=C_conc²/3 on the alpha family. The clean dynamics
+is linear Lindblad evolution with equal local Z-dephasing and isotropic
+H=J(XX+YY+ZZ). The entire trajectory commutes with H, so the finite crossing
+equation is sin²(2α) exp(-8γt)/3=1/4. Its gamma scaling belongs to this
+state, channel and readout. A different bridge can have a different K or no
+crossing at all.
 
-    t_cross(Observer, Gravity) = K(Observer, State) / γ(Gravity)
+### 2.1 Six rate values, not six calibrated gravitational environments
 
-### 2.1 Gravity Factor: Universal [FALLEN]
+<!-- F14-HISTORICAL -->
 
-K is invariant under γ change. Verified across six gravitational
-environments (γ = 0.01 to 0.50):
+**Historical nomenclature:** The planet and observer names in the retained
+tables are labels from the original notebook, not physical observers or
+measured gravitational conditions.
 
 | Environment | γ     | t_cross (Conc) | K_conc   |
 |-------------|-------|-----------------|----------|
@@ -90,9 +98,10 @@ environments (γ = 0.01 to 0.50):
 | Jupiter     | 0.13  | 0.2766          | 0.035960 |
 | Neutron     | 0.20  | 0.1798          | 0.035960 |
 | Black Hole  | 0.50  | 0.0719          | 0.035960 |
-[FALLEN]
 
-K_conc is not a measured invariant. Each Z-dephaser sends |00⟩⟨1| to
+<!-- F14-CURRENT -->
+
+K_conc is an exact fixed-book quantity. Each local Z jump sends |00⟩⟨11| to
 minus itself, so ρ₀₃(t) = ½ e^(−4γt), the concurrence is e^(−4γt) and
 CΨ = C²/3; the ¼ crossing gives
 
@@ -104,9 +113,15 @@ spread in the last two digits and reported it as ± 0.00001; that was a
 crossing-grid artifact, and the γ = 0.50 row is where a coarse grid shows
 first because its crossing time is the shortest.
 
-### 2.2 Observer Factor: State-Dependent
+### 2.2 State dependence within the same readout
 
-K depends on the initial state, and on this family it is closed:
+<!-- F14-HISTORICAL -->
+
+**Historical record:** The compact last row below conflates initial equality
+at 30° with never reaching the threshold below 30°. The exact distinction is
+stated immediately after the retained table.
+
+K depends on the preparation within this fixed family:
 
 | State   | K_conc   |
 |---------|----------|
@@ -115,6 +130,8 @@ K depends on the initial state, and on this family it is closed:
 | α = 35° | 0.020410 |
 | α = 31° | 0.004838 |
 | α ≤ 30° | never    |
+
+<!-- F14-CURRENT -->
 
 For cosα|00⟩ + sinα|11⟩ the concurrence is sin(2α)·e^(−4γt), so
 
@@ -133,23 +150,24 @@ stays there, so MI/4 approaches ¼ from above and never crosses it: at
 t = 100. There is no K_MI at α = 45° to take a ratio with, and no
 γ-sweep of that ratio was ever run.
 
-### 2.3 The Full Structure
+### 2.3 A ratio of specified clocks, and the picture it invited
 
-Two independent axes of time dilation:
+For two explicitly specified finite crossing books one may compare their
+numbers as t_A/t_B=(K_A/K_B)(γ_B/γ_A). That algebra does not identify either
+gamma with a gravitational field or either K with a physical observer.
 
-1. **Gravitational dilation**: γ scales t_cross. Known from GR.
-   All observers agree on this scaling. [FALLEN]
+<!-- F14-INTERPRETIVE -->
 
-2. **Observer dilation**: Different C metrics see different K values.
-   NEW from CΨ. The scaling is state-dependent.
+**Interpretive invitation — not a result:** The two factors invite a picture
+of “observer” and “gravitational” dilation. It can remain a question about
+how different readouts tell different stories. No spacetime or experienced-time
+law follows from the fixed-book factorization.
 
-These multiply:
-
-    t_A / t_B = [K(obs_A, state) / K(obs_B, state)] × [γ_B / γ_A]
+<!-- F14-CURRENT -->
 
 ---
 
-## 3. Discovery 2: The Interval Shift Has No Threshold
+## 3. Discovery 2: No Threshold Resolved on the Sampled J Grid
 
 Setup: |++⟩ product state, local dephasing γ = 0.05. B measures
 at t_B = 1.0. A observes local CΨ crossing time. Sweep J.
@@ -166,8 +184,8 @@ at t_B = 1.0. A observes local CΨ crossing time. Sweep J.
 | 0.500 | 8.5837            | 1.7790              | -6.805   |
 | 1.000 | 8.5837            | 1.3990              | -7.185   |
 
-**There is no threshold.** Any J > 0 produces a measurable interval
-shift. The relationship is continuous. B's measurement propagates
+**Finite-range observation:** No threshold was seen in the sampled positive-J range;
+detectability requires a specified acquisition/error model. B's measurement propagates
 through the Hamiltonian coupling and shifts A's local crossing time.
 
 Two notes on the columns. The silent crossing time is not a measurement:
@@ -204,6 +222,11 @@ CΨ_local starts at 1.0 and decays. A has a ticking clock.
 
 ---
 
+<!-- F14-HISTORICAL -->
+
+**Historical reading:** This retired gravitational argument is retained as a
+record, not as a physical coupling model established by the gamma sweep.
+
 ## 4. The Gravitational Bridge Hypothesis [FALLEN]
 
 ### 4.1 The Argument
@@ -216,8 +239,8 @@ The gravitational coupling between two massive qubits: [FALLEN]
 For NV centers (m ~ 10⁻²⁶ kg) at D = 1 m: J_grav ~ 10⁻²⁹.
 For NV centers at D = 1 mm: J_grav ~ 10⁻²⁶.
 
-This is absurdly small. But the interval shift has no threshold.
-Any J > 0 produces a shift proportional to J.
+This is far outside the sampled coupling range. Extrapolating the interval
+shift to it does not establish detectability or proportionality for every J.
 
 ### 4.2 The Problem
 
@@ -259,18 +282,27 @@ CΨ landscape where intervals are correlated."
 
 ---
 
-## 5. What We Know vs What We Speculate
+<!-- F14-CURRENT -->
+
+## 5. What the specified calculations establish
 
 ### Tier 2 (Computed, Verified)
 
-1. t_cross = K(Observer, State) / γ(Gravity). Factorization confirmed.
-2. K is γ-invariant, exactly: K_conc = ln(4/3)/8 with no γ in it.
-3. K is state-dependent: K_conc(α) = ln(4 sin²(2α)/3)/8, closed form.
-4. Interval shift Δt is continuous in J, no threshold.
+1. For the fixed concurrence book on the Hamiltonian-dead alpha family,
+   t_cross=K_conc(α)/γ where a positive downward crossing exists.
+2. Bell+ gives K_conc=ln(4/3)/8 exactly under equal local Z-dephasing.
+3. K_conc(α)=ln(4 sin²(2α)/3)/8 varies with the preparation.
+4. No threshold was seen in the sampled positive-J range; this is not an all-J theorem.
 5. Product states work (local coherence). Bell+ does not (no local clock).
-6. States with α < 30° never cross; no observer time exists.
+6. States with α < 30° never cross this readout threshold; α=30° is
+   initial equality. Neither statement decides physical observer time.
 
-### Tier 3 (Hypothesis, Physically Grounded)
+<!-- F14-HISTORICAL -->
+
+**Historical reading:** The following proposed gravity and clock connections
+are not established by the fixed-book calculation.
+
+### The retired gravitational hypothesis
 
 7. Gravity provides J > 0 for all massive pairs. [FALLEN]
 8. Therefore a gravitational interval shift exists in principle. [FALLEN]
@@ -284,6 +316,8 @@ CΨ landscape where intervals are correlated."
 12. This connects to Wheeler-DeWitt (../hypotheses/TIME_AS_CROSSING_RATE.md §3). [FALLEN]
 
 ---
+
+<!-- F14-CURRENT -->
 
 ## 6. Open Questions
 
@@ -347,7 +381,7 @@ its eigenvalues are +J on the triplet and −3J on the singlet, and ρ(t)
 genuinely carries singlet weight, 0.205 of it by the crossing time. It
 is the COMMUTING that does the work, not a degeneracy.
 
-What is measured and stands: Δt < 0 for every J > 0 (section 3), and
+What the finite run shows: Δt < 0 for every tested J > 0 (section 3), and
 the acceleration against isolation on a state the Hamiltonian CAN reach
 (section 7.2, |+,0⟩, which is not swap-symmetric). What is not settled
 is the mechanism, and this document no longer offers one.
@@ -422,7 +456,7 @@ A reads:
 | 1.000 | 8.584  | 1.399  | -7.185 | -83.70% |
 
 The shift is always negative in every case tested; why is open (§7).
-At J = 0.01 the shift is 2.5%, easily detectable.
+At J = 0.01 the simulated shift is 2.5%; detectability is unassessed.
 
 ### 8.3 Multi-Pair Amplification
 
@@ -437,11 +471,14 @@ silent crossing time t₀ = 8.5837:
 - σ = 1.0 (11.7% of t₀): N_min ≈ 21 pairs
 - σ = 10.0 (117% of t₀): N_min ≈ 2100 pairs
 
-The channel works: 1 bit per ~21 pairs at about a tenth of t₀ in jitter.
+The toy independent-jitter model gives N_min≈21 for σ=1.0 and Δt=0.218.
+This is repeated-trajectory arithmetic, not a demonstrated bit channel or
+capacity: no measurement protocol or decision-error criterion is specified.
 The percentages matter here. An earlier version read σ = 1.0 as "100%
 jitter", which it is not, and called 21 pairs the worst case; jitter of
 a full t₀ needs about 1550.
-Rate scales as (J/γ)², quadratic in coupling strength.
+A rate or sensitivity scaling requires a specified acquisition protocol;
+this arithmetic alone does not establish it.
 
 ### 8.4 Not FTL
 
@@ -458,7 +495,7 @@ Mass-dependent velocity estimates:
 
 | System          | Mass       | v (m/s)    | Note           |
 |-----------------|------------|------------|----------------|
-| NV center       | 10⁻²⁶ kg  | ~10⁻²⁹    | Unmeasurable    |
+| NV center       | 10⁻²⁶ kg  | ~10⁻²⁹    | Unassessed     |
 | Optomechanical  | 10⁻¹⁵ kg  | ~10⁻⁷     | Extremely slow  |
 | Dust grain      | 10⁻⁹ kg   | ~10⁵      | Subluminal      |
 | Microgram       | 10⁻⁶ kg   | ~10¹¹     | **Exceeds c**   |
@@ -471,20 +508,12 @@ scale. **Open question**: needs careful analysis.
 
 ### 8.5 What CΨ Adds
 
-The channel itself is ordinary physics: coupled systems exchanging
-information through dynamics. What CΨ adds is the **readout
-mechanism**.
-
-A single-shot qubit measurement gives a binary outcome with
-quantum projection noise. The crossing time is a continuous,
-accumulated observable that integrates over the entire decoherence
-trajectory. It's a stethoscope for weak quantum couplings:
-it makes signals readable that no single measurement could resolve.
-
-The crossing time is also self-calibrating: A knows K and γ_A,
-so A knows t₀ without needing B's help. The deviation from t₀
-IS the signal.
-
+The model contains ordinary coupled dynamics. A crossing time is a
+trajectory-derived readout that must be estimated from repeated preparations
+or an explicitly modeled continuous measurement. The jitter arithmetic is a
+hypothetical sensitivity comparison, not evidence of an advantage over
+standard observables. A baseline needs the stated preparation, channel and
+calibration; F14 does not self-calibrate an arbitrary coupled trajectory.
 ---
 
 ## 9. Honest Assessment: What We Actually Gain
@@ -499,15 +528,15 @@ the same coupling.
 
 ### 9.2 What This IS
 
-**A detector for extremely weak couplings.** The CΨ crossing time
-integrates over the full decoherence trajectory. Where a single-shot
-measurement drowns in projection noise, the crossing time accumulates
-the effect. At J/γ = 0.02: 10% shift. This is a lock-in amplifier (a device that extracts a weak periodic signal from overwhelming noise by correlating with a known reference)
-for quantum couplings.
+**A candidate trajectory readout for weak coupling.** At J/γ=0.02,
+the retained table reports a −0.03% shift, not a ten-percent effect.
+The finite shifts motivate a specified acquisition and decision model;
+they do not establish detector sensitivity, a channel capacity or an
+advantage for a gravitational-entanglement experiment.
+<!-- F14-HISTORICAL -->
 
-Application: The BMV experiment (Bose-Marletto-Vedral, a proposed tabletop test where two masses in superposition would become entangled only if gravity is quantum) aims to test
-whether gravity generates entanglement. CΨ crossing times could
-provide a more sensitive readout than standard entanglement witnesses.
+**Historical reading:** The following two-axis picture is not a consequence
+of F14's fixed-book scaling.
 
 **Two-axis time dilation.** t = K(Observer, State) / γ(Gravity). [FALLEN]
 GR knows one axis. CΨ knows two. The K-ratio is state-dependent:
@@ -515,22 +544,23 @@ the quantum state bends the observer-dilation geometry. If the
 K-matrix has a deeper geometric structure, this connects quantum
 mechanics to gravity in a new way. [FALLEN]
 
+<!-- F14-CURRENT -->
+
 **The measurement-induced shift.** It is not "entanglement protects":
 on a state the Hamiltonian can reach, coupling accelerates local decay
 against isolation (§7.2). The shift itself is quantifiable via the
-CΨ crossing time and has no threshold in J. Its direction is not
+CΨ crossing time in the finite positive-J scan. Its direction is not
 explained here; the reservoir account that once stood in this slot is
 struck (§7.1). Relevant for understanding decoherence dynamics in
 coupled quantum systems.
 
 ### 9.3 The Bridge Is Dead, Long Live the Detector
 
-The original bridge (FTL communication) stays dead. [FALLEN] What survives
-is CΨ as a measurement instrument for physics that standard
-observables cannot resolve. The crossing time is self-calibrating
-(A knows K and γ_A), continuous, and accumulated. It makes weak
-signals readable.
-
+The channel-free bridge stays closed. What remains is a proposed
+repeated-trajectory readout with an assumed jitter model. No advantage over
+standard observables or self-calibrating detector has been established.
+A useful next test fixes acquisition resources and a decision-error target
+before comparing readouts.
 ---
 
 ## 10. Reproduction

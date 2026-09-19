@@ -1,47 +1,51 @@
+QUARTER-CURRENT
+Current reading: reduced-state equality carries no-signalling; the scalar bin is separate.
+
 ======================================================================
-No-Signalling Boundary: CΨ Regime Change
+No-signalling and a separate scalar quarter-band readout
 ======================================================================
 
-Test 1: Bell+ pair, B measures Z (averaged over outcomes)
+Test 1: Bell+ pair, averaged local Z measurement channel on B
 ----------------------------------------------------------------------
-  ||Δρ_A|| = 0.0000000000
+  ||delta rho_A|| = 0.0000000000
 
-              Quantity      Before       After   Changed?   A sees?
-  --------------------------------------------------------------
-                ⟨σx⟩_A       0.000       0.000         NO         -
-                ⟨σy⟩_A       0.000       0.000         NO         -
-                ⟨σz⟩_A       0.000       0.000         NO         -
-         Purity(rho_A)       0.500       0.500         NO         -
-              S(rho_A)       1.000       1.000         NO         -
-     Ψ (max eig rho_A)       0.500       0.500         NO         -
-       C = Tr(rho_AB²)       1.000       0.500        YES        NO
-                    CΨ       0.500       0.250        YES        NO
-                Regime     quantum    boundary        YES        NO
+              Quantity      Before       After   Changed?
+  -------------------------------------------------------
+           <sigma_x>_A       0.000       0.000         NO
+           <sigma_y>_A       0.000       0.000         NO
+           <sigma_z>_A       0.000       0.000         NO
+         Purity(rho_A)       0.500       0.500         NO
+              S(rho_A)       1.000       1.000         NO
+        max eig(rho_A)       0.500       0.500         NO
+          Tr(rho_AB^2)       1.000       0.500        YES
+        scalar readout       0.500       0.250        YES
+          quarter band   above 1/4  equal to 1/4        YES
 
-PASS: No-signalling holds exactly. rho_A unchanged.
-  CΨ: 0.500 → 0.250 (quantum → boundary)
+No-signalling verdict: rho_A is unchanged under the averaged local channel on B.
+Global purity: 1.000 -> 0.500
+Scalar readout: 0.500 -> 0.250 (above 1/4 -> equal to 1/4).
 
-Test 2: Bell+ under dephasing, B measures Z at t=2
+Test 2: Bell+ under local Z dephasing; apply the same channel at each sampled time
 ----------------------------------------------------------------------
-       t   CΨ(no meas)     CΨ(B→Z)      ||Δρ_A||   Regime(no)   Regime(Z)
-     0.0        0.5000      0.2500      0.00e+00      quantum    boundary
-     0.5        0.4547      0.2500      0.00e+00      quantum    boundary
-     1.0        0.4176      0.2500      0.00e+00      quantum    boundary
-     2.0        0.3623      0.2500      0.00e+00      quantum    boundary
-     5.0        0.2838      0.2500      0.00e+00      quantum    boundary
-    10.0        0.2546      0.2500      0.00e+00      quantum    boundary
+       t    scalar(no)  scalar(B->Z)   ||delta rho_A||        band(no)         band(Z)
+     0.0        0.5000        0.2500          0.00e+00       above 1/4    equal to 1/4
+     0.5        0.4547        0.2500          0.00e+00       above 1/4    equal to 1/4
+     1.0        0.4176        0.2500          0.00e+00       above 1/4    equal to 1/4
+     2.0        0.3623        0.2500          0.00e+00       above 1/4    equal to 1/4
+     5.0        0.2838        0.2500          0.00e+00       above 1/4    equal to 1/4
+    10.0        0.2546        0.2500          0.00e+00       above 1/4    equal to 1/4
 
-Test 3: CΨ trajectory — measurement at t=2, then continue evolving
+Test 3: finite scalar trajectories after applying the channel at t=2
 ----------------------------------------------------------------------
-       t   CΨ(no meas)    CΨ(meas@t=2)       ΔCΨ
-     2.0        0.3623          0.2500   -0.1123
-     2.5        0.3420          0.2500   -0.0920
-     3.0        0.3253          0.2500   -0.0753
-     4.0        0.3005          0.2500   -0.0505
-     7.0        0.2652          0.2500   -0.0152
+       t    scalar(no)   scalar(channel@2)    difference
+     2.0        0.3623              0.2500       -0.1123
+     2.5        0.3420              0.2500       -0.0920
+     3.0        0.3253              0.2500       -0.0753
+     4.0        0.3005              0.2500       -0.0505
+     7.0        0.2652              0.2500       -0.0152
 
 ======================================================================
-CΨ sees the regime change (0.500 → 0.250). A cannot see it.
-C drops (1.0 → 0.5). Ψ stays (0.5 → 0.5). rho_A unchanged.
-Dynamic bridge eliminated: B cannot send new information to A.
-======================================================================
+The exact reduced-state equality carries the no-signalling statement.
+The scalar quarter-band change is not a physical boundary.
+Completed: deterministic rerun
+Results: simulations/results/test2_no_signalling.txt

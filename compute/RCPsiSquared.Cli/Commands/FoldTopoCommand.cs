@@ -23,16 +23,10 @@ namespace RCPsiSquared.Cli.Commands;
 /// that forces it depends on the bra weight, not the graph. The on-fold count differs by topology (chain 8,
 /// star 24, ring 20: same spine, different wallpaper; the star's all-on-fold flatness is striking, unverified).</para>
 ///
-/// <para>On the FULL (unsymmetrised) block the two-sided gate gives antiU ≈ linear ≈ 0 — NOT a gate defect, but
-/// the already-solved "both-sides memory" met from the spectral/topology side. The full block carries BOTH
-/// phase-sides (+0/−0); the operation that distinguishes the antiunitary fold (λ↦−λ̄−2σ) from the linear one
-/// (λ↦−λ−2σ) is conjugation i↦−i, which is the third 90° step of the Z₄ memory loop (i³=−i, "mirror return on
-/// the other side"; NinetyDegreeMirrorMemoryClaim + Pi2I4MemoryLoopClaim). With both sides present that memory
-/// has nothing to distinguish, so the angle collapses (reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) — exactly
-/// the M=0-from-both-sides / minus-zero-plus-zero of reflections/ON_BOTH_SIDES_OF_THE_MIRROR.md (the
-/// antiunitary-vs-linear legs are docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md). The symmetrised ONE-side block
-/// (foldlift) keeps the memory (linear ≠ 0). So foldtopo re-enters an already-furnished room (the both-sides
-/// Z₄ memory) through the topology door: the same object, a different wall.</para>
+/// <para>On the FULL (unsymmetrised) block the two-sided gate gives antiU ≈ linear ≈ 0.  This finite output says
+/// that both tested spectral transforms close on that full block.  It does not derive an angle-collapse,
+/// superposition/Born mechanism, quarter transition, or typed Z₄ inheritance.  The symmetrised one-side
+/// <c>foldlift</c> block is a different object and keeps a nonzero linear residual.</para>
 ///
 /// usage: rcpsi foldtopo [--nmax 6] [--q 2] [--tol 1e-6]</summary>
 public static class FoldTopoCommand

@@ -40,11 +40,11 @@ public class CalibrationHistoryTests
     }
 
     [Fact]
-    public void CalibrationDay_DerivedRegime_AgreesWithQubitRegime()
+    public void CalibrationDay_DerivedBand_AgreesWithQubitRegime()
     {
         var day = new CalibrationDay("2026-02-04", T1Us: 100, T2Us: 40);
         Assert.Equal(QubitRegime.RParam(100, 40), day.RParam, precision: 6);
-        Assert.Equal(QubitRegime.Classify(100, 40), day.Regime);
+        Assert.Equal(QubitRegime.Classify(100, 40), day.RStarBand);
     }
 
     [Fact]

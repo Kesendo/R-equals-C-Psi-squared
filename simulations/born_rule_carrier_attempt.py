@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
-"""Attempt: generalize R_i = C_i · Ψ_i² with C_i as per-outcome Carrier-extraction signature.
-
-Hypothesis (Februar-style, no certainty):
-  C_i - 1 = (per-outcome γ_eff,i) / γ₀ · (some basis-alignment factor)
-
-If true, the per-outcome Born deviations encode basis-alignment-dependent γ_eff,
-the same way PTF closure violations encode per-site γ_eff. Each outcome i is a
-Carrier-extraction port at basis-state-level rather than chain-site-level.
+"""Finite sensitivity diagnostic for one named N=4 ring and pair readout.
 
 Test: reproduce BORN_RULE_MIRROR's setup (|0+0+⟩ N=4 Heisenberg ring under
 Z-dephasing), vary γ ∈ {0.01, 0.05, 0.1, 0.2}, compute:
-  Ψ_i  = ⟨i|ψ_unitary(t)⟩    (Schrödinger amplitude — Hamiltonian alone)
-  P_i  = ⟨i|ρ_lindblad(t)|i⟩  (full Lindblad probability)
-  C_i  = P_i / |Ψ_i|²
+  P_i^u = pair-reduced unitary population ⟨i|ρ_pair,unitary(t)|i⟩
+  R_i   = pair-reduced open-system population ⟨i|ρ_pair,open(t)|i⟩
+  ratio_i = R_i/P_i^u
 
-Look for scaling: (C_i - 1) ∝ γ?
+The selected t=0.286 and finite γ grid provide a local rescaling diagnostic,
+not a universal carrier and not an inversion for an effective dephasing rate.
 """
 from __future__ import annotations
 
@@ -23,12 +17,6 @@ from pathlib import Path
 
 import numpy as np
 from scipy.linalg import expm
-
-if sys.platform == "win32":
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
 
 SCRIPT_DIR = Path(__file__).parent
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -79,6 +67,12 @@ def reduced_density(rho, N, keep):
 
 
 def main():
+    if sys.platform == "win32":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
     N = 4
     J = 1.0
     # |0+0+⟩ = |0⟩|+⟩|0⟩|+⟩
@@ -88,17 +82,17 @@ def main():
     rho_0 = np.outer(psi_0, psi_0.conj())
 
     H = heisenberg_ring(N, J)
-    t_cross = 0.286   # from BORN_RULE_MIRROR
+    t_cross = 0.286   # finite named sample from BORN_RULE_MIRROR
 
     # Unitary evolution (Hamiltonian only): get |ψ(t)⟩ then pair-reduce
     U = expm(-1j * H * t_cross)
     psi_t = U @ psi_0
     rho_unitary = np.outer(psi_t, psi_t.conj())
     rho_pair_unitary = reduced_density(rho_unitary, N, keep=[0, 2])
-    P_unitary = np.real(np.diag(rho_pair_unitary))   # |Ψ_i|² approximation (pair-reduced)
+    P_unitary = np.real(np.diag(rho_pair_unitary))   # pair-reduced unitary probabilities
 
-    print(f"Born rule generalization attempt — |0+0+⟩ N=4 Heisenberg ring, pair (0,2)")
-    print(f"  t_cross = {t_cross}  (BORN_RULE_MIRROR.md value)")
+    print(f"Finite sensitivity diagnostic — |0+0+⟩ N=4 Heisenberg ring, pair (0,2)")
+    print(f"  t={t_cross:.3f} is one finite named sample, not a canonical crossing")
     print()
     print(f"Unitary (Hamiltonian only) pair-(0,2) diagonal at t_cross:")
     labels = ['|00⟩', '|01⟩', '|10⟩', '|11⟩']
@@ -117,29 +111,30 @@ def main():
         P_lind = np.real(np.diag(rho_pair_lind))
         results[gamma] = P_lind
 
-    # Compute C_i = P_lindblad / |Ψ_i|² for each γ, and the deviation per outcome
-    print(f"Per-outcome C_i = P_lindblad(i) / P_unitary(i) at multiple γ:")
+    # Compare two pair-reduced population reads.
+    print("P_i^u = pair-reduced unitary population; R_i is its open-system counterpart")
+    print("Per-outcome ratio R_i/P_i^u at multiple γ:")
     print(f"{'γ':>8s}  " + "  ".join(f"{label:>18s}" for label in labels))
     print("-" * 100)
     for gamma in gammas:
         P_lind = results[gamma]
-        C_values = []
+        ratios = []
         for p_lind, p_u in zip(P_lind, P_unitary):
             if p_u < 1e-10:
-                C_values.append(None)
+                ratios.append(None)
             else:
-                C_values.append(p_lind / p_u)
+                ratios.append(p_lind / p_u)
         row = f"{gamma:>8.3f}  "
-        for label, c in zip(labels, C_values):
-            if c is None:
-                row += f"{'N/A (Ψ²=0)':>18s}  "
+        for label, ratio in zip(labels, ratios):
+            if ratio is None:
+                row += f"{'N/A (P_i^u=0)':>18s}  "
             else:
-                row += f"{c:>10.5f} (Δ={(c-1)*100:>+5.2f}%) "
+                row += f"{ratio:>10.5f} (Δ={(ratio-1)*100:>+5.2f}%) "
         print(row)
     print()
 
-    # Linearity check: does (C_i - 1) scale linearly with γ?
-    print(f"Linearity check: (C_i - 1) / γ per outcome (should be γ-independent if linear):")
+    # Linearity check for this finite population ratio.
+    print("Linearity check: (R_i/P_i^u - 1) / γ per outcome on this grid:")
     print(f"{'γ':>8s}  " + "  ".join(f"{label:>14s}" for label in labels))
     print("-" * 90)
     for gamma in gammas:
@@ -155,16 +150,14 @@ def main():
     print()
 
     print("Reading guide:")
-    print("  If (C_i - 1)/γ is γ-INDEPENDENT (same number across rows), the per-outcome")
-    print("  Born deviation scales linearly with γ. That's the Carrier-extraction signature:")
-    print("  each outcome i is a calibration port, with slope = γ_eff,i / γ₀.")
+    print("  Approximate γ-independence of (R_i/P_i^u - 1)/γ on this finite grid records")
+    print("  local first-order sensitivity for this setup; it is not a universal carrier")
+    print("  and does not turn an outcome into a calibrated γ_eff port.")
     print()
-    print("  If (C_i - 1)/γ DRIFTS with γ, the relation is non-linear and the generalization")
-    print("  R_i = (1 + slope_i · γ) · Ψ_i² is only valid in a perturbative window.")
+    print("  If that ratio slope drifts with γ, a first-order interpolation is only local.")
     print()
-    print("  If the slopes are basis-symmetric or basis-correlated (e.g. |00⟩ and |11⟩ get")
-    print("  opposite signs but equal magnitudes), the F71-decomposition reading (today's")
-    print("  unified formula) applies at the BORN-RULE level too.")
+    print("  Any symmetry among the four displayed slopes is a property of this named")
+    print("  state, ring, pair, time, and finite γ sweep; no cross-model generalization follows.")
 
 
 if __name__ == "__main__":

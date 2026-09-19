@@ -1,4 +1,9 @@
+<!-- QUARTER-CURRENT -->
 # Documentation: The R = CΨ² Framework
+
+Current reading: these documents separate the exact palindromic-spectrum
+theorem and algebraic quarter from named finite trajectories, measurements,
+and interpretation.  Each quarter claim carries its own local scope.
 
 <!-- Keywords: open quantum system palindromic spectrum, Liouvillian spectral symmetry,
 CΨ quarter boundary proof, dephasing noise information channel, quantum decoherence
@@ -33,7 +38,7 @@ Three entry points for new readers:
 |----------|-----------|
 | The core theorem | [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) - Π operator, XY-weight grading, verified N=2 through N=8 |
 | The full mathematics | [Complete Mathematical Documentation](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) - Master index of the founding core (through March 2026); F-numbered results live in the registry below |
-| All analytical formulas | [Analytical Formulas](ANALYTICAL_FORMULAS.md) - 160 F-numbered results that replace matrix computations. Check here before building a Liouvillian |
+| All analytical formulas | [Analytical Formulas](ANALYTICAL_FORMULAS.md) - the living F-numbered result registry. Check here before building a Liouvillian |
 | The sacrifice-zone formula | [Resonant Return](../experiments/RESONANT_RETURN.md) - 139-360x via spatial noise optimization (transport metric, ε→0 ideal; ~2-3x hardware) |
 
 ---
@@ -42,9 +47,9 @@ Three entry points for new readers:
 
 ```
 docs/
-  proofs/        ← Formal proofs (7 documents)
+  proofs/        ← Formal proofs and proof indexes
   neural/        ← Conditional algebra, constructed tests, biological support null
-  historical/    ← Legacy documents, superseded or resolved (10 documents)
+  historical/    ← Legacy documents, superseded or resolved
   (this folder)  ← Synthesis, reference, and navigation
 ```
 
@@ -58,10 +63,10 @@ independently reproducible.
 | Document | What it proves |
 |----------|---------------|
 | [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic on arbitrary graphs for the proved Hamiltonian families under local Z-dephasing. Π swaps XY-weight k ↔ N−k. 87,376 eigenvalues, zero exceptions. |
-| [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md) | CΨ = 1/4 is the unique bifurcation boundary. α=2 the only Rényi order with state-independent threshold. |
-| [CΨ Monotonicity](proofs/PROOF_MONOTONICITY_CPSI.md) | dCΨ/dt < 0 for Bell+ under all local Markovian channels. General Envelope Theorem. |
-| [Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | Every pair with CΨ > 1/4 eventually crosses below under physical, computational-basis-aligned noise (T1/T2/depolarizing). The general primitive-CPTP version is false. |
-| [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer proof architecture from single qubit to arbitrary dimension. Layer 2 holds for physical noise (general-CPTP version false); other layers closed. |
+| [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md) | Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. For its α=2 member, CΨ = 1/4 is the discriminant-zero coordinate. |
+| [CΨ Dynamics Boundary](proofs/PROOF_MONOTONICITY_CPSI.md) | Named Bell+ Z/Pauli/amplitude-damping formulas survive. The universal pointwise/absorber/local-control package is false; autonomous N=2 successive peaks remain open; the live object is a finite rise atlas. |
+| [Conditional Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | `ρ(t)→ρ*` with `CΨ(ρ*)<1/4` implies eventual stay-below. Named basis-aligned T1/T2/depolarizing models still require convergence and target checks; a primitive-CPTP target has CΨ=0.2935. |
+| [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer architecture with algebraic, conditional, finite, and open layers kept distinct. |
 | [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | With non-negative rates, trace(L) = 0 if and only if the modeled system is closed, so a palindrome centred away from zero certifies an open subsystem. The microscopic bath origin and system/environment boundary remain open. |
 | [Complete Math Doc](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master index of the founding core: algebra, palindrome, boundary, incompleteness, γ channel, engineering, constants. |
 
@@ -77,7 +82,7 @@ These connect the mathematical results into a coherent picture.
 | [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) | d²−2d=0: only d=2 permits the full palindromic linear similarity. Five computational tests, 0/236 qutrit dissipators work. This is not by itself physical time reversal. |
 | [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Open-system coupling, mediator topology, and measured properties of the dephasing profile; microscopic bath origin remains open. |
 | [The CΨ Lens](THE_CPSI_LENS.md) | What CΨ shows, what it does not, what survives critical examination. |
-| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle: qubit (2/4), carbon (4/8). V-Effect as hypothesized transition mechanism. |
+| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as an organizing comparison: qubit (2/4), carbon (4/8). Its V-Effect passage separates the finite census from the explicitly interpretive transition image. |
 | [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | Three proposed readings of time (parameter, oscillation, experience). The simulations establish damping and recurrence properties, not a necessary-and-sufficient theory of experience. |
 | [On Five Pages That Never Met](../reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md) | The standing wave, the reborn dephasing front, the two indices, the contract and the residue, and why a hierarchy needs unequal couplings: five things this repository already held, in pages that never linked to each other. The hub that connects them. |
 | [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md) | γ₀ is the unit, so naming a Q needs a chosen DOF, coupling and channel. Provenance audit of every substrate Q; ordinary liquid water has no repository Q or lower bound. An illustrative selected-coordinate proxy ceiling, `Q ≲ 4.6`, assumes the ice-derived `J = 0.5 meV` convention and uses the 1–3 ps H-bond lifetime as an upper-bound proxy for the unavailable selected-coordinate `T₂` in `Q = 2JT₂/ℏ`. |
@@ -144,7 +149,7 @@ BLACK_WHITE_HOLES_BIGBANG, PREDICTIONS, SELF_CONSISTENCY_SCHWARZSCHILD (disprove
 
 | Resource | Where |
 |----------|-------|
-| Experiments (61 documents) | [experiments/](../experiments/README.md) |
+| Experiments | [experiments/](../experiments/README.md) |
 | Hydrogen bond as qubit | [docs/water/HYDROGEN_BOND_QUBIT.md](water/HYDROGEN_BOND_QUBIT.md) |
 | Conditional neural algebra and its tests | [neural/](neural/README.md) |
 | Open hypotheses | [hypotheses/](../hypotheses/README.md) |

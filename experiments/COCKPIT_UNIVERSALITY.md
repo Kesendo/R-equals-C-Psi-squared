@@ -6,44 +6,47 @@
 
 ## What this document is about
 
-This document shows that monitoring decoherence does not require full
-quantum state tomography (which scales as 4^N measurements). Instead,
-3 observables (Purity, Concurrence, and coherence magnitude) capture
-88-96% of the trajectory variance across the tested range (N=2-5, 9
-topologies, 2 noise types); the PC1 proxy (Concurrence) is not yet
-hardware-validated. PCA automatically selects which observable
-matters most. On IBM Torino hardware, the framework achieves sub-1%
-accuracy for crossing-time predictions on well-characterized qubits.
+This document records a PCA of selected simulated feature dashboards.
+The N=3-5 rows span 88-96% variance in the first three principal components;
+the N=2 row is 100%. The broader table contains nine topology-size
+configurations under two noise types. Purity, Concurrence, and coherence
+magnitude are computed features in those simulations, not three established
+hardware settings; this PCA does not establish measurement cost or replace
+tomography. The PC1 proxy (Concurrence) is not yet hardware-validated. The
+separate IBM Torino crossing-time comparison is reported in its own scope.
 
 ---
 
 ## Abstract
 
-Tracking the decoherence of a quantum system normally requires full
-state tomography, which scales as 4^N measurement bases for N qubits.
-We show this is unnecessary: for Heisenberg spin chains under local
-dephasing, 3 observables capture 88-96% of the decoherence trajectory
-variance across system sizes N=2-5, 9 topologies, and 2 noise types.
-The three observables are Purity (trace of ρ squared), Concurrence
-(entanglement), and normalized L₁ coherence (off-diagonal magnitude).
-Which observable dominates depends on the architecture: PCA
-automatically selects it. On IBM Torino hardware, the framework
-achieves sub-1% crossing-time accuracy on well-characterized qubits.
-The practical cost is 3 measurements per qubit pair instead of 4^N
-tomographic bases.
+For the tested Heisenberg spin-chain simulations under local dephasing, the
+N=3-5 rows span 88-96% of the variance in the first three principal components
+of a selected feature dashboard; the N=2 row is 100%. The broader comparison
+contains nine topology-size configurations under two noise types. The dashboard
+includes Purity (trace of ρ squared), Concurrence (entanglement), and normalized
+L₁ coherence (off-diagonal magnitude). Which computed feature best correlates
+with PC1 depends on the architecture. This is a dimensionality description of
+simulated features, not a hardware measurement protocol; measurement cost
+remains unestablished.
 
 ## 1. Background
 
 ### The problem
 
 A pair of qubits in a quantum computer is described by a 4x4 density
-matrix ρ with 15 independent real parameters. As the system
-interacts with its environment (decoherence), these parameters evolve
-along a trajectory from the initial state toward the maximally mixed
-state. Monitoring this trajectory is essential for error detection,
-but measuring all 15 parameters requires 9 measurement bases per
-pair, repeated many times for statistics. For N qubits, the cost
-grows as 4^N. This is impractical for real-time monitoring.
+matrix ρ with 15 independent real parameters. Under the number-conserving
+Heisenberg Hamiltonian and local Z dephasing used here,
+the full state does not generally approach the globally maximally mixed state: the conserved
+excitation-sector weights for the N=5 initial state are
+`[1/16, 3/16, 1/4, 1/4, 3/16, 1/16]`. Complete mixing within those fixed
+sectors would give the displayed pair limit
+`diag(11/40, 9/40, 9/40, 11/40)`, with purity `101/400`, rather than `I/4`.
+The simulated reduced state therefore follows a model- and initial-state-
+dependent trajectory. Reconstructing all 15 parameters requires multiple measurement
+settings per pair, repeated many times for statistics. For N qubits, full
+reconstruction has exponential cost, with the exact setting count depending
+on the tomography protocol. The PCA below does not convert its computed
+features into a smaller certified setting count.
 
 ### Key definitions
 
@@ -58,15 +61,16 @@ two qubits.
 all off-diagonal elements of ρ, and d is the Hilbert space dimension.
 Measures how much quantum coherence (superposition) remains.
 
-**CΨ** = Purity x Ψ-norm. A combined measure of quantum strength
-that weights coherence by state purity. When CΨ > ¼, the system
-has no classical attractor (the fixed-point equation R = C*Psi^2 has
-complex roots). When CΨ < ¼, classical attractors exist.
+**CΨ** = Purity x Ψ-norm. It is the selected product coordinate used here.
+For the separate scalar recursion `R = C(Ψ+R)^2`, `CΨ = ¼` is its algebraic
+discriminant-zero point. That coordinate is not a physical quantum/classical boundary
+for the simulated density-matrix dynamics, and the recursion does
+not supply attractors of the Lindblad evolution.
 
 **θ** = arctan(sqrt(4*CΨ - 1)). Defined only when CΨ > ¼.
-Measures the angular distance from the quantum-classical boundary at
-CΨ = ¼. θ = 0 at the boundary, θ = 60 deg for a pure
-coherent product state.
+This is a nonlinear remapping of the algebraic discriminant coordinate,
+not an angular distance to a physical quantum/classical boundary. It is
+zero at `CΨ = ¼` and 60 deg for a pure coherent product state.
 
 **Sacrifice zone.** In a qubit chain, deliberately concentrating noise
 on boundary qubits ("sacrificing" them) to protect center qubits.
@@ -77,10 +81,12 @@ under dephasing, it is a 4^N x 4^N matrix whose eigenvalues give
 the decay rates and whose eigenvectors give the decay modes.
 
 **Bures distance.** A metric on the space of density matrices that
-quantifies how distinguishable two quantum states are. From it, one
-derives the Bures velocity (how fast the state changes) and the
-Gaussian curvature (how curved the trajectory is near the CΨ = ¼
-boundary).
+quantifies how distinguishable two quantum states are. The N=5 producer
+uses adjacent Bures distances to estimate a one-dimensional Bures
+path-metric coefficient `g_path(CΨ)`. It then prints a coordinate-shape
+second derivative `S_CΨ = -(2g_path)^-1 d²log(g_path)/dCΨ²`. This finite
+path-coordinate proxy is branch-, coordinate-, and stencil-dependent; no
+two-dimensional metric or intrinsic/Gaussian curvature is computed.
 
 ### The question
 
@@ -116,17 +122,15 @@ The number of principal components needed for 95% explained variance
 
 ### Why the observed pair changes with N
 
-For N=2-3, pair (0,1) is analyzed: it starts as a Bell pair and its
-decoherence is directly driven by the environment. For N=4-5, pair
-(1,2) is analyzed instead: it starts unentangled and gains coherence
-through Hamiltonian transfer from the Bell pair, producing richer
-dynamics with oscillations and sector switches. The center pair is
-also the natural target for sacrifice-zone analysis (it is the pair
-being protected).
+For N=2-4, pair (0,1) is analyzed: it starts as a Bell pair. The finite scaling
+table uses pair (1,2) only at N=5; that pair starts unentangled and
+receives coherence through Hamiltonian evolution from the Bell pair. That
+changed focus pair confounds a direct size-only comparison. Pair (1,2) is also
+the target in the separate finite sacrifice-profile comparison.
 
 ## 3. Results
 
-### 3.1 Scaling: dimensionality grows, but information concentrates
+### 3.1 Scaling: four finite rows with a changed N=5 focus
 
 Heisenberg chain with coupling J=1.0, uniform Z-dephasing γ=0.05:
 
@@ -137,23 +141,20 @@ Heisenberg chain with coupling J=1.0, uniform Z-dephasing γ=0.05:
 | 4 | 4 | 4 | 62% | 94% | Purity (r=0.98) |
 | 5 | 5 | 5 | 46% | 88% | Purity (r=0.99) |
 
-**The 95% dimensionality grows as n95 ~ N.** Each additional
-environment qubit adds approximately one effective dimension to
-the pair's decoherence trajectory.
-
-**But the first 3 PCs always capture 88-96%.** The 4th, 5th, etc.
-components add diminishing returns (6%, 4% at N=5). This defines
-two practical regimes:
+These four displayed rows do not establish an n95 scaling law: the focus is
+pair (0,1) at N=2-4 but a different focus pair at N=5. The N=3-5 rows span
+88-96% in the first three PCs; the N=2 row is 100%. At N=5 the fourth and
+fifth components add 6% and 4% of this selected-dashboard variance.
 
 | Regime | PCs | Coverage | Cost | Use case |
 |---|---|---|---|---|
-| Monitoring | 3 | 88-96% | 3 measurements | Real-time oversight |
-| Full diagnostics | ~N | 95% | N measurements | Calibration, debugging |
+| Three-PC summary | 3 | 88-96% | Not established | Simulated dashboard |
+| 95% PCA summary | 1, 3, 4, 5 in the four rows | 95% | Not established | Simulated dashboard |
 
-### 3.2 Universality across topologies
+### 3.2 Finite topology-size configurations
 
-We tested 9 topologies at N=2-4 under both Z-dephasing and
-depolarizing noise (18 configurations total):
+We tested nine topology-size configurations at N=2-4 under both Z-dephasing
+and depolarizing noise (18 noise/configuration rows total):
 
 | Topology | N | n95 (Z-deph) | n95 (depol) | PC1 tracks |
 |---|---|---|---|---|
@@ -170,56 +171,56 @@ depolarizing noise (18 configurations total):
 **Dimensionality** is stable at 3-4 for fixed N, regardless of
 topology and noise type.
 
-**PC1 identity shifts** systematically: Concurrence dominates in
-sparse topologies (chains, stars at small N), Purity dominates in
-dense topologies (rings, complete graphs, chains at large N). In
-all cases, Concurrence and Purity are the top-2 loadings of PC1
-(loading difference < 0.02). PC1 always captures "overall quantum
-strength"; the question is which component decays fastest.
+The best-correlated feature label changes across these rows. This correlation
+label is not a stable physical identity and PCA is not a decay-rate ranking.
+The finite table records covariance in standardized simulated features.
 
-### 3.3 Self-calibrating compass
+### 3.3 PCA directions and candidate feature proxies
 
-The PCA automatically selects the fastest-decaying observable as
-PC1. No manual tuning is needed. The procedure:
+PCA finds covariance directions in the nine standardized simulated features.
+The subsequent correlation table names a candidate feature proxy for each PC;
+it does not select the fastest-decaying observable and does not identify a
+hardware monitor. Several input features themselves require reduced-state
+reconstruction, so the table does not define a low-cost measurement protocol.
 
-1. Run a decoherence trajectory on your hardware
-2. Extract the 9 features at each time step
-3. Apply PCA
-4. PC1 tells you what to monitor; its proxy observable (Purity or
-   Concurrence) is your primary diagnostic
+### 3.4 N=5: the largest row in this local pair scan
 
-### 3.4 N=5: the sweet spot
-
-N=5 is a natural testbed because it sits at the efficiency knee of
-the palindromic eigenvalue structure: each additional qubit beyond
-N=5 yields diminishing returns in spectral richness.
+N=5 is the largest system in the all-pairs table below. It is a useful
+testbed, but this finite cockpit calculation does not choose one preferred
+system size or license a trend outside the sampled rows.
 
 **All 10 qubit pairs at N=5 (Heisenberg chain):**
 
-| Pair | Distance | Max CΨ | Max θ | Max Concurrence | Entanglement death |
+| Pair | Distance | Max CΨ | Max θ | Max Concurrence | C > 0.01 threshold status |
 |---|---|---|---|---|---|
 | (0,1) | 1 (edge) | 0.429 | 40 deg | 1.000 | t = 1.28 |
 | (0,2) | 2 | 0.303 | 25 | 0.278 | t = 0.66 |
 | (0,3) | 3 | 0.287 | 21 | 0.022 | t = 0.54 |
-| (0,4) | 4 | 0.250 | 0 | 0.002 | alive |
+| (0,4) | 4 | 0.250 | 0 | 0.002 | never above 0.01 |
 | (1,2) | 1 (center) | 0.283 | 20 | 0.212 | t = 0.50 |
+| (1,3) | 2 | 0.260 | 11 | 0.000 | never above 0.01 |
+| (1,4) | 3 | 0.277 | 18 | 0.000 | never above 0.01 |
 | (2,3) | 1 (center) | 1.000 | 60 | 0.024 | t = 0.60 |
+| (2,4) | 2 | 1.000 | 60 | 0.040 | t = 1.66 |
 | (3,4) | 1 (edge) | 1.000 | 60 | 0.142 | t = 3.38 |
 
-Entanglement (Concurrence) falls exponentially with pair distance.
-The initial Bell pair (0,1) dies at t=1.28; the far edge (3,4)
-retains some entanglement until t=3.38.
+The ten displayed maxima are position-dependent and nonmonotone; no
+exponential distance fit was performed. “Never above 0.01” is distinct from
+remaining alive above the threshold at the end of the sampled trajectory.
 
 **Liouvillian spectrum.** Spectral gap: 2*γ = 0.100 (exact match
 to analytical prediction). 212 distinct decay rates. Fastest rate:
-0.500.
+0.500, matching the independent uniform-dephasing control
+`2*N*gamma = 0.500` for `X^⊗N`.
 
-**Bures curvature at the fold (CΨ = ¼).** K = -141 at N=5, vs
-K = -25 at N=2. The curvature grows with system size: the geometry
-of the quantum-classical boundary becomes sharper when the
-environment is larger.
+**Bures path-metric coefficient and coordinate-shape second derivative near
+the sampled CΨ = ¼ point.** The two displayed `S_CΨ` readings are finite
+path-coordinate proxies: -141 at N=5 and -25 at N=2, from sparse,
+nonmonotone sampled trajectories, not Gaussian or intrinsic curvature. They
+do not establish growth with system size, sharper boundary geometry, or
+state-space divergence.
 
-### 3.5 Sacrifice zone: θ is the most sensitive instrument
+### 3.5 Finite N=5 sensitivity comparison
 
 Three noise distributions, same total noise budget (sum of gammas
 = 0.25), N=5 chain. Center pair (1,2) response:
@@ -231,12 +232,12 @@ Three noise distributions, same total noise budget (sum of gammas
 | Max Concurrence | 0.212 | 0.251 | 1.18× |
 | CΨ at t=10 | 0.054 | 0.068 | 1.26× |
 
-**θ shows the largest effect.** The nonlinear mapping
+**θ has the largest displayed relative change among these finite N=5 rows.**
+The nonlinear mapping
 CΨ -> θ = arctan(sqrt(4*CΨ - 1)) amplifies small CΨ
-changes near the ¼ boundary. This critical amplification makes
-θ the optimal objective function for noise engineering: it is
-most sensitive precisely where it matters most (near the quantum-
-classical transition).
+changes near the ¼ boundary. That remapping explains the displayed
+sensitivity; this finite comparison does not establish θ as an optimal
+hardware objective or identify where noise engineering matters most.
 
 ### 3.6 Hardware validation
 
@@ -258,8 +259,8 @@ single-qubit tomography (Q52, 25 points), shadow measurements
 
 **Key findings:**
 
-- Q52 (good qubit, T2 = 298 us): CΨ = ¼ crossing measured at
-  115.0 us, predicted 114.7 us. **0.3% error.**
+- Q52 (good qubit, calibration-era run): Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The legacy 115.0-versus-114.7 comparison
+  recomputed the same hardware record; it was not an independent prediction.
 - Internal consistency: Ψ-norm vs off-diagonal magnitude r = 1.000, which
   is the identity Ψ = 2|ρ01| at d = 2 rather than a check; Bures velocity
   vs CΨ r = 0.954, which could have come out otherwise, though an
@@ -279,62 +280,64 @@ is arithmetic; and under dephasing the Bures velocity goes as |ρ01|, which
 makes its high correlation with CΨ close to forced. What that correlation
 tests is the exponential decay model, not the instruments'
 independence. The 3 remaining instruments
-(Concurrence, curvature, Petermann factor) require 2-qubit
+ (Concurrence, the path-coordinate proxy, Petermann factor) require 2-qubit
 tomography that does not yet exist in the dataset. The framework
 is not refuted; it is incompletely tested.
 
 ## 4. Implications
 
-### 4.1 A 3-observable cockpit for quantum hardware
+### 4.1 A three-PC summary of selected simulated features
 
-Across the tested Heisenberg chains (N=2-5) under Markovian dephasing,
-3 observables capture ~88% of the dynamics:
+Across N=3-5 under Markovian dephasing, the first three PCs capture 88-96%
+of the selected dashboard variance; the N=2 row is 100%. The PCs are linear
+combinations of standardized features. The named Purity, Concurrence, and
+Ψ-norm links below are candidate correlations, not selected hardware
+observables:
 
-1. **Purity or Concurrence** (whichever PCA selects as PC1):
-   the dominant decay direction.
+1. **Purity or Concurrence** (whichever correlates most with PC1):
+   a candidate feature proxy for that covariance direction.
 2. **Ψ-norm** (normalized off-diagonal coherence):
-   the rate of coherence loss.
+   a coherence-magnitude feature proxy, not a decay-rate estimate.
 3. **A Bell-sector indicator** (fidelity with a specific Bell state):
    the fine structure of the decay.
 
-Cost: 3 targeted measurements per pair, vs 4^N for full tomography.
-One calibration run per architecture determines which observables
-to track.
+These are computed features, and several require reduced-state reconstruction.
+The simulations do not establish a three-setting hardware protocol or its
+measurement cost.
 
-### 4.2 Two monitoring regimes
+### 4.2 Dashboard summaries, not monitoring regimes
 
-The 3-observable cockpit captures 88-96% (monitoring regime). Full
-95% coverage requires ~N observables (diagnostic regime). This
-naturally maps to engineering practice: use the cheap 3-observable
-cockpit for real-time oversight, switch to full diagnostics when
-something looks anomalous.
+The three-PC and 95%-variance summaries are not two established monitoring
+regimes. Whether either PCA summary yields a cheaper hardware-monitoring
+protocol remains open.
 
 ### 4.3 Noise engineering
 
-Edge sacrifice (concentrating noise on boundary qubits) improves
-center-pair coherence by up to 1.68× in θ. The critical
-amplification near CΨ = ¼ makes θ the optimal objective
-function: it is most sensitive where quantum coherence is most
-fragile.
+In the tested N=5 profiles, the edge-sacrifice row has a 1.68× larger computed
+maximum θ than the uniform row and a larger maximum center-pair CΨ. The profiles
+change several site rates together, so this finite comparison neither isolates
+a cause nor establishes θ as an optimal hardware objective.
 
 ## 5. Limitations and caveats
 
 1. **Concurrence is untested on hardware.** All existing tomographic
-   data is single-qubit. The most important instrument (PC1 proxy,
-   57% variance) has never been validated against hardware.
+   data is single-qubit. Its correlation with a simulated PC score has not
+   been validated as a hardware diagnostic.
 
-2. **Markovian noise only.** All results assume memoryless dephasing.
-   Real hardware exhibits 1/f noise, two-level-system defects, and
-   non-Markovian revivals (observed as excess late-time coherence
-   in the Q52 data).
+2. **Markovian simulation only.** The simulations here use memoryless
+   dephasing. Detuning is the preferred explanation for the phase component,
+   but the Q52 late-time excess mechanism remains unresolved absent a
+   Q52-specific fit/control. Only the universal-boundary/non-Markovian-witness
+   interpretation is closed; colored-noise and memory-kernel tests remain open.
 
-3. **N=5 is the largest system tested.** Extrapolating n95 ~ N to
-   N=100 is speculative. Dense topologies (rings, complete graphs)
-   may show slower dimensionality growth.
+3. **N=5 is the largest system tested.** The four rows do not establish
+   n95 ~ N because the focus changes at N=5. Scaling beyond this finite,
+   confounded comparison remains open.
 
-4. **Bures curvature is noisy.** The curvature formula involves
-   second derivatives of sparse data. Reliable curvature estimation
-   requires 50+ densely spaced time points.
+4. **The coordinate-shape second derivative is numerically fragile.** It
+   applies two derivatives to a sparse, nonmonotone path coordinate. Dense
+   sampling plus explicit monotone-branch handling would be needed even to
+   stabilize this coordinate-dependent proxy; it is not intrinsic curvature.
 
 5. **The old blanket Petermann null is refuted.** The early cockpit sample found K_P near 1,
    but pure Z-dephasing Liouvillians can be strongly non-normal: a simple N=5 mode has
@@ -349,21 +352,21 @@ fragile.
    it saturate for dense topologies? The C# engine (N=7 eigenvalues
    already computed) can test this.
 
-2. **Non-Markovian noise.** Does the 3-observable cockpit hold under
-   colored noise or 1/f spectra?
+2. **Non-Markovian noise.** Does the three-PC variance summary persist under
+   colored noise or 1/f spectra in the same simulated feature dashboard?
 
 3. **2-qubit hardware validation.** Measuring Concurrence on a qubit
    pair would validate the most important untested instrument.
 
-4. **Universality of edge sacrifice.** Does "sacrifice boundary
-   qubits + optimize θ" generalize beyond Heisenberg chains?
+4. **Edge-profile scope.** Does the finite edge-profile difference persist
+   beyond Heisenberg chains, and which objective would be appropriate?
 
 ## Appendix: Scripts and data
 
 | Script | Purpose |
 |---|---|
-| [`cockpit_n5.py`](../simulations/cockpit_n5.py) | N=5: PCA, all 10 pairs, sacrifice zone |
-| [`cockpit_universality.py`](../simulations/cockpit_universality.py) | 9 topologies x 2 noise types |
+| [`cockpit_n5.py`](../simulations/cockpit_n5.py) | N=5: PCA, all-pair threshold-status inventory, sacrifice profiles |
+| [`cockpit_universality.py`](../simulations/cockpit_universality.py) | Nine topology-size configurations x 2 noise types |
 | [`cockpit_navigation.py`](../simulations/cockpit_navigation.py) | 7 instruments on N=3 Star topology |
 | [`cockpit_validation.py`](../simulations/cockpit_validation.py) | Hardware validation (tomography + shadow) |
 | [`cockpit_ibm_hardware.py`](../simulations/cockpit_ibm_hardware.py) | IBM sacrifice zone + Q52/Q80 data |
@@ -371,10 +374,10 @@ fragile.
 
 | Related experiment | Key result used here |
 |---|---|
-| [Cockpit Scaling](COCKPIT_SCALING.md) | Extends this framework to N=7-11, tests n95 ~ N (April 7, 2026) |
+| [Cockpit Scaling](COCKPIT_SCALING.md) | Finite selected-feature PCA to N=7-11; no size law established |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | θ requires all 3 PCs (R^2 = 0.87) |
 | [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) | PCA on CΨ windows (original 3D finding) |
-| [Information Geometry](INFORMATION_GEOMETRY.md) | Bures metric g = 3.36 at fold, K = -25 |
+| [Information Geometry](INFORMATION_GEOMETRY.md) | Historical Bures-path coefficient and path-coordinate proxy; intrinsic-curvature repair is Task 13 |
 | [Boundary Navigation](BOUNDARY_NAVIGATION.md) | θ definition, CΨ = ¼ boundary |
 | [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) | Gain-loss example; not the only setting with strong non-normality |
-| [V-Effect Palindrome](V_EFFECT_PALINDROME.md) | N=5 as sweet spot, V(5) = 1.81 |
+| [V-Effect Palindrome](V_EFFECT_PALINDROME.md) | Finite V-Effect census; F6 Q-edge gain is a separate ratio |

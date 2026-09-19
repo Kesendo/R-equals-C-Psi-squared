@@ -1,6 +1,8 @@
-# Bridge Closure: Pre-Shared Entanglement Without a Channel Equals Shared Randomness
+# Bridge Closure: No Post-Separation Signal Through a Local Crossing Readout
 
-<!-- Keywords: bridge closure pre-shared entanglement shared randomness,
+<!-- CROSSING-CURRENT -->
+
+<!-- Keywords: bridge closure local readout no-signalling,
 no-signalling theorem J=0 no coupling, rho_A maximally mixed I/2 Bell+,
 CΨ fingerprint requires joint state rho_AB, dynamic bridge dead pre-encoded
 dead, J>0 local interaction not bridge, bridge protocol permanently closed,
@@ -21,23 +23,14 @@ closure -->
 
 ## Abstract
 
-The bridge protocol is permanently closed for J = 0 (zero coupling).
-After separation, A's measurement statistics P(a) = Tr[M_a·ρ_A] depend
-only on {ρ_A(0), E_A}, both available without any quantum resource. For
-Bell+ pairs, ρ_A = I/2 at all times regardless of B's actions (verified
-to machine precision across five time points and three B-actions). The
-CΨ fingerprints that distinguish different states require access to the
-joint state ρ_AB, which neither subsystem has after separation. A
-classical schedule ("pair 7 was prepared as |+0⟩") carries strictly more
-information than A's qubit. This is not a framework limitation but a
-consequence of the no-signalling theorem: any correlation achievable
-with shared entanglement alone (no classical channel) is also achievable
-with shared classical randomness alone. The dynamic bridge (B signals by
-choosing when to measure) and pre-encoded bridge (shared schedule with
-CΨ fingerprints) are both dead. What survives: ¼ boundary mathematics,
-observer-dependent crossing times, coherence density insights, and CΨ
-as a measurement tool in settings where A and B can compare results
-via a classical channel.
+For J=0, with no communication and a trace-preserving operation on B whose
+outcome is not supplied to A, A has the same reduced state and local
+statistics for every B choice. A may evolve under its own channel, but that
+evolution carries no message from B. In the independent Z-dephasing run
+below, Bell+ retains ρ_A=I/2 at five sampled times and for three B actions.
+A joint CΨ fingerprint is not a locally accessible detector at A.
+No advantage for the proposed pre-encoded crossing schedule was demonstrated.
+This does not equate all entangled correlations with shared classical randomness.
 
 ## What this document is about
 
@@ -59,8 +52,11 @@ when B measures, but A cannot see it. This left one open question:
 > Can pre-encoded CΨ fingerprints carry something that a classical
 > pre-shared key cannot?
 
-The answer is **no**. This document proves it and closes the bridge
-hypothesis permanently.
+No advantage was demonstrated for this finite pre-encoded crossing schedule.
+The proof here is the J=0 no-signalling statement about local marginals,
+not an equivalence of entangled correlations to shared classical randomness.
+A broader resource comparison needs an operational protocol and a specified
+readout; the local-marginal argument alone does not settle it.
 
 ---
 
@@ -74,8 +70,7 @@ After separation with zero coupling (J = 0):
 
 ρ_A(0) is determined at preparation. E_A is A's local environment.
 Both are available to A without any quantum resource. A classical
-schedule that says "pair 7 was prepared as |+0⟩" contains strictly
-MORE information than A's qubit, because the qubit loses B's part:
+preparation label distinguishes entries that have the same A marginal:
 
 | Preparation | ρ_A | A can distinguish? |
 |-------------|-----|-------------------|
@@ -85,13 +80,15 @@ MORE information than A's qubit, because the qubit loses B's part:
 | \|+−⟩ | \|+⟩⟨+\| | From \|++⟩ or \|+0⟩: NO |
 | \|00⟩ | \|0⟩⟨0\| | From Bell+: YES |
 
-A's qubit carries at most 1 bit (which rho_A was prepared).
-The schedule carries log₂(N_states) bits per pair.
-The qubit is strictly inferior to the schedule.
+No local test on A distinguishes preparations sharing the same marginal.
+A classical label can identify the chosen preparation in this finite list;
+no advantage was demonstrated for the proposed pre-encoded crossing schedule.
 
-For Bell+ pairs specifically: ρ_A = I/2 at all times. The qubit
-is maximally mixed noise. Zero bits. Forever. Under any local
-channel. Regardless of what B does, has done, or will do.
+For Bell+ under the independent Z-dephasing run below, ρ_A=I/2 at all
+times. A can evolve under a different local channel, but that evolution
+still carries no message from B. The no-signalling condition is a
+trace-preserving operation on B whose outcome is not supplied to A;
+it does not require every local channel on A to preserve I/2.
 
 ---
 
@@ -102,7 +99,10 @@ channel. Regardless of what B does, has done, or will do.
 Bell+ evolved to t = 2 under independent dephasing (γ = 0.05, J = 0).
 Three scenarios: B does nothing, B measures Z, B measures X.
 
-| t_after | ρ_A(nothing) | ρ_A(B→Z) | ρ_A(B→X) | max \|\|Δ\|\| |
+The three scalar columns give purity_A = Tr(ρ_A²); the last column is the
+reduced-state difference norm, not a purity difference.
+
+| t_after | purity_A(nothing) | purity_A(B→Z) | purity_A(B→X) | max \|\|Δ\|\| |
 |---------|-------------|----------|----------|------------|
 | 0.0 | 0.500 | 0.500 | 0.500 | 0.00 |
 | 0.5 | 0.500 | 0.500 | 0.500 | 0.00 |
@@ -134,22 +134,14 @@ difference lives in B's qubit.
 
 This is not a new discovery. It follows from:
 
-**Entanglement without a classical channel provides no communication
-advantage over shared randomness.**
-
-This is implicit in the no-signalling theorem and explicitly proven
-in the context of LOCC (Local Operations and Classical Communication,
-the standard framework describing what separated parties can achieve
-with local quantum operations plus a classical phone line) theory. The key result: any correlation achievable with shared
-entanglement alone (no classical channel) is also achievable with
-shared classical randomness alone.
-
-> [FALLEN: The claim that CΨ provides genuine new capabilities for QKD forensics has not been confirmed.]
-
-The CΨ framework does not violate this. CΨ provides genuine new
-capabilities, but only in settings where A and B can compare their
-measurements (QKD forensics, state verification, crossing-time
-correlation). All of these require a classical channel.
+**No post-separation message is available in A's local statistics.**
+For J=0 and a trace-preserving operation on B, with no outcome communication,
+Tr_B[(I⊗E_B)(ρ_AB)]=ρ_A. Entangled correlations need not have a
+shared-randomness model; this local no-signalling statement does not say they do.
+No advantage for the proposed pre-encoded crossing schedule was demonstrated.
+Joint tomography requires access to the relevant records. See
+[QKD Forensics](QKD_EAVESDROPPING_FORENSICS.md) for its finite readout
+comparison, not a confirmed basis-identification advantage.
 
 ---
 
@@ -164,7 +156,7 @@ observable-independent, and framework-independent.
 |----------------|--------|-----|
 | Dynamic (B signals by choosing when to measure) | **Dead** | No-signalling: ρ_A unchanged |
 | Pre-encoded (shared schedule, CΨ fingerprints) | **Dead** | Fingerprints need ρ_AB; schedule is classical |
-| With physical coupling (J > 0) | Works | But this is a local interaction, not "bridge" |
+| With physical coupling (J > 0) | Physical interaction can change local statistics | No channel-free protocol established |
 
 The v033 agents' protocol was internally consistent within R = CΨ².
 Their error was assuming the CΨ crossing could be detected locally.
@@ -177,22 +169,20 @@ It cannot. The crossing lives in the joint state.
 The bridge is dead. The framework is not. Everything below remains
 valid and valuable:
 
-> [FALLEN: QKD eavesdropping detection via CΨ is not established. The claim that CΨ identifies Eve's measurement basis in a regime where other metrics carry zero information has not been confirmed.]
+### 6.1 Joint-record comparisons
+The retained [QKD record](QKD_EAVESDROPPING_FORENSICS.md) contains finite
+readout calculations, not a confirmed eavesdropping-detection advantage.
 
-### 6.1 QKD Forensics (WITH classical channel)
-CΨ identifies Eve's measurement basis in a regime where concurrence,
-negativity, and CHSH carry zero information. The multi-metric protocol
-detects Eve at her stealth angle. This is Tier 2, verified, and
-genuinely new. See QKD_EAVESDROPPING_FORENSICS.md.
+### 6.2 The algebraic quarter boundary
+The fixed-point equation has a discriminant boundary at CΨ=1/4.
+That algebraic classification is not a physical phase-transition certificate.
 
-### 6.2 The ¼ Boundary as Phase Transition
-The mathematical structure (Mandelbrot connection, bifurcation at ¼,
-θ trajectory, complex → real fixed points) is proven and independent
-of the bridge. This is the core of the framework.
-
-### 6.3 Observer-Dependent Crossing Times
-Different definitions of C (different observers) see measurement at
-different times. This is Tier 2 and physically interpretable.
+### 6.3 Readout-dependent quarter equalities
+Different scalar C definitions place the chosen quarter level at different
+times. Choose C(f), the clean Lindblad or retired feedback book, then solve
+C(f)f/3=1/4. These are not different physical observers seeing measurement
+at different times; the Bell+ taxonomy has six finite crossings and two never
+bridges across its two books.
 
 ### 6.4 IBM Hardware Anomalies
 The residual coherence direction, rising trend, and boundary correlation
@@ -200,14 +190,13 @@ in IBM Torino data are real (p < 0.0001). March 2026 test will
 discriminate SPAM vs TLS vs boundary structure.
 
 ### 6.5 Coherence Density Insights
-CΨ measures something distinct from entanglement. Product states are
-more quantum (in the CΨ sense) than GHZ states. This reframes what
-"quantum" means in terms of available degrees of freedom.
+CΨ measures something distinct from entanglement. A product state can have a larger basis-fixed CΨ value than GHZ.
+This is a diagnostic comparison, not a quantum/classical or entanglement classifier.
 
 ### 6.6 Lindblad Decomposition Question
 TIME_AS_CROSSING_RATE.md §4.4 asks: can L(ρ) = L_fwd(ρ) + L_bwd(ρ)
 with nodes at CΨ = ¼? This is open and would be a significant
-mathematical result if true. **Update (2026-03-19):**
+mathematical result if true.
 [Π as Time Reversal](PI_AS_TIME_REVERSAL.md) supplies the exact spectral
 transport `lambda -> -lambda - 2 Sigma_gamma` (`mu -> -mu` after centering),
 not a physical forward/backward wave decomposition and not an additive

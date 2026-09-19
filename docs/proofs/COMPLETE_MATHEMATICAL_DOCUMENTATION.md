@@ -1,8 +1,15 @@
+<!-- QUARTER-CURRENT -->
 # Complete Mathematical Documentation
+
+Current reading: this index separates proven algebra, conditional implications,
+and finite computations.  Its quarter entries do not combine those grades into
+one dynamical theorem.
+
+<!-- CROSSING-CURRENT -->
 
 **Status:** The Tafelwerk: the narrative master index of the founding core (through March 2026). Last refreshed 2026-07-20 (the change history lives in git).
 **Supersedes:** Previous stub (Feb 2026) and [Core Algebra](../historical/CORE_ALGEBRA.md) (Dec 2025)
-**Purpose:** Single entry point for the proven and verified mathematics of the founding core of R=CΨ²
+**Purpose:** Single entry point for the proven, conditional, and finitely verified mathematics of the founding core of R=CΨ²
 
 ---
 
@@ -28,39 +35,46 @@ carrying an F-number, the registry is canonical.
 
 ## 1. The Algebraic Foundation (Tier 1)
 
-The self-referential purity map:
+The chosen scalar recurrence discussed in the founding documents is:
 
-    R = CΨ²
+    R = C(Ψ + R)²
 
-where C = Tr(ρ²) (purity), Ψ = l₁(ρ)/(d-1) (normalized l1-coherence,
-Baumgratz convention, the standard resource-theoretic measure defined as the sum of absolute values of all off-diagonal elements), R = residual purity beyond product-state prediction.
+In the purity book, `C=Tr(ρ²)` and `Ψ=l₁(ρ)/(d−1)` (normalized l1-coherence,
+the sum of absolute values of off-diagonal elements). The algebra below assumes
+the recurrence; the degree of purity does not derive its feedback form.
 
 **Fixed-point equation.** R = C(Ψ + R)² expands to CR² + (2CΨ - 1)R + CΨ² = 0.
 
-**Discriminant.** D = 1 - 4CΨ. Vanishes at CΨ = 1/4 and only there.
-Below 1/4: two real fixed points (one stable, one unstable).
-At 1/4: one degenerate fixed point (fold).
-Above 1/4: no real fixed points (complex/oscillatory).
+**Discriminant.** `D=1−4CΨ` vanishes at `CΨ=1/4` and only there in these
+coordinates. Below, at, and above the quarter the fixed-point polynomial has
+two, one, or no real algebraic roots. Stability, attraction, and oscillation
+would require a separately specified iteration and invariant domain.
 
 **Crossing cubic.** At the boundary CΨ = 1/4, the condition reduces to
 b³ + b = 1/2, with unique real root b ≈ 0.4239. This is a pure number,
 independent of physical parameters.
 
-**Mandelbrot equivalence.** The substitution z = C(Ψ + R), c = CΨ maps
-R_{n+1} = C(Ψ + R_n)² to the Mandelbrot iteration z_{n+1} = z_n² + c.
-The boundary CΨ = 1/4 maps to the cusp of the main cardioid at c = 1/4.
-This is identity, not analogy.
+**Mandelbrot coordinates.** For the chosen recurrence, the substitution
+`z=C(Ψ+R)`, `c=CΨ` gives `z_{n+1}=z_n²+c`; in these coordinates the quarter
+is the real cusp of the main cardioid. This is an exact change of variables
+for that normal form, not evidence that quantum dynamics obeys the iteration.
 
-**Fold catastrophe.** The recursion is exactly the normal form of the fold
-catastrophe (simplest in the Thom-Arnold classification). CΨ - 1/4 is the
-bifurcation parameter. Structurally stable: no perturbation can remove it.
+**Fold normal form.** Completing the square reduces the chosen normalized
+recurrence to the ordinary fold `x²+a=0`. Structural stability preserves the
+local fold type under generic perturbation; a reparameterization can move the
+numerical coordinate reported for it.
 
-**Sum, not product.** The framework uses R = C·(Ψ_A + Ψ_B)² (sum squared)
-rather than Ψ_A·Ψ_B (product). The sum preserves information when one
-observer's coherence decays: Ψ_B² survives. The product gives zero.
-The cross-term 2·Ψ_A·Ψ_B is the interference between two viewpoints
-on the same entangled state. Both recover the Born rule in the
-perfect-mirror limit; they diverge for imperfect mirrors.
+**Sum, not product.** The framework uses R_sum = C·(Ψ_A + Ψ_B)² rather than
+R_prod = C·Ψ_A·Ψ_B as a chosen model/operational ansatz. The Liouvillian palindrome or
+information conservation does not select it. If one amplitude is set to zero,
+a term of the sum-squared expression survives algebraically; that survival is
+not by itself physical information preservation.
+
+The cross-term 2·Ψ_A·Ψ_B is an ansatz interference term, not a proved
+two-viewpoint mechanism. It remains an invitation to ask which experiment
+would make that reading operational. Neither Born-rule recovery nor unique
+selection follows without a specified state, channel, observable, and phase
+convention.
 
 See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
@@ -112,12 +126,12 @@ See: [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md),
 
 ## 3. The CΨ = 1/4 Boundary (Tier 1-2)
 
-**Uniqueness.** 1/4 is algebraically unique. The factor 4 comes from the
-discriminant formula b²-4ac. The quadratic structure comes from purity
-being Tr(ρ²), degree 2. No reparameterization changes this.
+**Chosen-form uniqueness.** The factor 4 comes from the discriminant formula
+`b²−4ac`; for the chosen normalized recurrence it places the double root at
+1/4. Purity's degree motivates α=2 but does not derive this recurrence.
+Reparameterization can move the numeric coordinate while preserving the fold.
 
-**Channel independence.** All standard Markovian channels cross at exactly
-CΨ = 0.2500:
+**Named Bell+ channel crossings.** The following exact or finite named models cross at CΨ=0.2500:
 
 | Channel | t_cross (γ=0.05) |
 |---------|-------------------|
@@ -128,30 +142,46 @@ CΨ = 0.2500:
 | Asymmetric Pauli | 0.735 |
 | Amplitude damping | 2.059 |
 
-**Absorbing boundary.** No unitary pulse (θ from 0 to π) can push CΨ back
-above 1/4 after crossing. Tested, verified.
+**Dynamics boundary, repaired.** The quarter is the exact discriminant boundary of the algebraic recursion,
+not a universal absorbing set in state space. Exact local-Markov examples give CΨ'(0)=+1/6, a local
+Hadamard sends CΨ from 0 to 1/3, and a fixed local semigroup crosses upward through 1/4. Instantaneous
+N-qubit Pauli invariance survives, but it is not trajectory invariance. The autonomous N=2 successive-
+local-maxima claim remains unproved. A finite N/Q/K rise atlas invites an all-Q/all-N classification without
+claiming an absence or mechanism.
 
-**Hardware validation.** IBM Torino (ibm_torino, Q80): predicted t* = 15.01 μs,
+The positive endpoint theorem is conditional: a continuous trajectory converging to ρ* with CΨ(ρ*)<1/4
+eventually stays below. Named basis-aligned T1/T2/depolarizing models use this only under their stated
+convergence assumptions. A primitive CPTP target with CΨ=0.2935 rules out the broader claim.
+
+**Named hardware comparison.** IBM Torino (ibm_torino, Q80): predicted t* = 15.01 μs,
 measured t* = 15.29 μs. Deviation: 1.9%.
 
-**What CΨ measures.** CΨ = C × Ψ is an AND-gate: zero when either
-entanglement or coherence is absent. It distinguishes noise types that
-concurrence cannot (σ_z dephasing: Ψ=0.223 vs σ_x bit-flip: Ψ=0.333
-at identical concurrence 0.670). For Werner states (one-parameter mixtures of a Bell state with white noise, the standard benchmark for entanglement robustness) near the entanglement
-threshold, CΨ is 6–7.5× smaller than concurrence, suppressing signals
-from states where entanglement exists but is not coherently expressed.
+**What CΨ measures depends on the book.** In the purity book, purity is not entanglement:
+the separable `|++⟩` state has `C=Tr(ρ²)=1`, `Ψ=1`, and
+`CΨ=1` under the stated normalization. It is therefore not an entanglement
+AND-gate. Only in the separate concurrence book does `C×Ψ` act as an
+AND-gate for concurrence and coherence. The σ_z/σ_x and Werner comparisons
+below that interpretation belong to the concurrence book and must not be
+used to explain F25's purity-book formula.
 
-**Observer-dependent crossing.** Different definitions of C (concurrence,
-mutual information, correlation) see the ¼ crossing at different times.
-The ratio K(Conc)/K(MI) is state-dependent (CV = 13.5%). The quantum
-state determines the time-ratio between observer types. The C-books and
-how one trajectory yields several crossing times are documented in
-[The CΨ Lens](../THE_CPSI_LENS.md), the canonical anchor for this seam.
+**Readout-dependent crossings in two books.** Choose C(f), then the clean
+Bell+ Lindblad trajectory or the named retired feedback equation, then solve
+C(f)f/3=1/4. Each book has three finite crossings and two never bridges;
+these are scalar-response classes, not physical observers or measurements.
+F14's constant K belongs to a fixed readout on a Hamiltonian-dead Bell-like
+trajectory during a gamma sweep. The old 13.5% ratio gloss is not a general
+observer law; [Observer-Gravity](../../experiments/OBSERVER_GRAVITY_BRIDGE.md)
+owns the exact concurrence-family scope and the
+[two-book producer](../../simulations/crossing_taxonomy_books.py) owns the finite values.
 
-**Shadow resolved.** Late-time coherence anomaly on IBM Torino Q52
-(17/17 directional consistency, p < 0.0001) was resolved as qubit-specific
-frequency detuning, not a universal boundary effect. Different qubits
-show different phase directions (Q80: +29°, Q52: −44°, Q102: random).
+**Q52 shadow record.** The late-time coherence anomaly on IBM Torino Q52
+has 17/17 directional consistency and p < 0.0001 in its named analysis.
+Only the universal-boundary/non-Markovian-witness interpretation is closed.
+Detuning is the preferred explanation for the phase component.
+The Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control.
+The different phase directions (Q80: +29°, Q52: −44°,
+Q102: random) provide the cross-qubit rejection of universality, not a
+Q52-specific mechanism fit.
 
 **CΨ > ¼ under active dynamics.** CΨ routinely exceeds ¼ with active
 Hamiltonians (Bell+ reaches 0.405 at J=1, h=0.9, γ=0.005). The bound
@@ -275,10 +305,9 @@ the earlier ring-(0,2) tables came from a retired tool and do not
 reproduce (reproduction note in
 [Dynamic Entanglement](../../experiments/DYNAMIC_ENTANGLEMENT.md)).
 
-**Three regimes.** (1) CΨ(0) > ¼: decoherence drives crossing downward.
-(2) CΨ(0) < ¼ but Hamiltonian pumps above ¼ first (J/γ ≳ 5–10 required).
-(3) CΨ_max < ¼: no crossing (eigenstate of H, or J/γ too small).
-No energy threshold for crossing; it is a coherence barrier (J/γ competition).
+**Three regimes in the named scan.** (1) Some preparations started above ¼ and crossed downward.
+(2) Some started below and crossed upward under H in the sampled J/γ range. (3) Some stayed below throughout
+the sampled window. These finite rows do not set a universal J/γ threshold or classify all generators.
 
 **Born rule at the reference point.** At t = 0.286 on the |0+0+⟩ ring,
 pair (0,2) (the time the original run labeled the crossing; that crossing
@@ -357,7 +386,13 @@ QST fidelity 0.732). Direct coupling destroys it (256 → 31 pairs).
 Source run: [mediator_bridge.py](../../simulations/mediator_bridge.py)
 (output in `simulations/results/mediator_bridge.txt`).
 
-**Relay protocol.** Time-dependent γ, staged transfer: +83% end-to-end MI.
+**Relay protocol MI comparison (Tier 2, finite N=11 run).** The stored
+0.131700 at integrated t=4.50 versus the passive sampled maximum 0.071576
+at t=4.00 gives about +84.0%. Nominal 0.78/stage (4.68 total) executes as
+0.75/stage (4.50 total). Statistic-attached exposure is 2.200 versus 2.17125;
+at equal t=4.50 the passive exposure would instead be 2.475. No matched-time
+or matched-dose comparison, MI bound, isolated staging benefit, optimization,
+or palindrome timing follows. See [the protocol](../../experiments/RELAY_PROTOCOL.md).
 
 **V-shape γ gradient.** [0.01, 0.03, 0.05, 0.03, 0.01]: about +6% at
 matched Σγ; the March +124% compared arms with different total dephasing
@@ -404,10 +439,10 @@ See: [Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 
 ## 10. Open Questions (Tier 3-5)
 
-- CΨ monotonicity above 1/4: proven for local Markovian channels
-  ([the monotonicity proof](PROOF_MONOTONICITY_CPSI.md), F25-F28: dCΨ/dt < 0
-  plus the Envelope Theorem); arbitrary (non-Markovian) CPTP maps stay open
-- Feigenbaum period-doubling in the quantum regime (mapped, not exploited)
+- CΨ peak sequences: the historical autonomous N=2 successive-maxima argument has a gap; prove it or find
+  a true peak counterexample. Extend the finite N/Q/K atlas to all-Q/all-N classification, and gate any
+  proposed mechanism separately ([the repaired dynamics proof](PROOF_MONOTONICITY_CPSI.md), F17/F25–F28)
+- Period-doubling belongs to the negative-c branch of the assumed scalar recurrence; its physical reading remains open.
 - Bekenstein-Hawking 1/4 (coincidence or connection, speculative)
 - Negative feedback loop (γ_M decreasing with coherence, untested)
 - Hardware validation of relay protocol on IBM Torino
@@ -423,11 +458,11 @@ See: [Mathematical Connections](../MATHEMATICAL_CONNECTIONS.md),
 |----------|-------|--------|
 | Discriminant zero | CΨ = 0.2500 | [Uniqueness Proof](UNIQUENESS_PROOF.md) |
 | Crossing cubic root | b = 0.4239 | b³ + b = ½, Cardano (§6 writes the same root as x) |
-| K_fold (Z-dephasing, Bell+, N=2) | 0.03735 | [F-registry](../ANALYTICAL_FORMULAS.md) (t_cross · γ; 0.747 · 0.05 at γ=0.05) |
+| Bell+/Z final stay-below crossing dose K_final,Z (N=2) | 0.03735 | [F-registry](../ANALYTICAL_FORMULAS.md) (t_cross · γ; 0.747 · 0.05 at γ=0.05) |
 | IBM deviation | 1.9% | [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md) |
 | Pauli weight correlation | r = 0.976 | [XOR Space](../../experiments/XOR_SPACE.md) |
 | Best QST fidelity | F = 0.888 | [QST Bridge](../../experiments/QST_BRIDGE.md) |
-| Relay improvement | +83% | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) |
+| Relay finite unmatched-endpoint MI ratio | about +84.0% from 0.131700/0.071576; not an isolated benefit | [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) |
 | V-shape improvement (matched Σγ) | ~+6% | [Gamma Control](../../experiments/GAMMA_CONTROL.md) (the March +124% was a Σγ confound) |
 | DD M+Recv improvement | +132% (removes 54% of Σγ) | [Gamma Control](../../experiments/GAMMA_CONTROL.md) |
 | N=8 eigenvalues (100% paired) | 65,536 | [block spectra](../../simulations/results/f1_n8_n9_metrics/) (RCPsiSquared.Core; the default C# Compute suite scores only the 54,118-rate oscillatory subset) |
@@ -488,12 +523,12 @@ hardware shows ~2-3× (label note in [Resonant Return](../../experiments/RESONAN
 - [Optimal QST Encoding](../../experiments/OPTIMAL_QST_ENCODING.md)
 - [Resonant Return](../../experiments/RESONANT_RETURN.md)
 
-### Resolved/fallen experiments (results absorbed above)
-- [Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md) (shadow = qubit detuning)
+### Absorbed/fallen experiments (results used above)
+- [Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md) (Q80/Q102 cross-qubit comparison rejects a universal boundary reading; it does not resolve the Q52 late-time excess mechanism)
 - [Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md) (CΨ > ¼ under active H)
 - [Why the Sum](../../experiments/WHY_THE_SUM.md) (sum vs product formulation)
 - [Standing Wave Two Observers](../../experiments/STANDING_WAVE_TWO_OBSERVERS.md) (two-observer metaphor)
-- [Decoherence Relativity](../../experiments/DECOHERENCE_RELATIVITY.md) (K-invariance math; gravity fallen)
+- [Decoherence Relativity](../../experiments/DECOHERENCE_RELATIVITY.md) (fixed-bridge, Hamiltonian-dead Bell+ gamma sweep; gravity fallen)
 - [Metric Discrimination](../../experiments/METRIC_DISCRIMINATION.md) (null result; gravity fallen)
 - [Observer-Gravity Bridge](../../experiments/OBSERVER_GRAVITY_BRIDGE.md) (interval shift; gravity fallen)
 - [QKD Eavesdropping Forensics](../../experiments/QKD_EAVESDROPPING_FORENSICS.md) (Pauli math; QKD application fallen)

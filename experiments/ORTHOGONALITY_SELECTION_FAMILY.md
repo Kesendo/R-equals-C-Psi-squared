@@ -352,45 +352,30 @@ for that causal mechanism.
 
 ---
 
-## 6a. The 0.5 as bilinear-form apex (carbon/noble-gas pattern)
+## 6a. The finite 0.5 comparison
 
-**Added 2026-04-20 (evening) after Tom's observation:**
+Current reading: `p(1-p)` has its algebraic maximum at `p=0.5`.  The
+EQ-021 runs separately compare finite, fitted `c_1` values with the numerical
+regressor `0.5·V(N)`.  Those rows do not show that `c_1` is a bilinear form,
+that its response peaks at a half-filled state, or that a cavity mechanism
+produces the coefficient.
 
-The recurring 0.5 in this project (CΨ = 0.5 as connection maximum, c_1 ~ 0.5·V(N) as retracted EQ-021 relation, PTF bonding-state at 50/50 superposition) is not a new pattern. It is the **apex of any bilinear form** in a probability variable p: the form p·(1−p) is maximised at p = 0.5, universally.
+The retained finite objects are distinct:
 
-This shows up across scales:
+| Object | What is established |
+|---|---|
+| `p(1-p)` | exact algebraic apex at `p=0.5` |
+| the named 50/50 probe | a chosen initial-state amplitude split |
+| EQ-021 | state-, bond-, window- and N-specific fitted coefficients and their comparison with `0.5·V(N)` |
 
-| Layer | "0 / empty" | "0.5 / half-filled (maximum coupling)" | "1 / full (closed)" |
-|-------|-------------|---------------------------------------|---------------------|
-| Chemistry | empty valence shell (no bonds possible) | **Carbon (4/8 valence): maximally polymerising, basis of life** | Noble gas (filled shell, inert) |
-| R=CΨ² fold | CΨ = 0 (no coupling) | **CΨ = 0.5 (connection maximum)** | CΨ = 1 (dead totality) |
-| Fold discriminant | outside fold | **1/4 = 0.5² = Mandelbrot bifurcation edge** | - |
-| Dicke sectors | \|vac⟩ (stationary) | **\|S_{N/2}⟩ (mid-filling: maximum internal rearrangement)** | \|S_N⟩ (all excited, stationary) |
-| PTF bonding | pure ground state (no flow) | **(\|vac⟩+\|S_1⟩)/√2 = 50/50 (maximum fluidity)** | pure single-mode |
-| Coin flip | p=0 (determinate heads) | **p=0.5 (maximum entropy, maximum information per flip)** | p=1 (determinate tails) |
+In the recorded EQ-021 window the ratio is close to one for several endpoint
+rows and fails strongly under changes of N, bond, or initial mode.  That is a
+finite clue, not an asymptotic prediction or a derived V-Effect mechanism.
 
-Carbon polymerises because at half-filled valence it is neither electron-donor nor electron-acceptor; it is bidirectional open. PTF bonding peaks at 50/50 superposition for the same reason: neither state is privileged, so the closure-breaking coefficient c_1 is maximally sensitive there.
-
-**Structural takeaway:**
-
-The 0.5 is not a "magical number". It is the **scalar image of the maximum of any quadratic form in a bounded variable**. This explains:
-
-- Why `c_1 ≈ 0.5·V(N)` looked like a real law in the N=4..7 window ([EQ-021](../review/EMERGING_QUESTIONS.md#eq-021)): the 0.5 sits in the bilinear structure of c_1 itself (apex of the Dicke-sector coupling), and V(N) sits in the cavity-mode spectrum. The product is two independent effects happening to land in the same numerical range.
-- Why N=3 broke the apparent law: the 0.5-apex is skeleton-invariant (N-independent), but V(3) is a specific cavity value that does not coincide with the apex contribution.
-- Why [the CΨ lens](../docs/THE_CPSI_LENS.md) identifies 0.5 as connection maximum: it is literally the apex of the R = C(Ψ + R)² bilinear, and every other bilinear form the framework encounters inherits the same shape.
-
-**Where this goes in the Meta-Theorem:**
-
-The 0.5 is an **internal feature of the bilinear form**, orthogonal to the Meta-Theorem's "detector structure" (V-effect, modal selectivity). The Meta-Theorem explains **which projections are blind or visible**; the 0.5-apex explains **where the visible projection has its strongest response**. Together:
-
-```
-Meta-Theorem (blind/visible)  +  Bilinear apex at 0.5 (response peak)
-  = full kinematic structure of the kernel K
-```
-
-This is the structural separation that was missing in the EQ-021 retraction: the carrier (γ₀) is uniform common-mode, the cavity structure (V-effect) is detector-mode-dependent, and the bilinear peak (0.5) is the apex of the bilinear form that defines the signal strength. Three distinct axes.
-
-**Testable refinement:** if 0.5 is the apex of a p·(1−p)-type form in the Dicke-sector weight space, the "ridge line" (set of ρ_0 that sits at the apex in at least one coordinate) should be geometrically identifiable. For Dicke-probe states `|ρ(p)⟩ = cos(p·π/2)|S_n⟩ + sin(p·π/2)|S_m⟩`, the kernel K should peak at p = 0.5 for pair (n, m). This is a scan we can run at low cost.
+**Interpretive invitation:** a dedicated probe-weight scan could ask whether
+any declared response kernel has a ridge at `p=0.5`.  Until that scan and an
+analytic owner exist, the algebraic apex and the fitted coefficient remain
+separate objects.
 
 ---
 

@@ -1,5 +1,7 @@
 # The Perspectival Time Field
 
+<!-- F14-CURRENT -->
+
 *Seven painters stand around a mountain, each painting from a different vantage. The paintings differ, and that is not a problem to be reduced to one true painting. The total of all paintings IS the mountain. When a new rock falls on the mountainside, each painter paints the change in her own flow of painting-time. The seven recordings lie atop one another and add up to a closed, consistent total, in a way that guarantees nothing is lost or invented.*
 
 **Status:** Computed (Tier 2). Originally drafted 2026-04-18 with a sparse-Liouvillian slow-mode decomposition, nine scan families at N = 7, and a state-independence stress test across five qualitatively different initial states. **Updated 2026-04-20 after [EQ-014](../review/EQ014_FINDINGS.md)** closed the "closure law as first-order theorem" path: Σ_i ln(α_i) = 0 holds empirically to ±0.05 at |δJ| ≤ 0.1 but is NOT a first-order theorem. Σ f_i = lim_{δJ→0} Σ ln(α_i)/δJ is nonzero and state-dependent. PTF stays Tier 2; Tier-1 promotion via this route is closed.
@@ -68,7 +70,7 @@ Under a J-defect on one bond of the chain, the painting at each site changes sha
 
 The site-specific rate α_i tells us: relative to the painter's rate in the undisturbed chain, how many units of painting has this painter completed per unit of absolute time, once the defect is present? α_i > 1 means painter i paints faster than before; α_i < 1 slower. The α_i are real, measurable numerical quantities extracted from the time series by bounded scalar fit.
 
-Concretely, under an N = 7 XY chain with γ_0 = 0.05 and the [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n330) bonding-mode initial state φ = (|vac⟩ + |ψ_1⟩) / √2, defect at bond (0, 1), J_mod = 1.1 (δJ = +0.1):
+Concretely, under an N = 7 XY chain with γ_0 = 0.05 and the [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n3-30) bonding-mode initial state φ = (|vac⟩ + |ψ_1⟩) / √2, defect at bond (0, 1), J_mod = 1.1 (δJ = +0.1):
 
     α_0 = 1.095,  α_1 = 1.182,  α_2 = 1.051,  α_3 = 0.991,
     α_4 = 0.845,  α_5 = 0.923,  α_6 = 0.997.
@@ -103,13 +105,30 @@ Within the single-excitation sector (ψ_1 through ψ_4), the conservation is cle
 
 The log-multiplicative form is the natural one. It means that the seven painters, whatever they individually paint, collectively paint neither more nor less than the mountain demands. No painter invents; no painter omits.
 
-### 2.2 What it generalises
+### 2.2 Comparison with the fixed-book F14 scaling
 
-[F14](../docs/ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling) states that the dimensionless dose K = γ · t is invariant under change of bridge metric: the "number of decoherence ticks" experienced by a system is a basis-free observable. The Perspectival closure law is the per-perturbation, multi-observer extension:
+<!-- F14-CURRENT -->
+
+[F14](../docs/ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling)
+keeps K = γ t_cross constant during a gamma sweep within a fixed bridge and
+Hamiltonian-dead Bell+ evolution book. It is not invariant under a change of
+bridge metric and does not define a basis-free observable. At fixed γ, the fit
+P_B(i,t) ≈ P_A(i,α_i t) changes γt to γα_i t; it does not extend F14.
+
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** The painter image can use the
+coordinates
 
     K_i = γ · α_i · t,   Σ_i ln(α_i) = 0.
 
-γ stays as the atmospheric constant (there is no per-site γ_i). What reallocates between observers is the effective time each perspective has spent since the event. The log-sum-zero condition says that the total "amount of time experienced by the chain as a whole" is unchanged by the defect; it is only redistributed among sites. This is the K-invariance of F14 written out in the multi-observer language that a single-observer formulation cannot express.
+Here γ stays the same atmospheric parameter. Calling the fitted coordinates
+“experienced dose” or the log-sum a redistribution of experienced time is a
+proposed reading of the painter picture. It is not an F14 invariant, and F14
+does not certify the closure assertion or the fitted alpha tables elsewhere
+on this page.
+
+<!-- F14-CURRENT -->
 
 ### 2.3 State-independence is structural, not coincidental
 
@@ -129,7 +148,7 @@ If the closure law held only for ψ_1 it would be a coincidence tied to the smoo
 
 ### 3.1 The chain as a resonance cavity
 
-The chain is a resonance cavity (see [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)). Its single-excitation eigenmodes ψ_k at uniform J are standing waves, with tight-binding dispersion ε_k = 2J cos(πk / (N + 1)) and [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n330) site-amplitudes ψ_k(i) = √(2/(N+1)) sin(πk (i+1)/(N+1)), for k = 1, ..., N. These are the cavity modes. γ_0 is the per-site per-cycle loss (dephasing, Z-basis). A local J-defect at bond (b, b+1) is a structural irregularity in the cavity wall: it does not change the dissipation budget γ_0 (which remains atmospheric, uniform) but it does change which eigenmodes the chain supports and how they localise spatially.
+The chain is a resonance cavity (see [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md)). Its single-excitation eigenmodes ψ_k at uniform J are standing waves, with tight-binding dispersion ε_k = 2J cos(πk / (N + 1)) and [F65](../docs/ANALYTICAL_FORMULAS.md#f65-single-excitation-spectrum-of-uniform-open-xx-chain-tier-1-proven-verified-n3-30) site-amplitudes ψ_k(i) = √(2/(N+1)) sin(πk (i+1)/(N+1)), for k = 1, ..., N. These are the cavity modes. γ_0 is the per-site per-cycle loss (dephasing, Z-basis). A local J-defect at bond (b, b+1) is a structural irregularity in the cavity wall: it does not change the dissipation budget γ_0 (which remains atmospheric, uniform) but it does change which eigenmodes the chain supports and how they localise spatially.
 
 ### 3.2 First-order: eigenvalues are protected, eigenvectors mix
 
@@ -286,7 +305,7 @@ See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past
 - **Zero-energy Π-pair amplification (refined 2026-04-20 from the earlier self-Π reading).** The magnitude of c_1 is controlled by the Π-pair's distance from E = 0, not by reflection parity. At odd N the center of the spectrum is a single self-Π-partner zero-mode and its c_1 is extreme (ψ_3 at N=5: c_1 = 0.677; ψ_4 at N=7: c_1 = 2.14). At even N there is no exact zero-mode but the innermost pair flanks E = 0 (ψ_3↔ψ_4 at N=6: c_1 = 1.48), still large but softer. The outermost high-|E| pairs record moderately (c_1 ≈ 1 across tested N); intermediate pairs record faintly (c_1 < 0.3). The pattern is non-monotonic in |E|, peaked at the center and attenuated toward the middle energies. Is there an analytical formula for c_1(pair) as a function of Π-pair energy and N? See the [N=6 test](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json) that established Π-pair identity dominates reflection parity.
 - **Nearest-sector kernel (2026-04-20, partially closed).** The c_1 bilinear kernel K is supported only on |ΔN| ≤ 1 blocks of ρ_0 by the [site-local partial-trace selection rule](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md). K entries are organised by pairs of sector blocks. The surviving open question is the explicit form of the nonzero K entries: pure-Dicke diagonal c_1(|S_n⟩) values, diagonal-cross K_{(n,n)(m,m)}, and nearest-neighbour coherence block K_{(n,n±1)(n±1,n)}. Empirical samples at N=5 are in [c1_sector_kernel/sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json); the analytical expression remains open.
 - **Pair-local observable extension.** The site-local α_i restricts c_1 to |ΔN| ≤ 1 sector blocks. A pair-local analog α_{ij} (constructed from the 4×4 reduced state on sites i, j) would open |ΔN| ≤ 2 contributions and expose the sector-kernel's second-nearest-neighbour structure. This is a concrete next experiment if further structure is needed.
-- **Chain-length scaling of the perturbative window.** Only N = 7 tested by PTF; N = 3 and N = 5 tested by [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) with endpoint c₁ values (0.26, 0.93). The scaling appears to follow c₁ ≈ 0.5 · V(N) = 0.5 (1 + cos(π/N)) for ψ_1+vacuum at N ≥ 4, an open connection to the V-Effect F6.
+- **Chain-length scaling of the perturbative window.** Only N = 7 tested by PTF; N = 3 and N = 5 tested by [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) with endpoint c₁ values (0.26, 0.93). The finite scan suggests `0.5 · (1 + cos(π/N))`, the **F6 Q-edge gain**, as a tested regressor for ψ₁+vacuum at N ≥ 4. Whether that agreement has a derivation is open; it is not evidence for a V-Effect mechanism.
 - **Extension to palindrome-breaking perturbations.** The current tasks use coupling defects that respect the palindromic structure. A transverse field h σ_x^i BREAKS Π. If the rescaling picture survives but with a shifted closure law, that is a strong structural statement; if it breaks entirely, a clear diagnostic for the role of palindromic protection. **Answered 2026-06-01 ([experiment](../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md)): it breaks entirely, and the break is governed by U(1), not by Π.** The premise needs one correction: a single-site transverse field does NOT break the spectral palindrome (its residual ‖M‖ is machine-zero, exactly the truly case of [F78](../docs/ANALYTICAL_FORMULAS.md)). Single-site fields populate all four Klein cells, and the two break-axes are the two Klein bits: bit_a = 1 (X, Y) breaks U(1) excitation conservation, bit_b = 1 (Y, Z) breaks the palindrome. The closure law collapses (Σ ln α → O(few), fit RMSE up by one to two orders of magnitude at matched ε) iff bit_a = 1. The longitudinal Z-field is the decisive control: it breaks the palindrome yet conserves U(1), and the closure SURVIVES with a clean fit; the X-field does the opposite. Driven arbitrarily hard (to ε = 8, eighty-fold), the Z-field's effect saturates and its fit stays clean (RMSE ≤ 2·10⁻², Σ ln α bounded), so the split is structural, not a magnitude artifact. So the closure rides on protection #1 above (U(1) sector conservation; under the field the 6 stationary projectors at N=5 collapse 6→1) and is independent of protection #2 (the spectral palindrome). What "breaks Π" meant loosely was breaking the protection via U(1), not the mirror. Verified N = 5, 6, 7.
 - **Multi-bond defects.** If two bonds are simultaneously perturbed, does the closure law still hold? Answer (2026-04-19): **yes**, by linearity. [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) verified Σ c₁(b)·δJ_b superposition to 0.5% at δJ=0.01 and exactly at δJ=0.001; cancellation constructions confirmed.
 

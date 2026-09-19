@@ -1,75 +1,90 @@
-# Minimum Crossing Energy: No Energy Threshold, Only a Coherence Barrier
+# Minimum quarter-crossing energy in a finite two-qubit scan
 
-<!-- Keywords: CΨ crossing no energy threshold, J/gamma competition coherence
-barrier, Hamiltonian pump decoherence drain, product state dynamical crossing,
-eigenstate no dynamics no crossing, three regimes above below pumped, partial
-entanglement critical angle 30 degrees, Wheeler-DeWitt no ticks no events,
-R=CPsi2 minimum crossing energy -->
+<!-- F14-CURRENT -->
 
-> **Restoration note (March 14, 2026):** Originally written 2026-03-01, deleted March 12,
-> restored March 14. Core claims confirmed.
+CΨ_max is the sampled maximum for t>=0.01; excludes t=0.
+The separately printed initial value is not included. Thus Bell+ has
+CΨ(0)=0.3333 but the first post-initial maximum is 0.3320.
 
-**Status:** Verified (Tier 2)
-**Date:** 2026-03-01
-**Authors:** Thomas Wicht, with Claude (Anthropic)
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Script:** [`simulations/minimum_energy.py`](../simulations/minimum_energy.py)
-**Depends on:** [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Coherence Density](COHERENCE_DENSITY.md)
+<!-- F14-CURRENT -->
 
----
+**Status:** Finite numerical scan with an exact equal-energy counterexample to
+an energy-only crossing criterion. The readout is Wootters tangle divided by
+three, CΨ = C_conc²/3. It is not the purity-times-l1 book.
 
-## What this document is about
+**Source:** [minimum_energy.py](../simulations/minimum_energy.py).
+**Reproduced output:** [minimum_energy.txt](../simulations/results/minimum_energy.txt).
 
-This document asks whether there is a minimum energy needed for a
-quantum system to undergo the CΨ = ¼ crossing. The answer is no:
-states with identical energy can show completely different crossing
-behavior depending on their initial entanglement angle. The crossing
-is a coherence barrier (Hamiltonian pump vs decoherence drain), not an
-energy barrier, with a connection to the Wheeler-DeWitt equation where
-zero dynamics means zero time.
+## What this asks
 
----
+Can energy alone tell us whether a named scalar readout reaches one quarter?
+The family cos(α)|00⟩ + sin(α)|11⟩ gives a useful answer: every member has
+⟨H⟩ = J for H = J(XX+YY+ZZ), yet its initial tangle depends on α.
+Energy alone does not decide this crossing. That is a statement about this
+family and readout, not an energy-independent criterion for every quantum system.
 
-## Abstract
+The dynamics is the clean linear Lindblad equation with equal local
+Z-dephasing. On this Hamiltonian-dead family,
 
-The CΨ = ¼ crossing has no energy threshold. For the family
-cos(α)|00⟩ + sin(α)|11⟩ under Heisenberg coupling, all states share
-the same energy ⟨H⟩ = +J, yet crossing behavior depends entirely on
-α: states above 30° cross, states at or below 30° do not (α = 30°
-gives CΨ(0) = exactly 0.25). Product states with zero initial
-entanglement (e.g., |0,1⟩) can cross when the Hamiltonian generates
-entanglement faster than decoherence destroys it, requiring J/γ ≳ 5–10.
-Three regimes emerge: (1) CΨ(0) > ¼, decoherence drives crossing
-downward; (2) CΨ(0) < ¼ but Hamiltonian pumps CΨ above ¼ first;
-(3) CΨ_max < ¼, no crossing occurs. Eigenstates of H have no dynamics
-and never cross, connecting to the Wheeler-DeWitt equation from quantum gravity (Ĥ|Ψ⟩ = 0 means no ticks,
-no events). The crossing is a coherence barrier (J/γ competition),
-not an energy barrier.
+    CΨ(t) = sin²(2α) exp(-8γt)/3
+    K_conc(α) = γ t_cross = ln(4 sin²(2α)/3)/8.
 
----
+For 30° < α ≤ 45° the downward crossing is at positive time. At α = 30°
+equality is initial; below 30° this trajectory has no downward crossing.
+The retained floating-point table prints NO at 30°; it does not override
+the exact initial equality.
 
-## 1. The Question
+A readout crossing is not a physical measurement event or a quantum/classical
+classifier. The scalar equation comes before any story about a clock.
 
-What is the minimum energy a quantum system needs to undergo
-a CΨ = ¼ crossing? Does the crossing have an energy threshold?
+## What the current producer says
 
-## 2. The Answer
+The six alpha rows, eight product preparations and nine J/γ rows in the linked
+output are the finite catalogue. For |01⟩, the retained sweep is below one
+quarter at J/γ = 5 and above it at 10. That brackets the sampled change;
+it is not an optimized critical ratio.
 
-**There is no energy threshold.** The crossing condition is not
-about energy but about CΨ_max: the peak CΨ reachable during
-the system's evolution. CΨ_max depends on the competition
-between Hamiltonian dynamics (J) and decoherence (γ).
+For |01⟩ and |10⟩ the current producer prints 0.308/YES at J/γ=20,
+while the historical document table prints 0.309. For |+,0⟩, |0,+⟩ and |+,1⟩ the producer reports CΨ_max = 0.077 and NO.
+The old document table below instead says 0.295 and YES. Those rows are kept
+as a historical record, not current evidence. No numerical solver or trajectory
+was changed in repairing the labels.
 
----
+## Hamiltonian eigenstates are not stationary states of every open-system law
 
-## 3. Evidence
+[H,ρ₀] = 0 removes the Hamiltonian contribution initially; it does not imply
+D[ρ₀] = 0, nor that subsequent states commute with H. Here |00⟩ and |11⟩
+are stationary for the full generator. In contrast, |++⟩ follows the exact
+separable trajectory ρ_A(t)⊗ρ_A(t), with
 
-### 3.1 Same Energy, Different Crossing Behavior
+    ρ_A(t) = (I + exp(-2γt) X)/2
+    Tr(ρ(t)²) = ((1 + exp(-4γt))/2)².
 
-Family: cos(α)|00⟩ + sin(α)|11⟩ under Heisenberg H.
+Its purity changes, its tangle remains zero, and its Hamiltonian contribution
+vanishes throughout because H = J(2 SWAP-I) commutes with ρ_A⊗ρ_A.
+No crossing in this readout does not mean no dynamics or no time.
 
-Both |00⟩ and |11⟩ are triplet states with E = +J. Therefore
-⟨H⟩ = +J for ALL values of α. The energy is constant.
+## Three sampled regimes, with the clock specified
+
+1. A trajectory starting above one quarter can cross downward. The law
+   t_cross = K/γ belongs to a named Hamiltonian-dead, fixed-bridge trajectory
+   such as the alpha family above, or to joint (J,γ) scaling at fixed Q.
+   Initial position above a threshold alone does not imply gamma-only scaling.
+2. A state starting below can rise above and return, as the sampled |01⟩
+   trajectories do. Their J/γ sweep is a local negative control against a
+   state-independent gamma-only clock.
+3. A trajectory whose maximum stays below one quarter does not cross this
+   threshold. It can still evolve and carry other observables.
+
+<!-- F14-HISTORICAL -->
+
+**Historical record:** The following four tables preserve the original
+document's numerical catalogue. They are not a second independently verified
+producer. In particular the product-state YES entries just discussed disagree
+with the committed source; the old 45° maximum-at-zero convention also differs
+from the producer's positive-time grid.
+
+### Equal-energy family
 
 | α     | ⟨H⟩  | CΨ(0)  | Crosses? |
 |-------|------|--------|----------|
@@ -80,12 +95,7 @@ Both |00⟩ and |11⟩ are triplet states with E = +J. Therefore
 | 25°   | J    | 0.1956 | NO       |
 | 15°   | J    | 0.0833 | NO       |
 
-Same energy. Different crossing behavior. The boundary is at
-α_critical = exactly 30°, where CΨ(0) = exactly 0.25 = ¼.
-
-### 3.2 Zero Initial CΨ, Still Crosses
-
-Family: cos(α)|01⟩ + sin(α)|10⟩ under Heisenberg H.
+### Single-excitation family
 
 | α     | CΨ(0)  | CΨ_max | t(max) | Crosses? |
 |-------|--------|--------|--------|----------|
@@ -94,13 +104,7 @@ Family: cos(α)|01⟩ + sin(α)|10⟩ under Heisenberg H.
 | 15°   | 0.0833 | 0.3028 | 0.38   | YES      |
 | 5°    | 0.0101 | 0.3078 | 0.39   | YES      |
 
-ALL states in this family cross, even at CΨ(0) = 0.01.
-The Hamiltonian pumps CΨ upward first. The |01⟩↔|10⟩
-exchange interaction generates entanglement rapidly.
-
-### 3.3 Product States: Hamiltonian Creates the Crossing
-
-Starting from CΨ(0) = 0 (zero entanglement):
+### Product preparations
 
 | State   | CΨ(0) | CΨ_max | Crosses? |
 |---------|--------|--------|----------|
@@ -113,17 +117,7 @@ Starting from CΨ(0) = 0 (zero entanglement):
 | \|0,0⟩  | 0.000  | 0.000  | NO       |
 | \|1,1⟩  | 0.000  | 0.000  | NO       |
 
-|0,1⟩ and |1,0⟩ cross despite starting with zero entanglement.
-The Heisenberg coupling creates entanglement from the spin
-exchange interaction.
-
-|+,+⟩, |0,0⟩, |1,1⟩ never cross because they are eigenstates
-(or within a single symmetry sector) of the Hamiltonian. No
-dynamics means no entanglement generation.
-
-### 3.4 The Competition: J/γ Ratio
-
-For |0,1⟩ product state, sweeping J/γ:
+### J/γ sweep for |01⟩
 
 | J/γ   | CΨ_max | Crosses? |
 |-------|--------|----------|
@@ -137,85 +131,24 @@ For |0,1⟩ product state, sweeping J/γ:
 | 50.0  | 0.323  | YES      |
 | 100.0 | 0.328  | YES      |
 
-Critical J/γ ≈ 5-10 for this state. Below this ratio,
-decoherence wins before the Hamiltonian can build enough
-entanglement. Above it, the Hamiltonian wins.
+<!-- F14-INTERPRETIVE -->
 
-CΨ_max saturates near 1/3 for large J/γ. This is the
-maximum CΨ reachable from |0,1⟩ under Heisenberg dynamics
-(limited by the state geometry, not by energy).
+**Interpretive invitation — not a result:** “Pump and drain” is a way to picture
+the competition between Hamiltonian-generated entanglement and dephasing in
+these examples. One can also ask what a clock would mean if its ticks were
+defined by a chosen threshold. The Wheeler-DeWitt comparison belongs to that
+question, not to a deduction that an H-eigenstate has no Lindblad dynamics,
+or that a missing crossing removes physical or experienced time.
 
----
+<!-- F14-CURRENT -->
 
-## 4. The Three Regimes
+## Reproduction and next question
 
-The crossing condition defines three regimes:
+Run `python simulations/minimum_energy.py` for stdout only; use an explicit
+`--output` path to retain a new result. The numerical grids and state updates
+are unchanged. A general crossing criterion would have to specify the initial
+state, Hamiltonian, channel, readout, threshold and crossing convention.
 
-**Regime 1: CΨ(0) > ¼**
-Starts above threshold. Decoherence drives CΨ downward through ¼.
-Crossing always occurs. Time scale: t_cross = K/γ.
-
-**Regime 2: CΨ(0) < ¼ but CΨ_max > ¼**
-Hamiltonian pumps CΨ upward first. CΨ rises above ¼, then
-decoherence drives it back down through ¼. Crossing occurs
-on the downward pass. Requires J/γ above a state-dependent
-critical ratio.
-
-**Regime 3: CΨ_max < ¼**
-CΨ never reaches the threshold. No crossing. No observer time.
-Either: (a) J/γ too small (decoherence wins), or
-(b) state is an eigenstate of H (no dynamics at all).
-
-### 4.1 Physical Interpretation
-
-The crossing is not an energy barrier. It is a **coherence
-barrier**. The system must accumulate enough entanglement
-(measured by CΨ) to reach ¼. The Hamiltonian is the pump.
-Decoherence is the drain. The crossing happens when the pump
-can fill the pool faster than the drain empties it.
-
-For eigenstates of H: the pump is off. No dynamics, no
-entanglement, no crossing, no time. This connects to the
-Wheeler-DeWitt ground state (Ĥ|Ψ⟩ = 0, no ticks, no events).
-
----
-
-## 5. What Determines CΨ_max
-
-CΨ_max depends on four factors:
-
-1. **Initial state geometry**: How much "raw material" for
-   entanglement exists. |0,1⟩ has maximal exchange potential.
-   |0,0⟩ has none.
-
-2. **Hamiltonian structure**: Which interactions generate
-   entanglement. Heisenberg σ·σ is efficient for exchange.
-   σ_z⊗σ_z alone (Ising) would behave differently.
-
-3. **J/γ ratio**: Competition between generation and destruction.
-   Critical ratio is state-dependent (≈5-10 for |0,1⟩).
-
-4. **Symmetry sector**: States within a single eigenspace of H
-   have CΨ_max = CΨ(0). No dynamics to pump.
-
----
-
-## 6. Reproduction
-
-```python
-# Critical angle for cos(α)|00⟩ + sin(α)|11⟩
-# Binary search confirms: α_critical = 30.000000°
-# At α = 30°: CΨ(0) = 0.250000, sin²(α) = 0.250000
-
-# J/γ sweep for |0,1⟩ product state
-# Critical J/γ ≈ 5-10 (CΨ_max crosses 0.25)
-```
-
-Full script: [`simulations/minimum_energy.py`](../simulations/minimum_energy.py)
-
----
-
-*Built on: [Observer × Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md),
-[Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)*
-*Connects to: [Time as Crossing Rate](../hypotheses/TIME_AS_CROSSING_RATE.md)
-(Wheeler-DeWitt: no dynamics → no time)*
+Related: [Observer-Gravity Bridge](OBSERVER_GRAVITY_BRIDGE.md),
+[Coherence Density](COHERENCE_DENSITY.md),
+[Time as Crossing Rate](../hypotheses/TIME_AS_CROSSING_RATE.md).

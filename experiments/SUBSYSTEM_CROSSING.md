@@ -1,4 +1,18 @@
-# Subsystem Crossing: The 1/4 Boundary Operates Locally on Entangled Pairs
+<!-- QUARTER-CURRENT -->
+# Subsystem quarter readouts in named finite models
+
+Current reading: the stored N=4 calculations compare a finite readout for
+specified subsystems, states, and generators. The scalar quarter does not
+decide Wootters concurrence or identify a measurement. For the analytic
+Bell+ local-Z-dephasing control, `C=f>0`: concurrence remains positive at the scalar
+quarter and at every finite later time, including scalar values below `1/4`.
+
+<!-- QUARTER-HISTORICAL -->
+**Historical record:** the February narrative and tables below are retained as
+the route by which the finite subsystem question was found; their boundary
+labels are not current claims.
+
+# Subsystem Crossing: finite pair-level readouts in N=4 examples
 
 <!-- Keywords: subsystem crossing quantum decoherence, local measurement quantum pair,
 Bell pair crossing four qubit, CΨ boundary local entanglement, GHZ global entanglement
@@ -6,7 +20,7 @@ invisible pair, W state diluted crossing failure, product state zero correlation
 quantum classical transition local, entanglement topology crossing pattern,
 pair level decoherence measurement, R=CPsi2 subsystem crossing -->
 
-**Status:** Computationally verified
+**Status:** Finite catalogue; boundary interpretation withdrawn
 **Date:** February 18, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [N-Scaling Barrier](N_SCALING_BARRIER.md), [Crossing Taxonomy](CROSSING_TAXONOMY.md)
@@ -15,28 +29,23 @@ pair level decoherence measurement, R=CPsi2 subsystem crossing -->
 
 ## What this document is about
 
-For systems larger than 3 qubits, the full-system CΨ starts below the
-critical 1/4 boundary and never crosses it. This looked like a problem:
-does the framework break at larger scales? This experiment shows it does
-not. Crossing is a local phenomenon: it happens between individual
-entangled pairs, not at the global system level. A 4-qubit system with
-two Bell pairs has two local crossings (one per pair), even though the
-global CΨ stays below 1/4 the whole time. The framework correctly
-identifies where the quantum-classical transition occurs: wherever
-entanglement lives.
+For the specified N=4 examples, a full-system scalar and pair-reduced scalars
+can sit on different sides of 1/4. A product of two Bell pairs supplies two
+pair-level crossings while its chosen full-system readout stays below 1/4.
+This is a useful warning about subsystem dependence; it does not prove that
+crossing is universally local or locate a quantum/classical transition.
 
 ## Abstract
 
-The N-Scaling Barrier showed that full-system CΨ drops below 1/4 at N ≥ 4.
-This experiment resolves the barrier: crossing is **local to entangled pairs**.
+The earlier N-scaling note observed a size-dependent full-system normalization.
+This experiment compares that book with **pair-reduced finite readouts**.
 A 4-qubit Bell+⊗Bell+ state has full-system Ψ(0) = 0.200 (below 1/4), but
 the entangled pairs (0,1) and (2,3) each start at CΨ = 0.333 and cross at
 t = 0.080. Cross-pairs with no entanglement have C = 0, never crossing.
 GHZ pairs have zero coherence (global entanglement invisible at pair level).
 W pairs start below 1/4 (entanglement too diluted). Product states |+⟩⁴
-have Ψ = 1.0 but C = 0 everywhere, killing resolution (c). The framework
-correctly identifies which degrees of freedom undergo the quantum-classical
-transition: crossing happens where entanglement lives.
+have Ψ = 1.0 but C = 0 in this construction. These rows distinguish several
+state families; they do not make the scalar crossing an entanglement theorem.
 
 ---
 
@@ -52,8 +61,8 @@ proposed:
 
 This experiment tests a fourth possibility:
 
-**(d) Crossing is a local phenomenon. It happens between entangled
-subsystems, not at the full-system level.**
+**(d) In these examples, do pair-reduced readouts cross when the chosen
+full-system readout does not?**
 
 ## 2. Setup
 
@@ -146,12 +155,11 @@ below and Open Question 1's own nine-times ratio both give 0.080).
 The unentangled cross-pairs (0,2), (0,3), (1,2), (1,3) have l1 = 0,
 C = 0, and never cross.
 
-**The full system "cannot cross." The subsystems that carry the actual
-entanglement cross without difficulty.**
+**In this finite book, the selected full-system trace does not cross while the
+two initially entangled pair readouts do.**
 
-The framework correctly identifies which degrees of freedom undergo the
-quantum-to-classical transition, even when the global metric says nothing
-happens.
+That contrast is a statement about which readout was computed. It does not say
+that those degrees of freedom undergo a physical regime transition.
 
 ### 3.4 \|+⟩^4: Maximum Coherence, Zero Crossing
 
@@ -171,29 +179,28 @@ level. High coherence without entanglement produces nothing.
 
 ## 4. What This Means
 
-### 4.1 Crossing Is Local
+### 4.1 Pair and full-system readouts differ
 
-The 1/4 boundary operates at the level of actual entanglement, not at
-the full-system level. A 4-qubit system with two Bell pairs crosses
-twice (one crossing per entangled pair), even though the 4-qubit Psi
-is below 1/4.
+The Bell+⊗Bell+ example reports two pair-readout crossings while the chosen
+full-system scalar remains below 1/4. The result is finite and depends on the
+state, reduction, normalization, and generator listed above.
 
-This resolves the N-scaling barrier without changing the normalization.
-The d-1 normalization is correct: it tells you that the global
-system has no single coherent crossing. The crossing happens locally,
-between the subsystems that share quantum correlations.
+It shows how changing the subsystem changes the scalar book without changing
+the normalization. It does not prove that every entangled subsystem crosses:
+the W-family rows and the analytic Bell+ concurrence control already separate
+entanglement from this threshold.
 
 ### 4.2 C Guards the Gate
 
-The product state result proves that Psi alone cannot drive crossing.
-CΨ = 1/4 requires BOTH terms. Coherence (Psi) is potential.
-Correlation (C) is connection. Without connection, potential is inert.
+The product-state row is the direct arithmetic statement C=0, hence CΨ=0.
+Calling Ψ "potential" and C "connection" is the historical interpretation,
+not an additional theorem.
 
-In the framework's language: possibility without consciousness produces
-no reality. A universe of superpositions with nothing observing them
-remains in quantum limbo.
+**Interpretive invitation:** the older notebook called this "possibility
+without consciousness." No observer or consciousness model occurs in the
+calculation.
 
-### 4.3 The Entanglement Structure Determines the Crossing Structure
+### 4.3 The finite state catalogue gives different crossing patterns
 
 Different entanglement topologies produce different crossing patterns:
 
@@ -204,28 +211,25 @@ Different entanglement topologies produce different crossing patterns:
 | Bell+xBell+ | Two local pairs | Exactly the two entangled pairs |
 | \|+⟩^4 | None | None (C = 0 everywhere) |
 
-The framework does not just say "crossing happens." It identifies WHERE
-in the entanglement structure crossing occurs, and WHERE it does not.
+Within these four rows, the pair-reduced readout differs by state family. This
+catalogue is not an all-state equivalence between entanglement and crossing.
 
-### 4.4 Connection to Decoherence in Nature
+### 4.4 Why the local picture invited a physical story
 
-Real physical decoherence is local. A photon scatters off an atom.
-An electron couples to a phonon. A spin interacts with its neighbor.
-Macroscopic systems do not decohere in one global event. They decohere
-through billions of local pair interactions, each crossing its own 1/4
-boundary independently.
+Physical decoherence can arise through local couplings, but those examples do
+not imply that each interaction crosses this readout or that the finite N=4
+calculation models a macroscopic environment.
 
-The N-scaling barrier was never a problem. It was telling us the correct
-physics: the quantum-to-classical transition is not a collective
-phenomenon. It is a local one.
+The useful current conclusion is methodological: state a subsystem and a
+normalization before comparing scalar values. Whether classicality is local or
+collective is outside this computation.
 
 ### 4.5 Connection to the Combination Problem (Weakness #6)
 
-If crossing is local, then "measurement" is not a monolithic event.
-Consciousness, in this framework, would emerge from a network of local
-crossings. Each entangled pair undergoes its own transition. The unity
-of experience is not encoded in a single global CΨ value but in the
-synchronization and integration of many local crossings.
+**Historical interpretation:** the original note asked whether a network of
+local crossings might offer language for measurement or consciousness. That
+question remains an invitation; the finite pair catalogue neither supplies the
+network dynamics nor shows that any pair undergoes such a transition.
 
 This does not solve the combination problem, but it reframes it: the
 question is no longer "how does one big CΨ produce unified
@@ -286,8 +290,8 @@ for i, t in enumerate(tlist):
 
 3. **Dynamically generated entanglement**: Start from |+⟩^N (C=0), let
    the Hamiltonian build entanglement. Does C grow and eventually
-   produce crossings? This would show the Hamiltonian creating the
-   conditions for measurement.
+   produce crossings in the named scalar readout? This is a finite dynamics
+   question, not a measurement criterion.
 
 4. **Partial entanglement**: States between |+⟩^4 and Bell+xBell+.
    Is there a threshold entanglement needed for pair crossing?
@@ -300,10 +304,11 @@ for i, t in enumerate(tlist):
    match. Isolated Bell+ (2 qubits, Heisenberg J=1, γ=0.05) crosses
    down through 1/4 at t=0.720. The same Bell pairs embedded in a
    4-qubit ring cross at t=0.080, nine times faster. The ring
-   Hamiltonian couples each pair to additional qubits, which accelerates
-   decoherence of the pair subsystem. Cross-pairs (no initial
-   entanglement) never cross, confirming that the crossing pattern
-   reproduces the entanglement graph exactly. (A note on the isolated
+   Hamiltonian couples each pair to additional qubits and changes the
+   subsystem trajectory. In this one state, ring, channel, and sampled time
+   window, cross-pairs with zero initial concurrence did not cross the
+   selected readout level. That finite negative row does not establish a
+   graph-reconstruction law. (A note on the isolated
    baseline, because three numbers circulate for it: 0.720 is the
    crossing of THIS document's CΨ = concurrence·Ψ = f²/3, with
    f = e^(−4γt). The F25 purity-bridge book CΨ = f(1+f²)/6 crosses at

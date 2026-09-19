@@ -1,5 +1,7 @@
 # Open Questions Classification Proposal: hardware-test
 
+<!-- CROSSING-CURRENT -->
+
 **Batch:** hardware-test
 **Date:** 2026-04-12
 **Entries in batch:** 38
@@ -9,8 +11,8 @@
 
 | Proposed Status | Count |
 |-----------------|-------|
-| open | 17 |
-| resolved | 12 |
+| open | 19 |
+| resolved | 10 |
 | partially-resolved | 3 |
 | obsolete | 4 |
 | needs-human | 2 |
@@ -60,7 +62,7 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-026
 
-**Question:** CΨ = 1/4 crossing at 0.3% accuracy (IBM Torino Q52, 25 tomography points)
+**Question:** How should the IBM Torino Q52 CΨ = 1/4 crossing be reported?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 120)
 **Section:** Active weaknesses
@@ -69,10 +71,10 @@ protocol in the repository has closed those gates, so the question remains open.
 **Proposed Status:** resolved
 **Confidence:** high
 **Resolving documents:**
-- `experiments/IBM_QUANTUM_TOMOGRAPHY.md` (lines 31-42): hardware verification (Feb 9, 2026)
-- `experiments/IBM_HARDWARE_SYNTHESIS.md` (line 126): synthesis reports 1.9% deviation
-**Rationale:** This is a documented hardware result, not an open question. The crossing was measured and verified on IBM Torino Q52 with 25 tomography points. Listed under "What we have" in the weakness document.
-**Search terms used:** "IBM Torino", "Q52", "0.3%", "crossing", "tomography"
+- `simulations/framework/confirmations.py` (`cpsi_quarter_crossing_torino_feb2026`): registry authority reports measured 114.7 μs and t*/T₂* = 1.036 versus 0.936 (10.7% above); qualitative, not a precision match
+- `experiments/IBM_QUANTUM_TOMOGRAPHY.md` (§ `The ¼ Crossing`): same finite Q52 record, with its separate 1.041 / 11.3% document convention
+**Rationale:** Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The old 115.0-versus-114.7 comparison reused the same interpolated hardware record and was not an independent prediction.
+**Search terms used:** "IBM Torino", "Q52", "qualitative crossing", "tomography"
 
 ---
 
@@ -127,17 +129,18 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-033
 
-**Question:** Anomalous late-time coherence (Q52, p < 0.0001) has three competing explanations (SPAM, TLS, boundary structure), unresolved.
+**Question:** Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control. Which Q52-specific control and independently diagnosed hardware-memory effects remain to test?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 131)
 **Section:** Active weaknesses
 **Date:** unknown
 
-**Proposed Status:** open
-**Confidence:** medium
+**Proposed Status:** open (Q52 late-time excess mechanism; witness interpretation closed)
+**Confidence:** high
 **Resolving documents:** none
-**Rationale:** Three competing mechanisms (SPAM errors, two-level system defects, boundary structure) are listed but no resolution or disambiguation experiment has been documented.
-**Search terms used:** "anomalous", "late-time coherence", "Q52", "SPAM", "TLS", "competing"
+**Related evidence:** `experiments/FIXED_POINT_SHADOW.md` supplies only the Q80/Q102 cross-qubit comparison and rejection of universality; it does not close the Q52 mechanism.
+**Rationale:** The present record closes no Q52-specific excess mechanism: only the universal-boundary/non-Markovian-witness interpretation is closed. Detuning remains a hypothesis to test against a Q52-specific fit/control.
+**Search terms used:** "late-time coherence", "Q52", "detuning hypothesis"
 
 ---
 
@@ -184,7 +187,7 @@ protocol in the repository has closed those gates, so the question remains open.
 **Proposed Status:** open
 **Confidence:** high
 **Resolving documents:** none
-**Rationale:** The relay protocol is computationally verified in `experiments/RELAY_PROTOCOL.md` (+83% MI improvement, N=11, C# RK4 propagation) but no hardware implementation has been attempted. Explicitly listed as a Tier 3-5 open question.
+**Rationale:** The finite N=11 Relay record compares 0.131700 at integrated t=4.50 with the passive sampled maximum 0.071576 at t=4.00 (about +84.0%, unmatched time and dose). Nominal 0.78/stage executes as 0.75/stage. Before a hardware proposal, compare passive and staged arms at common integrated time, add a matched-dose arm, and isolate receiver order from aggregate exposure and coupling. This remains an open follow-up, not a hardware-ready result; see `experiments/RELAY_PROTOCOL.md`.
 **Search terms used:** "relay protocol", "IBM Torino", "hardware validation"
 
 ---
@@ -223,7 +226,7 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-098
 
-**Question:** **Markovian noise only.** All results assume memoryless dephasing. Real hardware exhibits 1/f noise, two-level-system defects, and non-Markovian revivals (observed as excess late-time coherence in the Q52 data).
+**Question:** **Markovian noise only.** The simulations assume memoryless dephasing. Real hardware can carry colored noise and two-level-system defects. Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control; only the universal-boundary/non-Markovian-witness interpretation is closed. Which independently diagnosed memory model changes the finite dashboard?
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 316)
 **Section:** 5. Limitations and caveats
@@ -232,8 +235,8 @@ protocol in the repository has closed those gates, so the question remains open.
 **Proposed Status:** open
 **Confidence:** high
 **Resolving documents:** none
-**Rationale:** The Markovian limitation is acknowledged and non-Markovian effects are observed on hardware (Q52 excess late-time coherence) but not systematically analyzed. This overlaps with OQ-060 and OQ-103 (both classified as `open` in batch 4) from different source documents.
-**Search terms used:** "Markovian", "1/f noise", "TLS", "non-Markovian revivals", "Q52"
+**Rationale:** The Markovian limitation and the Q52-specific excess mechanism remain open. The present Q52 record is not a universal-boundary or non-Markovian-revival witness and does not identify the mechanism. This overlaps with OQ-060 and OQ-103 (both classified as `open` in batch 4) from different source documents.
+**Search terms used:** "Markovian", "1/f noise", "TLS", "detuning", "Q52"
 
 ---
 
@@ -245,12 +248,13 @@ protocol in the repository has closed those gates, so the question remains open.
 **Section:** 5. Limitations and caveats
 **Date:** April 2, 2026
 
-**Proposed Status:** needs-human / open
+**Proposed Status:** open
 **Confidence:** high that the original negative premise is false; low on the remaining hardware observable
 **Resolving documents:**
 - `experiments/COCKPIT_UNIVERSALITY.md` (Section 5): records the refutation of the old blanket null
 - `docs/proofs/PROOF_F86A_EP_MECHANISM.md`: strong pure-Z-dephasing non-normality and certified defective seeds
 **Rationale:** The early near-1 sample does not generalize. Single-vector Petermann factors apply only to simple isolated modes; at degeneracy the evidence must be formulated with invariant-subspace or Jordan diagnostics.
+**Status boundary:** This is not a `needs-human / open` hybrid: the negative premise is closed, while the remaining response question is one open entry.
 **Search terms used:** "Petermann", "K_P", "non-normal", "uninteresting"
 
 ---
@@ -275,7 +279,7 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-120
 
-**Question:** e) K depends on the initial state but not on the Hamiltonian. This means K is determined at the moment of state preparation, not by subsequent dynamics.
+**Question:** Which fixed readouts and Hamiltonian-dead preparations retain a gamma-only crossing coordinate?
 
 **Source:** `experiments/DECOHERENCE_RELATIVITY.md` (line 352)
 **Section:** 11. Open Questions
@@ -284,8 +288,8 @@ protocol in the repository has closed those gates, so the question remains open.
 **Proposed Status:** partially-resolved
 **Confidence:** high
 **Resolving documents:**
-- `experiments/OBSERVER_GRAVITY_BRIDGE.md` (lines 38-49): confirms K factorizes as t_cross = K(observer,state)/gamma with state-dependence (CV approximately 13.5%)
-**Rationale:** The K factorization (state-dependent, Hamiltonian-independent) is confirmed numerically. However, the deeper question (whether this connects to the measurement problem or to predetermined outcomes) remains speculative and unresolved.
+- `experiments/OBSERVER_GRAVITY_BRIDGE.md`: the Wootters-concurrence readout on cos(α)|00>+sin(α)|11> stays Hamiltonian-dead for the stated isotropic coupling and equal local Z-dephasing.
+**Rationale:** K_conc=ln(4sin²(2α)/3)/8 is fixed during that gamma sweep where α>30° gives a positive downward crossing; α=30° is initial equality and below it there is no such crossing. This is not arbitrary-observer or Hamiltonian-independent factorization. Experienced time and predetermined outcomes remain interpretations.
 **Search terms used:** "K depends", "initial state", "Hamiltonian", "predetermined", "factorization"
 
 ---
@@ -357,18 +361,18 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-165
 
-**Question:** ~~**Direction of the shift**~~: **ANSWERED (section 7).** B's measurement destroys nonlocal coherence reservoir. The coupling redistributes (not protects) coherence; B's intervention removes the return path.
+**Question:** **Direction of the shift:** Why are the shifts negative on the tested positive-J grid? The mechanism and a universal sign statement remain open; a coherence-reservoir explanation is not established.
 
-**Source:** `experiments/OBSERVER_GRAVITY_BRIDGE.md` (line 275)
+**Source:** `experiments/OBSERVER_GRAVITY_BRIDGE.md` §7
 **Section:** 6. Open Questions
 **Date:** unknown
 
-**Proposed Status:** resolved
-**Confidence:** high
-**Resolving documents:**
-- `experiments/OBSERVER_GRAVITY_BRIDGE.md` (lines 288-365, Section 7 "Why the Shift Is Negative: The Coherence Reservoir"): detailed mechanistic explanation with quantitative data
-**Rationale:** Explicitly answered with full mechanism: B's measurement destroys 0.819 units of nonlocal coherence; coupling acts as redistribution engine; shift is universally negative.
-**Search terms used:** "direction of shift", "coherence reservoir", "ANSWERED"
+**Proposed Status:** open (mechanism and universal sign unresolved)
+**Confidence:** high that the current source leaves the mechanism open; finite numerical evidence only for the tested negative shifts.
+**Current evidence:**
+- [Observer-Gravity Bridge §7](../experiments/OBSERVER_GRAVITY_BRIDGE.md#7-why-the-shift-is-negative-open): the unperturbed swap-symmetric trajectory is Hamiltonian-dead; the mechanism behind the intervention-dependent shift remains open.
+**Rationale:** The sampled negative shifts do not establish a universal sign law or a measurement-sensitivity theorem. A controlled mechanism test is still needed.
+**Search terms used:** "direction of shift", "tested J", "open mechanism"
 
 ---
 
@@ -625,7 +629,7 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-313
 
-**Question:** **Answered (2026-03-06):** The [Star Topology] gamma_A vs gamma_B scan shows receiver noise (gamma_A) is far more destructive than sender noise (gamma_B).
+**Question:** **Finite coupled-model reading:** At J_SA=1, J_SB=2 and partner rate 0.05 the boundaries are 0.2699 and 0.4735: neither gamma_A=0.25 nor gamma_B=0.25 kills the connection. The matched-partner contrast is about 1.7x; roles invert above partner rate 0.17292.
 
 **Source:** `hypotheses/TIME_AS_CROSSING_RATE.md` (line 372)
 **Section:** 6.5 Open Questions (for the bridge)
@@ -634,8 +638,8 @@ protocol in the repository has closed those gates, so the question remains open.
 **Proposed Status:** resolved
 **Confidence:** high
 **Resolving documents:**
-- `experiments/STAR_TOPOLOGY_OBSERVERS.md`: gamma_A vs gamma_B scan; connection dies at gamma_A=0.25 but only shortens at gamma_B=0.25
-**Rationale:** Explicitly marked "Answered (2026-03-06)" with full experimental reference. Receiver noise asymmetry is quantitatively established.
+- `experiments/STAR_TOPOLOGY_OBSERVERS.md`: finite matched-partner boundary scan, as scoped in `hypotheses/TIME_AS_CROSSING_RATE.md`
+**Rationale:** Resolved only as this finite coupled-model boundary comparison, not a universal receiver/sender asymmetry or channel-free timing protocol.
 **Search terms used:** "receiver noise", "gamma_A vs gamma_B", "destructive", "STAR_TOPOLOGY"
 
 ---

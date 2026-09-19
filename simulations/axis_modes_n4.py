@@ -1,42 +1,42 @@
-"""Axis modes at small N: the n_XY = N/2 layer of the Liouvillian.
+"""Finite tolerance-based centre-eigenvalue census for the N=4 XY chain.
 
-Tests the parity finding from `project_minus_is_the_mirror`:
-- For even N, Re(λ) = −Σγ = −Nγ₀ has a self-mirror subspace of `C(N, N/2)·2^N` modes
-  (the n_XY = N/2 absorption-grid layer).
-- For odd N there is no such layer (the axis falls between integer-γ₀ steps).
+The bare uniform-Z dephasing basis layer n_XY=N/2 has the exact combinatorial
+dimension C(4,2) 2^4 = 96. After the XY Hamiltonian is included, this script
+finds 94 eigenvalues on Re(lambda)=-sum(gamma_l) at tolerance 1e-9. Thus:
 
-At N=4 we expect 96 axis modes of 256 total; we then look at their Im distribution
-and Pauli-basis decomposition to see whether L_H preserves the n_XY=2 layer or
-mixes it with n_XY=0,4 averaging to 2.
+* 94 observed at tolerance 1e-9; basis-layer reference is 96; arithmetic gap 2
+  is not a leakage count. A continuation of individual modes would be needed
+  before assigning such a mechanism.
+* The 18 eigenvalues with additionally |Im(lambda)|<1e-9 and the R-parity
+  counts are finite numerical census results.
+* Site-reflection R parity does not establish Pi-fixed vectors. The composite
+  conjugating fold fixes the real centre line, while the linear spectral fold
+  fixes only lambda=-sum(gamma_l).
+* Raw eigenvector weights are basis-dependent in a degenerate subspace.
+  Majorana language is analogy only; no individual vector theorem follows.
 
-XY chain, J = 1, uniform Z-dephasing γ₀ = 0.05.
+The basis-layer reference dimension is 96. This bounded diagnostic evaluates
+N=4 only when run directly; importing it performs no eigendecomposition.
 
 Run: python simulations/axis_modes_n4.py
-
-Frozen N=4 reference run. For parameterized exploration at other even N, see
-`axis_modes.py` (same physics, N from CLI). See also experiments/MAJORANA_AXIS_MODES.md
-for the documented findings (R-parity sorting + Majorana operator-space lens).
 """
+
 import itertools
 import sys
 from math import comb
 
 import numpy as np
 
-# Windows console defaults to cp1252; force UTF-8 so γ₀, λ, σ, ⟨⟩ render.
-if hasattr(sys.stdout, "reconfigure"):
-    sys.stdout.reconfigure(encoding="utf-8")
 
 J = 1.0
 GAMMA = 0.05
 
 PAULI = np.array([
-    [[1, 0], [0, 1]],     # I
-    [[0, 1], [1, 0]],     # X
-    [[0, -1j], [1j, 0]],  # Y
-    [[1, 0], [0, -1]],    # Z
+    [[1, 0], [0, 1]],
+    [[0, 1], [1, 0]],
+    [[0, -1j], [1j, 0]],
+    [[1, 0], [0, -1]],
 ], dtype=complex)
-PAULI_NAMES = "IXYZ"
 
 
 def pauli_string(alpha):
@@ -51,273 +51,144 @@ def n_xy(alpha):
 
 
 def build_liouvillian(N, gamma, J):
-    """L = L_H + L_D for an N-site XY chain under uniform Z-dephasing.
-    Vec convention: column-stacking, so vec(H ρ − ρ H) = (I⊗H − H^T⊗I) vec(ρ).
-    """
+    """Return the XY-chain Liouvillian with uniform local Z dephasing."""
     dim = 2 ** N
-    H = np.zeros((dim, dim), dtype=complex)
-    for l in range(N - 1):
-        for axis_idx in (1, 2):  # X, Y
-            op_alpha = [0] * N
-            op_alpha[l] = axis_idx
-            op_alpha[l + 1] = axis_idx
-            H += (J / 2) * pauli_string(op_alpha)
-    I_dim = np.eye(dim, dtype=complex)
-    L_H = -1j * (np.kron(I_dim, H) - np.kron(H.T, I_dim))
-    L_D = np.zeros((dim * dim, dim * dim), dtype=complex)
-    for l in range(N):
-        op_alpha = [0] * N
-        op_alpha[l] = 3  # Z
-        sig_z_l = pauli_string(op_alpha)
-        L_D += gamma * (np.kron(sig_z_l, sig_z_l) - np.eye(dim * dim, dtype=complex))
-    return L_H + L_D
+    hamiltonian = np.zeros((dim, dim), dtype=complex)
+    for site in range(N - 1):
+        for axis_index in (1, 2):
+            alpha = [0] * N
+            alpha[site] = axis_index
+            alpha[site + 1] = axis_index
+            hamiltonian += (J / 2) * pauli_string(alpha)
+
+    identity = np.eye(dim, dtype=complex)
+    hamiltonian_part = -1j * (
+        np.kron(identity, hamiltonian)
+        - np.kron(hamiltonian.T, identity)
+    )
+    dissipator = np.zeros((dim * dim, dim * dim), dtype=complex)
+    super_identity = np.eye(dim * dim, dtype=complex)
+    for site in range(N):
+        alpha = [0] * N
+        alpha[site] = 3
+        z_site = pauli_string(alpha)
+        dissipator += gamma * (np.kron(z_site, z_site) - super_identity)
+    return hamiltonian_part + dissipator
 
 
-# === Parity check: N = 3 (odd, predicted 0) .. N = 5 (odd, predicted 0) ===
-print(f"# γ₀ = {GAMMA}, J = {J}, XY chain")
-print(f"# Parity check: axis modes at Re(λ) = −Σγ = −Nγ₀")
-print()
-for N in (3, 4, 5):
-    L = build_liouvillian(N, GAMMA, J)
-    eigvals = np.linalg.eigvals(L)
-    axis = -N * GAMMA
-    mask = np.abs(eigvals.real - axis) < 1e-9
-    count = int(mask.sum())
-    predicted = comb(N, N // 2) * (2 ** N) if N % 2 == 0 else 0
-    parity = "even" if N % 2 == 0 else "odd"
-    total = 4 ** N
-    print(f"  N={N} ({parity:>4}): axis Re = {axis:+.4f}, "
-          f"found {count:>3} / {total} at axis, predicted {predicted}")
+def axis_census(eigvals, N, gamma, tolerance):
+    """Return observed centre count, bare-layer reference, and arithmetic gap."""
+    if N != 4:
+        raise ValueError("axis_census is restricted to the N=4 diagnostic")
+    centre = -N * gamma
+    observed = int(np.sum(np.abs(eigvals.real - centre) < tolerance))
+    reference = comb(N, N // 2) * (2 ** N)
+    return observed, reference, reference - observed
 
 
-# === Detailed analysis at N = 4 ===
-print()
-print("# " + "=" * 64)
-print("# Detailed analysis at N = 4")
-print("# " + "=" * 64)
+def reverse_bits(value, count):
+    result = 0
+    for bit in range(count):
+        if (value >> bit) & 1:
+            result |= 1 << (count - 1 - bit)
+    return result
 
-N = 4
-dim = 2 ** N
-L = build_liouvillian(N, GAMMA, J)
-eigvals, eigvecs = np.linalg.eig(L)
-axis = -N * GAMMA
-re = eigvals.real
-im = eigvals.imag
-mask = np.abs(re - axis) < 1e-9
-axis_indices = np.where(mask)[0]
 
-print(f"\n# Re distribution across all {len(eigvals)} modes:")
-re_rounded = np.round(re, 9)
-for r, c in zip(*np.unique(re_rounded, return_counts=True)):
-    flag = " <-- axis" if abs(r - axis) < 1e-9 else ""
-    print(f"  Re = {r:+.4f}  count {c}{flag}")
+def reflection_parity_counts(vectors, reflection, span_tolerance=1e-10,
+                             parity_tolerance=1e-6):
+    """Count +/- site-reflection eigenvalues on the spanned numerical subspace."""
+    left_vectors, singular_values, _ = np.linalg.svd(
+        vectors, full_matrices=False,
+    )
+    rank = int(np.sum(singular_values > span_tolerance))
+    if rank == 0:
+        return 0, 0, 0
+    orthonormal = left_vectors[:, :rank]
+    restricted = orthonormal.conj().T @ reflection @ orthonormal
+    restricted = (restricted + restricted.conj().T) / 2
+    values = np.linalg.eigvalsh(restricted)
+    even = int(np.sum(np.abs(values - 1) < parity_tolerance))
+    odd = int(np.sum(np.abs(values + 1) < parity_tolerance))
+    return even, odd, len(values) - even - odd
 
-print(f"\n# Im distribution among the {len(axis_indices)} axis modes:")
-axis_ims = np.round(im[mask], 6)
-unique_im, im_counts = np.unique(axis_ims, return_counts=True)
-print(f"  {len(unique_im)} unique Im values:")
-for v, c in sorted(zip(unique_im, im_counts)):
-    print(f"  Im = {v:+.4f}  count {c}")
 
-# === Pauli-basis decomposition: do axis modes live purely in n_XY=2? ===
-all_alphas = list(itertools.product(range(4), repeat=N))
-pauli_basis = np.zeros((dim * dim, dim * dim), dtype=complex)
-for k, alpha in enumerate(all_alphas):
-    pauli_basis[:, k] = pauli_string(alpha).flatten('F')
-nxy_per_alpha = np.array([n_xy(a) for a in all_alphas])
+def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
 
-nxy_supports = np.zeros((len(axis_indices), N + 1))
-for i, idx in enumerate(axis_indices):
-    v = eigvecs[:, idx]
-    c = pauli_basis.conj().T @ v / (2 ** N)
-    abs_c2 = np.abs(c) ** 2
-    if abs_c2.sum() > 0:
-        abs_c2 /= abs_c2.sum()
-    for k in range(N + 1):
-        nxy_supports[i, k] = abs_c2[nxy_per_alpha == k].sum()
+    N = 4
+    dim = 2 ** N
+    tolerance = 1e-9
+    liouvillian = build_liouvillian(N, GAMMA, J)
+    eigvals, eigvecs = np.linalg.eig(liouvillian)
+    centre = -N * GAMMA
+    mask = np.abs(eigvals.real - centre) < tolerance
+    axis_indices = np.where(mask)[0]
+    observed_axis, layer_reference, reference_minus_observed = axis_census(eigvals, N, GAMMA, 1e-9)
+    assert (observed_axis, layer_reference, reference_minus_observed) == (94, 96, 2)
 
-pure_count = int(np.sum(nxy_supports[:, N // 2] > 0.9999))
-print(f"\n# n_XY support of axis modes:")
-print(f"  Axis modes with > 99.99% support on n_XY = {N//2} layer: "
-      f"{pure_count} of {len(axis_indices)}")
-print(f"  Mean Pauli-support distribution across axis modes:")
-for k in range(N + 1):
-    print(f"    n_XY = {k}: {nxy_supports.mean(axis=0)[k]:.4f}")
+    print("=== N=4 FINITE TOLERANCE-SELECTED CENTRE EIGENSPACE ===")
+    print(f"XY chain, J={J}, uniform gamma={GAMMA}, tolerance={tolerance:g}")
+    print(f"basis-layer reference dimension: {layer_reference}")
+    print(f"{observed_axis} observed at tolerance 1e-9; basis-layer reference is {layer_reference}; arithmetic gap {reference_minus_observed} is not a leakage count")
+    print("Site-reflection R counts below are subspace counts, not Pi-fixed vectors.")
+    print("The composite conjugating fold fixes the real centre line; the "
+          "linear spectral fold fixes only lambda=-sum(gamma_l).")
+    print("Raw eigenvector weights are basis-dependent in a degenerate subspace.")
 
-# === Im=0 axis modes: the full self-mirror kernel ===
-im0_mask = mask & (np.abs(im) < 1e-9)
-im0_indices = np.where(im0_mask)[0]
-y_per_alpha = np.array([sum(1 for a in alpha if a == 2) for alpha in all_alphas])
+    rounded_imaginary = np.round(eigvals.imag[mask], 6)
+    unique_imaginary, imaginary_counts = np.unique(
+        rounded_imaginary, return_counts=True,
+    )
+    print(f"centre-line Im clusters: {len(unique_imaginary)}")
+    for value, count in zip(unique_imaginary, imaginary_counts):
+        print(f"  Im(lambda)={value:+.6f}: {count}")
 
-print(f"\n# {'=' * 64}")
-print(f"# Im=0 axis modes: λ = −Σγ + 0i exactly ({len(im0_indices)} of {len(axis_indices)} axis modes)")
-print(f"# {'=' * 64}")
+    im_zero_indices = np.where(mask & (np.abs(eigvals.imag) < tolerance))[0]
+    print(f"finite |Im(lambda)|<1e-9 count: {len(im_zero_indices)}")
+    assert len(im_zero_indices) == 18
 
-for i, idx in enumerate(im0_indices):
-    v = eigvecs[:, idx]
-    c = pauli_basis.conj().T @ v / (2 ** N)
-    abs_c2 = np.abs(c) ** 2
-    if abs_c2.sum() > 0:
-        abs_c2 /= abs_c2.sum()
-    nxy_dist = [abs_c2[nxy_per_alpha == k].sum() for k in range(N + 1)]
-    y_dist = [abs_c2[y_per_alpha == k].sum() for k in range(N + 1)]
+    all_alphas = list(itertools.product(range(4), repeat=N))
+    pauli_basis = np.zeros((dim * dim, dim * dim), dtype=complex)
+    for index, alpha in enumerate(all_alphas):
+        pauli_basis[:, index] = pauli_string(alpha).flatten("F")
+    nxy_per_alpha = np.array([n_xy(alpha) for alpha in all_alphas])
 
-    abs_c = np.abs(c)
-    abs_c_norm = abs_c / abs_c.max() if abs_c.max() > 0 else abs_c
-    top = np.argsort(abs_c_norm)[::-1][:4]
-    pauli_str = ""
-    for k in top:
-        if abs_c_norm[k] < 0.2:
-            break
-        name = ''.join(PAULI_NAMES[a] for a in all_alphas[k])
-        pauli_str += f"σ_{name}({abs_c_norm[k]:.2f}) "
+    mean_support = np.zeros(N + 1)
+    for index in axis_indices:
+        coefficients = pauli_basis.conj().T @ eigvecs[:, index] / (2 ** N)
+        weights = np.abs(coefficients) ** 2
+        weights /= weights.sum()
+        for layer in range(N + 1):
+            mean_support[layer] += weights[nxy_per_alpha == layer].sum()
+    mean_support /= len(axis_indices)
+    print("mean light-content support of this numerical eigenbasis:")
+    for layer, weight in enumerate(mean_support):
+        print(f"  n_XY={layer}: {weight:.6f}")
 
-    nxy_str = "[" + " ".join(f"{x:.2f}" for x in nxy_dist) + "]"
-    y_str = "[" + " ".join(f"{x:.2f}" for x in y_dist) + "]"
-    print(f"  #{i:2d}: n_XY {nxy_str}  Y-count {y_str}")
-    print(f"       top Pauli: {pauli_str}")
+    reflection_hilbert = np.zeros((dim, dim), dtype=complex)
+    for basis_index in range(dim):
+        reflection_hilbert[reverse_bits(basis_index, N), basis_index] = 1.0
+    reflection_operator = np.kron(reflection_hilbert, reflection_hilbert)
 
-# === Aggregate over the 18 Im=0 modes ===
-print(f"\n# Aggregate over the {len(im0_indices)} Im=0 modes:")
-purity_count = 0
-mean_nxy_dist = np.zeros(N + 1)
-mean_y_dist = np.zeros(N + 1)
-for idx in im0_indices:
-    v = eigvecs[:, idx]
-    c = pauli_basis.conj().T @ v / (2 ** N)
-    abs_c2 = np.abs(c) ** 2
-    if abs_c2.sum() > 0:
-        abs_c2 /= abs_c2.sum()
-    if abs_c2[nxy_per_alpha == N // 2].sum() > 0.9999:
-        purity_count += 1
-    for k in range(N + 1):
-        mean_nxy_dist[k] += abs_c2[nxy_per_alpha == k].sum()
-        mean_y_dist[k] += abs_c2[y_per_alpha == k].sum()
-mean_nxy_dist /= len(im0_indices)
-mean_y_dist /= len(im0_indices)
-print(f"  Pure n_XY={N//2}: {purity_count} of {len(im0_indices)}")
-print(f"  Mean n_XY support: {[f'{x:.3f}' for x in mean_nxy_dist]}")
-print(f"  Mean Y-count support: {[f'{x:.3f}' for x in mean_y_dist]}")
+    centre_even, centre_odd, centre_ambiguous = reflection_parity_counts(
+        eigvecs[:, axis_indices], reflection_operator,
+    )
+    print(
+        "site-reflection R parity on the tolerance-selected centre eigenspace: "
+        f"even={centre_even}, odd={centre_odd}, ambiguous={centre_ambiguous}"
+    )
+    assert (centre_even, centre_odd, centre_ambiguous) == (58, 36, 0)
 
-# === Which Pauli strings carry the Im=0 subspace? ===
-pauli_im0_content = np.zeros(len(all_alphas))
-for idx in im0_indices:
-    v = eigvecs[:, idx]
-    c = pauli_basis.conj().T @ v / (2 ** N)
-    pauli_im0_content += np.abs(c) ** 2
+    zero_even, zero_odd, zero_ambiguous = reflection_parity_counts(
+        eigvecs[:, im_zero_indices], reflection_operator,
+    )
+    print(
+        "site-reflection R parity on the finite real-centre subset: "
+        f"even={zero_even}, odd={zero_odd}, ambiguous={zero_ambiguous}"
+    )
+    print("These finite subspace counts do not select individual eigenvectors.")
 
-non_trivial = [(k, pauli_im0_content[k]) for k in range(len(all_alphas))
-               if pauli_im0_content[k] > 1e-6]
-non_trivial.sort(key=lambda x: -x[1])
-print(f"\n# Pauli strings with non-trivial weight in Im=0 subspace: "
-      f"{len(non_trivial)} of {4**N}")
-print(f"  (Σ_modes |c_α|² across the {len(im0_indices)} Im=0 modes, top 30)")
-for k, content in non_trivial[:30]:
-    alpha = all_alphas[k]
-    name = ''.join(PAULI_NAMES[a] for a in alpha)
-    print(f"    σ_{name}  n_XY={nxy_per_alpha[k]}  n_Y={y_per_alpha[k]}  "
-          f"weight = {content:.4f}")
 
-# === Site-reflection (F71) parity of the 18 Im=0 modes ===
-def reverse_bits(b, n):
-    out = 0
-    for i in range(n):
-        if (b >> i) & 1:
-            out |= 1 << (n - 1 - i)
-    return out
-
-R_h = np.zeros((dim, dim), dtype=complex)
-for b in range(dim):
-    R_h[reverse_bits(b, N), b] = 1.0
-# Sanity: σ_{rev(α)} == R_h σ_α R_h on a representative
-test_alpha = (1, 2, 3, 0)
-assert np.allclose(pauli_string(test_alpha[::-1]),
-                   R_h @ pauli_string(test_alpha) @ R_h), \
-    "site-reflection inconsistent"
-
-R_op = np.kron(R_h, R_h)  # vec(R ρ R) = (R ⊗ R) vec(ρ) since R is real involutive
-
-# Theoretical R-parity split of the n_XY=2 layer:
-#   palindromic strings (α == rev(α)): R-eigenvalue +1, contribute to even subspace.
-#   non-palindromic pairs: each contributes one +1 and one −1 eigenvector.
-nxy2_palindromic = 0
-nxy2_pairs = 0
-seen = set()
-for k, alpha in enumerate(all_alphas):
-    if nxy_per_alpha[k] != N // 2:
-        continue
-    if k in seen:
-        continue
-    rev_k = all_alphas.index(alpha[::-1])
-    if rev_k == k:
-        nxy2_palindromic += 1
-        seen.add(k)
-    else:
-        nxy2_pairs += 1
-        seen.add(k)
-        seen.add(rev_k)
-even_dim_nxy2 = nxy2_palindromic + nxy2_pairs
-odd_dim_nxy2 = nxy2_pairs
-print(f"\n# Theoretical R-parity decomposition of the n_XY={N//2} layer "
-      f"({nxy2_palindromic} palindromic + {nxy2_pairs} non-palindromic pairs):")
-print(f"  R-even subspace dim: {even_dim_nxy2}")
-print(f"  R-odd  subspace dim: {odd_dim_nxy2}")
-print(f"  total: {even_dim_nxy2 + odd_dim_nxy2} (= C(N,N/2)·2^N = {comb(N, N//2) * 2**N})")
-
-# Project R_op onto the Im=0 kernel and diagonalize
-V_K = eigvecs[:, im0_indices]
-U_K, _, _ = np.linalg.svd(V_K, full_matrices=False)  # orthonormal basis of the kernel
-R_sub = U_K.conj().T @ R_op @ U_K
-R_sub_sym = (R_sub + R_sub.conj().T) / 2  # symmetrise numerical noise
-r_eigvals = np.linalg.eigvalsh(R_sub_sym)
-
-print(f"\n# Site-reflection eigenvalues within the {len(im0_indices)}-dim Im=0 kernel:")
-print(f"  {np.round(r_eigvals, 6)}")
-n_even = int(np.sum(np.abs(r_eigvals - 1) < 1e-6))
-n_odd = int(np.sum(np.abs(r_eigvals + 1) < 1e-6))
-print(f"  R-even (+1): {n_even}")
-print(f"  R-odd  (−1): {n_odd}")
-print(f"  ambiguous (|λ_R| ≠ 1): {len(r_eigvals) - n_even - n_odd}")
-
-# === R-parity decomposition of the FULL 94-dim axis subspace ===
-print(f"\n# {'=' * 64}")
-print(f"# R-parity decomposition of the full {len(axis_indices)}-dim axis subspace")
-print(f"# {'=' * 64}")
-
-V_axis = eigvecs[:, axis_indices]
-U_axis, _, _ = np.linalg.svd(V_axis, full_matrices=False)
-R_axis = U_axis.conj().T @ R_op @ U_axis
-R_axis_sym = (R_axis + R_axis.conj().T) / 2
-r_eigvals_axis, r_eigvecs_axis = np.linalg.eigh(R_axis_sym)
-
-n_even_axis = int(np.sum(np.abs(r_eigvals_axis - 1) < 1e-6))
-n_odd_axis = int(np.sum(np.abs(r_eigvals_axis + 1) < 1e-6))
-ambig_axis = len(r_eigvals_axis) - n_even_axis - n_odd_axis
-print(f"  R-even axis modes: {n_even_axis}")
-print(f"  R-odd  axis modes: {n_odd_axis}")
-print(f"  ambig (|λ_R| ≠ 1): {ambig_axis}")
-print(f"  total: {n_even_axis + n_odd_axis} of {len(axis_indices)} axis modes; "
-      f"layer-predicted 52 R-even + 44 R-odd = 96, "
-      f"{96 - len(axis_indices)} mode(s) leaked off-axis")
-
-# Im(λ) within R-even axis subspace
-even_mask = np.abs(r_eigvals_axis - 1) < 1e-6
-U_even = U_axis @ r_eigvecs_axis[:, even_mask]
-L_even_sub = U_even.conj().T @ L @ U_even
-im_even = np.linalg.eigvals(L_even_sub).imag
-
-print(f"\n# Im(λ) within R-even axis subspace ({n_even_axis} modes):")
-for v, c in zip(*np.unique(np.round(im_even, 6), return_counts=True)):
-    flag = " <-- silent" if abs(v) < 1e-6 else ""
-    print(f"  Im = {v:+.4f}  count {c}{flag}")
-
-# Im(λ) within R-odd axis subspace
-odd_mask = np.abs(r_eigvals_axis + 1) < 1e-6
-U_odd = U_axis @ r_eigvecs_axis[:, odd_mask]
-L_odd_sub = U_odd.conj().T @ L @ U_odd
-im_odd = np.linalg.eigvals(L_odd_sub).imag
-
-print(f"\n# Im(λ) within R-odd axis subspace ({n_odd_axis} modes):")
-for v, c in zip(*np.unique(np.round(im_odd, 6), return_counts=True)):
-    flag = " <-- silent" if abs(v) < 1e-6 else ""
-    print(f"  Im = {v:+.4f}  count {c}{flag}")
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CΨ as a complex quantity: the 2D → 3D step for BOUNDARY_NAVIGATION.
+CΨ as a complex quantity: a finite coordinate view.
 
 The original CΨ = Tr(ρ²) · L1/(d−1) uses the L1 norm of off-diagonals,
 which is real and positive. This puts every Bell+ trajectory on the
@@ -9,34 +9,31 @@ real axis of the Mandelbrot c-plane, a 1D path.
 Complex extension: CΨ_com = Tr(ρ²) · (Σ ρ_{ij} off-diagonal, signed) / (d−1).
 Now CΨ_com is complex in general. For Bell+ with phase φ on |11⟩:
 
-    ρ_{00,11}(0) = (1/2) · exp(iφ)
+    ρ_{00,11}(0) = (1/2) · exp(-iφ)
 
-Under Lindblad Z-dephasing + Z-drift (detuning δ):
+Under the named two-qubit Lindblad Z-dephasing + Z-drift model:
 
-    ρ_{00,11}(t) = (1/2) · exp(iφ + iΔt − 4γt)
+    ρ_{00,11}(t) = (1/2) · exp[-i(φ + Ωt) - 4γt]
 
-where Δ = 2(δ_1 − δ_2). The trajectory in the c-plane is a **logarithmic
-spiral** winding inward toward the origin, passing near the cardioid
-cusp at c = 1/4 when |CΨ_com| ≈ 1/3.
+where Ω is the named rotation coordinate. The resulting logarithmic spiral is
+embedded in a copy of the Mandelbrot parameter plane for visual comparison.
+It is not an iteration orbit. Its radial crossing at ``|CΨ_com|=1/4`` is
+distinct from the cardioid's positive-real cusp ``c=+1/4``.
 
 This document generates the visualization. Main cardioid of the
 Mandelbrot set drawn analytically; trajectories computed from Lindblad
-integration for several (γ, Δ, φ_0) triples.
+integration for several (γ, Ω, φ_0) triples.
 
 Date: 2026-04-16
 """
 
 from __future__ import annotations
 
-import sys
+import argparse
 from pathlib import Path
 
 import numpy as np
 from scipy.linalg import expm
-
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
 
 # ── Constants ─────────────────────────────────────────────────────
 I2 = np.eye(2, dtype=complex)
@@ -182,11 +179,15 @@ def plot_all(trajectories: list[dict], out_png: Path) -> None:
         omega = tr["detuning_sum"]
         phi0 = tr["phi_0"]
         winds = omega / (4 * gamma) if gamma > 0 else float("inf")
-        label = (f"γ={gamma:.3f}, Ω={omega:.2f}, φ₀={phi0:.2f}"
-                 f"  (Ω/4γ={winds:.1f})")
         for ax in axes:
             ax.plot(c_vals.real, c_vals.imag, "-", color=col,
-                    linewidth=1.8, alpha=0.85, label=label)
+                    linewidth=1.8, alpha=0.85,
+                    label=(
+                        f"γ={gamma:.3f}, Ω={omega:.2f}, "
+                        f"state phase phi0={phi0:.2f}; "
+                        f"initial c_plot phase={-phi0:.2f} "
+                        f"(Ω/4γ={winds:.1f})"
+                    ))
             ax.plot(c_vals.real[0], c_vals.imag[0], "o", color=col,
                     markersize=8)
             ax.plot(c_vals.real[-1], c_vals.imag[-1], "x", color=col,
@@ -195,24 +196,24 @@ def plot_all(trajectories: list[dict], out_png: Path) -> None:
     ax_full.set_xlim(-1.7, 0.6)
     ax_full.set_ylim(-0.8, 0.8)
     ax_full.set_aspect("equal")
-    ax_full.set_title("Full c-plane: Mandelbrot + CΨ-trajectories")
+    ax_full.set_title("embedded coordinate c_plot = CΨ_com")
     ax_full.grid(True, alpha=0.2)
     ax_full.legend(loc="lower left", fontsize=7)
     ax_full.set_xlabel("Re(CΨ_com)")
     ax_full.set_ylabel("Im(CΨ_com)")
 
-    # Zoom to the cusp region
+    # Zoom around the shared numerical reference, keeping the objects distinct.
     ax_zoom.set_xlim(-0.05, 0.45)
     ax_zoom.set_ylim(-0.25, 0.25)
     ax_zoom.set_aspect("equal")
-    ax_zoom.set_title("Zoom to the cusp c = 1/4 (the fold entrance)")
+    ax_zoom.set_title("cardioid cusp c=+1/4 is a separate algebraic reference")
     ax_zoom.grid(True, alpha=0.2)
     ax_zoom.set_xlabel("Re(CΨ_com)")
     ax_zoom.set_ylabel("Im(CΨ_com)")
 
     fig.suptitle(
-        "CΨ in the complex plane: the 2D extension of BOUNDARY_NAVIGATION\n"
-        "φ₀ = 0 stays on the real axis; φ₀ ≠ 0 spirals through the cusp",
+        "Finite CΨ_com trajectories beside the independently defined cardioid\n"
+        "the shared number 1/4 does not identify the two objects",
         y=1.00,
     )
     plt.tight_layout(rect=[0, 0, 1, 0.96])
@@ -222,13 +223,10 @@ def plot_all(trajectories: list[dict], out_png: Path) -> None:
 
 
 # ── Run ───────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    RESULTS = Path(__file__).parent / "results"
-    RESULTS.mkdir(exist_ok=True)
-    OUT = RESULTS / "cpsi_complex_plane.png"
-
+def main(output_path) -> None:
+    destination = Path(output_path)
     print("=" * 70)
-    print("  CΨ in the complex plane: 2D extension of the fold navigation")
+    print("  CΨ_com embedded beside the Mandelbrot parameter plane")
     print("=" * 70)
 
     # Five trajectories with different (γ, Ω, φ₀)
@@ -244,7 +242,9 @@ if __name__ == "__main__":
     for cfg in configs:
         print(f"\n  running: γ={cfg['gamma']}, Ω={cfg['detuning_sum']}, "
               f"φ₀={cfg['phi_0']:.3f}, t_max={cfg['t_max']}")
-        tr = trajectory(**cfg)
+        tr = trajectory(
+            cfg["gamma"], cfg["detuning_sum"], cfg["phi_0"], cfg["t_max"]
+        )
         trajs.append(tr)
         c0 = tr["cpsi_complex"][0]
         cend = tr["cpsi_complex"][-1]
@@ -253,17 +253,23 @@ if __name__ == "__main__":
         print(f"    CΨ_com(end) = {cend.real:+.4f} + {cend.imag:+.4f}i  "
               f"|CΨ_com|={abs(cend):.4f}")
 
-    plot_all(trajs, OUT)
+    plot_all(trajs, destination)
 
     print()
     print("Interpretation:")
-    print("  φ₀=0, Ω=0: trajectory stays on positive real axis, crosses")
-    print("  the cusp at c = 1/4 head-on. This is BOUNDARY_NAVIGATION.md.")
-    print("  φ₀=0, Ω>0 (common Z-drift): trajectory spirals through the cusp,")
-    print("  winding around c=0 as it decays. Winding number = Ω/(4γ).")
+    print("  φ₀=0, Ω=0 stays on the positive real axis and passes the")
+    print("  selected radial value |CΨ_com|=1/4 at finite time.")
+    print("  φ₀=0, Ω>0 winds around c_plot=0 as the readout decays;")
+    print("  the finite winding coordinate is Ω/(4γ).")
     print("  φ₀≠0: trajectory starts off the real axis and spirals if Ω≠0,")
     print("  or decays along a ray if Ω=0.")
     print()
-    print("The cusp at c = 1/4 remains the topology-changing point, but the")
-    print("path through it is now 2D instead of 1D. The 3D view is this")
-    print("2D c-plane × time: a spiral staircase descending into the cusp.")
+    print("The cardioid cusp belongs to z_(n+1)=z_n^2+c. The plotted CΨ_com")
+    print("trajectory is a separate finite-model coordinate path beside it.")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", dest="output_path", required=True)
+    args = parser.parse_args()
+    main(args.output_path)

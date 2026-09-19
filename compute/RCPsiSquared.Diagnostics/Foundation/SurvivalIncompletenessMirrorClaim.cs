@@ -36,7 +36,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <para><b>RESOLVED (2026-06-14).</b> (from <see cref="VacuumBlockReductionClaim"/>) the V-Effect
 /// (Pauli-string weight w=N/2 self-pair) is NOT the {0,2}-coherence (n_diff) survivor: it is a different
 /// decomposition (weight vs bra-ket disagreement count); this claim is the constant-mirror + the
-/// light-survivor, AND the finer verdict: a different grading (w = n_diff + Z-shadow; dark, peaks at w=N-1 not w=N/2; same axis as the Born-rule mirror's 97/3, F94).</para>
+/// light-survivor, AND the finer verdict: a different grading
+/// (w = n_diff + Z-shadow; dark, peaks at w=N-1 rather than w=N/2).  This finite
+/// grading statement is unrelated to F94's named N=4 Dyson coefficient.</para>
 ///
 /// <para>Typed parents: <see cref="AbsorptionTheoremClaim"/> (a_0, the survival law) +
 /// <see cref="HalfAsStructuralFixedPointClaim"/> (a_2, the incompleteness baseline).

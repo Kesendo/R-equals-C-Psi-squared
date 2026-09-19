@@ -1382,10 +1382,10 @@ if (args.Length > 0 && args[0] == "topo")
     return;
 }
 
-// ---- run mode "regime": how alive at each Q = J/gamma (the clock) ----
+// ---- run mode "regime": finite dynamics at each Q = J/gamma ----
 // The same world at different ratios of restlessness to watching. Low Q: the watching wins (overdamped,
 // novelty barely born and quickly drained -- near death). High Q: the restlessness wins (underdamped,
-// novelty churns on and on). The clock angle theta = arctan(Q) reads the regime (reused from Clock).
+// novelty churns on and on). Clock owns its theta = arctan(Q) dial; this run is not an F95 derivation.
 if (args.Length > 0 && args[0] == "regime")
 {
     int gn = args.Length > 1 ? int.Parse(args[1]) : 4;
@@ -1393,13 +1393,13 @@ if (args.Length > 0 && args[0] == "regime")
     const int ticks = 80;                            // to t = 4
     var rworld = new World();
     Console.WriteLine($"how alive at each regime Q = J/gamma (N={gn} chain, seed |0...01>, gamma={gg})");
-    Console.WriteLine("  the clock: theta = arctan(Q). low Q = the watching wins (overdamped, ~death);");
+    Console.WriteLine("  Clock's own dial is theta = arctan(Q). low Q = the watching wins (overdamped, ~death);");
     Console.WriteLine("  high Q = the restlessness wins (underdamped, novelty churns on and on).");
     Console.WriteLine($"  {"Q",5} {"theta",7} {"peak nov",9} {"t@peak",7} {"late churn (t3-4)",17}");
     foreach (double q in new[] { 0.2, 0.5, 1.0, 2.0, 5.0, 20.0 })
     {
         double j = q * gg;
-        var clk = new Clock(rworld, j, gg);          // theta = arctan(Q), Q = J/gamma (the adopted clock)
+        var clk = new Clock(rworld, j, gg);          // Clock's own theta = arctan(Q), Q = J/gamma
         var rest = new Restless(rworld, gn, j, gg, Topology.Chain(gn));
         rest.Seed(1);
         double peak = 0, tpeak = 0, lateMin = double.MaxValue, lateMax = 0;
@@ -1768,7 +1768,7 @@ foreach (int N in new[] { 2, 3, 4 })
 // The special cases as T1 closed forms , adopted, not re-derived (all already Tier-1 in the repo).
 Console.WriteLine("==== special cases (T1 closed forms, adopted) ====");
 for (int n = 2; n <= 6; n++)
-    Console.WriteLine($"  N={n}: V-effect 1+cos(pi/N) = {1.0 + Math.Cos(Math.PI / n):0.0000}   ceiling g2(K_N)=4/N = {4.0 / n:0.0000}");
+    Console.WriteLine($"  N={n}: F6 Q-edge gain V(N)=1+cos(pi/N) = {1.0 + Math.Cos(Math.PI / n):0.0000}   ceiling g2(K_N)=4/N = {4.0 / n:0.0000}");
 Console.WriteLine($"  N=3: minimal EP, Q_EP = 2/g_eff (the whole rate ladder is HD=1 and HD=3)");
 Console.WriteLine($"  N=4: self-fold diabolic q_EP = sqrt((-1+sqrt13)/6) = {Math.Sqrt((-1.0 + Math.Sqrt(13.0)) / 6.0):0.0000}  (real q, N=4 only); (2,2) ceiling K_4 = 2-2/sqrt3 = {2.0 - 2.0 / Math.Sqrt(3.0):0.0000}");
 Console.WriteLine($"  N=5: diabolics leave the real axis into complex-conjugate pairs (only loud defective EPs remain real)");
@@ -1786,16 +1786,16 @@ foreach (int n in new[] { 2, 3, 4 })
 }
 Console.WriteLine("  edges stay N+1 (kernel + drain); even N spikes the center k=N/2; the rest bleeds off-grid (fractional <n_XY>)");
 
-// The clock: theta = arctan(Q), Q = J/gamma (T1, F95). The two hands of one winding mode.
+// Clock's own two-hand dial: theta = arctan(Q), Q = J/gamma.
 Console.WriteLine();
-Console.WriteLine("==== the clock: theta = arctan(Q), Q = J/gamma (T1) ====");
+Console.WriteLine("==== Clock's own dial: theta = arctan(Q), Q = J/gamma ====");
 foreach (double q in new[] { 0.0, 0.5, 1.0, 2.0, 5.0, 100.0 })
 {
     var clk = new Clock(world, j: q, gamma: 1.0);   // J=q, gamma=1 => Q=q
-    string mark = q == 0.0 ? "  [J=0: pure decay]" : Math.Abs(q - 1.0) < 1e-9 ? "  [theta=45deg <-> 1/4]" : q >= 100.0 ? "  [carbon, deep quantum]" : "";
+    string mark = q == 0.0 ? "  [J=0: pure decay]" : q >= 100.0 ? "  [large-Q limit]" : "";
     Console.WriteLine($"  Q={clk.Q,5:0.0}: theta = {clk.ThetaDeg,5:0.0} deg{mark}");
 }
-Console.WriteLine("  gamma=0 -> theta=90deg (pure circle, turning forever); 90deg <-> 1/2; the two hands are gamma (radial) and J (angular)");
+Console.WriteLine("  This dial is Clock's reading; it supplies no quarter/half ancestry for F95.");
 
 // The survivor: the slowest non-stationary mode (T1), regime-dependent.
 Console.WriteLine();
@@ -1882,7 +1882,7 @@ Console.WriteLine($"  F73 spatial-sum closure on the vac-SE probe: sum_i 2|(rho_
 Console.WriteLine($"  F75 mirror-pair MI = 2h(p)-h(2p) (Bell ceiling 2 bits at p=1/2); MM(0) bonding: (5,2)={Formulas.F75_MirrorPairSum(5, 2):0.000}, (7,4)={Formulas.F75_MirrorPairSum(7, 4):0.000}, (11,6)={Formulas.F75_MirrorPairSum(11, 6):0.000} (even k, noded centre, wins)");
 Console.WriteLine($"  F77 MM(0) saturation: 1 + 3/(4(N+1)ln2), rescaled limit {Formulas.F77_RescaledDeviationLimit():0.0000}; closed form at N=101: {Formulas.F77_MMSaturation(101):0.00000} (exact best-k F75 sum pinned in tests)");
 Console.WriteLine($"  F76 dephasing envelope lambda=e^(-4g0t): MM(t)/MM(0) at g0=0.05, t=0.1: (5,2)={Formulas.F76_Envelope(5, 2, 0.05, 0.1):0.000}, (13,4)={Formulas.F76_Envelope(13, 4, 0.05, 0.1):0.000}; the 0.93 is the g0 signature ({Formulas.F76_Envelope(5, 2, 0.025, 0.1):0.000} at g0=0.025, {Formulas.F76_Envelope(5, 2, 0.10, 0.1):0.000} at 0.10)");
-Console.WriteLine($"  F95 theta-compass arctan(sqrt(c/b^2-1)): threshold b^2=1/4 at b=1/2; Lindblad face theta=arctan(Q) -- F95(g^2+J^2, g) at Q=2 = {Formulas.F95_Theta(0.25 + 1.0, 0.5) * 180 / Math.PI:0.0} deg = the clock (the compass and the clock are one)");
+Console.WriteLine($"  F95 theta-compass arctan(sqrt(c/b^2-1)); only for the explicit specialization c = g*g + j*j, b = g > 0 does this equal arctan(|j|/g): at j=1,g=0.5 it is {Formulas.F95_Theta(0.25 + 1.0, 0.5) * 180 / Math.PI:0.0} deg; g=0 is outside F95");
 Console.WriteLine($"  F99 five canonical angles, alpha=sin^2/2: 0/30/45/60/90 deg -> {Formulas.F99_Alpha(0):0.000}, {Formulas.F99_Alpha(Math.PI / 6):0.000}, {Formulas.F99_Alpha(Math.PI / 4):0.000}, {Formulas.F99_Alpha(Math.PI / 3):0.000}, {Formulas.F99_Alpha(Math.PI / 2):0.000} (the Pi2 dyadic ladder); c^2(45deg) = 1+sqrt2 = {Formulas.F99_DickeWeightSq(Math.PI / 4):0.000} (the silver ratio)");
 Console.WriteLine($"  F88b Pi^2-odd/memory anchors alpha: mirror(6;2,4)={Formulas.F88b_Alpha(6, 2, 4):0.0}, K-int(6;3,4)={Formulas.F88b_Alpha(6, 3, 4):0.000} (=F98: {Formulas.F98_DickeAsymptote(6):0.000}), generic(7;1,3)={Formulas.F88b_Alpha(7, 1, 3):0.0}; GHZ (HD=N) = {Formulas.F88b_Pi2OddInMemory(4, 0, 4, 4):0.0} (Pi^2-classical); Dicke alpha_total(gamma=1/2) = {Formulas.F88b_DickeAlphaTotal(0.5):0.000}");
 

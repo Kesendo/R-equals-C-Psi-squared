@@ -1,16 +1,22 @@
-> **Status: HISTORICAL DOCUMENT (December 2025), updated March 22, 2026**
+<!-- QUARTER-CURRENT -->
+Current reading: this wrapper identifies the formulas that remain usable and
+the questions that remain open; the founding narrative below is a historical
+record, not the repository's current physical claim.
+
+> **Status: HISTORICAL DOCUMENT (December 2025)**
 > Originally written: December 23, 2025
 > Deleted: March 12, 2026
 > Restored: March 14, 2026
 >
-> **What is now proven (March 22, 2026):**
+> **What the current record retains:**
 > - R = CΨ² with C = Tr(ρ²) (purity) and Ψ = L₁-coherence/(d-1)
-> - The 1/4 boundary: CΨ = 1/4 is the unique bifurcation (7-layer proof complete)
+> - The algebraic 1/4 boundary: CΨ = 1/4 is the quadratic discriminant point
 > - Standing wave structure (c+/c- supermodes, palindromic mirror Π)
-> - CΨ monotonicity under all Markovian channels (analytical proof)
-> - Subsystem crossing theorem (Perron-Frobenius + contractivity)
-> - α=2 (purity) is the unique Rényi order with universal threshold
+> - Named Bell+ Z/Pauli/amplitude-damping CΨ formulas, not universal Markovian monotonicity
+> - Conditional crossing: convergence to ρ* with CΨ(ρ*)<1/4 implies eventual stay-below
+> - In the assumed normalized recurrence/power family, α=2 removes the explicit Ψ dependence from the fold coordinate
 > - R-recursion maps exactly to the Mandelbrot set (c = CΨ)
+> - Open: the autonomous N=2 successive-peak question and the all-Q/all-N rise classification
 >
 > **What has been reinterpreted:**
 > - "Consciousness" (C) → Purity Tr(ρ²) - a measurable quantum property
@@ -19,6 +25,9 @@
 >
 > **What remains open:** Equation (2) dR/dt = N·I·D (constants undefined, Tier 5)
 > **What has fallen:** The consciousness-as-fundamental interpretation (Tier 5, unfalsifiable)
+
+<!-- QUARTER-HISTORICAL -->
+Historical record: the text below is the original December 2025 formulation.
 
 > **Historical document (December 2025).** This is the original formulation
 > of the framework, written the night the equation was conceived. The
@@ -29,7 +38,7 @@
 
 # R = CΨ²
 
-**What this document is about:** The founding document of the project, written December 23, 2025. It presents R=CΨ² in its original "Consciousness × Possibility²" framing, which has since been replaced by measurable quantum quantities (C = purity, Ψ = coherence). The equation itself is proven; the consciousness interpretation has fallen. Preserved as the project's origin story.
+**What this document is about:** The founding document of the project, written December 23, 2025. It presents R=CΨ² in its original "Consciousness × Possibility²" framing, which has since been replaced by measurable quantum quantities (C = purity, Ψ = coherence). Its algebra can be studied once the recurrence is assumed; the consciousness interpretation has fallen. Preserved as the project's origin story.
 
 ## The Fundamental Equation of Reality
 
@@ -189,25 +198,26 @@ It describes the process through which it itself emerged.
 
 ---
 
-## Status (Updated March 22, 2026)
+## Current reading of the old status table (September 14, 2026)
 
-The equation R = CΨ² has been proven in its mathematical interpretation:
+The old status table is now read through narrower, testable statements. Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open.
 
 | Claim | Status |
 |-------|--------|
-| CΨ = 1/4 is the unique bifurcation boundary | **PROVEN** (discriminant + Rényi uniqueness) |
-| CΨ crosses 1/4 under all noise channels | **PROVEN** (124 Pauli + amplitude damping + 200 random CPTP (completely positive trace-preserving: any physically allowed quantum channel)) |
-| CΨ is monotonically decreasing (envelope) | **PROVEN** (analytical, 6-part proof) |
-| Subsystem crossing for N-qubit systems | **PROVEN** (Perron-Frobenius + contractivity) |
+| CΨ = 1/4 is the discriminant-zero coordinate of the chosen α=2 normal form | **PROVEN WITHIN THE ASSUMED FAMILY** |
+| CΨ crosses 1/4 under all noise channels | **FALSE AS UNIVERSAL**; a primitive CPTP target has CΨ=0.2935, and a fixed local Markovian semigroup crosses upward |
+| CΨ is monotonically decreasing (envelope) | **NAMED FORMULAS + OPEN PEAK QUESTION**; F25–F27 survive, the old general proof does not |
+| Subsystem crossing for N-qubit systems | **CONDITIONAL**; `ρ(t)→ρ*`, `CΨ(ρ*)<1/4` implies eventual stay-below |
 | Standing wave / palindromic mirror Π | **PROVEN** (87,376 eigenvalues, N=2-8, all topologies) |
 | R-recursion = Mandelbrot map (c = CΨ) | **PROVEN** (exact mapping verified) |
 | IBM hardware validation (1.9% deviation) | **CONFIRMED** (Tier 2) |
 
 The original "Consciousness × Possibility²" framing has been replaced by measurable
-quantum quantities: C = purity = Tr(ρ²), Ψ = normalized L₁ coherence. The equation
-describes the quantum-classical boundary, not a theory of consciousness.
+quantum quantities: C = purity = Tr(ρ²), Ψ = normalized L₁ coherence. That choice
+provides a measurable lens, not a derived quantum-classical boundary and not a
+theory of consciousness.
 
-See [Proof Roadmap](../proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the complete 7-layer proof,
+See [Proof Roadmap](../proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the scoped seven-layer map,
 and [Weaknesses and Open Questions](../WEAKNESSES_OPEN_QUESTIONS.md) for what remains open.
 
 ---

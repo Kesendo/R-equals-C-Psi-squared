@@ -71,22 +71,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md</c> (parent Hermitian-H)
 /// + <c>docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md</c> (parent non-Hermitian).</para></summary>
 /// <remarks>
-/// <para><b>Reading (2026-05-29) — the Y leg is the imaginary axis.</b> A viewpoint, not
-/// part of the Tier1Derived scope; recorded here so the connection is not re-found by luck.
-/// The missing Hilbert lift above is no accident: a unitary that flips Y while fixing X and
-/// Z cannot exist, because Y = i·X·Z, so any V fixing X and Z fixes their product Y too (the
-/// same Pauli-algebra fact the obstruction rests on). Y is the imaginary Pauli, and on a
-/// coherence ρ[i,j] the imaginary part carries the Y content while the real part carries the
-/// X content. Hence the rotation of the complex CΨ trajectory is its Y content, and the ¼
-/// cusp (θ = arctan√(4·CΨ − 1): real above ¼, undefined below) is exactly where that rotation
-/// dies; below the ¼ horizon the imaginary axis goes dark, the swing stops switching, and Y
-/// becomes invisible (below ¼ the angle is undefined; that is a level, not a classical
-/// verdict). Two faces of one Y, both flowing from Y being the rotation axis: the V₄ cannot
-/// transport it (D has no lift; the quarter turn outside the V₄ can), and below the ¼
-/// horizon the angle cannot show it. The hardware shadow is the Marrakesh Z⊗N-mirror run,
-/// where a transverse Y-field broke the mirror and the model puts an X-field's violation
-/// ~40× smaller, only Y having been flown (Confirmation marrakesh_transverse_y_field_detection). See
-/// <c>experiments/GAMMA0_IS_ALWAYS_THERE.md</c> and the ¼-cusp claims F25 / F95 / F97.</para>
+/// <para>The Y-axis terminology belongs to the exact Pauli grading proved above.  It does not
+/// identify this Frobenius-balance theorem with a complex-CΨ trajectory, an F95 quarter
+/// threshold, or a hardware mechanism; those are separate objects with separate owners.</para>
 /// </remarks>
 public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
 {

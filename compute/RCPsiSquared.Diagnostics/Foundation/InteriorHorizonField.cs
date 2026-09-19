@@ -3,26 +3,22 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The Object Manager's telescope onto the third axis: the ¼-to-½ interior, read as a
-/// horizon. Unlike the operator axes (crossover, J-defect), this is a state / coordinate axis: there
-/// is no Hamiltonian to sweep, only the coherence CΨ approaching the cusp ¼. It makes the already
-/// hardware-confirmed critical slowing (experiments/CRITICAL_SLOWING_AT_THE_CUSP.md) navigable live.
+/// <summary>The Object Manager's telescope onto several scalar readings near ¼. Unlike the
+/// operator axes (crossover, J-defect), this is a coordinate display: there is no Hamiltonian to
+/// sweep. It shows a recurrence discriminant, a positive-b quadratic angle, an iteration stopping
+/// rule, and one named Bell+/pure-Z trajectory without identifying those objects with one another.
 ///
-/// <para>Five readings, along a geometric |ε|-ladder approaching the horizon (CΨ = ¼ ± |ε|): the
-/// marks (¼ the horizon, ½ the anchor); the heading θ → 0 from the interior (F95); the Mandelbrot
-/// recursion run live, its iteration count diverging from the classical side (F56, the recursion
-/// crawling at the fold, the horizon where time stops); the slowing-is-ours seam (a relative stop
-/// makes the rescaled K constant, so the slowing belonged to the stop criterion, not the cusp); and
-/// the γ-invariant dwell with the IBM Kingston anchors (F57). The horizon is structural (a saddle-node
-/// fold), never gravitational.</para>
+/// <para>Five readings use a geometric |ε|-ladder around ¼: the scalar marks; the angle
+/// θ → 0 from c&gt;¼; the recurrence iteration count from c&lt;¼; the relative-stop control
+/// showing how much of the rescaled count belongs to the stopping rule; and the setup-specific
+/// Bell+/pure-Z dwell. The saved Kingston rows are finite comparisons, not a universal boundary.</para>
 ///
-/// <para>The heading reads from the interior side (¼ + |ε|, plus the horizon point ¼ itself, where the
-/// closed form is exactly θ = 0). The recursion reads from the classical side (¼ − |ε|, |ε| &gt; 0)
-/// and never touches ¼: the Mandelbrot iteration has no fixed point at or beyond the cusp, so the
-/// count is only defined below it.</para>
+/// <para>The heading reads from the complex-root side (¼ + |ε|, plus ¼ itself where the
+/// closed form is exactly θ = 0). The recurrence reads from the two-real-root side
+/// (¼ − |ε|, |ε| &gt; 0) and never touches the double-root point.</para>
 ///
 /// <para>A plain IInspectable, computed from closed forms, the F56 asymptotic, and one live recursion. N-free (the
-/// recursion and heading depend only on CΨ; state independence is itself hardware-confirmed).</para></summary>
+/// recurrence and angle depend only on their scalar input; that is not a state-independence claim).</para></summary>
 public sealed class InteriorHorizonField : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -41,7 +37,7 @@ public sealed class InteriorHorizonField : IInspectable
 
     /// <summary>The default ladder runs 10⁻¹⁰ … 10⁻² because that is inside F56's committed scan
     /// range (tol 10⁻⁸…10⁻¹⁶, ε 10⁻¹…10⁻¹⁰) and inside its stated validity <c>tol ≪ ε ≪ 1</c>. The
-    /// constructor still accepts ε up to ¼, but a rung there is not a reading of the fold: at
+    /// constructor still accepts ε up to ¼, but a rung there is not a useful near-boundary reading: at
     /// CΨ = ¼ − ¼ = 0 the iteration starts at u₀ = 0, its first increment is 0, and the count is 1
     /// whatever the physics does.</summary>
     public InteriorHorizonField(double epsLo = DefaultEpsLo, double epsHi = DefaultEpsHi, int epsPoints = 13,
@@ -71,22 +67,21 @@ public sealed class InteriorHorizonField : IInspectable
         return grid;
     }
 
-    /// <summary>The interior CΨ ladder for the heading (¼ + |ε|, ascending toward ½) with the horizon
-    /// point ¼ prepended, where the heading is exactly θ = 0. The heading is a closed form valid at the
-    /// cusp, so it may include the horizon itself; the recursion may not.</summary>
+    /// <summary>The c&gt;¼ ladder for the angle (¼ + |ε|, ascending toward ½), with the
+    /// double-root point ¼ prepended where the angle is exactly zero.</summary>
     private double[] HeadingCpsi()
     {
         var grid = new double[_eps.Length + 1];
-        grid[0] = InteriorHorizon.Cusp;                          // the horizon, θ = 0 exactly
+        grid[0] = InteriorHorizon.Cusp;                          // recurrence boundary, θ = 0 exactly
         for (int i = 0; i < _eps.Length; i++) grid[i + 1] = InteriorHorizon.Cusp + _eps[i];
         return grid;
     }
 
-    /// <summary>The classical CΨ at each rung (¼ − |ε|), descending toward 0. Never includes ¼: the
-    /// recursion has no fixed point at or beyond the cusp.</summary>
-    private double[] ClassicalCpsi() => _eps.Select(e => InteriorHorizon.Cusp - e).ToArray();
+    /// <summary>The two-real-root recurrence inputs at each rung (¼ − |ε|), descending toward 0.
+    /// Never includes the double-root point ¼.</summary>
+    private double[] BelowBoundaryCpsi() => _eps.Select(e => InteriorHorizon.Cusp - e).ToArray();
 
-    public string DisplayName => $"InteriorHorizonField (the ¼-to-½ interior, {_eps.Length} rungs, |ε| {_eps[0].ToString("E0", Inv)}..{_eps[^1].ToString("0.##", Inv)})";
+    public string DisplayName => $"InteriorHorizonField (recurrence coordinate near ¼, {_eps.Length} rungs, |ε| {_eps[0].ToString("E0", Inv)}..{_eps[^1].ToString("0.##", Inv)})";
 
     public string Summary
     {
@@ -94,9 +89,9 @@ public sealed class InteriorHorizonField : IInspectable
         {
             double thetaAnchor = InteriorHorizon.HeadingDegrees(InteriorHorizon.Cusp + _eps[^1]);
             int nNear = InteriorHorizon.RecursionIterations(InteriorHorizon.Cusp - _eps[0], _tol);
-            return $"the horizon CΨ=¼: heading θ → 0 from the interior (θ={thetaAnchor.ToString("0.#", Inv)}° at the far rung), " +
-                   $"the recursion crawls to {nNear} steps at the nearest rung (time stops at the fold); " +
-                   "the slowing is ours (relative stop → constant); dwell γ-invariant (Kingston-confirmed). Structural horizon, no gravity.";
+            return $"recurrence boundary c=¼: angle θ → 0 from the complex-root side (θ={thetaAnchor.ToString("0.#", Inv)}° at the far rung), " +
+                   $"the recurrence takes {nNear} steps at the nearest two-real-root rung under the fixed stop; " +
+                   "a relative stop makes the rescaled count approach a constant, while the Bell+/pure-Z dwell is a separate setup-specific reading.";
         }
     }
 
@@ -108,42 +103,42 @@ public sealed class InteriorHorizonField : IInspectable
             // total across the rungs), so there is no per-enumeration cache here, unlike JDefectField
             // which caches because it rebuilds dense Liouvillians per sweep point.
 
-            // 1. The marks (the contract): the horizon ¼ and the anchor ½, inert.
+            // 1. The scalar marks: the recurrence boundary ¼ and the angle anchor ½.
             yield return new InspectableNode(
                 displayName: "the marks (the contract)",
-                summary: $"CΨ=¼ the horizon (θ=0, the saddle-node cusp); CΨ=½ the anchor (θ=45°). Inert, tabulated, hardware-observed.");
+                summary: $"c=¼ is the recurrence's double-root value and θ=0; c=½ is an angle anchor with θ=45°. These are scalar coordinates, not state-regime labels.");
 
-            // 2. The heading from the interior: θ(CΨ) → 0 at the horizon (F95), the quantum side.
+            // 2. The positive-b quadratic angle on the complex-root side.
             var heading = HeadingCpsi();
             var theta = heading.Select(InteriorHorizon.HeadingDegrees).ToArray();
             yield return new InspectableNode(
-                displayName: "the heading from the interior (θ → 0 at the horizon)",
-                summary: $"θ = arctan(√(4·CΨ−1)): {theta[^1].ToString("0.#", Inv)}° at CΨ={heading[^1].ToString("0.##", Inv)} down to {theta[0].ToString("0.##", Inv)}° at the horizon. The compass on the quantum side (complex roots).",
-                payload: new InspectablePayload.Curve("heading θ°", heading, theta, "CΨ (interior)", "θ°"));
+                displayName: "the positive-b quadratic angle (θ → 0 at the boundary)",
+                summary: $"θ = arctan(√(4·c−1)): {theta[^1].ToString("0.#", Inv)}° at c={heading[^1].ToString("0.##", Inv)} down to {theta[0].ToString("0.##", Inv)}° at the recurrence boundary. This labels the complex-root coordinate of that quadratic.",
+                payload: new InspectablePayload.Curve("quadratic angle θ°", heading, theta, "c (complex-root side)", "θ°"));
 
-            // 3. The recursion at the fold (live): the Mandelbrot iteration count diverges from below.
-            var classical = ClassicalCpsi();
-            var counts = classical.Select(c => (double)InteriorHorizon.RecursionIterations(c, _tol)).ToArray();
+            // 3. The recurrence at its double-root boundary, run live from below.
+            var belowBoundary = BelowBoundaryCpsi();
+            var counts = belowBoundary.Select(c => (double)InteriorHorizon.RecursionIterations(c, _tol)).ToArray();
             double liveK = counts[0] * Math.Sqrt(_eps[0]);
-            double asymptoticK = InteriorHorizon.RecursionKAsymptotic(classical[0], _tol);
+            double asymptoticK = InteriorHorizon.RecursionKAsymptotic(belowBoundary[0], _tol);
             yield return new InspectableNode(
-                displayName: "the recursion at the fold (the horizon, live)",
-                summary: $"u → u²+c run live: {(int)counts[0]} steps at the nearest rung, diverging as CΨ → ¼⁻ (the recursion crawls, time stops). Rescaled K={liveK.ToString("0.##", Inv)}; the finite-ε asymptotic gives {asymptoticK.ToString("0.##", Inv)}.",
-                payload: new InspectablePayload.Curve("iteration count n", classical, counts, "CΨ (classical)", "n (live)"));
+                displayName: "the recurrence at the double-root boundary (live)",
+                summary: $"u → u²+c run live: {(int)counts[0]} steps at the nearest rung under the fixed stopping rule as c → ¼⁻. Rescaled K={liveK.ToString("0.##", Inv)}; the finite-ε asymptotic gives {asymptoticK.ToString("0.##", Inv)}.",
+                payload: new InspectablePayload.Curve("iteration count n", belowBoundary, counts, "c (two-real-root side)", "n (live)"));
 
             // 4. The slowing is ours (the seam): relative stop → rescaled K constant.
             var kAbs = new double[_eps.Length];
             var kRel = new double[_eps.Length];
             for (int i = 0; i < _eps.Length; i++)
             {
-                double c = classical[i];
+                double c = belowBoundary[i];
                 kAbs[i] = InteriorHorizon.RecursionIterations(c, _tol) * Math.Sqrt(_eps[i]);
                 kRel[i] = InteriorHorizon.RecursionIterationsRelative(c, _relK) * Math.Sqrt(_eps[i]);
             }
             double kRelConst = 0.5 * Math.Log(4.0 / _relK);
             yield return new InspectableNode(
                 displayName: "the slowing is ours (relative stop flattens onto ½·ln(4/k))",
-                summary: $"rescaled K with a relative stop tol=k·ε tends to ½·ln(4/k)={kRelConst.ToString("0.###", Inv)} as ε → 0, reading {kRel[0].ToString("0.###", Inv)} at the nearest rung |ε|={_eps[0].ToString("E0", Inv)} and drifting to {kRel[^1].ToString("0.###", Inv)} at |ε|={_eps[^1].ToString("E0", Inv)}, where ε is no longer small; the absolute-tol K drifts across the whole ladder ({kAbs[0].ToString("0.##", Inv)} to {kAbs[^1].ToString("0.##", Inv)}). The slowing belonged to the stop criterion, not the cusp (the cusp is inert).",
+                summary: $"rescaled K with a relative stop tol=k·ε tends to ½·ln(4/k)={kRelConst.ToString("0.###", Inv)} as ε → 0, reading {kRel[0].ToString("0.###", Inv)} at the nearest rung |ε|={_eps[0].ToString("E0", Inv)} and drifting to {kRel[^1].ToString("0.###", Inv)} at |ε|={_eps[^1].ToString("E0", Inv)}, where ε is no longer small; the absolute-tol K drifts across the whole ladder ({kAbs[0].ToString("0.##", Inv)} to {kAbs[^1].ToString("0.##", Inv)}). This control separates the stopping-rule contribution from the recurrence boundary.",
                 children: new IInspectable[]
                 {
                     new InspectableNode(
@@ -156,21 +151,21 @@ public sealed class InteriorHorizonField : IInspectable
                         payload: new InspectablePayload.Curve("K relative", _eps, kRel, "|ε|", "K")),
                 });
 
-            // 5. The dwell and the hardware (the dose): the Bell+ geodesic + the Kingston anchors.
+            // 5. A separate Bell+/pure-Z trajectory and finite Kingston comparisons.
             var tGrid = GeometricTimeGrid();
-            var geodesic = tGrid.Select(t => InteriorHorizon.BellPlusCpsi(_gamma, t)).ToArray();
+            var trajectory = tGrid.Select(t => InteriorHorizon.BellPlusCpsi(_gamma, t)).ToArray();
             yield return new InspectableNode(
-                displayName: "the dwell and the hardware (the dose)",
-                summary: $"K_dwell = γ·t_dwell = {InteriorHorizon.BellPlusDwellPrefactor}·δ (F57): for the ideal Bell+/pure-Z trajectory the dose that carries the state through the fold is γ-independent. " +
-                         "On IBM Kingston, f25_cusp_trajectory reproduces the crossing point-by-point; f57_kdwell_gamma_invariance compares two pairs at 2.55× different γ, agreeing to 6.4% at prefactor 0.67 rather than 1.0801, a comparison that does not isolate the cause of the gap. " +
-                         "At the cusp θ→0 the Liouvillian eigenvalue is −γ₀ alone (pure decay): the horizon is where the carrier shows itself.",
-                payload: new InspectablePayload.Curve("Bell+ geodesic CΨ(t)", tGrid, geodesic, "t", "CΨ (crosses ¼)"));
+                displayName: "the named Bell+/pure-Z dwell and hardware comparison",
+                summary: $"K_dwell = γ·t_dwell = {InteriorHorizon.BellPlusDwellPrefactor}·δ (F57) for the ideal Bell+/pure-Z trajectory. " +
+                         "Saved Kingston rows report finite crossings and compare two pairs at 2.55× different fitted γ; their 6.4% agreement at prefactor 0.67 rather than 1.0801 does not isolate the cause of the gap. " +
+                         "Neither the scalar crossing nor that association identifies a recurrence root with a Liouvillian mode.",
+                payload: new InspectablePayload.Curve("Bell+/pure-Z scalar trajectory", tGrid, trajectory, "t", "CΨ (passes ¼)"));
         }
     }
 
     private double[] GeometricTimeGrid()
     {
-        // A time grid spanning the Bell+ crossing of the cusp (CΨ: 1/3 -> below 1/4). The crossing is
+        // A time grid spanning the Bell+ scalar crossing (CΨ: 1/3 -> below 1/4). The crossing is
         // at K = gamma*t = 0.03735, i.e. t_cross = 0.03735/gamma; sample out to a few crossing times.
         double tCross = 0.03735 / _gamma;
         int points = 41;

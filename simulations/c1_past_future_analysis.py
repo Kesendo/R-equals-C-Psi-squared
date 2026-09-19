@@ -14,12 +14,10 @@ Source log: simulations/results/c1_past_future_test_fullrun.log
 """
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
-
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 import numpy as np
 
@@ -29,6 +27,7 @@ GAMMA_0 = 0.05
 J = 1.0
 DJ = 0.01
 V_N = 1.0 + np.cos(np.pi / N)
+OUT_PATH = Path(__file__).parent / "results" / "c1_past_future_test" / "past_future_test.json"
 
 # From simulations/results/c1_past_future_test_fullrun.log, per-state output:
 # The log shows E_k, role, c_1, and 7 alpha_i values per state at dJ=+0.01.
@@ -45,12 +44,15 @@ raw_data = [
 ]
 
 
-def main():
+def main(output_path=OUT_PATH):
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     print("=" * 70)
     print(f"c_1 past/future analysis (recovery) at N = {N}")
     print("=" * 70)
     print(f"  gamma_0 = {GAMMA_0}, J = {J}, dJ = +/- {DJ}, V(N) = {V_N:.4f}")
-    print(f"  Prediction for psi_1+vac: c_1 ~ 0.5 * V(N) = {0.5 * V_N:.4f}")
+    print(f"  Historical comparison candidate for psi_1+vac: 0.5 * V(N) = {0.5 * V_N:.4f}")
     print(f"  EQ-014 reports c_1(psi_1) = 0.97 at N=7 (parallel session)")
 
     results_by_state = {}
@@ -115,14 +117,16 @@ def main():
     print(f"       a degenerate-PT artifact (|vac> and psi_4 both at E=0).")
 
     # Save
-    results_dir = Path(__file__).parent / "results" / "c1_past_future_test"
-    results_dir.mkdir(parents=True, exist_ok=True)
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     out = {
         "N": N, "gamma_0": GAMMA_0, "J": J, "dJ": DJ, "V_N": V_N,
         "defect_bond": [0, 1],
         "initial_state_family": "(|vac> + |psi_k>) / sqrt(2) for k = 1..7",
         "results_by_state": results_by_state,
         "pi_pair_analysis": pi_pair_data,
+        # Historical schema key retained for payload continuity.  The value is
+        # a comparison candidate, not a prediction asserted by this repair.
         "prediction_psi_1": 0.5 * V_N,
         "eq014_psi_1_match": 0.97,
         "source_log": "simulations/results/c1_past_future_test_fullrun.log",
@@ -131,12 +135,23 @@ def main():
                  "table header. All heavy computation (3 dense "
                  "eigendecomps + 7 state propagations at N=7) completed "
                  "successfully."),
+        "current_reading": "Finite N=7 recovered coefficient and Pi-pair table.",
+        "evidence_scope": ("The 0.5*V(N) value is a historical comparison candidate, "
+                           "not a prediction; this finite table does not demonstrate "
+                           "convergence or a bilinear/cavity mechanism."),
+        "provenance": {
+            "producer": "simulations/c1_past_future_analysis.py",
+            "source_log": "simulations/results/c1_past_future_test_fullrun.log",
+            "execution": "cheap recovery writer; heavy propagation not rerun",
+        },
     }
-    path = results_dir / "past_future_test.json"
-    with open(path, "w") as f:
+    with open(output_path, "w") as f:
         json.dump(out, f, indent=2, default=str)
-    print(f"\nSaved: {path}")
+    print(f"\nSaved: {output_path}")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, default=OUT_PATH)
+    args = parser.parse_args()
+    main(args.output)

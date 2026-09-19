@@ -1,3 +1,24 @@
+<!-- CROSSING-CURRENT -->
+
+CURRENT READING
+
+This separate exploration has no committed producer to regenerate it.
+Its K/gamma and stage=0.78 headers are historical requested-parameter labels,
+not evidence that the C# Relay integrated 0.78 or that F14 selected a schedule.
+
+The C# Relay requested nominal 0.78 per stage and 4.68 total but integrated
+0.75 per stage and 4.50 total. Its about +84.0% stored-value ratio compares
+final 0.131700 at 4.50 with passive sampled maximum 0.071576 at 4.00, unmatched
+in time and dose. Statistic-attached exposures are 2.17125 versus 2.200; the
+separate equal-4.50 counterfactual is 2.17125 versus 2.475. These facts do not
+reinterpret this artifact as a matched trial or an optimized schedule.
+
+<!-- CROSSING-HISTORICAL -->
+
+Historical record: every original numerical, parameter-label and as-run line
+follows unchanged. There is no replacement producer or new execution claim.
+
+
 === TEMPORAL SACRIFICE PROTOCOL ===
 Edge -> Center switch sweep at N=7
 Phase 1: [0.344, 0.001x6], Phase 2: [0.001x3, 0.344, 0.001x3]

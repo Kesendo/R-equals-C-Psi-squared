@@ -9,6 +9,7 @@ rate assignments.
 """
 
 import numpy as np
+import sympy as sp
 from math import comb
 from pathlib import Path
 from scipy.optimize import brentq
@@ -181,15 +182,36 @@ def verify_D1(out, J=1.0, gamma=0.05):
 
 
 # ==================================================================
-# D2: V-Effect = Q_max / Q_mean (from formulas 6 + 7)
+# D2: F6 Q-edge gain = Q_max / Q_mean (from formulas 6 + 7)
 # ==================================================================
+def d02_geometric_series_residual(x):
+    """Exact denominator-cleared residual for the positive-i phase identity."""
+    # Cayley's half-angle form is exactly cos(x)+i*sin(x), while keeping the
+    # cancellation rational even when SymPy expands special angles into nested
+    # radicals (pi/5 is the sign-sensitive regression that exposed this).
+    half_tangent = sp.tan(x / 2)
+    w = (1 + sp.I * half_tangent) / (1 - sp.I * half_tangent)
+    residual = (w + 1) - sp.I * (1 / half_tangent) * (1 - w)
+    return sp.cancel(residual)
+
+
 def verify_D2(out, J=1.0, gamma=0.05):
     out.append("=" * 60)
-    out.append("D2: V(N) = Q_max / Q_mean = 1 + cos(pi/N)")
+    out.append("D2: F6 Q-edge gain V(N) = Q_max / Q_mean = 1 + cos(pi/N)")
     out.append("    Q_mean = 2J/gamma exactly (cosine sum = 0)")
     out.append("=" * 60)
 
-    all_ok = True
+    x = sp.symbols("x", real=True)
+    exact_residual = d02_geometric_series_residual(x)
+    wrong_x = sp.pi / 2
+    wrong_w = sp.cos(wrong_x) + sp.I * sp.sin(wrong_x)
+    wrong_sign = sp.simplify(
+        (wrong_w + 1) + sp.I * sp.cot(wrong_x / 2) * (1 - wrong_w)
+    )
+    out.append("  Exact phase: (w+1)/(1-w) = +i*cot(pi/(2N))")
+    out.append(f"  Denominator-cleared SymPy residual: {exact_residual}")
+    out.append(f"  Wrong-sign residual at N=2: {wrong_sign} (must be 2 + 2*I)")
+    all_ok = exact_residual == 0 and wrong_sign == 2 + 2 * sp.I
     for N in range(2, 6):
         H = build_H_chain(N, J)
         L = build_L(H, gamma)
@@ -630,7 +652,7 @@ def check_formula_33(out, J=1.0, gamma=0.05):
 # ==================================================================
 # MAIN
 # ==================================================================
-def main():
+def main(output_path=None):
     out = []
     out.append("Derivation Verification: D1-D6")
     out.append(f"J = 1.0, gamma = 0.05, N = 2..5")
@@ -655,13 +677,14 @@ def main():
     n_ok = sum(1 for v in results.values() if v)
     out.append(f"\n  {n_ok}/{len(results)} derivations verified.")
 
-    text = "\n".join(out)
+    text = "\n".join(out) + "\n"
     print(text)
 
-    results_dir = Path(__file__).parent / "results"
-    results_dir.mkdir(exist_ok=True)
-    (results_dir / "verify_derivations.txt").write_text(text, encoding="utf-8")
-    print(f"\nResults written to {results_dir / 'verify_derivations.txt'}")
+    output_path = (Path(output_path) if output_path is not None else
+                   Path(__file__).parent / "results" / "verify_derivations.txt")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(text, encoding="utf-8", newline="\n")
+    print(f"\nResults written to {output_path}")
 
 
 if __name__ == "__main__":

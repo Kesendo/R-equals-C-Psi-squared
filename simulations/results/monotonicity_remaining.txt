@@ -1,3 +1,6 @@
+QUARTER-CURRENT
+Current reading: a finite state-and-grid catalogue, including explicit vacuity counts.
+
 Monotonicity: Remaining Gaps
 ======================================================================
 
@@ -6,8 +9,9 @@ TEST A: GENERAL INITIAL STATES (2 qubits)
 ======================================================================
 
   J=1.0, gamma=0.05 (Z-dephasing), t_max=80.0
+  Finite catalogue: 19 initial states on the stated t=0..80, dt=0.02 grid.
 
-       State    CPsi0   t_cross   #Osc  EnvMono  #Peaks     Final
+       State    CPsi0   t_cross  #Rise  EnvMono  #Peaks     Final
   --------------------------------------------------------------
        Bell+   0.3333      0.76      0      YES       0  0.000000
        Bell-   0.3333      0.76      0      YES       0  0.000000
@@ -37,7 +41,7 @@ TEST B: NON-LOCAL (COLLECTIVE) NOISE
 ======================================================================
 
   Bell+ initial, J=1.0
-                 Noise   gamma   t_cross   #Osc   Mono     Final
+                 Noise   gamma   t_cross  #Rise   Mono     Final
   ------------------------------------------------------------
                Local Z    0.05     0.760      0    YES  0.000001
           Collective Z    0.05     0.760      0    YES  0.000001
@@ -60,51 +64,51 @@ TEST C: N > 2 SUBSYSTEM CΨ
 ======================================================================
 
   N=3, state=GHZ, J=1.0, gamma=0.05, d=8
-      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+      Pair    CPsi0   t_cross  #Rise  EnvMono     Final
   ----------------------------------------------------
   (0,1)       0.0000       N/A      0      YES  0.000000
   (1,2)       0.0000       N/A      0      YES  0.000000
-  All subsystems cross 1/4: True  (1.8s)
+  Eligible pairs crossing 1/4: 0/0; all eligible crossed: not applicable (0 eligible).
 
   N=3, state=W, J=1.0, gamma=0.05, d=8
-      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+      Pair    CPsi0   t_cross  #Rise  EnvMono     Final
   ----------------------------------------------------
   (0,1)       0.1235       N/A      0      YES  0.000025
   (1,2)       0.1235       N/A      0      YES  0.000025
-  All subsystems cross 1/4: True  (3.5s)
+  Eligible pairs crossing 1/4: 0/0; all eligible crossed: not applicable (0 eligible).
 
   N=4, state=GHZ, J=1.0, gamma=0.05, d=16
-      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+      Pair    CPsi0   t_cross  #Rise  EnvMono     Final
   ----------------------------------------------------
   (0,1)       0.0000       N/A      0      YES  0.000000
   (1,2)       0.0000       N/A      0      YES  0.000000
   (2,3)       0.0000       N/A      0      YES  0.000000
-  All subsystems cross 1/4: True  (76.5s)
+  Eligible pairs crossing 1/4: 0/0; all eligible crossed: not applicable (0 eligible).
 
   N=4, state=W, J=1.0, gamma=0.05, d=16
-      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+      Pair    CPsi0   t_cross  #Rise  EnvMono     Final
   ----------------------------------------------------
   (0,1)       0.0833       N/A      0      YES  0.000021
   (1,2)       0.0833       N/A      0      YES  0.000021
   (2,3)       0.0833       N/A      0      YES  0.000021
-  All subsystems cross 1/4: True  (152.1s)
+  Eligible pairs crossing 1/4: 0/0; all eligible crossed: not applicable (0 eligible).
 
   N=5, state=GHZ, J=1.0, gamma=0.05, d=32
-      Pair    CPsi0   t_cross   #Osc  EnvMono     Final
+      Pair    CPsi0   t_cross  #Rise  EnvMono     Final
   ----------------------------------------------------
   (0,1)       0.0000       N/A      0      YES  0.000000
   (1,2)       0.0000       N/A      0      YES  0.000000
   (2,3)       0.0000       N/A      0      YES  0.000000
   (3,4)       0.0000       N/A      0      YES  0.000000
-  All subsystems cross 1/4: True  (107.7s)
+  Eligible pairs crossing 1/4: 0/0; all eligible crossed: not applicable (0 eligible).
 
 ======================================================================
 OVERALL VERDICT
 ======================================================================
 
-A: General initial states — envelope monotonic?
-B: Collective noise — still crosses 1/4?
-C: N>2 subsystems — all pairs cross 1/4?
+A: General initial states - envelope monotonic?
+B: Collective noise - still crosses 1/4?
+C: N>2 subsystems - all pairs cross 1/4?
 
-Total runtime: 293.7s (4.9 min)
-Results saved to: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\monotonicity_remaining.txt
+Completed: deterministic rerun
+Results: simulations/results/monotonicity_remaining.txt

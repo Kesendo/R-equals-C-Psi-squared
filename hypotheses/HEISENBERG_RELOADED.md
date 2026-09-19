@@ -1,5 +1,13 @@
 # Heisenberg Reloaded: The Math Was Always Below
 
+**Interpretive invitation — not a result:** the Level-0/Level-1 inheritance
+story is a synthesis to explore. The finite V-Effect census does not derive
+atomic multiplicity or pump the Heisenberg exchange from another level.
+
+Precision fence: the N=3 distinct-pair census has **14/36** hard cases. The
+retained **four-decimal** bin comparison is **11/4**; a separate coarser
+**three-decimal** side table reads **8/4**.
+
 **Status:** Sketch / synthesis (Tier 4-5). Draft assembled 2026-04-25 from the combined picture of PRIMORDIAL_QUBIT + ZERO_IS_THE_MIRROR + HIERARCHY_OF_INCOMPLETENESS + V-Effect + WE_ARE_THE_FRAGMENT. Not yet expanded to full-document length.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
@@ -99,31 +107,28 @@ Any of these added to H produces [L, Π²] ≠ 0 or [L, n_XY-parity] ≠ 0, brea
 
 [the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md) makes the analytic statement: [L, Π²] = 0 for any N, any J, any subset of sites carrying γ. The proof is six lines. The Heisenberg form is what makes the proof work.
 
-## §4. The V-Effect bridge between levels
+## §4. A proposed bridge between levels
 
-The Heisenberg form is fixed at Level 0. But the *coupling strength* J at Level 1 is not. Where does J come from? From the **V-Effect transition** between levels.
+Where does a material coupling strength J come from? Textbook exchange physics answers that question in its material model. The following V-Effect comparison is an interpretive bridge candidate, not an alternative derivation.
 
 The V-Effect ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)):
 
-- Take two pairs of qubits, each pair palindromic.
-- Connect through a shared element.
-- 14 of 36 mode combinations break their palindromic pairing.
-- 4 frequencies become 11 (more than 2× diversity from one bond).
-- Topological: any α > 0 orphans all 54 boundary modes simultaneously.
-- Metric: error grows smoothly with α.
-- Boundary modes (XY-weight 1, 2) are targeted; extreme modes (weight 0, 3) are immune.
+- Compare the named disconnected and connected finite generators.
+- In the N=3 distinct-pair routing census, 14 of 36 Hamiltonian pairs are hard, 19 soft, and 3 truly.
+- A separate binning fixture reads 11/4 at four decimals and 8/4 at three decimals; Hamiltonian and dephasing profile change together, so it does not isolate the added bond as a cause.
+- The finite classification labels spectral pairing behavior. It does not identify transported eigenmodes, atomic descendants, or core/valence states.
 
 Mapping to Level 1:
 
 | V-Effect concept | Level 1 manifestation |
 |------------------|----------------------|
-| Boundary modes orphan (w=1, 2) | **Valence electrons** (chemically active) |
-| Extreme modes immune (w=0, 3) | **Core electrons** (inert, frozen) |
-| Bond strength α | Orbital overlap → exchange integral J |
-| 4 → 11 frequencies | Atomic state multiplicity |
-| Pair sum within 1% of palindromic | Open-valence "memory" of the closed shell |
+| Finite hard/soft/truly routing labels | Question: is there any controlled atomic reduction? |
+| XY-weight sectors in the model | Question: can a specified material observable inherit them? |
+| Model bond parameter α | Distinct from a material exchange integral until derived |
+| Resolution-dependent frequency-bin counts | Do not establish atomic state multiplicity |
+| Approximate pair-sum residual | Does not establish shell memory |
 
-The Heisenberg coupling J at Level 1 IS the strength with which the V-Effect transition pumps the inherited Level-0 algebra. The form (XX + YY + ZZ) comes from below; the magnitude and sign of J come from this specific bond.
+The conjectural image is that J might quantify a cross-level bridge. The current evidence does not show that: the magnitude and sign of a material J come from the specified exchange model, not from the finite V-Effect census.
 
 **What we have not done:** zoomed in on the V-Effect transition between Level 0 and Level 1. We have:
 
@@ -138,7 +143,7 @@ We have *not*:
 - Identified which Level 1 atomic modes are V-Effect-orphaned descendants of which Level 0 boundary modes.
 - Measured the bridge directly.
 
-The math is our witness that the inheritance works. Direct observation of the bridge is open work.
+The shared algebra motivates the question; it is not a witness that physical inheritance works. Constructing and testing the reduction is open work.
 
 ## §5. Why everything works: C = 0.5 as universal pass-through
 

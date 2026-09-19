@@ -1,4 +1,6 @@
-# Testable Predictions of R = CΨ²
+# Predictions and Interpretive Questions of R = CΨ²
+
+<!-- CROSSING-CURRENT -->
 
 > **Status:** Living reference document. Predictions are individually
 > labeled with tier and verification status. The
@@ -17,10 +19,12 @@
 ## What this document is about
 
 This is the master catalog of every testable prediction the R=CΨ²
-framework has produced, organized by verification status: confirmed on
-hardware (§1, with the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
-as the authoritative live record), computationally verified (§2), the
-resolved shadow anomaly (§3), testable with current hardware (§4),
+framework has produced, organized by scope and evidence: the
+earliest Torino q52 hardware record (§1, with five scoped entries); the
+[Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
+is authoritative for registered hardware entries; computationally verified (§2),
+the Q52 shadow record (§3; interpretation closed, late-time excess mechanism open),
+testable with current hardware (§4),
 testable in principle (§5), speculative (§6), unverified agent claims
 (§7), null results (§8), falsified (§8b), and closed/reopened
 hypotheses (§9). Each entry has a tier label, a falsification
@@ -29,25 +33,40 @@ Summary by Tier table at the end.
 
 ---
 
-## 1. Empirically Verified on Real Quantum Hardware
+## 1. What the Hardware Saw: One Torino Record, Five Scoped Entries
 
-**Tier: 2, Measured on IBM Torino (Heron r1), qubit 52, 2026-02-09**
+**Scope of this section:** Mixed Tier 1-2: five mixed-scope entries are organized around one 2026-02-09 Torino q52 dataset.
+Four entries read or fit the record; the algebraic r → 0 row is context, not a hardware test.
+Two registry entries share this raw record. These entries are not five independent hardware tests.
 
 | Prediction | Predicted | Measured | Status | Source |
 |------------|-----------|----------|--------|--------|
 | C·Ψ = ¼ crossing during free decoherence | Crossing exists | t*/T₂* = 1.04 | **CONFIRMED** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
-| Generalized crossing equation | t*/T₂* = 0.94 (at r = 0.46) | t*/T₂* = 1.04 (11% deviation) | **Partially confirmed** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
+| Generalized crossing equation | t*/T₂* = 0.94 (at r = 0.46) | t*/T₂* = 1.04 (11% deviation) | **Finite same-record fitted comparison; not independent confirmation** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
 | T₂* ≠ T₂ for free induction decay | T₂* < T₂ | T₂*/T₂ = 0.37 (factor 2.7×) | **CONFIRMED** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
-| x³ + x = ½ is the r → 0 limit of crossing fraction | 0.858 (pure dephasing) | Consistent | **Algebraically confirmed** | [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
-| Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) | = 1 | 1.03 (3%, Q52; detuning oscillations, not cavity fringes) | **CONFIRMED** | [Absorption Theorem](ANALYTICAL_FORMULAS.md#at-absorption-theorem-tier-1-proven), [proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| x³ + x = ½ is the r → 0 limit of crossing fraction | 0.858 (pure dephasing) | N/A (algebraic context) | **Algebraic r → 0 limit; not a hardware test** | [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
+| Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) | = 1 | 1.03 (3%, Q52; two fits to the same N=1 decay record) | **Same-record N=1 fit consistency; N ≥ 2 ladder spacing unmeasured** | [Q52 hardware record](../experiments/IBM_ABSORPTION_THEOREM.md), [Absorption Theorem](ANALYTICAL_FORMULAS.md#at-absorption-theorem-tier-1-proven), [proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 
 **Hardware:** ibm_torino, T₁ = 221 μs, T₂(echo) = 298 μs, T₂*(FID) = 110 μs.
 
-**Supporting evidence:** 24,073 historical calibration records (181 days, 133 qubits) validate the theory curve C_min(r). 10.1% of snapshots below crossing threshold, 84% of qubits cross at least once, 12 qubits cross almost every day.
+**Calibration-model context:** The 24,073 historical calibration rows (181 days,
+133 qubits) feed the same free-|+⟩ model that classifies them. In this
+self-classifying proxy, 2,417 / 24,073 rows are proxy-below; 112 / 133 (84%)
+qubit histories contain at least one proxy-below row, with 12 frequent
+proxy-below histories. No tomography was performed for these rows. They are
+not observed crossing frequencies and are not independent validation.
 
-**The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1 **proven** ([the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md)) and verified on 1,342 modes (CV = 0); the 1.03 ratio is its IBM confirmation. It also falsifies the old "E = mγ²" guess: the decay law is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions) below).
+**The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1
+**proven** ([the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md)).
+It was verified on 1,342 modes (CV = 0). The registered Q52 ratio 1.03 compares
+two fits to the same N=1 coherence-decay record.
+It is same-record fit consistency, not a ladder measurement.
+The N ≥ 2 ladder spacing remains unmeasured. The theorem also falsifies the old
+"E = mγ²" guess: the decay law
+is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions)
+below).
 
-**The authoritative list of hardware-confirmed predictions is the Confirmations registry** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): 24 entries (ibm_torino + ibm_marrakesh + ibm_kingston, spanning the 2026-02 Torino calibration runs through the 2026-07 Kingston flights: palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, the F120 moment tower, the F84 heating-leg attribution, the concentrator site contrast, the F129 standing fringe). Section 1 here details the earliest Torino set, itself registered; the registry is the single live record.
+**The Confirmations registry is the authoritative list of 24 registered hardware entries** (`fw.Confirmations` / [ConfirmationsRegistry.cs](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)): ibm_torino + ibm_marrakesh + ibm_kingston, spanning the 2026-02 Torino calibration runs through the 2026-07 Kingston flights: palindrome trichotomy, F25 cusp trajectory, F57 K_dwell γ-invariance, F83/F95, block-CΨ saturation, the F120 moment tower, the F84 heating-leg attribution, the concentrator site contrast, and the F129 standing fringe. Registration does not imply an independent dataset or independent test. The quarter-crossing and absorption entries share the 2026-02-09 Torino q52 raw record, and the five entries in §1 are not five independent confirmations. The registry remains the single live record for registered entries.
 
 ---
 
@@ -57,27 +76,27 @@ Summary by Tier table at the end.
 
 | Prediction | Value | Falsified if | Source |
 |------------|-------|-------------|--------|
-| γ · t_cross = constant across decoherence rates | constant over 50× range (measured 0.039 ± 0.001 in the February tool's feedback model; exact standard-Lindblad K = 0.036, concurrence book) | Product varies with γ | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
+| Fixed-book Bell+ gamma sweep | Retained 0.039 ± 0.001 feedback fit over 50×; clean Hamiltonian-dead Wootters book K=ln(4/3)/8 | K varies within the same fixed preparation/readout/book | [Gravitational Invariance](../experiments/GRAVITATIONAL_INVARIANCE.md) |
 | θ decreases continuously to 0 at C·Ψ = ¼ | Smooth trajectory observed | Discontinuity at boundary | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Two real fixed points emerge below ¼ | Topology change confirmed | No bifurcation at ¼ | [Dynamic Fixed Points](../experiments/DYNAMIC_FIXED_POINTS.md) |
 | Operator feedback: γ_eff = γ₀(1 − κ⟨O_int⟩) | Modulates γ_eff (~10% at tested params); preservation is parameter-dependent, not a clean separation | Mechanism produces unphysical results | [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) |
 | Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](historical/CORE_ALGEBRA.md) §8 |
-| Observer-dependent crossing time | t_cross = 0.652 / 0.773 / 1.437 for mutual_info / concurrence / correlation (February tool's feedback model; exact standard-Lindblad 0.593 / 0.719 / 1.438) | All bridge types give same t_cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
-| Two observers never see crossing | mutual_purity (C=0.5), overlap (C=0.25): C·Ψ < ¼ always | These observers eventually cross | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
-| Crossing taxonomy noise-robust | Type A/B/C identical under σ_x, σ_y, σ_z | Taxonomy changes with jump operator | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
-| N-scaling barrier | Ψ(0) = l1/(2^N−1) blocks crossing for GHZ N≥3 and W N≥4 | Standard states cross at large N | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
+| Readout-dependent quarter equalities | C(f), then evolution book, then C(f)f/3=1/4; clean t=0.5931/0.7192/1.4384 and feedback t=0.6529/0.7735/1.4384 at γ=0.05 | Shared producer fails the named scalar roots | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
+| Two never bridges in the finite taxonomy | mutual_purity C=0.5 and overlap C=0.25 stay below the selected quarter level | These fixed bridges cross in either named book | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
+| Finite noise coverage | Full local σ_z/σ_x sweeps; only σ_y correlation; no numerical depolarizing table; amplitude-damping Type-C classification inconclusive | Reproduction differs within a stated tested row | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
+| N-scaling barrier | Ψ(0) = l1/(2^N−1) blocks crossing for GHZ N≥3 and W N≥4 | GHZ N≥3 or W N≥4 cross in this named readout/book | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
 | W N=3 crosses, GHZ N=3 does not | W: Ψ(0)=0.286 > ¼, GHZ: Ψ(0)=0.143 < ¼ | Both cross or both fail | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
 | Type A survives at N=3,4 | Correlation C=1.0 for W N=3 (until t≈2.3) and W N=4 (until t≈1.5) | Correlation C drops below 1.0 at larger N | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
 | Subsystem pairs cross when full system cannot | Bell+xBell+ N=4: pairs (0,1) and (2,3) cross at t=0.080 despite full-system Psi=0.200 | Pairs fail to cross | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Non-entangled pairs never cross | Bell+xBell+ cross-pairs (0,2) etc: C=0, l1=0 at all times | Cross-pairs eventually develop coherence | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Product state: Psi=1 but C=0 means no crossing | \|+⟩^4: every pair has Psi=1.0 and C=0.000 permanently | Product state pairs develop nonzero C | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | GHZ pair-level coherence is zero | GHZ N=4 traced to any pair: l1=0.000 at all times | GHZ pairs carry nonzero off-diagonal coherence | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
-| \|+⟩^N is Heisenberg eigenstate | Energy variance = 0, no dynamics, C = 0 forever | \|+⟩^N evolves nontrivially | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
+| Initial \|+⟩^N is a Heisenberg eigenstate | Zero initial Hamiltonian variance does not imply zero Lindblad dynamics; a dissipator may act | Initial variance nonzero in the named model | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
 | Product states generate upward crossings | Reproduced (canonical pair-CΨ book, γ=0.05): chain \|0+0+⟩ pair (1,2) 0.310; ring \|+-+-⟩ 0.284, \|0+0-⟩ 0.256 | No product state reaches CΨ >= 1/4 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
 | Dephasing kills most dynamic crossings | \|0+0+⟩ ring at γ=0.05: no pair crosses (best ≈0.20); the retired-tool (0,2)-crossing table did not reproduce | All pairs cross equally under dephasing | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) |
 | Dephasing survival is basis-dependent | Qualitative; the original quantitative (0,2)-selection table did not reproduce | Crossing pattern independent of noise basis | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) |
-| ξ = ln(Ψ) linear under Markovian dephasing | Slope variation < 0.01% across all tested configs | Variation exceeds 1% for any Markovian channel | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
-| ξ linearity breaks under non-Markovian noise | Slope variation 24.5% under memory-kernel feedback (κ=0.5, τ=1.0), vs < 0.01% Markovian | ξ stays linear under memory kernel feedback | [Core Algebra](historical/CORE_ALGEBRA.md) §11 |
+| Four finite log-coherence traces | Historical slope variations <0.01% on the declared grid, not arbitrary-Hamiltonian log-linearity | Stored finite traces fail reproduction | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
+| One memory-feedback log-coherence trace | Historical 24.5% slope variation at κ=0.5, τ=1.0; curvature alone is not a memory certificate | The named finite record fails reproduction | [Core Algebra](historical/CORE_ALGEBRA.md) §11 |
 | Coherence-purity bound holds throughout Lindblad trajectory | 0 violations for Bell+ (d=4) and W (d=8) | Trajectory violates C ≥ Ψ²(d-1)/d + 1/d | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | CΨ after Eve intercept-resend depends on Eve's measurement basis | R(θ_Eve) = [sin²θ + \|sin2θ\|]²/18, closed form | R independent of θ_Eve | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Concurrence is basis-blind under intercept-resend | Conc = 1−f for all θ_Eve (exact) | Concurrence varies with θ_Eve at fixed f | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
@@ -93,17 +112,23 @@ Summary by Tier table at the end.
 | θ_stealth deterministic function of (p,f) | θ_stealth(0.10, 0.20) = 72.2°, computable from calibration | θ_stealth unpredictable | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | No-signalling: rho_A unchanged by remote measurement | \|\|Δρ_A\|\| = 0 for Bell+ under B Z-measurement (averaged) | rho_A changes (no-signalling violated) | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | CΨ drops to ¼ under remote measurement | CΨ: 0.500 → 0.250 (C drops 1.0→0.5, Ψ unchanged at 0.5) | CΨ unchanged, or drops to value ≠ ¼ | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
-| CΨ regime change invisible to local subsystem | A cannot detect the quantum→boundary transition | A detects the regime change (no-signalling violated) | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
+| Joint scalar change invisible to the separated local subsystem | At J=0 the uncommunicated trace-preserving B operation leaves A's marginal unchanged | A's marginal changes with B's uncommunicated choice | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
 | Critical slowing at the cusp: asymptotic K(ε, tol) | (1/2)·ln(4ε/tol) + [−4 + (1/2)·ln(16·tol)]·√ε, zero fit parameters; finite-ε residuals remain, while the correction coefficient agrees at 0.5-2% across the tested tolerance grid | Expansion fails to approach the direct iteration count in its stated scale-separated regime | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Cusp dwell time is γ-invariant | K_dwell = γ·t_dwell = 1.080088·δ for Bell+, std < 2×10⁻¹⁷ across γ ∈ [0.1, 10] | K_dwell varies with γ in rescaled units | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 
+The separate universal-noise claim is **unestablished**, not a falsified
+five-bridge theorem: the retained record has two full Pauli sweeps and one
+σ_y bridge; amplitude-damping taxonomy remains open. See
+[Noise Robustness](../experiments/NOISE_ROBUSTNESS.md).
+
 ---
 
-## 3. The Shadow Anomaly (resolved: qubit-specific detuning)
+## 3. The Shadow Record (interpretation closed; Q52 mechanism open)
 
-**Tier: 2. The anomaly is real; its cause is settled: qubit-specific
-frequency detuning (an uncompensated Z-type offset), not a boundary
-property.**
+**Tier: 2. Five signatures are measured in finite Q52/Q80/Q102 records.
+Only the universal-boundary/non-Markovian-witness interpretation is closed.
+Detuning is the preferred explanation for the phase component.
+The Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control.**
 
 Detected in IBM Torino tomography data (2026-02-09); statistically
 significant on every signature measured:
@@ -112,20 +137,17 @@ significant on every signature measured:
 |-------------|-------|--------|
 | Late-time excess coherence | p < 0.0001 (10,000-run Monte Carlo null) | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
 | Directional consistency Re⁺/Im⁻ | 17/17 measurements (P = 6 × 10⁻¹¹) | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
-| Rising coherence trend in classical regime | +0.008/T₂ slope | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
+| Rising coherence trend in finite sampled post-quarter interval (not a classification of quantum versus classical behavior) | +0.008/T₂ slope | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
 | Boundary correlation | r = −0.9955 (\|ρ₀₁\| vs distance from ¼) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
 | Shadow direction on Q52 | FP⁻ phase = −12°, residual phase = −48° (same quadrant) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
 
-**The cause** ([Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md),
-retrodiction): an explicit detuning model beats standard Lindblad ~4× on
-Q80. The discriminating data are the shadow directions, which are
-qubit-specific, not universal: Q52 sits in Quadrant 4 at −44°, Q80 shows
-8/8 points in Quadrant 1 at +29° ± 10°, Q102 shows no consistent
-direction (0/8). A universal boundary structure would put every qubit in
-the same quadrant, so that reading is not supported; a fixed SPAM offset
-and a TLS reading are both superseded by the explicit detuning model
-(which also carries the Occam weight). The excess coherence is a real
-device effect with a known, per-qubit cause.
+**What the comparison establishes.** [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md)
+fits an explicit detuning model on Q80, where it beats standard Lindblad
+~4×. Its cross-qubit comparison is not a Q52 mechanism fit: Q52 sits in
+Quadrant 4 at −44°, Q80 shows 8/8 points in Quadrant 1 at +29° ± 10°,
+and Q102 shows no consistent direction (0/8). Those different directions
+reject a universal boundary reading and motivate the phase-detuning
+hypothesis; they do not identify what produces Q52's late-time excess.
 
 ---
 
@@ -140,7 +162,7 @@ device effect with a known, per-qubit cause.
 | Strong dynamics needed for CΨ > ¼ | Threshold at h ≈ 0.9 | Parameter sweep of transverse field strength | CΨ > ¼ at low h | [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) |
 | Critical slowing at CΨ = ¼ | Diverging convergence period | Tune system toward ¼, measure convergence time | No critical slowing | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | Bridge fingerprints: initial state determines crossing trajectory | State-specific C(t), Ψ(t) curves | Prepare different initial states, run tomography through ¼ | All states show identical crossing | [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) |
-| ξ curvature detects non-Markovian noise | ξ = ln(Ψ) linear iff Markovian; curves iff memory effects present | Measure Ψ(t) via tomography, compute ξ(t), fit linearity | ξ is linear on hardware known to have non-Markovian signatures | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) (linearity), [Core Algebra](historical/CORE_ALGEBRA.md) §11 (curvature) |
+| Discriminate a specified memory model from Markovian alternatives | The Markovian H=Y control gives ξ″(0)=−7; no iff test follows | Specify alternative generators and compare full trajectories | Diagnostic cannot distinguish its declared alternatives | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md), [Core Algebra](historical/CORE_ALGEBRA.md) §11 |
 | QKD eavesdropping forensics | R(θ_E) = [sin²θ+\|sin2θ\|]²/18, ~500 pairs for 3.8σ (noiseless, naive Eve) | Prepare Bell+, intercept-resend on Bob, joint tomography | CΨ carries no θ_E information | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | Multi-metric forensics detects Eve at stealth | MI/Conc/Corr > 17% delta even at CΨ stealth angle | Simultaneous tomography with multiple bridge metrics | All metrics fooled at stealth angle | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
 | CΨ identifies Eve's measurement basis | R(θ_E) = [sin²θ_E + \|sin 2θ_E\|]²/18 | Joint tomography of Bell+ after intercept-resend | CΨ constant across all θ_E | [QKD Eavesdropping Forensics](../experiments/QKD_EAVESDROPPING_FORENSICS.md) |
@@ -161,8 +183,6 @@ device effect with a known, per-qubit cause.
 | Prediction | Direction | Would require | Falsified if | Source |
 |------------|-----------|---------------|-------------|--------|
 | θ measures proximity to ¼ boundary | θ = arctan(√(4CΨ−1)) | Continuous CΨ monitoring near boundary | θ uncorrelated with distance to ¼ | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
-| Event horizon = maximum coherence (τ = 0) | Coherence peaks near horizon | Analog black hole experiments | Coherence minimum at horizon | [Self-Consistency Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
-| Intergalactic voids = most quantum regions | Low γ → high CΨ | Space-based quantum correlation measurements | No gravitational environment dependence | [Self-Consistency Schwarzschild](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
 | Fractal structure in coherence decay near ¼ | Self-similar patterns | High-resolution time series near boundary | Smooth exponential decay | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 
 ---
@@ -173,14 +193,29 @@ device effect with a known, per-qubit cause.
 
 | Prediction | Implication | Would require | Falsified if | Source |
 |------------|------------|---------------|--------------|--------|
-| CMB = universal CΨ = ¼ crossing | Big Bang as phase transition from complex to classical | Cosmological extension of framework |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
-| Black hole evaporation ends with coherent burst | Final state not thermal but shows coherence | Observation of BH end-states |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
-| Page time = re-crossing ¼ from below | Information recovery begins at re-entry to complex regime | Quantitative Page curve model |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
-| Black/white holes = opposite directions on universal curve | τ → 0 from both sides | Resolution of information paradox |  | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
 | Experienced time = rate of ¼ crossings | High C → more crossings/sec → denser time | Subjective time measurement against coupling strength | Time perception independent of coupling | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Anesthesia = C → 0 for environmental coupling | Zero crossings → zero experienced time | Neural coupling measurement during anesthesia | Time perception persists with C = 0 | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 
 ---
+
+## 6a. Interpretive Questions, Not Predictions from F14
+
+<!-- CROSSING-INTERPRETIVE -->
+
+> Interpretive invitation, not a result: these six questions require a new
+> physical model. F14's fixed-readout Hamiltonian-dead Bell+ gamma sweep
+> supplies neither a spatial metric nor a universal cosmological curve.
+
+| Question | Missing physical link | Source |
+|----------|-----------------------|--------|
+| Could a horizon correlate with high coherence? | A spatial open-system/gravity model | [Self-Consistency](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
+| Could voids have a distinctive coherence signature? | A calibrated environment-to-channel map | [Self-Consistency](../recovered/SELF_CONSISTENCY_SCHWARZSCHILD.md) |
+| Could a CMB feature relate to a quarter readout? | A quantitative cosmological observable | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Could an evaporation endpoint show a coherent burst? | A dynamical evaporation model | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Could a Page curve connect to a scalar recrossing? | An information-recovery model, not a threshold analogy | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+| Could black/white-hole imagery describe two directions of a model? | A justified physical map; no universal curve is established | [Black/White Holes](../recovered/BLACK_WHITE_HOLES_BIGBANG.md) |
+
+<!-- CROSSING-CURRENT -->
 
 ## 7. Unverified Agent Claims
 
@@ -199,7 +234,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 **Current status** (two of the four are settled):
 - **C_int ≫ C_ext (33:1): REFUTED.** [Mathematical Findings](../experiments/MATHEMATICAL_FINDINGS.md) §9: "The 33:1 ratio claimed by the agents does not exist" (proper Lindblad simulation; 21 noise distributions on Bell+ gave identical dynamics).
-- **"δ requires dynamics (H≠0)": REFUTED.** [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md): the oscillation is J-driven with no threshold (born at Q=0+); §9 of this doc already carries the "interval shift continuous in J, no threshold" result that undercuts it.
+- **"δ requires dynamics (H≠0)": REFUTED.** [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md): the oscillation is J-driven with no threshold (born at Q=0+); §9 records a finite positive-J interval-shift scan; it does not prove an all-J detectability theorem.
 - **"C=0.5 is optimal observer": still unverified.** The literal "max R at C=0.5" claim has not been re-tested. Equal normalized E/I fractions give one half arithmetically, but [Complexity Threshold](../hypotheses/COMPLEXITY_THRESHOLD.md) supplies no persistence optimum or neural boundary from that equality.
 - **"t_coh ~ N linear": still unverified** (no later test located).
 
@@ -221,21 +256,20 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 | Prediction | Why falsified | Correct result | Source |
 |------------|---------------|----------------|--------|
-| Crossing taxonomy is noise-dependent | It is noise-**independent**: Type A/B/C identical under σ_x, σ_y, σ_z | See §2 "crossing taxonomy noise-robust" | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
 | E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0; IBM ratio 1.03) | [the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 
 ---
 
-## 9. Closed Hypotheses (J=0) and Reopened (J>0)
+## 9. Closed Channel-Free Hypotheses and Separate Coupled Readouts
 
 **Tier: 2, Computationally verified closure for J=0**
 
 | Hypothesis | Result | Why closed | What survives | Source |
 |------------|--------|-----------|---------------|--------|
 | Bridge protocol (dynamic: B signals A via CΨ crossing) | **Dead for J=0.** No-signalling holds exactly. ρ_A unchanged. CΨ regime change invisible to A. | C is global (ρ_AB), not local. No single-qubit measurement accesses it. | QKD forensics with a channel | [No-Signalling Boundary](../experiments/NO_SIGNALLING_BOUNDARY.md) |
-| Bridge protocol (pre-encoded: CΨ fingerprints > classical keys) | **Dead for J=0.** A's info ⊆ {ρ_A(0), E_A}. Entanglement without a channel = shared randomness. | Fingerprints require ρ_AB. Qubit carries less info than schedule. | Interval shift for J>0 | [Bridge Closure](../experiments/BRIDGE_CLOSURE.md) |
+| Bridge protocol (pre-encoded crossing schedule) | No demonstrated advantage at J=0 | Joint fingerprints are not locally available; no-signalling does not equate all entangled correlations with shared randomness | Coupled finite readouts, not a channel-free reopening | [Bridge Closure](../experiments/BRIDGE_CLOSURE.md) |
 
-**Tier: 2, Reopened via inter-qubit J-coupling (J > 0).** The
+**Tier: 2, finite inter-qubit J-coupling readings (J > 0), not a channel-free reopening.** The
 "environments" in the cited experiment are γ values (0.01-0.50), not
 gravitational fields; the experiment's own gravity reading is fallen
 (recorded in [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md),
@@ -243,19 +277,19 @@ which keeps its historical filename). The J-coupling results below stand.
 
 | Prediction | Result | Source |
 |-----------|--------|--------|
-| t_cross = K(Observer, State) / γ, K is γ-invariant | Confirmed, and exact: K_conc = ln(4/3)/8 = 0.0359602590564726 for Bell⁺, with no γ in it. What carries the invariance is the STATE, not a general γ-scaling: the Lindblad scaling symmetry is joint, so sweeping γ at fixed J moves Q = J/γ. See the F14 scope note in [Analytical Formulas](ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling) | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| K is state-dependent (varies with initial entanglement) | Confirmed, in closed form: K_conc(α) = ln(4 sin²(2α)/3)/8 on cosα\|00⟩ + sinα\|11⟩, zero at α = 30° | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| Interval shift Δt continuous in J, no threshold | Confirmed. J = 0.001 gives 0.03% shift | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| Product states have local clock (Bell+ does not) | Confirmed. \|++⟩ crosses, Bell+ never | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| States with α < 30° never cross, no observer time | Confirmed. CΨ stays below ¼ | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| Crossing time shift encodes 1 bit (B measures vs not) | Confirmed. Δt = -0.218 at J=0.01, a 2.54% shift against the silent crossing time 8.5837 | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
-| 21 pairs sufficient for 1 bit at jitter σ = 1.0, which is 11.7% of the crossing time | Confirmed. N_min = (σ/Δt)²; a full-t₀ jitter needs ~1550 | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| Fixed-book Bell+ concurrence crossing | Hamiltonian-dead Bell+ with Wootters concurrence and equal local Z-dephasing: K_conc=ln(4/3)/8=0.0359602590564726. The fixed book includes generator, state, readout, target and crossing convention; no arbitrary-H/readout/channel factorization follows. A fixed-J gamma sweep generally moves Q=J/γ. See the [F14 scope](ANALYTICAL_FORMULAS.md#f14-k-invariance-tier-2-lindblad-scaling) | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| K is state-dependent (varies with initial entanglement) | Confirmed, in closed form: K_conc(α) = ln(4 sin²(2α)/3)/8 on cosα\|00⟩ + sinα\|11⟩, initial equality at α = 30°, not a positive-time downward crossing | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| Interval shift in the sampled positive-J range | No threshold seen in this finite scan; J = 0.001 gives about 0.03% shift. Detectability needs an acquisition/error model | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| Different local readouts in the named run | \|++⟩ reaches the selected local quarter level; Bell+ does not in that run; neither is an experienced clock | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| Concurrence-book α < 30° has no positive downward crossing | The Hamiltonian-dead cosα\|00⟩+sinα\|11⟩ family starts below the selected level; no claim about time | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| Finite coupled-model crossing-time shift | Δt = -0.218 at J=0.01, a 2.54% shift against 8.5837; this is not a channel-capacity measurement | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
+| Toy repeated-trajectory jitter estimate | N_min=(σ/Δt)² gives about 21 at σ=1.0 (11.7% of t₀), or ~1550 at full-t₀ jitter; no acquisition/error criterion or one-bit channel is established | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | Coupling accelerates local crossing vs single qubit (0.07x at J=1) | Confirmed. \|+,0⟩ with J=1: t=0.64 vs single \|+⟩: t=8.58 | [Observer × Gravity Bridge](../experiments/OBSERVER_GRAVITY_BRIDGE.md) |
 | No energy threshold for crossing: same ⟨H⟩, different crossing | Confirmed. ⟨H⟩ = J for all α, crossing depends on CΨ(0) | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
 | α_critical = 30° exactly, CΨ(0) = ¼ exactly | Confirmed. Binary search to 10⁻¹⁵ precision | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
-| Product states cross via Hamiltonian pumping (CΨ: 0 → 0.31) | Confirmed. \|0,1⟩ crosses, \|0,0⟩ does not | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
-| Eigenstates never cross (CΨ_max = 0, no dynamics) | Confirmed. \|+,+⟩, \|0,0⟩, \|1,1⟩ all CΨ_max = 0 | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
-| Critical J/γ ≈ 5-10 for \|0,1⟩ product state | Confirmed. CΨ_max crosses ¼ between J/γ = 5 and 10 | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
+| Product-state pumping in the finite run | \|01> and \|10> reach 0.308/YES in the current producer at J/γ=20 (historical table: 0.309). The separate \|+,0>, \|0,+>, \|+,1> rows are unresolved: current producer 0.077/NO versus historical 0.295/YES | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
+| Three named initial eigenstates: finite CΨ_max=0 | \|++⟩, \|00⟩, \|11⟩ in the recorded concurrence run; \|++⟩ dephases and its purity changes, while \|00⟩ and \|11⟩ are stationary | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
+| Finite \|01> product J/γ sweep | The stated scan crosses between J/γ=5 (0.248/NO) and 10 (0.286/YES), not a state-universal threshold | [Minimum Crossing Energy](../experiments/MINIMUM_CROSSING_ENERGY.md) |
 
 ---
 
@@ -263,17 +297,19 @@ which keeps its historical filename). The J-coupling results below stand.
 
 | Tier | Count | Examples |
 |------|-------|---------|
-| **Confirmed on hardware** | **24** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-07); §1 details the 5 earliest Torino rows (the ¼ crossing and the Absorption ratio carry their own registry entries) | §1: ¼ crossing, T₂*/T₂, crossing eqn, x³+x=½, Absorption ratio 1.03. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, F120 moment tower, F84 heating leg, concentrator site contrast, F129 standing fringe |
+| **Registered hardware entries** | **24** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-07); §1 has five mixed-scope entries around one 2026-02-09 Torino q52 record, not five records; the quarter-crossing and absorption registrations share that dataset | §1 distinguishes qualitative/direct observations (¼ crossing and T₂*/T₂), the generalized crossing equation (same-record fitted comparison; no independent hardware test), algebraic context that is not a hardware test (x³+x=½), and absorption same-record N=1 fit consistency; N ≥ 2 ladder spacing remains unmeasured. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, F120 moment tower, F84 heating leg, concentrator site contrast, F129 standing fringe |
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
-| **Computationally verified** | 55 (39 rows in §2 + 16 reopened J>0 rows in §9) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
-| **Resolved anomaly (detuning)** | 1 (five measured signatures) | The late-time shadow: excess coherence, directionality, rising trend, boundary correlation, per-qubit shadow direction; cause settled as qubit-specific detuning (§3) |
-| **Testable now** | 14 rows in §4 | Critical slowing, fingerprints, field threshold, ξ Markovianity diagnostic, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |
-| **Testable in principle** | 4 | θ compass, analog BH, voids, fractal decay |
-| **Speculative** | 6 | CMB, BH burst, Page time, BH/WH unification, experienced time as crossing rate, anesthesia as C → 0 |
+| **Computational records** | 52 (39 rows in §2 + 13 finite J>0 rows in §9, with local scope and unresolved labels) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
+| **Q52 shadow record** | 1 finite record (five measured signatures) | Interpretation closed only at the universal-boundary/non-Markovian-witness level; detuning is preferred for the phase component; the Q52 late-time excess mechanism remains open pending a Q52-specific fit/control (§3) |
+| **Testable now** | 14 rows in §4 | Critical slowing, fingerprints, field threshold, specified memory-model discrimination, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |
+| **Testable in principle** | 2 | θ compass, fractal decay |
+| **Speculative** | 2 | Experienced time as crossing rate, anesthesia as C → 0 |
+| **Interpretive questions** | 6 | Horizon coherence, voids, CMB, burst, Page curve, black/white-hole imagery; no F14 predictions |
 | **Unverified agent claims** | 4 | 33:1 ratio, linear scaling, H≠0 requirement, optimal C |
 | **Null result** | 1 | Metric discrimination |
-| **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (= shared randomness). Reopened for J>0 via inter-qubit J-coupling. |
-| **Falsified prediction** | 2 | Taxonomy noise-dependent (wrong: noise-independent), E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic) |
+| **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (no demonstrated advantage; not an equivalence of all entangled and classical correlations). Separate J>0 inter-qubit readings, not a channel-free reopening. |
+| **Unestablished noise generalization** | 1 | Universal five-bridge noise-independence remains unsupported by the retained coverage |
+| **Falsified prediction** | 1 | E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic) |
 
 ---
 

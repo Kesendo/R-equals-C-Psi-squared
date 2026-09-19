@@ -1,9 +1,15 @@
 """
-K-Dosimetry: the exposure number of quantum mechanics
-======================================================
-K = gamma * t_cross is the total absorbed dose before the cavity
-crystallizes at CΨ = 1/4. This script tests reciprocity, computes
-the dose-response curve, and checks multi-qubit invariance.
+K-Dosimetry: finite legacy purity-threshold readings
+==================================================
+The stored J=1, |++> sweep at target purity 0.26 reports a 61.816%
+intermediate-rate discrepancy in K = gamma*t. This swap-symmetric two-qubit
+trajectory under equal local Z-dephasing is Hamiltonian-dead, so the stored
+spread is an unresolved legacy numerical discrepancy, not a physical F14
+counterexample. The spectral reconstruction pairs separate eigensystems by
+column without establishing their pairing; its cause is not diagnosed here.
+The stored sacrifice dose ratio is 1.2367, not preserved total dose.
+Photography and crystallization are interpretive images, not measured events.
+This module remains a legacy writer: syntax-check only in the label repair.
 
 Output: simulations/results/k_dosimetry.txt
 """
@@ -92,7 +98,7 @@ def log(msg=""):
     out.append(msg)
 
 log("=" * 75)
-log("K-DOSIMETRY: THE EXPOSURE NUMBER OF QUANTUM MECHANICS")
+log("K-DOSIMETRY: FINITE LEGACY PURITY-THRESHOLD READINGS")
 log("=" * 75)
 log()
 
@@ -196,7 +202,7 @@ log()
 # ─────────────────────────────────────────────
 
 log("=" * 75)
-log("STEP 3: DOSE-RESPONSE CURVE (K vs CΨ target)")
+log("STEP 3: FINITE K VS PURITY TARGET")
 log("=" * 75)
 log()
 
@@ -309,21 +315,20 @@ log("=" * 75)
 log("SUMMARY")
 log("=" * 75)
 log()
-log("1. K = gamma × t_cross is state-dependent, parameter-independent.")
-log("   Different initial states need different total doses to crystallize.")
+log("1. These are finite J=1, stated-preparation and purity-target readings.")
+log("   They do not establish parameter-independent absorbed dose.")
 log()
-log("2. Reciprocity holds across tested gamma range (within stated spread).")
-log("   Same total dose = same result, regardless of illumination rate.")
+log("2. The stored sweep reports 61.816% deviation at intermediate gamma.")
+log("   Its Hamiltonian-dead |++> trajectory makes this a legacy numerical discrepancy.")
 log()
-log("3. The dose-response curve is the H&D curve of the quantum cavity.")
-log("   It maps total absorbed light to the degree of crystallization.")
+log("3. The table varies a purity threshold in the stated calculation.")
+log("   The photography/dose image remains interpretation.")
 log()
-log("4. K_system = Σγ × t scales with N. The total system dose is N× the")
-log("   per-qubit dose. Each qubit absorbs its share independently.")
+log("4. K_system = N*K_qubit is arithmetic for a uniform gamma profile.")
+log("   This identity does not demonstrate independently absorbed shares.")
 log()
-log("5. The sacrifice zone preserves the total dose (K_total) while")
-log("   redirecting it through the entrance pupil. Same total light,")
-log("   better mode selection, better photograph.")
+log("5. The stored sacrifice/uniform K_total ratio is 1.2367.")
+log("   Those finite rows change the total dose; they do not prove preservation.")
 
 out_path = RESULTS_DIR / "k_dosimetry.txt"
 with open(out_path, 'w', encoding='utf-8') as f:

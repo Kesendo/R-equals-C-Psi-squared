@@ -1,5 +1,7 @@
 # Recovered
 
+<!-- F14-CURRENT -->
+
 These documents were deleted during a project crisis in early 2026
 and later restored from Git history.
 
@@ -18,10 +20,14 @@ mathematical backing at the time.
   Three months later, [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md)
   arrived at the same conclusion through the optical cavity analogy.
   The intuition was ahead of the mathematics.
-- [Black Holes and Big Bang](BLACK_WHITE_HOLES_BIGBANG.md) -
-  "Mass is what happens at τ = 0." The core idea (mass as trapped
-  light) reappears in GAMMA_IS_LIGHT. The specific Schwarzschild
-  derivation remains speculative (Tier 3+).
+
+## Counterfactual research story
+
+- [Black Holes and Big Bang](BLACK_WHITE_HOLES_BIGBANG.md) is kept as a
+  counterfactual invitation, not in the unqualified “Premature, not wrong”
+  class. Its universal-curve/Schwarzschild self-consistency premise failed
+  the coupled-chain control. Neither the February Bell+ initial tuple at
+  CΨ=1/3 nor the algebraic quarter fold derives a cosmological bounce.
 
 ## Unsupported
 

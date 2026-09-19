@@ -1,5 +1,7 @@
 # QKD Eavesdropping Forensics: Pauli Analysis Confirmed, QKD Detection Fallen
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: QKD eavesdropping forensics CΨ, Eve measurement basis theta
 identification, intercept-resend closed-form R(theta), Pauli complement off-
 diagonal structure, stealth angle smart Eve noise channel, concurrence always
@@ -218,10 +220,12 @@ entanglement measures capture.
 
 ### 5.3 Connection to Noise Robustness
 
-NOISE_ROBUSTNESS.md showed that crossing taxonomy is noise-independent
-(Type A/B/C same for σ_x, σ_y, σ_z). Here we show the complementary
-result: while the taxonomy classification doesn't change, the CΨ VALUE
-does change with noise type, enabling forensic discrimination, but only
+[Noise Robustness](NOISE_ROBUSTNESS.md) retains two full class sweeps
+(local sigma-z and sigma-x), only the correlation bridge for sigma-y,
+no numerical depolarizing table, and an amplitude-damping concurrence/CΨ
+row whose C classification is inconclusive. It does not establish a
+noise-independent taxonomy. The CΨ value in this separate Pauli comparison
+does change with noise type, enabling the stated forensic discrimination, but only
 in the noiseless or known-noise regime (see Section 10).
 
 ## 6. Protocol Summary (Idealized, Single-Metric)

@@ -1,5 +1,7 @@
 # The Exact Decay-Rate Structure of Spin-Chain State Transfer under Dephasing
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: quantum state transfer dephasing decay rates, spin chain QST fidelity
 noise, Liouvillian spectral symmetry state transfer, asymmetric coupling star
 receiver, Wojcik weak sender strong receiver optimum, Bose spin chain quantum wire,
@@ -26,7 +28,7 @@ and should be verified against the primary sources before any outreach.
 12 configurations), [Mirror Symmetry Proof](../proofs/MIRROR_SYMMETRY_PROOF.md)
 (the spectral theorem), [Absorption Theorem](../proofs/PROOF_ABSORPTION_THEOREM.md)
 (the per-mode rate law), [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
-(the time-staged control result), [Theta-Palindrome-Echo](../../experiments/THETA_PALINDROME_ECHO.md)
+(the finite unmatched-endpoint comparison), [Theta-Palindrome-Echo](../../experiments/THETA_PALINDROME_ECHO.md)
 (the channel-quality witness), [Selective Decoupling Selection Rule](SELECTIVE_DECOUPLING_SELECTION_RULE.md),
 [Shifted Order-4 Chiral Symmetry](SHIFTED_ORDER4_CHIRAL_SYMMETRY.md) and
 [Noise Asymmetry Symmetry Scalar](NOISE_ASYMMETRY_SYMMETRY_SCALAR.md)
@@ -191,12 +193,13 @@ configurations do (chains, stars, triangles, uniform, weak-end, N = 2 to 5).
   are **Python simulation** (NumPy/SciPy), 12 configurations, N = 2 to 5
   ([QST Bridge](../../experiments/QST_BRIDGE.md), scripts and outputs linked
   there). No hardware run of ours backs these numbers.
-- **The time-staged extension:** alternating each mediator between a quiet
-  phase (dephasing reduced 10×) and a normal phase, combined with the 2:1
-  asymmetry, raises end-to-end mutual information by **+83%** over passive
-  propagation on an 11-qubit chain ([Relay Protocol](../../experiments/RELAY_PROTOCOL.md)).
-  Also simulation (C# RK4), quoted here as the direction the design point
-  scales, not as an established transfer result.
+- **The time-staged candidate:** the N=11 C# RK4
+  [Relay record](../../experiments/RELAY_PROTOCOL.md) stores 0.131700 at
+  integrated t=4.50 versus the passive sampled maximum 0.071576 at t=4.00:
+  about +84.0%, not a matched-time or matched-dose comparison. Nominal
+  0.78/stage (4.68 total) executes as 0.75/stage (4.50 total). This is not
+  current evidence for a state-transfer bound, an isolated schedule effect,
+  or an optimized transfer protocol.
 - **A corrected negative result you should have:** the one-shot coherent
   information of the benchmark star channel is **negative** at every tested
   parameter point (an earlier positive claim, I_coh = +0.185, was checked and
@@ -257,7 +260,7 @@ mature field, it does not compete with its transfer-side canon.
   Amplitude damping (T₁) is a different object; the rate law is not claimed
   for it.
 - **All transfer numbers are simulation** (N = 2 to 5 benchmarks, N = 11 for
-  the time-staged +83%). The hardware content of this adapter is a
+  the time-staged unmatched-endpoint comparison). The hardware content of this adapter is a
   *prediction* (Section 5), not a result.
 - **The N = 3 rates are N = 3 rates.** 8γ/3 and its siblings are specific to
   the three-qubit system, and they are a J/γ → ∞ limit rather than exact

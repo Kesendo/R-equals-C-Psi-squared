@@ -1,3 +1,4 @@
+using System.Numerics;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
 
@@ -7,6 +8,22 @@ public class ComplexCuspSpiralTests
 {
     [Fact]
     public void CircleRadius_IsAQuarter() => Assert.Equal(0.25, ComplexCuspSpiral.CircleRadius);
+
+    [Fact]
+    public void QuarterRadiusCircle_IsNotTheQuadraticDoubleRootLocus()
+    {
+        // For z^2 - 2 b z + c, b=1/2 and c=i/4 lie on |c|=1/4 but
+        // have discriminant 4b^2-4c = 1-i.  Only the positive-real
+        // c=1/4 point has the zero discriminant used by the recurrence.
+        var b = new Complex(0.5, 0.0);
+        var radialQuarter = new Complex(0.0, 0.25);
+        var radialDiscriminant = 4.0 * b * b - 4.0 * radialQuarter;
+        Assert.Equal(new Complex(1.0, -1.0), radialDiscriminant);
+        Assert.NotEqual(Complex.Zero, radialDiscriminant);
+
+        var recurrenceQuarter = new Complex(0.25, 0.0);
+        Assert.Equal(Complex.Zero, 4.0 * b * b - 4.0 * recurrenceQuarter);
+    }
 
     [Fact]
     public void Magnitude_AtTimeZero_IsOneThird()

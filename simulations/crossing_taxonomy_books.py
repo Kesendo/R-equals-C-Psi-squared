@@ -1,4 +1,4 @@
-"""Crossing-taxonomy books probe: the five bridges, two models, all crossings.
+"""Crossing-taxonomy probe: five scalar readouts in two books.
 
 Resolves the February crossing numbers (t = 0.652 / 0.773 / 1.437 at
 gamma = 0.05; K = 0.033 / 0.039 / 0.072) of experiments/CROSSING_TAXONOMY.md,
@@ -7,7 +7,7 @@ experiments/OBSERVER_DEPENDENT_CROSSING.md and experiments/METRIC_DISCRIMINATION
 The trajectory: Bell+ under local Z-dephasing is J-independent (Heisenberg
 eigenstate); rho(t) = diag(1/2,0,0,1/2) + (f/2)(|00><11| + h.c.). Psi = f/3.
 
-Two models for f:
+Two named evolution-law families for f:
   CLEAN     df/dt = -4*gamma*f            (standard Lindblad; f = e^(-4*gamma*t))
   FEEDBACK  df/dt = -4*gamma*C(f)*f       (the retired February delta_calc tool's
             gamma_eff = gamma_base*C(t), disclosed in OBSERVER_DEPENDENT_CROSSING
@@ -36,9 +36,12 @@ Expected output (verified 2026-07-21):
   correlation    0.071921     1.4384          0.071921     1.4384       1.437
   (concurrence feedback crossing is analytic: t = (2/sqrt(3)-1)/(4*gamma))
 
-K-invariance is exact in BOTH models (f depends on tau = gamma*t only), which is
-why the February gamma-sweeps saw constant K: the surviving Lindblad-scaling
-result is model-independent.
+K = gamma*t is exact for these five equations in each book, with the bridge
+fixed on this Hamiltonian-dead Bell+ family while gamma is swept. The feedback
+law is state-dependent/nonlinear for mutual information and concurrence;
+correlation, mutual purity and overlap give constant-rate linear scalar decay.
+The feedback family is not one linear Lindblad generator. A scalar readout
+choice does not establish a physical measurement event or experienced time.
 """
 
 import numpy as np
@@ -64,13 +67,13 @@ BRIDGES = {
 }
 
 
-def cpsi(bridge, f):
-    return BRIDGES[bridge](f) * f / 3.0
+def cpsi(bridge, f, bridges=None):
+    return (BRIDGES if bridges is None else bridges)[bridge](f) * f / 3.0
 
 
-def clean_crossing(bridge):
+def clean_crossing(bridge, bridges=BRIDGES):
     """f = e^(-4*gamma*t); solve C(f)*f/3 = 1/4 for f, then t."""
-    g = lambda f: cpsi(bridge, f) - 0.25
+    g = lambda f: cpsi(bridge, f, bridges) - 0.25
     if g(1.0) <= 0:
         return None, None
     f_cross = brentq(g, 1e-9, 1.0, xtol=1e-14)
@@ -78,28 +81,38 @@ def clean_crossing(bridge):
     return K, K / GAMMA
 
 
-def feedback_crossing(bridge):
+def feedback_crossing(bridge, bridges=None, *, rtol=1e-12, atol=1e-14):
     """df/dt = -4*gamma*C(f)*f (the February tool's gamma_eff = gamma*C)."""
-    if cpsi(bridge, 1.0) <= 0.25:
+    if cpsi(bridge, 1.0, bridges) <= 0.25:
         return None, None
-    hit = lambda t, y: cpsi(bridge, y[0]) - 0.25
+    hit = lambda t, y: cpsi(bridge, y[0], bridges) - 0.25
     hit.terminal = True
     hit.direction = -1
-    sol = solve_ivp(lambda t, y: [-4.0 * GAMMA * BRIDGES[bridge](y[0]) * y[0]],
+    sol = solve_ivp(lambda t, y: [-4.0 * GAMMA * (BRIDGES if bridges is None else bridges)[bridge](y[0]) * y[0]],
                     (0.0, 100.0), [F_START], events=hit,
-                    rtol=1e-12, atol=1e-14, dense_output=True)
+                    rtol=rtol, atol=atol, dense_output=True)
     t_cross = sol.t_events[0][0]
     return GAMMA * t_cross, t_cross
 
 
+def crossings_for_book(book, bridges=BRIDGES):
+    """Read every supplied scalar bridge through one named evolution law."""
+    if book not in ("clean", "feedback"):
+        raise ValueError(f"Unknown crossing book: {book!r}")
+    crossing = clean_crossing if book == "clean" else feedback_crossing
+    return {name: crossing(name, bridges=bridges) for name in bridges}
+
+
 def main():
-    print("Crossing-taxonomy books (Bell+ Z-dephasing, gamma = 0.05, Psi = f/3)")
+    print("Two books: Bell+ local Z-dephasing, gamma = 0.05, Psi = f/3")
+    clean = crossings_for_book("clean")
+    feedback = crossings_for_book("feedback")
     print(f"{'bridge':<14s} {'CPsi(0)':>8s} {'clean K':>10s} {'clean t':>9s} "
           f"{'feedbk K':>10s} {'feedbk t':>9s}")
     for name in BRIDGES:
         c0 = cpsi(name, 1.0)
-        cK, ct = clean_crossing(name)
-        fK, ft = feedback_crossing(name)
+        cK, ct = clean[name]
+        fK, ft = feedback[name]
         fmt = lambda x, w: ("-" * 5).rjust(w) if x is None else f"{x:{w}.6f}"
         print(f"{name:<14s} {c0:8.4f} {fmt(cK,10)} "
               f"{('never' if ct is None else f'{ct:9.4f}')} {fmt(fK,10)} "
@@ -108,7 +121,10 @@ def main():
     print(f"\nconcurrence feedback crossing, analytic (2/sqrt(3)-1)/(4*gamma) "
           f"= {t_analytic:.6f}")
     print("correlation is identical in both models (C = 1: feedback inert).")
-    print("K-invariance is exact in both models: f depends on tau = gamma*t only.")
+    print("K = gamma*t is exact for the five listed equations in each fixed-bridge Bell+ book.")
+    print("Feedback: mutual information and concurrence are state-dependent/nonlinear;")
+    print("correlation and the two constant bridges give constant-rate linear scalar decay.")
+    print("Readout crossings do not establish physical observer events or experienced time.")
 
 
 if __name__ == "__main__":

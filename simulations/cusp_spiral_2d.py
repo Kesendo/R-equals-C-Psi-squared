@@ -1,309 +1,265 @@
 #!/usr/bin/env python3
-"""The 2D spiral into the cusp circle: the graphical representation.
+"""Draw a radial quarter reference beside a distinct cardioid cusp.
 
-The interior axis read in the complex plane. With a common Z-drift Ω under
-the dephasing, the Bell+ coherence CΨ_com becomes complex and winds inward.
-The cusp ¼, a point on the real line, is the circle |CΨ| = ¼ here: every
-spiral crosses it (the radial magnitude law is Ω-independent), and only the
-crossing angle φ₀ − Ω·t_cross is free, the one IBM Kingston steered.
-
-Produces:
-  simulations/results/cusp_spiral_2d/cusp_spiral_2d.png   (static, annotated)
-  simulations/results/cusp_spiral_2d/cusp_spiral_2d.gif   (one spiral winding in)
-
-The static figure overlays the real Kingston spirals (best-effort: skipped
-cleanly if the hardware JSON is absent). Date: 2026-06-03.
+The named two-qubit Bell+ model supplies finite ``CΨ_com`` trajectories.
+They are embedded as drawing coordinates beside the independently defined
+period-one cardioid.  The circle ``|CΨ_com|=1/4`` records a selected radial
+crossing; only its positive-real point shares the cardioid cusp's coordinate.
+The frozen April-16 and April-26 data are overlays, not Mandelbrot iterates.
 """
+
 from __future__ import annotations
 
-import sys
+import argparse
+import hashlib
+import json
+from operator import itemgetter
 from pathlib import Path
+import sys
 
-import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
-
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
-from cpsi_complex_plane import trajectory, main_cardioid, period_2_bulb  # noqa: E402
+from cpsi_complex_plane import main_cardioid, period_2_bulb, trajectory  # noqa: E402
+from hardware_cpsi_cplane import extract_trajectory  # noqa: E402
 
+
+APRIL16_JSON = "data/ibm_cusp_slowing_april2026/cusp_slowing_ibm_kingston_20260416_212042.json"
+APRIL16_SHA256 = "7210E6F31C1211F8C1236A4DC6020E569DDCF8F0585CEFA423F7AEC70669AE36"
+APRIL26_JSON = "data/ibm_cusp_precision_april2026/cusp_precision_ibm_kingston_20260426_115939.json"
+APRIL26_SHA256 = "DAC33BA260594B7262D329C2D17E0629130D478A6C6D94927D467882EBB25211"
 CUSP = 0.25
-COLORS = ["#CC3333", "#33AACC", "#EE9922", "#AA33CC", "#33AA77"]
+COLORS = ("#CC3333", "#33AACC", "#EE9922", "#AA33CC", "#33AA77")
 
 
-def quarter_circle(n_pts: int = 400) -> np.ndarray:
-    """The cusp circle |CΨ| = 1/4: the 1D cusp point seen edge-on."""
-    theta = np.linspace(0, 2 * np.pi, n_pts)
+def load_frozen_json(relative_path, expected_sha256):
+    payload = (Path(__file__).parent.parent / relative_path).read_bytes()
+    actual_sha256 = hashlib.sha256(payload).hexdigest().upper()
+    if actual_sha256 != expected_sha256:
+        raise ValueError(f"immutable JSON digest mismatch: {relative_path}")
+    parsed = json.loads(payload)
+    return parsed
+
+
+def quarter_circle(n_pts):
+    theta = np.linspace(0.0, 2.0 * np.pi, n_pts)
     return CUSP * np.exp(1j * theta)
 
 
-def first_crossing(c_vals: np.ndarray):
-    """First index where |CΨ_com| <= 1/4 (the spiral entering the circle), and
-    the crossing angle in degrees. Returns (idx, angle_deg) or (None, None)."""
-    mags = np.abs(c_vals)
-    inside = np.where(mags <= CUSP)[0]
+def first_crossing(c_values):
+    magnitudes = np.abs(c_values)
+    inside = np.where(magnitudes <= CUSP)[0]
     if len(inside) == 0:
         return None, None
-    idx = int(inside[0])
-    return idx, float(np.degrees(np.angle(c_vals[idx])))
+    index = int(inside[0])
+    return index, float(np.degrees(np.angle(c_values[index])))
 
 
-def circle_crossing_point(c_vals: np.ndarray):
-    """The point ON the ¼-circle where |CΨ_com| first drops through ¼, linearly
-    interpolated between the last-outside and first-inside samples. Returns a
-    complex value sitting on the circle, or None if there is no crossing. Used for
-    sparse data (the 6-point Kingston arcs) so the crossing star lands on the circle,
-    not on the first inside sample."""
-    mags = np.abs(c_vals)
-    for k in range(1, len(mags)):
-        if mags[k - 1] > CUSP >= mags[k]:
-            f = (mags[k - 1] - CUSP) / (mags[k - 1] - mags[k])
-            return c_vals[k - 1] + f * (c_vals[k] - c_vals[k - 1])
-    return None
+def plot_hardware_arc(axis, c_values, color, label):
+    axis.plot(
+        c_values.real, c_values.imag, "o-", color=color, lw=1.3,
+        markersize=5, alpha=0.75, zorder=3, label=label,
+    )
+    axis.plot(
+        c_values.real[0], c_values.imag[0], "o", mfc="white", mec=color,
+        mew=1.5, markersize=10, zorder=4,
+    )
 
 
-def load_hardware():
-    """Best-effort: the two real Kingston spirals. Returns a list of
-    (label, c_vals) or [] if the data/loader is unavailable."""
-    try:
-        import json
-        from hardware_cpsi_cplane import extract_trajectory
-        data_dir = Path(__file__).parent.parent / "data" / "ibm_cusp_slowing_april2026"
-        jsons = sorted(data_dir.glob("cusp_slowing_*.json"))
-        if not jsons:
-            return []
-        with open(jsons[-1], "r", encoding="utf-8") as f:
-            data = json.load(f)
-        pair_runs = data.get("pair_runs", {})
-        out = []
-        for key, label in [("A_mid", "Kingston A (clockwise)"),
-                           ("B_high", "Kingston B (counter-cw)")]:
-            tr = extract_trajectory(pair_runs.get(key, {}))
-            c = np.array(tr["cpsi_complex"])
-            if len(c) > 0:
-                out.append((label, c))
-        return out
-    except Exception as e:  # noqa: BLE001  best-effort overlay
-        print(f"  (hardware overlay skipped: {e})")
-        return []
-
-
-def load_precision():
-    """Best-effort: the dense April-26 precision run, the experiment with many delays
-    sampled exactly across ¼. It stores only a real scalar CΨ per delay (no density
-    matrix, so no phase): this is the dense 1D crossing, living on the real axis, not a
-    spiral. Returns (t_us, cpsi) arrays, or (None, None) if unavailable."""
-    try:
-        import json
-        data_dir = Path(__file__).parent.parent / "data" / "ibm_cusp_precision_april2026"
-        jsons = sorted(data_dir.glob("cusp_precision_*.json"))
-        if not jsons:
-            return None, None
-        with open(jsons[-1], "r", encoding="utf-8") as f:
-            data = json.load(f)
-        pts = data.get("cpsi_data", [])
-        t = np.array([p["t_us"] for p in pts])
-        cpsi = np.array([p["cpsi"] for p in pts])
-        return (t, cpsi) if len(cpsi) else (None, None)
-    except Exception as e:  # noqa: BLE001  best-effort overlay
-        print(f"  (precision overlay skipped: {e})")
-        return None, None
-
-
-def make_static(out_png: Path) -> None:
-    # Idealized spirals: fixed γ, a fan of Ω (Ω=0 is the real-axis 1D baseline).
+def make_static(out_png, april16_data, april26_data):
     gamma = 0.05
-    configs = [
-        {"gamma": gamma, "detuning_sum": 0.0, "phi_0": 0.0, "t_max": 25.0},
-        {"gamma": gamma, "detuning_sum": 0.3, "phi_0": 0.0, "t_max": 25.0},
-        {"gamma": gamma, "detuning_sum": 0.6, "phi_0": 0.0, "t_max": 25.0},
-        {"gamma": gamma, "detuning_sum": 1.0, "phi_0": 0.0, "t_max": 25.0},
-        {"gamma": gamma, "detuning_sum": -0.6, "phi_0": 0.0, "t_max": 25.0},  # the other sense
-    ]
-    trajs = [trajectory(**c) for c in configs]
-    hardware = load_hardware()
-    t_prec, cpsi_prec = load_precision()
+    configs = (
+        (gamma, 0.0, 0.0, 25.0),
+        (gamma, 0.3, 0.0, 25.0),
+        (gamma, 0.6, 0.0, 25.0),
+        (gamma, 1.0, 0.0, 25.0),
+        (gamma, -0.6, 0.0, 25.0),
+    )
+    trajectories = [trajectory(*configuration) for configuration in configs]
 
-    fig, axes = plt.subplots(1, 3, figsize=(21, 7))
-    ax_full, ax_zoom, ax_hw = axes
+    pair_runs = april16_data["pair_runs"]
+    pair_a = extract_trajectory(pair_runs["A_mid"])
+    pair_b = extract_trajectory(pair_runs["B_high"])
+    hardware_a = np.array(pair_a["cpsi_complex"])
+    hardware_b = np.array(pair_b["cpsi_complex"])
+    precision_rows = april26_data["cpsi_data"]
+    precision_t = np.array(list(map(itemgetter("t_us"), precision_rows)))
+    precision_cpsi = np.array(list(map(itemgetter("cpsi"), precision_rows)))
 
-    c_card = main_cardioid()
-    c_bulb = period_2_bulb()
-    c_circ = quarter_circle()
-    for ax in axes:
-        ax.plot(c_card.real, c_card.imag, "-", color="#999", lw=0.9, alpha=0.6,
-                label="Mandelbrot cardioid")
-        ax.plot(c_bulb.real, c_bulb.imag, "-", color="#999", lw=0.6, alpha=0.4)
-        # The new element: the cusp as a CIRCLE.
-        ax.plot(c_circ.real, c_circ.imag, "--", color="red", lw=1.6, alpha=0.9,
-                label="cusp circle |CΨ| = 1/4")
-        ax.plot(0.25, 0, "o", color="red", markersize=7, zorder=6,
-                label="the 1D cusp point")
-        ax.axhline(0, color="gray", lw=0.3, alpha=0.5)
-        ax.axvline(0, color="gray", lw=0.3, alpha=0.5)
+    figure, axes = plt.subplots(1, 3, figsize=(21, 7))
+    full_axis, zoom_axis, hardware_axis = axes
+    cardioid = main_cardioid()
+    bulb = period_2_bulb()
+    radial_circle = quarter_circle(400)
+    for axis in axes:
+        axis.plot(
+            cardioid.real, cardioid.imag, "-", color="#999", lw=0.9,
+            alpha=0.6, label="period-one cardioid",
+        )
+        axis.plot(bulb.real, bulb.imag, "-", color="#999", lw=0.6, alpha=0.4)
+        axis.plot(
+            radial_circle.real, radial_circle.imag, "--", color="red",
+            lw=1.6, alpha=0.9, label="selected radial |CΨ|=1/4 circle",
+        )
+        axis.plot(
+            0.25, 0.0, "o", color="red", markersize=7, zorder=6,
+            label="cardioid cusp c=+1/4",
+        )
+        axis.axhline(0.0, color="gray", lw=0.3, alpha=0.5)
+        axis.axvline(0.0, color="gray", lw=0.3, alpha=0.5)
 
-    for i, tr in enumerate(trajs):
-        c = np.array(tr["cpsi_complex"])
-        col = COLORS[i % len(COLORS)]
-        omega = tr["detuning_sum"]
-        wind = omega / (4 * tr["gamma"])
-        if omega > 0:
-            lbl = f"Ω=+{omega:.1f} (Ω/4γ={wind:+.1f}, clockwise)"
-        elif omega < 0:
-            lbl = f"Ω={omega:.1f} (Ω/4γ={wind:+.1f}, counter-cw)"
-        else:
-            lbl = "Ω=0 (the 1D real-axis line, head-on)"
-        idx, ang = first_crossing(c)
-        for ax in (ax_full, ax_zoom):   # idealized spirals stay out of the hardware panel
-            ax.plot(c.real, c.imag, "-", color=col, lw=1.8, alpha=0.85, label=lbl)
-            ax.plot(c.real[0], c.imag[0], "o", color=col, markersize=7)
-            if idx is not None:
-                ax.plot(c.real[idx], c.imag[idx], "*", color=col, markersize=15,
-                        markeredgecolor="black", markeredgewidth=0.6, zorder=7)
-        if idx is not None:
-            print(f"  Ω={omega:.1f}: crosses |CΨ|=1/4 at angle {ang:+.1f}°")
+    for index, model_trajectory in enumerate(trajectories):
+        c_values = np.array(model_trajectory["cpsi_complex"])
+        color = COLORS[index % len(COLORS)]
+        omega = model_trajectory["detuning_sum"]
+        winding = omega / (4.0 * model_trajectory["gamma"])
+        label = f"finite model Omega={omega:+.1f}, Omega/(4 gamma)={winding:+.1f}"
+        crossing_index, crossing_angle = first_crossing(c_values)
+        for axis in (full_axis, zoom_axis):
+            axis.plot(c_values.real, c_values.imag, "-", color=color,
+                      lw=1.8, alpha=0.85, label=label)
+            axis.plot(c_values.real[0], c_values.imag[0], "o",
+                      color=color, markersize=7)
+            if crossing_index is not None:
+                axis.plot(
+                    c_values.real[crossing_index], c_values.imag[crossing_index],
+                    "*", color=color, markersize=15, markeredgecolor="black",
+                    markeredgewidth=0.6, zorder=7,
+                )
+        if crossing_index is not None:
+            print(f"  Omega={omega:+.1f}: finite radial crossing angle={crossing_angle:+.1f} deg")
 
-    # The hardware panel (its own, tightly zoomed). Two real runs, two honest roles:
-    #  - the dense April-26 precision run (green): 19 delays, real CΨ on the axis,
-    #    marching point-by-point through ¼ (the "many points exactly at ¼", Ω=0 head-on).
-    #  - the sparse April-16 cusp-slowing run: 6 complex points per pair, the only data
-    #    carrying phase, leaving the axis under residual drift (the 2D arc, suggestive).
-    allre, allim = [], []
-    if t_prec is not None:
-        zeros = np.zeros_like(cpsi_prec)
-        ax_hw.plot(cpsi_prec, zeros, "o-", color="#2E8B57", markersize=6, lw=1.0, alpha=0.9,
-                   zorder=5, label=f"precision: {len(cpsi_prec)} delays, real CΨ (no phase), F25 point-by-point")
-        i0 = int(np.argmax(cpsi_prec))   # t=0 is the least-decayed (largest) CΨ
-        ax_hw.plot(cpsi_prec[i0], 0.0, "o", mfc="white", mec="#2E8B57", mew=1.8,
-                   markersize=12, zorder=6)
-        ax_hw.annotate("t=0", (cpsi_prec[i0], 0.0), textcoords="offset points",
-                       xytext=(2, 9), fontsize=8, color="#2E8B57")
-        allre += list(cpsi_prec)
-        allim += list(zeros)
-    hw_base = {"Kingston A (clockwise)": "#B22222", "Kingston B (counter-cw)": "#1F6FB2"}
-    for label, c in hardware:
-        col = hw_base.get(label, "#333333")
-        a0, a1 = np.degrees(np.angle(c[0])), np.degrees(np.angle(c[-1]))
-        ax_hw.plot(c.real, c.imag, "o-", color=col, lw=1.3, markersize=5, alpha=0.7,
-                   zorder=3, label=f"cusp-slowing {label[9:]}: complex, 6 pts, arg {a0:+.0f}°→{a1:+.0f}°")
-        ax_hw.plot(c.real[0], c.imag[0], "o", mfc="white", mec=col, mew=1.5,
-                   markersize=10, zorder=4)
-        cross = circle_crossing_point(c)
-        if cross is not None:
-            ax_hw.plot(cross.real, cross.imag, "*", color="gold", markeredgecolor="black",
-                       markeredgewidth=0.6, markersize=18, zorder=6)
-        allre += list(c.real)
-        allim += list(c.imag)
-    if allre:
-        pad = 0.04
-        ax_hw.set_xlim(min(allre) - pad, max(allre) + pad)
-        ax_hw.set_ylim(min(allim) - pad, max(allim) + pad)
-    else:
-        ax_hw.text(0.5, 0.5, "Kingston data not found", transform=ax_hw.transAxes,
-                   ha="center", va="center", fontsize=10, color="gray")
-        ax_hw.set_xlim(-0.02, 0.34)
-        ax_hw.set_ylim(-0.18, 0.20)
+    precision_zero = np.zeros_like(precision_cpsi)
+    hardware_axis.plot(
+        precision_cpsi, precision_zero, "o-", color="#2E8B57",
+        markersize=6, lw=1.0, alpha=0.9, zorder=5,
+        label=f"April-26 saved scalar rows ({len(precision_t)} delays)",
+    )
+    plot_hardware_arc(
+        hardware_axis, hardware_a, "#B22222", "April-16 saved pair A density matrices"
+    )
+    plot_hardware_arc(
+        hardware_axis, hardware_b, "#1F6FB2", "April-16 saved pair B density matrices"
+    )
 
-    ax_full.set_xlim(-1.0, 0.6)
-    ax_full.set_ylim(-0.6, 0.6)
-    ax_full.set_aspect("equal")
-    ax_full.set_title("The c-plane: every spiral crosses the same ¼-circle")
-    ax_full.grid(True, alpha=0.2)
-    ax_full.legend(loc="lower left", fontsize=7)
-    ax_full.set_xlabel("Re(CΨ_com)")
-    ax_full.set_ylabel("Im(CΨ_com)")
+    full_axis.set_xlim(-1.0, 0.6)
+    full_axis.set_ylim(-0.6, 0.6)
+    full_axis.set_aspect("equal")
+    full_axis.set_title("Finite model spirals and separate algebraic references")
+    full_axis.grid(True, alpha=0.2)
+    full_axis.legend(loc="lower left", fontsize=7)
+    full_axis.set_xlabel("Re(c_plot)")
+    full_axis.set_ylabel("Im(c_plot)")
 
-    ax_zoom.set_xlim(-0.32, 0.40)
-    ax_zoom.set_ylim(-0.32, 0.32)
-    ax_zoom.set_aspect("equal")
-    ax_zoom.set_title("Zoom: the cusp is a circle, the angle is the free thing\n"
-                      "(idealized spirals; stars = their crossings)")
-    ax_zoom.grid(True, alpha=0.2)
-    ax_zoom.legend(loc="lower left", fontsize=7)
-    ax_zoom.set_xlabel("Re(CΨ_com)")
-    ax_zoom.set_ylabel("Im(CΨ_com)")
+    zoom_axis.set_xlim(-0.32, 0.40)
+    zoom_axis.set_ylim(-0.32, 0.32)
+    zoom_axis.set_aspect("equal")
+    zoom_axis.set_title("Finite radial crossings; stars mark sampled first-inside points")
+    zoom_axis.grid(True, alpha=0.2)
+    zoom_axis.legend(loc="lower left", fontsize=7)
+    zoom_axis.set_xlabel("Re(c_plot)")
+    zoom_axis.set_ylabel("Im(c_plot)")
 
-    ax_hw.set_aspect("equal")
-    ax_hw.set_title("The real Kingston data at the fold: the dense crossing is on the\n"
-                    "axis (green, 19 pts); the phase-carrying arcs are sparse (gold = crossing)")
-    ax_hw.grid(True, alpha=0.2)
-    ax_hw.legend(loc="lower left", fontsize=6.5)
-    ax_hw.set_xlabel("Re(CΨ_com)")
-    ax_hw.set_ylabel("Im(CΨ_com)")
+    hardware_axis.set_aspect("equal")
+    hardware_axis.set_title(
+        "selected radial reference |CΨ| = 1/4\n"
+        "embedded coordinate: c_plot = CΨ_com"
+    )
+    hardware_axis.grid(True, alpha=0.2)
+    hardware_axis.legend(loc="lower left", fontsize=6.5)
+    hardware_axis.set_xlabel("Re(c_plot)")
+    hardware_axis.set_ylabel("Im(c_plot)")
 
-    fig.suptitle(
-        "The interior axis in 2D: the cusp ¼ is a circle, every spiral crosses it,\n"
-        "only the crossing angle is free (the one IBM Kingston steered)", y=1.00)
-    plt.tight_layout(rect=[0, 0, 1, 0.95])
-    plt.savefig(out_png, dpi=170, bbox_inches="tight")
-    plt.close()
-    print(f"  saved: {out_png}")
+    figure.suptitle(
+        "Finite CΨ_com paths beside the independently defined period-one cardioid",
+        y=1.00,
+    )
+    figure.tight_layout(rect=[0, 0, 1, 0.95])
+    figure.savefig(out_png, dpi=170, bbox_inches="tight")
+    plt.close(figure)
 
 
-def make_gif(out_gif: Path) -> None:
-    gamma, omega, phi0, t_max = 0.05, 0.5, 0.0, 25.0
-    tr = trajectory(gamma=gamma, detuning_sum=omega, phi_0=phi0, t_max=t_max, n_steps=160)
-    c = np.array(tr["cpsi_complex"])
-    times = np.array(tr["times"])
-    idx_cross, _ = first_crossing(c)
+def make_gif(out_gif):
+    gamma, omega, phi_0, t_max = 0.05, 0.5, 0.0, 25.0
+    model_trajectory = trajectory(gamma, omega, phi_0, t_max, 160)
+    c_values = np.array(model_trajectory["cpsi_complex"])
+    times = np.array(model_trajectory["times"])
+    crossing_index, _ = first_crossing(c_values)
 
-    fig, ax = plt.subplots(figsize=(8, 8))
-    c_card = main_cardioid()
-    c_circ = quarter_circle()
-    ax.plot(c_card.real, c_card.imag, "-", color="#999", lw=0.9, alpha=0.5)
-    ax.plot(c_circ.real, c_circ.imag, "--", color="red", lw=1.6, alpha=0.9,
-            label="cusp circle |CΨ| = 1/4")
-    ax.plot(0.25, 0, "o", color="red", markersize=6, zorder=6)
-    ax.axhline(0, color="gray", lw=0.3, alpha=0.5)
-    ax.axvline(0, color="gray", lw=0.3, alpha=0.5)
-    ax.set_xlim(-0.40, 0.42)
-    ax.set_ylim(-0.40, 0.40)
-    ax.set_aspect("equal")
-    ax.grid(True, alpha=0.2)
-    ax.set_xlabel("Re(CΨ_com)")
-    ax.set_ylabel("Im(CΨ_com)")
-    ax.set_title(f"A spiral winding into the cusp circle (γ={gamma}, Ω={omega})")
+    figure, axis = plt.subplots(figsize=(8, 8))
+    cardioid = main_cardioid()
+    radial_circle = quarter_circle(400)
+    axis.plot(cardioid.real, cardioid.imag, "-", color="#999", lw=0.9, alpha=0.5)
+    axis.plot(
+        radial_circle.real, radial_circle.imag, "--", color="red", lw=1.6,
+        alpha=0.9, label="selected radial |CΨ|=1/4 circle",
+    )
+    axis.plot(0.25, 0.0, "o", color="red", markersize=6, zorder=6)
+    axis.axhline(0.0, color="gray", lw=0.3, alpha=0.5)
+    axis.axvline(0.0, color="gray", lw=0.3, alpha=0.5)
+    axis.set_xlim(-0.40, 0.42)
+    axis.set_ylim(-0.40, 0.40)
+    axis.set_aspect("equal")
+    axis.grid(True, alpha=0.2)
+    axis.set_xlabel("Re(c_plot)")
+    axis.set_ylabel("Im(c_plot)")
+    axis.set_title(
+        "c=+1/4 is the cardioid cusp; the circle is a radial readout"
+    )
 
-    line, = ax.plot([], [], "-", color="#AA33CC", lw=2.0, alpha=0.9)
-    head = ax.scatter([], [], color="#AA33CC", s=70, edgecolor="black",
-                      linewidths=0.6, zorder=7)
-    star = ax.scatter([], [], color="gold", s=220, marker="*",
-                      edgecolor="black", linewidths=0.8, zorder=8)
-    text = ax.text(0.02, 0.97, "", transform=ax.transAxes, fontsize=10,
-                   va="top", family="monospace",
-                   bbox=dict(facecolor="white", alpha=0.85, edgecolor="gray"))
-    ax.legend(loc="lower left", fontsize=9)
+    line, = axis.plot([], [], "-", color="#AA33CC", lw=2.0, alpha=0.9)
+    head = axis.scatter([], [], color="#AA33CC", s=70, edgecolor="black",
+                        linewidths=0.6, zorder=7)
+    star = axis.scatter([], [], color="gold", s=220, marker="*",
+                        edgecolor="black", linewidths=0.8, zorder=8)
+    readout_text = axis.text(
+        0.02, 0.97, "", transform=axis.transAxes, fontsize=10, va="top",
+        family="monospace", bbox=dict(facecolor="white", alpha=0.85,
+                                      edgecolor="gray"),
+    )
+    axis.legend(loc="lower left", fontsize=9)
 
-    def update(frame: int):
-        line.set_data(c.real[:frame + 1], c.imag[:frame + 1])
-        head.set_offsets([[c.real[frame], c.imag[frame]]])
-        if idx_cross is not None and frame >= idx_cross:
-            star.set_offsets([[c.real[idx_cross], c.imag[idx_cross]]])
-        mag = abs(c[frame])
-        arg = np.degrees(np.angle(c[frame]))
-        text.set_text(f"t   = {times[frame]:6.2f}\n"
-                      f"|CΨ| = {mag:6.4f}\n"
-                      f"arg = {arg:+6.1f}°\n"
-                      f"{'INSIDE ¼' if mag <= CUSP else 'outside'}")
-        return line, head, star, text
+    def update(frame):
+        line.set_data(c_values.real[:frame + 1], c_values.imag[:frame + 1])
+        head.set_offsets([[c_values.real[frame], c_values.imag[frame]]])
+        if crossing_index is not None and frame >= crossing_index:
+            star.set_offsets([[
+                c_values.real[crossing_index], c_values.imag[crossing_index]
+            ]])
+        magnitude = abs(c_values[frame])
+        argument = np.degrees(np.angle(c_values[frame]))
+        side = "inside radial reference" if magnitude <= CUSP else "outside"
+        readout_text.set_text(
+            f"t={times[frame]:6.2f}\n|CΨ|={magnitude:6.4f}\n"
+            f"arg={argument:+6.1f} deg\n{side}"
+        )
+        return line, head, star, readout_text
 
-    print(f"  rendering GIF ({len(c)} frames)...")
-    anim = FuncAnimation(fig, update, frames=len(c), interval=80, blit=False, repeat=True)
-    anim.save(out_gif, writer=PillowWriter(fps=12))
-    plt.close()
-    print(f"  saved: {out_gif}")
+    animation = FuncAnimation(
+        figure, update, frames=160, interval=80, blit=False, repeat=True
+    )
+    animation.save(out_gif, writer=PillowWriter(fps=12.5))
+    plt.close(figure)
+
+
+def main(output_dir) -> None:
+    destination = Path(output_dir)
+    april16_data = load_frozen_json(APRIL16_JSON, APRIL16_SHA256)
+    april26_data = load_frozen_json(APRIL26_JSON, APRIL26_SHA256)
+    static_output = destination / "cusp_spiral_2d.png"
+    animated_output = destination / "cusp_spiral_2d.gif"
+    make_static(static_output, april16_data, april26_data)
+    make_gif(animated_output)
+    print(f"saved: {static_output}")
+    print(f"saved: {animated_output}")
 
 
 if __name__ == "__main__":
-    out_dir = Path(__file__).parent / "results" / "cusp_spiral_2d"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    print("=" * 70)
-    print("  The 2D spiral into the cusp circle")
-    print("=" * 70)
-    make_static(out_dir / "cusp_spiral_2d.png")
-    make_gif(out_dir / "cusp_spiral_2d.gif")
-    print("\nThe cusp ¼ is a circle; every spiral crosses it; only the angle is free.")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", dest="output_dir", required=True)
+    args = parser.parse_args()
+    main(args.output_dir)

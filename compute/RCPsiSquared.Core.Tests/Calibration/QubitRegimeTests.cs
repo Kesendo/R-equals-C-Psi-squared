@@ -2,24 +2,61 @@ using RCPsiSquared.Core.Calibration;
 
 namespace RCPsiSquared.Core.Tests.Calibration;
 
-/// <summary>Tests for <see cref="QubitRegime"/>, the calibration-to-framework
-/// bridge primitive. Empirical anchors are pinned to the 2026-04-25 Marrakesh
-/// calibration via the same shared loader as <see cref="IbmCalibrationTests"/>;
-/// the Marrakesh 91-day biography review (commit 787854f) confirms Q0 lives
-/// permanently quantum-side (r mean 0.086 over 91 days, walk 0.022) and the
-/// soft_break path [48, 49, 50] is uniform-classical.</summary>
+/// <summary>Tests the calibration-level normalized-purity proxy and its neutral
+/// r = T2/(2*T1) classification. The labels describe only a side of the named
+/// R* threshold in the stated free-single-transmon |+> model.</summary>
 public class QubitRegimeTests
 {
-    private static Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 => CalibrationFixtures.Marrakesh20260425;
+    private const long RStarBits = 0x3fcb3b8c72b39bd9;
+    private static Lazy<IReadOnlyList<QubitData>> Marrakesh20260425 =>
+        CalibrationFixtures.Marrakesh20260425;
 
     [Fact]
-    public void RStar_MatchesPolynomialFoldCatastropheConstant()
+    public void RStar_PinsBinary64ValueAndDefiningTouch()
     {
-        Assert.Equal(0.212755, QubitRegime.R_STAR, precision: 6);
+        const double yStar = 0.613819895538536;
+
+        Assert.Equal(RStarBits, BitConverter.DoubleToInt64Bits(QubitRegime.R_STAR));
+        Assert.InRange(QubitRegime.R_STAR, 0.2127547798220052, 0.2127547798220055);
+        Assert.InRange(
+            Math.Abs(QubitRegime.NormalizedPurityProxyStationarity(yStar, QubitRegime.R_STAR)),
+            0.0,
+            1e-13);
+        Assert.Equal(
+            0.25,
+            QubitRegime.NormalizedPurityProxy(yStar, QubitRegime.R_STAR),
+            precision: 13);
     }
 
     [Fact]
-    public void RParam_ComputesT2Over2T1()
+    public void RStar_RoundedSixDecimalReplacementFailsTheExactPin()
+    {
+        Assert.NotEqual(
+            BitConverter.DoubleToInt64Bits(0.212755),
+            BitConverter.DoubleToInt64Bits(QubitRegime.R_STAR));
+    }
+
+    [Fact]
+    public void NormalizedPurityProxy_AtPointFourDoesNotTrackActiveCpsiQuarterCrossing()
+    {
+        const double r = 0.4;
+        const double yAtProxyMinimum = 0.5247887155814954;
+        const double tauAtActiveCrossing = 0.8503020378519266;
+
+        double proxyMinimum = QubitRegime.NormalizedPurityProxy(yAtProxyMinimum, r);
+        double activeCpsi = ActiveCpsiForFreePlus(tauAtActiveCrossing, r);
+
+        Assert.InRange(
+            Math.Abs(QubitRegime.NormalizedPurityProxyStationarity(yAtProxyMinimum, r)),
+            0.0,
+            1e-13);
+        Assert.Equal(0.4253341805025406, proxyMinimum, precision: 14);
+        Assert.True(proxyMinimum > 0.25);
+        Assert.Equal(0.25, activeCpsi, precision: 13);
+    }
+
+    [Fact]
+    public void RParam_ComputesT2OverTwoT1()
     {
         Assert.Equal(0.5, QubitRegime.RParam(t1Us: 100, t2Us: 100), precision: 6);
         Assert.Equal(1.0, QubitRegime.RParam(t1Us: 100, t2Us: 200), precision: 6);
@@ -27,103 +64,86 @@ public class QubitRegimeTests
     }
 
     [Fact]
-    public void RParam_NonOperationalT1_ReturnsPositiveInfinityAndClassifiesClassical()
+    public void RParam_NonOperationalT1_IsNotMisreadAsBelowThreshold()
     {
         Assert.Equal(double.PositiveInfinity, QubitRegime.RParam(t1Us: 0, t2Us: 100));
         Assert.Equal(double.PositiveInfinity, QubitRegime.RParam(t1Us: -1, t2Us: 100));
-        Assert.Equal(Regime.ClassicalSide, QubitRegime.Classify(t1Us: 0, t2Us: 100));
-        Assert.False(QubitRegime.IsQuantumSide(t1Us: 0, t2Us: 100));
+        Assert.Equal(Regime.AtOrAboveRStar, QubitRegime.Classify(t1Us: 0, t2Us: 100));
+        Assert.False(QubitRegime.IsBelowRStar(t1Us: 0, t2Us: 100));
     }
 
     [Fact]
-    public void Classify_BinaryDefault_NeverReturnsBoundary()
+    public void Classify_BinaryDefault_AssignsEqualityToAtOrAbove()
     {
-        Assert.Equal(Regime.QuantumSide, QubitRegime.Classify(t1Us: 100, t2Us: 40));
-        Assert.Equal(Regime.ClassicalSide, QubitRegime.Classify(t1Us: 100, t2Us: 50));
-        Assert.Equal(Regime.ClassicalSide,
-            QubitRegime.Classify(t1Us: 100, t2Us: 2.0 * 100 * QubitRegime.R_STAR));
+        Assert.Equal(Regime.BelowRStar, QubitRegime.Classify(t1Us: 100, t2Us: 40));
+        Assert.Equal(Regime.AtOrAboveRStar, QubitRegime.Classify(t1Us: 100, t2Us: 50));
+        Assert.Equal(
+            Regime.AtOrAboveRStar,
+            QubitRegime.Classify(t1Us: 0.5, t2Us: QubitRegime.R_STAR));
     }
 
     [Fact]
-    public void Classify_WithEpsilon_SurfacesBoundaryBand()
+    public void Classify_FourUlpBandIsClosedAndFifthUlpIsOutside()
     {
-        double tBoundary = 2.0 * 100 * QubitRegime.R_STAR;
-        Assert.Equal(Regime.Boundary,
-            QubitRegime.Classify(t1Us: 100, t2Us: tBoundary, epsilon: 0.01));
-        Assert.Equal(Regime.QuantumSide,
-            QubitRegime.Classify(t1Us: 100, t2Us: tBoundary - 5.0, epsilon: 0.01));
-        Assert.Equal(Regime.ClassicalSide,
-            QubitRegime.Classify(t1Us: 100, t2Us: tBoundary + 5.0, epsilon: 0.01));
+        double lowerFour = BitConverter.Int64BitsToDouble(RStarBits - 4);
+        double upperFour = BitConverter.Int64BitsToDouble(RStarBits + 4);
+        double lowerFive = BitConverter.Int64BitsToDouble(RStarBits - 5);
+        double upperFive = BitConverter.Int64BitsToDouble(RStarBits + 5);
+        double epsilon = QubitRegime.R_STAR - lowerFour;
+
+        Assert.Equal(Regime.NearRStar, QubitRegime.Classify(0.5, lowerFour, epsilon));
+        Assert.Equal(Regime.NearRStar, QubitRegime.Classify(0.5, upperFour, epsilon));
+        Assert.Equal(Regime.BelowRStar, QubitRegime.Classify(0.5, lowerFive, epsilon));
+        Assert.Equal(Regime.AtOrAboveRStar, QubitRegime.Classify(0.5, upperFive, epsilon));
     }
 
     [Fact]
-    public void Q0_OnMarrakesh20260425_IsQuantumSide()
+    public void MarrakeshRows_AreClassifiedWithoutChangingMeasuredValues()
     {
         var qubits = Marrakesh20260425.Value;
         var q0 = qubits.Single(q => q.Qubit == 0);
-        Assert.True(q0.IsQuantumSide,
-            $"Q0 has T1={q0.T1Us:F1}, T2={q0.T2Us:F1}, r={q0.RParam:F4}; should be quantum-side");
-        Assert.Equal(Regime.QuantumSide, q0.Regime);
-    }
-
-    [Fact]
-    public void Q1_OnMarrakesh20260425_IsClassicalSide()
-    {
-        var qubits = Marrakesh20260425.Value;
         var q1 = qubits.Single(q => q.Qubit == 1);
-        Assert.False(q1.IsQuantumSide,
-            $"Q1 has T1={q1.T1Us:F1}, T2={q1.T2Us:F1}, r={q1.RParam:F4}; should be classical-side");
-        Assert.Equal(Regime.ClassicalSide, q1.Regime);
+
+        Assert.True(q0.IsBelowRStar);
+        Assert.Equal(Regime.BelowRStar, q0.RStarBand);
+        Assert.False(q1.IsBelowRStar);
+        Assert.Equal(Regime.AtOrAboveRStar, q1.RStarBand);
     }
 
     [Fact]
-    public void FrameworkSnapshotsPath_IsRegimeMixed()
+    public void PathComposition_UsesThreeNeutralBandCounts()
     {
         var qubits = Marrakesh20260425.Value;
-        var (q, b, c) = QubitRegime.PathComposition(qubits, new[] { 0, 1, 2 });
-        Assert.Equal(1, q);
-        Assert.Equal(0, b);
-        Assert.Equal(2, c);
-    }
 
-    [Fact]
-    public void SoftBreakPath_IsUniformClassical()
-    {
-        var qubits = Marrakesh20260425.Value;
-        var (q, b, c) = QubitRegime.PathComposition(qubits, new[] { 48, 49, 50 });
-        Assert.Equal(0, q);
-        Assert.Equal(0, b);
-        Assert.Equal(3, c);
-    }
+        var mixed = QubitRegime.PathComposition(qubits, new[] { 0, 1, 2 });
+        Assert.Equal((1, 0, 2), mixed);
 
-    [Fact]
-    public void Apr25Best5Chain_IsUniformClassical()
-    {
-        var qubits = Marrakesh20260425.Value;
-        var (q, b, c) = QubitRegime.PathComposition(qubits, new[] { 1, 2, 3, 4, 5 });
-        Assert.Equal(0, q);
-        Assert.Equal(0, b);
-        Assert.Equal(5, c);
+        var oneBand = QubitRegime.PathComposition(qubits, new[] { 48, 49, 50 });
+        Assert.Equal((0, 0, 3), oneBand);
     }
 
     [Fact]
     public void PathComposition_RejectsUnknownQubit()
     {
-        var qubits = Marrakesh20260425.Value;
         Assert.Throws<ArgumentException>(() =>
-            QubitRegime.PathComposition(qubits, new[] { 0, 9999 }));
+            QubitRegime.PathComposition(Marrakesh20260425.Value, new[] { 0, 9999 }));
     }
 
     [Fact]
-    public void QubitDataDerivedRegime_AgreesWithStaticClassifier()
+    public void QubitDataDerivedValues_AgreeWithStaticClassifier()
     {
-        var qubits = Marrakesh20260425.Value;
-        foreach (var q in qubits)
+        foreach (var q in Marrakesh20260425.Value)
         {
-            Assert.Equal(QubitRegime.Classify(q.T1Us, q.T2Us), q.Regime);
+            Assert.Equal(QubitRegime.Classify(q.T1Us, q.T2Us), q.RStarBand);
             Assert.Equal(QubitRegime.RParam(q.T1Us, q.T2Us), q.RParam);
-            Assert.Equal(QubitRegime.IsQuantumSide(q.T1Us, q.T2Us), q.IsQuantumSide);
+            Assert.Equal(QubitRegime.IsBelowRStar(q.T1Us, q.T2Us), q.IsBelowRStar);
         }
     }
 
+    private static double ActiveCpsiForFreePlus(double tau, double r)
+    {
+        double y = Math.Exp(-tau);
+        double purity = 1.0 - y + 0.5 * y * y + 0.5 * Math.Exp(-tau / r);
+        return purity * Math.Exp(-tau / (2.0 * r));
+    }
 }

@@ -50,7 +50,7 @@ public sealed class TwoTermPalindromeRoutingClaim : Claim
     private static readonly string[] Bilinears = { "XX", "YY", "ZZ", "XY", "YX", "XZ", "ZX", "YZ", "ZY" };
 
     /// <summary>N used for the authority cross-check. The router is N-independent; N=4 matches the
-    /// proven <c>TwoTermPalindromeRoutingTests.Routing_AgreesWithSpectralAuthority_OverAll36Combos_N4</c>
+    /// proven <c>TwoTermPalindromeRoutingTests.Routing_AgreesWithSpectralAuthority_OverAll45Combos_N4</c>
     /// and keeps the 45 eigendecompositions small (256×256 Liouvillian).</summary>
     private const int AuthorityN = 4;
 

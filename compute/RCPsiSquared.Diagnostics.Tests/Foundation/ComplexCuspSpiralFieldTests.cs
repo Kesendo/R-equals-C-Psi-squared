@@ -66,20 +66,20 @@ public class ComplexCuspSpiralFieldTests
     }
 
     [Fact]
-    public void Field_Surfaces_Circle_Spiral_Winding_Hardware_Kinship()
+    public void Field_Surfaces_RadialRing_Spiral_Winding_Hardware_Comparison()
     {
         var labels = Children(new ComplexCuspSpiralField()).Select(c => c.DisplayName).ToList();
-        Assert.Contains(labels, l => l.Contains("circle"));
+        Assert.Contains(labels, l => l.Contains("radial ring"));
         Assert.Contains(labels, l => l.Contains("spiral"));
         Assert.Contains(labels, l => l.Contains("winding"));
         Assert.Contains(labels, l => l.Contains("hardware"));
-        Assert.Contains(labels, l => l.Contains("kinship"));
+        Assert.Contains(labels, l => l.Contains("comparison"));
     }
 
     [Fact]
     public void CircleChild_TracesRadiusOneQuarter()
     {
-        var circle = Children(new ComplexCuspSpiralField()).First(c => c.DisplayName.Contains("circle"));
+        var circle = Children(new ComplexCuspSpiralField()).First(c => c.DisplayName.Contains("radial ring"));
         var curve = Assert.IsType<InspectablePayload.Curve>(circle.Payload);
         for (int i = 0; i < curve.X.Count; i++)
         {
@@ -113,10 +113,14 @@ public class ComplexCuspSpiralFieldTests
     }
 
     [Fact]
-    public void Field_RendersToJson_CarriesTheCircleStory()
+    public void Field_RendersToJson_SeparatesTheRadialRingFromTheRecurrenceBoundary()
     {
         var json = InspectionJsonExporter.ToJson(new ComplexCuspSpiralField());
-        Assert.Contains("circle", json);
+        Assert.Contains("radial ring", json);
         Assert.Contains("spiral", json);
+        Assert.Contains("recurrence boundary", json);
+        Assert.DoesNotContain("cusp circle", json, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("point seen edge-on", json, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("F95 √-kinship", json, StringComparison.OrdinalIgnoreCase);
     }
 }

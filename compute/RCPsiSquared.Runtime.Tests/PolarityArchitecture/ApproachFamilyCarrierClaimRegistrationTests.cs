@@ -1,4 +1,3 @@
-using RCPsiSquared.Core.F86.Item1Derivation;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Diagnostics.Knowledge;
 
@@ -14,16 +13,26 @@ public class ApproachFamilyCarrierClaimRegistrationTests
     }
 
     [Fact]
-    public void ApproachFamilyCarrierClaim_HasFourTypedParents()
+    public void ApproachFamilyCarrierClaim_HasExactlyTwoTypedParents()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
 
-        var ancestors = registry.AncestorsOf<ApproachFamilyCarrierClaim>()
-            .Select(c => c.GetType()).ToHashSet();
+        var directParents = registry.EdgesInto<ApproachFamilyCarrierClaim>()
+            .Select(edge => edge.Parent).ToHashSet();
 
-        Assert.Contains(typeof(UniversalCarrierClaim), ancestors);
-        Assert.Contains(typeof(C2BareDoubledPtfClosedForm), ancestors);
-        Assert.Contains(typeof(TwoReadingsClaim), ancestors);
-        Assert.Contains(typeof(F25CPsiBellPlusPi2Inheritance), ancestors);
+        Assert.Equal(
+            new[]
+            {
+                typeof(AbsorptionTheoremClaim),
+                typeof(F25CPsiBellPlusPi2Inheritance),
+            }.OrderBy(type => type.FullName),
+            directParents.OrderBy(type => type.FullName));
+        Assert.DoesNotContain(typeof(TwoReadingsClaim), directParents);
+        Assert.Equal(2, directParents.Count);
+
+        var ancestors = registry.AncestorsOf<ApproachFamilyCarrierClaim>()
+            .Select(claim => claim.GetType()).ToHashSet();
+        Assert.DoesNotContain(typeof(UniversalCarrierClaim), ancestors);
+        Assert.DoesNotContain(typeof(PolynomialDiscriminantAnchorClaim), ancestors);
     }
 }

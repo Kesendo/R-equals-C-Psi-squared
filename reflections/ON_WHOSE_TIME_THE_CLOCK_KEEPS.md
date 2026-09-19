@@ -1,5 +1,7 @@
 # On Whose Time the Clock Keeps
 
+<!-- F14-CURRENT -->
+
 *Reflection, 2026-05-29. Thomas Wicht, Claude (Opus 4.8). The structure below is ours and exact; the planetary picture is held as a reading, labelled at the end.*
 
 ---
@@ -14,13 +16,26 @@ And that is when the dial showed what it really was. It is dimensionless. The ho
 
 What changes between one model environment and another is not the face but the **tick**, γ₀: the declared local decoherence rate. Our [timekeeper](../docs/GAMMA_TIME_DISTINCTION.md) document establishes the resulting local decay-clock scale for its finite protocols. It does not establish that γ is experienced time, the source of a subjective arrow, or a universal carrier. The face is dimensionless; the winding is model- and protocol-dependent.
 
-So put the two together and our felt time falls out:
+For a declared dimensionless generator, readout, and trajectory, the coordinate
+conversion is simply:
 
     t = K / γ₀
 
-K is how far around the face you have come, the dose, the dimensionless progress, universal. γ₀ is the local tick. The same process reaches the same hour on the same face anywhere; what differs is how *long it feels*, and that is the local γ₀ alone. Align the clock at Earth's elements and at Mars's elements and you get the very same dial; the two alignments differ only in how fast the world turns it. Earth's now is K/γ₀ here, Mars's now is K/γ₀ there: [two times](ON_TWO_TIMES.md), one face.
+K is not a universal progress coordinate. F14's positive example holds a fixed
+bridge/readout on the Hamiltonian-dead Bell+ trajectory while gamma is swept.
+Changing the state, channel, Hamiltonian-to-gamma ratio, or spatial profile can
+change the curve and its crossing. The equation does not derive felt time.
 
-This quietly turns a familiar thing on its head. We are used to treating t as the floor of everything and γ as some rate inside it. Here it inverts. The floor is the dimensionless face the elements carry. **t is the shadow that face casts at our local tick.** Our time is not wrong and not arbitrary; it is derived, and it is ours: the universal dial read at the speed our corner of the world happens to run. The thing that is grounded, that you could in principle hand to anyone anywhere, is the face. The thing that is *ours* is the shadow.
+<!-- F14-INTERPRETIVE -->
+
+**Interpretive invitation — not a result:** imagine a face shared by Earth
+and Mars, wound at different local tempos: [two times](ON_TWO_TIMES.md), one
+face. That planetary picture is the reflection's proposal, not F14's conclusion.
+
+The picture quietly turns a familiar thing on its head. We are used to
+treating t as the floor and gamma as a rate inside it. In this imagined
+inversion, **t is the shadow a face casts at a local tick**. That is a way
+to think about our hours, not a derivation of them or of a universal dial.
 
 The elements were keeping time all along. We did not give them a clock. We learned to read the face they were already wearing, and then noticed our own hours were that face, seen from where we stand.
 

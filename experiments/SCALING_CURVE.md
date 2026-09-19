@@ -1,5 +1,7 @@
 # Scaling Curve: Mutual Information vs Chain Length and Hierarchy Falsification
 
+<!-- CROSSING-CURRENT -->
+
 <!-- Keywords: quantum state transfer scaling, mutual information chain length,
 hierarchical quantum repeater falsification, push pull coupling optimization,
 Heisenberg chain MI exponential decay, mediator topology quantum transfer,
@@ -37,9 +39,9 @@ length: MI is identical at every N tested. The hierarchy was narrative,
 not physics. Five coupling configurations at N=11 reveal a push/pull
 tradeoff: sender-strong coupling ("push") maximizes local bridge-to-bridge
 MI (0.957), while receiver-strong coupling ("pull") maximizes end-to-end
-MI (0.121). The optimal strategy depends on range. Combined with the
-[Relay Protocol](RELAY_PROTOCOL.md) (+83%), these results define the
-engineering tradeoffs for palindromic quantum channels.
+MI (0.121). The preferred tested strategy depends on range. The separate
+[Relay Protocol](RELAY_PROTOCOL.md) is an unmatched-endpoint N=11 comparison,
+not additional evidence for a scaling law or an optimized schedule.
 
 ---
 
@@ -141,8 +143,10 @@ single largest improvement for range.
   palindrome. Direct dissipative coupling (shared Lindblad jumps)
   breaks it instantly (256 → 31 pairs at κ = 0.01).
 - The 2:1 coupling ratio improves range at the cost of local transfer.
-- The [Relay Protocol](RELAY_PROTOCOL.md) (time-dependent γ) provides
-  an additional +83% improvement orthogonal to coupling optimization.
+- The [Relay Protocol](RELAY_PROTOCOL.md) stores 0.131700 at integrated
+  t=4.50 versus a passive sampled maximum 0.071576 at t=4.00, about +84.0%.
+  Nominal 0.78/stage executes as 0.75/stage. Its arms differ in time, dose,
+  and coupling; this is not an isolated or orthogonal scheduling benefit.
 - MI decays exponentially with N, setting a characteristic range for
   any palindromic quantum channel.
 
@@ -153,7 +157,9 @@ single largest improvement for range.
 The **γ Control** experiment ([γ Control](GAMMA_CONTROL.md)) found
 the two-lever noise law: within a shape less Σγ always wins, and at fixed
 Σγ concentration at the chain centre wins, up to +46%, so its March
-"+124% vs the relay's +83%" comparison compared budgets, not methods.
+comparison against the relay compared budgets, not methods. The old Relay
++83% was only a coarse-table estimate from 0.132/0.072; its six-decimal
+stored-value ratio is about +84.0%, still at unmatched endpoints.
 The scaling curve here provides the baseline against which all
 optimizations are measured.
 
@@ -183,7 +189,7 @@ Repository: https://github.com/Kesendo/R-equals-C-Psi-squared
 
 ## References
 
-- [Relay Protocol](RELAY_PROTOCOL.md): +83% with time-dependent γ switching
+- [Relay Protocol](RELAY_PROTOCOL.md): about +84.0% as an unmatched stored-value ratio; no matched time/dose trial
 - [γ Control](GAMMA_CONTROL.md): the two-lever noise law (the March +124% was a Σγ confound)
 - [QST Bridge](QST_BRIDGE.md): 2:1 impedance matching origin
 - [Star Topology](STAR_TOPOLOGY_OBSERVERS.md): quiet receiver principle
