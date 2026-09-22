@@ -9,11 +9,16 @@
 ## What this is about
 
 Seven quantum spins form a chain. Neighbouring spins can exchange an
-excitation, while noise at the middle spin disturbs phase relationships.
-With equal couplings, some patterns of internal motion have a node at that
+excitation. In [the project's light picture](../GLOSSARY.md#parameters),
+light falls only on the middle spin. This is our way of picturing local
+Z-dephasing, with strength γ: phase relationships fade between alternatives
+that differ at that spin.
+
+With equal couplings, some patterns of internal motion have a node at the
 middle site: their amplitude is zero there, even while the excitation moves
-elsewhere. That motion avoids the noise. Changing one end coupling slightly
-exposes part of it to the noisy centre, and that part slowly fades. The
+elsewhere. This internal motion stays untouched by the light. Changing one
+end coupling slightly reshapes the motion and exposes part of it to the lit
+centre. The illumination γ stays fixed, but that part now slowly fades. The
 smaller the change, the longer this fading takes.
 
 The equations already tell us that such a slow motion exists. Here we ask
@@ -49,7 +54,7 @@ contribution exactly. At equal couplings, every two-spin readout loses the
 sine component of this slow contribution while the ideal decoder retains it.
 The derivation and an exact live witness connect these outputs to the prepared state. The result
 is local in ε at fixed γ; how it governs the nonlinear distances d_out and
-d₂ from a continuing noise-free reference remains a further question.
+d₂ from a continuing unitary reference at γ = 0 remains a further question.
 
 The named-store search of `docs/ANALYTICAL_FORMULAS.md` returned F70's
 partial-trace selection rule, F157's blind seat and F158's two-end count.
