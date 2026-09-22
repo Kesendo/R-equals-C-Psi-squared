@@ -4,6 +4,7 @@
 **Authors:** Thomas Wicht, Codex (OpenAI)
 **Typed claim:** [`MissingPhaseSlowReadoutClaim`](../../compute/RCPsiSquared.Diagnostics/Foundation/MissingPhaseSlowReadoutClaim.cs)
 **Live exact witness:** [`MissingPhaseSlowReadoutWitness`](../../compute/RCPsiSquared.Diagnostics/Foundation/MissingPhaseSlowReadoutWitness.cs)
+**Uniform three-spin check:** [`missing_phase_three_spin_readout.py`](../../simulations/missing_phase_three_spin_readout.py)
 **Owning experiment:** [The Motion and the Missing Phase](../../experiments/THE_MOTION_AND_THE_MISSING_PHASE.md)
 
 ## What this is about
@@ -37,6 +38,12 @@ That connection is what we want to learn from this small system. Sections
 1–3 work through it; the later sections explore the missing signals and give
 an exact calculation we can run ourselves.
 
+At equal couplings we can also compare two moments that look identical to
+every two-spin measurement. Reading a third spin with a neighbouring pair
+reveals opposite internal currents. Following the end correlation over time
+gives the same information through its slope. Section 7.1 connects these two
+ways of reading motion: a snapshot and a time series.
+
 ## Abstract
 
 We connect a slow decay rate to a physical readout in an open seven-spin XY
@@ -52,7 +59,10 @@ The same projection explains different outcomes for other readouts. The
 leakage residue starts at order ε², and three spin pairs miss this slow
 contribution exactly. At equal couplings, every two-spin readout loses the
 sine component of this slow contribution while the ideal decoder retains it.
-The derivation and an exact live witness connect these outputs to the prepared state. The result
+At that uniform point, Y₀X₁Z₃ recovers the sine component; three sites are
+minimal for an instantaneous readout before decoding. On the full uniform
+trajectory its expectation is one eighth of the time derivative of ⟨Z₀Z₆⟩.
+The derivation and exact checks connect these outputs to the prepared state. The result
 is local in ε at fixed γ; how it governs the nonlinear distances d_out and
 d₂ from a continuing unitary reference at γ = 0 remains a further question.
 
@@ -345,6 +355,80 @@ historical γ > 0 and γ = 0 runs. The latter subtracts a moving unitary
 reference before taking a norm. Likewise d₂ takes norms and then a maximum
 over pages. Their nonlinear approach-to-plateau scales remain separate.
 
+### 7.1 Three spins read the direction of motion
+
+The cancellation in §7 is between the two flipped copies. The existing live
+witness also checks it directly: removing the flipped copy exposes the sine
+quadrature on pair (0,1). The middle spin can supply the missing distinction,
+because its Z value has opposite signs in the two copies of the uniform
+blind motion. Take the three-spin Pauli product
+
+    O = Y₀X₁Z₃.
+
+For n₀ = (I−Z₀)/2 and the Hamiltonian of §1 at J = 1, the outward bond
+current is j₀→₁ = −i[H,n₀] = −(X₀Y₁−Y₀X₁). This is twice the normalized
+adjacent-bond [current already used in the repository](../carbon/BENZENE_THREE_DEPHASE_LETTERS.md#y-axis-selected-single-site-model-axis-tier-4-candidate).
+Both the current and Z₃ change sign under the global flip. Their product
+does not, so its reading adds the two copies instead of cancelling them.
+The unconditioned current remains zero.
+
+The residue from §2 gives
+
+    f_O(M₋(0)) = Tr[O · ½W diag(M₋(0),M₋(0))W†] = i√2/8,
+    Tr[O · ½W diag(C_θ,C_θ)W†] = sin θ/(2√2).
+
+Thus O reads the uniform sine component and gives zero on the cosine
+component. Since every one- or two-spin reduction of C_{π/2} is zero by §7,
+three sites are necessary and sufficient for an instantaneous readout of
+this component before decoding.
+
+The same distinction occurs between physical states of the original
+preparation, not only between traceless operator contributions. At ε = 0 set
+
+    u = (b₀+b₂)/√2,
+    d(θ) = (v_* + cos θ · u − i sin θ · b₁)/√2,
+    θ = 2√2t,               A(t) = d(θ)d(θ)†,
+    B(t) = e^(−2γt) A(t).
+
+Here d(0) = b₀ is the original end preparation. The hopping matrix obeys
+i∂ₜd = h₁d, and z d = d, so the centre dephasing leaves A untouched.
+The state ρ = ½W[[A,B],[B,A]]W† is a convex mixture of the symmetric and
+antisymmetric coherent copies of d, with weights (1±e^(−2γt))/2.
+F70 removes B from every two- and three-spin readout because its excitation
+number difference is five. For every γ ≥ 0 the full trajectory therefore has
+
+    ⟨O⟩ = sin θ(1+cos θ)/(2√2)
+         = sin θ/(2√2) + sin(2θ)/(4√2),
+    ⟨Z₃j₀→₁⟩ = 2⟨O⟩,       ⟨Y₀X₁⟩ = 0,
+    ⟨Z₀Z₆⟩ = 1 − (1+cos θ)²/2,
+    d⟨Z₀Z₆⟩/dt = 8⟨O⟩.
+
+The full O signal contains a second harmonic in addition to the isolated
+slow contribution. The slope equality holds on this trajectory with J = 1;
+it is not an operator identity for arbitrary states.
+
+At the two positive times t₊ = π/(4√2) and t₋ = 3π/(4√2),
+d(t₊) = (v_*−ib₁)/√2 and d(t₋) = (v_*+ib₁)/√2. Their A blocks differ
+by 2C_{π/2}. Their B blocks have different decay factors, but are invisible
+to all pairs by F70. Hence all 21 pair density matrices agree between these
+times, while the three-spin reading changes sign:
+
+| Reading | t₊ | t₋ |
+|---|---:|---:|
+| ⟨Z₀Z₆⟩ | 1/2 | 1/2 |
+| ⟨Y₀X₁⟩ | 0 | 0 |
+| ⟨Y₀X₁Z₃⟩ | √2/4 | −√2/4 |
+
+![Equal two-spin snapshots and opposite three-spin motion readings](../../simulations/results/missing_phase_three_spin_readout.png)
+
+Three spins give an instantaneous reading of this internal-current
+correlation; a two-spin time series supplies it through the slope. To read O,
+prepare afresh at the chosen time, measure Y on site 0, X on site 1 and Z on
+site 3, and average the product of the three outcomes. This does not read
+the separately fading phase between the copies: that B phase retains its
+five-spin threshold. The minimal-support statement here is at ε = 0; no
+finite-defect or all-N minimum is asserted.
+
 ## 8. Live reconstruction and controls
 
 From the repository root:
@@ -371,11 +455,26 @@ The separating controls are physical changes to the tested object:
 - The sine quadrature kills every pair map while the decoder retains norm
   1/2; using Re M_ab on one complex residue fails the linear-map check.
 
+The uniform three-spin consequence in §7.1 has a separate exact
+[Python check](../../simulations/missing_phase_three_spin_readout.py), using
+SymPy, and a [formula plot](../../simulations/plot_missing_phase_three_spin_readout.py):
+
+```powershell
+python simulations/missing_phase_three_spin_readout.py
+python simulations/plot_missing_phase_three_spin_readout.py
+```
+
+The check writes its [exact results](../../simulations/results/missing_phase_three_spin_readout.json)
+and reconstructs the physical states, all 21 pair traces, the Pauli readings
+and the full-spin Hamiltonian commutator. It checks positivity by the explicit
+convex decomposition and removes or changes the centre tag to separate the
+readings. The plot draws the derived formulas. This three-spin calculation
+is separate from the C# live witness described above.
+
 The proof owns the local analytic quantifiers, the chiral branch identity
 and the generic cofactor formula. The live checks reconstruct exact finite
 objects and the derivative coefficient; they do not compute a generic
-symbolic adjugate family or certify a finite ε interval. No persistent
-Python readout producer, new F number or hardware confirmation is needed
-for this composition. The original spectral arc remains retired. All-odd-N
+symbolic adjugate family or certify a finite ε interval. The original
+spectral arc remains retired. All-odd-N
 extensions, γ-uniform neighbourhood control and the nonlinear d_out/d₂
 lifetimes remain outside this result.
