@@ -9295,7 +9295,12 @@ public static class OpenArcsRegistry
                 "2(1+epsilon), and fixed gamma > 0, Delta_A = (gamma/2)epsilon^2 + " +
                 "(gamma/2)epsilon^3 + O(epsilon^4), hence the inverse spectral scale is asymptotic to " +
                 "2/(gamma epsilon^2). The neighbourhood radius is not claimed uniform in gamma; this is " +
-                "neither a full-4^7 Liouvillian gap nor an observable lifetime.",
+                "not a full-4^7 Liouvillian gap. The physical coupling is owned by " +
+                "docs/proofs/PROOF_MISSING_PHASE_SLOW_READOUT.md and MissingPhaseSlowReadoutClaim/Witness " +
+                "(inspect --root missingphasereadout): for the coherent end preparation, the complete " +
+                "rank-two residue has endpoint ZZ residue -1/2 at epsilon = 0, so its slow oscillation " +
+                "amplitude tends to 1. The leakage residue begins at (-1+i sqrt(2)gamma)epsilon^2/16. " +
+                "These are linear-readout results, not lifetimes of the nonlinear d_out or d_2.",
             NextStep:
                 "Do not reopen this retired arc for the separate extensions below. If an all-odd-N successor " +
                 "is explicitly opened, begin with the two families that the centre-seat zero mode separates " +
@@ -9316,13 +9321,17 @@ public static class OpenArcsRegistry
                 "local branches before proposing any N-dependent coefficient. Do not extrapolate the N = 7 " +
                 "rank-two cluster or extend the floating sweep first. The separate " +
                 "questions are to derive or refute the law for all odd N, control the " +
-                "punctured-neighbourhood radius uniformly in gamma if possible, and determine which " +
-                "preparations and observables couple to the slow rank-two cluster so that an observable " +
-                "lifetime can be stated.",
+                "punctured-neighbourhood radius uniformly in gamma if possible, and determine the " +
+                "nonlinear d_out and d_2 distance scales against their moving unitary reference. " +
+                "The coherent end preparation's endpoint ZZ/XX coupling, quadratic leakage residue and " +
+                "chiral null pairs are already derived in PROOF_MISSING_PHASE_SLOW_READOUT; the exact " +
+                "witness reconstructs the uniform residue/maps and leakage derivative, not a finite-defect " +
+                "distance lifetime.",
             Status: OpenArcStatus.Retired,
             RetiredReason: "Completed locally for the N = 7 A-sector by " +
-                "PROOF_MISSING_PHASE_RELAXATION_SCALE; broader all-odd-N and observable-coupling questions " +
-                "remain separate."),
+                "PROOF_MISSING_PHASE_RELAXATION_SCALE, with the prepared linear readout owned separately " +
+                "by PROOF_MISSING_PHASE_SLOW_READOUT; all-odd-N, gamma-uniform control and nonlinear " +
+                "distance-scale questions remain separate."),
         new OpenArc(
             Name: "adjacency_has_no_instrument",
             Opened: "2026-09-11",

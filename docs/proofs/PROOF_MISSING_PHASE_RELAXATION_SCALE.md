@@ -29,8 +29,11 @@ tau_gap := 1/Delta_A  ~  2/(gamma epsilon^2).
 The quantifier is **for fixed gamma>0, in a punctured neighbourhood of
 epsilon=0 whose radius is not claimed uniform in gamma**. The
 `O(epsilon^4)` remainder belongs to the analytic eigenvalue branch and hence
-to its gap. `tau_gap` is only the reciprocal spectral scale. It is not a
-proved relaxation time for `d_out`, `d_2`, leakage, or any other observable.
+to its gap. `tau_gap` is the reciprocal spectral scale. The separate
+[slow-readout proof](PROOF_MISSING_PHASE_SLOW_READOUT.md) establishes its
+coupling to the experiment's prepared endpoint ZZ correlation, whose slow
+oscillation amplitude tends to 1, and derives the quadratic leakage residue.
+It does not establish a relaxation time for the nonlinear `d_out` or `d_2`.
 This is not the gap of the full `4^7` Liouvillian and not an all-N theorem.
 No F-number is assigned.
 
@@ -556,9 +559,10 @@ artifact, and an error-bounded certificate from a fixed-tolerance fit.
 This proof does not establish:
 
 - the gap of the full `4^7` Liouvillian;
-- a relaxation time of `d_out`, `d_2`, leakage, or any other named observable;
-- that the relevant preparation or readout has nonzero overlap with the slow
-  cluster;
+- a relaxation time of the nonlinear `d_out` or `d_2`;
+- preparation/readout residues, which are derived separately in
+  [the slow-readout proof](PROOF_MISSING_PHASE_SLOW_READOUT.md) and reconstructed
+  by [`MissingPhaseSlowReadoutWitness`](../../compute/RCPsiSquared.Diagnostics/Foundation/MissingPhaseSlowReadoutWitness.cs);
 - the same expansion for every odd N, or for any N other than 7;
 - a punctured-neighbourhood radius uniform in gamma;
 - an F-number or a new hardware-confirmed result;
@@ -567,5 +571,7 @@ This proof does not establish:
 
 The open continuations are therefore sharply smaller than the retired local
 question: derive or refute the law for all odd N, control the neighbourhood as
-gamma varies, and determine which physical observables actually couple to the
-rank-two slow cluster.
+gamma varies, and determine the nonlinear distance scales. The physical
+endpoint ZZ and XX correlations for the experiment's coherent end preparation
+already couple to the complete rank-two slow cluster; the separate readout
+proof also identifies the chiral null pairs and the weaker leakage amplitude.

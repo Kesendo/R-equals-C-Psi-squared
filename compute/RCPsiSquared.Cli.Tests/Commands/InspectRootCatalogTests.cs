@@ -623,6 +623,20 @@ public class InspectRootCatalogTests
     }
 
     [Fact]
+    public void Catalog_MissingPhaseReadoutOffersTheLivePhysicalSignal()
+    {
+        var entry = InspectCommand.Catalog.SingleOrDefault(e => e.Name == "missingphasereadout");
+        Assert.NotNull(entry);
+        Assert.False(entry.RequiresN);
+        var context = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 11,
+            WithQSweep: false, WithMeasured: false, QGridPoints: null);
+        var witness = entry.Factory(context);
+        Assert.Equal("MissingPhaseSlowReadoutWitness", witness.GetType().Name);
+        Assert.Contains("ZZ=-1/2", witness.Summary);
+        Assert.Contains("N=7", witness.DisplayName);
+    }
+
+    [Fact]
     public void Catalog_MissingPhaseScaleFactoryBuildsTheFixedWitnessAndItsFourViews()
     {
         var entry = InspectCommand.Catalog.Single(e => e.Name == "missingphasescale");

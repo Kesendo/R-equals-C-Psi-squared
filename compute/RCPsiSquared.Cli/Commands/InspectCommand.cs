@@ -647,6 +647,8 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("epsilon") ?? MissingPhaseRelaxationScaleWitness.DefaultEpsilon,
                 c.Parser.OptionalDouble("gamma") ?? MissingPhaseRelaxationScaleWitness.DefaultGamma),
             RequiresN: false),
+        new("missingphasereadout", "fixed N=7 exact physical slow readout: complete uniform rank-two residue, ZZ/XX endpoints, physical pair maps and decoder quadratures, and the leakage derivative at rational gamma=3/10. Local coupling, not a d_out/d_2 lifetime",
+            _ => new MissingPhaseSlowReadoutWitness(), RequiresN: false),
         new("epcharacter", "the artifact-free EP-character diagnostic (Riesz ‖P‖ / departure-from-normality / geo-vs-alg): the non-eig sibling of PhaseRigidity that confirms the coherence-horizon √-EP is genuinely DEFECTIVE (a Jordan block, dep≈4, geo 1<alg 2), not a diabolic degeneracy. Gate-first (toy Jordan→DEFECTIVE, diag→DIABOLIC); the family that misfired in the F86a retraction is here corroborating-but-not-load-bearing",
             _ => new EpCharacterWitness(), RequiresN: false),
         new("f89octic", "the F89 path-3 octic EP-character (live EpCharacter): DIABOLIC (semisimple — eigenvalues coalesce, eigenvectors independent; geo=alg=2, dep≈0), NOT a defective EP. The exact double discriminant factor locates an analytic crossing after pair isolation; character comes from the twin-scalar restriction and live diagnostics, not from even order alone. The diabolic sibling of the coherence-horizon defective √-EP (--root epcharacter)",
