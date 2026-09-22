@@ -35564,6 +35564,107 @@ def test_a394_cli_spiral_doc_rejects_identity_and_missing_point_scope(
     assert expected <= set(_a394_cli_spiral_label_findings(mutant))
 
 
+PHASE_RIGIDITY_SOURCE_PATH = "compute/RCPsiSquared.Core/Numerics/PhaseRigidity.cs"
+PHASE_RIGIDITY_ARC_PATH = "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"
+PHASE_RIGIDITY_NORMAL_SCOPE = "r_i = 1 for a mode of a normal matrix."
+PHASE_RIGIDITY_SIMPLE_SCOPE = (
+    "For a simple isolated eigenvalue, 0 < r_i ≤ 1 is the usual per-mode Petermann rigidity."
+)
+PHASE_RIGIDITY_DEGENERATE_SCOPE = (
+    "At an exact repeated semisimple eigenvalue, however, the individual values depend "
+    "on the eigenbasis chosen inside its invariant subspace; use a spectral-projector "
+    "or Jordan diagnostic there."
+)
+PHASE_RIGIDITY_ARC_SCOPE = (
+    "this avoids separately matched left/right mis-pairing, but at an exact repeated "
+    "semisimple eigenvalue each r_i is eigenbasis-dependent; invariant-subspace/Jordan "
+    "diagnostics own the degeneracy character"
+)
+PHASE_RIGIDITY_GRID_SCOPE = (
+    "finite-precision r readings at the estimated threshold are grid-sensitive "
+    "corroboration, not exact per-mode invariants; the live eig read is resolved at "
+    "Q=Q*(1+0.001), while EpCharacter/Jordan diagnostics are load-bearing"
+)
+
+
+def _phase_rigidity_degeneracy_scope_findings(core_source, arc_source):
+    findings = []
+    if core_source.count(PHASE_RIGIDITY_NORMAL_SCOPE) != 1:
+        findings.append("PHASE_RIGIDITY:NORMAL_SCOPE")
+    if core_source.count(PHASE_RIGIDITY_SIMPLE_SCOPE) != 1:
+        findings.append("PHASE_RIGIDITY:SIMPLE_SCOPE")
+    if core_source.count(PHASE_RIGIDITY_DEGENERATE_SCOPE) != 1:
+        findings.append("PHASE_RIGIDITY:DEGENERATE_SCOPE")
+    if re.search(r"basis[- ]robust", core_source, re.I):
+        findings.append("PHASE_RIGIDITY:BASIS_ROBUST_OVERCLAIM")
+    if re.search(r"normal\s*/\s*isolated", core_source, re.I):
+        findings.append("PHASE_RIGIDITY:ISOLATED_UNIT_OVERCLAIM")
+    if arc_source.count(PHASE_RIGIDITY_ARC_SCOPE) != 1:
+        findings.append("PHASE_RIGIDITY:ARC_SCOPE")
+    if arc_source.count(PHASE_RIGIDITY_GRID_SCOPE) != 1:
+        findings.append("PHASE_RIGIDITY:GRID_SCOPE")
+    if re.search(r"r\s+at\s+Q\*\s*=\s*0\.000/0\.015/0\.026", arc_source, re.I):
+        findings.append("PHASE_RIGIDITY:EXACT_THRESHOLD_VALUES")
+    if re.search(
+        r"PhaseRigidity\s+primitive[^\n]{0,180}degeneracy[- ]robust",
+        arc_source,
+        re.I,
+    ):
+        findings.append("PHASE_RIGIDITY:ARC_DEGENERACY_ROBUST_OVERCLAIM")
+    return tuple(findings)
+
+
+def test_phase_rigidity_exact_degeneracy_scope_is_current_truth():
+    core_source = read_host(PHASE_RIGIDITY_SOURCE_PATH)
+    arc_source = read_host(PHASE_RIGIDITY_ARC_PATH)
+    assert not _phase_rigidity_degeneracy_scope_findings(core_source, arc_source)
+
+
+@pytest.mark.parametrize(
+    "owner,current,replacement,expected",
+    (
+        (
+            "core",
+            PHASE_RIGIDITY_NORMAL_SCOPE,
+            "r_i = 1 for a normal/isolated mode",
+            "PHASE_RIGIDITY:ISOLATED_UNIT_OVERCLAIM",
+        ),
+        (
+            "core",
+            PHASE_RIGIDITY_DEGENERATE_SCOPE,
+            "At an exact repeated semisimple eigenvalue the individual values are basis-robust.",
+            "PHASE_RIGIDITY:BASIS_ROBUST_OVERCLAIM",
+        ),
+        (
+            "arc",
+            PHASE_RIGIDITY_ARC_SCOPE,
+            "PhaseRigidity primitive (Petermann form from one eigendecomposition, degeneracy-robust)",
+            "PHASE_RIGIDITY:ARC_DEGENERACY_ROBUST_OVERCLAIM",
+        ),
+        (
+            "arc",
+            PHASE_RIGIDITY_GRID_SCOPE,
+            "r at Q* = 0.000/0.015/0.026 at N=3/4/5",
+            "PHASE_RIGIDITY:EXACT_THRESHOLD_VALUES",
+        ),
+    ),
+)
+def test_phase_rigidity_exact_degeneracy_scope_rejects_old_overclaim(
+    owner, current, replacement, expected
+):
+    core_source = read_host(PHASE_RIGIDITY_SOURCE_PATH)
+    arc_source = read_host(PHASE_RIGIDITY_ARC_PATH)
+    if owner == "core":
+        mutant = core_source.replace(current, replacement, 1)
+        assert mutant != core_source
+        findings = _phase_rigidity_degeneracy_scope_findings(mutant, arc_source)
+    else:
+        mutant = arc_source.replace(current, replacement, 1)
+        assert mutant != arc_source
+        findings = _phase_rigidity_degeneracy_scope_findings(core_source, mutant)
+    assert expected in findings
+
+
 if __name__ == "__main__":
     if sys.argv[1:] != ["--emit-task7-broad-carriers"]:
         raise SystemExit(

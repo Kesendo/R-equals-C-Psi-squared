@@ -10,6 +10,80 @@ namespace RCPsiSquared.Core.Tests.Numerics;
 public class PhaseRigidityTests
 {
     [Fact]
+    public void SimpleIsolatedModeOfNonNormalMatrix_CanHaveRigidityBelowOne()
+    {
+        // The third column is the simple lambda=1 mode of a diagonalizable non-normal matrix.
+        // Isolation makes the per-mode Petermann value well-defined; it does not make r equal one.
+        var rightEigenvectors = Matrix<Complex>.Build.DenseOfArray(new Complex[,]
+        {
+            { Complex.One, Complex.Zero, new Complex(3.0, 0.0) },
+            { Complex.Zero, Complex.One, Complex.Zero },
+            { Complex.Zero, Complex.Zero, Complex.One },
+        });
+
+        var rigidity = PhaseRigidity.RigiditiesFromRightEigenvectors(rightEigenvectors)[2];
+
+        Assert.Equal(1.0 / Math.Sqrt(10.0), rigidity, 12);
+        Assert.True(rigidity < 1.0);
+    }
+
+    [Fact]
+    public void ExactSemisimpleDegeneracy_PerVectorPetermannValuesDependOnEigenbasis()
+    {
+        // The same diagonalizable matrix has a two-dimensional lambda=0 eigenspace.
+        // Rotating only that eigenspace leaves L and its spectral projector unchanged,
+        // but redistributes the individual Petermann factors.  Therefore an exact
+        // degeneracy needs an invariant-subspace/Jordan diagnostic, not per-vector K.
+        double c = 1.0 / Math.Sqrt(2.0);
+        var eigenvalues = Matrix<Complex>.Build.DiagonalOfDiagonalArray(new[]
+        {
+            Complex.Zero,
+            Complex.Zero,
+            Complex.One,
+        });
+        var selected = Matrix<Complex>.Build.DiagonalOfDiagonalArray(new[]
+        {
+            Complex.One,
+            Complex.One,
+            Complex.Zero,
+        });
+        var basisA = Matrix<Complex>.Build.DenseOfArray(new Complex[,]
+        {
+            { Complex.One, Complex.Zero, new Complex(3.0, 0.0) },
+            { Complex.Zero, Complex.One, Complex.Zero },
+            { Complex.Zero, Complex.Zero, Complex.One },
+        });
+        var rotateDegenerateBlock = Matrix<Complex>.Build.DenseOfArray(new Complex[,]
+        {
+            { new Complex(c, 0.0), new Complex(-c, 0.0), Complex.Zero },
+            { new Complex(c, 0.0), new Complex(c, 0.0), Complex.Zero },
+            { Complex.Zero, Complex.Zero, Complex.One },
+        });
+        var basisB = basisA * rotateDegenerateBlock;
+
+        var matrixA = basisA * eigenvalues * basisA.Inverse();
+        var matrixB = basisB * eigenvalues * basisB.Inverse();
+        Assert.True((matrixA - matrixB).FrobeniusNorm() < 1e-12);
+        Assert.True(
+            (matrixA * matrixA.ConjugateTranspose() - matrixA.ConjugateTranspose() * matrixA)
+                .FrobeniusNorm() > 1.0,
+            "the counterexample must remain non-normal");
+
+        var projectorA = basisA * selected * basisA.Inverse();
+        var projectorB = basisB * selected * basisB.Inverse();
+        Assert.True((projectorA - projectorB).FrobeniusNorm() < 1e-12);
+
+        var rigidityA = PhaseRigidity.RigiditiesFromRightEigenvectors(basisA);
+        var rigidityB = PhaseRigidity.RigiditiesFromRightEigenvectors(basisB);
+        var petermannA = rigidityA.Take(2).Select(r => 1.0 / (r * r)).ToArray();
+        var petermannB = rigidityB.Take(2).Select(r => 1.0 / (r * r)).ToArray();
+
+        Assert.Equal(10.0, petermannA[0], 12);
+        Assert.Equal(1.0, petermannA[1], 12);
+        Assert.All(petermannB, k => Assert.Equal(5.5, k, 12));
+    }
+
+    [Fact]
     public void Hermitian_AllRigiditiesAreOne()
     {
         // A Hermitian matrix is normal: left = right eigenvectors, so r = 1 for every mode.
