@@ -30526,13 +30526,987 @@ TASK7_Q52_VALIDATION_SUMMARY_SCOPE = (
     "Q52 supplies a qualitative crossing record, but it is not a precision "
     "prediction match."
 )
-TASK7_Q52_COMMIT_B_CONTENT_DEBT = (
+TASK7_Q52_COMMIT_B_SOURCE_SCOPE = "simulations/cockpit_validation.py"
+TASK7_Q52_COMMIT_B_RESULT = "simulations/results/cockpit_validation.txt"
+TASK7_Q52_COMMIT_B_OUTPUT_ENV = "RCPSI_COCKPIT_VALIDATION_OUTPUT"
+TASK7_Q52_COMMIT_B_REPO_ROOT_ENV = "RCPSI_REPO_ROOT"
+TASK7_Q52_COMMIT_B_CONTENT_CONTRACT = (
+    TASK7_Q52_COMMIT_B_SOURCE_SCOPE,
+    TASK7_Q52_COMMIT_B_RESULT,
+)
+TASK7_Q52_COMMIT_B_HARDWARE_JSON = (
+    "data/ibm_tomography_feb2026/"
+    "tomography_ibm_torino_20260209_131521.json"
+)
+TASK7_Q52_COMMIT_B_SIMULATOR_JSON = (
+    "data/ibm_tomography_feb2026/simulator_test_20260209_125106.json"
+)
+TASK7_Q52_COMMIT_B_SHADOW_JSON = (
+    "data/ibm_shadow_march2026/"
+    "shadow_hardware_combined_20260309_181852.json"
+)
+TASK7_Q52_COMMIT_B_CROSSING_HEADER = "  Q52 CROSSING METADATA"
+TASK7_Q52_COMMIT_B_SAME_RECORD_SCOPE = (
+    "    This producer does not recompute a same-record generalized "
+    "prediction."
+)
+TASK7_Q52_COMMIT_B_TUPLE_SCOPE = (
+    "    No fitted Q52 prediction tuple is repeated or adjudicated here."
+)
+TASK7_Q52_COMMIT_B_PETERMANN_HEADER = (
+    "External Petermann interpretation boundary (not evidence from this run):"
+)
+TASK7_Q52_COMMIT_B_PETERMANN_BODY = (
+    "  The old K_P ~ 1 pure-dephasing null is refuted.\n"
+    "  A single-vector K_P is meaningful only for a simple isolated mode; "
+    "at degeneracy use invariant-subspace or Jordan diagnostics."
+)
+TASK7_Q52_COMMIT_B_SEPARATE_FIXTURE_HEADER = (
+    "  Separate simulator fixture / cross-fixture comparison "
+    "(not a Q52 prediction test)"
+)
+TASK7_Q52_COMMIT_B_CROSS_FIXTURE_SCOPE = (
+    "(not the Q52 same-record generalized comparison)"
+)
+TASK7_Q52_COMMIT_B_TERMINAL_VERDICT = (
+    "THE CURRENT DATASET LEAVES THE COCKPIT INCOMPLETELY TESTED."
+)
+TASK7_Q52_COMMIT_B_VERDICT_START = (
+    "VERDICT: WHAT DOES THIS DATASET TEST?\n"
+    + "=" * 70
+    + "\n"
+)
+TASK7_Q52_COMMIT_B_VERDICT_STOP = (
+    "\n" + "=" * 70 + "\nANALYSIS COMPLETE"
+)
+TASK7_Q52_COMMIT_B_EXPECTED_VERDICT = (
+    "\n"
+    "  ANSWER: INCOMPLETELY TESTED\n"
+    "\n"
+    "  - Q52 supplies a qualitative crossing record, but it is not a "
+    "precision prediction match.\n"
+    "  - This producer does not recompute a same-record Q52 prediction.\n"
+    "  - The separate simulator fixture and cross-fixture residuals are not "
+    "a Q52 prediction test.\n"
+    "  - Q80 is the only shadow record with a matched simulator; Q102 has "
+    "none here.\n"
+    "\n"
+    f"  {TASK7_Q52_COMMIT_B_TERMINAL_VERDICT}\n"
+)
+
+
+def _task7_q52_commit_b_independent_expected_values():
+    hardware = json.loads(read_host(TASK7_Q52_COMMIT_B_HARDWARE_JSON))
+    simulator = json.loads(read_host(TASK7_Q52_COMMIT_B_SIMULATOR_JSON))
+    shadow = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    hardware_point = hardware["raw_tomography"][0]
+    rho = (
+        np.array(hardware_point["density_matrix_real"], dtype=float)
+        + 1j * np.array(hardware_point["density_matrix_imag"], dtype=float)
+    )
+    purity = float(np.real(np.trace(rho @ rho)))
+    cpsi = purity * 2.0 * abs(rho[0, 1])
+    simulator_point = min(
+        simulator["analysis"],
+        key=lambda point: abs(
+            float(point["delay_us"]) - float(hardware_point["delay_us"])
+        ),
+    )
+    simulator_times = [
+        float(point["delay_us"]) for point in simulator["analysis"]
+    ]
+    dashboard_times = tuple(
+        f"{float(point['delay_us']):.1f}"
+        for point in hardware["raw_tomography"]
+        if min(
+            abs(float(point["delay_us"]) - simulator_time)
+            for simulator_time in simulator_times
+        ) < 30.0
+    )
+    stored_crossing = (
+        "Stored Q52 crossing metadata: "
+        f"{float(hardware['crossing_us']):.1f} us (not recomputed here)"
+    )
+    simulator_prediction = float(
+        simulator["analytical_prediction_generalized"]["t_star_us"]
+    )
+    fixture_line = (
+        "Separate simulator fixture uses "
+        f"T1={float(simulator['T1_us']):.0f} us, "
+        f"T2_parameter={float(simulator['T2_us']):.0f} us and predicts "
+        f"{simulator_prediction:.1f} us"
+    )
+    cross_fixture_difference = (
+        abs(float(hardware["crossing_us"]) - simulator_prediction)
+        / simulator_prediction
+        * 100.0
+    )
+    difference_line = (
+        f"Cross-fixture difference: {cross_fixture_difference:.1f}% "
+        f"{TASK7_Q52_COMMIT_B_CROSS_FIXTURE_SCOPE}"
+    )
+    shadow_crossings = {}
+    for qubit_result in shadow["qubit_results"]:
+        points = qubit_result["points"]
+        for left, right in zip(points, points[1:]):
+            left_cpsi = float(left["cpsi"])
+            right_cpsi = float(right["cpsi"])
+            if left_cpsi >= 0.25 > right_cpsi:
+                left_t = float(left["delay_us"])
+                right_t = float(right["delay_us"])
+                fraction = (0.25 - right_cpsi) / (
+                    left_cpsi - right_cpsi
+                )
+                estimate = right_t * (1.0 - fraction) + left_t * fraction
+                shadow_crossings[int(qubit_result["qubit"])] = (
+                    f"CΨ=1/4 linear-interpolated estimate: {estimate:.1f} us "
+                    f"from sampled bracket [{left_t:.2f}, {right_t:.2f}] us"
+                )
+                break
+    return {
+        "dashboard_row": (
+            f"{float(hardware_point['delay_us']):.1f}",
+            f"{cpsi:.4f}",
+            f"{float(simulator_point['cpsi_measured']):.4f}",
+        ),
+        "dashboard_times": dashboard_times,
+        "stored_crossing": stored_crossing,
+        "fixture_line": fixture_line,
+        "difference_line": difference_line,
+        "shadow_crossings": shadow_crossings,
+    }
+
+
+TASK7_Q52_COMMIT_B_EXPECTED_VALUES = (
+    _task7_q52_commit_b_independent_expected_values()
+)
+TASK7_Q52_COMMIT_B_EXPECTED_METADATA_OWNER = (
+    "    " + TASK7_Q52_COMMIT_B_EXPECTED_VALUES["stored_crossing"] + "\n"
+    + TASK7_Q52_COMMIT_B_SAME_RECORD_SCOPE + "\n"
+    + TASK7_Q52_COMMIT_B_TUPLE_SCOPE
+)
+TASK7_Q52_COMMIT_B_REQUIRED_OUTPUT = (
+    TASK7_Q52_VALIDATION_SUMMARY_SCOPE,
+    "CROSS-FIXTURE TABLE: Q52 hardware vs separate simulator fixture",
+    "Different T1,T2; these row differences are not a same-record agreement test.",
     (
-        "simulations/cockpit_validation.py",
-        (TASK7_Q52_AUTHORITY_SENTENCE, TASK7_Q52_VALIDATION_SUMMARY_SCOPE),
-        ("CPsi crosses within sub-1% of prediction on a good qubit",),
+        "v_B=d_B/dt: backward finite-step Bures speed over "
+        "[t_(i-1),t_i] (1/us); N/A at first sample"
+    ),
+    "Hardware: Q52, T1=221 us, T2_echo=298 us, 25 points",
+    "Simulator fixture: T1=200 us, T2_parameter=150 us, 25 points",
+    "theta_q52(deg)",
+    TASK7_Q52_COMMIT_B_CROSSING_HEADER,
+    TASK7_Q52_COMMIT_B_EXPECTED_VALUES["stored_crossing"],
+    TASK7_Q52_COMMIT_B_SAME_RECORD_SCOPE,
+    TASK7_Q52_COMMIT_B_TUPLE_SCOPE,
+    TASK7_Q52_COMMIT_B_SEPARATE_FIXTURE_HEADER,
+    TASK7_Q52_COMMIT_B_EXPECTED_VALUES["fixture_line"],
+    TASK7_Q52_COMMIT_B_EXPECTED_VALUES["difference_line"],
+    "Cross-fixture residual summary (different T1,T2; not an agreement metric):",
+    (
+        "theta(deg) is an algebraic rereading only for CΨ>=1/4 and is N/A "
+        "below; Psi is an algebraic rereading of the loaded single-qubit "
+        "data."
+    ),
+    (
+        "Q52 v_B values are backward finite-step speeds over "
+        "[t_(i-1),t_i] in 1/us; the first sample is N/A."
+    ),
+    (
+        "Shadow v_B values use reconstructed populations=1/2 and the same "
+        "backward interval convention; each first sample is N/A."
+    ),
+    (
+        "Finite exponential fits are reported separately for Q80 and Q102; "
+        "no cross-qubit rate consistency is inferred."
+    ),
+    (
+        "Only Q80 has a matched shadow simulator record; Q102 explicitly "
+        "does not."
+    ),
+    (
+        "This producer computes no 5Q, MI, concurrence, curvature, or "
+        "Petermann value."
+    ),
+    TASK7_Q52_COMMIT_B_PETERMANN_HEADER,
+    "The old K_P ~ 1 pure-dephasing null is refuted.",
+    (
+        "A single-vector K_P is meaningful only for a simple isolated mode; "
+        "at degeneracy use invariant-subspace or Jordan diagnostics."
+    ),
+    "Measured mean |rho01| = 0.01828",
+    (
+        "These finite samples establish neither a nonzero asymptote nor a "
+        "Q52 mechanism."
+    ),
+    "Q102: No simulator match found",
+    TASK7_Q52_COMMIT_B_EXPECTED_VALUES["shadow_crossings"][80],
+    TASK7_Q52_COMMIT_B_EXPECTED_VALUES["shadow_crossings"][102],
+)
+TASK7_Q52_COMMIT_B_FORBIDDEN_OUTPUT = (
+    "Q52: CΨ=1/4 crossing at 115.0 us, predicted 114.7 us (0.3% error)",
+    "CΨ = ¼ crossing at 0.3% accuracy",
+    "CΨ = 1/4 crossing at 0.3% accuracy",
+    "CPsi crosses within sub-1% of prediction on a good qubit",
+    "    Simulator predict: 156.4 us",
+    "    Agreement: 26.7% deviation",
+    "Expected (exp decay): ~0",
+    "CΨ does NOT reach 0",
+    "Consistent across Q52, Q80, Q102",
+    "Selective DD advantage 3.2x confirmed",
+    "THE COCKPIT WORKS",
+    "Shadow Q80/Q102: CΨ trajectories track theoretical decay",
+    "MI propagation works on 5-qubit chain",
+    "K_Gauss at fold",
+    "Concurrence is UNTESTABLE",
+    "Petermann factor is THEORETICAL ONLY",
+    "ANSWER: B (PARTIALLY)",
+    "This run fully validates the cockpit",
+    "Bures step distance",
+    "half-life",
+    "predicted_value:",
+    "measured_value:",
+    "Registry authority",
+    "T2=298 us",
+    "  th_q52 ",
+    " CPsi  theta      C    Psi ",
+)
+TASK7_Q52_COMMIT_B_SOURCE_FORBIDDEN = (
+    TASK7_Q52_AUTHORITY_SENTENCE,
+    "Q52: CΨ=1/4 crossing at 115.0 us, predicted 114.7 us (0.3% error)",
+    "CPsi crosses within sub-1% of prediction on a good qubit",
+    'out(f"    Simulator predict:',
+    'out(f"    Agreement:',
+    "Expected (exp decay): ~0",
+    "CΨ does NOT reach 0",
+    "Consistent across Q52, Q80, Q102",
+    "Selective DD advantage 3.2x confirmed",
+    "THE COCKPIT WORKS",
+    "Shadow Q80/Q102: CΨ trajectories track theoretical decay",
+    "MI propagation works on 5-qubit chain",
+    "K_Gauss at fold",
+    "Concurrence is UNTESTABLE",
+    "Petermann factor is THEORETICAL ONLY",
+    "ANSWER: B (PARTIALLY)",
+    "Bures step distance",
+    "half-life",
+    "from framework.confirmations import Confirmations",
+    "Confirmations.lookup(",
+    "q52_registry",
+    "Registry authority",
+)
+
+TASK7_Q52_COMMIT_B_GLOBAL_OVERCLAIM_PATTERNS = (
+    re.compile(
+        r"(?i)\b(?:all|every)\b[^\n]{0,80}\b(?:instrument|reading)s?\b"
+        r"[^\n]{0,80}\b(?:validat\w*|confirm\w*|work\w*)\b"
+    ),
+    re.compile(r"(?i)\b(?:fully|completely)\s+(?:validat\w*|confirm\w*)\b"),
+    re.compile(r"(?i)\bthe cockpit works\b"),
+    re.compile(r"(?i)\bnothing contradicts\b"),
+)
+TASK7_Q52_COMMIT_B_REGISTRY_TUPLE_PATTERNS = (
+    re.compile(r"(?i)t\*/T(?:₂|2)\*"),
+    re.compile(r"(?i)\b(?:0\.936|1\.036)\b"),
+    re.compile(r"(?i)10\.7%"),
+)
+
+
+def _task7_q52_commit_b_global_overclaims(text):
+    return [
+        pattern.pattern
+        for pattern in TASK7_Q52_COMMIT_B_GLOBAL_OVERCLAIM_PATTERNS
+        if pattern.search(text)
+    ]
+
+
+def _task7_q52_commit_b_registry_tuple_signatures(text):
+    return [
+        pattern.pattern
+        for pattern in TASK7_Q52_COMMIT_B_REGISTRY_TUPLE_PATTERNS
+        if pattern.search(text)
+    ]
+
+
+def _task7_q52_commit_b_owner(text, start, stop, label, findings):
+    start_count = text.count(start)
+    if start_count != 1:
+        findings.append(f"Q52_COMMIT_B:{label}_START_COUNT:{start_count}")
+        return ""
+    tail = text.split(start, 1)[1]
+    stop_count = tail.count(stop)
+    if stop_count != 1:
+        findings.append(f"Q52_COMMIT_B:{label}_STOP_COUNT:{stop_count}")
+        return ""
+    return tail.split(stop, 1)[0]
+
+
+def _task7_q52_commit_b_output_findings(text):
+    findings = []
+    for required in TASK7_Q52_COMMIT_B_REQUIRED_OUTPUT:
+        count = text.count(required)
+        if count != 1:
+            findings.append(
+                f"Q52_COMMIT_B:OUTPUT_REQUIRED_COUNT:{count}:{required}"
+            )
+    for stale in TASK7_Q52_COMMIT_B_FORBIDDEN_OUTPUT:
+        if stale in text:
+            findings.append(f"Q52_COMMIT_B:OUTPUT_STALE:{stale}")
+    for pattern in _task7_q52_commit_b_global_overclaims(text):
+        findings.append(f"Q52_COMMIT_B:GLOBAL_OVERCLAIM:{pattern}")
+    for pattern in _task7_q52_commit_b_registry_tuple_signatures(text):
+        findings.append(f"Q52_COMMIT_B:REGISTRY_TUPLE:{pattern}")
+    for label in ("theta(deg)", "Purity"):
+        count = sum(
+            label in line and "|" in line for line in text.splitlines()
+        )
+        if count != 2:
+            findings.append(
+                f"Q52_COMMIT_B:SHADOW_HEADER_LABEL_COUNT:{count}:{label}"
+            )
+
+    table_owner = _task7_q52_commit_b_owner(
+        text,
+        "  CROSS-FIXTURE TABLE: Q52 hardware vs separate simulator fixture\n",
+        "\n\n" + TASK7_Q52_COMMIT_B_CROSSING_HEADER,
+        "DASHBOARD_OWNER",
+        findings,
+    )
+    dashboard_rows = re.findall(
+        r"(?m)^\s*(\d+\.\d+)\s+\|\s+(\d+\.\d+)\s+(\d+\.\d+)\s+",
+        table_owner,
+    )
+    expected_dashboard_row = TASK7_Q52_COMMIT_B_EXPECTED_VALUES["dashboard_row"]
+    if not dashboard_rows:
+        findings.append("Q52_COMMIT_B:DASHBOARD_FIRST_ROW_MISSING")
+    elif dashboard_rows[0] != expected_dashboard_row:
+        findings.append(
+            "Q52_COMMIT_B:DASHBOARD_FIRST_ROW_MISMATCH:"
+            f"{dashboard_rows[0]}:{expected_dashboard_row}"
+        )
+
+    q52_readout_rows = re.findall(
+        r"(?m)^\s*(\d+\.\d+)\s+\|\s+(\d+\.\d+)\s+"
+        r"\d+\.\d+\s+[-+]?\d+\.\d+\s+\|\s+(\S+)\s+"
+        r"\d+\.\d+\s+\d+\.\d+\s+(\S+)\s*$",
+        table_owner,
+    )
+    if not q52_readout_rows:
+        findings.append("Q52_COMMIT_B:Q52_READOUT_ROWS_MISSING")
+    q52_readout_times = tuple(row[0] for row in q52_readout_rows)
+    expected_q52_readout_times = TASK7_Q52_COMMIT_B_EXPECTED_VALUES[
+        "dashboard_times"
+    ]
+    if q52_readout_times != expected_q52_readout_times:
+        findings.append(
+            "Q52_COMMIT_B:Q52_READOUT_TIMES:"
+            f"{q52_readout_times}:{expected_q52_readout_times}"
+        )
+    for row_index, (time_text, cpsi_text, theta_text, vb_text) in enumerate(
+        q52_readout_rows
+    ):
+        if float(cpsi_text) < 0.25 and theta_text != "N/A":
+            findings.append(
+                "Q52_COMMIT_B:Q52_THETA_BELOW_DOMAIN:"
+                f"{time_text}:{theta_text}"
+            )
+        if float(cpsi_text) >= 0.25 and not re.fullmatch(
+            r"[-+]?\d+\.\d+", theta_text
+        ):
+            findings.append(
+                "Q52_COMMIT_B:Q52_THETA_IN_DOMAIN:"
+                f"{time_text}:{theta_text}"
+            )
+        if row_index == 0 and vb_text != "N/A":
+            findings.append(
+                f"Q52_COMMIT_B:Q52_INITIAL_SPEED:{time_text}:{vb_text}"
+            )
+        if row_index > 0 and not re.fullmatch(r"\d+\.\d+", vb_text):
+            findings.append(
+                f"Q52_COMMIT_B:Q52_FINITE_SPEED:{time_text}:{vb_text}"
+            )
+
+    crossing_owner = _task7_q52_commit_b_owner(
+        text,
+        TASK7_Q52_COMMIT_B_CROSSING_HEADER + "\n",
+        "\n\n  Cross-fixture residual summary",
+        "CROSSING_OWNER",
+        findings,
+    )
+    crossing_labels = re.findall(
+        r"(?m)^\s*(?:Hardware|Stored) Q52 crossing(?: metadata)?:.*$",
+        crossing_owner,
+    )
+    expected_stored = "    " + TASK7_Q52_COMMIT_B_EXPECTED_VALUES["stored_crossing"]
+    if crossing_labels != [expected_stored]:
+        findings.append(
+            f"Q52_COMMIT_B:CROSSING_LABELS:{crossing_labels}"
+        )
+
+    metadata_owner = _task7_q52_commit_b_owner(
+        text,
+        TASK7_Q52_COMMIT_B_CROSSING_HEADER + "\n",
+        "\n\n" + TASK7_Q52_COMMIT_B_SEPARATE_FIXTURE_HEADER,
+        "METADATA_OWNER",
+        findings,
+    )
+    if metadata_owner != TASK7_Q52_COMMIT_B_EXPECTED_METADATA_OWNER:
+        findings.append("Q52_COMMIT_B:METADATA_OWNER_NOT_EXACT")
+
+    separate_start = TASK7_Q52_COMMIT_B_SEPARATE_FIXTURE_HEADER + "\n"
+    separate_start_count = crossing_owner.count(separate_start)
+    if separate_start_count != 1:
+        findings.append(
+            "Q52_COMMIT_B:SEPARATE_FIXTURE_OWNER_START_COUNT:"
+            f"{separate_start_count}"
+        )
+        separate_owner = ""
+    else:
+        separate_owner = crossing_owner.split(separate_start, 1)[1]
+    for expected in (
+        TASK7_Q52_COMMIT_B_EXPECTED_VALUES["fixture_line"],
+        TASK7_Q52_COMMIT_B_EXPECTED_VALUES["difference_line"],
+    ):
+        if separate_owner.count(expected) != 1:
+            findings.append(
+                f"Q52_COMMIT_B:SEPARATE_FIXTURE_LINE:{expected}"
+            )
+    for stale in ("Simulator predict:", "Agreement:"):
+        if stale in separate_owner:
+            findings.append(
+                f"Q52_COMMIT_B:CROSSING_OWNER_STALE:{stale}"
+            )
+
+    q102_no_match_count = text.count("Q102: No simulator match found")
+    if q102_no_match_count != 1:
+        findings.append(
+            f"Q52_COMMIT_B:Q102_NO_MATCH_COUNT:{q102_no_match_count}"
+        )
+    if "Q102: Hardware vs Simulation" in text:
+        findings.append("Q52_COMMIT_B:Q102_FALSE_MATCH")
+
+    shadow_readout_rows = re.findall(
+        r"(?m)^\s*(\d+\.\d+)\s+\d+\.\d+\s+\|\s+"
+        r"(\d+\.\d+)\s+(\S+)\s+\d+\.\d+\s+\d+\.\d+\s+\|\s+"
+        r"\d+\.\d+\s+[-+]?\d+\.\d+\s+\|\s+(\S+)\s*$",
+        text,
+    )
+    if len(shadow_readout_rows) != 20:
+        findings.append(
+            f"Q52_COMMIT_B:SHADOW_READOUT_ROW_COUNT:{len(shadow_readout_rows)}"
+        )
+    for time_text, cpsi_text, theta_text, vb_text in shadow_readout_rows:
+        if float(cpsi_text) < 0.25 and theta_text != "N/A":
+            findings.append(
+                "Q52_COMMIT_B:SHADOW_THETA_BELOW_DOMAIN:"
+                f"{time_text}:{theta_text}"
+            )
+        if float(cpsi_text) >= 0.25 and not re.fullmatch(
+            r"[-+]?\d+\.\d+", theta_text
+        ):
+            findings.append(
+                "Q52_COMMIT_B:SHADOW_THETA_IN_DOMAIN:"
+                f"{time_text}:{theta_text}"
+            )
+        if float(time_text) == 0.0 and vb_text != "N/A":
+            findings.append(
+                f"Q52_COMMIT_B:SHADOW_INITIAL_SPEED:{time_text}:{vb_text}"
+            )
+        if float(time_text) > 0.0 and not re.fullmatch(
+            r"\d+\.\d+", vb_text
+        ):
+            findings.append(
+                f"Q52_COMMIT_B:SHADOW_FINITE_SPEED:{time_text}:{vb_text}"
+            )
+
+    petermann_owner = _task7_q52_commit_b_owner(
+        text,
+        "  " + TASK7_Q52_COMMIT_B_PETERMANN_HEADER + "\n",
+        "\n\n" + "=" * 70 + "\nFINITE Q52 LATE-TIME RECORD",
+        "PETERMANN_OWNER",
+        findings,
+    )
+    if petermann_owner != TASK7_Q52_COMMIT_B_PETERMANN_BODY:
+        findings.append("Q52_COMMIT_B:PETERMANN_OWNER_NOT_EXACT")
+
+    fit_labels = re.findall(
+        r"(?m)^  Finite Q(80|102) fit CΨ=a exp\(-r t\)\+c: "
+        r"rate r = [-+]?\d+\.\d+ 1/us, fitted floor c = "
+        r"[-+]?\d+\.\d+$",
+        text,
+    )
+    if sorted(fit_labels) != ["102", "80"]:
+        findings.append(f"Q52_COMMIT_B:FINITE_FIT_LABELS:{fit_labels}")
+
+    verdict_owner = _task7_q52_commit_b_owner(
+        text,
+        TASK7_Q52_COMMIT_B_VERDICT_START,
+        TASK7_Q52_COMMIT_B_VERDICT_STOP,
+        "VERDICT_OWNER",
+        findings,
+    )
+    if verdict_owner != TASK7_Q52_COMMIT_B_EXPECTED_VERDICT:
+        findings.append("Q52_COMMIT_B:VERDICT_NOT_EXACT")
+    return findings
+
+
+def _task7_q52_commit_b_source_findings(source):
+    findings = []
+    for env_name, label in (
+        (TASK7_Q52_COMMIT_B_OUTPUT_ENV, "OUTPUT_OVERRIDE"),
+        (TASK7_Q52_COMMIT_B_REPO_ROOT_ENV, "REPO_ROOT_OVERRIDE"),
+    ):
+        env_count = source.count(env_name)
+        if env_count != 1:
+            findings.append(
+                f"Q52_COMMIT_B:{label}_COUNT:{env_count}"
+            )
+
+    start = "def bures_distance(rho, sigma):"
+    stop = "\ndef reconstruct_rho_1q("
+    if source.count(start) != 1 or source.count(stop) != 1:
+        findings.append("Q52_COMMIT_B:BURES_OWNER_BOUNDARY")
+    else:
+        bures_owner = start + source.split(start, 1)[1].split(stop, 1)[0]
+        if "except Exception" in bures_owner or "return 0.0" in bures_owner:
+            findings.append("Q52_COMMIT_B:BURES_SILENT_FAILURE")
+
+    for stale in TASK7_Q52_COMMIT_B_SOURCE_FORBIDDEN:
+        if stale in source:
+            findings.append(f"Q52_COMMIT_B:SOURCE_STALE:{stale}")
+    for pattern in _task7_q52_commit_b_global_overclaims(source):
+        findings.append(f"Q52_COMMIT_B:SOURCE_GLOBAL_OVERCLAIM:{pattern}")
+    for pattern in _task7_q52_commit_b_registry_tuple_signatures(source):
+        findings.append(f"Q52_COMMIT_B:SOURCE_REGISTRY_TUPLE:{pattern}")
+
+    petermann_start = "  " + TASK7_Q52_COMMIT_B_PETERMANN_HEADER + "\n"
+    if source.count(petermann_start) != 1:
+        findings.append("Q52_COMMIT_B:SOURCE_PETERMANN_START")
+    else:
+        petermann_tail = source.split(petermann_start, 1)[1]
+        petermann_stop = '\n""")'
+        if petermann_stop not in petermann_tail:
+            findings.append("Q52_COMMIT_B:SOURCE_PETERMANN_STOP")
+        elif petermann_tail.split(petermann_stop, 1)[0] != (
+            TASK7_Q52_COMMIT_B_PETERMANN_BODY
+        ):
+            findings.append("Q52_COMMIT_B:SOURCE_PETERMANN_OWNER_NOT_EXACT")
+    return findings
+
+
+def _task7_q52_commit_b_run_producer(script_path, output_path):
+    env = os.environ.copy()
+    env[TASK7_Q52_COMMIT_B_OUTPUT_ENV] = str(output_path)
+    env[TASK7_Q52_COMMIT_B_REPO_ROOT_ENV] = str(ROOT)
+    simulations_path = str(ROOT / "simulations")
+    prior_pythonpath = env.get("PYTHONPATH")
+    env["PYTHONPATH"] = (
+        simulations_path
+        if not prior_pythonpath
+        else os.pathsep.join((simulations_path, prior_pythonpath))
+    )
+    completed = subprocess.run(
+        [sys.executable, str(script_path)],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=120,
+        check=False,
+    )
+    assert completed.returncode == 0, (
+        completed.stdout[-4000:],
+        completed.stderr[-4000:],
+    )
+    assert output_path.is_file()
+    rendered_bytes = output_path.read_bytes()
+    rendered_text = rendered_bytes.decode("utf-8")
+    rendered_text = rendered_text.replace("\r\n", "\n").replace("\r", "\n")
+    return rendered_bytes, rendered_text
+
+
+@pytest.fixture(scope="module")
+def task7_q52_commit_b_rendered_output(tmp_path_factory):
+    output_path = (
+        tmp_path_factory.mktemp("q52-cockpit-validation")
+        / "cockpit_validation.txt"
+    )
+    return _task7_q52_commit_b_run_producer(
+        ROOT / TASK7_Q52_COMMIT_B_SOURCE_SCOPE,
+        output_path,
+    )
+
+
+def _task7_q52_commit_b_replace_once(text, current, stale):
+    assert text.count(current) == 1, current
+    return text.replace(current, stale, 1)
+
+
+def test_task7_q52_commit_b_source_scope_is_safe():
+    source = read_host(TASK7_Q52_COMMIT_B_SOURCE_SCOPE)
+    assert _task7_q52_commit_b_source_findings(source) == []
+
+
+def test_task7_q52_commit_b_rendered_output_matches_contract_and_artifact(
+    task7_q52_commit_b_rendered_output,
+):
+    rendered_bytes, rendered_text = task7_q52_commit_b_rendered_output
+    assert _task7_q52_commit_b_output_findings(rendered_text) == []
+    assert rendered_bytes == (ROOT / TASK7_Q52_COMMIT_B_RESULT).read_bytes()
+
+
+def test_task7_q52_commit_b_output_rejects_old_precision(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        TASK7_Q52_COMMIT_B_TERMINAL_VERDICT,
+        (
+            "Q52: CΨ=1/4 crossing at 115.0 us, predicted 114.7 us "
+            "(0.3% error)\n\n  "
+            + TASK7_Q52_COMMIT_B_TERMINAL_VERDICT
+        ),
+    )
+    assert _task7_q52_commit_b_output_findings(mutant)
+
+
+@pytest.mark.parametrize(
+    "stale",
+    (
+        "Consistent across Q52, Q80, Q102 (scales with T2*)",
+        "Selective DD advantage 3.2x confirmed",
+        "THE COCKPIT WORKS ON THE 4 INSTRUMENTS IT CAN TEST.",
+        "This run fully validates the cockpit",
     ),
 )
+def test_task7_q52_commit_b_output_rejects_unsupported_verdict_restoration(
+    task7_q52_commit_b_rendered_output, stale
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        TASK7_Q52_COMMIT_B_TERMINAL_VERDICT,
+        stale + "\n\n  " + TASK7_Q52_COMMIT_B_TERMINAL_VERDICT,
+    )
+    assert _task7_q52_commit_b_output_findings(mutant)
+
+
+def test_task7_q52_commit_b_output_rejects_nonzero_asymptote_restoration(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    current = (
+        "These finite samples establish neither a nonzero asymptote nor a "
+        "Q52 mechanism."
+    )
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        current,
+        "The cockpit correctly shows: CΨ does NOT reach 0",
+    )
+    assert _task7_q52_commit_b_output_findings(mutant)
+
+
+def test_task7_q52_commit_b_output_rejects_same_record_cross_fixture_claim(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        TASK7_Q52_COMMIT_B_CROSS_FIXTURE_SCOPE,
+        "(the Q52 same-record generalized comparison)",
+    )
+    assert _task7_q52_commit_b_output_findings(mutant)
+
+
+def test_task7_q52_commit_b_output_rejects_legacy_crossing_labels(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        TASK7_Q52_COMMIT_B_EXPECTED_VALUES["fixture_line"],
+        "Simulator predict: 156.4 us",
+    )
+    mutant = _task7_q52_commit_b_replace_once(
+        mutant,
+        TASK7_Q52_COMMIT_B_EXPECTED_VALUES["difference_line"],
+        "Agreement: 26.7% deviation",
+    )
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any("CROSSING_OWNER_STALE" in finding for finding in findings), findings
+
+
+@pytest.mark.parametrize(
+    "duplicate",
+    (
+        "Hardware Q52 crossing: 999 us",
+        "Stored Q52 crossing metadata: 999 us (not recomputed here)",
+    ),
+)
+def test_task7_q52_commit_b_output_rejects_duplicate_crossing_labels(
+    task7_q52_commit_b_rendered_output, duplicate
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        TASK7_Q52_COMMIT_B_SAME_RECORD_SCOPE,
+        duplicate + "\n\n" + TASK7_Q52_COMMIT_B_SAME_RECORD_SCOPE,
+    )
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any("CROSSING_LABELS" in finding for finding in findings), findings
+
+
+def test_task7_q52_commit_b_output_rejects_global_validation_claim(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    heading = "PART A: Q52 TOMOGRAPHY AND A SEPARATE SIMULATOR FIXTURE"
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        heading,
+        heading + "\n  All available cockpit instruments are validated by this run.",
+    )
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any("GLOBAL_OVERCLAIM" in finding for finding in findings), findings
+
+
+def test_task7_q52_commit_b_output_requires_both_finite_shadow_fits(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    mutant = re.sub(
+        r"(?m)^  Finite Q(?:80|102) fit CΨ=.*$\n?",
+        "",
+        rendered_text,
+    )
+    assert mutant != rendered_text
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any("FINITE_FIT_LABELS" in finding for finding in findings), findings
+
+
+@pytest.mark.parametrize("qubit", (80, 102))
+def test_task7_q52_commit_b_output_requires_interpolation_method_and_bracket(
+    task7_q52_commit_b_rendered_output, qubit
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    expected = TASK7_Q52_COMMIT_B_EXPECTED_VALUES["shadow_crossings"][qubit]
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        expected,
+        f"CΨ=1/4 crossing: {23.84 if qubit == 102 else 18.54:.2f} us",
+    )
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert findings, findings
+
+
+def test_task7_q52_commit_b_output_uses_na_for_undefined_theta_and_initial_speed(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    data_lines = [line for line in rendered_text.splitlines() if "|" in line]
+
+    q52_first = next(line for line in data_lines if line.lstrip().startswith("0.0 |"))
+    q52_below = next(
+        line for line in data_lines if line.lstrip().startswith("149.1 |")
+    )
+    shadow_first = [
+        line for line in data_lines if line.lstrip().startswith("0.00   0.00 |")
+    ]
+    shadow_below = next(
+        line for line in data_lines if line.lstrip().startswith("26.41   2.00 |")
+    )
+
+    assert q52_first.rstrip().endswith("N/A")
+    assert q52_below.split("|")[2].split()[0] == "N/A"
+    assert len(shadow_first) == 2
+    assert all(line.rstrip().endswith("N/A") for line in shadow_first)
+    assert shadow_below.split("|")[1].split()[1] == "N/A"
+
+
+def test_task7_q52_commit_b_output_rejects_paraphrased_registry_tuple(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    sentence = (
+        "    Same-record registry tuple: t*/T₂*=1.036 versus generalized "
+        "0.936 (10.7% above)."
+    )
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        TASK7_Q52_COMMIT_B_TUPLE_SCOPE,
+        TASK7_Q52_COMMIT_B_TUPLE_SCOPE + "\n" + sentence,
+    )
+    output_findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any(
+        "REGISTRY_TUPLE" in finding or "METADATA_OWNER_NOT_EXACT" in finding
+        for finding in output_findings
+    ), output_findings
+
+    source = read_host(TASK7_Q52_COMMIT_B_SOURCE_SCOPE)
+    source_mutant = _task7_q52_commit_b_replace_once(
+        source,
+        f'out("{TASK7_Q52_COMMIT_B_TUPLE_SCOPE}")',
+        (
+            f'out("{TASK7_Q52_COMMIT_B_TUPLE_SCOPE}")\n'
+            f'out("{sentence}")'
+        ),
+    )
+    source_findings = _task7_q52_commit_b_source_findings(source_mutant)
+    assert any("SOURCE_REGISTRY_TUPLE" in finding for finding in source_findings), (
+        source_findings
+    )
+
+
+@pytest.mark.parametrize(
+    ("row_prefix", "replacement", "finding_label"),
+    (
+        ("0.0 |", "0.0000", "Q52_INITIAL_SPEED"),
+        ("0.00   0.00 |", "0.0000", "SHADOW_INITIAL_SPEED"),
+    ),
+)
+def test_task7_q52_commit_b_output_rejects_zero_for_undefined_initial_speed(
+    task7_q52_commit_b_rendered_output,
+    row_prefix,
+    replacement,
+    finding_label,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    target = next(
+        line
+        for line in rendered_text.splitlines()
+        if line.lstrip().startswith(row_prefix) and line.rstrip().endswith("N/A")
+    )
+    mutant_line = target.rsplit("N/A", 1)[0] + replacement
+    mutant = _task7_q52_commit_b_replace_once(rendered_text, target, mutant_line)
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any(finding_label in finding for finding in findings), findings
+
+
+@pytest.mark.parametrize(
+    ("row_prefix", "finding_label"),
+    (
+        ("149.1 |", "Q52_THETA_BELOW_DOMAIN"),
+        ("26.41   2.00 |", "SHADOW_THETA_BELOW_DOMAIN"),
+    ),
+)
+def test_task7_q52_commit_b_output_rejects_zero_theta_below_real_domain(
+    task7_q52_commit_b_rendered_output,
+    row_prefix,
+    finding_label,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    target = next(
+        line for line in rendered_text.splitlines()
+        if line.lstrip().startswith(row_prefix)
+    )
+    mutant_line = target.replace("N/A", "0.0", 1)
+    assert mutant_line != target
+    mutant = _task7_q52_commit_b_replace_once(rendered_text, target, mutant_line)
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any(finding_label in finding for finding in findings), findings
+
+
+def test_task7_q52_commit_b_output_rejects_truncated_q52_dashboard(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    start = "  CROSS-FIXTURE TABLE: Q52 hardware vs separate simulator fixture\n"
+    stop = "\n\n" + TASK7_Q52_COMMIT_B_CROSSING_HEADER
+    prefix, tail = rendered_text.split(start, 1)
+    table, suffix = tail.split(stop, 1)
+    kept_first = False
+    removed = 0
+    kept_lines = []
+    for line in table.splitlines():
+        if re.match(r"^\s*\d+\.\d+\s+\|", line):
+            if kept_first:
+                removed += 1
+                continue
+            kept_first = True
+        kept_lines.append(line)
+    assert removed == len(
+        TASK7_Q52_COMMIT_B_EXPECTED_VALUES["dashboard_times"]
+    ) - 1
+    mutant = prefix + start + "\n".join(kept_lines) + stop + suffix
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any("Q52_READOUT_TIMES" in finding for finding in findings), findings
+
+
+def test_task7_q52_commit_b_output_rejects_internalized_petermann_boundary(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    external = (
+        "External Petermann interpretation boundary (not evidence from this run):"
+    )
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        external,
+        "Petermann conclusions from this run:",
+    )
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any(
+        "OUTPUT_REQUIRED_COUNT" in finding and external in finding
+        for finding in findings
+    ), findings
+
+
+def test_task7_q52_commit_b_output_rejects_internal_claim_beside_external_header(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    external = (
+        "External Petermann interpretation boundary (not evidence from this run):"
+    )
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        external,
+        external + "\n  Petermann conclusions from this run:",
+    )
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert any("PETERMANN_OWNER_NOT_EXACT" in finding for finding in findings), (
+        findings
+    )
+
+
+def test_task7_q52_commit_b_output_rejects_q102_match_beside_no_match(
+    task7_q52_commit_b_rendered_output,
+):
+    _, rendered_text = task7_q52_commit_b_rendered_output
+    mutant = _task7_q52_commit_b_replace_once(
+        rendered_text,
+        "Q102: No simulator match found",
+        "Q102: No simulator match found\n\n  Q102: Hardware vs Simulation",
+    )
+    findings = _task7_q52_commit_b_output_findings(mutant)
+    assert "Q52_COMMIT_B:Q102_FALSE_MATCH" in findings
+
+
+def test_task7_q52_commit_b_dashboard_gate_rejects_cpsi_zero_mutation(tmp_path):
+    source = read_host(TASK7_Q52_COMMIT_B_SOURCE_SCOPE)
+    mutant = _task7_q52_commit_b_replace_once(
+        source,
+        "return pur * psi, pur, psi",
+        "return 0.0, pur, psi",
+    )
+    mutant_path = tmp_path / "cockpit_validation.py"
+    mutant_path.write_text(mutant, encoding="utf-8", newline="\n")
+    output_path = tmp_path / "cockpit_validation.txt"
+    _, rendered_text = _task7_q52_commit_b_run_producer(
+        mutant_path,
+        output_path,
+    )
+    findings = _task7_q52_commit_b_output_findings(rendered_text)
+    assert any(
+        "DASHBOARD_FIRST_ROW_MISMATCH" in finding for finding in findings
+    ), findings
+
+
 TASK7_Q52_PROPOSAL_REGISTRY_PROVENANCE = (
     "`simulations/framework/confirmations.py` "
     "(`cpsi_quarter_crossing_torino_feb2026`): registry authority reports "
@@ -30675,15 +31649,13 @@ def _assert_task7_q52_commit_a_lane(hosts):
     assert "review/OPEN_QUESTIONS_INDEX_PROPOSAL_hardware-test.md" in hosts
 
 
-def test_task7_q52_commit_b_debt_is_explicit_without_owning_its_bytes():
+def test_task7_q52_commit_b_content_contract_preserves_commit_a_exclusion():
     _assert_task7_q52_commit_a_lane(TASK7_Q52_COMMIT_A_CURRENT_TRUTH_HOSTS)
-    assert TASK7_Q52_COMMIT_B_CONTENT_DEBT == (
-        (
-            "simulations/cockpit_validation.py",
-            (TASK7_Q52_AUTHORITY_SENTENCE, TASK7_Q52_VALIDATION_SUMMARY_SCOPE),
-            ("CPsi crosses within sub-1% of prediction on a good qubit",),
-        ),
+    assert TASK7_Q52_COMMIT_B_CONTENT_CONTRACT == (
+        "simulations/cockpit_validation.py",
+        "simulations/results/cockpit_validation.txt",
     )
+    assert TASK7_Q52_COMMIT_B_DEBT == (TASK7_Q52_COMMIT_B_SOURCE_SCOPE,)
     assert set(TASK7_Q52_COMMIT_B_DEBT).isdisjoint(TASK7_SEMANTIC_HOSTS)
     assert set(TASK7_Q52_COMMIT_B_DEBT).isdisjoint(TASK7_EXECUTION_HOSTS)
     assert set(TASK7_Q52_COMMIT_B_DEBT).isdisjoint(TASK7_VEFFECT_DISPOSITIONS)

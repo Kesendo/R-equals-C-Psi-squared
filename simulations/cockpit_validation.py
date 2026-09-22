@@ -5,9 +5,9 @@ Tests whether the cockpit instruments give consistent, useful
 information on REAL hardware data.
 
 Data sources:
-  A. Q52 Tomography (Feb 9) vs Simulator -- full density matrices
-  B. Shadow Q80 + Q102 (March 9) vs Simulation -- off-diagonal elements
-  C. Verdict: Does the cockpit work?
+  A. Q52 tomography and a separate simulator fixture with different T1,T2
+  B. Shadow Q80 + Q102 (March 9); only Q80 has a simulator match
+  C. Scope verdict for the readings this producer actually computes
 
 April 2, 2026
 """
@@ -18,10 +18,13 @@ import json, os, sys, io
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-results_dir = os.path.join(base, 'simulations', 'results')
-os.makedirs(results_dir, exist_ok=True)
-results_path = os.path.join(results_dir, 'cockpit_validation.txt')
+default_base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+base = os.environ.get('RCPSI_REPO_ROOT', default_base)
+results_path = os.environ.get(
+    'RCPSI_COCKPIT_VALIDATION_OUTPUT',
+    os.path.join(base, 'simulations', 'results', 'cockpit_validation.txt'),
+)
+os.makedirs(os.path.dirname(os.path.abspath(results_path)), exist_ok=True)
 _lines = []
 
 def out(s=""):
@@ -45,17 +48,16 @@ def cpsi_from_rho(rho):
     return pur * psi, pur, psi
 
 def theta_deg(cpsi_val):
-    return float(np.degrees(np.arctan(np.sqrt(4*cpsi_val - 1)))) if cpsi_val > 0.25 else 0.0
+    if cpsi_val < 0.25:
+        return None
+    return float(np.degrees(np.arctan(np.sqrt(4*cpsi_val - 1))))
 
 def bures_distance(rho, sigma):
-    try:
-        sqrt_rho = linalg.sqrtm(rho)
-        prod = sqrt_rho @ sigma @ sqrt_rho
-        ev = np.real(np.linalg.eigvalsh(prod))
-        fid = float(np.sum(np.sqrt(np.maximum(ev, 0))))**2
-        return float(np.sqrt(max(0, 2*(1 - np.sqrt(max(0, min(1, fid)))))))
-    except Exception:
-        return 0.0
+    sqrt_rho = linalg.sqrtm(rho)
+    prod = sqrt_rho @ sigma @ sqrt_rho
+    ev = np.real(np.linalg.eigvalsh(prod))
+    fid = float(np.sum(np.sqrt(np.maximum(ev, 0))))**2
+    return float(np.sqrt(max(0, 2*(1 - np.sqrt(max(0, min(1, fid)))))))
 
 def reconstruct_rho_1q(rho01_re, rho01_im):
     """Reconstruct 1-qubit density matrix assuming populations = 1/2.
@@ -68,18 +70,53 @@ def exp_decay(t, a, rate, c):
     return a * np.exp(-rate * t) + c
 
 
+def q52_crossing_comparison_lines(hardware, simulator):
+    """Format stored Q52 metadata and the separate simulator-fixture comparison."""
+    hardware_crossing = hardware.get('crossing_us')
+    simulator_t1 = float(simulator['T1_us'])
+    simulator_t2 = float(simulator['T2_us'])
+    simulator_prediction = float(
+        simulator['analytical_prediction_generalized']['t_star_us']
+    )
+    stored_line = (
+        f"Stored Q52 crossing metadata: {float(hardware_crossing):.1f} us "
+        "(not recomputed here)"
+        if hardware_crossing is not None
+        else "Stored Q52 crossing metadata: not found (not recomputed here)"
+    )
+    simulator_line = (
+        f"Separate simulator fixture uses T1={simulator_t1:.0f} us, "
+        f"T2_parameter={simulator_t2:.0f} us and predicts "
+        f"{simulator_prediction:.1f} us"
+    )
+    if hardware_crossing is None:
+        difference_value = "unavailable"
+    else:
+        cross_fixture_difference = (
+            abs(float(hardware_crossing) - simulator_prediction)
+            / simulator_prediction
+            * 100.0
+        )
+        difference_value = f"{cross_fixture_difference:.1f}%"
+    difference_line = (
+        f"Cross-fixture difference: {difference_value} "
+        "(not the Q52 same-record generalized comparison)"
+    )
+    return stored_line, simulator_line, difference_line
+
+
 # ================================================================
-# PART A: Q52 TOMOGRAPHY -- HARDWARE vs SIMULATOR
+# PART A: Q52 TOMOGRAPHY AND A SEPARATE SIMULATOR FIXTURE
 # ================================================================
 out("=" * 70)
-out("PART A: Q52 TOMOGRAPHY -- HARDWARE vs SIMULATOR")
+out("PART A: Q52 TOMOGRAPHY AND A SEPARATE SIMULATOR FIXTURE")
 out("=" * 70)
 
 hw = load_json('data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json')
 sim = load_json('data/ibm_tomography_feb2026/simulator_test_20260209_125106.json')
 
-out(f"\n  Hardware: Q52, T1={hw['T1_us']:.0f} us, T2={hw['T2_us']:.0f} us, {len(hw['raw_tomography'])} points")
-out(f"  Simulator: T1={sim['T1_us']:.0f} us, T2={sim['T2_us']:.0f} us, {len(sim['analysis'])} points")
+out(f"\n  Hardware: Q52, T1={hw['T1_us']:.0f} us, T2_echo={hw['T2_us']:.0f} us, {len(hw['raw_tomography'])} points")
+out(f"  Simulator fixture: T1={sim['T1_us']:.0f} us, T2_parameter={sim['T2_us']:.0f} us, {len(sim['analysis'])} points")
 
 # Process hardware
 hw_data = []
@@ -88,7 +125,7 @@ for pt in hw['raw_tomography']:
     rho = np.array(pt['density_matrix_real']) + 1j * np.array(pt['density_matrix_imag'])
     cp, pur, psi = cpsi_from_rho(rho)
     th = theta_deg(cp)
-    dB = bures_distance(rho, rho_prev) if rho_prev is not None else 0.0
+    dB = bures_distance(rho, rho_prev) if rho_prev is not None else None
     rho_prev = rho.copy()
     hw_data.append({'t': pt['delay_us'], 'cpsi': cp, 'theta': th,
                     'pur': pur, 'psi': psi, 'fid': pt['fidelity'],
@@ -102,10 +139,15 @@ for pt in sim['analysis']:
                      'rho01': pt['populations']['rho_01_abs'],
                      'cpsi_theory': pt['cpsi_theory_full']})
 
-# Dashboard comparison at matched time points
-out(f"\n  COCKPIT DASHBOARD: HARDWARE vs SIMULATOR")
-out(f"\n  {'t(us)':>8} | {'CPsi_hw':>8} {'CPsi_sim':>8} {'diff':>7} | {'th_hw':>6} {'Pur_hw':>7} {'Psi_hw':>7} {'v_B':>7}")
-out(f"  {'-'*78}")
+# Cross-fixture table at nearest sampled times
+out(f"\n  CROSS-FIXTURE TABLE: Q52 hardware vs separate simulator fixture")
+out("  Different T1,T2; these row differences are not a same-record agreement test.")
+out(
+    "  v_B=d_B/dt: backward finite-step Bures speed over "
+    "[t_(i-1),t_i] (1/us); N/A at first sample"
+)
+out(f"\n  {'t(us)':>8} | {'CPsi_q52':>9} {'CPsi_fix':>9} {'diff':>7} | {'theta_q52(deg)':>14} {'Pur_q52':>8} {'Psi_q52':>8} {'v_B(1/us)':>11}")
+out(f"  {'-'*89}")
 
 for hpt in hw_data:
     # Find closest simulator point
@@ -114,20 +156,29 @@ for hpt in hw_data:
     if dt_match < 30:  # within 30 us
         diff = hpt['cpsi'] - best_sim['cpsi']
         dt_sample = hpt['t'] - (hw_data[hw_data.index(hpt)-1]['t'] if hw_data.index(hpt) > 0 else 0)
-        vB = hpt['bures'] / dt_sample if dt_sample > 0 else 0
+        vB = (
+            hpt['bures'] / dt_sample
+            if hpt['bures'] is not None and dt_sample > 0
+            else None
+        )
+        theta_text = "N/A" if hpt['theta'] is None else f"{hpt['theta']:.1f}"
+        vB_text = "N/A" if vB is None else f"{vB:.4f}"
         out(f"  {hpt['t']:>8.1f} | {hpt['cpsi']:>8.4f} {best_sim['cpsi']:>8.4f} {diff:>+7.4f} | "
-            f"{hpt['theta']:>6.1f} {hpt['pur']:>7.3f} {hpt['psi']:>7.3f} {vB:>7.4f}")
+            f"{theta_text:>14} {hpt['pur']:>7.3f} {hpt['psi']:>7.3f} {vB_text:>11}")
 
-# Crossing comparison
-hw_cross = hw.get('crossing_us', None)
-sim_cross_pred = sim['analytical_prediction_generalized']['t_star_us']
-out(f"\n  CΨ=1/4 crossing:")
-out(f"    Hardware (Q52):    {hw_cross:.1f} us" if hw_cross else "    Hardware: not found")
-out(f"    Simulator predict: {sim_cross_pred:.1f} us")
-if hw_cross:
-    out(f"    Agreement: {abs(hw_cross - sim_cross_pred)/sim_cross_pred*100:.1f}% deviation")
+# Crossing metadata and cross-fixture comparison
+stored_crossing_line, simulator_crossing_line, cross_fixture_line = (
+    q52_crossing_comparison_lines(hw, sim)
+)
+out("\n  Q52 CROSSING METADATA")
+out(f"    {stored_crossing_line}")
+out("    This producer does not recompute a same-record generalized prediction.")
+out("    No fitted Q52 prediction tuple is repeated or adjudicated here.")
+out("\n  Separate simulator fixture / cross-fixture comparison (not a Q52 prediction test)")
+out(f"    {simulator_crossing_line}")
+out(f"    {cross_fixture_line}")
 
-# Overall agreement
+# Cross-fixture residual summary
 hw_cpsi = np.array([d['cpsi'] for d in hw_data])
 hw_times = np.array([d['t'] for d in hw_data])
 # Interpolate simulator at hardware times
@@ -140,7 +191,7 @@ if np.sum(common_mask) > 3:
     residuals = hw_cpsi[common_mask] - sim_interp
     rmse = np.sqrt(np.mean(residuals**2))
     mean_cpsi = np.mean(hw_cpsi[common_mask])
-    out(f"\n  CPsi agreement (overlapping range):")
+    out(f"\n  Cross-fixture residual summary (different T1,T2; not an agreement metric):")
     out(f"    RMSE = {rmse:.4f}")
     out(f"    Mean |residual| = {np.mean(np.abs(residuals)):.4f}")
     out(f"    Max |residual| = {np.max(np.abs(residuals)):.4f}")
@@ -165,9 +216,9 @@ for qr in shadow_hw['qubit_results']:
     points = qr['points']
 
     out(f"\n  --- Q{qubit_id} HARDWARE ---")
-    out(f"  {'t(us)':>8} {'t/T2*':>6} | {'CPsi':>7} {'theta':>6} {'C':>6} {'Psi':>6} | "
-        f"{'|r01|':>7} {'ph(deg)':>7} | {'v_B':>7}")
-    out(f"  {'-'*75}")
+    out(f"  {'t(us)':>8} {'t/T2*':>6} | {'CPsi':>7} {'theta(deg)':>10} {'Purity':>7} {'Psi':>6} | "
+        f"{'|r01|':>7} {'ph(deg)':>7} | {'v_B(1/us)':>11}")
+    out(f"  {'-'*84}")
 
     rho_prev = None
     cpsi_arr, t_arr, bures_arr = [], [], []
@@ -176,7 +227,7 @@ for qr in shadow_hw['qubit_results']:
         t_us = pt['delay_us']
         cpsi = pt['cpsi']
         th = theta_deg(cpsi)
-        C = pt['C']
+        purity = pt['C']
         psi = pt['psi']
         r01_abs = pt['rho01_abs']
         r01_re = pt['rho01_re']
@@ -190,7 +241,7 @@ for qr in shadow_hw['qubit_results']:
             dt_us = t_us - t_prev
             vB = dB / dt_us if dt_us > 0 else 0
         else:
-            dB, vB = 0.0, 0.0
+            dB, vB = None, None
         rho_prev = rho.copy()
         t_prev = t_us
 
@@ -198,22 +249,30 @@ for qr in shadow_hw['qubit_results']:
         cpsi_arr.append(cpsi)
         bures_arr.append(vB)
 
-        out(f"  {t_us:>8.2f} {pt['t_over_T2star']:>6.2f} | {cpsi:>7.4f} {th:>6.1f} "
-            f"{C:>6.3f} {psi:>6.3f} | {r01_abs:>7.4f} {phase:>+7.1f} | {vB:>7.4f}")
+        theta_text = "N/A" if th is None else f"{th:.1f}"
+        vB_text = "N/A" if vB is None else f"{vB:.4f}"
+        out(f"  {t_us:>8.2f} {pt['t_over_T2star']:>6.2f} | {cpsi:>7.4f} {theta_text:>10} "
+            f"{purity:>7.3f} {psi:>6.3f} | {r01_abs:>7.4f} {phase:>+7.1f} | {vB_text:>11}")
 
     cpsi_arr = np.array(cpsi_arr)
     t_arr = np.array(t_arr)
 
     # Crossing
     t_cross = None
+    crossing_bracket = None
     for i in range(1, len(cpsi_arr)):
         if cpsi_arr[i-1] >= 0.25 and cpsi_arr[i] < 0.25:
             frac = (0.25 - cpsi_arr[i]) / (cpsi_arr[i-1] - cpsi_arr[i] + 1e-30)
             t_cross = t_arr[i] * (1 - frac) + t_arr[i-1] * frac
+            crossing_bracket = (t_arr[i-1], t_arr[i])
             break
 
     if t_cross:
-        out(f"  CΨ=1/4 crossing: {t_cross:.2f} us")
+        out(
+            f"  CΨ=1/4 linear-interpolated estimate: {t_cross:.1f} us "
+            f"from sampled bracket [{crossing_bracket[0]:.2f}, "
+            f"{crossing_bracket[1]:.2f}] us"
+        )
     else:
         if cpsi_arr[0] > 0.25:
             out(f"  CΨ starts above 1/4 but never crosses (last CΨ={cpsi_arr[-1]:.4f})")
@@ -226,12 +285,13 @@ for qr in shadow_hw['qubit_results']:
         try:
             popt, _ = curve_fit(exp_decay, t_arr[valid], cpsi_arr[valid],
                                 p0=[cpsi_arr[0], 0.05, 0.01], maxfev=5000)
-            out(f"  CΨ decay rate: {popt[1]:.5f}/us (half-life {np.log(2)/popt[1]:.1f} us)")
+            out(f"  Finite Q{qubit_id} fit CΨ=a exp(-r t)+c: "
+                f"rate r = {popt[1]:.5f} 1/us, fitted floor c = {popt[2]:.5f}")
         except Exception:
             out(f"  CΨ decay fit failed")
 
-# --- Shadow: Hardware vs Simulation ---
-out(f"\n  SHADOW: HARDWARE vs SIMULATION")
+# --- Shadow simulator availability ---
+out(f"\n  SHADOW SIMULATOR MATCH CHECK")
 
 for qr_hw in shadow_hw['qubit_results']:
     qid = qr_hw['qubit']
@@ -266,166 +326,60 @@ for qr_hw in shadow_hw['qubit_results']:
 
 
 # ================================================================
-# INSTRUMENT AVAILABILITY MATRIX
+# SCOPE OF THE AVAILABLE READINGS
 # ================================================================
 out(f"\n{'=' * 70}")
-out("INSTRUMENT AVAILABILITY MATRIX")
+out("SCOPE OF THE AVAILABLE READINGS")
 out("=" * 70)
 
 out(f"""
-  | Instrument        | Q52 Tomo | Shadow Q80/102 | 5Q Counts |
-  |-------------------|----------|----------------|-----------|
-  | 1. theta (CPsi)   |   YES    |     YES        |    NO     |
-  | 2. Concurrence    |   NO*    |     NO*        |    NO     |
-  | 3. Psi-norm       |   YES    |     YES        |    NO     |
-  | 4. MI             |   NO**   |     NO**       |    YES    |
-  | 5. Decay rate     |   YES    |     YES        |    YES    |
-  | 6. Bures velocity |   YES    |     YES***     |    NO     |
-  | 7. Petermann      |   NO     |     NO         |    NO     |
-
-  * Concurrence requires 2-qubit density matrix. All data is 1-qubit.
-  ** MI requires 2+ qubits. These are single-qubit measurements.
-  *** Reconstructed from rho01 assuming populations = 1/2.
+  theta(deg) is an algebraic rereading only for CΨ>=1/4 and is N/A below; Psi is an algebraic rereading of the loaded single-qubit data.
+  Q52 v_B values are backward finite-step speeds over [t_(i-1),t_i] in 1/us; the first sample is N/A.
+  Shadow v_B values use reconstructed populations=1/2 and the same backward interval convention; each first sample is N/A.
+  Finite exponential fits are reported separately for Q80 and Q102; no cross-qubit rate consistency is inferred.
+  Only Q80 has a matched shadow simulator record; Q102 explicitly does not.
+  This producer computes no 5Q, MI, concurrence, curvature, or Petermann value.
+  External Petermann interpretation boundary (not evidence from this run):
+  The old K_P ~ 1 pure-dephasing null is refuted.
+  A single-vector K_P is meaningful only for a simple isolated mode; at degeneracy use invariant-subspace or Jordan diagnostics.
 """)
 
 
 # ================================================================
-# CONSISTENCY CHECK: DO INSTRUMENTS AGREE?
+# FINITE Q52 LATE-TIME RECORD
 # ================================================================
 out(f"{'=' * 70}")
-out("CONSISTENCY CHECK: DO INSTRUMENTS TELL THE SAME STORY?")
+out("FINITE Q52 LATE-TIME RECORD")
 out("=" * 70)
 
-out(f"\n  Q52 Hardware (25 time points):")
-
-# theta is arctan(sqrt(4*CPsi-1)) of the same CPsi, so comparing the two can
-# only restate the map. There is nothing here to check.
-
-# Check: does Bures velocity decrease with CPsi?
-hw_bv = np.array([d['bures'] for d in hw_data[1:]])
-hw_cp = np.array([d['cpsi'] for d in hw_data[1:]])
-from scipy.stats import pearsonr
-r_bv_cpsi, p_bv = pearsonr(hw_bv, hw_cp)
-out(f"  Bures velocity vs CPsi: r = {r_bv_cpsi:.3f} (p = {p_bv:.4f})")
-out(f"  (Expected: positive, higher CPsi = more change)")
-
-# Check: does Psi-norm correlate with rho01?
-hw_psi_arr = np.array([d['psi'] for d in hw_data])
 hw_r01_arr = np.array([d['rho01'] for d in hw_data])
-r_psi_r01, _ = pearsonr(hw_psi_arr, hw_r01_arr)
-out(f"  Psi-norm vs |rho01|: r = {r_psi_r01:.3f}")
-out(f"  (Expected: ~1.0, since Psi = 2*|rho01| for d=2)")
-
-# Check: Purity trend
-hw_pur_arr = np.array([d['pur'] for d in hw_data])
-r_pur_t, _ = pearsonr(hw_times, hw_pur_arr)
-out(f"  Purity vs time: r = {r_pur_t:.3f}")
-out(f"  (Expected: negative for T1 decay, ~0 for pure dephasing)")
-
-# Late-time anomaly (from RESIDUAL_ANALYSIS)
 late_mask = hw_times > 300
 if np.sum(late_mask) > 3:
     late_r01 = hw_r01_arr[late_mask]
-    out(f"\n  Late-time coherence (t > 300 us):")
-    out(f"    Mean |rho01| = {np.mean(late_r01):.5f}")
-    out(f"    Expected (exp decay): ~0")
-    out(f"    This is the excess coherence from RESIDUAL_ANALYSIS")
-    out(f"    The cockpit correctly shows: CΨ does NOT reach 0")
+    out(f"\n  Late-time coherence samples (t > 300 us):")
+    out(f"    Measured mean |rho01| = {np.mean(late_r01):.5f}")
+    out(
+        "    These finite samples establish neither a nonzero asymptote nor "
+        "a Q52 mechanism."
+    )
 
 
 # ================================================================
 # VERDICT
 # ================================================================
 out(f"\n{'=' * 70}")
-out("VERDICT: DOES THE COCKPIT WORK?")
+out("VERDICT: WHAT DOES THIS DATASET TEST?")
 out("=" * 70)
 
 out(f"""
-  ANSWER: B (PARTIALLY)
+  ANSWER: INCOMPLETELY TESTED
 
-  WHAT WORKS:
+  - Q52 supplies a qualitative crossing record, but it is not a precision prediction match.
+  - This producer does not recompute a same-record Q52 prediction.
+  - The separate simulator fixture and cross-fixture residuals are not a Q52 prediction test.
+  - Q80 is the only shadow record with a matched simulator; Q102 has none here.
 
-  1. CPsi is ROBUST on hardware.
-     - Q52: CΨ=1/4 crossing at 115.0 us, predicted 114.7 us (0.3% error)
-     - Shadow Q80/Q102: CΨ trajectories track theoretical decay
-     - theta here is arctan(sqrt(4*CPsi - 1)) of the same CPsi, so it is
-       a rereading of instrument 1 and not an independent check. Below
-       1/4 this script clamps it to 0, where 7 distinct CPsi values on
-       Q80 and 7 on Q102 all report theta = 0.0
-     - Its slope steepens without bound at the boundary,
-       dtheta/dCPsi = 1/(2*CPsi*sqrt(4*CPsi - 1)), so theta stretches the
-       scale near 1/4. Whether that stretch helps a decision depends on
-       the error it stretches along with the signal, which this run does
-       not measure
-
-  2. Psi-norm tracks coherence faithfully.
-     - r(Psi, |rho01|) = {r_psi_r01:.3f} on Q52 (near-perfect correlation)
-     - Psi-norm IS the off-diagonal coherence (for 1-qubit: Psi = 2|rho01|)
-     - This is instrument 3 (speedometer) working as designed
-
-  3. Bures velocity shows correct physics.
-     - Positive correlation with CPsi (r = {r_bv_cpsi:.2f})
-     - Decreases as state approaches steady state
-     - Captures the "slowing down near landing" predicted by simulation
-
-  4. Decay rates are extractable and meaningful.
-     - Exponential fit to CPsi(t) gives effective decoherence rate
-     - Consistent across Q52, Q80, Q102 (scales with T2*)
-
-  5. MI propagation works on 5-qubit chain.
-     - Wave propagation from sacrifice edge through chain visible
-     - Selective DD advantage 3.2x confirmed
-
-  WHAT DOES NOT WORK:
-
-  6. Concurrence is UNTESTABLE.
-     - All tomographic data is 1-qubit. Concurrence needs 2-qubit.
-     - This is the most important missing instrument (PC1, 57% variance)
-     - Cannot validate the "compass" without 2-qubit tomography
-
-  7. Bures curvature is TOO NOISY.
-     - K_Gauss at fold: -2.7 (hardware) vs -25 (simulation)
-     - The 10x discrepancy comes from: (a) 1-qubit vs 2-qubit geometry,
-       (b) sparse time points, (c) numerical derivative noise
-     - Curvature requires 50+ closely spaced points to be reliable
-
-  8. Petermann factor is THEORETICAL ONLY.
-     - Requires Liouvillian eigenvectors, not measurable from data
-     - The old K_P ~ 1 pure-dephasing null is refuted: pure Z-dephasing
-       Liouvillians can be strongly non-normal and have defective seeds
-     - A single-vector K_P is meaningful only for a simple isolated mode;
-       at degeneracy use invariant-subspace or Jordan diagnostics
-
-  9. Hardware-simulation gap, Q80 shadow.
-     - Hardware sits BELOW simulation at all 10 points, mean
-       |CPsi_hw - CPsi_sim| = 0.034. The offset is already 0.046 at
-       t/T2* = 0 (0.8175 against 0.8639), before any evolution, so part
-       of it is preparation and readout rather than decoherence. The
-       magnitude is not monotone afterwards (0.008 at 0.5, about 0.06
-       through 1.5-2.0, 0.003 at 4.5) and carries no shape this run can
-       resolve
-     - The hardware CPsi=1/4 crossing is 18.54 us. Both columns cross,
-       but the crossing loop runs only on the hardware one, so no
-       model-vs-hardware crossing comparison is computed here
-     - This qubit's crossing was measured again on March 18 at 15.29 us
-       (experiments/IBM_RUN3_PALINDROME.md), a separate run
-
-  WHY NOT A (FULLY WORKS):
-  - The most important instrument (Concurrence/PC1) cannot be tested
-  - The cockpit's main claim (7 instruments together > individual observables)
-    is unverifiable without 2-qubit data
-  - Curvature fails on sparse data
-
-  WHY NOT C (FAILS):
-  - CPsi crosses within sub-1% of prediction on a good qubit
-  - The instruments that ARE computable give consistent, correct values
-  - MI shows real physics on the 5-qubit chain
-  - Nothing contradicts the cockpit's predictions
-
-  THE COCKPIT WORKS ON THE 4 INSTRUMENTS IT CAN TEST.
-  The 3 it cannot test are blocked by DATA LIMITATIONS, not by
-  cockpit failure. The April run needs 2-qubit tomography to unlock
-  the full validation.
+  THE CURRENT DATASET LEAVES THE COCKPIT INCOMPLETELY TESTED.
 """)
 
 out("=" * 70)
