@@ -6,12 +6,50 @@
 **Live exact witness:** [`MissingPhaseSlowReadoutWitness`](../../compute/RCPsiSquared.Diagnostics/Foundation/MissingPhaseSlowReadoutWitness.cs)
 **Owning experiment:** [The Motion and the Missing Phase](../../experiments/THE_MOTION_AND_THE_MISSING_PHASE.md)
 
-For the experiment's coherent end preparation, the physical endpoint
-correlation Z₀Z₆ has a nonzero contribution from the complete slow A cluster.
-Its oscillation amplitude tends to 1 as ε → 0. Its envelope therefore decays
-on the spectral scale τ = 1/Δ_A ∼ 2/(γε²). This is a linear expectation-value
-statement about a specified preparation and observable. It does not assign a
-lifetime to the experiment's nonlinear distances d_out or d₂.
+## What this is about
+
+Seven quantum spins form a chain. Neighbouring spins can exchange an
+excitation, while noise at the middle spin disturbs phase relationships.
+With equal couplings, some patterns of internal motion have a node at that
+middle site: their amplitude is zero there, even while the excitation moves
+elsewhere. That motion avoids the noise. Changing one end coupling slightly
+exposes part of it to the noisy centre, and that part slowly fades. The
+smaller the change, the longer this fading takes.
+
+The equations already tell us that such a slow motion exists. Here we ask
+how to see it. We use a starting state built from an excitation shared
+between the two ends with opposite signs, coherently combined with its
+all-spins-flipped copy. Then we read the two end spins together, comparing
+how often their up-or-down outcomes agree or disagree. Their correlation
+contains a slowly fading oscillation whose amplitude stays finite as the
+coupling change becomes small. Making this contribution longer lived does
+not make its starting amplitude disappear.
+
+Other measurements can miss the same contribution. This gives us three
+things to keep track of: which motion the dynamics allows, whether our
+starting state excites it, and whether the chosen measurement can read it.
+That connection is what we want to learn from this small system. Sections
+1–3 work through it; the later sections explore the missing signals and give
+an exact calculation we can run ourselves.
+
+## Abstract
+
+We connect a slow decay rate to a physical readout in an open seven-spin XY
+chain with Z-dephasing of strength γ > 0 only at its centre. The left end
+coupling is J₀ = 1+ε and the others are 1. For the coherent end preparation
+defined in §1, we project the initial state onto the two conjugate slow
+eigenspaces of the internal motion block A, each of dimension two. The
+endpoint correlation Z₀Z₆ has a complex residue tending to −1/2, so the corresponding real
+oscillation has an amplitude tending to 1 as ε → 0. Its envelope decays on
+the already derived scale τ = 1/Δ_A ∼ 2/(γε²).
+
+The same projection explains different outcomes for other readouts. The
+leakage residue starts at order ε², and three spin pairs miss this slow
+contribution exactly. At equal couplings, every two-spin readout loses the
+sine component of this slow contribution while the ideal decoder retains it.
+The derivation and an exact live witness connect these outputs to the prepared state. The result
+is local in ε at fixed γ; how it governs the nonlinear distances d_out and
+d₂ from a continuing noise-free reference remains a further question.
 
 The named-store search of `docs/ANALYTICAL_FORMULAS.md` returned F70's
 partial-trace selection rule, F157's blind seat and F158's two-end count.
