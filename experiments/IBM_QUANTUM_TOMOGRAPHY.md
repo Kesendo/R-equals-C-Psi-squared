@@ -444,4 +444,4 @@ if the queue is slow.
 ---
 
 *Back to [experiments overview](README.md) | Related: [Universal Quantum Lifetime](UNIVERSAL_QUANTUM_LIFETIME.md)*
-*See also: [Fixed Point Shadow](FIXED_POINT_SHADOW.md), resolution of the excess coherence anomaly (qubit detuning, not quantum effect)*
+*See also: [Q52 Residual Record](FIXED_POINT_SHADOW.md), finite Q52 residual record; universal interpretation closed, Q52 mechanism open*

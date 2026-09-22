@@ -184,10 +184,12 @@ C(f)f/3=1/4. These are not different physical observers seeing measurement
 at different times; the Bell+ taxonomy has six finite crossings and two never
 bridges across its two books.
 
-### 6.4 IBM Hardware Anomalies
-The residual coherence direction, rising trend, and boundary correlation
-in IBM Torino data are real (p < 0.0001). March 2026 test will
-discriminate SPAM vs TLS vs boundary structure.
+### 6.4 IBM hardware residual record
+The finite Q52 record has a directional late-time component and an excess
+over one narrow null model. The completed Q80/Q102 comparison rejects a
+universal-boundary reading but does not identify the Q52 mechanism; detuning
+remains a phase hypothesis, not a Q52 magnitude-excess diagnosis. See
+[Q52 Residual Record](FIXED_POINT_SHADOW.md).
 
 ### 6.5 Coherence Density Insights
 CΨ measures something distinct from entanglement. A product state can have a larger basis-fixed CΨ value than GHZ.

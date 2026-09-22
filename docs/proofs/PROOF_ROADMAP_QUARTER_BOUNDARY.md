@@ -112,14 +112,15 @@ valid for a monic quadratic $z^2 - 2bz + c = 0$ with finite $b>0$ in the discrim
 - **First crossing** (ibm_torino q52, February 9, 2026): single-qubit state
   tomography saw the product C·Ψ cross the ¼ boundary during decoherence, the
   first time on hardware. See [the tomography record](../../experiments/IBM_QUANTUM_TOMOGRAPHY.md).
-  The accompanying verification suite lives in
-  [the fixed-point shadow](../../experiments/FIXED_POINT_SHADOW.md): late-time
-  excess coherence exceeding a Monte Carlo null (10,000 runs), directional
-  consistency in residual coherence (Re > 0, Im < 0 at all late-time
-  points), a rising coherence trend where pure exponential decay predicts
-  monotonic decrease, boundary correlation between |ρ₀₁| magnitude and
-  distance from the CΨ = 1/4 surface, and shadow direction matching the
-  last complex fixed point FP⁻.
+  The separate [Q52 residual record](../../experiments/FIXED_POINT_SHADOW.md)
+  retains 17 directional late-time rows and zero exceedances in 10,000 draws
+  of a recorded null described as exponential decay, binomial shot sampling,
+  and one random phase per synthetic run. It does not compare Q52-fitted
+  time-dependent detuning/drift or the other hardware alternatives. Its
+  positive tail slope is cut-sensitive, its boundary-distance correlation reuses |ρ₀₁| through
+  CΨ, and the algebraic fixed-point phase is not a dynamics witness. The
+  Q80/Q102 comparison rejects the former universal-boundary reading but
+  leaves the Q52 magnitude-excess mechanism open.
 - **[Tightest single-point crossing](../../experiments/IBM_RUN3_PALINDROME.md)**
   (ibm_torino q80, March 18, 2026): 1.9% deviation, the measured crossing at
   t\* = 15.29 μs vs the predicted 15.01 μs, i.e. matched to within 0.28 μs.

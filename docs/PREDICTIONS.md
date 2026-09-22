@@ -23,7 +23,7 @@ framework has produced, organized by scope and evidence: the
 earliest Torino q52 hardware record (§1, with five scoped entries); the
 [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs)
 is authoritative for registered hardware entries; computationally verified (§2),
-the Q52 shadow record (§3; interpretation closed, late-time excess mechanism open),
+the Q52 residual record (§3; interpretation closed, late-time excess mechanism open),
 testable with current hardware (§4),
 testable in principle (§5), speculative (§6), unverified agent claims
 (§7), null results (§8), falsified (§8b), and closed/reopened
@@ -123,31 +123,37 @@ five-bridge theorem: the retained record has two full Pauli sweeps and one
 
 ---
 
-## 3. The Shadow Record (interpretation closed; Q52 mechanism open)
+## 3. The Q52 Residual Record (interpretation closed; Q52 mechanism open)
 
-**Tier: 2. Five signatures are measured in finite Q52/Q80/Q102 records.
+**Tier: 2. Three finite Q52/Q80/Q102 records are retained.
 Only the universal-boundary/non-Markovian-witness interpretation is closed.
 Detuning is the preferred explanation for the phase component.
 The Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control.**
 
-Detected in IBM Torino tomography data (2026-02-09); statistically
-significant on every signature measured:
+The Q52 record contains several descriptive statistics, each with a narrower
+scope than the former shadow interpretation:
 
-| Observation | Value | Source |
-|-------------|-------|--------|
-| Late-time excess coherence | p < 0.0001 (10,000-run Monte Carlo null) | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
-| Directional consistency Re⁺/Im⁻ | 17/17 measurements (P = 6 × 10⁻¹¹) | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
-| Rising coherence trend in finite sampled post-quarter interval (not a classification of quantum versus classical behavior) | +0.008/T₂ slope | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
-| Boundary correlation | r = −0.9955 (\|ρ₀₁\| vs distance from ¼) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
-| Shadow direction on Q52 | FP⁻ phase = −12°, residual phase = −48° (same quadrant) | [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md) |
+| Observation | Current reading | Source |
+|-------------|-----------------|--------|
+| Late-time excess | Zero exceedances in 10,000 draws of the recorded null described below | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
+| Directional consistency | 17/17 rows at `t/T2_echo >= 1` in Re+/Im-; the nominal sign probability assumes iid uniform phases and a pre-specified quadrant | [Residual Analysis](../experiments/RESIDUAL_ANALYSIS.md) |
+| Finite tail fit | 13-row `>= 1.5` slope `+0.00819/T2_echo`, two-sided p = 0.0531; non-monotone and cut-sensitive | [Q52 Residual Record](../experiments/FIXED_POINT_SHADOW.md) |
+| Boundary-distance correlation | `r = -0.9955`, with `\|rho_01\|` reused through `C*Psi`; descriptive, not independent evidence | [Q52 Residual Record](../experiments/FIXED_POINT_SHADOW.md) |
+| Algebraic-root phase comparison | The phase of `R-` and the phase of `rho_01` are phases of different objects; no dynamics map connects them here | [Q52 Residual Record](../experiments/FIXED_POINT_SHADOW.md) |
 
-**What the comparison establishes.** [Fixed Point Shadow](../experiments/FIXED_POINT_SHADOW.md)
-fits an explicit detuning model on Q80, where it beats standard Lindblad
-~4×. Its cross-qubit comparison is not a Q52 mechanism fit: Q52 sits in
-Quadrant 4 at −44°, Q80 shows 8/8 points in Quadrant 1 at +29° ± 10°,
-and Q102 shows no consistent direction (0/8). Those different directions
-reject a universal boundary reading and motivate the phase-detuning
-hypothesis; they do not identify what produces Q52's late-time excess.
+The recorded 10,000-draw null combines exponential decay, binomial shot sampling, and one random phase per synthetic run; it is not a Q52-fitted time-dependent detuning/drift or other hardware-alternative comparison.
+The 13-row >= 1.5 slope is +0.00819/T2_echo with two-sided p = 0.0531; the amplitudes are non-monotone and the result is cut-sensitive.
+Because |rho_01| enters C*Psi, r = -0.9955 is a same-record algebraic coupling, not independent boundary evidence.
+The algebraic R- phase comparison supplies no dynamical mapping to rho_01.
+
+**What the comparison establishes.** [Q52 Residual Record](../experiments/FIXED_POINT_SHADOW.md)
+reports exploratory Q80-only fits. The fixed-T2 phase-line/intercept-only errors are 0.0356/0.0508 (1.4x);
+the free-complex/envelope-only errors are 0.0138/0.0487 (3.5x). Both Q80 fit
+comparisons are in-sample on the same record; neither is a held-out prediction
+or a Q52 mechanism fit. Q80 has 8/8 late points in Quadrant 1, while Q102
+samples all four quadrants with no common direction. That comparison rejects a
+universal boundary reading and motivates the phase-detuning hypothesis; it does
+not identify what produces Q52's late-time magnitude excess.
 
 ---
 
@@ -300,7 +306,7 @@ which keeps its historical filename). The J-coupling results below stand.
 | **Registered hardware entries** | **24** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-07); §1 has five mixed-scope entries around one 2026-02-09 Torino q52 record, not five records; the quarter-crossing and absorption registrations share that dataset | §1 distinguishes qualitative/direct observations (¼ crossing and T₂*/T₂), the generalized crossing equation (same-record fitted comparison; no independent hardware test), algebraic context that is not a hardware test (x³+x=½), and absorption same-record N=1 fit consistency; N ≥ 2 ladder spacing remains unmeasured. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, F120 moment tower, F84 heating leg, concentrator site contrast, F129 standing fringe |
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
 | **Computational records** | 52 (39 rows in §2 + 13 finite J>0 rows in §9, with local scope and unresolved labels) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
-| **Q52 shadow record** | 1 finite record (five measured signatures) | Interpretation closed only at the universal-boundary/non-Markovian-witness level; detuning is preferred for the phase component; the Q52 late-time excess mechanism remains open pending a Q52-specific fit/control (§3) |
+| **Q52 residual record** | 1 finite record | Interpretation closed only at the universal-boundary/non-Markovian-witness level; detuning is preferred for the phase component; the Q52 late-time excess mechanism remains open pending a Q52-specific fit/control (§3) |
 | **Testable now** | 14 rows in §4 | Critical slowing, fingerprints, field threshold, specified memory-model discrimination, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |
 | **Testable in principle** | 2 | θ compass, fractal decay |
 | **Speculative** | 2 | Experienced time as crossing rate, anesthesia as C → 0 |

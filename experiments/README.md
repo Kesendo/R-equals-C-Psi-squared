@@ -237,7 +237,7 @@ interference require additional gates.
 | [IBM Concentrator](IBM_CONCENTRATOR.md) | Selective DD beats uniform DD by 2-3.2× at all 5 time points on ibm_torino. First hardware test of spatial noise engineering (Tier 2, single run, caveats apply) |
 | [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) | Single-qubit state tomography runs on IBM hardware |
 | [Chain Selection Test](CHAIN_SELECTION_TEST.md) | Two 5-site profiles carrying real IBM gammas (no DD), from an early mapping search whose finder used a synthetic graph: neither is a path on Torino. Protection 2.86x vs 1.06x confirmed spectrally for those profiles. The concentrator score is a within-chain metric; between chains, total noise dominates |
-| [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, IBM skeleton analysis |
+| [Q52 Residual Record](FIXED_POINT_SHADOW.md) | Finite Q52 residual record; universal interpretation rejected, mechanism open |
 | [IBM Absorption Theorem](IBM_ABSORPTION_THEOREM.md) | Absorption Theorem ratio 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs period. 2.8% slow tail at resolution limit |
 | [IBM Concentrator Reloaded](IBM_CONCENTRATOR_RELOADED.md) | Site-resolved Absorption-Theorem pricing flown on ibm_kingston 2026-07-11 after a committed pre-registration: A-sign CONFIRMED at ≈ 5.8σ, A-magnitude off-prediction and marginal, L null-consistent |
 | [IBM F129 Ramsey Fringe](IBM_F129_RAMSEY_FRINGE.md) | The F129 level collision (1,5,7) ~ (2,4,8) at n = 9 as a standing Ramsey fringe. Pre-registered before the shot, flown and confirmed on ibm_kingston 2026-07-15 |

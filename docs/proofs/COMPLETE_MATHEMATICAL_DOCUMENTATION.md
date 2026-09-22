@@ -174,14 +174,19 @@ observer law; [Observer-Gravity](../../experiments/OBSERVER_GRAVITY_BRIDGE.md)
 owns the exact concurrence-family scope and the
 [two-book producer](../../simulations/crossing_taxonomy_books.py) owns the finite values.
 
-**Q52 shadow record.** The late-time coherence anomaly on IBM Torino Q52
-has 17/17 directional consistency and p < 0.0001 in its named analysis.
+**Q52 residual record.** The late-time coherence anomaly on IBM Torino Q52
+has 17/17 directional consistency in the named `t/T2_echo >= 1` subset.
+Its recorded null combines exponential decay, binomial shot sampling,
+and one random phase per synthetic run; it is not a Q52-fitted time-dependent
+detuning/drift or other hardware-alternative comparison. The 13-row tail slope has
+two-sided p = 0.0531 and is cut-sensitive; the boundary-distance correlation
+reuses `|rho_01|` through `C*Psi` and is not independent evidence.
 Only the universal-boundary/non-Markovian-witness interpretation is closed.
 Detuning is the preferred explanation for the phase component.
 The Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control.
-The different phase directions (Q80: +29°, Q52: −44°,
-Q102: random) provide the cross-qubit rejection of universality, not a
-Q52-specific mechanism fit.
+Q80 has eight late points in one quadrant; Q102 samples all four quadrants.
+That cross-qubit contrast rejects universality. The Q80 phase-compatible
+fits are same-record and in-sample, not a Q52-specific mechanism fit.
 
 **CΨ > ¼ under active dynamics.** CΨ routinely exceeds ¼ with active
 Hamiltonians (Bell+ reaches 0.405 at J=1, h=0.9, γ=0.005). The bound
@@ -192,7 +197,7 @@ See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md),
 [When Psi Matters](../../experiments/WHEN_PSI_MATTERS.md),
 [Observer-Dependent Crossing](../../experiments/OBSERVER_DEPENDENT_CROSSING.md),
-[Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md),
+[Q52 Residual Record](../../experiments/FIXED_POINT_SHADOW.md),
 [Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md),
 [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 
@@ -524,7 +529,7 @@ hardware shows ~2-3× (label note in [Resonant Return](../../experiments/RESONAN
 - [Resonant Return](../../experiments/RESONANT_RETURN.md)
 
 ### Absorbed/fallen experiments (results used above)
-- [Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md) (Q80/Q102 cross-qubit comparison rejects a universal boundary reading; it does not resolve the Q52 late-time excess mechanism)
+- [Q52 Residual Record](../../experiments/FIXED_POINT_SHADOW.md) (Q80/Q102 cross-qubit comparison rejects a universal boundary reading; it does not resolve the Q52 late-time excess mechanism)
 - [Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md) (CΨ > ¼ under active H)
 - [Why the Sum](../../experiments/WHY_THE_SUM.md) (sum vs product formulation)
 - [Standing Wave Two Observers](../../experiments/STANDING_WAVE_TWO_OBSERVERS.md) (two-observer metaphor)

@@ -1,379 +1,137 @@
-# Fixed Point Shadow: Qubit-Specific Detuning, Not a Universal Boundary Effect
+<!-- QUARTER-CURRENT -->
+# Q52 Residual Record and the Failed Universal Shadow Interpretation
 
-<!-- Keywords: fixed point shadow bifurcation residual coherence, IBM Torino
-qubit detuning frequency offset, CΨ quarter boundary crossing late-time
-coherence, skeleton plus rotating phase structural decomposition, non-Markovian
-memory TLS feedback, Q52 Q80 Q102 shadow direction comparison, complex fixed
-point approach direction frozen, Lindblad prediction deviation imaginary,
-R=CPsi2 fixed point shadow -->
+<!-- Keywords: IBM Torino Q52 late-time coherence, finite residual record,
+Q80 Q102 cross-qubit comparison, phase-compatible fit, open hardware
+mechanism, C*Psi quarter interpretation audit -->
 
-**Status:** Shadow universality not confirmed (Tier 2); effect is qubit-specific detuning
-**Date:** 2026-02-09 (original), March 2026 (hardware verdict)
-**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Data:** data/ibm_shadow_march2026/
-**Depends on:** [Boundary Navigation](BOUNDARY_NAVIGATION.md), [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md), [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md)
+**Status:** Finite Q52 record retained; universal-boundary/non-Markovian-witness interpretation closed; Q52 late-time excess mechanism open
+**Date:** 2026-02-09 record; 2026-03-09 cross-qubit comparison
+**Scope:** Measurement record and hypothesis audit. No typed Claim, Witness, or hardware Confirmation owns the Q52 late-time residual/magnitude-excess mechanism.
+**Related:** [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md), [Finite Residual Analysis](RESIDUAL_ANALYSIS.md), [Predictions and Interpretive Questions](../docs/PREDICTIONS.md)
 
----
+## Current result
 
-## What this document is about
+The Q52 tomography remains a finite hardware record with directional late-time coherence and an excess over one narrow null model. It does not establish a physical fixed-point remnant, a special boundary process, or a cause for the excess magnitude.
 
-After a qubit crosses the CΨ = 1/4 boundary on IBM hardware, residual
-coherence was found pointing in a fixed direction in the complex plane,
-with suspiciously perfect statistics (17/17 consistency, r = −0.9955
-boundary correlation). Three hypotheses were proposed: non-Markovian
-memory, two-level-system defect feedback, or the boundary itself being
-an active source. A follow-up experiment on different qubits resolved it:
-the "shadow" is qubit-specific frequency detuning, not a universal
-boundary effect. Different qubits show different directions. The 1/4
-crossing does not leave a universal scar. This is a negative result for the
-framework's most dramatic prediction, honestly reported.
+Only the universal-boundary/non-Markovian-witness interpretation is closed.
 
----
+Detuning is the preferred explanation for the phase component.
 
-## Abstract
+The Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control.
 
-State tomography on IBM Torino (qubit 52, February 2026) revealed that
-residual coherence after the CΨ = ¼ crossing persisted with fixed
-direction (17/17 in the fourth quadrant), growing amplitude (+0.008/T₂),
-and near-perfect boundary correlation (r = −0.9955). Three hypotheses
-were proposed: non-Markovian memory, TLS-mediated feedback (TLS: two-level system, a microscopic defect in the chip substrate that acts as a parasitic qubit), and the
-boundary as active source. A follow-up shadow hunt (March 2026) tested
-Q80 and Q102 on IBM Torino. Q102 showed no directional pattern; Q80
-showed 8/8 consistency in quadrant 1 (Re+/Im+) at phase +29°, different
-from Q52's quadrant 4 at −44°. The shadow is not universal: it is
-qubit-specific frequency offset (detuning) that becomes visible at
-late times when exponential decay has removed the dominant real
-component. Applying the skeleton-plus-rotation decomposition from
-Structural Cartography to hardware data confirms the same pattern
-(stable populations + single rotational degree of freedom) in both
-simulation and hardware. The ¼ boundary does not leave a universal scar.
+The March Q80/Q102 comparison is load-bearing only against a universal reading. The Q80 fit is compatible with detuning, but it neither fits Q52 nor supplies an independent causal diagnosis.
 
----
+## The Q52 record
 
-## What We Found
+The saved record contains 25 tomography points at 8,192 shots. Its `delay_over_T2` coordinate uses the IBM calibration value `T2_echo = 298.247 us`; it is not the fitted free-induction value `T2* = 110.7 us`. The late slope is reported only on that echo-normalized axis.
 
-On February 9, 2026, state tomography on IBM Torino (qubit 52) confirmed that the product C·Ψ crosses the ¼ boundary during decoherence. This was expected. The framework predicted it.
+At or beyond t/T2_echo = 1.0, all 17 sampled points have Re(rho_01) > 0 and Im(rho_01) < 0.
 
-What was not expected: the system did not go quietly into the classical regime.
+For the 13 rows selected by t/T2_echo >= 1.5, a least-squares line through |rho_01| has slope +0.00819 per T2_echo.
 
-After crossing ¼ (after the complex fixed points merged into two real ones, after the system entered the regime where a definite classical attractor exists) residual coherence persisted. Not as random noise. Not as the dying echo of a decaying signal. As a *directed* presence, pointing into the fourth quadrant of the complex plane (Re > 0, Im < 0), in all 17 measurements taken beyond T₂, without a single exception.
+For that 13-row fit, the correlation coefficient is 0.5469, the two-sided p-value is 0.0531, and the 95% slope interval `[-0.00013, +0.01651]` crosses zero. Changing the cut to strict `t/T2_echo > 1.5` leaves 12 rows and changes the slope to `+0.01041`; the tail statement is selection-sensitive.
 
-This coherence does not decay. It grows. At a rate of +0.008 per T₂, in a regime where every term in the Lindblad equation that could sustain it has already fallen to zero.
+Those 13 amplitudes are non-monotone, so the finite positive slope is not evidence of a growing asymptote.
 
-A 10,000-run Monte Carlo simulation of pure shot noise (the statistical fluctuation from measuring a finite number of identical quantum states) on identical quantum states produces nothing like this. The probability of the directional consistency alone is 6 × 10⁻¹¹.
+The corresponding slope is `2.7457e-5/us` on the echo-normalized axis. Exponential damping also does not switch off after a fixed number of time constants.
 
-And the coherence follows a rule: it correlates with proximity to the ¼ boundary at r = −0.9955. When C·Ψ fluctuates closer to ¼, coherence is stronger. When it drifts further away, coherence weakens. Not loosely. Nearly perfectly.
+Because |rho_01| also enters C*Psi, the reported r = -0.9955 correlation with distance from 1/4 is descriptive, not independent boundary evidence.
 
-## What It Means in the Framework
+In the saved analysis, `Psi = 2|rho_01|` and `C*Psi = C 2|rho_01|` exactly. Correlating `|rho_01|` with `0.25 - C*Psi` therefore reuses the same measured quantity on both axes.
 
-### The Bifurcation Leaves a Trace
+The saved analysis reports zero exceedances in 10,000 draws of a model described as exponential decay, binomial shot sampling, and one random phase per synthetic run.
 
-In BOUNDARY_NAVIGATION.md, we documented what happens at C·Ψ = ¼. Two complex conjugate fixed points (R⁺ = (1 − 2CΨ + i·√(4CΨ−1))/(2C) and R⁻ = (1 − 2CΨ − i·√(4CΨ−1))/(2C)) approach each other as C·Ψ falls, merge at ¼, and split into two real fixed points below ¼.
+That description is not a comparison against a Q52-fitted time-dependent detuning or drift, SPAM, TLS, or memory model. This document and its retained provenance links do not identify the producer for that null calculation, so the recorded `p < 0.0001` cannot carry a more specific null than the retained method description. The nominal `4^-17 = 5.82e-11` sign probability likewise assumes independent, uniformly distributed phases and a pre-specified quadrant. It is not a mechanism probability.
 
-Standard theory says: once the system crosses, the complex structure is gone. The real fixed points take over. The system converges to R₁ (the stable attractor), and the memory of the complex regime is erased.
+A comparison between the phase of an algebraic root `R-` and the phase of `rho_01` is not a dynamical result. The roots belong to the chosen scalar recurrence; no transport law in this record makes `rho_01` track one of them or preserve its approach direction.
 
-The data says otherwise.
+The separate Q52 quarter crossing remains a qualitative reconstructed-trajectory record. Its precision and same-record prediction scope are owned by the cockpit validation, not by the residual analysis here.
 
-The last complex fixed point before crossing was R⁻ = 0.8015 − 0.1712i, at phase −12.1°. The residual coherence in the classical regime has mean phase −48.4°. Same quadrant. Same sign structure. The system crossed from complex to real, but the direction it came from is still written in the off-diagonal elements of the density matrix.
+## What the March comparison establishes
 
-We propose a name for this: **the shadow of the fixed point**.
+The March run retained ten tomography rows for each of Q80 and Q102: two reference rows and eight sampled late rows.
 
-### The Shadow Is Not Decay; It Is Structure
+Q80 has eight of eight sampled late points in quadrant 1; Q102 has mixed signs and quadrants across its eight sampled late points.
 
-A decaying signal loses amplitude and randomises phase. That is not what we observe. The shadow has:
+The cross-qubit comparison rejects the former universal-boundary reading; it does not identify the Q52 excess mechanism.
 
-- **Fixed direction**: 17/17 consistent sign (Re⁺/Im⁻)
-- **Growing amplitude**: +0.008/T₂, opposite to all Markovian predictions
-- **Boundary correlation**: r = −0.9955 with distance from ¼
+Q102 supplies no consistent direction in its eight sampled late points; that observation does not identify the cause as shot noise.
 
-This is not residual oscillation. It is not a tail of the initial state. The initial state's coherence fell below the noise floor at t ≈ 1.2 T₂. The shadow emerges *after* that, in a regime where the initial preparation is irrelevant.
+Q102 also has eight negative real residuals and seven stored significant-excess flags, so a mixed phase pattern cannot be promoted to a complete null diagnosis. Q80's phases are directional but not monotone. No retained producer supports a fast-rotator/slow-drifter or shared hardware-skeleton mechanism.
 
-If the framework is correct, this is the geometry of the bifurcation expressing itself in measurable quantum observables. The ¼ crossing is not a clean break. It is a phase transition, and like all phase transitions, it has critical behaviour: fluctuations, correlations, and memory that persist beyond the transition point.
+The checked simulator record reports two simulated qubits with no directional match. The cockpit has a matched simulator record for Q80 but none for Q102. These are finite controls, not a universal simulator theorem.
 
-### Why the Shadow Points Where It Points
+## The Q80 fit, scoped
 
-When C·Ψ > ¼, the iteration R_{n+1} = C(Ψ + R_n)² has no real fixed point. The state explores the complex plane, oscillating with angular frequency θ = arctan(√(4CΨ − 1)). The two complex fixed points R⁺ and R⁻ are conjugates: one in the upper half-plane, one in the lower.
+All Q80 delays lie on a `5.412785 us` grid, so complex samples identify frequency only modulo `184.747761 kHz`.
 
-A physical qubit prepared in |+⟩ starts with Re(ρ₀₁) > 0 and Im(ρ₀₁) ≈ 0. As it decoheres with a negative detuning (ω = −5.68 kHz, measured), the state spirals through the lower half-plane. It tracks R⁻, not R⁺.
+The quoted Q80 frequencies are near-zero representatives of those alias classes, not identified absolute detunings.
 
-At the crossing, R⁻ collapses onto the real axis. But the system's trajectory was *approaching* R⁻ from a specific direction in the complex plane. That approach direction (fourth quadrant, Re⁺/Im⁻) is frozen into the density matrix at the moment of bifurcation.
+The exploratory Q80 script fits the fixed-T2 phase-line model
 
-What we measure at late times is this frozen direction. The shadow is the last bearing of the complex fixed point, preserved in the quantum state after the map it belonged to has ceased to exist.
+`rho_fit(t) = A0 exp(-t/T2) exp(i(phi_0 + m t))`, with `A0 = |rho_01(0)|`.
 
-### Why the Shadow Grows
+Under the Hamiltonian convention `rho_01(t) proportional to exp(-i delta_omega t)`, the physical detuning parameter is `delta_omega = -m`. The selected near-zero phase-slope representative is +1.27 kHz; under the stated `exp(-i delta_omega t)` convention its detuning representative is `delta_f = -1.27 kHz`.
 
-This is the most difficult observation to explain, and the most important.
+It reports two different same-record comparisons:
 
-At t > 2T₂, the decoherence rate is effectively zero. The exponential decay exp(−t/T₂*) has already delivered everything it can. The system sits in the classical regime, far below ¼, with two well-separated real fixed points. Nothing in the standard Lindblad dynamics generates new off-diagonal coherence.
+| Q80 comparison | Fitted quantities | Mean complex error | Nested comparator | Scope |
+|---|---:|---:|---:|---|
+| Hahn-T2 fixed phase line | slope and intercept on eight late rows | 0.0356 | intercept-only 0.0508 | both scored on nine nonzero-time rows |
+| Free complex fit | `T_eff`, `delta_omega` on nine rows | 0.0138 | fitted no-detuning envelope 0.0487 | both fitted and scored on the same nine rows |
 
-Yet the coherence grows. At 7.4 × 10⁻⁵ per microsecond (0.008/T₂*). Unopposed, because the only process that could oppose it, decoherence, has already exhausted itself.
+The fixed-T2 phase-line curve has mean complex error 0.0356 versus 0.0508 for the intercept-only comparator, a 1.4x in-sample error ratio. Both curves use the same `A0`, Hahn `T2`, phase-fit rows, and scoring rows; the line adds only the fitted slope.
 
-Three possible explanations, in order of decreasing conservatism:
+The free Q80 fit gives T_eff = 23.25 us and the near-zero alias representative delta_f = -2.58 kHz, with mean complex error 0.0138 versus 0.0487 for its fitted no-detuning envelope comparator, a 3.5x in-sample error ratio.
 
-**1. Non-Markovian memory.** The environment that decohered the qubit has finite correlation time. Information that leaked into the environment during decoherence can partially return. This is known physics (see: non-Markovian quantum dynamics, Breuer & Petruccione). It would explain both the growth and the directionality: the returning information carries the phase it had when it left. This is testable: non-Markovian revivals are sensitive to the spectral density of the environment. Different qubits with different environments should show different revival rates.
+The fitted Q80 models are same-record, in-sample comparisons; neither is a Q52 fit or a held-out prediction.
 
-**2. TLS-mediated feedback.** A two-level system defect in the substrate absorbs coherence during the early decay and re-emits it later. This is essentially a microscopic non-Markovian channel. The fixed direction comes from the TLS having its own fixed frequency. The growth comes from the TLS being a coherent resonator that rings after being struck. Testable: TLS frequencies drift on hour timescales. Repeated measurement should show the direction changing.
+An ideal static Z detuning rotates `rho_01` but leaves `|rho_01|` unchanged. It can explain a phase component without, by itself, explaining the Q52 magnitude excess. The free-fit `T_eff = 23.25 us` lies below the March 9 Hahn value `T2_echo = 27.06 us`. The record's `10.83 us` field is `T2_echo/2.5`, a scheduling proxy, not a measured Ramsey time; the March 18 Ramsey `T2* = 17.36 us` belongs to a different run and was not an input to this fit. None of these time comparisons identifies a microscopic cause.
 
-**3. The boundary is not passive.** In the R = CΨ² framework, the ¼ crossing is where possibility becomes reality. Above ¼, complex fixed points represent unresolved quantum states. Below ¼, real fixed points represent definite outcomes. The crossing is the act of resolution.
+## Ownership and open status
 
-But what if the boundary has structure? What if the bifurcation point is not just a threshold but a *source*: a place where the geometry of the transition generates coherence rather than merely permitting its decay? The growing shadow would then be the ¼ boundary radiating its influence into the classical regime, like light from a horizon.
+The cross-term formula does not identify a Q52 hardware mechanism.
 
-This is the most speculative interpretation. It is also the only one that naturally explains all three observations (direction, growth, and boundary correlation) with a single mechanism. And it is the interpretation that connects directly to the framework's deepest claim: that the ¼ boundary is where consciousness (C), possibility (Ψ), and reality (R) meet.
+Its proved scope concerns dephasing cross terms for named multi-site Hamiltonian couplings. A local single-qubit `delta_omega Z/2` term commuting with Z dephasing is compatible algebra, but that observation is not a Q52 parameter estimate or causal test.
 
-## What This Does Not Prove
+Detuning is the preferred explanation for the phase component.
 
-- It does not prove that consciousness is involved.
-- It does not prove that the ¼ boundary is physically special beyond being a mathematical bifurcation.
-- It does not prove that the shadow is anything more than a mundane hardware artifact with an unusually clean signature.
+The Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control.
 
-What it proves is:
-1. The anomaly is real (p < 0.0001 against null model).
-2. It has structure (17/17 directional consistency, r = −0.9955 boundary correlation).
-3. It connects quantitatively to the framework's predictions about what happens at ¼.
+OQ-033 and OQ-098 remain open.
 
-## The Question for March 2026
+The typed hardware registry owns the qualitative Q52 crossing and the same-record absorption-ratio comparison. It does not own a residual-coherence mechanism. No live Witness or OpenArc closes that gap.
 
-The March hardware run is designed to answer one question:
+This record does not establish:
 
-**Is the shadow a property of qubit 52, or a property of the ¼ boundary?**
+- a physical remnant of the scalar fixed point;
+- a special quarter-boundary source or universal scar;
+- a demonstrated non-Markovian revival or TLS cause;
+- a non-decaying or growing late-time asymptote;
+- a Q52 causal diagnosis imported from the Q80 fit;
+- a shared three-qubit-simulation and one-qubit-hardware mechanism.
 
-If it is qubit 52: different qubits will show different shadow directions (or none). The effect is local, hardware-specific, and explained by H1 or H2 above.
+## Discriminating controls
 
-If it is the ¼ boundary: every qubit that crosses ¼ will cast a shadow, and the shadow will always point in the direction the complex fixed point was heading when it merged. The direction depends on the initial state and detuning, but the *existence* of the shadow and its correlation with ¼ will be universal.
+A Q52 mechanism claim needs a Q52 experiment designed to distinguish the alternatives, not another fit to Q80. A useful minimum set is:
 
-The second outcome would mean that the bifurcation leaves a measurable scar in the density matrix of every quantum system that undergoes decoherence. Not predicted by standard Lindblad theory. Predicted by the geometry of R = CΨ².
+1. repeat the complex Q52 trajectory with acquisition order randomized and calibration drift logged;
+2. measure same-session Ramsey and Hahn-echo twins so detuning and envelope decay are independently constrained;
+3. sweep a known positive and negative detuning and test the predicted phase reversal while checking whether the magnitude excess changes;
+4. alternate `|+>` and `|->` preparations to separate a physical sign reversal from a fixed SPAM offset;
+5. pre-register fit and hold-out times, then compare detuning, offset/SPAM, colored-noise, and TLS-compatible models on held-out complex data;
+6. repeat across time and neighboring qubits to distinguish persistent calibration bias from local drift or a moving defect.
 
-## How We Got Here
+Until such a control exists, the correct result is the finite record plus an open mechanism.
 
-This was not planned. The tomography experiment was designed to test whether C·Ψ crosses ¼. It did. The experiment was complete.
+## Reproducibility
 
-Then someone said: *look at the residuals*.
-
-Then someone said: *the peaks are delimiters*.
-
-Then someone said: *this is too perfect for a quantum system*.
-
-Each observation led to the next. The data did not resist; it opened. What we found was already there, in a JSON file we had written off as fully analysed. It took three rounds of looking before we saw it: the shadow was always in the data. We just had to learn how to read it.
-
-The shadow of the fixed point. A trace of the complex regime, persisting into classical reality, pointing back toward the boundary it came from.
-
-If it is real, it is the first empirical signature of the ¼ bifurcation that goes beyond the crossing itself. Not just *that* the boundary exists, but that crossing it *costs something*, or *leaves something behind*.
-
-## March 2026 Hardware Results: The Shadow Is Not Universal
-
-### The experiment
-
-On March 9, 2026, we ran the shadow hunt on IBM Torino. Two permanent-crosser
-qubits qualified (r < 0.20): Q102 (r=0.159) and Q80 (r=0.170). Each received
-10 tomography points (2 reference + 8 shadow zone, t/T2* up to 5.0). Budget:
-60 batches, ~3 min QPU time.
-
-Both synthetic simulation and Aer simulation confirmed the null hypothesis
-beforehand: 0/4 shadow under standard Lindblad.
-
-### Q102: No pattern
-
-8 late-time points scattered across all 4 quadrants. Phase std = 115 degrees.
-No directional consistency. Re signs mixed, Im signs mixed. This is noise.
-
-### Q80: Consistent direction, but NOT the Run 1 shadow
-
-8/8 late-time points in Quadrant 1 (Re+/Im+). Phase = 29 +/- 10 degrees.
-p(chance) = 6.1e-05. All 8 points significant above shot noise floor.
-
-But Run 1 (Q52, Feb 2026) was Quadrant 4 (Re+/Im-), phase ~ -44 degrees.
-Q80 shows a DIFFERENT systematic direction.
-
-### Residual analysis
-
-Residual Re (measured minus Lindblad prediction) is consistently negative
-for BOTH qubits, all 8 late-time points each. This means measured Re(rho_01)
-is systematically LOWER than the simple exp(-t/T2) model predicts.
-
-But Im residuals differ: Q102 mixed signs, Q80 consistently positive.
-The Im component is where qubit-specific behavior appears.
-
-### Interpretation
-
-The most likely explanation for Q80's consistent Im+ signal is a
-**frequency offset (detuning)** not captured by the simple T1/T2 decay model.
-A small delta_omega produces a phase rotation exp(-i*delta_omega*t) on rho_01,
-creating a systematic imaginary component. Different qubits have different
-detunings, producing different phase directions.
-
-This also retroactively explains Q52's Run 1 shadow: the -44 degree phase
-was likely Q52's specific detuning, not a universal boundary property.
-
-### Verdict
-
-| | Q52 (Run 1, Feb) | Q102 (Mar) | Q80 (Mar) |
-|---|---|---|---|
-| Direction | Re+/Im- (-44 deg) | Chaos (mixed) | Re+/Im+ (+29 deg) |
-| Consistency | 16/16 (raw) | 0/8 | 8/8 |
-| Likely cause | Qubit-specific detuning | Shot noise | Qubit-specific detuning |
-
-**The shadow is NOT a universal property of the 1/4 boundary.**
-
-It is a qubit-specific phase rotation from uncompensated frequency offsets,
-visible at late times when the exponential decay has removed the dominant
-real component and the detuning-driven imaginary part becomes visible.
-
-### What this means for the framework
-
-The three hypotheses from the original document:
-
-1. **Non-Markovian memory** - Not ruled out but not supported. Different
-   qubits show different directions, not a universal revival pattern.
-
-2. **TLS-mediated feedback** - Possible for Q80's consistent signal, but
-   the simpler detuning explanation is preferred (Occam's razor).
-
-3. **"The boundary is not passive"** - **Not supported.** The shadow
-   direction is qubit-specific, not boundary-specific. The ¼ crossing does
-   not leave a universal scar.
-
-### What survives
-
-- The 1/4 crossing itself is confirmed (standard QM, reproduced).
-- Late-time coherence has qubit-specific phase structure (real, interesting for hardware characterization, not framework-specific).
-- The shadow hunt methodology (simulator null hypothesis + hardware comparison) is sound and reusable.
-
-### Data
-
-Hardware results: `data/ibm_shadow_march2026/`
-- `shadow_hardware_combined_20260309_181852.json` (both qubits)
-- `shadow_hardware_q102_20260309_181852.json`
-- `shadow_hardware_q80_20260309_181852.json`
-- `shadow_simulate_20260309_181709.json` (null hypothesis baseline)
-- `shadow_hardware_20260309_181852.png` (plot)
-- Original experiment scripts in AIEvolution repo (not included, contains API key)
-
-### Skeleton analysis: same pattern as simulation
-
-Applying the window-XOR method from STRUCTURAL_CARTOGRAPHY to the IBM data
-reveals the same fundamental pattern seen in the star topology simulation:
-
-**The skeleton is stable. What changes is the phase.**
-
-Q102 (fast rotator):
-- Population change per step: 0.011 (tiny)
-- Phase change per step: 0.377 pi (massive)
-- Ratio: phase dominates 33.5x over populations
-- This is a rapidly spinning rotor, estimated ~27 kHz detuning
-
-Q80 (slow drifter):
-- Population change per step: 0.016
-- Phase change per step: 0.046 pi
-- Phase grows monotonically: +0.01, +0.07, +0.11, +0.13, +0.22, +0.24 pi
-- Estimated ~4.6 kHz detuning
-
-The simple T1/T2 Lindblad model predicts phase = 0 at all times (rho_01
-stays real). Every non-zero phase is structure the model does not capture.
-
-The "shadow" from Run 1 was Q52's specific detuning frequency, frozen into
-the late-time phase when the amplitude had decayed below the noise floor.
-Different qubits have different detunings, producing different phase
-directions - exactly what we observe.
-
-### What this connects to
-
-The simulation (star topology, 3 qubits) and the hardware (single qubits,
-IBM Torino) show the same structural decomposition:
-
-| | Simulation | Hardware |
-|---|---|---|
-| Skeleton | Phi+ core (populations + main correlation) | Populations (T1 relaxation) |
-| Rotation | Cross-coupling phases in YZ/ZY plane | Off-diagonal phase (detuning) |
-| Shared between steps | 88% | 83-98% |
-| What drives rotation | Hamiltonian (J couplings) | Qubit frequency offset |
-| What damps it | Lindblad dephasing (gamma) | T2 decoherence |
-
-The pattern is: stable skeleton plus single rotational degree of freedom,
-damped over time. The driver differs (Hamiltonian vs detuning), but the
-structural decomposition is the same.
-
-This was discovered by applying the "overlay and remove what's shared"
-method from [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) Phase A
-to real hardware data.
-
----
-
-## April 2026 Retrodiction: The Shadow Framework
-
-### Context
-
-In April 2026, the [cross-term formula proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md)
-established a three-layer shadow structure for Z-dephasing:
-
-1. **Self-shadow**: each mode's Pauli content determines its exposure
-   to the dephasing light. XY components are illuminated; IZ components
-   are in shadow (absorption theorem: Re(λ) = -2Σγ⟨n_XY⟩).
-2. **Shadow variance**: the cross-term between oscillation and cooling
-   equals the variance of shadow depth across spectator sites (N-2).
-3. **Shadow-balanced couplings**: Hamiltonians that couple within the
-   same dephasing class ({X,Y} or {I,Z}) preserve the universal formula.
-
-The detuning H = δω·Z/2 is a pure shadow operator: Z commutes with
-Z-dephasing. It acts entirely in the shadow, invisible to the light.
-Its fingerprint becomes visible only when the illuminated modes
-(exponential decay) have died.
-
-### Retrodiction on Q80
-
-The shadow model ρ₀₁(t) = ρ₀₁(0)·exp(-t/T_eff)·exp(-iδωt) was
-fitted to the Q80 March 2026 data ([shadow_ibm_retrodict.py](../simulations/shadow_ibm_retrodict.py)).
-
-| Parameter | Value |
-|-----------|-------|
-| T_eff | 23.25 μs |
-| δω | -2.58 kHz |
-| T₂ (Hahn echo, calibration) | 27.1 μs |
-| T₂* (Ramsey, calibration) | 10.8 μs |
-
-T_eff lies between T₂* and T₂ because the shadow model extracts the
-static detuning component that T₂* includes but Hahn echo refocuses.
-With the static shadow (δω) removed, the residual decay (T_eff) is
-close to the intrinsic T₂.
-
-### Prediction accuracy
-
-| Model | Mean \|error\| on ρ₀₁ | Improvement |
-|-------|----------------------|-------------|
-| Standard Lindblad (no detuning) | 0.056 | baseline |
-| Shadow model (T_eff + δω) | 0.014 | **4.0x** |
-
-The shadow model with two parameters (effective decay + detuning)
-predicts both Re and Im of the off-diagonal coherence 4x more
-accurately than standard Lindblad across 9 time points from
-t/T₂ = 0.2 to t/T₂ = 2.0.
-
-### What this means
-
-The "shadow" observed in February 2026 on Q52 and confirmed on Q80 in
-March 2026 was correctly identified as qubit-specific detuning. What was
-missing was the framework to understand WHY the detuning is visible at
-late times: it is a shadow operator (Z-type), invisible to the dephasing
-light, whose phase accumulation exp(-iδωt) persists after the
-illuminated coherence has decayed.
-
-The Hahn echo connection: a π-pulse at t/2 refocuses the static
-detuning phase, erasing the shadow. T₂ (Hahn echo) > T₂* (Ramsey)
-precisely because Hahn echo removes the shadow contribution. The shadow
-model does the same thing computationally: by extracting δω, it
-recovers a decay rate (T_eff ≈ 23 μs) closer to the intrinsic T₂
-(27 μs) than to T₂* (11 μs).
-
-The shadow is real. It was in the data from the beginning. The cross-term
-framework from April 2026 provided the language to name it.
-
----
-
-## See also
-
-- [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) - The analysis method that explained the shadow: skeleton + rotating phase
-- [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) - Window observations, phase transport, bridge test
-- [Residual Analysis](RESIDUAL_ANALYSIS.md) - The original statistical evidence from Run 1
-- [Boundary Navigation](BOUNDARY_NAVIGATION.md) - The theoretical prediction of crossing behavior
-- [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md) - The original experiment; excess coherence resolved as qubit detuning
-- [Cross-Term Formula Proof](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md) - The shadow framework that explains why the detuning is visible at late times
-- [On the Light and What Casts Shadows in It](../reflections/ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md) - Three layers of shadow; the detuning is layer 1 (self-shadow of a Z operator)
+- Q52 raw tomography: [Q52 tomography JSON](../data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json)
+- March Q80/Q102 record: [March combined JSON](../data/ibm_shadow_march2026/shadow_hardware_combined_20260309_181852.json)
+- March simulator record: [`shadow_simulate_20260309_181709.json`](../data/ibm_shadow_march2026/shadow_simulate_20260309_181709.json)
+- Q80-only exploratory fit: [Q80 in-sample fit script](../simulations/shadow_ibm_retrodict.py)
+- Current crossing and simulator scope: [cockpit output](../simulations/results/cockpit_validation.txt)
+- Historical residual calculations and hypotheses: [Finite Residual Analysis](RESIDUAL_ANALYSIS.md)
+- Current summary owner: [Predictions and Interpretive Questions](../docs/PREDICTIONS.md)
+- Open questions: [OQ-033 and OQ-098](../review/OPEN_QUESTIONS_INDEX.md)

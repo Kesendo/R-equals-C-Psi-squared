@@ -6,6 +6,12 @@ belong to the named Q52 dataset and preprocessing choices.  They motivate noise
 and drift hypotheses but do not establish a scalar-boundary mechanism or an
 ontological change.
 
+**Status:** Historical exploratory analysis; finite record retained, Q52 mechanism open
+
+The completed Q80/Q102 comparison rejected a universal-boundary reading but did
+not resolve the Q52 mechanism. Its Q80 phase-compatible fits do not resolve
+the Q52 magnitude excess. The current result is [Q52 Residual Record](FIXED_POINT_SHADOW.md).
+
 <!-- QUARTER-HISTORICAL -->
 **Historical record:** the post-crossing interpretation below is retained with
 the finite measurements that prompted it.
@@ -19,46 +25,45 @@ SPAM error TLS coupling hypotheses, revival peak spacing T2/4, non-Markovian
 coherence revival, R=CPsi2 residual analysis -->
 
 > **Restoration note (March 14, 2026):** Originally written 2026-02-09, deleted March 12,
-> restored March 14. Analysis confirmed; cause resolved as qubit-specific detuning
-> (see [Fixed Point Shadow](FIXED_POINT_SHADOW.md)).
+> restored March 14. The finite analysis is retained; the later cross-qubit comparison
+> rejected a universal-boundary reading but did not resolve the Q52 mechanism
+> (see [Q52 Residual Record](FIXED_POINT_SHADOW.md)).
 
-**Status:** Verified analysis (Tier 2); anomaly resolved as qubit detuning
+**Status:** Historical exploratory analysis; finite record retained, Q52 mechanism open
 **Date:** 2026-02-09
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md), [Fixed Point Shadow](FIXED_POINT_SHADOW.md)
+**Depends on:** [IBM Quantum Tomography](IBM_QUANTUM_TOMOGRAPHY.md), [Q52 Residual Record](FIXED_POINT_SHADOW.md)
 
 ---
 
 ## What this document is about
 
 After measuring a qubit's decoherence on IBM hardware, the raw data was
-re-examined for structure in the noise. The result: coherence that should
-be zero (the qubit should be fully classical by that time) is not only
-nonzero but has a fixed direction and a rising trend. Three explanations
-were proposed: a calibration artifact, coupling to a material defect, or
-something genuinely unknown. The March 2026 follow-up resolved the
-anomaly: it is qubit-specific frequency detuning (hardware-dependent,
-not boundary physics). The document is kept as a case study in careful
-anomaly investigation.
+re-examined for structure in the residuals. The finite record has a common
+late-time quadrant and exceeds a recorded model described as exponential decay,
+binomial shot sampling, and one random phase per synthetic run.
+The positive tail slope and boundary-distance correlation depend on the
+chosen preprocessing and do not identify a mechanism. The March 2026
+comparison rejected a universal direction; its Q80 phase-compatible fits
+do not resolve the Q52 magnitude excess. The dated analysis below is kept
+as a case study in hypothesis generation, not as a current causal verdict.
 
 ---
 
 ## Abstract
 
-Reanalysis of IBM Torino qubit 52 tomography data revealed late-time
-coherence (t/T₂ > 1.25) exceeding all 10,000 Monte Carlo simulations
-(p < 0.0001), with 17/17 measurements showing consistent direction
-(Re+ / Im−, fourth quadrant; probability by chance: 6×10⁻¹¹), a rising
-trend (+0.008/T₂), and near-perfect boundary correlation (r = −0.9955).
-Three hypotheses were proposed: SPAM error (State Preparation And
-Measurement, systematic bias from imperfect calibration), TLS coupling
-(Two-Level System, a material defect in the chip substrate that can
-exchange energy with the qubit), and active boundary structure. The March 2026 follow-up (see Fixed Point Shadow)
-resolved the anomaly: the directional consistency is qubit-specific
-frequency detuning that becomes visible when exponential decay removes
-the dominant real component. Different qubits show different directions
-(Q80: +29°, Q52: −44°, Q102: random), confirming the effect is
-hardware-specific, not boundary-specific.
+Reanalysis of IBM Torino qubit 52 tomography data found a finite late-time
+excess over a 10,000-draw recorded model combining exponential decay, binomial
+shot sampling, and one random phase per synthetic run, with 17/17 rows
+at `t/T2_echo >= 1` in one quadrant. The 13-row `>= 1.5` tail fit has slope
+`+0.00819/T2_echo`, two-sided p = 0.0531, and a 95% interval that crosses
+zero. The reported `r = -0.9955` boundary-distance correlation reuses
+`|rho_01|` through `C*Psi` and is not independent boundary evidence. No
+Q52-fitted time-dependent detuning/drift, SPAM, TLS, or memory alternative is
+compared by the retained null description. The
+March comparison found a different common direction on Q80 and no common
+direction on Q102, rejecting the former universal reading without closing
+the Q52 mechanism.
 
 ## Discovery Date
 2026-02-09 (same-day reanalysis of tomography data)
@@ -68,37 +73,44 @@ hardware-specific, not boundary-specific.
 
 ## Context
 
-After completing the IBM Quantum Tomography experiment (see IBM_QUANTUM_TOMOGRAPHY.md), the raw density matrices were reanalysed for structure in the residuals. The original experiment measured C·Ψ crossing the ¼ boundary and confirmed the generalized crossing equation. This analysis asks a different question: **Is there structure in the data beyond the expected exponential decay?**
+After completing the IBM Quantum Tomography experiment (see IBM_QUANTUM_TOMOGRAPHY.md), the raw density matrices were reanalysed for structure in the residuals. The original experiment measured a C·Ψ crossing and compared it with the generalized crossing equation; that same-record comparison is qualitative crossing evidence, not an independent precision confirmation. This analysis asks a different question: **Is there structure in the data beyond the recorded exponential-decay null?**
 
-## Finding 1: Excess Late-Time Coherence (p < 0.0001)
+## Finding 1: Excess relative to the recorded 10,000-draw null
 
 ### Null Hypothesis Test
 
 A Monte Carlo simulation was constructed:
 - 10,000 synthetic tomography experiments
-- Same parameters: T₁ = 221.2 μs, T₂* = 110.2 μs (fitted), 8192 shots, 25 delay points
+- Recorded null inputs: T₁ = 221.2 μs, T₂* = 110.2 μs, 8192 shots, 25 delay points
 - Shot noise modelled as binomial sampling across 3 tomography bases (X, Y, Z)
 - Random phase per run (detuning)
 
-**Result:** The real IBM Torino data has late-time coherence (t/T₂ > 1.25) that exceeds all 10,000 simulated experiments.
+The null producer is not retained in this repository. Its ensemble counts,
+spread, and percentile threshold below are therefore historical recorded values;
+only the hardware statistic and its selection are recomputed here from the saved
+tomography rows.
 
-| Metric | IBM Torino (real) | Simulator (mean ± std) |
+**Result:** The saved IBM Torino late-time statistic (`t/T2_echo >= 1.25`, 15 stored rows) exceeded all 10,000 draws of this particular null.
+
+| Metric | IBM Torino (real) | Recorded null ensemble (mean ± std) |
 |--------|------------------|----------------------|
-| Mean \|ρ₀₁\| for t > 370 μs | 0.01852 | 0.00861 ± 0.00105 |
-| p-value | < 0.0001 | - |
+| Mean \|ρ₀₁\| for t/T2_echo >= 1.25 (15 rows) | 0.01852 | 0.00861 ± 0.00105 |
+| Recorded exceedances | 0 of 10,000 | - |
 | Points above 99th percentile | 9 of 25 | 0.25 expected |
 
-The strongest anomaly is at t/T₂ = 2.625, where \|ρ₀₁\| = 0.0363, which is 2.2× above the 99th percentile of the null distribution (0.0166).
+At `t/T2_echo = 2.625`, the saved hardware row has `|rho_01| = 0.036285`.
+The historical null table labels that value 2.2x its recorded 99th-percentile
+threshold of 0.0166; without the producer, that percentile is not rerun here.
 
 ### Important Caveat
 
-The null model is simple: exponential decay + shot noise. It does not include TLS coupling, 1/f noise, readout error, or non-Markovian dynamics. Any of these could close the gap. The point is not that the effect is unexplainable, but that it is **quantifiably present** and deserves investigation.
+The recorded null combines exponential decay, binomial shot sampling, and one random phase per synthetic run. It does not include a Q52-fitted time-dependent detuning or drift, SPAM, TLS, memory, or other calibrated hardware alternative. Zero exceedances in this finite ensemble therefore describe separation from this null, not a p-value against all relevant hardware models.
 
 ## Finding 2: Directional Coherence (17/17 Sign Consistency)
 
 This is the most striking anomaly.
 
-For all 17 data points at t/T₂ ≥ 1.0:
+For all 17 data points at `t/T2_echo >= 1.0`:
 - **Re(ρ₀₁) > 0 in 17/17 measurements**
 - **Im(ρ₀₁) < 0 in 17/17 measurements**
 
@@ -109,78 +121,82 @@ The residual coherence always points into the fourth quadrant of the complex pla
 | Re(ρ₀₁) | +0.01137 | 0.00499 | Yes (17/17 positive) |
 | Im(ρ₀₁) | -0.01279 | 0.00805 | Yes (17/17 negative) |
 
-Probability of 17/17 same sign in both components by chance: (1/2)^34 ≈ 6 × 10⁻¹¹.
+A naive calculation with 34 independent, equiprobable signs gives `(1/2)^34`, but the tomography coordinates share one acquisition and the relevant hardware null is not an independent-sign model. The durable observation is the finite 17/17 sign record, not that naive number as a calibrated p-value.
 
-This is remarkable because quantum decoherence should randomize the phase of ρ₀₁. At t = 3×T₂, the coherence should be indistinguishable from zero with random phase. Instead, it has a fixed direction.
+## Finding 3: Positive slope on one selected tail
 
-## Finding 3: Rising Coherence Trend
-
-A linear fit to \|ρ₀₁\| for t/T₂ > 1.5 shows a **positive slope**:
+A linear fit to \|ρ₀₁\| for `t/T2_echo >= 1.5` shows a **positive slope**:
 
 ```
-Slope = +0.00819 per T₂ unit
+Slope = +0.00819 per T2_echo unit
 ```
 
-Coherence that increases with time violates the expectation for any Markovian open quantum system. Under Lindblad dynamics, off-diagonal elements of the density matrix can only decay (modulo oscillations). A net positive trend over 13 consecutive points spanning 1.5 T₂ is anomalous.
+For the 13 rows selected by `t/T2_echo >= 1.5`, the two-sided slope p-value is 0.0531 and the 95% interval crosses zero. The amplitudes are non-monotone, and the slope changes when the endpoint convention changes. Markovian GKSL dynamics with coherent Hamiltonian evolution can also create or transiently increase a chosen off-diagonal element, so this finite slope is not a non-Markovianity witness.
 
 ## Finding 4: Qubit Detuning and Phase Structure
 
-A frequency detuning of ω = -0.0357 rad/μs (f = -5.68 kHz) was extracted from early high-SNR phase data. This corresponds to a period of ~176 μs.
+Using the first five saved rows and `np.unwrap` on phases recomputed from the raw complex ρ₀₁ coordinates, the fitted phase slope is `m = -0.035696 rad/us` (`-5.681 kHz`). Under `rho_01 ~ exp(-i delta_omega t)`, the selected near-zero detuning representative is therefore `delta_f = +5.681 kHz`. Those five delays lie on a `37.280936 us` grid, so frequency is identified only modulo `26.823361 kHz`; the five-row and unwrapping choices are part of this descriptive extraction, and no absolute detuning is identified without an additional physical prior.
 
-After derotation, significant residual phase remains at intermediate times (t/T₂ = 0.375 to 1.375), indicating the detuning is not perfectly linear or the system has additional frequency components.
+After derotation, residual phase remains at intermediate times (`t/T2_echo = 0.375` to `1.375`). That is compatible with nonlinear drift or additional components but does not identify either mechanism.
 
 Late-time phases quantised to 30° bins show strong clustering:
-- -60°: 9 of 15 values (60%, expected ~17%)
+- -60°: 9 of 15 values (60%, naive uniform six-bin reference ~17%)
 - -30°: 4 of 15
 - 0°: 1 of 15
 - -90°: 1 of 15
 
-## Finding 5: Revival Peak Spacing
+## Descriptive Reading 5: Spacing Between Selected Late-Time Local Maxima
 
 Local maxima in late-time \|ρ₀₁\| occur at:
 
-| Peak | t/T₂ | \|ρ₀₁\| |
+| Peak | t/T2_echo | \|ρ₀₁\| |
 |------|-------|---------|
 | 1 | 1.500 | 0.01964 |
 | 2 | 1.750 | 0.01234 |
 | 3 | 2.000 | 0.02210 |
 | 4 | 2.625 | 0.03629 |
 
-Peak spacings: 0.250×T₂, 0.250×T₂, 0.625×T₂. The first two gaps are identical (T₂/4). The ratio of the third gap to the first is exactly 2.5.
+Peak spacings on the sampled grid are 0.250×T2_echo, 0.250×T2_echo, and 0.625×T2_echo. These selected local maxima do not establish a revival period.
 
-## Qiskit Simulator Comparison
+## Separate Simulator Fixture
 
-The same experiment was run on Qiskit Aer simulator with a noise model. Key comparison:
+The retained fixture identifies itself only as `SIMULATOR_TEST`; no saved producer,
+backend, or noise configuration establishes how it was generated. The comparison
+below therefore uses only its saved analysis rows.
 
-The simulator also shows residual late-time coherence (mean 11.4σ above shot noise). However, the simulator's late-time coherence is **higher** than the real hardware (0.073 vs 0.019). This initially suggested the real-hardware anomaly was an artifact.
+The saved February simulator fixture and hardware record each contain 15 rows at
+their stored normalized cutoff `>= 1.25` (hardware `delay/T2_echo`; fixture
+`delay/T2_parameter`). Recomputed from the saved `populations.rho_01_abs` rows, their
+late-time means are respectively 0.072615 and 0.018520. This is a cross-fixture
+comparison, not a sigma-significance statement or a matched causal control.
 
-The Monte Carlo null hypothesis test resolved this: the Qiskit Aer simulator includes a more complex noise model than pure exponential decay, which inflates late-time coherence. Our custom null model (exponential + shot noise only) correctly establishes that the **real hardware exceeds what the simple physical model predicts**, and neither the simple model nor the Aer model produces the 17/17 directional consistency.
+The retained null description and the separate fixture answer narrower questions. The recorded ensemble reports separation from its exponential-decay, binomial-shot, one-phase-per-run null; the separate fixture has larger late-time coherence. Neither comparison identifies the Q52 mechanism or calibrates the probability of the 17/17 directional record under the relevant hardware alternatives.
 
 ## Three Hypotheses
 
 ### H1: Systematic SPAM Error (Most Conservative)
 
-Tomography gate calibration has a small, constant angular error. When the true signal is zero, the fixed offset dominates. This would explain the directional consistency.
+A constant angular calibration error could dominate the estimate when the true signal is small and could produce directional consistency. This model was proposed, not fitted.
 
-**Problem:** A constant offset does not explain the rising trend. The excess grows from 0.003 to 0.036 over the measurement range, spanning a full order of magnitude. A fixed gate error produces a fixed offset.
+**Open point:** A constant-only offset was not fitted jointly with drift and tomography-systematic terms. The selected positive tail slope does not by itself exclude SPAM.
 
-**Test:** Measure with \|+⟩ and \|−⟩ initial states. SPAM offset is independent of initial state. Physical coherence flips sign.
+**Test:** Measure with \|+⟩ and \|−⟩ initial states. Under the proposed constant-offset model the SPAM term does not flip with the preparation, whereas the prepared coherence does.
 
 ### H2: Two-Level System Coupling (Known Physics)
 
-A TLS defect in the substrate is coupled to qubit 52 and feeds coherence back into the system. TLS coupling is well-documented in superconducting qubits and can produce non-Markovian coherence revivals with a preferred phase.
+A substrate TLS coupled to qubit 52 could feed coherence back into the system. This is a candidate mechanism, not an identification from the saved record.
 
-**Problem:** TLS coupling strength and frequency drift on timescales of hours to days. The fixed directionality across 900 μs of evolution is surprisingly clean for a TLS interaction.
+**Scope:** Hours-to-days drift would ordinarily look nearly static across the sampled `0-894.742 us` evolution-time window. The acquisition order and wall-clock duration are not recorded here, so neither can be inferred from the maximum delay. The fixed direction is not surprising and is not diagnostic of TLS. A direction change days later would likewise not identify TLS, because detuning and calibration drift can also rotate the phase.
 
-**Test:** Repeat measurement on qubit 52 days later. If the direction changes, it was TLS. Also measure neighboring qubits: TLS effects are local to individual qubits.
+**Control:** Repeat across acquisition times and nearby qubits, log calibration drift, and compare an explicit TLS model against detuning/SPAM alternatives on held-out complex data. Persistence, drift, or locality alone would narrow candidates but would not identify one.
 
 ### H3: External Coherent Coupling (Speculative)
 
-An external source is driving coherence into the qubit at a fixed phase. This would explain all three observations: excess coherence, fixed direction, and rising trend (coupling accumulates over time).
+An external coherent source was considered as a speculative way to generate phase-directed coherence. No such model was fitted to this record.
 
-**Problem:** No known mechanism for coherent coupling to a single qubit in a dilution refrigerator at 15 mK. This hypothesis is physically extraordinary and requires extraordinary evidence.
+**Scope:** This record identified and fitted no external coherent source or coupling path. Microwave leakage/crosstalk and chip or package modes are mundane coherent alternatives, and refrigerator temperature alone does not exclude a coherent drive; the saved record does not distinguish them.
 
-**Test:** Multi-qubit correlation. If independent qubits on the same chip show correlated excess coherence with the same directional signature, it cannot be local TLS or individual SPAM. This would be genuinely unexplained.
+**Test:** Multi-qubit correlation. A repeatable cross-qubit signature would narrow local TLS and individual-SPAM explanations, but would still require explicit controls before a mechanism claim.
 
 ## March 2026 Hardware Test Plan
 
@@ -190,18 +206,18 @@ Based on these findings, the March run should include:
 2. **SPAM discrimination:** Run with \|+⟩ and \|−⟩ initial states. Does the excess flip sign?
 3. **Multi-qubit:** At least 5 qubits (ideally 10+). Check Re/Im sign consistency independently for each.
 4. **Cross-correlation:** Do different qubits show correlated excess coherence?
-5. **Extended time range:** Push to 5×T₂ or beyond. Does the rising trend continue?
+5. **Extended time range:** Push to 5×T2_echo or beyond. Does the rising trend continue?
 
-If H1 (SPAM) survives: The anomaly is a calibration artifact. Document and move on.
-If H1 is killed and H2 survives: Non-Markovian dynamics worth studying but conventional.
-If both H1 and H2 are killed: We have a genuine open question.
+If a fitted SPAM model accounts for the record: document the calibration explanation.
+If SPAM is disfavored and a TLS model survives its controls: study that conventional non-Markovian candidate.
+If both are disfavored: retain the mechanism as an open question rather than assigning a cause.
 
 ## Raw Numbers for Reference
 
-Late-time off-diagonal elements (t/T₂ ≥ 1.0):
+Late-time off-diagonal elements (`t/T2_echo >= 1.0`):
 
 ```
-t/T₂   Re(ρ₀₁)      Im(ρ₀₁)      |ρ₀₁|
+t/T2_echo   Re(ρ₀₁)      Im(ρ₀₁)      |ρ₀₁|
 1.000   +0.011597    -0.010742    0.015808
 1.125   +0.013794    -0.004883    0.014633
 1.250   +0.002930    -0.000977    0.003088
@@ -223,14 +239,14 @@ t/T₂   Re(ρ₀₁)      Im(ρ₀₁)      |ρ₀₁|
 
 ## Connection to R = CΨ² Framework
 
-This analysis began as a search for structure beyond the confirmed C·Ψ = ¼ crossing. The excess coherence exists in a regime where R = CΨ² predicts the system has crossed the boundary from quantum to classical. If the residual coherence is physical (not SPAM), it represents structure persisting beyond the theoretical decoherence boundary, which has direct implications for the framework's treatment of what happens at and beyond the ¼ threshold.
+This analysis began as a search for structure after the measured C·Ψ = ¼ crossing. The scalar crossing does not identify a quantum-to-classical transition or a source for the residual. Because `|ρ₀₁|` also enters C·Ψ, proximity-to-boundary and residual-amplitude correlations from this same record are not independent boundary evidence.
 
 ## Epistemic Status
 
-- **Confirmed:** Excess coherence exists beyond null model (p < 0.0001)
-- **Confirmed:** Directional consistency Re+/Im- in 17/17 points
-- **Confirmed:** Rising trend in late-time coherence
+- **Recorded:** Zero exceedances in 10,000 draws of the named null; broader hardware alternatives were not tested
+- **Recorded:** Directional consistency Re+/Im- in 17/17 sampled late points
+- **Measured on the selected 13-row tail:** Positive slope, p = 0.0531, interval crossing zero; non-monotone and cut-sensitive
 - **Unknown:** Whether this is SPAM, TLS, or something else
-- **Not claimed:** Any specific interpretation beyond "anomaly worth investigating"
+- **Not claimed:** A non-Markovian witness, a universal boundary mechanism, or a specific Q52 cause
 
 The correct response to this data is not belief or disbelief. It is: measure again.

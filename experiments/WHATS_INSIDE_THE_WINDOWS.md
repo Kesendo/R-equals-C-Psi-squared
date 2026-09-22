@@ -9,7 +9,7 @@ concurrence readability, R=CPsi2 phase transport -->
 **Status:** Phase transport verified (Tier 2); interpretation open (Tier 3)
 **Date:** March 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Depends on:** [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), [Fixed Point Shadow](FIXED_POINT_SHADOW.md), [When Psi Matters](WHEN_PSI_MATTERS.md)
+**Depends on:** [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), [When Psi Matters](WHEN_PSI_MATTERS.md)
 
 ---
 
@@ -363,6 +363,6 @@ phases, and the S-coherence gating actually encode - remains completely open.
 ## See also
 
 - [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) - Maps the window structure: 3 dimensions explain 98%, stable skeleton + rotating phase pendulum
-- [Fixed Point Shadow](FIXED_POINT_SHADOW.md) - IBM hardware shows the same skeleton+rotation pattern (detuning, not boundary effect)
+- [Q52 Residual Record](FIXED_POINT_SHADOW.md) - Finite Q52 residual record; Q80 supports detuning as a phase hypothesis, but no Q52-specific fit closes the mechanism
 - [When Psi Matters](WHEN_PSI_MATTERS.md) - AND-gate justification and agent benchmark results
 - [The CΨ Lens](../docs/THE_CPSI_LENS.md) - Canonical definition of CΨ

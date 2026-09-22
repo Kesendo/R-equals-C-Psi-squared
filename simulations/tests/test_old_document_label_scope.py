@@ -12,6 +12,7 @@ import contextlib
 import difflib
 from fractions import Fraction
 import hashlib
+import html
 import io
 import json
 import os
@@ -29,7 +30,9 @@ import zlib
 import numpy as np
 import pytest
 import sympy as sp
-from scipy.optimize import brentq
+from scipy.linalg import expm
+from scipy.optimize import brentq, curve_fit, minimize, minimize_scalar
+from scipy.stats import linregress, t as student_t
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import maximum_bipartite_matching
 
@@ -31709,11 +31712,11 @@ TASK10_Q52_SUMMARY_REQUIRED = (
     "Q52-specific fit/control.",
 )
 TASK10_Q52_PREDICTIONS_PREAMBLE = (
-    "the Q52 shadow record (§3; interpretation closed, late-time excess "
+    "the Q52 residual record (§3; interpretation closed, late-time excess "
     "mechanism open)"
 )
 TASK10_Q52_PREDICTIONS_SUMMARY_PREFIX = (
-    "| **Q52 shadow record** | 1 finite record (five measured signatures) |"
+    "| **Q52 residual record** | 1 finite record |"
 )
 TASK10_Q52_PREDICTIONS_SUMMARY_REQUIRED = (
     "Interpretation closed only at the universal-boundary/non-Markovian-witness level",
@@ -31726,13 +31729,442 @@ TASK10_Q52_COMPLETE_ALIAS = (
 )
 
 
+def _task10_visible_markdown(source):
+    return re.sub(r"<!--.*?(?:-->|$)", "", source, flags=re.DOTALL)
+
+
+def _task11_has_visible_escaped_comment(source):
+    return any(
+        len(match.group(1)) % 2 == 1
+        for match in re.finditer(r"(\\+)<!--", source)
+    )
+
+
+TASK11_REFERENCE_DEFINITION_RE = re.compile(
+    r"^ {0,3}\[(?:\\.|[^\]\\\r\n])+\]:[ \t]*(.*)$"
+)
+TASK11_REFERENCE_DEFINITION_ANYWHERE_RE = re.compile(
+    r"\[(?:\\.|[^\]\\\r\n]|\r?\n[ \t]{0,3})+\]:"
+)
+TASK11_HTML_ENTITY_RE = re.compile(
+    r"&(?:#[0-9]{1,7}|#[xX][0-9A-Fa-f]{1,6}|[A-Za-z][A-Za-z0-9]{1,31});"
+)
+
+
+def _task11_visible_claim_markdown(source):
+    source = _task10_visible_markdown(source)
+    visible = []
+    fence_character = None
+    fence_length = 0
+    lazy_blockquote = False
+    reference_continuation = None
+    for line in source.splitlines(keepends=True):
+        content = line.rstrip("\r\n")
+        fence = re.match(r"^ {0,3}(`{3,}|~{3,})", content)
+        if fence_character is not None:
+            closing_fence = re.match(
+                rf"^ {{0,3}}({re.escape(fence_character)}"
+                rf"{{{fence_length},}})[ \t]*$",
+                content,
+            )
+            if (
+                closing_fence is not None
+                and closing_fence.group(1)[0] == fence_character
+            ):
+                fence_character = None
+                fence_length = 0
+            visible.append("\n" if line.endswith(("\n", "\r")) else "")
+            continue
+        if reference_continuation == "destination":
+            destination = re.match(
+                r'''^ {0,3}(?:<[^>\r\n]*>|(?:\\.|[^ \t\r\n])+)(?:[ \t]+(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^)]*\)))?[ \t]*$''',
+                content,
+            )
+            reference_continuation = None
+            if destination is not None:
+                has_inline_title = re.search(
+                    r'''[ \t](?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^)]*\))[ \t]*$''',
+                    content,
+                )
+                if has_inline_title is None:
+                    reference_continuation = "title"
+                visible.append("\n" if line.endswith(("\n", "\r")) else "")
+                continue
+        if reference_continuation == "title":
+            title = re.match(
+                r'''^ {0,3}(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^)]*\))[ \t]*$''',
+                content,
+            )
+            reference_continuation = None
+            if title is not None:
+                visible.append("\n" if line.endswith(("\n", "\r")) else "")
+                continue
+        reference = TASK11_REFERENCE_DEFINITION_RE.match(content)
+        if reference is not None:
+            rest = reference.group(1)
+            if not rest:
+                reference_continuation = "destination"
+            else:
+                has_inline_title = re.search(
+                    r'''[ \t](?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^)]*\))[ \t]*$''',
+                    rest,
+                )
+                if has_inline_title is None:
+                    reference_continuation = "title"
+            visible.append("\n" if line.endswith(("\n", "\r")) else "")
+            continue
+        if re.match(r"^ {0,3}>", content):
+            lazy_blockquote = True
+            visible.append("\n" if line.endswith(("\n", "\r")) else "")
+            continue
+        if lazy_blockquote:
+            if not content.strip():
+                lazy_blockquote = False
+                visible.append(line)
+                continue
+            block_interrupt = re.match(
+                r"^ {0,3}(?:#{1,6}(?:[ \t]+|$)|`{3,}|~{3,})",
+                content,
+            )
+            if block_interrupt is None:
+                visible.append("\n" if line.endswith(("\n", "\r")) else "")
+                continue
+            lazy_blockquote = False
+        if fence is not None:
+            fence_character = fence.group(1)[0]
+            fence_length = len(fence.group(1))
+            visible.append("\n" if line.endswith(("\n", "\r")) else "")
+            continue
+        if re.match(r"^(?: {4}| {0,3}\t)", content):
+            visible.append("\n" if line.endswith(("\n", "\r")) else "")
+            continue
+        visible.append(line)
+    return "".join(visible)
+
+
+def _task11_inline_code_ranges(source):
+    ranges = []
+    cursor = 0
+    while cursor < len(source):
+        start = source.find("`", cursor)
+        if start < 0:
+            break
+        opener_end = start
+        while opener_end < len(source) and source[opener_end] == "`":
+            opener_end += 1
+        width = opener_end - start
+        candidate = opener_end
+        closed = False
+        while candidate < len(source):
+            candidate = source.find("`", candidate)
+            if candidate < 0:
+                break
+            candidate_end = candidate
+            while candidate_end < len(source) and source[candidate_end] == "`":
+                candidate_end += 1
+            if candidate_end - candidate == width:
+                ranges.append((start, candidate_end))
+                cursor = candidate_end
+                closed = True
+                break
+            candidate = candidate_end
+        if not closed:
+            cursor = opener_end
+    return tuple(ranges)
+
+
+def _task11_inline_link_ranges(source):
+    ranges = []
+    cursor = 0
+    while cursor < len(source):
+        image = source.startswith("![", cursor)
+        if not image and source[cursor] != "[":
+            cursor += 1
+            continue
+        label_start = cursor + (2 if image else 1)
+        depth = 1
+        index = label_start
+        while index < len(source) and depth:
+            if source[index] == "\\":
+                index += 2
+                continue
+            if source[index] == "[":
+                depth += 1
+            elif source[index] == "]":
+                depth -= 1
+            index += 1
+        if depth:
+            cursor = max(index, cursor + 1)
+            continue
+        if image and (index >= len(source) or source[index] != "("):
+            image_end = index
+            if index < len(source) and source[index] == "[":
+                reference_end = source.find("]", index + 1)
+                if reference_end >= 0:
+                    image_end = reference_end + 1
+            ranges.append((cursor, image_end))
+            cursor = max(image_end, cursor + 1)
+            continue
+        if index >= len(source) or source[index] != "(":
+            cursor = max(index, cursor + 1)
+            continue
+        destination_start = index
+        paren_depth = 1
+        quote = None
+        index += 1
+        while index < len(source) and paren_depth:
+            character = source[index]
+            if character == "\\":
+                index += 2
+                continue
+            if quote is not None:
+                if character == quote:
+                    quote = None
+            elif character in ('"', "'"):
+                quote = character
+            elif character == "(":
+                paren_depth += 1
+            elif character == ")":
+                paren_depth -= 1
+            index += 1
+        if paren_depth == 0:
+            ranges.append((cursor if image else destination_start, index))
+            cursor = index
+        else:
+            cursor = destination_start + 1
+    return tuple(ranges)
+
+
+def _task11_html_tag_ranges(source):
+    ranges = []
+    cursor = 0
+    while cursor < len(source):
+        start = source.find("<", cursor)
+        if start < 0:
+            break
+        opener = source[start:]
+        if (
+            re.match(r"</?[A-Za-z][A-Za-z0-9:-]*(?=[\s/>])", opener)
+            is None
+            and not opener.startswith("<?")
+            and not opener.startswith("<!")
+        ):
+            cursor = start + 1
+            continue
+        quote = None
+        index = start + 1
+        closed = False
+        while index < len(source):
+            character = source[index]
+            if quote is not None:
+                if character == quote:
+                    quote = None
+            elif character in ('"', "'"):
+                quote = character
+            elif character == ">":
+                ranges.append((start, index + 1))
+                index += 1
+                closed = True
+                break
+            index += 1
+        if not closed:
+            ranges.append((start, len(source)))
+        cursor = max(index, start + 1)
+    return tuple(ranges)
+
+
+def _task11_html_nonclaim_ranges(source):
+    ranges = []
+    tags = _task11_html_tag_ranges(source)
+    nonclaim_roles = {
+        "code", "del", "kbd", "s", "samp", "script", "style", "template"
+    }
+    for start, end in tags:
+        opening = source[start:end]
+        match = re.match(r"<\s*([A-Za-z][A-Za-z0-9:-]*)\b", opening)
+        if match is None or opening.startswith("</"):
+            continue
+        tag = match.group(1)
+        hidden = re.search(r"(?i)\shidden(?:\s|=|/?>)", opening) is not None
+        if tag.casefold() not in nonclaim_roles and not hidden:
+            continue
+        closing = re.search(
+            rf"(?i)</\s*{re.escape(tag)}\s*>", source[end:]
+        )
+        ranges.append(
+            (start, len(source) if closing is None else end + closing.end())
+        )
+    return tuple(ranges)
+
+
+def _task11_invisible_inline_ranges(source):
+    return (
+        *_task11_inline_code_ranges(source),
+        *_task11_inline_link_ranges(source),
+        *_task11_html_nonclaim_ranges(source),
+        *_task11_html_tag_ranges(source),
+    )
+
+
+def _task11_mask_invisible_inline(source):
+    masked = list(source)
+    for start, end in _task11_invisible_inline_ranges(source):
+        for index in range(start, end):
+            if masked[index] not in "\r\n":
+                masked[index] = " "
+    return "".join(masked)
+
+
+def _task11_semantic_visible_text(source):
+    visible = _task11_visible_claim_markdown(source)
+    visible = _task11_mask_invisible_inline(visible)
+    visible = html.unescape(visible)
+    visible = re.sub(r"\\(?=[!\"#$%&'()*+,\-./:;<=>?@\[\]^_`{|}~\\])", "", visible)
+    visible = visible.replace("**", "").replace("__", "")
+    visible = visible.replace("*", "").replace("_", "")
+    return re.sub(r"\s+", " ", visible).strip().casefold()
+
+
+def _task11_atx_heading_positions(source, heading):
+    structural = _task11_mask_invisible_inline(source)
+    expected = heading.lstrip("\r\n")
+    heading_match = re.match(r"^(#{1,6})(?:[ \t]+|$)", expected)
+    if heading_match is None:
+        return ()
+    prefix_match = expected.endswith((" ", "\t"))
+    positions = []
+    offset = 0
+    for line in structural.splitlines(keepends=True):
+        content = line.rstrip("\r\n").rstrip(" \t")
+        indent = len(content) - len(content.lstrip(" "))
+        candidate = content[indent:] if indent <= 3 else ""
+        matches = candidate.startswith(expected) if prefix_match else candidate == expected
+        if matches:
+            positions.append(offset + indent)
+        offset += len(line)
+    return tuple(positions)
+
+
+def _task11_visible_h1_positions(source):
+    structural = _task11_mask_invisible_inline(source)
+    lines = structural.splitlines(keepends=True)
+    positions = []
+    offset = 0
+    for index, line in enumerate(lines):
+        content = line.rstrip("\r\n")
+        atx = re.match(r"^( {0,3})#(?:[ \t]+|$)", content)
+        if atx is None:
+            atx = re.match(
+                r"^ {0,3}(?:(?:[-+*]|\d+[.)])[ \t]+)+(?P<hash>#)"
+                r"(?:[ \t]+|$)",
+                content,
+            )
+        if atx is None:
+            atx = re.match(
+                r"^(?P<indent>(?: {4,}|[ \t]*\t)[ \t]*)#(?:[ \t]+|$)",
+                content,
+            )
+        if atx is not None:
+            hash_offset = content.find("#", atx.start(), atx.end())
+            positions.append(offset + hash_offset)
+        if index + 1 < len(lines) and content.strip():
+            setext_h1 = re.match(
+                r"^[ \t]*=+[ \t]*(?:\r?\n)?$", lines[index + 1]
+            )
+            indentation = re.match(r"^[ ]*", content).group(0)
+            if setext_h1 is not None:
+                positions.append(offset + len(indentation))
+        offset += len(line)
+    return tuple(positions)
+
+
+def _task11_container_h1_marker_present(source):
+    return any(
+        re.search(pattern, source) is not None
+        for pattern in (
+            r"(?m)^ {0,3}(?:(?:[-+*]|\d+[.)])[ \t]+)+#(?:[ \t]+|$)",
+            r"(?m)^(?: {4,}|[ \t]*\t)[ \t]*#(?:[ \t]+|$)",
+            r"(?m)^[ \t]+=+[ \t]*$",
+        )
+    )
+
+
+def _task11_structural_marker_positions(source, marker):
+    candidate = marker.lstrip("\r\n")
+    if re.match(r"^#{1,6}(?:[ \t]+|$)", candidate):
+        return _task11_atx_heading_positions(source, candidate)
+    structural = _task11_mask_invisible_inline(source)
+    positions = []
+    cursor = 0
+    while True:
+        position = structural.find(marker, cursor)
+        if position < 0:
+            return tuple(positions)
+        positions.append(position)
+        cursor = position + len(marker)
+
+
+def _task11_non_code_occurrence_count(source, fragment):
+    invisible = _task11_invisible_inline_ranges(source)
+    count = 0
+    cursor = 0
+    while True:
+        start = source.find(fragment, cursor)
+        if start < 0:
+            return count
+        if not any(hidden_start <= start < hidden_end for hidden_start, hidden_end in invisible):
+            count += 1
+        cursor = start + len(fragment)
+
+
+def _task11_top_level_exact_line_count(source, exact_line):
+    invisible = _task11_invisible_inline_ranges(source)
+    count = 0
+    offset = 0
+    for line in source.splitlines(keepends=True):
+        content = line.rstrip("\r\n")
+        if content == exact_line and not any(
+            hidden_start < offset < hidden_end
+            for hidden_start, hidden_end in invisible
+        ):
+            count += 1
+        offset += len(line)
+    return count
+
+
 def _task10_q52_bounded_slice(source, start, end):
-    if source.count(start) != 1:
+    source = _task11_visible_claim_markdown(source)
+    start_positions = _task11_structural_marker_positions(source, start)
+    if len(start_positions) != 1:
         return ""
-    tail = source.split(start, 1)[1]
-    if end not in tail:
+    start_index = start_positions[0]
+    end_positions = tuple(
+        position
+        for position in _task11_structural_marker_positions(source, end)
+        if position > start_index
+    )
+    if not end_positions:
         return ""
-    return start + tail.split(end, 1)[0]
+    end_index = end_positions[0]
+    surface = source[start_index:end_index]
+    heading = A391_COMMONMARK_HEADING_RE.match(start)
+    owner_level = len(heading.group(1)) if heading is not None else None
+    lines = surface.splitlines()
+    for index, line in enumerate(lines[1:], start=1):
+        nested = A391_COMMONMARK_HEADING_RE.match(line)
+        if nested is not None:
+            nested_level = len(nested.group(1))
+            if owner_level is None or nested_level <= owner_level:
+                return ""
+        if index + 1 < len(lines) and line.strip():
+            setext = A391_COMMONMARK_SETEXT_RE.match(lines[index + 1])
+            if setext is not None:
+                setext_level = (
+                    1 if setext.group("underline").startswith("=") else 2
+                )
+                if owner_level is None or setext_level <= owner_level:
+                    return ""
+    return surface
 
 
 def _task10_q52_owned_line(surface, prefix):
@@ -31742,7 +32174,7 @@ def _task10_q52_owned_line(surface, prefix):
 
 def _task10_q52_require(findings, path, lane, surface, required):
     for fragment in required:
-        if surface.count(fragment) != 1:
+        if _task11_non_code_occurrence_count(surface, fragment) != 1:
             findings.append(f"{path}:Q52_SUMMARY:{lane}:MISSING:{fragment}")
 
 
@@ -31800,7 +32232,7 @@ def _task10_q52_summary_findings(path, source):
                 "SECTION3",
                 section,
                 (
-                    "## 3. The Shadow Record (interpretation closed; Q52 mechanism open)",
+                    "## 3. The Q52 Residual Record (interpretation closed; Q52 mechanism open)",
                     *TASK10_Q52_SUMMARY_REQUIRED,
                 ),
             )
@@ -31848,7 +32280,7 @@ def _task10_q52_summary_findings(path, source):
     if path == "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md":
         q52_block = _task10_q52_bounded_slice(
             source,
-            "**Q52 shadow record.**",
+            "**Q52 residual record.**",
             "\n\n**CΨ > ¼ under active dynamics.**",
         )
         absorbed = _task10_q52_bounded_slice(
@@ -31866,7 +32298,7 @@ def _task10_q52_summary_findings(path, source):
                 path,
                 "Q52_BLOCK",
                 q52_block,
-                ("**Q52 shadow record.**", *TASK10_Q52_SUMMARY_REQUIRED),
+                ("**Q52 residual record.**", *TASK10_Q52_SUMMARY_REQUIRED),
             )
             _task10_q52_reject(
                 findings,
@@ -31882,7 +32314,7 @@ def _task10_q52_summary_findings(path, source):
                 ),
             )
         if absorbed:
-            alias = _task10_q52_owned_line(absorbed, "- [Fixed Point Shadow]")
+            alias = _task10_q52_owned_line(absorbed, "- [Q52 Residual Record]")
             if not alias:
                 findings.append(f"{path}:Q52_SUMMARY:ABSORBED_ALIAS:BOUNDARY")
             else:
@@ -31976,11 +32408,11 @@ def test_task10_q52_complete_required_sentences_cannot_be_relocated_outside_owne
     path = "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md"
     source = read_host(path)
     assert _task10_q52_summary_findings(path, source) == []
-    block_start = "**Q52 shadow record.**"
+    block_start = "**Q52 residual record.**"
     block_end = "\n\n**CΨ > ¼ under active dynamics.**"
     block = block_start + source.split(block_start, 1)[1].split(block_end, 1)[0]
     overclaim = (
-        "**Q52 shadow record.** The named analysis conclusively attributes "
+        "**Q52 residual record.** The named analysis conclusively attributes "
         "the Q52 late-time excess mechanism to qubit-specific detuning."
     )
     relocated = "\n<!-- " + " ".join(TASK10_Q52_SUMMARY_REQUIRED) + " -->\n"
@@ -33439,7 +33871,7 @@ A391_SECTION1_START = (
 A391_SECTION1_STOP = "\n\n---\n\n## 2. Computationally Verified"
 A391_PREAMBLE_START = "## What this document is about"
 A391_PREAMBLE_STOP = f"\n\n---\n\n{A391_SECTION1_START}"
-A391_Q52_START = "## 3. The Shadow Record (interpretation closed; Q52 mechanism open)"
+A391_Q52_START = "## 3. The Q52 Residual Record (interpretation closed; Q52 mechanism open)"
 A391_Q52_STOP = "\n\n---\n\n## 4. Testable with Current Hardware"
 A391_SUMMARY_START = "## Summary by Tier"
 A391_SUMMARY_STOP = (
@@ -33517,8 +33949,9 @@ A391_REQUIRED = {
         "not independent validation",
     ),
     "q52_interval": (
-        "finite sampled post-quarter interval",
-        "not a classification of quantum versus classical behavior",
+        "13-row `>= 1.5` slope `+0.00819/T2_echo`",
+        "two-sided p = 0.0531",
+        "non-monotone and cut-sensitive",
     ),
     "generalized_row": (
         "**Finite same-record fitted comparison; not independent confirmation**",
@@ -34004,11 +34437,14 @@ def _a391_has_hardware_promotion(
 def _a391_exact_owner_slice(
     source, start, stop, label, *, require_pipe_table=False
 ):
-    start_count = source.count(start)
+    raw_source = source
+    start_count = raw_source.count(start)
     assert start_count == 1, f"A391_{label}_START_COUNT:{start_count}"
-    tail = source.split(start, 1)[1]
-    stop_count = tail.count(stop)
+    raw_tail = raw_source.split(start, 1)[1]
+    stop_count = raw_tail.count(stop)
     assert stop_count == 1, f"A391_{label}_STOP_COUNT:{stop_count}"
+    source = _task10_visible_markdown(raw_source)
+    tail = source.split(start, 1)[1]
     surface = start + tail.split(stop, 1)[0]
     heading = A391_COMMONMARK_HEADING_RE.match(start)
     if heading is not None:
@@ -34081,7 +34517,7 @@ def _a391_hardware_label_owner_surfaces(path, source):
                 section1, "24,073 historical calibration", "CALIBRATION_PROXY"
             ),
             "q52_interval": _a391_unique_line(
-                q52, "| Rising coherence trend", "Q52_INTERVAL"
+                q52, "| Finite tail fit", "Q52_INTERVAL"
             ),
             "generalized_row": _a391_unique_line(
                 section1, "| Generalized crossing equation", "GENERALIZED_ROW"
@@ -34121,7 +34557,9 @@ def _a391_hardware_label_findings(path, source):
                 findings.append(f"A391:{name}:STALE:{phrase}")
         if name == "absorption_row":
             link_count = _a391_normalized_target_count(
-                source, surface, A391_Q52_HARDWARE_TARGET
+                _task10_visible_markdown(source),
+                surface,
+                A391_Q52_HARDWARE_TARGET,
             )
             if link_count != 1:
                 findings.append(
@@ -34269,10 +34707,7 @@ def test_a391_classical_regime_restoration_fails_only_the_q52_row():
         source,
         A391_PREDICTIONS_PATH,
         "q52_interval",
-        (
-            "finite sampled post-quarter interval "
-            "(not a classification of quantum versus classical behavior)"
-        ),
+        "non-monotone and cut-sensitive",
         "classical regime",
     )
     findings = _a391_hardware_label_findings(A391_PREDICTIONS_PATH, mutant)
@@ -34456,7 +34891,7 @@ def test_a391_historical_words_outside_owned_slices_do_not_fail(path, stale_word
         (
             A391_PREDICTIONS_PATH,
             "q52_interval",
-            "finite sampled post-quarter interval",
+            "non-monotone and cut-sensitive",
         ),
         (
             A391_PREDICTIONS_PATH,
@@ -35663,6 +36098,3642 @@ def test_phase_rigidity_exact_degeneracy_scope_rejects_old_overclaim(
         assert mutant != arc_source
         findings = _phase_rigidity_degeneracy_scope_findings(core_source, mutant)
     assert expected in findings
+
+
+TASK11_Q52_RESIDUAL_PATH = "experiments/FIXED_POINT_SHADOW.md"
+TASK11_Q52_DOCUMENT_LF_SHA256 = {
+    "experiments/FIXED_POINT_SHADOW.md": (
+        "486E0B84BE3DD8AACF8B9A08996CF749B81F67A4F9A3A44500FF71DB085CDE0A"
+    ),
+    "experiments/RESIDUAL_ANALYSIS.md": (
+        "293D1F66B389DACFB80B38C3F8640EC8BE1ECFAE05920F53B85D6D25673FEC68"
+    ),
+}
+TASK11_Q52_RESIDUAL_TITLE = (
+    "# Q52 Residual Record and the Failed Universal Shadow Interpretation"
+)
+TASK11_Q52_RESIDUAL_STATUS = (
+    "**Status:** Finite Q52 record retained; universal-boundary/"
+    "non-Markovian-witness interpretation closed; Q52 late-time excess "
+    "mechanism open"
+)
+TASK11_Q52_RESIDUAL_SCOPE = (
+    "**Scope:** Measurement record and hypothesis audit. No typed Claim, "
+    "Witness, or hardware Confirmation owns the Q52 late-time residual/"
+    "magnitude-excess mechanism."
+)
+TASK11_Q52_RECORD_REQUIRED = (
+    "The saved record contains 25 tomography points at 8,192 shots.",
+    "Its `delay_over_T2` coordinate uses the IBM calibration value "
+    "`T2_echo = 298.247 us`;",
+    "it is not the fitted free-induction value `T2* = 110.7 us`.",
+    "At or beyond t/T2_echo = 1.0, all 17 sampled points have "
+    "Re(rho_01) > 0 and Im(rho_01) < 0.",
+    "For the 13 rows selected by t/T2_echo >= 1.5, a least-squares line "
+    "through |rho_01| has slope +0.00819 per T2_echo.",
+    "For that 13-row fit, the correlation coefficient is 0.5469, the "
+    "two-sided p-value is 0.0531, and the 95% slope interval "
+    "`[-0.00013, +0.01651]` crosses zero.",
+    "Changing the cut to strict `t/T2_echo > 1.5` leaves 12 rows and "
+    "changes the slope to `+0.01041`; the tail statement is "
+    "selection-sensitive.",
+    "Those 13 amplitudes are non-monotone, so the finite positive slope is "
+    "not evidence of a growing asymptote.",
+    "The corresponding slope is `2.7457e-5/us` on the echo-normalized axis.",
+    "Because |rho_01| also enters C*Psi, the reported r = -0.9955 "
+    "correlation with distance from 1/4 is descriptive, not independent "
+    "boundary evidence.",
+    "The saved analysis reports zero exceedances in 10,000 draws of a model "
+    "described as exponential decay, binomial shot sampling, and one random "
+    "phase per synthetic run.",
+    "That description is not a comparison against a Q52-fitted time-dependent "
+    "detuning or drift, SPAM, TLS, or memory model.",
+    "This document and its retained provenance links do not identify the "
+    "producer for that null calculation",
+    "The nominal `4^-17 = 5.82e-11` sign probability likewise assumes "
+    "independent, uniformly distributed phases and a pre-specified quadrant.",
+)
+TASK11_Q52_MARCH_REQUIRED = (
+    "The March run retained ten tomography rows for each of Q80 and Q102: "
+    "two reference rows and eight sampled late rows.",
+    "Q80 has eight of eight sampled late points in quadrant 1; Q102 has "
+    "mixed signs and quadrants across its eight sampled late points.",
+    "The cross-qubit comparison rejects the former universal-boundary "
+    "reading; it does not identify the Q52 excess mechanism.",
+    "Q102 supplies no consistent direction in its eight sampled late "
+    "points; that observation does not identify the cause as shot noise.",
+    "Q102 also has eight negative real residuals and seven stored "
+    "significant-excess flags",
+    "The checked simulator record reports two simulated qubits with no "
+    "directional match.",
+    "The cockpit has a matched simulator record for Q80 but none for Q102.",
+    "Q80's phases are directional but not monotone.",
+)
+TASK11_Q52_FIT_REQUIRED = (
+    "All Q80 delays lie on a `5.412785 us` grid, so complex samples "
+    "identify frequency only modulo `184.747761 kHz`.",
+    "The quoted Q80 frequencies are near-zero representatives of those "
+    "alias classes, not identified absolute detunings.",
+    "The selected near-zero phase-slope representative is +1.27 kHz; under "
+    "the stated `exp(-i delta_omega t)` convention its detuning "
+    "representative is `delta_f = -1.27 kHz`.",
+    "The fixed-T2 phase-line curve has mean complex error 0.0356 versus "
+    "0.0508 for the intercept-only comparator, a 1.4x in-sample error "
+    "ratio.",
+    "The free Q80 fit gives T_eff = 23.25 us and the near-zero alias "
+    "representative delta_f = -2.58 kHz, with mean complex error 0.0138 "
+    "versus 0.0487 for its fitted no-detuning envelope comparator, a 3.5x "
+    "in-sample error ratio.",
+    "The fitted Q80 models are same-record, in-sample comparisons; neither "
+    "is a Q52 fit or a held-out prediction.",
+    "An ideal static Z detuning rotates `rho_01` but leaves `|rho_01|` "
+    "unchanged.",
+    "The record's `10.83 us` field is `T2_echo/2.5`, a scheduling proxy, "
+    "not a measured Ramsey time; the March 18 Ramsey `T2* = 17.36 us` "
+    "belongs to a different run and was not an input to this fit.",
+    "The free-fit `T_eff = 23.25 us` lies below the March 9 Hahn value "
+    "`T2_echo = 27.06 us`.",
+)
+TASK11_Q52_OWNER_REQUIRED = (
+    "The cross-term formula does not identify a Q52 hardware mechanism.",
+    "Detuning is the preferred explanation for the phase component.",
+    "The Q52 late-time excess mechanism remains unresolved absent a "
+    "Q52-specific fit/control.",
+    "OQ-033 and OQ-098 remain open.",
+    "The typed hardware registry owns the qualitative Q52 crossing and the "
+    "same-record absorption-ratio comparison. It does not own a residual-"
+    "coherence mechanism. No live Witness or OpenArc closes that gap.",
+    "This record does not establish:",
+    "a physical remnant of the scalar fixed point;",
+    "a special quarter-boundary source or universal scar;",
+    "a demonstrated non-Markovian revival or TLS cause;",
+    "a non-decaying or growing late-time asymptote;",
+    "a Q52 causal diagnosis imported from the Q80 fit;",
+    "a shared three-qubit-simulation and one-qubit-hardware mechanism.",
+)
+TASK11_Q52_RECORD_ALGEBRA_LINE = (
+    "In the saved analysis, `Psi = 2|rho_01|` and `C*Psi = C 2|rho_01|` "
+    "exactly. Correlating `|rho_01|` with `0.25 - C*Psi` therefore reuses "
+    "the same measured quantity on both axes."
+)
+TASK11_Q80_FIT_FORMULA_LINE = (
+    "`rho_fit(t) = A0 exp(-t/T2) exp(i(phi_0 + m t))`, with `A0 = "
+    "|rho_01(0)|`."
+)
+TASK11_Q80_FIT_TABLE_HEADER_LINE = (
+    "| Q80 comparison | Fitted quantities | Mean complex error | Nested "
+    "comparator | Scope |"
+)
+TASK11_Q80_FIT_FIXED_ROW_LINE = (
+    "| Hahn-T2 fixed phase line | slope and intercept on eight late rows | "
+    "0.0356 | intercept-only 0.0508 | both scored on nine nonzero-time rows |"
+)
+TASK11_Q52_EXACT_REQUIRED_LINES = {
+    "CURRENT": TASK10_Q52_SUMMARY_REQUIRED,
+    "RECORD": (
+        "The saved record contains 25 tomography points at 8,192 shots. Its "
+        "`delay_over_T2` coordinate uses the IBM calibration value `T2_echo = "
+        "298.247 us`; it is not the fitted free-induction value `T2* = 110.7 "
+        "us`. The late slope is reported only on that echo-normalized axis.",
+        "At or beyond t/T2_echo = 1.0, all 17 sampled points have Re(rho_01) "
+        "> 0 and Im(rho_01) < 0.",
+        "For the 13 rows selected by t/T2_echo >= 1.5, a least-squares line "
+        "through |rho_01| has slope +0.00819 per T2_echo.",
+        "For that 13-row fit, the correlation coefficient is 0.5469, the "
+        "two-sided p-value is 0.0531, and the 95% slope interval `[-0.00013, "
+        "+0.01651]` crosses zero. Changing the cut to strict `t/T2_echo > "
+        "1.5` leaves 12 rows and changes the slope to `+0.01041`; the tail "
+        "statement is selection-sensitive.",
+        "Those 13 amplitudes are non-monotone, so the finite positive slope "
+        "is not evidence of a growing asymptote.",
+        "The corresponding slope is `2.7457e-5/us` on the echo-normalized "
+        "axis. Exponential damping also does not switch off after a fixed "
+        "number of time constants.",
+        TASK11_Q52_RECORD_ALGEBRA_LINE,
+        "Because |rho_01| also enters C*Psi, the reported r = -0.9955 "
+        "correlation with distance from 1/4 is descriptive, not independent "
+        "boundary evidence.",
+        "The saved analysis reports zero exceedances in 10,000 draws of a "
+        "model described as exponential decay, binomial shot sampling, and "
+        "one random phase per synthetic run.",
+        "That description is not a comparison against a Q52-fitted time-"
+        "dependent detuning or drift, SPAM, TLS, or memory model. This "
+        "document and its retained provenance links do not identify the "
+        "producer for that null calculation, so the recorded `p < 0.0001` "
+        "cannot carry a more specific null than the retained method "
+        "description. The nominal `4^-17 = 5.82e-11` sign probability likewise "
+        "assumes independent, uniformly distributed phases and a pre-specified "
+        "quadrant. It is not a mechanism probability.",
+    ),
+    "MARCH": (
+        "The March run retained ten tomography rows for each of Q80 and Q102: "
+        "two reference rows and eight sampled late rows.",
+        "Q80 has eight of eight sampled late points in quadrant 1; Q102 has "
+        "mixed signs and quadrants across its eight sampled late points.",
+        "The cross-qubit comparison rejects the former universal-boundary "
+        "reading; it does not identify the Q52 excess mechanism.",
+        "Q102 supplies no consistent direction in its eight sampled late "
+        "points; that observation does not identify the cause as shot noise.",
+        "Q102 also has eight negative real residuals and seven stored "
+        "significant-excess flags, so a mixed phase pattern cannot be promoted "
+        "to a complete null diagnosis. Q80's phases are directional but not "
+        "monotone. No retained producer supports a fast-rotator/slow-drifter "
+        "or shared hardware-skeleton mechanism.",
+        "The checked simulator record reports two simulated qubits with no "
+        "directional match. The cockpit has a matched simulator record for Q80 "
+        "but none for Q102. These are finite controls, not a universal "
+        "simulator theorem.",
+    ),
+    "Q80_FIT": (
+        TASK11_Q80_FIT_FORMULA_LINE,
+        TASK11_Q80_FIT_TABLE_HEADER_LINE,
+        TASK11_Q80_FIT_FIXED_ROW_LINE,
+        "All Q80 delays lie on a `5.412785 us` grid, so complex samples "
+        "identify frequency only modulo `184.747761 kHz`.",
+        "The quoted Q80 frequencies are near-zero representatives of those "
+        "alias classes, not identified absolute detunings.",
+        "Under the Hamiltonian convention `rho_01(t) proportional to exp(-i "
+        "delta_omega t)`, the physical detuning parameter is `delta_omega = "
+        "-m`. The selected near-zero phase-slope representative is +1.27 kHz; "
+        "under the stated `exp(-i delta_omega t)` convention its detuning "
+        "representative is `delta_f = -1.27 kHz`.",
+        "The fixed-T2 phase-line curve has mean complex error 0.0356 versus "
+        "0.0508 for the intercept-only comparator, a 1.4x in-sample error "
+        "ratio. Both curves use the same `A0`, Hahn `T2`, phase-fit rows, and "
+        "scoring rows; the line adds only the fitted slope.",
+        "The free Q80 fit gives T_eff = 23.25 us and the near-zero alias "
+        "representative delta_f = -2.58 kHz, with mean complex error 0.0138 "
+        "versus 0.0487 for its fitted no-detuning envelope comparator, a 3.5x "
+        "in-sample error ratio.",
+        "The fitted Q80 models are same-record, in-sample comparisons; neither "
+        "is a Q52 fit or a held-out prediction.",
+        "An ideal static Z detuning rotates `rho_01` but leaves `|rho_01|` "
+        "unchanged. It can explain a phase component without, by itself, "
+        "explaining the Q52 magnitude excess. The free-fit `T_eff = 23.25 us` "
+        "lies below the March 9 Hahn value `T2_echo = 27.06 us`. The record's "
+        "`10.83 us` field is `T2_echo/2.5`, a scheduling proxy, not a measured "
+        "Ramsey time; the March 18 Ramsey `T2* = 17.36 us` belongs to a "
+        "different run and was not an input to this fit. None of these time "
+        "comparisons identifies a microscopic cause.",
+    ),
+    "OWNER": (
+        "The cross-term formula does not identify a Q52 hardware mechanism.",
+        "Detuning is the preferred explanation for the phase component.",
+        "The Q52 late-time excess mechanism remains unresolved absent a "
+        "Q52-specific fit/control.",
+        "OQ-033 and OQ-098 remain open.",
+        "The typed hardware registry owns the qualitative Q52 crossing and the "
+        "same-record absorption-ratio comparison. It does not own a residual-"
+        "coherence mechanism. No live Witness or OpenArc closes that gap.",
+        "This record does not establish:",
+        "- a physical remnant of the scalar fixed point;",
+        "- a special quarter-boundary source or universal scar;",
+        "- a demonstrated non-Markovian revival or TLS cause;",
+        "- a non-decaying or growing late-time asymptote;",
+        "- a Q52 causal diagnosis imported from the Q80 fit;",
+        "- a shared three-qubit-simulation and one-qubit-hardware mechanism.",
+    ),
+}
+TASK11_Q52_EXACT_NONBLANK_SECTION_LINES = {
+    "CURRENT": (
+        "## Current result",
+        "The Q52 tomography remains a finite hardware record with directional "
+        "late-time coherence and an excess over one narrow null model. It does "
+        "not establish a physical fixed-point remnant, a special boundary "
+        "process, or a cause for the excess magnitude.",
+        *TASK10_Q52_SUMMARY_REQUIRED,
+        "The March Q80/Q102 comparison is load-bearing only against a universal "
+        "reading. The Q80 fit is compatible with detuning, but it neither fits "
+        "Q52 nor supplies an independent causal diagnosis.",
+    ),
+    "OWNER": (
+        "## Ownership and open status",
+        "The cross-term formula does not identify a Q52 hardware mechanism.",
+        "Its proved scope concerns dephasing cross terms for named multi-site "
+        "Hamiltonian couplings. A local single-qubit `delta_omega Z/2` term "
+        "commuting with Z dephasing is compatible algebra, but that observation "
+        "is not a Q52 parameter estimate or causal test.",
+        "Detuning is the preferred explanation for the phase component.",
+        "The Q52 late-time excess mechanism remains unresolved absent a "
+        "Q52-specific fit/control.",
+        "OQ-033 and OQ-098 remain open.",
+        "The typed hardware registry owns the qualitative Q52 crossing and the "
+        "same-record absorption-ratio comparison. It does not own a residual-"
+        "coherence mechanism. No live Witness or OpenArc closes that gap.",
+        "This record does not establish:",
+        "- a physical remnant of the scalar fixed point;",
+        "- a special quarter-boundary source or universal scar;",
+        "- a demonstrated non-Markovian revival or TLS cause;",
+        "- a non-decaying or growing late-time asymptote;",
+        "- a Q52 causal diagnosis imported from the Q80 fit;",
+        "- a shared three-qubit-simulation and one-qubit-hardware mechanism.",
+    ),
+}
+TASK11_Q52_PROVENANCE_LINKS = (
+    (
+        "Q52 tomography JSON",
+        "../data/ibm_tomography_feb2026/"
+        "tomography_ibm_torino_20260209_131521.json",
+    ),
+    (
+        "March combined JSON",
+        "../data/ibm_shadow_march2026/"
+        "shadow_hardware_combined_20260309_181852.json",
+    ),
+    (
+        "`shadow_simulate_20260309_181709.json`",
+        "../data/ibm_shadow_march2026/shadow_simulate_20260309_181709.json",
+    ),
+    ("Q80 in-sample fit script", "../simulations/shadow_ibm_retrodict.py"),
+    ("cockpit output", "../simulations/results/cockpit_validation.txt"),
+)
+TASK11_Q52_PROVENANCE_PREFIXES = (
+    "- Q52 raw tomography: ",
+    "- March Q80/Q102 record: ",
+    "- March simulator record: ",
+    "- Q80-only exploratory fit: ",
+    "- Current crossing and simulator scope: ",
+)
+TASK11_Q80_FIT_PATH = "simulations/shadow_ibm_retrodict.py"
+TASK11_Q80_FIT_JSON = (
+    "data/ibm_shadow_march2026/shadow_hardware_q80_20260309_181852.json"
+)
+TASK11_Q80_OUTPUT_LF_SHA256 = (
+    "0D24A8DA6B53A95A8B362C5318569377C2AEA4BCE534B0899C2B675B382EBF08"
+)
+TASK11_Q52_SIMULATOR_JSON = (
+    "data/ibm_shadow_march2026/shadow_simulate_20260309_181709.json"
+)
+TASK11_Q80_FIT_SOURCE_REQUIRED = (
+    "EXPLORATORY Q80 IN-SAMPLE DETUNING-COMPATIBLE FIT",
+    "This script is Q80-only.",
+    "It is not a held-out prediction and does not identify a Q52 mechanism.",
+    "REPO = Path(__file__).resolve().parents[1]",
+    "detuning_fit = -phase_slope_fit",
+    "intercept_only_phase = float(np.mean(phases_rad))",
+    "All quoted frequencies are near-zero representatives of alias classes",
+    "scheduling proxy T2_echo/2.5",
+    "not a measured Ramsey T2*",
+    "phases disagree with the raw complex samples",
+    "standalone Q80 record does not match the combined March Q80 row",
+    'combined.get("experiment") != "shadow_hunt_hardware"',
+    'combined.get("mode") != "hardware"',
+    "def envelope_only_error(T_eff):",
+    "alias_spacing_khz=",
+    "RESULT phase_slope_rep_khz=",
+    "EXPLORATORY IN-SAMPLE VERDICT",
+)
+TASK11_Q80_FIT_EXACT_SCOPE_LINES = (
+    "EXPLORATORY Q80 IN-SAMPLE DETUNING-COMPATIBLE FIT",
+    "This script is Q80-only. It compares two descriptive models with the same",
+    "Q80 record used to fit them.",
+    "It is not a held-out prediction and does not identify a Q52 mechanism.",
+    "The sampled delays lie on one time grid. Frequencies are therefore reported",
+    "as near-zero representatives modulo that grid's alias spacing; no physical",
+    "prior in this script selects an absolute detuning.",
+    "The JSON field named T2_star_us is a scheduling proxy T2_echo/2.5, not a",
+    "measured Ramsey T2*. It is retained only as an optimizer start value.",
+)
+TASK11_Q80_FIT_MODULE_DOCSTRING = "\n".join(
+    (
+        "",
+        "EXPLORATORY Q80 IN-SAMPLE DETUNING-COMPATIBLE FIT",
+        "",
+        "This script is Q80-only. It compares two descriptive models with the same",
+        "Q80 record used to fit them.",
+        "It is not a held-out prediction and does not identify a Q52 mechanism.",
+        "",
+        "The fixed-Hahn-T2 descriptive curve is",
+        "",
+        "    rho_fit(t) = A0 * exp(-t/T2) * exp(i * (phi_0 + m*t)),",
+        "",
+        "with A0 = |rho_01(0)|. Under the Hamiltonian convention",
+        "rho_01(t) proportional to exp(-i*delta_omega*t), delta_omega = -m.",
+        "",
+        "This script:",
+        "1. fits a linear Q80 phase model and an intercept-only comparator on the same",
+        "   eight late rows, then scores both fixed-Hahn-T2 curves on the same nine",
+        "   nonzero-time rows;",
+        "2. fits a free (T_eff, delta_omega) curve and a nested no-detuning envelope",
+        "   comparator on the same nine rows, then scores both there.",
+        "",
+        "The sampled delays lie on one time grid. Frequencies are therefore reported",
+        "as near-zero representatives modulo that grid's alias spacing; no physical",
+        "prior in this script selects an absolute detuning.",
+        "",
+        "The JSON field named T2_star_us is a scheduling proxy T2_echo/2.5, not a",
+        "measured Ramsey T2*. It is retained only as an optimizer start value.",
+        "",
+    )
+)
+TASK11_Q80_FIT_SOURCE_FORBIDDEN = (
+    "SHADOW RETRODICTION",
+    "The shadow framework predicts",
+    "RETRODICTION (Method 2)",
+    "The shadow is real",
+    'REPO = r"D:',
+    "Improvement factor:",
+    "Improvement:",
+    "Lindblad, no detuning",
+)
+TASK11_Q52_FORBIDDEN = (
+    "effect is qubit-specific detuning",
+    "a follow-up experiment on different qubits resolved it",
+    "this coherence does not decay. it grows.",
+    "the boundary is not passive",
+    "the shadow is real",
+    "correctly identified as qubit-specific detuning",
+    "retroactively explains q52",
+    "confirmed on q80",
+    "this is noise.",
+    "the boundary radiating",
+    "where consciousness",
+    "entered the classical regime",
+)
+TASK11_Q52_INBOUND_LINES = {
+    "experiments/IBM_QUANTUM_TOMOGRAPHY.md": (
+        "*See also: [Q52 Residual Record](FIXED_POINT_SHADOW.md), finite Q52 "
+        "residual record; universal interpretation closed, Q52 mechanism open*"
+    ),
+    "experiments/STRUCTURAL_CARTOGRAPHY.md": (
+        "- [Q52 Residual Record](FIXED_POINT_SHADOW.md) - Finite Q52 residual "
+        "record; Q80 supports detuning as a phase hypothesis, but no "
+        "Q52-specific fit closes the mechanism"
+    ),
+    "experiments/WHATS_INSIDE_THE_WINDOWS.md": (
+        "- [Q52 Residual Record](FIXED_POINT_SHADOW.md) - Finite Q52 residual "
+        "record; Q80 supports detuning as a phase hypothesis, but no "
+        "Q52-specific fit closes the mechanism"
+    ),
+}
+TASK11_Q52_ADJACENT_REQUIRED = {
+    "docs/PREDICTIONS.md": (
+        "The Q52 late-time excess mechanism remains unresolved absent a "
+        "Q52-specific fit/control.",
+        "The recorded 10,000-draw null combines exponential decay, binomial "
+        "shot sampling, and one random phase per synthetic run; it is not a "
+        "Q52-fitted time-dependent detuning/drift or other hardware-alternative "
+        "comparison.",
+        "The 13-row >= 1.5 slope is +0.00819/T2_echo with two-sided p = "
+        "0.0531; the amplitudes are non-monotone and the result is "
+        "cut-sensitive.",
+        "Because |rho_01| enters C*Psi, r = -0.9955 is a same-record "
+        "algebraic coupling, not independent boundary evidence.",
+        "The algebraic R- phase comparison supplies no dynamical mapping to "
+        "rho_01.",
+        "The fixed-T2 phase-line/intercept-only errors are 0.0356/0.0508 "
+        "(1.4x);\nthe free-complex/envelope-only errors are 0.0138/0.0487 "
+        "(3.5x).",
+        "Both Q80 fit\ncomparisons are in-sample on the same record; neither "
+        "is a held-out prediction\nor a Q52 mechanism fit.",
+    ),
+    "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md": (
+        "The Q52 late-time excess mechanism remains unresolved absent a "
+        "Q52-specific fit/control.",
+        "Its recorded null combines exponential decay, binomial shot sampling,\n"
+        "and one random phase per synthetic run; it is not a Q52-fitted "
+        "time-dependent\ndetuning/drift or other hardware-alternative comparison.",
+        "The 13-row tail slope has\ntwo-sided p = 0.0531 and is cut-sensitive",
+        "the boundary-distance correlation\nreuses `|rho_01|` through "
+        "`C*Psi` and is not independent evidence",
+        "The Q80 phase-compatible\nfits are same-record and in-sample, not a "
+        "Q52-specific mechanism fit",
+    ),
+    "docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md": (
+        "The separate [Q52 residual record]",
+        "It does not compare Q52-fitted\n  time-dependent detuning/drift or the other "
+        "hardware alternatives",
+        "Its\n  positive tail slope is cut-sensitive",
+        "the algebraic fixed-point phase is not a dynamics witness",
+        "leaves the Q52 magnitude-excess mechanism open",
+    ),
+    "experiments/BRIDGE_CLOSURE.md": (
+        "### 6.4 IBM hardware residual record",
+        "The completed Q80/Q102 comparison rejects a\n"
+        "universal-boundary reading but does not identify the Q52 mechanism",
+        "detuning\nremains a phase hypothesis, not a Q52 magnitude-excess diagnosis",
+    ),
+    "experiments/RESIDUAL_ANALYSIS.md": (
+        "They motivate noise\nand drift hypotheses but do not establish a "
+        "scalar-boundary mechanism or an\nontological change.",
+        "**Status:** Historical exploratory analysis; finite record retained, "
+        "Q52 mechanism open",
+        "The completed Q80/Q102 comparison rejected a universal-boundary "
+        "reading but did\nnot resolve the Q52 mechanism.",
+        "Its Q80 phase-compatible fits do not resolve\nthe Q52 magnitude "
+        "excess.",
+    ),
+    "experiments/WHATS_INSIDE_THE_WINDOWS.md": (
+        "**Depends on:** [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), "
+        "[When Psi Matters](WHEN_PSI_MATTERS.md)",
+    ),
+    "experiments/README.md": (
+        "| [Q52 Residual Record](FIXED_POINT_SHADOW.md) | Finite Q52 residual "
+        "record; universal interpretation rejected, mechanism open |",
+    ),
+}
+TASK11_Q52_RESIDUAL_CURRENT_TITLE = (
+    "# Finite residual analysis for IBM Torino qubit 52"
+)
+TASK11_Q52_RESIDUAL_HISTORICAL_TITLE = (
+    "# Residual Analysis: Late-Time Coherence Anomaly in IBM Torino Qubit 52"
+)
+TASK11_Q52_RESIDUAL_STATUS_LINE = (
+    "**Status:** Historical exploratory analysis; finite record retained, "
+    "Q52 mechanism open"
+)
+TASK11_Q52_RESIDUAL_HISTORICAL_REQUIRED = (
+    "The dated analysis below is kept\nas a case study in hypothesis "
+    "generation, not as a current causal verdict.",
+    "**Exploratory.** Anomaly detected and quantified. Cause unknown. Three "
+    "hypotheses proposed, none confirmed.",
+    "the fitted phase slope is `m = -0.035696 rad/us` (`-5.681 kHz`)",
+    "the selected near-zero detuning representative is therefore "
+    "`delta_f = +5.681 kHz`",
+    "frequency is identified only modulo `26.823361 kHz`",
+    "the five-row and unwrapping choices are part of this descriptive extraction",
+    "Hours-to-days drift would ordinarily look nearly static across the sampled "
+    "`0-894.742 us` evolution-time window.",
+    "The acquisition order and wall-clock duration are not recorded here",
+    "The fixed direction is not surprising and is not diagnostic of TLS",
+    "## Descriptive Reading 5: Spacing Between Selected Late-Time Local Maxima",
+    "Persistence, drift, or locality alone would narrow candidates but would "
+    "not identify one.",
+    "This record identified and fitted no external coherent source or coupling path.",
+)
+TASK11_Q52_SIMULATOR_COMPARISON_LINES = (
+    "The saved February simulator fixture and hardware record each contain 15 rows at",
+    "their stored normalized cutoff `>= 1.25` (hardware `delay/T2_echo`; fixture",
+    "`delay/T2_parameter`). Recomputed from the saved `populations.rho_01_abs` rows, "
+    "their",
+    "late-time means are respectively 0.072615 and 0.018520. This is a cross-fixture",
+    "comparison, not a sigma-significance statement or a matched causal control.",
+)
+TASK11_Q52_SIMULATOR_PROVENANCE_LINES = (
+    "## Separate Simulator Fixture",
+    "The retained fixture identifies itself only as `SIMULATOR_TEST`; no saved producer,",
+    "backend, or noise configuration establishes how it was generated. The comparison",
+    "below therefore uses only its saved analysis rows.",
+    "The retained null description and the separate fixture answer narrower questions. "
+    "The recorded ensemble reports separation from its exponential-decay, binomial-shot, "
+    "one-phase-per-run null; the separate fixture has larger late-time coherence. "
+    "Neither comparison identifies the Q52 mechanism or calibrates the probability of "
+    "the 17/17 directional record under the relevant hardware alternatives.",
+)
+TASK11_Q52_RESIDUAL_QUANTIFIED_LINES = (
+    "shot sampling, and one random phase per synthetic run, with 17/17 rows",
+    "at `t/T2_echo >= 1` in one quadrant. The 13-row `>= 1.5` tail fit has slope",
+    "`+0.00819/T2_echo`, two-sided p = 0.0531, and a 95% interval that crosses",
+    "zero. The reported `r = -0.9955` boundary-distance correlation reuses",
+    "The null producer is not retained in this repository. Its ensemble counts,",
+    "spread, and percentile threshold below are therefore historical recorded values;",
+    "only the hardware statistic and its selection are recomputed here from the saved",
+    "tomography rows.",
+    "**Result:** The saved IBM Torino late-time statistic (`t/T2_echo >= 1.25`, "
+    "15 stored rows) exceeded all 10,000 draws of this particular null.",
+    "| Metric | IBM Torino (real) | Recorded null ensemble (mean ± std) |",
+    "| Mean \\|ρ₀₁\\| for t/T2_echo >= 1.25 (15 rows) | 0.01852 | "
+    "0.00861 ± 0.00105 |",
+    "At `t/T2_echo = 2.625`, the saved hardware row has `|rho_01| = 0.036285`.",
+    "The historical null table labels that value 2.2x its recorded 99th-percentile",
+    "threshold of 0.0166; without the producer, that percentile is not rerun here.",
+    "For all 17 data points at `t/T2_echo >= 1.0`:",
+    "- **Re(ρ₀₁) > 0 in 17/17 measurements**",
+    "- **Im(ρ₀₁) < 0 in 17/17 measurements**",
+    "The residual coherence always points into the fourth quadrant of the complex plane.",
+    "| Re(ρ₀₁) | +0.01137 | 0.00499 | Yes (17/17 positive) |",
+    "| Im(ρ₀₁) | -0.01279 | 0.00805 | Yes (17/17 negative) |",
+    "A linear fit to \\|ρ₀₁\\| for `t/T2_echo >= 1.5` shows a **positive "
+    "slope**:",
+    "For the 13 rows selected by `t/T2_echo >= 1.5`, the two-sided slope p-value is "
+    "0.0531 and the 95% interval crosses zero. The amplitudes are non-monotone, "
+    "and the slope changes when the endpoint convention changes. Markovian GKSL "
+    "dynamics with coherent Hamiltonian evolution can also create or transiently "
+    "increase a chosen off-diagonal element, so this finite slope is not a "
+    "non-Markovianity witness.",
+    "- **Recorded:** Directional consistency Re+/Im- in 17/17 sampled late points",
+    "- **Measured on the selected 13-row tail:** Positive slope, p = 0.0531, "
+    "interval crossing zero; non-monotone and cut-sensitive",
+    "- **Unknown:** Whether this is SPAM, TLS, or something else",
+    "- **Not claimed:** A non-Markovian witness, a universal boundary mechanism, "
+    "or a specific Q52 cause",
+)
+TASK11_Q52_RAW_TABLE_LINES = (
+    "t/T2_echo   Re(ρ₀₁)      Im(ρ₀₁)      |ρ₀₁|",
+    "1.000   +0.011597    -0.010742    0.015808",
+    "1.125   +0.013794    -0.004883    0.014633",
+    "1.250   +0.002930    -0.000977    0.003088",
+    "1.375   +0.015747    -0.010376    0.018858",
+    "1.500   +0.012939    -0.014771    0.019637",
+    "1.625   +0.007568    -0.007568    0.010703",
+    "1.750   +0.012329    -0.000488    0.012339",
+    "1.875   +0.002319    -0.011719    0.011946",
+    "2.000   +0.006104    -0.021240    0.022100",
+    "2.125   +0.011841    -0.012939    0.017540",
+    "2.250   +0.012817    -0.007080    0.014643",
+    "2.375   +0.007080    -0.020630    0.021811",
+    "2.500   +0.017578    -0.020508    0.027010",
+    "2.625   +0.021240    -0.029419    0.036285",
+    "2.750   +0.013184    -0.003906    0.013750",
+    "2.875   +0.016479    -0.016968    0.023653",
+    "3.000   +0.007690    -0.023193    0.024435",
+)
+TASK11_Q52_RESIDUAL_EXACT_LINES = (
+    "Current reading: the saved residuals, phase directions, and null calculations",
+    "belong to the named Q52 dataset and preprocessing choices.  They motivate noise",
+    "and drift hypotheses but do not establish a scalar-boundary mechanism or an",
+    "ontological change.",
+    TASK11_Q52_RESIDUAL_STATUS_LINE,
+    "The completed Q80/Q102 comparison rejected a universal-boundary reading but did",
+    "not resolve the Q52 mechanism. Its Q80 phase-compatible fits do not resolve",
+    "the Q52 magnitude excess. The current result is [Q52 Residual Record](FIXED_POINT_SHADOW.md).",
+    "do not resolve the Q52 magnitude excess. The dated analysis below is kept",
+    "as a case study in hypothesis generation, not as a current causal verdict.",
+    "**Exploratory.** Anomaly detected and quantified. Cause unknown. Three hypotheses "
+    "proposed, none confirmed. March 2026 hardware run designed to discriminate.",
+    "Using the first five saved rows and `np.unwrap` on phases recomputed from the raw "
+    "complex ρ₀₁ coordinates, the fitted phase slope is `m = -0.035696 rad/us` "
+    "(`-5.681 kHz`). Under `rho_01 ~ exp(-i delta_omega t)`, the selected near-zero "
+    "detuning representative is therefore `delta_f = +5.681 kHz`. Those five delays "
+    "lie on a `37.280936 us` grid, so frequency is identified only modulo `26.823361 "
+    "kHz`; the five-row and unwrapping choices are part of this descriptive "
+    "extraction, and no absolute detuning is identified without an additional "
+    "physical prior.",
+    "**Scope:** Hours-to-days drift would ordinarily look nearly static across the "
+    "sampled `0-894.742 us` evolution-time window. The acquisition order and wall-"
+    "clock duration are not recorded here, so neither can be inferred from the "
+    "maximum delay. The fixed direction is not surprising and is not diagnostic of "
+    "TLS. A direction change days later would likewise not identify TLS, because "
+    "detuning and calibration drift can also rotate the phase.",
+    *TASK11_Q52_SIMULATOR_COMPARISON_LINES,
+    *TASK11_Q52_SIMULATOR_PROVENANCE_LINES,
+    *TASK11_Q52_RESIDUAL_QUANTIFIED_LINES,
+    "**Control:** Repeat across acquisition times and nearby qubits, log calibration "
+    "drift, and compare an explicit TLS model against detuning/SPAM alternatives on "
+    "held-out complex data. Persistence, drift, or locality alone would narrow "
+    "candidates but would not identify one.",
+    "**Scope:** This record identified and fitted no external coherent source or "
+    "coupling path. Microwave leakage/crosstalk and chip or package modes are mundane "
+    "coherent alternatives, and refrigerator temperature alone does not exclude a "
+    "coherent drive; the saved record does not distinguish them.",
+)
+TASK11_Q52_ADJACENT_FORBIDDEN = {
+    "docs/PREDICTIONS.md": (
+        "statistically significant on every signature measured",
+        "Shadow direction on Q52",
+        "FP⁻ phase = −12°",
+        "beats standard Lindblad\n~4×",
+    ),
+    "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md": (
+        "Q102: random",
+        "provide the cross-qubit rejection of universality",
+    ),
+    "docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md": (
+        "shadow direction matching the last complex fixed point",
+    ),
+    "experiments/BRIDGE_CLOSURE.md": (
+        "March 2026 test will discriminate SPAM vs TLS vs boundary structure",
+    ),
+    "experiments/RESIDUAL_ANALYSIS.md": (
+        "cause resolved as qubit-specific detuning",
+        "anomaly resolved as qubit detuning",
+        "the qubit should be fully classical by that time",
+        "confirming the effect is hardware-specific",
+        "confirmed the generalized crossing equation",
+        "violates the expectation for any Markovian open quantum system",
+        "off-diagonal elements of the density matrix can only decay",
+        "**Confirmed:** Rising trend in late-time coherence",
+        "crossed the boundary from quantum to classical",
+        "Probability of 17/17 same sign in both components by chance:",
+        "quantum decoherence should randomize the phase",
+        "the coherence should be indistinguishable from zero with random phase",
+        "correctly establishes that the **real hardware exceeds what the simple "
+        "physical model predicts**",
+        "would explain all three observations",
+        "genuinely unexplained",
+        "## Finding 5: Revival Peak Spacing",
+        "## Finding 1: Excess Late-Time Coherence (p < 0.0001)",
+        "| p-value | < 0.0001 | - |",
+        "A linear fit to \\|ρ₀₁\\| for t/T₂ > 1.5",
+        "Tomography gate calibration has a small, constant angular error.",
+        "A TLS defect in the substrate is coupled to qubit 52",
+        "The fixed directionality across 900 μs of evolution is surprisingly "
+        "clean for a TLS interaction.",
+        "during one 900 μs acquisition",
+        "If the direction changes, it was TLS.",
+        "No known mechanism for coherent coupling to a single qubit in a "
+        "dilution refrigerator at 15 mK.",
+        "as a current causal verdict, with the cause resolved",
+        "all confirmed and resolved the cause",
+    ),
+    "experiments/WHATS_INSIDE_THE_WINDOWS.md": (
+        "**Depends on:** [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), "
+        "[Fixed Point Shadow](FIXED_POINT_SHADOW.md)",
+    ),
+    "experiments/README.md": (
+        "| [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, "
+        "IBM skeleton analysis |",
+    ),
+}
+
+
+def _task11_q52_owned_section(source, start, end):
+    source = _task11_visible_claim_markdown(source)
+    start_positions = _task11_structural_marker_positions(source, start)
+    if len(start_positions) != 1:
+        return ""
+    start_index = start_positions[0]
+    end_positions = tuple(
+        position
+        for position in _task11_structural_marker_positions(source, end)
+        if position > start_index
+    )
+    if not end_positions:
+        return ""
+    end_index = end_positions[0]
+    surface = source[start_index:end_index]
+    heading = A391_COMMONMARK_HEADING_RE.match(start)
+    owner_level = len(heading.group(1)) if heading is not None else None
+    lines = surface.splitlines()
+    for index, line in enumerate(lines[1:], start=1):
+        nested = A391_COMMONMARK_HEADING_RE.match(line)
+        if nested is not None:
+            nested_level = len(nested.group(1))
+            if owner_level is None or nested_level <= owner_level:
+                return ""
+        if index + 1 < len(lines) and line.strip():
+            setext = A391_COMMONMARK_SETEXT_RE.match(lines[index + 1])
+            if setext is not None:
+                setext_level = (
+                    1 if setext.group("underline").startswith("=") else 2
+                )
+                if owner_level is None or setext_level <= owner_level:
+                    return ""
+    return surface
+
+
+def _task11_q52_reproducibility_surface(source):
+    visible = _task11_visible_claim_markdown(source)
+    start = "## Reproducibility"
+    positions = _task11_atx_heading_positions(visible, start)
+    if len(positions) != 1:
+        return ""
+    start_index = positions[0]
+    surface = visible[start_index:]
+    lines = surface.splitlines()
+    for index, line in enumerate(lines[1:], start=1):
+        heading = A391_COMMONMARK_HEADING_RE.match(line)
+        if heading is not None and len(heading.group(1)) <= 2:
+            return ""
+        if index + 1 < len(lines) and line.strip():
+            setext = A391_COMMONMARK_SETEXT_RE.match(lines[index + 1])
+            if setext is not None:
+                setext_level = (
+                    1 if setext.group("underline").startswith("=") else 2
+                )
+                if setext_level <= 2:
+                    return ""
+    return surface
+
+
+def _task11_q52_residual_findings(source):
+    escaped_comment = _task11_has_visible_escaped_comment(source)
+    commentless = _task10_visible_markdown(source)
+    visible = _task11_visible_claim_markdown(source)
+    findings = []
+    if hashlib.sha256(source.encode("utf-8")).hexdigest().upper() != (
+        TASK11_Q52_DOCUMENT_LF_SHA256[TASK11_Q52_RESIDUAL_PATH]
+    ):
+        findings.append("Q52_RESIDUAL:CONTENT_SEAL")
+    if escaped_comment:
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:ESCAPED_COMMENT")
+    if TASK11_HTML_ENTITY_RE.search(commentless):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:HTML_ENTITY")
+    if _task11_html_tag_ranges(commentless):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:RAW_HTML")
+    if "~~" in commentless:
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:GFM_STRIKETHROUGH")
+    if re.search(r"`{3,}|~{3,}", commentless):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:FENCE")
+    if re.search(r"(?m)^(?: {4}| {0,3}\t)", commentless):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:INDENTED_CODE")
+    if re.search(
+        r"(?m)^ {0,3}(?:(?:[-+*]|\d+[.)])[ \t]+?)+"
+        r"(?: {4,}|[ \t]*\t)",
+        commentless,
+    ):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:LIST_CODE")
+    if re.search(
+        r"(?m)^ {0,3}(?:(?:[-+*]|\d+[.)])[ \t]+)+>",
+        commentless,
+    ):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:LIST_BLOCKQUOTE")
+    if "![" in commentless:
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:IMAGE")
+    if re.search(r"\]\(\s*<", commentless):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:ANGLE_LINK_DESTINATION")
+    if TASK11_REFERENCE_DEFINITION_ANYWHERE_RE.search(commentless):
+        findings.append("Q52_RESIDUAL:UNSAFE_MARKUP:REFERENCE_DEFINITION")
+    canonical_h1 = _task11_atx_heading_positions(
+        visible, TASK11_Q52_RESIDUAL_TITLE
+    )
+    if (
+        len(canonical_h1) != 1
+        or _task11_visible_h1_positions(visible) != canonical_h1
+        or _task11_container_h1_marker_present(commentless)
+    ):
+        findings.append("Q52_RESIDUAL:TITLE")
+    for label, fragment in (
+        ("STATUS", TASK11_Q52_RESIDUAL_STATUS),
+        ("SCOPE", TASK11_Q52_RESIDUAL_SCOPE),
+    ):
+        if _task11_top_level_exact_line_count(visible, fragment) != 1:
+            findings.append(f"Q52_RESIDUAL:{label}")
+
+    owned = (
+        (
+            "CURRENT",
+            _task11_q52_owned_section(
+                visible, "## Current result", "\n## The Q52 record"
+            ),
+            TASK10_Q52_SUMMARY_REQUIRED,
+        ),
+        (
+            "RECORD",
+            _task11_q52_owned_section(
+                visible, "## The Q52 record", "\n## What the March comparison establishes"
+            ),
+            TASK11_Q52_RECORD_REQUIRED,
+        ),
+        (
+            "MARCH",
+            _task11_q52_owned_section(
+                visible,
+                "## What the March comparison establishes",
+                "\n## The Q80 fit, scoped",
+            ),
+            TASK11_Q52_MARCH_REQUIRED,
+        ),
+        (
+            "Q80_FIT",
+            _task11_q52_owned_section(
+                visible, "## The Q80 fit, scoped", "\n## Ownership and open status"
+            ),
+            TASK11_Q52_FIT_REQUIRED,
+        ),
+        (
+            "OWNER",
+            _task11_q52_owned_section(
+                visible, "## Ownership and open status", "\n## Discriminating controls"
+            ),
+            TASK11_Q52_OWNER_REQUIRED,
+        ),
+    )
+    for lane, surface, required in owned:
+        if not surface:
+            findings.append(f"Q52_RESIDUAL:{lane}:BOUNDARY")
+            continue
+        lines = surface.splitlines()
+        for exact_line in TASK11_Q52_EXACT_REQUIRED_LINES[lane]:
+            if (
+                lines.count(exact_line) != 1
+                or _task11_top_level_exact_line_count(surface, exact_line) != 1
+            ):
+                findings.append(
+                    f"Q52_RESIDUAL:{lane}:EXACT_LINE:{exact_line}"
+                )
+        for fragment in required:
+            count = _task11_non_code_occurrence_count(surface, fragment)
+            if lane in {"CURRENT", "OWNER"}:
+                count = lines.count(fragment)
+                if lane == "OWNER":
+                    count += lines.count(f"- {fragment}")
+            if count != 1:
+                findings.append(f"Q52_RESIDUAL:{lane}:MISSING:{fragment}")
+        if lane in TASK11_Q52_EXACT_NONBLANK_SECTION_LINES:
+            nonblank_lines = tuple(
+                line for line in surface.splitlines() if line.strip()
+            )
+            if nonblank_lines != TASK11_Q52_EXACT_NONBLANK_SECTION_LINES[lane]:
+                findings.append(f"Q52_RESIDUAL:{lane}:SECTION_SHAPE")
+
+    reproducibility = _task11_q52_reproducibility_surface(visible)
+    if not reproducibility:
+        findings.append("Q52_RESIDUAL:PROVENANCE:BOUNDARY")
+    else:
+        provenance_lines = reproducibility.splitlines()
+        for prefix, (label, target) in zip(
+            TASK11_Q52_PROVENANCE_PREFIXES,
+            TASK11_Q52_PROVENANCE_LINKS,
+        ):
+            expected = f"{prefix}[{label}]({target})"
+            if provenance_lines.count(expected) != 1:
+                findings.append(
+                    f"Q52_RESIDUAL:PROVENANCE_ROLE:{label}:{target}"
+                )
+            resolved = (ROOT / "experiments" / Path(target)).resolve()
+            if not resolved.is_file():
+                findings.append(f"Q52_RESIDUAL:PROVENANCE_MISSING:{target}")
+
+    lowered = _task11_semantic_visible_text(source)
+    for stale in TASK11_Q52_FORBIDDEN:
+        if _task11_semantic_visible_text(stale) in lowered:
+            findings.append(f"Q52_RESIDUAL:STALE:{stale}")
+    return tuple(findings)
+
+
+def _task11_q52_inbound_findings(path, source):
+    source = _task11_visible_claim_markdown(source)
+    expected = TASK11_Q52_INBOUND_LINES[path]
+    prefix = expected.split(" - ", 1)[0]
+    if path == "experiments/IBM_QUANTUM_TOMOGRAPHY.md":
+        prefix = "*See also: [Q52 Residual Record]"
+    owned = [line for line in source.splitlines() if line.startswith(prefix)]
+    if owned != [expected]:
+        return (f"Q52_RESIDUAL:INBOUND:{path}",)
+    return ()
+
+
+def _task11_q52_adjacent_findings(path, source):
+    canonical_source = source
+    escaped_comment = _task11_has_visible_escaped_comment(source)
+    commentless = _task10_visible_markdown(source)
+    source = _task11_visible_claim_markdown(source)
+    if path == "docs/PREDICTIONS.md":
+        surface = _task11_q52_owned_section(
+            source,
+            "## 3. The Q52 Residual Record (interpretation closed; Q52 mechanism open)",
+            "\n\n---\n\n## 4. Testable with Current Hardware",
+        )
+    elif path == "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md":
+        surface = _task11_q52_owned_section(
+            source,
+            "**Q52 residual record.**",
+            "\n\n**CΨ > ¼ under active dynamics.**",
+        )
+    elif path == "docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md":
+        surface = _task11_q52_owned_section(
+            source,
+            "- **First crossing**",
+            "\n- **[Tightest single-point crossing]",
+        )
+    elif path == "experiments/BRIDGE_CLOSURE.md":
+        surface = _task11_q52_owned_section(
+            source,
+            "### 6.4 IBM hardware residual record",
+            "\n### 6.5 Coherence Density Insights",
+        )
+    elif path == "experiments/RESIDUAL_ANALYSIS.md":
+        surface = _task11_q52_owned_section(
+            source,
+            TASK11_Q52_RESIDUAL_CURRENT_TITLE,
+            "\n" + TASK11_Q52_RESIDUAL_HISTORICAL_TITLE,
+        )
+    else:
+        surface = source
+    if not surface:
+        return (f"Q52_RESIDUAL:ADJACENT:{path}:BOUNDARY",)
+    findings = []
+    if path == "experiments/RESIDUAL_ANALYSIS.md":
+        if hashlib.sha256(canonical_source.encode("utf-8")).hexdigest().upper() != (
+            TASK11_Q52_DOCUMENT_LF_SHA256[path]
+        ):
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:CONTENT_SEAL")
+        if escaped_comment:
+            findings.append(
+                f"Q52_RESIDUAL:ADJACENT:{path}:ESCAPED_COMMENT"
+            )
+        if TASK11_HTML_ENTITY_RE.search(commentless):
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:HTML_ENTITY")
+        if _task11_html_tag_ranges(commentless):
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:RAW_HTML")
+        if "~~" in commentless:
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:GFM_STRIKETHROUGH")
+        if TASK11_REFERENCE_DEFINITION_ANYWHERE_RE.search(commentless):
+            findings.append(
+                f"Q52_RESIDUAL:ADJACENT:{path}:REFERENCE_DEFINITION"
+            )
+        raw_marker = "## Raw Numbers for Reference"
+        raw_tail = commentless.split(raw_marker, 1)
+        raw_table = ()
+        if len(raw_tail) == 2:
+            raw_fences = raw_tail[1].split("```", 2)
+            if len(raw_fences) == 3:
+                raw_table = tuple(raw_fences[1].strip("\r\n").splitlines())
+        if raw_table != TASK11_Q52_RAW_TABLE_LINES:
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:RAW_TABLE")
+        expected_h1_positions = tuple(
+            sorted(
+                _task11_atx_heading_positions(source, TASK11_Q52_RESIDUAL_CURRENT_TITLE)
+                + _task11_atx_heading_positions(
+                    source, TASK11_Q52_RESIDUAL_HISTORICAL_TITLE
+                )
+            )
+        )
+        if (
+            len(expected_h1_positions) != 2
+            or _task11_visible_h1_positions(source) != expected_h1_positions
+            or _task11_container_h1_marker_present(commentless)
+        ):
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:TITLE")
+    for required in TASK11_Q52_ADJACENT_REQUIRED[path]:
+        if _task11_non_code_occurrence_count(surface, required) != 1:
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:MISSING:{required}")
+    if path == "experiments/RESIDUAL_ANALYSIS.md":
+        lines = source.splitlines()
+        for exact_line in TASK11_Q52_RESIDUAL_EXACT_LINES:
+            expected_count = (
+                2
+                if exact_line == TASK11_Q52_RESIDUAL_STATUS_LINE
+                else 1
+            )
+            if (
+                lines.count(exact_line) != expected_count
+                or _task11_top_level_exact_line_count(source, exact_line)
+                != expected_count
+            ):
+                findings.append(
+                    f"Q52_RESIDUAL:ADJACENT:{path}:EXACT_LINE:{exact_line}"
+                )
+        for required in TASK11_Q52_RESIDUAL_HISTORICAL_REQUIRED:
+            if _task11_non_code_occurrence_count(source, required) != 1:
+                findings.append(
+                    f"Q52_RESIDUAL:ADJACENT:{path}:MISSING:{required}"
+                )
+    forbidden_surface = source if path == "experiments/RESIDUAL_ANALYSIS.md" else surface
+    lowered = _task11_semantic_visible_text(forbidden_surface)
+    for stale in TASK11_Q52_ADJACENT_FORBIDDEN[path]:
+        if _task11_semantic_visible_text(stale) in lowered:
+            findings.append(f"Q52_RESIDUAL:ADJACENT:{path}:STALE:{stale}")
+    return tuple(findings)
+
+
+def test_task11_q52_residual_document_is_current_truth():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    assert _task11_q52_residual_findings(source) == ()
+
+
+@pytest.mark.parametrize("location", ("prefix", "controls", "suffix"))
+def test_task11_q52_document_seal_rejects_additive_causal_verdict(location):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    verdict = "The Q52 magnitude-excess cause is conclusively a substrate TLS.\n\n"
+    if location == "prefix":
+        mutant = verdict + source
+    elif location == "controls":
+        marker = "## Discriminating controls"
+        mutant = source.replace(marker, verdict + marker, 1)
+    else:
+        mutant = source + "\n" + verdict
+    assert "Q52_RESIDUAL:CONTENT_SEAL" in _task11_q52_residual_findings(mutant)
+
+
+@pytest.mark.parametrize("location", ("prefix", "hypotheses", "suffix"))
+def test_task11_q52_historical_document_seal_rejects_additive_causal_verdict(
+    location,
+):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    verdict = "The Q52 magnitude-excess cause is conclusively a substrate TLS.\n\n"
+    if location == "prefix":
+        mutant = verdict + source
+    elif location == "hypotheses":
+        marker = "## Three Hypotheses"
+        mutant = source.replace(marker, marker + "\n\n" + verdict, 1)
+    else:
+        mutant = source + "\n" + verdict
+    findings = _task11_q52_adjacent_findings(path, mutant)
+    assert f"Q52_RESIDUAL:ADJACENT:{path}:CONTENT_SEAL" in findings
+
+
+@pytest.mark.parametrize(
+    "label,current",
+    (
+        ("STATUS", TASK11_Q52_RESIDUAL_STATUS),
+        ("SCOPE", TASK11_Q52_RESIDUAL_SCOPE),
+    ),
+)
+def test_task11_q52_header_claim_negation_prefixes_fail(label, current):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, f"It is false that {current}", 1)
+    assert mutant != source
+    assert f"Q52_RESIDUAL:{label}" in _task11_q52_residual_findings(mutant)
+
+
+@pytest.mark.parametrize(
+    "prefix",
+    (
+        "# Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "Q52 Anomaly Is Explained by Ordinary Calibration\n"
+        "=================================================\n\n",
+        "- # Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "1. # Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "- - # Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "- item\n    # Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "- item\n\t# Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "- item\n  \t# Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "- - item\n      # Q52 Anomaly Is Explained by Ordinary Calibration\n\n",
+        "- Q52 Anomaly Is Explained by Ordinary Calibration\n  ====\n\n",
+    ),
+)
+def test_task11_q52_rejects_competing_top_level_title(prefix):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    findings = _task11_q52_residual_findings(prefix + source)
+    assert "Q52_RESIDUAL:TITLE" in findings
+
+
+@pytest.mark.parametrize(
+    "prefix",
+    (
+        "# Current verdict: Q52 cause is known\n\n",
+        "Current verdict: Q52 cause is known\n==============================\n\n",
+        "- # Current verdict: Q52 cause is known\n\n",
+        "1. # Current verdict: Q52 cause is known\n\n",
+        "- - # Current verdict: Q52 cause is known\n\n",
+        "- item\n    # Current verdict: Q52 cause is known\n\n",
+        "- item\n\t# Current verdict: Q52 cause is known\n\n",
+        "- item\n  \t# Current verdict: Q52 cause is known\n\n",
+        "- - item\n      # Current verdict: Q52 cause is known\n\n",
+        "- Current verdict: Q52 cause is known\n  ====\n\n",
+    ),
+)
+def test_task11_q52_historical_doc_rejects_competing_top_level_title(prefix):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    findings = _task11_q52_adjacent_findings(path, prefix + source)
+    assert f"Q52_RESIDUAL:ADJACENT:{path}:TITLE" in findings
+
+
+@pytest.mark.parametrize(
+    "prefix",
+    (
+        "<h1>Current verdict: Q52 cause is known</h1>\n\n",
+        "<div>Current verdict: Q52 cause is known</div>\n\n",
+    ),
+)
+def test_task11_q52_historical_doc_rejects_raw_html_claim_prefix(prefix):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    findings = _task11_q52_adjacent_findings(path, prefix + source)
+    assert f"Q52_RESIDUAL:ADJACENT:{path}:RAW_HTML" in findings
+
+
+@pytest.mark.parametrize(
+    "prefix,expected",
+    (
+        (r"\<!-- The shadow is real. -->" + "\n", "ESCAPED_COMMENT"),
+        ("The shadow is &#114;eal.\n", "HTML_ENTITY"),
+        ("The shadow is &#x72;eal.\n", "HTML_ENTITY"),
+        ("The shadow is &real;.\n", "HTML_ENTITY"),
+        ("The shadow is **real**.\n", "STALE"),
+        ("The shadow is\nreal.\n", "STALE"),
+    ),
+)
+def test_task11_q52_rejects_visible_text_encoding_decoys(prefix, expected):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    findings = _task11_q52_residual_findings(prefix + source)
+    assert any(expected in finding for finding in findings), findings
+
+
+@pytest.mark.parametrize(
+    "prefix,expected",
+    (
+        (
+            r"\<!-- Cause resolved as qubit-specific detuning. -->" + "\n",
+            "ESCAPED_COMMENT",
+        ),
+        ("Cause &#114;esolved as qubit-specific detuning.\n", "HTML_ENTITY"),
+        ("Cause &#x72;esolved as qubit-specific detuning.\n", "HTML_ENTITY"),
+        ("Cause &real; as qubit-specific detuning.\n", "HTML_ENTITY"),
+        ("Cause re**sol**ved as qubit-specific detuning.\n", "STALE"),
+        ("Cause resolved as qubit-specific\ndetuning.\n", "STALE"),
+    ),
+)
+def test_task11_q52_historical_doc_rejects_visible_text_decoys(prefix, expected):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    findings = _task11_q52_adjacent_findings(path, prefix + source)
+    assert any(expected in finding for finding in findings), findings
+
+
+@pytest.mark.parametrize(
+    "current,replacement",
+    (
+        (
+            TASK11_Q52_RECORD_ALGEBRA_LINE,
+            TASK11_Q52_RECORD_ALGEBRA_LINE.replace(
+                "`Psi = 2|rho_01|` and `C*Psi = C 2|rho_01|`",
+                "`Psi = 3|rho_01|` and `C*Psi = C 3|rho_01|`",
+            ),
+        ),
+        (
+            TASK11_Q80_FIT_FORMULA_LINE,
+            TASK11_Q80_FIT_FORMULA_LINE.replace(
+                "exp(-t/T2)", "exp(+t/T2)"
+            ),
+        ),
+        (
+            TASK11_Q80_FIT_FORMULA_LINE,
+            TASK11_Q80_FIT_FORMULA_LINE.replace(
+                "`A0 = |rho_01(0)|`", "`A0 = 2|rho_01(0)|`"
+            ),
+        ),
+        (
+            TASK11_Q80_FIT_TABLE_HEADER_LINE,
+            "| Q80 comparison | Guessed quantities | False score | Unrelated "
+            "comparator | Scope |",
+        ),
+        (
+            TASK11_Q80_FIT_FIXED_ROW_LINE,
+            "| Hahn-T2 fixed phase line | slope on one row | 9.9999 | "
+            "intercept-only 8.8888 | scored nowhere |",
+        ),
+    ),
+)
+def test_task11_q52_formula_and_table_mutations_fail(current, replacement):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, replacement, 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+@pytest.mark.parametrize(
+    "current",
+    (
+        TASK11_Q52_RESIDUAL_STATUS,
+        TASK11_Q52_RESIDUAL_SCOPE,
+        TASK11_Q52_RECORD_ALGEBRA_LINE,
+        TASK11_Q80_FIT_FORMULA_LINE,
+        TASK11_Q80_FIT_TABLE_HEADER_LINE,
+        TASK11_Q80_FIT_FIXED_ROW_LINE,
+    ),
+)
+@pytest.mark.parametrize(
+    "wrapper",
+    (
+        "`\n{current}\n`",
+        "[archive](/ \"\n{current}\n\")",
+    ),
+)
+def test_task11_q52_exact_lines_cannot_hide_in_inline_markup(current, wrapper):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, wrapper.format(current=current), 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+@pytest.mark.parametrize(
+    "qualifier",
+    (
+        "The following statement is false:",
+        "Retracted:",
+        "This is not true:",
+    ),
+)
+@pytest.mark.parametrize(
+    "lane,current",
+    (
+        ("CURRENT", TASK10_Q52_SUMMARY_REQUIRED[2]),
+        ("OWNER", "The cross-term formula does not identify a Q52 hardware mechanism."),
+    ),
+)
+def test_task11_q52_current_owner_claims_reject_detached_qualifiers(
+    lane, current, qualifier
+):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    if lane == "CURRENT":
+        mutant = source.replace(current, f"{qualifier}\n\n{current}", 1)
+    else:
+        owner_start = source.index("## Ownership and open status")
+        claim_start = source.index(current, owner_start)
+        mutant = (
+            source[:claim_start]
+            + f"{qualifier}\n\n"
+            + source[claim_start:]
+        )
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:{lane}:SECTION_SHAPE" in findings
+
+
+@pytest.mark.parametrize(
+    "wrapper,expected",
+    (
+        ("`\n{current}\n`", "EXACT_LINE"),
+        ("[archive](/ \"\n{current}\n\")", "EXACT_LINE"),
+        ("~~\n{current}\n~~", "GFM_STRIKETHROUGH"),
+        ("[archive]: / \"\n{current}\n\"", "REFERENCE_DEFINITION"),
+    ),
+)
+def test_task11_q52_historical_status_cannot_hide_in_markup(wrapper, expected):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    current = TASK11_Q52_RESIDUAL_STATUS_LINE
+    first = source.find(current)
+    second = source.find(current, first + len(current))
+    assert first >= 0 and second > first
+    mutant = (
+        source[:second]
+        + wrapper.format(current=current)
+        + source[second + len(current):]
+    )
+    findings = _task11_q52_adjacent_findings(path, mutant)
+    assert any(expected in finding for finding in findings), findings
+
+
+def _task11_assert_q52_record_numbers(stored):
+    assert stored["experiment"] == "IBM_Quantum_CPsi_Tomography"
+    assert stored["timestamp"] == "20260209_131521"
+    assert stored["backend"] == "ibm_torino"
+    assert stored["qubit_index"] == 52
+    raw_rows = stored["raw_tomography"]
+    analysis_rows = stored["analysis"]
+    assert len(raw_rows) == len(analysis_rows) == stored["n_delay_points"] == 25
+    t2_echo_us = float(stored["T2_us"])
+    rows = []
+    for raw, analysis in zip(raw_rows, analysis_rows):
+        delay_us = float(analysis["delay_us"])
+        assert float(raw["delay_us"]) == pytest.approx(delay_us, abs=1e-12)
+        assert float(analysis["delay_over_T2"]) == pytest.approx(
+            delay_us / t2_echo_us, abs=1e-15
+        )
+        rho_real = np.array(raw["density_matrix_real"], dtype=float)
+        rho_imag = np.array(raw["density_matrix_imag"], dtype=float)
+        assert rho_real.shape == rho_imag.shape == (2, 2)
+        rho = rho_real + 1j * rho_imag
+        rho01 = rho[0, 1]
+        assert np.allclose(rho, rho.conj().T, rtol=0.0, atol=1e-15)
+        assert float(np.trace(rho).real) == pytest.approx(1.0, abs=5e-15)
+        raw_coherence = float(abs(rho01))
+        raw_purity = float(np.trace(rho @ rho).real)
+        populations = analysis["populations"]
+        assert float(populations["rho_00"]) == pytest.approx(
+            float(rho[0, 0].real), abs=1e-15
+        )
+        assert float(populations["rho_11"]) == pytest.approx(
+            float(rho[1, 1].real), abs=1e-15
+        )
+        assert float(populations["rho_01_abs"]) == pytest.approx(
+            raw_coherence, abs=1e-15
+        )
+        assert float(analysis["C_measured"]) == pytest.approx(
+            raw_purity, abs=1e-15
+        )
+        assert float(analysis["psi_measured"]) == pytest.approx(
+            2.0 * raw_coherence, abs=1e-15
+        )
+        rows.append(
+            (
+                float(analysis["delay_over_T2"]),
+                float(rho01.real),
+                float(rho01.imag),
+                float(abs(rho01)),
+                float(analysis["cpsi_measured"]),
+            )
+        )
+        assert analysis["cpsi_measured"] == (
+            analysis["C_measured"] * analysis["psi_measured"]
+        )
+        assert analysis["psi_measured"] == (
+            2.0 * analysis["populations"]["rho_01_abs"]
+        )
+    return rows
+
+
+def test_task11_q52_record_numbers_recompute_from_json():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_HARDWARE_JSON))
+    rows = _task11_assert_q52_record_numbers(stored)
+
+    assert stored["shots"] == 8192
+    assert float(stored["T2_us"]) == pytest.approx(
+        298.24748895025783, abs=1e-12
+    )
+    delay_us = np.array(
+        [float(analysis["delay_us"]) for analysis in stored["analysis"]]
+    )
+    coherence = np.array([row[3] for row in rows])
+    valid = coherence > 0.005
+
+    def exponential_decay(time, amplitude, rate):
+        return amplitude * np.exp(-rate * time)
+
+    fit, _ = curve_fit(
+        exponential_decay,
+        delay_us[valid],
+        coherence[valid],
+        p0=[coherence[0], 1.0 / 100.0],
+        maxfev=5000,
+    )
+    assert 1.0 / fit[1] == pytest.approx(110.72933479085708, abs=1e-10)
+    late = [row for row in rows if row[0] >= 1.0]
+    assert len(late) == 17
+    assert all(row[1] > 0.0 and row[2] < 0.0 for row in late)
+    tail = [row for row in rows if row[0] >= 1.5]
+    assert len(tail) == 13
+    fit = linregress([row[0] for row in tail], [row[3] for row in tail])
+    assert fit.slope == pytest.approx(0.008188870732610105, abs=1e-15)
+    assert fit.slope / float(stored["T2_us"]) == pytest.approx(
+        2.7456629262604984e-5, abs=1e-18
+    )
+    assert fit.rvalue == pytest.approx(0.5468528059393135, abs=1e-15)
+    assert fit.pvalue == pytest.approx(0.05311650691980428, abs=1e-15)
+    critical = student_t.ppf(0.975, len(tail) - 2)
+    interval = (
+        fit.slope - critical * fit.stderr,
+        fit.slope + critical * fit.stderr,
+    )
+    assert interval[0] == pytest.approx(-0.00013103651603117716, abs=1e-15)
+    assert interval[1] == pytest.approx(0.016508777981251378, abs=1e-15)
+    strict_tail = [row for row in rows if row[0] > 1.5]
+    assert len(strict_tail) == 12
+    strict_fit = linregress(
+        [row[0] for row in strict_tail], [row[3] for row in strict_tail]
+    )
+    assert strict_fit.slope == pytest.approx(0.01040609116265921, abs=1e-15)
+    assert not all(a <= b for a, b in zip(
+        [row[3] for row in tail], [row[3] for row in tail][1:]
+    ))
+    correlation = np.corrcoef(
+        [row[3] for row in late], [0.25 - row[4] for row in late]
+    )[0, 1]
+    assert correlation == pytest.approx(-0.9954518677372246, abs=1e-15)
+    document_lines = read_host(TASK11_Q52_RESIDUAL_PATH).splitlines()
+    assert document_lines.count(TASK11_Q52_RECORD_ALGEBRA_LINE) == 1
+    late_rows = [row for row in rows if row[0] >= 1.0]
+    assert len(late_rows) == 17
+    assert float(np.mean([row[1] for row in late_rows])) == pytest.approx(
+        0.011366900275735295, abs=1e-15
+    )
+    assert float(np.std([row[1] for row in late_rows])) == pytest.approx(
+        0.004990743728194992, abs=1e-15
+    )
+    assert float(np.mean([row[2] for row in late_rows])) == pytest.approx(
+        -0.012788660386029412, abs=1e-15
+    )
+    assert float(np.std([row[2] for row in late_rows])) == pytest.approx(
+        0.008051147700374305, abs=1e-15
+    )
+    endpoint_rows = [row for row in rows if row[0] == 1.25]
+    assert len(endpoint_rows) == 1
+    selected_rows = [row for row in rows if row[0] >= 1.25]
+    assert len(selected_rows) == 15
+    assert float(np.mean([row[3] for row in selected_rows])) == pytest.approx(
+        0.01851989545697889, abs=1e-15
+    )
+    peak_row = next(row for row in rows if row[0] == 2.625)
+    assert peak_row[3] == pytest.approx(0.03628528489077628, abs=1e-15)
+    expected_raw_table = (
+        TASK11_Q52_RAW_TABLE_LINES[0],
+        *(
+            f"{normalized:.3f}   {real:+.6f}    {imag:+.6f}    {magnitude:.6f}"
+            for normalized, real, imag, magnitude, _ in late_rows
+        ),
+    )
+    assert expected_raw_table == TASK11_Q52_RAW_TABLE_LINES
+    residual_lines = read_host("experiments/RESIDUAL_ANALYSIS.md").splitlines()
+    for exact_line in TASK11_Q52_RESIDUAL_QUANTIFIED_LINES:
+        assert residual_lines.count(exact_line) == 1
+
+
+def _task11_q52_simulator_fixture_late_values(stored):
+    assert stored["experiment"] == "SIMULATOR_TEST"
+    assert stored["timestamp"] == "20260209_125106"
+    assert float(stored["T1_us"]) == 200.0
+    assert float(stored["T2_us"]) == 150.0
+    assert len(stored["analysis"]) == 25
+    values = []
+    for point in stored["analysis"]:
+        delay_us = float(point["delay_us"])
+        normalized = float(point["delay_over_T2"])
+        assert normalized == pytest.approx(delay_us / 150.0, abs=1e-15)
+        if normalized >= 1.25:
+            values.append(float(point["populations"]["rho_01_abs"]))
+    return values
+
+
+def test_task11_q52_cross_fixture_late_means_recompute_from_saved_rows():
+    hardware = json.loads(read_host(TASK7_Q52_COMMIT_B_HARDWARE_JSON))
+    hardware_rows = _task11_assert_q52_record_numbers(hardware)
+    hardware_values = [row[3] for row in hardware_rows if row[0] >= 1.25]
+    simulator = json.loads(read_host(TASK7_Q52_COMMIT_B_SIMULATOR_JSON))
+    simulator_values = _task11_q52_simulator_fixture_late_values(simulator)
+    assert len(hardware_values) == len(simulator_values) == 15
+    assert float(np.mean(simulator_values)) == pytest.approx(
+        0.07261514695968439, abs=1e-15
+    )
+    assert float(np.mean(hardware_values)) == pytest.approx(
+        0.01851989545697889, abs=1e-15
+    )
+    assert np.mean(simulator_values) > np.mean(hardware_values)
+    document_lines = read_host("experiments/RESIDUAL_ANALYSIS.md").splitlines()
+    for exact_line in TASK11_Q52_SIMULATOR_COMPARISON_LINES:
+        assert document_lines.count(exact_line) == 1
+
+
+def test_task11_q52_cross_fixture_claim_numeric_and_ranking_mutation_fails():
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    current = TASK11_Q52_SIMULATOR_COMPARISON_LINES[2]
+    mutant = source.replace(
+        current,
+        "late-time means are respectively 0.001000 and 0.999000. This is a "
+        "cross-fixture",
+        1,
+    )
+    assert mutant != source
+    assert _task11_q52_adjacent_findings(path, mutant)
+
+
+@pytest.mark.parametrize(
+    "current,replacement,expected",
+    (
+        (
+            "`+0.00819/T2_echo`, two-sided p = 0.0531, and a 95% interval "
+            "that crosses",
+            "`+9.99999/T2_echo`, two-sided p = 0.0000, and a 95% interval "
+            "that excludes",
+            "EXACT_LINE",
+        ),
+        (
+            "- **Re(ρ₀₁) > 0 in 17/17 measurements**",
+            "- **Re(ρ₀₁) < 0 in 0/17 measurements**",
+            "EXACT_LINE",
+        ),
+        (
+            "1.000   +0.011597    -0.010742    0.015808",
+            "1.000   -9.999999    -0.010742    9.999999",
+            "RAW_TABLE",
+        ),
+        (
+            "(`t/T2_echo >= 1.25`, 15 stored rows)",
+            "(`t/T2_echo > 1.25`, 14 stored rows)",
+            "EXACT_LINE",
+        ),
+        (
+            "For all 17 data points at `t/T2_echo >= 1.0`:",
+            "For all 17 data points at `t/T2* >= 1.0`:",
+            "EXACT_LINE",
+        ),
+        (
+            TASK11_Q52_RAW_TABLE_LINES[0],
+            "t/T2*   Re(ρ₀₁)      Im(ρ₀₁)      |ρ₀₁|",
+            "RAW_TABLE",
+        ),
+    ),
+)
+def test_task11_q52_residual_quantified_claim_mutations_fail(
+    current, replacement, expected
+):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    mutant = source.replace(current, replacement, 1)
+    assert mutant != source
+    findings = _task11_q52_adjacent_findings(path, mutant)
+    assert any(expected in finding for finding in findings), findings
+
+
+@pytest.mark.parametrize(
+    "field,replacement",
+    (
+        ("experiment", "wrong_source"),
+        ("timestamp", "19000101_000000"),
+        ("T1_us", 999.0),
+        ("T2_us", 999.0),
+    ),
+)
+def test_task11_q52_simulator_fixture_rejects_wrong_source(field, replacement):
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SIMULATOR_JSON))
+    stored[field] = replacement
+    with pytest.raises(AssertionError):
+        _task11_q52_simulator_fixture_late_values(stored)
+
+
+@pytest.mark.parametrize(
+    "mutation", ("axis", "append_raw", "delete_analysis", "inflate_raw_shape")
+)
+def test_task11_q52_record_rejects_pointwise_axis_and_length_mutations(mutation):
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_HARDWARE_JSON))
+    if mutation == "axis":
+        stored["analysis"][1]["delay_over_T2"] = 0.123456
+    elif mutation == "append_raw":
+        stored["raw_tomography"].append(
+            json.loads(json.dumps(stored["raw_tomography"][-1]))
+        )
+    elif mutation == "delete_analysis":
+        del stored["analysis"][-1]
+    else:
+        for key in ("density_matrix_real", "density_matrix_imag"):
+            matrix = stored["raw_tomography"][0][key]
+            matrix[0].append(0.0)
+            matrix[1].append(0.0)
+            matrix.append([0.0, 0.0, 0.0])
+    with pytest.raises(AssertionError):
+        _task11_assert_q52_record_numbers(stored)
+
+
+def test_task11_q52_record_rejects_coordinated_derived_coherence_mutation():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_HARDWARE_JSON))
+    row = stored["analysis"][0]
+    row["populations"]["rho_01_abs"] += 0.1
+    row["psi_measured"] = 2.0 * row["populations"]["rho_01_abs"]
+    row["cpsi_measured"] = row["C_measured"] * row["psi_measured"]
+    with pytest.raises(AssertionError):
+        _task11_assert_q52_record_numbers(stored)
+
+
+@pytest.mark.parametrize(
+    "field,replacement",
+    (
+        ("experiment", "wrong_source"),
+        ("timestamp", "19000101_000000"),
+        ("backend", "fake_backend"),
+        ("qubit_index", 51),
+    ),
+)
+def test_task11_q52_record_rejects_wrong_source_identity(field, replacement):
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_HARDWARE_JSON))
+    stored[field] = replacement
+    with pytest.raises(AssertionError):
+        _task11_assert_q52_record_numbers(stored)
+
+
+def test_task11_q52_early_phase_sign_alias_and_provenance_recompute_from_json():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_HARDWARE_JSON))
+    times = []
+    phases = []
+    for raw, analysis in zip(stored["raw_tomography"][:5], stored["analysis"][:5]):
+        rho = (
+            np.array(raw["density_matrix_real"], dtype=float)
+            + 1j * np.array(raw["density_matrix_imag"], dtype=float)
+        )
+        times.append(float(analysis["delay_us"]))
+        phases.append(float(np.angle(rho[0, 1])))
+    unwrapped = np.unwrap(np.array(phases))
+    phase_slope, _ = np.polyfit(np.array(times), unwrapped, 1)
+    grid_us = min(time for time in times if time > 0.0)
+    assert np.allclose(
+        np.array(times), np.arange(5, dtype=float) * grid_us, rtol=0.0, atol=1e-12
+    )
+    phase_slope_khz = phase_slope * 1000.0 / (2.0 * np.pi)
+    detuning_rep_khz = -phase_slope_khz
+    assert phase_slope == pytest.approx(-0.035695618196219914, abs=1e-15)
+    assert phase_slope_khz == pytest.approx(-5.681134082649404, abs=1e-12)
+    assert detuning_rep_khz == pytest.approx(+5.681134082649404, abs=1e-12)
+    assert grid_us == pytest.approx(37.28093611878223, abs=1e-12)
+    assert 1000.0 / grid_us == pytest.approx(26.823360787236172, abs=1e-12)
+    source = read_host("experiments/RESIDUAL_ANALYSIS.md")
+    assert (
+        "the fitted phase slope is `m = -0.035696 rad/us` (`-5.681 kHz`)"
+        in source
+    )
+    assert "detuning representative is therefore `delta_f = +5.681 kHz`" in source
+    assert "five-row and unwrapping choices" in source
+
+
+def _task11_assert_march_source_identity(stored, source_kind):
+    if source_kind == "hardware":
+        assert stored["experiment"] == "shadow_hunt_hardware"
+        assert stored["mode"] == "hardware"
+        assert stored["backend"] == "ibm_torino"
+        assert stored["timestamp"] == "20260309_181852"
+    elif source_kind == "simulator":
+        assert stored["experiment"] == "shadow_hunt_synthetic"
+        assert stored["mode"] == "simulate"
+        assert stored["timestamp"] == "20260309_181709"
+        assert stored["seed"] == 42
+    else:
+        raise AssertionError(f"unknown March source kind: {source_kind}")
+
+
+def _task11_march_raw_quadrants(stored, source_kind="hardware"):
+    _task11_assert_march_source_identity(stored, source_kind)
+    qubit_rows = stored["qubit_results"]
+    qubit_ids = [int(row["qubit"]) for row in qubit_rows]
+    assert len(qubit_rows) == 2
+    assert len(set(qubit_ids)) == len(qubit_ids)
+    expected_qubits = {80, 102} if source_kind == "hardware" else {15, 80}
+    assert set(qubit_ids) == expected_qubits
+    result = {}
+    for qubit_result in qubit_rows:
+        _task11_assert_shadow_axes(qubit_result, stored["delay_multiples"])
+        quadrants = []
+        for point in qubit_result["points"]:
+            if float(point["t_over_T2star"]) < 1.5 - 1e-12:
+                continue
+            real = float(point["rho01_re"])
+            imag = float(point["rho01_im"])
+            if real > 0.0 and imag > 0.0:
+                quadrant = 1
+            elif real < 0.0 and imag > 0.0:
+                quadrant = 2
+            elif real < 0.0 and imag < 0.0:
+                quadrant = 3
+            elif real > 0.0 and imag < 0.0:
+                quadrant = 4
+            else:
+                quadrant = 0
+            quadrants.append(quadrant)
+        result[int(qubit_result["qubit"])] = tuple(quadrants)
+    return result
+
+
+def _task11_assert_shadow_axes(qubit_result, expected_delay_multiples=None):
+    calibration = (
+        qubit_result
+        if "T2_us" in qubit_result
+        else qubit_result["verdict"]
+    )
+    t2_us = float(calibration["T2_us"])
+    t2_star_us = float(calibration["T2_star_us"])
+    points = qubit_result["points"]
+    assert len(points) == 10
+    assert int(qubit_result["verdict"]["n_total_points"]) == len(points)
+    delays = np.array([float(point["delay_us"]) for point in points])
+    assert np.all(np.diff(delays) > 0.0)
+    if expected_delay_multiples is not None:
+        assert len(expected_delay_multiples) == len(points)
+        assert np.allclose(
+            [float(point["t_over_T2star"]) for point in points],
+            np.array(expected_delay_multiples, dtype=float),
+            rtol=0.0,
+            atol=1e-15,
+        )
+    for point in points:
+        delay_us = float(point["delay_us"])
+        assert float(point["t_over_T2"]) == pytest.approx(
+            delay_us / t2_us, abs=1e-15
+        )
+        assert float(point["t_over_T2star"]) == pytest.approx(
+            delay_us / t2_star_us, abs=1e-15
+        )
+
+
+def _task11_assert_q102_stored_significance(q102, shots):
+    t2_us = float(q102["verdict"]["T2_us"])
+    for point in q102["points"]:
+        expected_theory_re = 0.5 * np.exp(-float(point["delay_us"]) / t2_us)
+        assert float(point["rho01_re_theory"]) == pytest.approx(
+            expected_theory_re, abs=1e-15
+        )
+        assert float(point["rho01_im_theory"]) == pytest.approx(0.0, abs=1e-15)
+        assert float(point["rho01_abs_theory"]) == pytest.approx(
+            expected_theory_re, abs=1e-15
+        )
+    q102_late = [
+        point
+        for point in q102["points"]
+        if float(point["t_over_T2star"]) >= 1.5
+    ]
+    floor = 1.0 / np.sqrt(float(shots))
+    assert float(q102["verdict"]["shot_noise_floor"]) == pytest.approx(
+        floor, abs=1e-15
+    )
+    recomputed_flags = []
+    for point in q102_late:
+        measured_re = float(point["rho01_re"])
+        measured_im = float(point["rho01_im"])
+        theory_re = float(point["rho01_re_theory"])
+        theory_im = float(point["rho01_im_theory"])
+        residual_re = measured_re - theory_re
+        residual_im = measured_im - theory_im
+        residual_abs = float(np.hypot(residual_re, residual_im))
+        assert float(point["rho01_abs"]) == pytest.approx(
+            np.hypot(measured_re, measured_im), abs=1e-15
+        )
+        assert float(point["rho01_abs_theory"]) == pytest.approx(
+            np.hypot(theory_re, theory_im), abs=1e-15
+        )
+        assert float(point["residual_re"]) == pytest.approx(residual_re, abs=1e-15)
+        assert float(point["residual_im"]) == pytest.approx(residual_im, abs=1e-15)
+        assert float(point["residual_abs"]) == pytest.approx(residual_abs, abs=1e-15)
+        recomputed_flags.append(residual_abs > floor)
+    recomputed_flags = tuple(recomputed_flags)
+    stored_raw = tuple(q102["verdict"]["significant_excess"])
+    assert len(stored_raw) == len(recomputed_flags)
+    assert set(stored_raw) <= {"True", "False"}
+    stored_flags = tuple(value == "True" for value in stored_raw)
+    assert stored_flags == recomputed_flags
+    assert int(q102["verdict"]["n_significant_excess"]) == sum(
+        recomputed_flags
+    )
+    return recomputed_flags
+
+
+def _task11_assert_q80_source_identity(combined, standalone):
+    _task11_assert_march_source_identity(combined, "hardware")
+    q80_rows = [
+        row for row in combined["qubit_results"] if int(row["qubit"]) == 80
+    ]
+    assert len(q80_rows) == 1
+    combined_q80 = q80_rows[0]
+    assert int(standalone["qubit"]) == 80
+    assert standalone["backend"] == "ibm_torino"
+    assert standalone["timestamp"] == "20260309_181852"
+    assert combined["backend"] == standalone["backend"]
+    assert combined["timestamp"] == standalone["timestamp"]
+    assert combined_q80["points"] == standalone["points"]
+    assert combined_q80["verdict"] == standalone["verdict"]
+    for field in ("T1_us", "T2_us", "T2_star_us"):
+        assert float(combined_q80["verdict"][field]) == float(standalone[field])
+
+
+def test_task11_q52_march_direction_counts_recompute_from_raw_points():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    _task11_assert_q80_source_identity(
+        stored, json.loads(read_host(TASK11_Q80_FIT_JSON))
+    )
+    quadrants = _task11_march_raw_quadrants(stored)
+    assert quadrants[80] == (1,) * 8
+    assert len(quadrants[102]) == 8
+    assert set(quadrants[102]) == {1, 2, 3, 4}
+    q102 = next(row for row in stored["qubit_results"] if row["qubit"] == 102)
+    q102_late = [
+        point
+        for point in q102["points"]
+        if float(point["t_over_T2star"]) >= 1.5
+    ]
+    floor = float(q102["verdict"]["shot_noise_floor"])
+    assert sum(float(point["residual_re"]) < 0.0 for point in q102_late) == 8
+    assert sum(float(point["residual_abs"]) > floor for point in q102_late) == 7
+    recomputed_flags = _task11_assert_q102_stored_significance(
+        q102, stored["shots"]
+    )
+    assert sum(recomputed_flags) == 7
+    q80 = next(row for row in stored["qubit_results"] if row["qubit"] == 80)
+    q80_late = [
+        point
+        for point in q80["points"]
+        if float(point["t_over_T2star"]) >= 1.5
+    ]
+    q80_phases = np.unwrap(
+        np.angle(
+            np.array(
+                [complex(point["rho01_re"], point["rho01_im"]) for point in q80_late]
+            )
+        )
+    )
+    phase_steps = np.diff(q80_phases)
+    assert np.any(phase_steps > 0.0) and np.any(phase_steps < 0.0)
+    assert 4.0**-17 == pytest.approx(5.820766091346741e-11, abs=0.0)
+
+
+@pytest.mark.parametrize("mutation", ("duplicate_point", "delay_metadata"))
+def test_task11_q52_march_axes_reject_duplicate_or_metadata_mutation(mutation):
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    if mutation == "duplicate_point":
+        stored["qubit_results"][0]["points"][2] = json.loads(
+            json.dumps(stored["qubit_results"][0]["points"][7])
+        )
+    else:
+        stored["delay_multiples"][2] = 9.5
+    with pytest.raises(AssertionError):
+        _task11_march_raw_quadrants(stored)
+
+
+def test_task11_q80_standalone_record_matches_combined_march_row():
+    combined = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    standalone = json.loads(read_host(TASK11_Q80_FIT_JSON))
+    _task11_assert_q80_source_identity(combined, standalone)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    (
+        "points",
+        "calibration",
+        "backend",
+        "timestamp",
+        "coordinated_backend",
+        "coordinated_timestamp",
+        "experiment",
+        "mode",
+        "qubit",
+    ),
+)
+def test_task11_q80_source_identity_rejects_wrong_duplicate(mutation):
+    combined = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    standalone = json.loads(read_host(TASK11_Q80_FIT_JSON))
+    q80 = next(row for row in combined["qubit_results"] if row["qubit"] == 80)
+    if mutation == "points":
+        q80["points"][1]["delay_us"] *= 2.0
+    elif mutation == "calibration":
+        q80["verdict"]["T2_us"] *= 2.0
+    elif mutation == "backend":
+        combined["backend"] = "fake_backend"
+    elif mutation == "timestamp":
+        combined["timestamp"] = "19000101_000000"
+    elif mutation == "coordinated_backend":
+        combined["backend"] = standalone["backend"] = "fake_backend"
+    elif mutation == "coordinated_timestamp":
+        combined["timestamp"] = standalone["timestamp"] = "19000101_000000"
+    elif mutation == "experiment":
+        combined["experiment"] = "wrong_source"
+    elif mutation == "mode":
+        combined["mode"] = "simulate"
+    else:
+        standalone["qubit"] = 52
+    with pytest.raises(AssertionError):
+        _task11_assert_q80_source_identity(combined, standalone)
+
+
+@pytest.mark.parametrize(
+    "current,replacement",
+    (
+        (
+            "The cockpit has a matched simulator record for Q80 but none for Q102.",
+            "The cockpit has matched simulator records for both Q80 and Q102.",
+        ),
+        (
+            "The March run retained ten tomography rows for each of Q80 and Q102: "
+            "two reference rows and eight sampled late rows.",
+            "The March run retained eleven tomography rows for each of Q80 and Q102: "
+            "three reference rows and eight sampled late rows.",
+        ),
+        (
+            "Q80's phases are directional but not monotone.",
+            "Q80's phases are directional and strictly monotone.",
+        ),
+        (
+            "The nominal `4^-17 = 5.82e-11` sign probability likewise assumes ",
+            "The nominal `4^-17 = 9.99e-3` sign probability likewise assumes ",
+        ),
+        (
+            "The free-fit `T_eff = 23.25 us` lies below the March 9 Hahn value ",
+            "The free-fit `T_eff = 23.25 us` lies above the March 9 Hahn value ",
+        ),
+        (
+            "It does not own a residual-coherence mechanism. No live Witness or "
+            "OpenArc closes that gap.",
+            "It owns a residual-coherence mechanism. A live Witness closes that gap.",
+        ),
+        (
+            "This document and its retained provenance links do not identify the "
+            "producer for that null calculation",
+            "This document and its retained provenance links identify the producer "
+            "for that null calculation",
+        ),
+        (
+            "This record does not establish:",
+            "This record establishes:",
+        ),
+    ),
+)
+def test_task11_q52_material_document_claim_mutations_fail(current, replacement):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, replacement, 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+    if current.startswith("The cockpit"):
+        cockpit = read_host("simulations/results/cockpit_validation.txt")
+        assert (
+            "Only Q80 has a matched shadow simulator record; Q102 explicitly does not."
+            in cockpit
+        )
+
+
+@pytest.mark.parametrize(
+    "current,replacement",
+    (
+        (
+            "They motivate noise\nand drift hypotheses but do not establish a "
+            "scalar-boundary mechanism or an\nontological change.",
+            "They establish a scalar-boundary mechanism and an ontological change.",
+        ),
+        (
+            "The dated analysis below is kept\nas a case study in hypothesis "
+            "generation, not as a current causal verdict.",
+            "The dated analysis below is kept as a current causal verdict, with "
+            "the cause resolved.",
+        ),
+        (
+            "**Exploratory.** Anomaly detected and quantified. Cause unknown. Three "
+            "hypotheses proposed, none confirmed.",
+            "**Exploratory.** All hypotheses confirmed and resolved the cause.",
+        ),
+    ),
+)
+def test_task11_q52_residual_polarity_mutations_fail(current, replacement):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    mutant = source.replace(current, replacement, 1)
+    assert mutant != source
+    assert _task11_q52_adjacent_findings(path, mutant)
+
+
+def test_task11_march_quadrants_reject_duplicate_qubit_rows():
+    for path, source_kind in (
+        (TASK7_Q52_COMMIT_B_SHADOW_JSON, "hardware"),
+        (TASK11_Q52_SIMULATOR_JSON, "simulator"),
+    ):
+        stored = json.loads(read_host(path))
+        stored["qubit_results"].append(
+            json.loads(json.dumps(stored["qubit_results"][0]))
+        )
+        with pytest.raises(AssertionError):
+            _task11_march_raw_quadrants(stored, source_kind)
+
+
+def test_task11_march_quadrants_reject_swapped_normalized_time_coordinates():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    q102 = next(row for row in stored["qubit_results"] if row["qubit"] == 102)
+    first = next(point for point in q102["points"] if point["t_over_T2star"] == 0.5)
+    second = next(point for point in q102["points"] if point["t_over_T2star"] == 1.5)
+    first["t_over_T2star"], second["t_over_T2star"] = (
+        second["t_over_T2star"],
+        first["t_over_T2star"],
+    )
+    with pytest.raises(AssertionError):
+        _task11_march_raw_quadrants(stored)
+
+
+@pytest.mark.parametrize("mutation", ("count", "flags"))
+def test_task11_q102_stored_flag_mutation_is_rejected(mutation):
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    q102 = next(row for row in stored["qubit_results"] if row["qubit"] == 102)
+    if mutation == "count":
+        q102["verdict"]["n_significant_excess"] = "0"
+    else:
+        q102["verdict"]["significant_excess"] = ["False"] * 8
+    with pytest.raises(AssertionError):
+        _task11_assert_q102_stored_significance(q102, stored["shots"])
+
+
+def test_task11_q102_residual_magnitude_swap_is_rejected():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    q102 = next(row for row in stored["qubit_results"] if row["qubit"] == 102)
+    late = [
+        point for point in q102["points"] if float(point["t_over_T2star"]) >= 1.5
+    ]
+    late[0]["residual_abs"] = 0.0
+    late[3]["residual_abs"] = 1.0
+    q102["verdict"]["significant_excess"][0] = "False"
+    q102["verdict"]["significant_excess"][3] = "True"
+    with pytest.raises(AssertionError):
+        _task11_assert_q102_stored_significance(q102, stored["shots"])
+
+
+def test_task11_q102_coordinated_theory_baseline_mutation_is_rejected():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    q102 = next(row for row in stored["qubit_results"] if row["qubit"] == 102)
+    point = next(
+        point for point in q102["points"] if float(point["t_over_T2star"]) >= 1.5
+    )
+    point["rho01_re"] = 0.4
+    point["rho01_abs"] = float(np.hypot(point["rho01_re"], point["rho01_im"]))
+    point["rho01_re_theory"] = 0.5
+    point["rho01_abs_theory"] = 0.5
+    point["residual_re"] = point["rho01_re"] - point["rho01_re_theory"]
+    point["residual_im"] = point["rho01_im"] - point["rho01_im_theory"]
+    point["residual_abs"] = float(
+        np.hypot(point["residual_re"], point["residual_im"])
+    )
+    with pytest.raises(AssertionError):
+        _task11_assert_q102_stored_significance(q102, stored["shots"])
+
+
+def test_task11_q52_simulator_direction_count_recomputes_from_raw_points():
+    stored = json.loads(read_host(TASK11_Q52_SIMULATOR_JSON))
+    quadrants = _task11_march_raw_quadrants(stored, "simulator")
+    assert len(quadrants) == 2
+    assert all(len(items) == 8 for items in quadrants.values())
+    assert all(len(set(items)) > 1 for items in quadrants.values())
+
+
+@pytest.mark.parametrize(
+    "field,replacement",
+    (
+        ("experiment", "wrong_source"),
+        ("mode", "hardware"),
+        ("timestamp", "19000101_000000"),
+        ("seed", 99),
+    ),
+)
+def test_task11_q52_simulator_rejects_wrong_source_identity(field, replacement):
+    stored = json.loads(read_host(TASK11_Q52_SIMULATOR_JSON))
+    stored[field] = replacement
+    with pytest.raises(AssertionError):
+        _task11_march_raw_quadrants(stored, "simulator")
+
+
+@pytest.mark.parametrize("replacement", (52, 15))
+def test_task11_q52_simulator_rejects_wrong_or_duplicate_qubit_id(replacement):
+    stored = json.loads(read_host(TASK11_Q52_SIMULATOR_JSON))
+    q80 = next(row for row in stored["qubit_results"] if int(row["qubit"]) == 80)
+    q80["qubit"] = replacement
+    with pytest.raises(AssertionError):
+        _task11_march_raw_quadrants(stored, "simulator")
+
+
+def test_task11_q52_march_raw_coordinate_mutation_breaks_direction_count():
+    stored = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    q80 = next(row for row in stored["qubit_results"] if row["qubit"] == 80)
+    first_late = next(
+        point for point in q80["points"] if float(point["t_over_T2star"]) >= 1.5
+    )
+    first_late["rho01_re"] = -abs(float(first_late["rho01_re"]))
+    quadrants = _task11_march_raw_quadrants(stored)
+    assert quadrants[80] != (1,) * 8
+    assert quadrants[80][0] == 2
+
+
+def _task11_assert_q80_phase_coordinates(stored):
+    _task11_assert_shadow_axes(stored)
+    derived = []
+    for point in stored["points"]:
+        measured = complex(point["rho01_re"], point["rho01_im"])
+        phase = float(np.angle(measured))
+        stored_phase = np.deg2rad(float(point["rho01_phase_deg"]))
+        wrapped_difference = float(np.angle(np.exp(1j * (stored_phase - phase))))
+        assert wrapped_difference == pytest.approx(0.0, abs=1e-15)
+        assert float(point["rho01_abs"]) == pytest.approx(abs(measured), abs=1e-15)
+        derived.append(phase)
+    return np.array(derived)
+
+
+def test_task11_q80_nested_scores_recompute_from_json():
+    stored = json.loads(read_host(TASK11_Q80_FIT_JSON))
+    _task11_assert_q80_source_identity(
+        json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON)), stored
+    )
+    points = stored["points"]
+    late = [point for point in points if point["t_over_T2"] >= 0.5]
+    times = np.array([point["delay_us"] for point in late], dtype=float)
+    all_phases = _task11_assert_q80_phase_coordinates(stored)
+    phases = np.unwrap(all_phases[-len(late):])
+    design = np.vstack([times, np.ones(len(times))]).T
+    phase_slope, phi_0 = np.linalg.lstsq(design, phases, rcond=None)[0]
+    intercept_only_phase = float(np.mean(phases))
+    rho01_0 = complex(points[0]["rho01_re"], points[0]["rho01_im"])
+    fixed_errors = []
+    intercept_errors = []
+    for point in points[1:]:
+        time = float(point["delay_us"])
+        decay = np.exp(-time / float(stored["T2_us"]))
+        fitted_phase = phase_slope * time + phi_0
+        predicted = abs(rho01_0) * decay * np.exp(1j * fitted_phase)
+        measured = complex(point["rho01_re"], point["rho01_im"])
+        fixed_errors.append(abs(measured - predicted))
+        intercept_predicted = (
+            abs(rho01_0) * decay * np.exp(1j * intercept_only_phase)
+        )
+        intercept_errors.append(abs(measured - intercept_predicted))
+    fixed_error = float(np.mean(fixed_errors))
+    intercept_error = float(np.mean(intercept_errors))
+    phase_slope_khz = phase_slope * 1000.0 / (2.0 * np.pi)
+    detuning_khz = -phase_slope_khz
+    assert fixed_error == pytest.approx(0.03564243502412191, abs=1e-15)
+    assert intercept_error == pytest.approx(0.05078722718966796, abs=1e-15)
+    assert intercept_error / fixed_error == pytest.approx(
+        1.4249090208145552, abs=1e-15
+    )
+    assert phase_slope_khz == pytest.approx(1.266850819526687, abs=1e-15)
+    assert detuning_khz == pytest.approx(-1.266850819526687, abs=1e-15)
+
+    times_all = np.array([point["delay_us"] for point in points[1:]], dtype=float)
+    measured_all = np.array(
+        [
+            complex(point["rho01_re"], point["rho01_im"])
+            for point in points[1:]
+        ]
+    )
+    sample_grid_us = min(
+        float(point["delay_us"])
+        for point in points
+        if float(point["delay_us"]) > 0.0
+    )
+    sample_indices = np.rint(times_all / sample_grid_us)
+    assert np.max(np.abs(times_all - sample_indices * sample_grid_us)) < 1e-12
+    alias_spacing_khz = 1000.0 / sample_grid_us
+    assert sample_grid_us == pytest.approx(5.41278548731678, abs=1e-14)
+    assert alias_spacing_khz == pytest.approx(
+        184.74776108219999, abs=1e-12
+    )
+
+    def envelope_squared_error(T_eff):
+        if T_eff <= 0.0:
+            return 1e10
+        predicted = rho01_0 * np.exp(-times_all / T_eff)
+        return float(np.sum(np.abs(measured_all - predicted) ** 2))
+
+    envelope = minimize_scalar(
+        envelope_squared_error, bounds=(1.0, 200.0), method="bounded"
+    )
+    envelope_predicted = rho01_0 * np.exp(-times_all / envelope.x)
+    envelope_error = float(np.mean(np.abs(measured_all - envelope_predicted)))
+
+    def free_squared_error(params):
+        T_eff, detuning = params
+        if T_eff <= 0.0:
+            return 1e10
+        predicted = (
+            rho01_0
+            * np.exp(-times_all / T_eff)
+            * np.exp(-1j * detuning * times_all)
+        )
+        return float(np.sum(np.abs(measured_all - predicted) ** 2))
+
+    candidates = [
+        minimize(
+            free_squared_error,
+            [T_start, detuning_start],
+            method="Nelder-Mead",
+        )
+        for T_start in (stored["T2_us"], stored["T2_star_us"], 15.0, 20.0)
+        for detuning_start in (-0.01, -0.005, 0.005, 0.01)
+    ]
+    free = min(candidates, key=lambda result: result.fun)
+    free_predicted = (
+        rho01_0
+        * np.exp(-times_all / free.x[0])
+        * np.exp(-1j * free.x[1] * times_all)
+    )
+    free_error = float(np.mean(np.abs(measured_all - free_predicted)))
+    assert envelope.x == pytest.approx(21.401517503504543, abs=1e-5)
+    assert envelope_error == pytest.approx(0.04865961932709975, abs=1e-12)
+    assert free.x[0] == pytest.approx(23.24868925413776, abs=1e-8)
+    assert free.x[1] * 1000.0 / (2.0 * np.pi) == pytest.approx(
+        -2.5803611507343387, abs=1e-8
+    )
+    assert free_error == pytest.approx(0.013773005262063034, abs=1e-12)
+    assert envelope_error / free_error == pytest.approx(
+        3.532970357684385, abs=1e-8
+    )
+    for alias_index in (-1, 1):
+        alias_detuning = (
+            free.x[1]
+            + alias_index * alias_spacing_khz * 2.0 * np.pi / 1000.0
+        )
+        alias_predicted = (
+            rho01_0
+            * np.exp(-times_all / free.x[0])
+            * np.exp(-1j * alias_detuning * times_all)
+        )
+        assert np.array_equal(alias_predicted, free_predicted) or np.allclose(
+            alias_predicted, free_predicted, rtol=0.0, atol=2e-15
+        )
+        assert float(np.mean(np.abs(measured_all - alias_predicted))) == pytest.approx(
+            free_error, abs=2e-15
+        )
+    document_lines = read_host(TASK11_Q52_RESIDUAL_PATH).splitlines()
+    for exact_line in (
+        TASK11_Q80_FIT_FORMULA_LINE,
+        TASK11_Q80_FIT_TABLE_HEADER_LINE,
+        TASK11_Q80_FIT_FIXED_ROW_LINE,
+    ):
+        assert document_lines.count(exact_line) == 1
+
+
+def test_task11_q80_phase_fields_are_bound_to_raw_complex_samples():
+    stored = json.loads(read_host(TASK11_Q80_FIT_JSON))
+    _task11_assert_q80_phase_coordinates(stored)
+    for offset, point in zip((-10.0, 20.0, -10.0), stored["points"][:3]):
+        point["rho01_phase_deg"] += offset
+    with pytest.raises(AssertionError):
+        _task11_assert_q80_phase_coordinates(stored)
+
+
+def test_task11_q80_rejects_mutated_normalized_time_coordinate():
+    stored = json.loads(read_host(TASK11_Q80_FIT_JSON))
+    stored["points"][1]["t_over_T2"] = 99.0
+    with pytest.raises(AssertionError):
+        _task11_assert_q80_phase_coordinates(stored)
+
+
+def _task11_assert_q80_fit_source_contract(source):
+    tree = ast.parse(source)
+    assert ast.get_docstring(tree, clean=False) == TASK11_Q80_FIT_MODULE_DOCSTRING
+    source_lines = source.splitlines()
+    for exact_line in TASK11_Q80_FIT_EXACT_SCOPE_LINES:
+        assert source_lines.count(exact_line) == 1, exact_line
+    for required in TASK11_Q80_FIT_SOURCE_REQUIRED:
+        assert source.count(required) == 1, required
+    lowered = source.casefold()
+    for stale in TASK11_Q80_FIT_SOURCE_FORBIDDEN:
+        assert stale.casefold() not in lowered, stale
+
+
+def test_task11_q80_fit_producer_is_portable_and_scoped():
+    _task11_assert_q80_fit_source_contract(read_host(TASK11_Q80_FIT_PATH))
+
+
+def test_task11_q80_fit_scope_must_be_the_module_docstring():
+    source = read_host(TASK11_Q80_FIT_PATH)
+    mutant = source.replace(
+        '"""',
+        '"""This program establishes a Q52 hardware mechanism.\n"""\n"""',
+        1,
+    )
+    assert ast.get_docstring(ast.parse(mutant), clean=False) == (
+        "This program establishes a Q52 hardware mechanism.\n"
+    )
+    with pytest.raises(AssertionError):
+        _task11_assert_q80_fit_source_contract(mutant)
+
+
+def _task11_run_q80_fit_with_fixtures(tmp_path, source, standalone, combined):
+    repo = tmp_path / "repo"
+    script_path = repo / "simulations" / "shadow_ibm_retrodict.py"
+    data_dir = repo / "data" / "ibm_shadow_march2026"
+    script_path.parent.mkdir(parents=True)
+    data_dir.mkdir(parents=True)
+    script_path.write_text(source, encoding="utf-8")
+    (data_dir / "shadow_hardware_q80_20260309_181852.json").write_text(
+        json.dumps(standalone), encoding="utf-8"
+    )
+    (data_dir / "shadow_hardware_combined_20260309_181852.json").write_text(
+        json.dumps(combined), encoding="utf-8"
+    )
+    return subprocess.run(
+        [sys.executable, str(script_path)],
+        cwd=repo,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+        check=False,
+    )
+
+
+@pytest.mark.parametrize(
+    "mutation,expected_error",
+    (
+        ("experiment", "standalone Q80 record does not match"),
+        ("mode", "standalone Q80 record does not match"),
+        ("coordinated_backend", "standalone Q80 record does not match"),
+        ("coordinated_timestamp", "standalone Q80 record does not match"),
+        ("points", "standalone Q80 record does not match"),
+        ("schedule_proxy", "scheduling proxy is not"),
+        ("axis_t2", "t_over_T2 disagrees"),
+        ("axis_t2star", "t_over_T2star disagrees"),
+        ("sampling_grid", "inferred sampling grid"),
+        ("phase_raw", "stored phases disagree"),
+    ),
+)
+def test_task11_q80_producer_rejects_mutated_input_contracts(
+    tmp_path, mutation, expected_error
+):
+    source = read_host(TASK11_Q80_FIT_PATH)
+    standalone = json.loads(read_host(TASK11_Q80_FIT_JSON))
+    combined = json.loads(read_host(TASK7_Q52_COMMIT_B_SHADOW_JSON))
+    combined_q80 = next(
+        row for row in combined["qubit_results"] if int(row["qubit"]) == 80
+    )
+    if mutation == "experiment":
+        combined["experiment"] = "wrong_source"
+    elif mutation == "mode":
+        combined["mode"] = "simulate"
+    elif mutation == "coordinated_backend":
+        standalone["backend"] = combined["backend"] = "fake_backend"
+    elif mutation == "coordinated_timestamp":
+        standalone["timestamp"] = combined["timestamp"] = "19000101_000000"
+    elif mutation == "points":
+        standalone["points"][1]["rho01_re"] += 0.1
+    elif mutation == "schedule_proxy":
+        standalone["T2_star_us"] += 1.0
+        standalone["verdict"]["T2_star_us"] = standalone["T2_star_us"]
+        combined_q80["verdict"]["T2_star_us"] = standalone["T2_star_us"]
+    elif mutation in {"axis_t2", "axis_t2star"}:
+        field = "t_over_T2" if mutation == "axis_t2" else "t_over_T2star"
+        standalone["points"][2][field] += 0.1
+        combined_q80["points"][2][field] = standalone["points"][2][field]
+    elif mutation == "sampling_grid":
+        index = 2
+        delay_us = float(standalone["points"][index]["delay_us"]) + 0.123
+        t2_echo_us = float(standalone["T2_us"])
+        schedule_proxy_us = t2_echo_us / float(combined["T2_star_factor"])
+        for point in (standalone["points"][index], combined_q80["points"][index]):
+            point["delay_us"] = delay_us
+            point["t_over_T2"] = delay_us / t2_echo_us
+            point["t_over_T2star"] = delay_us / schedule_proxy_us
+    else:
+        standalone["points"][2]["rho01_phase_deg"] += 10.0
+        combined_q80["points"][2]["rho01_phase_deg"] = standalone["points"][2][
+            "rho01_phase_deg"
+        ]
+    result = _task11_run_q80_fit_with_fixtures(
+        tmp_path, source, standalone, combined
+    )
+    assert result.returncode != 0, result.stdout
+    assert expected_error in result.stderr
+
+
+TASK11_Q80_RESULT_FIELDS = frozenset(
+    (
+        "phase_slope_rep_khz",
+        "detuning_rep_khz",
+        "phase_slope_rep_rad_per_us",
+        "detuning_rep_rad_per_us",
+        "phase_intercept_rad",
+        "intercept_only_phase_rad",
+        "phase_rms_deg",
+        "phase_mae_deg",
+        "sample_grid_us",
+        "alias_spacing_khz",
+        "t2_echo_us",
+        "schedule_proxy_factor",
+        "schedule_proxy_us",
+        "fixed_error",
+        "intercept_error",
+        "fixed_ratio",
+        "free_T_eff_us",
+        "free_detuning_rep_khz",
+        "free_detuning_rep_rad_per_us",
+        "free_error",
+        "envelope_T_eff_us",
+        "envelope_error",
+        "free_ratio",
+    )
+)
+
+
+def _task11_q80_result_values(output):
+    lines = [line for line in output.splitlines() if line.startswith("RESULT ")]
+    assert len(lines) == 1, f"Q80_RESULT_COUNT:{len(lines)}"
+    fields = {}
+    for token in lines[0].removeprefix("RESULT ").split():
+        name, value = token.split("=", 1)
+        assert name not in fields, f"Q80_RESULT_DUPLICATE:{name}"
+        fields[name] = float(value)
+    assert frozenset(fields) == TASK11_Q80_RESULT_FIELDS
+    return fields
+
+
+def _task11_q80_assert_human_output(output, values):
+    stored = json.loads(read_host(TASK11_Q80_FIT_JSON))
+    points = stored["points"]
+    late = [point for point in points if float(point["t_over_T2"]) >= 0.5]
+    output_lines = output.splitlines()
+    canonical_output = output.replace("\r\n", "\n").replace("\r", "\n")
+    assert hashlib.sha256(canonical_output.encode("utf-8")).hexdigest().upper() == (
+        TASK11_Q80_OUTPUT_LF_SHA256
+    )
+    assert output_lines.count(
+        f"Qubit: {stored['qubit']}, Backend: {stored['backend']}"
+    ) == 1
+    assert output_lines.count(
+        "Q80 IN-SAMPLE DETUNING-COMPATIBLE FIT: IBM Torino Q80"
+    ) == 1
+    assert output_lines.count(f"Late-time points: {len(late)} (t/T2 >= 0.5)") == 1
+    assert output_lines.count(
+        "FIXED-T2 PHASE LINE: phase(t) = phi_0 + m*t"
+    ) == 1
+    assert output_lines.count(
+        "FIXED-T2 COMPLEX SCORE: |rho_01(0)| * exp(-t/T2) with fitted phase"
+    ) == 1
+    assert output_lines.count(
+        "FREE FIT: rho_01(t) = rho_01(0) * exp(-t/T_eff) "
+        "* exp(-i*delta_omega*t)"
+    ) == 1
+    assert output_lines.count("  Fitting T_eff and delta_omega simultaneously") == 1
+    phase_table_header = (
+        f"  {'t/T2':>6}  {'t [us]':>8}  {'Meas [deg]':>10}  "
+        f"{'Pred [deg]':>10}  {'Error [deg]':>10}"
+    )
+    complex_table_header = (
+        f"  {'t/T2':>6}  {'Re meas':>8}  {'Re pred':>8}  "
+        f"{'Im meas':>8}  {'Im pred':>8}  {'|err|':>8}"
+    )
+    assert output_lines.count(phase_table_header) == 1
+    assert output_lines.count(complex_table_header) == 2
+    times = np.array([float(point["delay_us"]) for point in late])
+    phases = np.unwrap(
+        np.angle(
+            np.array(
+                [complex(point["rho01_re"], point["rho01_im"]) for point in late]
+            )
+        )
+    )
+    phase_slope, phase_intercept = np.linalg.lstsq(
+        np.vstack([times, np.ones(len(times))]).T, phases, rcond=None
+    )[0]
+    intercept_only = float(np.mean(phases))
+    assert values["phase_slope_rep_rad_per_us"] == pytest.approx(
+        phase_slope, abs=5e-7
+    )
+    assert values["phase_intercept_rad"] == pytest.approx(
+        phase_intercept, abs=5e-7
+    )
+    assert values["intercept_only_phase_rad"] == pytest.approx(
+        intercept_only, abs=5e-7
+    )
+    phase_predictions = phase_slope * times + phase_intercept
+    phase_errors_deg = np.rad2deg(phases - phase_predictions)
+    phase_rms_deg = float(np.sqrt(np.mean(phase_errors_deg**2)))
+    phase_mae_deg = float(np.mean(np.abs(phase_errors_deg)))
+    assert values["phase_rms_deg"] == pytest.approx(phase_rms_deg, abs=5e-7)
+    assert values["phase_mae_deg"] == pytest.approx(phase_mae_deg, abs=5e-7)
+
+    phase_block = output.split("IN-SAMPLE PHASE-LINE FIT", 1)[1].split(
+        "FIXED-T2 COMPLEX SCORE", 1
+    )[0]
+    phase_rows = [
+        line
+        for line in phase_block.splitlines()
+        if re.match(r"^\s+[0-9.]+\s+[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+$", line)
+    ]
+    expected_phase_rows = []
+    for point, measured, predicted, error in zip(
+        late, np.rad2deg(phases), np.rad2deg(phase_predictions), phase_errors_deg
+    ):
+        expected_phase_rows.append(
+            f"  {point['t_over_T2']:>6.1f}  {point['delay_us']:>8.1f}  "
+            f"{measured:>10.1f}  {predicted:>10.1f}  {error:>10.1f}"
+        )
+    assert phase_rows == expected_phase_rows
+    assert output_lines.count(f"  RMS error: {phase_rms_deg:.1f} deg") == 1
+    assert output_lines.count(f"  Mean |error|: {phase_mae_deg:.1f} deg") == 1
+
+    rho01_0 = complex(points[0]["rho01_re"], points[0]["rho01_im"])
+    t2_echo_us = float(stored["T2_us"])
+    fixed_block = output.split("FIXED-T2 COMPLEX SCORE", 1)[1].split(
+        "FREE FIT:", 1
+    )[0]
+    fixed_rows = [
+        line
+        for line in fixed_block.splitlines()
+        if re.match(
+            r"^\s+[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+\s+[0-9.]+$",
+            line,
+        )
+    ]
+    expected_fixed_rows = []
+    for point in points[1:]:
+        time = float(point["delay_us"])
+        measured = complex(point["rho01_re"], point["rho01_im"])
+        predicted = (
+            abs(rho01_0)
+            * np.exp(-time / t2_echo_us)
+            * np.exp(1j * (phase_slope * time + phase_intercept))
+        )
+        error = abs(measured - predicted)
+        expected_fixed_rows.append(
+            f"  {point['t_over_T2']:>6.1f}  {measured.real:>8.4f}  "
+            f"{predicted.real:>8.4f}  {measured.imag:>8.4f}  "
+            f"{predicted.imag:>8.4f}  {error:>8.4f}"
+        )
+    assert fixed_rows == expected_fixed_rows
+
+    free_block = output.split("FREE FIT:", 1)[1].split(
+        "EXPLORATORY IN-SAMPLE VERDICT", 1
+    )[0]
+    free_rows = [
+        line
+        for line in free_block.splitlines()
+        if re.match(
+            r"^\s+[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+\s+-?[0-9.]+\s+[0-9.]+$",
+            line,
+        )
+    ]
+    expected_free_rows = []
+    for point in points[1:]:
+        time = float(point["delay_us"])
+        measured = complex(point["rho01_re"], point["rho01_im"])
+        predicted = (
+            rho01_0
+            * np.exp(-time / values["free_T_eff_us"])
+            * np.exp(-1j * values["free_detuning_rep_rad_per_us"] * time)
+        )
+        error = abs(measured - predicted)
+        expected_free_rows.append(
+            f"  {point['t_over_T2']:>6.1f}  {measured.real:>8.4f}  "
+            f"{predicted.real:>8.4f}  {measured.imag:>8.4f}  "
+            f"{predicted.imag:>8.4f}  {error:>8.4f}"
+        )
+    assert free_rows == expected_free_rows
+
+    assert output_lines.count(
+        f"T1 = 158.9 us, T2_echo = {values['t2_echo_us']:.1f} us"
+    ) == 1
+    assert output_lines.count(
+        f"Scheduling proxy T2_echo/{values['schedule_proxy_factor']:.1f} = "
+        f"{values['schedule_proxy_us']:.1f} us (not a measured Ramsey T2*)"
+    ) == 1
+    assert output_lines.count(
+        f"Sampling grid: {values['sample_grid_us']:.6f} us; frequency alias "
+        f"spacing: {values['alias_spacing_khz']:.6f} kHz"
+    ) == 1
+    assert output_lines.count(
+        f"  phase slope representative m = "
+        f"{values['phase_slope_rep_rad_per_us']:.6f} rad/us = "
+        f"{values['phase_slope_rep_khz']:.2f} kHz"
+    ) == 1
+    assert output_lines.count(f"  phi_0 = {np.rad2deg(phase_intercept):.2f} deg") == 1
+    assert output_lines.count(
+        f"  intercept-only phase = {np.rad2deg(intercept_only):.2f} deg"
+    ) == 1
+    assert output_lines.count(
+        f"  rho_01(0) = {rho01_0.real:.4f} + {rho01_0.imag:.4f}i"
+    ) == 1
+    assert output_lines.count(f"  T2 = {t2_echo_us:.1f} us") == 1
+    assert output_lines.count(
+        f"  phase slope representative m = "
+        f"{values['phase_slope_rep_rad_per_us']:.6f} rad/us "
+        f"({values['phase_slope_rep_khz']:.2f} kHz)"
+    ) == 1
+    assert output_lines.count(
+        "  detuning representative delta_omega = -m = "
+        f"{values['detuning_rep_khz']:.2f} kHz"
+    ) == 2
+    assert output_lines.count(
+        f"  T_eff = {values['free_T_eff_us']:.2f} us "
+        f"(T2_echo = {values['t2_echo_us']:.1f}, "
+        f"scheduling proxy = {values['schedule_proxy_us']:.1f})"
+    ) == 1
+    assert output_lines.count(
+        f"  near-zero dw representative = "
+        f"{values['free_detuning_rep_rad_per_us']:.6f} rad/us "
+        f"= {values['free_detuning_rep_khz']:.2f} kHz"
+    ) == 1
+    assert output_lines.count(
+        "  Mean |error| (fitted no-detuning envelope): "
+        f"{values['envelope_error']:.4f} "
+        f"(T_eff = {values['envelope_T_eff_us']:.2f} us)"
+    ) == 1
+    error_lines = re.findall(
+        r"^  Mean \|error\| \(([^)]+)\): ([0-9.]+)",
+        output,
+        flags=re.MULTILINE,
+    )
+    assert error_lines == [
+        ("fixed-T2 phase-line", f"{values['fixed_error']:.4f}"),
+        ("fixed-T2 intercept-only", f"{values['intercept_error']:.4f}"),
+        ("free complex fit", f"{values['free_error']:.4f}"),
+        ("fitted no-detuning envelope", f"{values['envelope_error']:.4f}"),
+    ]
+    ratio_labels = re.findall(r"(?<![A-Za-z0-9_.])([0-9]+\.[0-9]+)x\b", output)
+    assert ratio_labels == [
+        f"{values['fixed_ratio']:.1f}",
+        f"{values['free_ratio']:.1f}",
+        f"{values['fixed_ratio']:.1f}",
+        f"{values['free_ratio']:.1f}",
+    ]
+    assert output_lines.count(
+        f"  Fixed-T2 phase line ({values['detuning_rep_khz']:.1f} kHz "
+        "near-zero detuning representative): "
+        f"{values['fixed_ratio']:.1f}x smaller mean error than the "
+        "intercept-only comparator."
+    ) == 1
+    assert output_lines.count(
+        "  Free (T_eff, delta_omega) fit: "
+        f"{values['free_ratio']:.1f}x smaller mean error than its fitted "
+        "no-detuning envelope comparator."
+    ) == 1
+    assert output_lines.count(
+        "All quoted frequencies are near-zero representatives of alias classes; "
+        "the sampled complex trajectory does not identify an absolute detuning."
+    ) == 1
+    assert output_lines.count(
+        "  Both comparisons reuse the Q80 record; neither is a Q52 mechanism "
+        "fit or a held-out prediction."
+    ) == 1
+    q52_scope_lines = [
+        line
+        for line in output_lines
+        if re.search(r"\bQ52\b|\bheld-out\b", line, flags=re.IGNORECASE)
+    ]
+    assert q52_scope_lines == [
+        "  Both comparisons reuse the Q80 record; neither is a Q52 mechanism "
+        "fit or a held-out prediction."
+    ]
+
+
+def test_task11_q80_fit_producer_reports_in_sample_scores():
+    result = subprocess.run(
+        [sys.executable, str(ROOT / TASK11_Q80_FIT_PATH)],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    values = _task11_q80_result_values(result.stdout)
+    assert values["phase_slope_rep_khz"] == pytest.approx(1.266851, abs=1e-6)
+    assert values["detuning_rep_khz"] == pytest.approx(-1.266851, abs=1e-6)
+    assert values["phase_slope_rep_rad_per_us"] == pytest.approx(
+        0.007960, abs=1e-6
+    )
+    assert values["detuning_rep_rad_per_us"] == pytest.approx(
+        -0.007960, abs=1e-6
+    )
+    assert values["phase_intercept_rad"] == pytest.approx(0.221709, abs=1e-6)
+    assert values["intercept_only_phase_rad"] == pytest.approx(
+        0.501762, abs=1e-6
+    )
+    assert values["phase_rms_deg"] == pytest.approx(7.766868, abs=1e-6)
+    assert values["phase_mae_deg"] == pytest.approx(6.051859, abs=1e-6)
+    assert values["sample_grid_us"] == pytest.approx(5.412785, abs=1e-6)
+    assert values["alias_spacing_khz"] == pytest.approx(184.747761, abs=1e-6)
+    assert values["t2_echo_us"] == pytest.approx(27.063927, abs=1e-6)
+    assert values["schedule_proxy_factor"] == pytest.approx(2.5, abs=1e-6)
+    assert values["schedule_proxy_us"] == pytest.approx(10.825571, abs=1e-6)
+    assert values["fixed_error"] == pytest.approx(0.035642, abs=1e-6)
+    assert values["intercept_error"] == pytest.approx(0.050787, abs=1e-6)
+    assert values["fixed_ratio"] == pytest.approx(1.424909, abs=1e-6)
+    assert values["free_T_eff_us"] == pytest.approx(23.248689, abs=1e-6)
+    assert values["free_detuning_rep_khz"] == pytest.approx(
+        -2.580361, abs=1e-6
+    )
+    assert values["free_detuning_rep_rad_per_us"] == pytest.approx(
+        -0.016213, abs=1e-6
+    )
+    assert values["free_error"] == pytest.approx(0.013773, abs=1e-6)
+    assert values["envelope_T_eff_us"] == pytest.approx(21.401518, abs=1e-6)
+    assert values["envelope_error"] == pytest.approx(0.048660, abs=1e-6)
+    assert values["free_ratio"] == pytest.approx(3.532970, abs=1e-6)
+    _task11_q80_assert_human_output(result.stdout, values)
+    conflicting = result.stdout.replace(
+        "In-sample comparator/error ratio: 1.4x",
+        "In-sample comparator/error ratio: 9.9x",
+        1,
+    )
+    with pytest.raises(AssertionError):
+        _task11_q80_assert_human_output(conflicting, values)
+    contradictory = (
+        "CORRECTION: Both comparisons establish a Q52 mechanism and are "
+        "held-out predictions.\n"
+        + result.stdout
+    )
+    with pytest.raises(AssertionError):
+        _task11_q80_assert_human_output(contradictory, values)
+    worse_claim = (
+        "CORRECTION: The free model performs worse than its no-detuning "
+        "comparator.\n"
+        + result.stdout
+    )
+    with pytest.raises(AssertionError):
+        _task11_q80_assert_human_output(worse_claim, values)
+
+    for current, replacement in (
+        (
+            "frequency alias spacing: 184.747761 kHz",
+            "frequency alias spacing: 999.000000 kHz",
+        ),
+        (
+            "phase slope representative m = 0.007960 rad/us = 1.27 kHz",
+            "phase slope representative m = 0.007960 rad/us = 99.99 kHz",
+        ),
+        (
+            "detuning representative delta_omega = -m = -1.27 kHz",
+            "detuning representative delta_omega = -m = 99.99 kHz",
+        ),
+        (
+            "T_eff = 23.25 us",
+            "T_eff = 99.99 us",
+        ),
+        (
+            "= -2.58 kHz",
+            "= 99.99 kHz",
+        ),
+        (
+            "        13.0        20.1        -7.1",
+            "        13.0       120.1      -107.1",
+        ),
+        (
+            "Qubit: 80, Backend: ibm_torino",
+            "Qubit: 52, Backend: fake_backend",
+        ),
+        (
+            "Q80 IN-SAMPLE DETUNING-COMPATIBLE FIT: IBM Torino Q80",
+            "Q52 IN-SAMPLE DETUNING-COMPATIBLE FIT: fake backend",
+        ),
+        (
+            "Late-time points: 8 (t/T2 >= 0.5)",
+            "Late-time points: 99 (t/T2 >= 9.9)",
+        ),
+        (
+            "FIXED-T2 PHASE LINE: phase(t) = phi_0 + m*t",
+            "FIXED-T2 PHASE LINE: phase(t) = phi_0 - m*t",
+        ),
+        (
+            "FIXED-T2 COMPLEX SCORE: |rho_01(0)| * exp(-t/T2) with fitted phase",
+            "FIXED-T2 COMPLEX SCORE: |rho_01(0)| * exp(+t/T2) with fitted phase",
+        ),
+        (
+            "FREE FIT: rho_01(t) = rho_01(0) * exp(-t/T_eff) "
+            "* exp(-i*delta_omega*t)",
+            "FREE FIT: rho_01(t) = rho_01(0) * exp(-t/T_eff) "
+            "* exp(+i*delta_omega*t)",
+        ),
+        (
+            "Fixed-T2 phase line (-1.3 kHz near-zero detuning representative)",
+            "Fixed-T2 phase line (99.9 kHz near-zero detuning representative)",
+        ),
+        (
+            "x smaller mean error than",
+            "x larger mean error than",
+        ),
+        (
+            "Meas [deg]",
+            "Wrong [deg]",
+        ),
+        (
+            "Re meas",
+            "Re pred",
+        ),
+        (
+            "Fitting T_eff and delta_omega simultaneously",
+            "Fitting T_eff only",
+        ),
+        (
+            "Both comparisons reuse the Q80 record; neither is a Q52 mechanism "
+            "fit or a held-out prediction.",
+            "FALSE: Both comparisons reuse the Q80 record; neither is a Q52 "
+            "mechanism fit or a held-out prediction.",
+        ),
+    ):
+        mutant = result.stdout.replace(current, replacement)
+        assert mutant != result.stdout, current
+        with pytest.raises(AssertionError):
+            _task11_q80_assert_human_output(mutant, values)
+
+
+def test_task11_q80_scheduling_proxy_is_not_presented_as_measured_ramsey():
+    source = read_host(TASK11_Q80_FIT_PATH)
+    doc = read_host(TASK11_Q52_RESIDUAL_PATH)
+    assert "scheduling proxy T2_echo/2.5" in source
+    assert "not a measured Ramsey T2*" in source
+    assert "scheduling proxy, not a measured Ramsey time" in doc
+
+
+def test_task11_q80_result_rejects_a_conflicting_result_decoy():
+    output = (
+        "RESULT phase_slope_rep_khz=1 detuning_rep_khz=-1 "
+        "phase_slope_rep_rad_per_us=1 detuning_rep_rad_per_us=-1 "
+        "phase_intercept_rad=1 intercept_only_phase_rad=1 "
+        "phase_rms_deg=1 phase_mae_deg=1 "
+        "sample_grid_us=1 alias_spacing_khz=1 t2_echo_us=1 "
+        "schedule_proxy_factor=1 schedule_proxy_us=1 fixed_error=1 "
+        "intercept_error=1 fixed_ratio=1 free_T_eff_us=1 "
+        "free_detuning_rep_khz=-1 free_detuning_rep_rad_per_us=-1 "
+        "free_error=1 envelope_T_eff_us=1 "
+        "envelope_error=1 free_ratio=1\n"
+    )
+    with pytest.raises(AssertionError, match="Q80_RESULT_COUNT:2"):
+        _task11_q80_result_values(output + output)
+
+
+@pytest.mark.parametrize(
+    "current,stale",
+    (
+        (
+            TASK10_Q52_SUMMARY_REQUIRED[0],
+            "The Q52 anomaly was resolved as qubit-specific detuning.",
+        ),
+        (
+            TASK10_Q52_SUMMARY_REQUIRED[2],
+            "The Q52 late-time excess mechanism is settled by the Q80 fit.",
+        ),
+        (
+            TASK11_Q52_FIT_REQUIRED[3],
+            "The fitted Q80 models resolve the Q52 hardware mechanism.",
+        ),
+        (
+            TASK11_Q52_MARCH_REQUIRED[2],
+            "Q102 is shot noise.",
+        ),
+    ),
+)
+def test_task11_q52_residual_scope_mutations_fail(current, stale):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, stale, 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+def test_task11_q52_residual_numeric_mutation_fails():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace("slope +0.00819", "slope +0.0819", 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+@pytest.mark.parametrize(
+    "current,stale,required_fragment",
+    (
+        (
+            "`T2_echo = 298.247 us`",
+            "`T2_echo = 999.999 us`",
+            TASK11_Q52_RECORD_REQUIRED[1],
+        ),
+        (
+            "`T2* = 110.7 us`",
+            "`T2* = 999.9 us`",
+            TASK11_Q52_RECORD_REQUIRED[2],
+        ),
+    ),
+)
+def test_task11_q52_axis_numeric_mutations_fail(current, stale, required_fragment):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, stale, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:RECORD:MISSING:{required_fragment}" in findings
+
+
+@pytest.mark.parametrize(
+    "current,stale,required_fragment",
+    (
+        (
+            "`5.412785 us`",
+            "`99.999999 us`",
+            TASK11_Q52_FIT_REQUIRED[0],
+        ),
+        (
+            "`184.747761 kHz`",
+            "`999.999999 kHz`",
+            TASK11_Q52_FIT_REQUIRED[0],
+        ),
+        (
+            "near-zero alias representative delta_f = -2.58 kHz",
+            "identified absolute detuning delta_f = -2.58 kHz",
+            TASK11_Q52_FIT_REQUIRED[4],
+        ),
+    ),
+)
+def test_task11_q80_alias_scope_mutations_fail(
+    current, stale, required_fragment
+):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, stale, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:Q80_FIT:MISSING:{required_fragment}" in findings
+
+
+@pytest.mark.parametrize(
+    "current,stale",
+    (
+        ("`2.7457e-5/us`", "`9.99e-1/us`"),
+        ("zero exceedances in 10,000 draws", "9,999 exceedances in 10,000 draws"),
+        (
+            "eight negative real residuals and seven stored significant-excess flags",
+            "one negative real residual and zero stored significant-excess flags",
+        ),
+        (
+            "two simulated qubits with no directional match",
+            "99 simulated qubits with a universal directional match",
+        ),
+    ),
+)
+def test_task11_q52_secondary_numeric_mutations_fail(current, stale):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(current, stale, 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+def test_task11_q52_strict_tail_numeric_mutation_fails():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = (
+        "Changing the cut to strict `t/T2_echo > 1.5` leaves 12 rows and "
+        "changes the slope to `+0.01041`"
+    )
+    mutant = source.replace(
+        current,
+        "Changing the cut to strict `t/T2_echo > 1.5` leaves 99 rows and "
+        "changes the slope to `+9.99999`",
+        1,
+    )
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+def test_task11_q52_provenance_redirect_with_comment_decoy_fails():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    q52_target = TASK11_Q52_PROVENANCE_LINKS[0][1]
+    simulator_target = TASK11_Q52_PROVENANCE_LINKS[2][1]
+    mutant = source.replace(f"]({q52_target})", f"]({simulator_target})", 1)
+    mutant += f"\n<!-- provenance decoy: ]({q52_target}) -->\n"
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert any(
+        "Q52_RESIDUAL:PROVENANCE_ROLE:" in item for item in findings
+    ), findings
+
+
+def test_task11_q52_provenance_role_rejects_an_image_decoy():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    q52_label, q52_target = TASK11_Q52_PROVENANCE_LINKS[0]
+    q80_target = (
+        "../data/ibm_shadow_march2026/"
+        "shadow_hardware_q80_20260309_181852.json"
+    )
+    mutant = source.replace(
+        f"[{q52_label}]({q52_target})",
+        f"[{q52_label}]({q80_target})\n"
+        f"![provenance decoy]({q52_target})",
+        1,
+    )
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert any("Q52_RESIDUAL:PROVENANCE_ROLE:" in item for item in findings), findings
+
+
+def test_task11_q52_provenance_role_rejects_a_nested_image_link_decoy():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    q52_label, q52_target = TASK11_Q52_PROVENANCE_LINKS[0]
+    current = f"[{q52_label}]({q52_target})"
+    mutant = source.replace(
+        current,
+        f"![archive [{q52_label}]({q52_target})](plot.png)",
+        1,
+    )
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert any("Q52_RESIDUAL:PROVENANCE_ROLE:" in item for item in findings), findings
+
+
+def test_task11_q52_provenance_role_rejects_a_link_title_decoy():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    q52_label, q52_target = TASK11_Q52_PROVENANCE_LINKS[0]
+    current = f"[{q52_label}]({q52_target})"
+    mutant = source.replace(
+        current,
+        f'[outer \\]](https://example.invalid "[{q52_label}]({q52_target})")',
+        1,
+    )
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert any("Q52_RESIDUAL:PROVENANCE_ROLE:" in item for item in findings), findings
+
+
+def test_task11_q52_provenance_role_rejects_an_inline_code_decoy():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    q52_label, q52_target = TASK11_Q52_PROVENANCE_LINKS[0]
+    current = f"[{q52_label}]({q52_target})"
+    mutant = source.replace(current, f"`{current}`", 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert any("Q52_RESIDUAL:PROVENANCE_ROLE:" in item for item in findings), findings
+
+
+def test_task11_q52_visible_verdict_cannot_be_replaced_by_comment_decoy():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(marker, f"\n<!-- {current} -->{marker}", 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+@pytest.mark.parametrize(
+    "definition",
+    (
+        '[open-verdict]: / "{current}"',
+        '[open-verdict]: /\n  "{current}"',
+    ),
+)
+def test_task11_q52_visible_verdict_cannot_move_to_reference_definition_title(
+    definition,
+):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(
+        marker,
+        "\n" + definition.format(current=current) + marker,
+        1,
+    )
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:CURRENT:MISSING:{current}" in findings
+
+
+def test_task11_q52_visible_verdict_cannot_move_to_split_reference_definition_title():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(
+        marker,
+        f'\n[open-verdict]:\n  /\n  "{current}"{marker}',
+        1,
+    )
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:CURRENT:MISSING:{current}" in findings
+
+
+@pytest.mark.parametrize(
+    "decoy",
+    (
+        '[open](/ "{current}")',
+        '![plot](/ "{current}")',
+        '<span title="{current}">archived</span>',
+    ),
+)
+def test_task11_q52_visible_verdict_cannot_move_to_nonvisible_attribute(decoy):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(marker, "\n" + decoy.format(current=current) + marker, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    expected = (
+        "Q52_RESIDUAL:UNSAFE_MARKUP:RAW_HTML"
+        if decoy.startswith("<")
+        else f"Q52_RESIDUAL:CURRENT:MISSING:{current}"
+    )
+    assert expected in findings
+
+
+def test_task11_q52_visible_verdict_stays_hidden_after_invalid_fence_closer():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    decoy = f"\n````text\n````not-close\n{current}\n```\n````\n"
+    mutant = mutant.replace(marker, decoy + marker, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:CURRENT:MISSING:{current}" in findings
+
+
+def test_task11_q52_visible_verdict_cannot_move_to_inline_code():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(marker, f"\n`{current}`{marker}", 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:CURRENT:MISSING:{current}" in findings
+
+
+def test_task11_q52_owner_heading_cannot_be_inline_code():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace("## Current result", "`## Current result`", 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert "Q52_RESIDUAL:CURRENT:BOUNDARY" in findings
+
+
+@pytest.mark.parametrize(
+    "replacement",
+    (
+        "Current label: ## Current result",
+        "[## Current result](/)",
+        "<span>## Current result</span>",
+    ),
+)
+def test_task11_q52_owner_start_must_be_an_atx_heading(replacement):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace("## Current result", replacement, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert "Q52_RESIDUAL:CURRENT:BOUNDARY" in findings
+
+
+@pytest.mark.parametrize(
+    "replacement",
+    (
+        "Title: " + TASK11_Q52_RESIDUAL_TITLE,
+        f"[{TASK11_Q52_RESIDUAL_TITLE}](/)",
+    ),
+)
+def test_task11_q52_title_must_be_an_h1_heading(replacement):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    mutant = source.replace(TASK11_Q52_RESIDUAL_TITLE, replacement, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert "Q52_RESIDUAL:TITLE" in findings
+
+
+def test_task11_q52_visible_verdict_cannot_move_to_reference_image_alt():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(
+        marker,
+        f"\n![{current}][open-verdict]\n[open-verdict]: /{marker}",
+        1,
+    )
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:CURRENT:MISSING:{current}" in findings
+
+
+@pytest.mark.parametrize(
+    "decoy",
+    (
+        "<code>{current}</code>",
+        "<kbd>{current}</kbd>",
+        "<samp>{current}</samp>",
+        "<del>{current}</del>",
+        "<s>{current}</s>",
+        "<strike>{current}</strike>",
+        "<span hidden>{current}</span>",
+        '<span style="display:none">{current}</span>',
+        '<span style="visibility: hidden">{current}</span>',
+        '<script type="text/plain">{current}</script>',
+        "<template>{current}</template>",
+        "<pre>{current}</pre>",
+        "<textarea>{current}</textarea>",
+        "<xmp>{current}</xmp>",
+        "<noscript>{current}</noscript>",
+        "<blockquote>{current}</blockquote>",
+        "<q>{current}</q>",
+        "<details><summary>Archived</summary>{current}</details>",
+    ),
+)
+def test_task11_q52_visible_verdict_cannot_move_to_nonclaim_html_role(decoy):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(marker, "\n" + decoy.format(current=current) + marker, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert "Q52_RESIDUAL:UNSAFE_MARKUP:RAW_HTML" in findings
+
+
+@pytest.mark.parametrize(
+    "decoy",
+    (
+        "<code><code>x</code>{current}</code>",
+        "<del><del>x</del>{current}</del>",
+        "<span hidden><span>x</span>{current}</span>",
+        '<span style="display:none"><span>x</span>{current}</span>',
+    ),
+)
+def test_task11_q52_visible_verdict_cannot_escape_nested_nonclaim_html(decoy):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(marker, "\n" + decoy.format(current=current) + marker, 1)
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert "Q52_RESIDUAL:UNSAFE_MARKUP:RAW_HTML" in findings
+
+
+@pytest.mark.parametrize(
+    "decoy",
+    (
+        "~~{current}~~",
+        "[archived](<foo)bar> \"{current}\")",
+        "[![{current}](plot.png)](archive)",
+    ),
+)
+def test_task11_q52_owner_claim_must_be_a_plain_visible_line(decoy):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[1]
+    position = source.rfind(current)
+    assert position >= 0
+    stale = "Detuning is not the preferred explanation for the phase component."
+    mutant = source[:position] + stale + source[position + len(current):]
+    marker = "\n## Discriminating controls"
+    mutant = mutant.replace(
+        marker,
+        "\n" + decoy.format(current=current) + marker,
+        1,
+    )
+    assert mutant != source
+    findings = _task11_q52_residual_findings(mutant)
+    assert f"Q52_RESIDUAL:OWNER:MISSING:{current}" in findings
+
+
+def test_task11_q52_scientific_claim_cannot_move_to_gfm_strikethrough():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK11_Q52_FIT_REQUIRED[0]
+    stale = (
+        "All Q80 delays lie on a `99 us` grid, so complex samples identify "
+        "frequency only modulo `10.101010 kHz`."
+    )
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## Ownership and open status"
+    mutant = mutant.replace(marker, f"\n~~{current}~~{marker}", 1)
+    assert mutant != source
+    assert "Q52_RESIDUAL:UNSAFE_MARKUP:GFM_STRIKETHROUGH" in (
+        _task11_q52_residual_findings(mutant)
+    )
+
+
+@pytest.mark.parametrize(
+    "decoy,expected",
+    (
+        (
+            "[\\\\![{current}](plot.png)](archive)",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:IMAGE",
+        ),
+        (
+            '[archived](\n<foo)bar> "{current}")',
+            "Q52_RESIDUAL:UNSAFE_MARKUP:ANGLE_LINK_DESTINATION",
+        ),
+        (
+            '- [archive]: / "{current}"',
+            "Q52_RESIDUAL:UNSAFE_MARKUP:REFERENCE_DEFINITION",
+        ),
+        (
+            '[archive\n label]: / "{current}"',
+            "Q52_RESIDUAL:UNSAFE_MARKUP:REFERENCE_DEFINITION",
+        ),
+        (
+            "- ```text\n  {current}",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:FENCE",
+        ),
+        (
+            "-     {current}",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:LIST_CODE",
+        ),
+        (
+            "- -     {current}",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:LIST_CODE",
+        ),
+        (
+            "- 1.     {current}",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:LIST_CODE",
+        ),
+        (
+            "1. -     {current}",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:LIST_CODE",
+        ),
+        (
+            "+ *     {current}",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:LIST_CODE",
+        ),
+        (
+            "- > {current}",
+            "Q52_RESIDUAL:UNSAFE_MARKUP:LIST_BLOCKQUOTE",
+        ),
+        (" \t{current}", "Q52_RESIDUAL:UNSAFE_MARKUP:INDENTED_CODE"),
+        ("  \t{current}", "Q52_RESIDUAL:UNSAFE_MARKUP:INDENTED_CODE"),
+        ("   \t{current}", "Q52_RESIDUAL:UNSAFE_MARKUP:INDENTED_CODE"),
+    ),
+)
+def test_task11_q52_scientific_claim_rejects_multiline_link_decoys(
+    decoy, expected
+):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK11_Q52_FIT_REQUIRED[0]
+    stale = (
+        "All Q80 delays lie on a `99 us` grid, so complex samples identify "
+        "frequency only modulo `10.101010 kHz`."
+    )
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## Ownership and open status"
+    mutant = mutant.replace(
+        marker, "\n" + decoy.format(current=current) + marker, 1
+    )
+    assert mutant != source
+    assert expected in _task11_q52_residual_findings(mutant)
+
+
+def test_task11_q52_visible_verdict_cannot_use_open_details_escape():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(
+        marker,
+        f"\n<details open><summary>Current</summary>{current}</details>{marker}",
+        1,
+    )
+    assert mutant != source
+    assert "Q52_RESIDUAL:UNSAFE_MARKUP:RAW_HTML" in (
+        _task11_q52_residual_findings(mutant)
+    )
+
+
+@pytest.mark.parametrize(
+    "decoy",
+    (
+        '<span\n title="{current}">archived</span>',
+        "<span\n hidden>{current}</span>",
+        '<span\n style="display:none">{current}</span>',
+        "<i>## Current result</i>",
+        "<i># Q52 Residual Record and the Failed Universal Shadow Interpretation</i>",
+        "<?archived {current}?>",
+        "<!ARCHIVED {current}>",
+        '<!doctype "{current}">',
+        "<![CDATA[{current}]]>",
+    ),
+)
+def test_task11_q52_claim_surface_rejects_multiline_or_wrapping_raw_html(decoy):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    if "## Current result" in decoy:
+        mutant = source.replace("## Current result", decoy, 1)
+    elif "# Q52 Residual Record" in decoy:
+        mutant = source.replace(TASK11_Q52_RESIDUAL_TITLE, decoy, 1)
+    else:
+        stale = "The Q52 late-time residual mechanism is resolved as detuning."
+        mutant = source.replace(current, stale, 1)
+        marker = "\n## The Q52 record"
+        mutant = mutant.replace(
+            marker, "\n" + decoy.format(current=current) + marker, 1
+        )
+    assert mutant != source
+    assert "Q52_RESIDUAL:UNSAFE_MARKUP:RAW_HTML" in (
+        _task11_q52_residual_findings(mutant)
+    )
+
+
+@pytest.mark.parametrize(
+    "definition",
+    (
+        '[open-verdict]: / "archived\n{current}"',
+        '[open-verdict]:\n  / "archived\n{current}"',
+        '[open\\]]: / "{current}"',
+    ),
+)
+def test_task11_q52_claim_surface_rejects_multiline_reference_titles(definition):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(
+        marker, "\n" + definition.format(current=current) + marker, 1
+    )
+    assert mutant != source
+    assert "Q52_RESIDUAL:UNSAFE_MARKUP:REFERENCE_DEFINITION" in (
+        _task11_q52_residual_findings(mutant)
+    )
+
+
+def test_task11_q52_unterminated_comment_cannot_hide_current_verdict():
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(marker, f"\n<!-- archived\n{current}{marker}", 1)
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+def test_task11_markovian_dynamics_can_transiently_create_coherence():
+    x = np.array([[0.0, 1.0], [1.0, 0.0]], dtype=complex)
+    z = np.array([[1.0, 0.0], [0.0, -1.0]], dtype=complex)
+    hamiltonian = x / 2.0
+
+    def generator(rho):
+        return (
+            -1j * (hamiltonian @ rho - rho @ hamiltonian)
+            + 0.1 * (z @ rho @ z - rho)
+        )
+
+    basis = []
+    for row in range(2):
+        for column in range(2):
+            matrix = np.zeros((2, 2), dtype=complex)
+            matrix[row, column] = 1.0
+            basis.append(matrix)
+    liouvillian = np.column_stack(
+        [generator(matrix).reshape(-1) for matrix in basis]
+    )
+    rho_initial = np.array([[1.0, 0.0], [0.0, 0.0]], dtype=complex)
+    rho_later = (expm(0.1 * liouvillian) @ rho_initial.reshape(-1)).reshape(2, 2)
+    assert abs(rho_initial[0, 1]) == 0.0
+    assert abs(rho_later[0, 1]) > 0.049
+
+
+@pytest.mark.parametrize(
+    "decoy",
+    (
+        "```text\n{current}\n```",
+        "> {current}",
+        "> archived quotation:\n{current}",
+        "  ## Archived caveat\n\n{current}",
+    ),
+)
+def test_task11_q52_visible_verdict_cannot_move_to_non_owner_markdown(decoy):
+    source = read_host(TASK11_Q52_RESIDUAL_PATH)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time residual mechanism is resolved as detuning."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n## The Q52 record"
+    mutant = mutant.replace(
+        marker,
+        "\n" + decoy.format(current=current) + marker,
+        1,
+    )
+    assert mutant != source
+    assert _task11_q52_residual_findings(mutant)
+
+
+@pytest.mark.parametrize(
+    "decoy",
+    (
+        "```text\n{current}\n```",
+        "> archived quotation:\n{current}",
+        "  ## Archived caveat\n\n{current}",
+    ),
+)
+def test_task10_and_task11_complete_reject_non_owner_verdict_decoys(decoy):
+    path = "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md"
+    source = read_host(path)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    stale = "The Q52 late-time excess has a confirmed detuning cause."
+    mutant = source.replace(current, stale, 1)
+    marker = "\n\n**CΨ > ¼ under active dynamics.**"
+    mutant = mutant.replace(
+        marker,
+        "\n\n" + decoy.format(current=current) + marker,
+        1,
+    )
+    assert mutant != source
+    assert _task10_q52_summary_findings(path, mutant)
+    assert _task11_q52_adjacent_findings(path, mutant)
+
+
+@pytest.mark.parametrize("path", tuple(TASK11_Q52_INBOUND_LINES))
+def test_task11_q52_inbound_links_keep_the_mechanism_open(path):
+    assert _task11_q52_inbound_findings(path, read_host(path)) == ()
+
+
+@pytest.mark.parametrize("path", tuple(TASK11_Q52_INBOUND_LINES))
+def test_task11_q52_inbound_detuning_restoration_fails(path):
+    source = read_host(path)
+    current = TASK11_Q52_INBOUND_LINES[path]
+    assert source.count(current) == 1
+    mutant = source.replace(
+        current,
+        current.split(" - ", 1)[0]
+        + " - IBM hardware resolved the Q52 anomaly as detuning",
+        1,
+    )
+    assert mutant != source
+    assert _task11_q52_inbound_findings(path, mutant)
+
+
+@pytest.mark.parametrize("path", tuple(TASK11_Q52_ADJACENT_REQUIRED))
+def test_task11_q52_adjacent_current_surfaces_keep_the_mechanism_open(path):
+    assert _task11_q52_adjacent_findings(path, read_host(path)) == ()
+
+
+@pytest.mark.parametrize(
+    "stale",
+    TASK11_Q52_ADJACENT_FORBIDDEN["experiments/RESIDUAL_ANALYSIS.md"],
+)
+def test_task11_q52_historical_overclaim_restorations_fail(stale):
+    path = "experiments/RESIDUAL_ANALYSIS.md"
+    source = read_host(path)
+    marker = "\n## Epistemic Status"
+    mutant = source.replace(marker, f"\n{stale}{marker}", 1)
+    assert mutant != source
+    findings = _task11_q52_adjacent_findings(path, mutant)
+    assert f"Q52_RESIDUAL:ADJACENT:{path}:STALE:{stale}" in findings
+
+
+@pytest.mark.parametrize(
+    "path,current,stale",
+    (
+        (
+            "experiments/README.md",
+            "| [Q52 Residual Record](FIXED_POINT_SHADOW.md) | Finite Q52 residual "
+            "record; universal interpretation rejected, mechanism open |",
+            "| [Fixed Point Shadow](FIXED_POINT_SHADOW.md) | Shadow investigation, "
+            "IBM skeleton analysis |",
+        ),
+        (
+            "docs/PREDICTIONS.md",
+            "The algebraic R- phase comparison supplies no dynamical mapping to "
+            "rho_01.",
+            "The algebraic R- phase matches the late Q52 coherence direction.",
+        ),
+        (
+            "docs/proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md",
+            "The Q80 phase-compatible\nfits are same-record and in-sample, "
+            "not a Q52-specific mechanism fit",
+            "The Q80 detuning fit resolves the Q52 mechanism",
+        ),
+        (
+            "docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md",
+            "leaves the Q52 magnitude-excess mechanism open",
+            "resolves the Q52 magnitude-excess mechanism as detuning",
+        ),
+        (
+            "experiments/BRIDGE_CLOSURE.md",
+            "detuning\nremains a phase hypothesis, not a Q52 magnitude-excess diagnosis",
+            "detuning\nresolves the Q52 magnitude-excess mechanism",
+        ),
+        (
+            "experiments/RESIDUAL_ANALYSIS.md",
+            "**Status:** Historical exploratory analysis; finite record retained, "
+            "Q52 mechanism open",
+            "**Status:** Verified analysis; anomaly resolved as qubit detuning",
+        ),
+        (
+            "experiments/WHATS_INSIDE_THE_WINDOWS.md",
+            "**Depends on:** [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), "
+            "[When Psi Matters](WHEN_PSI_MATTERS.md)",
+            "**Depends on:** [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md), "
+            "[Fixed Point Shadow](FIXED_POINT_SHADOW.md), "
+            "[When Psi Matters](WHEN_PSI_MATTERS.md)",
+        ),
+    ),
+)
+def test_task11_q52_adjacent_scope_restorations_fail(path, current, stale):
+    source = read_host(path)
+    mutant = source.replace(current, stale, 1)
+    assert mutant != source
+    assert _task11_q52_adjacent_findings(path, mutant)
+
+
+def test_task10_and_task11_predictions_reject_comment_decoy_for_open_mechanism():
+    path = "docs/PREDICTIONS.md"
+    source = read_host(path)
+    current = TASK10_Q52_SUMMARY_REQUIRED[2]
+    mutant = source.replace(
+        current,
+        "The Q52 late-time excess mechanism is caused by local detuning.",
+        1,
+    )
+    stop = "\n\n---\n\n## 4. Testable with Current Hardware"
+    mutant = mutant.replace(stop, f"\n\n<!-- {current} -->{stop}", 1)
+    assert mutant != source
+    assert _task10_q52_summary_findings(path, mutant)
+    assert _task11_q52_adjacent_findings(path, mutant)
+
+
+def test_task11_predictions_reject_comment_decoy_for_dynamics_mapping():
+    path = "docs/PREDICTIONS.md"
+    source = read_host(path)
+    current = (
+        "The algebraic R- phase comparison supplies no dynamical mapping to rho_01."
+    )
+    mutant = source.replace(
+        current,
+        "The algebraic R- phase fixes the late Q52 coherence direction.",
+        1,
+    )
+    stop = "\n\n---\n\n## 4. Testable with Current Hardware"
+    mutant = mutant.replace(stop, f"\n\n<!-- {current} -->{stop}", 1)
+    assert mutant != source
+    assert _task11_q52_adjacent_findings(path, mutant)
+
+
+def test_a391_q52_row_rejects_comment_decoy_for_cut_sensitivity():
+    path = A391_PREDICTIONS_PATH
+    source = read_host(path)
+    current = "non-monotone and cut-sensitive"
+    mutant = _a391_replace_in_owner(
+        source,
+        path,
+        "q52_interval",
+        current,
+        "a monotone asymptotic growth law",
+    )
+    stop = A391_Q52_STOP
+    mutant = mutant.replace(stop, f"\n\n<!-- {current} -->{stop}", 1)
+    assert mutant != source
+    assert _a391_hardware_label_findings(path, mutant)
 
 
 if __name__ == "__main__":
