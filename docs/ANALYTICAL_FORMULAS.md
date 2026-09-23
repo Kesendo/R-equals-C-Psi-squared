@@ -5298,7 +5298,9 @@ flat-is-generic half sits in section (C) of the same gate):
 section (A); the note is
 [THE_SPREAD_IS_A_RESONANCE](../experiments/THE_SPREAD_IS_A_RESONANCE.md). No second
 F-number for this: it is THIS entry's Mechanism with its scope widened, not a new
-object. What the compressed spectra ARE on the R₉₀ locus is [F154](#f154).
+object. [F154](#f154) gives the conditional R₉₀-locus identity and its
+covered endpoint readings, plus the independent N=11 `(1,1)` interval
+where that identity fails.
 
 **Source:** [Proof](proofs/PROOF_STRUCTURAL_CEILING.md);
 [`simulations/topology_ceiling_rep_derivation.py`](../simulations/topology_ceiling_rep_derivation.py)
@@ -7853,7 +7855,7 @@ inside a single max-spin block, and nothing measured joins them.
 
 ---
 
-### F154. The locus saturation law: on the R₉₀ locus a colliding block's spectrum is CONTAINED in its size-class-centre interval, and a MULTI-CLASS block saturates it exactly when the colliding eigenspaces carry pure-class vectors of the extreme classes; on the all-scalar territory the containment is a theorem (parity theorem derived for any Δ and any profile, hypothesis H reflection-symmetric; census gated N = 4..8 on the census blocks; attainment from the measured pure-vector census; the N = 8, Δ = 0 parity-mixed eigenspaces obey by the DERIVED mixed-space reflection law, a free-fermion pair-sum selection rule; registered 2026-08-15, the mixed-space clause derived the same day)
+### F154. The conditional locus saturation law: where every reflected site-density contrast compresses to zero, the R₉₀-locus spectrum lies in its size-class-centre interval and a multi-class block reaches both ends exactly when the extreme classes have pure vectors in colliding eigenspaces (subject to the stated nondegenerate-space census); N = 11, Δ = 0 supplies a physical failure of that projection identity but an independent `(1,1)` interval theorem (registered 2026-08-15; N=11 extension 2026-09-23)
 
     on the R₉₀ locus (γ_l + γ_{N−1−l} = 2γ̄), wherever Π_Ω (N_l − N_{N−1−l}) Π_Ω = 0:
         Π_Ω D Π_Ω = −2γ̄ · Π_Ω N_XY Π_Ω
@@ -7929,7 +7931,42 @@ theorem with the breaking interiors measured to stay inside. The SU(2) resonance
 its own second law, comp(N_l) = (s/N)·Id on every pure size class, uniform and
 profile-blind (false at Δ = 0), which is why the off-locus Δ = 1 overshoot is small.
 
-**What it gives.** The strong-coupling Re-extremes and spread of a locus block come
+**The N = 11 boundary, and a different route to containment.** On the uniform
+open XY chain at N = 11 (Δ = 0, J > 0), the `(1,1)` dyads
+X = |ψ₁⟩⟨ψ₆| and Y = |ψ₅⟩⟨ψ₉| share frequency 4J cos(π/12) and have opposite
+site-reflection parity. Direct physical-cell arithmetic gives
+⟨Y,N₀X⟩ = −√2/144, ⟨Y,N₁₀X⟩ = +√2/144, hence
+**⟨Y,C₀X⟩ = −√2/72**. The full four-dyad frequency space has
+spec(C₀) = {−√2/36, 0, 0, +√2/36}. For the physical locus profile
+(γ₀,γ₁,...,γ₉,γ₁₀) = (2g,g,...,g,0), g > 0, the identity in the formula
+block above fails: ⟨Y,D X⟩ = +g√2/36, whereas
+−2g⟨Y,N_XY X⟩ = 0. This closes the N = 11 question whether the
+parity-odd comb coincidence actually reaches the site density; it does.
+
+The failure does **not** decide the interval by that identity. In the entire
+`(1,1)` block, let Γ = diag(γ_l) and T = Σ_l γ_l|ll⟩⟨ll|. For every physical
+mirror-balanced profile γ_l ≥ 0, γ_l+γ_{N−1−l} = 2γ̄, and every complete
+ad_H frequency space Ω of a simple, reflection-symmetric one-excitation h,
+
+    D = −2(Γ⊗I + I⊗Γ) + 4T,
+    Π_Ω(Γ⊗I + I⊗Γ)Π_Ω = 2γ̄ I_Ω,
+    D_Ω = −4γ̄ I_Ω + 4Π_Ω T Π_Ω,
+    spec(D_Ω) ⊂ [−4γ̄, 0].
+
+The middle identity follows because an off-diagonal one-sided Γ element
+inside a fixed-frequency space would require a degenerate one-body energy;
+each diagonal mode density is reflection-even and reads γ̄. Positivity of T
+gives the lower bound, and the physical cell law D ≤ 0 gives the upper.
+This proves `(1,1)` **compression containment at any N under these
+hypotheses**, including N = 11 when C₀ ≠ 0; it says nothing about endpoint
+attainment, higher excitation blocks, or the finite-J Liouvillian spectrum.
+Off-locus γ₀ = 1, all other rates zero, the same N=11 Ω has
+⟨Y,DY⟩ = −(22+5√3)/72 < −4/11, so Rayleigh forces an eigenvalue below that
+nominal centre interval; the dyad's diagonal expectation is not itself
+called an eigenvalue. [Proof and exact gate](proofs/PROOF_N11_COMPRESSED_DENSITY.md)
+give the physical calculation and controls.
+
+**What it gives on the covered rows.** The strong-coupling Re-extremes and spread of a locus block come
 from (p, q, N, γ̄) arithmetic plus the pure-vector census, with no Liouvillian
 eigensolver anywhere (the census takes only F122's Hermitian compression):
 collapse of the pinned blocks is the single-class case of the same identity (F153's
@@ -7940,9 +7977,13 @@ interior is comp(N_XY) arithmetic too: on the dim-12 ω = 0 space of
 (1,3) at N = 6, Δ = 0, the compressed rates are −2γ̄·{2, 20/7, 22/7, 4}, a rational
 ladder (7·spec integral, gated).
 
-**Valid for:** the number-conserving XXZ chain with palindromic bonds, per-site
-Z-dephasing on the R₉₀ locus, any γ̄, any Δ whose colliding eigenspaces are covered
-above. **Breaks for:** non-palindromic J (the same collision structure, law residual
+**Valid for:** the conditional C_l = 0 identity on the number-conserving XXZ
+chain with palindromic bonds and per-site Z-dephasing on the R₉₀ locus, on
+the eigenspaces identified above; the separate `(1,1)` interval theorem has
+the simple one-body spectrum and physical γ_l ≥ 0 hypotheses stated in its
+paragraph. **Breaks for:** N = 11, Δ = 0 on `(1,1)` breaks the C_l = 0 premise
+and projection identity on a nonuniform locus profile, though its interval
+still holds; non-palindromic J (the same collision structure, law residual
 0.456, gated), off the locus (the extremes leave the centre interval, 0.3307 at Δ = 0
 on (1,3), where the two ends are ONE fact, the block being self-folded and the
 one-sided X^N fold F: (a, b) ↦ (a, b̄), b̄ the bitwise complement, satisfying
@@ -7961,17 +8002,18 @@ gate [`simulations/endpoint_density_gate.py`](../simulations/endpoint_density_ga
 [PROOF_MIXED_SPACE_REFLECTION_LAW](proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md)
 with gate
 [`simulations/mixed_space_reflection_gate.py`](../simulations/mixed_space_reflection_gate.py)
-(VERDICT green 2026-08-15); the thread is the OpenArcs entry
+(VERDICT green 2026-08-15); the N=11 sequel is
+[PROOF_N11_COMPRESSED_DENSITY](proofs/PROOF_N11_COMPRESSED_DENSITY.md), gated by
+[`simulations/n11_compressed_density_gate.py`](../simulations/n11_compressed_density_gate.py);
+the thread is the OpenArcs entry
 `compressed_density_laws`. Siblings: [F122](#f122) (the Mechanism whose compressed
 spectra this reads), [F153](#f153) (the pinned single-class case and the source-2
 hypothesis this inherits), [F91](#f91) (the locus),
 [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6 (the cell-rate
 window this sharpens on the locus) and §7 (b) (the self-folded sibling).
-**Typed:** not yet; a claim + live witness in F153's genre is the natural carrier and
-is recorded on the arc, so this number will show on the named-in-no-`*Claim*.cs`
-sweep when it is next re-measured, KNOWINGLY rather than by omission (the
-mention-anywhere sweep already sees it, through the OpenArcs prose alone, the F144/F146
-shape that sweep's own entry documents).
+**Typed:** `CompressedDensityLocusClaim` carries the conditional identity
+and its scope; `CompressedDensityN11Witness` (`inspect --root compresseddensity`)
+recomputes the N=11 physical counterexample and the separate `(1,1)` reading.
 
 ### F155. The physical generator's polarity break is a DIAGONAL bilinear form: for H = A + iB the asymmetry is 4^(N+1)·Σ over bit_b-ODD strings of (−1)^#Z·a_σ·b_σ, no cross-string term at all (derived and registered 2026-08-19, universal N)
 

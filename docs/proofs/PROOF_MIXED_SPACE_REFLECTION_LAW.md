@@ -320,11 +320,14 @@ Gate sections (1), (2), (4) certify each claim below exactly.
   frontier, mixed collisions fire exactly at 3|M with M > 6 (the M = 6
   exception again), and N = 11 holds BOTH
   ingredients, abundant mixed spaces and a parity-odd rung-2 coincidence.
-  What fails there is the FORCING: this proof makes no claim that the law
-  breaks at N = 11, only that its protection ends; whether a parity-odd
-  coincidence lands inside a mixed ad_H eigenspace with a nonvanishing
-  one-body element is the arc's open NextStep 4, now with a concrete
-  candidate and a well-posed first N.
+  This proof alone ends at the forcing boundary. The subsequent
+  [N=11 physical-cell certificate](PROOF_N11_COMPRESSED_DENSITY.md) closes
+  NextStep 4 on `(1,1)`: X = |ψ₁⟩⟨ψ₆| and Y = |ψ₅⟩⟨ψ₉| share one frequency,
+  have opposite reflection parity, and satisfy
+  ⟨Y,C₀X⟩ = −√2/72 ≠ 0. Thus the conditional F154 projection identity
+  actually fails for an explicit physical mirror-balanced profile there.
+  A separate positivity argument in that sequel retains the `(1,1)`
+  compression interval; no claim is made here for higher blocks.
 - **Δ ≠ 0.** Nothing here survives: the argument is Slater-additive through
   and through (the resonance note's own fence on F129), and the measured
   Δ = 1 breaks at N = 6 show the conclusion itself is false there.

@@ -242,5 +242,11 @@ entries, and the 2160/2304 denominators are measured, underived. The
 corner tightness invites the window-edge treatment (which structural
 eigenvector reaches the edge) but that reading is not written. Everything
 here is Δ = 1, N = 6, uniform J, open chain, on the physical locus box;
-the N = 11 frontier of NextStep (4) and the F154 typed carrier of (5)
-remain the arc's open items.
+the N = 11 `(1,1)` identity question of NextStep (4) is now closed by
+[PROOF_N11_COMPRESSED_DENSITY](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md):
+C₀ ≠ 0 for a physical equal-frequency pair, while the compressed interval
+holds independently. The F154 typed carrier of (5) is
+`CompressedDensityLocusClaim` with `CompressedDensityN11Witness`
+(`inspect --root compresseddensity`). Higher excitation blocks, later parity
+doors, endpoint attainment at N = 11, and this certificate's M₀ arithmetic
+remain outside that closure.

@@ -723,6 +723,11 @@ public static class InspectCommand
                     c.Parser.OptionalDouble("J") ?? 1.0,
                     c.Parser.OptionalDouble("delta") ?? 1.0),
             RequiresN: false, HonorsOptionalN: true),
+        new("compresseddensity", "F154 compressed density, live physical N=11 (1,1) reading: a " +
+            "mirror-balanced profile has nonzero C_0 and breaks the conditional F154 identity; " +
+            "the separate interval decomposition remains valid. Fixed N=11 XY, complete frequency " +
+            "space; no finite-J or endpoint-attainment claim",
+            _ => new CompressedDensityN11Witness(), RequiresN: false),
         new("seedrung", "F143, the seed rung in closed form, recomputed: the Gram matrix G = W² of squared " +
             "DST-I mode amplitudes equals (1/M)·(𝟏𝟏ᵀ + (I + R)/2) at M = N+1, so spec(G) = {0 with " +
             "multiplicity ⌊N/2⌋, 1/M with multiplicity ⌈N/2⌉−1, 1 simple} and the kernel is exactly the " +

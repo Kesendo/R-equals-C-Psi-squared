@@ -6,8 +6,10 @@ the size-class-centre interval, endpoints attained? The answer has two layers, a
 first is a theorem. On every degenerate ad_H eigenspace where the chain reflection
 acts as a scalar ±1, the compressed site density is reflection-symmetric BY SYMMETRY,
 and the R₉₀ locus pairs γ_l + γ_{N−1−l} = 2γ̄ exactly against that, so containment on
-the size-class centres and endpoint attainment follow with no input beyond [H, R] = 0
-and the locus. The parity census then turns the theorem into the full answer for
+the size-class centres follows from the conditional compressed-density identity.
+Endpoint attainment additionally needs pure-class vectors of the extreme
+classes; their presence is a measured census, not a consequence of [H, R] = 0
+and the locus alone. The parity census then turns the theorem into the full answer for
 almost every measured case: at Δ = 0 every colliding eigenspace on every census
 block is scalar up to N = 7, and at Δ = ½ up to N = 8. The second layer is a law with real content: the
 parity-MIXED eigenspaces that first appear at N = 8, Δ = 0 STILL carry the
@@ -16,7 +18,10 @@ alone permits a cross block of order one; derived the same day at Δ = 0
 ([PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md));
 and at Δ = 1 those mixed spaces are exactly where the law can break. The SU(2) resonance adds its own second law: the compressed
 density on every pure size class is exactly UNIFORM, s/N per site, blind to the whole
-γ profile.
+γ profile. A later exact N=11 `(1,1)` certificate finds a physical
+cross-parity site-density connection; its balanced-profile projection
+identity fails, while a separate positivity proof retains the compressed
+interval ([proof](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)).
 
 Gate: `simulations/high_q_selection_gate.py`'s sibling
 [`simulations/endpoint_density_gate.py`](../simulations/endpoint_density_gate.py),
@@ -50,11 +55,12 @@ where a pattern of purely that count exists, and the note shows that this
 presence or absence is what separates the full saturations from the small
 resonances that stop short. Two further laws carry the note beyond the
 symmetry argument. At the free-hopping setting, even the patterns that mix
-the two mirror families keep the symmetric weight (derived in a companion
-proof, for the chain lengths its arithmetic protects; where that protection
-ends is a recorded open door), while at the fully symmetric setting those
-mixed patterns are exactly where the law can break. And at that symmetric
-setting, the patterns of a single disagreement count that share one frequency
+the two mirror families keep the symmetric weight at the chain lengths
+protected by the companion proof. At the first parity door, N = 11, a
+physical `(1,1)` connection couples the families; a separate one-magnon
+argument retains the compressed interval. At the fully symmetric setting
+mixed patterns are exactly where the projection law can break. There, patterns
+of a single disagreement count that share one frequency
 obey something stronger than symmetry: their weight
 is perfectly uniform, the same share on every site, blind to the lighting
 altogether.
@@ -180,7 +186,7 @@ sufficient; on (2,4) all four mixed spaces break (ω = ±2, ±4). The ω = 0 car
 the extremes are scalar on both blocks, and at N = 8 (1,3) and (2,4) every Δ = 1
 eigenspace is scalar, so there the reflection law is entirely the theorem.
 
-## The consequence: saturation derived
+## The conditional identity, containment, and attainment
 
 Sum rule plus C_l = 0 is the whole mechanism. On the locus γ_l + γ_{N−1−l} = 2γ̄,
 pairing the sites in Σ_l γ_l comp(N_l) gives γ̄ comp(N_XY), so on every eigenspace
@@ -301,32 +307,26 @@ single-particle reflection parities (review/OBC_SINE_BASIS_FINDINGS). Ours: the 
 the census that shows it covers everything below the N = 8, Δ = 0 frontier; the
 mixed-space reflection law there (with the generic-R-odd contrast); the uniform law
 at Δ = 1 (since derived, [PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md))
-and its failure at Δ = 0; the identity Π D Π = −2γ̄ Π N_XY Π on the locus
-with containment-on-centres and attainment; the parity characterization of the Δ = 1
+and its failure at Δ = 0; the identity Π D Π = −2γ̄ Π N_XY Π **where C_l = 0**
+on the locus, the resulting containment, and endpoint attainment where the
+measured pure-vector census supplies both extremes; the parity characterization of the Δ = 1
 breaks (mixed necessary, not sufficient); the explanation of
 collapse/saturation/small-resonance sizes as one mechanism; and the rational
 interior.
 
-## What is still open
+## Remaining questions
 
-Why the uniform law holds at Δ = 1: closed 2026-08-15. The guessed F144-genre
-ladder was not the engine; the derived one is an orbit-sum layer plus the cosine
-density pairing ([PROOF_UNIFORM_LAW](../docs/proofs/PROOF_UNIFORM_LAW.md)).
-Still open: what separates the Δ = 1, N = 6 mixed
-spaces that break from the two on (1,3) that hold, and why the breaking spaces'
-compressed spectra stay INSIDE the centre interval on the locus (measured with
-slack, underived). And the N ≥ 10 frontier, sharpened by the derivation that
-closed this list's first item (the mixed-space law at Δ = 0, N = 8, now
-[PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md)):
-the law is FORCED wherever the comb's pair-sum map is chiral-only (odd prime
-powers by that proof's §7, the 2p and 2^a cases gated exactly there,
-PROOF_SCALAR_COUNT §4 the subset-form sibling), so N = 10 and N = 12 are
-protected, and the forcing ends at the parity doors 6|M with M > 6, 15|M and
-21|M (N = 11, 14, 20; M = 6 is F146's recorded exception); at N = 11 both
-ingredients are already present, abundant mixed spaces (that proof's
-mode-space frontier census) and the parity-odd coincidence e₁ + e₉ = e₅ + e₆
-(exact, gated there); whether the law actually breaks at N = 11 is open (the
-eigensolver census stops at N = 8).
+The [mixed-space reflection proof](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md)
+forces the free-hopping law at chiral-only combs, including N = 10 and N = 12;
+its parity doors begin at N = 11, 14 and 20. At N = 11 the physical `(1,1)`
+identity does fail: X = |ψ₁⟩⟨ψ₆| and Y = |ψ₅⟩⟨ψ₉| give
+⟨Y,C₀X⟩ = −√2/72, while the separate `(1,1)` interval theorem holds
+([proof and exact gate](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)).
+Whether its interval endpoints are attained, what happens in higher
+excitation blocks, and whether later parity doors reach the physical site
+density remain open. The N = 6 [mirror-transversal certificate](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md)
+still leaves its M₀ diagonality and 2160/2304 denominators unexplained.
+The Arc `compressed_density_laws` names the next file and reproduction command.
 
 ## The gate
 

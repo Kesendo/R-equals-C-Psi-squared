@@ -248,6 +248,10 @@ public static class KnowledgeRegistryFactory
             // AbsorptionTheoremClaim (the floor) and JointPopcountSectors (the grading the 4N is counted
             // in), both registered above.
             .RegisterPinnedBlockFloorClaim()
+            // F154: the mirror-balanced compressed-density identity is conditional on C_l=0.
+            // N=11 (1,1) supplies a physical mixed-parity obstruction, while a separate
+            // simple one-body theorem keeps that block's interval without the identity.
+            .RegisterCompressedDensityLocusClaim()
             // Survival mirrors incompleteness (the survival_incompleteness_mirror arc, 2026-06-13):
             // a_0 (2γ, AbsorptionTheorem, = the qubit dim d) and a_2 (C=1/2, the V-Effect/incompleteness,
             // = 1/d) are Pi2-ladder inversion-mirror partners (a_0·a_2 = d·(1/d) = 1). Dynamically the

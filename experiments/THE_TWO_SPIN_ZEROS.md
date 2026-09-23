@@ -244,5 +244,8 @@ from this note's C_l objects. The break direction of the rule
 is genericity, not a theorem: nothing forbids an alive cross-parity pair
 whose legs miss each other on every site, the census just contains none. The
 √rational sizes and the 2160 are measured, unexplained. And whether the two
-zeros organize the N = 11 frontier the arc's NextStep (4) opens (mixed spaces
-are abundant there at Δ = 0) is not asked here: this note is Δ = 1 only.
+zeros organize the N = 11 frontier was not asked here: this note is Δ = 1
+only. The separate Δ = 0 `(1,1)` identity question is now closed by
+[PROOF_N11_COMPRESSED_DENSITY](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md),
+which also proves its compressed interval independently; it does not import
+this Δ = 1 two-zero classification.

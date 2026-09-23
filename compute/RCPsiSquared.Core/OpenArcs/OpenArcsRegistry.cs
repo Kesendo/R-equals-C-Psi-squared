@@ -7302,11 +7302,10 @@ public static class OpenArcsRegistry
             ParkedAt:
                 "THE INVENTORY, MEASURED 2026-08-13, so nothing here needs re-deriving. The registry held " +
                 "151 distinct numbers, F1 through F153, with only the documented F53/F54 never assigned " +
-                "(since 2026-08-15 it runs through F154, registered by the arc compressed_density_laws " +
-                "with its carrier debt recorded there; the sweep lists below predate F154 and are " +
-                "to be RE-MEASURED rather than appended, per this entry's own rule, and note their criteria " +
-                "differ: F154 is already MENTIONED in compute/*.cs through this file's prose, while no " +
-                "*Claim*.cs names it). " +
+                "(F154 was registered 2026-08-15 by compressed_density_laws and received its typed " +
+                "CompressedDensityLocusClaim on 2026-09-23; the sweep lists below predate F154 and are " +
+                "to be RE-MEASURED rather than appended, per this entry's own rule, and their historical " +
+                "mention-anywhere versus named-in-*Claim*.cs criteria remain distinct). " +
                 "TWENTY-ONE have no mention anywhere in compute/*.cs: 13, 19, 20, 21, 24, 29, 30, 31, 32, 35, " +
                 "40, 45, 46, 47, 48, 51, 143, 145, 149, 152, 153. That number OVERSTATES the gap and " +
                 "UNDERSTATES it at the same time, and both directions were measured rather than supposed. It " +
@@ -7812,23 +7811,38 @@ public static class OpenArcsRegistry
                 "dim-3 spaces ((1,1)/(5,5) upper edge, (1,5) lower), so the containment is " +
                 "sharp; smin = |p-q|, smax = min(p+q, 2N-p-q) exact combinatorics. Open " +
                 "residue recorded there: M0 diagonality and the 2160/2304 denominators " +
-                "measured, underived. (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
+                "measured, underived. N = 11 Delta = 0 now has an exact physical (1,1) " +
+                "counterexample to C_l = 0, while a separate positivity proof keeps every complete " +
+                "(1,1) compression in [-4*gbar,0] for physical mirror-balanced profiles: " +
+                "docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md and " +
+                "simulations/n11_compressed_density_gate.py. This does not claim endpoint attainment, " +
+                "finite-J containment, or higher-block containment. (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
                 "pair-sum map is chiral-only (odd prime powers by the proof's section 7, the 2p and " +
                 "2^a cases gated exactly there, PROOF_SCALAR_COUNT section 4 the subset-form " +
                 "sibling), so N = 10 and N = 12 are protected; the forcing ends at the parity doors " +
                 "6|M with M > 6, 15|M and 21|M (N = 11, 14, 20; M = 6 is F146's recorded " +
                 "exception); the proof's mode-space frontier census shows N = 11 already carries " +
                 "abundant mixed spaces (155/307/609 on the three census blocks) plus the parity-odd " +
-                "candidate e_1 + e_9 = e_5 + e_6 (exact, gated); open half: does the law BREAK at " +
-                "N = 11, i.e. does a parity-odd coincidence land " +
-                "inside a mixed ad_H eigenspace with a nonvanishing one-body element? (5) The typed " +
-                "carrier: the law was registered as F154 on 2026-08-15 " +
-                "(docs/ANALYTICAL_FORMULAS.md; F122 took the scope-extended Mechanism into its own " +
-                "entry, per the no-second-number-for-the-same-object rule), so F154 will show on the " +
-                "named-in-no-*Claim*.cs sweep when it is re-measured, knowingly (the mention-anywhere " +
-                "sweep already sees it through this file's prose alone, the F144/F146 shape); the " +
-                "natural carrier is a claim + live witness in F153's " +
-                "genre (PinnedBlockFloorClaim), parents AbsorptionTheoremClaim and F91's locus. " +
+                "candidate e_1 + e_9 = e_5 + e_6 (exact, gated). CLOSED 2026-09-23 on " +
+                "(1,1): X=|psi_1><psi_6| and Y=|psi_5><psi_9| have equal frequency, opposite " +
+                "mirror parity and <Y,C_0 X>=-sqrt(2)/72 from physical cells; on the locus profile " +
+                "(2g,g,...,g,0) the F154 projection identity fails. The independent (1,1) " +
+                "compression interval theorem is all-N under simple reflection-symmetric one-body " +
+                "h and physical balanced gamma. (5) CLOSED 2026-09-23: F154's typed " +
+                "carrier is CompressedDensityLocusClaim with CompressedDensityN11Witness " +
+                "(inspect --root compresseddensity); its parents are AbsorptionTheoremClaim and " +
+                "F71AntiPalindromicGammaSpectralInvariance (F91 locus). The claim fences the " +
+                "conditional identity, N=11 failure, and separate interval theorem; it does not " +
+                "promote the measured saturation census to a universal theorem. (6) OPEN: test " +
+                "the later parity doors and higher excitation blocks, decide N=11 endpoint " +
+                "attainment separately, and derive the N=6 M0 arithmetic left by the transversal " +
+                "certificate. First reproduce the closed base with " +
+                "`python simulations/n11_compressed_density_gate.py`; then use " +
+                "`simulations/mixed_space_reflection_gate.py` section (4) as the exact " +
+                "mode-collision entry for the next N=11 (1,3) physical-cell question. " +
+                "Start with its M=12 candidate e_1+e_9=e_5+e_6 and the physical balanced " +
+                "end-pair profile (2g,g,...,g,0); test whether any resulting same-frequency " +
+                "(1,3) dyad pair has a nonzero one-body site element before extending the gate. " +
                 "Prior work pinned " +
                 "in the note's sweep record: F122 (the uniform-gamma compression this lifts), F153 " +
                 "source 2 and PROOF_R90_FROZEN_DIVISOR (the |S|-resolved centre), " +
