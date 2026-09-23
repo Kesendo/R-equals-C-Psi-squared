@@ -8415,11 +8415,12 @@ for a diagonal, and so is necessity when the perturbed sites lie on ONE side of 
 when they straddle it necessity is FALSE, first at the reflection-fixed centre seat. The
 bond face now has a theorem successor:
 [the node-pair resolvent proof](proofs/PROOF_NODE_PAIR_RESOLVENT.md) Corollary B proves the
-endpoint-node condition sufficient for any zero-free real symmetric open chain and any
-non-incident moved bond. In the uniform odd chain watched at its centre, Corollary C proves the
-pointwise iff for every bond ratio `r != 0,+1,-1` from the exact half-path factorization
-`chi_L=P_m-J²(r²-1)P_b P_(m-b-2)`. The all-knob D6 census remains the evidence it was; the
-pointwise converse for off-centre seats and nonuniform zero-free chains remains open. It is NOT a
+endpoint-node condition sufficient for any zero-free real symmetric open chain when only one
+non-incident off-diagonal hopping is scaled and the diagonal stays fixed. Corollary C proves the same-baseline-energy iff
+for every watched seat on a zero-free Jacobi path at `r != 0,+1,-1`; the two-arm continuant
+identifies the endpoint node. Corollary D gives the stronger total-count equality for the
+uniform odd centre-watched chain. The all-knob D6 census remains the evidence it was; new blind
+energies can occur at special knobs off centre, as the exact N=6 `r²=2` case shows. It is NOT a
 statement about the Δ-locus: it names the branch of the road page's containment column that
 is not about the locus at all.
 The ceiling blind(j) ≤ min(j, N−1−j) belongs to the two-halves criterion and not
@@ -8589,7 +8590,8 @@ which carries the whole Δ axis: the node modulus per seat, the locus as an inte
 by two routes, and a rank sweep over GF(p) that meets the irrational members through their images;
 `NodePairResolventClaim` (single typed parent `SeatCutBlindnessClaim`) with the independent live
 exact witness `inspect --root nodepair`, which carries the resolvent zero, its nonzero control,
-the uniform-centre determinant iff and the exceptional-set fences.
+the same-baseline-energy iff for one scaled off-diagonal hopping with fixed diagonal, the
+uniform-centre total-count equality, the exact N=6 off-centre birth and exceptional-set fences.
 
 ### F158. The palindrome is a count of the two ends: for L(ρ) = −i[H,ρ] + Σγ_l(A_lρA_l − ρ) with H Hermitian, every A_l Hermitian and squaring to 1, and every γ_l > 0, the spectrum multiset pairs about −σ **if and only if** dim ker L = dim ker(L + 2σ) (Tier 1 derived, both directions proved 2026-08-28; the near kernel is the commutant of ⟨H, A_l⟩ and the far one is the same space with the jump sign flipped, both by a Cauchy-Schwarz equality case; registered 2026-08-29)
 

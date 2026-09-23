@@ -858,10 +858,12 @@ public static class InspectCommand
             c => new SeatBlindnessDeltaLocusWitness(c.Parser.HasFlag("N") ? c.N : 9),
             RequiresN: false, HonorsOptionalN: true),
         new("nodepair", "PROOF_NODE_PAIR_RESOLVENT live exact witness: the symmetry-free node-pair " +
-            "resolvent zero, its nonzero control, the determinant factorization behind the " +
-            "uniform-centre iff, and the r = 0,+1,-1 exceptional fences. The uniform-centre " +
-            "pointwise converse is closed only for a nonincident bond; the off-centre and " +
-            "nonuniform pointwise converse remains open.",
+            "resolvent zero, its nonzero control, the fixed-diagonal off-diagonal-only bond " +
+            "factorization behind the " +
+            "uniform-centre iff, and the r = 0,+1,-1 exceptional fences. For each baseline blind energy, " +
+            "the fixed-diagonal zero-free Jacobi same-energy iff holds at any seat; the uniform-centre " +
+            "family also has total-count equality; off-centre arms may acquire new blind energies, " +
+            "as the live N=6 birth shows.",
             _ => new NodePairResolventWitness(),
             RequiresN: false, HonorsOptionalN: false),
         new("twoend", "F158 THE PALINDROME AS A COUNT OF THE TWO ENDS (proof " +

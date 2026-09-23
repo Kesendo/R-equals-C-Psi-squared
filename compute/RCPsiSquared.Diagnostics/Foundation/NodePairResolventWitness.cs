@@ -3,16 +3,16 @@ using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>Live exact witness for the node-pair resolvent theorem and the uniform-centre
-/// non-incident-bond criterion. It recomputes a canonical reduced resolvent by an exact bordered
-/// solve, a direct detuned-block characteristic polynomial, and blind/root counts by polynomial
-/// gcd. No eigensolver, floating tolerance, or Python artifact is consumed.
+/// <summary>Live exact witness for the node-pair resolvent theorem and bond criterion. It
+/// recomputes a reduced resolvent by an exact bordered solve, detuned-block characteristic
+/// polynomials, blind/root counts by polynomial gcd, and rational nonuniform full-chain
+/// nullvectors. No floating tolerance or Python artifact is consumed.
 ///
 /// <para>The general node-pair theorem and sufficient bond direction are not restricted to the
-/// uniform centre-watched family. The pointwise converse recomputed here is: for the uniform
-/// centre-watched family only, with r not in {0,+1,-1}, the detuned blind count equals the count
-/// of original blind modes having a node at either endpoint. Off-centre and nonuniform pointwise
-/// converses remain outside this witness.</para>
+/// uniform centre-watched family. For any zero-free Jacobi path with fixed diagonal and
+/// r not in {0,+1,-1}, the same baseline blind energy survives exactly when its original
+/// eigenvector has a node at either moved-bond endpoint. The uniform-centre family additionally
+/// has total-count equality; off-centre arms may acquire new blind energies.</para>
 ///
 /// <para>Root: <c>inspect --root nodepair</c>. Proof:
 /// <c>docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md</c>.</para></summary>
@@ -35,7 +35,9 @@ public sealed class NodePairResolventWitness : IInspectable
                    $"node/non-node {reading.NodeNonNodeEntry}; direct factorization " +
                    $"{(reading.FactorizationMatches ? "MATCH" : "MISMATCH")}; uniform-centre iff " +
                    $"{iffMatches}/{reading.CriterionCases.Count} canonical cases outside r=0,+1,-1; " +
-                   "off-centre/nonuniform converse not claimed.";
+                   $"off-centre N=6 new roots {reading.OffCentreBirth.BaselineBlindCount}->" +
+                   $"{reading.OffCentreBirth.BornBlindCount}; nonuniform fixed-energy cases " +
+                   $"{reading.NonuniformFixedEnergyCases.Count}.";
         }
     }
 
@@ -67,6 +69,22 @@ public sealed class NodePairResolventWitness : IInspectable
                     $"blind={item.DetunedBlindCount}, endpoint-nodes={item.EndpointNodeCount}")),
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
+                "off-centre birth at N=6",
+                $"c=2, b=0, q=r^2=2: chi_L={reading.OffCentreBirth.MovedLeftPolynomial}, " +
+                $"chi_R={reading.OffCentreBirth.UntouchedRightPolynomial}, " +
+                $"gcd={reading.OffCentreBirth.SharedFactor}; blind baseline=" +
+                $"{reading.OffCentreBirth.BaselineBlindCount}, q=2=" +
+                $"{reading.OffCentreBirth.BornBlindCount}, changed opposite arm=" +
+                $"{reading.OffCentreBirth.ChangedOppositeArmBlindCount}",
+                provenance: NodeProvenance.Live);
+            yield return new InspectableNode(
+                "nonuniform fixed-energy cases",
+                string.Join("; ", reading.NonuniformFixedEnergyCases.Select(item =>
+                    $"E={item.Energy}: baseline blind={item.BaselineBlind}, " +
+                    $"endpoint node={item.HasEndpointNode}, same E blind at r=2=" +
+                    item.SameEnergyBlindAfterMove)),
+                provenance: NodeProvenance.Live);
+            yield return new InspectableNode(
                 "exceptional set r=0,+1,-1",
                 string.Join("; ", reading.ExceptionalCases.Select(item =>
                     $"r={item.R}: blind={item.DetunedBlindCount}, nodes={item.EndpointNodeCount}, " +
@@ -74,9 +92,10 @@ public sealed class NodePairResolventWitness : IInspectable
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode(
                 "scope and proof",
-                "PROOF_NODE_PAIR_RESOLVENT Theorem 1 is symmetry-free; Corollary B is the general " +
-                "sufficient direction; the iff is only the uniform centre-watched family. " +
-                "Off-centre/nonuniform pointwise converse and rate reads are not claimed. " +
+                "PROOF_NODE_PAIR_RESOLVENT Theorem 1 is symmetry-free; Corollary C is the " +
+                "same-baseline-energy iff for a zero-free Jacobi path with fixed diagonal. " +
+                "Corollary D gives uniform-centre total-count equality. Arbitrary-arm new-root " +
+                "classification and rate claims are not made. " +
                 "Run `inspect --root nodepair`.");
         }
     }
@@ -106,7 +125,8 @@ public sealed class NodePairResolventWitness : IInspectable
 
         return new NodePairResolventReading(
             reduced[1, 3], reduced[1, 2], direct, factorized,
-            criterion, exceptional);
+            criterion, exceptional, ReconstructOffCentreBirth(),
+            ReconstructNonuniformFixedEnergyCases());
     }
 
     private static NodePairCriterionCase CriterionCase(int halfLength, int bond, BigRational r) =>
@@ -197,6 +217,80 @@ public sealed class NodePairResolventWitness : IInspectable
         return (BigRational.One / left[left.Degree]) * left;
     }
 
+    private static NodePairBirthCase ReconstructOffCentreBirth()
+    {
+        // N=6, c=2, b=0. The moved hopping is 2*sqrt(q), so its SQUARE is rational at q=2.
+        // The continuant reads q exactly without introducing an irrational matrix entry.
+        BigRational z = BigRational.Zero;
+        var leftBaseline = JacobiPolynomial(new[] { z, z }, new BigRational[] { 4 });
+        var leftBorn = JacobiPolynomial(new[] { z, z }, new BigRational[] { 8 });
+        var right = JacobiPolynomial(new[] { z, z, z }, new BigRational[] { 4, 4 });
+        var changedRight = JacobiPolynomial(new[] { z, z, z }, new BigRational[] { 4, 9 });
+        var shared = PolynomialGcd(leftBorn, right);
+        return new NodePairBirthCase(leftBorn, right, shared,
+            PolynomialGcd(leftBaseline, right).Degree, shared.Degree,
+            PolynomialGcd(leftBorn, changedRight).Degree);
+    }
+
+    private static RationalPolynomial JacobiPolynomial(
+        IReadOnlyList<BigRational> diagonal, IReadOnlyList<BigRational> squaredHoppings)
+    {
+        if (squaredHoppings.Count != Math.Max(0, diagonal.Count - 1))
+            throw new ArgumentException("One squared hopping is required between adjacent sites.");
+        var x = RationalPolynomial.Monomial(1, BigRational.One);
+        var previous = RationalPolynomial.One;
+        if (diagonal.Count == 0) return previous;
+        var current = x - new RationalPolynomial(diagonal[0]);
+        for (int site = 1; site < diagonal.Count; site++)
+            (previous, current) = (current,
+                (x - new RationalPolynomial(diagonal[site])) * current
+                - squaredHoppings[site - 1] * previous);
+        return current;
+    }
+
+    private static IReadOnlyList<NodePairFixedEnergyCase> ReconstructNonuniformFixedEnergyCases()
+    {
+        BigRational[] diagonal = { 1, 0, 1, 7, 1, 0, 1 };
+        BigRational[] hoppings = { 2, 4, 5, 6, 4, 2 };
+        var baseline = JacobiMatrix(diagonal, hoppings);
+        hoppings[0] = 4; // r=2 on bond 0; the diagonal and all other hoppings stay fixed.
+        var moved = JacobiMatrix(diagonal, hoppings);
+        return new[] { new BigRational(-4), BigRational.One, new BigRational(5) }
+            .Select(energy =>
+            {
+                var original = BigRationalLinearAlgebra.Nullspace(Shifted(baseline, energy));
+                var after = BigRationalLinearAlgebra.Nullspace(Shifted(moved, energy));
+                return new NodePairFixedEnergyCase(energy,
+                    original.Count == 1 && original[0][3].IsZero,
+                    original.Count == 1 && (original[0][0].IsZero || original[0][1].IsZero),
+                    after.Count == 1 && after[0][3].IsZero);
+            }).ToArray();
+    }
+
+    private static BigRational[,] JacobiMatrix(
+        IReadOnlyList<BigRational> diagonal, IReadOnlyList<BigRational> hoppings)
+    {
+        if (hoppings.Count != diagonal.Count - 1)
+            throw new ArgumentException("One hopping is required between adjacent sites.");
+        var matrix = ZeroMatrix(diagonal.Count, diagonal.Count);
+        for (int site = 0; site < diagonal.Count; site++)
+        {
+            matrix[site, site] = diagonal[site];
+            if (site == hoppings.Count) continue;
+            matrix[site, site + 1] = hoppings[site];
+            matrix[site + 1, site] = hoppings[site];
+        }
+        return matrix;
+    }
+
+    private static BigRational[,] Shifted(BigRational[,] matrix, BigRational energy)
+    {
+        int n = matrix.GetLength(0);
+        var shifted = (BigRational[,])matrix.Clone();
+        for (int site = 0; site < n; site++) shifted[site, site] -= energy;
+        return shifted;
+    }
+
     private static BigRational[,] ZeroMatrix(int rows, int columns)
     {
         var matrix = new BigRational[rows, columns];
@@ -213,7 +307,9 @@ public sealed record NodePairResolventReading(
     RationalPolynomial DirectPolynomial,
     RationalPolynomial FactorizedPolynomial,
     IReadOnlyList<NodePairCriterionCase> CriterionCases,
-    IReadOnlyList<NodePairExceptionalCase> ExceptionalCases)
+    IReadOnlyList<NodePairExceptionalCase> ExceptionalCases,
+    NodePairBirthCase OffCentreBirth,
+    IReadOnlyList<NodePairFixedEnergyCase> NonuniformFixedEnergyCases)
 {
     public bool FactorizationMatches => DirectPolynomial.Equals(FactorizedPolynomial);
 }
@@ -233,3 +329,17 @@ public sealed record NodePairExceptionalCase(
     int DetunedBlindCount,
     bool InTheoremDomain,
     string Fence);
+
+public sealed record NodePairBirthCase(
+    RationalPolynomial MovedLeftPolynomial,
+    RationalPolynomial UntouchedRightPolynomial,
+    RationalPolynomial SharedFactor,
+    int BaselineBlindCount,
+    int BornBlindCount,
+    int ChangedOppositeArmBlindCount);
+
+public sealed record NodePairFixedEnergyCase(
+    BigRational Energy,
+    bool BaselineBlind,
+    bool HasEndpointNode,
+    bool SameEnergyBlindAfterMove);

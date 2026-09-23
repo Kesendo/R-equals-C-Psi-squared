@@ -17,6 +17,8 @@ public class NodePairInspectRootTests
         Assert.Contains("PROOF_NODE_PAIR_RESOLVENT", entry.Description);
         Assert.Contains("uniform-centre iff", entry.Description);
         Assert.Contains("off-centre", entry.Description);
+        Assert.Contains("baseline blind energy", entry.Description);
+        Assert.Contains("new blind energies", entry.Description);
 
         var context = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 99,
             WithQSweep: false, WithMeasured: false, QGridPoints: null);

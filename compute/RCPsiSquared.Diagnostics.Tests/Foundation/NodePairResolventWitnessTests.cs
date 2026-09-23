@@ -59,6 +59,34 @@ public class NodePairResolventWitnessTests
     }
 
     [Fact]
+    public void OffCentreN6Birth_HasTwoNewRootsOnlyAtSquaredBondRatioTwo()
+    {
+        var birth = new NodePairResolventWitness().Reading.OffCentreBirth;
+
+        Assert.Equal(new RationalPolynomial(new BigRational(-8), BigRational.Zero,
+            BigRational.One), birth.MovedLeftPolynomial);
+        Assert.Equal(new RationalPolynomial(BigRational.Zero, new BigRational(-8),
+            BigRational.Zero, BigRational.One), birth.UntouchedRightPolynomial);
+        Assert.Equal(new RationalPolynomial(new BigRational(-8), BigRational.Zero,
+            BigRational.One), birth.SharedFactor);
+        Assert.Equal(0, birth.BaselineBlindCount);
+        Assert.Equal(2, birth.BornBlindCount);
+        Assert.Equal(0, birth.ChangedOppositeArmBlindCount);
+    }
+
+    [Fact]
+    public void NonuniformN7FixedEnergyCases_IncludeSurvivalAndLossOnTheSameBond()
+    {
+        var cases = new NodePairResolventWitness().Reading.NonuniformFixedEnergyCases;
+
+        Assert.Equal(new[] { new BigRational(-4), BigRational.One, new BigRational(5) },
+            cases.Select(item => item.Energy));
+        Assert.All(cases, item => Assert.True(item.BaselineBlind));
+        Assert.Equal(new[] { false, true, false }, cases.Select(item => item.HasEndpointNode));
+        Assert.Equal(new[] { false, true, false }, cases.Select(item => item.SameEnergyBlindAfterMove));
+    }
+
+    [Fact]
     public void InspectionTree_SeparatesLiveRecomputationsFromStoredScopeBreadcrumb()
     {
         IInspectable witness = new NodePairResolventWitness();
@@ -68,6 +96,10 @@ public class NodePairResolventWitnessTests
         Assert.Contains(children, child => child.DisplayName.Contains("nonzero control")
                                           && child.Provenance == NodeProvenance.Live);
         Assert.Contains(children, child => child.DisplayName.Contains("uniform-centre iff")
+                                          && child.Provenance == NodeProvenance.Live);
+        Assert.Contains(children, child => child.DisplayName.Contains("off-centre birth")
+                                          && child.Provenance == NodeProvenance.Live);
+        Assert.Contains(children, child => child.DisplayName.Contains("nonuniform fixed-energy")
                                           && child.Provenance == NodeProvenance.Live);
         Assert.Contains(children, child => child.DisplayName.Contains("exceptional set")
                                           && child.Provenance == NodeProvenance.Live);

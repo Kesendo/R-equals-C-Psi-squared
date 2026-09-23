@@ -885,11 +885,12 @@ public static class KnowledgeRegistryFactory
             // The node-pair resolvent theorem (Tier 1 derived, 2026-09-12): on a zero-free real
             // symmetric open chain, nodes at both ends of a reduced-resolvent matrix element force
             // it to vanish. The general sufficient bond theorem says that a node at either
-            // endpoint of a non-incident moved bond preserves a blind mode while that bond remains
-            // nonzero. On the uniform odd chain watched at its centre, the determinant
-            // factorization closes the uniform-centre pointwise iff for r != 0,+1,-1.
-            // The off-centre and nonuniform pointwise converses remain open, as do the
-            // equality branch and straddling mechanism. Parent:
+            // endpoint of a non-incident moved off-diagonal hopping preserves a blind mode while
+            // the diagonal stays fixed and that bond remains
+            // nonzero. With fixed diagonal, the two-arm continuant closes the same-baseline-energy
+            // iff on any zero-free Jacobi path for r != 0,+1,-1. The uniform-centre family also
+            // has total-count equality; off-centre arms can gain new blind energies.
+            // Arbitrary-arm new-root classification, equality branch and straddling remain open. Parent:
             // F157, whose Jacobi node lemma supplies the premise. Gate: simulations/node_pair_resolvent.py.
             .RegisterNodePairResolventClaim()
             .RegisterMissingPhaseRelaxationScaleClaim()

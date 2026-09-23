@@ -362,9 +362,11 @@ converse fails, so gate D8b reads the same rows over ALL seats of the same N and
 disagreements of 149 cells, every one of them at a centre seat. Gate D6 reads the bond face over 570
 cells as an all-knob census. Its theorem successor is
 [The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md): Corollary B proves the endpoint-node
-condition sufficient on any zero-free real symmetric open chain, and Corollary C closes the
-pointwise iff for the uniform centre-watched family at `r != 0,+1,-1`. Only the off-centre and
-nonuniform pointwise converse remains open.
+condition sufficient on any zero-free real symmetric open chain when only the non-incident
+off-diagonal hopping changes and the diagonal stays fixed. Corollary C
+closes the same-baseline-energy iff for any watched seat at `r != 0,+1,-1`. Corollary D closes the
+total-count equality for the uniform centre-watched family. Off-centre arms can acquire new
+blind energies at a single knob value: the exact N=6 example has two at `r²=2` and none at baseline.
 
 An earlier version of this paragraph said the bond rows were a second mechanism and that what it is
 stays open. They are not, and it does not: that version had transplanted the diagonal's condition,
@@ -509,9 +511,9 @@ tests.
    left LIVE for that perturbation, the 48 minus the 32 it leaves blind at every knob value; the same
    twelve seats the table reads as 12 of 48. What stays
    open is the equality branch itself: which seats, and why those. Two smaller things the closing
-   exposed: the bond face's general sufficient direction and uniform-centre pointwise iff now
-   live in [The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md), while off-centre and
-   nonuniform pointwise necessity remains open; and when the perturbed sites straddle the seat the converse is false, first at the centre
+   exposed: the bond face's general sufficient direction and seat-general same-energy iff now
+   live in [The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md), while new-root loci
+   beyond the exact N=6 off-centre example remain open; and when the perturbed sites straddle the seat the converse is false, first at the centre
    seat at |S| = 2 and away from it at |S| = 3, with the number of failures growing with N.
 3. **Ask each comb law which modulus its comb is on.** F157 survives detuning because its comb moves
    from the spectrum to the parameter, on the seat-dependent N_node. For F89's seed resonance,

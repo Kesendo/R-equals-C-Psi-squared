@@ -22,7 +22,7 @@ public class NodePairResolventClaimTests
     }
 
     [Fact]
-    public void Claim_StatesSymmetryFreeTheorem_AndScopedUniformCentreIff()
+    public void Claim_StatesGeneralSameEnergyIff_AndScopedUniformCentreCount()
     {
         var claim = BuildClaim();
         string surface = $"{claim.Name} {claim.Summary} {claim.Scope}";
@@ -37,6 +37,15 @@ public class NodePairResolventClaimTests
         Assert.Contains("r != 0,+1,-1", surface, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("off-centre", surface, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("nonuniform", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("fixed diagonal", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("fixed diagonal", claim.Name, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("off-diagonal", claim.Name, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("fixed diagonal", claim.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("off-diagonal", claim.Summary, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("baseline blind energy", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("new blind energies", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("pointwise converses remain open", surface,
+            StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("bound state in the continuum", surface, StringComparison.OrdinalIgnoreCase);
     }
 

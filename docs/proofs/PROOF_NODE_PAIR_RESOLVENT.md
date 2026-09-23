@@ -1,9 +1,9 @@
 # The Node Pair: a resolvent theorem, and which bond can end a blind mode
 
-**Status:** Tier 1 derived for §4 (Theorem 1 and Corollary A), §5 (Corollary B on the zero-free knob domain and Corollary C's pointwise iff for the uniform centre-watched family away from `r=0,+1,-1`), and the peripheral lower bound in §8. Cited from the parent, not re-derived: the fold in §3. Exact-verified but not derived here: the coefficient in §6 and the arm law in §7; the peripheral exhaustion in §8 is verified by rank and derivable from an owned lemma, as §8 says. Read, not settled: the off-centre/nonuniform pointwise converse and §9's window. No F number is claimed.
-**Date:** 2026-09-12
-**Authors:** Thomas Wicht, Claude (Anthropic, Opus 5)
-**Producer:** [`node_pair_resolvent.py`](../../simulations/node_pair_resolvent.py), gates G1-G9 (73 current checks) with mutations M1-M9 and controls G1b, G6, G7, G9-control.
+**Status:** Tier 1 derived for §4 (Theorem 1 and Corollary A), §5 (Corollary B on the zero-free knob domain, Corollary C's seat-general fixed-energy iff for moved/original hopping ratio `r` outside {0,+1,-1}, and Corollary D's uniform-centre count), and the peripheral lower bound in §8. Cited from the parent, not re-derived: the fold in §3. Exact-verified but not derived here: the coefficient in §6 and the arm law in §7; the peripheral exhaustion in §8 is verified by rank and derivable from an owned lemma, as §8 says. Read, not settled: a classification of new blind energies for arbitrary arms, the equality/straddling branches, and §9's window. No F number is claimed.
+**Date:** 2026-09-12; fixed-knob extension 2026-09-23
+**Authors:** Thomas Wicht, Claude (Anthropic, Opus 5); extension with Codex (OpenAI)
+**Producer:** [`node_pair_resolvent.py`](../../simulations/node_pair_resolvent.py), gates G1-G10 (84 current checks) with mutations M1-M10 and controls G1b, G6, G7, G9-control, G10.
 **Builds on:** [F157 and the blind-seat node lemma](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md), whose Lemma J supplies both ingredients of §4 and the route of §5; [F64](../ANALYTICAL_FORMULAS.md), which is the law both regimes here obey; [the Absorption Theorem](PROOF_ABSORPTION_THEOREM.md) Theorem 2; [F2b](../ANALYTICAL_FORMULAS.md) for the modes.
 
 ---
@@ -15,47 +15,62 @@ with a node at that seat is never charged anything and never decays. In the unif
 watched at its centre, reflection symmetry supplies the whole odd-reflection subspace and forces
 its m = (N−1)/2 modes to vanish at the centre. F157 counts these **blind** modes. Theorem 1 below
 is more general: once a zero-free Jacobi eigenvector has two nodes, its resolvent conclusion uses
-no reflection symmetry.
+no reflection symmetry. Here a zero-free Jacobi chain is a real symmetric nearest-neighbour
+Hamiltonian with every hopping nonzero. The reduced resolvent removes one eigenmode's pole from
+the inverse of `E−h`; §4 defines it at that eigenvalue.
 
-Detune one bond. Which blind modes survive, and what do the others pay?
+Detune one bond. Which blind modes survive, and what do the others pay? For a single scaled
+off-diagonal hopping with the diagonal held fixed, a **baseline blind energy** survives at
+`r != 0,+1,-1` exactly when its baseline mode has a node at one endpoint of that bond. A new
+blind energy may also appear at a special ratio; the uniform odd centre-watched chain cannot
+gain one. A physical Heisenberg bond detuning changes diagonal ZZ terms too and is outside this
+fixed-diagonal criterion. The remaining rate statements below belong to the uniform
+centre-watched model.
 
-**One case is already owned and is trivial.** A bond incident on the watched seat is struck away
-together with the seat, so neither principal block depends on the knob and the blind count cannot
-change: [PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) says so
-in its setup, calls those cells trivial and excludes them from its gates. Gate G7 confirms it
-exactly over ℚ at ε = 1/3, 7/5 and 9, a bond stretched tenfold.
+**One case is already owned and is simple while the moved bond remains nonzero.** A bond incident
+on the watched seat is struck away together with the seat, so neither principal block depends on
+the knob. On the zero-free chain Lemma J identifies the blind count with their common-root count,
+which therefore cannot change. At the cut ratio `r=0`, the zero-free premise fails and an
+isolated component can gain a blind state: on the uniform four-site XY path watched at `c=1`,
+cutting incident bond `b=0` changes blind from 0 to 1, with `|0⟩` isolated. Gate G7 confirms the
+nonzero-bond statement exactly over ℚ at ε = 1/3, 7/5 and 9, a bond stretched tenfold.
 
 What is here is three things. **A theorem** about the reduced resolvent of a Jacobi matrix
 between two nodes of an eigenvector. **A criterion** that follows for the remaining bonds, at
-every value of the knob. On the uniform centre-watched family the half-chain determinant also
-closes the pointwise converse away from three exceptional bond ratios; off-centre and nonuniform
-converses remain open. The parent node lemma had verified the same endpoint-node criterion over
-570 all-knob cells and left it as "a READING and not a theorem here", with a proof "within reach
-through (J3) … not attempted here". And **a fold**: the watched seat cuts the chain in
-half, the blind modes are the half-chain's own standing waves, and everything the surviving
-modes pay is a half-chain quantity.
+every value of the knob. A two-arm continuant closes the **fixed baseline energy** converse for
+any watched seat and any zero-free real symmetric Jacobi path away from three exceptional bond
+ratios. The total blind count can nevertheless gain new energies at one knob setting. The parent
+node lemma tested an endpoint-node condition over 570 cells for a different question: whether
+the seat stays blind at **every** knob value. It left that all-knob result as "a READING and not
+a theorem here", with a proof "within reach through (J3) … not attempted here". Here the
+opposite principal block has a fixed finite spectrum; Corollary C decides each **baseline**
+shared energy at one ratio and leaves possible new matches separate. And **a fold**: the watched
+seat separates two halves, the uniform centre-blind modes are the half-chain's standing waves,
+and the light induced in modes that lose blindness is a half-chain quantity.
 
 ## 2. The sweep this document stands on
 
-**F64** is the law underneath all of it: `docs/ANALYTICAL_FORMULAS.md` §F64 gives the effective
-rate of a mode watched at one site as 2γ times its squared amplitude there, so rate = 0 exactly
-when the mode has a node at the seat. F157's own registry entry routes to it in those words, and
-names **F66**, one of whose scope sentences the interior seats correct, and **F152**. That entry
+**F64** is the neighbouring single-excitation **coherence-sector** rate reading:
+`docs/ANALYTICAL_FORMULAS.md` §F64 gives its first-order Hamiltonian-mode rate as 2γ times
+the squared watched-site amplitude; its exact version uses the coherence-sector Liouvillian
+eigenvector. F157's own registry entry routes to it and names **F66**, one of whose scope
+sentences the interior seats correct, and **F152**. That entry
 also fences F152 apart: the count is for the single-excitation sector, "NOT F152's (0,1)
 coherence block", and the same fence is repeated in
 [PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE](PROOF_EDGE_BLOCK_DEFECTIVE_UNDER_PROFILE.md): the two
 blocks have different dimensions and different rates and must not be merged. This document works
-in the (1,1) block throughout. F64 itself is a first-order statement and is named here as the law
-that turns an amplitude into a rate, not as a result being extended; the rate step below is the
-Absorption Theorem's Theorem 2.
+in the (1,1) block throughout. Its rate step uses the Absorption Theorem's Theorem 2 on an actual
+Liouvillian eigenoperator. The Hamiltonian-mode light coefficient `c_k` below is not by itself a
+(1,1) decay rate; §8 resolves the dyad mixing.
 
 **F2b** owns the sine modes and the band `E_k = 2J cos(πk/(N+1))` used in §3. The coefficient in
 §6 is evaluated directly from those sine modes. **F157** owns the blind count
 `gcd(j+1, N+1) − 1` and, in its
 registry entry, the bond criterion §5 proves half of. **F124** owns two scalar contractions of
-the bond matrix `M[b,k] = ⟨ψ_k|V_b|ψ_1⟩`, not the entries. **F161**'s proof owns a
-resolvent-weighted overlap `R_k = Σ_{l ≠ k, l ≡ k (mod 2)} a_l²/(E_k − E_l)` for the ring's wrap
-bond, on the level rather than the light, and says there that it is not an independent claim.
+the bond matrix `M[b,k] = ⟨ψ_k|V_b|ψ_1⟩`, not the entries. **F161**'s proof owns a scalar
+resolvent-weighted overlap, named `R_k = Σ_{l ≠ k, l ≡ k (mod 2)} a_l²/(E_k − E_l)` there, for
+the ring's wrap bond, on the level rather than the light. It is distinct from this document's
+reduced-resolvent operator `𝓡_k` and is not an independent claim.
 **F163** already sandwiches a reduced resolvent between two perturbations to reach a second
 order, and **D6** already carries a second-order rate with a 1/γ; there is no blanket novelty
 here and none is claimed.
@@ -72,7 +87,7 @@ and `MissingPhaseRelaxationScaleClaim`, beside the live witness `MissingPhaseRel
 γ-rate direction `|d₊⟩⟨d₊| − |d₋⟩⟨d₋|`, which is why §8 is scoped as it is.
 `NodePairResolventWitness` independently recomputes the canonical exact resolvent zero, its
 nonzero control, Corollary C's determinant factorization and theorem/control cases, including the
-three exceptional ratios; run `inspect --root nodepair`. The typed Core breadcrumb names this
+three exceptional ratios and the off-centre new-root case; run `inspect --root nodepair`. The typed Core breadcrumb names this
 root as a string, preserving the Core-to-Diagnostics dependency direction.
 
 Two of the proofs are neighbours and neither is superseded here.
@@ -93,9 +108,10 @@ establishes exact nodal decoupling from one watched site; no continuum or scatte
 part of the statement.
 
 The **OpenArcs registry** holds `the_forced_and_the_met`, **open**. It records §5's proved
-sufficient bond direction in the product shape `2·v_b·v_{b+1}`, a node at either end, and closes
-the pointwise iff only for the uniform centre-watched family at `r != 0,+1,-1`. The off-centre
-and nonuniform pointwise converse, equality branch and straddling mechanism remain open.
+sufficient bond direction in the product shape `2·v_b·v_{b+1}`, a node at either end. Corollary C
+closes the same-baseline-energy iff for any zero-free Jacobi path with fixed diagonal at
+`r != 0,+1,-1`; Corollary D closes the total-count equality for the uniform centre-watched family.
+New-root classification for arbitrary arms, the equality branch and the straddling mechanism remain open.
 `relaxation_scale_as_the_defect_vanishes` is retired beside it. **`docs/CAUGHT_ERRORS.md`** carries
 this work's own defects, appended the same day, and warned in advance against reading a
 characteristic polynomial as a statement about an eigenvector. **`experiments/THE_BLIND_SITE.md`**
@@ -127,7 +143,8 @@ centre the blind modes are the even k, m of them, F157's count. Write D for thei
 orthogonal complement. Throughout, the **light** of an operator is the Absorption Theorem's
 charged weight for this one watched seat: the fraction of its weight in cells whose bra and ket
 differ at site c. On this sector that is a single bit, so for a dyad `u v†` the light is the
-exclusive-or, `a + b − 2ab` with a = light(u), b = light(v), MirrorWorld's `Pair` disagreement
+exclusive-or, `a + b − 2ab` with `a=|u(c)|²/‖u‖²` and `b=|v(c)|²/‖v‖²`,
+the normalized watched-site populations of the two vectors, MirrorWorld's `Pair` disagreement
 restricted to one site. Gate G4 checks the identity exactly on rationals; it is algebra about the
 charged cell set and cannot fail for a physical reason.
 
@@ -144,17 +161,19 @@ This is **derived**, and more generally, in the parent:
 [PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) gives the blind
 eigenvectors at any seat in closed form as `v^(c)_l = sin((j − l)·θ_c)` with `θ_c = cπ/h`, and at
 the centre seat h = m+1, so substituting l = m−1−x is the display above. Nothing here gates the
-fold; it is cited, not measured. Every quantity below is a half-chain quantity, and that is why
-the doubled index, the arm law and the peripheral count take the shapes they do.
+fold; it is cited, not measured. The uniform-centre coefficient and bond response below reduce
+to half-chain quantities; §4–5 also treat arbitrary Jacobi paths, and §8 counts full operator
+spaces. The half-chain shape explains the doubled index and the arm response.
 
 ## 4. The theorem
 
-**Theorem 1 (derived).** Let h be a zero-free open chain, E_k an eigenvalue, ψ_k the eigenvector,
-R_k the reduced resolvent at E_k. If ψ_k has a node at x **and** at y, then ⟨x|R_k|y⟩ = 0.
+**Theorem 1 (derived).** Let h be a zero-free open chain, E_k an eigenvalue, ψ_k its normalized
+eigenvector, and `𝓡_k = Σ_{l≠k}|ψ_l⟩⟨ψ_l|/(E_k−E_l)` its reduced resolvent. If ψ_k has a node at x
+**and** at y, then ⟨x|𝓡_k|y⟩ = 0.
 
 *Proof.* A zero-free Jacobi matrix has simple spectrum, and so does every contiguous principal
 submatrix, Lemma J (J2) of
-[PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md), so R_k is
+[PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md), so 𝓡_k is
 defined. For x ≤ y the Green's function factorizes in the standard cofactor form
 
 ```text
@@ -169,7 +188,7 @@ numerator has a double zero against a simple one, so the quotient vanishes at E_
 is the claimed entry: the term subtracted to form the reduced resolvent, ψ_k(x)ψ_k(y)/(E − E_k),
 is identically zero at a pair of nodes, so no limit is taken. For x > y exchange the roles. ∎
 
-**Corollary A.** For any seat j and any mode blind to it, ⟨j|R_k|j⟩ = 0. With (J3) this is two
+**Corollary A.** For any seat j and any mode blind to it, ⟨j|𝓡_k|j⟩ = 0. With (J3) this is two
 lines from the Cramer identity `χ(H struck at j)/χ(H) = [(xI − H)⁻¹]_{jj}` of
 [THE_SEAT_THAT_CUTS](../../experiments/THE_SEAT_THAT_CUTS.md), read at a blind energy.
 
@@ -177,7 +196,7 @@ lines from the Cramer identity `χ(H struck at j)/χ(H) = [(xI − H)⁻¹]_{jj}
 minimal polynomial over ℚ. G1b runs the same sum on node/non-node pairs, where it does not
 vanish, which the order count predicts, only one factor then vanishing. G1c certifies a second
 vanishing that comes free of the chain's bipartite structure: the zero-energy mode
-k₀ = (N+1)/2 has ⟨x|R_{k₀}|y⟩ = 0 for **every** same-parity pair, node or not, because
+k₀ = (N+1)/2 has ⟨x|𝓡_{k₀}|y⟩ = 0 for **every** same-parity pair, node or not, because
 ψ_{N+1−l}(x) = (−1)^x ψ_l(x) pairs the sum term by term. That is chiral (class BDI) symmetry,
 owned here as `ChiralKClaim`. One consequence reaches past this chain and is stated narrowly on
 purpose: a single-bond detuning **moves** such a mode: at N = 7 the chain's zero mode goes
@@ -223,29 +242,61 @@ statement excludes is ε = −1, where the bond is zero, the chain is cut and Le
 lapse. The characteristic-polynomial identity remains true there, but this proof makes no
 eigenvector claim at the cut point.
 
-**Corollary C (derived, pointwise iff for the uniform centre-watched family).** Retain §3's
-uniform odd chain, centre seat and a non-incident bond. Fix the bond ratio `r=1+ε` with
-`r != 0,+1,-1`. A baseline blind energy remains a blind energy of the detuned chain **if and
-only if** its baseline eigenvector has a node at either endpoint of the moved bond.
+**Corollary C (derived, same-energy iff for any zero-free Jacobi path).** Let `h` be a real
+symmetric zero-free Jacobi chain with a **fixed diagonal**, let `c` be any watched seat, and move
+exactly one non-incident off-diagonal coupling `t_b` to `r·t_b`. Fix `r != 0,+1,-1`. For **each
+baseline blind energy** `E`, that same energy remains blind after the move **if and only if** its
+baseline eigenvector has a node at `b` or `b+1`. This statement does not count blind energies
+that were absent at baseline.
 
-*Proof.* It is enough by reflection to put the bond in the left half, `0 <= b <= m-2`. Let
-`P_n(E)` be the characteristic polynomial of the uniform n-site path, with
-`P_0=1`, `P_1=E`, and `P_n=E P_(n-1)-J²P_(n-2)`. The untouched right half has
-`chi_R(E)=P_m(E)`. Expanding the detuned left half across bond b and subtracting its `r=1`
-value gives the exact identity
+*Proof.* Take the moved bond in the left principal block `B` of the seat deletion; a local order
+reversal handles the right block. The other block `C` is unchanged. Split `B` at `b` into the
+pieces `A=0..b` and `D=b+1..c−1`, and write their characteristic polynomials as `P` and `Q`.
+Deleting the end adjacent to the moved bond gives `P′=χ(0..b−1)` and
+`Q′=χ(b+2..c−1)`; an empty minor has polynomial 1. The continuant identity is
 
 ```text
-chi_L(E;r) = P_m(E) - J²(r²-1) P_b(E) P_(m-b-2)(E).
+χ_B(x;r) = P(x)Q(x) − r² t_b² P′(x)Q′(x),
+χ_B(x;r) − χ_B(x;1) = −(r²−1)t_b² P′(x)Q′(x).
 ```
 
-At a baseline blind energy `E_k`, `P_m(E_k)=0`. Since `r²-1 != 0`, the same energy is also a
-root of `chi_L` exactly when `P_b(E_k)P_(m-b-2)(E_k)=0`. Lemma J (J3), applied to the uniform
-half path, identifies those two alternatives with a node at b or b+1. The moved chain is
-zero-free because `r != 0`, so the common left/right root glues to a unique blind eigenvector.
-Corollary B supplies the reverse implication, completing the iff. ∎
+By Lemma J (J3), baseline blindness gives `χ_B(E;1)=χ_C(E)=0`. Because `r²−1 != 0`, the
+unchanged energy is blind at the new nonzero bond precisely when `P′(E)Q′(E)=0`. If
+`P′(E)=0`, then the first identity at baseline gives `P(E)Q(E)=0`. Consecutive principal
+minors of a zero-free Jacobi path are coprime, so `P(E) != 0` and `Q(E)=0`: Lemma J identifies a
+node at `b`. Likewise `Q′(E)=0` forces `P(E)=0` and a node at `b+1`. Conversely either endpoint
+node zeros both terms, as in Corollary B. The moved chain remains zero-free, so Lemma J glues
+the common `B,C` root into a blind full-chain eigenvector. ∎
+
+**Corollary D (derived, total-count equality for the uniform centre-watched family).** Retain
+§3's uniform odd chain and centre seat. For a non-incident bond and `r != 0,+1,-1`, the
+detuned blind count equals the number of baseline blind eigenvectors with a node at one of its
+endpoints. Here the untouched and baseline moved halves share the same polynomial `P_m`.
+Every blind energy after the move must therefore be a root of `P_m`, and hence a baseline blind
+energy. Corollary C decides each such root; none can be born outside the baseline blind spectrum.
+The familiar special-case factorization, with hopping `J`, is
+
+```text
+χ_L(x;r) = P_m(x) − J²(r²−1) P_b(x)P_(m−b−2)(x),
+P_0=1, P_1=x, P_n=xP_(n−1)−J²P_(n−2).
+```
+
+For off-centre or nonuniform arms, **new blind energies can occur** even though Corollary C
+still decides every old one. An exact example is the uniform XY path `N=6`, watched at `c=2`,
+with hopping 2, zero diagonal, and bond `b=0` scaled by `r`. Put `q=r²>0`. The seat-deletion
+blocks have `χ_L=x²−4q` and `χ_R=x(x²−8)`, whose resultant (left polynomial first) is
+`−64q(q−2)²`. At baseline `q=1` their gcd is 1: no blind energy. At `q=2` their gcd is
+`x²−8`: two new blind energies `E=±2√2`. Lemma J gives full-chain blind eigenvectors; in
+hopping-1 units they can be written `(1,s,0,−s,−√2,−s)` at `E=s√2`, `s=±1`. Scaling all
+hoppings by 2 doubles E and leaves these vectors unchanged. Moving the opposite arm's last
+hopping from 2 to 3 destroys this two-root match. This is a spectral matching at one knob
+locus, not a failure of the baseline-energy iff. A physical Heisenberg bond move also changes
+ZZ diagonal entries, so this fixed-diagonal result does not cover that intervention. G10's
+exact N=9 Heisenberg control has a baseline blind mode with a node at the moved bond, but its
+blind count falls from 4 to 0 when the physical `J_b` changes, including its diagonal response.
 
 All three excluded ratios are structural, not a tolerance fence. At `r=+1` the chain is
-unperturbed and every one of its m centre-blind modes remains. At `r=-1` a diagonal sign gauge
+unperturbed; in the uniform centre-watched family every one of its m blind modes remains. At `r=-1` a diagonal sign gauge
 returns the same spectrum and blind count. At `r=0` the bond is cut and the zero-free hypothesis
 behind Lemma J lapses. None of these exceptional fibres refutes the punctured statement.
 
@@ -261,7 +312,7 @@ node-carrying blind mode) uniform centre-watched cell at N = 5 … 13, with a co
 no-node cells not to be identically zero. Its coefficient-wise oracle calls `exact_zero` on every
 coefficient rather than trusting a residual SymPy form: the seven-root zero identity is its
 fail-open control, paired with a genuinely nonzero trigonometric sequence. G9b certifies
-Corollary C's determinant factorization exactly over 15 left-half
+Corollary D's uniform-half determinant factorization exactly over 15 left-half
 `(m,b)` cells, and M8 replaces `r²-1` by `r-1`, failing in all 15. G9c compares exact Krylov blind
 counts with the endpoint-node count at `r=2/3,3/2,-2`, including both zero-node and positive-node
 cells; G9d records the three exceptional fibres at N=7. `NodePairResolventWitness` independently
@@ -273,25 +324,31 @@ N = 5, 7, 9, 11. Equality with that lower bound on those sampled knobs is a read
 converse. Its exact `N=5, c=2, b=0, ε=−2` control exposes the sign-gauge return: the node lower
 bound is 0 while the Krylov blind count returns to 2.
 
-**Only the uniform centre-watched pointwise converse is derived.** G6's two generic rational
-knobs are a sampled count reading on uniform centre-watched chains only; G6 furnishes no evidence
-for the off-centre or nonuniform zero-free families. The node lemma's separate 570-cell
-resultant reading asks whether blindness persists for **every** knob
-value and is not evidence for that pointwise question. Corollary C closes the uniform-centre
-family by using its shared half-path polynomial; no such shared polynomial has been established
-for the adjacent open families. At the excluded sign-gauge point `r=-1` (`ε=-2`), G6 supplies
-the exact counterexample to an unrestricted iff above.
+**Quantifiers and gates.** G10 tests Corollary C outside the uniform-centre family with
+off-centre loss and survival cases and a nonuniform fixed-diagonal chain where the same moved
+bond preserves one baseline energy and loses two. Its independent full-chain Krylov rank checks
+the blind count. It also gates the N=6 new-root locus by exact half-polynomials, resultant,
+three knob values and full-chain nullvectors; a changed opposite arm kills the match. G10 also
+checks the N=4 incident cut: unchanged seat-deletion blocks but blind count 0 to 1, and the N=9
+physical-Heisenberg counterexample to an unfenced off-diagonal statement. M10
+replaces `r²−1` with `r−1` in the nonuniform continuant and fails. G6's two generic rational
+knobs remain only sampled count readings on uniform centre-watched chains. The node lemma's
+570-cell resultant reading asks whether blindness persists for **every** knob value. Neither
+reading supplies a general total-count equality. At the excluded sign-gauge point `r=-1`
+(`ε=-2`), G6 supplies the exact counterexample to an unrestricted iff.
 
 There is also a simple all-knob necessity with a different quantifier. If the simple level E_k
 stays fixed throughout a neighbourhood of `ε=0`, Hellmann-Feynman gives
-`E'_k(0) = 2J·ψ_k(b)·ψ_k(b+1) = 0`, so the reference eigenvector has a node at one endpoint.
+`E'_k(0) = 2t_b·ψ_k(b)·ψ_k(b+1) = 0`, with baseline hopping `t_b` (`t_b=J` in the uniform
+family), so the reference eigenvector has a node at one endpoint.
 This fixed-energy derivative test neither determines the full blind count at one specified knob
 nor settles the OpenArc's equality or straddling branches.
 
-## 6. What a surviving mode pays
+## 6. Second-order light from a moved bond
 
-Write c_k for the second-order light coefficient: blind mode k acquires light c_k·ε² + O(ε³), and
-F64 turns light into rate.
+Write c_k for the second-order watched-site light coefficient of a Hamiltonian mode that was
+blind at baseline: it acquires light c_k·ε² + O(ε³). The corresponding (1,1) dyads can mix;
+§8 determines which of their Liouvillian eigenoperators have that coefficient as a decay rate.
 
 **Statement (exact-verified, not derived).** On every bond of arm 1 (§7): the end bond among
 them,
@@ -326,8 +383,9 @@ the two halves' shared root.
 
 ## 7. The bond response is the shorter arm
 
-**Statement (exact-verified, not derived).** With the right half mirrored onto the left by
-b ↦ N−2−b, write **arm(b) = min(b+1, m−1−b)**. Then
+**Statement (exact-verified, not derived).** For any original bond index `b`, first fold the
+right half onto the left: `b̃ = min(b, N−2−b)`. Write
+**arm(b) = min(b̃+1, m−1−b̃)**. Then
 
 ```text
 Σ_k c_k(b) = ½ · arm(b),
@@ -348,7 +406,7 @@ N=11   ½  1  1  ½  0  0  ½  1  1  ½
 The two clauses of the arm add to m, so on the fold the statement is one clause: **the arm is the
 shorter of the two pieces the bond cuts the half chain into.** Its two zeros are the seat's own
 bonds, §1's trivial cells, where the shorter piece is empty. The symmetry that makes equal arms
-give equal vectors is the half chain's own bond reflection b ↦ m−2−b, which is not a symmetry of
+give equal vectors is the half chain's own bond reflection `b̃ ↦ m−2−b̃`, which is not a symmetry of
 h; the cells of G3 that compare a bond with its whole-chain mirror image cannot fail, since that
 reflection does commute with h, and at N = 5 every class is such a pair.
 
@@ -357,7 +415,10 @@ reflection does commute with h, and at N = 5 every class is such a pair.
 This section answers an item [THE_BLIND_SITE](../../experiments/THE_BLIND_SITE.md) leaves open:
 does the operator space killed by the dissipator alone coincide with the stationary space killed
 by the dissipator and commutator together? **No.** Three spaces must be kept separate. In the
-N = 2m+1 centre-watched (1,1) block at `ε=0`,
+N = 2m+1 centre-watched (1,1) block at `ε=0`, write `L_D = γ(z⊗zᵀ−I)` for the dissipator
+in §3's generator `A`, and `Π_c` for the orthogonal projector onto its charged matrix cells.
+The subspace `D` spans the centre-blind one-excitation modes, `E=D⊥`, and `I_E` is the
+identity on `E`. Then
 
 ```text
 dim ker L_D                                      = (N−1)² + 1,
@@ -392,11 +453,14 @@ semisimplicity, in one step. Closing to m² + 1 from there is a few lines in the
 lemma's stated context is a different block and a uniform profile, so porting it needs a scope
 sentence this document does not write.
 
-For the rates, `2γ(c_i + c_j)ε²` is the **diagonal** of the second-order effective operator in
-the dyad basis. On every block of nonzero frequency it is also the eigenvalue, including the
-degenerate ones, because dyad-to-dyad couplings enter at O(ε⁴) while only `I_E` couples at
-O(ε²). Gate G8b checks that against the generator at N = 7, 9, 11 with three acquisitions spanning
-two decades, `ε = 10^-2, 10^-3, 10^-4`. Every acquisition must be complete and finite. Its
+For the rates, `2γ(c_i + c_j)ε²` is the candidate **positive decay-rate term** from the dyad
+diagonal, namely minus the real part of the second-order effective generator's corresponding
+entry. On every block of nonzero frequency, including degenerate blocks, it gives the actual
+positive decay-rate term: `Re λ = −2γ(c_i+c_j)ε² + O(ε³)`. Dyad-to-dyad couplings enter at O(ε⁴),
+while only `I_E` couples at O(ε²). The generator eigenvalue can separately have an imaginary
+second-order shift. Gate G8b checks the decay rates against the generator at N = 7, 9, 11 with
+three acquisitions spanning two decades, `ε = 10^-2, 10^-3, 10^-4`. Every acquisition must be
+complete and finite. Its
 normalized-error budget is `2|ε| + 100 eps_machine ||A_0||/(γ ε²)`; after subtracting the stated
 rounding reserve, successive maximum errors must fall at least linearly with `|ε|`, with a named
 1.25 finite-interval slack. This remains a float **read**, not an exact verification or an error
@@ -408,11 +472,15 @@ shrinks.
 
 **On the zero-frequency block the diagonal is not the rate.** That block holds the m diagonal
 dyads together with `I_E`, and the operator mixes them. The reason is exact and holds at every ε:
-Z-dephasing is unital, z² = I, so `A[I] = 0` and `I = Σ_i d_i d_i† + I_E` lies in that block,
+Z-dephasing is unital, z² = I, so `A[I] = 0` and `I = Σ_i d_i d_i† + I_E`, with `{d_i}` an
+orthonormal basis of `D`, lies in that block,
 which therefore always carries an eigenvalue exactly zero. On the zero-free chain, F157 gives its
 stationary-space dimension as `1 + blind(ε)`; G6 and G7 read that blind count exactly on sampled
-non-incident and incident knobs. At N = 7 the block's spectrum is {0, 0, −γ, −3γ/2}·ε², the two
-nonzero eigenvectors being `|d₊⟩⟨d₊| − |d₋⟩⟨d₋|` and `|d₋⟩⟨d₋| + |d₊⟩⟨d₊| − I_E/2`; that is
+non-incident and incident nonzero knobs. At N = 7 let `d₋,d₀,d₊` name the three normalized
+centre-blind one-excitation modes in the linked N=7 proof. The zero-frequency block's
+**second-order coefficient** has spectrum `{0, 0, −γ, −3γ/2}`; its two nonzero eigen-directions
+are `|d₊⟩⟨d₊| − |d₋⟩⟨d₋|` and `|d₋⟩⟨d₋| + |d₊⟩⟨d₊| − I_E/2`. These coefficients multiply
+`ε²`, with higher orders outside this statement. This is
 [PROOF_MISSING_PHASE_RELAXATION_SCALE](PROOF_MISSING_PHASE_RELAXATION_SCALE.md) §7's `F_0^(2)`,
 whose witness already carries the antisymmetric label. G8a is a float implementation control:
 the NumPy construction gives `‖A·vec(I)‖ = 0.0` bit-for-bit on its three inputs, while the
@@ -423,18 +491,25 @@ must be rejected before the spectral comparison. Mutations M6a-c keep the acquis
 but insert `NaN`, `+Inf`, or `-Inf`, once on each side of the comparison; every case must be
 rejected even though a separate finite branch still differs.
 
-Consequently the slowest nonstationary second-order rate is `2γ ε²·min{c_i + c_j > 0}`, since
-c_k = c_{N+1−k} puts every minimal positive pair-sum on an **off-diagonal** dyad where the
-diagonal is the eigenvalue. This is a read: it rests on G8b. At N = 7 none of it is needed,
+For a non-incident bond whose coefficient vector contains a positive entry, the slowest
+**nonzero-frequency peripheral** second-order rate is `2γ ε²·min{c_i + c_j > 0}`, with `i,j` ranging over the
+baseline centre-blind modes. The minimum is undefined on a seat-incident bond, where every
+`c_k=0`. For the stated non-incident family,
+`c_k = c_{N+1−k}` puts every minimal positive pair-sum on an **off-diagonal** dyad where the
+diagonal yields the rate. This is a read: it rests on G8b. G8b and G8c do not compare the
+positive zero-frequency rates against this minimum, so they do not establish the globally
+slowest nonstationary branch at general N. At N = 7 none of that comparison is needed,
 [PROOF_MISSING_PHASE_RELAXATION_SCALE](PROOF_MISSING_PHASE_RELAXATION_SCALE.md) §6 and §7 derive
 that row exactly, the ten-dimensional census, the full second-order split and the (γ/2)ε² slowest
 rate, and this section's N = 7 evidence is the weaker of the two.
 
 ## 9. What is not settled
 
-- **The off-centre and nonuniform pointwise fixed-knob converses of §5.** Corollary C settles the
-  uniform centre-watched family at `r != 0,+1,-1`; the all-knob fixed-energy derivative test has
-  a different quantifier and does not settle either adjacent family.
+- **New-root loci and total counts for arbitrary arms.** Corollary C settles only a baseline
+  energy's fate for every zero-free Jacobi path with fixed diagonal at `r != 0,+1,-1`. The N=6
+  off-centre example proves that new blind energies may appear at a special knob value.
+  Classifying all such loci, the OpenArc's equality branch and its straddling mechanism remains
+  open. The all-knob fixed-energy derivative test has a different quantifier.
 - **The coefficient and the arm law** are exact at the N gated and derived nowhere. The fold is
   not among them: it is the parent's closed form for the blind eigenvectors, cited in §3.
 - **Everything about rates is a read.** G8b now has a complete finite three-acquisition germ gate
@@ -448,8 +523,8 @@ rate, and this section's N = 7 evidence is the weaker of the two.
   Absorption Theorem's Zeno asymptote is not pursued: that asymptote is for uniform dephasing and
   its J is the Pauli coupling, whose hopping element is 2J, so a comparison has to cross a
   convention the repo has been caught by before.
-- Nothing about the non-peripheral modes. Theorem 1 and Corollaries A-B are parity-free and
-  seat-general. Corollary C is restricted to the uniform odd chain watched at its centre; there
-  is no Corollary-C claim for an even chain, an off-centre seat, or a nonuniform profile. The
-  fold, coefficient, arm and rate claims are likewise odd uniform centre-only. No other topology;
+- Nothing about the non-peripheral modes. Theorem 1 and Corollaries A-C are parity-free and
+  seat-general. Corollary C requires a fixed diagonal, one scaled off-diagonal bond, and a
+  baseline blind energy; Corollary D alone is the uniform odd centre-watched count equality.
+  The fold, coefficient, arm and rate claims are likewise odd uniform centre-only. No other topology;
   no observable lifetime; no hardware; no F number.

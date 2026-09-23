@@ -8485,17 +8485,20 @@ public static class OpenArcsRegistry
                 "polynomial at N = 5, and away from the centre at |S| = 3, 28 triples in the " +
                 "gated range with the count growing with N. For a BOND the SUFFICIENT direction is " +
                 "now a theorem: PROOF_NODE_PAIR_RESOLVENT Corollary B proves on the zero-free knob " +
-                "domain that a blind mode with a node at EITHER endpoint of a non-incident moved " +
+                "domain, when only one off-diagonal hopping scales and the diagonal stays fixed, " +
+                "that a blind mode with a node at EITHER endpoint of a non-incident moved " +
                 "bond keeps its energy and a blind representative. The product is why one endpoint " +
-                "is enough. For the UNIFORM CENTRE-WATCHED odd chain, Corollary C now closes the " +
-                "pointwise iff at every r != 0,+1,-1: the exact factorization " +
-                "chi_L=P_m-4(r^2-1)P_b P_(m-b-2) makes a surviving blind reference energy " +
-                "equivalent to an endpoint node. At epsilon = -2 (r = -1) the sign-gauge return " +
+                "is enough. With FIXED DIAGONAL, Corollary C now closes the same-baseline-energy " +
+                "iff at every r != 0,+1,-1 on any zero-free Jacobi path: the two-arm continuant " +
+                "makes survival of that energy equivalent to an endpoint node. Corollary D gives " +
+                "total-count equality on the UNIFORM CENTRE-WATCHED odd chain. At epsilon = -2 " +
+                "(r = -1) the sign-gauge return " +
                 "remains an exact counterexample to an unrestricted iff. STILL OPEN: which interior " +
                 "perturbations carry the locus on the EQUALITY branch, which is the branch the item " +
-                "asked about; the pointwise fixed-knob converse for OFF-CENTRE seats and NONUNIFORM " +
-                "zero-free chains (the all-knob fixed-energy derivative test has a different " +
-                "quantifier, is already settled, and does not determine the pointwise count); " +
+                "asked about; classification of NEW BLIND ENERGIES for arbitrary arms (the " +
+                "exact off-centre N=6 case gains two at r^2=2 from zero at baseline, while the " +
+                "same-baseline-energy iff remains true; the all-knob fixed-energy derivative " +
+                "test has a different quantifier and does not determine the total count); " +
                 "and what the second " +
                 "route behind the STRADDLING failures is, where the two blocks share a " +
                 "knob-dependent factor. Gated in part (d) of " +

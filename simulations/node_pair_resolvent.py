@@ -1,15 +1,17 @@
 """The reduced resolvent between two nodes, and what one detuned bond does to a blind mode.
 
 A seat watched by Z-dephasing is blind to the modes with a node there (F157). Such a mode
-carries no light and does not decay. Detune one bond: the mode rotates, leans onto the seat,
-and picks up light of order epsilon^2. This file gates the theorem behind that, the criterion
-it implies, and the structure of the resulting bond profile.
+carries no light and does not decay. Detuning one bond can give a formerly blind mode
+watched-site light of order epsilon^2; an endpoint node can instead preserve its blind
+energy exactly. This file gates the distinction and the resulting bond response.
 
 Setting: open chain of N = 2m+1 sites, uniform hopping J, bond b (between sites b and b+1)
 scaled to J(1+eps), Z-dephasing at rate gamma on the CENTRE seat c = m only, single-excitation
 sector and within it the (1,1) joint-popcount block. At eps = 0,
 psi_k(x) = sqrt(2/(N+1)) sin(pi k (x+1)/(N+1)) and E_k = 2J cos(pi k/(N+1)) (F2b); the modes
 blind to the centre are exactly the even k, and there are m of them.
+G10 separately tests fixed-diagonal Jacobi paths at other seats and a physical Heisenberg
+bond change whose diagonal also moves.
 
 WHAT IS GATED, AND WHAT IS ONLY READ.
 
@@ -22,7 +24,8 @@ WHAT IS GATED, AND WHAT IS ONLY READ.
     G2   c_k = psi_k(1)^2 = (2/(N+1))*sin^2(2*pi*k/(N+1)) on the bonds whose
          profile level is 1/2.  Exact, per mode, directly against the sine eigenvector.
          M1 substitutes psi_k(0)^2 and must go red.
-    G3   the profile sum_k c_k(b) = (1/2) min(b+1, m-1-b), exact, every bond; and the
+    G3   the profile sum_k c_k(b) = (1/2) min(btilde+1, m-1-btilde), with
+         btilde=min(b,N-2-b), exact for every bond; and the
          LEVEL STRUCTURE, that the whole c-vector is a function of the level alone.
          M2 shifts the formula by one and must go red.
     G4   the one-seat light additivity w(u v^dagger) = a + b - 2ab, exactly, on rationals.
@@ -39,9 +42,9 @@ WHAT IS GATED, AND WHAT IS ONLY READ.
          exact control where extra blind modes survive.
     G7   control, and a fence on this file's own scope: a bond INCIDENT on the watched seat
          is struck away with the seat, so both principal blocks are eps-free and the blind
-         count is unchanged at EVERY eps, not merely to second order.  Owned and called
-         trivial by PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA; gated here so this file cannot
-         re-sell it.
+         count is unchanged while the chain remains zero-free (eps != -1), not merely to
+         second order. At eps=-1 a cut component can gain a blind state; G10 checks it.
+         The deletion-block observation comes from PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.
     G9   Corollary B at ALL orders on the zero-free knob domain: a node at an end of the
          moved bond makes the left block's characteristic polynomial vanish at E_k
          IDENTICALLY in eps, so the mode keeps its energy and its node for eps != -1, not
@@ -51,10 +54,19 @@ WHAT IS GATED, AND WHAT IS ONLY READ.
           coefficient-wise polynomial oracle with a seven-root zero identity as its own
           fail-open control.  G9 fences the three exceptional ratios, and M8 rejects a
           linear-in-r mutation of the factorization.
-    G8   the rate statement, correctly scoped: 2 gamma (c_i + c_j) is the DIAGONAL of the
-         second-order effective operator in the dyad basis.  It is the rate on every
-         omega != 0 peripheral block (gated against the generator), and it is NOT on the
-         omega = 0 block, which always carries vec(I) at rate exactly 0 because z^2 = I.
+    G10  A baseline blind ENERGY and the total blind COUNT at one bond value are different
+          objects.  The fixed-E endpoint-node iff is checked on off-centre and nonuniform
+          paths with both survival and loss.  At N=6, c=2, b=0 the off-centre count is
+          zero at r^2=1 and two at r^2=2; direct half-block polynomials, their resultant,
+          full-chain exact Krylov ranks and new eigenvectors meet.  M10 moves the opposite
+          arm and rejects a linear-in-r correction.  Exact controls also show an incident
+          bond cut escaping the zero-free count and a physical Heisenberg J move failing
+          the fixed-diagonal criterion because its ZZ diagonal changes.
+    G8   the rate statement, correctly scoped: 2 gamma (c_i + c_j) is the POSITIVE
+         rate from minus the real dyad diagonal of the second-order effective generator.
+         It is the rate on every omega != 0 peripheral block (gated against the generator),
+         and it is NOT on the omega = 0 block, which always carries vec(I) at rate
+         exactly 0 because z^2 = I.
          The omega = 0 mismatch at N = 9 is gated as a POSITIVE fact, so a version of this
          file that "fixed" the mismatch would go red.  M5 rejects a truncated acquisition;
          M6a-c reject full-length acquisitions containing NaN or either infinity.  G8b also
@@ -585,9 +597,9 @@ def gate_G6():
 
 def gate_G7():
     print("\nG7  control and fence: a bond INCIDENT on the seat is struck away with it, so")
-    print("    the blind count is unchanged at EVERY eps, not merely to second order.")
-    print("    Owned by PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA, which calls these cells")
-    print("    trivial and excludes them; gated here so this file cannot re-sell them.")
+    print("    the blind count is unchanged while eps != -1 keeps the chain zero-free.")
+    print("    At eps=-1, G10 shows a cut can add a blind state despite unchanged halves.")
+    print("    The deletion-block observation comes from PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.")
     for N in (7, 9, 11):
         c = m = (N - 1) // 2
         inc = [blind_count_exact(N, c, c - 1, e)
@@ -599,9 +611,9 @@ def gate_G7():
 
 
 def gate_G8():
-    print("\nG8  the rate statement, correctly scoped.  2 gamma (c_i + c_j) is the DIAGONAL")
-    print("    of the second-order effective operator in the dyad basis.  It is the rate on")
-    print("    every omega != 0 peripheral block, and NOT on the omega = 0 block.")
+    print("\nG8  the rate statement, correctly scoped.  2 gamma (c_i + c_j) is the")
+    print("    positive rate from minus the real dyad diagonal of the effective generator.")
+    print("    It is the rate on every omega != 0 peripheral block, and NOT on omega = 0.")
     gamma = 0.3
     germ_epsilons = (1e-2, 1e-3, 1e-4)
     print("  G8a  float implementation control for the algebraic identity A[I] = 0")
@@ -834,6 +846,155 @@ def gate_G9():
           f"unperturbed chain, r=-1 is its sign gauge, and r=0 cuts the zero-free chain")
 
 
+def gate_G10():
+    """Separate survival of a baseline energy from a new fixed-knob blind energy."""
+    print("\nG10  Same-energy survival and new blind energies are different questions.")
+    x = sp.Symbol("x")
+
+    def hamiltonian(diagonal, hops):
+        n = len(diagonal)
+        assert len(hops) == n - 1
+        h = sp.diag(*diagonal)
+        for j, hop in enumerate(hops):
+            h[j, j + 1] = h[j + 1, j] = hop
+        return h
+
+    def halves(h, seat):
+        left = sp.expand(h[:seat, :seat].charpoly(x).as_expr())
+        right = sp.expand(h[seat + 1:, seat + 1:].charpoly(x).as_expr())
+        return left, right
+
+    def blind(h, seat):
+        v = sp.eye(h.rows)[:, seat]
+        cols = []
+        for _ in range(h.rows):
+            cols.append(v)
+            v = h * v
+        return h.rows - sp.Matrix.hstack(*cols).rank()
+
+    q = sp.Symbol("q", positive=True)
+    n6 = hamiltonian([0] * 6, [2 * sp.sqrt(q), 2, 2, 2, 2])
+    left, right = halves(n6, 2)
+    resultant = sp.factor(sp.resultant(left, right, x))
+    check("G10 N6 positive-q new-root locus",
+          sp.expand(left - (x**2 - 4*q)) == 0
+          and sp.expand(right - x*(x**2 - 8)) == 0
+          and sp.expand(resultant + 64*q*(q - 2)**2) == 0,
+          f"chi_L={left}, chi_R={right}, resultant={resultant}; q=r^2>0")
+
+    reads = []
+    for value in (sp.Integer(1), sp.Rational(3, 2), sp.Integer(2)):
+        h = n6.subs(q, value)
+        a, b = halves(h, 2)
+        reads.append((value, sp.Poly(sp.gcd(a, b), x).degree(), blind(h, 2)))
+    check("G10 N6 gcd and independent full-chain Krylov rank",
+          reads == [(sp.Integer(1), 0, 0), (sp.Rational(3, 2), 0, 0),
+                    (sp.Integer(2), 2, 2)],
+          f"(q, gcd degree, blind by Krylov)={reads}")
+
+    born = n6.subs(q, 2)
+    born_vectors = [(energy, (born - energy*sp.eye(6)).nullspace())
+                    for energy in (-2*sp.sqrt(2), 2*sp.sqrt(2))]
+    check("G10 N6 new eigenvectors have a watched-seat node",
+          all(len(vectors) == 1 and vectors[0][2] == 0 for _, vectors in born_vectors),
+          f"energies and nullspace dimensions={[(energy, len(v)) for energy, v in born_vectors]}")
+
+    changed_arm = hamiltonian([0]*6, [2*sp.sqrt(2), 2, 2, 2, 3])
+    changed_left, changed_right = halves(changed_arm, 2)
+    check("M10 moving the opposite arm removes the N6 birth",
+          sp.gcd(changed_left, changed_right) == 1 and blind(changed_arm, 2) == 0,
+          f"changed chi_R={changed_right}; gcd={sp.gcd(changed_left, changed_right)}; "
+          f"blind={blind(changed_arm, 2)}")
+
+    # A seat-incident bond leaves both deletion blocks unchanged, but their gcd stops
+    # counting all blind states when r=0 cuts off a component of the full chain.
+    incident_base = hamiltonian([0]*4, [2, 2, 2])
+    incident_cut = hamiltonian([0]*4, [0, 2, 2])
+    check("G10 incident-bond cut escapes the zero-free common-root count",
+          halves(incident_base, 1) == halves(incident_cut, 1)
+          and blind(incident_base, 1) == 0 and blind(incident_cut, 1) == 1,
+          f"unchanged halves={halves(incident_cut, 1)}, full Krylov blind "
+          f"{blind(incident_base, 1)} -> {blind(incident_cut, 1)}")
+
+    # A physical Heisenberg J-bond move changes the ZZ diagonal as well as the hop.
+    # H_SE = (sum J_b)I - 2 L_J, where L_J is the weighted path Laplacian.
+    def heisenberg_single_excitation(couplings):
+        size = len(couplings) + 1
+        laplacian = sp.zeros(size)
+        for site, coupling in enumerate(couplings):
+            laplacian[site, site] += coupling
+            laplacian[site + 1, site + 1] += coupling
+            laplacian[site, site + 1] -= coupling
+            laplacian[site + 1, site] -= coupling
+        return sum(couplings)*sp.eye(size) - 2*laplacian
+
+    heis_before = heisenberg_single_excitation([1]*8)
+    heis_after = heisenberg_single_excitation([2] + [1]*7)
+    node_vector = sp.Matrix([-1, 0, 1, 1, 0, -1, -1, 0, 1])
+    changed_halves = halves(heis_after, 4)
+    check("G10 fixed-diagonal fence: physical Heisenberg J bond",
+          heis_before*node_vector == 6*node_vector
+          and node_vector[4] == node_vector[1] == 0
+          and heis_after[0, 0] != heis_before[0, 0]
+          and blind(heis_before, 4) == 4 and blind(heis_after, 4) == 0
+          and sp.gcd(*changed_halves) == 1,
+          f"N=9 c=4 b=0: node at seat and bond endpoint, physical-J blind "
+          f"{blind(heis_before, 4)} -> {blind(heis_after, 4)}")
+
+    # The baseline-E statement is non-vacuous away from the uniform centre family.
+    cases = (
+        ("off-centre loss", [1, 0, 0, 0], [1, 1, 1], 1, 2, sp.Integer(1), False),
+        ("off-centre survivor", [0]*5, [1, 1, 2, 3], 1, 2, sp.Integer(0), True),
+    )
+    for name, diagonal, hops, seat, bond, energy, expected_survival in cases:
+        base = hamiltonian(diagonal, hops)
+        moved_hops = list(hops)
+        moved_hops[bond] *= 2
+        moved = hamiltonian(diagonal, moved_hops)
+        base_vectors = (base - energy*sp.eye(base.rows)).nullspace()
+        moved_vectors = (moved - energy*sp.eye(moved.rows)).nullspace()
+        has_endpoint_node = len(base_vectors) == 1 and (
+            base_vectors[0][bond] == 0 or base_vectors[0][bond + 1] == 0)
+        survives = len(moved_vectors) == 1 and moved_vectors[0][seat] == 0
+        check(f"G10 {name}: fixed baseline energy",
+              len(base_vectors) == 1 and base_vectors[0][seat] == 0
+              and has_endpoint_node == expected_survival
+              and survives == expected_survival,
+              f"N={base.rows} c={seat} b={bond} E={energy}: endpoint node="
+              f"{has_endpoint_node}, same-E survives={survives}")
+
+    # Both outcomes occur on one bond with nonuniform hoppings and fixed nonuniform diagonals.
+    r = sp.Symbol("r")
+    nonuniform = hamiltonian([1, 0, 1, 7, 1, 0, 1], [2*r, 4, 5, 6, 4, 2])
+    moved_half, untouched_half = halves(nonuniform, 3)
+    baseline_half = sp.expand(moved_half.subs(r, 1))
+    quadratic = sp.expand(baseline_half - 4*(r**2 - 1)*(x - 1))
+    wrong_linear = sp.expand(baseline_half - 4*(r - 1)*(x - 1))
+    check("G10 nonuniform fixed-diagonal continuant",
+          sp.expand(moved_half - quadratic) == 0
+          and sp.expand(untouched_half - baseline_half) == 0,
+          f"chi_B(r)={sp.factor(moved_half)}, chi_B(1)={sp.factor(baseline_half)}")
+    check("M10 nonuniform linear-in-r bond mutation",
+          sp.expand(moved_half - wrong_linear) != 0,
+          f"wrong correction leaves {sp.factor(moved_half - wrong_linear)}")
+    before = nonuniform.subs(r, 1)
+    after = nonuniform.subs(r, 2)
+    survival = []
+    for energy in (sp.Integer(-4), sp.Integer(1), sp.Integer(5)):
+        original = (before - energy*sp.eye(7)).nullspace()
+        turned = (after - energy*sp.eye(7)).nullspace()
+        survival.append((energy, len(original) == 1 and original[0][3] == 0,
+                         len(original) == 1 and (original[0][0] == 0 or original[0][1] == 0),
+                         len(turned) == 1 and turned[0][3] == 0))
+    check("G10 nonuniform same-bond baseline-E survival and loss",
+          survival == [(sp.Integer(-4), True, False, False),
+                       (sp.Integer(1), True, True, True),
+                       (sp.Integer(5), True, False, False)]
+          and blind(before, 3) == 3 and blind(after, 3) == 1,
+          f"(E, baseline blind, endpoint node, same-E blind after r=2)={survival}; "
+          f"full Krylov blind counts {blind(before, 3)} -> {blind(after, 3)}")
+
+
 # -------------------------------------------------------------------------------- reads
 
 def read_R1():
@@ -953,7 +1114,8 @@ def read_R2():
 
 if __name__ == "__main__":
     print("The reduced resolvent between two nodes: gates and reads")
-    for g in (gate_G1, gate_G2, gate_G3, gate_G4, gate_G5, gate_G6, gate_G7, gate_G8, gate_G9):
+    for g in (gate_G1, gate_G2, gate_G3, gate_G4, gate_G5, gate_G6, gate_G7, gate_G8,
+              gate_G9, gate_G10):
         g()
     read_R1()
     read_R2()
