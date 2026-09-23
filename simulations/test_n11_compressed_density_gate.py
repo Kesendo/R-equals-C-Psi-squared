@@ -57,6 +57,17 @@ def test_off_locus_rayleigh_value_escapes_balanced_interval(data):
     diss = gate.compressed_dissipator(modes, dyads, rates)
     assert diss[2, 2] == -(22 + 5 * sp.sqrt(3)) / 72
     assert sp.simplify(diss[2, 2] + sp.Rational(4, 11)) < 0
+
+
+def test_zero_frequency_block_attains_both_centres_from_physical_cells():
+    reading = gate.verify_n11()
+    assert reading["zero_frequency_upper"] == 0
+    assert reading["zero_frequency_lower"] == -4
+    assert reading["nonzero_room_spectrum"] == {
+        -4: 2,
+        -sp.Rational(10, 3) - sp.sqrt(2) / 18: 1,
+        -sp.Rational(10, 3) + sp.sqrt(2) / 18: 1,
+    }
     result = gate.verify_n11()
     assert result["off_locus_gamma_legs"] == (4 + sp.sqrt(3)) / 24
 

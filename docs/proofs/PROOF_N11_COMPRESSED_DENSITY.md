@@ -30,7 +30,9 @@ C_l = 0 premise is dropped. Separately, for any Hermitian, simple-spectrum,
 reflection-symmetric one-excitation Hamiltonian and any nonnegative
 mirror-balanced profile, the complete `(1,1)` frequency compression has the form
 D_Ω = −4γ̄ I_Ω + 4P_Ω T P_Ω and spectrum in [−4γ̄,0]. The proof gives
-containment, with no endpoint-attainment or finite-coupling claim.
+containment in this generality. On the uniform XY chain at every N ≥ 2,
+the zero-frequency room reaches both block-wide endpoints; no finite-coupling
+claim follows.
 
 Here mirror-balanced means γ_l+γ_{N−1−l}=2γ̄; C_l is the projected
 disagreement at site l minus that at its mirror site. F154's conditional
@@ -124,9 +126,61 @@ eigenmode has reflection-even density, so mirror balance gives
 The second line and T ≥ 0 give D_Ω ≥ −4γ̄ I_Ω. Compressing D ≤ 0 gives
 D_Ω ≤ 0. Hence **spec(D_Ω) ⊂ [−4γ̄, 0]** for every complete `(1,1)` frequency
 space under these hypotheses, including the N=11 space above where C₀ ≠ 0.
-This proves containment only. It does not assert that either endpoint is
-attained, that F154's projection identity holds, or that finite-J
-Liouvillian eigenvalues obey the interval.
+This theorem alone proves containment, not endpoint attainment or F154's
+projection identity, and says nothing about finite-J Liouvillian eigenvalues.
+
+The same one-sided cancellation identifies the contrast's physical carrier.
+Write P_ll = |ll⟩⟨ll| in the doubled one-excitation cell space and
+m = N−1−l. The compression of
+(n_l−n_m)⊗I + I⊗(n_l−n_m) is zero, because its matrix is diagonal in the
+dyad frequency basis and each diagonal mode density is reflection-even.
+Consequently
+
+    C_l = −2P_Ω(P_ll−P_mm)P_Ω.
+
+This is the **agreement** or double-occupancy projector already used at
+uniform rate and zero frequency in
+[PROOF_FROZEN_BAND_SO4](PROOF_FROZEN_BAND_SO4.md) §6 (F143); here it is
+rate-weighted and compressed at any frequency. Its off-diagonal matrix
+elements are signed coherent overlaps on the physical population cells,
+not probabilities. F143's closed-form Gram spectrum is not a premise of the
+present theorem.
+
+## Endpoints on the uniform XY `(1,1)` block
+
+The interval is **block-wide saturated** on the uniform open XY chain for
+every N ≥ 2 and every physical mirror-balanced rate profile. At frequency
+zero, Ω₀ contains all mode projectors P_k = |ψ_k⟩⟨ψ_k|. Their sum is the
+one-excitation identity I, diagonal in physical cells, so D I = 0 and
+0 ∈ spec(D_Ω₀). Choose a distinct chiral pair k and M−k, M=N+1
+(for example k=1 at every N≥2):
+
+    ψ_(M−k)(z) = (−1)^z ψ_k(z).
+
+Thus Q = P_k−P_(M−k) is nonzero, belongs to Ω₀, and has zero physical
+diagonal. TQ = 0; the interval decomposition above gives
+D_Ω₀ Q = −4γ̄ Q. These two vectors reach both endpoints of the union of
+all `(1,1)` compressed frequency spectra. At γ̄ = 0 the endpoints coincide
+and the same statements remain true. The chiral density cancellation was
+already recorded for the N=5 flip image in
+[PROOF_CODIM1_BY_ADDITIVITY](PROOF_CODIM1_BY_ADDITIVITY.md) §6; combined
+with the present balanced-rate compression it yields the all-N endpoint
+statement. It is not a claim about each individual frequency room.
+
+The four-dimensional N=11 room from above illustrates the distinction.
+Let V_{z,(a,b)} = ψ_a(z)ψ_b(z) for its four dyads. The sine identities give
+V_(1,6) = V_(6,11) and V_(3,7) = V_(5,9), so V has rank 2 and
+T_Ω = Vᵀ diag(γ) V kills two independent dyad differences for **every**
+balanced profile. Hence −4γ̄ has multiplicity at least two there.
+For the explicit profile (2,1,...,1,0), direct physical-cell compression
+gives
+
+    spec(D_Ω) = {−4, −4, −10/3−√2/18, −10/3+√2/18}.
+
+The lower endpoint is present in that nonzero-frequency room; its upper
+endpoint 0 is absent. The exact gate checks both that spectrum and the
+block-wide zero-frequency witnesses. No endpoint claim is borrowed from
+F154's failed C_l = 0 identity.
 
 Both hypotheses have teeth. Off the locus, γ₀ = 1 and all other rates zero
 make the one-sided Γ expectations vary between modes; on the same N=11
@@ -147,5 +201,7 @@ The N=11 example closes the first parity door left by the mixed-space proof:
 a parity-odd equal-frequency dyad connection does reach the **physical** site
 density. The `(1,1)` interval has an independent all-N proof under simple
 reflection-symmetric one-body dynamics and physical mirror-balanced rates.
-The corresponding questions for higher excitation blocks, other parity
-doors, endpoint attainment, and finite coupling remain separate.
+For the uniform XY chain the block-wide `(1,1)` endpoints are attained at
+zero frequency; the exhibited nonzero-frequency room attains only its lower
+endpoint for the stated profile. Higher excitation blocks, other parity
+doors, and finite coupling remain separate.

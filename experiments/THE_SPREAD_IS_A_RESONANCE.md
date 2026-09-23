@@ -318,8 +318,11 @@ degenerate eigenspace where the chain reflection acts as a scalar, the compresse
 density is reflection-symmetric by symmetry alone, and the parity census shows that
 covers every colliding eigenspace of its census blocks up to N = 7; on the locus
 Π D Π = −2γ̄·Π N_XY Π follows, and the centres are Rayleigh bounds attained by the
-pure-size-class vectors. Open there in turn: the parity-mixed eigenspaces that first
-appear at N = 8, Δ = 0, where the same vanishing is measured but not forced. The origin of
+pure-size-class vectors. The parity-mixed eigenspaces that first
+appear at N = 8, Δ = 0 are settled by the successor
+[mixed-space proof](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md):
+the physical site-density contrast vanishes there by a one-body selection rule.
+The origin of
 the exact 5/2 double level at Δ = ½ (an exact rational double root in an otherwise
 high-degree spectrum; whether it is the boundary of a family in N, and whether it connects
 to the XXZ combinatorial point, is unasked here). The scope of the 1/J² truncation: the

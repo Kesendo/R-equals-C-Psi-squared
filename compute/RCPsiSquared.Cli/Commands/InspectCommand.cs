@@ -725,8 +725,9 @@ public static class InspectCommand
             RequiresN: false, HonorsOptionalN: true),
         new("compresseddensity", "F154 compressed density, live physical N=11 (1,1) reading: a " +
             "mirror-balanced profile has nonzero C_0 and breaks the conditional F154 identity; " +
-            "the separate interval decomposition remains valid. Fixed N=11 XY, complete frequency " +
-            "space; no finite-J or endpoint-attainment claim",
+            "the separate interval decomposition remains valid and the zero-frequency I/Q " +
+            "witnesses reach both block-wide endpoints. Fixed N=11 XY, complete frequency " +
+            "spaces; no finite-J Liouvillian claim",
             _ => new CompressedDensityN11Witness(), RequiresN: false),
         new("seedrung", "F143, the seed rung in closed form, recomputed: the Gram matrix G = W² of squared " +
             "DST-I mode amplitudes equals (1/M)·(𝟏𝟏ᵀ + (I + R)/2) at M = N+1, so spec(G) = {0 with " +

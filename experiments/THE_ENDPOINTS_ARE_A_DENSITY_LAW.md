@@ -7,8 +7,9 @@ first is a theorem. On every degenerate ad_H eigenspace where the chain reflecti
 acts as a scalar ±1, the compressed site density is reflection-symmetric BY SYMMETRY,
 and the R₉₀ locus pairs γ_l + γ_{N−1−l} = 2γ̄ exactly against that, so containment on
 the size-class centres follows from the conditional compressed-density identity.
-Endpoint attainment additionally needs pure-class vectors of the extreme
-classes; their presence is a measured census, not a consequence of [H, R] = 0
+At positive γ̄, endpoint attainment under that identity additionally needs
+pure-class vectors of the extreme classes; their presence is a measured census,
+not a consequence of [H, R] = 0
 and the locus alone. The parity census then turns the theorem into the full answer for
 almost every measured case: at Δ = 0 every colliding eigenspace on every census
 block is scalar up to N = 7, and at Δ = ½ up to N = 8. The second layer is a law with real content: the
@@ -21,7 +22,8 @@ density on every pure size class is exactly UNIFORM, s/N per site, blind to the 
 γ profile. A later exact N=11 `(1,1)` certificate finds a physical
 cross-parity site-density connection; its balanced-profile projection
 identity fails, while a separate positivity proof retains the compressed
-interval ([proof](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)).
+interval and supplies both block-wide `(1,1)` endpoints at zero frequency
+([proof](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)).
 
 Gate: `simulations/high_q_selection_gate.py`'s sibling
 [`simulations/endpoint_density_gate.py`](../simulations/endpoint_density_gate.py),
@@ -198,11 +200,14 @@ Gated as an identity (ratios ≤ 0.003 of the model floor) on (1,3) and (2,4) at
 Δ = 0, (1,3) at Δ = ½, both at Δ = 1 on the law-abiding spaces, and (1,4) at N = 8.
 Three consequences, each gated:
 
-1. **Containment.** By Rayleigh on comp(N_XY), the compressed spectrum of Ω lies in
-   [−2γ̄·s_max(Ω), −2γ̄·s_min(Ω)], inside the block's size-class-centre interval.
-   Gated for EVERY multi-dim eigenspace of the six locus cases, the Δ = 1 breaking
-   spaces included (their spectra sit inside with slack; that containment is
-   measured, not derived).
+1. **Containment.** Wherever C_l = 0, Rayleigh on comp(N_XY) puts the compressed
+   spectrum of Ω inside [−2γ̄·s_max(Ω), −2γ̄·s_min(Ω)], within the block's
+   size-class-centre interval. The original gate also measured containment on
+   every multi-dimensional eigenspace of the six locus cases, including the
+   Δ = 1 breaking spaces where that identity does not apply. Their all-profile
+   containment was subsequently certified by
+   [THE_MIRROR_TRANSVERSAL_CERTIFICATE](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md);
+   the original gate's one-profile slack remains a measurement.
 2. **Attainment.** A pure-class vector v ∈ Ω_s satisfies N_XY v = s v, hence
    comp(N_XY) v = s v, so each nonempty extreme class pins an endpoint ON its
    centre; both endpoints gated where the extreme classes have pure vectors. Block
@@ -225,8 +230,9 @@ locus containment is DERIVED** (theorem + locus pairing), and attainment follows
 from the measured pure-vector census on top. On the blocks in the census, that
 territory is: all Δ = 0 rows through N = 7, all Δ = ½ rows through N = 8, the
 Δ = 1 rows at N = 8 ((1,3) and (2,4), gate section C), and the extreme-carrying ω = 0
-spaces at Δ = 1, N = 6 (with the breaking spaces' interior containment measured,
-not derived). At N = 8, Δ = 0 the containment is derived too, the mixed-space
+spaces at Δ = 1, N = 6 (the breaking spaces' interior containment was later
+certified for every physical locus profile). At N = 8, Δ = 0 the containment
+is derived too, the mixed-space
 law being the theorem of
 [PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md);
 attainment rides the measured pure-vector census there like everywhere else.
@@ -322,9 +328,12 @@ its parity doors begin at N = 11, 14 and 20. At N = 11 the physical `(1,1)`
 identity does fail: X = |ψ₁⟩⟨ψ₆| and Y = |ψ₅⟩⟨ψ₉| give
 ⟨Y,C₀X⟩ = −√2/72, while the separate `(1,1)` interval theorem holds
 ([proof and exact gate](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)).
-Whether its interval endpoints are attained, what happens in higher
-excitation blocks, and whether later parity doors reach the physical site
-density remain open. The N = 6 [mirror-transversal certificate](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md)
+Its block-wide `(1,1)` interval reaches both endpoints in the zero-frequency
+room for every physical balanced profile. This follows from the one-excitation
+identity and a chiral difference of mode projectors; the exhibited N = 11
+nonzero-frequency room reaches the lower endpoint, but not the upper one on
+the stated profile. Higher excitation blocks and later parity doors remain open.
+The N = 6 [mirror-transversal certificate](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md)
 still leaves its M₀ diagonality and 2160/2304 denominators unexplained.
 The Arc `compressed_density_laws` names the next file and reproduction command.
 

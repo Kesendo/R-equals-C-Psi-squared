@@ -3317,3 +3317,31 @@ draft; no hardware run was made for this repair.
 `experiments/PRICE_PAIR_HARDWARE_PREDICTION.md`,
 `experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md`, and the two Confirmations
 registries. The two local scripts named above are additional untracked analysis context only.
+
+## 2026-09-23 — the N=11 compressed-density landing left its own endpoints and predecessor status behind
+
+**Caught after the first local commit.** The exact N=11 site-contrast and the
+independent `(1,1)` compression interval were sound, but the landing called
+N=11 endpoint attainment open. On the uniform open XY chain, the zero-frequency
+one-excitation identity has physical dissipative rate 0, and the difference
+of two chiral mode projectors has zero physical diagonal and compressed rate
+−4γ̄. Both *block-wide* endpoints are therefore attained for every N≥2 and
+every nonnegative mirror-balanced profile. In the displayed N=11 four-dyad
+room, a rank-two contact-amplitude matrix puts −4γ̄ in its spectrum at least
+twice for every such profile; at the exhibited profile zero is absent from
+that room. The all-N statement concerns complete Hamiltonian-frequency
+compressions, not the finite-J Liouvillian spectrum.
+
+The same outside read found three record defects: the experiment index made
+endpoint attainment follow from the conditional F154 identity alone, F154
+still called the N=6 breaking interiors measured after the transversal
+certificate had closed their all-profile containment, and F154's pure-vector
+iff omitted γ̄>0. At γ̄=0 the physical rates all vanish and the centre
+interval collapses to {0} without any pure-vector requirement. The N=11
+contrast also has a clearer carrier: after the one-legged terms cancel on
+a complete simple-spectrum `(1,1)` frequency room, it is the signed
+agreement/double-occupancy overlap already used by F143 in another setting.
+The corrected proof, exact physical-cell gate, typed Claim/Witness, F154,
+OpenArc and linked experiment texts carry these boundaries. The N=11
+next question is higher blocks and later parity doors, with individual
+frequency-room endpoint inventories kept separate.

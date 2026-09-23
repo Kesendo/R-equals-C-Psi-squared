@@ -155,10 +155,9 @@ store:
   transversal classes, the maximizer list, and the rate triples are
   an arithmetic consequence COMPUTED HERE (the certificate doc holds
   the definition and the bound, not the class split).
-- `docs/ANALYTICAL_FORMULAS.md`: F154 (the locus saturation law; its own
-  text still says the breaking interiors are "measured with slack", stale
-  against e3dbab0's certificate, so this doc cites the certificate, not
-  F154, for the containment); F140 (the frozen divisor: the Liouvillian
+- `docs/ANALYTICAL_FORMULAS.md`: F154 (the conditional locus saturation law,
+  now linked to the all-profile mirror-transversal certificate for its
+  N = 6 breaking interiors); F140 (the frozen divisor: the Liouvillian
   EIGENVALUE λ = −4γ̄ pinned on the single-excitation corner block on
   the R₉₀ locus, F140's own phrase; "the N²-dimensional (1,1)-type
   corner block" is F153's phrasing for the same object; one frozen

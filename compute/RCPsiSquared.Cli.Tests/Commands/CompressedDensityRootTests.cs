@@ -11,6 +11,8 @@ public class CompressedDensityRootTests
         var entry = InspectCommand.Catalog.Single(e => e.Name == "compresseddensity");
         Assert.False(entry.RequiresN);
         Assert.False(entry.HonorsOptionalN);
+        Assert.Contains("block-wide", entry.Description);
+        Assert.DoesNotContain("no finite-J or endpoint-attainment claim", entry.Description);
         var context = new InspectRootContext(new ArgParser(Array.Empty<string>()), N: 5,
             WithQSweep: false, WithMeasured: false, QGridPoints: null);
         var witness = Assert.IsType<CompressedDensityN11Witness>(entry.Factory(context));

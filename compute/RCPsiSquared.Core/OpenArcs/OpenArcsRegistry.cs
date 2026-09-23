@@ -7815,8 +7815,15 @@ public static class OpenArcsRegistry
                 "counterexample to C_l = 0, while a separate positivity proof keeps every complete " +
                 "(1,1) compression in [-4*gbar,0] for physical mirror-balanced profiles: " +
                 "docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md and " +
-                "simulations/n11_compressed_density_gate.py. This does not claim endpoint attainment, " +
-                "finite-J containment, or higher-block containment. (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
+                "simulations/n11_compressed_density_gate.py. On the uniform open XY chain, the " +
+                "(1,1) block-wide interval reaches both endpoints for every physical balanced " +
+                "profile: the identity is a zero-rate vector at omega=0 and a chiral difference " +
+                "of mode projectors reaches -4*gbar there. The N=11 nonzero-frequency room " +
+                "reaches its lower endpoint at least twice for every balanced profile; its " +
+                "upper endpoint is absent for the exhibited profile. " +
+                "The local contrast on any simple one-body fixed-frequency room is the signed " +
+                "agreement-projector difference, the F143 physical primitive in a new setting. " +
+                "This does not claim finite-J or higher-block containment. (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
                 "pair-sum map is chiral-only (odd prime powers by the proof's section 7, the 2p and " +
                 "2^a cases gated exactly there, PROOF_SCALAR_COUNT section 4 the subset-form " +
                 "sibling), so N = 10 and N = 12 are protected; the forcing ends at the parity doors " +
@@ -7834,8 +7841,9 @@ public static class OpenArcsRegistry
                 "F71AntiPalindromicGammaSpectralInvariance (F91 locus). The claim fences the " +
                 "conditional identity, N=11 failure, and separate interval theorem; it does not " +
                 "promote the measured saturation census to a universal theorem. (6) OPEN: test " +
-                "the later parity doors and higher excitation blocks, decide N=11 endpoint " +
-                "attainment separately, and derive the N=6 M0 arithmetic left by the transversal " +
+                "the later parity doors and higher excitation blocks, characterize endpoint " +
+                "attainment in individual nonzero-frequency rooms and other Hamiltonians, " +
+                "and derive the N=6 M0 arithmetic left by the transversal " +
                 "certificate. First reproduce the closed base with " +
                 "`python simulations/n11_compressed_density_gate.py`; then use " +
                 "`simulations/mixed_space_reflection_gate.py` section (4) as the exact " +

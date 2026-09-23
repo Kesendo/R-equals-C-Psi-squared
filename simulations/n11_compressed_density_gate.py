@@ -9,7 +9,8 @@ space of |psi_1><psi_6| and uses the *physical cell indicator*
 to compute its compressed site densities and dissipator. All comparisons are
 exact SymPy equalities; no eigensolver or frequency grouping tolerance enters.
 The interval claim belongs to the compression, not to finite-J Liouvillian
-spectra, and endpoint attainment is not asserted here.
+spectra. At zero frequency the block-wide (1,1) interval reaches both ends;
+the displayed nonzero-frequency room reaches its lower end for the tested profile.
 
 Run: python simulations/n11_compressed_density_gate.py
 """
@@ -107,6 +108,25 @@ def compressed_gamma_legs(modes, dyads, rates):
     return _compressed_cell_diagonal(modes, dyads, lambda a, b: rates[a] + rates[b])
 
 
+def compressed_dissipator_action(modes, dyads, rates, coefficients):
+    """Project physical D acting on a single superposition of mode dyads."""
+    n = len(next(iter(modes.values())))
+    assert len(rates) == n and len(coefficients) == len(dyads)
+    active = [(coefficient, dyad) for coefficient, dyad in zip(coefficients, dyads)
+              if coefficient != 0]
+    state = {(a, b): sum(c * _cell_amplitude(modes, d, a, b) for c, d in active)
+             for a in range(n) for b in range(n)}
+    return sp.Matrix([
+        sp.simplify(sum(
+            -2 * sum(rates[site] * physical_disagreement(a, b, site)
+                     for site in range(n))
+            * _cell_amplitude(modes, outgoing, a, b) * state[a, b]
+            for a in range(n) for b in range(n)
+        ))
+        for outgoing in dyads
+    ])
+
+
 def matrix_equal(left, right):
     if left.shape != right.shape:
         return False
@@ -137,6 +157,12 @@ def verify_n11(cell_rule=None):
     assert sp.trace(contrast * contrast) == sp.Rational(1, 324)
     expected_eigenvalues = {-sp.sqrt(2) / 36: 1, sp.Integer(0): 2, sp.sqrt(2) / 36: 1}
     assert contrast.eigenvals() == expected_eigenvalues
+    # The one-legged mirror contrast vanishes on a complete fixed-frequency
+    # room. The physical C_0 is the signed agreement/double-occupancy term.
+    signed_ends = (1,) + (0,) * 9 + (-1,)
+    assert matrix_equal(
+        contrast, -2 * compressed_diagonal_overlap(modes, dyads, signed_ends)
+    )
 
     balanced = (2,) + (1,) * 9 + (0,)
     diss = compressed_dissipator(modes, dyads, balanced, cell_rule)
@@ -149,6 +175,40 @@ def verify_n11(cell_rule=None):
     size_cross = sum(compressed_indicator(modes, dyads, site, cell_rule)[2, 0]
                      for site in range(n))
     assert size_cross == 0
+    expected_room_spectrum = {
+        sp.Integer(-4): 2,
+        -sp.Rational(10, 3) - sp.sqrt(2) / 18: 1,
+        -sp.Rational(10, 3) + sp.sqrt(2) / 18: 1,
+    }
+    assert diss.eigenvals() == expected_room_spectrum
+    contact = sp.Matrix([[modes[k][z] * modes[b][z] for k, b in dyads]
+                         for z in range(n)])
+    assert contact[:, 0] == contact[:, 3]
+    assert contact[:, 1] == contact[:, 2]
+    assert contact.rank() == 2
+
+    # At omega=0, I is physical-cell diagonal, so D I=0. The chiral
+    # difference Q=P_1-P_11 has no physical diagonal and its direct
+    # compressed physical-D action is -4Q for this balanced profile.
+    zero_dyads = frequency_dyads(n, (1, 1))
+    assert zero_dyads == tuple((k, k) for k in range(1, n + 1))
+    assert all(
+        sp.simplify(sum(modes[k][a] * modes[k][b] for k in range(1, n + 1))
+                    - int(a == b)) == 0
+        for a in range(n) for b in range(n)
+    ), "zero-frequency identity is not physical-cell diagonal"
+    identity = sp.ones(n, 1)
+    assert matrix_equal(
+        compressed_dissipator_action(modes, zero_dyads, balanced, identity),
+        sp.zeros(n, 1),
+    ), "zero-frequency identity misses the upper endpoint"
+    chiral = sp.Matrix([1] + [0] * (n - 2) + [-1])
+    assert all(sp.simplify(modes[1][a] ** 2 - modes[n][a] ** 2) == 0
+               for a in range(n))
+    assert matrix_equal(
+        compressed_dissipator_action(modes, zero_dyads, balanced, chiral),
+        -4 * chiral,
+    ), "zero-frequency chiral difference misses the lower endpoint"
 
     off_locus = (1,) + (0,) * 10
     off_diss = compressed_dissipator(modes, dyads, off_locus, cell_rule)
@@ -161,6 +221,9 @@ def verify_n11(cell_rule=None):
         "dyads": dyads,
         "contrast": contrast,
         "balanced_cross": diss[2, 0],
+        "nonzero_room_spectrum": diss.eigenvals(),
+        "zero_frequency_upper": sp.Integer(0),
+        "zero_frequency_lower": sp.Integer(-4),
         "off_locus_gamma_legs": off_gamma_legs[2, 2],
         "off_locus_rayleigh": off_diss[2, 2],
     }
@@ -172,6 +235,9 @@ if __name__ == "__main__":
     print("C0 =", result["contrast"])
     print("spec(C0) =", result["contrast"].eigenvals())
     print("balanced physical D cross =", result["balanced_cross"])
+    print("balanced nonzero-room spec(D) =", result["nonzero_room_spectrum"])
+    print("zero-frequency block endpoints =",
+          (result["zero_frequency_lower"], result["zero_frequency_upper"]))
     print("off-locus Gamma legs =", result["off_locus_gamma_legs"])
     print("off-locus Rayleigh =", result["off_locus_rayleigh"])
     print("VERDICT: PASS (exact N=11 compression witness; finite-J spectrum not tested)")

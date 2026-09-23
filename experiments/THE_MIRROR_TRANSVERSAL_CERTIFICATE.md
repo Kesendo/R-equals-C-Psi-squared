@@ -72,8 +72,8 @@ is the same decomposition applied to the compression.
 [PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md)
 contains no γ at all (its object is ad_H). `docs/ANALYTICAL_FORMULAS.md`:
 F154 owns the containment where C_l = 0 (theorem, any locus profile) and
-names this note's territory in its own words, "the breaking interiors
-measured to stay inside"; F153's pinning needs uniform γ (bar its four
+records this note's all-profile certificate for the breaking interiors;
+F153's pinning needs uniform γ (bar its four
 one-cell blocks); F91 owns the
 locus and the sharper indexed pair-sum law, answered below rather than
 contradicted; F140's frozen divisor is the locus neighbour with the same
@@ -248,5 +248,9 @@ C₀ ≠ 0 for a physical equal-frequency pair, while the compressed interval
 holds independently. The F154 typed carrier of (5) is
 `CompressedDensityLocusClaim` with `CompressedDensityN11Witness`
 (`inspect --root compresseddensity`). Higher excitation blocks, later parity
-doors, endpoint attainment at N = 11, and this certificate's M₀ arithmetic
-remain outside that closure.
+doors, and this certificate's M₀ arithmetic remain outside that closure.
+On the uniform XY `(1,1)` block, the zero-frequency identity and chiral
+mode-projector difference attain both block-wide endpoints for every physical
+balanced profile; the N = 11 nonzero-frequency room has its lower endpoint
+for every balanced profile. These are compression statements, not finite-J
+Liouvillian statements.
