@@ -12,25 +12,19 @@ import framework as fw
 
 
 def test_price_pair_framework_primitive_names_its_rate_book():
-    """The price is a COHERENCE-book rate; F1's Σγ is the Lindblad D[Z] coefficient.
+    """The total hardware coherence rate cannot become F1's pure-Z price.
 
-    The measured price P = Γ(D)+Γ(D̄) = Σ_j 1/T2*_j runs on TOTAL rates (the
-    pre-registration's P4: T1 is local, no T1 subtraction enters P2), while F1
-    centres the palindrome at Σγ with a jump operator √γ·Z, so P = 2·Σγ_F1.
-    Naming F1 here without that factor is a factor-of-two lookup hazard; the
-    mirror of this test is PricePairFrameworkPrimitive_NamesItsRateBook in
-    compute/RCPsiSquared.Core.Tests/Confirmations/ConfirmationsRegistryTests.cs.
+    Local T1 contributes to the former; F1's exact spectral identity has a
+    pure-Z domain. Mirrored in the C# registry test.
     """
     primitive = fw.Confirmations.lookup(
         'price_pair_locality_marrakesh_july2026')['framework_primitive']
-    assert 'F1 palindrome center' in primitive
-    assert 'COHERENCE book' in primitive
-    assert '2·Σγ_F1' in primitive
-    # the price counts TOTAL rates, not the T1-subtracted pure-dephasing ones
-    assert '1/T2*_j' in primitive
-    # block every spelling of the T1-subtracted rate, including the ASCII one that
-    # actually occurred in the wild (sum_j 1/Tphi_j)
-    for wrong in ('1/T_φ,j', '1/Tphi_j', '1/T_phi,j'):
+    assert 'pure-Z structural context' in primitive
+    assert '2·Σγ_Z,j' in primitive
+    assert 'total fitted transverse rates' in primitive
+    assert 'including local T1' in primitive
+    assert 'not an exact F1 center measurement' in primitive
+    for wrong in ('γ_F1,j = 1/(2·T2*_j)', 'P = 2·Σγ_F1'):
         assert wrong not in primitive
 
 

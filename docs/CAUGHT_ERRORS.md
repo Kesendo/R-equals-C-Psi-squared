@@ -3130,3 +3130,190 @@ words already.
   `compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs`,
   `compute/RCPsiSquared.Diagnostics/Foundation/NodePairResolventWitness.cs`,
   `compute/RCPsiSquared.Cli/Commands/InspectCommand.cs`.
+
+## 2026-09-12, the July conditional-Ramsey block read the next-nearest ZZ at half sensitivity, and persisted no counts
+
+**Caught.** The run-4 record of `experiments/PRICE_PAIR_HARDWARE_PREDICTION.md` (Marrakesh, line
+[93, 94, 95], job d94ajjtgc6cc73fes7bg) registered ζ₀₂ = +0.02 ± 0.12 kHz as the next-nearest
+conditional shift, and both Confirmations registries and the data folder's README carried the
+number. In the block's reference preparation n0 the runner applies H to q0 AND q2
+(`build_zz_circuits`, `for q in (0, 2) if prep != 'f1'`), so for the (0,2) bond the reference arm's
+target precesses at the midpoint of its two neighbour branches,
+(e^{i2πf₀t} + e^{i2π(f₀+ζ₀₂)t})/2 = e^{i2π(f₀+ζ₀₂/2)t}·cos(πζ₀₂t), and the free-intercept slope fit
+returns f(f1) − f(n0) = ζ₀₂/2. The chain bonds are untouched: both of their arms carry the same
+superposed end and the midpoint offset cancels in the difference. Found 2026-09-07 while building
+the rung-ladder gate's simultaneous forward model of the block, where the (0,2) attenuation came
+out at 0.453 = one half times relaxation; gated through July's own estimator on synthetic counts
+(chain-bond gain 1.000000, far-bond gain 0.500000) and as a no-decay fixture of the gate. The
+stored simulator validation was the zero-ZZ null model and the runner's only ZZ knob acts on chain
+bonds, so no stored simulation could have shown it.
+
+The same look found that the run-4 job persisted no counts: the `--zztest --hardware` branch
+saves only the six fitted numbers (a 416-byte JSON); the counts were a local variable. The July ZZ
+uncertainties therefore cannot be re-derived from the repo. `analyze_zz` also fits the detrended
+phase with an unweighted polyfit whose covariance is scaled by one pooled residual variance while
+the per-delay phase variance grows as the envelope falls; its size on the July hardware is
+unmeasurable for the reason just given, and on the nearest same-line data (run 3, thirteen minutes
+earlier) the pooled residual carries non-shot scatter of 2 to 8 times shot noise; run 4's own scatter is
+unmeasurable, so no direction and no factor is claimed for its registered sigmas.
+
+**Repair.** The registered value reads ζ₀₂ = +0.03 ± 0.24 kHz (twice the fitted number and twice
+its error) in the record, in `simulations/framework/confirmations.py`, in
+`compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs` and in
+`data/ibm_price_pair_july2026/README.md` (four copies; the draft of this entry had counted three);
+the record says that the (0,2) channel's sensitivity was one half, and that the stored JSON holds
+the fitted half reading, which is left as the raw record it is. The pre-registered null
+(|ζ₀₂| < 0.5 kHz) still holds; the ZZ attribution and the campaign verdict are unchanged in
+direction; the chain-bond values are not touched. The rung-ladder runner writes raw counts to disk
+before any reduction.
+
+**Current boundary.** Run 4's own envelopes, K, T2 and residual detuning are unrecoverable; every
+same-line number above is run 3's. Whether IBM still retains the job's counts is untested.
+
+**Anchors.** `experiments/PRICE_PAIR_HARDWARE_PREDICTION.md`, `data/ibm_price_pair_july2026/`,
+`experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md`, the rung-ladder gate's ZZ section.
+
+## 2026-09-12, an outside round reversed two of five design decisions taken the same afternoon
+
+**Caught.** Five decisions for the absorption rung ladder, taken between 18:05 and 18:15 after three
+internal empty rounds, were sent to the outside model at 18:20 while an implementer was already
+building them. Its review (`docs/superpowers/reviews/2026-09-12-rung-ladder-astra-review.md`, with a
+runnable probe) found, and this session reproduced from below: (1) the B block's CAL-mitigated
+asymptote reads (p_inf - p0)/(1 - 2 p0), not the residual population p0 the decision wanted to read
+from it, and two devices with different p0 and readout errors give identical counts at every delay, so
+the quantity is not identifiable from Z-basis counts at all; (2) "a spectator's population cancels in
+r_D to first order" holds only when one of its two boundary couplings is zero; in general the pair sees
+the spectator through the summed coupling and the term is first order in p (-0.000623 at the July
+zeta02, -0.00805 at the 0.5 kHz screen, 80 us, p = 0.04); (3) the proposed day-of law, agreement of the
+session's and the planning null's 95 % quantiles, certifies nothing about the 0.5 % tail (exact
+counterexample: equal through the 99th percentile, 0.005 against 0.009), and a rank chosen from the
+calibration data has no fixed-rank exceedance guarantee; (4) the pre-registration's "July clean-session
+covariance vector" mixed run 3's c01 and c02 with run 2's c02 relabelled as c12, and the 2.2 sigma it
+cited belongs to run 1 on another line; (5) six 8192-shot billing anchors cannot separate a per-PUB
+overhead from a per-shot slope, and two of them had delays to 80 and 600 us, not 65. Nothing in the
+round was rejected. The two internal findings the decisions had been built on (the thermal mask on the
+singles, the second-largest-of-1998 threshold) held; what fell were the REPAIRS: one read a nuisance
+from an instrument that cannot see it, the other gated a tail with a quantile that does not reach it.
+
+**Repair.** p0 is a bounded nuisance (uniform on [0, p_max] from the session's own CAL0) in the null,
+with the power for a negative covariance reported as the remaining sensitivity and the single's own
+envelope checked for in-flight resolution of p0; the exact branch formula for product populations is the
+fixture, its zero-boundary-bond case the control; the family thresholds are read on one scalar score at
+fixed ranks (v the tenth-largest of 2000, h the hundredth-largest), a dependence-free guarantee, the
+session null self-sufficient; the covariance vector is run 3's, with its record named, and the
+"tomograph" forecast withdrawn; the ZZ block is costed at both allocations and the conservative 16.8
+minutes carried. Pre-registration, design, plan, addendum section 10c and the implementer's dispatch
+carry the amendments.
+
+**Current boundary.** The implementer's repaired gate and its new artifact were not yet in hand when this
+was written; the gate review by the outside model is the next message. Whether the single's envelope
+resolves p0 below 0.3 % in flight is a Fisher number still to be printed.
+
+**Anchors.** `ClaudeTasks/astra_review_rung_ladder_2026-09-12/README_FOR_ASTRA.md`,
+`docs/superpowers/reviews/2026-09-12-rung-ladder-astra-review.md` (+ `.py`),
+`docs/superpowers/plans/2026-09-06-rung-ladder-orchestrator-addendum.md` sections 10a to 10c,
+`experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md`, `data/ibm_price_pair_july2026/`.
+
+## 2026-09-23, the July ZZ reinterpretation and rung-ladder calibration needed a second boundary
+
+**Caught.** The two 2026-09-12 entries above describe a draft repair, not an additional hardware
+observation. Run 4 archived only the fitted outer-arm difference, +0.016348127877902074 ±
+0.11981306183811406 kHz, without counts. Doubling gives +0.03269625575580415 ±
+0.23962612367622813 kHz only under the ideal, no-relaxation half-gain model. A finite-T1
+planning calculation at bare model input ζ_H,02 = +0.03269625575580415 kHz, with other ZZ
+bonds zero, q2 T1 = 313.03 µs (Marrakesh run 3), initial q2 population p0,2 = 0.0023
+(a Kingston-derived planning input, not a run-4 measurement) and the July delays
+[0, 4, 8, 13, 19, 26, 34, 43, 53, 65] µs gives gain 0.45093032273369704. Here
+f(t) = 1 + iω(e^((−1/T1+iω)t)−1)/(−1/T1+iω), with the operational phase sign
+ω = −2πζ_H,02·10⁻³ rad/µs for H = +(2πζ_H,02·10⁻³/4)Z₀Z₂; the `f1` and
+`n0` q0 phase factors are p0,2 + (1−p0,2)f(t) and (1+f(t))/2. The absolute
+value of the same free-intercept phase-slope difference, divided by |ω|,
+produces that gain.
+Neither gain recovers the physical outer-bond shift or Run 4's uncertainty from the archived
+record. The original 0.5-kHz screen used the runner's fitted outer-arm difference: its raw
+point estimate and nominal two-sided normal 95 % upper end, 0.25118172908060565 kHz, sit
+below that screen, although no confidence decision rule was registered. The doubled
+ideal-geometry equivalent is also consistent with zero and small beside the two chain-bond
+readings, but its nominal upper end is 0.5023634581612113 kHz; a strict *physical*
+0.5-kHz bound was never established. The earlier sentence that the strict physical null
+"still holds" was therefore stronger than the record. The proposed rung-ladder runner does
+not yet exist; persisting raw counts before reduction remains a requirement for its build.
+
+The proposed rank threshold has two further faults. The local gate fitted its per-statistic
+score scales a_j to the **same** calibration rows it ranked. Their scores are then not
+exchangeable with a fresh score, even when p0 is drawn from the same mixture and no session
+is withheld: in a two-statistic iid exponential probe with 20 calibration rows and
+95th-percentile scales learned in-sample, a fresh score exceeded the largest calibration
+score in about 0.068, versus the claimed 1/21 ≈ 0.0476. The gate also generated 2000
+replicas but ranked only eligible finite-score rows; withholds were not in that denominator.
+A separate scale-training sample and an eligible rank-calibration sample are required for
+the fixed-rank identity, with withheld probability reported against all generated sessions.
+Even after that split, the null redraws p0 from a uniform planning range while one hardware
+session has one fixed unknown p0. The conditional-on-eligibility rank tail could then be an
+exchangeable-mixture statement, not a uniform 0.5 % per-session false-alarm bound: with
+score S = p0, calibration draws uniform on [0,0.02] and the session has p0 = 0.02, every
+calibration score is lower. The apparent CAL0 one-fraction divided by
+the CAL1/CAL0 contrast bounds p0 algebraically for exact probabilities; replacing those
+probabilities by finite-shot estimates does not supply a one-sided confidence bound. The two
+readout/population examples establish non-identifiability from CAL and B Z-basis counts; at
+nonzero ZZ an X/Y Ramsey fringe can differ and may itself inform p0. The Bell and GHZ forward
+model prepares all three qubits jointly, rather than tensoring a carrier with three more copies
+of its sites.
+
+The Bell explanation had a branch error: on P01, residual excitation of the H/CX control
+q0 prepares Φ−, still in the selected |00⟩⟨11| sector with opposite sign; excitation of
+the target q1 enters the Ψ sector. The former changes the selected intercept. A repeat of
+the CAL/B Z block can test apparent-contrast drift, not identify p0. In the July record,
+the exact archived run-2 ratio c02/c02_err is 5.143603σ, or 5.1σ to one decimal; the
+older 5.2σ label came from dividing rounded displayed inputs. Run 3 is the one session
+with all three covariances inside 2σ.
+
+The registry also identified the hardware's total fitted transverse price with F1's
+pure-Z Lindblad price. This fails under T1: with γ_Z = 0.1/µs and 1/T1 = 0.2/µs,
+the single-coherence rate is 2γ_Z + 1/(2T1) = 0.3/µs, versus the pure-Z price
+2γ_Z = 0.2/µs. The actual generator's spectrum {0, −0.2, −0.3, −0.3}/µs is not
+palindromic. The hardware record keeps local total-rate additivity and treats F1 as
+pure-Z structural context only.
+
+The rung draft's 82-circuit ZZ block was also called a ground-spectator Ramsey
+for all three sites. Its `n0`/`n1` arms put both outer sites in superposition;
+they can carry an outer-ZZ mask, and the added middle-only arm does not give
+clean outer-site Γ, T2* or K. The 16.8-minute subtotal prices this incomplete
+block and no interior monitors. Two additional isolated-end arms would make
+122 ZZ circuits and about 18.6 minutes at the conservative quoted coefficients
+before monitors, but that is an unselected design option, not a flight budget.
+The July run-3 K values came from masked Block-A |+++⟩ singles and can stress
+a planning model, not certify intrinsic quasi-static K on clean arms. A stale
+July-line `E_GHZ(45) = 0.075` refusal was removed: the current local stress
+model itself returns 0.13685705869550188, and neither number is a valid
+same-session resolvability decision. A qualified clean-envelope or joint
+inverse route, with its cost, remains a freeze condition. Likewise the
+pointwise channel-factorization law is shape-free, while equality of fitted
+Γ coefficients requires a common correctly specified fit family; the latter
+is kept descriptive.
+
+F70 was also cited as if it proved that a rate belongs to a coherence pattern
+independently of its carrier. F70 actually bounds which excitation-difference
+blocks survive a site-local partial trace. The Price Pair P1/P3 and ladder
+now attach their selected-pattern comparison to their local-channel model and
+readout, without borrowing F70. The ladder footer names the intended tracked
+producer as pending; its current gate and older review files are ignored local
+work, not public handoff links.
+
+**Current boundary.** The four July records and their billed-time numbers remain distinct from
+preflight estimates; the six `job.usage()` readings quoted in the ladder draft were a read-only
+2026-09-12 observation whose provider responses are not archived in the repo. A read-only
+requery on 2026-09-23 failed because the saved IBM API key was rejected, so no new usage
+snapshot was obtained. The local
+`simulations/_july_zz_reanalysis.py` and `simulations/_absorption_rung_ladder_gate.py` files and
+the cited outside-review probe are ignored working files, not public reproducibility anchors.
+The public record supports the raw fit and the explicit ideal-geometry inference; the
+finite-T1 gain above is currently a local planning calculation. A per-session operating tail and a finite-CAL population confidence
+bound still require a qualified control before instrument freeze. The ladder remains an unfrozen
+draft; no hardware run was made for this repair.
+
+**Anchors.** `data/ibm_price_pair_july2026/price_pair_zztest_ibm_marrakesh_20260704_083938.json`,
+`docs/proofs/PROOF_PRICE_PAIR_OUTER_ZZ_GEOMETRY.md`,
+`experiments/PRICE_PAIR_HARDWARE_PREDICTION.md`,
+`experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md`, and the two Confirmations
+registries. The two local scripts named above are additional untracked analysis context only.
