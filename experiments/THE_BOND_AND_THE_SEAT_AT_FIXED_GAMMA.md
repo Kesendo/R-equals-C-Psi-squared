@@ -7,6 +7,7 @@ no new F number or hardware confirmation.
 **Retained output:** [γ₀=0.05 producer run](../simulations/results/handshake_bond_seat_repo_gamma005_run.txt).
 **Controls:** `python -m pytest -q simulations/test_handshake_bond_seat_fixed_gamma.py`.
 **Coherent comparison:** [the bond/seat γ=0 calculation](THE_BOND_AND_THE_SEAT.md).
+**Finite-shot continuation:** [one-million-shot known-defect classification](THE_BOND_AND_THE_SEAT_WITH_FINITE_SHOTS.md).
 
 The [F124 proof](../docs/proofs/PROOF_HANDSHAKE_TRANSITION_INVARIANT.md)
 owns the bond-to-mode matrix, [F157](../docs/ANALYTICAL_FORMULAS.md) the
@@ -43,7 +44,9 @@ Changing only units would map this run to `γ₀'=1`, `J_hop'=1.5`,
 `γ₀=1, J=1` would be `Q=1`, not this point.
 As a separate comparison to F157's one-watched-site model, the producer also
 puts that same `γ₀` on the centre site alone. That profile is a different
-choice of dephasing channels, not a different value of `γ₀`.
+choice of dephasing channels, not a different value of `γ₀`. The total rate
+`Σγ` changes from `0.35` (all seven sites) to `0.05` (centre only), so this
+comparison does not isolate placement at a matched total rate.
 
 The density matrix stays in the single-excitation `(1,1)` block: its cells
 are `|a⟩⟨b|`, so the block has `N²` complex coordinates. Its equation is
@@ -134,3 +137,7 @@ universal constant. Nor does it compute the dissipative PTF `α` profile or
 certify recovery from a finite, noisy instrument. A structural next step is
 to derive a fixed-`γ₀` observability criterion for the continuous trace and
 identify where the numerical rank can change with `Q` or the channel profile.
+The linked finite-shot continuation tests a narrower thirteen-hypothesis,
+known-magnitude classifier under ideal Z-position counts at this same
+`γ₀/J_hop` point; it does not turn this continuous-trace rank into an
+unrestricted or hardware bond-recovery result.

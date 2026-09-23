@@ -1,0 +1,245 @@
+=== N=7 finite-shot bond and seat reading ===
+MODEL: ideal single-excitation XY chain; simulated Z-position shots; no hardware data
+gamma0=0.05; J_hop=0.075; Q=1.5; H_SE=J_hop*A_path+deltaJ_b*V_b
+H=(J_hop/2)*sum(XX+YY); D_ab=-2(gamma_a+gamma_b) for a!=b
+PREPARATION: nominal psi1 held fixed under every finite bond defect
+PROTOCOL: null or one bond b=0..5 changed by deltaJ_b=+/-0.0075 (10% J_hop); candidate signs and magnitude fixed, realized sign unknown; gamma, time, preparation and detector map known
+HYPOTHESIS ORDER: null, b0-, b0+, b1-, b1+, b2-, b2+, b3-, b3+, b4-, b4+, b5-, b5+
+SHOTS: 100000 independent multinomial Z-position draws per time; 10 times = 1000000 per experiment; 256 experiments per hypothesis
+SEED: SeedSequence([20260923, profile_index, schedule_index, truth_index]); profile_index=uniform:0,single_centre:1; schedule_index=baseline:0,selected:1
+RUNTIME: numpy=2.4.2; scipy=1.16.3
+BASELINE TIMES: [2, 4, 6, 8, 10, 12, 15, 18, 24, 30]
+CANDIDATE POOL: 37 times from fourfold subdivision of baseline intervals
+TIME RULE: deterministic one-for-one exchange locally maximizes the smallest nominal full-position Fisher eigenvalue; schedules frozen before finite-defect models and counts
+SCORES: categorical seven-outcome log likelihood versus site-2 Bernoulli marginal of the same shots; exact tie takes first hypothesis
+INTERVALS: two-sided Wilson 95% for 256 repeats in each fixed truth row
+PROFILE uniform: watched sites=[0, 1, 2, 3, 4, 5, 6]; sum_gamma=0.35
+  SCHEDULE baseline: times=[2, 4, 6, 8, 10, 12, 15, 18, 24, 30]; shots=1000000
+  nominal Fisher full eigenvalues=[190443.249, 2051660.84, 4119418.79, 5544609.11, 6869343.45, 7114583.69]
+  nominal Fisher site2 eigenvalues=[0.00160470437, 11.0282815, 44.5486293, 2055.43885, 192611.643, 2632506.95]
+  nominal Fisher centre3 eigenvalues=[-7.99251587e-12, -1.27073175e-12, 1.80457966e-10, 7.70414603, 135794.7, 1128060.36]; rank=3
+  Fisher full-site2 minimum eigenvalue=169112.702; roundoff budget=2.0220863e-07
+  FULL CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 256,0,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0- : 0,256,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0+ : 0,0,256,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1- : 0,0,0,256,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1+ : 0,0,0,0,256,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2- : 0,0,0,0,0,256,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2+ : 0,0,0,0,0,0,256,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3- : 0,0,0,0,0,0,0,256,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3+ : 0,0,0,0,0,0,0,0,256,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4- : 0,0,0,0,0,0,0,0,0,256,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4+ : 0,0,0,0,0,0,0,0,0,0,256,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5- : 0,0,0,0,0,0,0,0,0,0,0,256,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5+ : 0,0,0,0,0,0,0,0,0,0,0,0,256 | correct=256/256; Wilson95=[0.985216,1.000000]
+  FULL TOTAL: 3328/3328 fixed-stratum trials (descriptive only)
+  SITE2 CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 36,0,2,0,0,0,0,1,0,29,18,89,81 | correct=36/256; Wilson95=[0.103337,0.188539]
+    true=b0- : 1,167,0,8,0,0,0,35,0,44,0,0,1 | correct=167/256; Wilson95=[0.592144,0.708039]
+    true=b0+ : 0,0,151,0,29,1,0,0,35,0,39,1,0 | correct=151/256; Wilson95=[0.528696,0.648335]
+    true=b1- : 0,12,0,239,0,0,1,0,0,4,0,0,0 | correct=239/256; Wilson95=[0.896238,0.958129]
+    true=b1+ : 0,0,18,0,222,9,0,0,4,0,3,0,0 | correct=222/256; Wilson95=[0.820140,0.903378]
+    true=b2- : 0,0,0,0,3,247,0,0,6,0,0,0,0 | correct=247/256; Wilson95=[0.934547,0.981396]
+    true=b2+ : 0,0,0,0,0,0,253,3,0,0,0,0,0 | correct=253/256; Wilson95=[0.966118,0.996007]
+    true=b3- : 0,37,0,0,0,0,1,214,0,4,0,0,0 | correct=214/256; Wilson95=[0.785670,0.876272]
+    true=b3+ : 0,0,32,0,2,7,0,0,212,0,3,0,0 | correct=212/256; Wilson95=[0.777146,0.869402]
+    true=b4- : 3,41,0,2,0,0,0,3,0,176,0,25,6 | correct=176/256; Wilson95=[0.628302,0.741154]
+    true=b4+ : 7,0,35,0,9,0,0,0,1,0,168,4,32 | correct=168/256; Wilson95=[0.596144,0.711736]
+    true=b5- : 26,0,1,0,0,0,0,1,0,39,18,109,62 | correct=109/256; Wilson95=[0.366748,0.487009]
+    true=b5+ : 26,0,3,0,0,0,0,0,1,25,45,64,92 | correct=92/256; Wilson95=[0.303077,0.419831]
+  SITE2 TOTAL: 2286/3328 fixed-stratum trials (descriptive only)
+  PAIRED CORRECTNESS: both,full_only,site2_only,neither from the same records
+    true=null: 36,220,0,0
+    true=b0- : 167,89,0,0
+    true=b0+ : 151,105,0,0
+    true=b1- : 239,17,0,0
+    true=b1+ : 222,34,0,0
+    true=b2- : 247,9,0,0
+    true=b2+ : 253,3,0,0
+    true=b3- : 214,42,0,0
+    true=b3+ : 212,44,0,0
+    true=b4- : 176,80,0,0
+    true=b4+ : 168,88,0,0
+    true=b5- : 109,147,0,0
+    true=b5+ : 92,164,0,0
+  SCHEDULE selected: times=[8.5, 9, 9.5, 10, 10.5, 24, 25.5, 27, 28.5, 30]; shots=1000000
+  nominal Fisher full eigenvalues=[344084.376, 2929200.96, 5591853.7, 7632132.63, 8503801.99, 8524620.16]
+  nominal Fisher site2 eigenvalues=[9.82058059e-05, 0.562784644, 12.4672306, 730.009206, 310481.582, 3508695.31]
+  nominal Fisher centre3 eigenvalues=[-9.12123013e-12, 2.28768313e-11, 2.9153081e-10, 0.62397352, 243900.524, 1470830.18]; rank=3
+  Fisher full-site2 minimum eigenvalue=294904.606; roundoff budget=2.42284277e-07
+  FULL CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 256,0,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0- : 0,256,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0+ : 0,0,256,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1- : 0,0,0,256,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1+ : 0,0,0,0,256,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2- : 0,0,0,0,0,256,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2+ : 0,0,0,0,0,0,256,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3- : 0,0,0,0,0,0,0,256,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3+ : 0,0,0,0,0,0,0,0,256,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4- : 0,0,0,0,0,0,0,0,0,256,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4+ : 0,0,0,0,0,0,0,0,0,0,256,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5- : 0,0,0,0,0,0,0,0,0,0,0,256,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5+ : 0,0,0,0,0,0,0,0,0,0,0,0,256 | correct=256/256; Wilson95=[0.985216,1.000000]
+  FULL TOTAL: 3328/3328 fixed-stratum trials (descriptive only)
+  SITE2 CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 47,0,0,0,0,0,0,0,0,12,13,75,109 | correct=47/256; Wilson95=[0.140966,0.235577]
+    true=b0- : 0,194,0,0,0,0,0,27,0,34,0,1,0 | correct=194/256; Wilson95=[0.701772,0.806230]
+    true=b0+ : 1,0,165,0,9,0,0,0,36,0,43,0,2 | correct=165/256; Wilson95=[0.584156,0.700633]
+    true=b1- : 0,3,0,253,0,0,0,0,0,0,0,0,0 | correct=253/256; Wilson95=[0.966118,0.996007]
+    true=b1+ : 0,0,6,0,244,2,0,0,0,0,4,0,0 | correct=244/256; Wilson95=[0.919867,0.972985]
+    true=b2- : 0,0,0,0,4,252,0,0,0,0,0,0,0 | correct=252/256; Wilson95=[0.960521,0.993907]
+    true=b2+ : 0,2,0,2,0,0,251,1,0,0,0,0,0 | correct=251/256; Wilson95=[0.955102,0.991629]
+    true=b3- : 0,18,0,0,0,0,3,232,0,3,0,0,0 | correct=232/256; Wilson95=[0.864298,0.936190]
+    true=b3+ : 0,0,30,0,0,0,0,0,226,0,0,0,0 | correct=226/256; Wilson95=[0.837637,0.916669]
+    true=b4- : 0,39,0,0,0,0,0,2,0,185,0,30,0 | correct=185/256; Wilson95=[0.664831,0.773898]
+    true=b4+ : 0,0,40,0,1,0,0,0,3,0,183,0,29 | correct=183/256; Wilson95=[0.656680,0.766655]
+    true=b5- : 50,0,0,0,0,0,0,0,0,32,3,125,46 | correct=125/256; Wilson95=[0.427677,0.549232]
+    true=b5+ : 52,0,1,0,0,0,0,0,0,0,29,55,119 | correct=119/256; Wilson95=[0.404717,0.526010]
+  SITE2 TOTAL: 2476/3328 fixed-stratum trials (descriptive only)
+  PAIRED CORRECTNESS: both,full_only,site2_only,neither from the same records
+    true=null: 47,209,0,0
+    true=b0- : 194,62,0,0
+    true=b0+ : 165,91,0,0
+    true=b1- : 253,3,0,0
+    true=b1+ : 244,12,0,0
+    true=b2- : 252,4,0,0
+    true=b2+ : 251,5,0,0
+    true=b3- : 232,24,0,0
+    true=b3+ : 226,30,0,0
+    true=b4- : 185,71,0,0
+    true=b4+ : 183,73,0,0
+    true=b5- : 125,131,0,0
+    true=b5+ : 119,137,0,0
+PROFILE single_centre: watched sites=[3]; sum_gamma=0.05
+  SCHEDULE baseline: times=[2, 4, 6, 8, 10, 12, 15, 18, 24, 30]; shots=1000000
+  nominal Fisher full eigenvalues=[1144230.45, 7169474.07, 16012974.8, 17380340.7, 41052628.4, 46315123]
+  nominal Fisher site2 eigenvalues=[0.00429911075, 1055.96118, 13056.0054, 171751.784, 1106419.39, 24196930.6]
+  nominal Fisher centre3 eigenvalues=[-4.58030009e-10, 1.96625267e-10, 8.71396107e-10, 151161.076, 1703984.91, 14300974.9]; rank=3
+  Fisher full-site2 minimum eigenvalue=834149.961; roundoff budget=1.31635497e-06
+  FULL CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 256,0,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0- : 0,256,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0+ : 0,0,256,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1- : 0,0,0,256,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1+ : 0,0,0,0,256,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2- : 0,0,0,0,0,256,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2+ : 0,0,0,0,0,0,256,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3- : 0,0,0,0,0,0,0,256,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3+ : 0,0,0,0,0,0,0,0,256,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4- : 0,0,0,0,0,0,0,0,0,256,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4+ : 0,0,0,0,0,0,0,0,0,0,256,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5- : 0,0,0,0,0,0,0,0,0,0,0,256,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5+ : 0,0,0,0,0,0,0,0,0,0,0,0,256 | correct=256/256; Wilson95=[0.985216,1.000000]
+  FULL TOTAL: 3328/3328 fixed-stratum trials (descriptive only)
+  SITE2 CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 233,0,0,0,0,0,0,0,0,0,0,14,9 | correct=233/256; Wilson95=[0.868798,0.939387]
+    true=b0- : 0,249,0,0,0,0,0,7,0,0,0,0,0 | correct=249/256; Wilson95=[0.944644,0.986693]
+    true=b0+ : 0,0,246,0,0,0,0,0,10,0,0,0,0 | correct=246/256; Wilson95=[0.929600,0.978646]
+    true=b1- : 0,0,0,243,0,0,0,0,0,0,13,0,0 | correct=243/256; Wilson95=[0.915069,0.970086]
+    true=b1+ : 0,1,0,0,243,0,0,0,0,12,0,0,0 | correct=243/256; Wilson95=[0.915069,0.970086]
+    true=b2- : 0,0,0,0,0,256,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2+ : 0,0,0,0,0,0,256,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3- : 0,12,0,0,0,0,0,244,0,0,0,0,0 | correct=244/256; Wilson95=[0.919867,0.972985]
+    true=b3+ : 0,0,10,0,0,0,0,0,246,0,0,0,0 | correct=246/256; Wilson95=[0.929600,0.978646]
+    true=b4- : 0,0,0,0,11,0,0,0,0,245,0,0,0 | correct=245/256; Wilson95=[0.924709,0.975840]
+    true=b4+ : 0,0,0,8,0,0,0,0,0,0,248,0,0 | correct=248/256; Wilson95=[0.939558,0.984082]
+    true=b5- : 3,0,0,0,0,0,0,0,0,0,0,253,0 | correct=253/256; Wilson95=[0.966118,0.996007]
+    true=b5+ : 10,0,0,0,0,0,0,0,0,0,0,0,246 | correct=246/256; Wilson95=[0.929600,0.978646]
+  SITE2 TOTAL: 3208/3328 fixed-stratum trials (descriptive only)
+  PAIRED CORRECTNESS: both,full_only,site2_only,neither from the same records
+    true=null: 233,23,0,0
+    true=b0- : 249,7,0,0
+    true=b0+ : 246,10,0,0
+    true=b1- : 243,13,0,0
+    true=b1+ : 243,13,0,0
+    true=b2- : 256,0,0,0
+    true=b2+ : 256,0,0,0
+    true=b3- : 244,12,0,0
+    true=b3+ : 246,10,0,0
+    true=b4- : 245,11,0,0
+    true=b4+ : 248,8,0,0
+    true=b5- : 253,3,0,0
+    true=b5+ : 246,10,0,0
+  SCHEDULE selected: times=[10.5, 11, 11.5, 12, 19.5, 21, 22.5, 24, 25.5, 27]; shots=1000000
+  nominal Fisher full eigenvalues=[3198093.09, 7594192.73, 23351269.8, 27485778.8, 74136029.1, 84846906.3]
+  nominal Fisher site2 eigenvalues=[0.0018408142, 112.930819, 1612.82216, 85835.103, 1469189.99, 45586407.9]
+  nominal Fisher centre3 eigenvalues=[-1.55126763e-09, -4.94476039e-11, 1.82933754e-09, 148297.104, 1677173.15, 21964193.4]; rank=3
+  Fisher full-site2 minimum eigenvalue=1651590.16; roundoff budget=2.41149412e-06
+  FULL CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 256,0,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0- : 0,256,0,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b0+ : 0,0,256,0,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1- : 0,0,0,256,0,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b1+ : 0,0,0,0,256,0,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2- : 0,0,0,0,0,256,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2+ : 0,0,0,0,0,0,256,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3- : 0,0,0,0,0,0,0,256,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3+ : 0,0,0,0,0,0,0,0,256,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4- : 0,0,0,0,0,0,0,0,0,256,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b4+ : 0,0,0,0,0,0,0,0,0,0,256,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5- : 0,0,0,0,0,0,0,0,0,0,0,256,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b5+ : 0,0,0,0,0,0,0,0,0,0,0,0,256 | correct=256/256; Wilson95=[0.985216,1.000000]
+  FULL TOTAL: 3328/3328 fixed-stratum trials (descriptive only)
+  SITE2 CONFUSION: columns follow HYPOTHESIS ORDER
+    true=null: 220,0,0,0,0,0,0,0,0,0,0,14,22 | correct=220/256; Wilson95=[0.811461,0.896663]
+    true=b0- : 0,251,0,0,0,0,0,4,0,1,0,0,0 | correct=251/256; Wilson95=[0.955102,0.991629]
+    true=b0+ : 0,0,246,0,0,0,0,0,10,0,0,0,0 | correct=246/256; Wilson95=[0.929600,0.978646]
+    true=b1- : 0,0,0,223,0,0,0,0,0,0,33,0,0 | correct=223/256; Wilson95=[0.824496,0.906719]
+    true=b1+ : 0,0,0,0,236,0,0,0,0,20,0,0,0 | correct=236/256; Wilson95=[0.882417,0.948859]
+    true=b2- : 0,0,0,0,0,256,0,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b2+ : 0,0,0,0,0,0,256,0,0,0,0,0,0 | correct=256/256; Wilson95=[0.985216,1.000000]
+    true=b3- : 0,4,0,0,0,0,0,252,0,0,0,0,0 | correct=252/256; Wilson95=[0.960521,0.993907]
+    true=b3+ : 0,0,6,0,0,0,0,0,250,0,0,0,0 | correct=250/256; Wilson95=[0.949819,0.989215]
+    true=b4- : 0,1,0,0,13,0,0,0,0,242,0,0,0 | correct=242/256; Wilson95=[0.910310,0.967148]
+    true=b4+ : 0,0,0,32,0,0,0,0,0,0,224,0,0 | correct=224/256; Wilson95=[0.828864,0.910048]
+    true=b5- : 17,0,0,0,0,0,0,0,0,0,0,239,0 | correct=239/256; Wilson95=[0.896238,0.958129]
+    true=b5+ : 14,0,0,0,0,0,0,0,0,0,0,0,242 | correct=242/256; Wilson95=[0.910310,0.967148]
+  SITE2 TOTAL: 3137/3328 fixed-stratum trials (descriptive only)
+  PAIRED CORRECTNESS: both,full_only,site2_only,neither from the same records
+    true=null: 220,36,0,0
+    true=b0- : 251,5,0,0
+    true=b0+ : 246,10,0,0
+    true=b1- : 223,33,0,0
+    true=b1+ : 236,20,0,0
+    true=b2- : 256,0,0,0
+    true=b2+ : 256,0,0,0
+    true=b3- : 252,4,0,0
+    true=b3+ : 250,6,0,0
+    true=b4- : 242,14,0,0
+    true=b4+ : 224,32,0,0
+    true=b5- : 239,17,0,0
+    true=b5+ : 242,14,0,0
+CONSISTENCY CHECKS (no favorable accuracy threshold):
+  candidate_count_37=PASS
+  uniform_each_bond_population_slope_sums_zero=PASS
+  uniform_baseline_budget=PASS
+  uniform_baseline_full_dominates_site_fisher=PASS
+  uniform_baseline_centre_rank_three=PASS
+  uniform_baseline_confusion_accounting=PASS
+  uniform_baseline_centre_reflection=PASS
+  uniform_baseline_offcentre_end_bonds_separate=PASS
+  uniform_selected_budget=PASS
+  uniform_selected_full_dominates_site_fisher=PASS
+  uniform_selected_centre_rank_three=PASS
+  uniform_selected_confusion_accounting=PASS
+  uniform_selected_centre_reflection=PASS
+  uniform_selected_offcentre_end_bonds_separate=PASS
+  uniform_selected_not_worse=PASS
+  single_centre_each_bond_population_slope_sums_zero=PASS
+  single_centre_baseline_budget=PASS
+  single_centre_baseline_full_dominates_site_fisher=PASS
+  single_centre_baseline_centre_rank_three=PASS
+  single_centre_baseline_confusion_accounting=PASS
+  single_centre_baseline_centre_reflection=PASS
+  single_centre_baseline_offcentre_end_bonds_separate=PASS
+  single_centre_selected_budget=PASS
+  single_centre_selected_full_dominates_site_fisher=PASS
+  single_centre_selected_centre_rank_three=PASS
+  single_centre_selected_confusion_accounting=PASS
+  single_centre_selected_centre_reflection=PASS
+  single_centre_selected_offcentre_end_bonds_separate=PASS
+  single_centre_selected_not_worse=PASS
+SCOPE: local ideal known-model classification and nominal six-parameter Fisher; not unrestricted coupling recovery, T1/leakage robustness, or a hardware confirmation
+VERDICT: PASS
