@@ -1,0 +1,18 @@
+=== F124 -> F157 coherent bond/seat producer (gamma=0) ===
+Convention: H_SE=J_hop*A_path = (J_hop/2)*sum_b(XX+YY); delta J is additive hopping.
+SVD rank checks N=3..11: 63/63
+N=7 location ranks: [5, 4, 5, 2, 5, 4, 5]
+centre modes: (3, 5)  nodes: (2, 4, 6)
+seat 2 modes: (2, 3, 4, 5, 6)  nodes: ()
+Independent expm-Frechet response: max error / (eps*N*scale) = 0.191 (budget 16; PASS)
+24 N=7 all-bond comparisons (seats 2,3; t=1,1.3; J=1)
+N=7 centre bond=0 t=1e-8, J=1: modal=-2.946278e-34 direct=-2.946278e-34 leading=-2.946278e-34; relative error 3.48e-15 (budget 1e-6)
+  N=7 J=1, t=1 seat=2 bond=0: modal=-0.067127584 direct=-0.067127584
+  N=7 J=1, t=1 seat=2 bond=5: modal=+0.002960596 direct=+0.002960596
+  N=7 J=1, t=1 seat=3 bond=0: modal=-0.022517039 direct=-0.022517039
+  N=7 J=1, t=1 seat=3 bond=5: modal=-0.022517039 direct=-0.022517039
+Finite defect delta=0.2, t=1.3: centre mirror diff 5.55e-17; seat-2 mirror diff 0.021023; exact H reflection True
+Uniform bond rescaling, seat 2: max linear response 1.11e-16
+Changed preparation psi_2: mismatch with psi_1 formula 0.032285
+Scope: ideal unitary single-excitation population; PTF alpha and finite-gamma purity are outside this result.
+VERDICT: PASS
