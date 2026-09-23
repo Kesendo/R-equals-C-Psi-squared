@@ -1,0 +1,21 @@
+=== Fixed positive gamma: bond-to-seat population response ===
+gamma0=1 fixed (time unit 1/gamma0); J=10, Q=J/gamma0=10
+Profiles: uniform gamma0 at every site; single-centre F157 control
+Q=10 gamma0*t: [0.02, 0.04, 0.07, 0.10, 0.15, 0.23, 0.35, 0.50, 0.70, 1.00]
+uniform ranks: [6, 6, 6, 3, 6, 6, 6]
+single-centre ranks: [6, 6, 6, 3, 6, 6, 6]
+Q=1 gamma0*t: [0.20, 0.40, 0.70, 1.00, 1.50, 2.30, 3.50, 5.00, 7.00, 10.00]
+Q=1 uniform ranks: [6, 6, 6, 3, 6, 6, 6]
+Q=1 single-centre ranks: [6, 6, 6, 3, 6, 6, 6]
+Q=2 gamma0*t: [0.10, 0.20, 0.35, 0.50, 0.75, 1.15, 1.75, 2.50, 3.50, 5.00]
+Q=2 uniform ranks: [6, 6, 6, 3, 6, 6, 6]
+Q=2 single-centre ranks: [6, 6, 6, 3, 6, 6, 6]
+Across Q=1,2,10, gamma0 stays fixed; J and the listed observation times change to hold J*t fixed.
+coherent-limit ranks: [5, 4, 5, 2, 5, 4, 5] (mathematical control)
+coherent-limit ranks on the same Q=10 time grid: [5, 4, 5, 2, 5, 4, 5]
+Smallest retained singular-value / rank tolerance: 3.14e+09
+Independent tangent ODE: max error / (eps*N*scale) 0.650 (budget 16)
+At gamma0*t=0.1, site 2: uniform-bond sum -0.000951315 (uniform illumination), -0.000614574 (centre illumination)
+Centre mirror residual 6.94e-17; off-centre end-bond difference 0.005450; exact generator reflection True
+Scope: finite-sample numerical rank at Q=1,2,10; no all-Q rank law, hardware measurement, or finite-noise recovery claim.
+VERDICT: PASS

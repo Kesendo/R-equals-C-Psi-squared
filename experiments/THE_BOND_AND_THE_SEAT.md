@@ -1,6 +1,9 @@
 # A bond changes the wave; a seat decides what it can see
 
-**Status:** local coherent producer, 2026-09-23. No new F number or hardware confirmation.
+**Status:** exact `γ=0` calibration of the Hamiltonian formula, 2026-09-23.
+Under fixed positive `γ₀` it is not the operating readout; the
+[fixed-γ workflow](THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA.md) is.
+No new F number or hardware confirmation.
 **Run:** `python simulations/handshake_bond_seat_readout.py`; the retained output is
 [the producer run](../simulations/results/handshake_bond_seat_readout_run.txt).
 **Controls:** `python -m pytest -q simulations/test_handshake_bond_seat_readout.py`.
@@ -17,7 +20,8 @@ Change one bond `b=0,…,N−2` by an *additive hopping* `δJ_b V_b`, where
 `p_j(t) = |⟨j|exp(-i(H₀+δJ_b V_b)t)|ψ₁⟩|²`. Which bond changes can that
 local time trace distinguish at first order in `δJ_b`?
 
-This is an ideal unitary (`γ=0`) population measurement. The word *seat* here
+This is an ideal unitary (`γ=0`) population calculation, a mathematical
+limit if `γ₀` is held positive. The word *seat* here
 means the site whose population is read. In [F157](../docs/ANALYTICAL_FORMULAS.md)
 it usually means a site carrying dephasing; its sine-node count is the piece
 used here. This calculation does not compute the dissipative PTF `α` readout
@@ -99,15 +103,14 @@ first-order rank formula to finite defects. A uniform change of *all* bonds
 leaves the prepared `ψ₁` population stationary; changing the preparation to
 `ψ₂` also breaks the `ψ₁` response prediction.
 
-## Boundary and next experiment
+## Boundary at fixed positive gamma
 
-The result identifies a coherent population-readout channel at `γ=0`.
-Finite dephasing changes the evolution to the `(1,1)` Liouvillian: the
-`N×N` density-matrix sector spanned by `|i⟩⟨j|` with one excitation on each
-side. It may
-change both response and identifiability. The [handshake arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
-already separates that dissipative question from Hamiltonian eigenvector
-mixing. A next producer would have to carry the same preparation, bond
-perturbation, and local output through that block and compare with an
-independently propagated derivative, without calling the present rank its
-answer in advance.
+The rank formula above belongs to `γ=0`. With `γ₀>0` fixed, the
+`(1,1)` Liouvillian evolves the `N×N` density-matrix sector spanned by
+`|i⟩⟨j|`. The [fixed-γ producer](../simulations/handshake_bond_seat_fixed_gamma.py)
+now carries the same preparation, bond perturbation, and population output
+through that block. At its declared `N=7`, `Q=1,2,10` time samples, its
+numerical ranks are `[6,6,6,3,6,6,6]` for both tested channel profiles.
+The [fixed-γ note](THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA.md) states the
+sampling and what remains open. The [handshake arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
+already separates dissipative response from Hamiltonian eigenvector mixing.
