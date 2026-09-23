@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Pi2 knowledge map: typed ancestry versus semantic adjacency
-
-Current reading: F94, F95, F96, and F97 are parentless typed claims in the live
-registry.  Their formulas may be compared semantically, but none belongs to the
-Polarity Cube and no shared number creates a Claim parent.  The live registry
-and graph walker are authoritative for counts and edges.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the earlier inheritance map follows to preserve the
-question that motivated the audit.  Its F94-F97 branches are not current typed
-topology.
-
 # Pi2 Knowledge Base: Inheritance Map
 
 **Question Tom 2026-05-16:** *"Ich denke das durch Vererbung diese Anker vielleicht auf irgendeine Art zusammenhängen, irgendwo müssen sich die Anker vererben."*
@@ -122,10 +109,10 @@ CanonicalTrigAnchor, plus the local intermediates
 DickeSuperpositionQuarter and the F98 long-time claim feeding
 CanonicalTrigAnchor. Most F-leaves take `Pi2DyadicLadderClaim` in their
 ctor (and often I4 Memory Loop, Half, ...), wired in
-`compute/RCPsiSquared.Runtime/PolarityArchitecture/`; seven anchor
-elsewhere: F91/F92/F93 on I4 Memory Loop alone, F95/F97 on
-Half/Quarter/NinetyDegree/Foundation, F79 on
-KleinFourCell/OperatorSpaceMirror/F1, F86F71 on upstream F-claims.
+`compute/RCPsiSquared.Runtime/PolarityArchitecture/`; five anchor
+elsewhere: F91/F92/F93 on I4 Memory Loop alone, F79 on
+KleinFourCell/OperatorSpaceMirror/F1, F86F71 on upstream F-claims; and
+F94, F95, F96 and F97 are registered parentless.
 
 The SEMANTIC trunk remains three-rooted: `PolynomialFoundationClaim` (the
 trunk of all four branches), `F1PalindromeIdentity`

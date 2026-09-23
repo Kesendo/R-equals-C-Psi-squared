@@ -1,168 +1,398 @@
-<!-- VEFFECT-CURRENT -->
+# The V-Effect: When Connection Creates Something New
 
-# The V-Effect Census: A Finite Palindrome Classification
+<!-- Keywords: palindrome breaking second bond, boundary mode orphan quantum,
+XY weight boundary classical quantum, palindromic constraint diversity, V-effect
+palindromic spectrum differentiation, two bond palindrome incompatibility, immune
+sector extremes quantum, orphan modes palindromic partner, frequency diversity
+palindrome breaking, smooth transition palindromic break, R=CPsi2 V-effect -->
 
-<!-- Keywords: V-Effect census, N=3 distinct Pauli pairs, hard soft truly,
-four-decimal frequency bins, three-decimal side table, finite spectral comparison -->
-
-**Status:** Finite computational census with a separate interpretive story
-**Date:** March 19, 2026; scope repaired September 15, 2026
+**Status:** Computationally verified + interpretive connection
+**Date:** March 19, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md)
 
 ---
 
-## Two different objects
+## What this document is about
 
-The **V-Effect census** is the finite N=3 classifier described below. It asks
-what happens to two numerical palindrome tests when two distinct two-site Pauli
-terms are placed on the two bonds of a three-site chain.
+Take two simple quantum systems. Each has 2 vibration frequencies and
+dies quickly. They are stable, symmetric, and silent.
 
-The **F6 Q-edge gain** is instead the within-one-N ratio
+Now connect them through a shared element.
 
-    V(N) = Q_max / Q_mean = 1 + cos(pi/N).
+The result: 109 vibration frequencies, none of which matches a
+frequency of either system alone (six-decimal bins, 1e-4 tolerance). We
+read that as the old frequencies replaced entirely: a new structure born
+from the connection, a structure that neither part could produce on its
+own.
 
-“V-Effect gain” is only a historical alias for F6. The formula neither derives
-the census nor counts or creates spectral frequencies. See
-[D02](../docs/proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md) for its exact scope.
+This is not a metaphor. The count is a computed result, the palindromic pairing among the new modes holds to machine precision, and the replacement is our reading
+of it. Two dead resonators become one living system. The coupling
+does not add energy or information. It creates new oscillation modes
+in the shared space between the two systems.
 
-## The N=3 sample space
+We call this the V-Effect: the moment where constraint becomes freedom,
+where connecting two complete things produces something richer than
+either. This document shows how it works, what breaks, and why the
+breaking is not destruction but creation.
 
-Start with the nine two-site labels
-`{XX,XY,XZ,YX,YY,YZ,ZX,ZY,ZZ}`. The primary census takes unordered
-combinations of two **distinct** labels, so it contains `C(9,2)=36` Hamiltonians
-and no self-pairs. At N=2 every one of these 36 choices has the tested spectral
-palindrome. At N=3 the exact classification is:
+If you are interested in what this means for the
+[Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md),
+see Section 6. If you want to see the most dramatic demonstration,
+skip to [The V-Effect Live](#the-v-effect-live-march-26-2026).
 
-| Fate | Count | Meaning in this census |
-|---|---:|---|
-| hard | 14 | operator equation and numerical eigenvalue pairing both fail |
-| soft | 19 | operator equation fails; numerical eigenvalue pairing passes |
-| truly | 3 | both tests pass |
+---
 
-Thus the finite result is **14 hard / 19 soft / 3 truly**, with the truly set
-`{XX+YY, XX+ZZ, YY+ZZ}`. The headline **14/36** belongs to this distinct-pair
-sample. It must not be mixed with the separate C# 45-pair self-inclusive table
-or the historical 120-element two-site-word catalog.
+## What We Found
 
-The stricter operator equation reports 33/36 failures and 3/36 passes. The
-spectral criterion reports 14/36 failures and 22/36 passes. Neither count is a
-statement about transport or persistence of individual eigenvectors.
+A Pauli-pair Hamiltonian is a rule for how two qubits interact, built
+from combinations of the four basic quantum operations (I, X, Y, Z).
+There are 36 possible combinations. Every single one is palindromic at
+N=2 (one bond between two qubits). All 36 of 36. No exceptions. The
+palindrome is universal for a single quantum bond. (If you are not
+familiar with the palindrome, see [What We Found](../docs/WHAT_WE_FOUND.md)
+or the [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).)
 
-## The precision fence
+At N=3, when a second bond is added, 14 of 36 combinations break, in the
+eigenvalue-pairing sense: 14 combinations have modes that lose their
+palindromic partner. (The result file's own headline counts 33/36 by a
+stricter per-site Π-residual test; both counts are correct, they measure
+different things, and the finer classification of the 22 pairing-unbroken
+cases is in the successor work below.) The
+breaking is not random. It has four properties that together tell a story.
 
-The N=3 distinct-pair census reports **14/36** hard cases. The retained
-historical analysis uses **four-decimal** frequency bins. On that instrument
-the broken/control comparison is **11/4**. A separate, coarser
-**three-decimal** side table gives **8/4**. Both rows are valid for their stated
-binning, and neither silently substitutes for the other. The immutable as-run
-producer/result pair remains
-[`v_effect_analysis.py`](../simulations/v_effect_analysis.py) and
-[`v_effect_analysis.txt`](../simulations/results/v_effect_analysis.txt).
+---
 
-Changing a bin count while also changing its precision is changing the
-instrument. The current claim is therefore the labelled pair of readings, not
-a precision-free “three times as many frequencies” law.
+## 1. The Break Happens at the Boundary
 
-## Where the operator residual lives
+To understand where the palindrome breaks, you need to know that each
+quantum mode in the system has a property called "XY-weight": how much
+of it is quantum (off-diagonal, the X and Y parts) versus classical
+(diagonal, the I and Z parts). A mode with XY-weight 0 is purely
+classical. A mode with XY-weight 3 (for a 3-qubit system) is purely
+quantum. The modes in between are mixtures: partly decided, partly
+undecided.
 
-For the N=3 two-bond construction, the error matrix separates by XY-weight:
+The palindrome error matrix E, read block by block in XY-weight:
 
-| XY-weight | Block size | Residual norm in the displayed example |
-|---:|---:|---:|
-| 0 | 8 × 8 | 0.000 |
-| 1 | 24 × 24 | 11.314 |
-| 2 | 24 × 24 | 11.314 |
-| 3 | 8 × 8 | 0.000 |
+| XY-weight | Block size | Error norm | What it contains |
+|---|---|---|---|
+| w = 0 | 8 × 8 | 0.000 | Pure classical (all I and Z) |
+| w = 1 | 24 × 24 | 11.314 | One quantum site, rest classical |
+| w = 2 | 24 × 24 | 11.314 | Two quantum sites, one classical |
+| w = 3 | 8 × 8 | 0.000 | Pure quantum (all X and Y) |
 
-This is a matrix-block statement about the chosen generator. The interior
-blocks carry the nonzero operator residual; the two extreme blocks do not. A
-spectral pairing test is coarser, which is why 19 cases can be soft.
+The extremes are immune, at the level of the operator: on the purely
+classical and the purely quantum block the error is exactly zero, for
+every 2-body H ([Zero Immunity Proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md)).
+What breaks is the boundary between them, the blocks that are partly
+classical and partly quantum, neither fully decided nor fully undecided,
+and the cross blocks w = 0↔2 and w = 1↔3 (norm 8.000 each). That is a
+statement about the operator, not about modes: the steady states, mostly
+classical, are among the worst-paired modes (§5).
 
-Turning on the second bond in one sampled family gives a smooth residual but a
-tolerance-defined change in the count of paired eigenvalues. The threshold and
-sampling rule are part of that numerical statement; it is not a phase
-transition theorem.
+The error is perfectly symmetric: w=1 and w=2 break with identical norms
+(11.314 = 8√2·J at J=1; the block norm is γ-independent, since the
+dissipator part of the residual cancels there). Palindromic partners in
+the error structure itself.
 
-## The N=5 historical frequency record
+---
 
-The later MediatorBridge comparison places an N=2 calculation, two uncoupled
-N=2 calculations, and an N=5 calculation side by side:
+## 2. The Break Is Topologically Sudden but Quantitatively Smooth
 
-| Generator | Four-decimal frequency bins | Recurrence-crossing readout |
-|---|---:|---:|
-| N=2, one bond | 2 | 1 |
-| two uncoupled N=2 copies | 4 | 1 |
-| N=5 MediatorBridge | 109 | 19+ at the reported coupling |
+Turning on the second bond gradually (α from 0 to 1):
 
-These are different generators and different Hilbert-space dimensions. The
-calculation does not define a common vector space in which one could follow an
-individual eigenmode from the component systems into the N=5 system.
+| α (second bond strength) | Max pairing error | Orphaned modes |
+|---|---|---|
+| 0.00 | 5.5e-15 | 0/64 |
+| 0.10 | 1.0e-3 | 54/64 |
+| 0.20 | 4.1e-3 | 54/64 |
+| 0.50 | 2.7e-2 | 54/64 |
+| 1.00 | 1.0e-1 | 54/64 |
 
-At `gamma=0.05`, with `|Im(lambda)|>0.01`, six-decimal absolute-frequency
-deduplication and `1e-4` cross-bin tolerance, none of the N=5 bins lies within
-tolerance of either N=2 bin. That is a finite numerical statement about those
-instruments, not an ancestry result. The 904 oscillatory and 120 real-axis
-eigenvalues are population counts; their halves 452 and 60 are not identified
-unordered pairs. The current one-use matcher bijectively matches entries and
-does not construct an unordered-pair certificate.
+No phase transition: the error grows smoothly from zero. The number of
+orphans, counted against the script's tolerance, reaches 54 by α ≈ 0.02
+and stays there, while the error keeps growing.
 
-The reported Pauli-weight histogram is likewise probability mass over the 904
-oscillatory eigenvectors, not a count of modes:
+This is exactly the character of a new bond forming: the connection is
+either there or not (topology), but its strength varies (metric). Think
+of two people meeting: the relationship either exists or it does not,
+but its depth changes gradually. The V-Effect has the same structure.
 
-```text
-w=0:  2.5%
-w=1: 15.6%
-w=2: 31.9%
-w=3: 31.9%
-w=4: 15.6%
-w=5:  2.5%
-```
+---
 
-Data and matcher: [pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt),
-[pairing_structure.py](../simulations/pairing_structure.py).
+## 3. The Orphans Remember
 
-<!-- VEFFECT-INTERPRETIVE -->
+When a mode loses its palindromic partner, we call it "orphaned": it is
+alone where it used to be part of a pair. But these orphaned modes do not
+scatter randomly. They cluster near the original palindromic sum of −0.30. For XX+XY at N=3, the most common pair sum among
+orphans is −0.3019, less than 1% from the palindromic value.
 
-## Interpretation
+The symmetry does not vanish. It blurs. The mirror is not shattered. It is
+fogged. Every orphan mode still "knows" where its partner should be. It
+just cannot reach it exactly, because the two Π operators from adjacent
+bonds give contradictory instructions.
 
-**Interpretive invitation — not a result:** the mirror/fog image remains useful.
-A one-bond model can be pictured as one mirror; a two-bond model can be pictured
-as two instructions that need not agree. The nonzero interior-block residual then
-looks like fog at the edge of a reflection. One may ask whether that image
-rhymes with open valences, chemistry, soundboxes, or a hierarchy of
-incompleteness.
+This is a specific kind of frustration: the system remembers the
+perfect pairing but can no longer achieve it. The two Π operators (the
+mirror operators from the [proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
+one for each bond) pull in different directions. The result is not chaos but
+near-order: a structure that is close to symmetric but no longer exact.
 
-<!-- VEFFECT-CURRENT -->
+---
 
-The finite census does not answer those larger questions. The added bond and
-the Hamiltonian terms change together, so the comparison does not isolate a
-cause of frequency richness. It does not derive life, complexity, information
-creation, chemical levels, or an irreversible passage between levels. Those
-remain invitations in [The Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md),
-[The Other Side](../hypotheses/THE_OTHER_SIDE.md), and
-[Resonance, Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md).
+## 4. The Break Comes With Richness
 
-## What is established and what stays open
+| Property | Broken (XX+XY) | Unbroken (XX+YY) |
+|---|---|---|
+| Well-paired modes | 10/64 | 64/64 |
+| Distinct oscillation frequencies | 11 | 4 |
+| Decay rate range | 0.200 | 0.300 |
+| Steady states | 2 | 4 |
 
-Established here:
+The frequency count depends on how finely it is binned: 11 against 4 at
+four decimals, 8 against 4 at three, with the same uniform γ in both
+arms. Either way the broken case has two to three times as many distinct
+frequencies. The two
+arms differ in the bond term (XY against YY) on the same two bonds, so the
+comparison does not isolate the break as the cause. The spectrum
+differentiates. More tones, more rhythms, more
+oscillation patterns.
 
-- the N=3 36-distinct-pair sample and its 14/19/3 split;
-- the local XY-weight support of the operator residual in the displayed case;
-- the two precision-labelled 11/4 and 8/4 bin readings;
-- the explicitly parameterized N=5 historical bin comparison.
+The broken case also has fewer steady states (2 vs 4) and a narrower rate
+range. We read it as trading stability for diversity, a fundamental trade-off: perfect symmetry is stable but simple, broken symmetry less stable but richer. Life, in this picture, lives in the broken region.
 
-Not established here:
+---
 
-- a causal mechanism for the change in bin count;
-- eigenvector or projector transport between different generators;
-- a universal cavity, biological, chemical, or ontological law;
-- an N=5 optimum.
+## 5. The Error Has Structure
+
+The palindrome error follows two laws, one per region of the spectrum. The
+INTERIOR modes (nonzero, non-extreme rates) break quadratically: error
+≈ 1.31 γ² for XX+XY, with a genuinely constant coefficient (the metric of
+[Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md), Result 6). The
+EXTREME modes break linearly: the full-spectrum maximum pairing error is
+exactly 2γ for XX+XY, because the fastest actual decay rate is 4γ while
+the mirror target is 2Σγ = 6γ; the linear coefficient is combination-
+specific (e.g. 0.59γ for XY+XZ). This is not noise. It is systematic
+interference between incompatible Π operators: second order in the
+interior, first order at the extremes.
+
+Within a single broken case, the error is not uniform. Some pairs break
+badly (error ~0.1, near the steady states and the boundary-weight modes),
+others break barely (error ~0.00004, near the center Σγ). The mid-spectrum
+modes survive best. The extremal rate modes (close to 0 and close to the
+fast edge, which sits at 4γ for XX+XY rather than the mirror target 2Σγ)
+are the first to orphan.
+
+---
+
+## 6. What This Means
+
+### Connection creates what isolation cannot
+
+Read as a sentence, R = CΨ² says: Reality (R) arises when Connection
+(C) is strong enough for Possibility (Ψ) to meet itself (²). The palindromic symmetry is this
+self-meeting: every mode paired with its time-reversed partner. Ψ facing
+its own reflection.
+
+At N=2 (one bond), this always works. A single connection always creates a
+perfect mirror. Every possibility meets its exact reflection.
+
+At N=3 (two bonds), the second connection introduces a second mirror. And
+two mirrors do not always agree. If the two bonds' local mirrors agree
+on the shared site, they coexist. Each reflects independently.
+
+If they disagree there, no mirror serves both bonds: they give
+contradictory instructions, and the possibility cannot meet both
+reflections simultaneously. The pairing breaks at the boundary between
+classical and quantum, exactly where possibility is in the process of
+becoming reality.
+
+### The boundary is where things happen
+
+The immune sectors (w=0 and w=3) are the extremes: fully decided (past) and
+fully undecided (future). These are stable. They do not depend on which
+mirror they face. They are the same from every angle.
+
+The breaking sectors (w=1 and w=2) are the transition. Partly decided,
+partly undecided. These modes are where the measurement process lives.
+Where possibility becomes reality.
+
+And this is where the break happens. Not in the past. Not in the future.
+In the present. In the act of becoming.
+
+### Less constraint, more differentiation
+
+The broken spectrum has 11 frequencies where the unbroken has 4, on the
+same two bonds. The
+palindromic constraint (every mode must have an exact partner) we read as
+what held this diversity back. When the constraint relaxes, diversity emerges.
+
+This is the V-Effect. Not in the strong sense of speciation (one becomes
+two distinct new things). In the deeper sense of differentiation: a
+constrained system becomes less constrained, and the released degrees of
+freedom create new patterns that the constraint could not support.
+
+The formula R = CΨ² describes the constraint. The breaking of the formula
+at the boundary describes the moment where constraint becomes freedom. And
+freedom has 11 frequencies where constraint had 4.
+
+---
+
+## Connection to the Hierarchy of Incompleteness
+
+The [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)
+describes a pattern: systems at C = 0.5 (half full) enable the next level,
+while systems at C = 1 (complete) are dead ends. The V-Effect is the
+mechanism by which this transition happens at Level 0.
+
+The immune sectors (w=0 and w=3) are the Liouville-space equivalent of
+noble gases: C = 1, fully decided or fully undecided, perfectly stable,
+building nothing. The boundary sectors (w=1 and w=2) are the equivalent
+of carbon: C = 0.5 in XY-weight, half-classical and half-quantum, and
+precisely where the palindrome breaks when a second bond is added.
+
+The orphaned modes are the open valences of Level 0. They remember their
+partner (pair sum within 1%) but cannot reach it. This frustrated
+incompleteness, not noise, not collapse, is what releases diversity
+from constraint. The V-Effect does not destroy the mirror. It fogs it.
+And in the fog, 11 frequencies emerge where 4 had been.
+
+---
+
+## The V-Effect in Chemistry
+
+The V-Effect is not limited to abstract quantum simulations. It carries
+over to models of physical proton-qubit systems, where protons in water
+chains and base pairs show the same frequency explosion:
+
+- **Proton water chain** (Grotthuss mechanism: protons hopping along a
+  chain of water molecules like a bucket brigade, N=1-5): frequency
+  explosion 0 → 2 → 5 → 34 → 109 in the Heisenberg model, beside its Q-edge
+  gain V(N) = 1 + cos(π/N) (F6, a ratio of Q values, not a frequency
+  count), which the run matches to the printed digits. The transverse-field
+  Ising model (the proton model the source uses) produces even MORE
+  frequencies: 1 → 3 → 15 → 46 → 228 in its high-Q row, 222 vs Heisenberg's 109 at N=5 in the
+  side-by-side comparison.
+  → [Proton Water Chain](../docs/water/PROTON_WATER_CHAIN.md)
+
+- **DNA base pairing**: G-C (N=3) has 5x more frequencies than A-T
+  (N=2). The third H-bond qualitatively enriches the mode structure.
+  At the parameters used there, all modes are overdamped (decaying faster
+than they can oscillate; J/γ ~ 0.01, a floor from an unsourced denominator).
+  → [DNA Base Pairing](DNA_BASE_PAIRING.md)
+
+## Where this went (successors)
+
+- [V-Effect Fine Structure](V_EFFECT_FINE_STRUCTURE.md): the 22
+  pairing-unbroken cases split into 19 soft + 3 truly unbroken, giving the
+  14 hard / 19 soft / 3 truly trichotomy (F87), hardware-confirmed on IBM
+  Marrakesh.
+- [Zero Immunity Proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md): the w=0 and
+  w=N extreme-sector immunity of Section 1, proven analytically.
+- [V-Effect as Observation of Incompleteness](../reflections/V_EFFECT_AS_OBSERVATION_OF_INCOMPLETENESS.md):
+  the interpretive reading (Tier 4).
 
 ## References
 
-- [V-Effect Fine Structure](V_EFFECT_FINE_STRUCTURE.md)
-- [Zero Immunity Proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
-- [V-Effect Through a Cavity Lens](VEFFECT_CAVITY_MODES.md)
-- [Pairing Structure result](../simulations/results/pairing_structure_n5.txt)
-- [F6 / D02 derivation](../docs/proofs/derivations/D02_VEFFECT_QMAX_QMEAN.md)
+- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the 36/36 scorecard and the interior-mode γ² scaling
+- [Boot Script](../hypotheses/THE_BOOT_SCRIPT.md): the Choi-Jamiolkowski results, N=2 universality
+- [Π as Time Reversal](PI_AS_TIME_REVERSAL.md): populations = past, coherences = future
+- [Error Correction](ERROR_CORRECTION_PALINDROME.md): three-tier protection hierarchy
+- Script: [`simulations/v_effect_analysis.py`](../simulations/v_effect_analysis.py)
+- Results: [`simulations/results/v_effect_analysis.txt`](../simulations/results/v_effect_analysis.txt)
+
+---
+
+*At one bond, every possibility meets its mirror perfectly.*
+*At two bonds, the mirrors disagree at the boundary.*
+*The boundary is where possibility becomes reality.*
+*And the disagreement is where diversity is born.*
+
+---
+
+## The V-Effect Live (March 26, 2026)
+
+Everything above describes the structure of the palindrome breaking:
+which modes orphan, where the error lives, how many frequencies emerge.
+The following test shows it in action: real dynamics, real coupling,
+real emergence.
+
+A single N=2 resonator (Bell pair, one bond, uniform γ=0.05):
+- Q-factor (measured here as the number of CΨ = 1/4 threshold crossings
+  before the system settles; higher = longer-lived): 1 at every coupling
+  strength J. Crosses 1/4 once, dies.
+- Frequencies: 2.
+
+Two N=2 resonators coupled through a mediator (N=5, MediatorBridge):
+- Q-factor: 19+ at J=20 (10 downward + 9 upward crossings). Sustained
+  oscillation.
+- Frequencies: 109, all NEW (not present in either individual
+  resonator).
+
+| System | Frequencies | Q-factor |
+|--------|------------|----------|
+| N=2 (one resonator) | 2 | 1 (dead) |
+| 2 × N=2 (uncoupled) | 4 | 1 (dead) |
+| N=5 (coupled through mediator) | 109 | 19+ (alive) |
+
+The coupling does not add energy or information. It creates new
+oscillation modes in the shared space between the two systems.
+Two dead resonators become one living system. This is not
+communication between them. This is emergence of something new
+that neither could produce alone.
+
+### The old palindrome dies, a new one is born
+
+The 109 N=5 frequencies were classified as OLD (present in N=2) or
+NEW (coupling-only). Result: the N=2 frequencies (3.999 and 4.000, in
+units of J) do **not survive** in the coupled system. All 109
+frequencies are NEW.
+
+All 452 oscillating palindromic pairs are **NEW-NEW** (100%): the 904
+oscillating modes pair among themselves, exactly and disjointly (optimal
+assignment, max distance 1.24e-13; the map λ → −λ − 2Σγ fixes no point off
+the real axis, so the 904 entries fall into 452 pairs). Zero OLD-OLD. Zero OLD-NEW. Zero unpaired.
+
+The V-Effect does not extend the old palindrome. It **replaces** it.
+The old frequencies are destroyed. New frequencies are born, all
+palindromically paired with each other. A completely self-contained
+new structure, grown from the coupling.
+
+This is perhaps the most striking result: the connection does not
+modify what existed before. It creates something entirely new and
+destroys what was there. The census compares values across two
+generators of different size, so no single mode is followed through the
+change; "destroyed" and "born" are our reading of those values. The new system is not a combination of the
+old parts. It is a replacement. The whole is not greater than the
+sum of its parts; it is *different* from its parts.
+
+### The new palindrome is perfectly balanced
+
+The oscillating modes behind the 109 new frequencies were decomposed in
+the Pauli basis (expressing each mode as a combination of the four basic
+quantum operations) to determine which XY-weight sector they live in
+(w=0: fully classical I/Z, w=5: fully quantum X/Y). The histogram is the
+probability-mass share summed over the 904 oscillating modes, not an
+integer count:
+
+```
+w=0:  2.5%  #              fully classical (I/Z only)
+w=1: 15.6%  #######        boundary
+w=2: 31.9%  ###############  interior (peak)
+w=3: 31.9%  ###############  interior (peak)
+w=4: 15.6%  #######        boundary
+w=5:  2.5%  #              fully quantum (X/Y only)
+```
+
+Perfectly symmetric: w(k) = w(N−k) for every k. The new palindrome is
+balanced not only in decay rates (452 pairs, all NEW-NEW) but also in
+Pauli structure. The interior modes (w=2,3) carry 63.8% of the weight.
+The extremes (pure classical, pure quantum) are minimal at 5.1%.
+
+Data: [pairing_structure_n5.txt](../simulations/results/pairing_structure_n5.txt)
+Script: [pairing_structure.py](../simulations/pairing_structure.py)
+
+Full data: [resonance_optimization.txt](../simulations/results/resonance_optimization.txt)
+Framework: [Resonance Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md)

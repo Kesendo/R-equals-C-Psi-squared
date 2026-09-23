@@ -1,15 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# A finite projected-path information-geometry reading
-
-Current reading: the reported `g=3.36` is a scalar computed on one specified
-projected path with its stated metric and discretization.  It is not evidence
-that the F25 trajectory is a geodesic, nor that a scalar-quarter event is a
-phase or measurement boundary.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical reading:** the exploratory geometric vocabulary below is retained
-as the route to the finite calculation, not as a theorem about all paths.
-
 # Information Geometry: θ as Riemannian Coordinate
 
 <!-- Keywords: information geometry Lindblad, Bures metric CΨ trajectory,

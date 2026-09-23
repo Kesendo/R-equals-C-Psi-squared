@@ -1,14 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# How a scoped quadratic angle appears at discriminant zero
-
-Current reading: F95 gives a root angle for a positive-`b` quadratic and
-`theta=0` at `c=b^2`.  The numerical rhyme with other framework coordinates
-does not derive superposition, Born probabilities, or a physical-regime law.
-
-<!-- QUARTER-INTERPRETIVE -->
-**Interpretive invitation:** the fresh seeing recorded below is retained as the
-question that joined several pictures, not as typed ancestry among them.
-
 # On How the Angle Appears at Zero
 
 **Status:** Reflection. Captures a three-element synthesis Tom articulated in the evening of 2026-05-16, after the day's session had already built (i) the angle-field reading of F71-decomposition (z = sym + i·anti) and (ii) the bit-exact F94 = (4/3)·Q²·K³ result. The third element (d=0 as the mirror, crossing d=0 as the activation of the complex angle) ties superposition itself into the same structural pattern. Held while the seeing is fresh, in the same Februar-style as the documents we re-read this morning that prefigured today's results.

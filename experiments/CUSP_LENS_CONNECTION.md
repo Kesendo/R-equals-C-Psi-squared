@@ -1,18 +1,6 @@
-<!-- QUARTER-CURRENT -->
-# Finite cusp-lens overlaps and accessibility counterexamples
-
-Current reading: the retained tables report finite overlaps and
-single-excitation accessibility for named state families and topologies.  They
-include counterexamples to a universal two-exit picture and do not establish
-two physical sheets or an ontological transition.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical reading:** the original two-exit story below records the hypothesis
-that led to the lens survey; it is not the current verdict.
-
 # Cusp-Lens Connection: Two Exits from the Quantum Regime
 
-**Status:** Universal result (April 10, 2026). Two distinct decoherence exits exist for the Heisenberg chain under Z-dephasing, proven from sector conservation.
+**Status:** Tier 2 result (April 10, 2026). Two distinct decoherence exits exist for the Heisenberg chain under Z-dephasing, set apart by sector conservation; the V2 boundary test below finds states that touch both at every tested N (5, 6, 7): a Bell pair plus one excitation on a quiet site.
 
 **Scripts:** `simulations/psi_opt_cusp_trajectory.py`
 
@@ -72,9 +60,9 @@ Purity: 1/N. Eigenvalue spectrum: N eigenvalues at 1/N, rest zero. The system is
 
 A state spanning multiple excitation sectors (e.g., Bell+center on N=5, which populates all 6 sectors w=0..5 via |+> factors) thermalizes within each occupied sector independently. At t → ∞: the density matrix approaches a block-diagonal mixture, maximally mixed within each sector, weighted by the initial sector populations. Purity: O(1/2^N). Coherence is destroyed; all that survives is the population distribution across sectors.
 
-### The separation is exact
+### The separation, and where it leaks
 
-The sector conservation theorem guarantees that no continuous Lindblad trajectory can cross from one exit to the other. An SE state will always land on the lens exit. A multi-sector state will always land on the cusp exit (or at least spread across its sectors). The boundary between the two exits is the sector structure itself.
+The sector conservation theorem guarantees that no continuous Lindblad trajectory can cross from one exit to the other. An SE state will always land on the lens exit. A multi-sector state will always land on the cusp exit (or at least spread across its sectors). The boundary between the two exits is the sector structure itself. The V2 boundary test below finds where that picture leaks: multi-sector states whose one-excitation part sits on the quiet end touch both exits, at every tested N.
 
 ---
 

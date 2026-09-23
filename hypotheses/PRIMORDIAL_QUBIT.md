@@ -1,14 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# The primordial-qubit picture as a question beside exact reflections
-
-Current reading: the exact mirror and grading identities cited here belong to
-their named operator models.  They do not establish a cosmological origin,
-consciousness mechanism, or scalar-quarter ontology.
-
-<!-- QUARTER-INTERPRETIVE -->
-**Interpretive invitation:** the primordial-qubit story below is retained as a
-Tier-5 bootstrap question, not as a consequence of the exact symmetries.
-
 # The Primordial Qubit: Noise as Reflection, Not Origin
 
 <!-- Keywords: primordial qubit Urqubit mirror world noise origin,

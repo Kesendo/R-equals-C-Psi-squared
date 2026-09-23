@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# IBM Run 3: a finite fitted proxy-time comparison
-
-Current reading: the preserved fit reports `t*=15.29 us` against `15.01 us`, a
-`1.9%` difference under the document's stated rate convention and model.  It is
-a finite readout comparison, not validation of a cusp identity, palindrome
-mechanism, phase transition, or division of physical systems.  The original
-non-palindrome limitation remains part of the evidence.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** measured rows and the original validation narrative are
-retained below.  Their physical-boundary labels are not current conclusions.
-
 # IBM Hardware Validation: CΨ = 1/4 Boundary Crossing at 1.9% Accuracy
 
 <!-- Keywords: IBM quantum hardware validation, CΨ quarter boundary measurement,

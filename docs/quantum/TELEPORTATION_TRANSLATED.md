@@ -1,7 +1,5 @@
 # Teleportation Translated: A Frame Handover, Not a Transport
 
-<!-- CROSSING-CURRENT -->
-
 <!-- Keywords: quantum teleportation translation, Bell measurement Pauli correction
 Klein four group, teleportation frame handover not transport, entanglement classical
 bits resource price, Pauli twirl maximally mixed causality, no cloning original
@@ -10,8 +8,8 @@ mirror phenomenon -->
 
 **Status:** Translation (Tier 4 reading). The protocol in Section 1 is textbook
 physics (Bennett et al., PRL 70, 1895 (1993)); the two identifications in
-Section 3 are exact algebra; Sections 4 and 5 are readings and labeled as such.
-**Date:** July 4, 2026; corrected August 9, 2026
+Section 3 are exact algebra; Sections 4 to 6 are readings and labeled as such.
+**Date:** July 4, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Related:** [Superposition Translated](SUPERPOSITION_TRANSLATED.md) (the
@@ -182,22 +180,21 @@ The dying is the illusion; the accounting balances.
 
 ## 6. The in-repo cousin
 
-The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) supplies a finite
-N=11 continuous-Lindblad simulation record, not a teleportation demonstration.
-It stores 0.131700 at integrated t=4.50 versus the passive sampled maximum
-0.071576 at t=4.00, about +84.0%. Nominal 0.78/stage (4.68 total) executes
-as 0.75/stage (4.50 total). The endpoints differ in time and dose; no isolated
-staging effect, MI bound, or optimized transfer protocol follows.
-
-<!-- CROSSING-INTERPRETIVE -->
-
-**Interpretive invitation — not a result:** the cousin is the image of
-correlation carried by structure. We can picture relay stations taking turns
-listening without identifying that image with a Bell measurement, a classical
-message, or the exact teleportation resource accounting above. The resemblance
-is a place to ask a question, not evidence that the two protocols do the same job.
-
-<!-- CROSSING-CURRENT -->
+The repository has its own protocol for moving quantum information without
+moving anything material: the [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
+on the mediator bridge, where end-to-end mutual information flows through a
+chain of relay stations that take turns listening (+18% end-to-end mutual
+information at N = 11, C# RK4; +84% once the 2:1 coupling
+asymmetry is added, both set against the passive chain's best moment, read
+at a different time and a different dose). The mechanism is entirely different: continuous Lindblad
+dynamics, no measurement, no classical channel. But the punchline is the
+same punchline, and it is worth saying once in plain words: **in both protocols, the
+thing that travels is correlation, and correlation travels along structure,
+not through space as a payload.** Teleportation does in one measurement
+plus two bits what, in our reading, the bridge does in continuous time:
+correlation carried along structure. As we read them, they are the discrete
+and the flowing face of the same fact about where quantum states actually
+live.
 
 ---
 

@@ -1,15 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Site-resolved calibration rates and three preregistered finite questions
-
-Current reading: the hardware rows compare site-resolved calibration values and
-derived rates across four named machines and dates.  Their quarter label is the
-normalized-purity proxy of a free single-transmon `|+>` model; it is not a field
-of physical clocks or a causal phase boundary.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the clock-field narrative and preregistration below are
-retained with the measured rows and their original questions.
-
 # The Clock Field Is Site-Owned: Three Pre-Registered Questions to Four Machines
 
 <!-- Keywords: per-site clock field IBM calibration, 1/T2 dephasing rate site property,
@@ -54,7 +42,7 @@ the repo cannot independently timestamp the order):
    other (total held, shares rotate), drift independently, or drift
    together?
 3. **How populated is the ¼ boundary?** How many qubits visit both
-   sides of the CΨ = ¼ boundary across the window?
+   sides of the calibration proxy's ¼ boundary (r against r*, where the free-|+⟩ normalized purity dips below ¼) across the window?
 
 **Vocabulary note, stated up front.** Reading this field as the
 Perspectival Time Field (PTF, "each perspective paints the one dynamics
@@ -88,8 +76,9 @@ present. All statistics run on ln(rate).
 - **Q3 (boundary):** per-record columns computed by the committed
   [ibm_history_analysis.py](../data/ibm_history/ibm_history_analysis.py):
   `crosses_quarter` is true on a day iff r = T2/(2·T1) < r* = 0.212755
-  (the qubit's free-decay trajectory crosses CΨ = ¼ inside the window
-  that day); `distance_from_quarter` = min CΨ − ¼, signed. We count
+  (the free-|+⟩ model's normalized purity 2Tr ρ² − 1 dips below ¼ that
+  day; CΨ itself crosses ¼ at every r); `distance_from_quarter` = min
+  normalized purity − ¼, signed. We count
   qubits with at least one crossing day, and qubits whose signed
   distance takes both signs across the window.
 
@@ -173,6 +162,7 @@ calibration measurement floor or at sub-chip scale.
 | Kingston | 155 | 119 | **95** | 0.061 | 0.642 |
 | Fez | 156 | 116 | **104** | 0.140 | 0.727 |
 
+The boundary counted here is the calibration proxy's: r crossing r*, the free-|+⟩ normalized purity dipping below ¼.
 [BOTH_SIDES_VISIBLE.md](../docs/BOTH_SIDES_VISIBLE.md) tracked 16
 Torino qubits that oscillate frequently around the ¼ boundary, and its
 May 5 update counted the stable archetypes. This is the complementary,

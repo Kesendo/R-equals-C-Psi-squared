@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# The spectral fold and quadratic cusp are distinct seams
-
-Current reading: a finite N=2 toy can place two scalar coordinates at the same
-number without identifying their mathematical objects.  A centered decay rate
-or Pi-invariant eigenspace does not make each eigenvector Pi-fixed.  The
-specified toy exceptional-point merge, the palindrome center, and the
-recurrence cusp retain separate definitions.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical reading:** the synthesis below records the picture that prompted
-the separation.  Its remaining unity language is not an object identity.
-
 # The Fold and the Cusp: Two Seams, Not One
 
 **Tier:** computed geometry Tier 1 (the two centers and their N-separation); the unity-vs-conservation reading Tier 2 (interpretive, marked).

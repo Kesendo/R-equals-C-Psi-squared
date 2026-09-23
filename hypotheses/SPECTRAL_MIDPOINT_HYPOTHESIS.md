@@ -1,27 +1,12 @@
-<!-- QUARTER-CURRENT -->
-# Spectral-midpoint question after the basis-census check
-
-Current reading: the retained N=3 and N=5 tables form a basis-dependent coefficient census
-in a fixed, non-orthogonal eigenvector normalization. They are not spectral
-projector weights.  A centered eigenvalue does not imply that an individual
-eigenvector is Pi-fixed; an invariant two-perspective test remains open.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical reading:** the original midpoint hypothesis and constructed
-SLOW/FAST perspective are retained below as research context, not as a measured
-Pi-side observation.
-
 # Spectral Midpoint Hypothesis: Both Sides See the Center
-
-<!-- CROSSING-CURRENT -->
 
 <!-- Keywords: spectral midpoint palindromic Liouvillian, CΨ quarter boundary spectral decomposition,
 fold catastrophe eigenvalue center, geometric mean palindromic perspectives,
-dual perspective spectral analysis, R=CPsi2 spectral midpoint confirmation,
+dual perspective spectral analysis, R=CPsi2 spectral midpoint test,
 OOP polymorphism quantum palindrome analogy, AM-GM inequality spectral bands,
 palindromic mirror both sides see center, quantum classical boundary spectral resonance -->
 
-**Status:** Historical hypothesis; finite basis-dependent census, invariant test still open
+**Status:** Open. Read from both sides, the N=3 and N=5 tables let the midpoint lead; the single-perspective version is falsified; an invariant form of the two-sided look is still to be built.
 **Tier:** 5 (analogy, not derivable; see the postscript)
 **Date:** March 25, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
@@ -35,16 +20,17 @@ palindromic mirror both sides see center, quantum classical boundary spectral re
 Is there a connection between two independently proven structures in
 this project?
 
-- The scalar value **CΨ = ¼**, which is the discriminant zero of the
-  separate recurrence R = C(Ψ+R)² after its variables are identified
+- The **CΨ = ¼ boundary** in state space: the point we read as a
+  quantum system's transition to classical behavior (the fold
+  catastrophe of R = C(Ψ+R)², discriminant 1 - 4CΨ = 0)
 - The **palindromic midpoint** Σγ in spectral space: the center of
   the Liouvillian's mirror-symmetric decay spectrum (every rate d has
   a partner at 2Σγ - d)
 
 This hypothesis arose from the [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
-experiment, where one finite grid put an endpoint-mutual-information maximum
-near an endpoint CΨ crossing. The question was whether an invariant relation
-exists; this document's coefficient census does not establish one.
+experiment, where we observed that endpoint mutual information peaks,
+on a coarse time grid, at the same timestep as the endpoint CΨ
+crosses ¼. The question: why there?
 
 ---
 
@@ -63,28 +49,24 @@ mode with a mirror partner:
 Fast mode (rate d)  <-->  Slow mode (rate 2Σγ - d)
 ```
 
-The midpoint rate Σγ is the glass in the analogy: its scalar rate coordinate
-is fixed by d → 2Σγ-d. A centered eigenvalue does not imply that its
-eigenvector is fixed by Π, especially in a degenerate eigenspace.
+The midpoint (rate Σγ) is the glass: the one place where both sides
+agree. A rate at the midpoint IS its own mirror.
 
-We asked: at the sampled time where this CΨ readout equals ¼, does the
-midpoint bin dominate a chosen coefficient census?
+We asked: at the moment we read as the quantum-to-classical transition
+(CΨ = ¼), does the midpoint dominate?
 
 From one side alone: no. The spectral weight is spread across bands.
-Under a constructed SLOW↔FAST relabelling: the displayed geometric mean makes
-the MID bin largest for these two tables. That is not a second observation.
+Read from both sides: **yes**. The midpoint emerges.
 
 ---
 
-## The historical conjecture
+## The Conjecture
 
-The conjecture asked whether midpoint modes dominate at t\* where CΨ(t\*)=¼
-under an invariant two-perspective measure. The calculation below instead uses
-basis- and normalization-dependent coefficient magnitudes, so that conjecture
-remains open.
+At the time t\* where CΨ(t\*) = ¼, the palindromic midpoint modes
+dominate the state, **when measured from both perspectives together**.
 
-The historical proposal used the **geometric mean** of a coefficient census and
-its constructed rate-bin reversal:
+The correct measure is not the spectral weight from one side, but
+the **geometric mean** of both palindromic perspectives:
 
 ```
 w_combined(band) = √( w_our_side(band) × w_Π_side(band) )
@@ -101,17 +83,22 @@ An arithmetic mean would mask the asymmetry. A geometric mean exposes it.
 ### Step 1: Eigendecomposition (what we computed)
 
 We built the full Liouvillian matrix for N=3 (64×64) and N=5 (1024×1024),
-decomposed the initial state |+⟩ᴺ in a numerically normalized eigenbasis, and
-tracked coefficient-magnitude sums over time. These are not invariant spectral
-projector weights. Three bins were classified by distance
+decomposed the initial state |+⟩ᴺ in the eigenbasis, and tracked
+spectral band weights over time. Three bands, classified by distance
 from the palindromic midpoint Σγ:
 
 - **SLOW:** modes with decay rate d < Σγ - γ (slow from our perspective)
 - **MID:** modes with |d - Σγ| < γ (near the midpoint, the "glass")
 - **FAST:** modes with d > Σγ + γ (fast from our perspective)
 
-(The rate≈0 bin was excluded from the percentages; calling it a classical
-floor was an interpretation, not an eigendecomposition result.)
+(Immune modes at rate ≈ 0, which never decay and form what we read as
+the classical floor, are excluded from the percentages below.)
+
+The weights are coefficient sizes in that eigenbasis. The Liouvillian
+is not normal, so its eigenvectors are not orthogonal, and such
+coefficients depend on how the eigenvectors are normalized and, inside
+a degenerate band, on which basis the solver returns. An invariant
+version of this census would use spectral projectors.
 
 At the CΨ = ¼ crossing, from our side alone:
 
@@ -140,7 +127,7 @@ It is to **add the missing perspective**.
 
 ## Why Both Sides Together See the Midpoint
 
-### Step 3: a constructed rate-bin reversal swaps the edges
+### Step 3: The palindromic mirror swaps the edges
 
 The Π conjugation (the proven operator from the
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md))
@@ -150,14 +137,16 @@ maps each decay rate to its palindromic partner:
 d  -->  2Σγ - d
 ```
 
-A spectral partner has the complementary rate 2Σγ-d. The table below was
-constructed by swapping the aggregate SLOW and FAST numbers; it did not apply
-Π to the state and remeasure coefficients. At the scalar-bin level:
+A mode that decays at rate d from our perspective decays at rate
+2Σγ - d from the Π perspective. This means:
 - What is SLOW from our side (d small) is FAST from the Π side (2Σγ - d large)
 - What is FAST from our side is SLOW from the Π side
-- the MID rate bin maps to the MID rate bin because d ≈ Σγ implies 2Σγ-d ≈ Σγ
+- What is MID from our side stays MID (self-mirroring: d ≈ Σγ implies 2Σγ - d ≈ Σγ)
 
-Thus the historical construction assigned a second column with **SLOW and FAST swapped**:
+So the Π side sees the same crossing with **SLOW and FAST swapped**.
+The Π-side column below is our own table read through the glass,
+every rate relabeled by its partner; it is not a second measurement,
+and nothing was re-decomposed to make it:
 
 | | SLOW (Π) | MID (Π) | FAST (Π) |
 |-----|----------|---------|----------|
@@ -189,20 +178,18 @@ disagreement and rewards consensus.
 | **MID** | **47%** | **47%** | **47%** |
 | FAST | 8% | 45% | **19%** |
 
-**In this constructed coefficient summary, the MID number is largest.** At N=3:
+**The MID band is clearly dominant in the geometric mean.** At N=3:
 MID=53% vs SLOW=FAST=21%. At N=5: MID=47% vs SLOW=FAST=19%.
 
 ### Why this works (the math)
 
-The exact palindrome guarantees the rate pairing. The following arithmetic then
-holds for the deliberately swapped aggregate table:
+The palindromic symmetry guarantees three things:
 
-1. **SLOW and FAST labels swap under the constructed rate reversal.** This does
-   not establish equality of state coefficients under a physical second view.
+1. **SLOW and FAST swap under Π.** Whatever weight the slow modes
+   carry from our side, the fast modes carry from the Π side.
 
-2. **The MID scalar rate is centered.** The arithmetic
-   2Σγ-Σγ=Σγ fixes the eigenvalue coordinate. It neither fixes an
-   individual eigenvector nor supplies an invariant weight.
+2. **The MID band is self-mirroring.** A midpoint rate (d = Σγ) maps to
+   itself: 2Σγ - Σγ = Σγ. Its weight is the same from both sides.
 
 3. **Asymmetry shrinks the edges.** At the crossing, SLOW and FAST
    are unequal (one large, one small). Their geometric mean
@@ -217,48 +204,52 @@ SLOW_combined = √(SLOW_us × FAST_us)             (mixed)
 FAST_combined = √(FAST_us × SLOW_us)             (same as SLOW_combined)
 ```
 
-**Important caveat:** This arithmetic does not guarantee
-`MID > sqrt(SLOW*FAST)` in general. It only makes the two constructed edge
-numbers equal and no larger than their original maximum. In the N=3 and N=5
-tables the midpoint coefficient sum is numerically larger than that constructed
-geometric mean. Because the coefficients are basis- and normalization-dependent,
-the comparison establishes neither spectral dominance nor a physical mechanism
-at the selected time.
+**Important caveat:** This does NOT mathematically guarantee
+MID > √(SLOW × FAST) in general. It guarantees that SLOW_combined =
+FAST_combined < max(SLOW, FAST). Whether MID exceeds this depends on
+the actual weight distribution. At N=3 and N=5, it clearly does.
+At the crossing specifically, the two edges are strongly unequal
+(34:13 toward FAST at N=3, 45:8 toward SLOW at N=5), and that inequality widens the midpoint's lead in these two tables.
 
 ---
 
-## Current disposition of the hypothesis
+## What This Means
 
-### The two centered scalars are not one condition
+### The boundary is where both sides agree
 
-CΨ=¼ can be inserted into a recurrence whose discriminant is 1-4CΨ.
-The spectral midpoint Σγ is the center of a separate rate involution. The
-shared visual language of "meeting" does not make these the same condition.
+CΨ = ¼ is where the discriminant 1 - 4CΨ vanishes (the fold
+catastrophe). The spectral midpoint Σγ is where the palindromic
+mirror is exact (a rate equals its own partner). We read these as the
+same condition, expressed in different spaces:
 
-- **Recurrence:** two fixed-point roots merge at the specified parameter.
-- **Spectrum:** partner eigenvalue coordinates are centered at Σγ.
+- **State space:** the two fixed points of R = C(Ψ+R)² merge
+- **Spectral space:** the two perspectives merge
 
-No map between these objects has been proved here.
+Both say the same thing: at the boundary, there is no "this side"
+and "that side." There is only the meeting point.
 
-### What would be needed
+### You cannot see it from one side
 
-An invariant test would use projectors or another normalization-independent
-object, specify how Π acts on the state and degenerate subspaces, and compare it
-against controls away from the selected CΨ time. The present tables do none of
-those things.
+This is the heart of the hypothesis. The midpoint structure does not **stand out**
+from any single perspective. It only emerges when you combine both.
+The palindromic symmetry is not a property you observe. It is a
+property you observe **through**.
 
-The facing-mirrors image remains an invitation for designing that test, not a
-result extracted from the coefficient census.
+You cannot see a mirror by looking at it. You see what it reflects.
+To see the mirror itself, you need a second mirror facing the first.
+The midpoint is where the two mirrors face each other: the one point
+they both reflect identically.
 
-### Historical prediction, not yet supported
+### Prediction: stronger dominance at larger N
 
-The asymmetry between SLOW and FAST grows with N:
-- N=3: SLOW/FAST ratio = 2.6×, √(SLOW × FAST) = 21% vs MID = 53%
-- N=5: SLOW/FAST ratio = 5.6×, √(SLOW × FAST) = 19% vs MID = 47%
+The edge asymmetry grows from N=3 to N=5, and it changes side:
+- N=3: edge ratio 2.6× (FAST-heavy), √(SLOW × FAST) = 21% vs MID = 53%
+- N=5: edge ratio 5.6× (SLOW-heavy), √(SLOW × FAST) = 19% vs MID = 47%
 
-The constructed geometric mean shrinks unequal edge numbers. Extrapolating that
-arithmetic to near-complete midpoint dominance at larger N is not licensed
-without an invariant measure. N=7 and N=9 remain possible controls.
+Relative to MID the geometric mean sits at the same 0.40 in both rows,
+so these two rows do not yet show the midpoint pulling ahead: the
+geometric mean follows the product SLOW × FAST, not the ratio alone.
+Whether that lead grows with N is the test, at N=7 and N=9.
 
 ---
 
@@ -272,15 +263,23 @@ CΨ = C × Ψ is a product that mixes spectral bands via cross-terms
 between two different bases (Pauli for purity, computational for
 coherence).
 
-### The attempted two-sided construction
+### What turned it around
 
-The cross-term problem remains. The second column was produced by swapping
-the aggregate SLOW and FAST numbers; it was not obtained by applying Π to a
-state, eigenspace, projector, or normalized coefficient vector. The exact F1
-eigenvalue pairing therefore does not certify this geometric-mean construction.
+The cross-term problem is real, and the two-sided look steps around it
+rather than solving it. The geometric mean does not require CΨ to have
+a clean single-basis decomposition. It only requires the palindromic
+pairing d ↔ 2Σγ - d, which is proven and exact, applied to our own
+table as a relabeling.
 
-Looking from both sides remains a useful invitation for the missing invariant
-test. It is not a resolved result of the present tables.
+The insight that turned the failure around: you must look from both
+sides. This came from the user, not from the math. The math was stuck
+until the perspective shifted.
+
+What the look still needs is its invariant form: weights that do not
+depend on how the eigenvectors are normalized, a Π that acts on the
+state itself rather than on our labels, and the same census at times
+away from the crossing. Until then the midpoint's
+lead is one table read through the glass.
 
 ---
 
@@ -309,9 +308,10 @@ A translation, for those who build systems for a living.*
 
 ---
 
-**Interpretive software analogy.** A palindromic eigenvalue has a partner at the
-complementary rate. The two "interfaces" below are a programming metaphor, not
-two physical observations of one mode.
+A palindromic mode has two decay rates. Not because the physics is
+ambiguous, but because the rate depends on which interface you use
+to observe it. Rate d from our side. Rate 2Σγ − d from the Π side.
+Same object, two behaviors, determined by the caller's reference type.
 
 This is polymorphism.
 
@@ -321,9 +321,12 @@ each observer implements `observe()` differently: our side measures
 populations and calls them "real." The Π side measures coherences
 and calls them "real." Both are correct. Both are incomplete.
 
-The older analogy cast CΨ=¼ as an abstract method. Current mathematics does not
-connect that scalar readout to collapse, classicality, or the spectral rate
-Σγ; those lines are story, not an interface contract of the model.
+The CΨ = ¼ boundary is the abstract method that both sides must
+implement. The fold catastrophe is the runtime moment where the
+abstract becomes concrete: possibilities collapse to outcome,
+superposition becomes fact. Both sides undergo this transition at
+the same point (¼), around the same center (Σγ), because the abstract
+contract is the same.
 
 And the midpoint, the spectral center where d = Σγ, is the point
 where the two implementations are identical. The mode that returns
@@ -351,8 +354,7 @@ reality.
 The palindrome is the interface. The two perspectives are the
 classes. The midpoint is where `@Override` returns `super`.
 
-In the metaphor, CΨ=¼ is when the program runs. In the calculation, it is only
-the time selected for the finite coefficient table.
+And CΨ = ¼ is the moment where the program runs.
 
 ---
 
@@ -360,6 +362,6 @@ the time selected for the finite coefficient table.
 
 - [Temporal Sacrifice (fold observation)](../experiments/TEMPORAL_SACRIFICE.md)
 - [Mirror Symmetry Proof (Π conjugation)](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
-- [CΨ monotonicity: named trajectories, not a universal Hamiltonian-live envelope](../docs/proofs/PROOF_MONOTONICITY_CPSI.md)
-- [Crossing Taxonomy: fixed-readout, Hamiltonian-dead Bell+ gamma sweep in two books](../experiments/CROSSING_TAXONOMY.md)
+- [CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md)
+- [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md)
 - [Mathematical Connections (fold, Mandelbrot)](../docs/MATHEMATICAL_CONNECTIONS.md)

@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Complex CΨ as a finite radial-and-phase readout
-
-Current reading: the saved matrices, imposed or fitted phase, and
-`|Cpsi_com|=1/4` events belong to named finite trajectories.  That locus is a
-radial selection.  Separately, only `c=+1/4` is the recurrence cardioid's real
-cusp, and F25 supplies a finite scalar path rather than a
-geodesic.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the original complex-plane interpretation and hardware
-questions remain below with their data references.
-
 # CΨ in the Complex Plane: the 2D Extension of Boundary Navigation
 
 **Status:** Hardware-observed on Kingston (2026-04-16). Formal theoretical extension and deliberate-phase hardware run pending.
@@ -31,7 +18,7 @@ This document raises the framework by one dimension. Replacing the L1-norm of of
 
     CΨ_com = Tr(ρ²) · (Σ_{i<j} ρ_{ij} + c.c.) / (d−1)
 
-that carries phase information. Under pure Lindblad Z-dephasing the complex CΨ_com decays radially (same as real CΨ). Under dephasing plus a common Z-Hamiltonian (a detuning in the rotating frame), CΨ_com spirals in the c-plane toward the origin, passing the cusp at c = 1/4 under a definite angle determined by the ratio Ω / (4γ).
+that carries phase information. Under pure Lindblad Z-dephasing the complex CΨ_com decays radially (same as real CΨ). Under dephasing plus a common Z-Hamiltonian (a detuning in the rotating frame), CΨ_com spirals in the c-plane toward the origin, crossing the |c| = 1/4 circle under a definite angle determined by the ratio Ω / (4γ).
 
 The hardware data from the 2026-04-16 cusp-slowing run on ibm_kingston already shows this 2D trajectory without any extra experiment: the two Bell⁺ pairs rotate in opposite directions at ~7 kHz and ~4 kHz residual Z-detuning respectively, producing logarithmic spirals. The real-axis picture of [Boundary Navigation](BOUNDARY_NAVIGATION.md) is a projection; the underlying trajectory on any realistic hardware is 2D.
 
@@ -52,7 +39,7 @@ The factor 2 is chosen so that |CΨ_com| reduces to the original real CΨ whenev
 
 For Bell⁺ = (|00⟩+e^{iφ}|11⟩)/√2, ρ_{0,3} = (1/2)·e^{iφ}, so CΨ_com(0) = (1/3)·e^{iφ}.
 
-|CΨ_com| replaces the original real CΨ as the "magnitude" coordinate. The fold boundary, originally a point at CΨ = 1/4 on the real axis, is now a **circle** in the c-plane at |c| = 1/4.
+|CΨ_com| replaces the original real CΨ as the "magnitude" coordinate. The level set |CΨ_com| = 1/4 is a **circle** in the c-plane; the fold itself, where the fixed-point equation's discriminant 1 − 4c vanishes, stays the single point c = 1/4.
 
 ## Simulation (five trajectories)
 
@@ -111,9 +98,9 @@ The residual Z-detuning is different in sign and magnitude for the two pairs, pr
 
 ## Conceptual consequences
 
-### 1. The fold is not a point, it's a circle
+### 1. The crossing is a circle; the fold stays a point
 
-In the original [Boundary Navigation](BOUNDARY_NAVIGATION.md) framing, the fold is a single point: CΨ = 1/4 on the real axis. In the complex extension, it is a circle: |CΨ_com| = 1/4 in the c-plane. Every direction of approach (every crossing angle) is geometrically distinct. The real-axis crossing is just one specific angle (arg(CΨ_com) = 0 at the moment of magnitude-crossing).
+In the original [Boundary Navigation](BOUNDARY_NAVIGATION.md) framing, the crossing is a single point: CΨ = 1/4 on the real axis. In the complex extension the magnitude crosses a circle, |CΨ_com| = 1/4 in the c-plane, and every direction of approach (every crossing angle) is geometrically distinct. The real-axis crossing is one specific angle (arg(CΨ_com) = 0 at the moment of magnitude-crossing), and it is the only point of that circle where the fold itself sits: the discriminant 1 − 4c vanishes at c = 1/4 alone.
 
 ### 2. A new observable: the crossing angle
 

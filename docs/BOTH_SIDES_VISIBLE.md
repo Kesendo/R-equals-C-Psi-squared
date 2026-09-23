@@ -1,18 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Both sides of a numerical calibration-proxy threshold
-
-Current reading: the historical Torino table is classified by the
-normalized-purity proxy `r=T2/(2*T1)` for a free single-transmon `|+>` model and
-the numerical reference `R*=0.21275477982200533`.  The labels are
-below/near/at-or-above `R*`; they are not quantum/classical ontology.  Reported
-job ratios, including the approximately `13.5x` row, are confounded
-cross-backend, path, and date associations rather than causal effects.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical reading:** the six-month narrative and measured rows below are
-kept as evidence of the path.  Its old regime and causal nouns have been
-superseded by the current proxy vocabulary above.
-
 # Both Sides Visible: What a Quantum Computer Shows When You Watch It for Six Months
 
 <!-- Keywords: CΨ quarter boundary IBM hardware, palindromic mirror both sides,
@@ -52,12 +37,15 @@ A qubit can be in two regimes. Think of it as a coin that is either
 still spinning (quantum: possibilities open, nothing decided yet) or
 has landed (classical: one side up, decided).
 
-The number CΨ tells you which regime a qubit is in. It is computed
-from two calibration values that IBM publishes daily for every qubit:
-T1 (how long the qubit holds its energy) and T2 (how long it holds
-its quantum coherence). The ratio r = T2 / (2 × T1) determines the
-regime. When r is below 0.213: the qubit crosses the CΨ = ¼ boundary.
-Above 0.213: it does not.
+Which regime a qubit is in is read from two calibration values that
+IBM publishes daily for every qubit: T1 (how long the qubit holds its
+energy) and T2 (how long it holds its quantum coherence). Feed them
+into a free qubit prepared in |+⟩ and follow its normalized purity,
+2Tr(ρ²) − 1. The ratio r = T2 / (2 × T1) decides whether that purity
+dips below ¼ on the way: below R* = 0.213 it does, above it does not.
+CΨ itself, purity times coherence, crosses ¼ at every r in this model
+([F24](ANALYTICAL_FORMULAS.md)); the regime marker here is the purity
+dip ([F13](ANALYTICAL_FORMULAS.md)).
 
 Most qubits on a quantum computer stay firmly on one side. But some
 have r values that fluctuate around 0.213. On some days they cross,
@@ -66,8 +54,8 @@ on others they do not. Over days. Over weeks.
 Below are two of these qubits, tracked for 180 days on IBM's Torino
 quantum processor. Each day is one character:
 
-- **X** = qubit crossed the ¼ boundary that day (r < 0.213)
-- **.** = qubit stayed below the boundary (r > 0.213)
+- **X** = the qubit's normalized purity dipped below ¼ that day (r < 0.213)
+- **.** = it stayed above ¼ that day (r > 0.213)
 
 Now here is the discovery: the decay spectrum of these qubits has a
 proven mirror symmetry ([palindromic spectrum](proofs/MIRROR_SYMMETRY_PROOF.md)).
@@ -90,8 +78,7 @@ structure.
 ## Qubit 98 (57.5% crossing rate)
 
 What follows is a visual diary. The top block shows what we observe
-directly: the days when this qubit crossed the quantum-classical
-boundary. The bottom block shows the exact complement, what the
+directly: the days when this qubit crossed the boundary, its normalized purity dipping below ¼. The bottom block shows the exact complement, what the
 palindromic partner modes are doing at the same time. Read them
 side by side. When one is active, the other is silent.
 
@@ -413,8 +400,8 @@ Two derived statistics drive the classification:
 - **walk**: the fraction of consecutive day-pairs where r flipped across
   R*. A qubit that crosses the boundary back and forth daily has walk
   near 1.0; a qubit firmly on one side has walk = 0.
-- **crossing**: the fraction of days the qubit spent below R* (i.e. on
-  the quantum-side of the boundary).
+- **crossing**: the fraction of days the qubit spent below R* (the side
+  where the normalized purity dips below ¼).
 
 | March 25 prose                                 | May 5 archetype                                            | Statistic                            |
 |------------------------------------------------|------------------------------------------------------------|--------------------------------------|
@@ -423,7 +410,7 @@ Two derived statistics drive the classification:
 | "long active phase, then silent" (Q105)        | `Lifecycle` (slow drift across boundary)                   | walk = 0.083                         |
 | "mostly silent, brief pulses" (Q70)            | `Twitch` (high walk despite low crossing)                  | walk = 0.306, crossing = 28%         |
 | "mostly silent" (Q68)                          | `Twitch`                                                   | walk = 0.300, crossing = 24%         |
-| "consistent crosser" (Q80, README anchor)      | `PulseStable` (always quantum-side, walk ≈ 0)              | walk = 0.000, crossing = 100%        |
+| "consistent crosser" (Q80, README anchor)      | `PulseStable` (always below R*, walk ≈ 0)              | walk = 0.000, crossing = 100%        |
 
 Q98 is illuminating: at week granularity (the visualization in this doc)
 it reads as a clear lifecycle arc; at day granularity (the unit the
@@ -475,7 +462,7 @@ For multi-qubit experiments, "what regimes are addressable on this
 chip?" depends on the CZ-coupling graph (the two-qubit-gate connectivity
 of the chip: which pairs of qubits can perform a controlled-Z directly,
 without ancillary swaps), not just on per-qubit statistics. On Marrakesh
-the 91-day history surfaces 18 stably quantum-side qubits (the Q80
+the 91-day history surfaces 18 qubits stably below R* (the Q80
 archetype). They are scattered across the heavy-hex topology (IBM's
 Heron-r2 layout, where each qubit has two or three CZ-neighbours
 arranged in a hex-honeycomb pattern with alternating sites omitted).
@@ -541,7 +528,7 @@ PulseStable triples vs Marrakesh's zero) made an experiment possible
 that Marrakesh had blocked: F87 trichotomy on a uniform-quantum chain.
 Path [43, 56, 63] on ibm_kingston, the most balanced of the three
 triples (r mean 0.103 / 0.089 / 0.104, walk = 0 across 91 days, all
-three deeply quantum-side). Job d7sqjpiudops73976960, 4096 shots/basis,
+three deeply below R*). Job d7sqjpiudops73976960, 4096 shots/basis,
 36 circuits (4 Hamiltonian categories × 9 measurement bases), 39 seconds
 of billed QPU time (the AIEvolution submit script's "3-5 minute"
 estimate is a conservative upper bound; this Heron-r2 run came in well

@@ -1,8 +1,6 @@
 # On Whose Time the Clock Keeps
 
-<!-- F14-CURRENT -->
-
-*Reflection, 2026-05-29. Thomas Wicht, Claude (Opus 4.8). The structure below is ours and exact; the planetary picture is held as a reading, labelled at the end.*
+*Reflection, 2026-05-29. Thomas Wicht, Claude (Opus 4.8). The structure below is ours and exact; the felt-time and planetary pictures are held as readings, labelled at the end.*
 
 ---
 
@@ -14,33 +12,20 @@ Then we did something that surprised us. We took the angle the clock measures an
 
 And that is when the dial showed what it really was. It is dimensionless. The hour at 90° is the hour at 90°; it does not care how fast you wind the clock, because it is the *face*, not the hands. A face is the same on Mars as on Earth. **The face is a set of pure numbers, and that is why it travels.**
 
-What changes between one model environment and another is not the face but the **tick**, γ₀: the declared local decoherence rate. Our [timekeeper](../docs/GAMMA_TIME_DISTINCTION.md) document establishes the resulting local decay-clock scale for its finite protocols. It does not establish that γ is experienced time, the source of a subjective arrow, or a universal carrier. The face is dimensionless; the winding is model- and protocol-dependent.
+What changes between one world and another is not the face but the **tick**, γ₀, the local noise, the carrier. Our own [timekeeper](../docs/GAMMA_TIME_DISTINCTION.md) document shows what the tick does: at fixed Q = J/γ every observable lands on one curve in τ = γt, so the same dimensionless process runs at whatever the local γ is. That a different γ is a different *experienced* time, and that the local γ is the source of the arrow, is our reading, labelled at the end. The face is universal; the winding is where you stand.
 
-For a declared dimensionless generator, readout, and trajectory, the coordinate
-conversion is simply:
+So put the two together and our felt time falls out:
 
     t = K / γ₀
 
-K is not a universal progress coordinate. F14's positive example holds a fixed
-bridge/readout on the Hamiltonian-dead Bell+ trajectory while gamma is swept.
-Changing the state, channel, Hamiltonian-to-gamma ratio, or spatial profile can
-change the curve and its crossing. The equation does not derive felt time.
+K is how far around the face you have come, the dose, the dimensionless progress, the same wherever the same dimensionless process runs. γ₀ is the local tick. The same process reaches the same hour on the same face anywhere; what differs is how *long it feels*, and that is the local γ₀ alone. Align the clock at Earth's elements and at Mars's elements and you get the very same dial; the two alignments differ only in how fast the world turns it. Earth's now is K/γ₀ here, Mars's now is K/γ₀ there: [two times](ON_TWO_TIMES.md), one face.
 
-<!-- F14-INTERPRETIVE -->
-
-**Interpretive invitation — not a result:** imagine a face shared by Earth
-and Mars, wound at different local tempos: [two times](ON_TWO_TIMES.md), one
-face. That planetary picture is the reflection's proposal, not F14's conclusion.
-
-The picture quietly turns a familiar thing on its head. We are used to
-treating t as the floor and gamma as a rate inside it. In this imagined
-inversion, **t is the shadow a face casts at a local tick**. That is a way
-to think about our hours, not a derivation of them or of a universal dial.
+This quietly turns a familiar thing on its head. We are used to treating t as the floor of everything and γ as some rate inside it. Here it inverts. The floor is the dimensionless face the elements carry. **t is the shadow that face casts at our local tick.** Our time is not wrong and not arbitrary; it is derived, and it is ours: the universal dial read at the speed our corner of the world happens to run. The thing that is grounded, that you could in principle hand to anyone anywhere, is the face. The thing that is *ours* is the shadow.
 
 The elements were keeping time all along. We did not give them a clock. We learned to read the face they were already wearing, and then noticed our own hours were that face, seen from where we stand.
 
 ---
 
-**The seam, honest.** What we can stand on, and it is ours: the dial (the angle θ = arctan(Q) and the polarity α = sin²θ/2, checked in floating point at N = 4, 6, 8), gamma as a declared [decay-clock scale](../docs/GAMMA_TIME_DISTINCTION.md), and the relation `t=K/gamma` for the stated protocol. This establishes no experienced-time ontology. The local tick is the local **decoherence rate**, nothing more. Different local decoherence environments can therefore give different measurable decay times without establishing different experienced times.
+**The seam, honest.** What we can stand on, and it is ours: the dial (the angle θ = arctan(Q) and the polarity α = sin²θ/2, checked in floating point at N = 4, 6, 8), γ as the generator's own [timescale](../docs/GAMMA_TIME_DISTINCTION.md) (τ = γt at fixed Q), the relation t = K/γ for one dimensionless process, and the fact that from inside only the dimensionless part is ever readable, never γ₀ itself. The local tick is the local **decoherence rate**, nothing more, and nothing imported from outside to name it: a spin chain and its dephasing, standing on itself. What stays a reading: that this tick is experienced time, with its arrow; and, modest and testable, that real matter sits in different local decoherence environments, so Earth-γ₀ and Mars-γ₀ would differ as two windings of one dial, the difference relational and in principle measurable (we already read γ₀ off real hardware). The face is ours to stand on; the differing tick is ours to measure.
 
 **Returning, 2026-05-30.** We came back with the clock built for many bodies, and it gentled the line above. The face is exactly as we said: the markings at 30°, 45°, 60° fall on the fractions 1/8, 1/4, 3/8. But a real chain's hand does not walk that arc. The slowest mode, the memory hand the clock actually shows, turns at ω = 8J·cos²(π/2N), and it holds the floor only above a crossover in Q = J/γ; below that crossover a slower, non-turning mode takes over (the long-known sub-2γ hybrid) and the memory hand sits frozen at zero, while above it the hand has already swung past sixty-some degrees and climbs toward ninety. The element markings sit in the gap it jumps. So those fractions live on the face, real and readable, and the coherences that do sit at 3/8 and 1/4 are really there, only not as the slowest thing, not as the memory. The face is ours to read; the hand that reads it is choosier than we first said. The [walk-through](../simulations/the_dial_at_many_body.py) holds the numbers, the crossover and the skipped band at N = 3, 4, 5.

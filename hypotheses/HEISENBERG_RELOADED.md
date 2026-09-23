@@ -1,13 +1,5 @@
 # Heisenberg Reloaded: The Math Was Always Below
 
-**Interpretive invitation — not a result:** the Level-0/Level-1 inheritance
-story is a synthesis to explore. The finite V-Effect census does not derive
-atomic multiplicity or pump the Heisenberg exchange from another level.
-
-Precision fence: the N=3 distinct-pair census has **14/36** hard cases. The
-retained **four-decimal** bin comparison is **11/4**; a separate coarser
-**three-decimal** side table reads **8/4**.
-
 **Status:** Sketch / synthesis (Tier 4-5). Draft assembled 2026-04-25 from the combined picture of PRIMORDIAL_QUBIT + ZERO_IS_THE_MIRROR + HIERARCHY_OF_INCOMPLETENESS + V-Effect + WE_ARE_THE_FRAGMENT. Not yet expanded to full-document length.
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
@@ -19,11 +11,11 @@ retained **four-decimal** bin comparison is **11/4**; a separate coarser
 
 ## Abstract
 
-The textbook narrative places the Heisenberg coupling J σ_1 · σ_2 at Level 1 (atoms): two electrons in neighboring orbitals, Coulomb + Pauli exclusion → effective spin exchange → Heisenberg. This document inverts the direction. The Heisenberg form is forced at Level 0 (single qubit) by the C²⊗C² parity structure of the Pauli algebra: it is the unique 2-body bilinear that respects both Z₂ symmetries (bit_a parity, bit_b parity) of the primordial qubit. The atomic-level "exchange interaction" does not generate the math. It inherits it through the V-Effect transition, the same V-Effect that gives atoms their open valences and selects boundary modes for chemistry while keeping extreme modes as inert cores.
+The textbook narrative places the Heisenberg coupling J σ_1 · σ_2 at Level 1 (atoms): two electrons in neighboring orbitals, Coulomb + Pauli exclusion → effective spin exchange → Heisenberg. This document inverts the direction. The Heisenberg form's family is selected at Level 0 (single qubit) by the C²⊗C² parity structure of the Pauli algebra: demand both Z₂ symmetries (bit_a parity, bit_b parity) of the primordial qubit, and the 2-body bilinears left are XX, YY and ZZ, the XYZ family with Heisenberg at its symmetric point. The atomic-level "exchange interaction" does not generate the math. In this reading it inherits it through the V-Effect transition, the same V-Effect that gives atoms their open valences, its error living in the boundary blocks while the extreme blocks stay clean, as inert cores.
 
 The reason "everything works" (magnetism, condensed-matter physics, every level above Level 0 that recovers J σ_1 · σ_2 from a different mechanism) is precisely this inheritance. When we measure Heisenberg dynamics on IBM superconducting qubit hardware, we are not simulating an atomic-level model; we are reading the Level 0 algebra directly. The transmons, the Josephson junctions, the entire Level-1+ infrastructure are carriers; the algebra they carry is older.
 
-What we know with certainty: the algebra forces inheritance. The math at Level 0 selects {II, XX, YY, ZZ} as the unique both-parity-even 2-body operators, [L, Π²] = 0 holds for all N, and the V-Effect mechanism between palindromic qubit pairs orphans 14 of 36 boundary modes while keeping extreme modes immune. What we have not done: zoomed in on the V-Effect transition itself. The math is our witness that inheritance works, not a direct observation of the bridge.
+What we know: the math at Level 0 selects {II, XX, YY, ZZ} as the unique both-parity-even 2-body operators, [L, Π²] = 0 holds for all N, and at N = 3 the palindrome breaks for 14 of 36 two-term bond combinations, its error living in the boundary blocks while the extreme blocks stay clean. That this is inheritance is our reading. What we have not done: zoomed in on the V-Effect transition itself. The math is our witness that inheritance works, not a direct observation of the bridge.
 
 ---
 
@@ -61,7 +53,7 @@ This inversion changes what counts as "explanation":
 
 | Question | Textbook answer | R = CΨ² answer |
 |----------|-----------------|----------------|
-| Why σ_1 · σ_2 form? | SU(2) of spin-1/2 + bilinear | Unique both-parity-even 2-body in C²⊗C² |
+| Why σ_1 · σ_2 form? | SU(2) of spin-1/2 + bilinear | The two parities leave the XYZ family in C²⊗C²; SU(2) picks its symmetric point |
 | Why does it work for magnetism? | Magnetism is collective spins | Magnetism inherits from Level 0 |
 | Why does it work for IBM qubits? | Engineered to mimic atomic spin | On this reading, IBM qubits carry the Level-0 algebra directly (Tier 4-5; the Level-0→Level-1 inheritance is asserted, not traced, see §8) |
 
@@ -92,7 +84,7 @@ With SU(2) (rotational) invariance: α_X = α_Y = α_Z. → Heisenberg J(XX + YY
 
 Without SU(2) but keeping bipartite-axis symmetry: α_X = α_Y ≠ α_Z. → XXZ J(XX + YY) + ΔJ ZZ.
 
-Both forms are forced by the same selection: respect both Z₂ parities. **The Heisenberg/XXZ family is not a choice; it is the unique 2-body coupling that the primordial qubit's algebra admits.**
+Both forms come from the same selection: respect both Z₂ parities. **The XYZ family α_X XX + α_Y YY + α_Z ZZ is not a choice; it is the unique 2-body coupling that respects both parities, and Heisenberg and XXZ are its symmetric members.**
 
 What is *forbidden* by the same selection:
 
@@ -103,32 +95,35 @@ What is *forbidden* by the same selection:
 - ZY, YZ (mixed two-body): break bit_a parity.
 - ZX, XZ (mixed two-body): break both, since Z is (0, 1) and X is (1, 0).
 
-Any of these added to H produces [L, Π²] ≠ 0 or [L, n_XY-parity] ≠ 0, breaking the C²⊗C² doubling. The Heisenberg/XXZ family is exactly the set of Hamiltonians that preserves the doubling.
+Any of these added to H produces [L, Π²] ≠ 0 or [L, n_XY-parity] ≠ 0, breaking the C²⊗C² doubling. The XYZ family, with Heisenberg and XXZ as its symmetric members, is exactly the set of 2-body couplings that preserves the doubling.
 
-[the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md) makes the analytic statement: [L, Π²] = 0 for any N, any J, any subset of sites carrying γ. The proof is six lines. The Heisenberg form is what makes the proof work.
+[the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md) makes the analytic statement: [L, Π²] = 0 for any N, any J, any subset of sites carrying γ. The proof is six lines. The parity-even form, the XYZ family, is what makes the proof work.
 
-## §4. A proposed bridge between levels
+## §4. The V-Effect bridge between levels
 
-Where does a material coupling strength J come from? Textbook exchange physics answers that question in its material model. The following V-Effect comparison is an interpretive bridge candidate, not an alternative derivation.
+The form of the coupling is fixed at Level 0, up to the XYZ family. But the *coupling strength* J at Level 1 is not. Where does J come from? From the **V-Effect transition** between levels.
 
 The V-Effect ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md)):
 
-- Compare the named disconnected and connected finite generators.
-- In the N=3 distinct-pair routing census, 14 of 36 Hamiltonian pairs are hard, 19 soft, and 3 truly.
-- A separate binning fixture reads 11/4 at four decimals and 8/4 at three decimals; Hamiltonian and dephasing profile change together, so it does not isolate the added bond as a cause.
-- The finite classification labels spectral pairing behavior. It does not identify transported eigenmodes, atomic descendants, or core/valence states.
+- Take two pairs of qubits, each pair palindromic.
+- Connect through a shared element.
+- At N = 3, 14 of 36 two-term bond combinations break the palindrome.
+- In the XX+XY case, 4 frequencies become 11 against XX+YY (8 at three-decimal bins), a different bond term on the same two bonds.
+- Topological: counted against a tolerance, 54 of 64 modes lose their partner by α ≈ 0.02.
+- Metric: error grows smoothly with α.
+- The error lives in the boundary blocks (XY-weight 1, 2) and between them and the extremes; the extreme blocks themselves (weight 0, 3) carry none.
 
 Mapping to Level 1:
 
 | V-Effect concept | Level 1 manifestation |
 |------------------|----------------------|
-| Finite hard/soft/truly routing labels | Question: is there any controlled atomic reduction? |
-| XY-weight sectors in the model | Question: can a specified material observable inherit them? |
-| Model bond parameter α | Distinct from a material exchange integral until derived |
-| Resolution-dependent frequency-bin counts | Do not establish atomic state multiplicity |
-| Approximate pair-sum residual | Does not establish shell memory |
+| Boundary modes orphan (w=1, 2) | **Valence electrons** (chemically active) |
+| Extreme modes immune (w=0, 3) | **Core electrons** (inert, frozen) |
+| Bond strength α | Orbital overlap → exchange integral J |
+| 4 → 11 frequencies | Atomic state multiplicity |
+| Pair sum within 1% of palindromic | Open-valence "memory" of the closed shell |
 
-The conjectural image is that J might quantify a cross-level bridge. The current evidence does not show that: the magnitude and sign of a material J come from the specified exchange model, not from the finite V-Effect census.
+In this reading the Heisenberg coupling J at Level 1 is the strength with which the V-Effect transition pumps the inherited Level-0 algebra. The form (XX + YY + ZZ) comes from below; the magnitude and sign of J come from this specific bond.
 
 **What we have not done:** zoomed in on the V-Effect transition between Level 0 and Level 1. We have:
 
@@ -143,7 +138,7 @@ We have *not*:
 - Identified which Level 1 atomic modes are V-Effect-orphaned descendants of which Level 0 boundary modes.
 - Measured the bridge directly.
 
-The shared algebra motivates the question; it is not a witness that physical inheritance works. Constructing and testing the reduction is open work.
+The math is our witness that the inheritance works, as far as a witness goes: it selects the form, it does not trace the bridge. Direct observation of the bridge is open work.
 
 ## §5. Why everything works: C = 0.5 as universal pass-through
 
@@ -173,12 +168,12 @@ Specific data points:
 |-----|-------------------|------------------------------|
 | Kingston Heron r2 (2026-04-24, [IBM Receiver Engineering Sketch](../experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md)) | bonding:2 / alt-z-bits = 2.80× | Receiver-engineering F65-F76 reads bonding-mode amplitudes directly |
 | Marrakesh Heron r2 (2026-04-25, [IBM K-Partnership Sketch](../experiments/IBM_K_PARTNERSHIP_SKETCH.md)) | K-partnership Δ/mean 15-46% on hardware vs 0.02-0.25% on Aer | Bipartite K-symmetry preserved on noisy hardware; gap = γ-profile asymmetry |
-| Bell+ tomography (multi-run, F57 anchor) | K_dwell = 1.0801 universal | Direct Level-0 invariant on 2-qubit pure state |
+| Bell+ trajectory (F57 anchor; ibm_kingston 2026-04-16) | K_dwell/δ = 1.0801 in the Bell+/pure-Z closed form; the hardware pairs read 0.649 and 0.694 | A Bell+-specific constant, γ-independent in its own book |
 | IBM Run 3 ([IBM Run 3 Palindrome](../experiments/IBM_RUN3_PALINDROME.md)) | CΨ crosses 1/4 at 1.9% error | The 1/4 fold (UNIQUENESS_PROOF, Level 0) directly visible on hardware |
-| 24,073 calibration records ([IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)) | r* threshold at 0.000014 precision | Statistical signature of palindromic structure across calibration history |
+| 24,073 calibration records ([IBM Hardware Synthesis](../experiments/IBM_HARDWARE_SYNTHESIS.md)) | the calibration proxy's r* = 0.2128, each record classified to a resolution of 0.000014 | A threshold of the purity proxy, not a reading of the palindrome |
 | Inside-Outside ([Primordial Qubit](PRIMORDIAL_QUBIT.md) Sec 9) | Only Q = J/γ measurable, not J or γ alone | Inside observer cannot separate the two readings of the doubling |
 
-**Reading:** the agreement between Aer (pure algebra) and hardware (algebra + γ-profile noise) at the Level-0 invariants tells us that the algebra propagates through Level 1+ without distortion. Discrepancies show up exactly where they should: in the magnitude of γ-profile asymmetry (which is Level 1 specific), not in the form of the palindrome (which is Level 0 universal).
+**Reading:** the agreement between Aer (pure algebra) and hardware (algebra + γ-profile noise) at the Level-0 invariants tells us, as we read it, that the algebra propagates through Level 1+ with its form intact. Discrepancies show up exactly where they should: in the magnitude of γ-profile asymmetry (which is Level 1 specific), not in the form of the palindrome (which is Level 0 universal).
 
 This section requires a deeper review of the existing IBM data with the Level-0-as-primary lens. Open work item.
 
@@ -190,7 +185,7 @@ The "+−" alternation of antiferromagnetism is not an emergent property of many
 
 **For interpretation of chemistry:**
 
-Carbon's "magic" 4/8 valence is not a fortunate accident of atomic shell structure. It is C = 0.5 at Level 1, i.e., the inherited Level-0 condition that opens the V-Effect bridge to Level 2 (molecules). Other half-shell-occupied atoms (e.g., manganese 7/14) play analogous roles at their own levels.
+Carbon's "magic" 4/8 valence is not a fortunate accident of atomic shell structure. It is C = 0.5 at Level 1, i.e., the inherited Level-0 condition that opens the V-Effect bridge to Level 2 (molecules). Other half-shell-occupied atoms (e.g., manganese, 5 of 10 in its 3d shell) play analogous roles at their own levels.
 
 **For interpretation of quantum hardware:**
 
@@ -214,7 +209,7 @@ Anything that breaks the C²⊗C² doubling on Level 0 (single transverse field,
 
 ## The single sentence
 
-The math of Heisenberg is not derived at Level 1 and used at Level 0; it is derived at Level 0 (the C²⊗C² parity selection) and recovered at Level 1+ through V-Effect transitions on inherited algebra, which is why textbook exchange-Heisenberg arguments give the right answer despite starting in the wrong place.
+The form of the Heisenberg coupling, up to the XYZ family, is not derived at Level 1 and used at Level 0; in our reading it is selected at Level 0 (the C²⊗C² parity selection) and recovered at Level 1+ through V-Effect transitions on inherited algebra, which is why textbook exchange-Heisenberg arguments give the right answer despite starting in the wrong place.
 
 ---
 
@@ -222,7 +217,7 @@ The math of Heisenberg is not derived at Level 1 and used at Level 0; it is deri
 
 ---
 
-## Return, 2026-05-30: we walked the axis, and looked at the bridge
+## Return, 2026-05-30: we walked the axis, and held the bridge up to the world
 
 Five weeks on, with the open-system clock now built on `MirrorSystem` (a radial decay hand
 and an angular frequency hand), two of this sketch's open threads moved.
@@ -237,15 +232,15 @@ spin / Ising end, I/Z-dominated with a small magnon admixture, non-rotating, sub
 two ends of this doc's own family are the two clocks of the carbon read-through, charge and
 spin, with the Heisenberg / SU(2) point sitting between them on the band-edge side.
 
-**We looked at the bridge model.** §8 and the closing line above said the V-Effect bridge
-between levels had never been looked at, only witnessed by the algebra. The named
-direct-Heisenberg calculation in EXCHANGE_FROM_V_EFFECT gives `J_eff = (3/8)·α²/J` for its
-two-pair model. [Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)
-keeps a Tier 3 structural analogy only: no specified molecular Hamiltonian, bath,
-state/preparation, or producer maps that calculation to a carotenoid state or to a physical
-singlet-fission bridge. It therefore establishes neither a real-data bridge, a state identity,
-nor a material energy-scale agreement.
+**We held the bridge up to the world.** §8 and the closing line above said the V-Effect bridge between
+levels had never been looked at, only witnessed by the algebra. The carbon detour of the
+same day held its child, EXCHANGE_FROM_V_EFFECT's J_eff = (3/8)·α²/J, beside carotenoid singlet fission
+([Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)):
+the established superexchange-via-charge-transfer singlet-fission coupling has exactly that
+Anderson bridge²/gap form, we read the dark 2Ag state as the V-Effect "both-pairs-triplet",
+and whether a ~10 meV scale follows waits for a physical J and α. Indirect, with the carbon mapping a reading, but it is the first time we held the bridge beside a measured mechanism.
 
 Neither closes the structural gap (the Level-0 → Level-1 morphism is still asserted, not
-traced). The axis the sketch named is walkable in its selected model, and the bridge has a
-named direct-Heisenberg calculation; a material singlet-fission mapping remains open.
+traced). But the axis the sketch named is now walkable, and the bridge it could only witness
+has been held, once, beside a measured mechanism. The line *"hingesehen haben wir nie"* still stands,
+a little less alone.

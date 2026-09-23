@@ -1,15 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# IBM calibration snapshots
-
-Current reading: these immutable fixture rows feed the neutral `QubitData` API.
-Where `r=T2/(2*T1)` is evaluated under the free single-transmon `|+>` proxy
-model, report below/near/at-or-above the numerical `R*`; do not infer a physical
-regime from the label.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the fixture inventory and earlier prose labels follow;
-the measured values themselves are unchanged.
-
 # IBM Calibration Snapshots
 
 Single-day snapshots of IBM Quantum backend calibration data, used as test
@@ -54,5 +42,5 @@ neighbour map, operational flag. Parsed by `IbmCalibration.Load` in
 - Best 5-chain: [1, 2, 3, 4, 5], score ≈ 1246.58
 - Documented soft_break path [48, 49, 50] score ≈ 682.50
 - Original framework_snapshots path [0, 1, 2] score ≈ 597.27
-- Q0: pulse-stable quantum-side (r ≈ 0.074)
-- Q1, Q48, Q49, Q50: classical-side (r > 0.4)
+- Q0: pulse-stable, below R* (r ≈ 0.074)
+- Q1, Q48, Q49, Q50: above R* (r > 0.4)

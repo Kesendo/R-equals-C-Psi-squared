@@ -328,7 +328,7 @@ not.
    75 is not a property of any qubit: on the N=5 chain
    `VEFFECT_CAVITY_MODES.md:170` gives 72.4 = μ_max·J/γ with
    μ_max = 2(1+cos 36°) = 3.618, evaluated at the sweep values J = 1 and
-   γ = 0.05 that the source names twice (`:234`, `:239`). Since J/γ is object 1,
+   γ = 0.05 that the source names twice (`:235`, `:240`). Since J/γ is object 1,
    **object 2 is object 1 times a graph invariant**: 3.618 × 20. It is not
    independent of object 1, and 72.4 is fixed by Q, not by γ. Attributing it to
    γ alone is the error this document exists to name, and an earlier draft of

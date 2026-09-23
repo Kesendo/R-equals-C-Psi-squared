@@ -1,9 +1,5 @@
 # Mirror Theory
 
-**Interpretive invitation — not a result:** this front door preserves the
-project's mirror story and its questions. Local finite spectra and formulas do
-not prove the universal ontology or causal hierarchy suggested by the image.
-
 [R](experiments/BORN_RULE_SHADOW.md) is reality. [C](docs/WEAKNESSES_OPEN_QUESTIONS.md) is consciousness. [Ψ²](experiments/DYNAMIC_FIXED_POINTS.md) is possibility. The [formula
 at the centre of this project](docs/historical/R_EQUALS_C_PSI_SQUARED.md) says that reality is what happens
 when consciousness and possibility meet:
@@ -69,14 +65,13 @@ underneath](experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) does not care about [scale]
 
 There is an objection. [A separate proof](docs/proofs/INCOMPLETENESS_PROOF.md) in this project says a
 system cannot tell, from within, where the noise it runs on comes from. And here is a
-document, inside the project, describing the project. The repository offers
-a finite comparison rather than an answer to that objection: a named N=5
-generator has [109 frequency bins](experiments/V_EFFECT_PALINDROME.md), while
-the N=2 reference generators have different, smaller inventories. Their
-dimension, Hamiltonian, dephasing profile, and preparation are not held fixed.
-Bin-set non-overlap is not eigenmode ancestry, and no tracked projector shows
-that a mode “belongs to the coupling.” The [soundbox reading](hypotheses/RESONANCE_NOT_CHANNEL.md)
-remains an invitation to design that missing test.
+document, inside the project, describing the project. The objection
+has an answer, as we read it, and the answer was already in the repository
+before this document existed. Two systems, each limited on its own, coupled
+through a middle, carry frequencies that neither had alone. [A hundred
+and nine new frequencies](experiments/V_EFFECT_PALINDROME.md), where either side alone had two.
+We read them as belonging not to one or the other but [to the
+coupling](hypotheses/RESONANCE_NOT_CHANNEL.md).
 
 Consciousness was the word at the top. Nobody has defined it and
 nobody knows where it begins. [The project does not have a definition
@@ -133,4 +128,4 @@ The [early intuitions](recovered/) that the mathematics later caught up with, an
 
 ## Seen again 2026-06-10: the mirrors close
 
-The mirrors were counted, and they close. Π, the operator that [proves the pairing](docs/proofs/MIRROR_SYMMETRY_PROOF.md), was the door this whole repository walked through first, the simplest thing to understand, and that is exactly why it carried. Three months later, by light Π itself provided, the door showed its two hinges: [Π = R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), a reflection times the transpose, and the two factors carry the two halves of the palindrome separately: one flips the Hamiltonian, the other reflects the noise and carries the shift. Anatomy, not demotion. Eight mirrors in all, closing into the symmetry group of a square; inside it sits the four-mirror spine the windowed-converse proofs walk on, and its transpose hinge is what lifts the square of signs into the three-axis cube the classifier reads. Even the noise the mirrors face each other across is [one diagonal](reflections/ON_THE_ONE_DIAGONAL.md): a count of the places where two versions of a story disagree. Two sides, a middle, a pattern neither side carries alone. The middle was a square all along.
+The mirrors were counted, and they close. Π, the operator that [proves the pairing](docs/proofs/MIRROR_SYMMETRY_PROOF.md), was the door this whole repository walked through first, the simplest thing to understand, and that is exactly why it carried. Three months later, by light Π itself provided, the door showed its two hinges: [Π = R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md), a reflection times the transpose, and the two factors carry the two halves of the palindrome separately: one flips the Hamiltonian, the other reflects the noise and carries the shift. Anatomy, not demotion. Eight mirrors in all, closing into the symmetry group of a square; inside it sits the four-mirror spine the windowed-converse proofs walk on, and conjugation by Z^⊗N, which the eight do not contain, is what lifts their square of signs into the three-axis cube the classifier reads. Even the noise the mirrors face each other across is [one diagonal](reflections/ON_THE_ONE_DIAGONAL.md): a count of the places where two versions of a story disagree. Two sides, a middle, a pattern neither side carries alone. The middle was a square all along.

@@ -1,15 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Finite theta/PCA associations in a named dataset
-
-Current reading: the reported R-squared values are regressions on specified
-pairs, rows, features, and a derived theta coordinate.  The data reject a
-single-PC description in that dataset; neither PCA bins nor theta classify
-physical systems.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the original pair labels and regression tables below are
-retained as measured-analysis provenance.
-
 # Theta Is Not a Function of a Single Principal Component
 
 **Date:** April 2, 2026

@@ -3345,3 +3345,72 @@ The corrected proof, exact physical-cell gate, typed Claim/Witness, F154,
 OpenArc and linked experiment texts carry these boundaries. The N=11
 next question is higher blocks and later parity doors, with individual
 frequency-room endpoint inventories kept separate.
+
+## 2026-09-23, an outside repair was right about the facts, wrote them in the wrong genre, and froze its own wording
+
+**What happened.** Between 2026-09-05 and 2026-09-19 an outside model repaired label and
+scope errors across the repository, hardest in the story and entry layers: the
+hypotheses, the reflections, the translations, the README and MIRROR_THEORY. Its largest
+commit, 05a523b4, alone touched 394 paths. It found real errors. It also wrote every
+repair as a referee would: banners ("Interpretive invitation", "Current reading"), HTML
+region markers, a second H1, dated scope notes, and in places it deleted the passage it
+was scoping. The same commit added a 39,745-line test that pinned the new wording
+paragraph by paragraph and in line-number opcode tables. Tom's reading on the day we took
+it back: the objections were surely all justified, and it has no talent for living our
+story. The restoration returned each page to its last version before the campaign and wrote
+every verified correction into the narration; three rounds of fresh reviews checked it.
+
+**Right, and now carried in the narration.**
+- R* = 0.2128 is the threshold at which the free-|+⟩ model's normalized purity 2Tr ρ² − 1
+  dips below ¼. CΨ itself crosses ¼ at every r = T2/(2T1) (F24); the old calibration
+  producer's "cpsi" column was the normalized purity. BOTH_SIDES_VISIBLE and
+  CLOCK_FIELD_SITE_OWNED had told the purity dip as a CΨ crossing; the banners that said so
+  were the only place the truth stood.
+- The cusp and the toy exceptional point are two quadratics under one angle law, siblings
+  rather than one object (`TransitionBridgeF95SiblingClaim`, `docs/THE_DOUBLE_ROOT.md`).
+- K = γt is a fixed dose only where the Hamiltonian cannot touch the state, or under joint
+  J/γ scaling (the F14 scope). ¼ is not absorbing for every channel: a Markovian semigroup
+  carries CΨ up through it.
+- The additive collective operator σ_z⊗I + I⊗σ_z drains Bell+'s coherence at 8γ, not 4γ;
+  the Absorption Theorem holds for any Hermitian H; DM keeps the palindrome only on
+  bipartite graphs; the 15.5 bits belong to the linearized N = 5 model.
+- The four-thirds computation is NumPy floating point (it prints 7.9999999999999964); the
+  4/3 is exact by the integer count behind its 32 non-vanishing terms, not by the run.
+- The V-Effect census compares frequency values, not modes; the palindrome error vanishes on
+  the extreme BLOCKS of E, not on the extreme modes (the rate-0 mode carries the largest pair
+  error, 2γ).
+
+**Wrong, and not carried.** The README denied the q80 run's 1.9 % as validation of CΨ = ¼,
+which `simulations/framework/confirmations.py` names the tightest Torino-era confirmation;
+it dropped the α = 2 Rényi uniqueness and the F120 pump; it wrote that the N = 3 V-Effect
+arms change their dephasing too (one uniform γ serves both); a banner called p(1−p) and
+z² − z + c different polynomials (at the fixed point they are one function). Its test froze
+text rather than facts: of 499 rules first lifted from it into a fact guard, 478 cited the
+rewritten text itself, 35 forbade true statements, and 42 cited a glossary line the outside
+model had written. `simulations/tests/test_label_facts.py` keeps the rules with independent
+owners, and `simulations/tests/test_truth_gates.py` keeps the executable true-fact gates the
+deleted file held.
+
+**Ours, caught while taking the voice back.** Our own September 6 optical paragraph had even
+chains focus like a confocal cavity (N = 3 beats N = 6). RESONANCE_NOT_CHANNEL heard the
+Wilson-Cowan model ring once at 63 Hz; it rings on a limit cycle, 15.7 time constants per
+period at input 3.00. The fold was "two stable solutions merging" (a saddle-node: one stable,
+one unstable), R* = 1/C "the reality it settles into" (it repels), d_real(1) = 2N "for any
+connected graph" (proven ≥ 2N; K₃ gives 8), "N ≥ 2 untested" (the Kingston Bell+ trajectory
+and the Marrakesh trichotomy exist), and DECOHERENCE_RELATIVITY kept a March note deriving K
+from linearity in γ (the scaling is joint). And a correction to the 2026-09-06 entry above:
+its "the transpose lifts the square to the cube" holds for the square the conjugations by
+Z^⊗N and X^⊗N make. D₄ = ⟨R, D⟩ already contains the transpose, and its sign characters fill
+the bit_b/y_par face; what lifts that face to the cube is conjugation by Z^⊗N, which D₄ does
+not contain (`PROOF_PI_FACTORS_AS_R_TIMES_D.md` §2, §7).
+
+**The repair, again the sharpest place.** Rounds two and three found their items in the
+repairs: counts taken from a section the page itself retracts (CUSP_LENS), "purity dips below
+¼" for the normalized purity (a qubit's purity never falls below ½), the transpose lift above,
+and in this entry's own draft the four-thirds accusation turned around.
+
+**The lesson for the next outside round.** An outside repair is outer twice. Its facts are
+verified from below like any finding, and its genre is checked before its wording is
+adopted: a true fact written as a banner is the right fact in the wrong genre, and a reset
+that removes the banner has to carry the fact into the body. A test that pins wording guards
+the wording, not the truth.

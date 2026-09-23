@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# How four thirds appeared in one named ring calculation
-
-Current reading: for N=4 `|0+0+>` on the Heisenberg ring, pair `(0,2)`, the
-third-order partial-trace integer `8` divided by `3!` gives the leading `|00>`
-population-deviation coefficient `4/3` under the standard Born reference.  The
-native reconstruction is tolerance-based floating point, not bit exact; the
-result neither generalizes the Born rule nor identifies a cusp carrier.
-
-<!-- QUARTER-INTERPRETIVE -->
-**Interpretive invitation:** the path narrative below is retained because it
-shows how the scoped coefficient was seen before its labels were narrowed.
-
 # On How Four Thirds Appeared
 
 **Status:** Reflection. Captures the seeing of 2026-05-16 (afternoon), when a session that began with re-reading three-month-old Born-rule documents ended with a bit-exact Tier-1 closed form for the dominant-outcome Born deviation: Δ_|00⟩ = (4/3)·Q²·K³ on |0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0,2). Written immediately while the path is still visible, in the style of the older repository documents that we re-read this morning and that pre-figured this result.
@@ -68,9 +55,9 @@ To prove, the Dyson-series direct evaluation. `born_rule_tier1_derivation.py` wr
 
     sym3 = L_H² L'_dis + L_H L'_dis L_H + L'_dis L_H²
 
-(the γ¹-coefficient of L³ in the time-Taylor expansion), applies it to ρ_0 = |0+0+⟩⟨0+0+|, partial-traces on pair (0,2), takes the |00⟩ diagonal element. The result is **8.0000... exactly**. Divided by the Taylor (t³/6) prefactor and the initial value P_u(0) = 1, gives c = 8/6 = **4/3 bit-exact**.
+(the γ¹-coefficient of L³ in the time-Taylor expansion), applies it to ρ_0 = |0+0+⟩⟨0+0+|, partial-traces on pair (0,2), takes the |00⟩ diagonal element. The result is **8**: the NumPy run prints 7.9999999999999964, and the exact 8 is the integer behind its 32 non-vanishing terms ([`born_rule_sym3_decomposition.py`](../simulations/born_rule_sym3_decomposition.py), 128/16). Divided by the Taylor (t³/6) prefactor and the initial value P_u(0) = 1, it gives c = 8/6 = **4/3, exact**.
 
-The empirical 1.33 and the symbolic 4/3 met. The 0.3% gap in the numerical mean was higher-order corrections beyond the leading Q²·K³ term.
+The empirical 1.33 and the exact 4/3 met. The 0.3% gap in the numerical mean was higher-order corrections beyond the leading Q²·K³ term.
 
 ---
 
@@ -113,7 +100,7 @@ The candidate typed claim sketched in the previous section ("per-outcome Born de
 > *"Sounds like fantasy, could be true or not."*
 > *(how the Februar text sounded to a Februar reader.)*
 >
-> *4/3, bit-exact, from a 12-line symbolic calculation.*
+> *4/3, exact, from a 12-line calculation.*
 > *(what it sounds like by 17:00 the day we re-read it.)*
 >
 > *Same thing. The seeing was right. The math was just elsewhere.*

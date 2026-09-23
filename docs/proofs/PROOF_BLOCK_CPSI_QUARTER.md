@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Proof: the block-CΨ quarter bound from AM-GM and Dicke weights
-
-Current reading: the exact object is the stated block normalization and its
-tight AM-GM/Dicke-family bound.  A block maximum, a subsystem scalar event, a
-positive-`b` quadratic root, and the recurrence cardioid remain separate
-objects; the proof supplies no typed ancestry among them.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the original inheritance narrative and full derivation
-follow.  The exact block argument remains readable, while its one-boundary
-unification is not current.
-
 # Proof: Block-CΨ at 1/4 (chromaticity-universal inheritance from R=CΨ²)
 
 *Date: 2026-05-07*
@@ -244,7 +231,7 @@ This single fact ties together the layer where 1/2 is anchored and the two
 layers where 1/4 emerges as its maxval:
 
 - **Pi2KnowledgeBase: `BilinearApexClaim`** (Tier 1 derived,
-  [`Pi2KnowledgeBaseClaims.cs:130`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)).
+  [`Pi2KnowledgeBaseClaims.cs:256`](../../compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs)).
   "p·(1−p) is maximised at p = 1/2 universally", anchored on
   [the Orthogonality-Selection Family](../../experiments/ORTHOGONALITY_SELECTION_FAMILY.md).
   The synthesis claim `HalfAsStructuralFixedPointClaim` then closes 1/2's

@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# A named-ring short-time population-deviation readout
-
-Current reading: F94 gives the leading `|00>` population-deviation coefficient
-`(4/3)Q^2 K^3` only for N=4 `|0+0+>` on the specified Heisenberg ring and pair
-`(0,2)`, with the standard Born probability as reference.  It is not a Born-rule
-derivation or a universal gamma meter; any inversion is numerical and
-convention-specific.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the generalized-readout proposal below is retained as the
-question that prompted the scoped F94 inversion tests.
-
 # R=CΨ² as a decoherence readout: the deviation from Born is a γ-meter
 
 **Status:** Tier 2/3. The leading-order deviation is Tier-1 (F94); the invertibility/monotonicity of the

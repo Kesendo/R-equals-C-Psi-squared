@@ -1,15 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Literature review Q2 2026: tools, vocabulary, and scoped analogies
-
-Current reading: cited external tools remain useful, while the repository's F95
-angle is scoped to a positive-`b` quadratic and F97 is a separate period-one
-cardioid result.  Literature adjacency does not make either coordinate
-universal or establish cross-object ancestry.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the Q2 survey below retains the vocabulary current at the
-time and should be read through this scope note.
-
 # Literature Review — Q2 2026 Update: Tools & Vocabulary
 
 <!-- Keywords: Pauli-Lindblad bond commutant algebra Paszko, Newton polygons

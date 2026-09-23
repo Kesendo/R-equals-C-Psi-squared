@@ -12,9 +12,28 @@ import runpy
 import numpy as np
 import pytest
 
-from simulations.tests.test_old_document_label_scope import fail_red_contract
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def _format_red_contract(marker, findings_by_category):
+    normalized = {}
+    for category, findings in findings_by_category.items():
+        details = tuple(sorted({str(finding) for finding in findings if str(finding)}))
+        if details:
+            normalized[category] = details
+    categories = tuple(sorted(normalized))
+    summary = f"{marker} categories={','.join(categories)} category_count={len(categories)}"
+    details = tuple(f"{category}: {finding}" for category in categories for finding in normalized[category])
+    return summary, details
+
+
+def fail_red_contract(marker, findings_by_category):
+    """Fail with one ASCII-safe printed line per finding (plain Windows console safe)."""
+    summary, details = _format_red_contract(marker, findings_by_category)
+    for detail in details:
+        print(f"{marker}_DETAIL {detail}".encode("ascii", errors="backslashreplace").decode("ascii"))
+    assert not details, summary
 SOURCE = ROOT / "simulations/crossing_taxonomy_books.py"
 EXPECTED = {
     "mutual_info": {

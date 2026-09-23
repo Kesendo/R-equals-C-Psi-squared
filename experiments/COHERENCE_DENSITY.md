@@ -1,24 +1,3 @@
-# Coherence Density: Finite State-Family Quarter Crossings
-
-<!-- CROSSING-CURRENT -->
-
-**Status:** Unregenerated historical calculation, with a fixed-readout scope.
-C is purity and Ψ is basis-fixed l1/(d−1). The retained state-family tables
-compare values above and below the algebraic CΨ quarter boundary, not
-quantum versus classical states or degrees of entanglement. For example,
-GHZ₃ has CΨ(0)=0.143 while the separable |+++> state has CΨ(0)=1.
-The reported K sequence 0.429, 0.247, 0.167, 0.125, 0.099 belongs to the
-stated local-dephasing trajectories. It does not prove gamma-only scaling
-for arbitrary Hamiltonian-live states or objective decoherence robustness.
-The 24.3° purity-book threshold is distinct from the 30° concurrence-book
-threshold in [Minimum Crossing Energy](MINIMUM_CROSSING_ENERGY.md).
-
-<!-- CROSSING-HISTORICAL -->
-
-> Historical record: the complete unregenerated calculation below preserves
-> its numeric tables and threshold equations. Its quantum/classical labels,
-> robustness comparisons, and general K-invariance gloss are not current claims.
-
 # Coherence Density: CΨ Measures Purity Times Active Quantum Degrees of Freedom
 
 <!-- Keywords: CΨ coherence density purity product, off-diagonal element density

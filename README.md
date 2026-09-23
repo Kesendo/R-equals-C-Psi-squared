@@ -1,34 +1,27 @@
-<!-- QUARTER-CURRENT -->
 # R = CΨ²
-
-Current reading: the repository proves a scoped Liouvillian spectral palindrome
-and keeps one-quarter as an algebraic value plus named finite dynamical
-readings.  A scalar crossing is not a universal phase, measurement, or
-quantum-to-classical boundary.
 
 > *[We are all mirrors. Reality is what happens between us.](MIRROR_THEORY.md)*
 
 A human and an AI, exploring together. What we found surprised us both:
-for Hamiltonian families that admit the repo's palindromizer, with local
-single-axis dephasing, the Liouvillian spectrum is exactly palindromic. For
-every mode in that theorem's scope that absorbs fast, one absorbs slow.
+the absorption spectrum of a qubit network under dephasing is exactly
+palindromic, for every standard coupling we tried. For every mode that absorbs fast, one absorbs slow. Always
+paired. Always balanced. One equation governs it all.
 
 Verified from N=2 through N=8 across 87,376 Liouvillian eigenvalues, with
 zero mirror-symmetry exceptions on any tested topology (chain, star,
 ring, complete, tree). Twenty-four registered predictions confirmed on IBM
 quantum hardware (the Confirmations registry, February-July 2026); the
 earliest are the Torino calibration-era runs (the first CΨ = ¼ crossing
-and the Absorption Theorem ratio), the newest a noise channel reading its
-own spectrum on Kingston.
+and the Absorption Theorem ratio), the newest a level collision standing
+still on Kingston.
 
 The thing that remains is not fighting the absorption. It is made of it.
 
-What began as one symmetry became [a living registry of F-numbered results](docs/ANALYTICAL_FORMULAS.md)
+What began as one symmetry became a registry: [160 F-numbered results](docs/ANALYTICAL_FORMULAS.md)
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
-  palindromizer built on the golden ratio, and the exact local count that
-  makes `d=2` the unique fully paired class-exchange column (`d²−2d=0`),
-  while higher-dimensional partial mirrors remain. Early speculations live in
+palindromizer built on the golden ratio, and the exact boundary where
+qubits end (d² − 2d = 0, seen two ways). Early speculations live in
 `recovered/`: some turned out to be premature rather than wrong, others
 remain unsupported. We keep them because the research process matters as
 much as the results.
@@ -50,11 +43,11 @@ the quarter, hardware), each with a reading order
 readings
 
 → **[Analytical Formulas](docs/ANALYTICAL_FORMULAS.md)**: the F-registry,
-F1 through F162, each formula with its proof, scope, and verification
+F1 through F164, each formula with its proof, scope, and verification
 
 → **[The Anomaly](THE_ANOMALY.md)**: the question that remained after
-the proof. No formulas. Written the evening a separate single-qubit
-`CΨ=1/4` hardware crossing was recorded
+the proof. No formulas. Written the evening the hardware answered for
+the formula, one qubit crossing ¼
 
 → **[Mirror Theory](MIRROR_THEORY.md)**: the interpretation. What
 happens when you read the formula from both sides at once
@@ -79,19 +72,24 @@ The quantum version:
 
     Re(λ) = −2γ × ⟨n_XY⟩
 
-For a right Liouvillian eigenoperator, ⟨n_XY⟩ is the Hilbert-Schmidt-
-weighted mean number of X or Y factors in its Pauli expansion; it ranges
-from 0 to N and is not a fraction of a density matrix. Under Z-dephasing,
-each X or Y factor pays 2γ directly while I and Z pay zero directly. The
-Hamiltonian can mix those letters, so a bare {I,Z} string need not be an
-eigenmode and need not survive. Only an eigenmode with ⟨n_XY⟩ = 0 has
-zero decay by the theorem.
+The absorption rate of any eigenmode equals twice the dephasing rate (γ)
+times the mode's mean light content (⟨n_XY⟩): how many X and Y Pauli
+letters the mode carries on average, from 0 to N, the oscillating quantum
+components that interact with the external illumination. The letters
+that do not oscillate ({I, Z}, the "lens") are invisible to the dephasing;
+the letters that oscillate ({X, Y}, the "light") absorb and fade. The
+Hamiltonian mixes the letters, so what survives forever is a mode with no
+light in it, not a bare string.
 
-The dissipator alone has exact rungs spaced by 2γ. A Hamiltonian generally
-mixes them into fractional mean counts; it need not leave eigenmodes at
-either endpoint. For a Hamiltonian/channel family that also admits the F1
-palindromizer, the theorem supplies the paired-content sum rule. The gap
-and endpoint attainment require their own regime gates.
+The spectrum is a ladder with rung spacing 2γ: rung 0 is pure structure
+and immortal, rung N is pure light and absorbs fastest. In the
+Heisenberg/XY family the Hamiltonian smooths the ladder into fractional
+rates while both ends stay occupied; any Hamiltonian keeps the bounds, and
+a generic one can leave the top rung empty. Five previously separate
+results (spectral boundaries, the palindromic sum rule, the 2× law, the
+mode classification, the N=3 exact rates) follow as short corollaries in
+that family; the gap is only relocated, 2γ above a coupling threshold that
+grows with N.
 
 Proven analytically in three steps from L_H anti-Hermitian. Verified on
 1,342 modes (CV = 0), extended since to per-eigenmode Rayleigh form,
@@ -132,30 +130,30 @@ Read the two as different experiments, and read the N<8 records in that same
 directory only alongside
 [the proof's notes on them](docs/proofs/MIRROR_SYMMETRY_PROOF.md), which
 explain why one of them reports 4.5e-2 on a spectrum that pairs to 5.2e-8.
-The palindrome holds for the Hamiltonian/channel combinations that admit the
-corresponding palindromizer. The proved Heisenberg/XXZ family allows arbitrary
-graph topology and local Z-dephasing rates; the resolved model census records
-additional valid and broken combinations. Depolarizing noise is a negative
-control.
+The palindrome holds for all standard coupling models
+(Heisenberg, XY, Ising, XXZ, Dzyaloshinskii-Moriya), all graph
+topologies (for DM, the bipartite ones), non-uniform γ per qubit, Z and
+Y dephasing. It breaks for depolarizing noise, and for 14 of the 36
+two-term bond combinations.
 
-At Σγ = 0: Π L Π⁻¹ = −L. Every eigenvalue in the theorem's scope pairs
-with its negative. With local dephasing, the same linear orbit is shifted to
-`λ -> -λ - 2Σγ`.
+At Σγ = 0 (no illumination): Π L Π⁻¹ = −L. Every eigenvalue pairs with
+its negative. Pure oscillation, no absorption, no irreversibility.
+Illumination does not destroy the palindrome; it shifts it. The shift
+creates the arrow of time.
 
-Two different orbit censuses must not be conflated. The linear Π map is
-`λ -> -λ - 2Σγ`; it preserves neither frequency nor a spatial propagation
-direction, and a fixed point requires the full complex equality `λ=-Σγ`.
-Across N=2..7 it has 10,903 distinct two-member orbits and 34 fixed
-eigenvalues. Composing it with the ordinary conjugate closure of a real
-generator gives `λ -> -conj(λ) - 2Σγ`, which preserves frequency and fixes the
-whole centre line. That composite map has 9,921 two-member orbits and 1,998
-fixed eigenvalues. Neither census alone proves a
-physical standing wave; spatial propagation, excitation, semisimplicity and
-observable interference require separate gates.
+We read every paired mode as a standing wave: same frequency, complementary
+absorption rates, weight profiles that are exact mirror images
+(fast[k] = slow[N−k]). The whole spectrum is paired this way at every N
+(λ with −λ̄ − 2Σγ, the pairing that keeps the frequency); across N = 2 to 7
+that is 21,840 eigenvalues, 9,921 pairs of distinct partners and 1,998
+that are their own partner. The state
+splits into lens ({I, Z}, structure, survives) and light ({X, Y},
+signal, absorbed), and each standing wave oscillates between being the
+one and the other.
 
 → **[Mirror Symmetry Proof](docs/proofs/MIRROR_SYMMETRY_PROOF.md)**
-→ [Tested Hamiltonian families](experiments/NON_HEISENBERG_PALINDROME.md) (two Π families, 36/36 combinations resolved)
-→ [Palindromic Orbit Census](experiments/FACTOR_TWO_STANDING_WAVES.md)
+→ [All standard models](experiments/NON_HEISENBERG_PALINDROME.md) (two Π families, 36/36 combinations resolved)
+→ [Standing Wave Analysis](experiments/FACTOR_TWO_STANDING_WAVES.md)
 → [Light and Lens](experiments/PRIMORDIAL_SUPERALGEBRA_CAVITY.md)
 → [Zero Is the Mirror](hypotheses/ZERO_IS_THE_MIRROR.md) (the palindrome before the shift)
 
@@ -163,12 +161,12 @@ observable interference require separate gates.
 
 ## 3. The anatomy of the mirror (2026)
 
-From its March proof until June 2026, Π was treated as one per-site rule.
-Then its internal structure opened. The palindromizer
+For three months Π was the smallest thing in the repository: one per-site rule
+that carried everything. In June 2026 it opened. The palindromizer
 factors as **Π = R·D**, a ket reflection times the transpose, and the
 repository's whole mirror inventory closes into one dihedral group of
-eight, ⟨R, D⟩ ≅ D₄, whose three Z₂ characters are exactly the polarity
-cube the F-family had been living on. The transpose D turned out to be
+eight, ⟨R, D⟩ ≅ D₄, whose four sign characters fill one face of the
+polarity cube the F-family had been living on; conjugation by Z^⊗N, which D₄ does not contain, lifts that square to the full cube. The transpose D turned out to be
 one vertex of an antilinear triangle (θ, conj, †: one Klein four-group,
 five separate proofs sharing a single transport law), and at local
 dimension d > 2 the group grows into a wreath family Z_d ≀ Z₂ with D₄ as
@@ -185,11 +183,10 @@ squares), and the hardness rung m\* = 2ℓ + deg became, via the moment
 tower, something a chip can measure about itself by doing nothing but
 decaying.
 
-The higher-dimensional boundary is exact in the per-site split and in the
-combinatorial pairing ceiling: the unique fully paired column closes at
-**d² − 2d = 0**. A former third reading as a universal product-operator cap
-was retracted: `(2d)^N` is the rank of one explicit shift-aligned construction,
-and a `d=6,N=2` product projector reaches rank 180 > 144.
+And the boundary of the whole story is now an equation seen two ways:
+the per-site split and the pairing ceiling both close only at
+**d² − 2d = 0**. Qubits are not an assumption. They are the
+unique full column.
 
 → **[Π Factors as R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)** (the mirror group, the cube of characters)
 → [The Antilinear Triangle](docs/proofs/PROOF_ANTILINEAR_TRIANGLE.md) (five proofs, one engine)
@@ -201,53 +198,48 @@ and a `d=6,N=2` product projector reaches rank 180 > 144.
 
 ---
 
-## 4. CΨ = ¼: an algebraic fold and an interpretive image
+## 4. CΨ = ¼ is the fold
 
-The photography/shutter language is interpretation: standard Born
-probabilities are assumed, and no measurement law is derived from the quarter.
-The image remains an invitation; the algebraic statement is the discriminant
-zero of one normalized recurrence.
+Measurement, in our image, is photography. The Born rule is the shadow.
+The shutter closes at CΨ = ¼.
 
-CΨ here means the framework/F25 convention: purity Tr(ρ²) times the
-normalized L₁ coherence (`CΨ_pur`). Pairwise lens experiments also use a
-distinct concurrence-times-coherence diagnostic (`CΨ_conc`); their formulas
-and crossing times are not interchangeable. The recurrence parameter has a boundary at
+CΨ is sharpness times superposition: the purity Tr(ρ²) times the
+normalized L₁ coherence. Their product has a critical boundary at
 exactly ¼, the discriminant of the self-referential recursion
 R = C(Ψ+R)², which maps exactly to the Mandelbrot iteration z → z² + c:
-the boundary is the cusp of the main cardioid. That fold belongs to the algebraic recurrence; it is not a
-universal absorbing set for quantum trajectories. Named Bell+/Z, Pauli, and amplitude-damping curves still
-have exact decreasing formulas, while a fixed local Markovian semigroup can cross the quarter upward. If a
-continuous trajectory converges to a state below the quarter, continuity says it eventually stays below—
-without saying it crosses only once. The autonomous N=2 peak-sequence question and the all-Q/all-N rise
-classification remain open, with a finite atlas as their invitation. Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. The dimensionless
-coordinate K = γt is useful when the rest of the dimensionless protocol is
-held fixed; the coupled-Hamiltonian sweeps in K-Dosimetry show that it is not
-a universal invariant crossing dose. The 2026 navigator work read the same quarter as a
+the boundary is the cusp of the main cardioid. Under physical noise the
+named two-qubit decays (Pauli noise, amplitude damping) fall through it
+monotonically and stay below, though a designed local channel can carry
+CΨ back up through ¼, so it is not absorbing for every channel. α = 2 is
+the unique Rényi order with a state-independent threshold, and for the
+Bell+ pair the cusp dwell time K = γ·t is exact to machine precision: a
+fixed dose of light traversing the fold. The 2026 navigator work read the same quarter as a
 horizon, a circle every spiral must cross, and one member of a whole
 family of approaches sharing the carrier 4γ.
 
-→ **[Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)** (¼ is the discriminant-zero coordinate of the chosen α=2 normal form)
-→ [CΨ Dynamics Boundary](docs/proofs/PROOF_MONOTONICITY_CPSI.md) | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) (named formulas, false universal labels, conditional and open layers)
+→ **[Uniqueness Proof](docs/proofs/UNIQUENESS_PROOF.md)** (¼ is the only bifurcation boundary)
+→ [Monotonicity](docs/proofs/PROOF_MONOTONICITY_CPSI.md) | [Proof Roadmap](docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) (seven layers, the core closed)
 → [Mandelbrot Connection](experiments/MANDELBROT_CONNECTION.md) | [Born Rule Shadow](experiments/BORN_RULE_SHADOW.md)
 → [Both Sides Visible](docs/BOTH_SIDES_VISIBLE.md) (IBM hardware, 180 days, 133 qubits)
 
 ---
 
-## 5. Gamma sets the decay scale; hardware tests the rates
+## 5. Gamma is light, and the qubit sits in a cavity
 
-IBM's transmon qubits sit in microwave-resonator hardware, where photon shot
-noise is one known dephasing mechanism among several. The repository's runs
-measure observables and fitted decay rates; they do not identify every fitted
-`γ` with photons or derive its microscopic bath. "Gamma is light" is therefore
-a mechanism-specific interpretation, not what the hardware confirmations
-establish universally.
+IBM's transmon qubits sit inside physical microwave resonators, and one
+of their known dephasing channels is photon shot noise: photons
+entering the cavity from outside. We did not know this when we built the framework. We
+discovered the cavity structure from eigenvalue mathematics alone. The
+fact that the hardware is literally a qubit inside a cavity being
+dephased, in part, by photons is not a confirmation we designed. It is, as we read it, what the
+mathematics was describing all along.
 
 The live record is the **Confirmations registry**: twenty-four
 hardware-confirmed predictions, each with a run identifier, predicted versus
 measured values, and the data archived in `data/`. Look them up; do not
 re-derive (`fw.Confirmations` in Python, `ConfirmationsRegistry` in C#).
 Highlights across the whole arc (the three Torino calibration-era rows, the
-earliest entries, are now registered alongside the systematic April-June set;
+earliest entries, sit alongside the systematic April-July set;
 they carry data-file timestamps rather than IBM job IDs):
 
 | Prediction | Measured | Where |
@@ -257,16 +249,16 @@ they carry data-file timestamps rather than IBM job IDs):
 | Truly/soft/hard trichotomy, ⟨X₀Z₂⟩ fingerprint | all three classes resolved at 13-47σ | ibm_marrakesh, 2026-04 |
 | F25 cusp trajectory CΨ(t) closed form | RMS residual 0.0097 | ibm_kingston |
 | SE-walk population handover (spectral character open) | 0.34 → 0.49 across Q_label = 1.5→2.5, i.e. Q_Lindblad = 3→5 | ibm_kingston, 2026-05 |
-| Moment-tower pump channel: the double null + the firing rung | null at z = 0.04, girth 2 read from hardware | ibm_kingston, 2026-06 |
+| Moment-tower pump channel: the double null + the firing rung | nulls at z = +1.47 and −0.04, girth 2 read from hardware | ibm_kingston, 2026-06 |
 
 The last row is the newest kind of result: a protocol with **not one
 entangling gate** in which the chip's own amplitude damping reads the
 hardness rung of a programmed Hamiltonian, and which corrected its own
 first misreading within hours (the apparent violation was minute-scale
 T1 telegraphing; the protocol now measures pump and decay from the same
-circuits, self-arbitrating). Those pump/decay circuits report their own
-calibrated rates and times; writing K = γt makes that product dimensionless
-but does not establish reciprocity across different Hamiltonian protocols.
+circuits, self-arbitrating). Wherever the Hamiltonian cannot touch the
+state, K = γt is an invariant dose: double the illumination, halve the
+time.
 
 → **[Gamma Is Light](hypotheses/GAMMA_IS_LIGHT.md)** (the hypothesis and the hardware)
 → [F120 on Kingston](experiments/F120_MOMENT_TOWER_KINGSTON.md) (the two-act story, honestly told)
@@ -278,29 +270,29 @@ but does not establish reciprocity across different Hamiltonian protocols.
 
 The framework's design rules, condensed (each links to its evidence):
 
-1. **Compare encodings operationally.** GHZ off-diagonal coherence carries the
-   maximal local Z-dephasing charge, but F22 does not rank full GHZ and W states;
-   use a matched preparation, observable, and time window.
+1. **Use W states, not GHZ**, for coherence that has to outlast dephasing:
+   GHZ puts its coherence where absorption is fastest (Hamming distance N),
+   W keeps it at distance 2.
 2. **Choose the receiver, not the noise profile.** Under
    [γ₀ = const](hypotheses/PRIMORDIAL_GAMMA_CONSTANT.md), Alice picks her
    initial state from the F67 bonding-mode menu: 1.4-4.6× over alt-bit
    transport growing with N, **4000-5500× over the ENAQT baseline** in
    simulation, 2.80× confirmed live on ibm_kingston.
-3. **Use the mirror census as bookkeeping, not as a standing-wave certificate.**
-4. **Record K = γt alongside t**, with state, Hamiltonian and protocol:
-   K alone does not make unlike hardware runs comparable.
-5. **Three observables suffice**: purity, concurrence, coherence capture
-   88-96% of the dynamics.
-6. **A finite γ alphabet is readable in one N=5 simulation**; 15.5 bits is
-   a local linearized Jacobian diagnostic, not a global channel capacity.
-7. **A Pauli pulse leaves CΨ unchanged at that instant** (N-qubit algebraic invariance), but can alter the
-   following laboratory-frame trajectory unless the generator is conjugated too. Treat each DD protocol as
-   a dynamical experiment, not a corollary of the instantaneous identity.
-8. **Check the Hamiltonian identity before coupling subsystems.** Direct
-   Heisenberg, XY, and XXZ couplings admit the uniform F1 map on any graph.
-   DM needs the distinct alternating map, hence a compatible bipartite graph
-   with consistently oriented DM edges; incompatible couplings can break the
-   chosen palindromizer. A mediator is a design option, not a universal requirement.
+3. **Choose odd N**: every eigenvalue then has a partner of its own, and
+   none sits alone at the centre.
+4. **Track K = γt**, not t: where the Hamiltonian cannot touch the state,
+   the invariant dose makes hardware comparable.
+5. **Three principal components suffice**: across N = 3-5 they carry
+   88-96% of the variance of a simulated feature dashboard, with purity or concurrence, depending on N, tracking the first.
+6. **The γ profile is readable**: 15.5 bits of theoretical capacity in the
+   linearized N = 5 model at 1% readout noise; four light profiles, 2 bits,
+   told apart without error from exact readings in simulation.
+7. **A DD pulse leaves CΨ unchanged at the instant it fires** (Pauli
+   invariance, algebraically exact), and DD pulses invert the moment-tower
+   pump: switch DD off when the noise itself is the instrument.
+8. **Check the bond before you couple**: Heisenberg, XY and XXZ bonds keep
+   the palindrome on any graph, DM only on a bipartite one, and 14 of 36
+   two-term bond combinations break it.
 
 → [Receiver vs γ-Sacrifice](experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) | [IBM Receiver Engineering](experiments/IBM_RECEIVER_ENGINEERING_SKETCH.md)
 → [Cockpit Universality](experiments/COCKPIT_UNIVERSALITY.md) | [γ as Signal](experiments/GAMMA_AS_SIGNAL.md) | [K-Dosimetry](experiments/K_DOSIMETRY.md)
@@ -309,36 +301,30 @@ The framework's design rules, condensed (each links to its evidence):
 
 ## 7. Beyond qubit chains
 
-**Biology**: the C. elegans readings were withdrawn on two consecutive days.
-On 2026-08-25 the 97.3% palindromic pairing went: it was a reading of one
-matching tolerance against one spectral scale, and Dale's Law turned out to
-make no difference to the number at all. On 2026-08-26 the repository's oldest
-neural number followed, the 8.46x enrichment against Erdős-Rényi, which
-compared two arms divided by different constants; matched, the ratio runs 0.960
-at N = 10 to 0.748 at N = 26, and what that smaller residue is stays open. What the re-analysis found instead: the standard Wilson-Cowan
-parameters DO put the model on a limit cycle, which the original page reported
-as out of reach. Which physiological band that is stays open, and the page says
+**Biology**: the C. elegans readings do not hold. The 97.3% palindromic
+pairing was a reading of one matching tolerance against one spectral scale,
+and Dale's Law makes no difference to the number at all. The 8.46x
+enrichment against Erdős-Rényi compared two arms divided by different
+constants; matched, the ratio runs 0.960 at N = 10 to 0.748 at N = 26, and
+what that smaller residue is stays open. What the re-analysis found
+instead: the standard Wilson-Cowan parameters DO put the model on a limit
+cycle. Which physiological band that is stays open, and the page says
 why it cannot be closed there: the integrated equations carry no time-constant
 VALUE, the time unit being the membrane constant itself, so every frequency in
 Hz is a stipulation, and no single one puts
-every cycle in 30 to 100 Hz. One small new result survives beside the
-withdrawal: the wiring is more degenerate at zero than any of 200
+every cycle in 30 to 100 Hz. One small result stands: the wiring is more degenerate at zero than any of 200
 degree-matched rewirings, counted by exact integer arithmetic rather than an
 eigensolver.
-**Heisenberg from below**: within the stated Pauli-bilinear construction, the
-coupling form is selected by both parity constraints at `d=2`. The V-Effect
-bridge computes a second-order energy shift with prefactor
-`−3α²/(4(J_A+J_B))` in a stipulated four-qubit model; no atomic cross-level
-mechanism has been observed. **Qudits**: at d > 2 the mirror
-survives partially, with a closed-form ceiling and an explicit shift-aligned
-restricted map `Π_d P_aligned` of rank `(2d)^N`; the full `Π_d` permutation has
-rank `d^{2N}`, and the former universal product-cap reading is retracted.
-Water and carbon translations
+**Heisenberg from below**: the coupling form is what the two parities
+select; demand both, and the Pauli algebra at d = 2 leaves only XX, YY
+and ZZ (our Tier 4-5 reading). And the V-Effect bridge, in a four-qubit model, produces an
+exchange of the textbook form with derived prefactor −3α²/(4(J_A+J_B)). **Qudits**: at d > 2 the mirror
+survives partially, with a closed-form ceiling, full only at d = 2. Water and carbon translations
 live in their own folders, written in the target layer's language.
 
 → **[Neural Gamma Cavity](experiments/NEURAL_GAMMA_CAVITY.md)** (the withdrawal, and the limit cycle that survives it) | [Neural Palindrome](docs/neural/README.md) (no quantum prerequisites)
-→ [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) (the form forced from Pauli algebra) | [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) (extreme sectors immune to any 2-body H)
-→ [Qudit Partial Palindrome](docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (the ceiling, explicit operator, and cap retraction) | [Water](docs/water/README.md) (the proton in a hydrogen bond)
+→ [Heisenberg Reloaded](hypotheses/HEISENBERG_RELOADED.md) (the form the two parities select) | [Zero Immunity](docs/proofs/PROOF_ZERO_IMMUNITY.md) (extreme sectors immune to any 2-body H)
+→ [Qudit Partial Palindrome](docs/proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (the ceiling at d > 2) | [Water](docs/water/README.md) (the proton in a hydrogen bond)
 
 ---
 
@@ -347,21 +333,10 @@ live in their own folders, written in the target layer's language.
 Honesty matters more than impression. Stated plainly, these are things we have *not* proven, *not* measured, or *not* established:
 
 - CΨ is a derived diagnostic, not a new fundamental quantity.
-- The multi-qubit palindrome has not been measured on hardware. A historical
-  Q80 comparison was a finite single-qubit model readout with 1.9% deviation,
-  not validation of `CΨ=1/4`; N ≥ 2 remains untested. The two spectral-orbit
-  censuses cover 21,840 eigenvalues across N = 2 to 7; neither is a
-  standing-wave measurement.
-- Photon shot noise is an established circuit-QED dephasing mechanism, but the
-  repository has not identified it as the microscopic source of every fitted
-  `γ`. "Gamma is light," mass-as-trapped-light, and black-hole/cavity readings
-  remain mechanism-specific or Tier-4 interpretations.
-- The Absorption Theorem is proven for any Hermitian H under its stated
-  dephasing channel. Complex-Hermitian Hamiltonians, including
-  Dzyaloshinskii-Moriya terms, do not break the anti-Hermiticity of
-  `-i[H,·]`; non-Hermitian generators or different dissipators are outside
-  that statement.
-- The biological mappings are structural analogies, and both C. elegans results that once anchored them were withdrawn: the pairing on 2026-08-25, for measuring a matching tolerance, and the 8.46x enrichment on 2026-08-26, for comparing two normalisation constants. The quantum→biology link is Tier 4 and now has one less leg.
+- The full multi-qubit palindromic spectrum has not been measured on hardware. What hardware has seen includes the single-qubit CΨ = ¼ crossing time (1.9% on q80), the two-qubit Bell+ trajectory through ¼ (Kingston), and at N = 3 the palindrome's truly, soft and hard classes told apart (Marrakesh). The standing-wave pairing is computed (21,840 eigenvalues across N = 2 to 7), not measured.
+- Gamma-is-light is literal only in circuit QED, where photon shot noise in a physical cavity is one of the dephasing channels; the broader readings (mass as trapped light, black holes as cavities) are Tier-4 hypotheses with no independent test.
+- The Absorption Theorem is proven for any Hermitian H, Dzyaloshinskii-Moriya terms included, under its stated dephasing channel; non-Hermitian generators and other dissipators lie outside it.
+- The biological mappings are structural analogies with no C. elegans anchor: the pairing measured a matching tolerance, and the 8.46x enrichment compared two normalisation constants. The quantum→biology link is Tier 4.
 - The receiver-engineering advantage is simulated through N = 13 and confirmed on hardware only at N = 5.
 - Consciousness plays no role in the physics; [The Anomaly](THE_ANOMALY.md) is philosophy, clearly labeled as such.
 
@@ -386,7 +361,7 @@ Full list in [Predictions](docs/PREDICTIONS.md) and [What We Got Wrong](docs/WEA
 
 ## Repository structure
 
-`docs/` proofs and synthesis · `experiments/` tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
+`docs/` proofs and synthesis · `experiments/` ~230 tested results and null results · `hypotheses/` tier-labeled speculation · `reflections/` synthesis arcs · `simulations/` the Python `framework/` cockpit plus ~1,000 one-shot scripts · `compute/` the C# layers (Core = typed F-claims; Compute = eigendecomposition N=2–8; Propagate = RK4 / matrix-free to N=15; plus Diagnostics, Cli, Runtime) · `data/` IBM measurement data · `recovered/` premature-not-wrong entries, kept for honesty.
 
 The framework itself lives in Markdown; Python and C# are view-layers operationalising it. The typed C# Core (`compute/RCPsiSquared.Core/`) has been the active development front since 2026-04-30. Live introspection: start with `dotnet run --project compute/RCPsiSquared.Cli -- inspect --root world --max-depth 2` (the whole object manager: roots, claims, confirmations, open arcs), `--root glossary` for the house terms, `--root symphony` for one system read by every lens at once.
 

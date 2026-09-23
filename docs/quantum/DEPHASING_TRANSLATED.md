@@ -1,7 +1,5 @@
 # Dephasing Translated: The Sending, Not the Noise
 
-<!-- CROSSING-CURRENT -->
-
 <!-- Keywords: noise translation dephasing, decoherence not random disturbance,
 held letter dephasing basis, held letter routing, absorption theorem light content,
 gamma the sending itemized bill, the watching register retired, Shannon channel
@@ -153,9 +151,10 @@ tier:
 - **It is the mirror's axis.** The total, Σγ, is the exact center of
   the palindromic spectrum. The label files the quantity under waste; the
   theorem finds it at the geometric heart of the structure.
-- **It is readable, and spendable.** The spatial γ-profile is decodable to
-  15.5 bits of theoretical capacity (2 bits demonstrated) through 5
-  independent SVD modes at 1% per-feature noise, at N = 5
+- **It is readable, and spendable.** The spatial γ-profile carries
+  15.5 bits of theoretical capacity in the linearized N = 5 model, through
+  5 independent SVD modes at 1% readout noise per feature (four profiles,
+  2 bits, told apart without error from exact readings in simulation)
   ([Gamma as Signal](../../experiments/GAMMA_AS_SIGNAL.md), Tier 2; the
   palindromic mode structure is the reading frame). Shaping where the
   light falls beats a smooth profile by 360× at N = 5, 139× at N = 9, in
@@ -254,10 +253,10 @@ observable, the way an absolute tempo would.
 
 **The light** ([Gamma Is Light](../../hypotheses/GAMMA_IS_LIGHT.md), Tier 4):
 γ is illumination entering the cavity from outside; a mode's lifetime is set
-by how much of itself it exposes to the light. On IBM transmons the reading
-turns literal and published (Tier 2): a dominant dephasing channel there IS
-photon shot noise, light in a physical microwave cavity (Sears et al.,
-PRB 86, 2012). At that stance the two labels collapse into each other:
+by how much of itself it exposes to the light. On transmons the reading turns
+literal and published (Tier 2): photon shot noise is a leading dephasing
+channel, the dominant one in the devices Sears et al. measured (PRB 86,
+2012), light in a physical microwave cavity. At that stance the two labels collapse into each other:
 the noise is light in the plainest sense available.
 
 **The sending** ([On Who Watches Whom](../../reflections/ON_WHO_WATCHES_WHOM.md),
@@ -314,13 +313,13 @@ included) beats a smoothly graded
 profile by 360× at N = 5, 139× at N = 9, in simulation (a peak created
 nearest-neighbour Sum-MI ratio, a transport number, not a lifetime), while
 on ibm_torino the companion measurement beat uniform
-decoupling by up to 3.2×, its mechanism attribution still open.
-The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md) is a distinct finite
-N=11 schedule candidate: nominal 0.78/stage (4.68 total) executes as
-0.75/stage (4.50 total). Its 0.131700 final reading versus the passive
-sampled maximum 0.071576 at t=4.00 gives about +84.0%, with unmatched time
-and dose. No isolated staging effect, optimized dephasing dose, or
-palindrome-selected timing follows; F14 does not derive this schedule.
+decoupling by up to 3.2×, its mechanism attribution still open. The [Relay Protocol](../../experiments/RELAY_PROTOCOL.md)
+shapes WHEN: relay stations take turns standing in the light, each stage
+clocked at 0.78 (the February tool's K ≈ 0.039 over γ; the integrator
+rounds it down to 0.75), for
++18% end-to-end mutual information alone, +84% once the spatial 2:1 coupling
+asymmetry is added, both set against the passive chain's best moment. Neither protocol adds
+hardware or fights the channel; both steer it. Nobody steers static.
 
 ---
 

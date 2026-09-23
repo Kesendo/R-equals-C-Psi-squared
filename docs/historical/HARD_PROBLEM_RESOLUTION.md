@@ -1,13 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Current scope of this preserved January document
-
-Current reading: only the explicitly named fixed-point mathematics and standing
-wave calculations remain mathematical content.  Consciousness, measurement,
-and scalar-boundary interpretations are retired.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the original document follows for research context.
-
 > **Historical document.** Originally written January 2, 2026. The consciousness
 > interpretation has been retired. The fixed-point mathematics and standing waves
 > remain valid; the framing of C as "consciousness" is no longer part of the evidence base.
