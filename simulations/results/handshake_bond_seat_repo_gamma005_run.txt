@@ -1,0 +1,16 @@
+=== Fixed positive gamma: bond-to-seat population response ===
+gamma0=0.05 fixed; J_hop=0.075; Q=1.5
+Convention: H=(J_hop/2)*sum(XX+YY); H_SE=J_hop*A_path
+Profiles: uniform gamma0 at every site; single-centre F157 control
+t=[2, 4, 6, 8, 10, 12, 15, 18, 24, 30]; fourfold refinement has 37 samples
+uniform ranks: [6, 6, 6, 3, 6, 6, 6]; refined: [6, 6, 6, 3, 6, 6, 6]
+single_centre ranks: [6, 6, 6, 3, 6, 6, 6]; refined: [6, 6, 6, 3, 6, 6, 6]
+Minimum retained singular-value / rank tolerance: 5.143e+07
+Ten-point grid weakest non-centre singular-value / leading singular-value: 7.309e-06
+Minimum retained relative singular-value / sqrt(eps) floor: 7.309e-06 / 1.490e-08
+Independent tangent ODE max error / (eps*N*scale): 0.046 (budget 16)
+At t=10, site 2: uniform-bond sum -0.192335351 (uniform illumination), -0.520299408 (centre illumination)
+At t=10, site 2: end-bond slope separation 0.184782 (uniform illumination)
+Centre mirror residual 1.08e-15; exact generator reflection True
+Scope: N=7, this preparation, these two light profiles and time grids; no all-Q rank law, hardware measurement, or finite-noise recovery claim.
+VERDICT: PASS

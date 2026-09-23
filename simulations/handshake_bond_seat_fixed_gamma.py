@@ -7,10 +7,13 @@ explicit illumination profiles use the same gamma0: every site, or the centre
 site alone. The reported ranks belong to the declared finite time sample.
 
 Run: python simulations/handshake_bond_seat_fixed_gamma.py
+The default is the repository's carrier-book point gamma0=0.05, J_hop=0.075.
+Use --unitized-control for the earlier gamma0=1, Q=1,2,10 comparison.
 """
 
 from __future__ import annotations
 
+import argparse
 import sys
 
 import numpy as np
@@ -244,7 +247,154 @@ def fixed_gamma_gate() -> dict:
     }
 
 
-def main() -> int:
+def repo_gamma005_fixture() -> dict:
+    """N=7 carrier-book J/gamma0=1.5, with fourfold time-grid insurance.
+
+    J_hop is the off-diagonal element of H_SE and the coefficient of
+    (XX+YY)/2 in the full XY chain. The two light profiles are separate models.
+    """
+    n, gamma0, hopping = 7, 0.05, 0.075
+    times = np.array([2., 4., 6., 8., 10., 12., 15., 18., 24., 30.])
+    refined = np.unique(np.concatenate([
+        np.linspace(left, right, 5)
+        for left, right in zip(times[:-1], times[1:])
+    ]))
+    profiles = {"uniform": tuple(range(n)), "single_centre": (3,)}
+    tensors = {name: response_tensor(n, times, hopping, gamma0, sites)
+               for name, sites in profiles.items()}
+    fine_tensors = {name: response_tensor(n, refined, hopping, gamma0, sites)
+                    for name, sites in profiles.items()}
+    ranks = {}
+    refined_ranks = {}
+    margins = []
+    weakest_relative = []
+    retained_relative = []
+    for name in profiles:
+        ranks[name], margin = _sample_ranks(tensors[name])
+        refined_ranks[name], fine_margin = _sample_ranks(fine_tensors[name])
+        margins.extend((margin, fine_margin))
+        for tensor, rank_list in ((tensors[name], ranks[name]),
+                                  (fine_tensors[name], refined_ranks[name])):
+            for site, rank in enumerate(rank_list):
+                singular = np.linalg.svd(tensor[:, :, site],
+                                         compute_uv=False)
+                retained_relative.append(
+                    float(singular[rank - 1] / singular[0])
+                    if rank and singular[0] > 0 else 0.0
+                )
+        for site in range(n):
+            if site != n // 2:
+                singular = np.linalg.svd(tensors[name][:, :, site],
+                                         compute_uv=False)
+                weakest_relative.append(float(singular[-1] / singular[0]))
+
+    checks = []
+    for name, readout, bond, time in (
+        ("uniform", 2, 0, 10.0),
+        ("uniform", 3, 2, 10.0),
+        ("single_centre", 2, 5, 20.0),
+        ("single_centre", 3, 0, 20.0),
+    ):
+        time_index = int(np.where(times == time)[0][0]) if time in times else None
+        predicted = (float(tensors[name][time_index, bond, readout])
+                     if time_index is not None else
+                     float(response_tensor(n, [time], hopping, gamma0,
+                                           profiles[name])[0, bond, readout]))
+        direct = independent_tangent_slope(n, readout, bond, time,
+                                            hopping, gamma0, profiles[name])
+        scale = (np.finfo(float).eps * n *
+                 (abs(time) * (1 + abs(hopping * time)) +
+                  abs(predicted) + abs(direct)))
+        checks.append({"profile": name, "readout": readout, "bond": bond,
+                       "time": time, "frechet": predicted, "direct": direct,
+                       "error_ratio": abs(predicted - direct) / scale})
+
+    permutation = np.eye(n)[::-1]
+    lift = np.kron(permutation, permutation)
+    exact_reflection = all(
+        np.array_equal(lift @ liouvillian(n, hopping, gamma0, sites) @ lift.T,
+                       liouvillian(n, hopping, gamma0, sites))
+        for sites in profiles.values()
+    )
+    centre = n // 2
+    mirror_residual = max(
+        float(np.max(np.abs(tensor[:, bond, centre] -
+                            tensor[:, n - 2 - bond, centre])))
+        for tensor in tensors.values() for bond in range((n - 1) // 2)
+    )
+    reflection_budget = (64.0 * np.finfo(float).eps * n *
+                         max(float(np.max(np.abs(tensor)))
+                             for tensor in tensors.values()))
+    expected = [6, 6, 6, 3, 6, 6, 6]
+    coherent_ranks = [seat_inventory(n, site)["rank"] for site in range(n)]
+    max_ratio = max(row["error_ratio"] for row in checks)
+    relative_floor = float(np.sqrt(np.finfo(float).eps))
+    offcentre_differences = {
+        name: float(abs(tensor[4, 0, 2] - tensor[4, 5, 2]))
+        for name, tensor in tensors.items()
+    }
+    passes = bool(all(row == expected for row in (*ranks.values(),
+                                             *refined_ranks.values())) and
+              coherent_ranks == [5, 4, 5, 2, 5, 4, 5] and
+              max_ratio <= 16.0 and exact_reflection and
+              mirror_residual <= reflection_budget and
+              min(retained_relative) > relative_floor and
+              offcentre_differences["uniform"] > reflection_budget)
+    return {
+        "gamma0": gamma0, "hopping": hopping, "q": hopping / gamma0,
+        "times": times.tolist(), "refined_sample_count": len(refined),
+        "ranks": ranks, "refined_ranks": refined_ranks,
+        "rank_tolerance_margin": min(margins),
+        "minimum_noncentre_relative_singular": min(weakest_relative),
+        "minimum_retained_relative_singular": min(retained_relative),
+        "relative_singular_floor": relative_floor,
+        "coherent_ranks": coherent_ranks,
+        "tangent_checks": checks, "max_tangent_error_ratio": max_ratio,
+        "centre_mirror_residual": mirror_residual,
+        "reflection_budget": reflection_budget,
+        "exact_generator_reflection": exact_reflection,
+        "uniform_bond_sum_t10": float(np.sum(tensors["uniform"][4, :, 2])),
+        "single_centre_bond_sum_t10": float(np.sum(tensors["single_centre"][4, :, 2])),
+        "offcentre_end_bond_difference_t10": offcentre_differences,
+        "passes": passes,
+    }
+
+
+def _main_repo_gamma005() -> int:
+    result = repo_gamma005_fixture()
+    print("=== Fixed positive gamma: bond-to-seat population response ===")
+    print("gamma0=0.05 fixed; J_hop=0.075; Q=1.5")
+    print("Convention: H=(J_hop/2)*sum(XX+YY); H_SE=J_hop*A_path")
+    print("Profiles: uniform gamma0 at every site; single-centre F157 control")
+    print("t=[2, 4, 6, 8, 10, 12, 15, 18, 24, 30]; "
+          "fourfold refinement has 37 samples")
+    for name in ("uniform", "single_centre"):
+        print(f"{name} ranks: {result['ranks'][name]}; "
+              f"refined: {result['refined_ranks'][name]}")
+    print(f"Minimum retained singular-value / rank tolerance: "
+          f"{result['rank_tolerance_margin']:.3e}")
+    print(f"Ten-point grid weakest non-centre singular-value / leading singular-value: "
+          f"{result['minimum_noncentre_relative_singular']:.3e}")
+    print(f"Minimum retained relative singular-value / sqrt(eps) floor: "
+          f"{result['minimum_retained_relative_singular']:.3e} / "
+          f"{result['relative_singular_floor']:.3e}")
+    print(f"Independent tangent ODE max error / (eps*N*scale): "
+          f"{result['max_tangent_error_ratio']:.3f} (budget 16)")
+    print(f"At t=10, site 2: uniform-bond sum "
+          f"{result['uniform_bond_sum_t10']:+.9f} (uniform illumination), "
+          f"{result['single_centre_bond_sum_t10']:+.9f} (centre illumination)")
+    print(f"At t=10, site 2: end-bond slope separation "
+          f"{result['offcentre_end_bond_difference_t10']['uniform']:.6f} "
+          "(uniform illumination)")
+    print(f"Centre mirror residual {result['centre_mirror_residual']:.2e}; "
+          f"exact generator reflection {result['exact_generator_reflection']}")
+    print("Scope: N=7, this preparation, these two light profiles and time grids; "
+          "no all-Q rank law, hardware measurement, or finite-noise recovery claim.")
+    print(f"VERDICT: {'PASS' if result['passes'] else 'A CHECK FIRED'}")
+    return 0 if result["passes"] else 1
+
+
+def _main_unitized_control() -> int:
     result = fixed_gamma_gate()
     def times_text(q):
         return "[" + ", ".join(f"{time:.2f}" for time in result["q_time_grids"][q]) + "]"
@@ -282,5 +432,14 @@ def main() -> int:
     return 0 if result["passes"] else 1
 
 
+def main(argv=()) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--unitized-control", action="store_true",
+                        help="run the earlier gamma0=1, Q=1,2,10 comparison")
+    args = parser.parse_args(argv)
+    return (_main_unitized_control() if args.unitized_control
+            else _main_repo_gamma005())
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

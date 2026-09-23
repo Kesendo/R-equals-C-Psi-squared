@@ -109,8 +109,10 @@ The rank formula above belongs to `γ=0`. With `γ₀>0` fixed, the
 `(1,1)` Liouvillian evolves the `N×N` density-matrix sector spanned by
 `|i⟩⟨j|`. The [fixed-γ producer](../simulations/handshake_bond_seat_fixed_gamma.py)
 now carries the same preparation, bond perturbation, and population output
-through that block. At its declared `N=7`, `Q=1,2,10` time samples, its
-numerical ranks are `[6,6,6,3,6,6,6]` for both tested channel profiles.
+through that block. At the repository's carrier-book point `γ₀=0.05`,
+`J_hop=0.075` (`Q=1.5`), its `N=7` numerical ranks are
+`[6,6,6,3,6,6,6]` for both tested channel profiles on the stated 10- and
+37-time grids.
 The [fixed-γ note](THE_BOND_AND_THE_SEAT_AT_FIXED_GAMMA.md) states the
 sampling and what remains open. The [handshake arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
 already separates dissipative response from Hamiltonian eigenvector mixing.
