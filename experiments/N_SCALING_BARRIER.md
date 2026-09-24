@@ -283,8 +283,9 @@ Subsystem crossing tests (Experiment 10) resolved the barrier.
 
 A 4-qubit Bell+xBell+ state has full-system Psi(0) = 0.200, below 1/4.
 But the entangled pairs (0,1) and (2,3) each have Psi(0) = 0.333 and
-C = 1.000 at the pair level. They cross at t = 0.080. Cross-pairs that
-share no entanglement have C = 0 and never cross.
+C = 1.000 at the pair level. They cross at t = 0.080. The cross-pairs
+start with no entanglement and never cross: the Hamiltonian entangles
+them, but their CΨ stays below 0.15 in the concurrence book.
 
 The product state |+⟩^4 has Psi(0) = 1.000 at every level but C = 0
 for all pairs. No crossing at any level, ever.
@@ -302,7 +303,7 @@ See [Subsystem Crossing](SUBSYSTEM_CROSSING.md) for full data.
    that global crossing does not occur.
 
 2. ~~Do subsystem pairs cross when the full system cannot?~~ **ANSWERED**:
-   Yes, if the pairs carry actual entanglement (Bell+xBell+). No, if
+   Yes, if the pairs carry the initial Bell entanglement (Bell+xBell+). No, if
    the entanglement is global (GHZ) or diluted (W).
 
 3. ~~Does |+⟩^N cross?~~ **ANSWERED**: No. C = 0 for all pairs at all

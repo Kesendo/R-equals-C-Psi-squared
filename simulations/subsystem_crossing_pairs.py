@@ -182,12 +182,16 @@ def run_state(name, psi, N=4, gamma=0.05, t_max=5.0, dt=0.01):
     ts = np.arange(0, t_max + dt / 2, dt)
     pairs = [(i, j) for i in range(N) for j in range(i + 1, N)]
     traj = {p: [] for p in pairs}
+    peak_l1 = {p: 0.0 for p in pairs}
+    peak_conc = {p: 0.0 for p in pairs}
     for _ in ts:
         rho = v.reshape(2 ** N, 2 ** N)
         for p in pairs:
             rp = ptrace_pair(rho, list(p), N)
             value = selected_pair_readout(rp)
             traj[p].append(value)
+            peak_l1[p] = max(peak_l1[p], l1_coherence(rp))
+            peak_conc[p] = max(peak_conc[p], concurrence(rp))
         v = step @ v
     rho0_full = rho0
     print(f"{'pair':>6} {'l1(0)':>7} {'Psi(0)':>7} {'conc(0)':>8} "
@@ -209,6 +213,11 @@ def run_state(name, psi, N=4, gamma=0.05, t_max=5.0, dt=0.01):
         print(f"{str(p):>6} {l1:7.3f} {l1/3:7.3f} {concurrence(rp0):8.3f} "
               f"{bridge(rp0):10.3f} {selected_pair_readout(rp0):10.3f} "
               f"{tc if tc is not None else float('nan'):8.3f}")
+    print(f"  grid maxima (dt {dt}, t <= {t_max}): {'pair':>6} {'max l1':>7} {'max conc':>9} {'max R_pair':>11}")
+    for row in rows:
+        p = row["pair"]
+        row.update(peak_l1=peak_l1[p], peak_concurrence=peak_conc[p], peak_readout=max(traj[p]))
+        print(f"  {'':>33}{str(p):>6} {peak_l1[p]:7.2f} {peak_conc[p]:9.2f} {max(traj[p]):11.3f}")
     return rows
 
 

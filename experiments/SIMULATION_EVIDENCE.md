@@ -202,13 +202,15 @@ The operator feedback mechanism follows γ_eff = γ₀·(1 − κ·⟨O_int⟩) 
 Full-system crossing is not the only mechanism. Subsystem pairs can cross
 the 1/4 threshold independently:
 
-**Bell+⊗Bell+ (N=4):** Full system never crosses (Ψ_max = 0.200). But
+**Bell+⊗Bell+ (N=4 ring, γ = 0.05):** Full system never crosses (Ψ_max = 0.200). But
 entangled pairs (0,1) and (2,3) start at C·Ψ = 0.333 and cross at
 t = 0.080 in the concurrence book (0.073 in the pairwise bridge the
 February run was read with).
-Unentangled cross-pairs (0,2) etc. never cross (C = 0 throughout).
+Cross-pairs (0,2) etc. start unentangled and never cross: the
+Hamiltonian entangles them, but their C·Ψ stays below 0.15.
 
-**Product state |+⟩⊗4:** Ψ = 1.0 but C = 0 for all pairs. No crossing
+**Product state |+⟩⊗4:** Ψ(0) = 1.0 but C = 0 for all pairs at all
+times. No crossing
 at any level. Maximum coherence without correlation produces nothing.
 
 This resolves the N-scaling barrier: crossing is local, happening between

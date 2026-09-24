@@ -37,15 +37,16 @@ crossing is universally local or locate a quantum/classical transition.
 
 ## Abstract
 
-The earlier N-scaling note observed a size-dependent full-system normalization.
-This experiment compares that book with **pair-reduced finite readouts**.
-A 4-qubit Bell+⊗Bell+ state has full-system Ψ(0) = 0.200 (below 1/4), but
-the entangled pairs (0,1) and (2,3) each start at CΨ = 0.333 and cross at
-t = 0.080. Cross-pairs with no entanglement have C = 0, never crossing.
-GHZ pairs have zero coherence (global entanglement invisible at pair level).
-W pairs start below 1/4 (entanglement too diluted). Product states |+⟩⁴
-have Ψ = 1.0 but C = 0 in this construction. These rows distinguish several
-state families; they do not make the scalar crossing an entanglement theorem.
+The earlier N-scaling note observed a size-dependent full-system
+normalization. This experiment compares that book with **pair-reduced finite
+readouts**. A 4-qubit Bell+⊗Bell+ state has full-system Ψ(0) = 0.200 (below
+1/4), but the entangled pairs (0,1) and (2,3) each start at CΨ = 0.333 and
+cross at t = 0.080. Its cross-pairs start without entanglement and never
+cross, though the Hamiltonian entangles them on the way. GHZ pairs have zero
+coherence (global entanglement invisible at pair level). W pairs start below
+1/4 (entanglement too diluted). Product states |+⟩⁴ start at Ψ = 1.0 and keep
+C = 0 in this construction. These rows distinguish several state families;
+they do not make the scalar crossing an entanglement theorem.
 
 ---
 
@@ -157,8 +158,13 @@ concurrence book, as the reproduction script below and Open Question 1's
 own nine-times ratio both give; the pairwise bridge the February run was
 read with crosses the same pair at t = 0.073 under exact propagation
 ([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)).
-The unentangled cross-pairs (0,2), (0,3), (1,2), (1,3) have l1 = 0,
-C = 0, and never cross.
+The cross-pairs (0,2), (0,3), (1,2), (1,3) start with l1 = 0 and C = 0,
+and the Hamiltonian then entangles them: within t ≤ 5 the ring
+neighbours (0,3) and (1,2) reach concurrence 0.56 and l1 0.83, the
+diagonals (0,2) and (1,3) concurrence 0.35 and l1 0.84. Their CΨ stays
+low, at most 0.147 for the neighbours and 0.098 for the diagonals, and
+none crosses
+([subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py)).
 
 **In this finite book, the selected full-system trace does not cross while the
 two initially entangled pair readouts do.**
@@ -172,8 +178,8 @@ that those degrees of freedom undergo a physical regime transition.
 |------|-------|--------|-----------|----------|----------|
 | All 6 pairs | 3.000 | 1.000 | 0.000 | 0.000 | NO |
 
-Every pair has **maximum possible Psi = 1.000** (full local coherence)
-and **C = 0.000** at all times (zero correlation). Each qubit is
+Every pair starts at **maximum possible Psi = 1.000** (full local
+coherence) and keeps **C = 0.000** at all times (zero correlation). Each qubit is
 individually in a superposition, but no qubit knows about any other.
 
 CΨ = 0 for all pairs at all times. No crossing, ever.
@@ -213,7 +219,7 @@ Different entanglement topologies produce different crossing patterns:
 |-------|---------------------|-------------------|
 | GHZ | Global only | None (no pair-level coherence) |
 | W | Distributed weak | None (too diluted) |
-| Bell+xBell+ | Two local pairs | Exactly the two entangled pairs |
+| Bell+xBell+ | Two local pairs | Exactly the two initially entangled pairs |
 | \|+⟩^4 | None | None (C = 0 everywhere) |
 
 Within these four rows, the pair-reduced readout differs by state family. This
@@ -284,8 +290,9 @@ for i, t in enumerate(tlist):
 ### 5.2 Key Checks
 
 1. Bell+xBell+ pair (0,1): must start at CΨ = 0.333 and cross 1/4.
-2. Bell+xBell+ pair (0,2): must have l1 = 0, C = 0 at all times.
-3. |+⟩^4 all pairs: must have C = 0.000 at all times despite Psi = 1.0.
+2. Bell+xBell+ cross-pairs: must start at l1 = 0, C = 0, become entangled
+   (concurrence up to 0.56) and stay below 1/4 (CΨ ≤ 0.147).
+3. |+⟩^4 all pairs: must have C = 0.000 at all times despite Psi(0) = 1.0.
 4. GHZ all pairs: must have l1 = 0.000 at all times.
 
 ### 5.3 What Could Extend This

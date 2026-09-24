@@ -3581,3 +3581,42 @@ own measure, and the producer's formula is not the producer's run: the same form
 exactly and by the tool's Euler step, gave two sets of numbers on one page, and the set that carried
 the tool's name was not the tool's. A maximum read off a grid is the grid's maximum until the grid
 is finer than the peak.
+
+## 2026-09-24, zero at t = 0 read as zero at all times: the Bell+⊗Bell+ cross-pairs become entangled
+
+**What happened.** On the N = 4 ring, Bell+⊗Bell+'s cross-pairs (0,2), (0,3), (1,2), (1,3) start
+with l₁ = 0 and C = 0, and six places in four documents carried that forward in time.
+SUBSYSTEM_CROSSING's abstract gave them "C = 0", its §3.3 said they "have l1 = 0, C = 0, and never
+cross", and its key checks asked that pair (0,2) "must have l1 = 0, C = 0 at all times";
+SIMULATION_EVIDENCE §7.1 wrote "(C = 0 throughout)"; N_SCALING_BARRIER said they "have C = 0 and
+never cross"; PREDICTIONS listed "C=0, l1=0 at all times" as a verified prediction whose own
+falsifier was "Cross-pairs eventually develop coherence". The February table's values were all t = 0
+values, beside a crossing verdict. The falsifier fires: within t ≤ 5 at γ = 0.05 the Hamiltonian
+entangles the cross-pairs, the ring neighbours (0,3) and (1,2) to concurrence 0.56 and l₁ 0.83, the
+diagonals (0,2) and (1,3) to concurrence 0.35 and l₁ 0.84. The half that held is the crossing: their
+CΨ peaks at 0.147 and 0.098 in the concurrence book, and none reaches ¼.
+PROOF_ROADMAP_QUARTER_BOUNDARY and MEDIATOR_AS_QUANTUM_TRANSISTOR already recorded a cross-pair CΨ
+peak near 0.13, the tool's pairwise-bridge value, which a C that stays zero cannot produce, and the
+runaway C·Ψ of 2.016 in the entry above, from the tool's unclipped first version, sat on the
+diagonal pair (0,2). The next row of PREDICTIONS had the same shape for |+⟩⁴: its pair Ψ starts at 1
+and decays, to 0.53 by t = 5, while only C stays at 0.
+
+**Found by.** The first review of the pairwise-bridge repair (the entry above), which propagated the
+Bell pairs exactly as a side check. The review of this repair caught its first draft widening the
+PREDICTIONS row to "initially unentangled pairs never cross", a class the same table shows crossing
+(product states). The second review caught the same widening in N_SCALING_BARRIER §7's closing
+sentence, which the first review's suggested wording had turned into "where the initial entanglement
+lives"; as it stands, "where the entanglement lives" is true as a necessary condition, since CΨ ≤
+concurrence when Ψ ≤ 1.
+
+**What stands now.** The cross-pairs start unentangled, become entangled and stay below ¼
+(`simulations/subsystem_crossing_pairs.py` prints each pair's grid maxima of l₁, concurrence and CΨ
+over the window). PREDICTIONS renames the row "Bell+xBell+ cross-pairs never cross", scoped to the
+concurrence book at γ = 0.05, gives it a crossing as its falsifier, and files "cross-pairs stay
+incoherent" under §8b; PROOF_ROADMAP_QUARTER_BOUNDARY gives the concurrence-book peak, 0.147, beside
+its concurrence-book crossing time.
+
+**The lesson.** A column headed "(0)" is a statement about t = 0. Writing it as "at all times"
+states a dynamics nobody read: the tool's cross-pair peak near 0.13 sat in two other documents, and
+a CΨ above zero already says C is not zero. The check is the maximum of each factor over the window,
+one line in the loop.

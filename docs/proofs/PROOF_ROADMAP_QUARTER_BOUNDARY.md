@@ -183,7 +183,7 @@ has its own crossing dose; the F25 value is recorded below.
 **Crossing is observed computationally.** Under Heisenberg Hamiltonian with local dephasing:
 
 - Bell pairs (0,1) and (2,3) in a 4-qubit `bell_pairs` state start at $C\Psi=1/3$ and cross down through 1/4 at $t\approx0.080$ (γ=0.05; reproduced in [subsystem_crossing_pairs.py](../../simulations/subsystem_crossing_pairs.py)). That finite concurrence-book run gives γt≈0.004, while the isolated-pair concurrence-book dose is about 0.036 and the separate F25 purity-book dose is `K_Z=0.0373501…`. The shorter time is a finite observation; cross-bond acceleration is an open mechanism hypothesis, not a consequence of the quarter algebra.
-- Cross-pairs (0,2), (0,3), (1,2), (1,3) start at $C\Psi = 0$ and remain below 1/4 in this recorded run; their sampled maximum is ~0.13
+- Cross-pairs (0,2), (0,3), (1,2), (1,3) start at $C\Psi = 0$ and remain below 1/4 in this recorded run, although the Hamiltonian entangles them; their maximum is 0.147 in this concurrence book
 - The initially entangled pairs cross downward in this recorded run
 - Pairs (0,3) and (1,2) show perfect symmetry (palindromic structure), as do pairs (0,2) and (1,3)
 
@@ -250,11 +250,11 @@ extremes.
 
 **Full-system vs. subsystem distinction.** For GHZ with N≥3, the full-system $C\Psi$ starts below 1/4 in the canonical purity book: its l1-norm is $O(1)$ while the denominator `d−1=2^N−1` is $O(2^N)$, so $\Psi\to0$. Two-qubit marginals remain `d=4` objects and must be evaluated in their own book; a named pair can therefore begin above the quarter even when the full-system reading does not.
 
-**The subsystem crossing hierarchy.** In the 4-qubit bell_pairs state:
+**The subsystem crossing hierarchy.** In the 4-qubit bell_pairs state (N = 4 ring, γ = 0.05):
 
 - Entangled pairs (0,1) and (2,3): Start at $C\Psi = 1/3$, cross at $t \approx 0.080$
 - Cross-pairs (0,2), (0,3), (1,2), (1,3): Start at $C\Psi = 0$, never reach 1/4
-- Maximum $C\Psi$ for cross-pairs: ~0.13 (well below 1/4)
+- Maximum $C\Psi$ for cross-pairs: 0.147 in the concurrence book (well below 1/4)
 
 This finite hierarchy is compatible with a monogamy explanation, but that mechanism is an open hypothesis; the table alone does not derive it.
 
