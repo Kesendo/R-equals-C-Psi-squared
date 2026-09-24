@@ -82,18 +82,20 @@ $$D = (2C\Psi - 1)^2 - 4C^2\Psi^2 = 1 - 4C\Psi$$
 
 This vanishes at $C\Psi=1/4$, giving one double real algebraic root. Below it the polynomial has two real algebraic roots and above it none. Whether either root lies in a chosen physical interval is a separate check; the discriminant alone says nothing about a quantum trajectory.
 
-**The crossing cubic.** At the critical boundary $C\Psi = 1/4$, with the normalized l1-coherence and the correlation bridge definition, the boundary condition reduces to the cubic:
+**The crossing cubic.** At the critical boundary $C\Psi = 1/4$, with the normalized l1-coherence and the purity reading C = Tr ρ² (F25's book), the boundary condition reduces to the cubic:
 
 $$b^3 + b = \frac{1}{2}$$
 
-where $b$ is a normalized bridge parameter (not the $b = 1/2$ fixed-point
-real part of F95 below; two different uses of the letter). This cubic has
-exactly one real root ($b \approx 0.4239$), which fixes the crossing geometry
-uniquely. The cubic has no free parameters; it is a pure number, independent
-of any physical constants. Algebraically it is
-[D4](../ANALYTICAL_FORMULAS.md#d4)'s single-qubit crossing condition
-$f^*(1+f^{*2}) = 1/2$, the $d = 2$ member of the dimensional family
-$(d-1)/2$: Bell+ has $3/2$, GHZ$_N$ has $(2^N-1)/2$
+where $b$ is the normalized l1-coherence of a qubit in maximal superposition
+under pure dephasing, populations ½
+([F12](../ANALYTICAL_FORMULAS.md#f12-single-qubit-universal-crossing-fraction-tier-2));
+it is not the $b = 1/2$ fixed-point real part of F95 below, two different uses
+of the letter. This cubic has exactly one real root ($b \approx 0.4239$),
+which fixes the crossing geometry uniquely. The cubic has no free parameters;
+it is a pure number, independent of any physical constants. Algebraically it
+is [D4](../ANALYTICAL_FORMULAS.md#d4)'s single-qubit crossing condition
+$f^*(1+f^{*2}) = 1/2$, the $d = 2$ member of the dimensional family $(d-1)/2$:
+Bell+ has $3/2$, GHZ$_N$ has $(2^N-1)/2$
 ([Decoherence Relativity](../../experiments/DECOHERENCE_RELATIVITY.md),
 [Coherence Density](../../experiments/COHERENCE_DENSITY.md)).
 
@@ -185,7 +187,7 @@ has its own crossing dose; the F25 value is recorded below.
 - Bell pairs (0,1) and (2,3) in a 4-qubit `bell_pairs` state start at $C\Psi=1/3$ and cross down through 1/4 at $t\approx0.080$ (γ=0.05; reproduced in [subsystem_crossing_pairs.py](../../simulations/subsystem_crossing_pairs.py)). That finite concurrence-book run gives γt≈0.004, while the isolated-pair concurrence-book dose is about 0.036 and the separate F25 purity-book dose is `K_Z=0.0373501…`. The shorter time is a finite observation; cross-bond acceleration is an open mechanism hypothesis, not a consequence of the quarter algebra.
 - Cross-pairs (0,2), (0,3), (1,2), (1,3) start at $C\Psi = 0$ and remain below 1/4 in this recorded run, although the Hamiltonian entangles them; their maximum is 0.147 in this concurrence book
 - The initially entangled pairs cross downward in this recorded run
-- Pairs (0,3) and (1,2) show perfect symmetry (palindromic structure), as do pairs (0,2) and (1,3)
+- Pairs (0,3) and (1,2) show perfect symmetry, as do pairs (0,2) and (1,3): the reflection swapping 0↔1 and 2↔3 fixes the state and exchanges both
 
 **Bidirectional vs. unidirectional observation.** The $C_{int}$ (both spins observed) vs. $C_{ext}$ (one spin observed) comparison shows:
 
@@ -315,7 +317,7 @@ Everything in Layers 1–3 applies to $d = 2$ (qubits). The question is: what ha
 
 ### What Is KNOWN Theoretically
 
-**The discriminant generalizes.** The fixed-point equation $R = C(\Psi + R)^2$ is dimension-independent; it is an algebraic recursion on scalar quantities ($C$ is the correlation bridge, $\Psi$ is the normalized coherence). The discriminant $D = 1 - 4C\Psi$ does not depend on $d$.
+**The discriminant generalizes.** The fixed-point equation $R = C(\Psi + R)^2$ is dimension-independent; it is an algebraic recursion on scalar quantities ($C$ is the bridge, such as the purity reading of the crossing cubic, and $\Psi$ is the normalized coherence). The discriminant $D = 1 - 4C\Psi$ does not depend on $d$.
 
 However, the *normalization* of $\Psi$ does depend on $d$. The maximally
 coherent state has every entry $\rho_{ij} = 1/d$, so its $d^2 - d$
@@ -342,7 +344,7 @@ moves the burden between the factors, never the product.
 
 This is in some sense "obvious" from the algebra, but making it rigorous requires showing that the operational definitions of $C$ and $\Psi$ for general $d$ still satisfy the recursion $R_{n+1} = C(\Psi + R_n)^2$. In particular:
 
-- For qutrits ($d = 3$), the partial trace produces a $3 \times 3$ reduced density matrix. The l1-norm coherence is still well-defined, but the correlation bridge needs to generalize from the qubit-specific Bloch sphere picture.
+- For qutrits ($d = 3$), the partial trace produces a $3 \times 3$ reduced density matrix. The l1-norm coherence is still well-defined, but the bridge needs to generalize from the qubit-specific Bloch sphere picture.
 - For continuous variable (CV) systems (infinite-dimensional), the l1-norm diverges and a different coherence measure is needed. The natural candidate is the Wigner function negativity or the stellar rank.
 
 **Conjecture 4.2 (CV Systems).** For Gaussian states in continuous variable systems, the analogous boundary exists but involves the symplectic eigenvalues rather than $C\Psi$. The condition $\nu_{-} = 1/2$ (where $\nu_{-}$ is the smallest symplectic eigenvalue of the partial transpose) plays the role of $C\Psi = 1/4$. This connection, if established, would link the 1/4 boundary to the PPT criterion in infinite dimensions.

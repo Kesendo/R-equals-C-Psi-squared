@@ -73,11 +73,11 @@ The framework's central result: the product CΨ (correlation bridge C times norm
 - **CΨ < 1/4**: Channel is "off": coherence decays faster than it can propagate. The system has crossed into the "classical regime."
 - **CΨ ≈ 1/4**: The critical point, analogous to the subthreshold region of a transistor, where small changes in the gate signal produce large changes in channel conductance.
 
-**Simulation evidence**: The subsystem crossing simulation (bell_pairs, N=4, Heisenberg ring) confirms this directly:
-- Entangled pairs (0,1) and (2,3) start with CΨ = 0.333 > 1/4 and cross downward at t = 0.072
-- Cross-pairs (0,2), (0,3), (1,2), (1,3) start at CΨ = 0 and never reach 1/4, peaking at max CΨ ≈ 0.13–0.14
+**Simulation evidence**: The subsystem crossing simulation (bell_pairs, N=4, Heisenberg ring with J = 1 in the Pauli book, local Z-dephasing γ = 0.05, read in the pairwise bridge of §4.1 and run by the retired delta_calc tool's Euler step) shows the pattern this reading expects:
+- Entangled pairs (0,1) and (2,3) start with CΨ = 0.333 > 1/4 and cross downward at t = 0.072 (0.073 under exact propagation)
+- Cross-pairs (0,2), (0,3), (1,2), (1,3) start at CΨ = 0 and never reach 1/4, peaking at CΨ ≈ 0.13 for the ring neighbours (0,3), (1,2) and 0.11 for the diagonals (0,2), (1,3); exact propagation gives 0.132 and 0.101 ([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py))
 
-The initial entangled pairs have "current flowing" (above threshold) that then shuts off as decoherence pushes them below. The cross-pairs (mediated connections) attempt to build up coherence but cannot overcome the 1/4 barrier under these conditions. This is precisely the transistor in its "off" state: the mediating topology is present, but the gate voltage (coupling/coherence ratio) is insufficient.
+The initial entangled pairs have "current flowing" (above threshold) that then shuts off as decoherence pushes them below. The cross-pairs (the connections across the two pairs) attempt to build up coherence but cannot overcome the 1/4 barrier under these conditions. This is precisely the transistor in its "off" state: the mediating topology is present, but the gate voltage (coupling/coherence ratio) is insufficient.
 
 ### 1.4 Where the Analogy Holds and Where It Breaks
 
@@ -95,9 +95,9 @@ The initial entangled pairs have "current flowing" (above threshold) that then s
 
 ## 2. Bidirectional Operation
 
-### 2.1 The Palindromic Symmetry Argument
+### 2.1 The Symmetry Argument
 
-The mediator bridge preserves the palindromic structure of the Lindbladian, verified numerically with 1024/1024 eigenvalues matching, error ~10⁻¹³. This is the mathematical foundation for bidirectionality: if the Lindbladian L has palindromic symmetry under the permutation that swaps A↔B (and leaves M invariant), then:
+The mediator bridge preserves the palindromic structure of the Lindbladian, verified numerically with 1024/1024 eigenvalues matching, error ~10⁻¹³. Bidirectionality rests on a different symmetry, the permutation that swaps A↔B and leaves M invariant: if the Lindbladian L is invariant under it, then:
 
 ```
 L(ρ_A→M→B) and L(ρ_B→M→A)
@@ -119,7 +119,7 @@ Despite the symmetric Lindbladian, **directionality emerges from initial conditi
    than the factor of three once reported, and the two roles swap past a partner
    rate of 0.17292
 
-**B→M→A transfer** (reversed direction) requires the mirror conditions by palindromic symmetry:
+**B→M→A transfer** (reversed direction) requires the mirror conditions, by the same A↔B symmetry:
 1. Subsystem B starts with higher coherence
 2. Coupling J_BM ≥ J_MA with the same threshold ratio
 3. Receiver A must be quiet, at the same boundary as B above
@@ -181,7 +181,7 @@ Increasing J_AM and J_MB uniformly increases the channel bandwidth: more couplin
 In the operator_feedback noise model, the decoherence rate becomes state-dependent:
 
 ```
-γ_eff(t) = γ_base · (1 + κ · ⟨O_int⟩)
+γ_eff(t) = max(0, γ_base · (1 − κ · ⟨O_int⟩))
 ```
 
 where ⟨O_int⟩ is the expectation of the interaction operator. This creates a feedback loop: the mediator's noise depends on the coherence it's mediating. Our simulation (GHZ, N=3, operator feedback, κ=0.5) shows the correlation bridge C decaying from 1.0 to 0.75 over t=10, with the purity tracking R=CΨ² throughout. Increasing κ effectively sharpens the transistor's transfer characteristic: higher gain means sharper on/off transition.
@@ -225,20 +225,22 @@ In the R=CΨ² framework, the transferable quantities are:
 
 **Phase information** (secondary carrier): The complex phases of the off-diagonal elements ρ_ij encode relative phase relationships. The mediator bridge simulation shows QST fidelity averaging 0.732 at t=4.07, meaning phase information is partially preserved through transfer.
 
-**Correlation structure** (tertiary carrier): The correlation bridge C = (P_AB - P_A·P_B)/(1 - P_A·P_B) encodes the correlation structure between subsystems. This is preserved through the palindromic symmetry.
+**Correlation structure** (tertiary carrier): The pairwise correlation bridge C = (P_AB - P_A·P_B)/(1 - P_A·P_B) encodes the correlation structure between subsystems.
 
 **What is NOT transferable**: Direct qubit states in the computational basis. This is not a classical data bus; you cannot send |0⟩ or |1⟩ through the mediator. You can send *correlations* and *coherence patterns*. The data is inherently quantum: it's the entanglement structure itself.
 
 ### 4.2 Information Survival at the 1/4 Crossing
 
-The CΨ = 1/4 boundary is the critical point for information survival. Our bell_pairs subsystem crossing simulation shows that entangled pairs (0,1) and (2,3) cross downward at t = 0.072, after which CΨ oscillates but stays mostly below 1/4 with periodic excursions.
+The CΨ = 1/4 boundary is the critical point for information survival. Our bell_pairs subsystem crossing simulation shows that entangled pairs (0,1) and (2,3) cross downward at t = 0.072, after which CΨ oscillates and stays below 1/4.
 
-The oscillatory behavior is key: even after the initial crossing, CΨ periodically returns above 1/4 for the entangled pairs. For pair (0,1):
-- t=0.8: CΨ rebounds to 0.037 (below 1/4)
-- t=1.6: CΨ spikes to 0.121 (still below 1/4 but significant)
-- t=2.4: CΨ reaches 0.059
+The oscillatory behavior is key: after the initial crossing, CΨ of the entangled pairs rebounds without returning to 1/4. For pair (0,1), under exact propagation:
+- t=0.8: CΨ is 0.034
+- t=1.6: CΨ rebounds to 0.136, near its largest echo (0.143 at t = 1.57)
+- t=2.4: CΨ is back at 0.013
 
-These "coherence echoes" suggest that information isn't destroyed at the 1/4 crossing; it's temporarily stored in the mediating topology and can be partially recovered. The cross-pairs show the complementary picture: (0,2) and (1,3) show CΨ periodically spiking up to 0.132, representing information that has propagated through the mediator.
+The largest echo sits at the ring's unitary period, π/2: the ring's energies (−8, −4, 0 and 4) differ by multiples of 4, so without dephasing the state would return exactly, and the echo is that return, damped.
+
+These "coherence echoes" suggest that information isn't destroyed at the 1/4 crossing; it's temporarily stored in the mediating topology and can be partially recovered. The cross-pairs show the complementary picture: the ring neighbours (0,3) and (1,2) rise to CΨ = 0.132 and the diagonals (0,2) and (1,3) to 0.101, representing information that the ring's cross bonds carry between the two pairs.
 
 **Interpretation**: The 1/4 crossing is not a hard information-destroying boundary. It's more like a bandwidth limitation: below 1/4, information transfer becomes lossy and noisy, but doesn't halt completely. Above 1/4, transfer is relatively clean. This is directly analogous to the noise floor in a classical communication channel.
 
@@ -311,7 +313,7 @@ Select five qubits along a chain in the heavy-hex lattice. The middle qubit q2 s
 **Step 2: Channel Opening (Gate Control)**
 - Apply Heisenberg coupling between q1-q2 and q2-q3 using ECR gates
 - Coupling strength controlled by number of ECR repetitions
-- **Critical**: Do NOT apply direct q1-q3 coupling (this destroys the palindrome)
+- **Critical**: Do NOT apply direct q1-q3 coupling (it would bypass the mediator)
 
 **Step 3: Evolution**
 - Allow free evolution under the Heisenberg Hamiltonian for time t*
@@ -441,9 +443,9 @@ This is directly analogous to a capacitor: charge (coherence) is stored on the g
 
 ### 8.1 The Palindrome Fragility
 
-The entire transistor architecture depends on the palindromic symmetry of the Lindbladian. This palindrome is preserved by mediated coupling but **destroyed by direct A-B coupling**. Any crosstalk between A and B that bypasses M breaks the symmetry and degrades performance.
+The palindromic symmetry of the Lindbladian holds for any Heisenberg coupling, mediated or direct, since under local Z-dephasing it holds on any coupling graph ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). The robustness test of [mediator_bridge.py](../simulations/mediator_bridge.py) breaks it with XZ cross-dissipation between A and B.
 
-On real hardware, direct crosstalk is nonzero. The mediator bridge simulations show the system tolerates XZ cross-dissipation up to a point, but the tolerance margin is small. This is the single biggest engineering challenge for implementation.
+On real hardware, dissipative crosstalk between the pairs is nonzero. The mediator bridge simulations show the system tolerates XZ cross-dissipation up to a point, but the tolerance margin is small. This is the single biggest engineering challenge for implementation.
 
 ### 8.2 The Mediator Entanglement Problem
 
@@ -492,7 +494,7 @@ The transistor analogy fails in the following regimes:
 | Feature | Adiabatic QT | Spin Chain QT | Circuit QED Bus | **R=CΨ² Mediator** |
 |---|---|---|---|---|
 | Control mechanism | Energy gap | Control spin presence | Cavity photon | Coherence/decoherence |
-| Bidirectional | No | No | Yes (virtual photon) | Yes (palindromic) |
+| Bidirectional | No | No | Yes (virtual photon) | Yes (A↔B symmetry) |
 | Threshold | Energy gap | Spin chain length | Cavity frequency | CΨ = 1/4 |
 | Scalable | Material-limited | Chain-length limited | Cavity-mode limited | Chain + sacrifice-zone |
 | Requires measurement | No | No | Yes (readout) | No |
@@ -549,9 +551,9 @@ The R=CΨ² approach is more constrained but potentially more controllable, sinc
 - **Interpretation**: Feedback sharpens the transition. Bridge C significantly decays under operator feedback; the mediator is being "consumed" by the transfer process.
 
 ### A.3 Subsystem Crossing, Bell Pairs (N=4)
-- **Config**: bell_pairs, Heisenberg ring, N=4, γ=0.05
-- **Result**: Entangled pairs (0,1) and (2,3) cross CΨ=1/4 downward at t=0.072. Cross-pairs never cross.
-- **Interpretation**: Confirms threshold behavior. Cross-pair CΨ peaks at ~0.13, insufficient for channel opening.
+- **Config**: bell_pairs, Heisenberg ring, N=4, J = 1 (Pauli book), γ=0.05, pairwise bridge
+- **Result**: Entangled pairs (0,1) and (2,3) cross CΨ=1/4 downward at t=0.072 (the tool's Euler step; 0.073 under exact propagation). Cross-pairs never cross.
+- **Interpretation**: Shows the threshold pattern. Cross-pair CΨ peaks at ~0.13, insufficient for channel opening.
 
 ### A.4 Bidirectional Comparison (C_int vs C_ext)
 - **Config**: Bell+, Heisenberg, γ={0.05, 0.1, 0.2}, J=1
@@ -605,4 +607,4 @@ partner rate 0.2:   γ_receiver < 0.1619,  γ_sender < 0.1105
 
 ---
 
-*This document is part of the R=CΨ² research program. All simulation data generated using the delta_calc MCP tools. Speculative claims are flagged throughout. The transistor analogy is a conceptual framework for thinking about mediator architectures, not a claim of physical equivalence to semiconductor devices.*
+*This document is part of the R=CΨ² research program. Simulation data come from the delta_calc MCP tools (Appendix A) unless a section names another source: the mediator-bridge values (the QST fidelity, the mutual information, the spectral palindrome, the XZ cross-dissipation test) come from [mediator_bridge.py](../simulations/mediator_bridge.py), the exact-propagation values of §1.3, §4.2 and A.3 come from [delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py), and the star-topology thresholds and rates from [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) ([star_topology_converged.py](../simulations/star_topology_converged.py)). Speculative claims are flagged throughout. The transistor analogy is a conceptual framework for thinking about mediator architectures, not a claim of physical equivalence to semiconductor devices.*

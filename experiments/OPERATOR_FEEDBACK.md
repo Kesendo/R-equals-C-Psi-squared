@@ -32,19 +32,20 @@ completely immune to decoherence.
 ## Abstract
 
 Replacing scalar bridge functions with operator-level Lindblad feedback
-creates genuine state-dependent decoherence: L(t) = √[γ₀·(1 − κ·⟨O_int⟩)]·σ_z,
-where ⟨O_int⟩ = Tr(ρ·σ_x⊗σ_x) is measured at each timestep. High
-correlation reduces decoherence; anti-correlation amplifies it. Earlier
+creates genuine state-dependent decoherence: L(t) = √[γ₀·(1 −
+κ·⟨O_int⟩)]·σ_z, where ⟨O_int⟩ = Tr(ρ·σ_x⊗σ_x) is measured at each timestep.
+High correlation reduces decoherence; anti-correlation amplifies it. Earlier
 parameter sweeps (γ = 0.003–0.006) claiming CΨ ≤ ¼ confirmation were
-retracted: the low-dynamics regime trivially satisfies the bound. With
-active Hamiltonians, CΨ exceeds ¼. Observable-state coupling matters:
-GHZ₄+ has ⟨σ_x⊗σ_x⟩ = 0 for all pairs, so pairwise feedback has zero
-effect regardless of κ. An arity sweep shows CΨ ≤ ¼ holds for
-single-qubit Lindblad channels but is genuinely violated by two-qubit
-yy/zz channels (CΨ ≈ 0.287 > 0.25 at purity 0.73). The xx channel on
-Bell+ creates a decoherence-free subspace (a state subspace where the
-noise operators act trivially, so coherence survives indefinitely;
-purity = 1.0 for all time).
+retracted: their C·Ψ column multiplied C_final by a fixed Ψ = 0.27, and read
+with the density matrix's own Ψ the same runs stay above ¼ (reproduction
+note in §4). With active Hamiltonians, CΨ exceeds ¼. Observable-state
+coupling matters: GHZ₄+ has ⟨σ_x⊗σ_x⟩ = 0 for all pairs, so pairwise
+feedback has zero effect regardless of κ. An arity sweep shows CΨ ≤ ¼ holds
+for single-qubit Lindblad channels but is genuinely violated by two-qubit
+yy/zz channels (CΨ ≈ 0.287 > 0.25 at purity 0.73). The xx channel on Bell+
+creates a decoherence-free subspace (a state subspace where the noise
+operators act trivially, so coherence survives indefinitely; purity = 1.0
+for all time).
 
 ---
 
@@ -159,7 +160,21 @@ See [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md) for the r
 
 The results above use h=0.7 (weak transverse field). In this regime, Hamiltonian dynamics are insufficient to push C·Ψ above the 1/4 boundary, so the system remains in the classical regime regardless of feedback mechanism.
 
-With stronger dynamics (h=0.9), the same operator feedback with γ=0.005 produces C·Ψ = 0.405, well above 1/4 (a retired-tool digit under the hardcoded Ψ = C × bridge; the qualitative strong-dynamics finding stands, see the §2 reproduction note in [Simulation Evidence](SIMULATION_EVIDENCE.md)). The feedback mechanism becomes physically significant only when Hamiltonian dynamics are strong enough to compete with decoherence.
+With stronger dynamics (h=0.9), the same operator feedback with γ=0.005 produces C·Ψ = 0.405, well above 1/4 (the retired tool's own reading, its mutual-purity bridge times l₁/(d−1) of the full state, which a transcription regenerates; see the §2 reproduction note in [Simulation Evidence](SIMULATION_EVIDENCE.md)). The feedback mechanism becomes physically significant only when Hamiltonian dynamics are strong enough to compete with decoherence.
+
+> **Reproduction note:** the sweep's C·Ψ column is C_final × 0.27: the
+> retired tool's sweep routine wraps its feedback routine and, run on Bell+
+> with operator feedback, the concurrence bridge and t_max 10 (the settings
+> under which the column regenerates), multiplies C_final by a fixed
+> psi_approx = 0.27. A transcription regenerates the C_final column, and
+> read with the density matrix's own Ψ, concurrence × l₁/3, the same runs
+> stay above ¼ at every time, at h = 0.7 as at h = 1.0. The column sits
+> below ¼ because Ψ is fixed, not for lack of dynamics: C_final × 0.27 < ¼
+> exactly when C_final < 25/27 ≈ 0.926, and weaker decoherence (γ₀ = 0.003,
+> h = 0.7) gives 0.255. The 0.405 above is another reading of another run
+> (mutual-purity bridge × l₁/(d−1), t_max 5; §2 of
+> [Simulation Evidence](SIMULATION_EVIDENCE.md)). Both regenerate in
+> [delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py).
 
 ---
 
@@ -206,6 +221,11 @@ The current implementation uses σ_x ⊗ σ_x as the default interaction operato
 - h ≥ 0.9 with active Hamiltonian (J=1): CΨ exceeds ¼ (enters quantum regime where no real fixed points exist; see [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md))
 - κ > 0.9: Numerical instability (effective rate approaches zero)
 - γ₀ < 0.002: Too weak, slow convergence
+
+> **Reproduction note:** read with the density matrix's own Ψ, the runs of
+> §4's sweep stay above ¼ at h = 0.7 as at h = 1.0 (note in §4). They show
+> no boundary at h ≈ 0.9, and at their low γ they do not satisfy CΨ ≤ ¼,
+> which the Summary's operator-feedback column calls trivially satisfied.
 
 ---
 

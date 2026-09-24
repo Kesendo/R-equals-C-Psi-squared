@@ -1,6 +1,11 @@
 > **Historical document.** Originally written February 2-3, 2026. Now absorbed into
 > [Complete Mathematical Documentation](../proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md).
 > Preserved for research context.
+>
+> **Note:** the CΨ column of §8 is C_final × 0.27, the retired tool's fixed psi_approx
+> (the Ψ ≈ 0.27 of §1 has the same value), not a Ψ read from the density matrix. Read with
+> the density matrix's own Ψ, the operator-feedback sweep stays above ¼
+> ([Operator Feedback](../../experiments/OPERATOR_FEEDBACK.md) §4, note there).
 
 # Dynamic Fixed Points and the CΨ ≤ ¼ Bound
 

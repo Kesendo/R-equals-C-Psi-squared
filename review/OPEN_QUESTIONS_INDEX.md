@@ -605,7 +605,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-153
 
-**Question:** ~~Do subsystem pairs cross when the full system cannot?~~ **ANSWERED**: Yes, if the pairs carry actual entanglement (Bell+xBell+). No, if the entanglement is global (GHZ) or diluted (W).
+**Question:** ~~Do subsystem pairs cross when the full system cannot?~~ **ANSWERED**: Yes, if the pairs carry the initial Bell entanglement (Bell+xBell+). No, if the entanglement is global (GHZ) or diluted (W).
 
 **Source:** `experiments/N_SCALING_BARRIER.md` (line 309)
 **Section:** 8. Open Questions (Updated)
@@ -895,7 +895,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-217
 
-**Question:** ~~Does the crossing time t=0.073 for Bell+xBell+ pairs match the isolated Bell+ crossing time, or does the ring Hamiltonian coupling to other qubits modify it?~~ **ANSWERED (2026-03-08):** It does NOT match. Isolated Bell+ (2 qubits, Heisenberg J=1, γ=0.05) crosses down through 1/4 at t=0.720. The same Bell pairs embedded in a 4-qubit ring cross at t=0.080, nine times faster. The ring Hamiltonian couples each pair to additional qubits, which accelerates decoherence of the pair subsystem. Cross-pairs (no initial entanglement) never cross, confirming that the crossing pattern reproduces the entanglement graph exactly.
+**Question:** ~~Does the crossing time t=0.080 for Bell+xBell+ pairs match the isolated Bell+ crossing time, or does the ring Hamiltonian coupling to other qubits modify it?~~ **ANSWERED (2026-03-08):** It does NOT match. Isolated Bell+ (2 qubits, Heisenberg J=1, γ=0.05) crosses down through 1/4 at t=0.719 (concurrence book). The same Bell pairs embedded in a 4-qubit ring cross at t=0.080, nine times faster. The ring Hamiltonian couples each pair to additional qubits and changes the subsystem trajectory. In this one state, ring, channel, and sampled time window, cross-pairs with zero initial concurrence did not cross the selected readout level. That finite negative row does not establish a graph-reconstruction law.
 
 **Source:** `experiments/SUBSYSTEM_CROSSING.md` (line 281)
 **Section:** 6. Open Questions
@@ -915,7 +915,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-219
 
-**Question:** ~~Can dynamical entanglement generation from a product state create crossings?~~ **ANSWERED** (2026-02-18): Yes, but not from |+⟩^N, which is an eigenstate of the isotropic Heisenberg Hamiltonian. The state |0+0+⟩ (not an eigenstate, energy variance = 20) generates crossings from zero initial entanglement. Under pure unitary evolution all 6 pairs cross. With dephasing (gamma = 0.05), only pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md. *(2026-07-20: the ring-(0,2) crossing numbers do not reproduce under the canonical pair-CΨ book; the YES survives via the chain and via |+-+-⟩/|0+0-⟩ on the ring, see the reproduction note in DYNAMIC_ENTANGLEMENT.md.)*
+**Question:** ~~Can dynamical entanglement generation from a product state create crossings?~~ **ANSWERED** (2026-02-18): Yes, but not from |+⟩^N, which is an eigenstate of the isotropic Heisenberg Hamiltonian. The state |0+0+⟩ (not an eigenstate, energy variance = 20) generates crossings from zero initial entanglement. Under pure unitary evolution all 6 pairs cross. With dephasing (gamma = 0.05), only pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md. *(The ring-(0,2) crossing numbers in that answer are read in the pairwise bridge, in which they reproduce under exact propagation; a σ_x run keeps (0,2) as the only crossing pair, so the immunity reason does not hold. Under the canonical pair-CΨ book that pair does not cross, and at this γ the upward crossing sits on the chain and in |+-+-⟩/|0+0-⟩ on the ring; see the reproduction note in DYNAMIC_ENTANGLEMENT.md.)*
 
 **Source:** `experiments/SUBSYSTEM_CROSSING.md` (line 295)
 **Section:** 6. Open Questions

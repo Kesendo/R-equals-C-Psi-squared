@@ -10,7 +10,7 @@ state, Born rule 97 percent Hamiltonian, R=CPsi2 simulation evidence -->
 > restored March 14. Mirror symmetry now proven analytically
 > (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
-**Status:** Event record, includes corrections of earlier overclaims (Tier 2). §7.1–§7.3 reproduce from committed probes (§7.2 in the pairwise bridge, note there); the §2–§5 dynamics are retired-tool output (reproduction note in §2)
+**Status:** Event record, includes corrections of earlier overclaims (Tier 2). §2–§4 and §7.1–§7.3 come back from committed probes, all but §2's GHZ range (notes in §2 and §7.2)
 **Date:** 2026-02-07 (updated 2026-02-18)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Simulator:** delta_calc MCP server v0.15 (§2–§5); QuTiP `mesolve` (§7)
@@ -24,19 +24,20 @@ show that CΨ routinely exceeds ¼ under active Hamiltonian dynamics. Bell+
 with Heisenberg coupling (J=1, h=0.9, γ=0.005) reaches CΨ = 0.405; W₃
 reaches 0.413; GHZ₃ reaches 0.262. Without Hamiltonian (H=0), CΨ
 monotonically decays below ¼. Earlier agent claims of "CΨ ≤ ¼
-confirmation" were based on parameter tuning in a low-dynamics regime
-(γ = 0.003–0.006) where decoherence barely perturbed the initial state.
-The corrected interpretation: CΨ ≤ ¼ is not a constraint on quantum
-states but on which states have real fixed points in the R = CΨ² iteration.
+confirmation" were based on parameter tuning (γ = 0.003–0.006) and on a
+C·Ψ column that multiplied C_final by a fixed Ψ = 0.27; read with the
+density matrix's own Ψ, the same runs stay above ¼ (note in §2). The
+corrected interpretation: CΨ ≤ ¼ is not a constraint on quantum states but
+on which states have real fixed points in the R = CΨ² iteration.
 Subsequent work (February 18) demonstrated subsystem crossing (entangled
 pairs cross independently of full system), dynamic entanglement (|0+0+⟩
 crossing from zero entanglement at t=0.286), and the Born rule at the
 crossing point (~97% from Hamiltonian, ~3% decoherence correction).
-Reproduction status: the subsystem-crossing and Born-rule
-tables (§7.1, §7.3) reproduce exactly from committed probes, and so does
-the §7.2 table, a QuTiP run read with the pairwise bridge
-C_corr = (P_AB − P_A·P_B)/(1 − P_A·P_B) (note in §7.2); the §2 digits
-carry their own note.
+Reproduction status: the subsystem-crossing and Born-rule tables (§7.1,
+§7.3) reproduce exactly from committed probes, and so does the §7.2 table,
+a QuTiP run read with the pairwise bridge C_corr = (P_AB − P_A·P_B)/(1 −
+P_A·P_B) (note in §7.2); the four runs of §2 reproduce too, in the retired
+tool's own mutual-purity reading.
 
 ---
 
@@ -91,21 +92,35 @@ CΨ oscillates between 0.18 and 0.50, with final value 0.413. Well above ¼.
 
 Every configuration with active Hamiltonian dynamics produces CΨ > ¼ at some point during evolution. The bound holds only in the trivial case of H = 0.
 
-> **Reproduction note (2026-07-21):** the feedback mechanism behind these
-> runs is documented and exact: every effective-γ value in §5 follows
-> γ_eff = γ₀·(1 − κ·⟨O_int⟩) with κ = 0.5 (§8 of
-> [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md)).
-> The CΨ digits in §2–§4, however, come from the retired tool's hardcoded
-> Ψ = C × bridge (§3, point 3) and match no density-matrix-derived book
-> tested (concurrence, purity, l₁ and mixed forms; under the canonical
-> pair book the GHZ pair value is exactly 0 because its pair-reduced state
-> is the classical mixture). No committed script reproduces these rows.
-> The qualitative event stands: active Hamiltonian dynamics drive CΨ
-> across ¼ while H = 0 decays monotonically; the digits are tool-book
-> artifacts. Confirmed at source 2026-07-21: the recovered tool code
-> carries γ_eff = max(0, γ₀·(1 − κ·⟨O_int⟩)) verbatim (with a clamp at
-> zero the doc never saw) and a literal default psi_approx = 0.27
-> behind §3's constant Ψ.
+> **Reproduction note:** the feedback mechanism behind these runs is
+> documented and exact: every effective-γ value in §5 follows γ_eff = γ₀·(1
+> − κ·⟨O_int⟩) with κ = 0.5 (§2 of
+> [Operator Feedback](OPERATOR_FEEDBACK.md)), clamped at zero in the tool,
+> γ_eff = max(0, γ₀·(1 − κ·⟨O_int⟩)). The CΨ digits of this section are the
+> retired tool's own reading of its runs, with both factors taken from the
+> density matrix: C is its mutual-purity bridge, the geometric mean of the
+> single-site purities, and Ψ = l₁/(d−1) of the full state. The Claude
+> Desktop log of the chat's MCP holds the four calls with these arguments,
+> and a transcription of the routine (σ_z jumps with O_int = σ_x⊗σ_x on
+> qubits 0 and 1, an Euler step of dt 0.01 with the negative eigenvalues
+> clipped, t_max 5) reproduces their logged ⟨O_int⟩ tails digit for digit
+> and regenerates every CΨ_final and purity_final of the four runs
+> ([delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py)).
+> The prose ranges name turning points of the Bell+ and W runs, W's a later
+> trough and peak rather than its extremes; the GHZ range names none. §4's Ψ
+> is the same l₁/(d−1), and each value it prints is a turning point of the
+> run, its start or its end, listed out of time order. The constant Ψ of §3
+> comes from the tool's sweep routine, which wraps the routine of this
+> section; run with operator feedback, the concurrence bridge and t_max 10
+> (the settings under which the column regenerates), it prints C_final ×
+> psi_approx, a fixed 0.27 (0.909 × 0.27 = 0.24543, printed 0.245), and the
+> transcription regenerates the agents' C_final column in all six rows of
+> Operator Feedback's §4. Read with the density matrix's own Ψ, concurrence
+> × l₁/3, the same runs stay above ¼ at every time. So what kept §3's column
+> below ¼ is the fixed Ψ, not a regime without dynamics: C_final × 0.27 < ¼
+> exactly when C_final < 25/27 ≈ 0.926, and weaker decoherence (γ₀ = 0.003,
+> h = 0.7) gives 0.255. The qualitative event stands: active Hamiltonian
+> dynamics drive CΨ across ¼ while H = 0 decays monotonically.
 
 ---
 
@@ -141,7 +156,7 @@ Despite the methodological issues, two contributions are solid:
 
 ## 4. Ψ Dynamics
 
-An important observation: Ψ (computed as √(Tr(ρ²) × bridge), where "bridge" is the retired tool's scalar coupling; see §8 of [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md)) is not constant during evolution. It oscillates significantly:
+An important observation: Ψ (computed as √(Tr(ρ²) × bridge); the values below follow the tool's l₁/(d−1) of the full state instead, note in §2) is not constant during evolution. It oscillates significantly:
 
 **Bell+ with active H:**
 - Ψ range: 0.35 → 0.99 → 0.37 → 0.81 (oscillating)

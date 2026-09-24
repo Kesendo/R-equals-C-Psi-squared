@@ -282,12 +282,14 @@ system's Bohr frequencies. The fitted envelope is not assigned to the middle
 palindromic rate. Calling the response a standing wave would additionally
 require spatial eigenvector or current evidence not recorded here.
 
-### Ring = Complete is a symmetry result (connects to: MIRROR_SYMMETRY_PROOF)
+### Ring = Complete is a symmetry result (connects to: PROOF_WEIGHT1_DEGENERACY)
 
-Ring and complete graph give identical CΨ dynamics (for this initial state).
-This suggests |0+0+⟩ doesn't "see" the extra bonds in the complete graph.
-Likely because the initial state has a symmetry that makes the diagonal bonds
-redundant. Worth testing with asymmetric initial states.
+Ring and complete graph give identical dynamics for |0+0+⟩, exactly. The
+complete graph's extra bonds are the diagonals, 2·SWAP − 1 each, and the ring
+dynamics keeps |0+0+⟩'s symmetry under swapping qubits 0↔2 and 1↔3, so they
+never act (§2b). For asymmetric initial states they do act:
+[PROOF_WEIGHT1_DEGENERACY](../docs/proofs/PROOF_WEIGHT1_DEGENERACY.md) finds
+K₄ and the ring apart for |++00⟩ and |10+0⟩.
 
 ### The Mandelbrot-Palindrome gap is real (honest, connects to: WEAKNESSES_OPEN_QUESTIONS)
 
@@ -390,10 +392,9 @@ The same state |0+0+⟩ on different N=4 topologies:
 | Ring | (1,3) diagonal | 0.201 | no |
 | Complete | (1,3) diagonal | 0.201 | no |
 
-Ring and complete are IDENTICAL (same CΨ for all pairs to 4 decimal places).
-The extra bonds in the complete graph don't help - the ring structure already
-saturates. This is because |0+0+⟩ has a symmetry that makes the diagonal
-bonds redundant.
+Ring and complete are IDENTICAL (same CΨ for all pairs, exactly; §2b). The
+extra bonds in the complete graph never act: |0+0+⟩ has a symmetry that makes
+the diagonal bonds redundant.
 
 Chain allows crossing because the interior pair (1,2) has a privileged
 position: both qubits are connected to the rest of the chain on both sides,

@@ -189,7 +189,8 @@ That cross-qubit contrast rejects universality. The Q80 phase-compatible
 fits are same-record and in-sample, not a Q52-specific mechanism fit.
 
 **CΨ > ¼ under active dynamics.** CΨ routinely exceeds ¼ with active
-Hamiltonians (Bell+ reaches 0.405 at J=1, h=0.9, γ=0.005). The bound
+Hamiltonians (Bell+ ends at 0.405 at J=1, h=0.9, γ=0.005, in the retired
+tool's mutual-purity reading). The bound
 CΨ ≤ ¼ is not a constraint on quantum states but on which states have
 real fixed points in the R = CΨ² iteration.
 
@@ -435,7 +436,7 @@ main README Section 6 (engineering consequences; the F67 receiver menu is Rule 2
 
 The mediator qubit M maps to a transistor: gate = γ_M, source = Pair A,
 drain = Pair B. Threshold voltage: CΨ = 1/4 (hardwired, fold catastrophe).
-Bidirectional by palindromic symmetry.
+Bidirectional by the A↔B permutation that leaves M fixed.
 
 Three control knobs: γ_M (gate), J_AM/J_MB ratio (bias), κ (feedback gain).
 

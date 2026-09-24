@@ -3620,3 +3620,95 @@ its concurrence-book crossing time.
 states a dynamics nobody read: the tool's cross-pair peak near 0.13 sat in two other documents, and
 a CΨ above zero already says C is not zero. The check is the maximum of each factor over the window,
 one line in the loop.
+
+## 2026-09-24, the §2 digits were the tool's own reading: SIMULATION_EVIDENCE's feedback runs reproduce, and a fixed Ψ held §3 below ¼
+
+**What happened.** The 2026-07-21 audit wrote into §2's note that the CΨ digits of §2–§4 "come from
+the retired tool's hardcoded Ψ = C × bridge (§3, point 3) and match no density-matrix-derived book
+tested", that "No committed script reproduces these rows" and that "the digits are tool-book
+artifacts"; OPERATOR_FEEDBACK called the 0.405 "a retired-tool digit under the hardcoded Ψ = C ×
+bridge". The hardcoded Ψ exists, and it is §3's: the tool's sweep routine multiplies C_final by a
+fixed psi_approx = 0.27 (0.909 × 0.27 = 0.24543, printed 0.245). The §2 runs came from the routine
+the sweep wraps, simulate_dynamic_lindblad, called directly: its C is its mutual-purity bridge, the
+geometric mean of the single-site purities, and its Ψ is l₁/(d−1) of the full state, both from the
+density matrix, in a book the audit did not test. The Claude Desktop log of the chat's MCP holds the
+four calls; transcribed, the routine reproduces their logged ⟨O_int⟩ tails digit for digit and
+regenerates every CΨ_final and purity_final of the four runs. The prose ranges name turning points
+of the Bell+ and W runs (W's not its extremes) and none of the GHZ run, and §4's printed Ψ values
+are turning points, starts or ends, listed out of time order, although the February text defined Ψ
+as √(Tr(ρ²) × bridge). The same fixed Ψ undoes the diagnosis of §3, which several places carried:
+SIMULATION_EVIDENCE said the agents' CΨ ≤ ¼ held "because nothing happens", and its abstract placed
+their claims "in a low-dynamics regime"; OPERATOR_FEEDBACK said there "isn't enough dynamics to push
+CΨ above the bound", its abstract that "the low-dynamics regime trivially satisfies the bound", and
+its §7 set a regime boundary, "h ≥ 0.9 with active Hamiltonian (J=1): CΨ exceeds ¼"; PREDICTIONS
+turned that into a threshold at h ≈ 0.9; and the historical DYNAMIC_FIXED_POINTS closed the agents'
+table with "The theoretical prediction holds." Beside point 1's diagnosis, §3's own point 3 had
+called Ψ "hardcoded" and the results "circular". The agents' runs regenerate (operator feedback, the
+tool's concurrence bridge, t_max 10), and read with the density matrix's own Ψ, concurrence × l₁/3,
+they stay above ¼ at every time; their column sat below ¼ because C_final × 0.27 < ¼ whenever
+C_final < 25/27 ≈ 0.926, and weaker decoherence (γ₀ = 0.003, h = 0.7) would have printed 0.255.
+
+**Found by.** The first review of the pairwise-bridge repair (two entries above), which transcribed
+the routine and regenerated the rows; the second review of this package found the four calls in the
+log and regenerated the agents' sweep, the third the diagnosis in OPERATOR_FEEDBACK's abstract and
+in PREDICTIONS, and later reviews its copies in SIMULATION_EVIDENCE's abstract, OPERATOR_FEEDBACK §7
+and the historical page.
+
+**What stands now.** §2's four runs reproduce in the tool's own reading
+(`simulations/delta_calc_feedback_runs.py`, which also regenerates the agents' sweep and matches the
+prose ranges and §4's Ψ values against the runs' turning points); §3's column is C_final × 0.27,
+below ¼ because Ψ is fixed, which both abstracts say in place and notes say beside the February text
+(SIMULATION_EVIDENCE §2, OPERATOR_FEEDBACK §4 and §7, the historical DYNAMIC_FIXED_POINTS); the h ≈
+0.9 threshold is filed as falsified in PREDICTIONS §8b; §3's point 2, that the agents chose the
+parameters that gave CΨ ≤ ¼, stands; the qualitative event of §2 stands, active Hamiltonian dynamics
+driving CΨ across ¼ while H = 0 decays monotonically.
+
+**The lesson.** It is the pairwise-bridge entry's lesson again, from the other side: a constant
+found in the producer's source is not thereby the producer of every number. The audit found the one
+that made §3, and §2 came from the routine it wraps.
+
+## 2026-09-24, one Bell-pair run and the names around it: MEDIATOR's echoes, the cubic's book, symmetries called a palindrome
+
+**What happened.** MEDIATOR_AS_QUANTUM_TRANSISTOR read the Bell+⊗Bell+ ring run as "CΨ periodically
+returns above 1/4 for the entangled pairs" and gave pair (0,1) the values 0.037, 0.121 and 0.059 at
+t = 0.8, 1.6 and 2.4, all below ¼ beside the sentence that said otherwise. No run gives those
+values: not the tool's clipped Euler step (0.039, 0.133, 0.012), not its unclipped first version,
+not exact propagation (0.034, 0.136, 0.013). After its crossing, (0,1) never returns to ¼ in the
+clipped or the exact run; under exact propagation its largest echo is 0.143 at t = 1.57, the ring's
+unitary period π/2 damped by the dephasing. The tool's unclipped first version is the one run in
+which (0,1) climbs back above ¼ (0.346 at t = 1.6). The same page gave the cross-pair peak 0.132 to
+the diagonals (0,2) and (1,3); it belongs to the ring neighbours (0,3) and (1,2), the diagonals
+reaching 0.101. PROOF_ROADMAP_QUARTER_BOUNDARY attributed the crossing cubic b³ + b = ½ to "the
+correlation bridge definition": the cubic is the purity reading C = Tr ρ² of a qubit at populations
+½ (F12, F25, D4), and no correlation bridge can give it, since every bridge of the tool returns C =
+1 for a single qubit, which makes the crossing linear, Ψ = ¼. It also called the equality of the
+pairs (0,3) and (1,2), and of (0,2) and (1,3), "palindromic structure": it is the ring's reflection
+swapping 0↔1 and 2↔3, which fixes the state. ORPHANED_RESULTS still said ring = complete graph
+"suggests" a symmetry, "Worth testing with asymmetric initial states", under a heading tied to the
+mirror symmetry proof, while its own §2b states the identity exactly and PROOF_WEIGHT1_DEGENERACY
+had run the asymmetric test. And MEDIATOR's §2.1 founded its bidirectionality on "palindromic
+symmetry under the permutation that swaps A↔B": the two directions are mirror images under the A↔B
+permutation, a symmetry of the couplings and rates, and the Liouvillian's palindrome is a different
+object; COMPLETE_MATHEMATICAL_DOCUMENTATION repeated it as "Bidirectional by palindromic symmetry."
+MEDIATOR's §8.1 and its protocol also said a direct A-B coupling destroys the palindrome, which
+holds on any coupling graph (a direct Heisenberg bond leaves it at the eigensolver floor); what
+breaks it in mediator_bridge.py's robustness test is XZ cross-dissipation between the pairs. Its
+feedback law carried the wrong sign, γ_base · (1 + κ · ⟨O_int⟩), where the tool and
+OPERATOR_FEEDBACK have 1 − κ·⟨O_int⟩.
+
+**Found by.** The follow-up list of the pairwise-bridge repair, and a fresh review of this package,
+which found the ORPHANED copy and the reflection that exchanges only one pair class; the second
+review found the MEDIATOR sighting, and later reviews the COMPLETE_MATHEMATICAL_DOCUMENTATION copy,
+the direct-coupling claim and the sign.
+
+**What stands now.** MEDIATOR's numbers are labelled by run and pair and regenerated by
+`simulations/delta_calc_pairwise_bridge.py`; MEDIATOR and COMPLETE_MATHEMATICAL_DOCUMENTATION ground
+bidirectionality in the A↔B permutation; MEDIATOR's §8.1 names the cross-dissipation that breaks the
+palindrome in the robustness test, and its feedback law carries the tool's sign; the cubic names its
+book and its state condition; the pair equality names its reflection; ORPHANED states ring =
+complete exactly and links the asymmetric case.
+
+**The lesson.** One word for two objects lets an argument slide between them: MEDIATOR verified the
+Liouvillian's palindrome (1024/1024) and then drew bidirectionality from it, which the A↔B
+permutation supplies, and PROOF_ROADMAP gave a reflection's work to the palindrome. Name the
+symmetry that does the work.

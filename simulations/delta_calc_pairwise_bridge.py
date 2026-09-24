@@ -24,8 +24,9 @@ are DYNAMIC_ENTANGLEMENT §9 and §11.2. This script recomputes both, with two p
   Bell-pair crossing and runaway maximum;
 and it checks the claims the pages make about these runs under exact propagation: the
 unitary period, the §6 population bound, what §9's numbers become without the Euler step,
-and this script's own sigma_x run, which tests §5.3's prediction that sigma_x dephasing
-moves the surviving pair to (1,3).
+this script's own sigma_x run, which tests §5.3's prediction that sigma_x dephasing moves
+the surviving pair to (1,3), and the Bell+ x Bell+ numbers of
+hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md (tool run and exact).
 
 Conventions (the tool's and the tables'): H = J * sum over ring bonds of (XX + YY + ZZ) with
 J = 1 in the Pauli book, N = 4, qubit 0 the most significant bit; local jumps Z_k at rate
@@ -322,9 +323,29 @@ def main():
     check("Ising (open chain) (1,3): max CPsi (§9.2)", 0.068, ri[(1, 3)]["max"])
     rb = passages(euler_series(rho_bb, 0.05, 5.0), 0.01)
     check("Bell+ x Bell+ (0,1): t_cross_down (§11.2)", 0.072, rb[(0, 1)]["down"])
+    check("MEDIATOR §1.3, tool run: neighbours (0,3) max", 0.13, rb[(0, 3)]["max"], digits=2)
+    check("MEDIATOR §1.3, tool run: diagonals (0,2) max", 0.11, rb[(0, 2)]["max"], digits=2)
     ru = passages(euler_series(rho_bb, 0.05, 5.0, clip=False), 0.01)
     check("first, unclipped version: (0,1) t_cross_down", 0.077, ru[(0, 1)]["down"])
     check("first, unclipped version: max CPsi over pairs", 2.016, max(r["max"] for r in ru.values()))
+
+    print("MEDIATOR_AS_QUANTUM_TRANSISTOR §1.3 and §4.2, Bell+ x Bell+ under exact propagation, gamma = 0.05")
+    sb = exact_series(L05, rho_bb, 5.0)
+    xb = passages(sb, 0.001)
+    check("neighbours (0,3): max CPsi, exact", 0.132, xb[(0, 3)]["max"])
+    check("diagonals (0,2): max CPsi, exact", 0.101, xb[(0, 2)]["max"])
+    for t, page in ((0.8, 0.034), (1.6, 0.136), (2.4, 0.013)):
+        check(f"(0,1) at t = {t}", page, sb[int(round(t / 0.001)), PAIRS.index((0, 1))])
+    c01 = sb[:, PAIRS.index((0, 1))]
+    k = int(np.ceil(xb[(0, 1)]["down"] / 0.001))
+    while k + 1 < len(c01) and c01[k + 1] <= c01[k]:
+        k += 1  # the first minimum after the crossing; the echoes come after it
+    after = c01[k:]
+    check("(0,1): largest echo after the crossing", 0.143, float(after.max()))
+    check("(0,1): time of the largest echo", 1.57, (k + int(np.argmax(after))) * 0.001, digits=2)
+    claim("(0,1) stays below 1/4 after its crossing", float(after.max()) < 0.25,
+          f"first minimum at t = {k * 0.001:.3f}, largest echo {float(after.max()):.4f}"
+          f" at t = {(k + int(np.argmax(after))) * 0.001:.3f}")
 
     print("The same §9 cells under exact propagation")
     x01 = passages(exact_series(liouvillian(0.01), rho_a, 10.0), 0.001)

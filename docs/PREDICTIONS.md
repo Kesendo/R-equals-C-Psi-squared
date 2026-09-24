@@ -164,7 +164,6 @@ not identify what produces Q52's late-time magnitude excess.
 
 | Prediction | Specific value | Test protocol | Falsified if | Source |
 |------------|---------------|---------------|-------------|--------|
-| Strong dynamics needed for CΨ > ¼ | Threshold at h ≈ 0.9 | Parameter sweep of transverse field strength | CΨ > ¼ at low h | [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) |
 | Critical slowing at CΨ = ¼ | Diverging convergence period | Tune system toward ¼, measure convergence time | No critical slowing | [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | Bridge fingerprints: initial state determines crossing trajectory | State-specific C(t), Ψ(t) curves | Prepare different initial states, run tomography through ¼ | All states show identical crossing | [Bridge Fingerprints](../experiments/BRIDGE_FINGERPRINTS.md) |
 | Discriminate a specified memory model from Markovian alternatives | The Markovian H=Y control gives ξ″(0)=−7; no iff test follows | Specify alternative generators and compare full trajectories | Diagnostic cannot distinguish its declared alternatives | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md), [Core Algebra](historical/CORE_ALGEBRA.md) §11 |
@@ -257,13 +256,14 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 ## 8b. Falsified Predictions
 
-**Tier: 2, Predictions the framework made and then refuted by its own mathematics or hardware.**
+**Tier: 2, Predictions the framework made and then refuted by its own mathematics, simulations or hardware.**
 
 | Prediction | Why falsified | Correct result | Source |
 |------------|---------------|----------------|--------|
 | E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0; IBM ratio 1.03) | [the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 | Dephasing survival is basis-dependent: σ_x dephasing moves the surviving \|0+0+⟩ pair from (0,2) to (1,3) | Under σ_x the same single pair (0,2) crosses and (1,3) stays below | N=4 ring, γ=0.05, pairwise bridge under exact propagation: (0,2) max 0.320 under σ_z and 0.335 under σ_x; (1,3) max 0.224 and 0.240 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) §5.3 + [delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py) |
-| Cross-pairs stay incoherent: Bell+xBell+ cross-pairs keep C = 0, l1 = 0 at all times | The Hamiltonian entangles them | N=4 ring, γ=0.05, t ≤ 5: concurrence up to 0.56 and l1 up to 0.84; they still never cross (concurrence-book CΨ ≤ 0.147) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §3.3 + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
+| Cross-pairs stay incoherent: Bell+xBell+ cross-pairs keep C = 0, l₁ = 0 at all times | The Hamiltonian entangles them | N=4 ring, γ=0.05, t ≤ 5: concurrence up to 0.56 and l₁ up to 0.84; they still never cross (concurrence-book CΨ ≤ 0.147) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §3.3 + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
+| Strong dynamics needed for CΨ > ¼ (threshold at h ≈ 0.9) | The sweep's C·Ψ column sat below ¼ because Ψ was fixed at 0.27, not for lack of dynamics | The same runs, read with the density matrix's own Ψ (concurrence × l₁/3), stay above ¼ at h = 0.7 as at h = 1.0 | [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) §2 note + [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) §4 + [delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py) |
 
 ---
 
@@ -308,7 +308,7 @@ which keeps its historical filename). The J-coupling results below stand.
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
 | **Computational records** | 51 (38 rows in §2 + 13 finite J>0 rows in §9, with local scope and unresolved labels) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
 | **Q52 residual record** | 1 finite record | Interpretation closed only at the universal-boundary/non-Markovian-witness level; detuning is preferred for the phase component; the Q52 late-time excess mechanism remains open pending a Q52-specific fit/control (§3) |
-| **Testable now** | 14 rows in §4 | Critical slowing, fingerprints, field threshold, specified memory-model discrimination, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |
+| **Testable now** | 13 rows in §4 | Critical slowing, fingerprints, specified memory-model discrimination, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |
 | **Testable in principle** | 2 | θ compass, fractal decay |
 | **Speculative** | 2 | Experienced time as crossing rate, anesthesia as C → 0 |
 | **Interpretive questions** | 6 | Horizon coherence, voids, CMB, burst, Page curve, black/white-hole imagery; no F14 predictions |
@@ -316,7 +316,7 @@ which keeps its historical filename). The J-coupling results below stand.
 | **Null result** | 1 | Metric discrimination |
 | **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (no demonstrated advantage; not an equivalence of all entangled and classical correlations). Separate J>0 inter-qubit readings, not a channel-free reopening. |
 | **Unestablished noise generalization** | 1 | Universal five-bridge noise-independence remains unsupported by the retained coverage |
-| **Falsified predictions** | 3 | E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic); σ_x dephasing moving the surviving \|0+0+⟩ pair to (1,3) (σ_x keeps (0,2)); Bell+xBell+ cross-pairs staying incoherent (the Hamiltonian entangles them) |
+| **Falsified predictions** | 4 | E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic); σ_x dephasing moving the surviving \|0+0+⟩ pair to (1,3) (σ_x keeps (0,2)); Bell+xBell+ cross-pairs staying incoherent (the Hamiltonian entangles them); the h ≈ 0.9 field threshold (the sweep's column sat below ¼ through a fixed Ψ) |
 
 ---
 

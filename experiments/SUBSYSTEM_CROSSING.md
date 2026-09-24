@@ -317,14 +317,14 @@ for i, t in enumerate(tlist):
    isolated Bell+ crossing time, or does the ring Hamiltonian coupling
    to other qubits modify it?~~ **ANSWERED (2026-03-08):** It does NOT
    match. Isolated Bell+ (2 qubits, Heisenberg J=1, γ=0.05) crosses
-   down through 1/4 at t=0.720. The same Bell pairs embedded in a
+   down through 1/4 at t=0.719. The same Bell pairs embedded in a
    4-qubit ring cross at t=0.080, nine times faster. The ring
    Hamiltonian couples each pair to additional qubits and changes the
    subsystem trajectory. In this one state, ring, channel, and sampled time
    window, cross-pairs with zero initial concurrence did not cross the
    selected readout level. That finite negative row does not establish a
    graph-reconstruction law. (A note on the isolated
-   baseline, because three numbers circulate for it: 0.720 is the
+   baseline, because three numbers circulate for it: 0.719 is the
    crossing of THIS document's CΨ = concurrence·Ψ = f²/3, with
    f = e^(−4γt). The F25 purity-bridge book CΨ = f(1+f²)/6 crosses at
    0.747 = K_fold/γ, and the constant-bridge book CΨ = f/3 (the
