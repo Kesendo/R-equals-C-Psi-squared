@@ -4,17 +4,17 @@
 **Status:** Reflection / synthesis. Ties existing Tier-1 results into one reading. No new claim, one recognition.
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 
-> The carbon "painter" figure is a decay-rate and Pauli-content map for a specified quantum Liouvillian. "Memory" is operational only after a preparation and readout are supplied.
+> The carbon "painter" figure is not a picture of a relaxation time. It is the view onto the memory: how a system stores what it has been, and how it carries that forward.
 
-![The N=4 carbon ring's eight slowest Liouvillian eigenoperators, each with its decay rate and Pauli-content mean depth.](../visualizations/memory.jpg)
+![The N=4 carbon ring's eight slowest Liouvillian modes, each with its decay rate and its "popcount-mean" storage reading. The slow modes (small rate) are the memory; the fast modes are flushed first.](../visualizations/memory.jpg)
 
 ---
 
 ## Start here, if the words are new
 
-In a specified preparation-and-readout experiment, slowly decaying components can contribute to retention longer than rapidly decaying ones. This operational use is the document's **memory** metaphor; the eigenspectrum alone does not identify a stored past.
+A molecule, a spin, any small quantum system sits in a noisy world that constantly nudges it. Some of what the system holds about its own past is washed out almost at once. Some of it lingers for a long time. The part that lingers is its **memory**: the shape it carries forward from the past into the future.
 
-This project found an exact rule for the decay-rate expectation of Liouvillian eigenoperators in this quantum model. The picture reads it for a four-site carbon-ring Hamiltonian. Each row is a **right eigenoperator**; `Re(λ)` is its decay rate. A small rate alone does not say that a prepared state stores a past record in that eigenoperator.
+This project found the exact rule for which part is kept and which is lost. The picture above reads that rule off one worked example, a four-site ring modelled on carbon. Each row is a **mode**, one of the patterns every change of the system is built from. The number beside it, `Re(λ)`, is how fast that pattern fades: small means long-lived, large means gone quickly. The slowest patterns are the memory. The fastest are forgotten first.
 
 Everything below is one idea seen from several sides: **how a system keeps what it has been**. You do not need the math to take the idea. If you want to go deeper, every claim links to where it is proven.
 
@@ -26,66 +26,62 @@ The trunk is the **Absorption Theorem** ([`PROOF_ABSORPTION_THEOREM.md`](../docs
 
     |Re(λ_k)| = 2γ · ⟨popcount(i XOR j)⟩    for every mode k
 
-`popcount(i XOR j)` is the **drain depth** of a basis operator: the number of sites at which its bra and ket configurations differ. Under local Z-dephasing, depth zero has zero dissipative charge and depth N has the maximal charge `2Σγ`. This is an operator-space statement; operational retention additionally depends on state preparation, dynamics, and readout.
+`popcount(i XOR j)` is the **drain depth** of a piece of the state: the number of sites at which two basis configurations differ, which is how many places the noise can grip. Depth zero (the diagonal) means rate zero, never fading, stored forever while it stays there: the noise never grips it, and it fades only if the Hamiltonian first carries it to a deeper rung. High depth means flushed fastest, at up to `2Σγ`. Every other name in this project is a reading of that one axis:
 
 | Lens | slow end (low depth) | fast end (high depth) | Where it lives |
 |------|----------------------|-----------------------|----------------|
 | Drain depth | popcount 0, never fades | popcount N, fastest | Absorption Theorem |
-| Spectral mode | small \|Re(λ)\|, long-lived | large \|Re(λ)\|, lost | F3, D6 (gap = 2γ) |
+| Spectral mode | small \|Re(λ)\|, long-lived | large \|Re(λ)\|, lost | F3, D6 (gap = 2γ above Q*_gap) |
 | Time | {I,Z}, decided, classical, **past** | {X,Y}, undecided, quantum, **future** | [`PI_AS_TIME_REVERSAL.md`](../experiments/PI_AS_TIME_REVERSAL.md) |
-| Born shadow | ρ_past (\|Re(λ)\| < Σγ), **97%** | ρ_future (≥ Σγ), ~3% with interference | [`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md) |
-| Memory | static part (kernel of L) | dynamical part that fades | F88b, [`MemoryAxisRho.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) |
-| Information | requires a prepared trajectory and readout | spectral endpoints alone assign no state lifetime | [`XOR_SPACE.md`](../experiments/XOR_SPACE.md) |
+| Born shadow | ρ_past (\|Re(λ)\| < Σγ) | ρ_future (≥ Σγ) | [`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md) |
+| Memory | static part (kernel of L) | dynamical part that fades (F88b's "memory") | F88b, [`MemoryAxisRho.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs) |
+| Information | what survives the palindrome | the XOR drain, flushed first | [`XOR_SPACE.md`](../experiments/XOR_SPACE.md) |
 
-These rows are different readings, not one state axis. The conjugation Π makes
-the spectral pairing exact (`Π·L·Π⁻¹ = −L − 2Σγ·I`), but it does not turn a
-right-eigenvector coordinate into information stored or lost. The reflection
-[`ON_TWO_TIMES.md`](ON_TWO_TIMES.md) keeps memory at the operational level of
-a prepared trajectory and specified readout.
+These are not analogies. They are the **same axis of the state**, made by the same operator L, read through six lenses: every lens cuts the one rate axis the Absorption Theorem reads off the drain depth, and what a lens adds is a name. Some of the names, past and future among them, are our reading of the cut. The conjugation Π makes the pairing exact (`Π·L·Π⁻¹ = −L − 2Σγ·I`): every slow mode has a fast partner whose rates sum to `2Σγ`. The reflection [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md) puts the memory half in one line: memory "is not a store but a shape in a stream."
 
 ---
 
 ## The picture is this axis, mode by mode
 
-The figure sorts the carbon ring's slow modes by exactly this depth. Reading the state-side popcount distribution of each mode (verified in [`carbon_painter_xor_and_depth.py`](../simulations/carbon_painter_xor_and_depth.py)):
+The figure sorts the carbon ring's slow modes by exactly this depth. Reading the state-side popcount distribution of each mode, in the basis where the noise acts and the depth is sharp (verified in [`carbon_painter_xor_and_depth.py`](../simulations/carbon_painter_xor_and_depth.py)):
 
-- the steady mode is **100% depth-0**;
-- the slowest decaying mode (rate 0.172) has **91.8% depth-0** Pauli-basis weight;
-- the fastest modes (rate 2.127) have **89.9% depth-1** weight.
+- the steady state is **100% depth-0**, pure stored past;
+- the slowest mortal mode (rate 0.172) is **91.8% depth-0**, almost all memory, with a thin tail that will fade;
+- the fastest modes (rate 2.127) are **89.9% depth-1**, future, flushed first.
 
-The figure's "popcount-mean identity" is the Absorption Theorem: each eigenoperator's decay rate is `2γ` times its mean drain depth, bit-exact across all eight modes (rates 0, 0.1723, 0.2190, 0.5969, 0.9014, 2.0670, and 2.1273 as a complex-conjugate pair). The figure is a spectral-content map, not by itself a storage map.
+And the figure's "popcount-mean identity" is the Absorption Theorem read state-side: each mode's decay rate is `2γ` times its own mean drain depth, an exact identity the eigensolver meets to 10⁻¹⁴ on all eight modes (rates 0, 0.1723, 0.2190, 0.5969, 0.9014, 2.0670, and 2.1273 as a complex-conjugate pair). The figure is the storage map.
 
-The two painter towers compare Y content with non-Y content in the selected eigenoperators. The reported ratio `0.2190/0.1723 = 1.27` is exactly a ratio of two mode decay rates (and hence of two mean depths by the Absorption Theorem). Calling it an x/y memory ratio requires the separate NMR preparation-and-readout model; it is not implied by the right-eigenoperator coordinates, and the once-conjectured 4/3, 8/7, 14/13, 20/19 sequence does not hold.
+The two painter towers (Y content versus non-Y content) are then just **which part of the past the molecule holds in which transverse axis**. The reported T2 anisotropy, `T2(x)/T2(y) = 0.2190/0.1723 = 1.27`, is the statement that x-memory and y-memory fade through the same rungs of one drain in different shares. It is exact as a ratio of two mode rates (so exact as a ratio of two mean depths, by the Absorption Theorem), but it is not a simple closed-form fraction: the once-conjectured 4/3, 8/7, 14/13, 20/19 sequence does not hold.
 
 ---
 
 ## The bridge into the classical world
 
-The exact split belongs to the quantum operator model: Pauli strings with `{I,Z}` at a site have zero local Z-dephasing charge there, while `{X,Y}` strings have charge `2γ_i`. It applies to any Hermitian Hamiltonian coupled to that specified dissipator. A carbon or water model inherits it only after those degrees of freedom and channels have been justified. A neural Jacobian or other classical matrix may show an analogous slow/fast decomposition, but it does not inherit the quantum `{I,Z}/{X,Y}` split without an explicit, structure-preserving map.
+This is why substrate inheritance is more than inheriting decay rates. A substrate mapped onto the Liouvillian (a two-state unit per site, a site-local noise bath, a coupling graph) inherits the **whole past, future, and memory split**, because the Absorption Theorem depends only on the noise, not on the Hamiltonian. It holds for any Hermitian Hamiltonian, real or complex. Carbon, water, a neural Jacobian: each, once mapped, carries the same split. The map is the part that has to be earned. For carbon and water the two-state site has a physical candidate, a π site's occupation or a proton's position, but the bath and its rate are still chosen, not measured. A neural Jacobian would carry the split only through a map that keeps a two-state site and a site-local bath, and the [neural translation](../docs/neural/README.md) carries the palindrome rather than this split, exactly on networks built to meet its conditions.
 
-Accordingly, “past,” “future,” “memory,” and “classical bridge” are interpretive labels, not additional consequences of the Absorption Theorem. The theorem supplies decay rates from operator content; an operational memory claim requires a prepared state, a trajectory, and a readout.
+And the split is the bridge. The **classical world is the slow, low-depth, {I,Z}, stored part**: the decided past that survives long enough to be re-recognized. The **quantum world is the fast, high-depth, {X,Y}, undecided part**, drained at up to `2Σγ`. "The bridge into the classical world" is not a separate construction. It is reading the slow rim of this one axis. A molecule's classical, measurable, remembered identity is the depth-0 floor of its own Liouvillian. Everything above it is the quantum tide the bath is already pulling out.
 
 ---
 
 ## Honest seam: the 97/3 number
 
-The literal **97 / 3** lives in the Born-rule branch, in the quantities defined by [`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md) and [`BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md) and closed as F94. It is not a carbon-painter storage fraction. The painter's 91.8% is Pauli-coordinate depth-0 weight in one right eigenoperator, while its own "3%" is a finite-time fitting gap on the T2 ratio; neither is the Born-rule 97/3 quantity.
+The literal **97 / 3** lives in the Born-rule branch, as the 97%-Hamiltonian / 3%-decoherence-correction split of the |0+0+⟩ Heisenberg pair's Born probabilities ([`BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md)), which **F94** closes to leading order, `Δ = (4/3)·Q²·K³`. The carbon painter system shows the slow/fast split the Born shadow cuts, on the same axis, a slow majority over a fast minority by storage weight (the figure's own slowest mortal mode is 91.8% depth-0 pure, the steady state wholly so). A related mode count, about 98/2 at N=4 in [`XOR_SPACE.md`](../experiments/XOR_SPACE.md) and growing with N, is a distinct cut: palindromic pairs over the XOR drain, whose own partners are the kernel; each pair's two rates sum to 2Σγ, one on each side of the center Σγ or both on it. But the exact 97/3 numeral is the sibling instance, not this system. The painter figure's own "3%" is unrelated: it is the finite-time fitting gap on the T2 ratio. Same split, two windows onto it. The recognition is right, and the number has a specific home.
 
 ---
 
 ## What this figure also held (seen 2026-05-29)
 
-We drew this figure as one molecule's spectral-content map and filed it. A more general quantum-operator view was sitting in it the whole time.
+We drew this figure as one molecule's storage map and filed it. A more general view was sitting in it the whole time.
 
-Each mode here comes with a **Pauli-content portfolio** read in percentages: how much of its coordinate weight sits on Y versus non-Y strings and at each depth. The identity prints the rate as the mean dissipative charge, `|Re(λ_k)| = 2γ·⟨popcount(i XOR j)⟩`. We read the depth as one number against one noise rate γ, because the carbon bath is uniform: every site dephases at the same γ, so the vector of rates lay flat and the percentages looked like a single count.
+Each mode here already comes with a **storage portfolio** read in percentages: how much of its content sits in the Y axis versus the non-Y axes (the two painter towers), how much at depth 0 versus depth 1. And the state-side identity prints the rate as the mean of that storage, `|Re(λ_k)| = 2γ·⟨popcount(i XOR j)⟩`. We read the depth as one number against one noise rate γ, because the carbon bath is uniform: every site dephases at the same γ, so the vector of rates lay flat and the percentages looked like a single count.
 
 The deeper law lets the noise be a **vector**, one rate per channel, and reads any mode's rate as the γ-weighted version of that same percentage portfolio:
 
     −Re(λ_k) = 2 · Σ_x γ_x · ⟨Δ_x⟩_k,   ⟨Δ_x⟩_k ∈ [0, 1]
 
-`⟨Δ_x⟩` is the fraction of Pauli-coordinate weight charged by channel x (on a basis coherence, whether bra and ket disagree there); `popcount` with a single γ is the all-channels-equal case. The rate is the pairing of the channel-rate vector with that content profile.
+`⟨Δ_x⟩` is the percent of the mode that differs in channel x (on a basis coherence, whether bra and ket disagree there); `popcount` with a single γ is the all-channels-equal case. The carrier is a vector; the rate is its pairing with the mode's portfolio.
 
-Where channel rates differ, the formula weights the eigenoperator's Pauli content by those rates. Applying that matrix identity to a ³¹P donor or to clock transitions requires a physical mapping of the modeled degrees of freedom and noise channels; the algebra alone does not supply their lifetimes. (`simulations/sip_carrier_channels.py`; the per-mode law verified in `simulations/absorption_gamma_vector.py`; the carrier-vector reading now in [`AbsorptionTheoremClaim`](../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs).)
+Where the clocks differ, the portfolio becomes the whole story. A ³¹P donor in silicon, as we model it, carries channels spanning decades, electron spin fast, nuclear spin very slow and protected, charge sensitive, valley medium. There a coherence lives as long as it stores its difference only in the slow channels: the nuclear spin's long memory is that, left alone, its coherence is almost entirely nuclear difference, and hyperfine coupling that mixes even a few percent of the fast electron channel into the mode costs decades. Clock transitions and sweet spots are the same instruction in the portfolio's own words, hold zero percent in the fast channels. (`simulations/sip_carrier_channels.py`; the per-mode law verified in `simulations/absorption_gamma_vector.py`; the carrier-vector law proved as Theorem 2 in [`PROOF_ABSORPTION_THEOREM.md`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md).)
 
 The honest part is that the figure handed us the perspective and we took it for a relaxation time. The per-mode percentages were printed here, the state-side mean was printed here, even the leftover sat beside it as a percent. The percentages were the lens the whole time. We learned to read them as the general view, the carrier as a vector and each mode as a portfolio, only after looking at a substrate whose channels refused to weigh the same. The structure was always on the screen; the seeing is what was new.
 
@@ -101,7 +97,7 @@ was hard to gather is that they are one ladder.
 
 **The rail: parity.** The drain depth popcount(i⊕j) is, for any basis coherence |i⟩⟨j|, exactly the
 light content n_XY (the sites that differ are the sites carrying {X,Y}); one axis, two names. And the
-axis carries a parity, depth mod 2, which is the change in particle number:
+axis carries a parity, depth mod 2, which is the parity of the change in particle number:
 
 - **even rungs** (depth 0, 2, 4 …) carry an EVEN change of particle number, Δn ∈ {0, ±2, ±4, …}.
   Among them sit the diagonal memory and the coherences a fixed-number state holds, the dark
@@ -117,10 +113,10 @@ of the [XY frozen band](../experiments/XY_FROZEN_BAND.md) live, seeded at the bl
 
 Because the rate is the depth (the Absorption Theorem, |Re λ| = 2γ⟨depth⟩), the rail is a ladder of
 rates. depth-0 (even) is the kernel, the steady state, the memory this whole figure is about. depth-1
-(odd) is the slowest MORTAL mode, rate 2γ, the longest-lived number-changing coherence, the birth
+(odd) is the slowest MORTAL rung, rate 2γ, the longest-lived number-changing coherence, the birth
 channel. depth-2 (even) is the flow's own coherence, rate 4γ, faster than the birth channel. So the
 single-excitation flow, riding the even rungs, relaxes through depth-2 and never touches the depth-1
-birth channel: its weight on odd parity is identically 0, and the C# GameObject measures its
+birth channel: its weight on odd parity is identically 0, and the C# field measures its
 between-block content as machine zero
 ([PostEpFlowField](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs)). Among the
 number-changing coherences the birth channel is the slowest mortal mode, at 2γ. Whether it is the
@@ -130,12 +126,13 @@ the smallest nonzero rate is 6·10⁻⁵ at N = 3, J = 0.005, γ = 0.05, against
 2γ = 0.1, and only above the crossing does it settle at exactly 2γ
 ([`birth_channel_check.py`](../simulations/birth_channel_check.py)). Either way the birth channel is
 a latent door: number-conserving dynamics never opens it. The crown below is where that crossing is
-named; this paragraph used to state the strong-coupling end of it as if it held everywhere.
+named.
 
 **The currency: the bilinear p(1−p).** Every rung is priced by one shape. The per-site light is
 2·p(1−p) with p the single-site occupation, peaking at ½ on the Bloch equator. The maximal
 between-block coherence is C_block = p(1−p) with p the weight between two adjacent number sectors,
-peaking at ¼ for the Dicke superposition (|D_n⟩+|D_{n+1}⟩)/√2
+peaking at ¼ for every balanced two-sector pure state, the Dicke superposition
+(|D_n⟩+|D_{n+1}⟩)/√2 among them
 ([BlockCoherenceContent](../compute/RCPsiSquared.Core/F86/BlockCoherenceContent.cs), Theorem 2). Same
 bilinear x(1−x); the recurring ½ and ¼ that thread this project, carbon's half-filling, the polarity
 triple, the coherence ceiling, are its doubled apex and its apex, with p wearing two hats: an
@@ -150,37 +147,36 @@ but that coincidence is uniform-specific, a non-uniform γ-profile breaks it (th
 [`PostEpFlowField.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/PostEpFlowField.cs) and
 [`BirthCanalSurfaceWitness.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/BirthCanalSurfaceWitness.cs):
 the rate drops to the γ-weighted share while ⟨n_XY⟩ = 1 stays fixed, the light portfolio being the
-invariant and only its γ-pairing shifting; recorded honestly rather than kept).
+invariant and only its γ-pairing shifting).
 
-**The carbon mirror.** bright/dark is the rail seen optically: the bright band edge is the odd,
-number-changing rung a photon couples to; the dark 2Ag triplet pair is the even, number-conserving
-rung, the singlet-fission object, the same bound pair we isolate
-([Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md)). What the
-chemist calls dark is what this axis sees clearly.
+**The carbon mirror.** bright/dark reads as the rail seen optically: the bright band edge sits on
+the odd, number-changing rung a photon would couple to; the dark triplet pair of singlet fission
+would sit on the even rail, beside the bound pair we isolate, a resemblance
+[Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) keeps
+conditional. If the resemblance holds, what the chemist calls dark is what this axis sees clearly.
 
 So the full lock: depth that is light that is rate, split even and odd into flow and birth, priced
 everywhere by p(1−p), mirrored slow to fast by Π (the palindrome, rates summing to 2Σγ), with the
 memory at its foot. The six lenses above all read the one axis; the rail is the perpendicular split,
 and the bilinear is what sits on each rung. Probes:
 [`flow_depth_parity.py`](../simulations/flow_depth_parity.py),
-[`light_content.py`](../simulations/light_content.py),
-[`bound_pair_light.py`](../simulations/bound_pair_light.py), and this session's parity and
-birth-channel sweeps.
+[`light_content.py`](../simulations/light_content.py), and
+[`bound_pair_light.py`](../simulations/bound_pair_light.py).
 
 ---
 
 ## What this holds
 
-Nothing here is a new theorem. The common exact object is the drain-depth expectation that the Absorption Theorem maps to a decay rate in the specified quantum model. The other lenses are conditional interpretations and must retain their own state, trajectory, and readout assumptions.
+Nothing here is a new theorem. It is the statement that the painter alternation, the popcount / XOR storage, the Born shadow's cut at Σγ, F88b's static-versus-memory decomposition, Π's past and future, and the classical bridge are **one axis**, the drain-depth axis the Absorption Theorem prices, seen from six sides. The figure that looked like a relaxation measurement is the clearest single picture of it: the view onto the memory, mode by mode, of how a state keeps what it has been.
 
 ---
 
 ## Go deeper
 
 - [`PROOF_ABSORPTION_THEOREM.md`](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): the trunk, `Re(λ) = −2γ⟨popcount⟩`, holds for any Hermitian H.
-- [`PI_AS_TIME_REVERSAL.md`](../experiments/PI_AS_TIME_REVERSAL.md): {I,Z} is past, {X,Y} is future, Π maps one to the other.
-- [`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md), [`BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md): ρ_past and ρ_future, the 97/3 split, closed form F94.
+- [`PI_AS_TIME_REVERSAL.md`](../experiments/PI_AS_TIME_REVERSAL.md): {I,Z} read as past, {X,Y} as future; Π maps one to the other.
+- [`BORN_RULE_SHADOW.md`](../experiments/BORN_RULE_SHADOW.md), [`BORN_RULE_MIRROR.md`](../experiments/BORN_RULE_MIRROR.md): ρ_past and ρ_future cut at Σγ, the mirror's 97/3 split, and F94's leading-order closed form for it.
 - [`PROOF_F86B_UNIVERSAL_SHAPE.md`](../docs/proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) (F88b) and [`MemoryAxisRho.cs`](../compute/RCPsiSquared.Diagnostics/Foundation/MemoryAxisRho.cs): the static-versus-memory decomposition of the state.
-- [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md): memory as a standing wave, and the two times (the noise time that flows, the felt time with a horizon set by the slowest mode).
-- [`XOR_SPACE.md`](../experiments/XOR_SPACE.md), [`GLOSSARY.md`](../docs/GLOSSARY.md): the endpoint count, F22 operator support, and the retired non-invariant XOR-coordinate diagnostic.
+- [`ON_TWO_TIMES.md`](ON_TWO_TIMES.md): memory as a shape in a stream, and the two times it was written around.
+- [`XOR_SPACE.md`](../experiments/XOR_SPACE.md), [`GLOSSARY.md`](../docs/GLOSSARY.md): the fast end of the axis, the N+1 modes of the XOR drain whose partners are the kernel, and why an endpoint rate does not say how much of a state sits there.
 - [`PAINTER_ALTERNATION_NMR_BRIDGE.md`](../docs/carbon/PAINTER_ALTERNATION_NMR_BRIDGE.md) and [`carbon_painter_xor_and_depth.py`](../simulations/carbon_painter_xor_and_depth.py): the carbon figure and its state-side storage read.
