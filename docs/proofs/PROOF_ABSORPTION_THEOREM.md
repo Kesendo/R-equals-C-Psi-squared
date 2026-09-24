@@ -809,6 +809,17 @@ three canonical levels by their multiplicities within the 14, which are 8, 2 and
 The unweighted mean of the three levels is 1.2938 and is not the light content. The 10γ/3 cluster is the mirror, (1, 10, 5, 5)/21
 and 5/3, in the same limit.
 
+Where the band's levels sit against the palindrome's centre Σγ = 3γ decides
+whether any state with the chain's reflection symmetry can carry a past/future
+cross term in the [Born shadow](../../experiments/BORN_RULE_SHADOW.md). The
+branches that read 2.6040 and 2.6980 at J/γ = 1.5 live in the reflection-even
+parts of the single-excitation coherences and of their spin-flip copy, where all
+three stay below the centre exactly when J > γ/√3 (below it the pair that reads
+2.6980 crosses); the reflection-odd parts, which hold the branch that reads 2.4607
+beside the 10γ/3 band's 3.5393, keep modes on both sides of the centre at every
+coupling. Above J > γ/√3 the odd parts carry the cross term of every state
+([The Reflection Keeps Past and Future Apart](../../experiments/THE_REFLECTION_KEEPS_PAST_AND_FUTURE_APART.md)).
+
 ### 4.7 The recentred face: one diagonal, three pillars
 
 Per the notation block in §1: in this section **Q** is the F87 dephasing

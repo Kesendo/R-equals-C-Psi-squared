@@ -3712,3 +3712,31 @@ complete exactly and links the asymmetric case.
 Liouvillian's palindrome (1024/1024) and then drew bidirectionality from it, which the A↔B
 permutation supplies, and PROOF_ROADMAP gave a reflection's work to the palindrome. Name the
 symmetry that does the work.
+
+## 2026-09-24, the shadow's N = 3 cross term was credited to F49, whose normalized size is the same on the complete graph, where once J > γ/√3 the cross term vanishes
+
+**What happened.** The morning's repair of BORN_RULE_SHADOW (the entry on the 97.1% above) wrote
+that at N = 3 "a cross term becomes possible where slow and fast modes overlap; the anticommutator
+no longer vanishes (F49)", which reads F49 as the reason. F49 measures the anticommutator {L_H, L_D
++ Σγ} over the whole operator space, and its normalized size R(N) depends on N alone:
+CROSS_TERM_TOPOLOGY had recorded that the complete graph at N = 3 carries the chain's value, and on
+the complete graph the page's cross term vanishes for every state once J > γ/√3. A state can carry a
+cross term only where the cut splits a sector of the Liouvillian that the state occupies into parts
+that overlap. On the N = 3 Heisenberg chain that happens in the reflection-odd sector at every
+nonzero coupling and, once J > γ/√3, never in the reflection-even one, so |+0+⟩, which the
+Hamiltonian moves, carries no cross term, beside the |+++⟩ the page already had.
+
+**Found by.** Following up a question from the same session, why |+0+⟩, which the Hamiltonian moves,
+also shows none, and the Stage-0 sweep for it, which found CROSS_TERM_TOPOLOGY's complete-graph
+null.
+
+**What stands now.** BORN_RULE_SHADOW's N = 3 paragraph names the chain's reflection as what
+decides, and links THE_REFLECTION_KEEPS_PAST_AND_FUTURE_APART, which derives it at N = 3 with an
+exact gate (`simulations/born_shadow_reflection_gate.py`), the complete graph included;
+CROSS_TERM_TOPOLOGY's null now says that it concerns the operator-level cross term.
+
+**The lesson.** A quantity with the right name is not thereby the cause: the operator-level cross
+term measures the whole space, and a state sees only the sectors it occupies. It is item B2 of the
+2026-06-22 entry on the Tier B proof review, batch 1, again, where the same anticommutator was
+credited with deciding time reversal. Before crediting a mechanism, look for a case where it is
+present and the effect is absent; here that case was already on file.

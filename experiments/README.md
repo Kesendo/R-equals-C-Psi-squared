@@ -38,8 +38,8 @@ information channels.
 All experiments are reproducible using Python, NumPy, and SciPy.
 Scripts are in [`simulations/`](../simulations/), results in [`simulations/results/`](../simulations/results/).
 
-**Index coverage:** 223 experiment writeups are tracked in this folder; 213 are
-linked below. Ten pages from August and September 2026 are not yet indexed.
+**Index coverage:** 236 experiment writeups are tracked in this folder; 214 are
+linked below. Twenty-two are not yet indexed.
 
 ---
 
@@ -364,6 +364,7 @@ interference require additional gates.
 | [Optical Cavity Analysis](OPTICAL_CAVITY_ANALYSIS.md) | Qubit chain as Fabry-Perot: 4/5 optical checks pass |
 | [V-Effect Cavity Modes](VEFFECT_CAVITY_MODES.md) | Finite N=2..5 frequency-census comparison. Each cold-target frequency has a reusable warm-target frequency within the stated strict `< 0.1` tolerance; this is one-sided numerical coverage, not eigenvector identity, mode survival, or a causal account of complexity. |
 | [Born Rule Shadow](BORN_RULE_SHADOW.md) | Born rule is a shadow, not a photograph: zero past/future interference in P(i) along the Σγ cut; at N = 2 the purity splits cleanly too, and for \|++⟩ the fading future sets when the CΨ fold comes (the Born rule assumed, not derived) |
+| [The Reflection Keeps Past and Future Apart](THE_REFLECTION_KEEPS_PAST_AND_FUTURE_APART.md) | Why \|+0+⟩ carries no past/future purity cross term at N = 3 although the Hamiltonian moves it: in the chain's reflection-even sector one side of the Σγ cut holds only modes shared by L and L† once (4 − Δ²)J² > γ² (J > γ/√3 for Heisenberg); above it, on the Heisenberg chain, the reflection-odd sector carries every cross term, while the XY chain (once J > γ√(3/8)) and the triangle (once J > γ/√3) clear every state. Adds the W-fidelity law under uniform Z-dephasing for SU(2)-invariant H (the operator is PROOF_UNIFORM_LAW's T₂, Lemma A1) |
 | [K-Dosimetry](K_DOSIMETRY.md) | Finite legacy J=1 purity-target record: 61.816% intermediate-rate discrepancy on a Hamiltonian-dead two-qubit trajectory, unresolved numerics rather than a physical reciprocity/Schwarzschild effect; fixed-book F14 scope is separate |
 | [Neural Gamma Cavity](NEURAL_GAMMA_CAVITY.md) | WITHDRAWN 2026-08-25: 97.3% pairing was the matching tolerance, Dale's law made no difference, the 18 unpaired modes were an ordering artifact. Standing: a limit cycle at the same parameters, shortest sampled period 5.74 time constants, growing towards both folds; and a zero-multiplicity excess in the wiring. The band label does not stand: the integrated model has no time constant, so its Hz are a stipulation |
 | [Trapped Light Localization](TRAPPED_LIGHT_LOCALIZATION.md) | K_death = 2.303 universal; surviving mode energy center-localized (ratio 1.3-1.4); N+1 immortal modes; gamma plays algebraic role of c (Tier 4-5) |

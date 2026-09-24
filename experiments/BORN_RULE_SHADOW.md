@@ -146,10 +146,16 @@ thinned enough, the past waiting underneath, unchanged.
 
 At N = 3 the centre Σγ = 3γ sits above the depth-1 rate 2γ, so modes
 other than the steady states fall on the slow side, and a cross term
-becomes possible where slow and fast modes overlap; the anticommutator no longer vanishes
-([F49](../docs/ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven)). |+++⟩, which the Hamiltonian
-cannot touch either, still has none; |++0⟩ carries −0.04% of the purity
-at its fold, and fifty random pure states at t = 3 carry a median of
+becomes possible where slow and fast modes overlap. The chain's
+reflection decides where they do. A state that reads the same from both ends
+carries none: |+++⟩, which the Hamiltonian cannot touch either, and |+0+⟩,
+which it does move, because in the reflection-even part of the operator space
+one side of the cut holds only modes the Hamiltonian cannot move, and those
+stand perpendicular to everything else
+([The Reflection Keeps Past and Future Apart](THE_REFLECTION_KEEPS_PAST_AND_FUTURE_APART.md),
+which also gives the condition, J > γ/√3). |++0⟩, which the reflection does
+not fix, carries −0.04% of the purity at its fold, all of it from its
+reflection-odd part, and fifty random pure states at t = 3 carry a median of
 0.14% and at most 0.76%. Where interference sits in the purity, it is a
 small correction. The shutter changes character at N = 3: the slow side
 now holds the depth-1 coherences too, so both parts fade toward the fold,
@@ -236,4 +242,7 @@ the fixing is the picture's own.
 
 - Script: [`simulations/born_rule_shadow.py`](../simulations/born_rule_shadow.py)
 - Output: [`simulations/results/born_rule_shadow.txt`](../simulations/results/born_rule_shadow.txt)
+- The N = 3 reflection sectors (|+0+⟩ without a cross term, |++0⟩'s from its reflection-odd part, the
+  condition J > γ/√3): [`simulations/born_shadow_reflection_gate.py`](../simulations/born_shadow_reflection_gate.py),
+  output [`simulations/results/born_shadow_reflection_gate.txt`](../simulations/results/born_shadow_reflection_gate.txt)
 - The same cut as one view onto the drain-depth axis: [The View onto the Memory](../reflections/THE_VIEW_ONTO_THE_MEMORY.md)

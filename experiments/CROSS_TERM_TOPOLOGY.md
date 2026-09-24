@@ -125,7 +125,10 @@ result than anticipated.
 **REFUTED.** The prediction was that the complete graph might restore
 orthogonality at N=3 because every site participates in every bond,
 eliminating "spectator sites." The complete graph at N=3 has the same
-cross-term as the chain (1/sqrt(48)).
+cross-term as the chain (1/sqrt(48)). That null is about the operator-level
+cross term; at the level of states the triangle does keep the Born shadow's
+past and future apart, for every state once J > γ/√3
+([The Reflection Keeps Past and Future Apart](THE_REFLECTION_KEEPS_PAST_AND_FUTURE_APART.md) §5).
 
 ### New finding: topology universality
 
