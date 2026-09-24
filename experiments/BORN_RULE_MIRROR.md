@@ -18,17 +18,21 @@ R=CPsi2 Born rule mirror -->
 
 ## Abstract
 
-> **Reproduction note (2026-07-20):** the reference time t = 0.286 used
-> throughout was labeled "the (0,2) crossing" by the retired MCP
-> tool (the delta_calc family, February 2026); under the canonical pair-CΨ convention (Wootters concurrence ·
-> l₁/3, [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py))
+> **Reproduction note:** the reference time t = 0.286 used throughout
+> lies just past the (0,2) crossing at t = 0.2852 in the pairwise bridge
+> C_corr = (P_AB − P_A·P_B)/(1 − P_A·P_B) times Ψ = l₁/3, the reading of
+> the February runs
+> ([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)).
+> Under the canonical pair-CΨ convention (Wootters concurrence · l₁/3,
+> [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py))
 > pair (0,2) of |0+0+⟩ on the N=4 ring never crosses ¼ (see the
 > reproduction note in [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md)).
-> The Born-deviation content at t = 0.286 is unaffected by that label and
-> was later closed in F94/F96 (the registry), on exactly this lens.
+> The Born-deviation content at t = 0.286 does not depend on either
+> reading and was later closed in F94/F96 (the registry), on exactly this
+> lens.
 >
-> **Reproduction note (2026-07-21):** unlike the crossing label, the
-> NUMBERS of this document reproduce exactly: every probability table,
+> **Reproduction note:** the numbers of this document reproduce exactly:
+> every probability table,
 > deviation, shift, and the C_eff column regenerate from first
 > principles under the PAULI convention H = 1.0·Σ(XX+YY+ZZ) (committed
 > probe:
@@ -191,9 +195,9 @@ Computing C_eff = P(i) / Ψ_i² for each basis state at the crossing:
 | \|10⟩  | 0.2567 | 0.2139 | 5.61   |
 | \|11⟩  | 0.0613 | 0.1127 | 4.82   |
 
-Decoding note (2026-07-21): the Ψ_i column is NOT the amplitude
+Decoding note: the Ψ_i column is NOT the amplitude
 |⟨i|ψ⟩| of Section 3.2 (the pair state is mixed, and √P_unitary would
-read 0.64/0.51/0.25). What the February tool computed is
+read 0.64/0.51/0.25). What the February analysis computed is
 Ψ_i = (Σ_{j≠i} |ρ₀₂[i,j]|)/(d−1), the l₁ row-coherence of the Lindblad
 pair state over d−1 = 3 (recovered to four decimals by the committed
 probe). C_eff = P/Ψ² is therefore a coherence-referenced diagnostic
@@ -365,6 +369,11 @@ This result closes the conceptual loop opened in Section 8 of
 5. **The Born rule determines WHAT becomes real** (~97% from the
    Hamiltonian, ~3% from the decoherence basis alignment).
 
+Items 2 and 3 lean on the immunity reading of Dynamic Entanglement §5.3,
+which a σ_x run does not bear out: in the pairwise bridge at γ = 0.05,
+with the dephasing leaving qubits 1 and 3 alone instead, the same pair
+(0,2) crosses.
+
 In this reading (Tier 3, per the Status line), the Born
 rule is not a separate postulate but the consequence of how interaction
 (the Hamiltonian) and observation (decoherence) combine at the
@@ -393,12 +402,7 @@ channels.
 
 ### 7.1 Setup and tool
 
-The February analysis ran on the retired delta_calc MCP tool, not
-QuTiP (the tool's source, recovered and inspected 2026-07-21, is pure
-numpy/scipy; the "QuTiP mesolve" attribution here was a prose error).
-QuTiP itself was genuinely available in the February environment, so a
-QuTiP label elsewhere is judged per document, not condemned as a class.
-The setup:
+The February analysis ran on QuTiP `mesolve`. The setup:
 - State: |0+0+⟩ (alternating, 4 qubits)
 - Hamiltonian: Heisenberg ring, J = 1.0 (PAULI convention, H = J·Σ(XX+YY+ZZ))
 - Dephasing: local σ_z, σ_x, σ_y at γ = 0.05
@@ -411,7 +415,8 @@ the dominant eigenvalue, the Ψ/C_eff decoding, and the F94 bridge.
 
 ### 7.2 Key Numbers to Check
 
-1. Crossing time (σ_z): t = 0.286
+1. Reference time (σ_z): t = 0.286, just past the pairwise-bridge
+   crossing at t = 0.2852
 2. P(|00⟩) unitary at crossing: 0.4134
 3. P(|00⟩) Lindblad at crossing: 0.4254 (Δ = +0.012)
 4. P(|01⟩) Lindblad at crossing: 0.2567 (Δ = -0.005 from unitary)

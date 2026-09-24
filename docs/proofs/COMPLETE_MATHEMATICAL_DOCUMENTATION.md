@@ -303,11 +303,13 @@ all previous crossings were downward (starting entangled, decohering
 through ¼). On the N=4 ring at γ=0.05 (pair-CΨ, concurrence book) the
 crossing states are |+-+-⟩ (ring-neighbour pairs, CΨ = 0.284) and |0+0-⟩
 (diagonal pair, 0.256); |0+0+⟩ does NOT cross on the ring (best pair
-0.200, consistent with §7's gatekeeper table) but crosses on the chain
+0.201, consistent with §7's gatekeeper table) but crosses on the chain
 (pair (1,2), CΨ = 0.310). Reproduction:
 [subsystem_crossing_pairs.py](../../simulations/subsystem_crossing_pairs.py);
-the earlier ring-(0,2) tables came from a retired tool and do not
-reproduce (reproduction note in
+the ring-(0,2) tables of Dynamic Entanglement are February QuTiP runs read
+with a pairwise correlation bridge, in which they reproduce under exact
+propagation; in this concurrence book that pair does not cross
+(reproduction note in
 [Dynamic Entanglement](../../experiments/DYNAMIC_ENTANGLEMENT.md)).
 
 **Three regimes in the named scan.** (1) Some preparations started above ¼ and crossed downward.
@@ -336,11 +338,13 @@ See: [Universal Quantum Lifetime](../../experiments/UNIVERSAL_QUANTUM_LIFETIME.m
 
 ## 7. Topology and Crossing (Tier 2)
 
-**Topology as gatekeeper.** For the same initial state |0+0+⟩ at γ=0.05,
-topology determines whether crossing occurs: chain allows (CΨ_max=0.310),
-star allows (0.351), ring forbids (0.200), complete graph forbids (0.200).
-Ring = complete to four decimal places. Gap stabilizes with N (~0.09–0.11),
-suggesting genuine topological protection.
+**Topology as gatekeeper.** For the same initial state |0+0+⟩ at γ=0.05, in
+the concurrence book, topology determines whether crossing occurs: chain allows (CΨ_max=0.310), star
+allows (0.351), ring forbids (0.201), complete graph forbids (0.201). Ring =
+complete to four decimal places. Gap stabilizes with N (~0.09–0.11), suggesting
+genuine topological protection for the ring neighbours; the ring's diagonal pair
+(1,3) depends on γ and crosses for γ below 0.021
+([subsystem_crossing_pairs.py](../../simulations/subsystem_crossing_pairs.py)).
 
 **Antiferromagnet crossing.** The alternating state |+-+-⟩ crosses on a
 ring (CΨ=0.284) from zero initial entanglement. Mechanism: maximum

@@ -44,35 +44,46 @@ historical interpretation.
 
 In this N=4 ring calculation, the initially unentangled |0+0+⟩ state
 (Hamiltonian variance 20 in the stated units) develops pair concurrence,
-whereas |+⟩⁴ (variance 0) does not evolve. The retained unitary grid reports
-six pair-readout crossings; at γ=0.05 it reports one, for pair (0,2). The
-γ sweep reports 13, one, and zero counted crossings at γ=0.01, 0.05, and
-0.20 respectively. A finite crossing count does not establish irreversible
-state change or a quantum/classical transition; Bell+ concurrence remains
-positive at every finite dephasing time, including below the scalar quarter.
+whereas |+⟩⁴ (variance 0) does not evolve. The retained unitary grid
+reports six pair-readout crossings; at γ=0.05 it reports one, for pair
+(0,2). The tool's Euler γ sweep (§9) counts 13, one, and zero upward
+passages of pair (0,2) at γ=0.01, 0.05, and 0.20; exact propagation counts
+5 at γ=0.01. A finite crossing count does not establish irreversible state
+change or a quantum/classical transition; Bell+ concurrence remains
+positive at every finite dephasing time, including below the scalar
+quarter.
 
 > **Update March 14, 2026:** The mirror symmetry discussed here has been
 > proven analytically. See [MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
-> **Reproduction note (2026-07-20):** the quantitative tables here (§5.1
-> unitary and §5.2 γ=0.05) came from the retired MCP tool (the delta_calc
-> family, February 2026) and do not
-> reproduce under the canonical pair-CΨ convention (Wootters concurrence ·
-> l₁/3, [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py)):
-> under that convention |0+0+⟩ on the N=4 ring at γ=0.05 peaks at
-> CΨ ≈ 0.20 (pair (1,3); fine grid 0.2005) and never crosses, matching
+> **Reproduction note:** the quantitative tables here (§5.1 unitary, §5.2
+> γ=0.05, and §6, the same run's pair diagonal) are February QuTiP
+> `mesolve` runs. §5.1 and §5.2 read the pairs with the pairwise bridge
+> C_corr = (P_AB − P_A·P_B)/(1 − P_A·P_B) times Ψ = l₁/3, the formula the
+> retired delta_calc MCP tool's subsystem-crossing routine also carries;
+> under exact propagation all three tables reproduce to their printed
+> digits
+> ([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)).
+> The runs of §9 and §11.2 are that tool's own, integrated by an Euler
+> step of dt 0.01 with the negative eigenvalues clipped, and the step
+> moves their numbers: at γ = 0.05 it lifts the ring neighbours to 0.251
+> and counts five crossing pairs, where exact propagation leaves them at
+> 0.247 and only (0,2) crossing (the start of §9 lists the other cells).
+> Under the canonical pair-CΨ convention (Wootters concurrence · l₁/3,
+> [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py))
+> |0+0+⟩ on the N=4 ring at γ=0.05 peaks at CΨ ≈ 0.20 (pair (1,3); fine
+> grid 0.20052) and never crosses, matching
 > [Orphaned Results §2b](ORPHANED_RESULTS.md) to its printed precision.
-> [Simulation Evidence §7.2](SIMULATION_EVIDENCE.md) carries a
-> correlation-book row for the same trajectory (C_corr·Ψ = 0.251 at
-> t=0.286): its Ψ column reproduces exactly, but its C_corr column
-> matches no standard correlator tested (raw, connected, Pearson), so
-> that C column is a retired-tool artifact too. The headline survives,
-> relocated: Hamiltonian-generated upward crossing from product states is
-> real. |0+0+⟩ crosses on the CHAIN (pair (1,2), max CΨ = 0.310), and on
-> the ring |+-+-⟩ (ring neighbours, 0.284) and |0+0-⟩ (diagonal, 0.256)
-> cross. The dephasing-selection story of §5.3 (which pair survives, and
-> why) is tied to the non-reproducing (0,2) numbers and should not be
-> imported quantitatively.
+> [Simulation Evidence §7.2](SIMULATION_EVIDENCE.md) carries the same
+> run's (0,2) readings in the pairwise bridge (C_corr·Ψ = 0.251 at
+> t=0.286), which reproduce as well. So the ring-(0,2) crossing holds in
+> the pairwise bridge and not in the concurrence book.
+> Hamiltonian-generated upward crossing from product states holds in the
+> canonical book too: |0+0+⟩ crosses on the CHAIN (pair (1,2), max CΨ =
+> 0.310), and on the ring |+-+-⟩ (ring neighbours, 0.284) and |0+0-⟩
+> (diagonal, 0.256) cross. Which pair survives dephasing in §5.2 is a
+> pairwise-bridge result; the immunity reading of why, in §5.3, is not
+> borne out (see the end of §5.3).
 
 ---
 
@@ -139,7 +150,7 @@ This state has:
 | Noise | local dephasing (σ_z, gamma = 0.05) |
 | dt | 0.001 (fine resolution for crossing detection) |
 | t_max | 3.0 |
-| Tool | retired delta_calc MCP tool, `simulate_dynamic_lindblad` (see the reproduction note above; the earlier "QuTiP mesolve" label was wrong for these tables) |
+| Tool | QuTiP mesolve |
 
 All 6 qubit pairs tracked. Two regimes tested: pure unitary (gamma = 0)
 and with dephasing (gamma = 0.05).
@@ -161,10 +172,12 @@ and with dephasing (gamma = 0.05).
 nothing, and every pair eventually reaches CΨ > 1/4.
 
 The crossings are **oscillatory**: pairs cross upward, fall back below
-1/4, and cross again. The pattern has period approximately 1.5 for
-ring neighbors and 1.1 for diagonals. Without decoherence, crossing
-is reversible; the system oscillates between "measured" and
-"unmeasured" states.
+1/4, and cross again. The pattern repeats with period π/2 ≈ 1.571 for
+every pair, because the ring's energies (−8, −4, 0 and 4 in these units)
+differ by multiples of 4; within one period the ring neighbours and (0,2)
+pass ¼ upward twice, (1,3) once. Without decoherence, crossing is
+reversible; the system oscillates between "measured" and "unmeasured"
+states.
 
 Ring-neighbor symmetry: pairs (0,1), (0,3), (1,2), (2,3) are exactly
 degenerate due to the ring topology combined with the |0+0+⟩ mirror
@@ -183,7 +196,7 @@ symmetry that exchanges the two |0⟩ qubits and the two |+⟩ qubits).
 | (1,3) | NO | n/a | 0.224 |
 
 **Only pair (0,2) crosses.** All ring-neighbor pairs reach max CΨ =
-0.247, missing the threshold by 1.2%. The diagonal pair (0,2) crosses
+0.247, missing the threshold by 1.1%. The diagonal pair (0,2) crosses
 at t = 0.285. The other diagonal (1,3) reaches only 0.224.
 
 ### 5.3 Why Pair (0,2) Survives
@@ -208,16 +221,25 @@ This is basis-dependent. With σ_x dephasing instead of σ_z,
 the roles would reverse: the |+⟩ qubits would be immune and pairs
 involving qubits 1 and 3 would survive.
 
+A σ_x run in the same bridge does not bear this out. Under exact
+propagation at γ = 0.05 the same single pair (0,2) crosses, reaching
+0.335 against 0.320 under σ_z, while (1,3) stays at 0.240 and the ring
+neighbours at 0.249
+([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)).
+At this γ, which pair crosses is not set by which qubits the dephasing
+leaves alone.
+
 ## 6. Density Matrix at the Crossing Point
 
-Pair (0,2) at t = 0.285, reduced density matrix diagonal:
+Pair (0,2) at t = 0.286, just past the crossing, reduced density matrix
+diagonal:
 
 | Basis state | Probability | Initial |
 |-------------|-------------|---------|
-| \|00⟩ | 0.061 | 1.000 |
+| \|00⟩ | 0.425 | 1.000 |
 | \|01⟩ | 0.257 | 0.000 |
 | \|10⟩ | 0.257 | 0.000 |
-| \|11⟩ | 0.425 | 0.000 |
+| \|11⟩ | 0.061 | 0.000 |
 
 The |01⟩ = |10⟩ symmetry is exact (to numerical precision) and follows
 from the equivalence of qubits 0 and 2 in the ring topology with the
@@ -257,9 +279,12 @@ irreversibility, measurement, or classicality becomes definitive.
 
 ### 7.3 The Noise Basis Matters
 
-Which pairs cross under dephasing depends on which qubits are vulnerable
-to the noise. σ_z dephasing protects z-eigenstates. σ_x
-dephasing would protect x-eigenstates. The "preferred basis" that
+At γ = 0.05, which pair crosses does not follow which qubits the noise
+leaves alone: σ_z dephasing leaves the |0⟩ qubits alone and σ_x
+dephasing the |+⟩ qubits, yet both let the same single pair (0,2) cross
+(§5.3). The basis still moves the numbers: σ_x raises every pair's
+maximum slightly, and at γ = 0.04, where σ_z lets five pairs cross, σ_x
+lets all six, (1,3) included. The "preferred basis" that
 emerges from decoherence is not intrinsic to the framework but
 determined by the environment.
 
@@ -293,10 +318,12 @@ are the historical interpretation, not literal monitoring events.
 
 ### 8.2 Creation in the Blind Spot
 
-The earlier run described pair (0,2) as a dephasing "blind spot," but its
-quantitative rows do not reproduce under the canonical pair definition. Even
-for a reproducing trajectory, the generator damps selected coherences; it does
-not establish that an environment watches one pair or thereby creates another.
+The page describes pair (0,2) as a dephasing "blind spot"; its
+quantitative rows reproduce in the pairwise bridge, not under the
+canonical pair definition, and a σ_x run, which leaves qubits 1 and 3
+alone instead, still lets only (0,2) cross (§5.3). Either way the
+generator damps selected coherences; it does not establish that an
+environment watches one pair or thereby creates another.
 
 As an invitation, one may picture damping and surviving correlations as two
 sides of a cycle. The simulation does not establish observation, classical
@@ -316,10 +343,12 @@ surface. In the mathematics it is only a finite scalar equality.
 
 The gamma sweep (Section 9) makes this vivid:
 
-- At low noise (γ = 0.01), the finite grid counts 13 scalar crossings; the
-  "future cooking" phrase is the historical interpretation.
-- At moderate noise (γ = 0.05), this grid reports only one selected pair
-  crossing, subject to the reproduction caveat above.
+- At low noise (γ = 0.01), the tool's Euler grid counts 13 upward
+  passages of pair (0,2), exact propagation 5; the "future cooking"
+  phrase is the historical interpretation.
+- At moderate noise (γ = 0.05), the tool's Euler grid counts five pairs
+  crossing; exact propagation leaves only (0,2), the ring neighbours
+  stopping at 0.247 (§5.2).
 - At high noise (γ = 0.2), the grid reports no crossings of this readout;
   it does not decide what is real.
 
@@ -358,6 +387,17 @@ The original open questions 2-5 have been answered using the MCP tool
 (simulate_subsystem_crossing) after implementing bidirectional crossing
 detection (Task 010c) and the alternating state (Task 010b).
 
+These are the tool's Euler runs, and the step shows in their numbers.
+Under exact propagation
+([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)):
+at γ = 0.01 pair (0,2) first crosses at 0.264, peaks at 0.407 and passes
+¼ upward 5 times in t ≤ 10, where the Euler run counts 13, the unitary
+count; at γ = 0.05 the ring neighbours stay at 0.247 and only (0,2)
+crosses (§5.2); at γ = 0.09 (0,2) still crosses (0.258) and at γ = 0.10
+no pair does, (0,2) peaking at 0.245, so its γ_c is 0.096;
+at γ = 0.20 the (0,2) maximum is 0.157; and in the Ising run of §9.2
+every pair stays at C·Ψ = 0. The N = 6 column of §9.1 was not rerun.
+
 ### 9.1 N = 6 Longer Chain (Question 2)
 
 | Pair type | Example | max C·Ψ (N=6) | max C·Ψ (N=4) |
@@ -368,18 +408,21 @@ detection (Task 010c) and the alternating state (Task 010b).
 | Next-next-neighbor | (0,3) | 0.111 | - |
 
 **Zero crossings at N = 6.** The entanglement dilutes across 15 pairs
-instead of 6. Pair (0,2), the sole survivor at N = 4, drops from
-max C·Ψ = 0.339 to 0.131, well below threshold. On a 6-qubit ring,
+instead of 6. Pair (0,2), the sole survivor at N = 4 under exact
+propagation (§5.2, max 0.320), drops from max C·Ψ = 0.339 in the Euler
+run to 0.131 at N = 6, well below threshold. On a 6-qubit ring,
 qubits 0 and 2 are no longer directly opposite; the Hamiltonian must
 route correlations through more intermediaries, and each intermediary
 leaks coherence to the environment.
 
 ### 9.2 Ising Hamiltonian (Question 3)
 
-H_Ising = J Σ σ_z^i σ_z^(i+1) produces **zero entanglement generation.**
+H_Ising = J Σ σ_z^i σ_z^(i+1) (the tool's `ising`, on the open chain)
+produces **zero entanglement generation.**
 All correlations remain exactly zero for all pairs at all times.
-Max C·Ψ across all pairs: 0.068 (pair (1,3) only, from residual
-coherence decay).
+The tool's Euler run printed a maximum C·Ψ of 0.068, on pair (1,3);
+under exact propagation every pair stays at zero, so that value is the
+step's.
 
 The reason is structural: the Ising interaction commutes with the
 computational basis. It assigns different energies to aligned vs
@@ -404,13 +447,14 @@ Three systematic trends with increasing γ:
 1. **Crossing time shifts right.** The Hamiltonian needs longer to
    overcome the noise before reaching the threshold.
 2. **Peak C·Ψ decreases.** Less coherence survives to contribute.
-3. **Oscillation count drops.** At γ = 0.01, pair (0,2) oscillates
-   through the threshold 13 times (nearly unitary behavior). At
-   γ = 0.05, one crossing survives. At γ = 0.20, none.
+3. **Oscillation count drops.** In the Euler run, pair (0,2) passes the
+   threshold upward 13 times at γ = 0.01, once at γ = 0.05 and never at
+   γ = 0.20; exact propagation keeps the trend with 5, 1 and 0, and the
+   Euler run's 13 equals the unitary count.
 
-The critical γ_c for pair (0,2) lies between 0.10 and 0.20. Above
-this, the noise wins completely; no pair can build enough coherence
-to cross the threshold.
+The critical γ_c for pair (0,2) lies between 0.10 and 0.20 in the Euler
+run and at 0.096 under exact propagation. Above it, the
+noise wins; no pair builds enough coherence to cross the threshold.
 
 ### 9.4 Reversed State |+0+0⟩ (Question 5)
 
@@ -464,7 +508,7 @@ simulate_subsystem_crossing(state="plus", n_spins=4, gamma=0.05)
 # Expected: C = 0.000 for all pairs at all times
 
 simulate_subsystem_crossing(state="bell_pairs", n_spins=4, gamma=0.05)
-# Expected: pairs (0,1) and (2,3) cross at t ~ 0.077
+# Expected: pairs (0,1) and (2,3) cross at t ~ 0.072
 ```
 
 The MCP tool now supports the alternating state (|0+0+⟩) via Task 010b,
@@ -484,10 +528,10 @@ simulate_subsystem_crossing(state="alternating", n_spins=4, gamma=0.05)
 3. |0+0+⟩ unitary, pair (0,1) first crossing: t = 0.073
 4. |0+0+⟩ with dephasing, pair (0,2) crossing: t = 0.285
 5. |0+0+⟩ with dephasing, pair (0,1) max CΨ: 0.247 (no crossing)
-6. N=6 alternating, pair (0,2) max CΨ: 0.131 (no crossing)
+6. N=6 alternating, pair (0,2) max CΨ: 0.131 (no crossing; the tool's Euler run)
 7. N=4 Ising alternating, all C_corr: 0.000 (no dynamics)
-8. N=4 alternating γ=0.01, pair (0,2) oscillations: 13
-9. N=4 alternating γ=0.10, only pair (0,2) crosses
+8. N=4 alternating γ=0.01, pair (0,2) upward passages in t ≤ 10: 5 (the tool's Euler run: 13)
+9. N=4 alternating γ=0.10: no pair crosses, (0,2) peaks at 0.245 (the tool's Euler run: only (0,2) crosses)
 10. N=4 alternating γ=0.20, zero crossings
 
 ---

@@ -93,8 +93,7 @@ below).
 | GHZ pair-level coherence is zero | GHZ N=4 traced to any pair: l1=0.000 at all times | GHZ pairs carry nonzero off-diagonal coherence | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
 | Initial \|+⟩^N is a Heisenberg eigenstate | Zero initial Hamiltonian variance does not imply zero Lindblad dynamics; a dissipator may act | Initial variance nonzero in the named model | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
 | Product states generate upward crossings | Reproduced (canonical pair-CΨ book, γ=0.05): chain \|0+0+⟩ pair (1,2) 0.310; ring \|+-+-⟩ 0.284, \|0+0-⟩ 0.256 | No product state reaches CΨ >= 1/4 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
-| Dephasing kills most dynamic crossings | \|0+0+⟩ ring at γ=0.05: no pair crosses (best ≈0.20); the retired-tool (0,2)-crossing table did not reproduce | All pairs cross equally under dephasing | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) |
-| Dephasing survival is basis-dependent | Qualitative; the original quantitative (0,2)-selection table did not reproduce | Crossing pattern independent of noise basis | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) |
+| Dephasing kills most dynamic crossings | \|0+0+⟩ ring at γ=0.05: in the concurrence book no pair crosses (best ≈0.20); in the pairwise bridge (P_AB − P_A·P_B)/(1 − P_A·P_B) under exact propagation only the diagonal (0,2) crosses (t ≈ 0.285, max 0.320) | All pairs cross equally under dephasing | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) |
 | Four finite log-coherence traces | Historical slope variations <0.01% on the declared grid, not arbitrary-Hamiltonian log-linearity | Stored finite traces fail reproduction | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | One memory-feedback log-coherence trace | Historical 24.5% slope variation at κ=0.5, τ=1.0; curvature alone is not a memory certificate | The named finite record fails reproduction | [Core Algebra](historical/CORE_ALGEBRA.md) §11 |
 | Coherence-purity bound holds throughout Lindblad trajectory | 0 violations for Bell+ (d=4) and W (d=8) | Trajectory violates C ≥ Ψ²(d-1)/d + 1/d | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
@@ -263,6 +262,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 | Prediction | Why falsified | Correct result | Source |
 |------------|---------------|----------------|--------|
 | E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0; IBM ratio 1.03) | [the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| Dephasing survival is basis-dependent: σ_x dephasing moves the surviving \|0+0+⟩ pair from (0,2) to (1,3) | Under σ_x the same single pair (0,2) crosses and (1,3) stays below | N=4 ring, γ=0.05, pairwise bridge under exact propagation: (0,2) max 0.320 under σ_z and 0.335 under σ_x; (1,3) max 0.224 and 0.240 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) §5.3 + [delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py) |
 
 ---
 
@@ -305,7 +305,7 @@ which keeps its historical filename). The J-coupling results below stand.
 |------|-------|---------|
 | **Registered hardware entries** | **24** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-07); §1 has five mixed-scope entries around one 2026-02-09 Torino q52 record, not five records; the quarter-crossing and absorption registrations share that dataset | §1 distinguishes qualitative/direct observations (¼ crossing and T₂*/T₂), the generalized crossing equation (same-record fitted comparison; no independent hardware test), algebraic context that is not a hardware test (x³+x=½), and absorption same-record N=1 fit consistency; N ≥ 2 ladder spacing remains unmeasured. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, F120 moment tower, F84 heating leg, concentrator site contrast, F129 standing fringe |
 | **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
-| **Computational records** | 52 (39 rows in §2 + 13 finite J>0 rows in §9, with local scope and unresolved labels) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
+| **Computational records** | 51 (38 rows in §2 + 13 finite J>0 rows in §9, with local scope and unresolved labels) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
 | **Q52 residual record** | 1 finite record | Interpretation closed only at the universal-boundary/non-Markovian-witness level; detuning is preferred for the phase component; the Q52 late-time excess mechanism remains open pending a Q52-specific fit/control (§3) |
 | **Testable now** | 14 rows in §4 | Critical slowing, fingerprints, field threshold, specified memory-model discrimination, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |
 | **Testable in principle** | 2 | θ compass, fractal decay |
@@ -315,7 +315,7 @@ which keeps its historical filename). The J-coupling results below stand.
 | **Null result** | 1 | Metric discrimination |
 | **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (no demonstrated advantage; not an equivalence of all entangled and classical correlations). Separate J>0 inter-qubit readings, not a channel-free reopening. |
 | **Unestablished noise generalization** | 1 | Universal five-bridge noise-independence remains unsupported by the retained coverage |
-| **Falsified prediction** | 1 | E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic) |
+| **Falsified predictions** | 2 | E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic); σ_x dephasing moving the surviving \|0+0+⟩ pair to (1,3) (σ_x keeps (0,2)) |
 
 ---
 

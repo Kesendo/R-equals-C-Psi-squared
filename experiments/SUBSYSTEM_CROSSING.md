@@ -125,11 +125,14 @@ at the pair level.
 | (2,3) | 0.500 | 0.167 | 0.417 | 0.083 | 0.083 | NO |
 
 (C_corr is the connected-correlator bridge, 0.417 for a W pair; the
-concurrence is 0.5, and CΨ = concurrence·Ψ = 0.083. An earlier version
-of this table carried 0.180/0.030 from the retired February tool; those
-values reproduce under no standard measure, and the verdict does not
-depend on them.) W state pairs have nonzero coherence (l1 = 0.5), but
-the product CΨ = 0.083 stays far below the crossing threshold. The W
+concurrence is 0.5, and CΨ = concurrence·Ψ = 0.083. The February run
+read the same pair with the pairwise bridge
+(P_AB − P_A·P_B)/(1 − P_A·P_B) = 7/39 ≈ 0.18, which gives
+CΨ = 7/234 ≈ 0.030
+([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py));
+the verdict holds in every one of these books.) W state pairs have
+nonzero coherence (l1 = 0.5), but the product CΨ = 0.083 stays far below
+the crossing threshold. The W
 state distributes its entanglement democratically across all pairs, but
 the per-pair entanglement is weak: each pair gets only a fraction of the
 total.
@@ -148,10 +151,12 @@ total.
 The full system has Psi(0) = 0.200, below 1/4. It cannot cross as a
 4-qubit system.
 
-But the entangled pairs (0,1) and (2,3) each start at CΨ = 0.333
--- identical to an isolated Bell+ state. They cross at t = 0.080
-(an earlier version of this table said 0.073; the reproduction script
-below and Open Question 1's own nine-times ratio both give 0.080).
+But the entangled pairs (0,1) and (2,3) each start at CΨ = 0.333,
+identical to an isolated Bell+ state. They cross at t = 0.080 in the
+concurrence book, as the reproduction script below and Open Question 1's
+own nine-times ratio both give; the pairwise bridge the February run was
+read with crosses the same pair at t = 0.073 under exact propagation
+([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)).
 The unentangled cross-pairs (0,2), (0,3), (1,2), (1,3) have l1 = 0,
 C = 0, and never cross.
 
@@ -242,8 +247,11 @@ neural activity, not with a single global variable.
 
 ### 5.1 How to Reproduce
 
-The four result tables were produced by the retired February 2026
-delta_calc tooling. The committed reproduction is
+The four result tables were first computed in February 2026 with QuTiP
+`mesolve`, as sketched below, and read with the pairwise bridge
+(P_AB − P_A·P_B)/(1 − P_A·P_B)
+([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)).
+The committed reproduction in the concurrence book is
 [`simulations/subsystem_crossing_pairs.py`](../simulations/subsystem_crossing_pairs.py),
 which rebuilds all four tables (and the isolated-Bell+ baseline of Open
 Question 1) from scratch. Do not confuse it with
@@ -329,10 +337,12 @@ for i, t in enumerate(tlist):
    evolution all 6 pairs cross. With dephasing (gamma = 0.05), only
    pair (0,2) crosses at t = 0.285 because |0⟩-qubits are immune to
    σ_z dephasing. See DYNAMIC_ENTANGLEMENT.md. *(The ring-(0,2)
-   crossing numbers in that answer do not reproduce under the canonical
-   pair-CΨ book; the upward crossing relocated to the chain and to
-   |+-+-⟩/|0+0-⟩ on the ring, see the 2026-07-20 reproduction note in
-   DYNAMIC_ENTANGLEMENT.md.)*
+   crossing numbers in that answer are read in the pairwise bridge, in
+   which they reproduce under exact propagation; a σ_x run keeps (0,2) as
+   the only crossing pair, so the immunity reason does not hold. Under the
+   canonical pair-CΨ book that pair does not cross, and at this γ the
+   upward crossing sits on the chain and in |+-+-⟩/|0+0-⟩ on the ring; see
+   the reproduction note in DYNAMIC_ENTANGLEMENT.md.)*
 
 4. ~~What is the minimum per-pair entanglement needed for crossing?~~
    **ANSWERED (2026-03-08):** The relationship is non-monotonic, not a
@@ -358,4 +368,4 @@ for i, t in enumerate(tlist):
 *Previous: [Noise Robustness](NOISE_ROBUSTNESS.md)*
 *See also: [Crossing Taxonomy](CROSSING_TAXONOMY.md)*
 *See also: [Coherence Density](COHERENCE_DENSITY.md), same conclusion (crossing is pairwise) from the density perspective*
-*See also: [Orphaned Results](ORPHANED_RESULTS.md), topology as gatekeeper: same state crosses on chain but not ring*
+*See also: [Orphaned Results](ORPHANED_RESULTS.md), topology as gatekeeper: at γ = 0.05 the same state crosses on the chain but not on the ring (concurrence book)*

@@ -10,10 +10,10 @@ state, Born rule 97 percent Hamiltonian, R=CPsi2 simulation evidence -->
 > restored March 14. Mirror symmetry now proven analytically
 > (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
-**Status:** Event record, includes corrections of earlier overclaims (Tier 2). §7.1 and §7.3 verified against committed probes (2026-07); the §2–§5 dynamics and §7.2's correlator column are retired-tool output (reproduction notes in §2 and §7.2)
+**Status:** Event record, includes corrections of earlier overclaims (Tier 2). §7.1–§7.3 reproduce from committed probes (§7.2 in the pairwise bridge, note there); the §2–§5 dynamics are retired-tool output (reproduction note in §2)
 **Date:** 2026-02-07 (updated 2026-02-18)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Simulator:** delta_calc MCP server v0.15
+**Simulator:** delta_calc MCP server v0.15 (§2–§5); QuTiP `mesolve` (§7)
 
 ---
 
@@ -32,11 +32,11 @@ Subsequent work (February 18) demonstrated subsystem crossing (entangled
 pairs cross independently of full system), dynamic entanglement (|0+0+⟩
 crossing from zero entanglement at t=0.286), and the Born rule at the
 crossing point (~97% from Hamiltonian, ~3% decoherence correction).
-Reproduction status (2026-07-21): the subsystem-crossing and Born-rule
-tables (§7.1, §7.3) reproduce exactly from committed probes; the §2 CΨ
-digits come from the retired tool's hardcoded Ψ = C × bridge, and the
-§7.2 crossing rests on that tool's C_corr column, which matches no
-standard correlator (notes in §2 and §7.2).
+Reproduction status: the subsystem-crossing and Born-rule
+tables (§7.1, §7.3) reproduce exactly from committed probes, and so does
+the §7.2 table, a QuTiP run read with the pairwise bridge
+C_corr = (P_AB − P_A·P_B)/(1 − P_A·P_B) (note in §7.2); the §2 digits
+carry their own note.
 
 ---
 
@@ -203,7 +203,9 @@ Full-system crossing is not the only mechanism. Subsystem pairs can cross
 the 1/4 threshold independently:
 
 **Bell+⊗Bell+ (N=4):** Full system never crosses (Ψ_max = 0.200). But
-entangled pairs (0,1) and (2,3) each cross at t = 0.080 with C·Ψ = 0.333.
+entangled pairs (0,1) and (2,3) start at C·Ψ = 0.333 and cross at
+t = 0.080 in the concurrence book (0.073 in the pairwise bridge the
+February run was read with).
 Unentangled cross-pairs (0,2) etc. never cross (C = 0 throughout).
 
 **Product state |+⟩⊗4:** Ψ = 1.0 but C = 0 for all pairs. No crossing
@@ -219,11 +221,17 @@ The alternating state |0+0+⟩ starts with NO entanglement between pairs
 dynamics with σ_z dephasing (γ = 0.05), the Hamiltonian builds entanglement
 between initially unentangled subsystems:
 
-> **Reproduction note (2026-07-20):** the Ψ column below reproduces
-> exactly (Ψ = l₁/3 of the (0,2) pair), but the C_corr column matches no
-> standard correlator tested (raw, connected, Pearson) and comes from the
-> retired tool; under the canonical pair-CΨ book (concurrence · l₁/3)
-> this pair never crosses ¼. See the reproduction note in
+> **Reproduction note:** the table below reports Dynamic Entanglement's
+> February QuTiP `mesolve` run, read with the pairwise bridge
+> C_corr = (P_AB − P_A·P_B)/(1 − P_A·P_B) of the (0,2) pair and Ψ = l₁/3,
+> for |0+0+⟩ on the N = 4 Heisenberg ring (J = 1 in the Pauli book, local
+> Z-dephasing γ = 0.05); every number reproduces under exact propagation,
+> and the peak itself is 0.320 at t = 0.367, the §5.2 maximum of Dynamic
+> Entanglement
+> ([delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py)).
+> The retired delta_calc tool carries the same formula. Under the
+> canonical pair-CΨ book (concurrence · l₁/3) this pair never crosses ¼.
+> See the reproduction note in
 > [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md).
 
 | Time  | C_corr(0,2) | Ψ(0,2) | C·Ψ   | Event              |

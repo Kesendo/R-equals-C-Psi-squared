@@ -3502,3 +3502,82 @@ there were two runs. The parameter that was meant to differ has to be seen reach
 in the producer, before the agreement is read as physics; a scope repair that counts the columns
 inherits the record's premise. And a formula printed beside a name is not the name's definition
 until the producer says so.
+
+## 2026-09-24, "unreproducible" was the other book: the February pair tables reproduce in their own pairwise bridge
+
+**What happened.** Six pages called the February pair numbers unreproducible. SUBSYSTEM_CROSSING
+said the W4 pair's 0.180 and 0.030 "reproduce under no standard measure" and kept the Bell-pair
+crossing of 0.073 only as an earlier version; DYNAMIC_ENTANGLEMENT's reproduction note and
+SIMULATION_EVIDENCE §7.2's own note said that §7.2's C_corr column "matches no standard correlator
+tested (raw, connected, Pearson)"; COMPLETE_MATHEMATICAL_DOCUMENTATION said the ring-(0,2) tables
+"do not reproduce", PREDICTIONS that they "did not reproduce", and BORN_RULE_MIRROR set its crossing
+label against its numbers, which "unlike the crossing label" reproduce. The 2026-07-20 entry above
+recorded the same verdict ("no setup reconciles 0.073"; the W row "reproduced under NO standard
+measure") and closed on the lesson this case needed, to recompute each document's own definition
+before harmonizing; the recompute used the concurrence book and the connected correlator. The tables
+were read with a pairwise bridge, C_corr = (P_AB − P_A·P_B)/(1 − P_A·P_B) times Ψ = l₁/3, and with
+it, under exact propagation, 33 of the 34 February values checked come back at their printed digits.
+The one that does not is the W4 pair's C_corr at t = 0, where no propagator enters: 7/39 =
+0.179487…, printed 0.180. It is the example the noise-record entry above gave of a number this
+bridge regenerates; the W4 CΨ, 7/234 = 0.0299, does come back. The ring-(0,2) upward crossing of
+|0+0+⟩ holds in this bridge, at t = 0.2852; it is the concurrence book in which that pair never
+crosses.
+
+The July repair had also moved the tables onto the wrong producer, the retired delta_calc MCP tool,
+whose subsystem-crossing routine carries the same formula. DYNAMIC_ENTANGLEMENT §4 called the "QuTiP
+mesolve" label wrong and BORN_RULE_MIRROR §7.1 called it "a prose error"; SUBSYSTEM_CROSSING §5.1,
+SIMULATION_EVIDENCE §7.2's note, HARD_PROBLEM_RESOLUTION's Tier-2 sentence and the docstring of
+`simulations/subsystem_crossing_pairs.py` named the tool as well; and the first draft of this repair
+kept the move until its first review. DYNAMIC_ENTANGLEMENT's and BORN_RULE_MIRROR's first versions
+name QuTiP mesolve, and SUBSYSTEM_CROSSING's gives a mesolve script as its reproduction. The tool's
+own task file for the routine, kept with its source and written at 11:10 that morning, says the
+subsystem result "was discovered using QuTiP scripts outside the MCP" and specifies the formula for
+the tool to adopt; DYNAMIC_ENTANGLEMENT's first version adds that "the MCP tool does not yet support
+the |0+0+> state"; and in the Claude Desktop log of the chat's MCP the tool's first
+subsystem-crossing call comes an hour after SUBSYSTEM_CROSSING's first commit, its first |0+0+⟩ call
+six minutes after DYNAMIC_ENTANGLEMENT's. The tool's own runs of the trajectory are a different part
+of the same page, §9 and §11.2, Euler at dt 0.01 with the negative eigenvalues clipped, and the step
+moved their numbers: at γ = 0.05 it lifts the ring neighbours to 0.251 and counts five crossing
+pairs where exact propagation leaves 0.247 and only (0,2); at γ = 0.01 it counts 13 upward passages
+of (0,2), the unitary count, where exact propagation counts 5, and the abstract carried the 13; it
+puts γ_c for (0,2) between 0.10 and 0.20 where exact propagation puts it at 0.096; and it prints
+0.068 for an Ising run that is exactly zero. §11.2's Bell-pair ~0.077 came from the routine's first
+version, before the clipping, whose runs also reached a C·Ψ of 2.016; the clipped routine gives
+0.072. BORN_RULE_MIRROR's σ_x and σ_y rows could not have come from the tool at all, which builds
+σ_z whatever its jump_operator says (the entry above).
+
+Three smaller errors sat beside the tables. DYNAMIC_ENTANGLEMENT §6 had |00⟩ and |11⟩ swapped. On
+the pair (0,2), |00⟩ holds the population of |0000⟩, which the dynamics keeps at a quarter, and |11⟩
+lies inside the weight-¼ two-excitation part of |0+0+⟩, so P(|00⟩) ≥ ¼ ≥ P(|11⟩) at every time; the
+page printed 0.061 and 0.425 the wrong way round. Its time label is now t = 0.286, where the values
+are, just past the crossing. §5.3's prediction that σ_x dephasing moves the surviving pair to (1,3)
+had stood untested; at γ = 0.05, in the same bridge, σ_x keeps (0,2) as the only crossing pair (max
+0.335) and (1,3) stays at 0.240, and at γ = 0.04 σ_x adds (1,3) to the five pairs σ_z lets cross
+while (0,2) crosses under both. And ORPHANED_RESULTS §2a answered the audit's question about the
+0.247 with a different pair, book and γ, a (1,3) concurrence value of 0.247024 at γ = 0.02, read as
+a resonance. That value was the scan's grid, 1000 points on [0, max(30, 5/γ)], a step of 0.25 at γ =
+0.02 and of 5 at γ = 0.001: below γ = 0.02 the grid stepped over the first peak near t = π/4, and at
+γ = 0.02 a point first landed on its flank (t = 0.751: 0.247 against the peak's 0.253), so that one
+γ looked like a resonance. On a fine grid the diagonal's maximum falls steadily with γ and passes ¼
+for γ below 0.0214, so in the concurrence book the ring crosses at weak dephasing.
+
+**Found by.** A reviewer of the noise-record repair read the tool's source and found its second,
+pairwise bridge. The first review of this repair read the pages' first versions against the log's
+timestamps and the tool's own test, whose reference comment reads "QuTiP: ~0.285", ran the tool's
+integrator, which gave §9 instead of §5, and found the grid behind ORPHANED §2a; the second found
+the tool's task files, the Euler step's other marks in §9 and the unclipped first version behind the
+0.077; the third found the July relabel's second target, in HARD_PROBLEM_RESOLUTION.
+
+**What stands now.** The February pair tables are QuTiP runs read with the pairwise bridge and
+reproduce in it under exact propagation (`simulations/delta_calc_pairwise_bridge.py`, which also
+transcribes the tool's Euler loop and regenerates §9's N = 4 numbers). The concurrence book's
+verdicts stand beside them at γ = 0.05: no ring crossing for |0+0+⟩, and crossings on the chain and
+for |+-+-⟩ and |0+0-⟩ on the ring; at weaker dephasing the ring's diagonal crosses too
+(`simulations/subsystem_crossing_pairs.py`). The σ_x prediction is falsified and filed in
+PREDICTIONS §8b.
+
+**The lesson.** A number that fails every standard measure is first tested against the producer's
+own measure, and the producer's formula is not the producer's run: the same formula, integrated
+exactly and by the tool's Euler step, gave two sets of numbers on one page, and the set that carried
+the tool's name was not the tool's. A maximum read off a grid is the grid's maximum until the grid
+is finer than the peak.

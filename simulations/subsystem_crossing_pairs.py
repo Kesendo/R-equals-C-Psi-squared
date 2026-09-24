@@ -22,21 +22,24 @@ of its one dephasing trajectory f = e^(-4*gamma*t):
 (one trajectory, three books; the experiment's tables are the
 concurrence book).
 
-Original tables were produced by the retired delta_calc MCP tool
-(February 2026); this script is the committed reproduction.
+Original tables: February 2026 QuTiP runs read with the pairwise bridge
+(P_AB - P_A*P_B)/(1 - P_A*P_B) (simulations/delta_calc_pairwise_bridge.py);
+this script rebuilds them in the concurrence book.
 
-Also reproduces (2026-07-20) the upward-crossing product-state tables of
-experiments/ORPHANED_RESULTS.md section 2b/2c: |0+0+> on the N=4 ring
-peaks at CPsi = 0.200 (no crossing) but crosses on the CHAIN (pair (1,2),
-0.310); on the ring |+-+-> (0.284, ring neighbours) and |0+0-> (0.256,
-diagonal) cross. The conflicting ring-(0,2) table in
-experiments/DYNAMIC_ENTANGLEMENT.md came from the retired MCP tool
-and does not reproduce under this convention (see the reproduction note
-there).
+Also reproduces the upward-crossing product-state tables of
+experiments/ORPHANED_RESULTS.md section 2a-2c: at gamma=0.05 |0+0+> on the
+N=4 ring peaks at CPsi = 0.201 (no crossing), as on the complete graph, but
+crosses on the CHAIN (pair (1,2), 0.310) and the STAR (pair (0,2), 0.351); on
+the ring |+-+-> (0.284, ring neighbours) and |0+0-> (0.256, diagonal) cross;
+and the ring's diagonal pair (1,3) of |0+0+> crosses for gamma below 0.0214,
+at its first peak near t = pi/4. The ring-(0,2) table in
+experiments/DYNAMIC_ENTANGLEMENT.md is read in the pairwise bridge, in which
+that pair crosses; in this book it does not (see the reproduction note there).
 """
 
 import numpy as np
 from scipy.linalg import expm
+from scipy.optimize import brentq, minimize_scalar
 
 I2 = np.eye(2, dtype=complex)
 X = np.array([[0, 1], [1, 0]], dtype=complex)
@@ -80,6 +83,23 @@ def heisenberg_chain(N, J=1.0):
         for P in (X, Y, Z):
             H += J * site_op(P, i, N) @ site_op(P, i + 1, N)
     return H
+
+
+def heisenberg_bonds(N, bonds, J=1.0):
+    d = 2 ** N
+    H = np.zeros((d, d), dtype=complex)
+    for (i, j) in bonds:
+        for P in (X, Y, Z):
+            H += J * site_op(P, i, N) @ site_op(P, j, N)
+    return H
+
+
+TOPOLOGY_BONDS = {
+    "ring": lambda N: [(i, (i + 1) % N) for i in range(N)],
+    "chain": lambda N: [(i, i + 1) for i in range(N - 1)],
+    "star": lambda N: [(0, i) for i in range(1, N)],
+    "complete": lambda N: [(i, j) for i in range(N) for j in range(i + 1, N)],
+}
 
 
 def ptrace_pair(rho, keep, N):
@@ -195,7 +215,7 @@ def run_state(name, psi, N=4, gamma=0.05, t_max=5.0, dt=0.01):
 def run_upward(name, psi, topology="ring", N=4, gamma=0.05,
                t_max=3.0, dt=0.005):
     """Finite product-state table: per-pair maximum of the selected readout."""
-    H = heisenberg_ring(N) if topology == "ring" else heisenberg_chain(N)
+    H = heisenberg_bonds(N, TOPOLOGY_BONDS[topology](N))
     print(f"\n=== {name} (N={N}, Heisenberg {topology} J=1, gamma={gamma}) ===")
     L = liouvillian(H, gamma, N)
     step = expm(L * dt)
@@ -219,6 +239,41 @@ def run_upward(name, psi, topology="ring", N=4, gamma=0.05,
         print(f"  pair {p}: max selected readout = {c:.3f} at t = {tm:.3f}"
               f"{'   above selected 1/4 readout reference' if c > 0.25 else ''}")
     return rows
+
+
+def ring_diagonal_gamma_sweep(psi, gammas=(0.001, 0.005, 0.01, 0.02, 0.05, 0.10),
+                              N=4, t_max=30.0, dt=0.001):
+    """ORPHANED_RESULTS section 2a: the ring's diagonal pair (1,3) per gamma, the maximum
+    of the selected readout over t <= t_max on a dt grid, and the gamma below which the
+    first peak (near t = pi/4) passes the 1/4 reference, bisected on gamma."""
+    H = heisenberg_ring(N)
+    rho0 = np.outer(psi, psi.conj()).reshape(-1)
+    print(f"\n=== |0+0+> ring, diagonal pair (1,3), gamma sweep (grid {dt}, t <= {t_max}) ===")
+    rows = []
+    for gamma in gammas:
+        step = expm(liouvillian(H, gamma, N) * dt)
+        v = rho0.copy()
+        best = (0.0, 0.0)
+        for s in range(int(round(t_max / dt)) + 1):
+            value = selected_pair_readout(ptrace_pair(v.reshape(2 ** N, 2 ** N), [1, 3], N))
+            if value > best[0]:
+                best = (value, s * dt)
+            v = step @ v
+        rows.append({"gamma": gamma, "maximum_readout": best[0], "time": best[1]})
+        print(f"  gamma = {gamma:<6}: max selected readout = {best[0]:.6f} at t = {best[1]:.3f}"
+              f"{'   above selected 1/4 readout reference' if best[0] > 0.25 else ''}")
+
+    def first_peak(gamma):
+        L = liouvillian(H, gamma, N)
+        f = lambda t: -selected_pair_readout(
+            ptrace_pair((expm(L * t) @ rho0).reshape(2 ** N, 2 ** N), [1, 3], N))
+        return -minimize_scalar(f, bounds=(0.6, 1.0), method="bounded",
+                                options={"xatol": 1e-10}).fun
+
+    gamma_c = brentq(lambda g: first_peak(g) - 0.25, 0.02, 0.05, xtol=1e-9)
+    print(f"  the first peak passes the 1/4 reference for gamma below {gamma_c:.6f}"
+          f" (unitary: {first_peak(0.0):.6f})")
+    return rows, gamma_c
 
 
 def main():
@@ -245,13 +300,16 @@ def main():
     bell_ring_rows = run_state("Bell+ x Bell+", np.kron(bell, bell))
     run_state("|+>^4", kron_all(plus, plus, plus, plus))
 
-    # Upward crossings from product states (ORPHANED_RESULTS section 2b/2c;
+    # Upward crossings from product states (ORPHANED_RESULTS section 2a-2c;
     # settles the DYNAMIC_ENTANGLEMENT ring-(0,2) dispute).
     minus = (up - dn) / np.sqrt(2)
     run_upward("|0+0+>", kron_all(up, plus, up, plus), "ring")
     run_upward("|0+0+>", kron_all(up, plus, up, plus), "chain")
+    run_upward("|0+0+>", kron_all(up, plus, up, plus), "star")
+    run_upward("|0+0+>", kron_all(up, plus, up, plus), "complete")
     run_upward("|+-+->", kron_all(plus, minus, plus, minus), "ring")
     run_upward("|0+0->", kron_all(up, plus, up, minus), "ring")
+    ring_diagonal_gamma_sweep(kron_all(up, plus, up, plus))
 
     # Isolated Bell+ baseline: one dephasing trajectory, three C-books.
     gamma = 0.05

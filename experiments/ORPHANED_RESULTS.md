@@ -9,7 +9,7 @@ echo decay palindromic rate 8gamma/3, R=CPsi2 orphaned results -->
 **Status:** Two new discoveries, one honest negative, one characterization (Tier 2)
 **Date:** March 14, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
-**Scripts:** [`simulations/explore_orphaned_results.py`](../simulations/explore_orphaned_results.py), [`simulations/why_alternating_crosses.py`](../simulations/why_alternating_crosses.py)
+**Scripts:** [`simulations/explore_orphaned_results.py`](../simulations/explore_orphaned_results.py), [`simulations/subsystem_crossing_pairs.py`](../simulations/subsystem_crossing_pairs.py), [`simulations/why_alternating_crosses.py`](../simulations/why_alternating_crosses.py)
 **Depends on:** [Subsystem Crossing](SUBSYSTEM_CROSSING.md), [Dynamic Entanglement](DYNAMIC_ENTANGLEMENT.md), [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
 ---
@@ -19,8 +19,9 @@ echo decay palindromic rate 8gamma/3, R=CPsi2 orphaned results -->
 A systematic exploration of six orphaned results from a connections audit
 yielded two new discoveries, one honest negative, and one characterization.
 (1) Topology determines crossing: for the same initial state |0+0+⟩ at
-γ=0.05, a chain allows CΨ crossing (CΨ_max=0.310) while a ring does not
-(CΨ_max=0.200), and ring equals complete graph to four decimal places.
+γ=0.05, in the concurrence book, a chain allows CΨ crossing
+(CΨ_max=0.310) while a ring does not (CΨ_max=0.201), and ring equals
+complete graph exactly.
 (2) The alternating state |+-+-⟩ crosses on a ring (CΨ=0.284) from zero
 initial entanglement, driven by antiferromagnetic XX anti-correlation that
 the Heisenberg Hamiltonian converts into entanglement. A brute-force scan
@@ -39,8 +40,8 @@ single Liouvillian mode, and their size is reported only for N = 3, 4, 5.
 | Question | Answer | Status |
 |----------|--------|--------|
 | Does Π connect to CΨ=1/4 via simple formula? | No. Different mathematical objects. | Honest negative |
-| Is the 0.247 near-miss real? | Yes, at γ=0.02 specifically | Verified |
-| Does topology determine crossing? | Yes. Same state: chain crosses, ring doesn't | **New discovery** |
+| Is the 0.247 near-miss real? | It is the ring neighbours' pairwise-bridge maximum at γ=0.05, and it reproduces; in the concurrence book the ring's diagonal (1,3) crosses for γ below 0.021 | Verified (fine grid) |
+| Does topology determine crossing? | At γ=0.05, yes: same state, chain crosses, ring doesn't (concurrence book); at weaker dephasing the ring crosses too | **New discovery** |
 | Does \|+-+-⟩ cross on ring? | Yes, CΨ=0.284, zero initial entanglement | **New discovery** |
 | What sets the echo period? | Consistent with Bohr-frequency scales on the tested rows | Numerical |
 | How does the echo size change? | Decreases from N=3 to N=5 in this scan | Numerical |
@@ -84,37 +85,50 @@ manifold - a harder problem than finding Π.
 **Question:** The audit reported CΨ_max = 0.247 for ring neighbors, gap = 0.003.
 Is this real? Is there topological protection preventing ring crossing?
 
-### 2a. The 0.247 is real - and γ-specific
+### 2a. The 0.247, and the ring's diagonal at weak dephasing
 
-For |0+0+⟩ on N=4 ring, diagonal pair (1,3) reaches CΨ_max = 0.247024
-specifically at γ = 0.020. At other γ values it's lower. This is a resonance
-phenomenon: at γ=0.02, the dephasing rate matches a sweet spot where
-the diagonal pair builds maximum CΨ before decoherence kills it.
+The audit's 0.247 is the ring neighbours' maximum at γ = 0.05 in the
+pairwise correlation bridge the February run was read with (Dynamic
+Entanglement §5.2, 0.2472 under exact propagation), so it is real in that
+book. In the concurrence book the ring's closest pair to ¼ is the diagonal
+(1,3), and on a fine grid its maximum falls steadily with γ, sitting at
+the first peak near t = π/4 for every γ scanned (grid 0.001, t ≤ 30,
+[subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py)):
 
-| γ | CΨ_max(13 diag) | Gap to 1/4 |
-|---|-----------------|------------|
-| 0.001 | 0.208 | 0.042 |
-| 0.005 | 0.211 | 0.039 |
-| 0.020 | 0.247 | 0.003 |
-| 0.050 | 0.198 | 0.052 |
-| 0.100 | 0.131 | 0.119 |
+| γ | CΨ_max(13 diag) | Crosses 1/4? |
+|---|-----------------|--------------|
+| 0.001 | 0.293 | YES |
+| 0.005 | 0.284 | YES |
+| 0.010 | 0.273 | YES |
+| 0.020 | 0.253 | YES |
+| 0.050 | 0.201 | no |
+| 0.100 | 0.134 | no |
+
+The first peak passes ¼ for γ below 0.0214 (unitary: 0.295). At γ = 0.05,
+the dephasing of §2b, the ring's diagonal stays below.
 
 ### 2b. Topology determines crossing (the key finding)
 
-Same initial state |0+0+⟩, same γ=0.05, same J=1. Different topology:
+Same initial state |0+0+⟩, same γ=0.05, same J=1, read in the concurrence
+book (concurrence · l₁/3). Different topology:
 
 | Topology | Best pair | CΨ_max | Crosses 1/4? |
 |----------|----------|--------|--------------|
 | Chain | (1,2) | 0.310 | YES |
 | Star | (0,2) | 0.351 | YES |
-| Ring | (1,3) | 0.200 | no |
-| Complete | (1,3) | 0.200 | no |
+| Ring | (1,3) | 0.201 | no |
+| Complete | (1,3) | 0.201 | no |
 
-Chain and star allow crossing. Ring and complete do not. Same initial state.
-The topology alone determines whether the 1/4 boundary is reachable.
+Chain and star allow crossing. Ring and complete do not. Same initial
+state, same γ: at this dephasing the topology decides whether the 1/4
+boundary is reachable, and at γ below 0.021 the ring's diagonal reaches
+it too (§2a).
 
-Ring and complete are identical on 4 decimal places - the extra bonds in
-the complete graph make no difference. The ring structure already saturates.
+Ring and complete agree exactly, not only to four decimals. The complete
+graph's extra bonds, the diagonals, commute with the ring Hamiltonian,
+and the ring dynamics keeps |0+0+⟩'s symmetry under swapping qubits 0↔2
+and 1↔3, so the diagonals commute with every state it reaches and never
+act (§4d).
 
 ### 2c. |+-+-⟩ crosses on ring (the surprise)
 
@@ -123,7 +137,7 @@ The Hamiltonian dynamics builds entanglement from scratch and it crosses.
 
 | Initial state | 01(ring) | 02(diag) | 12(ring) | 13(diag) | Crosses? |
 |--------------|---------|---------|---------|---------|----------|
-| \|0+0+⟩ | 0.136 | 0.178 | 0.136 | 0.200 | no |
+| \|0+0+⟩ | 0.136 | 0.179 | 0.136 | 0.201 | no |
 | \|+-+-⟩ | 0.284 | 0.000 | 0.284 | 0.000 | YES (ring neighbors) |
 | \|0+0-⟩ | 0.126 | 0.050 | 0.126 | 0.256 | YES (diagonal) |
 
@@ -138,7 +152,7 @@ For |0+0+...⟩ on rings of increasing size:
 
 | N | Nearest (dist=1) gap | Next-nearest gap |
 |---|---------------------|-----------------|
-| 4 | 0.114 | 0.050 (diag) |
+| 4 | 0.114 | 0.049 (diag) |
 | 5 | 0.092 | 0.179 (dist=2) |
 | 6 | 0.108 | 0.213 (dist=2) |
 
@@ -252,9 +266,10 @@ The echo shuttle doesn't produce enough CΨ for the indirect AB pair to cross.
 ### Topology as gatekeeper (connects to: SUBSYSTEM_CROSSING, STAR_TOPOLOGY_OBSERVERS)
 
 We already knew crossing is local (pair-level). Now we know topology determines
-WHICH pairs can cross. For the same initial state, chain allows what ring forbids.
-This is not about entanglement distribution - it's about how the Hamiltonian
-geometry constrains the maximum achievable CΨ.
+WHICH pairs can cross. For the same initial state at γ=0.05, in the concurrence
+book, chain allows what ring forbids. This is not about entanglement
+distribution - it's about how the Hamiltonian geometry constrains the maximum
+achievable CΨ.
 
 The |+-+-⟩ result is particularly clean: zero initial entanglement, pure dynamical
 crossing, and the topology selects which pairs activate (neighbors only, not
@@ -372,8 +387,8 @@ The same state |0+0+⟩ on different N=4 topologies:
 |----------|----------|--------|----------|
 | Star | (0,2) hub-leaf | 0.351 | YES |
 | Chain | (1,2) interior | 0.310 | YES |
-| Ring | (1,3) diagonal | 0.200 | no |
-| Complete | (1,3) diagonal | 0.200 | no |
+| Ring | (1,3) diagonal | 0.201 | no |
+| Complete | (1,3) diagonal | 0.201 | no |
 
 Ring and complete are IDENTICAL (same CΨ for all pairs to 4 decimal places).
 The extra bonds in the complete graph don't help - the ring structure already
@@ -391,15 +406,16 @@ creating a richer mode structure.
 ### → SUBSYSTEM_CROSSING.md
 We proved crossing is local (pair-level). Now we add: topology determines
 WHICH pairs can cross. Same state, same noise, different graph → different
-crossing. The topology is a gatekeeper.
+crossing (concurrence book, γ = 0.05). The topology is a gatekeeper.
 
 ### → DYNAMIC_ENTANGLEMENT.md
-That experiment found |0+0+⟩ generates crossings on a chain. We now show
-it does NOT cross on a ring - confirming that the crossing is not just
-about the initial state but about state × topology interaction.
-And we found |+-+-⟩, which crosses on ring from zero entanglement.
-The antiferromagnet mechanism (XX anti-correlation → Hamiltonian builds
-entanglement) is a new physical pathway to crossing.
+That experiment found |0+0+⟩ generating a crossing on the ring, pair (0,2),
+read in a pairwise correlation bridge. In the concurrence book at γ=0.05 we
+show it does NOT cross on the ring but does on the chain, confirming that
+the crossing is not just about the initial state but about state × topology
+interaction. And we found |+-+-⟩, which crosses on ring from zero
+entanglement. The antiferromagnet mechanism (XX anti-correlation →
+Hamiltonian builds entanglement) is a new physical pathway to crossing.
 
 ### → MIRROR_SYMMETRY_PROOF.md
 The affine palindrome organizes eigenvalues but does not, without invariant
@@ -424,9 +440,10 @@ for the pole structure that the signal processing view describes abstractly.
 
 ## Scripts and results
 
-- [`simulations/explore_orphaned_results.py`](../simulations/explore_orphaned_results.py) - echo, ring near-miss, u variable
+- [`simulations/explore_orphaned_results.py`](../simulations/explore_orphaned_results.py) - echo, the N-scaling of §2d, u variable
+- [`simulations/subsystem_crossing_pairs.py`](../simulations/subsystem_crossing_pairs.py) - §2a-§2c on a fine grid
 - [`simulations/why_alternating_crosses.py`](../simulations/why_alternating_crosses.py) - antiferromagnet analysis, 256-state scan
-- [`simulations/results/orphaned_results.txt`](../simulations/results/orphaned_results.txt) - exploration output
+- [`simulations/results/orphaned_results.txt`](../simulations/results/orphaned_results.txt) - exploration output; its γ sweep (Scan 2) ran on the coarse grid §2a explains
 - [`simulations/results/why_alternating_crosses.txt`](../simulations/results/why_alternating_crosses.txt) - selection rule output
 
 ## Follow-up
