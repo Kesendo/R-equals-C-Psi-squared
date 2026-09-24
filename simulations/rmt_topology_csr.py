@@ -22,7 +22,7 @@ cleanly classify the symmetric topologies, because the real content is one level
     As a clustered FRACTION of each topology's own oscillating (upper-half) modes that is
     45% (chain) < 65% (ring) < 88% (star) < 94% (complete) at N=6 -- the honest normalization is
     clustered / upper-half, NOT clustered / all-4096 (the latter mis-read complete as "97.6%", which
-    is a normalization artifact, not the memory's 97%; see is_the_97_the_memory.py). N=4 is the
+    is a normalization artifact; see is_the_97_the_memory.py). N=4 is the
     usual outlier (ring/star swap), the same N=4 special as the ceiling story.
   * chain is clean 2D-Poisson (<cos theta> ~ 0 at odd N=3,5,7), compatible with integrability or fragmentation;
     this does not prove integrability.

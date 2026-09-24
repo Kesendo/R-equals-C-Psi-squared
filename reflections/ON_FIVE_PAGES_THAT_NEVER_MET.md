@@ -44,9 +44,9 @@ on the nested observer. Review then found two more, further out:
 [the hierarchy of incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md), 3 January 2026, older than
 every page in the census, titled for the founding question, and sitting two rows above this page's own
 new line in `docs/README.md`; and [The View onto the Memory](THE_VIEW_ONTO_THE_MEMORY.md), 28 May 2026,
-a synthesis over an overlapping set of documents, which separates the two 97/3 windows an earlier state
-of this page conflated, and then books both to F94 at the end of the same sentence, the very
-conflation; the shadow's own fence is the reading kept here.
+a synthesis over an overlapping set of documents, which gives the literal 97/3 its one
+home, the mirror page, and books only that one to F94; the shadow's own fence is the reading kept
+here.
 
 ## The five, in plain words, and where each already lived
 
@@ -69,14 +69,13 @@ and an explicit quality factor, and says in writing that which of the two forms 
 open. Even the oldest form here arrives with a named predecessor, and the page said so.
 
 [Its shadow](../experiments/BORN_RULE_SHADOW.md), 4 April 2026, then measured the two parts in the
-purity and found them very unequal: almost everything present is the past part (the two sources label
-that part with opposite words, forward on one page and backward on the other, so this page keeps the
-noun they share), and the future part and the interference between them together contribute a few
-percent, the interference term being what decides when the fold threshold is crossed. Entry F94 of
+purity: at the fold, for the page's own state, the past part, the steady state, holds about half of
+the purity and the future part the rest, with no interference between them; what decides when the
+fold threshold is crossed is the future part fading. Entry F94 of
 [`docs/ANALYTICAL_FORMULAS.md`](../docs/ANALYTICAL_FORMULAS.md) later closed the dominant-outcome case
 of the mirror page's probability-side deviation in closed form, a bit-exact leading coefficient, F96
-its companions, F94's own scope calling the coefficient setup-specific; the shadow's purity split is a different 97/3 and remains, by
-its own fence, that document's numerical result. The reading of the two parts as an offer and its
+its companions, F94's own scope calling the coefficient setup-specific; the shadow's purity
+split is a different object and, by its own fence, that document's own result. The reading of the two parts as an offer and its
 confirmation is archived as speculative, the mirror page marking its interpretation Tier 3 beside its
 Tier 2 numerics, and stays that way here.
 
@@ -160,7 +159,7 @@ already joined three of the eight:
 [The View onto the Memory](THE_VIEW_ONTO_THE_MEMORY.md) has linked the mirror and the shadow as one axis
 since May, and joined the frozen band to them in July, the day the frozen band was created. So the isolation
 holds for direct edges among the eight, while a hub outside them had met one of these roads three months
-ago; of the eight, only the frozen band, the census's leftover, points at that hub.
+ago; of the eight, only the shadow and the frozen band, the census's leftover, point at that hub.
 
 February cannot see July. July cannot see May. Within the census, March is cited by no one and cites no
 one; repo-wide the scaling curve is one of the better-connected experiment pages, which sharpens rather

@@ -3,7 +3,7 @@
 The RMT probe's 97.6% is the fraction of complete-graph oscillating eigenvalues
 that collapse onto coincident values.  The table compares that quantity with a
 slow-half mode count and a zero-rate kernel count.  F94 is a named N=4 Dyson
-coefficient; it does not own a 97/3 memory split or any of these counts.
+coefficient and owns none of these counts.
 
 Gate-first: if (a) the degeneracy collapse is not a stable ~97% but varies with topology, and
 (b) it is a different number from the slow-half fraction, and (c) its input set
@@ -71,4 +71,4 @@ print("    compare the two columns above; they disagree.")
 print("(c) collapse% is measured over Im>0 modes, while kernel% counts rate~0 modes;")
 print("    the upper-half filter excludes the latter by construction.")
 print("\nVERDICT: 97.6% is a finite topology-dependent spectral-degeneracy fraction.")
-print("F94's named N=4 Dyson coefficient is a separate object, not a memory 97/3 owner.")
+print("F94's named N=4 Dyson coefficient is a separate object and owns none of these counts.")

@@ -3414,3 +3414,51 @@ verified from below like any finding, and its genre is checked before its wordin
 adopted: a true fact written as a banner is the right fact in the wrong genre, and a reset
 that removes the banner has to carry the fact into the body. A test that pins wording guards
 the wording, not the truth.
+
+## 2026-09-24, a split decided by rounding: the Born shadow's 97.1% and its 1.8% interference
+
+**What happened.** `experiments/BORN_RULE_SHADOW.md` (April 4, 2026) cut ρ at the rate Σγ into
+a slow "past" and a fast "future" part and reported the purity of |++⟩ as 97.1% past, 1.1%
+future and a 1.8% cross term, the cross term read as the interference that sets the shutter at
+the CΨ = ¼ fold. At N = 2 with uniform γ and J above γ/2 (the page has J = 1, γ = 0.05) ten of
+the sixteen Liouvillian modes sit exactly on Σγ (the eight depth-1 modes and the {ZI−IZ, XY−YX}
+pair): the Hamiltonian anticommutes with the centred dissipator there (F48), so every
+eigenvalue off the real axis lands on the line, and the four real ones among the ten are the
+swap-symmetric depth-1 operators, which the Hamiltonian cannot touch. The producer's strict
+float comparison (−Re λ) < Σγ sorted the ten by residuals of at most 1.1·10⁻¹⁵, seven to the past
+and three to the future. |++⟩ is Hamiltonian-dead, so ρ(t) does not depend on J at all, yet J =
+1 + 10⁻¹² moved the split to 99.86 / 0.14 / 0. The page's own rule (≥ Σγ is future), applied
+exactly, gives ρ_past = I/4 for |++⟩ and a cross term of exactly 0; at N = 2 and J above γ/2
+the cross term is 0 for every initial state, because the slow side is then the kernel alone and
+ker L = ker L† for this class (`docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md` §(f6)), which
+makes the kernel Hilbert-Schmidt-orthogonal to everything else. Below γ/2 that pair turns real,
+one of its two modes slow, and cross terms return. The sample was not the fold either. The
+producer's `cpsi()` was "simplified to purity for now" and searched purity 0.27 (t = 16.2,
+where CΨ = 0.039); the fold is at t = 4.939, where the exact split is 53.1 / 46.9 / 0. The old
+producer also paired eig(L) with a separate eig(L.T) and conjugated the left vectors, which is
+not biorthogonal on one complex pair; the 97.1% did not come from that, and
+`simulations/k_dosimetry.py` carries the same pairing code. An outside repair had caught the
+purity-for-CΨ substitution in the producer and kept the number; the page,
+THE_VIEW_ONTO_THE_MEMORY, ON_FIVE_PAGES_THAT_NEVER_MET, ON_HOW_FOUR_THIRDS_APPEARED,
+DOUBLE_SLIT_TRANSLATED, THE_LABEL_MAP, an OpenArcs arc string, June exploration scripts and the
+fact guard's list of true sentences all carried it.
+
+**Found by.** A fresh reviewer of THE_VIEW_ONTO_THE_MEMORY in the voice restoration's second
+wave, re-running the producer's model and nudging J.
+
+**What stands now.** A cross term needs slow and fast modes that overlap. At N = 2 (J above
+γ/2) none do, so no state carries one; at N = 3 |+++⟩ has none either (Hamiltonian-dead, so
+pure dephasing, so its two parts are different Pauli strings), |++0⟩ carries −0.04% of the
+purity at its fold, and fifty random pure states at t = 3 a median of 0.14% and at most 0.76%.
+At N = 2 the page's shutter is the future fading, most of it the depth-1 coherences on the cut;
+at N = 3 the slow side holds the depth-1 coherences as well, and both parts fade toward the
+fold.
+
+**The lesson.** A comparison against a value that modes can sit ON exactly is a tie rule, and a
+float comparison hands the choice to the eigensolver. Where a symmetry puts modes on the cut,
+decide the cut on levels and print the gap. And an "interference" that lives only in a split is
+a statement about the split, not the state: the old rule cut through a degenerate level, where
+the eigensolver's basis is arbitrary (`experiments/XOR_SPACE.md`, "Retired coordinate
+diagnostics"), and handed a cross term to a state the Hamiltonian cannot touch, which under the
+exact cut has none. It is the 2026-09-01 structural-ceiling entry's lesson again, a strict `<`
+over a symmetry-forced tie, and the symmetry was already in the registry as F48.

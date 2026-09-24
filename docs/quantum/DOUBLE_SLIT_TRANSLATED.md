@@ -310,12 +310,11 @@ two different decompositions: the Tier-3 formula adds two coherence
 scalars held by two observers, while
 [Born Rule Shadow](../../experiments/BORN_RULE_SHADOW.md) splits one ρ
 into past/future mode blocks, and it is on that second, exact book that
-the Born probabilities
-carry exactly zero cross-term (linearity of the trace; the interference
-sits in the purity, the shutter speed; the analytic piece the registry
+the Born probabilities carry exactly zero cross-term (linearity of the
+trace; a cross-term can sit in the purity instead, and for the shadow's
+own state it is exactly 0 there too; the analytic piece the registry
 holds here, F94, closes the dominant-outcome Born deviation, F96 its
-companions, not the purity
-split). The
+companions, not the purity split). The
 slit experiment adds two amplitudes of one wave, so its cross-term lands
 in the image; a sum of two density matrices puts no cross-term in the
 image. Same shape, different books: a rhyme, not an identity,

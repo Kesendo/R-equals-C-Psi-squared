@@ -885,7 +885,7 @@ TRUE_SCOPED_SENTENCES = (
     ("experiments/COHERENCE_DENSITY.md", "A product state below the quarter is separable, but so is |+++> far above it."),
     ("README.md", "The decoherence readout builds on the generalized Born rule R_i = C_i·Ψ_i² of Born Rule Mirror."),
     ("experiments/BORN_RULE_SHADOW.md",
-     "**Status:** Confirmed (Born rule has zero interference, by linearity of the trace; purity has ~2%)"),
+     "**Status:** Confirmed (Born rule has zero interference between the past and future parts, by linearity of the trace)"),
     ("docs/THE_DOUBLE_ROOT.md", "The quarter circle meets the cardioid only at c = 1/4, which is the cusp."),
     ("docs/THE_DOUBLE_ROOT.md",
      "The recurrence cusp and the toy exceptional point obey the same condition, a vanishing discriminant, "

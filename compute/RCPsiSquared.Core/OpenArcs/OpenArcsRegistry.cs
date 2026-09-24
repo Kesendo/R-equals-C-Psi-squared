@@ -6965,8 +6965,8 @@ public static class OpenArcsRegistry
                 "contractive at every N); the horizon's 'slowest global coherence' re-fenced to " +
                 "single-excitation with the Tier-1-derived graduation; F60 qualified global; the " +
                 "walk-time step re-fenced first-order/ballistic; F94's ownership corrected in " +
-                "DOUBLE_SLIT and upstream at BORN_RULE_SHADOW:103 (F94 owns the per-outcome Born " +
-                "deviation, not the 97/3 purity split). THE_LABEL_MAP's double-slit and cat rows " +
+                "DOUBLE_SLIT and upstream at BORN_RULE_SHADOW (F94 owns the per-outcome Born " +
+                "deviation, not the shadow's purity split). THE_LABEL_MAP's double-slit and cat rows " +
                 "moved with their titles (the Noise row had moved with the founding chapter; " +
                 "SPOOKY's row keeps its untouched title). THE LAST TWO SLICES ARE TAKEN the " +
                 "same day, closing docs/quantum: SUPERPOSITION (seven migrates to held-letter/" +
