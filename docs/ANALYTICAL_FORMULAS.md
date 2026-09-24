@@ -806,7 +806,8 @@ Choose the bridge/readout, then the dynamics, then the scalar equation
 C(f)f/3=1/4. For Bell+ under isotropic Heisenberg coupling and equal local
 Z-dephasing, the entire trajectory is Hamiltonian-dead. In the clean linear
 Lindblad book f=exp(-4 gamma t): concurrence gives K=ln(4/3)/8=0.035960259...,
-the rescaled-MI bridge gives K≈0.02966, and ZZ correlation gives K=ln(4/3)/4≈0.07192.
+the rescaled-MI bridge gives K≈0.02966, and the retired tool's correlation bridge, the doubled, capped excess purity
+min(1, ½ + f²), which is 1 through the crossing, gives K=ln(4/3)/4≈0.07192.
 These finite values belong to the stated bridges; they are not physical
 observer-event times. The two other bridges in the catalogue never cross.
 

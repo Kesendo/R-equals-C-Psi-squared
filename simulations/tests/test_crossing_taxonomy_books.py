@@ -78,7 +78,7 @@ def validate_bridge_definitions(mapping):
         nz = eigenvalues[eigenvalues > 0]
         entropy = -np.sum(nz*np.log2(nz))
         independent = {"mutual_info": (2-entropy)/2, "concurrence": f,
-                       "correlation": 1., "mutual_purity": .5, "overlap": .25}
+                       "correlation": min(1., .5 + f*f), "mutual_purity": .5, "overlap": .25}
         assert set(mapping) == set(independent)
         for name, expected in independent.items():
             assert abs(mapping[name](f)-expected) <= 2e-16, (name, f)

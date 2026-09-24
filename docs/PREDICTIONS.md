@@ -83,7 +83,7 @@ below).
 | Ψ_interaction does not shift ¼ boundary | Δδ ≈ −8 × 10⁻⁴ | Boundary shifts under bidirectional coupling | [Core Algebra](historical/CORE_ALGEBRA.md) §8 |
 | Readout-dependent quarter equalities | C(f), then evolution book, then C(f)f/3=1/4; clean t=0.5931/0.7192/1.4384 and feedback t=0.6529/0.7735/1.4384 at γ=0.05 | Shared producer fails the named scalar roots | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Two never bridges in the finite taxonomy | mutual_purity C=0.5 and overlap C=0.25 stay below the selected quarter level | These fixed bridges cross in either named book | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
-| Finite noise coverage | Full local σ_z/σ_x sweeps; only σ_y correlation; no numerical depolarizing table; amplitude-damping Type-C classification inconclusive | Reproduction differs within a stated tested row | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
+| Noise coverage of the taxonomy | One local σ_z sweep, printed by the retired tool under the σ_x and σ_y names too; real σ_x and σ_y keep every bridge's C curve but hold Ψ at 1/3 and move every crossing; depolarizing turns the correlation bridge Type B | A real σ_x run keeps the σ_z crossing times | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
 | N-scaling barrier | Ψ(0) = l1/(2^N−1) blocks crossing for GHZ N≥3 and W N≥4 | GHZ N≥3 or W N≥4 cross in this named readout/book | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
 | W N=3 crosses, GHZ N=3 does not | W: Ψ(0)=0.286 > ¼, GHZ: Ψ(0)=0.143 < ¼ | Both cross or both fail | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
 | Type A survives at N=3,4 | Correlation C=1.0 for W N=3 (until t≈2.3) and W N=4 (until t≈1.5) | Correlation C drops below 1.0 at larger N | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
@@ -116,9 +116,9 @@ below).
 | Critical slowing at the cusp: asymptotic K(ε, tol) | (1/2)·ln(4ε/tol) + [−4 + (1/2)·ln(16·tol)]·√ε, zero fit parameters; finite-ε residuals remain, while the correction coefficient agrees at 0.5-2% across the tested tolerance grid | Expansion fails to approach the direct iteration count in its stated scale-separated regime | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 | Cusp dwell time is γ-invariant | K_dwell = γ·t_dwell = 1.080088·δ for Bell+, std < 2×10⁻¹⁷ across γ ∈ [0.1, 10] | K_dwell varies with γ in rescaled units | [Boundary Navigation](../experiments/BOUNDARY_NAVIGATION.md) |
 
-The separate universal-noise claim is **unestablished**, not a falsified
-five-bridge theorem: the retained record has two full Pauli sweeps and one
-σ_y bridge; amplitude-damping taxonomy remains open. See
+The separate universal-noise claim does not hold: the retired tool's three
+channel columns are one σ_z run, and under a real σ_x the correlation
+bridge crosses only after its plateau ends (C = 0.75). See
 [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md).
 
 ---

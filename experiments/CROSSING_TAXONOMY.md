@@ -24,15 +24,17 @@ feedback equations, with the retired February tables preserved below.
 
 Five definitions of C read one Bell+ local-Z-dephasing trajectory in the clean
 book. With Ψ = f/3, the readouts are mutual information
-[2−h₂((1+f)/2)]/2, Wootters concurrence f, connected Z correlation 1,
-single-subsystem purity ½, and maximally-mixed-state overlap ¼.
+[2−h₂((1+f)/2)]/2, Wootters concurrence f, the correlation bridge min(1, ½ + f²), which is 1
+through the crossing, the mutual purity √(P_A·P_B) = ½, and the overlap
+|Tr(ρ_A·ρ_B)|² = ¼.
 They place the adopted scalar boundary differently because they are different
 functions of the same coherence factor f.
 
 The clean Lindblad book uses df/dt = −4γf. The retired feedback book uses
 df/dt = −4γC(f)f, so the bridge also changes the dynamics. Mutual information
-and concurrence make that law nonlinear; the three constant bridges give
-linear constant-rate scalar decay. The feedback family is not one linear
+and concurrence make that law nonlinear; correlation keeps it linear while it
+sits on its cap, which lasts past the crossing, and the two constant bridges
+give linear constant-rate scalar decay. The feedback family is not one linear
 Lindblad generator.
 
 In each book the question is **C(f)f/3 = ¼**. Three bridges cross and two
@@ -47,7 +49,7 @@ scalar-response shapes, not physical observer classes.
 |--------|----------------------|---------------|--------------------|
 | mutual_info | 0.02966 | 0.593 | 0.033 |
 | concurrence | 0.03596 = ln(4/3)/8 | 0.719 | 0.039 |
-| correlation | 0.07192 | 1.438 | 0.072 (identical: C ≡ 1 makes the feedback inert) |
+| correlation | 0.07192 | 1.438 | 0.072 (identical: C = 1 through the crossing makes the feedback inert there) |
 
 The table displays rounded values. Independent regression references in
 [test_crossing_taxonomy_books.py](../simulations/tests/test_crossing_taxonomy_books.py)
@@ -86,7 +88,8 @@ changed evolution law, not competing estimates of one universal constant.
 <!-- CROSSING-HISTORICAL -->
 
 **Historical nomenclature:** Type A, B and C label the three response shapes
-recorded by the retired delta_calc tool. Its source was never committed.
+recorded by the retired delta_calc tool, whose source is kept outside the repo
+and was read there.
 The tables preserve the numerical record, including finite-step discrepancies;
 the current reconstruction does not certify every printed late-time entry.
 
@@ -135,11 +138,12 @@ change which book was used.
 | 1.437 | 1.000 | 0.250 | **0.250** |
 | 1.8 | 0.986 | 0.232 | 0.229 |
 
-The reconstructed connected Z correlation equals 1 for all t, since the
-populations remain frozen. The stored 0.986 entry at t = 1.8 is an
-unresolved retired-tool discrepancy. It is not evidence for a sudden physical
-loss of a protected correlation. “Excess purity” is a different quantity:
-(1+2f²)/3 decays and is about 0.71 at the crossing.
+The bridge function the taxonomy ran (bridge_type = correlation) is an excess
+purity, doubled and capped:
+C = min(1, 2(P_AB − P_A·P_B)), which is min(1, ½ + f²) on this trajectory.
+It holds at 1 until f = 1/√2, t = ln 2/(8γ) ≈ 1.73, and then slides as
+½ + f², so the stored 0.986 at t = 1.8 is the ceiling releasing, not a
+sudden physical loss of a protected correlation.
 
 ### Type B: both factors decrease
 
@@ -156,15 +160,16 @@ precede the constant-C crossing in these books. The feedback spread is about
 
 ### Type C: initially below the adopted threshold
 
-Mutual purity is the single-subsystem purity 0.5, not the product 0.25.
-Overlap is the constant 1/d, not fidelity to the initial state. They give
+Mutual purity is the geometric mean √(P_A·P_B) of the subsystem purities, 0.5
+here, not their product 0.25. Overlap is |Tr(ρ_A·ρ_B)|², ¼ on this trajectory,
+not fidelity to the initial state. They give
 the stored rounded initial products 0.167 and 0.083. Neither has a downward
 quarter crossing; no quantum/classical conclusion follows from that absence.
 
 | Class | Mechanism | C at crossing | Bridges | K (tool) | K (exact) |
 |-------|-----------|---------------|---------|------|------|
 | **Type A** | C stable, only Ψ decays | 1.000 | correlation | 0.072 | 0.07192 |
-| **Type B** | C and Ψ both decay | 0.85-0.89 | concurrence, mutual_info | 0.039, 0.033 | 0.03596, 0.02966 |
+| **Type B** | C and Ψ both decay | 0.84-0.87 | concurrence, mutual_info | 0.039, 0.033 | 0.03596, 0.02966 |
 | **Type C** | CΨ(0) < 1/4 already | n/a | mutual_purity, overlap | never | never |
 
 <!-- CROSSING-CURRENT -->
@@ -176,11 +181,11 @@ In the feedback book it also enters the rate. The Liouvillian palindrome
 does not derive the taxonomy: eigenvalue pairing and a nonlinear scalar
 readout are separate objects.
 
-The [noise-channel record](NOISE_ROBUSTNESS.md) contains full class
-assignments only for σ_z and σ_x, one σ_y bridge, and no depolarizing run.
-Its amplitude-damping appendix contains concurrence and CΨ traces, with the
-full five-bridge question still inconclusive. The finite agreement is not a
-noise-independence theorem.
+The [noise-channel record](NOISE_ROBUSTNESS.md) holds one σ_z run: for local noise the retired
+tool applied σ_z on every site whatever jump operator it was given, so its σ_x and σ_y
+columns repeat it. Run for real, σ_x and σ_y keep every bridge's C curve but
+hold Ψ at 1/3 and move every crossing, and depolarizing noise turns the
+correlation bridge Type B.
 
 The GHZ/W results in [N-Scaling Barrier](N_SCALING_BARRIER.md) concern
 normalization and named scalar readouts. A full-state or reduced-pair

@@ -220,11 +220,10 @@ entanglement measures capture.
 
 ### 5.3 Connection to Noise Robustness
 
-[Noise Robustness](NOISE_ROBUSTNESS.md) retains two full class sweeps
-(local sigma-z and sigma-x), only the correlation bridge for sigma-y,
-no numerical depolarizing table, and an amplitude-damping concurrence/CΨ
-row whose C classification is inconclusive. It does not establish a
-noise-independent taxonomy. The CΨ value in this separate Pauli comparison
+[Noise Robustness](NOISE_ROBUSTNESS.md) holds one local σ_z sweep, which the
+retired tool printed under the σ_x and σ_y names too, so it does not establish
+a noise-independent taxonomy; run for real, σ_x and σ_y keep every bridge's C
+curve but hold Ψ at 1/3, which moves every crossing. The CΨ value in this separate Pauli comparison
 does change with noise type, enabling the stated forensic discrimination, but only
 in the noiseless or known-noise regime (see Section 10).
 

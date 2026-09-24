@@ -11,23 +11,22 @@ Two named evolution-law families for f:
   CLEAN     df/dt = -4*gamma*f            (standard Lindblad; f = e^(-4*gamma*t))
   FEEDBACK  df/dt = -4*gamma*C(f)*f       (the retired February delta_calc tool's
             gamma_eff = gamma_base*C(t), disclosed in OBSERVER_DEPENDENT_CROSSING
-            sections 3.2/5.1; for C = f it integrates to f(t) = 1/(1+4*gamma*t))
+            section 3.2; for C = f it integrates to f(t) = 1/(1+4*gamma*t))
 
-The five bridges C(f), as pinned from the surviving prose + reproduced behavior
-(the tool itself was never committed):
+The five bridges C(f), as the retired tool's bridge function (bridge_type; source kept
+outside the repo) defines them, read on Bell+:
   concurrence   C = f                       (Wootters concurrence of rho(t))
   mutual_info   C = [2 - h2((1+f)/2)]/2     (von Neumann MI in bits / its t=0 value)
-  correlation   C = 1 exactly               (connected Z-basis correlation
-                <Z1Z2> - <Z1><Z2> = 1 for all t: diagonals are frozen under pure
-                dephasing. The old prose label "excess purity" does not reproduce
-                the recorded C = 1.000: excess purity decays.)
-  mutual_purity C = 1/2                     (single-subsystem purity; the prose
-                "product of subsystem purities" would be 1/4)
-  overlap       C = 1/4                     (= 1/d; the prose "fidelity with the
-                initial state" would start at 1 and decay)
+  correlation   C = min(1, 2(P_AB - P_A P_B)) = min(1, 1/2 + f^2), an excess
+                purity doubled and capped; it is 1 for f >= 1/sqrt(2), so through
+                every crossing here.
+  mutual_purity C = sqrt(P_A P_B) = 1/2      (the geometric mean of the subsystem
+                purities, not their product 1/4)
+  overlap       C = |Tr(rho_A rho_B)|^2 = 1/4 (not fidelity with the initial state,
+                which would start at 1 and decay)
 
-Crossing: C(f)*f/3 = 1/4. correlation is identical in both models (C = 1 makes
-the feedback inert). mutual_purity and overlap have CPsi(0) < 1/4: never cross.
+Crossing: C(f)*f/3 = 1/4. correlation is identical in both models (C = 1 through the crossing
+makes the feedback inert there). mutual_purity and overlap have CPsi(0) < 1/4: never cross.
 
 Expected output (verified 2026-07-21):
   bridge         clean K      clean t(g=.05)  feedback K   feedback t   Feb doc t
@@ -39,7 +38,8 @@ Expected output (verified 2026-07-21):
 K = gamma*t is exact for these five equations in each book, with the bridge
 fixed on this Hamiltonian-dead Bell+ family while gamma is swept. The feedback
 law is state-dependent/nonlinear for mutual information and concurrence;
-correlation, mutual purity and overlap give constant-rate linear scalar decay.
+correlation (on its cap, which lasts past the crossing), mutual purity
+and overlap give constant-rate linear scalar decay.
 The feedback family is not one linear Lindblad generator. A scalar readout
 choice does not establish a physical measurement event or experienced time.
 """
@@ -61,7 +61,7 @@ def h2(p):
 BRIDGES = {
     "mutual_info": lambda f: (2.0 - h2((1.0 + f) / 2.0)) / 2.0,
     "concurrence": lambda f: f,
-    "correlation": lambda f: 1.0,
+    "correlation": lambda f: min(1.0, 0.5 + f * f),
     "mutual_purity": lambda f: 0.5,
     "overlap": lambda f: 0.25,
 }
@@ -120,10 +120,10 @@ def main():
     t_analytic = (2.0 / np.sqrt(3.0) - 1.0) / (4.0 * GAMMA)
     print(f"\nconcurrence feedback crossing, analytic (2/sqrt(3)-1)/(4*gamma) "
           f"= {t_analytic:.6f}")
-    print("correlation is identical in both models (C = 1: feedback inert).")
+    print("correlation is identical in both models (C = 1 through the crossing: feedback inert there).")
     print("K = gamma*t is exact for the five listed equations in each fixed-bridge Bell+ book.")
     print("Feedback: mutual information and concurrence are state-dependent/nonlinear;")
-    print("correlation and the two constant bridges give constant-rate linear scalar decay.")
+    print("correlation (on its cap through the crossing) and the two constant bridges give constant-rate linear scalar decay.")
     print("Readout crossings do not establish physical observer events or experienced time.")
 
 

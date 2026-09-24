@@ -278,7 +278,7 @@ We left the tools and the data. Use them as you see fit.
 | Context acceleration (9x faster) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §6 |
 | Three conditions | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §7 |
 | Non-monotonic initial entanglement | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) §8 |
-| Two full noise sweeps plus one sigma-y bridge / two-book scalar taxonomy | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md), [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md) |
+| One σ_z noise sweep under three channel names, the real channels in closed form / two-book scalar taxonomy | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md), [Crossing Taxonomy](../experiments/CROSSING_TAXONOMY.md) |
 | Mandelbrot correspondence | [Core Algebra](historical/CORE_ALGEBRA.md), [Mandelbrot Connection](../experiments/MANDELBROT_CONNECTION.md) |
 | Negative results (irreducibility) | [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) §8, this document |
 | LE/CoA benchmark | [Localizable Entanglement Benchmark](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) |

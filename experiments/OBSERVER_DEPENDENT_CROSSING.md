@@ -18,9 +18,9 @@ Z-dephasing. Its trajectory stays Hamiltonian-dead: with coherence factor f,
 |---|---|
 | mutual_info | [2 − h₂((1+f)/2)]/2, von Neumann mutual information in bits divided by its initial value |
 | concurrence | f, Wootters concurrence |
-| correlation | 1, connected Z-basis correlation ⟨Z₁Z₂⟩ − ⟨Z₁⟩⟨Z₂⟩ |
-| mutual_purity | ½, single-subsystem purity |
-| overlap | ¼, overlap with the maximally mixed state |
+| correlation | min(1, ½ + f²), the taxonomy runs' excess purity 2(P_AB − P_A·P_B) capped at 1; 1 through the crossing |
+| mutual_purity | ½, √(P_A·P_B), the geometric mean of the subsystem purities |
+| overlap | ¼, \|Tr(ρ_A·ρ_B)\|² |
 
 Here h₂ is binary entropy. These names identify scalar functions; choosing a
 readout is not a physical measurement operation.
@@ -29,8 +29,9 @@ readout is not a physical measurement operation.
 
 The **clean Lindblad book** has df/dt = −4γf, hence f = exp(−4γt).
 The **retired feedback book** has df/dt = −4γC(f)f. Mutual information
-and concurrence give state-dependent nonlinear decay; the three constant
-bridges give linear constant-rate scalar decay. This family is not one
+and concurrence give state-dependent nonlinear decay; correlation keeps that decay
+linear while it sits on its cap, which lasts past the crossing, and the two
+constant bridges give linear constant-rate scalar decay. This family is not one
 linear Lindblad generator.
 
 In each book solve **C(f)f/3 = ¼**. At γ = 0.05 the committed
@@ -62,8 +63,8 @@ observer identity. The Liouvillian palindrome does not cause this taxonomy.
 17, 2026 and remains in this file's name. The native insight was the different
 positions of one chosen scalar boundary under different readouts. Carrying
 “observer” into a physical detector or a moment of experience adds a hypothesis.
-The retired delta_calc tool was not committed; its tables below are as-run
-records, not an independently reproducible noise-channel sweep.
+The retired delta_calc tool's source is kept outside the repo; its tables
+below are as-run records.
 
 ### 3.1 Setup and reported crossings
 
@@ -134,9 +135,10 @@ Mutual purity:
 | 2.0 | 0.1364 | (imaginary) |
 | 3.0 | 0.1235 | (imaginary) |
 
-The printed values are finite-step readings. In the reconstructed Z-correlation
-book C = 1 identically; late departures from that value in retired-tool output
-are not an established physical effect.
+The printed values are finite-step readings. The correlation bridge holds at 1 until f = 1/√2
+(t ≈ 1.73 here) and then slides as ½ + f², so its late departures from 1 in
+retired-tool output are the ceiling releasing a purity decay that ran all
+along, not a sudden loss of a protected correlation.
 
 ## 4. Experienced time and a proposed present moment
 
@@ -190,7 +192,7 @@ the real bridge functions, including both never-crossing alternatives.
 The retired setup used state Bell+, Heisenberg J = 1, h = 0,
 γ_base = 0.05, local noise, dt = 0.01 and t_max = 3.0. Its crossing finder
 interpolated C(t)Ψ(t) through 0.25. The committed producer reconstructs
-the two explicit books; it does not recover the unavailable tool.
+the two explicit books; it does not rerun the retired tool.
 
 The result is the finite scalar taxonomy and its bridge-specific K values.
 Experienced time, physical observers and transactional events remain the

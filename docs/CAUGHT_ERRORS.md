@@ -3462,3 +3462,43 @@ the eigensolver's basis is arbitrary (`experiments/XOR_SPACE.md`, "Retired coord
 diagnostics"), and handed a cross term to a state the Hamiltonian cannot touch, which under the
 exact cut has none. It is the 2026-09-01 structural-ceiling entry's lesson again, a strict `<`
 over a symmetry-forced tie, and the symmetry was already in the registry as F48.
+
+## 2026-09-24, a parameter the tool never read: the σ_x and σ_y columns of the noise record were its σ_z run
+
+**What happened.** `experiments/NOISE_ROBUSTNESS.md` (February 18, 2026) reported that the Type A/B/C
+crossing taxonomy survives σ_x and σ_y noise, with the correlation bridge's column identical to the
+last digit under σ_z, σ_x and σ_y, and read the agreement as a property of the bridges. The retired
+delta_calc tool, whose source lives outside the repo, builds σ_z on every site for noise_type =
+"local" whatever jump_operator it is given, and its own sweep code says so: for local and collective
+noise "the jump_operator is irrelevant". The three columns are one σ_z run. The record was read for
+seven months as a second and a third channel. The label campaign's version scoped it as two full
+sweeps, in the page's own title ("two full class sweeps and one sigma-y bridge") and in six copies,
+and the restoration, this session's first rewrite included, verified that scope instead of the run.
+That same version had also named the gap ("bridge definitions and channel handling cannot be
+independently recovered"); the restoration kept the bridge half and dropped the channel half.
+
+The bridge half had its own history. The tool has two correlation bridges: the bridge function the
+taxonomy ran (bridge_type = correlation), min(1, 2(P_AB − P_A·P_B)), and a pairwise one in its
+subsystem-crossing routine, (P_AB − P_A·P_B)/(1 − P_A·P_B). The February page printed the pairwise
+formula beside the name "excess purity"; on Bell+ that formula decays as (1 + 2f²)/3, so a July
+reconstruction rejected the name and chose the connected Z correlation, and the same day's inspection of the source recorded its feedback laws and not its bridge function. The K values stand, because the crossing sits
+on the cap where both readings are 1, but the 0.986 at t = 1.8 that CROSSING_TAXONOMY carried as an
+unresolved discrepancy is the cap releasing.
+
+**Found by.** A fresh reviewer of the restored page, who read the tool's source through the memory
+note that locates it and reran it at the page's settings: σ_x and σ_y bit-identical to σ_z for all
+five bridges. A second reviewer found the pairwise bridge.
+
+**What stands now.** Run for real, σ_x and σ_y leave every bridge's C curve on Bell+ as it was and hold
+Ψ at 1/3, so every crossing moves: the correlation bridge crosses at t = ln 2/(4γ) at constant γ, with C = 0.75, and
+F27 has the same shape for the purity reading. The February prediction the record seemed to refute
+holds with the tool's own bridge: under depolarizing noise the correlation bridge crosses at
+C = 1.5·2^(−2/3) ≈ 0.945, Type B. The pairwise bridge regenerates numbers other documents call
+unreproducible (the W4 pair's 0.180 and 0.030 in SUBSYSTEM_CROSSING, for one); that is its own
+follow-up.
+
+**The lesson.** A result that says two runs agree to the last digit is first a question of whether
+there were two runs. The parameter that was meant to differ has to be seen reaching the computation,
+in the producer, before the agreement is read as physics; a scope repair that counts the columns
+inherits the record's premise. And a formula printed beside a name is not the name's definition
+until the producer says so.

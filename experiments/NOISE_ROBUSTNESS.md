@@ -1,13 +1,12 @@
-# Noise Robustness: The Crossing Taxonomy Is Jump-Operator Independent
+# Noise Robustness: Does the Crossing Taxonomy Survive Other Noise?
 
-<!-- Keywords: quantum decoherence crossing noise independent, Pauli channel taxonomy
-robustness, sigma x y z dephasing identical crossing, Type ABC observer noise,
-amplitude damping crossing taxonomy, Lindblad jump operator independence,
-bell state correlation metric robust, quantum measurement noise type,
-palindromic spectral symmetry noise channel, crossing taxonomy Pauli operators,
-R=CPsi2 noise robustness -->
+<!-- Keywords: crossing taxonomy Pauli channels, jump operator comparison,
+sigma x y z dephasing crossing, Type ABC observer noise, amplitude damping
+crossing taxonomy, depolarizing noise correlation bridge, bell state
+correlation metric, quantum measurement noise type, palindromic spectral
+symmetry noise channel, retired tool record, R=CPsi2 noise robustness -->
 
-**Status:** Computationally verified (updated March 8, 2026)
+**Status:** Record of the retired delta_calc tool, whose σ_x and σ_y columns repeat its σ_z run (its source is kept outside the repo); the real channels are worked out in closed form in §4 and §7
 **Date:** February 18, 2026
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Depends on:** [Crossing Taxonomy](CROSSING_TAXONOMY.md)
@@ -16,34 +15,39 @@ R=CPsi2 noise robustness -->
 
 ## What this document is about
 
-The crossing taxonomy classifies how different entanglement measures
-behave as a quantum system decoheres: some stay perfect until a sudden
-collapse (Type A), some decay immediately (Type B), some never change
-(Type C). That taxonomy was discovered using one specific kind of noise
+The crossing taxonomy classifies how different readings of an entangled
+pair behave as it decoheres: some hold at their ceiling for a while and
+then slide (Type A), some decay immediately (Type B), some start below
+the threshold and never cross (Type C). That taxonomy was discovered using one specific kind of noise
 (Z-dephasing). This document asks: does the classification survive when
-the noise is completely different? The answer is yes, for all three Pauli
-noise channels. The taxonomy is a property of the metrics themselves, not
-of the noise environment. The theoretical reason (added March 2026) is
-that the palindromic spectral structure holds for any noise channel that
-admits a conjugation operator Π.
+the noise is completely different?
+
+The tool answered yes for every bridge: its σ_x and σ_y columns gave the
+same classes, and the correlation columns the same numbers to the last
+digit. They match because they are the same run:
+the tool's local noise applied σ_z whatever jump operator it was given,
+so the record holds no σ_x or σ_y data. Run for real, σ_x leaves every
+bridge's C curve as it was but holds Ψ at 1/3, and every crossing moves.
+And the prediction the tool seemed to refute, that depolarizing noise
+would push the correlation bridge from Type A to Type B, holds when it is
+computed with the tool's own bridge.
 
 ---
 
 ## Abstract
 
 The Type A/B/C crossing taxonomy ([Crossing Taxonomy](CROSSING_TAXONOMY.md))
-was established under Z-dephasing. We test whether it changes under different
-noise channels: σ_x (bit flip), σ_y (bit-phase flip), and amplitude damping.
-**The taxonomy is identical under all three Pauli channels.** The correlation
-bridge remains Type A (C = 1.0 until t ≈ 1.7) with the same numerical values
-for σ_z, σ_x, and σ_y. This is not a coincidence but a structural property of
-the metric definition: any local single-qubit noise preserves inter-qubit
-correlations until Hamiltonian-mediated coupling transmits the local damage.
-The prediction that depolarizing noise would change Type A to Type B was
-falsified. Amplitude damping preserves the taxonomy but produces slower
-decay rates. The theoretical explanation (March 14, 2026): the taxonomy's
-robustness follows from the palindromic Liouvillian structure, which holds
-for any noise channel that admits a conjugation operator Π.
+was established under Z-dephasing. We asked whether it changes under σ_x (bit
+flip), σ_y (bit-phase flip), and amplitude damping. The retired tool reported
+the same class for every bridge under σ_z and σ_x, and the same correlation
+column (C = 1.0 until t ≈ 1.7) under σ_y. Its source shows why: for local
+noise it applied σ_z on every site whatever jump operator it was given, so the
+three columns are one σ_z run. With real jumps (§4), σ_x and σ_y leave every
+bridge's C curve unchanged but hold Ψ at 1/3, so each crossing is carried by C
+alone and the crossing times move. Depolarizing noise, never run by the tool,
+pulls the correlation bridge below its ceiling before the crossing (C ≈ 0.945
+there): Type B, as the February prediction said. Under amplitude damping concurrence stays Type B and decays more slowly, and
+the correlation bridge turns Type B (§7).
 
 ---
 
@@ -57,7 +61,8 @@ local dephasing (σ_z per qubit). The open question was:
 The prediction was: "Under depolarizing noise, correlation should lose its
 Type A status and become Type B."
 
-**This prediction was wrong.**
+**The tool seemed to refute it. §4 shows it was never tested, and that it
+holds.**
 
 ## 2. Setup
 
@@ -68,16 +73,17 @@ Type A status and become Type B."
 | **γ_base** | 0.05 |
 | **Noise type** | local (one jump operator per qubit) |
 | **Time step** | dt = 0.01 |
+| **Rate in the record** | γ(t) = γ_base·C(t), the bridge's own value (the feedback book of [Crossing Taxonomy](CROSSING_TAXONOMY.md)) |
 
 Variable: **jump_operator** × **bridge_type**
 
-Jump operators (the Lindblad operators that specify which kind of error the environment inflicts on each qubit) tested: σ_z (dephasing), σ_x (bit flip), σ_y (bit-phase flip).
-These three Pauli operators span all single-qubit noise channels. Their
+Jump operators (the Lindblad operators that specify which kind of error the environment inflicts on each qubit) requested: σ_z (dephasing), σ_x (bit flip), σ_y (bit-phase flip).
+These three Pauli operators give the three Pauli dephasing channels. Their
 equal-weight combination is depolarizing noise.
 
-## 3. Results
+## 3. The Record
 
-### 3.1 Taxonomy Under All Three Pauli Operators
+### 3.1 Taxonomy Under the Three Requested Operators
 
 | Bridge | σ_z | σ_x | σ_y | Class |
 |--------|-----|-----|-----|-------|
@@ -87,8 +93,8 @@ equal-weight combination is depolarizing noise.
 | **mutual_purity** | C = 0.5 constant | C = 0.5 constant | - | **Type C** |
 | **overlap** | C = 0.25 constant | C = 0.25 constant | - | **Type C** |
 
-σ_y for correlation confirmed identical to σ_z and σ_x. Other bridges
-under σ_y not explicitly tested but expected identical based on pattern.
+The tool's local noise applied σ_z whatever jump_operator said, so the σ_x
+and σ_y cells repeat the σ_z run; the empty σ_y cells were not requested.
 
 ### 3.2 Quantitative Comparison (Correlation Bridge)
 
@@ -102,10 +108,10 @@ under σ_y not explicitly tested but expected identical based on pattern.
 | 1.8 | 0.987 | 0.987 | 0.987 |
 | 2.0 | 0.950 | 0.950 | 0.950 |
 
-Not just the same class: the same numerical values. The three Pauli
-operators produce identical dynamics for this bridge metric.
+Not just the same class: the same numerical values, because it is the same
+run.
 
-### 3.3 Quantitative Comparison (Concurrence Bridge, σ_z vs σ_x)
+### 3.3 Quantitative Comparison (Concurrence Bridge, σ_z vs σ_x; the retired tool's feedback book)
 
 | Time | C(σ_z) | C(σ_x) |
 |------|--------|--------|
@@ -116,10 +122,13 @@ operators produce identical dynamics for this bridge metric.
 | 2.0 | 0.725 | 0.714 |
 | 3.0 | 0.658 | 0.625 |
 
-Small quantitative differences emerge at late times, but the qualitative
-behavior (immediate decay, Type B classification) is identical.
+Both columns stand for the σ_z run (§3.1). The σ_x column is the feedback
+law 1/(1 + 4γt), which is what that run gives; the σ_z column's late entries
+match no tool setting found. With real jumps concurrence is the same curve
+under σ_z and σ_x in either book, so the late-time gap belongs to the record,
+not to the noise.
 
-## 4. Why the Prediction Was Wrong
+## 4. What Happened to the Prediction
 
 The prediction assumed that σ_x noise, which does not commute with the
 computational basis, would break the correlation metric's immunity to
@@ -127,81 +136,94 @@ decoherence. The reasoning was: σ_z dephasing preserves populations and
 only destroys off-diagonal coherence, which is why inter-qubit correlations
 survive. σ_x flips populations, which should destroy correlations directly.
 
-**The error**: the correlation bridge is insensitive to which Pauli channel
-acts. "Excess purity beyond the product of subsystem purities",
-C = (P_AB − P_A · P_B) / (1 − P_A · P_B), was the February name for what it
-computed, and [Crossing Taxonomy](CROSSING_TAXONOMY.md) retracts that label:
-excess purity decays as (1+2f²)/3, about 0.71 at the crossing, and does not
-reproduce the flat 1.000 the tool recorded. The insensitivity itself survives
-the relabelling, for the reason below and, more directly, because the bridge
-is blind to local dephasing altogether:
+**What the tool computed.** Its source, kept outside the repo and read there,
+defines the correlation bridge these runs used as
+C = max(0, min(1, 2·(P_AB − P_A·P_B))): an excess
+purity, doubled and capped at 1, so the February name "excess purity beyond
+the product of subsystem purities" fits. On Bell+ under any single-axis Pauli
+dephasing P_A = P_B = ½ and P_AB = (1 + f²)/2, so C = min(1, ½ + f²). It
+holds at 1 until f = 1/√2, t = ln 2/(8γ) ≈ 1.73, the recorded "until
+t ≈ 1.7", and then slides as ½ + f²; the record's 0.987 and 0.950 past that point
+are finite-step readings of that slide.
 
-1. Any local Pauli noise shrinks the single-qubit Bloch vector (the 3D vector inside a unit sphere that completely describes a qubit's state) isotropically
-   in purity terms (P_A and P_B decrease at the same rate regardless of axis).
-2. The joint purity P_AB is affected by the same mechanism.
-3. The ratio (excess / possible excess) remains 1.0 as long as the noise
-   is purely local and has not had time to propagate through the Hamiltonian
-   coupling to affect the inter-qubit relationship.
+**Run for real.** Purity cannot tell which Pauli axis dephased Bell+, and
+neither can concurrence or mutual information: under σ_x and σ_y every
+bridge's C curve is the σ_z curve. What changes is Ψ. On Bell+, σ_x moves
+coherence from |00⟩⟨11| to |01⟩⟨10| without shrinking its l1 total, so Ψ
+stays at 1/3, and the crossing C·Ψ = ¼ has to wait for C alone. The
+correlation bridge crosses at t = ln 2/(4γ) ≈ 3.47 with C = 0.75 and
+concurrence at ln(4/3)/(4γ) ≈ 1.44, against 1.44 and 0.72 under σ_z (at constant γ, the clean book; in the tool's feedback book, where the rate is γ·C, each crossing keeps its C
+and comes later, except the σ_z correlation crossing, which sits on its cap,
+where the feedback is inert). Type A does not survive a real σ_x: the plateau is the same,
+but the crossing now falls after it ends. The registry has the same shape
+for the purity reading:
+[F27](../docs/ANALYTICAL_FORMULAS.md#f27-k-values-per-noise-channel-tier-1-from-f26)
+gives K = ln 2/8 under X and under Y, against 0.0374 under Z.
 
-Type A robustness is a property of the **correlation metric definition**,
-not of the specific noise channel. Any local single-qubit noise preserves
-inter-qubit correlations until the Hamiltonian-mediated coupling has had
-time to transmit the local damage.
+**Depolarizing.** At γ/3 per axis all three two-site correlators decay as
+p = e^(−8γt/3), so C = min(1, 3p²/2) and Ψ = p/3. The ceiling releases at
+p² = 2/3, before the crossing, which comes at p³ = ½, t = ln 2/(8γ) ≈ 1.73 at constant γ,
+with C = 1.5·2^(−2/3) ≈ 0.945 and Ψ ≈ 0.265. Both have left their starting
+values: Type B, as the February prediction said.
 
 ## 5. Implications
 
-### 5.1 Taxonomy Is Metric-Intrinsic
+### 5.1 What Is Intrinsic, and What Is Not
 
-The three-class taxonomy (A/B/C) is determined by the **bridge metric
-definition**, not by the noise model. This is stronger than expected:
-the taxonomy is a mathematical property of how we define the observer C,
-not a physical property of the environment.
+For Bell+ the bridges' C curves are the same under any single Pauli axis:
+they read the pair's surviving correlation or its
+marginals, and the swap of axes leaves both alone. Ψ is read in the computational basis, which is the Z
+basis, and it sees the axis. The classes combine the two, so they follow the
+noise after all: under a real σ_x every crossing is carried by C alone.
 
-### 5.2 What WOULD Change the Taxonomy
+### 5.2 What We Expected Would Change the Taxonomy
 
 Collective noise (same operator acting on both qubits simultaneously)
 or correlated noise (noise on qubit A depends on state of qubit B)
-would break the locality assumption. Under collective dephasing, the
-correlation metric should see C < 1.0 because the noise directly
-affects the inter-qubit relationship.
-
-This is an untested prediction (see Open Questions).
+acts on the pair as a whole rather than qubit by qubit. The expectation
+was that under collective dephasing the correlation metric would see
+C < 1.0, because the noise directly affects the inter-qubit relationship.
+Section 7 (Q1) tests the collective case on Bell+.
 
 ### 5.3 Connection to Other Results
 
-The noise robustness result strengthens the crossing taxonomy: the
-three classes are not artifacts of choosing σ_z. They are structural
-features of the bridge metrics themselves. This supports the interpretation
-that different observers (different C definitions) see fundamentally
-different crossing mechanisms, regardless of the noise environment.
+Under Z-dephasing the classes stand as [Crossing Taxonomy](CROSSING_TAXONOMY.md)
+gives them, and our reading that different observers (different C definitions)
+see different crossing mechanisms stays a reading of that channel. Another
+axis moves the crossings (§4).
 
-## 6. Verification
+## 6. The Record's Provenance
 
-### 6.1 How to Reproduce
+### 6.1 The Retired Tool's Settings
 
-Use the `simulate_dynamic_lindblad` tool with:
+The retired delta_calc tool, `simulate_dynamic_lindblad`, ran with:
 - state = "Bell+", hamiltonian = "heisenberg", gamma_base = 0.05
 - noise_type = "local"
 - jump_operator = "sigma_z", "sigma_x", or "sigma_y"
 - bridge_type = each of the five bridges
 
-Compare the bridge_C arrays across jump operators for each bridge type.
+and the bridge_C arrays were compared across jump operators for each bridge
+type. Its source is kept outside the repo and not imported. For
+noise_type = "local" it builds σ_z on every site whatever jump_operator says,
+and its own sweep code notes that for local noise the jump operator is
+irrelevant.
 
-### 6.2 Key Checks
+### 6.2 What the Record Shows
 
-1. Correlation bridge_C must be 1.000 for all three jump operators
-   until approximately t = 1.7 (at γ = 0.05).
-2. Concurrence bridge_C must begin decaying from t = 0 for all operators.
-3. Mutual_purity bridge_C must be constant at 0.5 for all operators.
+1. Correlation bridge_C is 1.000 until about t = 1.7 (at γ = 0.05), in one
+   run printed three times.
+2. Concurrence bridge_C decays from t = 0.
+3. Mutual_purity bridge_C is constant at 0.5.
 
 ### 6.3 What Could Extend This
 
-- **Collective noise**: Does C(correlation) drop below 1.0 under collective
-  dephasing? This would confirm that Type A depends on noise locality.
-- **Non-Pauli noise**: Amplitude damping (not unital) may behave differently.
-- **Mixed channels**: σ_z + σ_x simultaneously (partial depolarizing).
+- **Other bridges under amplitude damping**: Q2 follows concurrence and the
+  correlation bridge, Q3 the two constant bridges; mutual information was
+  not followed.
+- **Mixed channels**: σ_z + σ_x simultaneously (partial depolarizing),
+  beyond the correlation bridge's crossing in §8.
 
-## 7. Open Questions (answered 2026-03-08)
+## 7. Open Questions
 
 ### Q1: Does collective noise break Type A?
 
@@ -210,7 +232,7 @@ Compare the bridge_C arrays across jump operators for each bridge type.
 Bell+ (|00⟩+|11⟩)/√2 is an eigenstate of σ_z⊗σ_z with eigenvalue +1.
 The collective dephasing operator does literally nothing to this state.
 Concurrence, Ψ, CΨ, and purity remain at their initial values forever.
-The additive collective form (σ_z⊗I + I⊗σ_z) is a different channel from
+The additive collective form, jump √γ(σ_z⊗I + I⊗σ_z), is a different channel from
 two independent local σ_z operators: its dissipator carries cross terms.
 On Bell+ it keeps the state in the same family and drains the coherence at
 8γ instead of 4γ, so the taxonomy is the same, only twice as fast (the
@@ -228,11 +250,11 @@ collective operator that does not preserve the Bell symmetry
 
 ### Q2: Does amplitude damping change the taxonomy?
 
-**ANSWERED: No, the taxonomy is preserved, but decay rates differ.**
+**ANSWERED: concurrence stays Type B and decays more slowly; the correlation bridge turns Type B.**
 
 Under amplitude damping (L = √γ |0⟩⟨1| per qubit), concurrence still
 decays from t=0 (Type B behavior), but significantly slower than under
-dephasing:
+dephasing (clean Lindblad):
 
 | t | Concurrence (σ_z) | Concurrence (amp damp) |
 |---|---|---|
@@ -241,15 +263,20 @@ dephasing:
 | 3.0 | 0.549 | 0.741 |
 | 5.0 | 0.368 | 0.607 |
 
-Amplitude damping is not unital (it drives toward |0⟩ rather than toward the
-maximally mixed state; a unital channel is one that leaves the identity matrix unchanged), which gives it a gentler decoherence profile.
-The CΨ crossing window is correspondingly longer.
+Amplitude damping drains each coherence at γ/2 per qubit against 2γ for
+Z-dephasing at the same γ; the leaked |01⟩ and |10⟩ populations double the
+concurrence's rate to 2γ, still half of dephasing's 4γ, which gives it the
+gentler profile. The CΨ crossing window is correspondingly longer. The
+correlation bridge, the one the prediction was about, does change class
+here: at constant γ it crosses at t ≈ 4.01 with C ≈ 0.916 and Ψ ≈ 0.273,
+Type B.
 
 **Additional finding:** Under σ_x noise, the normalized l1-coherence Ψ
-remains exactly at 0.3333 for all time. σ_x bit-flips do not destroy
-off-diagonal coherence in the computational basis. Only concurrence
-decays. This means the CΨ crossing window under σ_x is roughly twice
-as long as under σ_z:
+remains exactly at 0.3333 for all time. On Bell+, σ_x bit-flips move
+coherence from |00⟩⟨11| to |01⟩⟨10| without shrinking its l1 total. Only
+concurrence decays. This means the concurrence CΨ crossing window under σ_x is exactly twice
+as long as under σ_z in the clean book (the purity reading's ratio is 2.32,
+[D3](../docs/ANALYTICAL_FORMULAS.md#d3-crossing-time-ratios-from-f27-verified)):
 
 | t | CΨ (σ_z) | CΨ (σ_x) | CΨ (amp damp) |
 |---|---|---|---|
@@ -259,34 +286,35 @@ as long as under σ_z:
 
 ### Q3: Is there a noise model where Type C becomes Type B?
 
-**Not tested conclusively.** The bridge metric definitions used in the
-original delta_calc experiments could not be exactly reproduced locally.
-The qualitative observation is that no tested noise model caused a
-previously constant metric to start decaying. This remains open pending
-exact reproduction of the delta_calc bridge definitions.
+**Not under amplitude damping.** The tool's source defines the two constant
+bridges: mutual purity is √(P_A·P_B) and overlap is |Tr(ρ_A·ρ_B)|². Under amplitude damping at constant γ both climb as the two qubits drift
+toward |0⟩, mutual
+purity from 0.500 to 0.700 and overlap from 0.250 to 0.490 by t = 20, while
+their CΨ falls the whole time from its start below ¼ (0.167 and 0.083).
+Neither crosses: Type C stays Type C, though no longer constant.
 
-## 8. Theoretical Explanation (March 14, 2026)
+## 8. A Reading from the Palindrome
 
-The mirror symmetry proof (docs/MIRROR_SYMMETRY_PROOF.md) now explains
-WHY the taxonomy is robust across noise types:
+The [mirror symmetry proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) invites
+a reading: the taxonomy might hold wherever the palindrome holds.
 
-- **Z-dephasing:** The conjugation operator Π commutes with the Z-dephasing
-  dissipator → palindromic spectrum holds → taxonomy preserved.
-- **Y-dephasing:** Π also commutes with Y-dephasing (same mechanism,
-  different axis) → palindromic spectrum holds → taxonomy preserved.
-- **X-dephasing:** This specific Π breaks on the X-dephasing dissipator,
-  BUT the palindrome still holds: a rotated Π exists (likely I↔Y, X↔Z
-  with appropriate phases) → taxonomy preserved.
-- **Depolarizing (X+Y+Z):** No single Π can anti-commute with all three
-  dephasing axes simultaneously → palindromic spectrum genuinely breaks
-  → this is the one noise model that could alter the taxonomy.
+- **Z-dephasing:** the conjugation operator Π reflects the dissipator,
+  Π·L_D·Π⁻¹ = −L_D − 2Σγ, and flips the Heisenberg term, so the spectrum is
+  palindromic.
+- **Y-dephasing:** the same Π reflects Y-dephasing the same way.
+- **X-dephasing:** this Π leaves the X-dephasing dissipator unchanged, but
+  X-dephasing has its own Π: every dephasing axis works, each with its own
+  Π operator ([Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md),
+  Result 1).
+- **Depolarizing (X+Y+Z):** no single Π reflects all three axes at once, and
+  the palindrome breaks
+  ([Depolarizing Palindrome](DEPOLARIZING_PALINDROME.md)).
 
-The key insight: the taxonomy's robustness is a consequence of the
-palindromic structure of the Liouvillian spectrum. As long as some
-conjugation operator Π exists for the noise channel, the palindrome
-holds and the metric-intrinsic classification survives.
-
-See: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+It is tempting to read Type A as riding on this mirror. It does not.
+With the tool's own bridge, σ_x and an equal mix of σ_z and σ_x are
+palindromic and still lose Type A (C = 0.75 and 0.91 at the crossing), while σ_z with σ_x and σ_y beside it at a tenth of its rate breaks the
+palindrome and keeps Type A.
+What holds Type A is how much two-qubit correlation survives to the crossing.
 
 ---
 
