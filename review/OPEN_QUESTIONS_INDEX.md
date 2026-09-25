@@ -1210,7 +1210,7 @@ neural justifications without classifying unrelated entries.
 **Question:** On a specified driven Wilson-Cowan equilibrium branch, does the converged Jacobian undergo a certified bifurcation, and how does the observed response relate to separately tested F36 transport?
 
 **Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`
-**Section:** A research program that can reject the pattern
+**Section:** 8. Open Questions
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Tag:** untagged
 **Status:** open
@@ -1221,7 +1221,7 @@ neural justifications without classifying unrelated entries.
 **Question:** Can cortical data and a declared operating-point model provide an effective Jacobian on which F36 is testable?
 
 **Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`
-**Section:** The biological result is a support obstruction; A research program that can reject the pattern
+**Section:** 8. Open Questions
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Tag:** untagged
 **Status:** open
@@ -1232,7 +1232,7 @@ neural justifications without classifying unrelated entries.
 **Question:** Does a specified plant, bacterial or fungal signaling model admit a linear conjugation satisfying the scalar palindrome identity?
 
 **Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`
-**Section:** A research program that can reject the pattern
+**Section:** 8. Open Questions
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Tag:** untagged
 **Status:** open
@@ -1243,7 +1243,7 @@ neural justifications without classifying unrelated entries.
 **Question:** Which matched controls can distinguish a proposed biological F36 relation from normalization, spectral-matching tolerance and coupling-norm artifacts?
 
 **Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`
-**Section:** The biological result is a support obstruction; A research program that can reject the pattern
+**Section:** Phase 2: C. elegans Connectome; 8. Open Questions
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Tag:** untagged
 **Status:** open
@@ -2353,7 +2353,7 @@ neural justifications without classifying unrelated entries.
 **Question:** Missing gap junctions as an explanation for a biological pairing-percentage deficit.
 
 **Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`
-**Section:** The biological result is a support obstruction
+**Section:** 8. Open Questions
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Tag:** math-proof
 **Status:** retired-premise
@@ -2364,7 +2364,7 @@ neural justifications without classifying unrelated entries.
 **Question:** Is there a physical reduction from a specified quantum generator to an effective neural Jacobian that preserves the conjugation?
 
 **Source:** `hypotheses/THE_PATTERN_RECOGNIZES_ITSELF.md`
-**Section:** A research program that can reject the pattern
+**Section:** 5. The Connection; 8. Open Questions
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Tag:** math-proof
 **Status:** open

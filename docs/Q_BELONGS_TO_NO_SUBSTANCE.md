@@ -334,7 +334,7 @@ not.
    γ alone is the error this document exists to name, and an earlier draft of
    this line did exactly that.
 3. **Q = the count of CΨ = ¼ crossings**, in
-   `hypotheses/COMPLEXITY_THRESHOLD.md:33`.
+   `hypotheses/COMPLEXITY_THRESHOLD.md:39-41`.
 
 ## What this does not claim
 
