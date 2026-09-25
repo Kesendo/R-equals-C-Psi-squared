@@ -640,6 +640,18 @@ F47_HOSTS = {
         ("Bures path-metric coefficient", "coordinate-shape second derivative"),
         ("Gaussian curvature",),
     ),
+    "experiments/INFORMATION_GEOMETRY.md": (
+        ("Bures path-metric coefficient", "coordinate-shape second derivative", "not a curvature"),
+        ("Gaussian curvature", "hyperbolic"),
+    ),
+    "simulations/information_geometry.py": (
+        ("Bures path-metric coefficient", "coordinate-shape second derivative", "not intrinsic curvature"),
+        ("GAUSSIAN CURVATURE", "K (Gauss)"),
+    ),
+    "simulations/results/information_geometry.txt": (
+        ("BURES PATH-METRIC COEFFICIENT", "coordinate-shape second derivative", "not intrinsic curvature"),
+        ("GAUSSIAN CURVATURE", "K (Gauss)"),
+    ),
 }
 
 
@@ -663,6 +675,68 @@ def test_f47_curvature_label_restoration_fails_on_each_host(path):
         mutant = source.replace("coordinate-shape second derivative", stale, 1)
         assert mutant != source
         assert any(stale in item for item in f47_findings(path, mutant)), (path, stale)
+
+
+def test_bures_geodesic_holds_for_the_commuting_bell_family_and_fails_where_h_moves_the_state():
+    # Bell+ under equal local Z-dephasing stays p|Phi+><Phi+| + (1-p)|Phi-><Phi-|, a commuting
+    # family. There the Bures angle is the Hellinger angle: with sqrt(p) = cos(a), the angle
+    # between p and q is exactly |a(p) - a(q)|, so angles add along the monotone path and the
+    # path is the geodesic (INFORMATION_GEOMETRY Phase 3, F46).
+    a1, a2 = sp.symbols("a1 a2", real=True)
+    fidelity_root = sp.cos(a1) * sp.cos(a2) + sp.sin(a1) * sp.sin(a2)
+    assert sp.simplify(fidelity_root - sp.cos(a1 - a2)) == 0
+    # ... and Bell+ really stays in that family: exactly, over the integers. The Heisenberg
+    # bond acts as +1 on both Bell projectors, and local Z-dephasing maps each projector into
+    # the span of the two (Z Phi+ Z = Phi-).
+    sx = sp.Matrix([[0, 1], [1, 0]]); sy = sp.Matrix([[0, -sp.I], [sp.I, 0]]); sz = sp.diag(1, -1)
+    i2 = sp.eye(2)
+    kron = sp.kronecker_product
+    heis = kron(sx, sx) + kron(sy, sy) + kron(sz, sz)
+    phi_p = sp.Matrix([1, 0, 0, 1]) / sp.sqrt(2)
+    phi_m = sp.Matrix([1, 0, 0, -1]) / sp.sqrt(2)
+    proj_p, proj_m = phi_p * phi_p.T, phi_m * phi_m.T
+    for proj in (proj_p, proj_m):
+        assert heis * proj - proj * heis == sp.zeros(4, 4)
+        for z in (kron(sz, i2), kron(i2, sz)):
+            assert sp.simplify(z * proj * z - (proj_m if proj == proj_p else proj_p)) == sp.zeros(4, 4)
+    # The counterexample that must stay live: |+0>, which the Heisenberg bond moves, runs a
+    # path several times longer than the endpoint angle (7.68 in the producer).
+    paulis = [np.array([[0, 1], [1, 0]], complex), np.array([[0, -1j], [1j, 0]]), np.diag([1.0, -1.0]).astype(complex)]
+    ham = sum(np.kron(p, p) for p in paulis)
+    ident = np.eye(4)
+    gen = -1j * (np.kron(ham, ident) - np.kron(ident, ham.T))
+    for z in (np.kron(paulis[2], np.eye(2)), np.kron(np.eye(2), paulis[2])):
+        gen += 0.05 * (np.kron(z, z.conj()) - np.eye(16))
+
+    def angle(r, q):
+        w, v = np.linalg.eigh(r)
+        root = v @ np.diag(np.sqrt(np.maximum(w, 0))) @ v.conj().T
+        ev = np.linalg.eigvalsh(root @ q @ root)
+        return float(np.arccos(min(1.0, np.sum(np.sqrt(np.maximum(ev, 0))))))
+
+    psi = np.kron([1, 1], [1, 0]).astype(complex) / np.sqrt(2)
+    states = [np.outer(psi, psi.conj())]
+    step = expm(gen * (1.5 / 599))
+    for _ in range(599):
+        states.append((step @ states[-1].reshape(-1)).reshape(4, 4))
+    length = sum(angle(states[k], states[k + 1]) for k in range(599))
+    assert length / angle(states[0], states[-1]) > 5
+
+
+# The geodesic and susceptibility labels INFORMATION_GEOMETRY once carried: a one-dimensional
+# geodesic equation that holds for any monotone curve, and d2CPsi/dgamma2 called a Fisher
+# susceptibility. Each host must not say either again.
+GEODESIC_HOSTS = ("experiments/INFORMATION_GEOMETRY.md", "simulations/information_geometry.py",
+                  "simulations/results/information_geometry.txt")
+GEODESIC_STALE = ("approximately geodesic", "geodesic deviation", "Fisher susceptibility")
+
+
+@pytest.mark.parametrize("path", GEODESIC_HOSTS)
+def test_information_geometry_hosts_do_not_restore_the_one_dimensional_geodesic(path):
+    text = " ".join(read_host(path).split()).lower()
+    assert [w for w in GEODESIC_STALE if w.lower() in text] == []
+    mutant = text + " the lindblad trajectory is approximately geodesic"
+    assert [w for w in GEODESIC_STALE if w.lower() in mutant] == ["approximately geodesic"]
 
 
 # ---------------------------------------------------------- V-Effect N=3 census

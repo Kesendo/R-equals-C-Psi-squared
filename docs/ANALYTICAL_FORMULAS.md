@@ -1579,23 +1579,28 @@ smooth coordinate everywhere along the Lindblad trajectory.
 
 ### F46. Geodesic decoherence (Tier 2, N=2 Bell state)
 
-    Geodesic deviation = 9.1e-4    (Lindblad ~ shortest Bures path)
+    Bures length / endpoint Bures angle = 1    (Bell+; above 1 for states H moves)
 
-The Lindblad trajectory is approximately geodesic in the Bures metric.
-Decoherence follows the geometrically shortest path to equilibrium.
-Geometric interpretation of dCPsi/dt < 0 (proven in
-[Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)).
+The Bell+ trajectory runs exactly along a Bures geodesic: the
+Hamiltonian leaves Bell+ alone, and the state decays along the
+one-parameter family of its two Bell projectors. A geometric picture
+of dCPsi/dt < 0 (proven in
+[Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)) for this
+state only: states the Hamiltonian moves leave the geodesic from the
+start (over t ≤ 0.2, 3% longer for |+0⟩ and 6% for a generic state).
 
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
 **Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)
 
-### F47. Gaussian curvature at the fold (Tier 2, N=2)
+### F47. Bures path-metric coefficient: its coordinate-shape second derivative at the fold (Tier 2, N=2)
 
-    K(CΨ = 1/4) = -25    (negative, hyperbolic, finite)
+    S(CΨ = 1/4) = -(1/2g) d²(ln g)/dCΨ² = -25    (finite)
 
-Strong negative curvature at the fold (states diverge quickly).
-Finite: no geometric singularity. Decays toward the maximally mixed
-state (K → -15 at CΨ ~ 0.2).
+A one-dimensional path metric has no intrinsic curvature; S is a
+coordinate-shape second derivative (the flat line written as
+g = 1/(4x) gives -2/x), not Gaussian or intrinsic curvature. It is
+finite at the fold and flattens toward the state's limit
+(S → -15 at CΨ ~ 0.2): the shape of g(CΨ), nothing more.
 
 **Valid for:** N=2 Heisenberg, Bell+ initial state, Z-dephasing.
 **Source:** [Information Geometry](../experiments/INFORMATION_GEOMETRY.md)

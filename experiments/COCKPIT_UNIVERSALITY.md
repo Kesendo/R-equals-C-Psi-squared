@@ -377,7 +377,7 @@ a cause nor establishes θ as an optimal hardware objective.
 | [Cockpit Scaling](COCKPIT_SCALING.md) | Finite selected-feature PCA to N=7-11; no size law established |
 | [Theta-PC Analysis](THETA_PC_ANALYSIS.md) | θ requires all 3 PCs (R^2 = 0.87) |
 | [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) | PCA on CΨ windows (original 3D finding) |
-| [Information Geometry](INFORMATION_GEOMETRY.md) | Historical Bures-path coefficient and path-coordinate proxy; intrinsic-curvature repair is Task 13 |
+| [Information Geometry](INFORMATION_GEOMETRY.md) | Bures path-metric coefficient and its coordinate-shape second derivative; the Bures geodesic test in the full state space |
 | [Boundary Navigation](BOUNDARY_NAVIGATION.md) | θ definition, CΨ = ¼ boundary |
 | [PT-Symmetry Analysis](PT_SYMMETRY_ANALYSIS.md) | Gain-loss example; not the only setting with strong non-normality |
 | [V-Effect Palindrome](V_EFFECT_PALINDROME.md) | Finite V-Effect census; F6 Q-edge gain is a separate ratio |

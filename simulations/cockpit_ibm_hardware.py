@@ -350,7 +350,7 @@ if np.sum(valid_g) > 4:
     d2lng = np.gradient(np.gradient(lng, cpsi_g), cpsi_g)
     K_hw = -d2lng / (2 * g_g + 1e-30)
 
-    out(f"  {'CPsi':>7} | {'g(CPsi)':>8} {'K_Gauss':>10}")
+    out(f"  {'CPsi':>7} | {'g(CPsi)':>8} {'S_CPsi':>10}")
     out(f"  {'-'*30}")
     for cpsi_t in [0.40, 0.35, 0.30, 0.25, 0.20, 0.15]:
         idx = int(np.argmin(np.abs(cpsi_g - cpsi_t)))
@@ -360,7 +360,7 @@ if np.sum(valid_g) > 4:
     idx_fold = int(np.argmin(np.abs(cpsi_g - 0.25)))
     K_at_fold = K_hw[idx_fold]
     out(f"\n  K at fold (CPsi~0.25): {K_at_fold:.1f}")
-    out(f"  Simulation predicted: K = -25")
+    out(f"  Simulation predicted: S = -25 (coordinate-shape, not curvature)")
     out(f"  Deviation: {abs(K_at_fold - (-25)):.1f}")
 
 

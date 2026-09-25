@@ -8,7 +8,7 @@ Cockpit Navigation on the CPsi Manifold
   3. PC2(t)        -- speedometer (mixedness/coherence, ~22%)
   4. PC3(t)        -- fuel gauge (Psi- sector, ~11%)
   5. d_dominant(t)  -- variometer (dominant mode decay rate)
-  6. v_Bures(t)    -- Bures velocity + Gaussian curvature
+  6. v_Bures(t)    -- Bures velocity + path-coefficient shape
   7. K_Peter(t)    -- Petermann factor of dominant mode
 
 Part A: Star topology (Bell_SA x |+>_B, J_SA=1.0, J_SB=2.0, gamma=0.05)
@@ -288,7 +288,7 @@ for i in range(N):
     if abs(dcpsi[i]) > 1e-12:
         g_metric[i] = (bures_vels[i] / abs(dcpsi[i]))**2
 
-# Gaussian curvature: K = -(1/2g) d^2(ln g)/d(CPsi)^2
+# Coordinate-shape second derivative of the path coefficient: S = -(1/2g) d^2(ln g)/d(CPsi)^2
 # Only meaningful where g > 0 and CPsi is locally monotonic
 K_gauss = np.full(N, np.nan)
 valid = g_metric > 1e-10
@@ -524,10 +524,10 @@ for state_name, psi_2q in initial_states.items():
 
 
 # ================================================================
-# GAUSSIAN CURVATURE (2-QUBIT Bell+)
+# COORDINATE-SHAPE SECOND DERIVATIVE (2-QUBIT Bell+)
 # ================================================================
 out(f"\n{'=' * 70}")
-out("GAUSSIAN CURVATURE (2-qubit Bell+, monotonic CPsi)")
+out("COORDINATE-SHAPE SECOND DERIVATIVE of the Bures path-metric coefficient (2-qubit Bell+, monotonic CPsi; not intrinsic curvature)")
 out("=" * 70)
 
 # Recompute 2-qubit Bell+ with dense sampling for curvature
@@ -581,7 +581,7 @@ if np.sum(valid_g) > 10:
     K_gauss_2q = -d2lng / (2 * g_g + 1e-30)
 
     # Report at key CPsi values
-    out(f"\n  {'CPsi':>6} | {'g(CPsi)':>8} {'K_Gauss':>10} {'dB/dt':>8}")
+    out(f"\n  {'CPsi':>6} | {'g(CPsi)':>8} {'S_CPsi':>10} {'dB/dt':>8}")
     out(f"  {'-' * 40}")
     cpsi_targets = [0.33, 0.30, 0.27, 0.25, 0.22, 0.20, 0.18]
     for cp_t in cpsi_targets:
@@ -591,7 +591,7 @@ if np.sum(valid_g) > 10:
             f"{bures_vel_fine[i_full]:>8.4f}")
 
     out(f"\n  K at fold (CPsi~0.25): {K_gauss_2q[np.argmin(np.abs(cpsi_g - 0.25))]:.1f}")
-    out(f"  (INFORMATION_GEOMETRY reported K = -25 at fold)")
+    out(f"  (INFORMATION_GEOMETRY reports S = -25 at the fold)")
 
 
 # ================================================================
@@ -662,8 +662,8 @@ out(f"""
   5. VARIOMETER (d_dominant): Dominant eigenmode decay rate.
      Spectral gap = {unique_rates[1]:.4f}. Determines late-time behavior.
 
-  6. CURVATURE (K_Gauss): Trajectory curvature in Bures geometry.
-     K ~ -25 at fold (hyperbolic). Diverges near initial state.
+  6. SHAPE (S_CPsi): coordinate-shape second derivative of the Bures path-metric coefficient.
+     S ~ -25 at the fold; grows toward the initial state.
 
   7. SENSITIVITY (K_Petermann): Eigenvector condition number.
      Range: {K_peter3.min():.1f} to {K_peter3.max():.0f}.

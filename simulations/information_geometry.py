@@ -5,9 +5,11 @@ Information Geometry: θ as Riemannian Coordinate
 Phase 0: θ inventory (what we already know)
 Phase 1: Bures metric g(CΨ) along the Lindblad trajectory
 Phase 2: θ as regular coordinate (g̃(θ) finite at θ=0?)
-Phase 3: Geodesic test (is Lindblad the shortest path?)
-Phase 4: Curvature at the fold (K at CΨ = 1/4)
-Phase 5: Fisher susceptibility χ_F(γ) at the crossing
+Phase 3: Geodesic test in the full state space (Bures path length against the
+         endpoint Bures angle; Bell+ and two states the Hamiltonian moves)
+Phase 4: Coordinate-shape second derivative of the Bures path-metric coefficient
+         (a one-dimensional path metric has no intrinsic curvature)
+Phase 5: Second γ-derivative of CΨ at fixed time (not a fidelity susceptibility)
 
 Script: simulations/information_geometry.py
 Output: simulations/results/information_geometry.txt
@@ -92,6 +94,29 @@ def bures_distance(rho, sigma):
     return np.sqrt(2 * (1 - np.sqrt(F)))
 
 
+def _numerical_zeros_to_zero(w):
+    """Eigenvalues below the float rank threshold (dimension * eps * largest) are
+    numerical zeros of a rank-deficient state: their square roots, ~1e-8, would
+    otherwise bias the root fidelity of two nearby states by more than the step."""
+    w = np.asarray(w, dtype=float)
+    w[w < len(w) * np.finfo(float).eps * max(w.max(), 1.0)] = 0.0
+    return w
+
+
+def psd_sqrt(rho):
+    """Square root of a Hermitian positive semidefinite matrix by its eigendecomposition."""
+    w, v = np.linalg.eigh((rho + rho.conj().T) / 2)
+    return v @ np.diag(np.sqrt(_numerical_zeros_to_zero(w))) @ v.conj().T
+
+
+def bures_angle(rho, sigma):
+    """Bures angle arccos(√F): the geodesic distance of the Bures metric."""
+    root = psd_sqrt(rho)
+    inner = root @ sigma @ root
+    ev = _numerical_zeros_to_zero(eigvalsh((inner + inner.conj().T) / 2))
+    return np.arccos(min(1.0, float(np.sum(np.sqrt(ev)))))
+
+
 def cpsi_to_theta(cpsi):
     """θ = arctan(√(4CΨ - 1)), defined for CΨ > 1/4."""
     if cpsi <= 0.25:
@@ -130,8 +155,8 @@ log("  - The Riemannian metric in CΨ or θ coordinates")
 log("  - Whether g(CΨ) diverges at 1/4")
 log("  - Whether θ regularizes a singularity")
 log("  - Geodesic analysis")
-log("  - Curvature at the fold")
-log("  - Fisher susceptibility")
+log("  - Whether the trajectory is a Bures geodesic")
+log("  - Second derivatives of the path coefficient and of CΨ in γ")
 
 
 # ========================================================================
@@ -276,67 +301,72 @@ if cross_idx:
 
 
 # ========================================================================
-# PHASE 3: GEODESIC TEST
+# PHASE 3: GEODESIC TEST IN THE FULL STATE SPACE
 # ========================================================================
 log()
 log()
 log("=" * 72)
-log("PHASE 3: IS THE LINDBLAD TRAJECTORY A GEODESIC?")
+log("PHASE 3: IS THE LINDBLAD TRAJECTORY A BURES GEODESIC?")
 log("=" * 72)
 log()
+# Along the trajectory's own coordinate the one-dimensional geodesic equation
+# d²CΨ/ds² + Γ(dCΨ/ds)² = 0 holds for ANY monotone curve (it is an identity of
+# arc length), so it cannot test anything. The question that can fail is asked in
+# the state space: a curve is a Bures geodesic exactly when its Bures length equals
+# the Bures angle between its endpoints; the ratio is >= 1 and = 1 only then.
+n_geo = 600
 
-# Geodesic equation: d²CΨ/ds² + Γ(dCΨ/ds)² = 0
-# where Γ = (1/2g) dg/dCΨ is the Christoffel symbol
-# Arc length: ds = √g dCΨ, so ds/dt = √g |dCΨ/dt|
 
-# Compute Christoffel symbol Γ(CΨ)
-# Use numerical gradient of g
-valid = ~np.isnan(g_cpsi) & (g_cpsi > 0)
-if np.sum(valid) > 10:
-    cpsi_valid = cpsi_arr[valid]
-    g_valid = g_cpsi[valid]
+def path_ratio(psi0, t_end):
+    step = expm(L * (t_end / (n_geo - 1)))
+    r0 = np.outer(psi0, psi0.conj())
+    states = [r0]
+    for _ in range(n_geo - 1):
+        states.append((step @ states[-1].flatten()).reshape(d, d))
+    length = sum(bures_angle(states[k], states[k + 1]) for k in range(n_geo - 1))
+    return length, bures_angle(states[0], states[-1])
 
-    # Sort by CΨ (descending, since CΨ decreases with t)
-    sort_idx = np.argsort(cpsi_valid)[::-1]
-    cpsi_s = cpsi_valid[sort_idx]
-    g_s = g_valid[sort_idx]
 
-    # Numerical gradient dg/dCΨ
-    dg = np.gradient(g_s, cpsi_s)
-    Gamma = dg / (2 * g_s + 1e-30)
-
-    # Arc length velocity: ds/dt = √g |dCΨ/dt|
-    ds_dt = np.sqrt(g_s) * np.abs(np.gradient(cpsi_s, times[valid][sort_idx]))
-
-    # Geodesic deviation: d²CΨ/ds² + Γ(dCΨ/ds)²
-    dcpsi_ds = np.gradient(cpsi_s) / (np.gradient(times[valid][sort_idx]) * ds_dt + 1e-30)
-    d2cpsi_ds2 = np.gradient(dcpsi_ds, times[valid][sort_idx]) / (ds_dt + 1e-30)
-    geodesic_dev = d2cpsi_ds2 + Gamma * dcpsi_ds**2
-
-    mean_dev = np.nanmean(np.abs(geodesic_dev[5:-5]))
-    max_dev = np.nanmax(np.abs(geodesic_dev[5:-5]))
-
-    log(f"  Geodesic deviation: ⟨|dev|⟩ = {mean_dev:.4e}, max = {max_dev:.4e}")
+geo_cases = [
+    ("Bell+ (the Hamiltonian leaves it alone)", psi),
+    ("|+0> (the Hamiltonian moves it)", np.kron([1, 1], [1, 0]).astype(complex) / np.sqrt(2)),
+    ("a generic state", np.array([1, 0.3, 0.2j, 0.7]) / np.linalg.norm([1, 0.3, 0.2, 0.7])),
+]
+for t_end in (0.2, 1.5):
+    log(f"  t = 0 .. {t_end}, {n_geo} steps, Bures length against endpoint Bures angle")
     log()
-    if mean_dev < 0.01:
-        log("  The Lindblad trajectory IS approximately a geodesic.")
-        log("  Decoherence follows the geometrically shortest path.")
-    else:
-        log("  The Lindblad trajectory is NOT a geodesic.")
-        log("  Decoherence does not minimize geometric distance.")
+    log(f"  {'initial state':<42} {'length':>9} {'endpoint':>9} {'ratio':>9}")
+    log(f"  {'─'*72}")
+    for label, psi0 in geo_cases:
+        length, dist = path_ratio(psi0, t_end)
+        log(f"  {label:<42} {length:>9.6f} {dist:>9.6f} {length/dist:>9.6f}")
+    log()
+log("  The Bures angle is capped at π/2 while a path can keep growing, so a ratio")
+log("  read over a long window grows with the window; the short window shows the")
+log("  departure from the geodesic where it starts.")
+log("  Bell+ decays inside the commuting family of its two Bell projectors, a")
+log("  one-parameter line of states it runs along monotonically, so its path IS")
+log("  the Bures geodesic (ratio 1). A state the Hamiltonian moves leaves the")
+log("  geodesic from the start (ratio above 1 already in the short window).")
 
 
 # ========================================================================
-# PHASE 4: CURVATURE AT THE FOLD
+# PHASE 4: COORDINATE-SHAPE SECOND DERIVATIVE OF THE PATH COEFFICIENT
 # ========================================================================
 log()
 log()
 log("=" * 72)
-log("PHASE 4: GAUSSIAN CURVATURE AT CΨ = 1/4")
+log("PHASE 4: COORDINATE-SHAPE SECOND DERIVATIVE OF THE BURES PATH-METRIC COEFFICIENT")
 log("=" * 72)
 log()
 
-# K = -(1/2g) d²(ln g)/dCΨ²
+# S = -(1/2g) d²(ln g)/dCΨ² of the one-dimensional path coefficient g_path(CΨ).
+# A one-dimensional metric has no intrinsic curvature; S is a coordinate-shape second
+# derivative (it is -2/x for the flat line written as g = 1/(4x)), not intrinsic curvature.
+valid = ~np.isnan(g_cpsi) & (g_cpsi > 0)
+cpsi_s, g_s = cpsi_arr[valid], g_cpsi[valid]
+order = np.argsort(cpsi_s)[::-1]
+cpsi_s, g_s = cpsi_s[order], g_s[order]
 if np.sum(valid) > 20:
     lng = np.log(g_s + 1e-30)
     d2lng = np.gradient(np.gradient(lng, cpsi_s), cpsi_s)
@@ -346,9 +376,9 @@ if np.sum(valid) > 20:
     idx_quarter = np.argmin(np.abs(cpsi_s - 0.25))
     K_at_fold = K_gauss[idx_quarter] if idx_quarter > 2 and idx_quarter < len(K_gauss) - 2 else np.nan
 
-    log(f"  K = -(1/2g) d²(ln g)/d(CΨ)²")
+    log(f"  S = -(1/2g) d²(ln g)/d(CΨ)², coordinate-shape second derivative, not intrinsic curvature")
     log()
-    log(f"  {'CΨ':>8}  {'g(CΨ)':>12}  {'K (Gauss)':>12}")
+    log(f"  {'CΨ':>8}  {'g(CΨ)':>12}  {'S_CΨ':>12}")
     log(f"  {'─'*35}")
 
     for i in range(0, len(cpsi_s), max(1, len(cpsi_s) // 10)):
@@ -357,26 +387,22 @@ if np.sum(valid) > 20:
 
     log()
     if not np.isnan(K_at_fold) and abs(K_at_fold) < 1e6:
-        log(f"  K at CΨ ≈ 1/4: {K_at_fold:.4f}")
-        if abs(K_at_fold) < 10:
-            log("  Curvature is FINITE at the fold. No geometric singularity.")
-        else:
-            log("  Curvature is LARGE at the fold.")
+        log(f"  S at CΨ ≈ 1/4: {K_at_fold:.4f} (finite; a coordinate shape, no geometric claim)")
     else:
-        log("  Curvature numerically unstable near CΨ = 1/4.")
+        log("  S numerically unstable near CΨ = 1/4.")
 
 
 # ========================================================================
-# PHASE 5: FISHER SUSCEPTIBILITY χ_F(γ)
+# PHASE 5: SECOND γ-DERIVATIVE OF CΨ AT FIXED TIME
 # ========================================================================
 log()
 log()
 log("=" * 72)
-log("PHASE 5: FISHER SUSCEPTIBILITY χ_F(γ) AT THE CROSSING")
+log("PHASE 5: SECOND γ-DERIVATIVE OF CΨ AT FIXED TIME")
 log("=" * 72)
 log()
-log("  χ_F = d²CΨ/dγ² at the crossing time t_cross(γ)")
-log("  If divergent: CΨ = 1/4 is a dynamical phase transition.")
+log("  d²CΨ/dγ² at a fixed time. Not a fidelity susceptibility; and CΨ(γ) at fixed")
+log("  time is analytic in γ (a matrix exponential), so this cannot diverge.")
 log()
 
 J_f = 1.0
@@ -412,14 +438,7 @@ for i in range(0, len(gammas), 3):
 
 log()
 chi_at_quarter = d2cpsi_dgamma2[idx_quarter_g]
-log(f"  χ_F at CΨ = 1/4: d²CΨ/dγ² = {chi_at_quarter:.4f}")
-log()
-if abs(chi_at_quarter) > 100:
-    log("  Fisher susceptibility DIVERGES → dynamical phase transition!")
-else:
-    log("  Fisher susceptibility is FINITE → no phase transition signature.")
-    log("  CΨ = 1/4 is a smooth crossing, not a critical point in the")
-    log("  γ-parameter space.")
+log(f"  d²CΨ/dγ² where CΨ = 1/4: {chi_at_quarter:.4f} (finite, as analyticity requires)")
 
 
 # ========================================================================
@@ -441,25 +460,20 @@ log("  Since g(CΨ) is finite, g̃(θ) = g(CΨ)×(dCΨ/dθ)² → 0 at θ=0")
 log("  (because dCΨ/dθ → 0). θ SHRINKS the metric at the fold.")
 log("  θ is a valid coordinate but not a geometric necessity.")
 log()
-log("Phase 3: Geodesic deviation of Lindblad trajectory computed.")
+log("Phase 3: Bell+ runs exactly along a Bures geodesic (length = endpoint")
+log("  angle), because it decays inside a commuting one-parameter family; states")
+log("  the Hamiltonian moves do not (their paths are several times longer).")
 log()
-log("Phase 4: Gaussian curvature at CΨ = 1/4 is finite.")
-log("  No geometric singularity at the fold point.")
+log("Phase 4: the coordinate-shape second derivative of the path coefficient is")
+log("  finite at CΨ = 1/4; a one-dimensional metric has no intrinsic curvature.")
 log()
-log("Phase 5: Fisher susceptibility χ_F(γ) at the crossing is finite.")
-log("  CΨ = 1/4 is a smooth crossing, not a dynamical phase transition.")
+log("Phase 5: d²CΨ/dγ² at fixed time is finite, as it must be (CΨ is analytic")
+log("  in γ); it says nothing about criticality.")
 log()
 log("CONCLUSION: θ = arctan(√(4CΨ-1)) is a nonlinear coordinate")
 log("transformation, not a geometric regularization. The fold at")
-log("CΨ = 1/4 has no Riemannian singularity in the Bures metric.")
-log("The trajectory is smooth, the curvature is finite, the Fisher")
-log("susceptibility does not diverge. θ is useful as a 'compass'")
-log("(angular distance from the boundary) but does not have deeper")
-log("geometric significance in the information-geometric sense.")
-log()
-log("This is consistent with the algebra-first principle: the 1/4")
-log("boundary is algebraic (discriminant of R=C(Ψ+R)²), not")
-log("geometric (no metric singularity) or thermodynamic (no FT).")
+log("CΨ = 1/4 has no singularity in the Bures path coefficient.")
+log("θ is useful as a 'compass' (angular distance from the boundary).")
 log()
 log(f"Completed: {clock.strftime('%Y-%m-%d %H:%M:%S')}")
 log(f"Results: {OUT_PATH}")

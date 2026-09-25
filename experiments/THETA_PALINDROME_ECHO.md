@@ -293,8 +293,7 @@ more angular distance per unit CΨ near the boundary (critical acceleration).
 (g = 3.36). The dθ/dCΨ divergence is a COORDINATE effect, not a
 metric singularity. θ magnifies CΨ near the boundary but does not
 reveal a geometric singularity. The correlation θ ↔ fidelity (r=0.87)
-arises because both are monotone functions of CΨ, which is itself
-approximately geodesic in the Bures metric
+arises because both are monotone functions of CΨ along the trajectory
 ([Information Geometry](INFORMATION_GEOMETRY.md)).
 
 ---

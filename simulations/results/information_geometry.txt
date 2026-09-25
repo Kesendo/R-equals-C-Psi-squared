@@ -1,6 +1,6 @@
 ========================================================================
 INFORMATION GEOMETRY: θ AS RIEMANNIAN COORDINATE
-Started: 2026-04-01 19:08:58
+Started: 2026-09-25 06:32:59
 ========================================================================
 
 ========================================================================
@@ -23,8 +23,8 @@ PHASE 0: θ INVENTORY (what the repo already knows)
   - Whether g(CΨ) diverges at 1/4
   - Whether θ regularizes a singularity
   - Geodesic analysis
-  - Curvature at the fold
-  - Fisher susceptibility
+  - Whether the trajectory is a Bures geodesic
+  - Second derivatives of the path coefficient and of CΨ in γ
 
 
 ========================================================================
@@ -90,22 +90,41 @@ PHASE 2: METRIC IN θ COORDINATES
 
 
 ========================================================================
-PHASE 3: IS THE LINDBLAD TRAJECTORY A GEODESIC?
+PHASE 3: IS THE LINDBLAD TRAJECTORY A BURES GEODESIC?
 ========================================================================
 
-  Geodesic deviation: ⟨|dev|⟩ = 9.1107e-04, max = 3.9614e-02
+  t = 0 .. 0.2, 600 steps, Bures length against endpoint Bures angle
 
-  The Lindblad trajectory IS approximately a geodesic.
-  Decoherence follows the geometrically shortest path.
+  initial state                                 length  endpoint     ratio
+  ────────────────────────────────────────────────────────────────────────
+  Bell+ (the Hamiltonian leaves it alone)     0.140480  0.140480  1.000000
+  |+0> (the Hamiltonian moves it)             0.367029  0.356256  1.030239
+  a generic state                             0.215463  0.202800  1.062439
+
+  t = 0 .. 1.5, 600 steps, Bures length against endpoint Bures angle
+
+  initial state                                 length  endpoint     ratio
+  ────────────────────────────────────────────────────────────────────────
+  Bell+ (the Hamiltonian leaves it alone)     0.368254  0.368254  1.000000
+  |+0> (the Hamiltonian moves it)             2.480658  0.322959  7.681025
+  a generic state                             1.217048  0.354390  3.434204
+
+  The Bures angle is capped at π/2 while a path can keep growing, so a ratio
+  read over a long window grows with the window; the short window shows the
+  departure from the geodesic where it starts.
+  Bell+ decays inside the commuting family of its two Bell projectors, a
+  one-parameter line of states it runs along monotonically, so its path IS
+  the Bures geodesic (ratio 1). A state the Hamiltonian moves leaves the
+  geodesic from the start (ratio above 1 already in the short window).
 
 
 ========================================================================
-PHASE 4: GAUSSIAN CURVATURE AT CΨ = 1/4
+PHASE 4: COORDINATE-SHAPE SECOND DERIVATIVE OF THE BURES PATH-METRIC COEFFICIENT
 ========================================================================
 
-  K = -(1/2g) d²(ln g)/d(CΨ)²
+  S = -(1/2g) d²(ln g)/d(CΨ)², coordinate-shape second derivative, not intrinsic curvature
 
-        CΨ         g(CΨ)     K (Gauss)
+        CΨ         g(CΨ)          S_CΨ
   ───────────────────────────────────
     0.3313      114.9166     -438.4218
     0.3129       10.1691     -123.1654
@@ -119,16 +138,15 @@ PHASE 4: GAUSSIAN CURVATURE AT CΨ = 1/4
     0.2040        2.8627      -16.0328
     0.1941        2.8478      -15.1195
 
-  K at CΨ ≈ 1/4: -25.0198
-  Curvature is LARGE at the fold.
+  S at CΨ ≈ 1/4: -25.0198 (finite; a coordinate shape, no geometric claim)
 
 
 ========================================================================
-PHASE 5: FISHER SUSCEPTIBILITY χ_F(γ) AT THE CROSSING
+PHASE 5: SECOND γ-DERIVATIVE OF CΨ AT FIXED TIME
 ========================================================================
 
-  χ_F = d²CΨ/dγ² at the crossing time t_cross(γ)
-  If divergent: CΨ = 1/4 is a dynamical phase transition.
+  d²CΨ/dγ² at a fixed time. Not a fidelity susceptibility; and CΨ(γ) at fixed
+  time is analytic in γ (a matrix exponential), so this cannot diverge.
 
   At fixed t = 0.75:
   CΨ = 1/4 at γ ≈ 0.0514
@@ -146,11 +164,7 @@ PHASE 5: FISHER SUSCEPTIBILITY χ_F(γ) AT THE CROSSING
     0.1276    0.1665     -0.8169        5.3073
     0.1410    0.1560     -0.7492        4.7785
 
-  χ_F at CΨ = 1/4: d²CΨ/dγ² = 9.7922
-
-  Fisher susceptibility is FINITE → no phase transition signature.
-  CΨ = 1/4 is a smooth crossing, not a critical point in the
-  γ-parameter space.
+  d²CΨ/dγ² where CΨ = 1/4: 9.7922 (finite, as analyticity requires)
 
 
 ========================================================================
@@ -167,25 +181,20 @@ Phase 2: θ does NOT regularize a singularity (there is none).
   (because dCΨ/dθ → 0). θ SHRINKS the metric at the fold.
   θ is a valid coordinate but not a geometric necessity.
 
-Phase 3: Geodesic deviation of Lindblad trajectory computed.
+Phase 3: Bell+ runs exactly along a Bures geodesic (length = endpoint
+  angle), because it decays inside a commuting one-parameter family; states
+  the Hamiltonian moves do not (their paths are several times longer).
 
-Phase 4: Gaussian curvature at CΨ = 1/4 is finite.
-  No geometric singularity at the fold point.
+Phase 4: the coordinate-shape second derivative of the path coefficient is
+  finite at CΨ = 1/4; a one-dimensional metric has no intrinsic curvature.
 
-Phase 5: Fisher susceptibility χ_F(γ) at the crossing is finite.
-  CΨ = 1/4 is a smooth crossing, not a dynamical phase transition.
+Phase 5: d²CΨ/dγ² at fixed time is finite, as it must be (CΨ is analytic
+  in γ); it says nothing about criticality.
 
 CONCLUSION: θ = arctan(√(4CΨ-1)) is a nonlinear coordinate
 transformation, not a geometric regularization. The fold at
-CΨ = 1/4 has no Riemannian singularity in the Bures metric.
-The trajectory is smooth, the curvature is finite, the Fisher
-susceptibility does not diverge. θ is useful as a 'compass'
-(angular distance from the boundary) but does not have deeper
-geometric significance in the information-geometric sense.
+CΨ = 1/4 has no singularity in the Bures path coefficient.
+θ is useful as a 'compass' (angular distance from the boundary).
 
-This is consistent with the algebra-first principle: the 1/4
-boundary is algebraic (discriminant of R=C(Ψ+R)²), not
-geometric (no metric singularity) or thermodynamic (no FT).
-
-Completed: 2026-04-01 19:08:58
+Completed: 2026-09-25 06:32:59
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\information_geometry.txt

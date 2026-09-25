@@ -36,9 +36,9 @@ classical attractor into one with a definite outcome.
 **Update (April 2026):** Information geometry analysis confirms: θ is
 a compass, not a Riemannian coordinate. The Bures metric (a measure of statistical distance between quantum states) g(CΨ) = 3.36
 at the fold (finite, no singularity). θ shrinks the metric to zero at
-the fold instead of regularizing a divergence. The Lindblad trajectory
-is approximately geodesic (deviation 9e-4): decoherence follows the
-shortest Bures path. See [Information Geometry](INFORMATION_GEOMETRY.md).
+the fold instead of regularizing a divergence. The Bell+ trajectory
+runs exactly along a Bures geodesic, because the Hamiltonian leaves
+Bell+ alone; states it moves do not. See [Information Geometry](INFORMATION_GEOMETRY.md).
 
 ---
 

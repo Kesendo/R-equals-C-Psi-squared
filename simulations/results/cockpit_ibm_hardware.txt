@@ -134,7 +134,7 @@ Single qubit, 25 delay points, full density matrices
   CPsi decay rate: 0.01333 per us (half-life 52.0 us)
 
   BURES CURVATURE (Q52):
-     CPsi |  g(CPsi)    K_Gauss
+     CPsi |  g(CPsi)     S_CPsi
   ------------------------------
     0.385 |    15.68       +3.3
     0.385 |    15.68       +3.3
@@ -144,7 +144,7 @@ Single qubit, 25 delay points, full density matrices
     0.125 |     1.35      +21.4
 
   K at fold (CPsi~0.25): -2.7
-  Simulation predicted: K = -25
+  Simulation predicted: S = -25 (coordinate-shape, not curvature)
   Deviation: 22.3
 
 ======================================================================

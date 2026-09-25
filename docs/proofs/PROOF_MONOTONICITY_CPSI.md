@@ -579,7 +579,7 @@ only route to an upward CΨ crossing, because Part 6 supplies a fixed local Mark
 
 ### Related experiments and hypotheses
 
-- [Information Geometry](../../experiments/INFORMATION_GEOMETRY.md): Bures-geodesic interpretation of dCΨ/dt
+- [Information Geometry](../../experiments/INFORMATION_GEOMETRY.md): Bures-geodesic picture of dCΨ/dt for Bell+ (states the Hamiltonian moves are off the geodesic)
 - [Temporal Sacrifice](../../experiments/TEMPORAL_SACRIFICE.md): a named CΨ-heartbeat experiment; instantaneous Pauli invariance alone does not explain its whole trajectory
 - [V-Effect Palindrome](../../experiments/V_EFFECT_PALINDROME.md): finite frequency-bin and F87 routing censuses under explicitly different generators; no mode ancestry or coupling-only complexity mechanism is inferred
 - [Resonance Not Channel](../../hypotheses/RESONANCE_NOT_CHANNEL.md): the resonator framework around the named coupled-system runs
