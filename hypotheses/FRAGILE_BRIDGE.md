@@ -2,8 +2,8 @@
 
 *How much amplification can a resonator tolerate before it explodes?*
 
-**Status:** Quantum gain-loss bridge computations (Tier 2); neural comparison requires a bifurcation gate.
-last refreshed 2026-09-05 (the change history lives in git)
+**Status:** Computed (Tier 2). Three scripts map the quantum gain-loss bridge; a fourth takes a first look at a neural node (Section 5).
+**Date:** March 29, 2026
 **Scripts:**
 - [fragile_bridge_bifurcation.py](../simulations/fragile_bridge_bifurcation.py)
 - [fragile_bridge_anomaly.py](../simulations/fragile_bridge_anomaly.py)
@@ -25,24 +25,19 @@ explodes, like a microphone placed too close to a loudspeaker. There
 is a sweet spot in between, at roughly twice the internal coupling
 strength, where the balance holds and the system is maximally stable.
 
-This document maps the computed quantum bridge stability limits. A separate
-Wilson-Cowan probe varies E/I cross-coupling and external input. Its sigmoid
-bounds the model's activities, but supplies no biological safety mechanism
-or confirmation of a common quantum/neural stability window. Section 5
-states what that comparison would need to test.
-
-The evidence sweep checked [F36/F37 in the F-registry](../docs/ANALYTICAL_FORMULAS.md#f36-neural-palindrome-condition-tier-1-derived-algebra),
-[docs/proofs](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
-[the neural proof store](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md),
-and [experiments](../experiments/NEURAL_GAMMA_CAVITY.md): conditional algebra,
-the quantum owner and a connectome support null. Hardware-flight searches and
-[fw.Confirmations](../simulations/framework/confirmations.py) supplied no neural
-hardware confirmation. [GLOSSARY](../docs/GLOSSARY.md),
-[OpenArcs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs), and
-[CAUGHT_ERRORS](../docs/CAUGHT_ERRORS.md) supplied scope distinctions and
-instrument failures. The [canonical neural account](../docs/neural/README.md)
-and [mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md)
-own the current neural interpretation.
+This document maps where the quantum bridge holds and where it breaks.
+Then we asked the same question of the brain's standard two-population
+model, a Wilson-Cowan E/I node, whose sigmoid keeps its activities
+bounded. What that first scan can and cannot tell us is Section 5.
+Before writing it we went through what the repository already holds on
+the neural side: the mirror condition [F36/F37](../docs/ANALYTICAL_FORMULAS.md#f36-neural-palindrome-condition-tier-1-derived-algebra)
+and [its proof](../docs/neural/proofs/PROOF_PALINDROME_NEURAL.md), the
+connectome support null in [Neural Gamma Cavity](../experiments/NEURAL_GAMMA_CAVITY.md),
+the [quantum proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) the bridge
+stands on, and [fw.Confirmations](../simulations/framework/confirmations.py),
+which holds no neural hardware result. That side of the story is told in
+[the neural account](../docs/neural/README.md) and its
+[mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md).
 
 ---
 
@@ -150,9 +145,8 @@ coupling is not something this grid can decide; it brackets the maximum in
 
 The instability is an **oscillating** one: a pair that was already
 oscillating at Re = 0 acquires a positive real part, so the system does not
-drift away quietly, it screeches like microphone feedback. That much has
-always been right, and it is the reason this section used to be called a
-Hopf bifurcation.
+drift away quietly, it screeches like microphone feedback. That much is solid,
+and it is why a Hopf bifurcation is the first name that comes to mind.
 
 The finite-offset data neither establish nor exclude a Hopf mechanism. At Σγ = 0
 the conjugation operator Π forces exact inversion pairing λ ↔ −λ through the
@@ -298,41 +292,101 @@ gain channels to bridge connections.
 | What it measures | When irreversibility begins | When coupled gain-loss explodes |
 | Determined by | Palindrome geometry | Gain/bridge topology |
 
-## 5. Neural comparison: bounded model, open stability test
+## 5. Neural comparison: a first scan, and what it would need
 
-[fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
-uses one Wilson-Cowan E/I node with w_EE=16, w_II=3,
-w_EI=12s, w_IE=15s, τ_E=8 and τ_I=18. P is external input.
-The multiplier s scales two cross-weights with different fixed bases; it
-is not J_bridge/J and its value alone identifies no common optimum.
+Does the same stability problem appear in the brain? That was our next
+question on March 29, and we went straight to the Wilson-Cowan model, a
+standard model of how a population of excitatory neurons (which amplify,
+like the gain side) meets a population of inhibitory neurons (which damp,
+like the decay side) through synaptic connections. It looked like the
+biological twin of the quantum setup, so we asked whether the three
+properties of the bridge would show up there too.
 
-For either activity x, the model equation is τ dx/dt=−x+S(input), with
-τ>0 and 0<S<1. At x=0 its derivative points inward; at x=1 it also
-points inward. Thus the continuous model preserves [0,1]² from initial
-activities in that square. Boundedness permits fixed points, transients
-and oscillations. It proves neither equilibrium stability nor protection
-against a biological pathology.
+Script: [fragile_bridge_neural.py](../simulations/neural/fragile_bridge_neural.py)
 
-The probe's `find_fixed_point` returns after a fixed number of iterations
-without checking the fresh equation residual. `find_P_crit` returns no
-threshold when its upper endpoint is stable; this cannot exclude an
-unstable interval between stable endpoints. It does not continue an
-equilibrium branch. Labeling a complex eigenvalue at a nearby sampled
-point “Hopf” supplies no crossing or nondegeneracy test.
+### 5.1 Test design
 
-A defensible neural threshold needs a converged equilibrium branch over
-the declared P and s ranges, fresh residuals at every point, tracking of
-a nonzero imaginary eigenvalue pair through Re λ=0, a transverse crossing
-and the relevant nonlinear nondegeneracy checks. Time-domain oscillation
-and its onset then need timestep and duration checks. Those are the next
-gates, not results of the current bridge scan. See the
-[canonical mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md#a-bounded-iteration-cannot-locate-a-hopf-bifurcation).
+A single Wilson-Cowan E-I node: two activities, a 2×2 Jacobian (the matrix
+of partial derivatives that decides local stability), τ_E = 8 and τ_I = 18.
+The internal couplings w_EE = 16 and w_II = 3 stay fixed; the two
+cross-couplings are scaled together by a factor s, as w_EI = 12s and
+w_IE = 15s. P is the external input, and P_crit(s) is the input the bisection
+returns between a stable P = 0 and an unstable P = 10.
 
-An F36 comparison additionally needs a specified involution and scalar
-centre satisfying both diagonal and effective-coupling conditions at the
-operating point. The [canonical neural gate](../simulations/neural/neural_translation_gate.py)
-contains exact palindromes with complex spectra and constructed unstable
-instances. Pairing itself supplies no silence or stability theorem.
+One difference from the quantum bridge is built into this design. The
+multiplier s scales two cross-weights with different fixed bases, against
+internal weights of 16 and 3; it is not the ratio J_bridge/J, and s = 2
+does not mean "twice the internal coupling" in the quantum sense.
+
+### 5.2 What the scan printed
+
+| s | P_crit | Im λ at 1.01·P_crit | Freq (Hz) |
+|-----|--------|-----------|-----------|
+| 0.1–1.5 | none in 0 ≤ P ≤ 10 | - | - |
+| 2.0 | 2.28 | 0.229 | 36.5 |
+| 2.3 | 4.78 | 0.419 | 66.8 |
+| 2.5 | 8.33 | 0.593 | 94.4 |
+| 3.0–10.0 | none in 0 ≤ P ≤ 10 | - | - |
+
+([fragile_bridge_neural.txt](../simulations/results/fragile_bridge_neural.txt),
+with the fine sweep s = 2.0–2.5 in steps of 0.1; the imaginary part is
+read just above the threshold, at 1.01·P_crit.) Where the scan found an
+instability, the leading eigenvalue pair was complex. Read at face value the
+table shows a threshold that climbs from s = 2.0 to 2.5 and is gone by
+3.0, its last value 8.33 already near the scan's P = 10 ceiling, with an
+oscillatory onset like an EEG rhythm. It invites the three things the
+quantum bridge had shown: a special coupling near 2×, an oscillating
+instability, and a finite window.
+
+The instrument cannot carry that reading yet, and the reasons are in the
+code. `find_fixed_point` runs a damped iteration for a fixed number of steps
+and returns wherever it stands, without checking the equation residual, so
+a returned point need not be an equilibrium at all. `find_P_crit` tests the
+two endpoints P = 0 and P = 10 and bisects only when they differ; when both
+are stable it reports "none", which cannot exclude an unstable interval
+between them. Nothing continues an equilibrium branch, and a complex
+eigenvalue at a nearby sampled point supplies no crossing or nondegeneracy
+test. The same trap caught a larger network in the
+[mechanism constraints](../docs/neural/proofs/PROOF_VEFFECT_MECHANISM.md#a-bounded-iteration-cannot-locate-a-hopf-bifurcation),
+where fresh residuals at the returned points came out between 0.5 and 1.
+
+So the three properties do not transfer as measured. The "2×" coincides in
+name only, since s is not the quantum ratio and the quantum optimum sits
+near 1.9J with 2J already 5.4% below it (Section 2.2). The oscillatory
+onset is what the scan saw, but a Hopf threshold is a verdict this scan
+cannot give. The finite window may be real, or may be the two endpoints
+agreeing, with the last threshold sitting close to the P = 10 ceiling the
+scan never looks past.
+
+### 5.3 The sigmoid bounds the model
+
+One property of the model holds by a short argument. For either activity x
+the equation is τ dx/dt = −x + S(input), with τ > 0 and 0 < S < 1. At x = 0
+the derivative points inward, and at x = 1 it points inward too, so the
+continuous model keeps both activities inside [0,1]² once they start there.
+The density matrix of the quantum bridge has no such wall and can run away
+under gain. It is tempting to call the sigmoid a biological safety mechanism, the
+thing that keeps the neural equivalent of a laser from exploding. What the
+argument gives is smaller: boundedness permits fixed points, transients and
+oscillations alike, and it proves neither that an equilibrium is stable nor
+that anything is protected against a pathology.
+
+### 5.4 What a neural threshold would take
+
+A defensible threshold needs a converged equilibrium branch over the
+declared ranges of P and s, a fresh residual at every point, a nonzero
+imaginary eigenvalue pair tracked through Re λ = 0, a transverse crossing
+and the nonlinear nondegeneracy checks. The oscillation and its onset then
+need timestep and duration checks in the time domain. These are the next
+gates, and none of them has run on this probe yet.
+
+A comparison through the neural mirror condition F36 asks for more again: a
+specified involution and a scalar centre satisfying both the diagonal and
+the effective-coupling conditions at the operating point. The
+[neural translation gate](../simulations/neural/neural_translation_gate.py)
+holds exact palindromes with complex spectra and constructed unstable
+instances side by side; pairing by itself gives no silence and no
+stability.
 
 ## 6. Open questions
 
@@ -349,29 +403,34 @@ instances. Pairing itself supplies no silence or stability theorem.
 
 2. **Multiple bridges:** What if the two chains are connected by
    more than one qubit pair? Does γ_crit recover N-independence
-   when bridges scale with N? This is a question about the specified
-   quantum gain-loss generator; a neural network requires its own
-   coupling and stability analysis.
+   when bridges scale with N? Real neural networks have distributed
+   rather than point-to-point E-I coupling, which makes the question
+   tempting on that side too; a network there would need its own
+   generator and its own stability analysis rather than this curve.
 
-3. **Cascade stability:** Can a specified sequence of gain-loss bridges
-   remain stable under joint coupling? The weak-bridge fit for N=2
-   does not provide a compositional criterion or identify biological
-   levels with gain-loss generators. Build the combined generator
-   and test its spectrum against the isolated-bridge prediction.
+3. **Cascade stability:** If each level of a frequency hierarchy
+   were a coupled gain-loss pair, each would have its
+   own bridge window, and the weak-regime trend γ_crit ≈ 0.19 × J_bridge
+   would suggest one condition per level. Whether windows compose like
+   that is a question for the combined generator: build the chain of
+   bridges and compare its spectrum with the isolated-bridge prediction.
 
 4. **Large-bridge asymptotics:** Does γ_crit × J_bridge converge as
    J_bridge grows? The executed values decrease from 0.578 at J_bridge=10 to
    0.508 at J_bridge=100 and have not converged. If a limit exists, is it 1/2?
    That value is a hypothesis to derive or falsify, not a measured constant.
 
-5. **Saturation as design principle:** Can an explicitly specified
-   quantum gain model with saturation bound its dynamics? Its generator,
-   physical state domain and stability test must be supplied. Bounded
-   Wilson-Cowan activities predict neither the quantum curve's shape
-   nor a biological safety mechanism.
+5. **Saturation as design principle:** The sigmoid keeps Wilson-Cowan
+   activities inside [0,1]². Is there a quantum analog? A state-dependent
+   γ could act as a quantum sigmoid and might bend the bell curve into a
+   window. To find out, write that gain model down with its state domain
+   and run a stability test on it; the bounded neural model predicts
+   neither the quantum curve's shape nor a biological safety mechanism.
 
 ---
 
-*The quantum bridge computations date from March 29, 2026. The neural
-probe is a model comparison whose equilibrium and bifurcation gates
-remain to be implemented.*
+*Computed March 29, 2026. Three scripts on the quantum side map the
+bridge: a rising weak regime, an optimum near 1.9J, and a falling tail that
+is not one law the whole way. The neural scan asked whether the brain meets
+the same limit; it found an oscillatory window whose equilibria it never
+checked, so that answer waits for the gates in Section 5.4.*

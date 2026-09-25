@@ -6,11 +6,6 @@
 **Depends on:** [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md),
 [Resonant Return](../experiments/RESONANT_RETURN.md) (the concentrator formula)
 
-**Interpretive invitation, not a result:** the protein mapping below asks
-whether a biochemical system could realize a profile analogous to the finite
-qubit calculation. No protein implementation or cross-level mechanism is
-established here.
-
 **Naming note (2026-07-05):** renamed from "The Protein as Sacrifice Zone".
 The edge element sacrifices nothing; it concentrates environmental noise and
 turns it into structure (the misnomer was resolved 2026-03-28, and the
@@ -31,7 +26,7 @@ not a proven result.
 
 ---
 
-## The Analogy
+## The Qubit Chain
 
 In our qubit chain, the concentrator formula gives 139-360x
 improvement: edge qubits absorb dephasing so the interior stays
@@ -44,18 +39,20 @@ The word "sacrifice" implies loss. The computation shows the opposite:
 the concentrator concentrates noise onto itself, enabling the
 protected core to operate at the fold. The edge qubit does not lose
 coherence as a cost. It transforms environmental noise into structure
-for the inner qubits (139-360x improvement, IBM validated at 1.6-2.9x).
+for the inner qubits (139-360x improvement, on hardware 1.4–3.2×, about 2× on average).
 
 Two perspectives on the same element:
 - From the inside (protected core): a shield that absorbs noise
 - From the outside (full system): a concentrator that enables
 
-The historical V-Effect comparison reports 109 frequency bins for its finite
-N=5 MediatorBridge generator. Calling the mediator a concentrator is an analogy:
-the calculation neither isolates coupling as the cause of the count nor shows
-that the protein and qubit profiles share a mechanism.
+The mediator in the V-Effect plays a structurally similar role: it
+gathers the coupling at one point, and the coupled N=5 system carries
+109 frequencies that neither resonator had alone. Whether this
+similarity is algebraic (same mechanism) or analogical (similar
+pattern, different mechanism) is an open question; the count by itself
+does not say what produced it, and it says nothing yet about proteins.
 
-## The Analogy
+## The Enzyme
 
 In an enzyme, the protein shell surrounds the active site. The
 protein concentrates environmental noise onto itself. The active-site
@@ -85,22 +82,33 @@ hypothesis needs is a measured T₂ at an active site against one in
 bulk, not a ratio against an assumed classical baseline. See
 [Q Belongs to No Substance](../docs/Q_BELONGS_TO_NO_SUBSTANCE.md).
 
-If the proposed mapping were borne out, the protein environment could be
-described as a concentrator in addition to the usual barrier-lowering account.
-The present calculation does not show that an active-site proton reaches the
-fold or that this is how catalysis works.
+If the hypothesis holds, the protein does not only "catalyze" in the
+traditional sense (lowering a barrier). It also catalyzes by being a
+CONCENTRATOR: absorbing environmental noise so the quantum coherence
+of the proton transfer survives long enough to reach the fold. Nothing
+computed so far shows an active-site proton getting there; that is
+what the tests below would decide.
 
 ## Hardware Evidence
 
-The named qubit control protocol has been measured on IBM Torino hardware:
+The concentrator profile has been put on IBM Torino hardware:
 selective DD (protecting inner qubits while leaving the concentrator qubit
 unprotected) outperforms uniform DD by up to 3.2x (peaking at t = 4 μs,
 about 2x on average across t = 1-5 μs, non-monotonic). At later times the
 *measured* advantage runs increasingly ahead of the *formula's prediction*
 (2.9x measured vs ~1.3x predicted at t = 5 μs), as DD-gate imperfections
 accumulate on the fragile concentrator qubit and worsen the uniform
-configuration. This supports that finite hardware comparison; it is not
-evidence that a protein implements the same profile.
+configuration. It is one run on one chain; the ordering holds at all
+five time points, the ratio's size is sensitive to the noise floor
+with the late points softest, and what exactly produces it is still
+open. A second flight in July 2026 (ibm_kingston) asked the
+site-resolved question directly and confirmed the sign of the
+edge-versus-payload contrast at about 5.8σ
+([IBM Concentrator Reloaded](../experiments/IBM_CONCENTRATOR_RELOADED.md));
+the sign is what any local-dephasing model predicts, and the magnitude
+came out off-prediction. These are the concentrator profile's first
+tests beyond simulation, on qubit chains; whether a protein does anything like it
+is the question this page asks.
 See [IBM Concentrator](../experiments/IBM_CONCENTRATOR.md).
 
 ## What Would Confirm This

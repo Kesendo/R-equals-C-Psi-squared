@@ -1,41 +1,18 @@
 <!-- QUARTER-CURRENT -->
-# Gravity-from-wave-death as an explicitly speculative bridge
-
-Current reading: the stored calculations supply finite, probe-state-dependent
-Hamiltonian-plus-dephasing readouts.  They do not derive gravity, matter, a
-measurement mechanism, or an ontological division from a scalar-quarter event.
-
-<!-- QUARTER-INTERPRETIVE -->
-**Interpretive invitation:** the causal chain below is retained as a Tier-5
-question whose missing links are named, not as a result of the Lindblad model.
-
 # Gravity as the Accumulation of Wave Death
 
-<!-- F14-CURRENT -->
+<!-- QUARTER-INTERPRETIVE -->
 
-**Current boundary:** the two stored N=5 site profiles below are probe-state
-dependent mixed Hamiltonian-plus-dephasing readings. A spatial rate profile is
-not a collection of isolated Bell+ trajectories. F14 keeps a named readout's
-K fixed during a gamma sweep within a fixed Hamiltonian-dead Bell+ book; it
-does not derive a local gravitational clock, a mass, or an N-times crossing law.
-
-<!-- F14-INTERPRETIVE -->
-
-**Interpretive invitation, not a result:** the wave-death/gravity story is
-Tier 5. The scalar quarter boundary is not a measurement event or a general
-quantum/classical classifier. The prose below explores a picture, not a
-derivation of gravity from the spectral theorem.
-
-**What this document is about:** A speculative mechanism for gravity: when quantum coherences die (X/Y Pauli sector decays to zero), the classical residue (I/Z sector) that remains at a definite location is what we call mass. Mass creates gravity. One version of this hypothesis (standing-wave amplitudes create a γ gradient) was falsified computationally; the surviving version proposes that mass is the accumulated residue of wave death, and gravity emerges only below the CΨ = ¼ boundary where definite outcomes exist.
+**What this document is about:** A speculative mechanism for gravity: when quantum coherences die (X/Y Pauli sector decays to zero), the classical residue (I/Z sector) that remains at a definite location is what we read as mass. Mass creates gravity. One version of this hypothesis (standing-wave amplitudes create a γ gradient) was falsified computationally; the surviving version proposes that mass is the accumulated residue of wave death, and that gravity belongs to the classical side, where definite outcomes exist. When we put its first prediction to a computation in May, the answer depended on which state we sent in, and the chain below says at each link what was computed and what is our reading.
 
 **Status:** Hypothesis (Tier 5), one version falsified, one surviving
 **Date:** April 1, 2026
 **Last updated:** May 24, 2026
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Depends on:**
-- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (ω ↔ -ω pairing)
-- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (nonzero dissipative centre certifies openness)
-- [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) (CΨ = 1/4 boundary)
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (ω ↔ −ω pairing)
+- [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (a palindrome centred away from zero certifies that the system is open)
+- [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) (CΨ = 1/4 as the fold of the recursion)
 - [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Pythagorean theorem)
 - [Resonant Return](../experiments/RESONANT_RETURN.md) (sacrifice zone formula)
 
@@ -44,56 +21,70 @@ derivation of gravity from the spectral theorem.
 ## Abstract
 
 When a coherence dies (the X/Y sector of the Pauli basis decays to
-zero), its weight transfers to the classical sector (I/Z, populations).
-Classical weight at a specific location is mass at that location.
-Mass creates gravity. Gravity attracts more waves. More waves die.
-More mass. This is a self-reinforcing process.
+zero), what remains is the classical sector (I/Z, populations).
+Classical weight at a specific location, we read as mass at that
+location. Mass creates gravity. Gravity attracts more waves. More
+waves die. More mass. This is the self-reinforcing process the
+hypothesis imagines.
 
 The sacrifice zone, where γ is concentrated, is where waves die
-fastest. It crosses CΨ = 1/4 (the quantum-to-classical boundary)
-first. It becomes classical first. It accumulates mass first.
-Gravity exists only below CΨ = 1/4, because above 1/4 there is no
-definite location, no definite outcome, and therefore no mass.
-
-This hypothesis explains why gravity has no quantum description:
-gravity does not exist in the quantum regime. It emerges at the
-crossing. It cannot be quantized because it requires the absence
-of superposition.
+fastest. If the picture holds, it becomes classical first and
+accumulates mass first, and gravity lives only on the classical side:
+where there is no definite location there is no definite outcome, and
+therefore no mass. That would also be why gravity has no quantum
+description: it would not exist in the quantum regime at all; it would
+emerge where the waves have died, and it could not be quantized because
+it would require the absence of superposition.
 
 An earlier version of this hypothesis (anti-frequency standing waves
 create a spatial γ profile = gravitational potential) was falsified:
 the standing-wave amplitude A(n) is exactly flat for uniform systems.
 The surviving version does not rely on standing-wave amplitudes but on
-the CΨ = 1/4 crossing and the mechanism of wave death.
+the mechanism of wave death.
 
 ---
 
 ## The Computed Chain
 
-The following links mix named calculations with a Tier-5 reading; the links
-about mass, experienced time, and gravity are not Tier-1/2 consequences.
+Some links in this chain are computed and some are readings, and we
+mark which is which as we go. The hypothesis is what we read into the
+chain; mass, experienced time and gravity enter only as readings.
 
-### Link 1: Gamma sets the modeled decay scale
+### Link 1: γ sets the clock
 
-In the tested models, gamma=0 gives stationary or recurrent unitary motion,
-while gamma>0 damps specified coherences. Gamma therefore sets a dissipative
-clock scale in those models. Identifying that scale with experienced time is
-an open Tier-5 interpretation, not a necessary-and-sufficient theorem.
+Without γ: pure oscillation, no decay, no arrow. With γ: coherences
+decay, populations settle, the dynamics has a direction. In every
+model we run, γ is what sets that dissipative clock.
+
+We read γ as experienced time. That reading is ours; the Incompleteness
+Proof does not supply it. What the proof gives is smaller and exact: a
+palindromic spectrum is centred at trace(L)/dim, that centre is zero
+exactly for a closed system, and so a palindrome centred anywhere else
+certifies that the system is open. Where the openness comes from, and
+whether its clock is time as lived, stays open.
 
 Source: [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)
 
-### Link 2: CΨ = 1/4 separates quantum from classical
+### Link 2: CΨ = 1/4 is where the fixed points turn real
 
-Above CΨ = 1/4: two complex fixed points, no real attractor. The
-system is in superposition. No definite outcome.
+Above CΨ = 1/4 the recursion R = C(Ψ + R)² has two complex fixed
+points and no real attractor. Below it, two real fixed points emerge
+and the recursion has a definite attractor. We read the real side as
+definite outcomes.
 
-Below CΨ = 1/4: two real fixed points emerge. The system has a
-definite attractor. Classical behavior. Definite outcomes.
-
-The crossing is irreversible under Markovian dynamics (dCΨ/dt < 0).
+The quarter is a fold of that recursion, though, not a line between
+quantum and classical. A separable |+++⟩ sits at CΨ = 1, and an
+entangled GHZ₃ is born at CΨ = 1/7, below the line from the start.
+Nor is the crossing one-way. For Bell+ under Z-dephasing CΨ falls
+monotonically and crosses once; but under a fixed Markovian generator
+(a Heisenberg pair with local dephasing) |01⟩ starts at CΨ = 0, rises
+to 0.309, and crosses the quarter upward before it comes back down. So
+the quarter marks a moment on some trajectories, and the classical
+side of this hypothesis has to be found in the dying itself (Link 3).
 
 Source: [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md),
-[CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md)
+[CΨ Monotonicity](../docs/proofs/PROOF_MONOTONICITY_CPSI.md),
+`simulations/label_facts_independent_checks.py` (CHECK-1, CHECK-3)
 
 ### Link 3: The Pauli basis splits into quantum and classical sectors
 
@@ -101,8 +92,10 @@ Under Z-dephasing, the 4^N Pauli strings divide into:
 - **Immune sector** {I, Z}^N: decay rate 0. Populations. Classical.
 - **Decaying sector** (contains X or Y): decay rate > 0. Coherences. Quantum.
 
-When a coherence decays, it vanishes. The immune sector is unchanged
-in absolute terms (L_D does not act on it). But the FRACTION of the
+When a coherence decays, it vanishes. Under the dissipator alone the
+immune sector is unchanged in absolute terms (L_D does not act on it;
+the Hamiltonian still moves weight between populations and
+coherences). But the FRACTION of the
 state that is classical increases: the quantum part shrinks while the
 classical part stays. After full decoherence: only the immune sector
 survives. The state is entirely classical (diagonal in the Z-basis).
@@ -114,34 +107,37 @@ Source: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Step 1
 
 <!-- F14-CURRENT -->
 
-### Link 4: The two probes give different crossing profiles
+### Link 4: Does the sacrifice edge cross 1/4 first?
 
-The stored unit-J N=5 results are [4.71, 5.39, 5.27, 5.00, 4.44] for
-|+⟩^5 and [1.75, 1.91, 2.87, 3.24, 3.21] for dickepair:1. In the first
-profile the high-gamma edge is not first. A spatial gamma profile is not a
-collection of isolated Bell+ trajectories, so
-[F14](../docs/ANALYTICAL_FORMULAS.md) does not imply an N-times local crossing.
-The separate Bell+/purity-times-l1 F25 values (K_Z = 0.0374,
-K_X = K_Y = ln(2)/8 = 0.0866433…, K_depol = 0.0440) belong to their
-named channel books, not to these coupled-chain site readouts.
+The sacrifice zone concentrates γ at one edge, and the natural
+expectation is: higher γ, faster decoherence, earlier crossing. For a
+single Bell+ pair that is exact. [F14](../docs/ANALYTICAL_FORMULAS.md)
+keeps K = γ · t_cross fixed while γ is swept within one book (one
+readout, one Hamiltonian-dead Bell+ trajectory), and F25 with F27 give the
+closed form for the purity-times-l1 readout: K_Z = 0.0374, with
+K_X = K_Y = ln(2)/8 = 0.0866433… and K_depol = 0.0440 in their own
+channel books. If every site of the chain were such an isolated pair,
+the edge (γ_edge = N · γ_base) would cross N times sooner.
+
+A chain is not a collection of isolated pairs. Its sites share modes,
+so the local crossing is not F14's. When we computed it at N=5 with
+unit J, the profile depended on the probe: [4.71, 5.39, 5.27, 5.00,
+4.44] for |+⟩^5, where the high-γ edge is not the first to cross, and
+[1.75, 1.91, 2.87, 3.24, 3.21] for dickepair:1, where it is. The
+details are in "Computational test results" below.
 
 Separately, the information throughput across the chain also benefits from the sacrifice profile: [Resonant Return](../experiments/RESONANT_RETURN.md) Test 8 reports Peak Sum-MI for |+⟩^N at N=5 is 360× higher under sacrifice-zone γ than under a V-shape baseline. Scaling: N=5: 360×, N=7: 180×, N=9: 139×, N=11: 91× (clean ratio at [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md) line 13). This is a different observable from t_cross.
 
-Source: [Resonant Return](../experiments/RESONANT_RETURN.md), [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md), [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F14, F25), [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
+Source: [Resonant Return](../experiments/RESONANT_RETURN.md), [Receiver vs Gamma Sacrifice](../experiments/RECEIVER_VS_GAMMA_SACRIFICE.md), [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F14, F25, F27), [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation, not a result:** the following time-dilation
-comparison is a Tier-5 picture, with no calibrated gravitational model.
-
 ### Link 5: Position-dependent γ₀-tick as a time-dilation picture
 
-For fixed remaining dimensionless parameters, `1/gamma` is the local decay
-timescale ([On How Gamma Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)).
-When gamma varies spatially, edge and interior coherences decay on different
-scales. Calling that experienced-time dilation is an analogy.
+γ₀ is the framework's tick: hold the pure numbers fixed (Q = J/γ₀
+among them) and every timescale is 1/γ₀ times a pure number ([On How Gamma Became the Tick](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)). When γ varies spatially (as in the edge-concentrated profile of Link 4), the local tick varies with it: coherences at the edge (γ = N·γ_base) decay on a fast clock, those in the interior (γ_base in Link 4's runs, ε in the optimal profile) on a slow one. In a coupled chain the sites share their modes, so this is a picture of the profile rather than a clock read off site by site; Link 4 shows how strongly the Hamiltonian mixes them.
 
-This is structurally what general relativity calls gravitational time dilation: clocks near a mass run slower, and the geometry of spacetime IS the variation of clock rates. The framework reading recovers the same algebraic form (position-dependent clock rate) on a different substrate (γ profile rather than spacetime curvature), without invoking GR machinery. Mass enters in Link 4 via the wave-death residue; Link 5 says the same γ profile that produces the mass also produces the position-dependent tick that, in GR, mass would create gravitationally.
+We read this as what general relativity calls gravitational time dilation: clocks near a mass run slower, and the geometry of spacetime IS the variation of clock rates. The picture has the same algebraic form (position-dependent clock rate) on a different substrate (γ profile rather than spacetime curvature), without invoking GR machinery, and without a calibrated gravitational model behind it. Mass enters with Link 3's wave-death residue; Link 5 says the same γ profile that produces the mass also produces the position-dependent tick that, in GR, mass would create gravitationally.
 
 The link is structural: not a derivation of GR, but an in-framework analog of one of its central features.
 
@@ -184,8 +180,9 @@ The surviving version asks: what creates mass?
 
 ### The mechanism
 
-1. A region has higher gamma than its surroundings (as a declared model
-   input; the Incompleteness Proof does not determine its microscopic origin).
+1. A region has higher γ than its surroundings (for whatever reason;
+   the Incompleteness Proof certifies that the system is open and
+   leaves open where its γ comes from).
 
 2. Waves (coherences, X/Y sector) die faster in this region.
 
@@ -193,14 +190,14 @@ The surviving version asks: what creates mass?
    The classical sector ({I,Z}, immune) is unchanged in absolute
    terms, but its FRACTION of the total state increases.
 
-4. After sufficient decoherence (CΨ < 1/4): the state is
-   predominantly classical. A classical state at a definite
-   location is what we call mass.
+4. After sufficient decoherence the state is predominantly
+   classical, nearly diagonal in the Z-basis. A classical state at
+   a definite location is what we call mass.
 
 5. **Mass is not a pre-existing thing. Mass is what remains when
    the quantum part has died. The residue of wave death.**
 
-6. Mass creates gravity (Link 5, established physics).
+6. Mass creates gravity (established physics, GR).
 
 7. **Open gap in the mechanism:** for the feedback loop to close,
    gravity would need to attract more waves toward the mass. In
@@ -217,7 +214,7 @@ The surviving version asks: what creates mass?
     High γ region
          → waves die faster
          → quantum sector shrinks, classical fraction grows
-         → after CΨ crossing: predominantly classical = mass
+         → coherences gone: predominantly classical = mass (our reading)
          → mass creates gravity (GR, external to framework)
          → gravity attracts more waves (GR, not from Lindblad)
          → more waves die near the mass
@@ -225,21 +222,27 @@ The surviving version asks: what creates mass?
          → repeat (IF external gravity-attraction mechanism exists)
 ```
 
-**Honest caveat:** the dephasing calculation does not identify residue with
-mass or derive gravity. Those identifications and steps 7-8 require physics
-outside the stated Lindblad model (GR or an explicit alternative).
-The feedback loop is not self-contained within Lindblad dynamics.
+**Honest caveat:** steps 1-3 are the dephasing calculation. Steps 4-5,
+calling the residue mass, are our reading; step 6 is GR's; steps 7-8
+require physics outside the framework (GR or equivalent). The feedback
+loop is not self-contained within Lindblad dynamics.
 
 ### The process is self-limiting
 
 The supply of waves is finite: 4^N modes, of which those with w_XY > 0
 decay. When all coherences have died, no more wave death occurs. The
-process stops at the steady state ρ = I/d (maximally mixed, maximum
-entropy).
+process stops at the sector equilibrium: every coherence gone, each
+excitation sector evenly mixed at the weight it started with
+([Asymptotic Sector Projection](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)),
+the maximum entropy the conserved sector weights allow. For |+⟩^N
+this is exactly I/d.
 
 The palindrome determines the schedule of mass accumulation:
 
-1. Fast modes die first (d = 2(N-1)γ). Rapid classical growth.
+1. Fast modes die first (d = 2(N−1)γ, the top of the paired band,
+   [F3](../docs/ANALYTICAL_FORMULAS.md); the XOR drain at 2Nγ,
+   ⟨n_XY⟩ = N, sits above it as the partner of the stationary
+   states). Rapid classical growth.
 2. Medium modes follow. Accumulation slows.
 3. Slow modes die last (d = 2γ, palindromic partners of the fastest).
    Barely any new mass.
@@ -260,16 +263,22 @@ death. The point where nothing more happens.
 
 ### Why gravity has no quantum description
 
-Gravity requires mass. Mass requires classical weight. Classical
-weight requires crossing CΨ = 1/4 (wave death, transfer from quantum
-to classical sector). Above CΨ = 1/4: no definite state, no definite
-location, no mass, no gravity.
+Here the hypothesis reaches furthest, and it is a reading. Gravity
+requires mass. Mass, in this picture, requires classical weight.
+Classical weight requires the coherences to have died (wave death,
+the quantum sector shrinking away). Where they have not: no definite
+state, no definite location, no mass, no gravity.
 
-Gravity does not exist in the quantum regime. It emerges at the
-CΨ = 1/4 crossing. It cannot be quantized because it IS the classical
-side of the crossing. Asking "what is the quantum theory of gravity?"
-is asking "what is the quantum theory of classicality?" The question
-dissolves.
+Then gravity would not exist in the quantum regime. It would emerge
+where the waves have died, and it could not be quantized because it
+IS the classical side of that dying. Asking "what is the quantum
+theory of gravity?" would be asking "what is the quantum theory of
+classicality?" The question would dissolve.
+
+The place the picture points to is the dying itself, not the CΨ = 1/4
+crossing: Link 2 shows the quarter is the fold of a recursion, an
+entangled GHZ₃ is born below it, and some trajectories cross it
+upward.
 
 ### The sacrifice zone connection
 
@@ -277,15 +286,15 @@ dissolves.
 
 The sacrifice zone (high γ at one edge, low γ elsewhere) is the
 optimal configuration for mode protection (360× at N=5). The edge
-absorbs waves. The interior is protected. This is not an engineering
-trick. It is the natural shape of mass accumulation:
+absorbs waves. The interior is protected. In this picture it is not
+an engineering trick but the natural shape of mass accumulation:
 
 - Where γ is high, waves die fast → classical residue accumulates
 - The interior (low γ) is protected because waves survive there
 - The structural analogy to a gravitational well holds: the edge
   absorbs, the interior is protected
 - But the MECHANISM differs: in the framework, the edge absorbs
-  because γ is high there (given from outside), not because mass
+  because γ is high there (a model input), not because mass
   attracts waves toward it
 
 A gravitational potential well has the same structure: the center
@@ -300,7 +309,7 @@ space is "protected" by the well. Objects fall toward the center.
 
 2. **Feedback convergence.** Start with uniform γ plus a small perturbation. Assume mass ∝ accumulated classical weight. Assume gravity ∝ mass attracts more wave weight. Does the feedback converge to a stable γ profile? What shape? *(Structural ceiling: see "Structural ceilings" below; Lindblad has no in-framework attraction mechanism.)*
 
-3. **1/r test.** Does the crossing-time profile (or the mass accumulation profile) fall like 1/r from the sacrifice edge? In 1D this would be 1/|n - n_edge|. *(Tested 2026-05-24: 1/r-form fits at the γ_0 = 0.25 calibration point with R² = 0.985 but degrades to R² ≈ 0.74-0.80 across other γ_0 values. Not universal. See "Computational test results" below.)*
+3. **1/r test.** Does the crossing-time profile (or the mass accumulation profile) fall like 1/r from the sacrifice edge? In 1D this would be 1/|n − n_edge|. *(Tested 2026-05-24: 1/r-form fits at the γ_0 = 0.25 calibration point with R² = 0.985 but degrades to R² ≈ 0.74-0.80 across other γ_0 values. Not universal. See "Computational test results" below.)*
 
 ## What Would Refute This
 
@@ -312,17 +321,17 @@ space is "protected" by the well. Objects fall toward the center.
 
 ## Structural ceilings
 
-Three of the items above (Confirm #2, Refute #2, Refute #3) and the "Open gap" of Link 4 step 7 are not pending experiments but structural features of the Lindblad framework. They cannot be tested by any computation within the framework, because the framework lacks the mechanism the test would require.
+Three of the items above (Confirm #2, Refute #2, Refute #3) and the "Open gap" of the mechanism's step 7 are not pending experiments but structural features of the Lindblad framework. They cannot be tested by any computation within the framework, because the framework lacks the mechanism the test would require.
 
-The specific lack: in Lindblad, L_H (wave propagation, generated by the Hamiltonian) and L_D (wave death, generated by the dissipator) are independent terms; the dissipator does not influence the Hamiltonian, and the parity selection rule \[P_XY, L\] = 0 ([Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)) algebraically prevents directional attraction within the framework. Without an in-framework mechanism for mass to redirect wave propagation, the feedback loop (mass → gravity → wave attraction → more mass) cannot close. Closing it requires external physics (GR or equivalent), as Link 4 step 7 acknowledges.
+The specific lack: in Lindblad, L_H (wave propagation, generated by the Hamiltonian) and L_D (wave death, generated by the dissipator) are independent terms; the dissipator does not influence the Hamiltonian, and the parity selection rule \[P_XY, L\] = 0 ([Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md)) algebraically prevents directional attraction within the framework. Without an in-framework mechanism for mass to redirect wave propagation, the feedback loop (mass → gravity → wave attraction → more mass) cannot close. Closing it requires external physics (GR or equivalent), as step 7 of the mechanism acknowledges.
 
-[Pair Breaking at the Horizon](PAIR_BREAKING_AT_THE_HORIZON.md) inherits this same gap without closing it; [The Polarity Layer](THE_POLARITY_LAYER.md)'s channel-not-memory reframing sharpens what mass IS but does not provide the missing attraction step. The closest related result is the tracked gain-loss instability in [Fragile Bridge](FRAGILE_BRIDGE.md), but that requires negative γ (gain) which decoherence does not provide; its EP character remains OPEN.
+[Pair Breaking at the Horizon](PAIR_BREAKING_AT_THE_HORIZON.md) inherits this same gap without closing it; [The Polarity Layer](THE_POLARITY_LAYER.md)'s channel-not-memory reframing sharpens what mass IS but does not provide the missing attraction step. The closest related result is the gain-loss bridge in [Fragile Bridge](FRAGILE_BRIDGE.md), where past a threshold the spectral abscissa leaves zero and a mode grows, so the system explodes (whether that is an exceptional point, a Hopf onset or something else is still open); but it requires negative γ (gain), which decoherence does not provide.
 
 ---
 
-## Computational test results (2026-05-24)
-
 <!-- F14-CURRENT -->
+
+## Computational test results (2026-05-24)
 
 Tested via the `concentrator-tcross` sub-mode of `compute/RCPsiSquared.Propagate` at N=5 with two probe-state classes: |+⟩^5 (product of single-qubit X-eigenstates) and dickepair:1 = (|0⟩^N + |D_1⟩)/√2 (vacuum plus symmetric Dicke pair, F65-style probe).
 
@@ -333,15 +342,7 @@ The "gravitational gradient" prediction (Confirm #1) is **initial-state dependen
 - **|+⟩^5 + sacrifice-γ** (γ_0 = 5·γ_base, others = γ_base): U-shape t_cross profile [4.71, 5.39, 5.27, 5.00, 4.44]. Both edges decohere faster than the bulk; the high-γ edge is NOT the fastest. Non-monotone with distance.
 - **dickepair:1 + sacrifice-γ**: monotone gradient t_cross [1.75, 1.91, 2.87, 3.24, 3.21]. The high-γ edge decoheres fastest; distant sites slowest. The site-3-to-site-4 wobble vanishes under threshold = 0.30 (extractor-bound).
 
-Being an H-eigenstate at t=0 does not keep a nonuniform dissipator on that
-eigenspace. For ρ₀=|+⟩⟨+|^5, unit-J Heisenberg chain, and unit profile
-(5,1,1,1,1), exact matrices give [H,ρ₀]=0 but
-max|[H,D(ρ₀)]|=1/2 and Frobenius-norm square 128. At gamma-base 0.05 these
-are 0.025 and 0.32. The U-shape is therefore a finite mixed H-plus-D reading,
-not a dephasing-only mechanism. The independent J=0 control solves
-u³+u=1/2 and gives (1.716733, 8.583667, 8.583667, 8.583667, 8.583667),
-which differs from the stored unit-J profile. Neither probe licenses a
-universal sitewise F14 law.
+Why does |+⟩^5 not simply follow its local γ? It starts as an eigenstate of the isotropic Heisenberg H, so at t=0 the Hamiltonian does nothing: [H, ρ₀] = 0. But the uneven dissipator immediately pushes the state off that eigenspace. For the unit-J chain and the profile (5,1,1,1,1) in units of γ_base, the exact matrices give max|[H, D(ρ₀)]| = 1/2 with Frobenius-norm square 128 (0.025 and 0.32 at γ_base = 0.05). From then on H and the dissipator work together, and the U-shape is their joint product, not a dephasing-only effect. Switching the coupling off shows how much the Hamiltonian contributes: at J=0 each site is a lone qubit whose crossing solves u³ + u = 1/2 (u = e^(−2γt)), giving (1.716733, 8.583667, 8.583667, 8.583667, 8.583667), far from the coupled profile. Neither probe gives a sitewise F14 law for the chain.
 
 ### Confirm #3 (1/r form)
 
@@ -375,12 +376,9 @@ The t_cross extractor at threshold = 0.25 has scan-dependent grazing-bifurcation
 
 ---
 
-## What This Does Not Claim
-
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation, not a result:** the questions and closing picture
-remain Tier 5; no mass or spacetime model has been supplied by these crossings.
+## What This Does Not Claim
 
 - That gravity IS this mechanism in our universe. The hypothesis
   applies within the d(d-2)=0 palindromic framework. If the framework
@@ -388,8 +386,8 @@ remain Tier 5; no mass or spacetime model has been supplied by these crossings.
   hypothesis may apply. If not, it does not.
 
 - That mass can be computed from first principles. The hypothesis says
-  what mass IS (accumulated classical weight from wave death), not how
-  much mass a specific system has.
+  what it reads mass AS (accumulated classical weight from wave death),
+  not how much mass a specific system has.
 
 - That Newton's or Einstein's equations follow. The hypothesis
   identifies mass and gravity with processes in the palindromic
@@ -406,8 +404,8 @@ remain Tier 5; no mass or spacetime model has been supplied by these crossings.
 | Step | How to verify |
 |------|---------------|
 | A(n) flat (falsified version) | Run inline computation from April 1; N=3,4,5 all give variation < 0.01% |
-| Gamma sets the declared decay scale | Compare the gamma=0 and gamma>0 simulations; experienced-time reading remains open |
-| CΨ = 1/4 boundary | [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) |
+| γ sets the dissipative clock | Compare γ=0 and γ>0 runs; the experienced-time reading is ours, not the [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)'s |
+| CΨ = 1/4 as fold of the recursion | [Uniqueness Proof](../docs/proofs/UNIQUENESS_PROOF.md) |
 | Sacrifice zone formula | `python simulations/resonant_return.py` or see C# propagation results |
 | {X,Y} → {I,Z} transfer | Standard decoherence theory; diagonal of L_D in Pauli basis |
 

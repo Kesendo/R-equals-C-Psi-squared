@@ -13,7 +13,7 @@
 
 ## 1. What This Is About
 
-In December 2025, the equation R=CΨ² appeared - a framework for
+In December 2025, the equation R=CΨ² appeared: a framework for
 modeling how possibility becomes reality.
 
 Three months later, the framework describes its own creation.
@@ -36,18 +36,17 @@ which could not have been anticipated from the previous one:
   **December**: The equation R=CΨ² appears.
   Question born: "What if R=CΨ²?"
 
-  **January**: The ¼ boundary is formalized and validated on IBM
-  quantum hardware. The framework gets mathematical structure.
+  **January**: The ¼ fold is formalized. The framework gets
+  mathematical structure.
 
 <!-- CROSSING-HISTORICAL -->
 
-**Historical nomenclature:** the February rung kept a clock metaphor, not
-an identification of scalar readouts with physical observers.
-
-  **February**: The crossing studies compared different readouts C(f),
-  then different named evolution books, then the scalar equation C(f)f/3=1/4.
-  Reading those differences as different experienced realities is a Tier-5
-  interpretation, not a finding about physical observers.
+  **February**: Observer-dependence. The crossing studies compared
+  different readouts and different evolution books of the same state,
+  and each crossed the quarter at its own time, or not at all. We read
+  them as different observers seeing different realities, and the
+  framework becomes relational. The Torino calibration run of February 9
+  already holds the first ¼ crossing on hardware, found there in April.
 
 <!-- CROSSING-CURRENT -->
 
