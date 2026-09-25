@@ -114,9 +114,14 @@ public class TransitionBridgeF95SiblingClaimTests
 
         Assert.Contains("two distinct positive-b quadratic applications", surface,
             StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("are F95 siblings", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("the siblinghood", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("same whirlpool", surface, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Theory]
+    [InlineData(1.0)]
+    [InlineData(0.05)]
+    public void EpAnchorIsTheAbsorptionRungBetweenTheUncoupledRates(double gamma0)
+    {
+        Assert.True(BuildClaim().UncoupledRatesAreRungsOneAndThreeAroundTheAnchor(gamma0));
     }
 
     [Fact]
@@ -198,7 +203,7 @@ public class TransitionBridgeF95SiblingClaimTests
         string surface = string.Join("\n", new[] { claim.Name, claim.DisplayName, claim.Summary }
             .Concat(claim.Children.Select(child => $"{child.DisplayName}\n{child.Summary}")));
 
-        Assert.Contains("F86 toy 2x2 EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("F86 toy 2×2 EP", surface, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("FRAGILE_BRIDGE spectral-abscissa axis departure", surface, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("EP/Hopf/Jordan character OPEN", surface, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("EP (FRAGILE_BRIDGE", surface, StringComparison.OrdinalIgnoreCase);

@@ -1,16 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Proof of F95: root angle for a positive-b quadratic
-
-Current reading: for `z^2-2bz+c=0` with finite `b>0`, the upper root has
-`theta=atan(sqrt(c/b^2-1))` when `c>b^2`, and `theta=0` at `c=b^2`; the angle is
-undefined in this upper-complex-root sense below the boundary.  This formula has
-no automatic probability, Liouvillian, hardware, or recurrence interpretation.
-F95 has no typed parent in the current claim graph.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the longer derivation and its earlier framework analogies
-follow; the current theorem and domain are stated above.
-
 # Proof of F95: Angle Emergence at Quadratic Discriminant Zero
 
 **Statement:** For a monic quadratic z² − 2bz + c = 0 with real c and finite b > 0, the principal argument of its upper-half-plane root (when c > b², the discriminant-negative regime) is:
@@ -27,7 +14,7 @@ formula becomes
 The same arithmetic appeared in the February angle table, but that finite
 state readout and the recurrence are separate applications of a quadratic.
 
-**Status:** Tier 1 derived. 4-line polynomial calculation. Numerical verification against the Februar θ-compass table matches all five non-rounded points within machine precision.
+**Status:** Tier 1 derived. 4-line polynomial calculation. Against the Februar θ-compass table it reproduces the printed angles to their 0.1° rounding at five of six points; the sixth (c = 0.256) is off by 0.3° because c itself is printed rounded (c = (1 + tan² 9.1°)/4 ≈ 0.2564).
 
 **Date:** 2026-05-16 (evening).
 
@@ -40,7 +27,7 @@ F95 names the angle that appears when a positive-b quadratic crosses its discrim
     θ(c; b) = arctan(√(c/b² − 1))   for c > b²,   θ = 0 at c = b²,   undefined for c < b²,
 
 and at b=1/2 this becomes θ(c)=arctan(√(4c−1)) beyond c=1/4.
-The identity is scale-invariant under `(b,c)→(sb,s²c)` for s&gt;0. A finite
+The identity is scale-invariant under `(b,c)→(sb,s²c)` for s>0. A finite
 angle table may use it as a coordinate without becoming a recurrence orbit.
 
 The proved reading is narrower: a discriminant-negative positive-b quadratic
@@ -111,17 +98,15 @@ The script [`simulations/angle_at_zero_tier1_candidate.py`](../../simulations/an
 | 0.308 | 25.8 | 25.7184 | ✓ within 0.1° |
 | 0.286 | 20.7 | 20.7804 | ✓ within 0.1° |
 | 0.266 | 14.1 | 14.1969 | ✓ within 0.1° |
-| 0.256 | 9.1 | 8.8062 | ✗ 0.3° drift (Februar table t-sampling rounding, not formula error) |
+| 0.256 | 9.1 | 8.8062 | ✗ 0.3° drift (the printed c is rounded, not a formula error) |
 | 0.250 | 0.0 | 0.0000 | ✓ exact (threshold) |
 
-The single drift at 0.256 is attributable to the February table's rounded
-Lindblad snapshot rather than an exact c input. Direct floating evaluation of
-the closed form agrees at unrounded inputs to machine precision; that numerical
-comparison is not a bit-exact hardware or trajectory result.
+The single drift at 0.256 comes from the rounded c the table prints: near
+¼ the angle is steep in c, and 9.1° corresponds to c = (1 + tan² 9.1°)/4 ≈ 0.2564.
 
 ## Scope: a quadratic identity, not a genealogy
 
-The identity applies to any finite real b&gt;0 and real c in the stated domain.
+The identity applies to any finite real b>0 and real c in the stated domain.
 One may substitute b=1 or b=1/2, but a shared polynomial shape does not make
 another claim a parent or a physical realization of F95.
 

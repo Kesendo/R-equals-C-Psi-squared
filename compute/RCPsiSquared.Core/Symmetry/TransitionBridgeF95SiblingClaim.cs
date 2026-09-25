@@ -8,8 +8,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// θ = arctan(√(c/b² − 1)): the dimensionless recurrence at c = ¼, and the specified F86
 /// two-level decay polynomial at its exceptional point. They have different variables, anchors,
 /// and physical status. Tier1Derived covers only the two algebraic substitutions and their
-/// numerical angle equality; "TransitionBridge" remains a historical label, not a physical
-/// classification. 2026-06-03, scope repaired 2026-09-14.
+/// numerical angle equality; the name TransitionBridge is the page's image, not a physical
+/// classification.
 ///
 /// <para><b>The cusp (the TransitionBridge), anchor b = ½.</b> The self-referential recursion
 /// R = C(Ψ+R)² has the fixed-point quadratic z² − z + CΨ = 0, so b = ½, c = CΨ. The discriminant
@@ -18,10 +18,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// angle is zero. This statement is about the dimensionless recurrence variable <c>z_rec</c>, not
 /// about a Liouvillian eigenvalue or a universal physical transition.</para>
 ///
-/// <para><b>The genuine F86 toy 2x2 EP, anchor b = 4γ₀.</b> The F86 two-level effective
+/// <para><b>The genuine F86 toy 2×2 EP, anchor b = 4γ₀.</b> The F86 two-level effective
 /// Liouvillian has λ_±(k=1) = −4γ₀ ± √(4γ₀² − J²·g_eff²) (F86_EP_THROUGH_THE_CLOCK). In the positive
 /// decay variable z=−λ, its quadratic is z² − 8γ₀z + (12γ₀² + J²g_eff²) = 0, so b = 4γ₀ &gt; 0 and
-/// c = 12γ₀² + J²g_eff². The discriminant vanishes
+/// c = 12γ₀² + J²g_eff². The anchor is an absorption rung: at J = 0 the two modes decay at 2γ₀ and
+/// 6γ₀, the rungs ⟨n_XY⟩ = 1 and 3 of α = 2γ₀⟨n_XY⟩, and b = 4γ₀ is their midpoint, the rung
+/// ⟨n_XY⟩ = 2. The discriminant vanishes
 /// (the EP, the modes coalesce) at J²g_eff² = 4γ₀², i.e. Q_EP = 2/g_eff. Above it the roots are
 /// 4γ₀ ± i·√(J²g_eff² − 4γ₀²) in <c>z_decay=-lambda</c>, so the F95 angle
 /// arctan(√(c/b² − 1)) = arctan(√(J²g_eff² − 4γ₀²)/4γ₀) is the same real-arithmetic
@@ -86,15 +88,14 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
         return 2.0 / gEff;
     }
 
-    /// <summary>Positive quadratic anchor b=4gamma0 in z_decay=-lambda.</summary>
+    /// <summary>Positive quadratic anchor b = 4γ₀ in z_decay = −λ, the absorption rung ⟨n_XY⟩ = 2.</summary>
     public double EpAnchorB(double gamma0)
     {
         RequirePositiveGammaZero(gamma0);
         return 4.0 * gamma0;
     }
 
-    /// <summary>F86 toy two-level Liouvillian roots
-    /// lambda=-4gamma0 +/- sqrt(4gamma0²-J²g_eff²).</summary>
+    /// <summary>F86 toy two-level Liouvillian roots λ = −4γ₀ ± √(4γ₀² − J²g_eff²).</summary>
     public (Complex Plus, Complex Minus) EpLiouvillianRoots(
         double gamma0,
         double q,
@@ -111,8 +112,8 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
             new Complex(-4.0 * gamma0, 0.0) - branch);
     }
 
-    /// <summary>Positive-decay roots constructed branch by branch as
-    /// z_decay=-lambda. Their sum is 8gamma0 and their midpoint is b=4gamma0.</summary>
+    /// <summary>Positive-decay roots constructed branch by branch as z_decay = −λ. Their sum is 8γ₀
+    /// and their midpoint is b = 4γ₀.</summary>
     public (Complex FromLambdaPlus, Complex FromLambdaMinus) EpDecayRoots(
         double gamma0,
         double q,
@@ -154,6 +155,17 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
         return F95.ThetaGeneral(c, b);
     }
 
+    /// <summary>At J = 0 the two decay rates are the absorption rungs ⟨n_XY⟩ = 1 and 3 (2γ₀ and
+    /// 6γ₀), whose midpoint is the anchor b = 4γ₀. Computed from the Liouvillian roots.</summary>
+    public bool UncoupledRatesAreRungsOneAndThreeAroundTheAnchor(double gamma0)
+    {
+        var (plus, minus) = EpLiouvillianRoots(gamma0, 0.0, 1.0);
+        double slow = -plus.Real, fast = -minus.Real;
+        return Math.Abs(slow - 2.0 * gamma0 * 1) < 1e-14 * gamma0
+            && Math.Abs(fast - 2.0 * gamma0 * 3) < 1e-14 * gamma0
+            && Math.Abs((slow + fast) / 2.0 - EpAnchorB(gamma0)) < 1e-14 * gamma0;
+    }
+
     /// <summary>Numerical check of the algebraic identity: at and above the EP the clock Rotation
     /// expression equals the F95 expression within a fixed tolerance.</summary>
     public bool EpClockAngleEqualsF95Angle(double gamma0, double q, double gEff)
@@ -179,14 +191,14 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
         {
             yield return new InspectableNode("the cusp (the TransitionBridge), b = ½",
                 summary: "dimensionless recurrence z_rec²−z_rec+CΨ, double root at CΨ=¼=(½)²; θ=arctan(√(4CΨ−1)); at ¼ the recurrence roots meet. This does not name a Liouvillian eigenvalue.");
-            yield return new InspectableNode("the genuine F86 toy 2x2 EP, b = 4γ₀",
-                summary: "F86 2-level in z_decay=−λ: z_decay²−8γ₀z_decay+(12γ₀²+J²g_eff²), double root (EP) at Q_EP=2/g_eff; b=4γ₀>0; above it the F95 angle and clock Rotation are the same real-arithmetic expression.");
+            yield return new InspectableNode("the genuine F86 toy 2×2 EP, b = 4γ₀",
+                summary: "F86 2-level in z_decay=−λ: z_decay²−8γ₀z_decay+(12γ₀²+J²g_eff²), double root (EP) at Q_EP=2/g_eff; b=4γ₀>0, the absorption rung ⟨n_XY⟩=2 between the uncoupled rates 2γ₀ and 6γ₀; above it the F95 angle and clock Rotation are the same real-arithmetic expression.");
             yield return new InspectableNode("the coordinate comparison (algebraic; numerically checked)",
                 summary: $"within F86, clock angle = F95-coordinate angle (g_eff=0.8,Q=3: {EpClockAngleEqualsF95Angle(1.0, 3.0, 0.8)}; g_eff=4/3,Q=2: {EpClockAngleEqualsF95Angle(1.0, 2.0, 4.0 / 3.0)}). Separately, the recurrence coordinate at CΨ=1/3 is {CuspAngle(1.0 / 3.0) * 180.0 / Math.PI:F1}° (= 30°). Different variables and anchors remain different objects.");
             yield return new InspectableNode("how they connect, and how not",
                 summary: "reused coordinate: the F95 angle at a positive-b quadratic zero. Distinct objects: two polynomials, two anchors b (½ vs 4γ₀), and two variables (dimensionless z_rec vs decay z_decay=−λ). No hidden identity or shared dynamics.");
             yield return new InspectableNode("FRAGILE_BRIDGE boundary",
-                summary: "FRAGILE_BRIDGE spectral-abscissa axis departure; EP/Hopf/Jordan character OPEN. It is a separate Σγ=0 gain-loss system, not the F86 toy 2x2 quadratic and not licensed by this Tier-1 siblinghood.");
+                summary: "FRAGILE_BRIDGE spectral-abscissa axis departure; EP/Hopf/Jordan character OPEN. It is a separate Σγ=0 gain-loss system, not the F86 toy 2×2 quadratic and not licensed by this Tier-1 siblinghood.");
             yield return F95;
         }
     }

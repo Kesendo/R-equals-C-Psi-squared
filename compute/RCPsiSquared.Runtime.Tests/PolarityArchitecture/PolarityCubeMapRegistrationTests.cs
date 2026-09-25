@@ -21,7 +21,9 @@ namespace RCPsiSquared.Runtime.Tests.PolarityArchitecture;
 public class PolarityCubeMapRegistrationTests
 {
     [Fact]
-    public void ExactFormulaClaimsAreNotPolarityCubeMembers()
+    // F95 and F97 are scalar polynomial identities with no Pauli-string content; F94 and F96 are
+    // Z-dephasing results whose bit_b membership is not typed. None of the four is registered.
+    public void F94ToF97StayOutsideThePolarityCube()
     {
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var cubeMap = registry.Get<PolarityCubeMap>();

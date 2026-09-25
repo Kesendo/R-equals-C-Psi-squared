@@ -57,6 +57,14 @@ public class F96NativeDysonVerificationTests
                         HType: HamiltonianType.Heisenberg,
                         Topology: TopologyKind.Chain).BuildHamiltonian();
 
+    private static ComplexMatrix BuildHeisenbergComplete() =>
+        new ChainSystem(N: N, J: 1.0, GammaZero: 0.0,
+                        HType: HamiltonianType.Heisenberg,
+                        Topology: TopologyKind.Ring)
+            .WithBonds(new[] { (0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3) }
+                .Select(p => new Bond(p.Item1, p.Item2, 1.0)).ToArray())
+            .BuildHamiltonian();
+
     private static IReadOnlyList<ComplexMatrix> BuildZSites() =>
         Enumerable.Range(0, N)
             .Select(l => PauliString.SiteOp(N, l, PauliLetter.Z))
@@ -292,6 +300,35 @@ public class F96NativeDysonVerificationTests
         Assert.Equal(-4.0 / 3.0, slope10, precision: 10);
         Assert.True(Math.Abs(slope10 - (-16.0 / 9.0)) > 0.1);
         Assert.True(Math.Abs(slope10 - (-8.0 / 3.0)) > 0.1);
+
+        // The chain breaks the 0↔2 reflection; |01⟩ and |11⟩ keep the ring's slopes, as computed here.
+        double slope01 = sym3[1] / (3.0 * u2[1]);
+        Assert.Equal(-16.0 / 9.0, slope01, precision: 10);
+        double m5_11 = PairElement_11(BuildSym5RhoZero(h, zSites));
+        double u4_11 = PairElement_11(BuildLHPowerRhoZero(h, 4));
+        Assert.Equal(-5.0, m5_11, precision: 10);
+        Assert.Equal(0.375, u4_11, precision: 10);
+        Assert.Equal(-8.0 / 3.0, m5_11 / (5.0 * u4_11), precision: 10);
+    }
+
+    [Fact]
+    public void CompleteGraphK4_ReproducesTheRingTableCoefficientByCoefficient()
+    {
+        // K4 adds the bonds (0,2) and (1,3) to the ring: one joins the two |0⟩ sites, the other the
+        // two traced |+⟩ sites. Every Taylor coefficient of the pair diagonal the table uses agrees.
+        var ring = BuildHeisenbergRing();
+        var k4 = BuildHeisenbergComplete();
+        var zSites = BuildZSites();
+        double[] Row(ComplexMatrix x) =>
+            Enumerable.Range(0, 4).Select(i => PartialTrace.Of(x, N, new[] { 0, 2 })[i, i].Real).ToArray();
+
+        var comparer = new DoubleToleranceComparer(1e-10);
+        Assert.Equal(Row(BuildSym3RhoZero(ring, zSites)), Row(BuildSym3RhoZero(k4, zSites)), comparer);
+        Assert.Equal(Row(BuildSym5RhoZero(ring, zSites)), Row(BuildSym5RhoZero(k4, zSites)), comparer);
+        for (int k = 2; k <= 6; k += 2)
+            Assert.Equal(Row(BuildLHPowerRhoZero(ring, k)), Row(BuildLHPowerRhoZero(k4, k)), comparer);
+        // and the table is not trivially topology-blind: the chain's third-order row differs
+        Assert.NotEqual(Row(BuildSym3RhoZero(ring, zSites)), Row(BuildSym3RhoZero(BuildHeisenbergChain(), zSites)), comparer);
     }
 
     private sealed class DoubleToleranceComparer(double tolerance) : IEqualityComparer<double>

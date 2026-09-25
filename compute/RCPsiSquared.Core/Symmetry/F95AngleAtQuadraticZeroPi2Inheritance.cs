@@ -4,12 +4,12 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>
-/// F95 is the principal root angle of z^2-2bz+c=0 for real c and finite b>0.
-/// For c>b^2 the upper root is b+i sqrt(c-b^2), so
-/// theta=atan(sqrt(c/b^2-1)); theta is zero at c=b^2 and undefined below it.
-/// At b=1/2 the discriminant-zero locus is the single real point c=1/4.
-/// A circle |c|=1/4 is a different radial object. This coordinate identity
-/// does not derive superposition, the Born rule, or a physical phase change.
+/// F95 is the principal root angle of z² − 2bz + c = 0 for real c and finite b &gt; 0.
+/// For c &gt; b² the upper root is b + i√(c − b²), so θ = arctan(√(c/b² − 1)); θ is zero at
+/// c = b², the double root, and undefined below it. At b = ½ the discriminant-zero locus is the
+/// single real point c = ¼ and θ = arctan(√(4c − 1)), the compass F15. A circle |c| = ¼ is a
+/// different radial object. This coordinate identity does not derive superposition, the Born
+/// rule, or a physical phase change.
 /// </summary>
 public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim
 {
@@ -49,7 +49,7 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim
 
     public F95AngleAtQuadraticZeroPi2Inheritance()
         : base(
-            "F95 positive-b quadratic root angle theta(c;b)=atan(sqrt(c/b^2-1))",
+            "F95 positive-b quadratic root angle θ(c; b) = arctan(√(c/b² − 1))",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md + " +
             "docs/ANALYTICAL_FORMULAS.md F95 + " +
@@ -58,25 +58,24 @@ public sealed class F95AngleAtQuadraticZeroPi2Inheritance : Claim
     {
     }
 
-    public override string DisplayName => "F95 positive-b quadratic root angle";
+    public override string DisplayName => "F95 root angle θ(c; b) at the quadratic's double root";
 
     public override string Summary =>
-        $"theta(c;b)=atan(sqrt(c/b^2-1)) for finite b > 0 and c>b^2, theta=0 at c=b^2, " +
-        $"and the real angle is undefined below the boundary; at b={B}, " +
-        $"the double root is the single real point c={Threshold}; parentless.";
+        $"θ(c; b) = arctan(√(c/b² − 1)) for finite b > 0 and c > b², θ = 0 at the double root c = b², " +
+        $"undefined below it; at b = ½ the double root is the single real point c = ¼.";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return InspectableNode.RealScalar("b (= 1/2 specialization)", B);
-            yield return InspectableNode.RealScalar("b^2 (= 1/4 double-root point)", Threshold);
+            yield return InspectableNode.RealScalar("b (the ½ specialization)", B);
+            yield return InspectableNode.RealScalar("b² (the ¼ double-root point)", Threshold);
             yield return new InspectableNode(
-                "Finite readout",
-                summary: $"At c=0.286, theta={ThetaForFramework(0.286):G6}. This is a finite coordinate readout, not a canonical crossing.");
+                "Bell⁺ start",
+                summary: $"At c = ⅓, θ = {ThetaForFramework(1.0 / 3.0) * 180.0 / Math.PI:G6}° (the Bell⁺ initial point).");
             yield return new InspectableNode(
                 "Object boundary",
-                summary: "The radial set |c|=1/4 is separate from the period-one recurrence locus. " +
+                summary: "The radial set |c| = ¼ is separate from the period-one recurrence locus. " +
                          "The formula alone implies no Born, superposition, or hardware mechanism.");
         }
     }

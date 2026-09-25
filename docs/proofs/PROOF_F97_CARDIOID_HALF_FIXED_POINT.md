@@ -1,27 +1,13 @@
-<!-- QUARTER-CURRENT -->
-# Proof of F97: period-one cardioid parametrization
-
-Current reading: choosing the marginal fixed point
-`z*=exp(i*phi)/2` gives `c=z*-z*^2=exp(i*phi)/2-exp(2i*phi)/4` and
-`|2z*|=1`.  Only this selected root is guaranteed marginal; the other root is
-not generally marginal.  The formula neither inherits F95 nor turns a measured
-radial trace into a recurrence orbit.
-
-In mathematical notation: `c = e^{iφ}/2 − e^{2iφ}/4`.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the longer derivation and its earlier hardware analogies
-follow; the current period-one statement is given above.
-
 # Proof of F97: The Mandelbrot Cardioid Parametrization at Framework b = 1/2
 
 **Statement:** The main cardioid of the Mandelbrot set is the locus in the
 complex-c plane where a selected period-1 fixed point of `z²+c` has multiplier
-magnitude one, equivalently `|z*|=1/2`. It admits the explicit parametrization
+magnitude one, equivalently `|z*|=1/2`. Writing z*(φ) = b·e^(iφ) and c = z*(1 − z*) gives
 
-    c(φ) = b·e^(iφ) − b²·e^(2iφ)    for φ ∈ [0, 2π]
+    c(φ) = b·e^(iφ) − b²·e^(2iφ)    for φ ∈ [0, 2π],
 
-equivalently c(φ) = z*(φ) · (1 − z*(φ)) where z*(φ) = b·e^(iφ) is the period-1 fixed point. The framework's b=1/2 case gives
+which is the cardioid only at b = 1/2 (for other b the multiplier modulus is 2b ≠ 1); the
+framework's b=1/2 case gives
 
     c(φ) = (1/2)·e^(iφ) − (1/4)·e^(2iφ)
 
@@ -65,7 +51,7 @@ The Mandelbrot iteration is z_{n+1} = z_n² + c. The period-1 fixed points satis
 
     z± = (1 ± √(1 − 4c)) / 2 = b ± √(b² − c)
 
-at b = 1/2 (the framework's `HalfAsStructuralFixedPointClaim`). The discriminant for the fixed-point quadratic is 1 − 4c = 4(b² − c), the same algebraic structure as F95's z² − 2bz + c = 0.
+at b = 1/2. The discriminant for the fixed-point quadratic is 1 − 4c = 4(b² − c), the same algebraic structure as F95's z² − 2bz + c = 0.
 
 The multiplier of a period-1 fixed point z is μ = 2z (since (z² + c)' = 2z). Marginal stability of the fixed point corresponds to |μ| = 1, i.e., |z| = 1/2 = b.
 
@@ -129,17 +115,20 @@ By contrast, |c(φ)|² is *not* invariant on the cardioid:
 
 The squared magnitude ranges from 1/16 (= 1/4² at φ = 0, the cusp) to 9/16 (= (3/4)² at φ = π, the tail). The Quarter b² = 1/4 equals |c| only at the cusp; elsewhere |c| varies but the |z*|, |z*|² invariants hold.
 
-### Former role table, now separated
+### The one typed parent, and the numbers that are not parents
 
-The current typed F97 claim is parentless. The following numbers or operations
-may resemble other registry entries, but they are not parent roles:
+The typed F97 claim has one parent, `QuarterAsBilinearMaxvalClaim`: the cardioid's
+c(φ) = z*(1 − z*) is that claim's bilinear form p(1 − p), and at the cusp φ = 0 it
+takes the form's maximum over real p, ¼ at z* = ½, where the two fixed points meet (around
+the complex curve |c| runs from ¼ at the cusp to ¾ at φ = π). The other
+numbers on the curve resemble registry entries without being parent roles:
 
-| Anchor | Role on cardioid |
+| Number | Role on cardioid |
 |---|---|
 | 1/2 | selected-root magnitude on the curve |
-| 1/4 | selected-root squared magnitude; also c at φ=0 |
+| 1/4 | selected-root squared magnitude; c at φ = 0, the bilinear maximum over real p (the parent) |
 | complex phase | parameter used to traverse the curve |
-| c=0 | recurrence roots 0 and 1, distinct rather than degenerate |
+| c=0 (cardioid interior, the superattracting centre) | recurrence roots 0 and 1, distinct rather than degenerate |
 
 ## Comparison with F95
 

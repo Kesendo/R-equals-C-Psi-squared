@@ -1,25 +1,13 @@
-<!-- QUARTER-CURRENT -->
-# Proof of F94: named-ring leading coefficient 4/3
-
-Current reading: for the named N=4 ring, `|0+0+>`, pair `(0,2)`, outcome
-`|00>`, the exact third-order row is `Sym3=(8,-4,-4,0)`.  Thus
-`Delta=(8/6)J^2 gamma t^3=(4/3)Q^2 K^3` at leading order.  No fixed next-order
-monomial is derived here; the remainder is only unspecified higher order.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the longer derivation follows; the current theorem and
-remainder scope are stated above.
-
 # Proof of F94: Born Deviation Dominant-Outcome Coefficient 4/3
 
 **Statement:** For the dominant outcome |00⟩ of pair (0,2) of the initial state |0+0+⟩ on N=4 qubits, under the Heisenberg ring Hamiltonian H = (J/4) Σ_b (X_b X_{b+1} + Y_b Y_{b+1} + Z_b Z_{b+1}) (4 bonds, ring topology) and uniform Z-dephasing dissipator L_dis[ρ] = γ Σ_l (Z_l ρ Z_l − ρ), the per-outcome Born-rule deviation in the deep perturbative regime is
 
     Δ_|00⟩(Q, K) = P_lindblad(|00⟩)/P_unitary(|00⟩) − 1
-                 = (4/3) · Q² · K³ + unspecified higher order
+                 = (4/3) · Q² · K³ − (5/3) · Q² · K⁴ + …
 
 with Q = J/γ and K = γt as dimensionless coordinates for this named setup.
 
-**Status:** Tier 1 derived. The symbolic third-order coefficient is exact; a separate floating reconstruction approaches it to 0.3% in the sampled short-time regime, with unspecified higher-order terms.
+**Status:** Tier 1 derived. The symbolic third-order coefficient is exact; a separate floating reconstruction approaches it to 0.3% in the sampled short-time regime, with the higher-order terms below.
 
 **Date:** 2026-05-16.
 
@@ -31,12 +19,12 @@ F94 is a setup-specific leading coefficient. Take the alternating product state
 |0+0+⟩ on the named four-qubit Heisenberg ring under Z-dephasing, keep pair
 (0,2), and compare the |00⟩ probability with unitary evolution. At third order:
 
-    Δ_|00⟩(Q, K) = P_lindblad/P_unitary − 1 = (4/3) · Q² · K³ + unspecified higher-order terms,
+    Δ_|00⟩(Q, K) = P_lindblad/P_unitary − 1 = (4/3) · Q² · K³ + higher-order terms (the next: −(5/3) · Q² · K⁴),
 
 with Q=J/γ and K=γt. The coefficient 4/3 is not fitted: it is the exact
 rational result of the third-order Dyson row (surviving sym₃ diagrams divided
 by 3!). The sign and monomial describe this state, topology, pair, observable,
-and leading order; no universal carrier or fixed next monomial follows.
+and leading order; no universal carrier follows, and the next monomial (below) is this setup's.
 
 F96 independently evaluates the other three leading rows in the same ring and
 their numerical coefficients happen to be simple functions of 4/3. That rhyme
@@ -99,7 +87,7 @@ Substituting Q = J/γ and K = γt:
 
 so:
 
-    Δ_|00⟩(Q, K) = (4/3) · Q² · K³ + unspecified higher-order terms ∎
+    Δ_|00⟩(Q, K) = (4/3) · Q² · K³ + higher-order terms ∎
 
 ## Numerical verification
 
@@ -107,9 +95,9 @@ Sixteen (γ, J, t) configurations sampled in the deep perturbative regime (Q²·
 
     c_empirical = mean = 1.32992,    std = 0.00567,    range = [1.320, 1.342]
 
-The exact rational coefficient is 4/3. The floating samples differ by about
-0.3%; this document has not derived a unique monomial or sign for that
-higher-order residual.
+The exact rational coefficient is 4/3. The floating samples fall about 0.3%
+short of it, and the next order accounts for the sign: the J³γt⁴ term vanishes
+and the J²γ²t⁴ term gives −(5/3)·Q²K⁴, so Δ = (4/3)Q²K³ − (5/3)Q²K⁴ + …
 
 ## Structural decomposition of the integer 8
 
@@ -128,7 +116,7 @@ The 32 surviving diagrams split into 3 disjoint cells by (ordering, c_1, c_2):
 
 Three structural rules govern the survival:
 
-1. **Component-pair rule.** Only (X, X) and (Y, Y) survive. All cross components (X, Y), (Y, X), (X, Z), (Z, X), (Y, Z), (Z, Y) cancel by direct enumeration, and (Z, Z) is zero in every (b_1, b_2, s, ordering) cell. A clean structural reason for the (Z, Z) cancellation traces through Z-anticommutation bit-parity on the |+⟩ sites of ρ_0 and the |00⟩-pair Z-basis projection at the end; the empirical statement here is that no (Z, Z) sextuple survives. The ratio of surviving XX to surviving YY is 24 : 8 = 3 : 1.
+1. **Component-pair rule.** Only (X, X) and (Y, Y) survive. All cross components (X, Y), (Y, X), (X, Z), (Z, X), (Y, Z), (Z, Y) are individually zero by direct enumeration, and (Z, Z) is zero in every (b_1, b_2, s, ordering) cell. A clean structural reason for the (Z, Z) cancellation traces through Z-anticommutation bit-parity on the |+⟩ sites of ρ_0 and the |00⟩-pair Z-basis projection at the end; the empirical statement here is that no (Z, Z) sextuple survives. The ratio of surviving XX to surviving YY is 24 : 8 = 3 : 1.
 
 2. **Ordering rule.** Only ord = 1 (L'_dis acts first on ρ_0, total 2) and ord = 2 (L'_dis acts in the middle, total 6) contribute. Ord = 3 (L'_dis last, i.e., L'_dis on [H, [H, ρ_0]]) gives zero in every cell by direct enumeration. The ratio is 2 : 6 = 1 : 3, mirroring the XX : YY ratio (also 1 : 3, but with the roles reversed).
 
@@ -138,7 +126,7 @@ Three structural rules govern the survival:
 
 ### Uniformity remark
 
-All 32 surviving diagrams contribute the *same* value 1/4 with the *same* sign. The 1696 non-contributing sextuples are individually zero (within machine precision in the enumeration), not pairs that cancel. So **the F94 coefficient is a pure counting result**: nothing in the answer depends on a precise cancellation; it depends only on which structural cells survive. This is the strongest form a Dyson-series coefficient can take.
+All 32 surviving diagrams contribute the *same* value 1/4 with the *same* sign. The 1696 non-contributing sextuples are individually zero (within machine precision in the enumeration), not pairs that cancel. So **the F94 coefficient is a pure counting result**: nothing in the answer depends on a precise cancellation; it depends only on which structural cells survive.
 
 ### Alternative topological cut
 
@@ -152,24 +140,23 @@ The same 32 split orthogonally by bond-pair topology:
 
 Sixteen self-bond-pair diagrams (8 XX + 8 YY, all ord = 2) and sixteen adjacent-bond-pair diagrams (all XX, 8 ord = 1 + 8 ord = 2). Both subsets contribute 16 × (1/4) = 4, summing to 8.
 
-### Historical anchor numerology and its counterexample
+### Where the 4 comes from, and a numerology the qutrit refutes
 
-The coefficient now reads:
+The coefficient reads:
 
-    4/3 = (32 surviving diagrams) / (a_{−1} · 3!)
+    4/3 = (32 surviving diagrams) / (4 · 3!)
         = 32 / (4 · 6)
         = 32 / 24
 
 with:
 
-- **32**: structural surviving-diagram count (the integer that this decomposition makes bit-explicit; equals 2^5)
-- **a_{−1} = 4**: Pi2 dyadic-ladder term (the same "4" that appears in F86 t_peak = 1/(4γ₀) and F77's MM correction denominator), sitting in the denominator via the (J/4)² = (1/a_{−1})² Heisenberg-coupling normalization that each bond Hamiltonian carries
+- **32**: structural surviving-diagram count (the integer this decomposition makes explicit; equals 2^5)
+- **4 = 16/4**: the (J/4)² = 1/16 normalization of the Heisenberg bond H = (J/4)(XX + YY + ZZ) over the raw Pauli value 4 per diagram, so each diagram contributes 1/4. In the Pauli convention H = JΣσσ the same coefficient reads 64/3.
 - **3! = 6**: Taylor factorial of the t³ term
 
-The equality 4/3=a_{−1}/3 is numerical at d=2. It is not a typed inheritance
-or a derivation: the qutrit control below breaks the proposed genealogy.
+The 4 equals the dyadic-ladder term a₋₁ = 4 at d = 2, and that equality is numerical only.
 
-> **Caution (the a_{−1}/3 reading is a d=2 coincidence; qutrit-refuted 2026-06-17).** The "4/3 = a_{−1}/3" reading suggests the 4 is the squared-dimension discriminant a_{−1} = d² (which would give c → d²/3 = 3 at the qutrit). It is **not**: the qutrit generalization (see "Qudit generalization" below) gives c(d) = 4(d+2)(d−1)/(3d²), with c(2) = 4/3 but c(3) = 40/27, **not** 3. The (J/4) per-bond factor is the spin S = σ/2 normalization (1/2)², equal to 1/d² **only at d=2**, and the dynamics is the d-independent (J/2)·SWAP. So a_{−1} = d² and the (J/4) coupling coincide only at the qubit; F94's 4 is the setup-specific diagram count, not the discriminant. Verifier: [`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py).
+> **Caution (the a_{−1}/3 reading is a d = 2 coincidence; qutrit-refuted 2026-06-17).** The "4/3 = a_{−1}/3" reading suggests the 4 is the squared-dimension discriminant a_{−1} = d² (which would give c → d²/3 = 3 at the qutrit). It is **not**: the qutrit generalization (see "Qudit generalization" below) gives c(d) = 4(d+2)(d−1)/(3d²), with c(2) = 4/3 but c(3) = 40/27, **not** 3. The (J/4) per-bond factor is the spin S = σ/2 normalization (1/2)², equal to 1/d² **only at d=2**, and the dynamics is the d-independent (J/2)·SWAP. So a_{−1} = d² and the (J/4) coupling coincide only at the qubit; F94's 4 is the (J/4)² spin normalization acting on the raw Pauli value 4 per diagram, not the discriminant. Verifier: [`simulations/f94_qutrit_born_mirror.py`](../../simulations/f94_qutrit_born_mirror.py).
 
 ## Scope and topology counterexample
 
@@ -179,9 +166,9 @@ nonzero order and its coefficient. In particular the corresponding chain row
 is `(5,-4,-1,0)`, not `(8,-4,-4,0)`. Dimensional rewriting alone does not make
 the Q²K³ form universal.
 
-## Qudit generalization (2026-06-17): c(d) = 4(d+2)(d−1) / (3d²), refuting the d² reading
+## Qudit generalization: c(d) = 4(d+2)(d−1) / (3d²), refuting the d² reading
 
-The "setup-specific" caveat above is now quantitative. Lift the F94 setup to local dimension d with the **faithful** generalization (which reduces to F94 exactly at d=2):
+The "setup-specific" caveat above is quantitative. Lift the F94 setup to local dimension d with the **faithful** generalization (which reduces to F94 exactly at d=2):
 
 - **H** = (J/4) Σ_bonds Σ_a λ^a_i λ^a_j with the generalized Gell-Mann generators λ^a (the 3 Paulis at d=2). By the Fierz identity Σ_a λ^a ⊗ λ^a = 2·SWAP − (2/d)·I, the **dynamics** is L_H = −i[H, ·] = −i(J/2)[SWAP, ·] for **every** d (the identity part drops from the commutator). So the physical coupling is the **d-independent** (J/2)·SWAP, not (J/4) and not (J/d²).
 - **L'_dis**[ρ]_{a,b} = −2·Hamming(a,b)·ρ_{a,b} (the full-Cartan equidistant dephasing; = Σ_l (Z_l ρ Z_l − ρ) at d=2).
@@ -194,11 +181,11 @@ Computing c = ⟨00|_pair Tr_{1,3}[sym₃ ρ_0]|00⟩_pair / (6 · P_u0) gives a
     d :  2     3      4     5      6      7
     c : 4/3  40/27  3/2  112/75  40/27  72/49
 
-This **refutes the family-A / "4 = d²" reading**: family A would require c → d²/3 = 3 at d=3, but c(3) = 40/27 ≈ 1.48. Instead the coefficient is a bounded curve: c(2) = 4/3 is both the qubit value and the d → ∞ limit, and the finite-d correction (d+2)(d−1)/d² **peaks at d = 4** (= 2²; c(4) = 3/2) before decaying back to 4/3. The 4/3 = a_{−1}/3 numerology holds only at the qubit, where the (J/4) spin normalization (1/2)² coincides with 1/d². F94's "4" is the setup-specific surviving-diagram count. The former discriminant-family label is retained only as a falsified historical candidate; F94 has no typed parent in the current registry.
+This **refutes the family-A / "4 = d²" reading**: family A would require c → d²/3 = 3 at d=3, but c(3) = 40/27 ≈ 1.48. Instead the coefficient is a bounded curve: c(2) = 4/3 is both the qubit value and the d → ∞ limit, and the finite-d correction (d+2)(d−1)/d² **peaks at d = 4** (= 2²; c(4) = 3/2) before decaying back to 4/3. The 4/3 = a_{−1}/3 numerology holds only at the qubit, where the (J/4) spin normalization (1/2)² coincides with 1/d². F94's "4" is the (J/4)² spin normalization acting on the raw Pauli value 4 per diagram. The discriminant-family reading is a falsified candidate; F94 has no typed parent.
 
 ## Diagnostic application: F94 as a (state, pair)-symmetry signature
 
-F94's canonical lens (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0, 2)) gives bit-exact integer matrix elements per outcome:
+F94's canonical lens (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0, 2)) gives integer matrix elements per outcome (the ring row pinned by the dyadic Dyson test, the chain and K4 rows by the native C# reconstruction):
 
     ⟨00|_pair Tr_{1,3}[sym3 · ρ_0] |00⟩_pair = +8
     ⟨01|_pair Tr_{1,3}[sym3 · ρ_0] |01⟩_pair = −4
@@ -207,8 +194,8 @@ F94's canonical lens (|0+0+⟩ N=4 Heisenberg ring + Z-dephasing, pair (0, 2)) g
 
 This (+8, −4, −4, 0) signature characterizes the "canonical symmetric" configuration. Empirically ([`simulations/f94_topology_visibility_probe.py`](../../simulations/f94_topology_visibility_probe.py), 2026-05-17):
 
-- **K_4 (full graph at N=4) gives the same signature**: F94 is blind to the diagonal bonds (0,2) and (1,3) because they fall in the "symmetric blind spots" of the lens: bond (0,2) connects the two kept-pair sites (both prepared as |0⟩, Z-eigenstates → bond commutator vanishes), bond (1,3) connects the two traced-out sites (both prepared as |+⟩, X-eigenstates → contribution traces out to zero). This blindness is the diagnostic's robustness: F94 reads (+8, −4, −4, 0) for ring or K_4 equivalently.
-- **Chain gives (+5, −4, −1, 0)**: the chain breaks the 0 ↔ 2 reflection that ring and K_4 share, and the |10⟩ outcome drops from −4 to −1. The K_4 vs chain difference is +3 at |00⟩, 0 at |01⟩, −3 at |10⟩, 0 at |11⟩, a topology-asymmetry signature.
+- **K_4 (full graph at N=4) gives the same signature, exactly**: F94 is blind to the diagonal bonds (0,2) and (1,3): the swaps 0↔2 and 1↔3 are symmetries of the ring and of the uniform dissipator, and |0+0+⟩ is invariant under both, so ρ(t) commutes with both swaps at all times and the two extra Heisenberg bonds, each a swap plus a constant, act on it trivially. This blindness is the diagnostic's robustness: F94 reads (+8, −4, −4, 0) for ring or K_4 equivalently.
+- **Chain gives (+5, −4, −1, 0)**: the chain breaks the 0 ↔ 2 reflection that ring and K_4 share, and the |10⟩ outcome moves from −4 to −1. The K_4 vs chain difference is +3 at |00⟩, 0 at |01⟩, −3 at |10⟩, 0 at |11⟩, a topology-asymmetry signature.
 - **Asymmetric initial states** (|++00⟩, |10+0⟩): F94 shifts in antisymmetric patterns between bit-flip-paired outcomes. The K_4 vs ring shift becomes visible: |++00⟩ pair (0,2) gives (0, −3, +3, 0) K_4 − Ring difference, |10+0⟩ pair (0,1) gives (−1, 0, +1, 0).
 
 This makes F94 a **(state, pair)-symmetry signature tool**:
@@ -219,19 +206,15 @@ This makes F94 a **(state, pair)-symmetry signature tool**:
 | (+5, −4, −1, 0) | Chain-like asymmetry: missing one bond breaks 0 ↔ 2 reflection |
 | (·, −3, +3, ·) antisymmetric shift | Initial state asymmetric across the (0, 2) pair |
 | Slope_\|01⟩ ≠ −16/9 in the per-K linear regime | Hardware noise or calibration drift breaking the symmetry |
-| Sym3 \|11⟩ ≠ 0 | Crosstalk or asymmetric γ_l producing subdominant-outcome leakage |
+| Sym3 \|11⟩ ≠ 0 | Extra couplings, e.g. number-non-conserving crosstalk (asymmetric γ_l alone keeps it at 0 on the ring) |
 
 The robustness against K_4 vs ring (bond-graph detail invisible) is exactly the right diagnostic property: we want a tool that flags actual (state, pair) symmetry breaks, not every irrelevant connectivity variation. F94's specific integer ratios are the canonical "this is the expected algebra" signature; any deviation localizes the kind of break.
 
-For hardware applications (e.g., the Kingston-style runs): measuring F94 sym3 on a |0+0+⟩-like prepared Bell+ variant gives a direct check that the hardware faithfully realizes the symmetric Heisenberg + Z-dephasing structure. The deviation signature pin-points the failure mode (asymmetric γ_l, missing bonds, crosstalk, etc.) without needing full process tomography.
+As a hardware lens this is a candidate only, untested: sym3 is not measured directly, and no flight has read it.
 
-The subdominant outcomes of the same setup (|01⟩, |10⟩, |11⟩) have non-vanishing 1st-order γ contribution and therefore Δ ∝ K (linear) rather than ∝ Q²·K³. Their leading coefficients are separately Tier-1-derivable via a 1st-order Dyson term:
+The subdominant outcomes of the same setup start at P_u ∝ t² (|01⟩, |10⟩) or t⁴ (|11⟩), so their Δ is linear in K rather than ∝ Q²·K³; their slopes are derived in [PROOF_F96](PROOF_F96_BORN_SUBDOMINANT_SLOPES.md).
 
-    ΔP_i^{(1)}(t) = γ t · ⟨i|_pair Tr_{1,3}[L'_dis · ρ_0] |i⟩_pair
-
-This is left to a separate proof.
-
-## Connection to typed Pi2-Foundation
+## Where Q² and K³ come from
 
 The Q²·K³ scaling has:
 - **Q² factor:** two Hamiltonian-vertices from the Dyson sym3 ordering; J² scaling expected from 2nd-order perturbation in the Heisenberg-bond coupling.

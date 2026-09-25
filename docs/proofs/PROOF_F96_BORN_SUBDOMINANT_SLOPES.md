@@ -1,15 +1,3 @@
-<!-- QUARTER-CURRENT -->
-# Proof of F96: three named N=4-ring subdominant slopes
-
-Current reading: for the same named ring setup as F94, the exact leading slopes
-are `-16/9`, `-16/9`, and `-8/3` for outcomes `|01>`, `|10>`, and `|11>` from
-their own M/U elements.  They are not topology-universal: the N=4 chain gives
-the `|10>` slope `-4/3`.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the longer ring derivation follows; the current slopes
-and chain counterexample are stated above.
-
 # Proof of F96: Subdominant Born Deviation Slopes
 
 **Statement:** For the subdominant outcomes of pair (0, 2) of |0+0+⟩ N = 4 Heisenberg ring + Z-dephasing (the same setup as F94), the per-outcome Born-rule deviation in the deep perturbative regime is linear in K and Q-independent:
@@ -33,7 +21,7 @@ Combined with F94 the full per-outcome table for this setup is:
 | \|10⟩ | Δ = −(16/9) · K = −(4/3)² · K | F96: same as \|01⟩ by site-permutation symmetry |
 | \|11⟩ | Δ = −(8/3) · K = −2·(4/3) · K | F96: M_5 / (5 · B) = −20 / (5 · 3/2) = −8/3 |
 
-**Status:** Tier 1 derived. Bit-exact symbolic via direct evaluation of the relevant Dyson matrix elements (M_3, M_5) and unitary matrix elements (A = ⟨i\|Tr[L_h² ρ_0]\|i⟩, B = ⟨i\|Tr[L_h⁴ ρ_0]\|i⟩) in `simulations/born_rule_subdominant_dyson.py`. Numerical Lindblad verification matches all three subdominant slopes to within higher-order corrections.
+**Status:** Tier 1 derived. Pinned by the dyadic Dyson test (MirrorWorld `F94_F96_BornDeviationTable_From_Exact_Dyson`), from the Dyson matrix elements (M_3, M_5) and unitary matrix elements (A = ⟨i\|Tr[L_h² ρ_0]\|i⟩, B = ⟨i\|Tr[L_h⁴ ρ_0]\|i⟩); `simulations/born_rule_subdominant_dyson.py` is a float reconstruction. Numerical Lindblad verification matches all three subdominant slopes to within higher-order corrections.
 
 **Date:** 2026-05-17.
 
@@ -130,7 +118,7 @@ Two non-trivial structural observations:
    |01⟩ and |10⟩, and the analogous ratio for |00⟩ has the same value in
    this setup. The chain counterexample below prevents a universal reading.
 
-2. **Doubled rate for the doubly-subdominant outcome**: Δ_|11⟩ = −2 · (4/3) · K is exactly twice the F94 coefficient (with a sign flip). The "2" plausibly counts the two independent flip channels (q_0 from 0 → 1 AND q_2 from 0 → 1) required for the |11⟩ outcome; each independent channel contributes the 4/3 baseline factor, and they add. This is interpretive (Tier 2); the bit-exact −8/3 stands either way.
+2. **Doubled rate for the doubly-subdominant outcome**: Δ_|11⟩ = −(8/3)·K, and −8/3 = −2·(4/3) is a numeric rhyme with the F94 coefficient, not a mechanism: the single-flip slopes are −16/9 rather than −4/3, and on the chain |10⟩ moves while |11⟩ stays, so the |11⟩ slope is not a sum of per-channel slopes. The exact −8/3 stands on its own M_5 and U_4.
 
 ## Numerical Lindblad verification
 
@@ -181,6 +169,5 @@ The algebraic connection to F94's 4/3 (Δ_|01⟩ = −(4/3)², Δ_|11⟩ = −2�
 - Symbolic + numerical derivation: [`simulations/born_rule_subdominant_dyson.py`](../../simulations/born_rule_subdominant_dyson.py)
 - F94 (dominant outcome): [`PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md`](PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md), [`F94 ANALYTICAL_FORMULAS entry`](../ANALYTICAL_FORMULAS.md#f94)
 - Born-rule precursors (Februar 2026): [`experiments/BORN_RULE_MIRROR.md`](../../experiments/BORN_RULE_MIRROR.md), [`experiments/BORN_RULE_SHADOW.md`](../../experiments/BORN_RULE_SHADOW.md)
-- Companion magnitude-side closed form: [F94](../ANALYTICAL_FORMULAS.md#f94)
 - Separate positive-b quadratic: [F95](../ANALYTICAL_FORMULAS.md#f95)
 - F94 typed claim (related ring row, not a parent): [`F94BornDeviationFourThirdsPi2Inheritance.cs`](../../compute/RCPsiSquared.Core/Symmetry/F94BornDeviationFourThirdsPi2Inheritance.cs)

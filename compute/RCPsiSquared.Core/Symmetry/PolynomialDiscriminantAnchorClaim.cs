@@ -58,7 +58,7 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         Δ = (4/3)·Q²·K³ LOOKS like the most explicit appearance (4/3 = a_{−1}/3, per-diagram
 ///         1/16 = 1/a_{−1}²), but the qutrit REFUTES it: the faithful SU(d) Born-mirror coefficient
 ///         is c(d) = 4(d+2)(d−1)/(3d²) (= 4/3 at d=2, peak 3/2 at d=4, → 4/3 as d→∞), NOT d²/3 = 3.
-///         F94's 4 is a setup-specific diagram count, NOT the discriminant; the a_{−1}/3 reading is a
+///         F94's 4 is the (J/4)² spin normalization over the raw Pauli value 4 per diagram, NOT the discriminant; the a_{−1}/3 reading is a
 ///         d=2 coincidence ((J/4) = (1/2)² = 1/d² only at d=2; the dynamics is the d-independent
 ///         (J/2)·SWAP). See <c>simulations/f94_qutrit_born_mirror.py</c>.</item>
 /// </list>

@@ -112,7 +112,7 @@ ctor (and often I4 Memory Loop, Half, ...), wired in
 `compute/RCPsiSquared.Runtime/PolarityArchitecture/`; five anchor
 elsewhere: F91/F92/F93 on I4 Memory Loop alone, F79 on
 KleinFourCell/OperatorSpaceMirror/F1, F86F71 on upstream F-claims; and
-F94, F95, F96 and F97 are registered parentless.
+F94, F95 and F96 are registered parentless, and F97 hangs on Quarter alone (its c = z*(1 − z*) is Quarter's bilinear form, which takes its real-axis maximum ¼ at the cusp).
 
 The SEMANTIC trunk remains three-rooted: `PolynomialFoundationClaim` (the
 trunk of all four branches), `F1PalindromeIdentity`

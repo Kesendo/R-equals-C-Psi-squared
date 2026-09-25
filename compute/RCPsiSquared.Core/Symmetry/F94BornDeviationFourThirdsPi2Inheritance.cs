@@ -4,13 +4,17 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>
-/// F94 is the leading dominant-outcome Born-deviation term for one named
-/// calculation: the N=4 Heisenberg ring, initial state |0+0+>, retained pair
-/// (0,2), outcome |00>, and local Z dephasing.
+/// F94 is the leading dominant-outcome Born-deviation term for one named calculation: the N = 4
+/// Heisenberg ring, initial state |0+0+⟩, retained pair (0,2), outcome |00⟩, and local Z-dephasing.
 ///
-/// The exact Dyson/Pauli reduction gives sym3 = 8, hence
-/// Delta = (8/3!) J^2 gamma t^3 = (4/3) Q^2 K^3. The higher-order remainder
-/// is not assigned a universal monomial. The coefficient is owned by this
+/// The exact Dyson/Pauli reduction gives sym3 = 8, hence Δ = (8/3!) J²γt³ = (4/3) Q²K³. The 8 is
+/// 32 surviving third-order diagrams × 4 Pauli weight each ÷ 16, the 16 being the (J/4)² spin
+/// normalization. The surviving (b₁, b₂, s, ordering, c₁, c₂) diagrams fall into three cells:
+/// Cell A, 8: ord = 1, (XX, XX), adjacent bonds sharing a kept-pair site, s on a |+⟩ site;
+/// Cell B, 16: ord = 2, (XX, XX), self or adjacent-kept bonds, s on a b₁ endpoint;
+/// Cell C, 8: ord = 2, (YY, YY), self bonds only, s on a b₁ endpoint.
+/// In the Pauli convention H = JΣσσ the same coefficient reads 64/3. The
+/// next order for this setup is −(5/3)Q²K⁴ (the J³γt⁴ term vanishes); no universal monomial follows. The coefficient is owned by this
 /// calculation; same-number dyadic anchors are comparisons, not ancestry.
 /// </summary>
 public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
@@ -66,21 +70,24 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
 
     public F94BornDeviationFourThirdsPi2Inheritance()
         : base(
-            "F94 named N=4-ring leading Born deviation: Delta_|00> = (8/6) Q^2 K^3 = (4/3) Q^2 K^3",
+            "F94 named N = 4 ring leading Born deviation: Δ_|00⟩ = (8/6) Q²K³ = (4/3) Q²K³",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md + " +
             "docs/ANALYTICAL_FORMULAS.md F94 + " +
             "simulations/born_rule_tier1_derivation.py + " +
-            "simulations/born_rule_delta_dominant_coefficient.py")
+            "simulations/born_rule_delta_dominant_coefficient.py + " +
+            "simulations/born_rule_carrier_Q_sweep.py + " +
+            "experiments/BORN_RULE_MIRROR.md + experiments/BORN_RULE_SHADOW.md + " +
+            "reflections/ON_HOW_FOUR_THIRDS_APPEARED.md")
     {
     }
 
     public override string DisplayName =>
-        "F94 named N=4-ring dominant-outcome coefficient 8/6 = 4/3";
+        "F94 named N = 4 ring dominant-outcome coefficient 8/6 = 4/3";
 
     public override string Summary =>
-        $"|0+0+>, pair (0,2), |00>: leading Delta = ({Coefficient:G17}) Q^2 K^3; " +
-        "exact analytic sym3 integer 8 over Taylor 3!, with unspecified higher order; parentless.";
+        $"|0+0+⟩, pair (0,2), |00⟩: leading Δ = ({Coefficient:G17}) Q²K³; " +
+        "exact sym3 integer 8 over Taylor 3!; next order −(5/3)Q²K⁴ for this setup.";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -91,13 +98,13 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
             yield return InspectableNode.RealScalar("TaylorThreeFactorial", TaylorThreeFactorial);
             yield return new InspectableNode(
                 "Named setup and scope",
-                summary: "N=4 Heisenberg ring; |0+0+>; retained pair (0,2); |00>; local Z dephasing. " +
+                summary: "N = 4 Heisenberg ring; |0+0+⟩; retained pair (0,2); |00⟩; local Z-dephasing. " +
                          "The coefficient is exact; linked floating producers are corroborations.");
             yield return new InspectableNode(
                 "Structural decomposition",
                 summary: $"{CellA_Ord1XX_AdjKeptSide}+{CellB_Ord2XX_SelfOrAdjKeptSide}+" +
                          $"{CellC_Ord2YY_Self}={SurvivingDysonDiagrams} diagrams and " +
-                         $"{SurvivingDysonDiagrams}*{RawPauliPerDiagram}/16={Sym3PartialTraceInteger}.");
+                         $"{SurvivingDysonDiagrams}·{RawPauliPerDiagram}/16 = {Sym3PartialTraceInteger}.");
         }
     }
 }

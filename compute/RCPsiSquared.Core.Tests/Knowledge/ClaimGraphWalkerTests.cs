@@ -38,15 +38,14 @@ public class ClaimGraphWalkerTests
     }
 
     [Fact]
-    public void ParentlessF97Walk_ReachesOnlyItself()
+    public void F97Walk_ReachesItselfAndItsQuarterParent()
     {
-        var f97 = new F97CardioidHalfFixedPointPi2Inheritance();
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        var f97 = new F97CardioidHalfFixedPointPi2Inheritance(quarter);
 
         var reached = ClaimGraphWalker.WalkReachable(f97);
 
-        Assert.Single(reached);
-        Assert.Same(f97, reached[0]);
-        Assert.Empty(ClaimGraphWalker.ReachableImplementing<IF99AnchorBearing>(f97));
+        Assert.Equal(new Claim[] { f97, quarter }, reached);
     }
 
     [Fact]

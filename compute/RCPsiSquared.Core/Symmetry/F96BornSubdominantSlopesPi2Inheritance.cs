@@ -4,10 +4,13 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>
-/// F96 is the setup-specific subdominant table for the same named N=4 ring as
-/// F94. Its slopes are derived independently from its own Dyson and unitary
-/// elements: M3=-4, U2=3/4 and M5=-20, U4=3/2. Ring/K4 equality is a finite
-/// comparison; the chain value -4/3 for |10> refutes topology universality.
+/// F96 is the setup-specific subdominant table for the same named N = 4 ring as F94. Its slopes are
+/// derived from its own Dyson and unitary elements: M3 = −4, U2 = 3/4 and M5 = −20, U4 = 3/2. The
+/// complete graph K4 gives the same table exactly: the swaps of sites 0↔2 and 1↔3 are symmetries of
+/// the ring and of the uniform dissipator, and |0+0+⟩ is invariant under both, so ρ(t) commutes with
+/// both swaps at all times and the two extra Heisenberg bonds (0,2) and (1,3) act on it trivially.
+/// On the open chain the computed table keeps |01⟩ at −16/9 and |11⟩ at −8/3 and moves |10⟩ to
+/// −4/3, so it is not topology-universal.
 /// </summary>
 public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
 {
@@ -52,7 +55,7 @@ public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
 
     public F96BornSubdominantSlopesPi2Inheritance()
         : base(
-            "F96 named N=4-ring slopes (-16/9,-16/9,-8/3) from M/U elements",
+            "F96 named N = 4 ring slopes (−16/9, −16/9, −8/3) from M/U elements",
             Tier.Tier1Derived,
             "docs/proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md + " +
             "docs/ANALYTICAL_FORMULAS.md F96 + " +
@@ -60,26 +63,26 @@ public sealed class F96BornSubdominantSlopesPi2Inheritance : Claim
     {
     }
 
-    public override string DisplayName => "F96 named N=4-ring subdominant slopes";
+    public override string DisplayName => "F96 named N = 4 ring subdominant slopes";
 
     public override string Summary =>
-        $"pair (0,2): (-16/9,-16/9,-8/3)=({SlopeSingleFlipped:G17}," +
-        $"{SlopeSingleFlipped:G17},{SlopeDoubleFlipped:G17}) from independent M/U elements; parentless.";
+        $"pair (0,2): (−16/9, −16/9, −8/3) = ({SlopeSingleFlipped:G17}, " +
+        $"{SlopeSingleFlipped:G17}, {SlopeDoubleFlipped:G17}) from the table's own M/U elements; K4 identical, chain moves |10⟩ only.";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
         get
         {
-            yield return InspectableNode.RealScalar("single-flip slope (-16/9)", SlopeSingleFlipped);
-            yield return InspectableNode.RealScalar("double-flip slope (-8/3)", SlopeDoubleFlipped);
+            yield return InspectableNode.RealScalar("single-flip slope (−16/9)", SlopeSingleFlipped);
+            yield return InspectableNode.RealScalar("double-flip slope (−8/3)", SlopeDoubleFlipped);
             yield return new InspectableNode(
                 "Exact inputs",
-                summary: $"single: M3={M3_SingleFlipped}, U2={U2_SingleFlipped_TimesFour}/4; " +
-                         $"double: M5={M5_DoubleFlipped}, U4={U4_DoubleFlipped_TimesTwo}/2.");
+                summary: $"single: M3 = {M3_SingleFlipped}, U2 = {U2_SingleFlipped_TimesFour}/4; " +
+                         $"double: M5 = {M5_DoubleFlipped}, U4 = {U4_DoubleFlipped_TimesTwo}/2.");
             yield return new InspectableNode(
-                "Trace control and topology fence",
-                summary: "The absolute third-order diagonal (8,-4,-4,0) sums to zero. " +
-                         "Relative deviations are not summed as probabilities. Chain |10> gives -4/3.");
+                "Trace control and topology",
+                summary: "The absolute third-order diagonal (8, −4, −4, 0) sums to zero; relative deviations are not summed as probabilities. " +
+                         "K4 gives the ring's table exactly; the chain keeps |01⟩ and |11⟩ and moves |10⟩ to −4/3.");
         }
     }
 }

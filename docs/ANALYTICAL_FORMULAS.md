@@ -3658,7 +3658,7 @@ The absolute third-order population vector is `(8,−4,−4,0)` and sums to zero
 | \|10⟩ | `−(16/9)K` (F96) | `J²t²·3/8` | `sym3` |
 | \|11⟩ | `−(8/3)K` (F96) | `J⁴t⁴·1/16` | `sym5` |
 
-**Topology boundary.** The canonical chain's `|10⟩` slope is `-4/3`, so the ring slopes are not topology-universal. A finite ring/K4 probe agrees within its numerical tolerance for this lens; that comparison does not derive an all-topology law or a cancellation mechanism.
+**Topology boundary.** The complete graph K4 gives the ring's table exactly: the swaps 0↔2 and 1↔3 are symmetries of the ring and of the uniform dissipator, `|0+0+⟩` is invariant under both, so ρ(t) commutes with both at all times and the extra bonds (0,2), (1,3) act on it trivially. On the open chain the computed table keeps `|01⟩` at `−16/9` and `|11⟩` at `−8/3` and moves `|10⟩` to `−4/3`; so the table is not topology-universal.
 
 **Interpretive invitation, not a result:** `−16/9=−(4/3)²` and `−8/3=−2(4/3)` are memorable numeric rhymes, not derivational inputs. They make the four-outcome table easy to see, while each coefficient keeps its own Dyson owner.
 
@@ -3668,7 +3668,7 @@ The absolute third-order population vector is `(8,−4,−4,0)` and sums to zero
 
 ### F97. Period-one cardioid parametrization (Tier 1, exact algebraic identity; 2026-05-17)
 
-**Owned object — parentless exact formula.** For the map `z↦z²+c`, a period-one fixed point obeys `c=z*−z*²`. Its multiplier is `μ=2z*`. On the marginal boundary `|2z*|=1`, write
+**Owned object: exact formula under one typed parent, the bilinear maximum ¼ (Quarter), which `c=z*(1−z*)` takes at the cusp.** For the map `z↦z²+c`, a period-one fixed point obeys `c=z*−z*²`. Its multiplier is `μ=2z*`. On the marginal boundary `|2z*|=1`, write
 
     z*(φ) = (1/2)e^(iφ),
     c(φ)  = z*(φ)(1−z*(φ))

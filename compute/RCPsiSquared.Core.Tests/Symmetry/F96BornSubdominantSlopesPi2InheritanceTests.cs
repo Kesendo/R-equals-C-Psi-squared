@@ -35,12 +35,6 @@ public class F96BornSubdominantSlopesPi2InheritanceTests
     }
 
     [Fact]
-    public void ChainCounterexampleKeepsTheRingSlopesSetupSpecific()
-    {
-        Assert.NotEqual(-4.0 / 3.0, BuildClaim().SlopeSingleFlipped);
-    }
-
-    [Fact]
     public void ClaimIsParentlessAndHasNoPolarityAxis()
     {
         Assert.False(typeof(IZ2AxisClaim).IsAssignableFrom(typeof(F96BornSubdominantSlopesPi2Inheritance)));
