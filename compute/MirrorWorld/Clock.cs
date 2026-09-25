@@ -1,11 +1,13 @@
 namespace MirrorWorld;
 
-// A two-hand model for e^(lambda t) = e^(-alpha t) * e^(i omega t): the radial
-// hand records decay alpha (scaled here by Gamma), and the angular hand records
-// rotation omega (scaled here by J). Q=J/Gamma is a dimensionless dial comparing those hands
-// when Gamma is nonzero; ThetaDeg=atan(Q) reports the dial angle.
-// Gamma=0 is the no-decay limit of this clock and is outside F95's finite positive-b domain.
-// The dial supplies no F95 ancestry and no quarter/half anchor.
+// The circular quantum clock: a mode winds as e^(lambda t) = e^(-alpha t) * e^(i omega t). Two hands:
+// the radial (Takt = decay alpha, set by gamma) and the angular (Rotation = omega, set by J). The
+// angle theta = arctan(Q), Q = J/gamma, is for J >= 0 the F95 angle at c = gamma^2 + J^2, b = gamma
+// (docked in SmokeTests.F95_Theta_Compass_Docks_Onto_F15_And_The_Clock). At J=0 nothing turns and
+// theta = 0 (pure radial decay, F95's double root); as gamma -> 0 the radial hand stops and
+// theta -> 90deg (the pure circle), gamma = 0 itself lying outside F95's positive-b domain.
+// theta = 45deg is Q = 1. T1: F95 (the clock-hand ladder shares the two-hand vocabulary; its angle
+// is a different one).
 public sealed class Clock : GameObject
 {
     public double J { get; }

@@ -29,8 +29,8 @@ Every Liouvillian eigenvalue λ has a partner at -λ - 2Σγ.
 Every decay rate d pairs with 2Σγ - d.
 
 **Valid for:** Heisenberg, XY, Ising, and XXZ with Z-dephasing on any graph;
-DM on a bipartite graph whose oriented DM edges are consistent with the two
-alternating site classes (chains included); any N; non-uniform γ per qubit.
+DM on any bipartite graph, whatever the orientation and signs of its edges
+(odd cycles fail where tested); any N; non-uniform γ per qubit.
 The uniform P1/P4 maps cover the first family; DM uses the alternating map.
 **See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
 **Breaks for:** depolarizing noise (error = (2/3)Σγ, linear in γ and N); an
@@ -2762,7 +2762,7 @@ cluster multiplicities; this equality is not an all-N law.
 | 6 | 3 | 6.988, 5.208, 2.000, 0.220 | 1024 |
 | 7 | 3 | 8.0547, 4.9932, 2.3978, 0.6636 | 4096 |
 
-All matches bit-exact (10⁻¹⁴ machine precision) at every N.
+All matches to machine precision (10⁻¹⁴) at every N.
 
 **Direct structural identity (discovered 2026-04-29):** The chain Π²-odd 2-body M's spectrum is **directly related to the many-body Hamiltonian H's spectrum**:
 
@@ -3036,7 +3036,7 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 | Theorem | k-body status |
 |---------|---------------|
 | F87 trichotomy | extends via _pauli_tuple_is_truly |
-| F80 Spec(M) = 2i·Spec(H) | extends (same form; the Step-5 flip generalizes to (−1)^{n_Y+n_Z}); verified at k=3 (N=4,5,6) and k=4 (N=5,6) for 17 Π²-odd cases; spectral identity bit-exact |
+| F80 Spec(M) = 2i·Spec(H) | extends (same form; the Step-5 flip generalizes to (−1)^{n_Y+n_Z}); verified at k=3 (N=4,5,6) and k=4 (N=5,6) for 17 Π²-odd cases; spectral identity to machine precision |
 | F81 Π·M·Π⁻¹ = M − 2·L_{H_odd} | verbatim, verified at k=3 chain N=4 |
 | F82 T1 dissipator | dissipator-only, body-count-independent |
 | F83 anti-fraction 1/(2+4r) | verbatim with Π²-class grouping |

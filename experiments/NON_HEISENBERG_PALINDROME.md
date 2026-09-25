@@ -25,8 +25,8 @@ type of quantum coupling (Heisenberg). This document asks: does the
 mirror work for other types of coupling too? The answer is yes, for
 the tested XY, Ising, XXZ, and spin-orbit instances below. This is a
 compatibility statement, not a topology-free theorem for every hardware
-Hamiltonian: in particular, the DM mirror requires a compatible bipartition
-and orientation.
+Hamiltonian: in particular, the DM mirror is carried by every bipartite
+graph (edge orientation does not matter), and odd cycles fail where tested.
 
 Along the way, two surprises emerge. First, the mirror operator Π
 comes in families (different mirrors for different instruments, but
@@ -46,8 +46,9 @@ The palindromic spectral symmetry proven for Heisenberg coupling
 to Heisenberg. The tested standard single-bond Hamiltonians are palindromic under
 single-axis dephasing: XY, Ising, XXZ, and Dzyaloshinskii-Moriya (DM; a spin-orbit
 interaction that twists the coupling between neighbors). DM uses a site-alternating
-map, so its graph-level extension requires compatible bipartition and edge orientation;
-the chain is the verified instance. Of the
+map, which every bipartite graph carries, whatever its edges' orientation and signs (the
+map is a product of site maps and every bond joins the two colours); odd cycles fail
+where tested (triangle, 5-ring, K₄). Of the
 36 two-term Pauli-bond combinations, 22 are palindromic and 14 break structurally
 (Result 4; the break is the shadow-crossing case, e.g. XZ+XY). Two families of
 conjugation operators exist (P1 and P4),

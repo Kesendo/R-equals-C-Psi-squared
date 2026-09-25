@@ -35,7 +35,7 @@ The proof says structural. A Jordan-Wigner transformation reduces the bond-summe
 The proof has seven steps. Steps 1-4 carry the JW reduction and the dispersion
 identification. Step 5 is the per-site Π² action computation that pins down the
 sign on each mode. Steps 6-7 assemble the sign-walk formula. The resulting
-cluster locations are verified bit-exactly through N=7.
+cluster locations are verified to machine precision through N=7.
 
 The theorem on this page is the open-chain two-body result for the four stated
 Π²-odd bilinears. Direct finite checks of the per-bond Π-action on rings,
@@ -71,7 +71,7 @@ Since M = ∓2i·(H⊗I) is normal (H Hermitian), its singular values are the mo
 | 6 | 3 | {1.802, 1.247, 0.445} | {6.988, 5.208, 2.000, 0.220} | 1024 | ✓ |
 | 7 | 3 | {1.848, 1.414, 0.765} | {8.0547, 4.9932, 2.3978, 0.6636} | 4096 | ✓ |
 
-All entries: bit-exact match between predicted and observed (predicted-vs-actual residual at machine precision 10⁻¹⁴). N=7 verified by both full 16384×16384 SVD and independent partial-eigsh check. Tests across all 4 Π²-odd Pauli pairs (X,Y), (X,Z), (Y,X), (Z,X) per the F79 universality.
+All entries: predicted and observed agree to machine precision (predicted-vs-actual residual 10⁻¹⁴). N=7 verified by both full 16384×16384 SVD and independent partial-eigsh check. Tests across all 4 Π²-odd Pauli pairs (X,Y), (X,Z), (Y,X), (Z,X) per the F79 universality.
 
 **Finite k-body checks of the structural identity:** `Spec(M) = ±2i · Spec(H_non-truly)` was checked for:
   - k=3: (X,X,Y), (Y,Y,Y), (X,X,Z), (Z,Z,Z), (X,Y,X) at N=4, 5, 6
@@ -156,7 +156,7 @@ Crucially, all four cases give the **same single-particle spectrum** ε(k) = 2c�
 
 After Step 4, we have established that all 4 Π²-odd Pauli pairs give the same JW-derived single-particle Bloch dispersion. The remaining task, historically expected to be technical, is to derive the explicit form of M's spectrum in terms of this dispersion.
 
-**Empirical structural identity (verified bit-exact at N=3, 4, 5, 6, 7):**
+**Empirical structural identity (verified to machine precision at N=3, 4, 5, 6, 7):**
 
     Spec(M) = {±2i · E : E ∈ Spec_{many-body}(H)}    (multi-set equality)
 
@@ -177,7 +177,7 @@ where E_k = 4|c|·cos(πk/(N+1)) are the Bogoliubov single-particle energies der
 
 **Why this is the structural answer.** L_H = −i[H, ·] acts on operator space with eigenvalues i(λ_a − λ_b) for all pairs of H-eigenvalues. The remaining task is to show what the Π-conjugation does to it. The proof below settles it directly, in the Pauli-string basis, without the Bogoliubov construction.
 
-**Step 5 proof (2026-05-22, Tom + Claude).** The claim is Π·[H,·]·Π⁻¹ = ±{H,·}; it follows from a per-site Pauli computation, independent of Steps 1-4 (which re-enter only through the E → −E symmetry of Spec(H) used in the M-consequence at the end). Every step is verified bit-exact at N=3,4,5 by [`f80_step5_recon.py`](../../simulations/f80_step5_recon.py).
+**Step 5 proof (2026-05-22, Tom + Claude).** The claim is Π·[H,·]·Π⁻¹ = ±{H,·}; it follows from a per-site Pauli computation, independent of Steps 1-4 (which re-enter only through the E → −E symmetry of Spec(H) used in the M-consequence at the end). Every step is verified to machine precision at N=3,4,5 by [`f80_step5_recon.py`](../../simulations/f80_step5_recon.py).
 
 *Π is a signed permutation of Pauli strings.* On the 4^N Pauli-string basis Π acts site-wise, Π(P₀ ⊗ ··· ⊗ P_{N-1}) = ⊗_l μ(P_l), with the single-qubit map μ(I) = X, μ(X) = I, μ(Y) = iZ, μ(Z) = iY (the framework Π, [`framework/symmetry.py`](../../simulations/framework/symmetry.py)).
 
@@ -207,9 +207,9 @@ By the flip, {l : σ(l,R) = −1} = {l : σ(l,ΠR) = +1}, the bonds that commute
 
 For the four Π²-odd pairs s = +1 for (X,Y) and (Y,X), s = −1 for (X,Z) and (Z,X). ∎
 
-*Consequence for M.* M = L_H + Π·L_H·Π⁻¹ = −i[H,·] − i·s·{H,·}. For s = +1, M = −2i·(H⊗I_bra); for s = −1, M = +2i·(I_ket⊗Hᵀ). Both give Spec(M) = ±2i·Spec(H), the F80 structural identity: the imaginary spectrum 2i·Spec(H) is what Step 5 establishes, and the ± reflects the E → −E symmetry of Spec(H) supplied by the Steps 1-2 JW reduction (H is a Majorana bilinear). The argument is per-site and per-bond, hence **N-independent: it holds for every N.** The bit-exact checks at N=3,4,5 confirm each step separately: the three identities, the bond lemma, the flip, and Π·[H,·]·Π⁻¹ = s·{H,·} for all four pairs.
+*Consequence for M.* M = L_H + Π·L_H·Π⁻¹ = −i[H,·] − i·s·{H,·}. For s = +1, M = −2i·(H⊗I_bra); for s = −1, M = +2i·(I_ket⊗Hᵀ). Both give Spec(M) = ±2i·Spec(H), the F80 structural identity: the imaginary spectrum 2i·Spec(H) is what Step 5 establishes, and the ± reflects the E → −E symmetry of Spec(H) supplied by the Steps 1-2 JW reduction (H is a Majorana bilinear). The argument is per-site and per-bond, hence **N-independent: it holds for every N.** The machine-precision checks at N=3,4,5 confirm each step separately: the three identities, the bond lemma, the flip, and Π·[H,·]·Π⁻¹ = s·{H,·} for all four pairs.
 
-*Geometric picture (the H-eigenbasis view).* The same fact in the H-eigen-operator basis σ_(a,b) = |E_a⟩⟨E_b|: group these operators into (ε_ket, ε_bra) sectors (fixed ket and bra energy). Π is a permutation of those sectors, full-unitary blocks, gauge-checked bit-exact at N=3,4,5; L_H is the scalar −i(ε_ket − ε_bra) on each sector, so Π·L_H·Π⁻¹ is again scalar per sector, hence diagonal, and M is a sum of two diagonals. The Pauli-string proof above is the basis-free version of that picture.
+*Geometric picture (the H-eigenbasis view).* The same fact in the H-eigen-operator basis σ_(a,b) = |E_a⟩⟨E_b|: group these operators into (ε_ket, ε_bra) sectors (fixed ket and bra energy). Π is a permutation of those sectors, full-unitary blocks, gauge-checked to machine precision at N=3,4,5; L_H is the scalar −i(ε_ket − ε_bra) on each sector, so Π·L_H·Π⁻¹ is again scalar per sector, hence diagonal, and M is a sum of two diagonals. The Pauli-string proof above is the basis-free version of that picture.
 
 ### Step 6+7 (Direct conclusion via Step 5)
 
@@ -248,7 +248,7 @@ What F80 reveals is the **explicit spectral shape** of this mirror-defect for ch
 
 So, for the (X,Y) and (Y,X) bond pairs, M is **literally equal** to -2i · (H ⊗ I_bra), where I_bra is the identity on the bra-factor of operator space (dim 2^N); the pairs (X,Z) and (Z,X) instead give M = +2i·(I_ket⊗Hᵀ) (Step 5 proof, sign s = −1). The mirror-defect has the **same spectrum** as the Hamiltonian (×2i) and the **same Frobenius norm** (×4·2^N) because it *is* H ⊗ I_bra up to the -2i scalar.
 
-The equality is literal, not merely unitary-equivalent: [`f80_step5_recon.py`](../../simulations/f80_step5_recon.py) verifies bit-exact at N=3,4,5 that in the σ_(a,b) basis M's off-diagonal norm is machine zero (~10⁻¹³) and every diagonal entry is −2i·E_a. There is no scrambling; the eigenvectors of M are exactly the H-eigen-operators σ_(a,b).
+The equality is literal, not merely unitary-equivalent: [`f80_step5_recon.py`](../../simulations/f80_step5_recon.py) verifies at N=3,4,5 that in the σ_(a,b) basis M's off-diagonal norm is at machine zero (~10⁻¹³) and every diagonal entry is −2i·E_a. There is no scrambling; the eigenvectors of M are exactly the H-eigen-operators σ_(a,b).
 
 This is structurally remarkable:
 

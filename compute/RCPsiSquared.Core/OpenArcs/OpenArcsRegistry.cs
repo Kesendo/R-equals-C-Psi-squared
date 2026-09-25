@@ -8913,7 +8913,7 @@ public static class OpenArcsRegistry
                 "glossary proves the trap at the worst possible row: Sigma-gamma is glossed 'total " +
                 "noise' and stops, and the bridge sits two rows away under Pauli weight where a " +
                 "budget reader will not look. Corpus note, measured 2026-08-23: the vocabularies do " +
-                "NOT partition the corpus (about 70 files use both, and DEPHASING_TRANSLATED.md:248 " +
+                "NOT partition the corpus (about 70 files use both, and DEPHASING_TRANSLATED.md §5 " +
                 "bridges them outright, 'the noise is light in the plainest sense available'); what " +
                 "they partition is the ENTRY POINTS. GAMMA_AS_SIGNAL, MEDIATOR_AS_QUANTUM_TRANSISTOR, " +
                 "PREDICTIONS, the four IBM flight pages and all three Python hardware workflows carry " +

@@ -227,8 +227,8 @@ That is the contribution: not new physics, but new understanding of existing phy
 
 4. ~~**Extend to non-Heisenberg models.**~~ **PARTLY ANSWERED:** compatible
    XY, Ising, and XXZ models retain the palindrome under single-axis
-   dephasing. DM does so on compatible bipartite, consistently oriented
-   graphs (the chain is verified); this is not an arbitrary-graph DM claim.
+   dephasing. DM does so on bipartite graphs, whatever the orientation of
+   their edges; this is not an arbitrary-graph DM claim.
    See [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md).
 
 ---
