@@ -3940,3 +3940,62 @@ justifies it. And a certificate certifies where it ran: the first restatement ca
 count read at J_b = 1.0 and 1.9 to every coupling, the next carried the copy count of the sampled
 couplings to every coupling as a two-case rule that a window between the samples breaks, and
 neither sample reached the five couplings where there is no exceptional point at all.
+
+## 2026-09-25, the Absorption Theorem's per-site law went missing from its own typed claim, and one repair wrote a sufficient condition as the boundary
+
+**What was wrong.** The outside rewrite 931d691f rightly separated the basis-cell cost 2γ₀·n_diff from
+the eigenmode reading −Re λ = 2γ₀⟨n_XY⟩ in `AbsorptionTheoremClaim`, and in the same stroke dropped
+Theorem 2, the per-site law −Re λ = 2·Σ_l γ_l⟨Δ_l⟩ under a γ profile, with its H-independence, its
+extensions and its verification record. Seven pointers in Diagnostics, the registry and the proof went
+on naming a statement the claim no longer held, and a name-lock test guarded the surface instead of a
+computation. While restoring it, a repair wrote the registry's "Breaks for" line as "dissipators that no
+set of single-Pauli-string jumps produces", and the claim and proof §2 said the reading "needs" such
+jumps. Jumps √a(Z₀ + iZ₁), √b(Z₀ − iZ₁) with a ≠ b have no Pauli-string jump set and still read exactly:
+the leftover term −i(a − b)(Z₀ρZ₁ − Z₁ρZ₀) is anti-Hermitian, so Herm(L) is untouched.
+
+**Found by.** The typed-layer audit of 931d691f (section C) for the dropped law; the third of four fresh
+review rounds on the restoration for the sufficient-as-necessary fence, which the second round's own
+suggested wording had introduced.
+
+**What stands now.** The claim states the per-site law, carries it as two computing members and a live
+node, and gates it by an exact route (Herm(L) equals the per-site diagonal, == 0.0, on a random complex
+H), by an eigensolver band across six decades of coupling with two mutations that must fail, and by the
+correlated-jump counterexample as an exact test. The integer Pauli reading is an identity for every H
+exactly when Herm(L_D) is diagonal in the Pauli basis; Pauli-string jumps are one sufficient way to get
+that. The F-numbered children are drawn by a mechanical rule from the claims' own names and pinned
+against the default registry; the Torino 1.03 is the consistency of two fits to one decay.
+
+**The lesson.** When a repair names what a result "needs", build one object that violates the named
+condition and check whether the result still holds; a fence written from the examples at hand is a
+sufficient condition until that check is run.
+
+## 2026-09-25, the N = 7 slow readout named three null pairs where the uniform point has seven, and its summaries credited them to chirality
+
+PROOF_MISSING_PHASE_SLOW_READOUT §4 and its Abstract named three physical pairs, (1,3), (1,5) and
+(3,5), as the ones that miss the slow cluster. The three are exact at every ε of the local branch and
+are the only null pairs for small ε ≠ 0. At ε = 0, where every check was run, (0,2), (0,4), (2,6) and
+(4,6) miss the residue too, because e₊ and e₋ agree on the even sites; away from it they read it at
+order ε, with Frobenius norms √22/16, √6/16 and √(12γ²+6)/16 per |ε|. The body of §4 named the
+mechanism of the three correctly, "because vᵣ has only even-site entries"; the step one off was taken
+by what summarized it: the section heading ("the chiral null pairs"), the section's closing sentence
+("chirality removes this A residue"), the typed claim's docstring, the experiment's §12 ("by
+chirality"), the retired arc's NextStep and the relaxation proof's §13 ("chiral null pairs"). The
+pairing E₊ = C·conj(E₋)·C gives the mixed-cell antisymmetry and the leakage contraction, not the odd
+zeros. Two witness checks shared the blind spot and could not fail: one tested the literal zeros of a
+hand-built vᵣ at r = 4/3, the other the odd pair outputs of a residue built from the hand-built v_*.
+
+**Found by.** The typed-layer audit of c012121e, which computed the null set over ℚ(√2, i) instead of
+checking the three members the text named.
+
+**What stands now.** §4 states the seven-pair set at ε = 0 and the order-ε tier, and every surface
+credits the odd zeros to vᵣ's support. §6 gives the four first-order coefficients and the argument
+that makes them hold at every γ: both bordered determinants are γ-free (p₁′(λ_*) = 512 in the displayed
+form), so each coefficient is affine in γ and the witness's five γ fix it. The witness computes the null set over all 21 pairs,
+the first-order tier through two independent bordered solves, and the blind ray's support from the
+kernel of hᵣ; a centre on-site energy breaks the pairing gates and leaves the odd tier standing, and
+two tuned even–even bonds give a blind ray with odd entries that the odd-site gate rejects.
+
+**The lesson.** A null set proved at a generic parameter is a lower bound at a special point, and the
+special point is where checks usually run. State the set where it is read, let the gate compute the set
+rather than confirm the members the text lists, and when a body names a mechanism, check that the
+heading and the summaries repeat it rather than a neighbouring one.
