@@ -4,7 +4,7 @@
 **Date:** 2026-04-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Pipeline:** `simulations/level1_emergent_exchange.py`
-**See also:** [V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md), [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md), [the V-Effect palindrome](V_EFFECT_PALINDROME.md), [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md), [Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (the carotenoid singlet-fission reading: the both-pairs-triplet state here is the dark 2Ag, and J_eff=(3/8)α²/J is the singlet-fission coupling, 2026-05-30)
+**See also:** [V-Effect boundary localization](V_EFFECT_BOUNDARY_LOCALIZATION.md), [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md), [the V-Effect palindrome](V_EFFECT_PALINDROME.md), [Heisenberg Reloaded](../hypotheses/HEISENBERG_RELOADED.md), [Singlet Fission and the Two Clocks](../docs/carbon/SINGLET_FISSION_AND_THE_TWO_CLOCKS.md) (held beside carotenoid singlet fission as a structural analogy: the both-pairs-triplet state here resembles the dark 2Ag, and J_eff=(3/8)α²/J is a second-order bridge²/gap scale, like the one singlet-fission discussions use; that they are the same object is not shown)
 
 ---
 

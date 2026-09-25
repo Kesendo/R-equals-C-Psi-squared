@@ -170,7 +170,7 @@ continuous rotation, leaving 14 = the numerical count.
 
 ---
 
-## Result 5: The Two Continuous-Crossover Cases (corrected 2026-06-02)
+## Result 5: The Two Continuous-Crossover Cases
 
 This was the most surprising result, and the surprise turned out to be ours, not the
 physics'. So far, every mirror could be described as "do this Pauli shuffle at each qubit

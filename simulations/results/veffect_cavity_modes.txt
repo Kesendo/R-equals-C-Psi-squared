@@ -83,41 +83,41 @@ N=2: 6 oscillating modes
   Q: max=40.0, median=40.0, mean=40.0
   Highest-Q mode: λ = -0.1000+4.0000j, Q=40.0, weight shell k=1
   Q by weight shell:
-    k=1: n=   6, Q_max=   40.0, Q_med=   40.0
+    k=1: n=   6, Q_max=   40.0, Q_med=   40.0, |Im|_max=4.00000, champion Re=-0.1000
 
 N=3: 40 oscillating modes
   Q: max=60.0, median=27.0, mean=28.2
   Highest-Q mode: λ = -0.1000+6.0000j, Q=60.0, weight shell k=1
   Q by weight shell:
-    k=1: n=  20, Q_max=   60.0, Q_med=   30.0
-    k=2: n=  20, Q_max=   36.0, Q_med=   24.0
+    k=1: n=  20, Q_max=   60.0, Q_med=   30.0, |Im|_max=6.00000, champion Re=-0.1000
+    k=2: n=  20, Q_max=   36.0, Q_med=   24.0, |Im|_max=6.00000, champion Re=-0.1667
 
 N=4: 210 oscillating modes
   Q: max=68.3, median=18.8, mean=21.0
   Highest-Q mode: λ = -0.1000+6.8284j, Q=68.3, weight shell k=1
   Q by weight shell:
-    k=1: n=  24, Q_max=   68.3, Q_med=   22.8
-    k=2: n= 162, Q_max=   47.3, Q_med=   20.0
-    k=3: n=  24, Q_max=   22.8, Q_med=   12.3
+    k=1: n=  24, Q_max=   68.3, Q_med=   22.8, |Im|_max=6.82843, champion Re=-0.1000
+    k=2: n= 162, Q_max=   47.3, Q_med=   20.0, |Im|_max=9.46410, champion Re=-0.2000
+    k=3: n=  24, Q_max=   22.8, Q_med=   12.3, |Im|_max=6.82843, champion Re=-0.3000
 
 N=5: 928 oscillating modes
   Q: max=72.4, median=14.9, mean=17.8
   Highest-Q mode: λ = -0.1000+7.2361j, Q=72.4, weight shell k=1
   Q by weight shell:
-    k=1: n=  16, Q_max=   72.4, Q_med=   40.0
-    k=2: n= 448, Q_max=   58.6, Q_med=   17.4
-    k=3: n= 448, Q_max=   45.0, Q_med=   13.6
-    k=4: n=  16, Q_max=   18.1, Q_med=   10.0
+    k=1: n=  16, Q_max=   72.4, Q_med=   40.0, |Im|_max=7.23607, champion Re=-0.1000
+    k=2: n= 448, Q_max=   58.6, Q_med=   17.4, |Im|_max=11.71155, champion Re=-0.2000
+    k=3: n= 448, Q_max=   45.0, Q_med=   13.6, |Im|_max=11.71155, champion Re=-0.2600
+    k=4: n=  16, Q_max=   18.1, Q_med=   10.0, |Im|_max=7.23607, champion Re=-0.4000
 
 N=6: 3932 oscillating modes
   Q: max=74.6, median=13.3, mean=15.6
   Highest-Q mode: λ = -0.1000-7.4641j, Q=74.6, weight shell k=1
   Q by weight shell:
-    k=1: n=  20, Q_max=   74.6, Q_med=   40.0
-    k=2: n= 496, Q_max=   65.0, Q_med=   16.5
-    k=3: n=2900, Q_max=   49.9, Q_med=   13.4
-    k=4: n= 496, Q_max=   35.5, Q_med=    9.6
-    k=5: n=  20, Q_max=   14.9, Q_med=    8.0
+    k=1: n=  20, Q_max=   74.6, Q_med=   40.0, |Im|_max=7.46410, champion Re=-0.1000
+    k=2: n= 496, Q_max=   65.0, Q_med=   16.5, |Im|_max=13.00798, champion Re=-0.2000
+    k=3: n=2900, Q_max=   49.9, Q_med=   13.4, |Im|_max=14.97431, champion Re=-0.3000
+    k=4: n= 496, Q_max=   35.5, Q_med=    9.6, |Im|_max=13.00798, champion Re=-0.3667
+    k=5: n=  20, Q_max=   14.9, Q_med=    8.0, |Im|_max=7.46410, champion Re=-0.5000
 
 ===========================================================================
 STEP 5: TOPOLOGY COMPARISON

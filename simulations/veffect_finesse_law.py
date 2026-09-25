@@ -67,9 +67,10 @@ def ring_laplacian(n):
 LAPLACIAN = {"chain": path_laplacian, "star": star_laplacian, "ring": ring_laplacian}
 
 
-def _liouvillian(n, gamma, j=J):
-    """Full 4^N Liouvillian of the Heisenberg chain under uniform Z-dephasing, row-major vec.
-    Only needed for the decay-class check below; everything else here is N x N Laplacians."""
+def _liouvillian(n, gamma, j=J, bonds=None):
+    """Full 4^N Liouvillian of the Heisenberg chain (or of `bonds`) under Z-dephasing, row-major
+    vec; gamma is one rate or one per site. Only needed for the decay-class checks below;
+    everything else here is N x N Laplacians."""
     i2 = np.eye(2, dtype=complex)
     px = np.array([[0, 1], [1, 0]], dtype=complex)
     py = np.array([[0, -1j], [1j, 0]], dtype=complex)
@@ -83,14 +84,15 @@ def _liouvillian(n, gamma, j=J):
 
     d = 2 ** n
     h = np.zeros((d, d), dtype=complex)
-    for b in range(n - 1):
+    for (u, v) in (bonds if bonds is not None else [(b, b + 1) for b in range(n - 1)]):
         for p in (px, py, pz):
-            h += j * at(p, b) @ at(p, b + 1)
+            h += j * at(p, u) @ at(p, v)
     idm = np.eye(d, dtype=complex)
     lio = -1j * (np.kron(h, idm) - np.kron(idm, h.T))
+    gammas = np.broadcast_to(np.asarray(gamma, dtype=float), (n,))
     for l in range(n):
         zl = at(pz, l)
-        lio += gamma * (np.kron(zl, zl.T) - np.kron(idm, idm))
+        lio += gammas[l] * (np.kron(zl, zl.T) - np.kron(idm, idm))
     return lio
 
 
@@ -306,6 +308,31 @@ if __name__ == "__main__":
         ok &= good
         print(f"  {'PASS' if good else 'FAIL'}  N={n} max |L(S^- P_m) + 2*gamma*S^- P_m| "
               f"= {worst:.1e} at gamma = {GAMMA} and 0.9")
+
+    # Two readings the document quotes that the dump does not print: the ring at N = 4 puts more
+    # oscillating modes on the line Re = -2*gamma than the chain does, and a site-dependent gamma
+    # moves the winner off that line (the uniform-gamma scope fence).
+    print("\nthe line Re = -2*gamma, ring against chain, and the site-profile fence (N = 4, 5)")
+    counts = {}
+    for name, bonds in (("chain", None), ("ring", [(i, (i + 1) % 4) for i in range(4)])):
+        w = np.linalg.eigvals(_liouvillian(4, GAMMA, bonds=bonds))
+        line = w[np.abs(w.real + 2 * GAMMA) < 1e-9]
+        counts[name] = int((np.abs(line.imag) > 1e-9).sum())
+    good = counts == {"chain": 12, "ring": 20}
+    ok &= good
+    print(f"  {'PASS' if good else 'FAIL'}  N=4 oscillating on the line: chain {counts['chain']}, "
+          f"ring {counts['ring']}")
+    profile = [0.02, 0.05, 0.09, 0.05, 0.02]
+    w = np.linalg.eigvals(_liouvillian(5, profile))
+    osc = w[np.abs(w.imag) > 1e-9]
+    qs = np.abs(osc.imag) / np.abs(osc.real)
+    win = osc[np.argmax(qs)]
+    law = J * np.linalg.eigvalsh(path_laplacian(5))[-1] / np.mean(profile)
+    good = (f"{qs.max():.2f}" == "62.77" and f"{win.real:.4f}" == "-0.0834"
+            and f"{law:.2f}" == "78.65")
+    ok &= good
+    print(f"  {'PASS' if good else 'FAIL'}  N=5 gamma={profile}: Q_max {qs.max():.4f} at "
+          f"Re {win.real:.4f}, the law at the mean gamma gives {law:.4f}")
 
     print("\nall checks pass" if ok else "\nFAILURES above")
     sys.exit(0 if ok else 1)

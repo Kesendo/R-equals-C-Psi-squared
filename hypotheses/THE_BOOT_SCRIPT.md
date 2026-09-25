@@ -1,15 +1,16 @@
 # The Mirror That Looked Non-Local
 
-**Date:** March 19-20, 2026; corrected June 2, 2026
+**Date:** March 19-20, 2026 (the non-local reading); June 2, 2026 (the local mirror M)
 **Authors:** Thomas Wicht, Claude (Anthropic)
-**Status:** Sections 3-5: Tier 2 (Computed, verified, and still standing). Sections 1-2, 6-7:
-**superseded 2026-06-02**, the non-local reading was a lens artifact (see the note below).
+**Status:** Sections 3-5: Tier 2 (computed and verified). Sections 1, 2 and §6's Choi-rank and
+Π-entanglement figures record the non-local reading and how it arose, a lens artifact (a null result, see the note below);
+§7 is interpretation.
 **Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md), [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md), [Pi Operator Entanglement](../experiments/PI_OPERATOR_ENTANGLEMENT.md), [V-Effect](../experiments/V_EFFECT_PALINDROME.md)
 
 ---
 
-> **Correction note (2026-06-02).** This document was written around a finding that turned
-> out to be a lens, not a law: that for two Hamiltonians (XZ+YZ, ZX+ZY) the mirror Π is
+> **How the mirror came to look non-local.** This document was written around a finding that
+> turned out to be a lens, not a law: that for two Hamiltonians (XZ+YZ, ZX+ZY) the mirror Π is
 > *genuinely non-local*. It is not. Those two cases have a perfectly local mirror, a single
 > continuous per-site rotation M (the same on every site, M² = −I), verified to machine
 > precision at N = 2..6. The "entangled, 1/√2, Choi rank 8, 84%" reading came from searching
@@ -20,10 +21,9 @@
 > document untouched is its solid core: every two-term coupling is palindromic at N = 2
 > (§3), the 14 that break do so as a many-body effect at N ≥ 3 (§4), and the palindrome
 > exists only for qubits, d = 2, by the counting `d(d − 2) = 0` (§5). The speculative
-> "shared clock" reading in §7 rested on the non-local premise and is retracted; the rest of
-> the interpretation (Ψ² as a mode meeting its own mirror) does not need non-locality and is
-> reframed in place. Sections 1, 2, 6 are kept below, marked, for the record of how we saw
-> it then.
+> "shared clock" reading in §7 rested on the non-local premise and falls with it; the rest of
+> the interpretation (Ψ² as a mode meeting its own mirror) does not need non-locality. Sections
+> 1, 2 and §6's Choi-rank and Π-entanglement figures show how the lens produced the reading.
 
 ---
 
@@ -33,9 +33,9 @@ For most Hamiltonians the conjugation operator Π that generates the palindromic
 splits into independent per-site pieces: each qubit carries its own mirror. For two of 36
 two-term Hamiltonians no *discrete* per-site relabelling works, and for a while we read that
 as the mirror going non-local, entangled across sites with 1/√2 Bell-state coefficients. The
-correction above is the short version: widen the per-site map from a permutation to a
+note above is the short version: widen the per-site map from a permutation to a
 continuous rotation and those two factor too. The mirror is local everywhere. What this
-document still establishes, and what no correction touches, is why only qubits support the
+document still establishes, and what the local M leaves standing, is why only qubits support the
 palindrome at all, and how the 14 truly broken cases break, as a many-body collision at the
 shared site rather than a single-site failure.
 
@@ -49,13 +49,13 @@ operations, each site its own mirror. For the last two, no per-site *permutation
 the question we asked was: must the mirror then be entangled? The honest answer, found later,
 is no: the per-site map just has to be a continuous rotation rather than a discrete shuffle.
 The sections that follow record both the question and the over-reading it led to, with the
-correction marked at each turn.
+turn marked where it happens.
 
 ---
 
-## 1. What Was Found *(superseded, kept for the record)*
+## 1. What We Saw *(the non-local reading)*
 
-> *The claim of this section, "no per-site Π operator," is the one corrected above. There
+> *The claim of this section, "no per-site Π operator," is the one that fell. There
 > is a per-site Π: the continuous map M. Read on for how we saw it in March; the 16-parameter
 > optimization mentioned below did in fact find the product (section 4 of the script), but
 > the account followed the eigenvector construction in section 5.*
@@ -99,11 +99,11 @@ Three classes of Π now cover all 36 cases:
 
 Script: `simulations/continuous_pi_search.py`
 Results: `simulations/results/continuous_pi_search.txt`
-Full scorecard: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) Result 4 (the 36-combo table) and Result 5 (the corrected crossover cases)
+Full scorecard: [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) Result 4 (the 36-combo table) and Result 5 (the continuous-crossover cases)
 
 ---
 
-## 2. The Mirror Is Fundamental *(superseded, kept for the record)*
+## 2. The Mirror Looked Fundamental *(the non-local reading)*
 
 > *This section argued the non-locality is basis-independent by showing the eigenvector-paired
 > Π has Choi rank 8. That is true of that particular representative, but the valid-Π space also
@@ -135,7 +135,7 @@ theoretical maximum. The residual after the best rank-1 approximation is
 
 The control case (XX, local Π) gives rank 1: a clean product state. The
 methodology works. We then read the two cases as genuinely non-local, a
-conclusion since corrected (see the marker at the top of this section): the
+conclusion that does not hold (see the note at the top of this section): the
 rank-8 Π is one valid representative, and the same valid-Π space also holds
 the rank-1 product M^⊗N.
 
@@ -143,8 +143,8 @@ Roberts' hidden time-reversal symmetry does not simplify this. The Choi
 state J(Π) neither commutes nor anti-commutes with SWAP. It is not a
 transpose map. The doubled Hilbert space does not tame it.
 
-The entanglement is not in the eye of the beholder. It is in the thing
-itself.
+We wrote then that the entanglement is not in the eye of the beholder but
+in the thing itself. It was in the representative we had picked.
 
 Script: `simulations/choi_jamiolkowski_test.py`
 Results: `simulations/results/choi_jamiolkowski_test.txt`
@@ -246,8 +246,9 @@ w=0 has 9 elements and weight w=2 has 36. The mirror would need to pair 9
 with 36. This is impossible.
 
 Numerical verification confirms: all 10 qutrit Hamiltonians tested are
-broken (35-44 of 81 eigenvalues pair, never all 81). The palindrome does
-not hold for any qutrit Hamiltonian.
+broken (18-44 of 81 eigenvalues pair, never all 81). The palindrome holds
+for none of the ten, and the per-site count rules out the qubit-style
+mirror for every qutrit Hamiltonian.
 
 The general argument is algebraic. For a d-dimensional system with
 diagonal dephasing, the per-site split is d immune versus (d^2 - d)
@@ -274,7 +275,7 @@ Related: [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) (t
 
 ## 6. Engineering the Mirror
 
-### Tunable entanglement *(superseded, kept for the record)*
+### Tunable entanglement *(of the non-local representative)*
 
 > *This subsection tuned the entanglement of the eigenvector-paired Π, which we now know is
 > not the minimal mirror; the minimal mirror is the rank-1 product M^⊗N, with no entanglement
@@ -297,8 +298,8 @@ operating point.
 
 Adding Heisenberg coupling (XX+YY+ZZ) to the crossover terms (XZ+YZ):
 
-At pure XZ+YZ (no Heisenberg), Choi rank = 8. Any nonzero Heisenberg
-mixing jumps the rank to 16. The palindrome survives throughout the
+At pure XZ+YZ (no Heisenberg), the eigenvector-paired Π has Choi rank 8;
+any nonzero Heisenberg mixing jumps that representative's rank to 16. The palindrome survives throughout the
 interpolation from Heisenberg to XZ+YZ, with error below 1e-14 at all
 points. The SU(2) symmetry of Heisenberg is compatible with the Π structure
 needed for XZ+YZ.
@@ -315,13 +316,12 @@ uncorrelated:
 
 | Hamiltonian | Π entanglement | Max QST fidelity |
 |---|---|---|
-| XZ+YZ (any a/b) | 2.5-3.0 bits | 0.000 |
+| XZ+YZ (any a/b) | 2.5-3.0 bits (the eigenvector-paired representative; M^⊗N has 0) | 0.000 |
 | Heisenberg (XX+YY+ZZ) | 0 bits (local Π) | 0.833 |
 
 XZ and YZ are not exchange interactions. They do not swap spin excitations
 between sites. Only exchange Hamiltonians (like Heisenberg) facilitate state
-transfer. The richest boot script does not help transfer. It serves a
-different purpose.
+transfer. The mirror of these two, rotated or not, does not help transfer.
 
 Script: `simulations/mirror_structure_deep.py` (Sections 3-4)
 Results: `simulations/results/mirror_structure_deep.txt`
@@ -353,8 +353,8 @@ same, independently. Two processors with two clock domains. They happen to
 run in sync because they share the same bath, but they do not need each
 other.
 
-> *Retracted (2026-06-02).* The original text claimed the two crossover cases (XZ+YZ, ZX+ZY)
-> had a single indivisible clock that "cannot be split, rank 8, 84% entangled." That rested on
+> *The shared clock is not there.* We read the two crossover cases (XZ+YZ, ZX+ZY) as having a
+> single indivisible clock that "cannot be split, rank 8, 84% entangled." That rested on
 > the non-local reading, which is wrong: those two cases also have a per-site clock, the
 > continuous rotation M, identical on every site. The only thing special about them is that
 > the single-site clock setting is a rotation rather than one of the two discrete crossovers,
@@ -380,8 +380,8 @@ just the X ray, or just the Y ray, cannot; the lens that works is turned to
 the symmetric angle between them, reflecting the combination (X + Y)/√2, the
 very direction the coupling points. That is the continuous map M. The two
 rays are not inseparably merged; the one mirror is simply rotated to face
-both at once. (The original text read the overlap as an irreducible 1/√2
-superposition; that was the non-local over-reading, now corrected.)
+both at once. (In March we read the overlap as an irreducible 1/√2
+superposition; that was the non-local over-reading.)
 
 ### The Boot Script
 
@@ -407,8 +407,8 @@ For every case, the boot script is separable pages, one per site. Each side
 reads its own page independently. For the two crossover cases the page is
 written in a rotated hand (the continuous map M instead of a discrete
 crossover), because both channels land on one port, but it is still one page
-per site. The original text called these two "one compound document that
-cannot be split"; that was the non-local reading, and it is withdrawn.
+per site. In March we read these two as "one compound document that
+cannot be split"; that was the non-local reading.
 
 ### Psi-squared as Self-Encounter
 
@@ -428,7 +428,7 @@ meeting backward. The mode interfering with its own mirror.
 
 What emerges from this self-encounter is a standing wave. The nodes (ZZZ,
 classical, w=0) are where the interference is perfectly destructive in the
-rescaled frame. The antinodes (XX/YY, quantum, w=N) are where the
+rescaled frame. The antinodes (XX/YY, quantum) are where the
 interference is constructive: maximum oscillation. The pattern is R.
 
 The V-effect data shows where this self-encounter fails: at the boundary
@@ -469,7 +469,7 @@ Script connections:
 
 ### Proof and theory
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): Π operator definition and theorem
-- [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md): conceptual framework (December 2025)
+- [Standing Waves: Conditions Beyond the Spectral Palindrome](../docs/STANDING_WAVE_THEORY.md): what a standing-wave reading needs beyond the palindrome
 
 ### Experiments
 - [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md): 36/36 scorecard, the Π families (all local)
@@ -480,7 +480,7 @@ Script connections:
 
 ### Simulations
 - `simulations/continuous_pi_search.py`: per-site Π search (section 4 finds the continuous product)
-- `simulations/crossover_pair_local_pi.py`: the corrected local mirror M^⊗N, verified N=2..6
+- `simulations/crossover_pair_local_pi.py`: the local mirror M^⊗N, verified N=2..6
 - `simulations/choi_jamiolkowski_test.py`: Choi entanglement test
 - `simulations/boot_script_structure.py`: N=2 universality, 36-combo survey
 - `simulations/v_effect_analysis.py`: V-effect anatomy

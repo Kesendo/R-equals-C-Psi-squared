@@ -260,7 +260,9 @@ def main() -> None:
             mask = grid_k == k
             if mask.any():
                 q_shell = qs[mask]
-                log(f"    k={k}: n={mask.sum():4d}, Q_max={np.max(q_shell):7.1f}, Q_med={np.median(q_shell):7.1f}")
+                champ = osc[mask][np.argmax(q_shell)]
+                log(f"    k={k}: n={mask.sum():4d}, Q_max={np.max(q_shell):7.1f}, Q_med={np.median(q_shell):7.1f}, "
+                    f"|Im|_max={np.max(np.abs(osc[mask].imag)):.5f}, champion Re={champ.real:.4f}")
         log()
 
     # ─────────────────────────────────────────────
