@@ -269,8 +269,10 @@ itself, crawling at its own fold. R = CΨ², the namesake, is what becomes the h
 
 And the seam, the one Boundary Navigation insisted on: the slowing is ours. Change the stop criterion
 from absolute to relative (tol = k·ε) and the rescaled K stops drifting, sitting flat at ½·ln(4/k) =
-4.15, while the absolute-tol K climbs to 10.8. The cusp did not slow anything; our tolerance did. The
-mark is inert; the shape of the approach is the instrument's, which is to say ours.
+4.15, while the absolute-tol K climbs to 10.8. What remains is the count's 1/√ε, K = n·√ε held
+fixed: the shape of coming closer to the cusp, ε being how close we chose to come. The cusp did not
+slow anything; our tolerance made K drift, and our approach sets the rest. The mark is inert; the
+shape of the approach is the instrument's, which is to say ours.
 
 The last panel anchors it to the hardware: for the ideal Bell+ state under pure Z-dephasing the dwell
 K_dwell = γ·t_dwell = 1.08·δ is γ-invariant, a fixed dose carrying it through the fold no matter how

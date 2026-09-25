@@ -204,7 +204,7 @@ class Confirmations:
             'job_id': 'bxyj5yd4j + bzklqwt7f',
             'observable': 'arg(CΨ_com(t)) at first real-axis magnitude-minimum crossing under deliberate RZ phase injection at rate Ω (two Ω values: 0.13 and 0.25 rad/μs; per-Ω mapping in measured_value)',
             'predicted_value': {
-                'framework_claim': 'F95 complex-CΨ angle is actively steerable via per-chunk RZ(Ω·Δt) injection on the bra-ket Hermitian off-diagonal',
+                'framework_claim': 'The complex-CΨ phase arg(CΨ_com), which shares the square-root form of F95 in its arc length but is not the F95 angle θ, is actively steerable via per-chunk RZ(Ω·Δt) injection on the bra-ket Hermitian off-diagonal',
                 'model': 'Lindblad+RZ with in-situ γ_per_us from T2 calibration',
                 'pair_A_mid_qubits': [82, 83],
                 'pair_A_mid_gamma_per_us': 3.3632e-3,
