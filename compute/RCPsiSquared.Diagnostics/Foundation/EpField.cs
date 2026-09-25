@@ -11,8 +11,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// EP, the oscillation born, = the F95 angle); the defectiveness (the toy eigenvector overlap min(x,1/x)
 /// → 1 at the toy EP, the Jordan-block pinch of the 2×2 reduction); plus a separately scoped hardware
 /// population handover. The IBM Kingston curve is converted from its coherence-rate labels to the
-/// repository's canonical Lindblad Q; it is not evidence for the toy EP or for chain spectral character.
-/// Closed-form, N-free, 2-level.
+/// repository's canonical Lindblad Q; it is not evidence for the toy EP. The walk's own spectral transition is
+/// the (1,1)-block EP at the coherence horizon Q*(3)=√2 (<c>CoherenceHorizonClaim</c>), below the sampled
+/// handover. Closed-form, N-free, 2-level. The mirror of the interior axis: there the rotation stills at ¼,
+/// here it is born at Q_EP (the cusp/EP F95 siblinghood).
 ///
 /// <para><b>Scope (F86a-retraction, 2026-06-21):</b> every "EP / defective / Jordan-block / overlap→1"
 /// reading on this field is a property of the toy 2×2 rate-channel reduction, which IS genuinely
@@ -55,8 +57,9 @@ public sealed class EpField : IInspectable
         $"oscillation born), the 2×2 eigenvectors collapse (overlap→1). This defectiveness is the toy reduction's clean pinch AT Q_EP, NOT " +
         $"the physical chain block's behaviour there (the block is non-normal at Q_peak; its own real-axis defective EPs are " +
         $"F89's scattered seeds, not a clean Q_EP pinch, the retraction's 'no real-axis EP' corrected 2026-07-07; see LocalGlobalEpLink). " +
+        $"The cusp's mirror: there the rotation stills at ¼, here it is born. " +
         $"The hardware child is a separate population handover, not a calibration or confirmation of this toy EP; " +
-        "its spectral character remains open.";
+        "the walk's own EP is the (1,1)-block coherence horizon Q*(3)=√2 (CoherenceHorizonClaim), below that handover.";
 
     public IEnumerable<IInspectable> Children
     {
@@ -108,7 +111,10 @@ public sealed class EpField : IInspectable
                          "The runner uses coherence-rate labels Q_label=J/Γ: σ²=2Γdt gives exp(−Γt). The repository jump √γ Z gives exp(−2γt), " +
                          "so γ=Γ/2 and Q_Lindblad = 2 Q_label. The sampled population handover Q_label=1.5→2.5 is therefore Q_Lindblad=3→5 " +
                          "(revival 0.344→0.490). The 1/N line is only a reference level for this finite-time scalar, not a lower floor or an equipartition certificate. " +
-                         "Populations alone do not locate an EP, critical damping, or mode coalescence; spectral character remains open. " +
+                         "Populations alone locate no coalescence. The walk model's one-excitation (1,1) block has a single EP at Q > 0, " +
+                         "the coherence horizon Q*(3)=√2 (CoherenceHorizonClaim; EpCharacterWitness reads it DEFECTIVE), Q_label≈0.71, " +
+                         "between the two lowest samples; the handover bracket is a probe-time crossover of the revival amplitude, not a " +
+                         "spectral event (experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md). " +
                          "The historical ep_onset_may2026 name identifies the run, not its present verdict.",
                 payload: new InspectablePayload.Curve("Kingston revival vs canonical Lindblad Q", hwQLindblad, hwRev,
                     "Q_Lindblad = 2 Q_label", "revival (population return)"));

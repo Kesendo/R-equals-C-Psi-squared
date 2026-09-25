@@ -142,13 +142,52 @@ public class ConfirmationsRegistryTests
         Assert.Contains("{0.2978515625, 0.3623809814453125, 0.34356689453125, 0.4898834228515625, 0.560699462890625, 0.70330810546875}", entry.MeasuredValue);
         Assert.Contains("Q_label", entry.MeasuredValue);
         Assert.Contains("Q_Lindblad = 2 Q_label", entry.MeasuredValue);
-        Assert.Contains("spectral character remains open", entry.Description);
+        // The walk's spectral transition is placed, not left open: the (1,1)-block EP Q*(3) = √2
+        // (Q_label ≈ 0.71) lies below the handover, and the handover moves with the probe time.
+        Assert.Contains("Q*(3) = √2", entry.Description);
+        Assert.Contains("Q_label ≈ 0.71", entry.Description);
+        Assert.Contains("probe-time crossover", entry.Description);
+        Assert.Contains("CoherenceHorizonClaim", entry.FrameworkPrimitive);
+        Assert.Contains("EpCharacterWitness", entry.FrameworkPrimitive);
+        Assert.Contains("K=16 twirl-simulation value", entry.MeasuredValue);
+        Assert.DoesNotContain("spectral character remains open", entry.Description);
+        Assert.DoesNotContain("exact-twirl", entry.MeasuredValue);
+        // The placement, computed on the walk's own (1,1) block (γ = 1, hop Q, coherence decay 4γ):
+        // at the two lowest flown points Q_Lindblad = 1 and 2 the slowest non-kernel mode is real and a
+        // rotating pair respectively, so the EP lies between them. Both points are far from Q* = √2, where
+        // the eigenvalues are well conditioned: rounding leaves |Im| near 1e-15 on the real mode, and the
+        // pair at Q = 2 has |Im| = 2 exactly (roots −2 ± 2i of λ²+4λ+8), so the 1e-7 cut separates them by
+        // many decades.
+        Assert.True(SlowestSeBlockMode(1.0).Imaginary < 1e-7);
+        Assert.True(SlowestSeBlockMode(2.0).Imaginary > 1.0);
         Assert.Contains("do not certify convergence", entry.Description);
         Assert.Contains("without a gate/readout/leakage error model", entry.Description);
         Assert.DoesNotContain("floor and the onset are clean", entry.Description, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("critical-damping", entry.PredictedValue, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("ExceptionalPointClock", entry.FrameworkPrimitive);
         Assert.Equal(new[] { 13, 14, 15 }, entry.QubitPath);
+    }
+
+    /// <summary>The N=3 single-excitation (1,1) block, row-major ρ_ij: −iQ[A, ρ] − 4(ρ − diag ρ), and its
+    /// slowest non-kernel mode (largest Re among |λ| > 1e-7, the largest |Im| among ties).</summary>
+    private static System.Numerics.Complex SlowestSeBlockMode(double q)
+    {
+        const int n = 3;
+        var l = MathNet.Numerics.LinearAlgebra.Matrix<System.Numerics.Complex>.Build.Dense(n * n, n * n);
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+            {
+                int r = i * n + j;
+                foreach (int k in new[] { i - 1, i + 1 })
+                    if (k >= 0 && k < n) l[r, k * n + j] += new System.Numerics.Complex(0, -q);
+                foreach (int k in new[] { j - 1, j + 1 })
+                    if (k >= 0 && k < n) l[r, i * n + k] += new System.Numerics.Complex(0, q);
+                if (i != j) l[r, r] += -4.0;
+            }
+        var ev = l.Evd().EigenValues.Where(e => e.Magnitude > 1e-7).ToArray();
+        double top = ev.Max(e => e.Real);
+        var pick = ev.Where(e => Math.Abs(e.Real - top) < 1e-7).OrderByDescending(e => Math.Abs(e.Imaginary)).First();
+        return new System.Numerics.Complex(pick.Real, Math.Abs(pick.Imaginary));
     }
 
     [Fact]

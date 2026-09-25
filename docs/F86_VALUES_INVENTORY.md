@@ -51,7 +51,7 @@ The remaining work lives in two structurally distinct directions; neither overla
 
 Three things landed after this inventory's last update (2026-06-01) that bear on its rows; recorded here dated, anchors unchanged unless said so.
 
-1. **The SE-walk population handover was measured on hardware.** The Kingston q13-q14-q15 run (2026-05-31, historical registry id `ibm_ep_onset_may2026`) measured populations only. Its random-Z runner used coherence-rate labels Q_label=J/Γ, while the repository Lindblad convention has γ=Γ/2, hence **Q_Lindblad = 2 Q_label**. The revival stays near 1/N through Q_label=1.5 and is larger at Q_label=2.5 (canonical Q_Lindblad 3→5). This population scan is not an F86-block EP anchor; spectral character remains open until a separate eigenvalue/Jordan certificate exists. Writeup: [The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md).
+1. **The SE-walk population handover was measured on hardware.** The Kingston q13-q14-q15 run (2026-05-31, historical registry id `ibm_ep_onset_may2026`) measured populations only. Its random-Z runner used coherence-rate labels Q_label=J/Γ, while the repository Lindblad convention has γ=Γ/2, hence **Q_Lindblad = 2 Q_label**. The revival stays near 1/N through Q_label=1.5 and is larger at Q_label=2.5 (canonical Q_Lindblad 3→5). This population scan is not an F86-block EP anchor. The walk's own spectral transition is the (1,1)-block EP at the coherence horizon Q*(3) = √2 (`CoherenceHorizonClaim`, Tier 1 derived), which is Q_label ≈ 0.71, below the bracket; the handover itself is a probe-time crossover of the revival amplitude, not a spectral event. Writeup: [The Flow Between Two Singularities](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md).
 2. **g_eff's irreducible content halved.** The K_b mode mirror (2026-06-10): the antiunitary T = Σ₁∘conj gives K_b(b; mode k) = K_b(b; mode N+1−k) pointwise in Q and t, so **g_eff(c, N, b)'s irreducible content lives in the half-band of {k, N+1−k} orbits** ([the F86b obstruction proof](proofs/PROOF_F86B_OBSTRUCTION.md) "one more surviving symmetry", [the chiral mirror rate law proof](proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md) §8). A structural bonus from the same run: on c = 1 blocks K_b ≡ 0 identically (the block generator is e^{−2γt} × unitary), the structural reason the F86 resonance needs c ≥ 2. This does not revise any anchor value, but it halves the target of the F86_block obstruction and of Direction (b'') below: whatever closed form g_eff has or refuses to have, it is a function on mode *pairs*.
 3. **The clock and the seam, pinned.** The EP clock's peak angle is γ₀-invariant and provably not the diagonal: θ_peak = 44.3646° (45° would need x = √5; x_peak = 2.196910 of F86b₁ gives the 0.6354° shortfall; `ExceptionalPointClockTests`). And the Absorption Theorem extensions (2026-06-10) recentre the dissipative seam as L_D = γ(Q − N·I) with the per-eigenmode Rayleigh split and the orthogonal-projector form ([the Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) Extensions), the structural floor under every Re-rate in this inventory. The slow-light surface gained its basis-free primitive (`SlowLightDistribution`, [compute/RCPsiSquared.Diagnostics/Ptf/](../compute/RCPsiSquared.Diagnostics/Ptf/SlowLightDistribution.cs)): light_l = Tr(Π_V·Δ_l)/dim V, the s\*-surface read without hand-picked endpoint pairs.
 
@@ -165,7 +165,7 @@ The anchors merging Q-band edges, per-c Q_peak, Endpoint orbit, and the universa
 | F86 Q_peak c=3      | 1.6     | PerBlockQPeak (saturated)               | Tier2Empirical  |
 | F86 Q_peak c=4, c=5 | 1.8     | PerBlockQPeak (saturated)               | Tier2Empirical  |
 | Q_EP at g_eff=1     | 2.0     | QEpLaw idealized                        | Tier1Derived    |
-| SE-walk handover (hardware) | Q_label 1.5→2.5; Q_Lindblad 3→5 | `ibm_ep_onset_may2026`: population return near 1/N through the lower sample and larger at the upper (2026-05-31, Kingston); spectral character remains open | Tier2Verified hardware observation, not a Q_EP anchor |
+| SE-walk handover (hardware) | Q_label 1.5→2.5; Q_Lindblad 3→5 | `ibm_ep_onset_may2026`: population return near 1/N through the lower sample and larger at the upper (2026-05-31, Kingston); a probe-time crossover above the walk's (1,1)-block EP Q*(3) = √2 | Tier2Verified hardware observation, not a Q_EP anchor |
 | Endpoint orbit Q    | 2.5     | PerF71OrbitObservation (stable, ~2% N-variation) | Tier2Empirical candidate |
 
 Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbit Q_EP, off-grid escapes, HWHM lifts, and fitted (α, β) values are empirical diagnostics that may revise; they live in this inventory and the typed C# claims, not in the anchor map.
@@ -174,9 +174,13 @@ Only the anchors above belong in QBasisAnkers and Q_REGIME_ANCHORS. The per-orbi
 
 - **Population-flow cross-reference (no anchor change):**
   [`THE_FLOW_BETWEEN_TWO_SINGULARITIES`](../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md)
-  follows a fixed-number single-excitation state to its 1/N fixed point. Its hardware scan is a
-  rate-book-corrected population handover, not a continuation of an F86 eigenmode and not a spectral
-  singularity certificate. It does not revise the Q_peak / Q_EP / HWHM anchors above.
+  follows a fixed-number single-excitation state from its parameter-space singularity, the (1,1)-block
+  EP at the coherence horizon Q*(N) (`CoherenceHorizonClaim`), to its 1/N fixed point. That flow EP is a
+  distinct object from the c=2 coherence-block Q_EP this inventory tracks (kept separate on purpose,
+  not merged), and the tempting coincidences at it (the pair at Re = −2γ, ⟨n_XY⟩ = 1) hold at N = 2, 3
+  only (from N = 4 the coalescing pair sits below that floor), so they are not anchors. The flow's
+  hardware scan straddles that EP between its two lowest samples; its rate-book-corrected population
+  handover lies above it and is not a continuation of an F86 eigenmode. None of this revises the Q_peak / Q_EP / HWHM anchors above.
 - High-level Q-anchor map: [`Q_REGIME_ANCHORS.md`](Q_REGIME_ANCHORS.md)
 - C# F86 KnowledgeBase root: [`compute/RCPsiSquared.Core/F86/`](../compute/RCPsiSquared.Core/F86/)
 - Sub-ID partition (this document, top section): F86a / F86b₁..b₅ / F86c / F86d / F86e / F86_block

@@ -15,9 +15,12 @@ def test_carrier_scaling_holds_q_fixed_by_scaling_j_with_gamma():
     assert "J=2.0, gamma_0=gamma_10" in source
     assert "J=1.0, gamma_0=gamma_10" not in source
 
-    base = np.sort(np.linalg.eigvals(fw.ChainSystem(N=3, J=1.0, gamma_0=0.05).L).real)
-    scaled = np.sort(np.linalg.eigvals(fw.ChainSystem(N=3, J=2.0, gamma_0=0.10).L).real)
-    np.testing.assert_allclose(scaled, 2 * base, atol=1e-10, rtol=1e-10)
+    # Exact route: 2*0.05 == 0.10 in binary, so the joint scaling doubles every generator entry
+    # exactly; the generator is compared, not its eigensolver output.
+    base = fw.ChainSystem(N=3, J=1.0, gamma_0=0.05).L
+    scaled = fw.ChainSystem(N=3, J=2.0, gamma_0=0.10).L
+    assert np.array_equal(scaled, 2 * base)
+    assert "np.array_equal(chain.L, 2 * base_chain.L)" in source
 
 
 def test_demo_does_not_hide_fixed_j_drift_behind_nearest_grid_tolerance():

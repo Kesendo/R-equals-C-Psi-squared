@@ -280,28 +280,30 @@ public static class ConfirmationsRegistry
                 "Q_label = J/Γ over {0.5, 1, 1.5, 2.5, 5, 20}, where coherences decay as exp(−Γt).",
             PredictedValue:
                 "SE-walk population handover reading: the finite-time revival remains near the 1/N = 1/3 reference level through Q_label=1.5 and is larger at Q_label=2.5. " +
-                "This population observable does not locate a spectral transition; coalescence and Jordan character remain unmeasured. " +
-                "Twirl simulate (K=16 exact statevector): revival 0.28 → 0.84 across the same Q scan. " +
+                "The spectral transition of the walk is not at this handover: the one-excitation (1,1) block of the continuous model has a single EP at Q > 0, the coherence horizon Q*(3) = √2 in the Lindblad book (CoherenceHorizonClaim), i.e. Q_label = 1/√2 ≈ 0.71, between the two lowest flown points. " +
+                "Twirl simulation (K=16 random-phase instances, seed 12345 shared with the hardware run): revival 0.28 → 0.84 across the same Q scan. " +
                 "Separate ideal-model theorem: with number conservation, positive dephasing, and connected hopping, the one-excitation sector relaxes asymptotically to its uniform 1/N stationary state; Part A hardware does not test that asymptote.",
             MeasuredValue:
                 "Q_label = {0.5, 1, 1.5, 2.5, 5, 20}; Q_Lindblad = 2 Q_label = {1, 2, 3, 5, 10, 40}; " +
                 "revival = {0.2978515625, 0.3623809814453125, 0.34356689453125, 0.4898834228515625, 0.560699462890625, 0.70330810546875}. The sampled population handover is bracketed by Q_label=1.5→2.5, equivalently Q_Lindblad=3→5. " +
                 "Part A finite-time marginals 0.339 / 0.426 / 0.338 at 20 μs (sum 1.103; no readout/leakage correction or asymptotic claim). " +
-                "At Q_label=20 the measured revival 0.703 is below the exact-twirl value 0.842 (raw 0.8417853730254796); that discrepancy is consistent with accumulated circuit/gate cost, but the stored record has no calibrated error model that assigns a unique cause.",
+                "At Q_label=20 the measured revival 0.703 is below the K=16 twirl-simulation value 0.842 (raw 0.8417853730254796); that discrepancy is consistent with accumulated circuit/gate cost, but the stored record has no calibrated error model that assigns a unique cause.",
             HardwareData:
                 "data/ibm_ep_onset_may2026/ (Part A ep_onset_hardware_ibm_kingston_20260531_060943.json, " +
                 "Part B ep_onset_hardware_ep_ibm_kingston_20260531_064022.json + same-day simulate JSONs)",
             ExperimentDoc: "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md",
             FrameworkPrimitive:
-                "EpField hardware node (inspect --axis ep), with the hardware curve converted from the runner's coherence-rate labels to canonical Lindblad Q",
+                "CoherenceHorizonClaim (the (1,1)-block EP of the walk, Q*(3) = √2, inspect --root horizon) + EpCharacterWitness (inspect --root epcharacter, DEFECTIVE) + EpField hardware node (inspect --axis ep), with the hardware curve converted from the runner's coherence-rate labels to canonical Lindblad Q",
             Description:
                 "The single-excitation-walk population handover is a real-chip population-only observation. " +
                 "Part A (job d8dr7dfd0j8c73f4man0) records finite-time site-to-site sloshing and a site-0 revival that falls from 0.84 to 0.43 over 15 μs. " +
                 "Its three Z-basis marginals move closer together by 20 μs, but they are not a normalized one-excitation distribution and do not certify convergence or an asymptotic fixed point. " +
                 "Part B (job d8drjbfd0j8c73f4mobg) injects dephasing via a random-Z twirl (K=16 instances; the RZ gates are virtual on IBM, so the injection is error-free) " +
                 "to scan Q_label = J/Γ. Its random-phase variance σ²=2Γdt gives coherence decay exp(−Γt), whereas the repository Lindblad jump √γ Z gives exp(−2γt). Thus γ=Γ/2 and Q_Lindblad = 2 Q_label. " +
-                "The observed bracket Q_label=1.5→2.5 is therefore Q_Lindblad=3→5. It is a population handover only: spectral character remains open; no critical damping, EP, mode coalescence, or Jordan structure was measured. " +
-                "The F86a coherence-block 'real-axis EP' this entry formerly cited was retracted 2026-06-21 (genuine non-normality near Q_peak, large but finite Petermann); that retraction's 'no real-axis defective EP' was itself corrected 2026-07-07, F89 locates a real-axis defective seed on the full block (PROOF_F86A section The real-axis EP). This hardware entry depends on neither reading: it measures only the finite-time SE-walk population handover, not the block EP. " +
+                "The observed bracket Q_label=1.5→2.5 is therefore Q_Lindblad=3→5. It is a population handover, and it is not a spectral event. " +
+                "In the continuous model of the flown walk (H = (J/2)Σ(XX+YY), J = 1.5 rad/μs, jump √γ Z on every site, γ = Γ/2) the one-excitation (1,1) block has exactly one EP at Q > 0: the coherence horizon Q*(3) = √2, λ* = −2γ, algebraic multiplicity 2 and geometric 1 by exact rank (simulations/the_flow_endpoints.py; CoherenceHorizonClaim, Tier1Derived; EpCharacterWitness reads it DEFECTIVE). In runner labels that is Q_label ≈ 0.71, between the flown 0.5 and 1.0, below the bracket. " +
+                "The bracket is a probe-time crossover of the revival amplitude, and the flown circuit places it: the flown Trotter map (dt = 0.5 μs, Jdt = 0.75, the twirl replaced by its exact channel average), which is not the continuous model at the low end (Γdt = 1.5 at Q_label = 0.5), gives revival 0.372 → 0.453 across Q_label 1.5 → 2.5, crossing 0.45 inside the bracket, and its statistic n₀ > 0.45 at every larger Q sets in at Q_Lindblad = 4.94, 9.88, 14.82 when read at 3, 6, 9 μs; the continuous model shows the same drift at the k-th coherent return t_k = k·2π/(√2 J) (Q_Lindblad ≈ 5.65, 10.96, 16.34, the first just above the flown bracket). So the handover moves with the probe time while the EP stays at √2. The slowest mode of the Trotter map itself turns oscillatory at Q_label ≈ 0.359, below every flown point. The populations themselves measured no damping regime, coalescence, or Jordan structure. " +
+                "The F86a coherence-block 'real-axis EP' this entry formerly cited was retracted 2026-06-21 (genuine non-normality near Q_peak, large but finite Petermann); that retraction's 'no real-axis defective EP' was itself corrected 2026-07-07, F89 locates a real-axis defective seed on the full block (PROOF_F86A section The real-axis EP). This hardware entry depends on neither reading: it measures only the finite-time SE-walk population handover, not the (n,n+1)-block EP. " +
                 "The faster hardware envelope than the T1/T2-only simulation is consistent with accumulated circuit/gate cost; without a gate/readout/leakage error model it is not an exclusive causal identification. " +
                 "This table is the hardware node of EpField (Diagnostics/Foundation/EpField.cs) and the overlay in simulations/ep_transition.py.",
             QubitPath: new[] { 13, 14, 15 }),

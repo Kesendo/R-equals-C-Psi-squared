@@ -168,11 +168,11 @@ public static class InspectCommand
 
     /// <summary>The single-excitation population flow GameObject: an excitation evolved across a Q-grid, with
     /// per-site occupation ⟨n_site⟩(τ) relaxing to 1/N. Args: <c>--N 1..6</c>,
-    /// <c>--q-list 0.5,1.0,1.5,2.5</c>, <c>--t-max 6.0</c>, <c>--t-points 60</c> (Python defaults).
+    /// <c>--q-list 1,2,3,5</c> (canonical Q, the grid of <c>simulations/post_ep_dynamics_4d.py</c>), <c>--t-max 6.0</c>, <c>--t-points 60</c>.
     /// Pair with <c>--draw</c> to plot the trajectory curves.</summary>
     private static IInspectable BuildFlowRoot(ArgParser p, int N)
     {
-        string qListStr = p.OptionalString("q-list") ?? "0.5,1.0,1.5,2.5";
+        string qListStr = p.OptionalString("q-list") ?? "1,2,3,5";
         var qGrid = qListStr.Split(',')
             .Select(s => double.Parse(s.Trim(), CultureInfo.InvariantCulture)).ToArray();
         double tMax = p.OptionalDouble("t-max") ?? 6.0;

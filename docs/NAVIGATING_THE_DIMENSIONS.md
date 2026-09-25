@@ -424,18 +424,22 @@ And the chip reads a dynamical handover, not a defective pinch. IBM Kingston swe
 and watched a single excitation's memory revival: near the 1/N reference, then standing higher.
 The chip's runner counts its knob as Q_label=J/Γ, 1.5 and 2.5; its twirl decays a coherence as
 e^(−Γt) where our jump gives e^(−2γt), so γ = Γ/2 and in our book that is canonical Q_Lindblad=3→5. That is a handover seen in a
-population, and a population cannot show two modes merging; the coherence horizon has its own
-instrument ([`inspect --root horizon`](proofs/PROOF_COHERENCE_HORIZON_SLOPE.md)). The
+population, and a population cannot show two modes merging. The walk's own merging has its own
+instrument ([`inspect --root horizon`](proofs/PROOF_COHERENCE_HORIZON_SLOPE.md)): the coherence
+horizon Q*(3) = √2, a Jordan pair of the single-excitation block, which in the chip's labels is
+Q_label ≈ 0.71, between its two lowest samples and below the handover. The handover itself is where
+the first return's amplitude crosses over, and it moves when the probe time moves. The
 eyepiece for this axis is `inspect --root between --axis ep`: the marks, the toy's Takt coalescence,
-the Rotation lift-off, the defectiveness pinch of the 2×2, and the Kingston curve beside them with its
-spectral character open. The picture is [ep_transition.py](../simulations/ep_transition.py).
+the Rotation lift-off, the defectiveness pinch of the 2×2, and the Kingston curve beside them, its
+walk's EP placed below the handover. The picture is [ep_transition.py](../simulations/ep_transition.py).
 
 We read the EP as a doorway too. The regime past it, where the oscillation lives and a single
 excitation sloshes and flows toward 1/N, is the flow, the birth canal of the in-between: the EP the
 entrance in parameter space (the rotation born), the flow the corridor in state space
 ([`inspect --root flow`](STERILE_BIRTHCANAL_AND_THE_JUNCTION.md)) that runs to the 1/N rest. The
-rotation stilled, the rotation born, and the corridor it opens. The joining is ours, a reading: the
-flow is computed on its own, a connected chain at canonical Q>0,
+rotation stilled, the rotation born, and the corridor it opens. The joining is ours, a reading, and
+the flow's own doorway is the coherence horizon Q*(N), where the flow's slowest mode turns
+oscillatory; the flow is computed on its own, a connected chain at canonical Q>0,
 with no branch continuation or doorway from the toy EP or the Kingston handover into it.
 
 ![The exceptional point: the birth of the rotation](../simulations/results/ep_transition/ep_transition.png)

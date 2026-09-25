@@ -226,37 +226,40 @@ public static class Formulas
     public static double F41_PalindromicTime(int n, double j) => Math.PI / (4.0 * j * Math.Pow(Math.Sin(Math.PI / (2.0 * n)), 2));
 
     // F44 (T1, D08): algebraic pair-rate log identity ln(d_fast/d_slow) = 2 artanh(Delta_d/(2 Sg))
-    // for a finite ordered positive palindromic pair: 0 <= Delta_d=d_fast-d_slow < 2 Sg;
-    // no probability/work ensemble is defined.
-    public static double F44_LogRatio(double dFast, double dSlow, double sg)
+    // for a finite ordered positive palindromic pair, Delta_d = d_fast - d_slow and
+    // 2 Sg = d_fast + d_slow. Sg is not an input: the pair determines it, so the argument is
+    // Delta_d/(d_fast + d_slow), in [0, 1) for any positive pair;
+    // no probability/work ensemble is defined. The identity is the content; the value is evaluated
+    // through the logarithm, because 2 artanh((1 - r)/(1 + r)) cancels in 1 - x as r = d_slow/d_fast
+    // shrinks (relative error 2.5e-5 at r = 1e-14, and a wrong finite value at r = 1e-16).
+    public static double F44_LogRatio(double dFast, double dSlow)
     {
-        ValidateF44PositivePalindromicPair(dFast, dSlow, sg);
-        double scale = Math.Max(sg, Math.Max(dFast, dSlow));
-        double argument = (dFast / scale - dSlow / scale) / (2.0 * (sg / scale));
-        if (!double.IsFinite(argument) || argument >= 1.0)
-            throw new ArgumentException("F44 requires the strict domain Delta_d < 2 Sg.");
-        return 2.0 * Math.Atanh(argument);
+        ValidateF44PositivePair(dFast, dSlow);
+        // Within a factor 2 the difference d_fast - d_slow is exact (Sterbenz), so log1p keeps full
+        // relative accuracy down to the equal pair (exactly 0). Beyond it ln d_fast - ln d_slow is at
+        // least ln 2, so the subtraction of two correctly rounded logs costs a few ulps and never
+        // overflows, unlike d_fast/d_slow for a pair spanning the double range.
+        if (dSlow >= 0.5 * dFast)
+            return LogOnePlus((dFast - dSlow) / dSlow);
+        return Math.Log(dFast) - Math.Log(dSlow);
     }
 
-    private static void ValidateF44PositivePalindromicPair(double dFast, double dSlow, double sg)
+    // log(1 + x) for 0 <= x <= 1 without the cancellation of Math.Log(1 + x) at small x
+    // (the classic correction: u = 1 + x rounded, log(u) * x / (u - 1) is exact to a few ulps).
+    private static double LogOnePlus(double x)
     {
-        if (!double.IsFinite(sg) || sg <= 0.0)
-            throw new ArgumentOutOfRangeException(nameof(sg), sg, "Sg must be finite and > 0.");
+        double u = 1.0 + x;
+        return u == 1.0 ? x : Math.Log(u) * x / (u - 1.0);
+    }
+
+    private static void ValidateF44PositivePair(double dFast, double dSlow)
+    {
         if (!double.IsFinite(dFast) || dFast <= 0.0)
             throw new ArgumentOutOfRangeException(nameof(dFast), dFast, "d_fast must be finite and > 0.");
         if (!double.IsFinite(dSlow) || dSlow <= 0.0)
             throw new ArgumentOutOfRangeException(nameof(dSlow), dSlow, "d_slow must be finite and > 0.");
         if (dFast < dSlow)
             throw new ArgumentOutOfRangeException(nameof(dFast), dFast, "The pair must be ordered: d_fast >= d_slow.");
-
-        // Scale first so the redundant-input consistency check cannot overflow. Sixteen unit
-        // roundoffs cover the divisions, sum and subtraction; larger residuals are off the
-        // F44 palindromic-pair manifold rather than floating-point evaluation noise.
-        const double unitRoundoff = 2.2204460492503131e-16;
-        double scale = Math.Max(sg, Math.Max(dFast, dSlow));
-        double pairResidual = Math.Abs(dFast / scale + dSlow / scale - 2.0 * (sg / scale));
-        if (pairResidual > 16.0 * unitRoundoff)
-            throw new ArgumentException("F44 requires d_fast + d_slow = 2 Sg within floating-point roundoff.");
     }
 
     // F49 (T1, proven): cross-term ratio R(N) = sqrt((N-2)/(N 4^{N-1})). N=2: 0 (exact Pythagorean);

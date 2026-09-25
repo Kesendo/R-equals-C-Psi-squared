@@ -124,6 +124,21 @@ def test_confirmations_lookup_palindrome_trichotomy():
     assert e['measured_value']['delta_soft_minus_truly'] == -0.722
 
 
+def _slowest_se_block_mode(q, n=3):
+    """Slowest non-kernel mode of the single-excitation (1,1) block: -iq[A, rho] - 4(rho - diag rho)."""
+    import numpy as np
+    a = np.diag(np.ones(n - 1), 1)
+    a = a + a.T
+    ident = np.eye(n)
+    lmat = -1j * q * (np.kron(a, ident) - np.kron(ident, a.T))
+    lmat += np.diag(-4.0 * (np.ones((n, n)) - ident).flatten())
+    w = np.linalg.eigvals(lmat)
+    w = w[np.abs(w) > 1e-7]
+    top = w.real.max()
+    ties = w[np.abs(w.real - top) < 1e-7]
+    return ties[np.argmax(np.abs(ties.imag))]
+
+
 def test_confirmations_lookup_ibm_ep_onset():
     # The historical slug is retained, but the result is a population handover in
     # the runner's coherence-rate book, not a critical-damping or EP certificate.
@@ -141,7 +156,23 @@ def test_confirmations_lookup_ibm_ep_onset():
     assert '0.28 → 0.84' in e['predicted_value']['twirl_simulate_revival']
     assert '0.8417853730254796' in e['measured_value']['high_Q_discrepancy']
     assert 'Q_Lindblad = 2 Q_label' in e['measured_value']['rate_book']
-    assert 'spectral character remains open' in e['description']
+    # The walk's spectral transition is placed, not left open: the (1,1)-block EP Q*(3) = √2
+    # (Q_label ≈ 0.71) lies below the handover, and the handover moves with the probe time.
+    assert 'Q*(3) = √2' in e['description']
+    assert 'Q_label ≈ 0.71' in e['description']
+    assert 'probe-time crossover' in e['description']
+    assert 'CoherenceHorizonClaim' in e['framework_primitive']
+    assert 'EpCharacterWitness' in e['framework_primitive']
+    assert 'K=16 twirl simulation' in e['measured_value']['high_Q_discrepancy']
+    assert 'spectral character remains open' not in e['description']
+    assert 'exact-twirl' not in e['measured_value']['high_Q_discrepancy']
+    # The placement, computed on the walk's own (1,1) block from the registry's own grid: the slowest
+    # non-kernel mode is real at the first flown Q_Lindblad and a rotating pair at the second, so the
+    # EP lies between them. Both points are far from Q* = sqrt 2 (well-conditioned eigenvalues: |Im|
+    # ~1e-15 on the real mode, exactly 2 on the pair at Q = 2), so the 1e-7 cut has decades of room.
+    q0, q1 = e['measured_value']['Q_lindblad_grid'][:2]
+    assert abs(_slowest_se_block_mode(q0).imag) < 1e-7
+    assert abs(_slowest_se_block_mode(q1).imag) > 1.0
     assert 'do not certify convergence' in e['description']
     assert 'no calibrated error model' in e['description']
     assert 'floor and the onset are clean' not in e['description']

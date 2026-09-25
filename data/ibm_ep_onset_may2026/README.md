@@ -45,10 +45,16 @@ The repository's canonical Lindblad jump √γ Z makes coherences decay as exp(�
 | 20 | 40 | 0.70 | larger return |
 
 The sampled population handover lies between Q_label=1.5 and 2.5, equivalently canonical
-Q_Lindblad=3 and 5. Its spectral character remains open: populations do not certify critical
-damping, an EP, eigenmode coalescence, or Jordan structure. The result tracks the
-validated exact-statevector twirl simulation (0.28 → 0.84 across the same scan). At Q_label=20
-the measured 0.703 is below the exact-twirl simulation 0.842 (raw 0.8417853730254796); the difference is consistent with accumulated
+Q_Lindblad=3 and 5. It is not a spectral event. In the continuous model of this walk
+(H = (J/2)·Σ(XX+YY), J = 1.5 rad/us, jump √γ Z on every site, γ = Γ/2) the one-excitation block
+has a single EP at Q > 0, the coherence horizon Q*(3) = √2 (algebraic multiplicity 2, geometric 1
+by exact rank), which is Q_label ≈ 0.71, between the two lowest flown points. The bracket itself
+moves with the probe time: the walk's first coherent return comes at 2π/(√2 J) = 2.96 us, inside
+the probe window {2, 3} us, and a later probe moves the bracket up. Numbers and derivation:
+[THE_FLOW_BETWEEN_TWO_SINGULARITIES § Part B](../../experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md#the-sampled-se-walk-handover-part-b-inject-dephasing-and-scan-q).
+The result tracks the validated twirl simulation (K=16 exact-statevector instances,
+0.28 → 0.84 across the same scan). At Q_label=20 the measured 0.703 is below that K=16
+simulation's 0.842 (raw 0.8417853730254796); the difference is consistent with accumulated
 circuit/gate cost, but is not uniquely attributed by these records. The 1/N line is a reference,
 not a measured floor; the sampled change is not a certified onset or threshold.
 

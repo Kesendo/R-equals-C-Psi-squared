@@ -139,7 +139,9 @@ Its global order four is resolved sectorwise through Π² = U_X. No global AIII,
 BDI, or CI label is assigned here; the irreducible-sector classification remains
 open.
 
-**Literature and scope comparison.** The pairing about a nonzero center,
+**Literature and scope comparison.** We built this from the dephasing algebra with
+no literature input: the −2Sγ shift fell out of the 2:2 per-site Pauli split, and the
+shifted-sublattice form below was recognized afterward, on 2026-06-08. The pairing about a nonzero center,
 λ ↔ −λ − 2Sγ (eigenvalue pairs ±λ + ia), has the shifted-sublattice-symmetry
 form catalogued by Kawasaki, Mochizuki, and Obuse (Phys. Rev. B 106, 035408,
 2022): ordinary chiral/sublattice symmetry plus a constant decay-rate shift.
@@ -148,8 +150,7 @@ Their construction is noninteracting at the quadratic/Majorana level and uses
 stated interacting/k-body model together with a bounded 6 → 4 → 2
 per-site-product-versus-entangled locality result. Prior-art coverage and
 equivalence for that interacting, locality-resolved scope remain OPEN. This is
-an object-and-scope comparison, not an ownership, independence, priority, or
-novelty claim.
+an object-and-scope comparison, not an ownership, priority, or novelty claim.
 
 ---
 

@@ -4054,3 +4054,42 @@ it looked for could appear. And every draft of the repair claimed one notch more
 not see was credited with an answer, a timing that dates nothing was given as the reason, and a pattern two mechanisms
 share was read as one of them. A repair that retracts a verdict has to look for the support before calling it absent,
 and one that supplies a replacement has to name the family where the record cannot rank its members.
+
+## 2026-09-25, the Kingston handover's "spectral character" was declared open while the walk's EP was certified, and the handover has none
+
+The outside commit 094036bd (2026-09-08) carried the rate book through every consumer of the May-2026
+Kingston single-excitation record, rightly (Q_Lindblad = 2 Q_label, H = (J/2)Σ(XX+YY), the raw revival
+vector, the 1.103 sum, 1/N as a reference level, the toy 2×2 EP separated from the chip), and then wrote
+on eleven surfaces that the handover's spectral character "remains open until a separate
+eigenvalue/Jordan certificate exists". The certificate existed: `CoherenceHorizonClaim` (Tier 1 derived
+since 2026-07-19) and `EpCharacterWitness` place the walk's (1,1)-block EP at Q*(3) = √2, and exact
+ranks give algebraic 2, geometric 1. It sits at Q_label ≈ 0.71, between the two lowest flown points,
+below the bracket Q_Lindblad = 3→5. The bracket itself has no spectral character to leave open: in
+the continuous model the statistic that defines it moves with the probe time (onset at Q_Lindblad ≈
+5.65, 10.96, 16.34 for the first three coherent returns) while the EP stays put. Twelve docs_verify
+phrase locks then pinned the open clause, two bans forbade true sentences ("two modes of L collide and
+merge", "single-excitation flow exceptional point"), and our own later restorations kept the clause
+because the gate required it. THE_FLOW lost its two singularities, its restored rate 2.11 (with a
+2.74 that never reproduced; the high-Q value is 2.6667), and kept an old-book Q label on its tide; the
+flow's own under/overdamped boundary was replaced by a sampled turn count and a word lock.
+
+**Found by.** The typed audit of 094036bd, which recomputed the (1,1) block's characteristic polynomial,
+ranks and the continuous and Trotter models of the flown circuit from below; the implementing repair
+then found that the audit's "only real-axis coalescence" missed a coincidence between factors, a
+semisimple crossing at Q = 4/3, λ = −8γ/3.
+
+**What stands now.** Both registries, EpField, THE_FLOW and the anchor documents place the walk's EP
+below the handover and call the handover a probe-time crossover; `the_flow_endpoints.py` computes the
+factorization, every eigenvalue coincidence at Q > 0 with its exact ranks, the Kingston placement and
+the Trotter map's onset (Q_label ≈ 0.359). The flown Trotter map places the bracket (revival
+0.372 → 0.453 across it) and shows the same probe-time drift (onset Q_Lindblad 4.94, 9.88, 14.82 read at
+3, 6, 9 μs). THE_FLOW is again the flow between two singularities, the
+defective (1,1)-block EP Q*(N) and the (N+1)-fold semisimple kernel. `PostEpFlowField` reads its regime
+off the flow's own block, flipping at the coherence horizon.
+
+**The lesson.** "Not measured here" and "open in the repo" are different sentences, and only a sweep of
+the typed layer tells them apart. A population scan that cannot see a coalescence says nothing about
+whether the model has one; and a statistic read at fixed probe times has to be moved in time before it
+is given a spectral name, or denied one. A phrase lock on a scope clause turns a missed citation into a
+rule that later repairs obey. And when an EP is claimed to be the only one, the coincidences between
+factors count as much as the discriminants within them.

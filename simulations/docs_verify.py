@@ -817,14 +817,17 @@ def f44_ordered_pair_api_errors(source):
 
 def mirrorworld_f44_ordered_pair_api_errors(source):
     errors = []
-    for token in ("ValidateF44PositivePalindromicPair(dFast, dSlow, sg);",
-                  "!double.IsFinite(sg)", "sg <= 0.0",
+    for token in ("ValidateF44PositivePair(dFast, dSlow);",
                   "!double.IsFinite(dFast)", "dFast <= 0.0",
                   "!double.IsFinite(dSlow)", "dSlow <= 0.0",
-                  "Math.Abs(dFast / scale + dSlow / scale - 2.0 * (sg / scale))",
-                  "!double.IsFinite(argument)", "argument >= 1.0"):
+                  "if (dSlow >= 0.5 * dFast)",
+                  "return LogOnePlus((dFast - dSlow) / dSlow);",
+                  "return Math.Log(dFast) - Math.Log(dSlow);"):
         if token not in source:
             errors.append(f"MirrorWorld F44 domain guard missing {token}")
+    # The artanh evaluation cancels in 1 - x for a small d_slow/d_fast (wrong finite value at 1e-16).
+    if "2.0 * Math.Atanh(argument)" in source:
+        errors.append("MirrorWorld F44 evaluates through artanh again")
     return errors
 
 
@@ -975,7 +978,8 @@ def verify_task8_current_truth():
             "No global AIII, BDI, or CI label is assigned here", "irreducible-sector classification remains open",
             "SRP applies negative symmetries to the trace-shifted generator",
             "Prior-art coverage and equivalence for that interacting, locality-resolved scope remain OPEN",
-            "not an ownership, independence, priority, or novelty claim",
+            "not an ownership, priority, or novelty claim",
+            "recognized afterward, on 2026-06-08",
             "Strict GNS/KMS symmetry of the full generator",
             "Alicki/standard QDB permits a separate Hamiltonian derivation",
             "only the dissipative part is self-adjoint",
@@ -989,8 +993,8 @@ def verify_task8_current_truth():
              "QDB relates L to its adjoint L† (real eigenvalues)",
              "What QDB implies spectrally: all eigenvalues of L are real",
              "what stays ours", "are the new part",
-             "new variant of known framework", "We built this", "with no literature input",
-             "reached independently", "recognized afterward", "Ours works",
+             "new variant of known framework",
+             "reached independently", "Ours works", "not an ownership, independence, priority",
              "showed that quantum detailed balance is equivalent to the Petz recovery map",
              "QDB = Petz recovery map being exact channel reversal")),
         "simulations/universal_carrier_demo.py": ((
@@ -1861,8 +1865,8 @@ def verify_round4_artifacts_and_consumers():
         "compute/RCPsiSquared.Diagnostics/Knowledge/KnowledgeRegistryFactory.cs": ((),
             ("tracked axis departure",)),
         "simulations/ep_transition.py": ((
-            "two-level exceptional-point pinch", "spectral character remains open"),
-            ("fragile-bridge pinch",)),
+            "two-level exceptional-point pinch", "walk's (1,1)-block EP Q*(3) = √2"),
+            ("fragile-bridge pinch", "spectral character remains open")),
         "compute/RCPsiSquared.Core.Tests/F86/LocalGlobalEpLinkTests.cs": ((
             "two qubits per chain", "at J_bridge = 1.0 and 1.9"),
             ()),
@@ -2050,8 +2054,9 @@ def verify_round4_artifacts_and_consumers():
     for name, old, new in (
         ("positive d_fast", "dFast <= 0.0", "dFast < 0.0"),
         ("positive d_slow", "dSlow <= 0.0", "dSlow < 0.0"),
-        ("palindromic pair sum", "Math.Abs(dFast / scale + dSlow / scale - 2.0 * (sg / scale))", "Math.Abs(dFast - dSlow)"),
-        ("public validation call", "ValidateF44PositivePalindromicPair(dFast, dSlow, sg);", ""),
+        ("log route near the equal pair", "return LogOnePlus((dFast - dSlow) / dSlow);",
+         "return 2.0 * Math.Atanh(argument);"),
+        ("public validation call", "ValidateF44PositivePair(dFast, dSlow);", ""),
     ):
         changed = mirrorworld_source.replace(old, new, 1)
         check(f"MirrorWorld F44 mutation rejects missing {name}", changed != mirrorworld_source and
@@ -2356,36 +2361,41 @@ def verify_final_five_repairs():
     text_surfaces = {
         "docs/F86_VALUES_INVENTORY.md": (
             ("SE-walk population handover", "Q_label", "Q_Lindblad = 2 Q_label",
-             "spectral character remains open", "not an F86-block EP anchor"),
+             "coherence horizon Q*(3) = √2", "not an F86-block EP anchor"),
             ("Q_EP got its hardware anchor", "rotation born at the F86a exceptional point",
              "Q_EP onset (hardware)", "post-EP dynamics", "reborn mode")),
         "experiments/THE_FLOW_BETWEEN_TWO_SINGULARITIES.md": (
             ("sampled SE-walk population handover", "Q_label", "Q_Lindblad = 2 Q_label",
-             "spectral character remains open", "fixed positive per-site profile",
+             "rank(L₍₁,₁₎ − λ*) = 8 of 9", "fixed positive per-site profile",
              "not a physical CP dephasing channel", "not an isolated global sink",
              "global slowest non-kernel mode is not identified with the population-visible approach rate",
-             "0.28 → 0.84", "0.8417853730254796"),
-            ("two modes of L collide and merge", "is a Hopf bifurcation",
+             "0.28 → 0.84", "0.8417853730254796",
+             "0.372 at Q_label = 1.5", "4.94, 9.88 and 14.82",
+             "peak 0.609 at τ = γt = 0.308, canonical Q = 3, N = 5",
+             "2.6667γ at both Q = 2000 and Q = 20000"),
+            ("spectral character remains open", "is a Hopf bifurcation", "rising to 2.74",
+             "(peak near t ≈ 0.3 at Q=1.5, N=5)",
              "At Q_EP the two coalesce defectively", "verified facts are the two singularity types",
              "reborn mode", "post-EP dynamics", "equipartition floor", "natural Q≈30",
              "populations converge toward", "simple λ=0 kernel")),
         "README.md": (
             ("Q_label = 1.5→2.5", "Q_Lindblad = 3→5", "population handover",
-             "spectral character open"),
+             "the walk's EP Q*(3) = √2 lies below it"),
             ("across the EP", "EP onset: revival")),
         "data/ibm_ep_onset_may2026/README.md": (
             ("historical run identifier", "Q_label", "Q_Lindblad = 2 Q_label",
-             "population handover", "spectral character remains open", "0.28 → 0.84",
+             "population handover", "coherence horizon Q*(3) = √2", "0.28 → 0.84",
              "sum 1.103", "not a normalized", "0.8417853730254796"),
             ("the EP onset on a real chip", "reborn memory", "dephasing EP onset",
              "equipartition floor", "populations converge toward", "floor and the onset are clean")),
         "docs/Q_REGIME_ANCHORS.md": (
             ("not a spectral Q anchor", "Q_label=1.5→2.5", "Q_Lindblad=3→5",
-             "spectral character remains open"),
-            ("single-excitation flow exceptional point", "Birth Canal's birth singularity",
+             "Q*(3) = √2 ≈ 1.414"),
+            ("spectral character remains open", "Birth Canal's birth singularity",
              "chosen to sit on the flow EP")),
         "compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs": (
-            ("Q_label", "Q_Lindblad = 2 Q_label", "spectral character remains open",
+            ("Q_label", "Q_Lindblad = 2 Q_label", "the coherence horizon Q*(3) = √2, λ* = −2γ",
+             "Q_Lindblad = 4.94, 9.88, 14.82", "Q_label ≈ 0.359",
              "population handover", "0.28 → 0.84", "sum 1.103",
              "does not isolate a local Z-dephasing rate", "0.8417853730254796"),
             ("equipartition floor", "Confirms the typed UniversalCarrierClaim.DefaultGammaZero", "hardware-anchored",
@@ -2393,13 +2403,15 @@ def verify_final_five_repairs():
              "ExceptionalPointClock (the toy 2×2 reduction")),
         "simulations/framework/confirmations.py": (
             ("Q_label_grid", "Q_lindblad_grid", "Q_Lindblad = 2 Q_label",
-             "spectral character remains open", "population handover", "0.28 → 0.84",
+             "the coherence horizon Q*(3) = √2, λ* = −2γ", "Q_Lindblad = 4.94, 9.88, 14.82",
+             "Q_label ≈ 0.359", "population handover", "0.28 → 0.84",
              "sum 1.103", "does not isolate a local Z-dephasing rate", "0.8417853730254796"),
             ("equipartition floor", "Confirms the typed", "hardware-anchored",
              "floor_below_ep", "liftoff_above_ep", "critical-damping transition",
              "the reborn memory", "ExceptionalPointClock (the toy 2×2 reduction")),
         "compute/RCPsiSquared.Diagnostics/Foundation/EpField.cs": (
-            ("Q_Lindblad = 2 Q_label", "spectral character remains open",
+            ("Q_Lindblad = 2 Q_label", "Q*(3)=√2",
+              "The cusp's mirror: there the rotation stills at ¼, here it is born.",
               "population handover", "F89's scattered seeds"),
             ("at the same Q_EP", "post-EP regime it opens", "critical-damping",
              "has NO defective EP there (eigenvalues simple)")),
@@ -2501,13 +2513,12 @@ def verify_final_five_repairs():
             ("the post-EP single-excitation flow",)),
         "simulations/ep_transition.py": (
             ("population_scan()", "1/N reference level",
-             "spectral character remains open", "population handover"),
+             "walk's (1,1)-block EP Q*(3) = √2", "population handover"),
             ("matching the hardware", "memory switches on as Q crosses the EP",
              "rotation born on a real chip", "confirmed on IBM Kingston")),
         "simulations/journey_between_singularities.py": (
             ("map(np.asarray, population_scan())", "H += (Q / 2.0)",
-             "spectral character remains open", "rate-book corrected; spectral character remains open",
-             "1/N reference"),
+             "walk's (1,1)-block EP Q*(3) = √2", "1/N reference"),
             ("reborn memory", "the chip sits on the EP", "EP is reached only by INJECTING noise")),
         "simulations/journey_control.py": (
             ("Illustrative dephasing control", "not a calibration of the Kingston runner",
@@ -2522,10 +2533,11 @@ def verify_final_five_repairs():
              "non-CP inverse dephasing", "Q / 2.0"),
             ("Sigma-gamma (f)", "the Hopf", "SINK (all modes flow in)")),
         "simulations/the_flow_endpoints.py": (
-            ("N+1-fold semisimple", "Q / 2.0", "no branch continuation"),
+            ("N+1-fold semisimple", "Q / 2.0", "no branch continuation",
+             "assert ev == -2 and mult == 2", "Trotter map: 'n0(step"),
             ("lambda=0 SIMPLE", "TWO SINGULAR ENDPOINTS")),
         "docs/NAVIGATING_THE_DIMENSIONS.md": (
-            ("Q_label=J/Γ", "canonical Q_Lindblad=3→5", "spectral character open",
+            ("Q_label=J/Γ", "canonical Q_Lindblad=3→5", "horizon Q*(3) = √2",
              "no branch continuation or doorway"),
             ("1/N equipartition floor", "overdamped→revival handover", "post-EP flow")),
         "experiments/COUPLING_DEFECT_WALK_TIME_STEP.md": (

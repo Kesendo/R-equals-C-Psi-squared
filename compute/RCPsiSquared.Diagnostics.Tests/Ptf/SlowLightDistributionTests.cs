@@ -138,7 +138,7 @@ public class SlowLightDistributionTests
     {
         // At ClusterDimension = 1 the orthogonal projector is |m⟩⟨m|/‖m‖², so the projector light
         // must equal the per-eigenvector Rayleigh light, the regime where the old averaged
-        // carrier was already exact. N=2, profile [0.7, 1.3], Q=0.2: a unique real slowest
+        // carrier was already exact. N=2, profile [0.7, 1.3], canonical Q=0.4: a unique real slowest
         // mode (rate 0.16696972).
         const int n = 2;
         var profile = new[] { 0.7, 1.3 };

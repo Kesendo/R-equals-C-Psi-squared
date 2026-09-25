@@ -69,8 +69,10 @@ print("Verification: build N=3 generators at (J,γ)=(1,0.05) and (2,0.10)...")
 
 base_chain = fw.ChainSystem(N=3, J=1.0, gamma_0=gamma_05)
 chain = fw.ChainSystem(N=3, J=2.0, gamma_0=gamma_10)
+# Exact route: 2*0.05 == 0.10 in binary and every entry of L is a sum of J- and gamma-weighted
+# terms, so doubling both doubles each term exactly. Any nonzero residual is a construction fault.
 generator_residual = np.max(np.abs(chain.L - 2 * base_chain.L))
-if generator_residual > 1e-12:
+if not np.array_equal(chain.L, 2 * base_chain.L):
     raise AssertionError(f"fixed-Q generator scaling failed: {generator_residual:.3e}")
 base_eigs = np.linalg.eigvals(base_chain.L)
 eigs = np.linalg.eigvals(chain.L)

@@ -225,15 +225,32 @@ public class SmokeTests
         Assert.Equal(1.0 / Math.Sqrt(128), Formulas.F49_CrossTerm(4), 10);
         Assert.Equal(0.25 * 256 * 4, Formulas.F49b_CenteredDissipatorNormSq(4, 0.5), 6);   // g^2 4^N N = 256
         Assert.Equal(Math.PI / (4 * Math.Pow(Math.Sin(Math.PI / 8), 2)), Formulas.F41_PalindromicTime(4, 1.0), 9);
-        // F44: a palindromic pair d_fast + d_slow = 2 Sg; here Sg=1, d_fast=1.5, d_slow=0.5
-        Assert.Equal(Math.Log(1.5 / 0.5), Formulas.F44_LogRatio(1.5, 0.5, 1.0), 10);
-        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(0.5, 1.5, 1.0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(2.0, 0.0, 1.0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(double.NaN, 0.5, 1.0));
-        Assert.Throws<ArgumentException>(() => Formulas.F44_LogRatio(1.5, 1.0, 1.0)); // finite/ordered but not d_fast+d_slow=2 Sg
-        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(0.5, -0.25, 1.0));
-        Assert.Throws<ArgumentException>(() =>
-            Formulas.F44_LogRatio(2.000000000000001, 1e-300, 1.0)); // tolerant sum, but Δd/(2Sg)>1
+        // F44: the pair determines Sg = (d_fast + d_slow)/2. Error model for the value checks: each
+        // reference is ln(d_fast/d_slow) of the exact double inputs at 40 digits (mpmath), rounded
+        // once; the evaluation costs at most two correctly rounded logs and one subtraction, a few
+        // ulps, so the bound is 4 ε relative. The pairs span the equal pair, one ulp apart, the
+        // Sterbenz boundary, r = 1e-16 (where the artanh route returned 37.43) and the double range.
+        (double f, double s, double lnRatio)[] f44 =
+        {
+            (1.5, 0.5, 1.0986122886681098),                    // ln 3
+            (0.075, 0.025, 1.0986122886681096),                // F68 N=3 pair, Sg = 0.05 (inexact doubles)
+            (1.0, 1.0 - Math.Pow(2, -52), 2.220446049250313e-16),
+            (1.0, 0.5, 0.6931471805599453),
+            (1.0, 1e-16, 36.841361487904734),
+            (2.0, 1e-300, 691.4686750787737),
+            (1e300, 1e-300, 1381.5510557964274),
+        };
+        foreach (var (fast, slow, lnRatio) in f44)
+        {
+            double v = Formulas.F44_LogRatio(fast, slow);
+            Assert.True(Math.Abs(v - lnRatio) <= 4 * 2.220446049250313e-16 * lnRatio,
+                $"F44({fast}, {slow}) = {v:R}, reference {lnRatio:R}");
+        }
+        Assert.Equal(0.0, Formulas.F44_LogRatio(0.7, 0.7));                                    // equal pair: exactly 0
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(0.5, 1.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(2.0, 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(double.NaN, 0.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F44_LogRatio(0.5, -0.25));
         Assert.Equal(Math.Sqrt(2.0 / 48), Formulas.F49c_CrossTermCrossing(3), 10);          // shadow-crossing
         Assert.Equal(Math.Log(10), Formulas.F55_KDeath, 9);                                 // K_death
         Assert.Equal(5, Formulas.F55_ImmortalModes(4));                                     // N+1 immortal

@@ -109,7 +109,7 @@ def flow_to_target(Q: float, N: int, taus: np.ndarray):
 def main() -> None:
     print("=" * 84)
     print(f"  THE JOURNEY  gamma0={G0}  g_eff={G_EFF:.4f}  Q_EP={Q_EP:.3f}  Q_peak={Q_PEAK:.3f}")
-    print("  hardware: Q_Lindblad = 2 Q_label; population observable; spectral character open")
+    print("  hardware: Q_Lindblad = 2 Q_label; population observable; the walk's EP Q*(3)=sqrt(2) lies below the handover")
     print("=" * 84)
 
     # ---- gamma_0-invariance check: the dimensionless clock is identical at 1.0 and 0.05 ----
@@ -157,6 +157,8 @@ def main() -> None:
     overlap = np.array([clock(Q)[3] for Q in Qc])
 
     axL.axhline(1.0 / 3.0, color="gray", ls=":", lw=1.2, alpha=0.7)
+    # The walk's own spectral transition: the (1,1)-block EP Q*(3) = sqrt(2) (CoherenceHorizonClaim).
+    axL.axvline(np.sqrt(2.0), color="#B22222", ls="--", lw=1.2, label="walk's (1,1)-block EP Q*(3) = √2")
     axL.plot(HW_Q_LINDBLAD, HW_REV, "o-", color="#1F6FB2", lw=1.8, markersize=9, markeredgecolor="black",
              markeredgewidth=0.5, label="IBM Kingston population return", zorder=5)
     axL.annotate("1/N reference", (1.1, 0.335), fontsize=8, color="#555", ha="center", va="bottom")
@@ -169,7 +171,7 @@ def main() -> None:
     axL.annotate("sampled handover\nQ_label 1.5→2.5\nQ_Lindblad 3→5", (4.0, 0.72),
                  fontsize=8.5, color="#1F6FB2", ha="center")
     axL.legend(loc="upper left", fontsize=8.5, framealpha=0.9)
-    axL.set_title("HARDWARE POPULATION HANDOVER\nrate-book corrected; spectral character remains open", fontsize=10)
+    axL.set_title("HARDWARE POPULATION HANDOVER\nrate-book corrected; a probe-time crossover above the walk's EP Q*(3) = √2", fontsize=10)
 
     # ---- Panel B (right): the death, state space, the tau-axis ----
     colors = ["#1F6FB2", "#2E8B57", "#CC7722"]
@@ -191,8 +193,9 @@ def main() -> None:
     axR.grid(True, alpha=0.2)
 
     fig.suptitle(
-        "From a sampled population handover to the 1/N fixed point.\n"
-        "Left: Kingston populations in canonical Lindblad Q. Right: an independent state-space propagation.\n"
+        "Between the walk's exceptional point and the 1/N fixed point.\n"
+        "Left: Kingston populations in canonical Lindblad Q, the walk's EP Q*(3) = √2 below the sampled handover. "
+        "Right: an independent state-space propagation.\n"
         "No spectral transition is inferred from the hardware population curve.",
         y=1.0, fontsize=10.5)
     plt.tight_layout(rect=[0, 0, 1, 0.90])

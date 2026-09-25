@@ -32,16 +32,58 @@ public class PostEpFlowFieldTests
         var expected = PauliDephasingDissipator.BuildZ(canonicalH, new[] { 1.0, 1.0 });
         var actual = new PostEpFlowField(n, new[] { q }, Linspace(0, 1, 2)).DimensionlessLiouvillian(q);
 
-        Assert.True((actual - expected).FrobeniusNorm() < 1e-12);
+        // Both sides build the same matrix through the same BuildZ call with the same Q/2 product,
+        // so the route is exact: any nonzero residual is a construction difference, not rounding.
+        Assert.True((actual - expected).FrobeniusNorm() == 0.0);
+    }
+
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void Regime_FlipsAtTheCoherenceHorizon(int n)
+    {
+        // The flow's own (1,1)-block EP Q*(N) (CoherenceHorizonClaim), located by EpCharacterWitness's
+        // bisection: overdamped at 0.99·Q*, underdamped at 1.01·Q*, and the Q node says so.
+        double qStar = EpCharacterWitness.BisectEpQ(n);
+        var field = new PostEpFlowField(n, new[] { 0.99 * qStar, 1.01 * qStar }, Linspace(0, 2, 20));
+        var below = field.Flows[0];
+        var above = field.Flows[1];
+        Assert.False(below.Underdamped);
+        Assert.True(above.Underdamped);
+        Assert.True(above.FlowBlockSlowestMode.Imaginary > 0.2,
+            $"N={n}: the pair above Q* should rotate visibly, |Im|={above.FlowBlockSlowestMode.Imaginary}");
+        var nodes = field.Children.ToList();
+        Assert.StartsWith("overdamped", nodes[0].Summary);
+        Assert.StartsWith("underdamped", nodes[1].Summary);
     }
 
     [Fact]
-    public void QNode_ReportsObservedTurns_NotUniversalDampingRegime()
+    public void Regime_KnowsTheExactN3Horizon()
     {
-        var node = new PostEpFlowField(3, new[] { 3.0 }, Linspace(0, 2, 20)).Children.Single();
-        Assert.Contains("sampled", node.Summary);
-        Assert.DoesNotContain("underdamped", node.Summary, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("overdamped", node.Summary, StringComparison.OrdinalIgnoreCase);
+        // N=3: the block's EP is Q* = √2 exactly (λ²+4λ+2Q² has discriminant −8(Q²−2)).
+        var field = new PostEpFlowField(3, new[] { 0.99 * Math.Sqrt(2.0), 1.01 * Math.Sqrt(2.0) }, Linspace(0, 2, 5));
+        Assert.False(field.Flows[0].Underdamped);
+        Assert.True(field.Flows[1].Underdamped);
+    }
+
+    [Fact]
+    public void SingleExcitationBlock_SpectrumIsInsideTheFullLiouvillian()
+    {
+        // The flow block is a block of L: each of its eigenvalues appears in the full spectrum. Away from
+        // an EP both eigensolvers are backward stable, so a match within 1e-9·‖spectrum‖ (≈1e7 ε) leaves
+        // room for eigenvalue condition numbers up to ~1e6; a missing eigenvalue misses by O(1).
+        var profile = new[] { 0.5, 1.5, 1.0, 1.0 };
+        var field = new PostEpFlowField(4, new[] { 2.5 }, Linspace(0, 1, 2), gammaProfile: profile);
+        var full = field.DimensionlessLiouvillian(2.5).Evd().EigenValues.ToArray();
+        var block = field.SingleExcitationBlock(2.5).Evd().EigenValues.ToArray();
+        double scale = full.Max(z => z.Magnitude);
+        foreach (var z in block)
+        {
+            double nearest = full.Min(w => (w - z).Magnitude);
+            Assert.True(nearest < 1e-9 * scale, $"block eigenvalue {z} not in full spectrum (nearest {nearest:E2})");
+        }
     }
 
     [Theory]

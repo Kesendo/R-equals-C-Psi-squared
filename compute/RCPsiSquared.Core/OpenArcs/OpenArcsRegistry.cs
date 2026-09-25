@@ -3123,10 +3123,11 @@ public static class OpenArcsRegistry
                 "signal universally, then INVERTS at depth (t=5 R_boost 0.52), a crossover the gate-error-free " +
                 "sim lacked; R_nosink ~ 1 everywhere (no selective advantage without a sink); named follow-up = " +
                 "the sigma=0.9 dose point + finer t around the crossover; experiments/CONCENTRATOR_AB_MECHANISM_" +
-                "TEST.md + data/ibm_ab_test_july2026/). RUN 2 FLEW THE SAME EVENING (Tom's three catches: the " +
-                "dose is gamma_0 not the machine gamma; the repo already measured gamma_0 on IBM, " +
-                "data/ibm_chain_gamma0_april2026 + gamma0_off_the_lever Confirmation; and gamma does not " +
-                "destroy, it OVERexposes): dose S = 0.270756 solved machine-free from gamma_step = " +
+                "TEST.md + data/ibm_ab_test_july2026/). RUN 2 FLEW THE SAME EVENING (Tom's two catches: the " +
+                "dose is gamma_0 not the machine gamma, and gamma does not destroy, it OVERexposes; that " +
+                "evening's belief that the repo had already measured gamma_0 on IBM is supported by neither " +
+                "record it named, data/ibm_chain_gamma0_april2026 being inconclusive at the Heron r2 fidelity " +
+                "level and the gamma0_off_the_lever J scan a lumped response bracket, not a gamma_0): dose S = 0.270756 solved machine-free from gamma_step = " +
                 "N*gamma_0*J*dt = 0.125 exact, pre-registered 09ca767, job d9581isql68s73caav1g: rule-fired " +
                 "B-DOSE-CONFIRMED at the time (Delta_sel 3/5 beyond band t=3-5, Delta_u 4/5, no negative " +
                 "leg); the exposure-curve label (corrected 80412c1) is kept as a suggestive post-hoc reading " +
@@ -7885,7 +7886,18 @@ public static class OpenArcsRegistry
                 "Gamma_phi = 1/T2 - 1/(2*T1) = 2*gamma_Z. The Hamiltonian coordinate has a separate " +
                 "factor-two seam: canonical carrier Q uses H=(Q/2)*sum(XX+YY). These conversions " +
                 "must be explicit at every ingestion boundary and must never be inferred from a " +
-                "bare field named gamma or Q.",
+                "bare field named gamma or Q. Three factor-two seams share the numeral and are " +
+                "distinct objects, not one: the rate book (gamma_Z versus the coherence rate), the " +
+                "Hamiltonian normalization (the F89 octic's q = Q/2), and continuous versus Trotter " +
+                "(gamma_0_marrakesh_calibration: 0.05 continuous, 0.1 Trotter-modeled). The third also " +
+                "bites on the May-2026 Kingston low-Q points, where Gamma*dt = 1.5 and J*dt = 0.75 put " +
+                "the flown Trotter map away from the continuous model: the map's slowest mode turns " +
+                "oscillatory at Q_label = 0.359, the continuous model's (1,1)-block EP sits at " +
+                "Q_label = 1/sqrt(2) (simulations/the_flow_endpoints.py). The J-scan record " +
+                "gamma0_off_the_lever_kingston_may2026 states no book: its comparator " +
+                "simulations/q_basic_jscan.py is the Lindblad book (critical at J = gamma_0) and the " +
+                "hardware scan injects no rate, so the question is moot there but not answered in " +
+                "the record.",
             ParkedAt: "The May-2026 EP-onset record and all current consumers now preserve the flown " +
                 "coherence-book labels, expose Q_theory=2*Q_label, use the raw JSON as source, and " +
                 "fence the finite-time population observable from EP, critical-damping, gamma0, and " +

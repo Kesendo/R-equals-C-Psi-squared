@@ -30,6 +30,13 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// τ = γ·t the dimensionless time. Site 0 = leftmost factor; vec is row-major (C-order), matching the
 /// dissipator.</para>
 ///
+/// <para>The damping regime is a spectral reading of the flow's own block, not of the sampled traces:
+/// the flow lives in the single-excitation (1,1) block (<see cref="SingleExcitationBlock"/>, N² coherences),
+/// and it is <see cref="PostEpQFlow.Underdamped"/> exactly when that block's slowest non-kernel mode is an
+/// oscillating pair. On the uniform chain the switch is the coherence horizon Q*(N)
+/// (<c>CoherenceHorizonClaim</c>: Q*(2)=1, Q*(3)=√2, Q*(4)=1.87874, Q*(5)=2.37367), the block's defective EP;
+/// under a γ-profile or on the ring the same N²-dimensional eigenproblem is read directly.</para>
+///
 /// <para>Numerical note: the trajectory is propagated in the Liouvillian's eigenbasis (eig once,
 /// the same method as the Python prototype and <c>BlockCpsiTrajectory</c>). The sampled population
 /// trajectories make no spectral-transition claim; diagonalizability failures are numerical errors,
@@ -182,10 +189,60 @@ public sealed class PostEpFlowField : IInspectable
                 bool isEdge = s == 0 || s == N - 1;
                 sites.Add(new PostEpSiteFlow(s, isEdge, traj[s], NTurns(traj[s])));
             }
-            qFlows.Add(new PostEpQFlow(q, HasResolvedTurns: sites.Any(s => s.Turns > 1), sites,
-                GlobalSlowestNonKernelRate: SlowestNonKernelRate(ev.Eigenvalues)));
+            var blockSlow = FlowBlockSlowestMode(q);
+            qFlows.Add(new PostEpQFlow(q, Underdamped: Math.Abs(blockSlow.Imaginary) > RegimeImaginaryCut, sites,
+                GlobalSlowestNonKernelRate: SlowestNonKernelRate(ev.Eigenvalues), FlowBlockSlowestMode: blockSlow));
         }
         return qFlows;
+    }
+
+    /// <summary>The cut that separates an oscillating slowest pair from a real slowest mode. It is the
+    /// same 1e-7 the coherence-horizon bisection <see cref="EpCharacterWitness.BisectEpQ"/> uses, so the
+    /// regime flips where that witness places Q*(N). Right at a √-EP a real pair split by rounding can
+    /// carry |Im| of order √(ε·‖L‖), about 5e-8 at N=5, so the cut clears it by only a factor 2 there;
+    /// since |Im| grows as √(Q−Q*), that margin moves the flip by about (1e-7)² in Q, and away from Q*
+    /// the two sides are decades apart (|Im| ≈ 0.28 at 1.01·Q*).</summary>
+    internal const double RegimeImaginaryCut = 1e-7;
+
+    /// <summary>The flow's own block: the single-excitation (1,1) block on the N² coherences ρ_ij = ⟨e_i|ρ|e_j⟩
+    /// (row-major i·N+j), L ρ = −i[H₁, ρ] − 2(γ_i+γ_j)ρ_ij for i ≠ j, with H₁ the hop matrix of element Q on
+    /// every bond (H = (Q/2)Σ(XX+YY) moves one excitation with amplitude Q; the ring adds the wrap bond).
+    /// Its spectrum is the part of <see cref="DimensionlessLiouvillian"/> the single-excitation flow uses.</summary>
+    public ComplexMatrix SingleExcitationBlock(double q)
+    {
+        var bonds = new List<(int, int)>();
+        for (int b = 0; b < N - 1; b++) bonds.Add((b, b + 1));
+        if (Topology == FlowTopology.Ring && N >= 3) bonds.Add((N - 1, 0));
+        var h = ComplexMatrix.Build.Dense(N, N);
+        foreach (var (a, b) in bonds)
+        {
+            h[a, b] += new Complex(q, 0.0);
+            h[b, a] += new Complex(q, 0.0);
+        }
+        var l = ComplexMatrix.Build.Dense(N * N, N * N);
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+            {
+                int r = i * N + j;
+                for (int k = 0; k < N; k++)
+                {
+                    if (h[i, k] != Complex.Zero) l[r, k * N + j] += -Complex.ImaginaryOne * h[i, k];
+                    if (h[k, j] != Complex.Zero) l[r, i * N + k] += Complex.ImaginaryOne * h[k, j];
+                }
+                if (i != j) l[r, r] += new Complex(-2.0 * (GammaProfile[i] + GammaProfile[j]), 0.0);
+            }
+        return l;
+    }
+
+    /// <summary>The slowest non-kernel mode of <see cref="SingleExcitationBlock"/>: the largest Re λ with
+    /// |λ| &gt; 1e-7 (the 1/N kernel excluded); among the modes that share that real part to 1e-7, the one
+    /// with the largest |Im| (a conjugate pair reports its upper member).</summary>
+    public Complex FlowBlockSlowestMode(double q)
+    {
+        var ev = SingleExcitationBlock(q).Evd().EigenValues.Where(e => e.Magnitude > 1e-7).ToArray();
+        double top = ev.Max(e => e.Real);
+        var pick = ev.Where(e => Math.Abs(e.Real - top) < 1e-7).OrderByDescending(e => Math.Abs(e.Imaginary)).First();
+        return new Complex(pick.Real, Math.Abs(pick.Imaginary));
     }
 
     /// <summary>The slowest non-kernel relaxation rate: −max{ Re λ : |λ| > tol }. Positive in every
@@ -370,8 +427,9 @@ public sealed class PostEpFlowField : IInspectable
     }
 
     /// <summary>Oscillation count: strict sign changes of the first difference (local extrema).
-    /// A display heuristic for the over/underdamped tag, not a bit-for-bit match of the Python
-    /// prototype's n_turns (which also counts transitions through flat segments).</summary>
+    /// A display reading of the sampled trace, not the damping regime (that is
+    /// <see cref="PostEpQFlow.Underdamped"/>, read off the flow's block), and not a bit-for-bit match of
+    /// the Python prototype's n_turns (which also counts transitions through flat segments).</summary>
     private static int NTurns(IReadOnlyList<double> ys)
     {
         int turns = 0;
@@ -396,7 +454,11 @@ public sealed class PostEpFlowField : IInspectable
         {
             foreach (var qf in Flows)
             {
-                string regime = qf.HasResolvedTurns ? "sampled population trace has resolved turns" : "no resolved turns on sampled grid";
+                string regime = qf.Underdamped
+                    ? "underdamped: the flow block's slowest pair oscillates (above the coherence horizon)"
+                    : "overdamped: the flow block's slowest mode is a pure decay (below the coherence horizon)";
+                string slowMode = $"{(-qf.FlowBlockSlowestMode.Real).ToString("0.0000", Inv)}" +
+                    (qf.Underdamped ? $" ± {qf.FlowBlockSlowestMode.Imaginary.ToString("0.0000", Inv)}i" : "");
                 var siteLeaves = new List<IInspectable>(N);
                 foreach (var s in qf.Sites)
                 {
@@ -410,7 +472,7 @@ public sealed class PostEpFlowField : IInspectable
                 }
                 yield return new InspectableNode(
                     displayName: $"Q={qf.Q.ToString("0.00", Inv)}",
-                    summary: $"{regime}; global slowest non-kernel rate {qf.GlobalSlowestNonKernelRate.ToString("0.0000", Inv)} (not a flow-overlap rate)",
+                    summary: $"{regime}; flow block slowest rate {slowMode}; global slowest non-kernel rate {qf.GlobalSlowestNonKernelRate.ToString("0.0000", Inv)} (not a flow-overlap rate)",
                     children: siteLeaves);
             }
         }
@@ -426,11 +488,13 @@ public enum FlowTopology { Chain, Ring }
 /// ⟨n_site⟩(τ) over the τ-grid, and the oscillation (turn) count.</summary>
 public sealed record PostEpSiteFlow(int Site, bool IsEdge, IReadOnlyList<double> Occupation, int Turns);
 
-/// <summary>One Q slice of the flow: canonical Q, whether the finite sampled population traces
-/// contain resolved turns, the per-site trajectories, and the global slowest non-kernel rate.
-/// The global winning mode need not overlap this even single-excitation preparation/readout.
-/// The turn flag is a display reading, not a critical-damping or spectral-transition verdict.</summary>
-public sealed record PostEpQFlow(double Q, bool HasResolvedTurns, IReadOnlyList<PostEpSiteFlow> Sites, double GlobalSlowestNonKernelRate);
+/// <summary>One Q slice of the flow: canonical Q; <paramref name="Underdamped"/>, true exactly when the slowest
+/// non-kernel mode of the flow's own (1,1) block (<paramref name="FlowBlockSlowestMode"/>, upper member of a
+/// pair) oscillates, which on the uniform chain is Q &gt; Q*(N), the coherence horizon; the per-site
+/// trajectories; and the global slowest non-kernel rate of the full Liouvillian, whose winning mode need not
+/// overlap this even single-excitation preparation/readout.</summary>
+public sealed record PostEpQFlow(double Q, bool Underdamped, IReadOnlyList<PostEpSiteFlow> Sites,
+    double GlobalSlowestNonKernelRate, Complex FlowBlockSlowestMode);
 
 /// <summary>The slowest non-kernel rate read through the whole assembly, the scattered pieces in
 /// one place: <paramref name="SlowestRate"/> (−max Re λ); <paramref name="SlowClusterMeanRate"/>

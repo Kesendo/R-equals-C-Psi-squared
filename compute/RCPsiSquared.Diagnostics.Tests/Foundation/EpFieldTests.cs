@@ -84,7 +84,7 @@ public class EpFieldTests
     }
 
     [Fact]
-    public void HardwareChild_UsesCanonicalLindbladRateBook_WithoutSpectralVerdict()
+    public void HardwareChild_UsesCanonicalLindbladRateBook_AndPlacesTheWalkEpBelowTheHandover()
     {
         var f = new EpField();
         var hardware = Children(f).Single(c => c.DisplayName.Contains("hardware"));
@@ -93,7 +93,20 @@ public class EpFieldTests
         Assert.Equal(new[] { 1.0, 2.0, 3.0, 5.0, 10.0, 40.0 }, curve.X);
         Assert.Contains("Q_label", hardware.Summary);
         Assert.Contains("Q_Lindblad = 2 Q_label", hardware.Summary);
-        Assert.Contains("spectral character remains open", hardware.Summary);
+        // The walk's spectral transition is placed, not left open: Q*(3)=√2 lies below the handover.
+        Assert.Contains("Q*(3)=√2", hardware.Summary);
+        Assert.Contains("probe-time crossover", hardware.Summary);
+        Assert.DoesNotContain("spectral character remains open", hardware.Summary);
+        Assert.Contains("The cusp's mirror", f.Summary);
+
+        // The placement, computed: the N=3 single-excitation EP located live by the horizon bisection
+        // lies between the two lowest hardware points (Q_Lindblad 1 and 2), below the bracket's lower
+        // end (3), and is √2. The bisection's 1e-7 cut on |Im| shifts Q* by about (1e-7/c)², c ≈ 1, far
+        // below the 9 decimals compared here.
+        double qStar = EpCharacterWitness.BisectEpQ(3);
+        Assert.True(curve.X[0] < qStar && qStar < curve.X[1], $"Q*(3)={qStar} not between {curve.X[0]} and {curve.X[1]}");
+        Assert.True(qStar < curve.X[2]);
+        Assert.Equal(System.Math.Sqrt(2.0), qStar, 9);
         Assert.DoesNotContain("critical-damping", hardware.Summary, System.StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("same Q", hardware.Summary, System.StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("post-EP", f.Summary, System.StringComparison.OrdinalIgnoreCase);

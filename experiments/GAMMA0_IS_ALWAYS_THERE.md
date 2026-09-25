@@ -80,6 +80,12 @@ while an overdamped creep never reaches it.
 **What the finite grid says.** At J=0.05 the recorded maximum is below 1/2; at J≥0.1 it is
 above 1/2. Thus the scan brackets an effective overshoot change between 0.05 and 0.1. It does
 not locate a critical point, identify γ₀, or assign the change uniquely to dephasing.
+Read through the ideal two-site model alone, it says one thing more. There the population
+difference z obeys z̈ + 4γż + 4J²z = 0, so the transfer overshoots ½ at some time exactly when
+J > γ. The crossing at J = 0.1 then places an effective damping below 0.1 per step, and the
+absence of a crossing at J = 0.05 within the recorded window is consistent with a value at or
+above 0.05: a model-conditional bracket [0.05, 0.1) for one lumped per-step damping of all
+channels together, not for a local Z-dephasing rate.
 
 **The frequency tracks J.** The first peak halves its step as J doubles: 24, 12, 6, 3,
 with step × J = 1.2 for all four. The peak sits at a fixed exchange angle, so the period

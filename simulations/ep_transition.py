@@ -155,6 +155,10 @@ def main() -> None:
     ax_hw.plot(hw_q_lindblad, hw_rev, "o-", color="#1F6FB2", lw=1.6, markersize=9, markeredgecolor="black",
                markeredgewidth=0.5, label="IBM Kingston revival (max ⟨n₀⟩)")
     ax_hw.axvspan(3.0, 5.0, color="#1F6FB2", alpha=0.10, label="sampled handover bracket")
+    # The walk's own spectral transition: the (1,1)-block EP Q*(3) = sqrt(2) (CoherenceHorizonClaim;
+    # exact ranks in the_flow_endpoints.py), between the two lowest samples, below the bracket.
+    ax_hw.axvline(np.sqrt(2.0), color="#B22222", ls="--", lw=1.2,
+                  label="walk's (1,1)-block EP Q*(3) = √2")
     ax_hw.annotate("Q_label 1.5→2.5\nQ_Lindblad 3→5", (4.0, 0.66), fontsize=8,
                    color="#1F6FB2", ha="center")
     ax_hw.annotate("population return grows →", (6.0, 0.45), fontsize=8, color="#1F6FB2")
@@ -162,11 +166,11 @@ def main() -> None:
     ax_hw.set_xlim(0.8, 50)
     ax_hw.set_ylim(0.25, 0.75)
     ax_hw.set_title("Hardware population handover (IBM Kingston, 2026-05-31)\n"
-                    "spectral character remains open")
+                    "a probe-time crossover above the walk's EP Q*(3) = √2")
     ax_hw.set_xlabel("canonical Q_Lindblad = 2 Q_label  (log)")
     ax_hw.set_ylabel("revival (memory return)")
     ax_hw.grid(True, alpha=0.2, which="both")
-    ax_hw.legend(loc="upper left", fontsize=8)
+    ax_hw.legend(loc="lower right", fontsize=8)
 
     fig.suptitle(
         "The exceptional point, in detail between the anchors (Q=0, Q_EP, Q_peak): the birth of the rotation.\n"
