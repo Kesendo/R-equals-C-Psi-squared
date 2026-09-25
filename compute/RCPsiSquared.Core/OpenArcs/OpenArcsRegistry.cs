@@ -7217,8 +7217,8 @@ public static class OpenArcsRegistry
                 "CMRR_BREAK_NONUNIFORM_GAMMA:124), Alice and Bob being protocol roles, not ontological " +
                 "eyes. WHAT " +
                 "WOULD COLLAPSE WITHOUT AN EYE: the typed viewer-pair strings " +
-                "(TwoReadingsClaim.cs:35-37 'the inside-observer sees only Q ... the outside-observer has " +
-                "separate access to gamma0', and UniversalCarrierClaim:52, both API, both Tom's call with " +
+                "(TwoReadingsClaim's layer-5 string 'the inside-observer sees only Q ... the outside-observer has " +
+                "separate access to gamma0', and UniversalCarrierClaim's Statement string, both API, both Tom's call with " +
                 "the other C# names; the invariant residue of each survives) (TAKEN 2026-08-09: " +
                 "observer -> READING, the class's own name: 'the inside reading fixes only Q; reading " +
                 "gamma0 itself needs a vantage outside the system, which par.9 denies any internal " +
@@ -7253,7 +7253,7 @@ public static class OpenArcsRegistry
                 "with only its recorded left-standing residue open; (3) remains), since a flourish can " +
                 "wait and a premise cannot; then the F-registry titles; the typed C# surface is TAKEN " +
                 "2026-08-09 on Tom's ruling, all three items, ONE of them a name (instance (4)'s pair -> " +
-                "HeldLetterRouting; Q2's UniversalCarrierClaim:52 and Q4's TwoReadingsClaim:35-37 are " +
+                "HeldLetterRouting; Q2's UniversalCarrierClaim Statement string and Q4's TwoReadingsClaim's layer-5 string are " +
                 "Statement-string rewordings, calibration-substrate and inside/outside READING, the " +
                 "class names unchanged; each recorded at its instance above). Leave (a)-legitimate alone: 'watcher' as a graph role in " +
                 "the record laws is a different object and renaming it would be the error running backwards. " +

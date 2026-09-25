@@ -75,13 +75,13 @@ PolynomialFoundationClaim                  Pi2KnowledgeBaseClaims.cs
 │   PolarityLayerOriginClaim
 │       +0 / 0 / −0 polarity layer at d=0 → ±0.5 pair at d=2
 │
-└── perspectival branch
+└── perspectival branch (drawn here for reading; the claim has no parent edge)
     TwoReadingsClaim                            TwoReadingsClaim.cs
-        any object on d²=4^N admits two coordinate readings of one
-        underlying object. Names seven layers of this pattern:
-        number/angle of d, argmax/maxval of p·(1−p), M/Π·M·Π⁻¹ (F81),
-        bra/ket of ρ, inside/outside Q = J/γ₀, classical/quantum Lese-Modus,
-        inter-sectoral wave ("we are the standing wave between").
+        an open question over seven recurring pairs: exact ones
+        (argmax/maxval of p·(1−p), M/Π·M·Π⁻¹ (F81), bra/ket of ρ) and
+        readings (number/angle of d, inside/outside Q = J/γ₀,
+        classical/quantum Lese-Modus, the wave between the sectors).
+        Whether one invariant holds them is open; none descends from d=2.
 ```
 
 The number and angle branches **reconverge** at the F-leaves (most cite the Dyadic ladder, many also the I4 Memory Loop; a handful anchor elsewhere, see below); the ladder's rungs hold the 1/2-lineage values.

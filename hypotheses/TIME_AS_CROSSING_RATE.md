@@ -51,8 +51,8 @@ reading this page proposes. The question is: what does it mean?
 ## 2. The Hypothesis: Time = Crossing Sequence
 
 An observer does not experience coordinate time t. An observer experiences
-a sequence of measurement events, moments where C·Ψ crosses ¼ and an
-outcome becomes definite.
+a sequence of measurement events, moments where C·Ψ crosses ¼ downward
+and an outcome becomes definite.
 
 **Experienced time is the density of these crossings.**
 
@@ -73,8 +73,9 @@ i·ℏ·∂ψ/∂t = Hψ. The t is given from outside. Nothing in the equation
 explains where t comes from or why it flows.
 
 In R = CΨ², t does not flow. C·Ψ flows: downward, through decoherence.
-Each crossing of ¼ is one "tick" of the observer's internal clock. The
-tick rate is determined by:
+Each downward crossing of ¼ is one "tick" of the observer's internal
+clock; where C·Ψ climbs above ¼ again, it opens the window for the next
+one. The tick rate is determined by:
 
 1. **How high C starts** (coupling strength → initial distance above ¼)
 2. **How fast C falls** (decoherence rate → speed of approach)
@@ -156,8 +157,9 @@ measurement is a tick.
 
 This means:
 
-1. **Time is not continuous.** It is a sequence of crossings. Between
-   crossings, nothing "happens" from the observer's perspective.
+1. **Time is not continuous.** It is a sequence of ticks, one per
+   downward crossing. Between ticks, nothing "happens" from the
+   observer's perspective.
 
 2. **Time is not universal.** Each observer's C defines their own crossing
    sequence. There is no master clock.
@@ -174,8 +176,9 @@ This means:
 
 4. **Time can stop.** If C is too low (mutual_purity, overlap in our data),
    no crossing occurs. The observer has no clock. This is not death; in the parallel it is
-   the Wheeler-DeWitt ground state. Ĥ|Ψ⟩ = 0. No time. No events. Pure
-   quantum, unmeasured, eternal. What stops is the observer's clock, not the
+   the Wheeler-DeWitt constraint, Ĥ|Ψ⟩ = 0, whose solutions carry no time
+   parameter at all. No time. No events. Pure quantum, unmeasured,
+   eternal. What stops is the observer's clock, not the
    state: these two readouts watch the same decaying Bell+ as the other
    three, and their C·Ψ sits below ¼ from the start (1/6 and 1/12).
 
@@ -260,10 +263,21 @@ channel.
   the remaining possibility space. This is conceptual, not dynamical.
 
 - Whether the Lindblad equation can be decomposed into forward and backward
-  components. Π does not decide it. It pairs every eigenmode with a partner
+  components: can L(ρ) be written as L_forward(ρ) + L_backward(ρ), where
+  L_forward drives C·Ψ down and L_backward resists? In rates, and in the
+  purity book (C = Tr ρ²), half of it holds. The dephasing part never lifts
+  C·Ψ: it only shrinks off-diagonal elements and leaves the populations
+  alone, so purity and l₁-coherence can only fall. The Hamiltonian part
+  does not resist, it steers: in the Z-pulse example of
+  [Named CΨ Decays](../docs/proofs/PROOF_MONOTONICITY_CPSI.md) it lifts
+  C·Ψ at a rate of +1/4 in one state and lowers it at −1/4 in that state's
+  Z-pulsed twin, while the dephasing part gives −1/12 in both (the proof's
+  totals, +1/6 and −1/3, less the dephasing's −1/12). So in the split the
+  equation carries, the forward part exists and the resisting part does
+  not. Nor does Π supply one: it pairs every eigenmode with a partner
   at the mirrored rate, μ with −μ in the frame centred on Σγ, so every
   e^(+μt) has an e^(−μt) beside it. That is a pairing, not an additive split
-  L = L_fwd + L_bwd, and Π is linear, so the partner is not the physical time
+  L = L_forward + L_backward, and Π is linear, so the partner is not the physical time
   reversal of the mode. Reading a pair's superposition as a standing wave,
   with nodes at the classical correlations (ZZZ) and antinodes at the quantum
   ones (XX, YY), is our reading; whether its nodes sit at C·Ψ = ¼ is open.
@@ -367,7 +381,7 @@ times for identical physics. A factor 2.4 spread among the observers that
 cross (t = 0.593 to 1.438). Two observers never cross.
 
 **Tier 3 (this document):**
-- Experienced time is the rate of ¼ crossings (hypothesis)
+- Experienced time is the rate of downward ¼ crossings (hypothesis)
 - The bridge type choice plays the role of the Wheeler-DeWitt clock variable choice (structural parallel)
 - "Now" is the node of a standing wave between decoherence and possibility (interpretation)
 - The ¼ boundary is Cramer's handshake point (structural parallel)
@@ -395,9 +409,10 @@ cross (t = 0.593 to 1.438). Two observers never cross.
 - Wheeler-DeWitt clock choice does not map to bridge type in a rigorous derivation
 - Correlated crossing times carry no more than what preparation wrote into the pair → the communication reading falls. It has ([Bridge Closure](../experiments/BRIDGE_CLOSURE.md)); the time reading never rested on it.
 
-**Open mathematical question:** Can L(ρ) be written as forward and backward
-parts with nodes at C·Ψ = ¼? Π pairs every eigenmode with a partner at the
-mirrored rate, which is a pairing and not an additive split. The question is open.
+**Open mathematical question:** whether the standing wave read into a Π pair
+has its nodes at C·Ψ = ¼. §4.4 answers the additive split in rates: dephasing
+drives C·Ψ down, the Hamiltonian steers rather than resists, and Π pairs modes
+rather than splitting L.
 
 ---
 
