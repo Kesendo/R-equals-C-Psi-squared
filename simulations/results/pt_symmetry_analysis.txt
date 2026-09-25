@@ -1,6 +1,6 @@
 ========================================================================
 PT-SYMMETRY ANALYSIS OF THE PALINDROMIC LIOUVILLIAN
-Started: 2026-09-08 03:58:38
+Started: 2026-09-25 16:44:42
 ========================================================================
 
 ========================================================================
@@ -79,7 +79,7 @@ Analytical prediction (per-site):
 
   γ = [+0.1, +0.1, −0.1, −0.1],  Σγ = 0.0,  c = 0.0
   ‖Π·L·Π⁻¹ + L‖ = 0.00e+00
-  (0.2s)
+  (0.1s)
 
   Exact at Σγ=0: every eigenvalue λ pairs with −λ.
   This is the shifted-generator anticommutation carried by Π.
@@ -112,7 +112,7 @@ PHASE 2: PALINDROME AXIS DEPARTURE IN THE FRAGILE BRIDGE
 ────────────────────────────────────────────────────────────────────────
 
   N=2 per chain (4 qubits), J=1.0, J_bridge=1.0
-  γ_crit = 0.1873101  (7.3s)
+  γ_crit = 0.1873101  (2.3s)
 
 ────────────────────────────────────────────────────────────────────────
 2b. Eigenvalue pairing λ ↔ −λ
@@ -160,6 +160,8 @@ PHASE 2: PALINDROME AXIS DEPARTURE IN THE FRAGILE BRIDGE
   This producer does not report single-eigenvector Petermann factors or angles.
   Degenerate eigenspaces make those values basis-dependent; a subspace-level
   condition measure or a threshold Jordan-rank test would be required.
+  That test is run in fragile_bridge_ep_signature.py (section 1): at J_bridge = 1.0
+  the threshold is a second-order exceptional point on the real γ axis.
 
 ────────────────────────────────────────────────────────────────────────
 2e. PALINDROME-AXIS DEPARTURE
@@ -201,5 +203,5 @@ Phase 2: The fragile bridge (Σγ=0) has:
   - Palindrome-axis departure (eigenvalues leave Im axis) at γ_crit
   - The spectral-abscissa axis departure occurs while the operator relation remains exact
 
-Completed: 2026-09-08 03:58:54
+Completed: 2026-09-25 16:44:50
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\pt_symmetry_analysis.txt

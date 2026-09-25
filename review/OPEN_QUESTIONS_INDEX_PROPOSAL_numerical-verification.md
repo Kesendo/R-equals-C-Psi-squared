@@ -450,10 +450,10 @@ unrelated entries.
 
 ### OQ-252
 
-**Question:** N-scaling law (partially answered): N=4 computed. Result: non-monotonic (N=4 more stable than N=3). Even/odd parity effect suspected.  
+**Question:** N-scaling law (partially answered): N=4 computed, by a norm-fit estimator biased high, so its order against N=3 is open. Even/odd parity effect suspected.  
 **Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 277)  
 **Proposed status:** partially-resolved  
-**Justification:** Self-documenting: "(partially answered)." N=4 data exists showing non-monotonic behavior. N=5 deferred ("feasible but slow"). Even/odd parity effect is suspected but not proven.
+**Justification:** Self-documenting: "(partially answered)." N=4 data exists, from an estimator whose error is uncharacterised. N=5 deferred ("feasible but slow"). Even/odd parity effect is suspected but not proven.
 
 ---
 

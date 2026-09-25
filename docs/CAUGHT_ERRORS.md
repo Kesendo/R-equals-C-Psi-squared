@@ -3855,3 +3855,88 @@ The second lesson came from the repair itself: a question narrowed to the class 
 seen was still posed about literal local maxima, and damping creates local maxima that no grid coarser
 than their width can see. A peak question needs a structural definition of a peak before its evidence
 means anything, and a catalogue speaks only for what its grid and its classes could resolve.
+
+## 2026-09-25, the fragile bridge's exceptional point was retracted for want of a certificate, and the certificate, once run, confirms it at J_b = 1.0 and 1.9
+
+**What was wrong.** On 2026-09-06 the fragile bridge's threshold was written up as an exceptional
+point on the real γ axis, from three finite-offset readings (Re λ ∝ √δ with a nearly constant
+coefficient over three decades, the mirror-pair gap closing, K ∝ 1/δ). The outside rewrite of
+2026-09-08 (`931d691f`) observed, rightly, that the producer had run no threshold coalescence or
+Jordan-rank certificate, and answered by resetting the verdict at about twelve typed sites and
+every consuming page to "spectral-abscissa axis departure; EP, Hopf, and Jordan character remain
+OPEN". It then pinned that verdict: `docs_verify.py` required the OPEN wording and forbade
+"FRAGILE_BRIDGE exceptional point", "genuine EP at real γ_crit" and "not a Hopf", and C# tests
+forbade "FRAGILE_BRIDGE EP", "gain-loss EP" and "real-gamma EP". The 2026-09-08 entry above records
+that boundary. Its demand was right and its verdict was not: "OPEN" was a verdict of its own, issued
+without the instrument it asked for, and it also left a Hopf on the table that the symmetry rules out.
+
+**The certificate.** Everything below is two qubits per chain. L conserves the popcounts of ket
+and bra, so the collision happens inside one block at a time. In the first block to go unstable the squared gap f = (λ_a − λ_b)² of the
+colliding pair is real for real γ, negative while the two sit on the imaginary axis and positive
+once they are a mirror pair, so its zero is real; a root finder on that sign change puts the
+collision at γ* = 0.187310108345 for J_b = 1.0 (λ* = −2.651477232 i) and 0.405853184723 for 1.9
+(λ* = −6.983542344 i), in a spin-flip half of the (2,2) block both times. There two eigenvalues
+sit within 10⁻⁵ of each other (gap 3.3·10⁻⁸ and 1.0·10⁻⁷, of the order of the square root of
+machine precision), and L − λ*I restricted to that half has one singular value at the rounding
+level and the next at 0.176 and 1.55: algebraic multiplicity 2, geometric multiplicity 1, a 2×2
+Jordan block, which the full L confirms with nullity 1. Below γ* the pair is two distinct
+imaginary eigenvalues approaching; above it a mirror pair ±Re at one Im; half the split over
+√|δ| is 0.20293 (1.1035) on both sides at δ = ±10⁻⁶. Where the first block to go unstable has
+partners under the spin flip and under S = G∘R (G the chain reflection on both sides of ρ, R the
+one-sided flip ρ ↦ ρ·X^⊗N of F118), which commutes with L at Σγ = 0 and maps block (p, q) onto
+(p, 4 − q), the full L carries the collision once in each: twice at the sampled couplings 0.1,
+0.5, 1.2, 1.4, 5 and 10, four times in the (0,1) window J_b ≈ 1.4344 to 1.4907. The chain
+reflection that swaps gain and loss commutes with the Hamiltonian part and anticommutes with the
+gain-loss part (both exactly 0.0), L
+is complex symmetric, so iL is pseudo-Hermitian under it, and the two approaching eigenvectors
+carry opposite signatures (at J_b = 1.0, ±0.0158 at δ = −10⁻⁴ and ±0.0016 at −10⁻⁶; at 1.9,
+±0.0126 and ±0.0013): a Krein collision. Inside
+every block the chain reflection with complex conjugation sends λ to −λ*, so a simple eigenvalue
+on the axis is its own partner and cannot leave alone, and at these couplings the departure has
+infinite slope. Not a Hopf. `simulations/fragile_bridge_ep_signature.py` sections 1 and 2 print
+all of it, and `FragileBridgeThresholdTests` recomputes it from the C# builders against the
+collision point that `LocalGlobalEpLink` now carries.
+
+**A side finding the certificate brought.** The producer's bisected γ_crit (where its sequence of
+max Re λ readings crosses 10⁻¹²) sits below the collision, by 3.5·10⁻⁸ (J_b = 1.0) and 1.9·10⁻⁶
+(J_b = 1.9) relative. Near the collision the approaching pair is ill-conditioned, so rounding
+noise in its real parts crosses that level while the pair is still split on the axis (7.6·10⁻⁵
+and 3.1·10⁻³ there). The offset is a function of the construction's rounding, not of the physics,
+and it bends the last two rows of the J_b = 1.9 finite-offset table (Re/√δ = 1.093 at δ = 10⁻⁴ and
+0.991 at 10⁻⁵, where the offset is 1.9 % and a fifth of δ). Measured from γ* the coefficient is
+1.1035 for δ ≤ 10⁻⁴ (1.1038 at 10⁻³, 1.1070 at 10⁻², the next Puiseux order).
+
+**Found by.** The typed-layer audit of `931d691f` (section B), which ran the certificate the
+rewrite had asked for, confirmed by an independent rerun the same day.
+
+**What stands now.** FRAGILE_BRIDGE §3 and §3.1, PT_SYMMETRY_ANALYSIS (which now also names the
+PT symmetry that does break there: the chain reflection with complex conjugation, not Π), F19,
+F40, the typed sites (`LocalGlobalEpLink`, `TransitionBridgeF95SiblingClaim`, `TwoLevelEpModel`,
+`PolarityInheritanceLink`, `F86KnowledgeBase`, both registrations, `KnowledgeRegistryFactory`) and
+their consumers state the EP2 at the threshold, scope the full-L Jordan count to the couplings
+where it was read, and keep it a different object from F86's toy 2×2 EP (a double root at zero
+decay, not at 4γ₀·k); FRAGILE_BRIDGE §3, PT_SYMMETRY_ANALYSIS and WHAT_WE_FOUND say it is not a
+Hopf. The producer's sector section also shows the sampled maximum to be a kink where the two
+spin-flip halves of the (2,2) block cross (J_b = 1.9529,
+γ = 0.4070). The certificate's scope is J_b = 1.0 and 1.9 at two qubits per chain; the sector
+section counts one Jordan pair per copy at thirteen sampled couplings, and the producer's
+section 6 reads an EP2 in the symmetry sector that goes first at every coupling of its
+4000-point sweep from 0.005 to 20 but the grid point 3/4. That point is one of five exact
+couplings (J_b = 3/4, √5/2, 4/3 and the real roots of 12x³ − 37x² + 72x − 48 and 4x³ − 21x² + 40x − 48 in x = J_b/J) where an
+even and an odd level of one block already coincide at zero gain, so γ_crit = 0 there, with a
+linear onset and no exceptional point (section 3 of the producer); the EP2 is not carried to
+them. The gates parse the artifact's numbers and recompute the
+collision; the locks that forbade true phrases are gone, what the gates still require of the
+pages and the typed claims about the threshold's character is numbers and scope (the collision
+point, "at J_bridge = 1.0 and 1.9", "two qubits per chain"), and the verdict itself is carried
+by the computing gates.
+
+**The lesson.** "Character OPEN" is a verdict, and it needs its instrument as much as "EP" does.
+When a claim is challenged for lacking a certificate, the move is to build the certificate, which
+here ran in seconds, not to retract the claim and then pin the retraction. A word-lock on a
+physical verdict freezes whatever was believed on the day it was written and cannot tell a false
+phrase from a true one; where a verdict matters, the gate should carry the computation that
+justifies it. And a certificate certifies where it ran: the first restatement carried the Jordan
+count read at J_b = 1.0 and 1.9 to every coupling, the next carried the copy count of the sampled
+couplings to every coupling as a two-case rule that a window between the samples breaks, and
+neither sample reached the five couplings where there is no exceptional point at all.

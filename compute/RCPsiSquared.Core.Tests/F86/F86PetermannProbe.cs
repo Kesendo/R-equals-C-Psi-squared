@@ -13,10 +13,11 @@ namespace RCPsiSquared.Core.Tests.F86;
 /// factor K_n = 1/|⟨l_n|r_n⟩|² (unit-norm left/right eigvecs) diverges at exact EP.
 ///
 /// <para>Connection to <see href="hypotheses/FRAGILE_BRIDGE.md">FRAGILE_BRIDGE</see>: that
-/// separate system has a spectral-abscissa axis departure whose EP/Hopf/Jordan character
-/// remains open. A finite-offset simple-mode K reading is not a threshold-character
-/// certificate, and a single-eigenvector K inside a degenerate eigenspace is basis-dependent.
-/// Same diagnostic family, different parameter axis (Q vs gamma).</para>
+/// separate system's threshold (two qubits per chain) is generically a defective EP2 on the real γ axis at γ_crit, so its K diverges
+/// as 1/δ there and K≈403 is one finite-offset reading of that law, not a property of the
+/// threshold. The character was read from the Jordan rank at the located collision at
+/// J_bridge = 1.0 and 1.9 (<c>FragileBridgeThresholdTests</c>), not from K; a single-eigenvector K inside a degenerate
+/// eigenspace is basis-dependent. Same diagnostic family, different parameter axis (Q vs gamma).</para>
 /// </summary>
 public class F86PetermannProbe(ITestOutputHelper output)
 {

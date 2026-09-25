@@ -336,12 +336,16 @@ window where the balance holds. Beyond it: a laser with too much
 pump, the palindrome still centered, but the system diverging.
 
 Full analysis: [The Fragile Bridge](FRAGILE_BRIDGE.md) (sampled coupling regimes,
-spectral-abscissa axis departure with EP character OPEN, N-dependence, neural connection). At Σγ = 0,
+the threshold, generically an exceptional point at two qubits per chain, N-dependence, neural connection). At Σγ = 0,
 the palindrome equation Π·L·Π⁻¹ = −L forces exact λ ↔ −λ pairing at every
-tested γ. Below γ_crit the measured spectrum lies on the imaginary axis. At
-γ_crit the spectral abscissa becomes positive and off-axis quartets appear; the
-mirror relation itself is not broken. No branch continuation or strict
-threshold coalescence/Jordan certificate has been executed.
+tested γ. Below γ_crit the measured spectrum lies on the imaginary axis. Past
+γ_crit the spectral abscissa is positive and off-axis quartets appear; the
+mirror relation itself is not broken. What happens at γ_crit is a meeting: in
+the first block of L to go unstable, two eigenvalues on the imaginary axis merge
+and leave the axis as a mirror pair. With two qubits per chain, at generic
+couplings they merge in a Jordan block, a second-order exceptional point on the
+real γ axis; at five exact couplings they coincide already without gain, and
+γ_crit is zero.
 See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 The bridge is what makes the window finite. Remove it and the two systems

@@ -2,7 +2,7 @@
 
 <!-- Keywords: palindromic Liouvillian P-type symmetry, PT-symmetry Lindbladian
 gain-loss, conjugation operator Pi sector classification,
-exceptional-point candidate Liouvillian, mirror-paired axis crossing,
+Liouvillian exceptional point real axis, Krein collision Jordan block,
 fragile bridge gain-loss stability, Petermann factor Liouvillian,
 depolarizing palindrome breaking, R=CPsi2 PT-symmetry -->
 
@@ -11,6 +11,7 @@ depolarizing palindrome breaking, R=CPsi2 PT-symmetry -->
 **Scripts:**
 - [pt_symmetry_analysis.py](../simulations/pt_symmetry_analysis.py) (Phase 1+2)
 - [pt_palindrome_breaking.py](../simulations/pt_palindrome_breaking.py) (Phase 3)
+- [fragile_bridge_ep_signature.py](../simulations/fragile_bridge_ep_signature.py) (the threshold certificate, Phase 2)
 **Depends on:**
 - [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (definition of Pi)
 - [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (gain-loss system)
@@ -36,7 +37,11 @@ irreducible-sector symmetry algebra is computed.
 This matters because it connects the palindrome to a large body of
 existing research. It also explains the [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)
 instability without identifying it as a loss of the Π relation: the exact
-λ ↔ −λ pairing survives through the spectral-abscissa axis departure. Under the composite
+λ ↔ −λ pairing survives through the exceptional point at which, at generic
+couplings and two qubits per chain, eigenvalues leave the imaginary axis. What breaks there is a different symmetry, a
+textbook PT symmetry of iL that the bridge carries besides Π: the chain
+reflection that swaps gain and loss, combined with complex conjugation
+(Phase 2). Under the composite
 depolarizing perturbation, the pairing error and γ_crit both increase with the
 same epsilon control. That covariance does not identify a causal stability role
 for the palindrome.
@@ -59,17 +64,27 @@ gain-loss transition. Three results:
    is involutive. Spectral reflection alone does not assign AIII; the
    complete sectorwise class is still OPEN.
 
-2. **The spectral-abscissa transition preserves the Π relation; its EP character is OPEN.**
+2. **At J_bridge = 1.0, with two qubits per chain, the threshold is an exceptional point on the real γ axis, and it preserves the Π relation.**
    The fragile bridge (Σγ = 0) has exact lambda <-> -lambda pairing. Below
    γ_crit: all eigenvalues lie exactly on the imaginary axis (the
    imaginary-axis regime). Above γ_crit: off-axis quartets appear. Π supplies
    λ ↔ −λ, while Hermiticity preservation supplies λ ↔ λ*; together they give
-   {λ, λ*, −λ, −λ*}. The independently selected max-Re value has Re λ
-   proportional to √(γ/γ_crit − 1) over four decades, and simple-mode
-   Petermann readings grow. The across-axis partner gap 2|Re λ| printed in the
-   table is algebraically derived from the same max-Re value, not independent evidence:
-   40.9, 403, 4027, 4.04e4 at δ = 1e-2 down to 1e-5
+   {λ, λ*, −λ, −λ*}. Inside each popcount block the chain reflection composed
+   with complex conjugation also sends λ to −λ*, and it holds a simple
+   eigenvalue of the block on the axis, so leaving it takes a collision. At
+   J_bridge = 1.0 and γ* = 0.187310108345 two imaginary
+   eigenvalues meet in a 2×2 Jordan block, inside the spin-flip-even half of the
+   (2,2) popcount block: one singular value of L − λI there at the rounding
+   level, the next at 0.176, with the collision on the real γ axis. That is a
+   second-order exceptional point, with Re λ ∝ √(γ/γ* − 1) above it and
+   simple-mode Petermann readings growing as 1/δ: 40.9, 403, 4027, 4.04·10⁴ at
+   δ = 10⁻² down to 10⁻⁵. The across-axis partner gap 2|Re λ| printed in the
+   table is algebraically derived from the same max-Re value, not independent evidence
    ([`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py)).
+   For two qubits per chain there are five exact couplings, J_bridge = 3/4,
+   √5/2, 4/3 and two cubic roots, where the threshold is zero instead, with no
+   exceptional point
+   ([the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §2.1).
 
 3. **The composite depolarizing perturbation raises the sampled threshold.**
    It both breaks the palindrome and changes the damping action while γ_crit
@@ -174,7 +189,7 @@ final BDI/CI/other sector label have not been computed.
 
 ---
 
-## Phase 2: Mirror-Paired Axis Departure in the Fragile Bridge
+## Phase 2: The Fragile Bridge's Exceptional Point, Mirror Intact
 
 This phase connects to the [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md)
 experiment. Below the critical gain (γ_crit), all eigenvalues sit
@@ -191,6 +206,10 @@ Two N=2 Heisenberg chains, decay (+gamma) and gain (-gamma), coupled
 by J_bridge = 1.0. Total 4 qubits, 256x256 Liouvillian.
 
     γ_crit = 0.1873101    (bisection, tol = 10^-7)
+
+The collision itself, located where the colliding pair's squared gap changes
+sign, sits at γ* = 0.187310108345 ([`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py)),
+within that bisection's tolerance.
 
 ### The imaginary-axis regime
 
@@ -211,10 +230,9 @@ verified exact Pi anticommutation remaining intact as gamma changes.
 
 ### Reinterpretation of the instability
 
-The measured finite-offset square-root-like onset neither establishes nor
-excludes a Hopf mechanism. The exact Pi anticommutation survives, so the
-transition is not a breaking of that operator symmetry. EP, Hopf, and Jordan
-character remain OPEN.
+The exact Π anticommutation survives, so the transition is not a breaking of
+that operator symmetry. It is a second-order exceptional point on the real γ
+axis:
 
 1. Σγ = 0 forces exact lambda <-> -lambda pairing (P-type symmetry)
 2. Below γ_crit: all eigenvalues on the imaginary axis
@@ -222,18 +240,52 @@ character remain OPEN.
    where Hamiltonian eigenvalues are real)
 3. Above γ_crit: off-axis quartets appear. Π gives inversion λ ↔ −λ;
    Hermiticity preservation adds λ ↔ λ*, so the across-axis partner is −λ*
-   and the generic set is {λ, λ*, −λ, −λ*}.
-4. The independently selected max-Re value is proportional to √δ over the sampled range.
-   The producer does not execute a strict threshold coalescence or Jordan-rank
-   certificate, so exceptional-point character remains OPEN.
+   and the generic set is {λ, λ*, −λ, −λ*}. Inside each popcount block the
+   partner −λ* is supplied by the chain reflection composed with complex
+   conjugation, which maps every block onto itself. An eigenvalue on the axis
+   is its own partner under it, so a simple one cannot leave alone: leaving
+   takes a collision.
+4. At γ* two imaginary eigenvalues collide in a 2×2 Jordan block, inside the
+   spin-flip-even half of the (2,2) popcount block, the first block of L to go
+   unstable at this coupling. Their squared gap is real for real γ, negative
+   below the collision and positive above, so the collision lies on the real
+   axis. There L − λI restricted to that half has one singular value at
+   6.5·10⁻¹⁶ and the next at 0.176: one eigenvector for a double eigenvalue.
+   Half the split over √|δ| is 0.20293 on both sides of the collision for
+   δ ≤ 10⁻⁴, the Puiseux law of an EP2. A Hopf crossing, a simple pair moving
+   through Re = 0 with finite slope, is excluded twice: by the symmetry of step 3
+   and by the infinite slope.
 
 | System | Axis-confined regime | Off-axis regime | Mechanism |
 |--------|----------------|-------------|-----------|
 | Hamiltonian PT | Real eigenvalues | Complex conjugate pairs | EP coalescence |
-| Fragile-bridge Liouvillian | Imaginary eigenvalues | Off-axis +/- pairs | spectral-abscissa axis departure; EP character OPEN |
+| Fragile-bridge Liouvillian at J_bridge = 1.0 | Imaginary eigenvalues | Off-axis +/- pairs | EP coalescence (EP2 on the real γ axis) |
 
-The two rows share a rotated spectral picture, but the present fragile-bridge
-data do not establish that they share the same local Jordan mechanism.
+At this coupling the two rows share the local Jordan mechanism, rotated by 90°, and the reason
+is a symmetry the fragile bridge carries besides Π. The chain reflection that
+swaps the gain chain and the loss chain commutes with the Hamiltonian part of L
+and flips the sign of the gain-loss part. The Heisenberg Hamiltonian is real, so
+iL is PT-symmetric in the textbook sense with that reflection as P and complex
+conjugation as T; and since L is also complex symmetric, iL is pseudo-Hermitian
+under the reflection, which is what gives the eigenvalues on the axis their
+Krein signatures. The axis-confined regime is the unbroken phase. The two
+colliding eigenvectors carry opposite signatures under the reflection (±0.0158
+at δ = −10⁻⁴, shrinking to zero at the collision), so the threshold is a Krein
+collision, and the off-axis regime is the broken phase. Π stays exact on both
+sides; it is this other symmetry that breaks. Π composed with Hermitian
+conjugation is a second anti-linear symmetry that sends λ to −λ* as well. By
+F118, Π = R·D with R the one-sided flip ρ ↦ ρ·X^⊗N and D the transpose, so
+Π∘† = R∘conj; it maps block (p, q) onto (p, 4 − q), so it acts inside the (2,2)
+block where this collision lives, and its product with the reflection-conjugation
+is a linear symmetry S, the chain reflection composed with R, that commutes with
+L. Their pieces are owned elsewhere in the repo,
+F131's conjugation identity, F91's anti-palindromic class, F118's mirror group,
+F119's transport law and antilinear double, and MirrorWorld's `GammaFold` gain turn, and
+[the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §3 joins them. At other
+couplings the first block to go unstable can be one that the spin flip and S
+map onto partners; there the full L carries the collision once in each, twice or
+four times at the sampled couplings, and at five exact couplings the threshold
+is zero with no exceptional point at all (the same page).
 
 ### Basis-invariant evidence boundary
 
@@ -242,9 +294,11 @@ single-eigenvector Petermann factors or eigenvector angles. The previously
 selected leading eigenvalue is degenerate at part of that scan, so an
 individual left/right eigenvector overlap or angle is basis-dependent inside a
 degenerate eigenspace. A unitary change of basis within the same eigenspace can
-change the number without changing the generator. invariant subspace-level
-conditioning or a direct threshold Jordan-rank test would be required before
-such a quantity could bear on the transition's character.
+change the number without changing the generator. The transition's character
+therefore rests on invariant quantities instead: invariant subspace-level
+conditioning, or the direct Jordan-rank read at the located collision that
+[`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py)
+performs.
 
 ---
 
@@ -337,9 +391,11 @@ midpoint to its arithmetic mean `m = trace(L)/dim(L)` and measures pairing by
 ### Instability type
 
 At epsilon = 0.05 a sampled unstable mode at 1.01 γ_crit remains oscillatory
-(|Im(lambda)| = 1.72). Whether one branch continues to threshold and whether
-either threshold has EP character are separate questions not measured
-here; they require a strict threshold coalescence and Jordan-rank test.
+(|Im λ| = 1.72). Whether one branch continues to threshold, and whether
+the perturbed threshold is an exceptional point like the epsilon = 0 one of
+Phase 2, are not measured here: the epsilon = 0 certificate would have to be
+repeated on the perturbed generator, whose eigenvalues no longer sit on the
+imaginary axis below threshold.
 
 ---
 
@@ -349,24 +405,31 @@ The following section places our results in the context of existing
 physics research. It is written for readers familiar with this
 literature. If you are following the palindrome story without a physics
 background, the key takeaway is: the palindrome supplies a sectorwise
-P relation, while its final irreducible-sector class is still open. The
-spectral-abscissa axis departure does not itself assign either an EP character or a class.
+P relation, while its final irreducible-sector class is still open. At generic
+couplings the fragile-bridge threshold is an exceptional point (certified at
+J_bridge = 1.0 and 1.9, two qubits per chain), at five exact couplings it is zero
+instead, and neither assigns that class.
 
 ### Bender and Boettcher (PRL 1998)
 
 Standard Hamiltonian PT-symmetry has real eigenvalues in its PT-symmetric
 phase and complex pairs in its PT-broken phase. The fragile-bridge comparison
-instead has a linear Pi and passes from a Fragile-bridge axis-confined regime
-(imaginary eigenvalues) to a Fragile-bridge off-axis regime. Pi remains exact
-on both sides, so these are not Pi-symmetric and Pi-broken phases. The
-operator types differ; only the rotated spectral pictures are analogous.
+instead has a linear Π and passes from a Fragile-bridge axis-confined regime
+(imaginary eigenvalues) to a Fragile-bridge off-axis regime. Π remains exact
+on both sides, so these are not Π-symmetric and Π-broken phases. They are the
+unbroken and broken phases of a different, textbook PT symmetry of iL: the chain
+reflection that swaps gain and loss as P, complex conjugation as T (Phase 2).
+With two qubits per chain, at generic couplings the threshold between them is
+the familiar PT-breaking EP2, rotated by 90° (certified at J_bridge = 1.0 and
+1.9); at five exact couplings the unbroken phase shrinks to γ = 0.
 
 ### Minganti et al. (PRA 2019)
 
 Liouvillian exceptional points are qualitatively different from Hamiltonian
-EPs. The FRAGILE_BRIDGE data show a real-γ spectral-abscissa departure with square-root-like
-onset and strong finite-offset non-normality. They do not independently certify
-a threshold coalescence or Jordan defect, so EP character remains OPEN.
+EPs. At generic couplings the FRAGILE_BRIDGE threshold is such a Liouvillian
+EP (certified at J_bridge = 1.0 and 1.9, two qubits per chain): a 2×2 Jordan
+block on the real γ axis, with square-root onset and a Petermann factor that
+diverges as 1/δ.
 
 ### Sa, Ribeiro, Prosen (PRX 2023)
 
@@ -392,19 +455,27 @@ an open question.
    globally, and involutive after Π²-parity resolution. No global AIII
    label follows from the anticommutation alone.
 
-2. **The spectral-abscissa instability preserves the mirror.** The fragile-bridge
-   transition preserves exact λ ↔ −λ pairing while off-axis pairs appear. The
-   sampled max Re λ ∝ √δ trend is not by itself a strict
-   coalescence or Jordan-character certificate; EP character remains OPEN.
+2. **At generic couplings the fragile-bridge instability is an exceptional point
+   that preserves the mirror.** The transition preserves exact λ ↔ −λ pairing
+   while off-axis pairs appear. At generic couplings the threshold is a
+   second-order exceptional point on the real γ axis (certified at
+   J_bridge = 1.0 and 1.9, two qubits per chain; in the symmetry sector that
+   goes first, an EP2 at every coupling of a 4000-point sweep but its grid point
+   3/4, [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §3): in the first block of L to go
+   unstable, two imaginary eigenvalues meet in a Krein collision and form a 2×2
+   Jordan block, then leave the axis with Re λ ∝ √δ. At J_bridge = 1.0 that
+   block is its own spin-flip image, so the full L has nullity 1 at algebraic
+   multiplicity 2 there. At five exact couplings the threshold is zero, with a
+   linear onset and no exceptional point.
 
 3. **The composite perturbation is stabilizing in the sampled sweep.** It
    raises γ_crit while simultaneously breaking the palindrome and changing
    the damping action. This run does not isolate which contribution causes
    the shift; a matched-damping preserving control is still required.
 
-4. **Keep the three candidate carriers separate.** This file's Σγ=0 gain-loss
-   system has a real-γ spectral-abscissa axis departure with EP character OPEN. F86's toy 2×2 rate-channel reduction has its
-   own EP at Q_EP=2/g_eff. The full Σγ=Nγ₀ block is strongly non-normal near
+4. **Keep the three carriers separate.** This file's Σγ=0 gain-loss
+   system has, at generic couplings and two qubits per chain, its own EP2 on the real γ axis. F86's toy 2×2 rate-channel reduction has its
+   own EP at Q_EP=2/g_eff, a different object. The full Σγ=Nγ₀ block is strongly non-normal near
    Q_peak and has certified finite-q Puiseux-1/2 defective EP2 seeds at
    N=5,7,9; for arbitrary odd N only the endpoint-nullity surplus is proved.
    The old Petermann peak magnitudes and their “6×”/parity laws were grid
@@ -417,8 +488,8 @@ an open question.
 
 ## What This Does NOT Establish
 
-- That the complex EP can be reached experimentally (requires complex
-  gamma, i.e., modulated gain-loss)
+- That the exceptional point can be reached experimentally (the gain chain
+  needs negative dephasing, which is not a physical Lindblad channel)
 - The final SRP class in any fully irreducible sector; that algebra has
   not yet been computed even for the Heisenberg case
 - That the stabilization by depolarizing noise is generic (tested
@@ -436,6 +507,8 @@ an open question.
 | Phase 3 script | [`simulations/pt_palindrome_breaking.py`](../simulations/pt_palindrome_breaking.py) |
 | Phase 1+2 output | [`simulations/results/pt_symmetry_analysis.txt`](../simulations/results/pt_symmetry_analysis.txt) |
 | Phase 3 output | [`simulations/results/pt_palindrome_breaking.txt`](../simulations/results/pt_palindrome_breaking.txt) |
+| Threshold certificate | [`simulations/fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py) |
+| Certificate output | [`simulations/results/fragile_bridge_ep_signature.txt`](../simulations/results/fragile_bridge_ep_signature.txt) |
 
 ---
 
@@ -457,7 +530,7 @@ an open question.
 ---
 
 *Pi is linear, not PT, and supplies a sectorwise P relation for the shifted
-generator. Fragile-bridge eigenvalues leave the imaginary axis while that
-relation remains exact. The composite depolarizing sweep changes both pairing
+generator. At generic couplings and two qubits per chain, fragile-bridge
+eigenvalues leave the imaginary axis at an exceptional point while that relation remains exact. The composite depolarizing sweep changes both pairing
 quality and damping action, so it does not assign either one a causal stability
 role.*

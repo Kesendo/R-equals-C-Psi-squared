@@ -462,6 +462,8 @@ log()
 log("  This producer does not report single-eigenvector Petermann factors or angles.")
 log("  Degenerate eigenspaces make those values basis-dependent; a subspace-level")
 log("  condition measure or a threshold Jordan-rank test would be required.")
+log("  That test is run in fragile_bridge_ep_signature.py (section 1): at J_bridge = 1.0")
+log("  the threshold is a second-order exceptional point on the real γ axis.")
 
 # ----------------------------------------------------------------
 # 2e. Reinterpretation

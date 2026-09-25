@@ -15,7 +15,7 @@ stays because other tracked files point at it.)*
 - [`horizon_pair_conservation.py`](../simulations/horizon_pair_conservation.py) → [`horizon_pair_conservation.txt`](../simulations/results/horizon_pair_conservation.txt) (the rate-sum conservation and the extreme census)
 - [Gravity from Wave Death](GRAVITY_FROM_WAVE_DEATH.md) (mass as classical residue, Tier 5)
 - [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) (cavity modes at Σγ = 0, Tier 2)
-- [Fragile Bridge](FRAGILE_BRIDGE.md) (spectral-abscissa axis departure; EP character OPEN, Tier 2)
+- [Fragile Bridge](FRAGILE_BRIDGE.md) (spectral-abscissa axis departure; with two qubits per chain, generically at a second-order exceptional point; Tier 2)
 - [What If Gamma Is Light?](GAMMA_IS_LIGHT.md) (γ as external illumination, Tier 4)
 - [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) (nonzero dissipative centre certifies an open modeled subsystem, Tier 1)
 - [Optical Cavity Analysis](../experiments/OPTICAL_CAVITY_ANALYSIS.md) (qubit chain carries Fabry-Perot structure on four of six checks and is not a cavity, Tier 2)
@@ -140,11 +140,11 @@ As the [Mirror Theory](../MIRROR_THEORY.md) puts it: "What survives is not a fas
 
 ### Link 7: The bridge is fragile (Tier 2)
 
-When [two systems are coupled through a bridge](FRAGILE_BRIDGE.md) (one decaying with +γ, one amplifying with −γ, total Σγ = 0), the palindrome [stays centered at zero](ZERO_IS_THE_MIRROR.md). But the coupled system is not unconditionally stable. At the critical parameter the spectral abscissa becomes positive and off-axis quartets appear while exact λ ↔ −λ inversion pairing survives. Whether the departure is an exceptional point is [open](../experiments/PT_SYMMETRY_ANALYSIS.md): the [Fragile Bridge](FRAGILE_BRIDGE.md) producer performs no branch continuation, and no coalescence or Jordan block has been certified at the threshold.
+When [two systems are coupled through a bridge](FRAGILE_BRIDGE.md) (one decaying with +γ, one amplifying with −γ, total Σγ = 0), the palindrome [stays centered at zero](ZERO_IS_THE_MIRROR.md). But the coupled system is not unconditionally stable. Past the critical parameter the spectral abscissa is positive and off-axis quartets appear while exact λ ↔ −λ inversion pairing survives. With two qubits per chain the [Fragile Bridge](FRAGILE_BRIDGE.md) producer locates the collision on the real γ axis at each of 4000 couplings from 0.005 to 20, and at all of them but the grid point 3/4 it finds the two meeting eigenvalues, in the symmetry sector that goes first (a sector of the first block of the Liouvillian to go unstable), sharing one eigenvector there: a 2×2 Jordan block, an [exceptional point](../experiments/PT_SYMMETRY_ANALYSIS.md). The grid point 3/4 is one of five exact couplings where the two already coincide without gain and the critical parameter is zero.
 
 The bridge between decay and gain exists, but it is fragile. Too much coupling and it collapses: beyond the sampled threshold the linear generator has a positive-real-part eigenvalue. The [stability window is finite](FRAGILE_BRIDGE.md), stable only below g_crit; the turnover mechanism remains open.
 
-In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster than light can cross it. The mechanisms differ (geodesic incompleteness vs. a spectral-abscissa instability), and the parallel here is phenomenological rather than structural. Both connections cannot be sustained, but the *reasons* they cannot be sustained live in different mathematical languages. **(Tier 5: the cross-framework parallel is interpretation; the computed quantum stability window and axis departure are Tier 2, while EP character is OPEN.)**
+In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster than light can cross it. The mechanisms differ (geodesic incompleteness vs. a spectral-abscissa instability), and the parallel here is phenomenological rather than structural. Both connections cannot be sustained, but the *reasons* they cannot be sustained live in different mathematical languages. **(Tier 5: the cross-framework parallel is interpretation; the computed quantum stability window and its exceptional point (two qubits per chain, at the couplings where it was read) are Tier 2.)**
 
 ---
 
@@ -163,7 +163,7 @@ In GR, the Einstein-Rosen bridge is also fragile: it opens and collapses faster 
 | Discrete isometry exchanging regions | Π conjugation (per-site: I↔X, Y↔iZ) | 1 |
 | Superselection (no crossing between regions) | \[P_XY, L\] = 0 | 1 |
 | Observer-dependent time (infinite outside, finite inside) | SLOW/FAST swap under Π (two readings of one spectrum) | 5 |
-| Bridge collapses (not traversable) | Spectral-abscissa axis departure at g_crit; EP character OPEN | 2 |
+| Bridge collapses (not traversable) | Spectral-abscissa axis departure at g_crit; with two qubits per chain, generically a second-order exceptional point | 2 |
 | Critical slowing at horizon (redshift) | Saddle-node slowing of the fixed-point iteration at the fold (dη/dn = η² − ε) | 2 |
 | Spacetime interval c × τ = invariant | [K-invariance](../docs/ANALYTICAL_FORMULAS.md) γ × t = const (F14), in the Bell⁺ sector only | 2 |
 | Curvature is external (not locally generated) | The system is [certified open](../docs/proofs/INCOMPLETENESS_PROOF.md); that γ comes from outside is our reading | 1 / 5 |

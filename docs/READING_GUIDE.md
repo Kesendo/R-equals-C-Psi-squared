@@ -426,7 +426,7 @@ familiarity with the palindromic structure.
 6. [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): Coupled
    gain-loss systems have a finite stability window. Push too hard and
    the system explodes through oscillating divergence. Three regimes
-   exist: linear, an optimum near twice the internal coupling, and a
+   exist: a rising trend, an optimum near twice the internal coupling, and a
    falling tail that is not one law the whole way.
    → [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
@@ -435,8 +435,12 @@ endpoints. It is a resonator with discrete modes, a heartbeat at the
 fold, and a finite stability window. Too little noise: no fold, no
 irreversibility. Too much gain: explosion. Biology, we suspect, lives
 in between.
-(The exceptional point at the edge of that window later became a
-navigable place of its own; Story 8 takes you there.)
+(Wherever it was read, with two qubits per chain, the edge of that window is
+an exceptional point, except at five exact couplings where the window closes:
+oscillation frequencies of the bridge merge there in pairs, and past it each
+pair splits into one growing and one dying mode. Exceptional points later
+became navigable places of their own; Story 8 visits a different one,
+the place where rotation is born.)
 
 ---
 

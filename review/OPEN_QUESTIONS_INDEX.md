@@ -1056,9 +1056,9 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-254
 
-**Question:** **Cascade stability:** If each level in the frequency cascade (154 THz → 1 Hz) is a coupled gain-loss pair, then each level has its own bridge stability window. The cascade works only if every bridge stays in the linear regime (γ < 0.189 × J_bridge^1.035, and that law is the regime's trend rather than a per-point one).
+**Question:** **Cascade stability:** If each level of a frequency hierarchy were a coupled gain-loss pair, each would have its own bridge window. The weak-regime trend γ_crit ≈ 0.19 × J_bridge would suggest one condition per level, but the trend does not hold per coupling: a level whose bridge sits at one of the five exact zeros (two qubits per chain) is unstable at every gain sampled there, from 10⁻⁶ to 2. Whether windows compose is a question for the combined generator.
 
-**Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 290)
+**Source:** `hypotheses/FRAGILE_BRIDGE.md` (§6 item 3)
 **Section:** 6. Open questions
 **Date:** unknown
 **Tag:** untagged
@@ -1813,7 +1813,7 @@ neural justifications without classifying unrelated entries.
 
 **Question:** **N-scaling law (open; the N=4 point needs a bounded-error instrument first):** N=4 was computed at 65536×65536 through `expm_multiply`, with γ_crit bisected on the growth rate that norm fit returns. Checked against exact eigenvalues at the two smaller sizes, the fit under-reports max Re(λ) by 8.8% to 100%, one-sided, which biases a bisected γ_crit high, in the same direction as the suspected even/odd parity effect. So N=5 is not the next step: re-measuring N=4 with a Krylov eigensolver carrying a residual bound, or a sector-restricted solve, is.
 
-**Source:** `hypotheses/FRAGILE_BRIDGE.md` (line 277)
+**Source:** `hypotheses/FRAGILE_BRIDGE.md` (§6 item 1)
 **Section:** 6. Open questions
 **Date:** unknown
 **Tag:** numerical-verification

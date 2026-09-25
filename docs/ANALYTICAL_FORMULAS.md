@@ -1063,38 +1063,61 @@ CΨ(0) exceeds 1/4.
 **Replaces:** γ sweep to find fold onset.
 **Source:** [Zero Is The Mirror](../hypotheses/ZERO_IS_THE_MIRROR.md)
 
-### F19. Fragile bridge sampled large-coupling tail (Tier 2)
+### F19. Fragile bridge threshold map: sampled regimes, the EP2, five zeros and the kink (Tier 2)
 
     gamma_crit * J_bridge = 0.578 at J_bridge=10,
                               0.508 at J_bridge=100
 
-The sampled product is still decreasing at the end of the sweep. These data do
-not establish that a limit exists or that its value is 0.50; one-half remains
-an open asymptotic hypothesis.
+The sampled product is still decreasing at the end of the sweep. The producer's section 7 reads
+it at six couplings, with the (1,2) orbit first at each: 0.5384, 0.5254, 0.5151, 0.5075, 0.5025
+and 0.5008 at J_bridge = 20, 30, 50, 100, 300 and 1000.
+These data do not establish that a limit exists or that its value is 0.50; one-half remains an
+open asymptotic hypothesis.
 
-The spectral-abscissa instability preserves the Π relation: Π forces inversion
-λ ↔ −λ at Σγ = 0, while Hermiticity preservation independently supplies
-λ ↔ λ*. Below γ_crit every eigenvalue sits on the imaginary axis; above it the
-combined symmetries give off-axis quartets {λ, λ*, −λ, −λ*}. On two two-qubit chains at
-J_bridge = 1.0 and 1.9, finite-offset samples give Re λ ∝
-√(γ/γ_crit − 1) and Petermann readings
-40.9, 403, 4027, 4.04·10⁴. The across-axis partner gap equals 2|Re λ| and is
-therefore a derived symmetry identity, not a third independent trend. The two
-finite-offset trends motivate an EP2 hypothesis but do not
-evaluate the threshold itself or execute a Jordan-rank certificate. The axis
-departure is established; EP and Hopf character remain OPEN.
-Linear regime: gamma_crit = 0.1891 * J_bridge^1.0346 (R^2 = 0.99984, eight
-points at J_bridge <= 2). A finer sweep of the same quantity gives a
-through-origin slope of 0.1845 at R^2 = 0.6149 over its 14 sub-peak points,
-so the linear law is the regime's trend, not a per-point law.
-Optimal: the sampled maximum is gamma_crit = 0.4058 at J_bridge = 1.9, bracketed
-in [1.8, 2.0] by a grid of spacing 0.1; at exactly 2J it is already 5.4% down.
+The instability preserves the Π relation: Π forces inversion λ ↔ −λ at Σγ = 0,
+while Hermiticity preservation independently supplies λ ↔ λ*. Below γ_crit every
+eigenvalue sits on the imaginary axis; above it the combined symmetries give
+off-axis quartets {λ, λ*, −λ, −λ*}. Inside each popcount block the chain
+reflection with complex conjugation sends λ to −λ* and holds a simple eigenvalue
+on the axis, so the threshold is where two levels of opposite Krein signature in
+the first block to go unstable meet. For two qubits per chain, away from five
+exact couplings (below), they meet at γ_crit > 0 in a 2×2 Jordan block, a
+second-order exceptional point on the real γ axis, and leave the axis with
+Re λ ∝ √(γ/γ_crit − 1), wherever the collision has been read. At J_bridge = 1.0
+and 1.9 that block is a spin-flip half of the (2,2) block, L − λI restricted to it
+has one singular value at the rounding level and the next at 0.176 and 1.55, and
+the full L has nullity 1 at algebraic multiplicity 2; at each of the thirteen
+couplings of the producer's sector section the full L carries one such Jordan pair
+per block of the first block's orbit under the spin flip and S = G∘R (G the chain
+reflection on both sides of ρ, R the one-sided flip ρ ↦ ρ·X^⊗N of F118), one, two
+or four; on the producer's sweep of 4000 couplings from 0.005 to 20 the symmetry
+sector that goes first holds an EP2 at every coupling but the grid point 3/4, one
+of the five. At those five, J_bridge = 3/4, √5/2, 4/3 and the real roots of
+12x³ − 37x² + 72x − 48 (≈ 1.0294) and 4x³ − 21x² + 40x − 48 (≈ 3.3289) in
+x = J_bridge/J, an even and an odd level of one block coincide at zero gain:
+γ_crit = 0 there, with a linear onset and no exceptional point. The finite-offset
+Petermann readings 40.9, 403, 4027, 4.04·10⁴ at J_bridge = 1.0 are the EP's
+K ∝ 1/δ. The across-axis partner gap equals 2|Re λ| and is therefore a
+derived symmetry identity, not a third independent trend.
+Linear regime: γ_crit = 0.1891 × J_bridge^1.0346 (coefficient of determination
+R² = 0.99984, eight points at J_bridge ≤ 2), a trend: the eight points miss the
+four zeros at J_bridge = 3/4, 1.0294, √5/2 and 4/3, where γ_crit falls to zero. A
+finer sweep of the same quantity gives a through-origin slope of 0.1845 at
+R² = 0.6149 over its 14 sub-peak points, so the linear law is the regime's trend,
+not a per-point law.
+Optimal: the sampled maximum is γ_crit = 0.4058 at J_bridge = 1.9, bracketed in
+[1.8, 2.0] by a grid of spacing 0.1; at exactly 2J it is already 5.4% down.
+Resolved into blocks, the maximum is a kink where the two spin-flip halves of the
+(2,2) block cross, at J_bridge = 1.952892, γ = 0.407019, with the value at 2J
+5.70% below it; on the producer's sweep of 4000 couplings from 0.005 to 20 no
+grid value exceeds it. Why the halves cross there is open.
 
 **Valid for:** the executed sweep of two coupled two-qubit Heisenberg chains,
 with the coupling and gain-loss conventions in the source.
 **Does not replace:** an asymptotic analysis or a converged large-J_bridge limit.
 **Source:** [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md),
-[PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
+[PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md),
+[`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py)
 
 ---
 
@@ -1478,23 +1501,50 @@ grading from the orthogonal spec(L)-palindromy axis.
 **Replaces:** manual determinant computation.
 **Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)
 
-### F40. Fragile bridge axis-departure threshold at J_bridge = J (Tier 2, verified)
+### F40. Fragile bridge threshold at J_bridge = J: an exceptional point on the real γ axis (Tier 2, verified)
 
-    gamma_crit = 0.1873  (N=2 per chain, J = J_bridge = 1.0)
+    γ* = 0.187310108345  (N=2 per chain, J = J_bridge = 1.0; λ* = −2.651477232 i there)
 
-Below gamma_crit the sampled spectral abscissa remains at numerical zero; above
-it off-axis eigenvalues exist while exact λ ↔ −λ inversion pairing survives.
-Hermiticity preservation separately supplies conjugate pairing, so together the
-relations give the quartet {λ, λ*, −λ, −λ*}. The current producer does not execute a threshold coalescence or
-Jordan-rank test. Separate finite-offset samples show square-root-like onset and
-growing simple-mode Petermann readings. The across-axis gap 2|Re λ| is derived
-from the onset and symmetry, not independent evidence. Those
-trends do not classify the threshold. EP, Hopf, and Jordan character remain
-OPEN.
+Below the threshold the spectral abscissa is at numerical zero: every eigenvalue
+sits on the imaginary axis. Exact λ ↔ −λ inversion pairing survives the threshold,
+and Hermiticity preservation separately supplies conjugate pairing, so together
+the relations give the quartet {λ, λ*, −λ, −λ*}. Inside each popcount block of L
+the chain reflection with complex conjugation sends λ to −λ*, which holds a
+simple eigenvalue of the block on the axis: leaving it takes two eigenvalues
+meeting. At J_bridge = 1.0 the first block to go unstable is the spin-flip-even
+half of the (2,2) block. The colliding pair's squared gap f = (λ_a − λ_b)² is
+real for real γ, negative while the two sit on the imaginary axis and positive
+once they are a mirror pair, so its zero is real, and a root finder on that sign
+change gives γ*. There the two eigenvalues meet in a 2×2 Jordan block: inside
+that half, L − λ*I has one singular value at 6.5·10⁻¹⁶ and the next at 0.176,
+and the full L has two eigenvalues within 10⁻⁵ of λ* and nullity 1 (its next two
+singular values, both 2.9·10⁻³, come from the (1,2) block and its flip copy
+(3,2), whose nearest eigenvalues sit 3.07·10⁻³ away): algebraic multiplicity 2,
+geometric multiplicity 1, a second-order exceptional point on the real γ axis.
+Half the split over √|δ|, δ = γ/γ* − 1, is 0.20293 on both sides at |δ| = 10⁻⁴
+and 10⁻⁶ (the EP2 Puiseux law), and the two approaching eigenvectors carry
+opposite Krein signatures under the chain reflection that swaps gain and loss.
+Above the threshold the Petermann factor diverges as 1/δ; the across-axis gap
+2|Re λ| is derived from the onset and the symmetry, not independent evidence. A
+bisection on max Re λ > 10⁻¹² returns 0.1873101, a hair below the collision:
+rounding noise in the ill-conditioned approaching pair trips it while the pair is
+still split on the axis. Typed carrier: `LocalGlobalEpLink.FragileBridgeThresholdGamma`,
+recomputed from the C# builders by `FragileBridgeThresholdTests`.
 
-**Valid for:** N=2 per chain Heisenberg, J_bridge = J = 1.0.
+**Valid for:** N=2 per chain Heisenberg, J_bridge = J = 1.0; the same certificate holds at
+J_bridge = 1.9 (γ* = 0.405853184723, in the flip-odd half). Neither is one of the five exact
+couplings (J_bridge = 3/4, √5/2, 4/3 and the real roots of 12x³ − 37x² + 72x − 48 and
+4x³ − 21x² + 40x − 48 in x = J_bridge/J) where the threshold is zero, with a linear onset and no
+exceptional point; on the producer's sweep of 4000 couplings from 0.005 to 20 the symmetry
+sector that goes first holds an EP2 at every coupling but the grid point 3/4, one of the five.
+Where the first block to go unstable has partners under the spin flip and S = G∘R (G the chain
+reflection on both sides of ρ, R the one-sided flip ρ ↦ ρ·X^⊗N of F118), the full L carries the
+collision once per block of that orbit: twice at the sampled couplings 0.1, 0.5, 1.2, 1.4, 5 and
+10, four times in the (0,1) window J_bridge ≈ 1.4344 to 1.4907, the only four-copy stretch on
+that sweep.
 **Replaces:** bisection search at this specific parameter set.
-**Source:** [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md),
+**Source:** [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §2.1 and §3,
+[PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md),
 [`fragile_bridge_ep_signature.py`](../simulations/fragile_bridge_ep_signature.py)
 
 ### F41. Palindromic-pair trace-amplitude period (Tier 1, corollary of D10 + F1)
@@ -3191,9 +3241,9 @@ The asymmetry of the curve is also universal in relative-Q:
 
 **Why this is universal: 2-level EP analytical origin.** For the 2×2 effective Liouvillian in adjacent rate-channel basis with diagonal {−2γ₀(2k−1), −2γ₀(2k+1)} and **same-sign-imaginary off-diagonals (+iJ·g_eff, +iJ·g_eff)**, the eigenvector rotation angle satisfies `tan(θ) = J·g_eff / 2γ₀ = Q / Q_EP`. The probe overlap with eigenvectors depends only on Q/Q_EP, hence the response curve K_CC_pr(Q) is a function of Q/Q_EP alone. Q_peak is chain-specific (g_eff varies); but the SHAPE in Q/Q_peak coordinates is universal because it is the 2-level EP resonance form, independent of the bond's specific g_eff value.
 
-The same-sign-imaginary off-diagonal structure is what admits an EP at finite J·g_eff = 2γ₀ (verified numerically: opposite-sign +iJg, −iJg gives discriminant 4γ₀² + J²g_eff² with no EP; same-sign gives 4γ₀² − J²g_eff² with EP). This is "PT-phenomenology-like" (EP at finite coupling, spectral flow); the centered Liouvillian L_c has the exact Π P-type anticommutation `{Π, L_c}=0`, distinct from Bender-Boettcher PT. Globally Π⁴=I and Π²=U_X; after U_X-parity resolution its phase-normalized restriction is involutive, but the full irreducible-sector SRP class remains OPEN. Q_EP = 2/g_eff is the genuine EP of the toy 2×2 rate-channel reduction (a SEPARATE object, not "the instance of" the full-block classification; in isolation its eigenvalues coalesce at centre −4γ₀·k and carry no λ↔−λ pairing). The [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) carries a DISTINCT spectral-abscissa axis departure in the SEPARATE Σγ=0 gain-loss system (centre 0, exact λ↔−λ pairing survives); the sampled square-root-like max-Re onset and growing finite-offset Petermann readings do not provide branch continuation or a strict threshold coalescence/Jordan certificate, so its EP character remains OPEN. The full Σγ=N·γ₀ block-L carries its own third kind: F89's real-axis defective seeds at scattered q\*, with literal finite-q Puiseux-1/2 EP2 character certified at N=5,7,9. For arbitrary odd N the theorem is the nullity-surplus count only; finite-q drop and genericity remain open. Away from certified seeds the block is non-normal without coalescence. What stays OPEN in [`LocalGlobalEpLink`](../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs) is the DISTINCT off-real-axis complex-Q EP structure and its FRAGILE_BRIDGE connection specifically.
+The same-sign-imaginary off-diagonal structure is what admits an EP at finite J·g_eff = 2γ₀ (verified numerically: opposite-sign +iJg, −iJg gives discriminant 4γ₀² + J²g_eff² with no EP; same-sign gives 4γ₀² − J²g_eff² with EP). This is "PT-phenomenology-like" (EP at finite coupling, spectral flow); the centered Liouvillian L_c has the exact Π P-type anticommutation `{Π, L_c}=0`, distinct from Bender-Boettcher PT. Globally Π⁴=I and Π²=U_X; after U_X-parity resolution its phase-normalized restriction is involutive, but the full irreducible-sector SRP class remains OPEN. Q_EP = 2/g_eff is the genuine EP of the toy 2×2 rate-channel reduction (a SEPARATE object, not "the instance of" the full-block classification; in isolation its eigenvalues coalesce at centre −4γ₀·k and carry no λ↔−λ pairing). The [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) carries a DISTINCT exceptional point in the SEPARATE Σγ=0 gain-loss system (centre 0, exact λ↔−λ pairing survives): at its threshold, for two qubits per chain at generic couplings and in the first popcount block of L to go unstable, two imaginary eigenvalues meet in a 2×2 Jordan block on the real γ axis, a double root at zero decay rather than at the toy's decay rate 4γ₀·k (at five exact couplings the threshold is zero instead, with no exceptional point). The full Σγ=N·γ₀ block-L carries its own third kind: F89's real-axis defective seeds at scattered q\*, with literal finite-q Puiseux-1/2 EP2 character certified at N=5,7,9. For arbitrary odd N the theorem is the nullity-surplus count only; finite-q drop and genericity remain open. Away from certified seeds the block is non-normal without coalescence. What stays OPEN in [`LocalGlobalEpLink`](../compute/RCPsiSquared.Core/F86/LocalGlobalEpLink.cs) is the DISTINCT off-real-axis complex-Q EP structure and its FRAGILE_BRIDGE connection specifically.
 
-**Current local/global boundary.** `LocalGlobalEpLink` is an **OpenQuestion**. The real-Q F86 sweep samples genuine non-normality but no coalescence at its grid points; its Petermann heights are not EP evidence. F89 separately certifies narrow real-axis Puiseux-1/2 EP2s at N=5,7,9 that the coarse grid misses; the all-odd endpoint-nullity surplus does not prove literal finite-q EPs at every odd N. FRAGILE_BRIDGE is a distinct Σγ=0 gain-loss system with a spectral-abscissa axis departure whose EP character is OPEN; K≈403 is one finite-offset simple-mode non-normality reading. What remains open is the off-real-axis complex-Q structure of the full Σγ=Nγ₀ block and any connection to that separate gain-loss system. The superseded readings and their numerical provenance live in [CAUGHT_ERRORS](CAUGHT_ERRORS.md).
+**Current local/global boundary.** `LocalGlobalEpLink` is an **OpenQuestion**. The real-Q F86 sweep samples genuine non-normality but no coalescence at its grid points; its Petermann heights are not EP evidence. F89 separately certifies narrow real-axis Puiseux-1/2 EP2s at N=5,7,9 that the coarse grid misses; the all-odd endpoint-nullity surplus does not prove literal finite-q EPs at every odd N. FRAGILE_BRIDGE is a distinct Σγ=0 gain-loss system whose threshold is, for two qubits per chain at generic couplings, its own second-order exceptional point on the real γ axis; K≈403 is one finite-offset reading of its K ∝ 1/δ. What remains open is the off-real-axis complex-Q structure of the full Σγ=Nγ₀ block and any connection to that separate gain-loss system. The superseded readings and their numerical provenance live in [CAUGHT_ERRORS](CAUGHT_ERRORS.md).
 
 **2026-05-06 (evening).** Direction (b) of `C2HwhmRatio.PendingDerivationNote` yielded two Tier-1-derived universal constants from the bare doubled-PTF model: `x_peak = Q_peak/Q_EP = 2.196910` (post-EP location in dimensionless x) and `HWHM_left/Q_peak = 0.671535` (SVD-block floor in dimensionless x). Empirical Interior 0.7506 and Endpoint 0.7728 sit above this floor by ~0.08-0.10; gap structurally explained as probe-block 2-level sub-resonance contribution. Encoded as `C2HwhmRatio.BareDoubledPtfXPeak` and `C2HwhmRatio.BareDoubledPtfHwhmRatio` const properties. Synthesis-side: F86↔PTF Locus 5 inheritance, where PTF K_1 (Π on H_1 sine-mode basis, discrete) and F86 Q-rotation (Π on same-sign-imaginary 2×2 in rate-channel basis, continuous) are two daughters of one Π-centered mirror relation; this relation alone does not assign a global SRP class.
 

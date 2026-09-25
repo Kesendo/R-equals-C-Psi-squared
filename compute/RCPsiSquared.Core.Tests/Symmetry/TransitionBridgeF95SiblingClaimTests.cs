@@ -197,18 +197,19 @@ public class TransitionBridgeF95SiblingClaimTests
     }
 
     [Fact]
-    public void FragileBridge_IsNotIdentifiedWithTheToyTwoLevelEp()
+    public void ToyQuadratic_DoubleRootSitsAtPositiveDecay_AndTheFragileBoundaryCarriesItsScope()
     {
+        // Two different double roots. The toy quadratic's sits at the midpoint of its decay roots,
+        // z_decay = b = 4γ₀ > 0 (checked here from the roots at J = 0); the FRAGILE_BRIDGE collision
+        // sits at zero decay, Re λ* = 0, since Σγ = 0 centres its palindrome at 0 (recomputed from the
+        // C# builders in Core.Tests.F86.FragileBridgeThresholdTests). The boundary node is held to its
+        // scope, the chain length.
         var claim = BuildClaim();
-        string surface = string.Join("\n", new[] { claim.Name, claim.DisplayName, claim.Summary }
-            .Concat(claim.Children.Select(child => $"{child.DisplayName}\n{child.Summary}")));
+        var decay = claim.EpDecayRoots(0.05, 0.0, 1.0);
+        Assert.Equal(claim.EpAnchorB(0.05), (decay.FromLambdaPlus.Real + decay.FromLambdaMinus.Real) / 2.0, 14);
+        Assert.True(claim.EpAnchorB(0.05) > 0.0);
 
-        Assert.Contains("F86 toy 2×2 EP", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("FRAGILE_BRIDGE spectral-abscissa axis departure", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("EP/Hopf/Jordan character OPEN", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("EP (FRAGILE_BRIDGE", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("FRAGILE_BRIDGE (the EP", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("Sigma-gamma Hopf", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("tracked axis departure", surface, StringComparison.OrdinalIgnoreCase);
+        string boundary = claim.Children.Single(child => child.DisplayName == "FRAGILE_BRIDGE boundary").Summary;
+        Assert.Contains("two qubits per chain", boundary, StringComparison.Ordinal);
     }
 }

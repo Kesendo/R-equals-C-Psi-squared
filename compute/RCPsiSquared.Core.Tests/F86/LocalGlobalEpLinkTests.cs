@@ -11,10 +11,12 @@ namespace RCPsiSquared.Core.Tests.F86;
 /// The claim is now an <see cref="Tier.OpenQuestion"/>: the full Σγ=N·γ₀ block is genuinely
 /// non-normal at the sampled real-Q peaks, whose eigenvalues are simple. Separately certified
 /// real-axis F89 seeds are outside that coarse sweep; the grid-sensitive peak
-/// magnitudes ("6×", K=2384.7, the within-parity growth law, the parity asymmetry). The four
-/// witness rows are retained ONLY as a cautionary non-normality record. These tests pin the
-/// corrected tier, the retained-rows count, the correction note, and KB integration; they do
-/// NOT pin any magnitude (those numbers are grid artifacts).</summary>
+/// magnitudes ("6×", K=2384.7, the within-parity growth law, the parity asymmetry) are dropped.
+/// The four witness rows are retained ONLY as a cautionary non-normality record. These tests pin
+/// the corrected tier, the retained-rows count, the correction note, the scope of the
+/// FRAGILE_BRIDGE threshold statement, and KB integration; they do NOT pin any Petermann magnitude
+/// (those numbers are grid artifacts). The FRAGILE_BRIDGE threshold itself is recomputed in
+/// <see cref="FragileBridgeThresholdTests"/>.</summary>
 public class LocalGlobalEpLinkTests
 {
     [Fact]
@@ -50,8 +52,13 @@ public class LocalGlobalEpLinkTests
     }
 
     [Fact]
-    public void FragileBridgeSurface_ReportsAxisDepartureWithOpenEpCharacter()
+    public void FragileBridgeSurface_CarriesTheCertifiedCouplingsAndTheChainLength()
     {
+        // The threshold's character is certified at J_bridge = 1.0 and 1.9
+        // (simulations/fragile_bridge_ep_signature.py, section 1) and recomputed from the C# builders in FragileBridgeThresholdTests, which also
+        // checks the located γ* and λ* against the constants this claim carries. Here only the scope
+        // the claim states it in: the chain length, and the couplings where the full-L Jordan count
+        // was read.
         var link = LocalGlobalEpLink.Build();
         string surface = string.Join("\n", new[]
         {
@@ -62,14 +69,10 @@ public class LocalGlobalEpLinkTests
             link.GlobalInstanceAnchor
         }.Concat(link.Children.Select(child => $"{child.DisplayName}\n{child.Summary}")));
 
-        Assert.Contains("spectral-abscissa axis departure", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("EP character OPEN", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("two qubits per chain", link.GlobalInstanceAnchor, StringComparison.Ordinal);
+        Assert.Contains("at J_bridge = 1.0 and 1.9", link.GlobalInstanceAnchor, StringComparison.Ordinal);
+        Assert.Contains("two qubits per chain", link.PendingDerivationNote, StringComparison.Ordinal);
         Assert.Contains("toy 2x2 EP", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("FRAGILE_BRIDGE EP", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("gain-loss EP", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("real-gamma EP", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("firmly-established genuine EPs", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("tracked real-gamma axis departure", surface, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

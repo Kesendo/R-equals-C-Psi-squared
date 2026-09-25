@@ -3,10 +3,11 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.PolarityArchitecture;
 
-/// <summary>Schicht-1 wiring for <see cref="LocalGlobalEpLink"/> (Locus 5 — F86 ↔
-/// FRAGILE_BRIDGE axis-departure comparison; FRAGILE_BRIDGE EP character remains OPEN.
-/// The secured shared substrate is the shifted-generator sectorwise P-type anticommutation,
-/// while the full SRP class remains open).
+/// <summary>Schicht-1 wiring for <see cref="LocalGlobalEpLink"/> (Locus 5, the F86 ↔
+/// FRAGILE_BRIDGE comparison: FRAGILE_BRIDGE's threshold (two qubits per chain) is generically a defective EP2 on the real γ axis,
+/// and whether the full F86 block carries an EP linked to it is OPEN. The secured shared
+/// substrate is the shifted-generator sectorwise P-type anticommutation, while the full SRP
+/// class remains open).
 ///
 /// <para>Parallel to <see cref="F86PolarityLinkRegistration"/> (Locus 6, polarity-side
 /// closure). Together they bracket the F86 c=2 derivation with comparison-side and symmetry-side

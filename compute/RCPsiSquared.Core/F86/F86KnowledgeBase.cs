@@ -89,7 +89,7 @@ public sealed class F86KnowledgeBase : IInspectable
 
     private readonly Lazy<C2UniversalShapeDerivation?> _c2UniversalShape;
 
-    /// <summary>Block-independent meta-claim: the F86 EP / FRAGILE_BRIDGE axis-departure comparison.
+    /// <summary>Block-independent meta-claim: the F86 EP / FRAGILE_BRIDGE threshold-EP2 (two qubits per chain) comparison.
     /// <see cref="Knowledge.Tier.OpenQuestion"/> after the F86a-retraction 2026-06-21
     /// (demoted from Tier2Verified): the full Σγ=N·γ₀ block is genuinely strongly non-normal
     /// near Q_peak, but that sampled peak is not itself an EP; narrow real-axis defective
@@ -273,8 +273,8 @@ public sealed class F86KnowledgeBase : IInspectable
             block.C == 2 ? C2UniversalShapeDerivation.Build(block, WitnessCache) : null);
 
         // Block-independent meta-claim comparing the F86 real-axis seed/toy structures with
-        // FRAGILE_BRIDGE spectral-abscissa axis departure (EP character OPEN) beside the
-        // shared shifted-generator P-type relation.
+        // FRAGILE_BRIDGE's threshold EP2 on the real γ axis (two qubits per chain) beside the shared
+        // shifted-generator P-type relation.
         // Available for any block — that secured relation is shared across all c;
         // the pinned witnesses are the c=2 N=5..8 Petermann-K sweep.
         _localGlobalEpLink = new Lazy<LocalGlobalEpLink>(() => LocalGlobalEpLink.Build());

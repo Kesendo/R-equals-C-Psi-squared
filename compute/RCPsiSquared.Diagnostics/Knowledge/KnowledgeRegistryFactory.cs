@@ -522,9 +522,10 @@ public static class KnowledgeRegistryFactory
             // TransitionBridgeF95SiblingClaim compares two distinct positive-b quadratic applications:
             // z_rec at b=½ and the genuine F86 z_decay=-lambda polynomial at b=4γ₀. Within F86,
             // the two angle evaluations agree within the declared floating tolerance; no object
-            // identity follows. FRAGILE_BRIDGE's
-            // separate sampled spectral-abscissa axis departure has EP character OPEN and is not
-            // this quadratic; no branch continuation was executed. Parent F95.
+            // identity follows. FRAGILE_BRIDGE's separate threshold (two qubits per chain) is
+            // generically its own EP2 on the real γ axis (two eigenvalues on the imaginary axis meet
+            // at zero decay; at five exact couplings the threshold is zero instead, with no EP) and
+            // is not this quadratic. Parent F95.
             // Wired 2026-06-03.
             .RegisterTransitionBridgeF95SiblingClaim()
             // Crossover mirror = √(NinetyDegreeMirror): the local XZ+YZ / ZX+ZY mirror is the

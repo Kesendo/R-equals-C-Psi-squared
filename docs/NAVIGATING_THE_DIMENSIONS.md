@@ -412,9 +412,13 @@ literal drop and its genericity beyond the certified sizes stay open
 ([the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the
 real-axis EP section). The gain-loss system of
 [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) bends its spectrum
-too, a sampled spectral-abscissa axis departure on the real-γ grid, with
-no branch continuation run, so whether that bend is an EP we do not know:
-its EP character remains OPEN.
+too, and with two qubits per chain, at generic couplings, that bend is a pinch of its own: at γ_crit, in
+the first block of its Liouvillian to go unstable, two eigenvalues on the
+imaginary axis meet in a Jordan block and leave the axis as a mirror pair with
+Re λ ∝ √(γ/γ_crit − 1) (one eigenvector for the two in the full Liouvillian at
+J_bridge = 1.0 and 1.9, where that block is its own spin-flip image). It is
+another exceptional point on the real γ axis, found by locating the collision and
+reading the rank of L − λI there, in a different system from this toy.
 
 And the chip reads a dynamical handover, not a defective pinch. IBM Kingston swept the coupling
 and watched a single excitation's memory revival: near the 1/N reference, then standing higher.

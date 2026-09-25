@@ -27,7 +27,7 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
     }
 
     [Fact]
-    public void RegisteredClaim_LeavesFragileThresholdCharacterOpen()
+    public void RegisteredClaim_CarriesTheFragileBoundaryWithItsScope()
     {
         var registry = BuildBaseRegistry()
             .RegisterTransitionBridgeF95SiblingClaim()
@@ -35,8 +35,8 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
 
         var claim = registry.Get<TransitionBridgeF95SiblingClaim>();
         string surface = string.Join("\n", claim.Children.Select(c => $"{c.DisplayName}\n{c.Summary}"));
-        Assert.Contains("EP/Hopf/Jordan character OPEN", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("FRAGILE_BRIDGE (the EP", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("FRAGILE_BRIDGE boundary", surface, StringComparison.Ordinal);
+        Assert.Contains("two qubits per chain", surface, StringComparison.Ordinal);
     }
 
     [Fact]

@@ -13,7 +13,10 @@ net dephasing Sigma-gamma from N*gamma0 (Takt running, memory fades) toward 0 (T
 linear amplitude GROWS). This is the far end of the two-ends-of-the-Takt
 dial, the "exit": the memory's fate runs fading -> eternal -> growing.
 
-A toy that makes the arc visible; for FRAGILE_BRIDGE, EP, Hopf, and Jordan character remain OPEN.
+A toy that makes the arc visible. FRAGILE_BRIDGE's own threshold, where its gain side takes over,
+is, at generic couplings and two qubits per chain, a second-order exceptional point on the real gamma axis
+(hypotheses/FRAGILE_BRIDGE.md, Section 3);
+this toy does not model it.
 """
 import numpy as np
 

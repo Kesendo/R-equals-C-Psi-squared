@@ -5,24 +5,33 @@ namespace RCPsiSquared.Core.F86;
 
 /// <summary>F86 open question (was an F86a meta-claim, demoted 2026-06-21): whether the
 /// full Σγ = N·γ₀ (n,n+1)-coherence block has a defective exceptional point OFF the real
-/// Q axis AT ALL, and — if so — whether it is connected to the genuine EP of the toy 2×2
-/// reduction or to the SEPARATE Σγ = 0 gain-loss system. FRAGILE_BRIDGE establishes a
-/// spectral-abscissa axis departure; its EP/Jordan character remains OPEN, and K=403 is
-/// one finite-offset non-normality reading.
+/// Q axis AT ALL, and, if so, whether it is connected to the genuine EP of the toy 2×2
+/// reduction or to the SEPARATE Σγ = 0 gain-loss system. For that system at two qubits per
+/// chain, at generic couplings its own threshold is a defective EP2 on the real γ axis at
+/// γ_crit: in the first popcount block of its Liouvillian to go unstable, two imaginary
+/// eigenvalues meet in a Krein collision, form a 2×2 Jordan block and leave the axis as a
+/// mirror pair with Re λ ∝ √(γ/γ_crit − 1). At J_bridge = 1.0 and 1.9 that block is its own
+/// spin-flip image and the full L has nullity 1 at algebraic multiplicity 2; in general the full
+/// L carries the collision once per block of the first block's orbit under the spin flip and
+/// S = G∘R (G the chain reflection on both sides of ρ, R the one-sided flip ρ ↦ ρ·X^⊗N of F118),
+/// one, two or four times at the sampled couplings. At five exact couplings (J_bridge = 3/4, √5/2,
+/// 4/3 and the real roots of 12x³ − 37x² + 72x − 48 and 4x³ − 21x² + 40x − 48 in x = J_bridge/J)
+/// an even and an odd level of one block already coincide at γ = 0, so γ_crit = 0 there, with a
+/// linear onset and no EP. K=403 is one finite-offset reading of that EP's K ∝ 1/δ.
 ///
 /// <para><b>Tier outcome: OpenQuestion</b> (demoted from Tier2Verified 2026-06-21 by the
 /// F86a-retraction review; the retraction itself corrected in part 2026-07-07, the CORRECTED
-/// para below). The prior reading — "F86's local EP at real Q_EP is a real-axis hit of the
-/// same EP FRAGILE_BRIDGE detects at K=403" — does NOT survive an artifact-free
+/// para below). The prior reading, "F86's local EP at real Q_EP is a real-axis hit of the
+/// same EP FRAGILE_BRIDGE detects at K=403", does NOT survive an artifact-free
 /// re-verification from below: at every point of the Petermann sweep's Q grid the eigenvalues
 /// are simple (nearest-neighbour gap ~0.25–0.35), and the sweep's peak magnitudes are grid
 /// artifacts. The real-axis defective structure the block DOES carry (the F89 seeds, CORRECTED
 /// para below) sits between the grid points, at scattered q*, not at Q_EP: nothing is "hit"
 /// at the resonance peak.</para>
 ///
-    /// <para><b>What is genuine (the phenomenon stays):</b> the block IS strongly NON-NORMAL on
-    /// the real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7). Non-normality of the ambient
-    /// block does not decide whether a separate repeated eigenvalue is semisimple. This is NOT an <c>eig</c> artifact and NOT a degenerate-eigenspace
+/// <para><b>What is genuine (the phenomenon stays):</b> the block IS strongly NON-NORMAL on
+/// the real axis (cond(V) = 48.7 / 50.9 / 268.5 at N = 5 / 6 / 7). Non-normality of the ambient
+/// block does not decide whether a separate repeated eigenvalue is semisimple. This is NOT an <c>eig</c> artifact and NOT a degenerate-eigenspace
 /// effect: the artifact-free Riesz spectral-projector norm ‖P‖ reproduces the large Petermann
 /// factor on a SIMPLE, isolated eigenvalue at Re ≈ −4γ₀ (N=5: ‖P‖ = 19.4 = √375, gap ~0.25).
 /// The Petermann factor is large but FINITE at every grid point sampled: a near-EP shadow,
@@ -41,7 +50,7 @@ namespace RCPsiSquared.Core.F86;
 /// <para><b>The open question:</b> whether the full Σγ = N·γ₀ block has an off-axis defective
 /// EP at all is OPEN. A search on 2026-06-21 found the nearest complex-Q eigenvalue
 /// coalescences of the full block are themselves DIABOLIC (‖P‖ = 1, departure-from-normality
-/// = 0), not defective — so even off the real axis the same-EP-structure connection to the
+/// = 0), not defective, so even off the real axis the same-EP-structure connection to the
 /// toy 2×2 / FRAGILE_BRIDGE is not established.</para>
 ///
 /// <para><b>Scope (do not conflate with F89's octic — reconciled 2026-06-27):</b> this OPEN
@@ -53,19 +62,19 @@ namespace RCPsiSquared.Core.F86;
 /// <c>F89OcticMonodromyClaim</c> / <c>inspect --root galoismonodromy</c> (G2: "the silent
 /// diabolic vs the braiding EPs, side by side"). The "nearest coalescences are diabolic"
 /// finding here is consistent with that: those are the abundant free-fermion sum-coincidences
-    /// (codim-1 by additivity, <c>reference_nonhermitian_diabolic_codimension</c>), not the rare
-    /// S_d-generating defective branch points. Discriminant multiplicity and eigenvalue monodromy
-    /// locate and classify branch structure but do not by themselves decide semisimplicity; the
-    /// character route uses pair isolation plus <c>EpCharacter</c>/twin-scalar compression. This
-    /// claim's real-axis Petermann sweep read a non-normal but SIMPLE eigenvalue at Q_peak; it is
-    /// not evidence for the still-open off-axis defective EP. The cross-block seam lives in <c>EpCharacterWitness</c>
+/// (codim-1 by additivity, <c>reference_nonhermitian_diabolic_codimension</c>), not the rare
+/// S_d-generating defective branch points. Discriminant multiplicity and eigenvalue monodromy
+/// locate and classify branch structure but do not by themselves decide semisimplicity; the
+/// character route uses pair isolation plus <c>EpCharacter</c>/twin-scalar compression. This
+/// claim's real-axis Petermann sweep read a non-normal but SIMPLE eigenvalue at Q_peak; it is
+/// not evidence for the still-open off-axis defective EP. The cross-block seam lives in <c>EpCharacterWitness</c>
 /// (siblings: <c>CoherenceHorizonClaim</c>, <c>F89Path3OcticEpClaim</c>).</para>
 ///
 /// <para><b>CORRECTED 2026-07-07 (the real-axis point is NOT uniformly simple):</b> the "SIMPLE
-    /// eigenvalue at Q_peak" reading above was Q_peak-local and grid-coarse. F89's exact all-odd-N result is
-    /// the nullity-surplus COUNT r(0+) - r(inf) = N - 1, not by itself a finite-q transition theorem.
-    /// Literal finite-q drops with simple-zero, Puiseux-1/2 defective EP2 character are certified at N=5,7,9;
-    /// outside those sizes the drop and genericity remain open. Those certified seeds sit at scattered q* the Petermann sweep's dQ ~ 0.029 grid (121 pts over
+/// eigenvalue at Q_peak" reading above was Q_peak-local and grid-coarse. F89's exact all-odd-N result is
+/// the nullity-surplus COUNT r(0+) - r(inf) = N - 1, not by itself a finite-q transition theorem.
+/// Literal finite-q drops with simple-zero, Puiseux-1/2 defective EP2 character are certified at N=5,7,9;
+/// outside those sizes the drop and genericity remain open. Those certified seeds sit at scattered q* the Petermann sweep's dQ ~ 0.029 grid (121 pts over
 /// [0.5, 4]) never bisected onto: a defective sqrt-EP splits its pair by ~sqrt|q - q*|, visible only
 /// within a window |q - q*| &lt; ~1e-3, some 20-30x narrower than the grid step (shown from below in
 /// <c>F86aSeedMaskingTests</c>: at the N=9 seed q*=0.849011 the pair is a Jordan block, gap ~2.7e-3, but
@@ -80,7 +89,7 @@ namespace RCPsiSquared.Core.F86;
 /// shared across all c.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F86A_EP_MECHANISM.md</c> (F86 local instance, Statement 1),
-/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (separate Σγ=0 spectral-abscissa axis departure, EP character OPEN, K=403), and
+/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (separate Σγ=0 gain-loss system at two qubits per chain, its threshold generically a defective EP2 on the real γ axis, K=403), and
 /// <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> (shifted-generator P-type relation, the shared
 /// algebraic substrate; the full irreducible SRP class remains open).</para>
 /// </summary>
@@ -100,13 +109,27 @@ public sealed class LocalGlobalEpLink : Claim
     /// <inheritdoc cref="SweepGammaZero"/>
     public const int SweepQPoints = 121;
 
-    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark — one finite-offset non-normality
-    /// value of the SEPARATE Σγ = 0 gain-loss system beyond its spectral-abscissa axis departure, from
-    /// <c>hypotheses/FRAGILE_BRIDGE.md</c>. Its EP/Jordan character remains open; the prior
-    /// "the real-axis K-sweep sits ~6× above
-    /// this" comparison was retracted 2026-06-21 (the magnitudes are grid-sensitive; the
-    /// block's real-axis defective seeds sit off the sweep grid, see the class summary).</summary>
+    /// <summary>FRAGILE_BRIDGE Petermann K=403 ballpark: one finite-offset reading (δ = 10⁻³ above
+    /// γ_crit) of the SEPARATE Σγ = 0 gain-loss system, from <c>hypotheses/FRAGILE_BRIDGE.md</c>.
+    /// That system's threshold (two qubits per chain) is generically a defective EP2 on the real γ axis, where K diverges as 1/δ, so
+    /// 403 is the scan's own distance from γ_crit rather than a property of the threshold. No
+    /// comparison with the real-axis K-sweep is drawn: its magnitudes are grid-sensitive, and the
+    /// block's real-axis defective seeds sit off the sweep grid (see the class summary).</summary>
     public const double FragileBridgeKReference = 403.0;
+
+    /// <summary>F40's value: the FRAGILE_BRIDGE threshold at J_bridge = 1 (two 2-qubit Heisenberg chains,
+    /// J = 1, chain A dephasing at +γ, chain B at −γ): the real γ* at which the colliding pair of
+    /// imaginary eigenvalues, in the spin-flip-even half of the (2,2) popcount block, forms a 2×2
+    /// Jordan block. The pair's squared gap is real for real γ, negative below the collision and
+    /// positive above, so its zero is real; located on that sign change in
+    /// <c>simulations/fragile_bridge_ep_signature.py</c>, section 1, and recomputed from the C#
+    /// builders by <c>FragileBridgeThresholdTests</c>.</summary>
+    public const double FragileBridgeThresholdGamma = 0.187310108345;
+
+    /// <summary>|Im λ*| of that collision: λ* = −2.651477232·i, on the imaginary axis (Σγ = 0
+    /// centres the palindrome at 0). Its conjugate twin at +2.651477232·i collides at the same γ*,
+    /// so at J_bridge = 1 the threshold releases one off-axis quartet.</summary>
+    public const double FragileBridgeThresholdOmega = 2.651477232;
 
     /// <summary>Same-sign-imaginary 2×2 algebra, the shared algebraic object:
     /// L_eff − (trace/2)·I = [[−Δ/2, +iJ·g_eff], [+iJ·g_eff, +Δ/2]] (PROOF_F86A_EP_MECHANISM
@@ -119,10 +142,14 @@ public sealed class LocalGlobalEpLink : Claim
     /// <summary>F86 local instance (Σγ = N·γ₀ ≠ 0, real Q_EP = 2/g_eff).</summary>
     public string LocalInstanceAnchor => "F86 Statement 1, PROOF_F86A_EP_MECHANISM.md";
 
-    /// <summary>FRAGILE_BRIDGE comparison system: Σγ = 0 with a spectral-abscissa axis
-    /// departure; EP character OPEN; K=403 is a finite-offset reading.</summary>
+    /// <summary>FRAGILE_BRIDGE comparison system: Σγ = 0, two qubits per chain, its threshold generically a defective
+    /// EP2 on the real γ axis at γ_crit and zero at five exact couplings; K=403 is a finite-offset
+    /// reading of that EP's K ∝ 1/δ.</summary>
     public string GlobalInstanceAnchor =>
-        "hypotheses/FRAGILE_BRIDGE.md — spectral-abscissa axis departure; EP character OPEN";
+        "hypotheses/FRAGILE_BRIDGE.md: with two qubits per chain, at generic couplings the threshold is a defective EP2 on the real γ axis at γ_crit " +
+        "(Krein collision of two imaginary eigenvalues in the first popcount block to go unstable, " +
+        "Re λ ∝ √(γ/γ_crit − 1) above; at J_bridge = 1.0 and 1.9 the full L has nullity 1 at " +
+        "algebraic multiplicity 2 there); at five exact couplings γ_crit = 0, with a linear onset and no EP";
 
     /// <summary>Cautionary record from the c=2 N=5..8 Petermann-K sweep
     /// (pinned to <see cref="SweepGammaZero"/>, <see cref="SweepQMin"/>,
@@ -146,14 +173,14 @@ public sealed class LocalGlobalEpLink : Claim
         "the endpoint-nullity surplus r(0⁺)−r(∞)=N−1, with literal drop and character open beyond " +
         "those sizes. Whether the full block has a DISTINCT off-real-axis complex-Q defective EP " +
         "remains open; the nearest characterized off-axis coalescences were semisimple. The genuine toy " +
-        "2x2 EP and the separate Σγ=0 FRAGILE_BRIDGE spectral-abscissa axis departure remain different " +
-        "objects; its EP character remains OPEN.";
+        "2x2 EP and the separate Σγ=0 FRAGILE_BRIDGE threshold (two qubits per chain), itself generically a defective EP2 on " +
+        "the real γ axis, remain different objects in different systems.";
 
     private LocalGlobalEpLink()
-        : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE) — OPEN",
+        : base("local–global EP link (F86 ↔ FRAGILE_BRIDGE): OPEN",
                Tier.OpenQuestion,
                "docs/proofs/PROOF_F86A_EP_MECHANISM.md (F86 Statement 1, toy 2×2 EP) + " +
-               "hypotheses/FRAGILE_BRIDGE.md (separate Σγ=0 spectral-abscissa axis departure; EP character OPEN; K=403 finite-offset) + " +
+               "hypotheses/FRAGILE_BRIDGE.md (separate Σγ=0 gain-loss system, two qubits per chain; threshold generically a defective EP2 on the real γ axis; K=403 finite-offset) + " +
                "experiments/PT_SYMMETRY_ANALYSIS.md (shifted-generator sectorwise P-type relation; full SRP class open) + " +
                "docs/superpowers/syntheses/2026-05-06-petermann-sweep-c2.md (cautionary non-normality record)")
     { }
@@ -165,7 +192,7 @@ public sealed class LocalGlobalEpLink : Claim
     public static LocalGlobalEpLink Build() => new();
 
     public override string DisplayName =>
-        "F86 EP ↔ FRAGILE_BRIDGE axis-departure comparison — classification link OPEN";
+        "F86 EP ↔ FRAGILE_BRIDGE threshold EP2: classification link OPEN";
 
     public override string Summary =>
         "OpenQuestion (F86a-retraction 2026-06-21, CORRECTED 2026-07-07): the full Σγ=N·γ₀ block " +
@@ -176,8 +203,10 @@ public sealed class LocalGlobalEpLink : Claim
         "and character remain open beyond the certified sizes. The 2026-06-21 scan's ΔQ≈0.029 " +
         "grid missed, being 20-30× coarser than the √-EP window ~1e-3 (F86aSeedMaskingTests). What " +
         "stays OPEN besides that genericity is the DISTINCT off-real-axis complex-Q EP. The genuine " +
-        "toy 2x2 EP stays separate from the Σγ=0 FRAGILE_BRIDGE spectral-abscissa axis departure, " +
-        "whose EP character OPEN verdict is not changed by the finite-offset K=403 reading.";
+        "toy 2x2 EP stays separate from the Σγ=0 FRAGILE_BRIDGE threshold, at generic couplings and two qubits per chain a defective " +
+        "EP2 on the real γ axis at γ_crit (a Krein collision in the first popcount block to go unstable, √-law " +
+        "departure; nullity 1 at algebraic multiplicity 2 in the full L at J_bridge = 1.0 and 1.9), " +
+        "whose K=403 is one finite-offset reading of K ∝ 1/δ; at five exact couplings γ_crit = 0 with no EP.";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

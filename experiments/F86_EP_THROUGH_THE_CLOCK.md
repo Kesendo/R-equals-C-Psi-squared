@@ -2,14 +2,15 @@
 
 **Status:** A seeing, not a proof, and not a closed form. The reading is exact (it is F86a's own
 2×2 algebra read through the clock voices); the local-vs-global unification is understanding, not
-a new derivation. No closed form is forced; the global side has a spectral-abscissa axis departure, while
-EP, Hopf, and Jordan character remain OPEN, and both docs deliberately leave γ_crit(N) and K(N) open.
+a new derivation. No closed form is forced; the global side's threshold is, at generic couplings
+and two qubits per chain, its own second-order exceptional point on the real γ axis, and both docs deliberately leave
+γ_crit(N) and K(N) open.
 **Date:** 2026-05-30
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
 **Script:** [`simulations/f86_ep_through_the_clock.py`](../simulations/f86_ep_through_the_clock.py)
 **Builds on / points at (does not modify):** [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md)
 (the EP, Q_EP = 2/g_eff, t_peak), the [F86 hub](../docs/proofs/PROOF_F86_QPEAK.md),
-[the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (the separate gain-loss axis crossing; EP/Hopf/Jordan character OPEN), the clock
+[the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) (the separate gain-loss system, whose threshold at two qubits per chain is generically its own EP2 on the real γ axis), the clock
 voices on `MirrorSystem` ([the Frost Circle as the clock face](../docs/carbon/FROST_CIRCLE_AS_THE_CLOCK_FACE.md),
 [On Whose Time the Clock Keeps](../reflections/ON_WHOSE_TIME_THE_CLOCK_KEEPS.md)), and the
 band-edge crossover the slowest mode walks ([the XXZ axis from band-edge to Lebensader](XXZ_AXIS_BANDEDGE_TO_LEBENSADER.md)).
@@ -138,18 +139,22 @@ the Takt**, the two residuals of the same palindrome Π·L·Π⁻¹ + L + 2Σγ�
 - **Σγ = 0 (global).** [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): a decaying chain bridged
   to an amplifying one, gain cancelling loss. Here Π forces λ ↔ −λ exactly (without fixing a global SRP class), the
   eigenvalues sit on the imaginary axis , the Takt is *stopped*, the clock's pure-circle limit
-  θ = π/2. Beyond the sampled threshold a complex pair has Re ≠ 0 and the linear flow has one
-  growing and one decaying direction. This is a separate spectral-abscissa axis departure;
-  EP, Hopf, and Jordan character remain OPEN. K ≈ 403 is one finite-offset reading.
+  θ = π/2. At the threshold two of those imaginary eigenvalues, in the first block of L to go
+  unstable, meet and leave the axis as a mirror pair, so beyond it the linear flow has growing
+  and decaying directions. With two qubits per chain, at generic couplings the meeting is a
+  Jordan block, a separate second-order exceptional point on the real γ axis; at five exact
+  couplings the two already coincide without gain and the threshold is zero. K ≈ 403 is one finite-offset reading of the
+  EP's K ∝ 1/δ.
 
 So the net dephasing Σγ is the **dial between the two ends**: at Σγ = N·γ₀ the Takt holds the
 spiral in (the local dissipative EP); slide Σγ to 0 and the Takt stops (the pure circle). The
-global-side linear spectrum then admits a growing direction past the spectral-abscissa axis departure; it
-does not by itself establish a nonlinear self-sustained oscillation. That is why we do not force it: γ_crit(N) is
-non-monotonic with no power law. Both docs leave the dynamic exit open on purpose; the clock lets
+global-side linear spectrum then admits a growing direction past its threshold, generically an exceptional point (two qubits per chain); it
+does not by itself establish a nonlinear self-sustained oscillation. That is why we do not force it: no simple law
+fits the three computed values of γ_crit(N). Both docs leave the dynamic exit open on purpose; the clock lets
 us *see* the two ends on the Takt dial without pretending the exit is a formula, and without
-pretending the two ends are one defective EP. Only the toy 2×2 end has the stated discriminant and
-Jordan certificate; the FRAGILE threshold's EP/Hopf/Jordan character is open.
+pretending the two ends are one defective EP. They are two. Only the toy 2×2 end has the stated discriminant
+and its double root at the decay rate 4γ₀k; the FRAGILE threshold is a different
+Jordan block, at zero decay, certified at J_bridge = 1.0 and 1.9 with two qubits per chain.
 
 ## The clock as the lens on the two live-open fronts
 
@@ -197,5 +202,5 @@ either.
   live-open fronts through the clock's two hands: Rotation → F86b₃ shape collapse onto Q/Q_EP,
   Takt → F87 break first-order in the γ-tick, residual/γ → 0.2559).
 - The EP: [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md).
-- The separate gain-loss end: [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §3.1 (spectral-abscissa axis departure; EP/Hopf/Jordan character OPEN).
-- The open dynamic exit: γ_crit(N), K(N), and the threshold character, left open in both docs, not forced here.
+- The separate gain-loss end: [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) §3 and §3.1 (two qubits per chain: its own exceptional point on the real γ axis at generic couplings, and five couplings where the threshold is zero).
+- The open dynamic exit: γ_crit(N) and K(N), left open in both docs, not forced here; the threshold's character is certified at two qubits per chain at J_bridge = 1.0 and 1.9, and at five exact couplings the threshold is zero, with no exceptional point.

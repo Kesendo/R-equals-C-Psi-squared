@@ -345,13 +345,9 @@ to its complement (w → N−w). When N is odd, complements have opposite
 parity; when N is even, they have the same parity. The crossover between
 "two-sector direct sum" and "self-dual" is controlled by a single bit.
 
-A speculative echo (not derived): the
-[fragile bridge](../../hypotheses/FRAGILE_BRIDGE.md) observes that odd
-chain lengths are less stable than even ones (N=3 is 33× less stable
-than N=2; N=4 recovers 2.3× stability). Whether the sector-exchange bit
-governs that model's stability is an open conjecture; the fragile bridge
-is a non-Hermitian gain-loss system, not this Liouvillian, and no
-derivation connects the two.
+The [fragile bridge](../../hypotheses/FRAGILE_BRIDGE.md) is self-dual in this
+sense at every chain length: its two chains of N qubits form one chain of 2N
+sites.
 
 ---
 

@@ -7,13 +7,17 @@ namespace RCPsiSquared.Core.Tests.Inspection;
 public class OpenArcsInspectableNodeTests
 {
     [Fact]
-    public void Registry_HasSixtyEntries()
+    public void Registry_HasSixtyOneEntries()
     {
         // The literal was STALE BY TWO before 2026-08-23: 29d09d2 took the registry to 51 and
         // 0144649 to 52, neither updating this line, so this test was RED across two commits.
         // It only runs under a filter here, which is how it stayed unseen. If you add an arc,
         // this number moves in the SAME commit.
-        Assert.Equal(60, OpenArcsRegistry.All.Count);   // +darkness_names_the_light
+        Assert.Equal(61, OpenArcsRegistry.All.Count);   // +fragile_bridge_live_witness
+                                                        //   (2026-09-25: the threshold certificate
+                                                        //   lives in a producer and an xUnit test,
+                                                        //   not yet in a live witness)
+                                                        // +darkness_names_the_light
                                                         //   (2026-09-11, retired the same day:
                                                         //   the quantity is the light content,
                                                         //   and dark keeps the mode)

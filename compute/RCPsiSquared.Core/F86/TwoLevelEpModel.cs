@@ -19,10 +19,13 @@ namespace RCPsiSquared.Core.F86;
 /// <para>Algebraic note: the same-sign-imaginary off-diagonal form gives an EP at finite
 /// J·g_eff = 2γ₀, with both eigenvalues coalescing on the real axis at Re=−4γ₀·k. This is
 /// "PT-like phenomenology" (a separate object); it carries no λ↔−λ pairing in isolation, so
-/// it is not a classification of the full generator. The secured full-generator statement is
-/// the sectorwise phase-normalized P-type anticommutation of the shifted Liouvillian; the
-/// complete irreducible SRP class remains open. See <c>experiments/PT_SYMMETRY_ANALYSIS.md</c>,
-/// <c>hypotheses/FRAGILE_BRIDGE.md</c>, and <see cref="ShiftedGeneratorSectorwisePClaim"/>.</para>
+/// it is not a classification of the full generator. The full generator's palindrome pairs
+/// λ ↔ −λ − 2Σγ, a plain λ ↔ −λ only at Σγ = 0: the gain-loss case of
+/// <c>hypotheses/FRAGILE_BRIDGE.md</c>, whose threshold (two qubits per chain) is generically a different EP2 (two eigenvalues
+/// meeting on the imaginary axis at a real γ_crit, not this coalescence at Re = −4γ₀·k). The
+/// secured full-generator statement is the sectorwise phase-normalized P-type anticommutation
+/// of the shifted Liouvillian; the complete irreducible SRP class remains open. See
+/// <c>experiments/PT_SYMMETRY_ANALYSIS.md</c> and <see cref="ShiftedGeneratorSectorwisePClaim"/>.</para>
 /// </summary>
 public sealed class TwoLevelEpModel : Claim
 {

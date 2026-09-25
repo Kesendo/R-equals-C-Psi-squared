@@ -33,16 +33,19 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the recurrence angle returns to zero at its discriminant boundary, whereas the F86 angle lifts
 /// off from zero at its exceptional point. The variables are <c>z_rec</c> and
 /// <c>z_decay=-lambda</c>; the anchors are ½ and 4γ₀. F95 supplies only the coordinate used to
-/// compare them, not a shared physical object. The separate Σγ=0
-/// FRAGILE_BRIDGE system has a spectral-abscissa axis departure whose EP/Hopf/Jordan character remains OPEN;
-/// it is not an instance of this quadratic.</para>
+/// compare them, not a shared physical object. The separate Σγ=0 FRAGILE_BRIDGE system (two
+/// qubits per chain) has, at generic couplings, an exceptional point of its own, a defective EP2 on the real γ axis at its
+/// threshold γ_crit, where, in the first popcount block of its Liouvillian to go unstable, two
+/// eigenvalues on the imaginary axis meet at zero decay (at five exact couplings its threshold is
+/// zero instead, with no EP). It is not an instance of this quadratic, whose double root sits at
+/// the positive decay z_decay = b = 4γ₀.</para>
 ///
 /// <para>Anchors: <c>docs/proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md</c> (F95) +
 /// <c>experiments/F86_EP_THROUGH_THE_CLOCK.md</c> (the EP 2-level + the clock Rotation) +
 /// <c>experiments/CRITICAL_SLOWING_AT_THE_CUSP.md</c> (the cusp recursion) +
 /// <c>docs/NAVIGATING_THE_DIMENSIONS.md</c> (the interior-horizon axis) +
 /// <c>hypotheses/PAIR_BREAKING_AT_THE_HORIZON.md</c> (the fold / break reading) +
-/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (the separate spectral-abscissa axis departure; EP/Hopf/Jordan character OPEN).</para></summary>
+/// <c>hypotheses/FRAGILE_BRIDGE.md</c> (the separate gain-loss system, whose threshold at two qubits per chain is generically its own EP2 on the real γ axis).</para></summary>
 public sealed class TransitionBridgeF95SiblingClaim : Claim
 {
     /// <summary>Parent: the positive-b F95 angle θ = arctan(√(c/b² − 1)) at a quadratic's discriminant
@@ -198,7 +201,7 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
             yield return new InspectableNode("how they connect, and how not",
                 summary: "reused coordinate: the F95 angle at a positive-b quadratic zero. Distinct objects: two polynomials, two anchors b (½ vs 4γ₀), and two variables (dimensionless z_rec vs decay z_decay=−λ). No hidden identity or shared dynamics.");
             yield return new InspectableNode("FRAGILE_BRIDGE boundary",
-                summary: "FRAGILE_BRIDGE spectral-abscissa axis departure; EP/Hopf/Jordan character OPEN. It is a separate Σγ=0 gain-loss system, not the F86 toy 2×2 quadratic and not licensed by this Tier-1 siblinghood.");
+                summary: "FRAGILE_BRIDGE threshold, at generic couplings and two qubits per chain: a defective EP2 on the real γ axis of a separate Σγ=0 gain-loss system, where, in the first popcount block of its Liouvillian to go unstable, two eigenvalues on the imaginary axis meet at zero decay and form a 2×2 Jordan block (at five exact couplings the threshold is zero, with no EP). It is not the F86 toy 2×2 quadratic, whose double root sits at the positive decay z_decay=4γ₀, and it is not licensed by this Tier-1 siblinghood.");
             yield return F95;
         }
     }

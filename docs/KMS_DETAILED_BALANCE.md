@@ -625,7 +625,8 @@ the distinction F137 was minted to draw.
    Π² = U_X, and it anticommutes with both L_c and L_c†. After fixing
    U_X parity it phase-normalizes to an involutive P generator. This alone
    does not choose a global or sectorwise SRP class. The gain-loss system
-   (Σγ = 0) retains the λ ↔ −λ pairing through its exceptional point.
+   (Σγ = 0) retains the λ ↔ −λ pairing through its threshold, with two qubits
+   per chain generically an exceptional point.
    See [PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md).
 
 4. **Contact Roberts/Clerk group and Prosen group.** Both would immediately

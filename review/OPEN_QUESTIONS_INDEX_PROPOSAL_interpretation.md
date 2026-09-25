@@ -256,7 +256,7 @@ this is not a new review of the unrelated entries.
 **Proposed Status:** open
 **Confidence:** high
 **Resolving documents:** none
-**Rationale:** The fragile bridge stability (gamma_crit) is computationally characterized in `hypotheses/FRAGILE_BRIDGE.md` (linear regime gamma_crit = 0.19 x J_bridge, non-monotonic N-dependence), but no geometric interpretation of gamma_crit in terms of a throat-radius-like quantity has been proposed or tested.
+**Rationale:** The fragile bridge stability (gamma_crit) is computationally characterized in `hypotheses/FRAGILE_BRIDGE.md` (a weak-bridge trend gamma_crit ≈ 0.19 × J_bridge, and strong N-dependence at the one coupling computed), but no geometric interpretation of gamma_crit in terms of a throat-radius-like quantity has been proposed or tested.
 **Search terms used:** "fragile bridge", "g_crit", "throat radius", "FRAGILE_BRIDGE", "ER bridge", "geometric"
 
 ---

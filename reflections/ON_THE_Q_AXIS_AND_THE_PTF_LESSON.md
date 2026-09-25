@@ -61,14 +61,14 @@ universal across the tested range. The position is chain-specific; the shape is 
 
 The convergent threads, organised vertically by abstraction level:
 
-**Top: established shifted symmetry, classification open.** The exact F1 identity is Π·L·Π⁻¹ = −L − 2Σγ·I. After centering and resolving Π² = U_X, a phase-rescaled Π is an involutive P symmetry in each parity sector. This does not assign global AIII or finish the sector's antiunitary and strong/unitary algebra. The fragile-bridge Petermann reading K = 403 is one finite-offset simple-mode non-normality reading near a spectral-abscissa axis departure; it does not certify an exceptional point, whose character remains OPEN.
+**Top: established shifted symmetry, classification open.** The exact F1 identity is Π·L·Π⁻¹ = −L − 2Σγ·I. After centering and resolving Π² = U_X, a phase-rescaled Π is an involutive P symmetry in each parity sector. This does not assign global AIII or finish the sector's antiunitary and strong/unitary algebra. The fragile-bridge Petermann reading K = 403 is one finite-offset reading of the K ∝ 1/δ divergence at that bridge's threshold, which with two qubits per chain is a second-order exceptional point on the real γ axis where it was read (J_bridge = 1.0 and 1.9, and a 4000-point sweep but its grid point 3/4); its character comes from the Jordan rank at the located collision, not from K.
 
 **Middle: 2-level local instance (today's reduction).** For two adjacent rate channels at HD = 2k−1 and HD = 2k+1 in the (n, n+1) coherence block, the effective Liouvillian takes the form
 
     L_eff − (trace/2)·I  =  [ −Δ/2     +iJ·g_eff ]
                             [ +iJ·g_eff   +Δ/2  ]      with Δ = 4γ₀
 
-The same-sign-imaginary off-diagonal pattern admits an EP at finite J·g_eff = 2γ₀, with degenerate eigenvalue Re(λ) = −4γ₀·k. This is "PT-phenomenology-like" (EP at finite coupling). The opposite-sign pattern (+iJg, −iJg) gives discriminant 4γ₀² + J²g² with no EP (verified numerically). The toy two-level EP, the shifted full-generator P symmetry, and the complex-γ-plane Hopf bifurcation are distinct objects here; whether the EPs share a stronger algebraic classification is OPEN.
+The same-sign-imaginary off-diagonal pattern admits an EP at finite J·g_eff = 2γ₀, with degenerate eigenvalue Re(λ) = −4γ₀·k. This is "PT-phenomenology-like" (EP at finite coupling). The opposite-sign pattern (+iJg, −iJg) gives discriminant 4γ₀² + J²g² with no EP (verified numerically). The toy two-level EP, the shifted full-generator P symmetry, and the fragile bridge's exceptional point on the real γ axis (two qubits per chain) are distinct objects here; whether the EPs share a stronger algebraic classification is OPEN.
 
 **Lower: universal shape (today's finding).** The 2-level eigenvector rotation `tan θ = J·g_eff / 2γ₀ = Q/Q_EP` makes every probe-overlap observable a function of Q/Q_EP alone. Hence K(Q) / |K|_max = f(Q/Q_EP) for some universal function f. Q_peak ≈ Q_EP for the slowest channel pair; g_eff varies with chain (c, N, bond position) but the shape in `(Q − Q_peak)/Q_peak` coordinates does not. HWHM_left/Q_peak ≈ 0.756 is the numerical witness.
 
@@ -84,7 +84,7 @@ The "PT-symmetric-like" framing of the 2-level effective is phenomenological. Π
 
 The 2-level off-diagonal pattern same-sign-imaginary (+iJg_eff, +iJg_eff) is non-Hermitian and admits an EP at finite coupling. This *phenomenology* matches PT-symmetric Hamiltonians (real eigenvalues below EP, complex pair above), but the same-sign-imaginary structure is simply what the reduced L matrix does in this rate-channel basis. Its precise relationship to the full generator's sectorwise P symmetry remains to be derived.
 
-This matters because the exact shifted identity already gives infrastructure the PT analogy does not: the F1 spectral mirror and Π² parity sectoring. The two-level EP at Q_EP = 2/g_eff and the complex-γ-plane Petermann reading are additional results, not licensed instances of a computed global class. The phenomenological resemblance to Bender PT is suggestive; further classification must be done on the fully reduced sector algebra.
+This matters because the exact shifted identity already gives infrastructure the PT analogy does not: the F1 spectral mirror and Π² parity sectoring. The two-level EP at Q_EP = 2/g_eff and the fragile bridge's Petermann reading are additional results, not licensed instances of a computed global class. The phenomenological resemblance to Bender PT is suggestive; further classification must be done on the fully reduced sector algebra.
 
 ---
 

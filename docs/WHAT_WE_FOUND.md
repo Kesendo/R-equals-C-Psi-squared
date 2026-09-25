@@ -588,22 +588,31 @@ complete coupled matrix; they do not establish persistent new objects after a
 coupling is removed or define a domain-independent amount of complexity.
 ([V-Effect Palindrome](../experiments/V_EFFECT_PALINDROME.md))
 
-### The stability window is finite (March 29-30, 2026)
+### The stability window is finite (March 29-30 and September 2026)
 
 If one side of the resonator decays and the other amplifies (a coupled
 gain-loss system), the two sides can balance each other. But only within
 a limited range. Too much gain and the system explodes: the state diverges
 exponentially.
 
-At γ_crit the spectral abscissa becomes positive and off-axis quartets appear,
-producing an oscillating linear instability. The threshold is a second-order
-exceptional point on the real γ axis: two of the bridge's oscillation
-frequencies, eigenvalues on the imaginary axis, meet there in a Jordan block
-(one eigenvector for the two, read from the rank of L − λI at the located
-collision) and leave the axis as a mirror pair with Re λ ∝ √(γ/γ_crit − 1). It
-is not a Hopf crossing, which would carry a simple pair across with finite slope.
+Past γ_crit the spectral abscissa is positive and off-axis quartets appear,
+producing an oscillating linear instability. For two qubits per chain, at
+generic couplings the threshold is a second-order exceptional point on the real
+γ axis: in the first block of L
+to go unstable, two of the bridge's oscillation frequencies, eigenvalues on the
+imaginary axis, meet in a Jordan block and leave the axis as a mirror pair with
+Re λ ∝ √(γ/γ_crit − 1). At J_bridge = 1.0 and 1.9 the full L has one eigenvector
+for the two there, read from the rank of L − λI at the located collision; at
+other couplings the collision can appear in two or four blocks at once, copies
+under the spin flip and under the chain reflection combined with a one-sided
+spin flip. At five exact couplings
+(J_bridge = 3/4, √5/2, 4/3 and two cubic roots near 1.0294 and 3.3289) the two
+frequencies already coincide without gain, so γ_crit = 0: any gain, however
+small, makes the bridge unstable, and the pair leaves the axis linearly, with no
+exceptional point. In neither case does a simple eigenvalue leave the axis
+alone, so it is not a Hopf crossing.
 The exact Π relation and λ ↔ −λ pairing at Σγ = 0 survive this transition; the
-axis departure is not a loss of that mirror
+transition is not a loss of that mirror
 ([PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)). Three
 sampled regimes emerge: a weak-bridge power-law trend, a maximum bracketed at
 J_bridge/J in [1.8, 2.0], and a large-J_bridge region compatible with 1/J_bridge

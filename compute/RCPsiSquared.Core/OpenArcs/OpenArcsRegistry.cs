@@ -7343,9 +7343,11 @@ public static class OpenArcsRegistry
                 "passing (PinnedBlockFloorClaim.cs, PinnedBlockFloorWitness.cs). What happened on " +
                 "2026-08-14 is the thing the arc actually wanted, its OWN carrier's return edge: " +
                 "BlockSpectrumWitness now names F152 in its doc-comment, Summary and DisplayName, and F152 " +
-                "gained a Typed layer paragraph. FIVE of the twenty-one have now left it, F143, F145, F149, " +
-                "F152 and F153, F145 by an edit made for another number entirely (SeedRungGramClaim " +
-                "names it while carrying F143). The lesson is not the figure: this count moves under " +
+                "gained a Typed layer paragraph. SIX of the twenty-one have now left it, F40, F143, F145, " +
+                "F149, F152 and F153, F145 by an edit made for another number entirely (SeedRungGramClaim " +
+                "names it while carrying F143), F40 when the fragile bridge's threshold certificate got a " +
+                "typed carrier (LocalGlobalEpLink.FragileBridgeThresholdGamma, recomputed by " +
+                "FragileBridgeThresholdTests). The lesson is not the figure: this count moves under " +
                 "work done for other reasons, so RE-MEASURE it rather than subtracting from it. " +
                 "THE TWENTY-ONE SPLIT BY GENRE, and only one half is a gap. Sixteen are a coherent spring " +
                 "block, fifteen of them Tier 2 and F24 the exception named at the end of the list: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
@@ -9623,6 +9625,38 @@ public static class OpenArcsRegistry
                 "PROOF_RING_HANDOVER_SLOPE.md already fences the full-curve collapse as a leading-order " +
                 "limit rather than a finite-N identity, so the script gates a tighter statement than its own " +
                 "proof makes."),
+        new OpenArc(
+            Name: "fragile_bridge_live_witness",
+            Opened: "2026-09-25",
+            Origin: "The fragile bridge's threshold certificate (two 2-qubit Heisenberg chains, " +
+                "chain A at +gamma, chain B at -gamma, Sigma-gamma = 0) is the evidence for F40's " +
+                "'Tier 2, verified' and for LocalGlobalEpLink.FragileBridgeThresholdGamma, and it " +
+                "lives in a Python producer (simulations/fragile_bridge_ep_signature.py) and an " +
+                "xUnit test (FragileBridgeThresholdTests), not in an IInspectable recomputed at " +
+                "inspect time, which house rule 5 asks of a claim's evidence. What the producer " +
+                "shows, for two qubits per chain: an EP2 on the real gamma axis in the first popcount " +
+                "block to go unstable, certified at J_bridge = 1.0 and 1.9 and read in the symmetry " +
+                "sector that goes first at every coupling of a 4000-point sweep from 0.005 to 20 but " +
+                "the grid point 3/4; five exact couplings where an even and an odd level of one block " +
+                "coincide at zero gain and gamma_crit = 0 (3/4, sqrt(5)/2, 4/3 and the real roots of " +
+                "12x^3 - 37x^2 + 72x - 48 and 4x^3 - 21x^2 + 40x - 48 in x = J_bridge / J); the full-L " +
+                "copy count as the orbit size under the spin flip and S = G o R (G the chain reflection " +
+                "on both sides, R F118's one-sided flip; GK o (Pi o dagger) = S exactly); the kink at " +
+                "J_bridge = 1.952892; and gamma_crit * J_bridge at six couplings from 20 to 1000, as " +
+                "samples.",
+            ParkedAt: "Nothing typed beyond the constants and the xUnit test. The certificate, " +
+                "the zeros, the S symmetry, the sweep with its Jordan-rank read and the large-coupling " +
+                "samples are printed by the producer and parsed by " +
+                "simulations/tests/test_fragile_bridge_threshold_surface.py.",
+            NextStep: "Build FragileBridgeThresholdWitness (Diagnostics), wired into " +
+                "InspectRootCatalog and breadcrumbed from LocalGlobalEpLink: (1) the in-sector " +
+                "Jordan rank at the collision at high precision (sigma_1 falls with the working " +
+                "precision while sigma_2 stays at 0.176 / 1.551), which removes the full-L " +
+                "neighbour question; (2) the five zeros from the H spectrum per popcount sector, " +
+                "exact, with the first-order slopes s; (3) the S, GK and Pi o dagger residuals; " +
+                "(4) optionally the first-block runs on a coarse grid. Then let the xUnit test " +
+                "assert against the witness.",
+            Status: OpenArcStatus.Open),
     };
 
     public static IReadOnlyList<OpenArc> All => _all;

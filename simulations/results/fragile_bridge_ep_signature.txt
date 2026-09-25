@@ -1,8 +1,213 @@
 ==============================================================================
-The fragile bridge spectral-abscissa axis departure: EP character remains OPEN
+The fragile bridge threshold: where two levels of opposite Krein signature meet
 ==============================================================================
 
 Two chains of 2 qubits, Heisenberg, gain-loss dephasing +/- gamma, Sigma-gamma = 0.
+
+------------------------------------------------------------------------------
+1. Threshold certificate: the colliding pair, located and read at the collision
+------------------------------------------------------------------------------
+
+The collision is located inside the first sector to go unstable by brentq on the pair's
+squared gap f = (lambda_a - lambda_b)^2, which is real for real gamma: negative while the
+two sit on the imaginary axis, positive once they are a mirror pair. The rank of
+L - lambda* I is read from its singular values. The Krein metric is G: rho -> P_site rho P_site,
+P_site the site reversal (F71's mirror) that swaps the gain chain and the loss chain.
+
+J_bridge = 1.0   first sector to go unstable: (2,2) flip-even (dimension 18)
+  collision gamma* = 0.187310108345; f(gamma*(1 - 1e-6)) = -1.6e-07 and f(gamma*(1 + 1e-4)) = +1.6e-05, so the zero of f is real
+  lambda* = (-1.3e-15 -2.651477232i)   pair gap 3.3e-08   next eigenvalue in the sector at 0.184
+  in the sector: smallest singular values of L - lambda* I: 6.5e-16, then 0.1761
+  in the full L: eigenvalues within 1e-5 of lambda*: 2; smallest singular values 2.3e-16  2.9e-03  2.9e-03
+  by block (L is block-diagonal, so its singular values are the blocks' together, here to 5e-16): 6.5e-16 in (2,2) flip-even, 2.9e-03 in (3,2), 2.9e-03 in (1,2)
+  the eigenvalues nearest lambda* in the blocks of the second and third: (3,2) at 3.07e-03, (1,2) at 3.07e-03
+  the colliding pair on both sides, delta = gamma/gamma* - 1:
+     delta = -1e-04:  (-2.0e-14 -2.649454176i)  (+1.9e-14 -2.653512692i)   half-split/sqrt|delta| = 0.20293
+     delta = +1e-04:  (-2.0e-03 -2.651471030i)  (+2.0e-03 -2.651471030i)   half-split/sqrt|delta| = 0.20293
+     delta = -1e-06:  (-4.1e-13 -2.651274364i)  (+4.1e-13 -2.651680224i)   half-split/sqrt|delta| = 0.20293
+     delta = +1e-06:  (-2.0e-04 -2.651477170i)  (+2.0e-04 -2.651477170i)   half-split/sqrt|delta| = 0.20293
+  half-split/sqrt(delta) above gamma*: 0.20336 (1e-02), 0.20297 (1e-03), 0.20293 (1e-04), 0.20293 (1e-05), 0.20293 (1e-06)
+  Krein signatures v^+ G v of the pair below gamma*: +0.0158 / -0.0158 at delta = -1e-04, +0.0016 / -0.0016 at delta = -1e-06
+  metric check: |G LH G - LH| = 0.0e+00, |G D G + D| = 0.0e+00, |L - L^T| = 0.0e+00
+  bisected gamma_crit = 0.187310102, (gamma_crit - gamma*)/gamma* = -3.5e-08: there the pair (+5.6e-13 -2.651439088i) (-5.6e-13 -2.651515381i) is still split on the axis by 7.63e-05, and max Re lambda = 5.6e-13 is rounding noise
+
+J_bridge = 1.9   first sector to go unstable: (2,2) flip-odd (dimension 18)
+  collision gamma* = 0.405853184723; f(gamma*(1 - 1e-6)) = -4.9e-06 and f(gamma*(1 + 1e-4)) = +4.9e-04, so the zero of f is real
+  lambda* = (+2.4e-15 -6.983542344i)   pair gap 1.0e-07   next eigenvalue in the sector at 2.922
+  in the sector: smallest singular values of L - lambda* I: 2.7e-15, then 1.5508
+  in the full L: eigenvalues within 1e-5 of lambda*: 2; smallest singular values 3.4e-15  5.4e-02  6.1e-01
+  by block (L is block-diagonal, so its singular values are the blocks' together, here to 7e-16): 2.7e-15 in (2,2) flip-odd, 5.4e-02 in (2,2) flip-even, 6.1e-01 in (2,1)
+  the eigenvalues nearest lambda* in the blocks of the second and third: (2,2) flip-even at 2.49e-01, (2,1) at 7.41e-01
+  the colliding pair on both sides, delta = gamma/gamma* - 1:
+     delta = -1e-04:  (-8.9e-15 -6.994570822i)  (+3.8e-15 -6.972502245i)   half-split/sqrt|delta| = 1.10343
+     delta = +1e-04:  (-1.1e-02 -6.983548155i)  (+1.1e-02 -6.983548155i)   half-split/sqrt|delta| = 1.10350
+     delta = -1e-06:  (-9.1e-14 -6.982438822i)  (+9.2e-14 -6.984645750i)   half-split/sqrt|delta| = 1.10346
+     delta = +1e-06:  (-1.1e-03 -6.983542402i)  (+1.1e-03 -6.983542402i)   half-split/sqrt|delta| = 1.10346
+  half-split/sqrt(delta) above gamma*: 1.10702 (1e-02), 1.10382 (1e-03), 1.10350 (1e-04), 1.10347 (1e-05), 1.10346 (1e-06)
+  Krein signatures v^+ G v of the pair below gamma*: +0.0126 / -0.0126 at delta = -1e-04, +0.0013 / -0.0013 at delta = -1e-06
+  metric check: |G LH G - LH| = 0.0e+00, |G D G + D| = 0.0e+00, |L - L^T| = 0.0e+00
+  bisected gamma_crit = 0.405852400, (gamma_crit - gamma*)/gamma* = -1.9e-06: there the pair (-3.9e-13 -6.985077066i) (+3.9e-13 -6.982007398i) is still split on the axis by 3.07e-03, and max Re lambda = 3.9e-13 is rounding noise
+
+At J_bridge = 1.0 and 1.9: geometric multiplicity 1 at algebraic multiplicity 2, the colliding pair
+forms a 2x2 Jordan block, a second-order exceptional point (EP2) on the real gamma axis at the threshold.
+Below gamma* two distinct imaginary eigenvalues with opposite Krein signatures approach each other
+(a Krein collision); above it they leave the axis as a mirror pair, with the same
+half-split c*sqrt|delta| on both sides.
+A Hopf crossing moves a simple eigenvalue across Re = 0 with a finite slope. At these two couplings
+GK keeps every simple eigenvalue of a block on the axis, and the departure has infinite slope:
+the threshold is not a Hopf crossing.
+At both couplings the bisected gamma_crit sits slightly below the collision: the approaching pair
+is ill-conditioned, and the rounding noise in its real parts trips the 1e-12 test while the pair is
+still split on the axis.
+
+------------------------------------------------------------------------------
+2. Sector structure: the first block to go unstable, and its copies in the full L
+------------------------------------------------------------------------------
+
+Symmetry checks at J_bridge = 1.46, gamma = 0.37 (antilinear maps written A o conj, so that
+A conj(L) A^-1 = -L means lambda -> -lambda*):
+  S = G o R:                  |S L - L S| = 0.0e+00, |S^2 - 1| = 0.0e+00, |S F - F S| = 0.0e+00
+  F = X^N (.) X^N:            |F L F - L| = 0.0e+00, |Pi^2 - F| = 0.0e+00 (F118's centre)
+  R = (rho -> rho X^N), F118: |R L(gamma) R - L(-gamma)| = 0.0e+00
+  GK:                         |G conj(L) G + L| = 0.0e+00
+  Pi o dagger:                |A conj(L) A^-1 + L| = 0.0e+00, A = Pi SWAP; |A - R| = 0.0e+00,
+                              so Pi o dagger = R o conj
+  their product:              |G conj(A) - S| = 0.0e+00, so GK o (Pi o dagger) = S
+  block maps over all 25 blocks: S sends (p,q) to (p,4-q): holds; GK sends every block to itself: holds; Pi o dagger sends (p,q) to (p,4-q): holds
+
+Per coupling: the first block to go unstable, its orbit under F, S and Hermitian conjugation,
+the number of blocks its orbit under F and S holds (copies), the collision gamma* inside it,
+and the full L at lambda*: eigenvalues within 1e-5, singular values of L - lambda* I below 1e-10
+of the largest, eigenvalues with Re > 1e-9 at gamma*(1 + 1e-6).
+
+  J_bridge  first block      orbit                                              copies       gamma*   |Im l*|  within 1e-5 sv at rounding Re > 0 above
+      0.10  (0,2)            (0,2)/(2,0)/(2,4)/(4,2)                                 2  0.017291132     0.239            4              2            4
+      0.50  (1,2)            (1,2)/(2,1)/(2,3)/(3,2)                                 2  0.093819974     1.293            4              2            4
+      1.00  (2,2) flip-even  (2,2) flip-even                                         1  0.187310108     2.651            2              1            2
+      1.20  (1,2)            (1,2)/(2,1)/(2,3)/(3,2)                                 2  0.158830888     2.801            4              2            4
+      1.40  (1,2)            (1,2)/(2,1)/(2,3)/(3,2)                                 2  0.251094752     4.066            4              2            4
+      1.46  (0,1)            (0,1)/(0,3)/(1,0)/(1,4)/(3,0)/(3,4)/(4,1)/(4,3)         4  0.394742376     0.722            8              4            8
+      1.50  (2,2) flip-odd   (2,2) flip-odd                                          1  0.399147500     5.956            2              1            2
+      1.90  (2,2) flip-odd   (2,2) flip-odd                                          1  0.405853185     6.984            2              1            2
+      1.95  (2,2) flip-odd   (2,2) flip-odd                                          1  0.406953615     7.124            2              1            2
+      1.96  (2,2) flip-even  (2,2) flip-even                                         1  0.403446361     7.095            2              1            2
+      2.00  (2,2) flip-even  (2,2) flip-even                                         1  0.383837690     7.214            2              1            2
+      5.00  (1,2)            (1,2)/(2,1)/(2,3)/(3,2)                                 2  0.131966814     0.260            4              2            4
+     10.00  (1,2)            (1,2)/(2,1)/(2,3)/(3,2)                                 2  0.057820878     0.115            4              2            4
+
+In every row the full L holds one Jordan pair per copy: eigenvalues within 1e-5 = 2 x copies,
+singular values at the rounding level = copies, eigenvalues with Re > 0 just above = 2 x copies.
+
+The (0,1) block holds the coherences between the empty state and one excitation. Its gain-loss part
+is diagonal, +2 gamma on site 3, +2 gamma on site 2, -2 gamma on site 1, -2 gamma on site 0 (sites 0 and 1 are chain A),
+so it is a four-site hopping chain with loss 2 gamma on chain A and gain 2 gamma on chain B.
+
+The (0,1) orbit goes first for J_bridge between 1.434392 (where it meets the (1,2) orbit, at gamma = 0.391096)
+and 1.490721 (where it meets the flip-odd half of (2,2), at gamma = 0.399038).
+
+The two (2,2) halves near the sampled maximum, with the first sector over all blocks:
+
+  J_bridge   flip-even   flip-odd   first block         gamma_c
+     1.800    0.491121   0.403817   (2,2) flip-odd     0.403817
+     1.850    0.461991   0.404807   (2,2) flip-odd     0.404807
+     1.900    0.434490   0.405853   (2,2) flip-odd     0.405853
+     1.940    0.413569   0.406729   (2,2) flip-odd     0.406729
+     1.950    0.408480   0.406954   (2,2) flip-odd     0.406954
+     1.953    0.406965   0.407021   (2,2) flip-even    0.406965
+     1.960    0.403446   0.407180   (2,2) flip-even    0.403446
+     2.000    0.383838   0.408105   (2,2) flip-even    0.383838
+
+  the halves cross at J_bridge = 1.952892, gamma = 0.407019; the lowest other sector there is (1,2)/(2,1)/(2,3)/(3,2) at 0.435769
+  at J_bridge = 2.0 the threshold, 0.383838, is 5.70% below that crossing value
+Across these samples the threshold rises with the flip-odd half up to the crossing and falls with the
+flip-even half after it: the sampled maximum is a kink where the first (2,2) half switches spin-flip parity.
+
+------------------------------------------------------------------------------
+3. Zeros of the threshold: couplings where an even and an odd level already coincide
+------------------------------------------------------------------------------
+
+At gamma = 0 each block of L_H splits into G-even and G-odd levels, and further by F and S where
+they act inside the block. The gain-loss part anticommutes with G, so it couples an even level to
+an odd one. Where the two have the same frequency omega (an eigenvalue of i*L_H), it splits them at
+first order, lambda = -i*omega +/- s*gamma + O(gamma^2), so max Re lambda = s*gamma + O(gamma^2) > 0
+for small gamma > 0: gamma_crit = 0, the pair is semisimple at gamma = 0, and there is no
+exceptional point.
+
+  H on the popcount-1 sector: -x - 2sqrt(x^2 + 1) (P_site-1), x - 2 (P_site+1), -x + 2sqrt(x^2 + 1) (P_site-1), x + 2 (P_site+1)
+  H on the popcount-2 sector: -x - 2sqrt(x^2 - 2x + 4) - 2 (P_site+1, X+1), -x - 2sqrt(x^2 + 1) (P_site-1, X-1), x - 2 (P_site+1, X-1), -x + 2sqrt(x^2 - 2x + 4) - 2 (P_site+1, X+1), -x + 2sqrt(x^2 + 1) (P_site-1, X-1), x + 2 (P_site+1, X+1)
+  (x = J_bridge / J with J = 1; P_site the site reversal, X the spin flip; popcount 0 and 4: x + 2;
+  popcount 3 repeats popcount 1)
+
+Exact search over every pair of opposite-G levels in one symmetry sector of the blocks (0,1), (0,2), (1,1), (1,2), (2,2)
+(every other block is an image of these under F, S or Hermitian conjugation, except the four 1x1
+corner blocks (0,0), (0,4), (4,0), (4,4), which hold a single level and so no pair), radicals eliminated
+by resultants, real roots x > 0 of every factor; a root counts where the two levels agree to 1e-25
+at 40 digits. The spurious roots squaring adds leave the levels at least 2.000 apart; an
+identically equal opposite-G pair: False.
+
+Numeric route: level crossings of opposite G parity in one sector, on a grid of step 0.0025 over
+[0.002, 12], each refined by brentq: J_bridge = 0.750000000000, 1.029428241045, 1.118033988750, 1.333333333333, 3.328877582889
+The exact search finds 5 couplings in all of x > 0; the grid finds 5 in [0.002, 12], at the same places to 4e-13.
+
+The table gives, per coupling, each sector holding such a pair: its frequency omega, the dimension
+of the degenerate subspace, the first-order slope s, and the V slope |d(omega_even - omega_odd)/dJ|/(2s)
+at which that sector's threshold leaves zero; then max Re lambda / gamma of the full L at
+gamma = 1e-2, 1e-4, 1e-6.
+
+         J_bridge  exact                                    block / sector         omega dim         s  V slope   max Re lambda / gamma
+   0.750000000000 x = 3/4                                  (1,2) S+1           -2.00000   2  0.338062   8.1135   0.585453  0.585540  0.585540
+                                                           (1,2) S+1           +2.00000   2  0.507093   0.9015   
+                                                           (2,2) F+1 S+1       -2.00000   2  0.585540   0.7807   
+                                                           (2,2) F+1 S+1       +2.00000   2  0.585540   0.7807   
+   1.029428241045 real root of 12x^3 - 37x^2 + 72x - 48    (2,2) F-1 S-1       +1.40575   2  0.185552   9.0719   0.185552  0.185552  0.185552
+                                                           (2,2) F-1 S+1       -1.40575   2  0.185552   9.0719   
+   1.118033988750 x = sqrt(5)/2                            (1,2) S+1           +2.76393   2  0.487166   2.4358   0.562600  0.562531  0.562531
+                                                           (2,2) F+1 S+1       -2.76393   2  0.562531   2.1095   
+                                                           (2,2) F+1 S+1       +2.76393   2  0.562531   2.1095   
+   1.333333333333 x = 4/3                                  (1,1)               -4.00000   2  0.447214   4.0249   0.516423  0.516398  0.516398
+                                                           (1,1)               +4.00000   2  0.447214   4.0249   
+                                                           (1,2) S+1           -4.00000   2  0.516398   3.4857   
+   3.328877582889 real root of 4x^3 - 21x^2 + 40x - 48     (2,2) F+1 S+1      -11.60942   2  1.989231   0.1774   1.989244  1.989231  1.989231
+                                                           (2,2) F+1 S+1      +11.60942   2  1.989231   0.1774   
+
+Control at a generic coupling, J_bridge = 1.0: max Re lambda / gamma = 1.3e-12  1.2e-10  1.1e-08 (max Re lambda below 1e-12 at all three: rounding, no linear onset)
+
+At each of these couplings max Re lambda / gamma equals the largest first-order s to 1e-6 from
+gamma = 1e-4 down: gamma_crit = 0 there, and any small gain makes the bridge unstable.
+Over 61 gammas from 1e-6 to 2 at each of them, max Re lambda stays positive (smallest max Re lambda / gamma:
+0.1856, at J_bridge = 1.029428, gamma = 4.27e-06).
+
+Around each zero, gamma_crit (all blocks) at J_bridge = J0 + offset; it doubles from 0.005 to 0.01 on both sides, a linear rise:
+
+         J_bridge       -0.01     -0.005     +0.005      +0.01    slope left slope right   V slope (s)
+   0.750000000000    0.007751   0.003889   0.003918   0.007866        0.7779      0.7836        0.7807
+   1.029428241045    0.092223   0.045713   0.045046   0.089541        9.1427      9.0093        9.0719
+   1.118033988750    0.021146   0.010563   0.010528   0.021008        2.1126      2.1055        2.1095
+   1.333333333333    0.034359   0.017305   0.017550   0.035337        3.4610      3.5099        3.4857
+   3.328877582889    0.001779   0.000888   0.000886   0.001769        0.1777      0.1772        0.1774
+The last column is the smallest V slope of the table above; it matches the measured mean of the two
+sides to 2 %: near each zero the threshold is the frequency mismatch of the even-odd pair divided by twice
+its coupling, |omega_even - omega_odd|/(2s).
+
+Where the finer sweep's low points and the reversal of its strong-bridge tail sit:
+
+  J_bridge     gamma_c   first block         nearest zero     offset
+      0.70    0.037393   (1,2)             0.750000000000    -0.0500
+      0.80    0.040637   (2,2) flip-even   0.750000000000    +0.0500
+      1.10    0.038148   (2,2) flip-even   1.118033988750    -0.0180
+      1.30    0.110454   (1,2)             1.333333333333    -0.0333
+      3.20    0.023727   (2,2) flip-even   3.328877582889    -0.1289
+      3.60    0.044691   (2,2) flip-even   3.328877582889    +0.2711
+      4.00    0.100201   (2,2) flip-even   3.328877582889    +0.6711
+      4.40    0.146201   (2,2) flip-even   3.328877582889    +1.0711
+
+Beyond the zero near 3.3289 the flip-even half of (2,2) rises until it meets the (1,2) orbit
+at J_bridge = 4.459403, gamma = 0.152371. It leaves the zero at the V slope 0.1774 and rises on
+average at 0.1348 per unit of J_bridge up to that meeting.
+
+------------------------------------------------------------------------------
+4. Finite-offset diagnostics above the bisected gamma_crit
+------------------------------------------------------------------------------
 
 J_bridge = 1.0   gamma_crit = 0.187310102
 
@@ -13,9 +218,10 @@ J_bridge = 1.0   gamma_crit = 0.187310102
      1e-05      0.00064059          0.2026       1.281e-03     1.281e-03     4.039e+04
   near-threshold simplicity gate: nearest gap > 1e-10 for every reported K
 
-  1. Re lambda / sqrt(delta) spans 1.0039 over four decades of delta. A transversal crossing (Re ~ delta) would make this ratio grow by 32 across the same range.
+  1. Re lambda / sqrt(delta) spans 1.0039 over three decades of delta (four samples). A transversal crossing (Re ~ delta) would make this ratio grow by 32 across the same range.
+     measured from the bisected gamma_crit, which sits 3.5e-08 (relative) below gamma*; that offset is 0.04% of delta at 1e-04 and 0.35% at 1e-05.
   2. the gap to the across-axis partner -lambda* is 2*abs(Re lambda) = 1.28e-03; it is derived from max Re and supplies no independent EP evidence.
-  3. Petermann K multiplies by 9.85, 9.99, 10.03 per sampled decade of delta; this finite-offset trend is not a Jordan-character certificate.
+  3. Petermann K multiplies by 9.85, 9.99, 10.03 per sampled decade of delta, the K ~ 1/delta of an EP2; the Jordan rank itself is read in section 1.
      below threshold, delta = -1e-03: max Re lambda = 2.43e-14
      below threshold, delta = -1e-02: max Re lambda = 1.61e-14
      below threshold, delta = -1e-01: max Re lambda = 1.39e-14
@@ -29,16 +235,17 @@ J_bridge = 1.9   gamma_crit = 0.405852400
      1e-05      0.00313379          0.9910       6.268e-03     6.268e-03     7.811e+04
   near-threshold simplicity gate: nearest gap > 1e-10 for every reported K
 
-  1. Re lambda / sqrt(delta) spans 1.1170 over four decades of delta. A transversal crossing (Re ~ delta) would make this ratio grow by 32 across the same range.
+  1. Re lambda / sqrt(delta) spans 1.1170 over three decades of delta (four samples). A transversal crossing (Re ~ delta) would make this ratio grow by 32 across the same range.
+     measured from the bisected gamma_crit, which sits 1.9e-06 (relative) below gamma*; that offset is 1.93% of delta at 1e-04 and 19.35% at 1e-05.
   2. the gap to the across-axis partner -lambda* is 2*abs(Re lambda) = 6.27e-03; it is derived from max Re and supplies no independent EP evidence.
-  3. Petermann K multiplies by 9.86, 10.16, 12.16 per sampled decade of delta; this finite-offset trend is not a Jordan-character certificate.
+  3. Petermann K multiplies by 9.86, 10.16, 12.16 per sampled decade of delta, the K ~ 1/delta of an EP2; the Jordan rank itself is read in section 1.
      below threshold, delta = -1e-03: max Re lambda = 4.48e-14
      below threshold, delta = -1e-02: max Re lambda = 2.04e-14
      below threshold, delta = -1e-01: max Re lambda = 2.49e-14
 
-==============================================================================
-What a coarse scan sees instead
-==============================================================================
+------------------------------------------------------------------------------
+5. What a coarse scan sees instead
+------------------------------------------------------------------------------
 
 A finite grid reads sampling-dependent Petermann values for simple selected modes.
 A single-vector K is omitted wherever the selected eigenvalue is degenerate:
@@ -54,7 +261,55 @@ A single-vector K is omitted wherever the selected eigenvalue is degenerate:
               3.000 single-vector K not reported for a degenerate eigenspace
 
 Degenerate rows do not support a basis-invariant single-eigenvector conditioning value.
-Each gamma independently selects max Re(lambda);
-this producer establishes off-axis-pair existence, not branch continuation.
-It does not execute a strict threshold coalescence or Jordan-rank certificate;
-the local EP character remains OPEN.
+This coarse scan selects max Re(lambda) independently at each gamma;
+the colliding pair itself is followed only in section 1.
+
+------------------------------------------------------------------------------
+6. The first block over a sweep of couplings
+------------------------------------------------------------------------------
+
+Grid: J_bridge = 0.005 to 20 in steps of 0.005 (4000 couplings). Per block the threshold is the first
+gamma of a 60-point geometric grid from 1e-4 to 2 at which max Re lambda exceeds 1e-9, refined by 40
+bisection steps. The blocks are the representatives (0,1), (0,2), (1,1), (1,2) and the two (2,2)
+halves, each split further by the symmetries of L(gamma) acting inside it.
+
+  first block         from      to copies   threshold along the run
+  (0,2)              0.005   0.440      2   rises from 0.000811 to 0.093135
+  (1,2)              0.445   0.700      2   0.093983 to 0.037393, through a maximum 0.094483 at 0.470
+  (2,2) flip-even    0.705   1.005      1   0.034152 to 0.185659, through a minimum 0.000000 at 0.750 and a maximum 0.188427 at 0.990
+  (2,2) flip-odd     1.010   1.045      1   0.182635 to 0.138599, through a minimum 0.005183 at 1.030
+  (2,2) flip-even    1.050   1.175      1   0.136492 to 0.115986, through a minimum 0.004144 at 1.120
+  (1,2)              1.180   1.430      2   0.125621 to 0.372987, through a maximum 0.239296 at 1.255 and a minimum 0.005823 at 1.335
+  (0,1)              1.435   1.490      4   rises from 0.391183 to 0.398938
+  (2,2) flip-odd     1.495   1.950      1   rises from 0.399088 to 0.406954
+  (2,2) flip-even    1.955   4.455      1   0.405957 to 0.151919, through a minimum 0.000199 at 3.330
+  (1,2)              4.460  20.000      2   falls from 0.152346 to 0.026919
+
+On this grid (1,1) is never the first block, and the first blocks with four copies are: (0,1) from 1.435 to 1.490.
+The largest threshold on the grid is 0.406954, at J_bridge = 1.950; the crossing of the (2,2) halves
+(section 2, gamma = 0.407019) lies above every grid value.
+Local maxima of the grid threshold: 0.094483 at 0.470, 0.188427 at 0.990, 0.138599 at 1.045, 0.239296 at 1.255, 0.406954 at 1.950, 0.152346 at 4.460.
+
+At every grid coupling the colliding pair of the sector that goes first (a symmetry sector of the
+first block) is located by the sign change of its squared gap and read there. It is an EP2 (inside
+that sector one singular value of L - lambda* I at the rounding level, the next above 1e3 times the
+pair gap, one Puiseux branch) at 3999 of the 4000 couplings:
+  sigma_1 at most 1.8e-14; sigma_2 at least 7.9e-04; the third eigenvalue at least 1.20e-02 away; the
+  half-split / sqrt|delta| below and above equal to 2.8e-06 (relative) at delta = 1e-6.
+  not an EP2 at J_bridge = 0.750 ((2,2) flip-even): gamma* = 6.6e-17, pair gap 2.1e-15, sigma_1 = 8.4e-16, sigma_2 = 1.6e-15, two null directions at zero gain (a zero of the threshold)
+
+------------------------------------------------------------------------------
+7. The product gamma_crit * J_bridge at large couplings
+------------------------------------------------------------------------------
+
+The same per-block threshold as section 6 (first unstable point of a 60-point geometric gamma grid
+from 1e-4 to 2, refined by 40 bisection steps), at the sweep's last coupling and five beyond it:
+
+   J_bridge      first block  gamma_crit * J_bridge
+         20            (1,2)                 0.5384
+         30            (1,2)                 0.5254
+         50            (1,2)                 0.5151
+        100            (1,2)                 0.5075
+        300            (1,2)                 0.5025
+       1000            (1,2)                 0.5008
+These are samples; they establish no limit.
