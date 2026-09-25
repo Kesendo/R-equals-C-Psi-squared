@@ -167,8 +167,16 @@ public sealed class CoherenceHorizonWitness : IInspectable
     /// (1 = 2cos60°, √2 = 2cos45°), then departing (Q*(4)=1.8785 ≠ φ=1.618).</summary>
     public static double BandEdgeCoincidence(int n) => 2.0 * Math.Cos(Math.PI / (n + 1));
 
-    /// <summary>The rigidity below which a gap mode counts as coalescing (an EP).</summary>
-    private const double REpThreshold = 0.05;
+    /// <summary>The EP verdict reads the coalescer's phase rigidity at three offsets a decade apart,
+    /// Q*(1+VerdictDecade·δ₁), Q*(1+δ₁) and Q*(1+δ₁/VerdictDecade), and asks for the square-root law across them
+    /// (<see cref="SquareRootLaw"/>).</summary>
+    public const double VerdictDecade = 10.0;
+
+    /// <summary>Eigenvalues of the full L closer than this to the coalescer count as its copies. The copies
+    /// agree to the eigensolver's precision (6.6·10⁻¹⁴ at N = 5, a near-defective pair), the next distinct
+    /// eigenvalue sits 5·10⁻² away (N = 5), so the count is the same anywhere between 10⁻¹¹ and 10⁻⁵
+    /// (gated as that plateau in the tests).</summary>
+    public const double CopyTolerance = 1e-8;
 
     /// <summary>The non-zero modes within a small band of the slowest decay rate (the gap), with their
     /// phase rigidity, built at Q = J/γ on the live Liouvillian.</summary>
@@ -182,16 +190,30 @@ public sealed class CoherenceHorizonWitness : IInspectable
 
     /// <summary>At Q = Q*(1+δ), δ = <see cref="EpReadDelta"/>, just above the EP on the full Liouvillian:
     /// the coalescing near-gap mode (minimum phase rigidity, the {0,2}-coherence whose r → 0) with its
-    /// n_diff histogram, and the co-located band-edge survivor (Im ≈ 2cos(π/(N+1)), r ≈ 1). The instrument
-    /// that distinguishes the EP (erasure) from the crossing (survival). Read above the EP rather than at
-    /// the handover, because at N≥4 the handover (<see cref="Horizon"/>) lies below the EP, where the pair has
-    /// already split into two real branches. ReadAtQ is the Q used, so γ = J/ReadAtQ.</summary>
+    /// n_diff histogram, the number of copies of its eigenvalue in the full L, and the co-located band-edge
+    /// survivor (Im ≈ 2cos(π/(N+1)); its r is read basis-free by <see cref="BandEdgeSurvivor"/>). Read above
+    /// the EP rather than at the handover, because at N≥4 the
+    /// handover (<see cref="Horizon"/>) lies below the EP, where the pair has already split into two real
+    /// branches. ReadAtQ is the Q used, so γ = J/ReadAtQ.
+    ///
+    /// <para>The coalescer eigenvalue repeats N−1 times in the full L, once in each (k,k) sector with
+    /// 1 ≤ k ≤ N−1: the XY chain is a free-fermion chain, the quadratic operators c_i†c_j span an L-invariant
+    /// space in every such sector, and L acts there as on the SE block (Z_l c_i†c_j Z_l = −c_i†c_j exactly for
+    /// l ∈ {i, j}, i ≠ j). Every copy carries the SE block's rigidity exactly: the right and the left vector
+    /// are traceless on the block (a λ ≠ 0 mode, and the dual of one, of a block whose stationary vector is its
+    /// identity), so the embedding scales both by one binomial factor. The eigensolver returns some basis of
+    /// the repeated eigenspace, and a mixture of copies with equal rigidity reads lower, never higher (the
+    /// Cauchy-Schwarz bound on the dual pairing). So the per-vector <see cref="PhaseRigidity.Mode.Rigidity"/>
+    /// of the full-L coalescer is a property of that basis; the EP verdict reads the SE block
+    /// (<see cref="CoalescerAtEp"/>). The n_diff histogram needs no such care: every copy has the same weights,
+    /// so every mixture does too.</para></summary>
     public (PhaseRigidity.Mode Coalescer,
             IReadOnlyDictionary<int, double> CoalescerHist,
             double CoalescerMeanNDiff,
             PhaseRigidity.Mode BandEdge,
             double BandEdgeR,
-            double ReadAtQ) EpModes(int n)
+            double ReadAtQ,
+            int CoalescerCopies) EpModes(int n)
     {
         double q = EpQ(n) * (1.0 + EpReadDelta);
         var gapModes = GapModes(n, J / q);
@@ -199,7 +221,154 @@ public sealed class CoherenceHorizonWitness : IInspectable
         var (mean, hist) = LiouvilleOperatorContent.NDiffHistogram(coalescer.Right, n);
         double bandIm = 2.0 * Math.Cos(Math.PI / (n + 1));
         var bandEdge = gapModes.OrderBy(m => Math.Abs(Math.Abs(m.Lambda.Imaginary) - bandIm)).First();
-        return (coalescer, hist, mean, bandEdge, bandEdge.Rigidity, q);
+        int copies = gapModes.Count(m => (m.Lambda - coalescer.Lambda).Magnitude < CopyTolerance);
+        return (coalescer, hist, mean, bandEdge, bandEdge.Rigidity, q, copies);
+    }
+
+    /// <summary>The number of full-L eigenvalues within each tolerance of the coalescer at Q = Q*(1+δ), from
+    /// one eigendecomposition: the copy count read across tolerances, for the plateau that makes
+    /// <see cref="CopyTolerance"/> a reading rather than a chosen number.</summary>
+    public int[] CoalescerCopyCounts(int n, params double[] tolerances)
+    {
+        double q = EpQ(n) * (1.0 + EpReadDelta);
+        var gapModes = GapModes(n, J / q);
+        var coalescer = gapModes.OrderBy(m => m.Rigidity).First();
+        return tolerances.Select(tol => gapModes.Count(m => (m.Lambda - coalescer.Lambda).Magnitude < tol)).ToArray();
+    }
+
+    /// <summary>The square-root law of a second-order EP, read on the SE block where the coalescer eigenvalue is
+    /// simple, at N ≤ <see cref="SeBlockMaxN"/> (<see cref="SquareRootLawAt"/> reads it at any N). At an EP2 the two
+    /// branches are a conjugate pair and share r, so r has no √δ correction: r = k·√(2δ)·(1 + aδ + O(δ²)), and the
+    /// exponent between two offsets a decade apart is p = ½ + a·(δ_a − δ_b)/ln 10 + O(δ²). That next order grows with
+    /// N (a = −0.75 at N = 2, 3, −1.42 at N = 8, −2.7 at N = 15), and it does not shrink relative to δ₁: the raw
+    /// exponent misses ½ by 0.39·|a|·δ₁, more than δ₁ from N = 15 at every δ₁. So the verdict removes it. With r read
+    /// at δ₀ = 10δ₁, δ₁ and δ₂ = δ₁/10, the coarse exponent's deviation is ten times the fine one's to that order, and
+    /// <see cref="ExponentAcrossDecades"/> extrapolates the pair to δ → 0; what is left is O(δ₁²) (at most 2·10⁻⁵ at
+    /// δ₁ = 10⁻³ for N ≤ 20). The verdict is |p₀ − ½| ≤ δ₁ (<see cref="IsSquareRootLaw"/>). A mode that does not
+    /// coalesce keeps r of order one and reads p₀ ≈ 0; an EP3 reads p₀ → ⅔. The tests gate the law itself (the
+    /// coarse deviation ten times the fine one), the verdict at N = 2..8 and past the fence at N = 15, 16 and 20, and
+    /// the five controls the verdict has to reject (<see cref="MisplacedQStar"/> among them).</summary>
+    public (double K1, double K2, double Coarse, double Exponent, double Extrapolated, bool IsSquareRootEp)
+        SquareRootLaw(int n, double delta1 = EpReadDelta)
+    {
+        CheckSeBlockN(n);
+        return SquareRootLawAt(n, EpQ(n), delta1);
+    }
+
+    /// <summary>The square-root law at any N, from a given EP Q* (<see cref="EpCharacterWitness.BisectEpQ"/>): the
+    /// coalescer's rigidity at Q*(1+10δ₁), Q*(1+δ₁) and Q*(1+δ₁/10) through the shared picker, K1 = r(δ₁)/√(2δ₁) and
+    /// K2 = r(δ₂)/√(2δ₂), the coarse and the fine exponent (Exponent is the fine one), their extrapolation and the
+    /// verdict. The instance <see cref="SquareRootLaw"/> is this at the cached Q*, fenced at <see cref="SeBlockMaxN"/>.</summary>
+    public static (double K1, double K2, double Coarse, double Exponent, double Extrapolated, bool IsSquareRootEp)
+        SquareRootLawAt(int n, double qStar, double delta1)
+    {
+        double delta0 = delta1 * VerdictDecade, delta2 = delta1 / VerdictDecade;
+        double r0 = CoalescerRigidityAt(n, qStar * (1.0 + delta0));
+        double r1 = CoalescerRigidityAt(n, qStar * (1.0 + delta1));
+        double r2 = CoalescerRigidityAt(n, qStar * (1.0 + delta2));
+        var (coarse, fine, extrapolated) = ExponentAcrossDecades(r0, r1, r2);
+        return (r1 / Math.Sqrt(2.0 * delta1), r2 / Math.Sqrt(2.0 * delta2), coarse, fine, extrapolated,
+                IsSquareRootLaw(extrapolated, delta1));
+    }
+
+    /// <summary>A rigidity read at three offsets a decade apart, δ₀ = 10δ₁, δ₁, δ₂ = δ₁/10: the coarse exponent
+    /// p(δ₀, δ₁), the fine one p(δ₁, δ₂), and their extrapolation to δ → 0, p₀ = fine − (coarse − fine)/9, which
+    /// removes a next order linear in δ exactly (it is ten times larger across the coarse decade).</summary>
+    public static (double Coarse, double Fine, double Extrapolated) ExponentAcrossDecades(double r0, double r1, double r2)
+    {
+        double coarse = SquareRootExponent(r0, r1, VerdictDecade, 1.0);
+        double fine = SquareRootExponent(r1, r2, VerdictDecade, 1.0);
+        return (coarse, fine, fine - (coarse - fine) / (VerdictDecade - 1.0));
+    }
+
+    /// <summary>The verdict on an extrapolated exponent: ½ within δ₁. What remains after the extrapolation is O(δ₁²),
+    /// two decades below the bound at the read offset δ₁ = 10⁻³ for N ≤ 20.</summary>
+    public static bool IsSquareRootLaw(double extrapolatedExponent, double delta1) =>
+        Math.Abs(extrapolatedExponent - 0.5) <= delta1;
+
+    /// <summary>The exponent of a rigidity read at two offsets, p = ln(r₁/r₂)/ln(δ₁/δ₂): ½ for the square-root
+    /// law of an EP2, 0 for a mode whose rigidity does not move.</summary>
+    public static double SquareRootExponent(double r1, double r2, double delta1, double delta2) =>
+        Math.Log(r1 / r2) / Math.Log(delta1 / delta2);
+
+    /// <summary>The coalescer's phase rigidity on the SE block at Q, through the picker the SE-block readings share
+    /// (<see cref="CoalescerAtEp"/>), at any N.</summary>
+    public static double CoalescerRigidityAt(int n, double q)
+    {
+        var evd = EpCharacterWitness.Lse(n, J, J / q).Evd();
+        int pick = PickCoalescer(evd.EigenValues, n, q);
+        var v = evd.EigenVectors.Column(pick);
+        var left = evd.EigenVectors.Inverse().Row(pick).Conjugate();
+        return left.ConjugateDotProduct(v).Magnitude / (left.L2Norm() * v.L2Norm());
+    }
+
+    /// <summary>The picker of the SE-block readings, the Python census's: among the upper-half-plane modes within
+    /// 0.25·J of the slowest oscillating rate, the one with the smallest |Im|.</summary>
+    private static int PickCoalescer(MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Complex> lam, int n, double q)
+    {
+        var osc = Enumerable.Range(0, lam.Count).Where(k => lam[k].Real < -1e-7 && lam[k].Imaginary > 1e-9).ToList();
+        if (osc.Count == 0)
+            throw new InvalidOperationException($"N={n}: no oscillating SE mode at Q = {q.ToString("0.########", Inv)}");
+        double reMax = osc.Max(k => lam[k].Real);
+        return osc.Where(k => lam[k].Real > reMax - 0.25 * J).OrderBy(k => Math.Abs(lam[k].Imaginary)).First();
+    }
+
+    // ---- the verdict's controls: each read through the same three offsets and ExponentAcrossDecades ----
+
+    /// <summary>The EP3 control: the companion matrix of λ³ = δ, [[0,1,0],[0,0,1],[δ,0,0]], a single 3×3 Jordan
+    /// block at δ = 0. Its modes share the rigidity r = 3|λ|²/(1 + |λ|² + |λ|⁴) exactly (right vector (1, λ, λ²),
+    /// left (1, 1/λ, 1/λ²)), so r ∝ δ^(2/3) and the exponent tends to ⅔. Returns the real mode's rigidity at δ.</summary>
+    public static double Ep3ControlRigidity(double delta)
+    {
+        var m = ComplexMatrix.Build.Dense(3, 3);
+        m[0, 1] = 1.0; m[1, 2] = 1.0; m[2, 0] = delta;
+        return PhaseRigidity.Compute(m).OrderByDescending(mode => mode.Lambda.Real).First().Rigidity;
+    }
+
+    /// <summary>The diabolic control: S·diag(δ, −δ)·S⁻¹ with S = [[1, 0.8], [0, 0.6]]. Its two eigenvalues ±δ meet at
+    /// δ = 0 while its eigenvectors stay the columns of S at every δ, non-orthogonal and never coalescing, so the
+    /// rigidity is 0.6 at every offset (a non-normal diabolic point) and the exponent is 0.</summary>
+    public static double DiabolicControlRigidity(double delta)
+    {
+        var s = ComplexMatrix.Build.DenseOfArray(new System.Numerics.Complex[,] { { 1.0, 0.8 }, { 0.0, 0.6 } });
+        var d = ComplexMatrix.Build.DenseOfDiagonalArray(new System.Numerics.Complex[] { delta, -delta });
+        return PhaseRigidity.Compute(s * d * s.Inverse()).OrderByDescending(mode => mode.Lambda.Real).First().Rigidity;
+    }
+
+    /// <summary>The non-coalescing control on the coalescer's own block: at Q*(1+10δ₁), the most non-normal SE mode
+    /// that is neither the coalescer nor near-normal (the smallest r in (0.2, 0.99) among the decaying modes), then the
+    /// same mode at Q*(1+δ₁) and Q*(1+δ₁/10), followed as the nearest eigenvalue (it moves by about 10⁻² while its next
+    /// neighbour sits 0.4 to 0.5 away at N = 4, 6). Its rigidity is well below 1 and does not move, so p₀ ≈ 0.</summary>
+    public static (System.Numerics.Complex Lambda, double R0, double R1, double R2) NonNormalSeModeRigidities(int n, double qStar, double delta1)
+    {
+        var start = PhaseRigidity.Compute(EpCharacterWitness.Lse(n, J, J / (qStar * (1.0 + VerdictDecade * delta1))));
+        var mode = start.Where(m => m.Rigidity > 0.2 && m.Rigidity < 0.99 && m.Lambda.Real < -1e-6)
+                        .OrderBy(m => m.Rigidity).First();
+        double Follow(double delta) => PhaseRigidity.Compute(EpCharacterWitness.Lse(n, J, J / (qStar * (1.0 + delta))))
+            .OrderBy(m => (m.Lambda - mode.Lambda).Magnitude).First().Rigidity;
+        return (mode.Lambda, mode.Rigidity, Follow(delta1), Follow(delta1 / VerdictDecade));
+    }
+
+    /// <summary>The band-edge survivor read on its own block, the (0,1) sector |0…0⟩⟨j|: there H|0…0⟩ = 0, so
+    /// L acts as i·h − 2γ·I with h the single-particle hopping (every |0…0⟩⟨j| differs from its ket at one site),
+    /// a normal matrix whose eigenvalues −2γ ± i·2J·cos(πk/(N+1)) are simple, and the survivor at the band edge
+    /// 2cos(π/(N+1)) has rigidity 1 on this block at every Q. In the full L the survivor repeats 2N times (once
+    /// in each (k,k+1) and (k+1,k) sector), so its full-L per-vector rigidity depends on the basis; this reading
+    /// does not. Read at Q = Q*(1+δ).</summary>
+    public (System.Numerics.Complex Lambda, double Rigidity) BandEdgeSurvivor(int n, double delta = EpReadDelta)
+    {
+        CheckSeBlockN(n);
+        double g = J / (EpQ(n) * (1.0 + delta));
+        var h = EpCharacterWitness.HSingle(n, J);
+        var l = ComplexMatrix.Build.Dense(n, n);
+        for (int i = 0; i < n; i++)
+            for (int k = 0; k < n; k++)
+                l[i, k] = new System.Numerics.Complex(0.0, h[i, k]);
+        for (int i = 0; i < n; i++)
+            l[i, i] += new System.Numerics.Complex(-2.0 * g, 0.0);
+        double bandIm = 2.0 * J * Math.Cos(Math.PI / (n + 1));
+        var mode = PhaseRigidity.Compute(l).OrderBy(m => Math.Abs(Math.Abs(m.Lambda.Imaginary) - bandIm)).First();
+        return (mode.Lambda, mode.Rigidity);
     }
 
     /// <summary>√-scaling certificate of a 2nd-order EP: Im²/(Q−Q*) for the small-Im coalescer branch
@@ -221,8 +390,11 @@ public sealed class CoherenceHorizonWitness : IInspectable
 
     // ---- the single-excitation block: the EP, the handover, and the excess light ----
 
-    /// <summary>The largest N the SE-block readings are offered for: at δ = <see cref="EpReadDelta"/> the
-    /// coalescer branch is resolved by the picker up to here (an N²-dim eigenproblem, instant).</summary>
+    /// <summary>The largest N the instance's SE-block readings are offered for (an N²-dim eigenproblem, instant;
+    /// the picker resolves the coalescer branch well past it). The square-root verdict does not depend on this fence:
+    /// it removes the law's next order, which grows with N, and it is checked past the fence at N = 15, 16 and 20
+    /// through <see cref="SquareRootLawAt"/>, where the raw two-offset exponent already misses ½ by more than δ₁
+    /// (from N = 15 on) and the extrapolated one reads ½ to 2·10⁻⁵.</summary>
     public const int SeBlockMaxN = 8;
 
     /// <summary>The offset above the EP at which the coalescer is read, Q = Q*·(1+δ): small enough that the
@@ -303,12 +475,7 @@ public sealed class CoherenceHorizonWitness : IInspectable
         var evd = lse.Evd();
         var lam = evd.EigenValues;
         var vecs = evd.EigenVectors;
-        int dim = n * n;
-        var osc = Enumerable.Range(0, dim).Where(k => lam[k].Real < -1e-7 && lam[k].Imaginary > 1e-9).ToList();
-        if (osc.Count == 0)
-            throw new InvalidOperationException($"N={n}: no oscillating SE mode at Q = Q*(1+{delta.ToString("0.###", Inv)})");
-        double reMax = osc.Max(k => lam[k].Real);
-        int pick = osc.Where(k => lam[k].Real > reMax - 0.25 * J).OrderBy(k => Math.Abs(lam[k].Imaginary)).First();
+        int pick = PickCoalescer(lam, n, q);
         double total = 0.0, w2 = 0.0;
         for (int i = 0; i < n; i++)
             for (int jj = 0; jj < n; jj++)
@@ -517,37 +684,77 @@ public sealed class CoherenceHorizonWitness : IInspectable
                      "coincide with the horizon.");
     }
 
-    /// <summary>the EP verdict, recomputed live at Q = Q*(1+δ): per N=2..5 the coalescing {0,2}-coherence
-    /// (r → 0, weight on n_diff ∈ {0,2}, ½/½ at N=2,3 only) and the co-located band-edge survivor (r ≈ 1).
-    /// No bifurcation at N=4: the {0,2}-coherence is the freezer at every N, the band edge the γ-protected
-    /// survivor; they share the floor Re = −2γ at N=2,3 only (Absorption Theorem: the survivor has
-    /// ⟨n_diff⟩ = 1 exactly, the coalescer 2w2 &gt; 1 from N=4; at N=2,3 the two share the floor).</summary>
+    /// <summary>the EP verdict, recomputed live: per N=2..5 the coalescing {0,2}-coherence (weight on
+    /// n_diff ∈ {0,2}, ½/½ at N=2,3 only) and the co-located band-edge survivor. The verdict reads the square-root
+    /// law on the SE block (<see cref="SquareRootLaw"/>: the rigidity's exponent across two decades of δ, its next
+    /// order removed, is ½ within δ₁), once more past the SE-block fence at N = 15, and against its controls; the
+    /// survivor, read on its own normal block (<see cref="BandEdgeSurvivor"/>), keeps r = 1 and exponent 0. The
+    /// full-L coalescer repeats N−1 times, so a per-vector value there depends on the eigenbasis
+    /// (<see cref="EpModes"/>). No bifurcation at N=4: the {0,2}-coherence is the freezer at every N,
+    /// the band edge the γ-protected survivor; they share the floor Re = −2γ at N=2,3 only (Absorption Theorem:
+    /// the survivor has ⟨n_diff⟩ = 1 exactly, the coalescer 2w2 &gt; 1 from N=4; at N=2,3 the two share the
+    /// floor).</summary>
     private InspectableNode TheEpVerdict()
     {
         var rungs = new List<IInspectable>();
+        double delta0 = EpReadDelta * VerdictDecade, delta2 = EpReadDelta / VerdictDecade;
         foreach (int n in new[] { 2, 3, 4, 5 })
         {
             var ep = EpModes(n);
+            var se = CoalescerAtEp(n);
+            var law = SquareRootLaw(n);
+            var survivor = BandEdgeSurvivor(n);
+            double survivorP = ExponentAcrossDecades(BandEdgeSurvivor(n, delta0).Rigidity, survivor.Rigidity,
+                BandEdgeSurvivor(n, delta2).Rigidity).Extrapolated;
             string h0 = ep.CoalescerHist.GetValueOrDefault(0).ToString("0.0000", Inv);
             string h2 = ep.CoalescerHist.GetValueOrDefault(2).ToString("0.0000", Inv);
             double reOver2G = ep.Coalescer.Lambda.Real / (-2.0 * J / ep.ReadAtQ);
-            bool isEp = ep.Coalescer.Rigidity < REpThreshold;
-            string label = isEp ? "EP" : "crossing";
-            string verdict = isEp ? "genuine EP, the {0,2}-coherence coalesces" : "no EP (a crossing)";
+            string label = law.IsSquareRootEp ? "√-law" : "no √-law";
+            string verdict = law.IsSquareRootEp
+                ? "the square-root law holds across δ₁/10..10δ₁ (coalescence: EpCharacterWitness), the {0,2}-coherence"
+                : "the square-root law does not hold here";
             rungs.Add(new InspectableNode($"N={n}: {label}",
-                summary: $"coalescer r = {ep.Coalescer.Rigidity.ToString("0.000", Inv)} " +
-                         $"(Im = {ep.Coalescer.Lambda.Imaginary.ToString("0.000", Inv)}, hist {{0:{h0}, 2:{h2}}}, " +
+                summary: $"SE-block coalescer r/√(2δ) = {law.K1.ToString("0.0000", Inv)} at δ = {EpReadDelta.ToString("0.###", Inv)} and " +
+                         $"{law.K2.ToString("0.0000", Inv)} at δ = {delta2.ToString("0.####", Inv)}; exponent p − ½ = " +
+                         $"{(law.Coarse - 0.5).ToString("0.0e0", Inv)} over δ = {delta0.ToString("0.##", Inv)} → {EpReadDelta.ToString("0.###", Inv)} " +
+                         $"and {(law.Exponent - 0.5).ToString("0.0e0", Inv)} over {EpReadDelta.ToString("0.###", Inv)} → {delta2.ToString("0.####", Inv)} " +
+                         $"(the law's next order, linear in δ), extrapolated p₀ − ½ = {(law.Extrapolated - 0.5).ToString("0.0e0", Inv)} " +
+                         $"(|Im| = {se.AbsIm.ToString("0.000", Inv)}, hist {{0:{h0}, 2:{h2}}}, " +
                          $"mean n_diff = {ep.CoalescerMeanNDiff.ToString("0.0000", Inv)} = Re/(−2γ) = {reOver2G.ToString("0.0000", Inv)}" +
                          $"{(n <= 3 ? ", on the floor" : ", below the floor")}) → {verdict}; " +
-                         $"band edge Im = {Math.Abs(ep.BandEdge.Lambda.Imaginary).ToString("0.000", Inv)} " +
-                         $"(2cos(π/(N+1))), r = {ep.BandEdgeR.ToString("0.000", Inv)} → the γ-protected survivor."));
+                         $"{ep.CoalescerCopies} cop{(ep.CoalescerCopies == 1 ? "y" : "ies")} of this eigenvalue in the full L, one per (k,k) sector; " +
+                         $"band edge Im = {Math.Abs(survivor.Lambda.Imaginary).ToString("0.000", Inv)} " +
+                         $"(2cos(π/(N+1))), r = {survivor.Rigidity.ToString("0.000", Inv)} on its (0,1) block, extrapolated exponent " +
+                         $"{survivorP.ToString("0.0e0", Inv)} → the γ-protected survivor."));
         }
+        const int pastFence = 15;
+        var far = SquareRootLawAt(pastFence, EpCharacterWitness.BisectEpQ(pastFence), EpReadDelta);
+        rungs.Add(new InspectableNode($"N={pastFence} (past the SE-block fence): {(far.IsSquareRootEp ? "√-law" : "no √-law")}",
+            summary: $"read through SquareRootLawAt from the bisected Q*: the raw exponent over {EpReadDelta.ToString("0.###", Inv)} → " +
+                     $"{delta2.ToString("0.####", Inv)} misses ½ by {(far.Exponent - 0.5).ToString("0.0e0", Inv)}, more than δ₁ = " +
+                     $"{EpReadDelta.ToString("0.###", Inv)} (the next order grows with N); extrapolated p₀ − ½ = " +
+                     $"{(far.Extrapolated - 0.5).ToString("0.0e0", Inv)} → the square-root law holds with its next order removed."));
+        rungs.Add(TheVerdictControls());
         double ratio = SqrtScalingRatio(4, 0.03);
         return new InspectableNode("the EP verdict (live phase rigidity)",
             summary: "the mode that coalesces at Q*(N) is the {0,2}-coherence (population/antisymmetric block, all " +
-                     "of its weight on n_diff ∈ {0,2}) at ALL N=2..5, a genuine square-root EP (phase rigidity r → 0). " +
+                     "of its weight on n_diff ∈ {0,2}) at ALL N=2..5. What this verdict reads is the square-root law across two " +
+                     "decades; that the pair coalesces into a defective block is EpCharacterWitness's certificate (below). On the SE block its phase " +
+                     "rigidity follows r = k·√(2δ) across two decades, from Q*(1+10⁻²) to Q*(1+10⁻⁴), with k = 1 − O(δ) for " +
+                     "the clean 2×2 at N=2,3 and k below 1 for the dressed pair from N=4. The law's next order is linear in δ " +
+                     "and grows with N, so the verdict extrapolates the coarse and the fine exponent to δ → 0 and asks for ½ " +
+                     "within δ₁ = 10⁻³; that holds at N = 2..8 and past the SE-block fence at N = 15, 16 and 20 (N = 15 live " +
+                     "below), where the raw exponent alone already misses ½ by more than δ₁. The verdict rejects an EP3 " +
+                     "(p₀ → ⅔), a non-normal diabolic point, a non-normal SE mode that does not coalesce (both p₀ ≈ 0), the " +
+                     "band-edge survivor (r = 1) and a true EP2 read from a Q* misplaced by 10⁻⁶ (p₀ − ½ ≈ −2·10⁻³, the width " +
+                     "of the verdict at work; 10⁻⁹ passes); the controls node reads them. On the full " +
+                     "L the coalescer repeats N−1 times, once per (k,k) sector with the same rigidity, and a per-vector value " +
+                     "there depends on the basis the eigensolver picks for the repeated eigenvalue (always at or below the " +
+                     "SE-block value), so the verdict reads the SE block. The band-edge survivor repeats as well, 2N times, once " +
+                     "in each (k,k+1) and (k+1,k) sector on the single-fermion operators, where L acts as the normal matrix " +
+                     "i·h − 2γ; it is read on its (0,1) block, r = 1 and exponent 0. " +
                      "NO sector bifurcation at N=4: the band edge 2cos(π/(N+1)) is the co-located γ-protected SURVIVOR " +
-                     "(r ≈ 1). The two share the floor Re = −2γ at N=2,3 ONLY, where the clean 2×2 forces the " +
+                     "(r = 1). The two share the floor Re = −2γ at N=2,3 ONLY, where the clean 2×2 forces the " +
                      "coalescer's coherence share to exactly ½ (Absorption Theorem: Re λ = −2γ⟨n_diff⟩, so on the floor " +
                      "⟺ w2 = ½); from N=4 the coalescer sits BELOW the floor by 2γ(2w2−1) at every Q ≥ Q*, the gap there is " +
                      "the survivor's alone, and the handover this witness bisects (the clock's takeover, Q_h) sits below the EP by " +
@@ -555,11 +762,49 @@ public sealed class CoherenceHorizonWitness : IInspectable
                      "which climbs the ladder) and a band-edge crossing (the clock survives). √-scaling Im²/(Q−Q*) at " +
                      $"N=4 = {ratio.ToString("0.00", Inv)} (constant ⟹ a clean 2nd-order EP). The closed form of the EP: " +
                      "1 and √2 exactly at N=2,3, transcendental from N=4 (the SE-block discriminant), slope 2/π derived. " +
-                     "Recomputed live via PhaseRigidity (the eig instrument, the F86a-misfire-prone family); supersedes " +
-                     "the earlier narrated 'bifurcation at N=4'. The ARTIFACT-FREE confirmation (Riesz ‖P‖ / departure-" +
+                     "Recomputed live through the eigenvectors of the SE block (the eig instrument, the F86a-misfire-prone " +
+                     "family, here on a block where the eigenvalue is simple). The ARTIFACT-FREE confirmation (Riesz ‖P‖ / departure-" +
                      "from-normality / geo-vs-alg, no eig eigenvector) lives at inspect --root epcharacter " +
                      "(EpCharacterWitness): DEFECTIVE at every N=2..5, dep≈4, geo 1 < alg 2.",
             children: rungs);
+    }
+
+    /// <summary>the verdict's controls, live: the EP3, the non-normal diabolic point and the non-coalescing SE mode
+    /// at N = 4, each read at δ₁·10, δ₁ and δ₁/10 through <see cref="ExponentAcrossDecades"/> and judged by
+    /// <see cref="IsSquareRootLaw"/>; every one has to be rejected.</summary>
+    private static InspectableNode TheVerdictControls()
+    {
+        double d1 = EpReadDelta, d0 = d1 * VerdictDecade, d2 = d1 / VerdictDecade;
+        var ep3 = ExponentAcrossDecades(Ep3ControlRigidity(d0), Ep3ControlRigidity(d1), Ep3ControlRigidity(d2));
+        var dia = ExponentAcrossDecades(DiabolicControlRigidity(d0), DiabolicControlRigidity(d1), DiabolicControlRigidity(d2));
+        var mode = NonNormalSeModeRigidities(4, EpCharacterWitness.BisectEpQ(4), d1);
+        var nn = ExponentAcrossDecades(mode.R0, mode.R1, mode.R2);
+        double q4 = EpCharacterWitness.BisectEpQ(4);
+        var shifted = SquareRootLawAt(4, q4 * (1.0 + MisplacedQStar), d1);
+        var nudged = SquareRootLawAt(4, q4 * (1.0 + 1e-9), d1);
+        string Verdict(double p0) => IsSquareRootLaw(p0, d1) ? "READ AS AN EP (the gate failed)" : "rejected";
+        return new InspectableNode("the verdict's controls (live)",
+            summary: $"EP3 (companion of λ³ = δ): p₀ = {ep3.Extrapolated.ToString("0.0000", Inv)} (→ ⅔) → {Verdict(ep3.Extrapolated)}; " +
+                     $"non-normal diabolic S·diag(δ,−δ)·S⁻¹: r = {DiabolicControlRigidity(d1).ToString("0.000", Inv)} at every δ, " +
+                     $"p₀ = {dia.Extrapolated.ToString("0.0e0", Inv)} → {Verdict(dia.Extrapolated)}; the most non-normal " +
+                     $"non-coalescing SE mode at N = 4 (λ = {FormatComplex(mode.Lambda)}, r = {mode.R1.ToString("0.000", Inv)}): " +
+                     $"p₀ = {nn.Extrapolated.ToString("0.0e0", Inv)} → {Verdict(nn.Extrapolated)}; the band-edge survivor on its " +
+                     "normal (0,1) block reads r = 1 in the rungs above → rejected; the N = 4 coalescer read from a Q* " +
+                     $"misplaced by 10⁻⁶: p₀ − ½ = {(shifted.Extrapolated - 0.5).ToString("0.0e0", Inv)} → {Verdict(shifted.Extrapolated)}, " +
+                     $"by 10⁻⁹: {(nudged.Extrapolated - 0.5).ToString("0.0e0", Inv)} → {(nudged.IsSquareRootEp ? "accepted" : "rejected")}.");
+    }
+
+    /// <summary>The misplaced-Q* control: a genuine EP2 read from Q*(1 + 10⁻⁶) has its rigidity offsets shifted by
+    /// 10⁻⁶, a hundredth of the smallest, and its extrapolated exponent moves by about 2·10⁻³, beyond δ₁; the verdict must
+    /// reject it. This is the control that exercises the verdict's width rather than its sign.</summary>
+    public const double MisplacedQStar = 1e-6;
+
+    private static string FormatComplex(System.Numerics.Complex z)
+    {
+        double im = Math.Abs(z.Imaginary) < 5e-5 ? 0.0 : z.Imaginary;   // below the printed digit: a real eigenvalue
+        return im == 0.0
+            ? z.Real.ToString("0.0000", Inv)
+            : $"{z.Real.ToString("0.0000", Inv)}{(im > 0 ? "+" : "−")}{Math.Abs(im).ToString("0.0000", Inv)}i";
     }
 
     public InspectablePayload Payload => InspectablePayload.Empty;

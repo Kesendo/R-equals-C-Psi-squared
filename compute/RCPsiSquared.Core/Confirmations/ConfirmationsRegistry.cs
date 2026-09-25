@@ -409,18 +409,20 @@ public static class ConfirmationsRegistry
             JobId: "tomography_ibm_torino_20260209_131521 (data-file timestamp; no IBM job_id recorded for the Torino calibration-era runs)",
             Observable: "CΨ(t) = Tr(ρ²)·L₁/(d−1) for |+⟩ under free decoherence; crossing time t* of the CΨ = ¼ boundary",
             PredictedValue:
-                "t*/T₂* = 0.936 (generalized, r = T₂*/T₁ = 0.456); 0.858 in the pure-dephasing limit (x³+x = ½)",
+                "t*/T₂* = 0.950 (generalized, r = T₂*/T₁ = 0.500 from T₂*(FID) = 110.7 μs of this record and T₁ = 221.2 μs); " +
+                "0.858 in the pure-dephasing limit (x³+x = ½)",
             MeasuredValue:
-                "t* = 114.7 μs, t*/T₂* = 1.036 (10.7% above the generalized prediction); CΨ(0) = 0.885, C∞ = 0.740. " +
+                "t* = 114.7 μs, t*/T₂* = 1.036 (9.1% above the generalized prediction on the same T₂*); CΨ(0) = 0.885, C∞ = 0.740. " +
                 "Qubit 52: T1 = 221.2 μs, T2_echo = 298.2 μs, T2*(FID) = 110.7 μs",
             HardwareData: "data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json",
             ExperimentDoc: "experiments/IBM_QUANTUM_TOMOGRAPHY.md",
             FrameworkPrimitive: "F24 closed-form CΨ(t) + the CΨ = ¼ fold (K_fold dose)",
             Description:
                 "The first CΨ = ¼ crossing ever seen on hardware, found in IBM Torino single-qubit calibration tomography " +
-                "(Heron r2, q52, 2026-02-09), predating the systematic April-June 2026 campaign. A QUALITATIVE confirmation that " +
-                "the ¼ fold is real on a physical device, not a precision match: t*/T₂* = 1.036 = 114.7/110.7 sits 11% above the generalized " +
-                "prediction 0.936 because the crossing was extracted from a calibration run, not a purpose-built sweep. No IBM " +
+                "(Heron r1, q52, 2026-02-09), predating the systematic April-June 2026 campaign. A QUALITATIVE confirmation that " +
+                "the ¼ fold is real on a physical device, not a precision match: t*/T₂* = 1.036 = 114.7/110.7 sits 9% above the generalized " +
+                "prediction 0.950 on the same T₂*, and the offset moves with the T₂* fit (9.7% on the all-samples fit, 110.1 μs); the " +
+                "run was a calibration tomography, not a purpose-built sweep. No IBM " +
                 "job_id was recorded for the Torino-era runs; the data-file timestamp is the locator.",
             QubitPath: new[] { 52 }),
 
@@ -431,18 +433,25 @@ public static class ConfirmationsRegistry
             JobId: "tomography_ibm_torino_20260209_131521 (data-file timestamp; analysis 2026-04-04 of the 2026-02-09 q52 run; no IBM job_id recorded)",
             Observable: "Re(λ) / (−2γ⟨n_XY⟩), the excess coherence-decay ratio; effective ⟨n_XY⟩",
             PredictedValue:
-                "ratio = 1 (Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, with ⟨n_XY⟩ = 1 for single-qubit coherence)",
+                "ratio = 1 (Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, with ⟨n_XY⟩ = 1 for single-qubit coherence); at N = 1 γ* is " +
+                "fitted from the same coherence envelope, so the ratio is 1 by construction up to the T1 each side subtracts",
             MeasuredValue:
-                "ratio = 1.03 (3% deviation) on the T2* baseline: excess α = 0.006960 μs⁻¹ vs 2γ* = 0.006771 μs⁻¹, with a 2.8% " +
-                "slow tail at the resolution limit. (The 6.37 figure quoted elsewhere used the wrong T2_echo baseline; the " +
-                "dephasing-relevant T2* baseline gives 1.03.)",
+                "ratio = 1.03 on the T2* baseline: excess α = 0.006960 μs⁻¹ vs 2γ* = 0.006771 μs⁻¹. The 3% is the gap between " +
+                "the two T1 values the sides subtract, 1.03 = [1/110.7 − 1/(2·241.4)] / [1/110.7 − 1/(2·221.2)] (population-fit " +
+                "T1 in the excess, calibration T1 in 2γ*), exactly 1 with one T1 on both sides. A 2.8% slow tail at the resolution " +
+                "limit, whose static late direction has equal X and Y parts, the pattern of a measurement (SPAM) offset " +
+                "(experiments/FIXED_POINT_SHADOW.md). (The " +
+                "6.37 figure quoted elsewhere used the wrong T2_echo baseline.)",
             HardwareData: "data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json",
             ExperimentDoc: "experiments/IBM_ABSORPTION_THEOREM.md",
             FrameworkPrimitive: "Absorption Theorem Re(λ) = −2γ⟨n_XY⟩ (PROOF_ABSORPTION_THEOREM); simulations/ibm_absorption_theorem.py",
             Description:
-                "Retrospective Absorption-Theorem reading of the same 2026-02-09 Torino q52 tomography run (analysis 2026-04-04). " +
-                "The single-qubit coherence decays at the predicted Re(λ) = −2γ floor (⟨n_XY⟩ = 1), ratio 1.03. Predates the " +
-                "systematic registry campaign; shares the Feb-9 q52 data with cpsi_quarter_crossing_torino_feb2026.",
+                "Retrospective Absorption-Theorem reading of the same 2026-02-09 Torino q52 tomography run (analysis 2026-04-04): " +
+                "the consistency of two fits to one decay, not a test of the rate ladder. At N = 1 the coherence excess matches " +
+                "2γ* as it must, since γ* is read off the same envelope (AbsorptionTheoremClaim, PROOF_ABSORPTION_THEOREM §3); " +
+                "the content of the theorem beyond one site, additivity of the site rates, needs N ≥ 2, and no registered ratio " +
+                "with an error bar reads it. Predates the systematic registry campaign; shares the Feb-9 q52 data with " +
+                "cpsi_quarter_crossing_torino_feb2026.",
             QubitPath: new[] { 52 }),
 
         new Confirmation(

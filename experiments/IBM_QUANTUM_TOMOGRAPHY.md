@@ -93,7 +93,7 @@ qubits' model curves pass 1/4 on many calibration days.
 ## Experiment Design
 
 1. **Prepare** |+⟩ = (|0⟩+|1⟩)/√2 using a Hadamard gate
-2. **Wait** for variable delay time t (25 logarithmically spaced points, 0 to 3×T₂)
+2. **Wait** for variable delay time t (25 equally spaced points, one every T₂/8 = 37.28 μs, 0 to 3×T₂)
 3. **Tomograph** full state reconstruction via Qiskit `StateTomography` (X, Y, Z basis, maximum-likelihood estimation, a fitting method that finds the physically valid density matrix most consistent with the measurement data)
 4. **Extract** density matrix ρ(t) at each delay
 5. **Compute** C(t) = Tr(ρ²), Ψ(t) = 2|ρ₀₁|, product C·Ψ
@@ -120,9 +120,9 @@ Bottom-right: result summary.*
 | C·Ψ at t = 0 | 0.885 (ideal: 1.000) |
 | Crossing time t* | 114.7 μs |
 | t*/T₂* (measured) | 1.041 |
-| t*/T₂* (generalized prediction, r = 0.456) | 0.936 |
+| t*/T₂* (generalized prediction, r = T₂*/T₁ = 0.498) | 0.949 |
 | t*/T₂* (pure dephasing prediction) | 0.858 |
-| Deviation from generalized | 11.3% |
+| Deviation from generalized | 9.7% |
 | Asymptotic purity C∞ | 0.740 (ideal: 0.500) |
 
 ### Key Observations
@@ -197,7 +197,7 @@ different r values. Right: crossing points trace the C·Ψ = ¼ hyperbola in C-�
 | r = T₂*/T₁ | Equation | t*/T₂* | Model case |
 |-------------|----------|--------|-----------------|
 | r → 0 | b³ + b = ½ | 0.858 | Pure dephasing (T₁ ≫ T₂) |
-| r = 0.456 | Numerical | 0.936 | IBM Torino qubit 52 |
+| r = 0.498 | Numerical | 0.949 | IBM Torino qubit 52 (T₂* = 110.1 μs) |
 | r = 0.5 | Mixed | 0.950 | T₁ = 2T₂ |
 | r = 1 | 4b³-4b²+4b = 1 | 1.141 | T₁ = T₂ |
 
@@ -226,16 +226,19 @@ t*(r) ≈ 0.858 + 0.012r + 0.375r² − 0.019r³ − 0.084r⁴
 | Tomography overhead | Extra gates for X/Y/Z measurement | Additional decoherence during measurement |
 | Delay quantization | dt rounding to hardware clock | < 0.1%, negligible |
 
-The 11.3% deviation between measured (1.041) and predicted (0.936) crossing times
-is larger than any single error source. Post-run analysis (below) shows that most of
-this deviation is explained by the T₂(echo) vs T₂*(FID) discrepancy and the imperfect
-initial state, not by model failure.
+The 9.7% deviation between measured (1.041) and predicted (0.949) crossing times
+is larger than any single error source, and it moves with the T₂* fit: the fit above
+the |ρ₀₁| = 0.005 noise floor gives T₂* = 110.7 μs, 1.036 against 0.950, 9.1% (the
+registry's convention). Post-run analysis (below) shows that the imperfect initial
+state and effective fitted T₁ and T₂ reproduce the trace, where the calibration inputs
+do not.
 
 ## Post-Run Analysis: Three-Model Correction (2026-02-10)
 
 The raw Run 1 comparison used IBM calibration T₂ = 298 μs to compute r and predict
-the crossing time. This produced an 11.3% deviation. A systematic reanalysis with
-progressively better models reveals where that deviation comes from.
+the crossing time: t*/T₂ = 1.250 against the observed 0.385, a 3.25× mismatch. A
+systematic reanalysis with progressively better models reveals where that mismatch
+comes from.
 
 ### The initial state is not |+⟩
 
@@ -444,4 +447,4 @@ if the queue is slow.
 ---
 
 *Back to [experiments overview](README.md) | Related: [Universal Quantum Lifetime](UNIVERSAL_QUANTUM_LIFETIME.md)*
-*See also: [Q52 Residual Record](FIXED_POINT_SHADOW.md), finite Q52 residual record; universal interpretation closed, Q52 mechanism open*
+*See also: [Fixed Point Shadow](FIXED_POINT_SHADOW.md), the late-time residual of this run: not a boundary effect; a static offset with the pattern of a measurement (SPAM) offset, mechanism open*

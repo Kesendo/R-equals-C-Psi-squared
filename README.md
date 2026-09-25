@@ -350,7 +350,7 @@ We keep our dead ends; the research process matters as much as the results. A se
 |:------|:-------|
 | CΨ = ¼ as an exceptional point | No EP correlation; the EP lives in F86, a different object |
 | E = mγ² (mass-energy analogy) | Not quadratic: α = 2γ⟨n_XY⟩ is linear in γ |
-| IBM cavity fringes | Detuning oscillations (470 μs period), not cavity resonances |
+| IBM cavity fringes | The echo-versus-free-decay baseline mismatch plus a qubit-frame detuning (−5.7 kHz as the alias nearest zero), not cavity resonances |
 | Linear Q_peak(c) growth | Saturates at 1.8 for c ≥ 4, not 2.0 |
 | Receiver advantage shrinks with N | The opposite: grows superlinearly (1.39× → 4.59×, N = 5..13) |
 | Moment-tower "q13 violates pump ≤ Γ" | Cross-epoch artifact: minute-scale T1 telegraphing; in-situ the bound holds |

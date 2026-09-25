@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using RCPsiSquared.Core.ChainSystems;
 using RCPsiSquared.Diagnostics.Foundation;
 using Xunit;
@@ -80,8 +81,12 @@ public class CoherenceHorizonWitnessTests
         var ep = w.EpModes(n);
         // the coalescing gap mode is a genuine EP: rigidity collapses as √(Q−Q*). Read at Q*(1+δ) the 2×2's own law
         // is r = √(2δ)·(1 − O(δ)) at N=2,3, and the dressed pair from N=4 sits below it (SE-block reading, gated in
-        // Coalescer_RigidityObeysTheTwoByTwoLaw); on the full L a filling-degenerate partner can push the
-        // basis-dependent r lower still, never higher. So the bound is the law's value plus its O(δ) term.
+        // Coalescer_RigidityObeysTheTwoByTwoLaw). On the full L the coalescer repeats N−1 times, one copy per (k,k)
+        // sector with the SE block's rigidity, and the eigensolver's basis of the repeated eigenspace mixes the
+        // copies; a mixture of equal-rigidity copies reads at or below that value (Cauchy-Schwarz on the dual
+        // pairing), never above. So the per-vector value is basis-dependent, and the law's value plus its O(δ)
+        // term bounds it from above in every basis.
+        Assert.Equal(n - 1, ep.CoalescerCopies);
         double rLaw = Math.Sqrt(2.0 * CoherenceHorizonWitness.EpReadDelta) * (1.0 + 2.0 * CoherenceHorizonWitness.EpReadDelta);
         Assert.True(ep.Coalescer.Rigidity <= rLaw,
             $"N={n}: coalescer rigidity {ep.Coalescer.Rigidity:F5} exceeds the 2×2 law √(2δ)(1+2δ) = {rLaw:F5}");
@@ -195,6 +200,152 @@ public class CoherenceHorizonWitnessTests
     }
 
     [Fact]
+    public void EpVerdict_ReadsTheSquareRootLawAcrossTwoDecades()
+    {
+        // The verdict's law, on the SE block where the coalescer eigenvalue is simple: r = k·√(2δ)·(1 + aδ + O(δ²))
+        // (no √δ term: the two branches are a conjugate pair and share r), so the exponent between two offsets a decade
+        // apart is p = ½ + a·(δ_a − δ_b)/ln 10 + O(δ²). Read at 10δ₁, δ₁ and δ₁/10, the coarse deviation is ten times the
+        // fine one to that order, and the verdict removes it by extrapolation. Gated here, at every N the SE block is
+        // offered for and at two read offsets a decade apart: the verdict (the extrapolated exponent is ½ within δ₁), and
+        // the law it rests on, twice, the coarse deviation over the fine one and the fine deviation at δ₁ = 10⁻³ over the
+        // one at 10⁻⁴, each 10 up to the law's own next order, O(10·δ₁) relative (the data read 9.94 to 10.02 at δ₁ = 10⁻³
+        // and 9.994 to 10.002 at 10⁻⁴), gated at five times that, 50·δ₁, so the gate shrinks a decade with δ₁ as the law
+        // does (for the ratio across the two δ₁ the larger one sets it).
+        var w = new CoherenceHorizonWitness();
+        for (int n = 2; n <= CoherenceHorizonWitness.SeBlockMaxN; n++)
+        {
+            var at3 = w.SquareRootLaw(n, 1e-3);
+            var at4 = w.SquareRootLaw(n, 1e-4);
+            const double lawWidth = 50.0;
+            Assert.True(at3.IsSquareRootEp, $"N={n}: p₀ − ½ = {at3.Extrapolated - 0.5:E3} at δ₁ = 1e-3 exceeds δ₁");
+            Assert.True(at4.IsSquareRootEp, $"N={n}: p₀ − ½ = {at4.Extrapolated - 0.5:E3} at δ₁ = 1e-4 exceeds δ₁");
+            foreach (var (label, ratio, delta1) in new[]
+                     {
+                         ("coarse over fine at δ₁ = 1e-3", (at3.Coarse - 0.5) / (at3.Exponent - 0.5), 1e-3),
+                         ("coarse over fine at δ₁ = 1e-4", (at4.Coarse - 0.5) / (at4.Exponent - 0.5), 1e-4),
+                         ("fine at 1e-3 over fine at 1e-4", (at3.Exponent - 0.5) / (at4.Exponent - 0.5), 1e-3),
+                     })
+                Assert.True(Math.Abs(ratio / 10.0 - 1.0) <= lawWidth * delta1,
+                    $"N={n}: {label} is {ratio:F4}, not the law's 10 within 50·δ₁ = {lawWidth * delta1}");
+        }
+        // the static reading from a given Q* is the same computation as the instance's: identical, not close
+        foreach (int n in new[] { 2, 5, 8 })
+        {
+            var instance = w.SquareRootLaw(n);
+            var fromQ = CoherenceHorizonWitness.SquareRootLawAt(n, w.EpQ(n), CoherenceHorizonWitness.EpReadDelta);
+            Assert.True(instance == fromQ, $"N={n}: SquareRootLaw {instance} and SquareRootLawAt {fromQ} differ");
+        }
+    }
+
+    /// <summary>Past the SE-block fence the law's next order has grown (a ≈ −2.7 at N = 15), and the raw fine exponent
+    /// misses ½ by more than δ₁ at every δ₁, so a verdict on it alone would call a genuine EP2 "no EP". The extrapolated
+    /// verdict reads ½ there, which is what makes it independent of <see cref="CoherenceHorizonWitness.SeBlockMaxN"/>.</summary>
+    [Theory]
+    [InlineData(15)]
+    [InlineData(16)]
+    [InlineData(20)]
+    public void EpVerdict_HoldsPastTheFence_WhereTheRawExponentMisreads(int n)
+    {
+        double d1 = CoherenceHorizonWitness.EpReadDelta;
+        var law = CoherenceHorizonWitness.SquareRootLawAt(n, EpCharacterWitness.BisectEpQ(n), d1);
+        Assert.True(Math.Abs(law.Exponent - 0.5) > d1,
+            $"N={n}: the raw exponent misses ½ by only {law.Exponent - 0.5:E3}, so this N does not show why the extrapolation is needed");
+        Assert.True(law.IsSquareRootEp, $"N={n}: extrapolated p₀ − ½ = {law.Extrapolated - 0.5:E3} exceeds δ₁");
+        double decade = (law.Coarse - 0.5) / (law.Exponent - 0.5);
+        Assert.True(Math.Abs(decade / 10.0 - 1.0) <= 50.0 * d1, $"N={n}: coarse over fine is {decade:F4}, not the law's 10 within 50·δ₁");
+    }
+
+    [Fact]
+    public void EpVerdict_RejectsTheBandEdgeSurvivor()
+    {
+        // The control the law must reject: the band-edge survivor, read on its own (0,1) block where L = i·h − 2γ is a
+        // normal matrix with simple eigenvalues, keeps r = 1 at all three offsets, so its exponent is 0 and not ½.
+        var w = new CoherenceHorizonWitness();
+        double d1 = CoherenceHorizonWitness.EpReadDelta, decade = CoherenceHorizonWitness.VerdictDecade;
+        for (int n = 2; n <= 5; n++)
+        {
+            var p = CoherenceHorizonWitness.ExponentAcrossDecades(w.BandEdgeSurvivor(n, d1 * decade).Rigidity,
+                w.BandEdgeSurvivor(n, d1).Rigidity, w.BandEdgeSurvivor(n, d1 / decade).Rigidity);
+            Assert.False(CoherenceHorizonWitness.IsSquareRootLaw(p.Extrapolated, d1),
+                $"N={n}: the survivor's extrapolated exponent {p.Extrapolated:E2} was read as the square-root law");
+            Assert.True(Math.Abs(p.Extrapolated) < 0.01, $"N={n}: the survivor's exponent {p.Extrapolated:E2} is not the non-coalescing 0");
+        }
+    }
+
+    /// <summary>The controls a threshold on r alone could misread, each read through the verdict's own three offsets
+    /// and extrapolation. An EP3 (the companion matrix of λ³ = δ) coalesces too, with r ∝ δ^(2/3), so its exponent tends
+    /// to ⅔: the verdict must reject it and read it on the EP3's side of ½. A non-normal diabolic point
+    /// (S·diag(δ, −δ)·S⁻¹, eigenvectors fixed and non-orthogonal) keeps r = 0.6 at every δ; its three readings agree to
+    /// the eigensolver's δ-independent error (the gap and the matrix scale together, so the eigenvectors' error is
+    /// cond(S)·O(eps) at every offset), gated at 10³·eps. And the most non-normal SE mode that does not coalesce, on the
+    /// coalescer's own block at N = 4 and 6, keeps a rigidity well below one that does not move.</summary>
+    [Fact]
+    public void EpVerdict_RejectsAnEp3ADiabolicPointAndANonCoalescingMode()
+    {
+        double d1 = CoherenceHorizonWitness.EpReadDelta, d0 = d1 * CoherenceHorizonWitness.VerdictDecade,
+               d2 = d1 / CoherenceHorizonWitness.VerdictDecade;
+        var ep3 = CoherenceHorizonWitness.ExponentAcrossDecades(CoherenceHorizonWitness.Ep3ControlRigidity(d0),
+            CoherenceHorizonWitness.Ep3ControlRigidity(d1), CoherenceHorizonWitness.Ep3ControlRigidity(d2));
+        Assert.False(CoherenceHorizonWitness.IsSquareRootLaw(ep3.Extrapolated, d1), $"the EP3 read as an EP2 (p₀ = {ep3.Extrapolated:F4})");
+        Assert.True(ep3.Extrapolated - 0.5 > 0.1, $"the EP3 reads p₀ = {ep3.Extrapolated:F4}, not on its ⅔ side of ½");
+
+        var rs = new[] { d0, d1, d2 }.Select(CoherenceHorizonWitness.DiabolicControlRigidity).ToArray();
+        Assert.All(rs, r => Assert.True(Math.Abs(r - 0.6) <= 1e3 * 2.220446049250313e-16, $"the diabolic rigidity {r:R} is not 0.6"));
+        var diabolic = CoherenceHorizonWitness.ExponentAcrossDecades(rs[0], rs[1], rs[2]);
+        Assert.False(CoherenceHorizonWitness.IsSquareRootLaw(diabolic.Extrapolated, d1),
+            $"the diabolic point read as an EP (p₀ = {diabolic.Extrapolated:E2})");
+
+        foreach (int n in new[] { 4, 6 })
+        {
+            var mode = CoherenceHorizonWitness.NonNormalSeModeRigidities(n, EpCharacterWitness.BisectEpQ(n), d1);
+            Assert.All(new[] { mode.R0, mode.R1, mode.R2 }, r => Assert.True(r > 0.2 && r < 0.99,
+                $"N={n}: the followed mode's rigidity {r:F4} left the non-normal, non-coalescing band"));
+            var p = CoherenceHorizonWitness.ExponentAcrossDecades(mode.R0, mode.R1, mode.R2);
+            Assert.False(CoherenceHorizonWitness.IsSquareRootLaw(p.Extrapolated, d1),
+                $"N={n}: the non-coalescing mode read as an EP (p₀ = {p.Extrapolated:E2})");
+            Assert.True(Math.Abs(p.Extrapolated) < 0.01, $"N={n}: the non-coalescing mode's exponent {p.Extrapolated:E2} is not 0");
+        }
+    }
+
+    /// <summary>The control that exercises the verdict's width: a genuine EP2 read from a Q* misplaced by ε. The offsets
+    /// then read Q*(1+ε)(1+δ), so ε = 10⁻⁶ shifts the finest one (10⁻⁴) by a hundredth and moves the extrapolated
+    /// exponent by about 2·10⁻³ (from below: −2.14·10⁻³ at N = 2..8, +2.16·10⁻³ for ε = −10⁻⁶), beyond δ₁, so the verdict
+    /// must reject it; ε = 10⁻⁹ moves it by ~10⁻⁶ and must pass. The other controls sit ≥ 0.16 from ½ and would be rejected
+    /// by any width; this one would not.</summary>
+    [Theory]
+    [InlineData(2)]
+    [InlineData(4)]
+    [InlineData(8)]
+    public void EpVerdict_RejectsAnEp2ReadFromAMisplacedQStar(int n)
+    {
+        var w = new CoherenceHorizonWitness();
+        double d1 = CoherenceHorizonWitness.EpReadDelta, eps = CoherenceHorizonWitness.MisplacedQStar;
+        foreach (double sign in new[] { 1.0, -1.0 })
+        {
+            var shifted = CoherenceHorizonWitness.SquareRootLawAt(n, w.EpQ(n) * (1.0 + sign * eps), d1);
+            Assert.False(shifted.IsSquareRootEp, $"N={n}, ε = {sign * eps:E0}: p₀ − ½ = {shifted.Extrapolated - 0.5:E3} passed the verdict");
+            Assert.True(Math.Abs(shifted.Extrapolated - 0.5) < 3.0 * d1,
+                $"N={n}: the misplaced read moved p₀ by {shifted.Extrapolated - 0.5:E3}, not the ~2e-3 the expansion gives");
+        }
+        var nudged = CoherenceHorizonWitness.SquareRootLawAt(n, w.EpQ(n) * (1.0 + 1e-9), d1);
+        Assert.True(nudged.IsSquareRootEp, $"N={n}: a Q* off by 10⁻⁹ reads p₀ − ½ = {nudged.Extrapolated - 0.5:E3}");
+    }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void FullL_CoalescerRepeatsOncePerSector(int n)
+    {
+        // the coalescer eigenvalue appears once in each (k,k) sector with 1 ≤ k ≤ N−1 (the free-fermion quadratic
+        // operators live in all of them), N−1 copies; the count is read on a plateau: the same at 1e-11, 1e-8 and
+        // 1e-5, between the copies' own spread (6.6e-14 at N = 5) and the next distinct eigenvalue (5e-2 at N = 5)
+        var w = new CoherenceHorizonWitness();
+        var counts = w.CoalescerCopyCounts(n, 1e-11, CoherenceHorizonWitness.CopyTolerance, 1e-5);
+        Assert.All(counts, c => Assert.Equal(n - 1, c));
+    }
+
+    [Fact]
     public void Handover_EqualsTheEpExactlyWhereTheEpIsOnTheFloor()
     {
         var w = new CoherenceHorizonWitness();
@@ -245,10 +396,16 @@ public class CoherenceHorizonWitnessTests
         var w = new CoherenceHorizonWitness();
         var ep = w.EpModes(n);
         double bandIm = 2.0 * System.Math.Cos(System.Math.PI / (n + 1));
-        // the band edge oscillates at 2cos(π/(N+1)) and does NOT coalesce: rigidity stays high
+        // the band edge oscillates at 2cos(π/(N+1)) in the full L's gap band ...
         Assert.Equal(bandIm, System.Math.Abs(ep.BandEdge.Lambda.Imaginary), 2);
-        Assert.True(ep.BandEdgeR > 0.5,
-            $"N={n}: band-edge rigidity {ep.BandEdgeR:F3} should stay near 1 (the survivor)");
+        // ... and does NOT coalesce. Its rigidity is read on its own (0,1) block, where L = i·h − 2γ is normal with
+        // simple eigenvalues: r = 1 up to the rounding of the eigenvector norms and the inverse, a few ulps per
+        // entry, gated at 64·N·eps. The full-L value (ep.BandEdgeR) reads one basis of a 2N-fold eigenvalue and is
+        // not gated.
+        var survivor = w.BandEdgeSurvivor(n);
+        Assert.Equal(bandIm, System.Math.Abs(survivor.Lambda.Imaginary), 12);
+        Assert.True(System.Math.Abs(1.0 - survivor.Rigidity) <= 64.0 * n * 2.220446049250313e-16,
+            $"N={n}: the survivor's rigidity on its normal block is {survivor.Rigidity:R}, not 1");
     }
 
     [Fact]

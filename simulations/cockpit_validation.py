@@ -6,7 +6,8 @@ information on REAL hardware data.
 
 Data sources:
   A. Q52 tomography and a separate simulator fixture with different T1,T2
-  B. Shadow Q80 + Q102 (March 9); only Q80 has a simulator match
+  B. Shadow Q80 + Q102 (March 9); only Q80 has a simulator row, the pre-run
+     synthetic (T1 = 350 us), not the day's calibration
   C. Scope verdict for the readings this producer actually computes
 
 April 2, 2026
@@ -68,6 +69,14 @@ def reconstruct_rho_1q(rho01_re, rho01_im):
 
 def exp_decay(t, a, rate, c):
     return a * np.exp(-rate * t) + c
+
+def quarter_crossing(t_arr, cpsi_arr):
+    """First downward CΨ = 1/4 crossing by linear interpolation, with its sampled bracket."""
+    for i in range(1, len(cpsi_arr)):
+        if cpsi_arr[i-1] >= 0.25 and cpsi_arr[i] < 0.25:
+            frac = (0.25 - cpsi_arr[i]) / (cpsi_arr[i-1] - cpsi_arr[i] + 1e-30)
+            return t_arr[i] * (1 - frac) + t_arr[i-1] * frac, (t_arr[i-1], t_arr[i])
+    return None, None
 
 
 def q52_crossing_comparison_lines(hardware, simulator):
@@ -197,6 +206,15 @@ if np.sum(common_mask) > 3:
     out(f"    Max |residual| = {np.max(np.abs(residuals)):.4f}")
     out(f"    Relative RMSE = {rmse/mean_cpsi*100:.1f}%")
 
+# Bures step distance against CΨ on the Q52 record (descriptive)
+hw_dB = np.array([d['bures'] for d in hw_data[1:]])
+hw_cpsi_steps = np.array([d['cpsi'] for d in hw_data[1:]])
+r_bures_cpsi = float(np.corrcoef(hw_dB, hw_cpsi_steps)[0, 1])
+out(f"\n  Q52 Bures step distance vs CΨ over the {len(hw_dB)} sampled steps (descriptive):")
+out(f"    r = {r_bures_cpsi:.3f}. On a uniform grid this is also v_B vs CΨ. Under a decaying")
+out("    coherence both follow |rho01|, so a high r is close to forced: it tests the decay")
+out("    model, not the independence of the two instruments.")
+
 
 # ================================================================
 # PART B: SHADOW DATA -- Q80 + Q102
@@ -258,14 +276,7 @@ for qr in shadow_hw['qubit_results']:
     t_arr = np.array(t_arr)
 
     # Crossing
-    t_cross = None
-    crossing_bracket = None
-    for i in range(1, len(cpsi_arr)):
-        if cpsi_arr[i-1] >= 0.25 and cpsi_arr[i] < 0.25:
-            frac = (0.25 - cpsi_arr[i]) / (cpsi_arr[i-1] - cpsi_arr[i] + 1e-30)
-            t_cross = t_arr[i] * (1 - frac) + t_arr[i-1] * frac
-            crossing_bracket = (t_arr[i-1], t_arr[i])
-            break
+    t_cross, crossing_bracket = quarter_crossing(t_arr, cpsi_arr)
 
     if t_cross:
         out(
@@ -292,6 +303,9 @@ for qr in shadow_hw['qubit_results']:
 
 # --- Shadow simulator availability ---
 out(f"\n  SHADOW SIMULATOR MATCH CHECK")
+run3 = load_json('data/ibm_run3_march2026/palindrome_ibm_torino_20260318_191348.json')
+run3_date = f"{run3['timestamp'][:4]}-{run3['timestamp'][4:6]}-{run3['timestamp'][6:8]}"
+q80_below = None
 
 for qr_hw in shadow_hw['qubit_results']:
     qid = qr_hw['qubit']
@@ -307,6 +321,10 @@ for qr_hw in shadow_hw['qubit_results']:
         continue
 
     out(f"\n  Q{qid}: Hardware vs Simulation")
+    out(f"  Simulator row: the pre-run synthetic ({shadow_sim['experiment']}, seed {shadow_sim['seed']}) "
+        f"at T1={qr_sim['verdict']['T1_us']:.0f} us, T2={qr_sim['verdict']['T2_us']:.0f} us;")
+    out(f"  the day's calibration was T1={qr_hw['verdict']['T1_us']:.1f} us, "
+        f"T2_echo={qr_hw['verdict']['T2_us']:.2f} us, so this is no calibration-matched control.")
     out(f"  {'t/T2*':>6} | {'CPsi_hw':>8} {'CPsi_sim':>8} {'diff':>7} | "
         f"{'|r01|_hw':>8} {'|r01|_sim':>8} {'diff':>7}")
     out(f"  {'-'*65}")
@@ -324,6 +342,24 @@ for qr_hw in shadow_hw['qubit_results']:
     out(f"  Mean |CPsi diff| = {np.mean(cpsi_diffs):.4f}")
     out(f"  Mean |rho01 diff| = {np.mean(r01_diffs):.4f}")
 
+    n_below = sum(1 for a, b in zip(qr_hw['points'], qr_sim['points']) if a['cpsi'] < b['cpsi'])
+    first_hw, first_sim = qr_hw['points'][0]['cpsi'], qr_sim['points'][0]['cpsi']
+    out(f"  Hardware below simulator at {n_below}/{len(cpsi_diffs)} points; at t = 0 the gap is already "
+        f"{first_hw - first_sim:+.4f}")
+    out(f"  ({first_hw:.4f} against {first_sim:.4f}), before any evolution, so part of it is preparation and readout.")
+    hw_tc, _ = quarter_crossing(np.array([p['delay_us'] for p in qr_hw['points']]),
+                                np.array([p['cpsi'] for p in qr_hw['points']]))
+    sim_tc, _ = quarter_crossing(np.array([p['delay_us'] for p in qr_sim['points']]),
+                                 np.array([p['cpsi'] for p in qr_sim['points']]))
+    if hw_tc and sim_tc:
+        out(f"  Both columns cross 1/4 (hardware {hw_tc:.1f} us, simulator {sim_tc:.1f} us on its own delays); with the")
+        out("  simulator's T1 not the day's, the pair is no model-vs-hardware crossing test.")
+    if qid == 80:
+        q80_below = (n_below, len(cpsi_diffs))
+        out(f"  Q80 was measured again on {run3_date}: "
+            f"crossing at {run3['measured_crossing_us']:.2f} us, a separate run")
+        out("  (experiments/IBM_RUN3_PALINDROME.md, compared there with a same-day Ramsey T2*).")
+
 
 # ================================================================
 # SCOPE OF THE AVAILABLE READINGS
@@ -337,7 +373,7 @@ out(f"""
   Q52 v_B values are backward finite-step speeds over [t_(i-1),t_i] in 1/us; the first sample is N/A.
   Shadow v_B values use reconstructed populations=1/2 and the same backward interval convention; each first sample is N/A.
   Finite exponential fits are reported separately for Q80 and Q102; no cross-qubit rate consistency is inferred.
-  Only Q80 has a matched shadow simulator record; Q102 explicitly does not.
+  Only Q80 has a shadow simulator row, the pre-run synthetic rather than a calibration match; Q102 has none.
   This producer computes no 5Q, MI, concurrence, curvature, or Petermann value.
   External Petermann interpretation boundary (not evidence from this run):
   The old K_P ~ 1 pure-dephasing null is refuted.
@@ -362,11 +398,26 @@ if np.sum(late_mask) > 3:
         "    These finite samples establish neither a nonzero asymptote nor "
         "a Q52 mechanism."
     )
+    null_mask = hw_times / hw['T2_us'] >= 1.25
+    out(f"    Over the {int(np.sum(null_mask))} samples at t/T2_echo >= 1.25 the mean is "
+        f"{np.mean(hw_r01_arr[null_mask]):.5f}: the statistic that")
+    out("    experiments/RESIDUAL_ANALYSIS.md finds 9.5 sigma above its shot-noise null. Its direction")
+    out("    is a static offset with the pattern of a measurement (SPAM) offset, mechanism open")
+    out("    (experiments/FIXED_POINT_SHADOW.md).")
 
 
 # ================================================================
 # VERDICT
 # ================================================================
+q80_hw_t1 = next(q for q in shadow_hw['qubit_results'] if q['qubit'] == 80)['verdict']['T1_us']
+q80_sim_t1 = next(q for q in shadow_sim['qubit_results'] if q['qubit'] == 80)['verdict']['T1_us']
+q80_gap_line = (
+    f"  - Q80 hardware sits below that simulator at {q80_below[0]}/{q80_below[1]} points, already at t = 0, "
+    "so part of the gap\n"
+    f"    is preparation and readout; the qubit's crossing was measured again on {run3_date} (IBM Run 3)."
+    if q80_below is not None
+    else "  - No Q80 hardware-simulator comparison was available in these records."
+)
 out(f"\n{'=' * 70}")
 out("VERDICT: WHAT DOES THIS DATASET TEST?")
 out("=" * 70)
@@ -377,7 +428,9 @@ out(f"""
   - Q52 supplies a qualitative crossing record, but it is not a precision prediction match.
   - This producer does not recompute a same-record Q52 prediction.
   - The separate simulator fixture and cross-fixture residuals are not a Q52 prediction test.
-  - Q80 is the only shadow record with a matched simulator; Q102 has none here.
+  - Q80 is the only shadow record with a simulator row, the pre-run synthetic (T1 = {q80_sim_t1:.0f} us against
+    the day's {q80_hw_t1:.1f} us); Q102 has none here.
+{q80_gap_line}
 
   THE CURRENT DATASET LEAVES THE COCKPIT INCOMPLETELY TESTED.
 """)

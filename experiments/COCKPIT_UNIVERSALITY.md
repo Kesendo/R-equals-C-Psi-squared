@@ -259,7 +259,7 @@ single-qubit tomography (Q52, 25 points), shadow measurements
 
 **Key findings:**
 
-- Q52 (good qubit, calibration-era run): Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The legacy 115.0-versus-114.7 comparison
+- Q52 (good qubit, calibration-era run): Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 9.1% above the generalized prediction 0.950 on the same T₂* = 110.7 μs. The legacy 115.0-versus-114.7 comparison
   recomputed the same hardware record; it was not an independent prediction.
 - Internal consistency: Ψ-norm vs off-diagonal magnitude r = 1.000, which
   is the identity Ψ = 2|ρ01| at d = 2 rather than a check; Bures velocity
@@ -325,10 +325,11 @@ a cause nor establishes θ as an optimal hardware objective.
    been validated as a hardware diagnostic.
 
 2. **Markovian simulation only.** The simulations here use memoryless
-   dephasing. Detuning is the preferred explanation for the phase component,
-   but the Q52 late-time excess mechanism remains unresolved absent a
-   Q52-specific fit/control. Only the universal-boundary/non-Markovian-witness
-   interpretation is closed; colored-noise and memory-kernel tests remain open.
+   dephasing. The hardware residuals seen so far need no memory: Q102's phase
+   turns at its own detuning, and Q52's late component is a static offset with
+   the pattern of a measurement (SPAM) offset, its mechanism open until a |+⟩/|−⟩
+   control and a readout-assignment measurement ([Fixed Point Shadow](FIXED_POINT_SHADOW.md)).
+   Colored-noise and memory-kernel tests of the dashboard itself remain open.
 
 3. **N=5 is the largest system tested.** The four rows do not establish
    n95 ~ N because the focus changes at N=5. Scaling beyond this finite,

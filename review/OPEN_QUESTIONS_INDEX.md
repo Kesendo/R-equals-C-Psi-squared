@@ -2435,7 +2435,7 @@ neural justifications without classifying unrelated entries.
 **Tag:** hardware-test
 **Status:** resolved — qualitative crossing record, not a precision validation
 
-Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The old 115.0-versus-114.7 comparison reused the same interpolated hardware record and was not an independent prediction.
+Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 9.1% above the generalized prediction 0.950 on the same T₂* = 110.7 μs. The old 115.0-versus-114.7 comparison reused the same interpolated hardware record and was not an independent prediction.
 
 ### OQ-028
 
@@ -2469,15 +2469,15 @@ Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7
 
 ### OQ-033
 
-**Question:** Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control. Which Q52-specific control and independently diagnosed hardware-memory effects remain to test?
+**Question:** Q52's late component is a static offset whose equal ⟨X⟩ and ⟨Y⟩ parts are the pattern of a measurement (SPAM) offset, which a readout asymmetry and a basis-pulse leak of ⟨Z⟩ both leave and the record does not rank; nothing in the record ties it to the ¼ crossing. Does a |+⟩/|−⟩ preparation control (a preparation-independent offset keeps its sign, a prepared coherence flips) together with a measured readout-assignment matrix and |0⟩ and |1⟩ read in X and Y (a readout asymmetry keeps its sign, a leak flips) identify it, and does readout-mitigated tomography remove the excess?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 131)
 **Section:** Active weaknesses
 **Date:** unknown
 **Tag:** hardware-test
-**Status:** interpretation closed; Q52 late-time excess mechanism open
+**Status:** boundary reading closed as proposed; Q52 late-component mechanism open (a measurement offset leading, its form unranked)
 
-The current record identifies no mechanism: only the universal-boundary/non-Markovian-witness interpretation is closed.
+The record points to a measurement (SPAM) offset (a static late phase, equal ⟨X⟩ and ⟨Y⟩ offsets, and the same tail read as a readout offset in `experiments/IBM_ABSORPTION_THEOREM.md` §4) without certifying it or picking its form: a readout asymmetry and a basis-pulse leak of ⟨Z⟩ fit the late readings about equally, each with one first-sample tension. The March records on Q80 and Q102 closed their window before a residual of this size could show. See `experiments/FIXED_POINT_SHADOW.md`.
 
 ### OQ-049
 
@@ -2532,7 +2532,7 @@ The current record identifies no mechanism: only the universal-boundary/non-Mark
 
 ### OQ-098
 
-**Question:** **Markovian noise only.** The simulations assume memoryless dephasing. Real hardware can carry colored noise and two-level-system defects. Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control; only the universal-boundary/non-Markovian-witness interpretation is closed. Which independently diagnosed memory model changes the finite dashboard remains open.
+**Question:** **Markovian noise only.** The simulations assume memoryless dephasing. Real hardware can carry colored noise and two-level-system defects. The hardware residuals seen so far need no memory: Q102's phase turns at its own detuning, and Q52's late component is a static offset with the pattern of a measurement (SPAM) offset, its mechanism open until a |+⟩/|−⟩ control and a readout-assignment measurement. Which independently diagnosed memory model changes the finite dashboard remains open.
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 316)
 **Section:** 5. Limitations and caveats

@@ -35,7 +35,7 @@ by discovering that the T2* value had drifted 58% in 6 days, a known effect in
 superconducting qubits (TLS/flux noise). Same-day calibration is essential.
 
 This is the first measurement of the CΨ = 1/4 boundary with a same-day Ramsey
-T2*; the [February run on q52](IBM_QUANTUM_TOMOGRAPHY.md) had come out 10.7%
+T2*; the [February run on q52](IBM_QUANTUM_TOMOGRAPHY.md) had come out 9.1%
 above its prediction (registry entry `cpsi_quarter_crossing_torino_feb2026`).
 
 ---
@@ -223,7 +223,7 @@ depends on the free decoherence rate.
 
 | Run | Date | Qubit | T2* used | t* predicted | t* measured | Deviation |
 |-----|------|-------|----------|-------------|------------|-----------|
-| 1 | Feb 9 | Q52 | 110 μs (fit) | - | - | 11% (T2* estimated) |
+| 1 | Feb 9 | Q52 | 110.7 μs (fit) | - | 114.7 μs | 9.1% (the same fitted T2* on both sides) |
 | 2 | Mar 9+12 | Q80,102 | - | - | - | Ramsey + shadow only |
 | 3 | **Mar 18** | **Q80** | **17.4 μs** | **15.01 μs** | **15.29 μs** | **1.9%** |
 
@@ -263,8 +263,9 @@ each a registered confirmation:
   `concentrator_site_contrast_kingston_july2026`).
 
 What this run shares with them is the rate. A single qubit's coherence decays
-at the floor the Absorption Theorem sets, Re(λ) = −2γ⟨n_XY⟩ with ⟨n_XY⟩ = 1,
-read on the February q52 data at ratio 1.03
+at the floor the Absorption Theorem sets, Re(λ) = −2γ⟨n_XY⟩ with ⟨n_XY⟩ = 1;
+on the February q52 data the two fits of that one decay agree at ratio 1.03,
+the consistency a single qubit can give
 ([Absorption Theorem on IBM Hardware](IBM_ABSORPTION_THEOREM.md)). And the T2*
 drift measured here, 58% in six days, is the kind of γ variation that
 [γ as Signal](GAMMA_AS_SIGNAL.md) studies as a signal (its Test 2,

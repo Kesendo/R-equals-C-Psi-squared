@@ -71,9 +71,9 @@ protocol in the repository has closed those gates, so the question remains open.
 **Proposed Status:** resolved
 **Confidence:** high
 **Resolving documents:**
-- `simulations/framework/confirmations.py` (`cpsi_quarter_crossing_torino_feb2026`): registry authority reports measured 114.7 μs and t*/T₂* = 1.036 versus 0.936 (10.7% above); qualitative, not a precision match
-- `experiments/IBM_QUANTUM_TOMOGRAPHY.md` (§ `The ¼ Crossing`): same finite Q52 record, with its separate 1.041 / 11.3% document convention
-**Rationale:** Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The old 115.0-versus-114.7 comparison reused the same interpolated hardware record and was not an independent prediction.
+- `simulations/framework/confirmations.py` (`cpsi_quarter_crossing_torino_feb2026`): registry authority reports measured 114.7 μs and t*/T₂* = 1.036 versus 0.950 on the same T₂* (9.1% above); qualitative, not a precision match
+- `experiments/IBM_QUANTUM_TOMOGRAPHY.md` (§ `The ¼ Crossing`): same finite Q52 record; its all-samples T₂* fit (110.1 μs) gives 1.041 against 0.949, 9.7%
+**Rationale:** Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 9.1% above the generalized prediction 0.950 on the same T₂* = 110.7 μs. The old 115.0-versus-114.7 comparison reused the same interpolated hardware record and was not an independent prediction.
 **Search terms used:** "IBM Torino", "Q52", "qualitative crossing", "tomography"
 
 ---
@@ -129,17 +129,17 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-033
 
-**Question:** Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control. Which Q52-specific control and independently diagnosed hardware-memory effects remain to test?
+**Question:** Q52's late component is a static offset whose equal ⟨X⟩ and ⟨Y⟩ parts are the pattern of a measurement (SPAM) offset, which a readout asymmetry and a basis-pulse leak of ⟨Z⟩ both leave and the record does not rank; nothing in the record ties it to the ¼ crossing. Does a |+⟩/|−⟩ preparation control (a preparation-independent offset keeps its sign, a prepared coherence flips) together with a measured readout-assignment matrix and |0⟩ and |1⟩ read in X and Y (a readout asymmetry keeps its sign, a leak flips) identify it, and does readout-mitigated tomography remove the excess?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 131)
 **Section:** Active weaknesses
 **Date:** unknown
 
-**Proposed Status:** open (Q52 late-time excess mechanism; witness interpretation closed)
+**Proposed Status:** open (Q52 late-component mechanism; a measurement offset leading, its form unranked; boundary reading closed as proposed)
 **Confidence:** high
 **Resolving documents:** none
-**Related evidence:** `experiments/FIXED_POINT_SHADOW.md` supplies only the Q80/Q102 cross-qubit comparison and rejection of universality; it does not close the Q52 mechanism.
-**Rationale:** The present record closes no Q52-specific excess mechanism: only the universal-boundary/non-Markovian-witness interpretation is closed. Detuning remains a hypothesis to test against a Q52-specific fit/control.
+**Related evidence:** `experiments/FIXED_POINT_SHADOW.md` closes the boundary reading as proposed on Q52's own record (the coherence turned straight through the crossing, and the late direction lies 4.4 standard errors from the fixed point's; the late phase is static with equal ⟨X⟩ and ⟨Y⟩ offsets) and reads the March records as each qubit's detuning (Q102 in magnitude as the Ramsey fits in `data/ibm_run3_march2026/` read it, the March 12 fit also in `experiments/QUANTUM_SONAR.md`; Q80 within what its fits resolve), taken with a late window that closed before a residual of Q52's size could show; `experiments/IBM_ABSORPTION_THEOREM.md` §4 reads the same tail as a readout offset.
+**Rationale:** A detuning cannot be the Q52 late component: its phase does not rotate, and a detuning leaves |ρ₀₁| unchanged. A measurement offset leads without being certified, and the record does not rank its two simple forms (a readout asymmetry, against which the t = 0 sample's ⟨Y⟩ stands, and a basis-pulse leak of ⟨Z⟩); the |+⟩/|−⟩ control narrows the mechanism to one of two families (a preparation-independent offset or a prepared coherence), and a readout-assignment measurement with |0⟩ and |1⟩ read in X and Y separates the readout part from the leak.
 **Search terms used:** "late-time coherence", "Q52", "detuning hypothesis"
 
 ---
@@ -226,7 +226,7 @@ protocol in the repository has closed those gates, so the question remains open.
 
 ### OQ-098
 
-**Question:** **Markovian noise only.** The simulations assume memoryless dephasing. Real hardware can carry colored noise and two-level-system defects. Detuning is the preferred explanation for the phase component, but the Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control; only the universal-boundary/non-Markovian-witness interpretation is closed. Which independently diagnosed memory model changes the finite dashboard?
+**Question:** **Markovian noise only.** The simulations assume memoryless dephasing. Real hardware can carry colored noise and two-level-system defects. The hardware residuals seen so far need no memory: Q102's phase turns at its own detuning, and Q52's late component is a static offset with the pattern of a measurement (SPAM) offset, its mechanism open until a |+⟩/|−⟩ control and a readout-assignment measurement. Which independently diagnosed memory model changes the finite dashboard?
 
 **Source:** `experiments/COCKPIT_UNIVERSALITY.md` (line 316)
 **Section:** 5. Limitations and caveats

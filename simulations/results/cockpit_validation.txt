@@ -40,6 +40,11 @@ PART A: Q52 TOMOGRAPHY AND A SEPARATE SIMULATOR FIXTURE
     Max |residual| = 0.2038
     Relative RMSE = 56.9%
 
+  Q52 Bures step distance vs CΨ over the 24 sampled steps (descriptive):
+    r = 0.954. On a uniform grid this is also v_B vs CΨ. Under a decaying
+    coherence both follow |rho01|, so a high r is close to forced: it tests the decay
+    model, not the independence of the two instruments.
+
 ======================================================================
 PART B: SHADOW DATA -- Q80 + Q102 (March 9, 2026)
 ======================================================================
@@ -84,6 +89,8 @@ PART B: SHADOW DATA -- Q80 + Q102 (March 9, 2026)
   Q102: No simulator match found
 
   Q80: Hardware vs Simulation
+  Simulator row: the pre-run synthetic (shadow_hunt_synthetic, seed 42) at T1=350 us, T2=28 us;
+  the day's calibration was T1=158.9 us, T2_echo=27.06 us, so this is no calibration-matched control.
    t/T2* |  CPsi_hw CPsi_sim    diff | |r01|_hw |r01|_sim    diff
   -----------------------------------------------------------------
     0.00 |   0.8175   0.8639 -0.0463 |   0.4503   0.4641 -0.0138
@@ -98,6 +105,12 @@ PART B: SHADOW DATA -- Q80 + Q102 (March 9, 2026)
     5.00 |   0.0435   0.0713 -0.0277 |   0.0395   0.0684 -0.0289
   Mean |CPsi diff| = 0.0338
   Mean |rho01 diff| = 0.0252
+  Hardware below simulator at 10/10 points; at t = 0 the gap is already -0.0463
+  (0.8175 against 0.8639), before any evolution, so part of it is preparation and readout.
+  Both columns cross 1/4 (hardware 18.5 us, simulator 23.9 us on its own delays); with the
+  simulator's T1 not the day's, the pair is no model-vs-hardware crossing test.
+  Q80 was measured again on 2026-03-18: crossing at 15.29 us, a separate run
+  (experiments/IBM_RUN3_PALINDROME.md, compared there with a same-day Ramsey T2*).
 
 ======================================================================
 SCOPE OF THE AVAILABLE READINGS
@@ -107,7 +120,7 @@ SCOPE OF THE AVAILABLE READINGS
   Q52 v_B values are backward finite-step speeds over [t_(i-1),t_i] in 1/us; the first sample is N/A.
   Shadow v_B values use reconstructed populations=1/2 and the same backward interval convention; each first sample is N/A.
   Finite exponential fits are reported separately for Q80 and Q102; no cross-qubit rate consistency is inferred.
-  Only Q80 has a matched shadow simulator record; Q102 explicitly does not.
+  Only Q80 has a shadow simulator row, the pre-run synthetic rather than a calibration match; Q102 has none.
   This producer computes no 5Q, MI, concurrence, curvature, or Petermann value.
   External Petermann interpretation boundary (not evidence from this run):
   The old K_P ~ 1 pure-dephasing null is refuted.
@@ -120,6 +133,10 @@ FINITE Q52 LATE-TIME RECORD
   Late-time coherence samples (t > 300 us):
     Measured mean |rho01| = 0.01828
     These finite samples establish neither a nonzero asymptote nor a Q52 mechanism.
+    Over the 15 samples at t/T2_echo >= 1.25 the mean is 0.01852: the statistic that
+    experiments/RESIDUAL_ANALYSIS.md finds 9.5 sigma above its shot-noise null. Its direction
+    is a static offset with the pattern of a measurement (SPAM) offset, mechanism open
+    (experiments/FIXED_POINT_SHADOW.md).
 
 ======================================================================
 VERDICT: WHAT DOES THIS DATASET TEST?
@@ -130,7 +147,10 @@ VERDICT: WHAT DOES THIS DATASET TEST?
   - Q52 supplies a qualitative crossing record, but it is not a precision prediction match.
   - This producer does not recompute a same-record Q52 prediction.
   - The separate simulator fixture and cross-fixture residuals are not a Q52 prediction test.
-  - Q80 is the only shadow record with a matched simulator; Q102 has none here.
+  - Q80 is the only shadow record with a simulator row, the pre-run synthetic (T1 = 350 us against
+    the day's 158.9 us); Q102 has none here.
+  - Q80 hardware sits below that simulator at 10/10 points, already at t = 0, so part of the gap
+    is preparation and readout; the qubit's crossing was measured again on 2026-03-18 (IBM Run 3).
 
   THE CURRENT DATASET LEAVES THE COCKPIT INCOMPLETELY TESTED.
 

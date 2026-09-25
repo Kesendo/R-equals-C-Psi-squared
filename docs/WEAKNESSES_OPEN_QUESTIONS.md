@@ -120,7 +120,7 @@ from the mathematics.
 ### 3. Experimental validation is incomplete
 
 **What we have:**
-- On IBM Torino, Q52 crossed qualitatively but 10.7% later than its T2*
+- On IBM Torino, Q52 crossed qualitatively but 9.1% later than its T2*
   prediction; the separate Q80 crossing agreed to 1.9%
 - 24,073 historical calibration records provide a mathematical
   consistency check for C_min(r), not an independent validation
@@ -209,7 +209,7 @@ These were once on the active list. They have since been answered.
 | Spectral boundaries | Scoped result: for the uniform-Z Heisenberg chain above Q*_gap(N), the generic band has min 2γ and max 2(N−1)γ; the kernel and XOR drain lie outside it. The identity Re(λ) = −2γ⟨n_XY⟩ is broader than those edge formulas. See [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 | Why factor 2 | Resolved within the F8 scope: for local Z-dephasing instances with Σγ > 0 satisfying the F1 palindromizer hypotheses whose spectrum reaches both endpoints, it is the ratio of the full range (0 to 2Σγ) to the centre (Σγ), not a ratio between two sets of modes. See [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md) §4.4 and [Standing Waves](../experiments/FACTOR_TWO_STANDING_WAVES.md) Result 3 |
 | Spectral gap | Resolved above Q*_gap(N): 2γ = one absorption quantum, the cost of a single X/Y Pauli factor. Below the threshold the gap is Zeno-suppressed and the theorem supplies no lower bound; see [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md) §4.3 |
-| IBM hardware | Resolved: Absorption Theorem ratio = 1.03 (3%) on Q52. Detuning oscillations at 470 μs, not cavity fringes. See [IBM Fringes + Absorption](../experiments/IBM_ABSORPTION_THEOREM.md) |
+| IBM hardware | Resolved as far as one qubit reaches: on Q52 the Absorption Theorem ratio is 1.03, the consistency of two fits to one decay (the rate ladder needs N ≥ 2). The apparent fringes are the echo-versus-free-decay baseline mismatch plus a qubit-frame detuning (−5.7 kHz as the alias nearest zero), not cavity resonances. See [IBM Fringes + Absorption](../experiments/IBM_ABSORPTION_THEOREM.md) |
 
 ---
 
@@ -268,8 +268,11 @@ site-weighted sum instead. Its linearity in the rates follows from the
 dissipator; it is not a mass-energy relation.
 See [Absorption Theorem Discovery](../experiments/ABSORPTION_THEOREM_DISCOVERY.md).
 
-On IBM hardware (Q52 tomography): the Absorption Theorem ratio is 1.03
-(3%). Detuning oscillations at 470 μs period are present. See
+On IBM hardware (Q52 tomography): the Absorption Theorem ratio is 1.03,
+the consistency of two fits to one decay (at N = 1 the dephasing rate is
+read off the same envelope); the rate ladder itself needs N ≥ 2. The early
+coherence rotates at a qubit-frame detuning (−5.7 kHz as the alias nearest zero), and the late tail
+stands still. See
 [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md).
 
 ### Require new tools or theory
@@ -320,7 +323,7 @@ philosophical. We try never to confuse these categories.
 |---|---|
 | **Proven** (algebra + proof) | ¼ boundary, Mandelbrot equivalence, palindromic symmetry (Π operator), topology-independence, Pauli weight complementarity, Frobenius orthogonality of oscillation and cooling blocks at N=2 and its exact loss for N>2 under uniform local Z-dephasing and a nonzero shadow-balanced bond Hamiltonian, uniform-rate Absorption Theorem Re(λ) = −2γ⟨n_XY⟩ (site-weighted form for profiles) |
 | **Verified** (simulation, reproducible) | 87,376 eigenvalues paired, QST star 2:1 beats chains, XOR space filter, ε→0 sacrifice-zone gains 68-360× versus the corresponding V-shape baselines on the stated peak-created-Sum-MI metric, cockpit first-3-PC coverage 91.9-99.0% over 8-9 standardized features in eight `center_bell` configurations for N=5-11 |
-| **Hardware-confirmed** | CΨ crossings: Q52 qualitative (10.7% timing offset), Q80 within 1.9%; selective-DD and sacrifice-zone contrasts on IBM devices; T2* drift 58% in 6 days |
+| **Hardware-confirmed** | CΨ crossings: Q52 qualitative (9.1% timing offset), Q80 within 1.9%; selective-DD and sacrifice-zone contrasts on IBM devices; T2* drift 58% in 6 days |
 | **Argued** (plausible, not proven) | Measurement = crossing ¼, Mandelbrot boundary as route catalog |
 | **Unverified** (could not reproduce) | t_coh ~ N scaling |
 | **Refuted** | 33:1 coherence ratio |

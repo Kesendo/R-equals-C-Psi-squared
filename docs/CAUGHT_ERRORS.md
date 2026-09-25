@@ -3999,3 +3999,58 @@ two tuned even–even bonds give a blind ray with odd entries that the odd-site 
 special point is where checks usually run. State the set where it is read, let the gate compute the set
 rather than confirm the members the text lists, and when a body names a mechanism, check that the
 heading and the summaries repeat it rather than a neighbouring one.
+
+## 2026-09-25, the Q52 late direction was read as detuning, its repair put detuning on the wrong half, and each reading after it named more than the record held
+
+**What happened.** In March the shadow page concluded that the fixed direction of Q52's late residual (17 of 17 samples
+at t/T₂(echo) ≥ 1 in the fourth quadrant) was the qubit's own detuning, "frozen into the late-time phase", and on
+2026-09-06 this ledger recorded that the follow-up "had resolved it as qubit-specific frequency detuning" and the open
+item was deleted. A detuning does not freeze a phase. Q52's record holds two components: the first five samples turn by
+−76° per 37.28 μs step (−5.7 kHz as the representative nearest zero, irregular from step to step), and from
+t = T₂(echo) on the phase stands still (−0.040°/μs, p = 0.18); a static Z detuning also leaves |ρ₀₁| unchanged, so it
+cannot close the magnitude excess. The outside pass of 2026-09-22 (ed7f8a7f) reopened the mechanism, rightly, and wrote
+in its place "Detuning is the preferred explanation for the phase component", which fits neither half: for Q52's late
+direction the record contradicts it, and for the March qubits it says less than the data (Q102's ten phases lie on one
+steady rotation at −25.7 kHz, and the retained Ramsey fits put Q102 at 19.4 ± 1.3 kHz on March 12 and 26.3 ± 0.5 kHz on
+March 18, while Q80's resolve no offset). The sentence spread to fourteen lines in nine files. Three more readings,
+each a draft of the repair, overshot in the same way. The March page and the first repair draft credited the March run
+with answering the question written before it, whether the shadow belongs to qubit 52 or to the ¼ boundary; it could
+not, because its late window was timed on T₂(echo), which on Q80 and Q102 is 1.1 to 1.2 of their own decay time (2.7 on
+Q52), so its last samples still held 9% of the prepared coherence, 2.1 and 2.4 times Q52's residual. The second draft
+moved the answer to Q52's own record but rested it on the one observation that dates nothing, that the static direction
+appears only once the coherence has decayed, which any static component of that size would do. And it named readout
+"the leading candidate" on equal ⟨X⟩ and ⟨Y⟩ offsets, a pattern an amplitude error in the basis-change pulse leaves as
+well, by leaking ⟨Z⟩ into both readings. Beside these sat IBM_ABSORPTION_THEOREM's "detuning oscillations at 470 μs",
+one line through the rotating early and the static late samples; the registered crossing prediction 0.936, made with
+r = 0.456, which needs T₂* = 100.9 μs, against a measured 1.036 on 110.7 μs (one T₂* gives 0.950 and 9.1%, not 10.7%);
+and 25 delays called logarithmic that are one uniform grid of T₂(echo)/8.
+
+**Found by.** The typed audit of the outside commits ed7f8a7f, 74848f8a and bc586c59, which recomputed every number from
+the raw records and read QUANTUM_SONAR, the Ramsey JSONs in `data/ibm_run3_march2026/` and IBM_ABSORPTION_THEOREM §4
+beside the shadow page (none of the four cited the others); then two fresh review rounds of the repair. The first set
+the March samples' size against Q52's residual. The second found that the answer's stated reason did not discriminate
+while the discriminating one (the late direction against the fixed point's) sat unused on the page, and it checked the
+readout ranking against the basis-pulse form.
+
+**What stands now.** FIXED_POINT_SHADOW tells its story again: the discovery, the proposal, the question written before
+the March run, what the March run measured (Q102's detuning; Q80's slow drift, within what its Ramsey fits resolve) and
+why it could not answer, and the answer to the proposal in Q52's own record. At the crossing ρ₀₁ pointed at +79° and +89°
+and kept turning, so it neither tracked R⁻ (−24.1°) into the crossing nor froze there, and the late direction,
+−48.4° ± 5.5°, lies at least 4.4 standard errors from R⁻ (5.1 with the Re/Im covariance) and within one of −45°. One record cannot test the question in its
+cross-qubit form; a late window timed on each qubit's own decay can. Q52's late component is a static offset with equal
+⟨X⟩ and ⟨Y⟩ parts, the pattern of a measurement (SPAM) offset, and the record does not rank its two simple forms: a
+readout asymmetry leaves χ² = 50.5 on the 34 late readings and a leak of ⟨Z⟩ 45.4, the first sample's ⟨Y⟩ stands 3.8σ
+against the asymmetry and its extrapolated ⟨Z⟩ leans toward it only with the relaxation time fitted (+0.021 ± 0.008;
++0.006 ± 0.007 with the calibration T₁); the χ² pair leans toward the leak (likelihood ratio about 13) without deciding. Its mechanism is open until a |+⟩/|−⟩ control and
+|0⟩/|1⟩ preparations read in Z, X and Y run. Label_facts q52-5 forbids only the boundary leg and is owned by the Q52
+record, q52-7 by the static phase, q52-11 keeps the retired sentence out, and a guard checks that every test an owner
+cites exists. Both registries carry one T₂* for the crossing and fence the Absorption ratio as two fits of one decay.
+`simulations/tests/test_torino_shadow_records.py` recomputes the numbers these pages rest on.
+
+**The lesson.** One record, two components, and each correction gave one component's name to both. Reading the phase
+sample by sample shows the late samples standing still; "frozen into the phase" was the shape of a picture, not a
+computation. A test answers only the regime it samples: a window timed on a calibration constant closed before the thing
+it looked for could appear. And every draft of the repair claimed one notch more than its evidence: the run that could
+not see was credited with an answer, a timing that dates nothing was given as the reason, and a pattern two mechanisms
+share was read as one of them. A repair that retracts a verdict has to look for the support before calling it absent,
+and one that supplies a replacement has to name the family where the record cannot rank its members.

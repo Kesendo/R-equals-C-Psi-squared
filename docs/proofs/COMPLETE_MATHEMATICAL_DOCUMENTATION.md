@@ -177,18 +177,19 @@ owns the exact concurrence-family scope and the
 [two-book producer](../../simulations/crossing_taxonomy_books.py) owns the finite values.
 
 **Q52 residual record.** The late-time coherence anomaly on IBM Torino Q52
-has 17/17 directional consistency in the named `t/T2_echo >= 1` subset.
-Its recorded null combines exponential decay, binomial shot sampling,
-and one random phase per synthetic run; it is not a Q52-fitted time-dependent
-detuning/drift or other hardware-alternative comparison. The 13-row tail slope has
-two-sided p = 0.0531 and is cut-sensitive; the boundary-distance correlation
-reuses `|rho_01|` through `C*Psi` and is not independent evidence.
-Only the universal-boundary/non-Markovian-witness interpretation is closed.
-Detuning is the preferred explanation for the phase component.
-The Q52 late-time excess mechanism remains unresolved absent a Q52-specific fit/control.
-Q80 has eight late points in one quadrant; Q102 samples all four quadrants.
-That cross-qubit contrast rejects universality. The Q80 phase-compatible
-fits are same-record and in-sample, not a Q52-specific mechanism fit.
+has 17/17 directional consistency at t/T₂(echo) ≥ 1 and sits 9.5 σ above a
+shot-noise null (exponential decay, binomial shot sampling, one random phase per
+synthetic run). The tail slope is cut-sensitive (p = 0.053 at the ≥ 1.5 cut,
+0.014 to 0.033 at the others); the boundary-distance correlation reuses |ρ₀₁|
+through CΨ and is not independent evidence. The boundary reading, as it was
+proposed, is closed by the record itself: at the ¼ crossing ρ₀₁ pointed at +79° and
++89° and kept turning for another 150 μs, and its late direction is not the fixed
+point's (−48° against −24°). It is a static offset whose equal ⟨X⟩ and ⟨Y⟩ parts are
+the pattern of a measurement (SPAM) offset; its mechanism stays open until a
+|+⟩/|−⟩ control and a readout-assignment measurement run. The March records on Q80
+and Q102 establish Q102's detuning (tens of kHz, as Ramsey fits on other days read;
+Q80 drifts slowly within what its fits resolve) and, with a late window timed on the
+echo time, could not see a residual of Q52's size.
 
 **CΨ > ¼ under active dynamics.** CΨ routinely exceeds ¼ with active
 Hamiltonians (Bell+ ends at 0.405 at J=1, h=0.9, γ=0.005, in the retired
@@ -200,7 +201,7 @@ See: [Uniqueness Proof](UNIQUENESS_PROOF.md),
 [IBM Run 3](../../experiments/IBM_RUN3_PALINDROME.md),
 [When Psi Matters](../../experiments/WHEN_PSI_MATTERS.md),
 [Observer-Dependent Crossing](../../experiments/OBSERVER_DEPENDENT_CROSSING.md),
-[Q52 Residual Record](../../experiments/FIXED_POINT_SHADOW.md),
+[Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md),
 [Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md),
 [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 
@@ -540,7 +541,7 @@ hardware shows ~2-3× (label note in [Resonant Return](../../experiments/RESONAN
 - [Resonant Return](../../experiments/RESONANT_RETURN.md)
 
 ### Absorbed/fallen experiments (results used above)
-- [Q52 Residual Record](../../experiments/FIXED_POINT_SHADOW.md) (Q80/Q102 cross-qubit comparison rejects a universal boundary reading; it does not resolve the Q52 late-time excess mechanism)
+- [Fixed Point Shadow](../../experiments/FIXED_POINT_SHADOW.md) (the boundary reading closed on Q52's own record: the coherence kept turning through the crossing, and the late direction is not the fixed point's; its late component is a static offset with the pattern of a measurement (SPAM) offset, mechanism open; the March records establish Q102's detuning)
 - [Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md) (CΨ > ¼ under active H)
 - [Why the Sum](../../experiments/WHY_THE_SUM.md) (sum vs product formulation)
 - [Standing Wave Two Observers](../../experiments/STANDING_WAVE_TWO_OBSERVERS.md) (two-observer metaphor)

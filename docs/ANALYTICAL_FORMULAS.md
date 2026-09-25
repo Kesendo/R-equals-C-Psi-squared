@@ -1798,7 +1798,7 @@ relative Edge/Uniform change, 1.68×. Its nonlinear map from CΨ magnifies
 changes near ¼; this finite comparison does not establish θ as an optimal
 hardware objective, isolate a cause, or certify a concentrator mechanism.
 
-**Hardware comparison:** Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 10.7% above the generalized prediction 0.936. The legacy 115.0-versus-114.7 comparison recomputed the same
+**Hardware comparison:** Q52 is a qualitative crossing record, not a precision match: measured t* = 114.7 μs, t*/T₂* = 1.036, 9.1% above the generalized prediction 0.950 on the same T₂* = 110.7 μs. The legacy 115.0-versus-114.7 comparison recomputed the same
 hardware record; it was not an independent prediction. The separate
 5-qubit run found selective DD 3.2× above uniform DD in mutual information.
 **Finite scope:** Heisenberg-chain and related simulated dashboards, N=2-5,

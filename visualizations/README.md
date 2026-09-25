@@ -218,7 +218,7 @@ A finite IBM Torino run on qubit 52: 25 delay points, 8192 shots each, with
 state tomography in X/Y/Z bases. The reconstructed scalar passes 1/4; the run
 does not establish a universal boundary.
 
-The blue curve is C·Ψ(t) reconstructed from measured density matrices. It crosses ¼ at t*/T₂* = 1.041 (predicted: 0.936, 11% deviation). The initial C·Ψ starts at 0.885 instead of the ideal 0.500 (gate infidelity inflates the apparent purity). The asymptotic floor sits at 0.740 instead of 0.500 (readout errors prevent purity from reaching the maximally mixed state).
+The black curve is C·Ψ(t) reconstructed from measured density matrices, on the figure's axis t/T₂ with the calibration's echo time T₂ = 298.2 μs. It crosses ¼ at t* = 114.7 μs, which that axis reads as 0.384; the figure's generalized line (1.250 at r = 1.35) is drawn on the same echo time. On the qubit's own free decay, T₂* = 110.7 μs, the crossing is t*/T₂* = 1.036, 9.1% after the generalized prediction 0.950 on the same T₂*. The initial C·Ψ starts at 0.885 instead of the ideal 1.000 (preparation and measurement errors lower both the initial purity and the initial coherence). The purity C (blue) falls to 0.58 at 149 μs and climbs back to about 0.75 by the end of the record, rather than toward the maximally mixed 0.500, because relaxation pulls the qubit toward |0⟩.
 
 Within this reconstructed trace and convention, the sampled scalar crossing is clear.
 
@@ -245,7 +245,7 @@ The crossing time depends on r = T₂/T₁. Pure dephasing (r → 0) gives t*/T�
 [1 - b^r + b^{2r}/2 + b²/2] · b = ¼     where b = e^{-t/T₂}
 ```
 
-The plot shows t*(r) with the IBM Torino measurement marked. It falls near the curve but slightly above, the 11% deviation that Run 2 (March 2026) will investigate.
+The plot marks the curve at the ratios of a few platforms (trapped ion, NV center, IBM Eagle and Heron, T₁ = T₂); these are points of the curve, not measurements, and the Q52 record is not among them. Q52's crossing sits 9.1% above the curve on its own T₂* (t*/T₂* = 1.036 against 0.950 at r = 0.500); Run 3 (March 18) measured the crossing again on Q80, at 1.9%.
 
 ### Simulator validation
 

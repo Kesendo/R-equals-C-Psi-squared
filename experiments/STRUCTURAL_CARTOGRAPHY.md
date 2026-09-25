@@ -1016,7 +1016,7 @@ describe what we see.*
 ## See also
 
 - [What's Inside the Windows](WHATS_INSIDE_THE_WINDOWS.md) - The observations that led to this cartography: Bell-state structure, phase transport, bridge test
-- [Q52 Residual Record](FIXED_POINT_SHADOW.md) - Finite Q52 residual record; Q80 supports detuning as a phase hypothesis, but no Q52-specific fit closes the mechanism
+- [Fixed Point Shadow](FIXED_POINT_SHADOW.md) - The fixed-point shadow on IBM hardware, not a boundary effect: Q52's coherence turned straight through the crossing, and its late direction is not the fixed point's but a static offset with the pattern of a measurement (SPAM) offset
 - [When Psi Matters](WHEN_PSI_MATTERS.md) - AND-gate justification, noise-type sensitivity, agent benchmark
 - [The CΨ Lens](../docs/THE_CPSI_LENS.md) - Canonical definition of CΨ
 - [Localizable Entanglement Benchmark](LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) - Three-layer separation (CoA/LE/CΨ)

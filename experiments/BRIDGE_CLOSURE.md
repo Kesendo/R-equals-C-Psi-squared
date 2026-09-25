@@ -186,10 +186,13 @@ bridges across its two books.
 
 ### 6.4 IBM hardware residual record
 The finite Q52 record has a directional late-time component and an excess
-over one narrow null model. The completed Q80/Q102 comparison rejects a
-universal-boundary reading but does not identify the Q52 mechanism; detuning
-remains a phase hypothesis, not a Q52 magnitude-excess diagnosis. See
-[Q52 Residual Record](FIXED_POINT_SHADOW.md).
+over a shot-noise null. The record itself closes the boundary reading as it was
+proposed: at the crossing the coherence pointed elsewhere and kept turning, and its
+late direction is not the fixed point's (−48° against −24°). It is a static offset,
+not a detuning, with the pattern of a measurement (SPAM) offset and the mechanism
+open until a |+⟩/|−⟩ control and a readout-assignment measurement. The Q80/Q102 run
+established Q102's detuning and could not see a residual of that size. See
+[Fixed Point Shadow](FIXED_POINT_SHADOW.md).
 
 ### 6.5 Coherence Density Insights
 CΨ measures something distinct from entanglement. A product state can have a larger basis-fixed CΨ value than GHZ.

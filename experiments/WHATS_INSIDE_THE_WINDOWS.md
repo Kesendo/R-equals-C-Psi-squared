@@ -363,6 +363,6 @@ phases, and the S-coherence gating actually encode - remains completely open.
 ## See also
 
 - [Structural Cartography](STRUCTURAL_CARTOGRAPHY.md) - Maps the window structure: 3 dimensions explain 98%, stable skeleton + rotating phase pendulum
-- [Q52 Residual Record](FIXED_POINT_SHADOW.md) - Finite Q52 residual record; Q80 supports detuning as a phase hypothesis, but no Q52-specific fit closes the mechanism
+- [Fixed Point Shadow](FIXED_POINT_SHADOW.md) - The fixed-point shadow on IBM hardware, not a boundary effect: Q52's coherence turned straight through the crossing, and its late direction is not the fixed point's but a static offset with the pattern of a measurement (SPAM) offset
 - [When Psi Matters](WHEN_PSI_MATTERS.md) - AND-gate justification and agent benchmark results
 - [The CΨ Lens](../docs/THE_CPSI_LENS.md) - Canonical definition of CΨ

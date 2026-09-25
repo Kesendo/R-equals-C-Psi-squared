@@ -457,9 +457,12 @@ both members. Fixed-locus eigenvalues and defective Jordan blocks do not gain
 that interpretation automatically.
 
 On IBM hardware (Q52 tomography, 25 time points): the Absorption
-Theorem ratio is 1.03 (3% deviation). The sector structure holds on
-physical qubits. Detuning oscillations at 470 μs period are present.
-A 2.8% slow tail exists at the resolution limit.
+Theorem ratio is 1.03, the consistency of two fits to one decay: at
+N = 1 the dephasing rate is read off the same coherence envelope, so the
+3% is the gap between the calibration T₁ (221.2 μs) and the population-fit
+T₁ (241.4 μs), and the rate ladder needs N ≥ 2. The
+early coherence rotates at a qubit-frame detuning (−5.7 kHz as the alias nearest zero). A 2.8%
+static tail sits at the resolution limit, most likely a measurement (SPAM) offset.
 
 For the proof, see
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md).
@@ -537,8 +540,8 @@ What survives even without the philosophy:
 - [Energy-partition audit](../hypotheses/ENERGY_PARTITION.md): zero-root filtering stranded exact partners; the remaining frequency and decay sums are protocol diagnostics, not energies or mode populations
 - [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-range-centre): when the F1 palindromizer holds and reaches both spectral endpoints, the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
 - [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation gives spectral boundaries, factor 2 and the palindromic sum rule a common reading within the number-conserving family; the spectral gap it relocates rather than derives (2γ only above a coupling threshold). Verified on 1,342 modes, CV = 0
-- [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
-- [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): the sampled coupled gain-loss systems have a finite stability window whose edge is a second-order exceptional point on the real γ axis; the sampled maximum is bracketed at J_bridge/J in [1.8, 2.0], and γ_crit × J_bridge reaches 0.508 at J_bridge=100 without establishing a limiting constant
+- [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 on IBM Q52, the consistency of two fits to one decay (the rate ladder needs N ≥ 2). A qubit-frame detuning (−5.7 kHz as the alias nearest zero), and a 2.8% static tail at the resolution limit, most likely a measurement (SPAM) offset
+- [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): the sampled coupled gain-loss systems have a finite stability window whose edge is, at generic couplings, a second-order exceptional point on the real γ axis, and which closes completely at five exact couplings (both at two qubits per chain); the sampled maximum is bracketed at J_bridge/J in [1.8, 2.0], and γ_crit × J_bridge reaches 0.508 at J_bridge=100 without establishing a limiting constant
 
 These are concrete findings. They do not require accepting any
 philosophical framework to be useful.

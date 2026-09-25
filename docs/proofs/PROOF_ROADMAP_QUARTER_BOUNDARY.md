@@ -115,14 +115,16 @@ valid for a monic quadratic $z^2 - 2bz + c = 0$ with finite $b>0$ in the discrim
   tomography saw the product C·Ψ cross the ¼ boundary during decoherence, the
   first time on hardware. See [the tomography record](../../experiments/IBM_QUANTUM_TOMOGRAPHY.md).
   The separate [Q52 residual record](../../experiments/FIXED_POINT_SHADOW.md)
-  retains 17 directional late-time rows and zero exceedances in 10,000 draws
-  of a recorded null described as exponential decay, binomial shot sampling,
-  and one random phase per synthetic run. It does not compare Q52-fitted
-  time-dependent detuning/drift or the other hardware alternatives. Its
-  positive tail slope is cut-sensitive, its boundary-distance correlation reuses |ρ₀₁| through
-  CΨ, and the algebraic fixed-point phase is not a dynamics witness. The
-  Q80/Q102 comparison rejects the former universal-boundary reading but
-  leaves the Q52 magnitude-excess mechanism open.
+  holds 17 directional late-time samples, 9.5 σ above a shot-noise null
+  (exponential decay, binomial shot sampling, one random phase per synthetic
+  run). Its positive tail slope is cut-sensitive, its boundary-distance
+  correlation reuses |ρ₀₁| through CΨ, and the algebraic fixed-point phase is
+  not a dynamics witness. The record closes the boundary reading as it was
+  proposed: at the crossing ρ₀₁ pointed at +79° and +89° and kept turning, and
+  its late direction is not the fixed point's (−48° against −24°) but a static
+  offset with the pattern of a measurement (SPAM) offset, mechanism open until a
+  |+⟩/|−⟩ control and a readout-assignment measurement. The Q80/Q102 run established
+  Q102's detuning and could not see a residual of that size.
 - **[Tightest single-point crossing](../../experiments/IBM_RUN3_PALINDROME.md)**
   (ibm_torino q80, March 18, 2026): 1.9% deviation, the measured crossing at
   t\* = 15.29 μs vs the predicted 15.01 μs, i.e. matched to within 0.28 μs.

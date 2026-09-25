@@ -619,8 +619,10 @@ explains what previously required separate derivations.
 
 6. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md):
    The Absorption Theorem on IBM hardware, read retrospectively on a
-   single Torino qubit from its fitted decay rates. Ratio = 1.03 (3%).
-   Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit.
+   single Torino qubit from its fitted decay rates. Ratio = 1.03, the
+   consistency of two fits to one decay (the rate ladder needs two
+   qubits). A detuning (−5.7 kHz as the alias nearest zero), and a 2.8% static tail at the
+   resolution limit, most likely a measurement (SPAM) offset.
 
 7. [Thermal Blackbody](../experiments/THERMAL_BLACKBODY.md):
    The cavity refuses to stop singing. Even at n_bar = 10, 212 of 256
@@ -886,8 +888,9 @@ and their descriptions say so. Look them up; do not re-derive.
    and on others does not, a pattern nobody programmed.
 
 4. [IBM Absorption Theorem](../experiments/IBM_ABSORPTION_THEOREM.md)
-   (shared with Story 6): The cavity's governing equation measured on a
-   single qubit: ratio 1.03 against prediction 1.
+   (shared with Story 6): The cavity's governing equation read on a
+   single qubit: ratio 1.03 against prediction 1, the consistency one
+   qubit can give; the rate ladder it predicts needs two.
 
 5. [Marrakesh Three Layers](../experiments/MARRAKESH_THREE_LAYERS.md):
    The classifier on hardware. The truly/soft/hard trichotomy (Story 7)
