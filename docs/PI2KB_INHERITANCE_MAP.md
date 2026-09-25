@@ -184,11 +184,11 @@ live inventory is `PolarityCubeMap`
 (it also appears under `--root world`; the `--root pi2` view shows only the
 4-claim local core). The inventory spans the Core + Runtime registry;
 Diagnostics-hosted leaves (e.g. F87Pi2Inheritance) are excluded by design.
-Live counts (2026-08-19, 90 claims in the inventory):
+Live counts (read 2026-09-25, 86 claims in the inventory):
 
 | Z2Axis value | Meaning | Count |
 |--------------|---------|-------|
-| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 68 |
+| BitB | Π²_Z = X⊗N axis (F1² family, n_Y + n_Z parity) | 64 |
 | BitA | Π²_X = Z⊗N axis (F61 family, n_X + n_Y parity) | 7 |
 | Klein2 | Uses both Π²_Z and Π²_X axes (Klein-Vierergruppe) | 5 |
 | YParity | Term-level Y-parity refinement (k≥3) | 8 |
@@ -197,10 +197,10 @@ Live counts (2026-08-19, 90 claims in the inventory):
 
 ### bit_a-twin coverage
 
-Of the 68 BitB claims (twin coverage 10.3%): **7 Filled** (typed bit_a
+Of the 64 BitB claims (twin coverage 10.9%): **7 Filled** (typed bit_a
 sibling wired), **8 BitBSpecific** (no twin by construction: amplitude
 damping F1T1 / F82 / F84, plus F91, F93, F108Part3-Y, F113, F112-Y),
-**20 CoveredByHadamardDuality**, and **33 NeedsDerivation** (the open twin
+**20 CoveredByHadamardDuality**, and **29 NeedsDerivation** (the open twin
 slots).
 
 The open slots are not independent problems. They are governed by one
