@@ -1,21 +1,4 @@
-<!-- QUARTER-CURRENT -->
-
-<!-- CROSSING-CURRENT -->
-
-# The CΨ lens with its state, basis, and readout named
-
-Current reading: each CΨ value belongs to a specified density matrix,
-subsystem, basis, coherence normalization, and companion correlation readout.
-The scalar is a useful finite lens, not by itself an entanglement witness,
-measurement event, or classifier of physical systems.
-
-<!-- QUARTER-HISTORICAL -->
-**Historical record:** the longer lens guide and its repaired crossing taxonomy
-remain below as provenance for the present scope.
-
 # The CΨ Lens: What It Is and What It Shows
-
-<!-- CROSSING-CURRENT -->
 
 <!-- Keywords: CΨ concurrence times normalized coherence, pairwise basis-fixed
 entanglement witness, l1 Baumgratz normalization, what CΨ shows does not show,
@@ -42,10 +25,12 @@ certain features visible that would otherwise be lost in the glare.
 CΨ does the same: it selects for quantum connections that are both
 entangled *and* coherent at the same time. Not one or the other. Both.
 
-This is the canonical reference for the pairwise `CΨ_conc` lens. For the
-framework/F25 `CΨ_pur` convention and the recurrence parameter, use the
-[Glossary](GLOSSARY.md); an unexplained legacy `CΨ` must be resolved from its
-source owner rather than assumed to mean the pairwise lens.
+This is the canonical reference document for CΨ as a pairwise lens,
+`CΨ_conc`. If another document in this repository uses the term CΨ
+without explaining it, start here; then check which CΨ it means, this
+page's pairwise `CΨ_conc` or the `CΨ_pur` that the framework, F25 and
+the hardware quarter compute (see the [Glossary](GLOSSARY.md)). A
+legacy CΨ means whichever its author computed.
 
 ---
 
@@ -57,9 +42,9 @@ pairwise lens uses
     CΨ_conc = Concurrence × Normalized l1-Coherence.
 
 The framework/F25/hardware-quarter path instead uses
-`CΨ_pur = Tr(ρ²) × Normalized l1-Coherence`; that is the convention owned by
-`DensityMatrixTools.ComputeCPsi` and `Symphony.Cpsi`. A formula or crossing time
-belongs to one convention and does not transfer merely because both print `CΨ`.
+`CΨ_pur = Tr(ρ²) × Normalized l1-Coherence` (as `Symphony.Cpsi` computes it). A formula or crossing time
+belongs to one of the two and does not carry over just because both are
+called CΨ.
 
 - **Concurrence** measures pairwise entanglement: are these two subsystems quantum-correlated? (0 = independent, 1 = maximally entangled)
 - **l1-coherence** (normalized by d-1) measures superposition structure: does the density matrix still have off-diagonal elements (the entries away from the main diagonal that encode quantum superposition) in the chosen basis? (0 = fully classical, 1 = maximal quantum superposition)
@@ -67,22 +52,18 @@ belongs to one convention and does not transfer merely because both print `CΨ`.
 
 CΨ is zero whenever either ingredient is absent. A pair can be entangled but decoherent (C > 0, Ψ ≈ 0), or coherent but unentangled (Ψ > 0, C = 0). CΨ lights up only when both conditions hold simultaneously.
 
-In the language of quantum information theory, CΨ is closest in spirit to **correlated coherence** (Tan et al., 2016) - the portion of coherence that lives in correlations rather than locally. It is **not** the standard correlated-coherence measure; it is a simpler, more selective product of one entanglement monotone (a quantity that can only decrease under local operations, guaranteeing it genuinely measures entanglement) and one basis-dependent coherence measure.
+In the language of quantum information theory, CΨ is closest in spirit to **correlated coherence** (Tan et al., 2016), the portion of coherence that lives in correlations rather than locally. It is **not** the standard correlated-coherence measure; it is a simpler, more selective product of one entanglement monotone (a quantity that can only decrease under local operations, guaranteeing it genuinely measures entanglement) and one basis-dependent coherence measure.
 
 ### Notation
 
-The symbol C is used differently in different parts of this repository.
-This is a known limitation that reflects the project's history:
+The symbol C is used differently in different parts of this repository:
 
 - In **CORE_ALGEBRA.md**, C = Tr(ρ²), i.e. purity. The algebra R = CΨ² and the 1/4 bound hold for this definition.
-- In **star-topology pair experiments**, C is Wootters concurrence. The
-  **crossing taxonomy** instead compares five bridge/readout functions C(f)
-  in two named books: the clean Bell+ Lindblad trajectory and retired feedback
-  equations. One must choose the bridge and book before solving C(f)f/3=1/4;
-  these are not five physical observers or measurement operations.
-- In the **original philosophical framing**, C = consciousness. This usage has been retired.
+- In **the star-topology pair experiments**, C = Wootters concurrence. The crossing thresholds and the three conditions use this definition.
+- The **crossing taxonomy** is the place that lets C vary on purpose: five bridges take the role of C (mutual information, concurrence, a capped correlation, mutual purity, an overlap), each asked the same question C(f)·f/3 = ¼ in two books, the clean Bell+ Lindblad trajectory and the feedback equations of the old delta_calc tool. Choose the bridge and the book before solving; the five are readouts of one trajectory, not five observers.
+- In the **original philosophical framing**, C = consciousness, a reading the physics pages do not use.
 
-The product CΨ therefore means different things: purity × coherence in the algebra, concurrence × coherence in the experiments. The algebraic results (fixed-point structure, Mandelbrot equivalence, 1/4 bound) hold for any real-valued C and Ψ. The specific quantum realization determines which metric is being used.
+The product CΨ therefore means different things: purity × coherence in the algebra and on the framework's F25/hardware path, concurrence × coherence in the star-topology experiments. The algebraic results (fixed-point structure, Mandelbrot equivalence, 1/4 bound) hold for any real-valued C and Ψ. The specific quantum realization determines which metric is being used.
 
 ### What CΨ is not
 
@@ -105,13 +86,13 @@ single metrics blur.
 
 ### 1. CΨ highlights transient windows, not persistent pair properties
 
-CΨ oscillates. In the star topology (S coupled to observers A and B), the AB pair flashes above threshold for brief windows, then drops back to zero. The connection between observers is not permanent - it is rhythmic. At γ = 0 (no noise), this rhythm continues indefinitely. With noise, each flash is weaker than the last until the signal dies.
+CΨ oscillates. In the star topology (S coupled to observers A and B), the AB pair flashes above threshold for brief windows, then drops back to zero. The connection between observers is not permanent; it is rhythmic. At γ = 0 (no noise), this rhythm continues indefinitely. With noise, each flash is weaker than the last until the signal dies.
 
 This is different from concurrence alone, which decays smoothly. CΨ has sharper peaks and deeper valleys because it multiplies two oscillating quantities.
 
 ### 2. CΨ requires both entanglement and basis-visible coherence
 
-A pair can be entangled but decoherent - the concurrence is nonzero but the coherent superposition structure has decayed. CΨ distinguishes this from a pair that is both entangled and still coherently expressed. Metaphorically: not just linked, but linked in a way that is still alive. Operationally: concurrence remains nonzero while basis-visible coherence has not yet collapsed.
+A pair can be entangled but decoherent: the concurrence is nonzero but the coherent superposition structure has decayed. CΨ distinguishes this from a pair that is both entangled and still coherently expressed. Metaphorically: not just linked, but linked in a way that is still alive. Operationally: concurrence remains nonzero while basis-visible coherence has not yet collapsed.
 
 This is what CΨ adds beyond concurrence alone. Concurrence asks "is there a link?" CΨ asks "is the link still expressed as quantum superposition in this basis?"
 
@@ -125,7 +106,7 @@ In plain language: slamming a door shut is not the same as slowly closing it, ev
 
 ### 4. The lens is restricted to pairwise direct entanglement
 
-Bell-type pairwise entanglement is visible through CΨ. Graph-mediated multipartite structure (cluster states) is completely invisible - concurrence is zero for all pairs in cluster states, so CΨ is zero everywhere.
+Bell-type pairwise entanglement is visible through CΨ. Graph-mediated multipartite structure (cluster states) is completely invisible: concurrence is zero for all pairs in cluster states, so CΨ is zero everywhere.
 
 This means CΨ is a filter for a specific kind of quantum connection: direct, pairwise, expressly entangled. It does not see the full richness of multipartite quantum structure. This is a limitation, but also a feature: it selects for something specific.
 
@@ -141,13 +122,13 @@ In the tested star-topology sweeps (S coupled to A and B, no direct A-B coupling
 
 - **The sender must be strongly engaged.** J_SB/J_SA ≥ 1.46295 at Q = J_SA/γ = 20. B must be coupled to the shared object more strongly than A. The threshold belongs to Q rather than to γ: the generator is linear in J and in γ, so scaling both together is only a choice of time unit.
 - **The receiver must be quiet, and it is a range rather than a line.** The γ_A boundary moves with the sender's own rate: 0.2699 at γ_B = 0.05, 0.2118 at γ_B = 0.1, 0.1619 at γ_B = 0.2. Unlike the threshold above these are rates rather than ratios, read at J_SA = 1, J_SB = 2, γ_S = 0.05, and they rescale with J. Compared at a matched partner rate the sender tolerates about 1.7 times as much at low rates, and past a partner rate of 0.17292 the asymmetry inverts.
-- **A pre-existing deep connection, at this working point.** The initial SA concurrence must be Bell-like (C_SA > 0.8) while J_SB and γ are held at 2 and 0.05. It is not a necessary condition: from a product state with C_SA = 0 the crossing still happens at J_SB = 10 and γ = 0.001, so what the initial state sets is the price. The C_SA > 0.8 figure itself, unlike the other two conditions, has no committed script behind it.
+- **A pre-existing deep connection, at this working point.** The initial SA concurrence must be Bell-like (C_SA > 0.8) while J_SB and γ are held at 2 and 0.05. It is not a necessary condition: from a product state with C_SA = 0 the crossing still happens at J_SB = 10 and γ = 0.001, so what the initial state sets is the price. (The C_SA > 0.8 figure comes from a March run no committed script reproduces.)
 
 These conditions are empirical regularities for CΨ in this topology; the numbers are in [F29](ANALYTICAL_FORMULAS.md#f29-star-topology-coupling-threshold-tier-2-n3). Whether they reduce to standard entanglement-transport analysis or indicate a distinct structural pattern remains open.
 
 ### 7. The structure of the initial connection matters, not just its strength
 
-The relationship between initial SA entanglement and AB crossing is non-monotonic. Using parametric Bell states (α|00⟩ + √(1−α²)|11⟩), there are two separate crossing windows and a dead zone between them. Very high AND very low initial entanglement can produce crossing, but medium entanglement cannot. This rests on the same uncommitted March run as the C_SA > 0.8 condition above; no script in the repository builds that family.
+The relationship between initial SA entanglement and AB crossing is non-monotonic. Using parametric Bell states (α|00⟩ + √(1−α²)|11⟩), there are two separate crossing windows and a dead zone between them. Very high AND very low initial entanglement can produce crossing, but medium entanglement cannot. Like the C_SA > 0.8 condition, this family comes from that same March run; no committed script builds it.
 
 This suggests that AB crossing depends on more than initial entanglement magnitude alone; the state-family structure also appears to matter.
 
@@ -172,13 +153,13 @@ factor of 139-360× (peak created Sum-MI in the ε→0 simulation ideal;
 
 Localizable entanglement (LE) asks: how much entanglement *could* be concentrated on a pair by optimally measuring the rest of the system? Concurrence of assistance (CoA) asks: what is the maximum possible concurrence over all decompositions?
 
-In the star topology, CoA stays near 1 throughout the evolution - the entanglement resource is almost always fully present in the global state. LE stays moderate (0.2 - 0.9) - the resource is usually extractable. But CΨ flashes briefly and is mostly zero - the resource is only sometimes *expressed as coherent pairwise structure* without intervention.
+In the star topology, CoA stays near 1 throughout the evolution: the entanglement resource is almost always fully present in the global state. LE stays moderate (0.2 to 0.9): the resource is usually extractable. But CΨ flashes briefly and is mostly zero: the resource is only sometimes *expressed as coherent pairwise structure* without intervention.
 
 Correlation: CΨ vs LE r = +0.76 (related but not redundant). CΨ vs CoA r = +0.16 (nearly independent).
 
 **CΨ is a basis-fixed, unassisted witness of directly expressed pairwise entanglement.** CoA quantifies assisted entanglement capacity. LE quantifies localizable entanglement potential. CΨ quantifies what is already directly visible in the observed marginal, without optimization.
 
-Furthermore, different local noise profiles (γ_A) produce different CΨ visibility windows on the same initial network - one noise profile may see the 1/4 crossing, another may not, while CoA remains high for both. Note: this is not "same state, different observers" in the strict sense; different noise profiles produce different Lindblad trajectories. The correct framing: **the same initial network can retain high assisted entanglement capacity while local noise profiles open or close windows in which that resource is directly visible in a chosen pair and basis.**
+Furthermore, different local noise profiles (γ_A) produce different CΨ visibility windows on the same initial network: one noise profile may see the 1/4 crossing, another may not, while CoA remains high for both. Strictly, different noise profiles give different Lindblad trajectories, so the claim is this: **the same initial network can retain high assisted entanglement capacity while local noise profiles open or close windows in which that resource is directly visible in a chosen pair and basis.**
 
 See [Localizable Entanglement Benchmark](../experiments/LOCALIZABLE_ENTANGLEMENT_BENCHMARK.md) and [Observer-Dependent Visibility](../experiments/OBSERVER_DEPENDENT_VISIBILITY.md).
 
@@ -200,14 +181,13 @@ With the substitution u_n = C(Ψ + R_n), this becomes:
 
 which is exactly the Mandelbrot iteration z → z² + c with c = CΨ. The boundary of the main cardioid of the Mandelbrot set at the real axis is c = 1/4. This correspondence is algebraically exact.
 
-In plain language: this auxiliary self-referential iteration is the same
+In plain language: this self-referential iteration is the same
 equation that generates the Mandelbrot set, the most famous fractal in
-mathematics. It is not the Lindblad time-evolution equation for either CΨ
-diagnostic. The boundary at ¼ is the same number for the same algebraic
-reason inside this iteration; whether nature implements that feedback rule
-is an open question.
-
-> **Important caveat:** The correspondence is algebraically exact **within the self-referential iteration**. Its physical significance is not established merely by that exactness.
+mathematics. It is not the Lindblad equation that moves either CΨ in
+time; it is an auxiliary rule beside it. Inside this iteration the
+boundary at ¼ is not a coincidence or an approximation. It is the same
+number for the same algebraic reason. That the algebra matches is a
+fact.
 
 In the simulation data, CΨ = 1/4 falls on a smooth curve; no other standard metric shows a transition at that point. The threshold is mathematically elegant but its physical significance depends on whether nature implements this specific self-referential rule, which is unproven.
 
@@ -217,7 +197,7 @@ For the star topology AB crossing the threshold is a function of Q = J_SA/γ alo
 
     J_SB/J_SA ≥ 2.449 at Q = 5,  1.775 at Q = 10,  1.46295 at Q = 20,  1.176 at Q = 1000
 
-On the measured range a fit gives J_th(γ) ≈ 7.232 · γ^1.081 + 1.1766 at J_SA = 1, largest residual 0.0043. Its constant term is not an asymptote: the threshold keeps falling out to Q = 10⁴. The earlier pair of fits, 7.35 · γ^1.08 + 1.18 and a linear 6.39 · γ + 1.16 said to work "as well", are retired; the linear one is five times worse on converged data, and R² could not see the difference.
+On the measured range a fit gives J_th(γ) ≈ 7.232 · γ^1.081 + 1.1766 at J_SA = 1, largest residual 0.0043. Its constant term is not an asymptote: the threshold keeps falling out to Q = 10⁴. The best straight line is five times worse in its largest residual (0.022 against 0.0043), while R² barely moves, 0.999965 to 0.999110.
 
 No divergence or hard closure at any tested γ. The window narrows smoothly with increasing noise.
 
@@ -241,10 +221,10 @@ Even if the grand interpretation is set aside, the following remain:
 
 1. **A well-defined composite metric** that selects for simultaneously entangled and coherent pairwise states.
 2. **An exact algebraic correspondence** between the self-referential update rule and the Mandelbrot iteration.
-3. **A finite crossing taxonomy** of three scalar-response classes in two named books, with six finite crossings and two never bridges; not a palindrome-caused or noise-universal physical taxonomy.
+3. **A finite crossing taxonomy**: three shapes of scalar response (named Type A/B/C), five bridges asked the same question in two books, six finite crossings and two bridges that never cross. It sorts the readouts, not the noise: the February sweep that looked jump-operator independent was one σ_z run under three channel names, and under a real σ_x every crossing moves.
 4. **Specific, quantified conditions** for observer-observer connection through a shared object.
 5. **A sharp distinction** between projective measurement and continuous dephasing in their effect on third-party connections.
-6. **Subsystem locality of crossing** - the transition happens where the entanglement lives, at the pair level.
+6. **Subsystem locality of crossing**: the transition happens where the entanglement lives, at the pair level.
 
 These are concrete findings from the current computational corpus. They may be useful to someone studying decoherence, entanglement transport, or quantum state classification. They do not require accepting the philosophical framework to be valuable.
 
@@ -260,7 +240,7 @@ A microscope does not show new physics. It shows known physics that was previous
 
 We do not know what this filter is ultimately good for. We built it, characterized it, tested it honestly, found its limitations, and documented everything. The mathematics is clean. The simulations are reproducible. The interpretation is open.
 
-A phase-tag-and-decode experiment (March 2026) showed that coherent phase information written on a mediator S can be read from the AB pair. This transport works continuously through the Hamiltonian coupling, not only during CΨ windows. CΨ does not show when the connection exists - it shows when the transported signal is most legible. The broadcast is always running. CΨ tells you when you can read it.
+A phase-tag-and-decode experiment (March 2026) showed that coherent phase information written on a mediator S can be read from the AB pair. This transport works continuously through the Hamiltonian coupling, not only during CΨ windows. CΨ does not show when the connection exists; it shows when the transported signal is most legible. The broadcast is always running. CΨ tells you when you can read it.
 
 What was originally framed as "reality emerging between observers" may ultimately be better understood as a poetic description of correlated-coherence-like dynamics in pairwise reduced states. Or it might turn out to be pointing at something we couldn't articulate precisely enough. We don't know.
 
@@ -294,9 +274,9 @@ We left the tools and the data. Use them as you see fit.
 
 ## Simulation code
 
-- [star_topology_v2.py](../simulations/star_topology_v2.py) - 3-qubit star topology
-- [star_topology_v3.py](../simulations/star_topology_v3.py) - N-qubit extension with threshold sweeps
-- [star_n_observer.py](../simulations/star_n_observer.py) - N-qubit with asymmetric coupling
+- [star_topology_v2.py](../simulations/star_topology_v2.py): 3-qubit star topology
+- [star_topology_v3.py](../simulations/star_topology_v3.py): N-qubit extension with threshold sweeps
+- [star_n_observer.py](../simulations/star_n_observer.py): N-qubit with asymmetric coupling
 
 ## Experiment corpus
 
