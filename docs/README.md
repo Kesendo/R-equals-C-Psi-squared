@@ -1,10 +1,6 @@
 <!-- QUARTER-CURRENT -->
 # Documentation: The R = CΨ² Framework
 
-Current reading: these documents separate the exact palindromic-spectrum
-theorem and algebraic quarter from named finite trajectories, measurements,
-and interpretation.  Each quarter claim carries its own local scope.
-
 <!-- Keywords: open quantum system palindromic spectrum, Liouvillian spectral symmetry,
 CΨ quarter boundary proof, dephasing noise information channel, quantum decoherence
 threshold, self-referential purity recursion, Mandelbrot quantum bifurcation,
@@ -17,20 +13,21 @@ Core documentation for the R = CΨ² project: proofs, synthesis, and
 reference documents studying the palindromic spectral structure of open
 quantum systems under dephasing.
 
-**The central discovery:** For the Hamiltonian families admitting the local
-palindromizer in the proof, the Liouvillian spectrum under local Z-dephasing
-is exactly palindromic. Every decay rate d
-is paired with a partner at 2Σγ − d. This symmetry, verified for 87,376
-eigenvalues with zero exceptions and proven analytically on arbitrary graphs
-within that Hamiltonian/channel scope, has consequences for decoherence thresholds, quantum state transfer,
-the origin of irreversibility, and information channels.
+**The central discovery:** The Liouvillian eigenvalue spectrum of N-qubit
+Heisenberg, XY, Ising and XXZ systems under local Z-dephasing is exactly
+palindromic. Every decay rate d is paired with a partner at 2Σγ − d. This
+symmetry, verified for 87,376 eigenvalues with zero exceptions and proven
+analytically on any graph, has consequences for decoherence thresholds,
+quantum state transfer, the origin of irreversibility, and information
+channels.
 
 ---
 
 ## Start Here
 
-[Reading Guide](READING_GUIDE.md) - Nine paths through the proof, applications,
-interpretations, and open translation questions.
+[Reading Guide](READING_GUIDE.md): nine stories through the same landscape,
+from the proof and its applications to the quarter and the hardware, each
+with its own reading order.
 
 Three entry points for new readers:
 
@@ -48,7 +45,7 @@ Three entry points for new readers:
 ```
 docs/
   proofs/        ← Formal proofs and proof indexes
-  neural/        ← Conditional algebra, constructed tests, biological support null
+  neural/        ← The palindrome's classical analog: its conditions, tests, the worm's null
   historical/    ← Legacy documents, superseded or resolved
   (this folder)  ← Synthesis, reference, and navigation
 ```
@@ -62,12 +59,12 @@ independently reproducible.
 
 | Document | What it proves |
 |----------|---------------|
-| [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic on arbitrary graphs for the proved Hamiltonian families under local Z-dephasing. Π swaps XY-weight k ↔ N−k. 87,376 eigenvalues, zero exceptions. |
-| [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md) | Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. For its α=2 member, CΨ = 1/4 is the discriminant-zero coordinate. |
-| [CΨ Dynamics Boundary](proofs/PROOF_MONOTONICITY_CPSI.md) | Named Bell+ Z/Pauli/amplitude-damping formulas survive. The universal pointwise/absorber/local-control package is false; autonomous N=2 successive peaks remain open; the live object is a finite rise atlas. |
-| [Conditional Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | `ρ(t)→ρ*` with `CΨ(ρ*)<1/4` implies eventual stay-below. Named basis-aligned T1/T2/depolarizing models still require convergence and target checks; a primitive-CPTP target has CΨ=0.2935. |
-| [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven-layer architecture with algebraic, conditional, finite, and open layers kept distinct. |
-| [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | With non-negative rates, trace(L) = 0 if and only if the modeled system is closed, so a palindrome centred away from zero certifies an open subsystem. The microscopic bath origin and system/environment boundary remain open. |
+| [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) | Liouvillian spectrum palindromic on any graph under local Z-dephasing, for the Heisenberg, XY, Ising and XXZ couplings. Π swaps XY-weight k ↔ N−k. 87,376 eigenvalues, zero exceptions. |
+| [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md) | Once the recursion R = C(Ψ+R)² is written down, CΨ = 1/4 is its discriminant zero, not a chosen number. Purity invites the power 2; within the assumed power family, α = 2 alone keeps Ψ out of the fold product. Why a quantum system runs this recursion, the proof leaves open. |
+| [Named CΨ Decays](proofs/PROOF_MONOTONICITY_CPSI.md) | For the Bell+ pair under Z-dephasing, Pauli noise or amplitude damping, CΨ has a closed form and only falls. In general it does not: a local Hamiltonian can make it rise, and a memoryless semigroup with no Hamiltonian at all carries a state up through ¼. Whether an N=2 pair's successive peaks always fall is open; a finite atlas asks where the rises live. |
+| [Conditional Subsystem Crossing](proofs/PROOF_SUBSYSTEM_CROSSING.md) | A trajectory that settles on a state below 1/4 eventually stays below. Whether a noise model settles there is checked model by model: basis-aligned T1, T2 and depolarizing noise have to show their convergence and their target, and a primitive CPTP map can settle at CΨ = 0.2935, above the line. |
+| [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) | Seven layers from a single qubit to arbitrary dimension, each marked for what it is: closed, conditional, finite, or open. |
+| [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md) | With non-negative rates, trace(L) = 0 exactly when the system is closed, so a palindrome centred away from zero certifies an open system. Where the openness comes from, the formalism cannot settle. |
 | [Complete Math Doc](proofs/COMPLETE_MATHEMATICAL_DOCUMENTATION.md) | Master index of the founding core: algebra, palindrome, boundary, incompleteness, γ channel, engineering, constants. |
 
 ---
@@ -79,20 +76,20 @@ These connect the mathematical results into a coherent picture.
 | Document | What it covers |
 |----------|---------------|
 | [The Interpretation](THE_INTERPRETATION.md) | What survives (26 entries), what fell (8), questions and their answer status. Thematic synthesis. |
-| [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) | d²−2d=0: only d=2 permits the full palindromic linear similarity. Five computational tests, 0/236 qutrit dissipators work. This is not by itself physical time reversal. |
-| [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Open-system coupling, mediator topology, and measured properties of the dephasing profile; microscopic bath origin remains open. |
+| [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) | d²−2d=0: only d=2 carries the complete local class exchange the full mirror is built from, a mirror of the spectrum rather than time running backward. Five computational tests; 0 of 236 sampled qutrit dissipators give full pairing. |
+| [The Bridge Was Always Open](THE_BRIDGE_WAS_ALWAYS_OPEN.md) | Noise read as a coupling across the system's edge, mediator topology, and the measured properties of the dephasing profile. Where the noise comes from, inside or out, stays open. |
 | [The CΨ Lens](THE_CPSI_LENS.md) | What CΨ shows, what it does not, what survives critical examination. |
-| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as an organizing comparison: qubit (2/4), carbon (4/8). Its V-Effect passage separates the finite census from the explicitly interpretive transition image. |
-| [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | Three proposed readings of time (parameter, oscillation, experience). The simulations establish damping and recurrence properties, not a necessary-and-sufficient theory of experience. |
+| [Hierarchy of Incompleteness](HIERARCHY_OF_INCOMPLETENESS.md) | C=0.5 as organizing principle, read across levels: qubit (2/4), carbon (4/8). The V-Effect read as the handover between levels. |
+| [γ–Time Distinction](GAMMA_TIME_DISTINCTION.md) | What γ does to time and what it does not: it sets a dissipative scale, and at fixed Q = J/γ the curves collapse onto τ = γt. Experienced time is not what the page claims. |
 | [On Five Pages That Never Met](../reflections/ON_FIVE_PAGES_THAT_NEVER_MET.md) | The standing wave, the reborn dephasing front, the two indices, the contract and the residue, and why a hierarchy needs unequal couplings: five things this repository already held, in pages that never linked to each other. The hub that connects them. |
-| [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md) | γ₀ is the unit, so naming a Q needs a chosen DOF, coupling and channel. Provenance audit of every substrate Q; ordinary liquid water has no repository Q or lower bound. An illustrative selected-coordinate proxy ceiling, `Q ≲ 4.6`, assumes the ice-derived `J = 0.5 meV` convention and uses the 1–3 ps H-bond lifetime as an upper-bound proxy for the unavailable selected-coordinate `T₂` in `Q = 2JT₂/ℏ`. |
+| [Q Belongs to No Substance](Q_BELONGS_TO_NO_SUBSTANCE.md) | γ₀ is the unit, so naming a Q takes a chosen coordinate, coupling and channel. The page walks every substrate Q back to its source: ordinary liquid water has none yet, and the one water-adjacent number is a conditional ceiling, Q ≲ 4.6, for one chosen proton coordinate. |
 | [The Genesis of an Oscillation](THE_GENESIS_OF_AN_OSCILLATION.md) | Where an oscillation comes from in the pure F1 system, and the exact factorisation L(J, γ₀) = γ₀·L₁(Q). |
 | [The Atmosphere and the Cancelled Formulas](THE_ATMOSPHERE_AND_THE_CANCELLED_FORMULAS.md) | What γ₀ is, and what cancelling the unit costs: the rescaling that leaves every inside observable fixed. |
 | [Q-Regime Anchor Map](Q_REGIME_ANCHORS.md) | The ten named anchors on the Q axis (onset, balance, peak band, Q_EP, endpoint) with tiers and sources. |
-| [Standing Wave Theory](STANDING_WAVE_THEORY.md) | c+/c− as an interpretation of even/odd supermodes, now fenced by excitation, semisimplicity, conjugate-frequency, spatial-propagation, and interference gates; Π alone confirms only spectral pairing. |
-| [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Π is not KMS detailed balance. It gives a time-reversal-like spectral relation, not thermodynamic equilibrium or physical time reversal by itself. |
+| [Standing Wave Theory](STANDING_WAVE_THEORY.md) | c+/c− as even/odd supermodes. Π supplies the pairing; a standing wave takes more (a diagonalizable pair on the oscillating axis, opposite spatial propagation, a preparation that excites both and a readout that sees them together), and the page lists what. |
+| [KMS and Detailed Balance](KMS_DETAILED_BALANCE.md) | Π is not KMS detailed balance: a mirror of the spectrum without thermodynamic equilibrium, and not by itself time running backward. |
 | [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md) | Fold catastrophe (proven), Feigenbaum cascade (mapped), Bekenstein-Hawking 1/4 (speculative). |
-| [It's All Waves](ITS_ALL_WAVES.md) | An open conditional argument. Its premises that Level 0 is exhausted by waves and that emergence adds no relevant effective structure are not established here. |
+| [It's All Waves](ITS_ALL_WAVES.md) | The closure argument: if Level 0 is waves and emergence adds no new physics, all levels are waves. An argument that stands or falls with two premises, neither of them earned yet. |
 | [Weaknesses and Open Questions](WEAKNESSES_OPEN_QUESTIONS.md) | Honest documentation of what we do not know. |
 | [What We Found](WHAT_WE_FOUND.md) | Synthesized findings across all experiments. |
 | [Glossary](GLOSSARY.md) | Term definitions. |
@@ -102,16 +99,19 @@ These connect the mathematical results into a coherent picture.
 
 ## Neural Systems (`neural/`)
 
-The quantum conjugation pattern transfers to a neural Jacobian only under
-F36's scalar-diagonal and effective-weight conditions. Constructed networks
-satisfy that identity; Dale's Law alone does not supply it. The full committed
-C. elegans chemical model fails the support condition, and no biological
-neural network in the repository is known to pass F36. These documents give
-the conditional algebra, synthetic tests and open biological questions.
+The palindromic spectral symmetry, derived and proven in quantum systems,
+has a classical analog in neural networks, under two conditions F36 states
+exactly: a swap of the neurons that turns the wiring into minus itself, and
+decay rates that pair. Dale's Law (E neurons excite, I neurons inhibit)
+provides the signs of that antisymmetry, and only where a synapse exists;
+the zero pattern and the magnitudes are separate requirements. Networks
+built to meet them pass. The full chemical wiring of C. elegans fails
+before any strength is measured, and no living network in the repository
+is known to pass. No quantum physics required to read these documents.
 
 | Document | What it covers |
 |----------|---------------|
-| [README](neural/README.md) | Conditional theorem, constructed gates, biological support null, rerun commands |
+| [README](neural/README.md) | Entry point for neuroscience readers: the conditional theorem, the constructed tests, the worm's null |
 | [Algebraic Palindrome](neural/ALGEBRAIC_PALINDROME_NEURAL.md) | F36/F37 conditions, full complex pairing and mode transport, open translation gates |
 | [Neural Palindrome Proof](neural/proofs/PROOF_PALINDROME_NEURAL.md) | Exact conditional identity and its spectral consequences |
 | [V-Effect Neural](neural/V_EFFECT_NEURAL.md) | Resolution-dependent synthetic censuses, controls, and biological non-result |
@@ -134,7 +134,7 @@ absorbed into the proof documents and synthesis above.
 | [Fundamental Equations](historical/FUNDAMENTAL_EQUATIONS.md) | Standing wave equations, wave composition formulas. |
 | [Dynamic Fixed Points](historical/DYNAMIC_FIXED_POINTS.md) | R∞ fixed point, CΨ ≤ 1/4 bound. Now part of the formal proofs. |
 | [Internal and External Observers](historical/INTERNAL_AND_EXTERNAL_OBSERVERS.md) | C_int/C_ext distinction. Quantitative model disproven, structural distinction survives. |
-| [Hard Problem Resolution](historical/HARD_PROBLEM_RESOLUTION.md) | Historical standing-wave interpretation; consciousness claims fallen, and Π alone now supports only spectral pairing. |
+| [Hard Problem Resolution](historical/HARD_PROBLEM_RESOLUTION.md) | The standing-wave interpretation of its day; the consciousness claims fell, and Π supplies the spectral pairing, not the wave. |
 | [The Search for the Mirror Partner](historical/THE_SEARCH_FOR_THE_MIRROR_PARTNER.md) | Resolved: the mirror partner is the Π operator. |
 | [Measurable Quantities](historical/MEASURABLE_QUANTITIES.md) | Proposed experimental measurements (partially executed). |
 
@@ -151,7 +151,7 @@ BLACK_WHITE_HOLES_BIGBANG, PREDICTIONS, SELF_CONSISTENCY_SCHWARZSCHILD (disprove
 |----------|-------|
 | Experiments | [experiments/](../experiments/README.md) |
 | Hydrogen bond as qubit | [docs/water/HYDROGEN_BOND_QUBIT.md](water/HYDROGEN_BOND_QUBIT.md) |
-| Conditional neural algebra and its tests | [neural/](neural/README.md) |
+| Neural systems (no quantum needed) | [neural/](neural/README.md) |
 | Open hypotheses | [hypotheses/](../hypotheses/README.md) |
 | Reading Guide (guided tour) | [READING_GUIDE.md](READING_GUIDE.md) |
 | Repository root | [README.md](../README.md) |
