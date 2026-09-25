@@ -9,12 +9,17 @@ Heisenberg coupling within A and B (J_internal=1.0), bridge coupling 1<->2
 Eight sender states produce distinct CΨ_A trajectories. Product states with
 local coherence in the bridge qubit cross 1/4; Bell states never do.
 
+Propagation is exact: every step of dt = 0.001 applies the propagator
+expm(L*dt). The last block follows |00>_A ⊗ |++>_B at J/γ = 5 at every step
+and prints each subsystem's passages of 1/4.
+
 Script:  simulations/bridge_fingerprints.py
 Output:  simulations/results/bridge_fingerprints.txt
 Docs:    experiments/BRIDGE_FINGERPRINTS.md
 """
 
 import numpy as np
+from scipy.linalg import expm
 import os, sys, time as _time
 
 # ============================================================
@@ -105,13 +110,14 @@ def ket2dm(psi):
     return np.outer(psi, psi.conj())
 
 
-def euler_evolve(L, rho0_vec, dt, n_steps):
-    """First-order Euler integration of drho/dt = L*rho."""
+def exact_evolve(L, rho0_vec, dt, n_steps):
+    """Exact propagation of drho/dt = L*rho: each step applies expm(L*dt)."""
+    U = expm(L * dt)
     v = rho0_vec.copy()
     trajectory = np.empty((n_steps + 1, len(v)), dtype=complex)
     trajectory[0] = v
     for i in range(n_steps):
-        v = v + dt * (L @ v)
+        v = U @ v
         trajectory[i + 1] = v
     return trajectory
 
@@ -227,8 +233,8 @@ for J_bridge in J_bridge_values:
         rho_B0 = ptrace_keep(rho0, [2, 3])
         cpsi_B0 = cpsi(rho_B0)
 
-        # Euler evolution
-        traj = euler_evolve(L, rho0.flatten(), dt, n_steps)
+        # exact evolution
+        traj = exact_evolve(L, rho0.flatten(), dt, n_steps)
 
         # Extract CΨ_A trajectory
         cpsi_A = np.empty(n_steps + 1)
@@ -284,7 +290,7 @@ for J_bridge in [0.5, 1.0, 1.5]:
     for name in ["|++>", "Bell+"]:
         psi_full = np.kron(A_state, sender_states[name])
         rho0 = ket2dm(psi_full)
-        traj = euler_evolve(L, rho0.flatten(), dt, n_steps)
+        traj = exact_evolve(L, rho0.flatten(), dt, n_steps)
         max_cpsi = 0.0
         for i in range(0, n_steps + 1, 10):
             rho_t = traj[i].reshape(d, d)
@@ -297,6 +303,25 @@ for J_bridge in [0.5, 1.0, 1.5]:
     ratio = peaks["|++>"] / peaks["Bell+"] if peaks["Bell+"] > 0 else float('inf')
     log(f"  J/γ = {J_bridge/gamma:5.0f}:  |++> peak = {peaks['|++>']:.3f},  "
         f"Bell+ peak = {peaks['Bell+']:.3f},  ratio = {ratio:.1f}×")
+
+# ============================================================
+# UPWARD CROSSING: |00>_A ⊗ |++>_B AT J/γ = 5, EVERY STEP
+# ============================================================
+log()
+log("Upward crossing, |00>_A ⊗ |++>_B at J/γ = 5: passages of 1/4 (first step at or past it)")
+log("-" * 78)
+L = build_L(build_H(J_internal=1.0, J_bridge=0.5), gamma)
+traj = exact_evolve(L, ket2dm(np.kron(A_state, sender_states["|++>"])).flatten(), dt, n_steps)
+series = {"A": np.empty(n_steps + 1), "B": np.empty(n_steps + 1)}
+for i in range(n_steps + 1):
+    rho_t = traj[i].reshape(d, d)
+    rho_t = (rho_t + rho_t.conj().T) / 2
+    series["A"][i] = cpsi(ptrace_keep(rho_t, [0, 1]))
+    series["B"][i] = cpsi(ptrace_keep(rho_t, [2, 3]))
+for name, c in series.items():
+    ups = [f"{times[i]:.3f}" for i in range(1, n_steps + 1) if c[i] >= 0.25 > c[i - 1]]
+    downs = [f"{times[i]:.3f}" for i in range(1, n_steps + 1) if c[i] < 0.25 <= c[i - 1]]
+    log(f"  {name}: CΨ(0) = {c[0]:.3f}, upward {', '.join(ups) or '-'}, downward {', '.join(downs) or '-'}")
 
 log()
 log("=" * 78)

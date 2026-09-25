@@ -72,11 +72,14 @@ magnetisations, nor does its local-Z jump select a physical NMR relaxation
 channel.
 
 For the stated N = 4 model at `h_y = 0.5`, `γ = 1.0`, the two sector towers
-have slow-mode-rate ratio **1.271**. The companion propagation uses selected
-model probes and obtains specified tail-fit rates `0.178` and `0.219`, with
-fitted ratio `1.231`. Their relation requires a tail-convergence check; no
-causal explanation is assigned here. They are not a calibrated material
-`T₂(x)/T₂(y)` ratio or an NMR observable prediction.
+have slow-mode-rate ratio **1.271** (0.219/0.172). The companion propagation
+fits selected model probes on two windows. On t ∈ [10, 20] it obtains tail-fit
+rates `0.178` and `0.219`, a fitted ratio of `1.231`; on t ∈ [20, 40] the same
+probes give `0.172` and `0.219`, and the ratio `1.271`. The difference is the
+window: the x-probe's ⟨Mx⟩ carries the next non-Y mode (rate 0.597, k = 3 in
+the table) with about five times the slowest mode's amplitude, and at t = 10
+that term is still 7.5% of the slowest one. The fitted rates are not a
+calibrated material `T₂(x)/T₂(y)` ratio or an NMR observable prediction.
 
 If a later mapping selects a molecular/nuclear Hamiltonian, bath, preparation,
 and measurement operator, FID-like measurements could be considered as a
@@ -142,7 +145,7 @@ a direct observable prediction at zero or nonzero field.
 
 - **Companion scripts:**
   - [`simulations/carbon_ptf_real_imag_per_painter.py`](../../simulations/carbon_ptf_real_imag_per_painter.py) (Painter Re/Im read on slow eigenmodes)
-  - [`simulations/carbon_painter_t2_anisotropy.py`](../../simulations/carbon_painter_t2_anisotropy.py) (Y/non-Y numerical classification at `1e-8` + selected-model probe-decay calculation)
+  - [`simulations/carbon_painter_t2_anisotropy.py`](../../simulations/carbon_painter_t2_anisotropy.py) (Y/non-Y numerical classification at `1e-8` + selected-model probe-decay fits on two windows)
 - **Reading-flow companion:** [Benzene and the Three Dephase Letters](BENZENE_THREE_DEPHASE_LETTERS.md) (morning's three-letter Klein-V₄ vocabulary; supplies the F114 / `n_Y`-parity / Π language the Painter alternation sits inside)
 - **Cross-reference:** [Benzene's open-system Liouvillian](BENZENE_LIOUVILLIAN_PALINDROME.md) (May 22 spectrum-palindrome result; the Painter alternation is a separate observation in the selected local-Z model)
 

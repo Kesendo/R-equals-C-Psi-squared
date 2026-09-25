@@ -2073,19 +2073,25 @@ Fisher information for J_AM: Bell initial state gives F = 4.82,
 Adding direct XZ cross-dissipation (epsilon) between boundary qubits 1 and
 3, on top of the mediator bridge:
 
-- epsilon = 0: 1024/1024 palindromic
-- epsilon = 1e-5: 1022/1024 (two modes break)
-- epsilon ≈ 1.6e-5: 23/1024 (collapse; between 1 and 34 of 1024 thereafter)
+- ε = 0: 1024/1024 palindromic
+- ε > 0: broken at first order. The trace moves the centre to −(Σγ + 4ε),
+  yet λ = 0 stays (the identity) while the slowest mode sits at −2Σγ − 4ε
+  (X⊗X⊗X⊗X⊗X commutes with the Heisenberg bonds and anticommutes with two
+  of the four crosstalk jumps), so no centre can pair them: about the moved
+  centre the worst pair misses by exactly 4ε. The script's 1022 and 23 of
+  1024 count partners within 10⁻⁴ of the unshifted centre, where the miss is
+  12ε.
 
 The mediator topology does not PROTECT against direct dissipative leakage.
-Any cross-boundary jump operator breaks the palindrome, just as in the
-mixed bridge. But the point is: the mediator topology does not NEED
+This cross-boundary crosstalk breaks the palindrome, just as the mixed
+bridge's jump does. But the point is: the mediator topology does not NEED
 cross-boundary dissipation. The information flows through unitary
 (Hamiltonian) coupling via M. No leaking required.
 
 ### What Crosses Is the Message
 
-A jump across the boundary (A <-> B): palindrome dies at any dissipation.
+The jumps across the boundary tried here (A <-> B): the palindrome dies
+at any dissipation.
 Heisenberg coupling, direct or through M: palindrome lives. Always. By
 theorem (Heisenberg coupling with local Z-dephasing, on any graph).
 

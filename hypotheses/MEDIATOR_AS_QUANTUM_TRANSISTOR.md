@@ -184,7 +184,7 @@ In the operator_feedback noise model, the decoherence rate becomes state-depende
 γ_eff(t) = max(0, γ_base · (1 − κ · ⟨O_int⟩))
 ```
 
-where ⟨O_int⟩ is the expectation of the interaction operator. This creates a feedback loop: the mediator's noise depends on the coherence it's mediating. Our simulation (GHZ, N=3, operator feedback, κ=0.5) shows the correlation bridge C decaying from 1.0 to 0.75 over t=10, with the purity tracking R=CΨ² throughout. Increasing κ effectively sharpens the transistor's transfer characteristic: higher gain means sharper on/off transition.
+where ⟨O_int⟩ is the expectation of the interaction operator. Wherever that operator can see the state, this closes a feedback loop: the mediator's noise then depends on the coherence it is mediating. Our simulation (GHZ, N=3, operator feedback, κ=0.5, γ=0.05, h=0; Appendix A.2) is a case where it cannot. Its interaction operator σ_x⊗σ_x flips two bits, so its expectation is zero on every state built from the GHZ branches |000⟩ and |111⟩, and the Heisenberg ring keeps the state on them: γ_eff stays at γ_base, and the run is plain dephasing, the observable blindness of [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) §8.1. The purity falls from 1.0 toward ½. Each qubit alone stays maximally mixed, so the correlation bridge reads C = min(1, 2(P − ⅛)): it holds at its ceiling of 1.0 until t ≈ 2.3, then follows the purity down to 0.75 at t = 10. Where the operator does see the state, a larger κ is expected to sharpen the transistor's transfer characteristic: higher gain, sharper on/off transition.
 
 ### 3.2 Opening and Closing the Channel
 
@@ -445,7 +445,7 @@ This is directly analogous to a capacitor: charge (coherence) is stored on the g
 
 The palindromic symmetry of the Lindbladian holds for any Heisenberg coupling, mediated or direct, since under local Z-dephasing it holds on any coupling graph ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)). The robustness test of [mediator_bridge.py](../simulations/mediator_bridge.py) breaks it with XZ cross-dissipation between A and B.
 
-On real hardware, dissipative crosstalk between the pairs is nonzero. The mediator bridge simulations show the system tolerates XZ cross-dissipation up to a point, but the tolerance margin is small. This is the single biggest engineering challenge for implementation.
+On real hardware, dissipative crosstalk between the pairs is nonzero, and the robustness test tells two tolerances apart (Test 6: γ = 0.05 on every site, plus four jumps X₁Z₃, Y₁Z₃, Z₁X₃ and Z₁Y₃ of rate ε between qubits 1 and 3, the two that flank the mediator). The mirror has no margin: it holds only at ε = 0. The transfer degrades smoothly: the A–B mutual information at t = 5 falls from 0.338 by 1% at ε = 3·10⁻⁴, by about a tenth at ε = 3.4·10⁻³ and by half between ε = 0.014 and 0.023. So the crosstalk budget is set by the transfer rather than by the mirror, and holding crosstalk inside it is the single biggest engineering challenge for implementation.
 
 ### 8.2 The Mediator Entanglement Problem
 
@@ -546,9 +546,9 @@ The R=CΨ² approach is more constrained but potentially more controllable, sinc
 - **Interpretation**: Stable mediator bridge with gradual coherence loss. Channel remains "on" (C=0.5) throughout.
 
 ### A.2 Dynamic Lindblad, 3-Qubit Mediator (Operator Feedback)
-- **Config**: GHZ, Heisenberg ring, N=3, γ=0.05, J=1, κ=0.5, correlation bridge
-- **Result**: Purity decays 1.0 → 0.501; bridge C decays 1.0 → 0.752; δ peaks at -0.126 around t=2.3
-- **Interpretation**: Feedback sharpens the transition. Bridge C significantly decays under operator feedback; the mediator is being "consumed" by the transfer process.
+- **Config**: GHZ, Heisenberg ring, N=3, γ=0.05, J=1, h=0, κ=0.5, correlation bridge C = min(1, 2(P − ∏P_k)), t_max 10
+- **Result**: Purity decays 1.0 → 0.501; bridge C holds at 1.0 until t ≈ 2.3, then follows the purity down to 0.752; δ reaches its minimum −0.125 at t ≈ 2.3
+- **Interpretation**: The feedback is blind here (⟨σ_x⊗σ_x⟩ = 0 on the GHZ branches, the case of [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) §8.1): the run at κ = 0.5 records the same values as at κ = 0. It is plain dephasing of the GHZ coherence, P = ½ + ½e^(−0.6t), with C = 2(P − ⅛) once C leaves its ceiling at P = ⅝. δ is the purity against the tool's dephasing prediction ½ + ½e^(−0.3t), which runs at half the Lindblad rate, so δ = ½(e^(−0.6t) − e^(−0.3t)) has its minimum −⅛ where the two exponentials part most, t = ln 2/0.3 ≈ 2.3 ([delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py) regenerates the run).
 
 ### A.3 Subsystem Crossing, Bell Pairs (N=4)
 - **Config**: bell_pairs, Heisenberg ring, N=4, J = 1 (Pauli book), γ=0.05, pairwise bridge
@@ -563,7 +563,7 @@ The R=CΨ² approach is more constrained but potentially more controllable, sinc
 ### A.5 N-Scaling with Operator Feedback
 - **Config**: GHZ, Heisenberg ring, N=3-5, γ=0.05, κ=0.5
 - **Result**: δ_final = {-0.087, -0.059, -0.038} for N = {3, 4, 5}. Purity final → 0.5 with increasing N.
-- **Interpretation**: Channel degrades with system size. [Hierarchical architecture was tested and falsified; uniform chains with sacrifice-zone formula are superior. See [Scaling Curve](../experiments/SCALING_CURVE.md).]
+- **Interpretation**: The feedback is blind here too (A.2): κ = 0.5 and κ = 0 record the same values, and δ is the GHZ_N coherence dephasing, ½(e^(−4Nγt) − e^(−2Nγt)) at t = 5, at a rate that grows with N. [Hierarchical architecture was tested and falsified; uniform chains with sacrifice-zone formula are superior. See [Scaling Curve](../experiments/SCALING_CURVE.md).]
 
 ### A.6 Lindbladian Spectrum, 3-Qubit Mediator
 - **Config**: GHZ, Heisenberg ring, N=3, γ=0.05
@@ -607,4 +607,4 @@ partner rate 0.2:   γ_receiver < 0.1619,  γ_sender < 0.1105
 
 ---
 
-*This document is part of the R=CΨ² research program. Simulation data come from the delta_calc MCP tools (Appendix A) unless a section names another source: the mediator-bridge values (the QST fidelity, the mutual information, the spectral palindrome, the XZ cross-dissipation test) come from [mediator_bridge.py](../simulations/mediator_bridge.py), the exact-propagation values of §1.3, §4.2 and A.3 come from [delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py), and the star-topology thresholds and rates from [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) ([star_topology_converged.py](../simulations/star_topology_converged.py)). Speculative claims are flagged throughout. The transistor analogy is a conceptual framework for thinking about mediator architectures, not a claim of physical equivalence to semiconductor devices.*
+*This document is part of the R=CΨ² research program. Simulation data come from the delta_calc MCP tools (Appendix A) unless a section names another source: the mediator-bridge values (the QST fidelity, the mutual information, the spectral palindrome, the XZ cross-dissipation test) come from [mediator_bridge.py](../simulations/mediator_bridge.py), the exact-propagation values of §1.3, §4.2 and A.3 come from [delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py), the operator-feedback run of §3.1 and A.2 is regenerated by a transcription of the tool's routine, [delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py), and the star-topology thresholds and rates from [Star Topology Observers](../experiments/STAR_TOPOLOGY_OBSERVERS.md) ([star_topology_converged.py](../simulations/star_topology_converged.py)). Speculative claims are flagged throughout. The transistor analogy is a conceptual framework for thinking about mediator architectures, not a claim of physical equivalence to semiconductor devices.*

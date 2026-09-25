@@ -66,7 +66,7 @@ The ¼ boundary acts as a natural digitizer: crossing vs. not-crossing creates b
   - H_B: Heisenberg coupling qubits 2↔3, J_internal = 1.0  
   - H_bridge: Heisenberg coupling qubits 1↔2, J_bridge = variable
 - Decoherence: Local dephasing (σ_z) on all 4 qubits, γ = 0.1
-- Evolution: First-order Lindblad, dt = 0.001, t_max = 5.0 (convergence verified against dt = 0.0005)
+- Evolution: exact propagation, the propagator exp(L·dt) applied over steps of dt = 0.001 up to t_max = 5.0
 
 ### Measurement Protocol
 For each time step:
@@ -93,13 +93,13 @@ For each time step:
 
 | B State | B: C·Ψ₀ | A: max | Crosses ¼ | Class |
 |---------|----------|--------|-----------|-------|
-| \|++⟩   | 1.000    | 0.270  | YES (0.90s above) | Local coherence |
-| \|+0⟩   | 0.333    | 0.275  | YES (0.35s above) | Local coherence |
+| \|++⟩   | 1.000    | 0.270  | YES (0.89s above) | Local coherence |
+| \|+0⟩   | 0.333    | 0.268  | YES (0.30s above) | Local coherence |
 | Bell+   | 0.333    | 0.061  | NEVER     | Entangled |
 | Bell-   | 0.333    | 0.061  | NEVER     | Entangled |
-| \|Ψ+⟩   | 0.333    | 0.033  | NEVER     | Entangled |
-| \|+−⟩   | 1.000    | 0.177  | NEVER (at J/γ=5) | Phase-sensitive |
-| \|01⟩   | 0.000    | 0.066  | NEVER     | Classical |
+| \|Ψ+⟩   | 0.333    | 0.032  | NEVER     | Entangled |
+| \|+−⟩   | 1.000    | 0.174  | NEVER (at J/γ=5) | Phase-sensitive |
+| \|01⟩   | 0.000    | 0.064  | NEVER     | Classical |
 | \|11⟩   | 0.000    | 0.038  | NEVER     | Classical |
 
 ### Critical Finding: Same C·Ψ, Different Behavior
@@ -118,7 +118,7 @@ This is the No-Communication Theorem (the fundamental result that local operatio
 
 ### Entanglement Barrier
 Product states deliver 4-5× more signal than entangled states, consistently across
-all coupling strengths (4.1× at J/γ=15, 4.6× at J/γ=5). This ratio is stable;
+all coupling strengths (|++⟩ against Bell+: 4.4× at J/γ=5, 4.1× at J/γ=10 and 15). This ratio is stable;
 it's a qualitative wall, not noise.
 
 ### Detector Resolution Optimum
@@ -127,8 +127,8 @@ fingerprints, like a microscope with too much light.
 
 ## Upward Crossing Discovery (Config: |00⟩_A ⊗ |++⟩_B)
 First observed upward crossing of ¼ boundary:
-- t = 1.27: A crosses ¼ upward (71% coherence-driven)
-- t = 1.27-1.91: Both systems above ¼ simultaneously (0.64 time units)
+- t = 1.28: A crosses ¼ upward (71% coherence-driven)
+- t = 1.28–1.91: Both systems above ¼ simultaneously (0.64 time units)
 - t = 1.91: B crosses ¼ downward (82% coherence-driven) - ROLE REVERSAL
 - t = 2.17: A crosses ¼ downward (71% purity-driven)
 
@@ -152,17 +152,16 @@ Crossing asymmetry: upward = coherence-driven, downward = purity-driven.
 ![Entanglement barrier quantification](../visualizations/fingerprints/fingerprints_barrier.png)
 
 ## Simulation Code
-Simulations were run using Lindblad evolution with first-order Euler integration
-(dt = 0.001, t_max = 5.0). Convergence verified: all key values stable to ±0.002
-between dt = 0.001 and dt = 0.0005. Full source code:
-[`simulations/bridge_fingerprints.py`](../simulations/bridge_fingerprints.py) [script lost during repository cleanup, results preserved in this document]
+[`simulations/bridge_fingerprints.py`](../simulations/bridge_fingerprints.py) produces
+every table value and crossing time on this page by exact propagation (the propagator
+exp(L·dt) applied over steps of dt = 0.001 up to t_max = 5.0) and writes them to
+[`bridge_fingerprints.txt`](../simulations/results/bridge_fingerprints.txt). The figures
+are drawn from a first-order Euler run at the same dt, whose summary metrics sit in
+[`fingerprints_data.json`](../visualizations/fingerprints/fingerprints_data.json). A
+first-order step overshoots the steepest peaks, so at J/γ = 5 the figures show |+0⟩
+peaking above |++⟩, where the exact run has it just below (0.268 against 0.270).
 
-Reconstructed 2026-02-11 during guardian review session. Table values updated
-2026-02-12 after convergence study revealed dt = 0.005 overshot steep peaks
-(|+0⟩ was inflated from 0.275 to 0.302 at coarse timestep). All numbers now
-match dt = 0.001 simulation output (fingerprints_data.json).
-
-**Note on Upward Crossing Discovery section:** The crossing times and coherence/purity
-attribution percentages (71%, 82%) come from the original 2026-02-09 analysis which
-was lost. These specific numbers have NOT been re-verified against the reconstructed
-simulation. They should be treated as approximate until re-verified.
+**Note on Upward Crossing Discovery section:** the crossing times are the producer's
+last block (A upward at t = 1.276 and downward at 2.169, B downward at 1.913). The
+coherence/purity attributions (71%, 82%) come from the 2026-02-09 analysis, which no
+committed producer recomputes; treat them as approximate.

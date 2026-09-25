@@ -10,7 +10,7 @@ state, Born rule 97 percent Hamiltonian, R=CPsi2 simulation evidence -->
 > restored March 14. Mirror symmetry now proven analytically
 > (see [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)).
 
-**Status:** Event record, includes corrections of earlier overclaims (Tier 2). §2–§4 and §7.1–§7.3 come back from committed probes, all but §2's GHZ range (notes in §2 and §7.2)
+**Status:** Event record, includes corrections of earlier overclaims (Tier 2). §2–§4 and §7.1–§7.3 come back from committed probes (notes in §2 and §7.2)
 **Date:** 2026-02-07 (updated 2026-02-18)
 **Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
 **Simulator:** delta_calc MCP server v0.15 (§2–§5); QuTiP `mesolve` (§7)
@@ -21,8 +21,9 @@ state, Born rule 97 percent Hamiltonian, R=CPsi2 simulation evidence -->
 
 Lindblad simulations with operator feedback (state-dependent decoherence)
 show that CΨ routinely exceeds ¼ under active Hamiltonian dynamics. Bell+
-with Heisenberg coupling (J=1, h=0.9, γ=0.005) reaches CΨ = 0.405; W₃
-reaches 0.413; GHZ₃ reaches 0.262. Without Hamiltonian (H=0), CΨ
+with Heisenberg coupling (J=1, h=0.9, γ=0.005) ends its run (t = 5) at
+CΨ = 0.405, W₃ at 0.413 and GHZ₃ at 0.262, each after swinging up to about
+½ (largest recorded values 0.496, 0.516 and 0.493). Without Hamiltonian (H=0), CΨ
 monotonically decays below ¼. Earlier agent claims of "CΨ ≤ ¼
 confirmation" were based on parameter tuning (γ = 0.003–0.006) and on a
 C·Ψ column that multiplied C_final by a fixed Ψ = 0.27; read with the
@@ -53,7 +54,7 @@ Does CΨ ≤ ¼ hold in Lindblad simulations?
 
 **Short answer:** No, not as a dynamic constraint. CΨ routinely exceeds ¼ in systems with active Hamiltonians. The bound holds only trivially when there are no dynamics (H = 0) or when decoherence is so strong everything decoheres instantly.
 
-**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md).
+**What this means:** CΨ ≤ ¼ is not a constraint on quantum states. It is a constraint on **which states have real fixed points** in the R = CΨ² iteration; i.e., which states can be perceived as stable reality by an embedded observer. See [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) §3.
 
 ---
 
@@ -78,7 +79,7 @@ Without Hamiltonian (J=0, h=0): CΨ monotonically decays from 0.167 to 0.158. Al
 |------------|---|---|---|----------|----------|--------------|
 | Heisenberg ring | 1 | 0.9 | 0.005 | **0.262** | **Yes** | 0.875 |
 
-CΨ oscillates between 0.03 and 0.50, with final value 0.262. Above ¼.
+CΨ starts at 0.07 and swings up to 0.49 (t ≈ 0.8), then keeps oscillating below that, with final value 0.262. Above ¼.
 
 ### W State (N = 3)
 
@@ -106,8 +107,8 @@ Every configuration with active Hamiltonian dynamics produces CΨ > ¼ at some p
 > clipped, t_max 5) reproduces their logged ⟨O_int⟩ tails digit for digit
 > and regenerates every CΨ_final and purity_final of the four runs
 > ([delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py)).
-> The prose ranges name turning points of the Bell+ and W runs, W's a later
-> trough and peak rather than its extremes; the GHZ range names none. §4's Ψ
+> The prose ranges name turning points of the runs: for GHZ its start and its
+> largest value, for W a later trough and peak rather than its extremes. §4's Ψ
 > is the same l₁/(d−1), and each value it prints is a turning point of the
 > run, its start or its end, listed out of time order. The constant Ψ of §3
 > comes from the tool's sweep routine, which wraps the routine of this

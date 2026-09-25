@@ -13,8 +13,11 @@ reduced eigenmode is real antisymmetric.
 
 It also propagates selected X/Y/Z axis probes and reports their specified
 single-exponential tail fits. These are selected-model probe-decay observations,
-not T1/T2, FID, TROSY, EXSY, or material predictions. Relation of the tail fits
-to the slow-mode rates requires a convergence check.
+not T1/T2, FID, TROSY, EXSY, or material predictions. The x and y probes are
+fitted on two windows, t in [10, 20] and, propagated further, t in [20, 40], and
+the x-probe's <Mx> is read in the eigenmodes: only non-Y modes carry X content,
+so the modal read names what the first window, t in [10, 20], still sees besides the slowest
+non-Y mode.
 """
 from __future__ import annotations
 
@@ -229,10 +232,10 @@ def run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=400, n_slowest=8):
     # propagator: ρ(t) = unvec(exp(L · t) · vec(ρ0))
     ts = np.linspace(0.0, t_max, n_steps + 1)
 
-    def propagate_and_track(rho0):
+    def propagate_and_track(rho0, times=ts):
         v0 = vec_column(rho0)
         tr_x, tr_y, tr_z = [], [], []
-        for t in ts:
+        for t in times:
             vt = np.linalg.matrix_power if False else None  # placeholder
             # use direct exponential per timestep; cheap enough for d=16
             U = (np.linalg.matrix_power if False else None)  # ignore
@@ -268,7 +271,7 @@ def run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=400, n_slowest=8):
     print()
 
     print("-" * 96)
-    print("Numerical comparison (tail-fit convergence not established):")
+    print(f"Numerical comparison, tail window t ∈ [{t_max / 2:g}, {t_max:g}]:")
     tol_rel = 0.02  # 2% tail-fit tolerance against asymptotic slow-mode prediction
     def ok(meas, pred):
         return abs(meas - pred) / max(abs(pred), 1e-12) < tol_rel
@@ -287,11 +290,42 @@ def run(N=4, h_zeeman=0.5, gamma=1.0, t_max=20.0, n_steps=400, n_slowest=8):
           f"{(1.0/rate_x_x)/(1.0/rate_y_y):.4f}")
     print(f"  Slow-mode Im/Re rate ratio          = "
           f"{abs(im_modes[0][1])/abs(re_modes[0][1]):.4f}")
-    print("  Their relation is a convergence question, not a causal assignment.")
+    print()
+
+    # The same x and y probes on a window twice as late.
+    ts_late = np.linspace(0.0, 2 * t_max, 2 * n_steps + 1)
+    mx_x_late, _, _ = propagate_and_track(rho0_x, ts_late)
+    _, my_y_late, _ = propagate_and_track(rho0_y, ts_late)
+    rate_x_late, _ = fit_exp_tail(ts_late, mx_x_late)
+    rate_y_late, _ = fit_exp_tail(ts_late, my_y_late)
+    print(f"Numerical comparison, tail window t ∈ [{t_max:g}, {2 * t_max:g}]:")
+    print(f"  ⟨Mx⟩ tail-fit rate from x-probe     = {rate_x_late:.6f}   "
+          f"(|Re(λ_k=1)| = {abs(re_modes[0][1]):.6f})")
+    print(f"  ⟨My⟩ tail-fit rate from y-probe     = {rate_y_late:.6f}   "
+          f"(|Re(λ_k=2)| = {abs(im_modes[0][1]):.6f})")
+    print(f"  Axis-probe inverse-rate ratio       = {(1.0/rate_x_late)/(1.0/rate_y_late):.4f}")
+    print()
+
+    # What the first window, t in [10, 20], still sees: the x-probe's <Mx> read in the eigenmodes,
+    # <Mx>(t) = sum_k a_k exp(lambda_k t); Y-only modes carry no X content, so a_k = 0 there.
+    coeffs = np.linalg.solve(eigvecs, vec_column(rho0_x))
+    amps = np.array([coeffs[k] * np.trace(Mx @ unvec_column(eigvecs[:, k], d)) for k in range(d * d)])
+    t_read = t_max / 2
+    k_idx = int(round(t_read / (ts[1] - ts[0])))
+    rebuilt = float(np.real(np.sum(amps * np.exp(eigvals * t_read))))
+    print(f"x-probe ⟨Mx⟩ in the eigenmodes (modal sum at t = {t_read:g}: {rebuilt:.6e},"
+          f" propagated: {mx_x[k_idx]:.6e}):")
+    for k in range(1, n_slowest):
+        print(f"  k = {k}: rate {-eigvals[k].real:.6f}, amplitude {amps[k].real:+.4e} {amps[k].imag:+.4e}i")
+    share = amps[3].real * np.exp(eigvals[3].real * t_read) / (amps[1].real * np.exp(eigvals[1].real * t_read))
+    print(f"  amplitude ratio k = 3 over k = 1: {amps[3].real / amps[1].real:.4f};"
+          f" at t = {t_read:g} the k = 3 term is {share:.4f} of the k = 1 term")
     print()
 
 
 def main():
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print("=" * 96)
     print("Numerical per-Painter Y/non-Y classification and axis-probe tail fits")
     print("=" * 96)

@@ -18,11 +18,19 @@ digit for digit (all twelve values the log shows of each call are checked). The 
   - reports C_psi = C_final * Psi_final.
 
 Both factors come from the density matrix. This script regenerates §2's four runs (CPsi_final,
-purity_final), matches the prose ranges and §4's Psi values against the runs' turning points,
-and regenerates the agents' sweep of §3 and experiments/OPERATOR_FEEDBACK.md §4: the tool's
-sweep routine wraps the same routine, run with its concurrence bridge to t_max 10 (the settings
-under which the column regenerates), and prints C_final * psi_approx, a fixed 0.27; read with the
-density matrix's own Psi (concurrence * l1/3) the same runs stay above 1/4 at every Euler step.
+purity_final), prints each run's start, largest value and end, matches the prose ranges and §4's
+Psi values against the runs' turning points, and regenerates the agents' sweep of §3 and
+experiments/OPERATOR_FEEDBACK.md §4: the tool's sweep routine wraps the same routine, run with its
+concurrence bridge to t_max 10 (the settings under which the column regenerates), and prints
+C_final * psi_approx, a fixed 0.27; read with the density matrix's own Psi (concurrence * l1/3)
+the same runs stay above 1/4 at every Euler step.
+
+It also regenerates the operator-feedback run of hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md
+§3.1 and Appendix A.2: GHZ_3 on the ring at h = 0 (the tool's default), gamma_0 = 0.05, t_max 10,
+read with the tool's correlation bridge C = min(1, 2 * (P - prod_k P_k)); the tool's delta is the
+recorded purity minus its dephasing prediction of the initial state, diag + offdiag *
+exp(-2 * n * gamma_0 * t). The feedback of that run is blind: X_0 X_1 has no matrix element
+between the GHZ branches |000> and |111>, and H at h = 0 keeps the state on them.
 
 Conventions (the tool's): H = J * sum over the listed bonds of (XX + YY + ZZ) + h * sum_k X_k
 (heisenberg = open chain, heisenberg_ring = ring); Bell+ = (|00> + |11>)/sqrt(2); GHZ_3 and W_3
@@ -85,6 +93,10 @@ def concurrence(rho):
 def bridge_value(rho, n, bridge):
     if bridge == "concurrence":
         return concurrence(rho)
+    if bridge == "correlation":
+        # the tool's correlation bridge: min(1, 2 * (P - prod_k P_k)), floored at 0
+        product = float(np.prod([purity(one_site(rho, n, k)) for k in range(n)]))
+        return float(max(0.0, min(1.0, 2 * (purity(rho) - product))))
     return float(np.prod([purity(one_site(rho, n, k)) for k in range(n)]) ** (1.0 / n))
 
 
@@ -131,15 +143,20 @@ def pure(amplitudes):
     return np.outer(v, v.conj())
 
 
-def turning_points(values):
-    """Start, every local peak and trough, and end of a recorded series."""
-    points = [values[0]]
+def turning_indices(values):
+    """Indices of the start, every local peak and trough, and the end of a recorded series."""
+    indices = [0]
     for i in range(1, len(values) - 1):
         rising = values[i] > values[i - 1] and values[i] >= values[i + 1]
         falling = values[i] < values[i - 1] and values[i] <= values[i + 1]
         if rising or falling:
-            points.append(values[i])
-    return points + [values[-1]]
+            indices.append(i)
+    return indices + [len(values) - 1]
+
+
+def turning_points(values):
+    """Start, every local peak and trough, and end of a recorded series."""
+    return [values[i] for i in turning_indices(values)]
 
 
 VALUES = []
@@ -211,9 +228,17 @@ def main():
     idle = cpsi["Bell+, J 0, h 0"]
     claim("Bell+ idle: CPsi decays monotonically", all(b <= a for a, b in zip(idle, idle[1:])),
           f"from {idle[0]:.4f} to {idle[-1]:.4f}")
+    print("  each active run's start, largest recorded value and end, and its turning points (t: CPsi):")
+    for name in ("Bell+, heisenberg, J 1, h 0.9", "GHZ3, heisenberg_ring, J 1, h 0.9",
+                 "W3, heisenberg_ring, J 1, h 0.9"):
+        c, times = cpsi[name], [r[0] for r in series[name]]
+        k = int(np.argmax(c))
+        print(f"    {name.split(',')[0]:<6s} starts {c[0]:.5f}, largest {c[k]:.5f} at t = {times[k]:.1f},"
+              f" ends {c[-1]:.5f}")
+        print("           " + ", ".join(f"{times[i]:.1f}: {c[i]:.3f}" for i in turning_indices(c)))
     print("  the prose's ranges, against each run's turning points:")
     for name, low, high in (("Bell+, heisenberg, J 1, h 0.9", 0.17, 0.50),
-                            ("GHZ3, heisenberg_ring, J 1, h 0.9", 0.03, 0.50),
+                            ("GHZ3, heisenberg_ring, J 1, h 0.9", 0.07, 0.49),
                             ("W3, heisenberg_ring, J 1, h 0.9", 0.18, 0.50)):
         points = turning_points(cpsi[name])
         check_among(f"{name.split(',')[0]} CPsi range: {low:.2f}", low, points)
@@ -243,6 +268,37 @@ def main():
     rows = feedback_run(bell, 2, hamiltonian(2, [(0, 1)], 1.0, 0.7), 0.003, t_max=10.0, bridge="concurrence")
     check("gamma_0 0.003, h 0.7: C_final * 0.27", 0.255, rows[-1][2] * 0.27)
     check("the threshold 25/27, printed 0.926", 0.926, 25 / 27)
+
+    print("MEDIATOR_AS_QUANTUM_TRANSISTOR §3.1 and A.2: GHZ3, heisenberg_ring, J 1, h 0, gamma_0 = 0.05,")
+    print("operator feedback (kappa 0.5), correlation bridge, t_max 10")
+    ring_h0 = hamiltonian(3, ring3, 1.0, 0.0)
+    rows = feedback_run(ghz3, 3, ring_h0, 0.05, t_max=10.0, bridge="correlation")
+    unfed = feedback_run(ghz3, 3, ring_h0, 0.05, kappa=0.0, t_max=10.0, bridge="correlation")
+    # The Z jumps are diagonal and H at h = 0 maps |000> and |111> to 3 times themselves, so rho stays
+    # on the two branches; X_0 X_1 flips two bits and has no matrix element between them.
+    O_int = site(X, 0, 3) @ site(X, 1, 3)
+    branches = (0, 7)
+    kept = all(ring_h0[i, j] == (3.0 if i == j else 0.0) for j in branches for i in range(8))
+    unseen = all(O_int[i, j] == 0.0 for i in branches for j in branches)
+    claim("<X0 X1> = 0 on the GHZ branches, which H keeps", kept and unseen,
+          "exact matrix entries")
+    claim("the feedback changes no recorded value", rows == unfed,
+          f"{len(rows)} records at kappa 0.5 and at kappa 0, largest |<O_int>| {max(abs(r[4]) for r in rows)}")
+    times, P, C = [r[0] for r in rows], [r[1] for r in rows], [r[2] for r in rows]
+    diag = float(np.sum(np.abs(np.diag(ghz3)) ** 2))
+    off = purity(ghz3) - diag
+    delta = [round(p - (diag + off * np.exp(-2 * 3 * 0.05 * s)), 6) for s, p in zip(times, P)]
+    k = int(np.argmin(delta))
+    check("A.2: purity_final", 0.501, P[-1])
+    check("A.2: C_final", 0.752, C[-1])
+    check("§3.1: C_final, printed 0.75", 0.75, C[-1], digits=2)
+    check("C at its ceiling 1.0 up to t", 2.3, max(s for s, c in zip(times, C) if c == 1.0), digits=1)
+    check("A.2: delta minimum", -0.125, delta[k])
+    check("A.2: time of the delta minimum", 2.3, times[k], digits=1)
+    print(f"  closed form, plain dephasing: P = 1/2 + exp(-0.6 t)/2 = {0.5 + 0.5 * np.exp(-6.0):.6f} at t = 10"
+          f" (recorded {P[-1]:.6f}); C leaves 1.0 at P = 5/8, t = ln 4/0.6 = {np.log(4) / 0.6:.4f};")
+    print(f"  delta = (exp(-0.6 t) - exp(-0.3 t))/2 has its minimum -1/8 at t = ln 2/0.3 = {np.log(2) / 0.3:.4f}"
+          f" (recorded {delta[k]:.6f} at t = {times[k]:.1f})")
 
     matched = sum(ok for _, ok in VALUES)
     logged = sum(ok for _, ok in LOGGED)

@@ -91,7 +91,7 @@ regime, no crossing). To initiate the bridge, the designated sender converts
 the joint state to a product state by measuring their local qubit (e.g.
 Earth measures σₓ on A, collapsing the pair to |++⟩ or |--⟩).
 
-If R=CΨ² is correct, this changes CΨ from 0.061 to 0.275 > 1/4. The
+If R=CΨ² is correct, this changes CΨ from 0.061 to 0.270 > 1/4. The
 1/4 boundary is crossed. The crossing IS measurement.
 
 This first crossing event synchronizes both observers:
@@ -279,7 +279,7 @@ If the protocol works as described by R=CΨ²:
    **RESULT (2026-02-24):** `bridge_local_detector.py`: 15 local observables
    tracked across 5 sender states (Bell+, |++⟩, |+0⟩, |+−⟩, |01⟩).
 
-   - Bell+ **never crosses ¼** (max CΨ_A = 0.061). |++⟩ crosses at t = 1.27.
+   - Bell+ **never crosses ¼** (max CΨ_A = 0.061). |++⟩ crosses at t = 1.28.
    - At crossing: Purity 0.56 vs 0.81, Entropy 1.19 vs 0.60, L1 0.33 vs 0.92.
    - Bloch components: Bell+ keeps ⟨σx⟩ = ⟨σy⟩ = 0 on A; |++⟩ shows oscillations.
    - R=CΨ² theta: only real (above ¼) for |++⟩ and |+0⟩; Bell+ stays imaginary.
