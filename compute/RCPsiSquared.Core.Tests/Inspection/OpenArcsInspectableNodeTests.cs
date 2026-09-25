@@ -164,26 +164,36 @@ public class OpenArcsInspectableNodeTests
         Assert.Equal(OpenArcStatus.Retired, arc.Status);
         Assert.Contains("PROOF_MISSING_PHASE_RELAXATION_SCALE", arc.ParkedAt);
         Assert.Contains("N = 7", arc.ParkedAt);
-        Assert.Contains("observable", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        // the linear readout is owned by its own proof; what stays open is nonlinear
+        Assert.Contains("PROOF_MISSING_PHASE_SLOW_READOUT", arc.ParkedAt);
+        Assert.Contains("PROOF_MISSING_PHASE_SLOW_READOUT", arc.NextStep);
+        Assert.Contains("nonlinear d_out and d_2 distance scales", arc.NextStep);
+        Assert.Contains("not a finite-defect distance lifetime", arc.NextStep);
         Assert.False(string.IsNullOrWhiteSpace(arc.RetiredReason));
         Assert.Contains("completed", arc.RetiredReason!, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("PROOF_MISSING_PHASE_SLOW_READOUT", arc.RetiredReason!);
     }
 
     [Fact]
-    public void ForcedAndMetArc_ClosesUniformCentreBondIff_AndKeepsAdjacentDebtOpen()
+    public void ForcedAndMetArc_ClosesTheSameEnergyBondIff_AndKeepsNewEnergiesAndEqualityBranchOpen()
     {
         var arc = OpenArcsRegistry.All.Single(a => a.Name == "the_forced_and_the_met");
 
         Assert.Equal(OpenArcStatus.Open, arc.Status);
         Assert.Contains("PROOF_NODE_PAIR_RESOLVENT", arc.NextStep);
         Assert.Contains("SUFFICIENT direction", arc.NextStep);
-        Assert.Contains("uniform centre-watched", arc.NextStep, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("pointwise iff", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        // Corollary C: the same-baseline-energy iff on any zero-free fixed-diagonal path
+        Assert.Contains("same-baseline-energy iff", arc.NextStep);
         Assert.Contains("r != 0,+1,-1", arc.NextStep);
+        Assert.Contains("any zero-free Jacobi path", arc.NextStep);
+        // Corollary D: the total count only on the uniform centre-watched family
+        Assert.Contains("total-count equality", arc.NextStep);
+        Assert.Contains("uniform centre-watched", arc.NextStep, StringComparison.OrdinalIgnoreCase);
+        // open: blind energies absent at baseline, with the exact off-centre N=6 example
+        Assert.Contains("NEW BLIND ENERGIES", arc.NextStep);
         Assert.Contains("off-centre", arc.NextStep, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("nonuniform", arc.NextStep, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("all-knob fixed-energy derivative test has a different", arc.NextStep);
-        Assert.Contains("does not determine the pointwise count", arc.NextStep);
+        Assert.Contains("does not determine the total count", arc.NextStep);
         Assert.Contains("EQUALITY branch", arc.NextStep);
         Assert.Contains("STRADDLING failures", arc.NextStep);
         Assert.Contains("epsilon = -2", arc.NextStep);

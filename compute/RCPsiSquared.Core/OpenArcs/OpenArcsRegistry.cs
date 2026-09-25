@@ -8525,8 +8525,9 @@ public static class OpenArcsRegistry
                 "bond keeps its energy and a blind representative. The product is why one endpoint " +
                 "is enough. With FIXED DIAGONAL, Corollary C now closes the same-baseline-energy " +
                 "iff at every r != 0,+1,-1 on any zero-free Jacobi path: the two-arm continuant " +
-                "makes survival of that energy equivalent to an endpoint node. Corollary D gives " +
-                "total-count equality on the UNIFORM CENTRE-WATCHED odd chain. At epsilon = -2 " +
+                "makes survival of that energy equivalent to an endpoint node. The same page's " +
+                "Corollary D (not the node lemma's) gives total-count equality on the " +
+                "UNIFORM CENTRE-WATCHED odd chain. At epsilon = -2 " +
                 "(r = -1) the sign-gauge return " +
                 "remains an exact counterexample to an unrestricted iff. STILL OPEN: which interior " +
                 "perturbations carry the locus on the EQUALITY branch, which is the branch the item " +
