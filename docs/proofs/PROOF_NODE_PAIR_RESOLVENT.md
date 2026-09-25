@@ -90,7 +90,7 @@ nonzero control, Corollary C's determinant factorization and theorem/control cas
 three exceptional ratios and the off-centre new-root case; run `inspect --root nodepair`. The typed Core breadcrumb names this
 root as a string, preserving the Core-to-Diagnostics dependency direction.
 
-Two of the proofs are neighbours and neither is superseded here.
+Three of the proofs are neighbours and none is superseded here.
 [PROOF_MISSING_PHASE_RELAXATION_SCALE](PROOF_MISSING_PHASE_RELAXATION_SCALE.md) §3 already
 derives, for the **end** bond at every r² ≠ 1, that one blind zero ray survives at N ≡ 3 (mod 4)
 and none at N ≡ 1 (mod 4): the all-orders criterion for that bond, both directions; §5
@@ -99,6 +99,14 @@ generalises the sufficient direction to every non-incident bond by a different r
 question for a mode that already carries light, first order in the bond, for the half-filling
 survivor under uniform dephasing: a different system, named as the lit counterpart and not
 compared term by term.
+[PROOF_MISSING_PHASE_SLOW_READOUT](PROOF_MISSING_PHASE_SLOW_READOUT.md) works on the same N = 7
+end-bond family from the preparation side. The slow residue it projects out of the missing-phase
+experiment's end state is built on two of §8's nonzero-frequency blind dyads, the zero mode paired
+with each of the two blind modes of nonzero energy, so the rate §8 reads for them,
+2γ(c_i + c_j)ε² = (γ/2)ε², is the leading term of the rate at which that residue fades. That proof
+supplies what this one does not, the preparation and readout residues of the same dyads, and its
+leakage formula evaluates the adjugate of xI − K_r at the root by the cofactor formula of §4,
+written there as leading and trailing continuants.
 
 None of the machinery below is new mathematics outside this repo. The Green's function
 factorization in §4 is the standard cofactor formula for the inverse of a tridiagonal matrix; the

@@ -9362,10 +9362,12 @@ public static class OpenArcsRegistry
                 "questions are to derive or refute the law for all odd N, control the " +
                 "punctured-neighbourhood radius uniformly in gamma if possible, and determine the " +
                 "nonlinear d_out and d_2 distance scales against their moving unitary reference. " +
-                "The coherent end preparation's endpoint ZZ/XX coupling, quadratic leakage residue and " +
-                "chiral null pairs are already derived in PROOF_MISSING_PHASE_SLOW_READOUT; the exact " +
-                "witness reconstructs the uniform residue/maps and leakage derivative, not a finite-defect " +
-                "distance lifetime.",
+                "The coherent end preparation's endpoint ZZ/XX coupling, quadratic leakage residue, pair " +
+                "tiers (the three odd-site pairs null at every small epsilon because the surviving blind " +
+                "vector has only even-site entries, four even pairs null at epsilon = 0 that switch on at " +
+                "first order) and three-site reading are already derived in PROOF_MISSING_PHASE_SLOW_READOUT; " +
+                "the exact witness reconstructs the uniform residue/maps, the first-order pair coefficients, " +
+                "the three-site reading and the leakage derivative, not a finite-defect distance lifetime.",
             Status: OpenArcStatus.Retired,
             RetiredReason: "Completed locally for the N = 7 A-sector by " +
                 "PROOF_MISSING_PHASE_RELAXATION_SCALE, with the prepared linear readout owned separately " +

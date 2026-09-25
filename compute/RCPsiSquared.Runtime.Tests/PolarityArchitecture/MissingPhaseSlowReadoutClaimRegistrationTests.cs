@@ -45,12 +45,21 @@ public class MissingPhaseSlowReadoutClaimRegistrationTests
     public void ClaimLinksTheLiveEvidenceAndKeepsTheNonlinearReferenceFence()
     {
         var claim = Registry.Value.Get<MissingPhaseSlowReadoutClaim>();
-        Assert.Contains("MissingPhaseSlowReadoutWitness.cs", claim.Anchor);
+        Assert.Contains($"{nameof(MissingPhaseSlowReadoutWitness)}.cs", claim.Anchor);
         Assert.Contains("PROOF_MISSING_PHASE_SLOW_READOUT.md", claim.Anchor);
-        Assert.Contains("f(0)=-1/2", claim.PreparedSignal);
+        // The values the claim states are the ones the live witness computes.
+        var reading = new MissingPhaseSlowReadoutWitness().Reading;
+        Assert.Equal(7, reading.NullPairsAtUniformPoint.Count());   // the ties below are not vacuous
+        Assert.Equal(3, reading.NullPairsAtFirstOrder.Count());
+        Assert.Contains($"f(0)={reading.EndZzResidue}", claim.PreparedSignal);
+        Assert.All(reading.NullPairsAtUniformPoint, pair => Assert.Contains($"({pair.A},{pair.B})", claim.ReadoutZeros));
+        Assert.Contains(string.Join(", ", reading.NullPairsAtFirstOrder.Select(pair => $"({pair.A},{pair.B})")),
+            claim.ReadoutZeros);
+        // The scope fences of a Tier-1 claim.
         Assert.Contains("d_out/d_2", claim.Scope);
         Assert.Contains("moving unitary reference", claim.Scope);
         Assert.Contains("No gamma-uniform", claim.Scope);
+        Assert.Contains("claimed at epsilon=0 only", claim.Scope);
     }
 
     [Fact]

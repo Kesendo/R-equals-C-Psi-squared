@@ -647,7 +647,7 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("epsilon") ?? MissingPhaseRelaxationScaleWitness.DefaultEpsilon,
                 c.Parser.OptionalDouble("gamma") ?? MissingPhaseRelaxationScaleWitness.DefaultGamma),
             RequiresN: false),
-        new("missingphasereadout", "fixed N=7 exact physical slow readout: complete uniform rank-two residue, ZZ/XX endpoints, physical pair maps and decoder quadratures, and the leakage derivative at rational gamma=3/10. Local coupling, not a d_out/d_2 lifetime",
+        new("missingphasereadout", "fixed N=7 exact physical slow readout: complete uniform rank-two residue (exact ranks, left = right eigenoperators), ZZ/XX endpoints, physical pair maps with their null tiers (seven pairs at epsilon=0, three at first order), decoder quadratures, the Z-tagged three-site current that reads what every pair loses, and the leakage derivative at rational gamma=3/10. Local coupling, not a d_out/d_2 lifetime",
             _ => new MissingPhaseSlowReadoutWitness(), RequiresN: false),
         new("epcharacter", "the artifact-free EP-character diagnostic (Riesz ‖P‖ / departure-from-normality / geo-vs-alg): the non-eig sibling of PhaseRigidity that confirms the coherence-horizon √-EP is genuinely DEFECTIVE (a Jordan block, dep≈4, geo 1<alg 2), not a diabolic degeneracy. Gate-first (toy Jordan→DEFECTIVE, diag→DIABOLIC); the family that misfired in the F86a retraction is here corroborating-but-not-load-bearing",
             _ => new EpCharacterWitness(), RequiresN: false),

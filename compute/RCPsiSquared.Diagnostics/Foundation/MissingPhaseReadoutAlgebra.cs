@@ -114,6 +114,75 @@ internal static class MissingPhaseReadoutAlgebra
 
     internal static ReadoutScalar[,] Outer(ReadoutScalar[,] a, ReadoutScalar[,] b) => Multiply(a, Adjoint(b));
 
+    internal static ReadoutScalar[,] Transpose(ReadoutScalar[,] a)
+    {
+        var c = Zero(a.GetLength(1), a.GetLength(0));
+        for (int i = 0; i < a.GetLength(0); i++)
+            for (int j = 0; j < a.GetLength(1); j++) c[j, i] = a[i, j];
+        return c;
+    }
+
+    internal static ReadoutScalar[,] Conjugate(ReadoutScalar[,] a)
+    {
+        var c = Zero(a.GetLength(0), a.GetLength(1));
+        for (int i = 0; i < a.GetLength(0); i++)
+            for (int j = 0; j < a.GetLength(1); j++) c[i, j] = a[i, j].Conjugate;
+        return c;
+    }
+
+    // a b^T for column vectors: the transpose, not the adjoint, as a complex symmetric K's projector needs.
+    internal static ReadoutScalar[,] OuterTranspose(ReadoutScalar[,] a, ReadoutScalar[,] b) => Multiply(a, Transpose(b));
+
+    // Complex conjugation fixes sqrt(2), so the real part is (x + conj x)/2 inside the field.
+    internal static ReadoutScalar RealPart(ReadoutScalar x) => (x + x.Conjugate) / 2;
+
+    // Exact reduced row echelon form with pivot search; returns the pivot columns.
+    private static List<int> Reduce(ReadoutScalar[,] a)
+    {
+        int rows = a.GetLength(0), columns = a.GetLength(1);
+        var pivots = new List<int>();
+        int r = 0;
+        for (int c = 0; c < columns && r < rows; c++)
+        {
+            int pivot = r;
+            while (pivot < rows && a[pivot, c].IsZero) pivot++;
+            if (pivot == rows) continue;
+            if (pivot != r)
+                for (int j = 0; j < columns; j++) (a[r, j], a[pivot, j]) = (a[pivot, j], a[r, j]);
+            var divisor = a[r, c];
+            for (int j = c; j < columns; j++) a[r, j] /= divisor;
+            for (int i = 0; i < rows; i++)
+            {
+                if (i == r || a[i, c].IsZero) continue;
+                var factor = a[i, c];
+                for (int j = c; j < columns; j++) a[i, j] -= factor * a[r, j];
+            }
+            pivots.Add(c);
+            r++;
+        }
+        return pivots;
+    }
+
+    internal static int Rank(ReadoutScalar[,] matrix) => Reduce((ReadoutScalar[,])matrix.Clone()).Count;
+
+    // Exact kernel basis, one column vector per free column of the reduced form.
+    internal static List<ReadoutScalar[,]> Nullspace(ReadoutScalar[,] matrix)
+    {
+        var a = (ReadoutScalar[,])matrix.Clone();
+        var pivots = Reduce(a);
+        int columns = a.GetLength(1);
+        var basis = new List<ReadoutScalar[,]>();
+        for (int free = 0; free < columns; free++)
+        {
+            if (pivots.Contains(free)) continue;
+            var vector = Zero(columns, 1);
+            vector[free, 0] = ReadoutScalar.One;
+            for (int row = 0; row < pivots.Count; row++) vector[pivots[row], 0] = -a[row, free];
+            basis.Add(vector);
+        }
+        return basis;
+    }
+
     // Exact Gaussian elimination with pivot search; no numerical tolerance or pseudoinverse.
     internal static ReadoutScalar[,] Solve(ReadoutScalar[,] matrix, ReadoutScalar[,] rhs)
     {

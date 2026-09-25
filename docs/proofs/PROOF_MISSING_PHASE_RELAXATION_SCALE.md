@@ -574,4 +574,6 @@ question: derive or refute the law for all odd N, control the neighbourhood as
 gamma varies, and determine the nonlinear distance scales. The physical
 endpoint ZZ and XX correlations for the experiment's coherent end preparation
 already couple to the complete rank-two slow cluster; the separate readout
-proof also identifies the chiral null pairs and the weaker leakage amplitude.
+proof also identifies the pairs that miss it, the three odd-site pairs at
+every small `epsilon` and four even pairs as well at `epsilon=0`, and the
+weaker leakage amplitude.
