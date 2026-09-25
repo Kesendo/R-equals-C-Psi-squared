@@ -302,7 +302,7 @@ eigenstates (Level 1), nor a proof that such a bridge preserves one universal
 
 ## The incompleteness connection
 
-**Interpretive invitation — not a result:** the Gödel/radio/antenna comparison
+**Interpretive invitation, not a result:** the Gödel/radio/antenna comparison
 below asks how model boundaries feel from inside. It is not a deduction about
 the microscopic origin of gamma or a universal outside sender.
 

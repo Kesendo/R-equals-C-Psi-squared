@@ -10,7 +10,7 @@ R=CPsi2 other side mirror -->
 > **Historical research diary.** This document grew organically
 > from March 20 through March 30, 2026 as the primary working
 > document. Every discovery was written directly into this file
-> as it happened: 24 sections in 10 days.
+> as it happened: 23 sections in 10 days.
 >
 > The results have since been distilled into standalone documents:
 > - Proof: [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
@@ -233,7 +233,7 @@ Results: `simulations/results/bootstrap_test.txt`
 
 ---
 
-## 1. The Two Sides
+## 1. The Two Halves
 
 The palindromic mirror Π swaps populations and coherences, past and
 future, immune and decaying. But Π is not the whole story. Π *squared*

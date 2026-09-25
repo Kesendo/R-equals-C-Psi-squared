@@ -6,7 +6,7 @@
 **Depends on:** [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md),
 [Resonant Return](../experiments/RESONANT_RETURN.md) (the concentrator formula)
 
-**Interpretive invitation — not a result:** the protein mapping below asks
+**Interpretive invitation, not a result:** the protein mapping below asks
 whether a biochemical system could realize a profile analogous to the finite
 qubit calculation. No protein implementation or cross-level mechanism is
 established here.

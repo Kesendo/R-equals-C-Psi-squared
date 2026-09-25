@@ -153,7 +153,7 @@ staging and spatial effects.
 
 <!-- CROSSING-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** The whisper-line picture is still
+**Interpretive invitation, not a result:** The whisper-line picture is still
 a useful way to imagine scheduled quiet. The 2:1 gear or impedance-matching
 image suggests a second question about asymmetric coupling. What would happen
 if the listener order, duration and dose were controlled independently?

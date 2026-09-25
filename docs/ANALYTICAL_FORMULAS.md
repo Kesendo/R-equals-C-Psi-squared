@@ -834,7 +834,7 @@ state-independent K.
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** The [optical-cavity picture](../experiments/OPTICAL_CAVITY_ANALYSIS.md)
+**Interpretive invitation, not a result:** The [optical-cavity picture](../experiments/OPTICAL_CAVITY_ANALYSIS.md)
 may call gamma illumination and K exposure. It does not derive experienced
 duration or a universal absorption dose. The exact dissipator charge 2γ per
 X/Y factor is a different object; multiplying it by time does not establish
@@ -3618,7 +3618,7 @@ At `c=b²`, the roots meet at `z=b` and the angle is zero. F95 and the period-on
 
 **Named Lindblad instance.** For the written 2×2 pair `λ²+2γ₀λ+(γ₀²+J²)=0`, use the positive decay variable `z=−λ`. Then `b=γ₀>0`, `c=γ₀²+J²`, and F95 gives the principal magnitude `θ=arctan(|J|/γ₀)`. For the repository's `J≥0` convention this is `arctan(J/γ₀)`; a signed clock angle is an oriented extension. A Kingston RZ scan steered `arg(CΨ_com)`, not this quadratic-root angle.
 
-**Interpretive invitation — not a result:** two real roots meet and leave the axis as a conjugate pair, so a compass picture is genuinely useful. That picture does not derive quantum amplitudes, the Born postulate, a polarity grading or a universal open-system clock.
+**Interpretive invitation, not a result:** two real roots meet and leave the axis as a conjugate pair, so a compass picture is genuinely useful. That picture does not derive quantum amplitudes, the Born postulate, a polarity grading or a universal open-system clock.
 
 **Anchors:** [`PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md`](proofs/PROOF_F95_ANGLE_AT_QUADRATIC_ZERO.md) and [`angle_at_zero_tier1_candidate.py`](../simulations/angle_at_zero_tier1_candidate.py). The speculative visual route remains in [`ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md`](../reflections/ON_HOW_THE_ANGLE_APPEARS_AT_ZERO.md) and [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md).
 
@@ -3655,7 +3655,7 @@ The absolute third-order population vector is `(8,−4,−4,0)` and sums to zero
 
 **Topology boundary.** The canonical chain's `|10⟩` slope is `-4/3`, so the ring slopes are not topology-universal. A finite ring/K4 probe agrees within its numerical tolerance for this lens; that comparison does not derive an all-topology law or a cancellation mechanism.
 
-**Interpretive invitation — not a result:** `−16/9=−(4/3)²` and `−8/3=−2(4/3)` are memorable numeric rhymes, not derivational inputs. They make the four-outcome table easy to see, while each coefficient keeps its own Dyson owner.
+**Interpretive invitation, not a result:** `−16/9=−(4/3)²` and `−8/3=−2(4/3)` are memorable numeric rhymes, not derivational inputs. They make the four-outcome table easy to see, while each coefficient keeps its own Dyson owner.
 
 **Anchors:** [`PROOF_F96_BORN_SUBDOMINANT_SLOPES.md`](proofs/PROOF_F96_BORN_SUBDOMINANT_SLOPES.md), [`born_rule_subdominant_dyson.py`](../simulations/born_rule_subdominant_dyson.py), and the chain/ring/K4 comparison in [`f94_topology_visibility_probe.py`](../simulations/f94_topology_visibility_probe.py).
 
@@ -3681,7 +3681,7 @@ so the squared magnitude ranges from 1/16 at the cusp to 9/16 at the tail, while
 
 **Coordinate seam.** F97 is an identity in the iteration's parameter plane, not a hardware trajectory. A measured or simulated `CΨ_com(t)` path can be drawn in the same complex coordinate plane, but the drawing does not make it a Mandelbrot orbit or establish a boundary crossing, stable-interior entry or approach law.
 
-**Interpretive invitation — not a result:** the cardioid and a spiral may still share a page; the visual rhyme is precisely what makes the comparison worth exploring. The iteration law and the finite open-system path remain two different objects.
+**Interpretive invitation, not a result:** the cardioid and a spiral may still share a page; the visual rhyme is precisely what makes the comparison worth exploring. The iteration law and the finite open-system path remain two different objects.
 
 **Anchors:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md) and [`cardioid_parametrization_tier1.py`](../simulations/cardioid_parametrization_tier1.py). Coordinate-side context lives in [`CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md), [`BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md), and [`MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md).
 

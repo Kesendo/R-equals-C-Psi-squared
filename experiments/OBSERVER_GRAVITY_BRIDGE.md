@@ -158,7 +158,7 @@ gamma with a gravitational field or either K with a physical observer.
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** The two factors invite a picture
+**Interpretive invitation, not a result:** The two factors invite a picture
 of “observer” and “gravitational” dilation. It can remain a question about
 how different readouts tell different stories. No spacetime or experienced-time
 law follows from the fixed-book factorization.

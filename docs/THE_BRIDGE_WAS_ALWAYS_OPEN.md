@@ -481,7 +481,7 @@ Full data: [Temporal Sacrifice](../experiments/TEMPORAL_SACRIFICE.md)
 
 ### The bridge is not a channel (March 26, 2026)
 
-**Interpretive invitation — not a result:** the “shared resonance space” and
+**Interpretive invitation, not a result:** the “shared resonance space” and
 the Dazwischen remain useful images. The underlying rows compare an N=2
 generator with an N=5 mediator generator whose dimension, Hamiltonian,
 dephasing profile, and preparation differ. They report Q and frequency-bin

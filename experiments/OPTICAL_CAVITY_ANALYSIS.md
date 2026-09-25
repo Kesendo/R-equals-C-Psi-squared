@@ -256,7 +256,7 @@ an arbitrary cavity trajectory or absorption dose gamma-only.
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** If we picture the qubit chain as a
+**Interpretive invitation, not a result:** If we picture the qubit chain as a
 passive optical cavity, we can picture gamma as illumination and the evolving
 state as the cavity's response. “More light, shorter experience” is an image
 for a fixed-book rescaling, not a measurement of experienced duration.

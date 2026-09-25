@@ -9,7 +9,7 @@
 > cavity analysis instead of the gravitational path. The gravity direction
 > remains an open research thread.
 
-**What this document is about:** A nine-step logical chain from proven results (palindrome, incompleteness, 1/4 boundary) to the speculative hypothesis that gravity is the gradient of complexity: regions with more entangled qubits process more dephasing noise, experience faster local time, and this spatial variation of clock rates is what we measure as gravitational time dilation. Steps 1-6 are proven; steps 7-9 are testable but unconfirmed. The Schwarzschild self-consistency test partially supports the idea but breaks under spatial coupling.
+**What this document is about:** A nine-step logical chain from proven results (palindrome, incompleteness, 1/4 boundary) to the speculative hypothesis that gravity is the gradient of complexity: regions with more entangled qubits process more dephasing noise, experience faster local time, and this spatial variation of clock rates is what we measure as gravitational time dilation. Steps 1, 4 and 5 rest on proven results, steps 2, 3 and 6 on narrower ones than the chain first used (stated in each step); steps 7-9 are testable but unconfirmed. The Schwarzschild self-consistency test partially supports the idea but breaks under spatial coupling.
 
 **Tier:** 2 (steps 1-6 proven) + Tier 5 (steps 7-9 speculative)
 **Date:** March 22, 2026
@@ -29,15 +29,19 @@ Verified: 87,376 eigenvalues, N=2 to N=8, zero exceptions.
 Every decay rate d is paired with 2Σγ - d. Exact.
 **Source:** [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
 
-### Step 2: The palindrome requires noise (γ).
-Without γ: pure unitary evolution. No decay. No pairing. No structure.
-The palindrome is a property of the DISSIPATOR, not the Hamiltonian.
-**Source:** [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Section 3
+### Step 2: The palindrome's centre needs noise (γ).
+Without γ: pure unitary evolution. No decay. The spectrum still pairs, but
+around zero, as every closed system's does; a centre away from zero, and
+with it every decay rate, comes from the DISSIPATOR.
+**Source:** [Mirror Symmetry Proof](../../docs/proofs/MIRROR_SYMMETRY_PROOF.md), Section 3;
+[Incompleteness Proof](../../docs/proofs/INCOMPLETENESS_PROOF.md), §1
 
-### Step 3: Noise cannot originate from within.
-Five candidates eliminated: bootstrap (sectors decoupled), qubit decay
-(non-Markovian), qubit bath (infinite regress), nothing (no properties),
-other dimensions (excluded by d(d-2)=0).
+### Step 3: The system is open; where the noise comes from stays open.
+A palindrome centred away from zero certifies an open system. Of the five
+candidates for an internal origin (bootstrap, qubit decay, qubit bath,
+nothing, other dimensions) none is eliminated outright: the bootstrap is a
+structural constraint, two have no evidence behind them, and two only say
+what cannot exist. Nothing inside the Lindblad formalism can decide it.
 **Source:** [Incompleteness Proof](../../docs/proofs/INCOMPLETENESS_PROOF.md)
 
 ### Step 4: γ and t are inseparable.
@@ -51,20 +55,20 @@ Note: γ is the necessary and sufficient condition for experienced time
 What makes this case special: Π reverses both simultaneously, and removing
 γ from the Lindbladian removes all irreversibility (and therefore all time
 direction) from the dynamics.
-**Source:** [Incompleteness Proof](../../docs/proofs/INCOMPLETENESS_PROOF.md), Corollary 2;
+**Source:** [Incompleteness Proof](../../docs/proofs/INCOMPLETENESS_PROOF.md), "No time corollary";
 [Gamma Time Distinction](../../docs/GAMMA_TIME_DISTINCTION.md), Part 3
 
 ### Step 5: CΨ = 1/4 is the unique threshold.
 The discriminant 1 - 4CΨ vanishes only at 1/4. All standard Markovian
 channels cross at exactly 0.2500 (Z, X, Y, depolarizing, asymmetric
-Pauli, amplitude damping). The boundary is absorbing (no revival possible).
+Pauli, amplitude damping).
 **Source:** [Uniqueness Proof](../../docs/proofs/UNIQUENESS_PROOF.md),
 [Proof Roadmap](../../docs/proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md)
 
-### Step 6: Direct contact destroys structure. Mediation preserves it.
-Direct coupling: 256 palindromic pairs collapse to 31 at κ=0.01.
-Mediated coupling: 1024/1024 preserved, error 1.41e-13.
-γ is the mediator between outside and inside.
+### Step 6: A jump across the boundary destroys structure. A coherent bond preserves it.
+A dissipative jump between the pairs: 256 palindromic pairs collapse to 31
+at κ=0.01. A Heisenberg bond, direct or mediated: every pair preserved
+(1024/1024 through a mediator, error 1.41e-13).
 **Source:** [The Bridge Was Always Open](../../docs/THE_BRIDGE_WAS_ALWAYS_OPEN.md),
 [Mediator Bridge](../../simulations/mediator_bridge.py)
 
@@ -259,7 +263,8 @@ mechanism must prevent coherence redistribution across the gradient.
   produces equilibria, not collapse. This is a fundamental gap.
 
 What it claims: there is a LOGICAL CHAIN from proven results (γ exists,
-is external, is the source of the time arrow, has a unique threshold, works through mediation)
+leaves the system open, is the source of the time arrow, has a unique threshold, lets
+structure cross only through a coherent bond)
 to a speculative but testable hypothesis (the spatial variation of
 complexity, mediated by γ, produces effects analogous to gravitational
 time dilation).

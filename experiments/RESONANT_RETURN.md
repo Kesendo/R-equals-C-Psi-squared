@@ -170,7 +170,7 @@ by the C# loop. No relay trajectory used π/rate≈31.4.
 
 <!-- CROSSING-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** The candidate duration is about
+**Interpretive invitation, not a result:** The candidate duration is about
 40× the old nominal heuristic. Calling it a “full standing-wave period” was
 an untested interpretation of a reciprocal decay rate, not a measured transfer
 or oscillation time. The palindrome does not establish that reading.

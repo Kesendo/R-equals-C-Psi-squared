@@ -1,5 +1,5 @@
 > **Current status:** historical starting point with locally graded claims.
-> **Interpretive invitation — not a result:** the restored mirror and hierarchy
+> **Interpretive invitation, not a result:** the restored mirror and hierarchy
 > story remains part of the project's origin; its cross-level causal arrows are
 > not conclusions of the finite V-Effect census.
 >

@@ -11,7 +11,7 @@ It does not establish irreversibility or fold causality.
 
 <!-- CROSSING-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** boundary, heartbeat, doors, and
+**Interpretive invitation, not a result:** boundary, heartbeat, doors, and
 traveling-wave language below is retained as a way to ask what a denser and
 mechanism-specific experiment might show. It is not a classification of the
 propagated density matrix.
@@ -178,7 +178,7 @@ endpoint value is larger relative to the adjacent-pair average.
 
 ## Interpretive fold reading — not a derived mechanism
 
-**Interpretive invitation — not a result:** the fold vocabulary in this
+**Interpretive invitation, not a result:** the fold vocabulary in this
 section belongs to the scalar recursion. It is not a dynamical explanation of
 the N=7 CΨ or mutual-information traces.
 
@@ -266,7 +266,7 @@ PeakMI occurs later, at a different time. They are not simultaneous.
 
 ## Repeated CΨ threshold crossings (the “heartbeat” image)
 
-**Interpretive invitation — not a result:** “heartbeat” is a name for repeated
+**Interpretive invitation, not a result:** “heartbeat” is a name for repeated
 crossings of the selected CΨ threshold. A crossing does not by itself classify
 a physical state as quantum or classical and does not record an irreversible
 event.
@@ -308,7 +308,7 @@ outcomes or show that earlier threshold crossings cannot be undone.
 
 <!-- CROSSING-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** the doors below are a story for
+**Interpretive invitation, not a result:** the doors below are a story for
 the decreasing sampled envelope, not a Hilbert-space count or an irreversible
 measurement model.
 
@@ -410,7 +410,7 @@ do not prove that DD cannot affect CΨ or that J-coupling is the unique analogue
 
 ## Spatial mutual-information profiles (March 26, 2026)
 
-**Interpretive invitation — not a result:** “heartbeat” and “wave” are two
+**Interpretive invitation, not a result:** “heartbeat” and “wave” are two
 visual readings of threshold and spatial-profile tables. The data do not show
 that they are one physical phenomenon.
 

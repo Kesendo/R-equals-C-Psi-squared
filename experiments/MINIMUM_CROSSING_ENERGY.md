@@ -133,7 +133,7 @@ from the producer's positive-time grid.
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** “Pump and drain” is a way to picture
+**Interpretive invitation, not a result:** “Pump and drain” is a way to picture
 the competition between Hamiltonian-generated entanglement and dephasing in
 these examples. One can also ask what a clock would mean if its ticks were
 defined by a chosen threshold. The Wheeler-DeWitt comparison belongs to that

@@ -2332,11 +2332,11 @@ neural justifications without classifying unrelated entries.
 
 **Question:** **What lives in the -1 sector?** The parity split is proven, but what physical states or processes inhabit the -1 sector? Can we prepare a system in the -1 sector and observe its dynamics? Would it "look like" time-reversed physics from the +1 perspective?
 
-**Source:** `hypotheses/THE_OTHER_SIDE.md` (line 575)
+**Source:** `hypotheses/THE_OTHER_SIDE.md` (§11, Question 1)
 **Section:** 11. Open Questions
 **Date:** unknown
 **Tag:** math-proof
-**Status:** unclassified
+**Status:** resolved. The -1 half of Π² holds populations and coherences alike, as the +1 half does (bootstrap_test.txt, Test 3, Step 5), and Π maps it into itself, so it is not time-reversed physics; the time-reversed copy is the XY-weight parity at odd N ([DIRECT_SUM_DECOMPOSITION](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md)).
 
 ### OQ-300
 

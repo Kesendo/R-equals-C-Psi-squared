@@ -21,7 +21,7 @@ does not derive a local gravitational clock, a mass, or an N-times crossing law.
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** the wave-death/gravity story is
+**Interpretive invitation, not a result:** the wave-death/gravity story is
 Tier 5. The scalar quarter boundary is not a measurement event or a general
 quantum/classical classifier. The prose below explores a picture, not a
 derivation of gravity from the spectral theorem.
@@ -131,7 +131,7 @@ Source: [Resonant Return](../experiments/RESONANT_RETURN.md), [Receiver vs Gamma
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** the following time-dilation
+**Interpretive invitation, not a result:** the following time-dilation
 comparison is a Tier-5 picture, with no calibrated gravitational model.
 
 ### Link 5: Position-dependent γ₀-tick as a time-dilation picture
@@ -379,7 +379,7 @@ The t_cross extractor at threshold = 0.25 has scan-dependent grazing-bifurcation
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** the questions and closing picture
+**Interpretive invitation, not a result:** the questions and closing picture
 remain Tier 5; no mass or spacetime model has been supplied by these crossings.
 
 - That gravity IS this mechanism in our universe. The hypothesis

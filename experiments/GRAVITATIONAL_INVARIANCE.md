@@ -98,7 +98,7 @@ claims are historical.
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** A family of equal-K hyperbolas
+**Interpretive invitation, not a result:** A family of equal-K hyperbolas
 can suggest clocks that disagree about their coordinates while agreeing about
 a chosen threshold. In log coordinates the rescaling is a translation:
 lnγ changes by δ and lnt_cross by -δ. That picture may motivate a question

@@ -117,7 +117,7 @@ P_B(i,t) ≈ P_A(i,α_i t) changes γt to γα_i t; it does not extend F14.
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** The painter image can use the
+**Interpretive invitation, not a result:** The painter image can use the
 coordinates
 
     K_i = γ · α_i · t,   Σ_i ln(α_i) = 0.

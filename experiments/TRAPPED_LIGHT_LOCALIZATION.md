@@ -159,7 +159,7 @@ In the Lindblad cavity:
 
 <!-- F14-INTERPRETIVE -->
 
-**Interpretive invitation — not a result:** Compare the dimensions, without
+**Interpretive invitation, not a result:** Compare the dimensions, without
 identifying the physical objects:
 
 ```

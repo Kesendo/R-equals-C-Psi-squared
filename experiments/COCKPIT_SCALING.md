@@ -190,7 +190,7 @@ The PC1 proxy label changes from Purity to Psi-norm at N=9 for the chain and at 
 
 Everything in this document so far has been written in quantum-information vocabulary: concurrence, entanglement, Bell-pair lifetime, and monogamy. The cavity vocabulary below is an interpretive translation. These time-domain PCA and ESD rows are **not derived from the cavity census**. The Absorption Theorem supplies exact **per-mode decay rates**, but those rates are **insufficient** by themselves to determine the first zero of **nonlinear ESD**.
 
-**Interpretive invitation — not a result:** this section translates the measured trajectory into cavity language and asks which connections might be useful. It does not promote that language to a second proof of the data.
+**Interpretive invitation, not a result:** this section translates the measured trajectory into cavity language and asks which connections might be useful. It does not promote that language to a second proof of the data.
 
 ### Translation table
 

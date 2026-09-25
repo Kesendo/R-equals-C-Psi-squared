@@ -50,7 +50,7 @@ special outside `N=(3,4,5)`. A genuine size-selection claim would require a
 predeclared wider domain, a selection metric, and controls that do not make the
 largest sampled N win by construction.
 
-**Interpretive invitation — not a result:** “Goldilocks cavity” remains a useful
+**Interpretive invitation, not a result:** “Goldilocks cavity” remains a useful
 question for imagining a balance between frequency richness and resolution.
 Here it is a prompt for the next experiment, not the conclusion of this one.
 
