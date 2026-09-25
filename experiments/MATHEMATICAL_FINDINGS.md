@@ -378,8 +378,11 @@ distributed as γ_A = f·0.10, γ_B = (1-f)·0.10 for f ∈ {0.0, 0.05,
 concurrence, Ψ, CΨ, purity, crossing time.
 
 **Result: ALL configurations produce IDENTICAL dynamics.** Crossing
-time = 0.720, CΨ@t=1 = 0.2234, purity@t=2 = 0.7247 for every single
-noise distribution. The 33:1 ratio claimed by the agents does not exist.
+time = 0.719 (the isolated-Bell+ baseline of
+[Subsystem Crossing](SUBSYSTEM_CROSSING.md) §6) and CΨ@t=1 = 0.2234,
+both read in the concurrence book CΨ = concurrence·Ψ, and
+purity@t=2 = 0.7247, for every single noise distribution. The 33:1 ratio
+claimed by the agents does not exist.
 
 **Why:** For local σ_z dephasing under a symmetric Hamiltonian
 (Heisenberg), the Lindblad evolution of a symmetric initial state

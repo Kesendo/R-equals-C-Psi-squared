@@ -2355,7 +2355,7 @@ Consequence: every site-local observable (per-site purity, per-site expectation,
 **Replaces:** the empirical observation "c_1 coherence contribution vanishes for |ΔN| ≥ 2" with an analytical lemma and bounds the sector-kernel for PTF's α_i closure structure. It does not explain all F23 endpoint one-site zeros: `X^N P_k` has `|ΔN|=|N−2k|`, while its one-site partial trace vanishes independently because every basis term differs on all N bits.
 
 **Scripts:** [`c1_sector_kernel.py`](../simulations/c1_sector_kernel.py), [`c1_bilinearity_test.py`](../simulations/c1_bilinearity_test.py).
-**Source:** [the ΔN selection-rule proof](proofs/PROOF_DELTA_N_SELECTION_RULE.md), [The Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) Update 2026-04-20, [XOR Space](../experiments/XOR_SPACE.md).
+**Source:** [the ΔN selection-rule proof](proofs/PROOF_DELTA_N_SELECTION_RULE.md), [The Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md) (its first-order-coefficient section), [XOR Space](../experiments/XOR_SPACE.md).
 
 ### F71. Mirror symmetry of the closure-breaking coefficient c₁ (Tier 1, proven kinematic)
 
@@ -3574,7 +3574,7 @@ i.e. **J is F71-anti-palindromic around its mean**. The full L operator generall
 
 ### F94. N=4 ring dominant-outcome deviation coefficient (Tier 1, exact named Dyson coefficient; 2026-05-16)
 
-**Owned object — parentless exact formula.** For the named N=4 `|0+0+⟩` Heisenberg ring with uniform local Z-dephasing, reduce to pair `(0,2)` and its `|00⟩` outcome. With
+**Owned object: parentless exact formula.** For the named N=4 `|0+0+⟩` Heisenberg ring with uniform local Z-dephasing, reduce to pair `(0,2)` and its `|00⟩` outcome. With
 
     Δ_|00⟩ = P_L(|00⟩) / P_U(|00⟩) − 1,    Q = J/γ,    K = γt,
 
@@ -3601,7 +3601,7 @@ For this state, ring, reduction and outcome, its projected integer is `8`. The T
 
 ### F95. Positive-b real-quadratic root angle (Tier 1, exact formula; 2026-05-16)
 
-**Owned object — parentless exact formula.** For the monic quadratic `z²−2bz+c=0` with finite b > 0 and real c, the principal angle of the upper-half-plane root is
+**Owned object: parentless exact formula.** For the monic quadratic `z²−2bz+c=0` with finite b > 0 and real c, the principal angle of the upper-half-plane root is
 
     θ(c;b) = arctan(√(c/b² − 1))    for c > b²,
     θ(c;b) = 0                      for c = b²,
@@ -3631,7 +3631,7 @@ At `c=b²`, the roots meet at `z=b` and the angle is zero. F95 and the period-on
 
 ### F96. N=4 ring subdominant relative-deviation slopes (Tier 1, exact named Dyson ratios; 2026-05-17)
 
-**Owned object — parentless exact formula.** In the named N=4 ring only—the same state, dephasing, pair and outcome basis specified in F94—the subdominant relative population deviations have the leading small-`K` slopes
+**Owned object: parentless exact formula.** In the named N=4 ring only (the same state, dephasing, pair and outcome basis specified in F94), the subdominant relative population deviations have the leading small-`K` slopes
 
     Δ_|01⟩ = Δ_|10⟩ = −(16/9)K + higher order,
     Δ_|11⟩             = −(8/3)K  + higher order,

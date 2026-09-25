@@ -7,6 +7,7 @@ from contextlib import redirect_stdout
 import inspect
 import io
 from pathlib import Path
+import re
 import runpy
 
 import numpy as np
@@ -19,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def _format_red_contract(marker, findings_by_category):
     normalized = {}
     for category, findings in findings_by_category.items():
+        assert re.fullmatch(r"[A-Z][A-Z0-9_]*", category)
         details = tuple(sorted({str(finding) for finding in findings if str(finding)}))
         if details:
             normalized[category] = details
@@ -34,6 +36,35 @@ def fail_red_contract(marker, findings_by_category):
     for detail in details:
         print(f"{marker}_DETAIL {detail}".encode("ascii", errors="backslashreplace").decode("ascii"))
     assert not details, summary
+
+
+def test_red_contract_detail_printing_is_ascii_safe_and_identifiable(capsys):
+    with pytest.raises(AssertionError, match="categories=WRITER"):
+        fail_red_contract("RED_CONTRACT_TEST", {
+            "WRITER": ["plot.py:VISIBLE:CΨ_com"],
+        })
+    output = capsys.readouterr().out
+    assert output.isascii()
+    assert "RED_CONTRACT_TEST_DETAIL WRITER: plot.py:VISIBLE:" in output
+    assert r"C\u03a8_com" in output
+    assert "CΨ_com" not in output
+
+
+def test_red_contract_formatter_reassignment_changes_category_identity():
+    before = _format_red_contract("PROBE", {"ALPHA": ["one"], "BETA": ["two"], "EMPTY": [""]})
+    after = _format_red_contract("PROBE", {"WRONG": ["one"], "BETA": ["two"]})
+    assert before == ("PROBE categories=ALPHA,BETA category_count=2",
+                      ("ALPHA: one", "BETA: two"))
+    assert after == ("PROBE categories=BETA,WRONG category_count=2",
+                     ("BETA: two", "WRONG: one"))
+    assert before != after
+
+
+def test_red_contract_formatter_rejects_a_category_that_is_not_one_token():
+    with pytest.raises(AssertionError):
+        _format_red_contract("PROBE", {"shared book": ["one"]})
+
+
 SOURCE = ROOT / "simulations/crossing_taxonomy_books.py"
 EXPECTED = {
     "mutual_info": {

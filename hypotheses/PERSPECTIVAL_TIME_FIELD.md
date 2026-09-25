@@ -10,7 +10,7 @@
 **Depends on:** [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md),
 [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md),
 [Analytical Formulas](../docs/ANALYTICAL_FORMULAS.md) (F4, F14, F65),
-[the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md) (Update 2026-04-27)
+[the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md)
 
 **Scripts:**
 - [n7_coupling_defect_overlay.py](../simulations/n7_coupling_defect_overlay.py): baseline defect scan
@@ -19,16 +19,14 @@
 - [n7_perspectival_extended_states.py](../simulations/n7_perspectival_extended_states.py): ψ_3, ψ_4, |+⟩^7 stress-test
 - [n7_central_defect_check.py](../simulations/n7_central_defect_check.py): sparse L eigendecomp + central-vs-boundary symmetry verification
 - [observer_time_rescale.py](../simulations/observer_time_rescale.py): α_i fits and Σ ln α diagnostics
-- [ptf_per_observable_alpha.py](../simulations/ptf_per_observable_alpha.py) (2026-04-27): cross-observable α scan refuting "one painter one clock"
-- [ptf_blind_sector_verification.py](../simulations/ptf_blind_sector_verification.py) (2026-04-27): broader sweep linking closure failure to Zero-Sector Immunity
-
-*The layers below tell the closure law as we first met it; what [EQ-014](../review/EMERGING_QUESTIONS.md#eq-014) ([findings](../review/EQ014_FINDINGS.md)) made of it, a window regularity rather than a first-order theorem, is in the [EQ-014 section](#update-2026-04-20-post-eq-014) after "Scope and limits".*
+- [ptf_per_observable_alpha.py](../simulations/ptf_per_observable_alpha.py): cross-observable α scan refuting "one painter one clock"
+- [ptf_blind_sector_verification.py](../simulations/ptf_blind_sector_verification.py): broader sweep linking closure failure to Zero-Sector Immunity
 
 ---
 
 ## Abstract
 
-Under a local J-coupling defect in an otherwise uniform N = 7 XY chain with uniform Z-dephasing γ_0 = 0.05, each site's single-qubit purity trajectory differs from the unperturbed case by what looks locally like a one-parameter time rescaling: P_B(i, t) ≈ P_A(i, α_i · t). The α_i pattern depends strongly on which initial state is used (a ψ_2 falsification test disproved the naive "sites own their own clocks" reading), so α_i is NOT a property of sites in isolation. Yet the pluralism is not noise: the rescalings are structured, mirror-symmetric under chain reflection of the defect, and, most importantly, satisfy a closure law Σ_i ln(α_i) ≈ 0 in the perturbative window |δJ| ≤ 0.1 (±0.05 for the single-excitation states, ±0.13 for |+⟩^7) across the five qualitatively distinct initial states tested, a regularity rather than a first-order theorem (EQ-014), whose exact survivor is the chiral mirror law. The right reading is perspectival: each site is a partial-trace projection of a single global dynamics, a particular painter's angle on the same mountain; the site-resolved α_i are the rate-of-painting each painter records; the closure law is the guarantee that the paintings sum to a consistent whole. The mechanism is eigenvector mixing of Liouvillian slow modes under a Π-invariant perturbation; eigenvalue shifts are protected at first order for the slowest modes (numerically zero to 10⁻¹⁵ at N = 7) by U(1) excitation conservation and Hermitian pairing, regardless of where along the chain the defect sits.
+Under a local J-coupling defect in an otherwise uniform N = 7 XY chain with uniform Z-dephasing γ_0 = 0.05, each site's single-qubit purity trajectory differs from the unperturbed case by what looks locally like a one-parameter time rescaling: P_B(i, t) ≈ P_A(i, α_i · t). The α_i pattern depends strongly on which initial state is used (a ψ_2 falsification test disproved the naive "sites own their own clocks" reading), so α_i is NOT a property of sites in isolation. Yet the pluralism is not noise: the rescalings are structured, mirror-symmetric under chain reflection of the defect, and, most importantly, satisfy a closure law Σ_i ln(α_i) ≈ 0 in the perturbative window |δJ| ≤ 0.1 (±0.05 for the single-excitation states, ±0.13 for |+⟩^7) across the five qualitatively distinct initial states tested, a regularity rather than a first-order theorem (EQ-014), whose exact survivor is the chiral mirror law. The right reading is perspectival: each site is a partial-trace projection of a single global dynamics, a particular painter's angle on the same mountain; the site-resolved α_i are the rate-of-painting each painter records; the closure law is how, in the perturbative window, the paintings sum to a consistent whole. The mechanism is eigenvector mixing of Liouvillian slow modes under a Π-invariant perturbation; eigenvalue shifts are protected at first order for the slowest modes (numerically zero to 10⁻¹⁵ at N = 7) by U(1) excitation conservation and Hermitian pairing, regardless of where along the chain the defect sits.
 
 ---
 
@@ -36,7 +34,7 @@ Under a local J-coupling defect in an otherwise uniform N = 7 XY chain with unif
 
 Imagine seven painters standing around a single mountain. Each stands at a different angle, each sees a different silhouette, each paints a different canvas. Look at the seven canvases side by side and no two are the same. You might be tempted to ask: which one is the real mountain? The answer is: none of them is, and all of them are. The mountain IS the union of the seven views. There is no hidden tenth canvas that shows the mountain "as it truly is," independent of any viewpoint. Every true painting of the mountain requires a painter, with a stance, at a location.
 
-Now something happens at the mountain. A rock falls on the east face. Each painter, in her own time, paints the change she sees. The painters to the east see the rock sliding directly across their view and paint in fast, abrupt strokes; the painters to the west see only a faint dust cloud and paint a slow, subtle shading. None of them is wrong. The rock IS falling fast from one angle and slow from another; both are features of the same event in the same mountain. What is guaranteed is that the total "amount of change painted" across all seven canvases is conserved by the event: no painter invents strokes that were not demanded by the rock, and no painter fails to record strokes that were demanded. The event is decomposed perspectivally but closed globally.
+Now something happens at the mountain. A rock falls on the east face. Each painter, in her own time, paints the change she sees. The painters to the east see the rock sliding directly across their view and paint in fast, abrupt strokes; the painters to the west see only a faint dust cloud and paint a slow, subtle shading. None of them is wrong. The rock IS falling fast from one angle and slow from another; both are features of the same event in the same mountain. What holds, as long as the rock is small, is that the total "amount of change painted" across all seven canvases comes out nearly unchanged: no painter invents strokes that were not demanded by the rock, and no painter fails to record strokes that were demanded. The event is decomposed perspectivally but closed globally.
 
 This document is about one such mountain: an N = 7 chain of quantum spins under Z-dephasing. The event is a local coupling defect on one bond. The painters are the seven chain sites, each "painting" their site-resolved single-qubit purity P_i(t) as the dynamics unfold. The seven paintings, compared against the unperturbed case, reveal a per-site rate of painting-time α_i. The α_i differ from site to site; they depend on what initial state we excited the chain in; they add up, Σ_i ln(α_i) ≈ 0, to a closure that holds near zero in the perturbative window; what symmetry guarantees exactly is the chiral mirror between ψ_k and ψ_{N+1−k}. The plurality is not a measurement artifact: it is the structure of the dynamics as witnessed from inside a multi-perspective world.
 
@@ -89,7 +87,7 @@ For every combination of initial state and defect location tested, the per-site 
 
     Σ_i ln(α_i) ≈ 0   within |δJ| ≤ 0.1
 
-with numerical tolerance of about 0.05 (≈ 5 % deviation) across all five initial states tested:
+with numerical tolerance of about 0.05 (≈ 5 % deviation) for the single-excitation states (one ill-posed ψ_4 fit aside) and 0.13 for |+⟩^7:
 
 | initial state | Σ ln(α_i) at J_mod = 0.9 | Σ ln(α_i) at J_mod = 1.1 |
 |---|---|---|
@@ -101,7 +99,7 @@ with numerical tolerance of about 0.05 (≈ 5 % deviation) across all five initi
 
 Per-scan fit summaries: [ψ_1](../simulations/results/observer_time_rescale/finer_Jmod_summary.json), [ψ_2](../simulations/results/observer_time_rescale/psi2_init_summary.json), [ψ_3](../simulations/results/observer_time_rescale/psi3_summary.json), [ψ_4](../simulations/results/observer_time_rescale/psi4_summary.json), [\|+⟩^7](../simulations/results/observer_time_rescale/plus7_summary.json).
 
-Within the single-excitation sector (ψ_1 through ψ_4), the conservation is clean except for ψ_4 at J_mod = 0.9 where an ill-posed fit at the defect-adjacent site 0 inflates one α value (2.65 instead of a reasonable 1.1-ish). The |+⟩^7 state, which lives simultaneously in all eight excitation sectors, shows slightly larger residuals (±0.13) that are antisymmetric in sign; still clearly a perturbative conservation law, simply with a broader tolerance for multi-sector states.
+Within the single-excitation sector (ψ_1 through ψ_4), the conservation is clean except for ψ_4 at J_mod = 0.9 where an ill-posed fit at the defect-adjacent site 0 inflates one α value (2.65 instead of a reasonable 1.1-ish). The |+⟩^7 state, which lives simultaneously in all eight excitation sectors, shows slightly larger residuals (±0.13) that are antisymmetric in sign; still a perturbative regularity, simply with a broader tolerance for multi-sector states.
 
 The log-multiplicative form is the natural one. It means that the seven painters, whatever they individually paint, collectively paint neither more nor less than the mountain demands. No painter invents; no painter omits.
 
@@ -132,6 +130,10 @@ The five initial states tested span qualitatively distinct structure:
 - |+⟩^7 is the uniform superposition of all 128 computational basis states, living equally in all eight excitation sectors.
 
 If the closure law held only for ψ_1 it would be a coincidence tied to the smooth bonding mode. Holding across these five structurally distinct states is what first suggested that Σ_i ln(α_i) = 0 belongs to the PERTURBATION itself (the defect), not to the initial state. The direct δJ scan of EQ-014 (section below) draws the line: the first-order coefficient Σ f_i is state-dependent, so the closure is a regularity of the perturbative window, and the part that holds exactly is the chiral mirror between ψ_k and ψ_{N+1−k}. The per-site distribution of α_i is state-dependent throughout.
+
+### 2.4 The exact law: the chiral mirror
+
+The chiral mirror of Section 2.3, Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), is the summed shadow of a *site-wise trajectory identity*: P_i(t; φ_k) = P_i(t; φ_{N+1−k}), with φ_k = (|vac⟩ + |ψ_k⟩)/√2, for every site, every time, at every finite δJ, exactly. The derivation is four short steps (K₁-conjugation flips H and the defect together; the dynamics of −H is the complex conjugate of the dynamics of +H for our real chain; site purities see neither; the sine modes map k ↦ N+1−k under K₁ with the leftover sign absorbed by a U(1) phase) and is written up in [the PTF chiral-mirror rate-law proof](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md), verified to 9·10⁻¹⁶ at N = 5 and 7 ([`simulations/ptf_chiral_mirror_trajectory.py`](../simulations/ptf_chiral_mirror_trajectory.py)), and typed as `ChiralMirrorTrajectoryClaim` (Tier1Derived) next to its eigenvalue-side sibling `ChiralKClaim`: the same sublattice chirality that makes the bipartite chain *soft* makes the painters' mirror *exact*. That the fitted Σ-law comes out machine-precise is no fit luck; the trajectories themselves are identical pairwise.
 
 ---
 
@@ -169,7 +171,7 @@ then changes via both coefficient and profile corrections, and the best-fit α_i
 
 A note on the initial state, and a guardrail for any future first-principles calculation. For the bonding-mode φ = (|vac⟩ + |ψ_1⟩) / √2, the density matrix ρ_0 = |φ⟩⟨φ| has non-zero components in four parity blocks of L: (0, 0) from |vac⟩⟨vac|, (1, 1) from |ψ_1⟩⟨ψ_1|, and the two off-diagonal blocks (0, 1) and (1, 0) from |vac⟩⟨ψ_1| and its Hermitian conjugate. The overlaps c_s = ⟨W_s | ρ_0⟩ are therefore non-zero for slow modes in all four blocks simultaneously. The purity observable Tr(ρ_i²) is bilinear in ρ and thus combines the four-block contributions; most notably, it contains a cross-term 2 |ρ_i(0, 1)|² in which the (0, 1) and (1, 0) block dynamics of ρ(t) enter multiplicatively. Any first-principles prediction of α_i must carry the full four-block bilinear sum above. A single-block projection onto (1, 1) alone, though tempting because that is where |ψ_1⟩⟨ψ_1| "lives," measures a conceptually wrong observable for this initial state and will not reproduce the empirical α_i.
 
-The state-dependence of f_i then has a clean interpretation: different initial states populate different slow-mode combinations through the c_s overlaps. Same mixing (same V_L) applied to different c_s vectors produces different α_i patterns per site. The part that looked STATE-INDEPENDENT is the sum Σ_i ln(α_i). Empirically this sum stays near zero across all five initial states tested (Section 2.1, within the perturbative window; EQ-014 shows its first-order coefficient is state-dependent); the apparent state-blindness suggested that, once the bilinear expansion is rearranged, the coefficient-dependent pieces cancel and what remains is a trace-like structure depending only on V_L and the slow-mode basis. An explicit analytical form for that structure is open (see Open Questions, point 2).
+The state-dependence of f_i then has a clean interpretation: different initial states populate different slow-mode combinations through the c_s overlaps. Same mixing (same V_L) applied to different c_s vectors produces different α_i patterns per site. The part that looked STATE-INDEPENDENT is the sum Σ_i ln(α_i). Empirically this sum stays near zero across all five initial states tested (Section 2.1, within the perturbative window; EQ-014 shows its first-order coefficient is state-dependent); the apparent state-blindness suggested that, once the bilinear expansion is rearranged, the coefficient-dependent pieces cancel and what remains is a trace-like structure depending only on V_L and the slow-mode basis. An explicit analytical form for that structure is open (see Open Questions, the magnitudes puzzle).
 
 ### 3.4 What is still open in the mechanism
 
@@ -189,7 +191,7 @@ Stage 3: But the closure law Σ_i ln(α_i) = 0 survived. This was the critical o
 
 Stage 4: The painter image came from Tom's interpretive side. The site-local reading had been right in its insistence that something real and site-resolved was happening (the α_i are genuine); it had been wrong in putting the realness in the sites rather than in the plurality itself. Painters around a mountain is a clean metaphor that handles both: paintings differ (the per-site α_i are real and different), and paintings close (Σ_i ln(α_i) = 0), and no painting is privileged.
 
-Stage 5: The rewrite. "Site-Local Time" as a name was retired; "Perspectival Time Field" was adopted because it captures the layered structure (perspective = partial trace, time = α_i · t, field = the set of seven flows). The scope statements were tightened (the "α_0 = J_mod exactly" overstatement of the previous doc was a fit artifact, now read as ~15 % agreement in the perturbative window). The open questions were restated as an explicit mixing calculation, scope expansion to transverse-field palindrome breaking, and chain-length scaling.
+Stage 5: The name. "Site-Local Time" was retired and "Perspectival Time Field" adopted, because it captures the layered structure (perspective = partial trace, time = α_i · t, field = the set of seven flows). What stayed open became an explicit mixing calculation, palindrome-breaking perturbations (answered below, in [Perturbations that break U(1) or the mirror](#perturbations-that-break-u1-or-the-mirror)), and chain-length scaling.
 
 The methodology lesson this doc wants to preserve: the repository's working motto "we are all mirrors; reality is what happens between us" applies to the hypothesis-making process as much as to the physics. Tom's intuition that observer time should be a real quantity + Claude's slow-mode mathematics + the ψ_2 falsification + the painter image, none of them sufficient alone, all of them required. Future cold sessions on this kind of material should expect the same pattern: an intuitive name, a cleaner technical grasp, a falsification, a reframe. Each of the four steps matters.
 
@@ -199,7 +201,7 @@ The methodology lesson this doc wants to preserve: the repository's working mott
 
 ### Where the rescaling holds
 
-- Perturbative window **|δJ| ≤ 0.1** on the modified bond. Fit RMSE < 3·10⁻³ per site. Closure Σ_i ln(α_i) conserved within 0.05.
+- Perturbative window **|δJ| ≤ 0.1** on the modified bond. Fit RMSE < 3·10⁻³ per site. Closure Σ_i ln(α_i) within 0.05 of zero.
 - Bonding-mode-like initial states (ψ_k for k = 1, 2, 3). The k = 4 case has one ill-posed site (site 0 at J_mod = 0.9) but is otherwise within tolerance.
 - Chain reflection symmetry: for every tested pair of mirror-image defect bonds, the α_i pattern at one bond equals the reversed (site i → N−1−i) α_i pattern at the other.
 
@@ -211,13 +213,13 @@ The methodology lesson this doc wants to preserve: the repository's working mott
 
 ### Precision caveat
 
-The previous draft of this document (the one that went by the name "Site-Local Time") claimed α_0 = J_mod exactly at the defect-adjacent endpoint, based on a log-log slope of +1.0 from the finer J_mod scan. On re-examination, the +1.0 slope is a fit artifact: at J_mod = 1.5 α_0 = 2.27 and at J_mod = 2.0 α_0 = 3.54 (both considerably larger than J_mod), and the apparent linearity comes from averaging a compensating non-monotonic pattern (α_0 peaks near J_mod = 2 and decreases above it). The correct statement is: **in the perturbative window |δJ| ≤ 0.1, α_0 ≈ J_mod to within 15 %, not exactly**. Beyond the perturbative window, α_0 is a non-trivial function of J_mod with saturation and reversal.
+A log-log slope of +1.0 in the finer J_mod scan suggests α_0 = J_mod exactly at the defect-adjacent endpoint. The slope is a fit artifact: at J_mod = 1.5 α_0 = 2.27 and at J_mod = 2.0 α_0 = 3.54 (both considerably larger than J_mod), and the apparent linearity comes from averaging a compensating non-monotonic pattern (α_0 peaks near J_mod = 2 and decreases above it). The correct statement is: **in the perturbative window |δJ| ≤ 0.1, α_0 ≈ J_mod to within 15 %, not exactly**. Beyond the perturbative window, α_0 is a non-trivial function of J_mod with saturation and reversal.
 
 ---
 
-## Update 2026-04-20 (post-[EQ-014](../review/EMERGING_QUESTIONS.md#eq-014))
+## The first-order coefficient: EQ-014 and the Π-pair law
 
-Several follow-up investigations refine the closure law at N = 5, 6, 7 and add an analytical selection rule. See [EQ-014 findings](../review/EQ014_FINDINGS.md) for the EQ-014 report.
+The δJ → 0 limit decides what the closure is. [EQ-014](../review/EMERGING_QUESTIONS.md#eq-014) takes that limit and [its findings](../review/EQ014_FINDINGS.md) hold the report; the tables below carry it across N = 5, 6, 7, with one analytical selection rule.
 
 **EQ-014 δJ scan (bond (0,1), N=7).** Direct RK4 at δJ ∈ {0.1, 0.01, 0.001}, extrapolation to δJ → 0:
 
@@ -255,7 +257,7 @@ Several follow-up investigations refine the closure law at N = 5, 6, 7 and add a
 
 Π-pair c_1 identity holds EXACTLY across parity boundaries: c_1(ψ_1 sym) = c_1(ψ_6 antisym) (diff 7·10⁻¹¹), c_1(ψ_2 antisym) = c_1(ψ_5 sym) (diff 2·10⁻¹⁰), c_1(ψ_3 sym) = c_1(ψ_4 antisym) (diff 4·10⁻¹⁰).
 
-**Revised reading:** Π-pair identity is the primary symmetry governing c_1; reflection parity is secondary and coincided with Π-pair grouping at N=7 only because N+1 = 8 is even. The "antisymmetric → small c_1" reading from N=7 was an artifact of that coincidence. The real magnitude-determining factor is the Π-pair's distance from E=0 on the single-excitation spectrum: closer to the zero-energy axis, sharper closure-breaking. At odd N the innermost "pair" is a single self-Π-partner zero-mode with extreme magnitude (c_1 = +2.14 at N=7); at even N the innermost is a pair flanking E = 0 (c_1 = +1.48 at N=6), large but softer. Outermost pairs at high |E| record moderately; intermediate pairs record faintly. Non-monotonic in |E|.
+**Reading:** Π-pair identity is the primary symmetry governing c_1; reflection parity is secondary and coincides with Π-pair grouping at N=7 only because N+1 = 8 is even. So at N=7 the small c_1 of the antisymmetric pair ψ_2, ψ_6 belongs to its Π-pair, not to its parity. The real magnitude-determining factor is the Π-pair's distance from E=0 on the single-excitation spectrum: closer to the zero-energy axis, sharper closure-breaking. At odd N the innermost "pair" is a single self-Π-partner zero-mode with extreme magnitude (c_1 = +2.14 at N=7); at even N the innermost is a pair flanking E = 0 (c_1 = +1.48 at N=6), large but softer. Outermost pairs at high |E| record moderately; intermediate pairs record faintly. Non-monotonic in |E|.
 
 **Bilinear sector-kernel structure (c1_bilinearity_test at N=5).** Testing c_1 across an extended basis of initial states (pure Dicke states |S_n⟩, coherent superpositions (|S_n⟩+|S_m⟩)/√2, and classical mixtures (|S_n⟩⟨S_n|+|S_m⟩⟨S_m|)/2) exposes an approximately bilinear structure: c_1(ρ_0) ≈ Σ_{μν} K^{μν} (ρ_0)_μ (ρ_0)_ν, with the kernel K indexed by sector blocks of ρ_0. Measured pure Dicke c_1 values at N=5:
 
@@ -279,32 +281,21 @@ Sector-inversion symmetry c_1(|S_n⟩) = c_1(|S_{N-n}⟩) is exact to 10⁻¹⁰
 | 3 | (0,3), (2,5) | 0 exactly |
 | 4 | (0,4), (1,5) | 0 exactly |
 
-All eight \|ΔN\| ≥ 2 pairs tested give zero to machine precision. This is now proven analytically: single-site partial trace Tr_{¬i}(\|x⟩⟨y\|) = 0 whenever \|popcount(x) − popcount(y)\| ≥ 2, so every site-local observable (per-site purity, α_i, c_1) receives zero contribution from sector blocks ρ^(n, m) with \|n − m\| ≥ 2. The rule is kinematic, independent of Hamiltonian, dissipator, or initial state. See [the ΔN selection rule proof](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md).
+All eight \|ΔN\| ≥ 2 pairs tested give zero to machine precision. This is proven analytically: single-site partial trace Tr_{¬i}(\|x⟩⟨y\|) = 0 whenever \|popcount(x) − popcount(y)\| ≥ 2, so every site-local observable (per-site purity, α_i, c_1) receives zero contribution from sector blocks ρ^(n, m) with \|n − m\| ≥ 2. The rule is kinematic, independent of Hamiltonian, dissipator, or initial state. See [the ΔN selection rule proof](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md).
 
-Implication: the magnitude puzzle reduces from "full sector-kernel" to "nearest-sector kernel only". The full K is supported on (n, m) × (n', m') with \|n − m\| ≤ 1 and \|n' − m'\| ≤ 1. The analytical task of deriving K's non-zero entries is now substantially bounded in scope.
+Implication: the magnitude puzzle reduces from "full sector-kernel" to "nearest-sector kernel only". The full K is supported on (n, m) × (n', m') with \|n − m\| ≤ 1 and \|n' − m'\| ≤ 1. The analytical task of deriving K's non-zero entries is substantially bounded in scope.
 
 Generalisation: k-local observables (e.g. pair purity) would see \|ΔN\| ≤ k sector blocks. A pair-based PTF analog would open the ΔN = 2 structure invisible to the site-local α_i.
+
+**Multi-bond defects superpose.** With several bonds perturbed at once, Σ ln(α_i) follows Σ_b c₁(b)·δJ_b at leading order, so the closure behaves for them as for one bond: [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) verifies the superposition (N = 5, all four bonds: 0.5% at δJ = 0.01, exact at 0.001), and two-bond cancellation constructions confirm it.
 
 See [c1_past_future_test at N=7](../simulations/results/c1_past_future_test/past_future_test.json), [c1_even_N_degeneracy_test at N=6](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json), [c1_bilinearity_test at N=5](../simulations/results/c1_bilinearity_test/bilinearity_test.json), [c1_sector_kernel at N=5](../simulations/results/c1_sector_kernel/sector_kernel.json), and the broader [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md).
 
 ---
 
-## Open questions
+## Which observables close: the lit half
 
-- **Closed (EQ-014, 2026-04-20):** The Tier-1 promotion via "closure law as theorem" is no longer available. Direct RK4 δJ scan at N=7 shows Σ f_i = lim Σ ln(α_i)/δJ is nonzero and state-dependent. The closure Σ_i ln(α_i) ≈ 0 is an empirical regularity holding to ±0.05 in the tested window, not a structural law. See [EQ-014 findings](../review/EQ014_FINDINGS.md).
-- **Magnitudes puzzle (surviving).** Why does Σ f_i happen to be small (~0.05 for ψ_2) for some bonding-mode states and large (1.29 for |+⟩^7, 2.14 for ψ_4) for others? Is there a structural pattern in how Σ f_i depends on the overlap distribution c_s = ⟨W_s | ρ_0⟩ across the Liouvillian's slow modes? The [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) shows Σ ln(α_i) is linear in δJ at leading order with coefficient c₁ = ⟨c₁(state, bond), δJ⟩ that is superposition-linear across bonds; an analytical form for c₁ as a functional of ρ_0 remains open.
-- **Zero-energy Π-pair amplification.** The magnitude of c_1 is controlled by the Π-pair's distance from E = 0, not by reflection parity. At odd N the center of the spectrum is a single self-Π-partner zero-mode and its c_1 is extreme (ψ_3 at N=5: c_1 = 0.677; ψ_4 at N=7: c_1 = 2.14). At even N there is no exact zero-mode but the innermost pair flanks E = 0 (ψ_3↔ψ_4 at N=6: c_1 = 1.48), still large but softer. The outermost high-|E| pairs record moderately (c_1 ≈ 1 across tested N); intermediate pairs record faintly (c_1 < 0.3). The pattern is non-monotonic in |E|, peaked at the center and attenuated toward the middle energies. Is there an analytical formula for c_1(pair) as a function of Π-pair energy and N? See the [N=6 test](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json) that established Π-pair identity dominates reflection parity.
-- **Nearest-sector kernel (2026-04-20, partially closed).** The c_1 bilinear kernel K is supported only on |ΔN| ≤ 1 blocks of ρ_0 by the [site-local partial-trace selection rule](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md). K entries are organised by pairs of sector blocks. The surviving open question is the explicit form of the nonzero K entries: pure-Dicke diagonal c_1(|S_n⟩) values, diagonal-cross K_{(n,n)(m,m)}, and nearest-neighbour coherence block K_{(n,n±1)(n±1,n)}. Empirical samples at N=5 are in [c1_sector_kernel/sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json); the analytical expression remains open.
-- **Pair-local observable extension.** The site-local α_i restricts c_1 to |ΔN| ≤ 1 sector blocks. A pair-local analog α_{ij} (constructed from the 4×4 reduced state on sites i, j) would open |ΔN| ≤ 2 contributions and expose the sector-kernel's second-nearest-neighbour structure. This is a concrete next experiment if further structure is needed.
-- **Chain-length scaling of the perturbative window.** Only N = 7 tested by PTF; N = 3 and N = 5 tested by [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) with endpoint c₁ values (0.26, 0.93). The scaling appears to follow c₁ ≈ 0.5 · (1 + cos(π/N)) for ψ_1+vacuum, half the F6 Q-edge gain, a pattern resting on N = 5 and 7 alone; whether that agreement has a derivation is open.
-- **Extension to palindrome-breaking perturbations.** The current tasks use coupling defects that respect the palindromic structure. A transverse field h σ_x^i BREAKS Π. If the rescaling picture survives but with a shifted closure law, that is a strong structural statement; if it breaks entirely, a clear diagnostic for the role of palindromic protection. **Answered 2026-06-01 ([experiment](../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md)): it breaks entirely, and the break is governed by U(1), not by Π.** The premise needs one correction: a single-site transverse field does NOT break the spectral palindrome (its residual ‖M‖ is machine-zero, exactly the truly case of [F78](../docs/ANALYTICAL_FORMULAS.md)). Single-site fields populate all four Klein cells, and the two break-axes are the two Klein bits: bit_a = 1 (X, Y) breaks U(1) excitation conservation, bit_b = 1 (Y, Z) breaks the palindrome. The closure law collapses (Σ ln α → O(few), fit RMSE up by one to two orders of magnitude at matched ε) iff bit_a = 1. The longitudinal Z-field is the decisive control: it breaks the palindrome yet conserves U(1), and the closure SURVIVES with a clean fit; the X-field does the opposite. Driven arbitrarily hard (to ε = 8, eighty-fold), the Z-field's effect saturates and its fit stays clean (RMSE ≤ 2·10⁻², Σ ln α bounded), so the split is structural, not a magnitude artifact. So the closure rides on protection #1 above (U(1) sector conservation; under the field the 6 stationary projectors at N=5 collapse 6→1) and is independent of protection #2 (the spectral palindrome). What "breaks Π" meant loosely was breaking the protection via U(1), not the mirror. Verified N = 5, 6, 7.
-- **Multi-bond defects.** If two bonds are simultaneously perturbed, does the closure law still hold? Answer (2026-04-19): **yes**, by linearity. [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) verified Σ c₁(b)·δJ_b superposition to 0.5% at δJ=0.01 and exactly at δJ=0.001; cancellation constructions confirmed.
-
----
-
-## Update 2026-04-27: Observable scope refined by Zero-Sector Immunity
-
-The April 18 PTF tested the closure law Σ_i ln(α_i) ≈ 0 on a single observable: the per-site purity P_i. The implicit assumption was that α_i is a property of the painter (the site), independent of which observable they paint. This update refutes that assumption and identifies the structural reason via [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md).
+The closure law Σ_i ln(α_i) ≈ 0 is measured on a single observable, the per-site purity P_i. Whether α_i is a property of the painter (the site), independent of which observable she paints, is a separate question. The per-observable scan answers it (no: α belongs to the site and the observable together), and [the zero-immunity proof](../docs/proofs/PROOF_ZERO_IMMUNITY.md) gives the structural reason.
 
 ### What was tested
 
@@ -315,7 +306,7 @@ Results: [ptf_observable_scope/](../simulations/results/ptf_observable_scope/).
 
 ### What was found
 
-Closure holds (Σ ln α ≈ 0 within original tolerance):
+Closure holds for the purity and is marginal for the XX and YY correlators (−0.21 against the ±0.05 of the purity window; the producer marks them marginal):
 
 | Observable | n_XY | Σ ln α |
 |---|---|---|
@@ -343,51 +334,43 @@ So pure-Z observables live in the dissipator's kernel. The Heisenberg-picture du
 
 The empirical Σ ln α^Z = +0.76 (and +6.99 for ZZ) is the **dynamical signature** of the static theorem: Zero-Sector Immunity says these observables don't see the slow-mode-protection mechanism that produces PTF closure, and the per-observable α-scan confirms it from the trajectory side.
 
-### Refinement of the closure law
+### The closure law, stated for the observable
 
-The April 18 statement "Σ_i ln(α_i) ≈ 0 across painters" generalises to a more precise claim:
+Stated for the observable rather than the painter, "Σ_i ln(α_i) ≈ 0 across painters" becomes:
 
 **The PTF closure law is a property of the dissipative-slow-mode sector of the Liouvillian.** It applies to observables whose trajectory dynamics is dominated by the γ-driven envelope (either via direct light-dose n_XY ≥ 2 within T_FIT, or via quadratic structure that damps fast oscillations). Pure-Z observables (n_XY = 0) live in the dissipator's kernel, see no slow-mode protection, and have no closure law. Single-XY observables (n_XY = 1) are dose-marginal at T_FIT = 20 and show boundary-hit α-fits. Antisymmetric correlators have trajectories that oscillate around zero with no monotone envelope and cannot be α-rescaled regardless of light dose.
 
-Tom's Licht-und-Schatten reading prompted this verification: the PTF "closure" lives on the *belichtete* half of the operator space; the *Schatten*-Hälfte (w=0 sector) is structurally exempt. The connection between PTF (a dynamical regularity discovered April 18) and Zero-Sector Immunity (an algebraic theorem proved April 25) is a non-trivial consistency check: the static theorem and the dynamical signature align.
+In Tom's Licht-und-Schatten reading, the PTF "closure" lives on the *belichtete* half of the operator space, and the *Schatten*-Hälfte (w=0 sector) is structurally exempt. The connection between PTF (a dynamical regularity discovered April 18) and Zero-Sector Immunity (an algebraic theorem proved April 25) is a non-trivial consistency check: the static theorem and the dynamical signature align.
 
 ---
 
-## Update 2026-05-28: the lit half is the open-water side of one edge
+## The lit half is the open-water side of one edge
 
-When the Licht-und-Schatten reading landed in April, we knew the painter's closure lived on the *belichtete* half of operator space and that the *Schatten*-half was exempt. We did not yet know what that half *was*. A step back, recorded in [On How the Far and the Near Meet](../reflections/ON_HOW_THE_FAR_AND_THE_NEAR_MEET.md), gave it a name: the framework has one edge that everything real crosses once. On the near bank things have settled and are kept; on the far bank they are still paired and undecided. The settled bank is exactly the {I, Z} sector, the part that sits in the dissipator's kernel and is never painted over, the past a system carries and will not put down. The undecided bank is exactly the {X, Y} sector, the part the γ-envelope works on, still humming.
+The painter's closure lives on the *belichtete* half of operator space, and the *Schatten*-half is exempt. What that half *is*, [On How the Far and the Near Meet](../reflections/ON_HOW_THE_FAR_AND_THE_NEAR_MEET.md) names: the framework has one edge that everything real crosses once. On the near bank things have settled and are kept; on the far bank they are still paired and undecided. The settled bank is exactly the {I, Z} sector, the part that sits in the dissipator's kernel and is never painted over, the past a system carries and will not put down. The undecided bank is exactly the {X, Y} sector, the part the γ-envelope works on, still humming.
 
 So the painter's lit half *is* the far bank, the open water. A perspective only ever paints where things are still being decided; what it cannot paint, the shadow, is precisely what has already crossed into the past. The rate-of-painting α_i was a far-side quantity all along. This adds no claim and changes no tier; it only tells us which shore the painters stand on. The deeper identity the reflection leaves open, whether the angle the far side carries (F95's θ at the quarter) and the one off-map direction seen at maximum zoom are a single direction met from both ends, stays open here too: the painter paints up to that edge but does not settle it.
 
-*Walked into (2026-06-02).* That open identity is now the explicit target of [Navigating the Dimensions](../docs/NAVIGATING_THE_DIMENSIONS.md), which recognizes this document as the same picture painted from the other side: the closure Σ ln(α_i) = 0 is the marks-contract (zero information), the eigenvector mixing that produces the α_i is the in-between (the content), and the protected eigenvalues are why the marks do not move. The crossover result (F99: the angle 45° at the quarter-door 1/4, the operator-space √ of the 90°) is one end of the single direction; this document's far-bank angle is the other. Not yet settled, but now approached from both ends at once.
+That open identity is the explicit target of [Navigating the Dimensions](../docs/NAVIGATING_THE_DIMENSIONS.md), which recognizes this document as the same picture painted from the other side: the closure Σ ln(α_i) = 0 is the marks-contract (zero information), the eigenvector mixing that produces the α_i is the in-between (the content), and the protected eigenvalues are why the marks do not move. The crossover result (F99: the angle 45° at the quarter-door 1/4, the operator-space √ of the 90°) is one end of the single direction; this document's far-bank angle is the other. It is not settled; it is approached from both ends at once.
 
 ---
 
-## Update 2026-06-10: the surviving law is derived, the Z-row is a theorem, the wander has a name
+## Perturbations that break U(1) or the mirror
 
-The fresh-eyes pass after the windowed-converse closure (the girth ladder and Pascal-Gram waves of 2026-06-09/10) came back to this document with three results, one per kind.
+The J-defect respects the palindromic structure, so it cannot tell which protection the closure rides on. [The palindrome-breaking experiment](../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md) asks with single-site fields, and the answer is U(1), not Π: where the field breaks U(1) the closure breaks entirely. A single-site transverse X-field (h σ_x) does NOT break the spectral palindrome (its residual ‖M‖ is machine-zero, exactly the truly case of [F78](../docs/ANALYTICAL_FORMULAS.md)). Single-site fields populate all four Klein cells, and the two break-axes are the two Klein bits: bit_a = 1 (X, Y) breaks U(1) excitation conservation, bit_b = 1 (Y, Z) breaks the palindrome. The closure law collapses (Σ ln α → O(few), fit RMSE up by one to two orders of magnitude at matched ε) iff bit_a = 1. The longitudinal Z-field is the decisive control: it breaks the palindrome yet conserves U(1), and the closure SURVIVES with a clean fit; the X-field does the opposite. Driven arbitrarily hard (to ε = 8, eighty-fold), the Z-field's effect saturates and its fit stays clean (RMSE ≤ 2·10⁻², Σ ln α bounded), so the split is structural, not a magnitude artifact. So the closure rides on protection 1 of Section 3.2 (U(1) sector conservation; under the X-field the 6 stationary projectors at N=5 collapse 6→1) and is independent of protection 2 (the spectral palindrome). Verified N = 5, 6, 7.
 
-**The surviving law is now derived, and it is stronger than we knew.** The chiral mirror Σ f_i(ψ_k) = Σ f_i(ψ_{N+1−k}), the one exact law EQ-014 left standing, turns out to be the summed shadow of a *site-wise trajectory identity*: P_i(t; φ_k) = P_i(t; φ_{N+1−k}) for every site, every time, at every finite δJ, exactly. The derivation is four short steps (K₁-conjugation flips H and the defect together; the dynamics of −H is the complex conjugate of the dynamics of +H for our real chain; site purities see neither; the sine modes map k ↦ N+1−k under K₁ with the leftover sign absorbed by a U(1) phase) and is written up in [the PTF chiral-mirror rate-law proof](../docs/proofs/PROOF_PTF_CHIRAL_MIRROR_RATE_LAW.md), verified to 9·10⁻¹⁶ at N = 5 and 7 ([`simulations/ptf_chiral_mirror_trajectory.py`](../simulations/ptf_chiral_mirror_trajectory.py)), and typed as `ChiralMirrorTrajectoryClaim` (Tier1Derived) next to its eigenvalue-side sibling `ChiralKClaim`: the same sublattice chirality that makes the bipartite chain *soft* makes the painters' mirror *exact*. That the fitted Σ-law came out machine-precise in April was never fit luck; the trajectories themselves are identical pairwise.
+**The Z-field's palindrome break is theorem-grade.** The m = 3 face of the girth ladder is cell-free (any Hermitian H with a single-site-Z component breaks the spectral palindrome at every γ > 0, with p₃(γ) = 6·4^N·Σ_l c_l²·γ exactly; [the F87 windowed-monomial converse proof §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)). The break the experiment measured at one ε and one γ holds at every γ > 0, with a closed-form coefficient, on this document's own chain.
 
-**The Z-field row of the Π-break table is now theorem-grade.** The m = 3 face of the girth ladder is cell-free (any Hermitian H with a single-site-Z component breaks the spectral palindrome at every γ > 0, with p₃(γ) = 6·4^N·Σ_l c_l²·γ exactly; [the F87 windowed-monomial converse proof §4](../docs/proofs/PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md)). What the 2026-06-01 experiment measured at one ε and one γ holds at every operating point, with a closed-form coefficient, on this document's own chain.
-
-**The honest wander is EQ-014's own physics, not a leak.** The small Z-field closure residual is first order in ε with a nearly γ-independent coefficient (S ≈ −0.59·ε at small ε), so it cannot be the spectral-asymmetry channel (which is ε²·γ). It is the same first-order non-closure EQ-014 established for the J-defect, seen for a Z-field perturbation: a site-dependent first-order profile whose imperfect cancellation is the residual ([Edge 2](../simulations/ptf_leak_scaling.py), banked in the [Π-break experiment](../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md)). No tier changes: the closure stays a Tier-2 empirical regularity with its guardian named, now with its residual named too. The guardian itself sharpened the same day (Edge 5, [carrier-seam retrodiction](../simulations/ptf_carrier_seam_retrodiction.py)): not bare U(1) but the **complete N+1 stationary sector manifold, counted in any frame**; partial survival buys nothing (XY+YX keeps the parity projectors and breaks fastest), and a hidden sublattice-frame U(1) counts in full (the tour's XY+YX hold).
+**The honest wander is EQ-014's own physics, not a leak.** The small Z-field closure residual is first order in ε with a nearly γ-independent coefficient (S ≈ −0.59·ε at small ε), so it cannot be the spectral-asymmetry channel (which is ε²·γ). It is the same first-order non-closure EQ-014 established for the J-defect, seen for a Z-field perturbation: a site-dependent first-order profile whose imperfect cancellation is the residual ([Edge 2](../simulations/ptf_leak_scaling.py), banked in the [Π-break experiment](../experiments/PTF_PALINDROME_BREAKING_PERTURBATIONS.md)). The closure stays a Tier-2 empirical regularity, with its guardian and its residual both named. The guardian (Edge 5, [carrier-seam retrodiction](../simulations/ptf_carrier_seam_retrodiction.py)) is not bare U(1) but the **complete N+1 stationary sector manifold, counted in any frame**; partial survival buys nothing (XY+YX keeps the parity projectors and breaks fastest), and a hidden sublattice-frame U(1) counts in full (the tour's XY+YX hold).
 
 ---
 
-## Update 2026-07-04: the canvases reach the label layer
+## Open questions
 
-The painter picture acquired a second life outside the chain. The translation
-series in docs/quantum/ adopts this document as its theory chapter's
-foundation ([Labels Translated](../docs/quantum/LABELS_TRANSLATED.md)): a
-physics label ("teleportation", "superposition", "noise") is read as a
-canvas, perspective-true at the stance that painted it, and the failure mode
-of the popular vocabulary is stance-forgetting, a canvas inherited raw into a
-stance it was not painted from. This document is also the series' in-house
-precedent: "Site-Local Time" was a falsified label over surviving numbers,
-and the Naming note below is a label-recomputation protocol written before
-the series knew it needed one. This adds no claim and changes no tier; it
-records where the picture traveled.
+- **Magnitudes puzzle.** Why does Σ f_i happen to be small (~0.05 for ψ_2) for some bonding-mode states and large (1.29 for |+⟩^7, 2.14 for ψ_4) for others? Is there a structural pattern in how Σ f_i depends on the overlap distribution c_s = ⟨W_s | ρ_0⟩ across the Liouvillian's slow modes? The [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) shows Σ ln(α_i) is linear in δJ at leading order with coefficient c₁ = ⟨c₁(state, bond), δJ⟩ that is superposition-linear across bonds; an analytical form for c₁ as a functional of ρ_0 remains open.
+- **Zero-energy Π-pair amplification.** The magnitude of c_1 is controlled by the Π-pair's distance from E = 0, not by reflection parity. At odd N the center of the spectrum is a single self-Π-partner zero-mode and its c_1 is extreme (ψ_3 at N=5: c_1 = 0.677; ψ_4 at N=7: c_1 = 2.14). At even N there is no exact zero-mode but the innermost pair flanks E = 0 (ψ_3↔ψ_4 at N=6: c_1 = 1.48), still large but softer. The outermost high-|E| pairs record moderately (c_1 ≈ 1 across tested N); intermediate pairs record faintly (c_1 < 0.3). The pattern is non-monotonic in |E|, peaked at the center and attenuated toward the middle energies. Is there an analytical formula for c_1(pair) as a function of Π-pair energy and N? See the [N=6 test](../simulations/results/c1_even_N_degeneracy_test/c1_even_N_test.json) that established Π-pair identity dominates reflection parity.
+- **Nearest-sector kernel.** The c_1 bilinear kernel K is supported only on |ΔN| ≤ 1 blocks of ρ_0 by the [site-local partial-trace selection rule](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md). K entries are organised by pairs of sector blocks. The open question is the explicit form of the nonzero K entries: pure-Dicke diagonal c_1(|S_n⟩) values, diagonal-cross K_{(n,n)(m,m)}, and nearest-neighbour coherence block K_{(n,n±1)(n±1,n)}. Empirical samples at N=5 are in [c1_sector_kernel/sector_kernel.json](../simulations/results/c1_sector_kernel/sector_kernel.json); the analytical expression remains open.
+- **Pair-local observable extension.** The site-local α_i restricts c_1 to |ΔN| ≤ 1 sector blocks. A pair-local analog α_{ij} (constructed from the 4×4 reduced state on sites i, j) would open |ΔN| ≤ 2 contributions and expose the sector-kernel's second-nearest-neighbour structure. This is a concrete next experiment if further structure is needed.
+- **Chain-length scaling of the perturbative window.** Only N = 7 tested by PTF; N = 3 and N = 5 tested by [pi_pair_closure_investigation](../simulations/results/pi_pair_closure_investigation/FINDINGS.md) with endpoint c₁ values (0.26, 0.93). The scaling appears to follow c₁ ≈ 0.5 · (1 + cos(π/N)) for ψ_1+vacuum, half the F6 Q-edge gain, a pattern resting on N = 5 and 7 alone; whether that agreement has a derivation is open.
 
 ---
 
@@ -395,7 +378,7 @@ records where the picture traveled.
 
 ### Positive core (survives)
 
-- **Σ_i ln(α_i) ≈ 0 empirical regularity** in the perturbative regime, holding to ±0.05 for single-excitation states and ±0.13 for multi-sector states across five initial states. This was the central law of the Perspectival Time Field in the April 18 draft; the Update 2026-04-20 downgrades it from "theorem candidate" to "empirical regularity", since direct RK4 at decreasing δJ shows Σ f_i is nonzero and state-dependent (EQ-014).
+- **Σ_i ln(α_i) ≈ 0 empirical regularity** in the perturbative regime, holding to ±0.05 for single-excitation states and ±0.13 for multi-sector states across five initial states. It is an empirical regularity, not a theorem: direct RK4 at decreasing δJ shows Σ f_i is nonzero and state-dependent (EQ-014).
 - **Chain reflection symmetry of α_i** under mirror of the defect bond: exact at all tested mirror pairs.
 - **First-order eigenvalue protection** for the slowest 22 Liouvillian modes (|Re λ| ≤ 0.1) under Π-invariant J perturbations, at any bond location. Verified numerically at bonds (0, 1) and (3, 4).
 - **F4 stationary-count regression**: sparse eigendecomposition recovers exactly 8 strict stationary modes, matching N + 1 = 8 excitation sectors.
@@ -408,12 +391,12 @@ records where the picture traveled.
 ### Falsified (don't claim these)
 
 - "α_i is an intrinsic property of site i" (the "site-local time" reading). Ruled out by the ψ_2 test.
-- "α_0 = J_mod exactly at the defect-adjacent endpoint." Precision was overstated; the correct statement is ~15 % in the perturbative window, with non-monotonic behaviour beyond.
-- "α_i is observable-independent at site i" (one painter, one clock). Ruled out 2026-04-27 by the per-observable α scan. The same site has different α^O for P_i vs Z_i vs X_i; the clock is per-(site, observable). Pure-Z observables (n_XY = 0) live in the Zero-Sector-Immunity kernel and have no closure law. See Update 2026-04-27.
+- "α_0 = J_mod exactly at the defect-adjacent endpoint." It holds to ~15 % in the perturbative window, with non-monotonic behaviour beyond.
+- "α_i is observable-independent at site i" (one painter, one clock). Ruled out by the per-observable α scan. The same site has different α^O for P_i vs Z_i vs X_i; the clock is per-(site, observable). Pure-Z observables (n_XY = 0) live in the Zero-Sector-Immunity kernel and have no closure law. See "Which observables close".
 
 ### Tier status
 
-**Tier 2.** The phenomenon is computed, stable across five scan variations, and has a precise perturbative mechanism (eigenvector mixing under symmetry-protected eigenvalues). Promotion to Tier 1 requires completing the explicit mixing calculation and matching empirical f_i within ~20 % per site for both ψ_1 and ψ_2. The alternative path, "derive Σ_i ln(α_i) = 0 as an analytical theorem from V_L structure", is closed by EQ-014: Σ f_i is nonzero and state-dependent, so no such theorem exists. The surviving Tier-1 path is the bilinear sector-kernel analytical derivation restricted to |ΔN| ≤ 1 (see Update 2026-04-20 and the Open Questions section).
+**Tier 2.** The phenomenon is computed, stable across five scan variations, and has a precise perturbative mechanism (eigenvector mixing under symmetry-protected eigenvalues). Promotion to Tier 1 requires completing the explicit mixing calculation and matching empirical f_i within ~20 % per site for both ψ_1 and ψ_2. The alternative path, "derive Σ_i ln(α_i) = 0 as an analytical theorem from V_L structure", is closed by EQ-014: Σ f_i is nonzero and state-dependent, so no such theorem exists. The surviving Tier-1 path is the bilinear sector-kernel analytical derivation restricted to |ΔN| ≤ 1 (see "The first-order coefficient" and the Open Questions section).
 
 ---
 
@@ -428,6 +411,8 @@ The name "Perspectival Time Field" is deliberate and non-negotiable within this 
 Earlier drafts used "Site-Local Time" as a working name. That name was an artifact of the first intuition ("sites own their own clocks") that the ψ_2 falsification test corrected. The new name reflects the corrected picture; reverting to the old one on the grounds that it is more familiar would lose what the ψ_2 test taught us.
 
 The painter metaphor itself has broader life in the framework (dual readings of γ, dual readings of time, four-level inheritance). The generalisation is in [`reflections/ON_THE_PAINTER_PRINCIPLE`](../reflections/ON_THE_PAINTER_PRINCIPLE.md); this document keeps the technical PTF claim and the mountain-of-seven-painters specifically as its N=7 chain instance.
+
+The painter picture also travels outside the chain. The translation series in docs/quantum/ takes this document as its theory chapter's foundation ([Labels Translated](../docs/quantum/LABELS_TRANSLATED.md)): a physics label ("teleportation", "superposition", "noise") is read there as a canvas, perspective-true at the stance that painted it, and the failure mode of the popular vocabulary is stance-forgetting, a canvas inherited raw into a stance it was not painted from. This document is also the series' in-house precedent: "Site-Local Time" was a falsified label over surviving numbers, and this Naming note is a label-recomputation protocol written before the series knew it needed one.
 
 ---
 

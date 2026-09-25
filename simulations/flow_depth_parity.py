@@ -3,18 +3,22 @@
 
 THE_VIEW_ONTO_THE_MEMORY sorts the Liouvillian's modes by drain depth = popcount(i XOR j).
 THE_FLOW_BETWEEN_TWO_SINGULARITIES runs a single excitation into the 1/N target. This probe
-ties them together and corrects an earlier conflation.
+ties them together and keeps apart two slow rates that are easy to take for one: the 2γ vacuum
+coherence, which the flow never uses, and the flow's own slowest relaxation (points 2 and 3).
 
 Three things, all bit-exact / state-based (no reliance on degeneracy-mixed eigenvectors):
 
 1. drain depth IS the light: for any basis dyad |i><j|, popcount(i XOR j) == n_XY (the number
    of sites carrying X/Y rather than {I,Z}). The two axes are one.
-2. the flow lives purely on EVEN depth: rho(t) of a definite-number state has odd-parity weight
-   identically 0; its light <n_XY> is a transient tide (0 -> peak -> 0), and the steady state is
-   100% depth-0 (the memory). The depth-1, rate-2gamma VACUUM coherence (the Liouvillian's global
-   slowest non-kernel mode) is NOT used by the flow (overlap ~ 1e-16).
+2. the flow lives purely on EVEN depth: ρ(t) of a definite-number state has odd-parity weight
+   identically 0; its light ⟨n_XY⟩ is a transient tide (0 → peak → 0), and the steady state is
+   100% depth-0 (the memory). The depth-1 coherences at rate 2γ, the VACUUM coherence among
+   them, are NOT used by the flow (overlap ~ 1e-16). Above the coupling crossing, as at this
+   probe's N = 5, Q = 1.5, 2γ is the Liouvillian's slowest non-kernel rate; below it an even
+   occupation mode is slower still (N = 5: 0.976 at Q = 1.0, 0.200 at Q = 0.5), the switch
+   birth_channel_check.py reads on the Heisenberg chain.
 3. the flow's own slowest used rate is on the even ladder and is Q-DEPENDENT (even for uniform),
-   distinct from the unused 2gamma vacuum floor.
+   a different rung from the unused 2γ vacuum coherence.
 
 Run: python simulations/flow_depth_parity.py
 """
@@ -69,7 +73,8 @@ def flow_tide_and_parity(N, Q):
         vt = V @ (np.exp(w * t) * c)
         _, nxy, _, wo = light_parity(vt, N)
         out.append((t, nxy, wo))
-    # overlap of the flow with the global slowest non-kernel mode (the vacuum coherence)
+    # overlap of the flow with one mode on the slowest non-kernel rate; at this probe's Q that rate
+    # is the degenerate depth-1 2γ rung holding the vacuum coherence, so any pick from it serves
     nonk = np.abs(w) > 1e-7
     gk = int(np.argmax(np.where(nonk, w.real, -np.inf)))
     return out, -float(w[gk].real), abs(c[gk])
@@ -107,13 +112,13 @@ def main():
     for t, nxy, wo in tide:
         print(f"     {t:>6.2f}  {nxy:>13.4f}  {wo:>17.4f}")
     print(f"     -> light is a transient tide (0 -> peak -> 0); odd weight identically 0.")
-    print(f"     global slowest non-kernel mode (the vacuum coherence): rate={vac_rate:.4f}, "
-          f"n_XY=1, flow overlap={vac_overlap:.1e}  (UNUSED by the flow)")
+    print(f"     slowest non-kernel rate (the depth-1 rung that holds the vacuum coherence): "
+          f"rate={vac_rate:.4f}, n_XY=1, flow overlap={vac_overlap:.1e}  (UNUSED by the flow)")
 
     print(f"\n3. the flow's slowest USED rate is on the even ladder and Q-dependent:")
     for Q in (1.5, 1000.0):
         print(f"     N={N}, Q={Q:>7.1f}:  rate = {flow_slowest_used_rate(N, Q):.4f}"
-              f"   (vs unused vacuum floor 2.0000)")
+              f"   (vs the unused 2γ rung, 2.0000)")
 
 
 if __name__ == "__main__":

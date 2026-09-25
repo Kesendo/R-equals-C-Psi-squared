@@ -377,7 +377,7 @@
 **Question:** ~~Does the crossing time for Bell+xBell+ pairs match the isolated Bell+ crossing time?~~ ANSWERED (2026-03-08): No, nine times faster.  
 **Source:** `experiments/SUBSYSTEM_CROSSING.md` (line 281)  
 **Proposed status:** resolved  
-**Justification:** Self-documenting: strikethrough + "ANSWERED." Isolated: t=0.720, embedded ring: t=0.080.
+**Justification:** Self-documenting: strikethrough + "ANSWERED." Isolated: t=0.719, embedded ring: t=0.080.
 
 ---
 

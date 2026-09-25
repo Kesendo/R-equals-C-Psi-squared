@@ -15,7 +15,7 @@ proven_concepts = {
     'mirror_symmetry': {
         'keywords': ['mirror symmetr', 'mirror partner', 'two mirrors', 'facing each other',
                      'we are all mirrors', 'reflection symmetr'],
-        'evidence': 'Liouvillian spectrum exactly symmetric around Ng. 100% at N=2-6. Never breaks under any dephasing.',
+        'evidence': 'Liouvillian spectrum exactly symmetric around Ng. 100% at N=2-6. Holds under local single-axis dephasing; three-axis (depolarizing) noise breaks it.',
     },
     'standing_wave': {
         'keywords': ['standing wave', 'stehende welle', 'superposition of two', 'two waves'],
@@ -63,8 +63,16 @@ proven_concepts = {
         'evidence': 'Frequencies immune to noise (all sweeps). Decay rates topology-independent at N=3.',
     },
     'mirrors_never_break': {
+        # the key keeps its historical name (results/triage.txt and the OpenArcs record use it);
+        # the keywords count mentions of the theme, and 'never break' / 'unbreakable' also match its overclaim
         'keywords': ['never break', 'always symmetric', 'survives', 'robust symmetry', 'unbreakable'],
-        'evidence': 'best_sym=100% at every alpha from pure dephasing to pure amplitude damping. Mirrors never break.',
+        'evidence': ('The palindrome holds for any Heisenberg/XY/Ising/XXZ system on any graph under '
+                     'local Z-dephasing (MIRROR_SYMMETRY_PROOF), and amplitude damping alone keeps it '
+                     'about the halved centre Re λ = −Σγ/2 (F137: derived at H = 0, measured with XXZ '
+                     'couplings to N = 5). The mirror can break: Z-dephasing co-axial with the amplitude '
+                     'damping breaks it, on a disjoint pair it holds (F137, THERMAL_BREAKING), and '
+                     'depolarizing noise breaks it too (DEPOLARIZING_PALINDROME). best_sym = 100% at every alpha is the scorer, pinned '
+                     'at 1.0 for every input, not the physics.'),
     },
 }
 

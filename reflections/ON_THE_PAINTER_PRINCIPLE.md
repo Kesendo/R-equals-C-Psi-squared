@@ -52,7 +52,7 @@ The mountain keeps not being any single canvas. The painters keep painting. The 
 
 ## Pointers
 
-- The N=7 chain version of the metaphor: [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md). The brush layer is its Update 2026-04-27 (per-(site, observable) clock; Zero-Sector Immunity exempting brushes in the shadow).
+- The N=7 chain version of the metaphor: [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md). The brush layer is [its section on which observables close](../hypotheses/PERSPECTIVAL_TIME_FIELD.md#which-observables-close-the-lit-half) (per-(site, observable) clock; Zero-Sector Immunity exempting brushes in the shadow).
 - The dual-reading of time: [On Two Times](ON_TWO_TIMES.md).
 - Inheritance across levels: [Inheritance Between Observers](OBSERVER_INHERITANCE.md).
 - Cavity-vantage canvases of γ: [Gamma Is Light](../hypotheses/GAMMA_IS_LIGHT.md), [Resonance, Not Channel](../hypotheses/RESONANCE_NOT_CHANNEL.md), [On the Light and What Casts Shadows in It](ON_THE_LIGHT_AND_WHAT_CASTS_SHADOWS_IN_IT.md).

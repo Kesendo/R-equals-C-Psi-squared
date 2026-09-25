@@ -3778,3 +3778,28 @@ of the wrong sign (XZX as +1), "every oscillating mode carries both" (most carry
 the bootstrap raised to Tier 1, and "Hamiltonian coupling preserves the palindrome" where only
 Heisenberg/XXZ does. A result the diary had computed and not read was the strongest witness against
 it: before repairing a document, read what its own scripts printed.
+
+## 2026-09-25, the A9 finding cited QUBIT_NECESSITY §8a/§10 for a question those sections do not ask
+
+**What happened.** The 2026-06-22 entry on deep proof review batch 2, item A9, found
+INCOMPLETENESS_PROOF's five-case enumeration of the noise origin not exhaustive and wrote that
+QUBIT_NECESSITY §8a/§10 "admits this axis is open"; its anchors cite §8a again. Those sections ask
+which dimension can pair, not where noise comes from: §8a is the qutrit census (none of 236 sampled
+d = 3 dissipators pairs fully) and leaves non-dephasing dissipators open at d > 2, and §10 asks
+whether the d = 2 exclusivity extends to non-dephasing dissipators and how far the known qudit
+partial structure (F121) holds once H interacts. The words measurement and classical field do not occur in that document.
+
+**Found by.** The arc `noise_origin_after_candidate_two` in the OpenArcs registry, which recorded it
+without a ledger entry; re-checked against both documents in the 2026-09-25 leftovers pass.
+
+**What stands now.** The finding is right and needs no outside authority: INCOMPLETENESS_PROOF §2
+lists five candidates "for the origin of dephasing noise", so an internal d = 2 source reached
+through a non-dephasing, measurement or classical-field coupling falls outside the list by the
+list's own framing. The proof's Scope line and §5 say so, and its Verification step 5 calls
+QUBIT_NECESSITY a neighbouring question that carries none of it; no document in the repo covers
+that axis. The A9 entry stands as
+written; this entry corrects its citation.
+
+**The lesson.** An open axis borrowed from a neighbouring document has to be the same axis.
+"Non-dephasing dissipators are open" answered which dimension can pair, and set beside a
+noise-origin argument it read like an answer to where noise comes from.

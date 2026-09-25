@@ -15,8 +15,10 @@ import sys
 import numpy as np
 
 sys.path.insert(0, "simulations")
-from light_content import PAULI                       # noqa: E402
+from light_content import I2, X, Y, Z                 # noqa: E402
 from two_magnon_bound_state import bound_pair_vec     # noqa: E402
+
+PAULI = {"I": I2, "X": X, "Y": Y, "Z": Z}
 
 
 def light_parity(v, N):

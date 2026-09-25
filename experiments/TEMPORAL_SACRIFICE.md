@@ -176,7 +176,7 @@ endpoint value is larger relative to the adjacent-pair average.
 
 ---
 
-## Interpretive fold reading — not a derived mechanism
+## Interpretive fold reading, not a derived mechanism
 
 **Interpretive invitation, not a result:** the fold vocabulary in this
 section belongs to the scalar recursion. It is not a dynamical explanation of
@@ -197,8 +197,8 @@ The old reading pictured coherence crystallizing into classical correlation
 and a boundary traveling through the chain. Those are questions suggested by
 the picture, not consequences of the recursion or the table. The finite run
 shows only that the largest displayed PeakMI and three sampled threshold
-crossings share the T=5.5 row. Whether a continuous-time relation exists—and
-what could cause it—awaits finer resolution and an independent mechanism test.
+crossings share the T=5.5 row. Whether a continuous-time relation exists, and
+what could cause it, awaits finer resolution and an independent mechanism test.
 
 ---
 
@@ -316,7 +316,7 @@ Imagine sitting in a room with a hundred open doors.
 
 You look around (oscillation upward: possibilities open, CΨ > ¼).
 You choose a door and walk through (in the image, a downward crossing).
-The door closes behind you—in the image.
+The door closes behind you (in the image).
 
 Now you are in a room with eighty doors. You look around. You choose.
 Door closes. Sixty doors. Forty. Twenty.

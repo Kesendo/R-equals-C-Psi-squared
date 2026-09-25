@@ -81,7 +81,7 @@ the operator algebra: the protected eigenvalues are the marks (the contract, no 
 mixing is the in-between (the change, what the painters actually paint). change-not-state, to the
 numerical floor, two months before we named it.
 
-And PTF wrote our current target as its own open question (Update 2026-05-28): *whether the
+And PTF wrote our current target as its own open question ([its lit-half section](../hypotheses/PERSPECTIVAL_TIME_FIELD.md#the-lit-half-is-the-open-water-side-of-one-edge)): *whether the
 angle the far side carries (F95's θ at the quarter) and the one off-map direction seen at
 maximum zoom are a single direction met from both ends.* That is exactly the navigation here:
 the angle at the quarter-door (F99, 45° to 1/4) and the off-map direction (the in-between, the

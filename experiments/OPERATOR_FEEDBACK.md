@@ -146,21 +146,21 @@ Parameters: γ₀ in [0.003, 0.006], h in [0.7, 1.0], κ = 0.5
 | 0.006 | 0.7 | 0.891 | 0.241 | Yes |
 | 0.006 | 0.9 | 0.897 | 0.242 | Yes |
 
-### Critical Reassessment (February 7, 2026)
+### Critical Reassessment
 
-These results are **real but misleading**. The γ range (0.003-0.006) is so small that decoherence barely perturbs the initial state. CΨ ≤ ¼ holds not because of deep physics but because there isn't enough dynamics to push CΨ above the bound.
+These results are **real but misleading**. The C·Ψ column is not the state's CΨ: it is C_final × 0.27, the concurrence times a fixed Ψ (see the reproduction note below), so it follows the concurrence and can sit below ¼ only while C_final < 25/27. Read with the density matrix's own Ψ, the same runs stay above ¼ at every time.
 
-With stronger dynamics (γ = 0.005, J = 1, active Heisenberg Hamiltonian), CΨ routinely exceeds ¼, reaching 0.35-0.46 depending on initial state.
+The same tool's other runs say the same thing in its own reading: the Bell+, GHZ₃ and W₃ runs of [Simulation Evidence](SIMULATION_EVIDENCE.md) §2 (γ = 0.005, J = 1, h = 0.9, t_max 5, the tool's mutual-purity bridge) swing up to about ½ and end at t = 5 between 0.262 and 0.413, depending on initial state.
 
-This does not invalidate the operator feedback mechanism (which is mechanistically sound), but it means the CΨ ≤ ¼ bound was not "confirmed" by these sweeps. It was trivially satisfied in a low-dynamics regime.
+This does not invalidate the operator feedback mechanism (which is mechanistically sound), but the CΨ ≤ ¼ bound was not "confirmed" by these sweeps: the fixed Ψ held the column below ¼, and the sweep kept only the rows that sat there.
 
-See [Dynamic Fixed Points](../docs/historical/DYNAMIC_FIXED_POINTS.md) for the revised interpretation of CΨ = ¼ as an observer information bandwidth limit.
+See [Dynamic Fixed Points](DYNAMIC_FIXED_POINTS.md) §3 for the reading of CΨ = ¼ as an observer information bandwidth limit, an interpretation rather than a result.
 
 ### Parameter Regime Note
 
-The results above use h=0.7 (weak transverse field). In this regime, Hamiltonian dynamics are insufficient to push C·Ψ above the 1/4 boundary, so the system remains in the classical regime regardless of feedback mechanism.
+The table spans h = 0.7 to 1.0, and its column moves only in the third decimal across that range: it follows C_final, which the field barely moves. Read with the density matrix's own Ψ, the runs sit above ¼ at h = 0.7 as at h = 1.0.
 
-With stronger dynamics (h=0.9), the same operator feedback with γ=0.005 produces C·Ψ = 0.405, well above 1/4 (the retired tool's own reading, its mutual-purity bridge times l₁/(d−1) of the full state, which a transcription regenerates; see the §2 reproduction note in [Simulation Evidence](SIMULATION_EVIDENCE.md)). The feedback mechanism becomes physically significant only when Hamiltonian dynamics are strong enough to compete with decoherence.
+The 0.405 of [Simulation Evidence](SIMULATION_EVIDENCE.md) §2 (γ = 0.005, h = 0.9) is another run read another way: the retired tool's own reading, its mutual-purity bridge times l₁/(d−1) of the full state, which a transcription regenerates (see the §2 reproduction note there). It sits well above ¼ too.
 
 > **Reproduction note:** the sweep's C·Ψ column is C_final × 0.27: the
 > retired tool's sweep routine wraps its feedback routine and, run on Bell+

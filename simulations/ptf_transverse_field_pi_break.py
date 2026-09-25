@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """PTF under a palindrome-breaking perturbation: does the closure law survive?
 
-Open question from hypotheses/PERSPECTIVAL_TIME_FIELD.md ("Extension to
-palindrome-breaking perturbations"):
+The question of hypotheses/PERSPECTIVAL_TIME_FIELD.md, answered there in
+"Perturbations that break U(1) or the mirror":
 
     The PTF closure law Σ_i ln(α_i) ≈ 0 was established only for perturbations
     that RESPECT the Π palindrome (single-bond J-coupling defects). A transverse

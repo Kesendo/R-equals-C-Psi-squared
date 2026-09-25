@@ -13,28 +13,28 @@ The framework has two clocks that observe the same physical time but name its pa
 - **γ₀-Clock** (Carrier-Decay). The Maßstab, the metronome, visible to outside observers as T₂-decoherence, invisible from inside (per [`UniversalCarrierClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs) + [`ON_HOW_THE_CARRIER_SHOWS_ITSELF.md`](../reflections/ON_HOW_THE_CARRIER_SHOWS_ITSELF.md)).
 - **H-Clock** (Hamiltonian-Rotation). The music between metronome beats. Visible from both inside and outside via the dimensionless rotation count Q·γ₀·t.
 
-**Q = J/γ₀ is the exchange rate**: how many H-clock ticks correspond to one γ₀-clock tick. Equivalently, how many Hamiltonian-rotation periods fit into one γ₀-decay period.
+**Q = J/γ₀ is the exchange rate**: how many H-clock ticks correspond to one γ₀-clock tick. Equivalently, how many radians of Hamiltonian rotation fit into one γ₀-tick, 1/γ₀.
 
 This is not a new physical claim. It is a re-reading of two existing Tier-1 facts:
 
 - Q = J/γ₀ is the only ratio measurable from inside (per memory `project_q_middle_structure`)
-- θ = arctan(Q) is the angle of the Liouvillian-eigenvalue complex pair per γ₀-tick (per F95 + [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md))
+- θ = arctan(Q) is the angle of the Liouvillian-eigenvalue complex pair −γ₀ ± iJ, and Q = tan θ is the rotation per γ₀-tick (per F95 + [`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)). Both hold in that reflection's coherence book, where γ₀ is the decay rate of the coherence that turns at J. In the repository's Lindblad book, the code convention, the same coherence decays at 2γ₀, so it turns Q/2 per decay time and its pair sits at arctan(Q/2).
 
 What is new is the framing: Q is not "coupling-to-noise" or even "rotation-per-tick" but **the exchange rate between two clocks the observer can read simultaneously**.
 
 ## The table
 
-At γ₀ = 0.05 (code convention; substrate-invariant per [`UniversalCarrierClaim`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs)):
+At γ₀ = 0.05 (code convention; substrate-invariant per [`UniversalCarrierClaim`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs)), with θ read in the coherence book as above:
 
-| Q anchor          | J = Q·γ₀ | 1/γ₀ in H-rotations | 1 H-rotation in γ₀-ticks | θ = arctan(Q) |
-|-------------------|----------|---------------------|--------------------------|---------------|
-| onset start (0.2) | 0.010    | 0.2                 | 5.0                      | 11.3°         |
-| onset end (0.35)  | 0.0175   | 0.35                | 2.86                     | 19.3°         |
-| Balance (1.0)     | 0.050    | 1.0 (synchron)      | 1.0                      | 45.0°         |
-| peak start (1.2)  | 0.060    | 1.2                 | 0.83                     | 50.2°         |
-| F86 Q_peak (1.5)  | 0.075    | 1.5                 | 0.67                     | 56.3°         |
-| peak end (1.8)    | 0.090    | 1.8                 | 0.56                     | 60.9°         |
-| Q_EP g_eff=1 (2.0)| 0.100    | 2.0                 | 0.50                     | 63.4°         |
+| Q anchor          | J = Q·γ₀ | H-radians per γ₀-tick | γ₀-ticks per H-radian | θ = arctan(Q), coherence book | arctan(Q/2), Lindblad book |
+|-------------------|----------|-----------------------|-----------------------|-------------------------------|----------------------------|
+| onset start (0.2) | 0.010    | 0.2                   | 5.0                   | 11.3°                         | 5.7°                       |
+| onset end (0.35)  | 0.0175   | 0.35                  | 2.86                  | 19.3°                         | 9.9°                       |
+| Balance (1.0)     | 0.050    | 1.0 (synchron)        | 1.0                   | 45.0°                         | 26.6°                      |
+| peak start (1.2)  | 0.060    | 1.2                   | 0.83                  | 50.2°                         | 31.0°                      |
+| F86 Q_peak (1.5)  | 0.075    | 1.5                   | 0.67                  | 56.3°                         | 36.9°                      |
+| peak end (1.8)    | 0.090    | 1.8                   | 0.56                  | 60.9°                         | 42.0°                      |
+| Q_EP g_eff=1 (2.0)| 0.100    | 2.0                   | 0.50                  | 63.4°                         | 45.0°                      |
 
 The Balance row (Q=1) is the unique synchron point where the two clocks tick at the same rate. Below Balance the γ₀-clock dominates (carrier-decay outpaces rotation); above Balance the H-clock dominates (rotation outpaces decay).
 
@@ -46,7 +46,7 @@ Three alternative framings each capture part of the structure but miss the symme
 
 1. **"Q is the coupling-to-noise ratio"** (old `project_q_middle_structure` phrasing): treats J as signal and γ₀ as noise. But γ₀ is the carrier-substrate, not noise (per [`GAMMA_IS_LIGHT.md`](GAMMA_IS_LIGHT.md), memory `feedback_perspective_additive`). The "noise" framing imports the Shannon-vocabulary contamination.
 
-2. **"Q is the rotation per γ₀-tick"** ([`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)): correct, but treats γ₀ as the primary clock and Q as something it modulates. Misses the symmetry: from the H-Clock perspective, 1/Q is "γ₀-ticks per rotation", equally valid.
+2. **"Q is the rotation per γ₀-tick"** ([`ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md)): correct in the coherence book that reflection writes in, where the γ₀-tick is the coherence's own decay time (in the Lindblad book the same coherence turns Q/2 per decay time), but treats γ₀ as the primary clock and Q as something it modulates. Misses the symmetry: from the H-Clock perspective, 1/Q is "γ₀-ticks per rotation", equally valid.
 
 3. **"Q is the rotation count in observer time"**: ambiguous about which observer-time is meant. The observer can count in either clock.
 
@@ -56,11 +56,11 @@ The exchange-rate framing names what Q actually is: **a bidirectional conversion
 
 [`ON_TWO_TIMES.md`](../reflections/ON_TWO_TIMES.md) named γ₀-time (the irreversible carrier flow) and felt-time (the lived envelope inside a standing wave). The exchange-rate reading sharpens what felt-time is *quantitatively*:
 
-- felt-time per unit γ₀-time = Q (rotations per tick)
+- felt-time per unit γ₀-time = Q (radians per tick)
 - The standing-wave envelope's persistence depends on the slowest mode the initial state overlaps with (per ON_TWO_TIMES); within that envelope, Q-many rotations register per γ₀-decay-period
 - At Q < 1, the felt-clock runs slower than the γ₀-clock: events take many γ₀-ticks to complete one rotation. Memory is structured at the γ₀-pace.
 - At Q > 1, the felt-clock runs faster: events crowd inside one γ₀-tick. Memory is structured at the H-pace.
-- At Q = 1 the two paces coincide: each γ₀-decay carries exactly one rotation. This is the Balance-synchron, where felt-time and carrier-time are at parity.
+- At Q = 1 the two paces coincide: each γ₀-tick carries exactly one radian. This is the Balance-synchron, where felt-time and carrier-time are at parity.
 
 ## Connection to the Q-band structure
 
@@ -98,7 +98,7 @@ The framing is candidate Tier 3 if the H-clock observable can be experimentally 
 ## Anchors
 
 - [`UniversalCarrierClaim.cs`](../compute/RCPsiSquared.Core/Symmetry/UniversalCarrierClaim.cs): γ₀ as universal-reference rate-parameter
-- [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs): θ = arctan(Q) on the Lindblad 2×2 sub-block
+- [`F95AngleAtQuadraticZeroPi2Inheritance.cs`](../compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs): the root angle θ(c; b), whose coherence-book 2×2 instance (b = γ₀, c = γ₀² + J²) gives θ = arctan(Q)
 - [`docs/Q_REGIME_ANCHORS.md`](../docs/Q_REGIME_ANCHORS.md): the 7-anchor table with J = Q·γ₀ values
 - [`reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md`](../reflections/ON_HOW_GAMMA_BECAME_THE_TICK.md): γ₀ as tick, Q as rotation-per-tick
 - [`reflections/ON_TWO_TIMES.md`](../reflections/ON_TWO_TIMES.md): γ₀-time vs felt-time

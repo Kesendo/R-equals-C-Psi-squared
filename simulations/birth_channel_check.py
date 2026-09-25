@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """birth_channel_check.py
 
-Is the birth channel (the depth-1 rung, rate 2*gamma) the slowest mortal mode of the WHOLE
+Is the birth channel (the depth-1 rung, rate 2γ) the slowest mortal mode of the WHOLE
 Liouvillian, or only of the number-changing half of it?
 
-reflections/THE_VIEW_ONTO_THE_MEMORY.md said the first, unconditionally, while its own crown
-section a few paragraphs later says the longest memory is the EVEN occupation below a coupling
-crossing. This builds the full 4^N Liouvillian (Heisenberg chain, uniform Z-dephasing) and reads
-the smallest nonzero decay rate directly, which settles it: below the crossing the slowest mortal
-mode is far under 2*gamma, and only above it does the slowest rate settle at exactly 2*gamma.
+It depends on the coupling. This builds the full 4^N Liouvillian (Heisenberg chain, uniform
+Z-dephasing, γ = 0.05) and reads the smallest nonzero decay rate directly. Below the coupling
+crossing the even occupation modes lift off the kernel at a rate that vanishes with J, so the
+slowest mortal mode sits far under 2γ: 6.3·10⁻⁵ at N = 3, J = 0.005, the row that
+reflections/THE_VIEW_ONTO_THE_MEMORY.md quotes. Above the crossing (J = 0.5 and 2.0 here, at
+N = 3 and 4) the slowest mortal rate is exactly 2γ.
 
 Run: python simulations/birth_channel_check.py   (a few seconds, N = 3 and 4)
 """

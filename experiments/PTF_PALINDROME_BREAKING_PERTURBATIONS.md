@@ -2,8 +2,8 @@
 
 **Status:** Computed (Tier 2). 2026-06-01.
 **Authors:** Thomas Wicht, Claude (Opus 4.8)
-**Question from:** [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), open
-question "Extension to palindrome-breaking perturbations".
+**Question from:** [Perspectival Time Field](../hypotheses/PERSPECTIVAL_TIME_FIELD.md), which
+carries the answer in [Perturbations that break U(1) or the mirror](../hypotheses/PERSPECTIVAL_TIME_FIELD.md#perturbations-that-break-u1-or-the-mirror).
 **Script:** [`simulations/ptf_transverse_field_pi_break.py`](../simulations/ptf_transverse_field_pi_break.py)
 (self-validating; RK4 + Hamming-mask Z-dephasing, the canonical N=7 PTF path).
 

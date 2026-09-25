@@ -27,7 +27,7 @@ public enum EpistemicFacet
     IsCore = 1 << 1,
 
     /// <summary>Unsolvable: no closed form, "solvable only without us" (g_eff, the c≥3
-    /// Q-peaks, the crossing cubic, the PTF mixing calc). Do not chase it; it is marked.</summary>
+    /// Q-peaks, the PTF mixing calc). Do not chase it; it is marked.</summary>
     IsDeadEnd = 1 << 2,
 
     /// <summary>A rule of conduct, a methodology to follow ("name the symmetry, not the

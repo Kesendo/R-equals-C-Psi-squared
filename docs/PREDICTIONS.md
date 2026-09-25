@@ -84,15 +84,15 @@ below).
 | Readout-dependent quarter equalities | C(f), then evolution book, then C(f)f/3=1/4; clean t=0.5931/0.7192/1.4384 and feedback t=0.6529/0.7735/1.4384 at γ=0.05 | Shared producer fails the named scalar roots | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Two never bridges in the finite taxonomy | mutual_purity C=0.5 and overlap C=0.25 stay below the selected quarter level | These fixed bridges cross in either named book | [Observer-Dependent Crossing](../experiments/OBSERVER_DEPENDENT_CROSSING.md) |
 | Noise coverage of the taxonomy | One local σ_z sweep, printed by the retired tool under the σ_x and σ_y names too; real σ_x and σ_y keep every bridge's C curve but hold Ψ at 1/3 and move every crossing; depolarizing turns the correlation bridge Type B | A real σ_x run keeps the σ_z crossing times | [Noise Robustness](../experiments/NOISE_ROBUSTNESS.md) |
-| N-scaling barrier | Ψ(0) = l1/(2^N−1) blocks crossing for GHZ N≥3 and W N≥4 | GHZ N≥3 or W N≥4 cross in this named readout/book | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
+| N-scaling barrier | Ψ(0) = l₁/(2ᴺ − 1) blocks crossing for GHZ N≥3 and W N≥4 | GHZ N≥3 or W N≥4 cross in this named readout/book | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
 | W N=3 crosses, GHZ N=3 does not | W: Ψ(0)=0.286 > ¼, GHZ: Ψ(0)=0.143 < ¼ | Both cross or both fail | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
 | Type A survives at N=3,4 | Correlation C=1.0 for W N=3 (until t≈2.3) and W N=4 (until t≈1.5) | Correlation C drops below 1.0 at larger N | [N-Scaling Barrier](../experiments/N_SCALING_BARRIER.md) |
-| Subsystem pairs cross when full system cannot | Bell+xBell+ N=4: pairs (0,1) and (2,3) cross at t=0.080 despite full-system Psi=0.200 | Pairs fail to cross | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
-| Bell+xBell+ cross-pairs never cross | N=4 ring, γ=0.05, concurrence book: the cross-pairs start at C = 0, l1 = 0; the Hamiltonian entangles them (concurrence up to 0.56 in t ≤ 5), but CΨ peaks at 0.147 | A cross-pair reaches CΨ ≥ 1/4 (concurrence book) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
-| Product state: Psi=1 but C=0 means no crossing | \|+⟩^4: every pair has Psi(0)=1.0 and C=0.000 at all times | \|+⟩^4 pairs develop nonzero C | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
-| GHZ pair-level coherence is zero | GHZ N=4 traced to any pair: l1=0.000 at all times | GHZ pairs carry nonzero off-diagonal coherence | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
-| Initial \|+⟩^N is a Heisenberg eigenstate | Zero initial Hamiltonian variance does not imply zero Lindblad dynamics; a dissipator may act | Initial variance nonzero in the named model | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
-| Product states generate upward crossings | Reproduced (canonical pair-CΨ book, γ=0.05): chain \|0+0+⟩ pair (1,2) 0.310; ring \|+-+-⟩ 0.284, \|0+0-⟩ 0.256 | No product state reaches CΨ >= 1/4 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
+| Subsystem pairs cross when full system cannot | Bell+⊗Bell+ N=4: pairs (0,1) and (2,3) cross at t=0.080 despite full-system Ψ=0.200 | Pairs fail to cross | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
+| Bell+⊗Bell+ cross-pairs never cross | N=4 ring, γ=0.05, concurrence book: the cross-pairs start at C = 0, l₁ = 0; the Hamiltonian entangles them (concurrence up to 0.56 in t ≤ 5), but CΨ peaks at 0.147 | A cross-pair reaches CΨ ≥ 1/4 (concurrence book) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
+| Product state: Ψ=1 but C=0 means no crossing | \|+⟩⊗⁴: every pair has Ψ(0)=1.0 and C=0.000 at all times | \|+⟩⊗⁴ pairs develop nonzero C | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
+| GHZ pair-level coherence is zero | GHZ N=4 traced to any pair: l₁=0.000 at all times | GHZ pairs carry nonzero off-diagonal coherence | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) |
+| Initial \|+⟩⊗ᴺ is a Heisenberg eigenstate | Zero initial Hamiltonian variance does not imply zero Lindblad dynamics; a dissipator may act | Initial variance nonzero in the named model | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) |
+| Product states generate upward crossings | Reproduced (canonical pair-CΨ book, γ=0.05): chain \|0+0+⟩ pair (1,2) 0.310; ring \|+-+-⟩ 0.284, \|0+0-⟩ 0.256 | No product state reaches CΨ ≥ ¼ | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
 | Dephasing kills most dynamic crossings | \|0+0+⟩ ring at γ=0.05: in the concurrence book no pair crosses (best ≈0.20); in the pairwise bridge (P_AB − P_A·P_B)/(1 − P_A·P_B) under exact propagation only the diagonal (0,2) crosses (t ≈ 0.285, max 0.320) | All pairs cross equally under dephasing | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) (reproduction note) |
 | Four finite log-coherence traces | Historical slope variations <0.01% on the declared grid, not arbitrary-Hamiltonian log-linearity | Stored finite traces fail reproduction | [Algebraic Exploration](../experiments/ALGEBRAIC_EXPLORATION.md) |
 | One memory-feedback log-coherence trace | Historical 24.5% slope variation at κ=0.5, τ=1.0; curvature alone is not a memory certificate | The named finite record fails reproduction | [Core Algebra](historical/CORE_ALGEBRA.md) §11 |
@@ -141,9 +141,9 @@ scope than the former shadow interpretation:
 | Algebraic-root phase comparison | The phase of `R-` and the phase of `rho_01` are phases of different objects; no dynamics map connects them here | [Q52 Residual Record](../experiments/FIXED_POINT_SHADOW.md) |
 
 The recorded 10,000-draw null combines exponential decay, binomial shot sampling, and one random phase per synthetic run; it is not a Q52-fitted time-dependent detuning/drift or other hardware-alternative comparison.
-The 13-row >= 1.5 slope is +0.00819/T2_echo with two-sided p = 0.0531; the amplitudes are non-monotone and the result is cut-sensitive.
-Because |rho_01| enters C*Psi, r = -0.9955 is a same-record algebraic coupling, not independent boundary evidence.
-The algebraic R- phase comparison supplies no dynamical mapping to rho_01.
+The 13-row ≥ 1.5 slope is +0.00819/T2_echo with two-sided p = 0.0531; the amplitudes are non-monotone and the result is cut-sensitive.
+Because |ρ₀₁| enters CΨ, r = −0.9955 is a same-record algebraic coupling, not independent boundary evidence.
+The algebraic R₋ phase comparison supplies no dynamical mapping to ρ₀₁.
 
 **What the comparison establishes.** [Q52 Residual Record](../experiments/FIXED_POINT_SHADOW.md)
 reports exploratory Q80-only fits. The fixed-T2 phase-line/intercept-only errors are 0.0356/0.0508 (1.4x);
@@ -262,7 +262,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 |------------|---------------|----------------|--------|
 | E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0; IBM ratio 1.03) | [the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 | Dephasing survival is basis-dependent: σ_x dephasing moves the surviving \|0+0+⟩ pair from (0,2) to (1,3) | Under σ_x the same single pair (0,2) crosses and (1,3) stays below | N=4 ring, γ=0.05, pairwise bridge under exact propagation: (0,2) max 0.320 under σ_z and 0.335 under σ_x; (1,3) max 0.224 and 0.240 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) §5.3 + [delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py) |
-| Cross-pairs stay incoherent: Bell+xBell+ cross-pairs keep C = 0, l₁ = 0 at all times | The Hamiltonian entangles them | N=4 ring, γ=0.05, t ≤ 5: concurrence up to 0.56 and l₁ up to 0.84; they still never cross (concurrence-book CΨ ≤ 0.147) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §3.3 + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
+| Cross-pairs stay incoherent: Bell+⊗Bell+ cross-pairs keep C = 0, l₁ = 0 at all times | The Hamiltonian entangles them | N=4 ring, γ=0.05, t ≤ 5: concurrence up to 0.56 and l₁ up to 0.84; they still never cross (concurrence-book CΨ ≤ 0.147) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §3.3 + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
 | Strong dynamics needed for CΨ > ¼ (threshold at h ≈ 0.9) | The sweep's C·Ψ column sat below ¼ because Ψ was fixed at 0.27, not for lack of dynamics | The same runs, read with the density matrix's own Ψ (concurrence × l₁/3), stay above ¼ at h = 0.7 as at h = 1.0 | [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) §2 note + [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) §4 + [delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py) |
 
 ---
@@ -316,7 +316,7 @@ which keeps its historical filename). The J-coupling results below stand.
 | **Null result** | 1 | Metric discrimination |
 | **Closed hypothesis (J=0)** | 2 | Bridge dynamic (no-signalling), Bridge pre-encoded (no demonstrated advantage; not an equivalence of all entangled and classical correlations). Separate J>0 inter-qubit readings, not a channel-free reopening. |
 | **Unestablished noise generalization** | 1 | Universal five-bridge noise-independence remains unsupported by the retained coverage |
-| **Falsified predictions** | 4 | E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic); σ_x dephasing moving the surviving \|0+0+⟩ pair to (1,3) (σ_x keeps (0,2)); Bell+xBell+ cross-pairs staying incoherent (the Hamiltonian entangles them); the h ≈ 0.9 field threshold (the sweep's column sat below ¼ through a fixed Ψ) |
+| **Falsified predictions** | 4 | E=mγ² (wrong: α=2γ⟨n_XY⟩, linear not quadratic); σ_x dephasing moving the surviving \|0+0+⟩ pair to (1,3) (σ_x keeps (0,2)); Bell+⊗Bell+ cross-pairs staying incoherent (the Hamiltonian entangles them); the h ≈ 0.9 field threshold (the sweep's column sat below ¼ through a fixed Ψ) |
 
 ---
 

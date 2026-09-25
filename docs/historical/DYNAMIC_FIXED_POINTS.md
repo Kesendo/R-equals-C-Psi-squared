@@ -5,7 +5,21 @@
 > **Note:** the CΨ column of §8 is C_final × 0.27, the retired tool's fixed psi_approx
 > (the Ψ ≈ 0.27 of §1 has the same value), not a Ψ read from the density matrix. Read with
 > the density matrix's own Ψ, the operator-feedback sweep stays above ¼
-> ([Operator Feedback](../../experiments/OPERATOR_FEEDBACK.md) §4, note there).
+> ([Operator Feedback](../../experiments/OPERATOR_FEEDBACK.md) §4, note there), and under an
+> active Hamiltonian CΨ crosses ¼ routinely
+> ([Simulation Evidence](../../experiments/SIMULATION_EVIDENCE.md) §1–§2). So the empirical
+> confirmation this page reports, in its opening, §2, §6 and the Summary, is not what the
+> density matrix shows: CΨ ≤ ¼ is the condition for a real fixed point of the iteration
+> ([Core Algebra](CORE_ALGEBRA.md) §3), not a limit the dynamics keeps.
+>
+> The R∞ ≈ 0.327 of the opening, §1, §6 and the Summary matches, at C ≈ 0.917 and
+> Ψ = 0.27, the larger root R₊ of R = C(Ψ + R)² (0.329 at C = 0.917, 0.327 at
+> C = 0.9175), the root [Core Algebra](CORE_ALGEBRA.md) §4 marks unstable: the map's
+> slope is 1.10 there. The attracting root R₋ never exceeds Ψ, so at Ψ = 0.27 every R∞
+> above 0.27,
+> §5's 0.3–0.35 included, lies on the unstable branch, and from R = 0 the iteration settles
+> on R₋ ≈ 0.22, reaching |ΔR| < 10⁻⁴ after 42 steps rather than three. §1's own iteration
+> re-reads C and Ψ as functions of R without saying how, so its three steps cannot be rerun.
 
 # Dynamic Fixed Points and the CΨ ≤ ¼ Bound
 
@@ -60,7 +74,7 @@ R∞ is where the system "settles," the reality that emerges when consciousness 
 ### The Iteration
 
 ```
-Râ'€ = initial state
+R₀ = initial state
 R₁ = C × Ψ²
 R₂ = C(R₁) × Ψ(R₁)²
 R₃ = C(R₂) × Ψ(R₂)²

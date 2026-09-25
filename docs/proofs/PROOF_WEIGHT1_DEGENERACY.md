@@ -542,11 +542,9 @@ Test ([`simulations/f94_topology_visibility_probe.py`](../../simulations/f94_top
 
 K_4 and Ring give bit-identical Dyson matrix elements across all 4 outcomes. F96's slopes are also identical (chain, ring, K_4 all give -16/9 and -8/3 for the |01⟩ and |11⟩ subdominant slopes). F94/F96 are **blind to the K_4 vs Ring topology distinction** at this canonical lens.
 
-**Why the blindness:** the two extra K_4 bonds vs Ring are (0,2) and (1,3), the "diagonal" bonds. For |0+0+⟩ initial state and pair (0,2) measurement:
-- Bond (0,2) connects the two kept-pair sites (both prepared as |0⟩, Z eigenstates), so [Z_0 Z_2, |0,·,0,·⟩] = 0 and the (0,2) bond's contributions vanish.
-- Bond (1,3) connects the two traced-out sites (both prepared as |+⟩, X eigenstates), so its contributions trace out to zero on the pair (0,2) observable.
+**Why the blindness:** the two extra K_4 bonds vs Ring are (0,2) and (1,3), the "diagonal" bonds, and each is a swap plus a constant (X_iX_j + Y_iY_j + Z_iZ_j = 2·SWAP_ij − 1). The swaps 0↔2 and 1↔3 are symmetries of the ring Hamiltonian and of the uniform dissipator, and |0+0+⟩ is invariant under both (sites 0 and 2 both |0⟩, sites 1 and 3 both |+⟩), so ρ(t) commutes with both swaps at every time and the diagonal bonds never act. K_4 and Ring therefore give the same ρ(t) for this state, exactly, not only the same pair-(0,2) matrix elements. [Orphaned Results](../../experiments/ORPHANED_RESULTS.md) §2b meets the same identity in the concurrence book (on ring and complete graph alike, the best pair (1,3) peaks at CΨ = 0.201), and [PROOF_F94](PROOF_F94_BORN_DOMINANT_FOUR_THIRDS.md) reads it as its diagnostic's robustness.
 
-Both extra K_4 bonds fall in the **symmetric blind spots** of this specific (state, pair) lens.
+The blindness belongs to the state, not to the pair read: on the evolving |0+0+⟩ every observable sees K_4 and Ring alike.
 
 For asymmetric initial states, F94's sym3 DOES detect K_4 vs Ring:
 
@@ -561,7 +559,7 @@ The K_4 − Ring difference is an **antisymmetric integer shift between outcomes
 
 | Lens | What it tracks | K_4 vs Ring sensitivity |
 |------|----------------|------------------------|
-| F94 sym3 (\|0+0+⟩, pair (0,2)) | Specific observable on specific state | Blind (symmetric blind spots) |
+| F94 sym3 (\|0+0+⟩, pair (0,2)) | Specific observable on specific state | Blind (the state's swap symmetry: same ρ(t) on both graphs) |
 | F94 sym3 (\|++00⟩ etc.) | Same observable on asymmetric state | Visible: integer shifts (1-3) |
 | F50 weight-1 ker | Full operator algebra, state-independent | Invisible at w=1 for N ≥ 4 (= 2N) |
 | F50 weight-w ker (w = central) | Full operator algebra, state-independent | Visible: large excess (+23 at K_4 N=4 w=2) |

@@ -26,7 +26,7 @@ calibration data.
 
 If one document in this repository could convince a skeptic that the
 palindromic symmetry is not just a mathematical curiosity, this is
-the one. Because this is not theory. This is 24,074 measurements
+the one. Because this is not theory. This is 24,073 measurements
 on 133 qubits on real silicon.
 
 ---
@@ -237,7 +237,7 @@ read it.
 
 ---
 
-*Data: 133 qubits, 180 days, 24,074 calibration records.*
+*Data: 133 qubits, 181 daily snapshots across 180 days, 24,073 calibration records.*
 *Source: IBM Quantum Platform, ibm_torino backend.*
 *Analysis: [ibm_history_analysis.py](../data/ibm_history/ibm_history_analysis.py)*
 *Full crossing data: [ibm_q98_crossing_pattern.txt](../simulations/results/ibm_q98_crossing_pattern.txt)*

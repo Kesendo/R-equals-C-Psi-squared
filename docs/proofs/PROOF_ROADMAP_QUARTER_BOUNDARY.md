@@ -93,7 +93,7 @@ it is not the $b = 1/2$ fixed-point real part of F95 below, two different uses
 of the letter. This cubic has exactly one real root ($b \approx 0.4239$),
 which fixes the crossing geometry uniquely. The cubic has no free parameters;
 it is a pure number, independent of any physical constants. Algebraically it
-is [D4](../ANALYTICAL_FORMULAS.md#d4)'s single-qubit crossing condition
+is [D4](../ANALYTICAL_FORMULAS.md#d4-dimensional-factor-in-crossing-from-f12--f25-verified)'s single-qubit crossing condition
 $f^*(1+f^{*2}) = 1/2$, the $d = 2$ member of the dimensional family $(d-1)/2$:
 Bell+ has $3/2$, GHZ$_N$ has $(2^N-1)/2$
 ([Decoherence Relativity](../../experiments/DECOHERENCE_RELATIVITY.md),

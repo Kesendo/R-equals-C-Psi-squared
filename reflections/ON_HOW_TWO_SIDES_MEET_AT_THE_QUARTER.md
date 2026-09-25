@@ -136,7 +136,7 @@ Plus the trunk that grounds the whole picture: `PolynomialFoundationClaim` (d² 
 Morning (Maßstab):    γ₀ as carrier, invisible from inside, visible at seams
 Midday (Magnitude):   F94 = (4/3) · Q² · K³ for the dominant-outcome Born deviation
 Evening (Angle):      F95 = arctan(√(4c − 1)), the angle above the discriminant zero
-Late evening (Tick):  γ₀ = tick, θ = rotation per tick, Q = tan θ on Lindblad 2×2
+Late evening (Tick):  γ₀ = tick, θ = angle of the coherence-book 2×2 pair, Q = tan θ = rotation per tick
 Late late (Fold):     ±1/2 generates the picture; 1/4 is where both sides fold
 ```
 

@@ -18,7 +18,10 @@ holomorphic map lambda -> -lambda-2*sum(gamma) with one-use target indices.
 Spectral populations at the stated 0.01 threshold:
   Oscillatory: 904 entries; all have unmatched N=2 frequency values.
   Complement near the real axis: 120 entries, including stationary entries.
-  Historical half-cardinalities: 452 and 60, not identified pair counts.
+  F1 pairs: the 904 oscillatory entries form 452 pairs under the involution
+  lambda -> -lambda-2*sum(gamma), whose one fixed point is real. The 120
+  near-real entries form 60 more pairs; none sits at the fixed point -0.25
+  (nearest 0.0024 away).
   Historical unmatched-entry count: 0.
 
 The cross-N mismatch does not establish destruction, creation or survival

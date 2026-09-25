@@ -7082,7 +7082,7 @@ public static class OpenArcsRegistry
                 "t is the chart parameter nobody inside owns (coordinate time); the TICKS are the clock " +
                 "hands, field-set (Takt 2*gamma, coherence 2J*cos(pi/(N+1)), Tau = 1/Gap; Clock.cs is " +
                 "dimensionless, only Q and theta); PTF's alpha_i*t is the chart repainted per painter at " +
-                "UNIFORM gamma (the coherence hand, J-side: PERSPECTIVAL_TIME_FIELD:112 'there is no " +
+                "UNIFORM gamma (the coherence hand, J-side: PERSPECTIVAL_TIME_FIELD Layer 2 'there is no " +
                 "per-site gamma_i'). The gamma_l local-time story is F91's Takt-hand side; PROOF_F91:232 is " +
                 "the one place separating F91 from PTF across the two hands (F2b at ANALYTICAL_FORMULAS:163 " +
                 "separates the hands themselves). The decay-rate -> time-rate step is INTERPRETIVE and " +
@@ -7096,7 +7096,7 @@ public static class OpenArcsRegistry
                 "experienced time', and its scorecard row 'Gamma defines experienced time or its " +
                 "origin | Not established'), so it is a second standing check rather than an instance. " +
                 "The standing internal " +
-                "check against over-reading the step is PERSPECTIVAL_TIME_FIELD:400/418, the psi2 test " +
+                "check against over-reading the step is PERSPECTIVAL_TIME_FIELD's Falsified list and Naming note, the psi2 test " +
                 "that killed 'sites own their own clocks'; the Tier-1 " +
                 "residue is t = K/gamma0 with only Q and K readable from inside. Under sending the Einstein parallel " +
                 "gets CLEANER, not weaker: gamma_l plays the potential-at-position role, proper time hangs " +

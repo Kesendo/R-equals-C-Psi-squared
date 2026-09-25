@@ -1247,7 +1247,7 @@ neural justifications without classifying unrelated entries.
 **Date:** March 20, 2026 (updated March 26, 2026)
 **Tag:** untagged
 **Status:** open
-**Disposition:** Pre-register one scalar centre, full complex multiset and Q-subspace tests, matched scales and a null that changes the measured object. The historical pairing percentage is invalid evidence; existing connectome controls establish no biological F36 instance.
+**Disposition:** Pre-register one scalar centre, the full complex multiset and Q-subspace tests, matched scales, and a null that changes the measured object. The pairing percentages are matcher readings, not tests of F36: the full wiring fails the condition by count (253 non-empty excitatory rows against 18 inhibitory), the connectome's 0.7% reads the tolerance against the spectral spread, and the balanced subnetworks' 98.2% still awaits its degree-matched control. No existing control establishes a biological F36 instance.
 
 ### OQ-310
 
