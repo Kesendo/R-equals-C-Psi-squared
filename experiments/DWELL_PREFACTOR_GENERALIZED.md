@@ -17,7 +17,7 @@ This document answers that question. The Bell+ formula turns out to be a special
 
 The formula is tested on two states with different algebra. Bell+ has W₀ = 1/2 and k = 2; it serves as a regression check against the known value 1.080088. The W state of three qubits has W₀ = 1/3 and k = 2; it is a genuine out-of-sample test. Both cases pass: the formula matches the direct Lindblad simulation to better than 0.01%.
 
-A geometric corollary falls out along the way. GHZ states on three or more qubits start below the CΨ = 1/4 boundary and never cross it. They are born in the classical regime, regardless of the dephasing rate. This sharpens the existing engineering guidance against GHZ encoding from a rate argument to a structural one.
+A geometric corollary falls out along the way. GHZ states on three or more qubits start below the CΨ = 1/4 boundary and never cross it. They are born below the line, regardless of the dephasing rate. (Below ¼ is not the same as classical; it is simply the side of the quarter they start on.) This sharpens the existing engineering guidance against GHZ encoding from a rate argument to a structural one.
 
 ---
 
@@ -168,7 +168,7 @@ For N ≥ 3, the GHZ state starts below the fold and, since CΨ decays monotonic
 
 ### Significance
 
-The main README Section 6 Rule 1 argues against GHZ encoding on rate grounds: GHZ_N places all its coherent Pauli mass at sector k = N, the maximum absorption rate under Z-dephasing. The geometric statement here is a structural sharpening. Even if GHZ_N decayed infinitely slowly, it would still be born in the classical regime for N ≥ 3. The problem is not how fast GHZ dies; the problem is that it was never in the quantum regime to begin with.
+The main README Section 6 Rule 1 argues against GHZ encoding on rate grounds: GHZ_N places all its coherent Pauli mass at sector k = N, the maximum absorption rate under Z-dephasing. The geometric statement here is a structural sharpening. Even if GHZ_N decayed infinitely slowly, it would still be born below ¼ for N ≥ 3. The problem is not how fast GHZ dies; the problem is that it never stands above the line to begin with.
 
 This is γ-independent. No amount of reducing the dephasing rate fixes the geometric deficit. The only escape is to change the state.
 
