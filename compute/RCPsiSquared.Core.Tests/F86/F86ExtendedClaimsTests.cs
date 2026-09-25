@@ -165,7 +165,11 @@ public class F86ExtendedClaimsTests
         Assert.Equal(0.31, claim.WeightAtPlateau);
         Assert.Equal(20.0, claim.PlateauQ);
         Assert.Equal(Tier.Tier2Empirical, claim.Tier);
-        Assert.DoesNotContain("generalised EP resonance", claim.Summary);
+        // the retracted reading (Q_peak as an EP resonance, refuted with F86a) lived in a child
+        // node's summary; check the whole displayed surface, not only Summary
+        var surface = new[] { claim.DisplayName, claim.Summary }
+            .Concat(claim.Children.SelectMany(child => new[] { child.DisplayName, child.Summary }));
+        Assert.All(surface, text => Assert.DoesNotContain("EP resonance", text));
     }
 
     [Fact]

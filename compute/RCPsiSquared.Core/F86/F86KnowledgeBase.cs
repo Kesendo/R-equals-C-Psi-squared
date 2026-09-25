@@ -22,9 +22,10 @@ namespace RCPsiSquared.Core.F86;
 ///         <see cref="SigmaZeroCommutatorNormClaim"/> (σ_0 = ‖[Π_HD1, M_H]‖).</item>
 ///   <item><b>Tier 1 (candidate)</b>: <see cref="UniversalShapePrediction"/> for Interior
 ///         and Endpoint with <see cref="UniversalShapeWitness"/> data across c=2..4 N=5..8,
-///         <see cref="ShapeFunctionWitnesses"/>, <see cref="DressedModeWeightClaim"/>,
+///         <see cref="ShapeFunctionWitnesses"/>,
 ///         <see cref="F86HwhmClosedFormClaim"/>; c=2-only <see cref="C2UniversalShapeDerivation"/>.</item>
 ///   <item><b>Tier 2</b> (verified and empirical): <see cref="SigmaZeroChromaticityScaling"/>,
+///         <see cref="DressedModeWeightClaim"/>,
 ///         the per-block and per-bond Q_peak tables, <see cref="PerF71OrbitObservation"/>,
 ///         <see cref="PolarityInheritanceLink"/>, <see cref="IbmBlockCpsiHardwareTable"/>;
 ///         c=2-only the live orbit-K and full-block σ-anatomy tables.</item>
@@ -416,7 +417,6 @@ public sealed class F86KnowledgeBase : IInspectable
         yield return EndpointShape;
         yield return InteriorShapeFunction;
         yield return EndpointShapeFunction;
-        yield return DressedModeWeight;
         yield return F86HwhmClosedForm;
         // c=2 top-level synthesis from Stages A–D: only present for c=2 blocks.
         if (C2UniversalShape is not null)
@@ -429,6 +429,8 @@ public sealed class F86KnowledgeBase : IInspectable
         if (FullBlockSigmaAnatomy is not null) yield return FullBlockSigmaAnatomy;
 
         yield return Sigma0Scaling;
+        // Tier2Empirical: the weight shift is sampled, and its two anchors are unverified.
+        yield return DressedModeWeight;
         yield return InspectableNode.Group("per-block Q_peak (Q_SCALE convention)",
             PerBlockQPeaks.Cast<IInspectable>().ToArray());
         yield return EndpointPerBondTable;

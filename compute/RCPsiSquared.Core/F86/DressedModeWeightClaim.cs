@@ -27,7 +27,7 @@ namespace RCPsiSquared.Core.F86;
 ///         with no per-block witness collection.</item>
 /// </list>
 ///
-/// <para><b>To promote Tier 1 candidate → Tier 1 derived:</b> either (a) derive
+/// <para><b>To promote to Tier 1 derived:</b> either (a) derive
 /// W(Q_peak) and W(Q_plateau) analytically without assuming an EP cause, or
 /// (b) replace the hardcoded constants with a per-(c, N) witness collection backed by
 /// actual computation (`simulations/eq022_b1_step_c_time_evolution.py` has the

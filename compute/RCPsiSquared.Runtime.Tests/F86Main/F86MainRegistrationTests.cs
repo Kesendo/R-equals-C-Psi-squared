@@ -63,7 +63,7 @@ public class F86MainRegistrationTests
     }
 
     [Fact]
-    public void RegisterF86Main_TierMix_FourTier1DerivedPlusOneCandidate()
+    public void RegisterF86Main_TierMix_FourTier1DerivedPlusOneEmpirical()
     {
         var registry = BuildBaseRegistry(gammaZero: 0.05, gEff: 1.0)
             .Build();

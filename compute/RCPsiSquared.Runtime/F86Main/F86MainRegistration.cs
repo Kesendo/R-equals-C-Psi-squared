@@ -5,9 +5,10 @@ using RCPsiSquared.Runtime.ObjectManager;
 
 namespace RCPsiSquared.Runtime.F86Main;
 
-/// <summary>Registers a subset of the F86 main family: parameter-free Tier-1-derived facts
-/// (<see cref="ShiftedGeneratorSectorwisePClaim"/>, <see cref="DressedModeWeightClaim"/>,
-/// <see cref="F71MirrorInvariance"/>) plus the two parameterised laws
+/// <summary>Registers a subset of the F86 main family: parameter-free facts, two of them
+/// Tier-1-derived (<see cref="ShiftedGeneratorSectorwisePClaim"/>, <see cref="F71MirrorInvariance"/>)
+/// and one a Tier-2 empirical observation (<see cref="DressedModeWeightClaim"/>), plus the two
+/// parameterised laws
 /// (<see cref="TPeakLaw"/>, <see cref="QEpLaw"/>) that take γ₀ and g_eff respectively.
 ///
 /// <para>This is an audit-style registration: it exercises the architecture's anchor-file
