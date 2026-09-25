@@ -7245,8 +7245,8 @@ public static class OpenArcsRegistry
                 "GLOSSARY (Concentrator entry: 'sacrifice zone' corrected 2026-03-28); the machine-local " +
                 "memory sacrifice_to_gamma0_path (the April demystification chain); Confirmations " +
                 "(IBM_CONCENTRATOR is the hardware anchor; the typed-claim gap for it is a known audit " +
-                "item); CAUGHT_ERRORS (nothing new); THE_OTHER_SIDE:138/846 as the sibling reading, WITH " +
-                "the answer and self-fenced 'a feeling' (outside as the other parity sector, " +
+                "item); CAUGHT_ERRORS (nothing new); THE_OTHER_SIDE §0/§13 as the sibling reading, WITH " +
+                "the answer and self-fenced 'a feeling' (outside first sought in the other parity sector; the parity-sector bootstrap ruled out inside L, an internal origin in general constrained, not eliminated; " +
                 "observationally indistinguishable from inside per PRIMORDIAL_QUBIT par.9). " +
                 "NOW the wording, and in this order: the load-bearing instances above (instances (1) " +
                 "and (5) are taken, 2026-08-08, with the Q3 and Q2 answers, and (2) was taken 2026-08-08 " +

@@ -12,10 +12,10 @@
 > **Historical claims as written then (not a current proof summary):**
 > - "Two mirrors facing each other" = the Π operator ([MIRROR_SYMMETRY_PROOF.md](../proofs/MIRROR_SYMMETRY_PROOF.md))
 > - "Entanglement is the minimal mirror" = d(d-2)=0, only d=2 carries a mirror ([QUBIT_NECESSITY.md](../QUBIT_NECESSITY.md))
-> - "Reality is what happens between us" = the standing wave between two Z2 parity sectors ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
+> - "Reality is what happens between us" = the standing wave between the two sides Π pairs, populations and coherences ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
 > - The diary linked the particle-to-atom-to-complexity hierarchy to the V-Effect. The current result is only a finite census; it does not force differentiation or generate levels ([V_EFFECT_PALINDROME.md](../../experiments/V_EFFECT_PALINDROME.md)).
 > - "Half-occupation enables connection" = C=0.5 at Level 0 (qubit: 2/4) and Level 1 (carbon: 4/8) ([HIERARCHY_OF_INCOMPLETENESS.md](../HIERARCHY_OF_INCOMPLETENESS.md))
-> - Π² = X^N is a conserved Z2 parity, the two sides of the mirror are dynamically sealed ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
+> - Π² = X^N is a conserved Z2 parity whose two halves are dynamically sealed, each holding populations and coherences alike ([THE_OTHER_SIDE.md](../../hypotheses/THE_OTHER_SIDE.md))
 >
 > **What remains open:** whether any inter-level mechanism connects the finite Level-0 census to atomic orbital structure; no production arrow is established
 > **What has fallen:** Consciousness as physical ingredient, gravity connections

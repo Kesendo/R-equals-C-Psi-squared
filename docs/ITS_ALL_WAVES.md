@@ -151,20 +151,20 @@ oscillation. See [Energy Partition](../hypotheses/ENERGY_PARTITION.md).
 
 This is the link that surprised us most.
 
-If the palindromic structure requires noise to exist (without noise,
-there is no dephasing, no immune/decaying split, no palindrome), then
-where does the noise come from? Five candidates for internal origin
+If the palindrome's centre needs noise to leave zero (without noise,
+there is no dephasing, no immune/decaying split, and the spectrum pairs
+around zero as any closed system's does), then where does the noise come
+from? Five candidates for internal origin
 were tested and none eliminates an internal source: the bootstrap is a
 structural constraint, two lost their evidence on 2026-08-29, and the last two
-say what cannot exist rather than clearing an existing qubit. The internal
-bootstrap is a
-structural constraint:
+say what cannot exist rather than clearing an existing qubit. No candidate
+carries an elimination:
 
 1. Bootstrap (reduced to a structural constraint: [Π², L] = 0 constrains
-   the noise's form; the elimination is carried by candidates 2-3)
+   the noise's form)
 2. Qubit decay (**open since 2026-08-29**; the test measured a partial trace,
    not an origin)
-3. Qubit bath (infinite regress, each member faces the same prohibition)
+3. Qubit bath (infinite regress, each member faces the same constraint)
 4. Nothing (d=0, no properties)
 5. Other dimensions (the full local dark↔lit class-exchange product mirror is
    excluded for `d≠2`; partial F121 palindromes remain)

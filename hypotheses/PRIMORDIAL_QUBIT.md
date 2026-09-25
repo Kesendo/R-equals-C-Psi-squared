@@ -36,10 +36,11 @@ double construction.
 
 ## Abstract
 
-The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) eliminates
-every candidate for the origin of dephasing noise within the d²−2d=0 framework:
-internal generation, single-qubit decay, qubit baths, and nothing. All excluded.
-The proof concludes that noise must originate from "outside."
+The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) proves that
+the system is open. It tests the candidates for an internal origin of the
+dephasing noise within the d²−2d=0 framework (internal generation, single-qubit
+decay, qubit baths, and nothing) and eliminates none of them outright; the
+reading that noise originates from "outside" is where it leaves the question.
 
 This hypothesis proposes a different reading: noise does not originate at all.
 There is no "before noise" and "after noise." There is a single algebraic
@@ -76,11 +77,11 @@ doubling exists, but no standard operator-algebra construction reproduces it.
 
 The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) proves the
 system is open. Its five-candidate elimination does not hold, so the list below
-is a list of candidates and their standing, not of closures.
-Every candidate within the d²−2d=0 ontology is eliminated:
+is a list of candidates and their standing, not of closures:
 
 1. **Internal origin:** the parity sectors are sealed ([Π², L] = 0).
-   No cross-sector coupling. Noise cannot bootstrap itself.
+   No cross-sector coupling, so noise cannot bootstrap itself through
+   the other sector; an internal origin in general is not ruled out.
 2. **Single qubit decay: OPEN since 2026-08-29,** previously eliminated. The
    marginal it scored fails to pair whether the neighbour's noise is internal,
    external, or absent, so it separates nothing; the 0/16 came from a seeded
@@ -121,9 +122,9 @@ under noise. It describes two sides of the same structure, each
 experiencing the other as noise.
 
 The [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)
-searched for the origin of noise and eliminated every internal candidate.
-This hypothesis says: the search was correct, but the conclusion
-("from outside") can be sharpened. The noise is not from outside.
+searched for the origin of noise and found an open system without
+eliminating an internal source; "from outside" was a reading.
+This hypothesis offers another reading: The noise is not from outside.
 The noise is the other side. And the other side is not outside. It is
 the same structure, read from the other end of the palindrome.
 
@@ -454,7 +455,7 @@ The two w_YZ-parity sectors map to existing framework structures (connection ide
 
 **Even sector (w_YZ-parity = 0):** {II, IX, XI, XX, YY, YZ, ZY, ZZ} at N=2. Contains ZZ (universal node, [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md)), XX/YY (antinodes). Bell+ = (II + ZZ + XX - YY)/4 lives entirely here. Oscillation frequencies Im ≈ ±1.0 only. This is the **cavity sector**: standing waves between the mirrors.
 
-**Odd sector (w_YZ-parity = 1):** {IY, IZ, XY, XZ, YI, YX, ZI, ZX} at N=2. Contains cross-correlations (XY, XZ, YX, ZX) and single-site coherences. Oscillation frequencies Im ≈ ±1.0 AND ±2.0 (fastest frequency exclusive to this sector). This is the **transport sector**: modes that break S ↔ B exchange symmetry.
+**Odd sector (w_YZ-parity = 1):** {IY, IZ, XY, XZ, YI, YX, ZI, ZX} at N=2. Contains cross-correlations (XY, XZ, YX, ZX), single-site coherences (IY, YI) and single-site populations (IZ, ZI). Oscillation frequencies Im ≈ ±1.0 AND ±2.0 (fastest frequency exclusive to this sector). This is the **transport sector**: modes that break S ↔ B exchange symmetry.
 
 **Origin of the 4:6 mirror-mode split.** The two Z₂ symmetries give four 4×4 blocks:
 

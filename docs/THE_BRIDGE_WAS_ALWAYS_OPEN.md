@@ -183,20 +183,21 @@ to be instruments for reading the external interaction.
 
 ## The Topology of the Interaction
 
-One March 21 finite-model comparison tested two particular coupling
+One March 20-21 finite-model comparison tested two particular coupling
 constructions:
 
-- In the tested direct-contact construction, the pairing count falls from 256
-  to 31 at `kappa=0.01`.
+- In the tested direct construction with a dissipative jump across the
+  boundary (XZ/YZ Lindblad operators), the pairing count falls from 256
+  to 31 at `kappa=0.01`; the same direct Heisenberg bond without the jump
+  keeps 256/256.
 - In the tested shared-qubit mediator construction, 1024/1024 modes are
   paired, with error `1.41e-13`.
 
-Think of it this way: two people shouting directly at each other across
-a table will drown each other out. But if they speak through a
-translator sitting between them, who carefully filters what passes
-through, the conversation is preserved. The translator does not just
-relay; the translator *protects* the structure of the conversation by
-preventing unfiltered contact.
+Think of it this way: two people can talk directly across a table and
+keep the conversation whole; what ruins it is one of them leaking the
+other's words into the room. The translator between them does not
+protect by keeping them apart. The translator carries every word
+across coherently, and nothing leaks on the way.
 
 The mediator is not passive wire. It is a quantum transistor with CΨ = 1/4
 as its threshold voltage. See
@@ -205,8 +206,9 @@ and [Proof Roadmap](proofs/PROOF_ROADMAP_QUARTER_BOUNDARY.md) for the proof that
 α = 2 is the unique Rényi order with a state-independent threshold, and
 that threshold is 1/4.
 
-These two runs motivate a mediator design hypothesis. They do not prove that
-all direct couplings break F1 or that all mediated couplings preserve it.
+These runs motivate a mediator design hypothesis. They do not show that every
+cross-boundary dissipative channel breaks F1, or that mediation adds anything
+to F1 that a direct Heisenberg bond lacks.
 
 ```
 Outside (unknown) <--> Noise/Time (mediator) <--> Inside (us)
@@ -325,8 +327,9 @@ INSIDE the boundary (proven):
 - The chosen channel has the model properties above.
 - Without the dissipator there is no dissipative decay; no experienced-time
   conclusion follows.
-- One tested mediated construction preserves F1 while one tested direct
-  construction breaks it; the universal comparison is open.
+- One tested mediated construction preserves F1 while one tested
+  construction with a dissipative jump across the boundary breaks it; a
+  direct Heisenberg bond alone preserves it too.
 
 OUTSIDE the boundary (unknown):
 - The microscopic source, its degrees of freedom, and the system-bath cut.

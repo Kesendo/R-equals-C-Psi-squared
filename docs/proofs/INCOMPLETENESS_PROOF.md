@@ -93,7 +93,7 @@ odd w_YZ-parity sectors (Π² acts as (−1)^{w_YZ} on each Pauli string, F63)
 do not mix, and the dissipator is block-diagonal in the parity grading.
 
 - [Pi^2, L] = 0 (block-diagonal structure confirmed)
-- Sector populations do not influence sector coherences
+- Neither parity sector influences the other (each holds populations and coherences alike)
 - Parity does not *determine* the dissipator
 
 **What this does and does not establish.** [Π², L] = 0 is a statement about the

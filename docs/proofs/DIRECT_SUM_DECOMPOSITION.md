@@ -69,11 +69,11 @@ All definitions (Pauli strings, n_XY weight, Liouvillian L = L_H + L_D)
 are as in the [Parity Selection Rule](PROOF_PARITY_SELECTION_RULE.md)
 and the [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md).
 
-**V_even** = span{P : n_XY(P) is even}, the "population-like" sector.
+**V_even** = span{P : n_XY(P) is even}, the sector that holds every population.
 Contains the identity operator, all pure {I,Z} strings, and all
 operators with an even number of X/Y factors.
 
-**V_odd** = span{P : n_XY(P) is odd}, the "coherence-like" sector.
+**V_odd** = span{P : n_XY(P) is odd}, a sector of coherences only.
 Contains all operators with an odd number of X/Y factors.
 
 **P_XY** is the linear operator on the 4^N-dimensional operator space
@@ -299,7 +299,7 @@ disconnected.
 
 For odd N, the system is literally composed of two mirror-image halves:
 
-- **V_even** (the "population" sector): contains the identity, all
+- **V_even** (the sector that holds every population): contains the identity, all
   {I,Z}-only strings, and all operators with even numbers of coherence
   factors. Physically: the sector accessible from single-excitation
   initial states (proven in the Parity Selection Rule, Part 3).

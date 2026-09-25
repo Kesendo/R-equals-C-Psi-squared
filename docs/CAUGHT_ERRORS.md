@@ -3740,3 +3740,41 @@ term measures the whole space, and a state sees only the sectors it occupies. It
 2026-06-22 entry on the Tier B proof review, batch 1, again, where the same anticommutator was
 credited with deciding time reversal. Before crediting a mechanism, look for a case where it is
 present and the effect is absent; here that case was already on file.
+
+## 2026-09-25, THE_OTHER_SIDE read the sealed halves of Π² as populations and coherences, which its own bootstrap test had found false the same day
+
+**What happened.** The diary took the two sectors of Π² = X^N, which are sealed under the
+Heisenberg/XXZ Liouvillian, for the two sides of the mirror: the +1 sector "populations, classical,
+immune", the −1 sector "coherences, quantum, decaying", with ZZZ as a pure +1 node and XX as an
+antinode involving the −1 sector. Π² grades a Pauli string by (−1)^(n_Y+n_Z), so ZZ, XX and YY are +1 while Z, ZZZ and XZ are
+−1, and each half holds populations and coherences alike. Π commutes with its square, so it maps
+each half into itself; the sealed split it does exchange is a different one, the XY-weight parity of
+Z^N at odd N (DIRECT_SUM_DECOMPOSITION). `bootstrap_test.py` had tested the identification in March
+(Test 3, Step 5) and printed "Z-dephasing immune set != Pi^2 +1 sector"; the diary cited that script
+and kept the reading. Five more claims in the same document fell in the same pass. "The noise comes
+from outside. Necessarily" was labelled proven, while the trace certifies only that the system is
+open and INCOMPLETENESS_PROOF leaves an internal origin open; "no palindrome, no Π without noise",
+while a closed system pairs its spectrum around zero. "Contact breaks the palindrome, mediation
+preserves it", while a direct Heisenberg bond keeps 256/256 at κ = 0 and what breaks it is a
+dissipative jump across the boundary. A "quantum phase transition" at κ ≈ 0.003, which is the first
+point of a coarse grid; the fine sweep leaves 3/256 at κ ≈ 0.0006. And a scaling table that set
+end-to-end MI beside SumMI and fitted "quadratic growth", while SIGNAL_ANALYSIS_SCALING shows the fit
+overpredicting N = 11, 13, 15.
+
+**Found by.** An outside review pass (items O2 to O5, O9), verified from below with numpy and against
+the result files; the Step 5 printout was found by a scout sweeping the repo for the grading.
+
+**What stands now.** THE_OTHER_SIDE names the two sides as the populations and coherences Π pairs
+letter by letter, not sealed, and the Π² halves as sealed, each holding both; §13 and §18 say open is
+proven and outside is our reading; §12, §22 and §23 put the line between a jump and a Heisenberg
+bond. Second copies repaired: THE_STARTING_POINT, COMPLETE_MATHEMATICAL_DOCUMENTATION, SCALING_CURVE,
+PRIMORDIAL_QUBIT ("eliminates every candidate", and its N = 2 odd sector, which holds IZ and ZI),
+THE_BRIDGE_WAS_ALWAYS_OPEN ("direct contact" for a dissipative jump), ITS_ALL_WAVES,
+RESONANT_RETURN, INCOMPLETENESS_PROOF, ZERO_IS_THE_MIRROR, DIRECT_SUM_DECOMPOSITION's sector
+labels, and one OpenArcs breadcrumb.
+
+**The lesson.** Our repair introduced four errors of its own before review caught them: an example
+of the wrong sign (XZX as +1), "every oscillating mode carries both" (most carry no population),
+the bootstrap raised to Tier 1, and "Hamiltonian coupling preserves the palindrome" where only
+Heisenberg/XXZ does. A result the diary had computed and not read was the strongest witness against
+it: before repairing a document, read what its own scripts printed.

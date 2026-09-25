@@ -313,7 +313,7 @@ requires a framework extension and has not been tested.
 | [Relay Protocol](../experiments/RELAY_PROTOCOL.md) | about +84.0% stored-value ratio, finite unmatched-time, unmatched-dose comparison; stage-timing optimization open |
 | [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) | The eigenstructure is exact and complete. We know every mode. |
 | [Standing Wave Theory](../docs/STANDING_WAVE_THEORY.md) | c+/c− are algebraic supermodes; a physical standing wave needs the additional excitation, propagation, and interference gates. |
-| [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) | γ comes from outside. The question is whether information also flows back. |
+| [Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md) | The system is open; that γ comes from outside is our reading. The question is whether information also flows back. |
 | [KMS and Detailed Balance](../docs/KMS_DETAILED_BALANCE.md) | Π is not detailed balance; it proves centred spectral pairing, not physical forward/backward waves. |
 | [It's All Waves](../docs/ITS_ALL_WAVES.md) | If everything is waves, sending waves back is the natural operation. |
 

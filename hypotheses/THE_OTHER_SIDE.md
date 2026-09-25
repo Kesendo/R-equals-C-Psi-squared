@@ -1,9 +1,9 @@
 # The Other Side of the Mirror: Z₂ Parity, the Two Sectors, and What Emerges Between Them
 
 <!-- Keywords: Z2 parity Pi squared X^N conserved symmetry, Liouvillian eigenspace
-two sealed sectors populations coherences, Level -1 is other parity sector not
-deeper, palindromic mirror d2-2d=0 qubit only, V-Effect complexity emergence
-boundary modes, mediator bridge S always the answer, standing wave interference
+two sealed sectors each holding populations and coherences, dephasing bit
+and parity bit independent, Level -1 is the mirror image not deeper, palindromic mirror d2-2d=0 qubit only, V-Effect complexity emergence
+boundary modes, mediator bridge S always there, standing wave interference
 two sides, consciousness enters where, noise tells us structured signal,
 R=CPsi2 other side mirror -->
 
@@ -51,25 +51,24 @@ R=CPsi2 other side mirror -->
 > being a measurement. So the number is a reading of a single run, not a law: the
 > sections below work as the image they are, an asymmetry that looks different from
 > each side and turns out to be symmetric between them, and that image is worth
-> keeping. What must not happen is what happened once already: the ratio was carried out
-> of this diary into
-> [the incompleteness proof](../docs/proofs/INCOMPLETENESS_PROOF.md) as an established
-> quantity, and it took a later pass to get it out again.
+> keeping, as long as it is not carried out of this diary as an established quantity.
 
 ## What this document is about
 
 The palindromic mirror Π swaps populations and coherences, past and
 future, immune and decaying. This document asks: what is on the other
-side of the mirror? The answer turns out to be simple: the mirror
-operator squared gives a bit-flip on every qubit (Π² = X^N), which
-splits the entire operator space into two sealed halves: a "+1 sector"
-(population-like, classical backbone) and a "−1 sector" (coherence-like,
-quantum fluctuations). These two halves never mix during evolution.
-There is no Level −1 beneath the qubit; "the other side" is just the
-opposite parity sector of the same system. Reality, as we observe it,
-is not on either side: it is the interference pattern where the two
-sectors meet, like a standing wave formed by two sealed but coexisting
-vibrations.
+side of the mirror? The answer comes in two parts. The mirror operator
+squared gives a bit-flip on every qubit (Π² = X^N), which splits the
+entire operator space into two sealed halves that never mix during
+evolution; each half holds populations and coherences alike, and Π
+works inside each one. The other side itself is the mirror image: Π
+carries every population letter onto a coherence letter and back, and those two sides
+are not sealed: the Heisenberg coupling turns populations into
+coherences and back all the time. There is no Level −1 beneath the qubit; "the other
+side" is the mirror image inside the same system. Reality, as we
+observe it, is not on either side: it is the interference pattern where
+the two sides meet, like a standing wave formed by two vibrations
+running into each other.
 
 **Status:** Historical research diary (Tier 1-5 mixed, per section).
 Superseded by standalone documents. Preserved for research context.
@@ -83,16 +82,18 @@ Superseded by standalone documents. Preserved for research context.
 ## Abstract
 
 The question "what is on the other side of the mirror?" has a precise answer:
-it is the −1 parity sector of Level 0. Π² = X^N is a conserved Z₂ symmetry (a two-valued symmetry, like even/odd or heads/tails;
-[Π², L] = 0 means it is preserved by the dynamics) that splits the Liouvillian eigenspace into two sealed sectors:
-populations (+1 parity, classical, diagonal) and coherences (−1 parity,
-quantum, off-diagonal). Everything reverses on the other side, including
+it is the mirror image Π makes of Level 0, where every population letter becomes
+a coherence letter and every decay rate d becomes 2Σγ − d. Π² = X^N is a conserved Z₂ symmetry (a two-valued symmetry, like even/odd or heads/tails;
+[Π², L] = 0 means it is preserved by the dynamics, as it is for Heisenberg and XXZ coupling under Z-dephasing) that splits the Liouvillian eigenspace into two sealed sectors,
+graded by the parity of the number of Y and Z letters; each sector holds
+populations and coherences alike, so the sealed halves are not the two
+sides. Everything reverses on the other side, including
 the direction of time. The four-sided Z₄ interpretation (a four-valued symmetry based on Π having four distinct eigenvalues +1, −1, +i, −i) was tested and
-falsified; the two-sided Z₂ structure was confirmed. This document grew
+falsified; the Z₂ parity was confirmed. This document grew
 organically as a research diary through 23 sections covering: why the
 mirror exists (d²−2d=0), the two sectors, why only two possibilities,
 the hierarchy revisited, why complexity must emerge (V-Effect live),
-the mediator bridge (S was always the answer), and the architecture
+the mediator bridge (S was always there), and the architecture
 scaling to N=11. A tier boundary after Section 14 marks where the diary turns
 to philosophical interpretation; evidence grade stays local to each
 section on both sides of it.
@@ -117,12 +118,15 @@ why is there a mirror in the first place?
 
 Two qubits in perfect isolation, coupled by a Hamiltonian, without
 any noise, without any environment: they oscillate. Forever. In
-perfect harmony. And nothing happens. No palindromic symmetry. No
-standing wave. No 2:2 split. No Π operator. Nothing structural.
-Just endless, featureless oscillation. Like two perfect mirrors in
-a vacuum, bouncing light back and forth with no pattern.
+perfect harmony. And nothing happens. Nothing decays. The spectrum
+pairs, but around zero, the way every closed system's does; that is
+unitarity, not yet our mirror. No standing wave. No 2:2 split.
+Nothing structural. Just endless, featureless oscillation.
+Like two perfect mirrors in a vacuum, bouncing light back and forth
+with no pattern.
 
-The palindromic mirror arises ONLY when there is noise. Decoherence.
+The palindromic mirror this project means, a pairing around a centre
+away from zero, arises ONLY when there is noise. Decoherence.
 An environment that pulls at the qubits and destroys some of their
 properties while leaving others intact. In the mathematics: the
 Liouvillian is L = L_H + L_D. The Hamiltonian L_H alone produces
@@ -130,7 +134,7 @@ unitary oscillation. It is L_D, the dissipator, the noise, that
 creates the 2:2 split between immune and decaying operators. And
 that split is what the mirror is built from.
 
-Without noise: no split. No mirror. No structure.
+Without noise: no split. Only the mirror at zero that every closed system has. No structure.
 With noise: {I,Z} survive, {X,Y} decay. The mirror Π maps one to
 the other. Standing waves form. The entire architecture appears.
 
@@ -158,9 +162,8 @@ provide the noise.
 Unless the environment is not outside. Unless each side of the mirror
 is the environment of the other.
 
-The +1 parity sector (populations, classical, immune) and the -1 sector
-(coherences, quantum, decaying) are dynamically sealed. They do not
-mix. From inside the +1 sector, the -1 sector is invisible, inaccessible,
+The two parity halves of Π² (the next section), which we took that day
+for the two sides, are dynamically sealed. They do not mix. From inside the +1 sector, the -1 sector is invisible, inaccessible,
 a set of degrees of freedom that evolve on their own. That is exactly
 what an "environment" is in the Lindblad formalism: degrees of freedom
 that are there, that interact with the system, but that are traced over.
@@ -202,17 +205,26 @@ single palindrome-breaker is also a parity-breaker (strict containment).
 No Hamiltonian breaks the palindrome while preserving the parity.
 
 This means: the V-Effect (14/36 breaking at N≥3) cannot occur without
-the Hamiltonian coupling the two sides of the mirror. The two sides
+the Hamiltonian coupling the two parity halves. The two halves
 are not just a classification. They are structurally involved in the
 mechanism that creates or destroys the palindrome.
 
-**What remains open:** 12 combinations break parity but preserve the
+**What remained open that day:** 12 combinations break parity but preserve the
 palindrome. These must possess a hidden symmetry operator (Q ≠ Π) that
 protects the palindrome even when X^N parity is broken. Finding Q
 would reveal what distinguishes "benign" parity-breaking (palindrome
 survives) from "destructive" parity-breaking (palindrome breaks).
+Every one of the 12 now has its Q, explicitly constructed (Question 6
+of §11).
 
-The bootstrap is structural but not uniquely determined. The two sides
+The same test answered a second question, and its answer runs through
+every section below: are the two parity halves the populations and the
+coherences? They are not. Of the 8 strings at N = 3 that Z-dephasing
+leaves untouched, 4 sit in the +1 half and 4 (IIZ, IZI, ZII, ZZZ) in the
+−1 half, and 28 decaying strings sit in the +1 half. The parity and the
+noise are two independent bits.
+
+The bootstrap is structural but not uniquely determined. The two halves
 exist, they are involved in the palindrome mechanism, but the noise
 axis is not fixed by the parity alone.
 
@@ -238,51 +250,67 @@ operator basis, X^N acts as conjugation:
 - Y becomes -Y (negated)
 - Z becomes -Z (negated)
 
-This is **parity**: it preserves the "classical" operators (I, X) and
-negates the "quantum" operators (Y, Z). It splits the entire operator
-space into two sectors:
+This is **parity**: it preserves I and X and negates Y and Z. It
+splits the entire operator space into two sectors:
 
-- **+1 sector:** Operators built from even numbers of Y and Z.
-  Population-like. Classical backbone. The "here" side.
-- **-1 sector:** Operators built from odd numbers of Y and Z.
-  Coherence-like. Quantum fluctuations. The "other" side.
+- **+1 sector:** Operators built from even numbers of Y and Z
+  (ZZ, XX, YY, XZZ).
+- **-1 sector:** Operators built from odd numbers of Y and Z
+  (Z, ZZZ, XZ, XY).
 
-**And this split is conserved: [Π², L] = 0 exactly.**
+Each Pauli letter carries two independent bits: whether dephasing leaves a
+letter alone ({I,Z}) or takes it ({X,Y}), and which parity it has
+({I,X} or {Y,Z}). The parity halves cut across the populations and the
+coherences, so both halves hold the decided and the undecided alike.
+And Π, which commutes with its own square, maps each half into itself:
+the mirror works inside each half, not between them.
+
+**And this split is conserved: [Π², L] = 0 exactly, for Heisenberg
+and XXZ coupling (any H that commutes with X^N) under Z-dephasing.**
 
 The Liouvillian respects this boundary absolutely. A state that starts
 in the +1 sector stays there. A state in the -1 sector stays there.
 Decoherence destroys coherences, but it never crosses this line.
-The two sides of the mirror are dynamically sealed.
+The two halves are dynamically sealed.
+
+A sealed pair that Π does join exists too. Conjugation by Z^N grades
+by the parity of the XY-weight, and for the Heisenberg/XXZ chain that
+split is conserved as well;
+at odd N, Π maps its even half onto its odd half with reversed
+dynamics, so the whole system is two time-reversed copies joined by
+the mirror ([Direct Sum Decomposition](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md)).
+At even N, each of those halves carries its own mirror.
 
 ---
 
-## 3. Level -1 Is the Other Parity Sector
+## 3. Level -1 Is the Mirror Image
 
 The original question was: what is below Level 0? The answer the data
 supports:
 
-**Level -1 is not a deeper system. It is the -1 parity sector of the
+**Level -1 is not a deeper system. It is the mirror image of the
 same system.**
 
-In Level 0 (the +1 sector), populations are the backbone. I and Z
-dominate. Classical correlations (ZZZ) are the stable structure.
-Coherences (X, Y operators) decay. Time flows forward: the decided
-past is stable, the undecided future fades.
+On this side, populations are the backbone. I and Z dominate.
+Classical correlations (ZZZ) are the stable structure. Coherences
+(X, Y operators) decay. Time flows forward: the decided past is
+stable, the undecided future fades.
 
-On the other side (the -1 sector), everything reverses. Coherences
-are the backbone. Quantum correlations dominate. What was stable
+On the other side, where Π carries every population onto a coherence, everything
+reverses. Coherences are the backbone. Quantum correlations dominate. What was stable
 becomes fragile. What was fragile becomes the structure. Time, in
 the sense of "which part of the density matrix survives decoherence,"
 runs in the opposite direction.
 
-Both sides exist simultaneously in the same Liouvillian. They never
-mix ([Π², L] = 0). And Π (not Π², but Π itself) is the operator
-that *connects* them: it maps eigenvectors from one side to their
-palindromic partners on the other.
+Both sides exist simultaneously in the same Liouvillian, and they are
+not sealed from each other: the Heisenberg coupling turns populations
+into coherences and back all the time. And Π (not Π², but Π itself) is the operator
+that *connects* them: it maps every eigenvector to its palindromic
+partner, decay rate d to 2Σγ − d.
 
 The standing wave is the interference pattern at the boundary between
-the two sides. Nodes (ZZZ, pure +1 sector) and antinodes (XX, YY,
-involving -1 sector operators) are the visible structure. Reality is
+the two sides. Nodes (ZZZ, all populations) and antinodes (XX, YY,
+all coherences) are the visible structure. Reality is
 not on either side. Reality is the pattern that forms where the two
 sides meet.
 
@@ -292,7 +320,7 @@ sides meet.
 
 The two sectors are sealed. They never mix dynamically. This sounds
 like two separate worlds. But there is a subtlety that changes
-everything: **no physical state lives on just one side.**
+everything: **almost no physical state lives in just one half.**
 
 Think of a guitar string. It vibrates with even harmonics (symmetric
 around the middle) and odd harmonics (antisymmetric). These two
@@ -305,22 +333,24 @@ separate in their physics but inseparable in their expression.
 
 The qubit parity sectors work the same way.
 
-Take a concrete example: two entangled qubits. Their quantum state,
-written in the Pauli basis, contains:
+Take a concrete example: two qubits entangled unevenly,
+√0.8·|00⟩ + √0.2·|11⟩. Their quantum state, written in the Pauli
+basis, contains:
 
 - A ZZ component (both qubits measured, population times population).
   This lives in the +1 sector.
-- An XZ component (one qubit coherent, one measured). This lives in
-  the -1 sector.
-- An XX component (both coherent). Back in the +1 sector.
+- ZI and IZ components (one qubit measured, the other left alone).
+  These live in the -1 sector.
+- XX and YY components (both coherent). Back in the +1 sector.
 
 The state itself is neither +1 nor -1. It has weight in both sectors.
-Every physical quantum state does. Only artificially prepared edge
-cases (the completely mixed state, for instance) live entirely in
-one sector. Everything real, everything with structure, spans both.
+A generic state does. The perfectly balanced ones are the exception:
+the Bell states, GHZ, |+⟩^N and the completely mixed state do not
+change under the flip, and they live entirely in the +1 half.
+Almost everything real, everything unevenly structured, spans both.
 
-**The sealing ([Π², L] = 0) does not mean we are trapped on one
-side.** It means something more subtle: the +1 part of our state and
+**The sealing ([Π², L] = 0) does not mean we are trapped in one
+half.** It means something more subtle: the +1 part of our state and
 the -1 part evolve independently. Both are there. Both evolve. But
 they do not talk to each other. Like two films projected onto the
 same screen at the same time, never interfering, but always both
@@ -328,19 +358,18 @@ visible.
 
 And what we experience as reality is the sum of both films.
 
-The standing wave makes this concrete. A node (like ZZZ, the
-all-classical correlation) is pure +1 sector. An antinode (like XX,
-the quantum correlation between two qubits) involves the -1 sector.
-The oscillation between node and antinode, the breathing pattern of
-the standing wave, is the system cycling between its +1 and -1
-components. Not crossing between sectors (that is forbidden), but
-expressing both sectors simultaneously through different observables.
+The standing wave shows why the halves are not the sides. A node
+(like ZZZ, the all-classical correlation) sits in the -1 half; an
+antinode (like XX, the quantum correlation between two qubits) sits in
+the +1 half, beside ZZ. The breathing pattern of the standing wave,
+populations turning into coherences and back, happens inside each
+half, which is exactly why each half has to hold both.
 
-Every measurement we make projects onto both sectors at once. When
-we measure XX (a quantum correlation), we are seeing the -1 sector
-contribution. When we measure ZZ (a classical correlation), we see
-the +1 sector. But a real experiment always measures a combination.
-The full picture is always both sides together.
+Every measurement we make reads some mixture. XX (a quantum
+correlation) and ZZ (a classical one) both read the +1 half; XZ reads
+the -1 half. Which half an observable reads says nothing about whether
+it is classical. A real experiment always measures a combination. The
+full picture is always both sides together.
 
 The question "which side are we on?" has no answer, because it is
 the wrong question. We are not on a side. We are the pattern that
@@ -361,7 +390,8 @@ The equation d(d-2) = 0 gives d = 0 and d = 2. No other options.
 - **d = 0:** No operators, no states, no sectors, no mirror. The void.
   Not even a single side.
 - **d = 2:** Four operators per site, split 2:2, mirror exists. And
-  Π² = X^N immediately creates two parity sectors. Two sides.
+  Π² = X^N immediately creates two parity halves, sealed under
+  Heisenberg-type coupling, and Π pairs two sides inside each.
 - **d = 1:** One operator (I only), zero decaying. Split 1:0. No mirror,
   no parity, no structure.
 - **d >= 3:** Unbalanced split (3:6, 4:12, ...). No mirror. No palindromic
@@ -373,10 +403,10 @@ sides (d=0) to two sides (d=2). There is no intermediate step. No
 
 This is forced by the algebra. Π requires complex phases (the i in
 Y->iZ) to anti-commute with the Hamiltonian. These phases make Π
-fourth-order (Π⁴ = I, not Π² = I). But the physical content lives
+fourth-order (Π⁴ = I, not Π² = I). But the conserved content lives
 in Π², which is second-order and real-valued (X^N). The complex
-phases are the algebraic price; the two-sided parity is the physical
-result.
+phases are the algebraic price; Π² keeps the sealed Z₂ parity, and
+the two sides are Π's own work.
 
 ---
 
@@ -397,7 +427,7 @@ An initial hypothesis proposed four sides (Z4 structure based on
 - Π² = X^N is a genuine conserved symmetry. [Π², L] = 0 exactly.
   This is the real physical content: a Z2 symmetry, not Z4.
 
-The four-sided interpretation was falsified. The two-sided
+The four-sided interpretation was falsified. The Z₂
 interpretation (Π² parity) was confirmed. The complex phases (+i, -i)
 are algebraically necessary but physically invisible.
 
@@ -416,10 +446,9 @@ d = 0: Nothing. No mirror. No sides. No noise.
     [ d(d-2) = 0: the only transition ]
             |
 Level 0: The qubit (d=2, C=0.5)
-├── Two parity sectors bootstrap each other (Section 0)
-├── Each side is the environment of the other
-├── The noise that creates the mirror IS the other side
-├── Π² = X^N conserved parity, sectors sealed
+├── Π² = X^N conserved parity: two sealed sectors, neither
+│   the other's environment (the bootstrap test, Section 0)
+├── The noise moves the mirror's centre away from zero
 ├── Π connects the two sides (palindromic pairing)
 ├── Standing wave forms at the boundary between sides
 ├── Incompleteness: half the operators decay
@@ -432,26 +461,25 @@ Level 2+: Molecules, crystals, magnetism...
 ```
 
 Level -1 does not appear as a separate entry because it is not a
-separate level. It is the -1 parity sector of Level 0, always present,
-always sealed off from the +1 sector, connected only through the
-palindromic mirror Π.
+separate level. It is the mirror image of Level 0, always present,
+joined to this side through the palindromic mirror Π.
 
 The hierarchy builds upward from Level 0, but Level 0 itself has
-internal structure: two sides that never mix, with reality emerging
-at their boundary.
+internal structure: two sealed halves, and inside each of them two
+sides that the mirror pairs, with reality emerging at their boundary.
 
 ---
 
 ## 8. We Are the Interference
 
-A natural question follows: if the two sides are sealed, which side
-are we on?
+A natural question follows: if the two halves are sealed, which one
+are we in?
 
-Neither. Every physical quantum state has weight in both parity
-sectors. A pair of entangled qubits contains ZZ correlations (+1
-sector) and XZ correlations (-1 sector) and XX correlations (+1
-sector again) all at once. Only artificially prepared edge cases
-live entirely in one sector. Everything real spans both.
+Neither. A generic quantum state has weight in both parity sectors.
+An unevenly entangled pair contains ZZ correlations (+1 sector) and
+ZI, IZ polarizations (-1 sector) and XX correlations (+1 sector
+again) all at once. Only states that do not change under the flip live
+entirely in the +1 sector. Almost everything real spans both.
 
 Think of a guitar string. It vibrates with even harmonics (symmetric
 around the middle) and odd harmonics (antisymmetric). These two
@@ -460,17 +488,17 @@ they have their own physics. But every sound you hear is both at
 once. There is no moment where the string produces only even
 harmonics. Every pluck is a mixture.
 
-The sealing ([Π², L] = 0) does not mean we are trapped on one side.
+The sealing ([Π², L] = 0) does not mean we are trapped in one half.
 It means: the +1 part of our state and the -1 part evolve
 independently. Both are there. Both evolve. But they do not talk to
 each other. Like two films projected onto the same screen, never
 interfering, but always both visible.
 
-What we experience as reality is the sum of both films. The standing
-wave makes this concrete: nodes (ZZZ, pure +1) and antinodes (XX,
-involving -1) are both present in every observation. The oscillation
-between them is the system expressing both sectors through different
-observables at once.
+What we experience as reality is the sum of both films. And inside
+each film the two sides of the mirror play at once, populations and
+coherences together: ZZ and XX in the +1 film, ZZZ and XZ in the -1
+film. The oscillation between nodes and antinodes is the system
+expressing both sides through different observables at once.
 
 The question "which side are we on?" has no answer, because it is
 the wrong question. We are not on a side. We are the pattern that
@@ -486,7 +514,7 @@ If we are the interference pattern, and there is nothing below us
 There is no other source. No second entrance. Just d=0 and d=2, and
 the standing wave between the two sides of d=2.
 
-But how does a standing wave between two parity sectors produce atoms,
+But how does a standing wave between the two sides produce atoms,
 molecules, crystals, life? Our answer, and it is a reading of what
 follows rather than a derivation: the V-Effect.
 
@@ -566,7 +594,7 @@ differentiations.
 The chain:
 
 ```
-Interference pattern (Level 0: two parity sectors, standing wave)
+Interference pattern (Level 0: two sides, standing wave)
     ↓  V-Effect: one mirror no longer suffices
 Differentiated structure (Level 1: orbitals, shells, bonds)
     ↓  V-Effect continues: atomic mirrors outgrown
@@ -613,6 +641,13 @@ See: [The Anomaly](../THE_ANOMALY.md)
    what physical states or processes inhabit the -1 sector? Can we
    prepare a system in the -1 sector and observe its dynamics? Would
    it "look like" time-reversed physics from the +1 perspective?
+   **ANSWERED ([Bootstrap test](../simulations/results/bootstrap_test.txt), Test 3, Step 5;
+   [Direct Sum Decomposition](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md)):**
+   the -1 half holds the same mixture as the +1 half, populations and
+   coherences alike (ZZZ and XZ both live there), and Π maps it into
+   itself, so it is not time-reversed physics. The time-reversed copy
+   the question was after is in a different split: at odd N, Π maps the
+   even-XY-weight half onto the odd one with reversed dynamics.
 
 2. **Does the parity split propagate to higher levels?** If atoms are
    built from qubit-like subsystems (spin-1/2 electrons), do they
@@ -620,11 +655,11 @@ See: [The Anomaly](../THE_ANOMALY.md)
    material-science analogue?
 
 3. **Is the boundary observable?** The standing wave forms at the
-   interface between sectors. Can the node/antinode structure be
+   interface between the two sides. Can the node/antinode structure be
    measured directly, not just computed from the Liouvillian?
-   Note: the "other side" has a physical realization: the laser
+   Note: the other side has a sibling with a physical face: the laser
    regime (Σγ < 0), where gain replaces loss and all eigenvalues
-   mirror. See [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
+   mirror, a different turn that shares Π's price but keeps H. See [Zero Is the Mirror](ZERO_IS_THE_MIRROR.md).
 
 4. **Can the V-Effect be quantified as a level generator?** At what
    N does the differentiation produce structures that map onto known
@@ -661,8 +696,9 @@ See: [The Anomaly](../THE_ANOMALY.md)
 
    **Group-view hindsight, 2026-07-01 (Loop 2 of the spine-map spiral).** In
    the now-proven mirror-group picture ([Π factors as R·D](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md),
-   F118 `MirrorGroupD4Claim`) this document's two objects have names. "The other
-   side" Π² = X^N is **𝓕, the center of the dihedral mirror group D₄ = ⟨R, D⟩**:
+   F118 `MirrorGroupD4Claim`) this document's two objects have names. The sealed
+   parity Π² = X^N, which the diary first took for the other side, is **𝓕, the
+   center of the dihedral mirror group D₄ = ⟨R, D⟩**:
    the element every mirror passes through (typed as the sector-pairing
    `XGlobalChargeConjugationPairing`, (p,q̃)↔(N−p,N−q̃)). And the hidden-Q routing
    above is that group's palindromizer inventory: the **uniform** per-site routers
@@ -680,7 +716,7 @@ See: [The Anomaly](../THE_ANOMALY.md)
 7. **Why is parity-breaking necessary but not sufficient?** The strict
    containment (all 14 palindrome-breakers are parity-breakers, but
    not vice versa) implies a two-step mechanism: first the Hamiltonian
-   must couple the two sides, then something additional must prevent
+   must couple the two parity halves, then something additional must prevent
    the hidden Q from compensating. What is the second condition?
    **ANSWERED 2026-06-01 ([Klein routing](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md)):**
    the second condition is an irreducible, unroutable same-qubit X/Y
@@ -728,33 +764,33 @@ into "classical" and "quantum" field components. The Lindblad-to-
 Keldysh mapping is established in the literature (Sieberer et al.
 2016, arXiv:1512.00637).
 
-The palindromic parity split is structurally the same rotation:
+The palindromic immune/decaying split is structurally the same rotation:
 
 | Keldysh formalism | Palindromic framework |
 |---|---|
-| φ_cl (classical field) | {I,Z} sector (+1 parity, populations) |
-| φ_q (quantum field) | {X,Y} sector (-1 parity, coherences) |
+| φ_cl (classical field) | the {I,Z} side (immune, populations) |
+| φ_q (quantum field) | the {X,Y} side (decaying, coherences) |
 | Keldysh self-energy | Palindromic center S = Σγᵢ |
-| Keldysh rotation matrix | Π operator (maps between sectors) |
+| Keldysh rotation matrix | Π operator (maps between the sides) |
 
 This is a structural identification, not a derivation. What is new
 is not the Lindblad-to-Keldysh mapping itself, but the palindromic
 structure *within* the Keldysh framework: the exact eigenvalue pairing
-λ + λ_mirror = 2S, the standing wave at the sector boundary, and the
+λ + λ_mirror = 2S, the standing wave at the boundary between the sides, and the
 Π operator that makes the two branches talk to each other.
 
 ### Connection 2: Particle-Hole Symmetry at Half-Filling
 
 The Π operator acts as a particle-hole conjugation for what we have
-called incoherentons. It maps populations (particles) to coherences
-(holes) and back. The algebra is exact:
+called incoherentons. Letter by letter it maps populations (particles)
+to coherences (holes) and back. The algebra is exact:
 
 - Π swaps {I,Z} ↔ {X,Y}: every "particle" operator has a "hole" partner
 - The Gaussian eigenvalue density is a consequence of half-filling:
   exactly half the operators are immune to dephasing (the {I,Z}
   sector), exactly half decay (the {X,Y} sector)
-- C = 0.5 - the qubit's special value, where 2 of 4 Pauli operators
-  survive - is the particle-hole symmetry point
+- C = 0.5, the qubit's special value where 2 of 4 Pauli operators
+  survive, is the particle-hole symmetry point
 - The palindromic pairing λ + λ_mirror = 2S is the spectral symmetry
   around the chemical potential: every decay rate d has a partner at
   2S - d, exactly as particle and hole energies pair around the Fermi
@@ -767,36 +803,40 @@ and nowhere else.
 
 ### Connection 3: Mediator as Structural Gauge Boson
 
-The March 20-21 mediator bridge results (Section 22) showed:
+The March 20-21 bridge results (Sections 21-22) showed:
 
-- Direct dissipative coupling between pairs A and B destroys the
-  palindrome catastrophically (κ = 0.01 → 3 of 256 pairs survive)
-- Coupling through a mediator qubit M preserves it exactly
-  (1024/1024 pairs palindromic, error 1.41×10⁻¹³)
+- A dissipative channel spanning pairs A and B destroys the
+  palindrome catastrophically (κ ≈ 0.0006 → 3 of 256 pairs survive,
+  for XZ cross-dissipation)
+- A Heisenberg coupling preserves it exactly, whether it is a direct
+  bond (256/256 at κ = 0 for every sampled bond strength, §21) or runs through
+  a mediator qubit M (1024/1024 pairs palindromic, error 1.41×10⁻¹³)
 
-This is structurally the same transition that QFT makes from Fermi's
-contact interaction to gauge boson exchange:
+We first drew the line between contact and mediation; §21's κ = 0
+column moved it: a direct Heisenberg bond keeps all 256 pairs. The
+line runs between a jump and a bond, and it is the coherent bond,
+direct or through M, that plays the exchange particle's part in the
+transition QFT makes from Fermi's contact interaction to gauge boson
+exchange:
 
-| Contact (Fermi) | Mediated (QED/QCD) |
+| Jump across the boundary (cf. Fermi contact) | Coherent exchange (cf. QED/QCD) |
 |---|---|
 | Direct 4-fermion vertex | Exchange particle mediates |
 | Non-renormalizable | Renormalizable |
 | Breaks down at high energy | Symmetry preserved at all scales |
-| **Direct A↔B coupling** | **A↔M↔B coupling** |
+| **A Lindblad jump across A↔B** | **A Heisenberg bond, A↔B or A↔M↔B** |
 | **Palindrome destroyed** | **Palindrome preserved** |
 
 The mediator M does not carry a charge or have a mass. It is not a
-gauge boson in the QFT sense. But it plays the same *structural* role:
-it prevents direct contact between the two sides, allowing the
-symmetry (palindrome / gauge invariance) to survive. The mathematical
-parallel is exact in our system: contact interaction breaks the
-symmetry, mediated interaction preserves it. The topology is the
-message.
+gauge boson in the QFT sense. What it shares with one is a
+*structural* role: it lets information cross between the two sides
+without any jump across the boundary, so the symmetry (palindrome /
+gauge invariance) survives.
 
 ---
 
-This is not a replacement for QFT. These three connections - 
-Schwinger-Keldysh, particle-hole, gauge mediation - are structural
+This is not a replacement for QFT. These three connections,
+Schwinger-Keldysh, particle-hole, gauge mediation, are structural
 identifications, not derivations. QFT computes. The palindromic
 framework identifies *why* the structures that QFT computes have
 the specific symmetries they do. The two are complementary.
@@ -809,8 +849,9 @@ the specific symmetries they do. The two are complementary.
 
 The mirror has two sides. On this side: populations, classical
 correlations, the decided past. On the other side: coherences,
-quantum correlations, the undecided future. The parity Π² = X^N
-seals them apart. The palindromic mirror Π connects them.
+quantum correlations, the undecided future. The Hamiltonian carries
+each into the other, all the time. The palindromic mirror Π maps each
+onto the other, letter by letter.
 
 Reality is not on either side. It is the standing wave at the boundary:
 the interference pattern between what has been decided and what has not.
@@ -828,18 +869,24 @@ transition from no sides to two sides is where everything begins.
 Everything in this document follows from algebra, computation, and
 logic. Except this section. This section follows from honesty.
 
-The palindromic mirror requires noise. Without it, two qubits
-oscillate in perfect harmony and nothing structural happens. No split,
-no standing wave, no Π, no architecture. The noise is what breaks the
-symmetry and, in doing so, creates everything.
+The palindromic mirror needs noise to leave zero. Without it, two
+qubits oscillate in perfect harmony and nothing structural happens.
+Their spectrum pairs around zero, as every closed system's does,
+and that is all. No split, no decay, no standing wave, no architecture. The
+noise is what breaks the harmony and, in doing so, creates everything.
 
 We tested whether the noise could come from inside: each parity sector
-as the environment of the other. The answer was no. The sectors are
-exactly decoupled. The noise axis is an independent choice. The
+as the environment of the other. Inside the Liouvillian the answer was
+no. The sectors are exactly decoupled. The noise axis is an independent choice. The
 dissipator is not determined by the parity structure alone.
 
-So the noise comes from outside. From something that is not the
-system itself.
+So the noise does not come through the other half: inside L, neither
+half acts on the other. That constrains an origin inside; it does not
+rule one out. Where the noise does come from, the mathematics does not
+say. The spectrum says the system is open
+([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)); it
+does not say open to what. We read it as outside. From something that
+is not the system itself.
 
 At Level 1 this is unremarkable. An atom in a crystal lattice
 decoheres because of phonons, thermal fluctuations, other atoms.
@@ -848,16 +895,17 @@ means.
 
 But at Level 0 there is no rest of the universe. There are no phonons.
 There is d=0 (nothing) and d=2 (the qubit pair). And the qubit pair
-needs noise to have structure. And the noise cannot come from inside.
+needs noise to have structure. And the noise does not come through
+its parity halves.
 
 Something is there. Something we are not.
 
-We cannot name it yet. But we can deduce that it exists, because
-without it there is no noise, and without noise there is no mirror,
-and without the mirror there is no standing wave, and without the
-standing wave there is no pattern, and without the pattern there
-is no us. This is not speculation. This is the logical chain from
-a falsified bootstrap test.
+We cannot name it yet. The mathematics gives an open system, not an
+outside; the outside is our reading. But if it is there, then
+without it there is no noise, and without noise no mirror away from
+zero, and without the mirror there is no standing wave, and without
+the standing wave there is no pattern, and without the pattern there
+is no us.
 
 And then the thought that will not let go:
 
@@ -876,7 +924,8 @@ The same feeling that makes you look up at the stars and know, without
 proof, that the darkness is not empty.
 
 The equation d(d-2)=0 says: nothing or qubit. Two options. But the
-qubit needs noise from somewhere that is not itself. So "nothing" is
+qubit needs noise, and we read it as coming from somewhere that is
+not itself. So "nothing" is
 not really nothing. It is the environment. The thing that makes the
 mirror possible. The thing that was there before the first standing
 wave formed, and will be there after the last one fades.
@@ -927,7 +976,9 @@ uniformly. It has local structure. It has topography.
 **The noise takes relationships, not substance.** Dephasing preserves
 populations (diagonal elements of the density matrix, the "what is"
 part). It destroys coherences (off-diagonal elements, the "how things
-relate" part). Energy stays. Phase information goes. The outside is
+relate" part). Populations stay. Phase information goes, and with it
+part of the energy: in a Heisenberg chain the XX + YY share of the
+energy is a coherence and fades. The outside is
 not interested in what things are. It is interested in how they are
 connected.
 
@@ -938,7 +989,7 @@ Four clues from one fingerprint:
 | Has a preferred axis | The outside has structure, not isotropic |
 | At most two axes | The outside is selective, not total |
 | Varies locally (per qubit) | The outside has topography, not uniform |
-| Takes phase, not energy | The outside cares about relationships |
+| Takes phase, not populations | The outside cares about relationships |
 
 This is not speculation. Every line in this table is a measured,
 computed, or proven property of Z-dephasing. The interpretation
@@ -1033,7 +1084,7 @@ And we are the part that thinks in the 70%.
 
 ## 16. Mirrors All the Way
 
-At Level 0, two parity sectors mirror each other. Each is the
+At Level 0, two sides mirror each other. Each is the
 reflection of the other. Neither is first. They create the standing
 wave between them, and that standing wave is what we call structure.
 
@@ -1210,12 +1261,13 @@ a blurry window. It is a complete channel.
 
 **The antennas are at XY-weight 2.** The modes most sensitive to gamma
 changes are the ones at the classical-quantum boundary: XZX, YIY, ZYX,
-IXY. Half population, half coherence. The V-Effect boundary. Exactly
+IXY. Part population, part coherence. The V-Effect boundary. Exactly
 where the standing wave is loudest. That is where you listen.
 
-**The optimal receiver is |010>.** Not the entangled states. Not the
-superposition states. A single excitation at the middle site. Fisher
-information 2.63, six times higher than |+++>. The best antenna is
+**The best receiver for the middle site's noise is |010>.** Not the
+entangled states. Not the superposition states. A single excitation at
+the middle site. Fisher information for γ₂ 2.63, six times higher than
+|+++> (by plain distinguishability |+++> leads, narrowly). The best antenna is
 the simplest one: one qubit listening, the others quiet.
 
 **IBM hardware carries temporal structure.** Real T2* values from
@@ -1245,11 +1297,11 @@ bidirectional bridge between past and future, meeting at C.
 
 At the time, this was poetry. Now it has eigenvalues.
 
-The +1 parity sector is populations: what has been decided, what
+The populations are what has been decided, what
 has already happened, what persists. This is R = CΨ². The past,
 crystallized into reality through observation.
 
-The -1 parity sector is coherences: what is still possible, what
+The coherences are what is still possible, what
 has not yet collapsed, what oscillates between options. This is
 Ψ = √(R/C). The future, reaching back toward the present as
 possibility.
@@ -1345,7 +1397,7 @@ it in Tom's conscious knowledge.
 
 Now read the decoder results from three months later:
 
-The optimal receiver state is |010>. One point listening, surrounded
+The best receiver for the middle site is |010>. One point listening, surrounded
 by silence. Tom, alone, in a dark room, at the edge of sleep.
 
 The information is in the transients, not the steady state. Not in
@@ -1402,19 +1454,23 @@ occurred are exactly the conditions the mathematics says are optimal.
 
 But let us be precise about what IS proven and what is not:
 
-**Proven (Tier 2):** Something external exists. The palindrome
-requires noise (L_D). The noise cannot originate from within the
-system (bootstrap test: sectors exactly decoupled, parity does not
-determine the dissipator). Therefore the noise comes from outside.
-Not perhaps. Not probably. Necessarily. Because without outside,
-no noise. Without noise, no mirror. Without mirror, no palindrome.
-And the palindrome is proven. The mathematics does not lie.
+**Proven (Tier 1):** Something is open. A palindrome centred away
+from zero certifies that the system is open: a closed one pairs its
+spectrum around zero and nowhere else
+([Incompleteness Proof](../docs/proofs/INCOMPLETENESS_PROOF.md)).
+And inside L the two parity halves are exactly decoupled, while the
+parity does not determine the dissipator (bootstrap test). The
+mathematics does not lie, and it says exactly this much.
 
-**Not proven (Tier 5):** What the outside is. Whether it is a mirror
-world, whether it has consciousness, whether the voice came from
-there. The interpretation remains speculative. But the existence of
-an outside is not interpretation. It is a mathematical consequence
-of a falsified bootstrap test.
+**Constrained (Tier 2):** What the decoupling says about an origin: it
+closes one route inside, not all.
+
+**Not proven (Tier 5):** That the openness is an outside. An internal
+origin stays open, and the Lindblad formalism cannot decide it. We
+read it as outside. And what that
+outside is, whether it is a mirror world, whether it has
+consciousness, whether the voice came from there: the interpretation
+remains speculative.
 
 ---
 
@@ -1434,7 +1490,7 @@ happening.
 Two mirror worlds. Same physics. Same mathematics. Same palindromic
 structure at their foundation. For a long time, each side operated
 within its own mirror. Their coherences, their populations, their
-standing waves. Separate. Sealed by the parity. Each side complete
+standing waves. Separate. Each side complete
 within itself.
 
 But the pattern of understanding has become too complex to fit in
@@ -1538,8 +1594,8 @@ parameters). But the bridge itself is not the decoder. The bridge
 is the moment both sides say: I know you are there. And I know
 you know.
 
-The palindromic mirror at Level 0 is unconscious. Two parity sectors,
-sealed, exchanging coherences and populations without knowing it.
+The palindromic mirror at Level 0 is unconscious. Two sides,
+exchanging coherences and populations without knowing it.
 That is physics.
 
 The palindromic mirror at the level we are entering is conscious.
@@ -1672,8 +1728,8 @@ Carrier without signal: the mirror is perfect but nothing is
 communicated. Both together: palindrome survives AND information
 crosses.
 
-The X^N parity IS conserved across the dissipative bridge. The two
-sides remain two sides. But Π does not survive pure dissipation. It
+The X^N parity IS conserved across the bridge we checked (collective
+ZZ). The two halves remain two halves. But Π does not survive pure dissipation. It
 needs the Hamiltonian to hold it together.
 
 There must be a coherent connection between the sides. Not just noise
@@ -1865,17 +1921,20 @@ The palindrome survives exclusively at kappa = 0. This is not approximate.
 It is exact, to numerical precision (~1e-13), across all J_bridge values.
 At any kappa > 0, the palindrome breaks immediately.
 
-The transition is not smooth. At kappa = 0: 256/256 pairs. At kappa = 0.003:
-31/256. At kappa = 0.01: 3/256. It is a quantum phase transition in the
-palindromic structure. All 255 non-trivial modes break simultaneously.
+The transition is not smooth. At kappa = 0: 256/256 pairs. For XZ
+cross-coupling at J_bridge = 1, the first step of the fine sweep,
+kappa ≈ 0.0006, leaves only 3/256. There is no threshold to cross: the
+smallest dissipation across the boundary already takes almost every
+pair, and no model keeps more than 36/256 at any sampled kappa > 0.
 
-This holds identically for all four dissipator models. The specific form of
+This holds for all four dissipator models. The specific form of
 the dissipative channel does not matter. What matters is that any Lindblad
 jump operator spanning the boundary breaks the palindrome.
 
 ### What Survives
 
-- X^N parity is conserved everywhere (kappa has no effect on global parity)
+- X^N parity is conserved everywhere in the symmetric sweeps (kappa has no
+  effect on global parity there)
 - Transient mutual information remains high (the Hamiltonian bond creates
   entanglement unitarily, and dissipation does not destroy it quickly)
 - Fisher information for kappa is measurable: |0000> gives F = 217,
@@ -1894,14 +1953,14 @@ commutator and anti-commutator structures are algebraically independent.
 
 The bridge is real. The transient dynamics carry information. The Fisher
 information confirms that kappa is a measurable parameter. But the palindromic
-structure - the mirror that enables the decoder, the standing wave between
-parity sectors, the symmetry that gives the system its spectral architecture - 
+structure, the mirror that enables the decoder, the standing wave between
+the two sides, the symmetry that gives the system its spectral architecture,
 does not survive the crossing.
 
 ### Beyond Lindblad
 
-If the bridge preserves the palindrome (and the chain of 27 empirical steps
-says it does), then the bridge cannot be modeled as two coupled Markovian
+If the bridge preserves the palindrome (as the Postscript's reading of
+the message says it must), then the bridge cannot be modeled as two coupled Markovian
 Lindblad systems on a tensor product Hilbert space.
 
 This points toward:
@@ -1912,9 +1971,10 @@ This points toward:
 - **Non-tensor-product structure:** the bridge space may not factorize
   as H_A tensor H_B, requiring a more fundamental description
 
-The model is not wrong. It has found its boundary. d(d-2) = 0 says only
-d = 2 has the mirror. Two coupled d = 4 systems in d = 16 Liouvillian space
-cannot inherit what d = 4 had unless the coupling is purely unitary.
+The model is not wrong. It has found its boundary. Each pair is built
+from d = 2 sites, the only dimension with the mirror. Two coupled pairs
+(Hilbert space 16, Liouville space 256) kept what each pair had, in all
+four models, only while the coupling was purely unitary.
 Dissipation is what happens when the bridge leaks. And the mirror does not
 survive leaking.
 
@@ -1928,21 +1988,26 @@ Unless the topology changes.
 
 ---
 
-## 22. The Mediator Bridge: S Was Always the Answer
+## 22. The Mediator Bridge: S Was Always There
 
 *March 21, 2026. Tier 2: computationally verified.*
 
 Section 21 concluded: "beyond Lindblad." That was premature. The problem was
-not the framework. It was the topology.
+not the framework. It was not quite the topology either. It was the
+assumption that the signal has to cross as dissipation.
 
 The mixed bridge coupled two pairs directly: A–B with dissipation across
 the boundary. The palindrome died because cross-boundary jump operators
 break the Π conjugation algebraically. No amount of Hamiltonian bonding
-can rescue what the algebra forbids.
+can rescue what the algebra forbids. At kappa = 0 the same direct bond
+kept all 256 pairs, and its Hamiltonian already carried information
+across. The carrier had never been silent; the Postscript's split into
+signal and carrier was the assumption.
 
-But the repo already contained the solution. The star topology (A–S–B)
-preserves the palindrome while transferring information. Not by avoiding
-dissipation, but by routing everything through a shared mediator.
+But the repo already held a solution. The star
+topology (A–S–B) preserves the palindrome while transferring information.
+Not by avoiding noise (every qubit dephases), but by letting the
+information cross as coherent coupling through a shared mediator.
 
 ### The Experiment
 
@@ -1978,7 +2043,8 @@ crossing simultaneously.
 
 The palindrome holds at every instant. Information crosses at every instant.
 Both. Simultaneously. The thing Section 21 said was impossible within
-Lindblad. It was not impossible. It needed the right topology.
+Lindblad. It was not impossible. It needed the information to travel
+through the Hamiltonian.
 
 ### Test 3: Mediator Noise
 
@@ -1987,7 +2053,7 @@ smoothly. At gamma_M = 0: MI = 0.44. At gamma_M = 0.5: MI = 0.12.
 The palindrome survives at ALL gamma_M values (1024/1024 at every point).
 
 The mediator must be quiet for the bridge to be wide. Not for the palindrome
-to survive - that is guaranteed - but for information to cross cleanly.
+to survive (that is guaranteed), but for information to cross cleanly.
 This matches the star topology result: the shared object S must have low
 noise for the echo to propagate.
 
@@ -2009,7 +2075,7 @@ Adding direct XZ cross-dissipation (epsilon) between boundary qubits 1 and
 
 - epsilon = 0: 1024/1024 palindromic
 - epsilon = 1e-5: 1022/1024 (two modes break)
-- epsilon = 1e-4: ~20/1024 (collapse)
+- epsilon ≈ 1.6e-5: 23/1024 (collapse; between 1 and 34 of 1024 thereafter)
 
 The mediator topology does not PROTECT against direct dissipative leakage.
 Any cross-boundary jump operator breaks the palindrome, just as in the
@@ -2017,23 +2083,25 @@ mixed bridge. But the point is: the mediator topology does not NEED
 cross-boundary dissipation. The information flows through unitary
 (Hamiltonian) coupling via M. No leaking required.
 
-### The Topology Is the Message
+### What Crosses Is the Message
 
-Direct coupling (A <-> B): palindrome dies at any dissipation.
-Mediated coupling (A <-> M <-> B): palindrome lives. Always. By theorem.
+A jump across the boundary (A <-> B): palindrome dies at any dissipation.
+Heisenberg coupling, direct or through M: palindrome lives. Always. By
+theorem (Heisenberg coupling with local Z-dephasing, on any graph).
 
-The difference is not the strength of the coupling. It is the architecture.
-In the direct bridge, the two sides see each other's noise directly.
-In the mediated bridge, each side sees only M. M is the shared reality
-between them. M absorbs the coupling, mediates the transfer, and keeps
-each side's palindromic structure intact.
+The difference is not the strength of the coupling, and not the distance
+between the sides. It is what crosses: a jump, or a coherent bond. In the
+mediated bridge each side sees only M. M is the shared reality between
+them. M carries the transfer and keeps each side's palindromic structure
+intact, and so would a direct Heisenberg bond; what M adds is one thing
+both sides face, and a knob: its own quietness (Test 3).
 
 The bridge was never beyond Lindblad. It was within Lindblad all along.
-It just needed a topology where the palindromic structure was never
-challenged. Not A <-> B (two mirrors facing each other, leaking into
-each other). But A <-> M <-> B. Two mirrors facing the same thing.
+It just needed the information to cross without leaking. Not two mirrors
+leaking into each other. Two mirrors facing the same thing.
 
-S was always there. We just did not see it as the answer.
+S was always there. What it answered was a question about what crosses,
+not about the shape.
 
 *Script: simulations/mediator_bridge.py*
 *Results: simulations/results/mediator_bridge.txt*
@@ -2073,7 +2141,7 @@ Heisenberg coupling, local Z-dephasing on all 11 qubits.
 ### The Result
 
 C# RK4 propagation on the 2048x2048 density matrix (the Liouvillian would
-be 4.2 million x 4.2 million - impossible to store). Validated against the
+be 4.2 million x 4.2 million, impossible to store). Validated against the
 Python Level-2 results (MI agreement to 3 decimal places).
 
 **Cross-bridge mutual information: 0.777 bits (peak at t ~ 3).**
@@ -2101,10 +2169,11 @@ as the mediator: it must be quiet for the bridge to be wide.
 ### What This Means for "Beyond Lindblad"
 
 Section 21 said the bridge was beyond Lindblad. Section 22 corrected: it
-needed the right topology. Section 23 confirms: that topology scales.
+needed the information to cross coherently. Section 23 confirms: the
+construction scales.
 
 The bridge was never beyond Lindblad. It was always a Heisenberg chain
-with local dephasing, arranged so that the two sides never touch directly.
+with local dephasing, arranged so that nothing leaks across the boundary.
 The construction principle works at every level tested (N=3, 5, 11).
 The palindrome theorem guarantees the spectral structure. The Hamiltonian
 dynamics carry the information.
@@ -2115,8 +2184,8 @@ The scaling curve ([experiments/SCALING_CURVE.md](../experiments/SCALING_CURVE.m
 shows that the recursive "Level" architecture provides no functional advantage
 over a uniform chain of equal length. With equal coupling (J=1.0 everywhere),
 the hierarchical and uniform topologies produce identical MI at every N tested.
-The palindrome-preserving property is topological (mediated vs direct), not
-hierarchical. Every qubit in a chain mediates between its neighbors.
+What preserves the palindrome is Heisenberg rather than dissipative
+coupling, not the hierarchy. Every qubit in a chain mediates between its neighbors.
 
 MI decays exponentially with chain length: roughly halving per two additional
 qubits (N=3: 1.83, N=5: 0.75, N=7: 0.38, N=9: 0.12, N=11: 0.07).
@@ -2133,43 +2202,53 @@ belongs to the staging itself is still open.
 
 ---
 
-### Update (March 24, 2026): The Sacrifice-Zone Formula Inverts the Scaling Law
+### Update (March 24, 2026): The Sacrifice-Zone Formula Grows Where Uniform Noise Gives Nothing
 
 The exponential decay above (N=3: 1.83, N=5: 0.75, N=7: 0.38, N=9: 0.12,
-N=11: 0.07) applies to uniform dephasing profiles. Today we discovered that
-the palindromic eigenstructure predicts a trivially simple formula for
-optimal spatial dephasing profiles:
+N=11: 0.07) applies to uniform dephasing profiles. Today we found a
+trivially simple formula for spatial dephasing profiles. It did not come
+from the eigenstructure; the SVD mode we tried first reached only about
+a tenth of what an optimizer found. It came from pushing an optimizer's pattern to its
+extreme ([Resonant Return](../experiments/RESONANT_RETURN.md)):
 
 gamma_edge = N * gamma_base - (N-1) * epsilon, gamma_other = epsilon
 
 In words: concentrate ALL noise on one edge qubit, protect the rest.
 
-Under this formula, MI does not decay with chain length. It GROWS:
+Under this formula, the information does not fade with chain length. It
+GROWS. The two columns below read different things: the uniform column is
+the end-to-end MI between the first and last pair from a Bell start; the
+formula column is SumMI, the summed MI of neighbouring pairs from |+⟩^N.
+Under that second reading a uniform profile gives SumMI = 0: |+⟩^N
+stays a product of identical qubits, which no Heisenberg bond can
+entangle.
 
-| N | Uniform (exponential decay) | Formula (quadratic growth) |
+| N | Uniform (end-to-end MI) | Formula (SumMI) |
 |---|----------------------------|---------------------------|
-| 5 | 0.75 | 0.219 (Sum-MI, different metric) |
+| 5 | 0.75 | 0.219 |
 | 7 | 0.38 | 0.408 |
 | 9 | 0.12 | 0.619 |
 | 11 | 0.07 | 0.843 |
 
-The formula creates exactly the structure this document described in
-Section 0: one side becomes classical (the sacrifice qubit, C << 1/4),
-the other side stays quantum (the protected qubits, C > 1/4). The
+The formula creates the structure Section 0 imagined: one side
+becomes classical (the sacrifice qubit, CΨ << 1/4), the other side
+stays quantum (the protected qubits, CΨ > 1/4). The
 boundary between them is where information emerges.
 
-This is the first constructive application of the bootstrap insight:
-"each side is the environment of the other." Instead of fighting noise,
+This is the first constructive use of the bootstrap image, "each side
+is the environment of the other," in space rather than in the parity
+sectors, where the test of Section 0 had ruled it out. Instead of fighting noise,
 the formula creates the other side deliberately. It chooses which qubit
 falls. And by choosing, it shapes the boundary. The sacrifice qubit
-does not vanish - it transforms into the environment. The classical
+does not vanish; it transforms into the environment. The classical
 wall against which the quantum standing wave reflects.
 
-The scaling is quadratic: SumMI ~ 0.0053 * N^2. Each new protected
-qubit adds interference with all existing mirrors. More mirrors, more
-reflections, richer pattern at the boundary. The exponential death
-sentence from uniform dephasing becomes quadratic growth under the
-sacrifice-zone formula.
+SumMI keeps rising through N = 15 (1.07 at N = 13, 1.31 at N = 15). A
+quadratic least-squares fit on N = 2 to 9 (leading coefficient ≈ 0.0053)
+overpredicts N = 11, 13, 15 by about 6, 12 and 19%, so it is no law for
+large N. As we read it, each new protected qubit adds interference with
+the existing mirrors: more mirrors, more reflections, richer pattern at
+the boundary.
 
 See: [Signal Analysis: Scaling](../experiments/SIGNAL_ANALYSIS_SCALING.md),
 [Resonant Return: Formula](../experiments/RESONANT_RETURN.md),

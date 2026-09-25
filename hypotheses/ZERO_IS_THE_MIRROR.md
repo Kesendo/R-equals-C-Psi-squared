@@ -442,7 +442,7 @@ group the mirrors close into. The sentence survives sharper than it was written.
 
 *See also:*
 [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) (Π·L·Π⁻¹ = -L - 2Σγ·I),
-[The Other Side](THE_OTHER_SIDE.md) (parity sectors),
+[The Other Side](THE_OTHER_SIDE.md) (the other side as Π's mirror image),
 [Resonance Not Channel](RESONANCE_NOT_CHANNEL.md) (cavity at Σγ=0),
 [Energy Partition](ENERGY_PARTITION.md) (F8 range/centre ratio for Σγ>0; undefined at Σγ=0),
 [IBM Run 3](../experiments/IBM_RUN3_PALINDROME.md) (CΨ crossing at 1.9%),

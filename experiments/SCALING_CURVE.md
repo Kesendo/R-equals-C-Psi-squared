@@ -139,9 +139,10 @@ single largest improvement for range.
 
 ## What Remains True
 
-- Mediated coupling (A-M-B through the Hamiltonian) preserves the
-  palindrome. Direct dissipative coupling (shared Lindblad jumps)
-  breaks it instantly (256 → 31 pairs at κ = 0.01).
+- Heisenberg coupling, direct or mediated (A-M-B), preserves the
+  palindrome. A dissipative jump across the boundary (shared Lindblad
+  jumps) breaks it at the first sampled κ of the fine sweep (3/256 at
+  κ ≈ 0.0006).
 - The 2:1 coupling ratio improves range at the cost of local transfer.
 - The [Relay Protocol](RELAY_PROTOCOL.md) stores 0.131700 at integrated
   t=4.50 versus a passive sampled maximum 0.071576 at t=4.00, about +84.0%.

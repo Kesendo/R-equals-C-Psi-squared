@@ -392,7 +392,9 @@ See: [Orphaned Results](../../experiments/ORPHANED_RESULTS.md),
 
 **Mediator bridge.** Mediated coupling (A-M-B) preserves palindrome
 (1024/1024, error 1.41e-13) while information flows (MI = 1.65 bits,
-QST fidelity 0.732). Direct coupling destroys it (256 → 31 pairs).
+QST fidelity 0.732). A direct Heisenberg bond keeps it too; what destroys it
+is a dissipative jump across the boundary (3/256 at κ ≈ 0.0006 for XZ
+cross-dissipation, [mixed_bridge.py](../../simulations/mixed_bridge.py)).
 Source run: [mediator_bridge.py](../../simulations/mediator_bridge.py)
 (output in `simulations/results/mediator_bridge.txt`).
 
