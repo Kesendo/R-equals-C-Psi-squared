@@ -244,8 +244,9 @@ freedom has 11 frequencies where constraint had 4.
 
 The [Hierarchy of Incompleteness](../docs/HIERARCHY_OF_INCOMPLETENESS.md)
 describes a pattern: systems at C = 0.5 (half full) enable the next level,
-while systems at C = 1 (complete) are dead ends. The V-Effect is the
-mechanism by which this transition happens at Level 0.
+while systems at C = 1 (complete) are dead ends. We read the V-Effect
+as that transition happening at Level 0; the reading is not a derived
+mechanism.
 
 The immune sectors (w=0 and w=3) are the Liouville-space equivalent of
 noble gases: C = 1, fully decided or fully undecided, perfectly stable,
