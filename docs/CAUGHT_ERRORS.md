@@ -3803,3 +3803,55 @@ written; this entry corrects its citation.
 **The lesson.** An open axis borrowed from a neighbouring document has to be the same axis.
 "Non-dephasing dissipators are open" answered which dimension can pair, and set beside a
 noise-origin argument it read like an answer to where noise comes from.
+
+## 2026-09-25, the N=2 envelope claim stood as "open" after its proof fell, and its counterexamples were a closed form away
+
+**What happened.** The historical Envelope Theorem said that for every two-qubit state under arbitrary
+H and local Z-dephasing the successive local maxima of CΨ are non-increasing. When its proof was
+withdrawn (Step 5 assumed the ordering it had to prove), the proof page, F17 and the typed claim moved
+the statement to "open" or "unproved", the typed claim adding that it was "not called refuted here",
+while WHAT_WE_FOUND and THE_CPSI_LENS still said that each flash is weaker than the last. Read literally,
+the statement has counterexamples in every class. Under H = X⊗I + 0.37·I⊗Y from |01⟩ the state stays a
+product, and a product state has L₁ = (1 + ℓ₁)(1 + ℓ₂) − 1, so at γ = 0
+CΨ(t) = [(1 + |sin 2t|)(1 + |sin 0.74t|) − 1]/3, whose first two main peaks rise 0.734893 → 0.991268;
+continuity in γ carries the rise into weak damping, and at γ = 0.05 it reads 0.650531 → 0.688512. Under a
+number-conserving H a second mechanism works: damping moves the zeros of ρ₀₁,₁₀, which follows the damped
+block clock, against those of the coherences with |00⟩ and |11⟩, which keep the undamped one. Where two
+such corners of L₁ bracket a slope that changes sign, a micro-maximum can grow just above the trough, below
+the next main peak. In a pure state the corners coincide at γ = 0 and split (cos(π/8)|00⟩ + sin(π/8)|01⟩
+under XXX at γ = 0.5, in closed form); in the mixed (|i0⟩⟨i0| + |i+⟩⟨i+|)/2 under XXX at γ = 0.05 they sit
+0.035 apart and damping turns the fixed one, a kink on a rising slope, into a trough. All 13 of its rising
+pairs have that shape, while its main peaks fall. The evidence the old claim had leaned
+on was Test A of `monotonicity_remaining.py`: nineteen states, all pure, all under XXX, with peaks read
+only above 0.125 on a dt = 0.02 grid. Pure states under a number-conserving H form a class whose γ = 0
+maxima are all equal, and a grid of that step cannot resolve a micro-maximum, so the catalogue could see
+neither mechanism. Two smaller errors sat beside it: the old Corollary 2 ("no local unitary (Pauli or
+non-Pauli) can push CΨ back above 1/4") is false, since the R_y that turns qubit 2's Bloch vector onto
+the equator lifts |0⟩ ⊗ (I + sin 60°·X + cos 60°·Z)/2 back to 0.2952 right after it crosses 1/4
+downward under Z-dephasing, and the typed claim's negative-boundary node credited CΨ'(0) = +1/6 to "fixed
+local Z dephasing", where the example needs H = Y⊗I (the dephasing alone gives −1/12).
+
+**Found by.** The typed-layer audit of the outside rewrite 05a523b4, which built the local-field
+example; a Stage-0 sweep of the envelope question, which found the mixed-state rise; and a fresh physics
+review of the first landing, which showed that the mixed rise and a pure one under XXX are micro-maxima,
+so that the "pure states under number-conserving H" left open by that landing had literal counterexamples
+too, and a second review, which placed the mixed micro-maxima between zeros that sit apart at γ = 0 rather
+than between coinciding ones. Every class is re-verified by the committed producer
+`simulations/envelope_n2_rises.py`, the pure number-conserving case in closed form with exact corner times.
+
+**What stands now.** PROOF_MONOTONICITY_CPSI Part 5 states both mechanisms, the continuity argument, and
+the structural question that survives: under a number-conserving H, do the main peaks, the largest value
+of CΨ in each period of the one-excitation block clock, fall? At γ = 0 CΨ repeats with that period for
+every state and every maximum of a pure state is equal; the producer's main-peak scans (pure and mixed, at
+γ = 0.05, 0.2 and 0.5) find no rise. `CpsiEnvelopeTheoremClaim` states that question as an open question
+and carries both counterexamples and the exact pointwise rates as computing members that it recomputes;
+F17, the roadmap, the proof siblings, the entry pages, the atlas page and the OpenArcs arc
+`envelope_n4_rise` say the same.
+
+**The lesson.** A universal claim whose proof broke at a named step is not resting at "unproved": the
+step says where to look. Step 5 assumed that consecutive maxima share an oscillation phase, and two clocks
+that never share one is the first thing to try; a product state under local fields makes that one line.
+The second lesson came from the repair itself: a question narrowed to the class where no rise had been
+seen was still posed about literal local maxima, and damping creates local maxima that no grid coarser
+than their width can see. A peak question needs a structural definition of a peak before its evidence
+means anything, and a catalogue speaks only for what its grid and its classes could resolve.

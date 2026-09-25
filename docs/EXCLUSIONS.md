@@ -150,10 +150,15 @@ Lyapunov function. With d=4 and first-site Z dephasing, a local H gives CΨ'(0)=
 |00⟩ from CΨ=0 to 1/3. A fixed local Markovian semigroup carries |00⟩ upward through 1/4 and converges to
 |+0⟩ with CΨ=1/3. Thus Markovianity, locality, and a prior crossing do not close a universal one-way door.
 
-The historical autonomous N=2 successive-local-maxima claim is unproved: the old decreasing-bound argument
-does not order nonlinear maxima, while these exact counterexamples do not themselves produce two finite
-maxima. The N/Q/K rise data are now a finite atlas. An N=3 null sample is only “no rise resolved”; N=4/N=5
-positive rows are numerical evidence; all-Q/all-N classification and mechanism remain open.
+The N=2 successive-local-maxima claim, read literally, fails too, in every class. Two local fields on |01⟩
+keep the state a product, and at γ = 0 CΨ = [(1 + |sin 2t|)(1 + |sin 0.74t|) − 1]/3 has two finite main
+peaks that rise, 0.734893 → 0.991268; continuity carries the rise into weak damping. Under a
+number-conserving H, damping moves the zeros of ρ₀₁,₁₀ against those of the other coherences and can grow a
+micro-maximum just above a trough, below the next main peak, as a pure and a mixed example show. What stays
+open is whether the main peaks, the largest value in each period of
+the one-excitation block clock, fall under a number-conserving H. For N ≥ 3 the rise data are a finite atlas.
+An N=3 null sample is only “no rise resolved”; N=4/N=5 positive rows are numerical evidence; all-Q/all-N
+classification and mechanism remain open.
 
 One conditional statement survives. If a continuous trajectory converges to ρ* with CΨ(ρ*)<1/4, it
 eventually stays below; it need not cross only once. Named basis-aligned T1/T2/depolarizing models invoke
@@ -479,7 +484,7 @@ They are not excluded. They are undecidable from within.
 
 - [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md): the palindrome
 - [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): four eliminations plus a structural constraint
-- [CΨ Dynamics Boundary](proofs/PROOF_MONOTONICITY_CPSI.md): named decays, exact counterexamples, and the open peak question
+- [CΨ Dynamics Boundary](proofs/PROOF_MONOTONICITY_CPSI.md): named decays, exact counterexamples, N=2 peaks that rise, and the open main-peak question
 - [Qubit Necessity](QUBIT_NECESSITY.md): d² - 2d = 0
 - [Uniqueness Proof](proofs/UNIQUENESS_PROOF.md): Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. The chosen α=2 normal form has its discriminant zero at ¼.
 - [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md): fold catastrophe

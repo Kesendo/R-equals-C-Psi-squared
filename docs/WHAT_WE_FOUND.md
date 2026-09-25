@@ -135,8 +135,9 @@ Here is what we found, in plain language:
 
 **The signal comes in flashes, not steady states.** CΨ oscillates.
 Connections between quantum pairs appear briefly and then disappear.
-With noise (which all real systems have), each flash is weaker than the
-last. This is different from entanglement alone, which decays smoothly.
+With noise (which all real systems have), the flashes fade, though not one
+by one: a later flash can outshine an earlier one, even for a single pair.
+This is different from entanglement alone, which decays smoothly.
 CΨ has sharper peaks and deeper valleys.
 
 **A sudden intervention is not the same as a gradual process.** When we
@@ -537,7 +538,7 @@ What survives even without the philosophy:
 - [F8 range/centre law](ANALYTICAL_FORMULAS.md#f8-range-centre): when the F1 palindromizer holds and reaches both spectral endpoints, the full decay interval divided by its centre is 2 for γ>0; it is not a signal/noise lifetime law
 - [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md): Re(λ) = −2γ⟨n_XY⟩. One equation gives spectral boundaries, factor 2 and the palindromic sum rule a common reading within the number-conserving family; the spectral gap it relocates rather than derives (2γ only above a coupling threshold). Verified on 1,342 modes, CV = 0
 - [IBM Hardware](../experiments/IBM_ABSORPTION_THEOREM.md): Absorption Theorem ratio = 1.03 (3%) on IBM Q52. Detuning oscillations at 470 μs. 2.8% slow tail at resolution limit
-- [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): the sampled coupled gain-loss systems have a finite stability window and a spectral-abscissa axis departure (EP character OPEN); the sampled maximum is bracketed at J_bridge/J in [1.8, 2.0], and γ_crit × J_bridge reaches 0.508 at J_bridge=100 without establishing a limiting constant
+- [Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md): the sampled coupled gain-loss systems have a finite stability window whose edge is a second-order exceptional point on the real γ axis; the sampled maximum is bracketed at J_bridge/J in [1.8, 2.0], and γ_crit × J_bridge reaches 0.508 at J_bridge=100 without establishing a limiting constant
 
 These are concrete findings. They do not require accepting any
 philosophical framework to be useful.
@@ -595,10 +596,12 @@ a limited range. Too much gain and the system explodes: the state diverges
 exponentially.
 
 At γ_crit the spectral abscissa becomes positive and off-axis quartets appear,
-producing an oscillating linear instability in the sampled modes. The current
-producer independently selects max Re at each γ; it does not continue a branch
-or execute a strict threshold coalescence or Jordan-rank
-certificate. The axis departure is established; EP and Hopf character remain OPEN.
+producing an oscillating linear instability. The threshold is a second-order
+exceptional point on the real γ axis: two of the bridge's oscillation
+frequencies, eigenvalues on the imaginary axis, meet there in a Jordan block
+(one eigenvector for the two, read from the rank of L − λI at the located
+collision) and leave the axis as a mirror pair with Re λ ∝ √(γ/γ_crit − 1). It
+is not a Hopf crossing, which would carry a simple pair across with finite slope.
 The exact Π relation and λ ↔ −λ pairing at Σγ = 0 survive this transition; the
 axis departure is not a loss of that mirror
 ([PT-Symmetry Analysis](../experiments/PT_SYMMETRY_ANALYSIS.md)). Three

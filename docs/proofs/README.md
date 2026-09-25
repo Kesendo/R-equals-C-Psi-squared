@@ -48,7 +48,8 @@ attractor, a physical interval, or a trajectory law.
 
 3. [CΨ Dynamics Boundary](PROOF_MONOTONICITY_CPSI.md) - exact decreasing
    Bell+ formulas for named channels, exact local-Markov counterexamples to the universal package,
-   instantaneous Pauli invariance, and an open autonomous N=2 peak-sequence question.
+   instantaneous Pauli invariance, and N=2 successive maxima that can rise in every class (open: whether
+   the main peaks fall under a number-conserving H).
 
 4. [Conditional Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) - A continuous
    trajectory converging to ρ* with CΨ(ρ*)<¼ eventually stays below. Named basis-aligned channels still

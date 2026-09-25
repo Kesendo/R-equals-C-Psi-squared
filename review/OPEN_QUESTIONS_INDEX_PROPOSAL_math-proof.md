@@ -16,9 +16,9 @@ per entry; the batch summary is not a new physical theorem.
 
 | Status | Count | OQ-IDs |
 |--------|-------|--------|
-| open | 20 | OQ-003, OQ-012, OQ-018, OQ-041, OQ-042, OQ-053, OQ-072, OQ-088, OQ-096, OQ-129, OQ-160, OQ-164, OQ-251, OQ-255, OQ-275, OQ-276, OQ-282, OQ-287, OQ-295, OQ-307 |
+| open | 19 | OQ-003, OQ-012, OQ-018, OQ-041, OQ-042, OQ-053, OQ-088, OQ-096, OQ-129, OQ-160, OQ-164, OQ-251, OQ-255, OQ-275, OQ-276, OQ-282, OQ-287, OQ-295, OQ-307 |
 | resolved | 7 | OQ-055, OQ-077, OQ-079, OQ-083, OQ-121, OQ-228, OQ-245 |
-| partially-resolved | 8 | OQ-016, OQ-020, OQ-036, OQ-052, OQ-180, OQ-296, OQ-308, OQ-323 |
+| partially-resolved | 9 | OQ-016, OQ-020, OQ-036, OQ-052, OQ-072, OQ-180, OQ-296, OQ-308, OQ-323 |
 | obsolete | 1 | OQ-300 |
 | needs-human | 7 | OQ-019, OQ-045, OQ-046, OQ-058, OQ-111, OQ-316, OQ-325 |
 
@@ -168,10 +168,15 @@ an autonomous N=2 local-Z Lindblad trajectory, and how do finite rise classifica
 **Source:** `docs/proofs/PROOF_MONOTONICITY_CPSI.md` and `experiments/ENVELOPE_RISE_BOUNDARY.md`
 **Proposed status:** partially-resolved
 **Justification:** The broad “CΨ is monotone for arbitrary CPTP/Markovian dynamics” premise is refuted, not
-merely missing a proof: exact local examples give CΨ'(0)=+1/6 and an upward 1/4 crossing under a fixed
-Markovian semigroup. The old peak proof also has a real gap, but those counterexamples do not settle the
-narrower successive-local-maxima question. Named N=3/4/5 rows form a finite atlas; all-Q/all-N
-classification and mechanism remain open.
+merely missing a proof: exact local examples give CΨ'(0)=+1/6 (H = Y⊗I with first-site Z dephasing) and an
+upward 1/4 crossing under a fixed Markovian semigroup. The literal successive-local-maxima question is
+answered negatively in every class: under H = X⊗I + 0.37·I⊗Y from |01⟩ the γ = 0 main peaks rise
+0.734893 → 0.991268 and continuity carries the rise into weak damping (0.650531 → 0.688512 at γ = 0.05),
+and under a number-conserving H damping moves the zeros of ρ₀₁,₁₀ against those of the other coherences and
+can grow micro-maxima just above a trough, below the next main peak (a pure and a mixed example). Open: under
+a number-conserving H, do the main peaks, the
+largest value of CΨ in each period of the one-excitation block clock, fall? At γ = 0 they are equal for
+every state. Named N=3/4/5 rows form a finite atlas; all-Q/all-N classification and mechanism remain open.
 
 ---
 
@@ -442,6 +447,6 @@ All three ask: "Does u carry independent information on complex trajectories?" R
 
 3. **Consciousness retirement:** OQ-300 is obsolete because the consciousness interpretation was formally retired from the technical work (WEAKNESSES_OPEN_QUESTIONS.md lines 102-111).
 
-4. **Deepest open questions:** OQ-308 separates proven conditional algebra from the open physical-reduction and biological-instance questions. OQ-072 is now partially resolved: the universal pointwise premise is false, while the autonomous N=2 peak-sequence and all-Q/all-N atlas questions remain open. OQ-012 (why exactly 14 survive at N >= 3) also remains open.
+4. **Deepest open questions:** OQ-308 separates proven conditional algebra from the open physical-reduction and biological-instance questions. OQ-072 is partially resolved: the universal pointwise premise is false, and so is the literal N=2 successive-maxima claim, in every class; whether the N=2 main peaks fall under a number-conserving H and the all-Q/all-N atlas remain open. OQ-012 (why exactly 14 survive at N >= 3) also remains open.
 
 5. **PAIR_BREAKING_AT_THE_HORIZON cluster:** OQ-282, OQ-287 both remain open and relate to the spatial-vs-algebraic gap in the ER bridge analogy. Note that this hypothesis file was not marked FALLEN but also not strengthened since its writing.

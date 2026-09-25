@@ -381,7 +381,7 @@ The observer bandwidth interpretation is promising but needs:
 - Testable predictions distinguishing it from alternatives
 - Connection to established information-theoretic bounds
 - Exploration of parameter regimes where operator feedback shows stronger effects
-- Classification of the autonomous N=2 successive-peak question and the finite atlas across all Q and N
+- Classification of the finite rise atlas across all Q and N, and the open N=2 main-peak question under a number-conserving H (successive local maxima can rise in every class)
 
 ---
 

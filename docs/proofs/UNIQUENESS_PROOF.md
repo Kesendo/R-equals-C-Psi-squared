@@ -159,8 +159,10 @@ theorem. The exact statement is conditional:
 The repaired [CΨ Dynamics Boundary](PROOF_MONOTONICITY_CPSI.md) preserves named Bell+ Z/Pauli/amplitude-
 damping formulas and instantaneous Pauli invariance, but retracts the former universal pointwise,
 absorbing, and local-control claims. In particular, a local Hadamard sends CΨ from 0 to 1/3, and a fixed
-local Markovian semigroup crosses upward through 1/4. The autonomous N=2 successive-peak claim remains
-unproved. See [Conditional Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) for the exact implication.
+local Markovian semigroup crosses upward through 1/4. The literal N=2 successive-peak claim fails as well:
+the main peaks rise under local fields on a product state, and under a number-conserving H damping grows
+micro-maxima that rise to the next main peak; whether the main peaks themselves fall there is open. See
+[Conditional Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) for the exact implication.
 
 ---
 
@@ -218,7 +220,7 @@ Source: [proof_roadmap_close.py](../../simulations/proof_roadmap_close.py)
 ## References
 
 - [Proof Roadmap](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer roadmap (this document covers Layers 1, 2, 6)
-- [CΨ Dynamics Boundary](PROOF_MONOTONICITY_CPSI.md): named formulas, exact counterexamples, and the open peak-sequence question
+- [CΨ Dynamics Boundary](PROOF_MONOTONICITY_CPSI.md): named formulas, exact counterexamples, N=2 peak sequences that rise, and the open main-peak question
 - [Conditional Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md): convergence to a low-CΨ target implies eventual stay-below
 - [Mandelbrot Connection](../../experiments/MANDELBROT_CONNECTION.md): in the chosen coordinates `c=CΨ`, the same normal form has its real cusp at 1/4
 - [Boundary Navigation](../../experiments/BOUNDARY_NAVIGATION.md): theta compass

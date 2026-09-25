@@ -5,7 +5,7 @@ Monotonicity: Remaining Gaps
 ======================================================================
 
 ======================================================================
-TEST A: GENERAL INITIAL STATES (2 qubits)
+TEST A: NINETEEN PURE STATES UNDER XXX (2 qubits)
 ======================================================================
 
   J=1.0, gamma=0.05 (Z-dephasing), t_max=80.0
@@ -106,7 +106,7 @@ TEST C: N > 2 SUBSYSTEM CΨ
 OVERALL VERDICT
 ======================================================================
 
-A: General initial states - envelope monotonic?
+A: Nineteen pure states under XXX - sampled envelope monotonic?
 B: Collective noise - still crosses 1/4?
 C: N>2 subsystems - all pairs cross 1/4?
 

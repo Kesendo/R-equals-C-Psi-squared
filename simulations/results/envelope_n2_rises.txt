@@ -1,0 +1,52 @@
+Successive local maxima of CΨ at N = 2 under local Z-dephasing (simulations/envelope_n2_rises.py)
+
+(A) local fields, pure product state: H = X⊗I + 0.37·I⊗Y, ρ₀ = |01⟩⟨01|
+  γ = 0 closed form [(1 + |sin 2t|)(1 + |sin 0.74t|) − 1]/3 against exact propagation, 4001 times in [0, 40]: max |Δ| = 1.02e-14
+  closed form, first two maxima (golden-section on [0, π/2] and [π/2, π]): 0.734893 (t 0.9545) → 0.991268 (t 2.3280), rise +0.256375
+  γ = 0: 30 maxima in t < 40, first two 0.734893 (t 0.9545), 0.991268 (t 2.3280); rising successive pairs 14
+  γ = 0.002: 30 maxima in t < 40, first two 0.731066 (t 0.9522), 0.975722 (t 2.3246); rising successive pairs 14
+  γ = 0.05: 28 maxima in t < 40, first two 0.650531 (t 0.8990), 0.688512 (t 2.2499); rising successive pairs 12
+
+(B) micro-maxima under number-conserving H (literal counting)
+  pure a|00⟩ + b|01⟩ + c|11⟩ under XXX: closed form against exact propagation, 5 random (a, b, c, γ), 97 times each: max |Δ| = 2.78e-16
+  |0⟩ ⊗ R_y(π/4)|0⟩ = cos(π/8)|00⟩ + sin(π/8)|01⟩, γ = 0.5: corners at 1π/4 = 0.785398 (CΨ 0.087075715) and 1π/ω = 0.811156 (CΨ 0.086972657); micro-maximum 0.087079030 at t 0.789207, 3.31e-06 above the higher corner; next main peak 0.0986733 at t 1.00012: a rising successive pair; the matrix exponential at these four times agrees with the closed form to 9.7e-17
+    the same state: a micro-maximum between the corners of 12 of the first 12 corner pairs
+  ψ₀ ∝ 0.61997|00⟩ + 0.75128|01⟩ + 0.22631|11⟩ (normalized), γ = 0.05: corners at 5π/4 = 3.926991 (CΨ 0.202502228) and 5π/ω = 3.928219 (CΨ 0.202502641); micro-maximum 0.202502648 at t 3.928078, 6.97e-09 above the higher corner; next main peak 0.3268473 at t 4.28489: a rising successive pair; the matrix exponential at these four times agrees with the closed form to 1.7e-16
+  mixed ρ₀ = (|i0⟩⟨i0| + |i+⟩⟨i+|)/2 under XXX, γ = 0.05: purity 0.750000, CΨ(0) = 0.500000
+    literal maxima on a dt = 5·10⁻⁵ grid in t < 12: 29; first six 0.524125 (t 0.1291), 0.434781 (t 0.9170), 0.363596 (t 1.7048), 0.234417 (t 2.1601), 0.306486 (t 2.4926), 0.197883 (t 2.9486)
+    rising successive pairs 13; the first: 0.234417 (t 2.1601) → 0.306486 (t 2.4926)
+    the first micro-maximum between two corners (ρ₀₁,₁₀ is imaginary here, so |ρ₀₁,₁₀| passes through zero): Im ρ₀₁,₁₀ = 0 at t 2.159845 = 3π/16 + π/2 at γ = 0 (the only minimum nearby, CΨ 0.389141) and at t 2.157394 at γ = 0.05; ρ₀₀,₁₀ = 0 at (π + arctan 3)/2 = 2.195319 at both (|ρ₀₀,₁₀| there 3.8e-16 and 3.2e-16)
+    at γ = 0 the fixed zero is a kink on a rising slope (slopes +0.034 → +0.824); at γ = 0.05 it is a trough (slopes -0.031 → +0.457, CΨ 0.233887); the micro-maximum sits 3.05e-06 above the moved corner
+    every rising pair starts at a micro-maximum between two minima: its height above the higher one is 3.1e-06 to 5.2e-05 (a main peak rises ~0.1 above its troughs); the minimum pairs sit 0.035 to 0.038 apart: 2.157/2.195, 2.943/2.981, 3.729/3.766, 4.514/4.552, …
+
+(C) main peaks under number-conserving H
+  γ = 0 periodicity: |CΨ(t + T) − CΨ(t)| for 5 random rank-2 mixed states under random hopping, staggered field and ZZ: max 3.3e-16
+  γ = 0, staggered field δ = 0: |CΨ(t + T/2) − CΨ(t)| for 4 random rank-2 states: max 4.4e-16 (at δ = 0, U(T/2) is a diagonal phase times the qubit swap)
+  γ = 0, staggered field δ = 0.5: |CΨ(t + T/2) − CΨ(t)| for 4 random rank-2 states: max 1.1e-01
+  γ = 0, staggered field δ = 2: |CΨ(t + T/2) − CΨ(t)| for 4 random rank-2 states: max 5.3e-02
+  γ = 0 lemma, 6 random pure states: spread of the maxima 1.3e-15; largest |maximum − [(c + √p + √(s − p))² − 1]/3 at the p nearest s/2| 1.3e-15
+  collapse: XY, XXZ Δ = 0.5 and XXX with a uniform field against XXX, one pure and one mixed start, γ = 0.05, 201 times in [0, 10]: max |Δ| = 1.4e-15
+  (B)'s main peaks per period, γ = 0: 0.545703, 0.545703, 0.545703, 0.545703, 0.545703, 0.545703, 0.545703, 0.545703
+  (B)'s main peaks per half-period (turning points of its block population; at δ = 0 already a period of CΨ), γ = 0: 0.545703, 0.545703, 0.545703, 0.545703, 0.545703, 0.545703
+  (B)'s main peaks per period, γ = 0.05: 0.434781, 0.306486, 0.222813, 0.166670, 0.127895, 0.100327, 0.080169, 0.065032
+  (B)'s main peaks per half-period (turning points of its block population; at δ = 0 already a period of CΨ), γ = 0.05: 0.434781, 0.363596, 0.306486, 0.260349, 0.222813, 0.192055
+  γ = 0.05, main peaks per period (8 periods; 14 named, 8 random pure, 8 random rank-2 mixed states per H): 120 runs, 960 windows (907 with an interior maximum), rising trajectories 0, largest successive difference -6.75e-03; window maxima on the left edge 53 (such a window cannot rise: its left edge closes the previous window), on the right edge 0
+  γ = 0.05, main peaks per hump between γ = 0 minima (t ≤ 12; 14 named and 8 random pure states per H): 88 runs, 1690 windows (1512 with an interior maximum), rising trajectories 0, largest successive difference -2.41e-04; window maxima on the left edge 178 (such a window cannot rise: its left edge closes the previous window), on the right edge 0
+  γ = 0.2, main peaks per period (8 periods; 14 named, 8 random pure, 8 random rank-2 mixed states per H): 120 runs, 960 windows (816 with an interior maximum), rising trajectories 0, largest successive difference -9.71e-04; window maxima on the left edge 144 (such a window cannot rise: its left edge closes the previous window), on the right edge 0
+  γ = 0.2, main peaks per hump between γ = 0 minima (t ≤ 12; 14 named and 8 random pure states per H): 88 runs, 1690 windows (1263 with an interior maximum), rising trajectories 0, largest successive difference -1.24e-04; window maxima on the left edge 427 (such a window cannot rise: its left edge closes the previous window), on the right edge 0
+  γ = 0.5, main peaks per period (8 periods; 14 named, 8 random pure, 8 random rank-2 mixed states per H): 120 runs, 960 windows (407 with an interior maximum), rising trajectories 0, largest successive difference -2.66e-06; window maxima on the left edge 553 (such a window cannot rise: its left edge closes the previous window), on the right edge 0
+  γ = 0.5, main peaks per hump between γ = 0 minima (t ≤ 12; 14 named and 8 random pure states per H): 88 runs, 1690 windows (451 with an interior maximum), rising trajectories 0, largest successive difference -2.72e-07; window maxima on the left edge 1239 (such a window cannot rise: its left edge closes the previous window), on the right edge 0
+
+(D) beside the finite N ≥ 3 atlas (Symphony conventions; energies in units of J)
+  XY N = 3: occupied energies [-1.414214, 0.0, 1.414214]; γ = 0, J·t ≤ 125: 56 maxima, spread 2.78e-16, first eight 0.380602, 0.380602, 0.380602, 0.380602, 0.380602, 0.380602, 0.380602, 0.380602
+  XY N = 4: occupied energies [-2.236068, -1.0, 0.0, 1.0, 2.236068]; γ = 0, J·t ≤ 125: 96 maxima, spread 1.07e-01, first eight 0.317113, 0.304986, 0.223453, 0.277536, 0.282391, 0.233248, 0.265389, 0.253005
+  XY N = 5: occupied energies [-2.732051, -1.732051, -1.0, -0.732051, 0.0, 0.732051, 1.0, 1.732051, 2.732051]; γ = 0, J·t ≤ 125: 93 maxima, spread 9.24e-02, first eight 0.220955, 0.171572, 0.185374, 0.176233, 0.173523, 0.193133, 0.179670, 0.207961
+  Heisenberg N = 3: occupied energies [-1.0, 0.0, 0.5]; γ = 0, J·t ≤ 125: 40 maxima, spread 1.69e-02, first eight 0.387972, 0.371040, 0.371040, 0.387972, 0.387972, 0.371040, 0.371040, 0.387972
+  XY N = 3, J = 20, γ = 0.01 (Q = 2000), t ≤ 25, 1600 points, atlas reader: 225 maxima, rises above the 10⁻³ bar 0 (0 raw), largest successive difference -3.97e-04
+  Heisenberg N = 3, J = 20, γ = 0.01 (Q = 2000), t ≤ 25, 1600 points, atlas reader: 159 maxima, rises above the 10⁻³ bar 39 (39 raw), largest successive difference +1.19e-02
+  XY N = 4, J = 5, γ = 0.01 (Q = 500), t ≤ 25, 1600 points, atlas reader: 84 maxima, rises above the 10⁻³ bar 32 (36 raw), largest successive difference +4.13e-02
+  XY N = 5, J = 5, γ = 0.01 (Q = 500), t ≤ 25, 1600 points, atlas reader: 71 maxima, rises above the 10⁻³ bar 27 (32 raw), largest successive difference +2.05e-02
+
+(E) a local unitary lifts CΨ back above 1/4
+  |0⟩ ⊗ (I + sin 60°·X + cos 60°·Z)/2: CΨ(0) = 0.288675; Z-dephasing shrinks r_x only, and CΨ = 1/4 at r_x = 0.796204 (CΨ there 0.250000)
+  R_y on qubit 2 by 32.1° turns its Bloch vector onto the equator, (|r|, 0, 0) with |r| = 0.940181: CΨ = 0.295207, the largest any unitary on qubit 2 reaches at fixed purity

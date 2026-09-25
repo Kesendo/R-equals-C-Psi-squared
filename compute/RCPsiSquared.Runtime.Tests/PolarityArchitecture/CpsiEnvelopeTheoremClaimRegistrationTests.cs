@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Linq;
+using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 using RCPsiSquared.Runtime.ObjectManager;
@@ -24,10 +26,10 @@ public class CpsiEnvelopeTheoremClaimRegistrationTests
     }
 
     [Fact]
-    public void Register_TierIsTier1Derived()
+    public void Register_TierIsOpenQuestion()
     {
         var registry = BuildBaseRegistry().RegisterCpsiEnvelopeTheoremClaim().Build();
-        Assert.Equal(Tier.Tier1Derived, registry.Get<CpsiEnvelopeTheoremClaim>().Tier);
+        Assert.Equal(Tier.OpenQuestion, registry.Get<CpsiEnvelopeTheoremClaim>().Tier);
     }
 
     [Fact]
@@ -49,13 +51,26 @@ public class CpsiEnvelopeTheoremClaimRegistrationTests
     }
 
     [Fact]
-    public void Register_ExposesRepairedClaimInsteadOfHistoricalAbsorber()
+    public void Register_ResolvedClaimShowsTheRisesItRecomputes()
     {
+        // The registry-resolved claim carries both counterexample classes as live nodes: the maxima they
+        // report are the ones the closed forms yield now, and in each pair the later one is higher.
         var claim = BuildBaseRegistry().RegisterCpsiEnvelopeTheoremClaim().Build()
             .Get<CpsiEnvelopeTheoremClaim>();
-        Assert.Contains("historical Envelope package is false", claim.Name);
-        Assert.Contains("remains unproved", claim.Name);
-        Assert.Contains("conditional convergence implication", claim.Name);
-        Assert.DoesNotContain("confirmed universally", claim.Name);
+        var children = ((IInspectable)claim).Children.ToList();
+
+        var (first, second) = CpsiEnvelopeTheoremClaim.LocalFieldFirstTwoMaxima();
+        Assert.True(second.Cpsi > first.Cpsi);
+        var fields = children.Single(c => c.DisplayName.StartsWith("local fields"));
+        Assert.Equal(NodeProvenance.Live, fields.Provenance);
+        Assert.Contains(first.Cpsi.ToString("0.000000", CultureInfo.InvariantCulture), fields.Summary);
+        Assert.Contains(second.Cpsi.ToString("0.000000", CultureInfo.InvariantCulture), fields.Summary);
+
+        var micro = CpsiEnvelopeTheoremClaim.MicroMaximumExample();
+        Assert.True(micro.NextMainPeak.Cpsi > micro.Micro.Cpsi);
+        var split = children.Single(c => c.DisplayName.StartsWith("number-conserving H"));
+        Assert.Equal(NodeProvenance.Live, split.Provenance);
+        Assert.Contains(micro.Micro.Cpsi.ToString("0.000000000", CultureInfo.InvariantCulture), split.Summary);
+        Assert.Contains(micro.NextMainPeak.Cpsi.ToString("0.0000000", CultureInfo.InvariantCulture), split.Summary);
     }
 }

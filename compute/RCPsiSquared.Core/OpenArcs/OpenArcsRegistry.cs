@@ -2496,17 +2496,30 @@ public static class OpenArcsRegistry
             Name: "envelope_n4_rise",
             Opened: "2026-06-12",
             Origin: "EnvelopeTheoremWitness, day one: inspect --root envelope --N 4 fired the honest branch",
-            ParkedAt: "a finite atlas now preserves the named Bell+ rows without promoting samples into a border: " +
-                "N=3/Q=2000 resolves no rise on its stated grid; N=4 brackets a reporting-bar change between Q=13 " +
-                "and Q=40; N=5 is below the bar at Q=40 and above it at Q=500. One same-(N,Q,K) rescaling pair " +
-                "agrees to six decimals. PROOF_MONOTONICITY_CPSI separately retracts the historical pointwise, " +
-                "absorbing, and local-control package; its exact examples do not settle the autonomous N=2 " +
-                "successive-local-maxima question.",
+            ParkedAt: "a finite atlas on the XY chain preserves the named Bell+ rows without promoting samples into a " +
+                "border: N=3/Q=2000 resolves no rise on its stated grid (every maximum falls, raw); N=4 brackets a " +
+                "reporting-bar change between Q=13 and Q=40 (a finite scan reads Q ≈ 27); N=5 is below the bar at " +
+                "Q=40, where it carries a refinement-stable 3.1e-4 rise, and above it at Q=500 (a finite scan reads " +
+                "Q ≈ 45; experiments/ENVELOPE_RISE_BOUNDARY.md). Same-(N,Q,K) rescaled pairs agree to eigensolver " +
+                "rounding (1.4e-14 on the curve). At N=2 the literal successive-maxima claim has counterexamples in " +
+                "every class: local fields raise the main peaks (H = X⊗I + 0.37·I⊗Y from |01⟩, 0.734893 → 0.991268 " +
+                "at γ = 0 and 0.650531 → 0.688512 at γ = 0.05), and under a number-conserving H damping moves the " +
+                "zeros of ρ₀₁,₁₀ against those of the other coherences and can grow micro-maxima just above a " +
+                "trough, below the next main peak (a pure and a mixed example). What stays open there is whether " +
+                "the main peaks, the largest value of CΨ in each period of " +
+                "the one-excitation block clock, fall; at γ = 0 they are equal for every state " +
+                "(PROOF_MONOTONICITY_CPSI Part 5, simulations/envelope_n2_rises.py).",
             NextStep: "Use the landed finite atlas as re-entry, then seek an all-Q classification at each named N, " +
                 "an all-N existence or absence result, and an independently gated physical mechanism. A null sample " +
                 "must remain 'no rise resolved' and a positive sample numerical evidence; neither decides a theorem. " +
-                "Candidate questions include whether a controlled frequency scale or parity organizes the rows, but " +
-                "those mechanisms are not yet owned.",
+                "Two concrete entries: (1) the surviving N=2 question, whether damping always makes the main peaks " +
+                "under a number-conserving H fall (at N=2 only the hopping and the staggered field move CΨ), a " +
+                "question about what damping does to a flat sequence, starting at first order in γ; (2) a candidate " +
+                "mechanism, observed numerically and not yet owned (simulations/envelope_n2_rises.py part D): the " +
+                "rising rows belong to carriers with unequal γ = 0 maxima (incommensurate energies at N=4 and N=5), " +
+                "the silent N=3 rows to a flat γ = 0 sequence, and on the Heisenberg chain N=3 rises (39 rises at " +
+                "Q=2000), so the N=3 silence belongs to the XY chain. A flat γ = 0 sequence does not protect against " +
+                "literal rises: the mixed N=2 example is flat at γ = 0 and rises at γ = 0.05 by micro-maxima.",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

@@ -2,7 +2,7 @@
 """
 Monotonicity: Remaining Gaps
 ==============================
-Test A: General initial states - is the CΨ ENVELOPE monotonic for |01⟩ etc.?
+Test A: Nineteen pure states under XXX - is the sampled CΨ envelope monotonic for |01⟩ etc.?
 Test B: Non-local (collective) noise - L = √γ(Z₁+Z₂)/√2
 Test C: N > 2 subsystem CΨ - do all 2-qubit subsystems cross 1/4?
 
@@ -138,12 +138,12 @@ def task_a_random_density_matrices(dimension, count=10, seed=42):
 
 
 # ====================================================================
-# Test A: General initial states (2 qubits)
+# Test A: Nineteen pure states under XXX (2 qubits)
 # ====================================================================
 
 def test_A():
     log("=" * 70)
-    log("TEST A: GENERAL INITIAL STATES (2 qubits)")
+    log("TEST A: NINETEEN PURE STATES UNDER XXX (2 qubits)")
     log("=" * 70)
     log()
 
@@ -396,7 +396,7 @@ def main(output_path=OUT_PATH):
     log("OVERALL VERDICT")
     log("=" * 70)
     log()
-    log("A: General initial states - envelope monotonic?")
+    log("A: Nineteen pure states under XXX - sampled envelope monotonic?")
     log("B: Collective noise - still crosses 1/4?")
     log("C: N>2 subsystems - all pairs cross 1/4?")
     log()

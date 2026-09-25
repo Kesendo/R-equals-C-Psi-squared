@@ -6,19 +6,23 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The live finite rise atlas associated with the historically named
-/// <c>CpsiEnvelopeTheoremClaim</c>. It reports what selected N/Q/K windows resolve. A zero sampled
-/// rise is not an absence theorem, and a positive sampled rise is numerical evidence only after the
-/// stated reporting bar and refinement controls are applied.
+/// <summary>The live finite rise atlas for N ≥ 3, beside <c>CpsiEnvelopeTheoremClaim</c>. It reports
+/// what selected N/Q/K windows resolve. A zero sampled rise is not an absence theorem, and a positive
+/// sampled rise is numerical evidence only after the stated reporting bar and refinement controls are
+/// applied.
 ///
 /// <para>It reuses <see cref="Symphony"/> as the evolve-CΨ engine and <see cref="QuarterEnvelope.Of"/>
 /// to read the envelope, exactly as the Symphony tests do — it does not re-implement the propagation.
-/// The named J=5, γ=0.01, tMax=25 grid resolves above-bar carrier-pair rises.</para>
+/// The chain is Symphony's default XY chain (the witness passes no Hamiltonian type), so every atlas
+/// row is an XY row. The named J=5, γ=0.01, tMax=25 grid resolves above-bar carrier-pair rises.</para>
 ///
 /// <para>Guard: N in 3..<see cref="Symphony.MaxN"/>. At N=2 the carrier pair is the full state, so
-/// local and global readings coincide. That identity is all this guard asserts: the autonomous N=2
-/// successive-local-maxima question remains unproved, and the five exact examples do not refute it.
-/// The finite global/local comparison needs a bath.</para>
+/// local and global readings coincide. That identity is all this guard asserts. The N=2 question itself
+/// lives on <c>CpsiEnvelopeTheoremClaim</c>: there the literal successive-maxima statement has
+/// counterexamples in every class (local fields raise the main peaks; under number-conserving H damping
+/// can grow micro-maxima), and what stays open is whether the main peaks, the largest value
+/// in each period of the one-excitation block clock, fall under number-conserving H. The finite
+/// global/local comparison needs a bath.</para>
 ///
 /// <para>Children: the finite global reading, the local carrier-pair reading, and the named-state
 /// triptych control (SingleExcitation = two named grid readings; BondingMode = initial H-eigenstate
@@ -29,8 +33,11 @@ public sealed class EnvelopeTheoremWitness : IInspectable
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
     /// <summary>A reporting convention for the finite atlas. A predecessor rise above this value is
-    /// resolved on this named grid; refinement comparisons are reported separately. The bar does not
-    /// separate physical signal from noise.</summary>
+    /// resolved on this named grid; refinement comparisons are reported separately. On the named N=3
+    /// grids the bar sits between SingleExcitation's 5.5e-4 carrier-pair rise at 400 points, which is
+    /// gone at 1600, and the smallest Bell+ carrier-pair rise at 1600 points, 6.0e-3, which persists. It
+    /// does not separate physical signal from noise: N=5 at Q=40 carries a 3.1e-4 global rise that is the
+    /// same at 1600 and at 6400 points.</summary>
     public const double RiseReportingBar = 1e-3;
 
     private const double JStrong = 5.0, GammaStrong = 0.01, TMaxStrong = 25.0;
@@ -44,7 +51,8 @@ public sealed class EnvelopeTheoremWitness : IInspectable
             throw new ArgumentOutOfRangeException(nameof(n),
                 $"the witness needs N in 3..{Symphony.MaxN}: at N=2 the carrier pair IS the full state " +
                 "(the partial trace is the identity), so local ≡ global. The finite global/local comparison " +
-                $"needs a larger system; the autonomous N=2 peak question remains unproved. Got {n}.");
+                "needs a larger system; the N=2 envelope lives on CpsiEnvelopeTheoremClaim, where successive " +
+                $"maxima can rise. Got {n}.");
         N = n;
     }
 
@@ -116,8 +124,8 @@ public sealed class EnvelopeTheoremWitness : IInspectable
             string globalClause = _globalBell.RiseCount == 0
                 ? $"At N={N}, no global predecessor rise above the reporting bar was resolved (RiseCount = 0)"
                 : $"At N={N}, this finite grid resolves {_globalBell.RiseCount} global predecessor rises above the reporting bar";
-            return $"finite CΨ rise atlas (historical typed home: CpsiEnvelopeTheoremClaim): {globalClause}. " +
-                   "That finite reading neither proves absence nor decides the still-unproved autonomous N=2 peak-sequence claim. " +
+            return $"finite CΨ rise atlas on the XY chain (the N=2 envelope lives on CpsiEnvelopeTheoremClaim): {globalClause}. " +
+                   "That finite reading neither proves absence nor classifies all Q and N. " +
                    "The reduced carrier pair has no general monotonicity guarantee; " +
                    $"this named grid reports local RiseCount = {_localBell.RiseCount} and raw max positive Δ = " +
                    $"{_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} against the reporting bar " +
@@ -135,8 +143,10 @@ public sealed class EnvelopeTheoremWitness : IInspectable
                 summary: $"full-state CΨ at N={N}, J={JStrong.ToString("0.#", Inv)}, γ={GammaStrong.ToString("0.###", Inv)}, " +
                          $"1600 pts: predecessor rises above {RiseReportingBar.ToString("0.###", Inv)} = {_globalBell.RiseCount}; " +
                          $"max Δ = {_globalBell.MaxRiseMagnitude.ToString("0.#####", Inv)}. " +
-                         "No-rise rows are finite null samples; rise rows are finite numerical evidence. " +
-                         "PROOF_MONOTONICITY_CPSI retracts the old universal package and leaves the autonomous N=2 peak question unproved.");
+                         "No-rise rows are finite null samples; rise rows are finite numerical evidence. A finite " +
+                         "scan puts the change across the reporting bar near Q ≈ 27 at N=4 and Q ≈ 45 at N=5, " +
+                         "bar-dependent readings (experiments/ENVELOPE_RISE_BOUNDARY.md). At N=2 successive " +
+                         "maxima can rise in every class (PROOF_MONOTONICITY_CPSI Part 5).");
 
             yield return new InspectableNode("the local carrier-pair reading",
                 summary: $"the reduced carrier-pair CΨ has no theorem; this named grid reports RiseCount = " +

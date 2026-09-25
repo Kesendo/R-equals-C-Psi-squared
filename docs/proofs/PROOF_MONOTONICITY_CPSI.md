@@ -3,12 +3,17 @@
 
 Current reading: Parts 1–3 prove the named Bell+ channel formulas; exact local
 Markov counterexamples rule out the universal pointwise and absorbing-boundary
-statements.  The autonomous N=2 successive-local-maxima question remains open.
+statements; and at N=2 the successive local maxima of CΨ can rise in every class
+(Part 5). Whether the main peaks, the largest value of CΨ in each period of the
+one-excitation block clock, fall under a number-conserving H is open.
 
 **Status:** Tier 1 for the named Bell+/channel formulas in Parts 1–3 and the instantaneous Pauli invariance
-in Part 7. The former universal pointwise, absorbing-boundary, and local-control package is false. The
-autonomous N=2 successive-local-maxima claim is open: the old argument did not prove it, and the exact
-counterexamples below do not settle it.
+in Part 7. The former universal pointwise, absorbing-boundary, and local-control package is false, and so is
+the N=2 successive-local-maxima claim, read literally, in every class: local fields on a product state give
+rising main peaks in closed form at γ = 0 and, by continuity, under weak damping; under a number-conserving
+H damping moves the zeros of ρ₀₁,₁₀ against those of the other coherences and can grow micro-maxima just
+above a trough, below the next main peak, shown for a pure and a mixed example (Part 5). Open: under a
+number-conserving H, whether a main peak can ever rise; at γ = 0 they are all equal.
 **Date:** 2026-03-22; current-truth repair 2026-09-14 (history remains in git)
 **Authors:** Thomas Wicht, Claude (Anthropic), Codex
 **Reference formulas:** [F25](../ANALYTICAL_FORMULAS.md) (Bell+ Z closed form),
@@ -27,7 +32,8 @@ while leaving the instantaneous value fixed, and a local Lindblad semigroup can 
 
 The useful structure remains. Parts 1–3 preserve exact Bell+ formulas for named Z, Pauli, and amplitude-
 damping channels. Part 4 preserves the familiar |01⟩ strong-coupling approximation as a named trajectory,
-not a universal template. Part 5 records the failed proof step and exact counterexamples. Part 6 states the
+not a universal template. Part 5 records the failed proof step, the two mechanisms by which successive
+maxima rise, the main-peak question that survives, and the exact pointwise and control counterexamples. Part 6 states the
 conditional result that really is available: convergence to a fixed state below 1/4 implies eventual stay
 below. Part 7 keeps instantaneous N-qubit Pauli invariance, without promoting it to trajectory invariance.
 
@@ -298,11 +304,14 @@ not make 1/4 an absorbing set for all Markovian dynamics.
 
 **Script:** [monotonicity_remaining.py](../../simulations/monotonicity_remaining.py)
 
-### General initial states (Test A)
+### Nineteen pure states under XXX (Test A)
 
-Nineteen states were sampled (4 Bell, 5 product, 10 Haar-random). In those finite runs, every state that
-started above 1/4 crossed below, and no increasing sequence of sampled peaks was resolved. That is a
-catalogue observation, not a universal quantifier or a proof of the successive-local-maxima claim.
+Nineteen states were sampled (4 Bell, 5 product, 10 Haar-random), all of them pure and all under XXX at
+γ = 0.05, with peaks read only above 0.125 on a dt = 0.02 grid. In those finite runs, every state that started
+above 1/4 crossed below, and no increasing sequence of sampled peaks was resolved. Pure states under a
+number-conserving H form a class whose γ = 0 maxima are all equal (Part 5), and the grid could not resolve a
+micro-maximum; neither mechanism that makes maxima rise (transverse local fields, corners that damping
+moves against each other) was within the catalogue's reach.
 
 ### Collective noise (Test B)
 
@@ -382,14 +391,17 @@ dCΨ_max/dt = (V₀/3) e^{-2γt} [-2γ(1 + e^{-4γt}) - 4γe^{-4γt}]
 ```
 
 Thus this strong-coupling approximation decreases for the named |01⟩ trajectory. It is useful intuition,
-not a proof for every J/γ, every initial state, or the autonomous N=2 peak sequence.
+not a proof for every J/γ or every initial state. The trajectory is a pure state under a number-conserving
+H, the class of the main-peak question that stays open (Part 5): at γ = 0, x² + v² = 1/4 and
+CΨ = |sin ωt|/3, so every maximum is 1/3.
 
 ---
 
-## Part 5: The historical envelope argument and its missing step
+## Part 5: The N=2 envelope claim, its missing step, and its counterexamples
 
 The historical claim said that, for every two-qubit state under arbitrary H and local Z-dephasing, the
-successive local maxima of CΨ are non-increasing. Its spectral argument does not establish that claim.
+successive local maxima of CΨ are non-increasing. Read literally, it has counterexamples in every class, and
+its spectral argument broke where the first counterexample lives.
 
 A stable linear generator can expand a trajectory into decaying modes, but this gives only a decaying
 upper bound on distance from a stationary subspace. It does not make a nonlinear, basis-dependent
@@ -402,8 +414,138 @@ functional monotone. In particular:
    interfere and can create computational-basis coherence from populations.
 4. Consecutive maxima need not have a common period or “similar oscillatory phase.”
 
-So the former Step 5 assumed the ordering it needed to prove. The autonomous N=2 successive-local-maxima
-claim remains an interesting question, but it is presently unproved.
+So the former Step 5 assumed the ordering it needed to prove, and the ordering fails. Reason 4 is where the
+first counterexample lives: two clocks that never share a period.
+
+### Successive maxima that rise
+
+Book: `CΨ = Tr(ρ²)·L₁/3`, jumps `√γ Z_l` on both sites, so a one-site coherence decays at 2γ. The producer
+[envelope_n2_rises.py](../../simulations/envelope_n2_rises.py) propagates exactly (the matrix exponential of
+the 16×16 Liouvillian, or its eigendecomposition), refines every maximum by golden-section search on the
+exact trajectory, uses no prominence threshold, and writes
+[envelope_n2_rises.txt](../../simulations/results/envelope_n2_rises.txt). A non-increasing sequence of
+successive maxima would make every later maximum at most every earlier one, so a single later maximum above
+an earlier one refutes it.
+
+**Local fields: the main peaks rise.** Take `H = X⊗I + 0.37·I⊗Y` and `ρ₀ = |01⟩⟨01|`. The Hamiltonian
+and the dephasing are sums of one-site generators, so `e^{Lt} = e^{L₁t} ⊗ e^{L₂t}` and the state stays a
+product `ρ₁ ⊗ ρ₂` at every γ. For a product state the purity factorizes, `P = P₁P₂`, and so does the sum
+of all entry moduli, `(1 + ℓ₁)(1 + ℓ₂)` with `ℓ_k` the one-qubit L₁, because each factor's diagonal is
+non-negative and sums to 1. Removing the product's own diagonal, which also sums to 1, leaves
+
+`L₁(ρ₁ ⊗ ρ₂) = (1 + ℓ₁)(1 + ℓ₂) − 1`.
+
+At γ = 0 both qubits stay pure, `cos t|0⟩ − i·sin t|1⟩` and `−sin 0.37t|0⟩ + cos 0.37t|1⟩`, with
+`ℓ₁ = |sin 2t|` and `ℓ₂ = |sin 0.74t|`, so
+
+`CΨ(t) = [(1 + |sin 2t|)(1 + |sin 0.74t|) − 1]/3`   (γ = 0, exact).
+
+The two clocks are incommensurate, so the maxima are unequal. The first two, smooth and strict, are
+0.734893 at t = 0.9545 and 0.991268 at t = 2.3280, one on each side of the kink at t = π/2 where `|sin 2t|`
+touches zero: the second is higher. The closed form matches exact propagation to 1.0·10⁻¹⁴ on [0, 40].
+
+Continuity carries the rise into the damped dynamics. The propagator `e^{Lt}` depends continuously on γ,
+uniformly on compact time windows, and CΨ is continuous in ρ. Choose disjoint windows around t = 0.9545 and
+t = 2.3280 on whose endpoints the γ = 0 curve lies below its interior maximum. For γ small enough each
+window still holds an interior local maximum within δ of its γ = 0 value, and with δ below half the gap
+0.256375 the later maximum stays the higher one. Exact propagation shows the rise far outside the small-γ
+regime too:
+
+| γ | first maximum | second maximum | rising successive pairs in t < 40 |
+|---|---|---|---|
+| 0 | 0.734893 (t 0.9545) | 0.991268 (t 2.3280) | 14 |
+| 0.002 | 0.731066 (t 0.9522) | 0.975722 (t 2.3246) | 14 |
+| 0.05 | 0.650531 (t 0.8990) | 0.688512 (t 2.2499) | 12 |
+
+**Number-conserving H: micro-maxima where damping moves one zero against another.** Local Z-dephasing
+damps every coherence between |00⟩ (or |11⟩) and the one-excitation block at the same rate 2γ, so that part
+of the dissipator commutes with H, and those coherences keep the undamped clock: they are `e^{−2γt}` times
+their γ = 0 values, with the same zeros. The block coherence `ρ₀₁,₁₀` decays at 4γ while the block
+populations do not, so it follows the damped block clock and its zeros move. Each zero of an entry is a
+V-corner of L₁. Where a moved corner and a fixed one bracket a slope that changes sign, a micro-maximum can
+grow just above the trough and below the next main peak: a rising successive pair. In a pure state the
+corners coincide at γ = 0 (`|ρ₀₀,ₓ| = |ψ₀₀||ψₓ(t)|` and `|ρ₀₁,₁₀| = |ψ₀₁||ψ₁₀|` vanish together) and damping
+splits them; this needs an entry that passes through zero, which is not generic. In the mixed example below
+the two corners sit 0.035 apart at γ = 0, and damping turns the fixed one into a trough. The examples show
+the mechanism; they are not a statement about all states.
+
+For `ψ₀ = a|00⟩ + b|01⟩ + c|11⟩` (a, b, c ≥ 0) under `H = XX + YY + ZZ` the whole trajectory is closed-form.
+With `s = b²` and `ω = 2√(4 − γ²)` the block precesses at 4 about x with its coherence damped at 4γ:
+`r_z = s·e^{−2γt}[cos ωt + (2γ/ω) sin ωt]`, `r_y = −(4s/ω)·e^{−2γt} sin ωt`, `|ρ₀₁,₁₀| = |r_y|/2`, while
+the (0,1)- and (1,2)-coherences have moduli `e^{−2γt}·ab|cos 2t|`, `e^{−2γt}·ab|sin 2t|` and the same with c,
+and `|ρ₀₀,₁₁| = e^{−4γt}·ac`. So the corners sit exactly at `nπ/4` and at `nπ/ω`. The producer checks the
+closed form against exact propagation to 2.8·10⁻¹⁶.
+
+- `|0⟩ ⊗ R_y(π/4)|0⟩ = cos(π/8)|00⟩ + sin(π/8)|01⟩` at γ = 0.5: between the corners at π/4 (CΨ 0.087075715)
+  and π/ω = 0.811156 (CΨ 0.086972657) lies the micro-maximum 0.087079030 at t = 0.789207, 3.3·10⁻⁶ above
+  the higher corner; the next main peak is 0.0986733 at t = 1.00012. Each of the first 12 corner pairs holds
+  such a micro-maximum.
+- At γ = 0.05 the corners drift apart by only 2.5·10⁻⁴ per half-period, and a micro-maximum needs tuning:
+  `ψ₀ ∝ 0.61997|00⟩ + 0.75128|01⟩ + 0.22631|11⟩` holds one between 5π/4 and 5π/ω, 0.202502648 at
+  t = 3.928078, 7.0·10⁻⁹ above the higher corner, and the next main peak is 0.3268473 at t = 4.28489.
+- A mixed state: `H = XX + YY + ZZ`, `ρ₀ = (|i0⟩⟨i0| + |i+⟩⟨i+|)/2` with `|i⟩ = (|0⟩ + i|1⟩)/√2` (purity
+  3/4, CΨ(0) = 1/2), γ = 0.05. On a dt = 5·10⁻⁵ grid the literal maxima run 0.524125, 0.434781, 0.363596,
+  0.234417 (t 2.1601), then 0.306486 (t 2.4926): a rise that crosses 1/4 upward. The lower maximum sits
+  between two zeros. `ρ₀₁,₁₀`, imaginary here, vanishes at 3π/16 + π/2 = 2.159845 at γ = 0, where CΨ has its
+  only minimum nearby, and at 2.157394 at γ = 0.05; `ρ₀₀,₁₀` vanishes at (π + arctan 3)/2 = 2.195319 at both
+  rates. At γ = 0 that second zero is a kink on a rising slope; at γ = 0.05 it is a trough (CΨ 0.233887), and
+  the micro-maximum grows between the two, 3.05·10⁻⁶ above the moved corner. All 13 rising pairs in t < 12
+  have this shape: micro-maxima 3.1·10⁻⁶ to 5.2·10⁻⁵ above the higher of two minima that sit 0.035 to 0.038
+  apart (2.157/2.195, 2.943/2.981, 3.729/3.766, …). Its main peaks fall: per half-period of the block clock,
+  which at δ = 0 is already a period of CΨ, 0.434781, 0.363596, 0.306486, 0.260349, 0.222813; per period
+  0.434781, 0.306486, 0.222813, 0.166670. At γ = 0 they are all 0.545703.
+
+The micro-maxima of the tuned pure state are 1.2·10⁻³ wide in t, the gap between its corners; a grid as
+coarse as Test A's step of 0.02 cannot see them, which is why the corners are located exactly (pure) or
+resolved at dt = 5·10⁻⁵ (mixed).
+
+The typed home is `CpsiEnvelopeTheoremClaim` (`compute/RCPsiSquared.Core/Symmetry/`): its statement is the
+question below, and it carries both closed forms, recomputes the local-field maxima and the micro-maximum at
+inspect time, and recomputes the pointwise rates of the next section exactly.
+
+### What stays open: the main peaks under a number-conserving H
+
+Let H be number-conserving, `[H, Z₁ + Z₂] = 0`, with a one-excitation block H₁ whose two levels differ by
+Ω ≠ 0, and let `T = 2π/Ω`. The 0- and 2-excitation sectors are one-dimensional, so `U(T)` only multiplies
+them by phases, and `e^{−iH₁T} = −e^{−i·tr H₁·T/2}·I`. At γ = 0, then, `ρ(t + T)` differs from `ρ(t)` only
+by phases of its entries, and `CΨ(t + T) = CΨ(t)` for every state, pure or mixed (the producer: 3.3·10⁻¹⁶
+for random mixed states). Without a staggered field `δ(Z₁ − Z₂)` half the period suffices: `U(T/2)` is a
+diagonal phase times the qubit swap, which only permutes the entries of ρ, so CΨ repeats every T/2 for every
+state (4.4·10⁻¹⁶); a staggered field breaks this (0.11 at δ = 0.5 in the producer). For a pure state more
+holds. `|ψ₀₀|` and `|ψ₁₁|` are constant, and the block `(ψ₀₁, ψ₁₀)`
+turns with the single frequency Ω. Writing `c = |ψ₀₀| + |ψ₁₁|`, `s = |ψ₀₁|² + |ψ₁₀|²` (both constant) and
+`p(t) = |ψ₀₁(t)|² = A + B·cos(Ωt + φ)`, the purity is 1 and
+
+`CΨ(t) = [(c + √p + √(s − p))² − 1]/3`.
+
+Since `√p + √(s − p)` is concave, this is a one-humped function of p, largest at p = s/2, composed with one
+sinusoid. Every local maximum of the trajectory therefore sits where p passes s/2, or, when s/2 lies outside
+the range of p, where p reaches its extreme nearest to s/2; either way every γ = 0 maximum of a pure state
+has the same value. The producer finds them equal to 1.3·10⁻¹⁵ and at the predicted value to 1.3·10⁻¹⁵. The
+lemma needs only a number-conserving block, so it holds with any hopping phase, DM terms included. At N = 2
+the class is smaller than it looks: ZZ and a uniform field `h(Z₁ + Z₂)` are constant on each excitation
+sector, so they commute with the hopping and with the dephasing and only rephase the entries `ρ_ij`, and CΨ
+cannot see them (XXX, XXZ and XY at equal XX + YY coefficient give one CΨ curve, to 1.4·10⁻¹⁵ in the
+producer). What moves CΨ is the hopping and the staggered field. Part 4's |01⟩ trajectory is one member of the class.
+
+The main peak of a period is the largest value of CΨ in it, with the windows anchored at the lowest point of
+the γ = 0 period; for a pure state the finer main peak is the largest value between consecutive γ = 0
+minima, half a period when p crosses s/2 and a full one otherwise. No threshold enters, and a micro-maximum,
+sitting next to a trough, never decides a window. With a staggered field the humps of a mixed state inside
+one period need not be equal even at γ = 0, which is why the full period is the window. At γ = 0 the main
+peaks are equal. **The open question: under local Z-dephasing, can a main peak ever rise above the one
+before it?**
+
+The producer's scan, at each of γ = 0.05, 0.2 and 0.5, covers 120 runs per period (14 named kets whose
+one-excitation part is a single basis state, 8 random pure and 8 random rank-2 mixed states, under hopping
+with staggered fields 0, 0.5, 2 and 3) and 88 pure runs per hump. No main peak rises. At γ = 0.05 the
+closest successive pair falls by 6.8·10⁻³ per period and by 2.4·10⁻⁴ per hump. Where damping has flattened
+a window's hump away, its largest value sits on the window's left edge; such a window cannot rise, since that
+edge closes the previous window, so the test rests on the windows with an interior maximum: 907 of 960 per
+period and 1512 of 1690 per hump at γ = 0.05, 407 and 451 at γ = 0.5. No largest value sits on a right
+edge. The
+trajectory that [label_facts_independent_checks.py](../../simulations/label_facts_independent_checks.py)
+CHECK-3 computes, |01⟩ under XXX at γ = 0.05, is a named sample of this class.
 
 ### Exact pointwise and control counterexamples
 
@@ -423,24 +565,42 @@ Thus **CΨ'(0) = +1/6** under a time-independent local Markovian generator. The 
 
 so **CΨ'(0) = -1/12** and the same exact gate distinguishes coherent creation from dephasing decay.
 
-Two controls sharpen the basis dependence:
+Three controls sharpen the basis dependence:
 
 - A local Hadamard sends `|00⟩` from `CΨ=0` to `CΨ=1/3`.
+- A local unitary can lift CΨ back above 1/4 after a downward crossing. Under Z-dephasing alone,
+  `|0⟩ ⊗ (I + sin 60°·X + cos 60°·Z)/2` starts at `CΨ = 0.288675`; the dephasing shrinks only the x-component
+  of qubit 2's Bloch vector, and CΨ crosses 1/4 downward at `r_x = 0.796204`. The `R_y` that turns that Bloch
+  vector onto the equator, by 32.1°, gives `CΨ = 0.295207`, the most any unitary on qubit 2 reaches at that
+  purity (computed in the producer).
 - An active first-site Z pulse preserves the instantaneous `CΨ=1/8`, yet under the same laboratory H it
   changes the derivative from `+1/6` to `-1/3`. In a passive frame, transforming H to `Z₁HZ₁` as well,
   the derivative remains `+1/6`.
 
-These examples disprove universal pointwise monotonicity and the shortcut from instantaneous Pauli
-invariance to trajectory invariance. A positive initial derivative is not by itself a pair of successive
-local maxima, so it **does not settle the successive-local-maxima question**.
+These examples disprove universal pointwise monotonicity, local-unitary protection of the region below 1/4,
+and the shortcut from instantaneous Pauli invariance to trajectory invariance. A positive initial derivative
+is not by itself a pair of successive local maxima; the rising pairs of the previous section are.
 
 ### What the finite atlas says
 
-`EnvelopeTheoremWitness` now exposes a finite rise atlas. Named Bell+ runs at N=4 and N=5 resolve
-predecessor rises above a reporting bar, while one named N=3 run resolves none. The retained same-(N,Q,K)
-pair agrees to six decimals. Those are finite numerical observations: they neither decide the autonomous
-N=2 peak question nor yield an all-Q/all-N classification, an absence claim, or a mechanism. See
-[The Finite Envelope-Rise Atlas](../../experiments/ENVELOPE_RISE_BOUNDARY.md).
+`EnvelopeTheoremWitness` exposes a finite rise atlas for N ≥ 3 on the XY chain, Symphony's default
+Hamiltonian. Named Bell+ runs at N=4 and N=5 resolve predecessor rises above a reporting bar, while the
+named N=3 runs resolve none: there every global maximum falls. Same-(N,Q,K) rescaled pairs agree to
+eigensolver rounding. Those are finite numerical observations: they yield no all-Q/all-N classification,
+absence claim, or mechanism. See [The Finite Envelope-Rise Atlas](../../experiments/ENVELOPE_RISE_BOUNDARY.md).
+
+Beside the atlas, observed numerically and not proven (the producer's part D, windows J·t ≤ 125): the
+strong-coupling rows that rise belong to carriers whose γ = 0 maxima are unequal, and the silent N=3 rows to
+a carrier whose γ = 0 maxima are all equal. In units of J the Bell+ carrier occupies the energies {0, ±√2} at
+N=3, commensurate, with γ = 0 maxima equal to 3·10⁻¹⁶; at N=4 it occupies {0, ±1, ±√5} and at N=5
+{0, ±1, ±√3, ±(√3 − 1), ±(1 + √3)}, incommensurate, with γ = 0 maxima spread by 0.107 and 0.092. The
+local-field counterexample above is the smallest instance of the same shape: two incommensurate one-qubit
+clocks. The N=3 silence is a property of the XY chain, not of N=3: on the Heisenberg chain the N=3 carrier
+has a commensurate spectrum {0, −1, 1/2} yet γ = 0 maxima in the repeating pattern A, B, B, A with
+A = 0.387972 and B = 0.371040, and the same N=3, Q=2000, K=0.25 window resolves 39 rises above the bar with
+the atlas reader. Commensurate frequencies alone do not make the γ = 0 sequence flat, and a flat γ = 0
+sequence does not protect against literal rises: the mixed state under XXX above is flat at γ = 0 and its
+literal maxima rise at γ = 0.05, by micro-maxima.
 
 ---
 
@@ -493,8 +653,8 @@ At `q=1/8`,
 `CΨ=847/3072=1/4+79/3072`.
 
 So one fixed, local, time-independent Markovian semigroup carries a state from below 1/4 to above it. This
-refutes the universal absorbing-set claim. The curve has no finite interior local maxima, so it does not
-settle the successive-local-maxima question either.
+refutes the universal absorbing-set claim. The curve has no finite interior local maxima; the peak-sequence
+counterexamples are the ones in Part 5.
 
 ### The conditional statement that survives
 
@@ -540,7 +700,7 @@ elements (I,X,Y,Z)^2: delta CΨ = 0.00e+00 in every case. Non-Pauli
 unitaries (Ry, Rx, Hadamard, CNOT, random U(4)) change CΨ by up to
 -0.24 (H x I on a typical state).
 
-### What instantaneous invariance does—and does not—say
+### What instantaneous invariance does, and does not, say
 
 An active Pauli pulse leaves CΨ unchanged at that instant. It may still change the subsequent laboratory-
 frame trajectory because the state has changed while H and the dissipators have not. The exact Z-pulse
@@ -575,7 +735,8 @@ only route to an upward CΨ crossing, because Part 6 supplies a fixed local Mark
 - [generalized_pauli_channels.py](../../simulations/generalized_pauli_channels.py): 124/124 channel configurations verified
 - [amplitude_damping_test.py](../../simulations/amplitude_damping_test.py): non-unital channel
 - [non_markovian_revival.py](../../simulations/non_markovian_revival.py): transient revivals (Part 6)
-- [monotonicity_remaining.py](../../simulations/monotonicity_remaining.py): Test A/B/C extensions (general states, collective noise, N>2 subsystems)
+- [envelope_n2_rises.py](../../simulations/envelope_n2_rises.py): the N=2 rises (local fields; micro-maxima under number-conserving H), the main-peak scans, the atlas adjacency and the local-unitary lift (Part 5)
+- [monotonicity_remaining.py](../../simulations/monotonicity_remaining.py): Test A/B/C extensions (nineteen pure states under XXX, collective noise, N>2 subsystems)
 
 ### Related experiments and hypotheses
 

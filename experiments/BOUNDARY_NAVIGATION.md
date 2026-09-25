@@ -330,11 +330,13 @@ entanglement echo. The compass measures channel quality, not transfer
 dynamics.
 
 The **CΨ monotonicity proof** ([the CΨ monotonicity proof](../docs/proofs/PROOF_MONOTONICITY_CPSI.md))
-shows analytically that CΨ (and therefore θ) is monotonically decreasing
-for Bell+ under all local Markovian channels. The compass always points toward
-the boundary; it never reverses. Under non-Markovian dynamics, transient
-reversals are possible (CΨ up to 0.3035), but the long-term trend is
-always toward θ = 0°.
+shows analytically that CΨ (and therefore θ) decreases monotonically for
+Bell+ under the named Z, Pauli and amplitude-damping channels; along those
+trajectories the compass does not reverse. In general it can: a local
+Hamiltonian raises CΨ, a fixed local Markovian semigroup crosses ¼ upward,
+and even an N=2 pair's successive peaks can rise. A named structured-bath
+model shows transient reversals up to CΨ = 0.3035 that return below ¼ in all
+its stored configurations.
 
 The **IBM hardware validation** ([IBM Run 3 palindrome](IBM_RUN3_PALINDROME.md))
 measured the actual crossing at 1.9% deviation. The θ = 0° prediction

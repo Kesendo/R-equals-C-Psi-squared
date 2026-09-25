@@ -145,9 +145,11 @@ Reparameterization can move the numeric coordinate while preserving the fold.
 **Dynamics boundary, repaired.** The quarter is the exact discriminant boundary of the algebraic recursion,
 not a universal absorbing set in state space. Exact local-Markov examples give CΨ'(0)=+1/6, a local
 Hadamard sends CΨ from 0 to 1/3, and a fixed local semigroup crosses upward through 1/4. Instantaneous
-N-qubit Pauli invariance survives, but it is not trajectory invariance. The autonomous N=2 successive-
-local-maxima claim remains unproved. A finite N/Q/K rise atlas invites an all-Q/all-N classification without
-claiming an absence or mechanism.
+N-qubit Pauli invariance survives, but it is not trajectory invariance. The N=2 successive-local-maxima
+claim, read literally, fails in every class: local fields on a product state raise the main peaks, and under
+a number-conserving H damping grows micro-maxima that rise to the next main peak. The question stays open
+only for the main peaks under a number-conserving H. A finite N/Q/K rise atlas invites an all-Q/all-N
+classification without claiming an absence or mechanism.
 
 The positive endpoint theorem is conditional: a continuous trajectory converging to ρ* with CΨ(ρ*)<1/4
 eventually stays below. Named basis-aligned T1/T2/depolarizing models use this only under their stated
@@ -451,9 +453,11 @@ See: [Quantum Transistor](../../hypotheses/MEDIATOR_AS_QUANTUM_TRANSISTOR.md)
 
 ## 10. Open Questions (Tier 3-5)
 
-- CΨ peak sequences: the historical autonomous N=2 successive-maxima argument has a gap; prove it or find
-  a true peak counterexample. Extend the finite N/Q/K atlas to all-Q/all-N classification, and gate any
-  proposed mechanism separately ([the repaired dynamics proof](PROOF_MONOTONICITY_CPSI.md), F17/F25–F28)
+- CΨ peak sequences: at N=2 successive maxima can rise under local fields and, through micro-maxima, under
+  a number-conserving H; do the main peaks, the largest value of CΨ in each period of the one-excitation
+  block clock, always fall under a number-conserving H? At γ = 0 they are equal for every state. Extend the
+  finite N/Q/K atlas to all-Q/all-N classification, and gate any proposed mechanism separately
+  ([the dynamics proof, Part 5](PROOF_MONOTONICITY_CPSI.md), F17/F25–F28)
 - Period-doubling belongs to the negative-c branch of the assumed scalar recurrence; its physical reading remains open.
 - Bekenstein-Hawking 1/4 (coincidence or connection, speculative)
 - Negative feedback loop (γ_M decreasing with coherence, untested)

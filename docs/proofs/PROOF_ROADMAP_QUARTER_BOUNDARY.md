@@ -38,7 +38,7 @@ The proof journey works upward:
 2. Two entangled qubits: named trajectories and conditional subsystem crossing
 3. N-qubit systems: GHZ, W, and the palindromic structure
 4. Arbitrary dimension d: qutrits and beyond
-5. Channel dependence: named exact families, counterexamples, and an open peak question
+5. Channel dependence: named exact families, counterexamples, rising N=2 peaks, and an open main-peak question
 6. The assumed-family classification: why this normal form reports 1/4
 7. Connections to known mathematics: Mandelbrot, Feigenbaum, and deeper structures
 
@@ -50,11 +50,11 @@ The proof journey works upward:
 | 2. Two qubits | CONDITIONAL | If a continuous trajectory converges to ρ* with CΨ(ρ*)<1/4, it eventually stays below. A primitive CPTP target at CΨ=0.2935 and a local Markov upward crossing forbid the old absorber reading. |
 | 3. N-qubit | PROVEN | Palindromic spectrum all graphs N=2..8 (87,376 eigenvalues). Analytic formula. |
 | 4. Dimension | ANSWERED: d=2 only | Qutrits: 0/236 dissipators palindromic. Discriminant d-independent. CV/hybrid extensions (Conj 4.1/4.2) open. |
-| 5. Channels | NAMED EXACT + FINITE ATLAS + OPEN | F25–F27 give named Bell+ formulas. Universal pointwise/absorber/local-control claims are false. The autonomous N=2 successive-peak claim is unproved. Finite N=3/4/5 rows invite an all-Q/all-N classification and mechanism. |
+| 5. Channels | NAMED EXACT + FINITE ATLAS + OPEN | F25–F27 give named Bell+ formulas. Universal pointwise/absorber/local-control claims are false, and so is the literal N=2 successive-peak claim, in every class (local fields raise the main peaks; number-conserving H grows micro-maxima under damping). Open: whether the main peaks fall under a number-conserving N=2 H, and an all-Q/all-N classification and mechanism for the finite N=3/4/5 rows. |
 | 6. Assumed-family uniqueness | CONDITIONAL ALGEBRA | Within `R=C_α(Ψ+R)^α`, alpha=2 alone removes the explicit Ψ factor from the fold product. This does not derive the family or its physical use. |
 | 7. Math connections | MIXED | Mandelbrot identity exact (PROVEN). Feigenbaum cascade numerically measured (resolution-limited). A named N=2 Bell+/Z sampled Bures path coefficient gives g≈3.36, with no divergence resolved on its grid; ambient density-matrix geometry remains unclassified. Holography SPECULATIVE. |
 
-Core closed: Layer 1 locates 1/4 for the stated recurrence, Layer 3 proves the palindrome in its stated scope, and Layer 7 gives the Mandelbrot change of variables for that normal form. Scoped/partial: Layer 2 is the conditional convergence implication; Layer 4 is d=2 only; Layer 5 has named exact channel formulas, false universal dynamics claims, and an open peak classification; Layer 6 is an assumed-family comparison, not a physical derivation; Layer 7 holography remains open. The IBM runs are named crossings and an F25 trajectory fit, not a hardware proof of a universal absorber. Across four machines, finite calibration windows place many qubits on both sides of 1/4 ([clock field](../../experiments/CLOCK_FIELD_SITE_OWNED.md)); that richer motion is precisely why algebra and dynamics must not share a label.
+Core closed: Layer 1 locates 1/4 for the stated recurrence, Layer 3 proves the palindrome in its stated scope, and Layer 7 gives the Mandelbrot change of variables for that normal form. Scoped/partial: Layer 2 is the conditional convergence implication; Layer 4 is d=2 only; Layer 5 has named exact channel formulas, false universal dynamics claims including the literal N=2 peak claim, an open N=2 main-peak question, and an open peak classification; Layer 6 is an assumed-family comparison, not a physical derivation; Layer 7 holography remains open. The IBM runs are named crossings and an F25 trajectory fit, not a hardware proof of a universal absorber. Across four machines, finite calibration windows place many qubits on both sides of 1/4 ([clock field](../../experiments/CLOCK_FIELD_SITE_OWNED.md)); that richer motion is precisely why algebra and dynamics must not share a label.
 
 ---
 
@@ -221,7 +221,7 @@ monotonic, non-unital fixed point (|00⟩) reached. See
 
 **Named revival catalogue** (March 22, 2026). A structured-bath model reaches CΨ=0.3035 after an earlier
 downward crossing and returns below in all 48 stored configurations. That finite catalogue establishes
-neither a universal transient law nor an exclusively non-Markovian mechanism: Part 5's exact local
+neither a universal transient law nor an exclusively non-Markovian mechanism: Part 6's exact local
 Markovian semigroup also crosses upward. See
 [non_markovian_revival.py](../../simulations/non_markovian_revival.py).
 
@@ -444,11 +444,19 @@ F25–F27 prove decreasing CΨ for named Bell+ channel families. They do not pro
 monotonicity. Exact two-qubit examples give a positive derivative under local Z dephasing plus a local H,
 an active-pulse derivative flip, and an upward crossing under a fixed local Markovian semigroup.
 
-The historical autonomous N=2 successive-local-maxima statement is still open: the old spectral-bound
-argument does not order nonlinear maxima, while the exact pointwise and monotone-upward examples do not
-create two finite maxima. The live object is a finite atlas, not a verdict. Named N=4/N=5 rows resolve
-rises, one N=3/Q=2000 row resolves none, and a same-(N,Q,K) pair agrees to six decimals. All-Q, all-N, and
-mechanism classification remains open in `envelope_n4_rise`. See
+The N=2 successive-local-maxima statement, read literally, has counterexamples in every class. Under two
+local fields on |01⟩ the state stays a product, and at γ = 0 CΨ = [(1 + |sin 2t|)(1 + |sin 0.74t|) − 1]/3
+has rising main peaks (0.734893 → 0.991268) that continuity carries into weak damping. Under a
+number-conserving H, damping moves the zeros of ρ₀₁,₁₀ against those of the other coherences, and a
+micro-maximum can grow just above a trough, below the next main peak; a pure and a mixed example show it.
+The old spectral-bound argument could
+not order nonlinear maxima, and these mechanisms show that the order fails. What stays open is a question
+about main peaks: under a number-conserving N=2 H, does the largest value of CΨ in each period of the
+one-excitation block clock fall? At γ = 0 those main peaks are equal for every state
+([Part 5](PROOF_MONOTONICITY_CPSI.md)). For N ≥ 3 the live object is a finite atlas on
+the XY chain, not a verdict. Named N=4/N=5 rows resolve rises, one N=3/Q=2000 row resolves none, and
+same-(N,Q,K) rescaled pairs agree to eigensolver rounding. All-Q, all-N, and mechanism classification
+remains open in `envelope_n4_rise`. See
 [The Finite Envelope-Rise Atlas](../../experiments/ENVELOPE_RISE_BOUNDARY.md) and
 [F17](../ANALYTICAL_FORMULAS.md#f17).
 
@@ -583,6 +591,9 @@ open edges, gathered:
 - **Peak-rise classification** (Layer 5): extend the finite N/Q/K atlas to all-Q and all-N statements, or
   find their counterexamples; separately gate any proposed frequency/parity mechanism. The present rows
   do not establish an N floor or a critical contour.
+- **Main peaks of N=2 states under a number-conserving H** (Layer 5): the largest value of CΨ in each
+  period of the one-excitation block clock is the same in every period at γ = 0, for every state; does it
+  always fall once γ > 0?
 - **The δ(N) reading of Conjecture 3.2** (Layer 3): the competition mechanism
   behind the non-monotonic purity deficit.
 - **Crossing-cubic number theory** (Layer 1): whether the real root of

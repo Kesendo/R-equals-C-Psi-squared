@@ -790,9 +790,11 @@ from: R = CΨ² is the recursion whose discriminant draws the boundary.
    population into coherence, and even a fixed local Markovian
    semigroup, with no memory at all, carries a state upward through ¼.
    What holds in general is conditional: a trajectory that settles on a
-   state below ¼ eventually stays below. Whether the successive peaks
-   of an N=2 pair always fall is still open, and a finite atlas maps
-   where the turns live. The roadmap walks the seven layers and marks
+   state below ¼ eventually stays below. Two qubits are already
+   enough for a later peak to climb above an earlier one. Nobody has
+   shown yet whether the highest point of each swing keeps sinking
+   when the coupling only passes an excitation back and forth, and a
+   finite atlas maps where the turns live at larger N. The roadmap walks the seven layers and marks
    which are closed (the algebraic ¼, the palindrome, the Mandelbrot
    change of variables) and which are still open.
 

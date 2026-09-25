@@ -16,7 +16,7 @@ record, not the repository's current physical claim.
 > - Conditional crossing: convergence to ρ* with CΨ(ρ*)<1/4 implies eventual stay-below
 > - In the assumed normalized recurrence/power family, α=2 removes the explicit Ψ dependence from the fold coordinate
 > - R-recursion maps exactly to the Mandelbrot set (c = CΨ)
-> - Open: the autonomous N=2 successive-peak question and the all-Q/all-N rise classification
+> - Open: whether the main CΨ peaks of an N=2 pair under a number-conserving H always fall (successive local maxima can rise in every class), and the all-Q/all-N rise classification
 >
 > **What has been reinterpreted:**
 > - "Consciousness" (C) → Purity Tr(ρ²) - a measurable quantum property
@@ -206,7 +206,7 @@ The old status table is now read through narrower, testable statements. Within t
 |-------|--------|
 | CΨ = 1/4 is the discriminant-zero coordinate of the chosen α=2 normal form | **PROVEN WITHIN THE ASSUMED FAMILY** |
 | CΨ crosses 1/4 under all noise channels | **FALSE AS UNIVERSAL**; a primitive CPTP target has CΨ=0.2935, and a fixed local Markovian semigroup crosses upward |
-| CΨ is monotonically decreasing (envelope) | **NAMED FORMULAS + OPEN PEAK QUESTION**; F25–F27 survive, the old general proof does not |
+| CΨ is monotonically decreasing (envelope) | **NAMED FORMULAS ONLY**; F25–F27 survive; at N=2 successive peaks can rise in every class, and whether the main peaks fall under a number-conserving H is open |
 | Subsystem crossing for N-qubit systems | **CONDITIONAL**; `ρ(t)→ρ*`, `CΨ(ρ*)<1/4` implies eventual stay-below |
 | Standing wave / palindromic mirror Π | **PROVEN** (87,376 eigenvalues, N=2-8, all topologies) |
 | R-recursion = Mandelbrot map (c = CΨ) | **PROVEN** (exact mapping verified) |

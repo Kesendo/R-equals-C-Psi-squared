@@ -86,7 +86,7 @@ single metrics blur.
 
 ### 1. CΨ highlights transient windows, not persistent pair properties
 
-CΨ oscillates. In the star topology (S coupled to observers A and B), the AB pair flashes above threshold for brief windows, then drops back to zero. The connection between observers is not permanent; it is rhythmic. At γ = 0 (no noise), this rhythm continues indefinitely. With noise, each flash is weaker than the last until the signal dies.
+CΨ oscillates. In the star topology (S coupled to observers A and B), the AB pair flashes above threshold for brief windows, then drops back to zero. The connection between observers is not permanent; it is rhythmic. At γ = 0 (no noise), this rhythm continues indefinitely. With noise the flashes fade until the signal dies, though not necessarily flash by flash: even for a single pair, a later CΨ peak can rise above the one before it.
 
 This is different from concurrence alone, which decays smoothly. CΨ has sharper peaks and deeper valleys because it multiplies two oscillating quantities.
 

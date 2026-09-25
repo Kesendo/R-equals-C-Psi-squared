@@ -1002,16 +1002,29 @@ Boundary at CΨ = 1/4 (discriminant of fixed-point equation).
 ### F17. CΨ dynamics boundary (historical monotonicity index; corrected)
 
 The universal pointwise, forward-invariant/absorbing, and local-control/trajectory package is false. Exact
-two-qubit local-Markov examples give CΨ'(0)=+1/6, a local Hadamard changes CΨ from 0 to 1/3, an active Z
-pulse changes the following derivative, and one fixed local semigroup crosses upward through 1/4.
+two-qubit local-Markov examples give CΨ'(0)=+1/6 (H = Y⊗I with first-site Z dephasing; the dephasing alone
+gives −1/12), a local Hadamard changes CΨ from 0 to 1/3, an active Z pulse changes the following derivative,
+and one fixed local semigroup crosses upward through 1/4.
+
+The N=2 successive-local-maxima claim, read literally, has counterexamples in every class. Under
+H = X⊗I + 0.37·I⊗Y from |01⟩ the state stays a product, and at γ = 0
+CΨ(t) = [(1 + |sin 2t|)(1 + |sin 0.74t|) − 1]/3, whose first two main peaks rise 0.734893 → 0.991268; by
+continuity the rise survives weak damping, and at γ = 0.05 it reads 0.650531 → 0.688512. Under a
+number-conserving H, damping moves the zeros of ρ₀₁,₁₀ (damped block clock) against those of the (0,1)- and
+(1,2)-coherences (undamped clock); where two such corners of L₁ bracket a slope that changes sign, a
+micro-maximum can grow just above the trough, below the next main peak. Shown for a pure state, whose corners
+coincide at γ = 0 and split (cos(π/8)|00⟩ + sin(π/8)|01⟩ under XXX at γ = 0.5), and for a mixed one, whose
+corners sit 0.035 apart and whose fixed corner damping turns into a trough ((|i0⟩⟨i0| + |i+⟩⟨i+|)/2 under
+XXX at γ = 0.05, main peaks falling). Open: under a number-conserving H,
+do the main peaks, the largest value of CΨ in each period of the one-excitation block clock, fall? At γ = 0
+CΨ repeats with that period for every state, and every maximum of a pure state is equal.
 
 What remains Tier 1 here is smaller: the named Bell+ formulas F25–F27; instantaneous N-qubit Pauli
-invariance; the algebraic quarter owned by F16; and F28's conditional convergence implication. The old
-autonomous N=2 successive-local-maxima claim is unproved: these exact examples do not settle it.
+invariance; the algebraic quarter owned by F16; and F28's conditional convergence implication.
 
-`EnvelopeTheoremWitness` is now a finite atlas. Named N=4/N=5 rows resolve rises, one N=3/Q=2000 row
-resolves none, and one same-(N,Q,K) pair agrees to six decimals. Samples establish no all-Q/all-N boundary,
-absence theorem, or mechanism; `envelope_n4_rise` remains open.
+`EnvelopeTheoremWitness` is a finite atlas on the XY chain. Named N=4/N=5 rows resolve rises, one
+N=3/Q=2000 row resolves none, and same-(N,Q,K) rescaled pairs agree to eigensolver rounding. Samples
+establish no all-Q/all-N boundary, absence theorem, or mechanism; `envelope_n4_rise` remains open.
 
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 

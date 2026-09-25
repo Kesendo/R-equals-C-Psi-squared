@@ -289,7 +289,7 @@ already disproves.
 ### Sibling proofs in the 1/4-boundary trilogy
 
 - [Uniqueness Proof](UNIQUENESS_PROOF.md): the algebraic quarter from the quadratic discriminant
-- [CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md): named decreasing channel formulas, exact counterexamples, and the open peak-sequence question
+- [CΨ Monotonicity Proof](PROOF_MONOTONICITY_CPSI.md): named decreasing channel formulas, exact counterexamples, N=2 peak sequences that rise, and the open main-peak question
 - [Proof Roadmap Quarter Boundary](PROOF_ROADMAP_QUARTER_BOUNDARY.md): the seven-layer master roadmap; this proof is Layer 2 (Conjecture 2.1)
 
 ### F-formula registry

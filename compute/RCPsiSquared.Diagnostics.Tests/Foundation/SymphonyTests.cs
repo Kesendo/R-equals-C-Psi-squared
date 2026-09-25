@@ -420,20 +420,21 @@ public class SymphonyTests
     }
 
     [Fact]
-    public void GlobalEnvelope_NamedN3WindowsResolveNoRiseAboveReportingBar()
+    public void GlobalEnvelope_NamedN3Windows_MaximaFallStrictly()
     {
-        // Three named finite N=3 windows resolve no rise above the reporting bar. This is not an
-        // all-parameter absence statement and does not decide the autonomous N=2 peak question.
+        // In three named finite N=3 XY windows every global maximum is below its predecessor, raw: the
+        // closest pair falls by 5.7e-3, 1.8e-3 and 1.7e-3, far above rounding, so the largest positive
+        // predecessor delta is exactly zero. Finite windows, not an all-parameter absence statement.
         foreach (var (j, gamma, tmax, pts) in new[]
             { (1.0, 0.1, 10.0, 400), (5.0, 0.01, 25.0, 400), (5.0, 0.01, 25.0, 1600) })
         {
             var s = new Symphony(n: 3, j: j, gamma: gamma, initialState: InitialStateKind.BellPair,
                 tMax: tmax, tPoints: pts);
             var global = s.States.Select(Symphony.Cpsi).ToArray();
-            var env = QuarterEnvelope.Of(global, s.TimeGrid.ToArray(),
-                riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+            var env = QuarterEnvelope.Of(global, s.TimeGrid.ToArray());
             Assert.Equal(0, env.RiseCount);
-            Assert.True(env.MaxRiseMagnitude >= 0.0);
+            Assert.True(env.IsNonIncreasing);
+            Assert.True(env.MaxRiseMagnitude == 0.0, $"J={j}, {pts} points: raw max rise {env.MaxRiseMagnitude:R}");
         }
         // The global lens carries the finite-window caveat and the new crossing name.
         var lens = Children(new Symphony(n: 3, j: 5.0, gamma: 0.01, tMax: 25.0, tPoints: 1600))
@@ -473,10 +474,12 @@ public class SymphonyTests
     }
 
     [Fact]
-    public void LocalEnvelope_SingleExcitation_NestedGridsAreIndependentFiniteReadings()
+    public void LocalEnvelope_NestedGrids_EstimatorRisesVanish_CarrierRisesPersist()
     {
-        // Two independently evolved nested grids give finite classifications only. Matching shared
-        // samples checks the evolution; it does not assign a cause to any rise-count difference.
+        // The control that shows the detector separates estimator error from rises the curve carries.
+        // Nested grids (401 and 1601 points) sample the same times, t_i = 25·i/400 = 25·4i/1600 as the
+        // same double, and Symphony evaluates exp(λt) directly at each sample, so the shared samples
+        // agree exactly.
         var coarse = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
             tMax: 25.0, tPoints: 401);
         var fine = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.SingleExcitation,
@@ -484,15 +487,27 @@ public class SymphonyTests
         var coarseCurve = coarse.States.Select(coarse.LocalCpsi).ToArray();
         var fineCurve = fine.States.Select(fine.LocalCpsi).ToArray();
         for (int i = 0; i < coarseCurve.Length; i++)
-            Assert.Equal(coarseCurve[i], fineCurve[4 * i], 9);
-        var coarseEnvelope = QuarterEnvelope.Of(coarseCurve, coarse.TimeGrid.ToArray(),
-            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
-        var fineEnvelope = QuarterEnvelope.Of(fineCurve, fine.TimeGrid.ToArray(),
-            riseTol: EnvelopeTheoremWitness.RiseReportingBar);
-        Assert.Equal(0, coarseEnvelope.RiseCount);
-        Assert.Equal(0, fineEnvelope.RiseCount);
+            Assert.True(coarseCurve[i] == fineCurve[4 * i], $"shared sample {i}: {coarseCurve[i]:R} vs {fineCurve[4 * i]:R}");
+
+        // SingleExcitation: the three-point apex estimator leaves sub-bar rises on the coarse grid
+        // (error O(h³), 64× smaller at 4× the points); on the fine grid every maximum falls, raw.
+        var coarseEnvelope = QuarterEnvelope.Of(coarseCurve, coarse.TimeGrid.ToArray());
+        var fineEnvelope = QuarterEnvelope.Of(fineCurve, fine.TimeGrid.ToArray());
+        Assert.True(coarseEnvelope.RiseCount > 0, $"expected coarse-grid estimator rises; got {coarseEnvelope.RiseCount}");
         Assert.True(coarseEnvelope.MaxRiseMagnitude < EnvelopeTheoremWitness.RiseReportingBar);
-        Assert.True(fineEnvelope.MaxRiseMagnitude < EnvelopeTheoremWitness.RiseReportingBar);
+        Assert.True(fineEnvelope.IsNonIncreasing);
+        Assert.True(fineEnvelope.MaxRiseMagnitude == 0.0, $"raw max rise {fineEnvelope.MaxRiseMagnitude:R}");
+
+        // Bell+ on the same nested grids: the carrier-pair rises persist above the bar on both.
+        foreach (int points in new[] { 401, 1601 })
+        {
+            var bell = new Symphony(n: 3, j: 5.0, gamma: 0.01, initialState: InitialStateKind.BellPair,
+                tMax: 25.0, tPoints: points);
+            var bellEnvelope = QuarterEnvelope.Of(bell.States.Select(bell.LocalCpsi).ToArray(),
+                bell.TimeGrid.ToArray(), riseTol: EnvelopeTheoremWitness.RiseReportingBar);
+            Assert.True(bellEnvelope.RiseCount > 0, $"Bell+ at {points} points: {bellEnvelope.RiseCount} rises");
+            Assert.True(bellEnvelope.MaxRiseMagnitude > EnvelopeTheoremWitness.RiseReportingBar);
+        }
 
         var changedJ = new Symphony(n: 3, j: 4.5, gamma: 0.01,
             initialState: InitialStateKind.SingleExcitation, tMax: 25.0, tPoints: 401);
@@ -554,16 +569,22 @@ public class SymphonyTests
         var bBad = new Symphony(n: 4, j: 0.26, gamma: 0.02,
             initialState: InitialStateKind.BellPair, tMax: 12.5, tPoints: 1600);
 
+        // Doubling J and γ doubles L entry for entry and halving tMax halves every sample time, both exact
+        // in binary64, so the K-grids coincide exactly and the curves differ only through the eigensolver's
+        // rounding on the doubled matrix. Error model: that rounding, measured 1.0·10⁻¹⁵ (global) and
+        // 2.1·10⁻¹⁵ (local) on the curves; apex heights inherit it (6·10⁻¹⁶), apex doses divide it by the
+        // local curvature times the grid step and multiply by γ (2.5·10⁻¹⁵). The gate 1e-12 sits more than two
+        // decades above; the J = 0.26 mutation moves the curve by more than 1e-6.
         var globalA = a.States.Select(Symphony.Cpsi).ToArray();
         var globalB = b.States.Select(Symphony.Cpsi).ToArray();
         var globalBad = bBad.States.Select(Symphony.Cpsi).ToArray();
         var localA = a.States.Select(a.LocalCpsi).ToArray();
         var localB = b.States.Select(b.LocalCpsi).ToArray();
-        Assert.True(TempoCertificationMovement.MaxAbsDiff(globalA, globalB) <= 1e-9);
-        Assert.True(TempoCertificationMovement.MaxAbsDiff(localA, localB) <= 1e-9);
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(globalA, globalB) <= 1e-12);
+        Assert.True(TempoCertificationMovement.MaxAbsDiff(localA, localB) <= 1e-12);
         Assert.True(TempoCertificationMovement.MaxAbsDiff(globalA, globalBad) > 1e-6);
         for (int i = 0; i < a.TimeGrid.Count; i++)
-            Assert.Equal(a.Gamma * a.TimeGrid[i], b.Gamma * b.TimeGrid[i], 12);
+            Assert.True(a.Gamma * a.TimeGrid[i] == b.Gamma * b.TimeGrid[i], $"K-grid sample {i}");
 
         var envelopeA = QuarterEnvelope.Of(globalA, a.TimeGrid.ToArray(),
             riseTol: EnvelopeTheoremWitness.RiseReportingBar);
@@ -577,9 +598,10 @@ public class SymphonyTests
         Assert.Equal(envelopeA.Maxima.Count, envelopeB.Maxima.Count);
         for (int i = 0; i < envelopeA.Maxima.Count; i++)
         {
-            Assert.Equal(envelopeA.Maxima[i].ApexValue, envelopeB.Maxima[i].ApexValue, 6);
-            Assert.Equal(a.Gamma * envelopeA.Maxima[i].Time,
-                b.Gamma * envelopeB.Maxima[i].Time, 6);
+            Assert.True(Math.Abs(envelopeA.Maxima[i].ApexValue - envelopeB.Maxima[i].ApexValue) <= 1e-12,
+                $"apex {i}: {envelopeA.Maxima[i].ApexValue:R} vs {envelopeB.Maxima[i].ApexValue:R}");
+            Assert.True(Math.Abs(a.Gamma * envelopeA.Maxima[i].Time - b.Gamma * envelopeB.Maxima[i].Time) <= 1e-12,
+                $"apex dose {i}: {a.Gamma * envelopeA.Maxima[i].Time:R} vs {b.Gamma * envelopeB.Maxima[i].Time:R}");
         }
     }
 
