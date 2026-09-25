@@ -219,8 +219,10 @@ public static class KnowledgeRegistryFactory
             .RegisterTwoTermPalindromeRoutingClaim()
             .RegisterF89F87TrulyInheritance()
             .RegisterF89F87BreakPredictionFromF83()
-            // Dissipator coefficient / eigenmode expectation law (parent to F33/F50/F55/F64-F68/F74/F89
-            // via per-Registration discard-Get edges; dissipator coefficient 2 from a_0)
+            // The Absorption Theorem (dissipator coefficient 2 = a_0; the eigenmode rate is the
+            // γ-weighted light). Its children declare the edge themselves; the ones that name
+            // themselves by an F-number are AbsorptionTheoremClaim.FNumberedDirectChildren,
+            // pinned against this registry.
             .RegisterAbsorptionTheoremClaim()
             // JDefect light migration (in-between Edge 4, 2026-06-10): the first typed claim
             // living ON a navigator axis (JDefectField, inspect --root between, axis jdefect).

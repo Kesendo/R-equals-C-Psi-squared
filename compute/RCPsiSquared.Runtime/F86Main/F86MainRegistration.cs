@@ -49,7 +49,7 @@ public static class F86MainRegistration
                 // t_peak = 1/(4γ₀): the rung-2 four of the Absorption Theorem
                 // (the two-disagreement basis-cell cost 2γ·2; per-site −2(γ₁+γ₂), exact), NOT the
                 // discriminant four a₋₁ = d². See PROOF_ABSORPTION_THEOREM.md,
-                // Remark (two different fours). Edge added 2026-06-10.
+                // Remark (the recurring four). Edge added 2026-06-10.
                 _ = b.Get<AbsorptionTheoremClaim>();
                 return new TPeakLaw(gammaZero);
             })

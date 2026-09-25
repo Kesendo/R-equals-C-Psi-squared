@@ -1,9 +1,10 @@
 """Regime map of the absorption ladder (PROOF_ABSORPTION_THEOREM.md).
 
 Reproduces every quantitative statement the proof makes about WHERE its
-corollaries hold, as opposed to the identity Re(lambda) = -2*gamma*<n_XY>
+corollaries hold (section 4) and where its Pauli reading holds (the boundary
+cases of section 2), as opposed to the identity Re(lambda) = -2*gamma*<n_XY>
 itself (that one is verified per mode in ABSORPTION_THEOREM_DISCOVERY.md and
-gated in C# by F8PartnerLightComplementarityTests).
+gated in C# by F8PartnerLightComplementarityTests and AbsorptionTheoremClaimTests).
 
 The distinction this script exists to pin: some levels of the spectrum are
 exact at every coupling, others are only a J/gamma -> infinity limit, and
@@ -304,7 +305,7 @@ def check_per_coherence_rate_needs_an_eigenmode():
 
 def check_depolarizing_stays_diagonal():
     """Depolarizing keeps Herm(L) diagonal and obeys Re(lambda) = -4*gamma*<n_nonI>."""
-    print("The boundary is Pauli-string jump operators, not dephasing")
+    print("Depolarizing keeps Herm(L) diagonal in the Pauli basis")
     n, gamma = 3, CANONICAL_GAMMA
     dim = 2 ** n
 
@@ -651,87 +652,203 @@ def check_identity_is_bendixson():
     print(f"  but the -2*gamma*<n_XY> reading misses by {miss:.4f} (gamma_T1 = {gamma_t1})\n")
 
 
-def check_the_fence_is_one_string_not_locality():
-    """The fence is ONE Pauli string per jump operator, not product-vs-correlated.
-
-    Both directions measured: a strictly local (X_k+Z_k)/sqrt2 channel BREAKS
-    the reading because each jump is a sum on its own site, while a two-site
-    Z_k Z_k+1 channel KEEPS Herm(L) exactly diagonal. Correlated is fine; a sum
-    is not.
-    """
-    print("The fence is one Pauli string per jump, not locality")
-    n, gamma, dim = 3, CANONICAL_GAMMA, 8
-    h = heisenberg(n, CANONICAL_J)
+def pauli_basis_and_light(n, letters=(I2, X, Y, Z)):
+    """Normalized Pauli strings over the given letters (I, X, Y, Z roles), and each string's XY-count."""
+    dim = 2 ** n
     basis, weights = [], []
-    for combo in itertools.product([I2, X, Y, Z], repeat=n):
+    for idx in itertools.product(range(4), repeat=n):
         mat = np.array([[1]], dtype=complex)
-        for pauli in combo:
-            mat = np.kron(mat, pauli)
+        for i in idx:
+            mat = np.kron(mat, letters[i])
         basis.append(mat.reshape(-1) / np.sqrt(dim))
-        weights.append(sum(1 for p in combo if p is X or p is Y))
-    basis, weights = np.array(basis).T, np.array(weights)
+        weights.append(sum(1 for i in idx if i in (1, 2)))
+    return np.array(basis).T, np.array(weights)
 
-    def off_diagonal(jumps):
-        lio = -1j * (np.kron(h, np.eye(dim)) - np.kron(np.eye(dim), h.T))
-        for jump in jumps:
-            lio = lio + gamma * (
-                np.kron(jump, jump.conj())
-                - 0.5 * np.kron(jump.conj().T @ jump, np.eye(dim))
-                - 0.5 * np.kron(np.eye(dim), (jump.conj().T @ jump).T))
+
+def lindblad(h, jumps):
+    """L = -i[h, .] + sum_k D[c_k], row-major vec, jumps carrying their own rates."""
+    dim = h.shape[0]
+    lio = -1j * (np.kron(h, np.eye(dim)) - np.kron(np.eye(dim), h.T))
+    for c in jumps:
+        cdc = c.conj().T @ c
+        lio = lio + (np.kron(c, c.conj()) - 0.5 * np.kron(cdc, np.eye(dim))
+                     - 0.5 * np.kron(np.eye(dim), cdc.T))
+    return lio
+
+
+def off_diagonal(matrix):
+    return np.max(np.abs(matrix - np.diag(np.diag(matrix))))
+
+
+def check_the_pauli_diagonal_decides_not_locality():
+    """What the reading needs is Herm(L_D) diagonal in the Pauli basis; locality is not the condition.
+
+    A two-site Z_k Z_k+1 channel keeps the diagonal. A strictly local (X_k+Z_k)/sqrt2 channel leaves the
+    computational Pauli diagonal, yet each of its jumps is the Pauli Z of the frame turned 45 degrees about
+    y, and in the Pauli basis of that frame the diagonal and the theorem are back.
+    """
+    print("The Pauli diagonal of Herm(L), not locality, decides the reading")
+    n, gamma = 3, CANONICAL_GAMMA
+    h = heisenberg(n, CANONICAL_J)
+    basis, weights = pauli_basis_and_light(n)
+
+    def herm_off(jumps, frame=basis):
+        lio = lindblad(h, [np.sqrt(gamma) * c for c in jumps])
         herm = (lio + lio.conj().T) / 2
-        in_pauli = basis.conj().T @ herm @ basis
-        return np.max(np.abs(in_pauli - np.diag(np.diag(in_pauli))))
+        return off_diagonal(frame.conj().T @ herm @ frame), lio
 
-    local_sum = [(site_op(k, X, n) + site_op(k, Z, n)) / np.sqrt(2) for k in range(n)]
     two_site = [site_op(k, Z, n) @ site_op(k + 1, Z, n) for k in range(n - 1)]
     local_z = [site_op(k, Z, n) for k in range(n)]
-
-    off_local_sum, off_two_site, off_local_z = (
-        off_diagonal(local_sum), off_diagonal(two_site), off_diagonal(local_z))
-    assert abs(off_local_sum - 0.05) < 1e-9, off_local_sum
+    off_two_site, _ = herm_off(two_site)
+    off_local_z, _ = herm_off(local_z)
     assert off_two_site < 1e-12, off_two_site
     assert off_local_z < 1e-12, off_local_z
-    print(f"  local (X+Z)/sqrt2, a PRODUCT channel: off-diagonal {off_local_sum:.4f} -> breaks")
-    print(f"  Z_k Z_k+1, a CORRELATED channel:      off-diagonal {off_two_site:.1e} -> holds")
-    print(f"  local Z_k (baseline):                 off-diagonal {off_local_z:.1e} -> holds")
-    print()
+    print(f"  Z_k Z_k+1, a CORRELATED channel: Pauli-basis off-diagonal {off_two_site:.1e} -> diagonal")
+    print(f"  local Z_k (baseline):            Pauli-basis off-diagonal {off_local_z:.1e} -> diagonal")
+
+    tilted = (X + Z) / np.sqrt(2)
+    local_sum = [site_op(k, tilted, n) for k in range(n)]
+    off_local_sum, lio = herm_off(local_sum)
+    assert abs(off_local_sum - 0.05) < 1e-9, off_local_sum
+    print(f"  local (X+Z)/sqrt2: computational Pauli-basis off-diagonal {off_local_sum:.4f}")
+
+    turn = np.cos(np.pi / 8) * I2 - 1j * np.sin(np.pi / 8) * Y   # R_y(pi/4): Z -> (X+Z)/sqrt2
+    rotated = [turn @ p @ turn.conj().T for p in (I2, X, Y, Z)]
+    assert np.allclose(rotated[3], tilted)
+    rot_basis, rot_weights = pauli_basis_and_light(n, rotated)
+    herm = (lio + lio.conj().T) / 2
+    rot_off = off_diagonal(rot_basis.conj().T @ herm @ rot_basis)
+    assert rot_off < 1e-12, rot_off
+    eigvals, eigvecs = np.linalg.eig(lio)
+    coeffs = np.abs(rot_basis.conj().T @ eigvecs) ** 2
+    coeffs /= coeffs.sum(axis=0)
+    err = np.max(np.abs(eigvals.real + 2 * gamma * (rot_weights @ coeffs)))
+    assert err < 1e-12, err
+    print(f"  in the frame turned 45 degrees about y: off-diagonal {rot_off:.1e}, and")
+    print(f"  Re lambda = -2*gamma*<n_XY> in the rotated letters: max error {err:.1e}\n")
 
 
-def check_collective_dephasing_breaks_the_reading():
-    """L = sum_k Z_k is pure dephasing, population-preserving, and still breaks it."""
-    print("Collective dephasing: pure, Z-only, and outside the fence")
+def check_the_hermitian_part_decides_not_the_jumps():
+    """Jumps that are Pauli strings are sufficient for the reading, not necessary.
+
+    sqrt(a)(Z0 + iZ1) and sqrt(b)(Z0 - iZ1), a != b: their Kossakowski matrix on {Z0, Z1} has the
+    off-diagonal -+i(a - b), so no Pauli-string jump set produces this dissipator, yet the term it adds
+    beyond Z-dephasing is anti-Hermitian: Herm(L_D) is local Z-dephasing at rate a + b.
+    """
+    print("Pauli-string jumps are sufficient, not necessary")
+    n, gamma = 3, CANONICAL_GAMMA
+    a, b = 0.035, 0.015   # a + b = gamma, so the target reading is the uniform one
+    h = heisenberg(n, CANONICAL_J)
+    z0, z1, z2 = (site_op(k, Z, n) for k in range(3))
+    lio = lindblad(h, [np.sqrt(a) * (z0 + 1j * z1), np.sqrt(b) * (z0 - 1j * z1), np.sqrt(gamma) * z2])
+    standard = lindblad(h, [np.sqrt(a + b) * z0, np.sqrt(a + b) * z1, np.sqrt(gamma) * z2])
+
+    kossakowski = sum(np.outer(v, v.conj()) for v in (np.sqrt(a) * np.array([1, 1j]),
+                                                      np.sqrt(b) * np.array([1, -1j])))
+    assert abs(abs(kossakowski[0, 1]) - abs(a - b)) < 1e-15, kossakowski
+    print(f"  Kossakowski off-diagonal on {{Z0, Z1}}: {abs(kossakowski[0, 1]):.3f} = |a - b| (not diagonal)")
+
+    extra = lio - standard
+    herm_gap = np.max(np.abs((lio + lio.conj().T) / 2 - (standard + standard.conj().T) / 2))
+    assert abs(np.max(np.abs(extra)) - 2 * abs(a - b)) < 1e-12, np.max(np.abs(extra))
+    assert herm_gap < 1e-12, herm_gap
+    print(f"  max |L - L_Z-dephasing| = {np.max(np.abs(extra)):.4f} = 2|a - b|, an anti-Hermitian difference:")
+    print(f"  max |Herm(L) - Herm(L_Z-dephasing)| = {herm_gap:.1e}")
+
+    basis, weights = pauli_basis_and_light(n)
+    herm = (lio + lio.conj().T) / 2
+    off = off_diagonal(basis.conj().T @ herm @ basis)
+    assert off < 1e-12, off
+    eigvals, eigvecs = np.linalg.eig(lio)
+    coeffs = np.abs(basis.conj().T @ eigvecs) ** 2
+    coeffs /= coeffs.sum(axis=0)
+    err = np.max(np.abs(eigvals.real + 2 * gamma * (weights @ coeffs)))
+    assert err < 1e-12, err
+    print(f"  Pauli-basis off-diagonal {off:.1e}; Re lambda = -2*gamma*<n_XY>: max error {err:.1e}\n")
+
+
+def check_collective_dephasing_reads_in_the_coherence_basis():
+    """L = sum_k Z_k leaves the Pauli diagonal; its reading moves to the coherence basis.
+
+    The jump is diagonal in the computational basis, so |A><B| pays gamma*(s_A - s_B)^2/2 with
+    s = N - 2*popcount, i.e. 2*gamma*(popcount A - popcount B)^2.
+    """
+    print("Collective dephasing: off the Pauli diagonal, read in the coherence basis")
     n, gamma, dim = 3, CANONICAL_GAMMA, 8
     rng = np.random.default_rng(5)
     a = rng.standard_normal((dim, dim)) + 1j * rng.standard_normal((dim, dim))
     h = (a + a.conj().T) / 2
     collective = sum(site_op(k, Z, n) for k in range(n))
-
-    lio = -1j * (np.kron(h, np.eye(dim)) - np.kron(np.eye(dim), h.T))
-    lio = lio + gamma * (np.kron(collective, collective.T)
-                         - 0.5 * np.kron(collective @ collective, np.eye(dim))
-                         - 0.5 * np.kron(np.eye(dim), (collective @ collective).T))
-
-    basis, weights = [], []
-    for combo in itertools.product([I2, X, Y, Z], repeat=n):
-        mat = np.array([[1]], dtype=complex)
-        for pauli in combo:
-            mat = np.kron(mat, pauli)
-        basis.append(mat.reshape(-1) / np.sqrt(dim))
-        weights.append(sum(1 for p in combo if p is X or p is Y))
-    basis, weights = np.array(basis).T, np.array(weights)
-
+    lio = lindblad(h, [np.sqrt(gamma) * collective])
     herm = (lio + lio.conj().T) / 2
-    in_pauli = basis.conj().T @ herm @ basis
-    off = np.max(np.abs(in_pauli - np.diag(np.diag(in_pauli))))
+
+    basis, weights = pauli_basis_and_light(n)
+    off = off_diagonal(basis.conj().T @ herm @ basis)
     assert abs(off - 0.2) < 1e-9, off
-    print(f"  max off-diagonal of Herm(L) in the Pauli basis = {off:.4f} (not diagonal)")
+    print(f"  max off-diagonal of Herm(L) in the Pauli basis = {off:.4f}")
+
+    pop = np.array([bin(x).count("1") for x in range(dim)])
+    dpop2 = np.array([(pop[x // dim] - pop[x % dim]) ** 2 for x in range(dim * dim)], dtype=float)
+    coh_off = off_diagonal(herm)
+    diag_err = np.max(np.abs(np.diag(herm).real + 2 * gamma * dpop2))
+    assert coh_off < 1e-12 and diag_err < 1e-12, (coh_off, diag_err)
+    print(f"  in the coherence basis: off-diagonal {coh_off:.1e}, diagonal -2*gamma*(dpopcount)^2 to {diag_err:.1e}")
 
     eigvals, eigvecs = np.linalg.eig(lio)
-    coeffs = np.abs(np.linalg.solve(basis, eigvecs)) ** 2
+    p = np.abs(eigvecs) ** 2
+    p /= p.sum(axis=0)
+    err = np.max(np.abs(eigvals.real + 2 * gamma * (dpop2 @ p)))
+    assert err < 1e-12, err
+    coeffs = np.abs(basis.conj().T @ eigvecs) ** 2
     coeffs /= coeffs.sum(axis=0)
     miss = np.max(np.abs(eigvals.real + 2 * gamma * (weights @ coeffs)))
     assert miss > 1e-2, miss
-    print(f"  max |Re lambda + 2*gamma*<n_XY>| = {miss:.4f}: the reading fails\n")
+    print(f"  Re lambda = -2*gamma*<(dpopcount)^2>: max error {err:.1e}; the n_XY reading misses by {miss:.4f}\n")
+
+
+def check_amplitude_damping_reads_per_site_costs():
+    """A local dissipator is diagonal in the product of its per-site eigenbases.
+
+    For sigma^- alone the per-site Hermitian eigenvalues are (-1 +- sqrt2)*gamma_T1/2 and -gamma_T1/2
+    twice, one of them positive: signed values, not costs.
+    """
+    print("Amplitude damping: per-site Hermitian eigenvalues in the product eigenbasis")
+    n, gamma, gamma_t1 = 3, CANONICAL_GAMMA, 0.02
+    lowering = np.array([[0, 1], [0, 0]], dtype=complex)
+
+    def site_herm(jumps):
+        lio = lindblad(np.zeros((2, 2), dtype=complex), jumps)
+        return (lio + lio.conj().T) / 2
+
+    costs_t1 = np.sort(np.linalg.eigvalsh(site_herm([np.sqrt(gamma_t1) * lowering]))) / gamma_t1
+    expected = np.sort([(-1 - np.sqrt(2)) / 2, -0.5, -0.5, (-1 + np.sqrt(2)) / 2])
+    assert np.max(np.abs(costs_t1 - expected)) < 1e-12, costs_t1
+    print("  sigma^- alone, per-site Hermitian eigenvalues / gamma_T1 (one positive): " + ", ".join(f"{c:+.4f}" for c in costs_t1))
+
+    cost, vecs = np.linalg.eigh(site_herm([np.sqrt(gamma) * Z, np.sqrt(gamma_t1) * lowering]))
+    columns, summed = [], []
+    for idx in itertools.product(range(4), repeat=n):
+        mat = np.array([[1]], dtype=complex)
+        for i in idx:
+            mat = np.kron(mat, vecs[:, i].reshape(2, 2))
+        columns.append(mat.reshape(-1))
+        summed.append(sum(cost[i] for i in idx))
+    product_basis, summed = np.array(columns).T, np.array(summed)
+
+    lio = liouvillian(n, CANONICAL_J, gamma)
+    for k in range(n):
+        lio = lio + lindblad(np.zeros((2 ** n, 2 ** n), dtype=complex),
+                             [np.sqrt(gamma_t1) * site_op(k, lowering, n)])
+    herm = (lio + lio.conj().T) / 2
+    off = off_diagonal(product_basis.conj().T @ herm @ product_basis)
+    assert off < 1e-12, off
+    eigvals, eigvecs = np.linalg.eig(lio)
+    coeffs = np.abs(product_basis.conj().T @ eigvecs) ** 2
+    coeffs /= coeffs.sum(axis=0)
+    err = np.max(np.abs(eigvals.real - summed @ coeffs))
+    assert err < 1e-12, err
+    print(f"  with Z-dephasing (gamma_T1 = {gamma_t1}): product-basis off-diagonal {off:.1e},")
+    print(f"  Re lambda = weighted mean of the summed per-site Hermitian eigenvalues: max error {err:.1e}\n")
 
 
 def check_topology_dependence_starts_at_n3():
@@ -777,8 +894,10 @@ if __name__ == "__main__":
     check_per_coherence_rate_needs_an_eigenmode()
     check_depolarizing_stays_diagonal()
     check_identity_is_bendixson()
-    check_the_fence_is_one_string_not_locality()
-    check_collective_dephasing_breaks_the_reading()
+    check_the_pauli_diagonal_decides_not_locality()
+    check_the_hermitian_part_decides_not_the_jumps()
+    check_collective_dephasing_reads_in_the_coherence_basis()
+    check_amplitude_damping_reads_per_site_costs()
     check_section4_needs_the_number_conserving_family()
     check_topology_dependence_starts_at_n3()
     print("All regime checks passed.")

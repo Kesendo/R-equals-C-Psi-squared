@@ -388,12 +388,18 @@ this theorem with the palindromic weight swap (⟨n_XY⟩_fast + ⟨n_XY⟩_slow
 Ising, XXZ, DM, transverse/Y fields, magnetic flux, L_H is anti-Hermitian for
 *every* Hermitian H, since Step 1 needs only H^T = H*); Z-dephasing; any graph;
 any N; non-uniform γ_k per site (replace 2γ with 2Σ_k γ_k × \[σ_k ∈ {X,Y}\]).
-**Breaks for:** non-dephasing dissipators (amplitude damping T1, depolarizing),
-which add a non-diagonal part to L_D and shift the rate (see F82, F84). The
-sum rule's *form* is what breaks, not the pairing itself: under T1 alone the
-spectrum stays palindromic about a halved centre ([F137](#f137)). No
-Hamiltonian, real or complex, breaks it; the genuine boundary is the dissipator
-(caveat closed 2026-05-28, bit-exact against a random complex Hermitian H).
+**Breaks for:** dissipators whose Hermitian part is not diagonal in the Pauli
+basis. That diagonal is all the reading needs: jumps that are single Pauli
+strings give it, and then dephasing along X or Y and depolarizing only rename
+the count (n_YZ or n_XZ; Re λ = −4γ⟨n_nonI⟩ for depolarizing), but other jump
+sets can give it too ([PROOF_ABSORPTION_THEOREM](proofs/PROOF_ABSORPTION_THEOREM.md) §2).
+Amplitude damping (T1, the jump σ⁻) adds a non-diagonal part to Herm(L_D) and
+shifts the rate (see F82, F84); the sum rule's *form* is what breaks, not the
+pairing itself: under T1 alone the spectrum stays palindromic about a halved
+centre ([F137](#f137)). Collective dephasing through the one jump Σ_k Z_k leaves
+the Pauli diagonal as well. The Rayleigh identity Re λ = v†Herm(L)v/‖v‖² holds in
+every case. No Hamiltonian, real or complex, breaks the theorem (Step 1 of the
+proof); the boundary is the dissipator.
 **Replaces:** nothing computationally, since <n_XY> is read off the eigenvector; what it replaces is the separate derivation of the palindromic sum rule and
 unpaired mode rate identification. It does NOT replace the spectral gap
 derivation: see D6, the gap needs a lower bound on <n_XY> that the theorem

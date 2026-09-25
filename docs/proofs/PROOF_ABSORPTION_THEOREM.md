@@ -1,8 +1,8 @@
 # The Absorption Theorem
 
-**Status:** Tier 1 derived (analytical proof + per-mode numerical verification at N=2..5, 1,342 modes, ratio 1.000000, CV=0).
+**Status:** Tier 1 derived (analytical proof + per-mode numerical verification at N=2..5, 1,342 modes, ratio 1.000000 to six decimals, CV 0.0000 to four).
 **Date:** 2026-04-04 (discovery + proof same day)
-**Last refreshed:** 2026-07-19 (the change history lives in git)
+**Last refreshed:** 2026-09-25 (the change history lives in git)
 **Authors:** Thomas Wicht, Claude (Anthropic, Opus 4.6)
 **Statement:** `Re(λ) = −2γ ⟨n_XY⟩` for any Lindblad eigenmode under uniform Z-dephasing
 **Typed claim:** [`AbsorptionTheoremClaim.cs`](../../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs) (Tier 1 derived)
@@ -66,17 +66,18 @@ the dose that rests on it (F55) are *relocated* by the theorem rather
 than derived from it, and both carry a coupling-regime condition
 (§4.3). The typed
 [`AbsorptionTheoremClaim`](../../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs)
-holds its own list, which is maintained by hand and does not match this one in
-either direction. The live typed edges run the other way: fourteen or more claims,
-`StructuralCeilingClaim` and `ClockHandLadderClaim` among them, inject the
-absorption claim as a parent.
+keeps its own list, `FNumberedDirectChildren`, of the F-numbers its direct
+typed children name themselves by (§3 says how it is drawn), and `knowledge descendants
+AbsorptionTheoremClaim` walks all of its children. The two lists differ in both
+directions, because a typed edge records which claim builds on the theorem and
+this list the results the theorem unifies.
 
 ### Status
 
 | Component | Status | Source |
 |-----------|--------|--------|
 | Analytical proof | **Proven** | This document, §2, Steps 1-3 |
-| Numerical verification | **Verified** (N=2-5, 1,342 modes, CV=0) | [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) |
+| Numerical verification | **Verified** (N=2-5, 1,342 modes, ratio 1.000000 to six decimals, CV 0.0000 to four) | [Absorption Theorem Discovery](../../experiments/ABSORPTION_THEOREM_DISCOVERY.md) |
 | Consequence 1: Spectral boundaries | **Derived** | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) F3 |
 | Consequence 2: Palindromic sum rule | **Derived** | This document, §4.2 |
 | Consequence 3: Spectral gap | **Not derived** (§4.3: 2γ only above an N-dependent Q*_gap) | [Analytical Formulas](../ANALYTICAL_FORMULAS.md) D6 |
@@ -302,40 +303,49 @@ verified to 1.9·10⁻¹⁵ even under amplitude damping, where the theorem's ra
 formula misses by 0.06. All the content sits in Step 2, which says that for
 Z-dephasing Herm(L) is *diagonal in the Pauli basis with entries −2γ·n_XY*.
 
-So the boundary is not about which channels the identity covers, it is about
-which channels give that diagonal a name. It keeps one whenever the jump
-operators are proportional to Pauli strings, because then every conjugation
-L_k ρ L_k† sends a Pauli string to ± itself:
+So the boundary is not about which channels the identity covers; it is about
+which channels give that diagonal a name. The Pauli reading, Re λ as the
+weight-averaged cost of the Pauli strings in the mode, is an identity for every
+H exactly when Herm(L_D) is diagonal in the Pauli basis: only Herm(L) enters Re λ, and an
+anti-Hermitian part of L_D drops out of it as L_H does. Jumps each proportional
+to a Pauli string are one sufficient way to get that. Each conjugation
+L_k ρ L_k† then sends a Pauli string to ± itself, and a jump at rate γ_k costs a
+string nothing when the two commute and 2γ_k when they anticommute:
 
 - **Z-dephasing**: Re(λ) = −2γ⟨n_XY⟩, this document.
 - **X- or Y-dephasing**: the same statement with n_YZ resp. n_XZ (the
   dephase-letter rotation below).
-- **Depolarizing** (X, Y, Z jumps at rate γ each per site): still exactly
-  diagonal, and Re(λ) = −4γ⟨n_nonI⟩, where n_nonI counts the non-identity
-  letters. The light/lens split collapses to identity versus everything.
+- **Depolarizing** (X, Y, Z jumps at rate γ each per site): Re(λ) =
+  −4γ⟨n_nonI⟩, where n_nonI counts the non-identity letters. The light/lens
+  split collapses to identity versus everything.
+- **Two-site jumps Z_k Z_{k+1}**: the same form, with the count running over
+  bonds instead of sites; locality is not the condition.
 
-Two channels are where the naming stops, and only one of them is obvious.
+They are not a necessary one. The correlated jumps √a(Z₀ + iZ₁) and
+√b(Z₀ − iZ₁), a ≠ b, come from no Pauli-string jump set: their Kossakowski
+matrix on {Z₀, Z₁} has the off-diagonal entries ∓i(a − b), and the dissipator
+fixes that matrix. The term they add beyond Z-dephasing,
+i(b − a)(Z₀ρZ₁ − Z₁ρZ₀), is anti-Hermitian, so Herm(L_D) is local Z-dephasing
+at rate a + b and every eigenmode obeys the theorem, although L itself differs
+from the Z-dephasing Liouvillian. A jump set is fixed only up to unitary mixing
+as well: the pair (Z₀ ± Z₁)/√2 produces exactly the dissipator of Z₀ and Z₁.
 
-**Amplitude damping**: σ⁻ is not a multiple of a Pauli string, so Herm(L) gains
-a non-diagonal part in this basis and eigenmodes mix excitation sectors.  That
-correction is F82/F84 above.
-
-**Any jump operator that is a SUM of Pauli strings**, collective dephasing
-L = Σ_k Z_k being the case worth naming. It passes every informal description of
-"the channel this theorem covers": pure dephasing, built from Z alone, moving no
-population. But the cross terms Z_j ρ Z_k survive, so Herm(L) is not diagonal in
-the Pauli basis (largest off-diagonal 0.2 at N=3, γ=0.05) and the reading fails.
-
-The fence is therefore *one Pauli string per jump operator*, and it is not the
-same as locality. Two measurements at N=3, γ=0.05, J=0.075 make the point from
-both sides. A strictly local, uncorrelated channel with jumps (X_k + Z_k)/√2
-**breaks** it (off-diagonal 0.05): each jump is a sum on its own site. A
-genuinely two-site channel with jumps Z_k Z_{k+1} **keeps** Herm(L) exactly
-diagonal (off-diagonal 0.0) and obeys a theorem of the same form, with the count
-running over bonds instead of sites. Correlated is fine; a sum is not.
-
-In both cases the Rayleigh identity is untouched; what is lost is the
-closed-form reading of its value.
+Where Herm(L_D) is not diagonal in the Pauli basis, the Rayleigh identity still
+holds and only the Pauli reading goes; the rate is then a weighted average in
+whichever basis diagonalizes Herm(L_D). Collective dephasing through the one
+jump Σ_k Z_k (pure dephasing, built from Z alone, moving no population; Pauli
+off-diagonal 0.2 at N=3, γ=0.05) is diagonal in the coherence basis, where
+|A⟩⟨B| pays 2γ·(popcount A − popcount B)² and Re λ = −2γ⟨(Δpopcount)²⟩. The
+Hermitian part of a local dissipator such as amplitude damping is diagonal in
+the product of its per-site eigenbases, and Re λ is the weighted mean of each product element's summed
+per-site Hermitian eigenvalues, which for σ⁻ alone are (−1 ± √2)γ_T1/2 and −γ_T1/2 twice, one of them
+positive, (√2 − 1)γ_T1/2 ≈ +0.207γ_T1, so they are signed values rather than costs; its
+eigenmodes mix excitation sectors, the correction F82/F84 above. Jumps
+(X_k + Z_k)/√2 leave the computational Pauli diagonal (off-diagonal 0.05) but are
+the Pauli Z of the frame turned 45° about y, where the theorem holds with the
+light counted in the rotated letters. Each of these cases, and the correlated
+jumps above, is checked in
+[`simulations/absorption_ladder_regimes.py`](../../simulations/absorption_ladder_regimes.py).
 
 ### Extensions
 
@@ -361,7 +371,18 @@ is the question whether the slow subspace's light profile light_l is frozen
 or redistributed as the coupling ratio Q = J/γ₀ moves, and the rate moves
 *only* through this weighted share. The typed carrier-is-a-vector node on
 [`AbsorptionTheoremClaim`](../../compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs)
-states it; this section proves it.
+states it and computes it (`PerSiteLightProfile`, `PerSiteEigenmodeDecayRate`);
+this section proves it. The machine check is
+[`AbsorptionTheoremClaimTests`](../../compute/RCPsiSquared.Core.Tests/Symmetry/AbsorptionTheoremClaimTests.cs):
+for a random complex Hermitian H and a γ profile that is neither uniform nor
+palindromic it checks, entry by entry and exactly, that Herm(L) is the diagonal
+−2 Σ_l γ_l Δ_l(x) (at N = 3 on a profile whose sum depends on the order of
+addition, so the exact comparison would see a reordering), and it holds the
+per-site law on every eigenvector at N = 2 and 3 within the eigensolver's
+backward error: the deviation stays in one band around eps·‖L‖_F, each series
+within a factor 16 of itself, while the coupling runs over six decades, and the
+uniform formula and the reversed site order both land more than six orders of
+magnitude above that band.
 
 **Corollary (the two-sided reading).** A left eigenvector w (w†L = λw†)
 satisfies w†Lw = λ‖w‖², and the identical decomposition applies: the real
@@ -369,7 +390,8 @@ part reads the light of w. Hence **left and right eigenvectors of the same
 eigenvalue carry the same weighted light**, both equal to −Re(λ)/2 in
 γ-weighted units, even though v and w are different vectors of a non-normal
 L. The light content is two-sided; biorthogonal bookkeeping cannot disagree
-with itself about absorption.
+with itself about absorption. The same test gates it, reading the left
+eigenvectors as the eigenvectors of L†.
 
 **Corollary (the projector form, degeneracy-safe).** For a degenerate cluster
 {λ_k} with right vectors M_k and biorthogonal left covectors W_k, the spectral
@@ -432,21 +454,25 @@ The theorem was verified computationally in
 | J (coupling strength) | 0.1, 0.5, 1.0, 2.0, 5.0 | 1.000000 | 0.0000 |
 | Total modes tested | 1,342 | 1.000000 | 0.0000 |
 
-The ratio equals 1 to 14 decimal places across all parameters.
-No exceptions. Zero coefficient of variation.
+The ratio equals 1 to the six decimals the producer prints, with a coefficient
+of variation of 0.0000 to its four, in the N, γ and J rows; no exceptions (the
+total row pools the N rows, which the producer prints per N). The
+fourteen-digit agreement on record is a separate check: over all 1,024 modes of
+the N=5 Heisenberg chain the largest deviation of Re λ from −2γ⟨n_XY⟩ is
+2.4·10⁻¹⁴ ([`simulations/path_d_bell_pair_absorption.py`](../../simulations/path_d_bell_pair_absorption.py),
+recorded in [Cockpit Scaling](../../experiments/COCKPIT_SCALING.md) §11).
 
 The 1,342 are the modes on which the ratio is defined: 4²+4³+4⁴+4⁵ = 1,360
 minus the 18 = Σ(N+1) kernel modes, where α/(2γ⟨n_XY⟩) is 0/0. The kernel is
 not an exception to the theorem, it is the ⟨n_XY⟩ = 0 end of it.
 
 **Source:** [`simulations/absorption_theorem_discovery.py`](../../simulations/absorption_theorem_discovery.py).
-The N and γ rows are per-mode (Step 6); the J row is the median of the
-per-*pair* ratio across the five J values (Step 4).
+The N and γ rows are per-mode (Step 6); the J row is the mean over the five J
+values of each J's median per-*pair* ratio (Step 4).
 
-**Hardware confirmation, and what it does not reach.** Single-qubit tomography
-on IBM Torino Q52 (25 time snapshots, 0-895 μs) reproduced the theorem at 3%
-deviation under the free-evolution T2* baseline: absorption ratio excess/(2γ) =
-1.03, with γ* fitted from the coherence envelope. The echo-refocused γ_echo
+**The Torino reading, and what it does not reach.** Single-qubit tomography on
+IBM Torino Q52 (25 time snapshots, 0-895 μs) reads excess/(2γ*) = 1.03 on the
+free-evolution T2* baseline, with γ* fitted from the coherence envelope. The echo-refocused γ_echo
 is 6.2× smaller than the free-evolution fit. Hahn-echo filtering is a
 plausible explanation, but these fits do not isolate a 1/f-noise mechanism;
 the free-evolution baseline is the like-for-like rate for this tomography. See
@@ -454,11 +480,37 @@ the free-evolution baseline is the like-for-like rate for this tomography. See
 
 The scope of that number is narrow, and worth stating so nobody reads it as
 more. At N=1 with n_XY = 1 the theorem says the coherence decays at 2γ, while γ*
-is itself extracted from that same coherence envelope, so the 1.03 measures the
-consistency of two fits to one decay, not the ladder. The content of the theorem
-is the *spacing*: a Hamming-2 coherence must decay at exactly twice the rate of a
-Hamming-1 coherence on the same device. That measurement needs N ≥ 2 and has not
-been made.
+is itself extracted from that same coherence envelope, so the ratio is 1 by
+construction up to the T1 each side subtracts: the excess subtracts the
+population-fit T1 (241.4 μs), 2γ* the calibration T1 (221.2 μs), and the 3% is
+that difference. The 1.03 measures the consistency of two fits to one decay, not
+the ladder.
+
+What the theorem predicts beyond one site is additivity (Theorem 2): a coherence
+that differs at sites a and b decays at the sum of its two sites' rates on the
+same device, 2(γ_a + γ_b), which is twice a single-site rate only when the site
+rates are equal (uniform γ). That needs N ≥ 2, and no registered rate ratio with
+an error bar reads it. The price-pair campaign on ibm_marrakesh (2026-07-04, four
+runs) pre-registered the additivity as its P1. Its registered verdict
+(`price_pair_locality_marrakesh_july2026`, in both Confirmations registries) is
+that the dephasing covariances were local in the clean run-3 session, the premise
+the additivity follows from under the local-channel model; the direct rate test
+P1 was masked on the product-state singles by a coherent nearest-neighbour ZZ
+([Price Pair](../../experiments/PRICE_PAIR_HARDWARE_PREDICTION.md)). So the
+premise has a registered reading and the rate law itself does not. The staircase
+null test on ibm_marrakesh (2026-07-26, two flights) tested the other half of
+Theorem 2, that a site where bra and ket agree adds no dephasing cost, together
+with Δ(11) = Δ(10) + Δ(01), the additivity of two spectators' relaxation
+contributions to a rate difference, not a coherence that differs at two sites.
+Both flights returned B-BLOCK-INVALID (the in-situ T1 reference failed bracket
+consistency in the first; in the second the residual condition on the far
+spectator failed, which the audit traces to a mid-batch T1 excursion), so by its
+frozen truth table that claim is neither confirmed nor falsified, the spectator
+additivity holding both times
+([Staircase Null-Test](../../experiments/STAIRCASE_NULLTEST_HARDWARE_PREDICTION.md)).
+A draft pre-registration for a clean reading of the rate law exists, unfrozen
+and with nothing in it registered
+([the absorption rung ladder](../../experiments/ABSORPTION_RUNG_LADDER_HARDWARE_PREDICTION.md)).
 
 **The regime map.** Where each corollary of §4 holds, and where it stops, is a
 separate question from the identity itself, and every number §4 quotes about it
@@ -467,15 +519,26 @@ is asserted in
 the N=3 ladder with multiplicities, the J-dependence of the two fractional
 rates, the two gap regimes, the palindromic band erosion at N=5, the kernel
 dimension against the {I,Z} sector size, the per-coherence residuals, and the
-depolarizing channel. Run it to reproduce §4 from scratch.
+depolarizing channel. Run it to reproduce §4 from scratch; it also checks the
+boundary cases of §2.
 
 **C# test-gating.** The per-mode identity is asserted in the typed compute
 layer:
 [`F8PartnerLightComplementarityTests`](../../compute/RCPsiSquared.Diagnostics.Tests/Ptf/F8PartnerLightComplementarityTests.cs)
 checks |Re λ + 2γ·light(v)| < 10⁻⁹ for all 256 eigenmodes of the N=4 XY chain,
 the complete palindrome pairing with light_s + light_f = N per pair (128 pairs),
-and the standing-wave null. That test covers the right-eigenvector reading; the
-two-sided reading of Section 2 is not yet gated anywhere.
+and the standing-wave null. That test covers the right-eigenvector reading at
+uniform γ. Theorem 2 and the two-sided reading are gated in
+[`AbsorptionTheoremClaimTests`](../../compute/RCPsiSquared.Core.Tests/Symmetry/AbsorptionTheoremClaimTests.cs)
+(N = 2 and 3, a random complex Hermitian H, a non-uniform γ, every right and
+left eigenvector), beside the exact entry-wise check that Herm(L) is the per-site
+dissipator diagonal. The typed claim's `FNumberedDirectChildren` is drawn by a
+mechanical rule: the F-numbers its direct children in the default registry name
+themselves by, a class name or Name opening with the number or the title of a
+Name (the text before its first colon) closing with it in parentheses.
+`AbsorptionTheoremClaimRegistrationTests` applies the rule to every direct child,
+checks that each number has its entry in the formula registry, and asserts
+equality with the list.
 
 ---
 
@@ -591,8 +654,9 @@ N=4 and 1.1861 at N=5, all below the canonical Q = 1.5, and the XY band at N=5,
 Q = 1.5 is exactly [2γ, 8γ] with no erosion at all. So §4.1's erosion is a fact
 about the ZZ term, not about reaching N=5: on Heisenberg the canonical regime
 sits above threshold at N=3 and N=4 and below it at N=5, while on XY it stays
-above throughout. Note also that §3's C# gate runs the XY chain while §4's
-regime numbers are Heisenberg.
+above throughout. Note also that of §3's two C# gates the F8 test runs the XY
+chain and the per-site test a random complex H, while §4's regime numbers are
+Heisenberg.
 
 As J/γ → 0 the gap follows a different law. The {I,Z} strings that H lifts out
 of the J=0 kernel acquire light only perturbatively, ⟨n_XY⟩ ~ (J/γ)², and
@@ -942,9 +1006,11 @@ shifts to its average: ⟨n_XY⟩, which can now take any real value in [0, N].
 But the rungs themselves stay where they are: 2γ is a property of the
 dissipator, and no Hamiltonian moves it.
 
-What a Hamiltonian *can* do is decide which rungs get occupied. Within the
-number-conserving family the endpoints 0 and 2Nγ are always reached, so the
-ladder is spanned end to end; outside it they need not be (§4's scope note).
+What a Hamiltonian *can* do is decide which rungs get occupied. Rate 0 is
+reached by every Hamiltonian, because the identity is a fixed point of every
+Liouvillian of this form (−i[H, I] = 0, and Z-dephasing is unital). The top
+end 2Nγ is reached within the number-conserving family, so there the ladder is
+spanned end to end; outside it the top need not be (§4's scope note).
 The quantum 2γ is universal; the occupancy of the ladder is the Hamiltonian's
 business.
 
