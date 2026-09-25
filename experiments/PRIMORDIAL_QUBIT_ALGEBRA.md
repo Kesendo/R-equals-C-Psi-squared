@@ -614,7 +614,7 @@ term is only 1.83% of ||L_c²||. This is because the violations from
 sum=2 and sum=4 partially cancel (opposite signs of the correction
 factor w_a + w_b - N).
 
-#### The cross term is γ-independent
+#### The relative orthogonality is γ-independent
 
 The relative orthogonality ||{L_H, L_Dc}|| / (||L_H||·||L_Dc||) is
 constant across all γ values at N=3:
@@ -700,7 +700,7 @@ The Urqubit (N=2, single bond) is special:
 
 At N=3 (the first composite system):
 
-- Orthogonality broken by ~2% (cross term γ-independent)
+- Orthogonality broken: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ
 - Mirror between modes (no mode at the boundary)
 - The two parts of time evolution begin to interfere
 - Cooling is nowhere zero; every mode feels the dissipator
@@ -729,8 +729,9 @@ The chain of results, each computed or proven:
    orthogonal. Separable. The Pythagorean decomposition holds exactly.
    (Computed, Step 9, error = 0.00e+00.)
 
-4. **At N≥3: {L_H, L_D + Σγ} ≠ 0.** The cross term is ~2% of
-   ||L_c²||, γ-independent, geometric. Oscillation and cooling are
+4. **At N≥3: {L_H, L_D + Σγ} ≠ 0.** The cross term bends the right
+   angle by 1/√48 of its two legs at N = 3, γ-independent, geometric
+   (as a share of ||L_c²|| it is 1.8% at γ = 0.05 and drifts with γ). Oscillation and cooling are
    woven together. Inseparable. (Computed, Step 10.)
 
 5. **From N≥3 back to N=2: impossible.** Tracing out a qubit from an

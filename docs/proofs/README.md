@@ -71,7 +71,7 @@ attractor, a physical interval, or a trajectory law.
 7. [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md) -
    Time reversal requires separating oscillation from cooling
    ({L_H, L_D+Σγ} = 0). This holds exactly at N=2 (single bond =
-   entire system) and fails at N > 2 (cross term ~2%, γ-independent).
+   entire system) and fails at N > 2 (cross term: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ).
    Reduction to N=2 destroys the palindrome. Algebraic, not thermodynamic.
 
 8. [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) -
@@ -148,7 +148,7 @@ synthesized.
 | Conditional stay-below implication | `ρ(t)→ρ*`, `CΨ(ρ*)<1/4` ⇒ eventually below | [Subsystem Crossing](PROOF_SUBSYSTEM_CROSSING.md) |
 | Internal noise candidates eliminated | 0; the survey constrains forms but does not determine origin | [Incompleteness](INCOMPLETENESS_PROOF.md) |
 | {L_H, L_D+Σγ} = 0 at N=2 | exact (24/24 entries) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
-| Cross term at N=3 | ~2%, γ-independent | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
+| Cross term at N=3 | 1/√48 ≈ 14% of its two legs, γ-independent (1.8% of ‖L_c²‖ at γ = 0.05) | [Time Irreversibility](TIME_IRREVERSIBILITY_EXCLUSION.md) |
 | Weight-1 degeneracy d_real(1) | 2N exactly (any connected graph) | [Weight-1 Degeneracy](PROOF_WEIGHT1_DEGENERACY.md) |
 | Direct-sum sector dimension | 2^(2N−1) each (equal halves) | [Direct-Sum](DIRECT_SUM_DECOMPOSITION.md) |
 | Odd N: Π exchanges sectors | V_even ↔ V_odd | [Direct-Sum](DIRECT_SUM_DECOMPOSITION.md) |

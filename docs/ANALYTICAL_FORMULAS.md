@@ -1616,7 +1616,7 @@ entries connect Pauli strings with w_XY(a) + w_XY(b) = N.
 The decomposition: (time evolution)² = (oscillation)² + (cooling)².
 
 **Valid for:** N=2 Heisenberg chain, Z-dephasing, any γ. Exact.
-At N≥3: cross term ~2% of ||L_c²||, γ-independent.
+At N≥3 a cross term appears: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ.
 **Replaces:** Nothing (new structural insight, not a shortcut).
 **Source:** [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md),
 [Time Irreversibility Exclusion](proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)

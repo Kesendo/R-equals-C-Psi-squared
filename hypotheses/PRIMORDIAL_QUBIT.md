@@ -357,7 +357,7 @@ Approach 1 (algebra) has been computed (April 1, 2026; extended April 15, 2026).
 - The even subalgebra ≅ M₂(C) ⊕ M₂(C), Clifford algebra Cl(2,0)
 - V_{+1} is NOT a subalgebra (Z₄ too fine)
 - {L_H, L_D + Σγ} = 0 at N=2 (Pythagorean theorem, exact)
-- Breaks at N≥3 (cross term ~2%, γ-independent)
+- Breaks at N≥3 (bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ)
 - **April 15, 2026:** [L, Π²] = 0 **proven analytically for all N** ([the bit-b parity symmetry proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md)), verified numerically at N=2-5. The C²⊗C² factors (bit a = n_XY, bit b = w_YZ-parity) are simultaneous good quantum numbers of every Liouvillian eigenmode at all N. See Section 9.
 
 Approach 2 (GNS/Tomita-Takesaki) is **ruled out**: Π is linear,

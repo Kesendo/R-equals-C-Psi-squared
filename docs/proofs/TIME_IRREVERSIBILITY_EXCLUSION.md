@@ -129,13 +129,13 @@ because the sum is even and N is odd. At even N ≥ 4, the condition fails
 for entries where spectator sites contribute w_XY that shifts the sum
 away from N.
 
-| N | Cross term / \|\|L_c²\|\| | w_XY sums | Entries with sum = N |
+| N | Cross term / \|\|L_c²\|\| at γ = 0.05 | w_XY sums | Entries with sum = N |
 |---|----------------------|-----------|---------------------|
 | 2 | **0.00%** (exact) | {2} | 24/24 (100%) |
 | 3 | **1.83%** | {2, 4} | 0/192 (0%) |
 | 4 | **2.07%** | {2, 4, 6} | 576/1152 (50%) |
 
-The cross term is γ-independent. At N=3, the relative orthogonality
+The share of ||L_c²|| drifts with γ; the relative orthogonality does not. At N=3 it
 ||{L_H, L_Dc}|| / (||L_H||·||L_Dc||) = 1/√48, following the general
 formula R(N) = √((N-2)/(N·4^(N-1))) proven in
 [Cross-Term Formula](PROOF_CROSS_TERM_FORMULA.md). The constant
