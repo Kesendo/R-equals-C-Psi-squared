@@ -9,16 +9,19 @@ using ComplexVector = MathNet.Numerics.LinearAlgebra.Vector<System.Numerics.Comp
 
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
-/// <summary>Native C# tolerance reconstruction of F94's exact Dyson constants. Builds
+/// <summary>Native C# verification of F94's bit-exact Dyson constants. Builds
 /// the Heisenberg ring + Z-dephasing apparatus from Core/Pauli + Core/ChainSystems
 /// primitives, applies the F94 sym3 expansion to ρ_0 = |0+0+⟩⟨0+0+|, partial-traces
 /// to pair (0, 2), and verifies the matrix elements against F94's asserted constants.
 ///
 /// <para>Mirrors the Python script <c>simulations/born_rule_tier1_derivation.py</c>
 /// and its enumeration sibling <c>born_rule_sym3_decomposition.py</c>, but as a
-/// self-contained C# test — no external Python dependency. The typed constants
-/// are exact integers/rationals; this MathNet route reconstructs them numerically
-/// within the asserted tolerances.</para>
+/// self-contained C# test, no external Python dependency. Every quantity on this route is
+/// dyadic (amplitudes ½, bond weights ¼, Pauli entries ±1, ±i), so each product and each partial
+/// sum is exact in binary64 in any summation order: the sym3 element is exactly 8.0 with imaginary
+/// part exactly 0.0, every surviving diagram is exactly 0.25 and every other one exactly 0.0.
+/// The asserts compare with ==, and a nonzero residual would be a finding about the
+/// construction, not rounding.</para>
 /// </summary>
 public class F94NativeDysonVerificationTests
 {
@@ -96,18 +99,17 @@ public class F94NativeDysonVerificationTests
     [Fact]
     public void NativeDerivation_Sym3PairElement_Equals_F94_Constant()
     {
-        // Numerical reconstruction of the exact element 8.
+        // ⟨00|_pair Tr_{1,3}[sym3 · ρ_0] |00⟩_pair = 8 bit-exact.
         // This is F94.Sym3PartialTraceInteger, derived natively in C#.
         var H = BuildHeisenbergRing();
         var ZSites = BuildZSites();
         var sym3Rho0 = BuildSym3RhoZero(H, ZSites);
         var reduced = PartialTrace.Of(sym3Rho0, N, new[] { 0, 2 });
 
-        double matrixElement = reduced[0, 0].Real;
-        Assert.Equal(F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger,
-            matrixElement, precision: 10);
-        Assert.True(Math.Abs(reduced[0, 0].Imaginary) < 1e-10,
-            $"Matrix element must be real; got imag = {reduced[0, 0].Imaginary}");
+        Assert.True(reduced[0, 0].Real == F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger,
+            $"sym3 element must be exactly 8; got {reduced[0, 0].Real:R}");
+        Assert.True(reduced[0, 0].Imaginary == 0.0,
+            $"sym3 element must be exactly real; got imag = {reduced[0, 0].Imaginary:R}");
     }
 
     [Fact]
@@ -120,7 +122,9 @@ public class F94NativeDysonVerificationTests
         var reduced = PartialTrace.Of(sym3Rho0, N, new[] { 0, 2 });
         double coefficient = reduced[0, 0].Real
             / F94BornDeviationFourThirdsPi2Inheritance.TaylorThreeFactorial;
-        Assert.Equal(4.0 / 3.0, coefficient, precision: 10);
+        Assert.True(coefficient == 4.0 / 3.0, $"coefficient {coefficient:R} is not 4/3 bit for bit");
+        Assert.True(coefficient == new F94BornDeviationFourThirdsPi2Inheritance().Coefficient,
+            "the native Dyson route and the typed coefficient must agree bit for bit");
     }
 
     [Fact]
@@ -129,7 +133,7 @@ public class F94NativeDysonVerificationTests
         // ⟨00|_pair Tr_{1,3}[ρ_0] |00⟩_pair = 1 (Bell+-like sites 0 and 2 are |0⟩ deterministically).
         var rho0 = DensityMatrix.FromStateVector(Build_0P0P());
         var reduced = PartialTrace.Of(rho0, N, new[] { 0, 2 });
-        Assert.Equal(1.0, reduced[0, 0].Real, precision: 12);
+        Assert.True(reduced[0, 0].Real == 1.0, $"got {reduced[0, 0].Real:R}");
     }
 
     // ────────────────────────────────────────────────────────────────────
@@ -148,7 +152,7 @@ public class F94NativeDysonVerificationTests
     }
 
     /// <summary>Evaluate the |00⟩_pair element of one (b1, b2, s, ord, c1, c2) sextuple in sym3.
-    /// Returns the real part (the imaginary part is asserted ≤ 1e-12).</summary>
+    /// Returns the real part (the imaginary part must be exactly 0.0).</summary>
     private static double EvaluateSextuple(
         ComplexMatrix rho0, IReadOnlyList<ComplexMatrix> ZSites,
         int b1, int b2, int s, int ordering, PauliLetter c1, PauliLetter c2)
@@ -166,7 +170,7 @@ public class F94NativeDysonVerificationTests
         };
         var reduced = PartialTrace.Of(x, N, new[] { 0, 2 });
         var val = reduced[0, 0];
-        if (Math.Abs(val.Imaginary) > 1e-10)
+        if (val.Imaginary != 0.0)
             throw new InvalidOperationException(
                 $"Non-real pair element at (b1={b1}, b2={b2}, s={s}, ord={ordering}, c1={c1}, c2={c2}): {val}");
         return val.Real;
@@ -179,7 +183,6 @@ public class F94NativeDysonVerificationTests
         var rho0 = DensityMatrix.FromStateVector(Build_0P0P());
         var ZSites = BuildZSites();
         var survivors = new List<SextupleResult>();
-        const double tol = 1e-10;
         for (int b1 = 0; b1 < _bonds.Length; b1++)
             for (int b2 = 0; b2 < _bonds.Length; b2++)
                 for (int s = 0; s < N; s++)
@@ -188,7 +191,7 @@ public class F94NativeDysonVerificationTests
                             foreach (var c2 in _components)
                             {
                                 double v = EvaluateSextuple(rho0, ZSites, b1, b2, s, ordering, c1, c2);
-                                if (Math.Abs(v) > tol)
+                                if (v != 0.0)
                                     survivors.Add(new SextupleResult(b1, b2, s, ordering, c1, c2, v));
                             }
         return survivors;
@@ -212,10 +215,10 @@ public class F94NativeDysonVerificationTests
         // no signs, no cancellation; 32 × (1/4) = 8.
         var survivors = EnumerateSurvivors();
         foreach (var s in survivors)
-            Assert.Equal(0.25, s.Value, precision: 10);
+            Assert.True(s.Value == 0.25, $"diagram value {s.Value:R} is not exactly 1/4");
         double total = survivors.Sum(s => s.Value);
-        Assert.Equal((double)F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger,
-            total, precision: 10);
+        Assert.True(total == F94BornDeviationFourThirdsPi2Inheritance.Sym3PartialTraceInteger,
+            $"32 × 1/4 must be exactly 8; got {total:R}");
     }
 
     [Fact]
@@ -251,5 +254,42 @@ public class F94NativeDysonVerificationTests
             Assert.True(inCellA || inCellB || inCellC,
                 $"Survivor outside the 3 F94 cells: ord={s.Ordering}, c1={s.C1}, c2={s.C2}");
         }
+    }
+
+    // ────────────────────────────────────────────────────────────────────
+    // The next order: sym4, grouped by how many L_H letters a word carries
+    // ────────────────────────────────────────────────────────────────────
+
+    /// <summary>Sum of the |00⟩_pair element over every length-4 word in {L_H, L_dis} with exactly
+    /// <paramref name="hamiltonianLetters"/> L_H letters, applied right to left to ρ_0.</summary>
+    private static Complex Sym4PairElement(int hamiltonianLetters)
+    {
+        var H = BuildHeisenbergRing();
+        var ZSites = BuildZSites();
+        var rho0 = DensityMatrix.FromStateVector(Build_0P0P());
+        var total = Complex.Zero;
+        for (int word = 0; word < 16; word++)
+        {
+            if (System.Numerics.BitOperations.PopCount((uint)word) != hamiltonianLetters) continue;
+            var x = rho0;
+            for (int letter = 0; letter < 4; letter++)
+                x = ((word >> letter) & 1) == 1 ? ApplyLH(H, x) : ApplyLDis(x, ZSites);
+            total += PartialTrace.Of(x, N, new[] { 0, 2 })[0, 0];
+        }
+        return total;
+    }
+
+    [Fact]
+    public void NativeDerivation_NextOrder_IsMinusFiveThirds_AndTheJCubedGammaTermVanishes()
+    {
+        // The J²γ² words sum to −40, so the t⁴ Born deviation is −40/4! = −(5/3)·Q²K⁴;
+        // the J³γ words sum to exactly 0, so no J³γt⁴ term exists for this setup.
+        var jSquaredGammaSquared = Sym4PairElement(hamiltonianLetters: 2);
+        var jCubedGamma = Sym4PairElement(hamiltonianLetters: 3);
+        Assert.True(jSquaredGammaSquared == new Complex(-40.0, 0.0),
+            $"J²γ² words: expected exactly −40, got {jSquaredGammaSquared}");
+        Assert.True(jCubedGamma == Complex.Zero,
+            $"J³γ words: expected exactly 0, got {jCubedGamma}");
+        Assert.True(jSquaredGammaSquared.Real / 24.0 == -5.0 / 3.0);
     }
 }

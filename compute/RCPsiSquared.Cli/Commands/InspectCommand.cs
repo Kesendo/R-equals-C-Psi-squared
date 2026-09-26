@@ -598,7 +598,7 @@ public static class InspectCommand
                 c.Parser.OptionalDouble("gamma") ?? 0.05,
                 c.Parser.OptionalDouble("J") ?? 1.0),
             RequiresN: false, HonorsOptionalN: true),
-        new("quarter-uniqueness", "UNIQUENESS_PROOF, the typed argument behind the chosen ¼ normal form. Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. In that family the Ψ^(α−2) factor vanishes only at α=2, and its fixed-point discriminant D=1−4CΨ has its zero at ¼. Sweeps α at two probe states (spread=0 only at α=2) + the discriminant across CΨ; elementary arithmetic, exact. --psi-low / --psi-high set the probe states",
+        new("quarter-uniqueness", "UNIQUENESS_PROOF, the typed argument behind the chosen ¼ normal form. Within the assumed normalized recurrence/power family, purity motivates α=2 but does not derive the recurrence; physical selection remains open. In that family the fold threshold CΨ*_α=(α−1)^(α−1)/(α^α·Ψ^(α−2)) is state-independent only at α=2, where the Ψ^(α−2) factor drops out and it equals ¼, and the α=2 fixed-point discriminant D=1−4CΨ has its zero at ¼. Sweeps α at two probe states (spread=0 only at α=2) + the discriminant across CΨ; elementary arithmetic, exact. --psi-low / --psi-high set the probe states",
             c => new QuarterBoundaryUniquenessWitness(
                 c.Parser.OptionalDouble("psi-low") ?? 0.3,
                 c.Parser.OptionalDouble("psi-high") ?? 0.7),
@@ -686,7 +686,7 @@ public static class InspectCommand
             _ => new SecondClockRegimeWitness(), RequiresN: false),
         new("starseam", "the star's frozen seam: the longest-lived coherence never un-freezes (N≥5) — its survivor is the [H,A]=0 commutant (1,1) coherence, frozen by construction, the survivor iff g2=4/(N−1)≤1; N=4 (4/3>1) un-freezes (the (2,2)/K₄ outlier). The third member of chain(SE-EP)/ring(frozen crossing)/star(frozen commutant): the structural ceiling read dynamically",
             _ => new StarFrozenSeamWitness(), RequiresN: false),
-        new("niven", "the Niven root: for the uniform open XX chain with one dephased endpoint, a_k = (4/(N+1))·sin²(kπ/(N+1)), α_k^full = γ₀·a_k + O(γ₀³/J²), and α_k^full/γ₀ = a_k + O((γ₀/J)²); exact Niven rationality belongs to F65's first-order coefficient comb — exact Niven rationality belongs to the first-order coefficient comb alone. At finite γ₀/J the relative full-L rate shift is O((γ₀/J)²), equivalently the absolute shift δα_k = O(γ₀³/J²), so no exact finite-γ₀/J full-L rationality is claimed. N=4 remains the first golden on the two SE faces (band edge = φ); the arithmetic root of the small-N specials",
+        new("niven", "the Niven root: Niven's theorem on the SE angles 2π/(N+1) and π/(N+1) is the number-theoretic ceiling on the spectrum's closed forms. For the uniform open XX chain with one dephased endpoint the exact Niven rationality belongs to F65's first-order coefficient comb a_k = (4/(N+1))·sin²(kπ/(N+1)): α_k^full = γ₀·a_k + O(γ₀³/J²), so α_k^full/γ₀ = a_k + O((γ₀/J)²) and no exact finite-γ₀/J full-L rationality is claimed. N=4 is the first golden on the two SE faces (band edge = φ); the arithmetic root of the small-N specials",
             _ => new NivenRationalityRootWitness(), RequiresN: false),
         new("transition", "F124 the band-edge transition invariant: the full bond-transition matrix M[b,k]=⟨ψ_k|V_b|ψ_1⟩ (all N modes) has ‖M‖_F² + λ_min(MMᵀ) = z = 2 exactly (‖M‖_F²=2−E, λ_min=E=(4/(N+1))sin²(π/(N+1))). The real content λ_min=E is the Dirichlet-edge coupling (an SSH/Peierls edge effect); frame reading λ_min=σ_min²=the lower frame bound, kernel = the K-partner ψ_N. Only the band-edge carrier makes staggered the genuine minimum (interior carrier → sum<2); the location dictionary k=2..N gives λ_min=0",
             _ => new BandEdgeTransitionInvariantWitness(), RequiresN: false),
@@ -954,12 +954,15 @@ public static class InspectCommand
             "(typed: SeedExistenceCountingClaim)",
             c => new SeedExistenceCountingWitness(c.Parser.HasFlag("N") ? c.N : 5),
             RequiresN: false, HonorsOptionalN: true),
-        new("betaexotic", "the β-exotic excluded exactly at N = 5 and N = 7, both R-parities: the certified " +
+        new("betaexotic", "the β-exotic excluded exactly at N = 5 and N = 7 (live; N = 9 is certified by the " +
+            "gcd certificate's layer identity, simulations/o2b_gcd_certificate.py 9, Python only), both " +
+            "R-parities: the certified " +
             "squarefree-layer reading of disc_Λ(F_res) has maximum root multiplicity 2 off q = 0, and a " +
             "Puiseux-3/2 point (the β-exotic) would need 3. Re-runs the D-only certificate at inspect time " +
             "(~0.4 s per parity at N = 5, ~2.5 min at N = 7, so N = 5 is the default; pass --N 7 to pay for it) " +
             "and reads MaxDiscMultiplicity + DiscLayersCertified; the one-way lift needs a prime good at BOTH " +
-            "ends of the q-axis. Per-N, not a law: N = 9 is out of reach by this route, the all-N scalar s₆ ≠ 0 " +
+            "ends of the q-axis. Per-N, not a law: N = 9 is out of reach by this route and rests on the Python " +
+            "certificate, the all-N scalar s₆ ≠ 0 " +
             "stays open (typed: BetaExoticPerNExclusionClaim)",
             c => new BetaExoticExclusionWitness(c.Parser.HasFlag("N") ? c.N : 5),
             RequiresN: false, HonorsOptionalN: true),

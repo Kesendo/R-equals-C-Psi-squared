@@ -959,9 +959,17 @@ Note what this argument does *not* say. Dephasing conserves populations, but it
 does not conserve energy unless H commutes with every Z_k: Tr(H·D[ρ]) vanishes identically on Ising ZZ, at every state, because D
 preserves the Z-diagonal; on the Heisenberg chain it does not, ranging over
 about ±0.04 for Haar-random pure states at N=3, γ=0.05, J=0.075, and ±0.5 at
-J=1. The chain
-heats toward infinite temperature. So the case against the photon reading rests
-on population preservation alone, not on energy conservation.
+J=1. So the case against the photon reading rests on population preservation
+alone, not on energy conservation.
+
+Nor does the chain heat toward infinite temperature. The generator's kernel is
+(N+1)-dimensional, one stationary state per magnetization sector
+([F4](../ANALYTICAL_FORMULAS.md), the count F43 and F158 also read), and the
+chain relaxes to the maximally mixed state within each sector, weighted by the
+populations it started with ([Asymptotic Sector Projection](PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md));
+no single β = 0 state is selected. |00…0⟩ never moves; on the open N=3 chain
+(H = J·Σ(XX+YY+ZZ)), |001⟩ starts at energy 0, the β = 0 value, and relaxes to
+−2J/3, away from it.
 
 Two further limits are structural rather than interpretive.
 

@@ -25,7 +25,12 @@ public enum Regime
 /// <para>IBM calibration rows provide T1 and T2, so this type reports a
 /// reproducible normalized-purity proxy reading without changing the measured
 /// columns. Operationality remains a separate property of the calibration
-/// row.</para></summary>
+/// row.</para>
+///
+/// <para><c>docs/BOTH_SIDES_VISIBLE.md</c> carries the 6-month Torino analysis this
+/// threshold reads, told as the normalized-purity dip; <c>simulations/qubit_biography.py</c>
+/// applies <see cref="Classify"/> to a daily history for the lifecycle archetypes
+/// (<see cref="QubitLifecycle"/>).</para></summary>
 public static class QubitRegime
 {
     /// <summary>Binary64 value of the proxy-touch ratio. Bits:
@@ -66,7 +71,10 @@ public static class QubitRegime
     public static bool IsBelowRStar(double t1Us, double t2Us) =>
         RParam(t1Us, t2Us) < R_STAR;
 
-    /// <summary>Counts the three R* bands on a path.</summary>
+    /// <summary>Counts the three R* bands on a path. The recurring case: on 2026-04-26
+    /// Marrakesh [0, 1, 2] is band-mixed (1 below, 2 at or above) and [48, 49, 50] is all at
+    /// or above R*. Their truly-baselines differ 22.1× across two runner scripts but only
+    /// 1.64× within one; see <see cref="RegimeSummary"/> for the record.</summary>
     public static (int BelowRStar, int NearRStar, int AtOrAboveRStar) PathComposition(
         IReadOnlyList<QubitData> qubits,
         IReadOnlyList<int> path,

@@ -93,7 +93,7 @@ public sealed class F86KnowledgeBase : IInspectable
     /// <see cref="Knowledge.Tier.OpenQuestion"/> after the F86a-retraction 2026-06-21
     /// (demoted from Tier2Verified): the full Σγ=N·γ₀ block is genuinely strongly non-normal
     /// near Q_peak, but that sampled peak is not itself an EP; narrow real-axis defective
-    /// seeds are separately certified at N=5,7,9. Whether it has an off-axis
+    /// seeds are separately certified at N=5,7,9 and classified, uncertified, at N=11. Whether it has an off-axis
     /// defective EP at all, and thus the "same EP" link to FRAGILE_BRIDGE, is open. The
     /// surviving shared substrate is the shifted-generator P-type anticommutation. Exposed at the KB root for any
     /// block, not just c=2. Lazy: a single static-data Claim with no compute cost.</summary>

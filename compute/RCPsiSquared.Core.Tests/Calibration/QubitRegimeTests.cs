@@ -98,7 +98,7 @@ public class QubitRegimeTests
     }
 
     [Fact]
-    public void MarrakeshRows_AreClassifiedWithoutChangingMeasuredValues()
+    public void MarrakeshRows_Q0IsBelowAndQ1IsAtOrAboveRStar()
     {
         var qubits = Marrakesh20260425.Value;
         var q0 = qubits.Single(q => q.Qubit == 0);
@@ -120,6 +120,17 @@ public class QubitRegimeTests
 
         var oneBand = QubitRegime.PathComposition(qubits, new[] { 48, 49, 50 });
         Assert.Equal((0, 0, 3), oneBand);
+
+        var apr25Best5 = QubitRegime.PathComposition(qubits, new[] { 1, 2, 3, 4, 5 });
+        Assert.Equal((0, 0, 5), apr25Best5);
+    }
+
+    [Fact]
+    public void Classify_NegativeEpsilon_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => QubitRegime.Classify(100, 30, epsilon: -1e-15));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            QubitRegime.PathComposition(Marrakesh20260425.Value, new[] { 0 }, epsilon: -1.0));
     }
 
     [Fact]

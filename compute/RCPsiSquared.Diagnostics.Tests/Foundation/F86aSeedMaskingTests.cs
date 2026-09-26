@@ -12,7 +12,8 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>THE F86a BLIND SPOT, SHOWN FROM BELOW. F86a-retraction (2026-06-21) concluded the full (1,2)
 /// coherence block has NO real-axis defective exceptional point (eigenvalues stay simple, a finite-Petermann
-/// off-axis shadow only). F89 later certified real defective seeds on this block at N=5,7,9; the all-odd
+/// off-axis shadow only). F89 certified real defective seeds on this block at N=5,7,9 and classified nine
+/// more, uncertified, at N=11; the all-odd
 /// endpoint-nullity surplus is a counting theorem, not by itself a character theorem. Same block, same real
 /// q axis (GLOSSARY §q-and-Q: ‖L_F86(J) − L_F89(J/2)‖ = 0). This test shows WHY F86a's scan missed the
 /// certified N=5 and N=9 seeds it exercises.
@@ -32,8 +33,8 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// TOPOLOGICAL signal visible at ANY grid resolution, immune to how far the grid sits from q*. It flags the
 /// transition on a coarse grid, THEN bisects onto q* (~1e-7) and only there characterizes. The window problem
 /// that blinds a sit-and-characterize scan is exactly what the count-change bypasses (RealSeedCensusTests
-/// established count-change loci through N=11; this test does not re-run it, it exhibits the window it
-/// beats at its two character-certified inputs).</para>
+/// established the loci through N=11; this test does not re-run it, it exhibits the window it beats at
+/// two certified inputs).</para>
 ///
 /// <para>At each seed the coalescing pair is anchored to the census λ and its gap walked out along an offset
 /// ladder; ONE artifact-free <see cref="EpCharacter"/> reading at the seed confirms the pair is a genuine

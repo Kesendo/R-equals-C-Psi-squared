@@ -966,19 +966,23 @@ def verify_task8_current_truth():
         "compute/RCPsiSquared.Core/Symmetry/F41PalindromicTimePi2Inheritance.cs": ((
             "2cos(ω_min t)", "trace amplitude", "doubled and cross frequencies",
             "F41 is not by itself the period of the complete SFF",
-            "finite-N descriptive ratio, not a physical short/long-time division"),
+            "finite-N descriptive ratio, not a physical short/long-time division",
+            "closed under complex conjugation"),
             ("physical Heisenberg time t_H ~ 4^N", "F41 is the period of the complete SFF",
-             "t_Pi/t_H ~ N²/4^N", "slowest palindromic SFF modulation frequency")),
+             "t_Pi/t_H ~ N²/4^N", "slowest palindromic SFF modulation frequency",
+             "F1 supplies the −ω_min partner")),
         "compute/RCPsiSquared.Core/Symmetry/F43BandSffPairingPi2Inheritance.cs": ((
             "reflected decay-rate bands", "average-light bands", "not assigned to an invariant fixed-integer-weight sector",
             "N+1 stationary modes", "frequency SFF is the constant 1 for every time",
-            "not an impulse at time zero", "finite-width numerical band can contain more"),
+            "not an impulse at time zero", "finite-width numerical band can contain more",
+            "delta spike at zero frequency", "PalindromeTwoEndCountClaim.CanonicalChainCount(N)"),
             ("fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)", "endpoint multiplicity 2^N",
-             "canonical Pauli-string weight partition", "delta-spike at zero frequency")),
+             "canonical Pauli-string weight partition")),
         "docs/ANALYTICAL_FORMULAS.md": ((
             "doubled and cross frequencies", "not a physical Heisenberg time",
             "reflected decay-rate bands", "normalized frequency SFF is the constant 1",
-            "N+1 stationary modes", "not a delta spike"),
+            "N+1 stationary modes", "a delta spike at zero frequency, not an impulse at time zero",
+            "F158's two-end count"),
             ("physical Heisenberg time t_H ~ 4^N", "normalized endpoint K(t) = delta(t)", "endpoint multiplicity 2^N")),
         "experiments/DEGENERACY_HUNT.md": (("Re(λ) = −2γ·⟨n_XY⟩_v", "Only a basis coherence has the integer count", "neither equal"),
             ("every eigenmode has integer n_diff",)),
@@ -1013,7 +1017,7 @@ def verify_task8_current_truth():
              "What QDB implies spectrally: all eigenvalues of L are real",
              "what stays ours", "are the new part",
              "new variant of known framework",
-             "reached independently", "Ours works", "not an ownership, independence, priority",
+             "Ours works", "not an ownership, independence, priority",
              "showed that quantum detailed balance is equivalent to the Petz recovery map",
              "QDB = Petz recovery map being exact channel reversal")),
         "simulations/universal_carrier_demo.py": ((
@@ -1214,10 +1218,11 @@ def verify_task8_current_truth():
             "their nonzero-Delta response is OPEN", "an AT eigenmode has the integer basis-cell disagreement count"),
         "compute/RCPsiSquared.Core/Symmetry/F41PalindromicTimePi2Inheritance.cs": (
             "physical Heisenberg time t_H ~ 4^N", "F41 is the period of the complete SFF",
-            "t_Pi/t_H ~ N²/4^N", "slowest palindromic SFF modulation frequency"),
+            "t_Pi/t_H ~ N²/4^N", "slowest palindromic SFF modulation frequency",
+            "F1 supplies the −ω_min partner"),
         "compute/RCPsiSquared.Core/Symmetry/F43BandSffPairingPi2Inheritance.cs": (
             "fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)", "endpoint multiplicity 2^N",
-            "canonical Pauli-string weight partition", "delta-spike at zero frequency"),
+            "canonical Pauli-string weight partition"),
         "docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md": ("fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)"),
         "experiments/DEGENERACY_HUNT.md": ("every eigenmode has integer n_diff",),
         "experiments/SYMMETRY_CENSUS.md": ("every eigenmode has integer n_diff",),
@@ -1773,9 +1778,10 @@ def verify_round4_artifacts_and_consumers():
         "simulations/angle_at_zero_tier1_candidate.py": ((
             "finite b > 0", "if not math.isfinite(b) or b <= 0:"), ()),
         "compute/RCPsiSquared.Core/Symmetry/TransitionBridgeF95SiblingClaim.cs": ((
-            "zero at the EP", "if (q == QEp(gEff)) return 0.0", "if (disc > 0.0)",
+            "zero at the EP", "Math.FusedMultiplyAdd(q, gEff, -2.0)",
+            "if (EpSignedDistance(q, gEff) < 0.0) return double.NaN;",
             "positive decay variable z=−λ", "b = 4γ₀ &gt; 0"),
-            ("NaN at or below the EP", "if (disc >= 0.0)")),
+            ("NaN at or below the EP", "if (disc >= 0.0)", "if (q == QEp(gEff)) return 0.0")),
         "compute/RCPsiSquared.Runtime/PolarityArchitecture/TransitionBridgeF95SiblingClaimRegistration.cs": ((
             "genuine F86 toy 2x2 exceptional point", "angle zero at each boundary"),
             ("FRAGILE_BRIDGE axis departure is a Hopf",)),
@@ -2137,7 +2143,7 @@ def verify_round4_artifacts_and_consumers():
         "compute/RCPsiSquared.Core/Symmetry/F95AngleAtQuadraticZeroPi2Inheritance.cs": (
             "Returns NaN for c ≤ 1/4", "if (c <= Threshold)", "if (c <= thresh)"),
         "compute/RCPsiSquared.Core/Symmetry/TransitionBridgeF95SiblingClaim.cs": (
-            "NaN at or below the EP", "if (disc >= 0.0)"),
+            "NaN at or below the EP", "if (disc >= 0.0)", "if (q == QEp(gEff)) return 0.0"),
         "compute/RCPsiSquared.Runtime/PolarityArchitecture/TransitionBridgeF95SiblingClaimRegistration.cs": (
             "FRAGILE_BRIDGE axis departure is a Hopf",),
         "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": ("N=4/N=5/N=6 positive Delta proposals remain Uncertified",),

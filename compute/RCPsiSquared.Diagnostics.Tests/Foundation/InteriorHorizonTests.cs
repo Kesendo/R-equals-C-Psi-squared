@@ -219,13 +219,13 @@ public class InteriorHorizonTests
         var children = ((RCPsiSquared.Core.Inspection.IInspectable)field).Children.ToList();
         var labels = children.Select(c => c.DisplayName).ToList();
         Assert.Contains(labels, l => l.Contains("marks"));
-        Assert.Contains(labels, l => l.Contains("quadratic angle"));
+        Assert.Contains(labels, l => l.Contains("heading"));
         Assert.Contains(labels, l => l.Contains("recurrence"));
         Assert.Contains(labels, l => l.Contains("ours"));
         Assert.Contains(labels, l => l.Contains("dwell"));
 
         // The heading curve falls to ~0 at the horizon (its interior end, closest to 1/4).
-        var heading = children.First(c => c.DisplayName.Contains("quadratic angle"));
+        var heading = children.First(c => c.DisplayName.Contains("heading"));
         var hc = Assert.IsType<RCPsiSquared.Core.Inspection.InspectablePayload.Curve>(heading.Payload);
         // The first point IS the cusp, where the closed form clamps to exactly 0, so a "< 1 deg"
         // gate there would hold for any heading formula whatsoever. Read it exactly instead, and
@@ -263,12 +263,9 @@ public class InteriorHorizonTests
         Assert.True(relSpread < 0.02, $"the relative-stop K should be flat near the horizon; spread {relSpread:F4}");
         Assert.True(absSpread > 20.0 * relSpread, $"the absolute-tol K should drift; abs {absSpread:F4} vs rel {relSpread:F4}");
 
-        // Smoke: renders to JSON without throwing and carries the horizon story.
+        // Smoke: renders to JSON without throwing.
         var json = RCPsiSquared.Core.Inspection.InspectionJsonExporter.ToJson(field);
-        Assert.Contains("recurrence", json);
-        Assert.Contains("recurrence", json);
-        Assert.DoesNotContain("quantum side", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("classical side", json, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("the F95 heading at b = ½", json);
     }
 
     [Fact]

@@ -204,15 +204,13 @@ public static class ConfirmationsRegistry
                 "soft-pumping should remain hardware-substrate-independent at ~0.74.",
             MeasuredValue:
                 "truly = 0.0022, soft = 0.7409, pi2_even_nontruly = 0.0046, mixed = 0.6220. " +
-                "truly is 13.5× lower than the regime-mixed Marrakesh [0,1,2] (0.0297) and only 1.69× higher than uniform-classical Marrakesh [48,49,50] (0.0013); the 22.8× gap between regime-mixed and uniform-classical from the original framework_snapshots vs soft_break comparison sits an order of magnitude wider than the within-uniform variation. " +
-                "soft is 3.1% from Marrakesh's 0.7646: substrate-independent within shot noise.",
+                "truly is 1.67× the uniform-classical Marrakesh [48,49,50] soft_break run (0.0013, the same runner script). The 13.3× against the regime-mixed Marrakesh [0,1,2] (0.0297) and the 22.1× between the two Marrakesh rows each pair a soft_break run with a framework_snapshots run, and the same-day repeats put the script difference, not the path, behind most of that factor: within framework_snapshots, minutes apart, mixed [0,1,2] reads 1.64× uniform [48,49,50] (0.0190 against 0.0116). soft sits 3.1% from the Marrakesh value 0.7646.",
             HardwareData: "data/ibm_soft_break_april2026/soft_break_ibm_kingston_20260505_102806.json",
             ExperimentDoc: "simulations/f88b_lens_ibm_kingston_uniform_quantum.py",
             FrameworkPrimitive: "F88b-Lens (kernel projection + Π²-odd Pauli enumeration on reduced 2-qubit ρ)",
             Description:
-                "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston, all three qubits classified PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, all crossing > 95%). " +
-                "Result confirms regime-uniformity hypothesis: BOTH uniform-classical (Marrakesh [48,49,50] truly = 0.0013) AND uniform-quantum (Kingston [43,56,63] truly = 0.0022) give clean truly-baselines, while regime-mixed (Marrakesh [0,1,2] truly = 0.0297) is an order of magnitude dirtier. " +
-                "Three findings per single 39-second billed run: regime-uniformity is the cause of the truly-baseline gap (not which side of the boundary); F87 trichotomy hardware-confirmed on a second backend (Kingston) in addition to Marrakesh; soft Π²-odd-pumping confirmed substrate-independent across two Heron-r2 chips.",
+                "First F87 trichotomy hardware test on a uniform-quantum CZ-coupled triple. Path [43, 56, 63] on Kingston, all three qubits classified PulseStable across the 91-day biography window (r mean 0.10 / 0.09 / 0.10, below R* on 91 / 91 / 90 days). " +
+                "The run was flown to test the regime-uniformity hypothesis, that a band-mixed path reads a dirtier truly-baseline than a uniform one, and the data do not support it: the order-of-magnitude contrast it rested on is mostly a contrast between two runner scripts: within one script the two band compositions differ 1.64×. Every soft_break run reads clean, on uniform paths on either side of R* and on two chips (Marrakesh [48,49,50] 0.0013, job d7mjnjjaq2pc73a1pk4g, 2026-04-26; Marrakesh [4,5,6] 0.0017, job d7pol1e7g7gs73cf7j90, 2026-04-30; this run 0.0022), and every framework_snapshots run on Marrakesh reads above all of them, whatever the band: uniform [48,49,50] 0.0116 (job d7ml4i2t99kc73d2lek0), mixed [0,1,2] 0.0190 (job d7ml9kc3g2mc7392k9p0, the same script eleven minutes later) and 0.0297 (job d7mt7jbaq2pc73a24220, the same day). Within the one script the mixed path reads 1.64× the uniform one, while the uniform path [48,49,50] reads 8.6× apart between the two scripts on one day and the mixed path 1.57× apart between two runs of one script; the 13.3× and 22.1× quotients pair a soft_break row with a framework_snapshots row and do not isolate the path. R* is a purity-proxy threshold rather than a physical phase boundary, and the nearest calibration (2026-04-25) singles out no culprit: the mixed path is worse on T2 (Q0 41 μs, which is what puts it below R*), not worse on CZ (0.0021, 0.0010 against 0.0088, 0.0041), and not uniformly worse on readout (0.95%, 1.32% against 5.85%, 0.90% on the two sites the lens reads). A band effect, if any, would need several paths of each composition in one job, under one script, each run more than once. Two findings stand on this single 39-second billed run by themselves: F87 trichotomy hardware-confirmed on a second backend (Kingston) in addition to Marrakesh; soft Π²-odd-pumping reproduced on two Heron-r2 chips, 0.7409 vs 0.7646.",
             QubitPath: new[] { 43, 56, 63 }),
 
         new Confirmation(
@@ -233,18 +231,19 @@ public static class ConfirmationsRegistry
                 "Residuals monotonically shrink as Ω increases (15.7° → 9.2° at Ω 0.13 → 0.25 on Pair A_mid), consistent with a roughly constant natural-Kingston drift contribution becoming a smaller fraction of the driven rotation.",
             HardwareData: "data/ibm_f95_angle_steering_may2026/cusp_complex_phase_hardware_ibm_kingston_omega0.{130,250}_20260516_*.json (+ matching PNGs and partial-run JSONs; see README.md in that directory for details)",
             ExperimentDoc: "experiments/CPSI_COMPLEX_PLANE.md (conceptual predecessor; F95 closed form derived 2026-05-16 same day)",
-            FrameworkPrimitive: "F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1)), finite b>0) + " +
-                "F25 Lindblad CΨ trajectory + complex CΨ_com signed-sum-of-off-diagonals extension",
+            FrameworkPrimitive: "complex CΨ_com signed-sum-of-off-diagonals extension (the steered phase arg(CΨ_com)) + " +
+                "F25 Lindblad CΨ trajectory + F95AngleAtQuadraticZeroPi2Inheritance (θ(c;b) = arctan(√(c/b² − 1)), " +
+                "finite b>0; the square-root form the dwell arc length shares)",
             Description:
-                "First hardware verification that the complex-CΨ angle predicted by F95 is actively steerable on IBM Kingston. " +
+                "First hardware verification that the complex-CΨ angle arg(CΨ_com), which shares the square-root form of F95 in its dwell arc length but is not the θ of F95 itself (experiments/CPSI_COMPLEX_PLANE.md), is actively steerable on IBM Kingston. " +
                 "Two Ω values (0.13 and 0.25 rad/μs) tested on two qubit pairs (A_mid mid-T2 [82,83], B_high high-T2 [13,14]) in 14 minutes total billed QPU. " +
                 "Three of four measurement conditions produced detectable real-axis crossings; predicted arg matches measured to within 16° across all three (best 6.8°). " +
                 "Confirms three open questions from CPSI_COMPLEX_PLANE.md simultaneously: " +
                 "(Q1) Δφ = Ω·t reproducible: crossings occur at predicted angle modulo bounded natural drift; " +
-                "(Q2) linear-in-Ω scaling holds: residual shrinks ~1.7× when Ω doubles, consistent with constant natural drift contribution; " +
+                "(Q2) linear-in-Ω scaling holds: residual shrinks ~1.7× as Ω goes from 0.13 to 0.25 (×1.92), consistent with constant natural drift contribution; " +
                 "(Q3) active steering works: the same Lindblad+RZ model fits both Ω values on the same pair without retuning. " +
                 "The bra↔ket Hermitian off-diagonal of ρ on the prepared Bell-like initial state carries a well-defined complex phase, addressable on Heron r2 by per-chunk RZ injection on the steering qubit. " +
-                "Hardware substrate-of-evidence: F95 is the universal polynomial-foundation algebra of the angle that appears off the d=0 mirror; this run shows that algebra is operationally controllable, not merely descriptive.",
+                "Hardware substrate-of-evidence: the steered phase arg(CΨ_com) shares the square-root form of F95 in its dwell arc length, and this run shows that it is operationally controllable, not merely descriptive.",
             QubitPath: new[] { 82, 83 }),
 
         new Confirmation(

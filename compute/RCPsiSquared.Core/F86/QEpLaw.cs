@@ -13,7 +13,7 @@ namespace RCPsiSquared.Core.F86;
 /// (g_eff := σ_0); it is NOT "the full block-L exceptional-point position, bit-exact". The full
 /// (n, n+1) block-L is genuinely NON-NORMAL near Q_peak, but that definitional channel
 /// crossing is not a bit-exact full-block EP. Separate narrow real-axis defective seeds are
-/// certified at N=5,7,9; the large sampled Petermann peak is finite and grid-sensitive (see
+/// certified at N=5,7,9 and classified, uncertified, at N=11; the large sampled Petermann peak is finite and grid-sensitive (see
 /// <see cref="LocalGlobalEpLink"/>, now an OpenQuestion). For c=2, σ_0 → ≈ 2.8629 ± 1e-4 (the
 /// F86e closure 2026-05-21, parity-split Aitken, γ-independent; SigmaZeroCommutatorNormClaim).
 /// 2√2 was the N=7 finite-size crossing, not the limit (SigmaZeroChromaticityScaling demoted

@@ -7,8 +7,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// verified N=2..7, with the K_3 N=3 exception at 2N+2):
 ///
 /// <code>
-///   d_real(Re = −2γ) = 2N                    Liouvillian eigenvalue count at the
-///                                            first non-zero real grid position
+///   d_real(Re = −2γ) = 2N                    pure-real Liouvillian eigenvalue count
+///                                            on the k = 1 rung of the −2kγ grid
 ///
 ///   T_c^{(a)} = Σⱼ Σ_{S ⊂ complement(j), |S|=c} σ_a^{(j)} ⊗ Z_S ⊗ I_rest
 ///   for a ∈ {X, Y} and c = 0, 1, ..., N−1
@@ -20,8 +20,11 @@ namespace RCPsiSquared.Core.Symmetry;
 /// grades (c = 0..N−1). Each T_c^{(a)} commutes with H because Heisenberg is
 /// a sum of SWAPs and SWAP preserves both the active Pauli type and the
 /// Z-count c. The 2N operators are linearly independent (disjoint Pauli string
-/// support). They give Liouvillian eigenvalues at Re = −2γ (the first non-zero
-/// real grid position; bit-exact verification N=2..7).</para>
+/// support). They give Liouvillian eigenvalues at Re = −2γ, the k = 1 rung of
+/// the −2kγ grid of basis-cell rates (bit-exact verification N=2..7). The rung
+/// is not the slowest non-zero rate of the spectrum: H-mixed eigenmodes can
+/// decay slower than 2γ (chain, H = J·Σ(XX+YY+ZZ) at J = γ: the slowest
+/// non-zero rate is 0.978γ at N=4 and 0.617γ at N=5).</para>
 ///
 /// <para>Special cases: T_0^{(X)} = 2·S_x and T_0^{(Y)} = 2·S_y (global SU(2)
 /// generators); T_{N−1}^{(a)} = Σⱼ σ_a^{(j)} ⊗ Z_{all others} (Jordan-Wigner-type
@@ -103,8 +106,8 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
     /// Same anchor as F1's TwoFactor at the eigenvalue level.</summary>
     public double DecayRateFactor => Ladder.Term(0);
 
-    /// <summary>Total degeneracy count <c>d_real(Re = −2γ) = 2N</c> at the first
-    /// non-zero real grid position. The 2N value is the F50 lower bound (always
+    /// <summary>Total degeneracy count <c>d_real(Re = −2γ) = 2N</c> on the k = 1
+    /// rung of the −2kγ grid. The 2N value is the F50 lower bound (always
     /// correct, rigorously proven). For chain at all tested N + most connected
     /// graphs at N ≥ 4 it is also the actual count (equality holds). The one
     /// known empirical exception is N=3 K_3 (= ring = triangle = complete on
@@ -127,7 +130,8 @@ public sealed class F50WeightOneDegeneracyPi2Inheritance : Claim, IZ2AxisClaim
     public const int K3TripleN3ActualCount = 8;
 
     /// <summary>The eigenvalue real-part position of the F50 conserved operators:
-    /// Re = −2γ. The first non-zero real grid position in the Liouvillian spectrum.</summary>
+    /// Re = −2γ, the k = 1 rung of the −2kγ grid (not the slowest non-zero rate of
+    /// the spectrum, which H-mixed modes can undercut).</summary>
     public double EigenvaluePosition(double gammaZero)
     {
         if (gammaZero < 0) throw new ArgumentOutOfRangeException(nameof(gammaZero), gammaZero, "γ₀ must be ≥ 0.");

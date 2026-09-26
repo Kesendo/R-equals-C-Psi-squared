@@ -18,7 +18,8 @@ public class TransitionBridgeF95SiblingClaimRegistrationTests
             .Build();
 
         var claim = registry.Get<TransitionBridgeF95SiblingClaim>();
-        const double gEff = 0.8;
+        // g_eff = ½ puts Q_EP = 4 on a double, so both routes compute 0.0 there themselves.
+        const double gEff = 0.5;
         double qEp = TransitionBridgeF95SiblingClaim.QEp(gEff);
         Assert.Equal(0.0, claim.CuspAngle(0.25));
         Assert.Equal(0.0, claim.EpClockAngle(1.0, qEp, gEff));

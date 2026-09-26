@@ -4,8 +4,9 @@ Question: the F88b-Lens reading on path [0, 1, 2] (mixed R* bands) gave
 truly-baseline 0.0297; on [48, 49, 50] (all at-or-above-R*) it gave 0.0013.
 The 91-day proxy biography surfaced Q0 as the only stable-below history on a
 documented path. Finding an all-below-R* triple permits another finite
-comparison, but backend, path, date, and calibration all remain confounded;
-the 23× association is not a causal band effect.
+comparison. The 22× between those two readings pairs two runner scripts
+(soft_break for [48, 49, 50], framework_snapshots for [0, 1, 2]); within one
+script the two paths differ 1.64×, so the 22× does not isolate a band effect.
 
 Method:
   1. Score every qubit by 91-day stability + distance below R*

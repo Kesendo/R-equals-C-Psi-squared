@@ -73,8 +73,9 @@ namespace RCPsiSquared.Core.F86;
 /// <para><b>CORRECTED 2026-07-07 (the real-axis point is NOT uniformly simple):</b> the "SIMPLE
 /// eigenvalue at Q_peak" reading above was Q_peak-local and grid-coarse. F89's exact all-odd-N result is
 /// the nullity-surplus COUNT r(0+) - r(inf) = N - 1, not by itself a finite-q transition theorem.
-/// Literal finite-q drops with simple-zero, Puiseux-1/2 defective EP2 character are certified at N=5,7,9;
-/// outside those sizes the drop and genericity remain open. Those certified seeds sit at scattered q* the Petermann sweep's dQ ~ 0.029 grid (121 pts over
+/// Literal finite-q drops are probed exactly at N=5,7,9, with their simple-zero, Puiseux-1/2 defective EP2
+/// character certified there; at N=11 the literal drop is measured (27 → 17) and all nine loci are
+/// classified defective EP2 without a certificate; a defective seed at every larger odd N stays open. Those certified seeds sit at scattered q* the Petermann sweep's dQ ~ 0.029 grid (121 pts over
 /// [0.5, 4]) never bisected onto: a defective sqrt-EP splits its pair by ~sqrt|q - q*|, visible only
 /// within a window |q - q*| &lt; ~1e-3, some 20-30x narrower than the grid step (shown from below in
 /// <c>F86aSeedMaskingTests</c>: at the N=9 seed q*=0.849011 the pair is a Jordan block, gap ~2.7e-3, but
@@ -170,8 +171,9 @@ public sealed class LocalGlobalEpLink : Claim
         "Current scope: the full Σγ=N·γ₀ block is strongly non-normal near Q_peak, but the old " +
         "Petermann peak magnitudes and laws were grid-sensitive and are not EP evidence. Finite-q " +
         "Puiseux-1/2 defective EP2 seeds are certified at N=5,7,9; F89's all-odd-N theorem is only " +
-        "the endpoint-nullity surplus r(0⁺)−r(∞)=N−1, with literal drop and character open beyond " +
-        "those sizes. Whether the full block has a DISTINCT off-real-axis complex-Q defective EP " +
+        "the endpoint-nullity surplus r(0⁺)−r(∞)=N−1; at N=11 the literal drop is measured (27 → 17) " +
+        "and every locus is classified defective EP2, uncertified; a defective seed at every larger odd N " +
+        "stays open. Whether the full block has a DISTINCT off-real-axis complex-Q defective EP " +
         "remains open; the nearest characterized off-axis coalescences were semisimple. The genuine toy " +
         "2x2 EP and the separate Σγ=0 FRAGILE_BRIDGE threshold (two qubits per chain), itself generically a defective EP2 on " +
         "the real γ axis, remain different objects in different systems.";
@@ -199,8 +201,9 @@ public sealed class LocalGlobalEpLink : Claim
         "is genuinely non-normal on the real Q axis, and the Petermann magnitudes were grid-" +
         "sensitive artifacts (dropped). But the retraction's 'no real-axis defective EP' was " +
         "itself an over-correction at N=5,7,9: those sizes carry certified finite-q Puiseux-1/2 " +
-        "defective EP2 seeds. F89's all-odd-N theorem is only the nullity-surplus count; literal drop " +
-        "and character remain open beyond the certified sizes. The 2026-06-21 scan's ΔQ≈0.029 " +
+        "defective EP2 seeds, and N=11 carries nine loci classified defective EP2 with a measured literal " +
+        "drop, uncertified. F89's all-odd-N theorem is only the nullity-surplus count; a defective " +
+        "seed at every larger odd N stays open. The 2026-06-21 scan's ΔQ≈0.029 " +
         "grid missed, being 20-30× coarser than the √-EP window ~1e-3 (F86aSeedMaskingTests). What " +
         "stays OPEN besides that genericity is the DISTINCT off-real-axis complex-Q EP. The genuine " +
         "toy 2x2 EP stays separate from the Σγ=0 FRAGILE_BRIDGE threshold, at generic couplings and two qubits per chain a defective " +

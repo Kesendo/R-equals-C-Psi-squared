@@ -69,16 +69,39 @@ public class LifecycleSummaryTests
 
         Assert.True(s.AnyTwitch);
         Assert.Equal(DriftVerdict.DriftVolatile, s.DriftVerdict);
+        Assert.Equal(1, s.StableCount);
+        Assert.Equal(1, s.TwitchCount);
         Assert.False(s.HasSufficientHistoryAndNoHighSwitchRate);
     }
 
     [Fact]
-    public void ModerateDrift_PassesOnlyTheNamedHistoryAndSwitchCondition()
+    public void SyntheticAllStable_IsDriftStable()
     {
+        var hist = new Dictionary<int, QubitTimeline>
+        {
+            [0] = CalibrationFixtures.StableTimeline(0, 30, 100, 80),
+            [1] = CalibrationFixtures.StableTimeline(1, 30, 100, 80),
+        };
+        var s = LifecycleSummary.For(hist, new[] { 0, 1 });
+
+        Assert.True(s.AllStable);
+        Assert.Equal(DriftVerdict.DriftStable, s.DriftVerdict);
+    }
+
+    [Fact]
+    public void SoftBreakPath_IsDriftModerate_WithThreeLifecycleRows()
+    {
+        // [48, 49, 50] on the 91-day history: 48 Lifecycle (switch 12/90), 49 DriftySilent
+        // (below R* on 9 of 91 days, r spread above 0.10), 50 Lifecycle (switch 6/90).
         var s = LifecycleSummary.For(Marrakesh91d.Value, new[] { 48, 49, 50 });
 
+        Assert.Equal(LifecycleArchetype.Lifecycle, s.Qubits[0].Archetype);
+        Assert.Equal(LifecycleArchetype.DriftySilent, s.Qubits[1].Archetype);
+        Assert.Equal(LifecycleArchetype.Lifecycle, s.Qubits[2].Archetype);
+        Assert.Equal(3, s.LifecycleCount);
+        Assert.Equal(0, s.StableCount);
+        Assert.Equal(DriftVerdict.DriftModerate, s.DriftVerdict);
         Assert.True(s.HasSufficientHistoryAndNoHighSwitchRate);
-        Assert.NotEqual(DriftVerdict.DriftVolatile, s.DriftVerdict);
     }
 
     [Fact]

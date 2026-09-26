@@ -37,7 +37,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>Scope note carried from the doc: this witness types the COUNTING identity. The
 /// seed-existence conclusion itself additionally needs a literal finite-q real-count drop and a
-/// local character certificate; neither follows from the endpoint surplus at general odd N.</para></summary>
+/// local character reading; neither follows from the endpoint surplus at general odd N. The drop is
+/// probed exactly at N=5,7,9 and measured at N=11; the character is certified at N=5,7,9 and
+/// classified at N=11.</para></summary>
 public sealed class SeedExistenceCountingWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -306,9 +308,14 @@ public sealed class SeedExistenceCountingWitness : IInspectable
             yield return new InspectableNode(
                 displayName: "the remaining open ink (scope of this witness)",
                 summary: "this witness types the endpoint-nullity identity r(0⁺) − r(∞) = N − 1 (a theorem for every " +
-                         "odd N). It does not alone prove literal finite-q drop or Jordan character. Literal drop " +
-                         "and Puiseux-1/2 defective EP2 character are certified at N=5,7,9 and open beyond them; " +
-                         "N=11 already shows third-order endpoint lift-off bookkeeping.",
+                         "odd N). It does not alone prove a literal finite-q drop or Jordan character. The drop is " +
+                         "probed exactly at N=5,7,9, where the character is certified. At N=11 the literal drop is " +
+                         "measured, 27 → 17 = N − 1 (the surrogates are not the literal counts there: four of the " +
+                         "r(0⁺) = 31 modes leave the axis at third order and four of the r(∞) = 21 never reach it), " +
+                         "and all nine loci are classified defective EP2, without a certificate. Beyond N=11 the drop " +
+                         "as a count is open: at every resonant N the twinning degeneracy is proved over ℚ(i), but the " +
+                         "twins leaving the axis is measured at N=11 and 17 only; the character is open beyond N=11 " +
+                         "as well.",
                 provenance: NodeProvenance.Stored);
         }
     }

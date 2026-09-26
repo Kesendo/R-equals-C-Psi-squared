@@ -58,9 +58,12 @@ public sealed record ShellCensusResult(
 /// <summary>The census verdict: PASS =
 /// found members equal the probeable expected set, nothing deferred, nothing ambiguous, all probed
 /// non-members clear the exclusion threshold; PARTIAL = the same but some expected members sit behind
-/// the LP64 wall (listed); DISAGREE = anything else. For a locus without an independent local
-/// character certificate, clean membership is reported with the distinct TRANSPORT-PASS vocabulary;
-/// it is never promoted to a defective-seed PASS.</summary>
+/// the LP64 wall (listed); DISAGREE = anything else. The verdict names the locus's character grade
+/// (docs/GLOSSARY.md "Classified and certified"): a certified defective seed earns the bare PASS; a
+/// locus classified defective without a certificate (every N=11 locus) earns "PASS (classified
+/// defective; uncertified)", its members reading the Jordan pseudospectrum depth ~(gap/2)² at
+/// classified grade; a locus with no defective classification (a semisimple crossing such as the N=9
+/// scout locus 1.4994) earns TRANSPORT-PASS, membership transported and no Jordan reading assigned.</summary>
 public sealed record ShellCensusSummary(
     string Verdict,
     IReadOnlySet<(int P, int W, string Shift)> Expected,
@@ -352,13 +355,18 @@ public static class SectorShellCensus
 
         bool classificationClean = found.SetEquals(expectedProbeable) && ambiguous.Count == 0 && r.SeedUsable;
         bool incomplete = deferredMembers.Count > 0 || unresolved.Count > 0;
+        bool classifiedDefective = r.Seed.Classified?.Kind == EpCharacter.EpKind.Defective;
         string verdict = !classificationClean ? "DISAGREE"
-            : !r.Seed.CharacterCertified
-                ? incomplete ? "TRANSPORT-PARTIAL (character-uncertified)"
-                    : witnessAssisted ? "TRANSPORT-PASS (witness-assisted; character-uncertified)"
-                    : "TRANSPORT-PASS (character-uncertified)"
-            : incomplete ? "PARTIAL"
-            : witnessAssisted ? "PASS (witness-assisted)" : "PASS";
+            : r.Seed.CharacterCertified
+                ? incomplete ? "PARTIAL"
+                    : witnessAssisted ? "PASS (witness-assisted)" : "PASS"
+            : classifiedDefective
+                ? incomplete ? "PARTIAL (classified defective; uncertified)"
+                    : witnessAssisted ? "PASS (witness-assisted; classified defective; uncertified)"
+                    : "PASS (classified defective; uncertified)"
+            : incomplete ? "TRANSPORT-PARTIAL (character-uncertified)"
+            : witnessAssisted ? "TRANSPORT-PASS (witness-assisted; character-uncertified)"
+            : "TRANSPORT-PASS (character-uncertified)";
         return new ShellCensusSummary(verdict, expected, expectedProbeable, found,
             deferredMembers, ambiguous, unresolved, worstNonMember, r.MemberTol, r.PairGap);
     }

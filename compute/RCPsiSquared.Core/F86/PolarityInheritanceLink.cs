@@ -85,7 +85,7 @@ public sealed class PolarityInheritanceLink : Claim
     /// <summary>The parallel Locus 5 comparison between F86 EP structures and FRAGILE_BRIDGE's
     /// threshold EP2 on the real γ axis at two qubits per chain (<see cref="LocalGlobalEpLink"/>, OpenQuestion after the
     /// F86a-retraction 2026-06-21: the full block is genuinely non-normal on the real axis, its
-    /// narrow real-axis defective seeds are certified at N=5,7,9, and whether it has an off-axis
+    /// narrow real-axis defective seeds are certified at N=5,7,9 and classified at N=11, and whether it has an off-axis
     /// defective EP at all is open). This claim is the symmetry-side twin: F86 bond-class split
     /// inherits from the polarity-layer pair via the 0.5-shift ρ = (I + r·σ)/2.</summary>
     public string ParallelLocusReference =>

@@ -10,7 +10,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// pure-state concurrence while CΨ(0)=s/3 is one third of it); the crossing threshold (a temporal
 /// downward crossing occurs iff γ &gt; 0 and s &gt; 3/4); the shape parameter
 /// (for s&gt;0, the cubic-term fraction s²/2, continuously extended to 0 at s=0); and the late-time exponent
-/// (every nonzero member has a 4γ late-time term, while the 12γ term is transient). Closed-form,
+/// (every nonzero member has a 4γ late-time term, while the 12γ term is transient: the slowing is
+/// ours, CΨ's log-rate falling from 4γ(1 + s²) to 4γ while the coherence factor f = e^(−4γt) decays
+/// at a steady 4γ throughout). Closed-form,
 /// N-free; the Bell+ member reproduces F25. Wired into the typed graph (Core) as
 /// <c>ApproachFamilyCarrierClaim</c> with the Absorption Theorem and F25 as its two typed
 /// parents; C2 and Two Readings remain non-ancestral prose comparisons. Render it with
@@ -93,7 +95,9 @@ public sealed class ApproachFamilyField : IInspectable
             var bell = tGrid.Select(t => OddHarmonicApproach.Cpsi(OddHarmonicApproach.BellPlusS, _gamma, t)).ToArray();
             yield return new InspectableNode(
                 displayName: "the Bell+ specialization (exactly F25)",
-                summary: "the Bell+ member is (1/6)e^(−4γt)+(1/6)e^(−12γt)=F25. Its 4γ term controls late time and its 12γ term is transient; no broader slowing mechanism is inferred.",
+                summary: "the Bell+ member is (1/6)e^(−4γt)+(1/6)e^(−12γt)=F25. Its 4γ term controls late time and its 12γ term is transient. " +
+                         "The slowing is ours: −d ln CΨ/dt falls from 4γ(1+s²) at t=0 (8γ for Bell+) to 4γ, while the coherence factor f=e^(−4γt) decays at a steady 4γ; " +
+                         "the slowing belongs to the observable, not to the carrier (simulations/results/cusp_spiral_2d/spiral_slowing.png, docs/NAVIGATING_THE_DIMENSIONS.md).",
                 payload: new InspectablePayload.Curve("Bell+ member CΨ(t)", tGrid, bell, "t", "CΨ (crosses ¼)"));
         }
     }

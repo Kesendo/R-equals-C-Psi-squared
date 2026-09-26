@@ -37,9 +37,33 @@ public class F94BornDeviationFourThirdsPi2InheritanceTests
     public void StructuralIntegerChecksPass()
     {
         var f = BuildClaim();
-        Assert.True(f.CoefficientAgreesWithSym3());
         Assert.True(f.CellCountsSumToSurvivingDiagrams());
         Assert.True(f.StructuralDecompositionRecoversSym3());
+    }
+
+    [Theory]
+    [InlineData(20.0, 0.0143)]
+    [InlineData(10.0, 0.005)]
+    [InlineData(100.0, 0.005)]
+    [InlineData(40.0, 0.005)]
+    public void DeltaDominant_IsFourThirdsQSquaredKCubed(double q, double k)
+    {
+        // 8/6 and 4/3 round to the same binary64, and both sides multiply in the same order,
+        // so the closed form and the typed route agree exactly.
+        Assert.Equal((4.0 / 3.0) * q * q * k * k * k, BuildClaim().DeltaDominant(q, k));
+    }
+
+    [Theory]
+    [InlineData(20.0, 0.0143)]
+    [InlineData(10.0, 0.005)]
+    public void C_DominantOutcome_IsOnePlusDelta(double q, double k)
+    {
+        // The leading-order ratio C_|00⟩ = 1 + Δ_|00⟩ of the R_i = C_i·Ψ_i² reading.
+        var f = BuildClaim();
+        Assert.Equal(1.0 + (4.0 / 3.0) * q * q * k * k * k, f.C_DominantOutcome(q, k));
+        Assert.True(f.C_DominantOutcome(q, k) > 1.0);
+        Assert.Equal(1.0, f.C_DominantOutcome(q, 0.0));
+        Assert.Equal(1.0, f.C_DominantOutcome(0.0, k));
     }
 
     [Fact]

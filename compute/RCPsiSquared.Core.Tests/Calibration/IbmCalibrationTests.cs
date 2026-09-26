@@ -11,8 +11,9 @@ namespace RCPsiSquared.Core.Tests.Calibration;
 /// 156 operational qubits, best 3-chain = [4, 3, 2] with score ≈ 867.07,
 /// best 5-chain = [1, 2, 3, 4, 5] with score ≈ 1246.58, and the documented
 /// path-quality ordering <c>ChainScore([48, 49, 50]) &gt; ChainScore([0, 1, 2])</c>
-/// (~682.5 vs ~597.3) which underlies the 23× cleaner truly-baseline observed
-/// on path [48, 49, 50] in the 2026-04-26 soft_break replication.</para>
+/// (~682.5 vs ~597.3), a calibration ordering; the truly-baselines later read on those
+/// paths are recorded in <see cref="RegimeSummary"/>, where most of their contrast is the
+/// runner script, not the path.</para>
 /// </summary>
 public class IbmCalibrationTests
 {

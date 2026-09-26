@@ -15,12 +15,20 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>The radial magnitude is unchanged and Ω-independent: |CΨ_com|(t) = f(1+f²)/6, f = e^{−4γt}
 /// (F25, the same law <see cref="InteriorHorizon.BellPlusCpsi"/> reads on the line). So every spiral
-/// reaches the same radial ring at the same time; only the argument φ₀ − Ω·t_cross is free. Saved
-/// Kingston rows show that argument changing under an injected Z rotation. They do not realize
-/// F95 roots or trace the F97 cardioid.</para>
+/// reaches the same radial ring at the same time; only the argument φ₀ − Ω·t_cross is free, and IBM
+/// Kingston steered it on demand: a Lindblad+RZ model with the in-situ γ from T2 calibration predicted
+/// the crossing argument at the three conditions that crossed, residuals 6.81° to 15.69°, on Pair A_mid
+/// shrinking from 15.69° to 9.15° as Ω goes from 0.13 to 0.25 rad/μs (Confirmation
+/// f95_angle_steering_kingston_may2026). The argument is real and controllable. At
+/// Ω = 0 the argument stays at φ₀; for Bell+ (φ₀ = 0) the spiral is the real-axis F25 curve
+/// <see cref="InteriorHorizon.BellPlusCpsi"/> reads.</para>
 ///
-/// <para>The same scalar number may label the recurrence double root and this radial crossing, but
-/// the equations and objects remain distinct. Closed-form and N-free within the named setup.</para></summary>
+/// <para>The documented reading (experiments/CPSI_COMPLEX_PLANE.md): the radial dwell is F57, and the
+/// steered angle arg(CΨ_com) shares F95's square-root form in its dwell arc length,
+/// ≈ 2δ·√(1 + (Ω/(4γ·|CΨ_com|))²), but is not F95's θ itself. The heading θ = arctan(√(4c − 1)) is F95
+/// at b = ½ on the recurrence quadratic; this ring is not that quadratic's root locus and not the F97
+/// cardioid. The cusp/EP F95 algebra is typed in <c>TransitionBridgeF95SiblingClaim</c>. Closed-form,
+/// N-free within the named setup, a dephasing crossing, structural, never gravitational.</para></summary>
 public static class ComplexCuspSpiral
 {
     /// <summary>The selected radial readout radius |CΨ_com| = ¼.</summary>
@@ -48,7 +56,7 @@ public static class ComplexCuspSpiral
 
     /// <summary>The winding rate Ω/(4γ): radians of phase winding per e-fold of the COHERENCE
     /// FACTOR f = e^{−4γt}, which is what decays at 4γ. The spiral's tightness; 0 at Ω = 0 (no
-    /// winding, the real-axis line).
+    /// winding: the ray at φ₀, the real axis for φ₀ = 0).
     ///
     /// <para>Not per e-fold of the magnitude, and the difference is a factor of about two over the
     /// range this class is about. |CΨ_com| = f(1+f²)/6 shrinks at
@@ -109,8 +117,9 @@ public static class ComplexCuspSpiral
     }
 
     /// <summary>The argument at which the spiral reaches the radial ring of the given radius:
-    /// arg at <see cref="CrossingTime"/> = φ₀ − Ω·t_cross. Saved Kingston rows report this
-    /// setup-dependent argument under injected Z rotation. NaN if there is no
+    /// arg at <see cref="CrossingTime"/> = φ₀ − Ω·t_cross. φ₀ at Ω = 0; for Bell+ (φ₀ = 0) the crossing is
+    /// head-on, on the real axis.
+    /// The steerable freedom (Confirmation f95_angle_steering_kingston_may2026). NaN if there is no
     /// crossing.</summary>
     public static double CrossingArgument(double gamma, double omega, double phi0, double radius = CircleRadius)
     {

@@ -9,10 +9,12 @@ namespace RCPsiSquared.Runtime.F86Main;
 public sealed class F86Marker { }
 
 /// <summary>Registers <see cref="F86OpenQuestions.Standard"/> as a single
-/// <see cref="OpenQuestionCollection{TFamilyMarker}"/> at the OpenQuestion Tier. The
-/// collection is registered alongside the explicit <see cref="FullIrreducibleSrpClassQuestion"/> and
-/// inherits from it. That question in turn inherits from the secured
-/// <see cref="ShiftedGeneratorSectorwisePClaim"/>.</summary>
+/// <see cref="OpenQuestionCollection{TFamilyMarker}"/> at the OpenQuestion Tier, beside the
+/// explicit <see cref="FullIrreducibleSrpClassQuestion"/>, which inherits from the secured
+/// <see cref="ShiftedGeneratorSectorwisePClaim"/>. The collection's items are Q_peak-response
+/// questions (the HWHM_left/Q_peak closed form, the 4-mode construction at c ≥ 3, the σ_0
+/// asymptote), none of them about the SRP class, so the collection hangs under
+/// <see cref="QEpLaw"/>, the Q-axis anchor those responses are measured against.</summary>
 public static class F86OpenQuestionsRegistration
 {
     public static ClaimRegistryBuilder RegisterF86OpenQuestions(this ClaimRegistryBuilder builder) =>
@@ -24,7 +26,7 @@ public static class F86OpenQuestionsRegistration
             })
             .Register<OpenQuestionCollection<F86Marker>>(b =>
             {
-                _ = b.Get<FullIrreducibleSrpClassQuestion>();
+                _ = b.Get<QEpLaw>();
                 return new OpenQuestionCollection<F86Marker>(
                     items: F86OpenQuestions.Standard,
                     anchor: "compute/RCPsiSquared.Core/F86/F86OpenQuestions.cs");

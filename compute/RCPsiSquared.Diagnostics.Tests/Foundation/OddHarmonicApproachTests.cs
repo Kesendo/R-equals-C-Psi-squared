@@ -125,6 +125,37 @@ public class OddHarmonicApproachTests
         Assert.Equal(expected, OddHarmonicApproach.HasDownwardCrossing(s, gamma));
     }
 
+    [Theory]
+    [InlineData(0.9, 0.05)]
+    [InlineData(0.6, 0.3)]
+    [InlineData(0.3, 1.0)]
+    public void LogRate_FallsFromFourGammaOnePlusSSquared_ToFourGamma(double s, double gamma)
+    {
+        // The slowing is the observable's: -d ln CΨ/dt = 4γ(w₀ + 3w₁)/(w₀ + w₁) = 4γ(1 + s²) at t = 0,
+        // and 4γ late, while the coherence factor decays at 4γ throughout. At t = 0 it is read by a
+        // central difference of ln Cpsi, whose truncation error is h² times the third derivative of
+        // ln CΨ over 6: the error law is a ratio of 100 per decade of h. (At s = 1 that third
+        // derivative vanishes, the two rates carrying equal weight, so s = 1 is left out.)
+        double LogRate(double t, double h) =>
+            -(Math.Log(OddHarmonicApproach.Cpsi(s, gamma, t + h)) - Math.Log(OddHarmonicApproach.Cpsi(s, gamma, t - h))) / (2.0 * h);
+        double scale = 1.0 / gamma;
+        double expected = 4.0 * gamma * (1.0 + s * s);
+        double e1 = Math.Abs(LogRate(0.0, 1e-2 * scale) - expected);
+        double e2 = Math.Abs(LogRate(0.0, 1e-3 * scale) - expected);
+        Assert.True(e1 / e2 > 90.0 && e1 / e2 < 110.0, $"s={s}, γ={gamma}: error ratio {e1 / e2} is not the h² law");
+
+        // Late, at K = γt = 3: the exact rate is 4γ plus the 12γ term's share 8γ·w₁e^(−24)/(w₀ + w₁e^(−24)).
+        // There the difference's truncation is negligible (the third derivative of ln CΨ carries e^(−24)) and
+        // its rounding is about ε·(1 + |ln CΨ|)/h, so that is the gate, with margin 8.
+        var (w0, w1) = OddHarmonicApproach.Weights(s);
+        double tLate = 3.0 * scale, hLate = 1e-3 * scale, e24 = Math.Exp(-24.0);
+        double exactLate = 4.0 * gamma + 8.0 * gamma * w1 * e24 / (w0 + w1 * e24);
+        double late = LogRate(tLate, hLate);
+        double roundingLaw = 2.220446049250313e-16 * (1.0 + Math.Abs(Math.Log(OddHarmonicApproach.Cpsi(s, gamma, tLate)))) / hLate;
+        Assert.True(Math.Abs(late - exactLate) <= 8.0 * roundingLaw,
+            $"s={s}: late rate {late:R} vs exact {exactLate:R}, rounding law {roundingLaw:E2}");
+    }
+
     [Fact]
     public void HarmonicFraction_IsSSquaredOverTwo()
     {

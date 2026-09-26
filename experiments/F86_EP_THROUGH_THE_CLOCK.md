@@ -100,9 +100,9 @@ diverges** (the modes become maximally non-orthogonal, maximal sensitivity); and
 toy Liouvillian is **defective** (rank 1, a Jordan block: one eigenvector for the double eigenvalue).
 The toy loses a degree of freedom at that single point, two channels become one, a pinch. The
 **full** (n,n+1) block is a separate object: it is strongly non-normal near Q_peak, and finite-q
-Puiseux-1/2 defective EP2 seeds are certified at N=5,7,9 in windows the old coarse scan missed.
-For arbitrary odd N only the endpoint-nullity surplus is proved; literal drop and character remain
-open beyond the certified sizes. A DISTINCT off-real-axis complex-Q defective EP is also open.
+Puiseux-1/2 defective EP2 seeds are certified at N=5,7,9 and classified at N=11, in windows the old
+coarse scan missed. For arbitrary odd N only the endpoint-nullity surplus is proved; a defective seed at
+every larger odd N is open. A DISTINCT off-real-axis complex-Q defective EP is also open.
 See [the F86a EP-mechanism proof](../docs/proofs/PROOF_F86A_EP_MECHANISM.md). The separate Σγ=0
 gain-loss system is [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md).
 

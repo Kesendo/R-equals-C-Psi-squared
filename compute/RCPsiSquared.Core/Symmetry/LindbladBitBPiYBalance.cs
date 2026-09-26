@@ -71,9 +71,22 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>docs/proofs/PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md</c> (parent Hermitian-H)
 /// + <c>docs/proofs/PROOF_F112_NONHERMITIAN_UNIVERSAL_N.md</c> (parent non-Hermitian).</para></summary>
 /// <remarks>
-/// <para>The Y-axis terminology belongs to the exact Pauli grading proved above.  It does not
+/// <para><b>Reading: the Y leg is the imaginary axis.</b> A viewpoint beside the Tier1Derived
+/// scope. The missing Hilbert lift above
+/// is no accident: a unitary that flips Y while fixing X and Z cannot exist, because
+/// Y = i·X·Z and conjugation is an algebra automorphism, so any V fixing X and Z fixes their
+/// product Y too (the same Pauli-algebra fact the obstruction rests on). Y is the imaginary
+/// Pauli: for one qubit ρ₀₁ = (⟨X⟩ − i⟨Y⟩)/2, the real part carrying the X content and the
+/// imaginary part the Y content. The hardware shadow is the Marrakesh Z⊗N-mirror run
+/// (Confirmation <c>marrakesh_transverse_y_field_detection</c>, path [48, 49, 50]): a transverse
+/// Y-field broke the mirror at max violation 0.182, where the model gives 3.5·h_y for a Y-field
+/// and 0.085·h_x for an X-field, about 41× less; that Confirmation reads the Y/X asymmetry
+/// through this bit_b axis, Y being bit_b-odd like the Z-dephasing axis.</para>
+///
+/// <para>The Y-axis terminology belongs to the exact Pauli grading proved above. It does not
 /// identify this Frobenius-balance theorem with a complex-CΨ trajectory, an F95 quarter
-/// threshold, or a hardware mechanism; those are separate objects with separate owners.</para>
+/// threshold, or a hardware mechanism; those are separate objects with separate owners, and
+/// the hardware run above is a reading through the axis, not a consequence of the theorem.</para>
 /// </remarks>
 public sealed class LindbladBitBPiYBalance : Claim, IZ2AxisClaim
 {

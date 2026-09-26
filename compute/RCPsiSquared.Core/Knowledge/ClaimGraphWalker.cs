@@ -11,9 +11,17 @@ namespace RCPsiSquared.Core.Knowledge;
 /// <para>Every public property whose declared type derives from <see cref="Claim"/>
 /// is an executable parent edge. The walker follows exactly those edges; a
 /// same number, similar shape, filename, or prose cross-reference creates no
-/// ancestry. Parentless claims therefore return only themselves. Focused
-/// regressions cover a genuine application-to-formula edge and a separate
-/// parentless formula.</para>
+/// ancestry. Parentless claims therefore return only themselves.</para>
+///
+/// <para>The Bauplan property (Tom: "der Bauplan ist mittransportiert", the building
+/// plan travels along): because typed parents are carried as properties, a walk from
+/// a topically distant claim still reaches the foundations it stands on. F97, the
+/// Mandelbrot cardioid claim about complex-c geometry, carries no F99-anchor metadata
+/// of its own, yet walking its typed parents reaches Quarter, which implements
+/// <see cref="Symmetry.IF99AnchorBearing"/> in the Parent role; from F99 itself the
+/// walk rebuilds its multi-level anchor map. The regressions pin that reach, genuine
+/// application-to-formula edges, the F99 diamond, and a parentless formula (F95)
+/// whose walk returns only itself.</para>
 ///
 /// <para>Implementation: BFS over typed Claim properties. Each property
 /// that returns a Claim subclass is followed; null returns are skipped.

@@ -23,6 +23,14 @@ internal static class CalibrationFixtures
         CalibrationHistory.Load(Path.Combine(RepoRootLocator.Require(),
             "data", "ibm_history", "results", "ibm_marrakesh_history.csv")));
 
+    /// <summary>Loaded once per test session: the Torino history from
+    /// <c>data/ibm_history/ibm_torino_history.csv</c> (2025-08-14 to 2026-02-10,
+    /// 133 qubits × 181 days), the calibration set of <see cref="QubitLifecycle"/>'s
+    /// thresholds.</summary>
+    public static readonly Lazy<IReadOnlyDictionary<int, QubitTimeline>> Torino181d = new(() =>
+        CalibrationHistory.Load(Path.Combine(RepoRootLocator.Require(),
+            "data", "ibm_history", "ibm_torino_history.csv")));
+
     /// <summary>Synthetic timeline of <paramref name="days"/> calibration
     /// entries with constant T1/T2; used to lock specific archetypes.</summary>
     public static QubitTimeline StableTimeline(int qid, int days, double t1Us, double t2Us)

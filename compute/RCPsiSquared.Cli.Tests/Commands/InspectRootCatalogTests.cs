@@ -10,11 +10,6 @@ public class InspectRootCatalogTests
     public void Catalog_NivenFrontDoorScopesExactnessToTheFirstOrderCoefficientComb()
     {
         var entry = Assert.Single(InspectCommand.Catalog, e => e.Name == "niven");
-        Assert.Contains("uniform open XX chain with one dephased endpoint", entry.Description);
-        Assert.Contains("a_k = (4/(N+1))·sin²(kπ/(N+1))", entry.Description);
-        Assert.Contains("α_k^full = γ₀·a_k + O(γ₀³/J²)", entry.Description);
-        Assert.Contains("α_k^full/γ₀ = a_k + O((γ₀/J)²)", entry.Description);
-        Assert.Contains("exact Niven rationality belongs to the first-order coefficient comb", entry.Description);
         Assert.Contains("no exact finite-γ₀/J full-L rationality is claimed", entry.Description);
     }
 

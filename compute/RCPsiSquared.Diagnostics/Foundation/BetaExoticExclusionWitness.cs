@@ -4,10 +4,13 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The live lab for the per-N β-exotic exclusion, certified at N = 5 and N = 7 (Anchor:
-/// <c>BetaExoticPerNExclusionClaim</c>,
-/// <c>inspect --root betaexotic</c>; <c>experiments/F89_SEED_EXISTENCE_REDUCTION.md</c>, section "The
-/// β-exotic is excluded at N = 5 and N = 7"). It re-runs the certificate at inspect time, both R-parity
+/// <summary>The live lab for the per-N β-exotic exclusion, which the claim certifies at N = 5, 7 and 9
+/// (Anchor: <c>BetaExoticPerNExclusionClaim</c>,
+/// <c>inspect --root betaexotic</c>; <c>experiments/F89_BETA_EXOTIC_GENERICITY.md</c>, section "The
+/// β-exotic is excluded at N = 5 and N = 7"). This witness runs the bivariate D-only route, which reaches
+/// N = 5 and N = 7; the N = 9 leg is certified by a different route, the proved layer identity of the gcd
+/// certificate, run in Python only (<c>simulations/o2b_gcd_certificate.py 9</c>, ~3.4 h) and not
+/// recomputed here. It re-runs the certificate at inspect time, both R-parity
 /// sectors, and reads one integer off each run: the maximum root multiplicity of the discriminant
 /// D(q) = disc_Λ(F_res)(q) away from q = 0.
 ///
@@ -29,8 +32,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// A witness that reported <c>MaxDiscMultiplicity</c> without it would be reading a diagnostic, not a
 /// proof, which is what the number was before 2026-07-09.</para>
 ///
-/// <para><b>Scope carried from the claim.</b> Per-N, not all-N: it retires N = 5 and N = 7, one chain
-/// length at a time (N = 9 is out of reach by this route). It does not
+/// <para><b>Scope carried from the claim.</b> Per-N, not all-N: the claim retires N = 5, 7 and 9, one
+/// chain length at a time; this witness recomputes N = 5 and N = 7 (N = 9 is out of reach by this route,
+/// its certificate is the Python layer identity). It does not
 /// exclude a cubic branch point (ord disc = 2, hiding in the multiplicity-2 layer); that is ruled out
 /// at a count-drop by elimination: a cubic point keeps one real branch and one conjugate pair on both
 /// sides of q*, so it cannot change the real count, while an EP2 can. The all-N item (s₆ ≠ 0 at every
@@ -39,8 +43,9 @@ public sealed class BetaExoticExclusionWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
 
-    /// <summary>The chain lengths the certificate has actually been run at. N = 9 is out of reach by this
-    /// route: the block is 324-dimensional and its bivariate ℤ[i][q] charpoly is a different problem.</summary>
+    /// <summary>The chain lengths this route (the bivariate D-only certificate) runs at. N = 9 is out of its
+    /// reach: the block is 324-dimensional and its bivariate ℤ[i][q] charpoly is a different problem; the
+    /// N = 9 exclusion is the gcd certificate's layer identity, in Python.</summary>
     public static readonly IReadOnlyList<int> CertifiedN = new[] { 5, 7 };
 
     /// <summary>The default N for <c>inspect</c>: N = 7 is certified but costs ~5 minutes (both parities),
@@ -89,8 +94,9 @@ public sealed class BetaExoticExclusionWitness : IInspectable
               $"[{Layers(_rOdd)}] (R-odd, residual degree {_rOdd.ResidualDegree}) and [{Layers(_rEven)}] " +
               $"(R-even, degree {_rEven.ResidualDegree}); the simple roots are the √-branch (defective) loci, and " +
               "the double roots are left unidentified (an order-2 zero may be diabolic, cubic, or two coincident " +
-              "defective pairs; the theorem does not need to know which). Per-N, not a law: it retires N = 5 and " +
-              "N = 7 one chain length at a time, N = 9 is out of reach by this route, and the all-N scalar " +
+              "defective pairs; the theorem does not need to know which). Per-N, not a law: the claim retires " +
+              "N = 5, 7 and 9 one chain length at a time; this route recomputes N = 5 and N = 7, N = 9 rests on " +
+              "the Python layer-identity certificate (simulations/o2b_gcd_certificate.py 9), and the all-N scalar " +
               "s₆ ≠ 0 stays open"
             : "NOT established at inspect time: the layer prime failed certification, or a root of multiplicity " +
               $"≥ {BetaExoticDiscOrder} appeared. Read the per-parity nodes; a certificate that does not certify " +
@@ -137,8 +143,10 @@ public sealed class BetaExoticExclusionWitness : IInspectable
                          "paired; checked at N = 5 and N = 7, the AT step not derived in general). The β-exclusion above " +
                          "needs only the multiplicity bound. And it does not touch the all-N item: the codim-2 " +
                          "β-exotic genericity, reduced to s₆ ≠ 0 at every forced seed, remains open. This is a " +
-                         "per-N certificate. It retires N = 5 and N = 7, one chain length at a time; N = 9 is out of reach " +
-                         "by this route (a 324-dimensional block).",
+                         "per-N certificate. The claim retires N = 5, 7 and 9, one chain length at a time; this " +
+                         "route recomputes N = 5 and N = 7, and N = 9 (a 324-dimensional block, out of its reach) is " +
+                         "certified by the gcd certificate's proved layer identity, run in Python only " +
+                         "(simulations/o2b_gcd_certificate.py 9, ~3.4 h).",
                 provenance: NodeProvenance.Stored);
         }
     }

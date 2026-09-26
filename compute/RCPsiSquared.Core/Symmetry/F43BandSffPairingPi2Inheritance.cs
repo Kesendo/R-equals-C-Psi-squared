@@ -25,9 +25,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>For a connected uniform chain with strictly positive uniform dephasing, the exact endpoint eigenspaces contain
 /// the N+1 stationary modes and their N+1 palindrome partners at
-/// <c>λ = −2Nγ</c>. Their frequencies are all zero. Hence their normalized
+/// <c>λ = −2Nγ</c>. Their frequencies are all zero: in frequency the endpoint's
+/// density is a delta spike at zero frequency, so in time its normalized
 /// frequency SFF is the constant 1 for every time (unnormalized: (N+1)²), not
-/// an impulse at time zero. A finite-width numerical band can contain more
+/// an impulse at time zero. The count N+1 at both ends is F158's two-end count
+/// (<see cref="PalindromeTwoEndCountClaim"/>: dim ker L = dim ker(L + 2σ) = N+1
+/// on the canonical chain), read there by exact ranks. A finite-width numerical band can contain more
 /// eigenvalues and is a separate sampled object. At γ=0 the two endpoints
 /// collapse into the Hamiltonian commutator kernel, whose multiplicity is not N+1.</para>
 ///
@@ -104,12 +107,15 @@ public sealed class F43BandSffPairingPi2Inheritance : Claim, IZ2AxisClaim
     }
 
     /// <summary>N+1 stationary modes, and therefore N+1 partner modes at
-    /// <c>−2Nγ</c>, for a connected chain at strictly positive uniform dephasing.</summary>
+    /// <c>−2Nγ</c>, for a connected chain at strictly positive uniform dephasing.
+    /// This is <see cref="PalindromeTwoEndCountClaim.CanonicalChainCount"/>; the
+    /// exact-rank count of both ends is gated against it in
+    /// <c>F43EndpointCountTests</c> (Diagnostics.Tests).</summary>
     public int EndpointMultiplicity(int N, double gamma)
     {
         ValidateN(N);
         ValidatePositiveGamma(gamma);
-        return N + 1;
+        return PalindromeTwoEndCountClaim.CanonicalChainCount(N);
     }
 
     /// <summary>The normalized frequency SFF of either exact zero-frequency
@@ -162,7 +168,7 @@ public sealed class F43BandSffPairingPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("average-light reading",
                 summary: "under uniform dephasing, d = 2γ⟨n_XY⟩ and the reflected band has average light N−⟨n_XY⟩; fractional average light is allowed because H mixes Pauli weights by ±2");
             yield return new InspectableNode("exact endpoint bands",
-                summary: $"at strictly positive uniform γ, a connected chain has N+1 stationary modes and N+1 partners at −2Nγ; all endpoint frequencies vanish, so normalized K(t) = {EndpointNormalizedFrequencySff(gamma: 1.0, time: 1.0)} constantly and unnormalized K(t) = (N+1)²; γ=0 is excluded because the endpoints collapse into the larger commutator kernel");
+                summary: $"at strictly positive uniform γ, a connected chain has N+1 stationary modes and N+1 partners at −2Nγ; all endpoint frequencies vanish (a delta spike at zero frequency in the frequency density), so normalized K(t) = {EndpointNormalizedFrequencySff(gamma: 1.0, time: 1.0)} constantly and unnormalized K(t) = (N+1)²; γ=0 is excluded because the endpoints collapse into the larger commutator kernel");
             yield return new InspectableNode("finite-width producer boundary",
                 summary: "a numerical rate window may include modes beyond the exact endpoint eigenspace; its sampled count and SFF are not promoted to the endpoint theorem");
         }

@@ -30,12 +30,14 @@ public class F86OpenQuestionsRegistrationTests
     }
 
     [Fact]
-    public void FamilyOpenQuestionCollection_InheritsFromExplicitSrpQuestion()
+    public void FamilyOpenQuestionCollection_HangsUnderTheQAxisAnchor_NotUnderTheSrpQuestion()
     {
+        // The collection's items are Q_peak-response questions; the SRP class is its own question.
         var registry = BuildRegistry();
         var ancestors = registry.AncestorsOf<OpenQuestionCollection<F86Marker>>()
             .Select(c => c.GetType()).ToHashSet();
-        Assert.Contains(typeof(FullIrreducibleSrpClassQuestion), ancestors);
-        Assert.Contains(typeof(ShiftedGeneratorSectorwisePClaim), ancestors);
+        Assert.Contains(typeof(QEpLaw), ancestors);
+        Assert.DoesNotContain(typeof(FullIrreducibleSrpClassQuestion), ancestors);
+        Assert.DoesNotContain(typeof(ShiftedGeneratorSectorwisePClaim), ancestors);
     }
 }

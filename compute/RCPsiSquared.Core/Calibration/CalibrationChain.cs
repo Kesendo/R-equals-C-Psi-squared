@@ -15,11 +15,11 @@ namespace RCPsiSquared.Core.Calibration;
 /// <para>On the 2026-04-25 Marrakesh CSV the best 3-chain is [4, 3, 2] (score ≈ 867)
 /// and the best 5-chain is [1, 2, 3, 4, 5] (score ≈ 1247). The same scoring ranks the
 /// soft_break path [48, 49, 50] (score ≈ 682) above the framework_snapshots path
-/// [0, 1, 2] (score ≈ 597) by ~14%; the corresponding state-level truly-baseline
-/// downstream of F88b-Lens is 23× cleaner on [48, 49, 50] (see
-/// <c>project_f88b_lens_ibm_marrakesh.md</c>). The score gap and the F88b ratio are
-/// related but not equal: better calibration → cleaner truly-baseline, with the F88b
-/// reading amplifying the per-qubit difference at the state level.</para>
+/// [0, 1, 2] (score ≈ 597) by ~14%. The F88b-Lens truly-baselines read on those paths do
+/// not follow the score: their 22.1× pairs two runner scripts, within one script the
+/// paths differ 1.64×, and [48, 49, 50] alone reads 8.6× apart across the scripts
+/// (see <see cref="RegimeSummary"/>). The score ranks calibration rows; it is not shown
+/// to predict the truly-baseline.</para>
 /// </summary>
 public sealed record CalibrationChain(
     double Score,

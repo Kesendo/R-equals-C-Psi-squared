@@ -40,29 +40,29 @@ such a locally certified seed from the (1,2) block across the containment diamon
 the seed: each chain length must separately supply a literal finite-q count drop and a character test.
 
 This note is about that one input. Until now its candidate loci were supplied by a brute-force
-numerical **count-change census**, checked to N = 11; local character certification currently stops
-at N = 9. Here the endpoint part becomes an exact counting identity, and all three of its
+numerical **count-change census**, checked to N = 11, where every locus also reads a defective
+EP2; an exact character certificate reaches N = 9. Here the endpoint part becomes an exact counting identity, and all three of its
 counting pieces are proved (the last, Piece 3, landed the same day after two adversarial reviews). The
 short answer is narrower: **odd N forces the endpoint-nullity surplus N−1**, because a path graph on an
 odd number of vertices carries a zero mode while an even one does not. Turning that algebraic surplus
 into a finite-q defective seed still needs the literal real-count drop and the local character test.
-Both are certified at N = 5, 7, 9; N = 11 supplies a measured literal drop with third-order endpoint
-bookkeeping, but not the same Puiseux-1/2 certificate. The all-odd existence statement therefore remains
-open outside the certified sizes (Status items 2 and 3).
+At N = 5, 7, 9 the drop is probed exactly and the character certified. At N = 11 the literal drop is
+measured, 27 → 17 = N − 1 (the surrogates are not the literal counts there: four of the r(0⁺) = 31 modes leave the axis at third order and four of the r(∞) = 21 never reach it), and all nine loci are classified defective EP2 ([classified, not certified](../docs/GLOSSARY.md#classified-and-certified-a-degeneracys-character)). Beyond N = 11
+both are open (Status items 2 and 3), so the all-odd existence statement is open.
 
 ## The one input the corollary cannot derive
 
 The containment corollary of [PROOF_CODIM1_BY_ADDITIVITY](../docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md)
 transports and folds a seed across the whole diamond, but it takes the seed's *existence* as given for
-the chain length under discussion. That input is certified at N = 5, 7, 9. The **census** (this arc's
+the chain length under discussion. That input is certified at N = 5, 7, 9 and classified at N = 11. The **census** (this arc's
 brute-force numerical sweep of the q-axis for count-change loci), the
 PT-break count scan (PT = parity-time: it counts jumps in the number
 of real eigenvalues of the self-conjugate spectrum), checked to N = 11 (the table in
 [F89_PATH_K_DIABOLIC.md](F89_PATH_K_DIABOLIC.md); the counts 4/6/7/9 at N = 5/7/9/11 are individual
 count-change loci found in the scan window [0.2, 3] (octic-q units; ×2 on this note's axis, see the pin
 above), a different measure than this note's mode-counting
-surplus N − 1: the coincidence of the two numbers at N = 5/7 is not an identity). Only the N=5/7/9
-loci have the additional local character certificate and may be called seeds. A census is a
+surplus N − 1: the coincidence of the two numbers at N = 5/7 is not an identity). The N = 5/7/9
+loci are certified seeds; the nine N = 11 loci are seeds at classified grade. A census is a
 lower bound over a window, not a law, and it grows more expensive every N (the N = 11 run took 2 h 31 m).
 This note replaces the endpoint-count part of the census question with an exact identity and proves
 its counting lemmas; the remaining gaps are the codimension-2 genericity check and the literal-drop
@@ -320,7 +320,7 @@ sign-law tightening) now lives in its own file,
 on both remaining premises**: the endpoint count must first become a literal finite-q drop (Status
 item 3), and the β-exotic item then certifies the drop's local character (Status item 2).
 
-## Resonant N, measured: the twinning protection at N = 11 and N = 17 (2026-07-10)
+## Resonant N: the twinning protection, measured at N = 11 and N = 17 (2026-07-10)
 
 "Resonant" here means what the Piece-2 remark already recorded: nullity(K₆₆) = 3(N−1)/2 and
 ker(K₆₆) ⊂ class O are the *baseline*, and extra fusion resonances break both (this note's own
@@ -334,8 +334,8 @@ dynamics, and finding the protection mechanism.
   class-E directions, those with K₂₆ξ ≠ 0 are the dangerous ones: by that edge-birth theorem they would
   enter the band in the forbidden corner and falsify the cell law (the O2b sign law, in the same file;
   at N = 11 there are two, with effective-operator levels exactly 1/2 and 3/2 in units q²/4).
-- **The twinning law (measured; the degeneracy is exact-arithmetic decidable on the rational Heff,
-  a cheap upgrade not yet done).** The effective operator Heff := P_ker K₆₂K₂₆ P_ker is
+- **The twinning law (measured here at N = 11 and 17; the degeneracy is proved over ℚ(i) at every
+  resonant N in the sections below, the nonzero third-order coupling stays measured).** The effective operator Heff := P_ker K₆₂K₂₆ P_ker is
   exactly class-diagonal (every odd word in K is class-off-diagonal, since TKT = −K holds exactly on
   the integer matrices). At N = 11 each of the two coupled class-E levels is *exactly* degenerate
   with a class-O level of Heff (gaps ≤ 2.2e−16), and at N = 17 all four coupled class-E levels are
@@ -357,8 +357,9 @@ dynamics, and finding the protection mechanism.
   that N. **That test has now been RUN, at N = 23 and N = 29; both hold** (the next section).
 
 Status of this section: measured facts, two independent recomputations (the twinning gaps, the
-kernel splits, the counts, and the q³/1-over-q scalings all reproduced); not yet theorems, except
-where the text says "proved". The section below supersedes two readings recorded here: the
+kernel splits, the counts, and the q³/1-over-q scalings all reproduced). Of these, the twinning
+degeneracy is proved at every resonant N below; the nonzero third-order coupling, the counts and the
+scalings remain measurements at the N where they were run. The section below supersedes two readings recorded here: the
 combinatorial origin of the resonance is no longer open, and the multiplet structure is organised by
 mirror PAIRS of triples (3E + 3O each, two coupled E-levels per pair), not "one E level per resonant
 triple".
@@ -457,8 +458,8 @@ makes the exact coincidence of the rational E-levels inside it worth a name.
 the cheapest falsification of the cell law. At **N = 23** (the true next resonant N; dim K₆₆ = 5313)
 all 6 coupled E-levels are twinned to ≤ 7.8e−16, and at **N = 29** (dim 10962, the first N carrying
 the PENT family, an independent number-theoretic mechanism) all 10 are twinned to ≤ 4.4e−16. **The
-cell law survives its cheapest kill at N = 23 and N = 29.** It is not thereby proved: the twinning
-stays unproven at every unprobed N, which is what "prove Y = 0" below would close.
+cell law survives its cheapest kill at N = 23 and N = 29.** The kill test is a measurement at those two
+N; the twinning degeneracy at every resonant N is proved by Y = 0 and the variety identity (below).
 
 Status (as it stood on 2026-07-10; superseded by the next section): the criterion, the self-mirror
 lemma and the class-split formula are proved (the classification is Conway-Jones; the lemma is two
@@ -855,9 +856,9 @@ sees every sorted triple exactly once, so the sector Gram is ⟨D_τ, D_σ⟩ = 
 | ε = −1, mode-disjoint | certified | the six-angle identity on the variety, GF(p) |
 | ε = −1, shared mode | certified | the same, plus a proved removable limit |
 
-> The two `certified` rows are **superseded 2026-07-13**: proved on the variety over ℚ(i) by a
-> deterministic grid + CRT computation, modulo the assembly (D). See "The variety identity, proved over
-> ℚ(i)" below for the updated grade table.
+> The two `certified` rows are proved on the variety over ℚ(i) by a deterministic grid + CRT
+> computation, the assembly (D) symbolic; see "The variety identity, proved over ℚ(i)" below for the
+> current grade table.
 
 > **Extended off-resonance 2026-07-14 (F130).** This whole four-cell table turned out to be a table
 > about level COINCIDENCE, not about vanishing: for any two distinct triples with equal levels
@@ -1125,8 +1126,8 @@ is **open**, with two remaining items (2 and 3 below): r(0⁺) is *defined* as t
 the literal real count on (0, ε) is the first-order statement of the pencil section, probed at
 N = 5, 7, 9. The once-hypothetical failure mode ("a kernel pair leaving the axis at higher order in q
 would absorb part of the surplus at q = 0") is now a measured fact at resonant N = 11 (two pairs, third
-order; literal counts 27 → 17, drop still exactly N − 1; the resonant-N section above), which is why
-the former "disclosed reading premise" is item 3 now.
+order; literal counts 27 → 17, drop still exactly N − 1; the resonant-N section above), so the literal
+reading is an item of its own, item 3.
 This note must not be read as closing the existence question until the remaining items fall:
 
 1. ~~**(N1′)**~~ **CLOSED 2026-07-04 (Piece 3):** n₆ = 3·Z₃ = the fusion-resonance count, by the
@@ -1142,28 +1143,23 @@ This note must not be read as closing the existence question until the remaining
    theorem; that each drop is a genuine √-type seed is that note's open item, and the seed-existence
    *conclusion* waits on it.
 
-3. **The literal-drop premise (named 2026-07-10; previously "one disclosed reading premise",
-   upgraded to an item by the N = 11 measurement):** the existence conclusion needs the nullity
+3. **The literal-drop premise:** the existence conclusion needs the nullity
    surplus to be a *literal* real-count drop at finite q. That is probed exactly at N = 5, 7, 9 and
-   measured at N = 11, and **unproven at every unprobed N**, non-resonant ones included:
-   first-order theory lifts the nonzero-shift modes rigorously but never shows the kernel modes
-   *stay* real (the N = 11 lesson is exactly that a zero first-order shift permits a q³ lift), and
-   nothing proves that non-resonance excludes a twinning-type mechanism at N ≥ 13. The resonant
+   measured at N = 11, and **open at every unprobed N**: first-order theory lifts the
+   nonzero-shift modes rigorously but never shows the kernel modes *stay* real (the N = 11 lesson is
+   exactly that a zero first-order shift permits a q³ lift), and nothing proves that non-resonance
+   excludes a twinning-type mechanism. The resonant
    case is the demonstrated failure mode of the naive literal reading: at N = 11 four of the
    r(0⁺) = 31 modes leave the axis at third order and four of the r(∞) = 21 never reach it, and
    the literal drop 27 − 17 = 10 = N − 1 survives *by measurement*, balanced by the twinning
    mechanism (resonant-N section). Its combinatorial origin is no longer open (see "The resonance
-   criterion, closed"): the resonant N are exactly those with 3 \| N + 1, N ≥ 11, and the twinning
-   holds at N = 23 and N = 29 as well, though it stays unproven at every unprobed N. N = 17's counts
-   were not measured (only its kernel split and twinning gaps).
-
-   > **Update 2026-07-13.** "Unproven at every unprobed N" above is at the certificate grade of
-   > 2026-07-10e. The cross-triple orthogonality is a continuous, N-free identity (𝔉 ≡ 0 on V, now
-   > proved over ℚ(i); see "The variety identity, proved over ℚ(i)" above), so the full-spectrum
-   > twinning now follows at **every** resonant N, uniform in N, at proof grade modulo the assembly (D),
-   > not only at the probed N = 11, 23, 29. The resonant-N support this item leans on inherits that
-   > grade; item 3 itself stays open only at the **non-resonant** N ≥ 13, which the twinning argument
-   > does not touch.
+   criterion, closed"): the resonant N are exactly those with 3 \| N + 1, N ≥ 11. At every resonant
+   N the twinning degeneracy (each coupled class-E level of Heff has an exact class-O twin) holds at
+   **proof grade over ℚ(i)**, uniform in N ("The variety identity, proved over ℚ(i)" and "The assembly
+   (D), made symbolic"; the code-trust layer remains). That the twins then leave the axis needs a
+   nonzero third-order coupling between them, measured at N = 11 and 17 only, and nothing shows the
+   other kernel modes stay real, so the literal count is not a consequence at any resonant N; N = 17's
+   counts were not measured.
 
 When both the literal-drop premise and the β-exotic close **for all odd N**, the census input becomes a law for all odd N, and the
 containment diamond membership follows at every odd N with no further scan. Per-N certificates, however

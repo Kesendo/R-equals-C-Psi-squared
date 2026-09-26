@@ -1110,9 +1110,10 @@ void RunPull3()
     int d = 1 << n;
     double gamma = 0.05;
     double gammaQuiet = 0.005;
-    double stageTime = 0.78;    // Nominal historical heuristic, not a palindrome or F14 timing law.
+    double stageTime = 0.78;    // 0.039/γ = 0.039/0.05, the February concurrence-feedback dose K ≈ 0.039
+                                // (experiments/RELAY_PROTOCOL.md); a heuristic, not a palindrome or F14 timing law.
     // Requested 0.78/stage (4.68 total); integrated 0.75/stage (4.50 total).
-    // 6 * 15 = 90 RK4 updates per staged arm. The old t=4.7 display was nominal.
+    // 6 * 15 = 90 RK4 updates per staged arm. The log shows both totals.
     // Stored A:D 0.131700 / passive sampled maximum 0.071576 gives about +84.0%.
     // This is unmatched in time/dose: 2.200 at t=4.00 versus 2.17125 at t=4.50.
     // Equal-time counterfactual exposure at 4.50: passive 2.475 versus 2.17125.

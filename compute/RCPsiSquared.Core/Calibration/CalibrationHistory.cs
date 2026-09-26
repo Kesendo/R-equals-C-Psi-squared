@@ -28,7 +28,7 @@ public sealed record QubitTimeline(int Qubit, IReadOnlyList<CalibrationDay> Days
 /// a multi-day window. Calibrated empirical anchors:
 /// <c>data/ibm_history/results/ibm_marrakesh_history.csv</c> (91 days,
 /// 156 qubits, 2026-02-04 to 2026-05-05) and
-/// <c>data/ibm_history/ibm_torino_history.csv</c> (180 days, 133 qubits,
+/// <c>data/ibm_history/ibm_torino_history.csv</c> (181 days, 180 day-pairs, 133 qubits,
 /// 2025-08-14 to 2026-02-10, retired Eagle r3 backend).</para></summary>
 public static class CalibrationHistory
 {

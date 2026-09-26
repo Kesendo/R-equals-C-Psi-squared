@@ -14,7 +14,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// Cell B, 16: ord = 2, (XX, XX), self or adjacent-kept bonds, s on a b₁ endpoint;
 /// Cell C, 8: ord = 2, (YY, YY), self bonds only, s on a b₁ endpoint.
 /// In the Pauli convention H = JΣσσ the same coefficient reads 64/3. The
-/// next order for this setup is −(5/3)Q²K⁴ (the J³γt⁴ term vanishes); no universal monomial follows. The coefficient is owned by this
+/// next order for this setup is −(5/3)Q²K⁴: at fourth order the J²γ² words sum to −40 = −(5/3)·4!
+/// and the J³γ words to exactly 0, so the J³γt⁴ term vanishes; no universal monomial follows. The coefficient is owned by this
 /// calculation; same-number dyadic anchors are comparisons, not ancestry.
 /// </summary>
 public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
@@ -56,9 +57,6 @@ public sealed class F94BornDeviationFourThirdsPi2Inheritance : Claim
     /// <summary>The leading-order ratio 1 + Delta, not a Born-rule derivation.</summary>
     public double C_DominantOutcome(double Q, double K) =>
         1.0 + DeltaDominant(Q, K);
-
-    public bool CoefficientAgreesWithSym3() =>
-        Coefficient == (double)Sym3PartialTraceInteger / TaylorThreeFactorial;
 
     public bool CellCountsSumToSurvivingDiagrams() =>
         CellA_Ord1XX_AdjKeptSide + CellB_Ord2XX_SelfOrAdjKeptSide + CellC_Ord2YY_Self

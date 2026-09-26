@@ -4254,6 +4254,64 @@ and the rates are unsourced) carried as a blanket narrowing of what the proof co
 case a sharper statement was one step away: a two-line lemma and a rank mod p, a similarity that changes
 nothing, the lemma the page already proved. The corrections are kept; the narrowing is not.
 
+## 2026-09-26, the regime-uniformity contrast compared two runner scripts, not two paths
+
+**What was wrong.** The Confirmation `regime_uniformity_kingston_uniform_quantum`, `RegimeSummary` and
+`docs/BOTH_SIDES_VISIBLE.md` read the F88b-lens truly baseline on Marrakesh [48, 49, 50] (0.0013) against
+[0, 1, 2] (0.0297) as a 22.8× effect of the path's regime composition. The outside rewrite 05a523b4 kept
+the numbers and fenced the causal reading as confounded, and the first repair named the confounds as
+backend, path, date and calibration differing at once. All three readings missed what the run files hold. The two values come from two different runner scripts (soft_break and
+framework_snapshots). The same uniform path reads 0.0013 in one and 0.0116 in the other, 8.6× apart;
+within one script, eleven minutes apart, the mixed path is 1.64× the uniform one; the mixed path itself
+reads 0.0190 and 0.0297 across two runs of one script. The ratios had also been taken from four-decimal
+display values (13.5×, 1.69×, 22.8×; from the raw values 13.3×, 1.67×, 22.1×), and four more surfaces
+(IbmCalibration, CalibrationChain, their test, ibm_calibration.py) said calibration causes the contrast.
+
+**Found by.** The typed-layer audit of 05a523b4 (the rounded ratios); the second fresh review round on
+the repair (the repeat runs in the producer's own data folder); the third (the four calibration surfaces
+and a truth gate the repair had broken).
+
+**What stands now.** Every run is listed with its value and its script; the regime-uniformity hypothesis
+is recorded as not supported by these runs; the entry keeps what still stands, F87 on a second backend
+and soft pumping on two chips. The name stays as a stable key.
+
+**The lesson.** Before reading a ratio between two hardware runs as an effect of the thing that differs,
+list every run of both kinds and the script that produced it: the spread between repeats of one condition
+is the scale any contrast must beat, and a fence that names the confounds without that list can still
+misname them.
+
+## 2026-09-26, a certificate category left the N=11 seeds' true classification nowhere to live
+
+The outside commit 389c3f4c (2026-09-06) rightly added a certificate flag to the (1,2)-block locus registry
+(`RealSeed.CharacterCertified`, true at N = 5, 7, 9, where the exact gcd-layer certificate reaches) but no field for
+the classification. So the nine N = 11 loci, each a clean numerical defective EP2 (Riesz alg 2, geo 1, gap exponent ½,
+departures 0.35 to 2.81), became "count-change candidates"; the shell census reported them
+`TRANSPORT-PASS (witness-assisted; character-uncertified)`, the TRANSPORT-PASS grade a known semisimple locus gets
+(`TRANSPORT-PASS (character-uncertified)` at the N = 9 scout locus); the (gap/2)² Jordan reading was withdrawn for all
+nine; and about fourteen typed and document sites said the literal drop and the character were "open beyond
+N=5,7,9", although the source measured the N = 11 drop, 27 → 17. The reason given was the third-order lift-off of four
+of the r(0⁺) = 31 surrogate modes, a true fact about the endpoint surrogates (four of the r(∞) = 21 also never reach
+the axis), not about the finite-q loci. Three flag locks (two tests and one assertion in a third) pinned the demotion.
+The repair adds a `Classified` field beside the flag, a three-grade census verdict, and a gate that recomputes the
+classification at all nine loci; the wording is now one throughout: the drop probed at N = 5, 7, 9 and measured at 11,
+the character certified at 5, 7, 9 and classified at 11.
+
+**The shape.** A category defined so that a true result falls outside it, and then no slot to hold the true result.
+A gate proposed for the repair specified a 302-dimensional N = 11 R-odd sector; it is 300 (605 = 5 + 2·300).
+
+## 2026-09-26, the toy EP's angle was pinned to zero by an equality test on q
+
+931d691f fixed a real sign slip in the F86 toy quadratic and, to make the angle zero at the EP, added
+`if (q == QEp(gEff)) return 0.0` to both angle routes, with tests that asserted that branch. The branch
+hid two things. For a double g_eff the EP is q* = 2/g_eff exactly, and QEp returns that quotient rounded,
+which generally misses it (below for g_eff = 4/3, 3, 6, above for 0.8, 5). And the F95 route's c/b² − 1 is
+√-sensitive there, so the 1e-12 equality between the two routes failed at t = c/b² − 1 below about 10⁻⁸.
+**What stands now.** The side of the EP is the exact sign of FMA(q, g_eff, −2), checked against the exact
+rational t; the angle is 0.0 where the EP is a double and is read elsewhere; the two routes agree within a
+rounding law gated per decade over t from 10⁻¹⁶ to 10¹, and under a stated ceiling (not a law) below ε/4.
+**Lesson.** An equality on a floating input at a boundary is a hard-code, not a computation; compute the
+signed distance once, exactly, and let every decision read it.
+
 ## 2026-09-26, conserved mirror parity was read as mixing inside every parity block
 
 **What was wrong.** The 2026-08-23 entry above, the asymptotic-sector proof's sparse-support paragraph,

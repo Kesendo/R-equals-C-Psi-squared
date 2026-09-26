@@ -1,3 +1,4 @@
+using System.Numerics;
 using RCPsiSquared.Core.Knowledge;
 using RCPsiSquared.Core.Symmetry;
 
@@ -35,30 +36,165 @@ public class TransitionBridgeF95SiblingClaimTests
     }
 
     [Fact]
-    public void EpAngle_IsZeroAtTheEp_AndUndefinedBelowIt()
+    public void EpAngle_IsUndefinedBelowTheEp()
     {
-        // At the discriminant zero the angle is exactly zero; below it the F95
-        // complex-root angle is undefined.
         var c = BuildClaim();
-        double gEff = 4.0 / 3.0; // Q_EP = 1.5
-        Assert.True(double.IsNaN(c.EpClockAngle(1.0, 1.0, gEff)), "below the EP: no rotation");
-        Assert.True(double.IsNaN(c.EpF95Angle(1.0, 1.0, gEff)), "below the EP: c < b², no F95 angle");
-        Assert.False(c.EpClockAngleEqualsF95Angle(1.0, 1.0, gEff));
-        Assert.Equal(0.0, c.EpClockAngle(1.0, 1.5, gEff));
-        Assert.Equal(0.0, c.EpF95Angle(1.0, 1.5, gEff));
-        Assert.True(c.EpClockAngleEqualsF95Angle(1.0, 1.5, gEff));
+        double gEff = 0.5; // Q_EP = 4
+        Assert.True(double.IsNaN(c.EpClockAngle(1.0, 3.0, gEff)), "below the EP: no rotation");
+        Assert.True(double.IsNaN(c.EpF95Angle(1.0, 3.0, gEff)), "below the EP: c < b², no F95 angle");
+        Assert.False(c.EpClockAngleEqualsF95Angle(1.0, 3.0, gEff));
     }
 
     [Theory]
-    [InlineData(4.0 / 3.0)]
-    [InlineData(0.8)]
-    public void EpAngle_AtQEpApiBoundary_IsExactlyZero(double gEff)
+    [InlineData(0.5, 1.0)]
+    [InlineData(1.0, 1.0)]
+    [InlineData(2.0, 0.05)]
+    [InlineData(4.0, 0.05)]
+    public void EpAngle_WhereTheEpIsADouble_IsComputedExactlyZero(double gEff, double gamma0)
     {
+        // Q_EP = 2/g_eff is exact in binary for these g_eff, so q·g_eff − 2 is exactly 0.0 and
+        // both routes return 0.0 from their own arithmetic: the clock from a zero branch of the
+        // roots, the F95 route from c = b² exactly. Nothing is special-cased at Q_EP.
         var c = BuildClaim();
         double qEp = TransitionBridgeF95SiblingClaim.QEp(gEff);
-        Assert.Equal(0.0, c.EpClockAngle(1.0, qEp, gEff));
-        Assert.Equal(0.0, c.EpF95Angle(1.0, qEp, gEff));
-        Assert.True(c.EpClockAngleEqualsF95Angle(1.0, qEp, gEff));
+        Assert.True(qEp * gEff == 2.0);
+        Assert.Equal(0.0, c.EpClockAngle(gamma0, qEp, gEff));
+        Assert.Equal(0.0, c.EpF95Angle(gamma0, qEp, gEff));
+        Assert.True(c.EpClockAngleEqualsF95Angle(gamma0, qEp, gEff));
+    }
+
+    [Fact]
+    public void EpAngle_AtTheDoubleNearestToQEp_ReadsTheRoundingOfTheQuotient()
+    {
+        // Where 2/g_eff is not a double, QEp returns the nearest one and the angle is the angle
+        // of those inputs. For a given double g_eff the EP is q* = 2/g_eff exactly, so the offset
+        // is the rounding of that quotient (exact g_eff = 3, 5, 6 miss the EP the same way):
+        // 2/fl(4/3) rounds to 1.5 with 1.5·fl(4/3) < 2, just below the EP (both routes NaN);
+        // 2/fl(0.8) rounds to 2.5 with 2.5·fl(0.8) > 2, just above, where the clock reads
+        // √(s·(q·g + 2))/4 = 2^(−27.5) ≈ 5.3·10⁻⁹ and the √-sensitive F95 route rounds c back to b², 0.0.
+        var c = BuildClaim();
+        double below = TransitionBridgeF95SiblingClaim.QEp(4.0 / 3.0);
+        Assert.True(double.IsNaN(c.EpClockAngle(1.0, below, 4.0 / 3.0)));
+        Assert.True(double.IsNaN(c.EpF95Angle(1.0, below, 4.0 / 3.0)));
+
+        double above = TransitionBridgeF95SiblingClaim.QEp(0.8);
+        double clock = c.EpClockAngle(1.0, above, 0.8);
+        double s = Math.FusedMultiplyAdd(above, 0.8, -2.0);
+        Assert.True(s == Math.ScaleB(1.0, -53), $"s = {s:R}");
+        // s = 2⁻⁵³ and q·g + 2 rounds to 4, so the angle is arctan(√(2⁻⁵¹)/4) = 2^(−27.5) to
+        // within the few roundings of Sqrt, Complex.Sqrt and Atan (each within an ulp).
+        Assert.True(Math.Abs(clock / Math.Pow(2.0, -27.5) - 1.0) <= 4.0 * Math.ScaleB(1.0, -52), $"clock = {clock:R}");
+        Assert.Equal(0.0, c.EpF95Angle(1.0, above, 0.8));
+        Assert.True(clock <= TransitionBridgeF95SiblingClaim.AngleLawMargin * TransitionBridgeF95SiblingClaim.AngleRoundingLaw(0.0));
+        Assert.True(c.EpClockAngleEqualsF95Angle(1.0, above, 0.8));
+
+        // Exact g_eff, inexact quotient: 3 and 6 land below, 5 above.
+        foreach (double g in new[] { 3.0, 6.0 })
+            Assert.True(Math.FusedMultiplyAdd(TransitionBridgeF95SiblingClaim.QEp(g), g, -2.0) < 0.0
+                        && double.IsNaN(c.EpClockAngle(1.0, TransitionBridgeF95SiblingClaim.QEp(g), g)));
+        Assert.True(c.EpClockAngle(1.0, TransitionBridgeF95SiblingClaim.QEp(5.0), 5.0) > 0.0);
+    }
+
+    /// <summary>The exact t = ((q·g)² − 4)/16 of the given doubles, rounded once to a double:
+    /// q·g is an exact dyadic rational, so t is computed in BigInteger arithmetic.</summary>
+    private static double ExactT(double q, double g)
+    {
+        static (BigInteger M, int E) Split(double x)
+        {
+            long bits = BitConverter.DoubleToInt64Bits(x);
+            int exponent = (int)((bits >> 52) & 0x7FF);
+            long mantissa = bits & ((1L << 52) - 1);
+            Assert.True(exponent != 0 && x > 0.0, "normal positive doubles only");
+            return (new BigInteger(mantissa | (1L << 52)), exponent - 1075);
+        }
+        var (mq, eq) = Split(q);
+        var (mg, eg) = Split(g);
+        BigInteger m = mq * mg;
+        int k = -2 * (eq + eg);
+        Assert.True(k > 0);
+        BigInteger numerator = m * m - (new BigInteger(4) << k);
+        return Math.ScaleB((double)numerator, -k - 4);
+    }
+
+    [Fact]
+    public void F95Route_FollowsItsRoundingLaw_AcrossSeventeenDecades()
+    {
+        // No exact route exists for the F95 angle near the EP (c/b² − 1 is formed by a rounded
+        // division of two nearly equal numbers), so its deviation is held to a LAW: against the
+        // exact angle of the given doubles, arctan(√t), the worst deviation per decade of t is a
+        // steady fraction of E(t) = ε(1+t)/(2√t) from 10⁻¹⁶ to 10¹ (the branch of AngleRoundingLaw
+        // that holds for t above ε/4; numpy replicas give about 0.8 to 1.06 per decade, so the band
+        // [0.6, 1.25] rejects a law off by a factor of two either way). The clock route, which
+        // reads the factored discriminant, stays within the same bound. Below ε/4 see
+        // NextToTheEp_TheSideIsExact_AndTheErrorIsUnderItsCeiling.
+        var c = BuildClaim();
+        var rng = new Random(7);
+        for (int decade = -16; decade <= 0; decade++)
+        {
+            double worstF95 = 0.0, worstClock = 0.0;
+            for (int sample = 0; sample < 400; sample++)
+            {
+                double gamma0 = Math.Pow(10.0, -3.0 + 4.0 * rng.NextDouble());
+                double g = Math.Pow(10.0, -1.0 + 2.0 * rng.NextDouble());
+                double tTarget = Math.Pow(10.0, decade + rng.NextDouble());
+                double q = Math.Sqrt(16.0 * tTarget + 4.0) / g;
+                double t = ExactT(q, g);
+                Assert.True(t > 0.0);
+                double exact = Math.Atan(Math.Sqrt(t));
+                double law = TransitionBridgeF95SiblingClaim.AngleRoundingLaw(t);
+                worstF95 = Math.Max(worstF95, Math.Abs(c.EpF95Angle(gamma0, q, g) - exact) / law);
+                worstClock = Math.Max(worstClock, Math.Abs(c.EpClockAngle(gamma0, q, g) - exact) / law);
+                Assert.True(c.EpClockAngleEqualsF95Angle(gamma0, q, g), $"routes disagree beyond the law at q={q:R}, g={g:R}");
+            }
+            Assert.InRange(worstF95, 0.6, 1.25);
+            Assert.InRange(worstClock, 0.0, 1.25);
+        }
+    }
+
+    [Fact]
+    public void NextToTheEp_TheSideIsExact_AndTheErrorIsUnderItsCeiling()
+    {
+        // The last few doubles around 2/g_eff: t = ((q·g)² − 4)/16 is of order ε or below, where
+        // c/b² − 1 is quantized and √(ε(1+t)) is a ceiling, not a law. Two things are gated:
+        // the side of the EP read by FMA(q, g, −2) agrees with the sign of the EXACT t (NaN below,
+        // 0.0 on it), and above it both routes stay within 1.25·AngleRoundingLaw(t), the sweep's
+        // margin: that is the √(ε(1+t)) ceiling for t below ε/4 and the law branch ε(1+t)/(2√t)
+        // for the steps that land above it (most of them).
+        var c = BuildClaim();
+        var rng = new Random(3);
+        int below = 0, above = 0;
+        for (int sample = 0; sample < 500; sample++)
+        {
+            double g = Math.Pow(10.0, -1.0 + 2.0 * rng.NextDouble());
+            double gamma0 = Math.Pow(10.0, -3.0 + 4.0 * rng.NextDouble());
+            double q0 = TransitionBridgeF95SiblingClaim.QEp(g);
+            for (int k = -3; k <= 3; k++)
+            {
+                double q = q0;
+                for (int step = 0; step < Math.Abs(k); step++)
+                    q = k > 0 ? Math.BitIncrement(q) : Math.BitDecrement(q);
+                double t = ExactT(q, g);
+                double clock = c.EpClockAngle(gamma0, q, g), f95 = c.EpF95Angle(gamma0, q, g);
+                if (t < 0.0)
+                {
+                    below++;
+                    Assert.True(double.IsNaN(clock) && double.IsNaN(f95), $"below the EP at q={q:R}, g={g:R}");
+                }
+                else if (t == 0.0)
+                {
+                    Assert.True(clock == 0.0 && f95 == 0.0);
+                }
+                else
+                {
+                    above++;
+                    double exact = Math.Atan(Math.Sqrt(t));
+                    double ceiling = 1.25 * TransitionBridgeF95SiblingClaim.AngleRoundingLaw(t);
+                    Assert.True(Math.Abs(f95 - exact) <= ceiling, $"F95 route over its ceiling at q={q:R}, g={g:R}");
+                    Assert.True(Math.Abs(clock - exact) <= ceiling, $"clock route over the ceiling at q={q:R}, g={g:R}");
+                }
+            }
+        }
+        Assert.True(below > 0 && above > 0, "both sides of the EP must be visited");
     }
 
     [Fact]

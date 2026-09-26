@@ -60,17 +60,15 @@ public class F87Pi2InheritanceTests
     }
 
     [Fact]
-    public void LiveChildren_ExposeOnlyTheFiniteMarrakeshHardwareRow()
+    public void LiveChildren_HardwareNodeNamesConfirmationsThatExistInTheRegistry()
     {
-        var children = Build().Children.ToArray();
-        var marrakesh = Assert.Single(children, c => c.DisplayName == "Marrakesh finite Δ row");
-        string rendered = string.Join("\n", children.Select(c => $"{c.DisplayName}\n{c.Summary}"));
-
-        Assert.Equal(
-            "hardware job d7mjnjjaq2pc73a1pk4g (2026-04-26): Δ(soft − truly) = −0.722",
-            marrakesh.Summary);
-        Assert.DoesNotContain("F87 hardware confirmation", children.Select(c => c.DisplayName));
-        Assert.DoesNotContain("Kingston", rendered);
-        Assert.DoesNotContain("regime-uniformity", rendered);
+        var node = Assert.Single(Build().Children, c => c.DisplayName == "F87 hardware confirmation");
+        foreach (var name in new[] { "palindrome_trichotomy", "regime_uniformity_kingston_uniform_quantum" })
+        {
+            var entry = RCPsiSquared.Core.Confirmations.ConfirmationsRegistry.Lookup(name);
+            Assert.NotNull(entry);
+            Assert.Contains(name, node.Summary);
+            Assert.Contains(entry!.JobId, node.Summary);
+        }
     }
 }

@@ -13,9 +13,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// </code>
 ///
 /// <para>F41 is the full period of the k=1 frequency in D10's (0,1)
-/// coherence block. F1 pairs that eigenvalue with a frequency-negated partner,
-/// so the pair contributes <c>2cos(ω_min t)</c> to the frequency trace
-/// amplitude. The SFF is the squared modulus of the full trace amplitude and
+/// coherence block. Its partner at −ω_min sits at the same rate 2γ, in the
+/// (1,0) block: L commutes with the adjoint map ρ ↦ ρ†, so its spectrum is
+/// closed under complex conjugation, and the conjugate pair contributes
+/// <c>2cos(ω_min t)</c> to the frequency trace amplitude of the rate-2γ band.
+/// F1 pairs that band with its mirror band at the reflected rate 2σ − 2γ,
+/// σ = Σγ = Nγ (λ ↦ −λ − 2σ also negates the frequency), which therefore carries the same
+/// cosine. The SFF is the squared modulus of the full trace amplitude and
 /// can therefore contain doubled and cross frequencies; F41 is not by itself
 /// the period of the complete SFF.</para>
 ///
@@ -42,8 +46,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// oscillation = 2π). Both = a_0 on the dyadic ladder. The π/(2N) argument
 /// scaling and the 4·J in ω_min are derivable from these.</para>
 ///
-/// <para>F1 connection: D10 supplies ω_min; F1 supplies the partner at −ω_min.
-/// Together they give the cosine term in the trace amplitude. Neither identity
+/// <para>F1 connection: D10 supplies ω_min and conjugation its partner at −ω_min
+/// in the same band; F1 carries the pair to the mirrored band at 2σ − 2γ, where
+/// the same cosine recurs (F43's band pairing). Neither identity
 /// promotes the producer's raw multiset density scale to a physical timescale.</para>
 ///
 /// <para>Tier1Derived: F41 is a Tier 1 corollary of D10's (0,1) coherence-block
@@ -120,7 +125,7 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
     public F41PalindromicTimePi2Inheritance(
         Pi2DyadicLadderClaim ladder,
         F1Pi2Inheritance f1)
-        : base("F41 palindromic-pair trace-amplitude period t_Pi = π/(4J·sin²(π/(2N))); D10 supplies ω_min and F1 supplies its frequency-negated partner",
+        : base("F41 palindromic-pair trace-amplitude period t_Pi = π/(4J·sin²(π/(2N))); D10 supplies ω_min, conjugation its −ω_min partner at the same rate, and F1 the mirrored band",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F41 + " +
                "experiments/SPECTRAL_FORM_FACTOR.md + " +
@@ -136,7 +141,7 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
         "F41 palindromic-pair trace-amplitude period as D10 + F1 inheritance";
 
     public override string Summary =>
-        $"t_Pi = π/(4J·sin²(π/(2N))) in the Pauli normalisation H = J·Σ(XX+YY+ZZ); ω_min = 8J·sin²(π/(2N)); D10 supplies ω_min, F1 supplies the −ω_min partner, and the pair contributes 2cos(ω_min·t) to the trace amplitude; asymptotic t_Pi → N²/(π·J). The ring and star Im-max claims use the spin normalisation J·Σ S_i·S_j, which is this J divided by 4 ({Tier.Label()})";
+        $"t_Pi = π/(4J·sin²(π/(2N))) in the Pauli normalisation H = J·Σ(XX+YY+ZZ); ω_min = 8J·sin²(π/(2N)); D10 supplies ω_min, complex conjugation the −ω_min partner at the same rate 2γ, and the pair contributes 2cos(ω_min·t) to the trace amplitude; F1 mirrors the band to 2σ − 2γ with the same cosine; asymptotic t_Pi → N²/(π·J). The ring and star Im-max claims use the spin normalisation J·Σ S_i·S_j, which is this J divided by 4 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -146,7 +151,7 @@ public sealed class F41PalindromicTimePi2Inheritance : Claim, IZ2AxisClaim
                 summary: "t_Pi = π/(4·J·sin²(π/(2N))); ω_min = 8·J·sin²(π/(2N)) = 4·J·(1 − cos(π/N)); full period of the k=1 D10 frequency and its F1 cosine pair in the trace amplitude");
             yield return InspectableNode.RealScalar("HoppingCoefficient (= a_0 = 2)", HoppingCoefficient);
             yield return new InspectableNode("F1 palindrome at time domain",
-                summary: $"D10 supplies ω_min and F1 pairs it with −ω_min; together they contribute 2cos(ω_min·t) to the trace amplitude. Squaring the full sum can create doubled and cross frequencies. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as F41's HoppingCoefficient.");
+                summary: $"D10 supplies ω_min and conjugation pairs it with −ω_min at the same rate (L commutes with ρ ↦ ρ†); together they contribute 2cos(ω_min·t) to the trace amplitude. F1 sends λ to −λ − 2σ, so the mirrored band at 2σ − 2γ carries the same cosine. Squaring the full sum can create doubled and cross frequencies. F1's TwoFactor (= {F1.TwoFactor}) is the same '2' as F41's HoppingCoefficient.");
             yield return new InspectableNode("asymptotic scaling",
                 summary: "sin(π/(2N)) → π/(2N) for N → ∞; t_Pi → N²/(π·J). Any ratio to the producer's raw multiset density scale is descriptive and finite-N, not a physical time-regime boundary");
             yield return new InspectableNode("N=3, J=1 verified",

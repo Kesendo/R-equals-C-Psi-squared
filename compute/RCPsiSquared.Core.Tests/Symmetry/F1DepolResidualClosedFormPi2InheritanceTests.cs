@@ -69,11 +69,23 @@ public class F1DepolResidualClosedFormPi2InheritanceTests
     [Fact]
     public void CrossSiteCoefficient_IsExactlyZeroAfterCentering()
     {
-        // (d²)² = 4² = 16. Squared because the cooperative tensor-assembly
-        // |tr(M_l)|² · 4^(N−2) for l ≠ l′ already squares the trace, and
-        // |tr(M_l)| ∝ d² at γ=1.
+        // Computed from the per-site kernel in integers: centered at its spectral mean the kernel
+        // is (2, 2, −2, −2)/3 on (I, X, Y, Z), traceless, so the cross-site term vanishes exactly.
         var f = Build();
-        Assert.Equal(0.0, f.CrossSiteCoefficient, precision: 14);
+        var centered = f.ResidualCoefficients(centered: true);
+        Assert.True(centered.Cross == 0.0, $"centered cross {centered.Cross:R}");
+        Assert.True(centered.Local == 16.0 / 9.0, $"centered local {centered.Local:R}");
+        Assert.True(f.CrossSiteCoefficient == 0.0);
+    }
+
+    [Fact]
+    public void BareResidual_CarriesTheCrossSiteSixteen()
+    {
+        // The control that makes the zero above a finding about centering: the same computation at
+        // σ = 0 (bare kernel (−4, −4, −8, −8)/3, trace −8) returns the bare formula's (16/9, 16).
+        var bare = Build().ResidualCoefficients(centered: false);
+        Assert.True(bare.Cross == 16.0, $"bare cross {bare.Cross:R}");
+        Assert.True(bare.Local == 16.0 / 9.0, $"bare local {bare.Local:R}");
     }
 
     [Fact]
@@ -89,8 +101,10 @@ public class F1DepolResidualClosedFormPi2InheritanceTests
     [Fact]
     public void LiveCrossSiteCoefficient_MatchesParentConstant()
     {
+        // Exact: the kernel computation and the parent's constant are the same number by two routes.
         var f = Build();
-        Assert.Equal(F1DepolResidualClosedForm.CrossSiteCoefficient, f.LiveCrossSiteCoefficient, precision: 14);
+        Assert.True(f.LiveCrossSiteCoefficient == F1DepolResidualClosedForm.CrossSiteCoefficient);
+        Assert.True(f.ResidualCoefficients(centered: true).Local == F1DepolResidualClosedForm.LocalCoefficient);
     }
 
     [Fact]

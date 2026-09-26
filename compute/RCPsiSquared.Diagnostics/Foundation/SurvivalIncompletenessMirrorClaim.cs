@@ -37,8 +37,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// (Pauli-string weight w=N/2 self-pair) is NOT the {0,2}-coherence (n_diff) survivor: it is a different
 /// decomposition (weight vs bra-ket disagreement count); this claim is the constant-mirror + the
 /// light-survivor, AND the finer verdict: a different grading
-/// (w = n_diff + Z-shadow; dark, peaks at w=N-1 rather than w=N/2).  This finite
-/// grading statement is unrelated to F94's named N=4 Dyson coefficient.</para>
+/// (w = n_diff + Z-shadow; dark, peaks at w=N-1 rather than w=N/2). The grading is not derived
+/// from F94; as a reading, reflections/THE_VIEW_ONTO_THE_MEMORY.md puts its carbon painter system's
+/// slow/fast storage split on the same axis as the Born-rule mirror's 97/3, whose leading order F94
+/// closes.</para>
 ///
 /// <para>Typed parents: <see cref="AbsorptionTheoremClaim"/> (a_0, the survival law) +
 /// <see cref="HalfAsStructuralFixedPointClaim"/> (a_2, the incompleteness baseline).

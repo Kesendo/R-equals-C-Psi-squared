@@ -8,7 +8,7 @@
 
 The F1 palindrome theorem closes for pure Z-dephasing. Every other physical noise channel breaks the closure to some degree, and each break leaves a structural fingerprint in the residual M. T1 amplitude damping leaves one fingerprint (the closed form proven in the sibling document); depolarizing noise leaves another, and this proof writes it down.
 
-The centered depolarizing fingerprint is cleaner than T1's: it is purely local and graph-independent. The uncentered sum ΠLΠ⁻¹+L does contain a cooperative 16(Σγ)² term, but that term is exactly the squared diagonal mean. The F1 shift +2Σγ·I removes it, leaving only (16/9)Σγ_l².
+The centered depolarizing fingerprint is purely local and graph-independent. The uncentered sum ΠLΠ⁻¹+L does contain a cooperative 16(Σγ)² term, but that term is exactly the squared diagonal mean. The F1 shift +2Σγ·I removes it, leaving only (16/9)Σγ_l². T1 behaves the same way at its own spectral mean σ = Σγ/2, where its residual is 4^(N−1)·3Σγ_l²; the (Σγ)² term in its recorded formula belongs to the centre it is recorded at, σ = Σγ_Z, not to the channel.
 
 A second structural surprise is that the depolarizing residual is purely symmetric: the algebraic Π-conjugation identity gives M_anti = 0. T1 by contrast has a nonzero M_anti carrying its σ⁻ off-diagonal content, but it also has a substantial symmetric component. Depolarizing noise is diagonal in the Pauli basis (each Pauli letter goes to itself with a scaling factor), and the diagonal is preserved by Π, so its symmetric / anti-symmetric split is trivial.
 

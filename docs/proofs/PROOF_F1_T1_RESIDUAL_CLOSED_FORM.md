@@ -8,7 +8,7 @@
 
 The F1 palindrome theorem says that under pure Z-dephasing, the residual operator M (which measures how far the Lindbladian falls from its Π-conjugation image) closes to zero for any palindromic Hamiltonian. T1 amplitude damping breaks the closure: it is the canonical noise process that the Z-dephasing F1 symmetry does not see. The natural follow-up question is how the residual grows under T1, and what the closed form of its Frobenius norm looks like as a function of the T1 rates.
 
-This proof gives the answer. The pure-T1 contribution to the residual norm splits into two structural pieces: a local part proportional to the sum of squared T1 rates, and a cooperative part proportional to the square of the sum of T1 rates. The cooperative part is the interesting one. It grows quadratically with the number of sites when the rates are uniform, signaling that T1 dissipators on different sites do not contribute independently in the residual norm; they overlap. The local part counts each site once; the cooperative part counts every pair once.
+This proof gives the answer. At the F1 shift σ = Σγ_Z that defines M, the pure-T1 contribution to the residual norm splits into two pieces: a local part proportional to the sum of squared T1 rates, and a cooperative part proportional to the square of the sum of T1 rates. The cooperative part is not an overlap of dissipators on different sites. At this shift each site's T1 kernel carries a nonzero trace, and the cooperative part is the squared diagonal mean, the square of the summed traces, self-terms included. ‖M‖² is a parabola in σ, symmetric about T1's spectral mean σ = Σγ_Z + Σγ/2, and there the cooperative part is gone and the pure-T1 part is 4^(N−1)·3Σγ², purely local, as the [depolarizing residual](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md) is at its own mean.
 
 Two more observations make the formula self-contained. The pure-T1 contribution does not depend on the Hamiltonian (the T1 block is Frobenius-orthogonal to the H block in M), and it does not depend on the Z-dephasing rate (Z-dephasing absorbs into the +2σ·I shift that defines M itself). So the formula gives a clean separation of T1 noise from the rest of the system: change H, leave the T1 part alone; change Z-dephasing rate, leave the T1 part alone.
 
@@ -34,7 +34,7 @@ Three structural facts follow immediately and are verified to machine precision:
 
 1. **Hamiltonian-independent.** Pure-T1 contribution does not depend on H; H-block and T1-block are Frobenius-orthogonal in M.
 2. **γ_Z-independent.** Z-dephasing is absorbed by the +2Σγ·I shift; pure-T1 contribution does not depend on {γ_l}.
-3. **Two structural pieces.** `3·Σγ²` is the per-site (local) contribution; `4·(Σγ)²` is the cross-site (cooperative) contribution that grows quadratically in N when γ_T1 is uniform.
+3. **Two structural pieces.** `3·Σγ²` is the per-site (local) contribution; `4·(Σγ)²` is the diagonal-mean (cooperative) piece, which contains the N self-terms 4Σγ_l² as well as the cross-site products and grows quadratically in N when γ_T1 is uniform.
 
 ## Conventions
 
@@ -144,7 +144,7 @@ Substituting into the Frobenius norm of M_T1:
               = 4^(N−1) · [ (7 − 4) · Σ_l γ²_l  +  4 · (Σ_l γ_l)² ]
               = **4^(N−1) · [ 3 · Σ_l γ²_l  +  4 · (Σ_l γ_l)² ]**.    ∎
 
-Hence (c_1, c_2) = (3, 4) is derived from `(‖M_l‖²_F − |tr(M_l)|²) = 7 − 4 = 3` and `|tr(M_l)|² / 4 = 16 / 4 = 4`. The 4 is the spurious diagonal that would arise if all sites contributed identically; the 3 is the genuine single-site residual after subtracting the "uniform background" picked up by the cross-site sum.
+Hence (c_1, c_2) = (3, 4) is derived from `‖M_l‖²_F − |tr(M_l)|²/4 = 7 − 4 = 3` and `|tr(M_l)|² / 4 = 16 / 4 = 4`. The 4 is the spurious diagonal that would arise if all sites contributed identically; the 3 is the genuine single-site residual after subtracting the "uniform background" picked up by the cross-site sum.
 
 ### Step 6: Orthogonality of the T1 block to H and Z blocks
 
@@ -197,8 +197,8 @@ The closed form makes the F1 T1-block residual a quantitative, **Hamiltonian-ind
 - **Pure-T1 inversion (uniform γ_T1).** From ‖M(T1)‖²_F = 4^(N−1)·(3N + 4N²)·γ²_T1:
       γ_T1 = √( ‖M(T1)‖²_F / [4^(N−1) · (3N + 4N²)] ).
   At N = 3: γ_T1 = √(‖M(T1)‖²_F / 720).
-- **Pure-T1 inversion (RMS for non-uniform).** With known Σ_l γ_T1_l (e.g., from a calibration scan), the structure split `3·Σγ² + 4·(Σγ)²` lets us extract Σγ² independently from Σγ; combined, this recovers the {γ_T1_l} distribution up to permutation.
-- **N-scaling of the cross-site dominance.** Ratio of cross-site to local piece, at uniform γ_T1: `4·N²·γ² / (3·N·γ²) = (4/3)·N`. At N = 3 the cross-site is `4×` the local; at N = 10 it is `13×`. Cooperative T1 palindrome-breaking dominates as N grows.
+- **Pure-T1 inversion (RMS for non-uniform).** With known Σ_l γ_T1_l (e.g., from a calibration scan), the structure split `3·Σγ² + 4·(Σγ)²` lets us extract Σγ² independently from Σγ: the first two moments of the rate profile (the pair itself, up to order, only at N = 2).
+- **N-scaling of the diagonal-mean piece at σ = Σγ_Z.** Ratio of the diagonal-mean to the local piece, at uniform γ_T1: `4·N²·γ² / (3·N·γ²) = (4/3)·N`, so `4×` at N = 3 and about `13×` at N = 10. The growth is that of the squared diagonal mean at this shift; at T1's spectral mean the diagonal-mean piece is zero at every N.
 
 ## Cross-references
 

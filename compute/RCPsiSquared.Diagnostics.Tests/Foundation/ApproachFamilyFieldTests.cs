@@ -124,12 +124,5 @@ public class ApproachFamilyFieldTests
         var json = InspectionJsonExporter.ToJson(new ApproachFamilyField());
         Assert.Contains("carrier", json);
         Assert.Contains("threshold", json);
-        Assert.DoesNotContain("universal", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("−γ₀", json, StringComparison.Ordinal);
-        Assert.DoesNotContain("spiral_slowing", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("cusp", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("mode", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("excites", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("shape lives only", json, StringComparison.OrdinalIgnoreCase);
     }
 }

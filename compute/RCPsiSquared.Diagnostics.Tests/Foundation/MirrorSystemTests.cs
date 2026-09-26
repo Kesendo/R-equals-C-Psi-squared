@@ -1,8 +1,6 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.Inspection;
 using RCPsiSquared.Diagnostics.Foundation;
@@ -11,21 +9,6 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 public class MirrorSystemTests
 {
-    private static string ReadMirrorSystemSource([CallerFilePath] string testFile = "")
-    {
-        string testDirectory = Path.GetDirectoryName(testFile)
-            ?? throw new InvalidOperationException("test source directory is unavailable");
-        var testProject = Directory.GetParent(testDirectory)
-            ?? throw new InvalidOperationException("test project directory is unavailable");
-        var computeDirectory = testProject.Parent
-            ?? throw new InvalidOperationException("compute directory is unavailable");
-        return File.ReadAllText(Path.Combine(
-            computeDirectory.FullName,
-            "RCPsiSquared.Diagnostics",
-            "Foundation",
-            "MirrorSystem.cs"));
-    }
-
     private static Matrix<Complex> Heisenberg2(double J)
     {
         var X = Matrix<Complex>.Build.DenseOfArray(new Complex[,] { { 0, 1 }, { 1, 0 } });
@@ -269,69 +252,54 @@ public class MirrorSystemTests
     }
 
     [Fact]
-    public void Rotation_SourceNamesSelectedModeMeasurement_NumericalBoundary_AndFencesF95()
+    public void Rotation_ResolvedAngle_IsF95OfTheSelectedPairsOwnQuadratic()
     {
-        string source = ReadMirrorSystemSource();
-        string sourceWithoutWhitespace = string.Concat(source.Where(c => !char.IsWhiteSpace(c)));
+        // lambda = -Gap +/- i*omega are the roots, in z = -lambda, of z^2 - 2*Gap*z + (Gap^2 + omega^2),
+        // so F95's theta(c = |lambda|^2, b = Gap) and atan2(omega, Gap) are one number. The two routes
+        // differ only by rounding: u = c/b^2 - 1 carries an absolute error of a few eps*(1 + x^2), with
+        // x = omega/Gap, which reaches theta as du/(2x(1 + x^2)), i.e. a few eps/x. The gate is that law.
+        var f95 = new RCPsiSquared.Core.Symmetry.F95AngleAtQuadraticZeroPi2Inheritance();
+        foreach (double J in new[] { 0.3, 1.0, 2.5 })
+        {
+            var sys = new MirrorSystem(3, HeisenbergChain(3, J),
+                new[] { new ChannelRate("a", 0.05), new ChannelRate("b", 0.05), new ChannelRate("c", 0.05) });
+            var rot = sys.Rotation;
+            double gap = sys.Spectrum.SlowestRate;
+            Assert.True(rot.Turning, $"J={J}: the Heisenberg chain's slow shelf rotates");
+            double f95Angle = f95.ThetaGeneral(gap * gap + rot.Frequency * rot.Frequency, gap);
+            double x = rot.Frequency / gap;
+            const double eps = 2.220446049250313e-16; // 2^-52
+            double law = 8.0 * eps * (1.0 + 1.0 / x);
+            Assert.True(Math.Abs(f95Angle - rot.Angle) <= law,
+                $"J={J}: F95 {f95Angle:R} vs Rotation {rot.Angle:R}, error law {law:E2}");
+        }
 
-        Assert.Contains("selected slow mode's measured angle", source);
-        Assert.Contains(
-            "only when an independently demonstrated finite positive-b quadratic in z = −λ maps a root to this same selected mode",
-            source);
-        Assert.Equal(1, source.Split("F95").Length - 1);
-        Assert.DoesNotContain("the F95 angle", source);
-        Assert.DoesNotContain("canonical and composing with F95", source);
-        Assert.DoesNotContain("ω=2J", sourceWithoutWhitespace);
-        Assert.DoesNotContain("arctan(Q)", sourceWithoutWhitespace);
-        Assert.DoesNotContain("Takt'sTautracks", sourceWithoutWhitespace);
-        Assert.DoesNotContain("i.e.J≠0", sourceWithoutWhitespace);
-        Assert.DoesNotContain("J=0", sourceWithoutWhitespace);
-        Assert.DoesNotContain("atan(J/γ", source);
-        Assert.Contains("Takt exposes the slowest-rate shelf", source);
-        Assert.Contains("Rotation uses the slowest-rate shelf only when Gap &gt; 1e-9", source);
-        Assert.Contains(
-            "Gap &lt;= 1e-9 is treated as a numerically unresolved/no-decay-style read",
-            source);
-        Assert.Contains("includes exact γ=0 but is not equivalent to it", source);
-        Assert.Contains(
-            "Takt keeps the exact Gap &gt; 0 versus Gap &lt;= 0 statement",
-            source);
-        Assert.Contains("constdoubletol=1e-9;", sourceWithoutWhitespace);
-        Assert.Contains("if(gap>tol)", sourceWithoutWhitespace);
-        Assert.DoesNotContain("when α &gt; 0", source);
-        Assert.DoesNotContain("at α = 0 it separately reads", source);
-        Assert.DoesNotContain("When Gap &gt; 0, the reading selects", source);
-        Assert.Contains(
-            "most-rotating mode in the numerically unresolved/no-decay-style branch",
-            source);
-        Assert.Contains(
-            "On the resolved shelf branch, the angle is θ = atan2(ω, Gap)",
-            source);
-        Assert.Contains(
-            "On the numerically unresolved/no-decay-style branch, the angle is π/2 iff the thresholded Turning is true, and 0 otherwise",
-            source);
-        Assert.Contains(
-            "Turning is a numerical classification: true iff the selected |ω| &gt; 1e-9",
-            source);
-        Assert.Contains("not a mathematical ω ≠ 0 statement", source);
-        Assert.Contains(
-            "a retained 0 &lt; |ω| &lt;= 1e-9 can have Turning = false and a small nonzero atan2 angle",
-            source);
-        Assert.Contains(
-            "otherwise θ = 0, even if the retained frequency is nonzero but at or below 1e-9",
-            source);
-        Assert.Contains(
-            "The record's Turning is true iff its selected Frequency &gt; 1e-9, not iff ω ≠ 0",
-            source);
-        Assert.DoesNotContain("most-rotating mode in the no-decay spectrum", source);
-        Assert.DoesNotContain("π/2 only for a no-decay reading", source);
-        Assert.DoesNotContain(
-            "<see cref=\"Angle\"/> is θ = atan2(ω, Gap)",
-            source);
-        Assert.DoesNotContain("contains an oscillatory mode,", source);
-        Assert.DoesNotContain("Only an oscillatory mode gives the π/2 circle", source);
-        Assert.DoesNotContain("is true when the selected reading has ω ≠ 0", source);
-        Assert.DoesNotContain("If Turning is false, the angle is 0", source);
+        // The chain's slow shelves sit at x = 18..150, where the 1/x term is a few percent of the bound
+        // and the residual is exactly 0.0, so they cannot tell the law from a flat threshold. Rotation's
+        // angle is Math.Atan2(ω, Gap) of the selected pair, so the same two routes are swept here over
+        // hand-built (Gap, ω) pairs, x across eight decades, 10⁻⁶ to 10². The law is the ratio: the worst
+        // |Δθ| / (ε(1 + 1/x)) per decade must stay inside (0.1, 8] and be flat, its largest over its smallest
+        // at most 4 across the decades. A flat ε-threshold would be broken by six orders at x = 10⁻⁶, and a
+        // model off by x^±0.3 (ε(1 + x^−0.7) or ε(1 + x^−1.3)) spreads the ratio by a factor above 40.
+        var rng = new Random(7);
+        var worstPerDecade = new System.Collections.Generic.List<double>();
+        for (int decade = -6; decade <= 1; decade++)
+        {
+            double worst = 0.0;
+            for (int i = 0; i < 400; i++)
+            {
+                double x = Math.Pow(10.0, decade + rng.NextDouble());
+                double b = Math.Pow(10.0, -3.0 + 4.0 * rng.NextDouble());
+                double omega = x * b;
+                double viaF95 = f95.ThetaGeneral(b * b + omega * omega, b);
+                double viaAtan2 = Math.Atan2(omega, b);
+                worst = Math.Max(worst, Math.Abs(viaF95 - viaAtan2) / (2.220446049250313e-16 * (1.0 + 1.0 / x)));
+            }
+            Assert.True(worst > 0.1 && worst <= 8.0, $"decade 1e{decade}: worst ratio to ε(1 + 1/x) is {worst:G4}");
+            worstPerDecade.Add(worst);
+        }
+        double spread = worstPerDecade.Max() / worstPerDecade.Min();
+        Assert.True(spread <= 4.0, $"the per-decade worst ratios spread by {spread:G4}; the law is not flat");
     }
 
     [Fact]

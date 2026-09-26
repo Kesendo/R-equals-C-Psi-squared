@@ -32,9 +32,20 @@ public sealed record QubitLifecycleStats(
     double RStarBandSwitchRate,
     LifecycleArchetype Archetype);
 
-/// <summary>History coverage, switch behavior, and drift labels for a path.
+/// <summary>History coverage, switch behavior, and drift labels for a path: the
+/// multi-day companion to the single-snapshot <see cref="RegimeSummary"/>.
 /// The object reports what the supplied time series contains; it does not make
-/// a hardware submission recommendation.</summary>
+/// a hardware submission recommendation.
+///
+/// <para>Why a snapshot is not enough: between the 2026-04-25 and 2026-04-30
+/// Marrakesh calibration snapshots Q5 lost 46.1% of its T2, Q3 gained 29.6% and
+/// Q49 lost 22.8%. A snapshot sees one of those days; this summary reads the
+/// trajectory.</para>
+///
+/// <para>Histories are loaded through <see cref="CalibrationHistory.Load"/> from the
+/// daily-calibration CSV produced by <c>data/ibm_history/ibm_history_analysis.py
+/// --mode collect</c>; the 91-day Marrakesh anchor is
+/// <c>data/ibm_history/results/ibm_marrakesh_history.csv</c>.</para></summary>
 public sealed record LifecycleSummary(
     IReadOnlyList<int> Path,
     IReadOnlyList<QubitLifecycleStats> Qubits,
@@ -43,8 +54,16 @@ public sealed record LifecycleSummary(
     int TwitchCount,
     int InsufficientDataCount)
 {
+    /// <summary>True when every path row is PulseStable, SilentStable or ClassicStable.</summary>
     public bool AllStable => StableCount == Qubits.Count;
+
+    /// <summary>True when at least one path row is <see cref="LifecycleArchetype.Twitch"/>:
+    /// its R* band flips from day to day, so cross-day comparisons on that path mix band
+    /// readings.</summary>
     public bool AnyTwitch => TwitchCount > 0;
+
+    /// <summary>True when some path row has fewer than two calibration days. A summary
+    /// with this flag set is exploratory.</summary>
     public bool HasMissingHistory => InsufficientDataCount > 0;
 
     /// <summary>Composite descriptive label. Missing history takes precedence,

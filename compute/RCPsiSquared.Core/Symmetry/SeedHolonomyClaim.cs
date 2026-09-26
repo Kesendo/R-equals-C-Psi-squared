@@ -38,8 +38,9 @@ public sealed class SeedHolonomyClaim : Claim
         "compute/RCPsiSquared.Core/Numerics/EigenvectorHolonomy.cs (biorthogonal vᵀv frame transport) + " +
         "compute/RCPsiSquared.Diagnostics/Foundation/SeedHolonomyWitness.cs (inspect --root holonomy) + " +
         "experiments/F89_SEED_EXISTENCE_REDUCTION.md supplies the exact all-odd endpoint-nullity surplus and " +
-        "count-change census through N=11; the literal defective seeds used here are separately certified at " +
-        "N=5 and N=9 by the local numerics + " +
+        "count-change census through N=11; the defective seeds used here, at N=5 and N=9, are classified by " +
+        "the local numerics here and certified by the gcd layer certificate " +
+        "(experiments/F89_BETA_EXOTIC_GENERICITY.md) + " +
         "experiments/F86_EP_THROUGH_THE_CLOCK.md is cited for the borrowed forgetting-to-remembering reading; " +
         "note its F86a-retraction denied a real-axis defective EP on this block; the F89 census locates the " +
         "isolated seed that earlier real-axis scan reported absent, and F86 is now corrected accordingly " +

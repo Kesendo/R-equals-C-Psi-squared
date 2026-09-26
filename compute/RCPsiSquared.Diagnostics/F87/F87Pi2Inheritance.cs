@@ -73,10 +73,11 @@ public sealed class F87Pi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("number-level inheritance via F1",
                 summary: $"F87's discriminator M uses F1's 2σ·I shift; the 2 = a_0 = {TransitivelyInheritedTwoFactor} comes from Pi2 dyadic ladder");
             yield return InspectableNode.RealScalar("TransitivelyInheritedTwoFactor (= a_0 via F1)", TransitivelyInheritedTwoFactor);
-            yield return new InspectableNode("Marrakesh finite Δ row",
-                summary: "hardware job d7mjnjjaq2pc73a1pk4g (2026-04-26): Δ(soft − truly) = −0.722");
+            yield return new InspectableNode("F87 hardware confirmation",
+                summary: "palindrome_trichotomy: Marrakesh d7mjnjjaq2pc73a1pk4g (2026-04-26), Δ(soft − truly) = −0.722, the Trotter n=3 prediction −0.723, not continuous Lindblad −0.623; " +
+                         "regime_uniformity_kingston_uniform_quantum: Kingston d7sqjpiudops73976960 (2026-05-05), the trichotomy on a second backend, truly 0.0022, soft 0.7409");
             yield return new InspectableNode("V-Effect census counts",
-                summary: "36 distinct pairs of nine fully-lit bilinears at N=3 → 14/19/3 (hard/soft/truly); the separate 120 combinations with replacement from 15 non-II two-site Pauli words at N=3..5 → 15/46/59 (truly/soft/hard), including 15 self-pairs, N-stable. Its truly set is pairs with repetition from {IX,XI,XX,YY,ZZ}; II is excluded (combinatorial proof commit 81caf67)");
+                summary: "36 distinct pairs of nine fully-lit bilinears at N=3 → 14/19/3 (hard/soft/truly), derived combinatorially in commit 81caf67; the separate 120 combinations with replacement from 15 non-II two-site Pauli words at N=3..5 → 15/46/59 (truly/soft/hard), including 15 self-pairs, N-stable. Its truly set is pairs with repetition from {IX,XI,XX,YY,ZZ}; II is not in the alphabet");
             yield return new InspectableNode("F87 vs Klein cells",
                 summary: "distinct structures: F87 trichotomy (14/19/3, 36-enum) developed pre-Klein from Pauli-pair combinatorics; KleinFour 4-cell (Pp/Pm/Mp/Mm) is a separate Π²-eigenspace decomposition; no typed inheritance edge between them");
         }

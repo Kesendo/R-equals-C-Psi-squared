@@ -5,10 +5,10 @@ namespace RCPsiSquared.Core.Calibration;
 /// <summary>IBM Heron r2 calibration CSV loader and qubit/chain quality scoring.
 /// C# counterpart to <c>simulations/ibm_calibration.py</c>. Score ranking on the
 /// 2026-04-25 Marrakesh CSV places path [48, 49, 50] (≈ 682) above [0, 1, 2]
-/// (≈ 597), a ~14% gap; the same ranking corresponds to a 23× cleaner state-level
-/// truly-baseline observed downstream by F88b-Lens on those qubits (see
-/// <c>project_f88b_lens_ibm_marrakesh.md</c>). Calibration score is the input;
-/// state-level F88b cleanliness is the consequence, not a 1:1 ratio match.
+/// (≈ 597), a ~14% gap. That ordering is a calibration fact, and the runs do not
+/// show it carrying into the F88b-Lens truly-baseline: the two paths read 22.1× apart
+/// across two runner scripts but only 1.64× within one, and [48, 49, 50] alone reads
+/// 8.6× apart across the scripts (the run record is in <see cref="RegimeSummary"/>).
 ///
 /// <para>Score function: <see cref="ScoreQubit"/> is coherence-dominated with
 /// multiplicative gate and readout penalties. Rationale: F88b-Lens experiments are

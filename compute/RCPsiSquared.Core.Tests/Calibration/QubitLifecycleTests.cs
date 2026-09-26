@@ -3,7 +3,10 @@ using RCPsiSquared.Core.Calibration;
 namespace RCPsiSquared.Core.Tests.Calibration;
 
 /// <summary>Tests the empirical lifecycle classifier, including every strict
-/// threshold boundary so equality cannot silently change branch.</summary>
+/// threshold boundary so equality cannot silently change branch, the Torino
+/// calibration record the thresholds were set against, and the Marrakesh 91-day
+/// anchor (Q0 PulseStable: below R* on 90 of 91 days, walk 2/90 ≈ 0.022, r mean
+/// 0.086).</summary>
 public class QubitLifecycleTests
 {
     private static Lazy<IReadOnlyDictionary<int, QubitTimeline>> Marrakesh91d =>
@@ -100,16 +103,37 @@ public class QubitLifecycleTests
     }
 
     [Fact]
-    public void MarrakeshAnchors_PreserveMeasuredLifecycleRows()
+    public void MarrakeshAnchors_ClassifyAsPulseStable()
     {
         var h = Marrakesh91d.Value;
         Assert.Equal(91, h[0].Days.Count);
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(h[0]));
-        Assert.True(QubitLifecycle.BelowRStarFraction(h[0]) > 0.95);
-        Assert.True(
-            QubitLifecycle.RStarBandSwitchRate(h[0]) < QubitLifecycle.ModerateSwitchRateThreshold);
+        // Two band switches over 90 day-pairs, one day at or above R*: the counts, exactly.
+        Assert.Equal(2.0 / 90, QubitLifecycle.RStarBandSwitchRate(h[0]));
+        Assert.Equal(90 / 91.0, QubitLifecycle.BelowRStarFraction(h[0]));
+        // Q126/Q127: the only CZ-coupled pair among Marrakesh's stably-below-R* qubits
+        // (docs/BOTH_SIDES_VISIBLE.md).
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(h[126]));
         Assert.Equal(LifecycleArchetype.PulseStable, QubitLifecycle.Classify(h[127]));
+    }
+
+    [Theory]
+    [InlineData(80, 0, LifecycleArchetype.PulseStable)]
+    [InlineData(72, 58, LifecycleArchetype.Twitch)]
+    [InlineData(98, 53, LifecycleArchetype.Twitch)]
+    [InlineData(70, 53, LifecycleArchetype.Twitch)]
+    [InlineData(68, 54, LifecycleArchetype.Twitch)]
+    [InlineData(105, 15, LifecycleArchetype.Lifecycle)]
+    public void TorinoCalibrationRecord_ReproducesTheNamedArchetypes(
+        int qubit, int switches, LifecycleArchetype expected)
+    {
+        // The docs/BOTH_SIDES_VISIBLE.md examples the thresholds were set against:
+        // walk 0.000 / 0.322 / 0.294 / 0.083 for Q80 / Q72 / Q98 / Q105, here as switch
+        // counts over the 180 day-pairs of the 181-day window.
+        var t = CalibrationFixtures.Torino181d.Value[qubit];
+        Assert.Equal(181, t.Days.Count);
+        Assert.Equal(switches / 180.0, QubitLifecycle.RStarBandSwitchRate(t));
+        Assert.Equal(expected, QubitLifecycle.Classify(t));
     }
 
     private static QubitTimeline TimelineFromBands(params bool[] below)

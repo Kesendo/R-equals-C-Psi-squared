@@ -25,7 +25,7 @@ section). A finite-q>0 real<->complex transition (hence, by the discriminant-sim
 a real defective seed) follows only where the nullity surplus is independently shown to be a literal
 real-count drop and the local character is certified. The literal-drop premise is exact at the probed
 N = 5, 7, 9 and measured at N = 11, but unproved at unprobed N; character certification reaches
-N = 5, 7, 9.
+N = 5, 7, 9, and the nine N = 11 loci are classified defective EP2 without a certificate.
 
 This script proves-by-computation the load-bearing facts (N = 3..13, BOTH parities):
   (F1)  r0 - r_inf = (N - 1) * [N odd]   exactly  (the endpoint-nullity surplus; zero at even N).

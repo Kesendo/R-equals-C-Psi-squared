@@ -18,7 +18,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// CΨ(0)=s/3, exactly one third of that concurrence. A genuine temporal downward crossing of ¼ occurs
 /// iff γ&gt;0 and s&gt;3/4; s=3/4 merely touches ¼ at t=0, and at γ=0 the curve is constant. For every s&gt;0 the cubic 12γ term
 /// has relative weight s²/2, growing quadratically (Bell+, s = 1, is the 50/50 member); and every nonzero member
-/// has the same late-time 4γ exponential term. This is a property of the named free two-qubit setup,
+/// has the same late-time 4γ exponential term. The slowing is ours: the log-rate −d ln CΨ/dt is
+/// 4γ(w₀ + 3w₁)/(w₀ + w₁) = 4γ(1 + s²) at t = 0 and falls to 4γ, while the coherence factor f decays at a
+/// steady 4γ; what slows is the observable, not the carrier. This is a property of the named free two-qubit setup,
 /// not an identification with a selected many-body eigenvector. Tier-1 closed form; the Bell+ member reproduces F25
 /// (<see cref="InteriorHorizon.BellPlusCpsi"/>) exactly.</para>
 ///

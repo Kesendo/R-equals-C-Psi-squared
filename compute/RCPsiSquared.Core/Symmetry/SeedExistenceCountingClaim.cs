@@ -14,9 +14,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// Here r(0⁺) is the nullity sum nullity(P₋₂CP₋₂)+nullity(P₋₆CP₋₆), a first-order
 /// endpoint surrogate, and r(∞)=nullity(C) is the asymptotic surrogate. The identity alone does
-/// not prove a literal finite-q real-count drop or its Jordan character. Those extra premises are
-/// certified at N=5,7,9 and remain open beyond the certified sizes. Three counting lemmas carry
-/// the identity:
+/// not prove a literal finite-q real-count drop or its Jordan character. The drop is probed exactly
+/// at N=5,7,9 and measured at N=11 (27 → 17); the character is certified at N=5,7,9 and classified
+/// (a defective EP2 at every locus, no certificate) at N=11. Three counting lemmas carry the
+/// identity:
 ///
 /// <para><b>(N2), the path count:</b> the −2 rung decomposes into N − 1 disjoint simple paths of
 /// N vertices each (the q-hop blocked at the shared site, the swap glue); a signed tree gauges
@@ -40,9 +41,13 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Scope (kept honest):</b> this claim types the endpoint-nullity COUNTING identity.
 /// A seed-existence conclusion additionally needs a literal finite-q drop; a Puiseux-1/2 defective
-/// EP2 conclusion also needs the simple-zero/genericity premise. Both are certified at N=5,7,9
-/// and stay open beyond them. N=11 demonstrates why the distinction matters: third-order lift-off
-/// occurs in the endpoint bookkeeping. Two adversarial reviews (exact arithmetic in ℤ[t]/Φ₂ₘ with a
+/// EP2 conclusion also needs the simple-zero/genericity premise. The drop is probed exactly at
+/// N=5,7,9; the character there is certified. N=11 shows why the distinction matters: four of the
+/// r(0⁺) = 31 surrogate modes leave the axis at third order and four of the r(∞) = 21 never reach
+/// it, so the literal counts are 27 → 17, and the drop is N − 1 by measurement, not by the identity;
+/// its nine loci are classified defective EP2, uncertified. Beyond N=11 the drop as a count is
+/// open: at every resonant N (3 | N+1, N ≥ 11) the twinning degeneracy is proved over ℚ(i), but the twins
+/// leaving the axis is measured at N=11 and 17 only; the character is open beyond N=11 as well. Two adversarial reviews (exact arithmetic in ℤ[t]/Φ₂ₘ with a
 /// counterexample hunt to N = 200; a full-2^N spin rebuild with explicit JW strings) held every
 /// step.</para>
 ///
@@ -69,8 +74,8 @@ public sealed class SeedExistenceCountingClaim : Claim
                "MINUS the 3-magnon block H3, so spec(K6) = 3 x {-(la+lb+lc)} and n6 = 3*Z3 = rho (D = 0 by " +
                "cyclotomic integrality), both parities; the resonances cancel between the endpoints and the " +
                "surplus is the odd-N path kernel alone; this endpoint-nullity count does not by itself force a " +
-               "literal finite-q transition or Jordan character. Literal-drop and Puiseux-1/2 EP2 character " +
-               "are certified at N=5,7,9 and open beyond them",
+               "literal finite-q transition or Jordan character. The literal drop is probed exactly at N=5,7,9 and " +
+               "measured at N=11 (27 -> 17); Puiseux-1/2 EP2 character is certified at N=5,7,9 and classified at N=11",
                Tier.Tier1Derived,
                "experiments/F89_SEED_EXISTENCE_REDUCTION.md + " +
                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md + " +
@@ -87,8 +92,9 @@ public sealed class SeedExistenceCountingClaim : Claim
         "r(0⁺) − r(∞) = N − 1 for every odd N on the (1,2) block: (N2) the −2 rung = N−1 paths of N vertices " +
         "(zero mode iff N odd), (FF) nullity(C) = the fusion-resonance count ρ, (N1′) n₆ = 3·Z₃ = ρ (the " +
         "ordering-sector theorem, spec(K₆) = 3×{−(λ_a+λ_b+λ_c)}, D = 0 by cyclotomic integrality); the " +
-        "resonances cancel; the count is not itself a finite-q existence or character theorem. Literal drop " +
-        $"and Puiseux-1/2 defective EP2 character are certified at N=5,7,9 and open beyond them ({Tier.Label()})";
+        "resonances cancel; the count is not itself a finite-q existence or character theorem. The literal drop " +
+        $"is probed exactly at N=5,7,9 and measured at N=11 (27 → 17); Puiseux-1/2 defective EP2 character is " +
+        $"certified at N=5,7,9 and classified at N=11 ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

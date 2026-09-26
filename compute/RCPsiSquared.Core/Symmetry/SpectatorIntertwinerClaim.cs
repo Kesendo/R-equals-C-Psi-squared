@@ -196,8 +196,8 @@ public sealed class SpectatorIntertwinerClaim : Claim
                          "normality + the certificate pair on the interior four, proof §7 scoping) and census-evidence " +
                          "beyond — since 2026-07-04 through N=9 IN FULL (the step-3 σ_min shell census: all 7 character-certified " +
                          "seeds PASS, membership = this corollary's diamond, shared-λ separation ≥ ×4.8e8) and " +
-                         "(2026-07-06) N=11 IN FULL (all 9 count-change candidates TRANSPORT-PASS witness-assisted and " +
-                         "character-uncertified, the six blocks the LP64 " +
+                         "(2026-07-06) N=11 IN FULL (all 9 loci PASS witness-assisted, classified defective and " +
+                         "uncertified, members at the Jordan depth ~(gap/2)², the six blocks the LP64 " +
                          "wall deferred resolved by the Tasks 5-6 sparse σ_min path). " +
                          "The census's first light also derived the R-parity grading of the W-step: R·W = " +
                          "(−1)^{p+w}·W·R (JW-string reflection), the carried parity ALTERNATING along the band chain " +

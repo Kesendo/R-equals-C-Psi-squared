@@ -23,7 +23,15 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         per-site Frobenius weight 16/9.</item>
 ///   <item><b>Zero cross-site coefficient after F1 centering.</b> The bare local
 ///         kernel has trace −8, but adding the F1 shift 2γ_l I makes it
-///         traceless. Hence <c>tr(M_l† M_l′)=0</c> for l ≠ l′.</item>
+///         traceless. Hence <c>tr(M_l† M_l′)=0</c> for l ≠ l′. Computed, not
+///         asserted: <see cref="ResidualCoefficients"/> builds the per-site kernel
+///         M_l = Π·L_l·Π⁻¹ + L_l + 2σ_l·I in integers from the same primitives
+///         (L_l = −d²/(d²−1) on each non-identity Pauli, Π the per-site I↔X, Y↔Z
+///         relabelling, σ_l the kernel's own spectral mean) and reads both
+///         coefficients off its norm and trace. The zero is the centering at the
+///         spectral mean: Π only permutes a Pauli-diagonal kernel, so
+///         tr M_l = 2·tr L_l + 2d²σ_l vanishes exactly there, and the uncentered
+///         kernel (σ_l = 0) gives the bare 16.</item>
 /// </list>
 ///
 /// <para><b>Tier outcome: Tier1Derived.</b> Both depol coefficients reduce to clean
@@ -89,9 +97,36 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim, IZ2AxisClai
     /// scalar to F1's squared Frobenius residual.</summary>
     public double LocalCoefficient => PerPauliDepolarizingRate * PerPauliDepolarizingRate;
 
-    /// <summary>The centered cross-site (<c>(Σγ)²</c>) coefficient: zero because
-    /// the F1-centered local kernel is traceless.</summary>
-    public double CrossSiteCoefficient => 0.0;
+    /// <summary>The centered cross-site (<c>(Σγ)²</c>) coefficient, computed by
+    /// <see cref="ResidualCoefficients"/>(centered: true): zero because the
+    /// F1-centered local kernel is traceless.</summary>
+    public double CrossSiteCoefficient => ResidualCoefficients(centered: true).Cross;
+
+    /// <summary>The (Σγ², (Σγ)²) coefficients of ‖Σ_l M_l ⊗ I‖²_F / 4^(N−1) for the per-site
+    /// depolarizing F1 kernel, computed from the Pi2 primitives in exact integer arithmetic
+    /// (every entry scaled by d² − 1 = 3). The kernel is Pauli-diagonal, so
+    /// ‖Σ_l M_l ⊗ I‖² = 4^(N−1)·Σ_l ‖M_l‖² + 4^(N−2)·Σ_{l≠l′} tr M_l·tr M_l′, which with
+    /// M_l = γ_l·m gives Cross = (tr m)²/d² and Local = ‖m‖² − (tr m)²/d².
+    /// <paramref name="centered"/> = true shifts by 2σ_l, σ_l = the kernel's spectral
+    /// mean (γ_l for depolarizing); false is the bare residual (σ = 0).</summary>
+    public (double Local, double Cross) ResidualCoefficients(bool centered)
+    {
+        int dSq = checked((int)DSquared), nonId = checked((int)DSquaredMinusOne);
+        // L_l on (I, X, Y, Z) in units γ_l/(d²−1): 0 on I, −d² on each non-identity Pauli
+        var l = new[] { 0, -dSq, -dSq, -dSq };
+        // Π per site: I ↔ X, Y ↔ Z; on a Pauli-diagonal kernel conjugation only permutes entries
+        var pi = new[] { 1, 0, 3, 2 };
+        // σ_l·(d²−1) = −tr L_l / d² ·(d²−1) = the mean rate, integral here (= d²−1)
+        int traceL = l.Sum();
+        if (traceL % dSq != 0) throw new InvalidOperationException("spectral mean not integral in these units");
+        int twoSigma = centered ? -2 * traceL / dSq : 0;
+        var m = Enumerable.Range(0, 4).Select(p => l[pi[p]] + l[p] + twoSigma).ToArray();
+        long norm = m.Sum(x => (long)x * x), trace = m.Sum();
+        double scale = (double)nonId * nonId;
+        double cross = trace * trace / (double)dSq / scale;
+        double local = (norm - trace * trace / (double)dSq) / scale;
+        return (local, cross);
+    }
 
     /// <summary>Drift-check alias for <see cref="LocalCoefficient"/>. Tests compare this
     /// against the parent's hardcoded
@@ -125,7 +160,8 @@ public sealed class F1DepolResidualClosedFormPi2Inheritance : Claim, IZ2AxisClai
 
     public override string Summary =>
         $"local = (d²/(d²−1))² = ({DSquared}/{DSquaredMinusOne})² = {LocalCoefficient:F4}; " +
-        $"cross = 0 after F1 centering; per-Pauli rate = d²/(d²−1) = {PerPauliDepolarizingRate:F4} ({Tier.Label()})";
+        $"cross = {CrossSiteCoefficient} after F1 centering (bare kernel: {ResidualCoefficients(centered: false).Cross}), " +
+        $"both computed from the per-site kernel; per-Pauli rate = d²/(d²−1) = {PerPauliDepolarizingRate:F4} ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {

@@ -692,8 +692,9 @@ public static class OpenArcsRegistry
                 "fundamental-domain strip, window-gated, R-parity split (~1/4 LU cost), seed refined in-parity to " +
                 "pairGap ~1e-6, member cut adaptive at 10*pairGap. VERDICT: N=9 PASS at ALL 7 seeds (membership = the " +
                 "containment diamond; members read the Jordan pseudospectrum depth ~(gap/2)^2 = 3e-14..5.5e-13; " +
-                "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 COMPLETE at ALL 9 count-change candidates (both " +
-                "parities; the full 10-member diamond, verdict TRANSPORT-PASS (witness-assisted; character-uncertified); the six wall-deferred blocks " +
+                "nearest non-member 2.5e-4..2.6e-2; separation x4.8e8..x4.6e11); N=11 COMPLETE at ALL 9 loci (both " +
+                "parities; the full 10-member diamond, verdict PASS (witness-assisted; classified defective; uncertified), members " +
+                "reading the Jordan depth ~(gap/2)^2 = 9.5e-15..4.6e-13 at classified grade; the six wall-deferred blocks " +
                 "-- members (4,5),(5,6)xlambda_A + (4,6),(5,5)xmu and non-member cores (4,4),(4,7) -- are resolved " +
                 "by the sparse sigma_min path (Tasks 5-6: sparse-witness carries a member's parity bound from above, " +
                 "sparse-invit estimates a core's sigma_min, a large-margin exclusion, not a certified bound); " +
@@ -716,12 +717,12 @@ public static class OpenArcsRegistry
                 "numbering in the journal layers below): (a) DONE 2026-07-06 -- the SPARSE sigma_min path was BUILT " +
                 "as Tasks 5-6 (SparseShiftedSigmaMin, inverse-iteration+LSQR on the CSR sector block, docked into " +
                 "SectorShellCensus's deferred branch as sparse-invit for non-member cores + SectorWitnessTransport " +
-                "as sparse-witness for members) and CLOSED the six deferred N=11 blocks, so N=11 is TRANSPORT-PASS " +
-                "(witness-assisted; character-uncertified) at all 9 count-change candidates (above); REMAINING is N=13/15 " +
+                "as sparse-witness for members) and CLOSED the six deferred N=11 blocks, so N=11 is PASS " +
+                "(witness-assisted; classified defective; uncertified) at all 9 loci (above); REMAINING is N=13/15 " +
                 "(same instrument, one CLI command each: dotnet run --project " +
                 "compute/RCPsiSquared.Cli -c Release -- shellcensus --n 13 --all-seeds --max-sector-dim 20000; seeds " +
-                "listed as count-change positions by RealDefectiveSeeds once the census extends; they are not seeds " +
-                "until separately character-certified) + the complex loci (step 4, certificate " +
+                "listed in RealDefectiveSeeds once the census extends, each classified at its count change and certified " +
+                "only where an exact layer certificate reaches) + the complex loci (step 4, certificate " +
                 "territory); (b) the seed census past N=11 " +
                 "(FindRealDefectiveByCountChange; gate RealSeedCensusTests, run: dotnet test " +
                 "compute/RCPsiSquared.Diagnostics.Tests --filter Category=SLOW_SEEDCENSUS; SLOW at N=13). Scope: " +
@@ -735,7 +736,8 @@ public static class OpenArcsRegistry
                 "dephasing-rung compressions; r(inf)=nullity(C)=the " +
                 "free-fermion FUSION-RESONANCE count #{lambda_a+lambda_b=lambda_c}; the surplus n2=N-1 = the odd-N " +
                 "-2-rung PATH kernel, N-1 disjoint paths of N vertices, zero mode iff N odd = the unmirrorable-seat " +
-                "face). A seed additionally needs a literal finite-q count drop and a local character certificate; " +
+                "face). A seed additionally needs a literal finite-q count drop and a local character reading " +
+                "(certified where an exact certificate reaches, classified elsewhere); " +
                 "a simple discriminant zero then gives a defective EP2 (Kato). " +
                 "(N1') (the ledger label for the doc's Piece 3; the verifier's gate is (N1P)) CLOSED 2026-07-04 " +
                 "same day: n6 = 3*Z3 = rho (Z3 = #{mode triples a<b<c: lambda_a+lambda_b+lambda_c=0}, rho = the " +
@@ -750,7 +752,9 @@ public static class OpenArcsRegistry
                 "NOT a partition of spec(C), images overlap); third-quantization turned out unnecessary. TWO " +
                 "adversarial reviews held it (exact arithmetic in Z[t]/Phi_{2(N+1)} + counterexample hunt to N=200; " +
                 "full-2^N spin rebuild with explicit JW strings). r(0+)-r(inf)=N-1 is now a THEOREM for every odd N. " +
-                "REMAINING OPEN on existence: the literal finite-q drop premise and the codim-2 beta-exotic genericity (a count-drop is defective " +
+                "REMAINING OPEN on existence: the literal finite-q drop premise (probed exactly at N=5,7,9, measured 27->17 at " +
+                "N=11, open beyond as a count: at every resonant N the twinning degeneracy is proof grade over Q(i) since " +
+                "the assembly (D) closed (above), the twins leaving the axis measured at N=11 and 17 only) and the codim-2 beta-exotic genericity (a count-drop is defective " +
                 "unless the non-generic order-3 nilpotent-linear-term point; 'beta' after the normal form " +
                 "beta(s)=[[0,s],[s^2,0]], eigenvalues +-s^{3/2}, a real-to-complex transition through a formally " +
                 "semisimple point). ATTACK ANCHOR for it (no tool exists yet): the Krein reading -- a transition " +
@@ -764,8 +768,9 @@ public static class OpenArcsRegistry
                 "(context for this UPDATE: the block is the (1,2) coherence pencil L(q)=A+qC defined earlier in " +
                 "this entry -- A the dephasing diagonal, rungs -2/-6; C the coherent hop; EP2 = a defective order-2 " +
                 "exceptional point, geometric mult 1 < algebraic 2; the A-i/O2 taxonomy lives in the strategy doc " +
-                "below.) Character certification is clean at N=5,7,9; N=11 has count-change loci and third-order " +
-                "endpoint bookkeeping but no blanket Puiseux-1/2 promotion. The N=7 gap closed 2026-07-08: all 6 seeds are defective " +
+                "below.) NUMERICS clean through N=11 -- scoping found NO beta (all defective EP2) at every cached locus " +
+                "N=5,9,11 (classified grade; N=5,7,9 are also certified by the gcd layer certificate, N=11 is " +
+                "not). The N=7 gap closed 2026-07-08: all 6 seeds are defective " +
                 "EP2 by the EpCharacter compression-geo instrument (mergeCos=1.0, geo 1<alg 2; the -4.996 " +
                 "semisimple crossing near seed -4.9228 is a SEPARATE benign diabolic, mergeCos=0). LESSON: classify " +
                 "seeds with EpCharacter.Characterize (compression geo at the compression's OWN mean eigenvalue) " +
@@ -1085,8 +1090,9 @@ public static class OpenArcsRegistry
                 "the ALLOWED corner (proved; BOTH kernel-purity conditions are inputs -- ker(K22)-in-E is the " +
                 "endpoints-in-E add-on, asserted at swept N incl. 10E+0O at N=11, 16E+0O at N=17); that no " +
                 "ker(K66)-cap-E birth materializes at resonant N is the " +
-                "MEASURED twinning input (N=11,17; open in general). RESONANT-N PROTECTION " +
-                "(measured at N=11, 17; exact-arithmetic decidable, not done): ker(K66) acquires a class-E part (21 = 3E+18O at N=11; " +
+                "twinning input: the E/O degeneracy, proof grade over Q(i) at every resonant N (NextStep above), and a " +
+                "nonzero third-order coupling per twin pair, measured at N=11,17 only. RESONANT-N PROTECTION " +
+                "(measured at N=11, 17): ker(K66) acquires a class-E part (21 = 3E+18O at N=11; " +
                 "36 = 6E+30O at N=17); coupled E-levels of Heff = P_ker K62 K26 P_ker would enter the FORBIDDEN " +
                 "corner, but each is EXACTLY twinned with an O-level (gaps <= 2.2e-16 at N=11, <= 5e-16 at N=17, " +
                 "solver-ulp) with nonzero third-order " +
@@ -1133,7 +1139,8 @@ public static class OpenArcsRegistry
                 "THE KILL TEST IS RUN: at N=23 (the true next resonant N, dim K66 = 5313) all 6 coupled E-levels " +
                 "twinned to <= 7.8e-16; at N=29 (dim 10962, first N with the PENT family, an independent " +
                 "number-theoretic mechanism) all 10 twinned to <= 4.4e-16. THE CELL LAW SURVIVES ITS CHEAPEST " +
-                "KILL AT N=23 AND N=29; it is NOT thereby proved (twinning stays unproven at every unprobed N). " +
+                "KILL AT N=23 AND N=29; the kill test is a measurement at those N (the all-N degeneracy proof is Y = 0 " +
+                "and the variety identity, below and in NextStep). " +
                 "THE ONE OPEN ITEM LEFT HERE IS SHARP: prove Y = 0, i.e. <K26 w_tau, K26 w_tau'> = 0 for mirror " +
                 "partners; that single orthogonality turns the twinning law (hence the cell law's protection at " +
                 "every resonant N) from measurement into theorem. COMMITTED VERIFIER: " +
@@ -1457,17 +1464,16 @@ public static class OpenArcsRegistry
                 "SEED CENSUS (2026-07-02, same day, the masking trap DEFEATED for the real axis; REAL-q seeds feeding " +
                 "the containment corollary's input - these are NOT resultant targets, the resultant's loci are the " +
                 "COMPLEX window-escapers above): the containment " +
-                "corollary's one per-N input (a character-certified real defective EP on (1,2)) reaches N=5,7,9. The " +
-                "count-change census itself extends through N=11 via the " +
+                "corollary's one per-N input (a real defective EP on (1,2)) is certified at N=5,7,9 and classified, " +
+                "uncertified, at N=11, via the " +
                 "PT-break COUNT-CHANGE instrument (FindRealDefectiveByCountChange: real-root count of the " +
                 "self-conjugate residuals jumps by 2 where two real strands merge and leave the axis; counting is " +
                 "global, no density masks it; classify AT-aware via SectorEpProbe.ProbeDefectiveAnywhere; gate " +
-                "RealSeedCensusTests, Category SEEDCENSUS). Count-change loci in q in [0.2,3] (character-certified " +
-                "seeds only through N=9): N=5: 4 (2 R-even + 2 R-odd, the " +
+                "RealSeedCensusTests, Category SEEDCENSUS). Loci in q in [0.2,3]: N=5: 4 (2 R-even + 2 R-odd, the " +
                 "R-odd q*=0.6430 lambda=-3.8196 previously UNKNOWN, confirmed by a tight local gap scan), N=7: 6 " +
                 "(3+3, incl. the masked 1.5148), N=9: 7 (4+3), N=11: 9 (4+5; SLOW_SEEDCENSUS, 2h31m). Blind spots " +
-                "At N=11 this is a locus/count reading, not by itself a Puiseux-1/2 character certificate. Blind spots: " +
-                "grazes and real-real crossings make no net count change. " +
+                "(harmless for seeds): grazes and real-real crossings make no net count change, and both are " +
+                "semisimple. " +
                 "NUMBERING TRAP: the proof's remainders are R1-R4 above; the '(a)/(b)/(c) next " +
                 "candidates' near the bottom are the Era-2 to-do (a=complex-q PARTIAL: near-axis CLOSED by the moved window, deep loci → resultant; b=window-edge CLOSED, c=D-half CLOSED)," +
                 "and are NOT the Era-1 '(a)-(d)' connection-directions at the top of the journal. TERMS: Klein = the " +
@@ -7273,8 +7279,8 @@ public static class OpenArcsRegistry
                 "PRIMORDIAL_QUBIT:392-396 ('The inside observer measures Q only ... requires a vantage " +
                 "point outside the system'), and the epistemic framings of " +
                 "the two docs (the doc-level pass). SWEEP (2026-08-08): docs/proofs INCOMPLETENESS_PROOF " +
-                "and PROOF_ABSORPTION_THEOREM:832-863 ('Absorption is a name, not a process'; dephasing " +
-                "does NOT conserve energy off Ising, but unital non-primitive dynamics does not by itself select a unique beta=0 state) read at " +
+                "and PROOF_ABSORPTION_THEOREM section 5 ('Absorption is a name, not a process'; dephasing " +
+                "does NOT conserve energy off Ising) read at " +
                 "source; INSIDE_OUTSIDE_THE_SACRIFICE_ZONE and ON_THE_INNER_AND_OUTER_OBSERVATION read in " +
                 "full; TwoReadingsClaim + registration + PRIMORDIAL_QUBIT par.9; KMS_DETAILED_BALANCE; " +
                 "the March layer (THE_BRIDGE_WAS_ALWAYS_OPEN, GAMMA_AS_SIGNAL, GAMMA_IS_LIGHT incl. its " +

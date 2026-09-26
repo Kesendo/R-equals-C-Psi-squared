@@ -6,7 +6,7 @@
     "simulations/framework/__init__.py": "080ce829a0c37fba9564fed03c77d66a51933c2e93c6375ff3ba786c55372468",
     "simulations/framework/chain_system.py": "316f811e7b44e6748ceeeae377cae2fd7f39b4b8d271542f6754b15121d2e11d",
     "simulations/framework/coherence_block.py": "5dad26bb2e6e7e3c579a6cbf396344a3c5c68aaa721b11470d75785b41a1925d",
-    "simulations/framework/confirmations.py": "5097cc7c909eb5f17ce5bba3a6806b263024f728125f96ce01c35dd478cee44f",
+    "simulations/framework/confirmations.py": "ffed664275b1b1636fab4e5a90770b23a7f85eaa5f9546baa38c9a3f068aeae0",
     "simulations/framework/diagnostics/__init__.py": "80d3ca4dae4fe4bfcec89207ae5d2631a0efc94739ae77307f89884b4405e8f6",
     "simulations/framework/diagnostics/crossover_product_pi.py": "b4878851ccb4be30a70042cb6eab59bbbcd3cd50b1c99a132ffae2fc83ea034b",
     "simulations/framework/diagnostics/d_zero.py": "cb8e767d995745f3f95cd03acc1b12e8044ab50b4437107311f79df80e065018",

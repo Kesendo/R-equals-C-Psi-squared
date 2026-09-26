@@ -3,6 +3,12 @@ using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Core.Tests.Knowledge;
 
+/// <summary>Tom's "Bauplan ist mittransportiert" test: from a topically distant
+/// claim (F97, the Mandelbrot cardioid, about complex-c geometry), walking the typed
+/// parent properties reaches <see cref="IF99AnchorBearing"/> foundations although F97
+/// carries no F99-anchor metadata; from F99 the walk rebuilds its multi-level anchor map.
+/// Alongside: genuine application-to-formula edges, the F99 diamond, and a parentless
+/// formula.</summary>
 public class ClaimGraphWalkerTests
 {
     private static CanonicalTrigAnchorPi2Inheritance BuildF99()
@@ -46,6 +52,50 @@ public class ClaimGraphWalkerTests
         var reached = ClaimGraphWalker.WalkReachable(f97);
 
         Assert.Equal(new Claim[] { f97, quarter }, reached);
+    }
+
+    [Fact]
+    public void WalkFromF97_ReachesTheQuarterFoundation_AnF99AnchorBearingParent()
+    {
+        // The Bauplan test: F97 does not implement IF99AnchorBearing, but its typed
+        // parent Quarter does, in the Parent role, so the walk carries the anchor
+        // information to F97's vantage.
+        var quarter = new QuarterAsBilinearMaxvalClaim();
+        var f97 = new F97CardioidHalfFixedPointPi2Inheritance(quarter);
+
+        var bearing = ClaimGraphWalker.ReachableImplementing<IF99AnchorBearing>(f97);
+
+        Assert.False(typeof(IF99AnchorBearing).IsAssignableFrom(f97.GetType()));
+        var only = Assert.Single(bearing);
+        Assert.Same(quarter, only);
+        Assert.Equal(F99AnchorRole.Parent, only.F99Role);
+    }
+
+    [Fact]
+    public void WalkFromF97_BuildsPartialMap_OneParentAndAllFiveAnchorsAsGaps()
+    {
+        // From F97's vantage the map is foundation-aware but holds no Direct or Covers
+        // claim: nothing covered, every anchor a gap, one parent.
+        var f97 = new F97CardioidHalfFixedPointPi2Inheritance(new QuarterAsBilinearMaxvalClaim());
+        var claims = ClaimGraphWalker.ReachableImplementing<IF99AnchorBearing>(f97)
+            .OfType<Claim>()
+            .ToArray();
+
+        var partial = new F99AnchorMap(claims);
+
+        Assert.Empty(partial.CoveredAnchors);
+        Assert.Equal(5, partial.GapAnchors.Count);
+        Assert.Single(partial.ParentClaims);
+    }
+
+    [Fact]
+    public void ParentlessFormula_WalksToItselfOnly()
+    {
+        var f95 = new F95AngleAtQuadraticZeroPi2Inheritance();
+
+        var reached = ClaimGraphWalker.WalkReachable(f95);
+
+        Assert.Equal(new Claim[] { f95 }, reached);
     }
 
     [Fact]

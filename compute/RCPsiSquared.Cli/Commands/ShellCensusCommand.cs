@@ -12,10 +12,10 @@ namespace RCPsiSquared.Cli.Commands;
 /// fundamental-domain strip, R-parity split, window-gated (the window-shell lemma excludes analytically
 /// where the Bendixson window misses Re s). Sectors past the LP64 wall take the SPARSE path by default
 /// (member cells → the from-above W-transport witness, non-member cells → the sparse inverse-power
-/// estimator); --no-sparse restores the pure-dense behavior (bare "deferred" rows). Verdict per seed:
-/// PASS / PASS (witness-assisted) / PARTIAL / DISAGREE for character-certified seeds. Uncertified
-/// count-change loci use TRANSPORT-PASS / TRANSPORT-PARTIAL so membership transport cannot be read as
-/// a defective-seed certificate. CSV per locus to --out.
+/// estimator); --no-sparse restores the pure-dense behavior (bare "deferred" rows). Verdict per locus:
+/// PASS / PASS (witness-assisted) / PARTIAL / DISAGREE, where the PASS names the locus's character grade
+/// (bare for a certified seed, "classified defective; uncertified" for an N=11 locus) and TRANSPORT-PASS /
+/// TRANSPORT-PARTIAL marks a locus with no defective classification. CSV per locus to --out.
 ///
 /// usage: rcpsi shellcensus --n 9 [--seed 2.137549 | --all-seeds] [--max-sector-dim 46000] [--no-sparse] [--out dir]</summary>
 public static class ShellCensusCommand
@@ -57,7 +57,7 @@ public static class ShellCensusCommand
         bool anyDisagree = false;
         foreach (var seed in toRun)   // strictly sequential — never stack LUs
         {
-            Console.WriteLine($"\n=== locus q*={seed.QStar.ToString("F6", Inv)} (R-{(seed.RParity > 0 ? "even" : "odd")}, character-certified={seed.CharacterCertified}, {seed.Origin}) ===");
+            Console.WriteLine($"\n=== locus q*={seed.QStar.ToString("F6", Inv)} (R-{(seed.RParity > 0 ? "even" : "odd")}, classified={seed.Classified?.Kind.ToString() ?? "none"}, certified={seed.CharacterCertified}, {seed.Origin}) ===");
             var opts = new SectorShellCensus.Options { MaxSectorDim = maxSectorDim, SparseForDeferred = !noSparse, Log = s => Console.WriteLine("  " + s) };
             var result = SectorShellCensus.Run(seed, opts);
             string csv = Path.Combine(outDir, $"shell_census_N{n}_q{seed.QStar.ToString("F6", Inv)}.csv");

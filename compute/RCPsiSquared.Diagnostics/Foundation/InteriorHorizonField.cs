@@ -3,15 +3,17 @@ using RCPsiSquared.Core.Inspection;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>The Object Manager's telescope onto several scalar readings near ¼. Unlike the
-/// operator axes (crossover, J-defect), this is a coordinate display: there is no Hamiltonian to
-/// sweep. It shows a recurrence discriminant, a positive-b quadratic angle, an iteration stopping
-/// rule, and one named Bell+/pure-Z trajectory without identifying those objects with one another.
+/// <summary>The Object Manager's telescope onto the third axis: the ¼-to-½ interior, read as a
+/// horizon. Unlike the operator axes (crossover, J-defect), this is a coordinate axis: there is no
+/// Hamiltonian to sweep, only the recurrence value c approaching its double root ¼. It shows the
+/// recurrence discriminant, the F95 heading at b = ½, the live iteration count, its stopping rule,
+/// and one named Bell+/pure-Z trajectory (F25) that passes through the same scalar value. The
+/// horizon is structural, never gravitational.
 ///
-/// <para>Five readings use a geometric |ε|-ladder around ¼: the scalar marks; the angle
-/// θ → 0 from c&gt;¼; the recurrence iteration count from c&lt;¼; the relative-stop control
-/// showing how much of the rescaled count belongs to the stopping rule; and the setup-specific
-/// Bell+/pure-Z dwell. The saved Kingston rows are finite comparisons, not a universal boundary.</para>
+/// <para>Five readings use a geometric |ε|-ladder around ¼: the scalar marks; the F95 heading
+/// θ → 0 from c &gt; ¼; the recurrence iteration count from c &lt; ¼; the relative-stop control
+/// showing how much of the rescaled count belongs to the stopping rule; and the Bell+/pure-Z dwell
+/// with its Kingston records (experiments/CRITICAL_SLOWING_AT_THE_CUSP.md).</para>
 ///
 /// <para>The heading reads from the complex-root side (¼ + |ε|, plus ¼ itself where the
 /// closed form is exactly θ = 0). The recurrence reads from the two-real-root side
@@ -89,9 +91,9 @@ public sealed class InteriorHorizonField : IInspectable
         {
             double thetaAnchor = InteriorHorizon.HeadingDegrees(InteriorHorizon.Cusp + _eps[^1]);
             int nNear = InteriorHorizon.RecursionIterations(InteriorHorizon.Cusp - _eps[0], _tol);
-            return $"recurrence boundary c=¼: angle θ → 0 from the complex-root side (θ={thetaAnchor.ToString("0.#", Inv)}° at the far rung), " +
+            return $"recurrence boundary c=¼: the F95 heading (b=½) θ → 0 from the complex-root side (θ={thetaAnchor.ToString("0.#", Inv)}° at the far rung), " +
                    $"the recurrence takes {nNear} steps at the nearest two-real-root rung under the fixed stop; " +
-                   "a relative stop makes the rescaled count approach a constant, while the Bell+/pure-Z dwell is a separate setup-specific reading.";
+                   "a relative stop makes the rescaled count approach a constant, while the Bell+/pure-Z dwell is a separate setup-specific reading. A structural horizon, not a gravitational one.";
         }
     }
 
@@ -108,13 +110,13 @@ public sealed class InteriorHorizonField : IInspectable
                 displayName: "the marks (the contract)",
                 summary: $"c=¼ is the recurrence's double-root value and θ=0; c=½ is an angle anchor with θ=45°. These are scalar coordinates, not state-regime labels.");
 
-            // 2. The positive-b quadratic angle on the complex-root side.
+            // 2. The F95 heading at b = ½ on the complex-root side.
             var heading = HeadingCpsi();
             var theta = heading.Select(InteriorHorizon.HeadingDegrees).ToArray();
             yield return new InspectableNode(
-                displayName: "the positive-b quadratic angle (θ → 0 at the boundary)",
-                summary: $"θ = arctan(√(4·c−1)): {theta[^1].ToString("0.#", Inv)}° at c={heading[^1].ToString("0.##", Inv)} down to {theta[0].ToString("0.##", Inv)}° at the recurrence boundary. This labels the complex-root coordinate of that quadratic.",
-                payload: new InspectablePayload.Curve("quadratic angle θ°", heading, theta, "c (complex-root side)", "θ°"));
+                displayName: "the F95 heading at b = ½ (θ → 0 at the double root)",
+                summary: $"θ = arctan(√(4·c−1)) = F95's θ(c; ½) of z²−z+c: {theta[^1].ToString("0.#", Inv)}° at c={heading[^1].ToString("0.##", Inv)} down to {theta[0].ToString("0.##", Inv)}° at the double root ¼. The angle of the recurrence's complex root pair.",
+                payload: new InspectablePayload.Curve("heading θ°", heading, theta, "c (complex-root side)", "θ°"));
 
             // 3. The recurrence at its double-root boundary, run live from below.
             var belowBoundary = BelowBoundaryCpsi();
@@ -157,7 +159,8 @@ public sealed class InteriorHorizonField : IInspectable
             yield return new InspectableNode(
                 displayName: "the named Bell+/pure-Z dwell and hardware comparison",
                 summary: $"K_dwell = γ·t_dwell = {InteriorHorizon.BellPlusDwellPrefactor}·δ (F57) for the ideal Bell+/pure-Z trajectory. " +
-                         "Saved Kingston rows report finite crossings and compare two pairs at 2.55× different fitted γ; their 6.4% agreement at prefactor 0.67 rather than 1.0801 does not isolate the cause of the gap. " +
+                         "On IBM Kingston, f25_cusp_trajectory reproduces the F25 crossing point by point (19 delay points, RMS residual 0.0097 against the in-situ γ fit); " +
+                         "f57_kdwell_gamma_invariance compares two pairs at 2.55× different fitted γ, their 6.4% agreement at prefactor 0.67 rather than 1.0801 not isolating the cause of the gap. " +
                          "Neither the scalar crossing nor that association identifies a recurrence root with a Liouvillian mode.",
                 payload: new InspectablePayload.Curve("Bell+/pure-Z scalar trajectory", tGrid, trajectory, "t", "CΨ (passes ¼)"));
         }

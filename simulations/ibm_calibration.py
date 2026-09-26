@@ -12,11 +12,12 @@ and provides:
 - `best_chain(qubits, length)`: best contiguous path of given length, scored as
   qubit-quality sum + bond-quality sum
 
-Motivation: 2026-04-26 F87 trichotomy run on path [48, 49, 50] gave a 23×
-cleaner truly Π²-odd baseline than the same-day run on path [0, 1, 2]
-(0.0013 vs 0.0297). The truly baseline is qubit-quality-dependent; chain
-selection materially improves signal-to-noise. Calibration-driven chain
-choice replaces ad-hoc qubit picking.
+Motivation: the 2026-04-26 F87 trichotomy runs read a truly Π²-odd baseline
+of 0.0013 on path [48, 49, 50] (soft_break script) and 0.0297 on [0, 1, 2]
+(framework_snapshots script). That 22× is mostly the runner scripts: within
+one script the two paths differ 1.64×, and [48, 49, 50] alone reads 8.6× apart
+across the scripts. Calibration-driven chain choice replaces ad-hoc qubit
+picking; these runs do not show that it moves the truly baseline.
 """
 from __future__ import annotations
 

@@ -40,7 +40,8 @@ public sealed class RetractedClaim : Claim
     /// csc(...) conjectures, plus the 2026-06-21 F86a "exceptional point on the real Q axis"
     /// mechanism (the Petermann factor is genuine non-normality on a simple eigenvalue, but its
     /// peak magnitude is a grid artifact). NOTE: the retraction's "no real-axis defective EP" was
-    /// itself corrected after F89 certified narrow real-axis defective seeds at N=5,7,9. The
+    /// itself corrected after F89 certified narrow real-axis defective seeds at N=5,7,9 (and classified
+    /// nine more, uncertified, at N=11). The
     /// all-odd endpoint-nullity surplus is not by itself an all-odd character theorem — see the
     /// Refutation string and PROOF_F86A_EP_MECHANISM §The real-axis EP.</summary>
     public static IReadOnlyList<RetractedClaim> Standard { get; } = new[]

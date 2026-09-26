@@ -10,7 +10,9 @@ public static class RouteBN6AtlasCommand
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = true
+        WriteIndented = true,
+        // LF on every platform, so the export is byte-identical to the committed artifact.
+        NewLine = "\n"
     };
 
     public static int Run(string[] args)

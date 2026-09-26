@@ -1,7 +1,5 @@
 # RCPsiSquared.Propagate
 
-<!-- CROSSING-CURRENT -->
-
 C# time-domain propagation engine for Lindblad master equation dynamics on N-qubit systems (tested through N=13, targeting N=15). Integrates drho/dt via RK4 with zero-allocation hot loop, computing mutual information, CΨ, concurrence, and Pauli correlators at specified measurement times.
 
 ## What it does
@@ -54,10 +52,6 @@ dotnet run -c Release -- pull
 # Profile mode: evaluate a single gamma profile (sacrifice-zone formula, optimizer output, etc.)
 dotnet run -c Release -- profile <N> <g1,g2,...,gN> [--tmax 20] [--dt 0.05]
 ```
-
-The `pull` command rewrites its tracked output. During protected dirty-label
-work, build this project but do not execute `pull`; no matched Relay comparison
-is implemented by the historical run.
 
 Default and pull results are written to `simulations/results/mediator_bridge_scale.txt` or `simulations/results/pull_principle.txt`. Profile mode writes to stdout only (single machine-parseable RESULT line).
 
@@ -131,9 +125,10 @@ Initial state is always |+>^N. Product states are the optimal choice because eac
 **Precomputed dephasing mask.** The Z-dephasing dissipator reduces to element-wise multiplication: `drho[i,j] += mask[i,j] * rho[i,j]` where mask depends only on the XOR of basis indices. Computed once, stored as flat double array. Used by both paths.
 
 **Staged propagation for relay protocol.** The density matrix carries across
-six rate profiles without reset. The requested stage is nominal 0.78, but
-`(int)(0.78/0.05)=15` RK4 steps integrate 0.75. Thus nominal total 4.68
-(the old `t=4.7` display) differs from integrated total 4.50, or 90 steps.
+six rate profiles without reset. The requested stage is 0.78 = K/γ at γ = 0.05,
+with K ≈ 0.039 the February concurrence-feedback dose (experiments/RELAY_PROTOCOL.md),
+but `(int)(0.78/0.05)=15` RK4 steps integrate 0.75. The log shows the nominal total
+4.68 beside the integrated total 4.50, or 90 steps.
 The source's scalar-crossing heuristic is not a palindrome timing theorem.
 
 The stored A:D ratio uses relay final 0.131700 at 4.50 against passive sampled

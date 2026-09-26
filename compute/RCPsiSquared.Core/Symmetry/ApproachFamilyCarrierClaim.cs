@@ -22,6 +22,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>s=1</c>. The matching 3:1 ratio in the C2 doubled-PTF calculation and the
 /// algebra/dynamics description are illuminating prose comparisons, not ancestry
 /// edges or same-object identities.</para>
+///
+/// <para>Why the C2 3:1 is a sibling and not the same object: here CΨ = purity × Ψ with
+/// purity 1 − (s²/2)(1 − f²) and Ψ = s·f/3, so the 12γ term is a purity×coherence cross
+/// term (f² from the purity times f from the coherence), an intensity-level quantity; C2's
+/// K_b is an amplitude-level susceptibility whose fast rate is the HD=3 sector mode (the
+/// −6γ₀ diagonal against −2γ₀). The ratio is shared, the origin is not.</para>
+///
+/// <para>The closed form and the Lindblad trajectory are the algebra and the dynamics of one
+/// approach, and the seam between them is where "the slowing is ours" lives: the coherence
+/// factor decays at a steady 4γ, while CΨ's log-rate −d ln CΨ/dt falls from 4γ(1 + s²) to 4γ as
+/// the transient purity term dies, so the slowing belongs to the observable
+/// (<c>docs/NAVIGATING_THE_DIMENSIONS.md</c>; live for this family in
+/// <c>ApproachFamilyField</c>, with <c>InteriorHorizonField</c> as the recursion's sibling
+/// reading). <see cref="Weights"/> are the same doubles as the Diagnostics primitive
+/// <c>OddHarmonicApproach.Weights</c>, pinned there against each other.</para>
 /// </summary>
 public sealed class ApproachFamilyCarrierClaim : Claim
 {
@@ -34,6 +49,26 @@ public sealed class ApproachFamilyCarrierClaim : Claim
     public const double CarrierRateCoefficient = 4.0;
     public const double HarmonicRateCoefficient = 12.0;
     public const double CrossingThresholdS = 0.75;
+
+    /// <summary>The two exact weights: w₀ = s(1 − s²/2)/3 on e^(−4γt), w₁ = s³/6 on e^(−12γt).</summary>
+    public static (double W0, double W1) Weights(double s)
+    {
+        if (!(s >= 0.0 && s <= 1.0))
+            throw new ArgumentOutOfRangeException(nameof(s), s, "s = sin(2α) must lie in [0, 1].");
+        return (s * (1.0 - s * s / 2.0) / 3.0, s * s * s / 6.0);
+    }
+
+    /// <summary>CΨ(s, t) = w₀·f + w₁·f³ with f = e^(−4γt), the family evaluated live.</summary>
+    public static double CPsi(double s, double gamma, double t)
+    {
+        if (!(gamma >= 0.0) || double.IsInfinity(gamma))
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "γ must be finite and ≥ 0.");
+        if (!(t >= 0.0) || double.IsInfinity(t))
+            throw new ArgumentOutOfRangeException(nameof(t), t, "t must be finite and ≥ 0.");
+        var (w0, w1) = Weights(s);
+        double f = Math.Exp(-CarrierRateCoefficient * gamma * t);
+        return w0 * f + w1 * f * f * f;
+    }
 
     public ApproachFamilyCarrierClaim(
         AbsorptionTheoremClaim absorption,
@@ -90,7 +125,7 @@ public sealed class ApproachFamilyCarrierClaim : Claim
                 summary: "the Absorption Theorem gives f=e^(−4γt) for the n_diff=2 coherence; for 0<s≤1 the nonzero w₀ term contains f, while the 12γ term is f³; at s=0 both weights vanish");
             yield return new InspectableNode(
                 "non-ancestral comparisons",
-                summary: "C2 also displays a 3:1 pair of coefficients, while a closed form and a Lindblad trajectory describe the same calculation; these are prose comparisons, not typed derivations");
+                summary: "C2 also displays a 3:1 pair, but its fast rate is the HD=3 sector mode of an amplitude-level susceptibility, while the 12γ term here is a purity×coherence cross term at the intensity level; the closed form and the Lindblad trajectory are algebra and dynamics of one approach, the seam where 'the slowing is ours', CΨ's log-rate falling from 4γ(1 + s²) to 4γ (NAVIGATING_THE_DIMENSIONS; ApproachFamilyField). Prose comparisons, not typed derivations");
             yield return new InspectableNode(
                 "Bell+ specialization",
                 summary: "s=1 gives w₀=w₁=1/6, hence (e^(−4γt)+e^(−12γt))/6, exactly F25");

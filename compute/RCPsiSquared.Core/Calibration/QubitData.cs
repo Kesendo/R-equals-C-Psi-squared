@@ -1,8 +1,10 @@
 namespace RCPsiSquared.Core.Calibration;
 
-/// <summary>Per-qubit metrics from an IBM calibration CSV. T1, T2, readout
-/// error, gate errors, operationality, and directed coupling rows remain the
-/// measured inputs; the R* properties are derived proxy readings.</summary>
+/// <summary>Per-qubit metrics from an IBM calibration CSV; mirrors the columns in
+/// <c>data/ibm_calibration_snapshots/ibm_marrakesh_calibrations_*.csv</c>. T1, T2,
+/// readout error, gate errors, operationality, and the directed coupling graph
+/// (neighbour → CZ-error / RZZ-error) remain the measured inputs; the R* properties
+/// are derived proxy readings.</summary>
 public sealed record QubitData(
     int Qubit,
     double T1Us,

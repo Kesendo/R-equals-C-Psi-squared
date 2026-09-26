@@ -37,6 +37,18 @@ public class RegimeSummaryTests
     }
 
     [Fact]
+    public void Apr25Best5Chain_IsAllAtOrAbove()
+    {
+        var s = RegimeSummary.For(Marrakesh20260425.Value, new[] { 1, 2, 3, 4, 5 });
+
+        Assert.Equal(RegimeVerdict.AllAtOrAboveRStar, s.RStarBandVerdict);
+        Assert.True(s.HasSingleNonBoundaryRStarBand);
+        Assert.Equal(0, s.BelowRStarCount);
+        Assert.Equal(0, s.NearRStarCount);
+        Assert.Equal(5, s.AtOrAboveRStarCount);
+    }
+
+    [Fact]
     public void PerQubitRow_CarriesRawCalibrationAndDerivedBand()
     {
         var s = RegimeSummary.For(Marrakesh20260425.Value, new[] { 0, 1, 2 });
@@ -125,13 +137,39 @@ public class RegimeSummaryTests
 
         Assert.Contains("pi_protected_xiz_yzzy", hits);
         Assert.Contains("lebensader_skeleton_trace_decoupling", hits);
-        Assert.All(
-            s.RelatedConfirmations(machine: "ibm_marrakesh"),
-            c => Assert.Equal("ibm_marrakesh", c.Machine));
     }
 
     [Fact]
-    public void Labels_AreRoundTripStableAtTheLoggingBoundary()
+    public void RelatedConfirmations_MachineFilter_RestrictsToBackend()
+    {
+        // NotEmpty first: an All(...) over an empty result would pass for a filter that returns nothing.
+        var s = RegimeSummary.For(Marrakesh20260425.Value, new[] { 48, 49, 50 });
+        var marrakesh = s.RelatedConfirmations(machine: "ibm_marrakesh").ToList();
+
+        Assert.NotEmpty(marrakesh);
+        Assert.All(marrakesh, c => Assert.Equal("ibm_marrakesh", c.Machine));
+        Assert.Empty(s.RelatedConfirmations(machine: "ibm_kingston"));
+    }
+
+    [Fact]
+    public void RelatedConfirmations_UntestedPath_ReturnsEmpty()
+    {
+        // [4, 3, 2] is the 2026-04-25 best 3-chain, never run as a documented path:
+        // the negative control for the exact-path lookup.
+        var s = RegimeSummary.For(Marrakesh20260425.Value, new[] { 4, 3, 2 });
+        Assert.Empty(s.RelatedConfirmations());
+    }
+
+    [Fact]
+    public void RelatedConfirmations_ReversedRegisteredPath_ReturnsEmpty()
+    {
+        // [48, 49, 50] is registered; its reversal is not: the lookup is order-sensitive.
+        Assert.NotEmpty(RegimeSummary.For(Marrakesh20260425.Value, new[] { 48, 49, 50 }).RelatedConfirmations());
+        Assert.Empty(RegimeSummary.For(Marrakesh20260425.Value, new[] { 50, 49, 48 }).RelatedConfirmations());
+    }
+
+    [Fact]
+    public void Labels_AreTheFixedKebabCaseStrings()
     {
         Assert.Equal("all-below-r-star", RegimeVerdict.AllBelowRStar.Label());
         Assert.Equal("all-at-or-above-r-star", RegimeVerdict.AllAtOrAboveRStar.Label());

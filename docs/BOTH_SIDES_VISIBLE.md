@@ -408,8 +408,8 @@ Two derived statistics drive the classification:
 | "balanced, rhythmic" (Q72)                     | `Twitch` (high day-to-day flipping)                        | walk = 0.322                         |
 | "clear lifecycle: tune, pulse, fade" (Q98)     | `Twitch` at day-scale, `Lifecycle` at week-scale           | walk = 0.294                         |
 | "long active phase, then silent" (Q105)        | `Lifecycle` (slow drift across boundary)                   | walk = 0.083                         |
-| "mostly silent, brief pulses" (Q70)            | `Twitch` (high walk despite low crossing)                  | walk = 0.306, crossing = 28%         |
-| "mostly silent" (Q68)                          | `Twitch`                                                   | walk = 0.300, crossing = 24%         |
+| "mostly silent, brief pulses" (Q70)            | `Twitch` (high walk despite low crossing)                  | walk = 0.294, crossing = 26%         |
+| "mostly silent" (Q68)                          | `Twitch`                                                   | walk = 0.300, crossing = 23%         |
 | "consistent crosser" (Q80, README anchor)      | `PulseStable` (always below R*, walk ≈ 0)              | walk = 0.000, crossing = 100%        |
 
 Q98 is illuminating: at week granularity (the visualization in this doc)
@@ -513,22 +513,25 @@ hardware run) is regime-mixed (Q0 quantum + Q1 silent-stable + Q2
 lifecycle); path [48, 49, 50] (qubits 48/49/50 used in the soft_break
 and zn_mirror runs on the same chip) is uniform-classical. Both are
 addressable. The truly-baseline (the F88b-Lens Π²-odd-memory reading
-on the truly-Hamiltonian category) measured downstream is 23× cleaner
-on [48, 49, 50] than on [0, 1, 2]. This now reads as a regime-uniformity
-effect, not just a qubit-quality effect.
+on the truly-Hamiltonian category) read 22× cleaner on the soft_break
+run of [48, 49, 50] than on the framework_snapshots run of [0, 1, 2].
+The tempting reading is a regime-uniformity effect rather than a
+qubit-quality effect; the next subsection puts a third path beside the
+two, and the repeat runs beside all of them, and says what they can and
+cannot carry.
 
-### From hypothesis to confirmation: Kingston uniform-quantum hardware run (May 5 afternoon)
+### The prediction on a uniform-quantum chain: Kingston, May 5
 
-The previous subsection's claim that "the 23× truly-baseline gap is a
-regime-uniformity effect" was a hypothesis when this update was first
-written. It became hardware-confirmed the same day, three commits later.
+The regime-uniformity reading of the 22× gap makes a prediction: a
+uniform-quantum chain should read a clean truly-baseline too. Marrakesh
+cannot build one, so the test went to Kingston the same day.
 
 The Kingston topology-constraint relaxation (three stable-quantum
 PulseStable triples vs Marrakesh's zero) made an experiment possible
 that Marrakesh had blocked: F87 trichotomy on a uniform-quantum chain.
 Path [43, 56, 63] on ibm_kingston, the most balanced of the three
-triples (r mean 0.103 / 0.089 / 0.104, walk = 0 across 91 days, all
-three deeply below R*). Job d7sqjpiudops73976960, 4096 shots/basis,
+triples (r mean 0.103 / 0.089 / 0.104, walk 0 / 0 / 0.022 across 91
+days, below R* on 91 / 91 / 90 of them). Job d7sqjpiudops73976960, 4096 shots/basis,
 36 circuits (4 Hamiltonian categories × 9 measurement bases), 39 seconds
 of billed QPU time (the AIEvolution submit script's "3-5 minute"
 estimate is a conservative upper bound; this Heron-r2 run came in well
@@ -536,36 +539,58 @@ under one minute).
 
 F88b-Lens Π²-odd-memory readings, side by side with the prior anchors:
 
-| Path                           | Regime              | truly-baseline | soft  |
-|--------------------------------|---------------------|---------------:|------:|
-| Marrakesh [48, 49, 50]         | uniform-classical   |       0.0013   | 0.7646 |
-| **Kingston [43, 56, 63]**      | **uniform-quantum** |   **0.0022**   | 0.7409 |
-| Marrakesh [0, 1, 2]            | regime-mixed        |       0.0297   | 0.7444 |
+| Path                          | Regime              | Runner script, run          | truly-baseline | soft   |
+|-------------------------------|---------------------|-----------------------------|---------------:|-------:|
+| Marrakesh [48, 49, 50]        | uniform-classical   | soft_break, Apr 26          |       0.0013   | 0.7646 |
+| Marrakesh [4, 5, 6]           | uniform-classical   | soft_break, Apr 30          |       0.0017   | 0.7550 |
+| **Kingston [43, 56, 63]**     | **uniform-quantum** | **soft_break, May 5**       |   **0.0022**   | 0.7409 |
+| Marrakesh [48, 49, 50]        | uniform-classical   | framework_snapshots, Apr 26 |       0.0116   | 0.7753 |
+| Marrakesh [0, 1, 2]           | regime-mixed        | framework_snapshots, Apr 26, 11 min later | 0.0190 | 0.7732 |
+| Marrakesh [0, 1, 2]           | regime-mixed        | framework_snapshots, Apr 26, 9 h later |  0.0297 | 0.7444 |
 
-Three findings from one run:
+One reading and two findings from one run:
 
-1. **Regime-uniformity confirmed.** Kingston uniform-quantum
-   truly-baseline 0.0022 sits 13.5× below the regime-mixed Marrakesh
-   path (0.0297) and only 1.69× above the uniform-classical Marrakesh
-   path (0.0013). Both uniform sides of the boundary give clean
-   truly-readings within the same order of magnitude; the dirty
-   truly-baseline is specific to mixed chains. The 22.8× gap between
-   uniform-classical and regime-mixed (the original Marrakesh
-   [0,1,2] vs [48,49,50] pair) is explained: it is an order-of-
-   magnitude jump caused by mixing, with the Kingston uniform-quantum
-   point sitting on the clean side of that jump. The hypothesis becomes
-   a confirmation.
+1. **The prediction came out, and the contrast behind it did not
+   survive the repeats.** Kingston uniform-quantum reads truly-baseline
+   0.0022, 1.67× the Marrakesh [48, 49, 50] soft_break run and close
+   to Marrakesh [4, 5, 6] four days later (at or above R* on that day's
+   calibration, Q6 only just, r = 0.216 against 0.213): all three soft_break runs,
+   on uniform paths on either side of R* and on two chips, read clean.
+   The mixed side does not hold up the same way. Every framework_snapshots
+   run on Marrakesh reads above every soft_break run, whatever its band:
+   the uniform [48, 49, 50] read 0.0116 under that script, and the
+   mixed [0, 1, 2] read 0.0190 eleven minutes later and 0.0297 nine
+   hours after that. Within the one script, minutes apart, mixed against uniform
+   is 1.64×, while the uniform [48, 49, 50] reads 8.6× apart between the
+   two scripts on the same day and the mixed [0, 1, 2] 1.57× apart
+   between two runs of one script. So the 22.1× that started this (and
+   Kingston's 13.3× against 0.0297) pairs a soft_break run with a
+   framework_snapshots run: it measures the runner scripts far more
+   than the paths. (All ratios come from the unrounded lens values, not
+   the four-decimal table.) What is left for the band is a 1.64× inside
+   a run-to-run spread of the same size, and nothing to carry a
+   mechanism: R* is the threshold of a normalized-purity proxy, not a
+   physical phase boundary. The calibration singles out no culprit
+   either. On the nearest calibration in the repo (April 25) the mixed
+   path is worse on T2, Q0 at 41 μs, which is exactly what puts it below
+   R*; it is not worse on CZ (0.0021 and 0.0010 against 0.0088 and
+   0.0041), and not uniformly worse on readout (on the two sites the
+   lens reads, 0.95% and 1.32% against 5.85% and 0.90%); and Kingston's
+   three qubits read clean at T2 = 33–58 μs. The regime-uniformity
+   hypothesis is not confirmed. A band effect, if there is one, needs
+   several paths of each composition in one job, under one script,
+   each run more than once.
 
 2. **F87 trichotomy on a second backend.** Operator-level signatures
    on Kingston (truly near zero, pi2_odd_pure ⟨X₀Z₂⟩ = -0.7739,
    pi2_even_nontruly ⟨X₀X₂⟩ = +0.8428) match the F83 closed-form
-   predictions. The trichotomy is not Marrakesh-specific; it holds
-   across the Heron-r2 class.
+   predictions. The trichotomy is not Marrakesh-specific; it holds on
+   two Heron-r2 chips.
 
-3. **Soft Π²-odd-pumping is hardware-substrate-independent across
-   Heron-r2 chips.** Kingston pi2_odd_pure (0.7409) is 3.1% from
-   Marrakesh's (0.7646), well within shot noise. The structural
-   prediction stands.
+3. **Soft Π²-odd-pumping reproduces on a second Heron-r2 chip.**
+   Kingston pi2_odd_pure (0.7409) is 3.1% from Marrakesh's (0.7646).
+   The structural prediction stands on two chips; two chips are not yet
+   a statement about every substrate.
 
 ### What is the same
 
@@ -578,11 +603,13 @@ We have built tools to read the boundary that we previously described
 in prose. Q52's tomographic measurement on February 9, 2026 showed the
 chiral pair acting on hardware. Q126 and Q127 still sit on Marrakesh
 as the only stably-quantum pair that chip allows. The uniform-quantum
-3-chain that Marrakesh blocks ran on Kingston the same afternoon this
-section was written, qubits [43, 56, 63], and the regime-uniformity
-hypothesis closed in three commits: data pulled, chain selected,
-hardware run, F88b-Lens analysis, confirmation registered. The
-framework is the same; the cockpit caught up; the hardware answered.
+3-chain that Marrakesh blocks ran on Kingston the same day this
+section was written, qubits [43, 56, 63], in three commits: data
+pulled, chain selected, hardware run, F88b-Lens analysis, confirmation
+registered. The framework is the same; the cockpit caught up; the
+hardware answered the question it was asked, and the repeat runs
+beside it answered the one behind it: most of the gap was the
+scripts.
 
 ### Cross-references for the May 5 update
 

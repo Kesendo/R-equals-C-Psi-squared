@@ -342,7 +342,7 @@ a cause nor establishes θ as an optimal hardware objective.
 
 5. **The old blanket Petermann null is refuted.** The early cockpit sample found K_P near 1,
    but pure Z-dephasing Liouvillians can be strongly non-normal: a simple N=5 mode has
-   `||P||=sqrt(375)`, and real-axis defective seeds are certified at N=5,7,9. Petermann
+   `||P||=sqrt(375)`, and real-axis defective seeds are certified at N=5,7,9 and classified at N=11. Petermann
    readings are therefore relevant beyond gain-loss/PT systems. A single-eigenvector value
    is not basis-invariant inside a degenerate eigenspace; use it only for a simple isolated mode,
    and use subspace/Jordan diagnostics at degeneracy.

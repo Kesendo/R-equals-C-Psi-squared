@@ -71,9 +71,9 @@ Jordan sizes drop the count, odd sizes ≥ 5 do not; H1 excludes all sizes ≥ 3
 is *not* such a confounder:
 it is a cubic branch point (exponent ⅓, disc order 2, one real branch and one conjugate pair on both
 sides of q\*), so it does not drop the real count and cannot be a forced seed at all (see the
-multiplicity table in the certificate section below). Algebraic-multiplicity-2 is character-certified
-at the N=5,7,9 seeds; N=11 supplies count-change candidates with third-order endpoint bookkeeping,
-not a blanket Puiseux-1/2 certificate. It is not proved for all odd N and remains a premise separate from
+multiplicity table in the certificate section below). Algebraic-multiplicity-2 is certified at the
+N=5,7,9 seeds and classified (Riesz alg 2, gap exponent ½, no certificate) at all nine N=11 loci. It
+is not proved for all odd N and remains a premise separate from
 s₆ ≠ 0, and the sign law bears only on the latter. (At N = 5 and N = 7 H1 is no longer numerical: it
 is a corollary of the certificate below, "The β-exotic is excluded at N = 5 and N = 7"; at N = 9 it
 follows the same way from the gcd-certificate section's proved layer identity, max multiplicity 2
@@ -1035,8 +1035,9 @@ siblings), and the cell form says the quadrant (Δ₆ ≥ 0, Δ₂ < 0) is empty
   ker(K₂₂)-in-E localization (the endpoints-in-E add-on, asserted at the swept N, now including
   10E+0O at N = 11 and 16E+0O at N = 17) carries load here too. A birth from ξ ∈ ker(K₆₆) ∩ E with
   K₂₆ξ ≠ 0 would enter in the
-  forbidden corner; that no such birth materializes at resonant N is the *measured* twinning input
-  (N = 11, 17; open in general), so there the allowed-corner statement is theorem plus measurement,
+  forbidden corner; that no such birth materializes at resonant N is the twinning input: the E/O
+  degeneracy, proved over ℚ(i) at every resonant N, and a nonzero third-order coupling per twin pair,
+  measured at N = 11 and 17 only, so there the allowed-corner statement is theorem plus measurement,
   not theorem. The resonant-N section of [F89_SEED_EXISTENCE_REDUCTION.md](F89_SEED_EXISTENCE_REDUCTION.md) holds that piece.
 - **Where the band tightness lives.** The corner (κ₋₂, κ₋₆) → (0, 0) is never approached: the
   band-wide floor of max(|κ₋₂|, |κ₋₆|) equals the minimal seed value κ₋₂\* = |s₆|/‖r‖² (0.0629 at

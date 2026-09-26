@@ -73,7 +73,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// certificate at N = 5, where both run and agree number for number. The same bivariate route is out
 /// of reach at N = 9 (324-dimensional block), but the max-multiplicity-2 bound there is delivered by the proved layer
 /// identity disc = C·w^v·A₁·A₂² of the gcd certificate, simulations/o2b_gcd_certificate.py, the
-/// experiment doc's premise-discharge-II subsection). The all-N
+/// experiment doc's premise-discharge-II subsection). That leg is evidenced in Python only: the exact
+/// run (<c>python simulations/o2b_gcd_certificate.py 9</c>, ~3.4 h on a 22-worker pool) self-asserts
+/// the layer identity and the gcds, and no C# gate or live witness recomputes it; the C# gate and
+/// <c>inspect --root betaexotic</c> cover N = 5 and N = 7. The all-N
 /// item, the
 /// codim-2 β-exotic genericity, reduced to the single scalar s₆ ≠ 0 at every forced seed, is
 /// UNTOUCHED by this claim and remains open; see the parent claim's scope note and the doc's Status
@@ -88,8 +91,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// endpoint-nullity surplus. At the chain lengths treated here, a separately established literal
 /// count drop supplies the loci whose CHARACTER this claim pins. Gate:
 /// <c>DiscHasNoMultiplicityThreeRoot_ExcludesTheBetaExotic</c> (Category FOLDRESULTANT, ~3 s per
-/// parity); live: <c>inspect --root betaexotic</c>
-/// (<c>BetaExoticExclusionWitness</c>).</para></summary>
+/// parity, N = 5 and N = 7); live: <c>inspect --root betaexotic</c>
+/// (<c>BetaExoticExclusionWitness</c>, N = 5 and N = 7); N = 9: the Python certificate above.</para></summary>
 public sealed class BetaExoticPerNExclusionClaim : Claim
 {
     // Parent-edge marker: the endpoint-surplus theorem whose locally established drops this qualifies.
@@ -118,11 +121,13 @@ public sealed class BetaExoticPerNExclusionClaim : Claim
                "self-conjugate) and the AT slopes are chirally paired; checked at N=5, the AT step not derived " +
                "in general. The beta-exclusion itself needs only the multiplicity bound. SCOPE: a per-N " +
                "certificate, not a law: it retires N=5, N=7, and N=9 one chain length at a time; N=9 uses the " +
-               "proved w-layer identity of the gcd certificate rather than the N=5/7 bivariate route. The all-N " +
+               "proved w-layer identity of the gcd certificate rather than the N=5/7 bivariate route, evidenced in " +
+               "Python only (simulations/o2b_gcd_certificate.py 9), with no C# gate at N=9. The all-N " +
                "item (s6 != 0 at every forced seed) is untouched and open",
                Tier.Tier1Derived,
                "experiments/F89_BETA_EXOTIC_GENERICITY.md + " +
-               "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md")
+               "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md + " +
+               "simulations/o2b_gcd_certificate.py (the N=9 leg)")
     {
         SeedExistence = seedExistence ?? throw new ArgumentNullException(nameof(seedExistence));
     }

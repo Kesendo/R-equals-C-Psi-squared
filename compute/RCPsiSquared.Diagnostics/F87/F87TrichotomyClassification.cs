@@ -32,9 +32,11 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// entries are combinations with replacement, including 15 self-pairs. The 15 truly entries
 /// are the pairs with repetition from {IX, XI, XX, YY, ZZ}; the identity-only word II is not
 /// in the alphabet. The 36 distinct-pair census separately has 3 truly entries over
-/// {XX, YY, ZZ}. Commit 81caf67 (2026-04-27) derived the partition
-/// combinatorially from Pauli-pair compatibility rules. Marrakesh hardware Δ(soft − truly)
-/// = −0.722 confirmation 2026-04-26 (job d7mjnjjaq2pc73a1pk4g). Registered as F87
+/// {XX, YY, ZZ}; commit 81caf67 (2026-04-27) derived that 14/19/3 partition combinatorially
+/// from Pauli-pair compatibility rules, 36/36 cases. Hardware: Marrakesh Δ(soft − truly)
+/// = −0.722, 2026-04-26 (job d7mjnjjaq2pc73a1pk4g, Confirmation palindrome_trichotomy), and the
+/// trichotomy again on a second backend, Kingston 2026-05-05 (job d7sqjpiudops73976960,
+/// Confirmation regime_uniformity_kingston_uniform_quantum). Registered as F87
 /// retrospectively 2026-05-03.</para>
 /// </summary>
 public sealed class F87TrichotomyClassification : Claim

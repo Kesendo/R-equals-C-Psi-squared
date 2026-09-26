@@ -12,14 +12,15 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 ///         anchor as F1's TwoFactor, F66's UpperPoleCoefficient, F50's
 ///         DegeneracyFactor).</item>
 ///   <item><see cref="F1Pi2Inheritance"/>: provides the operator-level
-///         palindrome identity Π·L·Π⁻¹ + L + 2σ·I = 0; F1 supplies the
-///         frequency-negated partner of D10's ω_min, producing
-///         <c>2cos(ω_min t)</c> in the trace amplitude. The complete SFF is
+///         palindrome identity Π·L·Π⁻¹ + L + 2σ·I = 0, which sends the
+///         rate-2γ band carrying D10's ω_min and its complex conjugate −ω_min
+///         (together <c>2cos(ω_min t)</c> in the trace amplitude) to the mirrored
+///         band at 2σ − 2γ with the same cosine. The complete SFF is
 ///         the squared modulus of the full amplitude and has additional
 ///         doubled and cross frequencies.</item>
 /// </list>
 ///
-/// <para>D10 supplies the exact frequency and F1 supplies its partner. F41
+/// <para>D10 supplies the exact frequency, conjugation its partner, and F1 the mirrored band. F41
 /// records the resulting pair-amplitude period. It does not define a physical
 /// Heisenberg time or a short/long-time boundary.</para>
 ///

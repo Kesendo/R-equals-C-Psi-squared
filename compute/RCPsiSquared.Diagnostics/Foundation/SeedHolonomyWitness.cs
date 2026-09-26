@@ -26,7 +26,8 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>Derived vs recomputed: every child's number is genuinely RECOMPUTED live at inspect time
 /// (<see cref="EigenvectorHolonomy"/>); the expected shape (±i, −I, +I) is the reference. The seed's
-/// defectiveness is certified locally for the reference seeds used here (N=5 and N=9); the all-odd
+/// defectiveness at the reference seeds used here (N=5 and N=9) is classified by the local numerics and
+/// certified by the gcd layer certificate (experiments/F89_BETA_EXOTIC_GENERICITY.md); the all-odd
 /// endpoint-nullity surplus does not itself establish a finite-q Jordan point. F86 is cited only for the
 /// borrowed forgetting→remembering reading. Anchor: <see cref="SeedHolonomyClaim"/>, inspect --root
 /// holonomy.</para></summary>

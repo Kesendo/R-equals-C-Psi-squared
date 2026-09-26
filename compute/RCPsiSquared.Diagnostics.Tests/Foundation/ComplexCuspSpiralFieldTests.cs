@@ -113,14 +113,10 @@ public class ComplexCuspSpiralFieldTests
     }
 
     [Fact]
-    public void Field_RendersToJson_SeparatesTheRadialRingFromTheRecurrenceBoundary()
+    public void Field_RendersToJson()
     {
         var json = InspectionJsonExporter.ToJson(new ComplexCuspSpiralField());
         Assert.Contains("radial ring", json);
         Assert.Contains("spiral", json);
-        Assert.Contains("recurrence boundary", json);
-        Assert.DoesNotContain("cusp circle", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("point seen edge-on", json, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("F95 √-kinship", json, StringComparison.OrdinalIgnoreCase);
     }
 }

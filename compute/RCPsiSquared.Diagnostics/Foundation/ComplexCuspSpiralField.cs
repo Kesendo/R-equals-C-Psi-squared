@@ -7,9 +7,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// A common Z-drift Ω winds the phase while the F25 magnitude decays. The ring
 /// |CΨ_com|=¼ is a radial readout set, not the period-one cardioid and not a recurrence root locus.
 ///
-/// <para>Five readings for one (γ, Ω, φ₀): the radial ring; the spiral; an Ω-ladder; finite
-/// Kingston measurements; and an explicit comparison that keeps the radial, recurrence, and F95
-/// quadratics separate. The closed forms are N-free within this setup.</para></summary>
+/// <para>Five readings for one (γ, Ω, φ₀): the radial ring; the spiral; an Ω-ladder (the crossing
+/// time flat, the crossing argument moving, the steerable freedom); the Kingston records; and the
+/// comparison with the recurrence and its F95 heading (experiments/CPSI_COMPLEX_PLANE.md). The closed
+/// forms are N-free within this setup; the crossing is structural, never gravitational.</para></summary>
 public sealed class ComplexCuspSpiralField : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -99,7 +100,7 @@ public sealed class ComplexCuspSpiralField : IInspectable
             double turns = ComplexCuspSpiral.WindingNumber(_omega, tGrid[^1]);
             yield return new InspectableNode(
                 displayName: "the spiral (one trajectory, winding in)",
-                summary: $"CΨ_com(t) = |CΨ_com|·e^(i(φ₀−Ωt)) from 1/3 inward, {turns.ToString("0.##", Inv)} turns over the grid; reaches the quarter-radius ring once. Ω=0 gives a real-axis instance of this named trajectory.",
+                summary: $"CΨ_com(t) = |CΨ_com|·e^(i(φ₀−Ωt)) from 1/3 inward, {turns.ToString("0.##", Inv)} turns over the grid; reaches the quarter-radius ring once. Ω=0 gives the ray at φ₀ (the real axis at φ₀=0, ideal Bell+).",
                 payload: new InspectablePayload.Curve("the spiral CΨ_com(t)", re, im, "Re(CΨ)", "Im(CΨ)"));
 
             // 3. The winding (geometric Ω-ladder): the crossing time flat, the crossing angle moving.
@@ -107,7 +108,7 @@ public sealed class ComplexCuspSpiralField : IInspectable
             var angles = _omegaLadder.Select(w => ComplexCuspSpiral.CrossingArgument(_gamma, w, _phi0) * 180.0 / Math.PI).ToArray();
             yield return new InspectableNode(
                 displayName: "the winding (the angle is the free thing)",
-                summary: $"across Ω the radial crossing time is flat at t={tCrossFlat.ToString("0.###", Inv)}; the argument sweeps {angles[0].ToString("0.#", Inv)}°..{angles[^1].ToString("0.#", Inv)}°. Saved Kingston rows measure this phase response without asserting F95 roots.",
+                summary: $"across Ω the radial crossing time is flat at t={tCrossFlat.ToString("0.###", Inv)}; the argument sweeps {angles[0].ToString("0.#", Inv)}°..{angles[^1].ToString("0.#", Inv)}°. The steerable freedom (f95_angle_steering_kingston_may2026).",
                 payload: new InspectablePayload.Curve("crossing angle vs Ω", _omegaLadder, angles, "Ω", "crossing angle°"));
 
             // 4. The hardware (Kingston): the two observed spirals + the on-demand steering.
@@ -115,12 +116,15 @@ public sealed class ComplexCuspSpiralField : IInspectable
                 displayName: "the hardware (the Kingston spirals)",
                 summary: "IBM Kingston 2026-04: Pair A spirals clockwise (arg −8°→−60°), Pair B counter-clockwise (+15°→+79°), both reaching |CΨ_com|=¼ " +
                          "(f25_cusp_trajectory, f57_kdwell_gamma_invariance). 2026-05: the crossing angle steered on demand by an injected Ω " +
-                         "(f95_angle_steering_kingston_may2026, three crossings, 6.8°–15.7° residual). These are finite phase measurements, not cardioid or root-locus measurements.");
+                         "(f95_angle_steering_kingston_may2026, three crossings, residuals 6.8° to 15.7° from one Lindblad+RZ model with in-situ γ). The argument is real and controllable.");
 
-            // 5. Keep the three quarter-valued constructions explicitly separate.
+            // 5. The comparison: the recurrence and its F95 heading against this ring and its argument.
             yield return new InspectableNode(
-                displayName: "the object comparison (radial, recurrence, F95)",
-                summary: "this radial ring is one finite readout set. The recurrence boundary c=¼ is a double root of z²−z+c=0. F95 is a positive-b quadratic angle. A shared scalar or angle value does not merge the three objects.");
+                displayName: "the comparison (recurrence heading and steered argument)",
+                summary: "the recurrence boundary c=¼ is the double root of z²−z+c=0, and its heading θ=arctan(√(4c−1)) is F95's θ(c; ½) on that quadratic. " +
+                         "This radial ring is a different object, the Bell+/pure-Z magnitude reaching ¼, not a root locus. " +
+                         "The steered argument arg(CΨ_com) shares F95's square-root form in its dwell arc length but is not θ itself (CPSI_COMPLEX_PLANE.md); " +
+                         "the cusp/EP F95 algebra is typed in TransitionBridgeF95SiblingClaim.");
         }
     }
 

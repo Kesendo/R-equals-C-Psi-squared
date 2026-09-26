@@ -24,7 +24,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// in each period of the one-excitation block clock, fall under number-conserving H. The finite
 /// global/local comparison needs a bath.</para>
 ///
-/// <para>Children: the finite global reading, the local carrier-pair reading, and the named-state
+/// <para>Children: the finite global reading, the freedom (the local carrier-pair reading), and the named-state
 /// triptych control (SingleExcitation = two named grid readings; BondingMode = initial H-eigenstate
 /// plus no above-bar rise on its named grid; Bell+ = above-bar reading on the named grid), plus the local CΨ(t) curve
 /// payload.</para></summary>
@@ -148,8 +148,10 @@ public sealed class EnvelopeTheoremWitness : IInspectable
                          "bar-dependent readings (experiments/ENVELOPE_RISE_BOUNDARY.md). At N=2 successive " +
                          "maxima can rise in every class (PROOF_MONOTONICITY_CPSI Part 5).");
 
-            yield return new InspectableNode("the local carrier-pair reading",
-                summary: $"the reduced carrier-pair CΨ has no theorem; this named grid reports RiseCount = " +
+            yield return new InspectableNode("the freedom (the local carrier-pair reading)",
+                summary: $"the reduced carrier-pair CΨ has no theorem, so its envelope is free to beat upward: the freedom. " +
+                         "On the nested N=3 grids of SymphonyTests (401, 1601 points) the Bell+ carrier-pair rises persist above the bar, " +
+                         "where SingleExcitation's sub-bar rises vanish. This named grid reports RiseCount = " +
                          $"{_localBell.RiseCount}, max Δ = {_localBell.MaxRiseMagnitude.ToString("0.#####", Inv)} " +
                          $"against the reporting bar {RiseReportingBar.ToString("0.###", Inv)}. Compare a separately evolved refined grid. " +
                          "This is one named N/Q/K window" +

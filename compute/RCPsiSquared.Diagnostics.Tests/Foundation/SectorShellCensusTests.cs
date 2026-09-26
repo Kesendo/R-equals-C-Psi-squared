@@ -15,11 +15,10 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 /// the SLOW_SHELLCENSUS facts; this class is the fast gate.</summary>
 public class SectorShellCensusTests
 {
-    [Fact]
-    [Trait("Category", "SHELLCENSUS")]
-    public void CharacterUncertifiedLocus_CannotReceiveSeedPassVocabulary()
+    // A clean synthetic strip at N=5 (every expected member at σ_min = 0, nothing else probed), so the
+    // verdict depends on the locus's character grade alone.
+    private static ShellCensusResult CleanSyntheticRun(RealSeed seed)
     {
-        var seed = new RealSeed(5, 1.0, -4.0, +1, "synthetic transport locus");
         var entries = SectorShellCensus.ExpectedMembers(5)
             .Select(m => new ShellCensusEntry(
                 m.P, m.W, 1, 1, 0, m.Shift, Complex.Zero,
@@ -27,11 +26,26 @@ public class SectorShellCensusTests
                 SigmaMinEven: 0.0, SigmaMinOdd: double.PositiveInfinity, SigmaMin: 0.0,
                 Converged: true, WindowMargin: 0.0, IterationsEven: 1, IterationsOdd: 0, Seconds: 0.0))
             .ToList();
-        var result = new ShellCensusResult(
+        return new ShellCensusResult(
             seed, 1.0, new Complex(-4.0, 0.0), 1e-10, 1e-6, SeedUsable: true,
             entries, TimeSpan.Zero, new SectorShellCensus.Options());
+    }
 
-        Assert.Equal("TRANSPORT-PASS (character-uncertified)", result.Summarize().Verdict);
+    [Fact]
+    [Trait("Category", "SHELLCENSUS")]
+    public void Verdict_NamesTheLocusCharacterGrade()
+    {
+        // no defective classification (a semisimple crossing): membership transported, nothing more
+        var unclassified = new RealSeed(5, 1.0, -4.0, +1, "synthetic transport locus");
+        Assert.Equal("TRANSPORT-PASS (character-uncertified)", CleanSyntheticRun(unclassified).Summarize().Verdict);
+
+        // classified defective without a certificate (the N=11 grade): a PASS that names both grades
+        var classified = unclassified with { Classified = LocusCharacter.DefectiveEp2 };
+        Assert.Equal("PASS (classified defective; uncertified)", CleanSyntheticRun(classified).Summarize().Verdict);
+
+        // certified: the bare PASS
+        var certified = classified with { CharacterCertified = true };
+        Assert.Equal("PASS", CleanSyntheticRun(certified).Summarize().Verdict);
     }
 
     [Fact]
@@ -140,8 +154,8 @@ public class SectorShellCensusTests
 
         var summary = result.Summarize();
         Assert.Equal("TRANSPORT-PASS (character-uncertified)", summary.Verdict);
-        // The whole diamond is transported at this semisimple locus, but that must never
-        // acquire the PASS vocabulary reserved for character-certified defective seeds.
+        // The whole diamond is transported at this semisimple locus; with no defective
+        // classification it carries no Jordan reading and never the PASS of a defective locus.
     }
 
     // The in-window exclusion the whole step exists for, at the cheapest known silent case:

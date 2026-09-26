@@ -406,9 +406,10 @@ collision an exceptional point and not a mere crossing.
 
 The clean pinch lives in the toy 2×2. The full (n, n+1)-coherence block
 is non-normal but mostly keeps its eigenvalues apart; true defective seeds
-hide in it, certified at N = 5, 7, 9 in windows too narrow for a coarse
-grid; for every odd N, F89 proves the nullity-surplus count, while the
-literal drop and its genericity beyond the certified sizes stay open
+hide in it, certified at N = 5, 7, 9 and classified at N = 11, in windows
+too narrow for a coarse grid; for every odd N, F89 proves the
+nullity-surplus count, while a defective seed at every larger odd N
+stays open
 ([the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md), the
 real-axis EP section). The gain-loss system of
 [the Fragile Bridge](../hypotheses/FRAGILE_BRIDGE.md) bends its spectrum

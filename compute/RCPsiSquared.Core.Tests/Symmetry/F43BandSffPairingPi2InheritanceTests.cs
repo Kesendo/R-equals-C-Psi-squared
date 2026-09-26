@@ -32,16 +32,18 @@ public class F43BandSffPairingPi2InheritanceTests
     }
 
     [Fact]
-    public void TypedClaim_DescribesConstantEndpointSff_NotADeltaSpike()
+    public void TypedClaim_DescribesConstantEndpointSff_AndTheSpikeInFrequency()
     {
+        // The endpoint frequencies all vanish: a delta spike at zero FREQUENCY, hence a SFF
+        // that is constant in TIME. Both halves are true and the surface carries both.
         var claim = BuildClaim();
         string surface = string.Join("\n", new[] { claim.Name, claim.DisplayName, claim.Summary }
             .Concat(claim.Children.Select(child => child.Summary)));
 
         Assert.Contains("constant", surface, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("delta spike at zero frequency", surface, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("positive uniform", surface, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("γ=0 is excluded", surface, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("delta-spike", surface, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("XOR sector", surface, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -106,6 +108,8 @@ public class F43BandSffPairingPi2InheritanceTests
     [InlineData(12, 13)]
     public void EndpointMultiplicity_IsNPlusOne(int N, int expected)
     {
+        // The formula; the COUNT it must match is read by exact ranks in
+        // Diagnostics.Tests F43EndpointCountTests (both ends of the actual Liouvillian).
         Assert.Equal(expected, BuildClaim().EndpointMultiplicity(N, gamma: 0.05));
     }
 

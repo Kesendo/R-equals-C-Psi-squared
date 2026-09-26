@@ -1,14 +1,16 @@
 """F88b-Lens applied to a predominantly below-R* Kingston path [43, 56, 63].
 
-The hardware run (job d7sqjpiudops73976960, 2026-05-05 10:28 UTC) is the
+The hardware run (job d7sqjpiudops73976960, 2026-05-05 10:28 local time, CEST) is the
 first F87 trichotomy test on a CZ-coupled triple whose calibration histories
-are below-R* on more than 95% of sampled days (mean r in [0.09, 0.10]). R* is
+are below-R* on more than 95% of sampled days (mean r in [0.089, 0.104]). R* is
 the free-single-transmon |+> normalized-purity proxy threshold.
 
 Question: how does the F88b-Lens Π²-odd-memory reading on this chain compare
 to the mixed-band Marrakesh [0, 1, 2] and the all-at-or-above-R* Marrakesh
-[48, 49, 50]? The 22.8× finite gap and this cross-backend row are confounded
-by path, backend, date, preparation, and calibration. This is an association
+[48, 49, 50]? The 22.1× Marrakesh gap pairs a soft_break run with a
+framework_snapshots run; within the framework_snapshots script, minutes apart,
+the same two paths differ 1.64×, inside a run-to-run spread of the same size.
+The cross-backend row adds backend, date and calibration. This is an association
 screen, not a causal proxy-band experiment.
 """
 from __future__ import annotations
@@ -97,8 +99,9 @@ def main():
     print()
     print("  Scope:")
     print("    - each number is a finite archive read under its stated protocol")
-    print("    - the 22.8x within-Marrakesh contrast and this cross-backend comparison")
-    print("      remain a confounded association; they identify no band mechanism")
+    print("    - the 22.1x within-Marrakesh contrast pairs two runner scripts (1.64x within one);")
+    print("      with this cross-backend comparison it stays a confounded association")
+    print("      that identifies no band mechanism")
     print("    - no row establishes substrate independence or a quantum/classical split")
 
 

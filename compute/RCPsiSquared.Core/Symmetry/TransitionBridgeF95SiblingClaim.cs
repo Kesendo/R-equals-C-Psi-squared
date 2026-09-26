@@ -98,7 +98,18 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
         return 4.0 * gamma0;
     }
 
-    /// <summary>F86 toy two-level Liouvillian roots λ = −4γ₀ ± √(4γ₀² − J²g_eff²).</summary>
+    /// <summary>The signed distance q·g_eff − 2 from the EP, as <c>Math.FusedMultiplyAdd</c>:
+    /// the exact product q·g_eff minus 2, rounded once. Its SIGN is exact (a nonzero exact
+    /// difference of these doubles is far above the subnormal range, so it cannot round to
+    /// zero), and it is 0.0 exactly when q·g_eff = 2 holds for the doubles given. With J = Q·γ₀
+    /// the discriminant factors as 4γ₀² − J²g_eff² = −γ₀²·s·(q·g_eff + 2), so every side-of-the-EP
+    /// decision below reads this one number and nothing is special-cased at Q_EP.</summary>
+    private static double EpSignedDistance(double q, double gEff) =>
+        Math.FusedMultiplyAdd(q, gEff, -2.0);
+
+    /// <summary>F86 toy two-level Liouvillian roots λ = −4γ₀ ± √(4γ₀² − J²g_eff²), with the
+    /// discriminant evaluated in its factored form −γ₀²·s·(q·g_eff + 2) (see
+    /// <see cref="EpSignedDistance"/>).</summary>
     public (Complex Plus, Complex Minus) EpLiouvillianRoots(
         double gamma0,
         double q,
@@ -107,8 +118,8 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
         RequirePositiveGammaZero(gamma0);
         RequireValidQ(q);
         RequirePositiveFiniteGEff(gEff);
-        double j = q * gamma0;
-        double discriminantQuarter = 4.0 * gamma0 * gamma0 - j * j * gEff * gEff;
+        double s = EpSignedDistance(q, gEff);
+        double discriminantQuarter = -(gamma0 * gamma0) * s * (q * gEff + 2.0);
         Complex branch = Complex.Sqrt(new Complex(discriminantQuarter, 0.0));
         return (
             new Complex(-4.0 * gamma0, 0.0) + branch,
@@ -127,34 +138,40 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
     }
 
     /// <summary>The EP block's clock Rotation angle arctan(ω/gap) = arctan(|Im λ|/|Re λ|) for the
-    /// F86 2-level eigenvalue λ = −4γ₀ ± √(4γ₀² − J²g_eff²), J = Q·γ₀. Nonzero above
-    /// the EP, zero at the EP, and NaN below the EP.</summary>
+    /// F86 2-level eigenvalue λ = −4γ₀ ± √(4γ₀² − J²g_eff²), J = Q·γ₀, read off the roots.
+    /// Nonzero above the EP, zero at the EP, and NaN below the EP. The side is the sign of
+    /// <see cref="EpSignedDistance"/>, so the angle at the double nearest 2/g_eff is the angle of
+    /// THOSE inputs: exactly 0.0 where q·g_eff = 2 holds in binary (g_eff = ½, 1, 2, 4), NaN where
+    /// rounding the quotient 2/g_eff to a double puts q just below the EP (g_eff = 4/3, 3, 6), and
+    /// about √|s|/2 ≈ 5·10⁻⁹ where it puts it just above (g_eff = 0.8, 5). For a given double g_eff
+    /// the EP is q* = 2/g_eff exactly; the offset is the rounding of that quotient.</summary>
     public double EpClockAngle(double gamma0, double q, double gEff)
     {
         RequirePositiveGammaZero(gamma0);
         RequireValidQ(q);
         RequirePositiveFiniteGEff(gEff);
-        if (q == QEp(gEff)) return 0.0;
-        double j = q * gamma0;
-        double disc = 4.0 * gamma0 * gamma0 - j * j * gEff * gEff; // 4γ₀² − J²g_eff²
-        if (disc > 0.0) return double.NaN;
+        if (EpSignedDistance(q, gEff) < 0.0) return double.NaN;
         var z = EpDecayRoots(gamma0, q, gEff).FromLambdaPlus;
         return Math.Atan(Math.Abs(z.Imaginary) / z.Real);
     }
 
     /// <summary>The EP block's F95 angle, via the F95 parent: the quadratic
     /// z² − 8γ₀z + (12γ₀² + J²g_eff²), for z=−λ, has b = 4γ₀ &gt; 0 and
-    /// c = 12γ₀² + J²g_eff². θ = arctan(√(c/b² − 1)) above
-    /// the EP (c > b² ⟺ J²g_eff² > 4γ₀²), zero at the EP, and NaN below.</summary>
+    /// c = 12γ₀² + J²g_eff² = b² + (J²g_eff² − 4γ₀²), evaluated as b² plus the factored
+    /// discriminant so that c = b² exactly where <see cref="EpSignedDistance"/> is zero.
+    /// θ = arctan(√(c/b² − 1)) above the EP (c > b² ⟺ J²g_eff² > 4γ₀²), zero at the EP,
+    /// and NaN below. Near the EP this route is √-sensitive: c/b² − 1 carries an absolute
+    /// rounding δ of order ε, so the angle carries up to √δ; <see cref="EpClockAngleEqualsF95Angle"/>
+    /// holds the two routes to that law.</summary>
     public double EpF95Angle(double gamma0, double q, double gEff)
     {
         RequirePositiveGammaZero(gamma0);
         RequireValidQ(q);
         RequirePositiveFiniteGEff(gEff);
-        if (q == QEp(gEff)) return 0.0;
-        double j = q * gamma0;
+        double s = EpSignedDistance(q, gEff);
+        if (s < 0.0) return double.NaN;
         double b = EpAnchorB(gamma0);
-        double c = 12.0 * gamma0 * gamma0 + j * j * gEff * gEff;
+        double c = b * b + (gamma0 * gamma0) * s * (q * gEff + 2.0);
         return F95.ThetaGeneral(c, b);
     }
 
@@ -169,14 +186,40 @@ public sealed class TransitionBridgeF95SiblingClaim : Claim
             && Math.Abs((slow + fast) / 2.0 - EpAnchorB(gamma0)) < 1e-14 * gamma0;
     }
 
-    /// <summary>Numerical check of the algebraic identity: at and above the EP the clock Rotation
-    /// expression equals the F95 expression within a fixed tolerance.</summary>
+    /// <summary>The margin on <see cref="AngleRoundingLaw"/> within which the two F86 angle
+    /// routes must agree. Across the seventeen decades of t = c/b² − 1 from 10⁻¹⁶ to 10¹, the
+    /// F95 route's worst deviation per decade from the exact angle of the given doubles is a
+    /// steady fraction of the law (about 0.8 to 1.06 in numpy replicas, the top reached only in
+    /// dense sampling; gated in [0.6, 1.25] per decade in TransitionBridgeF95SiblingClaimTests),
+    /// and the clock route stays within 1.25 of the law (gated there too),
+    /// so twice the law bounds the two routes' difference with room.</summary>
+    public const double AngleLawMargin = 2.0;
+
+    /// <summary>The rounding bound of the F95 route at distance t = c/b² − 1 above the EP:
+    /// c/b² − 1 carries an absolute error of order ε(1 + t), and arctan(√t) turns an error δ into
+    /// at most min(√δ, δ/(2√t)). So E(t) = min(√(ε(1+t)), ε(1+t)/(2√t)). For t above about ε/4
+    /// the second branch holds and is a LAW: the worst error per decade is a steady fraction of
+    /// it. Below ε/4 the computed c/b² − 1 is quantized on the ε grid (often to 0), the error is
+    /// about √t, and √(ε(1+t)) is a ceiling only, not a law (0.35 of it at the g_eff = 0.8 point
+    /// next to the EP).</summary>
+    public static double AngleRoundingLaw(double t)
+    {
+        const double eps = 2.220446049250313e-16; // 2⁻⁵², the spacing of doubles at 1
+        double scale = eps * (1.0 + t);
+        return t > 0.0 ? Math.Min(Math.Sqrt(scale), scale / (2.0 * Math.Sqrt(t))) : Math.Sqrt(scale);
+    }
+
+    /// <summary>The algebraic identity, checked on the doubles: at and above the EP the clock
+    /// Rotation angle and the F95 angle are the same real expression, and the computed values
+    /// agree within <see cref="AngleLawMargin"/>·<see cref="AngleRoundingLaw"/>(t), t = tan²θ of
+    /// the clock route. Below the EP both are NaN and there is no angle to compare.</summary>
     public bool EpClockAngleEqualsF95Angle(double gamma0, double q, double gEff)
     {
         double a = EpClockAngle(gamma0, q, gEff);
         double f = EpF95Angle(gamma0, q, gEff);
         if (double.IsNaN(a) || double.IsNaN(f)) return false;
-        return Math.Abs(a - f) < 1e-12;
+        double tanA = Math.Tan(a);
+        return Math.Abs(a - f) <= AngleLawMargin * AngleRoundingLaw(tanA * tanA);
     }
 
     public override string DisplayName =>

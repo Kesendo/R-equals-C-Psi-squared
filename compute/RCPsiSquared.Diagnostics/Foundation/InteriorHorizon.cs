@@ -1,10 +1,17 @@
 namespace RCPsiSquared.Diagnostics.Foundation;
 
-/// <summary>Closed-form readings around the scalar value CΨ = ¼. The recurrence
-/// u → u²+c has discriminant 1−4c and a double fixed point at c=¼; the F95 angle is a
-/// separate positive-b quadratic coordinate, and the Bell+/pure-Z curve is a named finite
-/// trajectory whose scalar readout happens to pass through ¼. This class keeps those objects
-/// separate while retaining the F56 iteration-count asymptotic and the F57 dwell calculation.</summary>
+/// <summary>The ¼-to-½ interior, the third navigation axis. The recurrence u → u² + c has the
+/// fixed-point quadratic z² − z + c = 0 (the R = C(Ψ + R)² recursion with c = CΨ), discriminant
+/// 1 − 4c, and a double root at c = ¼, the cardioid cusp and saddle-node fold. Its heading
+/// θ = arctan(√(4c − 1)) is F95's θ(c; b = ½) on that same quadratic, the angle of the complex
+/// root pair above ¼. The live computation runs the recursion and counts its steps, which diverge
+/// as c → ¼⁻: the recursion crawls at its own double root, the horizon where it takes forever. The
+/// horizon is structural, a fold, never gravitational.
+///
+/// <para>The Bell+/pure-Z curve (F25) is a separate named trajectory whose scalar readout passes
+/// through ¼; IBM Kingston reproduced it point by point (Confirmation f25_cusp_trajectory: 19 delay
+/// points, RMS residual 0.0097 against the in-situ γ fit). The F56 iteration-count asymptotic and the
+/// F57 dwell sit beside it. See experiments/CRITICAL_SLOWING_AT_THE_CUSP.md.</para></summary>
 public static class InteriorHorizon
 {
     /// <summary>The recurrence's double-root value c = 1/4.</summary>
@@ -31,9 +38,9 @@ public static class InteriorHorizon
         return d > 0 ? "two-real-roots" : "complex-root-pair";
     }
 
-    /// <summary>The positive-b quadratic coordinate θ = arctan(√(4·CΨ − 1)) in radians.
-    /// θ = 0 at the boundary ¼ and 45° at the anchor ½. Clamped to 0 below the boundary,
-    /// where this real-angle coordinate is not defined.</summary>
+    /// <summary>The heading θ = arctan(√(4·CΨ − 1)) in radians: F95's θ(c; b = ½) of the recurrence
+    /// quadratic z² − z + c, the angle of its upper complex root. θ = 0 at the double root ¼ and 45°
+    /// at the anchor ½. Clamped to 0 below ¼, where the two roots are real and F95 has no angle.</summary>
     public static double Heading(double cpsi)
     {
         double arg = 4.0 * cpsi - 1.0;
