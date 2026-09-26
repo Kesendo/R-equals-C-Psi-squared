@@ -30,6 +30,28 @@ public class GammaFoldTests
     }
 
     [Fact]
+    public void Cancelled_Large_Rates_Do_Not_Erase_The_Residual_Site_Rate()
+    {
+        var fold = new GammaFold(W, 3, siteGammas: new[] { 1e16, 1.0, -1e16 });
+        Assert.Equal(1.0, fold.Sigma);
+        Assert.Equal(2.0, fold.MaskLaws().Step);
+        Assert.Equal(0.0, fold.MaskLaws().WorstIdentity);
+    }
+
+    [Fact]
+    public void Running_Masks_Retain_The_Small_Rate_After_Large_Cancellation()
+    {
+        double[] profile = { 1e16, 1.0, -1e16 };
+        var anti = new Restless(W, 3, j: 0.0, gamma: 0.0, siteGammas: profile, antiWatching: true);
+        var gain = new Restless(W, 3, j: 0.0, gamma: 0.0, siteGammas: profile.Select(g => -g).ToArray());
+        anti.Seed(0); // every site agrees: rate -2*sigma = -2
+        gain.SeedCoherence(0, 7, 0.5); // every site differs: rate +2*sigma = +2
+        for (int tick = 0; tick < 10; tick++) { anti.Step(0.01); gain.Step(0.01); }
+        Assert.Equal(Math.Exp(-0.2), anti[0, 0].Real, 8);
+        Assert.Equal(0.5 * Math.Exp(0.2), gain[0, 7].Real, 8);
+    }
+
+    [Fact]
     public void Physical_Gain_And_AntiWatch_Composite_Returns_After_Two_Turns()
     {
         static double CellRate(double[] profile, bool antiWatching, int disagreementMask)
@@ -68,8 +90,8 @@ public class GammaFoldTests
     // (populations + a live coherence), worst entry residual over every probed tick. The measured
     // floor at N=3, dt=0.02, 50 ticks is ~3e-8 (the RK4 truncation of the scalar shift); pinned
     // with a 30x margin. The veil is not vacuous: anti and gain differ O(1) at the final tick,
-    // and the gain world carries e^(+2*sigma*t) times the anti world's novelty (the trace is
-    // blind to gamma in every world; the amplification lives in the coherences).
+    // and the gain world carries e^(+2*sigma*t) times the anti world's novelty (gain keeps trace
+    // one, while anti-watch carries trace e^(-2*sigma*t) for the normalized seed).
     [Fact]
     public void The_Trajectory_Wears_The_Price_Veil()
     {

@@ -18,6 +18,14 @@ public class BlindSeatTests
     static BlindSeat Chain(long[] bonds, bool zz) =>
         new(W, bonds.Length + 1, bonds, heisenberg: zz);
 
+    [Fact]
+    public void UniformLaw_Is_A_Reference_Not_The_Count_For_Zero_Bonds()
+    {
+        var disconnected = Chain(new long[] { 0, 0, 0 }, zz: false);
+        Assert.Equal(3, disconnected.Blind(0));
+        Assert.Equal(0, disconnected.UniformLaw(0));
+    }
+
     // the committed uniform ZZ law, every seat, count against closed form (both asserted).
     [Theory]
     [InlineData(3)] [InlineData(5)] [InlineData(7)] [InlineData(9)]

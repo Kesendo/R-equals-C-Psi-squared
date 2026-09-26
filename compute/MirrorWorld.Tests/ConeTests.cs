@@ -10,6 +10,20 @@ public class ConeTests
     const double G = 0.5;
     static readonly World W = new();
 
+    [Fact]
+    public void Cone_Rejects_Nonfinite_Generator_Coefficients_And_Zero_Step_Is_Identity()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Cone(W, 2, 0.0, 1e308));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Cone(W, 2, 0.0, 0.0, siteGammas: new[] { 1e308, 1e308 }));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Cone(W, 2, double.NaN, 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Cone(W, 2, 1e308, 0.0, bonds: new[] { (0, 1), (0, 1) }));
+        var cone = new Cone(W, 2, 0.0, 0.5);
+        cone.SeedPure(new[] { 1.0, 1.0 });
+        cone.Step(0.0);
+        Assert.Equal(1.0, cone[0, 1].Real);
+        Assert.Equal(0.0, cone.T);
+    }
+
     // the cut is faithful: Cone (N x N) reproduces Restless's single-excitation populations exactly.
     [Fact]
     public void Cone_Agrees_With_Restless_Single_Excitation()
@@ -21,6 +35,53 @@ public class ConeTests
         for (int t = 0; t < 30; t++) { cone.Step(dt); rest.Step(dt); }
         for (int a = 0; a < n; a++)
             Assert.Equal(rest[1 << a, 1 << a].Real, cone.Population(a), 9);
+    }
+
+    [Fact]
+    public void Parallel_Bonds_Add_The_Same_Hop_In_Cone_And_Restless()
+    {
+        var bonds = new[] { (0, 1), (0, 1) };
+        var cone = new Cone(W, 2, j: 1.0, gamma: 0.0, bonds: bonds);
+        var rest = new Restless(W, 2, j: 1.0, gamma: 0.0, bonds: bonds);
+        cone.Seed(0);
+        rest.Seed(1);
+        for (int tick = 0; tick < 20; tick++) { cone.Step(0.01); rest.Step(0.01); }
+        Assert.InRange(rest[2, 2].Real, 0.1516, 0.1517); // sin^2(2t), t = 0.2
+        Assert.Equal(rest[2, 2].Real, cone.Population(1), 10);
+    }
+
+    [Fact]
+    public void SetBond_Replaces_The_Total_Parallel_Pair_Coupling()
+    {
+        var cone = new Cone(W, 2, j: 1.0, gamma: 0.0, bonds: new[] { (0, 1), (0, 1) });
+        cone.SetBond(0, 1, 1.0); // the pair total becomes 1, not one of two individual J values
+        cone.Seed(0);
+        for (int tick = 0; tick < 20; tick++) cone.Step(0.01);
+        Assert.Equal(Math.Pow(Math.Sin(0.2), 2), cone.Population(1), 9);
+    }
+
+    [Fact]
+    public void A_Self_Bond_Is_Refused_By_Both_Dynamics_Engines()
+    {
+        var loop = new[] { (0, 0) };
+        Assert.Throws<ArgumentException>(() => new Cone(W, 2, 1.0, 0.0, bonds: loop));
+        Assert.Throws<ArgumentException>(() => new Restless(W, 2, 1.0, 0.0, bonds: loop));
+        var cone = new Cone(W, 2, 1.0, 0.0);
+        Assert.Throws<ArgumentException>(() => cone.SetBond(0, 0, 1.0));
+    }
+
+    [Fact]
+    public void Out_Of_Range_Bond_Endpoints_Cannot_Alias_Real_Sites()
+    {
+        foreach (var bad in new[] { (32, 1), (2, 0), (0, 32), (-1, 1) })
+        {
+            var bonds = new[] { bad };
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Cone(W, 2, 1.0, 0.0, bonds: bonds));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Restless(W, 2, 1.0, 0.0, bonds: bonds));
+        }
+        var cone = new Cone(W, 2, 1.0, 0.0);
+        Assert.Throws<ArgumentOutOfRangeException>(() => cone.SetBond(0, 32, 1.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => cone.SetBond(-1, 1, 1.0));
     }
 
     // The rate profile is constructor configuration. A caller may reuse or edit its array after
@@ -37,6 +98,13 @@ public class ConeTests
 
         // With J=0, rho[0,1](t) = rho[0,1](0) exp[-2(g0+g1)t].
         Assert.Equal(0.5 * Math.Exp(-0.1), cone[0, 1].Real, 8);
+    }
+
+    [Fact]
+    public void Cone_Requires_Exactly_One_Rate_Per_Site()
+    {
+        Assert.Throws<ArgumentException>(() => new Cone(W, 2, 1.0, 0.0, siteGammas: new[] { 0.5 }));
+        Assert.Throws<ArgumentException>(() => new Cone(W, 2, 1.0, 0.0, siteGammas: new[] { 0.5, 0.5, 123.0 }));
     }
 
     // trace-preserving: the one excitation is never lost, only spread.

@@ -21,6 +21,37 @@ public class CollisionGapTests
 {
     static CollisionGap Gap(int ncomb) => new(new Crack(new Cyclotomy(), ncomb - 1, 0));
 
+    const long LargeCombPrime = 9_223_372_036_854_775_421L;
+    const long LargeCombRoot = 1_218_199_257_770_259_917L;
+
+    static long BigTwoCos(int n, long e)
+    {
+        long order = 2L * n;
+        long r = ((e % order) + order) % order;
+        var p = new BigInteger(LargeCombPrime);
+        return (long)((BigInteger.ModPow(LargeCombRoot, r, p)
+            + BigInteger.ModPow(LargeCombRoot, (order - r) % order, p)) % p);
+    }
+
+    [Fact]
+    public void TwoCos_Stays_Canonical_When_Large_Field_Residues_Overflow_Long()
+    {
+        Assert.Equal(4_601_335_343_373_555_942L,
+            CollisionGap.TwoCos(5, 3, LargeCombPrime, LargeCombRoot));
+        Assert.Equal(BigTwoCos(5, 3), CollisionGap.TwoCos(5, 3, LargeCombPrime, LargeCombRoot));
+    }
+
+    [Fact]
+    public void Three_Term_Comb_Readings_Stay_Canonical_In_A_Large_Field()
+    {
+        var t = (1, 2, 3);
+        BigInteger p = LargeCombPrime;
+        long expectedX = (long)(((BigInteger)BigTwoCos(5, 2) - BigTwoCos(5, 4) + BigTwoCos(5, 6) + 2 * p) % p);
+        long expectedM = (long)(((BigInteger)BigTwoCos(5, 1) + BigTwoCos(5, 2) + BigTwoCos(5, 3)) % p);
+        Assert.Equal(expectedX, CollisionGap.TwoX(5, 1, t, LargeCombPrime, LargeCombRoot));
+        Assert.Equal(expectedM, CollisionGap.TwoM(5, 1, t, LargeCombPrime, LargeCombRoot));
+    }
+
     // the nine firing moduli of the census, and its committed table
     static readonly int[] Moduli = { 9, 12, 15, 18, 20, 21, 24, 27, 30 };
     static readonly int[] TablePairs = { 1, 25, 127, 162, 20, 255, 411, 244, 1313 };
@@ -39,6 +70,14 @@ public class CollisionGapTests
         Assert.Equal(9, CollisionGap.OddOrderMultiplier(9, 0));
         Assert.Equal(1, CollisionGap.EvenOrderMultiplier(0));
         Assert.Equal(3, CollisionGap.EvenOrderMultiplier(1));
+    }
+
+    [Fact]
+    public void EvenOrderMultiplier_Rejects_Negative_And_Overflowing_Rungs()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.EvenOrderMultiplier(-1));
+        Assert.Equal(int.MaxValue, CollisionGap.EvenOrderMultiplier(1_073_741_823));
+        Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.EvenOrderMultiplier(1_073_741_824));
     }
 
     // The criterion itself, asked with FREE multipliers. Its only caller passes n + 2j, and at odd n

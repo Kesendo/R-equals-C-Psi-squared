@@ -1,9 +1,9 @@
 namespace MirrorWorld;
 
 // The walk-time reading (adopted 2026-07-13 from experiments/COUPLING_DEFECT_WALK_TIME_STEP.md): distance
-// in this world is walk-time converted by J, and the conversion is locally additive. Deform one bond to
-// J' = J(1+delta) and precisely that bond's walk-time changes, for every site beyond it, by the same amount:
-// the arrival-time delay profile is a step, zero upstream, near -delta/(2J) downstream (first order). The
+// in the measured ballistic-front regime is walk-time converted by J, and the conversion is locally
+// additive. Deform one bond to J' = J(1+delta) and the observed downstream arrival-time delay is a step,
+// near -delta/(2J) to first order. At strong watching the front is diffusive and this law is not claimed. The
 // reading runs two Cones, a defect-free reference and the defect run, and reads each site's arrival as the
 // first threshold crossing, theta times the site's own defect-free peak (the relative threshold: the front
 // peak decays ~ n^(-2/3) along the chain, an absolute threshold collides with that decay).

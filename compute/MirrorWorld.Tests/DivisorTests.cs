@@ -15,6 +15,11 @@ public class DivisorTests
         => new(new Mirror(W, n, 1.0, 0.5), n, jNum, Divisor.Locus(n, 9, 2, -3, 5), Den);
 
     [Fact]
+    public void The_Four_Corner_Rooms_Require_Three_Distinct_Sites()
+        => Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new Divisor(new Mirror(W, 2, 1.0, 0.5), 2, 1, new long[2], 1));
+
+    [Fact]
     public void Scaled_Rate_Entries_Do_Not_Wrap_Before_Modular_Rank()
     {
         const long gamma = 1L << 60;

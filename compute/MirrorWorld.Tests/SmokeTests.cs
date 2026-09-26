@@ -7,6 +7,54 @@ namespace MirrorWorldTests;
 public class SmokeTests
 {
     [Fact]
+    public void Pair_Rejects_Negative_Basis_Indices_Before_Popcount()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Pair(W, -1, 0, 0.5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Pair(W, 0, -1, 0.5));
+        Assert.Equal(31, new Pair(W, int.MaxValue, 0, 0.5).Disagreement);
+    }
+
+    [Fact]
+    public void Pauli_Enumerators_Reject_Shift_Wrap_In_String_Length()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => PauliMode.Enumerate(W, 16, 0.5).ToArray());
+        Assert.Throws<ArgumentOutOfRangeException>(() => new MirrorGroup(W, 16));
+    }
+
+    [Fact]
+    public void Other_Dense_Worlds_Reject_Unrepresentable_Dimensions()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new AntilinearTriangle(W, 32));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new GammaFold(W, 32));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Lattice(W, 32));
+    }
+    [Fact]
+    public void Closed_Forms_Keep_Representable_Values_Past_Intermediate_Power_Limits()
+    {
+        Assert.Equal(Math.ScaleB(513.0, -1024), Formulas.F23_XorFraction(512));
+        Assert.Equal(Math.ScaleB(Math.Sqrt(511.0 / 513.0), -512), Formulas.F49_CrossTerm(513));
+        Assert.Equal(Math.ScaleB(Math.Sqrt(512.0 / 513.0), -512), Formulas.F49c_CrossTermCrossing(513));
+
+        double f49b = Formulas.F49b_CenteredDissipatorNormSq(400, 1e-200);
+        double f49bExpected = Math.Exp(2 * Math.Log(1e-200) + 400 * Math.Log(4) + Math.Log(400));
+        Assert.InRange(f49b / f49bExpected, 1 - 1e-11, 1 + 1e-11);
+        double f49bOverflow = Formulas.F49b_CenteredDissipatorNormSq(513, 1e-150);
+        double f49bOverflowExpected = Math.Exp(2 * Math.Log(1e-150) + 513 * Math.Log(4) + Math.Log(513));
+        Assert.InRange(f49bOverflow / f49bOverflowExpected, 1 - 1e-11, 1 + 1e-11);
+
+        double t1 = Formulas.F1_T1Residual(513, 1e-150, 1e-300);
+        double depol = Formulas.F1_DepolResidual(513, 1e-150, 1e-300);
+        double scale = Math.Exp(1024 * Math.Log(2) + Math.Log(1e-300));
+        Assert.InRange(t1 / (7 * scale), 1 - 1e-11, 1 + 1e-11);
+        Assert.InRange(depol / ((16.0 / 9.0) * scale), 1 - 1e-11, 1 + 1e-11);
+        double tinyT1 = Formulas.F1_T1Residual(400, 1e-200, 0.0);
+        Assert.InRange(tinyT1 / Math.Exp(2 * Math.Log(1e-200) + 400 * Math.Log(4)), 1 - 1e-11, 1 + 1e-11);
+
+        double n = (double)int.MaxValue + 1.0;
+        double endWeight = Formulas.F124_EndWeight(int.MaxValue);
+        Assert.InRange(endWeight / (4 * Math.PI * Math.PI / (n * n * n)), 1 - 1e-11, 1 + 1e-11);
+    }
+    [Fact]
     public void AdoptedF1DepolarizingResidual_UsesTheCenteredOwner()
     {
         // N=4, uniform gamma=0.5: sum(gamma^2)=1.  F1 centering removes

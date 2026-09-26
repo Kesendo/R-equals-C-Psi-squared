@@ -23,6 +23,9 @@ namespace MirrorWorldTests;
 // it. They fail it now.
 public class ModPTests
 {
+    [Fact]
+    public void ModPow_Rejects_Negative_Exponents_Instead_Of_Returning_One()
+        => Assert.Throws<ArgumentOutOfRangeException>(() => ModP.ModPow(2, -1, 7));
     static long Big => ModP.Primes.Max();
 
     // ---- the prime list itself: the reason it moved off the old 3 mod 4 pair ----
@@ -78,6 +81,14 @@ public class ModPTests
             long expected = (long)(new BigInteger(a) * b % p);
             Assert.Equal(expected, ModP.MulMod(a, b, p));
         }
+    }
+
+    [Fact]
+    public void AddMod_IsExact_When_Two_Residues_Overflow_Signed_Long()
+    {
+        const long p = 9_223_372_036_854_775_421L;
+        long expected = (long)((new BigInteger(p - 1) + (p - 2)) % p);
+        Assert.Equal(expected, ModP.AddMod(p - 1, p - 2, p));
     }
 
     [Fact]
@@ -225,6 +236,14 @@ public class ModPTests
     public void RootOfOrder_RejectsNonpositiveOrders(int order)
         => Assert.Throws<ArgumentOutOfRangeException>(() => ModP.RootOfOrder(order, ModP.Primes[0]));
 
+    [Fact]
+    public void RootOfOrder_Rejects_An_Order_That_Does_Not_Divide_The_Field_Size()
+        => Assert.Throws<ArgumentException>(() => ModP.RootOfOrder(4, 7));
+
+    [Fact]
+    public void RootOfOrder_Rejects_A_Composite_Modulus()
+        => Assert.Throws<ArgumentException>(() => ModP.RootOfOrder(2, 9));
+
     // ---- the rank, against ranks known by construction ----
 
     [Fact]
@@ -323,11 +342,18 @@ public class ModPTests
         foreach (long bad in new[] { 0L, -1L, -998244353L })
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => ModP.Mod(5, bad));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ModP.AddMod(5, 7, bad));
             Assert.Throws<ArgumentOutOfRangeException>(() => ModP.MulMod(5, 7, bad));
             Assert.Throws<ArgumentOutOfRangeException>(() => ModP.ModPow(5, 3, bad));
             Assert.Throws<ArgumentOutOfRangeException>(() => ModP.ModInverse(5, bad));
             Assert.Throws<ArgumentOutOfRangeException>(() => ModP.Rank(new List<long[]> { new[] { 1L } }, bad));
         }
+    }
+
+    [Fact]
+    public void Rank_Rejects_A_Composite_Modulus_Whose_Pivots_Are_Not_Field_Units()
+    {
+        Assert.Throws<ArgumentException>(() => ModP.Rank(new List<long[]> { new[] { 2L } }, 4));
     }
 
     // Zero has no inverse; Fermat returns 0 for it, which multiplies into 0 and not into 1.
@@ -384,6 +410,22 @@ public class ModPTests
     // the multiplicative order taken by walking the powers rather than by the prime-factor test
     // RootOfOrder itself uses.
 
+    [Fact]
+    public void CyclotomicPrime_Reports_Exhaustion_Before_Long_Overflow()
+    {
+        const long largestSignedPrime = 9_223_372_036_854_775_783L;
+        Assert.True(ModP.IsPrime(largestSignedPrime));
+        Assert.Throws<InvalidOperationException>(() => ModP.CyclotomicPrime(2, largestSignedPrime));
+    }
+
+    [Fact]
+    public void CyclotomicPrime_Includes_Floor_Plus_One_When_Floor_Is_Divisible_By_Order()
+    {
+        var (p, zeta) = ModP.CyclotomicPrime(2, 1_000_002);
+        Assert.Equal(1_000_003L, p);
+        Assert.Equal(p - 1, zeta);
+    }
+
     [Theory]
     [InlineData(18)]   // 2n at the smallest firing comb, n = 9
     [InlineData(24)]
@@ -438,19 +480,20 @@ public class ModPTests
     public void CyclotomicPrime_StepsOverNoUsableCandidate(int order)
     {
         var (p1, _) = ModP.CyclotomicPrime(order, 0);
-        AssertNoUsableCandidateBetween(order, order * (1_000_000L / order + 1) + 1, p1);
+        AssertNoUsableCandidateBetween(order, 1_000_000L, p1);
 
         // and again above a caller's floor, which is the call the census actually makes and which the
         // first version of this gate never exercised: a floor of 2*above would have passed it
         var (p2, _) = ModP.CyclotomicPrime(order, p1);
         Assert.True(p2 > p1);
-        AssertNoUsableCandidateBetween(order, order * (p1 / order + 1) + 1, p2);
+        AssertNoUsableCandidateBetween(order, p1, p2);
     }
 
-    static void AssertNoUsableCandidateBetween(int order, long from, long to)
+    static void AssertNoUsableCandidateBetween(int order, long floor, long to)
     {
-        for (long q = from; q < to; q += order)
+        for (long q = floor + 1; q < to; q++)
         {
+            if (q % order != 1 % order) continue;
             bool prime = q > 1;
             for (long d = 2; d * d <= q; d++) if (q % d == 0) { prime = false; break; }
             if (!prime) continue;

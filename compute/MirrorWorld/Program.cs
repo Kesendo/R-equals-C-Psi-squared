@@ -528,7 +528,7 @@ if (args.Length > 0 && args[0] == "cyclotomy")
 // ---- run mode "divisor": the value the Hamiltonian cannot move ----
 // Mirror gave the between-block folds, Seed the within-block self-duality. This is the third thing the
 // same mirror leaves behind: on the R90 locus the corner block carries lambda = -4*gbar with
-// multiplicity floor(N/2) for EVERY coupling, and with multiplicity N on the locus's zero-mean
+// multiplicity at least floor(N/2) for EVERY coupling, and at least N on the locus's zero-mean
 // stratum, where the diagonal cells pay into the count instead of charging it. The point of running it
 // here is the ontology: the object
 // is the first in this world that hangs on ANOTHER object, because the room shortage that does the
@@ -971,7 +971,7 @@ if (args.Length > 0 && args[0] == "group")
     Console.WriteLine($"    fixed-point collapse H^T = H-bar iff H = H-dagger: Hermitian {herm:E1}, non-Hermitian split {nonHerm:0.0}");
     var doubled = MirrorGroup.Closure(MirrorGroup.R, MirrorGroup.D, MirrorGroup.K);
     Console.WriteLine($"    the double <R, D, K>: order {doubled.Count}, antilinear members {doubled.Count(m => m.Antilinear)} -- D4 x Z2.");
-    Console.WriteLine("  (deliberately outside, named open in F118: the letter group S3; adjoining it would assemble S3 x| D4.)");
+    Console.WriteLine("  (outside this object: the letter S3 does not normalize D4; its coherence-space closure has order 96*2^N.)");
     return;
 }
 
@@ -1288,13 +1288,13 @@ if (args.Length > 0 && args[0] == "gammafold")
         var st = fold.SiteTurn(l);
         Console.WriteLine($"    s_{l}: acts on {st.CellsWhereSiteDiffers} of "
             + $"{st.CellsWhereSiteDiffers + st.CellsWhereSiteAgrees} cells (the half where site {l} "
-            + $"differs), each by {st.Step:0.000} = 4*gamma_{l}   residual {st.WorstStepResidual:E1}");
+            + $"differs), each by {st.Step:0.000} = 4*gamma_{l}   floating residual {st.WorstStepResidual:E1}");
     }
     var sg = fold.SiteTurnGroup();
     Console.WriteLine();
     Console.WriteLine("  on the PROFILE the turn is unconditional:");
     Console.WriteLine($"    composing all {fn} turns gives s, r -> -r          {sg.WorstCompositeResidual:E1}");
-    Console.WriteLine($"    sigma(s_S g) = sigma - 2*sum_S g                   {sg.WorstSigmaResidual:E1}");
+    Console.WriteLine($"    sigma(s_S g) = sigma - 2*sum_S g   floating residual {sg.WorstSigmaResidual:E1}");
     Console.WriteLine($"    they generate (Z/2)^support: support {sg.Support}, orbit {sg.OrbitSize}, "
         + $"involutions {sg.AllInvolutions}, commuting {sg.AllCommute}");
     Console.WriteLine("    site turns commute with anti-watch on the full (profile, rule) family.");
@@ -1331,7 +1331,7 @@ if (args.Length > 0 && args[0] == "gammafold")
     var rep = fold.Run(seed: 1, dt: 0.02, ticks: 50);
     Console.WriteLine("  the trajectory level (twin RK4, worst over every probed tick):");
     Console.WriteLine($"    rho_anti(t) = e^(-2*sigma*t) * rho_gain(t)    {rep.WorstVeil:E1}");
-    Console.WriteLine($"    gain/anti novelty at t=1: {rep.NoveltyRatio:0.000}  (= e^(+2*sigma), the amplification; the trace is blind to gamma in EVERY world)");
+    Console.WriteLine($"    gain/anti novelty at t=1: {rep.NoveltyRatio:0.000}  (= e^(+2*sigma); gain trace stays 1, anti-watch trace wears e^(-2*sigma*t))");
     Console.WriteLine($"    anti-vs-gain separation at t=1: {rep.VertexSeparation:0.000}  (the veil is not vacuous)");
     Console.WriteLine($"    the discriminator: the veil against the NORMAL (+gamma) world misses by {rep.BrokenFlip:0.000}");
     Console.WriteLine("    -- the gain flip is load-bearing, not decoration.");
@@ -1535,8 +1535,8 @@ if (args.Length > 0 && args[0] == "spread")
 // Adopted 2026-07-13 from experiments/COUPLING_DEFECT_WALK_TIME_STEP.md: deform one bond to J' = J(1+delta)
 // and the front's arrival-time profile is a step -- zero upstream, near -delta/(2J) downstream. The one bond's
 // walk-time is the only summand that changes; the front pays the bond's local walk-time and nothing else.
-// At gamma > 0 the timing stays ballistic while the amplitude decays: the dose the front pays is amplitude,
-// not schedule, so the step survives the watching.
+// At the tested weak-watching point gamma=0.05, J=1, N=60 (Q=20), the step survives while the
+// amplitude decays. Beyond the arrival-dose fence the front crosses into a diffusive regime.
 if (args.Length > 0 && args[0] == "walk")
 {
     int wn = args.Length > 1 ? int.Parse(args[1]) : 60;
@@ -1560,14 +1560,14 @@ if (args.Length > 0 && args[0] == "walk")
             sb.Append(double.IsNaN(prof[i]) ? '?' : Math.Abs(prof[i]) < 0.01 ? '_' : prof[i] < 0 ? 'v' : '^');
         Console.WriteLine(sb.ToString() + "   (_ flat, v advanced, ^ delayed, ? never crossed)");
     }
-    Console.WriteLine("  the step edge sits at the bond; the plateau is site-independent: walk-time is locally additive.");
-    Console.WriteLine("  distance is t: the way is a sum of per-bond walk-times, and a defect edits one summand.");
+    Console.WriteLine("  at the measured N=60 weak-watching point, the downstream step is near-flat over the sampled window.");
+    Console.WriteLine("  first-order ballistic reading: distance is t, and one defect edits a bond's walk-time contribution.");
     return;
 }
 
 // ---- run mode "warble": the cracked ring read in time (the wrap-bond crack as a beat) ----
 // Built 2026-08-31 beside experiments/THE_CRACKED_BELL.md: crack the wrap bond to J' = J(1-delta) and
-// every m <-> N-m pair splits by the same 4*delta*J/N (the crack is flat in mode space). A launched
+// every m <-> N-m pair splits by the same 4*delta*J/N to first order (flat in mode space at that order). A launched
 // traveling wave fully reverses at T_rev ~ pi*N/(4*delta*J): the walk-time step's discarded O(delta)
 // reflection, resonantly accumulated. On this (1,1) block the watching DRESSES the clock (the zero
 // crossing advances; the dephasing-free diagonal feeds the current back over the naive envelope);
@@ -1602,7 +1602,7 @@ if (args.Length > 0 && args[0] == "warble")
     double bdrift = 0;
     for (int k = 0; k < bctl.Length; k++) bdrift = Math.Max(bdrift, Math.Abs(bctl[k] / bctl[0] - 1.0));
     Console.WriteLine($"  control delta=0: max |R-1| = {bdrift:0.0e+0} -- no crack, no warble.");
-    Console.WriteLine("  every pair splits by the same 4*delta*J/N: the crack is flat in mode space, every mode hears it.");
+    Console.WriteLine("  to first order in delta, every pair splits by the same 4*delta*J/N; Crack resolves finite-delta corrections.");
     Console.WriteLine("  the clock here is gamma-dressed (this is the (1,1) block; on the (0,1) block the zeros of the same crack are gamma-free):");
     Console.WriteLine("  the slow clock gives the watching time to dress it -- the fast walk-time step never did.");
     return;
@@ -1680,7 +1680,7 @@ if (args.Length > 0 && args[0] == "crack")
             }
             catch (InvalidOperationException)
             {
-                Console.WriteLine($"    m={m,2}: the crack is too deep for the pair reading (the two levels nearest E_m are not an isolated straddling pair); the levels above are still exact");
+                Console.WriteLine($"    m={m,2}: the crack is too deep for the pair reading (the two levels nearest E_m are not an isolated straddling pair); the displayed levels are numerical readings of the exact curve");
             }
         }
     }
@@ -1781,7 +1781,7 @@ foreach (int N in new[] { 2, 3, 4 })
         }
         Console.WriteLine($"    p={p}: {string.Join(" ", sizes)}");
     }
-    Console.WriteLine($"    sum = {total} = 4^{N}; the diagonal (p,p) carries k=0, the {N + 1} populations (the kernel)");
+    Console.WriteLine($"    sum = {total} = 4^{N}; the (p,p) blocks contain all {1 << N} k=0 population cells, alongside even-k coherences");
     Console.WriteLine();
 }
 
@@ -1865,7 +1865,7 @@ foreach (int n in new[] { 3, 4, 5 })
     Console.WriteLine($"  N={n}: F7 Q max/min/mean/spread = {qmax:0.00}/{qmin:0.00}/{qmean:0.0}/{qspread:0.00}");
 }
 Console.WriteLine($"  F8 range/centre law (N=4,g=0.5): full-width={Formulas.F8_DecayLaw(4, 0.5).FullWidth:0.0}, centre={Formulas.F8_DecayLaw(4, 0.5).Centre:0.0}, ratio=2 (not mode classes)");
-Console.WriteLine($"  F12 single-qubit crossing t*/T2 = {Formulas.F12_CrossingFraction} (root of x^3+x=1/2)");
+Console.WriteLine($"  F12 single-qubit crossing t*/T2 = {Formulas.F12_CrossingFraction} = -ln(x), x^3+x=1/2");
 Console.WriteLine($"  F16 fold R=C(Psi+R)^2, boundary CPsi={Formulas.F16_FoldBoundary} (Mandelbrot u->u^2+c)");
 Console.WriteLine($"  F25 CPsi Bell+ Z-deph: crossing f*={Formulas.F25_CrossingF}, K_Z={Formulas.F25_K};  F27 K_X=K_Y=ln2/8={Formulas.F27_KX:0.0000}, K_depol={Formulas.F27_KDepol}");
 Console.WriteLine($"  F15 theta compass at CPsi=0.5: {Formulas.F15_ThetaDeg(0.5):0.0} deg (0 at the 1/4 crossing)");
@@ -1886,8 +1886,8 @@ Console.WriteLine($"  F57 Bell+ dwell prefactor K_dwell/delta = {Formulas.F57_Dw
 Console.WriteLine($"  F60 GHZ_N CPsi(0)=1/(2^N-1): N=2,3,4,5 = {Formulas.F60_GhzCPsi0(2):0.000}, {Formulas.F60_GhzCPsi0(3):0.000}, {Formulas.F60_GhzCPsi0(4):0.000}, {Formulas.F60_GhzCPsi0(5):0.000} (<1/4 for N>=3)");
 Console.WriteLine($"  F62 W_N CPsi(0)=2(N^2-4N+8)/(3N^3): N=2,3,4 = {Formulas.F62_WstateCPsi0(2):0.000}, {Formulas.F62_WstateCPsi0(3):0.000}, {Formulas.F62_WstateCPsi0(4):0.000};  F59 prefactor(W0=1/2,k=2,W2=0.371) = {Formulas.F59_DwellPrefactor(2, 0.5, 0.3709):0.000}");
 Console.WriteLine($"  F63 [L,Pi^2]=0, 4 blocks dim 4^(N-1)={Formulas.F63_BlockDim(4)} (N=4); conserved/sector (even,odd) N=4 = {Formulas.F63_ConservedPerSector(4)}");
-Console.WriteLine($"  F65 SE spectrum (4/(N+1))sin^2(k pi/(N+1)): N=3 = [{string.Join(", ", Formulas.F65_SingleExcitationRates(3).Select(x => x.ToString("0.000")))}], N=5 = [{string.Join(", ", Formulas.F65_SingleExcitationRates(5).Select(x => x.ToString("0.000")))}]");
-Console.WriteLine($"  F65 Niven: rational iff N in {{0,1,2,3,5}} (N=4 golden-irrational); F66 pole multiplicity N+1 = {Formulas.F66_PoleMultiplicity(4)} (N=4)");
+Console.WriteLine($"  F65 uniform open XY, endpoint Z-dephasing: first-order alpha_k/gamma0 = (4/(N+1))sin^2(k pi/(N+1)): N=3 = [{string.Join(", ", Formulas.F65_SingleExcitationRates(3).Select(x => x.ToString("0.000")))}], N=5 = [{string.Join(", ", Formulas.F65_SingleExcitationRates(5).Select(x => x.ToString("0.000")))}]");
+Console.WriteLine($"  F65 Niven, physical N>=2: rational iff N in {{2,3,5}} (N=4 golden-irrational); F66 uniform XY endpoint-B pole multiplicity N+1 = {Formulas.F66_PoleMultiplicity(4)} (N=4)");
 Console.WriteLine($"  F68 partner rate alpha_p=2g0-alpha_b (g0=0.05, alpha_b=0.0138) = {Formulas.F68_PartnerRate(0.0138, 0.05):0.0000};  F69 GHZ3+W3 optimum pair-CPsi(0) = {Formulas.F69_N3Optimum:0.000} (ratio {Formulas.F69_RatioToQuarter} to 1/4, irreducible sextic)");
 Console.WriteLine($"  F70 k-local sees |dN|<=k (single-site<=1, pair<=2); F71 c1 components=floor(N/2)={Formulas.F71_C1IndependentComponents(5)} (N=5), R|psi_k>=(-1)^(k+1) [k=1->{Formulas.F71_ReflectionParity(1)}, k=2->{Formulas.F71_ReflectionParity(2)}]");
 Console.WriteLine($"  F98 Dicke asymptote (N+2)/(4(N+1)): N=4,6,8 = {Formulas.F98_DickeAsymptote(4):0.000}, {Formulas.F98_DickeAsymptote(6):0.000}, {Formulas.F98_DickeAsymptote(8):0.000} (-> 1/4)");

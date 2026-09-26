@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace MirrorWorld;
 
 // The witness reading (adopted 2026-07-18, F135 + F136): WHO records and WHAT it records, read off
@@ -39,11 +41,27 @@ public sealed class Witness : GameObject
     public Witness(World world, IReadOnlyList<(int a, int b, double delta)> bonds, int s, int j,
                    double gammaS = 0.0, double gammaJ = 0.0) : base(world)
     {
+        if (s == j) throw new ArgumentException("a witness page needs two distinct sites", nameof(j));
         S = s; J = j;
         var nbrS = new Dictionary<int, double>();
         var nbrJ = new Dictionary<int, double>();
+        // H is a SUM of ZZ terms: combine parallel and reversed entries before reading graph roles.
+        var effective = new Dictionary<(int a, int b), BigInteger>();
         foreach (var (a, b, delta) in bonds)
         {
+            if (!double.IsFinite(delta))
+                throw new ArgumentOutOfRangeException(nameof(bonds), "every ZZ bond strength must be finite");
+            if (a == b) continue; // Z_a Z_a = I, hence no graph edge or record phase.
+            if (a != s && b != s && a != j && b != j) continue; // a ZZ gate wholly on traced sites leaves this page unchanged.
+            var edge = (Math.Min(a, b), Math.Max(a, b));
+            // A double is an exact dyadic input. Sum those dyadics before reading the edge:
+            // large parallel terms may cancel and expose a small, exactly representable write bond.
+            effective[edge] = effective.GetValueOrDefault(edge) + DyadicUnits(delta);
+        }
+        foreach (var ((a, b), units) in effective)
+        {
+            double delta = ExactlyRepresentableBond(units);
+            if (delta == 0.0) continue;
             if (a == s) nbrS[b] = delta; else if (b == s) nbrS[a] = delta;
             if (a == j) nbrJ[b] = delta; else if (b == j) nbrJ[a] = delta;
         }
@@ -111,10 +129,44 @@ public sealed class Witness : GameObject
     static double H2(double x) =>
         x <= 0.0 || x >= 1.0 ? 0.0 : -x * Math.Log2(x) - (1.0 - x) * Math.Log2(1.0 - x);
 
-    static bool IsInt(double r) => Math.Abs(r - Math.Round(r)) < 1e-12;
-    static bool IsOddInt(double r) => IsInt(r) && ((long)Math.Round(r)) % 2 != 0;
-    static bool IsEvenInt(double r) => IsInt(r) && ((long)Math.Round(r)) % 2 == 0;
-    static int ParityPow(double e) => ((long)Math.Round(e)) % 2 == 0 ? +1 : -1;   // (-1)^e for integer e
+    static bool IsInt(double r) => double.IsFinite(r) && r == Math.Truncate(r);
+
+    // Integer units of 2^-1074: every finite binary64 bond strength is represented exactly.
+    static BigInteger DyadicUnits(double value)
+    {
+        ulong bits = unchecked((ulong)BitConverter.DoubleToInt64Bits(value));
+        int exponent = (int)((bits >> 52) & 0x7ffUL);
+        ulong significand = bits & 0x000f_ffff_ffff_ffffUL;
+        if (exponent != 0) significand |= 1UL << 52;
+        int shift = exponent == 0 ? 0 : exponent - 1;
+        BigInteger units = new BigInteger(significand) << shift;
+        return (bits >> 63) == 0 ? units : -units;
+    }
+
+    static double ExactlyRepresentableBond(BigInteger units)
+    {
+        if (units.IsZero) return 0.0;
+        BigInteger magnitude = BigInteger.Abs(units);
+        int shift = checked((int)Math.Max(0L, magnitude.GetBitLength() - 53));
+        BigInteger top = magnitude >> shift;
+        if (shift > 0)
+        {
+            BigInteger remainder = magnitude - (top << shift);
+            BigInteger halfway = BigInteger.One << (shift - 1);
+            if (remainder > halfway || (remainder == halfway && !top.IsEven)) top++;
+        }
+        double rounded = Math.ScaleB((double)top, shift - 1074);
+        if (!double.IsFinite(rounded))
+            throw new ArgumentOutOfRangeException("bonds", "the effective ZZ bond strength is not representable as a finite double");
+        double signed = units.Sign < 0 ? -rounded : rounded;
+        if (DyadicUnits(signed) != units)
+            throw new ArgumentOutOfRangeException("bonds", "rounding the effective ZZ bond would change its integer or parity class");
+        return signed;
+    }
+
+    static bool IsOddInt(double r) => IsInt(r) && Math.Abs(r % 2.0) == 1.0;
+    static bool IsEvenInt(double r) => IsInt(r) && r % 2.0 == 0.0;
+    static int ParityPow(double e) => e % 2.0 == 0.0 ? +1 : -1;   // (-1)^e for integer e
 
     public override IReadOnlyList<string> Own => new[] { "family", "letter", "sign", "bits" };
 }

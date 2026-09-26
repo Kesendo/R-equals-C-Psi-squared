@@ -40,10 +40,29 @@ public sealed class GammaFold : GameObject
     readonly double[] gammas;      // the site profile gamma_l (non-uniform by default: per-site is load-bearing)
     readonly double zz;
 
-    public double Sigma => gammas.Sum();
+    static void AddCompensated(ref double sum, ref double correction, double value)
+    {
+        double next = sum + value;
+        correction += Math.Abs(sum) >= Math.Abs(value)
+            ? (sum - next) + value
+            : (value - next) + sum;
+        sum = next;
+    }
 
+    static double StableSum(IEnumerable<double> values)
+    {
+        double sum = 0, correction = 0;
+        foreach (double value in values)
+            AddCompensated(ref sum, ref correction, value);
+        return sum + correction;
+    }
+
+    // Keep small residual rates when large positive and negative site rates cancel.
+    public double Sigma => StableSum(gammas);
     public GammaFold(World world, int n, double j = 1.0, double[]? siteGammas = null, double zz = 0.0) : base(world)
     {
+        if (n < 1 || n > 15)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "the dense rate masks need 1 <= N <= 15");
         if (siteGammas is not null && siteGammas.Length != n)
             throw new ArgumentException("the rate profile needs one value per site", nameof(siteGammas));
         var profile = siteGammas ?? Enumerable.Range(0, n).Select(l => 0.2 + 0.1 * l).ToArray();
@@ -65,17 +84,18 @@ public sealed class GammaFold : GameObject
 
     // ---- the mask level: the three exact laws of the rate arithmetic. ----
     // rate masks as plain sums; nothing dynamical, the identity is bit arithmetic per cell.
-    double RateNormal(int i, int j)
+    double RateNormal(int i, int j) => SelectedRate(gammas, i ^ j, differs: true);
+    double RateAnti(int i, int j) => SelectedRate(gammas, i ^ j, differs: false);
+
+    static double SelectedRate(double[] profile, int diff, bool differs)
     {
-        double r = 0; int diff = i ^ j;
-        for (int l = 0; l < N; l++) if (((diff >> l) & 1) == 1) r -= 2.0 * gammas[l];
-        return r;
-    }
-    double RateAnti(int i, int j)
-    {
-        double r = 0; int diff = i ^ j;
-        for (int l = 0; l < N; l++) if (((diff >> l) & 1) == 0) r -= 2.0 * gammas[l];
-        return r;
+        double sum = 0, correction = 0;
+        for (int l = 0; l < profile.Length; l++)
+        {
+            if ((((diff >> l) & 1) == 1) != differs) continue;
+            AddCompensated(ref sum, ref correction, -2.0 * profile[l]);
+        }
+        return sum + correction;
     }
 
     public sealed record MaskLawsReport(
@@ -164,12 +184,7 @@ public sealed class GammaFold : GameObject
         return profile.Select((g, l) => set.Contains(l) ? (g == 0.0 ? 0.0 : -g) : g).ToArray();
     }
 
-    static double RateOf(double[] g, int i, int j)
-    {
-        double r = 0; int diff = i ^ j;
-        for (int l = 0; l < g.Length; l++) if (((diff >> l) & 1) == 1) r -= 2.0 * g[l];
-        return r;
-    }
+    static double RateOf(double[] g, int i, int j) => SelectedRate(g, i ^ j, differs: true);
 
     // every finite double is m * 2^e exactly; scaled to a common exponent the subset sums are
     // integers, so their distinctness is decided with no rounding anywhere.
@@ -222,7 +237,7 @@ public sealed class GammaFold : GameObject
         int CellsWhereSiteDiffers,  // the cells the turn acts on: exactly half of 4^N, at every N
         int CellsWhereSiteAgrees,
         double Step,                // the common step 4*gamma_l (zero at an unwatched site)
-        double WorstStepResidual);  // worst |delta - step| where it differs, |delta| where it agrees
+        double WorstStepResidual);  // floating rate residual; rounded large rates can hide a small exact step
 
     public SiteTurnReport SiteTurn(int site)
     {
@@ -247,7 +262,7 @@ public sealed class GammaFold : GameObject
         bool AllInvolutions,            // s_l o s_l = id, by COMPOSING the turn with itself
         bool AllCommute,                // s_a o s_b = s_b o s_a, likewise composed
         double WorstCompositeResidual,  // worst |r(s_{N-1} o ... o s_0) + r|: the composite IS s
-        double WorstSigmaResidual,      // worst |sigma(s_S g) - (sigma - 2*sum_S g)|
+        double WorstSigmaResidual,      // floating residual of sigma(s_S g) - (sigma - 2*sum_S g)
         bool SupportSumsDistinct,       // the criterion, decided over the integers
         bool WholeProfileSumsDistinct,  // the stronger version: sufficient, not necessary
         bool DescendsToRateAxis,        // all s_l are functions of the rate value, one for every site
@@ -267,8 +282,9 @@ public sealed class GammaFold : GameObject
         {
             var S = Enumerable.Range(0, N).Where(l => ((m >> l) & 1) == 1).ToArray();
             var g = Turn(S);
-            orbit.Add(string.Join(",", g.Select(x => x.ToString("R"))));
-            sigWorst = Math.Max(sigWorst, Math.Abs(g.Sum() - (sigma - 2.0 * S.Sum(l => gammas[l]))));
+            orbit.Add(string.Join(",", g.Select(x => (x == 0.0 ? 0.0 : x).ToString("R"))));
+            sigWorst = Math.Max(sigWorst,
+                Math.Abs(StableSum(g) - (sigma - 2.0 * StableSum(S.Select(l => gammas[l])))));
         }
 
         // COMPOSITION, actually composed. Turn takes a profile now, so s_a o s_b is a composite;

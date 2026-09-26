@@ -24,7 +24,12 @@ public sealed class AntilinearTriangle : GameObject
 {
     public int N { get; }
 
-    public AntilinearTriangle(World world, int n) : base(world) => N = n;
+    public AntilinearTriangle(World world, int n) : base(world)
+    {
+        if (n < 1 || n > 15)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "dense Pauli enumeration needs 1 <= N <= 15");
+        N = n;
+    }
 
     // left: what the triangle itself produces.
     public override IReadOnlyList<string> Own => new[] { "vertices", "transport", "double" };

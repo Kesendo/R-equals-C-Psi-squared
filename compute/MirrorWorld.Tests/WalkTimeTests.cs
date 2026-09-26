@@ -6,7 +6,8 @@ namespace MirrorWorldTests;
 // a single defect bond J' = J(1+delta) edits exactly one summand of the front's walk-time. The arrival-time
 // delay profile is a step: zero upstream of the bond, a flat plateau downstream near -delta/(2J) (first
 // order; the broadband seed undershoots, the committed plateau numbers are pinned here). The dose the front
-// pays is amplitude, not schedule: at gamma > 0 the timing stays ballistic and the step survives.
+// pays at the tested gamma=0.05, J=1, N=60 point is mainly amplitude: the timing step survives there.
+// Beyond the arrival-dose fence the front crosses into a diffusive regime.
 // Arrival time: first t with P_i(t) >= theta * max_t P_i(t) on the defect-free run at the SAME gamma.
 public class WalkTimeTests
 {
@@ -51,7 +52,7 @@ public class WalkTimeTests
             Assert.InRange(dt[i], -0.0510, -0.0468);          // the committed -0.0488..-0.0491
     }
 
-    // the knob itself: SetBond overwrites one bond's coupling, symmetrically, and only that bond.
+    // On the default simple chain, SetBond overwrites that one pair's total coupling symmetrically.
     [Fact]
     public void SetBond_Edits_One_Bond_Only()
     {

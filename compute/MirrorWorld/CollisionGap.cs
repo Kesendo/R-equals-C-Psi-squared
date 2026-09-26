@@ -164,7 +164,14 @@ public sealed class CollisionGap : GameObject
     }
 
     /// <summary>The multiplier an EVEN order reads its comb under: M_{2j+1}.</summary>
-    public static int EvenOrderMultiplier(int j) => 2 * j + 1;
+    public static int EvenOrderMultiplier(int j)
+    {
+        if (j < 0) throw new ArgumentOutOfRangeException(nameof(j), "rung index must be nonnegative");
+        long multiplier = 2L * j + 1;
+        if (multiplier > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(j), "the multiplier does not fit the int-valued API");
+        return (int)multiplier;
+    }
 
     /// <summary>Whether reading the comb under this multiplier is a Galois automorphism of
     /// Q(zeta_2n), which is what carries a collision onto the rung and kills it. The modulus is 2n and
@@ -320,7 +327,7 @@ public sealed class CollisionGap : GameObject
     {
         long order = 2L * n;
         long r = ModP.Mod(e, order);
-        return (ModP.ModPow(zeta, r, p) + ModP.ModPow(zeta, (order - r) % order, p)) % p;
+        return ModP.AddMod(ModP.ModPow(zeta, r, p), ModP.ModPow(zeta, (order - r) % order, p), p);
     }
 
     /// <summary>2 X_2j(tau), the odd ladder's rung, in GF(p). The sign (-1)^(k+1) is the mirror sign the
@@ -331,9 +338,9 @@ public sealed class CollisionGap : GameObject
         foreach (int k in new[] { t.K1, t.K2, t.K3 })
         {
             long term = TwoCos(n, 2L * j * k, p, zeta);
-            s += k % 2 == 1 ? term : p - term;
+            s = ModP.AddMod(s, k % 2 == 1 ? term : p - term, p);
         }
-        return s % p;
+        return s;
     }
 
     /// <summary>2 M_m(tau), the even ladder's rung, in GF(p).</summary>
@@ -341,8 +348,8 @@ public sealed class CollisionGap : GameObject
     {
         long s = 0;
         foreach (int k in new[] { t.K1, t.K2, t.K3 })
-            s += TwoCos(n, (long)m * k, p, zeta);
-        return s % p;
+            s = ModP.AddMod(s, TwoCos(n, (long)m * k, p, zeta), p);
+        return s;
     }
 
     /// <summary>2 DeltaX_2j for a pair, in GF(p).</summary>

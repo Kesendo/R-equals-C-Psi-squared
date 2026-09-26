@@ -239,8 +239,9 @@ public sealed class Crack : GameObject
 
     public bool IdentityHolds() => IdentityResidual().All(x => x.IsZero);
 
-    // Past the wall: the identity mod a prime, at N+1 integer points x0 = 1, 2, ... (x0 = 0 is always a
-    // dead pivot, a = 0, and any other dead pivot is skipped the same way).
+    // Past the wall: the identity mod a prime greater than 4N+8 and not dividing q, at N+1 DISTINCT
+    // integer points x0 = 1, 2, ... (x0 = 0 is always a dead pivot, a = 0, and any other dead pivot
+    // is skipped the same way). The size fence prevents repeated residues from posing as new evidence.
     // Left side det(q x0 I - qH) mod prime by a bordered elimination of the cyclic tridiagonal, O(N log p)
     // matrix (a Gaussian elimination that knows the sparsity and nothing else); right side the road
     // polynomial mod prime by Horner. Two monic-scaled polynomials of degree N that agree at N+1 points
@@ -251,6 +252,11 @@ public sealed class Crack : GameObject
     public int MismatchesAgainst(BigInteger[] road, long prime)
     {
         if (road.Length != N + 1) throw new ArgumentException("a road for this ring has N + 1 coefficients", nameof(road));
+        if (prime <= 4L * N + 8)
+            throw new ArgumentOutOfRangeException(nameof(prime), "the field must exceed the point-search bound 4N+8");
+        if (!ModP.IsPrime(prime)) throw new ArgumentException("the modulus must be prime", nameof(prime));
+        if (UDen % prime == 0)
+            throw new ArgumentException("the field must not divide the reduced coupling denominator", nameof(prime));
         var roadMod = new long[N + 1];
         for (int i = 0; i <= N; i++) roadMod[i] = (long)(((road[i] % prime) + prime) % prime);   // BigInteger, so ModP.Mod does not apply
         int agreed = 0, mismatches = 0;
@@ -260,7 +266,8 @@ public sealed class Crack : GameObject
             long? det = CyclicTridiagonalDeterminantModP(x0, prime);
             if (det is null) continue;                       // a zero pivot: this point is skipped, not counted
             long rhs = 0;
-            for (int i = N; i >= 0; i--) rhs = (ModP.MulMod(rhs, x0 % prime, prime) + roadMod[i]) % prime;
+            for (int i = N; i >= 0; i--)
+                rhs = ModP.AddMod(ModP.MulMod(rhs, x0, prime), roadMod[i], prime);
             agreed++;
             if (det.Value != rhs) mismatches++;
         }
@@ -284,21 +291,21 @@ public sealed class Crack : GameObject
         long s = a;                                           // last row's diagonal
         for (int i = 0; i <= n - 2; i++)
         {
-            if (i == n - 2) last = (last + bond) % p;         // row N-2's right neighbour IS the last column
+            if (i == n - 2) last = ModP.AddMod(last, bond, p); // row N-2's right neighbour IS the last column
             if (d == 0) return null;
             det = ModP.MulMod(det, d, p);
             long inv = ModP.ModInverse(d, p);
             // the last row loses its column-i entry
             long g = ModP.MulMod(r, inv, p);
-            s = (s - ModP.MulMod(g, last, p) + p) % p;
+            s = ModP.AddMod(s, -ModP.MulMod(g, last, p), p);
             if (i == n - 2) break;
             // the next row's left entry (bond) is eliminated by row i
             long f = ModP.MulMod(bond, inv, p);
-            long dNext = (a - ModP.MulMod(f, bond, p) + p) % p;
-            long lastNext = (p - ModP.MulMod(f, last, p)) % p;     // next row's last-column entry, 0 before fill-in
+            long dNext = ModP.AddMod(a, -ModP.MulMod(f, bond, p), p);
+            long lastNext = ModP.Mod(-ModP.MulMod(f, last, p), p); // next row's last-column entry, 0 before fill-in
             // the last row's column-(i+1) entry: -g * bond, plus its own entry there (bond when i+1 == n-2)
-            long rNext = (p - ModP.MulMod(g, bond, p)) % p;
-            if (i + 1 == n - 2) rNext = (rNext + bond) % p;
+            long rNext = ModP.Mod(-ModP.MulMod(g, bond, p), p);
+            if (i + 1 == n - 2) rNext = ModP.AddMod(rNext, bond, p);
             d = dNext; last = lastNext; r = rNext;
         }
         return ModP.MulMod(det, s, p);

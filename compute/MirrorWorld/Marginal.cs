@@ -11,8 +11,8 @@ namespace MirrorWorld;
 // Lifted from the two inline kernels the F72 and F73 pins already carried (MirrorWorld.Tests/SmokeTests).
 // Reads are LIVE: the page is recomputed from the cloud at read time, so it follows every Step.
 // Bit convention (little-endian, the world's): page bit s <-> site keep[s]; the order GIVEN in keep
-// defines the page's bit order. The read delegate must return the Hermitian-correct (i,j) entry:
-// Restless stores the full complex matrix (safe); Field stores only the upper triangle and mirrors the
+// defines the page's bit order. The read delegate returns the literal (i,j) entry, including for
+// Restless.SeedRaw's one-sided operators; Field stores only the upper triangle and mirrors the
 // read UN-conjugated, which is correct only because Field's weights are real (the empty world).
 public sealed class Marginal : GameObject
 {
@@ -65,7 +65,8 @@ public sealed class Marginal : GameObject
 
     // left: the page's own split, the same cut the cloud makes -- structure = the diagonal (real: the
     // partial trace of a Hermitian cloud has a real diagonal), novelty = the off-diagonal magnitude,
-    // each upper cell standing for its mirror twin (the Field/Restless aggregate convention).
+    // both directions counted separately, as in Restless.WeightByDisagreement; a SeedRaw page need
+    // not be Hermitian, so an upper cell cannot stand in for its lower counterpart.
     public double Structure
     {
         get { double s = 0; for (int a = 0; a < pageDim; a++) s += this[a, a].Real; return s; }
@@ -77,8 +78,8 @@ public sealed class Marginal : GameObject
         {
             double s = 0;
             for (int a = 0; a < pageDim; a++)
-                for (int b = a + 1; b < pageDim; b++)
-                    s += 2.0 * this[a, b].Magnitude;
+                for (int b = 0; b < pageDim; b++)
+                    if (a != b) s += this[a, b].Magnitude;
             return s;
         }
     }

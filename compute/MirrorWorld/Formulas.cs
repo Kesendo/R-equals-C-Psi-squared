@@ -4,6 +4,23 @@ namespace MirrorWorld;
 // matrix computation. No interpretation, just the formula and its tier.
 public static class Formulas
 {
+    // Keep powers of two outside products that would otherwise overflow or underflow first.
+    private static double ScaleByPowerOfTwo(double value, long exponent)
+    {
+        if (value == 0.0 || !double.IsFinite(value)) return value;
+        if (exponent > int.MaxValue) return Math.CopySign(double.PositiveInfinity, value);
+        if (exponent < int.MinValue) return Math.CopySign(0.0, value);
+        return Math.ScaleB(value, (int)exponent);
+    }
+
+    private static double SquareTimesPowerOfTwo(double value, double factor, long exponent)
+    {
+        if (value == 0.0 || !double.IsFinite(value)) return value * value * factor;
+        int power = Math.ILogB(Math.Abs(value));
+        double mantissa = Math.ScaleB(value, -power);
+        return ScaleByPowerOfTwo(factor * mantissa * mantissa, exponent + 2L * power);
+    }
+
     // F2 (T1, D10): (0,1) coherence block dispersion, Heisenberg chain. omega_k = 4J(1 - cos(pi k/N)), k=1..N-1.
     public static double[] F2_Dispersion(int n, double j)
     {
@@ -21,8 +38,17 @@ public static class Formulas
     }
 
     // F1 residual norms (T1, H-independent, gamma_Z-independent closed forms). sg = Sigma gamma, sg2 = Sigma gamma^2.
-    public static double F1_T1Residual(int n, double sg, double sg2) => Math.Pow(4, n - 1) * (3.0 * sg2 + 4.0 * sg * sg);
-    public static double F1_DepolResidual(int n, double sg, double sg2) => Math.Pow(4, n - 1) * (16.0 / 9.0 * sg2);
+    public static double F1_T1Residual(int n, double sg, double sg2)
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n));
+        long power = 2L * (n - 1);
+        return ScaleByPowerOfTwo(3.0 * sg2, power) + SquareTimesPowerOfTwo(sg, 4.0, power);
+    }
+    public static double F1_DepolResidual(int n, double sg, double sg2)
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n));
+        return ScaleByPowerOfTwo((16.0 / 9.0) * sg2, 2L * (n - 1));
+    }
 
     // F2b corollary (T1): the coherence hand. omega_mem = 2J cos(pi/(N+1)) for N>=3 (sqrt2, phi, sqrt3
     // at N=3,4,5; gamma-independent); 2 sqrt(J^2 - gamma^2) at N=2 (-> 0 at the EP Q=1).
@@ -89,7 +115,11 @@ public static class Formulas
     public static double F5_DepolError(int n, double gamma) => gamma * 2.0 * n / 3.0;
 
     // F23 (T1): endpoint eigenspace fraction = (N+1)/4^N; not a state-fragility probability.
-    public static double F23_XorFraction(int n) => (n + 1.0) / Math.Pow(4, n);
+    public static double F23_XorFraction(int n)
+    {
+        if (n < 0) throw new ArgumentOutOfRangeException(nameof(n));
+        return n > 1074 ? 0.0 : Math.ScaleB(n + 1.0, -2 * n);
+    }
 
     // F33 (T1): N=3 rate ladder. Rungs {0, 2γ, 4γ, 6γ} are exact at every J; the two values
     // below are the J/γ → ∞ limit of bands that split at finite coupling, NOT exact rationals (<n_XY> = 1, 4/3, 5/3).
@@ -123,7 +153,7 @@ public static class Formulas
         return (fullWidth, centre);
     }
 
-    // F12 (T2): single-qubit universal crossing fraction t*/T2 = 0.858367, the root of x^3 + x = 1/2.
+    // F12 (T2): single-qubit crossing fraction t*/T2 = 0.858367 = -ln(x), where x solves x^3 + x = 1/2.
     public const double F12_CrossingFraction = 0.858367;
 
     // F16 (T1): the fold normal form R = C(Psi+R)^2 = Mandelbrot u->u^2+c, c=C*Psi; boundary at C*Psi=1/4.
@@ -182,9 +212,9 @@ public static class Formulas
     // F38 (T1): Pi^2 = (-1)^{w_YZ} = (-1)^{n_Y+n_Z} on a Pauli string (order 4, Pi^4=I); = conjugation by X^N.
     public static int F38_PiSquared(int nY, int nZ) => (nY + nZ) % 2 == 0 ? +1 : -1;
 
-    // F18 (T2, |+>^N product state, measured N=2-5): fold threshold Sg_crit/J. Below: CPsi
-    // oscillates forever; above: crosses 1/4 irreversibly. The product state's threshold is flat
-    // in N over that range (producer max/min 1.0218). Unmeasured beyond N=5.
+    // F18 (T2, |+>^N product state, measured N=2-5): fold threshold Sg_crit/J separating
+    // crossing behavior in the producer's sampled time windows. The product state's threshold is flat
+    // in N over that range (producer max/min 1.0218). No irreversible or all-time claim; unmeasured beyond N=5.
     public const double F18_FoldThresholdProduct = 0.00249;
 
     // The GHZ family carries ONE threshold, at N=2, and this is exact rather than measured:
@@ -269,14 +299,26 @@ public static class Formulas
 
     // F49 (T1, proven): cross-term ratio R(N) = sqrt((N-2)/(N 4^{N-1})). N=2: 0 (exact Pythagorean);
     // N=3: 1/sqrt48; N=4: 1/sqrt128. gamma/J/topology-independent, depends only on N.
-    public static double F49_CrossTerm(int n) => Math.Sqrt((n - 2.0) / (n * Math.Pow(4, n - 1)));
+    public static double F49_CrossTerm(int n)
+    {
+        if (n < 2) throw new ArgumentOutOfRangeException(nameof(n));
+        return Math.ScaleB(Math.Sqrt((n - 2.0) / n), 1 - n);
+    }
 
     // F49b (T1, proven): centered dissipator norm ||L_Dc||^2 = gamma^2 4^N N (uniform Z-dephasing).
-    public static double F49b_CenteredDissipatorNormSq(int n, double gamma) => gamma * gamma * Math.Pow(4, n) * n;
+    public static double F49b_CenteredDissipatorNormSq(int n, double gamma)
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n));
+        return SquareTimesPowerOfTwo(gamma, n, 2L * n);
+    }
 
     // F49c (T1, proven): cross-term for shadow-crossing couplings (one bond Pauli in {X,Y}, the other in
     // {I,Z}): R(N) = sqrt((N-1)/(N 4^(N-1))). Companion to F49 (bond-site variance 1 not 0, so N-2 -> N-1).
-    public static double F49c_CrossTermCrossing(int n) => Math.Sqrt((n - 1.0) / (n * Math.Pow(4, n - 1)));
+    public static double F49c_CrossTermCrossing(int n)
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n));
+        return Math.ScaleB(Math.Sqrt((n - 1.0) / n), 1 - n);
+    }
 
     // F55 (T1, from D6): absorption dose K_death = ln(10) = 2.303 (99% absorption of the slowest
     // mortal mode, rate 2gamma). The rate 2gamma is D6's, and holds only above the coupling
@@ -319,8 +361,9 @@ public static class Formulas
     }
     public static (int Even, int Odd) F63_ConservedPerSector(int n) => (n / 2 + 1, (n + 1) / 2);
 
-    // F65 (T1, proven): single-excitation dissipation spectrum, uniform open XY chain, endpoint Z-dephasing.
-    // alpha_k/gamma0 = (4/(N+1)) sin^2(k pi/(N+1)), k=1..N. All in [0, 2]; alpha_k = alpha_{N+1-k}.
+    // F65 (T1, proven): first-order endpoint decay coefficients on the uniform open XY chain with
+    // endpoint Z-dephasing. alpha_k/gamma0 = (4/(N+1)) sin^2(k pi/(N+1)), k=1..N; finite-coupling
+    // full-L rates have higher-order corrections. Coefficients lie in [0, 2] and pair under k <-> N+1-k.
     public static double[] F65_SingleExcitationRates(int n)
     {
         var a = new double[n];
@@ -332,7 +375,8 @@ public static class Formulas
     // (N=4 is the first golden-irrational, sin^2(pi/5)). Niven's theorem on cos(2k pi/(N+1)).
     public static bool F65_RatesRational(int n) => n is 0 or 1 or 2 or 3 or 5;
 
-    // F66 (T1): the dissipation interval [0, 2 gamma0] has poles at both endpoints, multiplicity N+1 each
+    // F66 (T1, uniform XY endpoint B): the dissipation interval [0, 2 gamma0] has poles at both endpoints,
+    // multiplicity N+1 each in this setup, not a universal zero-rate multiplicity across preparations
     // (the N+1 elementary symmetric polynomials e_d(Z) at alpha=0, their Pi-partners at alpha=2 gamma0).
     public static int F66_PoleMultiplicity(int n) => n + 1;
 
@@ -427,7 +471,12 @@ public static class Formulas
     // coordination number), split as (2 - E) + E where E = (4/(N+1)) sin^2(pi/(N+1)) is the
     // carrier's weight on the two free ends -- exactly the k=1 rung of the F65 ladder. The floor
     // vanishes as E (N+1)^3 -> 4 pi^2 (the resolution limit reading).
-    public static double F124_EndWeight(int n) => 4.0 / (n + 1) * Math.Pow(Math.Sin(Math.PI / (n + 1)), 2);
+    public static double F124_EndWeight(int n)
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n));
+        double sitesPlusOne = n + 1.0;
+        return 4.0 / sitesPlusOne * Math.Pow(Math.Sin(Math.PI / sitesPlusOne), 2);
+    }
     public static double F124_FrobeniusNormSq(int n) => 2.0 - F124_EndWeight(n);
     public static double F124_SpectralFloor(int n) => F124_EndWeight(n);
 

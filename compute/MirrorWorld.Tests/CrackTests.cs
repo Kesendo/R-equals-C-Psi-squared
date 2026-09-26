@@ -15,6 +15,25 @@ public class CrackTests
     static Crack Make(int n, long uNum, long uDen = 1) => new(C, n, uNum, uDen);
 
     [Fact]
+    public void Modular_Identity_Stays_Exact_At_A_Large_Prime()
+    {
+        const long p = 9_223_372_036_854_775_783L;
+        var ring = Make(3, 1);
+        Assert.True(ring.IdentityHolds());
+        Assert.Equal(0, ring.IdentityMismatchesModP(p));
+    }
+
+    [Fact]
+    public void Modular_Certificate_Requires_Distinct_Points_And_A_Nonzero_Denominator()
+    {
+        var chain = Make(3, 0);
+        BigInteger[] wrongRoad = { 6, -7, 1, 1 }; // U3 + (x-2)(x-3), invisible at two residues mod 5
+        Assert.Throws<ArgumentOutOfRangeException>(() => chain.MismatchesAgainst(wrongRoad, 5));
+        var denominatorVanishes = Make(3, 1, 23);
+        Assert.Throws<ArgumentException>(() => denominatorVanishes.IdentityMismatchesModP(23));
+    }
+
+    [Fact]
     public void Departure_Law_Refuses_The_Same_Invalid_Coupling_Ratios_As_The_Road()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => Crack.DepartureLaw(4, 1, -1));

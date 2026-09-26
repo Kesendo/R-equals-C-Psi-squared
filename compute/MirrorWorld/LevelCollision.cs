@@ -17,10 +17,11 @@ namespace MirrorWorld;
 /// Exactness, Seed's own convention: levels are computed in GF(p) over TWO independent
 /// primes p = 1 (mod 2n) with zeta of exact order 2n. One-sided soundness as in the source
 /// gate: exact equality implies equality mod every such p, so DISTINCTNESS mod one prime
-/// PROVES exact distinctness (injectivity at a non-firing n is proof grade); an equal pair
-/// mod both primes at a non-firing n would break the law assertion loudly. The mechanism
-/// anchors (n = 15: four rotated R3 cycles; n = 20: the R5 conjugate pair + the zero mode)
-/// are checked as root-sum zeros mod both primes.
+/// PROVES exact distinctness. Equality mod both primes gives a CANDIDATE, not an exact pair
+/// certificate. The derived family totals match the candidate census at n = 5..66, 70, 105;
+/// the public pair method accepts other n too, where it remains a modular candidate list.
+/// The mechanism anchors (n = 15: four rotated R3 cycles; n = 20: the R5 conjugate pair +
+/// the zero mode) are checked as root-sum zeros mod both primes.
 ///
 /// THE FAMILY INVENTORY (adopted 2026-07-15 from experiments/F129_FAMILY_INVENTORY.md +
 /// docs/proofs/PROOF_F129_FAMILY_INVENTORY_COUNTS.md): every colliding pair decomposes into
@@ -76,8 +77,8 @@ public sealed class LevelCollision : GameObject
     }
 
     /// <summary>One comb census: clean-triple count, colliding pairs (equal level mod BOTH
-    /// primes), split by overlap, plus one example pair (or null). Distinctness is proof
-    /// grade; a candidate pair is confirmed by the law itself (see the header).</summary>
+    /// primes), split by overlap, plus one example pair (or null). Zero candidates proves
+    /// exact distinctness; a nonzero candidate needs independent exact support (see header).</summary>
     public sealed record CombCensus(
         int N,
         bool Fires,
@@ -94,7 +95,7 @@ public sealed class LevelCollision : GameObject
     /// whose levels agree mod BOTH primes. The counts below are read off this list, so a reading that
     /// walks the pairs and the reading that counts them cannot drift apart. The one-sidedness is the
     /// header's: distinctness mod one prime proves exact distinctness, so no colliding pair is missed
-    /// and a listed pair is a candidate the law itself confirms.</summary>
+    /// and a listed pair is only a modular candidate until independently certified.</summary>
     public static List<((int K1, int K2, int K3) A, (int K1, int K2, int K3) B)> CollidingPairs(int n)
     {
         var triples = CleanTriples(n);
@@ -136,9 +137,9 @@ public sealed class LevelCollision : GameObject
         return new CombCensus(n, Fires(n), triples.Count, pairs.Count, disjoint, overlap1, exA, exB);
     }
 
-    /// <summary>The law over a range: at every non-firing n zero colliding pairs (injectivity,
-    /// proof grade via mod-p distinctness), at every firing n at least one; the observed
-    /// firing set equals the predicted set exactly.</summary>
+    /// <summary>Consistency check over a range: no modular candidates at non-firing n proves
+    /// injectivity there; at firing n, candidate existence agrees with the external exact law
+    /// but does not itself certify a specific pair.</summary>
     public static bool LawHolds(int lo, int hi)
     {
         for (int n = Math.Max(lo, 5); n <= hi; n++)
@@ -146,8 +147,8 @@ public sealed class LevelCollision : GameObject
         return true;
     }
 
-    /// <summary>The sub-law over a range: every overlap-1 colliding pair lives at 3|n
-    /// (the 10|n door is exclusively disjoint).</summary>
+    /// <summary>Modular-candidate check of the sub-law over a range: overlap-1 candidates
+    /// occur only at 3|n (the 10|n door is exclusively disjoint in the exact law).</summary>
     public static bool SubLawHolds(int lo, int hi)
     {
         for (int n = Math.Max(lo, 5); n <= hi; n++)

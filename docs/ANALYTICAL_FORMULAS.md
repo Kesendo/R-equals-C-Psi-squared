@@ -5143,8 +5143,9 @@ written down.
 two-sided, non-involutive, covering exactly the n_Z-odd ceiling territory that D₄'s
 class-swapping elements cannot enter), F71's bond mirror (spatial, site k ↔ N+1−k), and
 the dephase-letter swaps Q_zx / Q_yx (the Z↔Y swap is D itself, which is Welle 12; the
-other two need the X↔Z basis move). Adjoining the letter group S₃ would assemble the
-expected full mirror group **S₃ ⋉ D₄**; that completion is named open.
+other two need the X↔Z basis move). The earlier expected **S₃ ⋉ D₄** completion was
+resolved in [the factor proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md): letter S₃ does
+not normalize D₄; the coherence-space closure has order 96·2^N, not 48.
 
 **Verified (exact):** group closure |⟨R, D⟩| = 8, the factorization Π_Z = R·D, the dihedral
 relations, and all eight Pauli-basis forms at dev 0.00e+00 (N = 3, signed permutations
@@ -5582,8 +5583,9 @@ exponent has the fixed-γ ceiling **A_∞(γ) = 4 − φ(2J)/γ**, `φ(2J) = √
 the prefactor is `S_n(t*₀) = C(γ)·n^{−1/2}·e^{(φ/2J)n}` with **C(γ) = (2π)^{−1/2}·(γ/(γ+J))^{1/4}** (via
 `μ″(θ*) = 2J·√(Γ/(Γ+4J))`); the single-refill constant closes as **I₁ = 1/12 + ¼·∫₀^{2c}Ai(−w)dw =
 0.27694424** (`2c = 2^{2/3}·α`, `α` the first zero of `Ai′`), giving the pre-asymptotic climb
-`4 − 4.864·n^{−1/3}`; and the peak-tracking exponent is exactly **0** (the global maximum is the diffusive
-plateau, height `e^{−1/2}/√(2π)/n`), the trichotomy of front-survival readings.
+`4 − 4.864·n^{−1/3}`; and at fixed `γ > 0` the peak-tracking exponent tends to **0** in the far-site limit
+(the late diffusive contribution has height asymptotic to `e^{−1/2}/(√(2π)n)`, without an exact finite-`n`
+global-maximum claim), the trichotomy of front-survival readings.
 
 **Source:** [Proof](proofs/PROOF_DEPHASING_FRONT_RENEWAL.md);
 [`simulations/cone_front_survival_asymptote.py`](../simulations/cone_front_survival_asymptote.py)

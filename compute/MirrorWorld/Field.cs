@@ -21,6 +21,11 @@ public sealed class Field : GameObject
 
     public Field(World world, int n, double gamma) : base(world)
     {
+        if (n < 1 || n > 15) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be in [1,15] for the dense field");
+        if (!double.IsFinite(gamma) || gamma < 0.0)
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "the field uses a finite nonnegative dephasing rate");
+        if (!double.IsFinite(2.0 * gamma * n))
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "all field pair rates must be finite");
         N = n;
         Gamma = gamma;
         dim = 1 << n;
@@ -66,6 +71,8 @@ public sealed class Field : GameObject
     // the immortal diagonal (k=0, rate 0) is held -- 100% known waste, never recomputed (the knower's cut).
     public void Step(double dt)
     {
+        if (!double.IsFinite(dt) || dt < 0.0 || (Gamma > 0.0 && dt > 1.0 / (2.0 * Gamma * N)))
+            throw new ArgumentOutOfRangeException(nameof(dt), dt, "the Euler tick must keep every dephasing factor in [0,1]");
         foreach (var (i, j) in alive)
             w[i, j] *= 1.0 + rate[i, j] * dt;
         T += dt;

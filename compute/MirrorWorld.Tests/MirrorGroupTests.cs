@@ -13,6 +13,23 @@ public class MirrorGroupTests
 {
     static readonly World W = new();
 
+    [Fact]
+    public void Dense_Dissipator_Retains_A_Small_Rate_Between_Cancelling_Sites()
+    {
+        // Exercise the internal dense producer directly: the public split residual also contains
+        // an unrepresentable 2e16+2 intermediate, so it cannot certify a small absolute residual.
+        var dense = typeof(MirrorGroup).Assembly.GetType("MirrorWorld.Dense")!;
+        var siteZ = dense.GetMethod("SiteZ")!;
+        var dephasing = dense.GetMethod("Dephasing")!;
+        var zs = new Complex[3][,];
+        for (int l = 0; l < 3; l++) zs[l] = (Complex[,])siteZ.Invoke(null, new object[] { 3, l })!;
+        var rho = new Complex[8, 8];
+        rho[0, 7] = Complex.One;
+        var dRho = (Complex[,])dephasing.Invoke(null, new object[] { zs, new[] { 1e16, 1.0, -1e16 }, rho })!;
+        Assert.Equal(-2.0, dRho[0, 7].Real); // -2 sum gamma_l, where the exact sum is 1
+        Assert.Equal(0.0, dRho[0, 7].Imaginary);
+    }
+
     // |<R, D>| = 8: the dihedral D4, closed by brute composition from the two generators.
     [Fact]
     public void R_And_D_Close_Into_Eight()

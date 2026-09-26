@@ -35,6 +35,8 @@ public sealed class Mirror : GameObject
 
     public Mirror(World world, int n, double j, double gamma) : base(world)
     {
+        if (n < 1)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "the mirror needs at least one site");
         this.world = world;
         N = n;
         J = j;
@@ -54,6 +56,10 @@ public sealed class Mirror : GameObject
     // exactly Restless's -i[H,rho] restricted to the block).
     public Complex[,] BuildBlock(int p, int q, out List<int> kets, out List<int> bras)
     {
+        if (N > 30)
+            throw new InvalidOperationException("the dense bit-configuration block requires N <= 30");
+        if (p < 0 || p > N) throw new ArgumentOutOfRangeException(nameof(p), p, "a block sector lies in [0,N]");
+        if (q < 0 || q > N) throw new ArgumentOutOfRangeException(nameof(q), q, "a block sector lies in [0,N]");
         kets = Configs(N, p);
         bras = Configs(N, q);
         int dim = kets.Count * bras.Count;
@@ -90,7 +96,7 @@ public sealed class Mirror : GameObject
     public double KetFoldResidual(int p, int q)
         => LegResidual(p, q, N - p, q, (a, b) => (Complement(a), b), sign: -1, shift: Price);
 
-    // ---- where a RATE reading is still the whole truth, and where it stops being one ----
+    // ---- where a RATE reading is certified for every coupling ----
     //
     // The rate is the pair's OWN output, counted off the disagreement, and the block's diagonal is
     // built from exactly that (BuildBlock). The question this answers is not whether J moves the
@@ -110,16 +116,12 @@ public sealed class Mirror : GameObject
     // "corner block" for the (1,1)-type blocks, F125 for its own diagonal core, and Divisor.cs
     // has a Corners() of its own -- three other objects behind the same word.
     //
-    // On the remaining (N-1)^2 both sides can hop, A is no longer the whole off-diagonal story,
-    // and the real parts leave the diagonal: there a rate reading is the empty world's answer
-    // offered in a world that has a Hamiltonian. That is the OBSERVATION this class measures
-    // (the test asserts spread > 0 there) and it is NOT the proof of the converse: naming a
-    // mechanism forces nothing. The forcing is one line and it is a TRACE identity, F153's,
-    // which this class does not carry -- Re Tr L read off the cells against Re Tr L = Sum Re
-    // lambda gives Sum_cells (n_diff - n_min) = 0 with every term non-negative. See
-    // docs/ANALYTICAL_FORMULAS.md F153 and PinnedBlockFloorClaim.ConverseByTrace in the main
-    // repo; an earlier wording of F153 closed the converse with this paragraph's sentence and
-    // the entry now records that wording as superseded.
+    // On the remaining (N-1)^2 both sides can hop and, at gamma > 0, their diagonal rates spread.
+    // This entry-wise certificate no longer applies there. Spread alone does NOT prove that the
+    // spectral real parts differ from the diagonal rates at a chosen J: at J = 0 every block is
+    // diagonal, so the rate reading is whole even on the interior blocks. F153's separate TRACE
+    // identity proves only its floor criterion, not a converse about the entire rate multiset.
+    // See docs/ANALYTICAL_FORMULAS.md F153 and PinnedBlockFloorClaim.ConverseByTrace in the main repo.
     //
     // Both readings want gamma > 0, and this class accepts any gamma: at gamma = 0 the diagonal
     // is 0 on EVERY block, so nothing leaves it, the spread is 0 everywhere and the split below
@@ -130,7 +132,8 @@ public sealed class Mirror : GameObject
     // cannot move, and each is checkable cell by cell.
     //
     // Returns (diagonalSpread, offDiagonalRealMass, offDiagonalAsymmetry): all three exactly 0.0
-    // is the certificate that this block's rate reading is whole at any J.
+    // is a sufficient certificate that this block's rate reading is whole at any J; a nonzero
+    // spread is not a test of spectral failure at a particular J.
     public (double DiagonalSpread, double OffDiagonalRealMass, double OffDiagonalAsymmetry)
         RateReadingSplit(int p, int q)
     {

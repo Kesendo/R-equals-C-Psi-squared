@@ -84,8 +84,8 @@ public class LevelCollisionTests
     [Fact]
     public void TheCensusCountsMatchTheCommittedGateAtNamedCombs()
     {
-        // pinned against the committed gate's exact layer (simulations/f129_level_collision_law.py
-        // level_vec grouping, recomputed 2026-07-14: n=12 -> 25 exact pairs, n=20 -> 20).
+        // Pinned against the independent derived family inventory: n=12 -> 25 pairs, n=20 -> 20.
+        // These totals also exhaust the two-prime candidate lists at these two combs.
         Assert.Equal(25, LevelCollision.CensusOf(12).CollidingPairs);
         Assert.Equal(20, LevelCollision.CensusOf(20).CollidingPairs);
     }

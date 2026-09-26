@@ -36,6 +36,8 @@ public sealed class Lattice : GameObject
 
     public Lattice(World world, int n, double j = 1.0, double gamma = 0.5, double zz = 0.0) : base(world)
     {
+        if (n < 1 || n > 15)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "the four dense worlds need 1 <= N <= 15");
         N = n;
         J = j;
         Gamma = gamma;
@@ -118,8 +120,9 @@ public sealed class Lattice : GameObject
     // ---- the opening law (experiments/LATTICE_OPENING_LAW.md, found playing 2026-07-16): on the
     // cat pair psi(theta) = cos|0..0> + sin|1..1> the entry-wise distance between e and its
     // one-sided reading L has the closed form
-    //     opening(t) = max(cos^2, sin^2) - cos*sin * e^(-2*G*t),   G = sum of site rates = N*gamma here,
-    // "the heavier sock's weight minus the LIVING spook". Exact because the cat sector is H-dead
+    //     opening(t) = max(|cos^2 - x|, |sin^2 - x|), x = cos*sin * e^(-2*G*t), G = N*gamma.
+    // At nonnegative gamma and 0 <= theta <= pi/2 this is the heavier weight minus the living spook.
+    // Exact because the cat sector is H-dead
     // (a hop needs an excitation beside a hole; |0..0> has none, |1..1> has no hole; the ZZ term
     // gives both ends the same energy), so the e trajectory is pure dephasing and the bridge
     // relabels it entry-wise. Returns the worst |measured - closed form| over the run. ----
@@ -147,7 +150,8 @@ public sealed class Lattice : GameObject
             for (int i = 0; i < dim; i++)
                 for (int j = 0; j < dim; j++)
                     opening = Math.Max(opening, (e[i, j] - l[i, j]).Magnitude);
-            double predicted = Math.Max(c * c, s * s) - c * s * Math.Exp(-2.0 * bigGamma * (dt * tick));
+            double x = c * s * Math.Exp(-2.0 * bigGamma * (dt * tick));
+            double predicted = Math.Max(Math.Abs(c * c - x), Math.Abs(s * s - x));
             worst = Math.Max(worst, Math.Abs(opening - predicted));
             if (tick == ticks) break;
             e.Step(dt); l.Step(dt);

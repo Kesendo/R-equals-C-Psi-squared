@@ -13,6 +13,16 @@ public class DoubleSlitTests
     static readonly World W = new();
 
     [Fact]
+    public void A_Physical_Double_Slit_Rejects_Gain_And_An_Unstable_Euler_Tick()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new DoubleSlit(W, -0.5));
+        var slit = new DoubleSlit(W, 0.5);
+        Assert.Throws<ArgumentOutOfRangeException>(() => slit.Watch(3.0));
+        Assert.Equal(1.0, slit.Visibility);
+        Assert.Equal(0.0, slit.T);
+    }
+
+    [Fact]
     public void Humps_Are_Immortal_The_Fringe_Pays()
     {
         var ds = new DoubleSlit(W, G);

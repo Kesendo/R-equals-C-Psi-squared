@@ -29,6 +29,13 @@ namespace MirrorWorldTests;
 // rather than sweeping it.
 public class SiteTurnTests
 {
+    [Fact]
+    public void Negative_Zero_Does_Not_Create_An_Extra_Profile()
+    {
+        var report = new GammaFold(new World(), 2, siteGammas: new[] { -0.0, 1.0 }).SiteTurnGroup();
+        Assert.Equal(1, report.Support);
+        Assert.Equal(2, report.OrbitSize);
+    }
     [Theory]
     [InlineData(double.NaN)]
     [InlineData(double.PositiveInfinity)]
@@ -144,6 +151,14 @@ public class SiteTurnTests
         var r = fold.SiteTurnGroup();
         Assert.True(r.WorstSigmaResidual == 0.0,
             $"sigma(s_S gamma) = sigma - 2*sum_(l in S) gamma_l, residual {r.WorstSigmaResidual:E1}");
+    }
+
+    [Fact]
+    public void Sigma_Turn_Report_Retains_A_Small_Rate_After_Cancellation()
+    {
+        var fold = new GammaFold(W, 3, siteGammas: new[] { 1e16, 1.0, -1e16 });
+        Assert.Equal(1.0, fold.Sigma);
+        Assert.Equal(0.0, fold.SiteTurnGroup().WorstSigmaResidual);
     }
 
     // THE CRITERION, and the two rows that separate it from the obvious guess. Dissociation of the

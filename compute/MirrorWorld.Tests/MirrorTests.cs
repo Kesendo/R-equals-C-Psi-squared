@@ -12,6 +12,15 @@ public class MirrorTests
     const double J = 1.0, G = 0.5;
     static readonly World W = new();
 
+    [Fact]
+    public void A_Nonexistent_Block_Cannot_Give_A_Zero_Residual_Certificate()
+    {
+        var mirror = new Mirror(W, 3, J, G);
+        Assert.Throws<ArgumentOutOfRangeException>(() => mirror.TransposeResidual(-1, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => mirror.BraFoldResidual(0, 4));
+        Assert.Throws<ArgumentOutOfRangeException>(() => mirror.RateReadingSplit(-1, 0));
+    }
+
     // every leg holds on every block of the lattice, entry by entry, machine zero (N=4 and N=5).
     [Fact]
     public void Legs_Are_Exact_On_Every_Block()
@@ -143,9 +152,9 @@ public class MirrorTests
                     }
             }
     }
-    /// <summary>Where a RATE reading is still the whole truth. The answer is not "only in the
-    /// empty world", which is what this test claimed on its first draft: it is whole on 4N of
-    /// the (N+1)^2 blocks, at EVERY coupling.
+    /// <summary>Where a RATE reading is certified for every coupling. The answer is not "only in the
+    /// empty world", which is what this test claimed on its first draft: 4N of the (N+1)^2 blocks
+    /// have an entry-wise certificate at every coupling.
     ///
     /// <para>Pin one side and every cell of the block carries the same disagreement, so the
     /// diagonal is a constant c times the identity; the surviving side's hops enter as -iJ/+iJ,
@@ -163,9 +172,10 @@ public class MirrorTests
     /// F1SpectrumStatisticsTests.MaxF1RatePairingDistance_IsBlind_ToABreakThatMovesOnlyAFrequency
     /// needs a constructed spectrum to exhibit a break the rate projection cannot see. Here the
     /// blindness is LOCATED rather than merely exhibited, and it does not say a rate reading is
-    /// worthless: on 4N blocks it is exactly right, and on the other (N-1)^2 it is not.</para></summary>
+    /// worthless: on 4N blocks it is exactly right for every coupling. Interior blocks need a
+    /// separate spectral reading at a particular coupling.</para></summary>
     [Fact]
-    public void The_Rate_Reading_Is_Whole_On_Exactly_Four_N_Blocks()
+    public void The_Rate_Reading_Has_An_All_Coupling_Certificate_On_Four_N_Blocks()
     {
         foreach (int n in new[] { 4, 5, 6 })
             foreach (double j in new[] { 0.25, 1.0, 3.0 })
@@ -194,8 +204,8 @@ public class MirrorTests
                         }
                         else
                         {
-                            // both sides free: the diagonal spreads, and that spread is the room
-                            // J then has to move the real parts across
+                            // both sides free: the diagonal spreads, so this sufficient
+                            // all-coupling certificate does not apply
                             Assert.True(spread > 0.0,
                                 $"both sides can hop at N={n} ({p},{q}); if the diagonal is constant " +
                                 "there, the count below is wrong and the mechanism is not what this test says");
@@ -204,6 +214,22 @@ public class MirrorTests
 
                 Assert.Equal(4 * n, whole);
             }
+    }
+
+    [Fact]
+    public void At_Zero_Coupling_An_Interior_Block_Still_Has_Exactly_Its_Pair_Rates()
+    {
+        var mirror = new Mirror(W, n: 2, j: 0.0, gamma: 0.5);
+        var l = mirror.BuildBlock(1, 1, out _, out _);
+        var rates = new List<double>();
+        for (int r = 0; r < 4; r++)
+        {
+            rates.Add(l[r, r].Real);
+            for (int c = 0; c < 4; c++)
+                if (r != c) Assert.Equal(0.0, l[r, c].Magnitude);
+        }
+        Assert.Equal(new[] { -2.0, -2.0, 0.0, 0.0 }, rates.OrderBy(x => x).ToArray());
+        Assert.Equal(2.0, mirror.RateReadingSplit(1, 1).DiagonalSpread);
     }
 
 

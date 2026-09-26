@@ -221,7 +221,8 @@ public sealed class BlindSeat : GameObject
         return unknowns - ModP.Rank(rows, p);
     }
 
-    // The closed form on the UNIFORM chain, one per book: integer arithmetic over the public Cyclotomy gcd.
+    // Reference closed form for a connected, nonzero UNIFORM chain, one per book. This deliberately
+    // remains callable on other profiles as a comparison; Blind(seat) reads the actual instance.
     public int UniformLaw(int seat) => Seat(seat) && zz
         ? (Cyclotomy.Gcd(2 * seat + 1, N) - 1) / 2
         : Cyclotomy.Gcd(seat + 1, N + 1) - 1;

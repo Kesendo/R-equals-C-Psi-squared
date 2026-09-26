@@ -50,10 +50,15 @@ public static class ModP
     public static long MulMod(long a, long b, long p)
         => (long)((UInt128)(ulong)Mod(a, p) * (ulong)Mod(b, p) % (ulong)p);
 
+    /// <summary>a+b mod p, widening before addition so two top residues cannot wrap.</summary>
+    public static long AddMod(long a, long b, long p)
+        => (long)(((UInt128)(ulong)Mod(a, p) + (ulong)Mod(b, p)) % (ulong)p);
+
     /// <summary>b^e mod p by square-and-multiply.</summary>
     public static long ModPow(long b, long e, long p)
     {
         if (p <= 0) throw new ArgumentOutOfRangeException(nameof(p), p, "a modulus must be positive");
+        if (e < 0) throw new ArgumentOutOfRangeException(nameof(e), e, "the exponent must be nonnegative");
         long r = 1 % p;
         b = Mod(b, p);
         while (e > 0)
@@ -128,11 +133,15 @@ public static class ModP
     }
 
     /// <summary>An element of EXACT multiplicative order `order` mod p (the cyclotomic atom: it is
-    /// the zeta the level and resonance counts evaluate their cosines at). Requires order | p-1;
+    /// the zeta the level and resonance counts evaluate their cosines at). Requires prime p and order | p-1;
     /// returns 0 if no such element is found below t = 500.</summary>
     public static long RootOfOrder(int order, long p)
     {
         if (order <= 0) throw new ArgumentOutOfRangeException(nameof(order), order, "a root has a positive order");
+        if (p <= 1) throw new ArgumentOutOfRangeException(nameof(p), p, "a field modulus exceeds one");
+        if (!IsPrime(p)) throw new ArgumentException("the field modulus must be prime", nameof(p));
+        if ((p - 1) % order != 0)
+            throw new ArgumentException("the order must divide p - 1", nameof(order));
         if (order == 1) return 1;
         var qs = PrimeFactors(order);
         for (long x = 2; x < 500; x++)
@@ -147,8 +156,8 @@ public static class ModP
         return 0;
     }
 
-    /// <summary>A field the comb can be evaluated in: the smallest prime p &gt; max(above, 10^6) with
-    /// p = 1 (mod order), together with an element zeta of EXACT multiplicative order `order` mod p.
+    /// <summary>A field the comb can be evaluated in: the first prime p &gt; max(above, 10^6) usable
+    /// by the bounded x &lt; 500 root search, with p = 1 (mod order) and a root of EXACT order.
     /// This is the setting the cosine readings live in, since 2cos(m pi / n) = zeta^m + zeta^-m once
     /// zeta has order 2n. Pass the first prime as `above` to get a second, independent one.
     ///
@@ -161,7 +170,13 @@ public static class ModP
     {
         if (order <= 0) throw new ArgumentOutOfRangeException(nameof(order), order, "a root has a positive order");
         if (above < 0) throw new ArgumentOutOfRangeException(nameof(above), above, "the floor is a prime already found, or zero");
-        for (long k = Math.Max(above, 1_000_000L) / order + 1; ; k++)
+        long floor = Math.Max(above, 1_000_000L);
+        long lastK = (long.MaxValue - 1) / order;
+        long firstK = floor / order;
+        if (floor % order != 0) firstK++;
+        if (firstK > lastK)
+            throw new InvalidOperationException("no representable cyclotomic prime remains above the floor");
+        for (long k = firstK; k <= lastK; k++)
         {
             long p = (long)order * k + 1;
             if (!IsPrime(p)) continue;
@@ -169,13 +184,16 @@ public static class ModP
             if (zeta == 0) continue;
             return (p, zeta);
         }
+        throw new InvalidOperationException("no representable cyclotomic prime was found above the floor");
     }
 
     /// <summary>The rank of the row set over GF(p), by Gaussian elimination. Rows may be longer or
     /// shorter in number than the column count; entries may be of either sign and unreduced.</summary>
     public static int Rank(IReadOnlyList<long[]> rows, long p)
     {
-        if (p <= 0) throw new ArgumentOutOfRangeException(nameof(p), p, "a modulus must be positive");
+        if (p <= 1) throw new ArgumentOutOfRangeException(nameof(p), p, "a field modulus exceeds one");
+        if (!IsPrime(p))
+            throw new ArgumentException("the field modulus must be prime", nameof(p));
         int n = rows.Count;
         if (n == 0) return 0;
         int cols = rows[0].Length;

@@ -20,6 +20,19 @@ public class WarbleTests
 {
     static readonly World W = new();
 
+    [Fact]
+    public void A_Zero_Or_Empty_Launch_Has_No_Normalized_Reversal()
+    {
+        Assert.True(double.IsNaN(Warble.ReversalDepth(new[] { 0.0, 0.0 }, out int kZero)));
+        Assert.Equal(-1, kZero);
+        Assert.True(double.IsNaN(Warble.ReversalDepth(Array.Empty<double>(), out int kEmpty)));
+        Assert.Equal(-1, kEmpty);
+        Assert.True(double.IsNaN(Warble.ZeroCrossing(new[] { 0.0, 1.0 }, 0.1)));
+        Assert.True(double.IsNaN(Warble.ReversalDepth(new[] { 1.0, double.NaN }, out int kNan)));
+        Assert.Equal(-1, kNan);
+        Assert.True(double.IsNaN(Warble.ZeroCrossing(new[] { 1.0, double.PositiveInfinity }, 0.1)));
+    }
+
     // the expensive fixtures, one per gamma (N=8, m=1, delta=0.15, dt=0.02).
     static readonly Lazy<double[]> G000 = new(() => Warble.CurrentSeries(W, 8, 1.0, 0.00, m: 1, delta: 0.15, dt: 0.02, tMax: 58.0));
     static readonly Lazy<double[]> G001 = new(() => Warble.CurrentSeries(W, 8, 1.0, 0.01, m: 1, delta: 0.15, dt: 0.02, tMax: 58.0));

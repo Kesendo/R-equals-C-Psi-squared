@@ -21,7 +21,7 @@ public sealed class Cone : GameObject
     public double T { get; private set; }
 
     readonly Complex[,] rho;        // N x N: rho[a,b] = coherence between excitation-at-a and excitation-at-b
-    readonly double[,] hop;         // the tight-binding H on the sites (J on a bond, else 0)
+    readonly double[,] hop;         // the tight-binding H on the sites (parallel bonds add their J)
     readonly double[]? siteGamma;   // optional per-site rates; null = the uniform Gamma
     int[][]? nbr;                   // per site: the bonded sites (rebuilt from hop when a bond changes)
     double[][]? nbrJ;               // per site: the matching couplings
@@ -29,18 +29,53 @@ public sealed class Cone : GameObject
     public Cone(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null,
         double[]? siteGammas = null) : base(world)
     {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "the cone needs at least one site");
+        if (!double.IsFinite(j)) throw new ArgumentOutOfRangeException(nameof(j), j, "the hopping strength must be finite");
+        if (!double.IsFinite(gamma) || (siteGammas is null && !double.IsFinite(-4.0 * gamma)))
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "the uniform pair rate must be finite");
+        if (siteGammas is not null && siteGammas.Length != n)
+            throw new ArgumentException("the rate profile needs one value per site", nameof(siteGammas));
+        if (siteGammas is not null)
+        {
+            if (siteGammas.Any(rate => !double.IsFinite(rate)))
+                throw new ArgumentOutOfRangeException(nameof(siteGammas), "site rates must be finite");
+            for (int a = 0; a < n; a++)
+                for (int b = a + 1; b < n; b++)
+                    if (!double.IsFinite(-2.0 * (siteGammas[a] + siteGammas[b])))
+                        throw new ArgumentOutOfRangeException(nameof(siteGammas), "every pair rate must be finite");
+        }
+        var geometry = bonds ?? Topology.Chain(n);
+        foreach (var (a, b) in geometry)
+        {
+            if (a < 0 || a >= n || b < 0 || b >= n)
+                throw new ArgumentOutOfRangeException(nameof(bonds), $"bond ({a},{b}) needs two sites in [0,{n})");
+            if (a == b)
+                throw new ArgumentException("a hopping bond must join two distinct sites", nameof(bonds));
+        }
         N = n;
         J = j;
         Gamma = gamma;
         siteGamma = siteGammas is null ? null : (double[])siteGammas.Clone();
         rho = new Complex[n, n];
         hop = new double[n, n];
-        foreach (var (a, b) in bonds ?? Topology.Chain(n)) { hop[a, b] = j; hop[b, a] = j; }
+        foreach (var (a, b) in geometry)
+        {
+            hop[a, b] += j; hop[b, a] += j;
+            if (!double.IsFinite(hop[a, b]))
+                throw new ArgumentOutOfRangeException(nameof(j), j, "the summed bond strength must be finite");
+        }
     }
 
-    // re-tune one bond's coupling (the defect knob of the walk-time step); symmetric. Configuration: set it
-    // before seeding and running, the way the constructor's bonds are.
-    public void SetBond(int a, int b, double j) { hop[a, b] = j; hop[b, a] = j; nbr = null; }
+    // Set the total coupling for a site pair, replacing the sum of any parallel constructor bonds.
+    // For a single bond this is the walk-time defect knob. Set it before seeding and running.
+    public void SetBond(int a, int b, double j)
+    {
+        if (a < 0 || a >= N) throw new ArgumentOutOfRangeException(nameof(a));
+        if (b < 0 || b >= N) throw new ArgumentOutOfRangeException(nameof(b));
+        if (a == b) throw new ArgumentException("a hopping bond must join two distinct sites", nameof(b));
+        if (!double.IsFinite(j)) throw new ArgumentOutOfRangeException(nameof(j), j, "the bond strength must be finite");
+        hop[a, b] = j; hop[b, a] = j; nbr = null;
+    }
 
     // H is sparse (a chain has two neighbours); walk only the bonds instead of all N columns.
     void RebuildNeighbours()

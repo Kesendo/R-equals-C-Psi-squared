@@ -23,7 +23,12 @@ Define the **lattice opening** as the entry-wise distance between the two worlds
 
 ## The law
 
+For dephasing Γ = Nγ ≥ 0 and 0 ≤ θ ≤ π/2,
+
     opening(t) = max(cos²θ, sin²θ) − cos θ · sin θ · e^(−2Γt)
+
+For a formal gain turn or a preparation outside that angle range, the entry-wise distance is
+`max(|cos²θ − x|, |sin²θ − x|)` with `x = cos θ · sin θ · e^(−2Γt)`.
 
 **In words: opening = the heavier sock's weight minus the LIVING spook.** Two
 contributions, cleanly separated:
@@ -46,7 +51,7 @@ to a hole, and |0…0⟩ has no excitation while |1…1⟩ has no hole, so the X
 annihilates both ends at every N; the ZZ bond gives both ends the SAME diagonal
 energy, so the spook collects no phase either. The e-world trajectory is therefore
 pure dephasing: populations frozen at cos²θ / sin²θ, spook = cos θ·sin θ·e^(−2Γt).
-The bridge then gives the opening entry-wise, and with c² + s² = 1 and c·s·k ≤ ½ the
+The bridge then gives the opening entry-wise, and in the dephasing range with c² + s² = 1 and 0 ≤ c·s·k ≤ ½ the
 maximum entry is max(c², s²) − c·s·k. Gate T2 pins the consequence from below: the
 opening trajectories at J = 0.4 and J = 1.7, and with zz = 0.8, are bit-identical
 (deviation exactly 0.0).

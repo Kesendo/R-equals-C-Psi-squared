@@ -31,11 +31,11 @@ Composing with the committed one-sided X^N bridge (the Lattice reading L(t)[i,j]
 
 ## Verification (the adopted pins)
 
-Adopted into MirrorWorld as `GammaFold` (`compute/MirrorWorld/GammaFold.cs`, run mode `gammafold N`; suite 240 via `GammaFoldTests`):
+Adopted into MirrorWorld as `GammaFold` (`compute/MirrorWorld/GammaFold.cs`, run mode `gammafold N`; MirrorWorld's adoption-time suite had 240 tests, including `GammaFoldTests`; current count in the MirrorWorld README):
 
 - the generator identity per cell at machine zero (2.2e−16) for a non-uniform site profile, ZZ on or off;
 - the fixed-σ formal affine identities exactly (involution, translation step 2σ), and the order-two physical profile/rule composite separately;
-- the veil law over twin RK4 at 2.6e−8 (dt = 0.02, the RK4 truncation of the scalar shift), with the amplification witness gain/anti novelty = e^(+2σt) (novelty = the summed off-diagonal coherence weight; the law is analytically exact, the twin-RK4 witness matches it to 1e−4; the trace is blind to γ in every world, the growth lives in the coherences);
+- the veil law over twin RK4 at 2.6e−8 (dt = 0.02, the RK4 truncation of the scalar shift), with the amplification witness gain/anti novelty = e^(+2σt) (novelty = the summed off-diagonal coherence weight; the law is analytically exact, the twin-RK4 witness matches it to 1e−4; gain keeps trace 1 while anti-watch carries trace e^(−2σt) for the normalized seed);
 - the discriminator: the veil against the unflipped (+γ) world misses at 0.057, so the gain flip is load-bearing;
 - the X^N cross-dock at 4.5e−8.
 

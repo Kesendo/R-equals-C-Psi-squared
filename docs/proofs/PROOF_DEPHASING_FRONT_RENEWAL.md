@@ -85,7 +85,7 @@ The experiment `experiments/COUPLING_DEFECT_WALK_TIME_STEP.md` (follow-ups two t
 1. **The survival ceiling** (asymptotic, Gärtner-Ellis on the tilted pole μ(θ) = √(Γ² + 16J²·sinh²(θ/2)), numerically confirmed): the front-peak survival exponent approaches A_∞(γ) = 4 − φ(2J)/γ with φ(2J) = √(Γ(Γ+4J)) − 4J·arcsinh√(Γ/4J); small γ: 4 − (8/3)·√(γ/J). The naive "the front asymptotically pays the full γ_φ" is false at every fixed γ.
 2. **The prefactor** (leading saddle, symbolically exact constants): S_n(t*₀) = C(γ)·n^{−1/2}·e^{(φ/2J)n} with C(γ) = (2π)^{−1/2}·(γ/(γ+J))^{1/4}, via μ″(θ*) = 2J·√(Γ/(Γ+4J)).
 3. **The refill constant** (rigorous leading-order stationary phase): the single-refill front integral saturates to I₁ = 1/12 + ¼∫₀^{2c}Ai(−w)dw = 0.27694424, 2c = 2^{2/3}·α, α the first zero of Ai′; the pre-asymptotic climb of the exponent is 4 − (8·I₁/0.45547)·n^{−1/3}.
-4. **The third reading** (exact): the global-in-time maximum of P_n is the diffusive plateau of the p → 0 pole (peak at t = n²/2D, height e^{−1/2}/√(2π)/n), so the peak-tracking survival exponent is exactly zero; fixed-time, windowed, and peak-tracking readings of "front survival" form the experiment's trichotomy.
+4. **The third reading** (fixed γ > 0, far-site asymptotic): the diffusive p → 0 pole has a peak near t = n²/2D, with height asymptotic to e^{−1/2}/(√(2π)n) as n → ∞. This algebraic late-time contribution gives zero peak-tracking exponential rate in that limit. It is not an exact finite-n formula for the global-in-time maximum: a near-clean first peak can be higher at small n, and γ = 0 has no diffusive plateau. Fixed-time, windowed, and peak-tracking readings of "front survival" form the experiment's trichotomy.
 
 ## Links
 

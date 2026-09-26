@@ -10,6 +10,30 @@ public class FieldTests
     const double G = 0.5;
     static readonly World W = new();
 
+    [Fact]
+    public void Field_Rejects_Rate_Overflow_And_Zero_Step_Is_Identity()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Field(W, 1, 1e308));
+        var field = new Field(W, 2, G);
+        field[0, 3] = 0.75;
+        field.Step(0.0);
+        Assert.Equal(0.75, field[0, 3]);
+        Assert.Equal(0.0, field.T);
+    }
+
+    [Fact]
+    public void Euler_Step_Rejects_A_Time_Increment_That_Would_Reverse_A_Decay()
+    {
+        var f = new Field(W, 2, 0.5);
+        f.SeedUniform();
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.Step(0.6)); // k=2 factor would be -0.2
+        Assert.Throws<ArgumentOutOfRangeException>(() => f.Step(-0.1));
+        Assert.Equal(0.0, f.T);
+        Assert.Equal(1.0, f[0, 3]);
+        f.Step(0.5); // boundary factor is exactly zero
+        Assert.Equal(0.0, f[0, 3]);
+    }
+
     // the one question (rule 2): a pair fades by exactly its Pair rate (1 + Re lambda * dt); k=0 stays.
     [Fact]
     public void Field_Step_Fades_Each_Pair_By_Its_Pair_Rate()

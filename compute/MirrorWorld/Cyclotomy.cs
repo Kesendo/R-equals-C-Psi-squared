@@ -66,7 +66,13 @@ public sealed class Cyclotomy : GameObject
     }
 
     // The order of a turn fraction: the smallest n' with j/n = j'/n'. Everything else keys off it.
-    public static int Order(int j, int n) => n / Gcd(Math.Abs(j) % n == 0 ? n : Math.Abs(j), n);
+    public static int Order(int j, int n)
+    {
+        if (n <= 0) throw new ArgumentOutOfRangeException(nameof(n), n, "a turn denominator must be positive");
+        int residue = j % n;
+        if (residue < 0) residue += n;
+        return n / Gcd(residue, n);
+    }
 
     public static bool IsRational(int order) => RationalOrders.Contains(order);
 

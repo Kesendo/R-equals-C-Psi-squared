@@ -5,8 +5,9 @@ namespace MirrorWorld;
 // The warble (built 2026-08-31 beside experiments/THE_CRACKED_BELL.md, the bell-founder's word for the
 // beat of a cracked bell): crack the ring's wrap bond to J' = J(1-delta) (the walk-time knob strengthens
 // its bond, J(1+delta); the crack weakens -- mind the sign when porting delta) and the uniform ring's m <-> N-m
-// traveling-wave pairs, degenerate before the crack, split by the SAME 4*delta*J/N at every m -- a point
-// defect is flat in mode space. Launch the perfect ring's traveling wave on the cracked ring and the
+// traveling-wave pairs, degenerate before the crack, split by the SAME 4*delta*J/N at every m TO FIRST
+// ORDER in delta -- a point defect is flat in mode space at that order. At finite delta Crack's exact
+// curve resolves mode-dependent corrections. Launch the perfect ring's traveling wave on the cracked ring and the
 // split partners beat: the wave's sense of circulation dies at T_zero ~ pi*N/(8*delta*J) and is fully
 // REVERSED at T_rev ~ pi*N/(4*delta*J) (first order). This is the walk-time step's discarded O(delta)
 // reflection, resonantly accumulated by the closed ring until it is the whole signal.
@@ -59,6 +60,8 @@ public static class Warble
     // first zero crossing of I(t), linearly interpolated: the moment the circulation dies before turning.
     public static double ZeroCrossing(double[] series, double dt)
     {
+        if (series.Length == 0 || series[0] == 0.0 || series.Any(x => !double.IsFinite(x)))
+            return double.NaN;
         for (int k = 1; k < series.Length; k++)
         {
             double r0 = series[k - 1] / series[0], r1 = series[k] / series[0];
@@ -70,6 +73,11 @@ public static class Warble
     // the deepest reversal: min over t of R(t) = I(t)/I(0) (-1 = the wave came back whole).
     public static double ReversalDepth(double[] series, out int kRev)
     {
+        if (series.Length == 0 || series[0] == 0.0 || series.Any(x => !double.IsFinite(x)))
+        {
+            kRev = -1;
+            return double.NaN;
+        }
         double best = double.PositiveInfinity; kRev = 0;
         for (int k = 0; k < series.Length; k++)
         {

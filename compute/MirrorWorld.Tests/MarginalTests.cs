@@ -13,6 +13,17 @@ public class MarginalTests
     const double G = 0.05;
     static readonly World W = new();
 
+    [Fact]
+    public void Identity_Page_Keeps_One_Sided_Operators_One_Sided()
+    {
+        var raw = new Restless(W, 1, 0.0, 0.0);
+        raw.SeedRaw(0, 1, 1.0);
+        var page = new Marginal(raw, new[] { 0 });
+        Assert.Equal(Complex.One, page[0, 1]);
+        Assert.Equal(Complex.Zero, page[1, 0]);
+        Assert.Equal(raw.Novelty, page.Novelty);
+    }
+
     // a deterministic generic Field cloud at N=3: every cell set, sign-mixed, all popcount sectors hit.
     static Field GenericCloud()
     {

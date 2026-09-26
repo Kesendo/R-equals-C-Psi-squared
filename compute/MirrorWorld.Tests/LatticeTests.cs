@@ -178,6 +178,14 @@ public class LatticeTests
         Assert.True(fastHop.OpeningLawDeviation(Math.PI / 6, 0.025, 80) < 1e-6);
     }
 
+    [Fact]
+    public void The_Opening_Is_Still_A_Nonnegative_Distance_Under_Formal_Gain()
+    {
+        var lattice = new Lattice(W, 2, gamma: -0.5);
+        double deviation = lattice.OpeningLawDeviation(Math.PI / 4, dt: 0.005, ticks: 200);
+        Assert.True(deviation < 1e-6, $"gain opening deviation = {deviation:E1}");
+    }
+
     // The axis that governs is the SEED, i.e. how many nonzero terms the contraction's row sums
     // hold. gamma and J were swept too and never turned the effect on or off in anything measured,
     // but that is an observation and not a proof: gamma scales only the dephasing mask while J

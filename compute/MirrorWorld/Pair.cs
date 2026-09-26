@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace MirrorWorld;
 
 // A pair of versions |i><j|: the first real object in the world. It inherits the frame (x,y,z) from
@@ -12,21 +14,15 @@ public sealed class Pair : GameObject
 
     public Pair(World world, int i, int j, double gamma) : base(world)
     {
+        if (i < 0) throw new ArgumentOutOfRangeException(nameof(i), i, "a basis label is nonnegative");
+        if (j < 0) throw new ArgumentOutOfRangeException(nameof(j), j, "a basis label is nonnegative");
         I = i;
         J = j;
         Gamma = gamma;
     }
 
     // left: the pair's own.
-    public int Disagreement
-    {
-        get
-        {
-            int x = I ^ J, c = 0;
-            while (x != 0) { c += x & 1; x >>= 1; }
-            return c;
-        }
-    }
+    public int Disagreement => BitOperations.PopCount((uint)(I ^ J));
 
     public double Rate => -2.0 * Gamma * Disagreement;   // Re lambda
 

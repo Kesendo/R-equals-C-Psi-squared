@@ -11,6 +11,38 @@ public class RestlessTests
     const double G = 0.5;
     static readonly World W = new();
 
+    [Fact]
+    public void Restless_Rejects_Nonfinite_Generator_Coefficients()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Restless(W, 1, 0.0, 1e308));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Restless(W, 1, 0.0, -1e308));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Restless(W, 2, 0.0, 0.0, siteGammas: new[] { 1e308, 1e308 }));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Restless(W, 2, double.NaN, 0.0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Restless(W, 2, 0.0, 0.0, zz: double.PositiveInfinity));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Restless(W, 2, 1e308, 0.0, bonds: new[] { (0, 1), (0, 1) }));
+    }
+
+    [Fact]
+    public void Finite_Signed_Site_Masks_Are_Not_Rejected_By_Absolute_Rate_Budget()
+    {
+        var world = new Restless(W, 2, 0.0, 0.0, siteGammas: new[] { 8e307, -8e307 });
+        world.SeedCoherence(0, 3, 1.0);
+        world.Step(0.0);
+        Assert.Equal(1.0, world[0, 3].Magnitude);
+    }
+
+    [Fact]
+    public void Dense_World_Rejects_Shift_Wrap_In_Site_Count()
+        => Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new Restless(W, 32, 0.0, 0.0, bonds: Array.Empty<(int, int)>()));
+
+    [Fact]
+    public void Restless_Requires_Exactly_One_Rate_Per_Site()
+    {
+        Assert.Throws<ArgumentException>(() => new Restless(W, 2, 1.0, 0.0, siteGammas: new[] { 0.5 }));
+        Assert.Throws<ArgumentException>(() => new Restless(W, 2, 1.0, 0.0, siteGammas: new[] { 0.5, 0.5, 123.0 }));
+    }
+
     // the key new behavior (rule 4): from a pure population (no novelty), the handshake BIRTHS coherence.
     // step 1 could only fade; step 2 makes novelty out of structure.
     [Fact]

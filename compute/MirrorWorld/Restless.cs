@@ -18,7 +18,7 @@ public sealed class Restless : GameObject
     public double T { get; private set; }
 
     readonly int dim;
-    readonly Complex[,] rho;        // the living weights (rho = rho-dagger)
+    readonly Complex[,] rho;        // density matrix or a non-Hermitian one-sided reading from SeedRaw
     readonly double[,] mask;        // the watching: D[rho]_ij = -2*gamma*k * rho_ij, read from Pair
     readonly int[,] dis;            // disagreement k per cell, read from Pair
     readonly double[,] h;           // the handshake H: flip-flop on the bonds (real, symmetric)
@@ -45,6 +45,28 @@ public sealed class Restless : GameObject
     public Restless(World world, int n, double j, double gamma, (int a, int b)[]? bonds = null,
         bool antiWatching = false, double[]? siteGammas = null, double zz = 0.0) : base(world)
     {
+        if (n < 1 || n > 15)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "the dense world needs 1 <= N <= 15 (4^N cells must fit an int)");
+        if (!double.IsFinite(j)) throw new ArgumentOutOfRangeException(nameof(j), j, "the hopping strength must be finite");
+        if (!double.IsFinite(zz)) throw new ArgumentOutOfRangeException(nameof(zz), zz, "the ZZ strength must be finite");
+        if (!double.IsFinite(gamma) || (siteGammas is null && !double.IsFinite(2.0 * gamma * n)))
+            throw new ArgumentOutOfRangeException(nameof(gamma), gamma, "the uniform pair rates must be finite");
+        if (siteGammas is not null && siteGammas.Length != n)
+            throw new ArgumentException("the rate profile needs one value per site", nameof(siteGammas));
+        if (siteGammas is not null)
+        {
+            foreach (double rate in siteGammas)
+                if (!double.IsFinite(rate) || !double.IsFinite(-2.0 * rate))
+                    throw new ArgumentOutOfRangeException(nameof(siteGammas), "every site-rate term must be finite");
+        }
+        var geometry = bonds ?? Topology.Chain(n);
+        foreach (var (a, b) in geometry)
+        {
+            if (a < 0 || a >= n || b < 0 || b >= n)
+                throw new ArgumentOutOfRangeException(nameof(bonds), $"bond ({a},{b}) needs two sites in [0,{n})");
+            if (a == b)
+                throw new ArgumentException("a hopping bond must join two distinct sites", nameof(bonds));
+        }
         N = n;
         J = j;
         Gamma = gamma;
@@ -52,7 +74,7 @@ public sealed class Restless : GameObject
         this.antiWatching = antiWatching;
         hasSiteGammas = siteGammas is not null;
         dim = 1 << n;
-        this.bonds = (bonds ?? Topology.Chain(n)).ToArray();
+        this.bonds = geometry.ToArray();
         rho = new Complex[dim, dim];
         mask = new double[dim, dim];
         dis = new int[dim, dim];
@@ -62,19 +84,33 @@ public sealed class Restless : GameObject
                 var p = new Pair(world, i, jj, gamma);   // the atom: its own disagreement and its own rate
                 if (siteGammas != null)
                 {
-                    double rate = 0.0;                   // site-resolved watching: -2 sum_l gamma_l * (bit l of i^j);
+                    double rate = 0.0, correction = 0.0; // site-resolved watching: -2 sum_l gamma_l * (bit l of i^j);
                     int diffbits = i ^ jj;               // antiWatching turns each site: agreement watched instead
                     for (int l = 0; l < n; l++)
-                        if ((((diffbits >> l) & 1) == 1) != antiWatching) rate -= 2.0 * siteGammas[l];
-                    mask[i, jj] = rate;
+                        if ((((diffbits >> l) & 1) == 1) != antiWatching)
+                        {
+                            double term = -2.0 * siteGammas[l];
+                            double next = rate + term;
+                            correction += Math.Abs(rate) >= Math.Abs(term)
+                                ? (rate - next) + term
+                                : (term - next) + rate;
+                            rate = next;
+                        }
+                    mask[i, jj] = rate + correction;
                 }
                 else
                     mask[i, jj] = antiWatching ? -2.0 * gamma * (n - p.Disagreement) : p.Rate;
+                if (!double.IsFinite(mask[i, jj]))
+                    throw new ArgumentOutOfRangeException(siteGammas is null ? nameof(gamma) : nameof(siteGammas),
+                        "every dephasing mask entry must be finite");
                 dis[i, jj] = p.Disagreement;
             }
         pc = new int[dim];
         for (int i = 0; i < dim; i++) pc[i] = BitOperations.PopCount((uint)i);
         h = BuildHandshake();
+        foreach (double entry in h)
+            if (!double.IsFinite(entry))
+                throw new ArgumentOutOfRangeException(nameof(bonds), "the summed hopping and ZZ coefficients must be finite");
     }
 
     public int Dim => dim;

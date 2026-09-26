@@ -32,6 +32,8 @@ public sealed class PauliMode : GameObject
     // Shared by the sim and the tests.
     public static IEnumerable<PauliMode> Enumerate(World world, int n, double gamma)
     {
+        if (n < 0 || n > 15)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "4^N must fit an int for enumeration");
         char[] alphabet = { 'I', 'X', 'Y', 'Z' };
         int total = 1 << (2 * n);
         for (int idx = 0; idx < total; idx++)

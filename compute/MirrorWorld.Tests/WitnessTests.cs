@@ -11,6 +11,24 @@ namespace MirrorWorldTests;
 public class WitnessTests
 {
     static readonly World W = new();
+
+    [Fact]
+    public void A_Witness_Page_Requires_Two_Distinct_Sites()
+        => Assert.Throws<ArgumentException>(() => new Witness(W, new[] { (0, 1, 1.0) }, 0, 0));
+
+    [Fact]
+    public void Remote_Bonds_Do_Not_Enter_The_Two_Site_Record()
+    {
+        var remote = TriangleEven.Concat(new[]
+        {
+            (3, 4, double.MaxValue), (3, 4, double.MaxValue)
+        }).ToArray();
+        var expected = new Witness(W, TriangleEven, 0, 1);
+        var actual = new Witness(W, remote, 0, 1);
+        Assert.Equal(expected.Family, actual.Family);
+        Assert.Equal(expected.Sign, actual.Sign);
+        Assert.Equal(expected.Bits, actual.Bits);
+    }
     const double G = 0.05;                                   // canonical gamma
     const double PointerPriced = 0.7680396679759238;         // 1 - h2((1+e^{-2g t*})/2), the F135 number
     const double BellPriced = 0.6241464301142645;            // 1 - h2((1+e^{-4g t*})/2), both sites pay
@@ -19,6 +37,94 @@ public class WitnessTests
     static readonly (int, int, double)[] TriangleOdd = { (0, 1, 1.0), (0, 2, 1.0), (1, 2, 1.0) };
     static readonly (int, int, double)[] TriangleEven = { (0, 1, 1.0), (0, 2, 1.0), (1, 2, 2.0) };
     static readonly (int, int, double)[] Square = { (0, 1, 1.0), (1, 2, 1.0), (2, 3, 1.0), (3, 0, 1.0) };
+
+    [Fact]
+    public void Zero_Bonds_Do_Not_Create_Watchers_Or_Change_The_Record()
+    {
+        var withZero = new Witness(W, new[] { (0, 1, 1.0), (1, 2, 1.0), (0, 2, 0.0) }, 0, 1);
+        var chain = new Witness(W, Chain3, 0, 1);
+        Assert.Equal(chain.Family, withZero.Family);
+        Assert.Equal(chain.Bits, withZero.Bits);
+        Assert.Equal(Witness.Kind.RoleSwap, withZero.Family);
+    }
+
+    [Fact]
+    public void Parallel_And_Reversed_Bonds_Add_Their_Couplings_Before_Parity_Is_Read()
+    {
+        var split = new Witness(W, new[] { (0, 1, 1.0), (0, 2, 1.0), (1, 2, 1.0), (2, 1, 1.0) }, 0, 1);
+        var summed = new Witness(W, TriangleEven, 0, 1);
+        Assert.Equal(Witness.Kind.Pointer, split.Family);
+        Assert.Equal(summed.Letter, split.Letter);
+        Assert.Equal(summed.Sign, split.Sign);
+        Assert.Equal(summed.Bits, split.Bits);
+    }
+
+    [Fact]
+    public void Cancellation_In_Parallel_Bonds_Does_Not_Erase_A_Representable_Write_Bond()
+    {
+        var split = new Witness(W, new[]
+        {
+            (0, 1, 1e16), (0, 1, 1.0), (0, 1, -1e16), (0, 2, 1.0), (1, 2, 2.0)
+        }, 0, 1);
+        var summed = new Witness(W, TriangleEven, 0, 1);
+        Assert.Equal(Witness.Kind.Pointer, split.Family);
+        Assert.Equal(summed.Sign, split.Sign);
+        Assert.Equal(summed.Bits, split.Bits);
+    }
+
+    [Fact]
+    public void Large_Intermediate_Bond_Magnitudes_Cancel_Before_Classification()
+    {
+        var bonds = new[]
+        {
+            (0, 1, 1e308), (0, 1, 1e308), (0, 1, -1e308), (0, 1, -1e308),
+            (0, 1, 1.0), (0, 2, 1.0), (1, 2, 2.0)
+        };
+        var split = new Witness(W, bonds, 0, 1);
+        Assert.Equal(Witness.Kind.Pointer, split.Family);
+        Assert.Equal(new Witness(W, TriangleEven, 0, 1).Sign, split.Sign);
+    }
+
+    [Fact]
+    public void Opposite_Maximum_Bonds_Cancel_Without_Losing_A_Small_Write_Bond()
+    {
+        var bonds = new[]
+        {
+            (0, 1, double.MaxValue), (0, 1, -double.MaxValue), (0, 1, 1.0),
+            (0, 2, 1.0), (1, 2, 2.0)
+        };
+        Assert.Equal(Witness.Kind.Pointer, new Witness(W, bonds, 0, 1).Family);
+    }
+
+    [Fact]
+    public void An_Unrepresentable_Final_Bond_Strength_Is_Refused()
+    {
+        var bonds = new[] { (0, 1, double.MaxValue), (0, 1, double.MaxValue) };
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Witness(W, bonds, 0, 1));
+    }
+
+    [Fact]
+    public void An_Inexact_Double_Edge_Cannot_Change_The_Integer_Parity_Class()
+    {
+        var oddBeyondBinary64 = new[]
+        {
+            (0, 1, 1.0), (0, 2, 1.0), (1, 2, 9_007_199_254_740_992.0), (2, 1, 1.0)
+        };
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Witness(W, oddBeyondBinary64, 0, 1));
+        var justAboveOne = new[]
+        {
+            (0, 1, 1.0), (0, 1, double.Epsilon), (0, 2, 1.0), (1, 2, 2.0)
+        };
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Witness(W, justAboveOne, 0, 1));
+    }
+
+    [Fact]
+    public void A_Noninteger_Ratio_Near_One_Remains_Unclassified()
+    {
+        var almostOdd = new Witness(W, new[] { (0, 1, 1.0), (0, 2, 1.0), (1, 2, 1.0000000000005) }, 0, 1);
+        Assert.Equal(Witness.Kind.Generic, almostOdd.Family);
+        Assert.True(double.IsNaN(almostOdd.Bits));
+    }
 
     [Fact]
     public void The_Leaf_Records_The_Pointer_And_The_Pendant_Reads_Backwards()

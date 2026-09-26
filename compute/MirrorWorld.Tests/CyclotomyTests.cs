@@ -7,6 +7,13 @@ namespace MirrorWorld.Tests;
 // NivenRationalityRootClaim must fall out of the SAME routine rather than being restated.
 public class CyclotomyTests
 {
+    [Fact]
+    public void Order_Reduces_The_Minimum_Signed_Integer_Without_Abs_Overflow()
+    {
+        Assert.Equal(3, Cyclotomy.Order(int.MinValue, 3));
+        Assert.Equal(1, Cyclotomy.Order(int.MinValue, 8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Cyclotomy.Order(1, 0));
+    }
     [Theory]
     [InlineData(1, 1)] [InlineData(2, 1)] [InlineData(3, 2)] [InlineData(4, 2)]
     [InlineData(6, 2)] [InlineData(8, 4)] [InlineData(12, 4)] [InlineData(14, 6)]

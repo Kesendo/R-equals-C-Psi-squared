@@ -23,13 +23,19 @@ namespace MirrorWorld;
 // And the polarity cube's three axes are characters: bit_a of Ad_{Z^N}, bit_b of Ad_{X^N} = F,
 // y_par of the transpose D -- the truly cell is the joint-fixed cell of the two diagonal mirrors.
 //
-// Deliberately outside (named open in F118): the letter group S3 (adjoining it would assemble
-// S3 x| D4), K1, the golden router W (F116), and F71's bond mirror.
+// Deliberately outside: the letter group S3, K1, the golden router W (F116), and F71's bond
+// mirror. The former S3 semidirect-product proposal was resolved: S3 does not normalize D4;
+// the coherence-space closure has order 96*2^N, not 48 (proof addendum 2026-06-15).
 public sealed class MirrorGroup : GameObject
 {
     public int N { get; }
 
-    public MirrorGroup(World world, int n) : base(world) => N = n;
+    public MirrorGroup(World world, int n) : base(world)
+    {
+        if (n < 1 || n > 15)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "4^N must fit an int for dense Pauli enumeration");
+        N = n;
+    }
 
     // left: what the group itself produces.
     public override IReadOnlyList<string> Own => new[] { "members", "split", "cube" };
@@ -208,7 +214,7 @@ public sealed class MirrorGroup : GameObject
         var h = Dense.XxzChain(N, j, delta);
         var f = Dense.PauliString(Enumerable.Repeat('X', N).ToArray());
         var zs = Enumerable.Range(0, N).Select(l => Dense.SiteZ(N, l)).ToArray();
-        double sigmaTot = gammas.Sum();
+        double sigmaTot = Dense.StableSum(gammas);
         double dH = 0, dDiss = 0, rH = 0, rDiss = 0;
         foreach (var letters in Dense.AllStrings(N))
         {
@@ -246,6 +252,20 @@ public sealed class MirrorGroup : GameObject
 // half-integer entries wherever the identity being pinned is exact).
 internal static class Dense
 {
+    public static double StableSum(IEnumerable<double> values)
+    {
+        double sum = 0.0, correction = 0.0;
+        foreach (double value in values)
+        {
+            double next = sum + value;
+            correction += Math.Abs(sum) >= Math.Abs(value)
+                ? (sum - next) + value
+                : (value - next) + sum;
+            sum = next;
+        }
+        return sum + correction;
+    }
+
     static readonly Complex[][,] Sigma =
     {
         new Complex[,] { { 1, 0 }, { 0, 1 } },                                                    // I
@@ -258,6 +278,8 @@ internal static class Dense
 
     public static IEnumerable<char[]> AllStrings(int n)
     {
+        if (n < 0 || n > 15)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "4^N must fit an int for enumeration");
         char[] alphabet = { 'I', 'X', 'Y', 'Z' };
         int total = 1 << (2 * n);
         for (int idx = 0; idx < total; idx++)
@@ -383,13 +405,29 @@ internal static class Dense
     {
         int d = rho.GetLength(0);
         var m = new Complex[d, d];
+        var correctionReal = new double[d, d];
+        var correctionImag = new double[d, d];
         for (int l = 0; l < gammas.Length; l++)
         {
             var zrz = Mul(zs[l], Mul(rho, zs[l]));
             for (int i = 0; i < d; i++)
                 for (int j = 0; j < d; j++)
-                    m[i, j] += gammas[l] * (zrz[i, j] - rho[i, j]);
+                {
+                    var term = gammas[l] * (zrz[i, j] - rho[i, j]);
+                    double re = m[i, j].Real, im = m[i, j].Imaginary;
+                    double nextRe = re + term.Real, nextIm = im + term.Imaginary;
+                    correctionReal[i, j] += Math.Abs(re) >= Math.Abs(term.Real)
+                        ? (re - nextRe) + term.Real
+                        : (term.Real - nextRe) + re;
+                    correctionImag[i, j] += Math.Abs(im) >= Math.Abs(term.Imaginary)
+                        ? (im - nextIm) + term.Imaginary
+                        : (term.Imaginary - nextIm) + im;
+                    m[i, j] = new Complex(nextRe, nextIm);
+                }
         }
+        for (int i = 0; i < d; i++)
+            for (int j = 0; j < d; j++)
+                m[i, j] += new Complex(correctionReal[i, j], correctionImag[i, j]);
         return m;
     }
 

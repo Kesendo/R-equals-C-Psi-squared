@@ -75,7 +75,7 @@ public sealed class Divisor : GameObject
     public Divisor(Mirror mirror, int n, long jNum, long[] gammaNum, long den, bool zz = false)
         : base(mirror)
     {
-        if (n < 2) throw new ArgumentOutOfRangeException(nameof(n), "the corner block needs at least two sites");
+        if (n < 3) throw new ArgumentOutOfRangeException(nameof(n), "four distinct corner blocks need at least three sites");
         ArgumentNullException.ThrowIfNull(gammaNum);
         if (gammaNum.Length != n)
             throw new ArgumentException("the rate profile needs one value per site", nameof(gammaNum));
