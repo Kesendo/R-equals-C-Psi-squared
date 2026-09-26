@@ -18,10 +18,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>INTEGRABILITY-INDEPENDENT (the (q,Δ) extension, 2026-06-30): the identity holds for the FULL interacting
 /// XXZ block L(q,Δ) at every anisotropy Δ, not just the integrable XY one (machine zero, N=4..9, all q, all Δ).
 /// The reason is that the Δ·ZZ term is EVEN under the global bit-flip (Z_bZ_{b+1} ↦ (−Z_b)(−Z_{b+1}) = Z_bZ_{b+1},
-/// so zz(b̄) = zz(b)), so the bra-complement carries it cleanly. This exact similarity does not certify a sampled
-/// eigenvalue coincidence or its Jordan character: N=4 at Delta=0 is certified, while the N=5/N=6 positive Delta
-/// proposals are Uncertified. Conditionally, if character is independently certified, the partner has the same
-/// character. The discriminant
+/// so zz(b̄) = zz(b)), so the bra-complement carries it cleanly. Under Δ the (SE,DE) diabolics split into Jordan
+/// EP2s (the discriminant-Newton certificate of XxzCoherenceBlock, sampled at N = 4..7), and because the two blocks
+/// stay antiunitary-similar at every Δ, each EP2 and its partner turn defective in lockstep. The similarity carries
+/// a certified character; it does not certify a sampled small gap by itself. The discriminant
 /// is bit-flip PARITY: a bit-flip-ODD perturbation breaks the fold (a
 /// longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), residual O(1)). So the cross-fold is a structural/
 /// algebraic property of the Liouvillian, NOT a free-fermion artifact.</para>
@@ -45,14 +45,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// fold (which states only spec(SE,DE) ↔ spec(SE,w_{N−2}) about σ = N). An antiunitary similarity preserves the
 /// whole Jordan structure: complex conjugation, the permutation similarity P·Pᵀ, and the affine −(·) − 2N each
 /// preserve the dimensions of generalized eigenspaces. Therefore an independently certified semisimple
-/// coalescence has a partner with identical character and coalescence gap. The similarity itself does not turn a
-/// sampled small gap into that certificate. The N=4 within-
+/// coalescence has a partner with identical character and coalescence gap, and a certified Jordan EP a Jordan
+/// partner. The similarity itself does not turn a sampled small gap into that certificate. The N=4 within-
 /// block self-fold (which fixes the independently known real-q diabolic, <see cref="F89BranchLocusPalindromeClaim"/>)
 /// is the degenerate w_{N−2} = w2 partner = self case; for N ≥ 5 the N=4 on-line "zeros" become these cross-block
 /// mirror partners.</para>
 ///
-/// <para>The N=7 proposal at q = 1.1264, λ = −4.942 has the same sampled near-target gap as its (1,5) fold image
-/// −λ − 2N = −9.058. That is a similarity check only, not a coincidence or Jordan-character certificate. Live witness
+/// <para>Verified on the N=7 real-q diabolic: at q* = 1.1264485133 the (1,2) pair at λ* = −4.9418574904 is a
+/// certified crossing at Δ=0 (a double zero of the pair discriminant, alg = geo = 2) and pairs with the (1,5) block
+/// at the fold image −λ* − 2N = −9.0581425096, both gaps at the rounding floor and opening with the same slope
+/// 0.8632 per unit q. Live witness
 /// <c>inspect --root crossfold</c> (<c>CrossFoldSimilarityWitness</c>, on the shared
 /// <c>WeightCoherenceBlock</c> builder + the bra-complement permutation). Anchors:
 /// <c>experiments/F89_PATH_K_DIABOLIC.md</c> (the cross-fold section) + <c>docs/ANALYTICAL_FORMULAS.md</c> (F89d)
@@ -74,7 +76,7 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
     public static double FoldImageReal(double lambda, int n) => -lambda - 2.0 * n;
 
     public F89CrossFoldSimilarityClaim(F1PalindromeIdentity palindrome, F89BranchLocusPalindromeClaim spectrumFold)
-        : base("F89d cross-fold similarity: exact antiunitary matrix identity and conditional Jordan-character transport; N=4 Delta=0 is certified, N=5/N=6 positive Delta proposals are Uncertified",
+        : base("F89d cross-fold similarity: the (SE,DE)=(w1,w2) <-> (SE,w_{N-2})=(w1,N-2) fold is an EXACT antiunitary similarity L(1,N-2)(qbar) = -P conj(L(1,2)(q)) P^T - 2N I (machine zero, N=4..9, all q, all Delta), upgrading the branch-locus palindrome's spectrum match to a Jordan-structure-preserving similarity, so a certified (SE,DE) coalescence at (q,lambda) pairs with a (SE,w_{N-2}) coalescence at (qbar,-lambdabar-2N) with identical character and gap; the N=4 self-fold is the degenerate partner=self case",
                Tier.Tier1Derived,
                "experiments/F89_PATH_K_DIABOLIC.md + " +
                "docs/ANALYTICAL_FORMULAS.md + " +
@@ -85,13 +87,14 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
     }
 
     public override string DisplayName =>
-        "F89d: exact cross-fold similarity; Jordan character transfers only after independent certification";
+        "F89d: (SE,DE) <-> (SE,w_{N-2}) cross-fold is an exact antiunitary similarity (the certified coalescences pair)";
 
     public override string Summary =>
         "L(1,N-2)(qbar,Delta) = -P conj(L(1,2)(q,Delta)) P^T - 2N I exactly (N=4..9, all q, all Delta): a Jordan-" +
         "preserving antiunitary similarity. Its character transport is conditional on an independent coincidence/Jordan " +
-        "certificate: N=4 Delta=0 is certified; N=5/N=6 positive Delta proposals are Uncertified. The identity is " +
-        "integrability-independent (holds for the " +
+        "certificate, which XxzCoherenceBlock supplies: the N=7 real-q diabolic (q*=1.1264485133, lambda*=-4.9418574904, " +
+        "Diabolic 2/2 at Delta=0) pairs with (1,5) at -9.0581425096, and under Delta its EP2s and their partners turn " +
+        "defective in lockstep. The identity is integrability-independent (holds for the " +
         "full interacting XXZ block, the discriminant is bit-flip parity); general in BOTH weights, one of two " +
         "antiunitary legs (bra P, ket Q) of the spine V4 ⊂ D4 block-resolved, P a factor of the F1 palindrome Pi = " +
         $"R·D (so F89d docks onto F1) ({Tier.Label()})";
@@ -101,14 +104,14 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
         get
         {
             yield return InspectableNode.RealScalar("cross-fold centre -σ = -N (γ=1, N=7)", FoldCentre(1.0, 7));
-            yield return InspectableNode.RealScalar("fold image of the N=7 sampled proposal λ=-4.942 (-λ-2N)",
-                FoldImageReal(-4.942, 7));
+            yield return InspectableNode.RealScalar("fold image of the N=7 real-q diabolic λ*=-4.9418574904 (-λ-2N)",
+                FoldImageReal(-4.941857490410003, 7));
             yield return new InspectableNode("the matrix-level upgrade (Jordan-preserving)",
                 summary: "the branch-locus palindrome gives spec(SE,DE) <-> spec(SE,w_{N-2}) about σ=N; this claim shows the " +
                          "carrier is an EXACT antiunitary similarity L(1,N-2)(qbar) = -P conj(L(1,2)(q)) P^T - 2N I (P the bra-" +
-                         "complement permutation), which conditionally transports an independently certified Jordan character and gap. " +
-                         "The N=7 sampled proposal and its fold image have the same near-target gap, but that does not certify " +
-                         "coincidence or character. Live: inspect --root crossfold.");
+                         "complement permutation), which transports a certified Jordan character and gap. N=7: the certified " +
+                         "crossing (q*=1.1264485133, λ*=-4.9418574904) <-> (1,5) at -9.0581425096, both gaps at the rounding floor. " +
+                         "Live: inspect --root crossfold.");
             yield return new InspectableNode("the two legs + the dock onto Π (the spine V₄ ⊂ D₄, block-resolved)",
                 summary: "the fold holds at EVERY ket weight, and has a mirror KET leg (flip the ket index, Q = F·ρ): both legs are " +
                          "exact antiunitary similarities (−2N), their product the UNITARY global spin-flip QP = X^⊗N (same q, no shift). " +
@@ -118,8 +121,9 @@ public sealed class F89CrossFoldSimilarityClaim : Claim
             yield return new InspectableNode("integrability-independent: survives XXZ anisotropy (the (q,Δ) extension)",
                 summary: "the identity holds for the FULL interacting XXZ block L(q,Δ) at every Δ (machine zero, N=4..9, all q): " +
                          "the Δ·ZZ term is EVEN under the global bit-flip (zz(b̄)=zz(b)), so the bra-complement carries it cleanly. " +
-                         "The identity alone does not decide a sampled candidate: N=4 Delta=0 is certified, whereas N=5/N=6 positive Delta " +
-                         "proposals are Uncertified. If character is independently certified, the partner has the same character. " +
+                         "Under Δ the diabolics split into Jordan EP2s (certified at the sampled N=4..7), and the two blocks, similar at " +
+                         "every Δ, split alike: each EP2 and its partner turn defective in lockstep. The identity alone certifies no " +
+                         "sampled gap. " +
                          "Discriminant = bit-flip parity: a longitudinal " +
                          "Z-field (odd, fe(b̄)=−fe(b)) breaks the fold (residual O(1)). So the fold is structural, not free-fermion.");
             yield return new InspectableNode("the diamond-core HOLOMORPHIC fold, derived (R1's last entry, 2026-07-03)",

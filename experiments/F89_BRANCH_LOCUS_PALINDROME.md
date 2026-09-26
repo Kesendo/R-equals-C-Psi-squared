@@ -53,7 +53,7 @@ It is tempting, and wrong, to say the diabolic is silent *because* it is its own
 - **On the line (Re λ_EP = −4)** at the N=4 point: its coalescing pair is overlap-balanced (p = ½), and the dephasing restriction is the scalar −4γ·I, the AT-midpoint. This is the D-half of the [`F89Path3OcticEpClaim`](../compute/RCPsiSquared.Core/Symmetry/F89Path3OcticEpClaim.cs) twin-scalar restriction.
 - **Silent (semisimple, λ = −4γ + 2iJ a diabolic crossing)** because the hopping restriction is also scalar, 2iJ·I. The N=4 twin-scalar restriction makes the full restriction λ·I, with two independent eigenvectors and no Jordan coupling; it is not a consequence of the mirror line alone.
 
-The N=4 Delta=0 control in [DIABOLIC_BY_INTEGRABILITY](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md) is certified diabolic. The sampled positive-Delta proposals remain split under the independent full-block certificate, so they establish neither persistence of an on-line degeneracy nor defective character. The palindrome proof is independent of this unresolved local-character question: the exact block identity supplies the mirror and its pairing, while local character requires its own strict restriction or Jordan test.
+The sampled N=4 Δ control in [DIABOLIC_BY_INTEGRABILITY](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md) **stays on the line** but becomes **defective**: at Δ = 0.02 the crossing splits into two Jordan EP2s at real q = 0.6569356380 and 0.6602489409, both at Re λ = −4 (alg 2, geo 1, each a simple zero of the pair discriminant; `inspect --root branchpalindrome` reads it live). It is a counterexample to "on-line implies semisimple", not proof of an all-N protection mechanism. The palindrome proof is independent of the Tier-2 hypothesis: the exact block identity supplies the mirror and its pairing, while local character requires its own restriction or Jordan test.
 
 ## Individual real branches at the N=4 crossing
 
@@ -71,6 +71,15 @@ not their character or frequency.
 The proof includes a self-folded family with nonreal conjugate leading
 coefficients: its branches are exchanged and leave real q. Thus the
 positive leading discriminants of the actual N=4 block are essential.
+
+The XXZ anisotropy is a further self-folded direction (the Δ·ZZ term is
+bit-flip even), and it shows the same pattern at every sampled Δ from
+0.02 to 0.5: two EP2 branches at real q on Re λ = −4, each certified by
+a sign change of the real pair discriminant across the branch point
+([DIABOLIC_BY_INTEGRABILITY](../hypotheses/DIABOLIC_BY_INTEGRABILITY.md)).
+The proof's leading-coefficient computation has not been run in the Δ
+direction, so there the placement is certified pointwise, not to all
+orders.
 
 ## Verification
 

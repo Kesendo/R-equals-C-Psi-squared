@@ -39,6 +39,17 @@ namespace RCPsiSquared.Core.Numerics;
 /// with a large ‖P‖ ⟹ <see cref="EpKind.NearEp"/> (an off-axis EP felt as non-orthogonality);
 /// otherwise <see cref="EpKind.Normal"/>.</para>
 ///
+/// <para><b>What the departure tolerance does not see.</b> "dep above tolerance" is dep/max(1, ‖A‖_F) &gt; 1e-2,
+/// and ‖A‖_F carries the eigenvalue itself (≈ √alg·|λ̄| for a compression near λ̄·I), so the Defective/Normal
+/// boundary moves with where the eigenvalue sits rather than with the Jordan coupling alone: a genuine Jordan pair
+/// (geo &lt; alg) with dep &lt; 1e-2·max(1, ‖A‖_F) reads <see cref="EpKind.Normal"/>. The XXZ Δ = 0.02 EP2s of the
+/// N=4 and N=7 (SE,DE) blocks include such pairs (departures 0.0015 to 0.022 at |λ| ≈ 4.2 to 4.9). A caller that must
+/// certify a Jordan block reads <see cref="Reading.Geometric"/> against <see cref="Reading.Algebraic"/>
+/// instead, as the XXZ Δ certifier in Diagnostics does (XxzCoherenceBlock.CertifiedCharacterVerdict). A Diabolic
+/// verdict is affected only below the nullity threshold: a Jordan coupling under
+/// max(1e-6·σ_max, 1e-7·max(‖A‖₂, 1)) reads geo = alg and so Diabolic (the XXZ certifier's resolution paragraph
+/// gives the N=7 case, Δ below about 1.5e-7).</para>
+///
 /// <para>Port of the artifact-free machinery in <c>simulations/review_f86a_diabolic_vs_defective.py</c>
 /// and <c>simulations/review_coherence_horizon_ep.py</c>; the live lab is
 /// <c>EpCharacterWitness</c> (<c>inspect --root epcharacter</c>).</para></summary>

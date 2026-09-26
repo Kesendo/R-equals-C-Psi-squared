@@ -1,0 +1,77 @@
+q_EP = sqrt((-1+sqrt13)/6) = 0.6589829633
+check 3q^4+q^2-1 = -2.22e-16 (should be 0)
+gamma=1.0, J=q, lam_EP(Delta=0) = -4g+2iJ = -4.000000+1.317966j
+
+==============================================================================
+GATE 0  validate nullity + dep + ||P|| on KNOWN answers
+==============================================================================
+  defective [[l,1],[0,l]] : g1=1 g2=2 (want 1,2)  dep=1.000e+00 (want >0)  PASS
+  diabolic  diag(l,l)     : g1=2 g2=2 (want 2,2)  dep=8.429e-08 (want ~0)  PASS
+  oblique-embedded Jordan : ||P||=2.420 (>1)  dep=8.122e-01 (>0)  geo=1<alg=2  PASS
+
+GATE 0 PASSED.
+
+==============================================================================
+STAGE 0  Delta=0 must reproduce the settled DIABOLIC octic EP (or STOP)
+==============================================================================
+  (i)  ||L_pauli(Delta=0) - L_reference||           = 0.00e+00  PASS
+  (ii) ||L_pauli - full-256 (1,2)-coherence block||  = 0.00e+00  PASS
+  (iii) octic modes (sym, non-AT)                    = 8  PASS
+        min coalescing pair distance                = 6.793e-15
+        lam_EP numeric  = -4.00000000+1.31796593j
+        lam_EP analytic = -4.00000000+1.31796593j  (|dRe|=2.7e-15 |dIm|=2.2e-16)
+  (iv)  g1=2 g2=2  dep=0.000e+00  ||P||=3.883  geo=2/alg=2
+        => DIABOLIC  PASS (matches settled diabolic)
+
+STAGE 0 PASSED: the right object is in hand.
+
+==============================================================================
+COMPLEX-q LOCATOR  the discriminant Newton on the tracked pair, then the certificate
+==============================================================================
+  Delta                   q*  |Im q*|  Re lam+4       Im lam      gap alg geo       dep  order    f(q*-h)    f(q*+h)  character
+   0.00    0.658982963293183  4.7e-20   2.7e-15  1.317965927  6.8e-15   2   2 0.0000000  2.000   1.34e-16   1.34e-16  DIABOLIC
+   0.02    0.656935638035896  7.8e-16  -2.7e-15  1.303842206  1.4e-08   2   1 0.0175506  1.000   4.49e-10  -4.49e-10  DEFECTIVE EP2
+   0.02    0.660248940906499  2.9e-16  -1.8e-15  1.307909277  1.3e-08   2   1 0.0222487  1.000  -4.45e-10   4.45e-10  DEFECTIVE EP2
+   0.05    0.654187879577033  6.5e-16   8.9e-16  1.281941531  2.4e-08   2   1 0.0432766  1.000   1.13e-09  -1.13e-09  DEFECTIVE EP2
+   0.05    0.662458904338655  6.2e-16  -8.9e-16  1.292525576  2.3e-08   2   1 0.0556415  1.000  -1.11e-09   1.11e-09  DEFECTIVE EP2
+   0.10    0.650363027620131  1.5e-16   0.0e+00  1.243522165  2.2e-08   2   1 0.0847992  1.000   2.24e-09  -2.24e-09  DEFECTIVE EP2
+   0.10    0.667060160649330  2.3e-16  -8.9e-16  1.265942304  4.1e-08   2   1 0.1116521  1.000  -2.16e-09   2.16e-09  DEFECTIVE EP2
+   0.20    0.644961935624513  3.1e-17   2.7e-15  1.159904245  2.3e-08   2   1 0.1650873  1.000   4.30e-09  -4.30e-09  DEFECTIVE EP2
+   0.20    0.680531896945749  2.1e-16   4.4e-16  1.208729067  4.7e-08   2   1 0.2280168  1.000  -3.97e-09   3.97e-09  DEFECTIVE EP2
+   0.50    0.639578051963464  3.1e-16   3.6e-15  0.867934836  4.2e-08   2   1 0.4218684  1.000   9.06e-09  -9.06e-09  DEFECTIVE EP2
+   0.50    0.800658949348047  2.1e-15  -2.7e-15  1.034500506  9.7e-08   2   1 0.7031431  1.000  -3.98e-09   3.98e-09  DEFECTIVE EP2
+
+==============================================================================
+MECHANISM  dephasing D|2D and coherent part H|2D on the Riesz 2-plane of each zero
+==============================================================================
+  At Delta=0 both restrict to scalars (-4g*I and 2iJ*I): the twin-scalar restriction.
+  scalar departure = ||M - (tr M / 2) I||_F / ||M||_F
+
+  Delta               q*  D|2D departure   tr D|2D / 2  H|2D departure
+   0.00   0.658982963293        1.71e-16  -4.000000000        2.21e-16
+   0.02   0.656935638036        2.19e-03  -4.000000000        6.73e-03
+   0.02   0.660248940906        2.78e-03  -4.000000000        8.51e-03
+   0.05   0.654187879577        5.41e-03  -4.000000000        1.69e-02
+   0.05   0.662458904339        6.96e-03  -4.000000000        2.15e-02
+   0.10   0.650363027620        1.06e-02  -4.000000000        3.41e-02
+   0.10   0.667060160649        1.40e-02  -4.000000000        4.41e-02
+   0.20   0.644961935625        2.06e-02  -4.000000000        7.10e-02
+   0.20   0.680531896946        2.85e-02  -4.000000000        9.39e-02
+   0.50   0.639578051963        5.27e-02  -4.000000000        2.36e-01
+   0.50   0.800658949348        8.76e-02  -4.000000000        3.22e-01
+
+==============================================================================
+VERDICT
+==============================================================================
+  Delta=0: 1 zero, DIABOLIC (zero order 2.000, gap 6.8e-15)
+  Delta=0.02: 2 zeros (DEFECTIVE EP2, DEFECTIVE EP2); max |Im q*| 7.8e-16, max |Re lam + 4| 2.7e-15, real-axis sign change at both: True
+  Delta=0.05: 2 zeros (DEFECTIVE EP2, DEFECTIVE EP2); max |Im q*| 6.5e-16, max |Re lam + 4| 8.9e-16, real-axis sign change at both: True
+  Delta=0.10: 2 zeros (DEFECTIVE EP2, DEFECTIVE EP2); max |Im q*| 2.3e-16, max |Re lam + 4| 8.9e-16, real-axis sign change at both: True
+  Delta=0.20: 2 zeros (DEFECTIVE EP2, DEFECTIVE EP2); max |Im q*| 2.1e-16, max |Re lam + 4| 2.7e-15, real-axis sign change at both: True
+  Delta=0.50: 2 zeros (DEFECTIVE EP2, DEFECTIVE EP2); max |Im q*| 2.1e-15, max |Re lam + 4| 3.6e-15, real-axis sign change at both: True
+
+  The Delta=0 double zero splits, at every sampled Delta > 0, into two simple zeros of the pair
+  discriminant, each a certified Jordan EP2 (alg 2, geo 1) at real q on Re lam = -4.
+  A diabolic unfolds into EP2s under a generic perturbation, so this response alone does not
+  isolate integrability as the cause.
+

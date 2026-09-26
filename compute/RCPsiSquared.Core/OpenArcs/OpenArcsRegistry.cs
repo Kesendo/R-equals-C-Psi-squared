@@ -18,11 +18,12 @@ public static class OpenArcsRegistry
                 "where the eigenvectors also coalesce and the amplitude diverges; the whole arc is about counting " +
                 "the diabolics and testing a residual integrability mechanism). Path-3 (N=4): the within-block " +
                 "twin-pair-onto-fold diabolic at a REAL q_EP=0.659, λ_EP=−4+2iJ, traced from below (gmscan " +
-                "--trace). Its earlier positive-Delta defective reading is retracted: the strict full-block check leaves the " +
-                "Delta=.02/.10 proposals Uncertified, while Delta=0 remains Diabolic with alg=geo=2. Path-4 (N=5): " +
-                "11 character-verified diabolics, ALL at complex q (none at physical real q). Three positive-Delta tracker proposals were run, " +
-                "but strict full-block coincidence/correspondence leaves all three Uncertified; only their Delta=0 controls remain " +
-                "Diabolic with alg=geo=2. The synthesis (no sampled positive-Delta point currently has a certified Jordan character; " +
+                "--trace), which under sampled XXZ anisotropy splits into two Jordan EP2s at real q on Re lambda = -4 " +
+                "(Delta=0.02: q = 0.6569356380 and 0.6602489409, departures 0.0176 and 0.0222; DIABOLIC_BY_INTEGRABILITY). " +
+                "Path-4 (N=5): 11 character-verified diabolics, ALL at complex q (none at physical real q), with an executed " +
+                "finite-N Delta response (XxzCoherenceBlock + XxzDeltaFlipTests: the tracked diabolics split into Jordan EP2s " +
+                "under Delta!=0, a defective control stays defective). The synthesis (the sampled Delta response is consistent with, " +
+                "but does not isolate, a residual integrability mechanism; " +
                 "the N=4 self-fold [an antiunitary mirror the watched (SE,DE)=single-excitation/double-excitation " +
                 "coherence block has ONLY at N=4] = what put ONE diabolic on the real axis): the placement result is Tier 1, while the residual " +
                 "mechanism remains conditional; full write-up + the term defined in experiments/F89_PATH_K_DIABOLIC.md. Tom's " +
@@ -68,7 +69,7 @@ public static class OpenArcsRegistry
                 "(E_DE = pairwise SE sums) bookkeeping FAILS from path-5 (the F_b modes are not simple sums; the " +
                 "AT factor needs the rate-confined reconstruction). Free-fermion integrability itself " +
                 "(Jordan-Wigner) holds at every N, but that fact alone does not prove residual semisimplicity " +
-                "or a Delta response at every N; among the sampled tracker controls, only the N=4 response is presently character-certified. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
+                "or a Delta response at every N; the executed finite-N controls are evidence only. The deferred Q4 cross-fold edge (do the complex-q diabolics pair across " +
                 "the cross-block fold (SE,DE)↔(SE,w_{N-2})?) also generalizes over N and is untried.",
             NextStep: "CURRENT STATE (2026-09-09, read this first; the dated layers below are the journal). " +
                 "RESUMING IN ONE LINE: Route B is complete at N=6 as a parity-labelled direct-t inventory. ExactAlgebraic owns all " +
@@ -109,8 +110,12 @@ public static class OpenArcsRegistry
                 "proves completeness and independently certified point boxes are joined to the path. The seed remains semisimple. " +
                 "Four local infinity EP2 germs are proved. No common N4/N5 complex-epsilon Taylor disk or exact all-58 unfolding certificate is claimed. " +
                 "MECHANISM BOUNDARY: F163 claims no single-multiplet descent. In that separate explanation, additivity supplies " +
-                "the H-half of the twin-scalar condition only after single-multiplet descent is independently certified, while the D-half remains a locus-specific obligation. All sampled " +
-                "positive-Delta N=4/N=5/N=6 proposals are Uncertified after strict full-block checking, while their Delta=0 controls remain Diabolic with alg=geo=2. Free-fermion " +
+                "the H-half of the twin-scalar condition only after single-multiplet descent is independently certified, while the D-half remains a locus-specific obligation. The " +
+                "sampled Delta response is certified at N=4..7: at each sampled positive Delta no crossing is certified, and every " +
+                "zero of the pair discriminant the certificate claims inside its seed's isolation disk is a Jordan EP2 (alg 2, geo 1; XxzCoherenceBlock's " +
+                "discriminant-Newton certificate, XxzDeltaFlipTests), " +
+                "while the sampled Delta=0 crossings remain Diabolic with alg=geo=2. A diabolic unfolds into EP2s under a generic perturbation, so this " +
+                "response does not isolate integrability as the cause. Free-fermion " +
                 "(Jordan-Wigner) integrability alone does not prove residual semisimplicity or a Delta response at every N; use F89e and " +
                 "PROOF_CODIM1_BY_ADDITIVITY for this boundary, and treat the stronger wording in the dated journal below as event history. " +
                 "NEXT: the F_53 (N=7) doubled-layer character/completeness edge remains unmeasured; do not extrapolate the N=6 inventory. " +
@@ -118,7 +123,7 @@ public static class OpenArcsRegistry
                 "'dotnet run --project compute/RCPsiSquared.Cli -c Release -- pkmono --diabolic --exact --k 6 --re 0.2,3 --im -1.5,1.5 --cell 0.05', " +
                 "then use those candidates only as anchors for a new exact F_53 layer/certificate rather than promoting the scan itself. " +
                 "Outside Route B, Moves 1, 3 and 4 plus the Move-4 follow-on (the " +
-                "cross-fold is integrability-independent and docks onto F1 as Pi's bra leg) are closed; Move 2 remains open at N=7 after retraction, and their other OPEN edge is the " +
+                "cross-fold is integrability-independent and docks onto F1 as Pi's bra leg) are closed, and Move 2 (the Delta response) is answered at N=4..7; their one OPEN edge is the " +
                 "within-odd EXACT threshold's CLOSED FORM (bounded R-even scans place the threshold empirically at N=7, grounded on residual density; a closed " +
                 "form is residual-density driven and likely does NOT exist); the residual " +
                 "grounding is already DONE (in DiabolicReflectionParityWitness), and the one bounded probe IF you still want to push " +
@@ -134,10 +139,11 @@ public static class OpenArcsRegistry
                 "RESIDUAL polynomial (H_B = the XY bond Hamiltonian; F_18/F_53/F_116 are DEGREES 18/53/116, NOT F-registry " +
                 "numbers like F89d); R = the site-reflection i->N-1-i (the order-2 symmetry 'S2') the block is built on; Sigma " +
                 "(capital) = the antiunitary realness operator, Sigma*L*Sigma = L-dagger (the adjoint, the 'L+' below) - NOT " +
-                "lowercase sigma_even/sigma_odd, which are the SPECTRA of the R-even/R-odd sectors. NOW: the Delta=0 character of " +
-                "the four N=7 (path-6) real-q diabolics is closed, but their nonzero-Delta response is OPEN. The earlier Move-2 " +
-                "table was retracted 2026-09-07: it minimized gaps in a fixed Delta=0 complement compression whose subspace is not " +
-                "invariant at Delta!=0, and the proposed q* points are not full-block coalescences. In bounded R-even scans, the real-q ONSET showed a parity pattern under the " +
+                "lowercase sigma_even/sigma_odd, which are the SPECTRA of the R-even/R-odd sectors. NOW: the four N=7 (path-6) " +
+                "real-q diabolics are certified crossings at Delta=0, and their Delta response is measured: at Delta=0.02 they split " +
+                "into Jordan EP2s at complex q (q*=1.1264485133 -> 1.12701920-0.00583855i and 1.12464902-0.01707280i, departures " +
+                "0.0015 and 0.0165), the same finite-N response as the complex-q ones (details in the 'MOVE 2 AT N=7' block below). " +
+                "In bounded R-even scans, the real-q ONSET showed a parity pattern under the " +
                 "N=8/N=9 discriminator (2026-06-30, the 'ONSET RESOLVED' block below): odd N >= 7 carried loci " +
                 "(N=8 even has NO on-axis real-lambda diabolic; N=9 odd has >=3, each a clean isolated on-axis point) - " +
                 "refuting both the threshold (N>=7) and the one-off readings. The CAUSE of that parity is now GROUNDED from " +
@@ -170,8 +176,8 @@ public static class OpenArcsRegistry
                 "('inspect --root crossfold', TDD-gated CrossFoldSimilarityWitnessTests), and REGISTERED as F89d " +
                 "(docs/ANALYTICAL_FORMULAS.md, right after the F89c lemma it extends) + typed as F89CrossFoldSimilarityClaim " +
                 "(parents F1PalindromeIdentity + F89BranchLocusPalindromeClaim, Tier1Derived, wiring-audited; verify via " +
-                "'knowledge ancestors F89CrossFoldSimilarityClaim'). SO: Moves 1, 3 and 4 are done, and Move 4's follow-on is answered; " +
-                "Move 2 remains open at N=7 after the compression-locator retraction. The N=5 and N=6 Route B inventories are complete; " +
+                "'knowledge ancestors F89CrossFoldSimilarityClaim'). SO: ALL FOUR MOVES ARE DONE (Move 1 count / Move 2 Delta response / " +
+                "Move 3 count-vs-N / Move 4 cross-fold), and Move 4's follow-on is answered. The N=5 and N=6 Route B inventories are complete; " +
                 "the N=7 extension remains open under the NEXT sentence above. One separate minor non-blocking edge remains: " +
                 "(a) the within-odd EXACT threshold N has no closed form (residual-density driven: F_18 " +
                 "too sparse, F_53 the first to host a real-q coalescence; likely none exists; the concrete probe is spelled out under " +
@@ -182,9 +188,10 @@ public static class OpenArcsRegistry
                 "complex). The handover's tentative 'could break' guess was WRONG, and instructively so: the very fact it flagged as a " +
                 "worry - the ZZ-bond sum being INVARIANT under bra-complementation (zz(bbar)=zz(b), because Z_b*Z_{b+1} is EVEN under " +
                 "the global bit-flip) - is EXACTLY what makes the fold SURVIVE (the bra-complement carries the even ZZ term unchanged, " +
-                "as it carries the XY hopping). In the sampled N=4 Move-2 control, the positive-Delta proposals are Uncertified; no " +
-                "semisimplicity-loss verdict survives. The cross-fold PAIRING itself remains exact at every Delta, so any independently " +
-                "certified character would transfer to its partner. The discriminant is BIT-FLIP PARITY: a bit-flip-ODD perturbation breaks the fold - a longitudinal Z-field " +
+                "as it carries the XY hopping). In the sampled Move-2 controls the diabolic loses semisimplicity under Delta, while its " +
+                "cross-fold PAIRING does not: at N=4 each EP2 is its own partner (the self-fold keeps it at real q on Re lambda = -4), " +
+                "and at N>=5 an EP2 and its partner in the other block turn defective in lockstep (read live at N=7, Delta=0.02), the two " +
+                "blocks staying antiunitary-similar at every Delta. The discriminant is BIT-FLIP PARITY: a bit-flip-ODD perturbation breaks the fold - a longitudinal Z-field " +
                 "Sigma_k w_k Z_k has fe(bbar)=-fe(b), residual O(1) (~5.46 at N=6), the verified negative control - proving the fold a " +
                 "STRUCTURAL/algebraic property of the Liouvillian, not a free-fermion (integrability) artifact (it survives any " +
                 "bit-flip-even bond coupling, breaks only under a bit-flip-odd one). LANDED (TDD green): the WeightCoherenceBlock.Build " +
@@ -237,13 +244,20 @@ public static class OpenArcsRegistry
                 "keeps only its known defective EP at q~1.0776). So 'self-fold is N=4-only => complex-q-only for N>=5' is TOO " +
                 "STRONG; a different mechanism returns diabolics to the real axis by N=7. Full write-up: experiments/" +
                 "F89_PATH_K_DIABOLIC.md (the path-6 section). MOVE SET: Move 1 = count, Move 2 = Delta response, Move 3 = count-vs-N " +
-                "growth, Move 4 = cross-fold (SE,DE)<->(SE,w_N-2). MOVE 2 RETRACTED AT N=7 (2026-09-07): " +
-                "the XXZ locator diagonalized a compression onto the Delta=0 AT complement. That fixed subspace is a proposal " +
-                "space, not an invariant space at Delta!=0: ZZ couples it to removed directions. Minimizing the compressed gap " +
-                "and reading a full-block Riesz contour at that q* did not establish a full-block coalescence; independent checks " +
-                "leave full-spectrum pair gaps of order 1e-3 to 1e-2 at the printed points. The old N=7 DEFECTIVE/LIFTED table is " +
-                "withdrawn. A replacement must first locate a genuine full-block degeneracy, then ask EpCharacter for its Jordan " +
-                "character. The Delta=0 real-q loci and placement/onset result remain; their nonzero-Delta response is open. " +
+                "growth, Move 4 = cross-fold (SE,DE)<->(SE,w_N-2). MOVE 2 AT N=7 (the Delta response of the real-q diabolics): " +
+                "the compressed XXZ roots (the Delta=0 AT complement, held fixed) only propose, since that fixed subspace is a proposal " +
+                "space, not an invariant space at Delta!=0: ZZ couples it to removed directions. The certificate is XxzCoherenceBlock's: " +
+                "first locate a genuine full-block degeneracy, then ask EpCharacter for its Jordan character, i.e. the discriminant " +
+                "Newton on f(q) = (lambda_a - lambda_b)^2 of the full R-even pair (a double zero at a crossing, a simple zero at an EP2), " +
+                "then geometric against algebraic multiplicity on the Riesz compression, with the zero order read by the winding of f. " +
+                "RESULT: all four real-q diabolics (q=1.1264/1.3038/2.6280/0.6788) are certified crossings at Delta=0 and split at " +
+                "Delta=0.02 into Jordan EP2s at complex q (alg 2, geo 1, departures 0.0015 to 0.099; both zeros certified for three of " +
+                "them, the first for q=2.6280, whose second is not reached from the seed); at Delta=0.10 the q=0.6788 pair is certified " +
+                "again (departures 0.19 and 0.20), the zeros reached from q=1.1264 and 1.3038 lie farther from their seeds in lambda than " +
+                "the isolation radius, so the certificate declines them (Uncertified), and from q=2.6280 no zero is reached; neither says " +
+                "anything about existence. So the " +
+                "real-q diabolics are NOT a new species; the N=7 onset is a PLACEMENT mechanism, not a new protection. Full write-up: " +
+                "experiments/F89_PATH_K_DIABOLIC.md (the Delta-test section). " +
                 "ONSET RESOLVED (2026-06-30): the placement question - threshold, parity, or one-off? - is " +
                 "now answered by running the (rebuild-free) exact instrument at N=8 and N=9. KEY GROUNDING that made it a run not " +
                 "a build (it CORRECTS this arc's own earlier 'needs F89PathKFdOracle + ForPathK extended past k=6'): the locator " +
@@ -348,12 +362,12 @@ public static class OpenArcsRegistry
                 "wall-clock is dominated by SEED COUNT (the 53-strand residual gap field has many local minima; each spurious " +
                 "seed pays the full local pipeline before the gapTol filter rejects it), so it ran ~20min+ and was killed. Needs " +
                 "a cheap seeding pre-filter (or a smaller box for a qualitative-only N=7 point). " +
-                "MOVE 2 N=6 RESULT RETRACTED 2026-09-07: the residual tracker was useful as a proposal locator, but its " +
-                "caller-controlled gap tolerance and fixed/continuity-tracked residual set did not certify a corresponding " +
-                "full-block degeneracy. Under the shared strict full-block check, the three Delta=0 controls remain Diabolic " +
-                "with alg=geo=2, while every sampled positive-Delta N=6 proposal is Uncertified (representative full-pair gaps " +
-                "range from 1.75e-5 to 5.08e-1 at Delta=0.1, above the 1e-6 coincidence tolerance). No defect/lift or " +
-                "integrability-protection conclusion survives. Move 2 is open. See experiments/F89_PATH_K_DIABOLIC.md (path-5 section).",
+                "MOVE 2 AT N=6: the residual tracker (and the compressed roots) propose q; the discriminant Newton on the full " +
+                "R-even block locates the coalescence and XxzCoherenceBlock certifies it. The three Delta=0 crossings are Diabolic " +
+                "with alg=geo=2, each a double zero of the pair discriminant; at Delta=0.02 each has split into two Jordan EP2s " +
+                "(alg 2, geo 1; departures 0.028/0.032, 0.0035/0.0038 and 0.016/0.022). At Delta=0.1 the residual-tracked " +
+                "proposals of the first two seeds certify as EP2s of those seeds; a proposal whose zero lies beyond its seed's " +
+                "isolation radius is left Uncertified. See experiments/F89_PATH_K_DIABOLIC.md (path-5 section).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(
@@ -1506,13 +1520,22 @@ public static class OpenArcsRegistry
                 "contaminated by a neighbour EP at the dense path-4 spectrum (identity at r≤0.008, transposition " +
                 "only once the EP enters at r≥0.012; the defective control is transposition down to r=0.002), " +
                 "fixed by reading the small intrinsic loop radius, so all 11 diabolics now classify consistently " +
-                "across loop+character+exponent (regression-tested). DELTA CHARACTER CLAIM RETRACTED 2026-09-08: " +
-                "the old tracker and f89_zz_break_gate table did not first certify a corresponding isolated " +
-                "full-block algebraic pair. With the shared strict 1e-6 coincidence/correspondence gate, the N=4 " +
-                "Delta=0 control remains Diabolic with alg=geo=2, but the Delta=.02/.10 proposals have full-pair " +
-                "gaps 4.071225731916435e-5 / 9.85599100644663e-5 and are Uncertified; character and departure are " +
-                "unavailable. Therefore neither a defect/lift verdict nor integrability protection is established " +
-                "at positive Delta. Route B's exact N=5 F_18/F_17 discriminant layers and complete root/locus isolation " +
+                "across loop+character+exponent (regression-tested). THE DELTA RESPONSE (XxzCoherenceBlock + " +
+                "XxzDeltaFlipTests): the three tracked path-4 diabolics (clean 0.6407+0.180i, near-real 0.7654+0.024i, " +
+                "far 1.9447+1.217i) are double zeros of the pair discriminant at Delta=0 (alg=geo=2); at Delta=0.02 and " +
+                "0.05 no crossing is certified, and every zero the certificate claims is a Jordan EP2 (alg 2, geo 1, " +
+                "departures growing with Delta; the far crossing's second zero leaves the seed's isolation disk and is declined), " +
+                "while the defective control stays defective (departure 0.884 -> 0.890 -> 0.897). At N=4 the " +
+                "same split puts both EP2s at real q on Re lambda = -4. A diabolic unfolds into EP2s under a generic " +
+                "perturbation, so the response is consistent with, and does not isolate, integrability as the cause. At N=4 the " +
+                "repo holds two deformations of the crossing that keep the Hamiltonian integrable, and neither keeps the crossing: the " +
+                "end-bond profiles of PROOF_ROUTE_B_N4_SELF_FOLD (H free-fermion, still quadratic) and the uniform XXZ anisotropy " +
+                "(H Bethe-integrable) both split it into two defective EP2s at real q on Re lambda = -4. Both also leave the " +
+                "Lindbladian integrability of the uniform XX chain with dephasing (the imaginary-U Hubbard map, which needs XX legs " +
+                "and uniform hopping), so neither discriminates that reading either. A discriminating control would have to keep " +
+                "the twin-scalar premises themselves (the degenerate multiplet and the overlap-1/2 midpoint) or that Lindbladian " +
+                "integrability; none in the repo does. " +
+                "Route B's exact N=5 F_18/F_17 discriminant layers and complete root/locus isolation " +
                 "are landed, and the N=5 A2 layer is complete root by root: 58/58 q loci are semisimple, with " +
                 "24 imaginary-q loci directly Hermitian-certified and the complete 26-member R-odd orbit certified by F164. " +
                 "Accounting for their 12-locus overlap gives 38 distinct exact-certified loci; only 20 nonreal-q R-even loci remain numerical-only. " +

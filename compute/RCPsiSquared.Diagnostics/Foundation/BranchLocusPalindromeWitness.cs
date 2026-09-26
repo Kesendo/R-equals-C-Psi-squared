@@ -14,9 +14,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// K conjugation), T L(q) T⁻¹ = −L(q̄) − 2σ (a same-q fold at real q), so the merged-eigenvalue locus is invariant under
 /// the antilinear mirror λ ↦ −λ̄ − 2σ (reflect Re about −σ, preserve Im). Every EP lies on the line or in
 /// a mirror pair across it, no orphan. Semisimplicity follows from the twin-scalar restriction at the N=4 point,
-/// not from being on the mirror line. Only N=4 Delta=0 is certified Diabolic 2/2; N=4/N=5/N=6 positive
-/// Delta proposals remain Uncertified and carry no Jordan-character conclusion. Typed home:
-/// F89BranchLocusPalindromeClaim; reading:
+/// not from being on the mirror line. The sampled XXZ Delta control stays on-line yet defects; this is not an
+/// all-N cause (<see cref="DeltaControl"/>, read live: at Δ = 0.02 the crossing splits into two Jordan EP2s at
+/// real q, both on Re λ = −4). Typed home: F89BranchLocusPalindromeClaim; reading:
 /// reflections/ON_WHO_WATCHES_WHOM.md; the q-direction sibling of --root galoismonodromy.</summary>
 public sealed class BranchLocusPalindromeWitness : IInspectable
 {
@@ -78,6 +78,16 @@ public sealed class BranchLocusPalindromeWitness : IInspectable
         return (lams.Count, onLine, paired, orphans);
     }
 
+    /// <summary>The XXZ Δ control at N=4: the two coalescences the q_EP crossing splits into at this Δ
+    /// (<see cref="XxzCoherenceBlock.CertifySplitUnderDelta"/>), each certified by the discriminant Newton and the
+    /// geometric against algebraic multiplicity. At the sampled Δ both are Jordan EP2s at real q with Re λ = −4:
+    /// the mirror keeps them on the line, the character is no longer the crossing's.</summary>
+    public static (XxzCoherenceBlock.DeltaTrackResult First, XxzCoherenceBlock.DeltaTrackResult Second) DeltaControl(double delta)
+    {
+        double qEp = GaloisMonodromyWitness.QEp;
+        return XxzCoherenceBlock.CertifySplitUnderDelta(4, new Complex(qEp, 0), new Complex(-4, 2 * qEp), delta);
+    }
+
     public string DisplayName => "The F89 octic branch locus is a palindrome (mirror about Re λ = −4, forced by Π)";
 
     public string Summary
@@ -88,8 +98,7 @@ public sealed class BranchLocusPalindromeWitness : IInspectable
             return $"the EP/diabolic collisions are mirror-symmetric about Re λ = −σ = −4: the octic roots close " +
                    $"under the antiunitary palindrome λ→−λ̄−2σ (residual {anti.ToString("E1", Inv)}) but NOT under the " +
                    $"linear λ→−λ−2σ (residual {lin.ToString("0.0", Inv)}); so the branch locus is a palindrome, forced. " +
-                   $"Only N=4 Delta=0 is certified Diabolic 2/2; N=4/N=5/N=6 positive Delta proposals remain " +
-                   $"Uncertified and carry no Jordan-character conclusion.";
+                   "The line is not the silence: the sampled XXZ Delta control stays on-line yet defects.";
         }
     }
 
@@ -112,9 +121,18 @@ public sealed class BranchLocusPalindromeWitness : IInspectable
             yield return new InspectableNode("the diabolic sits on the line (Re λ = −4), but for a different reason",
                 summary: $"the diabolic collision λ_EP = −4γ + 2iJ ({lamEp.Real.ToString("0.0", Inv)}{lamEp.Imaginary.ToString("+0.000;-0.000", Inv)}i " +
                          $"at q_EP={GaloisMonodromyWitness.QEp.ToString("0.000", Inv)}, γ=1, J=q_EP) is on the line because its pair is overlap-balanced " +
-                         "(p=½, the AT-midpoint). Semisimplicity follows from the twin-scalar restriction at the N=4 point, not from being on-line. " +
-                         "Only N=4 Delta=0 is certified Diabolic 2/2; N=4/N=5/N=6 positive Delta proposals remain " +
-                         "Uncertified and carry no Jordan-character conclusion.");
+                         "(p=½, the AT-midpoint). Semisimplicity follows from the twin-scalar restriction at the N=4 point, not from being on-line.");
+
+            var (first, second) = DeltaControl(0.02);
+            yield return new InspectableNode("the sampled XXZ Delta control stays on-line yet defects (Δ = 0.02)",
+                summary: $"the q_EP crossing splits into two coalescences, certified {first.Verdict} and {second.Verdict}: " +
+                         $"q = {first.QCandidate.Real.ToString("0.0000000000", Inv)} and {second.QCandidate.Real.ToString("0.0000000000", Inv)} " +
+                         $"(|Im q| ≤ {Math.Max(Math.Abs(first.QCandidate.Imaginary), Math.Abs(second.QCandidate.Imaginary)).ToString("E1", Inv)}), " +
+                         $"Re λ + 4 = {(first.LambdaCandidate.Real + 4).ToString("E1", Inv)} and {(second.LambdaCandidate.Real + 4).ToString("E1", Inv)}, " +
+                         $"alg {first.Algebraic}/{second.Algebraic}, geo {first.Geometric}/{second.Geometric}, departures " +
+                         $"{first.Departure.ToString("0.0000", Inv)} and {second.Departure.ToString("0.0000", Inv)}, each a simple zero of the pair " +
+                         "discriminant. The mirror keeps them on the line; the silence was the twin-scalar restriction's, which the ZZ " +
+                         "term breaks. A local control separating the line from the silence, not an all-N cause (DIABOLIC_BY_INTEGRABILITY).");
 
             var (total, onLine, paired, orphans) = BranchLocusStructure();
             yield return new InspectableNode($"every branch point on the line or in a mirror pair ({orphans} orphans)",

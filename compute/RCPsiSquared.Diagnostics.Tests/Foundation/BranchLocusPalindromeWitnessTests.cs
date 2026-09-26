@@ -29,6 +29,27 @@ public class BranchLocusPalindromeWitnessTests
         Assert.Equal(total, onLine + paired);
     }
 
+    // The line is not the silence. Under a sampled XXZ anisotropy the q_EP crossing splits into two Jordan EP2s,
+    // and the mirror keeps both on Re λ = −4 at real q. Location model: an EP2 is fixed to (g/s)² ≈ 1e-15 by its
+    // residual gap g ≈ 1e-8 (s ≈ 0.67 at Δ = 0.02, 1.5 at 0.10), the pair mean to u·‖M‖ ≈ 1e-15; 1e-12 leaves 1000.
+    [Theory]
+    [InlineData(0.02)]
+    [InlineData(0.10)]
+    public void DeltaControl_StaysOnTheLine_YetDefects(double delta)
+    {
+        var (first, second) = BranchLocusPalindromeWitness.DeltaControl(delta);
+        foreach (var r in new[] { first, second })
+        {
+            Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Defective, r.Verdict);
+            Assert.Equal(2, r.Algebraic);
+            Assert.Equal(1, r.Geometric);
+            Assert.Equal(1, r.DiscriminantZeroOrder);
+            Assert.True(System.Math.Abs(r.QCandidate.Imaginary) <= 1e-12, $"Im q {r.QCandidate.Imaginary:E2}");
+            Assert.True(System.Math.Abs(r.LambdaCandidate.Real + 4) <= 1e-12, $"Re lambda + 4 = {r.LambdaCandidate.Real + 4:E2}");
+        }
+        Assert.True(System.Math.Abs(first.QCandidate.Real - second.QCandidate.Real) > 1e-3, "two distinct EP2s");
+    }
+
     [Fact]
     public void Witness_Renders_ThePalindromeVerdict()
     {

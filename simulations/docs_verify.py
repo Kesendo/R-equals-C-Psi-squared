@@ -186,9 +186,9 @@ def verify_route_b_mechanism_current_truth():
             "w=null reproduces BuildFull(n,q,Δ)",
         ),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs": (
-            "Path5_ResidualProposals_RequireIndependentFullPairCertification",
-            "Path4_ProposalsAndDefectiveControl_RequireIndependentFullPairCertification",
-            "Path5_TrackedNearSplit_IsUncertifiedRegardlessOfSearchTolerance",
+            "Path5_ResidualProposals_CertifyTheSplitEp2s",
+            "Path4_DefaultTracker_CertifiesTheSplitEp2s_ControlStaysDefective",
+            "Path5_TrackedProposal_SearchToleranceDoesNotEnterTheCertificate",
         ),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzCoherenceBlockFieldTests.cs": (
             "These tests use real q=2",
@@ -196,10 +196,10 @@ def verify_route_b_mechanism_current_truth():
             "not eigenmode real parts", "matrix diagonal's imaginary component",
         ),
         "compute/RCPsiSquared.Diagnostics/Foundation/CrossFoldSimilarityWitness.cs": (
-            "Delta proposals are Uncertified", "If a character is independently certified",
+            "a small sampled gap is not one", "each EP2 and its cross-fold partner turn defective in lockstep",
         ),
         "compute/RCPsiSquared.Core/Symmetry/F89CrossFoldSimilarityClaim.cs": (
-            "proposals are Uncertified", "if character is independently certified",
+            "it does not certify a sampled small gap by itself", "each EP2 and its partner turn defective in lockstep",
         ),
         "compute/RCPsiSquared.Cli/Commands/PathKMonodromyScanCommand.cs": (
             "finite-N Delta response", "conditional residual mechanism",
@@ -208,40 +208,41 @@ def verify_route_b_mechanism_current_truth():
             "bounded scan null", "not a replacement for the exact Route B inventory",
         ),
         "compute/RCPsiSquared.Core.Tests/F89PathK/WeightCoherenceBlockTests.cs": (
-            "finite-N Delta response", "every sampled positive-Delta proposal at N=4/N=5/N=6 is Uncertified",
+            "finite-N Delta response", "the partner block splits alike",
         ),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/CrossFoldSimilarityWitnessTests.cs": (
-            "independently certified Jordan character", "without treating it as a character certificate",
+            "reproduce the N=7 real-q diabolic pairing at its certified location", "turning defective in lockstep",
         ),
         "compute/RCPsiSquared.Cli/Program.cs": (
             "finite-N Delta response", "conditional residual mechanism",
         ),
         "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": (
-            "twin-scalar restriction at the N=4 point", "positive Delta proposals remain Uncertified", "γ=1, J=q_EP",
+            "twin-scalar restriction at the N=4 point", "The sampled XXZ Delta control stays on-line yet defects", "γ=1, J=q_EP",
         ),
         "compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs": (
-            "twin-scalar restriction at the N=4 point", "positive Delta proposals remain Uncertified",
+            "twin-scalar restriction at the N=4 point", "stays on-line yet becomes defective",
         ),
         "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": (
-            "twin-scalar restriction at the N=4 point", "N=5/N=6 positive Delta proposals remain Uncertified",
+            "twin-scalar restriction at the N=4 point", "the sampled XXZ Delta control stays on-line yet defects",
         ),
         "docs/ANALYTICAL_FORMULAS.md": (
-            "At N=4 only the Delta=0 control is character-certified", "positive-Delta N=4 proposals are split and Uncertified",
+            "each EP2 and its cross-fold partner turn defective in lockstep",
+            "the crossing splits into two Jordan EP2s at real q",
             "general protection principle remains interpretive and conditional",
             "Loss of the W/H intertwining identity is an algebraic statement",
-            "all sampled positive-Delta proposals are Uncertified",
+            "every zero the certifier locates inside its seed's isolation disk is a Jordan EP2",
         ),
         "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md": (
             "Twin-scalar lemma (conditional)",
             "Loss of the W/H intertwining identity is an algebraic statement",
-            "every sampled positive-Delta proposal is Uncertified",
+            "every zero the certificate claims inside the seed's isolation disk is a Jordan EP2",
         ),
         "experiments/F89_BRANCH_LOCUS_PALINDROME.md": (
-            "N=4 twin-scalar restriction", "sampled positive-Delta proposals remain split",
-            "palindrome proof is independent of this unresolved local-character question",
+            "N=4 twin-scalar restriction", "stays on the line but becomes defective",
+            "palindrome proof is independent of the Tier-2 hypothesis",
         ),
         "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (
-            "palindrome proof is independent", "sampled positive-Delta proposals are not certified coalescences",
+            "palindrome proof is independent", "the crossing splits into two Jordan EP2s",
             "mirror fixes the line and pairing", "N=4 overlap/twin-scalar restriction supplies the on-line position",
         ),
         "compute/RCPsiSquared.Diagnostics/Foundation/PathKMonodromyScout.cs": (
@@ -249,7 +250,7 @@ def verify_route_b_mechanism_current_truth():
             "analytic-split candidate", "full-sector geometric multiplicity decides character",
         ),
         "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs": (
-            "positive-Delta N=4/N=5/N=6 proposals are Uncertified after strict full-block checking",
+            "The sampled Delta response is certified at N=4..7",
             "the H-half of the twin-scalar condition only after single-multiplet descent is independently certified, while the D-half remains a locus-specific obligation",
             "MECHANISM BOUNDARY",
             "Free-fermion (Jordan-Wigner) integrability alone does not prove residual semisimplicity or a Delta response at every N",
@@ -474,7 +475,7 @@ def verify_poisson_inference_current_truth():
             "does not classify the Z-dephasing Liouvillian",
             "Delta!=0 plus generic disorder", "finite-N"),
         "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (
-            "uniform XXZ chain remains Bethe-integrable", "does not measure a character flip",
+            "uniform XXZ chain remains Bethe-integrable", "It does not isolate the cause",
             "Tier-2 hypothesis"),
         "docs/ANALYTICAL_FORMULAS.md": ("not a physical Heisenberg time", "do not establish a short/long-time boundary",),
         "docs/THE_INTERPRETATION.md": ("do not prove integrability", "remaining sectorwise algebra", "class label, is OPEN"),
@@ -861,13 +862,13 @@ def delta_tracker_path_errors(source):
             if depth == 0:
                 return source[start:end + 1]
         return ""
-    seeded = "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);"
+    seeded = "return CertifyCoalescence(n, delta, qd, mid, lambdaSeed, seedRadius);"
     contracts = {
         "CharacterAtDiabolicNear": ("public static DeltaTrackResult CharacterAtDiabolicNear",
             "=> TrackDiabolicUnderDelta(n, qSeed, lambdaSeed, delta, boxHalf: 0, boxCell: cell);"),
         "TrackDiabolicUnderDeltaCompressed": (seeded,),
         "TrackDiabolicUnderDeltaResidual": (
-            "return CertifyFullBlockProposal(BuildSym(n, center, delta), center, mid, lambdaSeed, seedRadius);",),
+            "return CertifyCoalescence(n, delta, center, mid, lambdaSeed, seedRadius);",),
         "TrackDiabolicUnderDelta": (seeded,
             "TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell)",
             "if (n >= 7 && !exact)", "if (!(seedDistances[1] < seedRadius))"),
@@ -876,7 +877,19 @@ def delta_tracker_path_errors(source):
             "(full[0] - mid).Magnitude <= FullBlockCoincidenceTolerance",
             "(full[1] - mid).Magnitude <= FullBlockCoincidenceTolerance",
             "if (!(radius > 2 * ds[1]))",
-            "rr.Algebraic == 2 ? CertifiedCharacterVerdict(rr.Kind) : DeltaFlipVerdict.Uncertified"),
+            "var verdict = CertifiedCharacterVerdict(rr.Algebraic, rr.Geometric, rr.Departure,"),
+        "CertifyCoalescence": (
+            "var result = CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, lambda, lambdaSeed, seedRadius);",
+            "if (result.Verdict == DeltaFlipVerdict.Uncertified) return result;",
+            "double.IsFinite(winding) && Math.Abs(winding - order) < WindingIntegerSlack",
+            "order == (result.Verdict == DeltaFlipVerdict.Diabolic ? 2 : 1)"),
+        "DiscriminantWinding": (
+            "? first",
+            "if (!(Math.Abs(step) < WindingMaxIncrement)) return double.NaN;"),
+        "CertifiedCharacterVerdict": (
+            "if (algebraic != 2) return DeltaFlipVerdict.Uncertified;",
+            "if (geometric == 2) return DeltaFlipVerdict.Diabolic;",
+            "if (geometric == 1 && departure > departureFloor) return DeltaFlipVerdict.Defective;"),
     }
     return [f"{name}: {error}" for name, required in contracts.items()
             for error in task8_text_errors(method(name), required, ())]
@@ -893,7 +906,7 @@ def verify_task8_current_truth():
         "docs/proofs/PROOF_F90_F86C2_BRIDGE.md": (("ε_k = 2J·cos(πk/(N+1))", "ε_k = 4J·cos(πk/(N+1))"), ("ε_k = J·cos", "from L_super")),
         "experiments/F89_BRANCH_LOCUS_PALINDROME.md": (("q_octic = Q_carrier/2", "Q_carrier = 1.5 corresponds to q_octic = 0.75"), ("On the real axis q = Q", "q and Q (same ratio, different role)")),
         "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md": (("single-multiplet descent remains conditional", "numerical twin-scalar character"), ("additivity's semisimplicity route extends verbatim", "no unexplained residual coincidence remains at N=5")),
-        "experiments/F89_PATH_K_DIABOLIC.md": (("AT semisimple crossings are diabolics, not residual A2 diabolics", "3/16", "Uncertified", "full-pair gap", "nonzero-Delta response remains open"),
+        "experiments/F89_PATH_K_DIABOLIC.md": (("AT semisimple crossings are diabolics, not residual A2 diabolics", "3/16", "Uncertified", "double zero of the pair discriminant", "every zero the certificate claims is a Jordan EP2"),
                                                   ("These are not diabolics but", "each path-5 diabolic reads cleanly", "three real-q diabolics become defective and one lifts", "ResidualRootsExactXxz",
                                                    "N=4, N=5, N=6 and N=7 diabolics flip defective or lift")),
         "docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md": (("palindrome-paired decay-rate bands", "average-light bins", "constant (N+1)²", "normalized SFF is 1"), ("restricted to XY-weight sector", "(N+1)² × δ(t)", "stationary + near-stationary")),
@@ -904,14 +917,16 @@ def verify_task8_current_truth():
             "(full[0] - mid).Magnitude <= FullBlockCoincidenceTolerance",
             "(full[1] - mid).Magnitude <= FullBlockCoincidenceTolerance",
             "TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell)",
-            "CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius)",
-            "CertifyFullBlockProposal(BuildSym(n, center, delta), center, mid, lambdaSeed, seedRadius)",
+            "CertifyCoalescence(n, delta, qd, mid, lambdaSeed, seedRadius)",
+            "CertifyCoalescence(n, delta, center, mid, lambdaSeed, seedRadius)",
             "if (n >= 7 && !exact) return new DeltaTrackResult(DeltaFlipVerdict.Uncertified",
             "lambdaSeed.HasValue && !((mid - lambdaSeed.Value).Magnitude < seedRadius)",
             "if (!(seedDistances[1] < seedRadius))",
-            "EpCharacter.EpKind.Diabolic => DeltaFlipVerdict.Diabolic",
-            "EpCharacter.EpKind.Defective => DeltaFlipVerdict.Defective",
-            "_ => DeltaFlipVerdict.Uncertified", "rr.Algebraic == 2",
+            "if (algebraic != 2) return DeltaFlipVerdict.Uncertified;",
+            "if (geometric == 2) return DeltaFlipVerdict.Diabolic;",
+            "if (geometric == 1 && departure > departureFloor) return DeltaFlipVerdict.Defective;",
+            "CertifiedCharacterVerdict(rr.Algebraic, rr.Geometric, rr.Departure",
+            "DepartureRoundingFloor = 1e-6", "WindingIntegerSlack = 1e-12", "WindingMaxIncrement = Math.PI / 4",
             "public bool IsCertifiedDiabolic", "public bool? Survived", "_ => null",
             "Complex QCandidate, Complex LambdaCandidate, double Gap",
             "It is neither survival nor death", "unavailable character, not measured multiplicities"),
@@ -922,28 +937,32 @@ def verify_task8_current_truth():
              "EpKind.NearEp => DeltaFlipVerdict.Defective", "EpKind.NearEp => DeltaFlipVerdict.Diabolic",
              "DeltaFlipVerdict.Uncertified => false", "CertifyCompressedProposal(",
              "Complex QStar, Complex LambdaStar, double Gap",
-             "new DeltaTrackResult(DeltaFlipVerdict.Lifted")),
+             "new DeltaTrackResult(DeltaFlipVerdict.Lifted", "CertifiedCharacterVerdict(rr.Kind)")),
         "compute/RCPsiSquared.Cli/Commands/PathKMonodromyScanCommand.cs": ((
             "Uncertified", "full-block pair", "t.IsCertifiedDiabolic", "UNRESOLVED",
             "no defect/lift conclusion", "N/A N/A",
-            "Only the N=4, Delta=0 control is character-certified",
-            "all sampled positive-Delta proposals at N=4..7 are Uncertified",
+            "crossings certify as Jordan EP2s",
+            "a row whose EP has left the seed's isolation disk is Uncertified",
+            "CertifySplitUnderDelta(n, q0, lam0, d)",
             "track the candidate pair from q_seed=", "q_candidate", "t.QCandidate"),
             ("ResidualRootsExactXxz", "exact-residual: AT-flood excluded",
              "if (d > 0 && t.Survived) survivesAtPositive = true;",
-             "Only N=4 is character-certified", "track the coalescence at q=", "t.QStar")),
+             "Only N=4 is character-certified", "track the coalescence at q=", "t.QStar",
+             "Only the N=4, Delta=0 control is character-certified",
+             "all sampled positive-Delta proposals at N=4..7 are Uncertified")),
         "compute/RCPsiSquared.Cli/Program.cs": (("Uncertified", "compressed proposals", "unknown survival", "independent 1e-6"), ()),
         "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs": ((
             "the H-half of the twin-scalar condition only after single-multiplet descent is independently certified",
-            "the D-half remains a locus-specific obligation", "Moves 1, 3 and 4 are done",
-            "Move 2 remains open at N=7 after the compression-locator retraction",
-            "their nonzero-Delta response is OPEN", "not an invariant space at Delta!=0",
+            "the D-half remains a locus-specific obligation",
+            "ALL FOUR MOVES ARE DONE (Move 1 count / Move 2 Delta response",
+            "Move 2 (the Delta response) is answered at N=4..7",
+            "their Delta response is measured", "not an invariant space at Delta!=0",
             "first locate a genuine full-block degeneracy",
             "one basis coherence with disagreement n_diff pays the positive cell rate",
             "an AT-locked eigenmode has Re lambda = -2*gamma*<n_XY>_v",
             "<n_XY>_v need not equal the integer n_diff"),
-            ("additivity supplies the H-half unconditionally", "Moves 1, 2, 3 and 4 are done",
-             "N=7 nonzero-Delta response is closed", "an AT eigenmode has the integer basis-cell disagreement count")),
+            ("additivity supplies the H-half unconditionally", "Move 2 remains open at N=7",
+             "their nonzero-Delta response is OPEN", "an AT eigenmode has the integer basis-cell disagreement count")),
         "compute/RCPsiSquared.Core/Symmetry/F41PalindromicTimePi2Inheritance.cs": ((
             "2cos(ω_min t)", "trace amplitude", "doubled and cross frequencies",
             "F41 is not by itself the period of the complete SFF",
@@ -1026,11 +1045,14 @@ def verify_task8_current_truth():
             "not a causal or thermodynamic threshold theorem"),
             ("Class A licensed", "no residual antiunitary", "GinUE licenses the full symmetry class")),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs": ((
-            "Path5_ResidualProposals_RequireIndependentFullPairCertification",
-            "Path4_ProposalsAndDefectiveControl_RequireIndependentFullPairCertification",
-            "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, d0.Verdict)",
-            "AssertUncertifiedSplit(6, .1, d)", "AssertUncertifiedSplit(5, .05, d)",
-            "Assert.Equal(0, result.Algebraic)", "Assert.Null(result.Survived)"),
+            "Path5_ResidualProposals_CertifyTheSplitEp2s",
+            "Path4_DefaultTracker_CertifiesTheSplitEp2s_ControlStaysDefective",
+            "N5_Crossings_SplitIntoEp2s_SeedFollowing", "N6_Crossings_SplitIntoTwoEp2s_AtDelta002",
+            "N7_RealQCrossings_SplitIntoEp2s_SeedFollowing",
+            "AssertCrossingAt(XxzCoherenceBlock.TrackDiabolicUnderDelta(5, q, lam, 0.0), crossing",
+            "AssertEp2AtOneOf(XxzCoherenceBlock.TrackDiabolicUnderDelta(6, N6Seeds[0].Q, N6Seeds[0].Lam, 0.1, residualOnly: true)",
+            "AssertEp2AtOneOf(XxzCoherenceBlock.TrackDiabolicUnderDelta(5, q, lam, 0.05), at005",
+            "Assert.Equal(0, r.Algebraic)", "Assert.Null(r.Survived)"),
             ("Assert.False(d.Survived", "Path5_Diabolics_DieUnderDelta_ResidualOnly",
              "Path4_Diabolics_DieUnderDelta_ControlStaysPut")),
         "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs": ((
@@ -1053,24 +1075,24 @@ def verify_task8_current_truth():
             "P_px = sqrt(px)·Π", "sectorwise P-type generator; the full irreducible SRP class remains open"),
             ("existing class-AIII-chiral classification",)),
         "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": ((
-            "N=5/N=6 positive Delta proposals remain Uncertified",
-            "Sampled small gaps beyond N=4 are similarity reads, not defect, lift, or diabolic certificates",
+            "the character itself comes from XxzCoherenceBlock's certificate, not from a small sampled gap",
+            "reads an N=7 Δ = 0.02 EP2 and its partner turning defective in lockstep",
             "GinUE comparison only", "irreducible SRP class, which remain open"),
             ("N=5/N=6 positive Delta proposals defect or lift", "FillingThresholdWitness class-A gate")),
         "compute/RCPsiSquared.Diagnostics/Foundation/CrossFoldSimilarityWitness.cs": ((
-            "Delta proposals are Uncertified", "If a character is independently certified",
-            "coincidence and Jordan character remain Uncertified for this proposal"),
+            "a small sampled gap is not one", "each EP2 and its cross-fold partner turn defective in lockstep",
+            "The residual itself certifies no sampled gap"),
             ("N=5/N=6 positive Delta proposals defect or lift", "sampled small gaps certify Jordan character")),
         "compute/RCPsiSquared.Core/Symmetry/F89CrossFoldSimilarityClaim.cs": ((
-            "N=5/N=6 positive Delta proposals are Uncertified",
+            "each EP2 and its partner turn defective in lockstep",
             "Its character transport is conditional on an independent coincidence/Jordan",
             "The similarity itself does not turn a sampled small gap into that certificate"),
             ("N=5/N=6 positive Delta proposals defect or lift", "sampled small gaps certify Jordan character")),
         "compute/RCPsiSquared.Core.Tests/F89PathK/WeightCoherenceBlockTests.cs": ((
-            "Only the N=4, Delta=0 control is", "every sampled positive-Delta proposal at N=4/N=5/N=6 is Uncertified"),
+            "the finite-N Delta response", "the partner block splits alike"),
             ("Only N=4 is character-certified", "N=5/N=6 positive Delta proposals defect or lift")),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/CrossFoldSimilarityWitnessTests.cs": ((
-            "without treating it as a character certificate", "Summary_LeavesN5N6PositiveDeltaCharacterUncertified"),
+            "N7_RealQDiabolic_PairsAcrossTheFold", "N7_DeltaEp2_AndItsFoldPartner_TurnDefectiveInLockstep"),
             ("sampled small gaps certify Jordan character",)),
         "simulations/pt_symmetry_analysis.py": ((
             "P_px=sqrt(p_x)·Π is involutive", "The full irreducible SRP class remains OPEN",
@@ -1104,9 +1126,13 @@ def verify_task8_current_truth():
     path = "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md"
     proof_required, proof_forbidden = surfaces[path]
     surfaces[path] = (proof_required + (
-        "algebraic/geometric multiplicities and departure are unavailable, not measured character data",
-        "The proposals therefore establish neither persistence, defectiveness, nor lifting"),
-        proof_forbidden + ("Uncertified proposals supply measured departure",))
+        "every zero the certificate claims inside the seed's isolation disk is a Jordan EP2",),
+        proof_forbidden + ("Uncertified proposals supply measured departure",
+                           "These controls support the conditional residual mechanism"))
+    surfaces["experiments/ROUTE_B_N6_A2_LOCUS_ATLAS.md"] = ((
+        "every zero the certificate claims inside the seed's isolation disk is a Jordan EP2",
+        "this atlas carries that response to none of its own loci"),
+        ("Uncertified under strict full-block checking",))
     path = "docs/THE_INTERPRETATION.md"
     interpretation_required, interpretation_forbidden = surfaces[path]
     surfaces[path] = (interpretation_required + (
@@ -1120,15 +1146,16 @@ def verify_task8_current_truth():
     path = "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"
     required, forbidden = surfaces[path]
     surfaces[path] = (required + (
-        "while their Delta=0 controls remain Diabolic with alg=geo=2",), forbidden)
+        "while the sampled Delta=0 crossings remain Diabolic with alg=geo=2",), forbidden)
     path = "experiments/F89_PATH_K_DIABOLIC.md"
     required, forbidden = surfaces[path]
     surfaces[path] = (required + (
-        "The Delta=0 N=4/N=5 controls are Diabolic (alg=geo=2)",
-        "same holds for the N=6 seeds before perturbation",
-        "fixed 1e-6 full-block certificate",
-        "Every sampled positive-Delta N=4/N=5/N=6 proposal is Uncertified"),
-        forbidden + ("full-pair gap exceeds coalesceTol=0.001",))
+        "a semisimple crossing is a *double* zero of f",
+        "the certificate leaves them Uncertified rather than guess an identity",
+        "fixed 1e-6 coincidence bound",
+        "no sampled Δ > 0 certifies a crossing"),
+        forbidden + ("full-pair gap exceeds coalesceTol=0.001",
+                     "Every sampled positive-Delta N=4/N=5/N=6 proposal is Uncertified"))
     required, forbidden = surfaces["docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md"]
     surfaces["docs/proofs/derivations/D09_SECTOR_SFF_PAIRING.md"] = (required, forbidden + (
         "fixed XY-weight eigenvalue sectors", "normalized endpoint K(t) = delta(t)"))
@@ -1164,7 +1191,7 @@ def verify_task8_current_truth():
                   bool(set(errors(source + " " + phrase.casefold())) - baseline))
     arc_source = (root / "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs").read_text(encoding="utf-8")
     current = " ".join(route_b_current_arc_slice(arc_source).replace('" +', "").replace('"', "").split()).casefold()
-    arc_required = ("not an invariant space at Delta!=0", "first locate a genuine full-block degeneracy", "their nonzero-Delta response is open")
+    arc_required = ("not an invariant space at Delta!=0", "first locate a genuine full-block degeneracy", "their Delta response is measured")
     for phrase in arc_required:
         check(f"Task8 current OpenArcs requires {phrase}", phrase.casefold() in current)
         check(f"Task8 current OpenArcs mutation rejects removal of {phrase}",
@@ -1183,8 +1210,8 @@ def verify_task8_current_truth():
             "CertifyCompressedProposal(BuildSym(n, qd, delta), qd, mid)"),
         "compute/RCPsiSquared.Cli/Commands/PathKMonodromyScanCommand.cs": ("if (d > 0 && t.Survived) survivesAtPositive = true;",),
         "compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs": (
-            "additivity supplies the H-half unconditionally", "Moves 1, 2, 3 and 4 are done",
-            "N=7 nonzero-Delta response is closed", "an AT eigenmode has the integer basis-cell disagreement count"),
+            "additivity supplies the H-half unconditionally", "Move 2 remains open at N=7",
+            "their nonzero-Delta response is OPEN", "an AT eigenmode has the integer basis-cell disagreement count"),
         "compute/RCPsiSquared.Core/Symmetry/F41PalindromicTimePi2Inheritance.cs": (
             "physical Heisenberg time t_H ~ 4^N", "F41 is the period of the complete SFF",
             "t_Pi/t_H ~ N²/4^N", "slowest palindromic SFF modulation frequency"),
@@ -1215,7 +1242,8 @@ def verify_task8_current_truth():
         "spacing ratios are invariant under arbitrary smooth nonlinear transformations",
         "confirming that the Liouvillian is a proper generator",)
     mutation_cases["experiments/F89_PATH_K_DIABOLIC.md"] = (
-        "Every positive-Delta N=5/N=6 proposal is Defective", "full-pair gap exceeds coalesceTol=0.001",)
+        "Every positive-Delta N=5/N=6 proposal is Defective", "full-pair gap exceeds coalesceTol=0.001",
+        "Every sampled positive-Delta N=4/N=5/N=6 proposal is Uncertified",)
     mutation_cases["compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs"] += (
         "Every positive-Delta N=5/N=6 proposal is Defective",)
     mutation_cases.update({
@@ -1257,8 +1285,8 @@ def verify_task8_current_truth():
          "TrackDiabolicUnderDeltaCompressed(n, qSeed, lambdaSeed, seedRadius, delta, boxHalf, boxCell)",
          "TrackDiabolicUnderDeltaCompressed(n, qSeed, new Complex(100, 0), seedRadius, delta, boxHalf, boxCell)"),
         ("compressed certificate discards seed isolation", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
-         "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);",
-         "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid);"),
+         "return CertifyCoalescence(n, delta, qd, mid, lambdaSeed, seedRadius);",
+         "return CertifyCoalescence(n, delta, qd, mid, lambdaSeed, double.PositiveInfinity);"),
         ("wrong F1 parent edge", "compute/RCPsiSquared.Runtime/F86Main/F86MainRegistration.cs",
          "_ = b.Get<F1PalindromeIdentity>();", "_ = b.Get<DressedModeWeightClaim>();"),
         ("closed SRP question", "compute/RCPsiSquared.Core/F86/ShiftedGeneratorSectorwisePClaim.cs",
@@ -1268,22 +1296,24 @@ def verify_task8_current_truth():
         ("full coincidence tolerance inflated", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
          "FullBlockCoincidenceTolerance = 1e-6", "FullBlockCoincidenceTolerance = 1e-3"),
         ("residual path bypasses shared certificate", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
-         "return CertifyFullBlockProposal(BuildSym(n, center, delta), center, mid, lambdaSeed, seedRadius);",
+         "return CertifyCoalescence(n, delta, center, mid, lambdaSeed, seedRadius);",
          "return new DeltaTrackResult(DeltaFlipVerdict.Diabolic, 3, 3, 0, center, mid, 0);"),
         ("default path bypasses shared certificate", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
-         "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);",
+         "return CertifyCoalescence(n, delta, qd, mid, lambdaSeed, seedRadius);",
          "return new DeltaTrackResult(DeltaFlipVerdict.Defective, 2, 1, 1, qd, mid, .001);"),
         ("algebraic triple accepted", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
-         "rr.Algebraic == 2", "rr.Algebraic >= 2"),
+         "if (algebraic != 2) return DeltaFlipVerdict.Uncertified;",
+         "if (algebraic < 2) return DeltaFlipVerdict.Uncertified;"),
         ("midpoint correspondence removed", "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs",
          "(full[1] - mid).Magnitude <= FullBlockCoincidenceTolerance", "true"),
         ("integer eigenmode API", "compute/RCPsiSquared.Core/Symmetry/AbsorptionTheoremClaim.cs",
          "EigenmodeDecayRate(double averageNXy, double gammaZero)", "EigenmodeDecayRate(int averageNXy, double gammaZero)"),
         ("N5/N6 positive controls erased", "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs",
-         "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, d0.Verdict)",
-         "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Uncertified, d0.Verdict)"),
-        ("N6 positive-Delta false death assertion", "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs",
-         "AssertUncertifiedSplit(6, .1, d)", "Assert.False(d.Survived)"),
+         "AssertCrossingAt(XxzCoherenceBlock.TrackDiabolicUnderDelta(5, q, lam, 0.0), crossing",
+         "AssertUncertified(XxzCoherenceBlock.TrackDiabolicUnderDelta(5, q, lam, 0.0)"),
+        ("N6 positive-Delta EP2 erased", "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs",
+         "AssertEp2AtOneOf(XxzCoherenceBlock.TrackDiabolicUnderDelta(6, N6Seeds[0].Q, N6Seeds[0].Lam, 0.1, residualOnly: true)",
+         "AssertUncertified(XxzCoherenceBlock.TrackDiabolicUnderDelta(6, N6Seeds[0].Q, N6Seeds[0].Lam, 0.1, residualOnly: true)"),
         ("nonlinear spacing invariance", "experiments/RANDOM_MATRIX_THEORY.md",
          "exactly invariant under a common affine rescaling", "exactly invariant under every smooth nonlinear rescaling"),
     )
@@ -1304,7 +1334,7 @@ def verify_task8_current_truth():
 
     tracker = (root / "compute/RCPsiSquared.Diagnostics/Foundation/XxzCoherenceBlock.cs").read_text(encoding="utf-8")
     check("Task8 every public/proposal path shares strict certification", not delta_tracker_path_errors(tracker))
-    call = "return CertifyFullBlockProposal(BuildSym(n, qd, delta), qd, mid, lambdaSeed, seedRadius);"
+    call = "return CertifyCoalescence(n, delta, qd, mid, lambdaSeed, seedRadius);"
     occurrences = [m.start() for m in re.finditer(re.escape(call), tracker)]
     check("Task8 independently addresses both identical qd certificate calls", len(occurrences) == 2)
     for index, offset in enumerate(occurrences):
@@ -1685,7 +1715,6 @@ def verify_round4_artifacts_and_consumers():
         "does not match the full complex multiset")
     rmt_forbidden = ("def unfold", "NNSD", "Nearest:", "Class (all)", "Class (half)", "classify_r",
         "spacings = spacings[spacings >", "rates[rates > 1e-10]", "Poisson=0.386")
-    n4_false = ("N=4 positive-Delta proposals are certified defective",)
     surfaces = {
         "compute/RCPsiSquared.Core/Symmetry/F44AlgebraicPairRateLogIdentityPi2Inheritance.cs": ((
             "F44 algebraic pair-rate log identity", "inverse-rate linear coefficient",
@@ -1751,18 +1780,21 @@ def verify_round4_artifacts_and_consumers():
             "genuine F86 toy 2x2 exceptional point", "angle zero at each boundary"),
             ("FRAGILE_BRIDGE axis departure is a Hopf",)),
         "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": ((
-            "Delta=0", "N=4/N=5/N=6 positive Delta proposals remain Uncertified"),
-            ("The sampled XXZ Delta control stays on-line yet defects",)),
+            "The sampled XXZ Delta control stays on-line yet defects",
+            "the q_EP crossing splits into two coalescences, certified",
+            "XxzCoherenceBlock.CertifySplitUnderDelta(4, new Complex(qEp, 0), new Complex(-4, 2 * qEp), delta)"),
+            ("N=4/N=5/N=6 positive Delta proposals remain Uncertified",)),
         "compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs": ((
-            "Delta=0", "N=4/N=5/N=6 positive Delta proposals remain Uncertified"),
-            ("control stays on-line yet becomes defective",)),
+            "Delta=0", "stays on-line yet becomes defective", "0.6569356380 and 0.6602489409"),
+            ("N=4/N=5/N=6 positive Delta proposals remain Uncertified",)),
         "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": ((
-            "N=4", "N=4/N=5/N=6 positive Delta proposals remain Uncertified"),
-            ("the certified N=4 XXZ Delta control defects",)),
+            "N=4", "the sampled XXZ Delta control stays on-line yet defects"),
+            ("N=4/N=5/N=6 positive Delta proposals remain Uncertified",)),
         "compute/RCPsiSquared.Diagnostics.Tests/Foundation/XxzDeltaFlipTests.cs": ((
             "CharacterAtDiabolicNear_RejectsUnrelatedLambdaSeed", "new Complex(100, 0)",
-            "N4_DeltaProposals_RequireStrictFullPairCoincidence", "AssertUncertifiedSplit(4, delta, result)",
-            "Assert.Equal(XxzCoherenceBlock.DeltaFlipVerdict.Diabolic, r0.Verdict)"),
+            "N4_DeltaResponse_TheDiabolicSplitsIntoTwoRealAxisEp2sOnTheLine",
+            "AssertCrossingAt(XxzCoherenceBlock.CharacterAtDiabolicNear(4, 0.0, new Complex(qEp, 0), lamEp)",
+            "Assert.Equal(1, r.DiscriminantZeroOrder)"),
             ("N4_DeltaFlip_ReproducesCommittedTable", "Assert.InRange(r2.Departure, 0.012, 0.030)")),
         "simulations/results/pt_symmetry_analysis.txt": (("sectorwise P", "full irreducible SRP class remains OPEN",
             "within palindrome axis", "off palindrome axis; operator relation remains exact",
@@ -1885,7 +1917,7 @@ def verify_round4_artifacts_and_consumers():
             "full SRP class remains OPEN", "not a Jarzynski observable", "r = +0.987",
             "causal contributions are not isolated"),
             ("The rate sum is a thermodynamic entropy-production scale", "+0.988",
-             "stabilizes the sampled system") + n4_false),
+             "stabilizes the sampled system")),
         "simulations/rmt_analysis.py": (rmt_required, rmt_forbidden),
         "simulations/results/rmt_analysis.txt": (rmt_required, rmt_forbidden),
         "experiments/RANDOM_MATRIX_THEORY.md": (("No explicit spectral unfolding was applied",
@@ -1914,22 +1946,26 @@ def verify_round4_artifacts_and_consumers():
             "At J_bridge = 1.0 and 1.9", "For two qubits per chain"),
             ("interacting eigenmode rates form a 2γ-spaced ladder",
              "optimal region (twice the internal coupling)", "tracked oscillatory axis departure")),
-        "experiments/F89_BRANCH_LOCUS_PALINDROME.md": (("N=4 Delta=0 control", "is certified diabolic",
-            "sampled positive-Delta proposals remain split", "neither persistence of an on-line degeneracy nor defective character"), n4_false),
-        "experiments/F89_PATH_K_DIABOLIC.md": (("at N=4/N=5/N=6 only the Delta=0 controls are Diabolic (alg=geo=2)",
-            "Every sampled positive-Delta proposal is Uncertified", "no positive-Delta character is strictly certified at N=4 through N=7"), n4_false),
+        "experiments/F89_BRANCH_LOCUS_PALINDROME.md": (("stays on the line but becomes defective",
+            "real q = 0.6569356380 and 0.6602489409", "certified pointwise, not to all orders"),
+            ("sampled positive-Delta proposals remain split", "neither persistence of an on-line degeneracy nor defective character")),
+        "experiments/F89_PATH_K_DIABOLIC.md": (("the crossings split into Jordan EP2s under XXZ anisotropy",
+            "every zero the certificate claims is a Jordan EP2", "the defective control stays defective"),
+            ("Every sampled positive-Delta proposal is Uncertified", "no positive-Delta character is strictly certified at N=4 through N=7")),
         "review/EMERGING_QUESTIONS.md": (("PT-like phenomenology, full class OPEN",
             "not licensed instances of a computed global AIII class",
             "No analytic continuation connecting them and no global AIII classification has been established",
             "does not identify K₁ with the full Liouvillian Π"),
             ("Π class AIII chiral", "K_1 = Π on H_1 sine-mode basis")),
-        "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (("Exact N=4 Delta=0 twin-scalar restriction and Tier-2 residual interpretation",
-            "their character and departure are Uncertified", "Only Delta=0 passes the strict full-block double-root/correspondence test"), n4_false),
+        "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": (("Exact N=4 twin-scalar restriction at Δ=0 and Tier-2 residual interpretation",
+            "the crossing splits into two Jordan EP2s at real q on Re λ = −4",
+            "which proves an exact real-q coalescence between the two points"),
+            ("their character and departure are Uncertified", "Only Delta=0 passes the strict full-block double-root/correspondence test")),
         "hypotheses/README.md": (("At Delta=0 the F89 path-3 octic crossing is certified diabolic",
-            "sampled positive-Delta proposals are split and Uncertified",
-            "no diabolic-to-defective flip or general integrability protection is established",
+            "the crossing splits into two Jordan EP2s at real q on Re λ = −4",
+            "does not by itself isolate integrability as the cause",
             "spectral abscissa leaves zero and off-axis quartets appear"),
-            n4_false + ("tracked pair leaves the imaginary axis",)),
+            ("tracked pair leaves the imaginary axis", "sampled positive-Delta proposals are split and Uncertified")),
     }
     fragile_tail_surfaces = {
         "compute/RCPsiSquared.Core/F_FORMULA_CROSSWALK.md": ((),
@@ -1991,20 +2027,23 @@ def verify_round4_artifacts_and_consumers():
             "does not classify the Z-dephasing Liouvillian itself"),
             ("The SAME Liouvillian's",)),
         "simulations/f89_zz_break_gate.py": ((
-            "historical locator without a positive-Delta character verdict",
-            "strict full-block coincidence/correspondence tolerance",
-            "positive-Delta proposals are Uncertified",
-            "neither persistence, defectiveness, nor lifting",
-            "pair correspondence not independently certified"),
-            ("Delta>0 off-axis/defective", "BECOMES DEFECTIVE: breaking free-fermion",
+            "answers it with a certificate rather than a small gap",
+            "character by geo against alg, not by a relative departure threshold",
+            "a sign change proves an exact real-q coalescence between the two points",
+            "compared with the strict 1e-6 coincidence bound"),
+            ("positive-Delta proposals are Uncertified", "Delta>0 off-axis/defective", "BECOMES DEFECTIVE: breaking free-fermion",
              "FREE-FERMION INTEGRABILITY WAS THE PROTECTION",
              "the EP has MOVED OFF the real axis", "genuine defective Jordan EP",
              "OFF-AXIS EP LOCATOR", "TRUE coalescence")),
         "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": ((
-            "historical locator without a positive-Delta character verdict",
-            "positive-Delta sweep supplies numerical pair proposals only",
-            "strict current verdict is owned by XxzDeltaFlipTests"),
-            ("gate-first; Stage 0 reproduces", "The why probes (gate-first")),
+            "locates and certifies the N=4 Δ response",
+            "The repo holds two deformations of this crossing that keep the Hamiltonian integrable",
+            "so neither discriminates that reading either",
+            "is consistent with the Tier-2 hypothesis and does not support it over its alternatives",
+            "A discriminating control would have to keep the twin-scalar premises themselves"),
+            ("gate-first; Stage 0 reproduces", "The why probes (gate-first",
+             "positive-Delta sweep supplies numerical pair proposals only",
+             "The measured change supports the Tier-2 hypothesis", "the repo has none")),
     }
     for path, (required_add, forbidden_add) in physics_scope_surfaces.items():
         required, forbidden = surfaces.get(path, ((), ()))
@@ -2101,9 +2140,9 @@ def verify_round4_artifacts_and_consumers():
             "NaN at or below the EP", "if (disc >= 0.0)"),
         "compute/RCPsiSquared.Runtime/PolarityArchitecture/TransitionBridgeF95SiblingClaimRegistration.cs": (
             "FRAGILE_BRIDGE axis departure is a Hopf",),
-        "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": ("The sampled XXZ Delta control stays on-line yet defects",),
-        "compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs": ("control stays on-line yet becomes defective",),
-        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": ("the certified N=4 XXZ Delta control defects",),
+        "compute/RCPsiSquared.Diagnostics/Foundation/BranchLocusPalindromeWitness.cs": ("N=4/N=5/N=6 positive Delta proposals remain Uncertified",),
+        "compute/RCPsiSquared.Core/Symmetry/F89BranchLocusPalindromeClaim.cs": ("N=4/N=5/N=6 positive Delta proposals remain Uncertified",),
+        "compute/RCPsiSquared.Cli/Commands/InspectCommand.cs": ("N=4/N=5/N=6 positive Delta proposals remain Uncertified",),
         "simulations/results/pt_symmetry_analysis.txt": ("Class AIII", "chiral breaking", "No classical EP"),
         "simulations/pt_palindrome_breaking.py": ("chiral phase", "still a HOPF bifurcation", "changed to SADDLE-NODE", "palindrome IS the protection mechanism"),
         "simulations/results/pt_palindrome_breaking.txt": ("chiral phase", "still a HOPF bifurcation", "changed to SADDLE-NODE", "palindrome IS the protection mechanism"),
@@ -2115,16 +2154,16 @@ def verify_round4_artifacts_and_consumers():
         "simulations/entropy_production.py": ("maximum entropy production", "No net entropy production", "Carnot"),
         "simulations/results/entropy_production.txt": ("maximum entropy production", "No net entropy production", "Carnot"),
         "experiments/ENTROPY_PRODUCTION.md": ("The rate sum is a thermodynamic entropy-production scale",),
-        "experiments/README.md": ("The rate sum is a thermodynamic entropy-production scale", "N=4 positive-Delta proposals are certified defective", "+0.988", "stabilizes the sampled system"),
+        "experiments/README.md": ("The rate sum is a thermodynamic entropy-production scale", "+0.988", "stabilizes the sampled system"),
         "simulations/rmt_analysis.py": ("def unfold", "NNSD", "classify_r"),
         "simulations/results/rmt_analysis.txt": ("NNSD", "Class (all)", "Nearest: Poisson"),
         "experiments/RANDOM_MATRIX_THEORY.md": ("rank unfolding supplies a valid NNSD", "spacing ratios are invariant under nonlinear maps"),
         "docs/WHAT_WE_FOUND.md": ("interacting eigenmode rates form a 2γ-spaced ladder",),
-        "experiments/F89_BRANCH_LOCUS_PALINDROME.md": ("N=4 positive-Delta proposals are certified defective",),
-        "experiments/F89_PATH_K_DIABOLIC.md": ("N=4 positive-Delta proposals are certified defective",),
+        "experiments/F89_BRANCH_LOCUS_PALINDROME.md": ("sampled positive-Delta proposals remain split",),
+        "experiments/F89_PATH_K_DIABOLIC.md": ("no positive-Delta character is strictly certified at N=4 through N=7",),
         "review/EMERGING_QUESTIONS.md": ("Π class AIII chiral", "K_1 = Π on H_1 sine-mode basis"),
-        "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": ("N=4 positive-Delta proposals are certified defective",),
-        "hypotheses/README.md": ("N=4 positive-Delta proposals are certified defective",),
+        "hypotheses/DIABOLIC_BY_INTEGRABILITY.md": ("their character and departure are Uncertified",),
+        "hypotheses/README.md": ("sampled positive-Delta proposals are split and Uncertified",),
     }
     for path, old_claims in variants.items():
         source = (root / path).read_text(encoding="utf-8")

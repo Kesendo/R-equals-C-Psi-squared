@@ -243,9 +243,10 @@ involutions, and the executed local character at the committed seeds. It does
 not turn box midpoints into exact roots, establish the character at Δ > 0, prove
 stability under disorder or topology changes, reach any coherence block outside
 the folded pair, or settle the F₅₃ N=7 doubled layer. On Δ the repo's position is
-sharper than caution: every sampled positive-Δ proposal at N = 4, 5 and 6 is
-Uncertified under strict full-block checking, and only the Δ=0 controls remain
-Diabolic with alg=geo=2.
+local: at the sampled Δ > 0 no tracked N = 4 to 7 crossing is certified, every zero the
+certificate claims inside the seed's isolation disk is a Jordan EP2 (`XxzDeltaFlipTests`),
+and the Δ=0 crossings remain Diabolic with alg=geo=2; this atlas carries that response
+to none of its own loci.
 
 One lift a reader may expect here is absent for a reason the registry already records.
 [F150](../docs/ANALYTICAL_FORMULAS.md)'s support-parity law would give a q-evenness on a

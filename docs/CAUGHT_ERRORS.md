@@ -4115,3 +4115,75 @@ factors count as much as the discriminants within them.
   window, 10/4 at every J from 1 to 10⁸, 10/0 for XY, 16/10 and 16/6 at γ = 0, 0/0 on the δ = 5e-8 control.
   Shape: a true general obstruction turned into a blanket refusal of cases it cannot reach, then pinned by
   flag locks; the cure is an exact route, not a narrower window.
+
+## 2026-09-25, the XXZ Δ response was reset to "Uncertified" by a certificate that could not certify a Jordan EP2, and the certificate that can finds the crossings split into EP2s
+
+**What was wrong.** The outside rewrite of 2026-09-08 (`931d691f`) tightened the XXZ Δ tracker in four
+right ways (the pair nearest the caller's seed, the seed's Δ=0 isolation disk, no LIFTED verdict from a
+search null, no box-scan locator at N ≥ 7 without `--exact`) and added a full-block certificate: both
+roots within 10⁻⁶ of each other and of the proposed midpoint, then `EpCharacter`'s Kind. Every sampled
+positive-Δ proposal at N = 4 to 7 then came back Uncertified, and the rewrite carried that reading to the
+tracker, the cross-fold and branch-locus witnesses and claims, their inspect entries, the OpenArcs arcs,
+DIABOLIC_BY_INTEGRABILITY, F89_PATH_K_DIABOLIC, PROOF_CODIM1_BY_ADDITIVITY, F89_BRANCH_LOCUS_PALINDROME
+and three ANALYTICAL_FORMULAS entries (F89d, the Tier-2 WHY, Δ-tightness). It then pinned it:
+`docs_verify.py` forbade "N=4 positive-Delta proposals are certified defective" and "the sampled XXZ
+Delta control stays on-line yet defects", `XxzDeltaFlipTests` asserted the Uncertified split, the known
+N = 5 defective control included, and five tests on the witnesses, claims and inspect entries asserted
+the Uncertified wording or forbade "defect", "lift" and "N=7 real-q diabolic". The demand for a
+certificate was right. The certificate could not answer it at a Jordan EP2, by construction, twice over.
+The locator, `GapRefine`, is a pattern search on the pair gap that stops at a half-step near 10⁻⁸; at an
+EP2 the gap closes as the square root of the distance, so the search stops with a gap near 10⁻⁴ (the
+committed N = 4 rows, 4.071·10⁻⁵ at Δ = 0.02 and 9.856·10⁻⁵ at Δ = 0.10, were the EP2s themselves,
+3.7·10⁻⁹ and 4.5·10⁻⁹ away), and a 10⁻⁶ coincidence gate can never pass there, while a crossing, whose
+gap closes linearly, passes it at once. And Kind compares the departure with 10⁻²·max(1, ‖A‖_F), where
+‖A‖_F ≈ √2·|λ| on a 2×2 compression at λ, so a Jordan pair with a small coupling near |λ| ≈ 4 to 5 reads
+Normal: both N = 4 Δ = 0.02 EP2s (departures 0.0176 and 0.0222) do, and so does the N = 7 one with
+departure 0.0015. "Uncertified" was the only answer the instrument could give at an EP2, not a finding
+about the physics, and the gate on the defective control was testing that blind spot as behaviour.
+
+**The certificate.** The pair discriminant f(q) = (λ_a − λ_b)² is holomorphic in q while the pair stays
+isolated, the coalescence included; a semisimple crossing is a double zero of f, and a simple zero forces a
+Jordan EP2 (the kinds are told apart by f together with geometric against algebraic multiplicity). Newton on f/f' reaches both quadratically, the residual gap then sitting at the eigensolver's
+floor (about 10⁻⁸ at the EP2s, 10⁻¹⁵ to 10⁻¹¹ at the crossings). The located pair is certified on the
+full block: the 10⁻⁶ coincidence bound, the seed's isolation disk, geometric against algebraic
+multiplicity on the Riesz compression with the departure above its rounding floor, and the zero order
+read as the winding of f on a circle of radius 10⁻⁷ closed on its opening value; at N = 4, where f is real on the real axis, a sign
+change of f across q* ∓ 10⁻⁹ proves the coalescence. At N = 4 the Δ=0 crossing is a double zero
+(alg = geo = 2), and at Δ = 0.02 it has split into two simple zeros at real q = 0.6569356380 and
+0.6602489409, both on Re λ = −4, each alg 2, geo 1 (departures 0.0176 and 0.0222), and so at every
+sampled Δ up to 0.5. At N = 5 to 7 every sampled Δ=0 crossing is a double zero, and every zero the
+certificate claims at Δ > 0 is a Jordan EP2; the N = 5 defective control stays defective (departure
+0.884, 0.890, 0.897 at Δ = 0, 0.02, 0.05); at N = 7 an EP2 and its (1,5) cross-fold partner read the
+same multiplicities and the same departure 0.0015.
+
+**Found by.** The typed-layer audit of `931d691f` (sections A and D), which located the N = 4 EP2s at 60
+digits and named both blind spots, and an independent re-derivation from below: a numpy port of the
+block, the discriminant Newton, the Riesz compression and the winding, against which the new C# tracker
+was emulated line by line.
+
+**What stands now.** `XxzCoherenceBlock` locates by the discriminant Newton and certifies by geometric
+against algebraic multiplicity and the zero order (`CertifiedCharacterVerdict`, `CertifyCoalescenceNear`,
+`CertifySplitUnderDelta`), keeping the rewrite's four tightenings; `EpCharacter`'s documentation states
+the Kind blind spot. `XxzDeltaFlipTests` gates the located EP2s at their reference locations and
+departures, the N = 4 gap laws (square root at the EP2s, linear at the crossing) and the verdict rule on
+a known small-coupling Jordan block. The cross-fold witness reads the N = 7 pairing at
+q* = 1.1264485133 and the Δ = 0.02 lockstep; the branch-locus witness reads the N = 4 control on the
+line. DIABOLIC_BY_INTEGRABILITY, F89_PATH_K_DIABOLIC, PROOF_CODIM1_BY_ADDITIVITY,
+F89_BRANCH_LOCUS_PALINDROME, the three ANALYTICAL_FORMULAS entries and the OpenArcs arcs state the Δ
+response as certified at the sampled N and Δ, and say that it is consistent with the residual mechanism
+without isolating integrability as the cause: a diabolic unfolds into EP2s under a generic perturbation,
+and at N = 4 both deformations the repo holds that keep the Hamiltonian integrable, the free-fermion
+end-bond profiles of PROOF_ROUTE_B_N4_SELF_FOLD and the Bethe-integrable XXZ anisotropy, split the
+crossing into two EP2s. Both also leave the Lindbladian integrability of the uniform XX chain with
+dephasing (the imaginary-U Hubbard map), so neither discriminates that reading either; a discriminating
+control would have to keep the twin-scalar premises themselves or that Lindbladian integrability.
+`simulations/f89_zz_break_gate.py` carries the N = 4 locator and certificate with its results file. The
+word-locks on the true phrases are gone; the gates require the certified content.
+
+**The lesson.** The fragile-bridge entry above from the other side: there a verdict was reset for want
+of a certificate; here a certificate was built and its null was read as the answer. Before an
+Uncertified is read as anything, run the certificate on a known positive of the kind in question. A gate
+calibrated on crossings, whose gaps close linearly, says nothing about exceptional points, whose gaps
+close as a square root; and a relative threshold whose scale carries the eigenvalue reports where the
+eigenvalue sits, not what the Jordan coupling is. The known N = 5 defective control was in the test file
+the whole time, asserted to read Uncertified.

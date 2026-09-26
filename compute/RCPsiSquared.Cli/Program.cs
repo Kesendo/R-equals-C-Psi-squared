@@ -100,7 +100,7 @@ public static class Program
         Console.WriteLine("              root mirror (live MirrorSystem): --N <1..7> [--J <d>] [--gamma <d>]");
         Console.WriteLine("                    [--htype XY|Heisenberg] [--topology chain|star|ring]");
         Console.WriteLine("              root flow (live PostEpFlowField): --N <1..6>");
-        Console.WriteLine("                    [--q-list 0.5,1.0,1.5,2.5] [--t-max 6.0] [--t-points 60]  single-excitation flow into 1/N");
+        Console.WriteLine("                    [--q-list 1,2,3,5] [--t-max 6.0] [--t-points 60]  single-excitation flow into 1/N");
         Console.WriteLine("                    [--gamma-profile w0,...,w(N-1)] [--fix-total]  per-site dephasing shape (fix-total: same sum gamma)");
         Console.WriteLine();
         Console.WriteLine("  gmscan      G3 explorer: sweep complex-q for the F89 octic's EPs, lasso each, assemble the");
@@ -128,8 +128,10 @@ public static class Program
         Console.WriteLine("                    classify each (semisimple vs defective), Re vs -4 (AT rung-2) vs -N (palindrome centre)");
         Console.WriteLine("              --delta-flip [--q re,im] [--lam re,im] [--deltas 0,0.02,..]: track a diabolic under XXZ");
         Console.WriteLine("                    anisotropy Delta; finite-N Delta response tests the conditional residual mechanism (--k 3 reproduces N=4)");
-        Console.WriteLine("                    --exact uses compressed proposals: independent 1e-6 full-pair coincidence/correspondence gate; Uncertified means unknown survival, no alg/geo character");
-        Console.WriteLine("                    --delta-flip: all modes require strict full-block certification; N>=7 without --exact is Uncertified; search nulls do not prove lifting");
+        Console.WriteLine("                    --exact uses compressed proposals; every proposal is refined by the discriminant Newton, then certified on the");
+        Console.WriteLine("                    full-block pair: independent 1e-6 coincidence gate, geo vs alg, the discriminant's zero order; Uncertified means unknown survival");
+        Console.WriteLine("                    --delta-flip: N>=7 without --exact is Uncertified in the box-scan table; the SPLIT table follows the pair from the");
+        Console.WriteLine("                    seed at every N (both zeros a Delta=0 crossing splits into); search nulls do not prove lifting");
         Console.WriteLine();
         Console.WriteLine("  shellcensus the step-3 sectorbraid census: per-block sigma_min of {lambda_A, mu} on the");
         Console.WriteLine("              fundamental-domain shell strip at the real defective seed loci (R-parity split,");

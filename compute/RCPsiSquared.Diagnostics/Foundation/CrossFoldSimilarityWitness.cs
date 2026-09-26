@@ -6,6 +6,7 @@ using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using RCPsiSquared.Core.F89PathK;
 using RCPsiSquared.Core.Inspection;
+using RCPsiSquared.Core.Numerics;
 
 namespace RCPsiSquared.Diagnostics.Foundation;
 
@@ -14,8 +15,10 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// across the two blocks. The residual is machine-zero at EVERY Δ (the fold is integrability-independent).</summary>
 public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double SimilarityResidual, double Delta);
 
-/// <summary>The cross-block fold is an exact antiunitary similarity. It transports Jordan structure conditionally
-/// after the source coincidence and character have been independently certified.
+/// <summary>Move 4, answered: the (SE,DE) diabolics PAIR across the cross-block fold, because that fold is an EXACT
+/// antiunitary similarity, and a similarity carries the whole Jordan structure. What it carries is a certified
+/// coalescence and its character; the certificate itself is XxzCoherenceBlock's (the discriminant Newton, the
+/// geometric against algebraic multiplicity, the zero order), and a small sampled gap is not one.
 ///
 /// <para>The branch-locus palindrome's bra bit-flip ρ[a,b] → ρ[a,b̄] (the F89c lemma, n_diff(a,b̄) = N −
 /// n_diff(a,b)) maps the (SE,DE) = (w1,w2) coherence block to the (SE, w_{N−2}) = (w1, N−2) block. This witness
@@ -24,15 +27,16 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// L(1,N−2)(q̄) = −P · conj(L(1,2)(q)) · Pᵀ − 2N·I to machine zero (the entries are exact arithmetic; the residual
 /// is 0 for N=4..9 at every q, real or complex). This is STRONGER than the spectrum match the CLI's
 /// <c>foldcross</c> command reports: an antiunitary similarity preserves the whole Jordan structure, so a
-/// independently certified semisimple coalescence in (SE,DE) maps to one in (SE,w_{N−2}) at
-/// (q̄, −λ̄−2N) with the identical coalescence gap and character. A sampled small gap is not such a certificate.</para>
+/// certified semisimple coalescence in (SE,DE) at (q, λ) maps to one in (SE,w_{N−2}) at (q̄, −λ̄−2N) with the
+/// identical coalescence gap and character, and a certified Jordan EP to a Jordan EP.</para>
 ///
 /// <para>The fold is integrability-INDEPENDENT: the identity holds for the FULL interacting XXZ block at EVERY
 /// anisotropy Δ (<see cref="WeightCoherenceBlock.Build(int,int,int,System.Numerics.Complex,double)"/>), because the
-/// Δ·ZZ term is EVEN under the global bit-flip (zz(b̄) = zz(b)), so the bra-complement carries it cleanly. The
-/// identity does not decide sampled positive-Delta character. N=4 at Delta=0 is certified; the N=5/N=6 positive
-/// Delta proposals are Uncertified. If a character is independently certified, its cross-fold partner shares it.
-/// The discriminant is bit-flip PARITY: a
+/// Δ·ZZ term is EVEN under the global bit-flip (zz(b̄) = zz(b)), so the bra-complement carries it cleanly. Under
+/// Δ the (SE,DE) diabolics split into Jordan EP2s (certified by XxzCoherenceBlock at the sampled N = 4..7), and
+/// since the two blocks stay antiunitary-similar at every Δ, each EP2 and its cross-fold partner turn defective in
+/// lockstep: the partner at (q̄, −λ̄ − 2N) reads the same algebraic and geometric multiplicity and the same
+/// departure (<see cref="FoldedCharacters"/>, read live at N=7, Δ = 0.02). The discriminant is bit-flip PARITY: a
 /// bit-flip-ODD perturbation breaks the fold; a longitudinal Z-field Σ_k w_k Z_k has fe(b̄) = −fe(b), so its
 /// residual is O(1), not machine zero (<see cref="ReadFieldControlResidual"/>, the complementary control). The fold
 /// is therefore a structural/algebraic property of the Liouvillian, not a free-fermion artifact.</para>
@@ -40,8 +44,10 @@ public sealed record CrossFoldReading(int N, int PartnerWBra, int Dim, double Si
 /// <para>At N=4 the partner w_{N−2} = w2 = DE, so the partner IS the (SE,DE) block (the N=4-only within-block
 /// self-fold, which fixes the independently known real-q diabolic); for N ≥ 5 the partner is
 /// a different block ((SE,TE) at N=5, (SE,QE) at N=6, …), and the N=4 on-line "zeros" become cross-block mirror
-/// partners. The N=7 proposal (λ=−4.942 ↔ partner −9.058) is retained only as an equal-gap similarity read, not
-/// as a coincidence or character certificate.</para>
+/// partners. The witness reads the pairing on the N=7 real-q diabolic: at q* = 1.1264485133 the (1,2) pair at
+/// λ* = −4.9418574904 is a certified crossing at Δ=0 (a double zero of the pair discriminant, alg = geo = 2), and
+/// its (1,5) partner sits at −λ* − 2N = −9.0581425096; both gaps are at the rounding floor at q* and open with
+/// the same linear slope 0.8632 per unit of q.</para>
 ///
 /// <para>The cross-fold is one leg of a Klein four-group of bit-flip similarities on the coherence-block lattice,
 /// general in BOTH weights (not just wKet=1): the bra-complement P (flip the bra, <see cref="BraLegResidual"/>)
@@ -65,6 +71,15 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
     private static readonly int[] SweepN = { 4, 5, 6, 7, 8, 9 };
     private const double GenericQ = 1.0;
+    // The N=7 real-q crossing (Δ=0) rounded to double: q* = 1.126448513252489811, λ* = −4.941857490410003, located
+    // at 256-bit precision as a double zero of the pair discriminant.
+    internal const double N7CrossingQ = 1.126448513252489811;
+    internal const double N7CrossingLambda = -4.941857490410003;
+    private static string Fmt(Complex z)
+    {
+        string re = z.Real.ToString("0.########", Inv), im = Math.Abs(z.Imaginary).ToString("0.########", Inv);
+        return z.Imaginary < 0 ? re + "−" + im + "i" : re + "+" + im + "i";
+    }
 
     /// <summary>The cross-fold antiunitary-similarity residual of the pure-XY (Δ=0) block at coupling q.</summary>
     public CrossFoldReading Read(int n, Complex q) => Read(n, q, 0.0);
@@ -176,9 +191,11 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
         return e;
     }
 
-    /// <summary>Compares the two eigenvalue gaps nearest a proposed real-q source point and its fold image.
-    /// Equality reads the structural similarity only; it does not certify coincidence or Jordan character.</summary>
-    public (double Gap12, double GapPartner, double PartnerLambda) ComparePartnerGapsNearProposal(int n, double qRe, double lambda)
+    /// <summary>The (SE,DE) gap nearest (q, λ) and the (SE,w_{N−2}) gap nearest the fold image −λ − 2N, at real q
+    /// and real λ (so q̄ = q). The exact similarity makes the two equal at every q; at a coalescence both vanish to
+    /// the rounding floor, and off it they open at the same rate. The character is certified separately
+    /// (XxzCoherenceBlock).</summary>
+    public (double Gap12, double GapPartner, double PartnerLambda) PairedGapsAcrossTheFold(int n, double qRe, double lambda)
     {
         var q = new Complex(qRe, 0);
         double partnerLam = -lambda - 2.0 * n;                                       // −λ̄ − 2N for real λ
@@ -195,8 +212,30 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
         return (near[0] - near[1]).Magnitude;
     }
 
+    /// <summary>The Riesz-compression character of the (SE,DE) pair nearest λ at (q, Δ) and of its cross-fold
+    /// partner, the (SE,w_{N−2}) pair nearest −λ̄ − 2N at (q̄, Δ), each on its full block with a contour of radius
+    /// 0.4 times the distance to that block's third-nearest eigenvalue (at most 0.5). The similarity makes the two
+    /// readings agree in algebraic and geometric multiplicity and in departure (complex conjugation, a permutation
+    /// and the affine −(·) − 2N leave all three unchanged). The contour uses 64 midpoints: the midpoint rule on a
+    /// circle converges like (r/d)^M with d the nearest eigenvalue outside, here r/d ≤ 0.4, so 0.4^64 ≈ 3e-26.</summary>
+    public (EpCharacter.Reading Source, EpCharacter.Reading Partner) FoldedCharacters(int n, Complex q, Complex lambda, double delta)
+    {
+        static EpCharacter.Reading Read(Complex[,] block, Complex target)
+        {
+            var m = Matrix<Complex>.Build.DenseOfArray(block);
+            var near = m.Evd().EigenValues.OrderBy(z => (z - target).Magnitude).ToArray();
+            var mid = (near[0] + near[1]) / 2;
+            double third = near.Skip(2).Min(z => (z - mid).Magnitude);
+            return EpCharacter.Characterize(m, mid, Math.Min(0.4 * third, 0.5), quadPoints: 64);
+        }
+        var source = Read(WeightCoherenceBlock.Build(n, 1, 2, q, delta), lambda);
+        var partner = Read(WeightCoherenceBlock.Build(n, 1, n - 2, Complex.Conjugate(q), delta),
+            -Complex.Conjugate(lambda) - 2.0 * n);
+        return (source, partner);
+    }
+
     public string DisplayName =>
-        "CrossFoldSimilarityWitness (exact matrix identity; conditional Jordan-character transport)";
+        "CrossFoldSimilarityWitness (the (SE,DE)↔(SE,w_{N−2}) cross-fold is an EXACT antiunitary similarity, so the certified coalescences pair)";
 
     public string Summary
     {
@@ -206,13 +245,15 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
             var r5d = Read(5, new Complex(GenericQ, 0), 0.7);
             return "the branch-locus palindrome's bra bit-flip is an EXACT antiunitary similarity " +
                    $"L(1,N−2)(q̄,Δ) = −P·conj(L(1,2)(q,Δ))·Pᵀ − 2N·I (residual {r5.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0, " +
-                   $"{r5d.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0.7, exact arithmetic). An independently certified " +
-                   "Jordan character and gap are transported to the partner. N=4 Delta=0 is certified; N=5/N=6 positive Delta " +
-                   "proposals are Uncertified. The N=4 self-fold is the " +
+                   $"{r5d.SimilarityResidual.ToString("E1", Inv)} at N=5 Δ=0.7, exact arithmetic), so a certified (SE,DE) coalescence " +
+                   "at (q, λ) pairs with a (SE,w_{N−2}) coalescence at (q̄, −λ̄−2N) with identical character and gap (an antiunitary " +
+                   "similarity preserves Jordan structure): the N=7 real-q diabolic at q* = 1.1264485133 (its Δ=0 certificate is read live in a child node) " +
+                   "pairs with its (1,5) partner at −9.0581425096. The N=4 self-fold is the " +
                    "degenerate partner=self case. The fold is integrability-INDEPENDENT: it survives at EVERY Δ (the Δ·ZZ term " +
-                   "is even under the global bit-flip, zz(b̄)=zz(b)). The similarity residual alone does not certify coincidence or character; " +
-                   "the fold holds for the full interacting XXZ block; its discriminant is bit-flip parity (a longitudinal Z-field, odd, " +
-                   "breaks it). Character transport is conditional on an independent certificate. " +
+                   "is even under the global bit-flip, zz(b̄)=zz(b)), so where Δ splits a diabolic into Jordan EP2s, each EP2 and " +
+                   "its partner turn defective in lockstep; the fold holds for the full interacting XXZ block; its discriminant is " +
+                   "bit-flip parity (a longitudinal Z-field, odd, breaks it). The residual itself certifies no sampled gap: the " +
+                   "character is XxzCoherenceBlock's certificate, carried across by the similarity. " +
                    "The fold holds at EVERY ket weight (not just wKet=1), and has a mirror KET leg (flip the ket index): both " +
                    "legs are exact antiunitary similarities (−2N), their product the unitary global spin-flip. These are the " +
                    "existing spine V₄ ⊂ D₄ block-resolved: the bra leg P = ρ·F is a factor of the F1 palindrome Π = R·D, " +
@@ -275,14 +316,35 @@ public sealed class CrossFoldSimilarityWitness : IInspectable
                          "because fe(b̄)=−fe(b). So the fold is structural/algebraic, NOT a free-fermion (integrability) artifact.",
                 provenance: NodeProvenance.Live);
 
-            foreach (var (n, q, lam) in new[] { (7, 1.1264, -4.942) })
+            // The N=7 real-q diabolic: certified at Δ=0 by the discriminant Newton + geo/alg, and read across the fold.
             {
-                var (g12, gp, plam) = ComparePartnerGapsNearProposal(n, q, lam);
+                const int n = 7;
+                var (g12, gp, plam) = PairedGapsAcrossTheFold(n, N7CrossingQ, N7CrossingLambda);
+                var (o12, op, _) = PairedGapsAcrossTheFold(n, N7CrossingQ + 1e-6, N7CrossingLambda);
+                var cert = XxzCoherenceBlock.CertifyCoalescenceNear(n, 0.0, new Complex(N7CrossingQ, 0), new Complex(N7CrossingLambda, 0));
                 yield return new InspectableNode(
-                    displayName: $"N={n} sampled proposal gap and its fold image ((1,2) λ={lam.ToString("0.###", Inv)} ↔ (1,{n - 2}) λ={plam.ToString("0.###", Inv)})",
-                    summary: $"at q={q.ToString("0.####", Inv)} the (1,2) near-target gap at λ={lam.ToString("0.###", Inv)} is {g12.ToString("E2", Inv)}, " +
-                             $"and the partner (1,{n - 2}) gap near the fold image −λ−2N={plam.ToString("0.###", Inv)} is {gp.ToString("E2", Inv)} " +
-                             "(equal by the similarity; coincidence and Jordan character remain Uncertified for this proposal).",
+                    displayName: $"gate: N={n} real-q diabolic pairs across the fold ((1,2) λ*={N7CrossingLambda.ToString("0.##########", Inv)} ↔ (1,{n - 2}) λ={plam.ToString("0.##########", Inv)})",
+                    summary: $"at q*={N7CrossingQ.ToString("0.##########", Inv)} the (1,2) pair is certified {cert.Verdict} (alg {cert.Algebraic}, " +
+                             $"geo {cert.Geometric}, a discriminant zero of order {cert.DiscriminantZeroOrder}); its gap is {g12.ToString("E2", Inv)} " +
+                             $"and the (1,{n - 2}) gap near the fold image −λ*−2N={plam.ToString("0.##########", Inv)} is {gp.ToString("E2", Inv)}, both " +
+                             $"at the rounding floor; at q*+1e-6 they open to {(o12 / 1e-6).ToString("0.######", Inv)}·δq and " +
+                             $"{(op / 1e-6).ToString("0.######", Inv)}·δq, the same linear crossing on both sides of the fold.",
+                    provenance: NodeProvenance.Live);
+            }
+
+            // Under Δ the same crossing splits into two Jordan EP2s; the first and its fold partner, read side by side.
+            {
+                var (ep, _) = XxzCoherenceBlock.CertifySplitUnderDelta(7, new Complex(1.1264, 0), new Complex(-4.942, 0), 0.02);
+                var (src, par) = FoldedCharacters(7, ep.QCandidate, ep.LambdaCandidate, 0.02);
+                var partnerLambda = -Complex.Conjugate(ep.LambdaCandidate) - 14.0;
+                yield return new InspectableNode(
+                    displayName: "lockstep under Δ: an N=7 EP2 and its cross-fold partner (Δ=0.02)",
+                    summary: $"the (1,2) coalescence at q={Fmt(ep.QCandidate)}, λ={Fmt(ep.LambdaCandidate)} is certified {ep.Verdict} " +
+                             $"(alg {ep.Algebraic}, geo {ep.Geometric}, departure {ep.Departure.ToString("0.0000000", Inv)}, a discriminant zero of " +
+                             $"order {ep.DiscriminantZeroOrder}); on the full blocks the source reads alg {src.Algebraic}, geo {src.Geometric}, " +
+                             $"departure {src.Departure.ToString("0.0000000", Inv)}, and its (1,5) partner at q̄, λ = −λ̄−14 = {Fmt(partnerLambda)} " +
+                             $"reads alg {par.Algebraic}, geo {par.Geometric}, departure {par.Departure.ToString("0.0000000", Inv)}: the two turn " +
+                             "defective in lockstep.",
                     provenance: NodeProvenance.Live);
             }
         }

@@ -44,12 +44,13 @@ public static class PathKMonodromyScanCommand
             return 0;
         }
 
-        if (p.HasFlag("delta-flip"))   // the sampled Delta-response test: does XXZ Delta kill this diabolic?
+        if (p.HasFlag("delta-flip"))   // the sampled Delta-response test: what does XXZ Delta do to this diabolic?
         {
             // --residual tracks proposal labels at N<=6; nearest continuation does not exclude AT capture.
-            // At N>=7 the default and tracked locators are explicitly Uncertified.
+            // At N>=7 the default and tracked box-scan locators are explicitly Uncertified.
             // --exact is a legacy flag: scan the fixed-complement compressed proposals, not certified residual roots
-            // (ResidualRootsCompressedXxz); these proposals require a coalescing full-block pair before character.
+            // (ResidualRootsCompressedXxz). Every proposal is refined by the discriminant Newton and certified on the
+            // full-block pair before character; the SPLIT table follows the pair from the seed with no box scan.
             PrintDeltaFlip(k, p.OptionalString("q"), p.OptionalString("lam"), p.OptionalString("deltas"), p.HasFlag("residual"), p.HasFlag("exact"));
             return 0;
         }
@@ -87,8 +88,9 @@ public static class PathKMonodromyScanCommand
         return 0;
     }
 
-    // finite-N Delta response: track a path-k diabolic under H(Δ)=J(XX+YY)+JΔ·ZZ.
-    // Only the N=4, Delta=0 control is character-certified; all sampled positive-Delta proposals at N=4..7 are Uncertified.
+    // finite-N Delta response: track a path-k diabolic under H(Δ)=J(XX+YY)+JΔ·ZZ. At the sampled Δ > 0 the Δ=0
+    // crossings certify as Jordan EP2s (geo 1 < alg 2, a simple zero of the pair discriminant), and the defective EP
+    // control stays defective; a row whose EP has left the seed's isolation disk is Uncertified.
     // Survival falsifies the sampled-locus Delta-death prediction; compare with the defective EP control.
     // Reproduces the committed N=4 table with --k 3 --q 0.658983,0 --lam -4,1.318.
     private static void PrintDeltaFlip(int k, string? qStr, string? lamStr, string? deltasStr, bool residualOnly, bool exact = false)
@@ -106,7 +108,7 @@ public static class PathKMonodromyScanCommand
         Console.WriteLine($"\n# DELTA-FLIP path-{k} (N={n}){mode}: track the candidate pair from q_seed={qre.ToString("0.####", Inv)}{Sign(qim)}i, " +
                           $"lambda={lre.ToString("0.###", Inv)}{Sign(lim)}i under XXZ anisotropy Delta");
         Console.WriteLine("# H(D) = J(XX+YY) + J*D*ZZ; finite-N Delta response tests the conditional residual mechanism; defect/lift is not proof of causality or all-N protection");
-        Console.WriteLine("  Delta   verdict     alg geo    dep       gap        q_candidate");
+        Console.WriteLine("  Delta   verdict     alg geo    dep     ord  gap        q_candidate");
         XxzCoherenceBlock.DeltaFlipVerdict? verdictAt0 = null;
         bool survivesAtPositive = false, uncertifiedAtPositive = false, sampledPositive = false;
         foreach (var d in deltas)
@@ -117,7 +119,7 @@ public static class PathKMonodromyScanCommand
             if (d > 0 && t.IsCertifiedDiabolic) survivesAtPositive = true;
             bool uncertified = t.Verdict == XxzCoherenceBlock.DeltaFlipVerdict.Uncertified;
             if (d > 0 && uncertified) uncertifiedAtPositive = true;
-            string character = uncertified ? "N/A N/A        N/A" : $"{t.Algebraic}   {t.Geometric}   {t.Departure.ToString("0.0000", Inv),8}";
+            string character = uncertified ? "N/A N/A        N/A  N/A" : $"{t.Algebraic}   {t.Geometric}   {t.Departure.ToString("0.0000", Inv),8}  {t.DiscriminantZeroOrder}  ";
             Console.WriteLine($"  {d.ToString("G", Inv),5}  {t.Verdict,-11}  {character}  {t.Gap.ToString("E2", Inv)}  " +
                               $"{t.QCandidate.Real.ToString("0.0000", Inv)}{Sign(t.QCandidate.Imaginary)}i");
         }
@@ -129,7 +131,22 @@ public static class PathKMonodromyScanCommand
             _ => "NOT SAMPLED"
         };
         Console.WriteLine($"\n# GATE: diabolic at Delta=0? {atZero};  survives at Delta>0? " +
-                          $"{(!sampledPositive ? "NOT SAMPLED" : survivesAtPositive ? "YES -> falsifies this sampled-locus Delta-death prediction" : uncertifiedAtPositive ? "UNRESOLVED -> Uncertified proposal: full-pair coincidence/correspondence or character not established; no defect/lift conclusion" : "NO -> no sampled survival; read defects/lifts against the Delta=0 verdict and defective control")}");
+                          $"{(!sampledPositive ? "NOT SAMPLED" : survivesAtPositive ? "YES (no split resolvable at radius 1e-7 in q) -> falsifies this sampled-locus Delta-death prediction" : uncertifiedAtPositive ? "UNRESOLVED -> Uncertified proposal: full-pair coincidence/correspondence or character not established; no defect/lift conclusion" : "NO -> no sampled survival; read the certified EP2s against the Delta=0 verdict and the defective control")}");
+
+        // The two zeros the Delta=0 crossing splits into, followed from the seed by the discriminant Newton.
+        Console.WriteLine("\n# SPLIT (seed-following, no box scan; meaningful for a crossing seed, not a defective control): the two zeros of the pair discriminant at each Delta>0");
+        Console.WriteLine("  Delta   zero  verdict     alg geo    dep     ord  q_zero                    lambda");
+        foreach (var d in deltas.Where(x => x > 0))
+        {
+            var (first, second) = XxzCoherenceBlock.CertifySplitUnderDelta(n, q0, lam0, d);
+            foreach (var (tag, t) in new[] { ("1", first), ("2", second) })
+            {
+                bool uncertified = t.Verdict == XxzCoherenceBlock.DeltaFlipVerdict.Uncertified;
+                string character = uncertified ? "N/A N/A        N/A  N/A" : $"{t.Algebraic}   {t.Geometric}   {t.Departure.ToString("0.0000", Inv),8}  {t.DiscriminantZeroOrder}  ";
+                Console.WriteLine($"  {d.ToString("G", Inv),5}   {tag}     {t.Verdict,-11}  {character}  " +
+                                  $"{Fine(t.QCandidate)}  {Fine(t.LambdaCandidate)}");
+            }
+        }
     }
 
     // the diabolic hunt (Q1-Q3 of the forward-edge plan): find the residual's coalescences, classify each
@@ -258,4 +275,8 @@ public static class PathKMonodromyScanCommand
     }
 
     private static string Sign(double x) => x >= 0 ? $"+{x.ToString("0.000", Inv)}" : x.ToString("0.000", Inv);
+
+    // a complex number at ten decimals, for the certified SPLIT rows
+    private static string Fine(Complex z) =>
+        z.Real.ToString("0.0000000000", Inv) + (z.Imaginary >= 0 ? "+" : "-") + Math.Abs(z.Imaginary).ToString("0.0000000000", Inv) + "i";
 }
