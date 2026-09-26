@@ -61,8 +61,9 @@ Condition (i) alone is NOT sufficient for J-blindness: a diagonal-in-Z state who
 
 - **[XOR space](XOR_SPACE.md):** the GHZ off-diagonal operators connect
   supports at Hamming distance N and receive the maximal dissipative charge
-  `2Σγ`. The former `100%` right-eigenvector-coordinate reading is not a state
-  probability.
+  `2Σγ`. Those XOR modes are left and right eigenvectors at once, so GHZ's
+  coherence lies 100% in the XOR sector, an invariant share, and decays at
+  exactly `2Σγ`.
 - **[F60](../docs/ANALYTICAL_FORMULAS.md):** GHZ_N is born below the fold, CΨ(0) = 1/(2^N - 1) for all N ≥ 2.
 - **[GHZ + W sector mix](GHZ_W_SECTOR_MIX.md) (F69):** at N=3, sector-mixing GHZ with W lifts pair-CΨ above 1/4 via an irreducible sextic optimum.
 - **Main README Section 6 Rule 1:** compare encodings with an operational

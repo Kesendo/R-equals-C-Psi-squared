@@ -1,9 +1,10 @@
-ARCHIVED EVENT RECORD - RETIRED INTERPRETATION
-WARNING: The numerical coordinates below depend on a non-normal eigenvector
-basis and its normalization. They are not state weights. No GHZ/W ranking,
-protection claim, error syndrome, or information lifetime follows from them.
-Current invariant gate: simulations/f22_operator_charge.py
-Current gate output: simulations/results/error_correction_palindrome_f22.txt
+ARCHIVED EVENT RECORD
+The coordinates below are taken in a non-normal right-eigenvector basis and
+depend on its normalization; in general they are not state weights. The XOR
+sector is the exception: X^N P_k are left and right eigenvectors of L, so that
+sector reduces L and a state's orthogonal share in it is invariant (GHZ's
+non-stationary part 100%, W's 0% for N >= 3). Exact gate: simulations/xor_verify.py
+Operator-level F22 gate: simulations/f22_operator_charge.py
 Historical body follows unchanged.
 ==========================================================================================
 

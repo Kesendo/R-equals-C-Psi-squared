@@ -145,7 +145,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-015
 
-**Question:** **Operational measure:** F23 gives only the XOR eigenspace rank fraction `(N+1)/4^N`; by itself it has no preparation, ensemble, observable, or channel meaning and cannot define a critical N. Under a specified experiment, what independent operational measure should be tested?
+**Question:** **Operational measure:** F23's XOR eigenspace fraction `(N+1)/4^N` is the expected share of an isotropically random operator, and since the eigenspace reduces L a given state has an invariant share of its own: GHZ's coherence lies there entirely at every N, W's not at all from N = 3. No single site sees that share. Which readout detects it under a specified experiment?
 
 **Source:** `docs/THE_INTERPRETATION.md` (line 548)
 **Section:** Open Questions
@@ -1967,7 +1967,7 @@ neural justifications without classifying unrelated entries.
 
 ### OQ-003
 
-**Question:** **Operational measure:** The exponentially vanishing XOR rank fraction alone cannot imply invisibility or loss of physical consequence. For a specified preparation, ensemble, observable, and channel, what independent measure quantifies access to the eigenspace?
+**Question:** **Operational measure:** The XOR rank fraction vanishes exponentially with N, while a given state's share in the eigenspace is invariant (GHZ's coherence 100%, W's 0% from N = 3), so the vanishing fraction does not make the sector irrelevant. No single site can read the share. Which readout detects it?
 
 **Source:** `docs/QUBIT_NECESSITY.md` (line 407)
 **Section:** 10. Remaining Open Questions

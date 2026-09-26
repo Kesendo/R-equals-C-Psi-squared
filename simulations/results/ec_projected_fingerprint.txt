@@ -1,0 +1,13 @@
+Projected-component fingerprint, N=3 Heisenberg chain, gamma=0.05, Bell(0,1)
+oscillating modes: 40 of 64; smallest oscillating |Im|: 1.999628; largest non-oscillating |Im|: 2.114e-15
+
+ error   max change  site-2 identity E|psi> = phase * X^N|psi> (exact)
+X_0        0.027788
+Y_0        0.055556
+Z_0        0.027788
+X_1        0.027788
+Y_1        0.055556
+Z_1        0.027788
+X_2        0.000000  holds (phase 1+0j)
+Y_2        0.000000  holds (phase 0+1j)
+Z_2        0.000000  holds (phase 1+0j)

@@ -4093,3 +4093,25 @@ whether the model has one; and a statistic read at fixed probe times has to be m
 is given a spectral name, or denied one. A phrase lock on a scope clause turns a missed citation into a
 rule that later repairs obey. And when an EP is claimed to be the only one, the coincidences between
 factors count as much as the discriminants within them.
+
+## 2026-09-26, two over-retractions of 2026-09-06 had exact answers
+
+- **The XOR sector's shares are invariant.** The 39af4b32 repair retired "GHZ 100% XOR, W 0%" as
+  right-eigenvector coordinates of a non-normal L and replaced it, on about ten surfaces, by "no exposure,
+  no lifetime, no ranking". The obstruction is real for a generic eigenspace and does not reach this one:
+  X^N·P_k are right AND left eigenvectors at −2Σγ whenever [H, X^N] = 0 and [H, ΣZ] = 0 (residuals exactly
+  0.0 with integer inputs), so the sector reduces L and its orthogonal share is invariant: GHZ's
+  non-stationary part 100%, W's 0% for N ≥ 3, the GHZ coherence an exact eigenmode with lifetime 1/(2Σγ).
+  Only the r = 0.976 mixed-XY predictor deserved retirement, and for a different reason: among its structured states only GHZ carries mixed-XY weight, so one point
+  carried the correlation.
+  The same pass made canonical a table computed by reshaping a 4^N Pauli-coefficient vector into a d×d
+  matrix (ERROR_CORRECTION §3: 0.1945/0.2777/0.0834/0.2223; correct 0.0278/0.0556/0.0278, site 2 exactly 0).
+  A banner test and stub test pinned the retraction; both are deleted, `xor_verify.py` is an exact gate.
+- **SelfMirrorObject's counts have an exact route.** 7bb87c72 tied the frequency window to the decay scale,
+  so the N=2 Heisenberg point count read 4, 3, 0 as J went 1, 10³, 10⁴ (numpy full eig; 4, 2, 0 on the
+  blocked path) while calling itself resolved. 39af4b32 answered by refusing every H ≠ 0. "A floating window
+  cannot certify line membership" is true and was the wrong conclusion: the characteristic polynomial of
+  the dyadic inputs over Z[i] and a Sturm count on gcd(Re p(iy), Im p(iy)) give the multiplicities with no
+  window, 10/4 at every J from 1 to 10⁸, 10/0 for XY, 16/10 and 16/6 at γ = 0, 0/0 on the δ = 5e-8 control.
+  Shape: a true general obstruction turned into a blanket refusal of cases it cannot reach, then pinned by
+  flag locks; the cure is an exact route, not a narrower window.

@@ -3,11 +3,11 @@ OPERATOR-LEVEL DEPHASING SUPPORT CHECK
 N=3; local rates gamma=(0.125, 0.25, 0.375)
 
 Current verdict:
-  F22 concerns computational-basis coherence operators, not state weights.
+  F22 concerns computational-basis coherence operators.
   |0...0><1...1| and its adjoint differ on every site and therefore
   receive the maximal local Z-dephasing charge 2*sum(gamma_l).
-  No GHZ/W protection ranking, optimal state, standing-wave syndrome,
-  or information lifetime is inferred here.
+  The state-level shares (GHZ's non-stationary part 100% in the XOR
+  sector, W's 0% for N >= 3) are checked in simulations/xor_verify.py.
 
 operator                                   distance     charge
 --------------------------------------------------------------

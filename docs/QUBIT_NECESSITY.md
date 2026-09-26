@@ -349,9 +349,13 @@ interacting count is H-dependent with no H-independent closed form. See
 
 ### 8c. Composition failure at large N
 
-The N → ∞ count shows only that the XOR eigenspace dimension fraction is
-(N+1)/4^N. That rank fraction has no preparation, ensemble, observable, or
-channel meaning and cannot establish operational irrelevance at any N.
+The N → ∞ limit shows the XOR fraction vanishing exponentially as (N+1)/4^N,
+the expected share of an isotropically random operator. It does not make the
+mirror operationally irrelevant at macroscopic N: the XOR space reduces L (its
+modes are left and right eigenvectors at once), so a state's share in it is
+invariant, and a GHZ state keeps its whole coherence there at every N. If the
+mirror did become irrelevant at macroscopic N, the claim that "all complexity
+arises from qubit mirrors" would lose its force.
 
 ### 8d. Engineered qutrit palindromes
 
@@ -424,9 +428,9 @@ stated dephasing grading. Broader questions remain open:
    dissipator's 54 (about −Nγ) is the only invariant skeleton.
 
 3. **Operational measure:** The XOR eigenspace rank fraction vanishes
-   exponentially with N, but rank fraction alone cannot answer an operational
-   question. For a specified preparation, ensemble, observable, and channel,
-   what measure of access to that eigenspace should be tested?
+   exponentially with N, while a given state's share in it is invariant (GHZ's
+   coherence 100%, W's 0% from N = 3). No single site can read that share, since
+   every XOR mode has a vanishing one-site trace. Which readout detects it?
 
 4. **Why does transfer fidelity not depend on the palindrome?** Both
    qubit and qutrit chains achieve F = 0.6923. The exchange Hamiltonian

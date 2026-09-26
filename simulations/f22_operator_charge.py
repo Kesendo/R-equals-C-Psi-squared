@@ -2,7 +2,9 @@
 
 This producer intentionally does not decompose states into right Liouvillian
 eigenvectors. For a non-normal generator, squared right-eigenvector coordinates
-are not invariant probabilities and cannot rank state protection.
+are not invariant probabilities in general. The XOR sector is the exception:
+X^N P_k are left and right eigenvectors, so a state's share there is invariant
+(checked exactly in simulations/xor_verify.py).
 
 The surviving result is F22: a computational-basis coherence |a><b| under
 local Z-dephasing is charged at twice the sum of the rates on sites where a
@@ -125,11 +127,11 @@ def main() -> None:
         f"N={n}; local rates gamma={gammas}",
         "",
         "Current verdict:",
-        "  F22 concerns computational-basis coherence operators, not state weights.",
+        "  F22 concerns computational-basis coherence operators.",
         "  |0...0><1...1| and its adjoint differ on every site and therefore",
         "  receive the maximal local Z-dephasing charge 2*sum(gamma_l).",
-        "  No GHZ/W protection ranking, optimal state, standing-wave syndrome,",
-        "  or information lifetime is inferred here.",
+        "  The state-level shares (GHZ's non-stationary part 100% in the XOR",
+        "  sector, W's 0% for N >= 3) are checked in simulations/xor_verify.py.",
         "",
         f"{'operator':<42} {'distance':>8} {'charge':>10}",
         "-" * 62,

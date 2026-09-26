@@ -184,24 +184,24 @@ other things in this repo, so it is worth checking which one is meant.
 ## XOR space (discovered March 16, 2026)
 
 XOR space names the endpoint eigenspace at `Re λ=−2Σγ` in the scoped
-XY/Heisenberg family below. Whether a preparation or readout couples to that
-eigenspace is a separate projection question.
+XY/Heisenberg family below. It is spanned by X^⊗N·P_k (P_k the popcount-k
+projector), which are left and right eigenvectors at once whenever
+[H, X^⊗N] = 0 and [H, Σ_l Z_l] = 0, so the space reduces L and how much of a
+state lies in it is an orthogonal projection, invariant.
 
 | Term | Definition |
 |------|------------|
 | **XOR modes** | The eigenmodes at Re λ = -2Σγ, the maximum decay rate. There are N+1 of them on the XY/Heisenberg chain with every bond non-zero and every site dephased, γ_l > 0 (a zero bond raises the count to Π_c(\|c\|+1); a zero γ on one seat leaves N+1 at N = 3, 4, while γ on the N = 3 middle seat alone gives 12 on XY and 10 on Heisenberg; a longitudinal field keeps it only if uniform); Z-dephasing alone does not fix the count, nor does number conservation (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 at N = 3, 4), see the -2Σγ row in the constants table. Under F1 they occupy one endpoint of the pairing and match the zero-rate kernel at the other endpoint; this is generally an `(N+1)`-dimensional partner subspace, not a unique steady state. They are purely off-diagonal (coherences). |
-| **XOR fraction** | Historical coordinate diagnostic formed from a right-eigenvector decomposition. For a non-normal Liouvillian it is not an invariant state probability and must not be used as a fragility or protection score. |
-| **Mixed XY Pauli weight** | Fraction of Pauli decomposition terms containing both X and Y operators simultaneously (e.g., XYI, YXZ). Its reported `r = 0.976` correlation was with the retired XOR-coordinate diagnostic, not with an operational lifetime or channel metric. |
+| **XOR fraction** | The share of a state's non-stationary part (the state minus its projection onto span{P_k}, the stationary part) that lies in XOR space, by orthogonal projection; invariant because XOR space reduces L. GHZ: 100% at every N, its coherence decaying at exactly 2Σγ. W (N≥3): 0%. \|+⟩^⊗N: 1/(2^N − 1). |
+| **Mixed XY Pauli weight** | Fraction of Pauli decomposition terms containing both X and Y operators simultaneously (e.g., XYI, YXZ). Its `r = 0.976` correlation with XOR fraction (N≥3) is retired: it was read from right-eigenvector coordinates, among the structured states behind it only GHZ has nonzero mixed-XY weight, so one point carries the correlation, and no state set with real spread in mixed-XY weight was ever run. |
 | **Palindromic modes** | For an F1-compatible generator, all generalized eigenspaces participate in the linear spectral transport, including the zero-rate and XOR endpoints. The palindrome alone does not classify a mode as robust, oscillatory, or physically wave-like. |
 | **Spectral filter** | Historical label for decompositions by decay rate or Pauli content. F1 supplies a spectral pairing, not a universal state filter; any fragile/robust classification requires a specified preparation, observable, time window and projection rule. |
 
 **In plain language:**
 
-- **XOR modes** sit at one decay endpoint in the specified chain family. An endpoint rate does not say how much of a prepared density matrix or readout occupies that eigenspace.
-- **XOR fraction** names a retired non-invariant coordinate calculation, not a
-  state property. Use the exact operator charge or an operational propagation
-  metric instead.
-- **Spectral filter** is historical shorthand. F1 pairs generalized eigenspaces but does not automatically divide every state into one fragile and one robust component. For non-normal generators, right-eigenvector coefficient squares are not state weights.
+- **XOR modes** sit at one decay endpoint in the specified chain family, and because their left and right eigenvectors coincide, the dynamics never mixes them with anything else.
+- **XOR fraction** tells you how much of a state sits on that fastest endpoint. GHZ puts all of its coherence there and loses it as fast as physically possible; W (N≥3) puts nothing there.
+- **Spectral filter** is historical shorthand. F1 pairs generalized eigenspaces but does not automatically divide every state into one fragile and one robust component. Outside XOR space, right-eigenvector coefficient squares of a non-normal generator are not state weights.
 
 ---
 
@@ -579,7 +579,7 @@ They are not arbitrary; each one comes from the mathematics.
 | **-2Σγ** | Location of XOR modes. The value is a genuine ceiling for any Hermitian H (Bendixson), but the COUNT holds on the XY/Heisenberg chain with every bond non-zero and every site dephased (γ_l > 0), a sufficient condition, and is not Z-dephasing's as such, nor to number conservation (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 at N = 3, 4): N+1 modes there, 2^N under a pure Ising ZZ chain, and NONE at all under a generic Hermitian H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3, γ = 0.05: 4, 8 and 0 modes; the generic maximum falls short of 2Σγ = 0.30 by a margin that depends on the draw and on the scale of H). |
 | **0.886** | Best average fidelity for QST (star topology, J_SB/J_SA = 2:1, γ = 0.05). |
 | **0.036/γ** | Crossing time t_cross for the Hamiltonian-dead Bell+ trajectory under equal local Z-dephasing **in the fixed Wootters-concurrence readout/book**. Gamma is swept with that trajectory fixed, not across arbitrary states, channels, Hamiltonians, or spatial profiles. Exact there: K = ln(4/3)/8 = 0.03596 (write 0.03596 when the word "exact" is attached; 0.036 is the rounded label). Three K coexist for this one state and channel, and the discriminator is WHICH C: C = Wootters concurrence gives 0.03596; C = purity, the framework's own CΨ = f(1+f²)/6, gives K = 0.03735 ([F25](ANALYTICAL_FORMULAS.md), Tier 1 proven, and the t\* = 0.747 cockpit landing); the February tool's feedback model on the concurrence book gives 0.0387, historically quoted as 0.039. See [the two-book crossing taxonomy](../experiments/CROSSING_TAXONOMY.md). |
-| **0.976** | Historical correlation with the retired non-invariant XOR-coordinate diagnostic; not an operational state metric. |
+| **0.976** | Correlation between mixed XY Pauli weight and a right-eigenvector XOR coordinate (N≥3); retired: among the structured states behind it only GHZ has nonzero mixed-XY weight, so one point carries it. |
 | **360×** | Concentrator formula vs V-shape at N=5 (peak created Sum-MI, a transport metric, ε→0 sim; C# RK4 validated; ~2-3× hardware). |
 | **180×** | Concentrator formula vs V-shape at N=7 (same transport metric). |
 | **139×** | Concentrator formula vs V-shape at N=9 (same transport metric; the factor declines to 68× by N=15). |
@@ -607,5 +607,5 @@ means exactly this:
 *See [Core Algebra](historical/CORE_ALGEBRA.md) for the proven mathematics.*
 *See [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) for the palindrome theorem.*
 *See [Non-Heisenberg Palindrome](../experiments/NON_HEISENBERG_PALINDROME.md) for the extended palindrome analysis.*
-*See [XOR Space](../experiments/XOR_SPACE.md) for the endpoint count, F22 operator support, and withdrawn state-weight interpretation.*
+*See [XOR Space](../experiments/XOR_SPACE.md) for the endpoint count, the invariant GHZ and W shares, and the retired mixed-XY predictor.*
 *See [Resonant Return](../experiments/RESONANT_RETURN.md) for the concentrator formula.*

@@ -25,8 +25,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the 4^N denominator is the full Pauli-operator-space dimension. F23 typifies
 /// the contrast: linear growth in N (numerator) against exponential decay
 /// (denominator), making the XOR drain's measure go to zero exponentially fast.
-/// F22 separately places each GHZ off-diagonal operator at maximal dephasing
-/// charge; neither statement defines a state exposure or operational lifetime.</para>
+/// What shrinks is the drain's measure, not GHZ's exposure. Whenever
+/// [H, X^⊗N] = 0 and [H, Σ_l Z_l] = 0, each X^⊗N·P_k is a right AND a left
+/// eigenvector of L at −2Σγ (L_H annihilates it, the dephasing part is
+/// self-adjoint), so the span of the N+1 is a reducing subspace and the
+/// orthogonal projection onto it is an invariant share of any operator: GHZ_N's
+/// coherence |0…0⟩⟨1…1| + h.c. lies in it entirely at every N (F22), its
+/// populations being stationary, while W_N's density matrix has no component in
+/// it for N ≥ 3 (its entries sit at Hamming distance 0 or 2, never N). The GHZ
+/// coherence is itself one of the eigenvectors, so it decays at exactly 2Σγ, a
+/// lifetime of 1/(2Σγ).</para>
 ///
 /// <para>Pi2-Foundation anchors:</para>
 /// <list type="bullet">
@@ -144,7 +152,7 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
         "F23 XOR drain (N+1)/4^N as Pi2-Foundation a_{-1} + OperatorSpaceMirror inheritance";
 
     public override string Summary =>
-        $"fraction(XOR) = (N+1)/4^N; 4 = a_{{-1}} (= {BaseFactor}); vanishes exponentially: 6.25% at N=3, 0.59% at N=5, ≈10⁻¹¹ at N=20; this is an operator-space dimension fraction, not a prepared-state probability or lifetime ({Tier.Label()})";
+        $"fraction(XOR) = (N+1)/4^N; 4 = a_{{-1}} (= {BaseFactor}); vanishes exponentially: 6.25% at N=3, 0.59% at N=5, ≈10⁻¹¹ at N=20; the drain's measure shrinks, GHZ's exposure does not: its coherence lies in the drain at every N and decays at exactly 2Σγ ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -156,7 +164,7 @@ public sealed class F23XorDrainVanishingFractionPi2Inheritance : Claim, IZ2AxisC
             yield return new InspectableNode("Pi2OperatorSpaceMirror sibling",
                 summary: "F23's 4^N denominator IS Pi2OperatorSpaceMirror's OperatorSpace; both share the same a_{-1}^N = (4)^N = d²·d²·...·d² = (2^N)² ladder anchor at index n = -(2N-1)");
             yield return new InspectableNode("vanishing-measure reading",
-                summary: "F23 quantifies the endpoint eigenspace's share of operator space (below one ppm from N = 12), not a prepared-state probability. F22 separately gives the maximal dephasing charge of each GHZ off-diagonal operator.");
+                summary: "F23 quantifies the endpoint eigenspace's share of operator space (below one ppm from N = 12). A given state's share is a separate question with an invariant answer, because the X^N P_k are left and right eigenvectors at once when [H, X^N] = 0 and [H, Σ Z_l] = 0, so their span reduces L: its orthogonal projector commutes with L (and is the spectral projector of −2Σγ wherever that eigenvalue has multiplicity exactly N+1, the class described under Tier1Derived). GHZ_N's coherence lies in it entirely at every N (F22's maximal dephasing charge) and decays at exactly 2Σγ; W_N (N ≥ 3) has no component in it.");
             yield return new InspectableNode("N=3 verified",
                 summary: $"XorDrainCount={XorDrainCount(3)}, OperatorSpaceDim={OperatorSpaceDim(3)}, fraction={XorDrainFraction(3):P4} (6.25%)");
             yield return new InspectableNode("N=5 verified",

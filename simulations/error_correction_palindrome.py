@@ -15,7 +15,10 @@ Script: simulations/error_correction_palindrome.py
 Output: simulations/results/error_correction_palindrome.txt
 """
 print("RETIRED HISTORICAL PRODUCER: preserves the March 19 non-normal coordinate event only.")
-print("Run simulations/f22_operator_charge.py for the active operator-level F22 gate.")
+print("Run simulations/f22_operator_charge.py for the active operator-level F22 gate,")
+print("simulations/xor_verify.py for the exact XOR-sector shares, and")
+print("simulations/ec_projected_fingerprint.py for Section 3 (the code below reshapes a")
+print("4^N Pauli-coefficient vector into a d x d matrix there; it is kept as the record's producer).")
 raise SystemExit(0)
 
 import numpy as np

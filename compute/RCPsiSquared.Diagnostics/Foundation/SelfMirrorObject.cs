@@ -16,12 +16,21 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// This live object counts that <b>conjugate-composite fixed line</b>, and separately reports the
 /// linear-F1 fixed-point subset. It never calls every centre-line mode its own linear F1 partner.</para>
 ///
-/// <para>Not a Claim, a live reading. Counts are emitted only on the explicitly certified
-/// zero-Hamiltonian, uniform-rate branch; floating-spectrum membership remains unresolved.</para></summary>
+/// <para>Not a Claim, a live reading, and an exact one: both counts are algebraic
+/// multiplicities of the characteristic polynomial of L for the inputs as given (every double is a
+/// dyadic rational), computed without an eigensolver by <see cref="CentreLineExactCount"/>. N = 2
+/// under γ = 0.1 on every site: the Heisenberg chain (J/4)Σσ·σ gives 10 on the line and 4 at the
+/// point at J = 1, 10³, 10⁴ and 10⁸, the XY chain (J/2)(XX+YY) gives 10 and 0; at γ = 0 and J = 1
+/// the line holds all 16 and the point 10 (Heisenberg) or 6 (XY). H = 0 at a uniform rate γ &gt; 0
+/// gives 2^N·C(N, N/2) on both at even N and 0 at odd N.
+/// A floating window cannot tell a mode on the line from one 5·10⁻⁸ beside it, and the exact
+/// route never needs to.</para></summary>
 public sealed class SelfMirrorObject : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
     private readonly MirrorSystem _system;   // INHERITED FROM: the x/y/z frame lives here, not on the object.
+    private CentreLineExactCount.Result? _exact;
+    private bool _exactTried;
 
     public SelfMirrorObject(MirrorSystem system) =>
         _system = system ?? throw new ArgumentNullException(nameof(system));
@@ -35,96 +44,56 @@ public sealed class SelfMirrorObject : IInspectable
     /// <summary>The object's place in the inherited frame: Re λ = −σ, the palindrome center line.</summary>
     public double Center => -_system.TotalDephasing;
 
-    /// <summary>Exact fixed-point multiplicity cannot be certified from floating eigenvalues alone:
-    /// a genuinely small spectral gap is indistinguishable from eigensolver error. This object
-    /// therefore reports counts only for the algebraically closed zero-Hamiltonian, uniform-rate
-    /// case. All other inputs remain explicitly unresolved until a certified rank/gap route exists.</summary>
-    public bool IsFixedSetResolved => IsCertifiedZeroHamiltonianUniformRateCase;
-
-    private bool IsCertifiedZeroHamiltonianUniformRateCase
+    private CentreLineExactCount.Result? Exact
     {
         get
         {
-            if (_system.Hamiltonian.Enumerate().Any(z => z.Real != 0.0 || z.Imaginary != 0.0))
-                return false;
-            double gamma = _system.Channels[0].Gamma;
-            return gamma >= 0.0 && _system.Channels.All(channel => channel.Gamma == gamma);
+            if (!_exactTried)
+            {
+                _exact = CentreLineExactCount.TryCount(
+                    N, _system.Hamiltonian, _system.Channels.Select(c => c.Gamma).ToArray());
+                _exactTried = true;
+            }
+            return _exact;
         }
     }
 
-    private static int Binomial(int n, int k)
-    {
-        k = Math.Min(k, n - k);
-        long value = 1;
-        for (int i = 1; i <= k; i++)
-            value = checked(value * (n - k + i) / i);
-        return checked((int)value);
-    }
-
-    private int CertifiedFixedCount
-    {
-        get
-        {
-            if (Sigma == 0.0)
-                return Enumerable.Repeat(4, N).Aggregate(1, (value, factor) => checked(value * factor));
-            if ((N & 1) != 0)
-                return 0;
-            return checked(Enumerable.Repeat(2, N).Aggregate(1, (value, factor) => checked(value * factor)) *
-                           Binomial(N, N / 2));
-        }
-    }
+    /// <summary>True when the exact route ran: every connected block of L fits
+    /// <see cref="CentreLineExactCount.MaxBlockDimension"/>. False is a cost bound, not a
+    /// precision verdict; the counts then throw rather than guess.</summary>
+    public bool IsFixedSetResolved => Exact is not null;
 
     private static string F(double value) =>
         value != 0.0 && Math.Abs(value) < 1e-4
             ? value.ToString("0.####E+0", Inv)
             : value.ToString("0.####", Inv);
 
-    /// <summary>Multiplicity on the fixed line of the conjugate-composite map
-    /// λ ↦ −2σ − conj(λ), equivalently Re λ = −σ. Reported only from the certified
-    /// algebraic branch described by <see cref="IsFixedSetResolved"/>.</summary>
-    public int CompositeFixedLineCount
-    {
-        get
-        {
-            EnsureResolved();
-            return CertifiedFixedCount;
-        }
-    }
+    /// <summary>Algebraic multiplicity on the fixed line of the conjugate-composite map
+    /// λ ↦ −2σ − conj(λ), equivalently Re λ = −σ.</summary>
+    public int CompositeFixedLineCount => EnsureResolved().LineCount;
 
-    /// <summary>Multiplicity at the fixed point of the linear F1 map λ ↦ −2σ − λ.
-    /// Linear F1 fixes λ only when λ = −σ, so both the centre-rate and zero-frequency conditions
-    /// are required. In general this is a proper subset of <see cref="CompositeFixedLineCount"/>,
-    /// which asks only for the centre rate. On the certified branch the two coincide, and not by
-    /// accident: that branch has H = 0, so L is the dephasing generator alone, its spectrum is
-    /// real, every centre-line mode already has Im λ = 0, and the line collapses onto its point.
-    /// The containment is therefore stated here rather than measured here; separating the two
-    /// numerically needs a spectrum with Im λ ≠ 0, which is the branch this object refuses.</summary>
-    public int LinearF1FixedPointCount
-    {
-        get
-        {
-            EnsureResolved();
-            return CertifiedFixedCount;
-        }
-    }
+    /// <summary>Algebraic multiplicity at the fixed point of the linear F1 map λ ↦ −2σ − λ, which
+    /// is λ = −σ: both the centre rate and zero frequency. Always a subset of
+    /// <see cref="CompositeFixedLineCount"/>; the two coincide when every centre-line mode has
+    /// Im λ = 0 (H = 0, for one) and part when H moves some of them off the real axis.</summary>
+    public int LinearF1FixedPointCount => EnsureResolved().PointCount;
 
-    private void EnsureResolved()
-    {
-        if (!IsFixedSetResolved)
-            throw new InvalidOperationException("fixed-set count unresolved: floating eigenvalues do not certify exact line or point membership");
-    }
+    private CentreLineExactCount.Result EnsureResolved() =>
+        Exact ?? throw new InvalidOperationException(
+            $"fixed-set count not computed: a connected block of L exceeds the exact route's " +
+            $"{CentreLineExactCount.MaxBlockDimension}-dimensional cost bound");
 
     public string DisplayName =>
         $"SelfMirrorObject (conjugate-composite fixed line Re λ = −σ = {F(Center)}; ⊂ MirrorSystem N={N})";
 
     public string Summary =>
         IsFixedSetResolved
-        ? $"an object INSIDE the system: {CompositeFixedLineCount} modes fixed by the composite " +
-        $"λ ↦ −2σ − conj(λ); all {LinearF1FixedPointCount} of them also sit at λ = −σ and are fixed by linear F1 " +
-        $"λ ↦ −2σ − λ, because this branch carries H = 0 and a real spectrum, so the line collapses onto its " +
-        $"point. Everything else (x/y/z and σ = {F(Sigma)}) is INHERITED."
-        : $"fixed-set count UNRESOLVED: floating eigenvalues do not certify exact membership in the composite line " +
-          $"λ ↦ −2σ − conj(λ) or the linear F1 point λ = −σ; no integer count is reported (σ = {F(Sigma)}).";
+        ? $"an object INSIDE the system: {CompositeFixedLineCount} modes on the composite fixed line " +
+          $"Re λ = −σ of λ ↦ −2σ − conj(λ); {LinearF1FixedPointCount} of them sit at λ = −σ, the fixed point " +
+          $"of linear F1 λ ↦ −2σ − λ (exact algebraic multiplicities, no eigensolver). Everything else " +
+          $"(x/y/z and σ = {F(Sigma)}) is INHERITED."
+        : $"fixed-set count not computed: a connected block of L exceeds the exact route's " +
+          $"{CentreLineExactCount.MaxBlockDimension}-dimensional cost bound (σ = {F(Sigma)}).";
 
     public IEnumerable<IInspectable> Children
     {
@@ -142,13 +111,14 @@ public sealed class SelfMirrorObject : IInspectable
                 ? new InspectableNode(
                     displayName: "the object itself: conjugate-composite fixed line",
                     summary: $"{CompositeFixedLineCount} modes at Re λ = −σ are fixed by λ ↦ −2σ − conj(λ). " +
-                             $"All {LinearF1FixedPointCount} of them also have Im λ = 0 and are fixed by the linear F1 map " +
-                             $"λ ↦ −2σ − λ, whose fixed-point equation is λ = −σ: with H = 0 the spectrum is real, so " +
-                             $"the two counts coincide here by construction. Where they can differ, the spectrum carries " +
-                             $"Im λ ≠ 0, and that is the branch this object leaves unresolved.")
+                             $"{LinearF1FixedPointCount} of them also have Im λ = 0 and are fixed by the linear F1 map " +
+                             $"λ ↦ −2σ − λ, whose fixed-point equation is λ = −σ; the other " +
+                             $"{CompositeFixedLineCount - LinearF1FixedPointCount} sit on the line at Im λ ≠ 0 and pair " +
+                             $"with their conjugates. Counted exactly: a Gaussian-integer characteristic polynomial per " +
+                             $"connected block of L, roots on the line by Sturm sequences, none rounded.")
                 : new InspectableNode(
-                    displayName: "the object itself: fixed-set count unresolved",
-                    summary: "floating eigenvalues alone cannot certify exact line or point membership; use an exact/block-aware calculation with a certified gap");
+                    displayName: "the object itself: fixed-set count not computed",
+                    summary: $"a connected block of L exceeds {CentreLineExactCount.MaxBlockDimension} dimensions, the exact route's cost bound");
         }
     }
 

@@ -147,8 +147,9 @@ Instance 6 in the table is the genuinely new case: the polynomial algebra of M_Î
 **Full three-class doc.** [the J-blind receiver classes](J_BLIND_RECEIVER_CLASSES.md)
 gives the complete decomposition with overlap structure, H-robustness table,
 and operational consequence (â‰¤ 12.07 bits J-modulation channel capacity at
-N=5 Heisenberg over F71-symmetric receivers). Its GHZ connection uses F22's
-maximal charge of the off-diagonal operator, not the retired XOR state weight;
+N=5 Heisenberg over F71-symmetric receivers). Its GHZ connection is F22: GHZ's
+coherence carries the maximal charge and lies entirely in the XOR sector, an
+invariant share because that sector's modes are left and right eigenvectors;
 Class 2 independently establishes J-blindness of the specified trajectory.
 
 ### 2.7 Common pattern across the six

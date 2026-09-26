@@ -570,9 +570,12 @@ nobody has to guess.
    admit exact partial or non-product intertwiners?
 
 4. **Operational measure:** The XOR eigenspace dimension fraction is
-   `(N+1)/4^N`. Rank fraction alone has no preparation, ensemble, observable,
-   or channel meaning. Which separately defined operational measure, if any,
-   detects this eigenspace under a specified experiment?
+   `(N+1)/4^N`, which is also the expected share of an isotropically random
+   operator. Because the eigenspace reduces L (its modes are left and right
+   eigenvectors at once), a given state has an invariant share of its own
+   (GHZ's coherence 100%, W's 0% from N = 3). No single site sees that
+   share, since every XOR mode has a vanishing one-site trace. Which readout
+   detects it under a specified experiment?
 
 5. **Operational value.** The palindromic
    response matrix SVD led to the concentrator formula (139-360× improvement

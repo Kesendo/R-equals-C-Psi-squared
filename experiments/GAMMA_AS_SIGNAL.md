@@ -354,9 +354,11 @@ the tested observables cannot distinguish rate placement. The product state
 `|+⟩⁵` exposes site-resolved responses in this protocol.
 
 This is an operational result of the stated profile-discrimination protocol.
-The separate palindrome fact is only that GHZ off-diagonal coherence has
-maximal Hamming disagreement and therefore maximal local Z-dephasing charge;
-it does not supply the receiver ranking or a state-weight explanation.
+The palindrome side explains the GHZ zero: GHZ's coherence is a single XOR
+mode, an exact eigenmode at −2Σγ, so it reads the rate profile only through
+`Σγ`, whatever the placement, and its one-site marginals stay I/2
+([XOR Space](XOR_SPACE.md)). The ranking of the other receivers is this
+protocol's own result.
 
 **The optimizations are multiplicative:** 1.3 × 2.0 × 3.1 ≈ 8× for the
 individual factors (each against the t = 2 baseline 0.059), and the

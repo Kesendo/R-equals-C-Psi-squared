@@ -1,91 +1,261 @@
-# XOR Space: Spectral Endpoint and Operator Support
+# XOR Space: Where Information Lives in the Palindrome, and Why Some Quantum States Die Instantly
 
-**Status:** The endpoint count and GHZ coherence-support statement survive in
-their stated scopes. State-weight percentages, the mixed-XY predictor, and the
-GHZ/W protection ranking do not.
-**Experiment date:** March 16, 2026
+<!-- Keywords: palindromic Liouvillian XOR sector, GHZ state fragility
+dephasing, W state robustness quantum, XOR center modes maximum decay,
+reducing subspace left and right eigenvectors, GHZ coherence lifetime 1/(2 sum gamma),
+W state zero XOR share, Hamming distance N coherence, quantum state transfer
+encoding W versus GHZ, R=CPsi2 XOR space -->
 
-## Current result
+**Status:** Tier 1 where the conditions hold: the N+1 operators X^⊗N·P_k are
+exact left and right eigenvectors of L at −2Σγ whenever [H, X^⊗N] = 0 and
+[H, Σ_l Z_l] = 0, so the XOR sector reduces L and a state's share in it is
+invariant. Verified exactly with integer couplings and rates: residuals 0.0 on
+chain, ring, star and complete graphs at N = 2..5, and multiplicity N+1 without
+Jordan blocks by GF(p) ranks on chains and the complete graph at N = 2..4. The
+mixed-XY predictor is retired.
+**Date:** March 16, 2026 (updated March 18, 2026)
+**Repository:** [R-equals-C-Psi-squared](https://github.com/Kesendo/R-equals-C-Psi-squared)
+**Depends on:** [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)
+**Cockpit-Lens (2026-04-29):** the "XY-weight" stratification used here is `n_XY = total bit_a` per Pauli string in the lean cockpit's vocabulary; the "Π maps k → N−k" claim is per-site bit_a-flip (Π: I↔X, Y↔Z). XOR_SPACE describes the *spectral* manifestation (Liouvillian eigenmode decay rates) of the same n_XY stratification that V_EFFECT_BOUNDARY_LOCALIZATION describes *algebraically* (Pauli-string sectors). The N+1 XOR modes are the spectral echo of the Π-orbit endpoints whose pairing partner is the steady state. GHZ in the XOR sector and W outside it match the f71_eigenstate_class diagnostic in the cockpit (`Receiver.f71_class`).
 
-For the connected XY/Heisenberg chain with every bond nonzero and every site
-Z-dephased at a positive rate, the eigenspace at `Re λ = -2Σγ` has dimension
-`N+1`; see [F23](../docs/ANALYTICAL_FORMULAS.md#f23-xor-drain-vanishing-fraction-tier-1-combinatorial-proof)
-for the count and its scope. The spectral endpoint is paired with the zero-rate
-kernel when the F1 palindrome applies. An endpoint eigenvalue does not determine
-how much of a prepared density matrix or readout occupies that eigenspace.
+---
 
-Independently of any eigendecomposition, local Z-dephasing acts diagonally on
-computational-basis coherence operators. The operators
-`|0...0><1...1|` and `|1...1><0...0|` differ on all N sites, so their
-dissipative charge is the maximum `2Σγ`. W and embedded-Bell off-diagonal
-operators connect basis states at Hamming distance two and are charged only on
-those two differing sites. This is [F22](../docs/ANALYTICAL_FORMULAS.md#f22-ghz-maximum-disagreement-support-tier-2-verified-n2-5),
-an operator-support statement rather than a basis-independent probability or a
-state-transfer comparison.
+## What this document is about
 
-## Historical spectral census
+The palindrome says that every fast decay has a slow partner. But that
+raises a question: if the system is perfectly symmetric, where is the
+interesting part? A perfectly balanced scale carries no information.
+The information lives in *how a specific quantum state sits on the
+palindromic stage*.
 
-The original chain run recorded:
+One corner of that stage can be read without any caveat. At the fastest
+rate, −2Σγ, sit N+1 modes whose left and right eigenvectors coincide. They
+span a subspace that the dynamics never mixes with the rest, so how much of a
+state's moving part (the state minus its stationary populations) lies there is
+a plain orthogonal projection, the same in every basis. For GHZ that is all of
+it; for W, nothing.
 
-| N | nonzero-rate modes in the run | paired modes | endpoint modes |
-|---:|---:|---:|---:|
-| 2 | 13 | 10 | 3 |
-| 3 | 60 | 56 | 4 |
-| 4 | 251 | 246 | 5 |
-| 5 | 1018 | 1012 | 6 |
+## Abstract
 
-These rows are a finite census, not the proof of the all-N count. They also do
-not make the endpoint topology-independent without the conditions stated in
-F23.
+For Z-dephasing and any Hamiltonian with [H, X^⊗N] = 0 and [H, Σ_l Z_l] = 0
+(Heisenberg, XY and XXZ couplings on any graph), the operators v_k = X^⊗N·P_k, k = 0..N, with P_k the projector onto
+popcount-k basis states, are right AND left eigenvectors of L at λ = −2Σγ:
+L_H annihilates them and the dissipator is self-adjoint. Their span is
+therefore a reducing subspace, the **XOR sector**: purely off-diagonal,
+dying at the maximum rate. GHZ's non-stationary part lies **100%** in it at
+every N, and its coherence decays at exactly 2Σγ, a lifetime of 1/(2Σγ).
+W's non-stationary part has **0%** in it for N ≥ 3. |+⟩^⊗N has 1/(2^N − 1). The
+former mixed-XY predictor (r = 0.976) is retired: among the structured states
+behind that number only GHZ has nonzero mixed-XY weight, so the correlation
+rests on one point; a run on Haar-random states could not test it either, since
+their mixed-XY weights all cluster near 0.29.
 
-## Retired coordinate diagnostics
+---
 
-The study decomposed density matrices into right eigenvectors of a non-normal
-Liouvillian and normalized squared coefficients as “palindrome weight” and
-“XOR weight.” Right eigenvectors can be rescaled, and bases inside degenerate
-or nearly degenerate eigenspaces can mix, so these numbers are not invariant
-state probabilities.
+## Background
 
-The historical coordinate table was:
+### The palindromic spectrum
 
-| State | “palindrome weight” | “XOR weight” |
-|---|---:|---:|
-| GHZ, N=2..5 | 0% | 100% |
-| Bell+, N=2 | 0% | 100% |
-| Bell+, N>=3 | 100% | 0% |
-| W, N=2 | 0% | 100% |
-| W, N>=3 | 100% | 0% |
-| `|010>` | 100% | 0% |
-| `|+-+>` | 86.5% | 13.5% |
-| `|+++>` | 85.8% | 14.2% |
+The Liouvillian superoperator (an operator that acts on operators,
+rather than on states; it governs the full dynamics including noise) of
+any Heisenberg/XXZ system under local
+Z-dephasing has palindromic eigenvalues: every decay rate d is paired
+with 2Σγ − d. This is generated by the conjugation operator Π
+(proven analytically, verified N=2 through N=8, 87,376 eigenvalues,
+zero exceptions). See [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md).
 
-The associated `r = 0.976` mixed-XY correlation described the same retired
-coordinate diagnostic. It does not predict an operational lifetime, channel
-fidelity, or optimal encoding.
+### Pauli basis decomposition
 
-## What does not follow
+Any N-qubit density matrix can be expanded in the Pauli operator basis
+(tensor products of I, X, Y, Z). Each Pauli string has an "XY-weight":
+the number of sites carrying an X or Y factor. The Π operator maps
+XY-weight k to N−k. Strings with XY-weight 0 (all I and Z) are immune
+to dephasing. Strings with XY-weight N (all X and Y) decay at the
+maximum rate 2Σγ.
 
-The palindrome does not divide full quantum states into universal “channel”
-and “drain” percentages. The exact GHZ coherence charge does not imply that the
-entire GHZ density matrix is an endpoint eigenmode, and the distance-two support
-of W coherences does not prove W outperforms GHZ. Existing direct gates use
-specific preparations and observables and do not establish a universal
-GHZ-versus-W advantage.
+### Why an invariant share needs left and right eigenvectors
 
-Likewise, decay-rate ordering alone does not supply an information lifetime,
-standing wave, or error-correcting codespace. Each requires its own preparation,
-dynamics, readout, and time-window gates.
+L is not normal, so in general the coefficients of a state in a basis of
+right eigenvectors are not probabilities: rescaling an eigenvector changes
+them. The XOR sector escapes this. Each v_k is a right and a left eigenvector,
+so span{v_k} and its orthogonal complement are both invariant under L, and the
+orthogonal projector Q onto span{v_k} commutes with L. The share used on this
+page is that of the non-stationary part ρ_ns, the state minus its projection
+onto span{P_k} (the popcount projectors, stationary under L):
+‖Qρ_ns‖²/‖ρ_ns‖², basis-free, with the sector's own part decaying exactly as
+‖Qρ(t)‖ = e^(−2Σγt)‖Qρ(0)‖.
+
+---
+
+## Result 1: N+1 Modes at the Maximum Decay Rate
+
+| N | Total nonzero-rate modes | Palindromic | XOR (at −2Σγ) |
+|---|-------------|-------------------|---------------------|
+| 2 | 13 | 10 (76.9%) | 3 (23.1%) |
+| 3 | 60 | 56 (93.3%) | 4 (6.7%) |
+| 4 | 251 | 246 (98.0%) | 5 (2.0%) |
+| 5 | 1018 | 1012 (99.4%) | 6 (0.6%) |
+
+Chain census, uniform γ. The N+1 vectors X^⊗N·P_k are eigenvectors under the
+two commutation conditions alone, on any graph, at any coupling strength and
+any rate profile. That −2Σγ has no further eigenvectors, so that the sector is
+the whole eigenspace, is the count of
+[F23](../docs/ANALYTICAL_FORMULAS.md#f23-xor-drain-vanishing-fraction-tier-1-combinatorial-proof)
+with its conditions (every bond nonzero and every site dephased; a zero bond
+raises it). It is checked exactly, with multiplicity N+1 and no Jordan blocks,
+for the Heisenberg and XY chains at non-uniform rates and for XXZ on the
+complete graph with random couplings and anisotropies, N = 2..4
+([`xor_verify.py`](../simulations/xor_verify.py)). Their palindromic
+partner is the steady state at λ = 0 (excluded from the pairing): these are
+the "center letter" of the palindrome, whose partner is silence.
+
+The conditions matter. A transverse field, a generic Hermitian H, or XYZ with
+J_x ≠ J_y leaves no X^⊗N·P_k an eigenvector. A non-uniform longitudinal field
+or a DM term keeps exactly k = 0 and k = N, the two GHZ coherences. A uniform
+field h·Σ Z_l keeps all N+1, shifted to −2Σγ + 2ih(N − 2k).
+
+---
+
+## Result 2: GHZ and W Sit on Opposite Sides
+
+Two famous quantum states, GHZ and W, do opposite things when placed into the
+palindromic spectrum. Think of it like two investment strategies in the same
+market: one puts everything into the highest-risk asset, the other diversifies
+across many risk levels. The palindrome is the market. The state is the
+strategy.
+
+Shares of each state's non-stationary part (the state minus its projection
+onto span{P_k}, the populations the dynamics cannot move) inside the XOR sector,
+exact:
+
+| State | XOR share | Note |
+|-------|-----------|------|
+| GHZ, every N | **1** | its coherence IS X^⊗N·P_0 + X^⊗N·P_N |
+| Bell+ on two sites, N = 2 | 1 | Bell+ is GHZ at N = 2 |
+| Bell+ on two sites, N ≥ 3 | **0** | Hamming distance 2, not N |
+| W, N = 2 | 1 | W is Bell Ψ⁺ at N = 2 |
+| W, N ≥ 3 | **0** | every entry at Hamming distance 0 or 2 |
+| \|010⟩ | 0 | diagonal |
+| \|+⟩^⊗N, \|+−+⟩ | 1/(2^N − 1) | 1/7 at N = 3 |
+
+**GHZ lives entirely in the XOR drain.** Its coherences span all N qubits
+simultaneously (Hamming distance N, meaning every single bit differs
+between |00...0⟩ and |11...1⟩). The coherence |0…0⟩⟨1…1| is itself an
+eigenvector, so it decays at exactly 2Σγ, a coherence lifetime of 1/(2Σγ),
+whatever H does elsewhere, as long as |0…0⟩ and |1…1⟩ are H-eigenstates. This
+is why GHZ states are maximally fragile under dephasing: not because they are
+"delicate" in some vague sense, but because their coherence sits precisely on
+the fastest-decaying modes.
+
+**W states (N ≥ 3) have nothing there.** Their coherences span only 2 qubits
+at a time, and every mode of their block decays at 2γ⟨n_XY⟩ ≤ 4γ at uniform γ
+(the [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md)), below
+the 2Nγ of the drain for N ≥ 3. This is why W-encoding keeps coherence longer
+than GHZ (main README Section 6, rule 1).
+
+**Bell+ switches at N = 3:** at N = 2 Bell+ is GHZ; at N ≥ 3 a two-site Bell
+pair has Hamming distance 2, not N, and leaves the sector.
+
+---
+
+## Result 3: The Mixed-XY Predictor, Retired
+
+The March study correlated each state's "mixed XY" Pauli weight (strings
+containing both X and Y, like XYI or YXZ) with an XOR fraction read from
+right-eigenvector coordinates, and found r = 0.976 for N ≥ 3. The coordinates
+were not the invariant shares above, and the predictor has only one point to
+stand on: at N = 3 GHZ carries 0.375 mixed-XY weight, while W, |+++⟩, |+−+⟩
+and |010⟩ carry exactly 0. Beyond the structured set it was never tested: the one run on Haar-random
+states (N = 4, r = 0.028) had a wrong normalization, and its states cluster near
+0.29 mixed-XY weight, leaving no spread to correlate. The retirement stands; the invariant share needs no
+predictor, since it is a one-line projection.
+
+---
+
+## Result 4: XOR Modes Are Coherences, Not Populations
+
+Every X^⊗N·P_k has zero diagonal: it is Σ |ā⟩⟨a| over popcount(a) = k, with ā
+the bitwise complement. The XOR modes are purely off-diagonal operators,
+coherences, not populations, and they decay at the fastest rate in the system
+(λ = −2Σγ).
+
+In the language of the palindrome: the immune sector {I, Z}^⊗N
+(populations, classical, XY-weight 0) is partnered by Π with the
+maximally decaying sector {X, Y}^⊗N (coherences, quantum, XY-weight N).
+The XOR modes sit at the quantum extreme.
+
+---
+
+## What the Drain Does and Does Not Decide
+
+The palindrome does not divide every state into a "channel" and a "drain"
+percentage: outside the XOR sector, right-eigenvector coefficients are not
+weights, and a comparison there needs a preparation, an observable and a time
+window. At the drain itself the question has an exact answer, and it is the one
+the engineering rule uses: put coherence at Hamming distance N and it leaves at
+2Σγ; keep it at distance 2 and it cannot leave faster than 4γ.
+
+---
+
+## Connection to Later Results
+
+The **γ as Signal** result ([gamma as signal](GAMMA_AS_SIGNAL.md)) found
+that GHZ states are completely blind as antennas for reading dephasing
+profiles (template distance d_min = 0). This is the same physics seen from one
+site: GHZ's one-site marginals are I/2 at all times (below).
+
+The **single-site ΔN selection rule** ([the ΔN selection rule proof](../docs/proofs/PROOF_DELTA_N_SELECTION_RULE.md))
+complements the drain picture from the observer side: a site-local observable
+sees only sector-coherence blocks with |ΔN| ≤ 1, because
+Tr_{¬i}(|x⟩⟨y|) = 0 whenever |popcount(x) − popcount(y)| ≥ 2. The XOR mode
+X^⊗N·P_k connects popcount k to popcount N − k, so |ΔN| = |N − 2k|, which is 1
+for some k at odd N. Those modes are still silent on one site, and the reason is
+the Hamming distance, not ΔN: a one-site partial trace of |ā⟩⟨a| keeps N − 1
+disagreeing sites and vanishes for every N ≥ 2. GHZ's part of the drain,
+k = 0 and k = N, has |ΔN| = N, and on a chain where |0…0⟩ and |1…1⟩ are
+H-eigenstates every site sees ρ_i = I/2 at every time, the populations giving
+I/2 and the coherence giving nothing. A pair-local observable sees up to
+|ΔN| = 2 and still misses all of the drain from N = 3: a two-site trace of
+|ā⟩⟨a| keeps N − 2 disagreeing sites.
+
+The **non-Heisenberg palindrome** ([the non-Heisenberg palindrome](NON_HEISENBERG_PALINDROME.md))
+checks the palindrome across coupling models; Result 1's conditions say which
+of them keep the XOR sector whole (XY, XXZ) and which keep only its GHZ corner
+(DM).
+
+---
+
+## Open Question
+
+How does the pair asymmetry (excited unevenly within a palindromic pair)
+relate to channel directionality? If mode A→B excites the "slow" partner
+while B→A excites the "fast" partner, the channel would be directional.
+This connects to the push/pull principle in the
+[Scaling Curve](SCALING_CURVE.md). Outside the XOR sector this needs an
+invariant measure of "excites", not a right-eigenvector coefficient.
+
+---
 
 ## Reproducibility
 
-The scripts `xor_detector.py`, `xor_detector_v2.py`, `xor_detector_v3.py`,
-`xor_verify.py`, and `xor_non_heisenberg_v2.py` are historical producers of the retired coordinate
-diagnostic; their coordinate percentages must not be used as gates. The active
-operator-level check is
-[`f22_operator_charge.py`](../simulations/f22_operator_charge.py).
+| Script | What it computes |
+|--------|-----------------|
+| [`xor_verify.py`](../simulations/xor_verify.py) | Exact: left and right eigenvector residuals 0.0 on chain, ring, star and complete graphs (N = 2..5); multiplicity N+1, semisimple, by GF(p) ranks on chains and the complete graph (N = 2..4); GHZ/W shares in Fractions; the field and DM controls |
+| [`f22_operator_charge.py`](../simulations/f22_operator_charge.py) | F22's operator-level dephasing charge |
+| xor_detector.py, xor_detector_v2.py, xor_detector_v3.py, xor_non_heisenberg_v2.py | March producers of the retired coordinate readings |
+
+All scripts in [`simulations/`](../simulations/). Requirements: NumPy.
+Runtime about one second.
+
+---
 
 ## References
 
-- [F22 and F23](../docs/ANALYTICAL_FORMULAS.md): operator-support and endpoint-count scopes
-- [Error-Correction Palindrome](ERROR_CORRECTION_PALINDROME.md): the N=3 event record and negative verdict
-- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the scoped F1 spectral pairing
+- [F22 and F23](../docs/ANALYTICAL_FORMULAS.md): operator support, the endpoint count and its conditions
+- [Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md): the palindromic theorem
+- [Absorption Theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md): Re λ = −2γ⟨n_XY⟩
+- [Non-Heisenberg Palindrome](NON_HEISENBERG_PALINDROME.md): the palindrome across coupling models
+- Main README Section 6: W-encoding and the other engineering consequences
+- [Error Correction](ERROR_CORRECTION_PALINDROME.md): the N=3 event record and its negative verdict
+- [γ as Signal](GAMMA_AS_SIGNAL.md): GHZ blind (d_min=0), product states optimal
+- [QST Bridge](QST_BRIDGE.md): quantum state transfer application

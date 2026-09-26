@@ -51,9 +51,11 @@ constrained optimization used squared coordinates in a right-eigenvector basis
 of a non-normal Liouvillian as if they were probabilities. Its `90% slow-mode`
 and associated comparison are withdrawn; the returned state must instead be
 assessed by direct density-matrix propagation and a named operational metric.
-The projected-component changes (0.19-0.28 for sampled X/Y errors, 0.0834 or
-zero for sampled Z errors) are historical readings of that construction, not
-a demonstrated syndrome. The Π representation has fourth-order structure
+Projected onto the oscillating spectral subspace, Bell(0,1) changes its
+largest Pauli coefficient by 0.0278 under an X or Z error and by 0.0556 under a
+Y error on sites 0 and 1, and by exactly 0 under any error on site 2, which acts
+on this state as X^⊗3; a projected change that no measurement reads is not a
+syndrome. The Π representation has fourth-order structure
 (`Π⁴ = I`) and four 16-dimensional algebraic eigenspaces; no QEC role follows
 for those sectors.
 
@@ -77,12 +79,12 @@ has 32 palindromic pairs that fall into three natural tiers:
 | Tier | Pairs | Rates | XY-weight | Character |
 |---|---|---|---|---|
 | Steady-XOR | 4 | 0 and 0.30 | 0.0 vs 3.0 | Extremes: immortal paired with fastest drain |
-| Boundary | 14 | 0.10 and 0.20 | 1.0 vs 2.0 | Coordinate grouping recorded by the run |
-| Mid-spectrum | 14 | ~0.133 and ~0.167 | 1.33 vs 1.67 | Coordinate grouping recorded by the run |
+| Boundary | 14 | 0.10 and 0.20 | 1.0 vs 2.0 | Exact rates 2γ and 4γ, the pure-weight rungs of [F33](../docs/ANALYTICAL_FORMULAS.md#f33-the-n3-rate-ladder-tier-1-for-the-pure-weight-rungs-the-two-fractional-rates-are-a-jgamma---infinity-limit) |
+| Mid-spectrum | 14 | ~0.133 and ~0.167 | 1.33 vs 1.67 | Near 8γ/3 and 10γ/3, F33's two fractional rates, reached in the J/γ → ∞ limit |
 
-The run grouped the boundary pairs by their printed rates and XY weights. Those
-labels do not establish information transport, state lifetime, or a
-classical/quantum split.
+The boundary rates are exact eigenvalues and the mid-spectrum rates approach
+F33's limits. Neither tier by itself establishes information transport, state
+lifetime, or a classical/quantum split.
 
 ---
 
@@ -110,33 +112,33 @@ time window.
 
 ---
 
-## 3. Historical Projected-Component Fingerprint
+## 3. The Projected-Component Fingerprint
 
-The historical calculation selected a component by eigenvalue frequency and
-compared its reconstructed Pauli coordinates after applying errors. It did not
-propagate the state or define a measurement protocol.
+The fingerprint projects a state onto the oscillating part of the spectrum,
+with the spectral projector P_osc onto every eigenvalue with Im λ ≠ 0 (40 of the
+64), and reads the moduli of the result's Pauli coefficients. A spectral
+projector does not depend on how the eigenvectors are normalized, so these are
+invariant numbers. The question is how far a single-qubit error moves them.
 
-For Bell(0,1) under Heisenberg, applying single-qubit errors:
+For Bell(0,1) = (|000⟩ + |110⟩)/√2 under the Heisenberg chain, the largest
+change of any Pauli coefficient:
 
-| Error | Projected-coordinate change | Historical threshold label |
-|---|---|---|
-| X on site 0 | 0.1945 | Yes |
-| X on site 1 | 0.1945 | Yes |
-| X on site 2 | 0.2223 | Yes |
-| Y on site 0 | 0.2777 | Yes |
-| Y on site 1 | 0.2777 | Yes |
-| Y on site 2 | 0.2223 | Yes |
-| Z on site 0 | 0.0834 | Weakly |
-| Z on site 1 | 0.0834 | Weakly |
-| Z on site 2 | 0.00 | No |
+| Error | Site 0 | Site 1 | Site 2 |
+|---|---|---|---|
+| X | 0.0278 | 0.0278 | 0 |
+| Y | 0.0556 | 0.0556 | 0 |
+| Z | 0.0278 | 0.0278 | 0 |
 
-The constructed coordinate changed by 0.19 to 0.28 for the X/Y rows, by
-0.0834 for two Z rows, and not at all for Z on site 2. The Yes/Weakly/No column
-records the run's chosen coordinate threshold, not detector performance.
+Site 2 is silent for a reason that has nothing to do with the error type: on
+this state X₂ acts exactly as X^⊗3, Y₂ as i·X^⊗3 and Z₂ as the identity, and
+X^⊗3 commutes with L and only flips the signs of Pauli coefficients, so the
+moduli cannot move. Sites 0 and 1 respond to all three errors, Z included.
 
-This table is a reading of the constructed spectral projection. The run did
-not propagate a state or define a measurement protocol, so it does not
-establish an error syndrome.
+A change in a projected component is not a syndrome: nothing here propagates
+the state or measures anything. Producer:
+[`simulations/ec_projected_fingerprint.py`](../simulations/ec_projected_fingerprint.py).
+The March 19 output's Section 3 numbers read a 4^N Pauli-coefficient vector as a
+d×d matrix and are not this quantity.
 
 ---
 
@@ -195,9 +197,13 @@ gate establishing such an ordering.
 
 ## 7. The XOR Drain Is Not a Universal Syndrome
 
-Within the retired coordinate convention, every sampled X, Y, and Z error on W
-produced zero XOR-coordinate increase. This is a negative coordinate reading,
-not a syndrome test. Section 3 likewise establishes no detector.
+No single-qubit X, Y or Z error moves W into the XOR sector: W's share there is
+exactly 0 before and after. The XOR sector is spanned by X^⊗3·P_k, whose entries
+sit at Hamming distance 3, and it reduces L ([XOR Space](XOR_SPACE.md)), so a
+state's share in it is invariant. W's entries sit at distance 0 or 2, and a
+single-qubit Pauli flips the same bit on both sides of |a⟩⟨b|, which leaves
+a ⊕ b unchanged. So the drain cannot flag any single-qubit error on W; it is no
+universal syndrome. Section 3 likewise establishes no detector.
 
 ---
 
@@ -207,8 +213,8 @@ not a syndrome test. Section 3 likewise establishes no detector.
    regions into state protection requires an operational propagation test.
 2. The former `90% slow-mode` optimum and its survival ranking are withdrawn
    because they used non-invariant right-eigenvector coordinates.
-3. The projected-component changes are historical coordinate readings, not a
-   demonstrated syndrome.
+3. The projected-component changes (0.0278 and 0.0556 on sites 0 and 1, exactly
+   0 on site 2) are invariant but are not a demonstrated syndrome.
 4. Π is a fourth-order operator (Π⁴ = I), creating an algebraic Z₄
    decomposition without assigned physical sector roles.
 5. The equal-amplitude pair curves are not information lifetimes.
@@ -225,4 +231,6 @@ not a syndrome test. Section 3 likewise establishes no detector.
 - Historical retired producer: [`simulations/error_correction_palindrome.py`](../simulations/error_correction_palindrome.py)
 - Active F22 producer: [`simulations/f22_operator_charge.py`](../simulations/f22_operator_charge.py)
 - Historical March 19 event output: [`simulations/results/error_correction_palindrome.txt`](../simulations/results/error_correction_palindrome.txt)
+- Section 3 producer: [`simulations/ec_projected_fingerprint.py`](../simulations/ec_projected_fingerprint.py), output [`simulations/results/ec_projected_fingerprint.txt`](../simulations/results/ec_projected_fingerprint.txt)
+- Exact XOR-sector gate: [`simulations/xor_verify.py`](../simulations/xor_verify.py)
 - Current F22 gate output: [`simulations/results/error_correction_palindrome_f22.txt`](../simulations/results/error_correction_palindrome_f22.txt)

@@ -275,9 +275,11 @@ exactly there: the GHZ off-diagonal |0…0⟩⟨1…1| has Hamming distance N, s
 local Z-dephasing charges it the maximal rate 2Σγ, while a W or Bell
 coherence pays for a distance of 2 ([XOR Space](../../experiments/XOR_SPACE.md);
 the registry carries it as F22, Tier 2). That is the algebra under the
-folk knowledge that GHZ states are fragile. It is a statement about the
-operator; how much of a prepared GHZ state sits in any one eigenmode it
-does not fix, since that eigenbasis is not orthogonal.
+folk knowledge that GHZ states are fragile, and it reaches the prepared
+state too: the N+1 edge modes are left and right eigenvectors at once, so
+their span is untouched by the rest of the dynamics, and the whole of the
+cat's coherence lies in it, while W's, from three sites on, has nothing
+there.
 
 **Why no one has ever met a smeared cat.** The bill is linear in the
 number of disagreeing sites, and the light never stops arriving at any of
@@ -359,10 +361,11 @@ that way: the XOR modes as the place where quantum information goes to
 die, and the GHZ state, Schrödinger's cat, falling into them. This entry
 is where the ladder is kicked away. Our [glossary](../GLOSSARY.md) keeps
 the exact form: the XOR modes sit at one decay endpoint of the chain,
-and an endpoint rate does not say how much of a prepared state lives
-there. What is exact is the operator: the cat's off-diagonal pays the
-full bill. Nothing dies in that statement; the books move to the
-correlations, sorting, not destruction. One word needs its exact
+and the cat's coherence lives there entirely, because those modes are
+left and right eigenvectors at once and the share is a plain projection.
+The bill is exact too: the cat's off-diagonal pays it in full. Nothing
+dies in that statement; the books move to the correlations, sorting, not
+destruction. One word needs its exact
 meaning: the k that Π flips is the XY-weight, the sites carrying X or Y,
 not the total non-identity weight; the
 [mirror symmetry proof](../proofs/MIRROR_SYMMETRY_PROOF.md) is explicit on

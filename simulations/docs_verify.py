@@ -3369,9 +3369,59 @@ if __name__ == "__main__":
           bad_distance > 1e-3,
           f"broken-control distance unexpectedly {bad_distance:.3e}")
 
-    print("\n--- XOR_SPACE: coordinate claims retired ---")
-    print("  Right-eigenvector coordinate squares are not invariant state weights.")
-    print("  Run f22_operator_charge.py for the operator-level F22 gate.")
+    # Claim (F22, F23, XOR_SPACE): X^N P_k, k = 0..N, are right AND left eigenvectors
+    # of L at -2*Sigma when [H, X^N] = 0 and [H, sum Z_l] = 0, so their span reduces L
+    # and the orthogonal projection onto it is an invariant share: GHZ's non-stationary
+    # part lies 100% in it, W's 0% for N >= 3 (100% at N = 2). Integer H and integer
+    # rates make every residual and share below an exact computation.
+    print("\n--- XOR_SPACE / F22: the XOR sector reduces L ---")
+    for N in [2, 3, 4]:
+        d = 2**N
+        gammas = list(range(1, N + 1))
+        sg = sum(gammas)
+        H = build_H(N, 1.0, "chain")
+        L = build_L(H, gammas, N)
+        XN = tensor(*([sx] * N))
+        pops = [bin(a).count("1") for a in range(d)]
+        vs = [(XN @ np.diag([1.0 if p == k else 0.0 for p in pops])).reshape(-1) for k in range(N + 1)]
+        worst = max(max(np.linalg.norm(L @ v + 2*sg*v), np.linalg.norm(L.conj().T @ v + 2*sg*v))
+                    for v in vs)
+        check(f"N={N}, gamma={gammas}: X^N P_k are right and left eigenvectors at -2*Sigma "
+              f"(max residual {worst})", worst == 0.0)
+
+        def xor_share(rho):
+            ns = rho.astype(complex).copy()
+            for k in range(N + 1):
+                idx = [a for a in range(d) if pops[a] == k]
+                ns[idx, idx] -= np.mean(np.diag(rho)[idx])
+            inside = sum(abs(np.vdot(v, ns.reshape(-1)))**2 / np.vdot(v, v).real for v in vs)
+            return inside, np.sum(np.abs(ns)**2)
+
+        ghz = np.zeros((d, d)); ghz[0, 0] = ghz[0, d-1] = ghz[d-1, 0] = ghz[d-1, d-1] = 0.5
+        w = np.zeros((d, d))
+        for i in range(N):
+            for j in range(N):
+                w[1 << i, 1 << j] = 1.0 / N
+        gi, gt = xor_share(ghz)
+        wi, wt = xor_share(w)
+        check(f"N={N}: GHZ non-stationary part lies 100% in the XOR sector", gt > 0 and gi == gt,
+              f"inside {gi}, total {gt}")
+        if N == 2:
+            check("N=2: W (= Bell Psi+) non-stationary part lies 100% in the XOR sector",
+                  wt > 0 and wi == wt, f"inside {wi}, total {wt}")
+        else:
+            check(f"N={N}: W non-stationary part has no component in the XOR sector",
+                  wt > 0 and wi == 0.0, f"inside {wi}, total {wt}")
+
+        Lx = build_L(H + site_op(sx, 0, N), gammas, N)
+        kept = []
+        for k, v in enumerate(vs):
+            Lv = Lx @ v
+            on = v != 0
+            if np.all(Lv[~on] == 0) and np.all(Lv[on] / v[on] == (Lv[on] / v[on])[0]):
+                kept.append(k)
+        check(f"N={N} negative control: with a transverse field X_0 no X^N P_k is an eigenvector "
+              f"at any eigenvalue (kept: {kept})", kept == [])
 
     # =============================================================
     # CORE_ALGEBRA claims

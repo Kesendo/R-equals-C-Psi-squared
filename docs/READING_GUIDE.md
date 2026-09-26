@@ -102,8 +102,10 @@ happens when you deliberately break the symmetry.
    qubits up + all down) connects two basis states that disagree on every site, so dephasing
    charges it the maximum; the coherences of a W state (exactly one
    qubit up, shared across all) connect states that disagree on two
-   sites and pay only there. That is a fact about operators; the page
-   also shows why it does not rank the states themselves.
+   sites and pay only there. And because those N+1 modes are left and
+   right eigenvectors at once, the share of a state that sits there is
+   an honest projection: all of GHZ's coherence, none of W's (from three
+   qubits on). That ranks the two states for coherence lifetime.
 
 3. [Standing Wave Analysis](../experiments/STANDING_WAVE_ANALYSIS.md) +
    [Standing Wave Theory](STANDING_WAVE_THEORY.md): A palindromic pair
@@ -140,7 +142,7 @@ happens when you deliberately break the symmetry.
    protected, some partially, some not at all. It does not: the tiers
    were read off squared coordinates in a non-normal eigenbasis, which
    are not state weights. A negative result, and worth reading as one;
-   what stands is the operator-level dephasing charge of step 2.
+   what stands is step 2: the dephasing charge and the XOR share.
 
 8. [Π Factors as R·D](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md):
    The palindromizer factors, Π = R·D (a ket reflection times the

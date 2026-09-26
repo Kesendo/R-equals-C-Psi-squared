@@ -504,13 +504,29 @@ distance N, so local Z-dephasing charges them at the maximal dissipative rate
 `2Σγ`. W and embedded Bell coherences instead have Hamming distance 2. This is
 an exact statement about operator support and the dissipator.
 
-The former `100% XOR` / `100% palindromic` state-weight percentages and the
-`r = 0.976` predictor came from coordinates in a right-eigenvector basis of a
-non-normal full Liouvillian. They are not invariant state probabilities and do
-not prove a GHZ-versus-W state-transfer ranking.
+The shares are invariant. Whenever [H, X^⊗N] = 0 and [H, Σ_l Z_l] = 0, each
+X^⊗N·P_k (P_k the popcount-k projector, k = 0..N) is a right and a left
+eigenvector of L at −2Σγ: the Hamiltonian part annihilates it and the dephasing
+part is self-adjoint. Their span therefore reduces L, and the orthogonal
+projection onto it is an invariant share of any operator. GHZ_N's coherence
+|0…0⟩⟨1…1| + h.c. is X^⊗N·P_N + X^⊗N·P_0 itself, so GHZ's non-stationary part
+(its populations are stationary) lies 100% in the XOR sector at every N and
+decays at exactly 2Σγ, a coherence lifetime of 1/(2Σγ); W_N has 0% there for
+N ≥ 3 (100% at N = 2, where distance 2 is N). Checked exactly (integer couplings
+and rates, residuals 0.0) for Heisenberg, XY and XXZ(Δ = 3) chains, Heisenberg
+rings and stars, and XXZ with random couplings and anisotropies on the complete
+graph, N = 2..5, with multiplicity N+1 and no Jordan blocks by GF(p) ranks on the
+chains and the complete graph, N = 2..4
+([`xor_verify.py`](../simulations/xor_verify.py)). A transverse field, a generic
+H or XYZ leaves no X^⊗N·P_k an eigenvector; a non-uniform longitudinal field or
+a DM term keeps k = 0 and k = N, all GHZ needs; a uniform field keeps all N+1,
+shifted by 2ih(N − 2k). The `r = 0.976` mixed-XY predictor stays retired: it was
+read from right-eigenvector coordinates, among the structured states behind it
+only GHZ has nonzero mixed-XY weight, so one point carries the correlation.
 
-**Valid for:** the stated coherence operators under local Z-dephasing; direct
-dynamical comparisons still require a preparation, observable, and time window.
+**Valid for:** the operator support under local Z-dephasing at any H; the
+invariant shares under [H, X^⊗N] = 0 and [H, Σ_l Z_l] = 0; the GHZ lifetime
+wherever |0…0⟩ and |1…1⟩ are H-eigenstates (eigenvalue −2Σγ − i(E_{0…0} − E_{1…1})).
 **Source:** [XOR Space](../experiments/XOR_SPACE.md)
 
 ### F23. XOR drain vanishing fraction (Tier 1, combinatorial proof)
@@ -518,9 +534,9 @@ dynamical comparisons still require a preparation, observable, and time window.
     fraction(XOR) = (N+1) / 4^N
 
 N=3: 6.25%. N=5: 0.59%. N=8: 0.014%. N=20: ~10^-11.
-The eigenspace's share of operator space vanishes with N. F22 separately puts
-each GHZ off-diagonal operator at maximal dephasing charge; neither result is a
-prepared-state probability, exposure, or lifetime.
+The eigenspace's share of operator space vanishes with N; GHZ's exposure does
+not: its coherence lies in the eigenspace entirely at every N (F22). The
+fraction is also the expected share of an isotropically random operator.
 
 **Valid for:** any N, Z-dephasing on the XY/Heisenberg chain with every bond non-zero and every site dephased (γ_l > 0), whose count the N+1 is (a zero bond raises it to Π_c(|c|+1); a zero γ on one seat leaves N+1 at N = 3, 4, while γ on the N = 3 middle seat alone gives 12 on XY and 10 on Heisenberg; a longitudinal field keeps it only if uniform); number conservation alone does not give it (XY plus a non-uniform longitudinal field keeps [H, ΣZ] = 0 and leaves 2 modes at N = 3, 4), a pure Ising ZZ chain gives 2^N and a generic Hermitian H none (the glossary's −2Σγ row).
 **Replaces:** sampled large-N XOR eigenspace counting with an exact dimension
@@ -2032,10 +2048,12 @@ is an H eigenstate no trajectory lifts it back; the escape is to change the
 state, which a Hamiltonian that moves the poles does (Hadamard^⊗3 takes
 GHZ_3 to 3/7).
 
-This geometric statement is separate from F22, which says that each GHZ
-off-diagonal operator has Hamming distance N and dissipative charge
-`2*Sigma*gamma`. Neither statement ranks GHZ against another state-transfer
-encoding without an operational comparison.
+Where GHZ's poles are H-eigenstates the deficit is permanent in closed form:
+the coherence decays at exactly 2Σγ (F22), so with f = e^(−2Σγt),
+CPsi(t) = ½(1 + f²)·f/(2^N − 1), falling monotonically. The same fact is README's
+Rule 1 for coherence lifetime: GHZ holds its coherence at Hamming distance N,
+where the rate is maximal, while every mode of W's block decays at
+2γ⟨n_XY⟩ ≤ 4γ at uniform γ, below 2Nγ for N ≥ 3.
 
 **Valid for:** GHZ_N for any N >= 2, gamma-independent.
 **Replaces:** trajectory simulation to confirm GHZ_N (N >= 3) never crosses 1/4 under Z-dephasing on a chain where it is an H eigenstate.

@@ -234,21 +234,53 @@ same structure from different directions.
 
 For the full proof, see [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md).
 
-## What the palindrome does not assign to a state
+## Where a state sits on the palindrome
 
-F1 transports generalized eigenspaces. It does not assign a basis-independent
-"percentage of state weight" to individual right eigenvectors of a non-normal
-Liouvillian. Such eigenvectors need not be orthogonal, and a degenerate
-eigenspace admits many bases. Consequently the former GHZ/W fast-versus-slow
-percentages and the claim that the palindrome automatically filters every
-input into fragile and robust pieces are not retained.
+A perfectly symmetric spectrum is a blank page: the palindrome organizes decay
+into matched pairs, but it does not tell you which pairs carry the content. For
+most of the spectrum that question has no simple answer, because the right
+eigenvectors of a non-normal Liouvillian need not be orthogonal, and a
+coefficient in such a basis is not a percentage of anything. One corner of the
+spectrum is different, and it is the corner that matters most.
 
-An operational lifetime statement instead starts from a named density matrix,
-propagates it, and reads a named observable. The current N=3 replacement does
-exactly this for four preparations and seven Pauli observables, without turning
-right-eigenvector coefficients into probabilities. See
-[Direct Pauli-observable traces](../experiments/STANDING_WAVE_ANALYSIS.md) and
-the eigenmode-local [Absorption Theorem](proofs/PROOF_ABSORPTION_THEOREM.md).
+At the fastest rate, −2Σγ, sit N+1 modes, the operators X^⊗N·P_k (P_k the
+projector onto basis states with k ones). Whenever the Hamiltonian commutes with
+flipping every spin and with the total magnetization, which the Heisenberg, XY
+and XXZ couplings all do, these are left and right eigenvectors at once. The
+dynamics never mixes them with anything else, so how much of a state sits there
+is an ordinary projection, the same in every basis.
+
+**GHZ states (the most entangled) put all their coherence there.** A GHZ state
+is the strongest possible entanglement between multiple particles, an
+all-or-nothing connection between |00…0⟩ and |11…1⟩. Its coherence is itself
+one of those fastest modes: it decays at exactly 2Σγ, the maximum rate there is.
+This is why GHZ states are known to be fragile under noise, and now the
+mechanism is exact: every bit differs between the two branches, and each
+differing bit is charged its full dephasing.
+
+**W states put nothing there.** A W state is a different kind of entanglement,
+more spread out, more democratic. Its coherences connect states that differ in
+only two places, so for three or more particles none of it reaches the fast
+corner, and at uniform γ none of its modes decays faster than 4γ. This is why W states are
+more robust than GHZ states.
+
+The analogy: imagine two ways to invest money. One strategy (GHZ) puts
+everything into a single high-risk asset. The other (W) distributes across
+many assets at different risk levels. The palindrome is the market. It
+does not care which strategy you choose, but at the high-risk end it tells you
+exactly where your investment goes.
+
+A tempting shortcut did not survive: the fraction of "mixed XY" terms in a
+state's Pauli decomposition once seemed to predict the fast share with
+r = 0.976, but among the structured states behind that number only GHZ has
+any mixed-XY weight at all, so one point carried the correlation. The
+projection needs no
+predictor. See
+[XOR Space](../experiments/XOR_SPACE.md) and
+[Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md). Away from the
+fast corner, a lifetime statement starts from a named density matrix,
+propagates it and reads a named observable, as the N=3
+[direct Pauli-observable traces](../experiments/STANDING_WAVE_ANALYSIS.md) do.
 
 ## Quantum state transfer (March 14, 2026)
 
@@ -286,8 +318,9 @@ fidelity; a claimed independent knob needs its own matched sweep.
 **Design rules for quantum repeaters.** The direct transport studies suggest
 using star topology with asymmetric coupling and reading out before
 t_cross = 0.036/γ (after that, the 1/4 boundary has been crossed in
-the concurrence book). The XOR-space coordinate diagnostic does not establish
-a W-over-GHZ encoding rule.
+the concurrence book). Encode in W, not GHZ, when coherence has to outlast
+dephasing: GHZ's coherence decays at exactly 2Σγ, W's at no more than 4γ at
+uniform γ ([XOR Space](../experiments/XOR_SPACE.md)).
 
 For the full benchmark, see [QST Bridge](../experiments/QST_BRIDGE.md).
 
@@ -760,8 +793,8 @@ choosing what to read next, depending on what interests you:
 
 **If the palindrome fascinates you:**
 [Mirror Symmetry Proof](proofs/MIRROR_SYMMETRY_PROOF.md) has the full
-analytical proof. [XOR Space](../experiments/XOR_SPACE.md) separates the
-endpoint count and F22 operator support from the retired state-weight reading.
+analytical proof. [XOR Space](../experiments/XOR_SPACE.md) shows where GHZ and
+W sit on it: GHZ entirely in the fastest corner, W nowhere near it.
 
 **If you think about engineering and applications:**
 [QST Bridge](../experiments/QST_BRIDGE.md) turns the palindrome into
@@ -812,7 +845,7 @@ The second was quantum physics. The structure is the same. See
 Over those three months the framing narrowed from "the fundamental equation
 of reality" to "a composite quantum diagnostic with interesting algebraic
 properties and a proven spectral symmetry theorem." The palindromic proof,
-the spectral filter, the design rules, and the concentrator formula
+the XOR sector, the design rules, and the concentrator formula
 stand on standard quantum mechanics and require no philosophical
 interpretation.
 

@@ -51,10 +51,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// below the fold regardless of γ, its fixed-point pair real from the start (a
 /// position relative to the cusp, not a classical verdict).</para>
 ///
-/// <para>Scope: this geometric fold position does not rank GHZ against another
-/// state-transfer encoding. F22 independently fixes the dephasing charge of
-/// the GHZ off-diagonal operator; an operational comparison still requires a
-/// matched preparation, observable, and time window.</para>
+/// <para>Where GHZ's two poles |0…0⟩ and |1…1⟩ are H-eigenstates (any H with
+/// [H, Σ_l Z_l] = 0, the XY and Heisenberg chains among them), the deficit is
+/// permanent: the coherence decays at exactly 2Σγ (F22, F23), so with
+/// f = e^(−2Σγt), CΨ(t) = ½(1 + f²)·f/(2^N − 1) falls monotonically from its
+/// value at birth. The same fact is README's Rule 1 for coherence lifetime: GHZ
+/// holds its coherence at Hamming distance N, the fastest rate there is, while
+/// W's entries sit at distance 0 or 2, where no mode of its block decays faster
+/// than 4γ at uniform γ (the Absorption Theorem's 2γ⟨n_XY⟩ with n_XY ≤ 2), below
+/// 2Nγ for N ≥ 3.</para>
 ///
 /// <para>Tier1Derived: F60 is Tier 1 geometric corollary. Closed form
 /// derived directly from C(0) = 1 (pure state), l1 off-diagonal coherence = 1,
@@ -144,8 +149,8 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
 
     /// <summary>The smallest N at which GHZ is born below the fold:
     /// <c>N = 3</c>. Below this (i.e. at N=2) GHZ is the Bell+ state, which
-    /// can cross the fold in the cited dynamics. For N ≥ 3 this property says
-    /// only that the initial GHZ value is below the fold.</summary>
+    /// can cross the fold in the cited dynamics. From N ≥ 3 the geometric deficit
+    /// is permanent wherever GHZ's poles are H-eigenstates: CΨ(t) only falls.</summary>
     public int SmallestNBelowFold => 3;
 
     /// <summary>Cross-check: at N = 2 (Bell+ as GHZ_2), CΨ(0) = 1/3 ≈ 0.333,
@@ -190,8 +195,8 @@ public sealed class F60GhzBornBelowFoldPi2Inheritance : Claim, IF99AnchorBearing
             yield return InspectableNode.RealScalar("FoldPosition (= a_3 = 1/4)", FoldPosition);
             yield return new InspectableNode("polarity-layer reading",
                 summary: "GHZ's only nonzero off-diagonal entry IS the polarity pair literal; F60 is the first F-formula whose primary anchor sits ON the 0.5-shift axis (per Tom 2026-05-09 mirror-map check)");
-            yield return new InspectableNode("operational scope",
-                summary: "F60 locates GHZ relative to the CΨ fold; it does not rank GHZ against W or another state-transfer encoding without a matched operational comparison");
+            yield return new InspectableNode("GHZ against W (README Rule 1)",
+                summary: "Where GHZ's poles are H-eigenstates ([H, Σ Z_l] = 0), its coherence decays at exactly 2Σγ and CΨ(t) = ½(1 + f²)·f/(2^N − 1), f = e^(−2Σγt), only falls; W's entries sit at Hamming distance 0 or 2, where every mode of its block decays at 2γ⟨n_XY⟩ ≤ 4γ (uniform γ), below 2Nγ for N ≥ 3. For coherence that has to outlast dephasing, W, not GHZ");
             yield return new InspectableNode("F60 ↔ F62 sibling",
                 summary: "F60 (GHZ): global CΨ(0) = 1/(2^N − 1) on the 2^N-dimensional state, below fold for N ≥ 3; F62 (W_N): pair-reduced CΨ(0) = 10/81 ≈ 0.124 also below fold at N=3; F69 (GHZ+W mix): unique optimum above 1/4 via sextic root");
             // Verified table: N = 2..5 from ANALYTICAL_FORMULAS F60, N = 6 by the closed form
