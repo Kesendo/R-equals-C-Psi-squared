@@ -1,0 +1,83 @@
+(A) per-room lower endpoint, uniform open XY (1,1): mult(-4 gbar) vs non-fixed chiral-transpose orbits
+  N= 2: rooms=  3 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=1; rooms reaching 0 per profile=1; min next-eigenvalue gap = 4.50e+15 rounding units; min distinct frequency spacing = 4.00e+00
+  N= 3: rooms=  5 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=3; rooms reaching 0 per profile=1; min next-eigenvalue gap = 6.00e+14 rounding units; min distinct frequency spacing = 2.83e+00
+  N= 4: rooms=  9 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=5; rooms reaching 0 per profile=1; min next-eigenvalue gap = 3.22e+14 rounding units; min distinct frequency spacing = 4.72e-01
+  N= 5: rooms= 13 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=9; rooms reaching 0 per profile=1; min next-eigenvalue gap = 2.00e+14 rounding units; min distinct frequency spacing = 5.36e-01
+  N= 6: rooms= 19 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=13; rooms reaching 0 per profile=1; min next-eigenvalue gap = 1.36e+14 rounding units; min distinct frequency spacing = 1.76e-01
+  N= 7: rooms= 25 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=19; rooms reaching 0 per profile=1; min next-eigenvalue gap = 9.90e+13 rounding units; min distinct frequency spacing = 2.33e-01
+  N= 8: rooms= 33 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=25; rooms reaching 0 per profile=1; min next-eigenvalue gap = 7.51e+13 rounding units; min distinct frequency spacing = 8.38e-02
+  N= 9: rooms= 41 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=33; rooms reaching 0 per profile=1; min next-eigenvalue gap = 5.89e+13 rounding units; min distinct frequency spacing = 9.60e-02
+  N=10: rooms= 51 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=41; rooms reaching 0 per profile=1; min next-eigenvalue gap = 4.74e+13 rounding units; min distinct frequency spacing = 4.61e-02
+  N=11: rooms= 55 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=45; rooms reaching 0 per profile=1; min next-eigenvalue gap = 3.90e+13 rounding units; min distinct frequency spacing = 7.06e-02
+  N=12: rooms= 73 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=61; rooms reaching 0 per profile=1; min next-eigenvalue gap = 3.26e+13 rounding units; min distinct frequency spacing = 2.80e-02
+  N=13: rooms= 85 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=73; rooms reaching 0 per profile=1; min next-eigenvalue gap = 2.77e+13 rounding units; min distinct frequency spacing = 1.40e-02
+  N=14: rooms= 87 x 3 profiles; mult(-4gbar) != #orbits in 0 rooms; rooms reaching -4gbar per profile=73; rooms reaching 0 per profile=1; min next-eigenvalue gap = 2.38e+13 rounding units; min distinct frequency spacing = 1.83e-02
+(B) parity-mixed (1,1) rooms on the uniform open XY chain, N = 2..30 (40-digit grouping)
+  N= 2 M= 3: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 4.00e+00
+  N= 3 M= 4: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 2.83e+00
+  N= 4 M= 5: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 4.72e-01
+  N= 5 M= 6: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 5.36e-01
+  N= 6 M= 7: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 1.76e-01
+  N= 7 M= 8: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 2.33e-01
+  N= 8 M= 9: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 8.38e-02
+  N= 9 M=10: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 9.60e-02
+  N=10 M=11: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 4.61e-02
+  N=11 M=12: mixed rooms=  6, with C_0 != 0:   6; min distinct frequency spacing 7.06e-02
+  N=12 M=13: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 2.80e-02
+  N=13 M=14: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 1.40e-02
+  N=14 M=15: mixed rooms= 12, with C_0 != 0:  12; min distinct frequency spacing 1.83e-02
+  N=15 M=16: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 8.88e-03
+  N=16 M=17: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 3.09e-03
+  N=17 M=18: mixed rooms=  6, with C_0 != 0:   6; min distinct frequency spacing 1.54e-02
+  N=18 M=19: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 1.87e-03
+  N=19 M=20: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 7.25e-03
+  N=20 M=21: mixed rooms=  6, with C_0 != 0:   6; min distinct frequency spacing 6.68e-03
+  N=21 M=22: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 7.16e-03
+  N=22 M=23: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 8.73e-04
+  N=23 M=24: mixed rooms= 12, with C_0 != 0:  12; min distinct frequency spacing 6.22e-03
+  N=24 M=25: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 1.94e-03
+  N=25 M=26: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 3.91e-04
+  N=26 M=27: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 1.14e-03
+  N=27 M=28: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 2.07e-03
+  N=28 M=29: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 1.45e-03
+  N=29 M=30: mixed rooms= 14, with C_0 != 0:  14; min distinct frequency spacing 1.48e-03
+  N=30 M=31: mixed rooms=  0, with C_0 != 0:   0; min distinct frequency spacing 7.87e-04
+  N with parity-mixed (1,1) rooms: [11, 14, 17, 20, 23, 29]
+(C) zero-frequency room for random reflection-symmetric simple h: D = -4 gbar (I - W^T W)
+  N= 2 real    (signed profile): residual 2.00 rounding units, times min level gap 10.34; min level gap 5.169; mult(-4gbar)=1 (floor(N/2)=1), next gap 4.50e+15; mult(0)=1, next gap 4.50e+15; rank W=1 (ceil(N/2)=1), kept sv >= 1.00e+00, dropped <= 7.85e-17
+  N= 2 complex (nonneg profile): residual 2.00 rounding units, times min level gap 2.05; min level gap 1.027; mult(-4gbar)=1 (floor(N/2)=1), next gap 4.50e+15; mult(0)=1, next gap 4.50e+15; rank W=1 (ceil(N/2)=1), kept sv >= 1.00e+00, dropped <= 7.85e-17
+  N= 3 real    (signed profile): residual 2.75 rounding units, times min level gap 0.54; min level gap 0.195; mult(-4gbar)=1 (floor(N/2)=1), next gap 7.41e+14; mult(0)=1, next gap 1.51e+15; rank W=2 (ceil(N/2)=2), kept sv >= 5.74e-01, dropped <= 8.44e-16
+  N= 3 complex (nonneg profile): residual 3.27 rounding units, times min level gap 3.92; min level gap 1.199; mult(-4gbar)=1 (floor(N/2)=1), next gap 6.51e+14; mult(0)=1, next gap 1.62e+15; rank W=2 (ceil(N/2)=2), kept sv >= 5.36e-01, dropped <= 6.80e-16
+  N= 4 real    (signed profile): residual 3.65 rounding units, times min level gap 0.37; min level gap 0.100; mult(-4gbar)=2 (floor(N/2)=2), next gap 1.26e+15; mult(0)=1, next gap 5.70e+14; rank W=2 (ceil(N/2)=2), kept sv >= 8.29e-01, dropped <= 4.24e-15
+  N= 4 complex (nonneg profile): residual 1.39 rounding units, times min level gap 0.69; min level gap 0.495; mult(-4gbar)=2 (floor(N/2)=2), next gap 5.77e+14; mult(0)=1, next gap 9.93e+14; rank W=2 (ceil(N/2)=2), kept sv >= 6.06e-01, dropped <= 1.03e-15
+  N= 5 real    (signed profile): residual 8.60 rounding units, times min level gap 0.61; min level gap 0.071; mult(-4gbar)=2 (floor(N/2)=2), next gap 3.48e+14; mult(0)=1, next gap 3.75e+14; rank W=3 (ceil(N/2)=3), kept sv >= 5.32e-01, dropped <= 2.89e-15
+  N= 5 complex (nonneg profile): residual 1.67 rounding units, times min level gap 0.51; min level gap 0.308; mult(-4gbar)=2 (floor(N/2)=2), next gap 2.58e+14; mult(0)=1, next gap 6.55e+14; rank W=3 (ceil(N/2)=3), kept sv >= 4.73e-01, dropped <= 1.29e-15
+  N= 6 real    (signed profile): residual 570.73 rounding units, times min level gap 3.05; min level gap 0.005; mult(-4gbar)=3 (floor(N/2)=3), next gap 4.86e+13; mult(0)=1, next gap 6.49e+14; rank W=3 (ceil(N/2)=3), kept sv >= 2.31e-01, dropped <= 2.40e-13
+  N= 6 complex (nonneg profile): residual 2.31 rounding units, times min level gap 0.31; min level gap 0.133; mult(-4gbar)=3 (floor(N/2)=3), next gap 2.71e+13; mult(0)=1, next gap 6.56e+14; rank W=3 (ceil(N/2)=3), kept sv >= 1.73e-01, dropped <= 2.26e-15
+  N= 7 real    (signed profile): residual 1.97 rounding units, times min level gap 0.12; min level gap 0.060; mult(-4gbar)=3 (floor(N/2)=3), next gap 2.96e+14; mult(0)=1, next gap 2.79e+14; rank W=4 (ceil(N/2)=4), kept sv >= 6.07e-01, dropped <= 2.14e-14
+  N= 7 complex (nonneg profile): residual 2.86 rounding units, times min level gap 0.15; min level gap 0.053; mult(-4gbar)=3 (floor(N/2)=3), next gap 1.30e+14; mult(0)=1, next gap 5.02e+14; rank W=4 (ceil(N/2)=4), kept sv >= 4.01e-01, dropped <= 4.24e-15
+  N= 8 real    (signed profile): residual 3.98 rounding units, times min level gap 0.89; min level gap 0.223; mult(-4gbar)=4 (floor(N/2)=4), next gap 6.24e+13; mult(0)=1, next gap 4.76e+14; rank W=4 (ceil(N/2)=4), kept sv >= 3.09e-01, dropped <= 3.68e-15
+  N= 8 complex (nonneg profile): residual 0.74 rounding units, times min level gap 0.27; min level gap 0.358; mult(-4gbar)=4 (floor(N/2)=4), next gap 5.15e+13; mult(0)=1, next gap 3.45e+14; rank W=4 (ceil(N/2)=4), kept sv >= 2.78e-01, dropped <= 6.23e-16
+  N= 9 real    (signed profile): residual 1.97 rounding units, times min level gap 0.38; min level gap 0.192; mult(-4gbar)=4 (floor(N/2)=4), next gap 4.88e+13; mult(0)=1, next gap 3.17e+14; rank W=5 (ceil(N/2)=5), kept sv >= 2.89e-01, dropped <= 2.12e-15
+  N= 9 complex (nonneg profile): residual 1.22 rounding units, times min level gap 0.37; min level gap 0.306; mult(-4gbar)=4 (floor(N/2)=4), next gap 2.30e+13; mult(0)=1, next gap 4.14e+14; rank W=5 (ceil(N/2)=5), kept sv >= 2.00e-01, dropped <= 1.28e-15
+  N=10 real    (signed profile): residual 1.47 rounding units, times min level gap 0.59; min level gap 0.401; mult(-4gbar)=5 (floor(N/2)=5), next gap 5.66e+13; mult(0)=1, next gap 2.75e+14; rank W=5 (ceil(N/2)=5), kept sv >= 3.27e-01, dropped <= 2.12e-15
+  N=10 complex (nonneg profile): residual 1.27 rounding units, times min level gap 0.23; min level gap 0.179; mult(-4gbar)=5 (floor(N/2)=5), next gap 9.62e+12; mult(0)=1, next gap 3.41e+14; rank W=5 (ceil(N/2)=5), kept sv >= 1.36e-01, dropped <= 1.06e-15
+  N=11 real    (signed profile): residual 2.34 rounding units, times min level gap 1.02; min level gap 0.438; mult(-4gbar)=5 (floor(N/2)=5), next gap 2.75e+13; mult(0)=1, next gap 2.62e+14; rank W=6 (ceil(N/2)=6), kept sv >= 2.43e-01, dropped <= 1.34e-15
+  N=11 complex (nonneg profile): residual 1.20 rounding units, times min level gap 0.65; min level gap 0.545; mult(-4gbar)=5 (floor(N/2)=5), next gap 9.77e+12; mult(0)=1, next gap 2.99e+14; rank W=6 (ceil(N/2)=6), kept sv >= 1.44e-01, dropped <= 5.19e-16
+(D) finite-J (1,1) Liouvillian block, uniform open XY, N = 11
+  rates (2,2,1,...,1,0,0), J=0.0: min Re lambda = -8.0000
+  rates (2,2,1,...,1,0,0), J=0.05: min Re lambda = -7.9950
+  rates (2,2,1,...,1,0,0), J=0.2: min Re lambda = -7.9229
+  rates (2,2,1,...,1,0,0), J=1.0: min Re lambda = -6.6387
+  rates (2,1,...,1,0), J=3/10: dim ker(L+4) over F_p = [5, 5] at p = (1000000009, 998244353), F140 lower bound 5, so dim ker = 5; six smallest sv = 5.20e-17, 2.31e-16, 3.38e-16, 4.90e-16, 5.75e-16, 1.17e-10; next = 1.27e-02; rounding unit = 1.26e-13; J^20 = 3.49e-11
+  rates (2,1,...,1,0), J=1/2: dim ker(L+4) over F_p = [5, 5] at p = (1000000009, 998244353), F140 lower bound 5, so dim ker = 5; six smallest sv = 6.99e-17, 2.28e-16, 6.34e-16, 6.84e-16, 9.67e-16, 2.38e-06; next = 3.19e-02; rounding unit = 1.52e-13; J^20 = 9.54e-07
+  rates (2,1,...,1,0), J=1: dim ker(L+4) over F_p = [5, 5] at p = (1000000009, 998244353), F140 lower bound 5, so dim ker = 5; six smallest sv = 2.02e-16, 5.58e-16, 8.00e-16, 1.11e-15, 1.73e-15, 2.68e-02; next = 1.02e-01; rounding unit = 2.38e-13; J^20 = 1.00e+00
+  rates (2,1,...,1,0), J=37/10: dim ker(L+4) over F_p = [5, 5] at p = (1000000009, 998244353), F140 lower bound 5, so dim ker = 5; six smallest sv = 5.31e-16, 1.77e-15, 2.34e-15, 3.25e-15, 4.98e-15, 2.59e-01; next = 2.92e-01; rounding unit = 7.85e-13; J^20 = 2.31e+11
+  rates (2,1,...,1,0), J=25: dim ker(L+4) over F_p = [5, 5] at p = (1000000009, 998244353), F140 lower bound 5, so dim ker = 5; six smallest sv = 4.40e-15, 8.86e-15, 1.37e-14, 2.33e-14, 3.29e-14, 3.31e-01; next = 3.32e-01; rounding unit = 5.20e-12; J^20 = 9.09e+27
+(E) simple-spectrum tooth: N = 6, dimers on (0,1) and (4,5) at coupling 1, middle dimer (2,3) at 0.3
+  one-body levels [-1.0, -1.0, -0.3, 0.3, 1.0, 1.0]; gbar = 1.0
+  complete ad_H room at omega=-1.3, dim 4: min eigenvalue -6.000000 < -4gbar = -4
+  complete ad_H room at omega=-0.7, dim 4: min eigenvalue -6.000000 < -4gbar = -4
+  complete ad_H room at omega=+0.0, dim 10: min eigenvalue -8.000000 < -4gbar = -4
+  complete ad_H room at omega=+0.7, dim 4: min eigenvalue -6.000000 < -4gbar = -4
+  complete ad_H room at omega=+1.3, dim 4: min eigenvalue -6.000000 < -4gbar = -4

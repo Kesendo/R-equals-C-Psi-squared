@@ -60,6 +60,8 @@ def test_off_locus_rayleigh_value_escapes_balanced_interval(data):
 
 
 def test_zero_frequency_block_attains_both_centres_from_physical_cells():
+    endpoints = gate.verify_zero_frequency_room()
+    assert endpoints == {"zero_frequency_upper": 0, "zero_frequency_lower": -4}
     reading = gate.verify_n11()
     assert reading["zero_frequency_upper"] == 0
     assert reading["zero_frequency_lower"] == -4
@@ -79,3 +81,13 @@ def test_mutated_cell_rule_is_rejected_through_same_gate():
 
     with pytest.raises(AssertionError, match="contrast matrix"):
         gate.verify_n11(wrong_or)
+
+
+@pytest.mark.parametrize("wrong_rule", [
+    lambda ket_site, bra_site, site: int(ket_site == site or bra_site == site),
+    lambda ket_site, bra_site, site: int(ket_site == site),
+])
+def test_mutated_cell_rule_fails_the_endpoint_half_on_its_own(wrong_rule):
+    # A diagonal cell carries rate under either wrong rule, so D I is no longer zero.
+    with pytest.raises(AssertionError, match="not an eigenvector|upper endpoint"):
+        gate.verify_zero_frequency_room(wrong_rule)

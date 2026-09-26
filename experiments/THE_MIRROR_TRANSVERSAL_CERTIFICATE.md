@@ -242,15 +242,17 @@ entries, and the 2160/2304 denominators are measured, underived. The
 corner tightness invites the window-edge treatment (which structural
 eigenvector reaches the edge) but that reading is not written. Everything
 here is Δ = 1, N = 6, uniform J, open chain, on the physical locus box;
-the N = 11 `(1,1)` identity question of NextStep (4) is now closed by
+the N = 11 `(1,1)` identity question of NextStep (4) is answered by
 [PROOF_N11_COMPRESSED_DENSITY](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md):
 C₀ ≠ 0 for a physical equal-frequency pair, while the compressed interval
 holds independently. The F154 typed carrier of (5) is
 `CompressedDensityLocusClaim` with `CompressedDensityN11Witness`
-(`inspect --root compresseddensity`). Higher excitation blocks, later parity
-doors, and this certificate's M₀ arithmetic remain outside that closure.
-On the uniform XY `(1,1)` block, the zero-frequency identity and chiral
-mode-projector difference attain both block-wide endpoints for every physical
-balanced profile; the N = 11 nonzero-frequency room has its lower endpoint
-for every balanced profile. These are compression statements, not finite-J
-Liouvillian statements.
+(`inspect --root compresseddensity`). Higher excitation blocks and this
+certificate's M₀ arithmetic stay outside that answer. The `(1,1)` interval's
+ends sit in the zero-frequency room, a scalar-parity room whose compression
+is −4γ̄(I − WᵀW) on every locus profile, with F143's G = WᵀW on the uniform
+XY chain; the N = 11 nonzero-frequency
+room has its lower end for every balanced profile. The rooms' spectra and the
+containment are compression statements; the two end values are also exact
+finite-J Liouvillian eigenvalues, 0 on the sector projector and −4γ̄ as
+F140's frozen root.

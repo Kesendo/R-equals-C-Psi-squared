@@ -7856,19 +7856,29 @@ public static class OpenArcsRegistry
                 "dim-3 spaces ((1,1)/(5,5) upper edge, (1,5) lower), so the containment is " +
                 "sharp; smin = |p-q|, smax = min(p+q, 2N-p-q) exact combinatorics. Open " +
                 "residue recorded there: M0 diagonality and the 2160/2304 denominators " +
-                "measured, underived. N = 11 Delta = 0 now has an exact physical (1,1) " +
+                "measured, underived. N = 11 Delta = 0 has an exact physical (1,1) " +
                 "counterexample to C_l = 0, while a separate positivity proof keeps every complete " +
                 "(1,1) compression in [-4*gbar,0] for physical mirror-balanced profiles: " +
                 "docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md and " +
-                "simulations/n11_compressed_density_gate.py. On the uniform open XY chain, the " +
-                "(1,1) block-wide interval reaches both endpoints for every physical balanced " +
-                "profile: the identity is a zero-rate vector at omega=0 and a chiral difference " +
-                "of mode projectors reaches -4*gbar there. The N=11 nonzero-frequency room " +
-                "reaches its lower endpoint at least twice for every balanced profile; its " +
-                "upper endpoint is absent for the exhibited profile. " +
+                "simulations/n11_compressed_density_gate.py. The interval's two ends are " +
+                "owned elsewhere: for any simple reflection-symmetric one-body h the omega = 0 room is " +
+                "span{P_k}, a scalar-parity room where F154's own parity theorem gives C_l = 0, and " +
+                "its compression is -4*gbar*(I - W^T W), W_lk = |psi_k(l)|^2, blind to the locus " +
+                "profile; the one-excitation identity sits at 0 and ker W (dimension >= floor(N/2)) " +
+                "at -4*gbar. On the uniform XY chain W^T W is the Gram of PROOF_R90_FROZEN_DIVISOR " +
+                "Lemma 5 at M = N+1, re-derived as F143, so the room's " +
+                "spectrum is {-4*gbar x floor(N/2), -4*gbar*(1-1/M) x (ceil(N/2)-1), 0 x 1}, and for real h " +
+                "-4*gbar is F140's frozen root, an exact (1,1) eigenvalue at every J (0 is the sector " +
+                "projector's, also at every J). Room by room, F144's chiral transpose keeps frequency " +
+                "and contact amplitudes, so mult(-4*gbar) >= the number of non-fixed orbits in every " +
+                "room (equal in all 55 N = 11 rooms at the balanced profile, exact in the witness, and " +
+                "measured through N = 14 by simulations/n11_compressed_density_census.py); the N = 11 " +
+                "nonzero-frequency room is the two-orbit case, and its upper endpoint is absent for " +
+                "the exhibited profile. " +
                 "The local contrast on any simple one-body fixed-frequency room is the signed " +
                 "agreement-projector difference, the F143 physical primitive in a new setting. " +
-                "This does not claim finite-J or higher-block containment. (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
+                "Containment is a strong-coupling compression statement; the ends are also finite-J " +
+                "eigenvalues, and higher blocks are not covered. (4) N >= 10, sharpened by (1): the law is FORCED wherever the comb's " +
                 "pair-sum map is chiral-only (odd prime powers by the proof's section 7, the 2p and " +
                 "2^a cases gated exactly there, PROOF_SCALAR_COUNT section 4 the subset-form " +
                 "sibling), so N = 10 and N = 12 are protected; the forcing ends at the parity doors " +
@@ -7880,15 +7890,22 @@ public static class OpenArcsRegistry
                 "mirror parity and <Y,C_0 X>=-sqrt(2)/72 from physical cells; on the locus profile " +
                 "(2g,g,...,g,0) the F154 projection identity fails. The independent (1,1) " +
                 "compression interval theorem is all-N under simple reflection-symmetric one-body " +
-                "h and physical balanced gamma. (5) CLOSED 2026-09-23: F154's typed " +
+                "h and physical balanced gamma. The larger-N (1,1) doors are decided by the same " +
+                "formula: an opposite-parity pair (a,b), (c,d) in one room has " +
+                "<(c,d),C_0(a,b)> = -4*psi_c*psi_a*psi_d*psi_b(0) != 0, so every parity-mixed (1,1) " +
+                "room fires; such rooms exist, measured on N <= 30 by the same census, at N = 11, 14, " +
+                "17, 20, 23, 29 and nowhere else " +
+                "(M = N + 1 the same values as the rung-2 row of PROOF_SCALAR_COUNT section 7). (5) CLOSED 2026-09-23: F154's typed " +
                 "carrier is CompressedDensityLocusClaim with CompressedDensityN11Witness " +
-                "(inspect --root compresseddensity); its parents are AbsorptionTheoremClaim and " +
-                "F71AntiPalindromicGammaSpectralInvariance (F91 locus). The claim fences the " +
+                "(inspect --root compresseddensity); its parents are AbsorptionTheoremClaim, " +
+                "F71AntiPalindromicGammaSpectralInvariance (F91 locus), JointPopcountSectors, " +
+                "SeedRungGramClaim (F143, the omega = 0 room) and FrozenDivisorClaim (F140, the " +
+                "lower endpoint at every J), and the witness recomputes the N = 11 readings in exact " +
+                "Q(sqrt2, sqrt3) arithmetic. The claim fences the " +
                 "conditional identity, N=11 failure, and separate interval theorem; it does not " +
-                "promote the measured saturation census to a universal theorem. (6) OPEN: test " +
-                "the later parity doors and higher excitation blocks, characterize endpoint " +
-                "attainment in individual nonzero-frequency rooms and other Hamiltonians, " +
-                "and derive the N=6 M0 arithmetic left by the transversal " +
+                "promote the measured saturation census to a universal theorem. (6) OPEN: the " +
+                "parity doors of the higher excitation blocks, the upper endpoint room by room at " +
+                "profiles that leave pairs dark, and the N=6 M0 arithmetic left by the transversal " +
                 "certificate. First reproduce the closed base with " +
                 "`python simulations/n11_compressed_density_gate.py`; then use " +
                 "`simulations/mixed_space_reflection_gate.py` section (4) as the exact " +
@@ -7903,7 +7920,9 @@ public static class OpenArcsRegistry
                 "its R is the chiral involution on modes, not the site reflection), " +
                 "PROOF_ABSORPTION_THEOREM Theorem 2, PROOF_CODIM1_BY_ADDITIVITY section 6's rate " +
                 "window (coincides with the centre interval at uniform gamma; under a profile the " +
-                "centre interval sits properly inside it).",
+                "centre interval sits properly inside it); for the (1,1) endpoints, F140, " +
+                "PROOF_R90_FROZEN_DIVISOR Lemma 5 and F143 " +
+                "(the sweep record of docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md).",
             Status: OpenArcStatus.Open),
 
         new OpenArc(

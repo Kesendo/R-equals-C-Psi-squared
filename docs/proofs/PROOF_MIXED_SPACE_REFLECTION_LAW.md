@@ -320,7 +320,7 @@ Gate sections (1), (2), (4) certify each claim below exactly.
   frontier, mixed collisions fire exactly at 3|M with M > 6 (the M = 6
   exception again), and N = 11 holds BOTH
   ingredients, abundant mixed spaces and a parity-odd rung-2 coincidence.
-  This proof alone ends at the forcing boundary. The subsequent
+  This proof alone ends at the forcing boundary. The
   [N=11 physical-cell certificate](PROOF_N11_COMPRESSED_DENSITY.md) closes
   NextStep 4 on `(1,1)`: X = |ψ₁⟩⟨ψ₆| and Y = |ψ₅⟩⟨ψ₉| share one frequency,
   have opposite reflection parity, and satisfy

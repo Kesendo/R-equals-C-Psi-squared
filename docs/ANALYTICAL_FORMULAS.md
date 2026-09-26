@@ -5456,8 +5456,10 @@ F-number for this: it is THIS entry's Mechanism with its scope widened, not a ne
 object. [F154](#f154) gives the conditional R₉₀-locus identity and its
 covered endpoint readings, plus an independent all-N `(1,1)` interval under
 simple reflection-symmetric one-body dynamics and physical balanced rates.
-The N=11 XY room breaks the conditional identity; on the uniform open XY
-chain the block-wide `(1,1)` interval reaches both endpoints at zero frequency.
+The N=11 XY room breaks the conditional identity; the `(1,1)` interval
+reaches both endpoints in its zero-frequency room, where the identity holds
+and the compression is −4γ̄(I − WᵀW), with F143's Gram G = WᵀW on the uniform
+XY chain.
 
 **Source:** [Proof](proofs/PROOF_STRUCTURAL_CEILING.md);
 [`simulations/topology_ceiling_rep_derivation.py`](../simulations/topology_ceiling_rep_derivation.py)
@@ -8013,11 +8015,12 @@ inside a single max-spin block, and nothing measured joins them.
 ---
 
 <a id="f154"></a>
-### F154. The conditional locus saturation law: where every reflected site-density contrast compresses to zero, the R₉₀-locus spectrum lies in its size-class-centre interval and, at γ̄ > 0, a multi-class block reaches both ends exactly when the extreme classes have pure vectors in colliding eigenspaces (subject to the stated nondegenerate-space census); N = 11, Δ = 0 supplies a physical failure of that projection identity but an independent `(1,1)` interval theorem and block-wide endpoint witnesses (registered 2026-08-15; N=11 extension 2026-09-23)
+### F154. The conditional locus saturation law: where every reflected site-density contrast compresses to zero, which is a theorem on the all-scalar territory and derived on the N = 8, Δ = 0 mixed spaces, the R₉₀-locus spectrum lies in its size-class-centre interval and, at γ̄ > 0, a multi-class block reaches both ends exactly when the extreme classes have pure vectors in colliding eigenspaces (subject to the stated nondegenerate-space census); at N = 11, Δ = 0 the contrast fires on `(1,1)` and the identity fails there, while an independent `(1,1)` interval theorem holds and both ends of that block sit in its scalar zero-frequency room, where the identity is a theorem (registered 2026-08-15; N=11 extension 2026-09-23)
 
-    for physical rates γ_l ≥ 0 on the R₉₀ locus
+    for real rates on the R₉₀ locus
     (γ_l + γ_{N−1−l} = 2γ̄), wherever Π_Ω (N_l − N_{N−1−l}) Π_Ω = 0:
         Π_Ω D Π_Ω = −2γ̄ · Π_Ω N_XY Π_Ω
+    (the intervals below are written for γ̄ ≥ 0; at γ̄ < 0 their ends swap)
     hence per eigenspace  Re spec ⊂ [−2γ̄·s_max(Ω), −2γ̄·s_min(Ω)]   (Rayleigh),
     with −2γ̄·s ∈ spec(Π_Ω D Π_Ω) for each class s with Ω_s ≠ {0},
     the extreme classes pinning the endpoints;
@@ -8038,8 +8041,8 @@ inside a single max-spin block, and nothing measured joins them.
         vectors of BOTH extreme classes; this iff stands under the gated
         premise that NO nondegenerate eigenspace holds a pure-class vector
         (one that did would attain its centre by the same identity; the
-        gate counts zero on every row it ranges over). At γ̄ = 0 all physical
-        rates vanish, the interval is {0}, and attainment is automatic;
+        gate counts zero on every row it ranges over). At γ̄ = 0 physical
+        rates all vanish, the interval is {0}, and attainment is automatic;
         the pure-vector iff does not apply. A single-class block sits on
         its one centre for the same reason, the collapse case.
     The step from J = ∞ to the block's actual strong-coupling spectrum is
@@ -8130,17 +8133,34 @@ uniform-rate zero-frequency Gram form appears in
 [PROOF_FROZEN_BAND_SO4](proofs/PROOF_FROZEN_BAND_SO4.md) §6 (F143),
 without importing that result's closed form.
 This proves `(1,1)` **compression containment at any N under these
-hypotheses**, including N = 11 when C₀ ≠ 0. On the uniform open XY chain
-at every N ≥ 2, the zero-frequency room also **attains both block-wide
-endpoints**: the one-excitation identity has physical rate zero, while
-|ψ_k⟩⟨ψ_k|−|ψ_{N+1−k}⟩⟨ψ_{N+1−k}| has zero physical diagonal and lies in
-ker T, giving −4γ̄. In the exhibited N=11 four-dyad nonzero-frequency
-room, two contact-amplitude differences lie in ker T for every balanced
-profile, so its lower endpoint has multiplicity at least two. For the
-displayed profile at g=1 its exact compressed spectrum is
-{−4,−4,−10/3−√2/18,−10/3+√2/18}; zero is absent **from that room**.
-These endpoint statements leave higher excitation blocks and the
-finite-J Liouvillian spectrum separate.
+hypotheses**, including N = 11 when C₀ ≠ 0; positivity of the rates enters
+here and nowhere in the identity of the formula block.
+
+The block's two **endpoints** belong to this entry's own theorem half. The
+zero-frequency room of a simple h is span{|ψ_k⟩⟨ψ_k|}, every one of them
+reflection-even, so it is a scalar-parity room where C_l = 0 and the identity
+holds. With W_lk = |ψ_k(l)|², whose mirror rows agree, its compression is
+Π_Ω₀ D Π_Ω₀ = −4γ̄(I − WᵀW) on every locus profile, blind to the profile: the
+one-excitation identity sits at 0, and ker W, of dimension at least ⌊N/2⌋
+since rank W ≤ ⌈N/2⌉, sits at −4γ̄. On the uniform open XY chain WᵀW is the
+Gram of [PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md) Lemma 5 at
+M = N + 1, re-derived as [F143](#f143), so that room's spectrum is
+{−4γ̄ ×⌊N/2⌋, −4γ̄(1 − 1/M) ×(⌈N/2⌉−1), 0 ×1} (on the isotropic Heisenberg chain
+only the spectrum carries, at M = N), and on XY the chiral differences |ψ_k⟩⟨ψ_k|−|ψ_{N+1−k}⟩⟨ψ_{N+1−k}| span its kernel. Both endpoint values are
+also exact `(1,1)` Liouvillian eigenvalues at every J: 0 on the sector
+projector, and −4γ̄, for real h, as [F140](#f140)'s frozen root with
+multiplicity at least ⌊N/2⌋. Room by room, F144's chiral transpose
+(a,b) ↦ (N+1−b, N+1−a) keeps frequency and contact amplitudes on the uniform
+chain, so every room carries −4γ̄ at least once per non-fixed orbit (equal in
+all 55 N = 11 rooms at the balanced profile, exact in the witness, and measured
+through N = 14 in `simulations/n11_compressed_density_census.py`). In the exhibited
+N=11 four-dyad nonzero-frequency room those are the pairs (1,6), (6,11) and
+(3,7), (5,9); for the displayed profile at g=1 its exact compressed spectrum is
+{−4,−4,−10/3−√2/18,−10/3+√2/18}, and zero is absent **from that room**. The
+contrast formula also closes every larger-N `(1,1)` door: an opposite-parity pair
+(a,b), (c,d) in one room has ⟨(c,d),C₀(a,b)⟩ = −4ψ_cψ_aψ_dψ_b(0) ≠ 0, so every
+parity-mixed `(1,1)` room fires; such rooms exist, measured on N ≤ 30 in the same
+census, at N = 11, 14, 17, 20, 23 and 29 and nowhere else. Higher excitation blocks stay separate.
 Off-locus γ₀ = 1, all other rates zero, the same N=11 Ω has
 ⟨Y,DY⟩ = −(22+5√3)/72 < −4/11, so Rayleigh forces an eigenvalue below that
 nominal centre interval; the dyad's diagonal expectation is not itself
@@ -8159,10 +8179,10 @@ interior is comp(N_XY) arithmetic too: on the dim-12 ω = 0 space of
 ladder (7·spec integral, gated).
 
 **Valid for:** the conditional C_l = 0 identity on the number-conserving XXZ
-chain with palindromic bonds and per-site Z-dephasing on the R₉₀ locus, on
-the eigenspaces identified above; the separate `(1,1)` interval theorem has
-the simple one-body spectrum and physical γ_l ≥ 0 hypotheses stated in its
-paragraph. **Breaks for:** N = 11, Δ = 0 on `(1,1)` breaks the C_l = 0 premise
+chain with palindromic bonds and per-site Z-dephasing on the R₉₀ locus, any
+real profile, on the eigenspaces identified above; the separate `(1,1)`
+interval theorem has the simple one-body spectrum and physical γ_l ≥ 0
+hypotheses stated in its paragraph. **Breaks for:** N = 11, Δ = 0 on `(1,1)` breaks the C_l = 0 premise
 and projection identity on a nonuniform locus profile, though its interval
 still holds; non-palindromic J (the same collision structure, law residual
 0.456, gated), off the locus (the extremes leave the centre interval, 0.3307 at Δ = 0
@@ -8194,13 +8214,18 @@ the thread is the OpenArcs entry
 `compressed_density_laws`. Siblings: [F122](#f122) (the Mechanism whose compressed
 spectra this reads), [F153](#f153) (the pinned single-class case and the source-2
 hypothesis this inherits), [F91](#f91) (the locus), [F143](#f143)
-(the earlier zero-frequency agreement Gram primitive, not a premise),
+(the zero-frequency Gram, whose −4γ̄(I − G) is the `(1,1)` endpoint room),
+[F140](#f140) (the lower endpoint as a Liouvillian eigenvalue at every J),
+PROOF_R90_FROZEN_DIVISOR Lemma 5 (that Gram's law and spectrum, before F143),
 [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6 (the cell-rate
 window this sharpens on the locus) and §7 (b) (the self-folded sibling).
 **Typed:** `CompressedDensityLocusClaim` carries the conditional identity,
-independent interval and block-wide endpoint scope; `CompressedDensityN11Witness`
-(`inspect --root compresseddensity`) recomputes the N=11 physical counterexample,
-signed agreement and zero-frequency endpoint witnesses.
+the independent interval and the endpoint room, with typed parents
+`AbsorptionTheoremClaim`, `F71AntiPalindromicGammaSpectralInvariance`,
+`JointPopcountSectors`, `SeedRungGramClaim` (F143) and `FrozenDivisorClaim`
+(F140); `CompressedDensityN11Witness` (`inspect --root compresseddensity`)
+recomputes the N=11 physical counterexample, the signed agreement and the
+zero-frequency room against F143's Gram in exact Q(√2, √3) arithmetic.
 
 ### F155. The physical generator's polarity break is a DIAGONAL bilinear form: for H = A + iB the asymmetry is 4^(N+1)·Σ over bit_b-ODD strings of (−1)^#Z·a_σ·b_σ, no cross-string term at all (derived and registered 2026-08-19, universal N)
 

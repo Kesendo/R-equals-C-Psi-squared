@@ -19,11 +19,16 @@ alone permits a cross block of order one; derived the same day at Δ = 0
 ([PROOF_MIXED_SPACE_REFLECTION_LAW](../docs/proofs/PROOF_MIXED_SPACE_REFLECTION_LAW.md));
 and at Δ = 1 those mixed spaces are exactly where the law can break. The SU(2) resonance adds its own second law: the compressed
 density on every pure size class is exactly UNIFORM, s/N per site, blind to the whole
-γ profile. A later exact N=11 `(1,1)` certificate finds a physical
-cross-parity site-density connection; its balanced-profile projection
-identity fails, while a separate positivity proof retains the compressed
-interval and supplies both block-wide `(1,1)` endpoints at zero frequency
-([proof](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)).
+γ profile. At N = 11 the `(1,1)` block carries a physical cross-parity
+site-density connection, so its balanced-profile projection identity fails,
+while a separate positivity proof retains the compressed interval
+([proof](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)). The interval's two
+ends sit in the zero-frequency room, where every mode projector is
+mirror-even and this note's theorem holds; there the compression is
+−4γ̄(I − WᵀW), on the uniform XY chain with
+[F143](../docs/ANALYTICAL_FORMULAS.md#f143)'s Gram G = WᵀW (the XY case of
+[PROOF_R90_FROZEN_DIVISOR](../docs/proofs/PROOF_R90_FROZEN_DIVISOR.md) Lemma 5), and the lower end
+is [F140](../docs/ANALYTICAL_FORMULAS.md#f140)'s frozen root at every coupling.
 
 Gate: `simulations/high_q_selection_gate.py`'s sibling
 [`simulations/endpoint_density_gate.py`](../simulations/endpoint_density_gate.py),
@@ -205,7 +210,7 @@ Three consequences, each gated:
    size-class-centre interval. The original gate also measured containment on
    every multi-dimensional eigenspace of the six locus cases, including the
    Δ = 1 breaking spaces where that identity does not apply. Their all-profile
-   containment was subsequently certified by
+   containment is certified by
    [THE_MIRROR_TRANSVERSAL_CERTIFICATE](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md);
    the original gate's one-profile slack remains a measurement.
 2. **Attainment.** A pure-class vector v ∈ Ω_s satisfies N_XY v = s v, hence
@@ -230,7 +235,7 @@ locus containment is DERIVED** (theorem + locus pairing), and attainment follows
 from the measured pure-vector census on top. On the blocks in the census, that
 territory is: all Δ = 0 rows through N = 7, all Δ = ½ rows through N = 8, the
 Δ = 1 rows at N = 8 ((1,3) and (2,4), gate section C), and the extreme-carrying ω = 0
-spaces at Δ = 1, N = 6 (the breaking spaces' interior containment was later
+spaces at Δ = 1, N = 6 (the breaking spaces' interior containment is
 certified for every physical locus profile). At N = 8, Δ = 0 the containment
 is derived too, the mixed-space
 law being the theorem of
@@ -328,14 +333,19 @@ its parity doors begin at N = 11, 14 and 20. At N = 11 the physical `(1,1)`
 identity does fail: X = |ψ₁⟩⟨ψ₆| and Y = |ψ₅⟩⟨ψ₉| give
 ⟨Y,C₀X⟩ = −√2/72, while the separate `(1,1)` interval theorem holds
 ([proof and exact gate](../docs/proofs/PROOF_N11_COMPRESSED_DENSITY.md)).
-Its block-wide `(1,1)` interval reaches both endpoints in the zero-frequency
-room for every physical balanced profile. This follows from the one-excitation
-identity and a chiral difference of mode projectors; the exhibited N = 11
-nonzero-frequency room reaches the lower endpoint, but not the upper one on
-the stated profile. Higher excitation blocks and later parity doors remain open.
-The N = 6 [mirror-transversal certificate](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md)
-still leaves its M₀ diagonality and 2160/2304 denominators unexplained.
-The Arc `compressed_density_laws` names the next file and reproduction command.
+On `(1,1)` every larger-N door fires the same way. The interval's two ends
+sit in the zero-frequency room, where the identity of this note is a theorem
+and, on the uniform XY chain, the compression is −4γ̄(I − G) with F143's G,
+reached by the one-excitation identity at 0 and by the chiral differences of
+mode projectors at −4γ̄. The exhibited N = 11 nonzero-frequency
+room reaches the lower end, but not the upper one on the stated profile.
+Which Δ = 1, N = 6 mixed spaces break and which hold is answered in
+[THE_TWO_SPIN_ZEROS](THE_TWO_SPIN_ZEROS.md), and their containment by the
+[mirror-transversal certificate](THE_MIRROR_TRANSVERSAL_CERTIFICATE.md), which
+leaves its M₀ diagonality and 2160/2304 denominators unexplained. Open: the
+parity doors of the higher excitation blocks, and the upper end room by room
+at profiles that leave pairs dark. The Arc `compressed_density_laws` names
+the next file and reproduction command.
 
 ## The gate
 

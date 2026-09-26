@@ -4343,3 +4343,27 @@ and reports blindness 1, while over ℚ the nonzero hop gives blindness 0. A mod
 bound on rational rank, hence an upper bound on blindness; two agreeing upper bounds are still upper
 bounds. The runner now calls their agreement a reduction check. Its uniform-chain `J=1` divisor law
 retains its independent analytic proof in `THE_BLIND_SITE.md` and F157.
+
+## 2026-09-26, the N = 11 endpoint witnesses were called independent of three results that already held them
+
+The outside commit a1c8230f (2026-09-23) landed a sound N = 11 counterexample to F154's C_l = 0 premise
+and a sound, new `(1,1)` interval theorem, and called endpoint attainment open; 181fd72e then presented the
+block's two endpoints as witnesses found independently of F154, with F143 "not a premise". The 2026-09-23
+entry above records the first landing's "open" as a record defect that derivation caught. Both readings miss the owners. The
+endpoints sit in the zero-frequency room, span{P_k}, where every mode projector is reflection-even, so
+F154's own parity theorem gives C_l = 0 there and its pure-vector clause attains both ends. On the locus that
+room's compression is −4γ̄(I − WᵀW) with W_lk = |ψ_k(l)|², blind to the profile; on the uniform XY chain
+WᵀW is the Gram of PROOF_R90_FROZEN_DIVISOR Lemma 5 (2026-07-22), re-derived five days later as F143's G, with
+multiplicities ⌊N/2⌋, ⌈N/2⌉ − 1 and 1 in the room; and for real h the lower end is
+F140's frozen root, an exact `(1,1)` eigenvalue at every J. The one fence drawn from the independent position
+landed on the wrong side: the typed Scope said block-wide attainment "does not extend to … general
+reflection-symmetric h", while rank W ≤ ⌈N/2⌉ gives it for every simple reflection-symmetric h, at least
+⌊N/2⌋ deep. The same position understated what the proof's
+own formulas decide: every room carries −4γ̄ at least once per non-fixed chiral-transpose orbit, and every
+parity-mixed `(1,1)` room fires, so "later parity doors" was open only above `(1,1)`. The new proof had no
+sweep record.
+
+**The shape.** The 2026-08-04 one: a narrower re-derivation of what the registry held, minted without
+citing it, here with the owner being the very entry that was extended, and with Lemma 5, the lemma F143
+itself re-derived, missing a second time. A sweep that searches F154's own theorem half, F140 and Lemma 5
+with F143 finds them before the word "independent" is written.
