@@ -1,3 +1,4 @@
+using System.Reflection;
 using MirrorWorld;
 
 namespace MirrorWorldTests;
@@ -12,6 +13,141 @@ public class DivisorTests
 
     static Divisor Make(int n, long jNum = JNum)
         => new(new Mirror(W, n, 1.0, 0.5), n, jNum, Divisor.Locus(n, 9, 2, -3, 5), Den);
+
+    [Fact]
+    public void Scaled_Rate_Entries_Do_Not_Wrap_Before_Modular_Rank()
+    {
+        const long gamma = 1L << 60;
+        var divisor = new Divisor(new Mirror(W, 4, 1.0, 0.5), 4, 1,
+            new[] { gamma, gamma, gamma, gamma }, 1, zz: false);
+
+        // The exact 16x16 Gaussian-integer matrix has rank 14 at both ranking primes.
+        Assert.Equal(2, divisor.KernelDimensionUpperBound());
+    }
+
+    [Fact]
+    public void Scaled_Hopping_Entries_Do_Not_Wrap_Before_Modular_Rank()
+    {
+        var divisor = new Divisor(new Mirror(W, 4, 1.0, 0.5), 4, 1L << 62,
+            new long[4], 1, zz: false);
+
+        // At zero watching, the open chain has four distinct single-particle energies;
+        // their commutator has a four-dimensional kernel for every nonzero J.
+        Assert.Equal(4, divisor.KernelDimensionUpperBound());
+    }
+
+    [Fact]
+    public void Sigma_And_Rooms_Use_The_Exact_Sum_Beyond_Int64()
+    {
+        const long gamma = 1L << 60;
+        var divisor = new Divisor(new Mirror(W, 8, 1.0, 0.5), 8, 1,
+            Enumerable.Repeat(gamma, 8).ToArray(), 1);
+
+        Assert.Equal(8.0 * gamma, divisor.Sigma);
+        Assert.Equal(4, divisor.Rooms().Frozen);
+    }
+
+    [Fact]
+    public void Locus_Profile_Is_Snapshotted_By_The_Divisor()
+    {
+        long[] profile = { 1, 1, 1, 1 };
+        var divisor = new Divisor(new Mirror(W, 4, 1.0, 0.5), 4, 1, profile, 1);
+        Assert.Equal(4.0, divisor.Sigma);
+
+        profile[0] = 0;
+        Assert.Equal(4.0, divisor.Sigma);
+        Assert.Equal(2, divisor.KernelDimensionUpperBound());
+    }
+
+    [Fact]
+    public void Locus_Refuses_A_Profile_That_Cannot_Fit_In_Int64()
+    {
+        Assert.Throws<OverflowException>(() => Divisor.Locus(4, long.MaxValue, 1));
+        Assert.Throws<OverflowException>(() => Divisor.Locus(4, long.MinValue, 1));
+    }
+
+    [Fact]
+    public void Divisor_Refuses_A_Profile_That_Does_Not_Name_Exactly_Its_Sites()
+    {
+        var mirror = new Mirror(W, 4, 1.0, 0.5);
+        Assert.Throws<ArgumentException>(() => new Divisor(mirror, 4, 1, new long[] { 1, 1, 1, 1, 100 }, 1));
+        Assert.Throws<ArgumentException>(() => new Divisor(mirror, 4, 1, new long[] { 1, 1, 1 }, 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Divisor(mirror, 4, 1, new long[] { 1, 1, 1, 1 }, 0));
+    }
+
+    [Fact]
+    public void Room_And_Ladder_Claims_Refuse_Profiles_Outside_R90()
+    {
+        const long badPrimeProduct = 998244353L * 1004535809L;
+        var divisor = new Divisor(new Mirror(W, 3, 1.0, 0.5), 3, 1,
+            new[] { 1L, 1L, 1L + badPrimeProduct }, 1);
+        // Both ranking primes see the locus and report one; rational rank has no frozen root.
+        Assert.Equal(1, divisor.KernelDimensionUpperBound());
+        Assert.False(divisor.IsOnLocus);
+        Assert.Throws<InvalidOperationException>(() => divisor.Rooms());
+        Assert.Throws<InvalidOperationException>(() => divisor.Ladder());
+        Assert.Throws<InvalidOperationException>(() => divisor.Corners());
+    }
+
+    [Fact]
+    public void Zero_Mean_Zero_Coupling_Has_More_Kernel_Than_The_Room_Minimum()
+    {
+        var divisor = new Divisor(new Mirror(W, 3, 1.0, 0.5), 3, 0, new long[3], 1);
+        Assert.Equal(3, divisor.Rooms().Frozen);
+        Assert.Equal(9, divisor.KernelDimensionUpperBound());
+    }
+
+    [Fact]
+    public void Ladder_Total_Does_Not_Wrap_When_N_Squared_Exceeds_Int32()
+    {
+        const int n = 46_341;
+        var divisor = new Divisor(new Mirror(W, n, 1.0, 0.5), n, 1, new long[n], 1);
+        Assert.Equal(2L * ((long)n * n / 4), divisor.Ladder().TotalLowerBound);
+    }
+
+    [Fact]
+    public void Heisenberg_Single_Excitation_Has_Twice_The_XY_Hop()
+    {
+        var divisor = new Divisor(new Mirror(W, 3, 1.0, 0.5), 3, 1, new long[3], 1, zz: true);
+        var h = (long[,])typeof(Divisor).GetMethod("H", BindingFlags.Instance | BindingFlags.NonPublic)!
+            .Invoke(divisor, null)!;
+
+        // The proof's DCT-II clock M=N needs h=[[0,2,0],[2,-2,2],[0,2,0]],
+        // whose eigenvalues are 2,0,-4. Unit hops give a different boundary clock.
+        Assert.Equal(2, h[0, 1]);
+        Assert.Equal(2, h[1, 2]);
+        Assert.Equal(-2, h[1, 1]);
+    }
+
+    [Fact]
+    public void Two_Bad_Ranking_Primes_Can_Overstate_The_Rational_Kernel()
+    {
+        const long coupling = 998244353L * 1004535809L;
+        var divisor = new Divisor(new Mirror(W, 4, 1.0, 0.5), 4, coupling,
+            new long[] { 1, 1, 1, 1 }, 1);
+        Assert.Equal(12, divisor.KernelDimensionUpperBound());
+
+        // Independent GF(101) matrix for 4*(L+4): i=10 mod 101, J mod 101 is nonzero.
+        // Rank 14 gives rational nullity <=2; the room theorem gives >=2.
+        const long prime = 101, imaginaryUnit = 10;
+        long imaginaryHop = ModP.Mod(4 * (coupling % prime) * imaginaryUnit, prime);
+        var rows = Enumerable.Range(0, 16).Select(_ => new long[16]).ToArray();
+        for (int a = 0; a < 4; a++)
+            for (int b = 0; b < 4; b++)
+            {
+                int col = 4 * a + b;
+                rows[col][col] = a == b ? 16 : 0;
+                for (int c = 0; c < 4; c++)
+                {
+                    if (Math.Abs(a - c) == 1)
+                        rows[4 * c + b][col] = ModP.Mod(rows[4 * c + b][col] - imaginaryHop, prime);
+                    if (Math.Abs(b - c) == 1)
+                        rows[4 * a + c][col] = ModP.Mod(rows[4 * a + c][col] + imaginaryHop, prime);
+                }
+            }
+        Assert.Equal(14, ModP.Rank(rows, prime));
+        Assert.Equal(2, divisor.Rooms().Frozen);
+    }
 
     // ---- the rooms: the shortage IS the mirror's fixed-cell count ----
 
@@ -107,14 +243,13 @@ public class DivisorTests
     public void Kernel_Dimension_Matches_The_Room_Count(int n)
     {
         var d = Make(n);
-        Assert.Equal(d.Rooms().Frozen, d.KernelDimension());
+        Assert.Equal(d.Rooms().Frozen, d.KernelDimensionUpperBound());
     }
 
-    // the coupling cannot move it: the same count at wildly different J.
-    // The frozen root is exact at EVERY coupling, so the count must not move -- including where a
-    // floating-point rank would collapse: small J and a long chain, the corner the other eigenvalues
-    // crowd at spacing J^(2d). A float rank returned 2 instead of 10 at N=20, J=1/1000 (review catch);
-    // the exact GF(p) rank does not.
+    // The frozen root persists at every coupling; its multiplicity can grow at J=0 or an exceptional
+    // coupling. These chosen nonzero couplings read the generic count, including where a floating rank
+    // miscounts at small J and long N. A float rank returned 2 instead of 10 at N=20, J=1/1000;
+    // the modular reading matches the proved lower bound there and certifies ten.
     [Theory]
     [InlineData(1)]          // J = 1/100
     [InlineData(100)]        // J = 1
@@ -122,7 +257,7 @@ public class DivisorTests
     public void The_Count_Does_Not_Depend_On_The_Coupling(long jNum)
     {
         for (int n = 3; n <= 10; n++)
-            Assert.Equal(n / 2, Make(n, jNum).KernelDimension());
+            Assert.Equal(n / 2, Make(n, jNum).KernelDimensionUpperBound());
     }
 
     [Theory]
@@ -131,7 +266,7 @@ public class DivisorTests
     [InlineData(20, 1)]
     [InlineData(20, 10)]
     public void Small_Coupling_On_A_Long_Chain_Still_Counts_Right(int n, long jNum)
-        => Assert.Equal(n / 2, Make(n, jNum).KernelDimension());
+        => Assert.Equal(n / 2, Make(n, jNum).KernelDimensionUpperBound());
 
     // ---- the zero-mean stratum: where the tax is not there to be paid ----
     // The locus never asks the site rates to be positive, so gbar = 0 is a point of it, and there the
@@ -207,8 +342,8 @@ public class DivisorTests
     public void Zero_Mean_Kernel_Matches_The_Untaxed_Room_Count(int n)
     {
         var d = Zero(n);
-        Assert.Equal(n, d.KernelDimension());
-        Assert.Equal(d.Rooms().Frozen, d.KernelDimension());
+        Assert.Equal(n, d.KernelDimensionUpperBound());
+        Assert.Equal(d.Rooms().Frozen, d.KernelDimensionUpperBound());
     }
 
     // and the coupling still cannot move it, on this stratum either.
@@ -219,7 +354,7 @@ public class DivisorTests
     public void Zero_Mean_Count_Does_Not_Depend_On_The_Coupling(long jNum)
     {
         for (int n = 3; n <= 9; n++)
-            Assert.Equal(n, Zero(n, jNum).KernelDimension());
+            Assert.Equal(n, Zero(n, jNum).KernelDimensionUpperBound());
     }
 
     // past the wall: the spectrum died at N=8, the corner block is N^2, the divisor does not notice.
@@ -230,7 +365,7 @@ public class DivisorTests
     public void It_Walks_Past_The_Wall(int n)
     {
         var d = Make(n);
-        Assert.Equal(n / 2, d.KernelDimension());
+        Assert.Equal(n / 2, d.KernelDimensionUpperBound());
         Assert.Equal(n / 2, d.Rooms().Frozen);
     }
 
@@ -263,18 +398,18 @@ public class DivisorTests
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
-    public void The_Ladder_Is_Twice_The_Site_Distance_And_Sums_To_The_Valuation(int n)
+    public void The_Ladder_Lower_Bounds_Are_Twice_The_Site_Distance(int n)
     {
         var (dist, per, total) = Make(n).Ladder();
         Assert.Equal(n / 2, dist.Length);
         for (int c = 1; c <= dist.Length; c++)
         {
             Assert.Equal(n + 1 - 2 * c, dist[c - 1]);      // the pair's site distance
-            Assert.Equal(2 * dist[c - 1], per[c - 1]);     // twice it, one power per hop each way
+            Assert.Equal(2 * dist[c - 1], per[c - 1]);     // minimum cost, one hop each way
         }
         Assert.Equal(2 * (n * n / 4), total);
         Assert.Equal(per.Sum(), total);
-        // the outermost pair is the last to let go
+        // the outermost pair has the largest proved minimum order
         Assert.Equal(per.Max(), per[0]);
     }
 

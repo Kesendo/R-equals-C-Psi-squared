@@ -8,25 +8,59 @@ namespace MirrorWorldTests;
 // identity L_anti(gamma) = L(-gamma) - 2*sigma*Id (sigma = sum_l gamma_l): the Hamiltonian leg
 // never sees gamma, and per cell the turned rate is -2*sum_agree gamma_l = +2*sum_differ gamma_l
 // - 2*sigma. The trajectory wears the shift as the scalar veil rho_anti(t) = e^(-2*sigma*t) *
-// rho_gain(t). On rate functions s: r -> -r and s0: r -> -r - 2*sigma compose to the translation
-// r -> r + 2*sigma: two mirrors make the translation by the full price, the infinite dihedral --
-// F134's two-mirror shape (s: mu -> -mu, s0: mu -> 22 - mu, step 22) on the home gamma axis. A
+// rho_gain(t). On a formal rate line at FIXED sigma, s: r -> -r and s0: r -> -r - 2*sigma
+// compose to translation by 2*sigma, the infinite dihedral picture. On actual profiles the gain
+// turn changes sigma, while anti-watch changes the rule; the physical composite has order two. A
 // DIFFERENT object from the F1 fold (Pi flips the sign of L_H; this keeps H and flips only gamma).
 public class GammaFoldTests
 {
     static readonly World W = new();
 
+    [Fact]
+    public void Rate_Profile_Refuses_Finite_Entries_Whose_Masks_Overflow()
+        => Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new GammaFold(W, 2, siteGammas: new[] { 1e308, 1e308 }));
+
+    [Fact]
+    public void Large_But_Finite_Mask_Profile_Remains_Accepted()
+    {
+        var fold = new GammaFold(W, 2, siteGammas: new[] { 3e307, 0.0 });
+        Assert.True(double.IsFinite(fold.Sigma));
+        Assert.True(double.IsFinite(fold.MaskLaws().Step));
+    }
+
+    [Fact]
+    public void Physical_Gain_And_AntiWatch_Composite_Returns_After_Two_Turns()
+    {
+        static double CellRate(double[] profile, bool antiWatching, int disagreementMask)
+            => -2.0 * Enumerable.Range(0, profile.Length)
+                .Where(site => (((disagreementMask >> site) & 1) == 1) != antiWatching)
+                .Sum(site => profile[site]);
+
+        double[] profile = { 1.0, 2.0 };
+        int[] allSites = { 0, 1 };
+        Assert.Equal(0.0, CellRate(profile, antiWatching: false, disagreementMask: 0));
+
+        double[] afterGainAndAnti = GammaFold.Turn(profile, allSites);
+        Assert.Equal(-3.0, afterGainAndAnti.Sum());
+        Assert.Equal(6.0, CellRate(afterGainAndAnti, antiWatching: true, disagreementMask: 0));
+
+        double[] afterCompositeTwice = GammaFold.Turn(afterGainAndAnti, allSites);
+        Assert.Equal(3.0, afterCompositeTwice.Sum());
+        Assert.Equal(0.0, CellRate(afterCompositeTwice, antiWatching: false, disagreementMask: 0));
+    }
+
     // the generator identity holds per cell at machine precision, for a non-uniform site profile
-    // (per-site is load-bearing, uniform gamma is the special case), and the dihedral closes:
-    // the turn is its own inverse, and gain-after-turn is the translation by the full price.
+    // (per-site is load-bearing, uniform gamma is the special case). The last two rows are
+    // affine identities on a formal rate line with sigma held fixed through composition.
     [Fact]
     public void The_Mask_Identity_And_The_Dihedral_Are_Exact()
     {
         var fold = new GammaFold(W, 4);
         var ml = fold.MaskLaws();
         Assert.True(ml.WorstIdentity < 1e-12, $"L_anti(g) = L(-g) - 2*sigma*Id per cell: {ml.WorstIdentity:E1}");
-        Assert.True(ml.WorstInvolution < 1e-12, $"s0 o s0 = id: {ml.WorstInvolution:E1}");
-        Assert.True(ml.WorstTranslation < 1e-12, $"s o s0 = translation by 2*sigma: {ml.WorstTranslation:E1}");
+        Assert.True(ml.WorstInvolution < 1e-12, $"fixed-sigma s0 o s0 = id: {ml.WorstInvolution:E1}");
+        Assert.True(ml.WorstTranslation < 1e-12, $"fixed-sigma s o s0 translates by 2*sigma: {ml.WorstTranslation:E1}");
         Assert.True(ml.Step > 0.5, $"the translation step must be O(1), not vacuous: {ml.Step:0.000}");
     }
 

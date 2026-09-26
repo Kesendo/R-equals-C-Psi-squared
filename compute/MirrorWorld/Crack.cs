@@ -371,9 +371,11 @@ public sealed class Crack : GameObject
     public static int DepartureLaw(int n, long uNum, long uDen)
     {
         if (n < 3) throw new ArgumentOutOfRangeException(nameof(n), "a ring needs N >= 3");
+        if (uDen <= 0) throw new ArgumentOutOfRangeException(nameof(uDen), "u = p/q needs q > 0");
+        if (uNum < 0) throw new ArgumentOutOfRangeException(nameof(uNum), "u = J'/J is a ratio of couplings, u >= 0");
         if (uNum <= uDen) return 0;
         if (n % 2 == 0) return 2;
-        return (BigInteger)uNum * (n - 1) > (BigInteger)uDen * (n + 1) ? 2 : 1;   // BigInteger: no silent overflow at large u
+        return (BigInteger)uNum * (n - 1) > (BigInteger)uDen * ((BigInteger)n + 1) ? 2 : 1;
     }
 
     public int LawCount => DepartureLaw(N, UNum, UDen);
@@ -382,9 +384,11 @@ public sealed class Crack : GameObject
     // u = 1 + delta it reads delta = 2/(N-1). Meaningless at even N, where the prefactor (1-u) vanishes.
     public static (long num, long den) OddThreshold(int n)
     {
+        if (n < 3) throw new ArgumentOutOfRangeException(nameof(n), "a ring needs N >= 3");
         if (n % 2 == 0) throw new ArgumentException("the threshold exists at odd N only; the even ring sheds its level at every u > 1", nameof(n));
-        long g = Gcd(n + 1, n - 1);
-        return ((n + 1) / g, (n - 1) / g);
+        long numerator = (long)n + 1, denominator = (long)n - 1;
+        long g = Gcd(numerator, denominator);
+        return (numerator / g, denominator / g);
     }
 
     // ------------------------------------------------------------------ the reading: roots of the curve

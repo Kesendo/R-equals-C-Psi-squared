@@ -112,7 +112,7 @@ public sealed class BlindSeat : GameObject
                 throw new ArgumentOutOfRangeException(nameof(bondCouplings),
                     $"|J| = {Math.Abs(b)} exceeds {MaxCoupling}: the ZZ diagonal sums up to N-1 couplings and the hop " +
                     "doubles one, so a larger magnitude wraps int64 silently and the count loses its one-sidedness.");
-        bonds = bondCouplings;
+        bonds = (long[])bondCouplings.Clone();
         zz = heisenberg;
     }
 

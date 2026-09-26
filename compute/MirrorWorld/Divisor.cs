@@ -9,11 +9,12 @@ namespace MirrorWorld;
 // the Hamiltonian cannot move. On the R90 locus (every reflection pair of site rates carrying the same
 // total, gamma_l + gamma_{R(l)} = 2*gbar) the corner block carries lambda = -4*gbar with multiplicity
 // AT LEAST floor(N/2) for EVERY coupling J, and, when gbar != 0, exactly floor(N/2) away from finitely
-// many couplings. One frozen mode per balanced pair. Three of the exceptions are visible from here:
-// at J = 0 the count below doubles, at the real exceptional couplings the root goes defective without
+// many couplings. One frozen mode per balanced pair. Three distinctions are visible from here:
+// at J = 0 a generic locus profile doubles the count, at real exceptional couplings the root goes defective without
 // the rank moving, and at gbar = 0 the diagonal cells stop charging Rooms() and start paying it, so
-// the count is N for all but finitely many J
-// (at J = 0 it is N + 2*floor(N/2); that stratum has defective couplings of its own,
+// the proved kernel lower bound is N at every J; equality of the geometric count was
+// exact-checked at selected nonzero J for N=3..7
+// (at J = 0 it is N + 2*floor(N/2) for a generic locus profile; that stratum has defective couplings of its own,
 // with a size-3 Jordan block at N = 3, which is the proof's Section 9).
 //
 // THE PARENT IS THE MIRROR, not the frame. (Marginal got to a non-frame parent first, on 2026-07-12,
@@ -33,10 +34,13 @@ namespace MirrorWorld;
 // rooms sit at, and the ladder that says how long each frozen mode holds. Both counts that go into the
 // subtraction -- the surplus and the tax -- are tauQ fixed-counts, so both are the mirror's.
 //
-// EXACT, NOT FLOATING POINT. Everything here is a count, an entry-wise residual, or a rank over GF(p)
-// (Seed's genre: a rank, never an eigensolver). The rank matters most: the frozen root is an exact
+// INTEGER MATRIX, NOT A FLOATING-POINT RANK. Everything here is a count, an entry-wise residual,
+// or a rank over GF(p) (Seed's genre: a rank, never an eigensolver). Two-prime modular nullity is
+// an upper bound on rational nullity when both primes are bad; equality with a proved room lower
+// bound certifies the rational count at that input. The rank matters most: the frozen root is an exact
 // eigenvalue at EVERY coupling, and a floating-point rank silently miscounts it once the coupling is
-// small and the chain long, where the other eigenvalues crowd the root at spacing J^(2d). So the
+// small and the chain long, where the other eigenvalues can crowd the root no earlier than
+// order J^(2d). So the
 // inputs are integers over one common denominator, the block is scaled to Gaussian integers, and the
 // rank is taken mod two primes p = 1 (mod 4), where i is a genuine square root of -1.
 //
@@ -62,8 +66,8 @@ public sealed class Divisor : GameObject
         for (int i = 0; i < n; i++) g[i] = gbarNum;
         for (int i = 0; i < n / 2 && i < halfNum.Length; i++)
         {
-            g[i] = gbarNum + halfNum[i];
-            g[n - 1 - i] = gbarNum - halfNum[i];
+            g[i] = checked(gbarNum + halfNum[i]);
+            g[n - 1 - i] = checked(gbarNum - halfNum[i]);
         }
         return g;
     }
@@ -71,16 +75,40 @@ public sealed class Divisor : GameObject
     public Divisor(Mirror mirror, int n, long jNum, long[] gammaNum, long den, bool zz = false)
         : base(mirror)
     {
+        if (n < 2) throw new ArgumentOutOfRangeException(nameof(n), "the corner block needs at least two sites");
+        ArgumentNullException.ThrowIfNull(gammaNum);
+        if (gammaNum.Length != n)
+            throw new ArgumentException("the rate profile needs one value per site", nameof(gammaNum));
+        if (den <= 0)
+            throw new ArgumentOutOfRangeException(nameof(den), "the common denominator must be positive");
         N = n;
         this.jNum = jNum;
-        gNum = gammaNum;
+        gNum = (long[])gammaNum.Clone();
         this.den = den;
         bonds = Topology.Chain(n);
         this.zz = zz;
     }
 
     public double J => (double)jNum / den;
-    public double Sigma => gNum.Sum() / (double)den;
+    BigInteger SigmaNumerator => gNum.Aggregate(BigInteger.Zero, static (sum, gamma) => sum + gamma);
+    public bool IsOnLocus
+    {
+        get
+        {
+            BigInteger twiceSigma = 2 * SigmaNumerator;
+            for (int site = 0; site < N; site++)
+                if ((BigInteger)N * ((BigInteger)gNum[site] + gNum[N - 1 - site]) != twiceSigma)
+                    return false;
+            return true;
+        }
+    }
+
+    void RequireLocus()
+    {
+        if (!IsOnLocus)
+            throw new InvalidOperationException("the frozen room and ladder claims require the R90 rate locus");
+    }
+    public double Sigma => (double)SigmaNumerator / den;
     public double GBar => Sigma / N;
     public double Root => -4.0 * GBar;                      // the frozen value
     public double FoldRoot => 4.0 * GBar - 2.0 * Sigma;     // its GammaFold partner, r -> -r - 2*sigma
@@ -92,6 +120,7 @@ public sealed class Divisor : GameObject
     // ---- the room count: pure counting, no matrix at all ----
     public (int Fixed, int DimOPlus, int DimOMinus, int Surplus, int Tax, int Frozen) Rooms()
     {
+        RequireLocus();
         int fixedCells = 0, o = 0;
         for (int a = 0; a < N; a++)
             for (int b = 0; b < N; b++)
@@ -118,7 +147,7 @@ public sealed class Divisor : GameObject
         // 0 at even N, where there is no centre cell to pay it. One caveat on the names: Surplus
         // stays the O-side count 2*floor(N/2) on both strata, so on the untaxed one it is no
         // longer the whole index that produces Frozen; the missing piece is exactly this Tax.
-        bool taxed = gNum.Sum() != 0;
+        bool taxed = SigmaNumerator != 0;
         int tax = taxed ? N / 2 : -((N + 1) / 2 - N / 2);
         int frozen = surplus - tax;
         return (fixedCells, dimOPlus, dimOMinus, surplus, tax, frozen);
@@ -144,8 +173,8 @@ public sealed class Divisor : GameObject
             {
                 if (a == b) continue;                        // the defect lives on D; that is the tax
                 int ra = N - 1 - a, rb = N - 1 - b;
-                double here = 2 * (gNum[a] + gNum[b]) / (double)den - 4 * gbar;
-                double there = 2 * (gNum[rb] + gNum[ra]) / (double)den - 4 * gbar;
+                double here = 2.0 * (double)((BigInteger)gNum[a] + gNum[b]) / den - 4 * gbar;
+                double there = 2.0 * (double)((BigInteger)gNum[rb] + gNum[ra]) / den - 4 * gbar;
                 rate = Math.Max(rate, Math.Abs(there + here));
             }
         return (hop, rate);
@@ -169,7 +198,7 @@ public sealed class Divisor : GameObject
             if (r == c)
             {
                 int a = r / N, b = r % N;
-                v = 4 * gbar - (a == b ? 0 : 2 * (gNum[a] + gNum[b]) / (double)den);
+                v = 4 * gbar - (a == b ? 0 : 2.0 * (double)((BigInteger)gNum[a] + gNum[b]) / den);
             }
             return v;
         }
@@ -183,10 +212,12 @@ public sealed class Divisor : GameObject
         return worst;
     }
 
-    // ---- the multiplicity, by an EXACT rank ----
-    // dim ker(L_block + 4*gbar), the block scaled by N*den into Gaussian integers and the rank taken
-    // mod two primes = 1 (mod 4). The room count PREDICTS this; this CONFIRMS it, at any coupling.
-    public int KernelDimension()
+    // ---- a one-sided multiplicity reading, by modular rank ----
+    // The block is scaled by N*den into Gaussian integers and ranked mod two primes = 1 (mod 4).
+    // Modular nullity can exceed rational nullity at bad primes; matching the proved room lower
+    // bound confirms the rational count for an ON-LOCUS input. The matrix is built before reduction with
+    // unbounded integers, so a large but valid long profile cannot silently become another matrix.
+    public int KernelDimensionUpperBound()
     {
         int n2 = N * N;
         var (re, im) = BuildScaledBlock();
@@ -209,6 +240,7 @@ public sealed class Divisor : GameObject
     // only the fold parity is, which is the part that travels (found 2026-07-25, gate G2c).
     public (int P, int Q, int Folds, double Root)[] Corners()
     {
+        RequireLocus();
         var outp = new List<(int, int, int, double)>();
         foreach (int p in new[] { 1, N - 1 })
             foreach (int q in new[] { 1, N - 1 })
@@ -220,21 +252,23 @@ public sealed class Divisor : GameObject
     }
 
     // ---- the ladder: how long each frozen mode holds ----
-    // The pair through site c (1-based) and its mirror R(c) sit d_c = N + 1 - 2c apart. Its mode cannot
-    // move until the coupling has walked the excitation across, so it departs at order J^(2 d_c), and
-    // the residual determinant vanishes to order 2 * sum_c d_c = 2 * floor(N^2/4). The far pair, the
-    // two ends of the chain, is the last to let go: distance buys immunity.
-    public (int[] Distances, int[] PerPair, int Total) Ladder()
+    // The pair through site c (1-based) and its mirror R(c) sit d_c = N + 1 - 2c apart. The proof
+    // bounds its departure order BELOW by 2d_c, and the total valuation BELOW by 2*sum_c d_c.
+    // Equality depends on a nonvanishing still open at all N; it was exact-checked at N=3..8.
+    // On the zero-mean stratum the room minimum is N, versus floor(N/2) pair entries;
+    // these entries do not assign one departing mode to each pair there.
+    public (int[] Distances, int[] PerPairLowerBounds, long TotalLowerBound) Ladder()
     {
+        RequireLocus();
         int m = N / 2;
         var d = new int[m];
         var per = new int[m];
         for (int c = 1; c <= m; c++)
         {
-            d[c - 1] = N + 1 - 2 * c;
+            d[c - 1] = checked((int)((long)N + 1 - 2L * c));
             per[c - 1] = 2 * d[c - 1];
         }
-        return (d, per, 2 * (N * N / 4));
+        return (d, per, 2L * ((long)N * N / 4));
     }
 
     // the boundary clock the chain carries, adopted as a number (the derivation stays outside):
@@ -255,7 +289,10 @@ public sealed class Divisor : GameObject
     long[,] H()
     {
         var h = new long[N, N];
-        foreach (var (a, b) in bonds) { h[a, b] = 1; h[b, a] = 1; }
+        // XX+YY gives a two-unit single-excitation hop when the ZZ bond is present.
+        // The XY normalization used by this object's default is one unit.
+        long hop = zz ? 2 : 1;
+        foreach (var (a, b) in bonds) { h[a, b] = hop; h[b, a] = hop; }
         if (zz)
             for (int a = 0; a < N; a++)
             {
@@ -288,24 +325,25 @@ public sealed class Divisor : GameObject
 
     // (N*den) * (L_block(J) + 4*gbar), as Gaussian integers: the hop part is purely imaginary
     // (N*jNum times the integer h), the rate part purely real.
-    (long[,] Re, long[,] Im) BuildScaledBlock()
+    (BigInteger[,] Re, BigInteger[,] Im) BuildScaledBlock()
     {
         int n2 = N * N;
         var h = H();
-        var re = new long[n2, n2];
-        var im = new long[n2, n2];
-        long sigmaNum = gNum.Sum();                          // 4*gbar * (N*den) = 4*sigmaNum
+        var re = new BigInteger[n2, n2];
+        var im = new BigInteger[n2, n2];
+        BigInteger sigmaNum = SigmaNumerator;                 // 4*gbar * (N*den) = 4*sigmaNum
+        BigInteger hopScale = (BigInteger)N * jNum;
         for (int a = 0; a < N; a++)
             for (int b = 0; b < N; b++)
             {
                 int col = a * N + b;
                 for (int c = 0; c < N; c++)
                 {
-                    if (h[a, c] != 0) im[c * N + b, col] += -N * jNum * h[a, c];
-                    if (h[c, b] != 0) im[a * N + c, col] += N * jNum * h[c, b];
+                    if (h[a, c] != 0) im[c * N + b, col] -= hopScale * h[a, c];
+                    if (h[c, b] != 0) im[a * N + c, col] += hopScale * h[c, b];
                 }
                 re[col, col] += 4 * sigmaNum;
-                if (a != b) re[col, col] += -2 * N * (gNum[a] + gNum[b]);
+                if (a != b) re[col, col] -= 2 * (BigInteger)N * ((BigInteger)gNum[a] + gNum[b]);
             }
         return (re, im);
     }
@@ -313,7 +351,7 @@ public sealed class Divisor : GameObject
     // rank over F_p with i realized as a square root of -1 (p = 1 mod 4): a + b*i  ->  a + b*r.
     // The embedding is Divisor's own step; the root and the elimination are ModP's, and the world's
     // one prime list is 1 mod 4 precisely so this map exists at both of its primes.
-    static int RankModP(long[,] re, long[,] im, int d, long p)
+    static int RankModP(BigInteger[,] re, BigInteger[,] im, int d, long p)
     {
         long r = ModP.SqrtMinusOne(p);
         var rows = new long[d][];
@@ -321,7 +359,11 @@ public sealed class Divisor : GameObject
         {
             rows[i] = new long[d];
             for (int j = 0; j < d; j++)
-                rows[i][j] = ModP.Mod(ModP.Mod(re[i, j], p) + ModP.MulMod(r, im[i, j], p), p);
+            {
+                long real = ModP.Mod((long)(re[i, j] % p), p);
+                long imaginary = ModP.Mod((long)(im[i, j] % p), p);
+                rows[i][j] = ModP.Mod(real + ModP.MulMod(r, imaginary, p), p);
+            }
         }
         return ModP.Rank(rows, p);
     }

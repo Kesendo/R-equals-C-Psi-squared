@@ -343,6 +343,23 @@ public class BlindSeatTests
         Assert.Throws<ArgumentException>(() => new BlindSeat(W, 1, Array.Empty<long>()));
     }
 
+    [Fact]
+    public void The_Seat_Keeps_The_Validated_Bond_Profile_After_Caller_Mutation()
+    {
+        long[] bonds = { 1, 1 };
+        var seat = new BlindSeat(W, 3, bonds, heisenberg: false);
+        Assert.Equal(0, seat.Blind(0));
+        Assert.Equal(1, seat.Span(0));
+
+        bonds[0] = 0;
+        Assert.Equal(0, seat.Blind(0));
+        Assert.Equal(1, seat.Span(0));
+
+        bonds[0] = BlindSeat.MaxCoupling + 1;
+        Assert.Equal(0, seat.Blind(0));
+        Assert.Equal(1, seat.Span(0));
+    }
+
     // the two buckets stay pure: the seat owns its count, law and span; the sector is the Cone's.
     [Fact]
     public void Ontology_The_Seat_Owns_Its_Count_And_Hangs_On_The_Frame()

@@ -56,6 +56,15 @@ public sealed class Renewal : GameObject
         double maxCleanPhase = N <= 1 ? 0.0 : 2.0 * Math.Abs(J) * Math.Cos(Math.PI / (N + 1.0)) * h;
         if (!double.IsFinite(maxCleanPhase) || maxCleanPhase > 2.0 * Math.Sqrt(2.0))
             throw new ArgumentOutOfRangeException(nameof(dt), dt, "The clean RK4 step is outside its imaginary-axis stability interval; reduce the maximum time step.");
+        // Stability controls norm, not phase. RK4 is the fourth Taylor polynomial of exp(-iHh):
+        // its one-step operator error is at most x^5/120 for x = h*||H||. Both the exact step and
+        // the stable RK4 step have norm <= 1, so telescoping bounds the error after any k <= steps
+        // by steps*x^5/120. A measurement distribution differs in L1 by at most twice that norm.
+        const double maxCleanPopulationError = 1e-3;
+        double cleanPopulationErrorBound = 2.0 * steps * Math.Pow(maxCleanPhase, 5) / 120.0;
+        if (cleanPopulationErrorBound > maxCleanPopulationError)
+            throw new ArgumentOutOfRangeException(nameof(dt), dt,
+                "The clean RK4 population-error bound exceeds 0.1%; reduce the maximum time step.");
         double gPhi = 4.0 * Gamma;
         double dose = gPhi * h;
         const double maxMassDrift = 1e-3;
@@ -73,6 +82,36 @@ public sealed class Renewal : GameObject
                 throw new ArgumentOutOfRangeException(nameof(dt), dt, "The accumulated refill-grid error bound exceeds the 0.1% budget; reduce the maximum time step.");
         }
 
+        double[] coarse = ComputePopulations(steps, tMax, gPhi);
+        CheckMass(coarse, maxMassDrift);
+        if (gPhi == 0.0 || J == 0.0 || N <= 1) return coarse;
+
+        // Total mass sees only the column sums of the clean kernel. It cannot detect a coarse
+        // refill grid that puts the right mass on the wrong sites. Compare with a doubled grid;
+        // this is a convergence check, not an absolute error certificate for the continuum law.
+        if (steps > int.MaxValue / 2)
+            throw new ArgumentOutOfRangeException(nameof(dt), dt, "The refill grid cannot be doubled for a spatial convergence check.");
+        double[] fine = ComputePopulations(2 * steps, tMax, gPhi);
+        CheckMass(fine, maxMassDrift);
+        double discrepancy = 0.0;
+        for (int n = 0; n < N; n++) discrepancy = Math.Max(discrepancy, Math.Abs(coarse[n] - fine[n]));
+        if (discrepancy > 1e-3)
+            throw new ArgumentOutOfRangeException(nameof(dt), dt,
+                "The refill populations change by more than 0.1% when the grid is halved; reduce the maximum time step.");
+        return fine;
+    }
+
+    void CheckMass(double[] populations, double maxMassDrift)
+    {
+        double totalMass = populations.Sum();
+        if (!double.IsFinite(totalMass) || Math.Abs(totalMass - 1.0) > maxMassDrift)
+            throw new ArgumentOutOfRangeException(nameof(dt), dt, "The computed populations violate the 0.1% mass-conservation budget; reduce the maximum time step.");
+    }
+
+    double[] ComputePopulations(int steps, double tMax, double gPhi)
+    {
+        double h = tMax / steps;
+        double dose = gPhi * h;
         // the clean kernel K[k][m,n] = |<n| e^{-i H (k h)} |m>|^2: evolve U-dot = -i H U from U(0) = I.
         var u = new Complex[N, N];
         for (int m = 0; m < N; m++) u[m, m] = Complex.One;
@@ -116,14 +155,10 @@ public sealed class Renewal : GameObject
 
         var p = new double[N];
         double damp = Math.Exp(-gPhi * tMax);
-        double totalMass = 0.0;
         for (int n = 0; n < N; n++)
         {
             p[n] = damp * S[steps][n];
-            totalMass += p[n];
         }
-        if (!double.IsFinite(totalMass) || Math.Abs(totalMass - 1.0) > maxMassDrift)
-            throw new ArgumentOutOfRangeException(nameof(dt), dt, "The computed populations violate the 0.1% mass-conservation budget; reduce the maximum time step.");
         return p;
     }
 

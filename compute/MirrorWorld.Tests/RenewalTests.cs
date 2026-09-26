@@ -56,6 +56,45 @@ public class RenewalTests
             $"site 1 at t={tMax}: renewal {p[1]} vs exact {expected}");
     }
 
+    [Fact]
+    public void Renewal_Rejects_A_Stable_Step_With_Unbounded_Clean_Phase_Error()
+    {
+        const double t = 2.8283;
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.0, seed: 0, dt: t);
+
+        // RK4 nearly conserves mass here, yet gives p1 = 0.88817 instead of sin(t)^2 = 0.09498.
+        Assert.Throws<ArgumentOutOfRangeException>(() => renewal.Populations(t));
+    }
+
+    [Fact]
+    public void Renewal_Resolves_The_Same_Late_Two_Site_Phase_On_A_Finer_Grid()
+    {
+        const double t = 2.8283;
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.0, seed: 0, dt: 0.1);
+
+        Assert.InRange(Math.Abs(renewal.Populations(t)[1] - Math.Pow(Math.Sin(t), 2)), 0.0, 1e-3);
+    }
+
+    [Fact]
+    public void Renewal_Refuses_A_Coarse_Refill_Grid_With_Accurate_Mass_But_Wrong_Site_Population()
+    {
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.1, seed: 0, dt: 0.5);
+        Assert.Throws<ArgumentOutOfRangeException>(() => renewal.Populations(0.5));
+    }
+
+    [Fact]
+    public void Resolved_Positive_Gamma_Two_Site_Population_Matches_The_Analytic_Lindblad_Ode()
+    {
+        const double gamma = 0.1, j = 1.0, t = 0.5;
+        double omega = Math.Sqrt(j * j - gamma * gamma);
+        double z = Math.Exp(-2 * gamma * t)
+            * (Math.Cos(2 * omega * t) + gamma / omega * Math.Sin(2 * omega * t));
+        double exact = (1 - z) / 2;
+        var renewal = new Renewal(W, n: 2, j, gamma, seed: 0, dt: 0.05);
+
+        Assert.InRange(Math.Abs(renewal.Populations(t)[1] - exact), 0.0, 1e-3);
+    }
+
     // With J=0 the seed never moves; a dose that makes the implicit trapezoid denominator
     // near-singular must be refused instead of producing a population above one.
     [Fact]

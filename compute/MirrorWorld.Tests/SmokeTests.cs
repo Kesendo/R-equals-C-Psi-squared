@@ -975,10 +975,10 @@ public class SmokeTests
         // three at every odd firing modulus, by the gcd; one at an even comb, where the gcd route
         // has no content and refuses; the ROT3 shape reaches the same three
         foreach (int n in new[] { 9, 15, 21, 27, 45, 99 })
-            Assert.Equal(3, Formulas.F161_FirstSurvivingOddRungByGcd(n));
+            Assert.Equal(3, Formulas.F161_FirstUnforcedOddRungByGcd(n));
         foreach (int n in new[] { 12, 20, 24, 30 })
-            Assert.Throws<ArgumentException>(() => Formulas.F161_FirstSurvivingOddRungByGcd(n));
-        Assert.Equal(3, Formulas.F161_FirstSurvivingRungByShape());
+            Assert.Throws<ArgumentException>(() => Formulas.F161_FirstUnforcedOddRungByGcd(n));
+        Assert.Equal(3, Formulas.F161_FirstUnforcedRungByShape());
 
         // what the pieces force at second order: families C and L, met inside the census at
         // n = 20 and n = 30 and a BOUND past it
@@ -991,7 +991,7 @@ public class SmokeTests
         // n is the COMB modulus and a comb needs n >= 5, as the object requires
         Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F161_OddOrderMultiplier(4, 1));
         Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F161_SecondOrderZeroLowerBound(4));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F161_FirstSurvivingOddRungByGcd(4));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F161_FirstUnforcedOddRungByGcd(4));
 
         // the DELEGATION and not only the numbers: a face that stopped calling the object and answered
         // out of a table of its own would pass every row above
@@ -999,7 +999,7 @@ public class SmokeTests
         {
             Assert.Equal(CollisionGap.SecondOrderZeroLowerBound(n), Formulas.F161_SecondOrderZeroLowerBound(n));
             if (n % 2 == 1)
-                Assert.Equal(CollisionGap.FirstSurvivingOddRungByGcd(n), Formulas.F161_FirstSurvivingOddRungByGcd(n));
+                Assert.Equal(CollisionGap.FirstUnforcedOddRungByGcd(n), Formulas.F161_FirstUnforcedOddRungByGcd(n));
             for (int j = 0; j <= 5; j++)
                 Assert.Equal(CollisionGap.OddOrderMultiplier(n, j), Formulas.F161_OddOrderMultiplier(n, j));
         }

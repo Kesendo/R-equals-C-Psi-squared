@@ -347,34 +347,34 @@ if (args.Length > 0 && args[0] == "gap")
     Console.WriteLine("  (gate simulations/collision_gap_odd_orders.py)");
     Console.WriteLine("  A level moves as E_k(u) = 2cos(theta) + sum_m d_m u^m at the CHAIN end u = 0. Each computed");
     Console.WriteLine("  coefficient reads ONE comb under an integer multiplier: odd orders on X_2j = -M_{n+2j}, even");
-    Console.WriteLine("  orders on M_{2j+1}. Which orders vanish is decided by a GCD: the multiplier is an automorphism");
+    Console.WriteLine("  orders on M_{2j+1}. The GCD gives a sufficient kill route: the multiplier is an automorphism");
     Console.WriteLine("  of Q(zeta_2n) iff gcd(n+2j, 2n) = 1, at odd n iff gcd(j, n) = 1, and an automorphism carries");
     Console.WriteLine("  the collision DeltaM_1 = 0 onto the rung and kills it. Rung j = 0 is never one, and that is the");
     Console.WriteLine("  rung which leaves the first order standing. At EVEN n nothing reaches the X ladder and the ROT3");
     Console.WriteLine("  shape carries the vanishing instead, forced at 3 not dividing j -- one direction only.");
     Console.WriteLine();
-    Console.WriteLine("  the ladder, rung by rung (kill = the collision reaches it and it dies):");
-    Console.WriteLine($"  {"n",3} {"j=1",7} {"j=2",7} {"j=3",7} {"j=4",7}   first surviving   route");
+    Console.WriteLine("  the gcd ladder, rung by rung (kill = forced zero; open = this route does not decide):");
+    Console.WriteLine($"  {"n",3} {"j=1",7} {"j=2",7} {"j=3",7} {"j=4",7}   first unforced   route");
     foreach (int n in new[] { 9, 12, 15, 18, 20, 21, 24, 27, 30 })
     {
         if (n > gn) break;
         string cells = "";
-        for (int j = 1; j <= 4; j++) cells += $" {(CollisionGap.GaloisKillsOddRung(n, j) ? "kill" : "live"),6}";
+        for (int j = 1; j <= 4; j++) cells += $" {(CollisionGap.GaloisKillsOddRung(n, j) ? "kill" : "open"),6}";
         bool byGcd = n % 2 == 1;
         bool byShape = !byGcd && n % 3 == 0;
         string route = byGcd ? "gcd (Theorem D)" : byShape ? "shape (the ROT3 rung lemma)" : "neither (no ROT3 triple)";
-        string first = byGcd ? CollisionGap.FirstSurvivingOddRungByGcd(n).ToString()
-                     : byShape ? CollisionGap.FirstSurvivingRungByShape().ToString()
+        string first = byGcd ? CollisionGap.FirstUnforcedOddRungByGcd(n).ToString()
+                     : byShape ? CollisionGap.FirstUnforcedRungByShape().ToString()
                      : "-";
         Console.WriteLine($"  {n,3}{cells}   {first,15}   {route}");
     }
     Console.WriteLine("  at an even comb every multiplier n+2j is even, so the gcd route kills nothing and the column");
-    Console.WriteLine("  reads live throughout; the three in its first-surviving cell is the SHAPE's, not the gcd's,");
+    Console.WriteLine("  reads open throughout; the three in its first-unforced cell is the SHAPE's, not the gcd's,");
     Console.WriteLine("  and the two are one mechanism read at two resolutions (Corollary G), not two mechanisms.");
     Console.WriteLine("  n = 20 has NEITHER: the shape needs 3|n to have a triple to speak about, and it is the one");
     Console.WriteLine("  firing modulus here with 3 not dividing n. Nothing is missing -- no pair stands there.");
     Console.WriteLine();
-    Console.WriteLine("  the census the law explains (pairs = LevelCollision's own colliding pairs):");
+    Console.WriteLine("  the modular census (pairs = LevelCollision's own colliding pairs; exact criteria in the proof):");
     Console.WriteLine($"  {"n",3} {"pairs",6} {"separate",9} {"stand",6} {"mirror",7} {"non-mir",8} {"c2=0",5} {"bound",6}");
     int tp = 0, ts = 0, tst = 0, tm = 0, tnm = 0, tc2 = 0;
     foreach (int n in new[] { 9, 12, 15, 18, 20, 21, 24, 27, 30 })
@@ -396,9 +396,10 @@ if (args.Length > 0 && args[0] == "gap")
     Console.WriteLine("  census are fully shaped and separate anyway). The odd-n rest, 200 of the 223,");
     Console.WriteLine("  stand on rung j = 0, which the gcd never reaches: their two triples happen to carry the SAME");
     Console.WriteLine("  odd-label count, and nothing here forces that.");
-    Console.WriteLine("  the c2 column splits the OTHER way, by 3|n and not by parity: its rung is m = 3, so the gcd");
+    Console.WriteLine("  the global gcd route for c2 splits by 3|n and not by parity: its rung is m = 3, so the gcd");
     Console.WriteLine("  kills it exactly where 3 does not divide n, which here is n = 20 alone (all 20 pairs). The 40");
-    Console.WriteLine("  at n = 30 are Corollary G's LOCAL criterion, which stays in the proof and is not run here.");
+    Console.WriteLine("  at n = 30 are family C's 3-free minimal pieces under Corollary G's LOCAL criterion;");
+    Console.WriteLine("  that decomposition check stays in the proof and is not run here.");
     Console.WriteLine();
     var gap = new CollisionGap(new Crack(new Cyclotomy(), gn - 1, 0));
     Console.WriteLine($"    own       (left) : {string.Join(", ", gap.Own)}");
@@ -548,7 +549,7 @@ if (args.Length > 0 && args[0] == "divisor")
     Console.WriteLine("  rooms outnumber its odd rooms by exactly its fixed count, and an ODD operator must send the");
     Console.WriteLine("  bigger half into the smaller. What will not fit freezes.");
     Console.WriteLine();
-    Console.WriteLine($"  {"N",3} {"fixed",6} {"dim O+",7} {"dim O-",7} {"surplus",8} {"tax",4} {"frozen",7} {"rank",5}  {"odd? hop / rate",22}");
+    Console.WriteLine($"  {"N",3} {"fixed",6} {"dim O+",7} {"dim O-",7} {"surplus",8} {"tax",4} {"frozen",7} {"GFub",5}  {"odd? hop / rate",22}");
     for (int n = 3; n <= dnMax; n++)
     {
         var mir = new Mirror(dworld, n, dj, 0.5);
@@ -556,7 +557,7 @@ if (args.Length > 0 && args[0] == "divisor")
         var div = new Divisor(mir, n, dj, g, dden);
         var (fx, dp, dm, sur, tax, fr) = div.Rooms();
         var (hop, rate) = div.OddnessResidual();
-        int rk = div.KernelDimension();
+        int rk = div.KernelDimensionUpperBound();
         string rks = rk.ToString();
         Console.WriteLine($"  {n,3} {fx,6} {dp,7} {dm,7} {sur,8} {tax,4} {fr,7} {rks,5}  {hop,10:E1} / {rate,9:E1}");
     }
@@ -568,7 +569,8 @@ if (args.Length > 0 && args[0] == "divisor")
     Console.WriteLine("  floor(N/2), one per balanced pair. The identity holds on both strata, but tax = dim D-");
     Console.WriteLine("  does not: below, the diagonal cells pay rather than charge, so the tax is -1 at odd N");
     Console.WriteLine("  (the centre cell's own room) and 0 at even N, where there is no centre cell to pay it.");
-    Console.WriteLine("  rank = dim ker(L_block + 4*gbar), by elimination, never a spectrum.");
+    Console.WriteLine("  GFub = two-prime upper bound on rational dim ker(L_block + 4*gbar); equality with the");
+    Console.WriteLine("  proved frozen lower bound certifies the exact count at that input, never a spectrum.");
     Console.WriteLine("  The two residuals are the hypothesis checked cell by cell: the hop part is odd always, the rate");
     Console.WriteLine("  part is odd EXACTLY on the locus. Step off the locus and the second one is what breaks.");
 
@@ -577,11 +579,11 @@ if (args.Length > 0 && args[0] == "divisor")
     Console.WriteLine("  their recentered value is the constant -4*gbar: even under the mirror where everything else");
     Console.WriteLine("  is odd. Set gbar = 0, which this locus permits as soon as the rates may change sign, and");
     Console.WriteLine("  there is nothing there to be even. The whole block is odd, nothing is taken out of the");
-    Console.WriteLine("  surplus, and at odd N the centre cell puts one room back in, so the count is N: one frozen");
-    Console.WriteLine("  mode per SITE instead of one per balanced pair. Note N is not twice floor(N/2) at odd N.");
+    Console.WriteLine("  surplus, and at odd N the centre cell puts one room back in, so the proved minimum is N:");
+    Console.WriteLine("  one mode per SITE. Geometric equality is checked at selected nonzero J for N=3..7.");
     Console.WriteLine();
     Console.WriteLine($"  {"",3} {"--- gbar = 0.09 ---",-19}  {"--- gbar = 0 ------",-19}");
-    Console.WriteLine($"  {"N",3} {"tax",4} {"frozen",7} {"rank",5}  {"tax",4} {"frozen",7} {"rank",5}  " +
+    Console.WriteLine($"  {"N",3} {"tax",4} {"frozen",7} {"GFub",5}  {"tax",4} {"frozen",7} {"GFub",5}  " +
                       $"{"whole-block odd?"}");
     for (int n = 3; n <= Math.Min(dnMax, 8); n++)
     {
@@ -590,8 +592,8 @@ if (args.Length > 0 && args[0] == "divisor")
         var free = new Divisor(mz, n, dj, Divisor.Locus(n, 0, 2, -3, 5), dden);
         var (_, _, _, _, txP, frP) = paid.Rooms();
         var (_, _, _, _, txF, frF) = free.Rooms();
-        Console.WriteLine($"  {n,3} {txP,4} {frP,7} {paid.KernelDimension(),5}  " +
-                          $"{txF,4} {frF,7} {free.KernelDimension(),5}  " +
+        Console.WriteLine($"  {n,3} {txP,4} {frP,7} {paid.KernelDimensionUpperBound(),5}  " +
+                          $"{txF,4} {frF,7} {free.KernelDimensionUpperBound(),5}  " +
                           $"{paid.WholeBlockOddnessResidual(),9:E1} vs {free.WholeBlockOddnessResidual(),9:E1}");
     }
     Console.WriteLine();
@@ -621,23 +623,24 @@ if (args.Length > 0 && args[0] == "divisor")
     Console.WriteLine("  the ladder: a frozen mode cannot move until the coupling has walked the excitation from one");
     Console.WriteLine("  site of its pair to the other, so distance buys immunity and the ends of the chain hold longest:");
     for (int i = 0; i < dist.Length; i++)
-        Console.WriteLine($"    pair {i + 1,2} at sites ({i + 1}, {shown - i}): distance {dist[i],2}  departs at order J^{per[i]}");
-    Console.WriteLine($"    total valuation 2*floor(N^2/4) = {total};  the boundary clock this chain carries: modulus {dv.ClockModulus}");
+        Console.WriteLine($"    pair {i + 1,2} at sites ({i + 1}, {shown - i}): distance {dist[i],2}  order at least J^{per[i]}");
+    Console.WriteLine($"    total valuation at least 2*floor(N^2/4) = {total};  boundary clock modulus {dv.ClockModulus}");
+    Console.WriteLine("    Sharpness was exact-checked at N=3..8; the all-N nonvanishing remains open.");
 
     // past the wall: the spectrum died at N=8, but the corner block is N^2, not 4^N. The divisor
     // walks straight on, and the room count needs no matrix at all.
     Console.WriteLine();
     Console.WriteLine("  PAST THE WALL. The spectrum died at N=8; the corner block is N^2, so the divisor does not");
-    Console.WriteLine("  notice. The rooms are pure counting; the rank is one elimination on an N^2 x N^2 block:");
-    Console.WriteLine($"  {"N",4} {"cells",7} {"fixed",6} {"frozen",7} {"rank",5} {"holds",6}   {"odd? rate",10}");
+    Console.WriteLine("  notice. Rooms are pure counting; GFub is one modular elimination on an N^2 x N^2 block:");
+    Console.WriteLine($"  {"N",4} {"cells",7} {"fixed",6} {"frozen",7} {"GFub",5} {"exact?",6}   {"odd? rate",10}");
     foreach (int n in new[] { 8, 9, 10, 12, 14, 16, 20 })
     {
         var mm = new Mirror(dworld, n, 1.0, 0.5);
         var dd = new Divisor(mm, n, dj, Divisor.Locus(n, 9, 2, -3, 5), dden);
         var (fx2, _, _, _, _, fr2) = dd.Rooms();
         var (_, rate2) = dd.OddnessResidual();
-        int rk2 = dd.KernelDimension();
-        Console.WriteLine($"  {n,4} {n * n,7} {fx2,6} {fr2,7} {rk2,5} {(rk2 == fr2 ? "yes" : "NO"),6}   {rate2,10:E1}");
+        int rk2 = dd.KernelDimensionUpperBound();
+        Console.WriteLine($"  {n,4} {n * n,7} {fx2,6} {fr2,7} {rk2,5} {(rk2 == fr2 ? "yes" : "open"),6}   {rate2,10:E1}");
     }
 
     Console.WriteLine();
@@ -660,8 +663,9 @@ if (args.Length > 0 && args[0] == "blind")
 
     Console.WriteLine("the blind seat: put the watching on ONE seat and count what it cannot touch (adopted 2026-08-24)");
     Console.WriteLine("  source experiments/THE_SEAT_THAT_CUTS.md + experiments/THE_BLIND_SITE.md (F157)");
-    Console.WriteLine("  blind(seat) = N - rank of the seat's Krylov matrix, an exact GF(p) rank at two primes,");
-    Console.WriteLine("  no eigensolver; on the UNIFORM chain it closes to integer arithmetic, one form per book.");
+    Console.WriteLine("  blind(seat) = N - rank of the seat's Krylov matrix, read exactly at two GF(p) primes;");
+    Console.WriteLine("  this bounds rational blindness from above and can be strict if both primes are bad.");
+    Console.WriteLine("  No eigensolver; on the UNIFORM chain the rational law closes to integers, one per book.");
     Console.WriteLine("  The ZZ form is fine-tuned to a LOCUS: under an anisotropy on the ZZ term the");
     Console.WriteLine("  mirror-forced centre seat keeps its blindness provably (its two halves are reflection-");
     Console.WriteLine("  conjugate, so they share every root), while every other seat the law names is blind only");
@@ -1251,8 +1255,9 @@ if (args.Length > 0 && args[0] == "lattice")
 // ---- run mode "gammafold": the pair of mirrors on the gamma axis ----
 // Adopted 2026-07-21 (the F134/F139 arc's home-side move): s (gamma -> -gamma, the gain turn) and
 // s0 (the anti-watch turn) chain through L_anti(gamma) = L(-gamma) - 2*sigma*Id; the trajectory
-// wears the shift as the scalar veil rho_anti(t) = e^(-2*sigma*t) * rho_gain(t). Two mirrors make
-// the translation by the full price 2*sigma: the infinite dihedral, F134's shape on the home axis.
+// wears the shift as the scalar veil rho_anti(t) = e^(-2*sigma*t) * rho_gain(t). At fixed sigma,
+// the formal rate-line reflections make the dihedral translation by 2*sigma. On physical profiles,
+// gain changes sigma and commutes with the anti-watch rule turn.
 if (args.Length > 0 && args[0] == "gammafold")
 {
     int fn = args.Length > 1 ? int.Parse(args[1]) : 3;
@@ -1268,9 +1273,12 @@ if (args.Length > 0 && args[0] == "gammafold")
     var ml = fold.MaskLaws();
     Console.WriteLine("  the mask level (entry-wise rate arithmetic, no eigensolver):");
     Console.WriteLine($"    L_anti(g) = L(-g) - 2*sigma*Id     {ml.WorstIdentity:E1}   (the generator identity, every cell)");
-    Console.WriteLine($"    s0(s0(r)) = r                      {ml.WorstInvolution:E1}   (the turn is its own inverse)");
-    Console.WriteLine($"    s(s0(r))  = r + 2*sigma            {ml.WorstTranslation:E1}   (two mirrors make the translation)");
-    Console.WriteLine($"    the step 2*sigma = {ml.Step:0.000}; the fixed locus of s0 is r = -sigma, the palindrome center.");
+    Console.WriteLine("    formal rate line with sigma held fixed through composition:");
+    Console.WriteLine($"      s0(s0(r)) = r                    {ml.WorstInvolution:E1}");
+    Console.WriteLine($"      s(s0(r))  = r + 2*sigma          {ml.WorstTranslation:E1}");
+    Console.WriteLine($"      step 2*sigma = {ml.Step:0.000}; s0 fixes r = -sigma, the palindrome center.");
+    Console.WriteLine("    on (profile, rule), gain negates sigma and commutes with anti-watch;");
+    Console.WriteLine("    their physical composite squares to identity.");
     Console.WriteLine();
 
     // the per-site turns (built 2026-08-20): what happens when only ONE sign is turned.
@@ -1289,6 +1297,7 @@ if (args.Length > 0 && args[0] == "gammafold")
     Console.WriteLine($"    sigma(s_S g) = sigma - 2*sum_S g                   {sg.WorstSigmaResidual:E1}");
     Console.WriteLine($"    they generate (Z/2)^support: support {sg.Support}, orbit {sg.OrbitSize}, "
         + $"involutions {sg.AllInvolutions}, commuting {sg.AllCommute}");
+    Console.WriteLine("    site turns commute with anti-watch on the full (profile, rule) family.");
     Console.WriteLine();
     Console.WriteLine("  on the RATE AXIS it has a shadow only under a condition:");
     Console.WriteLine($"    subset sums of the support all distinct (exact):   {sg.SupportSumsDistinct}");
@@ -1302,12 +1311,11 @@ if (args.Length > 0 && args[0] == "gammafold")
     {
         Console.WriteLine($"    each shadow is PIECEWISE: at most {sg.PieceCount} pieces; largest-magnitude signed shift "
             + $"{sg.PieceShift:G17}");
-        Console.WriteLine($"    (s_l o s0)^2 total on the spectrum:                {sg.SquaredWithAntiWatchIsTotal}"
-            + "   <- the dihedral does not absorb it");
+        Console.WriteLine("    each shadow joins the spectra of two profiles; it is not a reflection of one fixed rate line.");
     }
     else
     {
-        Console.WriteLine("    no shadow, so nothing to compose with s0 here. Try a profile whose");
+        Console.WriteLine("    no rate-only shadow here. Try a profile whose");
         Console.WriteLine("    subset sums are distinct, for instance 0.125, 0.25, 0.5, 1.0.");
     }
     Console.WriteLine("    NOTE on this default, and it is worth one line because it nearly fooled the");
@@ -1316,8 +1324,8 @@ if (args.Length > 0 && args[0] == "gammafold")
     Console.WriteLine("    not dissociated. What is STORED is not the intent: 0.2 + 0.1 evaluates to");
     Console.WriteLine("    0.30000000000000004, one ulp off, and that ulp makes the stored profile");
     Console.WriteLine("    dissociated after all. The criterion above reads what is stored, exactly.");
-    Console.WriteLine("    s and s0 are reflections of the axis; a single turn is not one, and that");
-    Console.WriteLine("    is why this object carried two mirrors before it carried these N turns.");
+    Console.WriteLine("    On the formal fixed-sigma rate line s and s0 are reflections; a single site turn");
+    Console.WriteLine("    is not one. Physical profile/rule turns instead form commuting involutions.");
     Console.WriteLine();
 
     var rep = fold.Run(seed: 1, dt: 0.02, ticks: 50);

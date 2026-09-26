@@ -20,11 +20,13 @@ namespace MirrorWorld;
 //
 //     rho_anti(t) = e^(-2*sigma*t) * rho_gain(t)     (gain = the same seed run at -gamma).
 //
-// The anti-watched world IS the gain world in the price veil. On the rate functions r the two turns
-// read s: r -> -r and s0: r -> -r - 2*sigma; their composition is the translation r -> r + 2*sigma,
-// so <s, s0> is the infinite dihedral group with the full price 2*sigma as its translation step --
-// the same two-mirrors-make-a-translation shape F134 carries on the character side (s: mu -> -mu,
-// s0: mu -> 22 - mu, step 22). The fixed locus of s0 is r = -sigma: the palindrome center. This is
+// The anti-watched world IS the gain world in the price veil. On a FORMAL unbounded rate coordinate
+// at a fixed sigma, s: r -> -r and s0: r -> -r - 2*sigma generate an infinite dihedral group when
+// sigma != 0, with translation r -> r + 2*sigma and fixed locus r = -sigma for s0. This is the
+// two-mirrors-make-a-translation shape F134 carries on the character side. On the actual family of
+// (profile, watching rule), gain negates sigma while anti-watch toggles the rule; those two turns
+// commute and their composite squares to identity. The formal affine iteration is not their action
+// on successive profiles. This is
 // a DIFFERENT object from the F1 fold Pi L Pi^-1 = -L - 2*sigma (that one flips the sign of L_H;
 // this one keeps H untouched and flips only gamma), and different from the Lattice bridges (those
 // relabel the NORMAL trajectory through X^N; here a genuine gain trajectory is propagated and the
@@ -47,6 +49,11 @@ public sealed class GammaFold : GameObject
         var profile = siteGammas ?? Enumerable.Range(0, n).Select(l => 0.2 + 0.1 * l).ToArray();
         if (profile.Any(g => !double.IsFinite(g)))
             throw new ArgumentOutOfRangeException(nameof(siteGammas), "site rates must be finite for exact subset-sum scaling");
+        // Mask rates, the price 2*sigma and formal compositions all use floating arithmetic.
+        // Keep enough headroom for those sums even when every individual entry is finite.
+        double absoluteSum = profile.Sum(g => Math.Abs(g));
+        if (!double.IsFinite(absoluteSum) || absoluteSum > double.MaxValue / 4.0)
+            throw new ArgumentOutOfRangeException(nameof(siteGammas), "the profile is too large for finite rate and price reports");
         N = n;
         J = j;
         this.zz = zz;
@@ -73,9 +80,9 @@ public sealed class GammaFold : GameObject
 
     public sealed record MaskLawsReport(
         double WorstIdentity,       // worst |r_anti(cell) - (r at -gamma - 2*sigma)| over all cells
-        double WorstInvolution,     // worst |s0(s0(r)) - r|: the turn is its own inverse
-        double WorstTranslation,    // worst |(s . s0)(r) - (r + 2*sigma)|: two mirrors make the translation
-        double Step);               // the translation step 2*sigma (non-vacuity: must be O(1))
+        double WorstInvolution,     // fixed-sigma formal rate line: worst |s0(s0(r)) - r|
+        double WorstTranslation,    // fixed-sigma formal rate line: worst |(s . s0)(r) - (r + 2*sigma)|
+        double Step);               // the formal translation step 2*sigma
 
     public MaskLawsReport MaskLaws()
     {
@@ -98,11 +105,10 @@ public sealed class GammaFold : GameObject
     // ---- the PER-SITE turns (built here 2026-08-20, and DERIVED here rather than adopted). ----
     // Every other object in this world adopts a result proven elsewhere and names it in its first
     // line. This half names none, because none exists: the arc site_resolved_vacuum_block asked for
-    // a per-site sign involution and whether the group it makes with s0 closes, and the answer was
-    // worked out here. It stays in genre for the reason README gives (genre, not topic): it is
+    // a per-site sign involution and its rate-axis shadow, and the answer was worked out here. It is
     // entry-wise rate arithmetic, exact and cell by cell, with no eigensolver and no path object.
     //
-    // GammaFold's two mirrors turn the WHOLE profile at once. Turning one site, s_l, is a different
+    // Gain turns the whole profile; anti-watch turns the rule. Turning one site, s_l, is a different
     // animal, and the arithmetic says so before any experiment does: on a cell |i><j| the rate is
     // -2*sum_{l differs} gamma_l, so s_l
     //
@@ -126,13 +132,11 @@ public sealed class GammaFold : GameObject
     // months: the rate then sees only HOW MANY sites disagree, the spectrum collapses to N+1
     // values, and for N >= 2 no single-site shadow exists.
     //
-    // AND THE GROUP DOES NOT CLOSE, which is the arc's second question. On the rate axis s and s0
-    // are reflections, slope -1 apiece. Where s_l descends it is PIECEWISE the identity and a
-    // translation: identity on the half of the spectrum where site l agrees, a shift by 4*gamma_l
-    // on the other half. So it is affine on each piece and on neither the whole, it is no
-    // reflection, and (s_l o s0) squared is not even TOTAL on the spectrum, its orbit leaving the
-    // set. The infinite dihedral <s, s0> therefore does not grow into a larger reflection group; a
-    // partial, piecewise action sits beside it instead.
+    // ON THE RATE AXIS, where s_l descends it is PIECEWISE the identity and a translation:
+    // identity on the cells where site l agrees, a shift by 4*gamma_l on the others. Its domain
+    // and image are generally spectra of different profiles, so it is not a reflection of one fixed
+    // rate line. On the physical (profile, rule) family, every site turn commutes with anti-watch;
+    // together they are finite involutions. The fixed-sigma formal dihedral is a separate picture.
     //
     // The subset-sum test is EXACT rather than a float comparison, and the reason is worth
     // stating precisely, because the tempting reason is wrong. It is NOT that 1/10 + 2/10 = 3/10
@@ -149,7 +153,12 @@ public sealed class GammaFold : GameObject
 
     public static double[] Turn(double[] profile, IEnumerable<int> sites)
     {
+        ArgumentNullException.ThrowIfNull(profile);
+        ArgumentNullException.ThrowIfNull(sites);
         var set = sites.ToHashSet();
+        foreach (int site in set)
+            if (site < 0 || site >= profile.Length)
+                throw new ArgumentOutOfRangeException(nameof(sites), site, "site index must name a site in the profile");
         // 0.0 turned stays 0.0 and never -0.0: two equal profiles must compare equal
         // (the repo's group_closure_negative_zero_key trap).
         return profile.Select((g, l) => set.Contains(l) ? (g == 0.0 ? 0.0 : -g) : g).ToArray();
@@ -245,7 +254,6 @@ public sealed class GammaFold : GameObject
         bool DescendedIsInvolution,     // the map back from the turned profile undoes the map out
         int PieceCount,                 // pieces of the descended map: 2 (identity, and a shift)
         double PieceShift,              // signed 4*gamma_l for the largest-magnitude moving site turn
-        bool SquaredWithAntiWatchIsTotal, // is (s_l o s0)^2 total on the spectrum? it is not
         int DistinctRateValues);        // the spectrum (exactly N+1 when gamma is uniform)
 
     public SiteTurnGroupReport SiteTurnGroup()
@@ -296,7 +304,7 @@ public sealed class GammaFold : GameObject
             for (int j = 0; j < dim; j++)
                 spectrum.Add(RateExact(scaled, i, j));
 
-        bool descends = true, dInvol = true, total = true;
+        bool descends = true, dInvol = true;
         int pieces = 0;
         System.Numerics.BigInteger largestShiftMagnitude = 0;
         int shiftSite = -1;
@@ -332,8 +340,7 @@ public sealed class GammaFold : GameObject
 
             // PIECEWISE, which is the sharp description: the descended map shifts by one of at
             // most two values, 0 and 4*gamma_l, so it is the identity on one piece and a
-            // translation on the other. Neither piece is a reflection, and that is why the
-            // dihedral cannot absorb it.
+            // translation on the other. The map joins two profile spectra, not one fixed rate line.
             var shifts = map.Select(kv => kv.Value - kv.Key).ToHashSet();
             pieces = Math.Max(pieces, shifts.Count);
             foreach (var sh in shifts)
@@ -346,18 +353,8 @@ public sealed class GammaFold : GameObject
                 }
             }
 
-            // (s_l o s0)^2 with s0: r -> -r - 2*sigma, all of it over the integers. Total on the
-            // spectrum, or does the orbit leave it?
-            var twoSigma = 2 * scaled.Aggregate(System.Numerics.BigInteger.Zero, (a, b) => a + b);
-            foreach (var r in spectrum)
-            {
-                var a1 = -r - twoSigma;
-                if (!map.TryGetValue(a1, out var b3)) { total = false; break; }
-                var c = -b3 - twoSigma;
-                if (!map.ContainsKey(c)) { total = false; break; }
-            }
         }
-        if (!descends) { dInvol = false; pieces = 0; shiftSite = -1; total = false; }
+        if (!descends) { dInvol = false; pieces = 0; shiftSite = -1; }
 
         // The exact integer map chose the moving site. Read its signed shift directly in the
         // input's double units: 4*gamma_l remains representable even when 2^1074 is not.
@@ -365,7 +362,7 @@ public sealed class GammaFold : GameObject
 
         return new SiteTurnGroupReport(orbit.Count, gammas.Count(x => x != 0.0), invol, comm,
             compWorst, sigWorst, suppDistinct, wholeDistinct, descends, dInvol, pieces, pieceShift,
-            total, spectrum.Count);
+            spectrum.Count);
     }
 
     // ---- the trajectory level: the veil law rho_anti(t) = e^(-2*sigma*t) * rho_gain(t). ----

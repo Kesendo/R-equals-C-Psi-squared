@@ -2,8 +2,8 @@ using MirrorWorld;
 
 namespace MirrorWorldTests;
 
-// From-below guard for GammaFold's PER-SITE turns (built 2026-08-20). The object's two mirrors turn
-// the whole profile at once; these tests hold the law for turning ONE site, which is the move the
+// From-below guard for GammaFold's PER-SITE turns (built 2026-08-20). Gain turns the whole profile
+// and anti-watch turns the rule; these tests hold the law for turning ONE site, which is the move the
 // arc site_resolved_vacuum_block asked for and the object did not carry.
 //
 // On a cell |i><j| the rate is -2*sum_{l differs} gamma_l, so s_l leaves every cell where site l
@@ -16,7 +16,8 @@ namespace MirrorWorldTests;
 // (Z/2)^|support|. ON THE RATE AXIS the turn has a shadow only when the profile restricted to its
 // NONZERO sites has distinct subset sums for all turns jointly; uniform gamma is the extreme failure, where the rate sees
 // only how many sites disagree. And where the shadow exists it is PIECEWISE the identity and a
-// translation, so it is no reflection, and the dihedral <s, s0> does not grow to absorb it.
+// translation, so it is no reflection of one fixed rate line. The physical site and anti-watch
+// turns commute on the (profile, rule) family.
 //
 // Two disciplines the file keeps. The subset-sum criterion is decided over the INTEGERS, and for a
 // reason narrower than the tempting one: not because 1/10 + 2/10 = 3/10 slips past a float test
@@ -42,6 +43,13 @@ public class SiteTurnTests
     public void SiteTurn_Rejects_A_Profile_Of_The_Wrong_Length()
     {
         Assert.Throws<ArgumentException>(() => new GammaFold(W, 2, siteGammas: new[] { 0.25 }));
+    }
+
+    [Fact]
+    public void Profile_Turn_Rejects_A_Site_Outside_The_Profile()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => GammaFold.Turn(new[] { 1.0, 2.0 }, new[] { 2 }));
+        Assert.Throws<ArgumentOutOfRangeException>(() => GammaFold.Turn(new[] { 1.0, 2.0 }, new[] { -1 }));
     }
 
     [Fact]
@@ -196,15 +204,23 @@ public class SiteTurnTests
         Assert.Equal(4.0 * Dyadic.Max(), r.PieceShift);
     }
 
-    // the arc's second question: does the dihedral grow? It does not, and the measurement is that
-    // (s_l o s0)^2 is not even total on the spectrum: the orbit leaves the set.
+    // A site turn changes the profile, and anti-watch toggles the rule. Their physical composite
+    // returns after two applications, including on the agreeing cell that the fixed-sigma formal
+    // translation would send away from its starting rate.
     [Fact]
-    public void The_Dihedral_Does_Not_Absorb_The_Single_Turn()
+    public void Site_And_AntiWatch_Turns_Act_On_The_Profile_And_Rule_Together()
     {
-        var fold = new GammaFold(W, 4, siteGammas: Dyadic);
-        var r = fold.SiteTurnGroup();
-        Assert.True(r.DescendsToRateAxis);
-        Assert.False(r.SquaredWithAntiWatchIsTotal);
+        static double Rate(double[] g, bool antiWatching, int disagreementMask)
+            => -2.0 * Enumerable.Range(0, g.Length)
+                .Where(site => (((disagreementMask >> site) & 1) == 1) != antiWatching)
+                .Sum(site => g[site]);
+
+        double[] profile = { 1.0, 2.0 };
+        Assert.Equal(-2.0, Rate(profile, antiWatching: false, disagreementMask: 1));
+        double[] turned = GammaFold.Turn(profile, new[] { 0 });
+        Assert.Equal(-4.0, Rate(turned, antiWatching: true, disagreementMask: 1));
+        double[] restored = GammaFold.Turn(turned, new[] { 0 });
+        Assert.Equal(-2.0, Rate(restored, antiWatching: false, disagreementMask: 1));
     }
 
     // uniform gamma is where the question disappears: the rate sees only HOW MANY sites disagree,

@@ -4,7 +4,7 @@
 
 ## The statement
 
-Take the usual family: an XXZ chain under local Z-dephasing with per-site rates γ_l, σ = Σ_l γ_l. The whole profile is written γ = (γ₁, ..., γ_N), without an arrow. Two involutions act on the watching parameter:
+Take the usual family: an XXZ chain under local Z-dephasing with per-site rates γ_l, σ = Σ_l γ_l. The whole profile is written γ = (γ₁, ..., γ_N), without an arrow. Two involutions act on the profile and watching rule:
 
 - **s, the gain turn**: γ_l ↦ −γ_l (reflection through the unwatched zero; negative rates amplify),
 - **s₀, the anti-watch turn**: agreement watched instead of disagreement (the turned rule −2γ(N−k) of [LATTICE_OPENING_LAW](LATTICE_OPENING_LAW.md), site-resolved: −2·Σ_{l agrees} γ_l).
@@ -19,7 +19,7 @@ and the trajectory wears the shift as a scalar veil:
 
 *Derivation (one line, from committed pieces):* the Hamiltonian leg never sees γ, and on a coherence cell |i⟩⟨j| the turned rate is plain arithmetic: −2·Σ_{agree} γ_l = +2·Σ_{differ} γ_l − 2σ = (rate at −γ) − 2σ. Both inputs are owned: the site-resolved rate −2·Σ_l γ_l·(bit l of i⊕j) is the Absorption Theorem's cost identity, and the turned rule is the Lattice adoption. ∎
 
-On the rate functions r the two turns read s: r ↦ −r and s₀: r ↦ −r − 2σ, so composing gain after the turn (s∘s₀) is the **translation r ↦ r + 2σ**: two mirrors make a translation, ⟨s, s₀⟩ is the infinite dihedral group (σ ≠ 0) with the full price 2σ as its step, and the fixed locus of s₀ is r = −σ, the palindrome center. This is exactly the two-mirror shape [F134](../docs/proofs/PROOF_F134_TWO_ROW_REFLECTION_LAW.md) carries on the character side (s: μ₁ ↦ −μ₁, s₀: μ₁ ↦ 22−μ₁, translation 22), now sitting on the home γ axis.
+On a **formal unbounded rate coordinate with σ held fixed**, s: r ↦ −r and s₀: r ↦ −r − 2σ generate the infinite dihedral group when σ ≠ 0: s∘s₀ translates by 2σ, and s₀ fixes r = −σ, the palindrome center. This is the two-mirror affine shape [F134](../docs/proofs/PROOF_F134_TWO_ROW_REFLECTION_LAW.md) carries on the character side (s: μ₁ ↦ −μ₁, s₀: μ₁ ↦ 22−μ₁, translation 22). On the actual family, gain sends γ to −γ and thus σ to −σ, while anti-watch toggles the rule at the current profile. Those turns commute; applying their composite twice returns the starting profile and rule. The fixed-σ affine iteration is a separate reading of one rate line, not a succession of physical profile turns.
 
 ## What it is not (the placement)
 
@@ -34,11 +34,11 @@ Composing with the committed one-sided X^N bridge (the Lattice reading L(t)[i,j]
 Adopted into MirrorWorld as `GammaFold` (`compute/MirrorWorld/GammaFold.cs`, run mode `gammafold N`; suite 240 via `GammaFoldTests`):
 
 - the generator identity per cell at machine zero (2.2e−16) for a non-uniform site profile, ZZ on or off;
-- the dihedral closure exactly (involution, translation step 2σ);
+- the fixed-σ formal affine identities exactly (involution, translation step 2σ), and the order-two physical profile/rule composite separately;
 - the veil law over twin RK4 at 2.6e−8 (dt = 0.02, the RK4 truncation of the scalar shift), with the amplification witness gain/anti novelty = e^(+2σt) (novelty = the summed off-diagonal coherence weight; the law is analytically exact, the twin-RK4 witness matches it to 1e−4; the trace is blind to γ in every world, the growth lives in the coherences);
 - the discriminator: the veil against the unflipped (+γ) world misses at 0.057, so the gain flip is load-bearing;
 - the X^N cross-dock at 4.5e−8.
 
 ## Open: the divisor question this sharpens
 
-F139's lesson was that the wall is a **divisor, not a symmetry**: the reflection law fell out of dividing by the vanishing polynomial of an angle lattice, after every symmetry reading had been closed off. The gamma fold gives the home side the same cast of characters: σ plays the shifted level, the dihedral plays ⟨s, s₀⟩, and the home angle lattice already exists (the single-excitation spectrum 2J·cos(rπ/(N+1)), whose vanishing polynomial is the Chebyshev S_N; the [Niven rationality root](../docs/carbon/F99_NIVEN_COMPLETENESS.md) claim owns its arithmetic). What is missing is the home polynomial that the wall factor divides: the candidates assembled so far are the characteristic polynomial of the effective Liouvillian on the Q = J/γ₀ axis (where a naive similarity factorization already failed, the same false start F134's centroid theorem closed on the character side) and the F89 discriminant factorization disc = C·w^v·A₁·A₂² (a committed home-side "factor divides out exactly"). That hunt is the arc's next round, not this note's claim.
+F139's lesson was that the wall is a **divisor, not a symmetry**: the reflection law fell out of dividing by the vanishing polynomial of an angle lattice, after every symmetry reading had been closed off. The gamma fold gives the home side the same cast of characters on the fixed-σ formal rate line: σ plays the shifted level and the affine dihedral supplies the two-mirror shape. The home angle lattice already exists (the single-excitation spectrum 2J·cos(rπ/(N+1)), whose vanishing polynomial is the Chebyshev S_N; the [Niven rationality root](../docs/carbon/F99_NIVEN_COMPLETENESS.md) claim owns its arithmetic). What is missing is the home polynomial that the wall factor divides: the candidates assembled so far are the characteristic polynomial of the effective Liouvillian on the Q = J/γ₀ axis (where a naive similarity factorization already failed, the same false start F134's centroid theorem closed on the character side) and the F89 discriminant factorization disc = C·w^v·A₁·A₂² (a committed home-side "factor divides out exactly"). That hunt is the arc's next round, not this note's claim.

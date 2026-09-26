@@ -16,13 +16,13 @@ namespace MirrorWorld;
 // orders read
 //     X_2j(tau) = sum_{k in tau} (-1)^(k+1) cos(2jk pi / n) = -M_{n+2j}(tau)
 // and the even orders read M_{2j+1}(tau) = sum_{k in tau} cos((2j+1)k pi / n). Differencing a colliding
-// pair gives the GAP, and which of its orders vanish is decided by a gcd: the multiplier is a Galois
+// pair gives the GAP. A gcd gives a sufficient kill route for odd-order X rungs: the multiplier is a Galois
 // automorphism of Q(zeta_2n) exactly when gcd(n + 2j, 2n) = 1, which at ODD n reduces to gcd(j, n) = 1.
 // A collision is DeltaM_1 = 0, so an automorphism carries it to the whole rung it reaches, and the rung
 // dies. At every odd n and for EVERY pair, standing or separating, DeltaX_2 = DeltaX_4 = 0 and hence
 // c_3 = 0. The rung j = 0 is never an automorphism, gcd(n, 2n) = n, and that is the rung which leaves
 // the first order standing. Since F129 fires only at 3|n or 10|n, and 10|n forces n even, every odd
-// firing modulus has 3|n, so j = 3 is the first surviving rung and X_6 first enters at FIFTH order.
+// firing modulus has 3|n, so j = 3 is the first rung not forced to vanish and X_6 first enters at FIFTH order.
 //
 // At EVEN n the collision never reaches the X ladder by that route: n + 2j is even, so no rung is
 // killed this way. What carries the vanishing instead is the SHAPE of the triples, the Conway-Jones
@@ -39,7 +39,7 @@ namespace MirrorWorld;
 // the collision hypothesis does not supply and the shape does. The argument is the same word for word
 // with 2n replaced by n: Theorem D is the case where the multiplier is invertible on every piece at
 // once, the rung lemma the case of pieces of ratio-order 3, where "3 does not divide j" is exactly
-// "the multiplier is coprime to their ratio-order". They name the same first surviving rung, three.
+// "the multiplier is coprime to their ratio-order". They name the same first unforced rung, three.
 //
 // Exactness, LevelCollision's own convention: the combs are read in GF(p) at two independent primes
 // p = 1 (mod 2n) with zeta of exact order 2n, since 2cos(m pi / n) = zeta^m + zeta^-m. The reduction is
@@ -59,11 +59,13 @@ namespace MirrorWorld;
 //     ROT3 hypothesis in full and separate anyway, all with an odd-label difference of three. What
 //     makes the twelve even-n non-mirror pairs stand is the shape for c_3 AND a parity match for c_1,
 //     two facts, and the proof is emphatic that this is not a technicality.
-//   * the SECOND order lives on the M ladder and splits by 3|n. Its rung is m = 3, so gcd(3, 2n) = 1
+//   * the SECOND order lives on the M ladder; its global gcd route splits by 3|n. Its rung is m = 3, so gcd(3, 2n) = 1
 //     exactly when 3 does not divide n, and there the gcd kills c_2 for EVERY pair. Among the firing
 //     moduli that is the 10|n family with 3 not dividing n, smallest member n = 20; at every 3|n the
 //     gcd fails, and only Corollary G's LOCAL piece criterion can speak, which this file does not run.
-// So the 20 deaths at n = 20 are the gcd's and the 40 at n = 30 are not explained here at all.
+// The 20 deaths at n = 20 follow from the global gcd. The 40 at n = 30 follow from family C's
+// 3-free minimal pieces in Corollary G; this object reads them in its modular census but does not
+// run the decomposition criterion.
 // No eigensolver runs and nothing at u != 0 is ever diagonalised. The u = 0 levels ARE computed, in
 // LevelCollision, as zeta^k + zeta^-k; they are that object's and they are how the pairs are found.
 //
@@ -154,7 +156,11 @@ public sealed class CollisionGap : GameObject
     public static int OddOrderMultiplier(int n, int j)
     {
         CheckComb(n);
-        return n + 2 * j;
+        if (j < 0) throw new ArgumentOutOfRangeException(nameof(j), "rung index must be nonnegative");
+        long multiplier = (long)n + 2L * j;
+        if (multiplier > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(j), "the multiplier does not fit the int-valued API");
+        return (int)multiplier;
     }
 
     /// <summary>The multiplier an EVEN order reads its comb under: M_{2j+1}.</summary>
@@ -166,12 +172,18 @@ public sealed class CollisionGap : GameObject
     public static bool IsAutomorphism(int n, int multiplier)
     {
         CheckComb(n);
-        return Cyclotomy.Gcd(multiplier, 2 * n) == 1;
+        return BigInteger.GreatestCommonDivisor(multiplier, 2 * (BigInteger)n) == BigInteger.One;
     }
 
     /// <summary>Whether the collision reaches the odd rung j and kills it. False at every even n, where
     /// n + 2j is even and no rung is reachable this way: there the shape carries it.</summary>
-    public static bool GaloisKillsOddRung(int n, int j) => IsAutomorphism(n, OddOrderMultiplier(n, j));
+    public static bool GaloisKillsOddRung(int n, int j)
+    {
+        CheckComb(n);
+        if (j < 0) throw new ArgumentOutOfRangeException(nameof(j), "rung index must be nonnegative");
+        return BigInteger.GreatestCommonDivisor((BigInteger)n + 2 * (BigInteger)j,
+            2 * (BigInteger)n) == BigInteger.One;
+    }
 
     /// <summary>The odd-n reduction: gcd(n + 2j, 2n) = 1 and gcd(j, n) = 1 are the same condition. It
     /// has no content at an even comb, where the left side is false at every j, so this refuses one
@@ -192,18 +204,17 @@ public sealed class CollisionGap : GameObject
 
     /// <summary>The first rung j >= 1 that the collision does NOT kill, by the gcd route. Three at every
     /// odd firing modulus, since those all carry 3|n. It refuses an EVEN comb for the same reason
-    /// GcdIdentityHolds does: there this route kills nothing at all, so its "first survivor" would be
+    /// GcdIdentityHolds does: there this route kills nothing at all, so its "first unforced rung" would be
     /// the first rung asked about rather than a fact. At an even comb with 3|n the shape answers
     /// instead; at an even comb WITHOUT it, n = 20 being the census member, neither route speaks, and
     /// none is needed there since no pair stands. (The rung j = 0 is never killed at any n, which is why
     /// the search starts at one: it is the rung that leaves the first order standing, not a survivor of
-    /// anything.)</summary>
-    public static int FirstSurvivingOddRungByGcd(int n)
+    /// anything.) By the odd-n gcd reduction, this is the least prime factor of n.</summary>
+    public static int FirstUnforcedOddRungByGcd(int n)
     {
         CheckComb(n);
-        RequireOddComb(n, "the first surviving rung by the gcd");
-        for (int j = 1; ; j++)
-            if (!GaloisKillsOddRung(n, j)) return j;
+        RequireOddComb(n, "the first unforced rung by the gcd");
+        return ModP.PrimeFactors(n)[0];
     }
 
     /// <summary>The first rung the ROT3 rung lemma does not force to vanish, read off the forcing rather
@@ -211,7 +222,7 @@ public sealed class CollisionGap : GameObject
     /// reaches at an odd firing modulus, by the same argument one resolution finer. The lemma needs 3|n
     /// to have any triple to speak about, so this is the route's answer WHERE IT APPLIES and not a fact
     /// about every comb; at n = 20 there is no ROT3 triple at all.</summary>
-    public static int FirstSurvivingRungByShape()
+    public static int FirstUnforcedRungByShape()
         => Enumerable.Range(1, 16).First(j => !Rot3ForcesVanishing(j));
 
     /// <summary>The ROT3 rung lemma's forced direction: on a parity-uniform doubled-label ROT3 triple,
@@ -386,6 +397,8 @@ public sealed class CollisionGap : GameObject
     public static bool IsDoubledLabelRot3(int n, (int K1, int K2, int K3) t)
     {
         CheckComb(n);
+        if (t.K1 < 1 || t.K1 >= n || t.K2 < 1 || t.K2 >= n || t.K3 < 1 || t.K3 >= n)
+            throw new ArgumentOutOfRangeException(nameof(t), "comb labels must lie in 1..n-1");
         // a shortcut and not a second condition: at 3 not dividing n the step floor(n/3) has no order 3
         // (n would have to divide 3*floor(n/3) = n - (n mod 3), impossible for 0 < n mod 3 < n), so the
         // closure below already refuses every triple there. Kept because the reader should not have to
@@ -394,8 +407,8 @@ public sealed class CollisionGap : GameObject
         var p = new HashSet<int>();
         foreach (int k in new[] { t.K1, t.K2, t.K3 })
         {
-            p.Add(((k % n) + n) % n);
-            p.Add(((-k % n) + n) % n);
+            p.Add(k);
+            p.Add(n - k);
         }
         // zero is unreachable from a comb label 1..n-1 and reachable from a caller's k = 0 or k = n,
         // which is the only reason the guard is here.
@@ -404,7 +417,7 @@ public sealed class CollisionGap : GameObject
         // closure under one step suffices on a finite set: it forces the orbit of every element, and
         // six elements closed under an order-3 shift are exactly two cosets.
         foreach (int e in p)
-            if (!p.Contains((e + step) % n)) return false;
+            if (!p.Contains((int)(((long)e + step) % n))) return false;
         return true;
     }
 

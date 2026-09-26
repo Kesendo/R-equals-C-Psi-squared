@@ -15,7 +15,8 @@ namespace MirrorWorldTests;
 //
 // The one-sidedness is LevelCollision's, and it points the useful way here: a comb reading that is
 // NONZERO mod one prime is exactly nonzero, so every "separates" verdict is proof grade, and the
-// vanishing is never measured but decided by a gcd (Theorem D) or by the ROT3 shape (Theorem E).
+// zeros at both primes are finite readings; the gcd, ROT3, and local-piece arguments prove the
+// vanishing claims in their respective domains.
 public class CollisionGapTests
 {
     static CollisionGap Gap(int ncomb) => new(new Crack(new Cyclotomy(), ncomb - 1, 0));
@@ -57,10 +58,28 @@ public class CollisionGapTests
         Assert.False(CollisionGap.IsAutomorphism(9, 6));
         Assert.False(CollisionGap.IsAutomorphism(12, 2));   // an even comb: nothing even is coprime to 24
         Assert.True(CollisionGap.IsAutomorphism(12, 5));
+        Assert.True(CollisionGap.IsAutomorphism(9, -1));    // complex conjugation is an automorphism
     }
 
+    [Fact]
+    public void Automorphism_Modulus_Does_Not_Wrap_For_Large_Odd_Combs()
+    {
+        const int n = 1_073_741_825;
+        Assert.True(CollisionGap.IsAutomorphism(n, 3));
+        Assert.True(CollisionGap.GaloisKillsOddRung(n, 2));
+        Assert.True(CollisionGap.GcdIdentityHolds(n, 2));
+        Assert.True(CollisionGap.GaloisKillsOddRung(int.MaxValue, 1));
+        Assert.True(CollisionGap.GcdIdentityHolds(int.MaxValue, 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.OddOrderMultiplier(int.MaxValue, 1));
+    }
+
+    [Fact]
+    public void Rot3_Closure_Does_Not_Wrap_For_Large_Labels()
+        => Assert.True(CollisionGap.IsDoubledLabelRot3(
+            1_800_000_000, (1, 600_000_001, 1_200_000_001)));
+
     // Theorem D's criterion and its odd-n reduction, on the adopted range. The reduction is the
-    // load-bearing half: it is what makes j = 3 the first survivor at every odd firing modulus.
+    // load-bearing half: it makes j = 3 the first rung the gcd does not force to vanish.
     [Fact]
     public void TheGcdIdentityHoldsAtEveryOddComb()
     {
@@ -93,40 +112,41 @@ public class CollisionGapTests
     // The literal list, so the filter cannot assert itself: three at every odd firing modulus, and at
     // an even one the Galois route kills nothing at all, which is why Theorem E has to carry it.
     [Fact]
-    public void ThreeIsTheFirstSurvivingRungAtEveryOddFiringModulus()
+    public void ThreeIsTheFirstUnforcedRungAtEveryOddFiringModulus()
     {
         int[] oddFiring = { 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93, 99 };
         foreach (int n in oddFiring)
         {
             Assert.True(LevelCollision.Fires(n), $"{n} is not a firing modulus");
-            Assert.Equal(3, CollisionGap.FirstSurvivingOddRungByGcd(n));
+            Assert.Equal(3, CollisionGap.FirstUnforcedOddRungByGcd(n));
         }
         // the shape reaches the same three, and it is the route that means something at an even comb,
         // where the gcd kills nothing and therefore refuses rather than naming a survivor of nothing
-        Assert.Equal(3, CollisionGap.FirstSurvivingRungByShape());
+        Assert.Equal(3, CollisionGap.FirstUnforcedRungByShape());
         foreach (int n in new[] { 12, 18, 20, 24, 30 })
-            Assert.Throws<ArgumentException>(() => CollisionGap.FirstSurvivingOddRungByGcd(n));
+            Assert.Throws<ArgumentException>(() => CollisionGap.FirstUnforcedOddRungByGcd(n));
         // three is a property of the FIRING moduli (they all carry 3|n), not of the method: at an odd
         // comb the gcd route names the smallest prime factor of n, so a suite asking only firing moduli
         // cannot tell the search from a constant three
-        Assert.Equal(5, CollisionGap.FirstSurvivingOddRungByGcd(25));
-        Assert.Equal(7, CollisionGap.FirstSurvivingOddRungByGcd(49));
-        Assert.Equal(11, CollisionGap.FirstSurvivingOddRungByGcd(121));
-        Assert.Equal(5, CollisionGap.FirstSurvivingOddRungByGcd(55));
+        Assert.Equal(5, CollisionGap.FirstUnforcedOddRungByGcd(25));
+        Assert.Equal(7, CollisionGap.FirstUnforcedOddRungByGcd(49));
+        Assert.Equal(11, CollisionGap.FirstUnforcedOddRungByGcd(121));
+        Assert.Equal(int.MaxValue, CollisionGap.FirstUnforcedOddRungByGcd(int.MaxValue));
+        Assert.Equal(5, CollisionGap.FirstUnforcedOddRungByGcd(55));
     }
 
     // The ROT3 route reaches three as well, by a different mechanism: forced whenever 3 does not
     // divide j. Both routes name the same rung and neither is the other.
     [Fact]
-    public void TheRot3RouteAlsoFirstSurvivesAtThree()
+    public void TheRot3RouteAlsoFirstLeavesThreeUnforced()
     {
         for (int j = 1; j <= 30; j++)
             Assert.Equal(j % 3 != 0, CollisionGap.Rot3ForcesVanishing(j));
         // and the route's answer is READ OFF the forcing, not stated beside it: this dies with the
         // predicate above rather than agreeing with a literal three of its own
-        Assert.Equal(3, CollisionGap.FirstSurvivingRungByShape());
-        Assert.False(CollisionGap.Rot3ForcesVanishing(CollisionGap.FirstSurvivingRungByShape()));
-        for (int j = 1; j < CollisionGap.FirstSurvivingRungByShape(); j++)
+        Assert.Equal(3, CollisionGap.FirstUnforcedRungByShape());
+        Assert.False(CollisionGap.Rot3ForcesVanishing(CollisionGap.FirstUnforcedRungByShape()));
+        for (int j = 1; j < CollisionGap.FirstUnforcedRungByShape(); j++)
             Assert.True(CollisionGap.Rot3ForcesVanishing(j));
     }
 
@@ -591,13 +611,13 @@ public class CollisionGapTests
         Assert.Equal(0, byComb[21]);
     }
 
-    // The second order splits by 3|n and NOT by parity, which is the trap this gate exists to hold: its
+    // The global gcd route for second order splits by 3|n and NOT by parity: its
     // rung is m = 3, so the gcd kills c_2 exactly where 3 does not divide n. Among the nine firing
     // moduli that is n = 20 alone, and there it kills EVERY pair. At every 3|n modulus the gcd fails and
-    // only Corollary G's local criterion can speak, which this object does not run: so the 40 at n = 30
-    // are not explained here, and nothing in this file should be read as explaining them.
+    // only Corollary G's local criterion can speak, which this object does not run. The proof's
+    // family C decomposition explains the 40 at n = 30; this test reads their modular census count.
     [Fact]
-    public void TheSecondOrderSplitsByThreeDividingNAndNotByParity()
+    public void TheSecondOrderGlobalGcdRouteSplitsByThreeDividingNAndNotByParity()
     {
         foreach (int n in Moduli)
         {
@@ -701,10 +721,11 @@ public class CollisionGapTests
             Assert.False(LevelCollision.Fires(n));
         }
         Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.CensusOf(4));
-        Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.FirstSurvivingOddRungByGcd(4));
+        Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.FirstUnforcedOddRungByGcd(4));
         Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.Settings(4));
         Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.IsThetaMirror(4, (1, 2, 3), (1, 2, 3)));
         Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.IsDoubledLabelRot3(4, (1, 2, 3)));
+        Assert.Throws<ArgumentOutOfRangeException>(() => CollisionGap.IsDoubledLabelRot3(24, (25, 7, 9)));
         // the odd-n reduction has no content at an even comb and says so rather than returning true
         Assert.Throws<ArgumentException>(() => CollisionGap.GcdIdentityHolds(12, 1));
     }

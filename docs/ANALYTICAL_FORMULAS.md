@@ -6592,8 +6592,8 @@ the single-excitation corner block of the Liouvillian carries
 
 and, **when gbar != 0**, exactly floor(N/2) for all but finitely many J: one
 frozen mode per balanced pair. At gbar = 0, which the locus permits because the
-rates are nowhere asked to be positive, the count is N instead, one per site,
-again for all but finitely many J (below; at J = 0 it is N + 2*floor(N/2), which
+rates are nowhere asked to be positive, the proved lower bound is N, one per site;
+equality of the geometric count was exact-checked at selected nonzero J for N = 3..7 (below; at J = 0 a generic locus profile has N + 2*floor(N/2), which
 is a doubling only at even N). **No symmetry is behind it.** The eigenvectors move with J, the block
 spectrum is not palindromic about the root, and no invariant subspace carries
 the modes; what pins the value is a dimension bottleneck of the cell mirror
@@ -6638,7 +6638,7 @@ gbar the determinant is free of sits in the prefactor instead, and that is the
 other way q(0) can die: at gbar = 0 the even defect 4*gbar*P_D vanishes, Mtilde
 is tauQ-odd on the WHOLE corner block, and the kernel bound becomes the bare
 index dim V+ - dim V- = trace(tauQ) = N, and the KERNEL attains it at every
-coupling measured (exact GF(p), N = 3..7, both chains). Semisimple there too,
+selected nonzero coupling measured (exact GF(p), N = 3..7, both chains). Semisimple there too,
 but NOT everywhere: that stratum has its own defective couplings, where the
 ALGEBRAIC count rises above N while the kernel stays put, below. The halving is the populations' cut, and there is none
 to take when the mean rate is zero. At the uniform
@@ -6653,21 +6653,20 @@ residual constant reads off which clock the chain carries.
 
 **The distance ladder (the valuation).** As J -> 0,
 
-    ord_J det((X P_{O+} X)|_{V-}) = 2*floor(N^2/4) = 2 * sum_c d_c,
+    ord_J det((X P_{O+} X)|_{V-}) >= 2*floor(N^2/4) = 2 * sum_c d_c,
     d_c := N + 1 - 2c  the site distance of the balanced pair (c, Rc),
 
 and per pair ord_J S_{c,c'} >= d_c + d_c' on the D- Schur complement. The
 mechanism is a walk: each pair's frozen mode is carried by a diagonal cell
 sitting d_c levels from the anti-diagonal, the level census is short exactly
 one row there, and the only spare rooms are on the anti-diagonal itself, so
-the debt must be walked down, one power of J per hop. **The far pair is the
-most protected: distance buys immunity, and the two ends of the chain are the
-last to let go.** Corollary: at J = 0 the root carries twice the multiplicity,
+the debt must be walked down, one power of J per hop. **The far pair has the
+largest proved minimum order: distance buys immunity.** Corollary: at J = 0 the root carries twice the multiplicity,
 2*floor(N/2), all semisimple, and exactly floor(N/2) modes depart as the
-coupling turns on (at gbar = 0 that kernel is N + 2*floor(N/2) and twice as many
+coupling turns on (at gbar = 0 a generic locus profile has kernel N + 2*floor(N/2) and twice as many
 depart). Sharpness is reduced to a single nonvanishing by a second,
 pointed grading: chi_x(a,b) = |a-x| + |b-R(x)| gives
-ord det Y_(I_x, A_c) = max(d_c, d_x), so each pair reaches exactly the
+ord det Y_(I_x, A_c) >= max(d_c, d_x), so a pair can reach only
 anti-diagonal cells between its own two sites, those intervals are nested, and
 the resulting matrix is triangular.
 
@@ -6678,11 +6677,11 @@ divisor is **defective**, one Jordan block of size two (exact over Q(sqrt(s),i)
 at N = 3, 4; at N = 4 confirmed twice, once from the characteristic polynomial).
 The tightness criterion vanishes at three different kinds of place and **cannot
 tell them apart**: at J = 0 the multiplicity merely doubles and stays
-semisimple; at gbar = 0 it is N for all but finitely many J, and there it is the
+semisimple; at gbar = 0 the proved lower bound is N, and there it is the
 prefactor rather than the determinant that dies (N is not twice floor(N/2) at odd
 N: the diagonal cells stop charging AND pay one room back). The count meant there
-is the algebraic one; the kernel is N at every coupling measured, exceptional
-ones included. That stratum has
+is the algebraic one; the kernel is N at selected nonzero couplings measured, including
+the defective examples. That stratum has
 defective couplings of its OWN, which no cofactor can find since q(0) vanishes
 identically there: at N = 3 on the gate's profile the coefficient of lambda^3 is
 (256/625)*J^4*(75J-2)*(75J+2), and at J = 2/75 the kernel dimensions run
@@ -9218,15 +9217,15 @@ curve's u = 1 end and whose §Scope fence is its Perron root, and
 scaled integer polynomial, the two band-edge factors, the departure count by their
 signs, the odd threshold in lowest terms, c_m, the chain-end velocity) and
 deliberately not the elimination, which is `Crack`'s; no Diagnostics witness, the
-from-below home being MirrorWorld's `Crack` with its 74 tests, while the claim's own
+from-below home being MirrorWorld's `Crack` with its 76 tests, while the claim's own
 `CrackedRingExactCurveClaimTests` meet the polynomial against a Bareiss determinant
 over the integers and the factor forms against the unfactored polynomial. First use
 of the typed velocity: [The Comb on the Road](../experiments/THE_COMB_ON_THE_ROAD.md),
 F129's collisions on this road. That velocity is the first term of a series, and the series is [F161](#f161): each of its five
-computed orders reads the same comb under a different integer multiplier, and which of them
-vanish is decided by a gcd.
+computed orders read the same comb under different integer multipliers. A gcd forces
+some odd-order rungs to vanish; local pieces and ROT3 explain further cases.
 
-### F161. Each computed order of a collision gap on the crack's road reads ONE comb under a different integer multiplier, and which orders vanish is decided by a gcd, the last surviving one being F129's own divisor: writing a chain level's motion in the wrap bond as E_k(u) = 2cos θ_k + Σ_m d_m·u^m, each of the five computed coefficients is a signed combination of neighbouring evaluations of ONE comb under an integer multiplier (a difference of two through third order, three rungs at fifth; the PARITY of the multipliers is a theorem at every order, from two symmetries of the angle equation, while their RANGE is not, so the general shape past the fifth is open), the odd orders on X_2j(τ) = Σ_{k∈τ} (−1)^{k+1}·cos(2jkπ/n) = −M_{n+2j}(τ) and the even orders on M_{2j+1}(τ) = Σ_{k∈τ} cos((2j+1)kπ/n); the multiplier is a Galois automorphism of ℚ(ζ_2n) exactly when gcd(n+2j, 2n) = 1, which at ODD n is gcd(j, n) = 1, so at every odd n and for EVERY collision pair ΔX₂ = ΔX₄ = 0 and hence c₃ = 0, standing or separating (the rung j = 0 is never an automorphism, gcd(n, 2n) = n, and that is the rung which leaves c₁ standing for the 2335 pairs that separate, reading (4/n)(o_τ − o_σ) at odd n where ΔX₂ = 0, and (2/n)(ΔX₀ − ΔX₂) in general); at even n no such multiplier reaches the ladder from the collision, and the twelve non-mirror standing pairs of the n ≤ 30 census are carried instead by the Conway-Jones ROT3 shape of their doubled labels, for which X_2j = 0 is FORCED whenever 3 ∤ j (parity-uniform triples; at even n that is free, since 6 | n makes every coset parity-homogeneous, and at odd n it is load-bearing); and since F129 fires only at 3|n or 10|n while 10|n forces n even, every odd firing modulus has 3|n, so j = 3 is the first surviving rung in both cases and X₆ first enters at FIFTH order (Tier 1 derived and gated 2026-09-02, fifteen gate blocks L1 to L14: the cyclotomic ones exact in ℤ[ζ_2n], the closed forms exact and symbolic in n, four blocks exact but concrete
+### F161. Each computed order of a collision gap on the crack's road reads ONE comb under a different integer multiplier, and a gcd supplies a sufficient vanishing route for odd-order rungs while local pieces and ROT3 cover more cases: writing a chain level's motion in the wrap bond as E_k(u) = 2cos θ_k + Σ_m d_m·u^m, each of the five computed coefficients is a signed combination of neighbouring evaluations of ONE comb under an integer multiplier (a difference of two through third order, three rungs at fifth; the PARITY of the multipliers is a theorem at every order, from two symmetries of the angle equation, while their RANGE is not, so the general shape past the fifth is open), the odd orders on X_2j(τ) = Σ_{k∈τ} (−1)^{k+1}·cos(2jkπ/n) = −M_{n+2j}(τ) and the even orders on M_{2j+1}(τ) = Σ_{k∈τ} cos((2j+1)kπ/n); the multiplier is a Galois automorphism of ℚ(ζ_2n) exactly when gcd(n+2j, 2n) = 1, which at ODD n is gcd(j, n) = 1, so at every odd n and for EVERY collision pair ΔX₂ = ΔX₄ = 0 and hence c₃ = 0, standing or separating (the rung j = 0 is never an automorphism, gcd(n, 2n) = n, and that is the rung which leaves c₁ standing for the 2335 pairs that separate, reading (4/n)(o_τ − o_σ) at odd n where ΔX₂ = 0, and (2/n)(ΔX₀ − ΔX₂) in general); at even n no such multiplier reaches the ladder from the collision, and the twelve non-mirror standing pairs of the n ≤ 30 census are carried instead by the Conway-Jones ROT3 shape of their doubled labels, for which X_2j = 0 is FORCED whenever 3 ∤ j (parity-uniform triples; at even n that is free, since 6 | n makes every coset parity-homogeneous, and at odd n it is load-bearing); and since F129 fires only at 3|n or 10|n while 10|n forces n even, every odd firing modulus has 3|n, so j = 3 is the first rung that can survive in both cases and X₆ first enters at FIFTH order (Tier 1 derived and gated 2026-09-02, fifteen gate blocks L1 to L14: the cyclotomic ones exact in ℤ[ζ_2n], the closed forms exact and symbolic in n, four blocks exact but concrete
 in N or n, and one error-model law on an eigensolver (L4), the only inexact gate on
 the page; the first-order rung is F160's Theorem G and the j = 1 kill is THE_COMB_ON_THE_ROAD's gate R3b, both recovered here as members of one family)
 
@@ -9238,8 +9237,8 @@ c₃ = 0 for all 223 pairs that stand at first order, proved it for the eleven
 Θ-mirror ones by the chiral K, and recorded the other 212 as reported and not explained (a sentence that page no
 longer carries, this entry's change being what answers it). This entry is that explanation, and it is not a second census: what
 is new is the series past first order, the observation that each computed coefficient
-lives on a multiplier ladder, and the arithmetic criterion that decides each
-rung. It also replaces two of that page's 40-digit readings by exact
+lives on a multiplier ladder, and arithmetic criteria that certify vanishing on
+specified rungs. It also replaces two of that page's 40-digit readings by exact
 statements: the vanishing below fifth order becomes a theorem and the exponent
 5 itself becomes an exact decision per pair (ΔX₆ ≠ 0, checked on all 212), with
 a formula for the coefficient; and the second order stops being read at all,
@@ -9280,8 +9279,8 @@ never contributes, and the criterion collapses to gcd(j, n) = 1, which j = 1 and
 j = 2 always satisfy while j = 0 never does: the MIDDLE rungs of the odd orders
 are killed, emptying c₃ and leaving c₁ on the j = 0 rung, while the even orders
 need not be killed at all.
-At even n the shift is even, gcd(n + 2j, 2n) ≥ 2 at every rung, and the X ladder
-cannot fire at all, while the M ladder still can. So the parity of the modulus
+At even n the shift is even, gcd(n + 2j, 2n) ≥ 2 at every rung, and the global
+automorphism route cannot kill an X rung, while the M ladder still can. So the parity of the modulus
 decides which half of the series has automorphisms, and at the one firing family
 with 3 ∤ n (10|n, smallest member n = 20) the M ladder kills the SECOND order for
 every collision pair.
@@ -9289,8 +9288,9 @@ every collision pair.
 **Where it stops is F129's own condition.** The law needs 3|n or 10|n to have a
 collision at all, and 10|n forces n even, so an odd firing modulus always has
 3|n. That makes j = 3 the first rung which is not an automorphism, and at even n
-3|j is also the first rung that collapses a ROT3 coset. The same 3 that lets the
-coincidence exist is the 3 that stops the road from dissolving it faster than u⁵.
+3|j is also the first rung that collapses a ROT3 coset. For a first-order standing pair,
+this is the first possible odd contribution at u⁵; ΔX₆ is nonzero for the 212 checked
+non-mirror pairs and zero for the eleven Θ-mirrors.
 
 **What is read and not derived.** That all twelve even-n non-mirror standing
 pairs have both triples of the ROT3 shape AND share a parity class is a census

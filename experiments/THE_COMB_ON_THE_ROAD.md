@@ -356,7 +356,7 @@ k ↦ k(n+2j), an object it writes X_2j = −M_{n+2j}, and that map is a Galois 
 ℚ(ζ_2n) exactly when gcd(n+2j, 2n) = 1. At odd n the criterion is gcd(j, n) = 1, which j = 1
 and j = 2 always meet, so ΔX₂ = ΔX₄ = 0 and c₃ = 0 for EVERY collision pair there, standing
 or separating, the j = 1 rung being R3b above. At even n no rung is an automorphism and the
-twelve are carried instead by the ROT3 shape of R3c. In both cases j = 3 is the first surviving rung, for two different reasons: at odd n because every
+twelve are carried instead by the ROT3 shape of R3c. In both cases j = 3 is the first rung that can survive, for two different reasons: at odd n because every
 firing modulus there has 3|n, F129 firing only at 3|n or 10|n and 10|n forcing n even, so the
 multiplier stops being an automorphism; at even n because 3|j is what collapses the ROT3 coset. X₆
 first enters at FIFTH order, which is the u⁵ measured here.

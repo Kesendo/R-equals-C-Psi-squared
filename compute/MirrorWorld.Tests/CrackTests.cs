@@ -14,6 +14,23 @@ public class CrackTests
 
     static Crack Make(int n, long uNum, long uDen = 1) => new(C, n, uNum, uDen);
 
+    [Fact]
+    public void Departure_Law_Refuses_The_Same_Invalid_Coupling_Ratios_As_The_Road()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => Crack.DepartureLaw(4, 1, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Crack.DepartureLaw(4, 1, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Crack.DepartureLaw(4, -1, 1));
+        Assert.Equal(2, Crack.DepartureLaw(4, 3, 2));
+    }
+
+    [Fact]
+    public void Odd_Ring_Threshold_And_Departure_Count_Do_Not_Wrap_At_Int_Max()
+    {
+        Assert.Equal(1, Crack.DepartureLaw(int.MaxValue, 10_000_000_001L, 10_000_000_000L));
+        Assert.Equal((1_073_741_824L, 1_073_741_823L), Crack.OddThreshold(int.MaxValue));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Crack.OddThreshold(1));
+    }
+
     // ---- the identity, exactly: the matrix's characteristic polynomial IS the road polynomial ----
 
     [Theory]
