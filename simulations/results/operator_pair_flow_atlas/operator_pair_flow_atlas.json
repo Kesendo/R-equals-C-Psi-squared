@@ -1,0 +1,68 @@
+{
+  "scope": "finite N=3..5 Heisenberg open chain, local Z dephasing; rank case N=3 J=1 gamma=(0,1,0)",
+  "generator_comparisons": [
+    {
+      "N": 3,
+      "site_gamma": [
+        0.13,
+        0.2,
+        0.27
+      ],
+      "block_dimension": 9,
+      "max_entry_difference": 0.0
+    },
+    {
+      "N": 4,
+      "site_gamma": [
+        0.13,
+        0.2,
+        0.27,
+        0.34
+      ],
+      "block_dimension": 16,
+      "max_entry_difference": 0.0
+    },
+    {
+      "N": 5,
+      "site_gamma": [
+        0.13,
+        0.2,
+        0.27,
+        0.34,
+        0.41
+      ],
+      "block_dimension": 25,
+      "max_entry_difference": 0.0
+    }
+  ],
+  "readout_ranks": {
+    "site0_return": 8,
+    "site1_return": 4,
+    "trace_from_site0": 1,
+    "block_dimension": 9
+  },
+  "ode_coefficients_ascending": {
+    "site0_return": [
+      0,
+      4096,
+      4608,
+      3072,
+      1408,
+      352,
+      80,
+      8
+    ],
+    "site1_return": [
+      0,
+      64,
+      40,
+      4
+    ]
+  },
+  "complex_signal_at_t_0_37": {
+    "full_real": 0.5320683182861805,
+    "pair_real": 0.5320683182861805,
+    "absolute_difference": 2.2638483121307982e-17
+  },
+  "figure": "operator_pair_flow_atlas_n3.png"
+}
