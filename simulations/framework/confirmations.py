@@ -319,7 +319,7 @@ class Confirmations:
             'job_id': 'tomography_ibm_torino_20260209_131521 (data-file timestamp; no IBM job_id recorded for the Torino calibration-era runs)',
             'observable': 'CΨ(t) = Tr(ρ²)·L₁/(d−1) for |+⟩ under free decoherence; crossing time t* of the CΨ = ¼ boundary',
             'predicted_value': 't*/T₂* = 0.950 (generalized, r = T₂*/T₁ = 0.500 from T₂*(FID) = 110.7 μs of this record and T₁ = 221.2 μs); 0.858 in the pure-dephasing limit (x³+x = ½)',
-            'measured_value': 't* = 114.7 μs, t*/T₂* = 1.036 (9.1% above the generalized prediction on the same T₂*); CΨ(0) = 0.885, C∞ = 0.740. Qubit 52: T1 = 221.2 μs, T2_echo = 298.2 μs, T2*(FID) = 110.7 μs',
+            'measured_value': 't* = 114.7 μs, t*/T₂* = 1.036 (9.1% above the generalized prediction on the same T₂*); CΨ(0) = 0.885; late purity 0.740 (mean of the last five samples, 746–895 μs, still rising; not an asymptote). Qubit 52: T1 = 221.2 μs, T2_echo = 298.2 μs, T2*(FID) = 110.7 μs',
             'hardware_data': 'data/ibm_tomography_feb2026/tomography_ibm_torino_20260209_131521.json',
             'experiment_doc': 'experiments/IBM_QUANTUM_TOMOGRAPHY.md',
             'framework_primitive': 'F24 closed-form CΨ(t) + the CΨ = ¼ fold (K_fold dose)',

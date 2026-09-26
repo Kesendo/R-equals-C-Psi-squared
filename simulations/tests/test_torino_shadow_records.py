@@ -5,7 +5,7 @@ Q80 and Q102 with its simulator null (data/ibm_shadow_march2026/), and the Ramse
 (data/ibm_run3_march2026/). Recomputed here from the raw JSON: the numbers that
 experiments/FIXED_POINT_SHADOW.md and experiments/RESIDUAL_ANALYSIS.md rest on; the two-fits ratio, the
 bi-exponential slow tail and the early rotation of experiments/IBM_ABSORPTION_THEOREM.md; the crossing
-entry's t*, 9.1%, CPsi(0) and C_inf and the absorption entry's 1.03 and 2.8% in the two Torino registry
+entry's t*, 9.1%, CPsi(0) and late purity and the absorption entry's 1.03 and 2.8% in the two Torino registry
 entries; the figure readings visualizations/README.md gives for the two crossing figures; and the lines of
 simulations/results/cockpit_validation.txt.
 
@@ -532,7 +532,7 @@ def test_q52_slow_tail_registry_crossing_numbers_and_figure_readings(q52):
     assert (f"{fast:.3f}", f"{fast_rate:.5f}", f"{1 / fast_rate:.0f}", f"{100 * fast / total:.1f}") == \
         ("0.470", "0.00984", "102", "97.2")
     assert (f"{slow:.3f}", f"{slow_rate:.5f}", f"{100 * slow / total:.1f}") == ("0.013", "0.00000", "2.8")
-    # the crossing entry: CPsi(0) = 0.885, and C_inf = 0.740 is the mean purity of the last five samples
+    # the crossing entry: CPsi(0) = 0.885, and the late purity 0.740 is the mean of the last five samples
     analysis = q52.record["analysis"]
     purity = np.array([a["C_measured"] for a in analysis])
     assert (f"{analysis[0]['cpsi_measured']:.3f}", f"{purity[-5:].mean():.3f}") == ("0.885", "0.740")

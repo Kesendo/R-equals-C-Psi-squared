@@ -45,7 +45,7 @@ Two registry entries share this raw record. These entries are not five independe
 | Generalized crossing equation | t*/T₂* = 0.95 (at r = T₂*/T₁ = 0.50) | t*/T₂* = 1.04 (9% deviation, the same T₂* on both sides) | **Finite same-record fitted comparison; not independent confirmation** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
 | T₂* ≠ T₂ for free induction decay | T₂* < T₂ | T₂*/T₂ = 0.37 (factor 2.7×) | **CONFIRMED** | [IBM Quantum Tomography](../experiments/IBM_QUANTUM_TOMOGRAPHY.md) |
 | x³ + x = ½ is the r → 0 limit of crossing fraction | 0.858 (pure dephasing) | N/A (algebraic context) | **Algebraic r → 0 limit; not a hardware test** | [Universal Quantum Lifetime](../experiments/UNIVERSAL_QUANTUM_LIFETIME.md) |
-| Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) | = 1 | 1.03 (3%, Q52; two fits to the same N=1 decay record) | **Same-record N=1 fit consistency; N ≥ 2 ladder spacing unmeasured** | [Q52 hardware record](../experiments/IBM_ABSORPTION_THEOREM.md), [Absorption Theorem](ANALYTICAL_FORMULAS.md#at-absorption-theorem-tier-1-proven), [proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| Absorption Theorem ratio Re(λ)/(−2γ⟨n_XY⟩) | = 1 | 1.03 (3%, Q52; two fits to the same N=1 decay record) | **Same-record N=1 fit consistency; the N ≥ 2 prediction, additivity 2(γ_a + γ_b), unmeasured** | [Q52 hardware record](../experiments/IBM_ABSORPTION_THEOREM.md), [Absorption Theorem](ANALYTICAL_FORMULAS.md#at-absorption-theorem-tier-1-proven), [proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 
 **Hardware:** ibm_torino, T₁ = 221 μs, T₂(echo) = 298 μs, T₂*(FID) = 110 μs.
 
@@ -58,10 +58,15 @@ not observed crossing frequencies and are not independent validation.
 
 **The Absorption Theorem** Re(λ) = −2γ⟨n_XY⟩ (the last row above) is Tier-1
 **proven** ([the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md)).
-It was verified on 1,342 modes (CV = 0). The registered Q52 ratio 1.03 compares
+A floating-point eigensolver run over 1,342 modes reads the ratio as 1.000000
+with a coefficient of variation of 0.0000, at the digits its producer prints; the
+proof makes it exactly 1. The registered Q52 ratio 1.03 compares
 two fits to the same N=1 coherence-decay record.
-It is same-record fit consistency, not a ladder measurement.
-The N ≥ 2 ladder spacing remains unmeasured. The theorem also falsifies the old
+It is same-record fit consistency, not a measurement beyond one site.
+What the theorem predicts at N ≥ 2 is additivity: a coherence that differs at
+sites a and b decays at 2(γ_a + γ_b), the sum of its two sites' rates, which is
+twice a single-site rate only at uniform γ. No registered rate ratio with an
+error bar reads it yet. The theorem also falsifies the old
 "E = mγ²" guess: the decay law
 is **linear** in γ, not quadratic (see [Falsified Predictions](#8b-falsified-predictions)
 below).
@@ -271,7 +276,7 @@ These claims may be correct. They may also be artifacts of the agent's training 
 
 | Prediction | Why falsified | Correct result | Source |
 |------------|---------------|----------------|--------|
-| E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; verified on 1,342 modes, CV = 0) | [the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
+| E = mγ² (decay energy quadratic in γ) | The decay law is **linear** in γ, not quadratic | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩ (linear; proven, and read numerically on 1,342 modes as ratio 1.000000, CV 0.0000 at the printed digits) | [the Absorption Theorem proof](proofs/PROOF_ABSORPTION_THEOREM.md) |
 | Dephasing survival is basis-dependent: σ_x dephasing moves the surviving \|0+0+⟩ pair from (0,2) to (1,3) | Under σ_x the same single pair (0,2) crosses and (1,3) stays below | N=4 ring, γ=0.05, pairwise bridge under exact propagation: (0,2) max 0.320 under σ_z and 0.335 under σ_x; (1,3) max 0.224 and 0.240 | [Dynamic Entanglement](../experiments/DYNAMIC_ENTANGLEMENT.md) §5.3 + [delta_calc_pairwise_bridge.py](../simulations/delta_calc_pairwise_bridge.py) |
 | Cross-pairs stay incoherent: Bell+⊗Bell+ cross-pairs keep C = 0, l₁ = 0 at all times | The Hamiltonian entangles them | N=4 ring, γ=0.05, t ≤ 5: concurrence up to 0.56 and l₁ up to 0.84; they still never cross (concurrence-book CΨ ≤ 0.147) | [Subsystem Crossing](../experiments/SUBSYSTEM_CROSSING.md) §3.3 + [subsystem_crossing_pairs.py](../simulations/subsystem_crossing_pairs.py) |
 | Strong dynamics needed for CΨ > ¼ (threshold at h ≈ 0.9) | The sweep's C·Ψ column sat below ¼ because Ψ was fixed at 0.27, not for lack of dynamics | The same runs, read with the density matrix's own Ψ (concurrence × l₁/3), stay above ¼ at h = 0.7 as at h = 1.0 | [Simulation Evidence](../experiments/SIMULATION_EVIDENCE.md) §2 note + [Operator Feedback](../experiments/OPERATOR_FEEDBACK.md) §4 + [delta_calc_feedback_runs.py](../simulations/delta_calc_feedback_runs.py) |
@@ -315,8 +320,8 @@ which keeps its historical filename). The J-coupling results below stand.
 
 | Tier | Count | Examples |
 |------|-------|---------|
-| **Registered hardware entries** | **24** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-07); §1 has five mixed-scope entries around one 2026-02-09 Torino q52 record, not five records; the quarter-crossing and absorption registrations share that dataset | §1 distinguishes qualitative/direct observations (¼ crossing and T₂*/T₂), the generalized crossing equation (same-record fitted comparison; no independent hardware test), algebraic context that is not a hardware test (x³+x=½), and absorption same-record N=1 fit consistency; N ≥ 2 ladder spacing remains unmeasured. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, F120 moment tower, F84 heating leg, concentrator site contrast, F129 standing fringe |
-| **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, verified on 1,342 modes, CV=0 |
+| **Registered hardware entries** | **24** in the [Confirmations registry](../compute/RCPsiSquared.Core/Confirmations/ConfirmationsRegistry.cs) (ibm_torino + Marrakesh/Kingston, 2026-02 to 2026-07); §1 has five mixed-scope entries around one 2026-02-09 Torino q52 record, not five records; the quarter-crossing and absorption registrations share that dataset | §1 distinguishes qualitative/direct observations (¼ crossing and T₂*/T₂), the generalized crossing equation (same-record fitted comparison; no independent hardware test), algebraic context that is not a hardware test (x³+x=½), and absorption same-record N=1 fit consistency; the N ≥ 2 additivity 2(γ_a + γ_b) remains unmeasured. Registry: the 3 Torino runs, palindrome trichotomy, F25 cusp, F57 K_dwell, F83/F95, block-CΨ saturation, F120 moment tower, F84 heating leg, concentrator site contrast, F129 standing fringe |
+| **Proven (analytical)** | 1 | Absorption Theorem: Re(λ) = −2γ⟨n_XY⟩, read numerically on 1,342 modes as ratio 1.000000, CV 0.0000 at the printed digits |
 | **Computational records** | 51 (38 rows in §2 + 13 finite J>0 rows in §9, with local scope and unresolved labels) | From γ·t_cross invariance, the θ trajectory, and the N-scaling barrier through the QKD closed-form family and no-signalling to the J>0 clock results; the rows themselves are the list |
 | **Q52 residual record** | 1 finite record | Boundary reading, as proposed, closed on Q52's own record (the coherence kept turning through the crossing, and the late direction is not the fixed point's); its late component is a static offset with the pattern of a measurement (SPAM) offset, mechanism open pending a \|+⟩/\|−⟩ control and a readout-assignment measurement; the March records establish Q102's detuning (§3) |
 | **Testable now** | 13 rows in §4 | Critical slowing, fingerprints, specified memory-model discrimination, the QKD forensics family (math verified; application retired), stealth angle existence, F120 moment tower (already flown and registered) |

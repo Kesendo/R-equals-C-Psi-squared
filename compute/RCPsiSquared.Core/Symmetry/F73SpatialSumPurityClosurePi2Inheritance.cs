@@ -135,6 +135,17 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim, IZ2AxisCla
     /// Per ANALYTICAL_FORMULAS verified to 5.67·10⁻¹⁶ deviation.</summary>
     public double VerifiedValueAtN5Gamma0p05T20() => SpatialSumClosure(0.05, 20.0);
 
+    /// <summary>Live, exact: the lit-site corollary's second derivative P_l''(0) at the centre of a
+    /// five-site star at Δ = 1, γ₀ = 0, via <see cref="F73LitSiteCurvature"/>. The corollary predicts
+    /// −V_l = −4·deg = −16.</summary>
+    public string LiveStarCentreSecondDerivative()
+    {
+        var bonds = Enumerable.Range(1, 4)
+            .Select(i => new F73LitSiteCurvature.Bond(0, i, 1, 1)).ToList();
+        var h = F73LitSiteCurvature.Hamiltonian(5, bonds);
+        return F73LitSiteCurvature.TaylorAtZero(5, h, Numerics.BigRational.Zero, 0).P2Purity.ToString();
+    }
+
     public F73SpatialSumPurityClosurePi2Inheritance(
         Pi2DyadicLadderClaim ladder,
         F70DeltaNSelectionRulePi2Inheritance f70,
@@ -180,6 +191,10 @@ public sealed class F73SpatialSumPurityClosurePi2Inheritance : Claim, IZ2AxisCla
                 summary: $"At N=5, γ₀=0.05, t=20: closure = {VerifiedValueAtN5Gamma0p05T20():G6} (expected 9.157819·10⁻³, deviation 5.67·10⁻¹⁶)");
             yield return new InspectableNode("Operational consequence",
                 summary: "K_CC[0, 1]_pr = 0 exactly under uniform γ₀; bond-δJ perturbations preserve closure value; spatial-sum purity blind to U(1)-preserving H");
+            yield return new InspectableNode("Corollary: the lit site (γ₀ the F73 term's only rate, J a curvature)",
+                summary: $"one lit site l, ψ = (|vac⟩+|1_l⟩)/√2: its F73 term is ½e^(−4γ₀t)·S(t) with S γ₀-free at every t; it and the purity have d/dt = −2γ₀ and d²/dt² = 8γ₀² − V_l at t = 0 " +
+                         $"(the purity only there), V_l = Σ_(j≠l) |H_(jl)|²; XXZ graphs (Pauli form, hopping 2J): V_l = 4·Σ_(b∋l) J_b², so at γ₀ = 0 the loss is 2·deg(l)·J²·t², Δ-free. Live, exact over ℚ(i): star N=5, centre, Δ=1, γ₀=0: " +
+                         $"P''(0) = {LiveStarCentreSecondDerivative()} (predicted −16)");
         }
     }
 }

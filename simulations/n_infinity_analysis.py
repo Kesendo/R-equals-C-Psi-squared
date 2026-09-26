@@ -11,13 +11,53 @@ Seven-section analysis:
   7. Z-deph vs depol Gaussian comparison
 
 Script: simulations/n_infinity_analysis.py
-Output: simulations/results/n_infinity_analysis.txt
+Output: simulations/results/n_infinity_analysis.txt (or the path after --out)
+
+Every number in the report is either exact (integer or rational arithmetic,
+or a value the palindrome fixes: the zero rates, the endpoint 2N*gamma, the
+rate mean = -Tr(L)/4^N, the vanishing rate skewness) or an eigensolver value
+read through one stated error law, so the report is byte-identical whatever
+the BLAS thread count or machine load:
+
+  ERROR LAW (a measured constant, not a proven bound). np.linalg.eigvals is
+  backward stable: it returns the exact spectrum of L + E with ||E|| of order
+  eps * ||L||_F. An eigenvalue then moves by at most kappa_i * ||E||, kappa_i
+  its condition number (1/|y_i^H x_i| for unit left/right eigenvectors), and
+  L is not normal, so kappa_i > 1 is possible and no a-priori constant
+  follows. What is measured, at N = 3, 4, 5 under 1, 3 and 24 OpenBLAS
+  threads, in units err = eps * ||L||_F: every cluster spread (rates up to
+  2.5, |Im| up to 7.7), every deviation of the zero cluster from 0 and of the
+  endpoint cluster from 2N*gamma (up to 0.2), every palindrome pairing distance
+  (up to 5.5); the smallest gap between distinct values is 7.2e-7, about
+  2e7 err. So the effective kappa * c here is below 8. NOISE = 64 err groups
+  values into clusters and is ASSERTED per cluster (spread, anchor deviation)
+  and per pairing distance, not merely assumed; SIGNAL = 1e6 err is the floor
+  a genuine gap must clear. A gap between the two, a cluster wider than NOISE,
+  a printed value within NOISE of a rounding boundary, or a would-be "-0"
+  digit string raises instead of printing. The per-N worst ratio to err is
+  written to stderr (not the report, which must stay byte-stable).
+
+  WHY 0 AND 2N*gamma ARE SNAPPED EXACTLY. In the Hilbert-Schmidt inner
+  product, L_H = -i[H, .] is anti-Hermitian and the dephasing dissipator
+  D = gamma * sum_k (Z_k . Z_k - 1) is Hermitian and negative semidefinite.
+  If L X = lambda X with Re lambda = 0, then 0 = Re<X, L X> = <X, D X>, so
+  D X = 0 and X is diagonal in the computational basis. For diagonal X the
+  diagonal of [H, X] vanishes, while L X = -i[H, X] = lambda X is diagonal;
+  hence lambda X = 0 and lambda = 0. So every rate is >= 0 and a rate equal
+  to 0 is the eigenvalue 0 exactly. The F1 palindrome Pi L Pi^-1 = -L - 2N*gamma
+  maps lambda to -lambda - 2N*gamma, carrying ker L onto the eigenvalue
+  -2N*gamma exactly and making 2N*gamma the largest rate; its cluster is that
+  eigenvalue exactly.
 """
+import sys
 import numpy as np
+from fractions import Fraction
 from pathlib import Path
 from math import comb, factorial
 
 OUT = Path(__file__).resolve().parent / "results" / "n_infinity_analysis.txt"
+if "--out" in sys.argv:
+    OUT = Path(sys.argv[sys.argv.index("--out") + 1])
 f = open(OUT, "w", buffering=1)
 
 
@@ -81,6 +121,78 @@ def ld_rate_distribution(N, gamma):
 
 
 # ============================================================
+# ERROR LAW: clusters and printing (see the module docstring)
+# ============================================================
+EPS = np.finfo(float).eps
+NOISE_K = 64.0
+SIGNAL_K = 1.0e6
+
+
+def noise_of(L):
+    return NOISE_K * EPS * np.linalg.norm(L)
+
+
+def cluster_representatives(values, noise, exact_anchors=()):
+    """Group values whose consecutive sorted gaps are <= noise; return, per
+    input value, its cluster representative. A cluster within noise of an
+    exact anchor (0, 2N*gamma) is represented by that anchor exactly;
+    any other cluster by its mean. Raises if a gap falls between NOISE and
+    SIGNAL (the law would not decide it)."""
+    order = np.argsort(values, kind="stable")
+    v = values[order]
+    gaps = np.diff(v)
+    signal = noise * (SIGNAL_K / NOISE_K)
+    ambiguous = gaps[(gaps > noise) & (gaps < signal)]
+    if ambiguous.size:
+        raise AssertionError(f"gap {ambiguous.min():.3e} lies between NOISE "
+                             f"{noise:.3e} and SIGNAL {signal:.3e}")
+    reps_sorted = np.empty_like(v)
+    starts = np.concatenate(([0], np.where(gaps > noise)[0] + 1, [v.size]))
+    worst = 0.0
+    for a, b in zip(starts[:-1], starts[1:]):
+        block = v[a:b]
+        # Consecutive gaps <= NOISE could chain into a wide cluster; the law
+        # is on the whole cluster, so its full spread is asserted.
+        spread = block[-1] - block[0]
+        if spread > noise:
+            raise AssertionError(f"cluster spread {spread:.3e} exceeds NOISE {noise:.3e}")
+        worst = max(worst, spread)
+        rep = float(np.mean(block))
+        for anchor in exact_anchors:
+            dev = max(abs(block[0] - anchor), abs(block[-1] - anchor))
+            if dev <= noise:
+                rep = float(anchor)
+                worst = max(worst, dev)
+        reps_sorted[a:b] = rep
+    reps = np.empty_like(values)
+    reps[order] = reps_sorted
+    return reps, worst
+
+
+def fmt(x, digits, noise=0.0):
+    """Fixed-point string of x that cannot depend on rounding noise: raises
+    if x lies within noise of a rounding boundary or would print as -0."""
+    x = float(x)
+    scaled = abs(x) * 10 ** digits
+    if abs((scaled % 1.0) - 0.5) * 10.0 ** (-digits) <= noise:
+        raise AssertionError(f"{x!r} within {noise:.3e} of a rounding boundary")
+    s = f"{x:.{digits}f}"
+    if s.startswith("-") and set(s[1:]) <= set("0."):
+        raise AssertionError(f"{x!r} would print as a signed zero")
+    return s
+
+
+def band_mask(rates, level, noise):
+    """Cluster representatives within 0.9*gamma of an L_D level (the window
+    the report has always used); raises if one sits within noise of the edge."""
+    edge = gamma * 0.9
+    dist = np.abs(rates - level)
+    if np.any(np.abs(dist - edge) <= noise):
+        raise AssertionError(f"a rate sits within noise of the band edge at {level}")
+    return dist < edge
+
+
+# ============================================================
 # MAIN
 # ============================================================
 gamma = 0.05
@@ -109,17 +221,24 @@ log(f"  {'-' * 62}")
 
 for N in range(3, 21):
     Sg = N * gamma
-    rates, counts = ld_rate_distribution(N, gamma)
-    total = np.sum(counts)
-    # Moments
-    probs = counts / total
-    mean = np.sum(probs * rates)
-    var = np.sum(probs * (rates - mean) ** 2)
-    std = np.sqrt(var)
-    skew = np.sum(probs * ((rates - mean) / std) ** 3) if std > 0 else 0
-    kurt = np.sum(probs * ((rates - mean) / std) ** 4) - 3 if std > 0 else 0
+    # Exact moments in weight space (rate = 2*gamma*w, a positive scale, so
+    # skewness and kurtosis are the weight-space ones; rational arithmetic).
+    counts = [comb(N, w) * 2 ** N for w in range(N + 1)]
+    total = sum(counts)
+    m1 = Fraction(sum(c * w for w, c in enumerate(counts)), total)
+    m2 = sum(Fraction(c, total) * (w - m1) ** 2 for w, c in enumerate(counts))
+    m3 = sum(Fraction(c, total) * (w - m1) ** 3 for w, c in enumerate(counts))
+    m4 = sum(Fraction(c, total) * (w - m1) ** 4 for w, c in enumerate(counts))
+    if m3 != 0:
+        raise AssertionError(f"N={N}: binomial third central moment must be 0")
+    kurt = m4 / m2 ** 2 - 3
+    if kurt != Fraction(-2, N):
+        raise AssertionError(f"N={N}: binomial excess kurtosis must be -2/N")
+    mean = 2 * gamma * float(m1)
+    std = 2 * gamma * float(m2) ** 0.5
+    skew = 0.0
     log(f"  {N:>4}  {mean:>8.4f}  {std:>8.4f}  {N + 1:>10}  {skew:>10.6f}  "
-        f"{kurt:>10.6f}  {total:>10}")
+        f"{float(kurt):>10.6f}  {total:>10}")
 
 log(f"\n  Gaussian prediction: mean = N*gamma, std = gamma*sqrt(N)")
 log(f"  Skewness = 0 (exact, binomial p=1/2)")
@@ -132,36 +251,69 @@ for N in [3, 4, 5]:
     H = build_H_chain(N)
     L = build_L(H, gamma, N)
     evals = np.linalg.eigvals(L)
-    rates = -np.real(evals)
+    noise = noise_of(L)
     Sg = N * gamma
+    # Rates grouped by the error law; the zero cluster (steady states) is 0
+    # exactly and its palindrome partner 2N*gamma exactly.
+    raw_rates = -np.real(evals)
+    rates, worst_rate = cluster_representatives(raw_rates, noise,
+                                                exact_anchors=(0.0, 2 * Sg))
+    if not (np.min(rates) == 0.0 and np.max(rates) == 2 * Sg):
+        raise AssertionError(f"N={N}: rate range must be exactly [0, 2N*gamma]")
+    # |Im| grouped the same way; the zero cluster is exactly 0.
+    freq_reps, worst_freq = cluster_representatives(np.abs(np.imag(evals)), noise,
+                                         exact_anchors=(0.0,))
 
-    # Moments of rate distribution
-    mean = np.mean(rates)
-    std_r = np.std(rates)
-    skew_r = np.mean(((rates - mean) / std_r) ** 3) if std_r > 0 else 0
-    kurt_r = np.mean(((rates - mean) / std_r) ** 4) - 3 if std_r > 0 else 0
+    # Moments of rate distribution. The mean is exact: sum of eigenvalues =
+    # Tr(L); H is traceless in it and the dissipator diagonal is
+    # -2*gamma*popcount(i XOR j), so -Tr(L)/4^N = 2*gamma * <popcount> = N*gamma.
+    d = 2 ** N
+    pop_sum = sum(bin(i ^ j).count("1") for i in range(d) for j in range(d))
+    mean = float(2 * Fraction(gamma) * Fraction(pop_sum, d * d))
+    if Fraction(pop_sum, d * d) != Fraction(N, 2):
+        raise AssertionError(f"N={N}: mean popcount must be N/2")
+    if abs(np.mean(raw_rates) - mean) > noise:
+        raise AssertionError(f"N={N}: eigenvalue mean leaves the trace identity")
+    std_r = np.std(raw_rates)
+    # The palindrome makes the rate multiset symmetric about N*gamma, so the
+    # skewness is exactly 0; the eigensolver value must sit inside the law.
+    skew_meas = np.mean(((raw_rates - Sg) / std_r) ** 3)
+    if abs(skew_meas) > 3 * noise / std_r:
+        raise AssertionError(f"N={N}: rate skewness {skew_meas:.3e} exceeds the law")
+    kurt_r = np.mean(((raw_rates - Sg) / std_r) ** 4) - 3
 
     # Theoretical
     mean_th = Sg
     std_th = gamma * np.sqrt(N)
     kurt_th = -2.0 / N
 
-    # Palindrome check
+    # Palindrome check: each eigenvalue's distance to the reflected spectrum
+    # is either noise (paired) or a genuine gap; the law decides, not a cut.
     n_paired = 0
+    worst_pair = 0.0
     for k in range(len(evals)):
         target = -(evals[k] + 2 * Sg)
-        if np.min(np.abs(evals - target)) < 1e-8:
+        dist = np.min(np.abs(evals - target))
+        if noise < dist < noise * (SIGNAL_K / NOISE_K):
+            raise AssertionError(f"N={N}: pairing distance {dist:.3e} undecided")
+        if dist <= noise:
             n_paired += 1
+            worst_pair = max(worst_pair, dist)
     palin_pct = 100 * n_paired / len(evals)
+    err = noise / NOISE_K
+    print(f"[error law] N={N}: worst / (eps*||L||_F): rate clusters "
+          f"{worst_rate / err:.2f}, |Im| clusters {worst_freq / err:.2f}, "
+          f"pairing {worst_pair / err:.2f} (asserted <= {NOISE_K:.0f})",
+          file=sys.stderr, flush=True)
 
-    full_eig_data[N] = (evals, rates)
+    full_eig_data[N] = (evals, rates, freq_reps, noise)
 
     log(f"\n    N={N} ({4 ** N} eigenvalues):")
-    log(f"      Rate range: [{np.min(rates):.6f}, {np.max(rates):.6f}]")
-    log(f"      Mean: {mean:.6f} (theory: {mean_th:.6f})")
-    log(f"      Std:  {std_r:.6f} (theory: {std_th:.6f})")
-    log(f"      Skew: {skew_r:.6f} (theory: 0)")
-    log(f"      Kurt: {kurt_r:.6f} (theory: {kurt_th:.6f})")
+    log(f"      Rate range: [{fmt(np.min(rates), 6)}, {fmt(np.max(rates), 6)}]")
+    log(f"      Mean: {fmt(mean, 6)} (theory: {mean_th:.6f})")
+    log(f"      Std:  {fmt(std_r, 6, noise)} (theory: {std_th:.6f})")
+    log(f"      Skew: {fmt(0.0, 6)} (theory: 0)")
+    log(f"      Kurt: {fmt(kurt_r, 6, 4 * noise / std_r)} (theory: {kurt_th:.6f})")
     log(f"      Palindromic: {palin_pct:.1f}%")
 
     # Distribution comparison: count eigenvalues in bins matching L_D levels
@@ -171,9 +323,7 @@ for N in [3, 4, 5]:
         f"{'eig min':>10}  {'eig max':>10}  {'bandwidth':>10}")
     log(f"      {'-' * 56}")
     for wi, (r, c) in enumerate(zip(ld_rates, ld_counts)):
-        # Find eigenvalues near this L_D rate
-        tol = gamma * 0.9  # half the gap between adjacent levels
-        mask = np.abs(rates - r) < tol
+        mask = band_mask(rates, r, noise)
         if np.sum(mask) > 0:
             eig_min = np.min(rates[mask])
             eig_max = np.max(rates[mask])
@@ -182,7 +332,8 @@ for N in [3, 4, 5]:
             eig_min = eig_max = r
             bw = 0
         log(f"      {wi:>4}  {r:>10.6f}  {c:>10}  "
-            f"{eig_min:>10.6f}  {eig_max:>10.6f}  {bw:>10.6f}")
+            f"{fmt(eig_min, 6, noise):>10}  {fmt(eig_max, 6, noise):>10}  "
+            f"{fmt(bw, 6, 2 * noise):>10}")
 
 
 # ############################################################
@@ -278,36 +429,38 @@ log("=" * 90)
 for N in [3, 4, 5]:
     if N not in full_eig_data:
         continue
-    evals, rates = full_eig_data[N]
+    evals, rates, _, noise = full_eig_data[N]
     Sg = N * gamma
     ld_rates, ld_counts = ld_rate_distribution(N, gamma)
     num_evals = len(rates)
 
     log(f"\n  N = {N} ({num_evals} eigenvalues):")
 
-    # Count distinct rates
-    unique_rates = len(set(f"{r:.8f}" for r in rates))
+    # Count distinct rates: one per cluster of the error law
+    unique_rates = len(np.unique(rates))
     log(f"    Distinct rates: {unique_rates}")
     log(f"    L_D levels: {N + 1}")
 
-    # For each L_D level, compute the band width
+    # For each L_D level, compute the band width (exactly 0 for a band that
+    # is a single cluster, since clusters carry one representative)
     total_bw = 0
     n_bands = 0
     for wi, (r, c) in enumerate(zip(ld_rates, ld_counts)):
-        tol = gamma * 0.9
-        mask = np.abs(rates - r) < tol
+        mask = band_mask(rates, r, noise)
         n_in = np.sum(mask)
         if n_in > 0:
             bw = np.max(rates[mask]) - np.min(rates[mask])
             total_bw += bw
-            if bw > 1e-10:
+            if bw > 0:
                 n_bands += 1
 
     avg_bw = total_bw / (N + 1)
+    span = np.max(rates) - np.min(rates)
     log(f"    Bands with nonzero width: {n_bands}/{N + 1}")
-    log(f"    Average band width: {avg_bw:.6f} = {avg_bw / gamma:.4f}*gamma")
-    log(f"    Total rate range: [{np.min(rates):.6f}, {np.max(rates):.6f}]")
-    log(f"    Span: {np.max(rates) - np.min(rates):.6f} = {(np.max(rates) - np.min(rates)) / gamma:.2f}*gamma")
+    log(f"    Average band width: {fmt(avg_bw, 6, 2 * noise)} = "
+        f"{fmt(avg_bw / gamma, 4, 2 * noise / gamma)}*gamma")
+    log(f"    Total rate range: [{fmt(np.min(rates), 6)}, {fmt(np.max(rates), 6)}]")
+    log(f"    Span: {fmt(span, 6)} = {fmt(span / gamma, 2)}*gamma")
 
 log(f"\n  Finite-N rate-range summary:")
 log(f"    Boundary rates are topology-independent: min=0, max=2N*gamma")
@@ -328,11 +481,13 @@ log("=" * 90)
 for N in [3, 4, 5]:
     if N not in full_eig_data:
         continue
-    evals, _ = full_eig_data[N]
-    freqs = np.abs(np.imag(evals))
-    # Distinct nonzero frequencies
-    nonzero = freqs[freqs > 1e-6]
-    unique_freqs = sorted(set(f"{fr:.6f}" for fr in nonzero))
+    evals, _, freqs, noise = full_eig_data[N]
+    # Distinct nonzero frequencies: clusters of the error law other than the
+    # exact-zero one, listed in numeric order
+    nonzero = freqs[freqs > 0]
+    unique_freqs = [fmt(fr, 6, noise) for fr in np.unique(nonzero)]
+    if len(set(unique_freqs)) != len(unique_freqs):
+        raise AssertionError(f"N={N}: two distinct frequencies print alike")
 
     log(f"\n  N = {N}:")
     log(f"    Total eigenvalues: {len(evals)}")
@@ -347,7 +502,7 @@ for N in [3, 4, 5]:
 
     # Frequency range
     if nonzero.size > 0:
-        log(f"    Range: [{np.min(nonzero):.6f}, {np.max(nonzero):.6f}]")
+        log(f"    Range: [{fmt(np.min(nonzero), 6, noise)}, {fmt(np.max(nonzero), 6, noise)}]")
 
 log(f"\n  Pattern: frequency count grows rapidly with N")
 log(f"  No continuous limiting spectrum follows from the N=3..5 counts.")

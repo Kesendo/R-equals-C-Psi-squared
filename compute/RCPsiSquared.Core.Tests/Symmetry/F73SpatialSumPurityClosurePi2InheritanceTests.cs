@@ -110,6 +110,13 @@ public class F73SpatialSumPurityClosurePi2InheritanceTests
     }
 
     [Fact]
+    public void LitSiteCorollary_LiveStarCentre_IsMinusSixteenExactly()
+    {
+        // The inspect node's live value: centre of a five-site star, degree 4, P''(0) = −4·deg.
+        Assert.Equal("-16", BuildClaim().LiveStarCentreSecondDerivative());
+    }
+
+    [Fact]
     public void Constructor_NullF72_Throws()
     {
         var ladder = new Pi2DyadicLadderClaim();

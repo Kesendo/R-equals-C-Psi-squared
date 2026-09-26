@@ -123,7 +123,9 @@ Bottom-right: result summary.*
 | t*/T₂* (generalized prediction, r = T₂*/T₁ = 0.498) | 0.949 |
 | t*/T₂* (pure dephasing prediction) | 0.858 |
 | Deviation from generalized | 9.7% |
-| Asymptotic purity C∞ | 0.740 (ideal: 0.500) |
+| Late purity (mean of the last five samples, 746–895 μs; still rising) | 0.740 |
+| Purity asymptote from the population fit (⟨Z⟩ → 0.710, coherence → 0) | 0.752 |
+| Model asymptotes: pure dephasing (T₁ → ∞) / T₁ to a cold \|0⟩ | 0.500 / 1.000 |
 
 ### Key Observations
 
@@ -135,9 +137,18 @@ as Lindblad theory predicts.
 The product C·Ψ₀ = 0.885 instead of the ideal 1.000. This shifts the crossing time
 but does not eliminate it.
 
-**The asymptotic state is not maximally mixed.** Purity stabilizes at ~0.74, not 0.50.
-This is caused by readout errors and thermal population imbalance. Qubit 52 relaxes toward
-|0⟩ (ground state), creating a bias that inflates the measured purity at long times.
+**The purity turns and climbs; it does not settle at ½.** ½ is the asymptote of
+pure dephasing (T₁ → ∞), which this qubit does not have. With T₁ the population
+relaxes toward |0⟩ while the coherence dies, so the purity falls to a minimum
+(0.58 at 149 μs) and then climbs again: 0.740 is the mean of the last five samples
+(746–895 μs), still rising (0.753 at the last, where the population already sits at the fitted floor). Relaxation to a cold |0⟩ at the
+calibration T₁ = 221 μs would put the purity at 0.983 by 895 μs and at 1 in the
+limit. The record instead relaxes to a floor: the population fit of
+[`simulations/ibm_absorption_theorem.py`](../simulations/ibm_absorption_theorem.py)
+reads ⟨Z⟩ → 0.710 at T₁,fit = 241 μs, a relaxed state keeping ρ₁₁ ≈ 0.145, whose
+purity (1 + 0.710²)/2 = 0.752 is the asymptote this record points to. A readout
+assignment error and a residual thermal population would each leave such a floor;
+this record does not separate them.
 
 **Coherence decays 2.7× faster than T₂ suggests.** The calibration T₂ = 298 μs comes
 from Hahn echo, which refocuses low-frequency (1/f) noise. Our FID experiment sees all
@@ -221,7 +232,7 @@ t*(r) ≈ 0.858 + 0.012r + 0.375r² − 0.019r³ − 0.084r⁴
 | Source | Effect | Magnitude |
 |--------|--------|-----------|
 | Gate errors | C₀ < 1, Ψ₀ < 1 | ~6% initial state error |
-| Readout errors | Purity floor at ~0.74 | Shifts asymptotic C·Ψ |
+| Readout errors or thermal population | Relaxed-state floor ρ₁₁ ≈ 0.145 | Holds the late purity near 0.75 instead of 1 |
 | Non-exponential decay | 1/f noise → Gaussian envelope | ~5% on T₂* fit |
 | Tomography overhead | Extra gates for X/Y/Z measurement | Additional decoherence during measurement |
 | Delay quantization | dt rounding to hardware clock | < 0.1%, negligible |
@@ -281,9 +292,9 @@ r_eff  = 0.135       (calibration: 0.674)    ratio: 0.20x
 ```
 
 The fitted T₂ is the free induction T₂*, 2.7× shorter than the Hahn echo T₂.
-The fitted T₁ is longer because population relaxation competes with faster dephasing;
-when dephasing dominates (small r), T₁ must be larger to produce the observed
-asymptotic purity.
+The fitted T₁ is longer because the
+model relaxes to a cold |0⟩ with no floor, so a slow T₁ is its only way to hold the
+purity near the observed late value (0.740 over the last five samples).
 
 ### Fit observation: 1/4 was not a fit target
 
