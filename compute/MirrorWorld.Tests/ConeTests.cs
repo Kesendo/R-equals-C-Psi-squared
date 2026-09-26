@@ -23,6 +23,22 @@ public class ConeTests
             Assert.Equal(rest[1 << a, 1 << a].Real, cone.Population(a), 9);
     }
 
+    // The rate profile is constructor configuration. A caller may reuse or edit its array after
+    // construction; that must not change the decay already assigned to this world.
+    [Fact]
+    public void Cone_Snapshots_The_Site_Rates_Used_For_Later_Steps()
+    {
+        var rates = new[] { 0.0, 0.5 };
+        var cone = new Cone(W, n: 2, j: 0.0, gamma: 0.0, siteGammas: rates);
+        cone.SeedPure(new[] { Math.Sqrt(0.5), Math.Sqrt(0.5) });
+        rates[1] = 0.0;
+
+        for (int tick = 0; tick < 10; tick++) cone.Step(0.01);
+
+        // With J=0, rho[0,1](t) = rho[0,1](0) exp[-2(g0+g1)t].
+        Assert.Equal(0.5 * Math.Exp(-0.1), cone[0, 1].Real, 8);
+    }
+
     // trace-preserving: the one excitation is never lost, only spread.
     [Fact]
     public void Cone_Conserves_The_Excitation()

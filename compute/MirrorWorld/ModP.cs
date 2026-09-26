@@ -132,6 +132,8 @@ public static class ModP
     /// returns 0 if no such element is found below t = 500.</summary>
     public static long RootOfOrder(int order, long p)
     {
+        if (order <= 0) throw new ArgumentOutOfRangeException(nameof(order), order, "a root has a positive order");
+        if (order == 1) return 1;
         var qs = PrimeFactors(order);
         for (long x = 2; x < 500; x++)
         {

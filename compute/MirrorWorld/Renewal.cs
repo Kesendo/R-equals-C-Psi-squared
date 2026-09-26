@@ -22,9 +22,12 @@ public sealed class Renewal : GameObject
     readonly int seed;
     readonly double dt;
 
-    // chain topology only: F126 is proven on the chain (the clean propagator G and its Graf closure).
+    // This implementation builds the chain's clean propagator. F126's renewal equation is
+    // topology-blind; its Graf closed form uses the infinite chain.
     public Renewal(World world, int n, double j, double gamma, int seed, double dt) : base(world)
     {
+        if (!double.IsFinite(dt) || dt <= 0.0)
+            throw new ArgumentOutOfRangeException(nameof(dt), dt, "The maximum time step must be finite and positive.");
         N = n; J = j; Gamma = gamma;
         this.seed = seed;
         this.dt = dt;
@@ -33,10 +36,44 @@ public sealed class Renewal : GameObject
     // P_n(tMax): the populations in the light, from clean propagation + the refill ladder. No dissipator step.
     public double[] Populations(double tMax)
     {
-        int steps = (int)Math.Round(tMax / dt);
-        double gPhi = 4.0 * Gamma;
+        if (!double.IsFinite(tMax) || tMax < 0.0)
+            throw new ArgumentOutOfRangeException(nameof(tMax), tMax, "The requested time must be finite and nonnegative.");
+        if (tMax == 0.0)
+        {
+            var initial = new double[N];
+            initial[seed] = 1.0;
+            return initial;
+        }
 
-        // the clean kernel K[k][m,n] = |<n| e^{-ih (k dt)} |m>|^2: evolve U-dot = -i h U from U(0) = I.
+        double stepCount = Math.Ceiling(tMax / dt);
+        if (!double.IsFinite(stepCount) || stepCount >= int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(tMax), tMax, "The requested time needs too many steps.");
+        int steps = Math.Max(1, (int)stepCount);
+        double h = tMax / steps; // dt is an upper bound; this uniform mesh ends at the requested time.
+        // The open-chain hopping matrix has spectral radius 2|J|cos(pi/(N+1)). On an
+        // imaginary eigenvalue i*x, RK4 has |R(i*x)|^2 = 1 + x^6(x^2-8)/576, so a clean
+        // step outside |x| <= 2sqrt(2) amplifies norm. This is stability, not accuracy.
+        double maxCleanPhase = N <= 1 ? 0.0 : 2.0 * Math.Abs(J) * Math.Cos(Math.PI / (N + 1.0)) * h;
+        if (!double.IsFinite(maxCleanPhase) || maxCleanPhase > 2.0 * Math.Sqrt(2.0))
+            throw new ArgumentOutOfRangeException(nameof(dt), dt, "The clean RK4 step is outside its imaginary-axis stability interval; reduce the maximum time step.");
+        double gPhi = 4.0 * Gamma;
+        double dose = gPhi * h;
+        const double maxMassDrift = 1e-3;
+        // At dose = 0.5, even the exactly stationary J=0 control drifts by 1.1% in one
+        // trapezoid step: exp(-dose) * (1 + dose/2) / (1 - dose/2). The pole is at dose = 2.
+        if (!double.IsFinite(dose) || dose >= 0.5)
+            throw new ArgumentOutOfRangeException(nameof(dt), dt, "The renewal dose 4*gamma*h must be below 0.5; reduce the maximum time step.");
+        // For J=0, the excess log mass per step is 2*atanh(dose/2)-dose. Its positive
+        // series is bounded by dose^3/[12*(1-dose^2/4)] at the allowed positive doses.
+        // Bound the accumulated inflation before building the O(steps^2) convolution.
+        if (dose > 0.0)
+        {
+            double logInflationBound = steps * dose * dose * dose / (12.0 * (1.0 - dose * dose / 4.0));
+            if (logInflationBound > Math.Log(1.0 + maxMassDrift))
+                throw new ArgumentOutOfRangeException(nameof(dt), dt, "The accumulated refill-grid error bound exceeds the 0.1% budget; reduce the maximum time step.");
+        }
+
+        // the clean kernel K[k][m,n] = |<n| e^{-i H (k h)} |m>|^2: evolve U-dot = -i H U from U(0) = I.
         var u = new Complex[N, N];
         for (int m = 0; m < N; m++) u[m, m] = Complex.One;
         var kernel = new double[steps + 1][,];
@@ -44,19 +81,19 @@ public sealed class Renewal : GameObject
         for (int k = 1; k <= steps; k++)
         {
             var k1 = Rhs(u);
-            var k2 = Rhs(Axpy(u, k1, dt / 2));
-            var k3 = Rhs(Axpy(u, k2, dt / 2));
-            var k4 = Rhs(Axpy(u, k3, dt));
+            var k2 = Rhs(Axpy(u, k1, h / 2));
+            var k3 = Rhs(Axpy(u, k2, h / 2));
+            var k4 = Rhs(Axpy(u, k3, h));
             for (int a = 0; a < N; a++)
                 for (int b = 0; b < N; b++)
-                    u[a, b] += (dt / 6) * (k1[a, b] + 2 * k2[a, b] + 2 * k3[a, b] + k4[a, b]);
+                    u[a, b] += (h / 6) * (k1[a, b] + 2 * k2[a, b] + 2 * k3[a, b] + k4[a, b]);
             kernel[k] = Squares(u);
         }
 
         // the Volterra refill ladder: trapezoid in s, the s = k self-term (kernel[0] = identity) implicit.
         var S = new double[steps + 1][];
         S[0] = new double[N]; S[0][seed] = 1.0;
-        double denom = 1.0 - 0.5 * gPhi * dt;
+        double denom = 1.0 - 0.5 * dose;
         for (int k = 1; k <= steps; k++)
         {
             var row = new double[N];
@@ -69,7 +106,7 @@ public sealed class Renewal : GameObject
                 for (int m = 0; m < N; m++)
                 {
                     if (Ss[m] == 0.0) continue;
-                    double c = w * gPhi * dt * Ss[m];
+                    double c = w * dose * Ss[m];
                     for (int n = 0; n < N; n++) row[n] += c * ks[m, n];
                 }
             }
@@ -78,8 +115,15 @@ public sealed class Renewal : GameObject
         }
 
         var p = new double[N];
-        double damp = Math.Exp(-gPhi * steps * dt);
-        for (int n = 0; n < N; n++) p[n] = damp * S[steps][n];
+        double damp = Math.Exp(-gPhi * tMax);
+        double totalMass = 0.0;
+        for (int n = 0; n < N; n++)
+        {
+            p[n] = damp * S[steps][n];
+            totalMass += p[n];
+        }
+        if (!double.IsFinite(totalMass) || Math.Abs(totalMass - 1.0) > maxMassDrift)
+            throw new ArgumentOutOfRangeException(nameof(dt), dt, "The computed populations violate the 0.1% mass-conservation budget; reduce the maximum time step.");
         return p;
     }
 

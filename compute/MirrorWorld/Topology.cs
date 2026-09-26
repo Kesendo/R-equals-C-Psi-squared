@@ -40,9 +40,10 @@ public static class Topology
 
     public static (int a, int b)[] Named(string name, int n) => name switch
     {
+        "chain" => Chain(n),
         "ring" => Ring(n),
         "star" => Star(n),
         "complete" => Complete(n),
-        _ => Chain(n),
+        _ => throw new ArgumentException($"unknown topology '{name}'", nameof(name)),
     };
 }

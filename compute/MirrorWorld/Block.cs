@@ -20,7 +20,7 @@ public sealed class Block : GameObject
         Q = q;
     }
 
-    public long Size => Binomial(N, P) * Binomial(N, Q);
+    public long Size => checked(Binomial(N, P) * Binomial(N, Q));
     public bool Diagonal => P == Q;            // (p,p) carry even k incl k=0, the populations
     public int MinK => Math.Abs(P - Q);        // the lowest disagreement rung living in this block
 
@@ -29,8 +29,30 @@ public sealed class Block : GameObject
     public static long Binomial(int n, int k)
     {
         if (k < 0 || k > n) return 0;
+        k = Math.Min(k, n - k);
         long r = 1;
-        for (int i = 1; i <= k; i++) r = r * (n - k + i) / i;
+        for (int i = 1; i <= k; i++)
+        {
+            // Divide before multiplying: r * numerator can exceed Int64 even when the
+            // next binomial coefficient fits. Both gcd cancellations are exact integers.
+            long numerator = (long)n - k + i;
+            long denominator = i;
+            long g = Gcd(numerator, denominator);
+            numerator /= g;
+            denominator /= g;
+            g = Gcd(r, denominator);
+            r /= g;
+            denominator /= g;
+            if (denominator != 1)
+                throw new InvalidOperationException("binomial recurrence did not divide exactly");
+            r = checked(r * numerator);
+        }
         return r;
+    }
+
+    static long Gcd(long a, long b)
+    {
+        while (b != 0) (a, b) = (b, a % b);
+        return a;
     }
 }

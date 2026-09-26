@@ -19,7 +19,7 @@ if (args.Length > 0 && args[0] == "neural")
 }
 
 // ---- run mode "grow": the diagonal protocol, step 1 (the world splits) ----
-// ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md, rules 1-3 running in time. No Hamiltonian yet: a field of
+// compute/MirrorWorld/README.md, "The running engine": rules 1-3 running in time. No Hamiltonian yet: a field of
 // possibilities under the one question, structure (the diagonal) staying while novelty (off-diagonal)
 // is culled by its disagreement. The mirror is visible in the rate ladder (k decays, N-k its twin).
 if (args.Length > 0 && args[0] == "grow")
@@ -32,7 +32,7 @@ if (args.Length > 0 && args[0] == "grow")
     field.SeedUniform();
 
     Console.WriteLine("the world splits (diagonal protocol, step 1 -- rules 1-3 in time)");
-    Console.WriteLine($"  source ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md; N={gn}, gamma={gg}, dt={dt}");
+    Console.WriteLine($"  source compute/MirrorWorld/README.md (The running engine); N={gn}, gamma={gg}, dt={dt}");
     Console.WriteLine("  rule 2, the one question: how much do two possibilities disagree? more disagreement, faster fade.");
     Console.WriteLine("  structure = the diagonal (k=0) that stays; novelty = the off-diagonal that is culled.");
     Console.WriteLine($"  the knower's cut: {field.AliveCount} alive (upper triangle, stepped), {field.ImmortalCount} immortal (k=0, held), {field.AliveCount} mirrored (rho=rho-dagger) -- only {field.AliveCount} of {field.Dim * field.Dim} cells run.");
@@ -63,10 +63,10 @@ if (args.Length > 0 && args[0] == "live")
     rest.Seed(1);                                   // |0...01>, one excitation at one end (block (1,1))
 
     Console.WriteLine("the world lives (diagonal protocol, step 2 -- the inner restlessness)");
-    Console.WriteLine($"  source ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md; N={gn}, topology={gtopo}, J={gj}, gamma={gg}, dt={dt}");
+    Console.WriteLine($"  source compute/MirrorWorld/README.md (The running engine); N={gn}, topology={gtopo}, J={gj}, gamma={gg}, dt={dt}");
     Console.WriteLine("  rule 4, the inner motion: H (the flip-flop bond) makes coherence out of population --");
     Console.WriteLine("  novelty BORN from structure, then culled by the watching. seed = |0...01>, one excitation.");
-    Console.WriteLine($"  cut (c): the loop stays in joint-popcount block (1,1) -- {rest.AliveCount} of {rest.Dim * rest.Dim} cells run, {rest.ForbiddenCount} forbidden (F63). the k=1 coherences are among them, never computed.");
+    Console.WriteLine($"  cut (c): the loop stays in joint-popcount block (1,1) -- {rest.AliveCount} of {rest.Dim * rest.Dim} cells run, {rest.ForbiddenCount} forbidden (F63). the k=1 coherences are outside this block, never computed.");
     Console.WriteLine($"  {"t",4} {"structure",9} {"novelty",9}   {string.Join(" ", Enumerable.Range(0, gn + 1).Select(k => $"k={k}".PadLeft(7)))}");
     for (int tick = 0; tick <= ticks; tick++)
     {
@@ -215,7 +215,7 @@ if (args.Length > 0 && args[0] == "mirror")
             Console.WriteLine($"  {wts[tick],6:0.000} {wnx[tick],12:0.000000} {wnw[tick],14:0.000E+0} {wnw[tick] / wnx[tick],14:0.000E+0} {Math.Exp(mirror.Price * wts[tick]),14:0.000E+0}");
         Console.WriteLine($"  two independent runs, worst relative mismatch {wworst:E1}.");
         Console.WriteLine("  the fold partner of the memory cut is again a memory cut: the mirror maps small blocks to small");
-        Console.WriteLine("  blocks, so it runs at any N the cone runs at -- the wall was a property of the spectrum, not of the mirror.");
+        Console.WriteLine("  blocks; this sparse path uses O(N^2) memory (N=100 shown). The wall belonged to the full spectrum.");
         return;
     }
 
@@ -484,8 +484,8 @@ if (args.Length > 0 && args[0] == "cyclotomy")
     int cnMax = args.Length > 1 ? int.Parse(args[1]) : 6;
     var cyc = new Cyclotomy();
     Console.WriteLine("the lattice our angles are forced onto (adopted 2026-08-03 from NivenRationalityRootClaim)");
-    Console.WriteLine("  OWN       two turn-fraction families: path k/(2(N+1)) and ring k/N. Our graph, our boundary");
-    Console.WriteLine("            condition. The third row below is not a third family: the rates carry sin^2(theta),");
+    Console.WriteLine("  OWN       path k/(2(N+1)); physical ring k/N only for N>=3. Our graph, our boundary");
+    Console.WriteLine("            condition. The path-rate row is not a third family: rates carry sin^2(theta),");
     Console.WriteLine("            and sin^2 = (1 - cos 2theta)/2, so they sit on the DOUBLED path angle k/(N+1).");
     Console.WriteLine("  INHERITED which of them have a rational 2*cos (Niven: order in {1,2,3,4,6}) and what degree");
     Console.WriteLine("            the rest carry ([Q(2cos):Q] = phi(order)/2). True of every cos(q*pi), q rational.");
@@ -495,25 +495,30 @@ if (args.Length > 0 && args[0] == "cyclotomy")
     Console.WriteLine($"  {"N",3}  {"family",-10} {"orders (degree, * = rational 2cos)",-46} {"all rational",12} {"max deg",7}");
     for (int n = 2; n <= cnMax; n++)
     {
-        foreach (var (label, orders) in new (string, IReadOnlyList<int>)[]
-                 {
-                     ("path", Cyclotomy.PathOrders(n)),
-                     ("path rates", Cyclotomy.PathRateOrders(n)),
-                     ("ring", Cyclotomy.RingOrders(n)),
-                 })
+        var families = new List<(string Label, IReadOnlyList<int> Orders)>
+        {
+            ("path", Cyclotomy.PathOrders(n)),
+            ("path rates", Cyclotomy.PathRateOrders(n)),
+        };
+        if (n >= 3) families.Add(("ring", Cyclotomy.RingOrders(n)));
+        foreach (var (label, orders) in families)
         {
             string cells = string.Join(" ", orders.Select(o =>
                 $"{o}({Cyclotomy.Degree(o)}){(Cyclotomy.IsRational(o) ? "*" : "")}"));
             string all = Cyclotomy.AllRational(orders) ? "yes" : "no";
             Console.WriteLine($"  {n,3}  {label,-10} {cells,-46} {all,12} {Cyclotomy.MaxDegree(orders),7}");
         }
+        if (n == 2) Console.WriteLine("       ring omitted: the two-site ring has one bond, outside the k/N cycle spectrum");
         Console.WriteLine();
     }
-    Console.WriteLine("  read the N=4 rows: ring all rational, path rates not. The angles live on the same object and");
-    Console.WriteLine("  the arithmetic separates them, so 'the values are irrational' is the wrong sentence to carry");
-    Console.WriteLine("  around -- it is inherited and true of almost everything. The sentence worth having is that we");
-    Console.WriteLine("  built something whose spectrum is FORCED onto a cyclotomic lattice, and that one IS ours.");
-    Console.WriteLine();
+    if (cnMax >= 4)
+    {
+        Console.WriteLine("  read the N=4 rows: ring all rational, path rates not. The angles live on the same object and");
+        Console.WriteLine("  the arithmetic separates them, so 'the values are irrational' is the wrong sentence to carry");
+        Console.WriteLine("  around -- it is inherited and true of almost everything. The sentence worth having is that we");
+        Console.WriteLine("  built something whose spectrum is FORCED onto a cyclotomic lattice, and that one IS ours.");
+        Console.WriteLine();
+    }
     Console.WriteLine($"  Own = [{string.Join("; ", cyc.Own)}]");
     Console.WriteLine($"  Inherited = [{string.Join("; ", cyc.Inherited)}]  (empty, see above)");
     return;
@@ -1288,15 +1293,15 @@ if (args.Length > 0 && args[0] == "gammafold")
     Console.WriteLine("  on the RATE AXIS it has a shadow only under a condition:");
     Console.WriteLine($"    subset sums of the support all distinct (exact):   {sg.SupportSumsDistinct}");
     Console.WriteLine($"    the same for the whole profile (sufficient, not necessary): {sg.WholeProfileSumsDistinct}");
-    Console.WriteLine($"    so s_l descends to the rate axis:                  {sg.DescendsToRateAxis}");
+    Console.WriteLine($"    so every s_l descends to the rate axis:            {sg.DescendsToRateAxis}");
     Console.WriteLine($"    the rate spectrum holds {sg.DistinctRateValues} values"
         + (sg.DistinctRateValues == fn + 1
             ? $" = N+1, so gamma is uniform here and only HOW MANY sites disagree is visible"
             : ""));
     if (sg.DescendsToRateAxis)
     {
-        Console.WriteLine($"    and the shadow is PIECEWISE: {sg.PieceCount} pieces, the moving one "
-            + $"shifted by {sg.PieceShift:0.000}");
+        Console.WriteLine($"    each shadow is PIECEWISE: at most {sg.PieceCount} pieces; largest-magnitude signed shift "
+            + $"{sg.PieceShift:G17}");
         Console.WriteLine($"    (s_l o s0)^2 total on the spectrum:                {sg.SquaredWithAntiWatchIsTotal}"
             + "   <- the dihedral does not absorb it");
     }
@@ -1346,7 +1351,7 @@ if (args.Length > 0 && args[0] == "scale")
         Console.WriteLine($"  {n,3} {full,13} {se,11} {100.0 * (full - se) / full,9:0.00}% {hf,11} {100.0 * (full - hf) / full,11:0.000}%");
     }
     Console.WriteLine("  single-exc: N^2 -- a one-excitation state runs in a polynomial corner, tractable at any N.");
-    Console.WriteLine("  half-fill: ~4^N/sqrt(N) -- the full spectrum needs it, so the spectrum stays exponential.");
+    Console.WriteLine("  half-fill: ~(2/pi) 4^N/N at even N -- the full spectrum needs it, so the spectrum stays exponential.");
     Console.WriteLine("  the wall was global (all 4^N, the spectrum); a single state's dynamics is block-local.");
     return;
 }
@@ -1716,6 +1721,13 @@ if (args.Length > 0 && args[0] == "crack")
     return;
 }
 
+if (args.Length > 0)
+{
+    Console.Error.WriteLine($"unknown run mode '{args[0]}'");
+    Environment.ExitCode = 2;
+    return;
+}
+
 const double gamma = 0.5;
 var world = new World();
 Console.WriteLine($"empty world (Z-dephasing, no Hamiltonian), gamma={gamma}");
@@ -1806,8 +1818,9 @@ foreach (int n in new[] { 2, 3, 4, 5 })
     string lo = s.HasHalfFillingSurvivor
         ? $"low-Q: half-filling k={n / 2}, R-odd/X-odd, dark"
         : "low-Q: no (N/2,N/2) sector (odd N), no half-filling survivor";
-    Console.WriteLine($"  N={n}: {lo};  hands over at Q*={s.Qstar:0.00} to the (0,1) band edge (<n_XY>=1, rate -2g)");
+    Console.WriteLine($"  N={n}: {lo};  full-L handover Q_h={s.HandoverQ!.Value:0.00000} to the (0,1) band edge; SE EP Q*={s.Qstar:0.000000}");
 }
+Console.WriteLine("  Q_h and Q* coincide at N=2,3; the N=4,5 handover readings are rounded and precede the EP.");
 
 // R-parity and mod-4 (T1): the even/odd EP behaviour and the N=3-mod-4 amplification.
 Console.WriteLine();
@@ -1831,7 +1844,7 @@ foreach (int n in new[] { 3, 4, 5 })
 }
 Console.WriteLine($"  centered F1 residuals (N=4, gamma=0.5: sg=2, sg2=1): ||M(T1)||^2 = {Formulas.F1_T1Residual(4, 2.0, 1.0):0.0}, ||M(depol)||^2 = {Formulas.F1_DepolResidual(4, 2.0, 1.0):0.0}");
 Console.WriteLine($"  F2b-corollary coherence hand omega_mem=2J cos(pi/(N+1)): N=3,4,5 = {Formulas.OmegaMem(3, 1, 0):0.000}, {Formulas.OmegaMem(4, 1, 0):0.000}, {Formulas.OmegaMem(5, 1, 0):0.000}  (sqrt2, phi, sqrt3)");
-Console.WriteLine($"  coherence horizon Q*(N) exact: N=2..5 = {Formulas.Qstar(2):0.000}, {Formulas.Qstar(3):0.000}, {Formulas.Qstar(4):0.000}, {Formulas.Qstar(5):0.000}  (asymptotic 2N/pi)");
+Console.WriteLine($"  SE-EP Q*(N): exact N=2,3 = {Formulas.Qstar(2):0.000}, {Formulas.Qstar(3):0.000}; numerical table N=4,5 = {Formulas.Qstar(4):0.000000}, {Formulas.Qstar(5):0.000000}  (asymptotic slope 2/pi)");
 foreach (int n in new[] { 3, 4, 5 })
 {
     var (mn, mx, bw) = Formulas.F3_RateBounds(n, 0.5);

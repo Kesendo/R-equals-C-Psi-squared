@@ -307,6 +307,23 @@ public class MirrorTests
             $"the fold leg broke past the wall: {res:E2} against the derived bound {FoldBound(mirror):E2}");
     }
 
+    [Fact]
+    public void Past_The_Wall_Leg_Uses_Block_Sized_Memory()
+    {
+        new Mirror(W, 3, J, G).PastTheWallResidual(); // warm the measured public path
+        var mirror = new Mirror(W, 30, J, G);
+        long before = GC.GetAllocatedBytesForCurrentThread();
+        var (residual, dim) = mirror.PastTheWallResidual();
+        long allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+
+        Assert.Equal(900, dim);
+        Assert.Equal(0.0, residual); // dyadic gamma: the diagonal price is exactly representable
+        // Four Complex vectors per N^2 block cell, plus fixed bookkeeping. One dense block matrix
+        // alone needs 16*(N^2)^2 bytes (12.96 MB here), so the former two-matrix path fails.
+        long budget = 64L * dim + 64_000;
+        Assert.True(allocated < budget, $"past-wall leg allocated {allocated} bytes; budget {budget}");
+    }
+
     // the trajectory fold past the wall: two independent RK4 runs at N=40, related by exp(price*t).
     [Fact]
     public void The_Trajectory_Fold_Holds_Past_The_Wall()
@@ -315,6 +332,26 @@ public class MirrorTests
         var (_, nx, nw, worst) = mirror.PastTheWallTrajectory(dt: 0.002, ticks: 50);
         Assert.True(worst < 1e-6, $"the past-the-wall trajectory fold drifted: {worst:E2}");
         Assert.Equal(Math.Exp(mirror.Price * 50 * 0.002), nw[50] / nx[50], 3);
+    }
+
+    [Fact]
+    public void Past_The_Wall_Trajectory_Uses_Block_Sized_Memory()
+    {
+        new Mirror(W, 3, J, G).PastTheWallTrajectory(dt: 0.002, ticks: 1);
+        const int ticks = 4;
+        var mirror = new Mirror(W, 30, J, G);
+        long before = GC.GetAllocatedBytesForCurrentThread();
+        var (_, nx, nw, residual) = mirror.PastTheWallTrajectory(dt: 0.002, ticks: ticks);
+        long allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+
+        Assert.True(nx[ticks] < nx[0], "the forward block must actually decay");
+        Assert.True(nw[ticks] > nw[0], "the backward partner must actually grow");
+        Assert.True(residual < 1e-6, $"the trajectory fold drifted: {residual:E2}");
+        Assert.Equal(Math.Exp(mirror.Price * ticks * 0.002), nw[ticks] / nx[ticks], 3);
+        // RK4 needs work vectors each tick. This permits 32 Complex vectors per cell per tick,
+        // while excluding either former dense N^2-by-N^2 matrix (12.96 MB at N=30).
+        long budget = 512L * 30 * 30 * (ticks + 1) + 64_000;
+        Assert.True(allocated < budget, $"past-wall trajectory allocated {allocated} bytes; budget {budget}");
     }
 
     // the two worlds' disagreement histograms are each other read backward (k <-> N-k).

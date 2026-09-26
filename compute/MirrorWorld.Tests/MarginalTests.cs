@@ -125,4 +125,16 @@ public class MarginalTests
         // the page is a child of the cloud: it inherits the cloud's own, then the frame
         Assert.Equal(new[] { "structure", "novelty", "x", "y", "z" }, page.Inherited);
     }
+
+    [Theory]
+    [InlineData(-1, 0)]
+    [InlineData(2, 0)]
+    [InlineData(0, -1)]
+    [InlineData(0, 2)]
+    public void Page_Rejects_Indices_Outside_Its_Own_Dimension(int a, int b)
+    {
+        var page = new Marginal(GenericCloud(), new[] { 0 });
+        Assert.Equal(2, page.PageDim);
+        Assert.Throws<ArgumentOutOfRangeException>(() => _ = page[a, b]);
+    }
 }

@@ -211,6 +211,20 @@ public class ModPTests
                 Assert.NotEqual(1, (long)BigInteger.ModPow(z, d, p));
     }
 
+    [Fact]
+    public void RootOfOrder_One_IsTheMultiplicativeIdentity()
+    {
+        // Order one has exactly one element in any field. The old search skipped 1,
+        // which also left CyclotomicPrime(1, 0) searching forever.
+        Assert.Equal(1L, ModP.RootOfOrder(1, ModP.Primes[0]));
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-2)]
+    public void RootOfOrder_RejectsNonpositiveOrders(int order)
+        => Assert.Throws<ArgumentOutOfRangeException>(() => ModP.RootOfOrder(order, ModP.Primes[0]));
+
     // ---- the rank, against ranks known by construction ----
 
     [Fact]
@@ -396,6 +410,16 @@ public class ModPTests
             if (acc == 1) { first = e; break; }
         }
         Assert.Equal(order, first);
+    }
+
+    [Fact]
+    public void CyclotomicPrime_OrderOne_ReturnsAPrimeAndTheIdentity()
+    {
+        var (p, zeta) = ModP.CyclotomicPrime(1, 0);
+        Assert.True(p > 1_000_000L);
+        Assert.Equal(1L, zeta);
+        for (long d = 2; d * d <= p; d++)
+            Assert.NotEqual(0L, p % d); // trial division, independent of ModP.IsPrime
     }
 
     // The search is the SMALLEST candidate above the floor, at the floor 10^6 AND at a caller's floor,

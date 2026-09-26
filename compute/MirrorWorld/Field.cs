@@ -1,6 +1,6 @@
 namespace MirrorWorld;
 
-// The field of possibilities (rule 1 of ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md): a weight on every pair
+// The field of possibilities (rule 1 of the running engine in compute/MirrorWorld/README.md): a weight on every pair
 // |i><j| over N units. It inherits the frame from the World (right) and produces its own split (left):
 // structure = the diagonal (k=0) that stays, novelty = the off-diagonal that fades. One Step applies the
 // one question (rule 2): each weight keeps (1 + Re lambda * dt) of itself, Re lambda the pair's own rate

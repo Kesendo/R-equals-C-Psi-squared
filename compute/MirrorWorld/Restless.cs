@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace MirrorWorld;
 
-// The living world (step 2 of ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md): the empty world's watching plus the
+// The living world (step 2 of the running engine in compute/MirrorWorld/README.md): the empty world's watching plus the
 // inner restlessness, a Hamiltonian on the geometry. The full Lindblad loop rho-dot = -i[H,rho] + D[rho]:
 // the handshake H (a flip-flop on each bond) takes population (the diagonal, structure) and makes coherence
 // (off-diagonal, novelty) -- novelty BORN from structure (rule 4) -- while D (the watching, the Pair rate
@@ -25,6 +25,8 @@ public sealed class Restless : GameObject
     readonly (int a, int b)[] bonds; // the geometry the handshake rides (default: a chain)
     readonly int[] pc;              // popcount per basis index (the excitation number H conserves)
     readonly double zz;             // the ZZ (longitudinal) bond coefficient: 0 = XY handshake, 1 = isotropic Heisenberg
+    readonly bool antiWatching;      // constructor's watching rule, retained for probe scope
+    readonly bool hasSiteGammas;     // the site-resolved rule is distinct even when rates happen to be uniform
     readonly HashSet<(int p, int q)> occupied = new();   // the joint-popcount blocks the seed lives in
     (int i, int j)[]? alive;        // the cells inside the occupied blocks (F63); the rest is forbidden
 
@@ -47,8 +49,10 @@ public sealed class Restless : GameObject
         J = j;
         Gamma = gamma;
         this.zz = zz;
+        this.antiWatching = antiWatching;
+        hasSiteGammas = siteGammas is not null;
         dim = 1 << n;
-        this.bonds = bonds ?? Topology.Chain(n);
+        this.bonds = (bonds ?? Topology.Chain(n)).ToArray();
         rho = new Complex[dim, dim];
         mask = new double[dim, dim];
         dis = new int[dim, dim];
@@ -207,9 +211,14 @@ public sealed class Restless : GameObject
     // (k(~i,~j) = k(i,j), the watching cannot tell a state from its bit-complement). so seed |s><s| in one
     // normal world and its bit-complement |~s><~s| in a second, run both, and rho_{~s}[i,j](t) = rho_s[~i,~j](t)
     // for all t. nothing is lost in the turn; the content is only carried to the mirror block (a p-excitation
-    // seed to its N-p complement), and the carrying is its own inverse. returns the worst read-through.
+    // seed to its N-p complement), and the carrying is its own inverse. The probe returns the worst
+    // read-through for the standard XY, uniform, normal-watching world only. A zero from that reconstruction
+    // says nothing about a configured ZZ, site-rate, or anti-watching world, so those calls are refused.
     public double ConjugationReadThrough(int seed, double dt, int ticks)
     {
+        if (zz != 0.0 || hasSiteGammas || antiWatching)
+            throw new NotSupportedException(
+                "ConjugationReadThrough certifies only the standard XY world with uniform normal watching.");
         var w = (World)Parent!;                 // the frame both worlds inherit (never null: the ctor took a World)
         var baseW = new Restless(w, N, J, Gamma, bonds);
         var mirrorW = new Restless(w, N, J, Gamma, bonds);

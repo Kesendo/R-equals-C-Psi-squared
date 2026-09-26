@@ -47,7 +47,7 @@ public sealed class Cyclotomy : GameObject
     public override IReadOnlyList<string> Own => new[]
     {
         "turn fractions of the path (k/(2(N+1)))",
-        "turn fractions of the ring (k/N)",
+        "turn fractions of the ring (k/N, N>=3)",
     };
 
     public static int Gcd(int a, int b) { while (b != 0) (a, b) = (b, a % b); return a; }
@@ -87,9 +87,14 @@ public sealed class Cyclotomy : GameObject
     public static IReadOnlyList<int> PathRateOrders(int n)
         => Enumerable.Range(1, n).Select(k => Order(k, n + 1)).ToList();
 
-    // OWN: the ring closes, so the fractions are k/N.
+    // OWN: a ring with at least three distinct sites closes, so the fractions are k/N.
+    // For N=2 Topology.Ring has only one bond and the k/N energies would double it.
     public static IReadOnlyList<int> RingOrders(int n)
-        => Enumerable.Range(1, n).Select(k => Order(k, n)).ToList();
+    {
+        if (n < 3)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "the k/N ring spectrum needs at least three sites");
+        return Enumerable.Range(1, n).Select(k => Order(k, n)).ToList();
+    }
 
     public static bool AllRational(IReadOnlyList<int> orders) => orders.All(IsRational);
 

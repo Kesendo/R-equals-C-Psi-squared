@@ -3,7 +3,7 @@ using MirrorWorld;
 
 namespace MirrorWorldTests;
 
-// From-below guard for the living world (step 2: the inner restlessness, ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md).
+// From-below guard for the living world (step 2: the inner restlessness, compute/MirrorWorld/README.md).
 // H births novelty from structure; D culls it. The Lindblad loop rho-dot = -i[H,rho] + D[rho], RK4-stepped.
 // Nothing interpreted, just the numbers.
 public class RestlessTests
@@ -135,5 +135,23 @@ public class RestlessTests
         Assert.True(fromState < 1e-10, $"forward drifted: {fromState:E2}");
         Assert.True(fromMirror < 1e-10, $"backward drifted: {fromMirror:E2}");
         Assert.Equal(fromState, fromMirror, 12);            // both directions reach home the same
+    }
+
+    // The read-through currently produces only one symmetry residual. Since X conjugation is a
+    // symmetry with or without these settings, a zero from rebuilt default worlds cannot certify
+    // that the original world's settings were checked. Refuse unsupported configurations explicitly.
+    [Theory]
+    [InlineData(true, false, false)]
+    [InlineData(false, true, false)]
+    [InlineData(false, false, true)]
+    public void Conjugation_Read_Through_Refuses_Configurations_It_Cannot_Certify(
+        bool withZz, bool withSiteRates, bool antiWatching)
+    {
+        var rates = withSiteRates ? new[] { 0.05, 0.1, 0.2, 0.3 } : null;
+        var world = new Restless(W, 4, j: 1.0, gamma: G, antiWatching: antiWatching,
+            siteGammas: rates, zz: withZz ? 1.0 : 0.0);
+
+        Assert.Throws<NotSupportedException>(() =>
+            world.ConjugationReadThrough(seed: 0b0001, dt: 0.05, ticks: 3));
     }
 }

@@ -53,6 +53,8 @@ public sealed class Marginal : GameObject
     {
         get
         {
+            if (a < 0 || a >= pageDim) throw new ArgumentOutOfRangeException(nameof(a));
+            if (b < 0 || b >= pageDim) throw new ArgumentOutOfRangeException(nameof(b));
             var m = Complex.Zero;
             int rDim = 1 << traced.Length;
             for (int r = 0; r < rDim; r++)

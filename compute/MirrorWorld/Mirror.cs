@@ -348,16 +348,29 @@ public sealed class Mirror : GameObject
     public (double WorstResidual, int Dim) PastTheWallResidual()
     {
         int dim = N * N;
-        var l11 = BuildSiteBlock(holeBra: false);
-        var l1h = BuildSiteBlock(holeBra: true);
         double worst = 0;
-        for (int i = 0; i < dim; i++)
-            for (int j = 0; j < dim; j++)
+        for (int u = 0; u < N; u++)
+            for (int v = 0; v < N; v++)
             {
-                var expected = -(double)(SiteGauge(i) * SiteGauge(j)) * l11[i, j] - (i == j ? Price : 0.0);
-                worst = Math.Max(worst, (l1h[i, j] - expected).Magnitude);
+                int col = u * N + v;
+                Check(col, col);
+                if (u > 0) Check(col - N, col);
+                if (u + 1 < N) Check(col + N, col);
+                if (v > 0) Check(col - 1, col);
+                if (v + 1 < N) Check(col + 1, col);
             }
         return (worst, dim);
+
+        // Both blocks have exactly this diagonal-and-nearest-neighbour support. Every other
+        // entry is zero in both, so these five possible entries per column exhaust the fold.
+        void Check(int row, int col)
+        {
+            var source = SiteBlockEntry(row, col, holeBra: false);
+            var partner = SiteBlockEntry(row, col, holeBra: true);
+            var expected = -(double)(SiteGauge(row) * SiteGauge(col)) * source
+                - (row == col ? Price : 0.0);
+            worst = Math.Max(worst, (partner - expected).Magnitude);
+        }
     }
 
     // the trajectory fold past the wall: x forward in the memory cut (1,1), w backward in the partner
@@ -367,8 +380,6 @@ public sealed class Mirror : GameObject
         double dt, int ticks)
     {
         int dim = N * N;
-        var l11 = BuildSiteBlock(holeBra: false);
-        var l1h = BuildSiteBlock(holeBra: true);
         var x = new Complex[dim];
         for (int i = 0; i < dim; i++) x[i] = 1.0 / Math.Sqrt(dim);
         var w = new Complex[dim];
@@ -388,55 +399,68 @@ public sealed class Mirror : GameObject
                 res = Math.Max(res, (w[i] - scale * SiteGauge(i) * x[i]).Magnitude);
             worst = Math.Max(worst, res / Math.Max(nw[tick], 1e-300));
             if (tick == ticks) break;
-            x = Rk4(l11, x, dt, dim);
-            w = Rk4Negated(l1h, w, dt, dim);
+            x = Rk4Site(x, dt, holeBra: false, negated: false);
+            w = Rk4Site(w, dt, holeBra: true, negated: true);
         }
         return (ts, nx, nw, worst);
     }
 
-    // the (1,1) or (1,N-1) block in site labels (u = the excited ket site; v = the excited bra site,
-    // or the HOLE site when holeBra): diagonal from the Pair rule (k = 0/2, complemented when holeBra),
-    // ket hops -iJ, bra hops +iJ on the chain -- a hole hops like an excitation.
-    Complex[,] BuildSiteBlock(bool holeBra)
+    // The (1,1) or (1,N-1) block in site labels (u = excited ket site; v = excited bra site,
+    // or the HOLE site when holeBra). The diagonal uses the Pair disagreement k = 0/2,
+    // complemented for a hole bra; the only other entries are nearest-neighbour hops.
+    double SiteDiagonal(int u, int v, bool holeBra)
     {
-        int dim = N * N;
-        var l = new Complex[dim, dim];
+        int k = u == v ? 0 : 2;
+        return -2.0 * Gamma * (holeBra ? N - k : k);
+    }
+
+    Complex SiteBlockEntry(int row, int col, bool holeBra)
+    {
+        int ru = row / N, rv = row % N;
+        int cu = col / N, cv = col % N;
+        if (row == col) return SiteDiagonal(cu, cv, holeBra);
+        if (rv == cv && Math.Abs(ru - cu) == 1) return -Complex.ImaginaryOne * J;
+        if (ru == cu && Math.Abs(rv - cv) == 1) return Complex.ImaginaryOne * J;
+        return Complex.Zero;
+    }
+
+    // Matrix-vector action of that five-point stencil. Each RK4 stage holds only an N^2 vector;
+    // no N^2-by-N^2 matrix is needed to run either block.
+    Complex[] MulSite(Complex[] x, bool holeBra, bool negated)
+    {
+        var y = new Complex[N * N];
+        Complex ketHop = -Complex.ImaginaryOne * J, braHop = Complex.ImaginaryOne * J;
         for (int u = 0; u < N; u++)
             for (int v = 0; v < N; v++)
             {
-                int col = u * N + v;
-                int k = u == v ? 0 : 2;
-                l[col, col] = -2.0 * Gamma * (holeBra ? N - k : k);
-                if (u > 0) l[(u - 1) * N + v, col] += -Complex.ImaginaryOne * J;
-                if (u < N - 1) l[(u + 1) * N + v, col] += -Complex.ImaginaryOne * J;
-                if (v > 0) l[u * N + (v - 1), col] += Complex.ImaginaryOne * J;
-                if (v < N - 1) l[u * N + (v + 1), col] += Complex.ImaginaryOne * J;
+                int i = u * N + v;
+                Complex sum = Complex.Zero;
+                if (u > 0) sum += ketHop * x[i - N];
+                if (v > 0) sum += braHop * x[i - 1];
+                sum += new Complex(SiteDiagonal(u, v, holeBra), 0.0) * x[i];
+                if (v + 1 < N) sum += braHop * x[i + 1];
+                if (u + 1 < N) sum += ketHop * x[i + N];
+                y[i] = negated ? -sum : sum;
             }
-        return l;
+        return y;
+    }
+
+    Complex[] Rk4Site(Complex[] x, double dt, bool holeBra, bool negated)
+    {
+        int dim = x.Length;
+        var k1 = MulSite(x, holeBra, negated);
+        var k2 = MulSite(Axpy(x, k1, dt / 2, dim), holeBra, negated);
+        var k3 = MulSite(Axpy(x, k2, dt / 2, dim), holeBra, negated);
+        var k4 = MulSite(Axpy(x, k3, dt, dim), holeBra, negated);
+        var r = new Complex[dim];
+        for (int i = 0; i < dim; i++) r[i] = x[i] + (dt / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
+        return r;
     }
 
     int SiteGauge(int idx)
     {
         int u = idx / N, v = idx % N;
         return ((u & 1) == 1 ? -1 : 1) * ((v & 1) == 1 ? -1 : 1);
-    }
-
-    static Complex[] Rk4Negated(Complex[,] m, Complex[] x, double dt, int dim)
-    {
-        var k1 = Neg(Mul(m, x, dim), dim);
-        var k2 = Neg(Mul(m, Axpy(x, k1, dt / 2, dim), dim), dim);
-        var k3 = Neg(Mul(m, Axpy(x, k2, dt / 2, dim), dim), dim);
-        var k4 = Neg(Mul(m, Axpy(x, k3, dt, dim), dim), dim);
-        var r = new Complex[dim];
-        for (int i = 0; i < dim; i++) r[i] = x[i] + (dt / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
-        return r;
-    }
-
-    static Complex[] Neg(Complex[] a, int dim)
-    {
-        var r = new Complex[dim];
-        for (int i = 0; i < dim; i++) r[i] = -a[i];
-        return r;
     }
 
     // ---- small shared pieces ----

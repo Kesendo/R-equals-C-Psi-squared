@@ -42,10 +42,15 @@ public sealed class GammaFold : GameObject
 
     public GammaFold(World world, int n, double j = 1.0, double[]? siteGammas = null, double zz = 0.0) : base(world)
     {
+        if (siteGammas is not null && siteGammas.Length != n)
+            throw new ArgumentException("the rate profile needs one value per site", nameof(siteGammas));
+        var profile = siteGammas ?? Enumerable.Range(0, n).Select(l => 0.2 + 0.1 * l).ToArray();
+        if (profile.Any(g => !double.IsFinite(g)))
+            throw new ArgumentOutOfRangeException(nameof(siteGammas), "site rates must be finite for exact subset-sum scaling");
         N = n;
         J = j;
         this.zz = zz;
-        gammas = siteGammas ?? Enumerable.Range(0, n).Select(l => 0.2 + 0.1 * l).ToArray();
+        gammas = (double[])profile.Clone();
     }
 
     // left: what the fold itself produces.
@@ -112,9 +117,10 @@ public sealed class GammaFold : GameObject
     //
     // ON THE PROFILE THE TURN IS UNCONDITIONAL. It is exact, it is an involution, it asks nothing
     // of the profile. What is conditional is its SHADOW ON THE RATE AXIS, where GammaFold's two
-    // mirrors live: a rate is -2 times a subset sum, so s_l is a function of the rate exactly when
-    // the rate pins down whether site l disagrees, and that holds iff the profile RESTRICTED TO ITS
-    // NONZERO SITES is dissociated (all subset sums of the support distinct). Dissociation of the
+    // mirrors live: a rate is -2 times a subset sum. One s_l is a function of the rate exactly when
+    // the rate pins down whether that site disagrees. ALL site turns descend jointly iff the profile
+    // RESTRICTED TO ITS NONZERO SITES is dissociated (all subset sums of the support distinct);
+    // a particular site can still descend when another pair of sites causes a collision. Dissociation of the
     // whole profile is sufficient and NOT necessary: an unwatched site moves by 4*0 = 0, so it may
     // collide freely. Uniform gamma is the extreme failure, and it is the case the repo ran for
     // months: the rate then sees only HOW MANY sites disagree, the spectrum collapses to N+1
@@ -133,11 +139,12 @@ public sealed class GammaFold : GameObject
     // slips through: a double array cannot hold those rationals at all, and the values it does hold
     // for 0.1, 0.2 and 0.3 have distinct sums, so both tests agree there. The real gap runs the
     // other way, as a FALSE COLLISION: distinct exact sums can round to the same double, so a float
-    // test reports a collision that is not there. {1.0, 1e-20} is the smallest witness, its four
-    // subset sums exactly distinct while 1 + 1e-20 evaluates to 1. (The opposite error cannot
-    // happen: if two exact sums coincide, the coincident value is representable and the float sum
-    // hits it.) Every finite double IS a binary rational, so the sums are compared as integers
-    // after a common power-of-two scaling and the question is decided rather than estimated.
+    // test reports a collision that is not there. {1.0, 1e-20} is a small witness, its four
+    // subset sums exactly distinct while 1 + 1e-20 evaluates to 1. False separation is possible
+    // too: with {1e16, 1, -1e16}, the full set and {1} both sum exactly to 1, but left-to-right
+    // floating summation produces 0 and 1. Every finite double IS a binary rational, so the sums
+    // are compared as integers after a common power-of-two scaling and the question is decided
+    // rather than estimated.
     public double[] Turn(IEnumerable<int> sites) => Turn(gammas, sites);
 
     public static double[] Turn(double[] profile, IEnumerable<int> sites)
@@ -189,19 +196,6 @@ public sealed class GammaFold : GameObject
         return r;
     }
 
-    // the common power of two the scaling used, so a scaled integer can be read back as a double
-    static int ExactScaleExponent(double[] g)
-    {
-        int max = 0;
-        foreach (var x in g)
-        {
-            double v = x; int e = 0;
-            while (v != Math.Floor(v)) { v *= 2.0; e++; }
-            if (e > max) max = e;
-        }
-        return max;
-    }
-
     static bool SumsDistinct(double[] g)
     {
         var scaled = ExactScaled(g);
@@ -247,10 +241,10 @@ public sealed class GammaFold : GameObject
         double WorstSigmaResidual,      // worst |sigma(s_S g) - (sigma - 2*sum_S g)|
         bool SupportSumsDistinct,       // the criterion, decided over the integers
         bool WholeProfileSumsDistinct,  // the stronger version: sufficient, not necessary
-        bool DescendsToRateAxis,        // s_l is a function of the rate value, at every site
+        bool DescendsToRateAxis,        // all s_l are functions of the rate value, one for every site
         bool DescendedIsInvolution,     // the map back from the turned profile undoes the map out
         int PieceCount,                 // pieces of the descended map: 2 (identity, and a shift)
-        double PieceShift,              // the shift on the moving piece: 4*gamma_l
+        double PieceShift,              // signed 4*gamma_l for the largest-magnitude moving site turn
         bool SquaredWithAntiWatchIsTotal, // is (s_l o s0)^2 total on the spectrum? it is not
         int DistinctRateValues);        // the spectrum (exactly N+1 when gamma is uniform)
 
@@ -304,7 +298,8 @@ public sealed class GammaFold : GameObject
 
         bool descends = true, dInvol = true, total = true;
         int pieces = 0;
-        System.Numerics.BigInteger shift = 0;
+        System.Numerics.BigInteger largestShiftMagnitude = 0;
+        int shiftSite = -1;
         for (int site = 0; site < N; site++)
         {
             var turnedScaled = ExactScaled(Turn(new[] { site }));
@@ -341,7 +336,15 @@ public sealed class GammaFold : GameObject
             // dihedral cannot absorb it.
             var shifts = map.Select(kv => kv.Value - kv.Key).ToHashSet();
             pieces = Math.Max(pieces, shifts.Count);
-            foreach (var sh in shifts) if (sh > shift) shift = sh;
+            foreach (var sh in shifts)
+            {
+                var magnitude = System.Numerics.BigInteger.Abs(sh);
+                if (magnitude > largestShiftMagnitude)
+                {
+                    largestShiftMagnitude = magnitude;
+                    shiftSite = site;
+                }
+            }
 
             // (s_l o s0)^2 with s0: r -> -r - 2*sigma, all of it over the integers. Total on the
             // spectrum, or does the orbit leave it?
@@ -354,11 +357,11 @@ public sealed class GammaFold : GameObject
                 if (!map.ContainsKey(c)) { total = false; break; }
             }
         }
-        if (!descends) { dInvol = false; pieces = 0; shift = 0; total = false; }
+        if (!descends) { dInvol = false; pieces = 0; shiftSite = -1; total = false; }
 
-        // the shift back in the object's own units: the scaling is one common power of two,
-        // so dividing by it is exact for every value the object can hold.
-        double pieceShift = (double)shift / Math.Pow(2.0, ExactScaleExponent(gammas));
+        // The exact integer map chose the moving site. Read its signed shift directly in the
+        // input's double units: 4*gamma_l remains representable even when 2^1074 is not.
+        double pieceShift = shiftSite < 0 ? 0.0 : 4.0 * gammas[shiftSite];
 
         return new SiteTurnGroupReport(orbit.Count, gammas.Count(x => x != 0.0), invol, comm,
             compWorst, sigWorst, suppDistinct, wholeDistinct, descends, dInvol, pieces, pieceShift,

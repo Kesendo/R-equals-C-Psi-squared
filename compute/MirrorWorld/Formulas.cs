@@ -198,7 +198,12 @@ public static class Formulas
     public static double F18_GhzInitialCPsi(int n)
     {
         if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be >= 1.");
-        return 1.0 / (Math.Pow(2.0, n) - 1.0);
+        if (n <= 53) return 1.0 / (Math.Pow(2.0, n) - 1.0);
+        // At N=1075 the exact value is just above half the least subnormal, and rounds up.
+        if (n >= 1075) return n == 1075 ? double.Epsilon : 0.0;
+        // Form the reciprocal first: 2^N overflows at N=1024 while its inverse is representable.
+        double inverseDimension = Math.Pow(2.0, -n);
+        return inverseDimension / (1.0 - inverseDimension);
     }
 
     // F36/F37 (T1, conditional): a Wilson-Cowan/neural Jacobian satisfying Q*J*Q + J + 2s*I = 0
@@ -294,15 +299,24 @@ public static class Formulas
     public static double F59_DwellPrefactor(int k, double w0, double wk) => (4.0 / k) * (w0 + wk) / (w0 + 3.0 * wk);
 
     // F60 (T1): GHZ_N born below the fold. CPsi(0) = 1/(2^N - 1); < 1/4 for all N >= 3 (gamma-independent).
-    public static double F60_GhzCPsi0(int n) => 1.0 / ((1 << n) - 1);
+    public static double F60_GhzCPsi0(int n) => F18_GhzInitialCPsi(n);
 
     // F62 (T1): W_N initial CPsi. CPsi(0) = 2(N^2 - 4N + 8)/(3 N^3).
-    public static double F62_WstateCPsi0(int n) => 2.0 * (n * n - 4.0 * n + 8.0) / (3.0 * n * n * n);
+    public static double F62_WstateCPsi0(int n)
+    {
+        double size = n; // widen before squaring; Int32 multiplication overflows at N=46341
+        return 2.0 * (size * size - 4.0 * size + 8.0) / (3.0 * size * size * size);
+    }
 
     // F63 (T1, proven): [L, Pi^2] = 0. With F61 (n_XY parity), L has two independent Z2 symmetries; the
     // d=2 Pauli algebra splits the operator space into 4 blocks of dim 4^(N-1). Per Pi^2-sector conserved
     // mode count (boundary Z-dephasing): even = floor(N/2)+1, odd = ceil(N/2) (the e_d(Z) by parity).
-    public static long F63_BlockDim(int n) => 1L << (2 * (n - 1));   // 4^(N-1)
+    public static long F63_BlockDim(int n) // 4^(N-1), representable through N=32
+    {
+        if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be >= 1.");
+        if (n > 32) throw new OverflowException("The block dimension exceeds Int64.");
+        return 1L << (2 * (n - 1));
+    }
     public static (int Even, int Odd) F63_ConservedPerSector(int n) => (n / 2 + 1, (n + 1) / 2);
 
     // F65 (T1, proven): single-excitation dissipation spectrum, uniform open XY chain, endpoint Z-dephasing.
@@ -346,11 +360,14 @@ public static class Formulas
     // -2gamma*Hamming(i,j) (same ladder as the qubit); multiplicity c_k = d^N C(N,k) (d-1)^k, Sum=d^(2N).
     // The dissipator pairs rung k <-> N-k; paired(d,N) = Sum_k d^N C(N,k) (d-1)^(min(k,N-k)), = d^(2N)
     // iff d=2 (the d^2-2d=0 necessity re-seen). d=3,N=2: c=[9,36,36], paired=54/81.
-    public static long F121_CoherenceCount(int d, int n, int k) => IntPow(d, n) * Block.Binomial(n, k) * IntPow(d - 1, k);
+    public static long F121_CoherenceCount(int d, int n, int k)
+        => checked(IntPow(d, n) * Block.Binomial(n, k) * IntPow(d - 1, k));
     public static long F121_PairedCeiling(int d, int n)
     {
         long s = 0;
-        for (int k = 0; k <= n; k++) s += IntPow(d, n) * Block.Binomial(n, k) * IntPow(d - 1, Math.Min(k, n - k));
+        long baseCount = IntPow(d, n);
+        for (int k = 0; k <= n; k++)
+            s = checked(s + checked(baseCount * Block.Binomial(n, k) * IntPow(d - 1, Math.Min(k, n - k))));
         return s;
     }
 
@@ -380,8 +397,20 @@ public static class Formulas
         if (nY % 2 == 0 && nZ % 2 == 0) return 0;                   // truly
         return (nY + nZ) % 2 == 1 ? 1 : 2;                          // Pi^2-odd : Pi^2-even non-truly
     }
-    public static long F85_Pi2OddCount(int k) => (IntPow(3, k) - (k % 2 == 0 ? 1 : -1)) / 2;
-    public static double F85_ResidualNormSqPerTerm(int n, double hNormSq, int c) => 4.0 * c * hNormSq * (1L << n);
+    public static long F85_Pi2OddCount(int k)
+    {
+        if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), k, "Body count must be nonnegative.");
+        // a(k) = (3^k - (-1)^k)/2; this recurrence avoids the overflowing 3^40 intermediate.
+        long count = 0;
+        for (int i = 0; i < k; i++) count = checked(3 * count + (i % 2 == 0 ? 2 : -2));
+        return count;
+    }
+    public static double F85_ResidualNormSqPerTerm(int n, double hNormSq, int c)
+    {
+        if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be nonnegative.");
+        if (c == 0 || hNormSq == 0.0) return 0.0;
+        return Math.ScaleB(4.0 * c * hNormSq, n);
+    }
 
     // F97 (T1): the Mandelbrot main cardioid at the framework anchor b = 1/2. The period-1 fixed
     // point of z^2 + c sits at magnitude exactly b on the marginally-stable boundary:
@@ -561,7 +590,14 @@ public static class Formulas
     // the silver ratio 1 + sqrt2 at c = 2, bronze at c = 3, the 45-degree frame r = 1 at c = 0;
     // r(-c) = 1/r(c). The frame directions are the roots of the locus alpha^2 - c alpha beta
     // - beta^2 = 0 -- the identity-column determinant factors as c times exactly this locus.
-    public static double F116_MetallicMean(double c) => (c + Math.Sqrt(c * c + 4.0)) / 2.0;
+    public static double F116_MetallicMean(double c)
+    {
+        double a = Math.Abs(c);
+        double halfRoot = a >= 2.0
+            ? a / 2.0 * Math.Sqrt(1.0 + (2.0 / a) * (2.0 / a))
+            : Math.Sqrt(1.0 + (a / 2.0) * (a / 2.0));
+        return c >= 0.0 ? c / 2.0 + halfRoot : 1.0 / (halfRoot - c / 2.0);
+    }
 
     // F157 (T1): the blind seat's uniform-chain counts -- the single-excitation dimensions a
     // watching on seat j cannot touch, with one fenced case (F157's Breaks-for): where the seat's
@@ -648,5 +684,5 @@ public static class Formulas
     private static double H2(double x) => -XLog2(x) - XLog2(1.0 - x);
     private static double XLog2(double x) => x <= 0.0 ? 0.0 : x * Math.Log2(x);
 
-    private static long IntPow(int b, int e) { long r = 1; for (int i = 0; i < e; i++) r *= b; return r; }
+    private static long IntPow(int b, int e) { long r = 1; for (int i = 0; i < e; i++) r = checked(r * b); return r; }
 }

@@ -2,7 +2,7 @@ using MirrorWorld;
 
 namespace MirrorWorldTests;
 
-// From-below guard for the running world (the diagonal protocol, ClaudeTasks/DIAGONAL_PROTOCOL_GAME.md).
+// From-below guard for the running world (the diagonal protocol, compute/MirrorWorld/README.md).
 // Step 1: the world splits. A field of possibilities loses, per tick, each pair's own Pair rate; the
 // diagonal (k=0) stays (structure), the off-diagonal fades (novelty). Nothing interpreted, just the numbers.
 public class FieldTests

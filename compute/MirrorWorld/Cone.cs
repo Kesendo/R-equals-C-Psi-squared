@@ -32,7 +32,7 @@ public sealed class Cone : GameObject
         N = n;
         J = j;
         Gamma = gamma;
-        siteGamma = siteGammas;
+        siteGamma = siteGammas is null ? null : (double[])siteGammas.Clone();
         rho = new Complex[n, n];
         hop = new double[n, n];
         foreach (var (a, b) in bonds ?? Topology.Chain(n)) { hop[a, b] = j; hop[b, a] = j; }

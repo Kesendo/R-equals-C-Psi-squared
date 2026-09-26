@@ -4,8 +4,9 @@ namespace MirrorWorld;
 // Each Pauli string is a fixed superposition of the bare pairs (Pair) at the same disagreement
 // count, so the two bases have equal size; the Pauli strings are the ones that also diagonalize the
 // mirror group. Its XY-weight k = n_X + n_Y IS the disagreement count (the only thing the watching
-// reads), rate Re lambda = -2*gamma*k. The diagonal mirrors {(-1)^n_Y, (-1)^n_Z} quarter a sector
-// into four equal Klein cells by (n_Y, n_Z) parity.
+// reads), rate Re lambda = -2*gamma*k. The diagonal mirrors {(-1)^n_Y, (-1)^n_Z} split an
+// interior sector (0 < k < N) into four equal Klein cells by (n_Y, n_Z) parity. At k=0 or k=N
+// one parity is fixed and only two cells are nonempty.
 public sealed class PauliMode : GameObject
 {
     public char[] Letters { get; }   // I / X / Y / Z per site
@@ -23,7 +24,7 @@ public sealed class PauliMode : GameObject
 
     public int K => Nx + Ny;                          // XY-weight = disagreement count
     public double Rate => -2.0 * Gamma * K;
-    public (int Y, int Z) Klein => (Ny % 2, Nz % 2);  // the quartering
+    public (int Y, int Z) Klein => (Ny % 2, Nz % 2);  // parity cell; edge sectors have two cells
 
     public override IReadOnlyList<string> Own => new[] { "letters", "k", "rate", "klein" };
 

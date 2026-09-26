@@ -21,4 +21,11 @@ public class TopologyTests
     {
         Assert.Equal(Topology.Chain(2).Length, Topology.Ring(2).Length);   // a 2-ring is just the one bond
     }
+
+    [Fact]
+    public void Named_RejectsUnknownGeometryInsteadOfComputingAChain()
+    {
+        Assert.Equal(Topology.Chain(4), Topology.Named("chain", 4));
+        Assert.Throws<ArgumentException>(() => Topology.Named("strar", 4));
+    }
 }

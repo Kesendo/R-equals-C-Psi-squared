@@ -21,8 +21,12 @@ public static class Redistribution
     // bare per-k = 2^N * C(N,k), the empty-world sector multiplicities.
     public static int[] Bare(int n)
     {
+        // The largest N=16 entry is 843,448,320; at N=17 the central count already
+        // exceeds Int32.MaxValue. Keep the adopted int-valued read within its domain.
+        if (n < 0 || n > 16)
+            throw new ArgumentOutOfRangeException(nameof(n), n, "bare multiplicities fit Int32 only for 0 <= N <= 16");
         var f = new int[n + 1];
-        for (int k = 0; k <= n; k++) f[k] = (1 << n) * (int)Block.Binomial(n, k);
+        for (int k = 0; k <= n; k++) f[k] = checked((1 << n) * (int)Block.Binomial(n, k));
         return f;
     }
 }

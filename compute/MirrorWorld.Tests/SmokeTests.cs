@@ -95,6 +95,38 @@ public class SmokeTests
         Assert.Equal(1L << (2 * n), total);
     }
 
+    [Fact]
+    public void Binomial_Keeps_Representable_Results_When_Intermediates_Exceed_Int64()
+    {
+        const long exact = 349_615_716_557_887_465L; // C(62,28), independent integer value
+        Assert.Equal(exact, Block.Binomial(62, 28));
+        Assert.Equal(exact, new Block(W, 62, 28, 0).Size);
+    }
+
+    [Fact]
+    public void Block_Counts_Refuse_Results_Outside_Int64()
+    {
+        Assert.Throws<OverflowException>(() => Block.Binomial(67, 33));
+        Assert.Throws<OverflowException>(() => _ = new Block(W, 35, 17, 17).Size);
+    }
+
+    [Fact]
+    public void Binomial_Agrees_With_Independent_BigInteger_Row_Through_N70()
+    {
+        for (int n = 0; n <= 70; n++)
+        {
+            System.Numerics.BigInteger exact = 1;
+            for (int k = 0; k <= n; k++)
+            {
+                if (exact <= long.MaxValue)
+                    Assert.Equal((long)exact, Block.Binomial(n, k));
+                else
+                    Assert.Throws<OverflowException>(() => Block.Binomial(n, k));
+                if (k < n) exact = exact * (n - k) / (k + 1);
+            }
+        }
+    }
+
     // --- the coherence horizon Q*(N) and the coherence hand omega_mem ---
     [Fact]
     public void Qstar_Exact()
@@ -310,8 +342,21 @@ public class SmokeTests
         Assert.Equal(1.0 / 3, Formulas.F60_GhzCPsi0(2), 10);
         Assert.Equal(1.0 / 7, Formulas.F60_GhzCPsi0(3), 10);
         Assert.Equal(1.0 / 15, Formulas.F60_GhzCPsi0(4), 10);                               // GHZ_4 below 1/4
+        Assert.Equal(Formulas.F18_GhzInitialCPsi(31), Formulas.F60_GhzCPsi0(31));
+        Assert.Equal(Formulas.F18_GhzInitialCPsi(32), Formulas.F60_GhzCPsi0(32));
+        Assert.Equal(Math.Pow(2.0, -1024), Formulas.F18_GhzInitialCPsi(1024));
+        Assert.Equal(Math.Pow(2.0, -1024), Formulas.F60_GhzCPsi0(1024));
+        Assert.Equal(double.Epsilon, Formulas.F60_GhzCPsi0(1074));
+        Assert.Equal(double.Epsilon, Formulas.F18_GhzInitialCPsi(1075));
+        Assert.Equal(double.Epsilon, Formulas.F60_GhzCPsi0(1075));
+        Assert.Equal(0.0, Formulas.F60_GhzCPsi0(1076));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F60_GhzCPsi0(0));
         Assert.Equal(1.0 / 3, Formulas.F62_WstateCPsi0(2), 10);                             // W_2 = Bell+, 1/3
         Assert.Equal(10.0 / 81, Formulas.F62_WstateCPsi0(3), 10);
+        double largeN = 46_341;
+        double wExpected = 2.0 / (3.0 * largeN) - 8.0 / (3.0 * largeN * largeN)
+            + 16.0 / (3.0 * largeN * largeN * largeN);
+        Assert.Equal(wExpected, Formulas.F62_WstateCPsi0((int)largeN), 12);
         Assert.Equal(1.080, Formulas.F59_DwellPrefactor(2, 0.5, 0.3709), 3);               // reduces to F57
     }
 
@@ -319,6 +364,9 @@ public class SmokeTests
     public void SingleExcitation_And_BlockStructure()
     {
         Assert.Equal(64L, Formulas.F63_BlockDim(4));                                        // 4^(N-1)
+        Assert.Equal(1L << 62, Formulas.F63_BlockDim(32));
+        Assert.Throws<OverflowException>(() => Formulas.F63_BlockDim(33));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F63_BlockDim(0));
         Assert.Equal((3, 2), Formulas.F63_ConservedPerSector(4));
         Assert.Equal((2, 1), Formulas.F63_ConservedPerSector(2));
         var a3 = Formulas.F65_SingleExcitationRates(3);
@@ -352,6 +400,10 @@ public class SmokeTests
         Assert.Equal(54, Formulas.F121_PairedCeiling(3, 2));                                // d=3: 54/81 partial
         Assert.Equal(9, Formulas.F121_CoherenceCount(3, 2, 0));
         Assert.Equal(36, Formulas.F121_CoherenceCount(3, 2, 1));
+        Assert.Equal((1L << 32) * 601_080_390L, Formulas.F121_CoherenceCount(2, 32, 16));
+        Assert.Throws<OverflowException>(() => Formulas.F121_CoherenceCount(2, 33, 16));
+        Assert.Equal(1L << 62, Formulas.F121_PairedCeiling(2, 31));
+        Assert.Throws<OverflowException>(() => Formulas.F121_PairedCeiling(2, 32));
         Assert.Equal(0.8, Formulas.F122_CompleteCeiling(5), 10);                            // K_5 = 4/5
         Assert.Equal(2.0 / 3, Formulas.F122_StarCeiling(7), 10);                            // star_7 = 4/6
         Assert.Equal(2 - 2 / Math.Sqrt(3), Formulas.F122_K4Ceiling(), 10);
@@ -368,6 +420,30 @@ public class SmokeTests
     public void HalfFillingSurvivor_Iff_Even(int n, bool expected)
     {
         Assert.Equal(expected, new Survivor(W, n).HasHalfFillingSurvivor);
+    }
+
+    // The full-generator floor crossing is a second event from N=4 onward. These values
+    // are the Q_h rows of CoherenceHorizonClaim, not the SE exceptional points Q*.
+    [Fact]
+    public void Survivor_Handover_Is_Distinct_From_The_Ep_At_N4_And_N5()
+    {
+        Assert.Equal(new Survivor(W, 2).Qstar, new Survivor(W, 2).HandoverQ!.Value);
+        Assert.Equal(new Survivor(W, 3).Qstar, new Survivor(W, 3).HandoverQ!.Value);
+
+        var n4 = new Survivor(W, 4);
+        var n5 = new Survivor(W, 5);
+        Assert.Equal(1.87854, n4.HandoverQ!.Value, 5);
+        Assert.Equal(2.37217, n5.HandoverQ!.Value, 5);
+        Assert.True(n4.HandoverQ < n4.Qstar);
+        Assert.True(n5.HandoverQ < n5.Qstar);
+        Assert.Null(new Survivor(W, 6).HandoverQ); // this object carries no later full-L census
+    }
+
+    [Fact]
+    public void BareMultiplicity_Refuses_The_First_Int_Overflow()
+    {
+        Assert.Equal(843_448_320, Redistribution.Bare(16)[8]);
+        Assert.Throws<ArgumentOutOfRangeException>(() => Redistribution.Bare(17));
     }
 
     // --- F85: the k-body residual trichotomy. c(truly)=0, c(Pi^2-odd)=1, c(Pi^2-even non-truly)=2;
@@ -400,9 +476,20 @@ public class SmokeTests
             Assert.Equal(odd, Formulas.F85_Pi2OddCount(k));                     // (3^k - (-1)^k)/2
         }
 
+        Assert.Equal(6_078_832_729_528_464_400L, Formulas.F85_Pi2OddCount(40));
+        Assert.Throws<OverflowException>(() => Formulas.F85_Pi2OddCount(41));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F85_Pi2OddCount(-1));
+
         Assert.Equal(4.0 * 32, Formulas.F85_ResidualNormSqPerTerm(5, 1.0, 1), 10);   // 4 c ||H||^2 2^N
         Assert.Equal(8.0 * 32, Formulas.F85_ResidualNormSqPerTerm(5, 1.0, 2), 10);
         Assert.Equal(0.0, Formulas.F85_ResidualNormSqPerTerm(5, 3.7, 0), 12);
+        Assert.Equal(Math.Pow(2.0, 65), Formulas.F85_ResidualNormSqPerTerm(63, 1.0, 1));
+        Assert.Equal(Math.Pow(2.0, 66), Formulas.F85_ResidualNormSqPerTerm(64, 1.0, 1));
+        Assert.Equal(0.0, Formulas.F85_ResidualNormSqPerTerm(1024, 1.0, 0));
+        Assert.Equal(0.0, Formulas.F85_ResidualNormSqPerTerm(1024, 0.0, 1));
+        double scaledExpected = 4e-300 * Math.Pow(2.0, 1000) * Math.Pow(2.0, 24);
+        double scaledActual = Formulas.F85_ResidualNormSqPerTerm(1024, 1e-300, 1);
+        Assert.InRange(scaledActual / scaledExpected, 1.0 - 1e-14, 1.0 + 1e-14);
     }
 
     static IEnumerable<string> Tuples(string alphabet, int k)

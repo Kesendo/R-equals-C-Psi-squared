@@ -42,6 +42,90 @@ public class RenewalTests
                 $"site {a}: renewal {p[a]} vs cone {cone.Population(a)}");
     }
 
+    // At gamma=0 the two-site chain is analytic: site 1 has sin^2(Jt), including off-grid t.
+    [Fact]
+    public void Renewal_Uses_The_Requested_Time_When_It_Is_Off_Grid()
+    {
+        const double tMax = 0.06;
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.0, seed: 0, dt: 0.1);
+
+        var p = renewal.Populations(tMax);
+        double expected = Math.Pow(Math.Sin(tMax), 2);
+
+        Assert.True(Math.Abs(p[1] - expected) < 1e-7,
+            $"site 1 at t={tMax}: renewal {p[1]} vs exact {expected}");
+    }
+
+    // With J=0 the seed never moves; a dose that makes the implicit trapezoid denominator
+    // near-singular must be refused instead of producing a population above one.
+    [Fact]
+    public void Renewal_Rejects_An_Underresolved_Refill_Dose()
+    {
+        var renewal = new Renewal(W, n: 2, j: 0.0, gamma: 0.5, seed: 0, dt: 0.9);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => renewal.Populations(0.9));
+    }
+
+    // At J=0 the exact population stays one. The trapezoid instead multiplies its total
+    // mass each step by exp(-dose)*(1+dose/2)/(1-dose/2); small local drift accumulates.
+    [Fact]
+    public void Renewal_Rejects_Accumulated_Refill_Drift()
+    {
+        var renewal = new Renewal(W, n: 2, j: 0.0, gamma: 0.5, seed: 0, dt: 0.2);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => renewal.Populations(100.0));
+    }
+
+    // For the two-site clean chain, an RK4 step at J*h=3 has amplitudes -1/8 and +3i/2.
+    // Their squared magnitudes sum to 2.265625, so the step is outside RK4 stability.
+    [Fact]
+    public void Renewal_Rejects_An_Unstable_Clean_Propagator_Step()
+    {
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.0, seed: 0, dt: 3.0);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => renewal.Populations(3.0));
+    }
+
+    // RK4 stability prevents growth, not a large norm deficit: at J*h=2.8 the two-site
+    // clean propagator retains only about 0.866 of the excitation after one step.
+    [Fact]
+    public void Renewal_Rejects_A_Large_Final_Mass_Deficit()
+    {
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.0, seed: 0, dt: 2.8);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => renewal.Populations(2.8));
+    }
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(-0.1)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void Renewal_Rejects_Nonpositive_Or_Nonfinite_Time_Step(double dt)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new Renewal(W, n: 2, j: 1.0, gamma: 0.0, seed: 0, dt: dt));
+    }
+
+    [Theory]
+    [InlineData(-0.1)]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    public void Renewal_Rejects_Negative_Or_Nonfinite_Requested_Time(double tMax)
+    {
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.0, seed: 0, dt: 0.1);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => renewal.Populations(tMax));
+    }
+
+    [Fact]
+    public void Renewal_At_Zero_Time_Is_The_Seed_Population()
+    {
+        var renewal = new Renewal(W, n: 2, j: 1.0, gamma: 0.5, seed: 1, dt: 0.1);
+
+        Assert.Equal(new[] { 0.0, 1.0 }, renewal.Populations(0.0));
+    }
+
     // the light moves weight around but loses none: the accounted populations stay a distribution.
     // The continuum ladder conserves exactly (the p = 0 pole of F126); the trapezoid grid conserves to
     // O(dt^2), so the pin is grid-limited and halving dt must shrink the drift by ~4 (checked below).

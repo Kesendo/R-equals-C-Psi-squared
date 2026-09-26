@@ -71,6 +71,16 @@ public class CyclotomyTests
     public void RingIsRationalExactlyAtNivenOrderRings(int n, bool expected)
         => Assert.Equal(expected, Cyclotomy.AllRational(Cyclotomy.RingOrders(n)));
 
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void RingOrders_RejectsGraphsWithoutAThreeSiteCycle(int n)
+    {
+        // Topology.Ring(2) has one bond, with levels +/-J. The k/N formula
+        // describes a cycle with distinct forward and wrap bonds, hence N >= 3.
+        Assert.Throws<ArgumentOutOfRangeException>(() => Cyclotomy.RingOrders(n));
+    }
+
     // The point the object exists to make: path and ring are different OWN outputs, so the same N
     // can be rational on one and not the other. A boundary condition is not a physics change, and
     // any reading that calls one of these 'rocks' and the other 'breaking' is reading our choice.

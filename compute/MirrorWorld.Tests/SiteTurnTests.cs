@@ -14,7 +14,7 @@ namespace MirrorWorldTests;
 // Two answers are pinned here and they are the arc's two questions. ON THE PROFILE the single turn
 // is unconditional, exact, an involution, and the N of them commute, so they generate
 // (Z/2)^|support|. ON THE RATE AXIS the turn has a shadow only when the profile restricted to its
-// NONZERO sites has distinct subset sums; uniform gamma is the extreme failure, where the rate sees
+// NONZERO sites has distinct subset sums for all turns jointly; uniform gamma is the extreme failure, where the rate sees
 // only how many sites disagree. And where the shadow exists it is PIECEWISE the identity and a
 // translation, so it is no reflection, and the dihedral <s, s0> does not grow to absorb it.
 //
@@ -28,6 +28,56 @@ namespace MirrorWorldTests;
 // rather than sweeping it.
 public class SiteTurnTests
 {
+    [Theory]
+    [InlineData(double.NaN)]
+    [InlineData(double.PositiveInfinity)]
+    [InlineData(double.NegativeInfinity)]
+    public void SiteTurn_Rejects_Nonfinite_Rates_Before_Exact_Scaling(double badRate)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new GammaFold(W, 2, siteGammas: new[] { 0.25, badRate }));
+    }
+
+    [Fact]
+    public void SiteTurn_Rejects_A_Profile_Of_The_Wrong_Length()
+    {
+        Assert.Throws<ArgumentException>(() => new GammaFold(W, 2, siteGammas: new[] { 0.25 }));
+    }
+
+    [Fact]
+    public void SiteTurn_Snapshots_The_Constructor_Profile()
+    {
+        var rates = new[] { 0.125, 0.25 };
+        var fold = new GammaFold(W, 2, siteGammas: rates);
+        rates[1] = 0.5;
+        Assert.Equal(0.375, fold.Sigma);
+    }
+
+    [Fact]
+    public void SiteTurn_Reports_The_Signed_Moving_Shift_For_Gain()
+    {
+        var report = new GammaFold(W, 1, siteGammas: new[] { -0.5 }).SiteTurnGroup();
+        Assert.True(report.DescendsToRateAxis);
+        Assert.Equal(2, report.PieceCount);
+        Assert.Equal(-2.0, report.PieceShift);
+    }
+
+    [Fact]
+    public void SiteTurn_Reports_A_Representable_Subnormal_Shift()
+    {
+        var report = new GammaFold(W, 1, siteGammas: new[] { double.Epsilon }).SiteTurnGroup();
+        Assert.True(report.DescendsToRateAxis);
+        Assert.Equal(4.0 * double.Epsilon, report.PieceShift);
+    }
+
+    [Fact]
+    public void SiteTurn_Group_Shift_Keeps_The_Largest_Magnitude_With_Its_Sign()
+    {
+        var report = new GammaFold(W, 2, siteGammas: new[] { 0.25, -0.5 }).SiteTurnGroup();
+        Assert.True(report.DescendsToRateAxis);
+        Assert.Equal(-2.0, report.PieceShift);
+    }
+
     static readonly World W = new();
 
     // dyadic AND with distinct subset sums: exact in binary, and the rate pins down the

@@ -32,6 +32,9 @@ public class RouterTests
             Assert.Equal(c * r + 1.0, r * r, 10);                            // the defining quadratic
             Assert.Equal(1.0 / r, Formulas.F116_MetallicMean(-c), 10);       // the reciprocal twin
         }
+        Assert.InRange(Formulas.F116_MetallicMean(-1e16) * 1e16, 0.999999999999999, 1.000000000000001);
+        Assert.InRange(Formulas.F116_MetallicMean(1e308) / 1e308, 0.999999999999999, 1.000000000000001);
+        Assert.True(Formulas.F116_MetallicMean(-double.MaxValue) > 0.0);
     }
 
     // each site map is a scalar times a unitary: q_l^2 = -(1+r^2) I (golden: -(2+phi) I), and it
