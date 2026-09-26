@@ -136,5 +136,13 @@ public class ConeTests
         cone.Seed(50);
         for (int t = 0; t < 10; t++) cone.Step(0.05);
         Assert.Equal(1.0, cone.Structure, 6);             // still a valid state at N=100
+        Assert.InRange(cone.Population(49), 0.01, 0.5);  // the large-N step actually moves the seed
+        Assert.InRange(cone.Population(51), 0.01, 0.5);
+
+        var nearEnd = new Cone(W, 100, 1.0, G);
+        nearEnd.Seed(95);                                // exercises sites beyond common low-index shortcuts
+        for (int t = 0; t < 10; t++) nearEnd.Step(0.05);
+        Assert.InRange(nearEnd.Population(94), 0.01, 0.5);
+        Assert.InRange(nearEnd.Population(96), 0.01, 0.5);
     }
 }

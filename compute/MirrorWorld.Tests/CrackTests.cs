@@ -59,6 +59,7 @@ public class CrackTests
     public void The_Characteristic_Polynomial_Is_The_Road_Exactly(int n, long p, long q)
     {
         var residual = Make(n, p, q).IdentityResidual();
+        Assert.Equal(n + 1, residual.Length); // All(empty) would certify nothing
         Assert.All(residual, c => Assert.True(c.IsZero, $"coefficient residual {c}"));
     }
 
@@ -266,7 +267,10 @@ public class CrackTests
         var c = Make(12, 1000000001, 1000000000);          // u - 1 = 1e-9
         Assert.Equal(2, c.Departures);
         Assert.Throws<InvalidOperationException>(() => c.DepartedLevels());
-        Assert.True(Make(12, 1000001, 1000000).DepartedLevels().All(e => Math.Abs(e) > 2.0));   // u - 1 = 1e-6 reads
+        var readable = Make(12, 1000001, 1000000);         // u - 1 = 1e-6 reads
+        var levels = readable.DepartedLevels();
+        Assert.Equal(readable.Departures, levels.Length);   // All(empty) would pass below
+        Assert.All(levels, e => Assert.True(Math.Abs(e) > 2.0));
     }
 
     // and at N = 200, u = 1000, where the first form overflowed, the reading simply returns

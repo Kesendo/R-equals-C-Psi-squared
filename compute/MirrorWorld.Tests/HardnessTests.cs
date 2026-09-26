@@ -37,11 +37,26 @@ public class HardnessTests
     [Fact]
     public void Truly_Forces_YPar_Zero_Under_Every_Dephase_Letter()
     {
+        // The X book must not silently be replaced by the Z/Y book: these words split them.
+        Assert.True(Hardness.Truly("XXZ".ToCharArray(), 'X'));
+        Assert.False(Hardness.Truly("XXZ".ToCharArray(), 'Z'));
+        Assert.False(Hardness.Truly("XXZ".ToCharArray(), 'Y'));
+        Assert.False(Hardness.Truly("XZZ".ToCharArray(), 'X'));
+        Assert.True(Hardness.Truly("XZZ".ToCharArray(), 'Z'));
+        Assert.True(Hardness.Truly("XZZ".ToCharArray(), 'Y'));
         foreach (int k in new[] { 3, 4 })
-            foreach (var letters in Tuples("IXYZ", k))
-                foreach (char d in "ZXY")
+            foreach (char d in "ZXY")
+            {
+                int trulyCount = 0;
+                foreach (var letters in Tuples("IXYZ", k))
                     if (Hardness.Truly(letters.ToCharArray(), d))
+                    {
+                        trulyCount++;
                         Assert.Equal(0, letters.Count(c => c == 'Y') % 2);
+                    }
+                // Two even-count constraints over IXYZ leave 4^(k-1) + 2^(k-1) words.
+                Assert.Equal((1 << (2 * k - 2)) + (1 << (k - 1)), trulyCount);
+            }
     }
 
     // F109: the mother sector's soft side is y_par = 1 pure. In Klein (0,0) the three letter
@@ -130,13 +145,22 @@ public class HardnessTests
         Assert.Equal(300, 24 * 25 / 2);
         // pure-D templates carry y_par(D) by construction (the Y-inversion's k=4 mechanism)
         foreach (char d in "ZXY")
+        {
+            int pureCount = 0, diagonalCount = 0;
             foreach (var s in Tuples("IXYZ", 4))
             {
                 var letters = s.ToCharArray();
                 if (!Hardness.IsPureTemplate(letters, d)) continue;
+                pureCount++;
                 if (Hardness.Cube(letters) is var (a, b, y) && (a, b) == Hardness.DiagonalCell(d))
+                {
+                    diagonalCount++;
                     Assert.Equal(d == 'Y' ? 1 : 0, y);
+                }
             }
+            Assert.Equal(15, pureCount);                // nonempty words over {I,D}: 2^4 - 1
+            Assert.Equal(8, diagonalCount);            // odd D-count words in the diagonal cell
+        }
     }
 
     // F117, the cell-free m = 3 face: for H = Z_0 (a bare single-site-Z component, c_0 = 1) the

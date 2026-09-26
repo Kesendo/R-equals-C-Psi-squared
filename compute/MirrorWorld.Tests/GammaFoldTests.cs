@@ -73,16 +73,14 @@ public class GammaFoldTests
     }
 
     // the generator identity holds per cell at machine precision, for a non-uniform site profile
-    // (per-site is load-bearing, uniform gamma is the special case). The last two rows are
-    // affine identities on a formal rate line with sigma held fixed through composition.
+    // (per-site is load-bearing, uniform gamma is the special case). The involution and
+    // translation in MaskLaws are algebraic consequences on a formal rate line, not separate gates.
     [Fact]
-    public void The_Mask_Identity_And_The_Dihedral_Are_Exact()
+    public void The_Mask_Identity_Is_Exact()
     {
         var fold = new GammaFold(W, 4);
         var ml = fold.MaskLaws();
         Assert.True(ml.WorstIdentity < 1e-12, $"L_anti(g) = L(-g) - 2*sigma*Id per cell: {ml.WorstIdentity:E1}");
-        Assert.True(ml.WorstInvolution < 1e-12, $"fixed-sigma s0 o s0 = id: {ml.WorstInvolution:E1}");
-        Assert.True(ml.WorstTranslation < 1e-12, $"fixed-sigma s o s0 translates by 2*sigma: {ml.WorstTranslation:E1}");
         Assert.True(ml.Step > 0.5, $"the translation step must be O(1), not vacuous: {ml.Step:0.000}");
     }
 

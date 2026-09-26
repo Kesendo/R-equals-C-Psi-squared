@@ -125,8 +125,7 @@ public class ConcentratorTests
                       - SlopeLnR(Arm(5, 2, 0, 1.0), Arm(5, 2, null, 1.0));
         double diffXY = SlopeLnR(Arm(5, 2, 2, 0.0), Arm(5, 2, null, 0.0))
                       - SlopeLnR(Arm(5, 2, 0, 0.0), Arm(5, 2, null, 0.0));
-        Assert.True(Math.Abs(diffZZ - diffXY) < 5e-4,
-            $"ZZ should barely move the contrast: zz={diffZZ:F6} xy={diffXY:F6}");
+        Assert.InRange(Math.Abs(diffZZ - diffXY), 1e-6, 5e-4); // small but nonzero ZZ effect
     }
 
     // ---- the bonus: the contrast persists past the N=8 spectrum wall ------------------------------

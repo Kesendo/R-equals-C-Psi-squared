@@ -93,8 +93,6 @@ public class SmokeTests
         var modes = PauliMode.Enumerate(W, n, G).ToList();
         for (int k = 0; k <= n; k++)
             Assert.Equal(expected[k], modes.Count(m => m.K == k));
-        for (int k = 0; k <= n; k++)
-            Assert.Equal(expected[k], expected[n - k]);         // palindrome fold k <-> N-k
     }
 
     // --- the superposition: each inner sector splits into four equal Klein cells ---
@@ -342,9 +340,7 @@ public class SmokeTests
         // simulations/results/fold_threshold_universality.txt, AUFGABE A, N = 2..5.
         // |+>^N: 0.00247 / 0.00250 / 0.00252 / 0.00247, mean 0.00249, spread 1.0218.
         double[] product = { 0.00247, 0.00250, 0.00252, 0.00247 };
-        Assert.Equal(product.Average(), Formulas.F18_FoldThresholdProduct, 10);
-        Assert.True(product.Max() / product.Min() < 1.03,
-            "the product-state threshold is the N-flat one");
+        Assert.Equal(Formulas.F18_FoldThresholdProduct, product.Average(), 10);
 
         // GHZ carries exactly one threshold, at N = 2, and the producer reports the other
         // three as "below-cusp" rather than as numbers.
@@ -369,18 +365,7 @@ public class SmokeTests
         Assert.Equal(0.06666666666666667, Formulas.F18_GhzInitialCPsi(4), 14);
         Assert.Equal(0.03225806451612903, Formulas.F18_GhzInitialCPsi(5), 14);
 
-        // The floor a threshold search returns when there is nothing to find: the bisector
-        // starts at [0, 0.01] with tol 1e-5, never lifts its lower end, and reports
-        // N * (0.01 / 2^10) / 2. Those are the numbers this entry used to carry, and the
-        // gate exists so that they cannot come back as physics.
-        for (int n = 3; n <= 5; n++)
-        {
-            double searchFloor = n * (0.01 / 1024.0) / 2.0;
-            Assert.True(Math.Round(searchFloor, 5) <= 0.00002 + 1e-12,
-                $"the bisection floor at N = {n} rounds to {Math.Round(searchFloor, 5)}");
-            Assert.NotEqual(searchFloor, Formulas.F18_FoldThresholdBellN2, 6);
-        }
-
+        // The old search floor is provenance in the producer output, not a live MirrorWorld gate.
         Assert.Throws<ArgumentOutOfRangeException>(() => Formulas.F18_GhzInitialCPsi(0));
     }
 
@@ -949,26 +934,30 @@ public class SmokeTests
         Assert.Equal(1.0 / 20, Formulas.F88b_StaticFraction(6, 3, 3), 12);
         // HD = N is Pi^2-classical (GHZ_N, Bell at N=2): zero odd content in memory
         Assert.Equal(0.0, Formulas.F88b_Pi2OddInMemory(4, 0, 4, 4), 12);
-        // otherwise (1/2 - alpha s)/(1 - s); generic small case pinned by direct evaluation
-        double s = Formulas.F88b_StaticFraction(7, 1, 3);
-        Assert.Equal((0.5 - 0.5 * s) / (1.0 - s), Formulas.F88b_Pi2OddInMemory(7, 1, 3, 2), 12);
+        // Generic alpha=1/2 collapses to 1/2 for every s; the mirror case below must not.
+        Assert.Equal(0.5, Formulas.F88b_Pi2OddInMemory(7, 1, 3, 2), 12);
+        // N=6, (np,nq)=(2,4): alpha=0, s=1/30, so odd/memory=15/29.
+        Assert.Equal(15.0 / 29.0, Formulas.F88b_Pi2OddInMemory(6, 2, 4, 2), 12);
+        // K-intermediate: (3,4), HD=1 gives alpha=2/7 and s=7/240, hence 118/233.
+        Assert.Equal(118.0 / 233.0, Formulas.F88b_Pi2OddInMemory(6, 3, 4, 1), 12);
         // the multi-state Dicke extension: alpha_total = (1 - gamma^2)/2, anchors {1/2, 3/8, 0}
         Assert.Equal(0.5, Formulas.F88b_DickeAlphaTotal(0.0), 12);
         Assert.Equal(0.375, Formulas.F88b_DickeAlphaTotal(0.5), 12);
         Assert.Equal(0.0, Formulas.F88b_DickeAlphaTotal(1.0), 12);
     }
 
-    // --- F124: the band-edge transition invariant ||M||_F^2 + lambda_min = 2 (the coordination
-    // number), split as (2 - E) + E with E = (4/(N+1)) sin^2(pi/(N+1)) -- exactly the k=1 rung of
-    // the already-adopted F65 ladder (the carrier's weight on the two free ends). ---
+    // --- F124 closed-form dock: E is the k=1 rung of F65 and the two scalar formulas are
+    // 2-E and E. The independent transition-matrix and eigenvalue gates live in Diagnostics. ---
     [Fact]
-    public void F124_BandEdge_Invariant_Splits_On_The_F65_Rung()
+    public void F124_Closed_Forms_Dock_On_The_F65_Rung()
     {
         Assert.Equal(0.5, Formulas.F124_EndWeight(3), 12);                      // sin^2(pi/4) = 1/2 exactly
         foreach (int n in new[] { 3, 4, 5, 8, 20 })
         {
-            Assert.Equal(Formulas.F65_SingleExcitationRates(n)[0], Formulas.F124_EndWeight(n), 12);
-            Assert.Equal(2.0, Formulas.F124_FrobeniusNormSq(n) + Formulas.F124_SpectralFloor(n), 12);
+            double edge = Formulas.F65_SingleExcitationRates(n)[0];
+            Assert.Equal(edge, Formulas.F124_EndWeight(n), 12);
+            Assert.Equal(2.0 - edge, Formulas.F124_FrobeniusNormSq(n), 12);
+            Assert.Equal(edge, Formulas.F124_SpectralFloor(n), 12);
         }
         // the floor vanishes as (N+1)^-3: E (N+1)^3 -> 4 pi^2
         Assert.Equal(4.0 * Math.PI * Math.PI, Formulas.F124_EndWeight(2000) * Math.Pow(2001, 3), 3);

@@ -123,6 +123,11 @@ public class RestlessTests
         r.Step(0.05);
         Assert.True(r.Novelty > 0.0);                   // still born; the cut only skipped the forbidden cells
         Assert.Equal(1.0, r.Structure, 10);             // trace still held
+        Assert.Equal(4, r.AliveCount);
+        for (int i = 0; i < r.Dim; i++)
+            for (int j = 0; j < r.Dim; j++)
+                if (i is not (1 or 2) || j is not (1 or 2))
+                    Assert.Equal(Complex.Zero, r[i, j]);
     }
 
     // the geometry shapes the dynamics but not the cut: every excitation-conserving handshake shares the

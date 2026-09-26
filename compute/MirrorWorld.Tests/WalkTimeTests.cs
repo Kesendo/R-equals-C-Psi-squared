@@ -52,14 +52,23 @@ public class WalkTimeTests
             Assert.InRange(dt[i], -0.0510, -0.0468);          // the committed -0.0488..-0.0491
     }
 
-    // On the default simple chain, SetBond overwrites that one pair's total coupling symmetrically.
+    // Two disconnected pairs let the edited pair move faster while the untouched pair keeps J=1.
     [Fact]
     public void SetBond_Edits_One_Bond_Only()
     {
-        var cone = new Cone(W, 6, 1.0, 0.0);
-        cone.SetBond(2, 3, 1.10);
-        cone.Seed(0);
-        cone.Step(0.05);
-        Assert.Equal(1.0, cone.Structure, 9);                 // still trace-preserving with the defect
+        static Cone Run(int seed)
+        {
+            var cone = new Cone(W, 4, 1.0, 0.0, bonds: new[] { (0, 1), (2, 3) });
+            cone.SetBond(2, 3, 1.10);
+            cone.Seed(seed);
+            cone.Step(0.01);
+            return cone;
+        }
+
+        var untouched = Run(0);
+        var edited = Run(2);
+        Assert.Equal(Math.Pow(Math.Sin(0.01), 2), untouched.Population(1), 8);
+        Assert.Equal(Math.Pow(Math.Sin(0.011), 2), edited.Population(3), 8);
+        Assert.Equal(1.0, edited.Structure, 9);
     }
 }
