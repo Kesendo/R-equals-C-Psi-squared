@@ -45,7 +45,7 @@ import numpy as np
 sys.path.insert(0, __file__.replace("\\", "/").rsplit("/", 1)[0])
 from bridge_sector import SectorPropagator, bit, build_h, mediator_bridge
 
-PRIMES = ((1 << 31) - 1, (1 << 61) - 1)     # two, so the rank is not one-sided
+PRIMES = ((1 << 31) - 1, (1 << 61) - 1)     # two reductions; both can understate rational rank
 
 
 # ----------------------------------------------------------------------
@@ -259,7 +259,7 @@ def run_support(n=11):
 
 
 # ----------------------------------------------------------------------
-# run 3: the exact blind dimension
+# run 3: modular blind counts against the exact uniform-chain law
 # ----------------------------------------------------------------------
 
 def build_h_int(n, bonds, states, index):
@@ -269,7 +269,7 @@ def build_h_int(n, bonds, states, index):
     for col, s in enumerate(states):
         for (a, b, j) in bonds:
             ja = int(j)
-            assert ja == j, "integer J required for the exact rank"
+            assert ja == j, "integer J required for the modular rank"
             ba, bb = bit(s, a, n), bit(s, b, n)
             h[col][col] += ja * (1 - 2 * ba) * (1 - 2 * bb)
             if ba != bb:
@@ -323,8 +323,8 @@ def blind_dim(n, bonds, popcount, sites, p=PRIMES[0]):
     understates the Krylov space.
 
     One prime gives rank_p <= rank_Q, so the returned dimension is an UPPER bound
-    for that prime alone.  `run_dimension` therefore repeats every value at a
-    second prime; agreement is the certificate.
+    on rational blindness.  `run_dimension` repeats values at a second prime
+    to catch some bad reductions; agreement alone is not an exact certificate.
     """
     states, index = sector(n, popcount)
     h = build_h_int(n, bonds, states, index)
@@ -354,27 +354,27 @@ def mode_set(n, j):
 
 
 def run_dimension(n_max=21):
-    print("Exact blind dimension per site, uniform chain, single-excitation states.")
-    print("Every value computed at TWO primes; agreement certifies the rank, since")
-    print("one prime alone can only overstate it.")
+    print("Modular blind-dimension reads per site, uniform chain, single excitation.")
+    print("Two-prime agreement checks reductions; the analytic node law supplies")
+    print("the exact uniform-chain value, since either prime can overstate it.")
     print()
     print("closed form:  dim = (gcd(2j+1, N) - 1) / 2")
     print()
     bad_form, bad_prime = [], []
     for n in range(3, n_max + 1):
         bonds = chain(n, 1)
-        exact = [blind_dim(n, bonds, 1, [j], PRIMES[0]) for j in range(n)]
+        first = [blind_dim(n, bonds, 1, [j], PRIMES[0]) for j in range(n)]
         second = [blind_dim(n, bonds, 1, [j], PRIMES[1]) for j in range(n)]
         pred = [(gcd(2 * j + 1, n) - 1) // 2 for j in range(n)]
-        if exact != pred:
+        if first != pred:
             bad_form.append(n)
-        if exact != second:
+        if first != second:
             bad_prime.append(n)
-        mirror = all(exact[j] == exact[n - 1 - j] for j in range(n))
-        print(f"  N = {n:>2}  {'ok ' if exact == pred else 'BAD'}  "
-              f"mirror {str(mirror):5s}  {exact}")
+        mirror = all(first[j] == first[n - 1 - j] for j in range(n))
+        print(f"  N = {n:>2}  {'ok ' if first == pred else 'BAD'}  "
+              f"mirror {str(mirror):5s}  {first}")
     print()
-    print(f"  closed form holds at every site, N = 3..{n_max}: {not bad_form}")
+    print(f"  modular rows match the closed form, N = 3..{n_max}: {not bad_form}")
     print(f"  the two primes agree everywhere:                 {not bad_prime}")
 
     print()
@@ -517,12 +517,10 @@ def run_branch(n=11):
     print("   'purity protects' is the wrong label; the support does.")
 
     print()
-    print("C. a scope defect in PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md")
-    print("   Its theorem line (:22) and scope block (:110) say 'arbitrary")
-    print("   site-dependent rates gamma_k >= 0', while Step 2(a) (:68) needs")
-    print("   gamma_k > 0 at EVERY site.  Under the wider reading the theorem")
-    print("   claims each diagonal sector block converges to P_w / d_w.  It does")
-    print("   not, and the blind state is the counterexample:")
+    print("C. sparse-support control for PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md")
+    print("   The theorem requires gamma_k > 0 at EVERY site.  This run lies")
+    print("   outside that scope: the blind initial state does not converge")
+    print("   to P_w / d_w under centre-only dephasing:")
     anti = np.outer(a, a.conj())
     g = [0.0] * n
     g[f] = 0.5
@@ -641,10 +639,9 @@ def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
     part (b)).  That hypothesis is sufficient but not necessary, and this run
     measures the gap it leaves.
 
-    Every support is run at two times, because a single snapshot cannot tell a
-    plateau from slow convergence: a support that merely converges slowly falls
-    by decades between them, and the one that fails does not move at all.  The
-    verdict column is therefore a ratio and not a threshold.
+    Every support is run at two times.  The ratio distinguishes the observed
+    residual plateau from rows falling by decades on this finite horizon; two
+    snapshots do not establish an asymptotic limit.
 
     Full Hilbert space, not a sector: the predicted limit mixes every popcount,
     so the state is propagated whole.  |+>^N is used because it puts weight in
@@ -685,8 +682,8 @@ def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
     print()
     t0, t1 = times
     print(f"  {'dephasing support':<24} {'blind dim':>9} {'dev at t=' + str(int(t0)):>16}"
-          f" {'dev at t=' + str(int(t1)):>16} {'ratio':>9} {'verdict':>8}")
-    failing = []
+          f" {'dev at t=' + str(int(t1)):>16} {'ratio':>9} {'finite read':>11}")
+    plateau_cases = []
     for sup in ([0, 1, 2, 3, 4], [0, 1, 2, 3], [1, 2, 3], [0, 2, 4],
                 [0, 4], [1, 3], [0], [2]):
         g = [0.0] * n
@@ -696,25 +693,23 @@ def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
         rho1 = run_to(g, t1)
         b = np.abs(rho1 - pred).max()
         ratio = a / b if b > 0 else float("inf")
-        # a decaying residual shrinks by decades; a plateau does not move
-        verdict = "holds" if ratio > 10.0 or b < 1e-14 else "FAILS"
-        if verdict == "FAILS":
-            failing.append((sup, rho1))
+        # This classifies two sampled residuals, not their asymptotic limit.
+        finite_read = "at floor" if b < 1e-14 else ("falling" if ratio > 10.0 else "plateau")
+        if finite_read == "plateau":
+            plateau_cases.append((sup, rho1))
         print(f"  {str(sup):<24} {len(set.intersection(*[mode_set(n, j) for j in sup])):>9}"
-              f" {a:>16.3e} {b:>16.3e} {ratio:>9.1e} {verdict:>8}")
+              f" {a:>16.3e} {b:>16.3e} {ratio:>9.1e} {finite_read:>11}")
     print()
-    print("  Two discriminators, and the printed verdict uses whichever applies:")
-    print("  a residual still above machine level must FALL by decades between")
-    print("  the two times (ratio > 10); one already at machine level (< 1e-14,")
-    print("  which is the N*eps floor of this grid) is done and its ratio is")
-    print("  meaningless.  Three rows pass by the second test, not the first.")
-    print("  The all-sites row's 1e-176 is denormal underflow of e^(-2 gamma t),")
-    print("  reported as printed and not a precision claim.")
+    print("  These labels describe only the two sampled times: a residual falls")
+    print("  by >10, sits below the 1e-14 grid floor, or stays on a plateau.")
+    print("  None is by itself an asymptotic convergence certificate.")
+    print("  The all-sites row's 1e-176 is a tiny exponential tail, reported")
+    print("  as printed and not as a precision claim.")
 
-    if failing:
+    if plateau_cases:
         print()
-        print("  The failing support does not fail to converge.  It converges to a")
-        print("  FINER attractor, and the reason is one commutator.")
+        print("  The centre-only support stays off the per-popcount mixed reference")
+        print("  at both sampled times.  One commutator identifies an extra invariant.")
         print()
         mir = [int(format(bb, "0%db" % n)[::-1], 2) for bb in range(d)]
         perm = np.zeros((d, d))
@@ -729,10 +724,10 @@ def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
         print("  M is the site reversal.  Z_k commutes with it only at the")
         print("  mirror-fixed seat, so ONLY a support inside the fixed set leaves")
         print("  the parity projectors conserved, which is an extra constant of")
-        print("  motion the theorem does not know about.  The attractor is then")
-        print("  maximally mixed per (popcount, mirror-parity) block instead of")
-        print("  per popcount sector, and the mirror-odd block is exactly the")
-        print("  blind subspace counted above.")
+        print("  motion.  Conservation alone does not imply mixing WITHIN parity")
+        print("  blocks: the N=5 popcount-1 odd block evolves unitarily under")
+        print("  centre-only dephasing.  The reference below is a candidate for")
+        print("  this |+>^N preparation, not a universal attractor.")
         print()
         proj = {}
         for w, idx in sector_idx.items():
@@ -759,18 +754,21 @@ def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
         refined = np.zeros((d, d), dtype=complex)
         for key, pr_ in proj.items():
             refined += np.trace(pr_ @ rho0).real * pr_ / np.trace(pr_).real
-        for sup, rho1 in failing:
+        odd_initial = sum(np.trace(pr_ @ rho0).real
+                          for (w, sgn), pr_ in proj.items() if sgn == -1)
+        print(f"  Initial mirror-odd weight: {odd_initial:.3e}")
+        for sup, rho1 in plateau_cases:
             print(f"    support {sup}:")
-            print(f"      |limit - maximally mixed per popcount sector|"
+            print(f"      |state(t={t1:g}) - per-popcount mixed reference|"
                   f"            = {np.abs(rho1 - pred).max():.3e}")
-            print(f"      |limit - maximally mixed per (popcount, parity) block|"
+            print(f"      |state(t={t1:g}) - per-(popcount, parity) candidate|"
                   f" = {np.abs(rho1 - refined).max():.3e}")
         print()
-        print("  So the conclusion is not merely lost, it is refined, and the")
-        print("  deviation is exact rather than approximate: at N = 5 the centre")
-        print("  seat gains exactly 1/48 of population, the four others lose")
-        print("  exactly 1/192 each, and 5/192 survives as coherence between the")
-        print("  mirror-partner sites 0-4 and 1-3.")
+        print("  The candidate reference differs exactly from the per-popcount")
+        print("  reference: at N = 5 the centre gains 1/48 of population, the")
+        print("  four others lose 1/192 each, and 5/192 sits in the mirror-")
+        print("  partner coherences 0-4 and 1-3.  The finite-time state is close")
+        print("  to that candidate for this preparation only.")
 
 
 def main():

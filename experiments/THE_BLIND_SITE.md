@@ -4,6 +4,7 @@
 **Authors:** Thomas Wicht, Claude (Anthropic)
 **Script:** [`simulations/blind_site.py`](../simulations/blind_site.py), which imports its propagator from [`simulations/bridge_sector.py`](../simulations/bridge_sector.py)
 **Data:** [`simulations/results/blind_site/blind_site_run.txt`](../simulations/results/blind_site/blind_site_run.txt)
+**Scope of its `scope` row:** the tracked stdout is the original run record. Its printed claims of general convergence and a maximally mixed limit per parity block are too wide; the numerical row at t = 400 concerns only the reflection-even `|+⟩^5` preparation. §6 gives the current boundary.
 **Second script (§7 only):** [`simulations/blind_seat_mi_sweep.py`](../simulations/blind_seat_mi_sweep.py), parts `gate | sweep | algebra | support | zeno | converge`
 **Second data file:** [`simulations/results/blind_site/blind_seat_mi_sweep.txt`](../simulations/results/blind_site/blind_seat_mi_sweep.txt)
 **Third script (§5 only):** [`simulations/seat_pencil.py`](../simulations/seat_pencil.py), parts `pencil | dim | fence`, exact over ℚ with no eigensolver; run committed at [`seat_pencil_run.txt`](../simulations/results/blind_site/seat_pencil_run.txt)
@@ -684,19 +685,22 @@ This page's state is one reason the γ half cannot simply be widened to
 γ_k ≥ 0: γ = 0.5 on site 5 alone, run to t = 200, leaves max |ρ − I/N| = 0.268
 at purity 0.999998, so that diagonal sector block does not reach P_w/d_w.
 
-The hypothesis is sufficient rather than necessary, and where it fails the
-attractor **refines rather than dissolves**. The mechanism is one commutator:
-with M the site reversal, Z_k commutes with M only at the reflection-fixed seat
-(measured 0 there against 2 at every other seat of an N = 5 chain), so a support
-inside that fixed set leaves the two parity projectors conserved. Those are
-constants of motion beyond the N+1 sector populations, and the limit is then
-maximally mixed per **(popcount, parity)** block instead of per popcount sector.
-At N = 5 with γ on seat 2 alone: distance to the per-sector limit 2.604·10⁻²,
-distance to the per-parity-block limit 4.0·10⁻¹⁰ (`blind_site.py scope`). The
-deviation is exact rather than approximate, which is what says it is structure:
-the centre seat gains exactly 1/48 of population, the four others lose exactly
-1/192 each, and 5/192 survives as coherence between the reflection-partner
-sites. The conserved parity-odd block is exactly this page's blind subspace.
+The full-support hypothesis is sufficient; sparse support needs its own
+convergence analysis. With M the site reversal,
+Z_k commutes with M only at the reflection-fixed seat (measured 0 there against
+2 at every other seat of an N = 5 chain), so a support inside that fixed set
+leaves the two parity projectors conserved. Those constants of motion go beyond
+the N+1 sector populations. For the particular reflection-even preparation
+|+⟩^5, the `blind_site.py scope` state at t = 400 has maximum entrywise difference
+2.604·10⁻² from the per-sector mixed reference and 4.0·10⁻¹⁰ from the
+per-(popcount, parity) mixed candidate. The two references differ exactly by +1/48 at the centre population,
+−1/192 at each other site and 5/192 in the reflection-partner coherence.
+That input has zero odd-parity weight and does not test mixing within the odd
+block. In fact, at N = 5 the popcount-1 odd block is two-dimensional, the
+centre Z jump is I on it, and H acts nontrivially: a pure state there remains
+pure and can oscillate forever. Parity conservation therefore does not imply a
+maximally mixed limit per parity block. The exact block counterexample and test
+are in [the operator-pair view comparison](OPERATOR_PAIR_VIEW_COMPARISON.md).
 
 ## 7. The two mediator-inertness findings, and how they stand
 
@@ -1113,12 +1117,13 @@ What is still open:
   mutual information. A third candidate, the spectral gap, is named in an
   untracked design spec under `docs/superpowers/` and untried on this
   comparison.
-- Whether every failure of the asymptotic sector projection's all-sites
-  hypothesis **refines** the way §6's does, under some graph automorphism whose
-  fixed set contains the dephasing support. At N = 5 the one failing support is
-  exactly the reflection-fixed seat and the refined limit is exact, but that is
-  one instance on one graph. Settling it would turn an all-sites hypothesis into
-  a statement about which symmetries the support leaves alive.
+- Which sparse supports and preparations have a pointwise asymptotic limit, and
+  what that limit is. At N = 5 a reflection-fixed dephasing seat conserves
+  parity, and the reflection-even `|+⟩^5` state in §6 is near a per-parity
+  mixed candidate at t = 400. The two-dimensional odd
+  single-excitation block instead supports pure, nonstationary unitary motion
+  and no pointwise limit. An automorphism fixing the support supplies conserved
+  projectors; mixing within their blocks needs a separate condition.
 - `review/OBC_SINE_BASIS_FINDINGS.md` asserted for four months that Heisenberg
   single-excitation eigenvalues "do not follow any simple cos formula" while its
   own tabulated N = 3 row, (−4, 0, 2), is λ_k = 4cos(kπ/N) + N − 5 exactly. It

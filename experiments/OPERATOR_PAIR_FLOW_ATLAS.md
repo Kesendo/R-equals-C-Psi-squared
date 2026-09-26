@@ -19,7 +19,7 @@ grünen Rückkehrkurve an Site 1.
 | [Absorption theorem](../docs/proofs/PROOF_ABSORPTION_THEOREM.md) | Für `|A⟩⟨B|` ist die direkte dissipative Diagonale `−2 Σ_l γ_l [A_l≠B_l]`. Ein Knotenwert ist **keine** Eigenmoden-Zerfallsrate. |
 | [JointPopcountSectors](../compute/RCPsiSquared.Core/BlockSpectrum/JointPopcountSectors.cs) und [Direct-sum decomposition](../docs/proofs/DIRECT_SUM_DECOMPOSITION.md) | Zahlenerhaltung schließt die `(1,1)`-Operatoren zu einem Block der Größe `N²`; diese Reduktion gehört bereits dem Repo. |
 | [The flow endpoints](../simulations/the_flow_endpoints.py) | Baut den `(1,1)`-Block für den gleichförmigen XY-Fall bereits auf. Dieser Versuch zeichnet zusätzlich die ZZ-Knotenphasen, ortsabhängige `γ_l` und ein festes Ein-/Ausgabesignal. |
-| [MirrorWorld](../compute/MirrorWorld/README.md) und [F157](../docs/ANALYTICAL_FORMULAS.md#f157) | `Cone` nutzt den Ein-Anregungsraum; F157 zählt die Dunkelheit eines Sitzes unter dem **Hamiltonian-Krylovraum**. Der hier ermittelte Hankel-Rang gehört dagegen zum vollständigen dissipativen **Skalarsignal** und ist kein neuer F157-Wert. |
+| [MirrorWorld](../compute/MirrorWorld/README.md) und [F157](../docs/ANALYTICAL_FORMULAS.md) | `Cone` nutzt den Ein-Anregungsraum; F157 zählt die Dunkelheit eines Sitzes unter dem **Hamiltonian-Krylovraum**. Der hier ermittelte Hankel-Rang gehört dagegen zum vollständigen dissipativen **Skalarsignal** und ist kein neuer F157-Wert. |
 
 Gesichtet wurden außerdem die [Experiment-Übersicht](README.md), die [Begriffskarte](../docs/quantum/THE_LABEL_MAP.md), die Claims/Witnesses und die Confirmations-Oberflächen. Dieser lokale Versuch wird weder als neuer Claim noch als Hardware-Confirmation eingetragen.
 
@@ -82,4 +82,4 @@ python simulations/operator_pair_flow_atlas.py
 
 Der zweite Befehl schreibt die [maschinelle Ergebnisdatei](../simulations/results/operator_pair_flow_atlas/operator_pair_flow_atlas.json) und die oben gezeigte Grafik. Der [Produzent](../simulations/operator_pair_flow_atlas.py) hält die Parameter und den vollständigen Rechenweg fest.
 
-**Nächster prüfbarer Schritt:** Für vorab festgelegte weitere Ratenprofile und Präparation/Readout-Paare ermitteln, ob sich ein kleiner Skalarsignalrang stabil zeigt; gegen die bereits bekannten Symmetrie- und Blindheitsmechanismen des Repos abgleichen. Ein numerischer Gewinn gegenüber den vorhandenen Blocksolverpfaden ist noch nicht gemessen.
+**Fortsetzung:** Der [Vergleich weiterer Ratenprofile und Ein-/Ausgabepaare](OPERATOR_PAIR_VIEW_COMPARISON.md) stellt exakte Rangkarten für `N=3,4,5` einem Hilbertraum-Paritätsfluss gegenüber. Ein numerischer Gewinn gegenüber den vorhandenen Blocksolverpfaden ist nicht gezeigt.

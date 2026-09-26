@@ -1,6 +1,6 @@
-# Sector Projection Formula: p_w(∞) = Tr(P_w ρ_0)
+# Sector Projection Formula: p_w(t) = Tr(P_w ρ_0)
 
-**Status:** Theorem (proved and verified for 9 initial states at N=5).
+**Status:** Theorem for sector populations at every time (proved and verified for 9 initial states at N=5). A formula for the full asymptotic state requires the separate full-support hypotheses of the linked proof.
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/three_values.py` (Track B)
@@ -10,11 +10,11 @@
 
 ## Statement
 
-For any initial state ρ_0 evolving under the Heisenberg + Z-dephasing Lindblad equation, the asymptotic population of excitation sector w is:
+For any initial state ρ_0 evolving under the Heisenberg + Z-dephasing Lindblad equation, the population of excitation sector w at every time is:
 
-    p_w(∞) = Tr(P_w ρ_0)
+    p_w(t) = Tr(P_w ρ_0)
 
-where P_w = Σ_{i: popcount(i)=w} |i⟩⟨i| is the projector onto the w-excitation sector. In words: the long-time sector populations equal the initial sector populations. No information is lost about which sectors are populated; all information is lost about coherences between them.
+where P_w = Σ_{i: popcount(i)=w} |i⟩⟨i| is the projector onto the w-excitation sector. In words: the sector populations are conserved. This identity alone makes no assertion about coherences or the existence of a limit for ρ(t).
 
 ## Proof
 
@@ -28,7 +28,7 @@ The proof follows from two facts:
                  = −i Tr([H_w, ρ_w])
                  = 0    (Tr([A, B]) = Tr(AB) − Tr(BA) = 0 by cyclicity of trace)
 
-Therefore d(p_w)/dt = 0 for all t, so p_w(∞) = p_w(0) = Tr(P_w ρ_0). QED.
+Therefore d(p_w)/dt = 0 for all t, so p_w(t) = p_w(0) = Tr(P_w ρ_0). QED.
 
 ## Numerical verification (N=5, uniform γ = 0.1)
 
@@ -48,7 +48,7 @@ All 9 states match to machine precision (max error < 10⁻⁶). The formula valu
 
 ## Physical interpretation
 
-The asymptotic state of the system is fully determined by which excitation sectors the initial state populates and with what weights. The initial coherences between sectors (the off-diagonal blocks) are destroyed by dephasing. The coherences within each sector are destroyed by the interplay of Hamiltonian dynamics and dephasing. What survives is the sector membership: a classical probability distribution over excitation numbers.
+The weights of the excitation sectors remain fixed while the state moves. For a connected graph with a positive Z-dephasing rate at **every** site, the [separate asymptotic proof](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) establishes the maximally mixed state within each sector. With sparse dephasing, conserved sector weights do not determine a full-state limit: the [N=5 centre-only odd block](OPERATOR_PAIR_VIEW_COMPARISON.md) carries nonstationary, undamped motion. The population formula above remains exact in that case.
 
 For |+⟩⊗N, this distribution is binomial: p_w = C(N,w)/2^N. For GHZ, it is bimodal: p_0 = p_N = ½. For all SE states (W_N, ψ_opt), it is a delta function: p_1 = 1.
 

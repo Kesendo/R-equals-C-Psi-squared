@@ -4253,3 +4253,35 @@ fails at d = 6; the depolarizing rate is absolute; the cluster multiplicities ne
 and the rates are unsourced) carried as a blanket narrowing of what the proof covers, then pinned. In each
 case a sharper statement was one step away: a two-line lemma and a rank mod p, a similarity that changes
 nothing, the lemma the page already proved. The corrections are kept; the narrowing is not.
+
+## 2026-09-26, conserved mirror parity was read as mixing inside every parity block
+
+**What was wrong.** The 2026-08-23 entry above, the asymptotic-sector proof's sparse-support paragraph,
+`THE_BLIND_SITE.md` §6 and the `blind_site.py scope` narration took a conserved mirror-parity projector
+as a maximally mixed limit in each `(popcount, parity)` block. The scope run prepared `|+⟩^5`, which has
+zero mirror-odd weight, so its near-match to that mixed reference at t=400 never tested the odd block.
+`SYMMETRY_CENSUS.md` also inferred decay of cross-sector modes from the absence of zero eigenvalues;
+`SECTOR_PROJECTION_FORMULA.md` stated coherence loss without the full-support hypothesis.
+
+**Counterexample.** For the N=5 open chain with only centre Z-dephasing, the odd single-excitation
+basis `u=(|0⟩−|4⟩)/√2`, `v=(|1⟩−|3⟩)/√2` has `Z_2=I` and
+`H_odd=[[2,2],[2,0]]`. From `|u⟩⟨u|`, `P_v(t)=4/5 sin²(√5 t)`: the state remains pure and has no
+pointwise limit, while its distance from `I_odd/2` stays `1/√2` in Frobenius norm. The vacuum has
+energy 4; each `|vac⟩⟨d_±|` for odd eigenenergy `1±√5` has a nonzero purely imaginary generator
+eigenvalue, so it is nonstationary and undamped. The exact block and an outer-jump control live in
+`simulations/tests/test_operator_pair_view_comparison.py`.
+
+**What stands.** The all-sites positive-rate theorem and sector-population conservation remain valid.
+Centre-only dephasing conserves mirror parity. The `|+⟩^5` snapshot is close to a per-parity mixed
+candidate for that preparation and time; its reference differs exactly from the per-sector reference
+by the fractions previously printed. The proof, experiment notes, census and runner now state those
+scopes. The distinction is conservation versus mixing, and stationarity versus absence of decay.
+
+## 2026-09-26, two agreeing modular blindness counts were called an exact certificate
+
+`blind_site.py` described a pair of equal GF(p) ranks as certifying the rational blind dimension.
+Both reductions can be bad: with N=2, seat 0 and bond coupling `J=p_1p_2`, each field loses the hop
+and reports blindness 1, while over ℚ the nonzero hop gives blindness 0. A modular rank is a lower
+bound on rational rank, hence an upper bound on blindness; two agreeing upper bounds are still upper
+bounds. The runner now calls their agreement a reduction check. Its uniform-chain `J=1` divisor law
+retains its independent analytic proof in `THE_BLIND_SITE.md` and F157.

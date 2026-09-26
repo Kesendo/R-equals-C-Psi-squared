@@ -771,7 +771,7 @@ gap either.
 | | |
 |---|---|
 | ρ(∞) is a function of the sector populations alone, no γ in the conclusion | `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md`, item 2 under `## Consequences` |
-| the fixed-point algebra as DFS ∩ commutant; and that the limit refines under the SITE-REVERSAL's fixed set at N = 5 (the general "some automorphism" form is open THERE, not established) | the same proof |
+| the fixed-point algebra as DFS ∩ commutant; at an N = 5 reflection-fixed dephasing seat the parity projectors are conserved, while one reflection-even input matches a per-parity mixed reference at finite time; the odd block need not mix | the same proof, with the exact counterexample in [Operator-pair view comparison](OPERATOR_PAIR_VIEW_COMPARISON.md) |
 | the commutant characterisation the N+1 rests on | `PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md` + [DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md) Result 2 |
 | ρ_∞ = I/N on the single-excitation sector, stated in `experiments/` already | [CUSP_LENS_CONNECTION](CUSP_LENS_CONNECTION.md) |
 | the uniform divisor law (gcd(2j+1, N) − 1)/2 itself | [The Blind Site](THE_BLIND_SITE.md) |

@@ -8751,7 +8751,7 @@ public static class OpenArcsRegistry
                 "phrasing rather than to the phenomenon: comparing the FULL spectrum " +
                 "against the principal submatrix instead, blind(j) = deg gcd(charpoly(H), " +
                 "charpoly(H with row and column j struck)), reproduces the definition (N " +
-                "minus the rank of the seat's Krylov matrix, exact at two primes, no " +
+                "minus the rank of the seat's Krylov matrix, bounded from above by two GF(p) reads, no " +
                 "eigensolver) at every seat of twenty graphs on both ZZ books, fourteen " +
                 "of them with a degenerate spectrum on the Heisenberg side and thirteen " +
                 "on the XY side, zero bonds and an isolated seat " +
@@ -8781,7 +8781,7 @@ public static class OpenArcsRegistry
                 "in compute/RCPsiSquared.Core/Symmetry, a child of " +
                 "F4KernelDimensionByComponentsClaim as this entry predicted, with the " +
                 "live witness inspect --root blind (SeatCutBlindnessWitness: the count " +
-                "as an exact GF(p) Krylov rank at two primes, the span as a second and " +
+                "through two GF(p) Krylov ranks (one-sided on rational blindness), the span as a second and " +
                 "independent elimination on the masked commutator, both recomputed at " +
                 "inspect time, --chain xy and --bonds taking the book and the profile). " +
                 "The proof file: docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md, " +

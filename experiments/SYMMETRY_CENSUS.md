@@ -39,9 +39,9 @@ This was not previously noted in the repo.
 
 **Block-diagonalization:** Pairs sectors into {(w, w'), (N−w, N−w')}. Within each paired space, the ± eigenspaces of the spin-flip superoperator are invariant subspaces of L. But this does not increase the sector count for odd N (it just identifies related pairs).
 
-### 1.4 Spatial reflection (uniform gamma only)
+### 1.4 Spatial reflection (reflection-symmetric gamma profile)
 
-For the chain with uniform dephasing γ_k = γ for all k, the reflection k ↔ N−1−k is a symmetry. It acts within each (w, w') sector (since reflection preserves excitation numbers). This further splits each sector into ± eigenspaces.
+For the chain with γ_k = γ_(N−1−k), including non-uniform palindromic profiles, the reflection k ↔ N−1−k is a symmetry. It acts within each (w, w') sector (since reflection preserves excitation numbers). This further splits each sector into ± eigenspaces. The non-uniform N=3 profile (0,1,0) and N=4 profile (0,1,1,0) have zero reflection commutator on the single-excitation operator block; the corresponding one-sided controls do not.
 
 **Verified numerically:** For N=5 uniform gamma, max eigenvalue multiplicity is 14. For IBM sacrifice gamma (reflection broken), max multiplicity drops to 6. The reduction comes from both the loss of reflection symmetry and the shift in eigenvalue structure caused by the non-uniform gamma profile (different absorption theorem rates lift accidental degeneracies).
 
@@ -58,7 +58,7 @@ The [Π operator](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) satisfies LΠ = −Π
 | U(1) excitation number | Yes | Yes: (N+1)² sectors | No |
 | n_XY parity | **No** (implied by U(1)) | No additional structure | n/a |
 | Spin-flip X⊗N | Yes | Pairs sectors, ± split | No |
-| Spatial reflection | Yes (uniform only) | Yes: ± within sectors | **Yes** |
+| Spatial reflection | Yes (reflection-symmetric rates) | Yes: ± within sectors | **Yes** |
 | Π conjugation | Yes | No (spectral pairing only) | No |
 
 ---
@@ -100,7 +100,7 @@ The largest sectors are the "interior" ones near w_bra = w_ket = N/2:
 
 Each steady state is the maximally mixed state within its excitation sector: ρ_∞(w) = (1/C(N,w)) Σ_{|i⟩, popcount(i)=w} |i⟩⟨i|. No sector has multiple steady states, limit cycles, or dark states.
 
-Off-diagonal sectors (w ≠ w') have zero steady states: all their modes decay. Cross-sector coherences are always destroyed asymptotically. That sentence is this census's axis, uniform γ at N = 5 (ring and star surveyed below): under a single-seat support it still holds on the open Heisenberg chain and FAILS on the N = 4 ring, measured in [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5.
+Off-diagonal sectors (w ≠ w') have zero steady states and their modes decay under the uniform, positive dephasing rates of this census. **Zero steady states alone does not prove decay.** With only the centre seat dephased on the N = 5 open chain, a coherence between the vacuum and a blind, reflection-odd Hamiltonian eigenstate has a nonzero imaginary generator eigenvalue and does not decay; the [operator-pair comparison](OPERATOR_PAIR_VIEW_COMPARISON.md) exhibits the underlying undamped odd block. [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5 counts cross-sector *zero* eigenvalues, a different question.
 
 ### Sector dynamics summary
 
@@ -112,7 +112,7 @@ Off-diagonal sectors (w ≠ w') have zero steady states: all their modes decay. 
 
 ### Exit count
 
-**A connected system has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found.
+**A connected system with positive dephasing at every site has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found in this uniform-rate census.
 
 The [lens exit](CONCENTRATOR_GEOMETRY.md) is the approach to the w=1 attractor via the slow mode. The [cusp exit](CUSP_LENS_CONNECTION.md) is the simultaneous thermalization within multiple occupied sectors. These are not two exits of a system with two attractors; they are two dynamical paths through a system with N+1 attractors.
 
