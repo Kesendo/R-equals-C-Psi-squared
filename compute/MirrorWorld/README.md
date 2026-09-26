@@ -104,7 +104,10 @@ the 0.93 is the γ₀ signature, not a constant). The adoption's from-below pin 
 itself: three stale cells in the registry's own F76 table (the N = 9/11/13 pure-dephasing column)
 were caught against a rerun of the cited `envelope_study.py` and corrected at the source.
 The next three followed the same day: F95 (the θ-compass at the quadratic discriminant zero,
-whose Lindblad face θ = arctan Q IS the adopted Clock: the compass and the clock are one), F99
+whose Lindblad face c = γ² + J², b = γ gives θ = arctan Q, the adopted Clock's angle wherever both
+are defined, J ≥ 0 and γ > 0; every compass point (c, b) with c ≥ b² is the Clock at γ = b, J = √(c − b²), so what
+the compass adds is a reading rather than a domain: at b = ½ it reads c as CΨ, which is F15; the Clock
+reaches past the compass to γ = 0 and J < 0), F99
 (the five canonical trig angles giving the Pi2 dyadic ladder {0, ⅛, ¼, ⅜, ½}, the silver-ratio
 Dicke weight at 45°), and F88b (the popcount-coherence Π²-odd/memory closed form, whose adjacent
 K-intermediate anchor IS the adopted F98). The F87-hardness bloc followed as one piece (`Hardness.cs`, below): the survey's warning
@@ -313,14 +316,19 @@ mostly multi-excitation, where the Cone gives no leverage. The survey continues.
 
 **Second survey done (2026-07-02): the seed census -- candidate SURVIVED and was answered the
 same day.** The question: does the codim-1 containment corollary's one per-N census input (a real
-defective EP on the (1,2) block at each odd N, proven only at N=5, 7) extend upward? Vetting per
+defective EP on the (1,2) block at each odd N) extend upward? Vetting per
 the Δ* lesson: the (1,2) block is a LOW-WEIGHT sector, dim N·C(N,2) ~ N³ -- polynomial, exactly
 the block-local complexity class this project's cuts name, one floor above the Cone's N². Open
 (the proof itself declares it a census input), not textbook, and reachable. The answer (gate
 `RealSeedCensusTests` in RCPsiSquared.Diagnostics.Tests, the PT-break count-change instrument,
 immune to the closest-pair masking that defeats gap-field scans at F_53/F_116 density): **count-change
-loci number 4/6/7/9 at N=5/7/9/11 across both R-parities. Character-certified defective seeds currently
-reach N=5,7,9; the N=11 census is not by itself the corollary's full input.**
+loci number 4/6/7/9 at N=5/7/9/11 across both R-parities.** The grades behind that count: the literal
+drop is probed exactly at N=5,7,9 and measured at N=11; the defective character is certified at N=5,7,9
+and classified (a defective EP2 at every locus, no certificate) at N=11, so the N=11 census is not by
+itself the corollary's full input; beyond N=11 the drop as a count is open, with the twinning degeneracy
+proved over ℚ(i) at every resonant N and the twins' departure from the real axis measured at N=11 and 17,
+and the character is open beyond N=11 as well. `Seed.cs` holds none of these grades; it holds the
+endpoint surplus and the resonance count (r(∞) = 3·Z₃ and which N are resonant).
 Honest attribution: the unlocking tool was the existing scout's exact-residual machinery on the
 polynomial block, NOT the Cone; MirrorWorld's contribution was the FRAME (this survey question and
 the block-local complexity insight that made "N³ is not a wall" obvious). The survey continues for

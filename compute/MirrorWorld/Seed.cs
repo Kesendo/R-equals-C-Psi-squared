@@ -28,11 +28,14 @@ public enum TripleFamily { Triv, Rot3, Pent }
 //   surplus = r(0+) - r(inf).
 //
 // Proven surplus = N-1 for every ODD N: the chain's unmirrorable middle site supplies an exact rank
-// imbalance. Turning it into a literal finite-q loss of real strands and then a defective EP requires
-// additional spectral and character premises, certified in the main repo at N=5,7,9 rather than for all
-// odd N. This object holds the endpoint count, never the locus or Jordan character. For EVEN N the
-// surplus is 0; whether accidental seeds exist is a separate question this count does not settle. Ranks over GF(p) by exact integer
-// Gaussian elimination (the genre of Hardness's GF(2)[x]); a rank mod p can only DROP at a bad prime, so
+// imbalance. The surplus counts lost real strands, not seeds: turning it into a literal finite-q drop
+// and then a defective EP needs further spectral and character premises, which the main repo holds at
+// its own grades (the drop probed exactly at N=5,7,9 and measured at N=11; the character certified at
+// N=5,7,9 and classified at N=11; at every resonant N, IsResonant below, the twinning degeneracy proved
+// over Q(i) and the twins' departure from the real axis measured at N=11 and 17; the drop as a count
+// and the character both open beyond N=11). This object holds the endpoint count, never the locus or
+// Jordan character. For EVEN N the surplus is 0; whether accidental seeds exist is a separate question
+// this count does not settle. Ranks over GF(p) by exact integer Gaussian elimination (the genre of Hardness's GF(2)[x]); a rank mod p can only DROP at a bad prime, so
 // the max over two primes pins the true rank (exact for the N run here, verified against F89's table).
 //
 // SCOPE (do not naively extend; verified from below 2026-07-08). This surplus theorem is for the OPEN

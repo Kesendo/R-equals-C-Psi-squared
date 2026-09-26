@@ -1806,16 +1806,18 @@ foreach (int n in new[] { 2, 3, 4 })
 }
 Console.WriteLine("  edges stay N+1 (kernel + drain); even N spikes the center k=N/2; the rest bleeds off-grid (fractional <n_XY>)");
 
-// Clock's own two-hand dial: theta = arctan(Q), Q = J/gamma.
+// Clock's own two-hand dial: theta = arctan(Q), Q = J/gamma; for J >= 0, gamma > 0 it is the F95
+// angle at c = gamma^2 + J^2, b = gamma (docked in SmokeTests.F95_Theta_Compass_Docks_Onto_F15_And_The_Clock).
 Console.WriteLine();
 Console.WriteLine("==== Clock's own dial: theta = arctan(Q), Q = J/gamma ====");
 foreach (double q in new[] { 0.0, 0.5, 1.0, 2.0, 5.0, 100.0 })
 {
     var clk = new Clock(world, j: q, gamma: 1.0);   // J=q, gamma=1 => Q=q
-    string mark = q == 0.0 ? "  [J=0: pure decay]" : q >= 100.0 ? "  [large-Q limit]" : "";
+    string mark = q == 0.0 ? "  [J=0: pure decay, F95's double root]" : q >= 100.0 ? "  [large-Q limit]" : "";
     Console.WriteLine($"  Q={clk.Q,5:0.0}: theta = {clk.ThetaDeg,5:0.0} deg{mark}");
 }
-Console.WriteLine("  This dial is Clock's reading; it supplies no quarter/half ancestry for F95.");
+Console.WriteLine("  the two hands: gamma the radial (decay), J the angular (rotation); for J > 0, gamma -> 0 stops the radial hand and theta -> 90 deg (the pure circle)");
+Console.WriteLine("  for J >= 0, gamma > 0 this dial is the F95 compass at c = gamma^2 + J^2, b = gamma; gamma = 0 lies outside F95's b > 0");
 
 // The survivor: the slowest non-stationary mode (T1), regime-dependent.
 Console.WriteLine();
@@ -1850,7 +1852,7 @@ foreach (int n in new[] { 3, 4, 5 })
     Console.WriteLine($"  N={n}: F2  omega_k=4J(1-cos(pi k/N))   = [{string.Join(", ", Formulas.F2_Dispersion(n, 1.0).Select(x => x.ToString("0.00")))}]");
     Console.WriteLine($"        F2b E_k=2J cos(pi k/(N+1))       = [{string.Join(", ", Formulas.F2b_SingleExcitation(n, 1.0).Select(x => x.ToString("0.00")))}]");
 }
-Console.WriteLine($"  centered F1 residuals (N=4, gamma=0.5: sg=2, sg2=1): ||M(T1)||^2 = {Formulas.F1_T1Residual(4, 2.0, 1.0):0.0}, ||M(depol)||^2 = {Formulas.F1_DepolResidual(4, 2.0, 1.0):0.0}");
+Console.WriteLine($"  F1 residuals (N=4, gamma=0.5: sg=2, sg2=1): T1 at M's defining shift sigma = Sigma gamma_Z ||M(T1)||^2 = {Formulas.F1_T1Residual(4, 2.0, 1.0):0.0}, at T1's own centre sigma + sg/2 it drops by 4^N sg^2 to {Formulas.F1_T1Residual(4, 2.0, 1.0) - Math.ScaleB(2.0 * 2.0, 2 * 4):0.0} = 4^(N-1)*3*sg2; depol centered at sigma = sg ||M(depol)||^2 = {Formulas.F1_DepolResidual(4, 2.0, 1.0):0.0}");
 Console.WriteLine($"  F2b-corollary coherence hand omega_mem=2J cos(pi/(N+1)): N=3,4,5 = {Formulas.OmegaMem(3, 1, 0):0.000}, {Formulas.OmegaMem(4, 1, 0):0.000}, {Formulas.OmegaMem(5, 1, 0):0.000}  (sqrt2, phi, sqrt3)");
 Console.WriteLine($"  SE-EP Q*(N): exact N=2,3 = {Formulas.Qstar(2):0.000}, {Formulas.Qstar(3):0.000}; numerical table N=4,5 = {Formulas.Qstar(4):0.000000}, {Formulas.Qstar(5):0.000000}  (asymptotic slope 2/pi)");
 foreach (int n in new[] { 3, 4, 5 })
@@ -1903,7 +1905,7 @@ Console.WriteLine($"  F73 spatial-sum closure on the vac-SE probe: sum_i 2|(rho_
 Console.WriteLine($"  F75 mirror-pair MI = 2h(p)-h(2p) (Bell ceiling 2 bits at p=1/2); MM(0) bonding: (5,2)={Formulas.F75_MirrorPairSum(5, 2):0.000}, (7,4)={Formulas.F75_MirrorPairSum(7, 4):0.000}, (11,6)={Formulas.F75_MirrorPairSum(11, 6):0.000} (even k, noded centre, wins)");
 Console.WriteLine($"  F77 MM(0) saturation: 1 + 3/(4(N+1)ln2), rescaled limit {Formulas.F77_RescaledDeviationLimit():0.0000}; closed form at N=101: {Formulas.F77_MMSaturation(101):0.00000} (exact best-k F75 sum pinned in tests)");
 Console.WriteLine($"  F76 dephasing envelope lambda=e^(-4g0t): MM(t)/MM(0) at g0=0.05, t=0.1: (5,2)={Formulas.F76_Envelope(5, 2, 0.05, 0.1):0.000}, (13,4)={Formulas.F76_Envelope(13, 4, 0.05, 0.1):0.000}; the 0.93 is the g0 signature ({Formulas.F76_Envelope(5, 2, 0.025, 0.1):0.000} at g0=0.025, {Formulas.F76_Envelope(5, 2, 0.10, 0.1):0.000} at 0.10)");
-Console.WriteLine($"  F95 theta-compass arctan(sqrt(c/b^2-1)); only for the explicit specialization c = g*g + j*j, b = g > 0 does this equal arctan(|j|/g): at j=1,g=0.5 it is {Formulas.F95_Theta(0.25 + 1.0, 0.5) * 180 / Math.PI:0.0} deg; g=0 is outside F95");
+Console.WriteLine($"  F95 theta-compass arctan(sqrt(c/b^2-1)) above the double root c = b^2 (b > 0); at b = 1/2 (threshold c = 1/4) it is F15 for every c >= 1/4; Lindblad face c = g^2 + J^2, b = g: at J=1, g=0.5 (Q=2) F95 = {Formulas.F95_Theta(0.25 + 1.0, 0.5) * 180 / Math.PI:0.0} deg = the clock ({new Clock(world, 1.0, 0.5).ThetaDeg:0.0} deg)");
 Console.WriteLine($"  F99 five canonical angles, alpha=sin^2/2: 0/30/45/60/90 deg -> {Formulas.F99_Alpha(0):0.000}, {Formulas.F99_Alpha(Math.PI / 6):0.000}, {Formulas.F99_Alpha(Math.PI / 4):0.000}, {Formulas.F99_Alpha(Math.PI / 3):0.000}, {Formulas.F99_Alpha(Math.PI / 2):0.000} (the Pi2 dyadic ladder); c^2(45deg) = 1+sqrt2 = {Formulas.F99_DickeWeightSq(Math.PI / 4):0.000} (the silver ratio)");
 Console.WriteLine($"  F88b Pi^2-odd/memory anchors alpha: mirror(6;2,4)={Formulas.F88b_Alpha(6, 2, 4):0.0}, K-int(6;3,4)={Formulas.F88b_Alpha(6, 3, 4):0.000} (=F98: {Formulas.F98_DickeAsymptote(6):0.000}), generic(7;1,3)={Formulas.F88b_Alpha(7, 1, 3):0.0}; GHZ (HD=N) = {Formulas.F88b_Pi2OddInMemory(4, 0, 4, 4):0.0} (Pi^2-classical); Dicke alpha_total(gamma=1/2) = {Formulas.F88b_DickeAlphaTotal(0.5):0.000}");
 
