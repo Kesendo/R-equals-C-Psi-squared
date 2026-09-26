@@ -5239,18 +5239,18 @@ public static class OpenArcsRegistry
                 "sharpest procedural catch. Also caught: a doc-level claim of a one-magnon check with no " +
                 "verifier named (now routed to d10_block_closure_verify.py), and the step from the block's " +
                 "best Q to the LIOUVILLIAN's, which I had called untaken when it is measured and holds at " +
-                "N=2..5 (40, 60, 68.284271, 72.360680 at gamma=0.05, exactly the block's value); only the " +
+                "N=2..6 (40, 60, 68.284271, 72.360680, 74.641016 at gamma=0.05, exactly the block's value, tied only by its X^N image block); only the " +
                 "general-N proof is missing. " +
                 "WHAT WAS TRIAGED, all of it now APPLIED (the list below is the record of what the triage " +
                 "found, in its original present tense; every 'needs' and 'still says' in it has since been " +
                 "acted on, OPTICAL_CAVITY_ANALYSIS's conflated Gouy axis included): five agents read the named files and the " +
                 "sweep found the arc's own list short by nine doc sites plus four C# ones, so do not treat any " +
                 "list here as complete. Six places assert more than a name and each needs a decision, not a " +
-                "rename. THERMAL_BREAKING:97-100 needs the premise swapped (its omega_max(w=1) table head sits at :126; its 'ALL w=1 modes decay at 2gamma' " +
+                "rename. THERMAL_BREAKING's section 'The Q gain V(N) and why gamma cancels' needs the premise swapped (its omega_max(w=1) table head; its 'ALL w=1 modes decay at 2gamma' " +
                 "is false, but the weaker 'the mode carrying omega_max decays at 2gamma' is PROVEN on the block, " +
-                "so V(N) survives), while its :110-115 claim that the 1.81x ratio still applies to the extremal " +
-                "mode under a profile does NOT survive (the doc RESTRICTS the ratio to the extremal mode there; the restriction is what fails, because the frequencies move too), and its :480 open question was answered by D10 in April " +
-                "while the genuinely open step (that no other block outruns this one in Q) was never stated. " +
+                "so V(N) survives), while its claim that the 1.81x ratio still applies to the extremal " +
+                "mode under a profile does NOT survive (the doc RESTRICTS the ratio to the extremal mode there; the restriction is what fails, because the frequencies move too), and its old open question was answered by D10 in April " +
+                "while the genuinely open step (that no other block outruns this one in Q) was never stated (it is now the page's 'Open question'). " +
                 "RANDOM_MATRIX_THEORY:44+152-162 offers the sector decomposition as the MECHANISM for its " +
                 "Poisson verdict; the measurement is untouched but the explanation must become the joint-" +
                 "popcount grading, and :219-221's 'the decay rate assigns the weight exactly' is the average-" +
@@ -7375,7 +7375,7 @@ public static class OpenArcsRegistry
                 "work done for other reasons, so RE-MEASURE it rather than subtracting from it. " +
                 "THE TWENTY-ONE SPLIT BY GENRE, and only one half is a gap. Sixteen are a coherent spring " +
                 "block, fifteen of them Tier 2 and F24 the exception named at the end of the list: F13 the r* threshold, F19 and F40 the fragile bridge, F20 the thermal " +
-                "V-effect, F21 the local amplitude-channel stationary population, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
+                "V-effect, F21 the self-heating divergence, F29 the star threshold, F30 the gamma channel capacity, F31 the " +
                 "Relay protocol MI comparison (Tier 2, finite N=11 run, not an MI bound), F32 the optimal protection state, F35 the lifetime ratio, F45 to F48 the Bures " +
                 "geometry at the fold, F51 the cockpit reduction. Those live on the propagation, Python and " +
                 "hardware side; the C# layer is the structural and spectral engine, so their absence there is " +

@@ -50,6 +50,7 @@ scalar product as its parameter but does not make the two diagnostics equal.
 | **Framework / F25 / hardware quarter** | purity `Tr(ρ²)` | normalized l1-coherence | `CΨ_pur` |
 | **Pairwise CΨ lens experiments** | Wootters concurrence | normalized l1-coherence of the reduced pair | `CΨ_conc` |
 | **Fixed-point recurrence** | scalar factor | scalar offset | parameter `c = CΨ` in `u²−u+c=0` |
+| **R, the namesake** | the C of the context in use | the Ψ of the context in use | `R = CΨ²`, the first step of the recurrence `R = C(Ψ+R)²` from `R = 0`; its fixed points are `R* = u*²/C` with `u = C(Ψ+R)` solving `u²−u+CΨ=0`, real for `CΨ ≤ ¼` |
 
 The subscripts `_pur` and `_conc` are disambiguating labels used here; legacy
 files often print both simply as `CΨ`. The original philosophical expansion
@@ -66,6 +67,11 @@ of the letters is retired. See [The CΨ Lens](THE_CPSI_LENS.md).
   A physical trajectory may cross, recross, or miss that level. The F25 Bell⁺
   hardware trajectory uses `CΨ_pur`; pair-lens studies using concurrence report
   `CΨ_conc`. Their different crossing doses are listed in the `0.036/γ` row.
+- **R = CΨ²** is the product that gives the project its name. Feed CΨ into the
+  recurrence R ↦ C(Ψ+R)², starting from nothing (R = 0): the first step is
+  R = CΨ². Iterated further, it settles to a resting value only while
+  CΨ ≤ ¼; above the quarter the fixed points turn complex and the iteration
+  runs away.
 
 ---
 

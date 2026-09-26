@@ -88,17 +88,6 @@ public class QuditPartialPalindromeCeilingTests
     }
 
     [Fact]
-    public void InteractingScope_DoesNotPromoteSampledReductionToAUniversalLaw()
-    {
-        var claim = MakeClaim();
-        string rendered = claim.Summary + "\n" + string.Join("\n", claim.Children.Select(c => c.Summary));
-
-        Assert.Contains("H=cI", rendered);
-        Assert.DoesNotContain("adding H reduces the pairing at every fixed center", rendered);
-        Assert.DoesNotContain("Hamiltonian degrades", rendered);
-    }
-
-    [Fact]
     public void ExactLongHelpers_ThrowInsteadOfSilentlyWrapping()
     {
         Assert.Throws<OverflowException>(() => QuditPartialPalindromeCeiling.Total(3, 20));

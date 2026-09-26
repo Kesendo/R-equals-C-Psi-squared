@@ -16,8 +16,13 @@ Output: simulations/results/dna_base_pairing.txt
 """
 
 import numpy as np
+from fractions import Fraction
+from math import lcm
 from scipy.linalg import eigvals, expm
+from scipy.optimize import linear_sum_assignment
 import os, sys, time as clock
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import framework as fw  # noqa: E402
 
 OUT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "results", "dna_base_pairing.txt")
@@ -98,8 +103,34 @@ def build_liouvillian(H, c_ops):
     return L
 
 
-def analyze_spectrum(L, label=""):
-    """Analyze Liouvillian spectrum: palindrome, frequencies, Q-factors."""
+def z_liouvillian(H, rates):
+    """Lindbladian with pure Z-dephasing, gamma_l*(Z rho Z - rho), built from
+    the rates directly (no sqrt(gamma) squared), so integer inputs give an exact generator."""
+    return fw.lindbladian_z_dephasing(H, list(rates))
+
+
+def _integer_scaling(A):
+    """(k, k*A) with k*A an exact integer array: each entry of A (real and imaginary parts) is
+    recovered as its smallest-denominator fraction, checked to round back to the entry, and k is the
+    lcm of the denominators. Refuses entries that are not such a rounding, and scaled entries at or
+    beyond 2^53, where float integers stop being exact."""
+    A = np.asarray(A)
+    parts = np.concatenate([A.real.ravel(), A.imag.ravel()])
+    fr = [Fraction(float(x)).limit_denominator(1000) for x in parts]
+    if any(float(f) != float(x) for f, x in zip(fr, parts)):
+        raise ValueError("input is not the rounding of a rational array with denominators <= 1000")
+    k = lcm(*[f.denominator for f in fr])
+    if any(abs(f.numerator) * (k // f.denominator) >= 2**53 for f in fr):
+        raise ValueError("the integer rescaling leaves the exact float range")
+    scaled = np.round(k * A.real) + (1j * np.round(k * A.imag) if np.iscomplexobj(A) else 0)
+    return k, scaled
+
+
+def analyze_spectrum(L, label="", z_rates=None, H=None):
+    """Analyze Liouvillian spectrum: palindrome, frequencies, Q-factors.
+
+    z_rates, H: the per-site Z-dephasing rates and the Hamiltonian when L = z_liouvillian(H, z_rates);
+    then the palindrome is checked as an exact operator identity. Otherwise it is read spectrally."""
     ev = eigvals(L)
     rates = -ev.real
     freqs = np.abs(ev.imag)
@@ -116,33 +147,42 @@ def analyze_spectrum(L, label=""):
     else:
         unique_f = []
 
-    # Palindrome check: pair eigenvalues as λ + λ' = const
-    pair_sums = []
-    ev_sorted = sorted(ev, key=lambda x: x.real)
-    used = set()
-    for i in range(n_ev):
-        if i in used:
-            continue
-        best_j = -1
-        best_d = np.inf
-        target = -ev_sorted[i]
-        for j in range(n_ev):
-            if j != i and j not in used:
-                d = abs(ev_sorted[i] + ev_sorted[j] - (ev_sorted[0] + ev_sorted[1])
-                        if len(pair_sums) == 0
-                        else abs((ev_sorted[i] + ev_sorted[j]).real - pair_sums[0]))
-                if len(pair_sums) == 0:
-                    d = 0
-                if d < best_d:
-                    best_j = j
-                    best_d = d
-        if best_j >= 0:
-            pair_sums.append((ev_sorted[i] + ev_sorted[best_j]).real)
-            used.update([i, best_j])
-
-    pair_mean = np.mean(pair_sums) if pair_sums else 0
-    pair_std = np.std(pair_sums) if pair_sums else 0
-    palindrome = "EXACT" if pair_std < 1e-6 else f"approx (std={pair_std:.2e})"
+    # Palindrome check. The centre is not searched: a spectrum closed under
+    # lambda -> 2c - lambda has c = mean(lambda) = trace(L)/dim exactly (F137).
+    # Z-dephasing only (z_rates, H given): the operator identity Pi.L.Pi^-1 + L + 2*Sigma*I = 0 in
+    # the Pauli basis, Pi the uniform Z-dephasing palindromizer. The residual is linear in L, so it
+    # splits into the dissipator's part (with the 2*Sigma shift) and the Hamiltonian's part (no
+    # shift), and each is computed without rounding: each part is linear in its input, so the rates
+    # and H are recovered as rational numbers and rescaled to integers (regime A's central coupling
+    # 1.2*J = 0.6 = 3/5 becomes 3 at 5*H). Both are compared with == 0.0.
+    # Otherwise: the spectral pairing distance at c by a one-to-one assignment (multiplicities
+    # count), printed as a reading beside eps*||L||_2, the eigensolver's backward-error scale.
+    dim = L.shape[0]
+    n_sites = int(round(np.log2(dim) / 2))
+    centre = np.trace(L).real / dim
+    if z_rates is not None:
+        if H is None:
+            raise ValueError("the exact palindrome gate needs the Hamiltonian L was built from")
+        if not np.array_equal(L, z_liouvillian(H, z_rates)):
+            raise ValueError("L is not z_liouvillian(H, z_rates)")
+        k_D, rates_int = _integer_scaling(np.asarray(z_rates, dtype=float))
+        L_D = z_liouvillian(np.zeros_like(H), list(rates_int))
+        res_D = float(np.max(np.abs(fw.palindrome_residual(L_D, float(sum(rates_int)), n_sites))))
+        k_H, H_int = _integer_scaling(H)
+        L_H = z_liouvillian(H_int, [0] * n_sites)
+        res_H = float(np.max(np.abs(fw.palindrome_residual(L_H, 0.0, n_sites))))
+        if res_D != 0.0 or res_H != 0.0:
+            raise AssertionError(f"the uniform-Pi Z-dephasing identity fails: dissipator part {res_D} "
+                                 f"(at {k_D}*rates), Hamiltonian part {res_H} (at {k_H}*H)")
+        palindrome = "EXACT (operator residual 0.0, dissipator and Hamiltonian parts)"
+    else:
+        target = 2 * centre - ev
+        cost = np.abs(ev[:, None] - target[None, :])
+        rows, cols = linear_sum_assignment(cost)
+        pair_dist = float(cost[rows, cols].max())
+        floor = np.finfo(float).eps * np.linalg.norm(L, 2)
+        palindrome = f"pairing dist {pair_dist:.3g} at the trace centre ({pair_dist / floor:.1e} eps*||L||)"
+    pair_mean = 2 * centre
 
     # Q-factors for oscillating modes
     if n_osc > 0:
@@ -240,9 +280,8 @@ for regime_name, params in regimes.items():
     H_AT = (-J * op_n(sx, 0, 2)
             - J * op_n(sx, 1, 2)
             + K * op_n2(sz, 0, sz, 1, 2))
-    c_AT = [np.sqrt(gamma) * op_n(sz, i, 2) for i in range(2)]
-    L_AT = build_liouvillian(H_AT, c_AT)
-    r_AT = analyze_spectrum(L_AT, "A-T")
+    L_AT = z_liouvillian(H_AT, [gamma] * 2)
+    r_AT = analyze_spectrum(L_AT, "A-T", z_rates=[gamma] * 2, H=H_AT)
 
     log(f"  A-T (N=2, {r_AT['n_ev']} eigenvalues):")
     log(f"    Palindrome:    {r_AT['palindrome']}")
@@ -258,9 +297,8 @@ for regime_name, params in regimes.items():
             - J * op_n(sx, 2, 3)
             + K * op_n2(sz, 0, sz, 1, 3)
             + K * op_n2(sz, 1, sz, 2, 3))
-    c_GC = [np.sqrt(gamma) * op_n(sz, i, 3) for i in range(3)]
-    L_GC = build_liouvillian(H_GC, c_GC)
-    r_GC = analyze_spectrum(L_GC, "G-C")
+    L_GC = z_liouvillian(H_GC, [gamma] * 3)
+    r_GC = analyze_spectrum(L_GC, "G-C", z_rates=[gamma] * 3, H=H_GC)
 
     log(f"  G-C (N=3, {r_GC['n_ev']} eigenvalues):")
     log(f"    Palindrome:    {r_GC['palindrome']}")
@@ -308,9 +346,8 @@ for label, N, H_builder in [
     dim = 2**N
 
     # Cold: pure Z-dephasing (palindrome exact)
-    c_cold = [np.sqrt(gamma) * op_n(sz, i, N) for i in range(N)]
-    L_cold = build_liouvillian(H, c_cold)
-    r_cold = analyze_spectrum(L_cold)
+    L_cold = z_liouvillian(H, [gamma] * N)
+    r_cold = analyze_spectrum(L_cold, z_rates=[gamma] * N, H=H)
 
     # Warm (310 K): add amplitude damping with n_bar
     # For each qubit: emission √(γ(n̄+1)) σ₋, absorption √(γn̄) σ₊
@@ -375,9 +412,8 @@ log(f"  {'─'*80}")
 for prof_name, gammas in profiles.items():
     H = (-J * op_n(sx, 0, 3) - J*1.2 * op_n(sx, 1, 3) - J * op_n(sx, 2, 3)
          + K * op_n2(sz, 0, sz, 1, 3) + K * op_n2(sz, 1, sz, 2, 3))
-    c_ops = [np.sqrt(gammas[i]) * op_n(sz, i, 3) for i in range(3)]
-    L = build_liouvillian(H, c_ops)
-    r = analyze_spectrum(L)
+    L = z_liouvillian(H, gammas)
+    r = analyze_spectrum(L, z_rates=gammas, H=H)
 
     log(f"  {prof_name:>18}  {str(gammas):>25}  {r['Q_max']:>8.3f}"
         f"  {r['Q_mean']:>8.3f}  {r['n_freq']:>6}  {r['rate_min']:>8.4f}")
@@ -407,14 +443,12 @@ for regime_name, params in regimes.items():
     # A-T
     H_AT = (-J * op_n(sx, 0, 2) - J * op_n(sx, 1, 2)
             + K * op_n2(sz, 0, sz, 1, 2))
-    c_AT = [np.sqrt(gamma) * op_n(sz, i, 2) for i in range(2)]
-    r_AT = analyze_spectrum(build_liouvillian(H_AT, c_AT))
+    r_AT = analyze_spectrum(z_liouvillian(H_AT, [gamma] * 2), z_rates=[gamma] * 2, H=H_AT)
 
     # G-C
     H_GC = (-J * op_n(sx, 0, 3) - J*1.2 * op_n(sx, 1, 3) - J * op_n(sx, 2, 3)
             + K * op_n2(sz, 0, sz, 1, 3) + K * op_n2(sz, 1, sz, 2, 3))
-    c_GC = [np.sqrt(gamma) * op_n(sz, i, 3) for i in range(3)]
-    r_GC = analyze_spectrum(build_liouvillian(H_GC, c_GC))
+    r_GC = analyze_spectrum(z_liouvillian(H_GC, [gamma] * 3), z_rates=[gamma] * 3, H=H_GC)
 
     log(f"  --- {regime_name} ---")
     ratio_freq = r_GC['n_freq'] / max(r_AT['n_freq'], 1)
@@ -449,16 +483,14 @@ for K_sw in [0, 5, 10, 20, 50, 100]:
     H_AT = (-J_sw * op_n(sx, 0, 2) - J_sw * op_n(sx, 1, 2))
     if K_sw > 0:
         H_AT += K_sw * op_n2(sz, 0, sz, 1, 2)
-    c_AT = [np.sqrt(gamma_sw) * op_n(sz, i, 2) for i in range(2)]
-    r_AT = analyze_spectrum(build_liouvillian(H_AT, c_AT))
+    r_AT = analyze_spectrum(z_liouvillian(H_AT, [gamma_sw] * 2), z_rates=[gamma_sw] * 2, H=H_AT)
 
     # G-C
     H_GC = (-J_sw * op_n(sx, 0, 3) - J_sw*1.2 * op_n(sx, 1, 3)
             - J_sw * op_n(sx, 2, 3))
     if K_sw > 0:
         H_GC += K_sw * (op_n2(sz, 0, sz, 1, 3) + op_n2(sz, 1, sz, 2, 3))
-    c_GC = [np.sqrt(gamma_sw) * op_n(sz, i, 3) for i in range(3)]
-    r_GC = analyze_spectrum(build_liouvillian(H_GC, c_GC))
+    r_GC = analyze_spectrum(z_liouvillian(H_GC, [gamma_sw] * 3), z_rates=[gamma_sw] * 3, H=H_GC)
 
     v_eff = r_GC['n_freq'] / max(r_AT['n_freq'], 1)
     log(f"  {K_sw:>10.0f}  {r_AT['n_freq']:>10}  {r_GC['n_freq']:>10}"
@@ -489,9 +521,11 @@ log("   (shorter H-bond, enzyme cavity, low temperature).")
 log()
 log("4. THERMAL BREAKING: At 310 K (n̄ ~ 0.5-2 for DNA H-bond modes),")
 log("   frequency diversity increases and Q decreases (consistent with")
-log("   THERMAL_BREAKING). The palindrome is not what heat costs: amplitude")
-log("   damping alone keeps it, at a centre of -Sum(gamma)/2 (F137); it breaks")
-log("   only beside co-axial Z-dephasing.")
+log("   THERMAL_BREAKING). The cold (Z-only) generator is exactly palindromic;")
+log("   the warm set (emission, absorption, Z) is not. This H carries on-site")
+log("   transverse fields, outside F137's scope (T1 alone keeps the palindrome")
+log("   for XXZ-type H with no on-site field), and this producer does not")
+log("   separate the field from the co-axial Z as the cause of the break.")
 log()
 log("5. SACRIFICE ZONE: In G-C, concentrating noise on the outer H-bonds")
 log("   protects the central mode (edge sacrifice), exactly as in qubit")

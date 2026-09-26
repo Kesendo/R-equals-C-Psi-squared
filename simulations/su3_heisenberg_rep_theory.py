@@ -47,6 +47,11 @@ gm = [
 I3 = np.eye(3, dtype=complex)
 I9 = np.eye(9, dtype=complex)
 GAMMA = 0.05
+# Matching tolerance: exact partners agree to ~1e-13 (eps*||L||); the smallest physical
+# splitting here is the detuning of the -3g rung, 4J - sqrt(16J^2 - gamma^2) ~ gamma^2/(8J)
+# = 3.1e-4 at J = 1. The
+# count below is the same at every tolerance from 1e-10 to 1e-6 (checked in main).
+PAIR_TOL = 1e-9
 
 
 def kron(a, b):
@@ -200,14 +205,16 @@ def main():
         print(f"    <Q>={q:<4} {tag:<10}: {n}")
     def full_complex_count(mask):
         values = ev[mask]
-        return multiset_match_count(values, -6 * g - values, tol=1e-4)
+        return multiset_match_count(values, -6 * g - values, tol=PAIR_TOL)
 
     q_integer_inter = inter & ((np.abs(qfull - 1.0) < 1e-6) |
                                (np.abs(qfull - 2.0) < 1e-6))
     intra_pairs = full_complex_count(intra)
     integer_inter_pairs = full_complex_count(q_integer_inter)
     half_inter_pairs = full_complex_count(half)
-    paired = multiset_match_count(ev, -6 * g - ev, tol=1e-4)
+    paired = multiset_match_count(ev, -6 * g - ev, tol=PAIR_TOL)
+    plateau = {t: multiset_match_count(ev, -6 * g - ev, tol=t) for t in (1e-10, 1e-8, 1e-6)}
+    assert set(plateau.values()) == {paired}, "the 60 moves with the tolerance: " + str(plateau)
     assert (intra_pairs, integer_inter_pairs, half_inter_pairs) == (36, 12, 12)
     assert paired == intra_pairs + integer_inter_pairs + half_inter_pairs == 60
     q1_detuned = inter & (np.abs(qfull - 1.0) < 1e-6) & \

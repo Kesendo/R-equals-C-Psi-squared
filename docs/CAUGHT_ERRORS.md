@@ -4187,3 +4187,69 @@ calibrated on crossings, whose gaps close linearly, says nothing about exception
 close as a square root; and a relative threshold whose scale carries the eigenvalue reports where the
 eigenvalue sits, not what the Jordan coupling is. The known N = 5 defective control was in the test file
 the whole time, asserted to read Uncertified.
+
+## 2026-09-26, the qudit cap failed at d = 6 and was withdrawn at d = 3, the thermal arrows changed no eigenvalue, and five results were narrowed to their tested instances
+
+**The qudit product cap.** The 2026-09-06 entry above withdrew "the universal cap, its non-product-gap
+story and dependent (2/d)^N protection interpretation". Its counterexample is right and stays the reason:
+at d = 6, N = 2, P_dark⊗P_lit is an exact product intertwiner of rank 180 > 144 = (2d)^N, and the old
+proof step "rate additivity forces a strict per-site class swap" is false. The withdrawal reached further
+than the counterexample does. Rate additivity forces something weaker and still decisive: every nonzero
+block of a per-site factor carries one lit grade c ∈ {0, 1, 2}, with rank d, 2d, d² − d, and Σc = N pairs
+the grade-0 sites with the grade-2 sites, so a product mirror pairs at most
+P(d, N) = max_m (2d)^(N−2m)·(d³ − d²)^m. A (0, 2) pair beats a (1, 1) pair iff d ≥ 6 (tie at d = 5), so
+P = (2d)^N at every N for d ≤ 5, the qutrit included. Everything the withdrawal took down at d ≤ 5 was
+true there: (2d)^N as the product optimum, ceiling − (2d)^N as the non-product part (18 at d = 3, N = 2),
+(2/d)^N as the product-protected fraction, and "product mirror full ⟺ d² − 2d = 0", the trunk's third
+appearance, which holds at every d. The translation-invariant ranks 54, 128, 378 were demoted to
+"numerical finite constructions" because they came from an SVD; an integer-coefficient intertwiner has the
+same ranks mod p, and rank_p ≤ rank ≤ ceiling makes them exact. Three tests pinned the withdrawal (one
+required "universal product cap is retracted" in the witness JSON, one banned "no intermediate", one
+banned "adding H reduces the pairing at every fixed center", which is true for the sampled SU(3) H: the
+full L pairs fewer at all five rung centres and no more at any of the eight centres where a pair can
+form, the midpoints of the real-part levels, at J = 0.05, 1, 10). The same scripts matched eigenvalues at
+a tolerance of 10⁻⁴, above the physics: the −3γ rung sits 4J − √(16J² − γ²) ≈ γ²/(8J) = 3.1·10⁻⁵ from 4J
+at J = 10, and at 10⁻⁴ the matcher pairs levels the spectrum keeps apart. Our own
+restorations had inherited the withdrawal twice ("seen two ways" on the README, "how far the best mirror
+reaches in general is open" on the reading guide).
+
+**The thermal arrows.** The 2026-09-06 bullet "the thermal story had its arrows reversed … then read their
+output as heat production" implies a causation that does not exist. The relabel to the |0⟩-ground
+convention is right, but Heisenberg coupling and Z-dephasing commute with X^⊗N, which exchanges σ⁻ and σ⁺
+on every site, so the old generator is the exact similarity (X^⊗N ⊗ X^⊗N)·L·(X^⊗N ⊗ X^⊗N) of the new one,
+entrywise difference 0.0 at N = 2, 3. No eigenvalue changed, so no Q_max and no frequency count did; the
+sign of the steady ⟨Z⟩ flips. The printed F1 distances did move across the relabel (98 → 63 at n̄ = 0 for
+the amplitude channel alone, 4.1·10¹⁴ → 1.7·10¹⁴ with co-axial Z), because the canonical scorer is greedy
+and reads an orbit of values for one spectrum (its own docstring says so); the permutation changes the order
+in which the eigenvalues arrive, at the floor and on the broken co-axial row alike. The page had claimed the
+swap invisible to "every spectral number" and now says which numbers are spectral. The heat-production and self-heating readings were wrong for their own reasons (n̄
+is an external input, and no self-consistent occupation exists, an identity for any β > 0), not because of
+the direction. The bullet also undercounted: `dna_base_pairing.py`, `water/proton_water_chain.py`,
+`mixed_bridge.py`, `failed_third.py` and `n4_across_boundary.py` label the same |1⟩⟨0| as σ⁻, three of them
+with comments that say the opposite of the code. By the same similarity no Liouvillian spectrum they print
+changes; a reading that fixes a basis state does, and `failed_third.py`'s Test 3 is one: its
+effective-channel spectrum is taken by process tomography with Q3 held in |0⟩, which the similarity does not
+conjugate, and its slowest rate reads −0.4742 under the committed label against −0.4146 with σ⁻ = |0⟩⟨1|
+(option A, κ = 0.1, t = 5). The same repair cut THERMAL_BREAKING from 613 to 103 lines and took F6's
+source with it (the V(N) derivation, the uniform-γ scope, the block-versus-Liouvillian open question),
+after which F6's clause "under non-uniform γ: applies only to the extremal (best-Q) mode", there since
+the registry's first version and contradicted by the page it cites, stood unopposed; it is false (N = 5,
+γ = [0.5, 0.01×4]: ω_max = 7.228595 against 7.236068), because the frequencies move with the profile.
+
+**Five narrowings.** XY, Ising and XXZ were called "tested instances, not a topology-free theorem" on
+NON_HEISENBERG_PALINDROME and QST_BRIDGE, while the proof is per bond and the F1 entry says any graph.
+PROOF_F80 and its registry entry turned the per-bond Step-5 lemma's reach (any graph at one shared sign,
+the Π²-even M = 2L_H, linearity, the star 2|m − 2j|, the two-sector ring) into "finite checks", although
+the lemma never looks past the bond's two sites. F21's number was given to a textbook population and its
+own result, no self-consistent occupation, dropped; F-numbers are not reused. The glossary lost the R row,
+the project's namesake. DNA_BASE_PAIRING said its producer "does not establish a 310 K bath model" while
+it computes a Bose-Einstein n̄ at kT = 215 cm⁻¹ (1.632 G-C, 2.024 A-T). And F56's residuals were quoted
+beside a witness that counts the recursion one step later, so a lock asserting a residual above 10⁻³ at
+ε = 10⁻⁴ passed on the counting offset √ε (0.0108) rather than on the expansion (0.0008); both now count
+accepted steps before the stopping step.
+
+**The shape.** The same as the two over-retractions entered above: a true local obstruction (the cap
+fails at d = 6; the depolarizing rate is absolute; the cluster multiplicities need a collision count; ω_typ
+and the rates are unsourced) carried as a blanket narrowing of what the proof covers, then pinned. In each
+case a sharper statement was one step away: a two-line lemma and a rank mod p, a similarity that changes
+nothing, the lemma the page already proved. The corrections are kept; the narrowing is not.

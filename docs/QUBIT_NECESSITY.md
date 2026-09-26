@@ -40,12 +40,13 @@ number. Why does the complete local class exchange close only for two?
 
 For the complete local immune/decaying class exchange, the answer is the
 equation d² − 2d = 0. Its only nonzero solution is d = 2. F121 also proves
-that d > 2 retains a partial dissipator palindrome. A seeded numerical
-translation-invariant construction numerically reaches the full combinatorial ceiling in
-the verified cases `(d,N)=(3,2),(3,3),(4,2)`; general attainment has not been
-derived. The shift-aligned product construction has rank `(2d)^N`, but that is
-not a universal product cap: a `d=6,N=2` product construction reaches rank 180,
-above `(2d)^N=144`.
+that d > 2 retains a partial dissipator palindrome. Any product mirror is capped
+at `max_m (2d)^(N−2m)(d³−d²)^m`, which is `(2d)^N` for every d ≤ 5 and exceeds it
+from d = 6 on (a `d=6,N=2` product of a dark-only and a lit-only site reaches rank
+180 > 144); it is full only at d = 2. A non-product, translation-invariant
+construction attains the full combinatorial ceiling at `(d,N)=(3,2),(3,3),(4,2)`,
+exactly (its rank mod p equals the ceiling); whether it does at every (d, N) is
+open.
 
 The reason is balance. Under the single-axis/full-Cartan dephasing class used
 here, a local operator space has d immune and d²−d decaying directions. A

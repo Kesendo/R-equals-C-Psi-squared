@@ -1,0 +1,25 @@
+F1 operator identity  Pi.L.Pi^-1 + L + 2*Sigma*I = 0  on graphs with odd cycles
+integer per-bond J in 1..4, integer per-site gamma in 1..3; residual compared with == 0.0
+
+triangle: N = 3, bonds [(0, 1), (1, 2), (2, 0)]
+  J = [2, 2, 1], gamma = [1, 2, 2], Sigma = 5
+  XY (XX + 3/4 YY)     max|residual| = 0.0     nonzero entries 0       EXACT
+  Ising (ZZ)           max|residual| = 0.0     nonzero entries 0       EXACT
+  XXZ (Delta = 1/2)    max|residual| = 0.0     nonzero entries 0       EXACT
+  DM control (XY - YX) max|residual| = 4       nonzero entries 384     broken, as it must be
+
+K4: N = 4, bonds [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
+  J = [2, 2, 2, 4, 1, 3], gamma = [3, 3, 3, 1], Sigma = 10
+  XY (XX + 3/4 YY)     max|residual| = 0.0     nonzero entries 0       EXACT
+  Ising (ZZ)           max|residual| = 0.0     nonzero entries 0       EXACT
+  XXZ (Delta = 1/2)    max|residual| = 0.0     nonzero entries 0       EXACT
+  DM control (XY - YX) max|residual| = 8       nonzero entries 3072    broken, as it must be
+
+5-ring: N = 5, bonds [(0, 1), (1, 2), (2, 3), (3, 4), (4, 0)]
+  J = [4, 2, 2, 1, 3], gamma = [2, 2, 1, 2, 1], Sigma = 8
+  XY (XX + 3/4 YY)     max|residual| = 0.0     nonzero entries 0       EXACT
+  Ising (ZZ)           max|residual| = 0.0     nonzero entries 0       EXACT
+  XXZ (Delta = 1/2)    max|residual| = 0.0     nonzero entries 0       EXACT
+  DM control (XY - YX) max|residual| = 8       nonzero entries 10240   broken, as it must be
+
+ALL EXACT

@@ -245,7 +245,8 @@ def main():
     out()
     no_self_heating_fixed_point(out)
     out("This checks a local bath target, not a Gibbs state of the interacting H.")
-    out("No self-heating, heat-production, cooling-rate, or biological claim follows.")
+    out("The loop n_bar -> n_bar' is the model's closing rule, not part of the generator;")
+    out("within it, no self-consistent occupation exists (the identity above).")
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"\n>>> Results saved to: {out_path}")
 

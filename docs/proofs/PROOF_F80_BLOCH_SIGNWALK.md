@@ -9,10 +9,14 @@
 - [`framework/lindblad.py`](../../simulations/framework/lindblad.py) (`palindrome_residual`)
 - Numerical verification: [`pi2_odd_universality_data_sweep.py`](../../simulations/pi2_odd_universality_data_sweep.py) (N=3-6, all topologies); [`results/n7_bloch_signwalk_verification.txt`](../../simulations/results/n7_bloch_signwalk_verification.txt) (N=7 full SVD); pytest `test_F80_bloch_signwalk_chain_pi2_odd`.
 
-**Status:** The open-chain two-body sign-walk locations are derived for all N
-and verified through N=7. Equal cluster multiplicities are only a property of
-the N=3–7 table. The per-bond Π-action is a separate structural identity; it
-does not extend the free-fermion JW dispersion to generic k-body terms.
+**Status:** Proven. The open-chain two-body sign-walk locations are derived for
+all N and verified through N=7; equal cluster multiplicities are a property of
+the N=3–7 table, and the general multiplicity counts sign-vector collisions.
+The structural identity behind them, M = −2i·(H⊗I) or +2i·(I⊗Hᵀ), rests on a
+per-bond lemma and so holds on any graph, at any body count, whenever every
+bond carries the same Step-5 sign s. The cluster values are closed for the three
+two-body graph families (chain, star, ring); for generic k-body terms they are
+not established, since the JW map no longer gives a free-fermion bilinear.
 
 **Scope:** chain bond-summed Π²-odd 2-body Hamiltonian H = c · Σ_{l=0}^{N-2} (P_l ⊗ Q_{l+1}) on N-site open chain, with (P, Q) ∈ {(X,Y), (X,Z), (Y,X), (Z,X)}, under uniform Z-dephasing γ.
 
@@ -37,11 +41,63 @@ identification. Step 5 is the per-site Π² action computation that pins down th
 sign on each mode. Steps 6-7 assemble the sign-walk formula. The resulting
 cluster locations are verified to machine precision through N=7.
 
-The theorem on this page is the open-chain two-body result for the four stated
-Π²-odd bilinears. Direct finite checks of the per-bond Π-action on rings,
-stars, and selected 3- and 4-body terms do not supply a JW/Bogoliubov
-cluster-value theorem for those systems. Their explicit formulas remain
-outside F80's theorem scope.
+The theorem's cluster-value formula is the open-chain two-body result for the
+four stated Π²-odd bilinears. The structural identity under it reaches much
+further, because Step 5 is proven bond by bond.
+
+**Reach beyond the chain.** The Step-5 lemma Π·[bond,·]·Π⁻¹ = s·{bond,·} uses
+only the two sites of the bond it is about. Nothing in it knows where the other
+bonds sit, how many there are, or what coefficient each carries, so the sum over
+bonds goes through on any graph: for any H that is a sum of Π²-odd bonds sharing
+one sign s, with any per-bond coefficients,
+M = −2i·(H⊗I) (s = +1) or M = +2i·(I⊗Hᵀ) (s = −1), and Spec(M) = 2i·Spec(H) up to
+the sign that s fixes. The per-site factor behind the flip is (−1)^{n_Y+n_Z}, so
+the same argument covers Π²-odd bonds of any body count; the committed checks run
+ring, star, 3-body (X,X,Y) and 4-body (X,X,X,Y) at N = 4, 5
+(`F80ExtensionExplorationTests`). A graph with ordered (P, Q) bonds needs an
+orientation for each bond to define H at all (on the complete graph H(i→j) ≠ H(j→i));
+the identity holds for whichever orientation is chosen.
+
+The same lemma settles the Π²-even bonds. With n_Y + n_Z even the flip is absent,
+so Π·[bond,·]·Π⁻¹ = −ε_P·ε_Q·[bond,·] and the bond's piece of M is
+(1 − ε_P·ε_Q)·L_{H_bond}. For XX, YY, ZZ (ε_P·ε_Q = +1) that is zero: the truly
+bonds, the exact mirror. For (Y,Z) and (Z,Y) (ε_P·ε_Q = −1) it is M = 2·L_H =
+−2i·[H,·], so Spec(M) is 2i times the energy differences λ_a − λ_b, the Bohr
+frequencies, rather than the energies. The mirror-defect is always ±2i times a
+Hamiltonian object: **H⊗I for Π²-odd** (one-sided, the single energies) and
+**[H,·] for Π²-even non-truly** (two-sided, the energy gaps). The Π²-parity of the
+bond is the switch.
+
+Mixed-letter Hamiltonians need no separate sign-walk. M = Π·L_H·Π⁻¹ + L_H is
+linear in H (the dissipator and the 2σ·I term cancel via F1, which is the Master
+Lemma's γ-independence), so M(H₁ + H₂) = M(H₁) + M(H₂) identically. A Hamiltonian
+mixing Π²-odd bonds of both signs, or odd with even, gets the sum of its per-bond
+pieces; it is then no longer proportional to one H⊗I. Collect the pieces by the
+side they act on: M(ρ) = −2i·H_L·ρ + 2i·ρ·H_R, with H_L the s = +1 bonds plus the
+Π²-even non-truly ones and H_R the s = −1 bonds plus the same Π²-even ones. Left and
+right multiplication commute, so Spec(M) = {−2i·a + 2i·b : a ∈ Spec H_L,
+b ∈ Spec H_R}, purely imaginary because H_L and H_R are Hermitian; it is not a
+combination of the per-bond spectra, and an even bond enters both sides.
+
+The cluster *values* are the graph's dispersion, one per family:
+- **Chain** (path graph): the open-chain cosine 2cos(πk/(N+1)), the Theorem below.
+- **Star**: H_star = Σ_s X_hub·Y_s = X_hub ⊗ (Σ_s Y_s) *factorizes*. With m = N−1
+  spokes, the m commuting spoke-Y's give Σ_s Y_s the spectrum m − 2j (j = 0..m), the
+  hub's X gives ±1, so Spec(H_star) = ±(m − 2j) and the clusters are the even
+  integers **2|m − 2j|** = 2m, 2m − 4, …, with a kernel wherever m − 2j = 0. At N = 4
+  the singular values of M are {2, 6}; at N = 5 they are {4, 8} plus the kernel.
+  The star's dispersion is the spoke sum, not a cosine.
+- **Ring** (cycle graph): the closed boundary brings the Jordan-Wigner parity
+  twist in, so the ring is the cyclic free fermion 2cos(2π(k+a)/N) in *two*
+  sectors, periodic a = 0 and anti-periodic a = ½, and the clusters are the
+  sign-walk sums over both, unioned. At N = 4 that is {4} from a = 0 and {4√2} from
+  a = ½; at N = 6 it is {4, 8} and {4√3}. The kernel comes from the anti-periodic
+  sector at N = 4 and from both sectors at N = 6.
+  The open chain has only the one sector, which is why its dispersion is a single
+  cosine; the closed loop has two.
+
+What stays open is the cluster-value formula for generic k-body terms (see below
+the table).
 
 ---
 
@@ -73,15 +129,15 @@ Since M = ∓2i·(H⊗I) is normal (H Hermitian), its singular values are the mo
 
 All entries: predicted and observed agree to machine precision (predicted-vs-actual residual 10⁻¹⁴). N=7 verified by both full 16384×16384 SVD and independent partial-eigsh check. Tests across all 4 Π²-odd Pauli pairs (X,Y), (X,Z), (Y,X), (Z,X) per the F79 universality.
 
-**Finite k-body checks of the structural identity:** `Spec(M) = ±2i · Spec(H_non-truly)` was checked for:
+**k-body: the structural identity.** `Spec(M) = ±2i · Spec(H_non-truly)` holds for k-body Π²-odd chain terms by the same per-bond lemma, the flip "a Π²-odd bond carries exactly one X" read as its general form, the per-site factor (−1)^{n_Y+n_Z} = −1, with sign s = (−1)^{n_Y+1}. It was checked for:
   - k=3: (X,X,Y), (Y,Y,Y), (X,X,Z), (Z,Z,Z), (X,Y,X) at N=4, 5, 6
   - k=4: (X,X,X,Y) at N=5, 6
 17 cases total, all matching `Spec(M)` (eigvals of the 4^N × 4^N residual) to predicted `2i · Spec(H_non-truly)` with multiplicity ×2^N, machine precision. Pytest lock: `test_F80_kbody_spectrum_identity`.
 
 Generic k-body Pauli terms map to higher-order Majorana interactions, so the
 two-body single-particle cosine dispersion and Bogoliubov sign-walk do not
-carry over. The finite structural checks above are not a k-body cluster-value
-formula.
+carry over. The structural identity holds there; a k-body cluster-value
+formula does not follow from it.
 
 ---
 
@@ -207,7 +263,7 @@ By the flip, {l : σ(l,R) = −1} = {l : σ(l,ΠR) = +1}, the bonds that commute
 
 For the four Π²-odd pairs s = +1 for (X,Y) and (Y,X), s = −1 for (X,Z) and (Z,X). ∎
 
-*Consequence for M.* M = L_H + Π·L_H·Π⁻¹ = −i[H,·] − i·s·{H,·}. For s = +1, M = −2i·(H⊗I_bra); for s = −1, M = +2i·(I_ket⊗Hᵀ). Both give Spec(M) = ±2i·Spec(H), the F80 structural identity: the imaginary spectrum 2i·Spec(H) is what Step 5 establishes, and the ± reflects the E → −E symmetry of Spec(H) supplied by the Steps 1-2 JW reduction (H is a Majorana bilinear). The argument is per-site and per-bond, hence **N-independent: it holds for every N.** The machine-precision checks at N=3,4,5 confirm each step separately: the three identities, the bond lemma, the flip, and Π·[H,·]·Π⁻¹ = s·{H,·} for all four pairs.
+*Consequence for M.* M = L_H + Π·L_H·Π⁻¹ = −i[H,·] − i·s·{H,·}. For s = +1, M = −2i·(H⊗I_bra); for s = −1, M = +2i·(I_ket⊗Hᵀ). Both give Spec(M) = ±2i·Spec(H), the F80 structural identity: the imaginary spectrum 2i·Spec(H) is what Step 5 establishes, and the ± reflects the E → −E symmetry of Spec(H) supplied by the Steps 1-2 JW reduction (H is a Majorana bilinear). The argument is per-site and per-bond, hence **N-independent: it holds for every N**, and graph-independent in the same stroke (see "Reach beyond the chain" above). The machine-precision checks at N=3,4,5 confirm each step separately: the three identities, the bond lemma, the flip, and Π·[H,·]·Π⁻¹ = s·{H,·} for all four pairs.
 
 *Geometric picture (the H-eigenbasis view).* The same fact in the H-eigen-operator basis σ_(a,b) = |E_a⟩⟨E_b|: group these operators into (ε_ket, ε_bra) sectors (fixed ket and bra energy). Π is a permutation of those sectors, full-unitary blocks, gauge-checked to machine precision at N=3,4,5; L_H is the scalar −i(ε_ket − ε_bra) on each sector, so Π·L_H·Π⁻¹ is again scalar per sector, hence diagonal, and M is a sum of two diagonals. The Pauli-string proof above is the basis-free version of that picture.
 
@@ -330,8 +386,17 @@ What enabled the discovery: comparing M's eigenvalues directly to H's many-body 
 
 ## Status
 
-The open-chain two-body sign-walk locations are proven for the scoped
-bilinears and verified at N=3–7. Their equal multiplicity is table-specific;
-the collision-count formula above is the general statement. The direct
-per-bond Π-action has wider finite checks, but topology-specific and k-body
-cluster-value formulas are not established here.
+F80 is proven, all seven steps analytical. The open-chain two-body sign-walk
+locations hold for the four scoped bilinears at every N and are verified at
+N=3–7; their equal multiplicity there is table-specific, and the collision
+count r(v)·4^N/2^m is the general statement. Step 5, the Π-action, is a per-site
+Pauli computation, Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q, checked step by step at
+N=3,4,5 ([`f80_step5_recon.py`](../../simulations/f80_step5_recon.py)). Because it is
+per-bond, the structural identity is topology- and body-count-agnostic: it holds
+on any graph for Π²-odd bonds sharing one s, the Π²-even non-truly bonds give
+M = 2·L_H (the energy differences), mixed-letter Hamiltonians are covered by the
+linearity of M in H, and the cluster-value formulas of all three two-body graph
+families are closed: chain (path cosine 2cos(πk/(N+1))), star (integer spoke
+ladder 2|m−2j|, by factorization) and ring (the two-sector cyclic free fermion,
+a = 0 and a = ½). What remains open is the explicit cluster-value formula for
+generic k-body terms.

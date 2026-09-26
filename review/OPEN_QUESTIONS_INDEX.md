@@ -937,7 +937,7 @@ neural justifications without classifying unrelated entries.
 
 **Question:** Does the sacrifice-zone advantage recover at intermediate temperatures if the sacrifice qubit is selectively heated? Same requirement: controlled per-qubit thermal injection.
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 474)
+**Source:** `experiments/THERMAL_BREAKING.md` at commit `7bb87c72^`, line 573
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** untagged
@@ -1753,7 +1753,7 @@ neural justifications without classifying unrelated entries.
 
 **Question:** What is the critical n_bar where the palindromic pairing drops below 50%? The data suggests a smooth transition, not a phase boundary. (Straightforward: sweep n_bar with finer resolution, compute palindrome score at each point.)
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 454)
+**Source:** `experiments/THERMAL_BREAKING.md` at commit `7bb87c72^`, line 552
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** numerical-verification
@@ -1763,11 +1763,11 @@ neural justifications without classifying unrelated entries.
 
 **Question:** What external cooling rate stabilizes the system at a given n_bar? The fixed-point computation shows divergence without cooling. The inverse question: how much cooling for a target operating point? (Model: add a cold bath channel that competes with self-heating.)
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 459)
+**Source:** `experiments/THERMAL_BREAKING.md` at commit `7bb87c72^`, line 558
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** numerical-verification
-**Status:** unclassified
+**Status:** premise dissolved: no self-consistent occupation exists for any map from n_bar to a temperature with β > 0 (an identity, [F21](../docs/ANALYTICAL_FORMULAS.md#f21)), and the generator takes n_bar as an input with no feedback law, so there is no divergence for a cooling rate to stabilize; a cold second bath is a different model.
 
 ### OQ-229
 
@@ -1777,7 +1777,7 @@ neural justifications without classifying unrelated entries.
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** numerical-verification
-**Status:** resolved. ω_max is the k = N−1 member of F2's dispersion ω_k = 4J·(1 − cos(πk/N)), derived from the (0,1) coherence block's tight-binding reduction in `docs/proofs/derivations/D10_W1_DISPERSION.md` (April 2026). The question's own premise carried the "w=1" mislabel: the object is that block, not the Pauli XY-weight-1 sector, which is not L-invariant. What THERMAL_BREAKING now asks in this slot is the step that was never taken: whether any other joint-popcount block reaches a higher Q than the (0,1) block.
+**Status:** resolved. ω_max is the k = N−1 member of F2's dispersion ω_k = 4J·(1 − cos(πk/N)), derived from the (0,1) coherence block's tight-binding reduction in `docs/proofs/derivations/D10_W1_DISPERSION.md` (April 2026). The question's own premise carried the "w=1" mislabel: the object is that block, not the Pauli XY-weight-1 sector, which is not L-invariant. What THERMAL_BREAKING now asks in this slot, under "Open question", is the step that is measured but not proven: whether any other joint-popcount block reaches a higher Q than the (0,1) block (it does not at N=2-6; no general-N proof).
 
 ### OQ-230
 
@@ -2245,7 +2245,7 @@ neural justifications without classifying unrelated entries.
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** math-proof
-**Status:** resolved 2026-08-02. omega_max is the k = N-1 member of F2's dispersion omega_k = 4J(1 - cos(pi*k/N)), derived in `docs/proofs/derivations/D10_W1_DISPERSION.md` (April 2026). The premise carried the "w=1" mislabel: the object is the (0,1) coherence block, not the Pauli XY-weight-1 sector, which is not L-invariant. OQ-228 is the same question scraped from the section header one line up; both are closed by the same proof. What THERMAL_BREAKING now asks in that slot is a different question: whether any other joint-popcount block reaches a higher Q than the (0,1) block (measured true at N=2-5, unproven in general).
+**Status:** resolved 2026-08-02. omega_max is the k = N-1 member of F2's dispersion omega_k = 4J(1 - cos(pi*k/N)), derived in `docs/proofs/derivations/D10_W1_DISPERSION.md` (April 2026). The premise carried the "w=1" mislabel: the object is the (0,1) coherence block, not the Pauli XY-weight-1 sector, which is not L-invariant. OQ-228 is the same question scraped from the section header one line up; both are closed by the same proof. What THERMAL_BREAKING now asks in that slot is a different question: whether any other joint-popcount block reaches a higher Q than the (0,1) block (measured: none does at N=2-6; unproven in general).
 
 ### OQ-245
 
@@ -2705,7 +2705,7 @@ The record points to a measurement (SPAM) offset (a static late phase, equal ⟨
 
 **Question:** Computable (no hardware needed)
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 452)
+**Source:** `experiments/THERMAL_BREAKING.md` at commit `7bb87c72^`, line 550
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** hardware-test
@@ -2715,7 +2715,7 @@ The record points to a measurement (SPAM) offset (a static late phase, equal ⟨
 
 **Question:** Requires controlled thermal injection on hardware
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 465)
+**Source:** `experiments/THERMAL_BREAKING.md` at commit `7bb87c72^`, line 564
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** hardware-test
@@ -2725,7 +2725,7 @@ The record points to a measurement (SPAM) offset (a static late phase, equal ⟨
 
 **Question:** Can the frequency-diversity explosion at n_bar > 0 be observed on superconducting qubit hardware by intentionally heating qubits (e.g., driving with a thermal microwave field)? Standard cryogenic operation holds n_bar ≈ 0; this would require deliberate thermal injection outside normal operating conditions.
 
-**Source:** `experiments/THERMAL_BREAKING.md` (line 467)
+**Source:** `experiments/THERMAL_BREAKING.md` at commit `7bb87c72^`, line 566
 **Section:** Open Questions
 **Date:** March 30, 2026
 **Tag:** hardware-test

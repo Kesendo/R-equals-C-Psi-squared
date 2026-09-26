@@ -300,11 +300,11 @@ and the willingness to follow an argument that builds step by step.
 3. [The Qudit Partial Palindrome](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md):
    The 2026 sharpening of step 2. At dimension d > 2 the mirror does
    not simply vanish: it survives *partially*, with a closed-form
-   ceiling on how many decay modes can pair, and the ceiling is
-   complete only at d²−2d=0. The boundary of the qubit world is now one
-   equation seen twice: in the per-site split and in the pairing
-   ceiling. Which operators reach that ceiling in general is still
-   open.
+   ceiling on how many decay modes can pair and a closed-form cap on
+   what any product mirror can pair. Both close completely only at
+   d²−2d=0. The boundary of the qubit world is now one equation seen
+   three ways: the per-site split, the pairing ceiling, and the
+   operator cap.
 
 4. [Incompleteness Proof](proofs/INCOMPLETENESS_PROOF.md): Where does
    the noise come from? The proof answers the half that can be answered:
@@ -729,12 +729,14 @@ and "conjugation" appear), but each document introduces its own machinery.
 6. [The Qudit Partial Palindrome](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md):
    Where it all ends. At local dimension d > 2 the mirror group grows
    into a wreath family Z_d ≀ Z₂ with D₄ as its d = 2 column, the
-   pairing has a closed-form ceiling, and it closes completely only at
-   d² − 2d = 0: the same boundary equation Story 3 met, now seen from
-   the counting side (F121). A product mirror built on a restricted
-   subspace reaches rank (2d)^N, which is not a cap on every product
-   mirror; a few small translation-invariant constructions reach the
-   ceiling, and how far the best mirror reaches in general is open.
+   pairing has a closed-form ceiling and a closed-form operator cap,
+   and both close completely only at d² − 2d = 0: the same boundary
+   equation Story 3 met, now seen from the operator side (F121). The
+   cap is (2d)^N up to d = 5 and grows past it from d = 6, where a
+   dark-only site beside a lit-only site beats the swap; what no
+   product reaches, a translation-invariant mirror reaches completely
+   at every case computed, and only whether it does at every size is
+   still open.
 
 7. [On the One Diagonal](../reflections/ON_THE_ONE_DIAGONAL.md): The
    synthesis, written the day the three big subjects of the repository

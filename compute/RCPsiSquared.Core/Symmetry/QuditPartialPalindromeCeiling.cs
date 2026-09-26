@@ -25,9 +25,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// number of disagreeing sites.
 ///
 /// <para><b>The interacting case (not claimed here):</b> the ceiling is the dissipator's
-/// palindrome about the physical center −Nγ. The reported SU(3)-Heisenberg sample changes
-/// the count from 54 to 48 there, but this is not a universal reduction law: H=cI has
-/// L_H=0 and leaves the dissipator unchanged. The interacting paired count is H-dependent
+/// palindrome about the physical center −Nγ. For the symmetric SU(3) Heisenberg at N = 2
+/// (J = 0.05, 1, 10) adding H lowers the count there, 54 → 48, and helps at no centre at all:
+/// the full L pairs fewer than the dissipator at the five rung centres 0, −γ, …, −4γ
+/// (9 → 6, 18 → 12, 54 → 48, 72 → 60, 36 → 27), and a pair can only form about a midpoint
+/// of the real-part levels, so the three half-integer midpoints (0 → 0) complete the
+/// comparison. That is a statement about this H, not about every H: H=cI has L_H=0 and leaves
+/// the dissipator unchanged. The interacting paired count is H-dependent
 /// (no H-independent closed form), and for the
 /// symmetric SU(3) Heisenberg the real parts follow the Absorption Theorem Re(λ) = −2γ⟨Q⟩
 /// (the −3γ rung = ⟨Q⟩ = 1.5). Carried in
@@ -261,7 +265,7 @@ public sealed class QuditPartialPalindromeCeiling : Claim
             yield return new InspectableNode("d = 2 uniqueness",
                 summary: "the unique fully-paired column; (d−1)^k = 1 only at d = 2; this IS d² − 2d = 0 (parent QubitNecessityPi2Inheritance) as an N-family");
             yield return new InspectableNode("interacting spectrum (H-dependent)",
-                summary: "the sampled symmetric SU(3)-Heisenberg H changes 54→48 about −Nγ at N = 2; this is not universal (H=cI gives L_H=0 and leaves the dissipator count unchanged). The interacting count has no H-independent closed form; the SU(3)-Heisenberg real parts follow Re(λ) = −2γ⟨Q⟩ (PROOF §4)");
+                summary: "for the symmetric SU(3)-Heisenberg H at N = 2 (J = 0.05, 1, 10) adding H reduces the pairing at every rung centre (54→48 about −Nγ, 72→60 about −3γ) and raises it at no centre where a pair can form (the eight midpoints of the real-part levels); that is this H, not every H (H=cI gives L_H=0 and leaves the dissipator count unchanged). The interacting count has no H-independent closed form; the SU(3)-Heisenberg real parts follow Re(λ) = −2γ⟨Q⟩ (PROOF §4)");
             yield return new InspectableNode("live lab (the witness)",
                 summary: "this ceiling is recomputed from the actual built dissipator spectrum by " +
                          "QuditPartialPalindromeWitness; run `inspect --root qudit [--qudit-d 3 --qudit-n 2]` " +

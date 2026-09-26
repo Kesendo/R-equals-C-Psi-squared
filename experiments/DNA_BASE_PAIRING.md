@@ -12,7 +12,7 @@ Lindblad proton transfer DNA, R=CPsi2 DNA base pairing -->
 **Depends on:**
 - [Hydrogen Bond Qubit](../docs/water/HYDROGEN_BOND_QUBIT.md) (single H-bond, Zundel)
 - [V-Effect Palindrome](V_EFFECT_PALINDROME.md) (coupling creates frequencies)
-- [Finite-Occupation Amplitude Channels](THERMAL_BREAKING.md) (external `n_bar` channel sweep)
+- [Thermal Breaking](THERMAL_BREAKING.md) (external `n_bar` channel sweep)
 - [Cavity Mode Localization](CAVITY_MODE_LOCALIZATION.md) (sacrifice zone mechanism)
 
 ---
@@ -54,11 +54,14 @@ Six results:
 
 4. **Finite-occupation channel comparison.** The selected second channel set
    reduces Q from 1.9 to 0.6 and changes the four-decimal frequency-bin count
-   from 15 to 26 for G-C. It also
-   breaks the palindrome, but `n_bar` is not the cause: that set runs
-   amplitude damping *alongside* the co-axial Z-dephasing, and it is the
-   shared axis that breaks. Amplitude damping alone keeps the palindrome, at
-   a centre of −Σγ/2 ([F137](../docs/ANALYTICAL_FORMULAS.md#f137)).
+   from 15 to 26 for G-C. It also breaks the palindrome: the Z-only
+   generator is exactly palindromic, the warm set (emission, absorption and
+   Z) pairs 249 cm⁻¹ (A-T) and 318 cm⁻¹ (G-C) away from its mirror at the
+   trace centre. The producer does not separate the causes. This H carries
+   on-site transverse fields, which lie outside
+   [F137](../docs/ANALYTICAL_FORMULAS.md#f137)'s scope (amplitude damping
+   alone keeps the palindrome for XXZ-type H with no on-site field), and the
+   warm set also puts amplitude damping beside co-axial Z-dephasing.
 
 5. **Sacrifice zone works in G-C.** Edge sacrifice (outer H-bonds noisy,
    central protected) gives Q_max = 7.4 vs uniform 1.9 (3.8x). Same
@@ -156,20 +159,26 @@ biology require special environments that enhance tunneling. (Löwdin's 1963 mod
 
 ## Result 4: Finite-occupation channel comparison
 
-The producer supplies `n_bar` and amplitude-channel rates as model inputs. It
-does not calibrate them from a measured DNA mode or establish a 310 K bath
-model. On the selected row:
+The occupation is computed at body temperature. The producer takes
+kT = 0.695 cm⁻¹/K · 310 K = 215.4 cm⁻¹ and the Bose-Einstein occupation
+`n_bar = 1/(exp(ω_typ/kT) − 1)` at a typical frequency ω_typ, read as the
+median |Im λ| of the cold (Z-only) spectrum over the modes with |Im λ| > 1 cm⁻¹: ω_typ = 102.9 cm⁻¹ gives
+`n_bar = 1.632` for G-C, and 86.5 cm⁻¹ gives 2.024 for A-T. Two inputs stay
+unsourced. ω_typ is a frequency of the model's own Liouvillian, not a measured
+DNA H-bond mode, and the channel rates (emission γ·(n_bar+1), absorption
+γ·n_bar, at the dephasing rate γ = 50 cm⁻¹) are chosen, not calibrated. On the
+selected row (regime B: J = γ = 50 cm⁻¹, K = 20 cm⁻¹):
 
-| Property | Z only | Z plus amplitude channel |
+| Property | Z only | Z plus amplitude channel at n_bar(310 K) |
 |----------|--------------|--------------|
-| G-C palindrome | exact | broken (by the shared axis, not by the heat) |
+| G-C palindrome | exact (operator residual 0.0) | broken (spectral distance 318 cm⁻¹ at the trace centre) |
 | G-C frequencies | 15 | 26 |
 | G-C Q_max | 1.95 | 0.57 |
 | G-C rate range | 58-300 | 211-627 |
 
 The frequency-bin and Q readings differ between two generators. The result does
 not show temperature enriching a spectrum or identify a biological mechanism;
-the scope is the same as [Finite-Occupation Amplitude Channels](THERMAL_BREAKING.md).
+the scope is the same as [Thermal Breaking](THERMAL_BREAKING.md).
 
 ---
 

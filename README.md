@@ -21,7 +21,7 @@ What began as one symmetry became a registry: [160 F-numbered results](docs/ANAL
 with proofs, tier labels, and typed claims, among them the operator
 anatomy of the mirror itself (Π = R·D, a dihedral group of eight), a
 palindromizer built on the golden ratio, and the exact boundary where
-qubits end (d² − 2d = 0, seen two ways). Early speculations live in
+qubits end (d² − 2d = 0, seen three ways). Early speculations live in
 `recovered/`: some turned out to be premature rather than wrong, others
 remain unsupported. We keep them because the research process matters as
 much as the results.
@@ -183,9 +183,9 @@ squares), and the hardness rung m\* = 2ℓ + deg became, via the moment
 tower, something a chip can measure about itself by doing nothing but
 decaying.
 
-And the boundary of the whole story is now an equation seen two ways:
-the per-site split and the pairing ceiling both close only at
-**d² − 2d = 0**. Qubits are not an assumption. They are the
+And the boundary of the whole story is now an equation seen three ways:
+the per-site split, the pairing ceiling, and the operator cap all close
+only at **d² − 2d = 0**. Qubits are not an assumption. They are the
 unique full column.
 
 → **[Π Factors as R·D](docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)** (the mirror group, the cube of characters)

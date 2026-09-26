@@ -38,6 +38,8 @@ public class QuditMirrorProtectionScalingClaimTests
         Assert.Equal(36L, QuditMirrorProtectionScalingClaim.ProductCap(3, 2));
         Assert.Equal(216L, QuditMirrorProtectionScalingClaim.ProductCap(3, 3));
         Assert.Equal(64L, QuditMirrorProtectionScalingClaim.ProductCap(4, 2));
+        // From d = 6 the (0, 2) pairing beats the swap: 180 > 144 at N = 2.
+        Assert.Equal(180L, QuditMirrorProtectionScalingClaim.ProductCap(6, 2));
     }
 
     [Fact]
@@ -51,15 +53,16 @@ public class QuditMirrorProtectionScalingClaimTests
     }
 
     [Fact]
-    public void ProtectedFraction_EqualsClosedFormTwoOverD_ToTheN()
+    public void ProtectedFraction_IsTwoOverD_ToTheN_ExactlyForDUpToFive()
     {
-        foreach (var (d, n) in new[] { (2, 2), (2, 3), (3, 2), (3, 3), (4, 2), (5, 2), (5, 3) })
-        {
-            Assert.Equal(
-                QuditMirrorProtectionScalingClaim.ProtectedFractionClosedForm(d, n),
-                QuditMirrorProtectionScalingClaim.ProtectedFraction(d, n),
-                precision: 12);
-        }
+        // Integer identity P(d, N)·d^N == 2^N·d^{2N}: the fraction is (2/d)^N with no division.
+        for (int d = 2; d <= 5; d++)
+            for (int n = 1; n <= 6; n++)
+                Assert.True(QuditMirrorProtectionScalingClaim.FractionIsTwoOverDToTheN(d, n), $"d={d}, N={n}");
+        // From d = 6 at N ≥ 2 the cap is larger, so the identity fails; N = 1 keeps it.
+        Assert.True(QuditMirrorProtectionScalingClaim.FractionIsTwoOverDToTheN(6, 1));
+        Assert.False(QuditMirrorProtectionScalingClaim.FractionIsTwoOverDToTheN(6, 2));
+        Assert.False(QuditMirrorProtectionScalingClaim.FractionIsTwoOverDToTheN(7, 3));
     }
 
     [Fact]
@@ -71,9 +74,9 @@ public class QuditMirrorProtectionScalingClaimTests
         Assert.False(QuditMirrorProtectionScalingClaim.IsFullMirror(4));
 
         foreach (var n in new[] { 1, 2, 3, 4 })
-            Assert.Equal(1.0, QuditMirrorProtectionScalingClaim.ProtectedFraction(2, n), precision: 12);
+            Assert.True(QuditMirrorProtectionScalingClaim.ProductCap(2, n) == QuditMirrorProtectionScalingClaim.TotalCoherences(2, n));
 
-        foreach (var (d, n) in new[] { (3, 2), (3, 3), (4, 2), (5, 2) })
+        foreach (var (d, n) in new[] { (3, 2), (3, 3), (4, 2), (5, 2), (6, 2), (7, 3) })
             Assert.True(QuditMirrorProtectionScalingClaim.ProtectedFraction(d, n) < 1.0,
                 $"qudit d={d}, N={n} should be below full protection");
     }

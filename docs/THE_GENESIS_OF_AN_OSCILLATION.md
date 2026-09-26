@@ -32,7 +32,7 @@ carry one already?
 ## The finite-occupation channel scan
 
 The local sigma-minus/sigma-plus channel was scanned with externally supplied
-`n_bar` ([Finite-Occupation Amplitude Channels](../experiments/THERMAL_BREAKING.md)).
+`n_bar` ([Thermal Breaking](../experiments/THERMAL_BREAKING.md)).
 That generator contains no feedback from decay to `n_bar`, so the scan is not a
 test of wave-breaking producing heat or heat creating an oscillation. In this
 finite protocol the real and imaginary spectral parts respond differently;

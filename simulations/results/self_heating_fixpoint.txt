@@ -67,4 +67,5 @@ is not a Gibbs state of the interacting H at any temperature, and that, not a
 failed search, is why no temperature closes the loop.
 
 This checks a local bath target, not a Gibbs state of the interacting H.
-No self-heating, heat-production, cooling-rate, or biological claim follows.
+The loop n_bar -> n_bar' is the model's closing rule, not part of the generator;
+within it, no self-consistent occupation exists (the identity above).

@@ -58,15 +58,26 @@ public class InteriorHorizonTests
     }
 
     [Fact]
-    public void Recursion_AsymptoticFormula_IsNotPresentedAsExactAtFiniteEpsilon()
+    public void Recursion_CountsLikeF56_TheProducersTableReproduces()
     {
-        const double eps = 1e-4, tol = 1e-12;
-        int n = InteriorHorizon.RecursionIterations(0.25 - eps, tol);
-        double residual = n * System.Math.Sqrt(eps)
-                        - InteriorHorizon.RecursionKAsymptotic(0.25 - eps, tol);
-
-        Assert.True(System.Math.Abs(residual) > 1e-3, $"finite-epsilon residual unexpectedly vanished: {residual:E3}");
-        Assert.True(System.Math.Abs(residual) < 0.3, $"asymptotic residual too large in its stated regime: {residual:E3}");
+        // One counting convention (accepted steps before the stopping step, from 0) on both sides:
+        // the live counts reproduce CRITICAL_SLOWING_AT_THE_CUSP.md's residuals -0.573, +0.037,
+        // -0.005, +0.001 at eps = 1e-1..1e-4, tol = 1e-12. The counts are integers of a
+        // deterministic IEEE recursion and the page prints them (24, 106, 333, 974), so they are
+        // compared exactly; the residuals follow from them and are compared at the table's own
+        // rounding, half a unit in the last printed place.
+        const double tol = 1e-12;
+        var table = new[] { (1e-1, 24, -0.573), (1e-2, 106, 0.037), (1e-3, 333, -0.005), (1e-4, 974, 0.001) };
+        foreach (var (eps, expectedN, printed) in table)
+        {
+            double cpsi = 0.25 - eps;
+            int n = InteriorHorizon.RecursionIterations(cpsi, tol);
+            Assert.Equal(expectedN, n);
+            double residual = n * System.Math.Sqrt(eps)
+                            - InteriorHorizon.RecursionKAsymptotic(cpsi, tol);
+            _out.WriteLine($"eps={eps:E0} residual={residual:F6} table={printed:F3}");
+            Assert.True(System.Math.Abs(residual - printed) <= 0.0005, $"eps={eps:E0}: {residual:F6} vs {printed:F3}");
+        }
     }
 
     [Theory]

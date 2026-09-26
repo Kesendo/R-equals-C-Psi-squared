@@ -1,6 +1,6 @@
 ========================================================================
 DNA BASE PAIRING AS PALINDROMIC CAVITY SYSTEM
-Started: 2026-08-05 21:47:40
+Started: 2026-09-26 11:02:46
 ========================================================================
 
 ========================================================================
@@ -33,12 +33,12 @@ PHASE 2: PALINDROMIC MODE ANALYSIS
 ─── Regime: A (DNA realistic) (J/γ = 0.010) ───
 
   A-T (N=2, 16 eigenvalues):
-    Palindrome:    approx (std=1.41e+02)
+    Palindrome:    EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
     Oscillating:   8, distinct freq: 3
     Q-factor:      max=0.400, mean=0.400
     Rates:         min=0.0086, max=200.0000
   G-C (N=3, 64 eigenvalues):
-    Palindrome:    approx (std=1.73e+02)
+    Palindrome:    EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
     Oscillating:   40, distinct freq: 2
     Q-factor:      max=0.800, mean=0.360
     Rates:         min=0.0086, max=300.0000
@@ -47,12 +47,12 @@ PHASE 2: PALINDROMIC MODE ANALYSIS
 ─── Regime: B (enhanced tunnel) (J/γ = 1.000) ───
 
   A-T (N=2, 16 eigenvalues):
-    Palindrome:    approx (std=8.75e+01)
+    Palindrome:    EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
     Oscillating:   12, distinct freq: 3
     Q-factor:      max=1.792, mean=1.059
     Rates:         min=58.9808, max=200.0000
   G-C (N=3, 64 eigenvalues):
-    Palindrome:    approx (std=1.12e+02)
+    Palindrome:    EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
     Oscillating:   52, distinct freq: 15
     Q-factor:      max=1.949, mean=0.895
     Rates:         min=57.5491, max=300.0000
@@ -61,12 +61,12 @@ PHASE 2: PALINDROMIC MODE ANALYSIS
 ─── Regime: C (Zundel-like) (J/γ = 5.000) ───
 
   A-T (N=2, 16 eigenvalues):
-    Palindrome:    approx (std=8.95e+01)
+    Palindrome:    EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
     Oscillating:   12, distinct freq: 3
     Q-factor:      max=9.958, mean=5.919
     Rates:         min=54.3492, max=200.0000
   G-C (N=3, 64 eigenvalues):
-    Palindrome:    approx (std=1.18e+02)
+    Palindrome:    EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
     Oscillating:   52, distinct freq: 15
     Q-factor:      max=11.139, mean=4.988
     Rates:         min=52.0345, max=300.0000
@@ -81,14 +81,14 @@ PHASE 3: THERMAL ANALYSIS (T = 310 K)
 
   A-T (N=2), ω_typ = 86.5 cm⁻¹, n̄(310K) = 2.024:
                             Cold (Z only)          Warm (310 K)
-         Palindrome  approx (std=8.75e+01)  approx (std=2.62e+02)
+         Palindrome  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)  pairing dist 249 at the trace centre (2.1e+15 eps*||L||)
         Frequencies                     3                     4
               Q_max                 1.792                 0.419
          Rate range  58.98-200.00        229.93-478.73
 
   G-C (N=3), ω_typ = 102.9 cm⁻¹, n̄(310K) = 1.632:
                             Cold (Z only)          Warm (310 K)
-         Palindrome  approx (std=1.12e+02)  approx (std=3.02e+02)
+         Palindrome  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)  pairing dist 318 at the trace centre (2.0e+15 eps*||L||)
         Frequencies                    15                    26
               Q_max                 1.949                 0.572
          Rate range  57.55-300.00        210.64-626.60
@@ -123,19 +123,19 @@ PHASE 5: G-C vs A-T COMPARISON
            Eigenvalues               16               64  4.0x
            Frequencies                3                2  0.7x
                  Q_max            0.400            0.800  2.00x
-            Palindrome  approx (std=1.41e+02)  approx (std=1.73e+02)
+            Palindrome  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
 
   --- B (enhanced tunnel) ---
            Eigenvalues               16               64  4.0x
            Frequencies                3               15  5.0x
                  Q_max            1.792            1.949  1.09x
-            Palindrome  approx (std=8.75e+01)  approx (std=1.12e+02)
+            Palindrome  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
 
   --- C (Zundel-like) ---
            Eigenvalues               16               64  4.0x
            Frequencies                3               15  5.0x
                  Q_max            9.958           11.139  1.12x
-            Palindrome  approx (std=8.95e+01)  approx (std=1.18e+02)
+            Palindrome  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)  EXACT (operator residual 0.0, dissipator and Hamiltonian parts)
 
 
 ────────────────────────────────────────────────────────────────────────
@@ -171,9 +171,11 @@ SUMMARY
 
 4. THERMAL BREAKING: At 310 K (n̄ ~ 0.5-2 for DNA H-bond modes),
    frequency diversity increases and Q decreases (consistent with
-   THERMAL_BREAKING). The palindrome is not what heat costs: amplitude
-   damping alone keeps it, at a centre of -Sum(gamma)/2 (F137); it breaks
-   only beside co-axial Z-dephasing.
+   THERMAL_BREAKING). The cold (Z-only) generator is exactly palindromic;
+   the warm set (emission, absorption, Z) is not. This H carries on-site
+   transverse fields, outside F137's scope (T1 alone keeps the palindrome
+   for XXZ-type H with no on-site field), and this producer does not
+   separate the field from the co-axial Z as the cause of the break.
 
 5. SACRIFICE ZONE: In G-C, concentrating noise on the outer H-bonds
    protects the central mode (edge sacrifice), exactly as in qubit
@@ -190,5 +192,5 @@ measured. All quantitative results depend on K. The qualitative
 conclusions (palindrome exact, G-C richer than A-T, sacrifice zone
 works) are robust across the tested K range.
 
-Completed: 2026-08-05 21:47:40
+Completed: 2026-09-26 11:02:46
 Results: D:\Entwicklung\Projekte Privat\R-equals-C-Psi-squared\simulations\results\dna_base_pairing.txt

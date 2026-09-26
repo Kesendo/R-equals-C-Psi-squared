@@ -100,15 +100,15 @@ public class F80ExtensionExplorationTests
     }
 
     [Theory]
-    [InlineData("chain (X,Y) 2-body  [proven scope]", 4, "chain")]
-    [InlineData("ring  (X,Y) 2-body  [F80 open]", 4, "ring")]
-    [InlineData("star  (X,Y) 2-body  [F80 open]", 4, "star")]
-    [InlineData("3-body (X,X,Y)      [F80 open]", 4, "xxy3")]
-    [InlineData("chain (X,Y) 2-body  [proven scope]", 5, "chain")]
-    [InlineData("ring  (X,Y) 2-body  [F80 open]", 5, "ring")]
-    [InlineData("star  (X,Y) 2-body  [F80 open]", 5, "star")]
-    [InlineData("3-body (X,X,Y)      [F80 open]", 5, "xxy3")]
-    [InlineData("4-body (X,X,X,Y)    [F80 open]", 5, "xxxy4")]
+    [InlineData("chain (X,Y) 2-body  [sign-walk theorem]", 4, "chain")]
+    [InlineData("ring  (X,Y) 2-body  [per-bond lemma]", 4, "ring")]
+    [InlineData("star  (X,Y) 2-body  [per-bond lemma]", 4, "star")]
+    [InlineData("3-body (X,X,Y)      [per-bond lemma]", 4, "xxy3")]
+    [InlineData("chain (X,Y) 2-body  [sign-walk theorem]", 5, "chain")]
+    [InlineData("ring  (X,Y) 2-body  [per-bond lemma]", 5, "ring")]
+    [InlineData("star  (X,Y) 2-body  [per-bond lemma]", 5, "star")]
+    [InlineData("3-body (X,X,Y)      [per-bond lemma]", 5, "xxy3")]
+    [InlineData("4-body (X,X,X,Y)    [per-bond lemma]", 5, "xxxy4")]
     public void SpecM_Equals_TwiceI_SpecH_BeyondChainTwoBody(string label, int N, string kind)
     {
         var H = kind switch

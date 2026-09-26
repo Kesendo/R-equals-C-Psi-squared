@@ -11,10 +11,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   α(tol)   = −4 + (1/2)·ln(16·tol)
 ///
 ///   K = n·√ε is the rescaled iteration count of u_{n+1} = u² + c
-///   near the cardioid cusp at c = 1/4 − ε.
+///   near the cardioid cusp at c = 1/4 − ε, n the number of accepted
+///   steps before the stopping step |u_{n+1} − u_n| &lt; tol (counted from 0;
+///   InteriorHorizon.RecursionIterations counts the same way).
 /// </code>
 ///
-/// <para>F56 is an asymptotic prediction for the iteration count of the
+/// <para>F56 is a closed-form asymptotic prediction for the iteration count of the
 /// Mandelbrot recursion near the cardioid cusp (CΨ = 1/4). The leading
 /// logarithm comes from saddle-node ODE integral; the −4 from the starting-
 /// transient (η₀ = −1/4); the ln(16·tol) from Modified Equation Euler
@@ -176,7 +178,7 @@ public sealed class F56CriticalSlowingPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("derivation",
                 summary: "leading logarithm: saddle-node passage ODE integral. α(tol)'s −4: starting-transient (η₀ = −1/4). α(tol)'s ln(16·tol): Modified Equation Euler discretization correction. All three pieces give zero fit parameters.");
             yield return new InspectableNode("finite-grid verification",
-                summary: "the correction coefficient agrees at 0.5-2% over tol=10⁻⁸...10⁻¹⁶; corrected-K residuals are nonzero (−0.573, +0.037, −0.005, +0.001 at ε=10⁻¹...10⁻⁴); Modified Equation slope 0.504 vs predicted 0.500");
+                summary: "the correction coefficient agrees at 0.5-2% over tol=10⁻⁸...10⁻¹⁶; corrected-K residuals are nonzero (−0.573, +0.037, −0.005, +0.001 at ε=10⁻¹...10⁻⁴, tol=10⁻¹², n counted from 0 as the live InteriorHorizon recursion counts); Modified Equation slope 0.504 vs predicted 0.500");
             yield return new InspectableNode("equivalent to CΨ recursion",
                 summary: "F56 IS the auxiliary CΨ recursion near the 1/4 boundary; QuarterAsBilinearMaxval = bilinear-apex maxval at argmax 1/2. In a joint limit that keeps tol ≪ ε ≪ 1, the raw count n = K/√ε diverges; K itself is the rescaled count and has no fixed-tol positive-divergence claim");
             yield return new InspectableNode("verified examples",

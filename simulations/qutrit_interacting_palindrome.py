@@ -19,12 +19,17 @@ FINDINGS THIS SCOUT PINS (self-validating):
       exactly <Q>=1.5 (a 50/50 Hamming-1/Hamming-2 mix). A random H spreads <Q>
       continuously -> no rungs.
 
-  [C] The sampled SU(3)-Heisenberg H reduces pairing at both checked centers.
+  [C] The SU(3)-Heisenberg H reduces pairing and helps at no centre.
       About the physical center -N*gamma: dissipator 54 -> full L 48.
-      About -3g (the two big rungs): dissipator 72 -> full L 60. The earlier
-      "full L exceeds the ceiling (60>54)" was a center mismatch (full-L-best -3g
-      vs dissipator-physical-center -2g). This is not universal over H: H=cI
-      has L_H=0 and leaves every dissipator count unchanged.
+      About -3g (the two big rungs): dissipator 72 -> full L 60. At the five
+      rung centres 0..-4g: 9,18,54,72,36 -> 6,12,48,60,27. A pair lambda <-> mu
+      can only form at the centre -(Re lambda + Re mu)/2, so the candidate
+      centres are the midpoints of the real-part levels ({0,-2,-4}g for the
+      dissipator, {0,-2,-3,-4}g for the full L): eight in all, 0, -1, -1.5,
+      -2, -2.5, -3, -3.5, -4 (units of g). At every one of them the full count
+      never exceeds the dissipator's, at J = 0.05, 1, 10; at any other centre both
+      counts are 0. "Full L exceeds the ceiling (60>54)" is a center mismatch (full-L-best -3g vs dissipator-physical-center -2g). This is a
+      property of this H: H=cI has L_H=0 and leaves every count unchanged.
 
   [D] The interacting paired count is H-DEPENDENT (SU(3) Heisenberg 60 robustly
       across J=0.05..10; off-diagonal-only 48; single bilinear 52; random ~0).
@@ -42,7 +47,7 @@ from itertools import product as iprod
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from qutrit_partial_palindrome import (  # noqa: E402
     gm_raw, GAMMA, site_op, H_su3_heisenberg, L_dephasing, L_hamiltonian,
-    palindrome_pairs,
+    palindrome_pairs, plateau_pairs, PLATEAU_TOLS,
 )
 
 
@@ -67,7 +72,7 @@ def q_expectations(Lf, Q):
 def best_pairing(evals, gamma):
     best, bc = 0, None
     for cc in np.linspace(0, 1.2, 1201):
-        p = palindrome_pairs(evals, cc / 2, tol=1e-4)
+        p = palindrome_pairs(evals, cc / 2)
         if p > best:
             best, bc = p, cc
     return best, (-bc / 2 / gamma if bc is not None else None)
@@ -77,7 +82,7 @@ def paired_at_center(evals, center_in_g, gamma):
     """paired count for reflection about center = -center_in_g * gamma.
     palindrome_pairs(ev, Sg) reflects lambda -> -2*Sg - lambda (center -Sg),
     so to centre at -center_in_g*gamma we pass Sg = center_in_g*gamma."""
-    return palindrome_pairs(evals, center_in_g * gamma, tol=1e-4)
+    return plateau_pairs(evals, center_in_g * gamma)
 
 
 def rung_hist(evals, gamma):
@@ -129,7 +134,7 @@ def main():
           "symmetry quantizes, it does not create. OK")
 
     # ---- [C] sampled SU(3)-Heisenberg H changes pairing at two fixed centers ----
-    print("\n[C] Sampled SU(3)-Heisenberg H reduces pairing at two checked centers:")
+    print("\n[C] The SU(3)-Heisenberg H reduces pairing, and no centre helps:")
     evD = np.linalg.eigvals(LD)
     evF = np.linalg.eigvals(L_hamiltonian(H_su3) + LD)
     print(f"    {'center':>10}{'dissipator':>13}{'full L':>9}{'H effect':>12}")
@@ -147,8 +152,36 @@ def main():
     bF = best_pairing(evF, g)
     print(f"    best-over-centers: dissipator {bD[0]} @ {bD[1]:.1f}g ; full L {bF[0]} @ {bF[1]:.1f}g")
     assert bD[0] == 72 and bF[0] == 60, f"best-over-centers off: {bD}, {bF}"
-    print("    -> at both checked centers this H reduces pairing (54->48, 72->60). The old")
-    print("       '60>54 exceeds' compared full-L@-3g vs dissipator@-2g: a center mismatch. OK")
+    print("    -> at both centers this H reduces pairing (54->48, 72->60). '60>54 exceeds'")
+    print("       compares full-L@-3g with dissipator@-2g: a center mismatch. OK")
+    # No centre helps. A pair lambda <-> mu forms only at the centre -(Re lambda + Re mu)/2, so
+    # the complete set of centres where either operator can pair anything is the set of
+    # midpoints of its real-part levels. The dissipator's levels are {0, -2, -4}g exactly; the
+    # full L's are {0, -2, -3, -4}g (Re lambda = -2g<Q>, <Q> in {0, 1, 1.5, 2}), read to the
+    # plateau tolerance. Every other centre pairs nothing in either, so these eight midpoints
+    # are the whole comparison.
+    assert max(PLATEAU_TOLS) < g * g / (8 * 10.0), "the plateau must sit below ~gamma^2/(8J) at J = 10"
+
+    def levels(ev):
+        lv = np.unique(np.round(ev.real / g, 6))
+        assert np.max(np.abs(ev.real / g - lv[np.argmin(np.abs(ev.real[:, None] / g - lv[None, :]), axis=1)])) \
+            < max(PLATEAU_TOLS) / g, "real parts off their levels"
+        return lv
+
+    for J in (0.05, 1.0, 10.0):
+        evJ = np.linalg.eigvals(L_hamiltonian(H_su3_heisenberg(N, [(0, 1)], J=J)) + LD)
+        lvD, lvF = levels(evD), levels(evJ)
+        assert list(lvD) == [-4.0, -2.0, 0.0] and list(lvF) == [-4.0, -3.0, -2.0, 0.0], (lvD, lvF)
+        mids = sorted({float(a + b) / 2 for lv in (lvD, lvF) for a in lv for b in lv}, reverse=True)
+        assert mids == [0.0, -1.0, -1.5, -2.0, -2.5, -3.0, -3.5, -4.0], mids
+        cD = [paired_at_center(evD, -c, g) for c in mids]
+        cF = [paired_at_center(evJ, -c, g) for c in mids]
+        assert cD == [9, 18, 0, 54, 0, 72, 0, 36] and cF == [6, 12, 0, 48, 0, 60, 0, 27], (J, cD, cF)
+        assert all(f <= d for f, d in zip(cF, cD)), (J, cD, cF)
+        print(f"    J={J:<5}: centres {mids} (units of g)")
+        print(f"             dissipator {cD} -> full L {cF}")
+    print("    -> at every centre where a pair can form, this H pairs no more than the dissipator,")
+    print("       at J = 0.05, 1, 10 (H=cI would change nothing). OK")
 
     # ---- [D] the interacting count is H-dependent (no closed form) ----
     print("\n[D] The interacting paired count is H-DEPENDENT (no closed form):")
@@ -180,10 +213,10 @@ def main():
     print("       to the dissipator skeleton; it is not an interacting paired-count invariant.")
 
     print("\n" + "=" * 70)
-    print("ALL CHECKS PASSED. For the sampled SU(3)-Heisenberg H, pairing decreases")
-    print("54->48 about the physical center -N*gamma and 72->60 about -3g. This is")
-    print("not universal over H: H=cI leaves the dissipator unchanged. The old '60>54'")
-    print("compared full-L@-3g against dissipator@-2g, hence mismatched centers. For")
+    print("ALL CHECKS PASSED. For the SU(3)-Heisenberg H, pairing decreases 54->48")
+    print("about the physical center -N*gamma and 72->60 about -3g, and no centre")
+    print("helps. That is this H: H=cI leaves the dissipator unchanged. '60>54'")
+    print("compares full-L@-3g against dissipator@-2g, hence mismatched centers. For")
     print("the symmetric SU(3) Heisenberg the real parts sit at -2g<Q> exactly (<Q> in")
     print("{0,1,1.5,2}, the -3g rung = <Q>=1.5); this QUANTIZATION is a symmetry effect")
     print("(a random H spreads the values, while retaining the Rayleigh identity). The interacting count is H-dependent (60 for the tested")

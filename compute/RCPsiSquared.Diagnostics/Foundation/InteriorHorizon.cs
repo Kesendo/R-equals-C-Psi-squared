@@ -45,7 +45,9 @@ public static class InteriorHorizon
     public static double HeadingDegrees(double cpsi) => Heading(cpsi) * 180.0 / Math.PI;
 
     /// <summary>The live Mandelbrot iteration count: u_{n+1} = u_n² + c with c = CΨ, u_0 = c, stopping
-    /// when |u_{n+1} − u_n| &lt; <paramref name="tol"/>. For CΨ &lt; ¼ (the two-real-root side) the iteration
+    /// when |u_{n+1} − u_n| &lt; <paramref name="tol"/> and returning that n, i.e. the number of accepted
+    /// steps before the stopping step (counted from 0, the convention of F56 and of
+    /// <c>simulations/critical_slowing_scaling.py</c>). For CΨ &lt; ¼ (the two-real-root side) the iteration
     /// converges and the count diverges as CΨ → ¼ (critical slowing). Returns <paramref name="maxIter"/>
     /// if the stop criterion is not met within the cap, and −1 if the orbit escapes first.
     ///
@@ -53,18 +55,19 @@ public static class InteriorHorizon
     /// and the two do not coincide. Writing c = ¼ + δ and u = ½ + v turns the step into
     /// Δu = v² + δ, whose minimum over the crawl is δ itself; so above the cusp the increment still
     /// falls below tol, and this returns a finite count, exactly while δ &lt; tol. Escape and −1
-    /// begin at δ &gt; tol. At tol = 10⁻⁹ that puts CΨ = ¼ (31611) and CΨ = ¼ + 10⁻¹³ (31612) on the
+    /// begin at δ &gt; tol. At tol = 10⁻⁹ that puts CΨ = ¼ (31610) and CΨ = ¼ + 10⁻¹³ (31611) on the
     /// finite side and CΨ = ¼ + 10⁻⁶ on the −1 side. Read the count as "how long the orbit crawled
     /// slower than tol", and read the regime off <see cref="Discriminant"/> instead.</para>
     ///
-    /// <para>The count is 1-based (the reference tables in
-    /// experiments/CRITICAL_SLOWING_AT_THE_CUSP.md are 0-based, so this returns one more); the rescaled
-    /// K = n·√ε is unaffected at the relevant ε.</para></summary>
+    /// <para>One convention on both sides: counting the stopping step as well would add exactly √ε
+    /// to K = n·√ε, which is larger than F56's own finite-ε remainder from ε = 10⁻² down (√ε = 0.01
+    /// against 0.0008 at ε = 10⁻⁴, tol = 10⁻¹²), so a residual read across two conventions reads
+    /// the offset rather than the expansion.</para></summary>
     public static int RecursionIterations(double cpsi, double tol, int maxIter = 10_000_000)
     {
         double c = cpsi;
         double u = c;
-        for (int n = 1; n <= maxIter; n++)
+        for (int n = 0; n < maxIter; n++)
         {
             double uNext = u * u + c;
             if (Math.Abs(uNext - u) < tol) return n;

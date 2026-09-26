@@ -683,6 +683,7 @@ numerical counting of purely-real eigenvalues (modulo the K_3 N=3 case).
 
 ## Q-factor and F6 Q-edge gain (replace within-N resonator analysis)
 
+<a id="f6"></a>
 ### F6. Q-edge gain (historical alias: V-Effect gain) (Tier 1-2, verified N=2-6)
 
     V(N) = 1 + cos(pi/N) = 2*cos^2(pi/(2N))
@@ -691,9 +692,14 @@ Within-N edge-to-mean Q-factor ratio. It is γ-independent because γ cancels
 in this ratio; it does not say that coupling created either Q-factor and is
 separate from the finite V-Effect census.
 For N=5: (5+sqrt(5))/4 = 1.80902. For N→∞: V = 2 (saturation).
-Under non-uniform γ: applies only to the extremal (best-Q) mode.
+Because Q_mean = 2J/γ = Q_max(N=2), the same number is also the cross-N
+ratio Q_max(N)/Q_max(2), which is the form Thermal Breaking measures.
+Uniform γ only: under a non-uniform profile the (0,1) block's frequencies move
+with the profile, not only its rates (N=5, γ = [0.5, 0.01, 0.01, 0.01, 0.01]:
+ω_max = 7.228595 against 4J(1+cos(π/5)) = 7.236068), so the best-Q mode's
+frequency no longer gives V(N) there.
 
-**Valid for:** Heisenberg chain, Z-dephasing, all N.
+**Valid for:** Heisenberg chain, uniform Z-dephasing, all N.
 **Physically validated:** proton water chain N=1-5, machine-precision
 match ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
 **Replaces:** paired Liouvillian diagonalization for this within-N Q-edge ratio.
@@ -1139,36 +1145,67 @@ with the coupling and gain-loss conventions in the source.
 
 ## Finite-occupation amplitude channel
 
+<a id="f20"></a>
 ### F20. Finite amplitude-channel spectral census (Tier 2, protocol-dependent)
 
-    V(N, n_bar=0) = 1 + cos(pi/N)  (exact)
+    V(N, n_bar=0) = 1 + cos(pi/N)  (exact on the (0,1) block; sampled 1.81 at N=5)
     V(N, n_bar=0.5) ~ 1.44  (N=5)
     Frequencies(N=5, n_bar=0) = 111
     Frequencies(N=5, n_bar=5) = 445
 
 Here `n_bar` is an externally supplied jump-rate parameter, `V` is the sampled
 `Q_max(N=5)/Q_max(N=2)`, and frequencies are distinct `|Im λ|` values after
-rounding to four decimals. These finite-grid readings establish no temperature,
-heat-production, complexity, or asymptotic saturation law.
+rounding to four decimals. At `n_bar=0`, σ⁻ annihilates the vacuum and adds
+only the scalar decay γ_amp/2 to each |0⟩⟨j|, so the (0,1) block keeps F6's
+uniform-γ ratio; σ⁺ at `n_bar>0` opens the block and the ratio leaves it.
+These finite-grid readings establish no temperature, heat-production,
+complexity, or asymptotic saturation law.
 
 **Valid for:** the stated Heisenberg chain, Z-dephasing + finite-occupation
 amplitude channel, numerical grid and binning protocol.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
-### F21. Local amplitude-channel stationary population (Tier 1 derived; finite gate)
+<a id="f21"></a>
+### F21. Self-heating divergence (Tier 2)
 
-    p_excited = n_bar / (2*n_bar + 1)
+    Fixed point: none.  Tr(H rho_ss) = (N-1)*J/(2*n_bar + 1)^2 >= 0 > Tr(H rho_Gibbs)
+    (open Heisenberg chain, J > 0, N >= 2); the two meet only as beta -> 0, n_bar -> infinity
 
-For jumps `sqrt(gamma*(n_bar+1))*sigma_minus` and
-`sqrt(gamma*n_bar)*sigma_plus`, this is the one-site stationary population.
-Its tensor power is stationary for the tested uniform Heisenberg chains because
-it commutes with H and each local channel fixes it. It is not generally the
-Gibbs state of the interacting H. The generator contains no feedback law for
-`n_bar`, so no self-heating or cooling requirement follows.
+The self-heating loop asks for the occupation at which a Heisenberg chain
+under Z-dephasing and a finite-occupation amplitude channel finds its own
+temperature: the channel's steady energy Tr(H rho_ss) at occupation `n_bar`
+should equal the thermal energy Tr(H rho_Gibbs) that the same `n_bar` names.
+No such occupation exists, at any N, any rate and any map from `n_bar` to a
+temperature with beta > 0. The steady state is the product of the one-site
+targets diag(1−p, p), so only the ZZ terms carry energy, (N−1)·⟨Z⟩², while
+tr H = 0 makes every Gibbs energy at beta > 0 strictly negative
+(d/dβ Tr(H rho_β) = −Var(H) < 0). The steady energy sits above the thermal one
+at every occupation, and the thermal energy approaches it only as beta → 0:
+the only place the loop could close is infinite temperature, the maximum-entropy
+state, in every configuration: pure amplitude damping, Z plus amplitude, a
+sacrifice profile, any N.
 
-**Gate:** one-qubit direction and wrong-population control, plus direct
-`||L rho_target||` at N=3,5 in
-[`self_heating_fixpoint.py`](../simulations/self_heating_fixpoint.py).
+The one-site population behind the identity is the textbook stationary
+population of the local channel, p = n_bar/(2·n_bar + 1), for the jumps
+`sqrt(gamma*(n_bar+1))*sigma_minus` and `sqrt(gamma*n_bar)*sigma_plus`; its
+tensor power is stationary for the Heisenberg chain because it depends only on
+the popcount, so it commutes with H, and each local channel fixes it. It is not
+the Gibbs state of the interacting H, which is exactly why the two energies
+never meet. The loop itself is the model's closing rule, not part of the
+generator: the Lindblad generator takes `n_bar` as an input and carries no
+feedback law of its own.
+
+**Valid for:** the open Heisenberg chain (coupling J > 0, run at J = 1; N ≥ 2; at N = 1 H = 0 and both
+energies vanish) under Z-dephasing and a finite-occupation amplitude channel, with the loop
+closed through any map from `n_bar` to a temperature with beta > 0. The loop is a model's
+closing rule; the generator itself has none.
+**Gate:** in [`self_heating_fixpoint.py`](../simulations/self_heating_fixpoint.py),
+the closed form against the measured steady-state energy over nine occupations
+from 10⁻⁴ to 50 at N = 3 and 5 (worst residual 7.55·10⁻¹⁵ on energies of
+order 1), the strict sign of every Gibbs energy (least negative −0.1417), the
+one-qubit direction gate with its wrong-population control (residual 0.141),
+and `||L rho_target||` ≤ 5.56·10⁻¹⁷ at N = 3, 5, including a non-uniform
+Z profile.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
 ---
@@ -1908,7 +1945,9 @@ dose is larger.
     alpha(tol) = -4 + (1/2)*ln(16*tol)
 
 K = n*sqrt(eps) is the rescaled iteration count of u_{n+1} = u^2 + c
-near the cardioid cusp (c = 1/4 - eps). This is an asymptotic expansion,
+near the cardioid cusp (c = 1/4 - eps), u_0 = c, where n counts the
+accepted steps before the stopping step |u_{n+1} - u_n| < tol (from 0;
+counting the stopping step too would add sqrt(eps) to K). This is an asymptotic expansion,
 not an exact finite-eps iteration count. The leading logarithm comes
 from saddle-node passage (ODE integral). The -4 comes from the
 starting-transient integral (eta_0 = -1/4). The ln(16*tol) term comes
@@ -1917,7 +1956,7 @@ from the Modified Equation correction (Euler discretization error).
 Verified two ways: the ten-decade eps-scan (10^-1 to 10^-10) checks the
 leading-order form (3+ significant figures for eps <= 10^-5; after the
 displayed correction the measured-minus-asymptotic residuals are
--0.573, +0.037, -0.005, +0.001 at eps = 10^-1...10^-4),
+-0.573, +0.037, -0.005, +0.001 at eps = 10^-1...10^-4, tol = 10^-12),
 and the Modified-Equation coefficient is validated in the tol-sweep
 (10^-8 to 10^-16, 0.5-2% agreement). Modified Equation slope 0.504 vs
 predicted 0.500 (0.8% deviation).
@@ -2857,12 +2896,11 @@ All matches to machine precision (10⁻¹⁴) at every N.
 
 where H is the chain bond-summed Pauli-bilinear (no dissipator). That is, M's distinct nonzero eigenvalues equal 2i times H's distinct nonzero many-body eigenvalues. Hence cluster value(N) = 2|c|·|H eigenvalue|. The Bloch sign-walk formula above is just H's eigenvalue formula written out: H's many-body eigenvalues = (1/2)·Σ_k σ_k·E_k where E_k = 4|c|·cos(πk/(N+1)) are H's Bogoliubov single-particle energies, and ⌊N/2⌋ counts how many fermion modes participate.
 
-**Finite checks beyond chain-2-body (2026-05-29,
-`F80ExtensionExplorationTests`).** The per-bond Π-action was checked on ring,
-star, selected 3- and 4-body Π²-odd terms, and N=4 Π²-even terms. These
-checks support the structural residual identities at those inputs. They do not
-extend the two-body JW/Bogoliubov dispersion or its sign-walk cluster formula
-to generic k-body Hamiltonians or arbitrary topologies.
+**Reach of the identity beyond chain-2-body.** Step 5 (the Π-action Π·[bond,·]·Π⁻¹ = s·{bond,·}) is *per-bond*: it uses only the bond's own sites, so the structural identity depends only on the Π²-parity of the bonds, not on topology, coefficients or body count:
+- **Π²-odd bonds** sharing one sign s, any graph, any body count: M = −2i·(H⊗I) (s = +1) or +2i·(I⊗Hᵀ) (s = −1), so Spec(M) = ±2i·Spec(H), the *single* eigenvalues. Checked for ring, star, 3-body (X,X,Y) and 4-body (X,X,X,Y) at N = 4, 5 (`F80ExtensionExplorationTests`). Only the cluster *values* are structure-specific (chain = OBC ladder 2cos(πk/(N+1)), ring = two-sector cyclic, star = integers 2|m − 2j|); a graph with ordered (P, Q) bonds needs an orientation per bond to define H.
+- **Π²-even non-truly bonds** (Y,Z), (Z,Y): the per-bond commutator is preserved rather than anti-commuted, so M = 2·L_H = −2i·[H,·], and Spec(M) = ±2i·{λ_a − λ_b}, the eigenvalue *differences* (Bohr frequencies) instead of single eigenvalues; the truly XX, YY, ZZ bonds give M = 0.
+
+So M is always ±2i times a Hamiltonian object: H⊗I for Π²-odd (single energies), [H, ·] for Π²-even (energy gaps); the bond's Π²-parity is the switch, and M is linear in H, so mixed-letter Hamiltonians add their per-bond pieces.
 
 **γ-independence (Master Lemma).** Note no γ appears in the cluster-value formula. M is γ-independent for pure Z-dephasing (Master Lemma in PROOF_SVD_CLUSTER_STRUCTURE.md).
 
@@ -2872,15 +2910,19 @@ to generic k-body Hamiltonians or arbitrary topologies.
 
 **Valid for:** the Bloch sign-walk cluster values for chain bond-summed
 Π²-odd 2-body Hamiltonians `H = c·Σ_l(P_l⊗Q_{l+1})` under uniform
-Z-dephasing. Equal multiplicities are verified only for N=3–7; the
-collision-count formula applies generally.
-**Still open here:** explicit cluster-value formulas for generic k-body terms
-and topologies outside the open chain.
+Z-dephasing, any N; equal multiplicities are verified only for N=3–7, and the
+collision-count formula applies generally. The underlying structural identity
+Spec(M) = ±2i·Spec(H) holds far wider: any graph, any body count, and both
+Π²-parities (see "Reach of the identity beyond chain-2-body" above).
+**Still open:** the explicit cluster-*value* formula for general k-body terms.
+Closed: all three 2-body graph-family cluster-value formulas (chain OBC cosine,
+star integer spoke-ladder 2|m − 2j|, ring two-sector cyclic free-fermion),
+mixed-letter bilinears (by linearity of M in H), and the Π²-even case
+(M = 2·L_H, the eigenvalue differences).
 **Replaces:** F79's "Π²-odd universality observation"; the universality is now an analytical theorem with explicit closed-form predictions.
 **Verified:** N = 3, 4, 5, 6, 7 chain via Python, full SVD and eigsh independent verification at N=7.
 **Scripts:** [`pi2_odd_universality_data_sweep.py`](../simulations/pi2_odd_universality_data_sweep.py), [`n7_bloch_signwalk_verification.txt`](../simulations/results/n7_bloch_signwalk_verification.txt).
-**Source:** [the F80 Bloch sign-walk proof](proofs/PROOF_F80_BLOCH_SIGNWALK.md)
-for the open-chain two-body derivation; empirical verification through N=7.
+**Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Proven in [the F80 Bloch sign-walk proof](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4 (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality), Step 5 the per-site Pauli computation Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q (N-independent; typed as `F80PiCommutatorAnticommutatorIdentity`), Steps 6-7 the sign-walk assembly, and its "Reach beyond the chain" section for the graph families. Empirical verification through N=7.
 **Lebensader connection:** F80 is the third manifestation of the broad-in → focused-out Π-palindrome funnel: state layer (cockpit_panel), real-space single-body operator layer (F78), and now momentum-space chain 2-body operator layer (F80). Same Π·L·Π⁻¹ + L + 2σ·I = 0 through-line, three different bases.
 
 ### F81. Π-conjugation of M decomposes into Π²-odd Hamiltonian commutator (Tier 1, verified bit-exact N=3,4)
@@ -5257,10 +5299,8 @@ in [PREDICTIONS](PREDICTIONS.md) §4.
 
 ### F121. The qudit partial palindrome: the symmetric overlap of the disagreement count (Tier 1 derived; closed-form combinatorial identity, resolves OQ-002)
 
-The complete local dark↔lit class-exchange product mirror closes only at `d=2`
-(F-trunk `d²−2d=0`; the per-site balance `d=d²−d` closes only there). This does
-not exclude exact partial higher-dimensional mirrors: F121 is one. For `d>2`
-the spectrum is not random but partial: N = 2
+The palindromic mirror is exact only at d = 2 (F-trunk d² − 2d = 0; the per-site balance
+d = d² − d closes only there). For d > 2 the spectrum is not random but partial: N = 2
 qutrits pair 36–52 of 81 eigenvalues, a residual no principle had captured. Here is the
 principle. Under full-Cartan dephasing the d levels are **equidistant**, so the decay rate
 of a coherence |i⟩⟨j| is exactly −2γ·Hamming(i, j), the **same rate ladder as the qubit**
@@ -5282,10 +5322,12 @@ d − 1 is exactly the per-site decaying : immune ratio (d² − d) : d, raised 
 disagreeing sites.
 
 **The sampled interacting spectrum:** the ceiling is the *dissipator's* palindrome
-about the physical center −Nγ. In the reported symmetric SU(3) Heisenberg case, adding H changes
-the counts from 54 to 48 about −Nγ = −2γ and from 72 to 60 about −3γ, where the two large rungs sit.
-This is not a theorem of strict reduction for every Hermitian H (`H=cI` leaves the generator
-unchanged). For the symmetric SU(3) Heisenberg the real parts lie exactly on Re(λ) = −2γ⟨Q⟩ (the
+about the physical center −Nγ. For the symmetric SU(3) Heisenberg at N = 2, adding H lowers
+the counts from 54 to 48 about −Nγ = −2γ and from 72 to 60 about −3γ, where the two large rungs sit,
+and helps at no centre: a pair can only form about a midpoint of the real-part levels, and at
+all eight such centres the full L pairs no more than the dissipator (9 → 6, 18 → 12, 54 → 48,
+72 → 60, 36 → 27 at the integer ones, 0 → 0 at the half-integer ones), at J = 0.05, 1, 10. That is a property of this H, not a theorem for every Hermitian H (`H=cI` leaves
+the generator unchanged). For the symmetric SU(3) Heisenberg the real parts lie exactly on Re(λ) = −2γ⟨Q⟩ (the
 Absorption Theorem's right-Hilbert-Schmidt Rayleigh reading), with ⟨Q⟩ quantized to {0, 1, 1.5, 2}: the new −3γ rung
 is ⟨Q⟩ = 1.5, a Hamming-1/Hamming-2 mix. The Rayleigh identity is universal for Hermitian H;
 SU(3) symmetry quantizes its values, while a generic H spreads them. The interacting paired count is H-dependent (60 for SU(3) Heisenberg at tested nonzero `J=0.05,1,10`; at `J=0` the dissipator counts 54/72 return; ~0 for generic H), so there is **no H-independent closed form** for the interacting
@@ -5301,21 +5343,33 @@ enumeration (d = 3, N = 2 and d = 2, N = 3); the dissipator spectrum {0:9, −2�
 and its 54/81 pairing; the ceiling formula vs brute combinatorial pairing on the (d, N) ∈
 {2,3,4}×{1,2,3} grid; d = 2 full in every column.
 
-**The operator realization (2026-06-11; cap retracted 2026-09-06, §6 of the proof):**
-the qubit palindromizer's verbatim formula
-**Π_d(ρ) = ρᵀ·Shift^⊗N** (clock shift) is a full rank-`d^{2N}` permutation. Its
-restriction `Π_d P_aligned` has rank `(2d)^N` and exactly zero residual on the
-shift-aligned subspace (per-site {(x,x)} ∪ {(a, a−1)}); two chiralities Π_d^±, which merge at
-d = 2. `(2d)^N` is this construction's rank, not a universal product cap: at
-`d=6,N=2`, `P_dark⊗P_lit` is exact on h=1 and has rank `6(36−6)=180 > 144`.
-Therefore ceiling−(2d)^N is not a proven non-product gap and the former third
-operator-bound appearance of d²−2d is withdrawn. Group law, verified d = 2..5: ord(Π_d) = 2d,
-**|⟨Π_d, D⟩| = 2d², ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂** (D-conjugation exchanges the two shift factors;
-for d > 2 it swaps the chiralities): **F118's D₄ is the d = 2 column of a wreath family.** The
-ceiling has translation-invariant representatives in the verified finite cases:
-a [W, T] = 0 palindrome intertwiner attains the full ceiling at
-`(d,N)=(3,2),(3,3),(4,2)`, with ranks 54, 378, and 128, above the shift-aligned ranks.
-General translation-invariant attainment has not been derived.
+**The operator realization (2026-06-11, §6 of the proof):** the count gained its
+operator. **Product cap (theorem):** any per-site mirror W = ⊗q_l (site-dependent, one- or
+two-sided, antilinear allowed) intertwining the dissipator palindrome carries one lit grade
+c_l ∈ {0, 1, 2} per site (rate additivity asks Σ c_l = N on every block product, and varying
+one site pins its grade), with rank ≤ d, 2d, d² − d, and #(c = 0) = #(c = 2); so it pairs at most
+
+  **P(d, N) = max_m (2d)^(N−2m) · (d³ − d²)^m**
+
+of the d^{2N} coherences. A (0, 2) pair of sites beats a (1, 1) pair iff d³ − d² > 4d², i.e.
+iff d ≥ 6 (tie at d = 5), so **P = (2d)^N for every N when d ≤ 5**, the strict per-site class
+swap, and P is larger from d = 6 on (at d = 6, N = 2, P_dark⊗P_lit is exact on h = 1 with rank
+6·30 = 180 > 144). Full ⟺ P = d^{2N} ⟺ **d² − 2d = 0** at every d, the trunk's third
+appearance. For d ≤ 5 the cap is attained by the qubit palindromizer's verbatim formula
+**Π_d(ρ) = ρᵀ·Shift^⊗N** (clock shift), a full rank-d^{2N} permutation whose restriction to
+the shift-aligned (2d)^N-dim subspace (per-site {(x,x)} ∪ {(a, a−1)}) has exactly zero
+residual; two chiralities Π_d^±, which merge at d = 2 (the two off-diagonals coincide): the
+qubit's full mirror IS that degeneracy. The gap to the combinatorial ceiling, ceiling − P
+(18 at d = 3, N = 2), is reached by a global partial isometry and is therefore **provably the
+non-product part** (the inverse of the F116 story: here the locality obstruction is real). Group
+law, verified d = 2..5: ord(Π_d) = 2d, **|⟨Π_d, D⟩| = 2d², ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂** (D-conjugation
+exchanges the two shift factors; for d > 2 it swaps the chiralities): **F118's D₄ is the d = 2
+column of a wreath family.** At (d, N) = (3, 2), (4, 2), (3, 3) the non-product part is
+**translation-invariant**: an integer-coefficient [W, T] = 0 palindrome intertwiner has rank mod p
+equal to the full ceiling (54, 128, 378), strictly above the product cap (36, 64, 216), and
+rank_p ≤ rank ≤ ceiling makes that exact. At these cases there is **no intermediate layer**
+(§7): product, then translation-invariant = ceiling, gated by d² − 2d = 0, the F116 story
+inverted. Whether translation invariance reaches the ceiling at every (d, N) is open.
 
 **Source:** [Proof](proofs/PROOF_QUDIT_PARTIAL_PALINDROME.md) (§4 the interacting case, §6
 the operator realization);
@@ -5328,7 +5382,7 @@ the operator realization);
 [`simulations/qudit_product_mirror_cap.py`](../simulations/qudit_product_mirror_cap.py)
 (the cap, the operator, the wreath law) +
 [`simulations/qudit_ti_intermediate.py`](../simulations/qudit_ti_intermediate.py)
-(TI attainment in the three stated finite cases), all self-validating; resolves OQ-002
+(the translation-invariant rank, exact mod p at the three cases), all self-validating; resolves OQ-002
 in [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) §8b/§10.2; typed claims `QuditPartialPalindromeCeiling`
 (parent `QubitNecessityPi2Inheritance`) and `QuditProductMirrorCap` (parents both of those),
 `compute/RCPsiSquared.Core/Symmetry/`.

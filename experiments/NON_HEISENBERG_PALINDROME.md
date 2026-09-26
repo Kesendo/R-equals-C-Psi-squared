@@ -23,10 +23,14 @@ exists in all of them, it is a law of music itself.
 The palindromic spectral symmetry was first proven for one specific
 type of quantum coupling (Heisenberg). This document asks: does the
 mirror work for other types of coupling too? The answer is yes, for
-the tested XY, Ising, XXZ, and spin-orbit instances below. This is a
-compatibility statement, not a topology-free theorem for every hardware
-Hamiltonian: in particular, the DM mirror is carried by every bipartite
-graph (edge orientation does not matter), and odd cycles fail where tested.
+every standard single-bond model: XY, Ising, XXZ, and even exotic
+spin-orbit interactions. The palindrome is not a property of one
+model; which couplings carry it is decided bond by bond (Result 4).
+XY, Ising and XXZ carry it on any graph, with the same mirror as
+Heisenberg. The spin-orbit (DM) mirror needs one thing more of the
+graph: it alternates from site to site, so every bipartite graph carries
+it (edge orientation does not matter) and a graph with an odd cycle
+cannot.
 
 Along the way, two surprises emerge. First, the mirror operator Π
 comes in families (different mirrors for different instruments, but
@@ -43,12 +47,15 @@ genuinely entangled; the correction is in
 
 The palindromic spectral symmetry proven for Heisenberg coupling
 ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md)) is not limited
-to Heisenberg. The tested standard single-bond Hamiltonians are palindromic under
-single-axis dephasing: XY, Ising, XXZ, and Dzyaloshinskii-Moriya (DM; a spin-orbit
-interaction that twists the coupling between neighbors). DM uses a site-alternating
+to Heisenberg. **Every standard single-bond condensed matter Hamiltonian** is
+palindromic under single-axis dephasing: XY, Ising, XXZ, and Dzyaloshinskii-Moriya
+(DM; a spin-orbit interaction that twists the coupling between neighbors). XY, Ising
+and XXZ share Heisenberg's uniform Π, because each of the terms XX, YY and ZZ
+anti-commutes with it on its own; the proof is per bond, so it holds on any graph,
+at any per-bond coefficients and any per-site γ. DM uses a site-alternating
 map, which every bipartite graph carries, whatever its edges' orientation and signs (the
-map is a product of site maps and every bond joins the two colours); odd cycles fail
-where tested (triangle, 5-ring, K₄). Of the
+map is a product of site maps and every bond joins the two colours); on an odd cycle
+that map does not exist. Of the
 36 two-term Pauli-bond combinations, 22 are palindromic and 14 break structurally
 (Result 4; the break is the shadow-crossing case, e.g. XZ+XY). Two families of
 conjugation operators exist (P1 and P4),
@@ -81,13 +88,16 @@ Real quantum hardware does not implement pure Heisenberg coupling.
 Superconducting qubits have ZZ interactions, trapped ions have XX or
 Ising-type coupling, and spin-orbit effects introduce DM interactions.
 If the palindrome only held for Heisenberg, it would be a mathematical
-curiosity. The results here show that each listed model has a compatible
-instance. They do not put every topology or hardware generator inside one
-common palindromizer.
+curiosity. The results here show it holds for **all standard models**:
+XY, Ising and XXZ on every topology under the same Π as Heisenberg, DM on
+every bipartite one under its own alternating Π. What does not hold for
+every generator is the other half of this page: 14 of the 36 two-term bond
+combinations break (Result 4), and depolarizing noise breaks every model
+(Result 7).
 
 ---
 
-## Result 1: The listed compatible model instances are palindromic
+## Result 1: All Standard Models Are Palindromic
 
 | Model | N=3 | N=4 | Mechanism |
 |-------|-----|-----|-----------|
@@ -102,6 +112,21 @@ common palindromizer.
 
 Unequal coefficients are also palindromic. Every dephasing axis works
 (Z, X, or Y), each with its own Π operator.
+
+The table is measured on chains, but for the uniform rows the chain is not
+a condition. The anti-commutation Π·[H_b, ·]·Π⁻¹ = −[H_b, ·] is checked on
+one bond's two sites and involves no other site, so it adds up over any set
+of bonds ([Mirror Symmetry Proof](../docs/proofs/MIRROR_SYMMETRY_PROOF.md),
+Step 2). On graphs with odd cycles the identity is checked exactly rather than
+through an eigensolver: with integer per-bond J, integer per-site γ and the
+dyadic anisotropies XY (XX + ¾·YY) and XXZ (Δ = ½), every entry of
+Π·L·Π⁻¹ + L + 2Σγ·I is computed without rounding, and on a triangle, K₄ and a
+5-ring it is exactly 0.0 for XY, Ising and XXZ
+([`any_graph_palindrome_exact.py`](../simulations/any_graph_palindrome_exact.py)).
+DM leaves 384, 3072 and 10240 nonzero entries on the same three graphs under
+that uniform Π, as it does on a chain: the uniform Π does not carry DM on any
+graph. DM needs the site-alternating map, and on an odd cycle that map does not
+exist; this producer does not test the alternating map.
 
 ---
 

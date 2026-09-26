@@ -71,7 +71,7 @@ public class QuditProductMirrorCapTests
     public void Battery_AllCasesPass()
     {
         var claim = MakeClaim();
-        Assert.Equal(8, claim.Cases.Count);
+        Assert.Equal(11, claim.Cases.Count);
         foreach (var c in claim.Cases)
             Assert.True(c.Passes, $"battery case '{c.Name}' failed: expected {c.Expected}, got {c.Actual}");
         Assert.Equal(claim.Cases.Count, claim.PassCount);
@@ -97,31 +97,75 @@ public class QuditProductMirrorCapTests
     public void Summary_CarriesTheCapAndTheGroup()
     {
         var claim = MakeClaim();
-        Assert.Contains("(2d)^N", claim.Summary);
+        Assert.Contains("P(d, N)", claim.Summary);
         Assert.Contains("Z_d ≀ Z₂", claim.Summary);
         Assert.Contains($"{claim.Cases.Count}/{claim.Cases.Count} battery PASS", claim.Summary);
     }
 
-    [Fact]
-    public void Battery_RetractsUniversalCapWithExactProductProjector()
-    {
-        var control = MakeClaim().Cases.Single(c => c.Name.Contains("former universal product cap"));
+    // ------------------------------------------------------------------
+    // The product lemma: P(d, N) = max_m (2d)^(N−2m)·(d³ − d²)^m
+    // ------------------------------------------------------------------
 
-        Assert.True(control.Passes, control.Actual);
-        Assert.Contains("residual 0", control.Actual);
-        Assert.Contains("180 > 144", control.Actual);
+    [Fact]
+    public void ProductCap_IsTheSwapRankUpToFive_AndAboveItFromSix()
+    {
+        for (int d = 2; d <= 5; d++)
+            for (int n = 1; n <= 6; n++)
+                Assert.Equal(QuditProductMirrorCap.ShiftAlignedRank(d, n), QuditProductMirrorCap.ProductCap(d, n));
+        Assert.Equal(180L, QuditProductMirrorCap.ProductCap(6, 2));      // d(d² − d) = 6·30
+        Assert.Equal(144L, QuditProductMirrorCap.ShiftAlignedRank(6, 2));
+        Assert.Equal(12L, QuditProductMirrorCap.ProductCap(6, 1));       // N = 1: only the swap
+        Assert.Equal(2160L, QuditProductMirrorCap.ProductCap(6, 3));     // 2d · (d³ − d²)
+        Assert.Equal(294L, QuditProductMirrorCap.ProductCap(7, 2));
+        Assert.Equal(448L, QuditProductMirrorCap.ProductCap(8, 2));
     }
 
     [Fact]
-    public void TranslationInvariantAttainment_IsScopedToTheFiniteVerifiedCases()
+    public void ProductCap_IsFullExactlyAtTheQubit_ForEveryD()
+    {
+        for (int d = 2; d <= 9; d++)
+            for (int n = 1; n <= 4; n++)
+                Assert.Equal(d == 2, QuditProductMirrorCap.ProductCap(d, n) == QuditPartialPalindromeCeiling.Total(d, n));
+    }
+
+    [Fact]
+    public void GradeRanks_AreDTwoDAndDSquaredMinusD()
+    {
+        Assert.Equal(3L, QuditProductMirrorCap.GradeRank(3, 0));
+        Assert.Equal(6L, QuditProductMirrorCap.GradeRank(3, 1));
+        Assert.Equal(6L, QuditProductMirrorCap.GradeRank(3, 2));
+        Assert.Equal(30L, QuditProductMirrorCap.GradeRank(6, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => QuditProductMirrorCap.GradeRank(3, 3));
+    }
+
+    [Fact]
+    public void Battery_ProductLemma_IsComputedNotAsserted()
     {
         var claim = MakeClaim();
+        var lemma = claim.Cases.Single(c => c.Name.StartsWith("product lemma", StringComparison.Ordinal));
+        var optimum = claim.Cases.Single(c => c.Name.StartsWith("product optimum", StringComparison.Ordinal));
+        Assert.True(lemma.Passes, lemma.Actual);
+        Assert.True(optimum.Passes, optimum.Actual);
+    }
 
-        Assert.Contains("verified finite cases", claim.TranslationInvariantReach);
-        Assert.Contains("(3,2), (3,3), (4,2)", claim.TranslationInvariantReach);
-        Assert.Contains("not derived", claim.TranslationInvariantReach);
-        Assert.DoesNotContain("no intermediate", claim.TranslationInvariantReach, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("recovered ENTIRELY", claim.TranslationInvariantReach);
+    // ------------------------------------------------------------------
+    // Translation invariance: exact rank over GF(p)
+    // ------------------------------------------------------------------
+
+    [Fact]
+    public void TranslationInvariantRank_ReachesTheCeiling_AtThreeThree()
+    {
+        // 729 × 729 over GF(p); rank_p ≤ rank ≤ ceiling, so 378 is exact.
+        int rank = QuditProductMirrorCap.TranslationInvariantRankModP(3, 3);
+        Assert.Equal(378, rank);
+        Assert.Equal(QuditProductMirrorCap.CombinatorialCeiling(3, 3), rank);
+        Assert.True(rank > QuditProductMirrorCap.ProductCap(3, 3));     // 378 > 216
+    }
+
+    [Fact]
+    public void TranslationInvariantRank_AtTheQubit_IsTheFullSpace()
+    {
+        Assert.Equal(64, QuditProductMirrorCap.TranslationInvariantRankModP(2, 3));
     }
 
     [Fact]
@@ -151,6 +195,7 @@ public class QuditProductMirrorCapTests
         Assert.Equal(0, QuditProductMirrorCap.NonProductPart(2, 3));    // d = 2 full
         Assert.Equal(0, QuditProductMirrorCap.NonProductPart(3, 1));    // N = 1 full
         Assert.Equal(64, QuditProductMirrorCap.NonProductPart(4, 2));   // 128 − 64
+        Assert.Equal(252, QuditProductMirrorCap.NonProductPart(6, 2));  // 432 − 180, not 432 − 144
         for (int d = 2; d <= 5; d++)
             for (int N = 1; N <= 3; N++)
                 Assert.Equal(d > 2 && N >= 2, QuditProductMirrorCap.NonProductPart(d, N) > 0);
@@ -171,7 +216,7 @@ public class QuditProductMirrorCapTests
 
         Assert.Equal(81, pi.Count);
         Assert.Equal(81, pi.Distinct().Count()); // rank Π_d = d^(2N)
-        Assert.Equal(36, QuditProductMirrorCap.ProductCap(3, 2)); // rank Π_d P_aligned
+        Assert.Equal(36, QuditProductMirrorCap.ShiftAlignedRank(3, 2)); // rank Π_d P_aligned
     }
 
     // ------------------------------------------------------------------
@@ -182,15 +227,14 @@ public class QuditProductMirrorCapTests
     [Fact]
     public void SpotCheck_QutritN2_36_54_81_AndTrunkEquation()
     {
-        // The three counts at d = 3, N = 2: shift rank 36 < ceiling 54 < total 81;
-        // the first is not a universal product cap.
+        // The three counts at d = 3, N = 2: product cap 36 < ceiling 54 < total 81;
         // non-product gap 18.
         Assert.Equal(36, QuditProductMirrorCap.ProductCap(3, 2));
         Assert.Equal(54, QuditProductMirrorCap.CombinatorialCeiling(3, 2));
         Assert.Equal(81, QuditPartialPalindromeCeiling.Total(3, 2));
         Assert.Equal(18, QuditProductMirrorCap.CombinatorialCeiling(3, 2) - QuditProductMirrorCap.ProductCap(3, 2));
 
-        // This explicit shift construction is full iff d=2; that is not a universal product cap.
+        // Full product mirror ⟺ d² − 2d = 0 ⟺ d = 2: the trunk equation's third appearance.
         for (int d = 2; d <= 5; d++)
             for (int n = 1; n <= 3; n++)
             {

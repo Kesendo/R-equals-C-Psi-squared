@@ -46,6 +46,15 @@ gm_raw = [
 ]
 GAMMA = 0.05
 
+# Pairing tolerance. Exact palindrome partners come out of the eigensolver
+# within ~1e-13 of each other (the floor eps*||L||); the smallest PHYSICAL
+# splitting in these SU(3)-Heisenberg spectra is the detuning of the -3g rung,
+# 4J - sqrt(16J^2 - gamma^2) ~ gamma^2/(8J) = 3.1e-5 at J = 10. A tolerance must sit between the two, and a
+# count is only trusted where it does not move: PLATEAU_TOLS spans four decades
+# inside that window and plateau_pairs() demands the same count at every one.
+PAIR_TOL = 1e-9
+PLATEAU_TOLS = (1e-10, 1e-9, 1e-8, 1e-6)
+
 
 def site_op(M, k, N, dloc):
     ops = [np.eye(dloc, dtype=complex)] * N
@@ -86,10 +95,17 @@ def L_hamiltonian(H):
     return -1j * (np.kron(H, Id) - np.kron(Id, H.T))
 
 
-def palindrome_pairs(evals, Sg, tol=1e-4):
+def palindrome_pairs(evals, Sg, tol=PAIR_TOL):
     """Count a maximum global multiset matching under lambda -> -2*Sg - lambda."""
     evals = np.asarray(evals, dtype=complex)
     return multiset_match_count(evals, -evals - 2 * Sg, tol)
+
+
+def plateau_pairs(evals, Sg):
+    """The pairing count read on its plateau: identical at every tolerance in PLATEAU_TOLS."""
+    counts = {tol: palindrome_pairs(evals, Sg, tol=tol) for tol in PLATEAU_TOLS}
+    assert len(set(counts.values())) == 1, f"count moves with the tolerance: {counts}"
+    return counts[PAIR_TOL]
 
 
 def validate_global_matcher_controls():
@@ -189,17 +205,17 @@ def main():
         f"ceiling mismatch: {paired_D} {ceil} {comb_pair}"
     print("    -> 54/81: the algebraic ceiling. 27 excess at k=2 unpaired. OK")
 
-    # ---- Part D: sampled SU(3)-Heisenberg H changes the pairing at two centers ----
+    # ---- Part D: the SU(3)-Heisenberg H lowers the pairing at fixed centers ----
     # The dissipator's 54 (Part C) is the pairing about the PHYSICAL center -N*g
-    # (the k<->N-k reflection, where the qubit palindrome is exact). Adding the
-    # sampled Hamiltonian gives fewer pairs at both centers checked below. This is
-    # not a universal H-degradation law (H=cI has L_H=0). An earlier reading mistook
-    # the dissipator. An earlier reading mistook full-L-best-center (60 at -3g)
-    # for "exceeding" the dissipator's 54 at -2g - a comparison of two DIFFERENT
-    # centers. The full interacting
-    # analysis (real parts = -2g*<Q>, H-dependence, no closed form) lives in
-    # simulations/qutrit_interacting_palindrome.py.
-    print("\n[D] Full Liouvillian (sampled H_SU3 + dephasing): pairing changes at fixed centers")
+    # (the k<->N-k reflection, where the qubit palindrome is exact). Adding this
+    # Hamiltonian gives fewer pairs at both centers checked below, and at no
+    # centre more (the complete set of pair-forming centres is checked in
+    # qutrit_interacting_palindrome.py).
+    # That is this H, not every H: H=cI has L_H=0 and changes nothing. Comparing
+    # full-L-best-center (60 at -3g) with the dissipator's 54 at -2g compares two
+    # DIFFERENT centers. The full interacting analysis (real parts = -2g*<Q>,
+    # H-dependence, no closed form) lives in simulations/qutrit_interacting_palindrome.py.
+    print("\n[D] Full Liouvillian (H_SU3 + dephasing): pairing at fixed centers")
     H = H_su3_heisenberg(N, [(0, 1)])
     evF = np.linalg.eigvals(L_hamiltonian(H) + L_dephasing(N, GAMMA, jumps1))
     evD = np.linalg.eigvals(L_dephasing(N, GAMMA, jumps1))
@@ -212,15 +228,16 @@ def main():
     # palindrome_pairs(ev, Sg) reflects lambda -> -2*Sg - lambda (center -Sg),
     # so a fixed center -c*gamma is reached with Sg = c*gamma.
     for cg, name in ((2.0, "physical center -N*g"), (3.0, "-3g, the two big rungs")):
-        pD = palindrome_pairs(evD, cg * GAMMA, tol=1e-4)
-        pF = palindrome_pairs(evF, cg * GAMMA, tol=1e-4)
+        pD = plateau_pairs(evD, cg * GAMMA)
+        pF = plateau_pairs(evF, cg * GAMMA)
         print(f"    center -{cg:.0f}g ({name}): dissipator {pD}/81, full L {pF}/81 "
               f"-> H {'degrades' if pF < pD else 'does NOT degrade'}")
         assert pF < pD, f"H should degrade at center -{cg}g: {pD} -> {pF}"
-    assert palindrome_pairs(evD, 2 * GAMMA, tol=1e-4) == 54
-    assert palindrome_pairs(evF, 2 * GAMMA, tol=1e-4) == 48
-    print("    -> sampled H_SU3 reduces the pairing at both checked centers (54->48, 72->60);")
-    print("       this is not universal over H (H=cI is an exact unchanged control).")
+    assert plateau_pairs(evD, 2 * GAMMA) == 54
+    assert plateau_pairs(evF, 2 * GAMMA) == 48
+    print("    -> H_SU3 reduces the pairing at both centers (54->48, 72->60), and no")
+    print("       centre helps (the scan is in qutrit_interacting_palindrome.py); this is")
+    print("       a property of this H (H=cI is an exact unchanged control).")
 
     # ---- Part E: the formula across (d, N): d=2 always full, d>2 partial ----
     print("\n[E] Closed-form ceiling vs brute force, grid of (d, N):")
@@ -244,9 +261,9 @@ def main():
     print("the symmetric overlap of the disagreement-count distribution")
     print("c_k = d^N C(N,k)(d-1)^k under k<->N-k, about the physical center -N*g.")
     print("The (d-1)^k tilt vanishes only at d=2 (the unique fully-paired column);")
-    print("for d=3,N=2 the ceiling is 54/81. The sampled SU(3)-Heisenberg H changes")
-    print("this to 48/81 about -N*g; H=cI leaves it unchanged, so no universal")
-    print("H-degradation follows. The full interacting analysis (real parts")
+    print("for d=3,N=2 the ceiling is 54/81. The SU(3)-Heisenberg H lowers this to")
+    print("48/81 about -N*g and helps at no centre; H=cI leaves it unchanged, so this")
+    print("is a property of the H. The full interacting analysis (real parts")
     print("= -2g<Q>, H-dependent count, no closed form) is in")
     print("simulations/qutrit_interacting_palindrome.py. 54 is the invariant skeleton.")
     print("=" * 68)

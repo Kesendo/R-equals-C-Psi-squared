@@ -565,9 +565,10 @@ nobody has to guess.
    amplitude damping, thermal baths, or non-Markovian environments?
 
 3. **Interacting partial palindromes at d > 2:** F121 proves the dissipator
-   ceiling and gives an explicit shift-aligned construction of rank `(2d)^N`;
-   that rank is not a universal product cap. Which additional Hamiltonian families
-   admit exact partial or non-product intertwiners?
+   ceiling and the product cap (`(2d)^N` for d ≤ 5, larger from d = 6), and a
+   translation-invariant mirror reaches the ceiling at every case computed. For
+   the symmetric SU(3) Heisenberg at N = 2, adding H helps at no centre. Which Hamiltonian
+   families keep an exact partial or non-product intertwiner of the full L?
 
 4. **Operational measure:** The XOR eigenspace dimension fraction is
    `(N+1)/4^N`, which is also the expected share of an isotropically random

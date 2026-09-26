@@ -322,17 +322,22 @@ public static class KnowledgeRegistryFactory
             // Σ d^N·C(N,k)·(d−1)^min(k,N−k), full iff d=2. Parent QubitNecessityPi2Inheritance
             // (registered directly above). Wired 2026-06-11.
             .RegisterQuditPartialPalindromeCeiling()
-            // Historical qudit product-cap node (2026-06-11, retracted 2026-09-06):
-            // Π_d P_aligned is exact with rank (2d)^N; full Π_d is a rank-d^(2N) permutation,
-            // but (2d)^N is not a universal product cap (d=6,N=2 projector rank 180 > 144);
-            // ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂ of order 2d² (D₄ at d = 2). Parents
+            // The qudit product-mirror cap (2026-06-11): the operator side of F121. Any
+            // per-site mirror W = ⊗q_l intertwining W·L_D = (−L_D − 2Nγ)·W carries one lit grade
+            // c ∈ {0, 1, 2} per site and pairs ≤ P(d, N) = max_m (2d)^(N−2m)·(d³ − d²)^m coherences,
+            // = (2d)^N for d ≤ 5 (above it from d = 6: 180 > 144 at N = 2); full ⟺ d² − 2d = 0 ⟺
+            // d = 2, the trunk's third appearance. Π_d(ρ) = ρᵀ·Shift^{⊗N} attains (2d)^N exactly on
+            // the shift-aligned subspace; ⟨Π_d, D⟩ ≅ Z_d ≀ Z₂ of order 2d² (D₄ at d = 2). Parents
             // QuditPartialPalindromeCeiling (line above) + QubitNecessityPi2Inheritance.
             // Wired 2026-06-11.
             .RegisterQuditProductMirrorCap()
-            // Explicit Π_d P_aligned coverage (2/d)^N, not a universal optimum. Complementary
-            // qutrit finding: decay rates 2γ·Hamming and structural ceiling 4/N are d-independent.
-            // Single parent QuditProductMirrorCap (line above). Live
-            // witness: QuditMirrorProtectionWitness (inspect --root protection). Wired 2026-06-17.
+            // The qudit mirror-protection scaling law (2026-06-17): the corollary of the cap that the
+            // palindrome-protected fraction is P(d, N) / d^{2N} = (2/d)^N for d ≤ 5, the N-th power of
+            // 2/d, and = 1 only at the qubit d = 2 (the unique
+            // full-mirror dimension; the trunk root d² − 2d = 0). Complementary qutrit finding: the
+            // decay rates 2γ·Hamming and the structural ceiling 4/N are d-independent. Single parent
+            // QuditProductMirrorCap (line above). Live witness: QuditMirrorProtectionWitness
+            // (inspect --root protection). Wired 2026-06-17.
             .RegisterQuditMirrorProtectionScalingClaim()
             // The eigenvector holonomy around the (1,2)-block defective seed (2026-07-07): the mod-4
             // memory loop i⁴=1 (M₁ eigenvalues ±i, M₂=−I, M₄=I), the eigenVECTOR-phase companion of the

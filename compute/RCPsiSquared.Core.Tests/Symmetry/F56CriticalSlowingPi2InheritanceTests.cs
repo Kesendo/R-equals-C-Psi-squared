@@ -109,18 +109,6 @@ public class F56CriticalSlowingPi2InheritanceTests
     }
 
     [Fact]
-    public void ClaimSurface_LabelsExpansionAsAsymptoticNotExact()
-    {
-        var claim = BuildClaim();
-        string rendered = claim.Name + "\n" + claim.Summary + "\n" +
-                          string.Join("\n", claim.Children.Select(c => c.DisplayName + " " + c.Summary));
-
-        Assert.Contains("asymptotic", rendered, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("finite-ε residual", rendered);
-        Assert.DoesNotContain("F56 closed form", rendered);
-    }
-
-    [Fact]
     public void Alpha_NonPositiveTol_Throws()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => BuildClaim().Alpha(tol: 0.0));

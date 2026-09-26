@@ -54,10 +54,11 @@ The equation d² - 2d = 9 - 6 = 3, not zero.
 **The law behind the null (F121):** for d > 2 the spectrum is
 not random but partially palindromic, with the closed-form dissipator ceiling
 paired(d, N) = Σₖ d^N · C(N, k) · (d−1)^min(k, N−k), equal to d^{2N} **iff d = 2**; the
-the explicit shift-aligned operator has rank (2d)^N, but that is not a universal
-product cap: `P_dark⊗P_lit` at d=6,N=2 has exact rank 180 > 144. See
+operator realization caps any per-site mirror at max_m (2d)^(N−2m)(d³−d²)^m paired
+coherences, which is (2d)^N for d ≤ 5 and larger from d = 6 on, full again iff
+d² − 2d = 0, the trunk equation's third appearance. See
 [F121 in Analytical Formulas](ANALYTICAL_FORMULAS.md) (the ceiling, and
-the cap retraction in its operator-realization paragraph) and the live witness
+the product cap in its operator-realization paragraph) and the live witness
 (`inspect --root qudit` in the Object Manager CLI), which recomputes the ceiling at
 inspect time.
 
