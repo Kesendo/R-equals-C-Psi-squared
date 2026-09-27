@@ -284,8 +284,9 @@ public static class InspectCommand
     }
 
     /// <summary>The F157 live lab: builds a <see cref="SeatCutBlindnessWitness"/> that rebuilds the
-    /// integer single-excitation matrix at inspect time and recomputes the blind count as an exact
-    /// GF(p) Krylov rank at two primes, the span as a second elimination on the masked commutator.
+    /// integer single-excitation matrix at inspect time and recomputes the blind count from GF(p)
+    /// Krylov ranks at two primes (an upper bound on rational blindness), the span as a second
+    /// elimination on the masked commutator.
     /// Args: <c>--N</c> (sites, default 7), <c>--chain xy</c> (the book, default Heisenberg),
     /// <c>--bonds</c> (a comma-separated integer profile of N−1 couplings, zeros permitted, default
     /// uniform 1). The count is guarded at N ≤ 200 and the span at N ≤ 12, both cost and not
@@ -838,8 +839,8 @@ public static class InspectCommand
             c => BuildQuditRoot(c.Parser), RequiresN: false),
         new("blind", "F157 THE BLIND SEAT (proof PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md, claim " +
             "SeatCutBlindnessClaim): put the watching on ONE seat and count what it cannot touch, " +
-            "blind(j) = N − rank of the seat's Krylov matrix, an exact GF(p) rank at two primes with no " +
-            "eigensolver, checked live against the uniform closed forms (gcd(2j+1, N) − 1)/2 with the ZZ term " +
+            "blind(j) = N − rank of the seat's Krylov matrix, read live from GF(p) ranks at two primes with no " +
+            "eigensolver (an upper bound on blindness) and checked against the uniform closed forms (gcd(2j+1, N) − 1)/2 with the ZZ term " +
             "and gcd(j+1, N+1) − 1 without. The span dim ker L_SE(j) = 1 + dim commutant(H|_W) is a second, " +
             "independent elimination, and equals 1 + blind(j) exactly when H is simple on the Krylov complement. " +
             "Args: --N (default 7), --chain xy, --bonds 1,1,0,1,1",

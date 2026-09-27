@@ -362,7 +362,7 @@ public sealed class SeatCutBlindnessWitness : IInspectable
                       "(gcd(2j+1, N) - 1)/2 and gcd(j+1, N+1) - 1 do not apply; the Krylov count still does, " +
                       "and the criterion deg gcd(chi(H), chi(H struck at j)) still gives it"
                     : (agreements == N
-                        ? $"MATCH at all {N} seats: two independent computations meet, an exact GF(p) Krylov rank " +
+                        ? $"MATCH at all {N} seats: two independent computations meet, a GF(p) Krylov read that can only overstate blindness " +
                           $"and the closed form of the {BookLabel} book"
                         : $"MISMATCH: the closed form agrees at only {agreements} of {N} seats, which on a uniform " +
                           "zero-free chain would be a finding about the construction and not a tolerance"),

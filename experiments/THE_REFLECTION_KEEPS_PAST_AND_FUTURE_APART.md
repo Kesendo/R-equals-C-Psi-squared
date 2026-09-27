@@ -216,7 +216,7 @@ identity of the one-excitation sector. At λ = −4γ it is
     X_Δ = Δ(|100⟩⟨001| + |001⟩⟨100|) + |100⟩⟨010| + |010⟩⟨100| + |010⟩⟨001| + |001⟩⟨010|,
 
 which commutes with H for every J and Δ and has only cells at Hamming distance
-2. At Δ = 1 it is X₁ = 3|W⟩⟨W| − P₁, PROOF_UNIFORM_LAW's T₂.
+2. At Δ = 1 it is X₁ = 3|W⟩⟨W| − P₁, PROOF_UNIFORM_LAW's T₂. Read through one population curve, the part gives the recurrence of the centre return under uniform light, s·p₃(s) at γ = J = Δ = 1, with X₁ hidden ([What One Readout Sees](OPERATOR_PAIR_VIEW_COMPARISON.md)).
 
 The other three modes are the J-dependent ones. Their rates sum to 8γ, the
 part's total 12γ less the 4γ of X_Δ, so they average 8γ/3: this is the band that

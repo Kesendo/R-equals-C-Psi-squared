@@ -188,6 +188,38 @@ def exact_readout_ode(result: ReadoutRank) -> tuple[sp.Rational, ...]:
     return coefficients
 
 
+def even_qubit_characteristic_polynomial(gamma_centre: int) -> sp.Poly:
+    """Characteristic polynomial of L on the reflection-even qubit of the N=3 chain.
+
+    With dephasing on the centre seat only, H and Z_1 commute with the site
+    reversal, so a state prepared at the centre stays on span{|1>, (|0>+|2>)/sqrt2}.
+    There H = [[-2, 2 sqrt2], [2 sqrt2, 0]] and Z_1 = diag(-1, 1): a two-level
+    system with detuning, drive and pure dephasing, whose 4 x 4 Lindbladian is
+    the Bloch equations plus the trace."""
+    s = sp.Symbol("s")
+    h = sp.Matrix([[-2, 2 * sp.sqrt(2)], [2 * sp.sqrt(2), 0]])
+    z = sp.diag(-1, 1)
+    basis = [sp.Matrix(2, 2, lambda i, j: int(i == a and j == b)) for a in range(2) for b in range(2)]
+    columns = []
+    for cell in basis:
+        image = -sp.I * (h * cell - cell * h) + gamma_centre * (z * cell * z - cell)
+        columns.append([image[a, b] for a in range(2) for b in range(2)])
+    lindbladian = sp.Matrix(columns).T
+    return sp.Poly(sp.expand((s * sp.eye(4) - lindbladian).det()), s)
+
+
+def even_odd_coherence_characteristic_polynomial(gamma_centre: int) -> sp.Poly:
+    """Characteristic polynomial of L on the coherences |psi><o| between the even
+    qubit (psi) and the odd state o = (|0>-|2>)/sqrt2, as a real 4 x 4 system.
+
+    H o = 0 and Z_1 o = o, so psi evolves by M = -i H_even - 2 gamma |1><1| and
+    the real form of a complex 2 x 2 system has det(sI - M) det(sI - conj M)."""
+    s = sp.Symbol("s")
+    h = sp.Matrix([[-2, 2 * sp.sqrt(2)], [2 * sp.sqrt(2), 0]])
+    m = -sp.I * h - 2 * gamma_centre * sp.diag(1, 0)
+    return sp.Poly(sp.expand((s * sp.eye(2) - m).det() * (s * sp.eye(2) - m.conjugate()).det()), s)
+
+
 def _render_n3_atlas(flow: PairFlow, end_rank: int, centre_rank: int, path: Path) -> None:
     """Draw signed pair moves and two input-output traces for the fixed N=3 pilot."""
     import matplotlib
@@ -199,7 +231,7 @@ def _render_n3_atlas(flow: PairFlow, end_rank: int, centre_rank: int, path: Path
 
     n = 3
     fig, (ax, ax_signal) = plt.subplots(1, 2, figsize=(12.5, 5.2))
-    fig.suptitle("Operatorpaar-Fluss: Heisenberg-Kette, N=3, J=1, γ=(0,1,0)", fontsize=13)
+    fig.suptitle("Operator pairs as a flow: Heisenberg chain, N=3, J=1, γ=(0,1,0)", fontsize=13)
 
     # Every source-to-target H move changes exactly one pair index. Draw each
     # two-way edge once, retaining its distinct left/right complex sign.
@@ -229,38 +261,38 @@ def _render_n3_atlas(flow: PairFlow, end_rank: int, centre_rank: int, path: Path
                     fontsize=8.2, zorder=4)
     ax.add_patch(Circle((0, 0), 0.40, fill=False, edgecolor="#6b3c91", lw=3, zorder=5))
     ax.add_patch(Circle((1, -1), 0.40, fill=False, edgecolor="#158069", lw=3, zorder=5))
-    ax.set(xlim=(-0.65, 2.65), ylim=(-2.65, 0.65), xlabel="zweiter Index b",
-           ylabel="erster Index a", title="(1,1)-Block: 9 Paarknoten")
+    ax.set(xlim=(-0.65, 2.65), ylim=(-2.65, 0.65), xlabel="second index b (bra)",
+           ylabel="first index a (ket)", title="the (1,1) block: nine cells")
     ax.set_xticks(range(n))
     ax.set_yticks([-a for a in range(n)], labels=[str(a) for a in range(n)])
     ax.set_aspect("equal")
     ax.spines[["top", "right", "bottom", "left"]].set_visible(False)
     fig.legend(handles=[
-        Line2D([0], [0], color="#2864a6", lw=2, label="erster Index: −iH"),
-        Line2D([0], [0], color="#cb632f", lw=2, label="zweiter Index: +iH"),
+        Line2D([0], [0], color="#2864a6", lw=2, label="first index: −iH"),
+        Line2D([0], [0], color="#cb632f", lw=2, label="second index: +iH"),
         Line2D([0], [0], marker="o", color="w", markerfacecolor="#f2b778",
-               markeredgecolor="#34424b", markersize=11, label="Dephasierung D<0"),
+               markeredgecolor="#34424b", markersize=11, label="dephasing price D<0"),
     ], loc="lower center", bbox_to_anchor=(0.5, 0.085), ncol=3,
        frameon=False, fontsize=9)
 
     times = np.linspace(0, 2.5, 151)
     for site, rank, color, name in (
-        (0, end_rank, "#6b3c91", "Rückkehr an Site 0"),
-        (1, centre_rank, "#158069", "Rückkehr an Site 1"),
+        (0, end_rank, "#6b3c91", "return to site 0"),
+        (1, centre_rank, "#158069", "return to site 1"),
     ):
         initial = np.zeros(n * n, dtype=complex)
         initial[site * n + site] = 1
         signal = [(expm(t * flow.generator) @ initial)[site * n + site].real
                   for t in times]
         ax_signal.plot(times, signal, color=color, lw=2.3,
-                       label=f"{name}: exakter Hankel-Rang {rank}")
-    ax_signal.set(xlabel="Zeit t", ylabel="gemessene Population",
-                  title="Ein Generator, verschiedene Lesefenster", ylim=(-0.03, 1.08))
+                       label=f"{name}: exact Hankel rank {rank}")
+    ax_signal.set(xlabel="time t", ylabel="measured population",
+                  title="one generator, two readouts", ylim=(-0.03, 1.08))
     ax_signal.legend(loc="upper right", frameon=False, fontsize=9)
     ax_signal.grid(alpha=0.2)
     fig.text(0.5, 0.035,
-             "Knotendiagonale D+iω mit ω=−(Eₐ−Eᵦ) aus ZZ; "
-             "der Rang beschreibt nur das jeweils gezeigte skalare Signal.",
+             "each cell carries D+iω: D the dephasing price of the pair, ω = −(E_a − E_b) from ZZ; "
+             "a rank belongs to the one curve it is drawn for.",
              ha="center", fontsize=9, color="#35434a")
     fig.subplots_adjust(left=0.08, right=0.98, top=0.86, bottom=0.23, wspace=0.35)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -299,6 +331,15 @@ def run_pilot(output_dir: Path) -> dict:
     trace = exact_readout_rank(exact_h, gamma, preparation=0, readout="trace")
     end_ode = exact_readout_ode(end)
     centre_ode = exact_readout_ode(centre)
+    s = sp.Symbol("s")
+    recurrence_poly = sp.Poly(s ** len(centre_ode)
+                              + sum(c * s ** j for j, c in enumerate(centre_ode)), s)
+    bloch_poly = even_qubit_characteristic_polynomial(gamma[1])
+    end_poly = sp.Poly(s ** len(end_ode) + sum(c * s ** j for j, c in enumerate(end_ode)), s)
+    end_factors = [str(f.as_expr()) for f, _ in sp.factor_list(end_poly.as_expr())[1]]
+    coherence_poly = even_odd_coherence_characteristic_polynomial(gamma[1])
+    # bloch_poly already carries the factor s of the conserved trace
+    end_is_constant_bloch_coherence = end_poly == bloch_poly * coherence_poly
 
     # A non-real preparation and an off-diagonal Hermitian observable make a
     # wrong row/column vec convention visible in the finite-time comparison.
@@ -330,6 +371,12 @@ def run_pilot(output_dir: Path) -> dict:
             "site0_return": [int(value) for value in end_ode],
             "site1_return": [int(value) for value in centre_ode],
         },
+        "site1_return_characteristic_polynomial": str(recurrence_poly.as_expr()),
+        "even_qubit_lindbladian_characteristic_polynomial": str(bloch_poly.as_expr()),
+        "site1_return_is_the_even_qubit": recurrence_poly == bloch_poly,
+        "site0_return_characteristic_polynomial_factors": end_factors,
+        "even_odd_coherence_characteristic_polynomial": str(coherence_poly.as_expr()),
+        "site0_return_is_constant_times_even_qubit_times_coherences": end_is_constant_bloch_coherence,
         "complex_signal_at_t_0_37": {
             "full_real": float(full_signal.real),
             "pair_real": float(pair_signal.real),

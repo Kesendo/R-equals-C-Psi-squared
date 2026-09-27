@@ -16,6 +16,8 @@ from framework.chain_system import ChainSystem
 from framework.lindblad import lindbladian_z_dephasing
 from framework.pauli import site_op
 from operator_pair_flow_atlas import (
+    even_odd_coherence_characteristic_polynomial,
+    even_qubit_characteristic_polynomial,
     exact_heisenberg_se_h,
     exact_readout_ode,
     exact_readout_rank,
@@ -157,6 +159,32 @@ def test_centre_signal_has_exact_fourth_order_ode_and_same_time_curve():
         full_pair = (expm(t * flow.generator) @ initial)[4]
         assert reduced == pytest.approx(full_pair.real, abs=1e-10)
         assert abs(full_pair.imag) < 1e-12
+
+
+def _recurrence_polynomial(coefficients) -> sp.Poly:
+    s = sp.Symbol("s")
+    return sp.Poly(s ** len(coefficients) + sum(c * s ** j for j, c in enumerate(coefficients)), s)
+
+
+@pytest.mark.parametrize("rate", [1, 3])
+def test_centre_return_is_the_bloch_system_of_the_even_qubit(rate: int):
+    h = exact_heisenberg_se_h(3, 1)
+    centre = exact_readout_rank(h, [0, rate, 0], preparation=1, readout=1)
+    assert centre.rank == 4
+    assert _recurrence_polynomial(exact_readout_ode(centre)) == even_qubit_characteristic_polynomial(rate)
+    # a wrong dephasing rate on the even qubit must not reproduce the curve
+    assert _recurrence_polynomial(exact_readout_ode(centre)) != even_qubit_characteristic_polynomial(rate + 1)
+
+
+def test_end_return_is_constant_bloch_and_even_odd_coherences():
+    h = exact_heisenberg_se_h(3, 1)
+    end = exact_readout_rank(h, [0, 1, 0], preparation=0, readout=0)
+    assert end.rank == 8 == 1 + 3 + 4
+    product = even_qubit_characteristic_polynomial(1) * even_odd_coherence_characteristic_polynomial(1)
+    assert _recurrence_polynomial(exact_readout_ode(end)) == product
+    # the coherence block at the wrong rate must not factor it
+    wrong = even_qubit_characteristic_polynomial(1) * even_odd_coherence_characteristic_polynomial(2)
+    assert _recurrence_polynomial(exact_readout_ode(end)) != wrong
 
 
 def test_exact_readout_rejects_float_input():

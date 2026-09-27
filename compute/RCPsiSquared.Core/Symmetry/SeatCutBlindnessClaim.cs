@@ -84,7 +84,7 @@ public enum SeatCutBook
 /// 1682 zero-bond (profile, seat) pairs at N = 3..6 on the Heisenberg book and on most, not all,
 /// of the XY ones, because what a zero bond has to force is a degeneracy and only the ZZ term
 /// forces it always. A float SVD rank miscounts the kernel at small J (21 against the true 6 at
-/// N = 11, J = 10⁻⁵, behind a reported gap of 5.95·10³): the routes here are exact.</para>
+/// N = 11, J = 10⁻⁵, behind a reported gap of 5.95·10³): the routes here use exact arithmetic.</para>
 ///
 /// <para><b>The two closed forms are two POINTS of one axis, and the axis is now built.</b> Both
 /// forms below are stated at a fixed anisotropy: <see cref="BlindHeisenberg"/> at the isotropic
@@ -124,8 +124,8 @@ public enum SeatCutBook
 /// six of the 104 interior pairs are forced centre seats, where both correctly return nothing.</para>
 ///
 /// <para>Live witness <c>inspect --root blind</c> (<c>SeatCutBlindnessWitness</c>), which
-/// recomputes the count as an exact GF(p) Krylov rank at two primes and checks it against the
-/// closed forms below. Gate <c>simulations/blind_seat_span_proof.py</c> (9 gates, about 19 s) for
+/// recomputes the count from GF(p) Krylov ranks at two primes, an upper bound on rational
+/// blindness, and checks it against the closed forms below. Gate <c>simulations/blind_seat_span_proof.py</c> (9 gates, about 19 s) for
 /// the proof file, <c>simulations/seat_cut_blindness.py</c> for the criterion and the sweeps.
 /// Anchors: <c>docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md</c> +
 /// <c>experiments/THE_SEAT_THAT_CUTS.md</c> + <c>experiments/THE_BLIND_SITE.md</c> +
@@ -305,9 +305,10 @@ public sealed class SeatCutBlindnessClaim : Claim
                          "necessary for the span on H itself, and necessary AND sufficient on H|_W.");
 
             yield return new InspectableNode("live lab (the witness)",
-                summary: "SeatCutBlindnessWitness recomputes the count at inspect time as an exact GF(p) Krylov " +
-                         "rank at two primes on the integer single-excitation matrix, at every seat, and checks it " +
-                         "against the closed form of the chosen book: inspect --root blind. Gates: " +
+                summary: "SeatCutBlindnessWitness recomputes the count at inspect time from GF(p) Krylov ranks " +
+                         "at two primes on the integer single-excitation matrix, at every seat, an upper bound on " +
+                         "rational blindness that it checks against the closed form of the chosen book: " +
+                         "inspect --root blind. Gates: " +
                          "simulations/blind_seat_span_proof.py (9 gates, the proof file) and " +
                          "simulations/seat_cut_blindness.py (the criterion, the sweeps, the twenty-graph table).");
 

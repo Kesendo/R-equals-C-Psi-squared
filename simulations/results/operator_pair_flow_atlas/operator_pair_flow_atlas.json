@@ -59,6 +59,16 @@
       4
     ]
   },
+  "site1_return_characteristic_polynomial": "s**4 + 4*s**3 + 40*s**2 + 64*s",
+  "even_qubit_lindbladian_characteristic_polynomial": "s**4 + 4*s**3 + 40*s**2 + 64*s",
+  "site1_return_is_the_even_qubit": true,
+  "site0_return_characteristic_polynomial_factors": [
+    "s",
+    "s**3 + 4*s**2 + 40*s + 64",
+    "s**4 + 4*s**3 + 24*s**2 + 32*s + 64"
+  ],
+  "even_odd_coherence_characteristic_polynomial": "s**4 + 4*s**3 + 24*s**2 + 32*s + 64",
+  "site0_return_is_constant_times_even_qubit_times_coherences": true,
   "complex_signal_at_t_0_37": {
     "full_real": 0.5320683182861805,
     "pair_real": 0.5320683182861805,

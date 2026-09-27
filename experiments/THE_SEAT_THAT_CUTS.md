@@ -20,7 +20,8 @@ Wherever dephasing at a SINGLE seat leaves no blind subspace, the single-excitat
 Liouvillian has a one-dimensional kernel and its steady state is I/N at every seat
 and every rate. §1's sweep carries γ on ten or eleven seats rather than one, and
 this sentence does not reach that far: what licenses §1's own one-dimensional
-kernels is the exact GF(p) rank taken there profile by profile, and the
+kernels is the GF(p) rank taken there profile by profile, exact at 1 because the
+identity is always in the kernel, and the
 several-seat statement below is a connectivity CLAUSE with a counterexample, not
 a form that could license them. For one seat
 that holds on any graph and needs no simplicity: blind(j) = 0 says e_j is cyclic for
@@ -72,7 +73,7 @@ unreduced, and the kernel then outgrows the span too: 7 against 5 at N = 6 with 
 which is the same case §7 states as "a count of 4 against a kernel of 7". That profile splits H_SE into two identical
 halves, so every eigenvalue is doubled; which seat is watched then decides whether
 the excess appears, and the chain's other four seats give 4 against 4. Off that
-fence: verified against the exact kernel at every seat of 330 (profile, seat) pairs
+fence: verified against the GF(p) kernel read at every seat of 330 (profile, seat) pairs
 over N = 3..8, on uniform, ramp, palindromic and pseudo-random integer profiles, on
 EACH book, zero mismatches on both, in exact arithmetic with no eigensolver.
 
@@ -209,13 +210,16 @@ The sweep the look-back gate asks for. Each store, and what it returned.
 **`docs/proofs/`.** `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md`, item 2 under its
 `## Consequences`: "Asymptotic state is a function of (p_0, ..., p_N) alone … The
 vector (p_0, ..., p_N) is a complete invariant for the purpose of predicting ρ(∞)."
-No γ in that conclusion, so §1's rate-blindness is a consequence of a proven theorem
-rather than a measurement. Its Step 2 states §3's and §5's structure in one line:
+No γ in that conclusion, so where §1's supports reach every site its rate-blindness is a
+consequence of a proven theorem rather than a measurement; its ten-seat arms rest on the
+per-profile ranks of its opening. Its Step 2 states §3's and §5's structure in one line:
 "The fixed-point algebra of the restricted Lindblad generator L_w = −i[H_w, ·] + D_w
 is the intersection of (a) the decoherence-free subalgebra of D_w and (b) the
-commutant of H_w." Its one exception is narrower than it looks: what it states and
-measures is the SITE-REVERSAL at N = 5; the general form, "under some automorphism
-whose fixed set contains the support", it declares open.
+commutant of H_w." Its scope section goes past its hypothesis at N = 5 on the chain,
+with a certificate from The Blind Site's `scope` run: seven of eight supports keep
+the conclusion, and at the reflection-fixed centre seat the parity projectors are
+conserved, the even side reaches the maximally mixed state on the even part of each sector and the odd side need not
+mix. Other N and other graphs it leaves open.
 `PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md` (Tier 1 derived) proves
 `dim ker L = Π_c (|c|+1)` under **uniform** Z-dephasing, resting on
 [DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md) Result 2: the only operators with
@@ -251,10 +255,10 @@ or any formula for the seat dependence of a kernel dimension.
 **`experiments/`.** [CUSP_LENS_CONNECTION](CUSP_LENS_CONNECTION.md) already holds
 §1's limit: "the density matrix becomes the maximally mixed state within the SE
 subspace", "Purity: 1/N". So ρ_∞ = I/N is not this page's.
-[SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) holds the attractor census and the flat
-sentence "Cross-sector coherences are always destroyed asymptotically"; its section
-is headed `(N=5, uniform gamma)` and it surveyed ring and star too, so the axis §5
-pushes on is uniform γ against a SINGLE-SEAT support.
+[SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) holds the attractor census and the sentence
+that cross-sector coherences are destroyed asymptotically; its section is headed
+`(N=5, uniform gamma)` and it surveyed ring and star too, so the axis §5 pushes on
+is uniform γ against a SINGLE-SEAT support.
 [WEIGHT2_KERNEL](WEIGHT2_KERNEL.md) already reports that the weight-2 kernel
 dimension is topology-dependent with no closed form, the same wall §5 hits one
 sector up. [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md) is
@@ -331,7 +335,8 @@ built as a 121 × 121 matrix and its kernel taken.
 Over the 23 profiles the sweep compares, the kernel is one-dimensional and the
 steady state is the maximally mixed single-excitation state to machine precision,
 worst |ρ_∞ − I/N| = 2.901·10⁻¹⁶. One-dimensionality is certified profile by profile
-with the exact GF(p) rank of §3 before the float solver is allowed to pick a single
+with the GF(p) rank of §3, exact at 1 because the identity is always in the kernel,
+before the float solver is allowed to pick a single
 direction; without that step this section would be doing what the sweep record
 faults its two `simulations/` helpers for. The three artifacts faulted above are
 faulted for a different thing, a bare tolerance.
@@ -411,7 +416,7 @@ can itself vanish, because the recursion would then drag the whole vector to zer
 **Verified against the kernel rather than against the eigenvectors.** The run
 computes `blind_by_gcd` in exact `Fraction` arithmetic (Faddeev-LeVerrier for the
 characteristic polynomials, Euclid for the gcd, no eigensolver anywhere) and
-compares it to the exact kernel dimension over 330 (profile, seat) pairs across
+compares it to the GF(p) kernel read over 330 (profile, seat) pairs across
 N = 3..8, on uniform, ramp, palindromic and pseudo-random integer bond profiles, on
 EACH book. **Zero mismatches on both.**
 
@@ -457,7 +462,7 @@ committed divisor law:
 
     blind(j) = (gcd(2j+1, N) − 1)/2
 
-Verified at every seat of every N from 3 to 13 against the exact kernel, zero
+Verified at every seat of every N from 3 to 13 against the GF(p) kernel read, zero
 mismatches, and the modular identity behind it,
 #{m ∈ 0..N−1 : m(2j+1) ≡ N (mod 2N)} = (gcd(2j+1, N) − 1)/2, checked by integer
 enumeration for N = 2..200.
@@ -471,8 +476,9 @@ simple means its commutant is the diagonal in the eigenbasis, and the seat's
 constraint forces one common coefficient across every mode that does not vanish at
 the seat while leaving the rest free.
 
-**There is no tolerance in this.** The kernel dimension is an exact GF(p) rank on
-integer inputs. For Hermitian ρ the commutator term of Tr(ρ·L(ρ)) is identically
+**There is no tolerance in this.** The kernel dimension is read by a GF(p) rank on
+integer inputs, which can only overstate a kernel, and the reads meet 1 + blind(j),
+which the simplicity argument above derives from the characterisation below. For Hermitian ρ the commutator term of Tr(ρ·L(ρ)) is identically
 zero by cyclicity, so Tr(ρ·L(ρ)) = 0 leaves a sum of non-positive terms that must
 each vanish, giving ker L_SE = {ρ : [H, ρ] = 0 and ρ_ij = 0 wherever a dephased
 seat's bit differs between i and j}, which for integer J is a plain integer
@@ -482,7 +488,7 @@ on) and, for the "J does not enter" reading, a **uniform** rescaling of J rather
 than a change of profile, since a profile is exactly what §2 shows does move the
 answer.
 
-**The rank is one-sided.** A GF(p) rank can only be smaller than the rational rank,
+**The rank is one-sided wherever nothing meets it from below.** A GF(p) rank can only be smaller than the rational rank,
 so a reported kernel dimension can only be too large, never too small, and only if p
 divides a pivot minor. Two things weaken that without removing it: §5's `sector`
 part takes every **diagonal** block at a second, unrelated prime (2³¹−1) by a
@@ -517,7 +523,7 @@ d = gcd(j+1, N+1), those m are exactly the multiples of (N+1)/d, and d−1 of th
 in 1..N. The argument is uniform-chain only, because it names that eigenbasis; off
 the uniform chain §2's criterion is the statement, with the ZZ term dropped.
 
-Three independent routes agree. The exact kernel dimension of §3 with the ZZ term
+Three independent routes agree. The kernel dimension of §3, read over GF(p), with the ZZ term
 dropped, at N = 6, 7, 9, 11, 12, 13. The node count read off the eigenvectors,
 N = 3..20. And an exact integer enumeration with no floating point anywhere,
 N = 2..200: zero mismatches on both laws. The third certifies the **count**, that is
@@ -544,8 +550,9 @@ though, since a reflection about seat j speaks about that seat and no other.
 
 This section alone leaves the single-excitation sector. It works two ways: on the
 whole 4^N space by an SVD, which is where the graph table and F4's own numbers come
-from, and per popcount block by an exact GF(p) rank, which needs no tolerance and
-reaches further. Where both apply they agree to the last digit.
+from, and per popcount block by a GF(p) rank, which needs no tolerance and
+reaches further, and whose kernel reads can only err upward. Where both apply they
+agree to the last digit.
 
 `docs/ANALYTICAL_FORMULAS.md`, F4, in its own words: "on the N = 3 open chain at
 J = 1, γ = 0.5 on the **end** seat alone already gives kernel 4, while the same γ on
@@ -564,12 +571,16 @@ chain at N = 5, and the kernel runs 6, 20, 24, 20, 6 by seat against diagonal su
 carries cross-sector stationary coherence.
 
 Put the ZZ term back and the same chain behaves the other way. The `sector` part
-ranks every one of the (N+1)² popcount blocks exactly, the cross ones included, so
+ranks every one of the (N+1)² popcount blocks over GF(p), the cross ones included,
+where a nullity read as zero is exact because a reduction can only raise it, so
 the split is measured rather than inferred from diagonal sums: cross-sector weight is
 **exactly zero at every seat** of the uniform chain at N = 5 and N = 7, of
-[1, 4, 2, 2] at N = 5, and of [2, 1, 1, 2, 1] at N = 6, and the exact route
+[1, 4, 2, 2] at N = 5, and of [2, 1, 1, 2, 1] at N = 6, and the GF(p) route
 reproduces the SVD wherever both are run. At N = 5 with γ on the centre the twelve
-Heisenberg kernel directions distribute as 1, 3, 2, 2, 3, 1 across the six sectors.
+Heisenberg kernel directions distribute as 1, 3, 2, 2, 3, 1 across the six sectors,
+and a construction meets each count from below, which makes the reads exact: the
+parity-part projectors of each sector, one for each end sector and two for each of
+the others, and at popcounts 1 and 4 the difference of the two odd-mode projectors.
 Not claimed: that this holds for every N, or off the chain, or with the ZZ term
 dropped, where it is measured to fail.
 
@@ -625,9 +636,9 @@ per-sector kernel runs 1, 3, 2, 2, 3, 1, so popcount 2 carries fewer than popcou
 as the mechanism failing.** It is not. On a degenerate sector ρ need not be diagonal
 in the solver's eigenbasis, and the basis the mechanism's own argument entitles it to
 is the one that diagonalises the seat's occupation INSIDE each degenerate eigenspace.
-Take that basis and the count matches the exact kernel on both profiles where the
+Take that basis and the count matches the kernel read on both profiles where the
 solver's basis undercounted: at N = 5 with bonds [4, 3, 3, 4] the popcount-2 sector
-has a doubled eigenvalue, the exact kernel is 2, the solver's basis says 1 and the
+has a doubled eigenvalue, the GF(p) kernel read is 2, the solver's basis says 1 and the
 adapted basis says **2**; N = 7 with bonds [4, 3, 4, 4, 3, 4] does the same in
 popcount 3.
 
@@ -669,8 +680,9 @@ eigenbasis reaches the kernel. See
 [the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)
 Theorem A and its section (f).
 
-Every kernel and every simplicity degree in that table is exact; the component counts
-are the only numbers in it taken off a float eigenbasis, and after the above they
+Every simplicity degree in that table is exact and every kernel a GF(p) read, which can
+only overstate a kernel; the component counts are the only numbers in it taken off a
+float eigenbasis, and after the above they
 exhibit a basis effect rather than certifying anything. The script calls `eigh` in
 three further places, one of them §4's node count, and `svd` in three; the tolerance
 paragraph at the end of this section prices them.
@@ -682,7 +694,7 @@ two must not be conflated.
 **Off the chain the block-diagonality need not hold, and the reading offered for
 which graphs keep it is a null result.** The `graphs` part measures the cross-sector weight at every seat of ten
 graphs, as the trace of the kernel projector per block, which is basis-independent.
-The N = 4 ring carries weight exactly 4 at every seat. The reading under test was that
+The N = 4 ring carries weight 4 at every seat, read by that route, a float SVD. The reading under test was that
 the carrier is a non-adjacent pair of vertices with identical neighbourhoods, which
 graph theory calls *false twins*. The table refuses it on both sides:
 
@@ -718,7 +730,7 @@ one route to computing it."
 **A committed line is false, and this page settles it.** `docs/CAUGHT_ERRORS.md`
 carries the parenthetical "kernel excess is b²+b, not gcd". Reading b as the blind
 count at the seat, the `sector` part evaluates the full kernel at the reflection-fixed
-centre of the odd open chain by an exact rank on every popcount block, cross blocks
+centre of the odd open chain by a GF(p) rank on every popcount block, cross blocks
 included, with no eigensolver and no tolerance: **6 at N = 3, 12 at N = 5, 18 at
 N = 7**, against the formula's 6, 12 and **20**. It agrees at the two smallest N and
 fails at the smallest N that can tell them apart, which is also the first N the SVD
@@ -743,8 +755,14 @@ it can only be too **large**. The formula says 20, above 18, so every error this
 is capable of moves our number *towards* the formula rather than away. The refutation
 survives its own worst case.
 
-3(N−1) fits all three, and three points are not a law, so that is a fit and not a
-replacement. Repairing `docs/CAUGHT_ERRORS.md` is a separate act on an append-only
+A construction closes the one-sidedness. The parity-part projectors of the popcount
+sectors, one for each end sector and two for each of the others, 2N in all, commute
+with H and with the centre jump; so do, at popcounts 1 and N − 1, where the jump acts
+on the reflection-odd part as ±1, the eigenprojectors of H on that part, b of them for
+the centre's blind count b = (N − 1)/2, of which b − 1 are new beyond their sum. That
+is 3N − 3 independent stationary operators: 6, 12 and
+18, the reads themselves, which are therefore exact. 3(N − 1) bounds the kernel from
+below at every odd N; that it is the whole kernel is shown at N = 3, 5 and 7 only. Repairing `docs/CAUGHT_ERRORS.md` is a separate act on an append-only
 file, whose own rule is a note appended and never an edit in place; the note is
 appended there under 2026-08-24 and anchors back to this section.
 
@@ -752,8 +770,8 @@ appended there under 2026-08-24 and anchors back to this section.
 artifacts for the same thing, so each is named rather than assumed. First, this
 section's full-space kernel dimensions are taken by a bare TOL = 10⁻⁸ on the singular
 values, with the narrowest deciding ratio over the N = 3..6 table equal to
-7.35·10¹²; the exact block route recomputes the same numbers with no tolerance
-wherever the exact route is also run, which is not every row the SVD covers. Second,
+7.35·10¹²; the GF(p) block route recomputes the same numbers with no tolerance
+wherever it is also run, which is not every row the SVD covers. Second,
 **the ten-graph table earlier in this section takes the same SVD route and prints no
 gap at all**, and it is named here because it carries the false-twin null result. Third, §4's node count off the eigenvectors uses a bare
 10⁻⁹ and also prints no gap; it is corroborated by two exact routes, which is why it
@@ -771,7 +789,7 @@ gap either.
 | | |
 |---|---|
 | ρ(∞) is a function of the sector populations alone, no γ in the conclusion | `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md`, item 2 under `## Consequences` |
-| the fixed-point algebra as DFS ∩ commutant; at an N = 5 reflection-fixed dephasing seat the parity projectors are conserved, while one reflection-even input matches a per-parity mixed reference at finite time; the odd block need not mix | the same proof, with the exact counterexample in [Operator-pair view comparison](OPERATOR_PAIR_VIEW_COMPARISON.md) |
+| the fixed-point algebra as DFS ∩ commutant; at an N = 5 reflection-fixed dephasing seat the parity projectors are conserved, every state on the reflection-even side reaches the maximally mixed state on the even part of each sector, and the odd side need not mix | the same proof's scope section, certified by [The Blind Site](THE_BLIND_SITE.md)'s `scope` run |
 | the commutant characterisation the N+1 rests on | `PROOF_F4_KERNEL_DIMENSION_BY_COMPONENTS.md` + [DEGENERACY_PALINDROME](DEGENERACY_PALINDROME.md) Result 2 |
 | ρ_∞ = I/N on the single-excitation sector, stated in `experiments/` already | [CUSP_LENS_CONNECTION](CUSP_LENS_CONNECTION.md) |
 | the uniform divisor law (gcd(2j+1, N) − 1)/2 itself | [The Blind Site](THE_BLIND_SITE.md) |
@@ -785,7 +803,7 @@ gap either.
 | the phrase "blind subspace" | [ORTHOGONALITY_SELECTION_FAMILY](ORTHOGONALITY_SELECTION_FAMILY.md), where it is a measurement's H_M^⊥ generally; borrowed here in The Blind Site's sense |
 | the N = 3 end-against-middle kernel numbers, 4 and 6 | **F4** |
 | that the weight-2 kernel is topology-dependent with no closed form | [WEIGHT2_KERNEL](WEIGHT2_KERNEL.md) |
-| cross-sector coherences destroyed asymptotically, stated flatly under its (N = 5, uniform γ) heading; the census now carries the single-seat scoping beside the sentence | [SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) |
+| cross-sector coherences destroyed asymptotically under its (N = 5, uniform γ) heading, with the single-seat reading beside the sentence | [SYMMETRY_CENSUS](SYMMETRY_CENSUS.md) |
 | the empty-reading concept, and SILENT as its name | `docs/GLOSSARY.md` for the concept, `compute/RCPsiSquared.Diagnostics/Foundation/PhysicalGeneratorPolarityBreakWitness.cs` for the word |
 | "a green gate is not evidence until you can say what would make it fail" | `docs/CAUGHT_ERRORS.md` |
 | the float-rank trap at small J and long chains | MirrorWorld `Divisor.cs`, whose own object (the frozen divisor on the R₉₀ locus) is unrelated |
@@ -794,7 +812,7 @@ gap either.
 | **dim ker L_SE(j) = 1 + blind(j)**, argued from the simplicity Lemma A gives | this page |
 | **I(A:B)\|_∞ = log₂N − ((N+1)/N)log₂((N+1)/2)** | this page |
 | **the uniform XY law gcd(j+1, N+1) − 1**, the N = 200 enumeration certifying the COUNT and not the kernel | this page |
-| **that the SYMMETRY_CENSUS sentence holds under a single-seat support on the open chain and FAILS on the N = 4 ring** | this page |
+| **that under a single dephased seat the open Heisenberg chain keeps no cross-sector steady state at N = 5 and 7, while the N = 4 ring keeps weight 4 at every seat** | this page |
 | **that the false-twin reading of the cross-sector weight is false both ways** | this page, after a reviewer's five-vertex sweep |
 | **that the XY open chain carries cross-sector weight, so the qualifier is the ZZ term** | this page |
 | **that `CAUGHT_ERRORS.md`'s "b²+b" is false at N = 7**, on a FULL kernel: cross blocks ranked and zero (one prime suffices for an empty block), diagonal blocks agreeing at two | this page, `sector` |
@@ -822,7 +840,8 @@ gap either.
   The `deleted` part measures it: **blind(j) = deg gcd(χ(H), χ(H with row and column
   j struck))** reproduces the definition at every seat of all twenty graphs, on the
   ZZ book and off it, where the definition is N minus the rank of the Krylov matrix
-  the seat generates, taken exactly at two primes with no eigensolver. And measured
+  the seat generates, read at two primes with no eigensolver, each read an upper
+  bound on blindness that the exact gcd meets. And measured
   is more than it needs, because the general form is a THEOREM with no hypothesis
   beyond the real symmetry H already has. By Cramer's rule the (j, j) entry of the adjugate of xI − H IS the
   characteristic polynomial of the principal submatrix, so

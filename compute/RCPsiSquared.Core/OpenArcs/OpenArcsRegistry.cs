@@ -8756,8 +8756,8 @@ public static class OpenArcsRegistry
                 "rate; a support of SEVERAL seats needs connectivity as well (the seat " +
                 "page's opening carries the counterexample, N = 4 bonds [1,0,1] with " +
                 "gamma on seats 0 and 2: nothing jointly blind, kernel 2), so the " +
-                "seat page's section-1 kernels are licensed by the exact rank taken profile by " +
-                "profile; and the span it " +
+                "seat page's section-1 kernels are licensed by the GF(p) rank taken profile by " +
+                "profile, exact at 1 because the identity is always in the kernel; and the span it " +
                 "reports is zero at every seat. In the SINGLE-EXCITATION sector, on " +
                 "halves of size (N-1)/2 with the centre in neither, its mutual " +
                 "information is log2 N - ((N+1)/N)log2((N+1)/2) BITS, a function of N " +
@@ -8765,9 +8765,13 @@ public static class OpenArcsRegistry
                 "so that number does NOT carry over to it, and neither does the blindness, " +
                 "for the reason recorded below; what carries over is the PREMISE. It is " +
                 "window-stable because it has " +
-                "stopped looking; the premise was already proven in " +
-                "PROOF_ASYMPTOTIC_SECTOR_PROJECTION, item 2 under Consequences, where the sector " +
-                "populations are a complete invariant for rho(inf) and no gamma enters. " +
+                "stopped looking; the premise is proven in " +
+                "PROOF_ASYMPTOTIC_SECTOR_PROJECTION, item 2 under Consequences, for dephasing at " +
+                "EVERY site, where the sector populations are a complete invariant for rho(inf) " +
+                "and no gamma enters; at a single seat the seat page's section-1 law gives the " +
+                "single-excitation steady state only, and for the whole space the premise needs " +
+                "the undamped space to be the N+1 sector projectors, which THE_BLIND_SITE's scope " +
+                "certificate decides support by support where it has been run. " +
                 "AND THE OBVIOUS REPLACEMENT DOES NOT WORK EITHER, ON THIS COMPARISON. " +
                 "The DIMENSION of the stationary manifold is window-free and rate-free and " +
                 "carries the blindness count exactly: dim ker L_SE(j) = 1 + blind(j) with " +
@@ -8912,10 +8916,11 @@ public static class OpenArcsRegistry
                 "in the unqualified form this entry carried until 2026-08-24. Off the " +
                 "fence, 330 (profile, seat) pairs over N = 3..8 on EACH book, zero " +
                 "mismatches on both, the criterion side in exact Fractions and the " +
-                "kernel side an exact GF(p) rank, no eigensolver either way. On " +
+                "kernel side a GF(p) rank, which can only overstate a kernel, no eigensolver " +
+                "either way. On " +
                 "the UNIFORM chain it evaluates to 1 + (gcd(2j+1,N)-1)/2, verified N = 3..13 " +
-                "at every seat in the single-excitation sector by an EXACT GF(p) rank on " +
-                "integer inputs. REFLECTION-SYMMETRIC couplings are NEITHER necessary NOR " +
+                "at every seat in the single-excitation sector by a GF(p) rank on " +
+                "integer inputs meeting that value. REFLECTION-SYMMETRIC couplings are NEITHER necessary NOR " +
                 "sufficient for the uniform value, which a DRAFT OF THE EXPERIMENT PAGE " +
                 "asserted and this entry never carried: a reflection-symmetric N = 7 chain " +
                 "has MORE blindness than the " +

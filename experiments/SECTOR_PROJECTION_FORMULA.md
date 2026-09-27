@@ -1,6 +1,6 @@
 # Sector Projection Formula: p_w(t) = Tr(P_w ρ_0)
 
-**Status:** Theorem for sector populations at every time (proved and verified for 9 initial states at N=5). A formula for the full asymptotic state requires the separate full-support hypotheses of the linked proof.
+**Status:** Theorem for sector populations at every time (proved and verified for 9 initial states at N=5).
 **Date:** April 12, 2026
 **Authors:** Thomas Wicht, Claude (Opus 4.6)
 **Script:** `simulations/three_values.py` (Track B)
@@ -48,7 +48,7 @@ All 9 states match to machine precision (max error < 10⁻⁶). The formula valu
 
 ## Physical interpretation
 
-The weights of the excitation sectors remain fixed while the state moves. For a connected graph with a positive Z-dephasing rate at **every** site, the [separate asymptotic proof](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) establishes the maximally mixed state within each sector. With sparse dephasing, conserved sector weights do not determine a full-state limit: the [N=5 centre-only odd block](OPERATOR_PAIR_VIEW_COMPARISON.md) carries nonstationary, undamped motion. The population formula above remains exact in that case.
+The weights of the excitation sectors remain fixed while the state moves. For a connected graph with a positive Z-dephasing rate at **every** site, the [separate asymptotic proof](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md) establishes the maximally mixed state within each sector. With sparse dephasing the sector weights need not fix the long-time state: at N = 5 six of the seven sparse supports in [the proof's scope section](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md#scope-and-limitations) still lead every state to that per-sector state, while under the centre seat alone the part of a state on the mirror-odd single-excitation space evolves unitarily and need not settle. The population formula above holds in every case.
 
 For |+⟩⊗N, this distribution is binomial: p_w = C(N,w)/2^N. For GHZ, it is bimodal: p_0 = p_N = ½. For all SE states (W_N, ψ_opt), it is a delta function: p_1 = 1.
 

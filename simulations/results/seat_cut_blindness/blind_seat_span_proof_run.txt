@@ -142,8 +142,8 @@ Jacobi matrix; here proved for the real symmetric case the sector
 gives) makes the spectrum simple,
 so every multiplicity in Theorem A is 1 and the commutant of H|_W is
 diagonal: dim ker L_SE(j) = 1 + blind(j).  Gated end to end here,
-the kernel by its own exact GF(p) rank and the count by the Krylov
-rank, two routes meeting as integers.
+the kernel by its own GF(p) rank, which can only overstate it, and the
+count by the Krylov rank, two routes meeting as integers.
 
   G8  dim ker L_SE(j) = 1 + blind(j) at every seat of every
       zero-free profile, both books

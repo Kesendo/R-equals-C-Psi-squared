@@ -892,7 +892,7 @@ public static class KnowledgeRegistryFactory
             // breaks the identity and the zero-bond [1,0,1] holds. Parent: F4KernelDimensionByComponentsClaim
             // (registered above via RegisterF1Family), whose "which seat carries the gamma" question this
             // closes in the popcount-1 sector and leaves open above it.
-            // Live: inspect --root blind (SeatCutBlindnessWitness, exact GF(p) Krylov ranks, no eigensolver).
+            // Live: inspect --root blind (SeatCutBlindnessWitness, GF(p) Krylov ranks, a one-sided read of blindness, no eigensolver).
             .RegisterSeatCutBlindnessClaim()
             // The node-pair resolvent theorem (Tier 1 derived, 2026-09-12): on a zero-free real
             // symmetric open chain, nodes at both ends of a reduced-resolvent matrix element force

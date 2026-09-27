@@ -507,14 +507,16 @@ sharply. Wherever dephasing at a SINGLE seat leaves no blind subspace the
 stationary state is the maximally mixed state of the excitation sector, at every
 seat and every rate; for a support of several seats that needs connectivity as
 well, and that page's opening carries the counterexample, so what licenses that
-page's §1 kernels is the exact rank taken there profile by profile. The
+page's §1 kernels is the GF(p) rank taken there profile by profile, exact at 1
+because the identity is always in the kernel. The
 steady-state mutual information is then a function of N and of the sector alone,
 with no γ in it, and the span it reports is zero at every seat. Which
 number it is depends on the sector, and for this page's own state that is not
 the number quoted below. It is window-stable because it has stopped
-looking. The premise was already proven next door:
+looking. The premise is proven next door for dephasing at every site:
 `PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md` Consequence 2 makes the sector
-populations a complete invariant for ρ(∞), and no γ enters it.
+populations a complete invariant for ρ(∞), and no γ enters it; for a support that
+misses a site it holds where that proof's scope certificate has been run.
 
 **What carries over to this page is the PREMISE, and neither the number nor the
 blindness.** That page's closed form, log₂N − ((N+1)/N)·log₂((N+1)/2) bits, is

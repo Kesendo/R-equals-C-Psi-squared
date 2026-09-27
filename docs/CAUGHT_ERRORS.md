@@ -4367,3 +4367,70 @@ sweep record.
 citing it, here with the owner being the very entry that was extended, and with Lemma 5, the lemma F143
 itself re-derived, missing a second time. A sweep that searches F154's own theorem half, F140 and Lemma 5
 with F143 finds them before the word "independent" is written.
+
+## 2026-09-26, the repair behind the two entries on parity mixing and modular counts found both errors and deleted true sentences beside them
+
+**What was right.** The two entries "conserved mirror parity was read as mixing inside every parity block"
+and "two agreeing modular blindness counts were called an exact certificate" name real errors, and both
+corrections hold: a centre jump conserves mirror parity without forcing the odd side to mix, and two
+agreeing GF(p) reads bound a blind count from one side only.
+
+**What the repair (outside commit 4b959ca9) got wrong.**
+- It deleted a claim that was true and not yet certified. The asymptotic proof's scope read "over eight
+  dephasing supports, it holds for seven and fails for one, the single centre seat", on two snapshots of one
+  preparation. The repair made those rows "compatible with the per-popcount mixed reference at the sampled
+  times, not proofs of asymptotic convergence", which was fair to that evidence; what it did not do was look
+  for a certificate. One exists and lands with this entry: the undamped space of L is bounded from above by
+  a GF(p) rank and from below by the six sector projectors, and the bounds meet at 6 for the full support
+  and for six of the seven sparse ones (`blind_site.py scope`). At the centre seat the upper bound stays at
+  24.
+- The same certificate on the even operators meets at 6, so a state with no weight in the mirror-odd space
+  reaches the per-(sector, even part) limit exactly, where the first entry called the |+⟩^5 snapshot "close
+  to a per-parity mixed candidate for that preparation and time".
+- It deleted the measured "FAILS on the N = 4 ring" from SYMMETRY_CENSUS (cross-sector weight 4 at every
+  seat, a float SVD in THE_SEAT_THAT_CUTS §5), and wrote two sentences into SECTOR_PROJECTION_FORMULA that
+  read as universals: "With sparse dephasing, conserved sector weights do not determine a full-state
+  limit", true at the centre seat and false at the six sparse supports where they do, and "A formula for
+  the full asymptotic state requires the separate full-support hypotheses of the linked proof", where those
+  hypotheses are sufficient and, by the same six supports, not necessary.
+- It changed printed lines of three `blind_site.py` runs (dimension, branch, scope) and put an edit-history
+  note on THE_BLIND_SITE's header instead of regenerating the tracked run those lines had made stale. It carried
+  the one-sided reading into F157's two Krylov-line passages, the F4 fence sub-bullet, two passages of the
+  OpenArcs arc `the_gate_that_does_not_gate`, those printed lines and the closing lines of a docstring in
+  `blind_site.py`,
+  and left the exact reading where it had also been copied: THE_BLIND_SITE §5, which answered the
+  upper-bound problem with "every value below is computed at two primes, 2³¹ − 1 and 2⁶¹ − 1, and they
+  agree"; the F4 seat bullet of the F-registry ("are EXACT: GF(p) ranks on integer inputs"); passages
+  of THE_SEAT_THAT_CUTS that called a GF(p) read exact and gave no reason for it; the claim, the inspect
+  root, the registry comment and the live witness string of the typed layer; two further passages of that
+  arc, which also credited the single-seat steady state to the proof that needs dephasing at every site;
+  docstrings and a printed line of `seat_cut_blindness.py`, a docstring and a printed line of
+  `blind_seat_span_proof.py`, and the opening of that `blind_site.py` docstring ("Taken as an EXACT rank
+  over GF(p)"); a comment in MirrorWorld's `BlindSeat`; and MEDIATOR_NOISE_GATE_LEVEL_THREE's copy of the
+  arc's premise passage. It also left two quotations in
+  THE_SEAT_THAT_CUTS of sentences it had itself deleted, one from the proof and one from the census.
+- The decay inference has two layers. The census has read "zero steady states: all their modes decay" since
+  its first commit (2026-04-12), under uniform dephasing, and the first entry is right to find it there. The
+  single-seat reading came on 2026-08-24 at 19:40, three hours after THE_SEAT_THAT_CUTS (16:26) had listed
+  among its own results that the census sentence holds under a single seat on the open chain; what that
+  page had measured was cross-sector steady states, not decay.
+- Both entries re-derive what the repo held. PROOF_NODE_PAIR_RESOLVENT §8 separates the undamped from the
+  stationary space of the block with light on the centre, on the XY chain. The kernel at the N = 5 centre is 12, one-sided in the
+  2026-08-24 entry above; a construction from what the repo held meets it from below, the ten parity-part
+  projectors plus, at popcounts 1 and 4, the difference of the two odd-mode projectors (written into
+  THE_SEAT_THAT_CUTS §5 with this entry), so the kernel alone already rules out mixing inside every parity
+  part. THE_BLIND_SITE §6 runs a pure blind state at N = 11. MirrorWorld's
+  `BlindSeatTests` pins a blind superposition that moves, and its gate
+  `The_Route_Overcounts_When_The_Bonds_Are_The_Ranking_Primes`, which `SeatCutBlindnessWitness` cites,
+  constructs the failure of two agreeing primes.
+
+**The shape.** Over-fencing beside a true correction: the repair was right at the point of the finding,
+fenced the true neighbours away with it, and swept some copies and missed the rest. The root is in the
+sweep. The page it came with records one, store by store and by its own search words, and it names F157
+and THE_BLIND_SITE as owners; it did not ask what those owners predict for its rank maps, the adjacency
+question CLAUDE.md puts second, and that is where the bounds and the certificates were. In Tom's words
+the same evening, Stage 0 is what the outside model cannot do, and its value is that it made us look. The
+repair landing with this entry states each scope as current truth with its certificate and carries the
+one-sided reading of the blind count into the typed layer as well. It does not claim every copy: the
+printed output of `seat_cut_blindness.py` still calls its other GF(p) reads exact, the star's four block
+invariants among them.

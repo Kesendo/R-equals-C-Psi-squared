@@ -157,8 +157,9 @@ def blind_basis(n, bonds, seat, zz):
 
     W is the orthogonal complement of the Krylov space span{e_j, H e_j, ...},
     i.e. the nullspace of the Krylov matrix read as a system.  Computed over Q
-    rather than GF(p): the COUNT is already gated at two primes in the
-    companion script, and what is needed here is the SUBSPACE.
+    rather than GF(p): the COUNT is already gated in the companion script,
+    its GF(p) reads meeting the proved law, and what is needed here is the
+    SUBSPACE.
     """
     h = S.se_hamiltonian_int(n, bonds, zz)
     vec = [1 if s == seat else 0 for s in range(n)]
@@ -431,8 +432,8 @@ def run_chain():
     print("gives) makes the spectrum simple,")
     print("so every multiplicity in Theorem A is 1 and the commutant of H|_W is")
     print("diagonal: dim ker L_SE(j) = 1 + blind(j).  Gated end to end here,")
-    print("the kernel by its own exact GF(p) rank and the count by the Krylov")
-    print("rank, two routes meeting as integers.")
+    print("the kernel by its own GF(p) rank, which can only overstate it, and the")
+    print("count by the Krylov rank, two routes meeting as integers.")
     print()
     print("  G8  dim ker L_SE(j) = 1 + blind(j) at every seat of every")
     print("      zero-free profile, both books")

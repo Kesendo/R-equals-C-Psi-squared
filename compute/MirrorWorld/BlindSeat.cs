@@ -134,10 +134,10 @@ public sealed class BlindSeat : GameObject
         return h;
     }
 
-    // blind(seat) = N - rank of the Krylov matrix the seat generates, exact over GF(p) at two primes.
+    // blind(seat) = N - rank of the Krylov matrix the seat generates, read over GF(p) at two primes.
     // The Krylov columns are taken mod p from the start (reduction commutes with the matrix product), so
-    // nothing overflows in THIS loop at any N; the rank mod p can only drop, so the max over the primes
-    // pins it and the reported blind dimension can only ever be too large, never too small. The place
+    // nothing overflows in THIS loop at any N; the rank mod p can only drop, so the max over the primes is
+    // the tighter of two lower bounds and the reported blind dimension can only ever be too large, never too small. The place
     // that can overflow is H() before it, which is built in full precision, and MaxCoupling is what keeps
     // the sentence above true rather than the loop's own arithmetic.
     public int Blind(int seat)

@@ -389,8 +389,8 @@ submatrices that site leaves behind.  So
     blind(j) = deg gcd( charpoly(H_left), charpoly(H_right) )
 
 computed here in exact Fractions, no eigensolver.  Swept against the
-exact GF(p) kernel over uniform, ramp, palindromic and pseudo-random
-integer profiles:
+GF(p) kernel, a read that can only overstate it, over uniform, ramp,
+palindromic and pseudo-random integer profiles:
 
   Heisenberg   (profile, seat) pairs tested: 330 over N = 3..8    mismatches: 0
   XY           (profile, seat) pairs tested: 330 over N = 3..8    mismatches: 0

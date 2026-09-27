@@ -41,7 +41,7 @@ This was not previously noted in the repo.
 
 ### 1.4 Spatial reflection (reflection-symmetric gamma profile)
 
-For the chain with γ_k = γ_(N−1−k), including non-uniform palindromic profiles, the reflection k ↔ N−1−k is a symmetry. It acts within each (w, w') sector (since reflection preserves excitation numbers). This further splits each sector into ± eigenspaces. The non-uniform N=3 profile (0,1,0) and N=4 profile (0,1,1,0) have zero reflection commutator on the single-excitation operator block; the corresponding one-sided controls do not.
+For the chain with γ_k = γ_(N−1−k), including non-uniform palindromic profiles, the reflection k ↔ N−1−k is a symmetry. It acts within each (w, w') sector (since reflection preserves excitation numbers). This further splits each sector into ± eigenspaces. The typed layer holds the iff, the refinement exact if and only if γ_l = γ_(N−1−l), as `InhomogeneousGammaF71BreakingWitness`, whose tests check it on the XY chain at N = 5.
 
 **Verified numerically:** For N=5 uniform gamma, max eigenvalue multiplicity is 14. For IBM sacrifice gamma (reflection broken), max multiplicity drops to 6. The reduction comes from both the loss of reflection symmetry and the shift in eigenvalue structure caused by the non-uniform gamma profile (different absorption theorem rates lift accidental degeneracies).
 
@@ -100,7 +100,7 @@ The largest sectors are the "interior" ones near w_bra = w_ket = N/2:
 
 Each steady state is the maximally mixed state within its excitation sector: ρ_∞(w) = (1/C(N,w)) Σ_{|i⟩, popcount(i)=w} |i⟩⟨i|. No sector has multiple steady states, limit cycles, or dark states.
 
-Off-diagonal sectors (w ≠ w') have zero steady states and their modes decay under the uniform, positive dephasing rates of this census. **Zero steady states alone does not prove decay.** With only the centre seat dephased on the N = 5 open chain, a coherence between the vacuum and a blind, reflection-odd Hamiltonian eigenstate has a nonzero imaginary generator eigenvalue and does not decay; the [operator-pair comparison](OPERATOR_PAIR_VIEW_COMPARISON.md) exhibits the underlying undamped odd block. [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5 counts cross-sector *zero* eigenvalues, a different question.
+Off-diagonal sectors (w ≠ w') have zero steady states, and under the uniform positive dephasing of this census all their modes decay, so cross-sector coherences are destroyed asymptotically (ring and star surveyed below). The two halves of that sentence part under a single dephased seat. The first still holds on the open Heisenberg chain at every seat measured at N = 5 and 7 and fails on the N = 4 ring, where a float SVD measures cross-sector weight 4 at every seat ([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5). The second fails on the chain at the blind seats of F157: a coherence between the vacuum and a Hamiltonian eigenmode with a node at the dephased seat is never charged, so it oscillates undamped forever ([The Blind Site](THE_BLIND_SITE.md) §5, the (0,1) block of F152).
 
 ### Sector dynamics summary
 
@@ -112,7 +112,7 @@ Off-diagonal sectors (w ≠ w') have zero steady states and their modes decay un
 
 ### Exit count
 
-**A connected system with positive dephasing at every site has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found in this uniform-rate census.
+**A connected system with positive dephasing at every site has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found in this uniform-rate census. Dephasing at every site is sufficient, not necessary: [the asymptotic proof's scope](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md#scope-and-limitations) certifies six of seven sparse supports at N = 5 with the same N+1 exits, while the seventh, the centre seat alone, keeps a twelve-dimensional stationary space ([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5, where a GF(p) read and a construction meet) and undamped motion besides.
 
 The [lens exit](CONCENTRATOR_GEOMETRY.md) is the approach to the w=1 attractor via the slow mode. The [cusp exit](CUSP_LENS_CONNECTION.md) is the simultaneous thermalization within multiple occupied sectors. These are not two exits of a system with two attractors; they are two dynamical paths through a system with N+1 attractors.
 
