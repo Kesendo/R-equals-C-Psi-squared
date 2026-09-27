@@ -495,7 +495,7 @@ there raises the multiplicity of the root AT zero and says nothing about a root 
 
 **Exceptional coupling** is already a repo term, and it means something adjacent but not the
 same. In `PROOF_R90_FROZEN_DIVISOR` §9 it is the corner block on the R90 locus with a
-non-uniform profile, where the ALGEBRAIC multiplicity gains a rung and the point turns out
+non-uniform profile, where the ALGEBRAIC multiplicity rises and the point turns out
 to be defective while the geometric count stays at ⌊N/2⌋. Here it is the uniform point, the
 rungs ℓ ≥ 2, and the jump is GEOMETRIC. Both are roots of the same kind of tightness
 criterion, so the word fits; what must never be dropped is which block and which

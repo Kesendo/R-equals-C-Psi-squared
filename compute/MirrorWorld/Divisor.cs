@@ -15,7 +15,9 @@ namespace MirrorWorld;
 // the proved kernel lower bound is N at every J; equality of the geometric count was
 // exact-checked at selected nonzero J for N=3..7
 // (at J = 0 it is N + 2*floor(N/2) for a generic locus profile; that stratum has defective couplings of its own,
-// with a size-3 Jordan block at N = 3, which is the proof's Section 9).
+// with a size-3 Jordan block at N = 3, which is the proof's Section 9; the gbar != 0 stratum reaches
+// size 3 as well, at every exceptional coupling computed on the XY chain (N = 3, 4) and on the
+// Heisenberg chain at (0,2,0,2), N = 4).
 //
 // THE PARENT IS THE MIRROR, not the frame. (Marginal got to a non-frame parent first, on 2026-07-12,
 // hanging on the running cloud it reads; this is the second, and the first among the closed-form

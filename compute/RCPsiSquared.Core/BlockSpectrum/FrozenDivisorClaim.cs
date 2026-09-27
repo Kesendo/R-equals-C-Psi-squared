@@ -58,9 +58,11 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// free of sits in the prefactor, which is the other way q(0) can die: at γ̄ = 0 the whole block
 /// is τQ-odd and the kernel is the bare index dim V₊ − dim V₋ = N, attained for all but finitely
 /// many J. That stratum has exceptional couplings of its own, and at N = 3 the Jordan block there
-/// has size THREE, larger than the taxed stratum's two.
-/// As J → 0 that determinant vanishes to
-/// order 2⌊N²/4⌋ = 2 Σ_c d_c with d_c = N + 1 − 2c the site distance of the balanced pair
+/// has size THREE, the size every exceptional coupling computed on the XY chain carries at
+/// γ̄ ≠ 0, and one the Heisenberg chain reaches at γ̄ ≠ 0 and non-negative rates first at N = 4,
+/// on (0,2,0,2).
+/// As J → 0 that determinant vanishes to order at least 2⌊N²/4⌋ = 2 Σ_c d_c, with equality on every
+/// generic profile measured, d_c = N + 1 − 2c being the site distance of the balanced pair
 /// (c, R(c)): a frozen mode cannot move until the coupling has walked the excitation across its
 /// own pair, so it departs at order J^{2d_c} and <b>the far pair is the most protected</b>. At the
 /// uniform endpoint the cofactor collapses to J^{N(N−1)}·D_N with
@@ -80,16 +82,20 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// γ̄ ≠ 0. Tightness is the half that carries that hypothesis; the bound does not, and at γ̄ = 0
 /// the count is N rather than ⌊N/2⌋, for all but finitely many J. What
 /// tightness does NOT say is which couplings the finitely many exceptions are, and there the story
-/// is unfinished: at the real exceptional couplings the root goes DEFECTIVE (one 2×2 Jordan block,
-/// exact at N = 3, 4) while its kernel dimension does not move, so the criterion cannot tell that
+/// is unfinished: at the real exceptional couplings the root goes DEFECTIVE (one Jordan block of
+/// size two where one eigenvalue arrives, exact at N = 3, 4, 5 on the Heisenberg chain, and of size
+/// three where two arrive at once, in every case computed, which on the XY chain is every
+/// exceptional coupling computed at N = 3, 4)
+/// while its kernel
+/// dimension does not move, so the criterion cannot tell that
 /// failure from the harmless one at J = 0, where the multiplicity merely doubles and stays
 /// semisimple; and how many exceptional couplings are real is not a function of N. Open in a
 /// different direction: the upper half of the VALUATION law, that the J → 0 order is exactly
-/// 2⌊N²/4⌋ rather than at least it, reduced by the pointed grading χ_x(a,b) = |a−x| + |b−R(x)| to
+/// 2⌊N²/4⌋ on generic profiles rather than at least it, reduced by the pointed grading χ_x(a,b) = |a−x| + |b−R(x)| to
 /// a single nonvanishing (each pair reaching its OWN outer anti-diagonal cell). That one concerns
 /// the ladder, not the multiplicity.</para>
 ///
-/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (302 checks, G0..G16). Live:
+/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (322 checks, G0..G16). Live:
 /// <c>inspect --root divisor</c> (<c>FrozenDivisorWitness</c>, the counts recomputed by exact
 /// GF(p) ranks at inspect time). Adopted as a MirrorWorld object: run mode
 /// <c>divisor N</c>.</para></summary>
@@ -120,7 +126,7 @@ public sealed class FrozenDivisorClaim : Claim
                "else does (the confinement is the ZZ term's quarticity, not a diagonal on h: on " +
                "the XY chain the same root spreads at the same multiplicity along an exact " +
                "ladder), while partial balance yields nothing on either " +
-               "chain; as J -> 0 the cofactor vanishes to order 2*floor(N^2/4), each pair departing " +
+               "chain; as J -> 0 the cofactor vanishes to order at least 2*floor(N^2/4), equality measured on generic profiles, each pair departing " +
                "at J^(2 d_c) with d_c its site distance, so the outermost pair holds longest",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_R90_FROZEN_DIVISOR.md")
@@ -203,7 +209,7 @@ public sealed class FrozenDivisorClaim : Claim
                          "the diagonal band full, and what ZZ removes is the ladder ρ ↦ Σ_l d†_l ρ d_l that " +
                          "carries the corner up it. The bound and the fold parity belong to the divisor.");
             yield return new InspectableNode("the ladder: distance buys immunity",
-                summary: "as J → 0 the cofactor vanishes to order 2⌊N²/4⌋, and per pair the mode departs at " +
+                summary: "as J → 0 the cofactor vanishes to order at least 2⌊N²/4⌋, with equality measured on generic profiles, and per pair the mode departs at " +
                          "J^{2 d_c}, d_c = N + 1 − 2c the site distance: the coupling must walk the " +
                          "excitation from one site of the pair to the other before the mode can move. The " +
                          "two ends of the chain are the last to let go. At J = 0 the root carries twice the " +
@@ -220,10 +226,13 @@ public sealed class FrozenDivisorClaim : Claim
                 summary: "not tightness, which Section 7 turned into a theorem at every N and every " +
                          "γ̄ ≠ 0, but WHICH " +
                          "couplings the finitely many exceptions are: at the real ones the root goes " +
-                         "defective, one 2×2 Jordan block, its kernel dimension unmoved, so the criterion " +
+                         "defective, one Jordan block of size two, or three where two eigenvalues " +
+                         "arrive at once (in every case computed, and every one computed on the XY " +
+                         "chain), its kernel dimension unmoved, " +
+                         "so the criterion " +
                          "cannot tell that failure from the harmless one at J = 0; and how many are real " +
                          "is not a function of N. Open in another direction: the upper half of the " +
-                         "VALUATION law (the J → 0 order exactly 2⌊N²/4⌋ rather than at least it), " +
+                         "VALUATION law (the J → 0 order exactly 2⌊N²/4⌋ on generic profiles rather than at least it), " +
                          "reduced by the pointed grading to a single nonvanishing. That one is about the " +
                          "ladder, not the multiplicity.");
             yield return new InspectableNode("live witness (inspect --root divisor)",

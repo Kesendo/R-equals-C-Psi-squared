@@ -6698,7 +6698,7 @@ sitting d_c levels from the anti-diagonal, the level census is short exactly
 one row there, and the only spare rooms are on the anti-diagonal itself, so
 the debt must be walked down, one power of J per hop. **The far pair has the
 largest proved minimum order: distance buys immunity.** Corollary: at J = 0 the root carries twice the multiplicity,
-2*floor(N/2), all semisimple, and exactly floor(N/2) modes depart as the
+2*floor(N/2), all semisimple, on generic profiles, and exactly floor(N/2) modes depart as the
 coupling turns on (at gbar = 0 a generic locus profile has kernel N + 2*floor(N/2) and twice as many
 depart). Sharpness is reduced to a single nonvanishing by a second,
 pointed grading: chi_x(a,b) = |a-x| + |b-R(x)| gives
@@ -6708,9 +6708,21 @@ the resulting matrix is triangular.
 
 **Where tightness fails, and how.** The exceptions are real couplings, not an
 artifact of "all but finitely many": at N = 3 the cofactor 2^12*gbar^2*J^4*
-(3J^2 - d1^2) puts them at J = +- delta_1/sqrt(3) in closed form. There the
-divisor is **defective**, one Jordan block of size two (exact over Q(sqrt(s),i)
-at N = 3, 4; at N = 4 confirmed twice, once from the characteristic polynomial).
+(3J^2 - d1^2) puts them at J = +- delta_1/sqrt(3) on the Heisenberg chain
+(delta_1/sqrt(2) on the XY chain) in closed form. There the
+divisor is **defective**. Where one eigenvalue arrives at the root, that is one
+Jordan block of size two (exact over Q(sqrt(s),i) at N = 3, 4, 5 on the
+Heisenberg chain; at N = 4 confirmed twice, once from the characteristic
+polynomial). Where two arrive at one coupling, the cofactor and the next
+coefficient vanishing together, it is one block of size THREE at every such
+coupling computed, including at non-negative rates. Which happens is first the chain's: on the XY chain the next coefficient
+carries the whole non-monomial factor of the cofactor (symbolic at N = 3, 4), so at N = 3, 4
+every exceptional coupling is at least a double arrival, and every one computed a 3x3, the first
+at N = 3 (kernel dimensions (1, 2, 3, 3) on (1/2, 1, 3/2)). On the Heisenberg chain
+it takes a second coincidence: at N = 3 only with a negative rate (delta_1^2 =
+12 gbar^2, J = 2|gbar|), at non-negative rates met in closed form at N = 4 on
+(0,2,0,2), J = 1, kernel dimensions (2, 3, 4, 4), and absent on (1,3,1,3) and
+(2,2,0,0).
 The tightness criterion vanishes at three different kinds of place and **cannot
 tell them apart**: at J = 0 the multiplicity merely doubles and stays
 semisimple; at gbar = 0 the proved lower bound is N, and there it is the
@@ -6721,8 +6733,9 @@ the defective examples. That stratum has
 defective couplings of its OWN, which no cofactor can find since q(0) vanishes
 identically there: at N = 3 on the gate's profile the coefficient of lambda^3 is
 (256/625)*J^4*(75J-2)*(75J+2), and at J = 2/75 the kernel dimensions run
-(3, 4, 5): geometric 3, algebraic 5, ONE JORDAN BLOCK OF SIZE THREE, larger
-than anything the taxed stratum shows. So "only the exceptional couplings are
+(3, 4, 5): geometric 3, algebraic 5, ONE JORDAN BLOCK OF SIZE THREE, at N = 3,
+which the gbar != 0 stratum reaches on the Heisenberg chain at non-negative
+rates first at N = 4. So "only the exceptional couplings are
 defective" is a statement about each stratum separately, and each has its own
 set. How many of the nonzero roots are real is not a
 function of N: two generic profiles on the same N = 6 locus give two real pairs
@@ -6739,13 +6752,15 @@ counts, the gbar = 0 count N and its opened census).
 (each pair reaching its own outer anti-diagonal cell; the route is the
 uniqueness of the monotone walk); the uniform-endpoint embedding into the
 committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
-real exceptional couplings; whether the gbar = 0 carriers are one object rather
+real exceptional couplings; what decides the Jordan block size at them (why the
+XY chain doubles every arrival, which Heisenberg profiles carry a 3x3; no bound
+known); whether the gbar = 0 carriers are one object rather
 than a list (C(N,p) is the popcount-p sector dimension and the corner's N is its
 p = 1 entry); and whether any DISSIPATING generator holds N modes at one rate,
 the trivial gamma == 0 being completely positive and already on the stratum,
 every other point of it carrying a negative rate.
 **Gate:** [`r90_frozen_divisor_gate.py`](../simulations/r90_frozen_divisor_gate.py)
-(~2 min, 302 checks; G0 builder, G1 the mirror identity, G2 the census,
+(~2 min, 322 checks; G0 builder, G1 the mirror identity, G2 the census,
 G3/G4 pencil and eigenvector by-products, G5 partial-balance nulls, G6/G7
 exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
 discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the

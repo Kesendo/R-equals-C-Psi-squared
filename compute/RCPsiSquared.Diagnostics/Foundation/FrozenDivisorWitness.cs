@@ -692,10 +692,12 @@ public sealed class FrozenDivisorWitness : IInspectable
                          "whole block is τQ-odd and the count is N. The constructor closes that door; " +
                          "MirrorWorld's Divisor.Rooms() and the gate's G16 carry the stratum. " +
                          "What no rank read here can see: at the real exceptional couplings the root goes " +
-                         "DEFECTIVE (one 2×2 Jordan block) while its kernel dimension does not move, so " +
+                         "DEFECTIVE (one Jordan block of size two, or three where two eigenvalues arrive " +
+                         "at once, in every case computed) while its kernel dimension does not move, so " +
                          "this witness cannot tell that failure from a healthy coupling. Still open in the " +
                          "proof, and about the ladder rather than the multiplicity: the upper half of the " +
-                         "valuation law, the J → 0 order being exactly 2⌊N²/4⌋ rather than at least it.",
+                         "valuation law, the J → 0 order being exactly 2⌊N²/4⌋ on generic profiles rather than " +
+                         "at least it.",
                 provenance: NodeProvenance.Stored);
         }
     }

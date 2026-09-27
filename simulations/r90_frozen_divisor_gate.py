@@ -80,6 +80,17 @@
 #           against (2, 2, 2) at both neighbouring couplings, with the
 #           algebraic count confirmed a second time from the characteristic
 #           polynomial (two independent routes)
+#       (c) the taxed stratum reaches size three, and the chain decides where.
+#           XY: the next coefficient carries the whole factor of q(0)
+#           (sympy at N = 3 and N = 4), and
+#           (1,2,3,3) at N = 3, (2,3,4,4) at N = 4 on (1,3/2,1/2,1), J* = 1/2,
+#           and on (2,2,0,0), J* = 4/sqrt(5). Heisenberg: the two coefficients
+#           share only a monomial (sympy, N = 3), and at N = 3 the second
+#           coincidence sits at d^2 = 12 gbar^2 (a negative rate): (1,2,3,3) at
+#           (1+2sqrt3, 1, 1-2sqrt3), J* = 2; at non-negative rates it sits at
+#           (0,2,0,2), J* = 1, (2,3,4,4) with charpoly 4, its closed forms
+#           symbolically; the N = 4 gcd a monomial; controls J = 1/2, 2 semisimple, (1,3,1,3) and
+#           (2,2,0,0) a 2x2; and N = 5 (1,0,1,2,1) at J* = 1, a 2x2
 #   G13 the counting question (proof doc Section 12), exact Sturm counts of the
 #       real nonzero roots: 1 pair at N=3 (both profiles), 2 at N=4, 2 at N=5,
 #       and 2 versus 4 for two generic N=6 profiles, so the count is NOT a
@@ -100,7 +111,7 @@
 #       block-grid mirrors and their C(N,p) fixed cells on both chains; the
 #       opened census (Heisenberg N = 4, 5, 6; XY N = 4, 5); and the stratum's
 #       OWN exceptional coupling J* = 2/75 at N = 3, where the Jordan block has
-#       size three, one larger than the taxed stratum's
+#       size three
 #
 # Runtime: about 2 minutes. Standalone except G0 (imports framework once).
 import sys
@@ -1369,8 +1380,9 @@ class QSq:
         return u.a == (0, 0) and u.b == (0, 0)
 
 
-def xc_build(N, gl, Jcoef, s, sqrt_J=True):
-    """Mtilde = L_block + 4 gbar over Q(sqrt(s), i), s a NON-SQUARE.
+def xc_build(N, gl, Jcoef, s, sqrt_J=True, zz=True):
+    """Mtilde = L_block + 4 gbar over Q(sqrt(s), i), s a NON-SQUARE; zz=False
+    drops the ZZ diagonal of h (the XY chain).
 
     The coupling is J = Jcoef*sqrt(s) when sqrt_J is True, and J = Jcoef (a plain
     rational, carried in the a-slot) when it is False. s must not be a perfect
@@ -1379,6 +1391,9 @@ def xc_build(N, gl, Jcoef, s, sqrt_J=True):
     """
     assert s > 0 and round(s ** 0.5) ** 2 != s, "s must be a positive non-square"
     h = se_h_frac(N)
+    if not zz:
+        h = [[h[a][b] if a != b else Fraction(0) for b in range(N)]
+             for a in range(N)]
     gbar = sum(gl) / N
     n2 = N * N
     M = [[QSq(s=s) for _ in range(n2)] for _ in range(n2)]
@@ -1457,13 +1472,31 @@ def xc_jordan(N, gl, Jcoef, s, sqrt_J=True):
     return n1, n2, n3
 
 
+def xc_chain(N, gl, Jcoef, s, sqrt_J=True, zz=True, kmax=5):
+    """Nullities of Mtilde^k for k = 1, 2, ... up to the first plateau (the
+    plateau entry included), for chains that may need more than three powers.
+    Raises if no plateau is reached by kmax, so a deeper block cannot hide."""
+    M = xc_build(N, gl, Jcoef, s, sqrt_J, zz)
+    P, out = M, [xc_null(M)]
+    for _ in range(kmax - 1):
+        P = xc_matmul(P, M, s)
+        out.append(xc_null(P))
+        if out[-1] == out[-2]:
+            return tuple(out)
+    raise AssertionError(f"kernel chain has not stabilised by power {kmax}: {out}")
+
+
 def xc_nullity(N, gl, Jcoef, s, sqrt_J=True):
     return xc_null(xc_build(N, gl, Jcoef, s, sqrt_J))
 
 
-def xc_alg_mult(N, gl, J):
-    """Order of vanishing of det(eps I - Mtilde) at eps = 0, rational J."""
+def xc_charpoly(N, gl, J, zz=True):
+    """Coefficients (re, im), lowest first, of det(eps I - Mtilde), rational J;
+    zz=False drops the ZZ diagonal of h (the XY chain)."""
     h = se_h_frac(N)
+    if not zz:
+        h = [[h[a][b] if a != b else Fraction(0) for b in range(N)]
+             for a in range(N)]
     gbar = sum(gl) / N
     n2 = N * N
     base = [[GQ(0) for _ in range(n2)] for _ in range(n2)]
@@ -1498,8 +1531,13 @@ def xc_alg_mult(N, gl, J):
                     A[r] = [v - f * w for v, w in zip(A[r], A[c])]
         return [A[i][m] for i in range(m)]
 
-    re, im = solve([v.a for v in vals]), solve([v.b for v in vals])
-    return next(i for i in range(m) if re[i] != 0 or im[i] != 0)
+    return solve([v.a for v in vals]), solve([v.b for v in vals])
+
+
+def xc_alg_mult(N, gl, J):
+    """Order of vanishing of det(eps I - Mtilde) at eps = 0, rational J."""
+    re, im = xc_charpoly(N, gl, J)
+    return next(i for i in range(len(re)) if re[i] != 0 or im[i] != 0)
 
 
 # (a) N=3 over Q(sqrt(3)): at the closed-form exceptional coupling J* = d1/sqrt(3)
@@ -1536,7 +1574,163 @@ for Jc in (Fraction(1, 999), Fraction(1, 1001)):
     check(f"N=4 control J = {Jc}: (2, 2, 2) and charpoly 2, semisimple",
           s4 == (2, 2, 2) and a2 == 2, f"nullities {s4}, charpoly {a2}")
 
-# (c) the counting question of Section 12, exactly: the cofactor is even in
+# (c) the taxed stratum reaches a block of size three. Where the cofactor and the
+#     next coefficient of the characteristic polynomial vanish at one coupling,
+#     two eigenvalues arrive together, the algebraic count rises by two and the
+#     geometric one stays floor(N/2). On the XY chain the next coefficient carries
+#     the whole factor of q(0), so that is every exceptional coupling; on the
+#     Heisenberg chain it needs a second coincidence. Every rate here is >= 0.
+Fr = Fraction
+
+
+def sym_corner(N, gl, J, zz=True):
+    h = se_h_frac(N)
+    M = sp.zeros(N * N, N * N)
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[a][c] and (zz or a != c):
+                    M[r, c * N + b] += -sp.I * J * sp.Rational(h[a][c])
+                if h[c][b] and (zz or c != b):
+                    M[r, a * N + c] += sp.I * J * sp.Rational(h[c][b])
+            if a != b:
+                M[r, r] += -2 * (gl[a] + gl[b])
+            M[r, r] += 4 * sum(gl) / N
+    return M
+
+
+Js, es, ds, gs = sp.symbols('J eps d g')
+for zz, name, fac in ((False, "XY", 2), (True, "Heisenberg", 3)):
+    cf = sym_corner(3, [gs + ds, gs, gs - ds], Js, zz).charpoly(es).all_coeffs()[::-1]
+    c1, c2 = sp.expand(cf[1]), sp.expand(cf[2])
+    F = ds ** 2 - fac * Js ** 2
+    g12 = sp.factor(sp.gcd(c1, c2))
+    if zz:
+        ok = sp.simplify(g12 / gs).is_number
+    else:
+        ok = sp.rem(sp.Poly(c2, Js, ds, gs), sp.Poly(F, Js, ds, gs)).is_zero
+    check(f"N=3 {name}: the eps^2 coefficient " +
+          ("shares only a monomial with q(0)" if zz else
+           "carries q(0)'s whole factor d^2 - 2J^2"), ok and
+          sp.rem(sp.Poly(c1, Js, ds, gs), sp.Poly(F, Js, ds, gs)).is_zero,
+          f"gcd {g12}")
+sig = xc_chain(3, [Fr(1, 2), Fr(1), Fr(3, 2)], Fr(1, 4), 2, zz=False)
+check("N=3 XY (1/2,1,3/2) at J* = 1/(2 sqrt 2): (1, 2, 3, 3), a 3x3 at N = 3",
+      sig == (1, 2, 3, 3), f"nullities {sig}")
+sig = xc_chain(3, [Fr(1, 2), Fr(1), Fr(3, 2)], Fr(1, 6), 3)
+check("N=3 Heisenberg, same profile, at its J* = 1/(2 sqrt 3): (1, 2, 2)",
+      sig == (1, 2, 2), f"nullities {sig}")
+# Heisenberg N = 3: at the exceptional coupling 3J^2 = d^2 the eps^2 coefficient
+# reduces to -(1024/9) g d^4 (12 g^2 - d^2), so the second coincidence needs
+# |d| = 2 sqrt(3) g, beyond the non-negative rates (|d| <= g). Checked there.
+cfH = sym_corner(3, [gs + ds, gs, gs - ds], Js, True).charpoly(es).all_coeffs()[::-1]
+remH = sp.rem(sp.Poly(sp.expand(cfH[2]), Js), sp.Poly(3 * Js ** 2 - ds ** 2, Js))
+ratio = sp.simplify(remH.as_expr() / (gs * ds ** 4 * (12 * gs ** 2 - ds ** 2)))
+check("N=3 Heisenberg: eps^2 coefficient at 3J^2 = d^2 is "
+      "-(1024/9) g d^4 (12 g^2 - d^2)", ratio == sp.Rational(-1024, 9),
+      f"ratio {ratio}")
+
+
+def sym_nullities(M, kmax=5):
+    n, P, out = M.shape[0], M, []
+    for _ in range(kmax):
+        out.append(n - P.rank(simplify=True))
+        if len(out) > 1 and out[-1] == out[-2]:
+            return tuple(out)
+        P = P * M
+    raise AssertionError(f"no plateau by power {kmax}: {out}")
+
+
+gain = [1 + 2 * sp.sqrt(3), sp.Integer(1), 1 - 2 * sp.sqrt(3)]
+sig = sym_nullities(sym_corner(3, gain, sp.Integer(2), True))
+check("N=3 Heisenberg (1+2sqrt3, 1, 1-2sqrt3) at J* = 2: (1, 2, 3, 3), a 3x3 "
+      "with a negative rate", sig == (1, 2, 3, 3), f"nullities {sig}")
+sig = sym_nullities(sym_corner(3, gain, sp.Integer(3), True))
+check("N=3 Heisenberg, same profile, control J = 3: (1, 1)", sig == (1, 1),
+      f"nullities {sig}")
+x4 = [Fr(1), Fr(3, 2), Fr(1, 2), Fr(1)]
+sig = xc_chain(4, x4, Fr(1, 2), 2, sqrt_J=False, zz=False)
+check("N=4 XY (1,3/2,1/2,1), not a transversal, at J* = 1/2: (2, 3, 4, 4)",
+      sig == (2, 3, 4, 4), f"nullities {sig}")
+sig = xc_chain(4, x4, Fr(1, 3), 2, sqrt_J=False, zz=False)
+check("N=4 XY (1,3/2,1/2,1) control J = 1/3: (2, 2)", sig == (2, 2),
+      f"nullities {sig}")
+# N = 4 symbolically, on delta = (d1, d2, -d2, -d1): the characteristic polynomial
+# over Q[z, g, d1, d2] with J = i z (every entry of Mtilde is then real).
+from sympy.polys.matrices import DomainMatrix  # noqa: E402
+zs, d1s, d2s = sp.symbols('z d1 d2')
+
+
+def dm_coeffs(N, gl, zz):
+    h = se_h_frac(N)
+    rows = [[sp.Integer(0)] * (N * N) for _ in range(N * N)]
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[a][c] and (zz or a != c):
+                    rows[r][c * N + b] += zs * sp.Rational(h[a][c])
+                if h[c][b] and (zz or c != b):
+                    rows[r][a * N + c] -= zs * sp.Rational(h[c][b])
+            if a != b:
+                rows[r][r] += -2 * (gl[a] + gl[b])
+            rows[r][r] += 4 * sum(gl) / N
+    dm = DomainMatrix.from_list_sympy(N * N, N * N, rows)
+    cp = [dm.domain.to_sympy(c) for c in dm.charpoly()][::-1]
+    return [sp.expand(c.subs(zs, -sp.I * Js)) for c in cp]
+
+
+gl4s = [gs + d1s, gs + d2s, gs - d2s, gs - d1s]
+cX = dm_coeffs(4, gl4s, False)
+FX = (5 * Js ** 4 - 2 * Js ** 2 * d1s ** 2 - 8 * Js ** 2 * d1s * d2s
+      - 6 * Js ** 2 * d2s ** 2 + (d1s ** 2 - d2s ** 2) ** 2)
+GX = (6 * Js ** 6 - 2 * Js ** 4 * (d1s - d2s) ** 2 + gs ** 2 * (
+    5 * Js ** 4 - 2 * Js ** 2 * (d1s + d2s) ** 2 + (d1s ** 2 - d2s ** 2) ** 2))
+check("N=4 XY, symbolic: eps^2 = 2^20 g^2 J^8 F and eps^3 = -2^18 J^2 g F G, so "
+      "every root of q(0) is a root of the next coefficient",
+      sp.expand(cX[2] - 2 ** 20 * gs ** 2 * Js ** 8 * FX) == 0
+      and sp.expand(cX[3] + 2 ** 18 * Js ** 2 * gs * FX * GX) == 0)
+cH = dm_coeffs(4, gl4s, True)
+gH = sp.factor(sp.gcd(cH[2], cH[3]))
+check("N=4 Heisenberg, symbolic: the eps^2 and eps^3 coefficients share only a "
+      "monomial", sp.Poly(gH, Js, gs, d1s, d2s).is_monomial, f"gcd {gH}")
+cHs = [sp.expand(c.subs({d1s: -1, d2s: 1})) for c in cH[2:4]]
+check("N=4 Heisenberg offsets (-1,1,-1,1), symbolic: eps^2 = 2^23 g^2 J^10 "
+      "(J^2 - 1), eps^3 = -2^21 g J^6 (5J^6 + 8g^2J^4 - 7J^4 - 8g^2J^2 + 2g^2)",
+      sp.expand(cHs[0] - 2 ** 23 * gs ** 2 * Js ** 10 * (Js ** 2 - 1)) == 0
+      and sp.expand(cHs[1] + 2 ** 21 * gs * Js ** 6 * (
+          5 * Js ** 6 + 8 * gs ** 2 * Js ** 4 - 7 * Js ** 4
+          - 8 * gs ** 2 * Js ** 2 + 2 * gs ** 2)) == 0)
+t4 = [Fr(0), Fr(2), Fr(0), Fr(2)]
+sig = xc_chain(4, t4, Fr(1), 2, sqrt_J=False)
+alg = xc_alg_mult(4, t4, Fr(1))
+check("N=4 Heisenberg (0,2,0,2) at J* = 1: nullities (2, 3, 4, 4), one 3x3 "
+      "block beside one 1x1", sig == (2, 3, 4, 4), f"nullities {sig}")
+check("N=4 Heisenberg (0,2,0,2): the algebraic multiplicity 4 again from the "
+      "characteristic polynomial", alg == sig[-1],
+      f"charpoly {alg}, powers {sig[-1]}")
+for Jc in (Fr(1, 2), Fr(2)):
+    sc_ = xc_chain(4, t4, Jc, 2, sqrt_J=False)
+    check(f"N=4 Heisenberg (0,2,0,2) control J = {Jc}: (2, 2), semisimple",
+          sc_ == (2, 2), f"nullities {sc_}")
+sig = xc_chain(4, [Fr(1), Fr(3), Fr(1), Fr(3)], Fr(1), 2, sqrt_J=False)
+alg = xc_alg_mult(4, [Fr(1), Fr(3), Fr(1), Fr(3)], Fr(1))
+check("N=4 Heisenberg, the same offsets at gbar = 2, (1,3,1,3), J* = 1: "
+      "(2, 3, 3), a 2x2 again, charpoly 3", sig == (2, 3, 3) and alg == 3,
+      f"nullities {sig}, charpoly {alg}")
+t4b = [Fr(2), Fr(2), Fr(0), Fr(0)]
+sig = xc_chain(4, t4b, Fr(1), 3)                 # J* = sqrt(3)
+check("N=4 Heisenberg, the other transversal (2,2,0,0) at J* = sqrt(3): "
+      "(2, 3, 3), a 2x2", sig == (2, 3, 3), f"nullities {sig}")
+sig = xc_chain(4, t4b, Fr(4, 5), 5, zz=False)    # J* = 4/sqrt(5)
+check("N=4 XY (2,2,0,0) at J* = 4/sqrt(5): (2, 3, 4, 4), the same pair on XY",
+      sig == (2, 3, 4, 4), f"nullities {sig}")
+sig = xc_chain(5, [Fr(1), Fr(0), Fr(1), Fr(2), Fr(1)], Fr(1), 2, sqrt_J=False)
+check("N=5 Heisenberg (1,0,1,2,1) at J* = 1: (2, 3, 3), a 2x2 at N = 5",
+      sig == (2, 3, 3), f"nullities {sig}")
+
+# (d) the counting question of Section 12, exactly: the cofactor is even in
 #     z = -i J, so put w = z^2 and strip the J-monomial; a real coupling means
 #     w < 0, and Sturm's theorem counts those exactly. The point of the check is
 #     the NEGATIVE result: the count is not a function of N, since two generic
@@ -2051,7 +2245,7 @@ for N in (4, 5):
 #     gate's own N=3 zero-mean profile gamma = (1/25, 0, -1/25) the coefficient of lambda^3 in
 #     det(lambda I - Mtilde) is (256/625)*J^4*(75J-2)*(75J+2), so J* = 2/75 is real and nonzero.
 #     There the kernel dimensions of Mtilde^k run (3, 4, 5): geometric 3 = N, algebraic 5, ONE
-#     JORDAN BLOCK OF SIZE THREE, one larger than the taxed stratum's (proof doc Section 9).
+#     JORDAN BLOCK OF SIZE THREE (proof doc Section 9).
 #     Scale gamma and J by 75 together (a rank does not see it): gamma -> (3, 0, -3), J* -> 2.
 # FIVE powers, not three: (3, 4, 5) alone leaves the block sizes open, since it fixes only
 # that some block has size >= 3. The chain has to be seen to STOP for the sizes {3, 1, 1} to
