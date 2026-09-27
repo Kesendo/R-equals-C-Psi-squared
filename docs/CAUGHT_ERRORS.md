@@ -4484,3 +4484,14 @@ checks its answers are held to.
   commits of that file and nothing else in the repo contradicted it. The file carries the closed form and
   `simulations/eq021_obc_sine_basis.py` Phase 1 gates it.
 - **Anchor:** `experiments/THE_BLIND_SITE.md` §9 and the sweep record near its top.
+
+## 2026-09-27, the corner-beat record counted eight primes where its verifier uses four
+
+`experiments/CORNER_BEAT_HARDWARE_PREDICTION.md` (Amendment 2.4, item b) says its exceptional couplings
+were located from "mod-p characteristic polynomials over eight verified primes, lifted by CRT". The
+verifier it cites, `simulations/corner_beat_exceptional_verify.py`, defines `PRIMES` as four primes below
+2⁶¹ (the four nearest by `prevprime`), and did so in the commit that wrote the sentence (`36a8dc30`), so
+the number was wrong from the start rather than stale. The page is an event record and stays as flown;
+the script is the source for the count. `PROOF_R90_FROZEN_DIVISOR` §9, which carries the page's N = 6
+Jordan readings, cites the script for it. It was found when that section first copied "eight" from the
+page and a review round checked the number against the code.
