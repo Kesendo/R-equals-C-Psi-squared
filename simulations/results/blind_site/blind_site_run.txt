@@ -397,6 +397,25 @@ dephased whose modes do not also vanish there.
     support [2], popcount 3: odd part dim 4, undamped <= 1 (mod p), >= 1: the bounds meet
     support [2], popcount 4: odd part dim 2, undamped <= 4 (mod p), >= 4: the bounds meet
 
+  The parity-diagonal parts account for the even side and the odd parts,
+  and they leave the parity-crossing operators, even on one side and odd
+  on the other.  There the vacuum and the all-excited state, both H-eigenstates
+  and both mirror-even, pair with the odd parts at popcounts 1 and N-1:
+  the odd part at popcount 1 has no amplitude at the centre and the one at
+  N-1 is filled there, like the vacuum and the all-excited state respectively,
+  so each |0..0><o|, |o><0..0|, |1..1><o'|, |o'><1..1| agrees on the centre and
+  D kills none of them.  Built here as integer matrices and checked over
+  Q, no prime: every entry agrees on the support, and [H, X] stays in their
+  span, so the span is ad_H-invariant inside ker D and hence undamped.
+    support [2]: 8 crossing operators, rank over Q 8, in ker D: True, rank with their commutators 8 (invariant)
+    support [2]: undamped >= 24 (even side + odd parts + crossing), <= 24 (mod p): the bounds meet
+  The three families sit in different parity blocks, so their dimensions
+  add.  Where the bounds meet, the undamped space at the centre is exactly
+  the even part of each sector projector, all of End(odd part) at popcounts
+  1 and N-1, the identity of the odd part at the popcounts between, and the
+  vacuum and all-excited coherences with the odd parts.  Whatever part of a
+  state lies outside that space decays, and nothing else survives.
+
   |+>^N is mirror-even: initial mirror-odd weight 0.000e+00.
   Its limit is therefore the per-(sector, even part) mixed state, which
   differs from the per-sector one EXACTLY by, sector by sector:

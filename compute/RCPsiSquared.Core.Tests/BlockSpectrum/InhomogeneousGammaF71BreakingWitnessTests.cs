@@ -100,14 +100,33 @@ public class InhomogeneousGammaF71BreakingWitnessTests
     // Joint-popcount γ-blindness: holds for ANY γ-list
     // ----------------------------------------------------------------------
 
-    [Fact]
-    public void JointPopcountBlockDiagonal_AsymmetricGamma_N4_IsExact()
+    // The three sizes the claim names; each asymmetric list is NOT γ_l = γ_{N-1-l}.
+    public static TheoryData<int, double[]> AsymmetricGammas => new()
     {
-        // Asymmetric γ-list at N=4: [0.1, 0.5, 0.8, 0.3] is NOT γ_l = γ_{N-1-l}.
+        { 4, new[] { 0.1, 0.5, 0.8, 0.3 } },
+        { 4, new[] { 0.2, 0.9, 0.5, 0.4 } },
+        { 5, new[] { 0.3, 0.4, 0.5, 0.6, 0.7 } },
+        { 5, new[] { 0.9, 0.2, 0.5, 0.6, 0.3 } },
+        { 6, new[] { 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 } },
+        { 6, new[] { 0.8, 0.3, 0.6, 0.2, 0.5, 0.4 } },
+    };
+
+    public static TheoryData<int, double[]> PalindromicGammas => new()
+    {
+        { 4, new[] { 0.5, 0.5, 0.5, 0.5 } },
+        { 4, new[] { 0.3, 0.4, 0.4, 0.3 } },
+        { 5, new[] { 0.5, 0.5, 0.5, 0.5, 0.5 } },
+        { 5, new[] { 0.3, 0.4, 0.5, 0.4, 0.3 } },
+        { 6, new[] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 } },
+        { 6, new[] { 0.3, 0.4, 0.5, 0.5, 0.4, 0.3 } },
+    };
+
+    [Theory]
+    [MemberData(nameof(AsymmetricGammas))]
+    public void JointPopcountBlockDiagonal_AsymmetricGamma_IsExact(int N, double[] gammaPerSite)
+    {
         // Joint-popcount sectors must still be exactly block-diagonal (U(1)×U(1) holds
         // for any γ_l ≥ 0, since per-site popcount conservation doesn't depend on γ).
-        const int N = 4;
-        var gammaPerSite = new[] { 0.1, 0.5, 0.8, 0.3 };
 
         double asym = InhomogeneousGammaF71BreakingWitness.F71AsymmetryNorm(gammaPerSite);
         Assert.True(asym > 0.1, $"Test γ-list must be F71-asymmetric; got asymmetry norm = {asym:E3}.");
@@ -137,69 +156,70 @@ public class InhomogeneousGammaF71BreakingWitnessTests
                 }
             }
         }
-        double offBlockFro = Math.Sqrt(offBlockFroSq);
-        Assert.True(offBlockFro < 1e-10,
-            $"N={N}: joint-popcount off-block Frobenius = {offBlockFro:E3} under asymmetric γ; expected ~0 (γ-blind).");
+        // Exact route: the dissipator is diagonal in the cells and H conserves both popcounts,
+        // so no off-block entry is ever written; anything but 0.0 is a construction finding.
+        Assert.True(offBlockFroSq == 0.0,
+            $"N={N}: joint-popcount off-block Frobenius² = {offBlockFroSq:R} under asymmetric γ; expected exactly 0 (γ-blind).");
     }
 
     // ----------------------------------------------------------------------
     // F71 refinement: exact iff γ palindromic
     // ----------------------------------------------------------------------
 
-    [Fact]
-    public void F71OffBlockFrobenius_Uniform_N5_IsZero()
+    [Theory]
+    [MemberData(nameof(PalindromicGammas))]
+    public void F71OffBlockFrobenius_PalindromicGamma_IsZero(int N, double[] gammaPerSite)
     {
-        const int N = 5;
-        var gammaPerSite = Enumerable.Repeat(0.5, N).ToArray();
-        double offBlockFro = ComputeF71OffBlockFrobenius(N, gammaPerSite);
-        Assert.True(offBlockFro < 1e-10,
-            $"N={N} uniform γ=0.5: F71 off-block Frobenius = {offBlockFro:E3}; expected ~0 (γ palindromic).");
-    }
-
-    [Fact]
-    public void F71OffBlockFrobenius_PalindromicGamma_N5_IsZero()
-    {
-        // [0.3, 0.4, 0.5, 0.4, 0.3] — γ_l = γ_{N-1-l}.
-        const int N = 5;
-        var gammaPerSite = new[] { 0.3, 0.4, 0.5, 0.4, 0.3 };
         double offBlockFro = ComputeF71OffBlockFrobenius(N, gammaPerSite);
         Assert.True(offBlockFro < 1e-10,
             $"N={N} palindromic γ: F71 off-block Frobenius = {offBlockFro:E3}; expected ~0.");
     }
 
-    [Fact]
-    public void F71OffBlockFrobenius_AsymmetricMonotonic_N5_IsSignificant()
+    [Theory]
+    [MemberData(nameof(AsymmetricGammas))]
+    public void F71OffBlockFrobenius_AsymmetricGamma_IsSignificant(int N, double[] gammaPerSite)
     {
-        // [0.3, 0.4, 0.5, 0.6, 0.7] — strictly increasing, F71 asymmetry norm ≈ 0.6325.
-        const int N = 5;
-        var gammaPerSite = new[] { 0.3, 0.4, 0.5, 0.6, 0.7 };
-
-        // Off-block Frobenius (refined basis).
+        // Off-block Frobenius (refined basis) against the on-block one, for ratio scaling.
         double offBlockFro = ComputeF71OffBlockFrobenius(N, gammaPerSite);
-
-        // Diagonal-block Frobenius (on-block) — for ratio scaling.
         double onBlockFro = ComputeF71OnBlockFrobenius(N, gammaPerSite);
 
         Assert.True(offBlockFro > 0.1,
-            $"N={N} asymmetric monotonic γ: F71 off-block Frobenius = {offBlockFro:E3}; expected > 0.1.");
+            $"N={N} asymmetric γ: F71 off-block Frobenius = {offBlockFro:E3}; expected > 0.1.");
         Assert.True(offBlockFro / onBlockFro > 0.05,
-            $"N={N} asymmetric monotonic γ: off/on Frobenius ratio = {offBlockFro / onBlockFro:E3}; expected > 0.05.");
+            $"N={N} asymmetric γ: off/on Frobenius ratio = {offBlockFro / onBlockFro:E3}; expected > 0.05.");
+    }
+
+    [Theory]
+    [MemberData(nameof(AsymmetricGammas))]
+    public void F71OffBlockFrobenius_IsProportionalToAsymmetryNorm(int N, double[] gammaPerSite)
+    {
+        // The derivation is in the claim's doc comment (PROOF_F91 Eq. 9 summed over all 4^N
+        // cells); two non-parallel δ per N make the gate see isotropy, not one direction.
+        // Error model, a worst-case bound rather than a fit: each cross entry carries a few
+        // ulp from the ±1/√2 rotation, and a naive sum of n = 4^N positive terms adds at most
+        // n·eps relative, so |ratio/2^(N−1) − 1| ≤ c·4^N·eps with c covering the per-term and
+        // the final square-root error. c = 4 gives ~3.6e-12 at N = 6; a wrong constant or a
+        // non-isotropic form misses by far more.
+        double ratio = ComputeF71OffBlockFrobenius(N, gammaPerSite)
+                     / InhomogeneousGammaF71BreakingWitness.F71AsymmetryNorm(gammaPerSite);
+        double expected = 1 << (N - 1);
+        double bound = 4.0 * (1L << (2 * N)) * Math.Pow(2, -52);
+        Assert.True(Math.Abs(ratio / expected - 1.0) < bound,
+            $"N={N}: off-block / asymmetry norm = {ratio:R}; expected 2^(N−1) = {expected} within {bound:E1}.");
     }
 
     // ----------------------------------------------------------------------
     // F1 palindrome center stays at -Σγ regardless of γ asymmetry
     // ----------------------------------------------------------------------
 
-    [Fact]
-    public void F1PalindromeCenter_AsymmetricGamma_N5_StaysAtMinusSumGamma()
+    [Theory]
+    [MemberData(nameof(AsymmetricGammas))]
+    public void F1PalindromeCenter_AsymmetricGamma_StaysAtMinusSumGamma(int N, double[] gammaPerSite)
     {
-        // [0.3, 0.4, 0.5, 0.6, 0.7], Σγ = 2.5, palindrome center = -2.5 → mirror map λ → -5 - λ.
-        const int N = 5;
-        var gammaPerSite = new[] { 0.3, 0.4, 0.5, 0.6, 0.7 };
+        // Palindrome center = −Σγ → mirror map λ → −2Σγ − λ.
         double sumGamma = gammaPerSite.Sum();
-        Assert.Equal(2.5, sumGamma, precision: 12);
 
-        // Compute spectrum via F71-refined per-block (matches full-L at N=5 by prior tests).
+        // Compute spectrum via the per-block path (matches full L by prior tests).
         var H = PauliHamiltonian.XYChain(N, J: 1.0).ToMatrix();
         var spectrum = LiouvillianBlockSpectrum.ComputeSpectrumPerBlock(H, gammaPerSite, N);
 

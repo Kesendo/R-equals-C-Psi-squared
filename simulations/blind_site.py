@@ -736,7 +736,11 @@ def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
     undamped space of L, bounded from above by a GF(p) rank and from below by
     the N+1 sector projectors P_w, which are stationary for every support.
     Where the two bounds meet, the undamped space IS the span of the P_w, and
-    every initial state converges to the per-sector mixed state.
+    every initial state converges to the per-sector mixed state.  Where they do
+    not (the centre seat), a sharper lower bound is assembled from three
+    families in different parity blocks, the even side, the odd parts and the
+    parity-crossing coherences of the vacuum and the all-excited state, the
+    last checked over Q, and compared with the same upper bound.
 
     Full Hilbert space, not a sector: the predicted limit mixes every popcount,
     so the state is propagated whole.  |+>^N is used because it puts weight in
@@ -893,6 +897,75 @@ def run_scope(n=5, times=(200.0, 400.0), dt=0.02):
                   f" {'the bounds meet' if ub == lb else 'the bounds do NOT meet'}")
 
     from fractions import Fraction
+    print()
+    print("  The parity-diagonal parts account for the even side and the odd parts,")
+    print("  and they leave the parity-crossing operators, even on one side and odd")
+    print("  on the other.  There the vacuum and the all-excited state, both H-eigenstates")
+    print("  and both mirror-even, pair with the odd parts at popcounts 1 and N-1:")
+    print("  the odd part at popcount 1 has no amplitude at the centre and the one at")
+    print("  N-1 is filled there, like the vacuum and the all-excited state respectively,")
+    print("  so each |0..0><o|, |o><0..0|, |1..1><o'|, |o'><1..1| agrees on the centre and")
+    print("  D kills none of them.  Built here as integer matrices and checked over")
+    print("  Q, no prime: every entry agrees on the support, and [H, X] stays in their")
+    print("  span, so the span is ad_H-invariant inside ker D and hence undamped.")
+    h_full = np.array(build_h_int(n, bonds, list(range(d)), {s_: s_ for s_ in range(d)}),
+                      dtype=np.int64)
+    top = d - 1
+    cross_ops = []
+    for w_side, anchor in ((1, 0), (n - 1, top)):
+        for reps in (s_ for s_ in sector(n, w_side)[0] if s_ < mir[s_]):
+            o = np.zeros(d, dtype=np.int64)
+            o[reps], o[mir[reps]] = 1, -1
+            e = np.zeros(d, dtype=np.int64)
+            e[anchor] = 1
+            cross_ops += [np.outer(e, o), np.outer(o, e)]
+
+    def rank_q(mats):
+        rows = []
+        for mat in mats:
+            nz = {int(k): Fraction(int(v)) for k, v in enumerate(mat.ravel()) if v}
+            for piv, prow in rows:
+                if piv in nz:
+                    f = nz[piv] / prow[piv]
+                    for k, v in prow.items():
+                        nz[k] = nz.get(k, 0) - f * v
+                        if nz[k] == 0:
+                            del nz[k]
+            if nz:
+                rows.append((min(nz), nz))
+        return len(rows)
+
+    for sup in beyond:
+        in_ker_d = all(all(bit(a_, k, n) == bit(b_, k, n) for k in sup)
+                       for mat in cross_ops for a_, b_ in zip(*np.nonzero(mat)))
+        comms = [h_full @ mat - mat @ h_full for mat in cross_ops]
+        r_ops, r_both = rank_q(cross_ops), rank_q(cross_ops + comms)
+        # the crossing family counts only if both checks pass; the even side and
+        # the odd parts count only where their own certificates above met
+        crossing = r_ops if (in_ker_d and r_both == r_ops) else 0
+        lb_even = sum(1 for w in range(n + 1) if any(s <= mir[s] for s in sector(n, w)[0]))
+        ub_even = _undamped_bound(_even_blocks(n, bonds, mir), sup, n)
+        lb_odd = 0
+        for w, (reps, al) in enumerate(odd_parts):
+            if not reps:
+                continue
+            lb_w = len(reps) ** 2 if w in (1, n - 1) else 1
+            if _undamped_bound([(reps, al, reps, al.T)], sup, n) == lb_w:
+                lb_odd += lb_w
+        lb_total = (lb_even if ub_even == lb_even else 0) + lb_odd + crossing
+        ub = _undamped_bound(_popcount_blocks(n, bonds), sup, n)
+        print(f"    support {sup}: {len(cross_ops)} crossing operators, rank over Q {r_ops},"
+              f" in ker D: {in_ker_d}, rank with their commutators {r_both}"
+              f" ({'invariant' if r_both == r_ops else 'NOT invariant'})")
+        print(f"    support {sup}: undamped >= {lb_total} (even side + odd parts + crossing),"
+              f" <= {ub} (mod p): {'the bounds meet' if ub == lb_total else 'the bounds do NOT meet'}")
+    print("  The three families sit in different parity blocks, so their dimensions")
+    print("  add.  Where the bounds meet, the undamped space at the centre is exactly")
+    print("  the even part of each sector projector, all of End(odd part) at popcounts")
+    print("  1 and N-1, the identity of the odd part at the popcounts between, and the")
+    print("  vacuum and all-excited coherences with the odd parts.  Whatever part of a")
+    print("  state lies outside that space decays, and nothing else survives.")
+
     from math import comb
     proj = {}
     for w, idx in sector_idx.items():

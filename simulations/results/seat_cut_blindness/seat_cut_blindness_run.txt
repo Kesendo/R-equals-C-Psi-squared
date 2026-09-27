@@ -39,7 +39,7 @@ the closed form, checked across N:
 
 ------------------------------------------------------------------------
 
-KERNEL DIMENSION, computed exactly: dephasing at ONE seat only.
+KERNEL DIMENSION by a GF(p) rank: dephasing at ONE seat only.
 Claim: dim ker L_SE = 1 + (gcd(2j+1, N) - 1)/2, the committed
 divisor law as an integer.
 
@@ -80,11 +80,11 @@ are marked where they stand.
 
 mismatches over N = 3..13, every seat: 0
 
-WHY THE EXACT ROUTE, measured rather than asserted.  The same
+WHY THE INTEGER ROUTE, measured rather than asserted.  The same
 operator through an SVD rank, at N = 11 with gamma on the centre,
-where the exact answer is 6 at every setting below:
+where the GF(p) read gives 6 at every setting, meeting the proved law:
 
-setting                             SVD rank     sv gap  exact
+setting                             SVD rank     sv gap  GF(p)
 J = 1,    gamma = 0.5                      6   1.04e+14      6
 J = 1e-5, gamma = 0.5                     21   5.95e+03      6
 J = 1,    gamma = 1e9                    101   2.78e+08      6
@@ -121,14 +121,14 @@ N = 7, seat 3, gamma = 0.5, residual = max|L rho| entrywise:
 SCOPE of the kernel dimension.
 
 (a) gamma does not enter at all, and that is visible rather than
-measured: the exact kernel depends on which entries the dissipator
+measured: the kernel depends on which entries the dissipator
 kills, i.e. on the SUPPORT of gamma, and not on any rate.  The same
 holds for a uniform J, which only scales H and cannot move a
 commutant.  The float route needed a five-decade sweep here and
 still had corners where it was wrong.
 
 (b) the couplings, where there IS something to measure.  Every seat
-of N = 11 under three bond profiles, exactly:
+of N = 11 under three bond profiles, by GF(p) rank:
 
 bond profile                           0   1   2   3   4   5   6   7   8   9  10
 uniform J = 1                          0   0   0   0   0   5   0   0   0   0   0
@@ -274,7 +274,7 @@ same gamma on the middle seat gives 6.  Which seat carries the gamma
 decides, and why is an open question rather than a formula here.'
 
 This part alone uses the float route, on spaces small enough that
-its answers were reproduced independently; the exact route above is
+its answers were reproduced independently; the integer route above is
 built for the single-excitation sector and is not extended here.
 
   N  seat  full dim ker   N+1   excess     sv gap
@@ -406,7 +406,7 @@ the centre of an odd chain and nothing else.
 
 THE ZERO-BOND FENCE, swept exhaustively rather than exhibited.  Every
 profile in {0,1,2}^(N-1) for N = 3..6, every seat, criterion against
-the exact kernel, split by whether the profile has a zero bond:
+the GF(p) kernel, split by whether the profile has a zero bond:
 
        book   N  zero-bond pairs  of those wrong  zero-free pairs  of those wrong
  Heisenberg   3               15              15               12               0
@@ -643,14 +643,14 @@ that failed.
 
 ------------------------------------------------------------------------
 
-THE FULL KERNEL BY SECTOR, EXACTLY, and two things it settles.
+THE FULL KERNEL BY SECTOR, BY GF(p) RANK, and two things it settles.
 
 Part 4 took the full-space kernel by an SVD and stopped at N = 6.
 Every (p, q) popcount block is ranked here instead, the diagonal ones
 and the CROSS ones, so the whole 4^N kernel is measured and its split
-is not assumed.  Every number in (a), (b) and (c) is an exact rank
-with no eigensolver and nothing to tolerate; (a3) is the exception
-and says so where it stands.
+is not assumed.  Every kernel in (a), (b) and (c) is a GF(p) rank,
+which can only overstate it, with no eigensolver and nothing to
+tolerate; (a3) is the exception and says so where it stands.
 
 (a) The middle seat (N-1)//2 of the open chain, uniform J.  At ODD N
 that seat is reflection-fixed and blind; at EVEN N it is neither, and
@@ -683,8 +683,10 @@ N = 7, which is the first N where the two formulas differ at all.
 
 The 'b^2+b' column is docs/CAUGHT_ERRORS.md's committed parenthetical
 'kernel excess is b^2+b, not gcd', evaluated.  It agrees at N = 3 and
-N = 5 and is WRONG at N = 7, where it says 20 and the exact answer is
-18.  The even rows do not discriminate: b = 0 there, so the formula
+N = 5 and is WRONG at N = 7, where it says 20 and the kernel is
+18, a GF(p) read that can only overstate it, met from below by the
+3(N-1) construction of THE_SEAT_THAT_CUTS section 5.  The even rows do
+not discriminate: b = 0 there, so the formula
 says N+1 and every sector carries 1.  3(N-1) fits the three ODD rows,
 and is printed only for them; three points are not a law and this is
 not offered as one.  What is settled is that the committed formula is
@@ -736,17 +738,18 @@ eigenbasis need diagonalise every rho in the kernel at once, and the
 component count then depends on the basis: it is a LOWER bound in
 every basis, and the uniform chain above never shows the gap while a
 palindromic profile at the same reflection-fixed centre does.  The
-kernel and the simplicity degree below are exact; the component
-counts are float, and what they exhibit is a basis effect.
+kernel below is a GF(p) read and the simplicity degree is exact
+Fraction arithmetic; the component counts are float, and what they
+exhibit is a basis effect.
 
-chain                         w  deg gcd  simple  exact ker  components  re-bases  adapted
+chain                         w  deg gcd  simple  GF(p) ker  components  re-bases  adapted
 N = 5 uniform                 2        0     yes          2           2 one value        2
 N = 5 palindrome [4,3,3,4]    2        1      NO          2           1 one value        2
 N = 7 uniform                 3        0     yes          2           2 one value        2
 N = 7 palindrome [4,3,4,4,3,4]  3        2      NO          2           1 one value        2
 
 Both palindromes carry a doubled sector eigenvalue, and in the
-SOLVER'S basis the component count comes out below the exact kernel
+SOLVER'S basis the component count comes out below the GF(p) kernel
 there.  Neither is a counterexample to the mechanism, and the last
 two columns are why.
 
@@ -760,7 +763,7 @@ connected and the count minimal, with probability one.  The test is
 blind in exactly the direction the question runs.
 
 The 'adapted' column fits the basis to n_seat inside each degenerate
-eigenspace and reaches the exact kernel on both palindromes.  That
+eigenspace and reaches the GF(p) kernel on both palindromes.  That
 recipe is NOT the general prescription: it can fall short of the best
 basis, and it is undefined when n_seat is itself degenerate on a
 degenerate eigenspace.  The general statement is algebraic.  The
@@ -782,8 +785,10 @@ more than 3 components.  The gap is sum m_i^2 - sum m_i, and it is
 open only for the zero-free open chain, where none is exhibited
 here either way.
 
-The star witness, measured rather than asserted.  Four exact numbers
-fix the block structure and a reader can redo the arithmetic:
+The star witness, measured rather than asserted.  Four integers fix
+the block structure and a reader can redo the arithmetic: d is a
+count, dim ker a GF(p) rank at one prime, and dim A and the block count
+GF(p) reads at two primes that must agree:
 
 case                           d  dim A  dim ker  blocks  best count
 star N = 4, hub, w = 1         4      5        5       2           3
@@ -812,19 +817,19 @@ ZZ term and keep the same open chain, N = 5, uniform J:
     4 [1, 1, 1, 1, 1, 1]                   6 [1, 1, 1, 1, 1, 1]                 6
 
 Now the same XY chain on the WHOLE 4^N space, so the comparison is
-measured here and not asserted.  Two routes: the exact block ranks,
+measured here and not asserted.  Two routes: the GF(p) block ranks,
 and part 4's SVD with its projector-trace weight, which is where this
 counterexample was first seen.
 
- seat  exact FULL  exact diag  exact cross  SVD full  SVD cross
+ seat  GF(p) FULL  GF(p) diag  GF(p) cross  SVD full  SVD cross
     0           6           6            0         6   0.000000
     1          20          10           10        20  10.000000
     2          24          16            8        24   8.000000
     3          20          10           10        20  10.000000
     4           6           6            0         6   0.000000
 
-The exact route and the SVD agree on every row, which is worth having
-because the exact one needs no threshold and the SVD is what part 4
+The GF(p) route and the SVD agree on every row, which is worth having
+because the GF(p) one needs no threshold and the SVD is what part 4
 uses everywhere else.  The XY chain carries cross-sector stationary
 coherence at the three interior seats and none at the two ends.
 
@@ -875,7 +880,8 @@ at EVERY profile; what no-zero-bond supplies is that both halves are
 unreduced Jacobi blocks, hence simple, and then the two forms
 coincide.  Below, both are taken
 against the DEFINITION, n - rank of the Krylov matrix on the seat,
-exactly, at two primes.  No eigensolver anywhere.
+by GF(p) ranks at two primes, which can only overstate blindness.
+No eigensolver anywhere.
 
 --- Heisenberg (ZZ on)
 graph                                    simple       blind per seat  deleted  halves   1+bl

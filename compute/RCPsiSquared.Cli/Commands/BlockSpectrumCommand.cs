@@ -190,8 +190,8 @@ public static class BlockSpectrumCommand
 
         // F71 off-block-Frobenius norm in the refined basis (only emitted when --refine f71):
         // 0 iff γ_l = γ_{N-1-l} (γ-distribution palindromic). Nonzero indicates the chain
-        // spatial-mirror Z₂ is broken by the γ-asymmetry; magnitude scales with the F71
-        // asymmetry norm of the γ-distribution. Witness of InhomogeneousGammaF71BreakingWitness.
+        // spatial-mirror Z₂ is broken by the γ-asymmetry; for an F71-symmetric H the norm is
+        // 2^(N−1) times the F71 asymmetry norm. Witness of InhomogeneousGammaF71BreakingWitness.
         if (f71OffBlockNorm.HasValue)
             Console.WriteLine($"# F71 off-block Frobenius in refined basis: {f71OffBlockNorm.Value:E3} (0 iff γ palindromic; F71 asymmetry norm = {f71AsymNorm:E3})");
 

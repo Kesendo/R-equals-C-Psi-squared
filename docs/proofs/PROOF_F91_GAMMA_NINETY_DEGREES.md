@@ -164,7 +164,7 @@ Substituting Eqs. 3 and 5:
                     = −Σ_{l ∈ Δ(a, b)} (γ_l − γ_{N−1−l})
                     = −Σ_{l ∈ Δ(a, b)} D_l                          (Eq. 9)
 
-**Cross-block matrix elements depend only on pair-differences D_l.** They vanish identically when D_l = 0 for all l, i.e. when γ is F71-palindromic; under any non-palindromic γ they are generally nonzero, which is the operator-level F71 breaking captured by `InhomogeneousGammaF71BreakingWitness.F71AsymmetryNorm`.
+**Cross-block matrix elements depend only on pair-differences D_l.** They vanish identically when D_l = 0 for all l, i.e. when γ is F71-palindromic; under any non-palindromic γ they are generally nonzero, which is the operator-level F71 breaking captured by `InhomogeneousGammaF71BreakingWitness.F71AsymmetryNorm`. Single elements can still vanish, for instance when Δ(a, b) is a mirror pair {l, N−1−l} or empty, but the block as a whole does not: each two-cell orbit puts Eq. 9's value into both cross blocks, a mirror-fixed cell carries a palindromic Δ and contributes 0, so the squared cross-block Frobenius norm is the sum of (Σ_{l ∈ Δ(a, b)} D_l)² over all 4^N cells. There the bits a_l ⊕ b_l are uniform and Σ_l D_l = 0, which gives exactly 2^(N−1)·(Σ_l D_l²)^(1/2), the witness's asymmetry norm times 2^(N−1), zero only at palindromic γ.
 
 ### Step 5. Hamiltonian contribution is γ-independent and F71-block-diagonal.
 

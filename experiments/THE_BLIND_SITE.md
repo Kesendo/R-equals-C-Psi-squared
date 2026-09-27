@@ -710,7 +710,15 @@ so a pure state there stays pure, and one that is not an eigenvector of H
 oscillates forever. The odd part at popcount N − 1 = 4 keeps all of its operators
 undamped in the same way, the centre jump acting on it as −1, while at popcounts 2
 and 3 the certificate on each odd part meets at 1: only the part's own identity
-survives, and the rest relaxes. What these spaces mean for a single population curve is taken up in
+survives, and the rest relaxes. That leaves the operators that cross parity, even on
+one side and odd on the other, and there §5's coherences of the vacuum with the odd
+modes survive, with their counterparts at the top of the popcount ladder: |00000⟩⟨o| and
+|o⟩⟨00000| for o in the popcount-1 odd part, |11111⟩⟨o′| and |o′⟩⟨11111| for o′ in
+the popcount-4 odd part, eight operators that agree on the centre and that H keeps
+among themselves (built as integer matrices, rank and invariance checked over ℚ with
+no prime). The count closes: 6 + 10 + 8 = 24, the GF(p) upper bound, so at the
+centre seat the undamped space is exactly these three families and the part of any
+state outside them decays. What these spaces mean for a single population curve is taken up in
 [What One Readout Sees](OPERATOR_PAIR_VIEW_COMPARISON.md).
 
 ## 7. The two mediator-inertness findings, and how they stand
@@ -1096,8 +1104,9 @@ What is still open:
   Liouvillian, §6's certificate decides the eight supports the `scope` run tries at N = 5 on the
   chain; which supports keep the per-sector limit at other N and on other graphs is open with it,
   and so is which preparations have a pointwise limit at the centre seat beyond the
-  reflection-even ones, since the odd part at popcount 1 (§6) and the coherences of the
-  vacuum with the odd modes (§5) move undamped.
+  reflection-even ones: the undamped space there is known exactly (§6, 24 dimensions),
+  so the question is which preparations weigh on its oscillating part, the odd part at
+  popcount 1 and the coherences of the vacuum with the odd modes (§5) among them.
 - Whether anything is blind in **popcount ≥ 2** for any topology, or whether the
   N = 11 zeros of §7 are a theorem. Those zeros are certified at one prime
   already, since a Krylov space of full rank mod p has full rank over ℚ.

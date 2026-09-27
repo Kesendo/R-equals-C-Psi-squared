@@ -7,8 +7,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// γ-asymmetric F71-breaking witness. Has TWO typed parents — <see cref="JointPopcountSectors"/>
 /// (γ-blind: joint-popcount block-diagonality independent of γ_l) and
 /// <see cref="F71MirrorBlockRefinement"/> (γ-symmetric: exact only when γ_l = γ_{N-1-l}).
-/// Together they predict that F71-refinement off-block Frobenius scales with the F71
-/// asymmetry norm of the γ-distribution.</summary>
+/// Together they predict that the F71-refinement off-block Frobenius is 2^(N−1) times the
+/// F71 asymmetry norm of the γ-distribution.</summary>
 public static class InhomogeneousGammaF71BreakingWitnessRegistration
 {
     public static ClaimRegistryBuilder RegisterInhomogeneousGammaF71BreakingWitness(

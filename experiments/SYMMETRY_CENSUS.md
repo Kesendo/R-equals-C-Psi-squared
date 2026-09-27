@@ -41,7 +41,7 @@ This was not previously noted in the repo.
 
 ### 1.4 Spatial reflection (reflection-symmetric gamma profile)
 
-For the chain with γ_k = γ_(N−1−k), including non-uniform palindromic profiles, the reflection k ↔ N−1−k is a symmetry. It acts within each (w, w') sector (since reflection preserves excitation numbers). This further splits each sector into ± eigenspaces. The typed layer holds the iff, the refinement exact if and only if γ_l = γ_(N−1−l), as `InhomogeneousGammaF71BreakingWitness`, whose tests check it on the XY chain at N = 5.
+For the chain with γ_k = γ_(N−1−k), including non-uniform palindromic profiles, the reflection k ↔ N−1−k is a symmetry. It acts within each (w, w') sector (since reflection preserves excitation numbers). This further splits each sector into ± eigenspaces. The typed layer holds the iff, the refinement exact if and only if γ_l = γ_(N−1−l), as `InhomogeneousGammaF71BreakingWitness`, whose tests check it on the XY chain at N = 4, 5, 6, together with the size of the breaking, exactly 2^(N−1) times the asymmetry norm.
 
 **Verified numerically:** For N=5 uniform gamma, max eigenvalue multiplicity is 14. For IBM sacrifice gamma (reflection broken), max multiplicity drops to 6. The reduction comes from both the loss of reflection symmetry and the shift in eigenvalue structure caused by the non-uniform gamma profile (different absorption theorem rates lift accidental degeneracies).
 
@@ -112,7 +112,7 @@ Off-diagonal sectors (w ≠ w') have zero steady states, and under the uniform p
 
 ### Exit count
 
-**A connected system with positive dephasing at every site has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found in this uniform-rate census. Dephasing at every site is sufficient, not necessary: [the asymptotic proof's scope](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md#scope-and-limitations) certifies six of seven sparse supports at N = 5 with the same N+1 exits, while the seventh, the centre seat alone, keeps a twelve-dimensional stationary space ([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5, where a GF(p) read and a construction meet) and undamped motion besides.
+**A connected system with positive dephasing at every site has exactly N+1 exits.** Each excitation sector w = 0, ..., N has one attractor (the maximally mixed state within that sector). No "hidden exits" were found in this uniform-rate census. Dephasing at every site is sufficient, not necessary: [the asymptotic proof's scope](../docs/proofs/PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md#scope-and-limitations) certifies six of seven sparse supports at N = 5 with the same N+1 exits, while the seventh, the centre seat alone, keeps a twelve-dimensional stationary space ([The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §5, where a GF(p) read and a construction meet) and an undamped space of exactly 24 dimensions around it, closed by the same scope section.
 
 The [lens exit](CONCENTRATOR_GEOMETRY.md) is the approach to the w=1 attractor via the slow mode. The [cusp exit](CUSP_LENS_CONNECTION.md) is the simultaneous thermalization within multiple occupied sectors. These are not two exits of a system with two attractors; they are two dynamical paths through a system with N+1 attractors.
 

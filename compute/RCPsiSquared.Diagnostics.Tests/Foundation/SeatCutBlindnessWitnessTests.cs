@@ -229,6 +229,8 @@ public class SeatCutBlindnessWitnessTests
         Assert.Contains(children, c => c.DisplayName.Contains("falsifier"));
         Assert.Contains(children, c => c.DisplayName.Contains("span identity"));
         Assert.Contains(children, c => c.Provenance == NodeProvenance.Live);
-        Assert.Contains("MATCH", children.Single(c => c.DisplayName.Contains("vs the closed form")).Summary);
+        string verdict = children.Single(c => c.DisplayName.Contains("vs the closed form")).Summary;
+        Assert.StartsWith("MATCH at all 7 seats", verdict);
+        Assert.DoesNotContain("MISMATCH", verdict);
     }
 }

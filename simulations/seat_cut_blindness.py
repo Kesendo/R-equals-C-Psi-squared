@@ -153,7 +153,7 @@ def se_liouvillian(n, bonds, gammas, zz=True):
 
 
 # ----------------------------------------------------------------------
-# the exact route: no eigensolver, no tolerance, no floating point
+# the integer route: GF(p) ranks, no eigensolver, no tolerance, no floating point
 # ----------------------------------------------------------------------
 
 MODP = (1 << 61) - 1
@@ -400,7 +400,7 @@ def run_steady(n=11):
 # ----------------------------------------------------------------------
 
 def run_kernel():
-    print("KERNEL DIMENSION, computed exactly: dephasing at ONE seat only.")
+    print("KERNEL DIMENSION by a GF(p) rank: dephasing at ONE seat only.")
     print("Claim: dim ker L_SE = 1 + (gcd(2j+1, N) - 1)/2, the committed")
     print("divisor law as an integer.")
     print()
@@ -425,11 +425,11 @@ def run_kernel():
     print()
     print(f"mismatches over N = 3..13, every seat: {bad}")
     print()
-    print("WHY THE EXACT ROUTE, measured rather than asserted.  The same")
+    print("WHY THE INTEGER ROUTE, measured rather than asserted.  The same")
     print("operator through an SVD rank, at N = 11 with gamma on the centre,")
-    print("where the exact answer is 6 at every setting below:")
+    print("where the GF(p) read gives 6 at every setting, meeting the proved law:")
     print()
-    print(f"{'setting':<34} {'SVD rank':>9} {'sv gap':>10} {'exact':>6}")
+    print(f"{'setting':<34} {'SVD rank':>9} {'sv gap':>10} {'GF(p)':>6}")
     for label, bonds, gammas in (
             ("J = 1,    gamma = 0.5", chain(11, 1.0), one_seat(11, 5, 0.5)),
             ("J = 1e-5, gamma = 0.5", chain(11, 1e-5), one_seat(11, 5, 0.5)),
@@ -492,14 +492,14 @@ def run_scope():
     print("SCOPE of the kernel dimension.")
     print()
     print("(a) gamma does not enter at all, and that is visible rather than")
-    print("measured: the exact kernel depends on which entries the dissipator")
+    print("measured: the kernel depends on which entries the dissipator")
     print("kills, i.e. on the SUPPORT of gamma, and not on any rate.  The same")
     print("holds for a uniform J, which only scales H and cannot move a")
     print("commutant.  The float route needed a five-decade sweep here and")
     print("still had corners where it was wrong.")
     print()
     print("(b) the couplings, where there IS something to measure.  Every seat")
-    print("of N = 11 under three bond profiles, exactly:")
+    print("of N = 11 under three bond profiles, by GF(p) rank:")
     print()
     cases = [
         ("uniform J = 1", [1] * 10),
@@ -768,7 +768,7 @@ def run_full():
     print("decides, and why is an open question rather than a formula here.'")
     print()
     print("This part alone uses the float route, on spaces small enough that")
-    print("its answers were reproduced independently; the exact route above is")
+    print("its answers were reproduced independently; the integer route above is")
     print("built for the single-excitation sector and is not extended here.")
     print()
     print(f"{'N':>3} {'seat':>5} {'full dim ker':>13} {'N+1':>5} {'excess':>8} "
@@ -1038,7 +1038,7 @@ def run_criterion():
     print()
     print("THE ZERO-BOND FENCE, swept exhaustively rather than exhibited.  Every")
     print("profile in {0,1,2}^(N-1) for N = 3..6, every seat, criterion against")
-    print("the exact kernel, split by whether the profile has a zero bond:")
+    print("the GF(p) kernel, split by whether the profile has a zero bond:")
     print()
     print(f"{'book':>11} {'N':>3} {'zero-bond pairs':>16} {'of those wrong':>15} "
           f"{'zero-free pairs':>16} {'of those wrong':>15}")
@@ -1418,7 +1418,8 @@ def _rank_modp_np(matrix, p=MODP32):
 
 
 def exact_block_kernel_dim(n, bonds, w_ket, w_bra, seats, zz=True):
-    """dim of the kernel's popcount-(w_ket, w_bra) block, exactly.
+    """dim of the kernel's popcount-(w_ket, w_bra) block, by a GF(p) rank, which
+    can only overstate it.
 
     The same two conditions as `exact_sector_kernel_dim`, with the two sectors
     allowed to differ, which is what makes it able to measure CROSS-sector
@@ -1555,7 +1556,7 @@ def _sector_components(n, bonds, w, seat, rebases=0, seed=20260824,
 
     THE ONE FLOAT IN THIS PART, and deliberately so: the object is a claim ABOUT
     an eigenbasis, so it cannot be phrased without one.  It is never used to
-    certify a kernel dimension; those are the exact ranks beside it.  Returns
+    certify a kernel dimension; those are the GF(p) ranks beside it.  Returns
     the SET of counts found, the first entry from the solver's own eigenbasis
     and the rest from `rebases` random orthogonal re-bases of each degenerate
     eigenspace.
@@ -1569,7 +1570,7 @@ def _sector_components(n, bonds, w, seat, rebases=0, seed=20260824,
     probability one and returns the generic, maximally connected value every
     time.  A one-element set from random re-bases is therefore NOT evidence
     that the count is basis-free; on a degenerate sector it is evidence of
-    nothing at all.  Compare the two: `adapt=True` against the exact rank.
+    nothing at all.  Compare the two: `adapt=True` against the GF(p) rank.
     """
     bonds = [(a, b, _as_int_coupling(j)) for (a, b, j) in bonds]
     states, h = sector_hamiltonian_int(n, bonds, w)
@@ -1624,7 +1625,7 @@ def _sector_components(n, bonds, w, seat, rebases=0, seed=20260824,
 
 
 def full_kernel_by_block(n, bonds, seats, zz=True):
-    """The WHOLE 4^n kernel, exactly, as (diagonal sum, cross sum).
+    """The WHOLE 4^n kernel by GF(p) block ranks, as (diagonal sum, cross sum).
 
     Every (p, q) block is ranked, so the split is measured rather than assumed.
     No eigensolver and no tolerance; the 4^n SVD of part 4 cannot reach n = 7
@@ -1642,14 +1643,14 @@ def full_kernel_by_block(n, bonds, seats, zz=True):
 
 
 def run_sector():
-    print("THE FULL KERNEL BY SECTOR, EXACTLY, and two things it settles.")
+    print("THE FULL KERNEL BY SECTOR, BY GF(p) RANK, and two things it settles.")
     print()
     print("Part 4 took the full-space kernel by an SVD and stopped at N = 6.")
     print("Every (p, q) popcount block is ranked here instead, the diagonal ones")
     print("and the CROSS ones, so the whole 4^N kernel is measured and its split")
-    print("is not assumed.  Every number in (a), (b) and (c) is an exact rank")
-    print("with no eigensolver and nothing to tolerate; (a3) is the exception")
-    print("and says so where it stands.")
+    print("is not assumed.  Every kernel in (a), (b) and (c) is a GF(p) rank,")
+    print("which can only overstate it, with no eigensolver and nothing to")
+    print("tolerate; (a3) is the exception and says so where it stands.")
     print()
     print("(a) The middle seat (N-1)//2 of the open chain, uniform J.  At ODD N")
     print("that seat is reflection-fixed and blind; at EVEN N it is neither, and")
@@ -1690,8 +1691,10 @@ def run_sector():
     print()
     print("The 'b^2+b' column is docs/CAUGHT_ERRORS.md's committed parenthetical")
     print("'kernel excess is b^2+b, not gcd', evaluated.  It agrees at N = 3 and")
-    print("N = 5 and is WRONG at N = 7, where it says 20 and the exact answer is")
-    print("18.  The even rows do not discriminate: b = 0 there, so the formula")
+    print("N = 5 and is WRONG at N = 7, where it says 20 and the kernel is")
+    print("18, a GF(p) read that can only overstate it, met from below by the")
+    print("3(N-1) construction of THE_SEAT_THAT_CUTS section 5.  The even rows do")
+    print("not discriminate: b = 0 there, so the formula")
     print("says N+1 and every sector carries 1.  3(N-1) fits the three ODD rows,")
     print("and is printed only for them; three points are not a law and this is")
     print("not offered as one.  What is settled is that the committed formula is")
@@ -1746,11 +1749,12 @@ def run_sector():
     print("component count then depends on the basis: it is a LOWER bound in")
     print("every basis, and the uniform chain above never shows the gap while a")
     print("palindromic profile at the same reflection-fixed centre does.  The")
-    print("kernel and the simplicity degree below are exact; the component")
-    print("counts are float, and what they exhibit is a basis effect.")
+    print("kernel below is a GF(p) read and the simplicity degree is exact")
+    print("Fraction arithmetic; the component counts are float, and what they")
+    print("exhibit is a basis effect.")
     print()
     print(f"{'chain':<28} {'w':>2} {'deg gcd':>8} {'simple':>7} "
-          f"{'exact ker':>10} {'components':>11} {'re-bases':>9} "
+          f"{'GF(p) ker':>10} {'components':>11} {'re-bases':>9} "
           f"{'adapted':>8}")
     for label, n, js, w in (("N = 5 uniform", 5, [1] * 4, 2),
                             ("N = 5 palindrome [4,3,3,4]", 5, [4, 3, 3, 4], 2),
@@ -1773,7 +1777,7 @@ def run_sector():
               f"{fitted:>8}")
     print()
     print("Both palindromes carry a doubled sector eigenvalue, and in the")
-    print("SOLVER'S basis the component count comes out below the exact kernel")
+    print("SOLVER'S basis the component count comes out below the GF(p) kernel")
     print("there.  Neither is a counterexample to the mechanism, and the last")
     print("two columns are why.")
     print()
@@ -1787,7 +1791,7 @@ def run_sector():
     print("blind in exactly the direction the question runs.")
     print()
     print("The 'adapted' column fits the basis to n_seat inside each degenerate")
-    print("eigenspace and reaches the exact kernel on both palindromes.  That")
+    print("eigenspace and reaches the GF(p) kernel on both palindromes.  That")
     print("recipe is NOT the general prescription: it can fall short of the best")
     print("basis, and it is undefined when n_seat is itself degenerate on a")
     print("degenerate eigenspace.  The general statement is algebraic.  The")
@@ -1809,8 +1813,10 @@ def run_sector():
     print("open only for the zero-free open chain, where none is exhibited")
     print("here either way.")
     print()
-    print("The star witness, measured rather than asserted.  Four exact numbers")
-    print("fix the block structure and a reader can redo the arithmetic:")
+    print("The star witness, measured rather than asserted.  Four integers fix")
+    print("the block structure and a reader can redo the arithmetic: d is a")
+    print("count, dim ker a GF(p) rank at one prime, and dim A and the block count")
+    print("GF(p) reads at two primes that must agree:")
     print()
     print(f"{'case':<28} {'d':>3} {'dim A':>6} {'dim ker':>8} {'blocks':>7} "
           f"{'best count':>11}")
@@ -1853,12 +1859,12 @@ def run_sector():
               f"{sum(px):>9}")
     print()
     print("Now the same XY chain on the WHOLE 4^N space, so the comparison is")
-    print("measured here and not asserted.  Two routes: the exact block ranks,")
+    print("measured here and not asserted.  Two routes: the GF(p) block ranks,")
     print("and part 4's SVD with its projector-trace weight, which is where this")
     print("counterexample was first seen.")
     print()
-    print(f"{'seat':>5} {'exact FULL':>11} {'exact diag':>11} "
-          f"{'exact cross':>12} {'SVD full':>9} {'SVD cross':>10}")
+    print(f"{'seat':>5} {'GF(p) FULL':>11} {'GF(p) diag':>11} "
+          f"{'GF(p) cross':>12} {'SVD full':>9} {'SVD cross':>10}")
     for seat in range(5):
         diag, cross = full_kernel_by_block(5, chain_int(5), [seat], zz=False)
         k, vecs, d, _ = full_kernel_basis(5, path_bonds(5), seat, zz=False)
@@ -1867,8 +1873,8 @@ def run_sector():
         print(f"{seat:>5} {diag + cross:>11} {diag:>11} {cross:>12} "
               f"{k:>9} {svd_cross:>10.6f}")
     print()
-    print("The exact route and the SVD agree on every row, which is worth having")
-    print("because the exact one needs no threshold and the SVD is what part 4")
+    print("The GF(p) route and the SVD agree on every row, which is worth having")
+    print("because the GF(p) one needs no threshold and the SVD is what part 4")
     print("uses everywhere else.  The XY chain carries cross-sector stationary")
     print("coherence at the three interior seats and none at the two ends.")
     print()
@@ -2047,7 +2053,8 @@ def run_deleted():
     print("unreduced Jacobi blocks, hence simple, and then the two forms")
     print("coincide.  Below, both are taken")
     print("against the DEFINITION, n - rank of the Krylov matrix on the seat,")
-    print("exactly, at two primes.  No eigensolver anywhere.")
+    print("by GF(p) ranks at two primes, which can only overstate blindness.")
+    print("No eigensolver anywhere.")
     print()
 
     def _connected(n, bonds):
