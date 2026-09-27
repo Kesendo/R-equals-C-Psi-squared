@@ -181,7 +181,9 @@ removes the unitary contribution from the bra side, so `L_(0,m) = −iH_m − 2�
 where `β_k = −2γ − i·ε_k` are the **N Prosen rapidities** of the model and
 `ε_k = 2J·cos(πk/(N+1))` is the OBC sine-mode dispersion. This is the simplest leaf of
 Medvedyeva-Essler-Prosen's (2016) imaginary-Hubbard programme; the (m, m̃) sectors with
-m, m̃ ≥ 1 require the imaginary-U Bethe ansatz (not yet implemented in the repo).
+m, m̃ ≥ 1 require the imaginary-U Bethe ansatz (not yet implemented in the repo), except
+the half of (1,1) that holds no populations, which is Λ² of a single-particle matrix at every
+rate profile ([PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md) §9.2).
 
 `compute/RCPsiSquared.Core/BlockSpectrum/Prosen/OneSidedSectorClosedForm.cs` returns the
 rapidities + full sector spectrum as subset sums. Tests cross-validate against

@@ -58,7 +58,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// free of sits in the prefactor, which is the other way q(0) can die: at γ̄ = 0 the whole block
 /// is τQ-odd and the kernel is the bare index dim V₊ − dim V₋ = N, attained for all but finitely
 /// many J. That stratum has exceptional couplings of its own, and at N = 3 the Jordan block there
-/// has size THREE, the size every exceptional coupling computed on the XY chain carries at
+/// has size THREE, the size a generic exceptional coupling of the XY chain carries at
 /// γ̄ ≠ 0, and one the Heisenberg chain reaches at γ̄ ≠ 0 and non-negative rates first at N = 4,
 /// on (0,2,0,2).
 /// As J → 0 that determinant vanishes to order at least 2⌊N²/4⌋ = 2 Σ_c d_c, with equality on every
@@ -88,8 +88,13 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// coupling at every N is such a double arrival: there U v_(a,b) = (−1)^(a+b) v_(b,a), the fold
 /// lattice's transpose leg composed with F151's bipartite gauge, commutes with the block and with
 /// τQ, the populations sit in its +1 sector and never reach the root, and on the population-free
-/// −1 sector the block is [[0, A], [Aᵀ, 0]], so arrivals come two at a time, with a block of size
-/// at least three wherever A keeps full column rank, measured at N = 3, 4; Section 9.1)
+/// −1 sector the block is [[0, A], [Aᵀ, 0]], so arrivals come two at a time, Section 9.1. That
+/// sector is two free fermions, Λ²(ℂᴺ) under ρ' ↦ mρ' + ρ'm with m = −iJh − 2Δ (the sector being
+/// the block (2,0) recentered), so A keeps full column rank at every J ≠ 0, the exceptional couplings are the
+/// exceptional points of m other than a pair meeting at zero at even N, and the root's Jordan
+/// structure is the Clebsch–Gordan image of m's:
+/// size three at a generic coalescence, at most 2N − 3, reached where m is nilpotent (5 at N = 4,
+/// 7 at N = 5, exact); Section 9.2)
 /// while its kernel
 /// dimension does not move, so the criterion cannot tell that
 /// failure from the harmless one at J = 0, where the multiplicity merely doubles and stays
@@ -99,7 +104,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// a single nonvanishing (each pair reaching its OWN outer anti-diagonal cell). That one concerns
 /// the ladder, not the multiplicity.</para>
 ///
-/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (352 checks, G0..G17). Live:
+/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (379 checks, G0..G18). Live:
 /// <c>inspect --root divisor</c> (<c>FrozenDivisorWitness</c>, the counts recomputed by exact
 /// GF(p) ranks at inspect time). Adopted as a MirrorWorld object: run mode
 /// <c>divisor N</c>.</para></summary>

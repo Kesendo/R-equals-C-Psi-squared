@@ -124,6 +124,20 @@
 #       rates, even in eps, with its constant term in closed form; and at
 #       gbar = 0 the whole block's charpoly in eps^(N+2k) on both chains
 #       (N = 3, 4, 5), which the even defect at gbar != 0 breaks
+#   G18 the U = -1 sector is two free fermions (proof doc Section 9.2), exact:
+#       in rho' = rho Sigma it is Lambda^2(C^N) with generator X -> mX + Xm,
+#       m = z h - 2 Delta, entry-wise at random rational profiles on and off
+#       the locus (N = 3..7), the Heisenberg chain as the control; Sigma R m
+#       R Sigma = -m exactly on the locus and not off it; at N = 4 the Hodge
+#       star anticommutes with the sector (traceless m), and does not once a
+#       trace is added; and the Jordan structure at the frozen root predicted
+#       from the Jordan form of m (Clebsch-Gordan) against the exact kernel
+#       dimensions of the whole corner block at four points, two of them the
+#       nilpotent-m points in the number field Q(t, s) at N = 4 (blocks 5+1)
+#       and N = 5 (blocks 7+3), at non-negative rates, and the one exception at
+#       zero (m with J_2(0), nothing arrives); L|(2,0) + 4 gbar = D_m built from
+#       the spin chain, so the sector is the block (2,0), which at the uniform
+#       point carries the root exactly floor(N/2) times
 #
 # Runtime: about 2 minutes. Standalone except G0 (imports framework once).
 import sys
@@ -2516,7 +2530,7 @@ for N in range(3, 8):
         # sector exists, but tauQ-oddness fails and the pairing breaks with it,
         # except at N = 4: there 4 gbar = sigma, the rate of the pair {a,b} is
         # (g_c + g_d) - (g_a + g_b), its complement carries the negative, and the
-        # U = -1 charpoly stays even in eps at every profile (measured, not derived)
+        # U = -1 charpoly stays even in eps at every profile (the Hodge star, G18(c))
         ok &= ((zero_diag and parity_ok) if onlocus
                else (not zero_diag and parity_ok == (N == 4)))
     check(f"N={N}: Mtilde|U=-1 = [[0,A],[B,0]], charpoly in eps^(floor(N/2)+2k); "
@@ -2610,6 +2624,282 @@ for N, gz in ((3, [Fr(1, 25), Fr(0), Fr(-1, 25)]), (4, [Fr(1), Fr(-2), Fr(2), Fr
             res.append(all(c == 0 for k, c in enumerate(cp) if (k - N) % 2 or k < N))
         check(f"N={N} {name} gbar=0: whole-block charpoly in eps^(N+2k); broken at gbar=1/3",
               res == [True, False], f"{res}")
+
+# ---------- G18: the population-free sector is two free fermions ----------
+#
+# Write rho' = rho Sigma, Sigma = diag((-1)^a). Then U acts as plain transposition
+# on rho', so U = -1 is the antisymmetric rho', that is Lambda^2(C^N), and on the
+# XY chain (Sigma h Sigma = -h) the off-diagonal part of Mtilde reads
+# rho' -> m rho' + rho' m with the single-particle matrix m = z h - 2 Delta
+# (J = i z as in G17, Delta = diag(g_l - gbar), tr m = 0). Antisymmetric rho'
+# has no diagonal, so the population correction never enters: the sector is the
+# two-fermion operator D_m, with spectrum {mu_i + mu_j, i < j} at EVERY profile.
+# On the locus Sigma R m R Sigma = -m, so mu pairs with -mu and the frozen modes
+# are the floor(N/2) sums mu + (-mu); the Jordan structure at the root follows
+# from that of m, which on a path is non-derogatory (PROOF_EDGE_BLOCK_DEFECTIVE_
+# UNDER_PROFILE, Lemma A): J_p(mu) (x) J_p(-mu) gives blocks 2p-1, 2p-3, ..., 1,
+# and Lambda^2 J_p(0) gives 2p-3, 2p-7, ... (the antisymmetric half of p (x) p).
+
+print()
+print("G18 the U = -1 sector is two free fermions: Lambda^2 of m = z h - 2 Delta")
+_ff_rng = random.Random(18)
+
+
+def ff_m(N, gl, z):
+    h, gbar = us_h(N, False), sum(gl) / N
+    return [[z * h[a][b] - (2 * (gl[a] - gbar) if a == b else 0) for b in range(N)]
+            for a in range(N)]
+
+
+def ff_pair_basis(N):
+    """U = -1 cell vectors indexed by pairs a < b: rho = rho' Sigma, rho' = E_ab - E_ba."""
+    return [{a * N + b: (-1) ** b, b * N + a: -(-1) ** a}
+            for a in range(N) for b in range(a + 1, N)]
+
+
+def ff_wedge_op(N, m):
+    """D_m on Lambda^2 in the basis e_a ^ e_b (a < b)."""
+    pairs = [(a, b) for a in range(N) for b in range(a + 1, N)]
+    ix = {p: i for i, p in enumerate(pairs)}
+    D = [[Fraction(0)] * len(pairs) for _ in pairs]
+    for (a, b), j in ix.items():
+        for c in range(N):
+            for (x, y), cf in (((c, b), m[c][a]), ((a, c), m[c][b])):
+                if cf and x != y:
+                    D[ix[(min(x, y), max(x, y))]][j] += cf if x < y else -cf
+    return D
+
+
+def ff_random_profile(N, on_locus):
+    gl = us_locus(N, Fraction(_ff_rng.randint(1, 6), _ff_rng.randint(1, 3)))
+    if not on_locus:   # one site moved: the pair (0, N-1) no longer balances
+        gl[0] += Fraction(1, 7)
+    return gl
+
+
+def ff_in_span(M, basis, N):
+    """Coefficients of M on the orthogonal basis, and whether M maps the span into itself."""
+    coefs, ok = [], True
+    for v in basis:
+        img = [sum(M[r][c] * x for c, x in v.items()) for r in range(N * N)]
+        coef = [sum(img[c] * x for c, x in u.items()) / sum(x * x for x in u.values())
+                for u in basis]
+        back = [Fraction(0)] * (N * N)
+        for i, u in enumerate(basis):
+            for c, x in u.items():
+                back[c] += coef[i] * x
+        ok &= img == back
+        coefs.append(coef)
+    return [list(r) for r in zip(*coefs)], ok
+
+
+# (a) the sector IS D_m, entry by entry, on and off the locus; the control is the
+#     Heisenberg chain, whose block does not even keep the span invariant
+for N in range(3, 8):
+    ok_xy = ok_h = True
+    basis = ff_pair_basis(N)
+    for on in (True, False):
+        gl = ff_random_profile(N, on)
+        z = Fraction(_ff_rng.randint(1, 9), _ff_rng.randint(1, 4))
+        Ms, inv = ff_in_span(us_block(N, gl, z, False), basis, N)
+        ok_xy &= inv and Ms == ff_wedge_op(N, ff_m(N, gl, z))
+        ok_h &= not ff_in_span(us_block(N, gl, z, True), basis, N)[1]
+    check(f"N={N}: XY U=-1 sector = D_m on Lambda^2 exactly (on and off the locus); "
+          "Heisenberg leaves the span", ok_xy and ok_h)
+
+# (b) on the locus Sigma R m R Sigma = -m exactly (so the single-particle spectrum
+#     is symmetric and the frozen modes are the floor(N/2) sums mu + (-mu)); off
+#     the locus it fails
+for N in range(3, 9):
+    res = []
+    for on in (True, False):
+        gl = ff_random_profile(N, on)
+        m = ff_m(N, gl, Fraction(_ff_rng.randint(1, 9), 5))
+        res.append(all((-1) ** (a + b) * m[N - 1 - a][N - 1 - b] == -m[a][b]
+                       for a in range(N) for b in range(N)))
+    check(f"N={N}: Sigma R m R Sigma = -m on the locus, not off it", res == [True, False])
+
+# (c) N = 4, the pair-complement duality of Section 9.2: the Hodge
+#     star e_a^e_b -> sgn(a,b,c,d) e_c^e_d anticommutes with D_m exactly when
+#     tr m = 0, which the recentering 4 gbar guarantees at every profile; adding
+#     a trace breaks it
+pairs4 = [(a, b) for a in range(4) for b in range(a + 1, 4)]
+
+
+def ff_perm_sign(p):
+    s = 1
+    for i in range(len(p)):
+        for j in range(i + 1, len(p)):
+            if p[i] > p[j]:
+                s = -s
+    return s
+
+
+def ff_matmul(A, B):
+    return [[sum(A[i][k] * B[k][j] for k in range(len(B))) for j in range(len(B[0]))]
+            for i in range(len(A))]
+
+
+star = [[Fraction(0)] * 6 for _ in range(6)]
+for j, (a, b) in enumerate(pairs4):
+    c, d = [x for x in range(4) if x not in (a, b)]
+    star[pairs4.index((c, d))][j] = Fraction(ff_perm_sign((a, b, c, d)))
+ok = True
+for on in (True, False, False):
+    gl = ff_random_profile(4, on)
+    m = ff_m(4, gl, Fraction(_ff_rng.randint(1, 9), 4))
+    for trace, want in ((0, True), (1, False)):
+        mt = [[m[a][b] + (trace if a == b else 0) for b in range(4)] for a in range(4)]
+        D = ff_wedge_op(4, mt)
+        SD, DS = ff_matmul(star, D), ff_matmul(D, star)
+        ok &= all(SD[i][j] == -DS[i][j] for i in range(6) for j in range(6)) == want
+# the general identity behind it, star D_m star^-1 = tr(m) - D_(m^T), on a random
+# NON-symmetric integer m (star^-1 = star on Lambda^2(C^4), star^2 = +1)
+mg = [[Fraction(_ff_rng.randint(-9, 9)) for _ in range(4)] for _ in range(4)]
+lhs = ff_matmul(ff_matmul(star, ff_wedge_op(4, mg)), star)
+Dt = ff_wedge_op(4, [[mg[b][a] for b in range(4)] for a in range(4)])
+trm = sum(mg[a][a] for a in range(4))
+ok &= ff_matmul(star, star) == [[Fraction(int(i == j)) for j in range(6)] for i in range(6)]
+ok &= all(lhs[i][j] == (trm if i == j else 0) - Dt[i][j] for i in range(6) for j in range(6))
+check("N=4: the Hodge star anticommutes with the U=-1 sector at every profile "
+      "(tr m = 0), and not once a trace is added; star D_m star^-1 = tr(m) - D_(m^T) "
+      "for a non-symmetric m", ok)
+
+
+# (d) the Jordan structure at the frozen root, predicted from m alone and read
+#     off the whole corner block exactly
+def ff_cg_blocks(jordan_m):
+    """Root blocks of D_m on Lambda^2 from m's Jordan data {mu: size} (one block
+    per eigenvalue, m being non-derogatory)."""
+    out = []
+    for mu, p in jordan_m.items():
+        if mu == 0:
+            out += [2 * p - 3 - 4 * k for k in range(p) if 2 * p - 3 - 4 * k >= 1]
+        elif sp.im(mu) > 0 or (sp.im(mu) == 0 and mu > 0):
+            q = jordan_m.get(-mu, 0)
+            out += [p + q - 1 - 2 * k for k in range(min(p, q))]
+    return sorted(out, reverse=True)
+
+
+def ff_kdims(blocks, kmax):
+    return [sum(min(b, k) for b in blocks) for k in range(1, kmax + 1)]
+
+
+def ff_block_real(N, gl, J, zz):
+    """D Mtilde D^-1 with D = diag(i^(a+b)) at REAL coupling J: every entry real."""
+    h, n = us_h(N, zz), N * N
+    gbar = sum(gl) / sp.Integer(N)
+    M = [[sp.Integer(0)] * n for _ in range(n)]
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[c][a]:   # -iJ h_ca v_(c,b), phase i^((c+b)-(a+b))
+                    M[c * N + b][r] += -sp.I * J * int(h[c][a]) * sp.I ** (c - a)
+                if h[b][c]:   # +iJ h_bc v_(a,c), phase i^((a+c)-(a+b))
+                    M[a * N + c][r] += sp.I * J * int(h[b][c]) * sp.I ** (c - b)
+            M[r][r] += 4 * gbar - (2 * (gl[a] + gl[b]) if a != b else 0)
+    return [[sp.expand(e) for e in row] for row in M]
+
+
+def ff_exact_kdims(M, K, kmax):
+    n = len(M)
+    DM = DomainMatrix.from_list_sympy(n, n, M).convert_to(K)
+    P, dims = DM, []
+    for _ in range(kmax):
+        dims.append(n - P.rank())
+        P = P * DM
+    return dims
+
+
+tq, lamq = sp.symbols('t lamq')
+ff_points = [
+    # the two exceptional couplings G12 reads, predicted from m
+    ("N=3 (1/2,1,3/2), J*=1/(2 sqrt2)", 3, [sp.Rational(1, 2), 1, sp.Rational(3, 2)],
+     1 / (2 * sp.sqrt(2)), sp.QQ.algebraic_field(sp.sqrt(2)), [3]),
+    ("N=4 (1,3/2,1/2,1), J*=1/2", 4, [1, sp.Rational(3, 2), sp.Rational(1, 2), 1],
+     sp.Rational(1, 2), sp.QQ, [3, 1]),
+    # the exception at zero: m carries J_2(0) (a pair meeting at zero, even N),
+    # which is an exceptional point of m but NOT an exceptional coupling
+    ("N=4 (3,2,2,1), J=1 (m has J_2(0))", 4, [3, 2, 2, 1], sp.Integer(1), sp.QQ, [1, 1]),
+]
+# the nilpotent-m points: offsets (1, t, (0,) -t, -1) about gbar = 2, where m's
+# characteristic polynomial is lamq^N exactly. N = 4: J^2 = (1+t^2)/3 with
+# t^4 + 6t^3 + 8t^2 + 6t - 2 = 0; N = 5: J^2 = (1+t^2)/4 with
+# 3t^4 + 8t^3 + 14t^2 + 8t - 5 = 0; the real root in (0, 1) in both
+for N, quart, jd in ((4, tq**4 + 6 * tq**3 + 8 * tq**2 + 6 * tq - 2, 3),
+                     (5, 3 * tq**4 + 8 * tq**3 + 14 * tq**2 + 8 * tq - 5, 4)):
+    T = [r for r in sp.Poly(quart, tq).all_roots() if r.is_real and 0 < r < 1][0]
+    s = sp.sqrt((1 + T**2) / jd)
+    gl = [3, 2 + T] + ([2] if N == 5 else []) + [2 - T, 1]
+    ff_points.append((f"N={N} nilpotent m, J*^2=(1+t^2)/{jd}", N, gl, s,
+                      sp.QQ.algebraic_field(T, s), [2 * N - 3, 2 * N - 7]))
+
+for name, N, gl, J, K, want in ff_points:
+    gbar = sum(gl) / sp.Integer(N)
+    hN = us_h(N, False)
+    # m at real J, in the same field K (entries -iJ h are handled by the
+    # similarity diag(i^a), which turns -iJ h into the real J h with signs)
+    mr = sp.Matrix(N, N, lambda a, b: sp.I ** (a - b) * (-sp.I) * J * int(hN[a][b])
+                   - (2 * (gl[a] - gbar) if a == b else 0))
+    mr = mr.applyfunc(sp.expand)
+    mD = DomainMatrix.from_list_sympy(N, N, mr.tolist()).convert_to(K)
+    cpm = [K.to_sympy(c) for c in mD.charpoly()]
+    nilpotent = all(c == 0 for c in cpm[1:])
+    if nilpotent:
+        jm = {sp.Integer(0): N}
+        nonderog = mD.rank() == N - 1
+    else:
+        roots = sp.roots(sp.Poly(sum(c * lamq ** (N - k) for k, c in enumerate(cpm)), lamq))
+        jm = {sp.nsimplify(r): k for r, k in roots.items()}
+        nonderog = all((mr - r * sp.eye(N)).rank(simplify=True) == N - 1 for r in roots)
+    blocks = ff_cg_blocks(jm)
+    pred = ff_kdims(blocks, 2 * N)
+    got = ff_exact_kdims(ff_block_real(N, gl, J, False), K, 2 * N)
+    check(f"{name}: m non-derogatory, Jordan data {dict(jm)}; root blocks {blocks} "
+          f"predict the kernel dims read exactly off the whole corner block",
+          nonderog and blocks == want and pred == got and min(gl) >= 0
+          and (max(blocks) == 2 * N - 3) == nilpotent, f"exact {got}")
+
+
+# (e) the sector is the block (2,0), recentered: built from the SPIN chain
+#     (the flip-flop of XX + YY on two-excitation bit strings, no fermions, rate
+#     -2 sum of the excited sites' gamma), L|(2,0) + 4 gbar equals D_m entry by
+#     entry, on and off the locus. So the population-free half of the corner and
+#     the block (2,0) are one operator; SO4's S+ is the map that carries the one
+#     onto the other (its Lemma 2.5 on this sector)
+for N in range(3, 8):
+    ok = True
+    pairs = [(a, b) for a in range(N) for b in range(a + 1, N)]
+    ix = {p: i for i, p in enumerate(pairs)}
+    for gl in (ff_random_profile(N, True), ff_random_profile(N, False),
+               us_locus(N, Fraction(0))):   # the last on the zero-mean stratum
+        z = Fraction(_ff_rng.randint(1, 9), _ff_rng.randint(1, 4))
+        gbar = sum(gl) / N
+        L20 = [[Fraction(0)] * len(pairs) for _ in pairs]
+        for (a, b), j in ix.items():
+            bits = (1 << a) | (1 << b)
+            for l in range(N - 1):   # bond (l, l+1): XX + YY flips a 01/10 pair, amplitude 2
+                if ((bits >> l) & 1) != ((bits >> (l + 1)) & 1):
+                    nb = bits ^ (1 << l) ^ (1 << (l + 1))
+                    c, d = [k for k in range(N) if (nb >> k) & 1]
+                    L20[ix[(c, d)]][j] += z * 2   # -iJ H at J = i z
+            L20[j][j] += -2 * (gl[a] + gl[b]) + 4 * gbar
+        ok &= L20 == ff_wedge_op(N, ff_m(N, gl, z))
+    check(f"N={N}: L|(2,0) + 4 gbar = D_m from the spin chain, exactly (on and off the "
+          "locus, and at gbar = 0)", ok)
+
+# (f) so the block (2,0) inherits the corner's count; at the uniform point m = z h
+#     has a simple spectrum and the root's algebraic multiplicity there is exactly
+#     floor(N/2) at every z != 0 (sampled), read from the characteristic polynomial
+for N in range(3, 8):
+    mults = []
+    for zi in (Fraction(1, 3), Fraction(2), Fraction(7, 5)):
+        cp = [sp.Rational(int(c.numerator), int(c.denominator))
+              for c in us_dm(ff_wedge_op(N, ff_m(N, [Fraction(1)] * N, zi))).charpoly()][::-1]
+        mults.append(next(k for k, c in enumerate(cp) if c != 0))
+    check(f"N={N}: uniform point, block (2,0) carries -4 gbar with algebraic multiplicity "
+          f"{mults} = floor(N/2)", all(x == N // 2 for x in mults))
 
 # ---------- verdict ----------
 

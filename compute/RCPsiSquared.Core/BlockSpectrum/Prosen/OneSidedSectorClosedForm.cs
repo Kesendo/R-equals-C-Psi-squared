@@ -26,7 +26,11 @@ namespace RCPsiSquared.Core.BlockSpectrum.Prosen;
 /// <para>This is the simplest sector family of the Prosen / Medvedyeva-Essler-Prosen
 /// (2016, [arXiv:1606.09122](https://arxiv.org/abs/1606.09122)) third-quantization /
 /// imaginary-Hubbard programme: subset sums of N rapidities. The (m, m̃) sectors with
-/// m, m̃ ≥ 1 require the imaginary-U Bethe ansatz (not yet implemented in the repo); the
+/// m, m̃ ≥ 1 require the imaginary-U Bethe ansatz (not yet implemented in the repo), except the
+/// population-free half of (1,1) on the XY chain, the U = −1 sector of U v_(a,b) =
+/// (−1)^(a+b) v_(b,a), which is the block (2,0) recentered and so Λ² of one single-particle
+/// matrix at every rate profile
+/// (docs/proofs/PROOF_R90_FROZEN_DIVISOR.md §9.2); the
 /// (m, 0) and (0, m̃) families are the closed-form leaves of that tree.</para>
 ///
 /// <para><b>Combinatorial coverage at N=10.</b> Summing <c>C(N, m)</c> for m = 0..N gives
