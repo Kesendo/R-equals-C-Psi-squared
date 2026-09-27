@@ -7,7 +7,7 @@
 **Second script (§7 only):** [`simulations/blind_seat_mi_sweep.py`](../simulations/blind_seat_mi_sweep.py), parts `gate | sweep | algebra | support | zeno | converge`
 **Second data file:** [`simulations/results/blind_site/blind_seat_mi_sweep.txt`](../simulations/results/blind_site/blind_seat_mi_sweep.txt)
 **Third script (§5 only):** [`simulations/seat_pencil.py`](../simulations/seat_pencil.py), parts `pencil | dim | fence`, exact over ℚ with no eigensolver; run committed at [`seat_pencil_run.txt`](../simulations/results/blind_site/seat_pencil_run.txt)
-**Registry:** the count of §5, its Krylov-complement form and the uniform divisor law are **F157** in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (registered 2026-08-24), together with the criterion of [The Seat That Cuts](THE_SEAT_THAT_CUTS.md); the typed homes are `compute/MirrorWorld/BlindSeat.cs` (run mode `blind N`) and `SeatCutBlindnessClaim` with the live witness `inspect --root blind`. The Jacobi step §9 leans on, and the kernel identity, are proved in [the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md).
+**Registry:** the count of §5, its Krylov-complement form and the uniform divisor law are **F157** in [ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) (registered 2026-08-24), together with the criterion of [The Seat That Cuts](THE_SEAT_THAT_CUTS.md); the typed homes are `compute/MirrorWorld/BlindSeat.cs` (run mode `blind N`) and `SeatCutBlindnessClaim` with the live witness `inspect --root blind`. The Jacobi step §11 leans on, and the kernel identity, are proved in [the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md).
 
 Z-dephasing at a single site of an open **uniform** Heisenberg chain has a subspace of
 **single-excitation** states it cannot touch: not weakly, not slowly, exactly.
@@ -85,9 +85,9 @@ point, in this page's own 0-based indexing, and supplies both facts §5 needs:
 path-graph Laplacian (the gate compares the matrices entry-exactly). Its
 eigenvectors are the Neumann cosine modes of D10, ψ_m(j) ∝ cos(πm(2j+1)/(2N))
 for m = 0..N−1, with distinct eigenvalues … so the sector-1 spectrum is
-nondegenerate." The first run here re-derived that identity independently; it is
-**not** a finding of this page and now stands in the script only as a visible
-check, where the residual is exactly 0.00e+00 at every N tested.
+nondegenerate." That identity is **not** a finding of this page; it stands in
+the script as a visible check, where the residual is exactly 0.00e+00 at every
+N tested.
 `PROOF_R90_FROZEN_DIVISOR.md` Lemma 5 (line 176, Heisenberg bullet at line 178)
 carries the same basis with eigenvalues written out, λ_k = 4cos(kπ/N) + N − 5.
 D10 (line 180) states the contrast that makes the count a Neumann count: "The
@@ -105,10 +105,10 @@ fine structure collapses", from an N = 5 B-position scan; line 144 adds "for
 interior B the slowest S-coherence mode can be exactly dark, |a_B|² = 0". So the
 title word is borrowed, and so is the qualitative interior-B observation. What
 that scan reports is the collapse of the α-value count, and those numbers must
-be quoted in their corrected form: the familiar 57 at an endpoint, 7 at
-positions 1 and 3, 8 at the centre are counts of distinct *first-order* values
-binned at tolerance γ₀·10⁻³, and the same line's 2026-08-09 correction gives
-110, 25 and 12 distinct eigenvalues at finite γ₀ = 0.1. Either way it counts
+be quoted with their scope: the familiar 57 at an endpoint, 7 at positions 1
+and 3, 8 at the centre are counts of distinct *first-order* values binned at
+tolerance γ₀·10⁻³, and the same line gives 110, 25 and 12 distinct eigenvalues
+at finite γ₀ = 0.1. Either way it counts
 α-values, not a subspace dimension per seat.
 
 **`experiments/`.** `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` (lines 257-261, commit
@@ -161,15 +161,16 @@ for node, antinode, group velocity, wavepacket.
 measures per-site populations of a single-excitation walk on three sites, with
 no dephasing-support variation.
 
-**`docs/CAUGHT_ERRORS.md`: four shapes, all of which bit.** Line 619, a linear
-law shipped four months under a γ² heading because a script divided by an
-assumed power and eyeballed the residual, answered here by exact ranks rather
-than fitted ones. Line 877, "a profile comparison is a measurement of Σγ unless
-Σγ is matched by construction", which caught a defect in this page's own second
-draft: see §4. Line 424, integer counts belong to the bare coherence and not to
-dressed eigenmodes at J > 0, which also caught this page calling
-`ORTHOGONALITY_SELECTION_FAMILY`'s dressed modes "Pauli strings" two paragraphs
-after citing the entry. And line 755, this page's risk written down in advance:
+**`docs/CAUGHT_ERRORS.md`: four shapes, each met here.** Line 619, a
+linear law shipped four months under a γ² heading because a script divided by
+an assumed power and eyeballed the residual, answered here by exact ranks
+rather than fitted ones. Line 877, "a profile comparison is a measurement of Σγ
+unless Σγ is matched by construction", which §4 answers on the J axis with a
+larger, mirror-preserving detune, so the coupling budget cannot be what
+decides. Line 424, integer counts belong to the bare coherence and not to
+dressed eigenmodes at J > 0, so `ORTHOGONALITY_SELECTION_FAMILY`'s dressed
+modes are Liouvillian modes here, not Pauli strings. And line 755,
+this page's risk written down in advance:
 F143 recorded as "the narrower XY re-derivation of a lemma the repo already
 held, minted five days afterwards without citing it, which is exactly the prey
 class the hunt was looking for". The lemma re-derived here is the same one and
@@ -180,7 +181,7 @@ the five days are the same five days.
 N × N Haken-Strobl density block. The **counting** of §5 runs on **h_SE, the
 N-dimensional single-excitation Hamiltonian**, and the blind dimension is a
 dimension of that Hilbert space: a count of **states**, not of operators. The
-operator-space question now has a scoped successor rather than one undifferentiated answer. In
+operator-space question has a scoped successor rather than one undifferentiated answer. In
 the uniform `N=2m+1` centre-watched (1,1) family at `epsilon=0`, [The Node Pair](../docs/proofs/PROOF_NODE_PAIR_RESOLVENT.md)
 §8 separates `dim ker L_D=(N-1)^2+1`,
 `dim(maximal A-invariant peripheral subspace inside ker L_D)=m^2+1`, and
@@ -222,26 +223,20 @@ identical. That convention is `bridge_sector.py`'s
 mask = −2·Σ_{differing bits} γ_q, matching γ_k(Z_k ρ Z_k − ρ).
 
 **The sweep for §5's seat-pencil addition, 2026-08-25, run by three agents.**
-It took the addition down twice, which is why it is a route and not a theorem.
+What it found is why the addition is a route and not a theorem.
 **`docs/ANALYTICAL_FORMULAS.md`**: F157 (line 7865) already says the count covers
 this block, "NOT F152's (0,1) coherence block, whose undamped modes the same
 count also counts"; F64 (line 1872) already states its L_coh form exact at every
 γ_B and fences only the H-eigenvector *amplitude* reading, not the node
-criterion, which is a distinction a first draft of this addition got backwards;
-F4's seat bullets (line 421) already say the general count carries "neither the
+criterion; F4's seat bullets (line 421) already say the general count carries "neither the
 zero-bond fence nor a simplicity hypothesis". So the dynamical reading was
 committed before this was written and is not claimed here. **`experiments/`**:
 §5 above already carries the two-line bijection; [The Seat That
 Cuts](THE_SEAT_THAT_CUTS.md) §7 already carries the Cramer identity with no
-fence. **The sweep's own miss, recorded rather than quietly repaired.** It reported
-`experiments/` as swept while missing **§11 of this page**, which prices the
-zero-bond fence exhaustively, 1682 pairs with the Heisenberg book wrong on all of
-them and XY right on 60. A first draft of §5's addition therefore priced the same
-fence again off a 400-draw random sample, got 90 of 1978, and offered that as this
-page's own finding, leaving two prices for one fact 400 lines apart. A reviewer
-caught it; §5's G4 now reproduces §11's numbers instead of competing with them.
-The store the sweep missed was the document it was editing, which is the failure
-mode `docs/CAUGHT_ERRORS.md` calls reading through a keyhole. **`docs/proofs/`**:
+fence. **§11 of this page**, which the sweep did not list, prices the zero-bond
+fence exhaustively, 1682 pairs with the Heisenberg book wrong on all of them and
+XY right on 60, and §5's G4 reproduces those numbers rather than pricing the
+fence again. **`docs/proofs/`**:
 [the span and node-lemma
 proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md) works the density
 sector's L_SE and not this block. **The OpenArcs registry**, arc
@@ -306,7 +301,7 @@ ANTI never puts anything on site 5, to 1.9e-16 over the whole trajectory. MIX's
 own occupancy there ranges over [0.000000, 0.301154] and the ratio 2.000000
 holds across that entire range rather than on a plateau. No max/min ratio is
 quoted: an occupancy that passes through zero makes such a ratio arbitrarily
-large, which is why an earlier draft quoted 67 from four sampled rows.
+large, so four sampled rows can make it read 67.
 
 **The MIX column is degenerate at this seat, and that is worth admitting.** At
 the reflection-fixed seat MIX equals ONE to all six digits at every time, by
@@ -329,7 +324,7 @@ number, so the two columns are not independent evidence.
 
 ## 3. Blindness is about support, not about purity
 
-An earlier draft of this section said purity protects. It does not.
+Purity does not protect.
 
 What protects is that the state's **support** lies in a subspace that is both
 inside the silent part of the channel and invariant under H. The
@@ -383,12 +378,10 @@ compared over the whole trajectory:
 Flat at machine level across four decades of γ against a monotone rise to 0.40:
 fifteen orders of magnitude, and no tolerance is asked to carry anything.
 
-**A control the second draft got wrong.** That draft detuned bond (1,2) to
-J = 1.6, called it "breaks the mirror and changes nothing else", and concluded
-from it. That is the `CAUGHT_ERRORS.md:877` shape on the J axis: the detune
-changes the couplings too, so alone it cannot say which did the work. The fourth
-arm is the control that can. It detunes (1,2) **and** (8,9), a *larger*
-perturbation (ΣJ = 11.2 against the broken arm's 10.6 and the intact 10.0) that
+**A control that can decide.** Detuning bond (1,2) to J = 1.6 breaks the
+mirror, but it changes the couplings too, the `CAUGHT_ERRORS.md:877` shape on the
+J axis, so alone it cannot say which did the work. The fourth arm can. It
+detunes (1,2) **and** (8,9), a *larger* perturbation (ΣJ = 11.2 against the broken arm's 10.6 and the intact 10.0) that
 **preserves** the mirror, since under j ↦ 10 − j those two bonds exchange.
 
 | max occupancy at site 5 | γ = 0.05 | γ = 0.5 | γ = 5 | γ = 50 |
@@ -424,9 +417,9 @@ dephasing begins to freeze the state it is destroying.
 
 **The condition, stated correctly.** `Z_k = I − 2n_k` has eigenvalues +1 on the
 configurations avoiding k and −1 on those occupying k, and the dissipator is
-silent on any ρ with no coherence **across** those two eigenspaces. It is *not*
-true, as a second draft of this page had it, that silence requires lying in
-ker(n_k); that is the +1 branch only, and §6 shows what the wrong version cost.
+silent on any ρ with no coherence **across** those two eigenspaces. Silence does
+*not* require lying in ker(n_k); that is the +1 branch only, and §6 shows what
+the other branch is worth.
 
 For a subspace of **pure states** the count is unaffected, which is why the
 numbers below stand. A pure state blind at k must lie wholly inside one
@@ -551,13 +544,12 @@ scalar multiple of the identity, so it moves neither K nor any rate.
 [the seat-pencil run](../simulations/results/blind_site/seat_pencil_run.txt);
 integer couplings and `Fraction` arithmetic throughout, so each check is an
 equality of exact rationals with no threshold in the file to inspect. **The
-invariance and self-adjointness steps above are not gated**, and two review rounds
-were spent learning why. `blind_basis` returns the nullspace of a Krylov matrix
-whose first row *is* e_j, so w(j) = 0 is one of the equations it solves; and
-MᵀG = GM against the basis's Gram matrix, which a second draft gated as though it
-were about W, is identically the symmetry of H₁, since (GM)[a][b] = ⟨b_a, H₁b_b⟩
-and (MᵀG)[a][b] = ⟨H₁b_a, b_b⟩. It holds on any H₁-invariant subspace in any
-basis. Both checks were removed rather than reworded. What is left:
+invariance and self-adjointness steps above are not gated**, because no gate on
+them could fail. `blind_basis` returns the nullspace of a Krylov matrix whose
+first row *is* e_j, so w(j) = 0 is one of the equations it solves; and MᵀG = GM
+against the basis's Gram matrix is identically the symmetry of H₁, since
+(GM)[a][b] = ⟨b_a, H₁b_b⟩ and (MᵀG)[a][b] = ⟨H₁b_a, b_b⟩, true on any
+H₁-invariant subspace in any basis. What is gated:
 
 | gate | what it decides | scope |
 |---|---|---|
@@ -599,9 +591,8 @@ face is right on **none** of those 1768. So it is right only where the Krylov
 count and the span minus one already coincide: every disagreement lands on a
 triple the face was going to miss anyway. Its right-count coming out at 692 under
 either truth, which the two rightmost columns show, **follows from that
-containment and is not a second finding**; a first draft of this paragraph
-reported the coincidence as though the price had survived a disagreement it was
-never exposed to. The struck face behaves differently and trivially so: it equals
+containment and is not a second finding**: the price was never exposed to a
+disagreement. The struck face behaves differently and trivially so: it equals
 the Krylov count on all 3996, so its span column, 2228, is just 3996 − 1768, the
 disagreement restated. The containment is gated: G4 fails if any disagreeing
 triple carries a right two-halves face.
@@ -622,10 +613,8 @@ answers at every seat, so no run at N = 5 or N = 11 could distinguish them. The
 first discriminating case is composite, and the smallest is **N = 6**, whose
 blind seats 1 and 4 carry one dimension each. An even chain has no
 reflection-fixed seat at all, so a reflection-parity reading predicts no blind
-seat there and the divisor law predicts two. The table above does **not** print
-that row, an earlier draft of this sentence having claimed it does; the nearest
-row it prints is N = 12, whose blind seats 1, 4, 7 and 10 make the same point at
-an even N. N = 9 is the smallest ODD discriminating case.
+seat there and the divisor law predicts two. The table's nearest row is
+N = 12, whose blind seats 1, 4, 7 and 10 make the same point at an even N. N = 9 is the smallest ODD discriminating case.
 
 **Several dephased seats.** A blind subspace is a span of modes, so for a support S
 it is the intersection, and
@@ -635,10 +624,9 @@ it is the intersection, and
 Checked against the rank for every 1-, 2- and 3-site support at N = 9, 11, 12
 and 15, with no exceptions. At N = 15 site 7 carries modes {1,3,5,7,9,11,13},
 sites 2 and 12 carry the *same* set {3, 9}, so {2, 12} still gives 2 and {7, 2}
-gives 2, while {1, 4, 13} gives {5}, dimension 1. A second draft of this page
-called two seats "no closed form yet" and, before that, claimed any second seat
-collapses the subspace to zero, which is true at N = 11 and false at N = 9 and
-N = 15.
+gives 2, while {1, 4, 13} gives {5}, dimension 1. So a second seat does not in
+general collapse the subspace to zero: it does at N = 11 and does not at N = 9
+and N = 15.
 
 **The odd-N centre.** There 2j+1 = N, the condition collapses to m odd, and the
 dimension is (N−1)/2 = ⌊N/2⌋, which is
@@ -657,11 +645,8 @@ structure".
 
 ## 6. The all-sites theorem, and an inconsistency this state exhibits
 
-A second draft of this page wrote that at full support "the blind dimension is 0
-in every sector, and trivially so", and reconciled the committed results with
-that. It is wrong, and the counterexample is the simplest state there is:
-ρ = I/N on the single-excitation sector, under uniform γ = 0.5 on all eleven
-sites, gives max |ρ(t) − I/N| = **0.000e+00**. Exactly blind, full support.
+At full support blind states still exist, and the plainest is ρ = I/N on the
+single-excitation sector: under uniform γ = 0.5 on all eleven sites it gives max |ρ(t) − I/N| = **0.000e+00**. Exactly blind, full support.
 
 That is not a contradiction of the committed work; it *is* the committed work.
 `SYMMETRY_CENSUS.md:101` reports exactly one steady state per sector, the
@@ -671,7 +656,7 @@ d_w-dimensional algebra. The two numbers, d_w and 1, are reconciled by the
 second condition rather than in conflict: the diagonal algebra is where the
 dissipator vanishes *instantaneously*, and requiring the trajectory to stay
 there adds H-invariance, which on a connected graph cuts d_w down to the single
-ray P_w/d_w. So the correct statement is narrow and worth stating narrowly: **at
+ray P_w/d_w. So the statement is narrow and worth stating narrowly: **at
 full support the only blind trajectories are the sector steady states; no
 non-stationary trajectory survives.** What this page counts is a blind space of
 non-stationary states, and it needs the support to be a strict subset.
@@ -746,7 +731,7 @@ is not inert as a structure; it is invisible to a state prepared outside it.
 
 ### The prediction, run
 
-This section used to end with a cheap prediction: repeat the site-by-site γ
+The prediction is cheap: repeat the site-by-site γ
 sweep of `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` on a reflection-odd
 single-excitation preparation, and the response at seat 5 should be exactly zero
 rather than fourth-smallest of the nine interior sites, which is where that
@@ -786,8 +771,7 @@ Bell-on-vacuum and 0.0809 % here, a factor of 94, and the Bell column then runs
 5.56 % to 15.77 %. Setting the committed 15.57 % beside 0.0809 % would compare
 two different functionals and overstate the contrast by about twice.
 
-**The mechanism is the state's own support, not a parity of ρ, and this page
-already said so.** The
+**The mechanism is the state's own support, not a parity of ρ (§3).** The
 single-excitation action of the jump is Z_k = I − 2|k⟩⟨k|; a reflection-odd
 state has a node at the centre, so Z₅ acts there as the identity, measured
 max|Z₅ P_odd − P_odd| = 0.0 exactly (part `algebra`), while at seats 4 and 0 the
@@ -838,8 +822,8 @@ The window mean used instead is a partial answer to a request
 functional (steady-state MI, or MI integrated over time)"; the answer is that
 the integrated one is **not** window-stable, see below.
 
-**The 0.0809 % is a cancellation residue, not a leak size.** It is tempting, and
-this page's first draft did it, to read the residual as the size of the state's
+**The 0.0809 % is a cancellation residue, not a leak size.** It is tempting to
+read the residual as the size of the state's
 leak out of the odd subspace. Restricting the baseline to named subsets refuses
 that. The number in each row below is the **centre's own span**, unchanged in
 definition, with only the set of other sites carrying the 0.05 baseline
@@ -911,19 +895,19 @@ sits on sites 0 and 1.
 couplings that are reflection-symmetric about the seat, excitation number
 conserved so the single-excitation sector is invariant, and γ = 0 at every
 non-centre seat. The three are used together, and the argument does not run
-without all of them; what §11 now adds is that the reflection is not NECESSARY
+without all of them; what §11 adds is that the reflection is not NECESSARY
 for the blindness, being neither necessary nor sufficient for the divisor law's
 value and buying only the one seat it is symmetric about. Excitation-number
 conservation is a different matter: the criterion is stated inside the
 single-excitation sector, so that hypothesis is not one §11 lifts. At the reflection-fixed seat it does **not** need Heisenberg
 over XY, but not for any reason about the ZZ term, which is exactly what moves
 the nodes elsewhere by turning the adjacency matrix into the Laplacian and the
-modulus from N+1 to N (F2 line 111, D10 line 180, and the XY question §11 used to carry, now answered there).
+modulus from N+1 to N (F2 line 111, D10 line 180, and §11's XY count).
 The reason is weaker and sufficient: any reflection-symmetric single-excitation
 Hamiltonian leaves the reflection-odd space invariant, and every state in that
 space has amplitude zero at the fixed seat by definition, ψ(f) = −ψ(f). That
 argument names no eigenbasis, so it carries to XY unchanged. Away from the fixed
-seat the count does depend on the modulus, and §11 now carries both closed
+seat the count does depend on the modulus, and §11 carries both closed
 forms. Nor should it be specific to Z-dephasing: any jump L that
 ANNIHILATES the odd subspace leaves it alone, and so does any L satisfying BOTH
 Lψ = λψ and L†Lψ = |λ|²ψ on it. Amplitude damping at the centre is the
@@ -964,45 +948,32 @@ that dies. Neither "decoherence-free subspace" nor "protected" is claimed for it
 here, both being spent elsewhere on other objects
 (`PROOF_R90_FROZEN_DIVISOR.md:335`, `ORTHOGONALITY_SELECTION_FAMILY.md:349`).
 
-## 9. Eight errors this run made, and how each was caught
+## 9. What every answer here has to satisfy
 
-Three in the arithmetic. The first rank routine used an SVD and returned blind
-dimensions that were not mirror-symmetric on a mirror-symmetric chain, which is
-impossible, and is why the GF(p) route replaced it. The replacement
-iterated the block Krylov to a fixed point of the *row count* rather than the
-rank; an unreduced block has more rows than rank, so it exited early and
-invented a blind dimension of 21 at the chain ends. A naive float power basis
-[e, He, H²e, …] used for one cross-check reported an overlap of 0.73 where exact
-integer arithmetic gives 0, and dimension 3 where the answer is 7. None was
-found by inspection; each was found by a symmetry or an exactness the answer had
-to satisfy.
+Each answer on this page is held to checks that the answer itself makes
+necessary, not to a re-reading.
 
-Two in the physics, and these are the ones worth remembering. The blindness
-condition was stated as an iff on ker(n_k), which is only one of the two
-branches of Z_k, and §6's reconciliation was then built on the wrong version and
-came out false. And "purity protects" was a mislabel for "the support does",
-which a mixture at purity 0.52 refutes in one line. Both were found by an
-outside reader asking for a counterexample, not by re-reading.
+**In the arithmetic.** Blind dimensions on a reflection-symmetric chain must be
+reflection-symmetric, and the ranks behind them are GF(p) ranks of exact integer
+Krylov matrices, not float ranks. The block Krylov iteration stops at a fixed
+point of the rank, not of the row count, since an unreduced block carries more
+rows than rank. A float power basis [e, He, H²e, …] is not a cross-check for
+them.
 
-Two in the prose: the §5 generalisation from two measured cases, and §4's
-unmatched control, the same shape as the `CAUGHT_ERRORS.md:877` entry this page
-cites in its own sweep.
+**In the physics.** The blindness condition has two branches, one for each
+eigenvalue of Z_k, and §6's reconciliation needs both. What protects is the
+support, not the purity (§3): a mixture of two reflection-odd states at purity
+0.52 is exactly as blind as a pure one.
 
-**An eighth, from the §7 run, and it is the worst of the eight because the page
-had already made it once.** The first draft of the §7 result explained the
-residual as "Z_k does not preserve reflection parity, so the baseline leaks the
-state out". The wrong object was the parity of ρ: where the blindness is
-exact the Liouvillian is exactly reflection-covariant and ρ₀ is Ad_R-even, both
-measured at 0.0, so the grading the sentence invoked is conserved and the state
-sits in its trivial half. Hilbert-space reflection parity is a different object
-and is not conserved in the swept configuration at all: Tr(P_odd ρ) falls to
-0.469 by t = 20. The correct statement is about the state's support, which is §3
-of this same page, three sections above where the error was written.
-The same conflation, superoperator grading against Hilbert-space grading, had
-been caught and reverted the day before in a different set of documents; it came
-back the moment a new result needed a sentence. The lesson is not "check
-parity claims" but that a mechanism sentence written in a *grading* word is worth
-suspecting on sight when the object at hand is a subspace.
+**In the words.** A mechanism sentence written in a *grading* word is suspect
+when the object is a subspace. Where §7's blindness is exact the Liouvillian is
+exactly reflection-covariant and ρ₀ is Ad_R-even, both measured at 0.0, so the
+superoperator grading is conserved and the state sits in its trivial half, while
+the Hilbert-space reflection parity is a different object and is not conserved
+in the swept configuration: Tr(P_odd ρ) falls to 0.469 by t = 20. The residual
+is about the state's support, §3. An unmatched control is the shape of the
+`CAUGHT_ERRORS.md:877` entry this page cites in its own sweep, and a law is not
+generalised from two measured cases.
 
 ## 10. What is borrowed and what is not
 
@@ -1042,8 +1013,8 @@ suspecting on sight when the object at hand is a subspace.
 
 ## 11. Open
 
-**The XY chain is no longer open, and this page's own law turns out to be one
-evaluation of a wider one.** [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) settles
+**The XY chain is settled, and this page's own law is one evaluation of a
+wider one.** [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) settles
 both. Its §4 gives the XY answer predicted here, on the **uniform** chain: the
 node condition is m(j+1) ≡ 0 (mod N+1) and the count is **gcd(j+1, N+1) − 1**,
 with no halving. The proof is two lines. With d = gcd(j+1, N+1) the solutions are
@@ -1122,7 +1093,7 @@ What is still open:
   three are stable in the fourth digit.
 - Whether a **discriminating** window-stable functional exists for this
   comparison at all. Both candidates `MEDIATOR_NOISE_GATE_LEVEL_THREE.md` named
-  are now spent. §7 rules out MI integrated over time: the integral's mean
+  are spent. §7 rules out MI integrated over time: the integral's mean
   dilutes with the window and every span falls with it, so only the ratio
   survives. [The Seat That Cuts](THE_SEAT_THAT_CUTS.md) §1 rules out
   steady-state MI for the arm this page's sweep compares: wherever dephasing at
@@ -1143,12 +1114,6 @@ What is still open:
   mutual information. A third candidate, the spectral gap, is named in an
   untracked design spec under `docs/superpowers/` and untried on this
   comparison.
-- `review/OBC_SINE_BASIS_FINDINGS.md` asserted for four months that Heisenberg
-  single-excitation eigenvalues "do not follow any simple cos formula" while its
-  own tabulated N = 3 row, (−4, 0, 2), is λ_k = 4cos(kπ/N) + N − 5 exactly. It
-  now carries the closed form, and `simulations/eq021_obc_sine_basis.py` Phase 1
-  computes and gates it. Recorded here because the false clause outlived three
-  commits of that file and nothing else in the repo contradicted it.
 - `experiments/CONCENTRATOR_OPTICS.md:106-109` reports that at N = 5 the same γ
   budget on the middle site gives 2618 against the edge's 352, and N = 5 centre
   is j = 2 with gcd(5, 5) = 5 and blind dimension 2. That file's next line says

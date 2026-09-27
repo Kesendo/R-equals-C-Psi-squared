@@ -4434,3 +4434,53 @@ repair landing with this entry states each scope as current truth with its certi
 one-sided reading of the blind count into the typed layer as well. It does not claim every copy: the
 printed output of `seat_cut_blindness.py` still calls its other GF(p) reads exact, the star's four block
 invariants among them.
+
+## 2026-09-27, THE_BLIND_SITE kept its own error record in its body
+
+The page carried a section, "Eight errors this run made, and how each was caught", and about eighteen
+sentences narrating its first and second drafts. The forensics move here; the page's §9 now states the
+checks its answers are held to.
+
+- **Arithmetic, three.** The first rank routine used an SVD and returned blind dimensions that were not
+  mirror-symmetric on a mirror-symmetric chain, which is impossible; the GF(p) route replaced it. The
+  replacement iterated the block Krylov to a fixed point of the row count rather than the rank, exited
+  early and invented a blind dimension of 21 at the chain ends. A naive float power basis [e, He, H²e, …]
+  used for one cross-check reported an overlap of 0.73 where exact integer arithmetic gives 0, and
+  dimension 3 where the answer is 7. Each was found by a symmetry or an exactness the answer had to satisfy.
+- **Physics, two.** The blindness condition was stated as an iff on ker(n_k), one of Z_k's two branches,
+  and §6's reconciliation built on it came out false; "purity protects" stood for "the support does",
+  refuted by a mixture at purity 0.52. Both were found by an outside reader asking for a counterexample.
+- **Prose, two.** The §5 generalisation from two measured cases; and §4's unmatched control, a bond
+  detuned to J = 1.6 read as "breaks the mirror and changes nothing else", the Σγ-matching shape of the
+  entry at line 877 on the J axis, caught by that entry and answered by a larger, mirror-preserving detune.
+- **The eighth, made twice.** The §7 residual was explained as "Z_k does not preserve reflection parity,
+  so the baseline leaks the state out". Where the blindness is exact the Liouvillian is reflection-covariant
+  and ρ₀ Ad_R-even, both measured at 0.0, so the parity of ρ is conserved; Hilbert-space reflection parity is
+  a different object and is not conserved in the swept configuration, Tr(P_odd ρ) falling to 0.469 by
+  t = 20. The right statement, about the state's support, stood in §3, three sections above. The same
+  conflation had been caught and reverted the day before in other documents and came back with the next
+  sentence a new result needed.
+- **The rest, each recorded in the body as a draft.**
+  - The line-424 shape (integer counts belong to the bare coherence, not to dressed modes at J > 0) caught
+    the page calling `ORTHOGONALITY_SELECTION_FAMILY`'s dressed modes "Pauli strings" two paragraphs after
+    citing the entry.
+  - A draft of the seat-pencil addition read F64's fence backwards: F64 fences the H-eigenvector amplitude
+    reading, not the node criterion.
+  - The seat-pencil sweep missed §11 of the page it was editing, and a draft priced the zero-bond fence
+    again from a 400-draw sample (90 of 1978), two prices for one fact 400 lines apart, until a reviewer
+    caught it; §5's G4 now reproduces §11's exhaustive 1682 pairs.
+  - Two gates were built that could not fail and were removed: w(j) = 0, one of the equations
+    `blind_basis` solves, and MᵀG = GM against the Gram matrix, which is the symmetry of H₁ on any
+    invariant subspace in any basis. Two review rounds went into learning why.
+  - A draft reported the two-halves face's right-count of 692 under both truths as a price that survived a
+    disagreement it was never exposed to; the count follows from the containment.
+  - Drafts called two seats "no closed form yet" and, before that, claimed any second seat collapses the
+    subspace to zero, true at N = 11 and false at N = 9 and N = 15; one read a max/min occupancy ratio of
+    67 off four sampled rows; one sentence claimed a table printed the N = 6 row it does not; one wrote
+    that at full support "the blind dimension is 0 in every sector, and trivially so", refuted by I/N.
+- **A neighbour's error the page carried as news.** `review/OBC_SINE_BASIS_FINDINGS.md` asserted for four
+  months that the Heisenberg single-excitation eigenvalues "do not follow any simple cos formula" while its
+  own tabulated N = 3 row, (−4, 0, 2), is λ_k = 4cos(kπ/N) + N − 5 exactly; the false clause outlived three
+  commits of that file and nothing else in the repo contradicted it. The file carries the closed form and
+  `simulations/eq021_obc_sine_basis.py` Phase 1 gates it.
+- **Anchor:** `experiments/THE_BLIND_SITE.md` §9 and the sweep record near its top.
