@@ -84,8 +84,12 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// tightness does NOT say is which couplings the finitely many exceptions are, and there the story
 /// is unfinished: at the real exceptional couplings the root goes DEFECTIVE (one Jordan block of
 /// size two where one eigenvalue arrives, exact at N = 3, 4, 5 on the Heisenberg chain, and of size
-/// three where two arrive at once, in every case computed, which on the XY chain is every
-/// exceptional coupling computed at N = 3, 4)
+/// three where two arrive at once, in every case computed; on the XY chain every exceptional
+/// coupling at every N is such a double arrival: there U v_(a,b) = (−1)^(a+b) v_(b,a), the fold
+/// lattice's transpose leg composed with F151's bipartite gauge, commutes with the block and with
+/// τQ, the populations sit in its +1 sector and never reach the root, and on the population-free
+/// −1 sector the block is [[0, A], [Aᵀ, 0]], so arrivals come two at a time, with a block of size
+/// at least three wherever A keeps full column rank, measured at N = 3, 4; Section 9.1)
 /// while its kernel
 /// dimension does not move, so the criterion cannot tell that
 /// failure from the harmless one at J = 0, where the multiplicity merely doubles and stays
@@ -95,7 +99,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// a single nonvanishing (each pair reaching its OWN outer anti-diagonal cell). That one concerns
 /// the ladder, not the multiplicity.</para>
 ///
-/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (322 checks, G0..G16). Live:
+/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (352 checks, G0..G17). Live:
 /// <c>inspect --root divisor</c> (<c>FrozenDivisorWitness</c>, the counts recomputed by exact
 /// GF(p) ranks at inspect time). Adopted as a MirrorWorld object: run mode
 /// <c>divisor N</c>.</para></summary>

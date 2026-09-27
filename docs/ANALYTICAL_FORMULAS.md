@@ -6716,9 +6716,16 @@ Heisenberg chain; at N = 4 confirmed twice, once from the characteristic
 polynomial). Where two arrive at one coupling, the cofactor and the next
 coefficient vanishing together, it is one block of size THREE at every such
 coupling computed, including at non-negative rates. Which happens is first the chain's: on the XY chain the next coefficient
-carries the whole non-monomial factor of the cofactor (symbolic at N = 3, 4), so at N = 3, 4
-every exceptional coupling is at least a double arrival, and every one computed a 3x3, the first
-at N = 3 (kernel dimensions (1, 2, 3, 3) on (1/2, 1, 3/2)). On the Heisenberg chain
+carries the whole non-monomial factor of the cofactor, at every N, so every exceptional coupling
+is at least a double arrival, and every one computed a 3x3, the first at N = 3 (kernel
+dimensions (1, 2, 3, 3) on (1/2, 1, 3/2)). The reason is a second involution the XY chain
+carries, U v_(a,b) = (-1)^(a+b) v_(b,a) (the fold lattice's transpose leg composed with the
+bipartite gauge of F151), which commutes with the block and with tauQ and puts every population
+in its +1 sector: det on that sector is C_N*gbar^ceil(N/2)*J^(2 floor(N^2/4)), offset-free,
+so at gbar != 0 the populations never reach the root, while on the population-free -1 sector the block is
+[[0, A], [A^T, 0]] with characteristic polynomial eps^floor(N/2)*det(eps^2 - A^T A), and
+arrivals come two at a time; where A keeps full column rank the chain (x,0) -> (0,v) ->
+(Av,0) -> 0 is a block of size at least three (PROOF_R90 Section 9.1). On the Heisenberg chain
 it takes a second coincidence: at N = 3 only with a negative rate (delta_1^2 =
 12 gbar^2, J = 2|gbar|), at non-negative rates met in closed form at N = 4 on
 (0,2,0,2), J = 1, kernel dimensions (2, 3, 4, 4), and absent on (1,3,1,3) and
@@ -6733,7 +6740,9 @@ the defective examples. That stratum has
 defective couplings of its OWN, which no cofactor can find since q(0) vanishes
 identically there: at N = 3 on the gate's profile the coefficient of lambda^3 is
 (256/625)*J^4*(75J-2)*(75J+2), and at J = 2/75 the kernel dimensions run
-(3, 4, 5): geometric 3, algebraic 5, ONE JORDAN BLOCK OF SIZE THREE, at N = 3,
+(3, 4, 5): geometric 3, algebraic 5, ONE JORDAN BLOCK OF SIZE THREE, at N = 3
+(and at gbar = 0 every arrival is a double one on both chains, the whole block
+being tauQ-odd there; PROOF_R90 Section 9.1),
 which the gbar != 0 stratum reaches on the Heisenberg chain at non-negative
 rates first at N = 4. So "only the exceptional couplings are
 defective" is a statement about each stratum separately, and each has its own
@@ -6745,27 +6754,29 @@ and four (exact Sturm counts).
 tightness criterion and semisimplicity for gbar != 0, the boundary-clock
 constants and tightness for generic J at every N, that one for gbar != 0 too,
 the valuation lower bound
-total and per pair, the pointed-grading staircase); exact-computed (the
+total and per pair, the pointed-grading staircase, the XY sector split and its
+paired arrivals at every N); exact-computed (the
 four-corner census, the defectiveness at the exceptional couplings, the Sturm
 counts, the gbar = 0 count N and its opened census).
 **Open:** the one nonvanishing that would make the valuation law two-sided
 (each pair reaching its own outer anti-diagonal cell; the route is the
 uniqueness of the monotone walk); the uniform-endpoint embedding into the
 committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
-real exceptional couplings; what decides the Jordan block size at them (why the
-XY chain doubles every arrival, which Heisenberg profiles carry a 3x3; no bound
-known); whether the gbar = 0 carriers are one object rather
+real exceptional couplings; what decides the Jordan block size at them (on the
+XY chain whether A can lose column rank at a real coupling or A^T A carry a
+multiple zero, which Heisenberg
+profiles carry a 3x3; no bound known); whether the gbar = 0 carriers are one object rather
 than a list (C(N,p) is the popcount-p sector dimension and the corner's N is its
 p = 1 entry); and whether any DISSIPATING generator holds N modes at one rate,
 the trivial gamma == 0 being completely positive and already on the stratum,
 every other point of it carrying a negative rate.
 **Gate:** [`r90_frozen_divisor_gate.py`](../simulations/r90_frozen_divisor_gate.py)
-(~2 min, 322 checks; G0 builder, G1 the mirror identity, G2 the census,
+(~2 min, 352 checks; G0 builder, G1 the mirror identity, G2 the census,
 G3/G4 pencil and eigenvector by-products, G5 partial-balance nulls, G6/G7
 exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
 discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the
 Sturm counts, G14 the pointed grading, G15 the index reading, G16 the zero-mean
-stratum; G2c, the XY census, was added when the typing found it).
+stratum, G17 the XY sector split; G2c, the XY census, was added when the typing found it).
 **Naming (2026-07-25, the day it was minted; the first title lasted hours).**
 The title first read "pins floor(N/2) decay rates at every coupling". That was
 painted true from the stance of having just proved the bound and Section 7's

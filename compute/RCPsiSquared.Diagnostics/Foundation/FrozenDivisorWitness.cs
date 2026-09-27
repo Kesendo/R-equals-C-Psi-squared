@@ -693,7 +693,9 @@ public sealed class FrozenDivisorWitness : IInspectable
                          "MirrorWorld's Divisor.Rooms() and the gate's G16 carry the stratum. " +
                          "What no rank read here can see: at the real exceptional couplings the root goes " +
                          "DEFECTIVE (one Jordan block of size two, or three where two eigenvalues arrive " +
-                         "at once, in every case computed) while its kernel dimension does not move, so " +
+                         "at once, in every case computed; on the XY chain always two at once, since there " +
+                         "the frozen modes live in a population-free sector whose characteristic polynomial " +
+                         "runs in ε² after the frozen factor, the proof's Section 9.1) while its kernel dimension does not move, so " +
                          "this witness cannot tell that failure from a healthy coupling. Still open in the " +
                          "proof, and about the ladder rather than the multiplicity: the upper half of the " +
                          "valuation law, the J → 0 order being exactly 2⌊N²/4⌋ on generic profiles rather than " +

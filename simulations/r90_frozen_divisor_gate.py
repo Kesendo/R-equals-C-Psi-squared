@@ -112,6 +112,18 @@
 #       opened census (Heisenberg N = 4, 5, 6; XY N = 4, 5); and the stratum's
 #       OWN exceptional coupling J* = 2/75 at N = 3, where the Jordan block has
 #       size three
+#   G17 the XY sector split (proof doc Section 9.1), exact: U = gauge-signed
+#       transpose commutes with Mtilde on XY and with tauQ, not on Heisenberg
+#       (N = 3..7); U = -1 holds no diagonal cell, trace(tauQ|U=-1) =
+#       floor(N/2) (N = 3..10); det(Mtilde|U=+1) = C_N gbar^ceil(N/2)
+#       z^(2 floor(N^2/4)), offset-free (N = 3..6); Mtilde|U=-1 = [[0,A],[B,0]]
+#       with a charpoly in eps^(floor(N/2)+2k), and off the locus the pairing
+#       breaks, except at N = 4, where it survives at every profile (N = 3..7);
+#       and the explicit size-three chain at N = 4, J* = 1/2, its eigenvector
+#       isotropic; and at N = 4 the U = -1 charpoly symbolically in all four
+#       rates, even in eps, with its constant term in closed form; and at
+#       gbar = 0 the whole block's charpoly in eps^(N+2k) on both chains
+#       (N = 3, 4, 5), which the even defect at gbar != 0 breaks
 #
 # Runtime: about 2 minutes. Standalone except G0 (imports framework once).
 import sys
@@ -2287,6 +2299,317 @@ c3 = sp.Poly(sp.expand((lamsym * sp.eye(9) - Msym).det(method='berkowitz')),
 target3 = sp.Rational(256, 625) * Jsym**4 * (75 * Jsym - 2) * (75 * Jsym + 2)
 check("N=3 gbar=0 coefficient of lambda^3 = (256/625) J^4 (75J-2)(75J+2)",
       sp.simplify(c3 - target3) == 0, f"{sp.factor(sp.simplify(c3))}")
+
+# ---------- G17: why the XY chain pairs its arrivals ----------
+#
+# On the XY chain the corner block carries a second linear involution beside
+# tauQ, U: v_(a,b) -> (-1)^(a+b) v_(b,a), the transpose leg of the fold lattice
+# composed with the bipartite gauge (PROOF_CODIM1_BY_ADDITIVITY (i) + (iv)).
+# It commutes with K (Sigma h Sigma = -h up to the identity), with Gamma and with
+# tauQ, and it fixes every diagonal cell with sign +1. So the U = -1 sector holds
+# no population cell, the even defect 4 gbar P_D never enters it, and Mtilde is
+# tauQ-odd there: in the tauQ-parity split it is [[0, A], [B, 0]], its
+# characteristic polynomial is eps^floor(N/2) det(eps^2 - BA), and arrivals at the
+# frozen root come in pairs. The U = +1 sector holds every population and
+# det(Mtilde|U=+1) = C_N gbar^ceil(N/2) z^(2 floor(N^2/4)), free of the offsets
+# (degree = the Section 8 valuation), so it never vanishes at J != 0.
+
+print()
+print("G17 the XY sector split: U = gauge-signed transpose, and paired arrivals")
+Fr = Fraction
+_us_rng = random.Random(17)
+
+
+def us_h(N, zz):
+    h = se_h_frac(N)
+    if not zz:
+        for a in range(N):
+            h[a][a] = Fraction(0)
+    return h
+
+
+def us_block(N, gl, z, zz):
+    """Mtilde at J = i z (every entry real), cell (a,b) at index a*N+b."""
+    h, n = us_h(N, zz), N * N
+    gbar = sum(gl) / N
+    M = [[Fraction(0)] * n for _ in range(n)]
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[a][c]:
+                    M[r][c * N + b] += z * h[a][c]
+                if h[c][b]:
+                    M[r][a * N + c] -= z * h[c][b]
+            M[r][r] += 4 * gbar - (2 * (gl[a] + gl[b]) if a != b else 0)
+    return M
+
+
+def us_locus(N, gbar):
+    d = [Fraction(0)] * N
+    for a in range(N // 2):
+        x = Fraction(_us_rng.randint(-9, 9), _us_rng.randint(1, 5))
+        d[a], d[N - 1 - a] = x, -x
+    return [gbar + x for x in d]
+
+
+def us_U_commutes(M, N, sgn_perm):
+    """[S, M] == 0 for the signed permutation S e_c = sgn * e_perm(c)."""
+    n = N * N
+    for r in range(n):
+        pr, sr = sgn_perm(r)
+        for c in range(n):
+            pc, sc = sgn_perm(c)
+            # (S M S^-1)[pr][pc] = sr sc M[r][c] must equal M[pr][pc]
+            if sr * sc * M[r][c] != M[pr][pc]:
+                return False
+    return True
+
+
+def us_Uperm(N):
+    return lambda r: ((r % N) * N + r // N, (-1) ** (r // N + r % N))
+
+
+def us_tQperm(N):
+    return lambda r: ((N - 1 - r % N) * N + (N - 1 - r // N), 1)
+
+
+def us_sector(M, N, cols):
+    """(P^T P)^-1 P^T M P for orthogonal columns given as {cell: coef}."""
+    n = N * N
+    MP = []
+    for v in cols:
+        w = [Fraction(0)] * n
+        for c, x in v.items():
+            for r in range(n):
+                if M[r][c]:
+                    w[r] += M[r][c] * x
+        MP.append(w)
+    out = []
+    for u in cols:
+        nn = sum(x * x for x in u.values())
+        out.append([sum(x * w[c] for c, x in u.items()) / nn for w in MP])
+    return out
+
+
+def us_bases(N):
+    R = lambda a: N - 1 - a
+    plus = [{a * N + a: 1} for a in range(N)]
+    minus_even, minus_odd, seen = [], [], set()
+    for a in range(N):
+        for b in range(a + 1, N):
+            s = (-1) ** (a + b)
+            plus.append({a * N + b: 1, b * N + a: s})
+            if (a, b) in seen:
+                continue
+            q = (R(b), R(a))            # tauQ sends m_(a,b) to m_(Rb,Ra), sign +1
+            seen |= {(a, b), q}
+            ma = {a * N + b: 1, b * N + a: -s}
+            if q == (a, b):
+                minus_even.append(ma)
+            else:
+                mq = {q[0] * N + q[1]: 1, q[1] * N + q[0]: -s}
+                minus_even.append({**ma, **mq})
+                minus_odd.append({**ma, **{k: -x for k, x in mq.items()}})
+    return plus, minus_even, minus_odd
+
+
+def us_dm(rows):
+    return DomainMatrix([[sp.QQ(x.numerator, x.denominator) for x in r] for r in rows],
+                        (len(rows), len(rows)), sp.QQ)
+
+
+# (a) U is a symmetry of the XY corner block and commutes with tauQ; the
+#     Heisenberg chain breaks it (the ZZ boundary diagonal), which is the control
+for N in range(3, 8):
+    okX = okH_breaks = okT = True
+    for _ in range(2):
+        gl = us_locus(N, Fraction(_us_rng.randint(1, 6), _us_rng.randint(1, 3)))
+        z = Fraction(_us_rng.randint(1, 9), _us_rng.randint(1, 4))
+        okX &= us_U_commutes(us_block(N, gl, z, False), N, us_Uperm(N))
+        okH_breaks &= not us_U_commutes(us_block(N, gl, z, True), N, us_Uperm(N))
+    Up, Tp = us_Uperm(N), us_tQperm(N)
+    for r in range(N * N):          # U tauQ = tauQ U as signed permutations
+        a1, s1 = Up(Tp(r)[0])
+        a2, s2 = Tp(Up(r)[0])
+        okT &= (a1 == a2 and s1 * Tp(r)[1] == s2 * Up(r)[1])
+    check(f"N={N}: U commutes with Mtilde on XY, not on Heisenberg, and with tauQ",
+          okX and okH_breaks and okT)
+
+# (b) the index moves into the population-free sector: U fixes every diagonal
+#     cell with +1, and trace(tauQ | U=-1) = floor(N/2) (one fixed pair {a, R(a)}
+#     per balanced pair), so no tax is paid there
+for N in range(3, 11):
+    plus, me, mo = us_bases(N)
+    Tp, Up = us_tQperm(N), us_Uperm(N)
+    T = [[Fraction(0)] * (N * N) for _ in range(N * N)]
+    for c in range(N * N):
+        T[Tp(c)[0]][c] = Fraction(Tp(c)[1])
+    Ts = us_sector(T, N, me + mo)
+    trace_minus = sum(Ts[i][i] for i in range(len(Ts)))
+    # the span is tauQ-invariant: T applied to each basis vector is reproduced
+    # exactly by the restricted matrix Ts
+    for j, v in enumerate(me + mo):
+        tv = {}
+        for c, x in v.items():
+            tv[Tp(c)[0]] = tv.get(Tp(c)[0], 0) + Tp(c)[1] * x
+        back = {}
+        for i, u in enumerate(me + mo):
+            for c, x in u.items():
+                back[c] = back.get(c, 0) + Ts[i][j] * x
+        if any(tv.get(c, 0) != back.get(c, 0) for c in set(tv) | set(back)):
+            trace_minus = None
+    in_minus = all(sum(Up(c)[1] * x * (1 if Up(c)[0] == c2 else 0)
+                       for c, x in v.items()) == -v.get(c2, 0)
+                   for v in me + mo for c2 in range(N * N))
+    check(f"N={N}: U=-1 has no diagonal cell; trace(tauQ|U=-1) = "
+          f"{trace_minus} = floor(N/2), tauQ applied to the sector basis",
+          trace_minus == N // 2 and in_minus
+          and not any(c % (N + 1) == 0 for v in me + mo for c in v)
+          and len(plus) + len(me) + len(mo) == N * N)
+
+# (c) the population sector never reaches the root: det(Mtilde|U=+1) is
+#     C_N gbar^ceil(N/2) z^(2 floor(N^2/4)), the same C_N for every locus profile
+zsym = sp.symbols('z')
+for N in range(3, 7):
+    plus, _, _ = us_bases(N)
+    deg = len(plus)
+    polys, consts = [], set()
+    for _ in range(2):
+        gbar = Fraction(_us_rng.randint(1, 6), _us_rng.randint(1, 3))
+        gl = us_locus(N, gbar)
+        pts = []
+        for zi in range(1, deg + 2):
+            d = us_dm(us_sector(us_block(N, gl, Fraction(zi), False), N, plus)).det()
+            pts.append((zi, sp.Rational(int(d.numerator), int(d.denominator))))
+        p = sp.Poly(sp.interpolate(pts, zsym), zsym)
+        polys.append(p)
+        if p.is_monomial and p.degree() == 2 * (N * N // 4):
+            consts.add(p.LC() / sp.Rational(gbar.numerator, gbar.denominator) ** ((N + 1) // 2))
+    check(f"N={N}: det(Mtilde|U=+1) = C_N gbar^{(N + 1) // 2} z^{2 * (N * N // 4)}, "
+          f"offset-free, C_N = {consts}",
+          len(consts) == 1 and all(p.is_monomial and p.degree() == 2 * (N * N // 4)
+                                   for p in polys),
+          f"{[p.as_expr() for p in polys]}")
+
+# (d) U = -1 in the tauQ-parity split is exactly [[0, A], [B, 0]], so its
+#     characteristic polynomial has only the powers eps^(floor(N/2) + 2k); off
+#     the R90 locus the diagonal blocks are not zero (the control that can fail)
+for N in range(3, 8):
+    _, me, mo = us_bases(N)
+    ne = len(me)
+    ok = True
+    for onlocus in (True, False):
+        gl = us_locus(N, Fraction(_us_rng.randint(1, 6)))
+        if not onlocus:
+            gl[0] += Fraction(1, 7)
+        Ms = us_sector(us_block(N, gl, Fraction(_us_rng.randint(1, 9), 3), False),
+                       N, me + mo)
+        zero_diag = all(Ms[i][j] == 0 for i in range(len(Ms)) for j in range(len(Ms))
+                        if (i < ne) == (j < ne))
+        cp = [sp.Rational(int(c.numerator), int(c.denominator))
+              for c in us_dm(Ms).charpoly()][::-1]
+        parity_ok = all(c == 0 for k, c in enumerate(cp) if (k - N // 2) % 2)
+        if onlocus:   # and the frozen factor eps^floor(N/2) divides it
+            parity_ok = parity_ok and all(c == 0 for c in cp[:N // 2])
+        # off the locus U is still a symmetry (Gamma stays swap-symmetric), so the
+        # sector exists, but tauQ-oddness fails and the pairing breaks with it,
+        # except at N = 4: there 4 gbar = sigma, the rate of the pair {a,b} is
+        # (g_c + g_d) - (g_a + g_b), its complement carries the negative, and the
+        # U = -1 charpoly stays even in eps at every profile (measured, not derived)
+        ok &= ((zero_diag and parity_ok) if onlocus
+               else (not zero_diag and parity_ok == (N == 4)))
+    check(f"N={N}: Mtilde|U=-1 = [[0,A],[B,0]], charpoly in eps^(floor(N/2)+2k); "
+          "off the locus the diagonal blocks return and the pairing "
+          + ("survives (the N = 4 complement)" if N == 4 else "breaks"), ok)
+
+# (e) the chain at an exceptional coupling, exactly: N = 4 XY on (1, 3/2, 1/2, 1)
+#     at J* = 1/2 (z* = -i/2): rank A = rank B = 2 = full column rank, BA
+#     singular, and the explicit chain (x,0) -> (0,v) -> (Av,0) -> 0 with Bx = v,
+#     which is the size-three block; geometric count stays floor(N/2) = 2
+N = 4
+_, me, mo = us_bases(N)
+ne, no = len(me), len(mo)
+gl = [Fr(1), Fr(3, 2), Fr(1, 2), Fr(1)]
+Mz = [[sp.Rational(x.numerator, x.denominator) for x in r]
+      for r in us_sector(us_block(N, gl, Fr(1), False), N, me + mo)]
+Mr = [[sp.Rational(x.numerator, x.denominator) for x in r]
+      for r in us_sector(us_block(N, gl, Fr(0), False), N, me + mo)]
+zstar = -sp.I / 2
+Mst = sp.Matrix(ne + no, ne + no, lambda i, j: Mr[i][j] + zstar * (Mz[i][j] - Mr[i][j]))
+A, B = Mst[:ne, ne:], Mst[ne:, :ne]
+BA = sp.simplify(B * A)
+v = BA.nullspace()
+ok = A.rank() == no and B.rank() == no and len(v) == 1
+if ok:
+    v = v[0]
+    sol = sp.Matrix(sp.symbols(f'x0:{ne}'))
+    eqs = sp.solve(list(B * sol - v), list(sol), dict=True)
+    x = sol.subs(eqs[0]).subs({s: 0 for s in sol})
+    top = sp.Matrix.vstack(x, sp.zeros(no, 1))
+    mid = sp.Matrix.vstack(sp.zeros(ne, 1), v)
+    bot = sp.Matrix.vstack(A * v, sp.zeros(no, 1))
+    ok = (sp.simplify(Mst * top - mid) == sp.zeros(ne + no, 1)
+          and sp.simplify(Mst * mid - bot) == sp.zeros(ne + no, 1)
+          and sp.simplify(Mst * bot) == sp.zeros(ne + no, 1)
+          and sp.simplify(A * v) != sp.zeros(ne, 1))
+    null1 = ne + no - Mst.rank(simplify=True)
+    ok &= null1 == N // 2
+    # the chain's eigenvector, written in the cell basis, is isotropic: w^T w = 0
+    wcell = {}
+    for i, u in enumerate(me + mo):
+        for c, xv in u.items():
+            wcell[c] = wcell.get(c, 0) + bot[i] * xv
+    ok &= sp.simplify(sum(x * x for x in wcell.values())) == 0 and any(
+        sp.simplify(x) != 0 for x in wcell.values())
+check("N=4 XY (1,3/2,1/2,1) at J* = 1/2: A full column rank, B full row rank, BA singular, "
+      "the explicit chain (x,0) -> (0,v) -> (Av,0) -> 0, geometric 2, and its "
+      "eigenvector isotropic in the cell basis", ok)
+
+# (f) N = 4, symbolically in all four rates: the U = -1 charpoly is even in eps at
+#     EVERY profile (the pair {a,b} and its complement carry opposite recentered
+#     rates, since 4 gbar = sigma there), and its constant term is
+#     -(g0-g1-g2+g3)^2 (4J^2 + (g0-g3)^2 - (g1-g2)^2)^2 (hopping 2, J = i z)
+g4 = sp.symbols('g0:4')
+pairs4 = [(a, b) for a in range(4) for b in range(a + 1, 4)]
+ix4 = {pq: i for i, pq in enumerate(pairs4)}
+h4 = us_h(4, False)
+rows4 = [[sp.Integer(0)] * 6 for _ in range(6)]
+for (a, b), j in ix4.items():
+    for (x0, y0), cf in (((a, b), 1), ((b, a), -(-1) ** (a + b))):
+        out = {}
+        for k in range(4):
+            if h4[x0][k]:
+                out[(k, y0)] = out.get((k, y0), 0) + zsym * int(h4[k][x0]) * cf
+            if h4[k][y0]:
+                out[(x0, k)] = out.get((x0, k), 0) - zsym * int(h4[y0][k]) * cf
+        out[(x0, y0)] = out.get((x0, y0), 0) + (sum(g4) - 2 * (g4[x0] + g4[y0])) * cf
+        for (x1, y1), val in out.items():
+            if x1 < y1:
+                rows4[ix4[(x1, y1)]][j] += val
+cp4 = [sp.expand(DomainMatrix.from_list_sympy(6, 6, rows4).domain.to_sympy(c))
+       for c in DomainMatrix.from_list_sympy(6, 6, rows4).charpoly()][::-1]
+c0 = sp.expand(cp4[0].subs(zsym, -sp.I * Js))
+target4 = -(g4[0] - g4[1] - g4[2] + g4[3]) ** 2 * (
+    4 * Js ** 2 + (g4[0] - g4[3]) ** 2 - (g4[1] - g4[2]) ** 2) ** 2
+check("N=4 XY U=-1, symbolic in all four rates: charpoly even in eps, constant "
+      "term -(g0-g1-g2+g3)^2 (4J^2 + (g0-g3)^2 - (g1-g2)^2)^2",
+      all(cp4[k] == 0 for k in (1, 3, 5)) and sp.expand(c0 - target4) == 0)
+
+# (g) at gbar = 0 no U is needed: Mtilde = X is tauQ-odd on the whole block, so on
+#     BOTH chains the characteristic polynomial runs in eps^(N+2k) only; the
+#     control at gbar != 0 (the even defect back) breaks it
+for N, gz in ((3, [Fr(1, 25), Fr(0), Fr(-1, 25)]), (4, [Fr(1), Fr(-2), Fr(2), Fr(-1)]),
+              (5, [Fr(3), Fr(-1), Fr(0), Fr(1), Fr(-3)])):
+    for zz, name in ((True, "Heisenberg"), (False, "XY")):
+        res = []
+        for shift in (Fr(0), Fr(1, 3)):
+            M = us_block(N, [x + shift for x in gz], Fr(2, 7), zz)
+            cp = [sp.Rational(int(c.numerator), int(c.denominator))
+                  for c in us_dm(M).charpoly()][::-1]
+            res.append(all(c == 0 for k, c in enumerate(cp) if (k - N) % 2 or k < N))
+        check(f"N={N} {name} gbar=0: whole-block charpoly in eps^(N+2k); broken at gbar=1/3",
+              res == [True, False], f"{res}")
 
 # ---------- verdict ----------
 
