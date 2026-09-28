@@ -25,7 +25,7 @@ namespace MirrorWorld;
 //
 // Deliberately outside: the letter group S3, K1, the golden router W (F116), and F71's bond
 // mirror. The former S3 semidirect-product proposal was resolved: S3 does not normalize D4;
-// the coherence-space closure has order 96*2^N, not 48 (proof addendum 2026-06-15).
+// the coherence-space closure has order 768/gcd(N,4), never 48 (PROOF_PI_FACTORS_AS_R_TIMES_D §5, 'Resolution of the S3 side').
 public sealed class MirrorGroup : GameObject
 {
     public int N { get; }

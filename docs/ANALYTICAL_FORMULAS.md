@@ -5173,7 +5173,7 @@ class-swapping elements cannot enter), F71's bond mirror (spatial, site k ↔ N+
 the dephase-letter swaps Q_zx / Q_yx (the Z↔Y swap is D itself, which is Welle 12; the
 other two need the X↔Z basis move). The earlier expected **S₃ ⋉ D₄** completion was
 resolved in [the factor proof](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md): letter S₃ does
-not normalize D₄; the coherence-space closure has order 96·2^N, not 48.
+not normalize D₄; the coherence-space closure has order 768/gcd(N, 4), never 48.
 
 **Verified (exact):** group closure |⟨R, D⟩| = 8, the factorization Π_Z = R·D, the dihedral
 relations, and all eight Pauli-basis forms at dev 0.00e+00 (N = 3, signed permutations
@@ -5214,9 +5214,9 @@ H = H† ⟺ Hᵀ = H̄, ket leg = conj of bra leg); the K₁/K_b mirrors T = Σ
 conj face dressed on a coherence block (antilinearity pairs λ ↔ λ̄, hence mode k ↔
 N+1−k). In the Pauli basis the triangle docks onto F118's mirror group: θ = D, † = the
 antilinear unit 𝒦, conj = D∘𝒦, and the closure is the **antilinear double**
-⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ (order 16, eight antiunitary members). The dial trio points at the
-open S₃ ⋉ D₄ completion: θ and conj invert every rotation dial (the O(2) reflections of
-each thickened circle), † commutes with every unitary conjugation.
+⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ (order 16, eight antiunitary members). In the dial trio θ and conj
+invert the R_z dial (a real rotation such as R_y they fix: both send Ad_U to Ad_Ū), and †
+commutes with every unitary conjugation.
 
 **Qudit generalization (§6):** on the Weyl-Heisenberg operators P_{a,b} = X^a Z^b (a, b ∈ Z_d) the three involutions act with a symplectic phase, θ(P_{a,b}) = ω^{−ab}P_{−a,b}, conj(P_{a,b}) = P_{a,−b}, †(P_{a,b}) = ω^{ab}P_{−a,−b} (ω = e^{2πi/d}); the transport law is basis-free at every d; the qubit (−1)^{n_Y} is the d = 2 degeneration (ω^{ab} at the one label (1,1) = Y where the a ↦ −a flip collapses), and for d > 2 the triangle is a reflection of the Z_d × Z_d lattice, dovetailing with F121's Z_d ≀ Z₂.
 

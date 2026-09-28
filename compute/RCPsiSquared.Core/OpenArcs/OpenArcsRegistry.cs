@@ -1957,7 +1957,7 @@ public static class OpenArcsRegistry
                 "(mirror-D4 within a diagonal) are TWO DISTINCT structures, not the same S3. Each letter move " +
                 "commutes with one mirror generator and not the other ([h_zx,D]=0 but [h_zx,R]!=0; [h_yz,R]=0 " +
                 "but [h_yz,D]!=0), which is NOT a semidirect product: the letter moves do not NORMALIZE D4 " +
-                "(h_zx*R*h_zx^-1 = one-sided Z^N, outside <R,D>; closure order 96*2^N, not 48). The headline " +
+                "(h_zx*R*h_zx^-1 = one-sided Z^N, outside <R,D>; closure order 768/gcd(N,4), never 48). The headline " +
                 "survives ('the one diagonal is one of three'); the mechanism is the letter orbit + the " +
                 "Y-transpose. TYPED: " +
                 "ThreeDephasingDiagonalsOrbitClaim (Tier1Derived, dual parents MirrorGroupD4Claim + " +
@@ -1988,9 +1988,9 @@ public static class OpenArcsRegistry
         new OpenArc(
             Name: "linear_s3_mirror_completion",
             Opened: "2026-06-15",
-            Origin: "PROOF_PI_FACTORS_AS_R_TIMES_D.md sec.5 names it open: the mirror group's D4 core <R,D> is " +
-                "typed (MirrorGroupD4Claim, order 8), but the FULL mirror group of the palindrome family is " +
-                "S3-letter-action |x| D4 (order 48). The S3 permutes the three dephase letters {X,Y,Z}; one " +
+            Origin: "PROOF_PI_FACTORS_AS_R_TIMES_D.md sec.5 asked: the mirror group's D4 core <R,D> is " +
+                "typed (MirrorGroupD4Claim, order 8), but the FULL mirror group of the palindrome family was " +
+                "expected to be S3-letter-action |x| D4 (order 48). The S3 permutes the three dephase letters {X,Y,Z}; one " +
                 "transposition (Z<->Y) is already D INSIDE D4 (Welle 12, D Pi_Z D = Pi_Y), but the other two " +
                 "(X<->Z, X<->Y) move bit_a against bit_b and need the X<->Z basis permutation h, so they sit " +
                 "OUTSIDE <R,D>. Surfaced again 2026-06-15 (the mirrorgroup witness + the three-ladder session " +
@@ -2001,7 +2001,7 @@ public static class OpenArcsRegistry
                 "canonical per-site q_zx = h*d_l (h = X<->Z basis permutation on the ordered basis (I,X,Z,Y), " +
                 "d_l = diag(1,1,1,-1)), q_yx = h, D = diag((-1)^{n_Y}); N-site Q_zx = H*D, Q_yx = H with " +
                 "H = h^{otimes N}. (3) the BASIS-S3 on the three DIAGONALS {Q_X,Q_Y,Q_Z} " +
-                "(ThreeDephasingDiagonalsOrbitClaim, structure S3 |x| D4 - but its S3 is the single-qubit " +
+                "(ThreeDephasingDiagonalsOrbitClaim; its S3 is the single-qubit " +
                 "Clifford basis-change <h_zx,h_yz>, which PERMUTES the diagonals, NOT the dephase swap; note D " +
                 "FIXES every diagonal Q while it SWAPS the palindromizers Pi). (4) the order-128 PER-SITE " +
                 "monomial completion <r,d,h> (mirror_inventory_d4.py block H) - a DIFFERENT object from the " +
@@ -2028,23 +2028,24 @@ public static class OpenArcsRegistry
                 "docs/THE_THREE_DIAGONALS.md (the basis-S3 side, written up).",
             Status: OpenArcStatus.Retired,
             RetiredReason: "RESOLVED 2026-06-15 (simulations/linear_s3_mirror_closure.py, self-validating " +
-                "N=2,3, gate-first; PROOF_PI_FACTORS_AS_R_TIMES_D sec.5 'Resolution of the S3 side' note). " +
+                "closure orders at N=1..5, gate-first; PROOF_PI_FACTORS_AS_R_TIMES_D sec.5 'Resolution of the S3 side' note). " +
                 "The linear S3 EXISTS as superoperators (order 6) from the INVOLUTIVE letter-transposition " +
                 "Cliffords (Hadamard for X<->Z, (Y+Z)/sqrt2 for Y<->Z; each order 2, product order 3) - NOT " +
                 "the order-4 rotation R_x(pi/2), which generates the order-24 single-qubit Clifford group (the " +
-                "gauge trap). But the S3 does NOT normalize the D4 = <R,D>: R = I(x)F is one-sided and spreads " +
-                "under the letter-S3 (h_zx.R.h_zx^-1 = the one-sided multiplication by Z^(x)N, dev 0, outside " +
-                "D4), so the coherence-space closure <R,D,h_zx,t_yz> = 96*2^N (384, 768 at N=2,3), NOT a finite " +
-                "order-48 S3|xD4. THREE distinct not-48 realizations: per-site monomial <r,d,h>=128 (sec.5 " +
-                "addendum), coherence-space 96*2^N (this arc), continuous O(2) (sec.5 addendum) - the abstract " +
-                "S3|xD4 has NO faithful finite realization on coherence space. NOT an overturning: sec.5's " +
-                "addendum already had per-site-128 and O(2); only the sec.5-MAIN 'expected order-48' line was " +
-                "imprecise (now corrected). THE TWO-S3 QUESTION DISSOLVES: there is ONE S3 (the letter " +
+                "gauge trap). But the S3 does NOT normalize the D4 = <R,D>: h_zx.R.h_zx^-1 = the one-sided " +
+                "multiplication by Z^(x)N, outside D4. The coherence-space closure <R,D,h_zx,t_yz> has order " +
+                "768/gcd(N,4) (768, 384, 768, 192 at N=1..4), projectively 192 at every N, never 48: each " +
+                "generator is the N-fold tensor power of a one-site map, so the N=1 group (order 768, scalars " +
+                "+-1, +-i) maps onto the N-site group with kernel the scalars w, w^N = 1. The one-sided " +
+                "multiplications inside it are, up to a global phase, the four global ones rho -> rho P^(x)N at " +
+                "every N. " +
+                "THE TWO-S3 QUESTION DISSOLVES: there is ONE S3 (the letter " +
                 "permutation), faithful on the sign-blind diagonals {Q_X,Q_Y,Q_Z} (orbit 3, " +
                 "ThreeDephasingDiagonalsOrbitClaim / THE_THREE_DIAGONALS) and signed on the palindromizers " +
                 "(larger orbit). LESSON (Tom caught it mid-session): the first run used R_x(pi/2) and wrongly " +
                 "concluded 'the basis-change is order-24, not S3'; the involutive generators give the genuine " +
-                "order-6 S3, and the real obstruction to 48 is the one-sided R, not the S3 size."),
+                "order-6 S3; non-normalization rules out the semidirect S3|xD4, and the closure count rules out " +
+                "order 48."),
 
         new OpenArc(
             Name: "ptf_painter_pipeline",

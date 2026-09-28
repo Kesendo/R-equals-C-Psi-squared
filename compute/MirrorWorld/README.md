@@ -158,7 +158,7 @@ antilinear double D₄ × Z₂. The R row of the palindrome split carries the sa
 legs pay as the price: the two objects are one mirror read at two altitudes, block lattice below,
 operator algebra above. Still outside: the letter group S₃. F118 named it open as the completion
 S₃ ⋉ D₄; that shape was disproved in the proof's §5, because the letter moves do not normalize D₄
-(the coherence-space closure has order 96·2^N, not 48), so what stays outside is the letter S₃
+(the coherence-space closure has order 768/gcd(N,4), never 48), so what stays outside is the letter S₃
 itself, not a product waiting to be built.
 
 **The third structural adoption (2026-07-04): `ParameterKlein.cs` (F91 + F92 + F93).** The same

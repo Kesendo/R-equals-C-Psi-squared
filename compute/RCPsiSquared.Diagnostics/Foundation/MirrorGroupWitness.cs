@@ -222,10 +222,10 @@ public sealed class MirrorGroupWitness : IInspectable
                     summary: "the Z↔Y swap IS D (inside ⟨R,D⟩); the other two need the X↔Z basis permutation and are "
                            + "outside. The completion is resolved (arc linear_s3_mirror_completion, "
                            + "simulations/linear_s3_mirror_closure.py): the letter-S₃ exists (order 6, from the "
-                           + "involutive Cliffords) but does NOT normalize D₄ (R = I⊗F is one-sided and spreads, "
-                           + "h_zx·R·h_zx⁻¹ = the one-sided Z^⊗N multiplication outside ⟨R,D⟩), so the coherence-space "
-                           + "closure ⟨R,D,h_zx,t_yz⟩ = 96·2^N — NOT a finite order-48 S₃⋉D₄, the discrete slice of "
-                           + "§5's O(2) completion."),
+                           + "involutive Cliffords) but does NOT normalize D₄ "
+                           + "(h_zx·R·h_zx⁻¹ = the one-sided Z^⊗N multiplication, outside ⟨R,D⟩), so the "
+                           + "coherence-space closure ⟨R,D,h_zx,t_yz⟩ has order 768/gcd(N,4), never the 48 of an "
+                           + "S₃⋉D₄."),
             });
     }
 

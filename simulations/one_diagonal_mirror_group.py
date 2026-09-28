@@ -26,7 +26,7 @@ THE CORRECTED PICTURE: two three-fold structures that do NOT lock into one group
   * the THREE DIAGONALS {Q_X,Q_Y,Q_Z} = one orbit of the letter moves (h_zx: Z<->X, h_yz/t_yz: Z<->Y);
   * the THREE READINGS (rate/mirror/judge) = the mirror group D4 = <R, D> acting WITHIN one diagonal
     (D fixes = rate; R reflects R Q R = -Q = mirror, the -2 sum(gamma) shift; {D, FD} joint-fixed = judge).
-The coherence-space closure <R, D, h_zx, t_yz> has order 96*2^N, not 48; see
+The coherence-space closure <R, D, h_zx, t_yz> has order 768/gcd(N,4), never 48; see
 docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md sect.5 "Resolution of the S3 side" and its gate
 simulations/linear_s3_mirror_closure.py.
 
@@ -233,7 +233,7 @@ def stage3_no_semidirect_product(N=3):
     assert not inside, "h_zx R h_zx^-1 landed inside <R,D> -- the normalizer claim would need revisiting"
     assert dev_z < TOL, "h_zx R h_zx^-1 is not the one-sided Z^(x)N multiplication"
     print("   [3] the normalizer condition FAILS -> no semidirect product S3 |x| D4. "
-          "The full closure (order 96*2^N, not 48) is gated in linear_s3_mirror_closure.py. OK")
+          "The full closure (order 768/gcd(N,4), never 48) is gated in linear_s3_mirror_closure.py. OK")
 
 
 if __name__ == "__main__":

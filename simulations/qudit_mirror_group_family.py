@@ -142,7 +142,7 @@ def main():
     print("sign flips with symplectic phases omega^{+-ab}; the transport law is universal;")
     print("and the qubit (-1)^{n_Y} is the d=2 shadow of the symplectic phase. Next: the")
     print("mirror group <Pi_d, D> (F121's Z_d wr Z_2) + the antilinear unit, and whether the")
-    print("clock Z_d is the discrete circle the S3xD4 completion thickens (d->inf).")
+    print("clock Z_d becomes the rotation circle of PROOF_PI_FACTORS sec.5's addendum (d->inf).")
     print("=" * 72)
 
 

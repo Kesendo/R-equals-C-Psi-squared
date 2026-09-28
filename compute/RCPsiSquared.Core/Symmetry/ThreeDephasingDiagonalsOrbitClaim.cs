@@ -41,7 +41,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// That pattern is NOT evidence of a semidirect product; relations of that shape hold in any group
 /// containing both factors. A semidirect product needs the letter moves to NORMALIZE D₄, and they do not:
 /// h_zx·R·h_zx⁻¹ is the one-sided multiplication by Z^⊗N, outside the eight elements of ⟨R, D⟩, and the
-/// coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 96·2^N (384 at N=2, 768 at N=3), not 48.
+/// coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 768/gcd(N,4) (768, 384, 768, 192 at N=1..4), never 48.
 /// NOTE (the gate's lesson, 2026-06-14): D does NOT permute the diagonals (it fixes them); the proof's
 /// "D = the Z↔Y swap" lives on the palindromizer Π, not on the diagonal Q.</para>
 ///
@@ -82,7 +82,7 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                "WITHIN a diagonal: D fixes Q (rate/absorption), R reflects it R·Q·R = −Q carrying −2Σγ " +
                "(mirror/palindrome), the {D, 𝓕D} joint-fixed cell is truly (judge). The two three-folds do " +
                "NOT form a semidirect product S₃ ⋉ D₄: the letter moves do not normalize D₄ " +
-               "(h_zx·R·h_zx⁻¹ = one-sided Z^⊗N, outside ⟨R,D⟩; closure order 96·2^N, not 48). D does NOT permute the " +
+               "(h_zx·R·h_zx⁻¹ = one-sided Z^⊗N, outside ⟨R,D⟩; closure order 768/gcd(N,4), never 48). D does NOT permute the " +
                "diagonals (it fixes them); the proof's 'D = Z↔Y swap' is on the palindromizer Π, not on Q. " +
                "The claim's two parents are the physics edge welding the mirror-group and absorption clusters.",
                Tier.Tier1Derived,
@@ -131,7 +131,7 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                          "distinct structures. Each letter move commutes with one mirror generator and not the " +
                          "other ([h_zx,D]=0 but [h_zx,R]≠0; [h_yz,R]=0 but [h_yz,D]≠0), which is NOT a semidirect " +
                          "product: h_zx·R·h_zx⁻¹ = one-sided Z^⊗N leaves ⟨R,D⟩, so the letter moves do not " +
-                         "normalize D₄, and the closure has order 96·2^N, not the 48 of S₃ ⋉ D₄. The order-48 " +
+                         "normalize D₄, and the closure has order 768/gcd(N,4), never the 48 of S₃ ⋉ D₄. The order-48 " +
                          "shape PROOF_PI_FACTORS §5 once named open was disproved there on 2026-06-15.");
             yield return new InspectableNode("the weld",
                 summary: "this claim's two typed parents (MirrorGroupD4Claim + AbsorptionTheoremClaim) are the " +

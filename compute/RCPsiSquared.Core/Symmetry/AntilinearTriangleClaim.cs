@@ -42,7 +42,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (pure coefficient conjugation), and conj = D∘𝒦. The closure
 /// ⟨R, D, 𝒦⟩ ≅ D₄ × Z₂ has order 16 with eight antiunitary members: the antilinear double
 /// of the mirror group, every mirror acquiring an antiunitary twin. The two ℓ·m = −1
-/// vertices θ and conj invert every dial Ad_{R_z(φ)} ↦ Ad_{R_z(−φ)}; † commutes with every
+/// vertices θ and conj invert the R_z dial, Ad_{R_z(φ)} ↦ Ad_{R_z(−φ)}; † commutes with every
 /// unitary conjugation.</para>
 ///
 /// <para><b>Layer note:</b> the conj-leg's typed claim (ChiralMirrorTrajectoryClaim, the

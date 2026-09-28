@@ -6,8 +6,8 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// <summary>Schicht-1 wiring of <see cref="ThreeDephasingDiagonalsOrbitClaim"/> (2026-06-14): the
 /// three dephasing diagonals {Q_X, Q_Y, Q_Z} as one orbit of the single-qubit Clifford basis-change
 /// S₃ ⟨h_zx, h_yz⟩ (same spectrum), and the one-diagonal's three readings (rate = D-fix, mirror =
-/// R·Q·R=−Q, judge = {D, 𝓕D} cell) as the mirror group D₄ acting within a diagonal; the structure is
-/// S₃ ⋉ D₄.
+/// R·Q·R=−Q, judge = {D, 𝓕D} cell) as the mirror group D₄ acting within a diagonal. The letter moves do not
+/// normalize D₄, so the two do not form an S₃ ⋉ D₄.
 ///
 /// <para>The two typed parents are the physics edge that welds the mirror-group and absorption
 /// clusters (previously joined only at the d²−2d=0 foundation): <see cref="MirrorGroupD4Claim"/>

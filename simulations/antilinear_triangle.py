@@ -60,7 +60,7 @@ carries ±i phases (Y·X = −iZ, Z·X = iY per site) so 𝒦 twists R by the D
 mirror, 𝒦R𝒦 = conj(R) = D·R·D, and the CENTRAL antilinear involution is
 conj = D𝒦 (the double is ⟨R, D⟩ × ⟨D𝒦⟩); the triangle {id, D, 𝒦, D𝒦} is
 the D-axis Klein subgroup, the Pauli-basis image of {id, θ, †, conj}. And the
-dial trio, the bridge to the S₃⋉D₄ circle completion: θ- and conj-transport
+dial trio, the bridge to the circle completion of PROOF_PI_FACTORS §5's addendum: θ- and conj-transport
 invert the rotation dial, μ ∘ Ad_{R_z(φ)} ∘ μ = Ad_{R_z(−φ)}, while
 †-transport fixes Ad_U for every unitary U.
 
@@ -699,7 +699,7 @@ def block7_antilinear_double():
 # ======================================================================
 # BLOCK 8 -- the dial trio (single qubit): theta- and conj-transport invert the
 # rotation dial, mu o Ad_{R_z(phi)} o mu = Ad_{R_z(-phi)}; dagger-transport fixes
-# Ad_U for EVERY unitary. The bridge to the S3 x| D4 circle completion.
+# Ad_U for EVERY unitary. The bridge to the circle completion of PROOF_PI_FACTORS sec.5's addendum.
 # ======================================================================
 def block8_dial_trio():
     print("-" * 92)

@@ -971,7 +971,7 @@ if (args.Length > 0 && args[0] == "group")
     Console.WriteLine($"    fixed-point collapse H^T = H-bar iff H = H-dagger: Hermitian {herm:E1}, non-Hermitian split {nonHerm:0.0}");
     var doubled = MirrorGroup.Closure(MirrorGroup.R, MirrorGroup.D, MirrorGroup.K);
     Console.WriteLine($"    the double <R, D, K>: order {doubled.Count}, antilinear members {doubled.Count(m => m.Antilinear)} -- D4 x Z2.");
-    Console.WriteLine("  (outside this object: the letter S3 does not normalize D4; its coherence-space closure has order 96*2^N.)");
+    Console.WriteLine("  (outside this object: the letter S3 does not normalize D4; its coherence-space closure has order 768/gcd(N,4).)");
     return;
 }
 
