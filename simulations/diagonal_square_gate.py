@@ -63,6 +63,16 @@
 #      the centre holds N!/((N/4)!)^4 strings when 4 | N and none otherwise (N = 1..8);
 #      the copy cube's disagreement patterns are the same four points; the polarity cube
 #      is k mod 2 plus the transpose's n_Y = (k_Z + k_X - k_Y)/2
+#   S9 the Hamiltonian on the cube: every two-site Pauli term sends a letter pair to 0 or to
+#      2*phase*(Pa)(x)(Qb) and changes the weight w = (k_Z + k_X + k_Y)/2 by exactly one; a
+#      bond P(x)P steps +-2 along one axis, never its own; on XX+YY the delta k_Z = 0 moves are
+#      the k_X and k_Y steps; a one-site field keeps w and steps on a face diagonal; at N = 3
+#      every entry of ad_H for XYZ chains is one axis step (control: an X field adds face
+#      diagonals); the quarter-turn about Z exchanges k_X and k_Y and commutes with L for
+#      Heisenberg, XY and XXZ under Z-dephasing (control: X field), fixes Z_1 and Z_1 Z_2 and
+#      sends X_1 Y_2 to -Y_1 X_2, whose centroid leaves the plane (float control); the Hermitian part of L in
+#      the string basis is -2 gamma diag(k_Z) exactly; the populations and the XOR strings are
+#      the opposite edges I^N - Z^N and X^N - Y^N, exchanged by R's letter flip
 #
 # Runtime: under a second.
 import sys
@@ -584,6 +594,208 @@ for s in product("IXYZ", repeat=N):
     ok &= (bit_a, bit_b) == (k[0] % 2, k[1] % 2) and y_par == ((k[0] + k[1] - k[2]) // 2) % 2
 check("N=3: bit_a = k_Z mod 2, bit_b = k_X mod 2 (the characters of Ad Z^N, Ad X^N), and the "
       "transpose's y_par = n_Y = (k_Z + k_X - k_Y)/2 mod 2, on every string", ok)
+
+print()
+print("S9 the Hamiltonian on the cube: how ad_H moves a string between lattice points")
+
+
+def kvec(s):
+    return tuple(sum(coord[ch][i] for ch in s) for i in range(3))
+
+
+def weight(s):
+    return sum(ch != "I" for ch in s)
+
+
+# (a) one bond term P(x)Q on one letter pair a(x)b: the commutator is 0 or 2*phase*(Pa)(x)(Qb),
+#     exactly; when it is not 0 the weight changes by exactly one, and for P = Q the step is
+#     +-2 along exactly one axis, never along P's own
+ok_form, ok_w, ok_axis, ok_nonzero = True, True, True, True
+steps_by_term = {}
+for P, Q in product("XYZ", repeat=2):
+    T = string_matrix(P + Q)
+    steps = set()
+    for a, b in product("IXYZ", repeat=2):
+        S = string_matrix(a + b)
+        C = T @ S - S @ T
+        if not C.any():
+            continue
+        pa, pb = as_letter(LET[P] @ LET[a]), as_letter(LET[Q] @ LET[b])
+        target = pa[0] + pb[0]
+        found = any(np.array_equal(C, 2 * sg * string_matrix(target)) for sg in (1, -1, 1j, -1j))
+        ok_form &= found
+        dk = tuple(x - y for x, y in zip(kvec(target), kvec(a + b)))
+        steps.add(dk)
+        ok_w &= abs(weight(target) - weight(a + b)) == 1
+        if P == Q:
+            nz = [i for i in range(3) if dk[i] != 0]
+            ok_axis &= len(nz) == 1 and abs(dk[nz[0]]) == 2 and AXES[nz[0]] != P
+    steps_by_term[P + Q] = steps
+    ok_nonzero &= len(steps) > 0
+check("every two-site Pauli term P(x)Q sends a letter pair to 0 or to 2*phase*(Pa)(x)(Qb), entry by "
+      "entry (all 9 terms, all 16 pairs)", ok_form and ok_nonzero)
+check("every nonzero move of a two-site term changes the weight w = (k_Z + k_X + k_Y)/2 by exactly one",
+      ok_w)
+check("a bond term P(x)P steps by +-2 along exactly one axis, and never along its own axis P",
+      ok_axis and all({i for d in steps_by_term[P + P] for i in range(3) if d[i]} == {i for i in range(3) if AXES[i] != P}
+                      for P in "XYZ"))
+# the old "n_XY changes by 0 or +-2": on an XX+YY bond the 0 are the k_X and k_Y steps
+xy = steps_by_term["XX"] | steps_by_term["YY"]
+check("on an XX+YY bond the moves with delta k_Z = 0 are exactly the +-2 steps along k_X or k_Y, and the "
+      "delta k_Z = +-2 moves are the k_Z-axis steps",
+      {d for d in xy if d[0] == 0} == {(0, 2, 0), (0, -2, 0), (0, 0, 2), (0, 0, -2)}
+      and {d for d in xy if d[0] != 0} == {(2, 0, 0), (-2, 0, 0)})
+# a one-site field P keeps the weight and moves on the face diagonal inside the plane k_P = const
+ok_f = True
+for P in "XYZ":
+    for a in "IXYZ":
+        C = LET[P] @ LET[a] - LET[a] @ LET[P]
+        if not C.any():
+            continue
+        t = as_letter(LET[P] @ LET[a])[0]
+        dk = tuple(x - y for x, y in zip(coord[t], coord[a]))
+        i = AXES.index(P)
+        ok_f &= a != "I" and t != "I" and dk[i] == 0 and sorted(abs(x) for x in dk) == [0, 1, 1] and sum(dk) == 0
+check("a one-site field P keeps the weight and steps along a face diagonal (+-1, -+1) in the plane k_P = const",
+      ok_f)
+
+# (b) the whole ad_H at N = 3 on the Pauli strings, integer matrices: every nonzero entry of an
+#     XYZ-type chain (any integer bond weights, no field) joins two strings one +-2 axis step apart;
+#     control: a transverse field adds weight-keeping face-diagonal entries
+N = 3
+strs = ["".join(t) for t in product("IXYZ", repeat=N)]
+B0 = np.array([string_matrix(s).reshape(-1) for s in strs]).T      # entries 0, +-1, +-i
+d = 2 ** N
+
+
+def pauli_super(M):
+    """a superoperator on vec (row-major) written in the string basis; exact since d is a power of 2"""
+    return (B0.conj().T @ M @ B0) / d
+
+
+def site_op(P, l):
+    return string_matrix("".join(P if k == l else "I" for k in range(N)))
+
+
+def xyz_chain(jx, jy, jz):
+    return sum(c * site_op(P, i) @ site_op(P, i + 1) for i in range(N - 1) for c, P in ((jx, "X"), (jy, "Y"), (jz, "Z")))
+
+
+Id = np.eye(d)
+
+
+def adH(H):
+    return pauli_super(np.kron(H, Id) - np.kron(Id, H.T))
+
+
+def moves_of(A):
+    return {tuple(x - y for x, y in zip(kvec(strs[i]), kvec(strs[j]))) for i, j in zip(*np.nonzero(A))}
+
+
+ok_chain = True
+for jx, jy, jz in [(1, 1, 1), (1, 1, 0), (1, 1, 2), (0, 0, 1), (3, -2, 5)]:
+    mv = moves_of(adH(xyz_chain(jx, jy, jz)))
+    ok_chain &= all(sorted(abs(x) for x in m) == [0, 0, 2] for m in mv) and len(mv) > 0
+check("N=3: every nonzero entry of ad_H for an XYZ chain (Heisenberg, XY, XXZ at Delta = 2, Ising, "
+      "(3, -2, 5)) joins strings one +-2 axis step apart", ok_chain)
+mv_f = moves_of(adH(xyz_chain(0, 0, 1) + sum(site_op("X", l) for l in range(N))))
+check("control: an X field on the Ising chain adds face-diagonal moves of weight change 0",
+      any(sorted(abs(x) for x in m) == [0, 1, 1] and sum(m) == 0 for m in mv_f))
+
+# (c) the mirror plane k_X = k_Y: the quarter-turn about Z, rho -> S rho S^dag with S = diag(1, i)^N,
+#     is a signed permutation of the strings exchanging k_X and k_Y, and it commutes exactly with
+#     L = -i ad_H + gamma (Q_Z - N) for Heisenberg, XY and XXZ; an X field breaks it (control)
+S1 = np.array([[1, 0], [0, 1j]])
+SN = np.array([[1]], dtype=complex)
+for _ in range(N):
+    SN = np.kron(SN, S1)
+Rot = pauli_super(np.kron(SN, SN.conj()))
+ok_perm = True
+for j in range(len(strs)):
+    col = Rot[:, j]
+    nz = np.nonzero(col)[0]
+    ok_perm &= len(nz) == 1 and abs(col[nz[0]]) == 1
+    i = nz[0]
+    kj, ki = kvec(strs[j]), kvec(strs[i])
+    ok_perm &= ki == (kj[0], kj[2], kj[1])
+check("N=3: the quarter-turn about Z is a signed permutation of the strings that exchanges k_X and k_Y",
+      ok_perm)
+g = Fraction(1, 4)
+QZ = sum(np.kron(site_op("Z", l), site_op("Z", l).conj()) for l in range(N))
+LD = pauli_super(float(g) * (QZ - N * np.kron(Id, Id)))
+
+
+def L_of(H):
+    return -1j * adH(H) + LD
+
+
+ok_c = all(np.array_equal(Rot @ L_of(xyz_chain(*j)) - L_of(xyz_chain(*j)) @ Rot, np.zeros_like(Rot))
+           for j in [(1, 1, 1), (1, 1, 0), (1, 1, 2)])
+Hf = xyz_chain(0, 0, 1) + sum(site_op("X", l) for l in range(N))
+ctrl = not np.array_equal(Rot @ L_of(Hf) - L_of(Hf) @ Rot, np.zeros_like(Rot))
+check("N=3: it commutes with L entry by entry for Heisenberg, XY and XXZ under Z-dephasing "
+      "(gamma = 1/4); control: with an X field on the Ising chain it does not", ok_c and ctrl)
+
+# the quarter-turn fixes the populations Z_1 and Z_1 Z_2, so their whole trajectory stays fixed and
+# symmetric about the plane; a string that merely lies on the plane need not be fixed: X_1 Y_2 goes
+# to -Y_1 X_2, and its centroid leaves the plane (a float reading on the Heisenberg chain)
+e = lambda st: np.eye(len(strs))[strs.index(st)].astype(complex)
+fixed = all(np.array_equal(Rot @ e(st), e(st)) for st in ("ZII", "ZZI"))
+xy_moves = np.array_equal(Rot @ e("XYI"), -e("YXI"))
+check("N=3: the quarter-turn fixes Z_1 and Z_1 Z_2 exactly and sends X_1 Y_2 (on the plane too) to -Y_1 X_2",
+      fixed and xy_moves)
+Lh = L_of(xyz_chain(1, 1, 1))
+w_, V_ = np.linalg.eig(Lh)
+Vi = np.linalg.inv(V_)
+Kx = np.array([kvec(s_)[1] for s_ in strs])
+Ky = np.array([kvec(s_)[2] for s_ in strs])
+
+
+def plane_gap(st):
+    c0 = Vi @ e(st)
+    worst = 0.0
+    for t in np.linspace(0.0, 8.0, 81):
+        v = V_ @ (np.exp(w_ * t) * c0)
+        pw = np.abs(v) ** 2
+        worst = max(worst, abs((pw @ Kx - pw @ Ky) / pw.sum()))
+    return worst
+
+
+gz, gxy = plane_gap("ZII"), plane_gap("XYI")
+check("control (float reading, Heisenberg N=3, gamma = 1/4): the centroid of X_1 Y_2 leaves the plane "
+      "k_X = k_Y; Z_1's stays on it by the exact invariance above (its float value read, not gated)",
+      gxy > 0.1, f"max |<k_X> - <k_Y>| = {gxy:.3f} for X_1 Y_2, {gz:.1e} for Z_1")
+
+# (d) the budget: in the string basis the Hermitian part of L is -2 gamma diag(k_Z) exactly, so
+#     d/dt ||rho||^2 = -4 gamma <k_Z> ||rho||^2 and ln ||rho(t)||^2 = -4 gamma int <k_Z> dt
+ok_b = True
+for j in [(1, 1, 1), (1, 1, 0), (3, -2, 5)]:
+    L = L_of(xyz_chain(*j))
+    herm = (L + L.conj().T) / 2
+    ok_b &= np.array_equal(herm, np.diag([-2 * float(g) * kvec(s)[0] for s in strs]).astype(complex))
+Lf = L_of(Hf)
+ok_b &= np.array_equal((Lf + Lf.conj().T) / 2, np.diag([-2 * float(g) * kvec(s)[0] for s in strs]).astype(complex))
+check("N=3: the Hermitian part of L in the string basis is exactly -2 gamma diag(k_Z), with or without a "
+      "field (the Hamiltonian part is skew)", ok_b)
+
+# (e) the two ends of the palindrome are opposite edges: the populations {I, Z}^N are the strings
+#     with k_Z = 0 and lie on the edge I^N - Z^N; the XOR strings {X, Y}^N are those with k_Z = N, on the
+#     edge X^N - Y^N; R's letter flip (I <-> X, Y <-> Z) carries the one edge onto the other
+ok_e = True
+for M in range(1, 6):
+    for s in product("IXYZ", repeat=M):
+        k = kvec(s)
+        ok_e &= (k[0] == 0) == all(ch in "IZ" for ch in s)
+        ok_e &= (k[0] == M) == all(ch in "XY" for ch in s)
+        if k[0] == 0:
+            ok_e &= k[1] == k[2]                      # on the segment from (0,0,0) to (0,N,N)
+        if k[0] == M:
+            ok_e &= k[1] + k[2] == M                  # on the segment from (N,0,N) to (N,N,0)
+        flip = "".join({"I": "X", "X": "I", "Y": "Z", "Z": "Y"}[ch] for ch in s)
+        ok_e &= kvec(flip) == (M - k[0], k[1], M - k[2])
+check("N=1..5: populations = strings with k_Z = 0, on the edge I^N - Z^N; XOR strings = k_Z = N, on the "
+      "opposite edge X^N - Y^N; R's letter flip maps (k_Z, k_X, k_Y) to (N - k_Z, k_X, N - k_Y), one edge "
+      "onto the other", ok_e)
 
 print()
 if FAILURES:

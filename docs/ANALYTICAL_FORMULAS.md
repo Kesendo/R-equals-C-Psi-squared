@@ -1738,7 +1738,7 @@ reflected decay-rate bands have frequency multisets related by sign and equal
 normalized or unnormalized SFFs. Under uniform dephasing the Absorption
 Theorem identifies `d=2*gamma*<n_XY>`, so band centres reflect as average
 light `x -> N-x`. This is not a decomposition into invariant fixed-integer
-XY-weight eigenvalue sectors: the Hamiltonian mixes Pauli weights by ±2.
+XY-weight eigenvalue sectors: the Hamiltonian mixes XY-weights in steps of ±2 (the moves on all three letter counts are [The One Square](THE_ONE_SQUARE.md) §8).
 
 For a connected uniform chain at strictly positive uniform dephasing, the exact endpoint bands contain the N+1
 stationary modes and their N+1 partners at `lambda=-2*N*gamma`. All endpoint
