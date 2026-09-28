@@ -4578,3 +4578,34 @@ the text around them. Three read-only audits on 2026-09-28, and an audit Codex h
   regenerated. The citing documents are a separate pass.
 - **Anchor:** `docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md` §(a), §(g), §(h); F158 in
   `docs/ANALYTICAL_FORMULAS.md`; `simulations/results/f138_rank_criterion.txt`.
+
+## 2026-09-28, F5's depolarizing error was called Hamiltonian-independent from Hamiltonians that share one symmetry
+
+F5 stated the depolarizing palindrome error as (2/3)Σγ for any Hamiltonian, "Hamiltonian-independent".
+DEPOLARIZING_PALINDROME, NON_HEISENBERG_PALINDROME, THE_INTERPRETATION, QUBIT_NECESSITY, THE_OTHER_SIDE,
+the typed F5 claim, MirrorWorld's F5 comment, F1's Breaks-for line, the printed summary of
+`depolarizing_analysis.py`, the open-questions index and a review proposal repeated it, and seven places
+identified the error with the H-free spectral norm of the centred depolarizing residual. The
+derivation shows only that the fastest decay rate is at most (4/3)Σγ, so the rate shortfall is at least
+(2/3)Σγ. The error was measured on Heisenberg, XY and Ising chains (`depolarizing_analysis.py`); four
+more Hamiltonians (XX, XXZ at Δ = 2, DM, Heisenberg + DM) entered only a best-pairing metric. All seven
+commute with a global Pauli string that has no identity letter, and such a string is an eigenmode at
+exactly −(4/3)Σγ, so every measurement of the shortfall returned the bound. A generic two-local chain has
+no such mode and its error is 1.009 to 1.30 times (2/3)Σγ on eight random rows at N = 2, 3.
+
+- **The equality condition** is the window-edge lemma of PROOF_CODIM1_BY_ADDITIVITY §6 applied to the
+  depolarizing dissipator: with every site rate positive, the bound is attained exactly when ad_H has an
+  eigenvector among the operators traceless on every site. A commuting string is one such eigenvector,
+  not the only kind: |0…0⟩⟨1…1| is one whenever |0…0⟩ and |1…1⟩ are eigenvectors of H.
+- **The measurements could not have shown it.** Seven Hamiltonians, one shared property, and the property
+  is sufficient for the equality. The gate of F158 had already written that the numerals "coincide at
+  uniform isotropic rates and nobody has checked whether they are one object off that locus".
+- **How it was found.** The F158 repair checked the sentence of F158's entry that called F5 right for
+  non-uniform site budgets (the sentence 4e4dd34a removed); the Heisenberg rows came back exact and one
+  random Hermitian control did not.
+- **Repaired** in every place named above; `depolarizing_analysis.py` and `f138_rank_criterion.py`
+  regenerated their outputs with unchanged numbers. The F5 gate's first version was itself repaired
+  before landing: a check that applied a formula to itself, a threshold chosen rather than measured,
+  a stage that could not fail, and classes built so that the criterion's answer was known in advance
+  (a ladder row, whose only witness sits at a nonzero ad_H eigenvalue, now exercises the other branch).
+- **Anchor:** F5 in `docs/ANALYTICAL_FORMULAS.md`; `simulations/f5_depolarizing_attainment.py`.

@@ -26,8 +26,8 @@ namespace RCPsiSquared.Core.F1;
 ///         Π·M·Π⁻¹ = M exactly and M_anti = 0. Contrast T1, whose M_anti = D_{T1, odd}
 ///         carries F82/F84 amplitude-damping content.</item>
 ///   <item><b>F1 shift σ = Σγ.</b> It removes the diagonal mean but not the ±2γ/3
-///         split. F5's (2/3)Σγ is the extreme pair-sum shortfall, equivalently
-///         the spectral norm of the centered diagonal residual.</item>
+///         split. The centered diagonal residual contains no H; its spectral norm is (2/3)Σγ;
+///         F5's pair-sum shortfall is at least that, equal when F5's bound is attained.</item>
 /// </list></para>
 ///
 /// <para>Anchor: <c>docs/proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md</c> (Steps 1-7).
@@ -109,8 +109,8 @@ public sealed class F1DepolResidualClosedForm : Claim
                          "(contrast T1, whose M_anti = D_{T1, odd} carries F82/F84 amplitude-damping content)");
             yield return new InspectableNode("F1-centering shift σ = Σγ",
                 summary: "Adding 2Σγ·I removes the bare residual's mean and cross-site term, leaving local " +
-                         "entries ±2γ_l/3. F5's (2/3)Σγ is the extreme pair-sum shortfall / spectral norm, " +
-                         "not a trace projection of the bare residual.");
+                         "entries ±2γ_l/3, spectral norm (2/3)Σγ (no H in it), not a trace projection of the bare " +
+                         "residual; F5's pair-sum shortfall is at least that, equal when F5's bound is attained.");
             yield return new InspectableNode("verification",
                 summary: "verified to machine precision at N = 2..5, uniform and non-uniform γ (simulations/f1_depol_residual_verify.py)");
         }

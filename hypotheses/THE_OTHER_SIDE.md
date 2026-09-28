@@ -963,7 +963,7 @@ different reality. The outside has a preference.
 
 **The noise has a limit.** At most two dephasing axes can coexist
 without destroying the palindrome. Three axes (depolarizing) kills
-the mirror instantly, with no threshold, error exactly (2/3)Sγ. The
+the mirror instantly, with no threshold, error at least (2/3)Sγ. The
 outside does not do everything at once. It is selective. It touches
 at most two directions and leaves the third alone.
 

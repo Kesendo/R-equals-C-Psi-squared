@@ -65,8 +65,10 @@ uniform discrete map, 3 alternating, 2 via a uniform **continuous** per-site
 rotation) and 14 break structurally. Every palindromic case has a **local**
 (per-site product) Π; the two continuous cases, XZ+YZ and ZX+ZY, were once
 reported as non-local, corrected in Result 5.
-Depolarizing noise breaks the palindrome with a Hamiltonian-independent
-steady-state-partner rate gap of (2/3)Nγ. This is an absolute rate, not a
+Depolarizing noise breaks the palindrome with a steady-state-partner rate gap
+of (2/3)Nγ on every Hamiltonian tested here: each commutes with a global Pauli
+string with no identity letter, which by F5 fixes the gap at that value (a
+generic Hamiltonian gives more). This is an absolute rate, not a
 percentage; any dimensionless comparison must declare its normalization and N.
 
 ---
@@ -280,8 +282,10 @@ Depolarizing noise (X+Y+Z simultaneously, γ/3 per channel) breaks it:
 | Ising | OK | err = 3.33×10⁻² |
 | DM | OK | err = 3.33×10⁻² |
 
-**The error is Hamiltonian-independent.** It is purely a noise-structure
-effect. Two metrics quantify the break, and they are different numbers:
+**On every Hamiltonian tested here the error in the table is the same**, as
+measured. The spectral gap below is the same too, and there the reason is
+known: each Hamiltonian commutes with a global Pauli string with no identity
+letter, which by F5 fixes the gap. Two metrics quantify the break, and they are different numbers:
 
 - **The spectral-gap law (the exact one, F5):** the most-decaying
   eigenvalue sits at exactly −(4/3)Σγ while the steady state's

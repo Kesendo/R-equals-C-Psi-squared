@@ -103,7 +103,7 @@ public class F5DepolarizingErrorPi2InheritanceTests
     {
         var f = Build();
         _out.WriteLine("");
-        _out.WriteLine("    F5 closed form: error = γ · 2N/3 = (2/3)·Σγ (Tier 1 proven)");
+        _out.WriteLine("    F5 closed form: error ≥ γ · 2N/3 = (2/3)·Σγ (Tier 1 proven; equal when attained)");
         _out.WriteLine("");
         _out.WriteLine($"    \"2\" multiplier  = a_0 = d           = {f.DCoefficient}");
         _out.WriteLine($"    \"3\" denominator = a_(-1) - 1 = d²-1 = {f.DSquaredMinusOne}");

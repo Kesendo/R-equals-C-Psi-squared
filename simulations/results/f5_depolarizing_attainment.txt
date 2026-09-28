@@ -1,0 +1,43 @@
+## Stage A: exact, a commuting global string with no identity letter
+  [PASS] N=2 Heisenberg: a global string with no identity letter commutes with H   P = XX
+  [PASS] N=2 XY: a global string with no identity letter commutes with H   P = XX
+  [PASS] N=2 XX: a global string with no identity letter commutes with H   P = XX
+  [PASS] N=2 Ising: a global string with no identity letter commutes with H   P = XX
+  [PASS] N=2 XXZ Delta=2: a global string with no identity letter commutes with H   P = XX
+  [PASS] N=2 DM: a global string with no identity letter commutes with H   P = XY
+  [PASS] N=2 Heisenberg+DM: a global string with no identity letter commutes with H   P = ZZ
+  [PASS] N=2 Ising + X field: a global string with no identity letter commutes with H   P = XX
+  [PASS] N=3 Heisenberg: a global string with no identity letter commutes with H   P = XXX
+  [PASS] N=3 XY: a global string with no identity letter commutes with H   P = XXX
+  [PASS] N=3 XX: a global string with no identity letter commutes with H   P = XXX
+  [PASS] N=3 Ising: a global string with no identity letter commutes with H   P = XXX
+  [PASS] N=3 XXZ Delta=2: a global string with no identity letter commutes with H   P = XXX
+  [PASS] N=3 DM: a global string with no identity letter commutes with H   P = XYX
+  [PASS] N=3 Heisenberg+DM: a global string with no identity letter commutes with H   P = ZZZ
+  [PASS] N=3 Ising + X field: a global string with no identity letter commutes with H   P = XXX
+  [PASS] N=4 Heisenberg: a global string with no identity letter commutes with H   P = XXXX
+  [PASS] N=4 XY: a global string with no identity letter commutes with H   P = XXXX
+  [PASS] N=4 XX: a global string with no identity letter commutes with H   P = XXXX
+  [PASS] N=4 Ising: a global string with no identity letter commutes with H   P = XXXX
+  [PASS] N=4 XXZ Delta=2: a global string with no identity letter commutes with H   P = XXXX
+  [PASS] N=4 DM: a global string with no identity letter commutes with H   P = XYXY
+  [PASS] N=4 Heisenberg+DM: a global string with no identity letter commutes with H   P = ZZZZ
+  [PASS] N=4 Ising + X field: a global string with no identity letter commutes with H   P = XXXX
+  [PASS] N=3 Ising + X field at Gamma = (3, 7, 11)/10: the field commutes with X^3 and, applying L with the ZZ bonds, 30 L(X^3) = -84 X^3 entry by entry, i.e. L(X^3) = -(4/3) sigma X^3   -(4/3) sigma = -14/5
+  [PASS] control: with a Z field on site 0 added, no global string with no identity letter commutes
+
+## Stage B: the criterion against the spectrum; Stage C: the size off the locus
+    C  N=2 generic: error / ((2/3) sigma) = 1.236018
+    C  N=2 generic: error / ((2/3) sigma) = 1.009306
+    C  N=2 generic: error / ((2/3) sigma) = 1.185728
+    C  N=2 generic: error / ((2/3) sigma) = 1.300962
+    C  N=3 generic: error / ((2/3) sigma) = 1.164478
+    C  N=3 generic: error / ((2/3) sigma) = 1.189425
+    C  N=3 generic: error / ((2/3) sigma) = 1.125143
+    C  N=3 generic: error / ((2/3) sigma) = 1.203093
+  [PASS] the criterion says 'not attained' on the generic class and 'attained' on the two symmetric classes and on the ladder (the spectrum's side is the decade check below)
+  [PASS] the ladder rows commute with no global string without an identity letter, so their witness is not such a symmetry
+  [PASS] spectral readings separate by at least six decades   worst attained |1 - ratio| 5.3e-15, smallest generic shortfall 4.7e-03, 11.9 decades measured
+  [PASS] singular-value readings separate by at least six decades   worst |1 - s| counted 6.7e-16, nearest uncounted 2.8e-03, 12.6 decades measured
+
+ALL STAGES PASS

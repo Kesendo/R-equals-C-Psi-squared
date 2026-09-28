@@ -33,7 +33,7 @@
 **Resolving documents:**
 - `docs/proofs/PROOF_PARITY_SELECTION_RULE.md` (lines 186-193): proves the sigma_minus jump operator is parity-odd, hence breaks the Pi OPERATOR. It does not prove the spectral palindrome breaks, and that does not follow: T1 alone preserves it at a halved centre (F137).
 - `experiments/NOISE_ROBUSTNESS.md` (lines 215-250): amplitude damping tested, preserves taxonomy but with different decay rates
-- `experiments/DEPOLARIZING_PALINDROME.md`: depolarizing noise fully characterized (error = (2/3)N*gamma, Hamiltonian-independent)
+- `experiments/DEPOLARIZING_PALINDROME.md`: depolarizing noise fully characterized (error at least (2/3)N*gamma, exactly that on the measured chains; F5 gives the condition)
 **Rationale:** Amplitude damping is proven to break the Pi operator via the parity selection rule, NOT the spectral palindrome, which it preserves at the halved centre -Sum(gamma)/2 (F137). Depolarizing noise is fully characterized. Thermal baths are no longer untested (F137 extended, 2026-08-05, exact at N=2,3); non-Markovian environments remain untested. The broader scope (all non-dephasing dissipators) is only partially covered.
 **Search terms used:** "amplitude damping", "thermal bath", "non-Markovian", "parity selection", "DEPOLARIZING_PALINDROME"
 
@@ -57,7 +57,7 @@
 
 ### OQ-054
 
-**Question:** **Depolarizing noise correction:** err = (2/3)Sigma-gamma breaks the palindrome linearly. Can this be incorporated into design rules?
+**Question:** **Depolarizing noise correction:** err ≥ (2/3)Sigma-gamma (equality on chains with a commuting global Pauli string, F5) breaks the palindrome linearly. Can this be incorporated into design rules?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 256)
 **Section:** Open questions
@@ -328,7 +328,7 @@
 **Confidence:** high
 **Resolving documents:**
 - `experiments/PI_AS_TIME_REVERSAL.md` (line 347): answer in-place
-- `experiments/DEPOLARIZING_PALINDROME.md`: complete derivation showing error = (2/3)N*gamma, verified algebraically and numerically
+- `experiments/DEPOLARIZING_PALINDROME.md`: derivation of the bound error ≥ (2/3)N*gamma, attained on the measured chains (F5 gives the condition)
 **Rationale:** Explicitly answered with full mechanism: the 1:3 Pauli split breaks bijective mirroring. Per-site rate-pairing condition cannot be satisfied.
 **Search terms used:** "depolarizing", "1:3", "bijective", "DEPOLARIZING_PALINDROME"
 

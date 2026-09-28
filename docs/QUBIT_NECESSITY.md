@@ -168,8 +168,8 @@ classifier counts; they do not establish a Choi-entanglement mechanism.
 ### 3c. The depolarizing theorem
 
 Even within d = 2, the palindrome breaks instantly when the 2:2 split is
-destroyed. Depolarizing noise gives a 1:3 split, and the error is exactly
-(2/3)S_gamma, Hamiltonian-independent. The interpolation from Z-dephasing
+destroyed. Depolarizing noise gives a 1:3 split, and the error is at least
+(2/3)S_gamma, exactly that on every chain measured (F5 gives the condition). The interpolation from Z-dephasing
 to depolarizing is perfectly linear with no threshold.
 
 This shows that the 2:2 split is load-bearing for the specific qubit

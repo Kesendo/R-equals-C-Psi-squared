@@ -33,7 +33,9 @@ DM on any bipartite graph, whatever the orientation and signs of its edges
 (odd cycles fail where tested); any N; non-uniform γ per qubit.
 The uniform P1/P4 maps cover the first family; DM uses the alternating map.
 **See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
-**Breaks for:** depolarizing noise (error = (2/3)Σγ, linear in γ and N); an
+**Breaks for:** depolarizing noise (error at least (2/3)Σγ, exactly that when ad_H has an
+eigenvector traceless on every site, for example a global Pauli string with no
+identity letter commuting with H, F5); an
 on-site field that does not satisfy F138's clause 2 (a single common axis within
 the component, orthogonal to every dephasing axis present) **on the full
 three-letter bond, at the one field-magnitude tuple swept**: that is the
@@ -84,7 +86,7 @@ and there are fields violating clause 2 whose spectrum pairs regardless.
 **Depolarizing-noise residual (closed form, 2026-05-18):**
 - With total per-site depolarizing rate γ_l divided equally as γ_l/3 among X,Y,Z, the centered F1 residual uses σ=Σγ_l and obeys ‖M_F1(depol)‖²_F = 4^(N−1)·(16/9)·Σγ_l² (H-independent, topology-independent; verified to machine precision at N=2..5).
 - Π²-decomposition: trivial, M_l is Pauli-basis-diagonal ⟹ M_anti = 0. The bare residual has `(16/9)Σγ²+16(Σγ)²`; centering removes its trace and the cross-site term.
-- F5's (2/3)Σγ is the extreme pair-sum shortfall, equivalently the spectral norm of the centered diagonal residual, not a trace projection of the bare one.
+- The spectral norm of the centered diagonal residual is (2/3)Σγ, H-free since that residual contains no H, not a trace projection of the bare one; F5's pair-sum shortfall is at least that and equals it exactly when F5's bound is attained.
 - Anchor: [the depolarizing residual closed-form proof](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md); typed: F1DepolResidualClosedForm
 
 **General-topology universality (closed 2026-05-18):**
@@ -478,20 +480,55 @@ Exact for chain topology, lower bound for higher-symmetry topologies.
 
 ### F5. Depolarizing error (Tier 1, proven)
 
-    error = gamma * 2*N/3       (= (2/3)·Σγ)
+    error ≥ γ·2N/3 = (2/3)·Σγ, with equality exactly when ad_H has an eigenvector
+                               among the operators traceless on every site
 
-Linear in γ and N. Hamiltonian-independent. The palindrome demands a pair
-sum of 2Σγ, but depolarizing noise can supply at most (4/3)Σγ (every site
-carrying a decaying Pauli); the shortfall (2/3)Σγ is the error.
+Here γ is the total depolarizing rate of a site (its three letters at γ/3 each),
+positive at every site, and the error is the palindrome's RATE shortfall at its
+far end: the steady state needs a partner at −2Σγ, and the error is 2Σγ minus
+the fastest decay rate actually present. The dissipator is diagonal on Pauli
+strings and the Hamiltonian part is skew-adjoint, so every decay rate is a
+weighted average of the strings' own rates
+([the absorption theorem](proofs/PROOF_ABSORPTION_THEOREM.md) §2) and none
+exceeds (4/3)Σγ, the rate of a string that carries a non-identity letter on
+every site. So the error is at least (2/3)Σγ for every Hamiltonian. It equals
+(2/3)Σγ exactly when some eigenmode sits at that edge, and by the window-edge
+lemma of [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6
+such a mode lies in the span E of the strings with no identity letter and is an
+eigenvector of ad_H; conversely an eigenvector of ad_H in E is one. A global
+Pauli string with no identity letter that commutes with H is the common witness:
+Z^N for every chain that conserves the excitation number or its parity, X^N for
+an Ising chain in an X field. It is not the only one: |0…0⟩⟨1…1| is a witness
+whenever |0…0⟩ and |1…1⟩ are eigenvectors of H, with no Pauli symmetry at all.
+Every Hamiltonian in the repo's depolarizing measurements has a commuting string,
+and the error measured on the Heisenberg, XY and Ising chains is (2/3)Σγ exactly.
+A generic two-local chain has no witness and its error is larger: 1.009 to 1.30
+times (2/3)Σγ on the gate's eight random rows at N = 2, 3.
 
 **Valid for:** any Hamiltonian under depolarizing noise, at any per-site rate
-profile, **provided each site is ISOTROPIC** (its three letters at one rate;
-rates free to differ between sites). The derivation above takes the three per
-site to be equal and the line did not say so. Off that class the same argument
-gives `2·Σ_sites (min over that site's three letter rates)`, which collapses to
-this row at every isotropic site; anisotropic rates make a Pauli channel and not
-a depolarizer, and the general form is a lead rather than a law: derived, and not gated
-at any site count.
+profile with every rate positive, **provided each site is ISOTROPIC** (its three
+letters at one rate; rates free to differ between sites). Off that class the
+same argument bounds the error below by
+`2·Σ_sites (min over that site's three letter rates)`, which collapses to this
+row at every isotropic site; anisotropic rates make a Pauli channel and not a
+depolarizer, and when that bound is attained is not worked out here.
+**Which number.** The criterion governs the rate shortfall. The spectral norm of
+the centred depolarizing residual
+([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md))
+is (2/3)Σγ and H-free, and the shortfall equals it exactly when the bound is
+attained. The experiments print two further numbers, neither decided by this
+criterion: a complex pairing distance, which on the measured Heisenberg, XY and
+Ising chains equals the shortfall, and a best-pairing error, which is a
+different number (NON_HEISENBERG_PALINDROME Result 7).
+**Gate:** [`simulations/f5_depolarizing_attainment.py`](../simulations/f5_depolarizing_attainment.py)
+→ [`f5_depolarizing_attainment.txt`](../simulations/results/f5_depolarizing_attainment.txt)
+checks the commuting string for every measured Hamiltonian and Ising in an X
+field at N = 2, 3, 4 entry by entry, applies L to X^3 at a non-uniform rational
+profile, uses a Z field that removes every such string as the control, and
+matches the criterion against the spectrum on random two-local chains with and
+without a global symmetry and on ladder rows whose only witness sits at a
+nonzero ad_H eigenvalue; the float readings are asserted six decades apart and
+measured 11.9 and 12.6 decades apart.
 **Replaces:** numerical palindrome check for depolarizing channels.
 The gap is an absolute rate. A percentage requires a declared normalization (for
 example J or spectral bandwidth) and fixed N; no scale-free `<0.1%` follows from γ alone.

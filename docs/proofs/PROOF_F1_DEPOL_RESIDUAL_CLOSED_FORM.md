@@ -49,7 +49,7 @@ Three structural facts follow immediately and are verified to machine precision:
 
 ## Empirical anchor (motivation, observed earlier)
 
-[F5](../ANALYTICAL_FORMULAS.md#f5-depolarizing-error-tier-1-proven) records the extreme pair-sum shortfall `error = (2/3) · Σ_l γ_l` for the depolarizing channel, Hamiltonian-independent and linear in γ ([Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md)). In the centered diagonal residual this is its spectral norm. The Frobenius norm derived here is a different diagnostic of the same split, not a trace projection of the bare residual. The earlier `F1OpenQuestions` item "depolarizing noise: residual scaling" is closed by this document, promoting the entry to the Tier-1-derived [`F1DepolResidualClosedForm`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs) claim on `F1KnowledgeBase`.
+[F5](../ANALYTICAL_FORMULAS.md#f5-depolarizing-error-tier-1-proven) records the extreme pair-sum shortfall for the depolarizing channel, at least `(2/3) · Σ_l γ_l` and exactly that when ad_H has an eigenvector among the operators traceless on every site ([Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md)). In the centered diagonal residual (2/3)·Σγ is the spectral norm, for every H. The Frobenius norm derived here is a different diagnostic of the same split, not a trace projection of the bare residual. The earlier `F1OpenQuestions` item "depolarizing noise: residual scaling" is closed by this document, promoting the entry to the Tier-1-derived [`F1DepolResidualClosedForm`](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs) claim on `F1KnowledgeBase`.
 
 ## Proof
 
@@ -164,7 +164,7 @@ For depolarizing, no scalar can eliminate the two-level split, but the F1 choice
 
 Numerical confirmation at N = 3, uniform γ = 0.1: ‖M‖² with σ = 0 is 23.893, while the centered F1 residual at σ = Σγ has norm squared 0.853333. The typed predictor uses the latter convention.
 
-**F5 relation.** F5 records `error = (2/3)Σγ`, the extreme pair-sum shortfall. For the centered diagonal residual this is its spectral norm. `F1DepolResidualClosedForm` instead measures the squared Frobenius norm, `4^(N−1)(16/9)Σγ_l²`. They are distinct norms of the same 2:2-versus-1:3 obstruction.
+**F5 relation.** The centered diagonal residual contains no H and has spectral norm (2/3)Σγ. F5's extreme pair-sum shortfall is at least that, and equal to it exactly when ad_H has an eigenvector among the operators traceless on every site. `F1DepolResidualClosedForm` instead measures the squared Frobenius norm, `4^(N−1)(16/9)Σγ_l²`. They are distinct norms of the same 2:2-versus-1:3 obstruction.
 
 ## Verification
 
@@ -203,7 +203,7 @@ The closed form makes the centered F1 depol-block residual a quantitative, **Ham
 ### Repository entries
 
 - **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
-- **F5 depolarizing error** ([`docs/ANALYTICAL_FORMULAS.md` F5](../ANALYTICAL_FORMULAS.md), [Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md)): the extreme pair-sum shortfall `(2/3)Σγ`, equivalently the spectral norm of the centered diagonal residual.
+- **F5 depolarizing error** ([`docs/ANALYTICAL_FORMULAS.md` F5](../ANALYTICAL_FORMULAS.md), [Why Depolarizing Noise Breaks the Palindrome](../../experiments/DEPOLARIZING_PALINDROME.md)): the extreme pair-sum shortfall, at least `(2/3)Σγ`, the spectral norm of the centered diagonal residual, and equal to it when F5's bound is attained.
 - **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
 - **F1 T1-residual closed form** ([F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md)): sibling closed form for amplitude damping; contrasts with depol via the Π²-decomposition non-triviality (T1's M_anti = D_{T1, odd}, depol's M_anti = 0).
 

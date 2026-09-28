@@ -46,8 +46,10 @@ Z-dephasing splits the four Pauli indices {I, X, Y, Z} into 2 immune and
 2 decaying (a balanced 2:2 split). Depolarizing noise splits them 1:3 (only I
 is immune). A bijective mirror Π requires equal numbers of immune and decaying
 indices at each site. With a 1:3 split, no such bijection exists. The palindrome
-steady-state-partner rate gap under depolarizing noise is exactly (2/3)Nγ = (2/3)Σγ,
-Hamiltonian-independent and linear in both γ and N. This is dimensionful; a percentage
+steady-state-partner rate gap under depolarizing noise is exactly (2/3)Nγ = (2/3)Σγ
+on every chain measured here, and linear in both γ and N; for a general Hamiltonian
+it is a lower bound, exact for example when the Hamiltonian commutes with a global
+Pauli string with no identity letter such as Z^N (F5 gives the condition). This is dimensionful; a percentage
 requires a declared normalization and fixed N. The general condition: the palindrome holds if and only if at
 least one of γ_X, γ_Y, γ_Z is zero (at most two dephasing axes).
 
@@ -162,7 +164,8 @@ noise, the palindrome error at center Sγ is exactly 0.1000. For N=4, exactly
 error = (2/3) Sγ = (2/3) N γ
 ```
 
-This is exact and Hamiltonian-independent. It comes from a simple gap: the
+This is exact on the chains measured here, and a lower bound for every
+Hamiltonian (F5). It comes from a simple gap: the
 steady state at rate 0 needs a palindromic partner at rate 2Sγ. But under
 depolarizing noise, the maximum achievable rate is (4/3)Sγ (where every
 site carries a decaying Pauli). The gap between what the palindrome demands
@@ -177,7 +180,8 @@ The mirror is too short. It cannot reach the far end.
 Define a mixed noise channel: (1-α) Z-dephasing + α depolarizing.
 At α = 0, the palindrome is exact. At α = 1, the error is (2/3)Sγ.
 
-The transition is perfectly linear: error = α (2/3) Sγ. There is no
+On the Heisenberg chain measured here the transition is perfectly linear:
+error = α (2/3) Sγ. There is no
 critical threshold, no phase transition, no gradual softening. At any
 α > 0, no matter how small, the palindrome breaks immediately. The Z
 index acquires a nonzero rate (4γα/3), destroying its membership in the
@@ -279,7 +283,9 @@ three indices to have matching partners, but three odd elements cannot
 be partitioned into pairs. QED.
 
 **Corollary.** The palindrome error under depolarizing noise (γ_X = γ_Y = γ_Z = γ/3)
-is exactly (2/3) N γ, independent of the Hamiltonian.
+is at least (2/3) N γ for every Hamiltonian, and exactly that for the Heisenberg
+coupling of the theorem, which commutes with Z^N; this is the rate gap, and the
+general condition is F5's.
 
 ---
 
@@ -290,8 +296,8 @@ is exactly (2/3) N γ, independent of the Hamiltonian.
 - Rate-pairing condition: 4 rates must partition into 2 equal-sum pairs
 - Depolarizing has 0 valid permutations (exhaustive enumeration)
 - Two-axis dephasing has 2 valid permutations each (Z+X, Z+Y, X+Y)
-- Error formula: (2/3) Sγ exactly, Hamiltonian-independent
-- Interpolation: perfectly linear, no threshold
+- Error formula: (2/3) Sγ exactly on the measured chains, a lower bound for every Hamiltonian (F5)
+- Interpolation: perfectly linear, no threshold (Heisenberg chain)
 - Counting argument: weight sectors balance iff per-site split is 2:2
 
 ### Tier 1-2 (Standard physics + algebra):

@@ -4,7 +4,9 @@ using RCPsiSquared.Core.Knowledge;
 namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F5 closed form for depolarizing noise: <c>error = γ · 2N/3 = (2/3)·Σγ</c>
-/// (Tier 1 proven). Linear in γ and N, Hamiltonian-independent. Each constant
+/// (Tier 1 proven). Linear in γ and N; for every Hamiltonian a lower bound, exact when ad_H has
+/// an eigenvector among the operators traceless on every site (for example a global Pauli string
+/// with no identity letter commuting with H, as on every chain the repo measured). Each constant
 /// in this closed form sits on the Pi2-Foundation:
 ///
 /// <list type="bullet">
@@ -105,7 +107,7 @@ public sealed class F5DepolarizingErrorPi2Inheritance : Claim, IZ2AxisClaim
         "F5 depolarizing error coefficients as Pi2-Foundation inheritance";
 
     public override string Summary =>
-        $"error = γ·2N/3 = (2/3)·Σγ: 2 = a_0 = d; 3 = a_{{-1}} − 1 = d² − 1; N = chain length (Σγ); " +
+        $"error ≥ γ·2N/3 = (2/3)·Σγ (equal when attained): 2 = a_0 = d; 3 = a_{{-1}} − 1 = d² − 1; N = chain length (Σγ); " +
         $"2/3 = d/(d²−1) = {TwoOverThree:F4} ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -113,7 +115,8 @@ public sealed class F5DepolarizingErrorPi2Inheritance : Claim, IZ2AxisClaim
         get
         {
             yield return new InspectableNode("F5 closed form",
-                summary: "error = γ · 2N/3 = (2/3)·Σγ (Tier 1 proven; linear in γ and N; Hamiltonian-independent)");
+                summary: "error ≥ γ · 2N/3 = (2/3)·Σγ (Tier 1 proven; linear in γ and N; a lower bound for every H, exact when " +
+                         "ad_H has an eigenvector traceless on every site)");
             yield return InspectableNode.RealScalar("DCoefficient (= a_0 = d)", DCoefficient);
             yield return InspectableNode.RealScalar("DSquaredMinusOne (= a_{-1} − 1 = d² − 1 = 3)", DSquaredMinusOne);
             yield return InspectableNode.RealScalar("TwoOverThree (= d / (d² − 1))", TwoOverThree);

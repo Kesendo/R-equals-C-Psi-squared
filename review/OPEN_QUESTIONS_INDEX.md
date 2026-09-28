@@ -2815,7 +2815,7 @@ The record points to a measurement (SPAM) offset (a static late phase, equal ⟨
 
 ### OQ-054
 
-**Question:** **Depolarizing noise correction:** err = (2/3)Σγ breaks the palindrome linearly. Can this be incorporated into design rules?
+**Question:** **Depolarizing noise correction:** err ≥ (2/3)Σγ (equality on chains with a commuting global Pauli string, F5) breaks the palindrome linearly. Can this be incorporated into design rules?
 
 **Source:** `docs/WEAKNESSES_OPEN_QUESTIONS.md` (line 256)
 **Section:** Open questions
@@ -2966,7 +2966,7 @@ The record points to a measurement (SPAM) offset (a static late phase, equal ⟨
 
 ### OQ-170
 
-**Question:** **Depolarizing noise.** ANSWERED (March 19, 2026). The palindrome breaks because depolarizing noise splits {I,X,Y,Z} into 1 immune and 3 decaying (1:3), making bijective mirroring impossible. The error is exactly (2/3)Sγ, Hamiltonian-independent. The future is exponentially larger than the past: ratio = (1/3)^N per site. No threshold exists in the Z-deph to depol interpolation. See [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md).
+**Question:** **Depolarizing noise.** ANSWERED (March 19, 2026). The palindrome breaks because depolarizing noise splits {I,X,Y,Z} into 1 immune and 3 decaying (1:3), making bijective mirroring impossible. The error is at least (2/3)Sγ, and exactly that when ad_H has an eigenvector traceless on every site, for example a global Pauli string with no identity letter commuting with H (F5). The future is exponentially larger than the past: ratio = (1/3)^N per site. No threshold exists in the Z-deph to depol interpolation. See [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md).
 
 **Source:** `experiments/PI_AS_TIME_REVERSAL.md` (line 347)
 **Section:** 6. Open Questions

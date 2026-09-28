@@ -1,6 +1,6 @@
 ==========================================================================================
 DEPOLARIZING ANALYSIS: Why depolarizing noise breaks the palindrome
-Date: 2026-03-19 13:19:47.784679
+Date: 2026-09-28 17:11:18.391807
 gamma = 0.05
 ==========================================================================================
 
@@ -156,7 +156,8 @@ SECTION 4: Approximate palindrome under depolarizing noise
   Therefore: palindrome error = (2/3)*Sg = (2/3)*N*gamma.
     N=3: err = (2/3)*0.15 = 0.1000  (confirmed)
     N=4: err = (2/3)*0.20 = 0.1333  (confirmed)
-  Error is EXACT, Hamiltonian-INDEPENDENT, and proportional to Sg.
+  Error is EXACT on these three chains and proportional to Sg; each commutes with a
+  global Pauli string with no identity letter (F5: a lower bound for every H).
 
   Note: excluding steady states (as in depolarizing_test.txt),
   the error reduces to (2g/3) per weight level, giving
@@ -473,5 +474,5 @@ SECTION 7b: Time reversal interpretation
 
 ==========================================================================================
 ANALYSIS COMPLETE
-Date: 2026-03-19 13:19:50.728585
+Date: 2026-09-28 17:11:21.398109
 ==========================================================================================

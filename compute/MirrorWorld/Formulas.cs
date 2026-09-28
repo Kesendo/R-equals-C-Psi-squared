@@ -111,7 +111,8 @@ public static class Formulas
     // F4 (T1): kernel dim = N+1 for one connected component (identity + N magnetization projectors).
     public static int F4_KernelDim(int n) => n + 1;
 
-    // F5 (T1): depolarizing palindrome error = (2/3)Σγ = γ·2N/3.
+    // F5 (T1): depolarizing palindrome error, the bound (2/3)Σγ = γ·2N/3; attained exactly when ad_H
+    // has an eigenvector traceless on every site, larger otherwise.
     public static double F5_DepolError(int n, double gamma) => gamma * 2.0 * n / 3.0;
 
     // F23 (T1): endpoint eigenspace fraction = (N+1)/4^N; not a state-fragility probability.

@@ -243,8 +243,8 @@ These could be answered with the code and hardware we already have.
 
 3. **Depolarizing noise correction:** Let γ_l be the total depolarizing rate
    on site l, divided as γ_l/3 among X, Y and Z. F5's extreme pair-sum
-   shortfall is (2/3)Σ_lγ_l, equivalently the spectral norm of the centered
-   diagonal residual. The F1-centered Frobenius diagnostic instead obeys
+   shortfall is at least (2/3)Σ_lγ_l, the spectral norm of the centered
+   diagonal residual, and equal to it when F5's bound is attained. The F1-centered Frobenius diagnostic instead obeys
    ‖M_F1‖²_F = 4^(N−1)(16/9)Σ_lγ_l² with σ=Σ_lγ_l. Can either precisely
    named diagnostic be incorporated into design rules?
 
