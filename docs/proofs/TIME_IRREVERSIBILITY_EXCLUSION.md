@@ -61,17 +61,17 @@ factorization is governed by the commutator, which is already nonzero at N=2 for
 Five results, each independently verified. Their conjunction establishes the
 loss of Frobenius orthogonality, not a time-reversal exclusion.
 
-### Step 1: The palindrome requires noise (Tier 1)
+### Step 1: A centre away from zero requires noise (Tier 1)
 
 Without the dissipator L_D, the Liouvillian is purely Hamiltonian.
-Eigenvalues are purely imaginary. No decay rates. No palindromic pairing.
-A palindrome CENTRED AWAY FROM ZERO exists if and only if γ > 0. The pairing
-itself does not need γ: a closed generator is traceless, so its spectrum pairs
-about zero, freely, 16 of 16
+Eigenvalues are purely imaginary. No decay rates.
+A palindrome CENTRED AWAY FROM ZERO needs γ > 0. The pairing
+itself does not need γ: a closed generator's eigenvalues are −i(E_m − E_n),
+closed under m ↔ n, so its spectrum pairs about zero, freely, 16 of 16
 ([two_qubits_no_noise.py](../../simulations/two_qubits_no_noise.py)). What γ
 buys is the nonzero centre, and that is what carries the decay.
 
-**Source:** [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md), Step 1.
+**Source:** [Incompleteness Proof](INCOMPLETENESS_PROOF.md), Sections 1 and 3.
 
 ### Step 2: The system is open, and the origin of γ is not settled
 
@@ -276,8 +276,8 @@ the Heisenberg witness does not factor (its commutator is nonzero at all tested 
 
 Each step is independently reproducible:
 
-1. Read [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md): palindrome
-   requires γ > 0.
+1. Read [Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md): the palindrome
+   is centred at Σγ, away from zero only when γ > 0.
 2. Read [Incompleteness Proof](INCOMPLETENESS_PROOF.md): γ from outside.
 3. Run `python` [`simulations/primordial_qubit_algebra.py`](../../simulations/primordial_qubit_algebra.py): Step 9 shows
    {L_H, L_Dc} = 0 at N=2, Step 10 shows ≠ 0 at N=3,4.

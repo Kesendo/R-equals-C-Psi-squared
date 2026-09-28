@@ -21,6 +21,8 @@ Formulas in ASCII; prose uses Unicode (Ψ, Π, Σ, γ).
 
 ## Spectral Structure (replace eigenvalue computation)
 
+<a id="f1"></a>
+
 ### F1. Palindrome equation (Tier 1, proven)
 
     Π · L · Π⁻¹ = -L - 2Σγ · I
@@ -6440,7 +6442,7 @@ thermal case obstructed while its own body computed the valid pairing.
 
 ---
 
-### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (the SUFFICIENT direction measured and never once broken; the *only when* direction measured to FAIL, at fewer bond letters and at coincident field magnitudes, so the law is an implication whose converse is open, not the iff it was minted as; minted 2026-07-21, clause 2 swept and the converse withdrawn 2026-08-03)
+### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (a sufficient condition, measured and never once broken; the converse is false, failing at fewer bond letters and at coincident field magnitudes, and F158 decides the setting exactly; minted 2026-07-21)
 
 For H a sum of bond terms, the dephasing palindrome about −Σγᵢ holds **when**,
 in every connected component that carries dephasing at all: **(1)** at
@@ -6465,8 +6467,7 @@ is neither all nor nothing and which the artifact reports without explaining.
 The depolarizing *channel* is clause 1 failing, three axes inside one
 component, not a separate phenomenon.
 
-**The two directions are not equally strong, and the entry was minted as though
-they were.** The sufficient direction, conditions ⟹ palindrome, has never once
+**The two directions are not equally strong.** The sufficient direction, conditions ⟹ palindrome, has never once
 broken: in no row of any sweep below, at any bond-letter count, on any graph, at
 any of the magnitude tuples of Stage F, are the conditions met and the spectrum
 fails to pair. That direction is the physics and it is solid. The
@@ -6495,9 +6496,8 @@ What the two failures have in common is
 measured and no more than that: the exceptions track the graph's own
 automorphisms and the bond's letter count, so the conditions look sufficient
 always and necessary only where the configuration carries no symmetry of its
-own, a reading and not a result. **An operator explaining the exceptions HAS
-now been exhibited** (2026-08-28/29), which retires the sentence that stood
-here. Two exhibits, and the second says why the first candidate failed. On the
+own, a reading and not a result. **Operators explaining the exceptions are
+exhibited on two families.** On the
 clause-2 6-family the dressing U = SWAP₀₂·Z₀Z₁Z₂ works. On the CLAUSE-1
 exceptions it is closed form: take P₃ with an XX+YY bond, no field, one
 dephasing axis per site and all rates equal; of the six three-axis assignments
@@ -6517,13 +6517,12 @@ separation gated against the eigensolver's backward-error model rather than a
 chosen number). **That gate also measures the two-term proviso directly**: run
 the same six three-axis rows at the THREE-letter bond XX+YY+ZZ and all six
 break, dim 𝒲 = 0 on every one and the exception set empty, so the exceptions are
-a two-letter-bond phenomenon that vanishes when the bond gains its third letter. **Why the bare site reflection
-was refuted and nothing followed from it:** U is a SUM of two Pauli strings,
-neither a single string nor a signed site permutation, so the earlier refutation
-was right about its candidate and was wrong to be read as evidence that nothing
-exists. And the structure is one clause 1 cannot see: the exceptions are about
+a two-letter-bond phenomenon that vanishes when the bond gains its third letter. U is a SUM of two Pauli strings,
+neither a single string nor a signed site permutation; the bare site reflection,
+a signed site permutation, is not a reflector on these rows. The structure is one
+clause 1 cannot see: the exceptions are about
 WHERE the odd axis sits, not how many axes there are.
-[F158](#f158-the-palindrome-is-a-count-of-the-two-ends) decides the same setting
+[F158](#f158) decides the same setting
 in general without exhibiting anything at all, by comparing dim ker L with
 dim ker(L + 2Σγ), and it finds every one of these. Separate EXISTS from EXPLAINS
 when reading it: the operators above are exhibited on the two named families,
@@ -6594,17 +6593,15 @@ on the exact kernel
 direction, and they carry it as a measured census rather than as a derivation:
 every qualifier there is reported as a row count (256/256 against 1/256, 64/64
 against 0/64). Read as a proof of the *only when* half it would contradict this
-very row, which counts that half failing five separate ways. **Narrowed
-2026-08-29**, when the circle was noticed: that proof cited this row for the
-law while this row cited that proof for the proof, and neither end derived it.
-[F158](#f158-the-palindrome-is-a-count-of-the-two-ends) now decides the same
+very row, which counts that half failing five separate ways. Neither that
+paragraph nor this row derives the clauses.
+[F158](#f158) decides the same
 setting exactly (a dephasing axis n̂·σ⃗ is Hermitian and squares to 1, and
 on-site fields sit inside H, so every configuration this row sweeps is inside
-its class), which makes the honest reading available: these clauses are a
+its class): these clauses are a
 sufficient condition whose exceptions are the configurations where the clauses
-fail and an invertible U exists anyway. Moving F158 into this Proof field is
-the natural next step and is **deliberately not taken yet**, F158 being one day
-old; the argument is parked in the arc `f138_converse_failures`. **Typed:** not
+fail and an invertible U exists anyway. Whether F158 becomes this Proof field's
+anchor is argued in the arc `f138_converse_failures`. **Typed:** not
 yet (Tier1Candidate). Open: typing; a derivation of the two-term proviso; the
 F158 anchor move.
 
@@ -8980,6 +8977,10 @@ exact witness `inspect --root nodepair`, which carries the resolvent zero, its n
 the same-baseline-energy iff for one scaled off-diagonal hopping with fixed diagonal, the
 uniform-centre total-count equality, the exact N=6 off-centre birth and exceptional-set fences.
 
+---
+
+<a id="f158"></a>
+
 ### F158. The palindrome is a count of the two ends: for L(ρ) = −i[H,ρ] + Σγ_l(A_lρA_l − ρ) with H Hermitian, every A_l Hermitian and squaring to 1, and every γ_l > 0, the spectrum multiset pairs about −σ **if and only if** dim ker L = dim ker(L + 2σ) (Tier 1 derived, both directions proved 2026-08-28; the near kernel is the commutant of ⟨H, A_l⟩ and the far one is the same space with the jump sign flipped, both by a Cauchy-Schwarz equality case; registered 2026-08-29)
 
 The criterion carries no operator to find and no subspace to sample: it is two
@@ -8993,7 +8994,7 @@ that the two have equal dimension. The chain is four steps and each can fail
 alone: (1) the two kernels are those two spaces, one inclusion each way being
 pure algebra and the other the equality case of Cauchy-Schwarz in the
 Hilbert-Schmidt norm; (2) both eigenvalues are semisimple, so geometric equals
-algebraic multiplicity at both ends, which is [PROOF_CODIM1_BY_ADDITIVITY]'s
+algebraic multiplicity at both ends, which is [PROOF_CODIM1_BY_ADDITIVITY](proofs/PROOF_CODIM1_BY_ADDITIVITY.md) §6's
 window-edge lemma read at the two edges of the numerical range
 Re λ ∈ [−2σ, 0] and is **cited rather than claimed**; (3) 𝒲 holds an invertible
 element exactly when dim 𝒲 = dim 𝒩, forward because 𝒲 = 𝒩·U and backward by
@@ -9062,8 +9063,7 @@ child of `F1PalindromeIdentity`) with the live witness `inspect --root twoend`
 same two dimensions again from the operator conditions by a route that never
 forms L, and the palindrome by the characteristic-polynomial identity, with a
 break printed beside the canonical row). Open: whether F158 should become
-F138's Proof anchor, argued in the arc `f138_converse_failures` and deliberately
-not taken on the day F158 landed.
+F138's Proof anchor, argued in the arc `f138_converse_failures`.
 
 ---
 

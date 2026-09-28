@@ -4609,3 +4609,22 @@ no such mode and its error is 1.009 to 1.30 times (2/3)Σγ on eight random rows
   a stage that could not fail, and classes built so that the criterion's answer was known in advance
   (a ladder row, whose only witness sits at a nonzero ad_H eigenvalue, now exercises the other branch).
 - **Anchor:** F5 in `docs/ANALYTICAL_FORMULAS.md`; `simulations/f5_depolarizing_attainment.py`.
+
+## 2026-09-28, the documents citing F158 and F138 kept what the two had settled
+
+The pass on F158's own surfaces (entry above) left the documents that cite it; they held four shapes.
+
+- **Half a paragraph repaired.** TIME_IRREVERSIBILITY_EXCLUSION's Step 1 had one sentence corrected by
+  95e13e04 (23 files) to say the pairing needs no γ, while the sentence before it still said "No
+  palindromic pairing", its heading "The palindrome requires noise", and the corrected sentence itself
+  "if and only if γ > 0", which a depolarizing site refutes. MIRROR_SYMMETRY_PROOF's Scope section was
+  corrected to *when*, while its entry layer still stated the withdrawn converse.
+- **A withdrawn result restated.** PAIR_BREAKING_AT_THE_HORIZON (12dc9e18) said that where the palindrome
+  breaks the equality of the two end counts goes too, the converse this ledger withdrew on 2026-08-29.
+- **A law stated without the Hamiltonian it needs.** DEPOLARIZING_PALINDROME's abstract and
+  THE_INTERPRETATION gave the two-axis criterion for any H; with X and Z noise on every site the far
+  end is Y^⊗N alone, so the palindrome holds exactly when H commutes with it, and a field along either
+  noise axis breaks it.
+- **An open case already closed.** MIRROR_SYMMETRY_PROOF's axis table called the per-site Z, X, Z row
+  "the genuinely open case"; Y⊗Y⊗Y commutes with the Heisenberg chain and anticommutes with every jump.
+- **Anchor:** the files named; F158 §(a), §(e), §(f2); F138 in `docs/ANALYTICAL_FORMULAS.md`.

@@ -56,15 +56,15 @@ at N=8, on any topology tested.
 **What it does not cover.** The result is exact inside a specific family, and
 the family has a precise edge. Noise along all three axes at once
 (depolarizing) breaks it: the palindrome does not weaken, it disappears. A
-field pulling on the qubits breaks it too, unless the field pulls at right
-angles to every direction the noise acts along. And energy loss to the
+field pulling on the qubits can break it too; it survives when the field pulls
+at right angles to every direction the noise acts along. And energy loss to the
 environment breaks it when it shares an axis with the noise, which on real
 hardware it usually does.
 
 Three neighbouring cases are worth stating because the obvious guess is
 wrong. A field at right angles to the noise leaves the palindrome exact, as
-long as it pulls the same way on every qubit; its strength may differ from
-qubit to qubit freely, its direction may not. Noise using different axes on
+long as it pulls along the same axis on every qubit; its strength and its
+sign may differ from qubit to qubit freely. Noise using different axes on
 different qubits is also fine, as long as at most two axes turn up in any one
 connected group. And energy loss to the environment (amplitude damping, or
 T1), the dominant noise on today's hardware, does not destroy the palindrome
@@ -219,9 +219,9 @@ pairs 16/16. And clause 1's *two-term* proviso is not decoration: a
 single-term bond, the Ising bond ZZ among them, tolerates all three dephasing
 axes at once, all eighteen three-axis assignments at N=4 pairing exactly where
 Heisenberg, XX+ZZ and XX+YY all fail on the same assignments. Two bond terms
-are what force the ceiling. That escape has two limits. Three axes stacked on
-a single site is depolarizing there, and breaks the Ising bond too. And a
-three-axis component must be **field-free**: this is not a separate condition
+are where the ceiling bites. That escape has two limits. Three axes stacked on
+a single site is depolarizing there, and breaks the Ising bond too. And the
+clauses admit a three-axis component only **field-free**: this is not a separate condition
 but clause 2 read carefully, since no direction is orthogonal to X, Y and Z
 at once, so the clause is unsatisfiable there and only the empty field passes
 it. Measured, and worth stating because the two clauses look like they
@@ -267,15 +267,15 @@ equivalent with identical spectra, and Π conjugated by the same rotation
 satisfies the identity exactly for the Y field. The residual under a *fixed*
 Π therefore measures the angle to that particular mirror's preferred axis,
 not a defect of the field. The gauge argument stops where clause 2 does: one
-global rotation can align one common direction, not several, so a field whose
-direction varies *within* a component breaks it (4/64 for X, Y, X at N=3;
-0/64 at three generic angles), while separate components may point different
-ways and stay exact.
+global rotation can align one common direction, not several, so the argument does
+not reach a field whose direction varies *within* a component, and the rows
+measured there break (4/64 for X, Y, X at N=3; 0/64 at three generic angles),
+while separate components may point different ways and stay exact.
 
 **Evidence, and its limits.** Clause 1 is swept exhaustively: every one of
 the 3^N per-site axis assignments, at N=3 over chain, ring and complete and
-at N=4 over chain, zero exceptions in either direction, plus disconnected
-controls. Clause 2 is not exhaustive in that sense; it rests on axis-pattern
+at N=4 over chain, at the full XX+YY+ZZ bond, zero exceptions in either
+direction, plus disconnected controls. Clause 2 is not exhaustive in that sense; it rests on axis-pattern
 and field-direction combinations chosen to cover each case, on the angle
 sweep, and on the per-component controls. Treat clause 1 as measured and
 clause 2 as well supported but spot-checked. The rule has also been attacked
@@ -771,9 +771,11 @@ three single-axis Π's are typed in
 [`PiOperator`](../../compute/RCPsiSquared.Core/Symmetry/PiOperator.cs)
 alongside the Z-dephasing P1 used throughout this proof. So the X row is
 proven, not merely observed: its ✗ says only that the *wrong* Π was used
-for it. The single "(!)" belongs to the mixed ZX row alone, which is the
-genuinely open case:
-empirical palindrome without an explicitly constructed compound Π. For
+for it. The single "(!)" belongs to the mixed ZX row alone (Z, X, Z on the three
+sites), which no single-axis Π covers. Its reflector is one-sided:
+U = Y⊗Y⊗Y commutes with the Heisenberg H and anticommutes with every jump, so
+ρ ↦ Uρ carries L to −L† − 2Σγ, the construction of
+[F158](PROOF_PALINDROME_TWO_END_COUNT.md). For
 depolarizing noise the palindrome genuinely breaks, and here the
 convention matters: depolarizing at *total* rate γ per site means γ/3 on
 each of the three axes. Under that standard convention the typed

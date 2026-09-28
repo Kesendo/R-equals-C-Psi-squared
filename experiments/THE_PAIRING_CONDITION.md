@@ -28,15 +28,16 @@ dim ker(L + 2σ)`, and both directions of that are proved in
 The far-end eigenspace IS the set of admissible U (an equality-case argument in
 the Hilbert-Schmidt norm), the near-end kernel is the commutant, both eigenvalues
 are semisimple, and an invertible element exists exactly when the two dimensions
-match. Everything below stands as written and was the route; three of its fences
-have moved and each says so where it stands.
+match. Everything below is the route; where a fence has moved, the passage says
+so.
 
 **Read the left side precisely.** What is measured is the identity of
 characteristic polynomials, that is the eigenvalue **multiset** with
 multiplicities. It is one notch stronger than the set statement the palindrome
-is usually written as, and one notch weaker than F1's operator identity, which
-also sees the Jordan structure. `F1PalindromeIdentity` makes exactly this
-distinction and scopes it to F138.
+is usually written as. Inside this page's class it is not weaker than a
+similarity: where the multiset pairs, [F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
+§(f8) gives L ~ −L − 2σ with the whole Jordan structure. What F1 adds is one
+particular operator, Π, unitary and in closed form.
 
 ---
 
@@ -121,8 +122,9 @@ Write the generator as
 
     L(ρ) = −i[H, ρ] + Σ_l γ_l (A_l ρ A_l − ρ),   σ = Σ_l γ_l
 
-with every A_l a Pauli letter on one site, so A_l² = 1 and Σ_l c_l† c_l = σ·1
-automatically. That premise is doing real work and is named again under Scope.
+with every A_l a Pauli letter on one site on this page's grids. The argument
+uses only that each A_l is Hermitian with A_l² = 1, so Σ_l c_l† c_l = σ·1; that
+premise is doing real work and is named again under Scope.
 
 Both conditions on U are **linear**: [U, H] = 0 and U A_l + A_l U = 0 are linear
 systems in the entries of U. The admissible U therefore form a subspace whose
@@ -288,7 +290,7 @@ non-uniform-γ rows are that prediction under test, not another axis.
 
 Tested: N = 3 and N = 4; chain, ring, triangle, and a disconnected bond plus
 isolated site; all seven bond-letter sets; uniform and non-uniform rational J and
-γ; one, two and three distinct dephasing axes; Pauli-letter jump operators only.
+γ; one, two and three distinct dephasing axes; single-site Pauli-letter jumps (off-axis directions and Pauli-string jumps are scored below).
 
 **Not tested.** An anisotropy axis: every bond carries weight 1 per letter and
 there is no Δ. N beyond 4 for the criterion as scored on this page.
@@ -303,7 +305,7 @@ arc `f138_clause_two_sweep`'s question about clause 2's word *orthogonal* is
 answered there: orthogonality of directions is not what the criterion asks for.
 
 **And one axis where the criterion is not merely untested but mis-centred.**
-Non-Pauli jump operators break Σ c†c = σ·1, and the palindrome does not simply
+Jump operators with A² ≠ 1 break Σ c†c = σ·1, and the palindrome does not simply
 die there: **F137** records that T1 alone keeps it, about **−σ/2** rather than −σ.
 So a criterion phrased "pairs about −σ" is answering the wrong question in that
 regime, and the premise is doing more work than a footnote. F82 to F84 own the
@@ -351,20 +353,9 @@ operators instead, with the reason the old candidate failed: U is a SUM of two
 Pauli strings, neither a single string nor a signed site permutation, so the
 refutation was right about its candidate and was never evidence that nothing
 exists. The row keeps the separation the arc prescribed, EXISTS from EXPLAINS.
-F138's headline, that the law is an implication whose converse is open, stays
-exactly as it is; the criterion is not F138's two clauses.
-
-**One surface this page does not fix, and one that is fixed in this change.**
-[MIRROR_SYMMETRY_PROOF.md](../docs/proofs/MIRROR_SYMMETRY_PROOF.md) said the
-palindrome holds *exactly when* and carried no converse fence, although F138
-names its Scope paragraphs as its Proof anchor; the word is now *when*, with the
-converse failure and its counts beside it, and F138's Proof field is narrowed to
-say those paragraphs carry the sufficient direction as a measured census. Still
-unfixed:
-[PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md](../docs/proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)
-asserts in an aside that spectrum-level palindromy is realized by some similarity
-with existence guaranteed by the palindromic spectrum, which is free only where
-the generator is diagonalizable.
+F138 stays an implication whose converse is false, measured to fail at fewer
+bond letters and at coincident field magnitudes; the criterion is not F138's two
+clauses.
 
 **The neighbouring predictor.** The bipartite criterion in
 [ON_THE_SOFT_BREAK.md](../reflections/ON_THE_SOFT_BREAK.md), with its windowed

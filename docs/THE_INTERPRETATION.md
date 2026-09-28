@@ -199,9 +199,11 @@ and exactly that on every chain measured here (F5 gives the condition). The inte
 depolarizing is perfectly linear with no threshold: the 2:2 split becomes
 1:3 the instant the third dephasing axis is introduced.
 
-General theorem: for three-axis noise at rates (gamma_X, gamma_Y, gamma_Z),
-the palindrome exists if and only if at least one rate is zero (dephasing
-along at most two Pauli axes).
+General theorem, for Heisenberg coupling with no field: with noise at rates
+(γ_X, γ_Y, γ_Z) on every site, the palindrome exists if and only if at least
+one rate is zero (dephasing along at most two Pauli axes). Three axes on one
+site break it under every Hamiltonian; the two-axis half depends on H, and a
+field along either noise axis breaks it ([F158](proofs/PROOF_PALINDROME_TWO_END_COUNT.md)).
 
 See: [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md)
 

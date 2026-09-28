@@ -2,10 +2,10 @@
 
 F138's boundary law says the dephasing palindrome holds when, in every connected
 component carrying dephasing, at most two distinct dephasing axes appear (given a
-bond of at least two terms). MIRROR_SYMMETRY_PROOF states the same clauses as
-"the palindrome holds exactly when", an iff, while F138's own row records the
-converse failing. This script settles that family from below and exhibits the
-operator F138's row had recorded as never found.
+bond of at least two terms). MIRROR_SYMMETRY_PROOF's Scope paragraphs state the
+same clauses as a sufficient condition, and F138's own row records the converse
+failing. This script settles the clause-1 family from below and exhibits an
+operator that explains its exceptions.
 
 WHAT THE REPO ALREADY HELD, store by store, swept 2026-08-29 before this was
 written:

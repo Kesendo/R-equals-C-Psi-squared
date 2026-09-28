@@ -89,7 +89,7 @@ onto span{P_k} (the popcount projectors, stationary under L):
 
 ## Result 1: N+1 Modes at the Maximum Decay Rate
 
-| N | Total nonzero-rate modes | Palindromic | XOR (at −2Σγ) |
+| N | Total nonzero-rate modes | Paired among nonzero rates | XOR (at −2Σγ, paired with the steady states) |
 |---|-------------|-------------------|---------------------|
 | 2 | 13 | 10 (76.9%) | 3 (23.1%) |
 | 3 | 60 | 56 (93.3%) | 4 (6.7%) |
@@ -106,8 +106,9 @@ raises it). It is checked exactly, with multiplicity N+1 and no Jordan blocks,
 for the Heisenberg and XY chains at non-uniform rates and for XXZ on the
 complete graph with random couplings and anisotropies, N = 2..4
 ([`xor_verify.py`](../simulations/xor_verify.py)). Their palindromic
-partner is the steady state at λ = 0 (excluded from the pairing): these are
-the "center letter" of the palindrome, whose partner is silence.
+partners are the steady states at λ = 0: the XOR sector is the far end of the
+axis, ker(L + 2Σγ), not its centre, and the equal count of the two ends is the
+palindrome itself ([F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) §(f2)).
 
 The conditions matter. A transverse field, a generic Hermitian H, or XYZ with
 J_x ≠ J_y leaves no X^⊗N·P_k an eigenvector. A non-uniform longitudinal field

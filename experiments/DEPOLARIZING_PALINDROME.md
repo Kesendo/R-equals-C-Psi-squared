@@ -39,8 +39,8 @@ exponentially larger than the immune sector.
 
 ## Abstract
 
-The palindromic Liouvillian symmetry holds for Z-dephasing, X-dephasing,
-Y-dephasing, and all two-axis combinations. It breaks for depolarizing noise
+On Heisenberg coupling with no field, the palindromic Liouvillian symmetry holds
+for Z-dephasing, X-dephasing, Y-dephasing, and all two-axis combinations. It breaks for depolarizing noise
 (all three axes simultaneously). The reason is a per-site counting argument:
 Z-dephasing splits the four Pauli indices {I, X, Y, Z} into 2 immune and
 2 decaying (a balanced 2:2 split). Depolarizing noise splits them 1:3 (only I
@@ -50,8 +50,10 @@ steady-state-partner rate gap under depolarizing noise is exactly (2/3)Nγ = (2/
 on every chain measured here, and linear in both γ and N; for a general Hamiltonian
 it is a lower bound, exact for example when the Hamiltonian commutes with a global
 Pauli string with no identity letter such as Z^N (F5 gives the condition). This is dimensionful; a percentage
-requires a declared normalization and fixed N. The general condition: the palindrome holds if and only if at
-least one of γ_X, γ_Y, γ_Z is zero (at most two dephasing axes).
+requires a declared normalization and fixed N. For that coupling the palindrome holds if and only if at
+least one of γ_X, γ_Y, γ_Z is zero (at most two dephasing axes). Three axes on one site break it under every
+Hamiltonian; the two-axis half depends on H, and a field along either noise axis breaks it
+([F158](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)).
 
 ---
 
