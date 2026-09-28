@@ -6734,8 +6734,10 @@ and the frozen modes are the pair sums mu + (-mu); at gbar != 0 and J != 0 the e
 couplings are the exceptional points of m (non-derogatory on a path) other than a pair meeting
 at zero at even N, and the Jordan structure at the root is the Clebsch-Gordan image of m's: A keeps full column rank at
 every J != 0, a generic coalescence gives 3 + 1 (at N = 3 a single 3), and the largest
-block is at most 2N - 3, reached where m is nilpotent (blocks 5 + 1 at N = 4, 7 + 3 at N = 5, exact,
-at non-negative rates). At N = 4 the Hodge star of Lambda^2(C^4) anticommutes with the sector
+block is at most 2N - 3, reached where m is nilpotent (blocks 5 + 1 at N = 4, 7 + 3 at N = 5,
+9 + 5 + 1 at N = 6 on (3, 1, 4, 2, 5, 3) at J = 1, exact; real nilpotent points certified
+at every N = 3..12, and non-negative rates are free since gbar does not enter m).
+At N = 4 the Hodge star of Lambda^2(C^4) anticommutes with the sector
 because m is symmetric and traceless, which is why its spectrum is symmetric at every profile.
 And since D_m has no gbar in it, the block (2,0) carries -4 gbar with geometric multiplicity
 floor(N/2) at every J != 0 and algebraic multiplicity floor(N/2) for all but finitely many J, at
@@ -6787,7 +6789,10 @@ paired arrivals at every N, the free-fermion reading of that sector with its
 Jordan structure and the 2N - 3 bound); exact-computed (the
 four-corner census, the defectiveness at the exceptional couplings, the Sturm
 counts, the gbar = 0 count N and its opened census, the Heisenberg carriers
-at N = 4, the 4x4 block structure and the two-2x2 case at N = 5); measured (the
+at N = 4, the 4x4 block structure and the two-2x2 case at N = 5, the XY nilpotent
+point at N = 6 on (3, 1, 4, 2, 5, 3) with its blocks 9 + 5 + 1);
+interval-certified (a real nilpotent m at every N = 7..12, one Krawczyk box
+each; exact at N = 3..6); measured (the
 five non-negative N = 5 4x4 carriers located by a precision law, the 5x5 at
 N = 6, 7 by a precision law, and the growth floor(N/2) + 2 of the largest block
 found).
@@ -6796,7 +6801,7 @@ found).
 uniqueness of the monotone walk); the uniform-endpoint embedding into the
 committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
 real exceptional couplings; on the XY chain whether a real nilpotent point of m
-exists at every N (it does at N = 3, 4, 5); on the Heisenberg chain a proof
+exists at every N (it does at N = 3..12); on the Heisenberg chain a proof
 that floor(N/2) + 2 bounds the block size, whether carriers of that size reach
 non-negative rates at every N >= 5, a census of the isolated carriers from
 N = 6 on, and which directions carry a 3x3 at positive rates from N = 5 on; whether the gbar = 0 carriers are one object rather
@@ -6805,12 +6810,14 @@ p = 1 entry); and whether any DISSIPATING generator holds N modes at one rate,
 the trivial gamma == 0 being completely positive and already on the stratum,
 every other point of it carrying a negative rate.
 **Gate:** [`r90_frozen_divisor_gate.py`](../simulations/r90_frozen_divisor_gate.py)
-(~4 min, 411 checks; G0 builder, G1 the mirror identity, G2 the census,
+(~4 min, 434 checks; G0 builder, G1 the mirror identity, G2 the census,
 G3/G4 pencil and eigenvector by-products, G5 partial-balance nulls, G6/G7
 exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
 discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the
 Sturm counts, G14 the pointed grading, G15 the index reading, G16 the zero-mean
-stratum, G17 the XY sector split, G18 its free-fermion reading, G19 the Heisenberg carriers of a larger block; G2c, the XY census, was added when the typing found it).
+stratum, G17 the XY sector split, G18 its free-fermion reading, G19 the
+Heisenberg carriers of a larger block, G20 the real nilpotent m at N = 3..12;
+G2c the XY census).
 **Naming (2026-07-25, the day it was minted; the first title lasted hours).**
 The title first read "pins floor(N/2) decay rates at every coupling". That was
 painted true from the stance of having just proved the bound and Section 7's

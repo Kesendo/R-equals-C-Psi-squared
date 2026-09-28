@@ -153,6 +153,12 @@
 #       5x5 carriers found by simulations/heisenberg_frozen_root_blocks.py (four
 #       at N = 6, two at N = 7, stored to 140 digits by its refine mode), each
 #       checked against the tables and read by the precision law
+#   G20 a real nilpotent m at every N computed (proof doc Section 9.2): at N = 6
+#       the integer profile (3,1,4,2,5,3), J = 1, m nilpotent exactly and the
+#       blocks 9+5+1 read exactly off the whole corner block; the continuant
+#       equal to m's characteristic polynomial symbolically (N = 3..8); one real root per N = 3..12,
+#       certified by the Krawczyk test on a real box (the moved box failing);
+#       the system even under u -> -u, symbolically (N = 3..8)
 #
 # Runtime: about 4 minutes. Standalone except G0 (imports framework once).
 import sys
@@ -3716,6 +3722,182 @@ for key, want in (("N6a", (3, 4, 5, 6, 7, 7)), ("N6b", (3, 4, 5, 6, 7, 7)),
           f"10^-{d_hi - 15} and at least {d_hi - d_lo - 10} orders below the smallest zero at "
           f"{d_lo} digits, and every other one stays put to forty digits", ok,
           f"smallest nonzero {mp.nstr(min(lo[k][n0] for k, n0 in enumerate(want)), 4)}")
+
+# ---------- G20: a real nilpotent m at every N computed (XY chain) ----------
+# Proof doc Section 9.2. With the similarity S m S^-1, S = diag(i^a), and d = delta / J, m / (-2J) is
+# the real tridiagonal matrix with diagonal d, superdiagonal +1 and subdiagonal -1, so
+# its characteristic polynomial is the continuant p_k = (x - d_k) p_(k-1) + p_(k-2).
+# On the locus d is odd under the reflection, the odd coefficients vanish, and m is
+# nilpotent iff the floor(N/2) even coefficients do: a square system F(u) = 0 in the
+# floor(N/2) free entries u of d. Each real root is certified by the Krawczyk test on
+# a REAL box: K(X) inside the interior of X proves exactly one root in X, and a root in
+# a real box is real. The seeds are the 17-digit readings printed by
+# simulations/xy_nilpotent_single_particle.py; the certificate does not trust them.
+print()
+print("G20 a real nilpotent m at every N computed: the XY bound 2N - 3 reached")
+
+
+def nm_dual_F(u, N, one, zero):
+    """Even coefficients c_(N-2k), k = 1..floor(N/2), of the continuant with their
+    gradients in u (forward mode), in whatever arithmetic one/zero carry."""
+    h = N // 2
+    d = []
+    for a in range(N):
+        if a < h:
+            d.append((u[a], [one if j == a else zero for j in range(h)]))
+        elif a >= N - h:
+            b = N - 1 - a
+            d.append((-u[b], [-one if j == b else zero for j in range(h)]))
+        else:
+            d.append((zero, [zero] * h))
+
+    def times_x_minus(p, dk):
+        out = [(zero, [zero] * h) for _ in range(len(p) + 1)]
+        dv, dg = dk
+        for i, (v, g) in enumerate(p):
+            ov, og = out[i + 1]
+            out[i + 1] = (ov + v, [a + b for a, b in zip(og, g)])
+            ov, og = out[i]
+            out[i] = (ov - dv * v, [a - (dv * b + v * c) for a, b, c in zip(og, g, dg)])
+        return out
+
+    p0 = [(one, [zero] * h)]
+    p1 = times_x_minus(p0, d[0])
+    for k in range(1, N):
+        p2 = times_x_minus(p1, d[k])
+        for i, (v, g) in enumerate(p0):
+            ov, og = p2[i]
+            p2[i] = (ov + v, [a + b for a, b in zip(og, g)])
+        p0, p1 = p1, p2
+    rows = [p1[N - 2 * k] for k in range(1, h + 1)]
+    return [r[0] for r in rows], [r[1] for r in rows]
+
+
+def nm_refine(u, N):
+    x = mp.matrix([mp.mpf(t) for t in u])
+    for _ in range(80):
+        F, Jm = nm_dual_F(list(x), N, mp.mpf(1), mp.mpf(0))
+        dx = mp.lu_solve(mp.matrix(Jm), -mp.matrix(F))
+        x = x + dx
+        if max(abs(t) for t in dx) < mp.mpf(10) ** -(mp.mp.dps - 5):
+            break
+    return [x[i] for i in range(N // 2)]
+
+
+def nm_krawczyk(y, N, r):
+    """True iff K(X) lies in the interior of the real box X = y + [-r, r]^h."""
+    h, iv = N // 2, mp.iv
+    iv.dps = mp.mp.dps
+    _, Jy = nm_dual_F(y, N, mp.mpf(1), mp.mpf(0))
+    Y = mp.matrix(Jy) ** -1
+    X = [iv.mpf([t - r, t + r]) for t in y]
+    yi = [iv.mpf(t) for t in y]
+    Fy, _ = nm_dual_F(yi, N, iv.mpf(1), iv.mpf(0))
+    _, JX = nm_dual_F(X, N, iv.mpf(1), iv.mpf(0))
+    for i in range(h):
+        s = yi[i] - sum(iv.mpf(Y[i, j]) * Fy[j] for j in range(h))
+        for k in range(h):
+            Mik = iv.mpf(1 if i == k else 0) - sum(iv.mpf(Y[i, j]) * JX[j][k] for j in range(h))
+            s += Mik * (X[k] - yi[k])
+        if not (s.a > X[i].a and s.b < X[i].b):
+            return False
+    return True
+
+
+# (a) the integer point at N = 6: d = (0, -2, 1, -1, 2, 0), i.e. the profile
+#     (3, 1, 4, 2, 5, 3) at J = 1, every rate positive. m is nilpotent exactly, and
+#     the whole corner block carries the Clebsch-Gordan image of one 6x6 Jordan
+#     block, 9 + 5 + 1, read as exact kernel dimensions over Q
+gl6 = [3, 1, 4, 2, 5, 3]
+fz, _ = nm_dual_F([Fraction(0), Fraction(-2), Fraction(1)], 6, Fraction(1), Fraction(0))
+mr6 = sp.Matrix(6, 6, lambda a, b: sp.I ** (a - b) * (-sp.I) * int(us_h(6, False)[a][b])
+                - (2 * (gl6[a] - 3) if a == b else 0)).applyfunc(sp.expand)
+cp6 = mr6.charpoly(lamq).all_coeffs()
+blocks6 = ff_cg_blocks({sp.Integer(0): 6})
+got6 = ff_exact_kdims(ff_block_real(6, gl6, sp.Integer(1), False), sp.QQ, 12)
+check("N=6 integer point, profile (3,1,4,2,5,3) at J = 1: the continuant's even "
+      "coefficients vanish exactly, m's characteristic polynomial is lamq^6, m has rank 5 "
+      f"(one 6x6 block), and the root blocks {blocks6} = 9 + 5 + 1 predict the exact kernel "
+      "dimensions of the whole 36x36 corner block",
+      all(c == 0 for c in fz) and cp6[1:] == [0] * 6 and mr6.rank() == 5
+      and blocks6 == [9, 5, 1] and got6 == ff_kdims(blocks6, 12), f"exact {got6}")
+
+# (b) the continuant is the repo's m. Symbolically (N = 3..8, locus offsets and J as
+#     symbols): det(lamq - m) = (-2J)^N p_N(lamq / (-2J)) with d = delta / J, for m in
+#     the real form S m S^-1 (S = diag(i^a)) that G18's point loop also builds
+Js_ = sp.symbols('Js', positive=True)
+for N in range(3, 9):
+    ds = sp.symbols(f'dl0:{N // 2}')
+    delta = list(ds) + ([0] if N % 2 else []) + [-v for v in ds[::-1]]
+    hN = us_h(N, False)
+    mr = sp.Matrix(N, N, lambda a, b: sp.I ** (a - b) * (-sp.I) * Js_ * int(hN[a][b])
+                   - (2 * delta[a] if a == b else 0)).applyfunc(sp.expand)
+    xs = sp.symbols('xs')
+    p0, p1 = sp.Integer(1), xs - delta[0] / Js_
+    for k in range(1, N):
+        p0, p1 = p1, sp.expand((xs - delta[k] / Js_) * p1 + p0)
+    lhs = mr.charpoly(lamq).as_expr()
+    rhs = sp.expand((-2 * Js_) ** N * p1.subs(xs, lamq / (-2 * Js_)))
+    check(f"N={N}: det(lamq - m) = (-2J)^N p_N(lamq/(-2J)), d = delta/J, symbolically",
+          sp.expand(lhs - rhs) == 0)
+mp.mp.dps = 60
+
+# (c) one certified real root at every N = 3..12, and the test can fail: the same
+#     box shifted by 10^-10 (so it misses the root) must NOT pass
+nm_seeds = {   # the producer's root of smallest max |d| at each N (its default run), up to u -> -u
+    3: [1.414213562373095],
+    4: [-1.6837715645655842, -0.40609520849225078],
+    5: [1.1903279467148671, -1.6072085674452985],
+    6: [1.5698567357638494, -0.24832800781681067, -1.5728582357321989],
+    7: [1.8974278371968602, 0.35403836458127152, -1.5081195042287146],
+    8: [1.3242535297328337, -1.5674114490892377, -0.34651314949142, 1.6338612473168105],
+    9: [-0.16444703273443537, -1.7472043766481359, 1.6676122352629576, -1.4626357962417441],
+    10: [1.2127165831295981, -1.8101009107496761, -0.66269385953580267, 0.96699091860197163,
+         -1.6966492253204616],
+    11: [-1.4065523730640575, 1.5070920538315159, 0.50763430202435205, -1.6938523915102848,
+         1.6197084473104749],
+    12: [0.2759154120328581, 1.5973439098712927, -1.7804236550145448, 1.4603367494937871,
+         0.13554519266862754, -1.7468539740020697],
+}
+r_box = mp.mpf(10) ** -30
+for N, seed in nm_seeds.items():
+    y = nm_refine(seed, N)
+    ok = nm_krawczyk(y, N, r_box)
+    miss = nm_krawczyk([y[0] + mp.mpf(10) ** -10] + y[1:], N, r_box)
+    check(f"N={N}: Krawczyk on a real box of radius 10^-30 proves exactly one real root, "
+          f"so a real profile makes m nilpotent (max |d| = {mp.nstr(max(abs(t) for t in y), 5)}; "
+          "rates non-negative at gbar >= |J| max |d|); the box shifted by 10^-10 fails",
+          ok and not miss)
+
+# (d) symbolically (N = 3..8): the routine the certificates use is the continuant,
+#     values and gradients; F is even, F(-u) = F(u) (the mirrored profile), so the
+#     roots come in pairs; and the leading part of the k-th equation, of degree 2k,
+#     is (-1)^k e_k(u_1^2, ..., u_h^2). That part vanishes only at u = 0, so F is
+#     homotopic to it without zeros on a large sphere, and its first component is
+#     -sum u_l^2 <= 0, so it misses a half-space: the Brouwer degree of F is 0 at
+#     every N (the argument is Section 12's; the identity is what is checked)
+for N in range(3, 9):
+    h = N // 2
+    us = sp.symbols(f'u0:{h}')
+    Fp, Gp = nm_dual_F(list(us), N, sp.Integer(1), sp.Integer(0))
+    Fm, _ = nm_dual_F([-v for v in us], N, sp.Integer(1), sp.Integer(0))
+    dfull = list(us) + ([0] if N % 2 else []) + [-v for v in us[::-1]]
+    xs = sp.symbols('xs')
+    p0, p1 = sp.Integer(1), xs - dfull[0]
+    for k in range(1, N):
+        p0, p1 = p1, sp.expand((xs - dfull[k]) * p1 + p0)
+    cont = [sp.Poly(p1, xs).coeff_monomial(xs ** (N - 2 * k)) for k in range(1, h + 1)]
+    same = all(sp.expand(a - b) == 0 for a, b in zip(Fp, cont)) and all(
+        sp.expand(Gp[k][j] - sp.diff(cont[k], us[j])) == 0 for k in range(h) for j in range(h))
+    even = all(sp.expand(a - b) == 0 for a, b in zip(Fp, Fm))
+    lam_ = sp.symbols('lam_')
+    lead = True
+    for k in range(1, h + 1):
+        top = sp.Poly(sp.expand(Fp[k - 1].subs({v: lam_ * v for v in us})), lam_).coeff_monomial(lam_ ** (2 * k))
+        ek = sp.Poly(sp.prod([1 + v**2 * xs for v in us]), xs).coeff_monomial(xs ** k)
+        lead &= sp.expand(top - (-1) ** k * ek) == 0
+    check(f"N={N}: the certificates' F is the continuant (values and gradients); "
+          "F(-u) = F(u); leading parts (-1)^k e_k(u^2) (the degree-0 argument of Section 12)", same and even and lead)
 
 # ---------- verdict ----------
 

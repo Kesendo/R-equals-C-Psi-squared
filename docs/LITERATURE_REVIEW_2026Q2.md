@@ -364,7 +364,13 @@ Ord 3 is even possible given our polynomial structure.
 Liouvillian EPs in dissipative fermions.** If Sayooj-Narayan says
 "higher-order EPs are available here", this paper shows the
 construction style. Worth holding in reserve until we have the
-"yes / no available" answer.
+"yes / no available" answer. Higher-order EPs do occur in the
+repo's Liouvillians elsewhere: on the XY chain under an R₉₀-balanced
+rate profile the (0,1) block reaches an EP of order N and the
+single-excitation corner a Jordan block of size 2N − 3, certified
+at N = 3..12
+([PROOF_R90_FROZEN_DIVISOR](proofs/PROOF_R90_FROZEN_DIVISOR.md)
+Section 9.2). Whether F86's blocks carry any stays open.
 
 **Molina 2026 (arXiv:2602.01375, single-author) — super-Lorentzian
 line shapes from defective Liouvillian modes.** Direct test for

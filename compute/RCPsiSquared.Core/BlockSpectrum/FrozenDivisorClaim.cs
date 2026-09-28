@@ -100,7 +100,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// exceptional points of m other than a pair meeting at zero at even N, and the root's Jordan
 /// structure is the Clebsch–Gordan image of m's:
 /// size three at a generic coalescence, at most 2N − 3, reached where m is nilpotent (5 at N = 4,
-/// 7 at N = 5, exact); Section 9.2)
+/// 7 at N = 5, 9 at N = 6, exact; at certified real points at every N = 3..12); Section 9.2)
 /// while its kernel
 /// dimension does not move, so the criterion cannot tell that
 /// failure from the harmless one at J = 0, where the multiplicity merely doubles and stays
@@ -110,7 +110,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// a single nonvanishing (each pair reaching its OWN outer anti-diagonal cell). That one concerns
 /// the ladder, not the multiplicity.</para>
 ///
-/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (411 checks, G0..G19). Live:
+/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (434 checks, G0..G20). Live:
 /// <c>inspect --root divisor</c> (<c>FrozenDivisorWitness</c>, the counts recomputed by exact
 /// GF(p) ranks at inspect time). Adopted as a MirrorWorld object: run mode
 /// <c>divisor N</c>.</para></summary>
