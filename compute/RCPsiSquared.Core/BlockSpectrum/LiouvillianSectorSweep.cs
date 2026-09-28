@@ -39,8 +39,9 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// <list type="bullet">
 ///   <item><b>T1 amplitude damping</b> (Lindblad operator σ⁻ = (X + iY)/2 carries a Y
 ///         component, bit_b = 1) — F1 residual jumps from FP-noise to <c>O(γ_T1)</c>.</item>
-///   <item><b>Depolarising noise</b> — F1 breaks with residual scaling (2/3)Σγ, linear
-///         in γ and N (closed form is an F1OpenQuestions item).</item>
+///   <item><b>Depolarising noise</b>: F1 breaks; the far-end rate shortfall is at least
+///         (2/3)Σγ for every H and equals it exactly when ad_H has an eigenvector among the
+///         operators traceless on every site (F5 in docs/ANALYTICAL_FORMULAS.md).</item>
 ///   <item><b>Transverse-field Hamiltonians</b> h_x·X or h_y·Y at the Hamiltonian level —
 ///         the Z⊗N-Brecher of <c>hypotheses/THE_POLARITY_LAYER.md</c>, takes the system
 ///         out of the "truly" class.</item>

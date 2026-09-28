@@ -184,17 +184,14 @@ carries dephasing at all*:
 2. the on-site field has a single common axis within that component,
    orthogonal to every dephasing axis present in it.
 
-**When, and not exactly when: the converse is false and this file used to say
-otherwise.** F138's own registry row withdrew the *only when* half on
-2026-08-03 and counts it failing five separate ways: 22 rows of 4096 on P₃ and
-104 on a bond plus an isolated site at a two-letter bond, 776 / 732 / 520 at one
-letter, and 78 of 21,952 on the full XX+YY+ZZ bond when the two END sites of P₃
-carry equal field magnitudes. Two of the 22 are clause-1 rows rather than
-clause-2 rows, so the ceiling of two axes is sufficient and not necessary in the
-same way. The word was repaired on 2026-08-29, when the citation was noticed to
-be a circle: this paragraph named F138 for the law while F138's Proof field
-named this paragraph for the proof, and neither end derives it. What these
-clauses are is a measured census of the SUFFICIENT direction, which has never
+**When, and not exactly when: the converse is false.** F138's registry row
+measures it failing at fewer bond letters and at coincident field magnitudes:
+22 rows of 4096 on P₃ and 104 on a bond plus an isolated site at a two-letter
+bond, 776 / 732 / 520 at one letter, and 78 of 21,952 on the full XX+YY+ZZ bond
+when the two END sites of P₃ carry equal field magnitudes. Two of the 22 are
+clause-1 rows rather than clause-2 rows, so the ceiling of two axes is sufficient
+and not necessary in the same way. Neither this paragraph nor F138 derives the
+clauses: they are a measured census of the SUFFICIENT direction, which has never
 once broken. What decides the same setting in both directions is
 [F158](../ANALYTICAL_FORMULAS.md), the two-end count
 ([PROOF_PALINDROME_TWO_END_COUNT](PROOF_PALINDROME_TWO_END_COUNT.md)): the

@@ -196,7 +196,9 @@ gives {I,Z} immune vs {X,Y} decaying = 2:2. Depolarizing noise (all three
 Pauli axes) gives {I} vs {X,Y,Z} = 1:3. No bijection exists between 1 and 3
 elements. The palindrome error under depolarizing noise is at least (2/3)Σγ,
 and exactly that on every chain measured here (F5 gives the condition). The interpolation from Z-dephasing to
-depolarizing is perfectly linear with no threshold: the 2:2 split becomes
+depolarizing is linear with no threshold wherever ad_H has an eigenvector among
+the strings of X and Y letters (F5's Pauli-channel row, as on the Heisenberg
+chain): the 2:2 split becomes
 1:3 the instant the third dephasing axis is introduced.
 
 General theorem, for Heisenberg coupling with no field: with noise at rates

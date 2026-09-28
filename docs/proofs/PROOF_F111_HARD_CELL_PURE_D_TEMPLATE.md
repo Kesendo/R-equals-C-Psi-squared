@@ -104,7 +104,7 @@ This is a MECHANISM plus a measured witness, not a derivation from the letter st
 
 **Subclaim (d) BLOCKING:** Pair (Mixed, Mixed) H at k = N = 4 is F87-soft. Empirically verified: all 300 Mixed-Mixed pairs per diagonal cell are soft. **No operator-level closed-form construction found.** Sum of two soft Hamiltonians can be hard in general; the empirical fact that Mixed + Mixed stays soft requires a deeper mechanism we could not construct via per-site M operator search (Path 1: 512 phase variants × 2 dissipator-valid permutations per dephase scanned, no winners) nor via existing F108 Π_5bilinear (Path 2: residual 32 uniformly on off-y_par single-term H) nor via global Q_V × Π compositions (Path 3: no zero-residual hits). See `simulations/f111_path1_operator_search.py` (Path 1), `simulations/f111_path2_pi5bilinear_test.py` (Path 2) and `simulations/f111_combined_operator_search.py` (Path 3) for the verification scripts.
 
-The spectrum-level palindromy IS realized by some similarity transformation (existence guaranteed by palindromic spectrum), but it is non-tensor-product, non-Pauli-permutation, and not analytically constructible by the candidate operators tried.
+The spectrum-level palindromy IS realized by a similarity S·L·S⁻¹ = −L − 2σ: with Z-dephasing the system is in F158's class, where a palindromic spectrum makes the two end counts agree and [the two-end count](PROOF_PALINDROME_TWO_END_COUNT.md) §(f8) turns that into a similarity of the whole Jordan structure. That S is non-tensor-product, non-Pauli-permutation, and not constructed from the candidate operators tried.
 
 ### Step 5: F111 statement follows from subclaims (a)-(d)
 

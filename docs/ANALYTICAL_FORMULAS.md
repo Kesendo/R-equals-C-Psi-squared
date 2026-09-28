@@ -98,6 +98,7 @@ and there are fields violating clause 2 whose spectrum pairs regardless.
 - Closes the last F1 OpenQuestion ("general topology beyond chain/ring/star/K_N"); F1 family open-question count is ZERO as of 2026-05-18 (first time empty).
 - Anchor: [the general-topology proof](proofs/PROOF_F1_GENERAL_TOPOLOGY.md); verification: [simulations/f1_general_topology_verify.py](../simulations/f1_general_topology_verify.py) + [F1GeneralTopologyN7BlockSpectrumTests](../compute/RCPsiSquared.Core.Tests/F1/F1GeneralTopologyN7BlockSpectrumTests.cs); typed: F1GeneralTopologyVerifiedClaim (Tier 2 verified).
 
+<a id="f2"></a>
 ### F2. (0,1) coherence block dispersion relation (Tier 1, proven D10)
 
     omega_k = 4J * (1 - cos(pi*k/N)),    k = 1, ..., N-1
@@ -135,6 +136,7 @@ O(N) instead of O(4^{3N}).
 **Source:** [Analytical Spectrum](../experiments/ANALYTICAL_SPECTRUM.md),
 [the (0,1) coherence block dispersion derivation](proofs/derivations/D10_W1_DISPERSION.md)
 
+<a id="f2b"></a>
 ### F2b. XY chain single-excitation spectrum (Tier 1, proven)
 
     E_k = 2J · cos(π·k / (N+1)),    k = 1, ..., N
@@ -456,6 +458,7 @@ edges holding only above the coupling threshold Q*_gap(N) given above.
 **Source:** [README](../README.md),
 [Absorption Theorem Proof](proofs/PROOF_ABSORPTION_THEOREM.md)
 
+<a id="f4"></a>
 ### F4. Stationary mode count (Tier 1, Clebsch-Gordan decomposition)
 
     Stat(N) = Sum_J m(J,N) * (2J+1)^2
@@ -676,6 +679,7 @@ Two independent information channels (frequency vs decay) are
 perfectly orthogonal at N=3 in that limit.
 **Source:** [Signal Processing View](../experiments/SIGNAL_PROCESSING_VIEW.md)
 
+<a id="f50"></a>
 ### F50. Weight-1 degeneracy / conserved operator count (Tier 1 lower bound proven; Tier 2 verified chain N=2-7 with K_3 N=3 anomaly)
 
     d_real(Re = -2*gamma) = 2N    (chain at all tested N + most connected graphs)
@@ -782,6 +786,7 @@ match ([Proton Water Chain](water/PROTON_WATER_CHAIN.md)).
 **Replaces:** paired Liouvillian diagonalization for this within-N Q-edge ratio.
 **Source:** [Thermal Breaking](../experiments/THERMAL_BREAKING.md)
 
+<a id="f7"></a>
 ### F7. Q-factor spectrum (Tier 1, corollary of D10)
 
     Q_k = 2*J/gamma * (1 - cos(pi*k/N))
@@ -872,6 +877,7 @@ Correlation edge-weight vs rate: r = 0.994.
 
 ## CΨ Crossing (replace trajectory computation)
 
+<a id="f12"></a>
 ### F12. Single-qubit universal crossing fraction (Tier 2)
 
     t*/T2 = 0.858367
@@ -1004,6 +1010,7 @@ K = gamma * t_cross = 0.0374.
 O(1) evaluation instead of ODE solver.
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
+<a id="f26"></a>
 ### F26. CΨ closed form, general Pauli channels (Tier 1, proven)
 
     CPsi = max(u, v) * (1 + u^2 + v^2 + w^2) / 12
@@ -1068,6 +1075,7 @@ reproduces to 8e-16, against u(1 + u²)/6 off by 0.167.
 **Replaces:** per-channel crossing time derivation.
 **Source:** [CΨ Monotonicity Proof](proofs/PROOF_MONOTONICITY_CPSI.md)
 
+<a id="f28"></a>
 ### F28. Conditional fixed-point crossing (Tier 1 implication)
 
     rho(t) -> rho*  and  CPsi(rho*) < 1/4
@@ -1104,6 +1112,7 @@ Boundary at CΨ = 1/4 (discriminant of fixed-point equation).
 
 **Source:** [Mathematical Connections](MATHEMATICAL_CONNECTIONS.md)
 
+<a id="f17"></a>
 ### F17. CΨ dynamics boundary (historical monotonicity index; corrected)
 
 The universal pointwise, forward-invariant/absorbing, and local-control/trajectory package is false. Exact
@@ -1773,6 +1782,7 @@ differences, not a Jarzynski test.
 
 ## Information Geometry (from Bures metric analysis)
 
+<a id="f45"></a>
 ### F45. Bures metric at the fold (Tier 2, N=2 Bell state)
 
     g(CΨ = 1/4) = 3.36    (Bures metric [the natural Riemannian distance between quantum states based on fidelity], finite, no singularity)
@@ -1980,6 +1990,7 @@ anywhere in the repository history. They are left unassigned rather than
 reused, so that every F-number stays stable across the repository's
 cross-references.*
 
+<a id="f55"></a>
 ### F55. Absorption dose K_death (Tier 1 above Q*_gap(N), from D6)
 
     K_death = ln(10) = 2.303    (dose for 99% absorption)
@@ -2618,6 +2629,7 @@ Squaring keeps each contribution in its own sector class, so ⟨Z_i⟩² is bili
 **Scripts:** [`eq018_kernel_extract.py`](../simulations/eq018_kernel_extract.py), [`eq018_kernel_bilin_probe.py`](../simulations/eq018_kernel_bilin_probe.py), [`eq018_c1_purity_response.py`](../simulations/eq018_c1_purity_response.py).
 **Source:** F70, [The Orthogonality-Selection Family](../experiments/ORTHOGONALITY_SELECTION_FAMILY.md) §2.3.
 
+<a id="f73"></a>
 ### F73. Spatial-sum coherence purity closure for vac-SE coherent probes (Tier 1, proven)
 
 For any N-site qubit system with Hermitian Hamiltonian H conserving single-excitation number (\[H, N_total\] = 0) and uniform Z-dephasing γ₀, the coherent probe ρ₀^coh = (|vac⟩⟨α| + |α⟩⟨vac|) / 2 for any normalized single-excitation state |α⟩ satisfies:
@@ -3030,6 +3042,7 @@ mixed-letter bilinears (by linearity of M in H), and the Π²-even case
 **Source:** Discovered 2026-04-29 by data sweep (Tom + Claude). Proven in [the F80 Bloch sign-walk proof](proofs/PROOF_F80_BLOCH_SIGNWALK.md): Steps 1-4 (JW transformation to Majorana bilinear, single-particle dispersion 2cos(πk/(N+1)), Bogoliubov diagonalization, Pauli-letter universality), Step 5 the per-site Pauli computation Π·[H,·]·Π⁻¹ = s·{H,·} with s = −ε_P·ε_Q (N-independent; typed as `F80PiCommutatorAnticommutatorIdentity`), Steps 6-7 the sign-walk assembly, and its "Reach beyond the chain" section for the graph families. Empirical verification through N=7.
 **Lebensader connection:** F80 is the third manifestation of the broad-in → focused-out Π-palindrome funnel: state layer (cockpit_panel), real-space single-body operator layer (F78), and now momentum-space chain 2-body operator layer (F80). Same Π·L·Π⁻¹ + L + 2σ·I = 0 through-line, three different bases.
 
+<a id="f81"></a>
 ### F81. Π-conjugation of M decomposes into Π²-odd Hamiltonian commutator (Tier 1, verified bit-exact N=3,4)
 
 For any 2-bilinear Hamiltonian H decomposed by Π²-parity as H = H_even + H_odd (with H_odd the sum of Π²-odd Pauli bilinears, i.e., bit_b(P)+bit_b(Q) ≡ 1 mod 2), under uniform Z-dephasing:
@@ -3074,6 +3087,7 @@ For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly +
 **Source:** Discovered 2026-04-30 (Tom + Claude) while interpreting the geometric content of F80's 2i factor. The empirical observation came first (Π·M·Π⁻¹ ≠ M for soft); the algebraic explanation followed from working out Π² action on the Liouville superoperator in Pauli basis.
 **Lebensader connection:** F81 is the algebraic backbone of "what the mirror keeps." For Π²-even H, M is itself the through-line operator. For Π²-odd H, the through-line is split: M_anti carries the dynamics generator L_{H_odd}, M_sym carries the rest. Both halves are read identically by both sides of the mirror up to the Spec(M) = Spec(M − 2·L_{H_odd}) similarity. Companion to F80: F80 says what Spec(M) is; F81 says how M and Π·M·Π⁻¹ relate as operators sharing that spectrum.
 
+<a id="f82"></a>
 ### F82. F81 + T1 amplitude damping correction (Tier 1, verified bit-exact N=2..5)
 
 For any 2-bilinear Hamiltonian H = H_even + H_odd under Z-dephasing plus T1 amplitude damping with per-site rates γ_T1_l:
@@ -3128,6 +3142,7 @@ N-scaling verified at N = 2, 3, 4, 5 (uniform γ_T1, coefficient √N · 2^(N−
 **Source:** Discovered 2026-04-30 (Tom + Claude) as the natural extension of F81 ("what does F81 violation mean structurally?"). Closed form derived in [the F82 T1-dissipator proof](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md).
 **Diagnostic application:** [`simulations/f81_t1_diagnostic.py`](../simulations/f81_t1_diagnostic.py) demonstrates the T1-rate readout including Marrakesh application. Companion to F81's structural decomposition: F81 says how M splits under Π-conjugation when the dissipator is Z-only; F82 says how the F81 identity is corrected when T1 is added, and provides the closed form for the correction term.
 
+<a id="f83"></a>
 ### F83. Π-decomposition anti-fraction closed form for mixed Hamiltonians (Tier 1, verified bit-exact N=3,4,5)
 
 For any 2-body chain Hamiltonian H = H_truly + H_odd + H_even_nontruly under Z-dephasing, the F81 Π-decomposition norms are given by the closed form:
@@ -3181,6 +3196,7 @@ The anti-fraction (= ‖M_anti‖²/‖M‖²) is
 
 **Lebensader connection:** F83 closes the analytical Π-decomposition picture for 2-body chain. Pure Π²-odd → 50/50 (F81 Step 8). Pure Π²-even non-truly → 100/0 (F81 trivial). Mixed → 1/(2+4r) (F83). The continuous interpolation r → anti-fraction reads "how much of M is Π-antisymmetric drive vs Π-symmetric memory" as a function of Hamiltonian composition. Together with F80 (Spec(M)), F81 (Π-decomposition identity), F82 (T1-correction), the structural picture of M is complete for 2-body chain Hamiltonians under Z-dephasing + T1.
 
+<a id="f84"></a>
 ### F84. F82 generalized to thermal amplitude damping (Tier 1, verified bit-exact N=3)
 
 For any 2-bilinear Hamiltonian H under Z-dephasing plus thermal amplitude damping with per-site cooling rate γ_↓_l (σ⁻ channel) and heating rate γ_↑_l (σ⁺ channel):
@@ -3292,6 +3308,7 @@ For any k-body Pauli term (P_1, ..., P_k) with letters from {I, X, Y, Z}, the Π
 
 **Lebensader connection:** F85 closes the body-count generalization of the F-chain. Together with F80 (Spec), F81 (decomposition), F82 (T1), F83 (anti-fraction), F84 (thermal): the structural Π-decomposition theory for Hamiltonians + dissipators is complete on chain (any topology for 2-body via F49; chain only for k ≥ 3).
 
+<a id="f86"></a>
 ### F86. Q_peak chromaticity-specific N-invariant constants (Sammelbecken with three theorems)
 
 For a uniform N-qubit XY (or Heisenberg) chain with Z-dephasing γ₀, the J-derivative of the F73 spatial-sum coherence purity peaks along the dimensionless coupling axis Q = J/γ₀ at chromaticity-specific values. F86 bundles three structurally distinct theorems under one F-label:
@@ -3472,6 +3489,7 @@ with Π_HD1 the Hamming-distance-1 subspace projector and M_H the block Hamilton
 **Proof:** [the F86 Q-peak hub proof](proofs/PROOF_F86_QPEAK.md) is the hub; the three theorems were split into per-theorem proofs 2026-05-14. F86a EP mechanism = [the F86a EP-mechanism proof](proofs/PROOF_F86A_EP_MECHANISM.md) \[Tier 1 derived\]; F86b universal resonance shape = [the F86b universal-shape proof](proofs/PROOF_F86B_UNIVERSAL_SHAPE.md) \[Tier 1 candidate at multi-c level; F86b₂ c=2 per-bond predictor is Tier 1 candidate, partial closure 2026-05-13 (form derived, (α, β) per sub-class fitted, Tier-reviewed 2026-05-16)\], with the g_eff/Q_peak obstruction proof in [the F86b obstruction proof](proofs/PROOF_F86B_OBSTRUCTION.md); F86c F71 spatial-mirror invariance = [the F86c F71-mirror proof](proofs/PROOF_F86C_F71_MIRROR.md) \[Tier 1 derived\]. Per-bond c=2 HWHM_ratio partially closed 2026-05-13 via `F86HwhmClosedFormClaim`; c≥3 per-bond closed forms retracted 2026-05-02.
 **Source:** [the Q-scale three-bands study](../experiments/Q_SCALE_THREE_BANDS.md) Result 2 + Revision 2026-04-24, F73, F74, F2b; EP analysis EQ-022 (b1).
 
+<a id="f87"></a>
 ### F87. Pauli-pair trichotomy classification (Tier 1, structural; Marrakesh hardware-confirmed)
 
 For any list of bond Pauli-pair terms `{(P_i, Q_i)}` with letters in {I, X, Y, Z}, build the bilinear Hamiltonian `H = Σ_b J · P_b ⊗ Q_b` on the chain bonds and the uniform-Z-dephasing Liouvillian L (with rate γ per site, σ ≡ Σγ). The F1-palindrome residual `M ≡ Π · L · Π⁻¹ + L + 2σ · I` (where Π is F1's order-4 Pauli-string conjugation operator) partitions the term list into exactly one of three categories, with ε ≈ 10⁻¹⁰ the operator-norm tolerance and ε_spec ≈ 10⁻⁶ the spectral-pairing tolerance:
@@ -3499,6 +3517,7 @@ The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc
 **Hardware:** [`palindrome_trichotomy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26; [`f83_pi2_class_signature_marrakesh`](../simulations/framework/confirmations.py) Marrakesh 2026-04-30; [`pi_protected_xiz_yzzy`](../simulations/framework/confirmations.py) Marrakesh 2026-04-26 (first-time-on-hardware Π-protection on YZ+ZY soft).
 **Source:** [V-Effect Fine Structure](../experiments/V_EFFECT_FINE_STRUCTURE.md), [Marrakesh Three Layers](../experiments/MARRAKESH_THREE_LAYERS.md), [`reflections/ON_THE_RESIDUAL.md`](../reflections/ON_THE_RESIDUAL.md), memory entries `project_v_effect_combinatorial`, `project_hardware_finale_apr2026`, `project_f77_f87_rename`.
 
+<a id="f88a"></a>
 ### F88a. Two-axis Π² decomposition of Pauli operator space (Tier 1, structural finding 2026-05-03)
 
 > **F88 split.** F88 was historically a single registry slot; it carries two structurally distinct claims that share an algebraic root: **F88a** (operator-level Klein decomposition, this entry) and **F88b** (state-level popcount-coherence Π²-odd / memory closed form, next entry). Both inherit from the same Π² involution; F88a names the operator-cells, F88b reads ρ's projection through them. The split was formalised 2026-05-18.
@@ -3540,6 +3559,7 @@ The X-flip pattern is empirically locked across all 4 fingerprint cases; the str
 **Source:** `compute/RCPsiSquared.Core/Symmetry/Pi2Projection.cs` (`KleinSplit` + `KleinDecomposition`); test files above. Discovery: 2026-05-03 session, after building the raw Π² layer and asking what the second dephase axis would reveal. Π itself is the project's discovery (F1 palindrome operator, `MIRROR_SYMMETRY_PROOF`); the (Π²_Z, Π²_X) two-axis decomposition that this section names is also a project finding. The "Klein" tag throughout this section is borrowed nomenclature for the resulting Z₂ × Z₂ four-cell algebra (the canonical name for that group is the Klein four-group / Vierergruppe, after Felix Klein); the underlying structure is ours, the label is textbook shorthand.
 **See F88b** below for the state-level corollary: popcount-coherence Π²-odd / memory closed form via Krawtchouk reflection-orthogonality, which lifts F88a's operator-level Π²_Z eigenvalue into ρ-space.
 
+<a id="f88b"></a>
 ### F88b. Popcount-coherence Π²-odd / memory closed form (Tier 1 derived, state-level inheritance from F88a, 2026-05-04)
 
 For popcount-coherence pair states `|ψ⟩ = (|p⟩ + |q⟩)/√2` with popcount(p) = n_p, popcount(q) = n_q, HD(p, q) = h, the Π²-odd fraction of the dynamical (memory) part of ρ has a closed form driven by Krawtchouk reflection-orthogonality of F88a's Π²_Z eigenvalue (−1)^Σ bit_b:
@@ -3743,6 +3763,7 @@ with all other ingredients (probe, S_kernel, dephasing rates, Liouvillian constr
 
 ---
 
+<a id="f91"></a>
 ### F91. F71-anti-palindromic γ spectral invariance (= 90° in γ-space, parameter-side Klein V₄, shadow of the operator-side Pi2-Z₄) (Tier 1 derived, algebraic proof + bit-exact N=4,5,6; 2026-05-12)
 
 **For chain XY + Z-dephasing Liouvillian L on N qubits, the eigenvalue multiset of the F71-refined diagonal-block decomposition is invariant under any γ-distribution satisfying**
@@ -3776,6 +3797,7 @@ The diagonal-block spectral content is preserved on the anti-palindromic locus, 
 
 ---
 
+<a id="f92"></a>
 ### F92. F71-anti-palindromic J spectral invariance (J-side parameter-Klein-V₄ twin of F91) (Tier 1 derived, algebraic + bit-exact N=4,5; 2026-05-12)
 
 **For chain XY + uniform Z-dephasing Liouvillian L on N qubits with inhomogeneous bond couplings J_b (b ∈ \{0..N−2\}), the F71-refined diagonal-block eigenvalue multiset is invariant under any J-distribution satisfying**
@@ -3924,6 +3946,7 @@ so the squared magnitude ranges from 1/16 at the cusp to 9/16 at the tail, while
 
 **Anchors:** [`PROOF_F97_CARDIOID_HALF_FIXED_POINT.md`](proofs/PROOF_F97_CARDIOID_HALF_FIXED_POINT.md) and [`cardioid_parametrization_tier1.py`](../simulations/cardioid_parametrization_tier1.py). Coordinate-side context lives in [`CPSI_COMPLEX_PLANE.md`](../experiments/CPSI_COMPLEX_PLANE.md), [`BOUNDARY_NAVIGATION.md`](../experiments/BOUNDARY_NAVIGATION.md), and [`MANDELBROT_CONNECTION.md`](../experiments/MANDELBROT_CONNECTION.md).
 
+<a id="f98"></a>
 ### F98. KIntermediate Dicke long-time Π²-odd asymptote = (N+2)/[4(N+1)] → 1/4 (Tier 1 derived, bit-exact N=4..16; 2026-05-17)
 
 **Two paired closed forms bridging the F86b 3/8 K-intermediate Dicke anchor (static, t=0) to the QuarterAsBilinearMaxval 1/4 universal boundary (asymptotic, N→∞):**
@@ -3996,6 +4019,7 @@ N→∞:   α(0) = 3/8          →  α(∞) → 1/4                [QuarterAsBi
 
 **Anchors:** [`simulations/water/proton_chain_dicke_anchor.py`](../simulations/water/proton_chain_dicke_anchor.py) (numerical bit-exact verification + Krawtchouk enumeration), [F86b](#f86) DickeAnchor 3/8 anchor (static partner), [F88b](#f88b) Π²-odd state-level structure (parent), [F4](#f4) kernel decomposition (used in long-time projection), `compute/RCPsiSquared.Core/Symmetry/QuarterAsBilinearMaxvalClaim` (asymptote anchor), `compute/RCPsiSquared.Core/Symmetry/HalfAsStructuralFixedPointClaim` (1/4 = (1/2)² parent), `docs/water/README.md` § "Findings since May 4".
 
+<a id="f99"></a>
 ### F99. Five canonical trigonometric anchors via F86b non-uniform Dicke (Tier 1 derived; floating-point check at N=4,6,8 across 5 angles, printed Δα < 1e-13; 2026-05-17 night)
 
 **The F86b α-formula α = (1 − γ²)/2 = sin²(θ)/2 evaluated at the canonical trigonometric angles {0°, 30°, 45°, 60°, 90°} produces all five Pi2 dyadic anchors {0, 1/8, 1/4, 3/8, 1/2}. The standard 30°-60°-90° and 45°-45°-90° trigonometry triangles ARE the F86b polarity-anchor triangles.**
@@ -4092,6 +4116,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 ---
 
+<a id="f100"></a>
 ### F100. F71 c₁/Q_peak bond-mirror deviation is exactly odd in the F71-anti-palindromic J (observable-side twin of F92) (Tier 1 derived, algebraic + numerically verified N=3,4,5; 2026-05-20)
 
 **For an N-qubit XY chain with uniform Z-dephasing and bond-coupling profile J = (J_0, ..., J_{N−2}), the F71 bond-mirror deviation of the closure-breaking coefficient c₁ (and of the F86c per-bond Q_peak observable),**
@@ -4114,6 +4139,7 @@ DickeAnchor.cs), companion bridge [F98](#f98) (long-time 3/8 → 1/4 via kernel 
 
 ---
 
+<a id="f101"></a>
 ### F101. F71 c₁ bond-mirror deviation is exactly odd in the F71-anti-palindromic γ (observable-side twin of F91) (Tier 1 derived, algebraic + numerically verified N=3,4,5; 2026-05-21)
 
 **For an N-qubit XY chain with uniform coupling J and a per-site Z-dephasing profile γ = (γ_0, ..., γ_{N−1}), the F71 bond-mirror deviation of the closure-breaking coefficient c₁,**
@@ -5495,6 +5521,7 @@ in [The Qubit as Necessary Foundation](QUBIT_NECESSITY.md) §8b/§10.2; typed cl
 
 ---
 
+<a id="f122"></a>
 ### F122. The structural ceiling: closed forms for the topology gap rate (Tier 1 derived; principal-angle proof + gate-exact N=4..8; 2026-06-16)
 
 Under uniform Z-dephasing the slowest non-steady mode sits at `Re = −2γ·g2` with
@@ -5863,6 +5890,7 @@ closed form:** W = 𝒪[cos s · cot s · V_aV_b/P] is the whole content of 𝔉
 prefactor; its closed form is F133 (below, 2026-07-17): a symplectic character sum over
 Sp(12), 143 integer coefficients.
 
+<a id="f129"></a>
 ### F129. The level-collision law: the triple level map is injective away from 3|n and 10|n (structural proof 2026-07-14 late, Lam-Leung + elementary; the named corner closed 2026-07-15 via the Poonen-Rubinstein classification, now unconditional; minted 2026-07-14)
 
 Call a triple τ ⊂ {1..n−1} CLEAN if no internal pair sums to n. For distinct clean triples,
@@ -6022,6 +6050,7 @@ The surviving first-order hardware face is F129's standing Ramsey fringe:
 [IBM_F129_RAMSEY_FRINGE.md](../experiments/IBM_F129_RAMSEY_FRINGE.md)
 (pre-registration; 7a + 7b recorded 2026-07-15, flight pending calibration + go).
 
+<a id="f131"></a>
 ### F131. The mirror's order-sorting law: response orders sort by the parity product q·σ_eff (assembly of committed results, 2026-07-16; minted 2026-07-16)
 
 For a mirror M (unitary or antiunitary involution) whose conjugation reflects a
@@ -6480,6 +6509,7 @@ thermal case obstructed while its own body computed the valid pairing.
 
 ---
 
+<a id="f138"></a>
 ### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (a sufficient condition, measured and never once broken; the converse is false, failing at fewer bond letters and at coincident field magnitudes, and F158 decides the setting exactly; minted 2026-07-21)
 
 For H a sum of bond terms, the dephasing palindrome about −Σγᵢ holds **when**,
@@ -6535,8 +6565,11 @@ measured and no more than that: the exceptions track the graph's own
 automorphisms and the bond's letter count, so the conditions look sufficient
 always and necessary only where the configuration carries no symmetry of its
 own, a reading and not a result. **Operators explaining the exceptions are
-exhibited on two families.** On the
-clause-2 6-family the dressing U = SWAP₀₂·Z₀Z₁Z₂ works. On the CLAUSE-1
+exhibited on two families.** The 78 P₃ rows of (b) split into
+two families: the 6 whose field is anti-invariant under the end-site swap, and
+the other 72. On the six a dressed site reversal works, U = SWAP₀₂·Z₀Z₁Z₂ on the
+row [THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md) assembles
+and its letter-relabelled, sign-flipped copies on the other five. On the CLAUSE-1
 exceptions it is closed form: take P₃ with an XX+YY bond, no field, one
 dephasing axis per site and all rates equal; of the six three-axis assignments
 clause 1 forbids, exactly the two with **Z on the middle site** pair anyway, and
@@ -6564,7 +6597,7 @@ WHERE the odd axis sits, not how many axes there are.
 in general without exhibiting anything at all, by comparing dim ker L with
 dim ker(L + 2Σγ), and it finds every one of these. Separate EXISTS from EXPLAINS
 when reading it: the operators above are exhibited on the two named families,
-the mechanism on the clause-2 72 is still not shown, and the 27-row family here
+the mechanism on the other 72 rows of (b) is still not shown, and the 27-row family here
 is not F138's own 22-of-4096 count. Both
 failures are collected in
 [an open arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
@@ -6631,7 +6664,8 @@ on the exact kernel
 direction, and they carry it as a measured census rather than as a derivation:
 every qualifier there is reported as a row count (256/256 against 1/256, 64/64
 against 0/64). Read as a proof of the *only when* half it would contradict this
-very row, which counts that half failing five separate ways. Neither that
+very row, which counts that half failing at fewer bond letters and at
+coincident field magnitudes. Neither that
 paragraph nor this row derives the clauses.
 [F158](#f158) decides the same
 setting exactly (a dephasing axis n̂·σ⃗ is Hermitian and squares to 1, and
@@ -6690,6 +6724,7 @@ compute/RCPsiSquared.Diagnostics.Tests --filter CrossTripleOrthogonality`
 
 ---
 
+<a id="f140"></a>
 ### F140. The R90 frozen divisor: a mirror-balanced locus that pins the decay rate -4*gbar at every coupling, at least floor(N/2) modes deep (a room count of the cell mirror, no symmetry behind it; minted 2026-07-25, retitled 2026-07-25, renamed 2026-08-08)
 
 On the mirror-balanced (anti-palindromic) locus of F91, every reflection pair of site
@@ -7090,6 +7125,7 @@ mechanism argument for its edge, not proved; everything else here is derived.
 Sections 2 and 3.
 **Verification:** [`simulations/eta_ceiling_reduction.py`](../simulations/eta_ceiling_reduction.py), blocks V1 and V2, the injectivity in V2(b).
 
+<a id="f143"></a>
 ### F143. The seed rung in closed form: the frozen kernel is the chiral-odd sector, and the gap above it is one over the transform length (minted 2026-07-27)
 
 Reduce the frozen question at large coupling to the commutant of the
@@ -7619,6 +7655,7 @@ in the gate's own class documentation and in the arc `sideways_spin_ladder`.
 
 ---
 
+<a id="f151"></a>
 ### F151. The bipartite gauge criterion: the gauge commutes with the site reflection iff (p+q)(N−1) is even, and then the R-sectors are conjugation-closed (derived 2026-08-10, registered 2026-08-13)
 
 On the (wKet, wBra) coherence block let 𝒟 be the staggered diagonal
@@ -7715,6 +7752,7 @@ which stands on this gauge. Reading `experiments/F89_PATH_K_DIABOLIC.md` and the
 
 ---
 
+<a id="f152"></a>
 ### F152. The vacuum-block generator is the graph Laplacian: on the (0,1) coherence block M = −2i·𝓛_J − 2·diag(γ), for any graph and any γ profile (derived 2026-08-02, registered 2026-08-13)
 
     M = −2i·𝓛_J − 2·diag(γ),   𝓛_J = D_J − A_J the J-WEIGHTED graph Laplacian (= J·𝓛 at uniform J)
@@ -7814,6 +7852,7 @@ when the ZZ term is taken away.
 
 ---
 
+<a id="f153"></a>
 ### F153. The pinning criterion: a joint-popcount block sits ENTIRELY on its floor exactly when min(p, q) = 0 or max(p, q) = N, which is 4N of the (N+1)² blocks (criterion derived graph-blind for any number-conserving H; SCOPE: uniform γ REQUIRED bar the four one-cell blocks; GATED on the chain only, at Δ = −1, −0.7, 0, 0.5, 1, 2, with the γ FENCE itself gated since 2026-08-14; derived 2026-08-02, entry-wise certificate 2026-08-06, registered 2026-08-13)
 
     at UNIFORM γ:  Re λ = −2γ·|p − q| throughout the block  ⟺  min(p, q) = 0 or max(p, q) = N
@@ -8537,6 +8576,7 @@ surfaces still name that withdrawal (`OpenArcsRegistry.cs`,
 committed already, recorded in the arc `noise_origin_after_candidate_two`; it
 stays unassigned because that arc names the withdrawal.*
 
+<a id="f157"></a>
 ### F157. The blind seat: watching ONE seat j misses exactly blind(j) = N − dim Krylov(e_j) = deg gcd(χ(H), χ(H with row and column j struck)) single-excitation dimensions, the identity unconditional for real symmetric H and the physical reading adding 1 only at a seat whose own ray is H-invariant; on the uniform open chain it closes to (gcd(2j+1, N) − 1)/2 with the ZZ term and gcd(j+1, N+1) − 1 without, and on the XY book parity alone forces every odd seat of every odd chain blind at every zero-free profile; and those two uniform laws are the Δ = 1 and Δ = 0 SECTIONS of one continuous locus on the anisotropy axis, governed by the node modulus N_node = |N − 1 − 2j| (Tier 1: general form a theorem by Cramer 2026-08-24, uniform laws derived from the node bases; the span is a COMMUTANT, dim ker L_SE(j) = 1 + dim commutant(H restricted to the seat's KRYLOV COMPLEMENT), which equals 1 + blind(j) exactly when that restriction has a simple spectrum, proved 2026-08-25; registered 2026-08-24)
 
 Put the Z-dephasing on a single seat j of an N-site chain or graph (a "seat" is
@@ -9050,7 +9090,8 @@ depolarizing site already empties the far end, since W would have to
 anticommute there with X, Y and Z at once and XY ∝ Z forbids it, so
 dim ker(L + 2σ) = 0 against dim ker L ≥ 1 at every rate profile, uniform or not.
 The size of that break is [F5](#f5-depolarizing-error-tier-1-proven)'s to
-state; the criterion decides the verdict, BROKEN for a site carrying X, Y and Z
+state, for equal letter rates and, in its Pauli-channel paragraph, for unequal
+ones; the criterion decides the verdict, BROKEN for a site carrying X, Y and Z
 jumps at any positive rates, equal or not.
 
 **Corollaries.** `dim ker(L + 2σ) ≤ dim ker L` always, with no palindrome in
@@ -9105,6 +9146,7 @@ F138's Proof anchor, argued in the arc `f138_converse_failures`.
 
 ---
 
+<a id="f160"></a>
 ### F160. The cracked ring is exactly solvable: with one bond of the XY ring detuned to u·J, u = J′/J, and E = 2J·cos k, for u < 1 the whole single-excitation spectrum is the zero set on the open interval (0, π) of G(k) = (1 − u²)·sin(Nk)·cos k + [(1 + u²)·cos(Nk) − 2u]·sin k = sin((N+1)k) − u²·sin((N−1)k) − 2u·sin k, multiplicities included, because det(2J·cos k·I − H) = J^N·G(k)/sin k (at u = 1 the band-edge levels sit at k = 0 and, for even N, k = π, where G vanishes for free; past u = 1 the departed levels ride the same curve continued to complex k); u is a boundary-condition parameter whose two ends are the two combs (u = 1 the ring's 2πm/N, u = 0 the open chain's πm/(N+1), F2b), the condition is the walk-time step's transmission amplitude closed into a loop, Re[e^(−iNk)/t(k)] = 1, the flat split 4δJ/N, δ = 1 − u, gets its next order ΔE_m = (4δJ/N)[1 + δ(½ − 1/(N·sin²k_m)) + O(δ²)], and past u = 1 how many levels leave the band is a parity law (Tier 1: derived and gated 2026-08-31 in THE_CRACKED_BELL §The crack is exactly solvable and stated the same day in the sibling COUPLING_DEFECT_WALK_TIME_STEP, both committed 2026-09-01 in 20bc844; registered 2026-09-01 as an INDEX of those two pages, adding only one-line consequences: the polynomial clothing of the identity, its band-edge factor forms, the N = 4 Perron series and the Weyl bound that caps the departures at one per side)
 
 **Why a number, and why it says so.** This entry indexes; it does not
@@ -9413,6 +9455,7 @@ F129's collisions on this road. That velocity is the first term of a series, and
 computed orders read the same comb under different integer multipliers. A gcd forces
 some odd-order rungs to vanish; local pieces and ROT3 explain further cases.
 
+<a id="f161"></a>
 ### F161. Each computed order of a collision gap on the crack's road reads ONE comb under a different integer multiplier, and a gcd supplies a sufficient vanishing route for odd-order rungs while local pieces and ROT3 cover more cases: writing a chain level's motion in the wrap bond as E_k(u) = 2cos θ_k + Σ_m d_m·u^m, each of the five computed coefficients is a signed combination of neighbouring evaluations of ONE comb under an integer multiplier (a difference of two through third order, three rungs at fifth; the PARITY of the multipliers is a theorem at every order, from two symmetries of the angle equation, while their RANGE is not, so the general shape past the fifth is open), the odd orders on X_2j(τ) = Σ_{k∈τ} (−1)^{k+1}·cos(2jkπ/n) = −M_{n+2j}(τ) and the even orders on M_{2j+1}(τ) = Σ_{k∈τ} cos((2j+1)kπ/n); the multiplier is a Galois automorphism of ℚ(ζ_2n) exactly when gcd(n+2j, 2n) = 1, which at ODD n is gcd(j, n) = 1, so at every odd n and for EVERY collision pair ΔX₂ = ΔX₄ = 0 and hence c₃ = 0, standing or separating (the rung j = 0 is never an automorphism, gcd(n, 2n) = n, and that is the rung which leaves c₁ standing for the 2335 pairs that separate, reading (4/n)(o_τ − o_σ) at odd n where ΔX₂ = 0, and (2/n)(ΔX₀ − ΔX₂) in general); at even n no such multiplier reaches the ladder from the collision, and the twelve non-mirror standing pairs of the n ≤ 30 census are carried instead by the Conway-Jones ROT3 shape of their doubled labels, for which X_2j = 0 is FORCED whenever 3 ∤ j (parity-uniform triples; at even n that is free, since 6 | n makes every coset parity-homogeneous, and at odd n it is load-bearing); and since F129 fires only at 3|n or 10|n while 10|n forces n even, every odd firing modulus has 3|n, so j = 3 is the first rung that can survive in both cases and X₆ first enters at FIFTH order (Tier 1 derived and gated 2026-09-02, fifteen gate blocks L1 to L14: the cyclotomic ones exact in ℤ[ζ_2n], the closed forms exact and symbolic in n, four blocks exact but concrete
 in N or n, and one error-model law on an eigensolver (L4), the only inexact gate on
 the page; the first-order rung is F160's Theorem G and the j = 1 kill is THE_COMB_ON_THE_ROAD's gate R3b, both recovered here as members of one family)
@@ -9525,6 +9568,7 @@ separating and 223 standing, 627 at odd n with 627 vanishing third orders, 11
 above a Tier1Derived child; it is carried by anchor and executably through
 `LevelCollisionCensus.Fires` and `CollisionFamilyInventory.Count`.
 
+<a id="f162"></a>
 ### F162. A blind seat's two sector halves-resultants factor F157's own locus polynomial exactly, sign and leading coefficient included, and the sign reads the fold coordinate alone: with S_m = sin(mθ)/sin θ as a monic integer polynomial in x = 2cos θ (F157's U_{m−1}(x/2)), α_p = S_{p+1} − t·S_p the characteristic polynomial of the p-site chain carrying the knob at coordinate 0, p = min(j, N−1−j) the fold coordinate and N_node = |N−1−2j|, the congruence S_p·α_{N−1−p} ≡ −S_{N_node} (mod α_p), which is the Chebyshev addition formula twice closed by the Cassini identity S_{p+1}² − S_p·S_{p+2} = 1 that [F160](#f160)'s proof owns, carries the two reflection sectors' halves-resultants Q_E, Q_O onto the seat's own locus polynomial up to the single common factor Res(α_p, S_p) = (−1)^binom(p,2), so that with every resultant taken FOLD HALF FIRST, in the two sectors as well as outside, **Res(α_p, α_{N−1−p}) = (−1)^binom(p+1,2)·Q_E·Q_O**, an exponent reading the fold coordinate and not N; that object is [F157](#f157)'s own definition route Res(S_{N_node}, Δ·S_j − S_{j+1}) times (−1)^e with e = (N_node−1)(p+1) + p + binom(p,2) + [j > N−1−j]·binom(N_node,2), the last term being the price of carrying F157's SEAT index onto the fold coordinate through the node identity S_{p+N_node}(x_k) = (−1)^k·S_p(x_k); and each factor is **Q_S = c_S·∏(t − Δ_k) over the non-pole roots of β_S**, one factor per NON-POLE root and a pole root contributing a constant instead, so a Δ shared by several node indices repeats and, once Lemma 8 is read on the middle route to say that β_E carries the odd indices and β_O the even ones, that multiplicity in Q_E is the proof's Corollary 8a b_E, which is a corollary of those two and is measured against no b_E by any gate (N = 10 seat 2 gives Q_E = −(t−1)² from k = 1 and k = 3, N = 14 seat 3 a multiplicity of three, and F157's committed double root at N = 11 seat 2 is carried by k = 2 and k = 4, both EVEN and so both landing in Q_O, which is a repeated factor of one halves-resultant and not merely of a product), with c_S = (−1)^(p·r_S + n_S)·Res(h_S, S_p)·Res(g_S, S_{p+1}) a nonzero integer read off the pole split g_S = gcd(β_S, S_p), h_S = β_S/g_S, r_S = deg β_S, n_S = deg h_S; the two constants compose as lc_t(P_j) = (−1)^binom(p+1,2)·c_E·c_O with deg_t P_j = n_E + n_O, which against F157's four committed rows is the row itself times a sign, the sign being exactly what F157's primitive-and-positive normalisation discards; and the ±1 that carried this as open had no convention-free answer to give, a resultant being antisymmetric up to (−1)^(deg f·deg g) while `sympy.resultant` does not keep the order it is given, agreeing with the Sylvester determinant when deg f ≥ deg g and being (−1)^(deg f·deg g) times it when deg f < deg g (Tier 1 derived and gated 2026-09-03 in §(i) of [PROOF_BLIND_SEAT_TWO_AXES](proofs/PROOF_BLIND_SEAT_TWO_AXES.md), gate block W, twenty-three checks exact in sympy: the congruence as an exact remainder in ℤ[t][x] at 72 seats over N = 4..14, both sign laws and the generator tie in closed form at the same 72, the node identity at 1260 (n, p, k) and the sector parity at 500 readings in ℚ(2cos(π/n)), the factorisation read on its PRODUCT, the repeated-factor population pinned as a set, six controls that assert a break, among them W6c which shows the squarefree hypothesis is load-bearing and W0d which shows sympy is order-dependent at equal degrees, and W0 to W0c which read the Sylvester determinant against the DEFINITION lc(f)^deg(g)·∏g(α), including non-monic and degree-0 arguments, because the other resultant is the thing under suspicion)
 
 **What it adds, and to what.** [F157](#f157) owns the locus polynomial
@@ -9604,6 +9648,7 @@ run committed at
 
 ---
 
+<a id="f163"></a>
 ### F163. The N=6 Route-B A₂ crossings unfold into two EPs: a quadratic location formula, with first-order equal-end response and second-order opposite-end response (Tier 1, derived and exact-arithmetic certified)
 
 The 90D (one ket excitation, two bra excitations) block of the open N=6 XY
@@ -9827,7 +9872,7 @@ measures that split beside the projection.
 repository's total certification status.
 **Source:** [PROOF_N5_REAL_Q_DIABOLIC](proofs/PROOF_N5_REAL_Q_DIABOLIC.md);
 [`n5_a2_rodd_character_gate.py`](../simulations/n5_a2_rodd_character_gate.py).
-Sibling: [F163](#f163-the-n6-route-b-a-crossings-unfold-into-two-eps-a-quadratic-location-formula-with-first-order-equal-end-response-and-second-order-opposite-end-response-tier-1-derived-and-exact-arithmetic-certified)
+Sibling: [F163](#f163)
 does the same job at N=6 for the whole layer: the R-even
 degree-133 A₂ factor is irreducible, one real Hermitian embedding carries
 semisimplicity to each of its conjugates, and a diagonal sign operator exchanging

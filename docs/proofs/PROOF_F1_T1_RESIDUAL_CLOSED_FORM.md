@@ -206,8 +206,8 @@ The closed form makes the F1 T1-block residual a quantitative, **Hamiltonian-ind
 
 - **F1 palindrome equation** ([`docs/ANALYTICAL_FORMULAS.md` F1](../ANALYTICAL_FORMULAS.md#f1-palindrome-equation-tier-1-proven), [the Mirror Symmetry Proof](MIRROR_SYMMETRY_PROOF.md)): the underlying Π·L·Π⁻¹ + L + 2Σγ·I = 0 identity for Z-dephasing.
 - **F49 Frobenius residual scaling** ([`docs/ANALYTICAL_FORMULAS.md` F49](../ANALYTICAL_FORMULAS.md#f49-cross-term-formula-tier-1-proven), [the Cross-Term Formula proof](PROOF_CROSS_TERM_FORMULA.md)): companion closed form for the Hamiltonian block.
-- **F82 T1 dissipator correction** ([`docs/ANALYTICAL_FORMULAS.md` F82](../ANALYTICAL_FORMULAS.md#f82-pi-conjugation-of-m-under-t1-amplitude-damping-tier-1-proven), [the F82 T1 dissipator correction proof](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)): isolates the Π²-anti-symmetric piece ‖D_{T1, odd}‖_F = √(Σγ²) · 2^(N−1); related but different quantity.
-- **F84 Amplitude damping (thermal)** ([`docs/ANALYTICAL_FORMULAS.md` F84](../ANALYTICAL_FORMULAS.md#f84-pi-conjugation-of-m-under-thermal-amplitude-damping-tier-1-proven), [the F84 amplitude damping proof](PROOF_F84_AMPLITUDE_DAMPING.md)): F82's thermal generalization.
+- **F82 T1 dissipator correction** ([`docs/ANALYTICAL_FORMULAS.md` F82](../ANALYTICAL_FORMULAS.md#f82), [the F82 T1 dissipator correction proof](PROOF_F82_T1_DISSIPATOR_CORRECTION.md)): isolates the Π²-anti-symmetric piece ‖D_{T1, odd}‖_F = √(Σγ²) · 2^(N−1); related but different quantity.
+- **F84 Amplitude damping (thermal)** ([`docs/ANALYTICAL_FORMULAS.md` F84](../ANALYTICAL_FORMULAS.md#f84), [the F84 amplitude damping proof](PROOF_F84_AMPLITUDE_DAMPING.md)): F82's thermal generalization.
 
 ### Typed claims
 

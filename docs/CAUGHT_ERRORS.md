@@ -4628,3 +4628,26 @@ The pass on F158's own surfaces (entry above) left the documents that cite it; t
 - **An open case already closed.** MIRROR_SYMMETRY_PROOF's axis table called the per-site Z, X, Z row
   "the genuinely open case"; Y⊗Y⊗Y commutes with the Heisenberg chain and anticommutes with every jump.
 - **Anchor:** the files named; F158 §(a), §(e), §(f2); F138 in `docs/ANALYTICAL_FORMULAS.md`.
+
+## 2026-08-28, the night F158 was derived: four errors its three review rounds caught
+
+Moved here from the proof's own text on 2026-09-28, when PROOF_PALINDROME_TWO_END_COUNT was faded to
+its current truth; the forensics belong in this ledger and not in the proof.
+
+- **A quotation of a sentence that no longer existed.** The sweep record quoted a line the same session
+  had edited away earlier that evening.
+- **The F103 §7.12 reversal.** The first draft said twice that §7.12 leaves the restoring operator
+  unexhibited; the sentence after the one it quoted names it (the hidden-Q routing,
+  `TwoTermPalindromeRouting`).
+- **A semisimplicity gate that could not fail.** On 250 rows a leaked loop variable reduced the matrix
+  by a different prime than the one it was built at, so it had full rank on every row, including the
+  33 that carry a kernel.
+- **A tautology read as evidence.** "The operator is not diagonal" holds for every element of 𝒲 under
+  Z-dephasing, since A W A = −W forces every diagonal entry to vanish; it is now gated as a tautology.
+- **Also from that night:** a spectrum comparison that sorted both spectra and compared elementwise
+  reported every row broken, the canonical chain included (a lexicographic sort is not a matching);
+  the first sweep named the wrong arc for the "cite it rather than re-deriving it a third time"
+  instruction (it is in `site_resolved_vacuum_block`, not `f138_converse_failures`) and re-derived the
+  window-edge lemma a third time; and it reported `hypotheses/THE_OTHER_SIDE.md` Q6 as open when it
+  is marked answered.
+- **Anchor:** `docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md`; `simulations/f138_rank_criterion.py`.

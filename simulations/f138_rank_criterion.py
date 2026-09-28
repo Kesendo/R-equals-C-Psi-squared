@@ -78,6 +78,14 @@ from f138_clause_two_sweep import (build_L, palindromic,        # noqa: E402
 P = PRIMES[0]
 rng = np.random.default_rng(20260828)
 RESULTS = []
+# every row scored against the exact palindrome, tallied for the closing count
+SCORED = {'rows': 0, 'holds': 0, 'strict': 0}
+
+
+def tally(dN, dW, pal):
+    SCORED['rows'] += 1
+    SCORED['holds'] += bool(pal)
+    SCORED['strict'] += (0 < dW < dN)
 
 
 def gate(name, ok, detail=''):
@@ -605,6 +613,7 @@ def score_rank(label, n, edges, cases, mags, **kw):
         holds += bool(pairs)
         breaks += (not pairs)
         both_live += (0 < dW < dN)
+        tally(dN, dW, pairs)
         if says and not pairs:
             fp += 1
             ex.append(('FALSE POSITIVE', deph, fld, signs, dN, dW))
@@ -777,6 +786,7 @@ def score_raw(label, rows):
         breaks += (not pal)
         dominated += (dW <= dN)
         both_live += (0 < dW < dN)
+        tally(dN, dW, pal)
         if says and not pal:
             fp += 1
             ex.append(('FALSE POSITIVE', tag, dN, dW))
@@ -843,6 +853,7 @@ def gate7_f103_counterexamples():
             dN, dW, BW = spaces_raw(H, jumps, P)
             L, shift = build_L_raw(H, jumps, 1, 20, P)
             pal = palindromic_raw(L, shift, P)
+            tally(dN, dW, pal)
             name = '-'
             if dW == 1:
                 W = BW[0].reshape(2 ** n, 2 ** n) % P
@@ -1196,8 +1207,9 @@ def gate10_boundaries():
 def gate11_strict_inequality_by_construction():
     """The axis every other gate is thin on, reached by construction.
 
-    Across the scored rows only 212 of 15,415 have 0 < dim W < dim N, so
-    on the rest a much weaker predicate (dim W > 0) would score identically.
+    Across the scored rows few have 0 < dim W < dim N (the count is tallied
+    and gated at the end of the run), so on the rest a much weaker predicate
+    (dim W > 0) would score identically.
     Those rows are the ones that separate the criterion from its own shadow,
     and they can be BUILT rather than waited for:
 
@@ -1215,8 +1227,9 @@ def gate11_strict_inequality_by_construction():
     print()
     print('## Gate 11: 0 < dim W < dim N, built rather than waited for')
     print()
-    print('  Only 212 of the 15,415 scored rows have 0 < dim W < dim N,')
-    print('  which is where the EQUALITY says more than nonemptiness. Here')
+    print('  Few of the scored rows have 0 < dim W < dim N (tallied at the')
+    print('  end of the run), which is where the EQUALITY says more than')
+    print('  nonemptiness. Here')
     print('  they are constructed: two blocks with disjoint spectra, one')
     print('  carrying an invertible anticommuting element and one carrying')
     print('  none, so W is nonzero and entirely singular by construction.')
@@ -1265,6 +1278,11 @@ def main():
     gate10_boundaries()
     gate11_strict_inequality_by_construction()
     gate4_scored()
+    print()
+    gate('the scored rows, tallied over gates 4, 7 and 8, are the proof table',
+         SCORED == {'rows': 15415, 'holds': 2596, 'strict': 212},
+         'rows=%d holds=%d breaks=%d, 0 < dim W < dim N on %d'
+         % (SCORED['rows'], SCORED['holds'], SCORED['rows'] - SCORED['holds'], SCORED['strict']))
     print()
     print('=' * 78)
     bad = [n for n, ok in RESULTS if not ok]

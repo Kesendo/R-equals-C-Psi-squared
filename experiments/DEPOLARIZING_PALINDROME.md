@@ -173,6 +173,10 @@ depolarizing noise, the maximum achievable rate is (4/3)Sγ (where every
 site carries a decaying Pauli). The gap between what the palindrome demands
 (2Sγ) and what the noise can provide ((4/3)Sγ) is exactly (2/3)Sγ.
 
+With unequal rates along the three axes the same gap reads 2·Σ_l min_P γ_P^l,
+the smallest letter rate at each site doubled, and F5's Pauli-channel paragraph
+says when a Hamiltonian reaches it.
+
 The mirror is too short. It cannot reach the far end.
 
 ---
@@ -183,7 +187,11 @@ Define a mixed noise channel: (1-α) Z-dephasing + α depolarizing.
 At α = 0, the palindrome is exact. At α = 1, the error is (2/3)Sγ.
 
 On the Heisenberg chain measured here the transition is perfectly linear:
-error = α (2/3) Sγ. There is no
+error = α (2/3) Sγ. This is F5's Pauli-channel bound, attained: every site
+dephases along X and Y at αγ/3 and along Z at (1 − α)γ + αγ/3, so X and Y are the
+fastest letters, the bound is 2N·αγ/3, and X^N, which commutes with the
+Heisenberg chain, reaches it. A Hamiltonian with no eigenvector of ad_H among the
+strings of X and Y letters stays above the line. There is no
 critical threshold, no phase transition, no gradual softening. At any
 α > 0, no matter how small, the palindrome breaks immediately. The Z
 index acquires a nonzero rate (4γα/3), destroying its membership in the
@@ -273,7 +281,10 @@ coupling on any graph, the Liouvillian palindrome holds under dephasing
 noise if and only if the noise has at most two Pauli axes. Equivalently,
 at least one of γ_X, γ_Y, γ_Z must be zero.
 
-**Proof.** The palindrome requires a per-site bijection on {I, X, Y, Z}
+**Proof.** The centre is forced: the Hamiltonian part is traceless and each
+site's four letter rates average to its rate sum, so the eigenvalues of L average
+to −Σγ (Σγ summing every rate on every site), and a palindrome can only pair
+about that. The palindrome requires a per-site bijection on {I, X, Y, Z}
 that pairs dephasing rates symmetrically (Section 3). Such a bijection
 exists if and only if the four rates can be partitioned into two pairs
 with equal sums. For three-axis noise with rates (γ_X, γ_Y, γ_Z), the
@@ -282,7 +293,15 @@ Exhaustive enumeration shows pairing exists iff at least one rate is
 zero. When all three are nonzero, the rate-0 index (I) cannot be paired:
 mapping I to any decaying index forces c > 0, requiring the remaining
 three indices to have matching partners, but three odd elements cannot
-be partitioned into pairs. QED.
+be partitioned into pairs. That settles the per-site letter permutations;
+the only-if direction holds for every conjugation and every Hamiltonian as
+well. The identity is always a steady state, so a palindrome needs a partner
+in ker(L + 2Σγ), and by
+[PROOF_PALINDROME_TWO_END_COUNT](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
+Lemma 1 that kernel holds exactly the operators that commute with H and
+anticommute with every jump of positive rate. No nonzero operator anticommutes
+with X, Y and Z on one site at once, their product being a multiple of the
+identity, so a site with three positive rates leaves the far end empty. QED.
 
 **Corollary.** The palindrome error under depolarizing noise (γ_X = γ_Y = γ_Z = γ/3)
 is at least (2/3) N γ for every Hamiltonian, and exactly that for the Heisenberg

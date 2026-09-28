@@ -20,9 +20,8 @@ loud as false positives: **0 and 0** on the five full N=3 grids, on the whole
 bond-letter axis where F138's converse fails hardest, under non-uniform J and γ,
 past F138's ceiling of two dephasing axes, and at N=4 on the path and the ring.
 
-**Since 2026-08-28 the criterion is a theorem, registered as
-[F158](../docs/ANALYTICAL_FORMULAS.md), and it is no longer an existence
-statement.** U exists exactly when two nullities agree, `dim ker L =
+**The criterion is a theorem, registered as
+[F158](../docs/ANALYTICAL_FORMULAS.md#f158).** U exists exactly when two nullities agree, `dim ker L =
 dim ker(L + 2σ)`, and both directions of that are proved in
 [PROOF_PALINDROME_TWO_END_COUNT.md](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md).
 The far-end eigenspace IS the set of admissible U (an equality-case argument in
@@ -214,7 +213,10 @@ F138's clauses are the same criterion read under a restriction:
 | the field has one common axis, orthogonal to every dephasing axis | U must commute with the field. Restricted to U with no site-permutation part, that forces the global π-rotation about the field axis, and orthogonality to the dephasing letters is what makes it anticommute with them |
 | the two-term proviso | measured, not asserted: at a single-letter bond H keeps enough symmetry that a U survives where the three-letter bond kills it. The gate scores all seven bond sets |
 
-The demonstration above is one 6-family row. That U exists for all 78 is the
+The demonstration above is one of the six rows among the 78 whose field is
+anti-invariant under the end-site swap; on the other five the letter-relabelled,
+sign-flipped copy of this U works.
+That some U exists for all 78 is the
 gate's aggregate FN = 0; no operator is exhibited for the other 72, and the
 mechanism there is not shown.
 
@@ -259,14 +261,13 @@ Rows whose admissible subspace was nonempty yet yielded only singular draws,
 reported in full because they were where the residual doubt sat: 174, 270 and
 1,332 on the three equal-magnitude grids, none at the committed tuple, 18 at
 each of the three single-letter bonds, 9 in the non-uniform J and γ row, and
-none anywhere else. Two corrections. **These rows are confirmed nonempty at ONE
-prime, not at three**: `admissible_multi` returns as soon as a prime yields no
-invertible draw, so the later primes are never consulted on them, and the
-sentence that stood here said otherwise. **And the doubt is gone**: on every
-such row `dim 𝒲 < dim 𝒩`, and
+none anywhere else. **These rows are confirmed nonempty at one prime, not
+at three**: `admissible_multi` returns as soon as a prime yields no invertible
+draw, so the later primes are never consulted on them. **None of them hides an
+invertible element**: on every such row `dim 𝒲 < dim 𝒩`, and
 [the two-end proof](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) §(d) shows
-that a strict inequality is a proof that no invertible element exists. What was
-sampled is now decided.
+that a strict inequality is a proof that no invertible element exists, so what
+the draws sampled the count decides.
 
 **The two verdicts are not alike.** The palindrome verdict is proved on a break
 and certified over three primes on a hold. The criterion verdict is **exact when
@@ -295,8 +296,7 @@ isolated site; all seven bond-letter sets; uniform and non-uniform rational J an
 **Not tested.** An anisotropy axis: every bond carries weight 1 per letter and
 there is no Δ. N beyond 4 for the criterion as scored on this page.
 
-**Off-axis dephasing has since been both proved and tested, and it was never a
-new axis.** The theorem asks of a jump operator only that it be Hermitian and
+**Off-axis dephasing is proved and tested, and it was never a new axis.** The theorem asks of a jump operator only that it be Hermitian and
 square to the identity, which any `n̂·σ⃗` at a unit direction satisfies, and so
 does any multi-site Pauli string. Both are scored in
 [`f138_rank_criterion.py`](../simulations/f138_rank_criterion.py), 1,692 rows
@@ -311,48 +311,40 @@ So a criterion phrased "pairs about −σ" is answering the wrong question in th
 regime, and the premise is doing more work than a footnote. F82 to F84 own the
 separate matter of Π failing there.
 
-**Necessity rested on 0 false negatives, and now it does not.** When this page
-was written, sufficiency was a short calculation and necessity was measured on
-the grids above and nowhere derived. It is derived in
+**Necessity is derived, not only measured.** Sufficiency is a short
+calculation; necessity is proved in
 [PROOF_PALINDROME_TWO_END_COUNT.md](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
-§(e), and the route is not this page's: not through the operator at all, but
+§(d) and §(e), and the route is not this page's: not through the operator at all, but
 through the two ends of the axis. L is unital, so 0 is an eigenvalue; the
 palindrome carries its multiplicity to −2σ; both eigenvalues are semisimple; so
 the two kernels have equal dimension, and equal dimension is what forces an
-invertible U. The census is now an illustration rather than the evidence.
+invertible U. The census illustrates the theorem; it is not its evidence.
 
 What would falsify it: one row, at any setting, where an invertible U exists and
 the characteristic polynomial does not pair.
 
 ---
 
-## What this leaves open, and what it makes stale
+## What this leaves open
 
-**The typed layer.** Nothing here is citable from the repository until the
-construction lands as a claim with a live witness. The gate script is committed;
-the witness is written: `PalindromeTwoEndCountWitness`, live at
-`inspect --root twoend`, landed with F158 in the same change as this page.
+**The typed layer.** The witness is `PalindromeTwoEndCountWitness`, live at
+`inspect --root twoend` beside F158.
 
-**The arc `f138_converse_failures` now needs a pass** (and got one, in this same
-change). Its ParkedAt says the named candidate space is empty and that existence
-is free where diagonalizability holds, and it grades its own evidence there more
-carefully than this sentence first did: *"CERTIFIED ONLY: the named row measures
-30 of 64 … diagonalizability rests on g(L) == 0 mod p at three primes, which is
-not a decision … treat this half as unfinished rather than as measured."* So it
-is not "every row tested", and the arc says so itself. Both remain true, and both are now beside the point:
-the operator exists, it is structured, and it was found by a linear solve scored
-in both directions rather than inferred from cospectrality. Its finding (5) files
-V = R·U as *not the answer, for a reason of kind*; V is Ad_U, which is Π², so
-that is the corrected reading and not the current one.
+**The arc `f138_converse_failures`** says the named candidate space is empty and
+that existence is free where diagonalizability holds, and grades that evidence as
+*"CERTIFIED ONLY: the named row measures 30 of 64 … diagonalizability rests on
+g(L) == 0 mod p at three primes, which is not a decision"*. Both stay true and
+neither is needed: the operator exists, it is structured, and it is found by a
+linear solve scored in both directions rather than inferred from cospectrality.
+The arc's finding (5) files V = R·U as not the answer, for a reason of kind; V is
+Ad_U, which is Π².
 
-**F138 carried one stale sentence, and it is retired in this same change**:
-*"No operator explaining the exceptions has been exhibited, and the first
-candidate for one, the bare site reflection, was refuted from below."* Its first
-clause was false on the 6-family, and F138's row now carries two exhibited
-operators instead, with the reason the old candidate failed: U is a SUM of two
-Pauli strings, neither a single string nor a signed site permutation, so the
-refutation was right about its candidate and was never evidence that nothing
-exists. The row keeps the separation the arc prescribed, EXISTS from EXPLAINS.
+**F138 exhibits operators on two families**: a dressed site reversal on the six
+swap-anti-invariant rows among its equal-magnitude exceptions, and on its clause-1 exceptions a SUM of two Pauli strings,
+neither a single string nor a signed site permutation. The bare site reflection,
+a signed site permutation, is not a reflector on those rows, which says nothing
+against the existence of one. The row keeps the separation the arc prescribed,
+EXISTS from EXPLAINS.
 F138 stays an implication whose converse is false, measured to fail at fewer
 bond letters and at coincident field magnitudes; the criterion is not F138's two
 clauses.

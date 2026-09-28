@@ -55,7 +55,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the paragraph above both sides are false anyway.</para>
 ///
 /// <para>Proof <c>docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md</c>; gate
-/// <c>simulations/f138_rank_criterion.py</c> (102 gates, 15415 rows scored in both directions with
+/// <c>simulations/f138_rank_criterion.py</c> (103 gates, 15415 rows scored in both directions with
 /// FP = 0 and FN = 0, among them off-axis n.sigma jumps and multi-site Pauli strings; beside
 /// them F1's own canonical break under depolarizing, and one float route that shares no
 /// construction code with the rest). Live lab: <c>inspect --root twoend</c>.</para></summary>
@@ -214,7 +214,7 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "operator conditions by a route that never forms L, and decides the palindrome by the " +
                          "characteristic-polynomial identity at sampled points over the same fields, then " +
                          "compares: inspect --root twoend. Three computations meeting, modular evidence rather " +
-                         "than an exact decision. Gate: simulations/f138_rank_criterion.py (102 gates), whose companion " +
+                         "than an exact decision. Gate: simulations/f138_rank_criterion.py (103 gates), whose companion " +
                          "simulations/f138_pairing_condition.py carries the 140861-row census the necessity " +
                          "direction no longer needs.");
         }

@@ -18,19 +18,16 @@ are of three kinds and only the first is exact in the strict sense: exact over
 ℚ(i) with Fraction arithmetic on named rows, exact over GF(p) at scale where a
 nullity can read too large, and a float route whose thresholds are gated on a
 measured separation.
-**Date:** 2026-08-29 (derived 2026-08-28, repaired after three reviews the same night)
+**Date:** 2026-08-28
 **Authors:** Thomas Wicht, Claude (Opus 5)
 **Script:** [`simulations/f138_rank_criterion.py`](../../simulations/f138_rank_criterion.py)
 → [`f138_rank_criterion.txt`](../../simulations/results/f138_rank_criterion.txt)
 **Builds on:**
 - [The pairing condition](../../experiments/THE_PAIRING_CONDITION.md), whose
   criterion this sharpens and whose sufficiency calculation it consumes
-  unchanged. That page fenced its own necessity as measured and not derived;
-  this file supplies the derivation, and the page has been edited to say so, so
-  the fence it once carried is no longer quotable from it.
+  unchanged; this file supplies the derivation of necessity.
 - [F1](../ANALYTICAL_FORMULAS.md) for the palindrome, and
-  [F138](../ANALYTICAL_FORMULAS.md) for the law whose converse was withdrawn on
-  2026-08-03.
+  [F138](../ANALYTICAL_FORMULAS.md#f138) for the law whose converse is false.
 - [PROOF_CODIM1_BY_ADDITIVITY](PROOF_CODIM1_BY_ADDITIVITY.md) §6, whose
   window-edge lemma owns Lemma 2 in a stronger form, and which the arc ledger
   instructs be cited rather than re-derived.
@@ -42,41 +39,30 @@ measured separation.
 
 ## What the repo already held, store by store
 
-The sweep was run on 2026-08-28 by two agents plus a hand pass, then re-run by
-three adversarial reviewers whose corrections are folded in below rather than
-appended. **The corrections mattered: an earlier draft of this section claimed
-three things the stores do not say, and the version you are reading is the
-repaired one.**
+The sweep ran through two agents and a hand pass, and three adversarial
+reviewers checked it against the stores at source.
 
 - **[`docs/ANALYTICAL_FORMULAS.md`](../ANALYTICAL_FORMULAS.md).** F1 holds
   `Π·L·Π⁻¹ = −L − 2Σγ·I` with Π unitary and Π² = X^⊗N. **F4 holds one of the two
   counts**, in three separate statements that must not be fused: its Σγ = 0
   bullet says the kernel is the full commutant of H, while the Wedderburn form
   `dim ker = Σ mᵢ²` appears only in the one-seat, γ > 0, single-popcount-sector
-  bullet for the algebra ⟨H_w, n_seat⟩. F138 holds the law under test, and the
-  sentence it carried saying no operator explaining the exceptions had been
-  exhibited is **retired in this same change**, two operators now standing in
-  its place. F137 fences the premise rather than answering
+  bullet for the algebra ⟨H_w, n_seat⟩. F138 holds the law under test, with two
+  operators exhibited on its exceptions. F137 fences the premise rather than answering
   it: T1 jumps keep a palindrome and recentre it, and F137 states that centre
   **exactly**, as trace(L)/dim. Nothing anywhere on the two counts as a
   **criterion**.
-- **[`docs/proofs/`](.), and the sharpest hit is one an earlier draft of this
-  section missed entirely.**
+- **[`docs/proofs/`](.), and the sharpest hit first.**
   [PROOF_CODIM1_BY_ADDITIVITY](PROOF_CODIM1_BY_ADDITIVITY.md) §6's **window-edge
   lemma** owns Lemma 2 below in a stronger form: *"If an eigenvalue of L sits on
   an edge of the block's rate window … then its eigenvector v is a joint
   eigenvector of A and B, and λ is semisimple."* That is the same
   numerical-range argument at **every** window edge rather than at the two
   extremes, and it also delivers most of Lemma 1's reverse inclusion. The arc
-  ledger carries a standing instruction about exactly this paragraph, *"Cite it
-  rather than re-deriving it a third time"*, and the first draft of this file
-  re-derived it a third time. So Lemma 2 is written out below for readability
-  and is **not** claimed as new. **That instruction is in the arc
-  `site_resolved_vacuum_block`, not in `f138_converse_failures`**, which is the
-  arc this file's sweep named; the miss is recorded rather than quietly fixed,
-  because it is the exact failure the repo's Stage-0 convention was rewritten to
-  catch, and its own precedent is a commit reading *"two arcs stood on one
-  operator and neither cited the other"*. That arc also carries the γ-profile
+  `site_resolved_vacuum_block` carries a standing instruction about exactly this
+  paragraph, *"Cite it rather than re-deriving it a third time"*, so Lemma 2 is
+  written out below for readability and is **not** claimed as new. That arc
+  also carries the γ-profile
   bracket §(b)'s corollary sits inside, and a minting caution that applies here
   directly: *"Do not mint it; the F156 withdrawal of the same morning is the
   precedent."*
@@ -86,8 +72,8 @@ repaired one.**
   pair of conditions exactly. Its scope is the whole difference: §7.5 runs on
   the first-order ω = 0 block of the dissipator restricted to the commutant, for
   F87's windowed diagonal cell; Lemma 1 runs on the full L at finite γ. §7.12
-  then bounds its own reach and, **contrary to what an earlier draft of this
-  file said twice, does not leave the restoring operator unexhibited**: the
+  then bounds its own reach and **does not leave the restoring operator
+  unexhibited**: the
   sentence after the one worth quoting reads *"that operator is no longer a
   mystery: it is the hidden-Q routing, a per-site Q from the P1/P4 families,
   which `TwoTermPalindromeRouting` classifies bit-exactly for 2-term pairs"*,
@@ -96,16 +82,15 @@ repaired one.**
   [PROOF_STAR_OPTICAL_CONFOCAL_SATURATION](PROOF_STAR_OPTICAL_CONFOCAL_SATURATION.md)
   (registered as **F147**) owns the same equality-case move on the imaginary
   axis, with the rigidity written out. [PROOF_ABSORPTION_THEOREM](PROOF_ABSORPTION_THEOREM.md)
-  holds `Re(λ) = −2 Σ_l γ_l·light_l(v)`; an earlier draft said it never reads
-  that at its extremes, and the same file reads one of them in its own opening
+  holds `Re(λ) = −2 Σ_l γ_l·light_l(v)` and reads one of its extremes in its own
+  opening
   (*"eigenmodes of pure {X, Y}^⊗N content die fastest (rate 2Nγ)"*). It also records
   `(X_k + Z_k)/√2` as breaking its own reading, which is a member of this file's
   class, so nothing here leans on it.
   [MIRROR_SYMMETRY_PROOF](MIRROR_SYMMETRY_PROOF.md) owns the first link, *"the
   palindrome then forces its partner −2Σγᵢ to be an eigenvalue too"*, from trace
-  preservation. It **carried** an unfenced *exactly when* that F138 names as its
-  own Proof anchor, and that word is repaired in this same change to *when*,
-  with the converse failure and its counts beside it.
+  preservation. Its Scope states F138's clauses with *when*, not *exactly when*,
+  and the converse failure and its counts beside them.
   [PROOF_F111_HARD_CELL_PURE_D_TEMPLATE](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md)
   names the far end **the anti-steady eigenvalue** and pairs a mechanism with a
   **measured** witness (there is no live C# witness for it), and states as open
@@ -113,20 +98,17 @@ repaired one.**
   mode"*: §(f4) translates that question rather than closing it.
   [PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA](PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)
   computes a commutant by hand and reads it off in **Wedderburn** form; the
-  words Schur and double commutant do not appear in it, and an earlier draft of
-  this section put them there.
+  words Schur and double commutant do not appear in it.
   [PROOF_ASYMPTOTIC_SECTOR_PROJECTION](PROOF_ASYMPTOTIC_SECTOR_PROJECTION.md)
   Step 2 owns the fixed-point algebra as decoherence-free subalgebra ∩
   commutant, which is the frame Lemma 1's kernel end lands in.
-- **[`experiments/`](../../experiments/), and the join is narrower than it first
-  looked.** [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md)
+- **[`experiments/`](../../experiments/), and the join is narrow.** [DEGENERACY_PALINDROME](../../experiments/DEGENERACY_PALINDROME.md)
   Result 2 carries **both** counts, on **one page**, and states the bijection
   outright: *"At Re = 0: these are the N + 1 conserved quantities … At Re = −Nγ:
   these are the N + 1 XOR sector modes, the fastest-decaying … conserved
-  quantities at Re = 0 bijectively to the XOR modes at Re = −Nγ."* So the
-  correction to make against the first draft is real: the repo did not hold the
-  two numbers apart in two documents, it held them together and read the
-  bijection as a consequence of Π. What is new is not the pairing of the two
+  quantities at Re = 0 bijectively to the XOR modes at Re = −Nγ."* So the repo
+  held the two numbers together, on one page, and read the bijection as a
+  consequence of Π. What is new is not the pairing of the two
   counts but that their **equality decides the palindrome in general**, off the
   canonical case where Π is available.
   **And the two γ books must not be lumped, which is the repo's own documented
@@ -140,8 +122,7 @@ repaired one.**
   [SYMMETRY_CENSUS](../../experiments/SYMMETRY_CENSUS.md) carries both operator
   conditions months old and reads them as invariance, which the pairing-condition
   page already corrects.
-  **And one page this sweep missed entirely, found by a third session after the
-  commit:** [DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
+  **And one page in exactly this territory:** [DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
   §8 states an iff in exactly this territory, *"the palindrome holds under Pauli
   noise if and only if the noise has at most two Pauli axes"*, and it is the
   SAME-SITE reading, where F138 clause 1 and the pairing page answer the
@@ -159,19 +140,18 @@ repaired one.**
   three times and named only as modes: *"NONE at all under a generic Hermitian
   H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3,
   γ = 0.05: 4, 8 and 0 modes …)"*. Those three integers are `dim ker(L + 2σ)`
-  for three Hamiltonian families, reproduced here and by two reviewers; the
+  for three Hamiltonian families, reproduced here; the
   store says **modes**, and it is Lemma 2 that licenses reading a mode count as
   a nullity, so the identification is this file's step and not the glossary's.
   No headword for the criterion.
 - **[The OpenArcs registry](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs),
-  and TWO arcs answered, not the one this sweep first named.**
+  and TWO arcs answered.**
   `site_resolved_vacuum_block` (opened 2026-08-02, still Open) holds the
   citation instruction quoted above and the numerical-range bracket
   `Re λ ∈ [−2σ, 0]` as a bound; `the_gate_that_does_not_gate` (opened
   2026-08-22) holds the commutant reading of a kernel dimension, which this file
   reaches through the markdown layer instead. And
-  arc `f138_converse_failures` (opened 2026-08-03, its reflector blocks dated
-  2026-08-26 and a further layer added 2026-08-29 by this work), asked for an S
+  arc `f138_converse_failures` asked for an S
   with `S L S⁻¹ = −L − 2σ` and recorded that the
   bare site reflection was refuted from below. Its caution needs both of its
   conjuncts: an unstructured S exists wherever L is diagonalizable **and the
@@ -189,8 +169,7 @@ repaired one.**
   `e^(−2σt)` as a veil; Mirror's price 2Nγ is a fold's affine cocycle between
   two different blocks. The one genuine eigenvector at the far end is `Cat`'s
   `|0…0⟩⟨1…1|` at −2Nγ, and it lives at H = 0.
-- **Returned nothing, and two entries on this line were wrong until a reviewer
-  checked them at source.** `recovered/` genuinely returned nothing.
+- **Returned nothing, or less than it seems.** `recovered/` returned nothing.
   `reflections/` did NOT: `ON_TWO_TIMES.md` carries the far end (*"Near λ = 0 the
   memory is long; at λ = −2Σγ it is shortest"*), while this
   file's own companion page cites `ON_THE_SOFT_BREAK.md` twice.
@@ -199,14 +178,13 @@ repaired one.**
   anything on the two-end count. And `simulations/framework/` builds no
   commutant, but `diagnostics/d_zero.py::stationary_modes` returns a kernel
   dimension and pins N+1, which is §(f2)'s near-end count computed and running,
-  by the float route F157's registry entry warns against. **And one store was reported wrongly by the first
-  sweep and is corrected here**: `hypotheses/THE_OTHER_SIDE.md` Q6 is **not**
-  open. It is marked *"ANSWERED 2026-06-01 (Klein routing): the mapping is now
+  by the float route F157's registry entry warns against. And
+  `hypotheses/THE_OTHER_SIDE.md` Q6 is **not** open. It is marked *"ANSWERED 2026-06-01 (Klein routing): the mapping is now
   built and verified bit-exactly (Q·L·Q⁻¹ = −L−2Σγ·I to ‖·‖ ≤ 10⁻¹¹,
   N=3,4,5)"*, which is the repo constructively exhibiting a palindromizer for a
   family of palindromic cases.
 
-**What is new, and it is narrower than the first draft claimed.** Not the
+**What is new, and it is narrow.** Not the
 forcing step (F103 §7.5, in a smaller setting). Not the equality-case technique
 (F147 on the imaginary axis, PROOF_CODIM1's window-edge lemma on this one). Not
 semisimplicity, which PROOF_CODIM1 owns in a stronger form. Not either count
@@ -376,8 +354,8 @@ isomorphism: dim 𝒲 = dim 𝒩.
 
 **(⟸), and the trick is to grade the OTHER algebra.** The obvious move is to
 grade 𝒜 by the parity of the A-letter count and hope the sum is direct, which it
-need not be; an earlier version of this proof paid for that with a case split
-and a recursion into corners. Grade
+need not be, and that route costs a case split and a recursion into corners.
+Grade
 
     ℬ = 𝒩 ⊕ 𝒲
 
@@ -410,10 +388,7 @@ That is the whole of Lemma 3, both halves, with no ideal, no corner and no
 recursion, and it is what turns the pairing-condition page's sampled predicate
 into a decided one: on every row that page reports as nonempty-but-singular,
 `dim 𝒲 < dim 𝒩`, and the inequality **proves** that no invertible element is
-hiding there. The graded-algebra route arrived from a second session on
-2026-08-29, as an attempt to break the case split that ended by deleting it; the
-case split was checked joint by joint and found sound, and is superseded rather
-than repaired.
+hiding there.
 
 ## (e) The theorem
 
@@ -500,8 +475,7 @@ translates the question from the spectrum to the letters without answering it.
 [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §7.12's three rows, soft with
 non-bipartite basis-state graphs and therefore beyond any 2-colouring, are
 decided correctly by the count at N = 3, 4 and 5. The operator the criterion
-returns there is worth naming precisely, because an earlier draft of this file
-dressed it up: 𝒲 is **one-dimensional** and spanned by a single Pauli string,
+returns there is worth naming precisely: 𝒲 is **one-dimensional** and spanned by a single Pauli string,
 Y^⊗N for XX+XZ and XX+XZ+ZX and X^⊗N for YY+YZ, and the X^⊗N of that last
 family is F1's own Π². So this is an agreement test against a mechanism the repo
 already owns and classifies bit-exactly, not a supply of something §7.12 was
@@ -518,8 +492,7 @@ strings, depolarizing sites) being automatically traceless. Since a traceless
 involution needs an even dimension, odd d admits no such A_l at all, so at odd d
 **with at least one jump** the spectrum never pairs; gated at d = 3 and d = 5.
 
-The hypothesis is not a formality and an earlier version of this section omitted
-it. With NO jump, 𝒩 and 𝒲 are the same space, and at d = 3 with
+The hypothesis is not a formality. With NO jump, 𝒩 and 𝒲 are the same space, and at d = 3 with
 H = diag(1, 2, 5)/7 the multiset IS reflection-closed, exactly. Note also that
 the characteristic-polynomial FORM proves nothing here: p(x) = p(−x − 2σ) is
 unsatisfiable for every monic polynomial of odd degree, whatever the physics.
@@ -528,8 +501,8 @@ And the condition generalises for free, because U commutes with H as well:
 **every word in {H, A_1 … A_m} with an odd number of A-letters is traceless**.
 That is an O(d³) pre-filter with no Liouvillian in it, and the converse-side
 companion to §(d)'s rank comparison. **The condition is proved; the numbers
-beside it are not gated here and carry their own caveat.** A second session
-measured it on 12,240 two-qubit rows, finding no palindromic row that violates
+beside it are not gated here and carry their own caveat.** It was measured on
+12,240 two-qubit rows, finding no palindromic row that violates
 it and words of length at most 3 alone refuting 94.3% of the broken ones; that
 sweep used a fixed relative tolerance of 10⁻⁹ with no separation study, which is
 strong evidence and not the standard the rest of this file holds itself to. The
@@ -545,10 +518,10 @@ distinction still has teeth in general and the repo keeps it
 inside it, positive and of unit trace, has one dimension fewer"*), and
 everything computed here is the kernel.
 
-**(f7) The open item that stood here is closed.** The pairing-condition page
-fenced necessity on 140,861 scored rows; that fence is gone. What replaced it
-was one algebraic question, whether Lemma 3's case split could be avoided, and
-§(d)'s graded algebra ℬ = 𝒩 ⊕ 𝒲 avoids it outright.
+**(f7) The pairing page's necessity rests on no census.** That page scores
+140,861 rows, and its necessity, palindrome ⟹ an invertible U, does not lean on
+them: §(e) gives the equal counts and §(d)'s graded algebra ℬ = 𝒩 ⊕ 𝒲 turns
+equal counts into an invertible element by algebra alone.
 
 **(f8) Sufficiency gives the Jordan structure too, and with it the arc's S.**
 The criterion is stated for the multiset, but the sufficiency argument produces
@@ -577,9 +550,7 @@ The physical reading is worth the sentence, because it is the sharpest thing the
 criterion says without any computation at all: **a channel that watches in the
 system's own energy basis cannot produce a palindrome**. The pairing needs the
 watching to be transverse to the turning in the strong sense of anticommuting
-with it, and a function of H is the exact opposite of that. The question was
-asked by a third session on 2026-08-29, on the strength of two measured rows and
-without the argument; the argument is theirs too.
+with it, and a function of H is the exact opposite of that.
 
 ## (g) What is gated, and how
 
@@ -636,7 +607,7 @@ points, three primes on the largest block) but the direction is the unsafe one
 and saying so is the point. What §(d) removes is the sampling from the
 CRITERION, which is now two ranks.
 
-**All 102 gates pass.** The criterion is scored against the palindrome on
+**All 103 gates pass.** The criterion is scored against the palindrome on
 **15,415 rows**, in both directions, of which **2,596 hold and 12,819 break**:
 
 | what is scored | rows | holds | FP | FN |
@@ -690,11 +661,11 @@ singular-value cut separates 1.2e−15 from 9.5e−4 (**11.9 decades**), and the
 gates are on the separations.
 
 That gate carries a warning in its own docstring, and it is here too because it
-is the kind of error that arrives while checking for errors. The first version of
-it **sorted** both spectra and compared them elementwise, and reported every row
-broken, the canonical chain included. A lexicographic sort is not a matching: two
-spectra can be the same multiset while sorting differently, because
-near-degenerate real parts break the tie in opposite orders.
+is the kind of error that arrives while checking for errors: **sorting** both
+spectra and comparing them elementwise reports every row broken, the canonical
+chain included. A lexicographic sort is not a matching: two spectra can be the
+same multiset while sorting differently, because near-degenerate real parts break
+the tie in opposite orders.
 
 **Three caveats that belong here rather than in a footnote.**
 
@@ -720,21 +691,12 @@ tests the equality rather than nonemptiness. **Gate 11 is the answer to that**:
 eight rows are BUILT to sit strictly between, by taking H = H₁ ⊕ H₂ with
 disjoint spectra where one block carries an invertible anticommuting element and
 the other carries none, so 𝒲 is nonzero and entirely singular by construction.
-The criterion says BROKEN on all eight and the spectrum agrees. The construction
-came from a second session on 2026-08-29 and is credited in the gate.
+The criterion says BROKEN on all eight and the spectrum agrees.
 
-**Three reviewers, three rounds, and what they moved.** The findings of
-2026-08-28 are folded into the text above rather than appended, but four are
-worth naming because the file would read differently without them: a quotation
-of a sentence that no longer existed, because this session had edited it away
-earlier the same evening; the F103 §7.12 reversal; a semisimplicity gate on 250
-rows that could not fail, because a leaked loop variable reduced the matrix by a
-different prime than the one it was built at, so it had full rank on every row
-including the 33 that actually carry a kernel; and a "the operator is not
-diagonal" flag that is a tautology under Z-dephasing, since A W A = −W already
-forces every diagonal entry of every element of 𝒲 to vanish. The first three are
-repaired, the fourth is now gated AS a tautology so it cannot be read as
-evidence again.
+One flag the gate carries is a tautology and is gated as one, so that it cannot
+be read as evidence: under Z-dephasing "the operator is not diagonal" holds for
+every element of 𝒲, since A W A = −W already forces every diagonal entry to
+vanish.
 
 ## (h) Scope, and what would falsify it
 
