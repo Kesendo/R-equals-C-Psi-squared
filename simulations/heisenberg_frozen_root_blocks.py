@@ -18,7 +18,7 @@ What this script does:
      offsets coincide in size or one is 0 or 1, on which q(0) loses its constant
      term), refines what is left at 60 digits (deduplicated, failures counted), and prints each real carrier with
      its Jacobian determinant, the next coefficient c_(2m+1) there (nonzero means
-     the block stops at floor(N/2) + 2), and its margin to the cone of non-negative
+     the block stops at floor(N/2) + 2), and its margin to the box of non-negative
      rates (gbar^2 - max offset^2).
 
 It locates carriers; it does not read block sizes. The gate

@@ -3143,7 +3143,7 @@ for r in crit:
         at_crit.append((float(rv), min(Gv - 1, Gv - rv ** 2)))
 touch = [x for x in at_crit if x[1] > -mp.mpf(10) ** -40]
 worst = max(x[1] for x in at_crit if x not in touch)
-check("N=4: at the critical directions themselves only s = -1 reaches the cone, and "
+check("N=4: at the critical directions themselves only s = -1 reaches the box, and "
       "every other carrier there misses it by more than 0.3 (read to 60 digits; q(0) has only "
       "real roots at those directions, so no complex pair can be misread as a split double root)",
       [round(x[0], 12) for x in touch] == [-1.0] and worst < -0.3 and not im_complex,
@@ -3160,7 +3160,7 @@ br = [r for r in sp.solve(Fe, hw_) if sp.limit(r, eps_, 0) == 1][0]
 Ge = -(P40 / P41).subs(hs_, -1 - eps_).subs(hw_, br)
 m_s = sp.series(Ge - (1 + eps_) ** 2, eps_, 0, 3).removeO()
 m_1 = sp.series(Ge - 1, eps_, 0, 3).removeO()
-check("N=4: at (0,2,0,2) the carrier meets the cone at its edge: with s = -1 - e the margin "
+check("N=4: at (0,2,0,2) the carrier reaches the box of non-negative rates at a corner: with s = -1 - e the margin "
       "to the face G = d2^2 is -2e - 13e^2/4 (it crosses that face) and to G = d1^2 is -9e^2/4 "
       "(it is tangent to that one), so on each side one margin is negative",
       sp.expand(m_s + 2 * eps_ + sp.Rational(13, 4) * eps_ ** 2) == 0
@@ -3353,7 +3353,7 @@ for r in f118.real_roots():
 mp.mp.dps = 60
 check("N=5: every real direction of the degree-118 factor read cleanly by the precision law, "
       "and exactly five of its real carriers at non-negative rates, every one clear of the "
-      "cone's boundary",
+      "box's boundary",
       unstable == 0 and len(nonneg5) == 5 and min(abs(x) for x in margins5) > 0.01,
       f"{n_real} real directions, {n_carrier} with a real carrier, {unstable} unclassified, "
       f"closest margin {mp.nstr(min(abs(x) for x in margins5), 4) if margins5 else '-'}; " +

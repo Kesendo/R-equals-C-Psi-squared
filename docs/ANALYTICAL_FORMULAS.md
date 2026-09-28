@@ -6745,8 +6745,8 @@ it takes a second coincidence: at N = 3 only with a negative rate (delta_1^2 =
 12 gbar^2, J = 2|gbar|), at non-negative rates met in closed form at N = 4 on
 (0,2,0,2), J = 1, kernel dimensions (2, 3, 4, 4), and absent on (1,3,1,3) and
 (2,2,0,0). At N = 4 (0,2,0,2) and its mirror are the ONLY carriers at non-negative
-rates, up to scale: the curve of two-arrival couplings reaches the cone of
-non-negative rates only there, on an edge of the cone (by resultant cells, exact,
+rates, up to scale: the curve of two-arrival couplings reaches the box of
+non-negative rates only there, at a corner of the box, a mirror transversal (by resultant cells, exact,
 with the eleven boundary directions read to 60 digits, every miss above 0.3). The next coefficient is linear in gbar^2, so each
 exceptional coupling fixes one gbar^2 for the second arrival, and a profile counts
 up to scale: k arrivals are common zeros of k coefficients in a projective space of
