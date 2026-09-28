@@ -490,8 +490,8 @@ rates free to differ between sites). The derivation above takes the three per
 site to be equal and the line did not say so. Off that class the same argument
 gives `2·Σ_sites (min over that site's three letter rates)`, which collapses to
 this row at every isotropic site; anisotropic rates make a Pauli channel and not
-a depolarizer, and the general form is a lead rather than a law
-(see [F158](#f158-the-palindrome-is-a-count-of-the-two-ends), 2026-08-29).
+a depolarizer, and the general form is a lead rather than a law: derived, and not gated
+at any site count.
 **Replaces:** numerical palindrome check for depolarizing channels.
 The gap is an absolute rate. A percentage requires a declared normalization (for
 example J or spectral bandwidth) and fixed N; no scale-free `<0.1%` follows from γ alone.
@@ -8963,39 +8963,19 @@ element exactly when dim 𝒲 = dim 𝒩, forward because 𝒲 = 𝒩·U and bac
 Wedderburn multiplicities and AM-GM; (4) an invertible U reflects the spectrum
 by the one-sided identity ℒ_U L ℒ_U⁻¹ = −L† − 2σ, collapsed onto the palindrome
 by hermiticity preservation. Necessity, which
-[F138](#f138-the-boundary-law-of-the-dephasing-palindrome) could only measure
-over 140,861 rows, follows from (1), (2) and L(1) = 0.
+[THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md) could only
+measure over 140,861 rows, follows from (1), (2) and L(1) = 0.
 
 **What it buys beyond the letters.** The hypothesis is A_l² = 1, not "a Pauli
 letter on a site", so the criterion covers any n̂·σ⃗ at a unit direction, any
 multi-site Pauli string, and a full depolarizing site. That last is F1's own
-canonical break and the criterion gets it right from outside the sample:
-dim ker L = 1 against dim ker(L + 2σ) = 0 at every rate profile, uniform or not.
-**And the SIZE of that break is [F5](#f5-depolarizing-error-tier-1-proven)'s
-(2/3)ΣΓ, on the whole class F5 is about, where Γ_l is the total depolarizing
-budget at site l.** This paragraph is the second
-correction of the same sentence and the history is worth keeping, because both
-errors were of the shape this repo names. The first version generalised F1's
-uniform number to a rate profile without checking. The second version
-"corrected" it to 2·min_l γ_l on the strength of a single-site counterexample
-with rates (1, 2, 4) on X, Y and Z, and that was wrong in the other direction:
-those three rates make an ANISOTROPIC Pauli channel, not a depolarizer, so it
-stepped outside F5 rather than refuting it. **F5 is right, and right for
-non-uniform site budgets.** Write the three equal per-axis Lindblad rates as
-η_l=Γ_l/3. Then the fastest string decays at `4Ση_l=(4/3)ΣΓ_l`, the palindrome
-demands `6Ση_l=2ΣΓ_l`, and the shortfall is
-`2Ση_l=(2/3)ΣΓ_l=(2/3)σ`, with `σ=ΣΓ_l=3Ση_l`. This is the same convention as
-F5 and the frontdoor; η is introduced here only to expose the three axes.
-What the anisotropic excursion did produce is a strictly more general
-form of F5's own derivation, one word changed, the shortfall being what each
-site's WEAKEST letter fails to supply:
-
-    residual = 2 · Σ_sites ( min over that site's three per-axis rates η )
-
-which collapses to (2/3)σ at every isotropic site. That form is derived and
-measured on single-site rows only, is **not** gated multi-site, and is recorded
-here as a lead rather than as a law. The VERDICT is untouched throughout: the
-criterion says BROKEN at every rate profile, isotropic or not.
+canonical break and the criterion gets it right from outside the sample: one
+depolarizing site already empties the far end, since W would have to
+anticommute there with X, Y and Z at once and XY ∝ Z forbids it, so
+dim ker(L + 2σ) = 0 against dim ker L ≥ 1 at every rate profile, uniform or not.
+The size of that break is [F5](#f5-depolarizing-error-tier-1-proven)'s to
+state; the criterion decides the verdict, BROKEN for a site carrying X, Y and Z
+jumps at any positive rates, equal or not.
 
 **Corollaries.** `dim ker(L + 2σ) ≤ dim ker L` always, with no palindrome in
 sight. On the canonical Heisenberg chain under Z-dephasing both counts are
@@ -9003,22 +8983,26 @@ N + 1, which is
 [DEGENERACY_PALINDROME](../experiments/DEGENERACY_PALINDROME.md) Result 2's own
 pair of numbers: that page states the bijection between the N+1 conserved
 quantities and the N+1 XOR-sector modes and reads it as a consequence of Π, and
-the theorem inverts the reading, the bijection BEING the palindrome. And at odd
-local dimension the palindrome is impossible rather than merely absent, since an
-invertible U with U A U⁻¹ = −A makes A and −A similar and A then needs balanced
-±1 multiplicities.
+the theorem inverts the reading, the bijection BEING the palindrome. For the
+palindrome every jump must be traceless, since an invertible U with
+U A U⁻¹ = −A makes A and −A similar and A then needs balanced ±1
+multiplicities; so with at least one jump, at odd TOTAL dimension the
+palindrome is impossible rather than merely absent. The local dimension is free: on a qutrit tensored with a
+qubit the row H = 0, A = 1₃ ⊗ Z pairs, with U = 1₃ ⊗ X.
 
 **Three fences, all load bearing, none decorative.** A_l² = 1: with T1 jumps
 [F137](#f137) keeps a palindrome about a different centre, stated there exactly
 as trace(L)/dim, so a criterion phrased about −2σ answers a different question.
-γ_l > 0: a zero rate drops that site's condition from both spaces and MOVES the
-verdict (a ZZ bond with an X field on site 0 and X-dephasing on both sites is
+γ_l > 0: a zero rate drops that site's condition from both spaces and can move
+the verdict (a ZZ bond with an X field on site 0 and X-dephasing on both sites is
 broken with both rates on and palindromic the moment site 0 stops being
-watched), so γ-blindness holds inside the open orthant and not on its boundary.
-Even d, as above. What is decided is the MULTISET;
-[F1](#f1) is the operator identity and also sees the Jordan structure, so a row
-where the spectrum pairs anyway falsifies a spectral converse and says nothing
-about whether Π conjugates L there.
+watched), so γ-blindness holds inside the open orthant and is not guaranteed on its
+boundary.
+Even total d, as above. What the counts decide is the MULTISET, and where they
+agree the proof's §(f8) delivers more, a similarity L ~ −L − 2σ with the whole
+Jordan structure; [F1](#f1) is the operator identity for the particular Π, so a
+row where the spectrum pairs without that Π falsifies a converse about Π and
+says nothing against the criterion.
 
 **Proof:**
 [PROOF_PALINDROME_TWO_END_COUNT](proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
@@ -9029,10 +9013,10 @@ route and whose sufficiency calculation is consumed unchanged.
 → [`f138_rank_criterion.txt`](../simulations/results/f138_rank_criterion.txt):
 15,415 rows scored against the palindrome in both directions with FP = 0 and
 FN = 0, three verification layers that encode the conditions differently (exact
-ℚ(i) with Fraction arithmetic, exact GF(p), and a float route that imports
-nothing from this repository and whose thresholds are gated on measured
-separations of 10.6 and 11.9 decades), plus F103 §7.12's three counterexample
-rows, the depolarizing break, the rate fence, odd d, and eight constructed rows
+ℚ(i) with Fraction arithmetic, exact GF(p), and a float route that shares no
+construction code with the other two and whose thresholds are gated on measured
+separations of 10.6 and 11.9 decades); the 15,415 include F103 §7.12's three
+rows at N = 3, 4, 5, nine in all; beside them the depolarizing break, the rate fence, odd d, and eight constructed rows
 with 0 < dim 𝒲 < dim 𝒩 where the equality says more than nonemptiness.
 **Typed:** `PalindromeTwoEndCountClaim`
 ([compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs](../compute/RCPsiSquared.Core/Symmetry/PalindromeTwoEndCountClaim.cs),
@@ -9040,8 +9024,7 @@ child of `F1PalindromeIdentity`) with the live witness `inspect --root twoend`
 (`PalindromeTwoEndCountWitness`: the two nullities by GF(p) elimination, the
 same two dimensions again from the operator conditions by a route that never
 forms L, and the palindrome by the characteristic-polynomial identity, with a
-break printed beside the canonical row). Open: whether Lemma 3's Case 2
-recursion can be replaced by a direct argument; and whether F158 should become
+break printed beside the canonical row). Open: whether F158 should become
 F138's Proof anchor, argued in the arc `f138_converse_failures` and deliberately
 not taken on the day F158 landed.
 

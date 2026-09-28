@@ -492,16 +492,17 @@ public sealed class PalindromeTwoEndCountWitness : IInspectable
                     r.PolynomialSaysPalindrome ? "PALINDROME" : "BROKEN",
                     r.CriterionSaysPalindrome == r.PolynomialSaysPalindrome
                         ? "they agree."
-                        : "THEY DISAGREE, WHICH WOULD FALSIFY F158."));
+                        : "THEY DISAGREE; confirm both sides in characteristic zero before reading it as a " +
+                          "counterexample to F158."));
 
             yield return new InspectableNode("the canonical row, and a break beside it",
                 summary: BuildComparisonRow());
 
             yield return new InspectableNode("what this witness does NOT decide",
-                summary: "The MULTISET, not the Jordan structure away from the two ends; F1PalindromeIdentity is " +
-                         "the operator identity and sees more. It also does not extend the theorem: the guard at " +
+                summary: "The Jordan structure: it reads the MULTISET, and where the counts agree the proof's (f8) " +
+                         "gives the rest; F1PalindromeIdentity is the operator identity for the particular Pi. It also does not extend the theorem: the guard at " +
                          "N <= 4 is the cost of a dense 4^N elimination and carries no physics, and the fences " +
-                         "A_l^2 = 1, gamma_l > 0 and even d live in the claim rather than here. The gate that " +
+                         "A_l^2 = 1, gamma_l > 0 and even total d live in the claim rather than here. The gate that " +
                          "scores the criterion at scale, in both directions and across those fences, is " +
                          "simulations/f138_rank_criterion.py.");
         }

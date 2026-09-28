@@ -31,13 +31,13 @@ THE CHAIN THAT PREDICTS IT, step by step, so that each step can fail alone.
 
   (3) W holds an INVERTIBLE element  <=>  dim W == dim N.
       (=>) W = N U, so the dimensions agree.
-      (<=) if the sign-flip alpha (H -> H, A_l -> -A_l) is well defined on the
-      algebra A = <H, A_l>, then W = Hom_A(rho, rho o alpha) has dimension
-      sum_k m_k m_alpha(k) <= sum_k m_k^2 = dim N with equality iff the
-      multiplicities are alpha-stable, which is exactly rho ~ rho o alpha. And
-      if alpha is NOT well defined, some c != 0 is both an even and an odd word,
-      so cW = -cW = 0 for every W in W, the ideal it generates is cut out, and
-      the inequality is STRICT. Either way equality is the criterion.
+      (<=) grade B = N (+) W, direct once one jump is present (X = -X there):
+      B is a unital Z2-graded *-subalgebra, semisimple, with the order-2
+      *-automorphism beta(X + W) = X - W. A swapped pair of simple blocks
+      M_n (+) M_n gives n^2 to each part; a fixed block M_n, beta = Ad(u),
+      u^2 = 1 with multiplicities p + q = n, gives p^2 + q^2 to N and 2pq to W.
+      So dim W <= dim N, with equality iff p = q in every fixed block, and
+      then an invertible odd element exists blockwise.
 
   (4) invertible U  =>  palindrome is the pairing-condition page's sufficiency.
       palindrome  =>  alg mult at 0 = alg mult at -2 sigma  =>  (2) the two
@@ -51,9 +51,10 @@ structural claim is therefore ALSO checked exactly over Q(i) with Fraction
 arithmetic on named rows, where == 0 means == 0. The scale runs are scored at
 one prime and every mismatch would be re-run exactly; there are none to re-run.
 
-AND ONE ROUTE THAT SHARES NO CODE. Gate 9 rebuilds the whole object in dense
-complex floats with an eigensolver and an optimal spectral matching, importing
-nothing from this repo, because the failure this file cannot otherwise rule out
+AND ONE ROUTE THAT SHARES NO CONSTRUCTION CODE. Gate 9 rebuilds the whole object in dense
+complex floats with an eigensolver and an optimal spectral matching, sharing no
+construction code with the rest (it calls this file's row_spaces only as the other
+side of its cross-check), because the failure this file cannot otherwise rule out
 is a shared helper making the two sides agree by construction.
 
 Run:  python simulations/f138_rank_criterion.py
@@ -952,7 +953,7 @@ def gate8_scope_axes():
 
 
 # ---------------------------------------------------------------------------
-# Gate 9: the same verdict by a route that shares no code with the rest
+# Gate 9: the same verdict by a route that shares no construction code with the rest
 
 def gate9_independent_route():
     """Dense complex floats and an eigensolver, built here from nothing.
@@ -1138,7 +1139,7 @@ def gate10_boundaries():
     print()
     print('  (b) A RATE SWITCHED OFF. The theorem asks gamma_l > 0, and the')
     print('  fence is not decoration: a zero rate DROPS a condition from W,')
-    print('  so the VERDICT itself moves at the boundary of the orthant, not')
+    print('  so the VERDICT can move at the boundary of the orthant, not')
     print('  merely the dimensions. The row below is chosen to show that: a')
     print('  ZZ bond with an X field on site 0, dephasing X on both sites,')
     print('  broken while both rates are on and palindromic the moment site')
@@ -1164,7 +1165,7 @@ def gate10_boundaries():
          len(moved) == 2, 'both verdicts appear across the three rows')
 
     print()
-    print('  (c) ODD LOCAL DIMENSION. An invertible U with U A U^-1 = -A makes')
+    print('  (c) ODD DIMENSION. An invertible U with U A U^-1 = -A makes')
     print('  A and -A similar, so A needs balanced +1/-1 multiplicities and d')
     print('  must be EVEN. At odd d the criterion must therefore say NO at')
     print('  every H, which is a corollary and not a measurement, gated here')
@@ -1195,7 +1196,7 @@ def gate10_boundaries():
 def gate11_strict_inequality_by_construction():
     """The axis every other gate is thin on, reached by construction.
 
-    Across the scored grids only 204 of 15,406 rows have 0 < dim W < dim N, so
+    Across the scored rows only 212 of 15,415 have 0 < dim W < dim N, so
     on the rest a much weaker predicate (dim W > 0) would score identically.
     Those rows are the ones that separate the criterion from its own shadow,
     and they can be BUILT rather than waited for:
@@ -1214,7 +1215,7 @@ def gate11_strict_inequality_by_construction():
     print()
     print('## Gate 11: 0 < dim W < dim N, built rather than waited for')
     print()
-    print('  Only 204 of the 15,406 scored grid rows have 0 < dim W < dim N,')
+    print('  Only 212 of the 15,415 scored rows have 0 < dim W < dim N,')
     print('  which is where the EQUALITY says more than nonemptiness. Here')
     print('  they are constructed: two blocks with disjoint spectra, one')
     print('  carrying an invertible anticommuting element and one carrying')

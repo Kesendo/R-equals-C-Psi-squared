@@ -4542,3 +4542,39 @@ that identity is true; the word "every" went one circle too far. Both places, an
 `AntilinearTriangleClaim`, now say the R_z dial. A
 fresh reviewer found it at φ = 0.7 while checking the closure-order repair above, whose rewording of the
 circle sentences had restated the claim.
+
+## 2026-09-28, F158's surfaces disagreed with its proof and with themselves
+
+Tom suspected that F158's documents contradicted each other because edits had been made without reading
+the text around them. Three read-only audits on 2026-09-28, and an audit Codex had filed privately on
+2026-09-27 which found four of the same items independently, confirm it in two different shapes.
+
+- **Born in the landing commit.** Every internal contradiction of the proof, and most between the proof and
+  its registry entry, typed claim and arc, were already in 5bb6f862, where same-night review rounds
+  repaired one passage and left its twins. The scoring table of §(g) kept an older run's holds (1,543,
+  750, 59, 20, total 2,550) under a sentence carrying the current total, 2,596; the committed output
+  gives 1,503, 832, 77 and 6. The breakdown of the 212 rows with 0 < dim 𝒲 < dim 𝒩 kept 138/32/22 for
+  145/28/20, and the script still printed 204. The claim said 93 gates for 102. Lemma 3's case split
+  was deleted from §(d) and survived as "Case 2" in §(g), in the registry's Open line and in the arc
+  `f138_converse_failures`, and as the two-case argument in the claim's Lemma 3 node and in the gate
+  script's docstring. The fences said
+  "odd LOCAL dimension" in the registry, the claim and the gate's own banner while the proof's Status says the condition is on the TOTAL dimension and
+  needs at least one jump; §(h) listed the Jordan structure as outside while §(f8) proves it wherever
+  the counts agree; the registry credited F138 with the 140,861-row necessity census that belongs to
+  THE_PAIRING_CONDITION; and §(a) said the criterion is "continuous nowhere" on the boundary of the
+  positive orthant, which two equal jumps refute.
+- **Made by edits that did not read around them.** 389c3f4c (83 files) introduced the per-axis rate
+  η_l = Γ_l/3 into F158's depolarizing paragraph and deleted its one verification sentence, leaving
+  the paragraph's history narration in place. The proof quoted a sentence of ON_TWO_TIMES that 39af4b32
+  (64 files) had removed; the passage there was later rewritten (c5829a20).
+- **The history that stood in the registry.** F158's entry told how its depolarizing-size sentence had
+  been corrected twice on 2026-08-29: first F1's uniform number was generalised to a rate profile
+  without a check, then it was "corrected" to 2·min_l γ_l on a single-site counterexample with rates
+  (1, 2, 4) on X, Y and Z, which is an anisotropic Pauli channel and not a depolarizer. The entry now
+  leaves the size to F5 and states only the verdict.
+- **Repaired** in the proof, the registry entry, the claim (documentation of
+  `PalindromePossibleAtDimension`, whose code was right for the total dimension), the witness (a
+  modular disagreement no longer reads as a falsification) and the arc; the gate's output was
+  regenerated. The citing documents are a separate pass.
+- **Anchor:** `docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md` §(a), §(g), §(h); F158 in
+  `docs/ANALYTICAL_FORMULAS.md`; `simulations/results/f138_rank_criterion.txt`.

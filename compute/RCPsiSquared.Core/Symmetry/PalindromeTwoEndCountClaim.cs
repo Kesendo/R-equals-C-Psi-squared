@@ -29,8 +29,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// both ends. This is NOT new here: PROOF_CODIM1_BY_ADDITIVITY's window-edge lemma owns it in a
 /// stronger form, at every edge of a rate window rather than at the two extremes.
 /// (3) The anticommutant holds an INVERTIBLE element exactly when the two dimensions agree
-/// (forward, W = N.U; backward, by Wedderburn multiplicities and AM-GM, with the ungraded case
-/// giving a strict inequality instead).
+/// (forward, W = N.U; backward, by the Wedderburn blocks of the graded algebra N + W and AM-GM).
 /// (4) Invertible U =&gt; palindrome is the pairing-condition page's one-sided calculation
 /// L_U L L_U^-1 = -L^dagger - 2 sigma, collapsed onto the palindrome by hermiticity preservation;
 /// palindrome =&gt; the two algebraic multiplicities agree =&gt; by (2) the two nullities agree.</para>
@@ -39,24 +38,27 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>A_l^2 = 1</c>: F137 records that non-unitary (T1) jumps keep a palindrome about a DIFFERENT
 /// centre, which F137 states exactly as trace(L)/dim, so a criterion phrased about -2 sigma is
 /// answering a different question there. <c>gamma_l &gt; 0</c>: a zero rate drops that site's
-/// condition from both spaces and MOVES the verdict, so the criterion is discontinuous on the
-/// boundary of the positive orthant and "the palindrome does not depend on gamma" means inside
-/// the open orthant only. EVEN d: an invertible U with U A U^-1 = -A makes A and -A similar, so
-/// A needs balanced +1/-1 multiplicities; at odd d no such U exists at any H, and the palindrome
-/// is impossible rather than merely absent.</para>
+/// condition from both spaces and can move the verdict, so the boundary of the positive orthant
+/// is where it can change and "the palindrome does not depend on gamma" means inside the open
+/// orthant. EVEN TOTAL d, with at least one jump: an invertible U with U A U^-1 = -A makes A and
+/// -A similar, so every jump needs balanced +1/-1 multiplicities; at odd total d no such U exists
+/// at any H, and the palindrome is impossible rather than merely absent. The LOCAL dimension is
+/// free: on a qutrit tensored with a qubit, H = 0 and A = 1_3 (x) Z pair, with U = 1_3 (x) X.
+/// With no jump at all the equivalence holds trivially and this corollary fails.</para>
 ///
-/// <para><b>What this class is NOT.</b> It decides the eigenvalue MULTISET, which is what the
-/// committed GF(p) kernel tests, and not the Jordan structure away from the two ends;
-/// <see cref="F1PalindromeIdentity"/> is the operator identity and sees more. And the char-poly
+/// <para><b>What the counts decide.</b> The eigenvalue MULTISET, which is what the committed GF(p)
+/// kernel tests; where the counts agree the proof's section (f8) delivers more, a similarity
+/// L ~ -L - 2 sigma carrying the whole Jordan structure, which no gate here observes.
+/// <see cref="F1PalindromeIdentity"/> is the operator identity for the particular Pi. And the char-poly
 /// FORM of the multiset statement carries a sign: with D = d^2 the degree,
 /// p(x) = p(-x - 2 sigma) is the multiset statement for even d and flips sign at odd d, where by
 /// the paragraph above both sides are false anyway.</para>
 ///
 /// <para>Proof <c>docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md</c>; gate
-/// <c>simulations/f138_rank_criterion.py</c> (93 gates, 15415 rows scored in both directions with
-/// FP = 0 and FN = 0, including F1's own canonical break under depolarizing, off-axis
-/// n.sigma jumps, multi-site Pauli strings, and one float route that shares no code with the
-/// rest). Live lab: <c>inspect --root twoend</c>.</para></summary>
+/// <c>simulations/f138_rank_criterion.py</c> (102 gates, 15415 rows scored in both directions with
+/// FP = 0 and FN = 0, among them off-axis n.sigma jumps and multi-site Pauli strings; beside
+/// them F1's own canonical break under depolarizing, and one float route that shares no
+/// construction code with the rest). Live lab: <c>inspect --root twoend</c>.</para></summary>
 public sealed class PalindromeTwoEndCountClaim : Claim
 {
     /// <summary>The typed parent: F1 is the OPERATOR identity and this claim is the SPECTRAL one,
@@ -76,9 +78,11 @@ public sealed class PalindromeTwoEndCountClaim : Claim
     public static int CanonicalChainCount(int n) =>
         n >= 1 ? n + 1 : throw new ArgumentOutOfRangeException(nameof(n), n, "N must be at least 1");
 
-    /// <summary>Whether the palindrome is possible at all at this local dimension. False at odd d
-    /// for every H and every jump set, by the balanced-multiplicity argument above; this is a
-    /// corollary, not a measurement, and is gated at d = 3 and d = 5.</summary>
+    /// <summary>Whether the palindrome is possible at all at this TOTAL Hilbert-space dimension d,
+    /// for a generator with at least one jump. False at odd d for every H and every nonempty jump
+    /// set, by the balanced-multiplicity argument above; the local dimension of the factors plays
+    /// no part (a qutrit tensored with a qubit, d = 6, can pair), and with no jump the equivalence
+    /// holds trivially at any d. A corollary, not a measurement, gated at d = 3 and d = 5.</summary>
     public static bool PalindromePossibleAtDimension(int d) =>
         d >= 1 ? d % 2 == 0 : throw new ArgumentOutOfRangeException(nameof(d), d, "d must be at least 1");
 
@@ -91,8 +95,9 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                "semisimple, so the char-poly identity forces the two nullities to agree, and equal nullities force " +
                "an invertible U with [U,H] = 0 and U A_l U^-1 = -A_l, which reflects the spectrum. No operator to " +
                "exhibit and no subspace to sample: two ranks compared. Fences, all three load bearing: A_l^2 = 1 " +
-               "(F137 recentres for T1 jumps), gamma_l > 0 (a zero rate drops a condition and moves the verdict), " +
-               "and even d (at odd d no invertible U exists at any H, so the palindrome is impossible)",
+               "(F137 recentres for T1 jumps), gamma_l > 0 (a zero rate drops a condition and can move the " +
+               "verdict), and even total d with at least one jump (at odd total d no invertible U exists at any " +
+               "H, so the palindrome is impossible; the local dimension is free)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (primary: Lemmas 1-3 and the theorem) + " +
                "experiments/THE_PAIRING_CONDITION.md (the criterion this sharpens, and the sufficiency " +
@@ -137,18 +142,18 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "V = 0). Geometric = algebraic at both ends, which is what turns the char-poly identity " +
                          "into a statement about two nullities. PROOF_CODIM1_BY_ADDITIVITY's window-edge lemma " +
                          "owns this in a stronger form, at EVERY edge of a rate window; the arc ledger carries a " +
-                         "standing instruction to cite it rather than re-derive it, and the first draft of the " +
-                         "proof file re-derived it a third time.");
+                         "standing instruction to cite it rather than re-derive it.");
 
             yield return new InspectableNode("invertibility IS the rank equality (Lemma 3)",
                 summary: "Forward: an invertible U in the anticommutant gives W = N.U, so the dimensions agree. " +
-                         "Backward, by representation theory of the algebra A generated by H and the jumps: if " +
-                         "the sign flip alpha (H -> H, A_l -> -A_l) is well defined on A then the anticommutant is " +
-                         "Hom_A(rho, rho o alpha), of dimension sum_k m_k m_tau(k) <= sum_k m_k^2 = dim commutant " +
-                         "by AM-GM, with equality exactly when rho and rho o alpha are isomorphic, i.e. exactly " +
-                         "when an invertible intertwiner exists. If alpha is NOT well defined, some c != 0 is " +
-                         "both an even and an odd word, so cW = -cW = 0 kills every W on both sides, no element " +
-                         "is invertible, and the inequality is STRICT. This is what turns the pairing-condition " +
+                         "Backward, by grading B = N + W, which is direct as soon as one jump is present " +
+                         "(X = -X there): the products multiply the signs, both parts are closed under the " +
+                         "adjoint, so B is a unital Z2-graded *-subalgebra, semisimple, and beta(X + W) = X - W " +
+                         "is an order-2 *-automorphism. beta permutes the simple blocks: a swapped pair M_n + M_n " +
+                         "gives n^2 to each part, a fixed block M_n with beta = Ad(u), u^2 = 1 and multiplicities " +
+                         "p + q = n gives p^2 + q^2 to N and 2pq to W. So dim W <= dim N, with equality exactly " +
+                         "when p = q in every fixed block, and then an invertible odd element exists blockwise. " +
+                         "This is what turns the pairing-condition " +
                          "page's sampled predicate into a decided one: on every row that page reports as " +
                          "nonempty-but-singular, dim W < dim N, and the strict inequality PROVES no invertible " +
                          "element is hiding there.");
@@ -178,36 +183,38 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                 summary: "Neither defining condition mentions gamma_l, so the criterion PREDICTS that the " +
                          "palindrome cannot depend on the rate profile at all, before any run. What that does not " +
                          "say: the spectrum depends on gamma throughout, the centre -sigma moves with it, and at " +
-                         "the boundary gamma_l = 0 the VERDICT moves, because a zero rate drops a condition from " +
-                         "both spaces. Gated: a ZZ bond with an X field on site 0 and X-dephasing on both sites " +
+                         "the boundary gamma_l = 0 the VERDICT can move, because a zero rate can drop a condition " +
+                         "from both spaces (two copies of one jump drop nothing). Gated: a ZZ bond with an X field on site 0 and X-dephasing on both sites " +
                          "is broken while both rates are on and palindromic the moment site 0 stops being watched.");
 
-            yield return new InspectableNode("odd local dimension: impossible, not merely absent",
+            yield return new InspectableNode("odd total dimension: impossible, not merely absent",
                 summary: $"An invertible U with U A U^-1 = -A makes A and -A similar, so A needs balanced " +
                          $"+1/-1 eigenvalue multiplicities and d must be even. d = 2 possible: " +
                          $"{PalindromePossibleAtDimension(2)}; d = 3 possible: {PalindromePossibleAtDimension(3)}; " +
-                         $"d = 4: {PalindromePossibleAtDimension(4)}. So at odd d the anticommutant is strictly " +
-                         "smaller than the commutant at every H, and the theorem holds there with both sides " +
-                         "false. Consistently, the char-poly FORM p(x) = p(-x - 2 sigma) is unsatisfiable at odd " +
+                         $"d = 4: {PalindromePossibleAtDimension(4)}. So at odd total d, with at least one jump, the " +
+                         "anticommutant is strictly smaller than the commutant at every H, and the theorem holds " +
+                         "there with both sides false. d is the TOTAL dimension: a qutrit tensored with a qubit " +
+                         "has d = 6 and H = 0, A = 1_3 (x) Z pairs. Consistently, the char-poly FORM p(x) = p(-x - 2 sigma) is unsatisfiable at odd " +
                          "d, a monic polynomial of odd degree d^2 picking up a sign under the reflection.");
 
             yield return new InspectableNode("scope, and the fences that do not lift",
-                summary: "Proved for any Hermitian H, any finite set of Hermitian jumps squaring to 1 (single " +
+                summary: "Proved for any Hermitian H, any nonempty finite set of Hermitian jumps squaring to 1 (single " +
                          "letters, off-axis n.sigma at unit directions, multi-site Pauli strings and full " +
                          "depolarizing sites alike), any strictly positive profile, any topology, any N, any " +
                          "finite dimension. Gated at d = 2^N with N <= 5, plus d = 3 and 5 for the odd-d " +
-                         "corollary. OUTSIDE: jumps with A^2 != 1 (F137 recentres), rates that are zero or " +
-                         "negative, and the Jordan structure away from the two ends. What is decided is the " +
-                         "MULTISET; F1PalindromeIdentity is the operator identity and sees the Jordan structure " +
-                         "too, which is why a row where the spectrum pairs anyway falsifies a spectral converse " +
-                         "and says nothing about whether Pi conjugates L there.");
+                         "corollary. OUTSIDE: jumps with A^2 != 1 (F137 recentres) and rates that are zero or " +
+                         "negative. What the counts decide is the MULTISET; where they agree the proof's (f8) " +
+                         "gives the similarity L ~ -L - 2 sigma with the whole Jordan structure. " +
+                         "F1PalindromeIdentity is the operator identity for the particular Pi, which is why a " +
+                         "row where the spectrum pairs without that Pi says nothing against this claim.");
 
             yield return new InspectableNode("live lab (the witness)",
-                summary: "PalindromeTwoEndCountWitness recomputes both nullities at inspect time as exact GF(p) " +
-                         "eliminations and, independently, decides the palindrome by the characteristic-polynomial " +
-                         "identity over the same field, then compares the two verdicts: inspect --root twoend. " +
-                         "Two independent computations meeting, in the house pattern. Gate: " +
-                         "simulations/f138_rank_criterion.py (93 gates), whose companion " +
+                summary: "PalindromeTwoEndCountWitness recomputes both nullities at inspect time by GF(p) " +
+                         "elimination at two primes (each an upper bound on the exact nullity), again from the " +
+                         "operator conditions by a route that never forms L, and decides the palindrome by the " +
+                         "characteristic-polynomial identity at sampled points over the same fields, then " +
+                         "compares: inspect --root twoend. Three computations meeting, modular evidence rather " +
+                         "than an exact decision. Gate: simulations/f138_rank_criterion.py (102 gates), whose companion " +
                          "simulations/f138_pairing_condition.py carries the 140861-row census the necessity " +
                          "direction no longer needs.");
         }

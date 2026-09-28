@@ -9,9 +9,10 @@ a full similarity `L ~ −L − 2σ`, so where the criterion holds the entire Jo
 structure is reflection-symmetric (§(f8)). Three fences are load bearing rather
 than decorative: `A² = 1` (F137 recentres the palindrome for non-unitary jumps),
 `γ_l > 0` with at least one jump present (a zero rate drops a condition and
-moves the verdict; no jump at all changes the statement, §(f5)), and even TOTAL
-dimension d, which is not a condition on the LOCAL dimension: a qutrit tensored
-with a qubit has d = 6 and pairs perfectly. Two of the three are gated (10b and
+can move the verdict; with no jump at all the equivalence holds trivially and
+only §(f5)'s odd-d corollary fails), and even TOTAL dimension d, which is not a
+condition on the LOCAL dimension: on a qutrit tensored with a qubit, d = 6, the
+row H = 0, A = 1₃ ⊗ Z pairs, with U = 1₃ ⊗ X. Two of the three are gated (10b and
 10c); `A² = 1` is the boundary of the class and no gate crosses it. The gates
 are of three kinds and only the first is exact in the strict sense: exact over
 ℚ(i) with Fraction arithmetic on named rows, exact over GF(p) at scale where a
@@ -190,9 +191,8 @@ repaired one.**
   `|0…0⟩⟨1…1|` at −2Nγ, and it lives at H = 0.
 - **Returned nothing, and two entries on this line were wrong until a reviewer
   checked them at source.** `recovered/` genuinely returned nothing.
-  `reflections/` did NOT: 25 of its 49 files carry the word, and
-  `ON_TWO_TIMES.md` carries the far end with its count (*"at λ = −2Σγ the memory
-  is zero. The XOR drain, those N+1 modes at the fastest decay"*), while this
+  `reflections/` did NOT: `ON_TWO_TIMES.md` carries the far end (*"Near λ = 0 the
+  memory is long; at λ = −2Σγ it is shortest"*), while this
   file's own companion page cites `ON_THE_SOFT_BREAK.md` twice.
   `fw.Confirmations` and the C# `ConfirmationsRegistry` carry the F1 identity
   verbatim in `lebensader_skeleton_trace_decoupling`; what they do not carry is
@@ -261,32 +261,37 @@ because every generator is Hermitian. Write
 
 Since A_l² = 1, `A_l X A_l = ±X` is the same statement as `A_l X = ±X A_l`.
 
-**Three fences, all load bearing, all gated.**
+**Three fences, all load bearing.** Two are gated (10b and 10c); `A² = 1` is
+the boundary of the class.
 
 **γ_l > 0.** Not a formality. A rate set to zero removes that site's condition
-from both 𝒩 and 𝒲, and the verdict moves: on a ZZ bond with an X field on site
+from both 𝒩 and 𝒲, and the verdict can move: on a ZZ bond with an X field on site
 0 and X-dephasing on both sites, the spectrum is broken while both rates are on
-and palindromic the moment site 0 stops being watched (gate 10b). So the
-criterion is continuous nowhere on the boundary of the positive orthant, and
-"the palindrome does not depend on γ" in §(f3) means inside the open orthant.
+and palindromic the moment site 0 stops being watched (gate 10b). It need not move: with
+two jumps both equal to Z, switching one off drops no condition, since both
+impose the same one, and the verdict stays whatever H is. So the
+boundary of the positive orthant is where the verdict CAN change, and "the
+palindrome does not depend on γ" in §(f3) means inside the open orthant.
 Negative rates are outside the class altogether, which is worth saying because
 [PROOF_R90_FROZEN_DIVISOR](PROOF_R90_FROZEN_DIVISOR.md) works a zero-mean
-stratum where σ = 0 with jumps present; that is a different object. **The only
-σ = 0 case inside this class is the case with no jumps at all**, where 𝒩 and 𝒲
-coincide, the two ends of the axis are one point, and the spectrum of −i·ad_H is
-symmetric about 0 for any Hermitian H.
+stratum where σ = 0 with jumps present; that is a different object. σ = 0 with
+positive rates would need **no jumps at all**, which the class excludes; there 𝒩
+and 𝒲 coincide, the two ends of the axis are one point, the spectrum of −i·ad_H
+is symmetric about 0 for any Hermitian H, and the equivalence holds trivially.
+Only §(f5)'s odd-d corollary fails without a jump.
 
 **A_l² = 1** is where the class ends. F137 records that under T1 jumps, which
 are not unitary, the palindrome survives about a different centre, which F137
 states exactly as trace(L)/dim, so a criterion phrased about −2σ is answering a
 different question there. What the hypothesis buys, positively, is broader than
 the letters: any `n̂·σ⃗` at a unit direction qualifies, as does any Pauli STRING,
-as does a full depolarizing site (X, Y and Z each satisfy it). All three are
-gated in §(g), and the last of them is F1's canonical break, which the criterion
+as does a full depolarizing site (X, Y and Z each satisfy it). All three
+families are gated in §(g), and the last of them is F1's canonical break, which the criterion
 gets right from outside the sample.
 
-**Even d.** Not assumed, but derived and then gated: §(f5) shows no palindrome
-is possible at odd d, so the theorem is true there with both sides false.
+**Even total d.** Not assumed, but derived and then gated: §(f5) shows that with
+at least one jump no palindrome is possible at odd total d, so the theorem is
+true there with both sides false.
 
 ## (b) Lemma 1: the two ends are the commutant and the anticommutant
 
@@ -376,7 +381,7 @@ and a recursion into corners. Grade
 
     ℬ = 𝒩 ⊕ 𝒲
 
-instead, where the grading is direct by construction. The four products behave
+instead. The four products behave
 because the signs simply multiply: 𝒩𝒩 ⊆ 𝒩, 𝒩𝒲 ⊆ 𝒲, 𝒲𝒩 ⊆ 𝒲, 𝒲𝒲 ⊆ 𝒩. Both
 summands are closed under the adjoint, since H is Hermitian and A_l X A_l = ±X
 survives it, and 1 ∈ 𝒩. And 𝒩 ∩ 𝒲 = 0 as soon as **at least one jump is
@@ -442,8 +447,8 @@ line Re = −σ becomes the palindrome about the point −σ.
 p(−x − 2σ) = (−1)^D p(x) whenever the multiset is reflection-closed, so the
 identity the repo's exact kernel tests, `p(x) = p(−x − 2σ)`, is the multiset
 statement **for even d**, which is every qubit register. At odd d the sign flips
-and the identity is unsatisfiable, which is consistent with §(f5): at odd d the
-multiset statement fails too.
+and the identity is unsatisfiable, which is consistent with §(f5): at odd d, with
+at least one jump, the multiset statement fails too.
 
 ## (f) What follows
 
@@ -483,8 +488,8 @@ strictly positive. The non-uniform block gates that more sharply than it looks:
 profile, so on those 600 rows the criterion is computed with no γ information
 whatever while the palindrome side receives γ = (3, 7, 11)/100, and they agree
 on all 600. What it does not say: the SPECTRUM depends on γ throughout,
-the centre −σ moves with it, and at the boundary γ_l = 0 the verdict itself
-moves, because a zero rate drops a condition (gate 10b). It is the pairing, and
+the centre −σ moves with it, and at the boundary γ_l = 0 the verdict can
+move, because a zero rate can drop a condition (gate 10b). It is the pairing, and
 only inside the open orthant, that is blind.
 
 **(f4) The anti-steady mode, and F103's three rows.**
@@ -581,9 +586,10 @@ without the argument; the argument is theirs too.
 Most of the above is checked from below in
 [`simulations/f138_rank_criterion.py`](../../simulations/f138_rank_criterion.py),
 and the exceptions are named rather than covered by a blanket: §(f1)'s naming
-argument, §(f6)'s `ker L† = ker L`, and Lemma 3's Case 2 are reasoned and not
-gated (the run never detects `𝒜₀ ∩ 𝒜₁ ≠ 0` or exhibits its central projection),
-and §(f5)'s odd-d rows vary H while holding A fixed at `diag(1, …, 1, −1)`.
+argument, §(f6)'s `ker L† = ker L`, and §(d)'s graded-algebra step (the
+Wedderburn decomposition of ℬ = 𝒩 ⊕ 𝒲) are reasoned and not gated; the
+step's conclusion, invertible element ⟺ equal counts, is gated on 5,000 rows.
+§(f5)'s odd-d rows vary H while holding A fixed at `diag(1, …, 1, −1)`.
 The gate is built in **three** layers, deliberately, and the layers encode the
 conditions differently (the exact layer as `A⊗Aᵀ ± 1`, the modular layer as a
 commutator or anticommutator, the float layer from scratch), so a coding error
@@ -601,15 +607,16 @@ in one does not hide in the others.
   the 13,540-row block uses the committed three-prime verdict of
   [`f138_clause_two_sweep.py`](../../simulations/f138_clause_two_sweep.py),
   while every nullity in the scoring, and both sides of the 1,875 rows in gates
-  7, 8 and 10, run at one prime. A nullity read mod p can only come out too
+  7 and 8, run at one prime. A nullity read mod p can only come out too
   **large** (reduction is a ring map, so a rank can only come out too small), so
   both nullities are upper bounds and a mod-p equality is evidence, not proof.
   The direction is USUALLY the safe one: a bad prime inflating ONE nullity flips
   the criterion and makes a gate FAIL rather than pass. The exception is a prime
   inflating BOTH sides compensatingly, which would pass wrongly, and that is the
   residue the three-prime blocks reduce and the one-prime blocks do not.
-- **Float, sharing no code with any of it:** gate 9 rebuilds the whole object in
-  dense complex numbers, importing nothing from this repository, and compares
+- **Float, sharing no construction code with any of it:** gate 9 rebuilds the
+  whole object in dense complex numbers, calling this file's `row_spaces` only as
+  the other side of its cross-check, and compares
   both its verdict and its two nullities row by row against the modular route.
   Its two thresholds are gated on measured separations rather than chosen.
 
@@ -634,21 +641,19 @@ CRITERION, which is now two ranks.
 
 | what is scored | rows | holds | FP | FN |
 |---|---:|---:|---:|---:|
-| P₃ / K₃ / bond+isolate / P₃ generic, N=3 letter grids | 10,000 | 1,543 | 0 | 0 |
-| three single- and two-letter bond sets | 2,700 | 750 | 0 | 0 |
-| non-uniform J per bond and γ per site | 600 | 59 | 0 | 0 |
-| N=4 path and ring | 240 | 20 | 0 | 0 |
+| P₃ / K₃ / bond+isolate / P₃ generic, N=3 letter grids | 10,000 | 1,503 | 0 | 0 |
+| three single- and two-letter bond sets | 2,700 | 832 | 0 | 0 |
+| non-uniform J per bond and γ per site | 600 | 77 | 0 | 0 |
+| N=4 path and ring | 240 | 6 | 0 | 0 |
 | off-axis dephasing, `n̂·σ⃗` at rational directions | 792 | 36 | 0 | 0 |
 | multi-site Pauli-string jumps, one and two of them | 900 | 47 | 0 | 0 |
 | all 1-, 2- and 3-term bond words (F87 territory) | 174 | 86 | 0 | 0 |
 | F103 §7.12's three rows, N = 3, 4, 5 | 9 | 9 | 0 | 0 |
-| **total** | **15,415** | **2,550** | **0** | **0** |
+| **total** | **15,415** | **2,596** | **0** | **0** |
 
 On **212** of those rows `0 < dim 𝒲 < dim 𝒩`, which is where the criterion's
 equality says more than "the anticommutant is nonempty"; see the third caveat
-below. That count is now taken over every scored block: an earlier version of
-this sentence reported 204 and drew it from the ten largest blocks only, leaving
-1,866 rows unexamined for the property it was quantifying.
+below.
 
 Beside the scoring, and on rows where the palindrome is not consulted at all:
 
@@ -657,7 +662,7 @@ Beside the scoring, and on rows where the palindrome is not consulted at all:
 | Lemma 1, both inclusions, exactly over ℚ(i) | 7 named rows | every kernel basis element satisfies both operator conditions, `== 0` |
 | Lemma 2, semisimplicity at both ends | 7 named rows × 3 primes, 250 grid rows | `rank(M²) = rank(M)` everywhere; 33 of the 250 carry a kernel at −2σ, so the check is not vacuous |
 | §(b)'s inequalities, exact rationals | 4 named rows × 6 random vectors | dissipative at 0, accretive at −2σ (sampled vectors, not a per-row proof) |
-| Lemma 3 (⟹), `𝒩·U = 𝒲` | 5 named rows | spans exactly, dimensions equal; the other 2 named rows have no invertible element and assert the contrapositive `dim 𝒲 < dim 𝒩` instead |
+| Lemma 3 (⟹), `𝒩·U = 𝒲` | 5 named rows | spans exactly, dimensions equal; the other 2 named rows have no invertible element and assert the contrapositive of (⟸), `dim 𝒲 < dim 𝒩`, instead |
 | Lemma 3, invertible element ⟺ equal counts | 5,000 rows | 0 mismatches |
 | §(f1), `dim 𝒲 ≤ dim 𝒩` | 3,600 rows | holds, largest observed gap 12 |
 | §(f2), the canonical chain | N = 2, 3, 4 | both counts N+1, palindrome holds |
@@ -705,10 +710,11 @@ the nine F103 rows are all palindromic, so they test necessity only.
 And the sharpest one: on most rows the criterion's equality is **0 versus
 nonzero**, not a comparison of two positive integers. Rows with
 `0 < dim 𝒲 < dim 𝒩`, the only rows where equality says more than "the
-anticommutant is nonempty", are a minority: **212 of the 15,406 scored grid
-rows**, concentrated where the algebra is reducible (138 on the disconnected
-graph, 32 on K₃, 22 on P₃, and none at all on the generic-magnitude or N=4
-blocks). The distinction is exercised, and on every one of those rows the
+anticommutant is nonempty", are a minority: **212 of the 15,415 scored rows**,
+concentrated where the algebra is reducible (145 on the disconnected graph, 28
+on K₃, 20 on P₃ with equal ends, 6 and 5 at the single-letter XX and ZZ bonds, 5
+with a Pauli string as the jump, 3 under non-uniform couplings and rates, and
+none at all on the generic-magnitude or N=4 blocks). The distinction is exercised, and on every one of those rows the
 criterion is right, but the headline row count overstates how much of the sweep
 tests the equality rather than nonemptiness. **Gate 11 is the answer to that**:
 eight rows are BUILT to sit strictly between, by taking H = H₁ ⊕ H₂ with
@@ -732,12 +738,12 @@ evidence again.
 
 ## (h) Scope, and what would falsify it
 
-**Proved for:** any Hermitian H; any finite set of Hermitian jump operators
+**Proved for:** any Hermitian H; any nonempty finite set of Hermitian jump operators
 squaring to the identity, single-site letters, off-axis directions `n̂·σ⃗`,
 multi-site Pauli strings and full depolarizing sites alike; any strictly
 positive rate profile, uniform or not; any topology, which is not an independent
 axis but a special case of "any Hermitian H"; any N; any finite dimension, with
-the odd-d case true and vacuous by §(f5).
+the odd-d case true because both sides are false (§(f5)).
 
 **Gated for:** d = 2^N with N ≤ 5, plus d = 3 and d = 5 for §(f5). N = 5 is
 thin and deserves its caveat: it is reached only by F103's three rows, all of
@@ -746,8 +752,9 @@ carries both directions. Everything outside that range rests on the proof
 alone.
 
 **Outside:** jump operators with A² ≠ 1, where F137 recentres the palindrome and
-the question changes; rates that are zero or negative; and the Jordan structure
-away from the two ends, which the characteristic polynomial does not see.
+the question changes; and rates that are zero or negative. Where the two counts differ
+the multiset is broken, and the criterion says nothing about the Jordan
+structure there; where they agree, §(f8) gives it in full.
 
 **What would falsify it:** one configuration where the two nullities agree and
 the spectrum does not pair, or one where it pairs and they differ. Either would

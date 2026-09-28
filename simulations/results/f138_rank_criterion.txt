@@ -173,7 +173,7 @@ pairing-condition page carries. For
 
   (b) A RATE SWITCHED OFF. The theorem asks gamma_l > 0, and the
   fence is not decoration: a zero rate DROPS a condition from W,
-  so the VERDICT itself moves at the boundary of the orthant, not
+  so the VERDICT can move at the boundary of the orthant, not
   merely the dimensions. The row below is chosen to show that: a
   ZZ bond with an X field on site 0, dephasing X on both sites,
   broken while both rates are on and palindromic the moment site
@@ -184,7 +184,7 @@ pairing-condition page carries. For
   [PASS] rate fence, site 0 rate off: criterion = palindrome      dimN=2 dimW=2 palindrome=True
   [PASS] and the verdict really moves when a rate is switched off both verdicts appear across the three rows
 
-  (c) ODD LOCAL DIMENSION. An invertible U with U A U^-1 = -A makes
+  (c) ODD DIMENSION. An invertible U with U A U^-1 = -A makes
   A and -A similar, so A needs balanced +1/-1 multiplicities and d
   must be EVEN. At odd d the criterion must therefore say NO at
   every H, which is a corollary and not a measurement, gated here
@@ -193,7 +193,7 @@ pairing-condition page carries. For
 
 ## Gate 11: 0 < dim W < dim N, built rather than waited for
 
-  Only 204 of the 15,406 scored grid rows have 0 < dim W < dim N,
+  Only 212 of the 15,415 scored rows have 0 < dim W < dim N,
   which is where the EQUALITY says more than nonemptiness. Here
   they are constructed: two blocks with disjoint spectra, one
   carrying an invertible anticommuting element and one carrying
@@ -211,16 +211,16 @@ pairing-condition page carries. For
 
 ## Gate 4: the rank equality scored against the exact palindrome
 
-  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (20 s)
-  [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (20 s)
-  [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (18 s)
-  [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (21 s)
-  [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (7 s)
-  [PASS] rank criterion exact at bond XX                          rows=900 holds=339 breaks=561  0<dimW<dimN on 6  FP=0 FN=0  (9 s)
-  [PASS] rank criterion exact at bond ZZ                          rows=900 holds=326 breaks=574  0<dimW<dimN on 5  FP=0 FN=0  (6 s)
+  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (22 s)
+  [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (23 s)
+  [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (20 s)
+  [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (22 s)
+  [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (8 s)
+  [PASS] rank criterion exact at bond XX                          rows=900 holds=339 breaks=561  0<dimW<dimN on 6  FP=0 FN=0  (10 s)
+  [PASS] rank criterion exact at bond ZZ                          rows=900 holds=326 breaks=574  0<dimW<dimN on 5  FP=0 FN=0  (7 s)
   [PASS] rank criterion under non-uniform J and gamma             rows=600 holds=77 breaks=523  0<dimW<dimN on 3  FP=0 FN=0  (5 s)
-  [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (81 s)
-  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (83 s)
+  [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (87 s)
+  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (87 s)
 
   And the same rows scored for T4, which is what replaces sampling:
   [PASS] invertible element <=> dim N == dim W, P3 equal          rows=2500  mismatches=0
