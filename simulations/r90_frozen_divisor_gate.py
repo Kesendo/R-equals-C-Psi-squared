@@ -138,8 +138,23 @@
 #       zero (m with J_2(0), nothing arrives); L|(2,0) + 4 gbar = D_m built from
 #       the spin chain, so the sector is the block (2,0), which at the uniform
 #       point carries the root exactly floor(N/2) times
+#   G19 which Heisenberg profiles carry a larger block (proof doc Section 9.3):
+#       q(0) free of gbar and the next coefficient linear in gbar^2 (N = 4, 5,
+#       6); N = 4 decided exactly, the only 3x3 at non-negative rates being
+#       (0,2,0,2) and its mirror, a tangency (resultant cells, rational samples,
+#       the local margins -2e and -9e^2/4), and a 4x4 there only over C
+#       (degree-16 factor, no real root) or at gbar = 0 (the cubic); N = 5, 3x3
+#       at strictly positive rates on two offset directions, the d1 = 0 family
+#       (the next coefficient vanishing identically in gbar; two 2x2 blocks at
+#       the two mean rates read, exact over Q(sqrt5, i)), and the 4x4
+#       on the degree-118 factor, five real carriers at non-negative rates,
+#       certified mod two primes for the whole Galois orbit; N = 6, a 3x3 at
+#       strictly positive rates; N = 6, 7, the stored coefficient tables and the
+#       5x5 carriers found by simulations/heisenberg_frozen_root_blocks.py (four
+#       at N = 6, two at N = 7, stored to 140 digits by its refine mode), each
+#       checked against the tables and read by the precision law
 #
-# Runtime: about 2 minutes. Standalone except G0 (imports framework once).
+# Runtime: about 4 minutes. Standalone except G0 (imports framework once).
 import sys
 import math
 import random
@@ -2900,6 +2915,807 @@ for N in range(3, 8):
         mults.append(next(k for k, c in enumerate(cp) if c != 0))
     check(f"N={N}: uniform point, block (2,0) carries -4 gbar with algebraic multiplicity "
           f"{mults} = floor(N/2)", all(x == N // 2 for x in mults))
+
+# ---------- G19: which Heisenberg profiles carry a larger block at the root ----------
+# Proof doc Section 9.3. On the Heisenberg chain k eigenvalues arrive at the root
+# together where the cofactor q(0) and the next k - 1 coefficients of det(eps - Mtilde)
+# vanish at one coupling. Two structural facts make that a finite problem: q(0) sees
+# gbar only through its monomial (Section 6), and the next coefficient, after its own
+# monomial, is LINEAR in gbar^2, so each exceptional coupling fixes gbar^2 uniquely.
+# Mtilde is homogeneous of degree one in (J, gamma), so a carrier is a point of the
+# projective space of (J : gbar : offsets), of dimension floor(N/2) + 1. Block
+# sizes are read as kernel dimensions of powers, never from the coefficients alone:
+# exactly over GF(p) (a nullity mod p can only overstate; the lower bounds are the
+# pencil's floor(N/2) for the geometric count and the vanishing coefficients for the
+# algebraic one, and Galois conjugates share every rank), or, where the carrier is
+# known only numerically (N = 6, 7), by a precision law: at a point correct to D
+# digits the zero singular values of Mtilde^k sit at ~10^-D and fall with D, while the
+# others do not move.
+
+print()
+print("G19 the Heisenberg chain: which profiles carry a larger block at the root")
+import mpmath as mp  # noqa: E402
+
+hw_, hG_, hs_ = sp.symbols('w G s')
+
+
+def hb_core(e):
+    """Strip the monomial in (J, g) and pass to w = J^2, G = g^2 (must be even)."""
+    p = sp.Poly(sp.expand(e), Js, gs)
+    mj = min(m[0] for m in p.monoms())
+    mg = min(m[1] for m in p.monoms())
+    out = 0
+    for (a, b), c in p.terms():
+        assert (a - mj) % 2 == 0 and (b - mg) % 2 == 0, "not even in J, g"
+        out += c * hw_ ** ((a - mj) // 2) * hG_ ** ((b - mg) // 2)
+    return sp.expand(out)
+
+
+def hb_null(M, p):
+    M = [r[:] for r in M]
+    n, rk = len(M), 0
+    for c in range(n):
+        piv = next((i for i in range(rk, n) if M[i][c] % p), None)
+        if piv is None:
+            continue
+        M[rk], M[piv] = M[piv], M[rk]
+        inv = pow(M[rk][c], p - 2, p)
+        for i in range(n):
+            if i != rk and M[i][c] % p:
+                f = M[i][c] * inv % p
+                M[i] = [(x - f * y) % p for x, y in zip(M[i], M[rk])]
+        rk += 1
+    return n - rk
+
+
+def hb_chain_modp(N, gl, J, p, kmax=8):
+    """Nullities of Mtilde^k mod p (Heisenberg), J and the rates given mod p."""
+    iu = next(x for x in range(2, p) if x * x % p == p - 1)
+    h, n = se_h_frac(N), N * N
+    gb = sum(gl) * pow(N, p - 2, p) % p
+    M = [[0] * n for _ in range(n)]
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[a][c]:
+                    M[r][c * N + b] = (M[r][c * N + b] - iu * J * int(h[a][c])) % p
+                if h[c][b]:
+                    M[r][a * N + c] = (M[r][a * N + c] + iu * J * int(h[c][b])) % p
+            if a != b:
+                M[r][r] = (M[r][r] - 2 * (gl[a] + gl[b])) % p
+            M[r][r] = (M[r][r] + 4 * gb) % p
+    P, out = M, [hb_null(M, p)]
+    Mt = list(zip(*M))
+    for _ in range(kmax - 1):
+        P = [[sum(x * y for x, y in zip(row, col)) % p for col in Mt] for row in P]
+        out.append(hb_null(P, p))
+        if out[-1] == out[-2]:
+            return tuple(out)
+    raise AssertionError(f"no plateau by power {kmax}: {out}")
+
+
+def hb_sqrt(a, p):
+    a %= p
+    if a == 0:
+        return 0
+    if pow(a, (p - 1) // 2, p) != 1:
+        return None
+    return int(sp.sqrt_mod(a, p))
+
+
+def hb_profile(N, g, d):
+    """Locus profile, offsets d for the outer pairs, centre at g at odd N."""
+    mid = [g] if N % 2 else []
+    return [g + x for x in d] + mid + [g - x for x in reversed(d)]
+
+
+def hb_w_core(F):
+    """q(0) in w with its factor w^k (the root J = 0) removed."""
+    Fw = sp.Poly(F, hw_)
+    k = min(m[0] for m in Fw.monoms())
+    return sp.Poly(sp.expand(Fw.as_expr() / hw_ ** k), hw_)
+
+
+def hb_modp_carrier(N, F, P0, P1, d, primes=2):
+    """F, P0, P1 in w at a fixed rational direction d. At primes p = 1 mod 4 with a
+    root w0 of F where G0 = -P0/P1 and w0 are squares, read the chain at both signs
+    of g and at a control coupling. The reading stands for the real carrier only
+    because F (without its w^k) is irreducible over Q, so every root w0 mod p is a
+    reduction of a conjugate of it; the caller checks that. Returns the chains."""
+    Fw, A, B = hb_w_core(F), sp.Poly(P0, hw_), sp.Poly(P1, hw_)
+    seen = []
+    for p in sp.primerange(10007, 400000):
+        if p % 4 != 1:
+            continue
+        roots = [x for x in range(1, p) if Fw.eval(x) % p == 0]
+        for w0 in roots:
+            b1 = int(B.eval(w0)) % p
+            if b1 == 0:
+                continue
+            G0 = -int(A.eval(w0)) * pow(b1, p - 2, p) % p
+            gv, Jv = hb_sqrt(G0, p), hb_sqrt(w0, p)
+            if not gv or not Jv:
+                continue
+            for sg in (gv, p - gv):
+                gl = [x % p for x in hb_profile(N, sg, d)]
+                seen.append((hb_chain_modp(N, gl, Jv, p), hb_chain_modp(N, gl, Jv + 1, p)))
+            break
+        else:
+            continue
+        if len(seen) >= 2 * primes:
+            break
+    return seen
+
+
+def hb_real_carriers(F, P0, P1, bound, dps=50):
+    """Real carriers at a fixed direction: (w*, G*, margin) for every positive root
+    of F, G* = -P0/P1 there, margin = G* - bound (>= 0 means non-negative rates)."""
+    out = []
+    for r in sp.Poly(F, hw_).real_roots():
+        if not r.is_positive:
+            continue
+        Gv = sp.N(-(P0 / P1).subs(hw_, r), dps)
+        out.append((sp.N(r, dps), Gv, sp.N(Gv - bound, dps)))
+    return out
+
+
+# (a) N = 4, the 3x3 carriers, decided exactly. Direction s = d2/d1, d1 = 1; by
+#     homogeneity (d, g, J) -> (-d, -g, -J) the directions d and -d carry the same
+#     (w, G), so s covers every direction but d1 = 0, which is taken separately.
+F4 = hb_core(cH[2]).subs({d1s: 1, d2s: hs_})
+P4 = hb_core(cH[3]).subs({d1s: 1, d2s: hs_})
+check("N=4: q(0) is free of gbar after its monomial, and the next coefficient is "
+      "linear in gbar^2", sp.degree(F4, hG_) == 0 and sp.degree(P4, hG_) == 1)
+P40 = sp.expand(P4.subs(hG_, 0))
+P41 = sp.expand((P4 - P40) / hG_)
+F4d = sp.Poly(hb_core(cH[2]).subs({d1s: 0, d2s: 1}), hw_)
+check("N=4: the direction d1 = 0 has no real exceptional coupling (q(0) ~ 8w^2 - 4w + 1)",
+      F4d.monic() == sp.Poly(8 * hw_ ** 2 - 4 * hw_ + 1, hw_).monic() and F4d.count_roots() == 0,
+      f"{F4d.as_expr()}")
+crit, zero_res, poles = set(), [], set()
+for name, e in (("face G = d1^2", sp.resultant(F4, P40 + P41, hw_)),
+                ("face G = d2^2", sp.resultant(F4, P40 + hs_ ** 2 * P41, hw_)),
+                ("poles", sp.resultant(F4, P41, hw_)), ("branch points", sp.discriminant(F4, hw_)),
+                ("w = 0", F4.subs(hw_, 0)), ("leading coefficient", sp.Poly(F4, hw_).LC())):
+    ep = sp.Poly(sp.expand(e), hs_)
+    if ep.is_zero:
+        zero_res.append(name)
+    elif ep.degree() > 0:
+        rr = ep.real_roots()
+        crit.update(rr)
+        if name == "poles":
+            poles.update(float(x) for x in rr)
+# the same irrational direction met by two resultants is one direction: deduplicate by
+# value to 50 digits (two distinct roots agreeing that far would merge, and the count of
+# eleven below would then fail rather than pass)
+crit = sorted({sp.N(r, 50): r for r in crit}.values(), key=float)
+check("N=4: no condition of the cell decomposition vanishes identically in the direction, "
+      "and it has exactly eleven critical directions", not zero_res and len(crit) == 11,
+      f"{len(crit)} critical, identically zero: {zero_res}")
+# where q(0), P0 and P1 share a root the second arrival would come at EVERY gbar (the
+# N = 5 d1 = 0 case below); at N = 4 that happens only at w = 0, which is J = 0
+gid = sp.gcd(sp.Poly(sp.resultant(F4, P40, hw_), hs_), sp.Poly(sp.resultant(F4, P41, hw_), hs_))
+id_roots = []
+gid_rational = all(r.is_rational for r in gid.real_roots())
+for r in gid.real_roots():
+    cg = sp.gcd(sp.gcd(sp.Poly(F4.subs(hs_, r), hw_), sp.Poly(P40.subs(hs_, r), hw_)),
+                sp.Poly(P41.subs(hs_, r), hw_))
+    id_roots += list(sp.roots(cg).keys()) if cg.degree() > 0 else []
+check("N=4: at every real direction the next coefficient vanishes identically in gbar at a "
+      "root of q(0) only at w = 0 (J = 0), so no coupling carries a second arrival at every mean rate",
+      gid_rational and set(id_roots) <= {0}, f"common roots {sorted(set(id_roots))}")
+samples = [sp.floor(crit[0]) - 1, sp.ceiling(crit[-1]) + 1]
+for a, b in zip(crit, crit[1:]):
+    samples.append((sp.Rational(str(sp.N(a, 30))) + sp.Rational(str(sp.N(b, 30)))) / 2)
+n_nonneg, n_branch = 0, 0
+for sv in samples:
+    for wv, Gv, _ in hb_real_carriers(F4.subs(hs_, sv), P40.subs(hs_, sv), P41.subs(hs_, sv), 0):
+        n_branch += 1
+        n_nonneg += bool(min(Gv - 1, Gv - sv ** 2) >= 0)
+check(f"N=4: between the {len(crit)} critical directions (boundary crossings G = d1^2, "
+      "G = d2^2, poles, branch points) no 3x3 carrier has non-negative rates",
+      n_nonneg == 0 and n_branch > 0, f"{n_branch} branches sampled, {n_nonneg} non-negative")
+mp.mp.dps = 60
+fc = [sp.lambdify(hs_, c, 'mpmath') for c in sp.Poly(F4, hw_).all_coeffs()]
+f0, f1 = sp.lambdify((hw_, hs_), P40, 'mpmath'), sp.lambdify((hw_, hs_), P41, 'mpmath')
+# At a branch point q(0) has a double root, which s rounded to the working 60 digits
+# splits into a pair with imaginary parts near 10^-30 (1.9e-31 measured at s = -1.646),
+# the square root of the rounding; a genuinely complex root here has |Im| of order
+# one (the check below finds none at all here). So a root counts as real below 10^-25, five orders above
+# the split. At a pole direction P1 vanishes at a root of q(0) and gbar^2 is infinite there
+# (no carrier); P1 then reads at the rounding of s, near 10^-60 against 1 + |P0|, and
+# below 10^-25 of that it is recorded as a pole, not divided by.
+at_crit, pole_hits, im_complex = [], 0, []
+for r in crit:
+    rv = mp.mpf(str(sp.N(r, 70)))
+    for wr in mp.polyroots([c(rv) for c in fc], maxsteps=500, extraprec=300):
+        if abs(mp.im(wr)) > mp.mpf(10) ** -25:
+            im_complex.append(abs(mp.im(wr)))
+            continue
+        if mp.re(wr) <= mp.mpf(10) ** -25:
+            continue
+        wv = mp.re(wr)
+        if abs(f1(wv, rv)) < mp.mpf(10) ** -25 * (1 + abs(f0(wv, rv))):
+            pole_hits += 1
+            continue
+        Gv = -f0(wv, rv) / f1(wv, rv)
+        at_crit.append((float(rv), min(Gv - 1, Gv - rv ** 2)))
+touch = [x for x in at_crit if x[1] > -mp.mpf(10) ** -40]
+worst = max(x[1] for x in at_crit if x not in touch)
+check("N=4: at the critical directions themselves only s = -1 reaches the cone, and "
+      "every other carrier there misses it by more than 0.3 (read to 60 digits; q(0) has only "
+      "real roots at those directions, so no complex pair can be misread as a split double root)",
+      [round(x[0], 12) for x in touch] == [-1.0] and worst < -0.3 and not im_complex,
+      f"{len(at_crit)} carriers, {pole_hits} at a pole, closest miss {mp.nstr(worst, 6)}, "
+      f"{len(im_complex)} complex roots")
+Fm1 = sp.factor(F4.subs(hs_, -1))
+Gm1 = sp.solve(P4.subs({hs_: -1, hw_: 1}), hG_)
+check("N=4: at s = -1 the carrier is w* = 1, gbar^2 = 1 exactly, i.e. (0, 2, 0, 2) "
+      "and its mirror (2, 0, 2, 0), up to scale",
+      sp.roots(sp.Poly(Fm1, hw_)) == {0: 1, 1: 1} and Gm1 == [1], f"q(0) = {Fm1}, G = {Gm1}")
+eps_ = sp.Symbol('e')
+Fe = F4.subs(hs_, -1 - eps_)
+br = [r for r in sp.solve(Fe, hw_) if sp.limit(r, eps_, 0) == 1][0]
+Ge = -(P40 / P41).subs(hs_, -1 - eps_).subs(hw_, br)
+m_s = sp.series(Ge - (1 + eps_) ** 2, eps_, 0, 3).removeO()
+m_1 = sp.series(Ge - 1, eps_, 0, 3).removeO()
+check("N=4: at (0,2,0,2) the carrier meets the cone at its edge: with s = -1 - e the margin "
+      "to the face G = d2^2 is -2e - 13e^2/4 (it crosses that face) and to G = d1^2 is -9e^2/4 "
+      "(it is tangent to that one), so on each side one margin is negative",
+      sp.expand(m_s + 2 * eps_ + sp.Rational(13, 4) * eps_ ** 2) == 0
+      and sp.expand(m_1 + sp.Rational(9, 4) * eps_ ** 2) == 0, f"{m_s}; {m_1}")
+
+# (b) N = 4, four arriving together: over C yes, at a real profile only at gbar = 0
+Q4 = hb_core(cH[4]).subs({d1s: 1, d2s: hs_})
+def hb_inventory(F, P, Q):
+    """Factor the three-arrival conditions: Res_G(P, Q) into its factors, and for each
+    one involving w, Res_w(F, .) into factors in s. Returns (factors of Res_G free of
+    w but not of s, the monic linear factors in s, the higher-degree factors in s,
+    the product of the Res_G factors of w-degree > 1)."""
+    sonly, lin, big, wpart = [], set(), [], sp.Integer(1)
+    r1 = sp.resultant(P, Q, hG_)
+    assert r1 != 0, "Res_G(P, Q) vanishes identically"
+    for f, _ in sp.factor_list(r1)[1]:
+        if sp.degree(f, hw_) == 0:
+            if sp.degree(f, hs_) > 0:
+                sonly.append(f)
+            continue
+        if sp.degree(f, hw_) > 1:
+            wpart *= f
+        r2 = sp.resultant(F, f, hw_)
+        assert r2 != 0, "Res_w(q(0), .) vanishes identically"
+        for g_, _m in sp.factor_list(r2)[1]:
+            dg = sp.degree(g_, hs_)
+            if dg == 1:
+                lin.add(sp.Poly(g_, hs_).monic().as_expr())
+            elif dg > 1:
+                big.append(sp.Poly(g_, hs_))
+    return sonly, lin, big, sp.expand(wpart)
+
+
+def hb_line_clear(F, P0, P1, Q, sv):
+    """Exact: on the line s = sv no root of q(0) (J != 0, complex ones included) has
+    P1 = 0 (so gbar^2 = -P0/P1 is defined at every one of them), and none carries the
+    third coefficient's zero there."""
+    Fl = hb_w_core(F.subs(hs_, sv))
+    num = sp.numer(sp.together(Q.subs(hs_, sv).subs(hG_, -P0.subs(hs_, sv) / P1.subs(hs_, sv))))
+    r1 = sp.resultant(Fl.as_expr(), P1.subs(hs_, sv), hw_)
+    r2 = sp.resultant(Fl.as_expr(), sp.expand(num), hw_)
+    return r1 != 0 and r2 != 0
+
+
+sonly4, lin4, big4, R1w = hb_inventory(F4, P4, Q4)
+Q40 = sp.expand(Q4.subs(hG_, 0))
+cub = [b for b in big4 if b.degree() == 3]
+f16 = [b for b in big4 if b.degree() == 16]
+check("N=4: the three-arrival conditions leave exactly the lines s = 1, s = -1 and two "
+      "irreducible factors, of degree 3 (5s^3 + 25s^2 + 39s + 3) and 16, and nothing free of w",
+      not sonly4 and lin4 == {hs_ - 1, hs_ + 1} and sorted(b.degree() for b in big4) == [3, 16]
+      and cub[0].monic() == sp.Poly(5 * hs_ ** 3 + 25 * hs_ ** 2 + 39 * hs_ + 3, hs_).monic(),
+      f"lines {lin4}, degrees {sorted(b.degree() for b in big4)}")
+cub, f16 = cub[0], f16[0]
+r0 = sp.CRootOf(cub, 0)
+K_ = sp.QQ.algebraic_field(r0)
+gcd3 = (sp.Poly(F4.subs(hs_, r0), hw_, domain=K_)
+        .gcd(sp.Poly(P40.subs(hs_, r0), hw_, domain=K_))
+        .gcd(sp.Poly(Q40.subs(hs_, r0), hw_, domain=K_)))
+p1_at = sp.Poly(P41.subs(hs_, r0), hw_, domain=K_).rem(gcd3)
+R1all = sp.Integer(1)
+for f_, _ in sp.factor_list(sp.resultant(P4, Q4, hG_))[1]:
+    if sp.degree(f_, hw_) > 0 and sp.Poly(f_, hw_, hs_).as_expr() != hw_:
+        R1all *= f_
+w_unique = sp.Poly(F4.subs(hs_, r0), hw_, domain=K_).gcd(
+    sp.Poly(sp.expand(R1all).subs(hs_, r0), hw_, domain=K_)).degree() == 1
+check("N=4: the degree-16 factor has no real root, and at the one real root of the cubic "
+      "q(0), P0 and Q0 share a root w* with P1 nonzero there, so gbar = 0: the other stratum; "
+      "that w* is the only root of q(0) meeting the three-arrival condition there",
+      f16.count_roots() == 0 and cub.count_roots() == 1 and gcd3.degree() == 1
+      and not p1_at.is_zero and w_unique)
+check("N=4: on the lines s = 1 and s = -1 no nonzero root of q(0), complex ones included, "
+      "carries a third arrival, exactly (two resultants in w nonzero on each line)",
+      hb_line_clear(F4, P40, P41, Q4, 1) and hb_line_clear(F4, P40, P41, Q4, -1))
+# the degree-16 points exist over C: GF(p) chain (2, 3, 4, 5, 5), 4x4 beside 1x1
+c16 = []
+for p in sp.primerange(20011, 400000):
+    if len(c16) >= 8:
+        break
+    if p % 4 != 1:
+        continue
+    fp = sp.Poly(f16.as_expr(), hs_, modulus=p)
+    xp, base, e_ = sp.Poly(1, hs_, modulus=p), sp.Poly(hs_, hs_, modulus=p), p
+    while e_:
+        if e_ & 1:
+            xp = (xp * base).rem(fp)
+        base, e_ = (base * base).rem(fp), e_ >> 1
+    lin = sp.gcd(xp - sp.Poly(hs_, hs_, modulus=p), fp)
+    if lin.degree() < 1 or lin.degree() > 3:
+        continue
+    s0 = next(x for x in range(p) if lin.eval(x) % p == 0)
+    cw = sp.gcd(sp.Poly(hb_w_core(F4.subs(hs_, s0)).as_expr(), hw_, modulus=p),
+                sp.Poly(R1w.subs(hs_, s0), hw_, modulus=p))
+    if cw.degree() != 1:
+        continue
+    w0 = int(-cw.monic().all_coeffs()[1]) % p
+    b1 = int(P41.subs({hw_: w0, hs_: s0})) % p
+    G0 = -int(P40.subs({hw_: w0, hs_: s0})) * pow(b1, p - 2, p) % p
+    gv, Jv = hb_sqrt(G0, p), hb_sqrt(w0, p)
+    if not gv or not Jv:
+        continue
+    c16 += [hb_chain_modp(4, [x % p for x in hb_profile(4, sg, [1, s0])], sj, p)
+            for sg in (gv, p - gv) for sj in (Jv, p - Jv)]
+check("N=4: the degree-16 carriers are 4x4 beside 1x1 over C, (2, 3, 4, 5, 5) mod two "
+      "primes at both signs of g and J", len(c16) == 8 and set(c16) == {(2, 3, 4, 5, 5)},
+      f"{sorted(set(c16))}")
+
+# (c) N = 5: the 3x3 carriers reach strictly positive rates; the 4x4 exists there
+c5 = dm_coeffs(5, [gs + d1s, gs + d2s, gs, gs - d2s, gs - d1s], True)
+F5, P5, Q5 = [hb_core(c5[k]) for k in (2, 3, 4)]
+check("N=5: q(0) free of gbar after its monomial, the next coefficient linear in gbar^2",
+      sp.degree(F5, hG_) == 0 and sp.degree(P5, hG_) == 1)
+P50 = sp.expand(P5.subs(hG_, 0))
+P51 = sp.expand((P5 - P50) / hG_)
+for dd in ((-1, 2), (-4, 1)):
+    sub = {d1s: dd[0], d2s: dd[1]}
+    rc = hb_real_carriers(F5.subs(sub), P50.subs(sub), P51.subs(sub), max(x * x for x in dd))
+    pos = [x for x in rc if x[2] > 0]
+    irr = hb_w_core(F5.subs(sub)).is_irreducible
+    chains = hb_modp_carrier(5, F5.subs(sub), P50.subs(sub), P51.subs(sub), list(dd))
+    check(f"N=5 offsets {dd}: a 3x3 carrier at strictly positive rates (J* = "
+          f"{mp.nstr(mp.sqrt(mp.mpf(str(pos[0][0]))), 6) if pos else '-'}, gbar^2 = "
+          f"{mp.nstr(mp.mpf(str(pos[0][1])), 6) if pos else '-'}); chain (2, 3, 4, 4) mod two "
+          "primes at both signs of g, (2, 2) at J* + 1; q(0) irreducible there, so the "
+          "reading covers the real carrier",
+          irr and len(pos) == 1 and len(chains) == 4
+          and all(c == ((2, 3, 4, 4), (2, 2)) for c in chains), f"{chains}")
+F5s, P5s, Q5s = [e.subs({d1s: 1, d2s: hs_}) for e in (F5, P5, Q5)]
+P5s0 = sp.expand(P5s.subs(hG_, 0))
+P5s1 = sp.expand((P5s - P5s0) / hG_)
+sonly5, lin5, big5, R1w5 = hb_inventory(F5s, P5s, Q5s)
+check("N=5: the three-arrival conditions leave exactly the lines s = 0, s = 1, s = -1 and one "
+      "irreducible factor of degree 118, and nothing free of w",
+      not sonly5 and lin5 == {hs_, hs_ - 1, hs_ + 1} and [b.degree() for b in big5] == [118],
+      f"lines {lin5}, degrees {[b.degree() for b in big5]}")
+f118 = big5[0]
+check("N=5: the degree-118 factor comes from the three-arrival factors of degree > 1 in w",
+      sp.Poly(sp.resultant(hb_w_core(F5s).as_expr(), R1w5, hw_), hs_).rem(f118).is_zero)
+mp.mp.dps = 60
+fcw = [sp.lambdify(hs_, c, 'mpmath') for c in sp.Poly(F5s, hw_).all_coeffs()]
+g0_, g1_ = sp.lambdify((hw_, hs_), P5s0, 'mpmath'), sp.lambdify((hw_, hs_), P5s1, 'mpmath')
+q5 = sp.lambdify((hw_, hG_, hs_), Q5s, 'mpmath')
+q5abs = sp.lambdify((hw_, hG_, hs_), sum(abs(c) * hw_ ** m[0] * hG_ ** m[1] * hs_ ** m[2]
+                                         for m, c in sp.Poly(Q5s, hw_, hG_, hs_).terms()), 'mpmath')
+
+
+def hb_rel(fn, fabs, w, G, s):
+    return abs(fn(w, G, s)) / fabs(abs(w), abs(G), abs(s))
+
+
+def hb_dir_branches(r, dps):
+    """At the real direction r (a root of the degree-118 factor), every real positive
+    root w of q(0) with its gbar^2 and the third coefficient's relative size there."""
+    mp.mp.dps = dps
+    rv = mp.mpf(str(sp.N(r, dps + 20)))
+    out = []
+    for wr in mp.polyroots([c(rv) for c in fcw], maxsteps=800, extraprec=4 * dps):
+        if abs(mp.im(wr)) > mp.mpf(10) ** (-dps // 2) or mp.re(wr) <= 0:
+            continue
+        wv = mp.re(wr)
+        Gv = -g0_(wv, rv) / g1_(wv, rv)
+        out.append((hb_rel(q5, q5abs, wv, Gv, rv), wv, Gv, rv))
+    return sorted(out)
+
+
+# Which real root of q(0) is the carrier is read by a precision law, not a threshold:
+# at the carrier the third coefficient is zero, so its computed relative size falls
+# with the working precision (below 10^-(D-20) at D digits, at D = 60 and at D = 90);
+# on every other branch it is a fixed nonzero number and does not move.
+nonneg5, margins5, n_real, n_carrier, unstable = [], [], 0, 0, 0
+for r in f118.real_roots():
+    n_real += 1
+    lo, hi = hb_dir_branches(r, 60), hb_dir_branches(r, 90)
+    if len(lo) != len(hi):
+        unstable += 1
+        continue
+    falls = [i for i in range(len(lo)) if lo[i][0] < mp.mpf(10) ** -40 and hi[i][0] < mp.mpf(10) ** -70]
+    stays = [i for i in range(len(lo)) if i not in falls
+             and abs(lo[i][0] - hi[i][0]) < mp.mpf(10) ** -20 * lo[i][0]]
+    if len(falls) > 1 or len(falls) + len(stays) != len(lo):
+        unstable += 1
+        continue
+    for i in falls:
+        n_carrier += 1
+        _, wv, Gv, rv = hi[i]
+        mg = min(Gv - 1, Gv - rv ** 2)
+        margins5.append(mg)
+        if mg >= 0:
+            nonneg5.append((rv, wv, Gv))
+mp.mp.dps = 60
+check("N=5: every real direction of the degree-118 factor read cleanly by the precision law, "
+      "and exactly five of its real carriers at non-negative rates, every one clear of the "
+      "cone's boundary",
+      unstable == 0 and len(nonneg5) == 5 and min(abs(x) for x in margins5) > 0.01,
+      f"{n_real} real directions, {n_carrier} with a real carrier, {unstable} unclassified, "
+      f"closest margin {mp.nstr(min(abs(x) for x in margins5), 4) if margins5 else '-'}; " +
+      "; ".join(f"s={mp.nstr(a, 6)} J*={mp.nstr(mp.sqrt(b), 6)} gbar^2={mp.nstr(c, 6)}"
+                for a, b, c in nonneg5))
+gid5 = sp.gcd(sp.Poly(sp.resultant(F5s, P5s0, hw_), hs_), sp.Poly(sp.resultant(F5s, P5s1, hw_), hs_))
+id5 = []
+for r in gid5.real_roots():
+    cg = sp.gcd(sp.gcd(sp.Poly(F5s.subs(hs_, r), hw_), sp.Poly(P5s0.subs(hs_, r), hw_)),
+                sp.Poly(P5s1.subs(hs_, r), hw_))
+    id5 += list(sp.roots(cg).keys()) if cg.degree() > 0 else []
+check("N=5: in the directions s the next coefficient vanishes identically in gbar at a root of "
+      "q(0) only at w = 0 (J = 0); the one such coupling with J != 0 is on d1 = 0, below",
+      all(r.is_rational for r in gid5.real_roots()) and set(id5) <= {0},
+      f"common roots {sorted(set(id5))}")
+check("N=5: on the lines s = 0, 1, -1 no nonzero root of q(0), complex ones included, carries "
+      "a third arrival, exactly (two resultants in w nonzero on each line)",
+      all(hb_line_clear(F5s, P5s0, P5s1, Q5s, sv) for sv in (0, 1, -1)))
+# the direction d1 = 0, the profiles (g, g+d, g, g-d, g): q(0) ~ (w - 1)(5w - 1)^2, and at the
+# double root w = d^2/5 the next coefficient vanishes IDENTICALLY in gbar, so two eigenvalues
+# arrive at every gbar; the kernel dimensions say they arrive separately, as two 2x2 blocks
+F5d = sp.Poly(hb_core(sp.expand(c5[2].subs({d1s: 0, d2s: 1}))), hw_)
+P5d = hb_core(sp.expand(c5[3].subs({d1s: 0, d2s: 1})))
+Q5d = hb_core(sp.expand(c5[4].subs({d1s: 0, d2s: 1})))
+G5d = sp.solve(P5d.subs(hw_, 1), hG_)
+Q5d15 = sp.factor(Q5d.subs(hw_, sp.Rational(1, 5)))
+okd = F5d.rem(sp.Poly((hw_ - 1) * (5 * hw_ - 1) ** 2, hw_)).is_zero and F5d.degree() == 3
+okd &= G5d == [sp.Rational(21, 80)] and Q5d.subs({hw_: 1, hG_: G5d[0]}) != 0
+okd &= sp.expand(P5d.subs(hw_, sp.Rational(1, 5))) == 0
+okd &= set(sp.solve(Q5d15, hG_)) == {sp.Rational(1, 16), sp.Rational(1, 80)}
+check("N=5, d1 = 0: q(0) ~ (w - 1)(5w - 1)^2 after its monomial; at w = 1 one gbar^2 (21/80) and the next "
+      "coefficient nonzero there; at the double root w = 1/5 the next coefficient vanishes "
+      "identically in gbar, and the one after only at gbar^2 = 1/16, 1/80 (both below d^2 = 1: "
+      "gain)", okd, f"c4 at w = 1/5: {Q5d15}")
+KQ5 = sp.QQ.algebraic_field(sp.sqrt(5), sp.I)
+
+
+def hb_exact_chain(N, gl, J, K, kmax=7):
+    h, n = se_h_frac(N), N * N
+    gb = sum(gl) / N
+    rows = [[sp.Integer(0)] * n for _ in range(n)]
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[a][c]:
+                    rows[r][c * N + b] += -sp.I * J * sp.Rational(h[a][c])
+                if h[c][b]:
+                    rows[r][a * N + c] += sp.I * J * sp.Rational(h[c][b])
+            if a != b:
+                rows[r][r] += -2 * (gl[a] + gl[b])
+            rows[r][r] += 4 * gb
+    M = DomainMatrix.from_list_sympy(n, n, rows).convert_to(K)
+    P, out = M, []
+    for _ in range(kmax):
+        out.append(n - P.rank())
+        if len(out) > 1 and out[-1] == out[-2]:
+            return tuple(out)
+        P = P * M
+    raise AssertionError(f"no plateau by power {kmax}: {out}")
+
+
+g80 = sp.sqrt(5) / 20                      # gbar^2 = 1/80
+chd = {g: hb_exact_chain(5, [g, g + 1, g, g - 1, g], 1 / sp.sqrt(5), KQ5)
+       for g in (sp.Integer(1), sp.Integer(3), sp.Rational(1, 4), g80)}
+check("N=5, d1 = 0, J* = d/sqrt(5), exact over Q(sqrt5, i): two 2x2 blocks, (2, 4, 4), on "
+      "(1, 2, 1, 0, 1), the mirror of Section 9's (1, 0, 1, 2, 1), and on (3, 4, 3, 2, 3); a 3x3 "
+      "beside a 2x2, (2, 4, 5, 5), at both gain values gbar^2 = 1/16 and 1/80",
+      chd[1] == (2, 4, 4) and chd[3] == (2, 4, 4) and chd[sp.Rational(1, 4)] == (2, 4, 5, 5)
+      and chd[g80] == (2, 4, 5, 5), f"{chd}")
+c118 = []
+for p in sp.primerange(20011, 400000):
+    if len(c118) >= 8:
+        break
+    if p % 4 != 1:
+        continue
+    fp = sp.Poly(f118.as_expr(), hs_, modulus=p)
+    xp, base, e_ = sp.Poly(1, hs_, modulus=p), sp.Poly(hs_, hs_, modulus=p), p
+    while e_:
+        if e_ & 1:
+            xp = (xp * base).rem(fp)
+        base, e_ = (base * base).rem(fp), e_ >> 1
+    lin = sp.gcd(xp - sp.Poly(hs_, hs_, modulus=p), fp)
+    if lin.degree() < 1 or lin.degree() > 3:
+        continue
+    s0 = next(x for x in range(p) if lin.eval(x) % p == 0)
+    cw = sp.gcd(sp.Poly(hb_w_core(F5s.subs(hs_, s0)).as_expr(), hw_, modulus=p),
+                sp.Poly(R1w5.subs(hs_, s0), hw_, modulus=p))
+    if cw.degree() != 1:
+        continue
+    w0 = int(-cw.monic().all_coeffs()[1]) % p
+    b1 = int(P5s1.subs({hw_: w0, hs_: s0})) % p
+    G0 = -int(P5s0.subs({hw_: w0, hs_: s0})) * pow(b1, p - 2, p) % p
+    gv, Jv = hb_sqrt(G0, p), hb_sqrt(w0, p)
+    if not gv or not Jv:
+        continue
+    c118 += [hb_chain_modp(5, [x % p for x in hb_profile(5, sg, [1, s0])], sj, p)
+             for sg in (gv, p - gv) for sj in (Jv, p - Jv)]
+check("N=5: every degree-118 carrier, the five above among them (one Galois orbit), is "
+      "4x4 beside 1x1: (2, 3, 4, 5, 5) mod two primes at both signs of g and J",
+      len(c118) == 8 and set(c118) == {(2, 3, 4, 5, 5)}, f"{sorted(set(c118))}")
+
+# (d) N = 6: a 3x3 at strictly positive rates on the offsets (-4, 3, 6)
+d6 = (-4, 3, 6)
+c6 = dm_coeffs(6, hb_profile(6, gs, list(d6)), True)
+F6, P6 = hb_core(c6[3]), hb_core(c6[4])
+P60 = sp.expand(P6.subs(hG_, 0))
+P61 = sp.expand((P6 - P60) / hG_)
+rc6 = [x for x in hb_real_carriers(F6, P60, P61, 36) if x[2] > 0]
+ch6 = hb_modp_carrier(6, F6, P60, P61, list(d6))
+irr6 = hb_w_core(F6).is_irreducible
+check("N=6 offsets (-4, 3, 6): a 3x3 carrier at strictly positive rates (J* = "
+      f"{mp.nstr(mp.sqrt(mp.mpf(str(rc6[0][0]))), 6) if rc6 else '-'}); chain (3, 4, 5, 5) "
+      "mod two primes at both signs of g, (3, 3) at J* + 1; q(0) irreducible there",
+      irr6 and sp.degree(F6, hG_) == 0 and sp.degree(P6, hG_) == 1 and len(rc6) == 1
+      and len(ch6) == 4
+      and all(c == ((3, 4, 5, 5), (3, 3)) for c in ch6), f"{ch6}")
+
+# (e) N = 6, 7: five arriving together at strictly positive rates. The carriers were
+#     located by simulations/heisenberg_frozen_root_blocks.py (symbolic coefficients
+#     and a Newton search, hours at N = 7), refined by its `refine` mode and stored to
+#     140 digits; the coefficient tables it computed are committed beside it. The gate
+#     checks that the stored points solve the stored tables, that the tables have the
+#     structure of the count, and reads the chain by the precision law.
+HB_POINTS = {
+    "N6a": (6,
+        ("1.27975329654571511558272608444105493539939476130642961447146611668971"
+        "3658791804647423039524283818855872834860914310611220014312798975766556"
+        "7"),
+        ("8.63175704247131542919051300238428623423784856317950930246711014292959"
+        "5488827813698228283538950340971617768952149220398117440740741728687557"
+        "4"),
+        ("-0.3469844510333006338011841497000291183952341811132877357719565325043"
+        "3198024426201835725666104956706843356570419337407400844602365749426048"
+        "903"),
+        ("-1.6932088487219413311249449910577111115768682774428012536166717511946"
+        "7979974626371072417450640347549028964781643630913653857021407160764318"
+        "08")),
+    "N6b": (6,
+        ("1.31131145007041862291891024213529419449379812335811090009604928222926"
+        "4055305603419226722548950176786532871069372454251192732436972345287343"
+        "3"),
+        ("7.24188466309550013277401940321528568658287349520785567423219012159576"
+        "1827222391008565097410790275891294247601186512803255244441404350077250"
+        "3"),
+        ("-0.3606731026872690540619512722519865381548183344605534995850240929837"
+        "4970654670469115631640796384452857527621905658397576942641171650785090"
+        "392"),
+        ("-1.6965664528958338692185493602681283548273838307012855250474007873237"
+        "5671429065307556265889670926441094995227006046317937553794222308809511"
+        "08")),
+    "N6c": (6,
+        ("0.73934442030948033618972031964346087010175003355627244142670777737070"
+        "3665643139945035884633856475762513417716100474587385243099021235760173"
+        "91"),
+        ("2.24743014854937620839578874112052516618133351841885637942630412211457"
+        "3506488140816638183296787507126487042859694763367604636090477333390146"
+        "2"),
+        ("-0.7263746200006611982427763008200361126288376512430075731467251653993"
+        "3017624202802466079262994836054630144127385676978213502673730013734988"
+        "841"),
+        ("0.88121134183457488767209006830039117473353682684718810803578557807912"
+        "6592556732518921049695371111837591235994343546144591980634172463993698"
+        "81")),
+    "N6d": (6,
+        ("0.75140343300006091796846526541109600494908076318692439985288379398274"
+        "3211647121170475038230966868527539359441439269484588765062765268468759"
+        "34"),
+        ("2.54127426459737670826041343808637609800749563791854613198616104134579"
+        "9857422272239470528938225616267070546427919100704081320295724634611369"
+        "3"),
+        ("-0.7381879346280414151793168776722866934770702513706876212821321872836"
+        "6523076546193355346666078570444939184417962883148867354467805077754554"
+        "111"),
+        ("0.88858139586308333756302370426132018799717489866700361605081038257345"
+        "9086184063771314982455148364822580969914339227944566426505516166662462"
+        "01")),
+    "N7a": (7,
+        ("1.84378430370246451718122737062773362025397093999460276163140003711440"
+        "9845408168964169055957513423883248058889144275731313377852167381058410"
+        "3"),
+        ("1.88384218089242402522508742475303426794356286749078788970672755662332"
+        "3496918740013504579909314393655166354496473043225158459259623752947136"
+        "1"),
+        ("-0.0285108517400620911314376657688142451999342646096086466243335803959"
+        "7505548634269906791561660704312187530752175200743616763769439361583541"
+        "302"),
+        ("-0.7289138561862151685237734012715924883300610148528188785392988134104"
+        "6149575571893196033428520325898795208722691063396766424049603172570601"
+        "019")),
+    "N7b": (7,
+        ("0.44523942711560093601587992969986414626750880678320574140843679843752"
+        "0551376763279538405131084997816928945463642173175683866444008504556020"
+        "93"),
+        ("3.84640041903373713034111886182363939209670925153517984206232090742412"
+        "9073378054730213663023125525821061697248556188064978305423744316263955"
+        "1"),
+        ("-1.1688627617594294085798742343798460023871177057050626553855959542524"
+        "9601386894851078849577929672588856648252721146545244904166828051572583"
+        "53"),
+        ("1.26416510682306609046587368289646288206113407606789151173442508267269"
+        "3133690554460866213730248162433885424147196019263647405231653839265521"
+        "6")),
+}
+
+
+def hb_mp_block(N, J, gl):
+    h, n = se_h_frac(N), N * N
+    M = mp.matrix(n, n)
+    gb = sum(gl) / N
+    for a in range(N):
+        for b in range(N):
+            r = a * N + b
+            for c in range(N):
+                if h[a][c]:
+                    M[r, c * N + b] += -1j * J * int(h[a][c])
+                if h[c][b]:
+                    M[r, a * N + c] += 1j * J * int(h[c][b])
+            if a != b:
+                M[r, r] += -2 * (gl[a] + gl[b])
+            M[r, r] += 4 * gb
+    return M
+
+
+def hb_precision_chain(key, dps_list=(60, 120), kmax=None):
+    N, w_, G_, s1_, s2_ = HB_POINTS[key]
+    reads = []
+    for dps in dps_list:
+        mp.mp.dps = dps
+        g, J = mp.sqrt(mp.mpf(G_)), mp.sqrt(mp.mpf(w_))
+        gl = hb_profile(N, g, [mp.mpf(1), mp.mpf(s1_), mp.mpf(s2_)])
+        M = hb_mp_block(N, J, gl)
+        P, per = M, []
+        for _ in range(kmax):
+            per.append(sorted(abs(x) for x in mp.svd_c(P, compute_uv=False)))
+            P = P * M
+        reads.append((dps, gl, per))
+    return reads
+
+
+import json  # noqa: E402
+import os  # noqa: E402
+
+HB_TABLES = {}
+for N_ in (6, 7):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "results",
+                           "heisenberg_frozen_root_blocks", f"coeffs_N{N_}.json")) as fh:
+        HB_TABLES[N_] = [{tuple(k): v for k, v in t} for t in json.load(fh)]
+okt = True
+for N_, T in HB_TABLES.items():
+    okt &= max(k[1] for k in T[0]) == 0 and max(k[1] for k in T[1]) == 1
+check("N=6, 7 (the stored coefficient tables): q(0) free of gbar after its monomial, the "
+      "next coefficient of degree one in gbar^2", okt)
+
+
+def hb_table_vs_matrix(N, T, p=1000003, seed=19):
+    """The stored tables against the corner block itself, mod p: at random integer
+    points the characteristic polynomial's coefficients c_m .. c_(2m+1) must equal the
+    table values times the stripped monomial z^a g^b. So the ratio must not move with
+    the offsets, and must be a pure power of g and of z (three values in geometric
+    progression: r(x) r(4x) = r(2x)^2), which a table off by any factor fails."""
+    rng = random.Random(seed)
+    m, h = N // 2, se_h_frac(N)
+
+    def coeffs(z, g, d):
+        gl = [g + x for x in [1] + d] + ([g] if N % 2 else []) + [g - x for x in reversed([1] + d)]
+        n = N * N
+        rows = [[0] * n for _ in range(n)]
+        for a in range(N):
+            for b in range(N):
+                r = a * N + b
+                for c in range(N):
+                    if h[a][c]:
+                        rows[r][c * N + b] += z * int(h[a][c])
+                    if h[c][b]:
+                        rows[r][a * N + c] -= z * int(h[c][b])
+                if a != b:
+                    rows[r][r] += -2 * (gl[a] + gl[b])
+                rows[r][r] += 4 * g
+        K = sp.GF(p)
+        cp = DomainMatrix([[K(x) for x in row] for row in rows], (n, n), K).charpoly()[::-1]
+        return [int(cp[k]) % p for k in range(m, 2 * m + 2)]
+
+    def table(z, g, d):
+        w, G = (-z * z) % p, (g * g) % p
+        x = [w, G] + [v % p for v in d]
+        return [sum(c * pow(x[0], k[0], p) * pow(x[1], k[1], p)
+                    * (pow(x[2], k[2], p) if len(k) > 2 else 1) * (pow(x[3], k[3], p) if len(k) > 3 else 1)
+                    for k, c in t.items()) % p for t in T]
+
+    def ratio(z, g, d):
+        a, b = coeffs(z, g, d), table(z, g, d)
+        assert all(x != 0 for x in b), "table value zero mod p at a random point"
+        return [x * pow(y, p - 2, p) % p for x, y in zip(a, b)]
+
+    z0, g0 = rng.randint(2, 99), rng.randint(2, 99)
+    ds = [[rng.randint(2, 99) for _ in range(m - 1)] for _ in range(2)]
+    same_d = ratio(z0, g0, ds[0]) == ratio(z0, g0, ds[1])
+    r1, r2, r4 = ratio(z0, g0, ds[0]), ratio(z0, 2 * g0, ds[0]), ratio(z0, 4 * g0, ds[0])
+    power_g = all(a * c % p == b * b % p for a, b, c in zip(r1, r2, r4))
+    q1, q2, q4 = ratio(z0, g0, ds[0]), ratio(2 * z0, g0, ds[0]), ratio(4 * z0, g0, ds[0])
+    power_z = all(a * c % p == b * b % p for a, b, c in zip(q1, q2, q4))
+    return same_d and power_g and power_z
+
+
+check("N=6, 7: the stored tables are the corner block's characteristic polynomial up to the "
+      "stripped monomial, mod p at random points (the ratio to the block's coefficients is "
+      "independent of the offsets and a pure power of g and of z)", all(hb_table_vs_matrix(N_, T) for N_, T in HB_TABLES.items()))
+
+
+def hb_table_grad_rows(T, x):
+    """Gradient of one stored coefficient at x, divided by the coefficient's term size."""
+    mag = mp.fsum(abs(mp.mpf(c)) * mp.fprod(abs(x[j]) ** e for j, e in enumerate(k)) for k, c in T.items())
+    g_ = []
+    for j in range(len(x)):
+        g_.append(mp.fsum(mp.mpf(c) * k[j] * mp.fprod(x[i] ** (e - (1 if i == j else 0))
+                                                          for i, e in enumerate(k))
+                          for k, c in T.items() if k[j] > 0) / mag)
+    return g_
+
+
+def hb_table_rel(T, x):
+    """Relative size of one stored coefficient at x = (w, G, s2, s3)."""
+    val = mp.fsum(mp.mpf(c) * mp.fprod(x[j] ** e for j, e in enumerate(k)) for k, c in T.items())
+    mag = mp.fsum(abs(mp.mpf(c)) * mp.fprod(abs(x[j]) ** e for j, e in enumerate(k))
+                  for k, c in T.items())
+    return abs(val) / mag
+
+
+for key, want in (("N6a", (3, 4, 5, 6, 7, 7)), ("N6b", (3, 4, 5, 6, 7, 7)),
+                  ("N6c", (3, 4, 5, 6, 7, 7)), ("N6d", (3, 4, 5, 6, 7, 7)),
+                  ("N7a", (3, 4, 5, 6, 7, 7)), ("N7b", (3, 4, 5, 6, 7, 7))):
+    N_, w_, G_, s1_, s2_ = HB_POINTS[key]
+    mp.mp.dps = 140
+    x = [mp.mpf(w_), mp.mpf(G_), mp.mpf(s1_), mp.mpf(s2_)]
+    res = max(hb_table_rel(T, x) for T in HB_TABLES[N_][:N_ // 2 + 1])
+    # isolated: the normalized Jacobian of the square system is nonsingular there. A root
+    # on a curve would read its smallest singular value at the point's accuracy, 10^-140;
+    # a simple root reads a fixed number, far above the 10^-60 that separates the two.
+    jac = mp.matrix([hb_table_grad_rows(T, x) for T in HB_TABLES[N_][:N_ // 2 + 1]])
+    jac_min = min(abs(v) for v in mp.svd_r(jac, compute_uv=False))
+    nxt = hb_table_rel(HB_TABLES[N_][N_ // 2 + 1], x)
+    mp.mp.dps = 100          # the next coefficient again at the point rounded to 100 digits:
+    nxt_lo = hb_table_rel(HB_TABLES[N_][N_ // 2 + 1], [mp.mpf(str(v)) for v in (w_, G_, s1_, s2_)])
+    mp.mp.dps = 140          # a true zero would fall with the precision, a value stays put
+    nxt_law = abs(nxt - nxt_lo) < mp.mpf(10) ** -60 * nxt
+    (d_lo, gl, lo), (d_hi, _, hi) = hb_precision_chain(key, kmax=len(want))
+    ok = min(gl) > 0 and res < mp.mpf(10) ** -120 and nxt_law and jac_min > mp.mpf(10) ** -60
+    for k, n0 in enumerate(want):
+        z_lo, z_hi = lo[k][:n0], hi[k][:n0]
+        ok &= max(z_lo) < mp.mpf(10) ** (-d_lo + 15) and max(z_hi) < mp.mpf(10) ** (-d_hi + 15)
+        ok &= max(z_hi) < mp.mpf(10) ** -(d_hi - d_lo - 10) * min(z_lo)
+        ok &= all(abs(a - b) < mp.mpf(10) ** -40 * b for a, b in zip(lo[k][n0:], hi[k][n0:]))
+    check(f"N={N_} {key}: an isolated root (smallest singular value of the normalized Jacobian "
+          f"{mp.nstr(jac_min, 3)}); the stored point solves the stored tables (relative residual "
+          f"{mp.nstr(res, 3)}, the next coefficient at relative size {mp.nstr(nxt, 3)}, the same "
+          f"to sixty digits at 100 and at 140 digits); rates all "
+          f"positive (min {mp.nstr(min(gl), 4)}); chain {want}, a 5x5 beside two 1x1, by the "
+          f"precision law: at {d_hi} digits every zero singular value of Mtilde^k lies below "
+          f"10^-{d_hi - 15} and at least {d_hi - d_lo - 10} orders below the smallest zero at "
+          f"{d_lo} digits, and every other one stays put to forty digits", ok,
+          f"smallest nonzero {mp.nstr(min(lo[k][n0] for k, n0 in enumerate(want)), 4)}")
 
 # ---------- verdict ----------
 

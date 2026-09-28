@@ -18,7 +18,9 @@ namespace MirrorWorld;
 // with a size-3 Jordan block at N = 3, which is the proof's Section 9; the gbar != 0 stratum reaches
 // size 3 as well, at a generic exceptional coupling of the XY chain (up to 2N - 3 where the
 // single-particle matrix is nilpotent, the proof's Section 9.2) and on the Heisenberg chain at
-// (0,2,0,2), N = 4).
+// (0,2,0,2), with its mirror the only non-negative carrier at N = 4 up to scale, and from N = 5 on
+// at strictly positive profiles, the largest block found, floor(N/2) + 2, at isolated ones, the
+// proof's Section 9.3).
 //
 // THE PARENT IS THE MIRROR, not the frame. (Marginal got to a non-frame parent first, on 2026-07-12,
 // hanging on the running cloud it reads; this is the second, and the first among the closed-form

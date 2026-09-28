@@ -697,7 +697,10 @@ public sealed class FrozenDivisorWitness : IInspectable
                          "the frozen modes live in a population-free sector whose characteristic polynomial " +
                          "runs in ε² after the frozen factor, the proof's Section 9.1; that sector is two free " +
                          "fermions, so there the block size is the Clebsch–Gordan image of one N×N matrix's " +
-                         "Jordan form, at most 2N − 3 at γ̄ ≠ 0, the proof's Section 9.2) while its kernel dimension does not move, so " +
+                         "Jordan form, at most 2N − 3 at γ̄ ≠ 0, the proof's Section 9.2; on the Heisenberg " +
+                         "chain larger blocks sit at isolated profiles, the largest found ⌊N/2⌋ + 2 through N = 7, and " +
+                         "two eigenvalues can also arrive as two blocks of size two, the proof's Section 9.3) " +
+                         "while its kernel dimension does not move, so " +
                          "this witness cannot tell that failure from a healthy coupling. Still open in the " +
                          "proof, and about the ladder rather than the multiplicity: the upper half of the " +
                          "valuation law, the J → 0 order being exactly 2⌊N²/4⌋ on generic profiles rather than " +

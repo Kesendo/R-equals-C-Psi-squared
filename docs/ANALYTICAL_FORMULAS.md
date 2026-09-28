@@ -6714,8 +6714,9 @@ divisor is **defective**. Where one eigenvalue arrives at the root, that is one
 Jordan block of size two (exact over Q(sqrt(s),i) at N = 3, 4, 5 on the
 Heisenberg chain; at N = 4 confirmed twice, once from the characteristic
 polynomial). Where two arrive at one coupling, the cofactor and the next
-coefficient vanishing together, it is one block of size THREE at every such
-coupling computed, including at non-negative rates. Which happens is first the chain's: on the XY chain the next coefficient
+coefficient vanishing together, at a simple root of the cofactor it is one block
+of size THREE at every such coupling computed, including at non-negative rates
+(at a double root it can be two blocks of size two, PROOF_R90 Section 9.3). Which happens is first the chain's: on the XY chain the next coefficient
 carries the whole non-monomial factor of the cofactor, at every N, so every exceptional coupling
 is at least a double arrival, and every one carries a block of size at least three
 (3x3 at a generic coalescence, up to 2N - 3), the first at N = 3 (kernel dimensions (1, 2, 3, 3) on (1/2, 1, 3/2)). The reason is a second involution the XY chain
@@ -6743,7 +6744,20 @@ the XY chain (PROOF_R90 Section 9.2). On the Heisenberg chain
 it takes a second coincidence: at N = 3 only with a negative rate (delta_1^2 =
 12 gbar^2, J = 2|gbar|), at non-negative rates met in closed form at N = 4 on
 (0,2,0,2), J = 1, kernel dimensions (2, 3, 4, 4), and absent on (1,3,1,3) and
-(2,2,0,0).
+(2,2,0,0). At N = 4 (0,2,0,2) and its mirror are the ONLY carriers at non-negative
+rates, up to scale: the curve of two-arrival couplings reaches the cone of
+non-negative rates only there, on an edge of the cone (by resultant cells, exact,
+with the eleven boundary directions read to 60 digits, every miss above 0.3). The next coefficient is linear in gbar^2, so each
+exceptional coupling fixes one gbar^2 for the second arrival, and a profile counts
+up to scale: k arrivals are common zeros of k coefficients in a projective space of
+dimension floor(N/2) + 1. From N = 5 on, strictly positive profiles carry a 3x3
+(certified on two N = 5 directions and one N = 6 direction), and isolated ones larger
+blocks: a 4x4 at N = 5 (five real carriers at
+non-negative rates on one degree-118 factor, certified mod two primes), a 5x5 at
+N = 6 and N = 7 (by a precision law), the largest found, the count's
+floor(N/2) + 2; that the count bounds the size is open. Two vanishing coefficients are not yet a 3x3: on the N = 5
+profiles (g, g+d, g, g-d, g) at J^2 = d^2/5 they vanish at every gbar, and at
+the mean rates read the blocks are two 2x2 (PROOF_R90 Section 9.3).
 The tightness criterion vanishes at three different kinds of place and **cannot
 tell them apart**: at J = 0 the multiplicity merely doubles and stays
 semisimple; at gbar = 0 the proved lower bound is N, and there it is the
@@ -6772,25 +6786,31 @@ total and per pair, the pointed-grading staircase, the XY sector split and its
 paired arrivals at every N, the free-fermion reading of that sector with its
 Jordan structure and the 2N - 3 bound); exact-computed (the
 four-corner census, the defectiveness at the exceptional couplings, the Sturm
-counts, the gbar = 0 count N and its opened census).
+counts, the gbar = 0 count N and its opened census, the Heisenberg carriers
+at N = 4, the 4x4 block structure and the two-2x2 case at N = 5); measured (the
+five non-negative N = 5 4x4 carriers located by a precision law, the 5x5 at
+N = 6, 7 by a precision law, and the growth floor(N/2) + 2 of the largest block
+found).
 **Open:** the one nonvanishing that would make the valuation law two-sided
 (each pair reaching its own outer anti-diagonal cell; the route is the
 uniqueness of the monotone walk); the uniform-endpoint embedding into the
 committed d_real profiles of DEGENERACY_PALINDROME; a counting law for the
 real exceptional couplings; on the XY chain whether a real nilpotent point of m
-exists at every N (it does at N = 3, 4, 5); on the Heisenberg chain which
-profiles carry a 3x3 and any bound on the block size; whether the gbar = 0 carriers are one object rather
+exists at every N (it does at N = 3, 4, 5); on the Heisenberg chain a proof
+that floor(N/2) + 2 bounds the block size, whether carriers of that size reach
+non-negative rates at every N >= 5, a census of the isolated carriers from
+N = 6 on, and which directions carry a 3x3 at positive rates from N = 5 on; whether the gbar = 0 carriers are one object rather
 than a list (C(N,p) is the popcount-p sector dimension and the corner's N is its
 p = 1 entry); and whether any DISSIPATING generator holds N modes at one rate,
 the trivial gamma == 0 being completely positive and already on the stratum,
 every other point of it carrying a negative rate.
 **Gate:** [`r90_frozen_divisor_gate.py`](../simulations/r90_frozen_divisor_gate.py)
-(~2 min, 379 checks; G0 builder, G1 the mirror identity, G2 the census,
+(~4 min, 411 checks; G0 builder, G1 the mirror identity, G2 the census,
 G3/G4 pencil and eigenvector by-products, G5 partial-balance nulls, G6/G7
 exact small-N, G8 the cofactor theorem, G9 the two clocks, G10 the valuation
 discriminators, G11 the valuation law, G12 the exceptional couplings, G13 the
 Sturm counts, G14 the pointed grading, G15 the index reading, G16 the zero-mean
-stratum, G17 the XY sector split, G18 its free-fermion reading; G2c, the XY census, was added when the typing found it).
+stratum, G17 the XY sector split, G18 its free-fermion reading, G19 the Heisenberg carriers of a larger block; G2c, the XY census, was added when the typing found it).
 **Naming (2026-07-25, the day it was minted; the first title lasted hours).**
 The title first read "pins floor(N/2) decay rates at every coupling". That was
 painted true from the stance of having just proved the bound and Section 7's

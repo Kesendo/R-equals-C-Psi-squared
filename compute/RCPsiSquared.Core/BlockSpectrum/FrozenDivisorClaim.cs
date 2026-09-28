@@ -60,7 +60,8 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// many J. That stratum has exceptional couplings of its own, and at N = 3 the Jordan block there
 /// has size THREE, the size a generic exceptional coupling of the XY chain carries at
 /// γ̄ ≠ 0, and one the Heisenberg chain reaches at γ̄ ≠ 0 and non-negative rates first at N = 4,
-/// on (0,2,0,2).
+/// on (0,2,0,2), which with its mirror is the only carrier there at non-negative rates, up to
+/// scale (Section 9.3).
 /// As J → 0 that determinant vanishes to order at least 2⌊N²/4⌋ = 2 Σ_c d_c, with equality on every
 /// generic profile measured, d_c = N + 1 − 2c being the site distance of the balanced pair
 /// (c, R(c)): a frozen mode cannot move until the coupling has walked the excitation across its
@@ -84,8 +85,13 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// tightness does NOT say is which couplings the finitely many exceptions are, and there the story
 /// is unfinished: at the real exceptional couplings the root goes DEFECTIVE (one Jordan block of
 /// size two where one eigenvalue arrives, exact at N = 3, 4, 5 on the Heisenberg chain, and of size
-/// three where two arrive at once, in every case computed; on the XY chain every exceptional
-/// coupling at every N is such a double arrival: there U v_(a,b) = (−1)^(a+b) v_(b,a), the fold
+/// three where two arrive at once at a simple root of the cofactor, in every case computed; two of
+/// size two on one family where the root is double (N = 5, the profiles (γ̄, γ̄+d, γ̄, γ̄−d, γ̄) at
+/// J² = d²/5, at the mean rates read); on the
+/// Heisenberg chain larger blocks at isolated profiles, a 4×4 at N = 5 (certified) and 5×5 at
+/// N = 6, 7 (by a precision law), at positive rates, the largest found and the dimension count
+/// ⌊N/2⌋ + 2, Section 9.3; on the XY chain every exceptional coupling at every N is a double
+/// arrival, two eigenvalues at once: there U v_(a,b) = (−1)^(a+b) v_(b,a), the fold
 /// lattice's transpose leg composed with F151's bipartite gauge, commutes with the block and with
 /// τQ, the populations sit in its +1 sector and never reach the root, and on the population-free
 /// −1 sector the block is [[0, A], [Aᵀ, 0]], so arrivals come two at a time, Section 9.1. That
@@ -104,7 +110,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// a single nonvanishing (each pair reaching its OWN outer anti-diagonal cell). That one concerns
 /// the ladder, not the multiplicity.</para>
 ///
-/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (379 checks, G0..G18). Live:
+/// <para>Gate: <c>simulations/r90_frozen_divisor_gate.py</c> (411 checks, G0..G19). Live:
 /// <c>inspect --root divisor</c> (<c>FrozenDivisorWitness</c>, the counts recomputed by exact
 /// GF(p) ranks at inspect time). Adopted as a MirrorWorld object: run mode
 /// <c>divisor N</c>.</para></summary>
@@ -236,8 +242,11 @@ public sealed class FrozenDivisorClaim : Claim
                          "γ̄ ≠ 0, but WHICH " +
                          "couplings the finitely many exceptions are: at the real ones the root goes " +
                          "defective, one Jordan block of size two, or three where two eigenvalues " +
-                         "arrive at once (in every case computed, and every one computed on the XY " +
-                         "chain), its kernel dimension unmoved, " +
+                         "arrive at once at a simple root of the cofactor (in every case computed, and " +
+                         "every one computed on the XY chain), two of size two at a double root on one " +
+                         "N = 5 family, and on " +
+                         "the Heisenberg chain larger blocks at isolated profiles (Section 9.3), its " +
+                         "kernel dimension unmoved, " +
                          "so the criterion " +
                          "cannot tell that failure from the harmless one at J = 0; and how many are real " +
                          "is not a function of N. Open in another direction: the upper half of the " +
