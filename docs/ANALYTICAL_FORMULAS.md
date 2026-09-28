@@ -509,11 +509,7 @@ times (2/3)Σγ on the gate's eight random rows at N = 2, 3.
 
 **Valid for:** any Hamiltonian under depolarizing noise, at any per-site rate
 profile with every rate positive, **provided each site is ISOTROPIC** (its three
-letters at one rate; rates free to differ between sites). Off that class the
-same argument bounds the error below by
-`2·Σ_sites (min over that site's three letter rates)`, which collapses to this
-row at every isotropic site; anisotropic rates make a Pauli channel and not a
-depolarizer, and when that bound is attained is not worked out here.
+letters at one rate; rates free to differ between sites).
 **Which number.** The criterion governs the rate shortfall. The spectral norm of
 the centred depolarizing residual
 ([PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM](proofs/PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md))
@@ -522,6 +518,43 @@ attained. The experiments print two further numbers, neither decided by this
 criterion: a complex pairing distance, which on the measured Heisenberg, XY and
 Ising chains equals the shortfall, and a best-pairing error, which is a
 different number (NON_HEISENBERG_PALINDROME Result 7).
+**Pauli channels.** Off the isotropic class, site l dephases along X, Y, Z at
+rates γ_X^l, γ_Y^l, γ_Z^l of its own, σ_l their sum; this is a Pauli channel, not
+a depolarizer, and the error is again 2Σ_l σ_l minus the fastest decay rate
+present. The dissipator is still diagonal on Pauli strings: a letter P at site l
+decays at 2(σ_l − γ_P^l)
+([the absorption theorem](proofs/PROOF_ABSORPTION_THEOREM.md) §2, Remark on
+generality; the same per-site table as
+[Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) §2 and §8).
+The letters whose own rate γ_P^l is the site's smallest are the ones that decay
+fastest there; call them the site's fastest letters. The weighted-average bound
+of the isotropic row and the window-edge lemma then give
+
+    error ≥ 2·Σ_l min_P γ_P^l, with equality exactly when ad_H has an
+            eigenvector in the span of the strings whose letter at every site
+            is one of that site's fastest letters
+
+(at a site with every rate zero all four letters, the identity among them, are
+fastest, so no rate needs to be positive). At an isotropic site with positive
+rate the fastest letters are X, Y, Z and the bound is 2γ_l/3, so this is the row
+above. With a unique smallest letter P at every site the span is the single
+string P^N, and the bound is attained exactly when P^N commutes with H, which it
+does for every P on the Heisenberg, XXZ and XY chains. A unique smallest letter
+that differs between sites leaves a mixed string, and on a connected Heisenberg
+chain with nonzero couplings the bond joining two different letters does not
+commute with it while no other bond cancels that part, so the error exceeds the
+bound. Z dephasing alone is the tie X, Y at every site: the bound is 0 and the
+span is the strings of XY-weight N, the maximally decaying sector of
+[XOR_SPACE](../experiments/XOR_SPACE.md) (Result 4); X^N lies in it, so on the
+Heisenberg chain the error is 0, the far end of F1's palindrome, reached by
+XOR_SPACE's N+1 XOR modes X^N·P_k, which ad_H annihilates.
+The zero-error end is
+[PROOF_PALINDROME_TWO_END_COUNT](proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
+§(b) and §(f1): a mode on the line Re λ = −2σ must anticommute with every jump of
+positive rate, and no nonzero operator anticommutes with X_l, Y_l and Z_l at
+once (their product is a multiple of the identity), so every site needs a zero
+rate; and
+only at the point −2σ must it also commute with H.
 **Gate:** [`simulations/f5_depolarizing_attainment.py`](../simulations/f5_depolarizing_attainment.py)
 → [`f5_depolarizing_attainment.txt`](../simulations/results/f5_depolarizing_attainment.txt)
 checks the commuting string for every measured Hamiltonian and Ising in an X
@@ -530,7 +563,12 @@ profile, uses a Z field that removes every such string as the control, and
 matches the criterion against the spectrum on random two-local chains with and
 without a global symmetry and on ladder rows whose only witness sits at a
 nonzero ad_H eigenvalue; the float readings are asserted six decades apart and
-measured 11.9 and 12.6 decades apart.
+measured 11.9 and 12.6 decades apart. Its Stage D reads the Pauli channels'
+fastest rate off the dissipator exactly and runs their criterion at N = 2, 3 on
+rational profiles (one smallest letter everywhere on Heisenberg and XXZ, a unique
+smallest letter differing between sites on Heisenberg, a tie, Z dephasing alone,
+X plus Z dephasing, generic two-local chains, one dark site), row by row against
+the spectrum, 12.8 and 14.4 decades apart.
 **Replaces:** numerical palindrome check for depolarizing channels.
 The gap is an absolute rate. A percentage requires a declared normalization (for
 example J or spectral bandwidth) and fixed N; no scale-free `<0.1%` follows from γ alone.

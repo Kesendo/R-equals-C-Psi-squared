@@ -40,4 +40,82 @@
   [PASS] spectral readings separate by at least six decades   worst attained |1 - ratio| 5.3e-15, smallest generic shortfall 4.7e-03, 11.9 decades measured
   [PASS] singular-value readings separate by at least six decades   worst |1 - s| counted 6.7e-16, nearest uncounted 2.8e-03, 12.6 decades measured
 
+## Stage D: an anisotropic Pauli channel, the bound 2 sum_l min_P gamma_P^l and its criterion
+    D  N=2 Heisenberg, one smallest letter everywhere: fast letters X/X, (shortfall - bound) / sigma = -3.123e-15, criterion dim = 1
+    D  N=2 Heisenberg, one smallest letter everywhere: fast letters X/X, (shortfall - bound) / sigma = +1.961e-15, criterion dim = 1
+    D  N=2 Heisenberg, one smallest letter everywhere: fast letters Z/Z, (shortfall - bound) / sigma = -2.400e-15, criterion dim = 1
+    D  N=2 Heisenberg, one smallest letter everywhere: fast letters X/X, (shortfall - bound) / sigma = +4.124e-16, criterion dim = 1
+    D  N=2 XXZ Delta=2, one smallest letter everywhere: fast letters X/X, (shortfall - bound) / sigma = +8.327e-16, criterion dim = 1
+    D  N=2 XXZ Delta=2, one smallest letter everywhere: fast letters X/X, (shortfall - bound) / sigma = -1.332e-15, criterion dim = 1
+    D  N=2 XXZ Delta=2, one smallest letter everywhere: fast letters Z/Z, (shortfall - bound) / sigma = +3.053e-15, criterion dim = 1
+    D  N=2 XXZ Delta=2, one smallest letter everywhere: fast letters X/X, (shortfall - bound) / sigma = +2.605e-15, criterion dim = 1
+    D  N=2 Heisenberg, smallest letters differ: fast letters X/Z, (shortfall - bound) / sigma = +2.691e-01, criterion dim = 0
+    D  N=2 Heisenberg, smallest letters differ: fast letters X/Z, (shortfall - bound) / sigma = +1.818e-01, criterion dim = 0
+    D  N=2 Heisenberg, smallest letters differ: fast letters X/Z, (shortfall - bound) / sigma = +2.424e-01, criterion dim = 0
+    D  N=2 Heisenberg, smallest letters differ: fast letters X/Z, (shortfall - bound) / sigma = +2.143e-01, criterion dim = 0
+    D  N=2 generic 2-local: fast letters Y/Z, (shortfall - bound) / sigma = +2.470e-01, criterion dim = 0
+    D  N=2 generic 2-local: fast letters Y/Y, (shortfall - bound) / sigma = +3.658e-01, criterion dim = 0
+    D  N=2 generic 2-local: fast letters X/X, (shortfall - bound) / sigma = +4.226e-01, criterion dim = 0
+    D  N=2 generic 2-local: fast letters Z/X, (shortfall - bound) / sigma = +4.988e-01, criterion dim = 0
+    D  N=2 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/X, (shortfall - bound) / sigma = -1.049e-15, criterion dim = 1
+    D  N=2 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/Y, (shortfall - bound) / sigma = +1.277e-15, criterion dim = 1
+    D  N=2 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/X, (shortfall - bound) / sigma = +8.765e-17, criterion dim = 1
+    D  N=2 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/X, (shortfall - bound) / sigma = -7.666e-16, criterion dim = 1
+    D  N=2 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X, (shortfall - bound) / sigma = +4.071e-15, criterion dim = 1
+    D  N=2 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X, (shortfall - bound) / sigma = -3.620e-15, criterion dim = 1
+    D  N=2 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X, (shortfall - bound) / sigma = -1.166e-15, criterion dim = 1
+    D  N=2 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X, (shortfall - bound) / sigma = +3.701e-16, criterion dim = 1
+    D  N=2 Heisenberg, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = -1.269e-15, criterion dim = 3
+    D  N=2 Heisenberg, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = -1.269e-15, criterion dim = 3
+    D  N=2 Heisenberg, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = +0.000e+00, criterion dim = 3
+    D  N=2 Heisenberg, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = +0.000e+00, criterion dim = 3
+    D  N=2 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y, (shortfall - bound) / sigma = -5.329e-15, criterion dim = 1
+    D  N=2 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y, (shortfall - bound) / sigma = +3.197e-15, criterion dim = 1
+    D  N=2 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y, (shortfall - bound) / sigma = -3.089e-15, criterion dim = 1
+    D  N=2 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y, (shortfall - bound) / sigma = -2.422e-15, criterion dim = 1
+    D  N=2 generic 2-local, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = +7.007e-01, criterion dim = 0
+    D  N=2 generic 2-local, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = +4.414e-01, criterion dim = 0
+    D  N=2 generic 2-local, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = +2.429e-01, criterion dim = 0
+    D  N=2 generic 2-local, Z dephasing only: fast letters XY/XY, (shortfall - bound) / sigma = +3.493e-01, criterion dim = 0
+    D  N=3 Heisenberg, one smallest letter everywhere: fast letters Y/Y/Y, (shortfall - bound) / sigma = -5.664e-15, criterion dim = 1
+    D  N=3 Heisenberg, one smallest letter everywhere: fast letters Z/Z/Z, (shortfall - bound) / sigma = -7.926e-15, criterion dim = 1
+    D  N=3 Heisenberg, one smallest letter everywhere: fast letters Z/Z/Z, (shortfall - bound) / sigma = -6.001e-15, criterion dim = 1
+    D  N=3 Heisenberg, one smallest letter everywhere: fast letters Z/Z/Z, (shortfall - bound) / sigma = +1.177e-14, criterion dim = 1
+    D  N=3 XXZ Delta=2, one smallest letter everywhere: fast letters Y/Y/Y, (shortfall - bound) / sigma = +2.922e-15, criterion dim = 1
+    D  N=3 XXZ Delta=2, one smallest letter everywhere: fast letters Y/Y/Y, (shortfall - bound) / sigma = +1.545e-15, criterion dim = 1
+    D  N=3 XXZ Delta=2, one smallest letter everywhere: fast letters Z/Z/Z, (shortfall - bound) / sigma = +1.593e-15, criterion dim = 1
+    D  N=3 XXZ Delta=2, one smallest letter everywhere: fast letters Z/Z/Z, (shortfall - bound) / sigma = -1.164e-15, criterion dim = 1
+    D  N=3 Heisenberg, smallest letters differ: fast letters X/Z/Z, (shortfall - bound) / sigma = +1.919e-01, criterion dim = 0
+    D  N=3 Heisenberg, smallest letters differ: fast letters X/Z/X, (shortfall - bound) / sigma = +1.509e-01, criterion dim = 0
+    D  N=3 Heisenberg, smallest letters differ: fast letters X/Z/Z, (shortfall - bound) / sigma = +7.143e-02, criterion dim = 0
+    D  N=3 Heisenberg, smallest letters differ: fast letters X/Z/Y, (shortfall - bound) / sigma = +2.643e-01, criterion dim = 0
+    D  N=3 generic 2-local: fast letters Z/Y/Y, (shortfall - bound) / sigma = +4.229e-01, criterion dim = 0
+    D  N=3 generic 2-local: fast letters Z/Z/Y, (shortfall - bound) / sigma = +5.742e-01, criterion dim = 0
+    D  N=3 generic 2-local: fast letters X/Z/Z, (shortfall - bound) / sigma = +5.202e-01, criterion dim = 0
+    D  N=3 generic 2-local: fast letters Z/X/X, (shortfall - bound) / sigma = +6.197e-01, criterion dim = 0
+    D  N=3 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/Y/Y, (shortfall - bound) / sigma = -4.058e-15, criterion dim = 1
+    D  N=3 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/X/X, (shortfall - bound) / sigma = -2.696e-15, criterion dim = 1
+    D  N=3 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/Z/Z, (shortfall - bound) / sigma = +9.707e-15, criterion dim = 1
+    D  N=3 Heisenberg, site 0 dark, one smallest letter elsewhere: fast letters IXYZ/X/X, (shortfall - bound) / sigma = -4.697e-15, criterion dim = 1
+    D  N=3 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X/X, (shortfall - bound) / sigma = +1.029e-15, criterion dim = 1
+    D  N=3 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X/X, (shortfall - bound) / sigma = +5.773e-15, criterion dim = 1
+    D  N=3 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X/X, (shortfall - bound) / sigma = -6.546e-15, criterion dim = 1
+    D  N=3 Heisenberg, X and Y tied at site 0, X elsewhere: fast letters XY/X/X, (shortfall - bound) / sigma = +4.950e-15, criterion dim = 1
+    D  N=3 Heisenberg, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = +0.000e+00, criterion dim = 4
+    D  N=3 Heisenberg, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = -3.862e-16, criterion dim = 4
+    D  N=3 Heisenberg, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = -3.207e-15, criterion dim = 4
+    D  N=3 Heisenberg, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = -4.207e-15, criterion dim = 4
+    D  N=3 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y/Y, (shortfall - bound) / sigma = -3.172e-16, criterion dim = 1
+    D  N=3 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y/Y, (shortfall - bound) / sigma = +1.615e-15, criterion dim = 1
+    D  N=3 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y/Y, (shortfall - bound) / sigma = +5.921e-16, criterion dim = 1
+    D  N=3 Heisenberg, X and Z dephasing, Y dark: fast letters Y/Y/Y, (shortfall - bound) / sigma = -9.516e-16, criterion dim = 1
+    D  N=3 generic 2-local, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = +4.591e-01, criterion dim = 0
+    D  N=3 generic 2-local, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = +7.404e-01, criterion dim = 0
+    D  N=3 generic 2-local, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = +4.810e-01, criterion dim = 0
+    D  N=3 generic 2-local, Z dephasing only: fast letters XY/XY/XY, (shortfall - bound) / sigma = +4.919e-01, criterion dim = 0
+  [PASS] the fastest string read off the dissipator's diagonal decays at 2 sum_l (sigma_l - min_P gamma_P^l), so the bound is 2 sum_l min_P gamma_P^l
+  [PASS] the criterion says 'attained' on the one-letter Heisenberg and XXZ rows, the tied row, the zero-minimum Heisenberg rows and the dark-site rows, and 'not attained' on the mixed-letter Heisenberg and generic rows
+  [PASS] where the criterion says attained the shortfall is the bound, where it says not the shortfall exceeds it, separated by at least six decades   worst attained |shortfall - bound| / sigma 1.2e-14, smallest excess 7.1e-02, 12.8 decades
+  [PASS] singular-value readings separate by at least six decades   14.4 decades measured
+
 ALL STAGES PASS
