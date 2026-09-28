@@ -11,6 +11,7 @@ Modules:
   chain_system  — ChainSystem (Section 18 cockpit, the workhorse class)
   receiver      — Receiver (state-bearing F71-aware wrapper)
   confirmations — Confirmations (hardware-confirmed predictions registry)
+  letter_cube   — the letter cube: a string's point (k_Z, k_X, k_Y), its rate, the Hamiltonian's moves
 
 Quick start:
     import framework as fw
@@ -98,6 +99,20 @@ from .sine_slater import (
 )
 
 # Cockpit OOP layer
+from .letter_cube import (
+    cube_coords,
+    cube_coords_table,
+    cube_weight,
+    cube_rate,
+    cube_rate_per_site,
+    cube_points,
+    cube_step,
+    commutator_coefficient,
+    chain_terms,
+    cube_moves,
+    cube_edges,
+    cube_centroid,
+)
 from .chain_system import ChainSystem
 from .receiver import Receiver
 from .confirmations import Confirmations
