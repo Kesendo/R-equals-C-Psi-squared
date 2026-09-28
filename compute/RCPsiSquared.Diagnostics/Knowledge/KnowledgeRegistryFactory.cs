@@ -673,7 +673,7 @@ public static class KnowledgeRegistryFactory
             // welding the mirror-group and absorption clusters (previously joined only at d^2-2d=0):
             // MirrorGroupD4Claim (directly above) + AbsorptionTheoremClaim (registered ~line 174). Anchor
             // simulations/one_diagonal_mirror_group.py (the physics-first gate that corrected the first
-            // hypothesis: the Y-transpose, and the permuter is the basis-S3, not <R,D,h>).
+            // hypothesis: the Y-transpose, and the permuter is the basis change <h_zx,h_yz>, not <R,D,h>).
             .RegisterThreeDephasingDiagonalsOrbitClaim()
             // YParity-axis seed (F102): standalone Tier1Derived Claim filling the cubic
             // Z₂³ architecture's YParity slot. Must come AFTER every Pi²-Inheritance Claim

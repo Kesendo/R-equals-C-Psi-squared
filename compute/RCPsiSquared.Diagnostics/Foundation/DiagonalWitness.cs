@@ -15,7 +15,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// <c>rung_dynamics.py</c>) compute once, this witness ports both verifiers into the live layer and
 /// makes the structure queryable. The C#-witness-first discipline: a Python verifier that outlives its
 /// session is a witness waiting to be ported. The synthesis writeup (the one diagonal as one of
-/// three, the basis-S₃ orbit) is <c>docs/THE_THREE_DIAGONALS.md</c>.
+/// three, one letter orbit) is <c>docs/THE_THREE_DIAGONALS.md</c>.
 ///
 /// <para>The one diagonal is the disagreement count k = popcount(i⊕j) of a coherence |i⟩⟨j|; under
 /// Z-dephasing L_D = γ·(Q − N·I), the integer levels k are the rungs (Re λ = −2γk, AbsorptionTheorem
@@ -120,7 +120,7 @@ public sealed class DiagonalWitness : IInspectable
     public IReadOnlyList<int> RungStepsWithField(double hField) => RungSteps(LHWithField(hField));
     private ComplexMatrix LHWithField(double hField) =>
         hField == 0.0 ? _LH : HamiltonianSuper(BuildChainH(N, J, Delta) + TransverseFieldH(N, hField), N);
-    /// <summary>The orbit of Q_Z under the basis-change S₃ ⟨h_zx, h_yz⟩ (= 3 ⟹ the three diagonals are one orbit).</summary>
+    /// <summary>The orbit of Q_Z under the letter moves ⟨h_zx, h_yz⟩ (order 24, acting through S₃; = 3 ⟹ the three diagonals are one orbit).</summary>
     public int OrbitSizeOfQZ() => OrbitSize(_qZ, new[] { _hZX, _hYZ });
     /// <summary>spec(Q_X) = spec(Q_Y) = spec(Q_Z) (conjugate ⟹ co-spectral).</summary>
     public bool ThreeDiagonalsSameSpectrum() => SpectraEqual(_qX, _qY) && SpectraEqual(_qX, _qZ);

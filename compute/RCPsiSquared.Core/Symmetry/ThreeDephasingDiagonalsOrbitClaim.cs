@@ -20,7 +20,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>The orbit (the three diagonals):</b> {Q_X, Q_Y, Q_Z} is exactly ONE orbit of the single-qubit
 /// letter moves (h_zx = Ad_{H^⊗N}: Z↔X; h_yz = Ad_{R_x(π/2)^⊗N}: Z↔Y), hence the three are conjugate and
 /// share a spectrum (verified directly, N=2..4; orbit size exactly 3 at N=2,3). So "the one diagonal" is
-/// provably one face of a three-fold. <b>Naming, corrected 2026-08-01:</b> ⟨h_zx, h_yz⟩ is NOT S₃ — R_x(π/2)
+/// provably one face of a three-fold. <b>Naming:</b> ⟨h_zx, h_yz⟩ is NOT S₃ — R_x(π/2)
 /// is a quarter-turn on the letters, so h_yz has order 4 and the closure has order 24 (the single-qubit
 /// Clifford group mod phase). The genuine letter-S₃ has order 6 and uses the INVOLUTIVE transposition
 /// t_yz = Ad of (Y+Z)/√2. Both give the same orbit of 3: the order-6 group acts faithfully, the order-24
@@ -33,16 +33,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// (n_Y even ∧ n_Z even) is the joint-fixed cell of {D, 𝓕D} = the judge reading. Q is the unique
 /// D-invariant, R-anti-invariant dephasing diagonal.</para>
 ///
-/// <para><b>The structure is NOT S₃ ⋉ D₄</b> (corrected 2026-08-01; the order-48 shape
-/// PROOF_PI_FACTORS_AS_R_TIMES_D §5 expected was disproved in that same §5 on 2026-06-15, and this claim
-/// did not follow until review caught it). The letter three-fold (the three diagonals) and the mirror-D₄
+/// <para><b>The structure is NOT S₃ ⋉ D₄</b> (the order-48 shape
+/// is ruled out in PROOF_PI_FACTORS_AS_R_TIMES_D §5). The letter three-fold (the three diagonals) and the mirror-D₄
 /// (the three readings) are TWO distinct three-fold structures, and each letter move commutes with one
 /// mirror generator but not the other — [h_zx, D] = 0 but [h_zx, R] ≠ 0; [h_yz, R] = 0 but [h_yz, D] ≠ 0.
 /// That pattern is NOT evidence of a semidirect product; relations of that shape hold in any group
 /// containing both factors. A semidirect product needs the letter moves to NORMALIZE D₄, and they do not:
 /// h_zx·R·h_zx⁻¹ is the one-sided multiplication by Z^⊗N, outside the eight elements of ⟨R, D⟩, and the
 /// coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 768/gcd(N,4) (768, 384, 768, 192 at N=1..4), never 48.
-/// NOTE (the gate's lesson, 2026-06-14): D does NOT permute the diagonals (it fixes them); the proof's
+/// D does NOT permute the diagonals (it fixes them); the proof's
 /// "D = the Z↔Y swap" lives on the palindromizer Π, not on the diagonal Q.</para>
 ///
 /// <para><b>This claim is the weld:</b> its two typed parents — <see cref="MirrorGroupD4Claim"/> (the
@@ -90,7 +89,7 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                "simulations/mirror_inventory_d4.py (block D 63/63 truly cell) + " +
                "docs/proofs/PROOF_ABSORPTION_THEOREM.md §4.7 + docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md §5 + " +
                "compute/RCPsiSquared.Diagnostics/Foundation/DiagonalWitness.cs (DiagonalWitness, inspect --root diagonal) + " +
-               "docs/THE_THREE_DIAGONALS.md (synthesis: the one diagonal as one of three, the basis-S₃ orbit)")
+               "docs/THE_THREE_DIAGONALS.md (synthesis: the one diagonal as one of three, one letter orbit)")
     {
         MirrorGroup = mirrorGroup ?? throw new ArgumentNullException(nameof(mirrorGroup));
         Diagonal = diagonal ?? throw new ArgumentNullException(nameof(diagonal));
@@ -111,10 +110,10 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
     {
         get
         {
-            yield return new InspectableNode("the orbit: {Q_X, Q_Y, Q_Z} under the basis-change S₃",
+            yield return new InspectableNode("the orbit: {Q_X, Q_Y, Q_Z} under the letter moves ⟨h_zx, h_yz⟩",
                 summary: "Q_P = Σ_l kron(P_l, P_lᵀ); h_zx = Ad_{Hadamard} sends Q_Z→Q_X, h_yz = Ad_{R_x(π/2)} " +
-                         "sends Q_Z→Q_Y, so {Q_X,Q_Y,Q_Z} is one orbit (size 3), conjugate, same spectrum. The " +
-                         "S₃ permuting the three dephasing axes (the linear side of PROOF_PI_FACTORS §5).");
+                         "sends Q_Z→Q_Y, so {Q_X,Q_Y,Q_Z} is one orbit (size 3), conjugate, same spectrum. The group " +
+                         "has order 24 and permutes the three dephasing axes through S₃ (the linear side of PROOF_PI_FACTORS §5).");
             yield return new InspectableNode("rate reading: D fixes Q",
                 summary: "D·Q·D = +Q — the price-list / absorption ladder (Re λ = −2γ⟨n_XY⟩). D does NOT permute " +
                          "the diagonals; the proof's 'D = Z↔Y swap' is on the palindromizer Π, not on Q.");
@@ -191,7 +190,7 @@ public sealed class ThreeDephasingDiagonalsOrbitClaim : Claim
                 MaxAbsDiff(R * QZ * R, QZ.Multiply(-Complex.One))),
         };
 
-        // the orbit is exactly {Q_X, Q_Y, Q_Z}: the basis-S₃ closure carries Q_Z to all three and no more.
+        // the orbit is exactly {Q_X, Q_Y, Q_Z}: the closure of the letter moves carries Q_Z to all three and no more.
         var basis = GroupClosure(new[] { hZX, hYZ }, d2);
         var orbit = new List<ComplexMatrix>();
         foreach (var g in basis)

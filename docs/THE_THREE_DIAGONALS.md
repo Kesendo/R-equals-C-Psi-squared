@@ -1,7 +1,7 @@
-# THE THREE DIAGONALS: the dephasing diagonal is one of three (Q_X, Q_Y, Q_Z), one basis-S₃ orbit
+# THE THREE DIAGONALS: the dephasing diagonal is one of three (Q_X, Q_Y, Q_Z), one letter orbit
 
 <!-- Keywords: three dephasing diagonals Q_X Q_Y Q_Z, the one diagonal is one of three,
-basis-S3 orbit, single-qubit Clifford basis change Hadamard R_x, Y transpose minus sign
+letter orbit, single-qubit Clifford basis change Hadamard R_x, Y transpose minus sign
 Y^T = -Y, spectrum vs operator gate, build the operator not the spectrum, mirror group,
 letter S3 does not normalize D4, no order-48 completion, closure 768 over gcd(N,4),
 dephasing diagonal Q = sum_l kron(P_l, P_l transpose), disagreement count,
@@ -75,7 +75,7 @@ So the gate separated **spectrum** from **operator**: the witness builds all thr
 
 ## §4 The structure: two three-folds that do not lock into one group
 
-There are two distinct three-folds in the diagonal story, and they are not the same S₃:
+There are two distinct three-folds in the diagonal story, and they do not lock into one group:
 
 - the **letter-S₃** of this note, which permutes the three **diagonals** {Q_X, Q_Y, Q_Z};
 - the **mirror group D₄ = ⟨R, D⟩**, which moves **one** diagonal three ways into its three readings (rate = D fixes Q, mirror = R reflects Q, judge = the F87 truly cell); see `ON_THE_ONE_DIAGONAL` and `PROOF_PI_FACTORS_AS_R_TIMES_D`.
@@ -90,7 +90,7 @@ That pattern is a fact about the two factors, and it is **not** evidence of a se
 
 The coherence-space closure ⟨R, D, h_zx, t_yz⟩ has order 768/gcd(N, 4), that is 768, 384, 768, 192 at N = 1, 2, 3, 4; divided by global phases it is 192 at every N; never the 48 an S₃ ⋉ D₄ would have. This is settled in `PROOF_PI_FACTORS_AS_R_TIMES_D` §5 ("Resolution of the S₃ side", with its own gate at N = 1..5): the abstract S₃ ⋉ D₄ is not realised inside the coherence-space group these mirrors generate. What survives, and is the content of this note, is the orbit: three diagonals, one letter-S₃ action, one shared spectrum.
 
-One subtlety pins the two apart. **D (the transpose) FIXES every diagonal**, D·Q·D = +Q (it is the rate reading); it does **not** permute them. The basis-S₃ permutes the diagonals; D does not. The proof's D as the Z↔Y swap lives on the **palindromizer** Π (a symmetry operator from the referenced proofs that exchanges the slow and fast decay modes, the spectral palindrome), where D·Π_Z·D = Π_Y (`D_PI_Z_EQUALS_PI_Y`), not on the diagonal Q. The Π-level three-fold and the Q-level three-fold are parallel but distinct realizations of the same letter permutation.
+One subtlety pins the two apart. **D (the transpose) FIXES every diagonal**, D·Q·D = +Q (it is the rate reading); it does **not** permute them. The letter moves permute the diagonals; D does not. The proof's D as the Z↔Y swap lives on the **palindromizer** Π (a symmetry operator from the referenced proofs that exchanges the slow and fast decay modes, the spectral palindrome), where D·Π_Z·D = Π_Y (`D_PI_Z_EQUALS_PI_Y`), not on the diagonal Q. The Π-level three-fold and the Q-level three-fold are parallel but distinct realizations of the same letter permutation.
 
 ## §5 The completion, and how it closed
 

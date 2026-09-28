@@ -1948,11 +1948,11 @@ public static class OpenArcsRegistry
                 "Q_P = Sum_l kron(P_l, P_l^T), so Q_Y = -Sum kron(Y,Y) carries Y^T=-Y; with the naive kron(Y,Y) " +
                 "the orbit does NOT close. Same-spectrum held even with the wrong sign (the spectrum is " +
                 "symmetric, +-Q_Y co-spectral) so the gate separated SPECTRUM from OPERATOR, exactly its job. " +
-                "(2) THE PERMUTER is the single-qubit Clifford BASIS-change S3 <h_zx (Z<->X Hadamard), " +
-                "h_yz (Z<->Y R_x(pi/2))>, NOT <R,D,h>: D (transpose) FIXES every diagonal (D Q D = +Q, the RATE " +
+                "(2) THE PERMUTER is the single-qubit Clifford basis change <h_zx (Z<->X Hadamard), " +
+                "h_yz (Z<->Y R_x(pi/2))> (order 24, acting on the letters through S3), NOT <R,D,h>: D (transpose) FIXES every diagonal (D Q D = +Q, the RATE " +
                 "reading), it does NOT permute them. The ParkedAt's 'the S3 meets D4 in the Z<->Y swap (=D)' was " +
                 "a conflation of D's action on the palindromizer Pi (D Pi_Z D = Pi_Y) with its action on the " +
-                "diagonal Q. RESULT: {Q_X,Q_Y,Q_Z} is EXACTLY one orbit of the basis-S3 (verified N=2,3; same " +
+                "diagonal Q. RESULT: {Q_X,Q_Y,Q_Z} is EXACTLY one orbit of these letter moves (verified N=2,3; same " +
                 "spectrum N=2..4) - the three DIAGONALS (the letter three-fold) and the three READINGS " +
                 "(mirror-D4 within a diagonal) are TWO DISTINCT structures, not the same S3. Each letter move " +
                 "commutes with one mirror generator and not the other ([h_zx,D]=0 but [h_zx,R]!=0; [h_yz,R]=0 " +
@@ -2000,9 +2000,9 @@ public static class OpenArcsRegistry
                 "{I, D, Q_zx, Q_yx} (Pi2KleinV4DephaseSwapGroup + PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md): " +
                 "canonical per-site q_zx = h*d_l (h = X<->Z basis permutation on the ordered basis (I,X,Z,Y), " +
                 "d_l = diag(1,1,1,-1)), q_yx = h, D = diag((-1)^{n_Y}); N-site Q_zx = H*D, Q_yx = H with " +
-                "H = h^{otimes N}. (3) the BASIS-S3 on the three DIAGONALS {Q_X,Q_Y,Q_Z} " +
-                "(ThreeDephasingDiagonalsOrbitClaim; its S3 is the single-qubit " +
-                "Clifford basis-change <h_zx,h_yz>, which PERMUTES the diagonals, NOT the dephase swap; note D " +
+                "H = h^{otimes N}. (3) the letter S3 on the three DIAGONALS {Q_X,Q_Y,Q_Z} " +
+                "(ThreeDephasingDiagonalsOrbitClaim; its letter moves are the single-qubit " +
+                "Clifford basis change <h_zx,h_yz>, order 24, which PERMUTES the diagonals, NOT the dephase swap; note D " +
                 "FIXES every diagonal Q while it SWAPS the palindromizers Pi). (4) the order-128 PER-SITE " +
                 "monomial completion <r,d,h> (mirror_inventory_d4.py block H) - a DIFFERENT object from the " +
                 "coherence-space group. (5) the ANTILINEAR double <R,D,K> = D4 x Z2 (PROOF_ANTILINEAR_TRIANGLE " +
@@ -2013,7 +2013,7 @@ public static class OpenArcsRegistry
                 "structure S3 |x| D4. Then TYPE it (a MirrorGroupS3D4Claim, parents MirrorGroupD4Claim + " +
                 "Pi2KleinV4DephaseSwapGroup) + a live witness (the S3xD4 twin of inspect --root mirrorgroup). " +
                 "THE KEY OPEN PHYSICS QUESTION: is the dephase-letter-swap S3 (this completion, acting on the " +
-                "palindromizers Pi) the SAME abstract S3 as the basis-change S3 of " +
+                "palindromizers Pi) the SAME abstract S3 as the letter permutation of the basis moves of " +
                 "ThreeDephasingDiagonalsOrbitClaim (acting on the diagonals Q)? Both permute {X,Y,Z} but act " +
                 "differently (D swaps Pi_Z<->Pi_Y yet FIXES the diagonals Q) - resolve whether they are one S3 " +
                 "in two realizations or two distinct S3's. GATE-FIRST hazard (learned twice in the mirrorgroup " +
@@ -2025,7 +2025,7 @@ public static class OpenArcsRegistry
                 "compute/RCPsiSquared.Core/Symmetry/{MirrorGroupD4Claim, Pi2KleinV4DephaseSwapGroup, " +
                 "ThreeDephasingDiagonalsOrbitClaim}.cs; compute/RCPsiSquared.Diagnostics/Foundation/" +
                 "MirrorGroupWitness.cs (the D4 witness to extend); simulations/mirror_inventory_d4.py block H; " +
-                "docs/THE_THREE_DIAGONALS.md (the basis-S3 side, written up).",
+                "docs/THE_THREE_DIAGONALS.md (the letter-orbit side, written up).",
             Status: OpenArcStatus.Retired,
             RetiredReason: "RESOLVED 2026-06-15 (simulations/linear_s3_mirror_closure.py, self-validating " +
                 "closure orders at N=1..5, gate-first; PROOF_PI_FACTORS_AS_R_TIMES_D sec.5 'Resolution of the S3 side' note). " +

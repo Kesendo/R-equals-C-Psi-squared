@@ -150,7 +150,7 @@ happens when you deliberately break the symmetry.
    D₄; and the polarity cube's third axis is the transpose (F118).
    If this last step hooks you, Story 7 is its full arc.
    The dissipator-diagonal companion (the one diagonal as one of three,
-   {Q_X, Q_Y, Q_Z}, one basis-S₃ orbit) is
+   {Q_X, Q_Y, Q_Z}, one letter orbit) is
    [The Three Diagonals](THE_THREE_DIAGONALS.md).
 
 **After this you know:** The palindrome is real, universal for the

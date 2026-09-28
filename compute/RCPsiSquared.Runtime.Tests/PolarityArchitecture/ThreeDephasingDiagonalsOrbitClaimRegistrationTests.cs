@@ -36,7 +36,7 @@ public class ThreeDephasingDiagonalsOrbitClaimRegistrationTests
     [Fact]
     public void Claim_BatteryAllPass()
     {
-        // the live battery: same spectrum, the two basis-S₃ conjugators, D-fix (rate), R-anti (mirror),
+        // the live battery: same spectrum, the two letter-move conjugators, D-fix (rate), R-anti (mirror),
         // the orbit = {Q_X,Q_Y,Q_Z}, and the letter moves not normalizing D₄.
         var registry = KnowledgeRegistryFactory.BuildDefault();
         var claim = registry.Get<ThreeDephasingDiagonalsOrbitClaim>();

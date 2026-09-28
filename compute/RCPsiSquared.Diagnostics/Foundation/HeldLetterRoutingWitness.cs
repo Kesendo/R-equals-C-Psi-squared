@@ -25,7 +25,7 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///   <item><b>only nothing is free everywhere</b>: each held letter exempts its own 2^N strings
 ///         {I, P}^⊗N; the intersection over all three held letters is the identity alone.</item>
 ///   <item><b>the swap is an exact transport</b>: the single-qubit basis moves h_zx, h_yz carry
-///         L_Z onto L_X, L_Y entry-exactly (the basis-S₃ face of the letter swap; the
+///         L_Z onto L_X, L_Y entry-exactly (the basis-move face of the letter swap; the
 ///         operator-space Klein V₄ face is PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE).</item>
 /// </list>
 ///
@@ -179,7 +179,7 @@ public sealed class HeldLetterRoutingWitness : IInspectable
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("the letter swap is an exact transport",
                 summary: $"Ad(h_zx)·L_Z·Ad† = L_X (dev {TransportDevZtoX:0.0e+00}), Ad(h_yz)·L_Z·Ad† = L_Y "
-                       + $"(dev {TransportDevZtoY:0.0e+00}): the basis-S₃ face; the operator-space Klein V₄ "
+                       + $"(dev {TransportDevZtoY:0.0e+00}): the basis-move face; the operator-space Klein V₄ "
                        + "face is PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE (typed parent)",
                 provenance: NodeProvenance.Live);
             yield return new InspectableNode("the reading (Tier 4, labeled)",

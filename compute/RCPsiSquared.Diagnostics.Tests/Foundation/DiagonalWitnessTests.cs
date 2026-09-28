@@ -42,7 +42,7 @@ public class DiagonalWitnessTests
     public void three_diagonals_are_one_orbit_same_spectrum(int n)
     {
         var w = new DiagonalWitness(n);
-        Assert.Equal(3, w.OrbitSizeOfQZ());          // {Q_X, Q_Y, Q_Z} one orbit of the basis-S3
+        Assert.Equal(3, w.OrbitSizeOfQZ());          // {Q_X, Q_Y, Q_Z} one orbit of the letter moves
         Assert.True(w.ThreeDiagonalsSameSpectrum());  // conjugate => co-spectral
     }
 

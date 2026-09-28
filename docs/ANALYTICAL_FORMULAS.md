@@ -34,7 +34,7 @@ Every decay rate d pairs with 2Σγ - d.
 DM on any bipartite graph, whatever the orientation and signs of its edges
 (odd cycles fail where tested); any N; non-uniform γ per qubit.
 The uniform P1/P4 maps cover the first family; DM uses the alternating map.
-**See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one basis-S₃ orbit.
+**See also:** [The Three Diagonals](THE_THREE_DIAGONALS.md), the dissipator diagonal Q (whose levels carry the −2γ rate) is one of three, Q_X / Q_Y / Q_Z, one letter orbit.
 **Breaks for:** depolarizing noise (error at least (2/3)Σγ, exactly that when ad_H has an
 eigenvector traceless on every site, for example a global Pauli string with no
 identity letter commuting with H, F5); an

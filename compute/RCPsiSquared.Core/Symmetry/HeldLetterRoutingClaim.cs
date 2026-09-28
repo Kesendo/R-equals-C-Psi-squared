@@ -15,8 +15,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the disagreement with P alone. The object never changes between held letters; only the price
 /// list does (Z^⊗N rides free when Z is the held letter and pays maximally when X is), the
 /// letter swap is an exact transport (the operator-space Klein V₄ of
-/// <c>PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE</c>, equivalently the single-qubit basis-S₃
-/// moves), and only the identity is free under every held letter. This is the exact instance behind
+/// <c>PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE</c>, equivalently the single-qubit basis
+/// moves h_zx, h_yz), and only the identity is free under every held letter. This is the exact instance behind
 /// the series' label thesis (<c>docs/quantum/LABELS_TRANSLATED.md</c> §2,
 /// <c>docs/quantum/DEPHASING_TRANSLATED.md</c> §4): even the environment routes by a label.
 ///
@@ -43,7 +43,7 @@ public sealed class HeldLetterRoutingClaim : Claim
     public HeldLetterRoutingClaim(AbsorptionTheoremClaim absorption, Pi2KleinV4DephaseSwapGroup kleinV4)
         : base("The held-letter routing: local dephasing in letter P has the 4^N Pauli strings as one " +
                "shared eigenbasis with rate -2*gamma*n_anti(S,P), the disagreement with the held letter " +
-               "alone; the price list is letter-routed (the Klein V4 / basis-S3 swaps relocate which cells " +
+               "alone; the price list is letter-routed (the Klein V4 swaps / basis moves relocate which cells " +
                "pay, entry-exactly) and only the identity is free under every held letter: the environment " +
                "routes by a label, the Tier-1 instance of the label thesis",
                Tier.Tier1Derived,
@@ -62,7 +62,7 @@ public sealed class HeldLetterRoutingClaim : Claim
 
     public override string Summary =>
         "L_P(S) = −2γ·n_anti(S, P)·S for every Pauli string S and every letter P: one shared eigenbasis, " +
-        "three price lists; the letter swap relocates which cells pay (Klein V₄ / basis-S₃, entry-exact); " +
+        "three price lists; the letter swap relocates which cells pay (Klein V₄ / basis moves, entry-exact); " +
         "only the identity rides free under every held letter. The exact core under the label thesis: even " +
         $"the environment routes by a label ({Tier.Label()})";
 

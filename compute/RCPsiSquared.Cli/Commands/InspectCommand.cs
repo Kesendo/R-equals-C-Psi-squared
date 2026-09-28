@@ -970,7 +970,7 @@ public static class InspectCommand
         new("label", "the label layer, typed: the dephasing routes by the letter it holds - the 4^N " +
             "Pauli strings are ONE shared " +
             "eigenbasis of all three letter dissipators with three price lists (rate -2g*n_anti(S,P), the " +
-            "disagreement with the held letter alone); the letter swap (Klein V4 / basis-S3) relocates which " +
+            "disagreement with the held letter alone); the letter swap (Klein V4 / basis moves) relocates which " +
             "cells pay, entry-exactly; only the identity rides free under every held letter. The exact core of " +
             "docs/quantum LABELS_TRANSLATED s2 and DEPHASING_TRANSLATED s4: even the environment routes by a " +
             "label (typed: HeldLetterRoutingClaim)",

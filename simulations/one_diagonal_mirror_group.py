@@ -124,7 +124,7 @@ def stage0_same_spectrum(Ns=(2, 3, 4)):
     print("   [0] same spectrum, all N. OK")
 
 
-# ============================ Stage 1: the basis-S3 orbit ============================
+# ============================ Stage 1: the letter orbit ============================
 def stage1_orbit(N=2):
     print(f"\nStage 1: {{Q_X,Q_Y,Q_Z}} = one orbit of the letter moves (N={N}):")
     d = 2 ** N

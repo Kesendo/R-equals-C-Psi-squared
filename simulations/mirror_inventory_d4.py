@@ -44,7 +44,11 @@ Block ledger:
      rejected at O(1)); N90 is outside the order-128 discrete completion
      <r, d, h> under any global phase (the missing S3 transposition, signed);
      D inverts the dial, D Ad_{R_z(theta)} D = Ad_{R_z(-theta)} (per site at
-     five theta + N = 2 coherence space); Ad_{R_z(pi/4)}^2 = N90.
+     five theta + N = 2 coherence space); Ad_{R_z(pi/4)}^2 = N90. The crossover
+     point alone keeps the group finite, <r, d, Ad_{R_z(pi/4)}> of order 512 per
+     site; with the letter move h the element Ad_{R_z(pi/4)} h d is a rotation
+     with 2 cos(angle) = -1 - 1/sqrt 2, not an algebraic integer, so of infinite
+     order, and only then do the discrete moves reach the dial's circle.
 
 Conventions: row-stacking (C-order) vec, |i><j| -> e_i (x) e_j, kron(A,B) = A rho B^T,
 matching framework.lindblad and PROOF_F87_WINDOWED_MONOMIAL_CONVERSE sect.1.
@@ -400,5 +404,34 @@ print(f'   Ad_(R_z(pi/4))^2 = N90:            dev = {dev_sq8:.2e}; '
       f'Ad_(R_z(pi/4))[X,X] = {A8[1, 1].real:.6f} (not monomial)')
 assert dev_sq8 < TOL
 assert abs(A8[1, 1].real - np.sqrt(0.5)) < TOL
+
+# (iv) the crossover point alone keeps the group finite: <r, d, Ad_(R_z(pi/4))> closes per site at order 512. A letter move
+# with it does not: g = Ad_(R_z(pi/4)) h_zx d is real with a rotation block on
+# (X, Z, Y), and 2 cos(angle) = trace - 1 = -1 - 1/sqrt 2. For an element of
+# finite order 2 cos(angle) is a sum of two roots of unity, an algebraic integer;
+# -1 - 1/sqrt 2 is not (its monic minimal polynomial x^2 + 2x + 1/2 has a
+# non-integer coefficient), so g has infinite order and <r, d, h_zx, Ad_(R_z(pi/4))> is infinite.
+elems_t = [np.eye(4, dtype=complex)]
+frontier = list(elems_t)
+while frontier:
+    nxt = []
+    for e in frontier:
+        for g in (r1_pauli, d1_pauli, A8):
+            cand = g @ e
+            if not any(np.max(np.abs(cand - x)) < TOL for x in elems_t):
+                elems_t.append(cand)
+                nxt.append(cand)
+    frontier = nxt
+g_inf = A8 @ h_zx @ d1_pauli
+blk = g_inf[1:, 1:]
+two_cos = np.trace(blk).real - 1
+print(f'   |<r, d, Ad_(R_z(pi/4))>| per site = {len(elems_t)} (finite: the crossover point alone)')
+print(f'   Ad_(R_z(pi/4)) h_zx d: real = {np.max(np.abs(blk.imag)) < TOL}, det = {np.linalg.det(blk).real:.6f}, '
+      f'2 cos(angle) = {two_cos:.9f} = -1 - 1/sqrt 2 (not an algebraic integer: infinite order)')
+assert len(elems_t) == 512
+assert np.max(np.abs(g_inf[0, 1:])) < TOL and np.max(np.abs(g_inf[1:, 0])) < TOL and abs(g_inf[0, 0] - 1) < TOL
+assert np.max(np.abs(blk.imag)) < TOL and abs(np.linalg.det(blk).real - 1) < TOL
+assert np.max(np.abs(blk.real @ blk.real.T - np.eye(3))) < TOL
+assert abs(two_cos - (-1 - np.sqrt(0.5))) < TOL
 
 print('\nALL BLOCKS PASS')
