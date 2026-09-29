@@ -4651,3 +4651,11 @@ its current truth; the forensics belong in this ledger and not in the proof.
   window-edge lemma a third time; and it reported `hypotheses/THE_OTHER_SIDE.md` Q6 as open when it
   is marked answered.
 - **Anchor:** `docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md`; `simulations/f138_rank_criterion.py`.
+
+## 2026-09-29, F138's two-term proviso was stated for components and measured on sites
+
+- **What was wrong.** F138 says the ceiling of two dephasing axes "exists only when the bonds carry at least two terms", and that a single-term bond "tolerates all three axes at once". Every row that measured it carried one axis per site. Three axes on one site were already excluded, by F138's own "The depolarizing *channel* is clause 1 failing" and by MIRROR_SYMMETRY_PROOF's "Three axes stacked on a single site is depolarizing there, and breaks the Ising bond too". A site with two axes was excluded nowhere, and there the proviso is wrong: at N = 3 on P₃, K₃ and a bond plus an isolated site the clauses, read with those exclusions, accept 882 rows whose palindrome fails, summed over the seven bond sets, every one with a two-axis site in a bonded component of one bond letter and three axes.
+- **How it was found.** Reading the clauses as a colouring of the graph (experiments/THE_PALINDROME_AS_A_COLOURING.md): the colours of a site are the letters all its jumps light, a two-axis site has one, and a one-letter bond passes the class of that one colour on to its neighbours. A first count, 3,393, also took in bondless components and three-axis sites, which F138 and MIRROR_SYMMETRY_PROOF already excluded; a review round caught it.
+- **The shape.** A law measured on one granularity (one axis per site) and stated on a coarser one (axes per component): the count of axes in a component cannot see how they sit on its sites.
+- **Repaired** in F138's heading, its clause-1 sentence, its proviso sentence, its sweep sentence and its colouring paragraph, which carries the scope, and in the second copy of the proviso in MIRROR_SYMMETRY_PROOF's Scope; the open item "a derivation of the two-term proviso" is closed in F138 and THE_PAIRING_CONDITION.
+- **Anchor:** F138 in `docs/ANALYTICAL_FORMULAS.md`; `simulations/f138_palindrome_colouring.py` stage C.

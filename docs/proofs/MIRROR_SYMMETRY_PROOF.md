@@ -216,8 +216,12 @@ pairs 16/16. And clause 1's *two-term* proviso is not decoration: a
 single-term bond, the Ising bond ZZ among them, tolerates all three dephasing
 axes at once, all eighteen three-axis assignments at N=4 pairing exactly where
 Heisenberg, XX+ZZ and XX+YY all fail on the same assignments. Two bond terms
-are where the ceiling bites. That escape has two limits. Three axes stacked on
-a single site is depolarizing there, and breaks the Ising bond too. And the
+are where the ceiling bites, and the escape needs one axis per site. Three axes stacked on
+a single site is depolarizing there, and breaks the Ising bond too. Two axes on a
+site leave it a single letter to anticommute with them; when that letter is the
+bond's own, the single-term bond asks the same letter (or I) of each neighbour,
+and a neighbour dephased along it breaks the palindrome
+([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)). And the
 clauses admit a three-axis component only **field-free**: this is not a separate condition
 but clause 2 read carefully, since no direction is orthogonal to X, Y and Z
 at once, so the clause is unsatisfiable there and only the empty field passes

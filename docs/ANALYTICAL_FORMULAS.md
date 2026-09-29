@@ -6510,12 +6510,13 @@ thermal case obstructed while its own body computed the valid pairing.
 ---
 
 <a id="f138"></a>
-### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (a sufficient condition, measured and never once broken; the converse is false, failing at fewer bond letters and at coincident field magnitudes, and F158 decides the setting exactly; minted 2026-07-21)
+### F138. The boundary law of the dephasing palindrome: at most two axes per component, the field orthogonal to all of them (a sufficient condition, never broken in the sweeps below, its two-term proviso holding with one dephasing axis per site; the one-colour case of a colouring of the graph; the converse is false, failing at fewer bond letters and at coincident field magnitudes, and F158 decides the setting exactly; minted 2026-07-21)
 
 For H a sum of bond terms, the dephasing palindrome about −Σγᵢ holds **when**,
 in every connected component that carries dephasing at all: **(1)** at
 most two distinct dephasing axes appear, a ceiling that exists only when the
-bonds carry at least two terms, and **(2)** the on-site field has a single common axis within the
+bonds carry at least two terms (with one axis per site; see the colouring
+paragraph below), and **(2)** the on-site field has a single common axis within the
 component, orthogonal to every dephasing axis present. Five load-bearing
 qualifiers, grounded in the artifact's counterexample and control rows (the
 axis-not-arrow case implicitly, via the mixed-sign fields of Stages A and F): *component*
@@ -6525,18 +6526,48 @@ along a γ=0 axis, 0/64 once that rate is switched on); *axis*, not arrow
 (antiparallel fields on different sites are fine); a dephasing-free component
 constrains nothing (its spectrum is λ ↦ −λ-symmetric for any H); and the
 two-term proviso is where the ceiling bites: a single-term bond (the Ising bond ZZ)
-tolerates all three axes at once, where Heisenberg, XX+ZZ and XX+YY do not (the
+tolerates all three axes at once, one axis per site, where Heisenberg, XX+ZZ and XX+YY do not (the
 gate runs 18 of the 36 three-axis assignments at N=4, those with the repeated
 axis on the end site, 18/0 for ZZ against 0/18 for the others; the exhaustive
-clause-1 table reports the Heisenberg side of the same object as 0/36). But a
-three-axis component must then be field-free, clause 2 being unsatisfiable
-there: 64/64 with no field, 0/64 under X or Y, and 8/64 under Z, the one row that
-is neither all nor nothing and which the artifact reports without explaining.
+clause-1 table reports the Heisenberg side of the same object as 0/36). The
+clauses then admit a three-axis component only field-free, clause 2 being
+unsatisfiable there: 64/64 with no field, 0/64 under X or Y, and 8/64 under Z, the
+one row that is neither all nor nothing (pairing fractions: mirror-paired
+eigenvalues of one N = 3 configuration). The palindrome itself is less strict
+than the clauses: a field along the colour of its site pairs, while the fields of
+those rows lie along one letter on every site and so meet the site dephased along
+it; the colouring paragraph below predicts all four.
 The depolarizing *channel* is clause 1 failing, three axes inside one
 component, not a separate phenomenon.
 
+**The clauses as a colouring**
+([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
+A Pauli string in [F158](#f158)'s far kernel carries the palindrome, and for
+bonds P⊗P, one-site fields and single-letter jumps such a string is a colouring
+of the graph: each site takes a letter that all its jumps light (that
+anticommutes with every dephasing letter there), a bond P⊗P needs both ends or
+neither to anticommute with P, and a field P needs I or P at its site. A bond of
+two or three letters forces one colour on its two ends, which gives clause 1 per
+component and, through the fields, clause 2; a one-letter bond only puts both
+ends in one of two letter classes, and that freedom is the two-term proviso. So
+clauses 1 and 2 are the one-colour solutions and hold for that reason, and the
+proviso is derived. The colouring is finer: at N = 3 it explains 714 of the 776
+one-letter exceptions on P₃, 714 of 732 on K₃ and 468 of 520 on a bond plus an
+isolated site, and none of the two-letter ones, which it cannot, since there it
+has one colour per component too. It also shows that a three-axis component may
+carry a field along the colour of its site (an X field on the Z-dephased middle
+site of P₃ under ZZ with axes X, Z, Y pairs), and it predicts the four
+fractions above: with a field along P on every site the site dephased along P
+has no colour. **Scope:** the proviso holds with one axis per site. Three axes on one
+site were already excluded (the depolarizing channel above; MIRROR_SYMMETRY_PROOF's
+Scope). A site with two axes has one colour, and a one-letter bond does not supply
+its neighbours with it: at N = 3 the clauses, read with those exclusions, accept
+882 rows whose palindrome fails, summed over the three graphs and seven bond
+sets, every one with a two-axis site in a bonded component of one bond letter
+and three axes.
+
 **The two directions are not equally strong.** The sufficient direction, conditions ⟹ palindrome, has never once
-broken: in no row of any sweep below, at any bond-letter count, on any graph, at
+broken: in no row of any sweep below (one dephasing axis per site), at any bond-letter count, on any graph, at
 any of the magnitude tuples of Stage F, are the conditions met and the spectrum
 fails to pair. That direction is the physics and it is solid. The
 converse, palindrome ⟹ conditions, is FALSE as stated, and two separate things
@@ -6650,6 +6681,9 @@ not fractions of that kind but counts of CONFIGURATIONS that hold and fail.
 
 **Gate:** [`simulations/pauli_weight_conjugation.py`](../simulations/pauli_weight_conjugation.py)
 → [`conjugation_proof.txt`](../simulations/results/conjugation_proof.txt)
+and, for the colouring and the scope,
+[`simulations/f138_palindrome_colouring.py`](../simulations/f138_palindrome_colouring.py)
+→ [`f138_palindrome_colouring.txt`](../simulations/results/f138_palindrome_colouring.txt)
 (the mixed-axes, Ising, qualifier and per-component sections; the artifact's
 own 105/105 self-total covers its sections 1-3, which are not those four);
 clause 2:
@@ -6665,8 +6699,8 @@ direction, and they carry it as a measured census rather than as a derivation:
 every qualifier there is reported as a row count (256/256 against 1/256, 64/64
 against 0/64). Read as a proof of the *only when* half it would contradict this
 very row, which counts that half failing at fewer bond letters and at
-coincident field magnitudes. Neither that
-paragraph nor this row derives the clauses.
+coincident field magnitudes. That paragraph does not derive the clauses; this
+row's colouring paragraph does.
 [F158](#f158) decides the same
 setting exactly (a dephasing axis n̂·σ⃗ is Hermitian and squares to 1, and
 on-site fields sit inside H, so every configuration this row sweeps is inside
@@ -6674,7 +6708,7 @@ its class): these clauses are a
 sufficient condition whose exceptions are the configurations where the clauses
 fail and an invertible U exists anyway. Whether F158 becomes this Proof field's
 anchor is argued in the arc `f138_converse_failures`. **Typed:** not
-yet (Tier1Candidate). Open: typing; a derivation of the two-term proviso; the
+yet (Tier1Candidate). Open: typing; the
 F158 anchor move.
 
 ### F139. The seam identity: the F134 wall is a Chebyshev divisor (a chain of six lemmas ending in a finite exact-ℤ division; a priori from the F133 letters; minted 2026-07-21)

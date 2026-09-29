@@ -1,0 +1,41 @@
+## Stage A: the colouring rule against the matrix commutator
+  [PASS] bond P(x)P and field P against every letter pair: fw.cube_step, the matrix commutator and the colouring rule agree (exact)
+  [PASS] the Heisenberg bond commutes with a two-site string exactly when each of its terms does (all 16 strings)
+
+## Stage B: F138's domain, one axis per site; ground truth F158's count
+    P3        1 bond letter(s): 2328 exceptions summed over the 3 bond set(s), 2142 of them coloured
+    P3        2 bond letter(s):   66 exceptions summed over the 3 bond set(s),    0 of them coloured
+    P3        3 bond letter(s):    0 exceptions summed over the 1 bond set(s),    0 of them coloured
+    K3        1 bond letter(s): 2196 exceptions summed over the 3 bond set(s), 2142 of them coloured
+    K3        2 bond letter(s):    0 exceptions summed over the 3 bond set(s),    0 of them coloured
+    K3        3 bond letter(s):    0 exceptions summed over the 1 bond set(s),    0 of them coloured
+    bond+iso  1 bond letter(s): 1560 exceptions summed over the 3 bond set(s), 1404 of them coloured
+    bond+iso  2 bond letter(s):  312 exceptions summed over the 3 bond set(s),    0 of them coloured
+    bond+iso  3 bond letter(s):    0 exceptions summed over the 1 bond set(s),    0 of them coloured
+  [PASS] (i) a colouring never exists without the palindrome   0 rows
+  [PASS] (ii) the exceptions per bond set reproduce F138's registry counts (776 / 732 / 520 at one letter, 22 / 0 / 104 at two, 0 at three)   {('P3', 1): 776, ('K3', 1): 732, ('bond+iso', 1): 520, ('P3', 2): 22, ('K3', 2): 0, ('bond+iso', 2): 104, ('P3', 3): 0, ('K3', 3): 0, ('bond+iso', 3): 0}
+  [PASS] (iii) exceptions a colouring explains, per bond set, as measured on the first run: 714 / 714 / 468 at one letter, 0 at two (a pin, so that a change is seen)   {('P3', 1): 714, ('K3', 1): 714, ('bond+iso', 1): 468, ('P3', 2): 0, ('K3', 2): 0, ('bond+iso', 2): 0, ('P3', 3): 0, ('K3', 3): 0, ('bond+iso', 3): 0}
+  [PASS] (iv) singular values separate by at least six decades   smallest kept 2.65e-03, largest dropped 2.59e-15, 12.0 decades  (572 s)
+
+## Stage C: the rows F138's clauses accept where the palindrome fails
+  [PASS] every row the fairly read clauses accept and the palindrome refuses has a two-axis site in a bonded component of one bond letter and three axes (consistency), and none has a colouring (F158's corollary)   882 rows over the three graphs and seven bond sets, 882 of that kind, 0 coloured  (417 s)
+  [PASS] stage C singular values separate by at least six decades   smallest kept 2.65e-03, largest dropped 2.78e-15, 12.0 decades
+
+## Stage D: 'a three-axis component must then be field-free', read on P3 with ZZ, axes X / Z / Y
+    X field on the middle site   palindrome True  colouring YXX
+    uniform X field              palindrome False colouring None
+    Z field on the first site    palindrome False colouring None
+    no field                     palindrome True  colouring YXX
+  [PASS] the colouring decides these rows, and a field along the colour of its site pairs in a three-axis component
+
+## Stage E: beyond the colouring, U = a YYZ + b ZXX on P3 with XX+YY bonds and jumps X, Z, Y
+    (a, b) = ( 1,  1): [H, U] = 0, U^2 = 2 I, anticommutes with the jumps; colouring None
+    (a, b) = ( 2,  3): [H, U] = 0, U^2 = 13 I, anticommutes with the jumps; colouring None
+    (a, b) = ( 3, -1): [H, U] = 0, U^2 = 10 I, anticommutes with the jumps; colouring None
+    (a, b) = ( 0,  1): [H, U] = 0, U^2 = 1 I, anticommutes with the jumps; colouring YXX
+    (a, b) = ( 1,  0): [H, U] = 0, U^2 = 1 I, anticommutes with the jumps; colouring YYX
+  [PASS] U = a YYZ + b ZXX carries the palindrome at every tested weight, exactly, and no single string does when ab != 0
+  [PASS] at a = b = 1 the far kernel is one-dimensional and the two counts agree   dim N = 1, dim W = 1
+
+ALL STAGES PASS
+EXIT=0
