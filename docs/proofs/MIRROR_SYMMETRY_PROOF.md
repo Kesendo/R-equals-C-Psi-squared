@@ -271,7 +271,12 @@ not a defect of the field. The gauge argument stops where clause 2 does: one
 global rotation can align one common direction, not several, so the argument does
 not reach a field whose direction varies *within* a component, and the rows
 measured there break (4/64 for X, Y, X at N=3; 0/64 at three generic angles),
-while separate components may point different ways and stay exact.
+while separate components may point different ways and stay exact. Unitaries
+that commute with every jump, not only products of one-site rotations, reach
+every palindrome with commuting jumps: for some such V, VHV† commutes with a
+Pauli string that anticommutes with every jump, although V is built from the
+far kernel rather than read off H
+([the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
 
 **Evidence, and its limits.** Clause 1 is swept exhaustively: every one of
 the 3^N per-site axis assignments, at N=3 over chain, ring and complete and

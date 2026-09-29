@@ -44,6 +44,25 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      at a = 0 or b = 0 U is itself a string; at a = b = 1 the far kernel is one-dimensional (the
      singular-value count), so U spans it. The equal-weight U is F138's; the weighted form was
      handed over by a second session (Codex, 2026-09-29) and is checked here.
+  F  With commuting jumps, every palindrome has a lit string commuting with H in a frame the
+     dissipator cannot see. For commuting single-letter
+     jumps, S a Hermitian unitary in W, F any lit string and P = (1 + A)/2 for any one jump A, the
+     unitary V = P + (1 - P) F S commutes with every jump and V^dagger F V = S, so F commutes with
+     V H V^dagger. (i) EXACT (sympy): on stage E's row at (a, b) = (3, 4) and on a conditioned row
+     (P3, ZZ bonds, jumps X on sites 0 and 2, fields 11/50 Z on site 1 and 41/100 Y on site 2, where
+     U = Z (x) (P+ (x) (hY + Z) + P- (x) (hY - Z)) / sqrt(1 + h^2) takes its colour on site 2 from the
+     sector of Z on the undephased site 1), for several F. (ii) the rows beyond the colouring of stage
+     B, one bond set per letter count: a Hermitian unitary U is built from W by the polar and sign
+     route (float), V as above with A the first jump and F the first lit string; gated: unitarity,
+     [V, A] = 0 and [V H V^dagger, F] = 0 sit at least six decades below the control V = 1 (no lit
+     string commutes with H on these rows). (iii) under uniform Z-dephasing V is diagonal, so the palindrome is a diagonal
+     phase gauge to an X^N-symmetric Hamiltonian: on the 36 two-term bilinear pairs on the open chain
+     at N = 3 (experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md: 22 palindromic, 14 hard;
+     hypotheses/THE_OTHER_SIDE.md: 26 break the parity), every palindromic pair gets a diagonal V
+     with [V H V^dagger, X^N] = 0, six decades below the parity breaking of H as written. (iv) the
+     commuting hypothesis is needed: jumps X and Z on site 0 of three, the other sites undephased,
+     an H whose W is spanned by Y (x) diag(1, 1, 1, -1); a frame image of a lit string has a second
+     factor with eigenvalue split (2, 2) or (4, 0), so no frame exists although the palindrome holds.
 
 Run:  python simulations/f138_palindrome_colouring.py
    >  simulations/results/f138_palindrome_colouring.txt     (runtime about 20 minutes)
@@ -321,12 +340,207 @@ def stage_e():
           f"dim N = {nN}, dim W = {nW}")
 
 
+def op2(letters):
+    return np.kron(LET[letters[0]], LET[letters[1]])
+
+
+def lit_strings(deph, n=N):
+    allowed = [[P for P in 'XYZ' if P not in deph[l]] if deph[l] else list('IXYZ') for l in range(n)]
+    return [''.join(p) for p in itertools.product(*allowed)]
+
+
+def hermitian_unitary_in_W(H, deph):
+    """a Hermitian unitary element of W (float), from any invertible element: polar part W0, then
+    K = e^{it} W0 + h.c. is Hermitian and invertible for generic t, and sign(K) lies in W"""
+    S = lit_strings(deph)
+    Ms = [op(s) for s in S]
+    M = np.array([(H @ m - m @ H).ravel() for m in Ms]).T
+    _, sv, vh = np.linalg.svd(M)
+    basis = [sum(c * m for c, m in zip(v.conj(), Ms)) for v in vh[int(np.sum(sv > 1e-9)):]]
+    rng = np.random.default_rng(7)
+    U0 = sum(rng.normal() * b for b in basis)
+    u, s, w = np.linalg.svd(U0)
+    if s.min() < 1e-9:
+        return None
+    W0 = u @ w
+    for t in rng.uniform(0, np.pi, size=20):
+        K = np.exp(1j * t) * W0 + np.exp(-1j * t) * W0.conj().T
+        ev, Q = np.linalg.eigh(K)
+        if np.abs(ev).min() > 1e-6:
+            return Q @ np.diag(np.sign(ev)) @ Q.conj().T
+    return None
+
+
+def frame(U, F, A):
+    P = (np.eye(len(U)) + A) / 2
+    return P + (np.eye(len(U)) - P) @ F @ U
+
+
+def stage_f():
+    import sympy as sp
+    print()
+    print("## Stage F: in a frame the dissipator cannot see, a lit string commutes with H")
+    SL = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]),
+          'Z': sp.diag(1, -1)}
+
+    def sop(s):
+        M = sp.Matrix([[1]])
+        for c in s:
+            M = sp.kronecker_product(M, SL[c])
+        return M
+    E, Z0 = sp.eye(d), sp.zeros(d)
+    h1, h2 = sp.Rational(11, 50), sp.Rational(41, 100)
+    Pp, Pm = sp.diag(1, 0), sp.diag(0, 1)
+    rows = {
+        "stage E's row, (a, b) = (3, 4)": (3 * (sop('XXI') + sop('YYI')) + 4 * (sop('IXX') + sop('IYY')),
+                                           (3 * sop('YYZ') + 4 * sop('ZXX')) / 5,
+                                           [sop('XII'), sop('IZI'), sop('IIY')], ['YYZ', 'ZXX', 'YXX', 'ZYX']),
+        "conditioned row": (sop('ZZI') + sop('IZZ') + h1 * sop('IZI') + h2 * sop('IIY'),
+                            (sp.kronecker_product(sp.kronecker_product(SL['Z'], Pp), h2 * SL['Y'] + SL['Z'])
+                             + sp.kronecker_product(sp.kronecker_product(SL['Z'], Pm), h2 * SL['Y'] - SL['Z']))
+                            / sp.sqrt(1 + h2 ** 2),
+                            [sop('XII'), sop('IIX')], ['ZIZ', 'YXY', 'ZXY', 'YIZ']),
+    }
+    ok = True
+    for name, (H, U, jumps, Fs) in rows.items():
+        base = all(sp.simplify(x) == Z0 for x in (H * U - U * H, U * U - E, U - U.H)) and all(
+            sp.simplify(A * U + U * A) == Z0 for A in jumps)
+        for A in jumps:
+            P = (E + A) / 2
+            for f in Fs:
+                F, V = sop(f), P + (E - P) * sop(f) * U
+                ok &= base and all(sp.simplify(x) == Z0 for x in (
+                    V * V.H - E, V.H * F * V - U, V * H * V.H * F - F * V * H * V.H)) and all(
+                    sp.simplify(V * B - B * V) == Z0 for B in jumps)
+        print(f"    {name}: S Hermitian unitary in W, frame checked for every jump as A and F in {Fs}")
+    check("(i) V = P + (1 - P) F S is unitary, commutes with every jump, V^dagger F V = S and "
+          "[V H V^dagger, F] = 0 (exact)", ok)
+    no_string = colouring(terms_of(GRAPHS['P3'], ('Z',), ('I', 'Z', 'Y')), (('X',), (), ('X',))) is None
+    check("(i'') the conditioned row has no colouring: no single lit string commutes with its H", no_string)
+    G = sop('XZY')
+    V = (2 * E + sp.I * G) / sp.sqrt(5)   # e^{i theta G / 2} with cos(theta) = 3/5
+    _, U, jumps, _ = rows["stage E's row, (a, b) = (3, 4)"]
+    check("(i') on stage E's row one frame is the rotation about the jump string XZY: V = e^{i theta XZY/2}, "
+          "cos theta = a/r, commutes with every jump and V^dagger YYZ V = (a YYZ + b ZXX)/r (exact)",
+          sp.simplify(V * V.H - E) == Z0 and all(sp.simplify(V * A - A * V) == Z0 for A in jumps)
+          and sp.simplify(V.H * sop('YYZ') * V - U) == Z0)
+
+    single = [(), ('X',), ('Y',), ('Z',)]
+    worst, control, rows_done = 0.0, np.inf, collections.Counter()
+    for gname, edges in GRAPHS.items():
+        for bset in (('Z',), ('X', 'Y')):
+            for deph in itertools.product(single, repeat=N):
+                if not any(deph):
+                    continue
+                for fields in itertools.product('IXYZ', repeat=N):
+                    terms = terms_of(edges, bset, fields)
+                    if f138_clauses(edges, bset, deph, fields) or colouring(terms, deph) is not None:
+                        continue
+                    H = H_of(terms)
+                    jumps = [op(placed({l: deph[l][0]})) for l in range(N) if deph[l]]
+                    sN, sW = nullities(H, jumps)
+                    if int(np.sum(sN < 1e-9)) != int(np.sum(sW < 1e-9)):
+                        continue
+                    U = hermitian_unitary_in_W(H, deph)
+                    if U is None:
+                        worst = np.inf
+                        continue
+                    f = lit_strings(deph)[0]
+                    F = op(f)
+                    V = frame(U, F, jumps[0])
+                    Hv = V @ H @ V.conj().T
+                    worst = max(worst, np.abs(V @ V.conj().T - Id).max(),
+                                max(np.abs(V @ A - A @ V).max() for A in jumps), np.abs(Hv @ F - F @ Hv).max())
+                    control = min(control, np.abs(H @ F - F @ H).max())
+                    rows_done[(gname, len(bset))] += 1
+    print(f"    rows per graph and bond-letter count: {dict(rows_done)}")
+    expect = {('P3', 1): 62, ('K3', 1): 18, ('bond+iso', 1): 52, ('P3', 2): 22, ('bond+iso', 2): 104}
+    dec = np.log10(control / worst)
+    check("(ii) every row beyond the colouring (62 / 18 / 52 at one letter, 22 / 104 at two; the ZZ and XX + YY "
+          "bond sets, A the first jump, F the first lit string) has a lit string commuting with H in a jump-commuting frame: the "
+          "residuals sit at least six decades below the control V = 1, where by the row's definition F does not "
+          "commute with H", dict(rows_done) == expect and dec >= 6,
+          f"largest residual {worst:.1e}, smallest ||[H, F]|| {control:.2f}, {dec:.1f} decades")
+
+    XN = op('XXX')
+    Zj = [op(placed({l: 'Z'})) for l in range(N)]
+    pal = hard = parity_breaking = 0
+    worst, offdiag, control = 0.0, 0.0, np.inf
+    kept_min, dropped_max = np.inf, 0.0
+    for t1, t2 in itertools.combinations([a + b for a in 'XYZ' for b in 'XYZ'], 2):
+        H = sum(op(placed({i: t[0], i + 1: t[1]})) for i in range(N - 1) for t in (t1, t2))
+        breaks = np.abs(H @ XN - XN @ H).max()   # integer matrices: exact
+        parity_breaking += bool((H @ XN - XN @ H).any())
+        sN, sW = nullities(H, Zj)
+        for sv in (sN, sW):
+            kept_min = min(kept_min, sv[sv >= 1e-9].min())
+            if np.any(sv < 1e-9):
+                dropped_max = max(dropped_max, sv[sv < 1e-9].max())
+        if int(np.sum(sN < 1e-9)) != int(np.sum(sW < 1e-9)):
+            hard += 1
+            continue
+        pal += 1
+        if breaks > 0:
+            control = min(control, breaks)
+        U = hermitian_unitary_in_W(H, (('Z',),) * N)
+        if U is None:
+            worst = np.inf
+            continue
+        V = frame(U, XN, Zj[0])
+        Hv = V @ H @ V.conj().T
+        offdiag = max(offdiag, np.abs(V - np.diag(np.diag(V))).max())
+        worst = max(worst, np.abs(Hv @ XN - XN @ Hv).max(), np.abs(V @ V.conj().T - Id).max())
+    dec = np.log10(control / max(worst, offdiag))
+    dec_sv = np.log10(kept_min / max(dropped_max, 1e-300))
+    check("(iii) uniform Z-dephasing, the 36 two-term pairs: 22 palindromic and 14 hard (the Klein routing's "
+          "counts), 26 break the parity, and every palindromic pair is a diagonal phase gauge to "
+          "[H', X^N] = 0: residual and off-diagonal part of V at least six decades below the parity breaking "
+          "of the palindromic parity-breakers as written; the palindrome verdicts' singular values separate by six decades",
+          (pal, hard, parity_breaking) == (22, 14, 26) and dec >= 6 and dec_sv >= 6,
+          f"{pal} palindromic, {hard} hard, {parity_breaking} parity-breaking; largest residual {worst:.1e}, "
+          f"largest off-diagonal entry of V {offdiag:.1e}, smallest ||[H, X^N]|| among the palindromic "
+          f"parity-breakers {control:.2f}, {dec:.1f} decades; singular values {dec_sv:.1f} decades apart")
+
+    # (iv) without a jump that commutes with all the others the frame can fail
+    X, Z, Y = LET['X'], LET['Z'], LET['Y']
+    e = np.eye(4)
+    B1 = np.outer(e[0], e[3]) + np.outer(e[3], e[0])
+    B2 = np.outer(e[1] + e[2], e[3]) + np.outer(e[3], e[1] + e[2])
+    H = np.kron(np.eye(2), np.diag([1, 2, 3, 4])) + np.kron(X, B1) + np.kron(Z, B2)
+    jumps = [np.kron(X, np.eye(4)), np.kron(Z, np.eye(4))]
+    w = np.diag([1, 1, 1, -1])
+    Uw = np.kron(Y, w)
+    exact = (not (H @ Uw - Uw @ H).any()) and all(not (A @ Uw + Uw @ A).any() for A in jumps)
+    sN, sW = nullities(H, jumps)
+    nN, nW = int(np.sum(sN < 1e-9)), int(np.sum(sW < 1e-9))
+    sv = np.concatenate([sN, sW])
+    dec_sv = np.log10(sv[sv >= 1e-9].min() / max(sv[sv < 1e-9].max(), 1e-300))
+    # the unitaries commuting with both jumps: the commutant of {X, Z} on site 0 is 1 (x) M_4, exactly
+    units = [np.kron(np.eye(2), np.outer(e[i], e[j])) for i in range(4) for j in range(4)]
+    others = [np.kron(P_, np.outer(e[i], e[j])) for P_ in (X, Y, Z) for i in range(4) for j in range(4)]
+    comm = lambda M: np.concatenate([(M @ A - A @ M).ravel() for A in jumps])
+    commutant_ok = all(not comm(M).any() for M in units) and np.linalg.matrix_rank(
+        np.array([comm(M) for M in others]).T) == len(others)
+    split_w = int(np.sum(np.diag(w) > 0))
+    spectra = {tuple(sorted(np.round(np.linalg.eigvalsh(op2(f)), 9))) for f in itertools.product('IXYZ', repeat=2)}
+    check("(iv) jumps X and Z on site 0, sites 1 and 2 undephased: the palindrome holds (dim N = dim W = 1), W is "
+          "spanned by Y (x) diag(1, 1, 1, -1) (exact), while every frame image of a lit string is Y (x) v^dagger f v "
+          "with f a two-site Pauli string (the unitaries commuting with both jumps are 1 (x) v: the commutant is "
+          "1 (x) M_4, the 16 units commute exactly and the 48 X/Y/Z (x) units are independent under the commutator), "
+          "whose eigenvalue split is (2, 2) or (4, 0), while diag(1, 1, 1, -1) splits (3, 1): no frame",
+          exact and nN == nW == 1 and dec_sv >= 6 and commutant_ok and split_w == 3
+          and all(sum(x > 0 for x in sp_) in (2, 4) for sp_ in spectra),
+          f"dim N = {nN}, dim W = {nW}, singular values {dec_sv:.1f} decades apart; split of w ({split_w}, "
+          f"{4 - split_w}); splits of the two-site strings {sorted({int(sum(x > 0 for x in s_)) for s_ in spectra})}")
+
+
 if __name__ == "__main__":
     stage_a()
     stage_b()
     stage_c()
     stage_d()
     stage_e()
+    stage_f()
     print()
     if FAIL:
         print(f"{len(FAIL)} FAILURE(S): {FAIL}")

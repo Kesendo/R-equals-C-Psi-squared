@@ -6633,7 +6633,10 @@ is not F138's own 22-of-4096 count. Both
 failures are collected in
 [an open arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
 (`f138_converse_failures`); the mechanism is a candidate
-there, not a result here. Also caught by that reading: two of the 22 two-letter
+there, not a result here. For every exception row some unitary V commuting with the jumps
+makes VHV† commute with a Pauli string that anticommutes with every jump
+([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)),
+which is F158 restated: it settles EXISTS, not EXPLAINS. Also caught by that reading: two of the 22 two-letter
 rows are not clause-2 rows at all but clause-1 rows, three distinct dephasing
 axes in one component with NO field (dephasing XZY and YZX on P₃), pairing at a
 two-letter bond. So clause 1's ceiling of two is sufficient rather than

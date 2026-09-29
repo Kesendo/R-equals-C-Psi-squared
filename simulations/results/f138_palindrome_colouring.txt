@@ -15,10 +15,10 @@
   [PASS] (i) a colouring never exists without the palindrome   0 rows
   [PASS] (ii) the exceptions per bond set reproduce F138's registry counts (776 / 732 / 520 at one letter, 22 / 0 / 104 at two, 0 at three)   {('P3', 1): 776, ('K3', 1): 732, ('bond+iso', 1): 520, ('P3', 2): 22, ('K3', 2): 0, ('bond+iso', 2): 104, ('P3', 3): 0, ('K3', 3): 0, ('bond+iso', 3): 0}
   [PASS] (iii) exceptions a colouring explains, per bond set, as measured on the first run: 714 / 714 / 468 at one letter, 0 at two (a pin, so that a change is seen)   {('P3', 1): 714, ('K3', 1): 714, ('bond+iso', 1): 468, ('P3', 2): 0, ('K3', 2): 0, ('bond+iso', 2): 0, ('P3', 3): 0, ('K3', 3): 0, ('bond+iso', 3): 0}
-  [PASS] (iv) singular values separate by at least six decades   smallest kept 2.65e-03, largest dropped 2.59e-15, 12.0 decades  (572 s)
+  [PASS] (iv) singular values separate by at least six decades   smallest kept 2.65e-03, largest dropped 2.59e-15, 12.0 decades  (511 s)
 
 ## Stage C: the rows F138's clauses accept where the palindrome fails
-  [PASS] every row the fairly read clauses accept and the palindrome refuses has a two-axis site in a bonded component of one bond letter and three axes (consistency), and none has a colouring (F158's corollary)   882 rows over the three graphs and seven bond sets, 882 of that kind, 0 coloured  (417 s)
+  [PASS] every row the fairly read clauses accept and the palindrome refuses has a two-axis site in a bonded component of one bond letter and three axes (consistency), and none has a colouring (F158's corollary)   882 rows over the three graphs and seven bond sets, 882 of that kind, 0 coloured  (357 s)
   [PASS] stage C singular values separate by at least six decades   smallest kept 2.65e-03, largest dropped 2.78e-15, 12.0 decades
 
 ## Stage D: 'a three-axis component must then be field-free', read on P3 with ZZ, axes X / Z / Y
@@ -36,6 +36,17 @@
     (a, b) = ( 1,  0): [H, U] = 0, U^2 = 1 I, anticommutes with the jumps; colouring YYX
   [PASS] U = a YYZ + b ZXX carries the palindrome at every tested weight, exactly, and no single string does when ab != 0
   [PASS] at a = b = 1 the far kernel is one-dimensional and the two counts agree   dim N = 1, dim W = 1
+
+## Stage F: in a frame the dissipator cannot see, a lit string commutes with H
+    stage E's row, (a, b) = (3, 4): S Hermitian unitary in W, frame checked for every jump as A and F in ['YYZ', 'ZXX', 'YXX', 'ZYX']
+    conditioned row: S Hermitian unitary in W, frame checked for every jump as A and F in ['ZIZ', 'YXY', 'ZXY', 'YIZ']
+  [PASS] (i) V = P + (1 - P) F S is unitary, commutes with every jump, V^dagger F V = S and [V H V^dagger, F] = 0 (exact)
+  [PASS] (i'') the conditioned row has no colouring: no single lit string commutes with its H
+  [PASS] (i') on stage E's row one frame is the rotation about the jump string XZY: V = e^{i theta XZY/2}, cos theta = a/r, commutes with every jump and V^dagger YYZ V = (a YYZ + b ZXX)/r (exact)
+    rows per graph and bond-letter count: {('P3', 1): 62, ('P3', 2): 22, ('K3', 1): 18, ('bond+iso', 1): 52, ('bond+iso', 2): 104}
+  [PASS] (ii) every row beyond the colouring (62 / 18 / 52 at one letter, 22 / 104 at two; the ZZ and XX + YY bond sets, A the first jump, F the first lit string) has a lit string commuting with H in a jump-commuting frame: the residuals sit at least six decades below the control V = 1, where by the row's definition F does not commute with H   largest residual 1.6e-13, smallest ||[H, F]|| 2.00, 13.1 decades
+  [PASS] (iii) uniform Z-dephasing, the 36 two-term pairs: 22 palindromic and 14 hard (the Klein routing's counts), 26 break the parity, and every palindromic pair is a diagonal phase gauge to [H', X^N] = 0: residual and off-diagonal part of V at least six decades below the parity breaking of the palindromic parity-breakers as written; the palindrome verdicts' singular values separate by six decades   22 palindromic, 14 hard, 26 parity-breaking; largest residual 1.4e-14, largest off-diagonal entry of V 6.0e-15, smallest ||[H, X^N]|| among the palindromic parity-breakers 2.00, 14.2 decades; singular values 15.0 decades apart
+  [PASS] (iv) jumps X and Z on site 0, sites 1 and 2 undephased: the palindrome holds (dim N = dim W = 1), W is spanned by Y (x) diag(1, 1, 1, -1) (exact), while every frame image of a lit string is Y (x) v^dagger f v with f a two-site Pauli string (the unitaries commuting with both jumps are 1 (x) v: the commutant is 1 (x) M_4, the 16 units commute exactly and the 48 X/Y/Z (x) units are independent under the commutator), whose eigenvalue split is (2, 2) or (4, 0), while diag(1, 1, 1, -1) splits (3, 1): no frame   dim N = 1, dim W = 1, singular values 15.2 decades apart; split of w (3, 1); splits of the two-site strings [2, 4]
 
 ALL STAGES PASS
 EXIT=0

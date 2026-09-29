@@ -203,6 +203,10 @@ breaking. Of the 36 two-term Hamiltonian combinations, 26 break the
 parity [H, X^N] ≠ 0 and 14 break the eigenvalue palindrome. Every
 single palindrome-breaker is also a parity-breaker (strict containment).
 No Hamiltonian breaks the palindrome while preserving the parity.
+The exact form: with Z-dephasing on every site, at any positive rates, the
+palindrome holds exactly when
+some diagonal phase gauge makes H commute with X^N
+([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
 
 This means: the V-Effect (14/36 breaking at N≥3) cannot occur without
 the Hamiltonian coupling the two parity halves. The two halves
