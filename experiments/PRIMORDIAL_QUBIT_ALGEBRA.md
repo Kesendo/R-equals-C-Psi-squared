@@ -399,8 +399,10 @@ point beyond what was expected, and none of them fit neatly into
 ### 1. The Clifford algebra signature
 
 The P-sector multiplication table: p₁² = p₂² = p₃² = 1, {p₂, p₃} = 0.
-This is not "some algebra." This is the Clifford algebra Cl(2,0) ≅ H
-(real quaternions), complexified to H_C ≅ M₂(C). The palindrome selects
+This is not "some algebra." This is the Clifford algebra Cl(2,0), two
+anticommuting generators squaring to +1, which is M₂(ℝ), the real 2×2
+matrices (X and Z are such a pair); generators squaring to −1 would give
+the quaternions instead, Cl(0,2) ≅ ℍ. Complexified, both become M₂(ℂ). The palindrome selects
 a Clifford algebra structure on the Pauli space. Clifford algebras are
 the language of spinors. That the Liouvillian of a dephasing system
 carries a spinor-type structure was not predicted by any of the three
