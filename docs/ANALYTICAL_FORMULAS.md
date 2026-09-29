@@ -6646,6 +6646,10 @@ axes in one component with NO field (dephasing XZY and YZX on P₃), pairing at 
 two-letter bond. So clause 1's ceiling of two is sufficient rather than
 necessary in the same way, and the two-term proviso above states when the
 ceiling BITES, not when it is forced.
+On the 258 exception rows no single string explains at N = 3 (distinct field magnitudes,
+one bond set per letter count), F158's far-end kernel holds an element built from
+anticommuting sums, real combinations of pairwise anticommuting strings like the U above
+([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
 
 Evidence, and it is worth separating what was swept from what was
 held fixed while sweeping. Clause 1: exhaustively, every 3^N per-site axis

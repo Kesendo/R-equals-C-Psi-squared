@@ -73,9 +73,24 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      colours and [a, b, a, b], do not commute with H. No
      colouring by the letters X and Y exists for c != 0 at N = 3..6, while at c = 0 exactly the four
      period-2 strings XX.., XYXY.., YXYX.., YY.. colour the chain.
+  H  EXACT (Fraction arithmetic on Pauli strings, no float). Every row beyond the colouring of stage B
+     (one bond set per letter count, 258 rows) has an element of W built from anticommuting sums: real
+     combinations of pairwise anticommuting lit strings, tensored over the components of H and, where
+     an undephased site carries a letter every term of H leaves alone (I or that letter), summed over
+     its two sectors. [T, P] / 2i is a real rational combination of strings, so the kernel on each
+     maximal anticommuting set of lit strings is an exact rational nullspace. Counted: 22 / 104 at two
+     letters and 62 / 18 / 52 at one, by graph, and 74 single sums, 156 products, 28 conditioned by kind.
+     Control: the same recursion with sets of size one (single strings, inside components and sectors
+     too) finds nothing on any of these rows, and on every row of the same grid whose palindrome breaks
+     the full recursion finds nothing; and every element found is rebuilt as a dense sympy matrix and
+     checked against H and the jumps by matrix products, a route that does not use the string phase
+     table (it would catch a wrong sign there, which the counts alone do not). (ii) the defect
+     cascade on one bond, symbolic in the fields: H = XX + YY + h0 Y (x) I + h1 I (x) Z, jump X on the
+     second site, C = ZZ - h0 IY - h0 h1 YZ commutes with H, anticommutes with the jump and squares
+     to (1 + h0^2 + h0^2 h1^2) I, for all real h0, h1.
 
 Run:  python simulations/f138_palindrome_colouring.py
-   >  simulations/results/f138_palindrome_colouring.txt     (runtime about 25 minutes)
+   >  simulations/results/f138_palindrome_colouring.txt     (runtime about 30 minutes)
 """
 import collections
 import itertools
@@ -605,6 +620,238 @@ def stage_g():
           "template, N = 3..6; at c = 0 exactly the four period-2 strings colour the chain", none_found and at_zero)
 
 
+_MUL = {('I', 'I'): (1, 'I'), ('I', 'X'): (1, 'X'), ('I', 'Y'): (1, 'Y'), ('I', 'Z'): (1, 'Z'),
+        ('X', 'I'): (1, 'X'), ('X', 'X'): (1, 'I'), ('X', 'Y'): (1j, 'Z'), ('X', 'Z'): (-1j, 'Y'),
+        ('Y', 'I'): (1, 'Y'), ('Y', 'X'): (-1j, 'Z'), ('Y', 'Y'): (1, 'I'), ('Y', 'Z'): (1j, 'X'),
+        ('Z', 'I'): (1, 'Z'), ('Z', 'X'): (1j, 'Y'), ('Z', 'Y'): (-1j, 'X'), ('Z', 'Z'): (1, 'I')}
+
+
+def _smul(s, t):
+    ph, out = 1, []
+    for a, b in zip(s, t):
+        p, c = _MUL[(a, b)]
+        ph *= p
+        out.append(c)
+    return ph, ''.join(out)
+
+
+def _anti(s, t):
+    return sum(x != 'I' and y != 'I' and x != y for x, y in zip(s, t)) % 2 == 1
+
+
+def _rank_q(rows):
+    """rank of a list of dict-rows over the rationals (Fraction entries)"""
+    from fractions import Fraction
+    rows = [dict(r) for r in rows if any(v != 0 for v in r.values())]
+    rank, pivots = 0, []
+    for r in rows:
+        for (k, pr) in pivots:
+            if r.get(k, 0) != 0:
+                f = r[k] / pr[k]
+                for kk, vv in pr.items():
+                    r[kk] = r.get(kk, Fraction(0)) - f * vv
+        nz = [k for k, v in r.items() if v != 0]
+        if nz:
+            pivots.append((nz[0], r))
+            rank += 1
+    return rank
+
+
+def _clifford_kernel(terms, deph, max_size=None):
+    """does W contain a real combination of pairwise anticommuting lit strings? terms: {string: Fraction}"""
+    n = len(deph)
+    allowed = [[P for P in 'XYZ' if P not in deph[l]] if deph[l] else list('IXYZ') for l in range(n)]
+    S = [''.join(p) for p in itertools.product(*allowed)]
+    adj = {s: {t for t in S if t != s and _anti(s, t)} for s in S}
+    cliques = []
+
+    def bk(R, P, X):
+        if not P and not X:
+            cliques.append(sorted(R))
+            return
+        for v in list(P):
+            bk(R | {v}, P & adj[v], X & adj[v])
+            P = P - {v}
+            X = X | {v}
+    bk(set(), set(S), set())
+    if max_size is not None:
+        cliques = [[s] for s in S]
+    for C in cliques:
+        # column for each string P in C: ad_H(P) / 2i as {output string: rational}; kernel iff rank < |C|
+        cols = []
+        for P in C:
+            col = {}
+            for T, c in terms.items():
+                if _anti(T, P):
+                    ph, Q = _smul(T, P)
+                    col[Q] = col.get(Q, 0) + c * (1 if ph == 1j else -1)
+            cols.append(col)
+        if _rank_q(cols) < len(C):
+            import sympy as sp
+            rows = sorted({q for col in cols for q in col if col[q] != 0})
+            if not rows:
+                return {C[0]: 1}
+            M = sp.Matrix([[sp.Rational(col.get(q, 0).numerator, col.get(q, 0).denominator)
+                            if col.get(q, 0) != 0 else 0 for col in cols] for q in rows])
+            v = M.nullspace()[0]
+            return {P: v[i] for i, P in enumerate(C) if v[i] != 0}
+    return None
+
+
+def _clifford_explained(terms, deph, max_size=None):
+    out = _clifford_element(terms, deph, max_size)
+    return None if out is None else out[0]
+
+
+def _clifford_element(terms, deph, max_size=None):
+    """(kind, element) with the element a dict {string: rational}, built from anticommuting sums"""
+    from fractions import Fraction
+    n = len(deph)
+    terms = {t: c for t, c in terms.items() if c != 0 and set(t) != {'I'}}
+    parent = list(range(n))
+
+    def f(x):
+        while parent[x] != x:
+            x = parent[x]
+        return x
+    for t in terms:
+        sites = [i for i, x in enumerate(t) if x != 'I']
+        for a in sites[1:]:
+            parent[f(a)] = f(sites[0])
+    comps = collections.defaultdict(list)
+    for i in range(n):
+        comps[f(i)].append(i)
+    comps = list(comps.values())
+    if len(comps) > 1:
+        elem = {'I' * n: 1}
+        for c in comps:
+            sub = {''.join(t[i] for i in c): v for t, v in terms.items() if all(t[i] == 'I' for i in range(n) if i not in c)}
+            part = _clifford_element(sub, tuple(deph[i] for i in c), max_size)
+            if part is None:
+                return None
+            new = {}
+            for s0, c0 in elem.items():
+                for s1, c1 in part[1].items():
+                    lst = list(s0)
+                    for k, i in enumerate(c):
+                        lst[i] = s1[k]
+                    new[''.join(lst)] = c0 * c1
+            elem = new
+        return 'product', elem
+    kern = _clifford_kernel(terms, deph, max_size)
+    if kern:
+        return 'clifford', kern
+    for u in range(n):
+        if deph[u]:
+            continue
+        for P in 'XYZ':
+            if all(t[u] in ('I', P) for t in terms):
+                subs = []
+                for s in (1, -1):
+                    sub = {}
+                    for t, c in terms.items():
+                        key = t[:u] + t[u + 1:]
+                        sub[key] = sub.get(key, Fraction(0)) + c * (s if t[u] == P else 1)
+                    subs.append(_clifford_element(sub, deph[:u] + deph[u + 1:], max_size))
+                if None not in subs:
+                    import sympy as sp
+                    elem = {}
+                    for sgn, part in zip((1, -1), subs):
+                        for t, c in part[1].items():
+                            for letter, w in (('I', sp.Rational(1, 2)), (P, sp.Rational(sgn, 2))):
+                                key = t[:u] + letter + t[u:]
+                                elem[key] = elem.get(key, 0) + w * c
+                    return 'conditioned', {k: v for k, v in elem.items() if v != 0}
+    return None
+
+
+def stage_h():
+    import sympy as sp
+    from fractions import Fraction
+    print()
+    print("## Stage H: every row beyond the colouring is built from anticommuting sums (exact)")
+    mag = [Fraction(30, 100), Fraction(22, 100), Fraction(41, 100)]
+    single = [(), ('X',), ('Y',), ('Z',)]
+    tally = collections.Counter()
+    control_hits = broken_rows = broken_hits = verified = 0
+    _SL = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]),
+           'Z': sp.diag(1, -1)}
+
+    def _sym_op(t):
+        M = sp.Matrix([[1]])
+        for ch in t:
+            M = sp.kronecker_product(M, _SL[ch])
+        return M
+    for gname, edges in GRAPHS.items():
+        for bset in (('Z',), ('X', 'Y')):
+            for deph in itertools.product(single, repeat=N):
+                if not any(deph):
+                    continue
+                for fields in itertools.product('IXYZ', repeat=N):
+                    fterms = terms_of(edges, bset, fields)
+                    if f138_clauses(edges, bset, deph, fields) or colouring(fterms, deph) is not None:
+                        continue
+                    H = H_of(fterms)
+                    jumps = [op(placed({l: deph[l][0]})) for l in range(N) if deph[l]]
+                    sN, sW = nullities(H, jumps)
+                    terms = {placed({a: P, b: P}): Fraction(1) for (a, b) in edges for P in bset}
+                    for l, P in enumerate(fields):
+                        if P != 'I':
+                            terms[placed({l: P})] = mag[l]
+                    if int(np.sum(sN < 1e-9)) != int(np.sum(sW < 1e-9)):
+                        # control that can fail: a row whose palindrome breaks must have no such element
+                        broken_rows += 1
+                        broken_hits += _clifford_explained(terms, deph) is not None
+                        continue
+                    found = _clifford_element(terms, deph)
+                    kind = None if found is None else found[0]
+                    tally[(gname, len(bset), kind)] += 1
+                    if found is not None:
+                        # independent route: dense sympy matrices, no string phase table
+                        Gm = sum((c * _sym_op(t) for t, c in found[1].items()), sp.zeros(d))
+                        Hm = sum((sp.Rational(c.numerator, c.denominator) * _sym_op(t) for t, c in terms.items()),
+                                 sp.zeros(d))
+                        Am = [_sym_op(placed({l: deph[l][0]})) for l in range(N) if deph[l]]
+                        Z0 = sp.zeros(d)
+                        verified += bool(sp.expand(Hm * Gm - Gm * Hm) == Z0
+                                         and all(sp.expand(A * Gm + Gm * A) == Z0 for A in Am)
+                                         and sp.simplify(Gm.det()) != 0)
+                    # control: the same recursion with single strings only
+                    control_hits += _clifford_explained(terms, deph, max_size=1) is not None
+    for k in sorted(tally, key=str):
+        print(f"    {k[0]:9s} {k[1]} bond letter(s), kind {k[2]}: {tally[k]}")
+    per = collections.Counter()
+    for (gname, nl, kind), v in tally.items():
+        per[(gname, nl)] += v
+    expect = {('P3', 1): 62, ('K3', 1): 18, ('bond+iso', 1): 52, ('P3', 2): 22, ('bond+iso', 2): 104}
+    none = sum(v for (gname, nl, kind), v in tally.items() if kind is None)
+    by_kind = collections.Counter()
+    for (gname, nl, kind), v in tally.items():
+        by_kind[kind] += v
+    check("(i) every one of the 258 rows beyond the colouring has an element of W built from anticommuting sums, "
+          "74 single sums, 156 products, 28 conditioned "
+          "(exact rational kernels, kinds labelled by the first the recursion finds); controls: on every row of the "
+          "same grid whose palindrome breaks the recursion finds nothing, and with single strings only it finds "
+          "nothing on the 258; every element rebuilt densely and verified exactly", dict(per) == expect and none == 0 and control_hits == 0 and broken_rows > 0
+          and broken_hits == 0 and dict(by_kind) == {'clifford': 74, 'product': 156, 'conditioned': 28}
+          and verified == 258,
+          f"kinds {dict((k, v) for k, v in tally.items())}; rows without: {none}; single-string hits: {control_hits}; "
+          f"broken rows {broken_rows}, hits there {broken_hits}; elements rebuilt as dense sympy matrices and "
+          f"verified ([H, G] = 0, {{A, G}} = 0, det G != 0): {verified}")
+    h0, h1 = sp.symbols('h0 h1', real=True)
+    SX, SY, SZ, SI = (sp.Matrix([[0, 1], [1, 0]]), sp.Matrix([[0, -sp.I], [sp.I, 0]]), sp.diag(1, -1), sp.eye(2))
+    k = sp.kronecker_product
+    Hb = k(SX, SX) + k(SY, SY) + h0 * k(SY, SI) + h1 * k(SI, SZ)
+    Cb = k(SZ, SZ) - h0 * k(SI, SY) - h0 * h1 * k(SY, SZ)
+    ok = (sp.simplify(Hb * Cb - Cb * Hb) == sp.zeros(4) and sp.simplify(k(SI, SX) * Cb + Cb * k(SI, SX)) == sp.zeros(4)
+          and sp.simplify(Cb * Cb - (1 + h0 ** 2 + h0 ** 2 * h1 ** 2) * sp.eye(4)) == sp.zeros(4))
+    Cbad = k(SZ, SZ) - h0 * k(SI, SY) + h0 * h1 * k(SY, SZ)
+    ok &= sp.simplify(Hb * Cbad - Cbad * Hb) != sp.zeros(4)
+    check("(ii) the defect cascade on one bond, symbolic: C = ZZ - h0 IY - h0 h1 YZ commutes with "
+          "XX + YY + h0 Y0 + h1 Z1, anticommutes with the jump X1, C^2 = (1 + h0^2 + h0^2 h1^2) I; the sign-flipped "
+          "last coefficient fails", ok)
+
+
 if __name__ == "__main__":
     stage_a()
     stage_b()
@@ -613,6 +860,7 @@ if __name__ == "__main__":
     stage_e()
     stage_f()
     stage_g()
+    stage_h()
     print()
     if FAIL:
         print(f"{len(FAIL)} FAILURE(S): {FAIL}")
