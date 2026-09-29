@@ -3,7 +3,7 @@
 **Status:** Tier 2 (computed from proven framework)
 **Date:** 2026-07-31
 **Authors:** Thomas Wicht, Claude
-**Gate:** [`simulations/water/proton_wire_crossing.py`](../../simulations/water/proton_wire_crossing.py), 50 checks
+**Gate:** [`simulations/water/proton_wire_crossing.py`](../../simulations/water/proton_wire_crossing.py), 55 checks
 **Companion gate:** [`simulations/f98_scope.py`](../../simulations/f98_scope.py), 30 checks
 
 Every result in this folder is graded by one number: the popcount `Ŵ = Σ_l (I − Z_l)/2`.
@@ -166,6 +166,21 @@ kernel. Its singular values are moreover all equal, to `2^(N+1)` exactly (16, 32
 which says the extra thing that the map is a scaled isometry: the size of the break
 depends only on `‖δ‖`, never on how the bias is distributed.
 
+The residual M is measured against one fixed mirror. [F158](../proofs/PROOF_PALINDROME_TWO_END_COUNT.md)
+answers for all of them, and the answer is the same. With Z dephasing on every site at
+positive rates and every tunnelling amplitude `J_l ≠ 0`, the far kernel
+`𝒲 = {U : [H, U] = 0, U anticommutes with every Z_l}` of
+`H = −Σ J_l X_l + Σ K_ab Z_a Z_b + Σ δ_l Z_l` is spanned by `X^⊗N` when there is no bias
+and is empty as soon as one `δ_l ≠ 0`, whatever the couplings `K_ab`. An operator that
+anticommutes with every `Z_l` is `D·X^⊗N` with D diagonal; the tunnelling terms make D
+the same on every pair of basis states one flip apart, and with every `J_l ≠ 0` the flips
+connect all of them, so `D = c·I`; then `[Σ δ_l Z_l, X^⊗N] = 2(Σ δ_l Z_l)·X^⊗N` forces every
+`δ_l = 0`. So by F158 no operator carries the palindrome under any bias profile: not a
+weighted sum of strings, not a rotated frame (the ones
+[the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md) builds), and
+not for a profile that sums to zero (W7, exact at N = 3 and 4: dimension 1 without bias, 0
+under a uniform bias and under the profile `(δ, −δ, …)`).
+
 Two things this measurement does **not** say, both worth stating because the first
 reading of it got them wrong:
 
@@ -186,6 +201,36 @@ reading of it got them wrong:
   spectrum can.
 
 ---
+
+## What a field along the wire reads
+
+A field along the wire couples to its dipole. With `P = Ŵ − N/2 = −½ Σ_l Z_l`, the popcount
+dipole of the first section measured from its middle, the pulsed generator is
+`H(E) = H + E·P`, and the dephasing stays `Z_l` on every site. Three things follow, each
+exact; the derivations are local and hold at every N, and gate W8 checks them
+symbolically in the couplings, rates and field at N = 3 (the analysis was first worked
+out by a second model, Codex).
+
+- **Reversing the field reverses the response, without bias.** `X^⊗N` sends `H(E)` to
+  `H(−E)` and `P` to `−P`, and leaves the Z dephasing alone, so from any preparation it
+  leaves unchanged, `⟨P⟩_E(t) = −⟨P⟩_{−E}(t)` at all times. That is F131's mirror
+  order-sorting with the mirror `X^⊗N`, sighted for a longitudinal field in
+  [the h thread](../../experiments/LATTICE_H_THREAD.md) §1 (`X^N·H(h)·X^N = H(−h)`), here on
+  the wire; its §3 sweeps the four readout cells of the same mirror. The response is not trivially zero: from `|+⟩^⊗N` its curvature at the start
+  is `P''(0) = −E·Σ_l J_l`.
+- **The total dipole can hide a bias.** On a wire that is mirror-symmetric, in its
+  tunnelling, couplings and rates, a bias that is odd under the mirror
+  (`δ_l = −δ_{N−1−l}`) keeps the reversal parity of the total dipole: `S = R·X^⊗N`, with R
+  the site reversal, again sends `H(E)` to `H(−E)` and `P` to `−P` and leaves the
+  dephasing invariant. The far kernel is empty all the same (previous section), so the
+  parity of the total dipole is no test for the absence of a bias.
+- **Each coordinate reads its own bias.** From `|+⟩^⊗N`, with `p_l = −Z_l/2`,
+  `p_l''(0)` at `+E` plus `p_l''(0)` at `−E` equals `4·J_l·δ_l`, whatever the couplings,
+  rates and field. The total dipole sees only the sum `4·Σ_l J_l δ_l`, which the
+  mirror-odd bias makes zero while each end still shows it.
+
+What a real wire's spectroscopy resolves, and whether single coordinates are
+addressable at all, is not claimed here.
 
 ## Scope, stated plainly
 
@@ -253,6 +298,7 @@ inside the corrected premise, so no number moved.
    the charge read as a popcount over incident bonds, which is a different operator.
 3. **The charged wire.** Adding an excess proton leaves this state space. Whether the
    framework's grading survives that extension, and what it becomes there, is untouched.
-4. **A displaced-charge observable.** The dipole reading suggests measuring the grading
-   directly rather than inferring it: an infrared or terahertz response along a confined
-   wire couples to `Σ_l Z_l`. Nothing here has been worked out.
+4. **A displaced-charge observable.** An infrared or terahertz response along a confined
+   wire couples to `Σ_l Z_l`. The model side is in "What a field along the wire reads":
+   the reversal parity, a bias it can hide, and the local readout that shows it. Which
+   spectroscopy resolves this on a real wire, with what bath and preparation, is open.

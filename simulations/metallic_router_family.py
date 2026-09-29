@@ -9,9 +9,11 @@ under local Z-dephasing (arbitrary site-dependent gamma_l, open chain, N >= 3) o
 
 FAMILY THEOREM
 --------------
-  (i)  SOFT <=> t2 = t3.  On the X/Y-balanced line (overall scale trivial; write c = t1/t2) the
-       Liouvillian spectrum is exactly palindromic about -sigma, sigma = sum_l gamma_l. Off the
-       line the spectrum is hard from the first tilt; the exact off-line witness (1,2,1) first
+  (i)  t2 = t3 IS SOFT.  On the X/Y-balanced line (overall scale trivial; write c = t1/t2) the
+       Liouvillian spectrum is exactly palindromic about -sigma, sigma = sum_l gamma_l. The plane
+       t1 = 0 is soft as well (X^N commutes with every XZY and YZX term and anticommutes with every
+       Z jump, so F158 gives the palindrome), and whether the soft set is exactly the union is not
+       shown. The tilts tested off both are hard; the exact off-line witness (1,2,1) first
        fires at m* = 11 with the positive monomial p_11 = 1730150400 * gamma^3 (exact CRT), so
        its asymmetry is nonzero for ALL gamma > 0.
   (ii) THE ROUTER TRANSPORTS VERBATIM. On the line, the SAME per-site period-4 construction as
@@ -62,8 +64,8 @@ Block ledger
                                               lindbladian_pauli_dephasing at c in
                                               {0.5, 2, 3, 0, -1, pi} (N=5), SITE-DEPENDENT gamma
                                               (c=2), N=6 spot (c=2); sibling at c in {2, 3}
-  Block 5  the soft-set dichotomy           : on-line soft < 1e-9 (c in {0.5, 2, 3, -1}, N=5)
-                                              incl. a scale-triviality witness; off-line hard
+  Block 5  the line soft, tested tilts hard: on-line soft < 1e-9 (c in {0.5, 2, 3, -1}, N=5)
+                                              incl. a scale-triviality witness; tested tilts hard
                                               > 1e-2 ((1,1.1,1), (1,2,1), (2,4,2)); EXACT CRT
                                               pins: (1,2,1) fires first at m* = 11 with
                                               p_11 = 1730150400 * gamma^3, soft control (2,1,1)
@@ -98,8 +100,8 @@ Block ledger
 
 Provenance: 2026-06-11 night, the connection hunt's discard-gift. The zero-question scout asked
 whether the weighted family is soft at all away from (1,1,1); the soft-set mapper pinned the line
-t2 = t3 (on-line soft ~1e-13 at N=5 across c in {0.25..7.5, e, pi, 0, -1, -2}, off-line hard from
-delta = 0.02, N=6 spot-checks); the moment probe pinned the off-line witness (1,2,1) at m* = 11
+t2 = t3 (on-line soft ~1e-13 at N=5 across c in {0.25..7.5, e, pi, 0, -1, -2}, the tilts it tried
+off the line hard from delta = 0.02, N=6 spot-checks; the plane t1 = 0 is soft as well, by X^N); the moment probe pinned the off-line witness (1,2,1) at m* = 11
 with p_11 = 1730150400 * gamma^3 exact (CRT); the router scouts transported the F116 construction
 verbatim. Scope: OPEN chains (rings/PBC untested), dephase letter Z.
 Run: python simulations/metallic_router_family.py (~4.5 min; Block 3's six N=6 exact ring
@@ -437,7 +439,8 @@ def block4_end_to_end():
 
 
 # ======================================================================
-# BLOCK 5 -- the soft-set dichotomy: soft <=> t2 = t3, with exact CRT moment pins.
+# BLOCK 5 -- the line t2 = t3 is soft and the tested tilts off it are hard, with exact CRT moment pins
+# (the plane t1 = 0 is soft too, by X^N; not probed here).
 # ======================================================================
 def weighted_H(N, t1, t2, t3):
     return _build_kbody_chain(N, [('X', 'Z', 'X', float(t1)), ('X', 'Z', 'Y', float(t2)),
@@ -482,7 +485,7 @@ def build_weighted_integer_generators(N, t1, t2, t3):
 
 def block5_soft_set():
     print("-" * 92)
-    print("BLOCK 5  soft-set dichotomy  [float pairing sweep + EXACT CRT moment pins, N=5]")
+    print("BLOCK 5  the line soft, tested tilts hard  [float pairing sweep + EXACT CRT moment pins, N=5]")
     print("-" * 92)
     for c in (0.5, 2.0, 3.0, -1.0):
         e = pairing_err(5, c, 1.0, 1.0)

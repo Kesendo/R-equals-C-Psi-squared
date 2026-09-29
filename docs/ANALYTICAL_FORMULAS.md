@@ -5142,8 +5142,10 @@ site-dependent rates (rel ~2e-16); independently re-implemented five ways (throu
 sampled) in the 2026-06-10 adversarial audit.
 
 **The metallic family (2026-06-11):** the golden point is the c = 1 member of a
-one-real-parameter line. For weighted templates t₁·XZX + t₂·XZY + t₃·YZX the soft set
-is exactly **t₂ = t₃** (off-line is hard by the girth ladder; witness (1,2,1) fires at
+one-real-parameter line. For weighted templates t₁·XZX + t₂·XZY + t₃·YZX the line
+**t₂ = t₃** is soft, and so is the plane t₁ = 0 (X^⊗N commutes with every XZY and YZX
+term and lies in [F158](#f158)'s far-end kernel); whether the soft set is exactly their union
+is not shown. The tilts tested off both are hard (witness (1,2,1) fires at
 m\* = 11 with p₁₁ = 1730150400·γ³ exact). On the line, with c = t₁/t₂, the same
 [a, a, b, b] router works with a = (r, 1), b = (1, −r), **r(c) = (c + √(c²+4))/2 the
 metallic mean** (golden c=1, silver c=2, bronze c=3; r(−c) = 1/r(c) so c=−1 is 1/φ;
@@ -6521,7 +6523,13 @@ in every connected component that carries dephasing at all: **(1)** at
 most two distinct dephasing axes appear, a ceiling that exists only when the
 bonds carry at least two terms (with one axis per site; see the colouring
 paragraph below), and **(2)** the on-site field has a single common axis within the
-component, orthogonal to every dephasing axis present. Five load-bearing
+component, orthogonal to every dephasing axis present. The axis is one of the letters X, Y, Z. A
+direction that is not a letter is covered where a rotation about the dephasing axis turns it
+into a letter and keeps the bonds in the clauses' class, for instance where the bonds are
+invariant under such rotations (Heisenberg, or XX + YY under Z dephasing): that is
+MIRROR_SYMMETRY_PROOF's gauge argument. With bonds XX + ZZ
+under Z dephasing and fields along X + Y on both sites the palindrome fails (dim ker L = 1,
+dim ker(L + 2σ) = 0, gate stage I of `simulations/f138_palindrome_colouring.py`). Five load-bearing
 qualifiers, grounded in the artifact's counterexample and control rows (the
 axis-not-arrow case implicitly, via the mixed-sign fields of Stages A and F): *component*
 means connected by nonzero coupling (a J=0 gap is not an edge, 256/256 across

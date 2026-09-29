@@ -30,10 +30,18 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      graph (13215 at ZZ, 3795 at XX + YY and at XX + YY + ZZ): on a connected graph every bond passes
      the same class (one letter) or the same colour (two or three letters) along.
   C  Controls. The same recursion finds nothing on the rows whose palindrome breaks (all of them at
-     N = 3; at N = 4 those at the 13 field patterns whose index is a multiple of 20, about 4 % of
-     them), and with single strings only (so only sector sums of single strings could still fire)
-     it finds nothing beyond the colouring; and on every row, no row with a colouring, which
-     certifies the palindrome exactly, is called broken by the ranks.
+     N = 3; at N = 4 those at a fixed set of field patterns, every pattern with at most two fields,
+     three equal fields on any three sites, the uniform and the cyclic mixed fields on all four,
+     whose coverage is checked), the palindromic rows per graph and bond set are pinned,
+     and with single strings only (so only sector sums of single strings could still fire) it finds
+     nothing beyond the colouring; on every row, no row with a colouring, which certifies the
+     palindrome exactly, is called broken by the ranks; every graph and bond set is present once with
+     all its rows. Before the census the verifier rejects three fixed false objects (one failing each
+     duty) and accepts the SWAP certificate of F138's coincident-magnitude family, on which the
+     building rule finds nothing: that palindrome lies outside the rule's grammar.
+  The run records its revision and the sha256 of this script, and every element beyond the colouring
+  is written out, row and rational coefficients, to results/anticommuting_sum_certificates.json (the
+  clique search iterates in sorted order, so the file does not depend on the hash seed).
 
 Run:  python simulations/anticommuting_sum_census.py
    >  simulations/results/anticommuting_sum_census.txt     (runtime about 25 minutes on 22 cores)
@@ -42,6 +50,7 @@ import collections
 import itertools
 import sys
 import time
+from pathlib import Path
 from fractions import Fraction
 from multiprocessing import Pool
 
@@ -171,8 +180,8 @@ def clique_element(terms, deph, max_size=None):
             if nullity(terms, sorted(R)) > 0:
                 found.append(sorted(R))
             return
-        u = max(P | X, key=lambda v: len(adj[v] & P))
-        for v in list(P - adj[u]):
+        u = max(sorted(P | X), key=lambda v: len(adj[v] & P))     # sorted: the result must not
+        for v in sorted(P - adj[u]):                                # depend on the hash seed
             bk(R | {v}, P & adj[v], X & adj[v])
             P = P - {v}
             X = X | {v}
@@ -275,9 +284,28 @@ def row_terms(n, edges, bset, fields):
             + [(placed(n, {l: P}), MAG[l]) for l, P in enumerate(fields) if P != 'I'])
 
 
+def control_fields(n):
+    """the field patterns at which broken rows are searched for an element (None: all of them): every
+    pattern with at most two fields (any letters), three equal fields on any three sites, the uniform and
+    the cyclic mixed fields on all sites"""
+    if n == 3:
+        return None
+    pats = set()
+    for f in itertools.product(LET, repeat=n):
+        support = [l for l in range(n) if f[l] != 'I']
+        if len(support) <= 2 or (len(support) == 3 and len({f[l] for l in support}) == 1):
+            pats.add(''.join(f))
+    for P in 'XYZ':
+        pats.add(P * n)
+    for k in range(3):
+        pats.add(''.join('XYZ'[(k + l) % 3] for l in range(n)))
+    return frozenset(pats)
+
+
 def work(args):
-    n, gname, edges, bset, deph, broken_stride = args
+    n, gname, edges, bset, deph, controls = args
     out = collections.Counter()
+    certs = []
     for fi, fields in enumerate(itertools.product(LET, repeat=n)):
         terms = row_terms(n, edges, bset, fields)
         lit = lit_of(deph)
@@ -285,7 +313,7 @@ def work(args):
         if nullity(terms, dark_of(deph)) != nullity(terms, lit):
             out['broken'] += 1
             out['broken but coloured'] += coloured      # a colouring certifies the palindrome exactly
-            if fi % broken_stride == 0:
+            if controls is None or ''.join(fields) in controls:
                 out['broken checked'] += 1
                 out['broken with element'] += element(terms, deph) is not None
             continue
@@ -297,18 +325,23 @@ def work(args):
         out['beyond ' + ('none' if found is None else found[0])] += 1
         if found is not None:
             out['verified'] += verify(terms, deph, found[1])
+            certs.append({'n': n, 'graph': gname, 'bonds': ''.join(bset), 'dephasing': [''.join(d) for d in deph],
+                          'fields': ''.join(fields), 'kind': found[0],
+                          'element': {k: str(v) for k, v in sorted(found[1].items())}})
         out['single-string hits'] += element(terms, deph, max_size=1) is not None
-    return (gname, ''.join(bset)), out
+    return (gname, ''.join(bset)), out, certs
 
 
-def census(n, broken_stride, workers):
-    jobs = [(n, g, e, b, d, broken_stride) for g, e in GRAPHS[n].items() for b in BONDSETS
+def census(n, workers, certs):
+    controls = control_fields(n)
+    jobs = [(n, g, e, b, d, controls) for g, e in GRAPHS[n].items() for b in BONDSETS
             for d in itertools.product([(), ('X',), ('Y',), ('Z',)], repeat=n) if any(d)]
     tot = collections.defaultdict(collections.Counter)
     t0 = time.time()
     with Pool(workers) as pool:
-        for key, c in pool.imap_unordered(work, jobs, chunksize=4):
+        for key, c, cs in pool.imap_unordered(work, jobs, chunksize=4):
             tot[key].update(c)
+            certs.extend(cs)
     for key in sorted(tot):
         print(f"    {key[0]:9s} {key[1]:4s} {dict(sorted(tot[key].items()))}")
     print(f"    ({time.time() - t0:.0f} s)")
@@ -319,8 +352,19 @@ def beyond(c):
     return {k[len('beyond '):]: v for k, v in c.items() if k.startswith('beyond ')}
 
 
-def summary_checks(tot, expect, label):
-    ok_kinds = all(beyond(tot[k]) == v for k, v in expect.items())
+def summary_checks(tot, expect, label, per_group, palindromic, all_broken_checked):
+    keys_ok = set(tot) == set(expect)
+    pal = {k: c['palindromic'] for k, c in tot.items()}
+    check(f"{label}: the palindromic rows per graph and bond set, as measured (a pin, so that a change is seen)",
+          pal == palindromic, str(dict(sorted(pal.items()))))
+    if all_broken_checked:
+        check(f"{label}: every broken row searched for an element",
+              all(c.get('broken checked', 0) == c['broken'] for c in tot.values()))
+    rows = {k: c['palindromic'] + c['broken'] for k, c in tot.items()}
+    check(f"{label}: every graph and bond set present exactly once, each with all its rows ({per_group})",
+          keys_ok and all(v == per_group for v in rows.values()),
+          f"groups {len(tot)} of {len(expect)}; row counts {sorted(set(rows.values()))}")
+    ok_kinds = keys_ok and all(beyond(tot[k]) == v for k, v in expect.items())
     none = sum(c.get('beyond none', 0) for c in tot.values())
     nb = sum(sum(beyond(c).values()) for c in tot.values())
     ver = sum(c.get('verified', 0) for c in tot.values())
@@ -339,28 +383,83 @@ def summary_checks(tot, expect, label):
           f"single-string hits {hits}; broken rows checked {bchk}, with an element {bhit}")
 
 
+def fixed_objects():
+    """the verifier against fixed objects: three false ones, each failing one duty, and the SWAP
+    certificate of F138's coincident-magnitude family, true but outside the building rule"""
+    F = Fraction
+    bad = [([('Z', 1)], (('X',),), {'Y': F(1)}, "[H, G] = 0 fails (H = Z, A = X, G = Y)"),
+           ([('Z', 1)], (('X',),), {'I': F(1)}, "{A, G} = 0 fails (H = Z, A = X, G = I)"),
+           ([('IZ', 1)], (('Z',), ()), {'XI': F(1), 'XZ': F(1)}, "invertibility fails (H = IZ, A = ZI, G = XI + XZ)")]
+    for terms, deph, elem, what in bad:
+        check(f"the verifier rejects a false object: {what}", not verify(terms, deph, elem))
+    H = [(t, 100) for t in ('XXI', 'YYI', 'ZZI', 'IXX', 'IYY', 'IZZ')] + [('XII', 30), ('IIX', -30)]
+    deph = ((), ('X',), ())
+    U = {'ZZZ': F(1, 2), 'YZY': F(-1, 2), 'XZX': F(-1, 2), 'IZI': F(1, 2)}
+    check("the SWAP certificate (SWAP_02 Z Z Z, F138's coincident-magnitude family) is verified, and the building "
+          "rule finds nothing there: a palindrome outside its grammar", verify(H, deph, U) and element(H, deph) is None)
+
+
 if __name__ == "__main__":
+    import json
+    import platform
+    import subprocess
     workers = 22
+    import hashlib
+    import sympy
+    here = Path(__file__).resolve()
+    try:
+        r1 = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True, cwd=here.parent)
+        r2 = subprocess.run(['git', 'status', '--porcelain', '--', here.name], capture_output=True, text=True,
+                            cwd=here.parent)
+        rev = r1.stdout.strip() if r1.returncode == 0 else 'unknown'
+        dirty = r2.returncode != 0 or bool(r2.stdout.strip())
+    except OSError:
+        rev, dirty = 'unknown', True
+    sha = hashlib.sha256(here.read_bytes()).hexdigest()
+    print(f"run: {time.strftime('%Y-%m-%d %H:%M:%S')}, revision {rev}{' (this script modified)' if dirty else ''}, "
+          f"script sha256 {sha}, python {platform.python_version()}, numpy {np.__version__}, sympy {sympy.__version__}, "
+          f"{workers} workers")
+    print()
+    print("## Fixed objects")
+    fixed_objects()
+    certs = []
+    print()
     print("## Stage A: N = 3, the colouring page's census")
-    t3 = census(3, 1, workers)
+    t3 = census(3, workers, certs)
     exp3 = {('P3', 'Z'): {'sum': 52, 'conditioned': 10}, ('K3', 'Z'): {'conditioned': 18},
             ('bond+iso', 'Z'): {'product': 52}, ('P3', 'XY'): {'sum': 22}, ('K3', 'XY'): {},
             ('bond+iso', 'XY'): {'product': 104}, ('P3', 'XYZ'): {}, ('K3', 'XYZ'): {}, ('bond+iso', 'XYZ'): {}}
-    summary_checks(t3, exp3, "N = 3")
+    pal3 = {('P3', 'Z'): 1385, ('P3', 'XY'): 625, ('P3', 'XYZ'): 603, ('K3', 'Z'): 1341, ('K3', 'XY'): 603,
+            ('K3', 'XYZ'): 603, ('bond+iso', 'Z'): 1795, ('bond+iso', 'XY'): 1379, ('bond+iso', 'XYZ'): 1275}
+    summary_checks(t3, exp3, "N = 3", 63 * 64, pal3, True)
     print()
     print("## Stage B + C: N = 4, chain, star, ring, complete graph")
-    t4 = census(4, 20, workers)
+    t4 = census(4, workers, certs)
+    cf = control_fields(4)
+    check("N = 4: the broken-row control patterns carry every letter on every site, every pair of letters on every "
+          "pair of sites, and some fields on three and on four sites",
+          all(any(p[a] == P and p[b] == Q for p in cf) for a in range(4) for b in range(4) if a != b
+              for P in 'XYZ' for Q in 'XYZ') and any(sum(ch != 'I' for ch in p) == 3 for p in cf)
+          and any('I' not in p for p in cf), f"{len(cf)} of 256 patterns")
     exp4 = {('P4', 'Z'): {'sum': 516, 'conditioned': 160}, ('S4', 'Z'): {'sum': 618, 'conditioned': 190},
             ('C4', 'Z'): {'conditioned': 240}, ('K4', 'Z'): {'conditioned': 56},
             ('P4', 'XY'): {'sum': 40}, ('S4', 'XY'): {}, ('C4', 'XY'): {}, ('K4', 'XY'): {},
             ('P4', 'XYZ'): {}, ('S4', 'XYZ'): {}, ('C4', 'XYZ'): {}, ('K4', 'XYZ'): {}}
-    summary_checks(t4, exp4, "N = 4")
+    pal4 = {('P4', 'Z'): 13891, ('P4', 'XY'): 3835, ('P4', 'XYZ'): 3795, ('S4', 'Z'): 14023, ('S4', 'XY'): 3795,
+            ('S4', 'XYZ'): 3795, ('C4', 'Z'): 13455, ('C4', 'XY'): 3795, ('C4', 'XYZ'): 3795, ('K4', 'Z'): 13271,
+            ('K4', 'XY'): 3795, ('K4', 'XYZ'): 3795}
+    summary_checks(t4, exp4, "N = 4", 255 * 256, pal4, False)
     col = {k: c['coloured'] for k, c in t4.items()}
     check("N = 4: the coloured counts do not depend on the graph (13215 at ZZ, 3795 at XX + YY and at XX + YY + ZZ)",
           all(v == {'Z': 13215, 'XY': 3795, 'XYZ': 3795}[k[1]] for k, v in col.items()), str(sorted(set(col.values()))))
     rows = sum(c['palindromic'] + c['broken'] for c in t4.values())
     check("N = 4: every row counted (4 graphs x 3 bond sets x 255 dephasing patterns x 256 field patterns)",
           rows == 4 * 3 * 255 * 256, str(rows))
+    out = Path(__file__).parent / 'results' / 'anticommuting_sum_certificates.json'
+    out.write_bytes(json.dumps(sorted(certs, key=lambda c: (c['n'], c['graph'], c['bonds'], c['dephasing'],
+                                                             c['fields'])), indent=0).encode('utf-8'))
+    check("every element beyond the colouring written out with its row (n, graph, bonds, dephasing, fields, kind, "
+          "rational coefficients)", len(certs) == 258 + 1820, f"{len(certs)} certificates -> {out.name}")
     print()
     if FAIL:
         print(f"{len(FAIL)} FAILURE(S): {FAIL}")

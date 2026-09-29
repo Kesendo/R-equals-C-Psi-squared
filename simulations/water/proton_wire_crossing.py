@@ -445,6 +445,108 @@ def w6_rate_vs_frequency_break() -> None:
             )
 
 
+def w7_no_operator_repairs_the_bias() -> None:
+    """F158's sense, exact: with Z dephasing on every site and every tunnelling amplitude nonzero, the far
+    kernel W = {U : [H, U] = 0, U anticommutes with every Z_l} of H = -sum J_l X_l + sum K_ab Z_a Z_b +
+    sum delta_l Z_l is span(X^N) without bias and 0 with any bias, a zero-sum profile included."""
+    import itertools
+    import sympy as sp
+    print("\nW7  Does any operator, not just the fixed mirror, carry the palindrome under a bias? (exact)")
+    R = sp.Rational
+    S = {"X": sp.Matrix([[0, 1], [1, 0]]), "Y": sp.Matrix([[0, -sp.I], [sp.I, 0]]), "Z": sp.diag(1, -1),
+         "I": sp.eye(2)}
+
+    def op(word):
+        M = sp.Matrix([[1]])
+        for ch in word:
+            M = sp.kronecker_product(M, S[ch])
+        return M
+
+    def placed(n, d):
+        return "".join(d.get(i, "I") for i in range(n))
+
+    def dim_w(n, J, K, delta):
+        H = sp.zeros(2 ** n)
+        for i in range(n):
+            H += -J[i] * op(placed(n, {i: "X"})) + delta[i] * op(placed(n, {i: "Z"}))
+        for (a, b), v in K.items():
+            H += v * op(placed(n, {a: "Z", b: "Z"}))
+        cols = [op("".join(w)) for w in itertools.product("XY", repeat=n)]    # anticommute with every Z_l
+        M = sp.Matrix.hstack(*[(H * c - c * H).reshape(4 ** n, 1) for c in cols])
+        return len(cols) - M.rank()
+
+    rows = [(3, [R(1), R(7, 10), R(13, 10)], {(0, 1): R(1, 2), (1, 2): R(-3, 10), (0, 2): R(1, 5)}),
+            (4, [R(1), R(7, 10), R(13, 10), R(9, 10)], {(0, 1): R(1, 2), (1, 2): R(-3, 10), (2, 3): R(2, 5)})]
+    for n, J, K in rows:
+        profiles = {"no bias": [0] * n, "uniform bias": [R(3, 10)] * n,
+                    "zero-sum profile": [R(1, 10), R(-1, 10)] * (n // 2) + [0] * (n % 2)}
+        dims = {name: dim_w(n, J, K, d) for name, d in profiles.items()}
+        check(f"W7 N={n}: dim W is 1 without bias (X^N) and 0 under a uniform bias and under a zero-sum profile",
+              dims == {"no bias": 1, "uniform bias": 0, "zero-sum profile": 0}, str(dims))
+
+
+def w8_what_a_field_reads() -> None:
+    """A field E along the wire, H(E) = H + E P with P = -(1/2) sum Z_l the centred dipole, Z dephasing on
+    every site, start |+>^N. Symbolic in J_l, K_l, delta_l, gamma_l, E at N = 3 (exact):
+    (i)  without bias X^N H(E) X^N = H(-E) and X^N P X^N = -P, so an X^N-even start gives
+         <P>_E(t) = -<P>_-E(t); the response is not zero: P''(0) = -E sum J_l;
+    (ii) from |+>^N, p_l''(0) at +E plus at -E equals 4 J_l delta_l for p_l = -Z_l/2, whatever K, gamma, E;
+    (iii) a reflection-odd bias on a reflection-symmetric wire keeps the total-dipole reversal parity:
+         S = R X^N (R the site reversal) sends H(E) to H(-E) and P to -P."""
+    import sympy as sp
+    print("\nW8  What a field along the wire reads (exact, symbolic, N = 3)")
+    n = 3
+    J = sp.symbols("J0:3", real=True)
+    K = sp.symbols("K0:2", real=True)
+    D = sp.symbols("d0:3", real=True)
+    g = sp.symbols("g0:3", positive=True)
+    E = sp.symbols("E", real=True)
+    S = {"I": sp.eye(2), "X": sp.Matrix([[0, 1], [1, 0]]), "Z": sp.diag(1, -1)}
+
+    def op(d):
+        M = sp.Matrix([[1]])
+        for i in range(n):
+            M = sp.kronecker_product(M, S[d.get(i, "I")])
+        return M
+    Z = [op({i: "Z"}) for i in range(n)]
+    XN = op({0: "X", 1: "X", 2: "X"})
+    P = -sum(Z, sp.zeros(8)) / 2
+
+    def H(e, jj=J, kk=K, dd=D):
+        return (sum((-jj[i] * op({i: "X"}) for i in range(n)), sp.zeros(8))
+                + sum((kk[i] * op({i: "Z", i + 1: "Z"}) for i in range(n - 1)), sp.zeros(8))
+                + sum((dd[i] * Z[i] for i in range(n)), sp.zeros(8)) + e * P)
+
+    def L(r, e, dd=D):
+        h = H(e, dd=dd)
+        return -sp.I * (h * r - r * h) + sum((g[i] * (Z[i] * r * Z[i] - r) for i in range(n)), sp.zeros(8))
+    rho0 = sp.ones(8, 8) / 8
+    z = sp.zeros(8)
+    nob = [0, 0, 0]
+    par = (sp.expand(XN * H(E, dd=nob) * XN - H(-E, dd=nob)) == z and sp.expand(XN * P * XN + P) == z
+           and sp.expand(XN * rho0 * XN - rho0) == z)
+    curv = sp.expand((L(L(rho0, E, nob), E, nob) * P).trace())
+    check("W8 (i): without bias X^N H(E) X^N = H(-E), X^N P X^N = -P, |+>^N is X^N-even; P''(0) = -E sum J_l",
+          par and sp.simplify(curv + E * sum(J)) == 0, f"P''(0) = {sp.simplify(curv)}")
+    ok = True
+    for i in range(n):
+        s2 = sum(((L(L(rho0, e), e) * (-Z[i] / 2)).trace() for e in (E, -E)), 0)
+        ok &= sp.simplify(sp.expand(s2) - 4 * J[i] * D[i]) == 0
+    check("W8 (ii): from |+>^N, p_l''(0) at +E plus at -E equals 4 J_l delta_l at every site (any K, gamma, E)", ok)
+    Rv = sp.zeros(8)
+    for x in range(8):
+        bits = [(x >> (n - 1 - k)) & 1 for k in range(n)]
+        y = sum(b << (n - 1 - k) for k, b in enumerate(reversed(bits)))
+        Rv[y, x] = 1
+    Sm = Rv * XN
+    j0, j1, k0, dl = sp.symbols("j0 j1 k0 dl", real=True)
+    sym = (sp.expand(Sm * H(E, jj=[j0, j1, j0], kk=[k0, k0], dd=[dl, 0, -dl]) * Sm
+                     - H(-E, jj=[j0, j1, j0], kk=[k0, k0], dd=[dl, 0, -dl])) == z
+           and sp.expand(Sm * P * Sm + P) == z)
+    check("W8 (iii): a reflection-odd bias on a reflection-symmetric wire: S = R X^N sends H(E) to H(-E) and "
+          "P to -P, so the total-dipole reversal parity survives the bias", sym)
+
+
 def main() -> None:
     print("=" * 88)
     print("THE WATER-WIRE CROSSING PASS")
@@ -455,6 +557,8 @@ def main() -> None:
     w4_kernel()
     w5_palindrome()
     w6_rate_vs_frequency_break()
+    w7_no_operator_repairs_the_bias()
+    w8_what_a_field_reads()
 
     n_pass = sum(1 for _, ok in CHECKS if ok)
     print("\n" + "=" * 88)

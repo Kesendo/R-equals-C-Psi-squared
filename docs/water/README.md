@@ -135,17 +135,19 @@ dipole displacement remains zero. The full derivation and its limits are in
 
 The un-biased TFI F1 result is therefore only a result of this selected model.
 The longitudinal `Δ Σ_l Z_l` bias is the dipole coupled to a uniform field and
-is the relevant F1 exception here; see [the bias-field discussion](PROTON_WIRE_CROSSING.md#the-bias-field-is-the-same-operator).
+is the relevant F1 exception here, and no operator repairs it; see [the bias-field discussion](PROTON_WIRE_CROSSING.md#the-bias-field-is-the-same-operator).
 
 ## Open follow-ups
 
 - **Temperature and parameters.** A chemistry-grounded relation between a
   specified environment and the model inputs `J` and `γ` remains to be
   established. No liquid-water `Q` is asserted here.
-- **Spectroscopy and pump-probe.** Whether a specified observable of a
-  confined neutral wire could read this model's dipole coordinate is an open
-  experimental and literature question. No observed water signature is
-  claimed.
+- **Spectroscopy and pump-probe.** The model side, what a field along the wire
+  reads (reversal parity, a bias the total dipole can hide, a local readout), is in
+  [the proton wire crossing](PROTON_WIRE_CROSSING.md#what-a-field-along-the-wire-reads).
+  Whether a specified observable of a confined neutral wire could read this model's
+  dipole coordinate is an open experimental and literature question. No observed
+  water signature is claimed.
 - **DNA tautomer coordinates.** A DNA application would need its own
   coordinate, Hamiltonian, channel, and scope check; it does not inherit this
   water-wire mapping automatically. The existing context is

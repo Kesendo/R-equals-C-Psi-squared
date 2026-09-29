@@ -266,7 +266,8 @@ public sealed class GoldenRouterClaim : Claim
                          "physical, spectral gap 3.5e9) is a FINITE-DIFFERENCE JACOBIAN COUNT AT N=5 ONLY, NOT a " +
                          "closed-form/analytic result; 4 of 8 moduli are catalogued (the [v,v,v̄,v̄] X-axis-mirror " +
                          "continuum + the period-2 Pauli-axis routers, the only place period-2 exists in the " +
-                         "family). The hard side off the line rests on the girth-ladder witness at (1,2,1) and " +
+                         "family). The hard side off the line and the plane t1 = 0 (where X^N palindromizes) rests on the " +
+                         "girth-ladder witness at (1,2,1) and " +
                          "the immediate-tilt scan, not on a closed-form p_{m*} for general weights. The existence " +
                          "side carries no float anywhere. This soft sub-result is held below the Tier1Derived line.");
 

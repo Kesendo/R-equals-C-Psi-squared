@@ -16,8 +16,8 @@ namespace MirrorWorld;
 // window-summed anticommutator {q(x)q(x)q, [XZX+XZY+YZX, .]_3} vanishes identically at all four
 // offsets (cross-template cancellation inside one window -- per-term it fails, which is why the
 // per-term certifier never saw it), and window additivity lifts it to every N >= 3. The golden case
-// is c = 1 of the METALLIC family: for t1 XZX + t2 XZY + t3 YZX the soft set is exactly the line
-// t2 = t3, and with c = t1/t2 the same [a,a,b,b] router works at a = (r,1), b = (1,-r),
+// is c = 1 of the METALLIC family: for t1 XZX + t2 XZY + t3 YZX the line t2 = t3 is soft (so is the
+// plane t1 = 0, by X^N), and with c = t1/t2 the same [a,a,b,b] router works at a = (r,1), b = (1,-r),
 // r(c) = (c + sqrt(c^2+4))/2 the metallic mean (F116_MetallicMean), q_l^2 = -(1+r^2) I.
 //
 // Two faces verified from below, no eigensolver: the window lemma on the 64-dim window space

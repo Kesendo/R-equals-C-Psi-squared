@@ -182,7 +182,12 @@ carries dephasing at all*:
 1. at most two distinct dephasing axes appear, provided the bonds carry at
    least two terms, and
 2. the on-site field has a single common axis within that component,
-   orthogonal to every dephasing axis present in it.
+   orthogonal to every dephasing axis present in it: one of the letters X, Y, Z;
+   a direction that is not a letter is covered where a rotation about the
+   dephasing axis turns it into a letter and keeps the bonds in the class, for
+   instance where the bonds are invariant under such rotations, as the gauge
+   argument below uses (XX + ZZ bonds under Z dephasing with fields along X + Y
+   break it).
 
 **When, and not exactly when: the converse is false.** F138's registry row
 measures it failing at fewer bond letters and at coincident field magnitudes:
@@ -263,7 +268,7 @@ exception:
 transverse field's residual comes out as 2·maxᵢ|hᵢ·sin φᵢ|, zero along X and
 maximal along Y, which invites the reading that X is privileged. It is not. A
 per-site rotation R_z(π/2) carries the X-field Hamiltonian to the Y-field one
-and is a symmetry of Z-dephasing, so the two Liouvillians are unitarily
+(the Heisenberg bond is invariant under it) and is a symmetry of Z-dephasing, so the two Liouvillians are unitarily
 equivalent with identical spectra, and Π conjugated by the same rotation
 satisfies the identity exactly for the Y field. The residual under a *fixed*
 Π therefore measures the angle to that particular mirror's preferred axis,

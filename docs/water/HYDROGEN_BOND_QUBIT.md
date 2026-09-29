@@ -111,8 +111,10 @@ zero, can rise as the model Hamiltonian creates coherence, and may or may not
 reach the reference value 1/4 before the selected dephasing suppresses it.
 
 The F1 calculations listed below take `Δ = 0`. A nonzero longitudinal bias is
-not part of that un-biased palindrome mapping; it requires a separate
-generator-level analysis rather than a blanket conclusion about fields.
+not part of that un-biased palindrome mapping. The generator-level analysis is in
+[the proton wire crossing](PROTON_WIRE_CROSSING.md): with Z dephasing on every site and
+every tunnelling amplitude nonzero, no operator at all carries the palindrome under a
+bias, whatever its profile.
 
 ### Three regimes
 

@@ -34,7 +34,9 @@ For the second, un-biased TFI generator, the F1 palindrome can hold under the
 named local-Z model conditions. That is a property of the specified
 Liouvillian, not a consequence of the words “water” or “proton wire.” A
 longitudinal bias, a different channel, or a different generator must be
-checked against F1's own premises before making a pairing claim.
+checked against F1's own premises before making a pairing claim; for the bias that
+check is done in [the proton wire crossing](PROTON_WIRE_CROSSING.md), and no operator
+carries the palindrome there.
 
 ## Q provenance and model labels
 

@@ -88,6 +88,18 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      cascade on one bond, symbolic in the fields: H = XX + YY + h0 Y (x) I + h1 I (x) Z, jump X on the
      second site, C = ZZ - h0 IY - h0 h1 YZ commutes with H, anticommutes with the jump and squares
      to (1 + h0^2 + h0^2 h1^2) I, for all real h0, h1.
+  I  EXACT (sympy ranks over the rationals). F138's clause 2 names a field axis; the axis is a letter,
+     and a direction that is not a letter needs more (a rotation about the dephasing axis that turns it
+     into a letter and keeps the bonds in the class, as for rotation-invariant bonds). Two sites, Z dephasing on both, fields 30 (X + Y) and 22 (X + Y): with bonds
+     100 (XX + ZZ) the far kernel is empty while ker L is not (dimensions 1 and 0, no palindrome by
+     F158); with the Heisenberg bond 100 (XX + YY + ZZ) the two dimensions agree (1 and 1).
+  J  EXACT (sympy, symbolic). What the cascade predicts. (i) The carrier moves with the fields: the old C
+     at fields (h, k) fails at (h + d, k) with [H, C] = 2i d XZ, while C(h + d, k) lies in W. (ii) A field
+     e X on the first site is an obstruction: F158 (f5) makes every word with an odd number of jump letters
+     traceless, and Tr(H^2 A) = 8e; the commutator on the lit strings has determinant e^2 on eight output
+     strings at every h, k, so W = 0 for e != 0 (and W is 1-dimensional at e = 0). (iii) On stage E's row the adjoint dynamics L^dag(O) = i[H, O] + sum_l gamma_l (A_l O A_l - O)
+     closes on P = YYZ, Q = ZXX, R = YIX: L^dag P = -2 sigma P - 2b R, L^dag Q = -2 sigma Q + 2a R,
+     L^dag R = 2b P - 2a Q - 2(gamma_0 + gamma_2) R, so only a P + b Q decays with the single rate 2 sigma.
 
 Run:  python simulations/f138_palindrome_colouring.py
    >  simulations/results/f138_palindrome_colouring.txt     (runtime about 30 minutes)
@@ -852,6 +864,86 @@ def stage_h():
           "last coefficient fails", ok)
 
 
+def stage_i():
+    import sympy as sp
+    print()
+    print("## Stage I: the field axis of clause 2 is a letter; another direction needs the bonds to follow it")
+    SL = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]),
+          'Z': sp.diag(1, -1)}
+
+    def sop(t):
+        return sp.kronecker_product(SL[t[0]], SL[t[1]])
+
+    def dims(H):
+        """dim ker L and dim ker(L + 2 sigma) by F158's Lemma 1: ker ad_H on the strings commuting with
+        both Z jumps ({I, Z} per site) and on the lit ones ({X, Y} per site), exact rational ranks"""
+        out = []
+        for letters in ('IZ', 'XY'):
+            cols = [sop(a + b) for a in letters for b in letters]
+            M = sp.Matrix.hstack(*[(H * C - C * H).reshape(16, 1) for C in cols])
+            out.append(len(cols) - M.rank())
+        return out
+    fields = 30 * (sop('XI') + sop('YI')) + 22 * (sop('IX') + sop('IY'))
+    reduced = dims(100 * (sop('XX') + sop('ZZ')) + fields)
+    heis = dims(100 * (sop('XX') + sop('YY') + sop('ZZ')) + fields)
+    check("bonds XX + ZZ under Z dephasing, fields along X + Y: dim ker L = 1, dim ker(L + 2 sigma) = 0, no "
+          "palindrome; the Heisenberg bond with the same fields: 1 and 1", reduced == [1, 0] and heis == [1, 1],
+          f"XX + ZZ {reduced}, Heisenberg {heis}")
+
+
+def stage_j():
+    import sympy as sp
+    print()
+    print("## Stage J: what the cascade predicts (the carrier moves, an obstruction, one decay rate)")
+    SL = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]),
+          'Z': sp.diag(1, -1)}
+
+    def sop(t):
+        M = sp.Matrix([[1]])
+        for ch in t:
+            M = sp.kronecker_product(M, SL[ch])
+        return M
+    h, k, dd, e = sp.symbols('h k d e', real=True)
+    Hb = lambda hh, kk, ee=0: sop('XX') + sop('YY') + hh * sop('YI') + kk * sop('IZ') + ee * sop('XI')
+    C = lambda hh, kk: sop('ZZ') - hh * sop('IY') - hh * kk * sop('YZ')
+    A = sop('IX')
+    z4 = sp.zeros(4)
+    moves = (sp.expand(Hb(h + dd, k) * C(h, k) - C(h, k) * Hb(h + dd, k) - 2 * sp.I * dd * sop('XZ')) == z4
+             and sp.expand(Hb(h + dd, k) * C(h + dd, k) - C(h + dd, k) * Hb(h + dd, k)) == z4)
+    check("(i) the carrier moves with the fields: [H(h + d, k), C(h, k)] = 2i d XZ, and C(h + d, k) commutes with "
+          "H(h + d, k)", moves)
+    tr = sp.expand((Hb(h, k, e) ** 2 * A).trace())
+
+    def dimW(H):
+        cols = [sop(a + b) for a in 'IXYZ' for b in 'YZ']      # the strings anticommuting with IX
+        M = sp.Matrix.hstack(*[(H * c - c * H).reshape(16, 1) for c in cols])
+        return len(cols) - M.rank()
+    dims = (dimW(Hb(sp.Rational(3, 10), sp.Rational(11, 50), 0)), dimW(Hb(sp.Rational(3, 10), sp.Rational(11, 50),
+                                                                         sp.Rational(1, 3))))
+    cols = [a + b for a in 'IXYZ' for b in 'YZ']
+    outs = ['IZ', 'IY', 'XI', 'XY', 'YZ', 'ZY', 'XZ', 'IX']
+    Hs = Hb(h, k, e)
+    M8 = sp.Matrix([[sp.expand(((Hs * sop(c) - sop(c) * Hs) * sop(o)).trace() / (8 * sp.I)) for c in cols]
+                    for o in outs])
+    det = sp.factor(M8.det())
+    check("(ii) a field e X on the first site: Tr(H^2 A) = 8e; the commutator on the eight lit strings has "
+          "determinant e^2 on eight output strings at every h, k, so W = 0 for e != 0; W is 1-dimensional at e = 0",
+          tr == 8 * e and det == e ** 2 and dims == (1, 0), f"Tr = {tr}, det = {det}, dims {dims}")
+    a, b, g0, g1, g2 = sp.symbols('a b gamma0 gamma1 gamma2', positive=True)
+    H = a * (sop('XXI') + sop('YYI')) + b * (sop('IXX') + sop('IYY'))
+    jumps = [(g0, sop('XII')), (g1, sop('IZI')), (g2, sop('IIY'))]
+    Ldag = lambda O: sp.I * (H * O - O * H) + sum((g * (J * O * J - O) for g, J in jumps), sp.zeros(8))
+    P, Q, R = sop('YYZ'), sop('ZXX'), sop('YIX')
+    sig = g0 + g1 + g2
+    z8 = sp.zeros(8)
+    closes = (sp.expand(Ldag(P) - (-2 * sig * P - 2 * b * R)) == z8 and sp.expand(Ldag(Q) - (-2 * sig * Q + 2 * a * R)) == z8
+              and sp.expand(Ldag(R) - (2 * b * P - 2 * a * Q - 2 * (g0 + g2) * R)) == z8)
+    U, V = a * P + b * Q, b * P - a * Q
+    single = sp.expand(Ldag(U) + 2 * sig * U) == z8 and sp.expand(Ldag(V) + 2 * sig * V) != z8
+    check("(iii) the adjoint dynamics closes on YYZ, ZXX, YIX as stated; a YYZ + b ZXX decays with the single rate "
+          "2 sigma and b YYZ - a ZXX does not", closes and single)
+
+
 if __name__ == "__main__":
     stage_a()
     stage_b()
@@ -861,6 +953,8 @@ if __name__ == "__main__":
     stage_f()
     stage_g()
     stage_h()
+    stage_i()
+    stage_j()
     print()
     if FAIL:
         print(f"{len(FAIL)} FAILURE(S): {FAIL}")
