@@ -36,6 +36,22 @@ _PAULI_MATRICES = {
 PAULI_LABELS = {(0, 0): 'I', (1, 0): 'X', (0, 1): 'Z', (1, 1): 'Y'}
 LABEL_TO_INDEX = {v: k for k, v in PAULI_LABELS.items()}
 
+# letter products: a·b = i**e · c, stored as (e, c)
+_LETTER_PRODUCT = {('I', 'I'): (0, 'I'), ('I', 'X'): (0, 'X'), ('I', 'Y'): (0, 'Y'), ('I', 'Z'): (0, 'Z'),
+                   ('X', 'I'): (0, 'X'), ('X', 'X'): (0, 'I'), ('X', 'Y'): (1, 'Z'), ('X', 'Z'): (3, 'Y'),
+                   ('Y', 'I'): (0, 'Y'), ('Y', 'X'): (3, 'Z'), ('Y', 'Y'): (0, 'I'), ('Y', 'Z'): (1, 'X'),
+                   ('Z', 'I'): (0, 'Z'), ('Z', 'X'): (1, 'Y'), ('Z', 'Y'): (3, 'X'), ('Z', 'Z'): (0, 'I')}
+
+
+def pauli_product(s, t):
+    """(e, u) with s·t = i**e · u for Pauli strings s, t (letters I, X, Y, Z) of equal length."""
+    e, out = 0, []
+    for a, b in zip(s, t):
+        p, c = _LETTER_PRODUCT[(a, b)]
+        e += p
+        out.append(c)
+    return e % 4, ''.join(out)
+
 
 def ur_pauli(a, b=None):
     """Return the 2×2 Pauli at index (a, b) or by label string ('I','X','Y','Z')."""

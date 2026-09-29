@@ -41,7 +41,7 @@ from .pauli import (
     PAULI_LABELS, LABEL_TO_INDEX,
     ur_pauli, pauli_matrix,
     bit_a, bit_b, total_bit_a, total_bit_b_parity,
-    pauli_string, site_op,
+    pauli_string, site_op, pauli_product,
     _resolve, _k_to_indices, _indices_to_k, _pauli_label,
     _vec_to_pauli_basis_transform, pauli_basis_vector,
     _build_bilinear, _site_op_kron,
@@ -150,6 +150,7 @@ from .diagnostics import (
     CROSSOVER_PAIRS,
     product_pi_residual,
     verify_crossover_local,
+    odd_word_obstruction,
 )
 
 # Workflows: composing primitives and diagnostics into analysis flows

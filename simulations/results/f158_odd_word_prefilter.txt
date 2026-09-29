@@ -1,0 +1,15 @@
+    broken: 26679
+    broken, certified by one jump letter: 24671
+    broken, certified by up to three: 25831
+    palindromic: 9609
+    palindromic, certified by one jump letter: 0
+    palindromic, certified by up to three: 0
+    shortest word H^1: 17091
+    shortest word H^2: 6292
+    shortest word H^3: 1288
+  [PASS] (i) the pre-filter never fires on a row the ranks call palindromic   9609 palindromic rows
+  [PASS] (ii) broken rows certified exactly: 24,671 of 26,679 by one jump letter, 25,831 by up to three
+  [PASS] (iii) shortest firing word: H^1 A on 17,091 rows, H^2 A on 6,292, H^3 A on 1,288
+  [PASS] (iv) control: the cascade bond with a field eps X fires at H^2 A with trace 8 eps; without it, nothing
+
+ALL CHECKS PASS

@@ -500,14 +500,25 @@ unsatisfiable for every monic polynomial of odd degree, whatever the physics.
 And the condition generalises for free, because U commutes with H as well:
 **every word in {H, A_1 … A_m} with an odd number of A-letters is traceless**.
 That is an O(d³) pre-filter with no Liouvillian in it, and the converse-side
-companion to §(d)'s rank comparison. **The condition is proved; the numbers
-beside it are not gated here and carry their own caveat.** It was measured on
-12,240 two-qubit rows, finding no palindromic row that violates
-it and words of length at most 3 alone refuting 94.3% of the broken ones; that
-sweep used a fixed relative tolerance of 10⁻⁹ with no separation study, which is
-strong evidence and not the standard the rest of this file holds itself to. The
-pre-filter is not built as a gate or a witness anywhere, and building it is the
-cheapest open item this theorem leaves.
+companion to §(d)'s rank comparison. The pre-filter is built, in exact
+arithmetic: `fw.odd_word_obstruction`
+([`simulations/framework/diagnostics/f158_odd_word.py`](../../simulations/framework/diagnostics/f158_odd_word.py))
+finds the shortest such word with a nonzero trace, multiplying Pauli strings over
+the Gaussian rationals, so a nonzero trace is a certificate and not a reading. On
+the N = 3 census of [the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)
+(36,288 rows) it never fires on the 9,609 rows this theorem's two ranks call
+palindromic, and it certifies 24,671 of the 26,679 broken rows with one jump letter
+(Tr(H^k·A), k ≤ 4) and 25,831 with up to three, each by an exact trace, so those
+verdicts need no rank at all
+([`simulations/f158_odd_word_prefilter.py`](../../simulations/f158_odd_word_prefilter.py)).
+For a qubit chain dephased along Z on site l the shortest word is already
+Tr(H·Z_l) = 2^N·δ_l, δ_l the coefficient of Z_l in H: a longitudinal field on a
+dephased site rules the full palindrome out, a uniform one included, while the
+palindrome of the decay rates alone can survive it (Heisenberg under a uniform
+field). A finite budget of traceless words decides nothing; over every word the
+condition is also sufficient, since the traces of all words determine a
+finite-dimensional *-representation up to unitary equivalence, so (H, A) and
+(H, −A) would be unitarily equivalent. No C# witness carries the pre-filter yet.
 
 **(f6) The two ends are both what they are called.** For this class L† is L with
 H ↦ −H, so `ker L† = ker L = 𝒩`: the conserved quantities and the steady modes

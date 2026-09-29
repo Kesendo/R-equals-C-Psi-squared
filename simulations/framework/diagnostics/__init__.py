@@ -35,3 +35,4 @@ from .crossover_product_pi import (
     product_pi_residual,
     verify_crossover_local,
 )
+from .f158_odd_word import odd_word_obstruction
