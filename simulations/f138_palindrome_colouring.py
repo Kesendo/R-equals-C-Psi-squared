@@ -63,9 +63,19 @@ Stages (all must pass; prints "ALL STAGES PASS"):
      commuting hypothesis is needed: jumps X and Z on site 0 of three, the other sites undephased,
      an H whose W is spanned by Y (x) diag(1, 1, 1, -1); a frame image of a lit string has a second
      factor with eigenvalue split (2, 2) or (4, 0), so no frame exists although the palindrome holds.
+  G  EXACT (sympy, sqrt 5). The golden router (docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md, F116) is a
+     colouring with colours on the lit circle: on the open chain with the sliding windows of
+     XZX + XZY + YZX under Z-dephasing, G = (x)_l g_l with g_l in [a, a, b, b], a = phi X + Y,
+     b = X - phi Y, commutes with H, anticommutes with every Z_l and squares to (1 + r^2)^N I
+     (r = phi), at N = 3, 4, 5, so it lies in F158's far kernel; the same for the silver member
+     (c = 2, r = 1 + sqrt 2) of the metallic family c XZX + XZY + YZX at N = 4; controls: the
+     patterns [a, b, a, b], [a, a, a, a] and the 45 degree colour, and on the silver chain the golden
+     colours and [a, b, a, b], do not commute with H. No
+     colouring by the letters X and Y exists for c != 0 at N = 3..6, while at c = 0 exactly the four
+     period-2 strings XX.., XYXY.., YXYX.., YY.. colour the chain.
 
 Run:  python simulations/f138_palindrome_colouring.py
-   >  simulations/results/f138_palindrome_colouring.txt     (runtime about 20 minutes)
+   >  simulations/results/f138_palindrome_colouring.txt     (runtime about 25 minutes)
 """
 import collections
 import itertools
@@ -534,6 +544,67 @@ def stage_f():
           f"{4 - split_w}); splits of the two-site strings {sorted({int(sum(x > 0 for x in s_)) for s_ in spectra})}")
 
 
+def stage_g():
+    import sympy as sp
+    print()
+    print("## Stage G: the golden router's G is a colouring by letters on the lit circle")
+    SL = {'I': sp.eye(2), 'X': sp.Matrix([[0, 1], [1, 0]]), 'Y': sp.Matrix([[0, -sp.I], [sp.I, 0]]),
+          'Z': sp.diag(1, -1)}
+
+    def skron(ms):
+        M = sp.Matrix([[1]])
+        for m in ms:
+            M = sp.kronecker_product(M, m)
+        return M
+
+    def window_H(n, c):
+        H = sp.zeros(2 ** n)
+        for w in range(n - 2):
+            for t, coef in (('XZX', c), ('XZY', 1), ('YZX', 1)):
+                H += coef * skron([SL['I']] * w + [SL[x] for x in t] + [SL['I']] * (n - w - 3))
+        return H
+
+    ok = True
+    for n, c, r in ((3, 1, (1 + sp.sqrt(5)) / 2), (4, 1, (1 + sp.sqrt(5)) / 2), (5, 1, (1 + sp.sqrt(5)) / 2),
+                    (4, 2, 1 + sp.sqrt(2))):
+        a, b = r * SL['X'] + SL['Y'], SL['X'] - r * SL['Y']
+        G = skron([[a, a, b, b][l % 4] for l in range(n)])
+        H = window_H(n, c)
+        Zs = [skron([SL['I']] * l + [SL['Z']] + [SL['I']] * (n - l - 1)) for l in range(n)]
+        z0 = sp.zeros(2 ** n)
+        this = (sp.simplify(H * G - G * H) == z0 and all(Zl * G + G * Zl == z0 for Zl in Zs)
+                and sp.simplify(G * G - (1 + r ** 2) ** n * sp.eye(2 ** n)) == z0)
+        ok &= this
+        print(f"    N = {n}, c = {c}, r = {r}: [H, G] = 0, {{Z_l, G}} = 0, G^2 = (1 + r^2)^N I: {this}")
+    phi = (1 + sp.sqrt(5)) / 2
+    H4 = window_H(4, 1)
+    controls = []
+    H4s = window_H(4, 2)
+    for Hc, r, pat in ((H4, phi, 'abab'), (H4, phi, 'aaaa'), (H4, 1, 'aabb'), (H4s, phi, 'aabb'),
+                       (H4s, 1 + sp.sqrt(2), 'abab')):
+        a, b = r * SL['X'] + SL['Y'], SL['X'] - r * SL['Y']
+        Gc = skron([{'a': a, 'b': b}[pat[l]] for l in range(4)])
+        controls.append(any(sp.simplify(x).equals(0) is False for x in (Hc * Gc - Gc * Hc)))
+    check("(i) G = (x) [a, a, b, b] lies in the far kernel of the golden (N = 3, 4, 5) and silver (N = 4) window "
+          "chains (exact); the controls [a, b, a, b], [a, a, a, a] and the 45 degree colour on the golden chain, and the "
+          "golden colours and the pattern [a, b, a, b] on the silver chain, fail at N = 4 (an entry of [H, G] is exactly nonzero)",
+          ok and all(controls))
+
+    def commutes(s, t):
+        return sum(x != 'I' and y != 'I' and x != y for x, y in zip(s, t)) % 2 == 0
+    none_found, at_zero = True, True
+    for n in (3, 4, 5, 6):
+        for tpl in (('XZX', 'XZY', 'YZX'), ('XZY', 'YZX')):
+            terms = [('I' * w + t + 'I' * (n - w - 3)) for w in range(n - 2) for t in tpl]
+            sols = {''.join(F) for F in itertools.product('XY', repeat=n) if all(commutes(''.join(F), t) for t in terms)}
+            if len(tpl) == 3:
+                none_found &= not sols
+            else:
+                at_zero &= sols == {('XY' * n)[:n], ('YX' * n)[:n], 'X' * n, 'Y' * n}
+    check("(ii) for c != 0 no colouring by the letters X and Y: every one of the 2^N strings fails a window "
+          "template, N = 3..6; at c = 0 exactly the four period-2 strings colour the chain", none_found and at_zero)
+
+
 if __name__ == "__main__":
     stage_a()
     stage_b()
@@ -541,6 +612,7 @@ if __name__ == "__main__":
     stage_d()
     stage_e()
     stage_f()
+    stage_g()
     print()
     if FAIL:
         print(f"{len(FAIL)} FAILURE(S): {FAIL}")

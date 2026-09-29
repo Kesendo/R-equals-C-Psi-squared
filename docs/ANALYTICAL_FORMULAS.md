@@ -5127,6 +5127,10 @@ every N ≥ 3. **Exclusion side (derived):** the identity-column functional forc
 [H, ⊗g_l] = 0 with per-window equations whose only uniform or period-2 solution is g = 0
 (the committed optimization floors are now theorems), period 3 is impossible for N ≥ 5,
 and the discrete Klein candidates P1/P4/M2/M sit off the locus (values +1, −1, −1, −1/2).
+The identity column is also sufficient for the palindrome (not for the per-site two-sided W):
+⊗g_l is an invertible element of [F158](#f158)'s kernel of L + 2σ, so it carries the palindrome
+by itself; it colours the chain by letters from span{X, Y}, the plane Z-dephasing lights
+([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
 **Rigidity:** zero continuous moduli; the invertible solution set at N=5 is exhaustively
 4 cyclic shifts × an explicit order-32 sign group, all golden. The ceiling arc closes
 6 → 4 → 2 → **0**: no case in the k=3 windowed soft family needs a non-local mirror.

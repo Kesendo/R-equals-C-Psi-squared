@@ -141,7 +141,7 @@ Q, neither the uniform nor the alternating families of the
 golden locus). Its actual router is the period-4 golden product in the frame a = φX+Y, b = X−φY
 ([the ceiling golden-router proof](../docs/proofs/PROOF_CEILING_GOLDEN_ROUTER.md)), a
 soft mechanism distinct from the lit chiral-K colouring and exact at every N ≥ 3, a single window already
-suffices, which is exactly the length-independence seen here. So the k≥3 soft cases divide by whether
+suffices, which is exactly the length-independence seen here. The router's identity column G is a colouring of another kind than the chiral-K one, a string of letters from span{X, Y} that commutes with H where K anticommutes with it ([the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md)). So the k≥3 soft cases divide by whether
 a router is known, not by whether a Z is present, and on that cut the Z-middle case is the HARDER of
 the two: nothing in the three-representative period-≤2 family the census searches routes it, and the period-4 golden product
 that does route it does so only window-summed. Its obstruction is one template of the three: XZX alone
