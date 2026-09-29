@@ -6648,8 +6648,10 @@ necessary in the same way, and the two-term proviso above states when the
 ceiling BITES, not when it is forced.
 On the 258 exception rows no single string explains at N = 3 (distinct field magnitudes,
 one bond set per letter count), F158's far-end kernel holds an element built from
-anticommuting sums, real combinations of pairwise anticommuting strings like the U above
-([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
+anticommuting sums, real combinations of pairwise anticommuting strings like the U above;
+at N = 4 on the chain, star, ring and complete graph (bonds ZZ, XX + YY and XX + YY + ZZ, at
+most one dephasing axis per site, fields 0.30, 0.22, 0.41, 0.17, positive signs) every row that
+ranks modulo two primes call palindromic is coloured or has such an element ([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
 
 Evidence, and it is worth separating what was swept from what was
 held fixed while sweeping. Clause 1: exhaustively, every 3^N per-site axis
