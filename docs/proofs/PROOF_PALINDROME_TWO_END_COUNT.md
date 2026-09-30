@@ -335,9 +335,10 @@ distinct terms give distinct strings T·P, so ad_H/2i on either span is a matrix
 every entry is ±h_T: an integer matrix when the coefficients are integers, which
 a rational H becomes after scaling by its common denominator, and scaling moves
 neither kernel. The second span is empty when no string anticommutes with every
-jump, and then 𝒲 = 0. This is the route
+jump, and then 𝒲 = 0. This is the route the live witness `inspect --root
+twoendstrings` (`PalindromeStringSpanWitness`) and
 [`compute/MirrorWorld/EndCount.cs`](../../compute/MirrorWorld/EndCount.cs)
-counts by, with the ranks taken modulo two primes, and the route of
+count by, with the ranks taken modulo two primes, and the route of
 [`simulations/anticommuting_sum_census.py`](../../simulations/anticommuting_sum_census.py).
 
 ## (c) Lemma 2: both ends are semisimple
@@ -539,11 +540,13 @@ palindrome of the decay rates alone can survive it (Heisenberg under a uniform
 field). A finite budget of traceless words decides nothing; over every word the
 condition is also sufficient, since the traces of all words determine a
 finite-dimensional *-representation up to unitary equivalence, so (H, A) and
-(H, −A) would be unitarily equivalent. No witness in the typed layer carries the
-pre-filter yet; MirrorWorld's
-[`EndCount`](../../compute/MirrorWorld/EndCount.cs) computes it, exact over the
-Gaussian integers, with the words and the order of `fw.odd_word_obstruction`
-(its default budget reads one jump letter per word, where the Python's also reads three).
+(H, −A) would be unitarily equivalent. The live witness `inspect --root
+twoendstrings` reads the one-jump words Tr(H^k·A) for k ≤ 4, exact over the
+Gaussian integers, beside the string-span counts of the second corollary to
+Lemma 1; MirrorWorld's [`EndCount`](../../compute/MirrorWorld/EndCount.cs)
+carries the words and the order of `fw.odd_word_obstruction`, the three-jump words
+included on request (its default reads one jump letter per word, where the
+Python's also reads three).
 
 **(f6) The two ends are both what they are called.** For this class L† is L with
 H ↦ −H, so `ker L† = ker L = 𝒩`: the conserved quantities and the steady modes

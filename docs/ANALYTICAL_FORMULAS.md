@@ -9201,7 +9201,9 @@ break printed beside the canonical row). MirrorWorld's `EndCount`
 `endcount N`) counts both ends for Pauli-string jumps as commutators on spans of
 strings (the proof's second corollary to Lemma 1), past the witness's N = 4 (the
 canonical chain is pinned there to N = 10), and computes §(f5)'s odd-word
-pre-filter; the typed layer does not carry that yet. Open: whether F158 should become
+pre-filter. In the typed layer the same route is live at `inspect --root
+twoendstrings` (`PalindromeStringSpanWitness`, the one-jump words, N up to 12),
+which reads `twoend` beside itself at N ≤ 4. Open: whether F158 should become
 F138's Proof anchor, argued in the arc `f138_converse_failures`.
 
 ---

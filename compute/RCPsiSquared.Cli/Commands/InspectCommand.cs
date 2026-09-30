@@ -888,6 +888,21 @@ public static class InspectCommand
                 c.Parser.OptionalString("field"),
                 c.Parser.OptionalString("topology")),
             RequiresN: false, HonorsOptionalN: true),
+        new("twoendstrings", "F158 ON PAULI STRINGS (proof PROOF_PALINDROME_TWO_END_COUNT.md, the second " +
+            "corollary to Lemma 1 and section (f5); claim PalindromeTwoEndCountClaim): for Pauli-string jumps each " +
+            "end of the spectrum is the commutator with H on a span of strings, the dark ones (commuting with " +
+            "every jump) for ker L and the lit ones (anticommuting) for ker(L + 2σ), 2^N strings where L has 4^N " +
+            "columns. The counts are GF(p) upper bounds and single strings give exact lower bounds; a colouring " +
+            "certifies the palindrome, a one-jump word with a nonzero trace rules it out, and the ranks decide " +
+            "only between them, the verdict saying which. At N <= 4 the dense witness twoend is read beside it. " +
+            "Args: --N (2..12, default 3), --deph Z.Z, --field X.X, --topology chain|ring|complete; a span " +
+            "past 2^16 strings (many undephased sites) is refused at inspect time",
+            c => new PalindromeStringSpanWitness(
+                c.Parser.HasFlag("N") ? c.N : 3,
+                c.Parser.OptionalString("deph"),
+                c.Parser.OptionalString("field"),
+                c.Parser.OptionalString("topology")),
+            RequiresN: false, HonorsOptionalN: true),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +
             "S⁺ chain interiors at p+q̃ = N∓1, " +

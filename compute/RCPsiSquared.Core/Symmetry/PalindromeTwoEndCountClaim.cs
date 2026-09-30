@@ -58,10 +58,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/f138_rank_criterion.py</c> (103 gates, 15415 rows scored in both directions with
 /// FP = 0 and FN = 0, among them off-axis n.sigma jumps and multi-site Pauli strings; beside
 /// them F1's own canonical break under depolarizing, and one float route that shares no
-/// construction code with the rest). Live lab: <c>inspect --root twoend</c>. Sibling in the sober
-/// base: <c>compute/MirrorWorld/EndCount.cs</c>, which counts both ends for Pauli-string jumps as
-/// commutators on spans of strings, past this witness's MaxN = 4, with the odd-word pre-filter of
-/// the proof's section (f5).</para></summary>
+/// construction code with the rest). Live lab: <c>inspect --root twoend</c>, and for Pauli-string
+/// jumps <c>inspect --root twoendstrings</c> (<c>PalindromeStringSpanWitness</c>), which counts both
+/// ends as commutators on spans of strings past that witness's MaxN = 4, with the one-jump odd words
+/// of the proof's section (f5). Sibling in the sober base: <c>compute/MirrorWorld/EndCount.cs</c>.</para></summary>
 public sealed class PalindromeTwoEndCountClaim : Claim
 {
     /// <summary>The typed parent: F1 is the OPERATOR identity and this claim is the SPECTRAL one,
@@ -210,6 +210,17 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "gives the similarity L ~ -L - 2 sigma with the whole Jordan structure. " +
                          "F1PalindromeIdentity is the operator identity for the particular Pi, which is why a " +
                          "row where the spectrum pairs without that Pi says nothing against this claim.");
+
+            yield return new InspectableNode("for Pauli-string jumps: the two ends on string spans",
+                summary: "Conjugation by a Pauli-string jump sends each string to plus or minus itself, so ker L " +
+                         "is the commutator with H on the span of the strings commuting with every jump and " +
+                         "ker(L + 2 sigma) the same on the strings anticommuting with every jump (the proof's " +
+                         "second corollary to Lemma 1; the jumps need not commute). Under one dephasing axis per " +
+                         "site each span has 2^N strings where L has 4^N columns, and every entry of ad_H/2i there " +
+                         "is plus or minus one coefficient of H. A single lit string commuting with H is an " +
+                         "invertible element of the far space and certifies the palindrome; a word with an odd " +
+                         "number of jump letters and a nonzero trace rules it out (section (f5)). Live: inspect " +
+                         "--root twoendstrings, which reads twoend beside itself at N <= 4.");
 
             yield return new InspectableNode("live lab (the witness)",
                 summary: "PalindromeTwoEndCountWitness recomputes both nullities at inspect time by GF(p) " +

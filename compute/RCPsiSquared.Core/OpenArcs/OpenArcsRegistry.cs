@@ -9299,8 +9299,9 @@ public static class OpenArcsRegistry
                 "spans of Pauli strings, the dark ones commuting with every jump and the lit ones " +
                 "anticommuting, which carries no grading premise (off-axis, multi-site and two-axis " +
                 "jumps and fields all run); under one dephasing axis per site a span has 2^N strings " +
-                "where the Liouvillian has 4^N columns, and a span is bounded at 2^16 strings; the odd-word pre-filter of F158 (f5) came with it, and " +
-                "the typed layer carries neither yet. The queue from F151 on is unchanged. F152/F153 come " +
+                "where the Liouvillian has 4^N columns, and a span is bounded at 2^16 strings; the odd-word pre-filter of F158 (f5) came with it; the " +
+                "string route and the one-jump words are live in the typed layer at inspect --root " +
+                "twoendstrings. The queue from F151 on is unchanged. F152/F153 come " +
                 "LAST among the thirteen, and only as the entry-wise count with the gamma-uniformity " +
                 "hypothesis stated and BigInteger past N = 34; the shelved second design is the negative " +
                 "result to read before redesigning, and it is gitignored, so read it on this machine or " +
