@@ -1812,11 +1812,13 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
     //   "weight=w"          the bond weight per letter (default 10)
     //   "mags=m0,m1,..."    one field magnitude per site (default 3 on every site); the anticommuting-sum
     //                       census of the colouring page is weight=100 mags=30,22,41,17
-    if (args.Length > 4 && (args[4].Contains('=') || args[4] == "dephased"))
+    string[] optionKeys = { "free=", "bonds=", "weight=", "mags=" };
+    if (args.Length > 4 && (optionKeys.Any(k => args[4].StartsWith(k)) || args[4] == "dephased"
+                            || (args[4].Contains('=') && !args[4].EndsWith(".csv", StringComparison.OrdinalIgnoreCase))))
         throw new ArgumentException($"endcount sweep N topology [out.csv] [options]: the fifth argument is the output path, got the option {args[4]}");
     var sopts = args.Skip(5).ToList();
     foreach (var o in sopts)
-        if (o != "dephased" && !new[] { "free=", "bonds=", "weight=", "mags=" }.Any(k => o.StartsWith(k)))
+        if (o != "dephased" && !optionKeys.Any(k => o.StartsWith(k)))
             throw new ArgumentException($"endcount sweep: unknown option {o} (dephased, free=k, bonds=, weight=, mags=)");
     string? Opt(string key) => sopts.FirstOrDefault(o => o.StartsWith(key + "="))?[(key.Length + 1)..];
     bool everySite = sopts.Contains("dephased");

@@ -108,6 +108,7 @@ public sealed class EndCount : GameObject
     public IReadOnlyList<(string Letters, long Coefficient)> Terms => terms.Select(t => (t.S.ToString(N), t.C)).ToList();
     readonly (PauliString S, long C)[] terms;
     readonly PauliString[] jumpStrings;
+    readonly World world;
 
     List<PauliString>? dark, lit;
     (int Near, int Far)? upper;
@@ -120,6 +121,7 @@ public sealed class EndCount : GameObject
         if (jumps.Count == 0)
             throw new ArgumentException("F158 needs at least one jump", nameof(jumps));
         N = n;
+        this.world = world;
         terms = Combine(hamiltonian, n).ToArray();
         jumpStrings = jumps.Select(j => ParseSized(j, n)).ToArray();
     }
@@ -636,11 +638,259 @@ public sealed class EndCount : GameObject
         return Assign(0) ? (new CliffordMap(image, sign), true) : (null, exhausted);
     }
 
+    // ---- the anticommuting-sum grammar ----
+
+    /// <summary>The largest lit span the grammar's clique search is run on.</summary>
+    public const int MaxGrammarStrings = 256;
+
+    /// <summary>An element of the far space built by the grammar of experiments/THE_PALINDROME_AS_A_COLOURING.md
+    /// ("What a sum is"), ported from simulations/anticommuting_sum_census.py, with its kind:
+    ///   "sum"          the lifted kernel of the commutator with H on a maximal set of pairwise
+    ///                  anticommuting lit strings (such a combination squares to its length times 1);
+    ///   "product"      H splits into components on disjoint sites, and the element is the tensor
+    ///                  product of one element per component;
+    ///   "conditioned"  an undephased site u where every term of H carries I or one letter P: P_u
+    ///                  commutes with H, each sector P_u = s (s = ±1) is a row on the other sites with
+    ///                  the letter replaced by s, and the element is the sum over s of (1 + s·P_u)/2
+    ///                  times an element of that sector, recursively.
+    /// The kinds are tried in that order (product, sum, conditioned), as the census tries them. The
+    /// element is checked, not trusted: every string lit, [H, G] = 0 exactly, and G invertible, its
+    /// matrix of full rank modulo a prime p = 1 mod 4 with i sent to a square root of −1, which forces
+    /// det G ≠ 0 (Invertible). The check guards the construction and is not expected to fire: sums,
+    /// products and sector sums of invertible elements are invertible by construction. Null when the
+    /// grammar finds nothing; on a broken row it can find nothing, since an invertible element of the
+    /// far space is a palindrome. The sum stage is skipped on a lit span past MaxGrammarStrings, and
+    /// Invertible needs N ≤ 10; Explanation reports those rows unfinished.</summary>
+    public (string Kind, IReadOnlyList<(string Letters, long Coefficient)> Element)? GrammarElement()
+    {
+        if (grammar.HasValue) return grammar.Value.Found;
+        var found = Grammar();
+        if (found is { } f && !(CheckElement(f.Element) is { AllLit: true, CommutesWithH: true } && Invertible(f.Element)))
+            throw new InvalidOperationException($"the grammar built a {f.Kind} that fails its check");
+        grammar = (found, true);
+        return found;
+    }
+    ((string Kind, IReadOnlyList<(string Letters, long Coefficient)> Element)? Found, bool Done)? grammar;
+
+    (string Kind, IReadOnlyList<(string Letters, long Coefficient)> Element)? Grammar()
+    {
+        // components of H and the jumps on the sites (a site nothing touches is its own component; a jump
+        // on several sites joins them, so that no jump is split between two components)
+        var parent = Enumerable.Range(0, N).ToArray();
+        int Find(int x) { while (parent[x] != x) x = parent[x]; return x; }
+        foreach (var t in terms.Select(x => x.S).Concat(jumpStrings))
+        {
+            var sites = Enumerable.Range(0, N).Where(l => Touches(t, l)).ToList();
+            foreach (int q in sites.Skip(1)) parent[Find(q)] = Find(sites[0]);
+        }
+        var comps = Enumerable.Range(0, N).GroupBy(Find).Select(g => g.ToArray()).ToList();
+        if (comps.Count > 1)
+        {
+            var product = new Dictionary<PauliString, BigInteger> { [PauliString.Identity] = 1 };
+            foreach (var c in comps)
+            {
+                // a component no jump touches contributes the identity (every string is lit there)
+                var sub = SubRow(c);
+                IReadOnlyList<(string Letters, long Coefficient)> partElement;
+                if (sub is null) partElement = new[] { (new string('I', c.Length), 1L) };
+                else if (sub.GrammarElement() is { } part) partElement = part.Element;
+                else return null;
+                var next = new Dictionary<PauliString, BigInteger>();
+                foreach (var (p0, c0) in product)
+                    foreach (var (letters, c1) in partElement)
+                    {
+                        var q = Embed(PauliString.Parse(letters), c);
+                        var key = new PauliString(p0.X | q.X, p0.Z | q.Z);
+                        next[key] = (next.TryGetValue(key, out var o) ? o : 0) + c0 * c1;
+                    }
+                product = next;
+            }
+            return Integral("product", product);
+        }
+
+        // a maximal set of pairwise anticommuting lit strings whose kernel is not zero
+        var litStrings = LitStrings();
+        if (litStrings.Count <= MaxGrammarStrings && CliqueSum(litStrings) is { } sum) return ("sum", sum);
+
+        // a sector split over a letter an undephased site keeps
+        for (int u = 0; u < N; u++)
+        {
+            if (jumpStrings.Any(a => Touches(a, u))) continue;
+            foreach (char letter in "XYZ")
+            {
+                if (!terms.All(t => !Touches(t.S, u) || t.S.Letter(u) == letter)) continue;
+                var parts = new List<IReadOnlyList<(string Letters, long Coefficient)>>();
+                foreach (int s in new[] { 1, -1 })
+                {
+                    var sector = Sector(u, letter, s);
+                    if (sector?.GrammarElement() is not { } part) break;
+                    parts.Add(part.Element);
+                }
+                if (parts.Count < 2) continue;
+                // 2·G = sum_s (1 + s·P_u) ⊗ G_s
+                var el = new Dictionary<PauliString, BigInteger>();
+                var pu = PauliString.Parse(new string(Enumerable.Range(0, N).Select(l => l == u ? letter : 'I').ToArray()));
+                for (int k = 0; k < 2; k++)
+                {
+                    int s = k == 0 ? 1 : -1;
+                    foreach (var (letters, c) in parts[k])
+                    {
+                        var g = Insert(PauliString.Parse(letters), u);
+                        el[g] = (el.TryGetValue(g, out var o1) ? o1 : 0) + c;
+                        var gp = new PauliString(g.X | pu.X, g.Z | pu.Z);
+                        el[gp] = (el.TryGetValue(gp, out var o2) ? o2 : 0) + s * c;
+                    }
+                }
+                if (Integral("conditioned", el) is { } conditioned) return conditioned;
+            }
+        }
+        return null;
+    }
+
+    static bool Touches(PauliString p, int site) => (((p.X | p.Z) >> site) & 1) != 0;
+
+    // the kernel on the first maximal anticommuting clique (Bron–Kerbosch with pivot, in the span's
+    // order) that has one, lifted and exactly checked
+    IReadOnlyList<(string Letters, long Coefficient)>? CliqueSum(IReadOnlyList<PauliString> span)
+    {
+        int n = span.Count;
+        var adj = new ulong[n][];
+        int words = (n + 63) / 64;
+        for (int i = 0; i < n; i++) adj[i] = new ulong[words];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (i != j && !PauliString.Commute(span[i], span[j])) adj[i][j >> 6] |= 1UL << (j & 63);
+        List<(string, long)>? result = null;
+        var r = new List<int>();
+        void Bk(ulong[] pSet, ulong[] xSet)
+        {
+            if (result is not null) return;
+            bool pEmpty = pSet.All(w => w == 0), xEmpty = xSet.All(w => w == 0);
+            if (pEmpty && xEmpty)
+            {
+                var clique = r.Select(k => span[k]).ToList();
+                var kernel = LiftKernelOf(clique, LiftPrimes.Length);
+                if (kernel.Count > 0) result = kernel[0];
+                return;
+            }
+            // pivot: the vertex of P ∪ X with the most neighbours in P
+            int pivot = -1, best = -1;
+            for (int v = 0; v < n; v++)
+            {
+                if (((pSet[v >> 6] | xSet[v >> 6]) >> (v & 63) & 1) == 0) continue;
+                int deg = 0;
+                for (int w = 0; w < words; w++) deg += System.Numerics.BitOperations.PopCount(adj[v][w] & pSet[w]);
+                if (deg > best) { best = deg; pivot = v; }
+            }
+            var pp = (ulong[])pSet.Clone();
+            var xx = (ulong[])xSet.Clone();
+            for (int v = 0; v < n; v++)
+            {
+                if ((pp[v >> 6] >> (v & 63) & 1) == 0) continue;
+                if ((adj[pivot][v >> 6] >> (v & 63) & 1) != 0) continue;
+                r.Add(v);
+                Bk(pp.Select((w, k) => w & adj[v][k]).ToArray(), xx.Select((w, k) => w & adj[v][k]).ToArray());
+                r.RemoveAt(r.Count - 1);
+                if (result is not null) return;
+                pp[v >> 6] &= ~(1UL << (v & 63));
+                xx[v >> 6] |= 1UL << (v & 63);
+            }
+        }
+        var all = new ulong[words];
+        for (int v = 0; v < n; v++) all[v >> 6] |= 1UL << (v & 63);
+        Bk(all, new ulong[words]);
+        return result;
+    }
+
+    // the row restricted to the sites of one component (sites renumbered in order), or null with no jump there
+    EndCount? SubRow(int[] sites)
+    {
+        var index = new Dictionary<int, int>();
+        for (int k = 0; k < sites.Length; k++) index[sites[k]] = k;
+        string Restrict(PauliString p) => new(sites.Select(l => p.Letter(l)).ToArray());
+        bool Inside(PauliString p) => Enumerable.Range(0, N).All(l => !Touches(p, l) || index.ContainsKey(l));
+        var h = terms.Where(t => Inside(t.S)).Select(t => (Restrict(t.S), t.C)).ToList();
+        var jumps = jumpStrings.Where(Inside).Select(Restrict).ToList();
+        return jumps.Count == 0 ? null : new EndCount(world, sites.Length, h, jumps);
+    }
+
+    // the sector P_u = s: the site u removed, P_u replaced by s in every term
+    EndCount? Sector(int u, char letter, int s)
+    {
+        if (N == 1) return null;
+        var sites = Enumerable.Range(0, N).Where(l => l != u).ToArray();
+        string Restrict(PauliString p) => new(sites.Select(l => p.Letter(l)).ToArray());
+        var h = terms.Select(t => (Restrict(t.S), Touches(t.S, u) ? s * t.C : t.C))
+                     .Where(t => t.Item1.Any(c => c != 'I')).ToList();
+        var jumps = jumpStrings.Select(Restrict).ToList();
+        return new EndCount(world, N - 1, h, jumps);
+    }
+
+    // a string on the component's sites placed back on the full row
+    PauliString Embed(PauliString q, int[] sites)
+    {
+        ulong x = 0, z = 0;
+        for (int k = 0; k < sites.Length; k++)
+        {
+            x |= ((q.X >> k) & 1) << sites[k];
+            z |= ((q.Z >> k) & 1) << sites[k];
+        }
+        return new PauliString(x, z);
+    }
+
+    // a string on N - 1 sites with an identity inserted at site u
+    static PauliString Insert(PauliString q, int u)
+    {
+        ulong low = (1UL << u) - 1;
+        return new PauliString((q.X & low) | ((q.X & ~low) << 1), (q.Z & low) | ((q.Z & ~low) << 1));
+    }
+
+    // coprime integers, zeros dropped; null past MaxCoefficient or when nothing is left
+    (string Kind, IReadOnlyList<(string Letters, long Coefficient)> Element)? Integral(string kind, Dictionary<PauliString, BigInteger> el)
+    {
+        var nz = el.Where(kv => !kv.Value.IsZero).ToList();
+        if (nz.Count == 0) return null;
+        BigInteger g = nz.Aggregate(BigInteger.Zero, (a, kv) => BigInteger.GreatestCommonDivisor(a, kv.Value));
+        if (nz.Any(kv => BigInteger.Abs(kv.Value / g) > MaxCoefficient)) return null;
+        return (kind, nz.Select(kv => (kv.Key.ToString(N), (long)(kv.Value / g))).ToList());
+    }
+
+    /// <summary>Is the combination sum c_P P invertible? Its 2^N × 2^N matrix over Z[i] is reduced modulo
+    /// a prime p = 1 mod 4 with i sent to a square root of −1; full rank there means det ≠ 0 mod p, hence
+    /// det ≠ 0. Exact, one-sided (a rank below full at one prime decides nothing, and the second prime is
+    /// asked). N ≤ 10.</summary>
+    public bool Invertible(IReadOnlyList<(string Letters, long Coefficient)> element)
+    {
+        if (N > 10) throw new InvalidOperationException("the matrix is dense; N <= 10");
+        int d = 1 << N;
+        foreach (long p in ModP.Primes)
+        {
+            long iu = ModP.SqrtMinusOne(p);
+            var m = new long[d][];
+            for (int r = 0; r < d; r++) m[r] = new long[d];
+            foreach (var (letters, c) in element)
+            {
+                var q = PauliString.Parse(letters);
+                // P|b> = i^(#Y) (-1)^(popcount(b & Z)) |b xor X>, Y = X·Z·i on each site
+                int ny = System.Numerics.BitOperations.PopCount(q.X & q.Z);
+                for (int col = 0; col < d; col++)
+                {
+                    int row = col ^ (int)q.X;
+                    int k = ny + 2 * System.Numerics.BitOperations.PopCount((ulong)col & q.Z);
+                    long ph = (k & 3) switch { 0 => 1, 1 => iu, 2 => p - 1, _ => p - iu };
+                    m[row][col] = ModP.AddMod(m[row][col], ModP.MulMod(ModP.Mod(c, p), ph, p), p);
+                }
+            }
+            if (ModP.Rank(m, p) == d) return true;
+        }
+        return false;
+    }
+
     /// <summary>For a palindromic row, what explains it: "colouring" (a single lit string commuting with
     /// H), "symmetry" (the far element of a site symmetry, SymmetryElement), "clifford" (a Clifford
-    /// element of the far space that neither of those is, CliffordSymmetry), "sum" (the far end is
-    /// one-dimensional and its lifted element, a combination of pairwise anticommuting lit strings, is
-    /// no Clifford), "unfinished" when the Clifford search ran out of its budget before either answer
+    /// element of the far space that neither of those is, CliffordSymmetry), the grammar's kind
+    /// ("sum", "product" or "conditioned", GrammarElement) for an element outside the Clifford group,
+    /// "unfinished" when the Clifford search ran out of its budget before either answer
     /// (so nothing past the site symmetry is claimed), or null when the palindrome holds by the counts
     /// with none of these behind it. The
     /// kinds nest, each checked after the ones before it: a colouring is a Clifford element fixing
@@ -653,8 +903,9 @@ public sealed class EndCount : GameObject
         var (map, exhausted) = CliffordSymmetry();
         if (map is not null) return "clifford";
         if (!exhausted) return "unfinished";
-        if (FarElement() is { Check.Certifies: true } fe && PairwiseAnticommuting(fe.Element)) return "sum";
-        return null;
+        if (N > 10) return "unfinished";
+        if (GrammarElement() is { } g) return g.Kind;
+        return LitStrings().Count > MaxGrammarStrings ? "unfinished" : null;
     }
 
     static bool PairwiseAnticommuting(IReadOnlyList<(string Letters, long Coefficient)> element)
@@ -767,6 +1018,14 @@ public sealed class EndCount : GameObject
         var span = far ? LitStrings() : DarkStrings();
         var kept = new List<List<(string, long)>>();
         if (full) lifted[far] = kept;
+        kept.AddRange(LiftKernelOf(span, budget));
+        return kept;
+    }
+
+    // the lifted kernel of the commutator with H on any span of strings, at a budget of LiftPrimes
+    List<List<(string, long)>> LiftKernelOf(IReadOnlyList<PauliString> span, int budget)
+    {
+        var kept = new List<List<(string, long)>>();
         int s = span.Count;
         if (s == 0 || s > MaxLiftColumns) return kept;
         var cols = Columns(span);

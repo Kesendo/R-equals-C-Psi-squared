@@ -827,8 +827,9 @@ public class EndCountTests
     // site symmetry. At the two-letter bond the far end is one-dimensional on every such row and its
     // lifted element is an anticommuting sum (the census: "all 22 of its two-letter rows" are one sum),
     // named "clifford" where the sum is a Clifford unitary up to scale (eight rows, each two strings of
-    // equal coefficient magnitude) and "sum" otherwise (fourteen); at the one-letter bond no element is
-    // named and no Clifford element exists (the facts further down).
+    // equal coefficient magnitude) and "sum" otherwise (fourteen); at the one-letter bond no Clifford
+    // element exists (the facts further down) and the grammar names the census's kinds, 52 sums and 10
+    // conditioned (its stage A).
     // At N = 3 one prime lifts every row here; the wider lift is gated by the two facts below.
     [Theory]
     [InlineData("ZZ", 62)]
@@ -858,7 +859,7 @@ public class EndCountTests
             }
         Assert.Equal(beyond, count);
         var expectedKinds = bondLetters == "ZZ"
-            ? new Dictionary<string, int> { ["none"] = 62 }
+            ? new Dictionary<string, int> { ["sum"] = 52, ["conditioned"] = 10 }
             : new Dictionary<string, int> { ["clifford"] = 8, ["sum"] = 14 };
         Assert.Equal(expectedKinds, kinds);
     }
@@ -1016,9 +1017,78 @@ public class EndCountTests
             if (!EndCount.IsPalindrome(r) || r == EndCount.Reading.PalindromeByColour) continue;
             beyond++;
             Assert.Null(e.CliffordSymmetry().Map);
-            Assert.Null(e.Explanation());
+            Assert.Contains(e.Explanation(), new[] { "sum", "conditioned" });
         }
         Assert.Equal(62, beyond);
+    }
+
+    // ---- the anticommuting-sum grammar ----
+
+    // The census's stage A at a ZZ bond, fields 30, 22, 41 against bonds 100: beyond the colouring P3
+    // holds 52 single sums and 10 conditioned elements, K3 18 conditioned ones
+    // (simulations/results/anticommuting_sum_census.txt; the kinds agree row for row with
+    // anticommuting_sum_certificates.json, read once when the grammar was ported). GrammarElement
+    // checks what it builds (lit, commuting with H, invertible) and throws otherwise, so every row
+    // here is also a check of the construction; on every broken row it finds nothing, the census's
+    // control, since an invertible element of the far space would be a palindrome.
+    // The bond with an isolated site is the census's product row: H splits into the bond and the lone
+    // site, and every element beyond the colouring is a tensor product, 52 at ZZ and 104 at XX + YY.
+    [Theory]
+    [InlineData("chain", "ZZ", 52, 10, 0)]
+    [InlineData("complete", "ZZ", 0, 18, 0)]
+    [InlineData("bond+iso", "ZZ", 0, 0, 52)]
+    [InlineData("bond+iso", "XY", 0, 0, 104)]
+    public void The_Grammar_Names_The_Census_Kinds(string topology, string bondLetters, int sums, int conditioned, int products)
+    {
+        var edges = topology switch
+        {
+            "chain" => Chain(3),
+            "complete" => new[] { (0, 1), (1, 2), (0, 2) },
+            _ => new[] { (0, 1) },
+        };
+        var kinds = new Dictionary<string, int>();
+        foreach (var (deph, field) in ThreeSitePatterns())
+        {
+            var e = Letters(3, edges, bondLetters, new long[] { 30, 22, 41 }, deph, field);
+            var r = e.Verdict();
+            var g = e.GrammarElement();
+            if (!EndCount.IsPalindrome(r)) { Assert.Null(g); continue; }
+            if (r == EndCount.Reading.PalindromeByColour) continue;
+            Assert.NotNull(g);
+            kinds[g!.Value.Kind] = kinds.TryGetValue(g.Value.Kind, out int k) ? k + 1 : 1;
+        }
+        var expected = new Dictionary<string, int>();
+        if (conditioned > 0) expected["conditioned"] = conditioned;
+        if (sums > 0) expected["sum"] = sums;
+        if (products > 0) expected["product"] = products;
+        Assert.Equal(expected, kinds);
+    }
+
+    // Invertible against matrices whose determinant is known: 1 + Z is singular (eigenvalues 2 and 0),
+    // X + Z is invertible (it squares to 2), a sector sum (1 + Z)/2 ⊗ X + (1 − Z)/2 ⊗ 3·Y (twice it:
+    // IX + ZX + 3·IY − 3·ZY) is invertible, and with the second sector's element set to zero
+    // (IX + ZX) it is singular.
+    // A jump on two sites that H does not join: the grammar keeps the two sites in one component (a
+    // jump split between two components would make a product that anticommutes with nothing), so what
+    // it returns passes its check, or it returns nothing. H = 3·ZI + 5·IZ, jump XX.
+    [Fact]
+    public void A_Jump_Across_Two_Components_Keeps_Them_Together()
+    {
+        var e = new EndCount(W, 2, new List<(string, long)> { ("ZI", 3), ("IZ", 5) }, new[] { "XX" });
+        var g = e.GrammarElement();
+        if (g is { } found) Assert.True(e.CheckElement(found.Element) is { AllLit: true, CommutesWithH: true });
+    }
+
+    [Fact]
+    public void Invertible_Reads_The_Determinant()
+    {
+        var e1 = Letters(1, Array.Empty<(int, int)>(), "Z", new long[] { 1 }, "X", ".");
+        Assert.False(e1.Invertible(new[] { ("I", 1L), ("Z", 1L) }));
+        Assert.False(e1.Invertible(new[] { ("I", 1L), ("Y", 1L) }));            // det = 1 − i·(−i) = 0; without the i it would be 2
+        Assert.True(e1.Invertible(new[] { ("X", 1L), ("Z", 1L) }));
+        var e2 = Letters(2, Array.Empty<(int, int)>(), "Z", new long[] { 1, 1 }, "X.", "..");
+        Assert.True(e2.Invertible(new[] { ("IX", 1L), ("ZX", 1L), ("IY", 3L), ("ZY", -3L) }));
+        Assert.False(e2.Invertible(new[] { ("IX", 1L), ("ZX", 1L) }));
     }
 
     // E · P · E for E a combination of strings with integer coefficients, as strings with Gaussian
