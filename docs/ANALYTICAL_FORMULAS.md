@@ -6597,7 +6597,7 @@ middle gives none, and the ends are exactly the pair the path can exchange,
 while K₃, which can exchange any pair, gives 78 per equal pair and 234 when all
 three coincide. A bond plus an isolated site gives none even when all three
 coincide, and it has such a pair too, so the graph's symmetry is where the
-exceptions live without being sufficient to produce them. One class is established in which the converse DOES hold, exactly and at every field magnitude: every site dephased along one common axis, Heisenberg bonds of any nonzero weights on a connected graph, fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorem 1; the 78 coincident-magnitude rows all leave a site undephased). Outside it, what is measured is
+exceptions live without being sufficient to produce them. One class is established in which the converse DOES hold, exactly and at every field magnitude: every site dephased along one common axis, Heisenberg or XX + YY bonds of any nonzero weights on a connected graph, fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorem 1; the 78 coincident-magnitude rows all leave a site undephased). Outside it, what is measured is
 one magnitude tuple, (30, 22, 41) in hundredths, at which it holds on all three
 graphs at the full bond, and three tuples with a repeat, at which it fails on two
 graphs, two graphs and one. Calling that tuple generic would be inferring an open dense set from a

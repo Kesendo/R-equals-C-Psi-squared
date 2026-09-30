@@ -1068,6 +1068,88 @@ public class EndCountTests
     // X + Z is invertible (it squares to 2), a sector sum (1 + Z)/2 ⊗ X + (1 − Z)/2 ⊗ 3·Y (twice it:
     // IX + ZX + 3·IY − 3·ZY) is invertible, and with the second sector's element set to zero
     // (IX + ZX) it is singular.
+    // Why the turn to Z must be proper, for the counts if not for the verdicts: under Z jumps on two
+    // sites, H = XI + XZ + IX + ZX + XX − YY has a connected hopping graph (00 joined to 01, 10 and
+    // 11), counts (1, 0); its partial transpose on site 0, the same with + YY, moves the edge 00–11 to
+    // 01–10 and has counts (2, 0). Both are broken, so the verdict survives; the near count does not.
+    [Fact]
+    public void A_Partial_Transpose_Keeps_This_Verdict_And_Moves_The_Near_Count()
+    {
+        string[] jumps = { "ZI", "IZ" };
+        var common = new List<(string, long)> { ("XI", 1), ("XZ", 1), ("IX", 1), ("ZX", 1), ("XX", 1) };
+        var h = new EndCount(W, 2, common.Append(("YY", -1)).ToList(), jumps);
+        var t = new EndCount(W, 2, common.Append(("YY", 1)).ToList(), jumps);
+        Assert.Equal((1, 0), (h.ComplementConnection()!.Value.HoppingComponents, h.ComplementConnection()!.Value.Good));
+        Assert.Equal((2, 0), (t.ComplementConnection()!.Value.HoppingComponents, t.ComplementConnection()!.Value.Good));
+        Assert.Equal((1, 0), h.UpperCounts());
+        Assert.Equal((2, 0), t.UpperCounts());
+    }
+
+    // A flat section of modulus one need not meet the frame formula d_x = v̄_x̄·v_x: at N = 2, Heisenberg
+    // bond, Z on both sites, D = diag(1, i, i, 1) on 00, 01, 10, 11 is constant on the popcount shells
+    // (flat), X^⊗2·D lies in the far space, yet d_x·d_x̄ = −1 on {01, 10}, which the formula would force
+    // to be 1. In strings, diag(1, i, i, 1) = ((1+i)/2)·II + ((1−i)/2)·ZZ and XX·ZZ = −YY, so
+    // 2·X^⊗2·D = (XX − YY) + i·(XX + YY): its real and imaginary parts are each lit and in the far space.
+    [Fact]
+    public void A_Unitary_Flat_Section_Need_Not_Be_Of_Frame_Form()
+    {
+        var e = new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("YY", 1), ("ZZ", 1) }, new[] { "ZI", "IZ" });
+        foreach (var part in new[] { new[] { ("XX", 1L), ("YY", -1L) }, new[] { ("XX", 1L), ("YY", 1L) } })
+            Assert.True(e.CheckElement(part) is { AllLit: true, CommutesWithH: true });
+        // the far end is the three shells, every one good, so each shell carries its own free constant
+        Assert.Equal((3, 3, 3, true), e.ComplementConnection()!.Value);
+        // d on 00, 01, 10, 11 and its complement products: 1·1 on {00, 11}, i·i = −1 on {01, 10}
+        var d = new[] { (1, 0), (0, 1), (0, 1), (1, 0) };
+        (int, int) Times((int a, int b) u, (int c, int e2) v) => (u.a * v.c - u.b * v.e2, u.a * v.e2 + u.b * v.c);
+        Assert.Equal((1, 0), Times(d[0], d[3]));
+        Assert.Equal((-1, 0), Times(d[1], d[2]));
+    }
+
+    // The proof's open item on mixed axes, measured and pinned: Heisenberg bonds of random nonzero weights on the four graphs,
+    // every site dephased along a random letter, random letter fields of random signed magnitudes.
+    // The palindrome holds exactly when some letter c is no jump axis and every field is c, the
+    // colouring rule for a Heisenberg component; on every broken row the far end is zero, not merely
+    // short of the near end; and where the axes really are mixed (two letters or more) the far end
+    // is at most one-dimensional. About a third of the rows force one field letter, and some rows
+    // have one common axis (Theorem 1's class).
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void Mixed_Axes_Heisenberg_Pairs_Exactly_When_A_Colouring_Exists(int n)
+    {
+        var rng = new Random(100 + n);
+        var graphs = new[]
+        {
+            Chain(n), Ring(n), Enumerable.Range(1, n - 1).Select(i => (0, i)).ToArray(),
+            (from a in Enumerable.Range(0, n) from b in Enumerable.Range(a + 1, n - a - 1) select (a, b)).ToArray(),
+        };
+        int pal = 0, broken = 0;
+        foreach (var edges in graphs)
+            for (int trial = 0; trial < 300; trial++)
+            {
+                var axes = Enumerable.Range(0, n).Select(_ => "XYZ"[rng.Next(3)]).ToArray();
+                var fields = Enumerable.Range(0, n).Select(_ => ".XYZ"[rng.Next(4)]).ToArray();
+                if (rng.Next(3) == 0) { char c0 = "XYZ"[rng.Next(3)]; fields = fields.Select(f => f == '.' ? '.' : c0).ToArray(); }
+                var h = new List<(string, long)>();
+                foreach (var (a, b) in edges)
+                {
+                    long w = rng.Next(1, 200) * (rng.Next(2) == 0 ? 1 : -1);
+                    foreach (char p in "XYZ") h.Add((Two(n, a, b, p), w));
+                }
+                for (int l = 0; l < n; l++)
+                    if (fields[l] != '.') h.Add((One(n, l, fields[l]), rng.Next(1, 90) * (rng.Next(2) == 0 ? 1 : -1)));
+                var e = new EndCount(W, n, h, Enumerable.Range(0, n).Select(l => One(n, l, axes[l])).ToList());
+                var r = e.Verdict();
+                Assert.True(EndCount.IsExact(r), $"{new string(axes)} {new string(fields)}: {r}");
+                bool colouring = "XYZ".Any(c => !axes.Contains(c) && fields.All(f => f == '.' || f == c));
+                Assert.Equal(colouring, EndCount.IsPalindrome(r));
+                if (colouring) { pal++; Assert.NotEmpty(e.Colourings()); }
+                else { broken++; Assert.Equal(0, e.ComplementConnection()!.Value.Good); }
+                if (axes.Distinct().Count() > 1) Assert.True(e.ComplementConnection()!.Value.Good <= 1, $"{new string(axes)} {new string(fields)}");
+            }
+        Assert.True(pal > 50 && broken > 50, $"palindromic {pal}, broken {broken}");
+    }
+
     // A jump on two sites that H does not join: the grammar keeps the two sites in one component (a
     // jump split between two components would make a product that anticommutes with nothing), so what
     // it returns passes its check, or it returns nothing. H = 3·ZI + 5·IZ, jump XX.
@@ -1143,9 +1225,10 @@ public class EndCountTests
                 Assert.True(EndCount.IsExact(r), $"{deph} {field}: {r}");
                 var c = e.ComplementConnection()!.Value;
                 Assert.Equal(EndCount.IsPalindrome(r), c.AllGood);
-                var up = e.UpperCounts();
-                Assert.Equal(up.Near, c.HoppingComponents);
-                Assert.Equal(up.Far, c.Good);
+                // both counts certified by the end count's own route: the lifted, exactly checked
+                // vectors (a lower bound) meet the modular ranks (an upper bound) at the graph's value
+                Assert.Equal((c.HoppingComponents, c.Good), e.UpperCounts());
+                Assert.Equal((c.HoppingComponents, c.Good), e.LiftedLowerCounts());
                 rows++;
                 if (c.AllGood) palindromes++;
             }
@@ -1197,9 +1280,8 @@ public class EndCountTests
             exact++;
             var c = e.ComplementConnection()!.Value;
             Assert.Equal(EndCount.IsPalindrome(r), c.AllGood);
-            var up = e.UpperCounts();
-            Assert.Equal(up.Near, c.HoppingComponents);
-            Assert.Equal(up.Far, c.Good);
+            Assert.Equal((c.HoppingComponents, c.Good), e.UpperCounts());
+            Assert.Equal((c.HoppingComponents, c.Good), e.LiftedLowerCounts());
             if (c.AllGood) pal++;
         }
         Assert.True(exact > 400 && pal > 20 && pal < exact, $"exact {exact}, palindromic {pal}");
@@ -1234,8 +1316,9 @@ public class EndCountTests
         Assert.Contains("XXYY", e.Colourings().Select(x => x.ToString(4)));
     }
 
-    // Theorem 1: Heisenberg bonds of any nonzero weights on a connected graph, every site dephased
-    // along Z, fields along X, Y or Z of ANY magnitudes and signs: the palindrome holds exactly when no field lies along Z and the
+    // Theorem 1: bonds J(XX + YY) + Δ·ZZ with every J nonzero and every Δ free (zero included, the XY
+    // case) on a connected graph, every site dephased along Z, fields along X, Y or Z of ANY
+    // magnitudes and signs: the palindrome holds exactly when no field lies along Z and the
     // others use one letter, and then (with a field) its carrier is the colouring X^N or Y^N. Random
     // nonzero magnitudes, N = 3 to 5 on the four graphs and N = 6 on the chain, every pattern of none,
     // X, Y or Z per site.
@@ -1244,7 +1327,7 @@ public class EndCountTests
     [InlineData(4)]
     [InlineData(5)]
     [InlineData(6)]
-    public void Heisenberg_Under_Z_Dephasing_Pairs_Exactly_When_The_Fields_Share_A_Transverse_Letter(int n)
+    public void Hopping_Bonds_Under_Z_Dephasing_Pair_Exactly_When_The_Fields_Share_A_Transverse_Letter(int n)
     {
         var rng = new Random(n);
         var graphs = new[]
@@ -1260,14 +1343,18 @@ public class EndCountTests
                 foreach (var (i, j) in edges)
                 {
                     long w = rng.Next(1, 200) * (rng.Next(2) == 0 ? 1 : -1);
-                    foreach (char p in "XYZ") h.Add((Two(n, i, j, p), w));
+                    h.Add((Two(n, i, j, 'X'), w)); h.Add((Two(n, i, j, 'Y'), w));
+                    long delta = rng.Next(3) == 0 ? 0 : rng.Next(-200, 200);
+                    if (delta != 0) h.Add((Two(n, i, j, 'Z'), delta));
                 }
                 for (int l = 0; l < n; l++)
                     if (pattern[l] != '.') h.Add((One(n, l, pattern[l]), rng.Next(1, 90) * (rng.Next(2) == 0 ? 1 : -1)));
                 var e = new EndCount(W, n, h, Enumerable.Range(0, n).Select(l => One(n, l, 'Z')).ToList());
                 bool oneLetter = !pattern.Contains('Z') && !(pattern.Contains('X') && pattern.Contains('Y'));
                 Assert.Equal(oneLetter, e.ComplementConnection()!.Value.AllGood);
-                Assert.Equal(oneLetter, EndCount.IsPalindrome(e.Verdict()));
+                var verdict = e.Verdict();
+                Assert.True(EndCount.IsExact(verdict), $"{new string(pattern)}: {verdict}");
+                Assert.Equal(oneLetter, EndCount.IsPalindrome(verdict));
                 if (oneLetter && pattern.Any(ch => ch != '.'))
                 {
                     char c = pattern.First(ch => ch != '.');
