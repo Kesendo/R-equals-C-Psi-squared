@@ -1361,6 +1361,110 @@ public class EndCountTests
         Assert.True(exact > 400 && pal > 20 && pal < exact, $"exact {exact}, palindromic {pal}");
     }
 
+    // Theorem 4: undephased sites whose letter H conserves. Random Pauli Hamiltonians at N = 2 to 5, one or
+    // two undephased sites, each with a random letter P_u that every term carries or leaves alone at u, the
+    // other sites dephased along random letters; the sector connection's two counts against the end
+    // count's, both of its routes (modular ranks from above, lifted exactly checked vectors from below),
+    // on every row where the two routes meet. Rows with a nonzero cross-sector term are required, and
+    // with no undephased site the sector connection is Theorem 2's reading.
+    [Fact]
+    public void The_Sector_Connection_Counts_Both_Ends_With_Conserved_Letters_At_Undephased_Sites()
+    {
+        var rng = new Random(20261001);
+        int certified = 0, pal = 0, twoFree = 0, crossRows = 0;
+        for (int trial = 0; trial < 700; trial++)
+        {
+            int n = rng.Next(2, 6);
+            int nFree = n >= 3 && rng.Next(3) == 0 ? 2 : 1;
+            var free = Enumerable.Range(0, n).OrderBy(_ => rng.Next()).Take(nFree).ToHashSet();
+            var kept = Enumerable.Range(0, n).ToDictionary(l => l, _ => "XYZ"[rng.Next(3)]);
+            var h = new List<(string, long)>();
+            int nt = rng.Next(1, 8);
+            for (int k = 0; k < nt; k++)
+                h.Add((new string(Enumerable.Range(0, n).Select(l => free.Contains(l)
+                        ? (rng.Next(2) == 0 ? 'I' : kept[l])
+                        : "IXYZ"[rng.Next(4)]).ToArray()),
+                    rng.Next(1, 4) * (rng.Next(2) == 0 ? 1 : -1)));
+            if (h.All(t => t.Item1.All(ch => ch == 'I'))) continue;
+            var jumps = Enumerable.Range(0, n).Where(l => !free.Contains(l)).Select(l => One(n, l, kept[l])).ToList();
+            var e = new EndCount(W, n, h, jumps);
+            var c = e.SectorConnection()!.Value;
+            Assert.Equal(1 << nFree, c.Sectors);
+            var up = e.UpperCounts();
+            if (up != e.LiftedLowerCounts()) continue;
+            certified++;
+            Assert.True((c.Near, c.Far) == up, $"{string.Join(" + ", h)} jumps {string.Join(",", jumps)}: sectors {c}, counts {up}");
+            if (c.Near == c.Far) pal++;
+            if (nFree == 2) twoFree++;
+            if (c.Cross > 0) crossRows++;
+        }
+        Assert.True(certified > 450 && pal > 30 && pal < certified && twoFree > 50 && crossRows > 30,
+            $"certified {certified}, palindromic {pal}, two undephased {twoFree}, cross-sector {crossRows}");
+    }
+
+    // Theorem 4 on the census's own one-letter family: ZZ bonds (weight 100) with fields 30, 22, 41 on the
+    // path at N = 3, every dephasing pattern leaving at least one site undephased and at least one
+    // dephased, every field pattern.
+    // The sector connection applies exactly where every undephased site's field is absent or Z (derived:
+    // one undephased site, 27 dephasing patterns times 2·16 field patterns, plus two, 9 times 4·4, so
+    // 864 + 144 = 1008 rows); on each its counts are the end count's upper counts and its verdict the
+    // exact one. The palindromic rows among them are 340 (measured). At XX + YY or XX + YY + ZZ bonds
+    // every site of the path carries two bond letters or more, so no undephased site keeps one whatever
+    // the fields, and the theorem does not reach (pinned on one row each: the bonds alone decide it).
+    [Fact]
+    public void The_Sector_Connection_Reads_The_Census_Rows_With_An_Undephased_Site()
+    {
+        const string bonds = "ZZ";
+        const string A = ".XYZ";
+        int applied = 0, pal = 0, rows = 0;
+        for (int dc = 1; dc < 64; dc++)
+        {
+            string deph = new(Enumerable.Range(0, 3).Select(l => A[(dc >> (2 * l)) & 3]).ToArray());
+            if (!deph.Contains('.')) continue;
+            for (int fc = 0; fc < 64; fc++)
+            {
+                string field = new(Enumerable.Range(0, 3).Select(l => A[(fc >> (2 * l)) & 3]).ToArray());
+                var e = Letters(3, Chain(3), bonds, new long[] { 30, 22, 41 }, deph, field);
+                rows++;
+                if (e.SectorConnection() is not { } c) continue;
+                applied++;
+                Assert.True((c.Near, c.Far) == e.UpperCounts(), $"{bonds} {deph} {field}: {c} vs {e.UpperCounts()}");
+                var r = e.Verdict();
+                if (EndCount.IsExact(r)) Assert.Equal(EndCount.IsPalindrome(r), c.Near == c.Far);
+                if (c.Near == c.Far) pal++;
+            }
+        }
+        Assert.Equal((2304, 1008, 340), (rows, applied, pal));
+        foreach (string other in new[] { "XY", "XYZ" })
+            Assert.Null(Letters(3, Chain(3), other, new long[] { 30, 22, 41 }, "Z.Z", "...").SectorConnection());
+    }
+
+    [Fact]
+    public void The_Sector_Connection_With_No_Undephased_Site_Is_Theorem_Two()
+    {
+        var rng = new Random(7);
+        for (int trial = 0; trial < 200; trial++)
+        {
+            int n = rng.Next(2, 5);
+            var h = Enumerable.Range(0, rng.Next(1, 6)).Select(_ =>
+                (new string(Enumerable.Range(0, n).Select(_ => "IXYZ"[rng.Next(4)]).ToArray()), (long)rng.Next(1, 4))).ToList();
+            var e = new EndCount(W, n, h, Enumerable.Range(0, n).Select(l => One(n, l, "XYZ"[rng.Next(3)])).ToList());
+            var s = e.SectorConnection()!.Value;
+            var c = e.ComplementConnection()!.Value;
+            Assert.Equal((c.HoppingComponents, c.Good, 1, 0), (s.Near, s.Far, s.Sectors, s.Cross));
+        }
+    }
+
+    // An undephased site carrying two letters conserves none: the sector connection declines (null), and
+    // so does a jump on two sites.
+    [Fact]
+    public void The_Sector_Connection_Declines_Where_No_Letter_Is_Conserved()
+    {
+        Assert.Null(new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("ZI", 1) }, new[] { "IZ" }).SectorConnection());
+        Assert.Null(new EndCount(W, 2, new List<(string, long)> { ("XX", 1) }, new[] { "ZZ" }).SectorConnection());
+        Assert.NotNull(new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("XI", 1) }, new[] { "IZ" }).SectorConnection());
+    }
+
     // Where Γ_H and its union with the complement image part: H = X_0 + X_0 Z_1 under Z jumps joins
     // |00⟩ to |10⟩ (the two terms add) but not |01⟩ to |11⟩ (they cancel), so the hopping graph has 3
     // components and the union, which adds the complement image |11⟩–|01⟩, has 2. The near end counts

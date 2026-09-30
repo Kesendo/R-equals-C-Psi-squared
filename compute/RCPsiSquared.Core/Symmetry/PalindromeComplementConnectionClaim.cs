@@ -29,14 +29,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// third letter c, carried by c^⊗N alone; on every broken row the far end is zero. Theorems 1 and 3 are the
 /// two classes in which F138's converse holds exactly.</para>
 ///
-/// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c>, held in
-/// <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the end count's exact verdict. Live lab:
-/// <c>inspect --root complement</c> (<c>ComplementConnectionWitness</c>), which shares no code with the
-/// gate and reads <c>twoendstrings</c> beside itself.</para></summary>
+/// <para><b>Theorem 4.</b> At least one site dephased, every dephased site with one single-site Pauli jump,
+/// and every undephased site keeping a letter H conserves: turned to Z, H is block
+/// diagonal in their bits, H = ⊕_σ H_σ, and near = Σ_{σ,τ} hom(H_τ, H_σ), far = Σ_{σ,τ} hom(H_τ, H̄_σ),
+/// each hom(A, B) = dim{g : B_xy·g_y = g_x·A_xy} a count of good components.</para>
+///
+/// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
+/// <c>SectorConnection</c> (Theorem 4), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
+/// end count's exact verdict and counts. Live lab for Theorems 1 to 3: <c>inspect --root complement</c>
+/// (<c>ComplementConnectionWitness</c>), which shares no code with the gate and reads <c>twoendstrings</c>
+/// beside itself.</para></summary>
 public sealed class PalindromeComplementConnectionClaim : Claim
 {
-    /// <summary>The typed parent: this claim is F158 read on one class of jumps, both ends of which
-    /// become diagonal problems on the bitstrings once every jump is a Z.</summary>
+    /// <summary>The typed parent: this claim is F158 read where every jump is a single-site letter, turned to
+    /// Z: both ends become problems on the bitstrings of the dephased sites, scalar where every site is
+    /// dephased or every undephased site keeps a letter.</summary>
     public PalindromeTwoEndCountClaim TwoEndCount { get; }
 
     /// <summary>Theorem 3's rule for Heisenberg bonds on a connected graph, every site dephased along
@@ -62,9 +69,12 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "fields, palindrome iff no Z field and not both X and Y " +
                "(Theorem 1); Heisenberg bonds, every J nonzero, under mixed axes with fields of any direction, near end " +
                "one-dimensional, palindrome iff two axes occur and every field lies along the third letter " +
-               "(Theorem 3). Both corollaries need a connected graph",
+               "(Theorem 3). Both corollaries need a connected graph. With the dephased sites (at least one) each under one single-site " +
+               "jump and every undephased site keeping a letter H conserves: H splits into " +
+               "sectors of their bits, near = sum over sector pairs of hom(H_tau, H_sigma), far = the same against the complement " +
+               "image, each hom a count of good components (Theorem 4)",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (primary: Theorems 1-3) + " +
+               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (primary: Theorems 1-4) + " +
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (f10)) + " +
                "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in the two classes) + " +
                "experiments/THE_PALINDROME_AS_A_COLOURING.md (the colouring rule and the frame theorem)")
@@ -105,9 +115,19 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "with H, a colouring, and a colouring of a connected Heisenberg graph is c^⊗N with c no " +
                          "axis and every field along c.");
 
+            yield return new InspectableNode("undephased sites that keep a letter (Theorem 4)",
+                summary: "When every undephased site keeps a letter that H conserves, turning those letters to Z makes H " +
+                         "block diagonal in their bits, H = sum over sectors of H_sigma. Both ends split into scalar " +
+                         "problems read between two sectors: near = sum of hom(H_tau, H_sigma), far = sum of " +
+                         "hom(H_tau, bar H_sigma), each hom the good components of the graph of the two blocks. The " +
+                         "cross-sector terms are what an undephased site adds. A Heisenberg or XX + YY bond touching the " +
+                         "site keeps no letter, and there the connection is matrix valued (open). Gate: " +
+                         "EndCount.SectorConnection in MirrorWorld; the live witness does not read it.");
+
             yield return new InspectableNode("scope, and the counterexamples at its edges",
-                summary: "Every site dephased by one single-site Pauli jump; an undephased site lies outside " +
-                         "(the near span stops being abelian). Theorems 1 and 3 need a connected graph: two " +
+                summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
+                         "sites only where each keeps a letter H conserves; one that keeps none lies outside (the blocks " +
+                         "stop commuting). Theorems 1 and 3 need a connected graph: two " +
                          "disjoint Heisenberg bonds with axes X, Y and Y, Z and fields along each bond's third " +
                          "letter use three axes and pair, by ZZXX. Theorem 3 needs isotropic bonds; XXZ and XY " +
                          "under mixed axes are outside it.");

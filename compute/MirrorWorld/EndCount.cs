@@ -671,6 +671,145 @@ public sealed class EndCount : GameObject
         return (hopping, unionCount, good, good == unionCount);
     }
 
+    // ---- undephased sites with a conserved letter: the sector connection ----
+
+    /// <summary>The reading of Theorem 4 of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md: every
+    /// dephased site carries exactly one single-site jump, and every undephased site u a letter P_u that H
+    /// conserves (every term of H has I or P_u at u; a site H does not touch conserves Z). Turn each jump and
+    /// each conserved letter to Z; H is then block diagonal in the undephased bits, H = ⊕_σ H_σ with each
+    /// H_σ a matrix on the dephased bits, and with H̄_σ(x, y) = H_σ(x̄, ȳ) (the complement on the dephased
+    /// bits only)
+    ///
+    ///     near = Σ_{σ,τ} hom(H_τ, H_σ),   far = Σ_{σ,τ} hom(H_τ, H̄_σ),
+    ///
+    /// hom(A, B) = dim{g : B_xy·g_y = g_x·A_xy}, the good components of the graph whose edges are the
+    /// nonzero off-diagonal entries of A or B (|A_xy| = |B_xy| on every edge, A_xx = B_xx, trivial holonomy
+    /// of g_y/g_x = A_xy/B_xy). Null when a jump is not a single letter on one site, a site carries two
+    /// jumps, or an undephased site has no conserved letter. With no undephased site it is Theorem 2.
+    /// Cross is the part of the two counts that pairs two different sectors (σ ≠ τ).
+    /// Exact over the Gaussian rationals; N ≤ 10.</summary>
+    public (int Near, int Far, int Sectors, int Cross)? SectorConnection()
+    {
+        if (N > 10) throw new InvalidOperationException("the graphs have 2^N vertices; N <= 10");
+        var axis = new char[N];
+        foreach (var a in jumpStrings)
+        {
+            var sites = Enumerable.Range(0, N).Where(l => Touches(a, l)).ToList();
+            if (sites.Count != 1 || axis[sites[0]] != '\0') return null;
+            axis[sites[0]] = a.Letter(sites[0]);
+        }
+        var free = Enumerable.Range(0, N).Where(l => axis[l] == '\0').ToList();
+        foreach (int u in free)
+        {
+            var used = terms.Select(t => t.S.Letter(u)).Where(c => c != 'I').Distinct().ToList();
+            if (used.Count > 1) return null;
+            axis[u] = used.Count == 1 ? used[0] : 'Z';
+        }
+        var dephased = Enumerable.Range(0, N).Where(l => !free.Contains(l)).ToList();
+
+        // H turned, as (row, col) -> Gaussian integer over all N bits
+        int d = 1 << N;
+        var h = new Dictionary<(int, int), (BigInteger Re, BigInteger Im)>();
+        foreach (var (t, c) in terms)
+        {
+            var letters = new char[N];
+            int sign = 1;
+            for (int l = 0; l < N; l++)
+            {
+                char ch = t.Letter(l);
+                if (ch == 'I') { letters[l] = 'I'; continue; }
+                var (nl, sg) = TurnToZ(ch, axis[l]);
+                letters[l] = nl; sign *= sg;
+            }
+            var q = PauliString.Parse(new string(letters));
+            int ny = System.Numerics.BitOperations.PopCount(q.X & q.Z);
+            for (int col = 0; col < d; col++)
+            {
+                int row = col ^ (int)q.X;
+                int k = (ny + 2 * System.Numerics.BitOperations.PopCount((ulong)col & q.Z)) & 3;
+                BigInteger v = sign * (BigInteger)c;
+                var add = k switch { 0 => (v, BigInteger.Zero), 1 => (BigInteger.Zero, v), 2 => (-v, BigInteger.Zero), _ => (BigInteger.Zero, -v) };
+                var old = h.TryGetValue((row, col), out var o) ? o : (BigInteger.Zero, BigInteger.Zero);
+                h[(row, col)] = (old.Item1 + add.Item1, old.Item2 + add.Item2);
+            }
+        }
+
+        // split into sectors of the undephased bits; the dephased bits are re-indexed 0 .. 2^|S| - 1
+        int m = dephased.Count, fs = free.Count, dim = 1 << m;
+        static int Sub(int v, List<int> sites)
+        {
+            int r = 0;
+            for (int j = 0; j < sites.Count; j++) r |= ((v >> sites[j]) & 1) << j;
+            return r;
+        }
+        var blocks = Enumerable.Range(0, 1 << fs).Select(_ => new Dictionary<(int, int), (BigInteger Re, BigInteger Im)>()).ToArray();
+        foreach (var ((r, c), e) in h)
+        {
+            if (e.Re.IsZero && e.Im.IsZero) continue;
+            int sr = Sub(r, free), sc = Sub(c, free);
+            if (sr != sc) throw new InvalidOperationException("H does not conserve the turned letters of the undephased sites");
+            blocks[sr][(Sub(r, dephased), Sub(c, dephased))] = e;
+        }
+        var bars = blocks.Select(b => b.ToDictionary(kv => (kv.Key.Item1 ^ (dim - 1), kv.Key.Item2 ^ (dim - 1)), kv => kv.Value)).ToArray();
+
+        int near = 0, far = 0, cross = 0;
+        for (int s = 0; s < blocks.Length; s++)
+            for (int t = 0; t < blocks.Length; t++)
+            {
+                int hn = Hom(blocks[t], blocks[s], dim), hf = Hom(blocks[t], bars[s], dim);
+                near += hn;
+                far += hf;
+                if (s != t) cross += hn + hf;
+            }
+        return (near, far, blocks.Length, cross);
+    }
+
+    /// <summary>dim{g on 0 .. dim − 1 : B_xy·g_y = g_x·A_xy for all x, y}, for A and B Hermitian: the good
+    /// components of the graph whose edges are the nonzero off-diagonal entries of A or B.</summary>
+    static int Hom(Dictionary<(int, int), (BigInteger Re, BigInteger Im)> a,
+                   Dictionary<(int, int), (BigInteger Re, BigInteger Im)> b, int dim)
+    {
+        static (BigInteger Re, BigInteger Im) Get(Dictionary<(int, int), (BigInteger Re, BigInteger Im)> m, int r, int c) =>
+            m.TryGetValue((r, c), out var v) ? v : (BigInteger.Zero, BigInteger.Zero);
+        var nbr = Enumerable.Range(0, dim).Select(_ => new List<int>()).ToArray();
+        foreach (var (r, c) in a.Keys.Concat(b.Keys).Distinct())
+            if (r != c) { nbr[r].Add(c); nbr[c].Add(r); }
+        var sec = new (BigInteger Re, BigInteger Im, BigInteger Den)?[dim];
+        int good = 0;
+        for (int s0 = 0; s0 < dim; s0++)
+        {
+            if (sec[s0] is not null) continue;
+            bool ok = true;
+            sec[s0] = (1, 0, 1);
+            var stack = new Stack<int>(); stack.Push(s0);
+            while (stack.Count > 0)
+            {
+                int x = stack.Pop();
+                if (Get(a, x, x) != Get(b, x, x)) ok = false;
+                foreach (int y in nbr[x])
+                {
+                    var p = Get(a, x, y); var q = Get(b, x, y);
+                    BigInteger n2 = q.Re * q.Re + q.Im * q.Im;
+                    if (p.Re * p.Re + p.Im * p.Im != n2 || n2.IsZero) ok = false;
+                    // g_y = g_x · p / q = g_x · p · conj(q) / |q|^2
+                    var (dr, di, dd) = sec[x]!.Value;
+                    BigInteger nr = p.Re * q.Re + p.Im * q.Im, ni = p.Im * q.Re - p.Re * q.Im;
+                    (BigInteger, BigInteger, BigInteger) v = n2.IsZero ? (0, 0, 1) : (dr * nr - di * ni, dr * ni + di * nr, dd * n2);
+                    var gv = BigInteger.GreatestCommonDivisor(BigInteger.GreatestCommonDivisor(v.Item1, v.Item2), v.Item3);
+                    if (!gv.IsZero && !gv.IsOne) v = (v.Item1 / gv, v.Item2 / gv, v.Item3 / gv);
+                    if (sec[y] is null) { sec[y] = v; stack.Push(y); }
+                    else
+                    {
+                        var (yr, yi, yd) = sec[y]!.Value;
+                        if (yr * v.Item3 != v.Item1 * yd || yi * v.Item3 != v.Item2 * yd) ok = false;
+                    }
+                }
+            }
+            if (ok) good++;
+        }
+        return good;
+    }
+
     // ---- the far element a Clifford symmetry is ----
 
     /// <summary>A Clifford symmetry of (H, jumps), read as what it does to the terms: term i of H goes to
