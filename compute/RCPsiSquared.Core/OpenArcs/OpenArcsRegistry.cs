@@ -4133,13 +4133,14 @@ public static class OpenArcsRegistry
                 + "controls, the Pauli-basis frame and its cross-check against build_L, the monomial search with its "
                 + "positive control, the characteristic-polynomial and minimal-polynomial readings, and the surplus "
                 + "commutator. They are NOT repo evidence and are not cited as such. Nothing in this block is "
-                + "re-runnable from the repository until the port in NextStep item ONE is done. TWO CLASSES WHERE THE "
-                + "CONVERSE HOLDS (2026-09-30, docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, Theorems 1 and 3): "
+                + "re-runnable from the repository until the port in NextStep item ONE is done. THREE CLASSES WHERE THE "
+                + "CONVERSE HOLDS (2026-09-30, docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, Theorems 1, 3 and 5): "
                 + "every site dephased along Z, Heisenberg bonds of any nonzero weights on a connected graph, fields "
                 + "along letters: palindrome exactly when no field lies along Z and the fields do not use both X and Y, "
                 + "at every magnitude; and every site dephased along mixed axes, Heisenberg bonds on a connected graph, fields of any "
-                + "direction: palindrome exactly when two axes occur and every field lies along the third letter. The "
-                + "78 coincident-magnitude rows of (b) all leave a site undephased.",
+                + "direction: palindrome exactly when two axes occur and every field lies along the third letter; and (Theorem 5) Heisenberg bonds on a connected graph with exactly one site undephased and letter fields: "
+                + "palindrome exactly when a colouring exists. The "
+                + "78 coincident-magnitude rows of (b) all leave two sites undephased.",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "
                 + "simulations/f138_palindrome_colouring.py). A single Pauli string in F158's far kernel is a colouring of "
                 + "the graph by lit letters, one per site that all its jumps light (bond P(x)P: both ends or neither "

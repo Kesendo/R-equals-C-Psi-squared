@@ -26,17 +26,21 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>Theorem 3.</b> Heisenberg bonds, every J ≠ 0, on a connected graph, every site dephased along
 /// one letter with at least two letters among the axes, fields of any direction: the near end is
 /// one-dimensional, and the palindrome holds exactly when two axes occur and every field lies along the
-/// third letter c, carried by c^⊗N alone; on every broken row the far end is zero. Theorems 1 and 3 are the
-/// two classes in which F138's converse holds exactly.</para>
+/// third letter c, carried by c^⊗N alone; on every broken row the far end is zero. Theorems 1, 3 and 5 are the
+/// three classes in which F138's converse holds exactly.</para>
 ///
 /// <para><b>Theorem 4.</b> At least one site dephased, every dephased site with one single-site Pauli jump,
 /// and every undephased site keeping a letter H conserves: turned to Z, H is block
 /// diagonal in their bits, H = ⊕_σ H_σ, and near = Σ_{σ,τ} hom(H_τ, H_σ), far = Σ_{σ,τ} hom(H_τ, H̄_σ),
 /// each hom(A, B) = dim{g : B_xy·g_y = g_x·A_xy} a count of good components.</para>
 ///
+/// <para><b>Theorem 5.</b> Heisenberg bonds on a connected graph, letter fields, exactly one undephased site:
+/// the palindrome holds exactly when a colouring exists, F138's converse a third time; with two undephased
+/// sites it fails (F138 (b), the SWAP rows).</para>
+///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
 /// <c>SectorConnection</c> (Theorem 4), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
-/// end count's exact verdict and counts. Live lab for Theorems 1 to 3: <c>inspect --root complement</c>
+/// end count's exact verdict and counts; Theorem 5 against the end count's exact verdict directly. Live lab for Theorems 1 to 3: <c>inspect --root complement</c>
 /// (<c>ComplementConnectionWitness</c>), which shares no code with the gate and reads <c>twoendstrings</c>
 /// beside itself.</para></summary>
 public sealed class PalindromeComplementConnectionClaim : Claim
@@ -64,19 +68,20 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "every site, turned to Z, the far end of F158 is X^N times the flat sections of d_y/d_x = " +
                "H_xy/H_x̄ȳ on the hopping graph over bitstrings; near count = components of the hopping graph, " +
                "far count = good components of its union with the complement image, palindrome iff every " +
-               "component is good (Theorem 2). Corollaries, the two classes where F138's converse holds exactly: " +
+               "component is good (Theorem 2). Corollaries, two of the three classes where F138's converse holds exactly: " +
                "hopping bonds J(XX + YY), every J nonzero, with a complement-invariant diagonal part, under uniform Z with letter " +
                "fields, palindrome iff no Z field and not both X and Y " +
                "(Theorem 1); Heisenberg bonds, every J nonzero, under mixed axes with fields of any direction, near end " +
                "one-dimensional, palindrome iff two axes occur and every field lies along the third letter " +
-               "(Theorem 3). Both corollaries need a connected graph. With the dephased sites (at least one) each under one single-site " +
+               "(Theorem 3). Both need a connected graph. With the dephased sites (at least one) each under one single-site " +
                "jump and every undephased site keeping a letter H conserves: H splits into " +
                "sectors of their bits, near = sum over sector pairs of hom(H_tau, H_sigma), far = the same against the complement " +
-               "image, each hom a count of good components (Theorem 4)",
+               "image, each hom a count of good components (Theorem 4). Heisenberg bonds on a connected graph with exactly one " +
+               "undephased site and letter fields: palindrome iff a colouring exists (Theorem 5); with two it fails (F138 (b))",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (primary: Theorems 1-4) + " +
+               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (primary: Theorems 1-5) + " +
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (f10)) + " +
-               "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in the two classes) + " +
+               "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in three classes) + " +
                "experiments/THE_PALINDROME_AS_A_COLOURING.md (the colouring rule and the frame theorem)")
     {
         TwoEndCount = twoEndCount ?? throw new ArgumentNullException(nameof(twoEndCount));
@@ -87,7 +92,8 @@ public sealed class PalindromeComplementConnectionClaim : Claim
 
     public override string Summary =>
         "near = components of the hopping graph, far = its good components joined with the complement image; " +
-        $"F138's converse exact under one axis (Theorem 1) and under mixed axes (Theorem 3) ({Tier.Label()})";
+        "F138's converse exact under one axis (Theorem 1), under mixed axes (Theorem 3) and with one undephased site " +
+        $"under Heisenberg bonds (Theorem 5); undephased sites that keep a letter split into sectors (Theorem 4) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -126,8 +132,9 @@ public sealed class PalindromeComplementConnectionClaim : Claim
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
-                         "sites only where each keeps a letter H conserves; one that keeps none lies outside (the blocks " +
-                         "stop commuting). Theorems 1 and 3 need a connected graph: two " +
+                         "sites where each keeps a letter H conserves; Theorem 5: one undephased site under Heisenberg bonds with " +
+                         "letter fields, where no letter is kept. Otherwise an undephased site that keeps no letter lies outside " +
+                         "(the blocks stop commuting). Theorems 1, 3 and 5 need a connected graph: two " +
                          "disjoint Heisenberg bonds with axes X, Y and Y, Z and fields along each bond's third " +
                          "letter use three axes and pair, by ZZXX. Theorem 3 needs isotropic bonds; XXZ and XY " +
                          "under mixed axes are outside it.");

@@ -1224,6 +1224,115 @@ public class EndCountTests
         Assert.Contains("ZZXX", e.Colourings().Select(c => c.ToString(4)));
     }
 
+    // One undephased site under Heisenberg bonds, measured: every dephasing pattern that leaves exactly
+    // one site without a jump and every letter-field pattern, on the path and the triangle at N = 3 and
+    // on the path at N = 4, at distinct field magnitudes and at equal ones. Every verdict is exact, and
+    // the palindrome holds exactly when a colouring exists: a letter p that is no dephased site's axis
+    // with every field along p. Counted (derived): the undephased site (N ways), the axes avoiding p
+    // (2^(N-1)), the fields in {none, p} (2^N), for each of three letters, less the 3 rows per site where
+    // two letters both colour (every axis the third letter, no field): N·(3·2^(N-1)·2^N − 3), so 279 at
+    // N = 3 and 1524 at N = 4. With two undephased sites the rule fails (F138 (b), the SWAP rows).
+    [Theory]
+    [InlineData(3, "chain", 279)]
+    [InlineData(3, "ring", 279)]
+    [InlineData(4, "chain", 1524)]
+    public void One_Undephased_Site_Heisenberg_Pairs_Exactly_When_A_Colouring_Exists(int n, string topology, int palindromes)
+    {
+        const string A = ".XYZ";
+        var edges = topology == "chain" ? Chain(n) : Ring(n);
+        foreach (var mags in new[] { new long[] { 30, 22, 41, 17 }, new long[] { 30, 30, 30, 30 } })
+        {
+            int pal = 0;
+            for (int dc = 0; dc < 1 << (2 * n); dc++)
+            {
+                string deph = new(Enumerable.Range(0, n).Select(l => A[(dc >> (2 * l)) & 3]).ToArray());
+                if (deph.Count(c => c == '.') != 1) continue;
+                for (int fc = 0; fc < 1 << (2 * n); fc++)
+                {
+                    string field = new(Enumerable.Range(0, n).Select(l => A[(fc >> (2 * l)) & 3]).ToArray());
+                    var e = Letters(n, edges, "XYZ", mags, deph, field, weight: 10);
+                    var r = e.Verdict();
+                    Assert.True(EndCount.IsExact(r), $"{deph} {field}: {r}");
+                    bool colouring = "XYZ".Any(p => !deph.Contains(p) && field.All(f => f == '.' || f == p));
+                    Assert.True(colouring == EndCount.IsPalindrome(r), $"{deph} {field}: {r}");
+                    if (colouring) pal++;
+                }
+            }
+            Assert.Equal(palindromes, pal);
+        }
+    }
+
+    // Theorem 5's branches that uniform bonds never reach, site 0 undephased: the windmill triangle
+    // (0, 1, 2) at its coincidence J01 = J02 = −J12 and off it; the bowtie, triangles (0, 1, 2) and
+    // (0, 3, 4) each at its own coincidence (with three letters and no field its far end is asserted
+    // empty, 24 assignments at each of three couplings); and a star on 1, 2, 3 plus the bond (1, 2) at
+    // unequal couplings to site 0 (the S3 branch). Every axis assignment of the dephased sites, fields
+    // from a fixed random draw of letters and signed magnitudes (none on a third of the rows). Each
+    // verdict exact, the palindrome exactly where the rule says, and then p^⊗N a colouring.
+    [Fact]
+    public void One_Undephased_Site_Heisenberg_Holds_At_Coincident_Couplings()
+    {
+        var rng = new Random(20261002);
+        int rows = 0, pal = 0, bowtieEmpty = 0;
+        void Check(int n, (int A, int B, long J)[] bonds)
+        {
+            foreach (int ac in Enumerable.Range(0, (int)Math.Pow(3, n - 1)))
+                for (int rep = 0; rep < 3; rep++)
+                {
+                    var axes = new char[n];
+                    axes[0] = '.';
+                    for (int l = 1; l < n; l++) axes[l] = "XYZ"[ac / (int)Math.Pow(3, l - 1) % 3];
+                    var field = Enumerable.Range(0, n).Select(_ => rep == 0 ? '.' : ".XYZ"[rng.Next(4)]).ToArray();
+                    var h = new List<(string, long)>();
+                    foreach (var (a, b, j) in bonds)
+                        foreach (char c in "XYZ") h.Add((Two(n, a, b, c), j));
+                    for (int l = 0; l < n; l++)
+                        if (field[l] != '.') h.Add((One(n, l, field[l]), rng.Next(1, 6) * (rng.Next(2) == 0 ? 1 : -1)));
+                    var e = new EndCount(W, n, h, Enumerable.Range(1, n - 1).Select(l => One(n, l, axes[l])).ToList());
+                    var r = e.Verdict();
+                    string row = $"{new string(axes)} {new string(field)} bonds {string.Join(" ", bonds)}";
+                    Assert.True(EndCount.IsExact(r), $"{row}: {r}");
+                    var free = "XYZ".Where(p => !axes.Contains(p) && field.All(f => f == '.' || f == p)).ToList();
+                    Assert.True(free.Count > 0 == EndCount.IsPalindrome(r), $"{row}: {r}");
+                    rows++;
+                    if (free.Count > 0)
+                    {
+                        pal++;
+                        Assert.Contains(new string(free[0], n), e.Colourings().Select(c => c.ToString(n)));
+                    }
+                    // the bowtie at its coincidence, three letters, no field: the far end is empty, both
+                    // routes (the proof's coupling-free system, read at several couplings)
+                    if (n == 5 && rep == 0 && axes[1] != axes[2] && axes[3] != axes[4] && axes.Skip(1).Distinct().Count() == 3)
+                    {
+                        Assert.Equal(0, e.UpperCounts().Far);
+                        bowtieEmpty++;
+                    }
+                }
+        }
+        foreach (long a in new long[] { 1, -2, 3 })
+        {
+            Check(3, new[] { (0, 1, a), (0, 2, a), (1, 2, -a) });
+            Check(3, new[] { (0, 1, a), (0, 2, a), (1, 2, a) });
+            long b = rng.Next(1, 5) * (rng.Next(2) == 0 ? 1 : -1);
+            Check(5, new[] { (0, 1, a), (0, 2, a), (1, 2, -a), (0, 3, b), (0, 4, b), (3, 4, -b) });
+            Check(4, new[] { (0, 1, a), (0, 2, 2 * a + 1), (0, 3, a), (1, 2, 5L) });
+        }
+        Assert.True(pal > 20 && rows - pal > 100, $"rows {rows}, palindromic {pal}");
+        Assert.Equal(3 * 24, bowtieEmpty);
+    }
+
+    // Theorem 5 needs Heisenberg bonds: on one XX + YY bond with the first site undephased, a jump X on the
+    // second and fields Y on the first and Z on the second (the colouring page's defect cascade, whose
+    // carrier is an anticommuting sum), the row pairs with no colouring.
+    [Fact]
+    public void One_Undephased_Site_Without_Heisenberg_Bonds_Pairs_Without_A_Colouring()
+    {
+        var e = new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("YY", 1), ("YI", 2), ("IZ", 3) }, new[] { "IX" });
+        var r = e.Verdict();
+        Assert.True(EndCount.IsExact(r) && EndCount.IsPalindrome(r), $"{r}");
+        Assert.Empty(e.Colourings());
+    }
+
     // A jump on two sites that H does not join: the grammar keeps the two sites in one component (a
     // jump split between two components would make a product that anticommutes with nothing), so what
     // it returns passes its check, or it returns nothing. H = 3·ZI + 5·IZ, jump XX.

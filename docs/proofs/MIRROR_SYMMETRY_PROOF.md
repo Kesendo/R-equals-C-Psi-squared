@@ -193,7 +193,7 @@ carries dephasing at all*:
 measures it failing at fewer bond letters and at coincident field magnitudes:
 22 rows of 4096 on P₃ and 104 on a bond plus an isolated site at a two-letter
 bond, 776 / 732 / 520 at one letter, and 78 of 21,952 on the full XX+YY+ZZ bond
-when the two END sites of P₃ carry equal field magnitudes. In two classes it holds, exactly and at every magnitude, both with Heisenberg bonds on a connected graph and every site dephased: along Z with fields along letters, and along mixed axes with fields of any direction ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 and 3). Two of the 22 are
+when the two END sites of P₃ carry equal field magnitudes. In three classes it holds, exactly and at every magnitude, all with Heisenberg bonds on a connected graph: every site dephased along Z with fields along letters, every site dephased along mixed axes with fields of any direction, and every site but one dephased with fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1, 3 and 5). Two of the 22 are
 clause-1 rows rather than clause-2 rows, so the ceiling of two axes is sufficient
 and not necessary in the same way. Neither this paragraph nor F138 derives the
 clauses: they are a measured census of the SUFFICIENT direction, which has never
