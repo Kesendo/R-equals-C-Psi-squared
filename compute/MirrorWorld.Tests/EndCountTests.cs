@@ -823,15 +823,19 @@ public class EndCountTests
             .All(x => !PauliString.Commute(PauliString.Parse(x.a.Letters), PauliString.Parse(x.b.Letters)));
 
     // Distinct magnitudes leave no site-moving symmetry that carries a field onto another, so the
-    // symmetry element cannot reach these rows; every one is read exactly and carried by neither kind.
-    // At the two-letter bond the far end is one-dimensional on every such row and its lifted element is
-    // an anticommuting sum (the census: "all 22 of its two-letter rows" are one sum).
+    // symmetry element cannot reach these rows; every one is read exactly and none is a colouring or a
+    // site symmetry. At the two-letter bond the far end is one-dimensional on every such row and its
+    // lifted element is an anticommuting sum (the census: "all 22 of its two-letter rows" are one sum),
+    // named "clifford" where the sum is a Clifford unitary up to scale (eight rows, each two strings of
+    // equal coefficient magnitude) and "sum" otherwise (fourteen); at the one-letter bond no element is
+    // named and no Clifford element exists (the facts further down).
     // At N = 3 one prime lifts every row here; the wider lift is gated by the two facts below.
     [Theory]
     [InlineData("ZZ", 62)]
     [InlineData("XY", 22)]
     public void Beyond_The_Colouring_At_Distinct_Magnitudes_No_Palindrome_Is_A_Symmetry(string bondLetters, int beyond)
     {
+        var kinds = new Dictionary<string, int>();
         const string alphabet = ".XYZ";
         long[] mags = { 30, 22, 41 };
         int count = 0;
@@ -845,7 +849,7 @@ public class EndCountTests
                 Assert.True(EndCount.IsExact(r), $"{deph} {field}: {r}");
                 if (!EndCount.IsPalindrome(r) || r == EndCount.Reading.PalindromeByColour) continue;
                 count++;
-                Assert.Null(e.Explanation());
+                kinds[e.Explanation() ?? "none"] = kinds.TryGetValue(e.Explanation() ?? "none", out int kc) ? kc + 1 : 1;
                 if (bondLetters == "XY")
                 {
                     Assert.Equal(EndCount.Reading.PalindromeByElement, r);
@@ -853,6 +857,10 @@ public class EndCountTests
                 }
             }
         Assert.Equal(beyond, count);
+        var expectedKinds = bondLetters == "ZZ"
+            ? new Dictionary<string, int> { ["none"] = 62 }
+            : new Dictionary<string, int> { ["clifford"] = 8, ["sum"] = 14 };
+        Assert.Equal(expectedKinds, kinds);
     }
 
     // A sum whose coefficients one prime cannot reconstruct: the census's N = 4 chain at XX + YY, fields
@@ -872,7 +880,7 @@ public class EndCountTests
         Assert.True(PairwiseAnticommuting(element));
         long bound = (long)Math.Sqrt(EndCount.LiftPrimes[0] / 2.0);
         Assert.True(element.Max(t => Math.Abs(t.Coefficient)) > bound);
-        Assert.Null(e.Explanation());
+        Assert.Equal("sum", e.Explanation());
     }
     // A bad first prime: bonds of weight exactly LiftPrimes[0] vanish mod that prime. At Heisenberg
     // bonds its rank drops on some rows; at a ZZ bond it can keep the full rank and only move a pivot
@@ -911,5 +919,124 @@ public class EndCountTests
         Assert.Equal(EndCount.Reading.PalindromeByElement, e.Verdict());
         Assert.True(e.FarElement()!.Value.Check.Certifies);
         Assert.True(PairwiseAnticommuting(e.FarElement()!.Value.Element));
+    }
+    // ---- the Clifford elements of the far space ----
+
+    static IEnumerable<(string Deph, string Field)> ThreeSitePatterns()
+    {
+        const string alphabet = ".XYZ";
+        for (int dc = 1; dc < 64; dc++)
+            for (int fc = 0; fc < 64; fc++)
+                yield return (new string(Enumerable.Range(0, 3).Select(l => alphabet[(dc >> (2 * l)) & 3]).ToArray()),
+                              new string(Enumerable.Range(0, 3).Select(l => alphabet[(fc >> (2 * l)) & 3]).ToArray()));
+    }
+
+    // Soundness and nesting against the exact verdict, over every row of the three-site chain for the
+    // three bond sets at one and at distinct magnitudes: a Clifford map the search returns is read
+    // palindromic (a map on a broken row would contradict F158, so a search that accepted a map it
+    // should not, a dropped commutation or phase check, fails here), the search never runs out of
+    // budget, and every row with a colouring or a site symmetry's element has a Clifford map too.
+    [Theory]
+    [InlineData("XYZ", 30, 30, 30)]
+    [InlineData("XYZ", 30, 22, 41)]
+    [InlineData("XY", 30, 30, 30)]
+    [InlineData("XY", 30, 22, 41)]
+    [InlineData("ZZ", 30, 30, 30)]
+    [InlineData("ZZ", 30, 22, 41)]
+    public void Every_Clifford_Map_The_Search_Returns_Carries_A_Palindrome(string bondLetters, long m0, long m1, long m2)
+    {
+        int maps = 0;
+        foreach (var (deph, field) in ThreeSitePatterns())
+        {
+            var e = Letters(3, Chain(3), bondLetters, new[] { m0, m1, m2 }, deph, field);
+            var (map, exhausted) = e.CliffordSymmetry();
+            Assert.True(exhausted, $"{deph} {field}: the search ran out of budget");
+            var r = e.Verdict();
+            if (map is not null) { maps++; Assert.True(EndCount.IsPalindrome(r), $"{deph} {field}: a Clifford map on a row read {r}"); }
+            if (e.Colourings().Count > 0 || e.SymmetryElement() is not null)
+                Assert.True(map is not null, $"{deph} {field}: coloured or symmetric, but no Clifford map");
+        }
+        Assert.True(maps > 0);
+    }
+
+    // The fourth carrier. On P3 with XX + YY bonds, fields Y on site 1 and Z on site 2 of one magnitude
+    // and the jump X on site 0, the far end is one-dimensional and its element
+    //   E = -YII - ZXX - YYZ + ZZY
+    // is (twice) a Clifford unitary that is no site symmetry: conjugation by it sends the bond XX_01 to
+    // YY_12 and YY_12 back, fixes YY_01 and XX_12, swaps the two fields and negates the jump, so the
+    // magnitudes must coincide (at distinct ones the row is broken). The search finds exactly that map,
+    // and E conjugates every term of H onto its image, checked here by exact string products.
+    [Fact]
+    public void A_Clifford_That_Permutes_The_Bonds_Carries_A_Row_No_Site_Symmetry_Reaches()
+    {
+        var e = Letters(3, Chain(3), "XY", new long[] { 30, 30, 30 }, "X..", ".YZ");
+        Assert.Equal(EndCount.Reading.PalindromeByElement, e.Verdict());
+        Assert.Null(e.SymmetryElement());
+        Assert.Equal("clifford", e.Explanation());
+        var (map, _) = e.CliffordSymmetry();
+        Assert.NotNull(map);
+        // the map read through the terms' own strings, whatever order the object keeps them in
+        var names = e.Terms.Select(x => x.Letters).ToArray();
+        var byName = Enumerable.Range(0, names.Length).ToDictionary(k => names[k], k => names[map!.Image[k]]);
+        Assert.Equal(new Dictionary<string, string>
+        {
+            ["XXI"] = "IYY", ["IYY"] = "XXI", ["YYI"] = "YYI", ["IXX"] = "IXX", ["IYI"] = "IIZ", ["IIZ"] = "IYI",
+        }, byName);
+        Assert.All(map!.Sign, s => Assert.Equal(1, s));
+
+        var (element, check) = e.FarElement()!.Value;
+        Assert.True(check.Certifies);
+        var expected = new Dictionary<string, long> { ["YII"] = -1, ["ZXX"] = -1, ["YYZ"] = -1, ["ZZY"] = 1 };
+        long scale = element.First(x => x.Letters == "YII").Coefficient / -1;
+        Assert.Equal(expected.Count, element.Count);
+        Assert.All(element, x => Assert.Equal(expected[x.Letters] * scale, x.Coefficient));
+        string[] termStrings = { "XXI", "YYI", "IXX", "IYY", "IYI", "IIZ" };
+        foreach (var t in termStrings)
+            Assert.Equal(new Dictionary<string, (long, long)> { [byName[t]] = (4, 0) }, Conjugate(expected, t));
+        Assert.Equal(new Dictionary<string, (long, long)> { ["XII"] = (-4, 0) }, Conjugate(expected, "XII"));
+
+        var broken = Letters(3, Chain(3), "XY", new long[] { 30, 22, 41 }, "X..", ".YZ");
+        Assert.False(EndCount.IsPalindrome(broken.Verdict()));
+        Assert.Equal((null, true), (broken.CliffordSymmetry().Map, broken.CliffordSymmetry().Exhausted));
+    }
+
+    // At a ZZ bond the palindromes beyond the colouring have no Clifford element at all, at one
+    // magnitude and at distinct ones: whatever carries them has coefficients that are not those of a
+    // Clifford unitary.
+    [Theory]
+    [InlineData(30, 30, 30)]
+    [InlineData(30, 22, 41)]
+    public void At_A_ZZ_Bond_No_Palindrome_Beyond_The_Colouring_Has_A_Clifford_Element(long m0, long m1, long m2)
+    {
+        int beyond = 0;
+        foreach (var (deph, field) in ThreeSitePatterns())
+        {
+            var e = Letters(3, Chain(3), "ZZ", new[] { m0, m1, m2 }, deph, field);
+            var r = e.Verdict();
+            if (!EndCount.IsPalindrome(r) || r == EndCount.Reading.PalindromeByColour) continue;
+            beyond++;
+            Assert.Null(e.CliffordSymmetry().Map);
+            Assert.Null(e.Explanation());
+        }
+        Assert.Equal(62, beyond);
+    }
+
+    // E · P · E for E a combination of strings with integer coefficients, as strings with Gaussian
+    // integer coefficients (re, im); a route through PauliString.Multiply alone.
+    static Dictionary<string, (long, long)> Conjugate(Dictionary<string, long> e, string p)
+    {
+        var acc = new Dictionary<PauliString, (long Re, long Im)>();
+        var ps = PauliString.Parse(p);
+        foreach (var (a, ca) in e)
+            foreach (var (b, cb) in e)
+            {
+                var (ab, k1) = PauliString.Multiply(PauliString.Parse(a), ps);
+                var (abc, k2) = PauliString.Multiply(ab, PauliString.Parse(b));
+                long c = ca * cb;
+                (long re, long im) v = ((k1 + k2) & 3) switch { 0 => (c, 0), 1 => (0, c), 2 => (-c, 0), _ => (0, -c) };
+                var old = acc.TryGetValue(abc, out var o) ? o : (0, 0);
+                acc[abc] = (old.Re + v.re, old.Im + v.im);
+            }
+        return acc.Where(kv => kv.Value != (0, 0)).ToDictionary(kv => kv.Key.ToString(p.Length), kv => ((long, long))kv.Value);
     }
 }

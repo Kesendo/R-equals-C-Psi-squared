@@ -103,6 +103,9 @@ public sealed class EndCount : GameObject
     public const long MaxCoefficient = 1L << 62;
 
     public int N { get; }
+
+    /// <summary>H's terms as the object holds them (merged, zeros dropped), in the order CliffordMap indexes.</summary>
+    public IReadOnlyList<(string Letters, long Coefficient)> Terms => terms.Select(t => (t.S.ToString(N), t.C)).ToList();
     readonly (PauliString S, long C)[] terms;
     readonly PauliString[] jumpStrings;
 
@@ -530,14 +533,137 @@ public sealed class EndCount : GameObject
         return null;
     }
 
+    // ---- the far element a Clifford symmetry is ----
+
+    /// <summary>A Clifford symmetry of (H, jumps), read as what it does to the terms: term i of H goes to
+    /// Sign[i] times term Image[i] (the index into the row's terms, in the order they were given), and
+    /// every jump to minus itself.</summary>
+    public sealed record CliffordMap(int[] Image, int[] Sign)
+    {
+        /// <summary>Every term fixed: then the Clifford acts on the terms and jumps as a Pauli string
+        /// does, and the row has a colouring.</summary>
+        public bool FixesEveryTerm => Image.Select((j, i) => j == i).All(x => x) && Sign.All(t => t == 1);
+    }
+
+    /// <summary>The node budget of the Clifford search; past it the search reports itself unfinished.</summary>
+    public const long MaxCliffordNodes = 2_000_000;
+
+    /// <summary>A Clifford unitary U with U·H·U† = H and U·A·U† = −A for every jump A, found by what it does
+    /// to the terms, or null when none exists (Exhausted true) or the budget ran out (Exhausted false).
+    ///
+    /// Such a U lies in F158's far space: [H, U] = 0 and A·U·A = −U, and it is invertible, so it carries
+    /// the palindrome. Conversely every Clifford element of the far space is of this kind: conjugation by
+    /// a Clifford sends each string to plus or minus a string, distinct strings to distinct ones, so it
+    /// fixes H exactly when it permutes H's terms, each onto a term whose coefficient it matches with its
+    /// sign. The search assigns every term an image among the terms of equal magnitude and every jump the
+    /// image minus itself, and keeps an assignment only while it is a partial Clifford map: commutation
+    /// between every two assigned sources equals commutation between their images, and every product
+    /// relation among the sources, phase included, holds among the images (a GF(2) elimination on the
+    /// sources carrying the images along, each step one exact string product with its power of i). A
+    /// complete assignment that passes both is an isometry of the subspace the sources span (injective
+    /// although only the source relations are checked: the images are the sources themselves in another
+    /// order, terms permuted bijectively and jumps fixed, so they span the same space, and a surjection
+    /// onto a space of the same finite dimension is a bijection), which extends to the whole symplectic
+    /// space by Witt's theorem (valid for alternating forms in characteristic 2 and degenerate subspaces), and the signs, being consistent on the
+    /// subgroup, extend with it; so it is realised by a Clifford. The colourings are the assignments
+    /// fixing every term, and the symmetries of Symmetries() the ones a site permutation and a rotation
+    /// induce. The unitary itself is not built here; where the far end is one-dimensional the lifted far
+    /// element is it, up to scale.</summary>
+    public (CliffordMap? Map, bool Exhausted) CliffordSymmetry()
+    {
+        int t = terms.Length;
+        var image = new int[t];
+        var sign = new int[t];
+        var used = new bool[t];
+        // the assigned sources and their images, each an operator i^phase · string
+        var src = new List<(PauliString S, int Ph)>();
+        var img = new List<(PauliString S, int Ph)>();
+        // the elimination basis: reduced source, its image, pivot = highest bit of the source's key (-1 for a relation)
+        var basis = new List<(PauliString S, int Ph, PauliString IS, int IPh, int Pivot)>();
+        long nodes = 0;
+
+        static ulong Key(PauliString p) => (p.X << 32) | p.Z;
+        static int High(ulong k) => 63 - System.Numerics.BitOperations.LeadingZeroCount(k);
+        static (PauliString S, int Ph) Times((PauliString S, int Ph) a, (PauliString S, int Ph) b)
+        {
+            var (prod, k) = PauliString.Multiply(a.S, b.S);
+            return (prod, (a.Ph + b.Ph + k) & 3);
+        }
+
+        // add one assignment source -> target if it keeps the map a partial Clifford map
+        bool Push((PauliString S, int Ph) a, (PauliString S, int Ph) b)
+        {
+            for (int k = 0; k < src.Count; k++)
+                if (PauliString.Commute(a.S, src[k].S) != PauliString.Commute(b.S, img[k].S)) return false;
+            var r = a;
+            var ri = b;
+            while (Key(r.S) != 0)
+            {
+                int hb = High(Key(r.S));
+                int e = basis.FindIndex(x => x.Pivot == hb);
+                if (e < 0) break;
+                r = Times(r, (basis[e].S, basis[e].Ph));
+                ri = Times(ri, (basis[e].IS, basis[e].IPh));
+            }
+            if (Key(r.S) == 0 && (!ri.S.IsIdentity || ri.Ph != r.Ph)) return false;   // a relation the images break
+            src.Add(a); img.Add(b);
+            basis.Add((r.S, r.Ph, ri.S, ri.Ph, Key(r.S) == 0 ? -1 : High(Key(r.S))));
+            return true;
+        }
+        void Pop() { src.RemoveAt(src.Count - 1); img.RemoveAt(img.Count - 1); basis.RemoveAt(basis.Count - 1); }
+
+        foreach (var a in jumpStrings)
+            if (!Push((a, 0), (a, 2))) return (null, true);          // −A = i^2 · A
+
+        bool exhausted = true;
+        bool Assign(int i)
+        {
+            if (i == t) return true;
+            for (int j = 0; j < t; j++)
+            {
+                if (used[j] || Math.Abs(terms[j].C) != Math.Abs(terms[i].C)) continue;
+                if (++nodes > MaxCliffordNodes) { exhausted = false; return false; }
+                int sg = terms[j].C == terms[i].C ? 1 : -1;
+                if (!Push((terms[i].S, 0), (terms[j].S, sg == 1 ? 0 : 2))) continue;
+                used[j] = true; image[i] = j; sign[i] = sg;
+                if (Assign(i + 1)) return true;
+                used[j] = false;
+                Pop();
+                if (!exhausted) return false;
+            }
+            return false;
+        }
+        return Assign(0) ? (new CliffordMap(image, sign), true) : (null, exhausted);
+    }
+
     /// <summary>For a palindromic row, what explains it: "colouring" (a single lit string commuting with
-    /// H), "symmetry" (the far element of a symmetry, SymmetryElement), or null when the palindrome
-    /// holds by the counts or a lifted vector with neither of these behind it. N ≤ 8, the bound of
-    /// Symmetries().</summary>
+    /// H), "symmetry" (the far element of a site symmetry, SymmetryElement), "clifford" (a Clifford
+    /// element of the far space that neither of those is, CliffordSymmetry), "sum" (the far end is
+    /// one-dimensional and its lifted element, a combination of pairwise anticommuting lit strings, is
+    /// no Clifford), "unfinished" when the Clifford search ran out of its budget before either answer
+    /// (so nothing past the site symmetry is claimed), or null when the palindrome holds by the counts
+    /// with none of these behind it. The
+    /// kinds nest, each checked after the ones before it: a colouring is a Clifford element fixing
+    /// every term, a site symmetry's element a Clifford one a site permutation and a rotation induce.
+    /// N ≤ 8, the bound of Symmetries().</summary>
     public string? Explanation()
     {
         if (Colourings().Count > 0) return "colouring";
-        return SymmetryElement() is not null ? "symmetry" : null;
+        if (SymmetryElement() is not null) return "symmetry";
+        var (map, exhausted) = CliffordSymmetry();
+        if (map is not null) return "clifford";
+        if (!exhausted) return "unfinished";
+        if (FarElement() is { Check.Certifies: true } fe && PairwiseAnticommuting(fe.Element)) return "sum";
+        return null;
+    }
+
+    static bool PairwiseAnticommuting(IReadOnlyList<(string Letters, long Coefficient)> element)
+    {
+        var p = element.Select(e => PauliString.Parse(e.Letters)).ToList();
+        for (int i = 0; i < p.Count; i++)
+            for (int j = 0; j < i; j++)
+                if (PauliString.Commute(p[i], p[j])) return false;
+        return true;
     }
 
     // ---- an element found elsewhere ----
