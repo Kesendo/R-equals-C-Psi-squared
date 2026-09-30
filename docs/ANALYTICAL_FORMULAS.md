@@ -6608,11 +6608,33 @@ measured and no more than that: the exceptions track the graph's own
 automorphisms and the bond's letter count, so the conditions look sufficient
 always and necessary only where the configuration carries no symmetry of its
 own, a reading and not a result. **Operators explaining the exceptions are
-exhibited on two families.** The 78 P₃ rows of (b) split into
-two families: the 6 whose field is anti-invariant under the end-site swap, and
-the other 72. On the six a dressed site reversal works, U = SWAP₀₂·Z₀Z₁Z₂ on the
-row [THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md) assembles
-and its letter-relabelled, sign-flipped copies on the other five. On the CLAUSE-1
+exhibited.** All 78 P₃ rows of (b) carry one operator,
+U = SWAP₀₂·(n·σ)⊗(n·σ)⊗(n·σ), the end-site swap composed with the π rotation about
+an axis n applied to every site. On each of the 78 only the middle site is
+dephased; n is orthogonal to its jump letter, carries the field on site 0 onto
+the field on site 2 (which is why the two magnitudes must coincide) and fixes the
+middle field, so conjugation by U fixes H and negates the jump, and U, being
+invertible, is an element of [F158](#f158)'s far space, so by F158's Lemma 3 the
+two ends hold equal counts and the palindrome holds (directly: the left
+multiplication ρ ↦ U·ρ carries L to −L† − 2σ, F158 §(e), and §(f8) carries that to
+−L − 2σ). Multiplication by U is not monomial in the Pauli
+basis, which is why the monomial search of the arc `f138_converse_failures` (its
+finding 2) could not return it, and U enters as an element of the far space rather
+than as an automorphism, which is why that arc's finding 3 does not reach it. On
+the 6 whose field is anti-invariant under the end swap the jump and the end fields
+share one letter, and every axis in the plane orthogonal to that letter serves;
+n = Z gives U = SWAP₀₂·Z₀Z₁Z₂ on the row
+[THE_PAIRING_CONDITION](../experiments/THE_PAIRING_CONDITION.md) assembles. On the
+other 72 the axis is unique up to sign, a letter on 48 rows and the bisector of two
+letters on 24. On K₃ the same
+form, with the swap of the pair whose fields the rotation exchanges, carries all
+234 rows at three equal magnitudes. Gated in
+[`EndCountTests`](../compute/MirrorWorld.Tests/EndCountTests.cs) over nine candidate
+axes (the three letters and the six bisectors): on every one of the 78 the axes that
+certify are exactly the axes the rule above predicts, no axis certifies without the
+swap or without the middle factor, and MirrorWorld's `EndCount` reads the whole grid
+exactly (run mode `endcount f138 30 22 30`: 78 rows beyond the clauses, 72 by a
+lifted far element and 6 by exact counts, and none at the committed 30 22 41). On the CLAUSE-1
 exceptions it is closed form: take P₃ with an XX+YY bond, no field, one
 dephasing axis per site and all rates equal; of the six three-axis assignments
 clause 1 forbids, exactly the two with **Z on the middle site** pair anyway, and
@@ -6639,13 +6661,12 @@ WHERE the odd axis sits, not how many axes there are.
 [F158](#f158) decides the same setting
 in general without exhibiting anything at all, by comparing dim ker L with
 dim ker(L + 2Σγ), and it finds every one of these. Separate EXISTS from EXPLAINS
-when reading it: the operators above are exhibited on the two named families,
-the mechanism on the other 72 rows of (b) is still not shown, and the 27-row family here
+when reading it: the operators above are exhibited on all 78 rows of (b) and on
+the named clause-1 family, and the 27-row family here
 is not F138's own 22-of-4096 count. Both
 failures are collected in
 [an open arc](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs)
-(`f138_converse_failures`); the mechanism is a candidate
-there, not a result here. For every exception row some unitary V commuting with the jumps
+(`f138_converse_failures`), whose item (b) the operator above closes. For every exception row some unitary V commuting with the jumps
 makes VHV† commute with a Pauli string that anticommutes with every jump
 ([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)),
 which is F158 restated: it settles EXISTS, not EXPLAINS. Also caught by that reading: two of the 22 two-letter

@@ -1729,6 +1729,66 @@ if (args.Length > 0 && args[0] == "crack")
     return;
 }
 
+// ---- run mode "endcount f138 m0 m1 m2 [out.csv] [topology]": F138's own three-site grid, read exactly ----
+// docs/ANALYTICAL_FORMULAS.md F138 (b): the full bond XX + YY + ZZ (weight 100 per letter) on three sites,
+// per site one dephasing letter or none and a field along +-X, +-Y, +-Z or none, 28^3 = 21,952 rows,
+// field magnitudes m0, m1, m2 (in hundredths; the committed tuple is 30 22 41, the coincident one 30 22 30).
+// Per row the end count's reading, the colouring if any, the lifted far element if any, and the number
+// of symmetries of (H, jumps) that move sites.
+if (args.Length > 1 && args[0] == "endcount" && args[1] == "f138")
+{
+    if (args.Length < 5)
+    {
+        Console.WriteLine("endcount f138 m0 m1 m2 [out.csv] [chain|complete]: three field magnitudes in hundredths, e.g. 30 22 30");
+        return;
+    }
+    var fmag = new[] { long.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture),
+                       long.Parse(args[3], System.Globalization.CultureInfo.InvariantCulture),
+                       long.Parse(args[4], System.Globalization.CultureInfo.InvariantCulture) };
+    string fout = args.Length > 5 ? args[5] : "endcount_f138.csv";
+    string ftopo = args.Length > 6 ? args[6] : "chain";
+    var fedges = ftopo == "complete" ? new[] { (0, 1), (1, 2), (0, 2) } : new[] { (0, 1), (1, 2) };
+    var fworld = new World();
+    var fields = new (char Letter, int Sign)[] { ('.', 0), ('X', 1), ('X', -1), ('Y', 1), ('Y', -1), ('Z', 1), ('Z', -1) };
+    string FPut(int site, char letter) { var c = "III".ToCharArray(); c[site] = letter; return new string(c); }
+    var fbonds = fedges.SelectMany(e => "XYZ".Select(p =>
+    {
+        var c = "III".ToCharArray(); c[e.Item1] = p; c[e.Item2] = p;
+        return (new string(c), 100L);
+    })).ToList();
+    var ftally = new SortedDictionary<string, int>();
+    using (var w = new StreamWriter(fout))
+    {
+        w.WriteLine("deph,field,near_up,far_up,reading,colouring,element,site_moving");
+        foreach (var d0 in ".XYZ") foreach (var d1 in ".XYZ") foreach (var d2 in ".XYZ")
+        {
+            string deph = $"{d0}{d1}{d2}";
+            var jumps = Enumerable.Range(0, 3).Where(l => deph[l] != '.').Select(l => FPut(l, deph[l])).ToList();
+            if (jumps.Count == 0) continue;
+            foreach (var f0 in fields) foreach (var f1 in fields) foreach (var f2 in fields)
+            {
+                var fs = new[] { f0, f1, f2 };
+                var h = fbonds.Concat(Enumerable.Range(0, 3).Where(l => fs[l].Letter != '.')
+                    .Select(l => (FPut(l, fs[l].Letter), fs[l].Sign * fmag[l]))).ToList();
+                var e = new EndCount(fworld, 3, h, jumps);
+                var up = e.UpperCounts();
+                var reading = e.Verdict();
+                string colouring = string.Join(" ", e.Colourings().Select(c => c.ToString(3)));
+                string element = reading == EndCount.Reading.PalindromeByElement && e.FarElement() is { } fe
+                    ? string.Join(" ", fe.Element.Select(t => $"{(t.Coefficient > 0 ? "+" : "")}{t.Coefficient}{t.Letters}")) : "";
+                int moving = EndCount.IsPalindrome(reading) ? e.Symmetries().Count(g => g.MovesSites) : -1;
+                string field = string.Concat(fs.Select(f => f.Letter == '.' ? "." : (f.Sign > 0 ? "+" : "-") + f.Letter));
+                w.WriteLine($"{deph},{field},{up.Near},{up.Far},{reading},{colouring},{element},{moving}");
+                string key = reading + (EndCount.IsPalindrome(reading) && colouring.Length == 0 ? " (no colouring)" : "");
+                ftally[key] = ftally.TryGetValue(key, out int t0) ? t0 + 1 : 1;
+            }
+        }
+    }
+    Console.WriteLine($"F138's grid, {ftopo}, magnitudes {string.Join(" ", fmag)} -> {fout}");
+    foreach (var (k, v) in ftally) Console.WriteLine($"  {k,-40} {v}");
+    return;
+}
+
 // ---- run mode "endcount sweep N topology [out.csv] [dephased]": the end count driven over a whole family ----
 // Every pattern of one dephasing letter (or none) per site and one field letter (or none) per site on
 // a Heisenberg graph, the family of the main repo's twoend / twoendstrings witnesses (bonds 10 on
@@ -1764,7 +1824,7 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
     var clock = System.Diagnostics.Stopwatch.StartNew();
     using (var w = new StreamWriter(sout))
     {
-        w.WriteLine("n,topology,deph,field,dark,lit,near_up,far_up,near_lo,far_lo,reading,word,trace_re,trace_im,element,word3");
+        w.WriteLine("n,topology,deph,field,dark,lit,near_up,far_up,near_lo,far_lo,reading,word,trace_re,trace_im,element,word3,symmetries,site_moving");
         for (int dc = 1; dc < 1 << (2 * sn); dc++)
         {
             string deph = Pattern(dc);
@@ -1782,9 +1842,17 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
                 string element = "";
                 // on a rank-read break, the three-jump words are asked too: an exact certificate the one-jump budget misses
                 var word3 = reading == EndCount.Reading.BrokenByRank ? e.Word(maxJumps: 3) : null;
+                // the symmetries of (H, jumps) in site permutations x cube rotations, enumerated up to N = 4
+                string symCount = "", symMoving = "";
+                if (sn <= 4)
+                {
+                    var syms = e.Symmetries();
+                    symCount = syms.Count.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    symMoving = syms.Count(g => g.MovesSites).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                }
                 if (reading == EndCount.Reading.PalindromeByElement && e.FarElement() is { } fe)
                     element = string.Join(" ", fe.Element.Select(t => $"{(t.Coefficient > 0 ? "+" : "")}{t.Coefficient}{t.Letters}"));
-                w.WriteLine($"{sn},{stopo},{deph},{field},{e.DarkStrings().Count},{e.LitStrings().Count},{up.Near},{up.Far},{lo.Near},{lo.Far},{reading},{word?.Word ?? ""},{word?.TraceRe ?? 0},{word?.TraceIm ?? 0},{element},{word3?.Word ?? ""}");
+                w.WriteLine($"{sn},{stopo},{deph},{field},{e.DarkStrings().Count},{e.LitStrings().Count},{up.Near},{up.Far},{lo.Near},{lo.Far},{reading},{word?.Word ?? ""},{word?.TraceRe ?? 0},{word?.TraceIm ?? 0},{element},{word3?.Word ?? ""},{symCount},{symMoving}");
                 tally[reading.ToString()] = tally.TryGetValue(reading.ToString(), out int t0) ? t0 + 1 : 1;
                 if (word3 is not null) tally["  of which by 3-jump word"] = tally.TryGetValue("  of which by 3-jump word", out int t1) ? t1 + 1 : 1;
                 rowsDone++;

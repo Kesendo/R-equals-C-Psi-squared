@@ -215,11 +215,12 @@ F138's clauses are the same criterion read under a restriction:
 | the two-term proviso | derived in [the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md): a single-letter bond only puts its two ends in one of two letter classes, so a single Pauli string U can change its letter from site to site, where a bond of two or three letters forces one letter per component. The gate scores all seven bond sets |
 
 The demonstration above is one of the six rows among the 78 whose field is
-anti-invariant under the end-site swap; on the other five the letter-relabelled,
-sign-flipped copy of this U works.
-That some U exists for all 78 is the
-gate's aggregate FN = 0; no operator is exhibited for the other 72, and the
-mechanism there is not shown.
+anti-invariant under the end-site swap. All 78 carry the same kind of U,
+SWAP₀₂·(n·σ)⊗(n·σ)⊗(n·σ): the site reversal composed with the π rotation about an
+axis n that carries the one end field onto the other, fixes the middle field and
+is orthogonal to the middle jump. Here n = Z; on the other 72 the axis is unique up to
+sign, a letter or the bisector of two letters ([F138](../docs/ANALYTICAL_FORMULAS.md#f138), gated row by
+row in [`EndCountTests`](../compute/MirrorWorld.Tests/EndCountTests.cs)).
 
 ---
 
@@ -340,8 +341,7 @@ linear solve scored in both directions rather than inferred from cospectrality.
 The arc's finding (5) files V = R·U as not the answer, for a reason of kind; V is
 Ad_U, which is Π².
 
-**F138 exhibits operators on two families**: a dressed site reversal on the six
-swap-anti-invariant rows among its equal-magnitude exceptions, and on its clause-1 exceptions a SUM of two Pauli strings,
+**F138 exhibits operators on both kinds of exception**: the site reversal composed with a π rotation, SWAP₀₂·(n·σ)^⊗3, on all 78 of its equal-magnitude exceptions, and on a named family of its clause-1 exceptions a SUM of two Pauli strings,
 neither a single string nor a signed site permutation. The bare site reflection,
 a signed site permutation, is not a reflector on those rows, which says nothing
 against the existence of one. The row keeps the separation the arc prescribed,

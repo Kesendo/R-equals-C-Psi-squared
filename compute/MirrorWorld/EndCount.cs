@@ -348,6 +348,102 @@ public sealed class EndCount : GameObject
         return null;
     }
 
+    // ---- the symmetries of (H, jumps) ----
+
+    /// <summary>A symmetry: a permutation of the sites composed with one proper rotation of the
+    /// letter frame, applied to every site. Perm[l] is the site letter l moves to; Rotation[a] and
+    /// Sign[a] give the image of X (a = 0), Y (1), Z (2) as sign·letter.</summary>
+    public sealed record Symmetry(int[] Perm, int[] Rotation, int[] Sign)
+    {
+        public bool MovesSites => Perm.Select((t, l) => t != l).Any(x => x);
+        public bool IsIdentity => !MovesSites && Rotation.SequenceEqual(new[] { 0, 1, 2 }) && Sign.All(s => s == 1);
+        public override string ToString() =>
+            $"sites [{string.Join(",", Perm)}], X->{(Sign[0] < 0 ? "-" : "")}{"XYZ"[Rotation[0]]} " +
+            $"Y->{(Sign[1] < 0 ? "-" : "")}{"XYZ"[Rotation[1]]} Z->{(Sign[2] < 0 ? "-" : "")}{"XYZ"[Rotation[2]]}";
+    }
+
+    /// <summary>The 24 proper rotations that permute the three axes up to sign: signed permutation
+    /// matrices of determinant +1.</summary>
+    public static IReadOnlyList<(int[] Rotation, int[] Sign)> CubeRotations()
+    {
+        var list = new List<(int[], int[])>();
+        foreach (var perm in new[] { new[] { 0, 1, 2 }, new[] { 0, 2, 1 }, new[] { 1, 0, 2 }, new[] { 1, 2, 0 }, new[] { 2, 0, 1 }, new[] { 2, 1, 0 } })
+        {
+            // the cyclic orders are the even permutations
+            int parity = perm[1] == (perm[0] + 1) % 3 ? 1 : -1;
+            for (int s = 0; s < 8; s++)
+            {
+                var sign = new[] { (s & 1) == 0 ? 1 : -1, (s & 2) == 0 ? 1 : -1, (s & 4) == 0 ? 1 : -1 };
+                if (parity * sign[0] * sign[1] * sign[2] == 1) list.Add((perm, sign));
+            }
+        }
+        return list;
+    }
+
+    /// <summary>The image of a string under a symmetry, with the product of the letter signs.</summary>
+    static (PauliString S, int Sign) Apply(Symmetry g, PauliString p)
+    {
+        // letter index a: X = 0, Y = 1, Z = 2, read from the (x, z) bits of each site
+        ulong x = 0, z = 0;
+        int sign = 1;
+        for (int l = 0; l < g.Perm.Length; l++)
+        {
+            int xb = (int)((p.X >> l) & 1), zb = (int)((p.Z >> l) & 1);
+            if (xb == 0 && zb == 0) continue;
+            int a = xb == 1 ? (zb == 1 ? 1 : 0) : 2;
+            int b = g.Rotation[a];
+            sign *= g.Sign[a];
+            int t = g.Perm[l];
+            if (b != 2) x |= 1UL << t;
+            if (b != 0) z |= 1UL << t;
+        }
+        return (new PauliString(x, z), sign);
+    }
+
+    /// <summary>Every symmetry of (H, jumps) in the group of site permutations times the 24 cube
+    /// rotations: H mapped onto itself coefficient by coefficient, the jump set onto itself up to the
+    /// sign of each jump (a jump's sign never enters L). Exact, string by string; N ≤ 8.</summary>
+    public IReadOnlyList<Symmetry> Symmetries()
+    {
+        if (N > 8) throw new InvalidOperationException("the site permutations are enumerated; N <= 8");
+        var h = terms.ToDictionary(t => t.S, t => t.C);
+        var jumpSet = jumpStrings.ToHashSet();
+        var found = new List<Symmetry>();
+        var rotations = CubeRotations();
+        foreach (var perm in Permutations(N))
+            foreach (var (rot, sgn) in rotations)
+            {
+                var g = new Symmetry(perm, rot, sgn);
+                bool ok = true;
+                foreach (var (t, c) in terms)
+                {
+                    var (img, s) = Apply(g, t);
+                    if (!h.TryGetValue(img, out long c2) || c2 != s * c) { ok = false; break; }
+                }
+                if (ok)
+                    foreach (var a in jumpStrings)
+                        if (!jumpSet.Contains(Apply(g, a).S)) { ok = false; break; }
+                if (ok) found.Add(g);
+            }
+        return found;
+    }
+
+    static IEnumerable<int[]> Permutations(int n)
+    {
+        var a = Enumerable.Range(0, n).ToArray();
+        IEnumerable<int[]> Rec(int k)
+        {
+            if (k == n) { yield return (int[])a.Clone(); yield break; }
+            for (int i = k; i < n; i++)
+            {
+                (a[k], a[i]) = (a[i], a[k]);
+                foreach (var r in Rec(k + 1)) yield return r;
+                (a[k], a[i]) = (a[i], a[k]);
+            }
+        }
+        return Rec(0);
+    }
+
     // ---- an element found elsewhere ----
 
     public sealed record ElementCheck(bool AllLit, bool CommutesWithH, BigInteger SquareScalar)

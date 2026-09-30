@@ -290,6 +290,176 @@ public class EndCountTests
         Assert.Equal(3171, readings.Count(r => r == EndCount.Reading.BrokenByWord));
     }
 
+    // ---- F138 (b): the coincident-magnitude exceptions, one formula ----
+
+    // F138's own grid (docs/ANALYTICAL_FORMULAS.md, F138 (b)): the full bond XX + YY + ZZ on three sites,
+    // per site one dephasing letter or none and a field along +-X, +-Y, +-Z or none, 28^3 rows, with the
+    // two END magnitudes equal. F138 counts 78 rows that pair although its clauses forbid them, and names
+    // U = SWAP02 Z0 Z1 Z2 on one of the six whose field is anti-invariant under the end swap; the tests below
+    // show that all 78 carry the same form with the axis Z replaced by an axis n the row determines up to
+    // sign (on the six, any axis in a plane).
+    static IEnumerable<(string Deph, string Field, EndCount E)> F138Grid(long m0, long m1, long m2, bool complete = false)
+    {
+        var edges = complete ? new[] { (0, 1), (1, 2), (0, 2) } : Chain(3);
+        var mag = new[] { m0, m1, m2 };
+        var fields = new (char L, int S)[] { ('.', 0), ('X', 1), ('X', -1), ('Y', 1), ('Y', -1), ('Z', 1), ('Z', -1) };
+        foreach (var d0 in ".XYZ") foreach (var d1 in ".XYZ") foreach (var d2 in ".XYZ")
+        {
+            string deph = $"{d0}{d1}{d2}";
+            var jumps = Enumerable.Range(0, 3).Where(l => deph[l] != '.').Select(l => One(3, l, deph[l])).ToList();
+            if (jumps.Count == 0) continue;
+            foreach (var f0 in fields) foreach (var f1 in fields) foreach (var f2 in fields)
+            {
+                var fs = new[] { f0, f1, f2 };
+                var h = new List<(string, long)>();
+                foreach (var (i, j) in edges) foreach (char p in "XYZ") h.Add((Two(3, i, j, p), 100));
+                for (int l = 0; l < 3; l++) if (fs[l].L != '.') h.Add((One(3, l, fs[l].L), fs[l].S * mag[l]));
+                string field = string.Concat(fs.Select(f => f.L == '.' ? "." : (f.S > 0 ? "+" : "-") + f.L));
+                yield return (deph, field, new EndCount(W, 3, h, jumps));
+            }
+        }
+    }
+
+    // A product of combinations of Pauli strings with Gaussian-integer coefficients (re, im).
+    static Dictionary<PauliString, (long Re, long Im)> Times(Dictionary<PauliString, (long Re, long Im)> a, Dictionary<PauliString, (long Re, long Im)> b)
+    {
+        var o = new Dictionary<PauliString, (long Re, long Im)>();
+        foreach (var (s, x) in a) foreach (var (t, y) in b)
+        {
+            var (u, k) = PauliString.Multiply(s, t);
+            long re = x.Re * y.Re - x.Im * y.Im, im = x.Re * y.Im + x.Im * y.Re;
+            for (int j = 0; j < k; j++) (re, im) = (-im, re);
+            var old = o.TryGetValue(u, out var v) ? v : (0, 0);
+            o[u] = (old.Item1 + re, old.Item2 + im);
+        }
+        return o.Where(kv => kv.Value != (0, 0)).ToDictionary(kv => kv.Key, kv => kv.Value);
+    }
+
+    // The candidate U = SWAP_ij (n.sigma) (x) (n.sigma) (x) (n.sigma), for an axis n with integer
+    // components, scaled to integers: 2 SWAP_ij = III + X_iX_j + Y_iY_j + Z_iZ_j. The two switches build the
+    // controls: without the swap, or with the axis factor left off the site the swap fixes.
+    static List<(string, long)> SwapTimesAxis((long X, long Y, long Z) n, int i = 0, int j = 2,
+        bool swap = true, bool fixedSiteFactor = true)
+    {
+        var sw = new Dictionary<PauliString, (long, long)> { [PauliString.Parse("III")] = (1, 0) };
+        if (swap)
+            foreach (char c in "XYZ") sw[PauliString.Parse(Two(3, i, j, c))] = (1, 0);
+        var axis = new Dictionary<PauliString, (long, long)> { [PauliString.Parse("III")] = (1, 0) };
+        int k = 3 - i - j;
+        for (int site = 0; site < 3; site++)
+        {
+            if (site == k && !fixedSiteFactor) continue;
+            var one = new Dictionary<PauliString, (long, long)>();
+            if (n.X != 0) one[PauliString.Parse(One(3, site, 'X'))] = (n.X, 0);
+            if (n.Y != 0) one[PauliString.Parse(One(3, site, 'Y'))] = (n.Y, 0);
+            if (n.Z != 0) one[PauliString.Parse(One(3, site, 'Z'))] = (n.Z, 0);
+            axis = Times(axis, one);
+        }
+        var u = Times(sw, axis);
+        // SWAP_ij commutes with (n.sigma) on every site, so the product is Hermitian: no imaginary part survives
+        Assert.All(u.Values, c => Assert.Equal(0, c.Im));
+        return u.Select(kv => (kv.Key.ToString(3), kv.Value.Re)).ToList();
+    }
+
+    static readonly List<(long X, long Y, long Z)> NineAxes = BuildNineAxes();
+
+    static List<(long, long, long)> BuildNineAxes()
+    {
+        var axes = new List<(long, long, long)> { (1, 0, 0), (0, 1, 0), (0, 0, 1) };
+        foreach (var (u, v) in new[] { (0, 1), (0, 2), (1, 2) })
+            foreach (int sg in new[] { 1, -1 })
+            {
+                var a = new long[3]; a[u] = 1; a[v] = sg;
+                axes.Add((a[0], a[1], a[2]));
+            }
+        return axes;
+    }
+
+    // The field of a row's site as a vector ('.' is zero), read from the "+X.-Z" notation.
+    static long[] FieldVector(string field, int site)
+    {
+        var toks = System.Text.RegularExpressions.Regex.Matches(field, @"\.|[+-][XYZ]").Select(m => m.Value).ToArray();
+        var v = new long[3];
+        if (toks[site] != ".") v["XYZ".IndexOf(toks[site][1])] = toks[site][0] == '+' ? 1 : -1;
+        return v;
+    }
+
+    // The mechanism, as a rule on the row: the pi rotation about n, R(v) = 2 (n.v) n - |n|^2 v (scaled by
+    // |n|^2), must carry the field of site i onto the field of site j (equal magnitudes, so the unit
+    // vectors suffice), fix the field of the site k the swap fixes, and send k's jump letter to minus
+    // itself, i.e. n orthogonal to it. No jump may sit on i or j.
+    static bool RulePredicts((long X, long Y, long Z) n, string deph, string field, int i, int j)
+    {
+        int k = 3 - i - j;
+        if (deph[i] != '.' || deph[j] != '.' || deph[k] == '.') return false;
+        var nv = new[] { n.X, n.Y, n.Z };
+        long nn = nv.Sum(x => x * x);
+        long[] Rot(long[] v) { long d = nv.Zip(v, (a, b) => a * b).Sum(); return nv.Zip(v, (a, b) => 2 * d * a - nn * b).ToArray(); }
+        bool Eq(long[] a, long[] b) => a.Zip(b, (x, y) => x == nn * y).All(t => t);
+        var jump = new long[3]; jump["XYZ".IndexOf(deph[k])] = 1;
+        return nv.Zip(jump, (a, b) => a * b).Sum() == 0
+            && Eq(Rot(FieldVector(field, i)), FieldVector(field, j))
+            && Eq(Rot(FieldVector(field, k)), FieldVector(field, k));
+    }
+
+    [Fact]
+    public void Every_Coincident_Magnitude_Exception_Of_F138_Is_A_Swap_Times_One_Axis_Cubed()
+    {
+        var exceptions = F138Grid(30, 22, 30)
+            .Where(r => r.E.Colourings().Count == 0 && EndCount.IsPalindrome(r.E.Verdict())).ToList();
+        Assert.Equal(78, exceptions.Count);
+        Assert.Equal(72, exceptions.Count(r => r.E.Verdict() == EndCount.Reading.PalindromeByElement));
+        Assert.Equal(6, exceptions.Count(r => r.E.Verdict() == EndCount.Reading.PalindromeByCount));
+        foreach (var (deph, field, e) in exceptions)
+        {
+            // the axes that certify are exactly the axes the rule predicts, among the nine candidates
+            var certify = NineAxes.Where(n => e.CheckElement(SwapTimesAxis(n)).Certifies).ToList();
+            var predicted = NineAxes.Where(n => RulePredicts(n, deph, field, 0, 2)).ToList();
+            Assert.NotEmpty(certify);
+            Assert.Equal(predicted, certify);
+            // and both factors are load-bearing: without the swap, or without the axis on the middle
+            // site, no candidate certifies
+            Assert.DoesNotContain(NineAxes, n => e.CheckElement(SwapTimesAxis(n, swap: false)).Certifies);
+            Assert.DoesNotContain(NineAxes, n => e.CheckElement(SwapTimesAxis(n, fixedSiteFactor: false)).Certifies);
+        }
+        // F138's named row: jump X on site 1, fields +X and -X on the ends, n = Z: SWAP02 Z0 Z1 Z2; on the
+        // six, n runs over the plane orthogonal to the one letter the jump and the end fields share
+        var six = exceptions.Single(r => r.Deph == ".X." && r.Field == "+X.-X").E;
+        Assert.True(six.CheckElement(SwapTimesAxis((0, 0, 1))).Certifies);
+        Assert.True(six.CheckElement(SwapTimesAxis((0, 1, 2))).Certifies);
+        // the committed magnitudes leave no exception at all
+        Assert.Equal(0, F138Grid(30, 22, 41).Count(r => r.E.Colourings().Count == 0 && EndCount.IsPalindrome(r.E.Verdict())));
+    }
+
+    // K3, F138's other graph: 78 per equal pair, and 234 when all three magnitudes coincide; each carries
+    // the same form with the swap of the pair whose fields the rotation exchanges, the third site dephased.
+    [Fact]
+    public void On_The_Triangle_The_Coincident_Exceptions_Carry_The_Same_Form()
+    {
+        Assert.Equal(78, F138Grid(30, 22, 30, complete: true).Count(r => r.E.Colourings().Count == 0 && EndCount.IsPalindrome(r.E.Verdict())));
+        var all = F138Grid(30, 30, 30, complete: true)
+            .Where(r => r.E.Colourings().Count == 0 && EndCount.IsPalindrome(r.E.Verdict())).ToList();
+        Assert.Equal(234, all.Count);
+        var pairs = new[] { (0, 2), (0, 1), (1, 2) };
+        foreach (var (deph, field, e) in all)
+            Assert.True(pairs.Any(pq => NineAxes.Any(n =>
+                RulePredicts(n, deph, field, pq.Item1, pq.Item2) && e.CheckElement(SwapTimesAxis(n, pq.Item1, pq.Item2)).Certifies)),
+                $"{deph} {field}");
+    }
+
+    // The symmetry group, from below: the Heisenberg chain is fixed by the reversal and by every rotation;
+    // Z-dephasing on every site keeps the rotations that send Z to plus or minus Z, the four about Z and
+    // the four pi rotations about axes in the XY plane; so 2 x 8 = 16 symmetries, 8 of them moving sites.
+    [Fact]
+    public void The_Canonical_Three_Site_Chain_Has_Sixteen_Symmetries()
+    {
+        var syms = Row(3, Chain(3), "ZZZ", "...").Symmetries();
+        Assert.Equal(16, syms.Count);
+        Assert.Equal(8, syms.Count(g => g.MovesSites));
+        Assert.Single(syms, g => g.IsIdentity);
+        Assert.Equal(24, EndCount.CubeRotations().Count);
+    }
+
     // ---- elements found elsewhere: the colouring page ----
 
     // Stage E: P3, a(XX + YY) and b(XX + YY) on the two bonds, jumps X, Z, Y. No colouring; U = a YYZ +
