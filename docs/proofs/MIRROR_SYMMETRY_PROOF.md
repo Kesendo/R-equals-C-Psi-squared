@@ -193,7 +193,7 @@ carries dephasing at all*:
 measures it failing at fewer bond letters and at coincident field magnitudes:
 22 rows of 4096 on P₃ and 104 on a bond plus an isolated site at a two-letter
 bond, 776 / 732 / 520 at one letter, and 78 of 21,952 on the full XX+YY+ZZ bond
-when the two END sites of P₃ carry equal field magnitudes. Two of the 22 are
+when the two END sites of P₃ carry equal field magnitudes. In one class it holds, exactly and at every magnitude: every site dephased along Z, Heisenberg bonds on a connected graph, fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorem 1). Two of the 22 are
 clause-1 rows rather than clause-2 rows, so the ceiling of two axes is sufficient
 and not necessary in the same way. Neither this paragraph nor F138 derives the
 clauses: they are a measured census of the SUFFICIENT direction, which has never
@@ -275,7 +275,7 @@ satisfies the identity exactly for the Y field. The residual under a *fixed*
 not a defect of the field. The gauge argument stops where clause 2 does: one
 global rotation can align one common direction, not several, so the argument does
 not reach a field whose direction varies *within* a component, and the rows
-measured there break (4/64 for X, Y, X at N=3; 0/64 at three generic angles),
+measured there break (4/64 for X, Y, X at N=3; 0/64 at three generic angles; for letter fields at Heisenberg bonds under Z on every site the break is proven, at any magnitudes, in [PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)),
 while separate components may point different ways and stay exact. Unitaries
 that commute with every jump, not only products of one-site rotations, reach
 every palindrome with commuting jumps: for some such V, VHV† commutes with a

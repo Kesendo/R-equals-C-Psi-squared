@@ -4133,7 +4133,11 @@ public static class OpenArcsRegistry
                 + "controls, the Pauli-basis frame and its cross-check against build_L, the monomial search with its "
                 + "positive control, the characteristic-polynomial and minimal-polynomial readings, and the surplus "
                 + "commutator. They are NOT repo evidence and are not cited as such. Nothing in this block is "
-                + "re-runnable from the repository until the port in NextStep item ONE is done.",
+                + "re-runnable from the repository until the port in NextStep item ONE is done. ONE CLASS WHERE THE "
+                + "CONVERSE HOLDS (2026-09-30, docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, Theorem 1): every "
+                + "site dephased along Z, Heisenberg bonds of any nonzero weights on a connected graph, fields along "
+                + "letters: palindrome exactly when no field lies along Z and the fields do not use both X and Y, at "
+                + "every magnitude; the 78 coincident-magnitude rows of (b) all leave a site undephased.",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "
                 + "simulations/f138_palindrome_colouring.py). A single Pauli string in F158's far kernel is a colouring of "
                 + "the graph by lit letters, one per site that all its jumps light (bond P(x)P: both ends or neither "

@@ -1109,4 +1109,170 @@ public class EndCountTests
             }
         return acc.Where(kv => kv.Value != (0, 0)).ToDictionary(kv => kv.Key.ToString(p.Length), kv => ((long, long))kv.Value);
     }
+    // ---- every site dephased: the complement connection ----
+
+    // docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, Theorem 2, against the end count's exact
+    // verdict: with every site dephased, the palindrome holds exactly when every component of the
+    // hopping graph (joined with its complement image) carries a flat section of the complement
+    // connection; the hopping components count the near end and the good components the far end.
+    // Every dephasing pattern with one letter on every site and every field pattern, three bond sets,
+    // two magnitude tuples, the path and the triangle at N = 3, and Heisenberg on the path at N = 4.
+    [Theory]
+    [InlineData(3, "chain", "XYZ", new long[] { 30, 22, 41 })]
+    [InlineData(3, "chain", "XYZ", new long[] { 30, 30, 30 })]
+    [InlineData(3, "complete", "XYZ", new long[] { 30, 22, 41 })]
+    [InlineData(3, "chain", "XY", new long[] { 30, 22, 41 })]
+    [InlineData(3, "chain", "XY", new long[] { 30, 30, 30 })]
+    [InlineData(3, "complete", "XY", new long[] { 30, 30, 30 })]
+    [InlineData(3, "chain", "ZZ", new long[] { 30, 22, 41 })]
+    [InlineData(3, "complete", "ZZ", new long[] { 30, 30, 30 })]
+    [InlineData(4, "chain", "XYZ", new long[] { 30, 22, 41, 17 })]
+    public void Every_Site_Dephased_The_Palindrome_Is_A_Flat_Complement_Connection(int n, string topology, string bondLetters, long[] mags)
+    {
+        var edges = topology == "chain" ? Chain(n)
+            : (from a in Enumerable.Range(0, n) from b in Enumerable.Range(a + 1, n - a - 1) select (a, b)).ToArray();
+        const string letters = "XYZ", fieldAlphabet = ".XYZ";
+        int rows = 0, palindromes = 0;
+        for (int dc = 0; dc < (int)Math.Pow(3, n); dc++)
+            for (int fc = 0; fc < 1 << (2 * n); fc++)
+            {
+                var deph = new string(Enumerable.Range(0, n).Select(l => letters[dc / (int)Math.Pow(3, l) % 3]).ToArray());
+                var field = new string(Enumerable.Range(0, n).Select(l => fieldAlphabet[(fc >> (2 * l)) & 3]).ToArray());
+                var e = Letters(n, edges, bondLetters, mags, deph, field, weight: 100);
+                var r = e.Verdict();
+                Assert.True(EndCount.IsExact(r), $"{deph} {field}: {r}");
+                var c = e.ComplementConnection()!.Value;
+                Assert.Equal(EndCount.IsPalindrome(r), c.AllGood);
+                var up = e.UpperCounts();
+                Assert.Equal(up.Near, c.HoppingComponents);
+                Assert.Equal(up.Far, c.Good);
+                rows++;
+                if (c.AllGood) palindromes++;
+            }
+        Assert.True(palindromes > 0 && palindromes < rows);
+    }
+
+    // The turn to Z is a proper rotation for each jump letter: it sends the jump to Z, and it keeps the
+    // product table, P·Q = i·R for (P, Q, R) cyclic in (X, Y, Z), judged by PauliString.Multiply.
+    [Theory]
+    [InlineData('X')]
+    [InlineData('Y')]
+    [InlineData('Z')]
+    public void The_Turn_To_Z_Is_A_Proper_Rotation(char jump)
+    {
+        Assert.Equal(('Z', 1), EndCount.TurnToZ(jump, jump));
+        foreach (var (p, q, r) in new[] { ('X', 'Y', 'Z'), ('Y', 'Z', 'X'), ('Z', 'X', 'Y') })
+        {
+            var (tp, sp) = EndCount.TurnToZ(p, jump);
+            var (tq, sq) = EndCount.TurnToZ(q, jump);
+            var (tr, sr) = EndCount.TurnToZ(r, jump);
+            var (prod, k) = PauliString.Multiply(PauliString.Parse(tp.ToString()), PauliString.Parse(tq.ToString()));
+            Assert.Equal(tr.ToString(), prod.ToString(1));
+            // sp·sq·(Tp·Tq) = sp·sq·i^k·Tr must equal i·sr·Tr
+            Assert.True((k == 1 && sp * sq == sr) || (k == 3 && sp * sq == -sr), $"{p}{q}={r} under jump {jump}: k={k}");
+        }
+    }
+
+    // The same theorem for Pauli Hamiltonians the families never reach: random strings of any length
+    // with random signed coefficients, every site dephased along a random letter, N = 2 to 4, a fixed
+    // seed. Rows whose verdict the ranks alone gave are skipped (the connection is exact, the ranks are
+    // not); the palindromic and the broken rows among the exact ones are both required.
+    [Fact]
+    public void The_Complement_Connection_Holds_For_Random_Pauli_Hamiltonians()
+    {
+        var rng = new Random(20260930);
+        int exact = 0, pal = 0;
+        for (int trial = 0; trial < 600; trial++)
+        {
+            int n = rng.Next(2, 5);
+            var h = new List<(string, long)>();
+            int nt = rng.Next(1, 7);
+            for (int k = 0; k < nt; k++)
+                h.Add((new string(Enumerable.Range(0, n).Select(_ => "IXYZ"[rng.Next(4)]).ToArray()), rng.Next(1, 4) * (rng.Next(2) == 0 ? 1 : -1)));
+            if (h.All(t => t.Item1.All(ch => ch == 'I'))) continue;
+            var jumps = Enumerable.Range(0, n).Select(l => One(n, l, "XYZ"[rng.Next(3)])).ToList();
+            var e = new EndCount(W, n, h, jumps);
+            var r = e.Verdict();
+            if (!EndCount.IsExact(r)) continue;
+            exact++;
+            var c = e.ComplementConnection()!.Value;
+            Assert.Equal(EndCount.IsPalindrome(r), c.AllGood);
+            var up = e.UpperCounts();
+            Assert.Equal(up.Near, c.HoppingComponents);
+            Assert.Equal(up.Far, c.Good);
+            if (c.AllGood) pal++;
+        }
+        Assert.True(exact > 400 && pal > 20 && pal < exact, $"exact {exact}, palindromic {pal}");
+    }
+
+    // Where Γ_H and its union with the complement image part: H = X_0 + X_0 Z_1 under Z jumps joins
+    // |00⟩ to |10⟩ (the two terms add) but not |01⟩ to |11⟩ (they cancel), so the hopping graph has 3
+    // components and the union, which adds the complement image |11⟩–|01⟩, has 2. The near end counts
+    // the 3, and neither union component is good (the edge |01⟩–|11⟩ has H_xy = 0 against its
+    // complement's 2), so the far end is 0: broken.
+    [Fact]
+    public void The_Near_End_Counts_The_Hopping_Graph_Not_Its_Union_With_The_Complement()
+    {
+        var e = new EndCount(W, 2, new List<(string, long)> { ("XI", 1), ("XZ", 1) }, new[] { "ZI", "IZ" });
+        var c = e.ComplementConnection()!.Value;
+        Assert.Equal((3, 2, 0, false), (c.HoppingComponents, c.UnionComponents, c.Good, c.AllGood));
+        Assert.Equal((3, 0), e.UpperCounts());
+    }
+
+    // Connectedness is load-bearing in Theorem 1: on two disjoint bonds with an X field on one and a Y
+    // field on the other, under Z on every site, the palindrome holds, carried by the colouring XXYY
+    // (X on the first bond, Y on the second), one colour per component.
+    [Fact]
+    public void Two_Components_May_Carry_Different_Transverse_Letters()
+    {
+        var h = new List<(string, long)>();
+        foreach (char p in "XYZ") { h.Add((Two(4, 0, 1, p), 100)); h.Add((Two(4, 2, 3, p), 100)); }
+        h.Add(("XIII", 30)); h.Add(("IIYI", 22));
+        var e = new EndCount(W, 4, h, new[] { "ZIII", "IZII", "IIZI", "IIIZ" });
+        Assert.True(e.ComplementConnection()!.Value.AllGood);
+        Assert.Equal(EndCount.Reading.PalindromeByColour, e.Verdict());
+        Assert.Contains("XXYY", e.Colourings().Select(x => x.ToString(4)));
+    }
+
+    // Theorem 1: Heisenberg bonds of any nonzero weights on a connected graph, every site dephased
+    // along Z, fields along X, Y or Z of ANY magnitudes and signs: the palindrome holds exactly when no field lies along Z and the
+    // others use one letter, and then (with a field) its carrier is the colouring X^N or Y^N. Random
+    // nonzero magnitudes, N = 3 to 5 on the four graphs and N = 6 on the chain, every pattern of none,
+    // X, Y or Z per site.
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    public void Heisenberg_Under_Z_Dephasing_Pairs_Exactly_When_The_Fields_Share_A_Transverse_Letter(int n)
+    {
+        var rng = new Random(n);
+        var graphs = new[]
+        {
+            Chain(n), Ring(n), Enumerable.Range(1, n - 1).Select(i => (0, i)).ToArray(),
+            (from a in Enumerable.Range(0, n) from b in Enumerable.Range(a + 1, n - a - 1) select (a, b)).ToArray(),
+        };
+        foreach (var edges in n < 6 ? graphs : graphs.Take(1))          // N = 6 on the chain only, for time
+            for (int fc = 0; fc < 1 << (2 * n); fc++)
+            {
+                var pattern = Enumerable.Range(0, n).Select(l => ".XYZ"[(fc >> (2 * l)) & 3]).ToArray();
+                var h = new List<(string, long)>();
+                foreach (var (i, j) in edges)
+                {
+                    long w = rng.Next(1, 200) * (rng.Next(2) == 0 ? 1 : -1);
+                    foreach (char p in "XYZ") h.Add((Two(n, i, j, p), w));
+                }
+                for (int l = 0; l < n; l++)
+                    if (pattern[l] != '.') h.Add((One(n, l, pattern[l]), rng.Next(1, 90) * (rng.Next(2) == 0 ? 1 : -1)));
+                var e = new EndCount(W, n, h, Enumerable.Range(0, n).Select(l => One(n, l, 'Z')).ToList());
+                bool oneLetter = !pattern.Contains('Z') && !(pattern.Contains('X') && pattern.Contains('Y'));
+                Assert.Equal(oneLetter, e.ComplementConnection()!.Value.AllGood);
+                Assert.Equal(oneLetter, EndCount.IsPalindrome(e.Verdict()));
+                if (oneLetter && pattern.Any(ch => ch != '.'))
+                {
+                    char c = pattern.First(ch => ch != '.');
+                    Assert.Equal(new[] { new string(c, n) }, e.Colourings().Select(x => x.ToString(n)).ToArray());
+                }
+            }
+    }
 }

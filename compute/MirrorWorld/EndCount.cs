@@ -535,6 +535,142 @@ public sealed class EndCount : GameObject
         return null;
     }
 
+    // ---- every site dephased: the complement connection ----
+
+    /// <summary>The image of a letter under the proper rotation that turns a site's jump letter into Z,
+    /// with its sign: Z fixed; for X the Hadamard, X ↔ Z and Y → −Y; for Y the cyclic X → Y → Z → X.
+    /// A proper rotation, so conjugation by a single-site unitary: the product table XY = iZ (and its
+    /// cycles) is kept.</summary>
+    public static (char Letter, int Sign) TurnToZ(char letter, char jump) => (jump, letter) switch
+    {
+        ('Z', _) => (letter, 1),
+        ('X', 'X') => ('Z', 1), ('X', 'Z') => ('X', 1), ('X', 'Y') => ('Y', -1),
+        ('Y', 'Y') => ('Z', 1), ('Y', 'Z') => ('X', 1), ('Y', 'X') => ('Y', 1),
+        _ => throw new ArgumentException($"letters and jumps are X, Y or Z; got {letter} under {jump}"),
+    };
+
+    /// <summary>The reading of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md when every site carries
+    /// exactly one single-site jump: HoppingComponents = dim of the near end (the components of H's
+    /// hopping graph on bitstrings in the jumps' eigenbasis), UnionComponents the components of that
+    /// graph joined with its image under the complement x -> x̄, Good the union components on which the
+    /// complement connection d_y / d_x = H_xy / H_{x̄ȳ} has a flat section (|H_xy| = |H_{x̄ȳ}| on every
+    /// edge, H_xx = H_{x̄x̄} on every vertex, trivial holonomy), which is the dimension of the far end;
+    /// AllGood, every union component good, is the palindrome. Null when some site is undephased or a
+    /// jump acts on more than one site. Exact: the entries are Gaussian integers, the sections Gaussian
+    /// rationals. N ≤ 10.</summary>
+    public (int HoppingComponents, int UnionComponents, int Good, bool AllGood)? ComplementConnection()
+    {
+        if (N > 10) throw new InvalidOperationException("the hopping graph has 2^N vertices; N <= 10");
+        var axis = new char[N];
+        foreach (var a in jumpStrings)
+        {
+            var sites = Enumerable.Range(0, N).Where(l => Touches(a, l)).ToList();
+            if (sites.Count != 1) return null;
+            if (axis[sites[0]] != '\0') return null;
+            axis[sites[0]] = a.Letter(sites[0]);
+        }
+        if (axis.Any(c => c == '\0')) return null;
+
+        int d = 1 << N;
+        var re = new Dictionary<(int, int), BigInteger>();
+        var im = new Dictionary<(int, int), BigInteger>();
+        foreach (var (t, c) in terms)
+        {
+            var letters = new char[N];
+            int sign = 1;
+            for (int l = 0; l < N; l++)
+            {
+                char ch = t.Letter(l);
+                if (ch == 'I') { letters[l] = 'I'; continue; }
+                var (nl, sg) = TurnToZ(ch, axis[l]);
+                letters[l] = nl; sign *= sg;
+            }
+            var q = PauliString.Parse(new string(letters));
+            int ny = System.Numerics.BitOperations.PopCount(q.X & q.Z);
+            for (int col = 0; col < d; col++)
+            {
+                int row = col ^ (int)q.X;
+                int k = (ny + 2 * System.Numerics.BitOperations.PopCount((ulong)col & q.Z)) & 3;
+                BigInteger v = sign * (BigInteger)c;
+                var key = (row, col);
+                if (k == 0 || k == 2) re[key] = (re.TryGetValue(key, out var o) ? o : 0) + (k == 0 ? v : -v);
+                else im[key] = (im.TryGetValue(key, out var o) ? o : 0) + (k == 1 ? v : -v);
+            }
+        }
+        (BigInteger Re, BigInteger Im) H(int r, int c) =>
+            (re.TryGetValue((r, c), out var a) ? a : 0, im.TryGetValue((r, c), out var b) ? b : 0);
+        bool Zero((BigInteger Re, BigInteger Im) z) => z.Re.IsZero && z.Im.IsZero;
+        int Comp(int x) => x ^ (d - 1);
+
+        var nbr = new List<int>[d];
+        for (int x = 0; x < d; x++) nbr[x] = new List<int>();
+        foreach (var key in re.Keys.Concat(im.Keys).Distinct())
+        {
+            var (r, c) = key;
+            if (r == c || Zero(H(r, c))) continue;
+            nbr[r].Add(c); nbr[c].Add(r);                                  // H's hopping edge
+            nbr[Comp(r)].Add(Comp(c)); nbr[Comp(c)].Add(Comp(r));          // and its complement image
+        }
+        int Components(bool union)
+        {
+            var seen = new bool[d];
+            int count = 0;
+            for (int s0 = 0; s0 < d; s0++)
+            {
+                if (seen[s0]) continue;
+                count++;
+                var stack = new Stack<int>(); stack.Push(s0); seen[s0] = true;
+                while (stack.Count > 0)
+                {
+                    int x = stack.Pop();
+                    foreach (int y in nbr[x])
+                        if (!seen[y] && (union || !Zero(H(x, y)))) { seen[y] = true; stack.Push(y); }
+                }
+            }
+            return count;
+        }
+        int hopping = Components(union: false);
+
+        // the flat sections, component by component of the union graph, as Gaussian rationals (re, im) / den
+        var sec = new (BigInteger Re, BigInteger Im, BigInteger Den)?[d];
+        int unionCount = 0, good = 0;
+        for (int s0 = 0; s0 < d; s0++)
+        {
+            if (sec[s0] is not null) continue;
+            unionCount++;
+            bool ok = true;
+            sec[s0] = (1, 0, 1);
+            var stack = new Stack<int>(); stack.Push(s0);
+            while (stack.Count > 0)
+            {
+                int x = stack.Pop();
+                var hxx = H(x, x); var hcc = H(Comp(x), Comp(x));
+                if (hxx != hcc) ok = false;
+                foreach (int y in nbr[x])
+                {
+                    var a = H(x, y); var b = H(Comp(x), Comp(y));
+                    // equal moduli; also implied by the holonomy, since the edge is walked in both
+                    // directions and the reverse ratio is the conjugate one
+                    if (a.Re * a.Re + a.Im * a.Im != b.Re * b.Re + b.Im * b.Im || Zero(a)) { ok = false; }
+                    // d_y = d_x · a / b = d_x · a · conj(b) / |b|^2
+                    var (dr, di, dd) = sec[x]!.Value;
+                    BigInteger nr = a.Re * b.Re + a.Im * b.Im, ni = a.Im * b.Re - a.Re * b.Im, n2 = b.Re * b.Re + b.Im * b.Im;
+                    (BigInteger, BigInteger, BigInteger) v = n2.IsZero ? (0, 0, 1) : (dr * nr - di * ni, dr * ni + di * nr, dd * n2);
+                    var gv = BigInteger.GreatestCommonDivisor(BigInteger.GreatestCommonDivisor(v.Item1, v.Item2), v.Item3);
+                    if (!gv.IsZero && !gv.IsOne) v = (v.Item1 / gv, v.Item2 / gv, v.Item3 / gv);
+                    if (sec[y] is null) { sec[y] = v; stack.Push(y); }
+                    else
+                    {
+                        var (yr, yi, yd) = sec[y]!.Value;
+                        if (yr * v.Item3 != v.Item1 * yd || yi * v.Item3 != v.Item2 * yd) ok = false;
+                    }
+                }
+            }
+            if (ok) good++;
+        }
+        return (hopping, unionCount, good, good == unionCount);
+    }
+
     // ---- the far element a Clifford symmetry is ----
 
     /// <summary>A Clifford symmetry of (H, jumps), read as what it does to the terms: term i of H goes to

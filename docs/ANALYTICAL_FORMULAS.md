@@ -41,7 +41,7 @@ identity letter commuting with H, F5); an
 on-site field that does not satisfy F138's clause 2 (a single common axis within
 the component, orthogonal to every dephasing axis present) **on the full
 three-letter bond, at the one field-magnitude tuple swept**: that is the
-direction F138 measures to FAIL elsewhere, not one it establishes. Drop a bond
+direction F138 measures to FAIL elsewhere, and establishes only with every site dephased along one axis and fields along letters, where the break is proven at any magnitudes ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorem 1). Drop a bond
 letter, or let two sites the graph can exchange carry the same field magnitude,
 and there are fields violating clause 2 whose spectrum pairs regardless.
 **Replaces:** palindrome verification (87,376 eigenvalues, N=2..8).
@@ -6597,8 +6597,7 @@ middle gives none, and the ends are exactly the pair the path can exchange,
 while K₃, which can exchange any pair, gives 78 per equal pair and 234 when all
 three coincide. A bond plus an isolated site gives none even when all three
 coincide, and it has such a pair too, so the graph's symmetry is where the
-exceptions live without being sufficient to produce them. There is no
-established condition under which the converse DOES hold: what is measured is
+exceptions live without being sufficient to produce them. One class is established in which the converse DOES hold, exactly and at every field magnitude: every site dephased along one common axis, Heisenberg bonds of any nonzero weights on a connected graph, fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorem 1; the 78 coincident-magnitude rows all leave a site undephased). Outside it, what is measured is
 one magnitude tuple, (30, 22, 41) in hundredths, at which it holds on all three
 graphs at the full bond, and three tuples with a repeat, at which it fails on two
 graphs, two graphs and one. Calling that tuple generic would be inferring an open dense set from a

@@ -591,6 +591,8 @@ system's own energy basis cannot produce a palindrome**. The pairing needs the
 watching to be transverse to the turning in the strong sense of anticommuting
 with it, and a function of H is the exact opposite of that.
 
+**(f10) With every site dephased, the criterion is a flat connection.** When every site carries exactly one single-site Pauli jump, turning each jump into Z makes the dark span the diagonal matrices and the lit span X^⊗N times them, and the far end becomes the flat sections of the connection d_y / d_x = H_xy / H_x̄ȳ on H's hopping graph over bitstrings: the palindrome holds exactly when every component carries one. For Heisenberg bonds on a connected graph under uniform Z it follows that the palindrome holds exactly when no field lies along Z and the fields do not use both X and Y, F138's converse holding in that class. Proof and gates: [PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md).
+
 ## (g) What is gated, and how
 
 Most of the above is checked from below in
