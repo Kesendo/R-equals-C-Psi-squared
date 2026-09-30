@@ -586,4 +586,58 @@ public class ModPTests
         Assert.Throws<ArgumentException>(() => ModP.SparseRank(Sparse(new[] { new[] { 2L } }), 4));
         Assert.Throws<ArgumentOutOfRangeException>(() => ModP.SparseRank(Sparse(new[] { new[] { 1L } }), 1));
     }
+    // ---- lifting: CRT, rational reconstruction, the integer square root ----
+
+    static readonly long[] Three = { 998244353L, 1004535809L, 998244341L };
+
+    // Judged by the defining congruences in BigInteger, not by a second CRT.
+    [Fact]
+    public void Crt_Meets_Both_Congruences_Below_The_Product()
+    {
+        BigInteger m = (BigInteger)Three[0] * Three[1];
+        foreach (var (a, b) in new[] { ((BigInteger)0, 0L), (m - 1, Three[2] - 1), ((BigInteger)123456789, 987654321L), (m / 3, 5L) })
+        {
+            var x = ModP.Crt(a, m, b, Three[2]);
+            Assert.True(x >= 0 && x < m * Three[2], $"{x} out of range");
+            Assert.Equal(a, x % m);
+            Assert.Equal((BigInteger)b, x % Three[2]);
+        }
+        Assert.Throws<ArgumentException>(() => ModP.Crt(1, Three[2] * (BigInteger)2, 1, Three[2]));
+    }
+
+    // Floor by its definition, x^2 <= n < (x+1)^2, at perfect squares, one below and one past them,
+    // and far beyond double precision.
+    [Fact]
+    public void ISqrt_Is_The_Floor_Of_The_Root()
+    {
+        var ns = new List<BigInteger> { 0, 1, 2, 3, 4, 8, 9, 10, long.MaxValue };
+        foreach (var k in new[] { (BigInteger)22341, BigInteger.Pow(10, 40) + 7, BigInteger.Pow(2, 127) - 1 })
+            ns.AddRange(new[] { k * k - 1, k * k, k * k + 2 * k });
+        foreach (var n in ns)
+        {
+            var x = ModP.ISqrt(n);
+            Assert.True(x * x <= n && (x + 1) * (x + 1) > n, $"ISqrt({n}) = {x}");
+        }
+    }
+
+    // Recovers every fraction inside Wang's bound sqrt(M/2) at a three-prime modulus, and refuses a
+    // fraction whose parts lie between sqrt(M/2) and sqrt(M), which a looser bound would hand back.
+    [Fact]
+    public void Rational_Reconstruction_Recovers_Inside_The_Bound_And_Nothing_Past_It()
+    {
+        BigInteger m = (BigInteger)Three[0] * Three[1] * Three[2];
+        BigInteger bound = ModP.ISqrt(m / 2);
+        BigInteger Image(BigInteger n, BigInteger d) => ((n * BigInteger.ModPow(d, TotientOfThree() - 1, m)) % m + m) % m;
+        BigInteger TotientOfThree() => (Three[0] - 1) * (BigInteger)(Three[1] - 1) * (Three[2] - 1);
+        foreach (var (n, d) in new[] { ((BigInteger)1, (BigInteger)1), (-4670000, 17), (bound, bound - 2), (-(bound - 1), bound), (0, 1) })
+        {
+            var g = BigInteger.GreatestCommonDivisor(n, d);
+            var q = ModP.RationalReconstruct(Image(n, d), m);
+            Assert.NotNull(q);
+            Assert.Equal((n / g, d / g), (q!.Value.Num, q.Value.Den));
+        }
+        var big = ModP.ISqrt(m) * 9 / 10;
+        var past = ModP.RationalReconstruct(Image(big, big - 1), m);
+        Assert.Null(past);
+    }
 }

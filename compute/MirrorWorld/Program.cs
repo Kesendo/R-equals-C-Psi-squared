@@ -1791,11 +1791,13 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "f138")
     return;
 }
 
-// ---- run mode "endcount sweep N topology [out.csv] [dephased | free=k]": the end count driven over a whole family ----
+// ---- run mode "endcount sweep N topology [out.csv] [options]": the end count driven over a whole family ----
 // Every pattern of one dephasing letter (or none) per site and one field letter (or none) per site on
-// a Heisenberg graph, the family of the main repo's twoend / twoendstrings witnesses (bonds 10 on
-// XX, YY, ZZ, fields 3): per row the counts, both bounds, the reading, the firing word and, on a row
-// read PalindromeByElement, the lifted far element. Rows are written as they are read. With
+// a graph, by default the Heisenberg family of the main repo's twoend / twoendstrings witnesses (bonds 10
+// on XX, YY, ZZ, fields 3), otherwise the bond letters and magnitudes the options name: per row the counts, both bounds, the reading, the firing word and, on a row
+// read PalindromeByElement, the lifted far element. near_lo and far_lo are the single-string lower bounds
+// only; a row read exactly by lifted vectors (PalindromeByCount) can show them below the upper bounds.
+// Rows are written as they are read. With
 // "dephased" only the patterns that dephase every site are read (3^N of the 4^N - 1), whose spans have
 // 2^N strings; a site left undephased doubles a span, which is where the cost sits past N = 4.
 if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
@@ -1803,9 +1805,29 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
     int sn = args.Length > 2 ? int.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 3;
     string stopo = args.Length > 3 ? args[3] : "chain";
     string sout = args.Length > 4 ? args[4] : $"endcount_sweep_N{sn}_{stopo}.csv";
-    bool everySite = args.Length > 5 && args[5] == "dephased";
-    // "free=k": only the patterns that leave exactly k sites undephased
-    int freeSites = args.Length > 5 && args[5].StartsWith("free=") ? int.Parse(args[5][5..], System.Globalization.CultureInfo.InvariantCulture) : -1;
+    // options after the output path, in any order:
+    //   "dephased"          only the patterns that dephase every site
+    //   "free=k"            only the patterns that leave exactly k sites undephased
+    //   "bonds=ZZ|XY|XYZ"   the letters every bond carries (default XYZ, the Heisenberg family)
+    //   "weight=w"          the bond weight per letter (default 10)
+    //   "mags=m0,m1,..."    one field magnitude per site (default 3 on every site); the anticommuting-sum
+    //                       census of the colouring page is weight=100 mags=30,22,41,17
+    if (args.Length > 4 && (args[4].Contains('=') || args[4] == "dephased"))
+        throw new ArgumentException($"endcount sweep N topology [out.csv] [options]: the fifth argument is the output path, got the option {args[4]}");
+    var sopts = args.Skip(5).ToList();
+    foreach (var o in sopts)
+        if (o != "dephased" && !new[] { "free=", "bonds=", "weight=", "mags=" }.Any(k => o.StartsWith(k)))
+            throw new ArgumentException($"endcount sweep: unknown option {o} (dephased, free=k, bonds=, weight=, mags=)");
+    string? Opt(string key) => sopts.FirstOrDefault(o => o.StartsWith(key + "="))?[(key.Length + 1)..];
+    bool everySite = sopts.Contains("dephased");
+    int freeSites = Opt("free") is { } fk ? int.Parse(fk, System.Globalization.CultureInfo.InvariantCulture) : -1;
+    string bondLetters = Opt("bonds") ?? "XYZ";
+    long bondWeight = Opt("weight") is { } bw ? long.Parse(bw, System.Globalization.CultureInfo.InvariantCulture) : 10L;
+    long[] mags = Opt("mags") is { } ms
+        ? ms.Split(',').Select(m => long.Parse(m, System.Globalization.CultureInfo.InvariantCulture)).ToArray()
+        : Enumerable.Repeat(3L, sn).ToArray();
+    if (mags.Length != sn) throw new ArgumentException($"mags needs {sn} magnitudes, got {mags.Length}");
+    if (bondLetters.Length == 0 || bondLetters.Any(c => !"XYZ".Contains(c))) throw new ArgumentException($"bonds takes letters from XYZ, got {bondLetters}");
     (int, int)[] sedges = stopo switch
     {
         "chain" => Enumerable.Range(0, sn - 1).Select(i => (i, i + 1)).ToArray(),
@@ -1818,10 +1840,10 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
     const string Alphabet = ".XYZ";
     string Pattern(int code) => new(Enumerable.Range(0, sn).Select(l => Alphabet[(code >> (2 * l)) & 3]).ToArray());
     string Put(int site, char letter) { var c = Enumerable.Repeat('I', sn).ToArray(); c[site] = letter; return new string(c); }
-    var bonds = sedges.SelectMany(e => "XYZ".Select(p =>
+    var bonds = sedges.SelectMany(e => bondLetters.Select(p =>
     {
         var c = Enumerable.Repeat('I', sn).ToArray(); c[e.Item1] = p; c[e.Item2] = p;
-        return (new string(c), 10L);
+        return (new string(c), bondWeight);
     })).ToList();
     var tally = new SortedDictionary<string, int>();
     int rowsDone = 0;
@@ -1843,7 +1865,7 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
             {
                 var rowKeys = new List<string>();
                 string field = Pattern(fc);
-                var h = bonds.Concat(Enumerable.Range(0, sn).Where(l => field[l] != '.').Select(l => (Put(l, field[l]), 3L))).ToList();
+                var h = bonds.Concat(Enumerable.Range(0, sn).Where(l => field[l] != '.').Select(l => (Put(l, field[l]), mags[l]))).ToList();
                 var e = new EndCount(sworld, sn, h, jumps);
                 var up = e.UpperCounts();
                 var lo = e.LowerCounts();
@@ -1880,7 +1902,7 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
             w.Flush();
         }
     }
-    Console.WriteLine($"endcount sweep: N = {sn}, {stopo}, {rowsDone} rows in {clock.Elapsed.TotalSeconds:0.0} s -> {sout}");
+    Console.WriteLine($"endcount sweep: N = {sn}, {stopo}, bonds {bondLetters} at {bondWeight}, fields {string.Join(",", mags)}, {rowsDone} rows in {clock.Elapsed.TotalSeconds:0.0} s -> {sout}");
     foreach (var (k, v) in tally) Console.WriteLine($"  {k,-20} {v}");
     return;
 }

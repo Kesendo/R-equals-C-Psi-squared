@@ -287,4 +287,48 @@ public static class ModP
 
     /// <summary>SparseRank as the maximum over the two primes: the same one-sided reading as Rank.</summary>
     public static int SparseRank(IReadOnlyList<IReadOnlyDictionary<int, long>> rows) => Primes.Max(p => SparseRank(rows, p));
+    // ---- lifting from residues to the rationals ----
+
+    /// <summary>The residue mod m·p that is a mod m and b mod p, for m coprime to the prime p, a in
+    /// [0, m): a + m·((b − a)·m⁻¹ mod p), the inverse by Fermat.</summary>
+    public static System.Numerics.BigInteger Crt(System.Numerics.BigInteger a, System.Numerics.BigInteger m, long b, long p)
+    {
+        if (p <= 1 || m.Sign <= 0) throw new ArgumentOutOfRangeException(nameof(p), "a positive modulus and a prime are needed");
+        var mp = m % p;
+        if (mp.IsZero) throw new ArgumentException($"the modulus is not coprime to {p}", nameof(m));
+        var mInv = System.Numerics.BigInteger.ModPow(mp, p - 2, p);
+        var t = ((b - a) % p + p) % p * mInv % p;
+        return a + m * t;
+    }
+
+    /// <summary>The fraction n/d with |n|, d ≤ ⌊√(m/2)⌋ and n ≡ d·x mod m (Wang's bound, under which such a
+    /// fraction is unique), by the extended Euclidean algorithm; null when none exists. d is positive.</summary>
+    public static (System.Numerics.BigInteger Num, System.Numerics.BigInteger Den)? RationalReconstruct(
+        System.Numerics.BigInteger x, System.Numerics.BigInteger m)
+    {
+        var bound = ISqrt(m / 2);
+        System.Numerics.BigInteger r0 = m, r1 = ((x % m) + m) % m, t0 = 0, t1 = 1;
+        while (r1 > bound)
+        {
+            var q = r0 / r1;
+            (r0, r1) = (r1, r0 - q * r1);
+            (t0, t1) = (t1, t0 - q * t1);
+        }
+        if (t1.IsZero || System.Numerics.BigInteger.Abs(t1) > bound) return null;
+        return t1.Sign < 0 ? (-r1, -t1) : (r1, t1);
+    }
+
+    /// <summary>⌊√n⌋ for n ≥ 0, by Newton's iteration from a start above the root.</summary>
+    public static System.Numerics.BigInteger ISqrt(System.Numerics.BigInteger n)
+    {
+        if (n.Sign < 0) throw new ArgumentOutOfRangeException(nameof(n), "no square root of a negative number");
+        if (n < 2) return n;
+        var x = System.Numerics.BigInteger.One << (int)((n.GetBitLength() + 1) / 2);
+        while (true)
+        {
+            var y = (x + n / x) >> 1;
+            if (y >= x) return x;
+            x = y;
+        }
+    }
 }

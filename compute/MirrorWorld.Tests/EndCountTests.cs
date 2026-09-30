@@ -800,4 +800,116 @@ public class EndCountTests
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             new EndCount(W, 2, new List<(string, long)> { ("XX", long.MaxValue) }, new[] { "ZI" }));
     }
+
+    // ---- the contrast: one- and two-letter bonds at distinct magnitudes ----
+
+    // The anticommuting-sum census of experiments/THE_PALINDROME_AS_A_COLOURING.md ("The census"): bonds
+    // of one letter set, bond weight 100, fields at F138's committed magnitudes 30, 22, 41 (one per site,
+    // positive), every dephasing and field pattern. The palindromic rows the colouring does not reach are
+    // F138's own rejected-palindrome counts on P3, 62 at a one-letter bond and 22 at a two-letter bond.
+    static EndCount Letters(int n, (int, int)[] edges, string bondLetters, long[] mags, string deph, string field, long weight = 100)
+    {
+        var h = new List<(string, long)>();
+        foreach (var (i, j) in edges)
+            foreach (char p in bondLetters) h.Add((Two(n, i, j, p), weight));
+        for (int l = 0; l < n; l++)
+            if (field[l] != '.') h.Add((One(n, l, field[l]), mags[l]));
+        var jumps = Enumerable.Range(0, n).Where(l => deph[l] != '.').Select(l => One(n, l, deph[l])).ToList();
+        return new EndCount(W, n, h, jumps);
+    }
+
+    static bool PairwiseAnticommuting(IReadOnlyList<(string Letters, long Coefficient)> element) =>
+        element.SelectMany((a, i) => element.Take(i).Select(b => (a, b)))
+            .All(x => !PauliString.Commute(PauliString.Parse(x.a.Letters), PauliString.Parse(x.b.Letters)));
+
+    // Distinct magnitudes leave no site-moving symmetry that carries a field onto another, so the
+    // symmetry element cannot reach these rows; every one is read exactly and carried by neither kind.
+    // At the two-letter bond the far end is one-dimensional on every such row and its lifted element is
+    // an anticommuting sum (the census: "all 22 of its two-letter rows" are one sum).
+    // At N = 3 one prime lifts every row here; the wider lift is gated by the two facts below.
+    [Theory]
+    [InlineData("ZZ", 62)]
+    [InlineData("XY", 22)]
+    public void Beyond_The_Colouring_At_Distinct_Magnitudes_No_Palindrome_Is_A_Symmetry(string bondLetters, int beyond)
+    {
+        const string alphabet = ".XYZ";
+        long[] mags = { 30, 22, 41 };
+        int count = 0;
+        for (int dc = 1; dc < 64; dc++)
+            for (int fc = 0; fc < 64; fc++)
+            {
+                string deph = new(Enumerable.Range(0, 3).Select(l => alphabet[(dc >> (2 * l)) & 3]).ToArray());
+                string field = new(Enumerable.Range(0, 3).Select(l => alphabet[(fc >> (2 * l)) & 3]).ToArray());
+                var e = Letters(3, Chain(3), bondLetters, mags, deph, field);
+                var r = e.Verdict();
+                Assert.True(EndCount.IsExact(r), $"{deph} {field}: {r}");
+                if (!EndCount.IsPalindrome(r) || r == EndCount.Reading.PalindromeByColour) continue;
+                count++;
+                Assert.Null(e.Explanation());
+                if (bondLetters == "XY")
+                {
+                    Assert.Equal(EndCount.Reading.PalindromeByElement, r);
+                    Assert.True(PairwiseAnticommuting(e.FarElement()!.Value.Element), $"{deph} {field}");
+                }
+            }
+        Assert.Equal(beyond, count);
+    }
+
+    // A sum whose coefficients one prime cannot reconstruct: the census's N = 4 chain at XX + YY, fields
+    // 30, 22, 41, 17, jump X on site 0 and fields Z, Z, Z, Y. With the first prime alone no far vector
+    // survives (its entries exceed the sqrt(p/2) a single-prime reconstruction returns, 4,670,000 the
+    // largest), and the row would be left to the ranks; through the Chinese remainder theorem over
+    // further primes the element is lifted and certifies exactly.
+    [Fact]
+    public void A_Sum_Past_One_Primes_Bound_Is_Lifted_Through_Further_Primes()
+    {
+        var e = Letters(4, Chain(4), "XY", new long[] { 30, 22, 41, 17 }, "X...", "ZZZY");
+        Assert.Empty(e.LiftedKernel(far: true, primes: 1));
+        Assert.Single(e.LiftedKernel(far: true));
+        Assert.Equal(EndCount.Reading.PalindromeByElement, e.Verdict());
+        var (element, check) = e.FarElement()!.Value;
+        Assert.True(check.Certifies);
+        Assert.True(PairwiseAnticommuting(element));
+        long bound = (long)Math.Sqrt(EndCount.LiftPrimes[0] / 2.0);
+        Assert.True(element.Max(t => Math.Abs(t.Coefficient)) > bound);
+        Assert.Null(e.Explanation());
+    }
+    // A bad first prime: bonds of weight exactly LiftPrimes[0] vanish mod that prime. At Heisenberg
+    // bonds its rank drops on some rows; at a ZZ bond it can keep the full rank and only move a pivot
+    // to a later column. Either way a later prime takes over as the anchor, and every row of the
+    // three-site chain is read exactly, as it is at any other weight; at ZZ the palindromes beyond the
+    // colouring are the 62 of the contrast above.
+    [Theory]
+    [InlineData("XYZ", -1)]
+    [InlineData("ZZ", 62)]
+    public void A_Bad_First_Prime_Hands_The_Anchor_To_A_Good_One(string bondLetters, int beyond)
+    {
+        const string alphabet = ".XYZ";
+        long p0 = EndCount.LiftPrimes[0];
+        long[] mags = bondLetters == "XYZ" ? new long[] { 3, 3, 3 } : new long[] { 30, 22, 41 };
+        int count = 0;
+        for (int dc = 1; dc < 64; dc++)
+            for (int fc = 0; fc < 64; fc++)
+            {
+                string deph = new(Enumerable.Range(0, 3).Select(l => alphabet[(dc >> (2 * l)) & 3]).ToArray());
+                string field = new(Enumerable.Range(0, 3).Select(l => alphabet[(fc >> (2 * l)) & 3]).ToArray());
+                var r = Letters(3, Chain(3), bondLetters, mags, deph, field, weight: p0).Verdict();
+                Assert.True(EndCount.IsExact(r), $"{deph} {field}: {r}");
+                if (EndCount.IsPalindrome(r) && r != EndCount.Reading.PalindromeByColour) count++;
+            }
+        if (beyond >= 0) Assert.Equal(beyond, count);
+    }
+    // The same row at field magnitudes 3001, 2203, 4111, 1709: its sum's rationals need four primes,
+    // so the lift runs three CRT steps, two of them on a composite modulus. Empty at three primes, the
+    // one certifying sum at four.
+    [Fact]
+    public void A_Sum_Needing_Four_Primes_Is_Lifted_Through_A_Composite_Modulus()
+    {
+        var e = Letters(4, Chain(4), "XY", new long[] { 3001, 2203, 4111, 1709 }, "X...", "ZZZY");
+        Assert.Empty(e.LiftedKernel(far: true, primes: 3));
+        Assert.Single(e.LiftedKernel(far: true, primes: 4));
+        Assert.Equal(EndCount.Reading.PalindromeByElement, e.Verdict());
+        Assert.True(e.FarElement()!.Value.Check.Certifies);
+        Assert.True(PairwiseAnticommuting(e.FarElement()!.Value.Element));
+    }
 }

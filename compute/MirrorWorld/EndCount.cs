@@ -607,71 +607,147 @@ public sealed class EndCount : GameObject
 
     readonly Dictionary<bool, List<List<(string Letters, long Coefficient)>>> lifted = new();
 
+    /// <summary>The primes a lift may combine: ModP's two, then the primes just below the first, found by
+    /// ModP.IsPrime. Each added prime widens the rational-reconstruction bound by about 2^15; a vector
+    /// whose rationals exceed what all ten reach, or whose integers pass MaxCoefficient, stays unlifted
+    /// and its row goes to the ranks.</summary>
+    public static readonly long[] LiftPrimes = ModP.Primes.Concat(
+        Enumerable.Range(0, 8).Aggregate((List: new List<long>(), Next: ModP.Primes[0] - 2), (acc, _) =>
+        {
+            long q = acc.Next;
+            while (!ModP.IsPrime(q)) q -= 2;
+            acc.List.Add(q);
+            return (acc.List, q - 2);
+        }).List).ToArray();
+
     /// <summary>A basis of the commutator's kernel on the dark (far = false) or lit (far = true) span,
-    /// lifted from GF(p) at the first prime: the reduced-echelon basis, one vector per free column,
-    /// each entry lifted to the rationals by rational reconstruction and scaled to coprime integers,
-    /// and KEPT only if it commutes with H exactly. The kept vectors lie in the span and are independent
-    /// (each carries its own free column), so their number is an exact LOWER bound on that end's count,
-    /// whatever the prime did: a lift is a guess and the exact check decides it. Empty past
-    /// MaxLiftColumns.</summary>
-    public IReadOnlyList<IReadOnlyList<(string Letters, long Coefficient)>> LiftedKernel(bool far)
+    /// lifted from GF(p): the reduced-echelon basis at the first prime, one vector per free column; the
+    /// same basis at further primes of LiftPrimes, combined by the Chinese remainder theorem, entry by
+    /// entry lifted to the rationals by rational reconstruction and scaled to coprime integers, and KEPT
+    /// only if it commutes with H exactly. A prime of larger rank, or of equal rank and earlier pivot
+    /// columns, becomes the anchor; a prime whose pivot columns come later is skipped (either way one of
+    /// the two reductions was bad, and the later profile is the bad one). Primes are added only until the vector passes, since the bound the
+    /// reconstruction needs grows with the vector's coefficients, not with the span. The kept vectors lie
+    /// in the span and are independent (each carries its own free column), so their number is an exact
+    /// LOWER bound on that end's count, whatever the primes did: a lift is a guess and the exact check
+    /// decides it. Empty past MaxLiftColumns. primes limits how many of LiftPrimes may be combined (all
+    /// by default, the reading the verdict takes; a smaller budget is read fresh, not cached).</summary>
+    public IReadOnlyList<IReadOnlyList<(string Letters, long Coefficient)>> LiftedKernel(bool far, int primes = 0)
     {
-        if (lifted.TryGetValue(far, out var cached)) return cached;
+        if (primes < 0 || primes > LiftPrimes.Length) throw new ArgumentOutOfRangeException(nameof(primes));
+        int budget = primes == 0 ? LiftPrimes.Length : primes;
+        bool full = budget == LiftPrimes.Length;
+        if (full && lifted.TryGetValue(far, out var cached)) return cached;
         var span = far ? LitStrings() : DarkStrings();
         var kept = new List<List<(string, long)>>();
-        lifted[far] = kept;
+        if (full) lifted[far] = kept;
         int s = span.Count;
         if (s == 0 || s > MaxLiftColumns) return kept;
         var cols = Columns(span);
-        long p = ModP.Primes[0];
         int rows = cols.Max(c => c.Count == 0 ? 0 : c.Keys.Max() + 1);
-        var m = new long[rows][];
-        for (int r = 0; r < rows; r++) m[r] = new long[s];
-        for (int j = 0; j < s; j++)
-            foreach (var (r, x) in cols[j]) m[r][j] = ModP.Mod(x, p);
 
-        var pivotOfRow = new List<int>();
-        int rank = 0;
-        for (int c = 0; c < s && rank < rows; c++)
+        // the reduced-echelon kernel basis at one prime: pivot columns and, per free column, its vector
+        (List<int> Pivots, Dictionary<int, long[]> Basis) Echelon(long p)
         {
-            int piv = -1;
-            for (int r = rank; r < rows; r++) if (m[r][c] != 0) { piv = r; break; }
-            if (piv < 0) continue;
-            (m[rank], m[piv]) = (m[piv], m[rank]);
-            long inv = ModP.ModInverse(m[rank][c], p);
-            for (int j = c; j < s; j++) m[rank][j] = ModP.MulMod(m[rank][j], inv, p);
-            for (int r = 0; r < rows; r++)
+            var m = new long[rows][];
+            for (int r = 0; r < rows; r++) m[r] = new long[s];
+            for (int j = 0; j < s; j++)
+                foreach (var (r, x) in cols[j]) m[r][j] = ModP.Mod(x, p);
+            var pivots = new List<int>();
+            int rank = 0;
+            for (int c = 0; c < s && rank < rows; c++)
             {
-                if (r == rank || m[r][c] == 0) continue;
-                long f = m[r][c];
-                for (int j = c; j < s; j++) m[r][j] = ModP.Mod(m[r][j] - ModP.MulMod(f, m[rank][j], p), p);
+                int piv = -1;
+                for (int r = rank; r < rows; r++) if (m[r][c] != 0) { piv = r; break; }
+                if (piv < 0) continue;
+                (m[rank], m[piv]) = (m[piv], m[rank]);
+                long inv = ModP.ModInverse(m[rank][c], p);
+                for (int j = c; j < s; j++) m[rank][j] = ModP.MulMod(m[rank][j], inv, p);
+                for (int r = 0; r < rows; r++)
+                {
+                    if (r == rank || m[r][c] == 0) continue;
+                    long f = m[r][c];
+                    for (int j = c; j < s; j++) m[r][j] = ModP.Mod(m[r][j] - ModP.MulMod(f, m[rank][j], p), p);
+                }
+                pivots.Add(c);
+                rank++;
             }
-            pivotOfRow.Add(c);
-            rank++;
+            var basis = new Dictionary<int, long[]>();
+            foreach (int fc in Enumerable.Range(0, s).Except(pivots))
+            {
+                var v = new long[s];
+                v[fc] = 1;
+                for (int i = 0; i < rank; i++) v[pivots[i]] = ModP.Mod(-m[i][fc], p);
+                basis[fc] = v;
+            }
+            return (pivots, basis);
         }
-        foreach (int fc in Enumerable.Range(0, s).Except(pivotOfRow))
+
+        // the anchor: the prime whose profile the others must share. A rank mod p never exceeds the
+        // rational rank on any prefix of the columns, so a bad prime's pivots sit at or after the
+        // rational ones, pivot by pivot, and the rational profile is the lexicographically smallest of
+        // maximal rank: a later prime of larger rank, or of equal rank and a smaller profile, shows the
+        // anchor's reduction was bad (it can keep the full rank and only move a pivot). The lift
+        // then restarts on that prime, dropping what it kept (exact vectors, but on the bad profile's
+        // free columns, whose independence from the new ones is not given)
+        List<int> profile = null!;
+        Dictionary<int, BigInteger[]> residues = null!;
+        BigInteger modulus = 0;
+        SortedSet<int> open = null!;
+        void Anchor(long p, (List<int> Pivots, Dictionary<int, long[]> Basis) e)
         {
-            var v = new long[s];
-            v[fc] = 1;
-            for (int i = 0; i < rank; i++) v[pivotOfRow[i]] = ModP.Mod(-m[i][fc], p);
-            var fracs = new (BigInteger Num, BigInteger Den)[s];
-            bool ok = true;
-            for (int j = 0; j < s && ok; j++)
+            kept.Clear();
+            profile = e.Pivots;
+            residues = e.Basis.ToDictionary(kv => kv.Key, kv => kv.Value.Select(x => (BigInteger)x).ToArray());
+            modulus = p;
+            open = new SortedSet<int>(e.Basis.Keys);
+        }
+        Anchor(LiftPrimes[0], Echelon(LiftPrimes[0]));
+        int next = 1;
+        while (true)
+        {
+            foreach (int fc in open.ToList())
+                if (TryLift(residues[fc], modulus) is { } vec) { kept.Add(vec); open.Remove(fc); }
+            if (open.Count == 0 || next >= budget) break;
+            long p = LiftPrimes[next++];
+            var e = Echelon(p);
+            if (e.Pivots.Count > profile.Count || (e.Pivots.Count == profile.Count && Earlier(e.Pivots, profile)))
             {
-                var q = Reconstruct(v[j], p);
-                if (q is null) ok = false; else fracs[j] = q.Value;
+                Anchor(p, e);
+                continue;
             }
-            if (!ok) continue;
+            if (!e.Pivots.SequenceEqual(profile)) continue;
+            foreach (int fc in open)
+                for (int j = 0; j < s; j++)
+                    residues[fc][j] = ModP.Crt(residues[fc][j], modulus, e.Basis[fc][j], p);
+            modulus *= p;
+        }
+        return kept;
+
+        static bool Earlier(List<int> a, List<int> b)
+        {
+            for (int i = 0; i < a.Count; i++)
+                if (a[i] != b[i]) return a[i] < b[i];
+            return false;
+        }
+
+        List<(string, long)>? TryLift(BigInteger[] v, BigInteger mod)
+        {
+            var fracs = new (BigInteger Num, BigInteger Den)[s];
+            for (int j = 0; j < s; j++)
+            {
+                if (ModP.RationalReconstruct(v[j], mod) is not { } q) return null;
+                fracs[j] = q;
+            }
             BigInteger lcm = fracs.Aggregate(BigInteger.One, (a, f) => a / BigInteger.GreatestCommonDivisor(a, f.Den) * f.Den);
             var ints = fracs.Select(f => f.Num * (lcm / f.Den)).ToArray();
             BigInteger g = ints.Aggregate(BigInteger.Zero, (a, x) => BigInteger.GreatestCommonDivisor(a, x));
-            if (ints.Any(x => BigInteger.Abs(x / g) > MaxCoefficient)) continue;
+            if (ints.Any(x => BigInteger.Abs(x / g) > MaxCoefficient)) return null;
             var vec = new List<(string, long)>();
             for (int j = 0; j < s; j++)
                 if (!ints[j].IsZero) vec.Add((span[j].ToString(N), (long)(ints[j] / g)));
-            if (CommutesWithH(vec)) kept.Add(vec);
+            return CommutesWithH(vec) ? vec : null;
         }
-        return kept;
     }
 
     /// <summary>The exact lower bounds with the lifted kernels counted in: at each end the larger of
@@ -692,21 +768,6 @@ public sealed class EndCount : GameObject
         var k = LiftedKernel(far: true);
         if (k.Count != 1) return null;
         return (k[0], CheckElement(k[0]));
-    }
-
-    // a/b with |a|, b <= sqrt(p/2) and a = b*x mod p, by the extended Euclidean algorithm; null if none
-    static (BigInteger Num, BigInteger Den)? Reconstruct(long x, long p)
-    {
-        BigInteger bound = new BigInteger(Math.Sqrt(p / 2.0));
-        BigInteger r0 = p, r1 = x, t0 = 0, t1 = 1;
-        while (r1 > bound)
-        {
-            BigInteger q = r0 / r1;
-            (r0, r1) = (r1, r0 - q * r1);
-            (t0, t1) = (t1, t0 - q * t1);
-        }
-        if (t1.IsZero || BigInteger.Abs(t1) > bound) return null;
-        return t1.Sign < 0 ? (-r1, -t1) : (r1, t1);
     }
 
     /// <summary>The exact readings first (colouring, odd word, counts, the lifted kernels), the ranks
