@@ -33,7 +33,12 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// ker(L + 2σ). Three readings are exact: a colouring is an invertible element of the far space, so
 /// by Lemma 3 it certifies the palindrome; a word in {H, A_1 .. A_m} with one jump letter and a
 /// nonzero trace rules it out (section (f5)); and a far upper bound below the near lower bound rules
-/// it out. Only between these do the two ranks decide, and the verdict says which reading decided.
+/// it out. Where none of these applies, each end's kernel basis at the first prime is LIFTED to the
+/// integers by rational reconstruction and every vector kept only if it commutes with H exactly; the
+/// kept vectors are exact lower bounds too, so a far upper bound below the lifted near count rules the
+/// palindrome out, a lifted far vector squaring to a nonzero multiple of 1 certifies it, and two
+/// counts both met by lifted vectors and equal certify it. Only where lifting falls short do the two
+/// ranks decide, and the verdict says which reading decided.
 /// The word traces are taken in the Pauli algebra over the Gaussian integers, Tr(H^k A) for
 /// k ≤ <see cref="MaxWordPower"/>; a traceless budget decides nothing.</para>
 ///
@@ -59,8 +64,14 @@ public sealed class PalindromeStringSpanWitness : IInspectable
     private readonly (PauliMask S, long C)[] _terms;
     private readonly PauliMask[] _jumps;
 
-    public PalindromeStringSpanWitness(int n, string? deph = null, string? field = null, string? topology = null)
+    private readonly bool _lift;
+
+    /// <param name="liftKernels">false leaves the lifted kernels out, so only the single-string bounds
+    /// and the ranks decide past the colouring and the word; the default lifts.</param>
+    public PalindromeStringSpanWitness(int n, string? deph = null, string? field = null, string? topology = null,
+                                       bool liftKernels = true)
     {
+        _lift = liftKernels;
         if (n < 2 || n > MaxN)
             throw new ArgumentOutOfRangeException(nameof(n), n,
                 $"--root twoendstrings enumerates spans of Pauli strings and is guarded at N in 2..{MaxN}; got {n}. " +
@@ -147,12 +158,20 @@ public sealed class PalindromeStringSpanWitness : IInspectable
         BrokenByCount,        // exact: the far upper bound is below the near lower bound
         PalindromeByRank,     // the two upper bounds agree
         BrokenByRank,         // the two upper bounds differ
+        PalindromeByElement,  // exact: the far end's one lifted kernel vector squares to a nonzero multiple of 1
+        PalindromeByCount,    // exact: both counts met by lifted, exactly checked kernel vectors, and equal
     }
 
     public static bool IsExact(Decision d) =>
-        d is Decision.PalindromeByColour or Decision.BrokenByWord or Decision.BrokenByCount;
+        d is Decision.PalindromeByColour or Decision.BrokenByWord or Decision.BrokenByCount
+            or Decision.PalindromeByElement or Decision.PalindromeByCount;
 
-    public static bool IsPalindrome(Decision d) => d is Decision.PalindromeByColour or Decision.PalindromeByRank;
+    public static bool IsPalindrome(Decision d) =>
+        d is Decision.PalindromeByColour or Decision.PalindromeByRank or Decision.PalindromeByElement
+            or Decision.PalindromeByCount;
+
+    /// <summary>The largest span whose kernel is lifted; the elimination is dense.</summary>
+    public const int MaxLiftColumns = 1024;
 
     /// <summary>What one inspect recomputes. Every field is a live number.</summary>
     public sealed record Reading(
@@ -160,6 +179,7 @@ public sealed class PalindromeStringSpanWitness : IInspectable
         int NearUpper, int FarUpper, int NearLower, int FarLower,
         IReadOnlyList<string> Colourings,
         string? Word, GaussianInteger WordTrace,
+        int NearLifted, int FarLifted, string? FarElement,
         Decision Verdict);
 
     private Reading? _reading;
@@ -184,17 +204,127 @@ public sealed class PalindromeStringSpanWitness : IInspectable
                 $"an upper bound fell below a lower one (near {nearUp} < {nearLo} or far {farUp} < {farLo})");
 
         var (word, trace) = farLo > 0 ? (null, GaussianInteger.Zero) : OddWord();
+        bool undecided = farLo == 0 && word is null && farUp >= nearLo;
+        var nearKernel = undecided && _lift ? LiftedKernel(dark, dc) : new List<Dictionary<PauliMask, long>>();
+        var farKernel = undecided && _lift ? LiftedKernel(lit, lc) : new List<Dictionary<PauliMask, long>>();
+        int nearLift = Math.Max(nearLo, nearKernel.Count), farLift = Math.Max(farLo, farKernel.Count);
+        bool elementCertifies = farUp == 1 && farKernel.Count == 1 && SquareIsNonzeroScalar(farKernel[0]);
         Decision verdict =
             farLo > 0 ? Decision.PalindromeByColour
             : word is not null ? Decision.BrokenByWord
-            : farUp < nearLo ? Decision.BrokenByCount
-            : nearUp == farUp ? Decision.PalindromeByRank
-            : Decision.BrokenByRank;
+            : farUp < nearLift ? Decision.BrokenByCount
+            : nearUp != farUp ? Decision.BrokenByRank
+            : elementCertifies ? Decision.PalindromeByElement
+            : nearLift == nearUp && farLift == farUp && _lift ? Decision.PalindromeByCount
+            : Decision.PalindromeByRank;
+        string? element = farUp == 1 && farKernel.Count == 1 ? Format(farKernel[0]) : null;
         return _reading = new Reading(dark.Count, lit.Count, nearUp, farUp, nearLo, farLo,
-            colourings.Select(c => c.ToString(_n)).ToList(), word, trace, verdict);
+            colourings.Select(c => c.ToString(_n)).ToList(), word, trace, nearLift, farLift, element, verdict);
     }
 
     private bool CommutesTermwise(PauliMask p) => _terms.All(t => PauliMask.Commute(t.S, p));
+
+    // ---- the kernels, lifted from GF(p) ----
+
+    // The reduced-echelon basis of the kernel at the first prime, one vector per free column, each entry
+    // lifted to the rationals by rational reconstruction and scaled to coprime integers, KEPT only if it
+    // commutes with H exactly. Kept vectors are independent (each carries its own free column) and lie in
+    // the span, so their number is an exact lower bound on that end's count, whatever the prime did.
+    private List<Dictionary<PauliMask, long>> LiftedKernel(IReadOnlyList<PauliMask> span, List<Dictionary<int, long>> cols)
+    {
+        var kept = new List<Dictionary<PauliMask, long>>();
+        int s = span.Count;
+        if (s == 0 || s > MaxLiftColumns) return kept;
+        long p = Primes[0];
+        int rows = cols.Max(c => c.Count == 0 ? 0 : c.Keys.Max() + 1);
+        var m = new long[rows][];
+        for (int r = 0; r < rows; r++) m[r] = new long[s];
+        for (int j = 0; j < s; j++)
+            foreach (var (r, x) in cols[j]) m[r][j] = Mod(x, p);
+        var pivotOfRow = new List<int>();
+        int rank = 0;
+        for (int c = 0; c < s && rank < rows; c++)
+        {
+            int piv = -1;
+            for (int r = rank; r < rows; r++) if (m[r][c] != 0) { piv = r; break; }
+            if (piv < 0) continue;
+            (m[rank], m[piv]) = (m[piv], m[rank]);
+            long inv = CrossFormCertificate.Inv(m[rank][c], p);
+            for (int j = c; j < s; j++) m[rank][j] = MulMod(m[rank][j], inv, p);
+            for (int r = 0; r < rows; r++)
+            {
+                if (r == rank || m[r][c] == 0) continue;
+                long f = m[r][c];
+                for (int j = c; j < s; j++) m[r][j] = Mod(m[r][j] - MulMod(f, m[rank][j], p), p);
+            }
+            pivotOfRow.Add(c);
+            rank++;
+        }
+        foreach (int fc in Enumerable.Range(0, s).Except(pivotOfRow))
+        {
+            var v = new long[s];
+            v[fc] = 1;
+            for (int i = 0; i < rank; i++) v[pivotOfRow[i]] = Mod(-m[i][fc], p);
+            var fracs = new (BigInteger Num, BigInteger Den)[s];
+            bool ok = true;
+            for (int j = 0; j < s && ok; j++)
+            {
+                var q = Reconstruct(v[j], p);
+                if (q is null) ok = false; else fracs[j] = q.Value;
+            }
+            if (!ok) continue;
+            BigInteger lcm = fracs.Aggregate(BigInteger.One, (a, f) => a / BigInteger.GreatestCommonDivisor(a, f.Den) * f.Den);
+            var ints = fracs.Select(f => f.Num * (lcm / f.Den)).ToArray();
+            BigInteger g = ints.Aggregate(BigInteger.Zero, (a, x) => BigInteger.GreatestCommonDivisor(a, x));
+            if (ints.Any(x => BigInteger.Abs(x / g) > long.MaxValue / 2)) continue;
+            var vec = new Dictionary<PauliMask, long>();
+            for (int j = 0; j < s; j++)
+                if (!ints[j].IsZero) vec[span[j]] = (long)(ints[j] / g);
+            if (CommutesWithH(vec)) kept.Add(vec);
+        }
+        return kept;
+    }
+
+    // a/b with |a|, b <= sqrt(p/2) and a = b*x mod p, by the extended Euclidean algorithm; null if none
+    private static (BigInteger Num, BigInteger Den)? Reconstruct(long x, long p)
+    {
+        BigInteger bound = new BigInteger(Math.Sqrt(p / 2.0));
+        BigInteger r0 = p, r1 = x, t0 = 0, t1 = 1;
+        while (r1 > bound)
+        {
+            BigInteger q = r0 / r1;
+            (r0, r1) = (r1, r0 - q * r1);
+            (t0, t1) = (t1, t0 - q * t1);
+        }
+        if (t1.IsZero || BigInteger.Abs(t1) > bound) return null;
+        return t1.Sign < 0 ? (-r1, -t1) : (r1, t1);
+    }
+
+    // [H, sum c_P P] = 0 exactly: [T, P] = 2 i^k T·P for anticommuting T, P, with k odd
+    private bool CommutesWithH(Dictionary<PauliMask, long> vec)
+    {
+        var acc = new Dictionary<PauliMask, BigInteger>();
+        foreach (var (t, h) in _terms)
+            foreach (var (q, c) in vec)
+            {
+                if (PauliMask.Commute(t, q)) continue;
+                var (prod, k) = PauliMask.Multiply(t, q);
+                acc[prod] = (acc.TryGetValue(prod, out var old) ? old : 0) + (BigInteger)h * c * (k == 1 ? 1 : -1);
+            }
+        return acc.Values.All(x => x.IsZero);
+    }
+
+    // W^2 = c·1 with c != 0: W is then invertible, and (lit and commuting with H) an element of the far space
+    private static bool SquareIsNonzeroScalar(Dictionary<PauliMask, long> w)
+    {
+        var g = w.ToDictionary(kv => kv.Key, kv => (GaussianInteger)(BigInteger)kv.Value);
+        var sq = Mul(g, g);
+        return sq.Count == 1 && sq.TryGetValue(PauliMask.Identity, out var c) && c != GaussianInteger.Zero;
+    }
+
+    private string Format(Dictionary<PauliMask, long> w) =>
+        string.Join(" ", w.OrderBy(kv => kv.Key.ToString(_n), StringComparer.Ordinal)
+            .Select(kv => $"{(kv.Value > 0 ? "+" : "")}{kv.Value} {kv.Key.ToString(_n)}"));
 
     // ---- the spans, as solution sets over GF(2) ----
 
@@ -383,9 +513,23 @@ public sealed class PalindromeStringSpanWitness : IInspectable
                     Decision.PalindromeByColour => "a colouring, an exact certificate.",
                     Decision.BrokenByWord => "an odd word with a nonzero trace, an exact certificate.",
                     Decision.BrokenByCount => "the far upper bound lies below the near lower bound, exact.",
+                    Decision.PalindromeByElement => "the far end's one lifted vector squares to a nonzero multiple of 1, an exact invertible element.",
+                    Decision.PalindromeByCount => "both counts are met by lifted, exactly checked kernel vectors and are equal, exact.",
                     Decision.PalindromeByRank => "no exact reading applies, and the two upper bounds agree: modular evidence.",
-                    _ => "no exact reading applies, and the two upper bounds differ: modular evidence.",
+                    Decision.BrokenByRank => "no exact reading applies, and the two upper bounds differ: modular evidence.",
+                    _ => throw new InvalidOperationException($"unnamed decision {r.Verdict}"),
                 }));
+
+            yield return new InspectableNode("the kernels, lifted from GF(p)",
+                summary: !_lift
+                    ? "Not lifted in this reading (liftKernels: false)."
+                    : string.Format(CultureInfo.InvariantCulture,
+                        "Where no colouring, no word and no single-string count decided, each end's kernel basis at " +
+                        "the first prime is lifted to the integers by rational reconstruction and every vector kept " +
+                        "only if it commutes with H exactly: {0} at the near end and {1} at the far end, exact lower " +
+                        "bounds against the upper bounds {2} and {3}.{4}",
+                        r.NearLifted, r.FarLifted, r.NearUpper, r.FarUpper,
+                        r.FarElement is null ? "" : $" The far end's one vector is {r.FarElement}."));
 
             yield return new InspectableNode("the dense witness, beside this one",
                 summary: MeetTheDenseWitness(r));
@@ -394,8 +538,9 @@ public sealed class PalindromeStringSpanWitness : IInspectable
                 summary: BuildComparisonRow());
 
             yield return new InspectableNode("what this witness does NOT decide",
-                summary: "Palindromic rows beyond the colouring, whose far space holds only sums of strings (an " +
-                         "anticommuting sum, a SWAP-type element): there the verdict is a rank reading, and exhibiting an element " +
+                summary: "Rows where lifting falls short (an entry past the reconstruction bound, a lifted vector " +
+                         "that fails the exact check at a bad prime, a coefficient too large to hold, a span past " +
+                         $"{MaxLiftColumns} strings): there the verdict is a rank reading, and exhibiting an element " +
                          "is a separate construction, done for the census in simulations/anticommuting_sum_census.py " +
                          "and in compute/MirrorWorld/EndCount.cs's CheckElement. Nor jumps that are not Pauli " +
                          "strings, where conjugation does not act diagonally on strings; the dense witness twoend " +

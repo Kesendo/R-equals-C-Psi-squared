@@ -398,16 +398,131 @@ public sealed class EndCount : GameObject
         BrokenByCount,        // exact: the far end's upper bound is below the near end's lower bound
         PalindromeByRank,     // the two upper bounds agree (a rank reading, not a certificate)
         BrokenByRank,         // the two upper bounds differ (a rank reading, not a certificate)
+        PalindromeByElement,  // exact: the far end's one kernel vector, lifted to the integers, certifies
+        PalindromeByCount,    // exact: both counts met by lifted, exactly checked kernel vectors, and equal
     }
 
-    public static bool IsPalindrome(Reading r) => r is Reading.PalindromeByColour or Reading.PalindromeByRank;
-    public static bool IsExact(Reading r) => r is Reading.PalindromeByColour or Reading.BrokenByWord or Reading.BrokenByCount;
+    public static bool IsPalindrome(Reading r) =>
+        r is Reading.PalindromeByColour or Reading.PalindromeByRank or Reading.PalindromeByElement or Reading.PalindromeByCount;
+    public static bool IsExact(Reading r) =>
+        r is Reading.PalindromeByColour or Reading.BrokenByWord or Reading.BrokenByCount or Reading.PalindromeByElement
+            or Reading.PalindromeByCount;
 
-    /// <summary>The exact readings first (colouring, odd word, counts), the ranks only between them.
-    /// With a colouring no word is read: F158 makes every odd word traceless then, so the budget
-    /// would be spent to learn nothing (the tests hold the two against each other instead). An upper
-    /// bound below a lower one would contradict the one-sidedness, and throws.</summary>
-    public Reading Verdict(int maxPower = 4, int maxJumps = 1)
+    // ---- the kernels, lifted from GF(p) ----
+
+    /// <summary>The largest span whose kernel is lifted; the elimination is dense.</summary>
+    public const int MaxLiftColumns = 1024;
+
+    readonly Dictionary<bool, List<List<(string Letters, long Coefficient)>>> lifted = new();
+
+    /// <summary>A basis of the commutator's kernel on the dark (far = false) or lit (far = true) span,
+    /// lifted from GF(p) at the first prime: the reduced-echelon basis, one vector per free column,
+    /// each entry lifted to the rationals by rational reconstruction and scaled to coprime integers,
+    /// and KEPT only if it commutes with H exactly. The kept vectors lie in the span and are independent
+    /// (each carries its own free column), so their number is an exact LOWER bound on that end's count,
+    /// whatever the prime did: a lift is a guess and the exact check decides it. Empty past
+    /// MaxLiftColumns.</summary>
+    public IReadOnlyList<IReadOnlyList<(string Letters, long Coefficient)>> LiftedKernel(bool far)
+    {
+        if (lifted.TryGetValue(far, out var cached)) return cached;
+        var span = far ? LitStrings() : DarkStrings();
+        var kept = new List<List<(string, long)>>();
+        lifted[far] = kept;
+        int s = span.Count;
+        if (s == 0 || s > MaxLiftColumns) return kept;
+        var cols = Columns(span);
+        long p = ModP.Primes[0];
+        int rows = cols.Max(c => c.Count == 0 ? 0 : c.Keys.Max() + 1);
+        var m = new long[rows][];
+        for (int r = 0; r < rows; r++) m[r] = new long[s];
+        for (int j = 0; j < s; j++)
+            foreach (var (r, x) in cols[j]) m[r][j] = ModP.Mod(x, p);
+
+        var pivotOfRow = new List<int>();
+        int rank = 0;
+        for (int c = 0; c < s && rank < rows; c++)
+        {
+            int piv = -1;
+            for (int r = rank; r < rows; r++) if (m[r][c] != 0) { piv = r; break; }
+            if (piv < 0) continue;
+            (m[rank], m[piv]) = (m[piv], m[rank]);
+            long inv = ModP.ModInverse(m[rank][c], p);
+            for (int j = c; j < s; j++) m[rank][j] = ModP.MulMod(m[rank][j], inv, p);
+            for (int r = 0; r < rows; r++)
+            {
+                if (r == rank || m[r][c] == 0) continue;
+                long f = m[r][c];
+                for (int j = c; j < s; j++) m[r][j] = ModP.Mod(m[r][j] - ModP.MulMod(f, m[rank][j], p), p);
+            }
+            pivotOfRow.Add(c);
+            rank++;
+        }
+        foreach (int fc in Enumerable.Range(0, s).Except(pivotOfRow))
+        {
+            var v = new long[s];
+            v[fc] = 1;
+            for (int i = 0; i < rank; i++) v[pivotOfRow[i]] = ModP.Mod(-m[i][fc], p);
+            var fracs = new (BigInteger Num, BigInteger Den)[s];
+            bool ok = true;
+            for (int j = 0; j < s && ok; j++)
+            {
+                var q = Reconstruct(v[j], p);
+                if (q is null) ok = false; else fracs[j] = q.Value;
+            }
+            if (!ok) continue;
+            BigInteger lcm = fracs.Aggregate(BigInteger.One, (a, f) => a / BigInteger.GreatestCommonDivisor(a, f.Den) * f.Den);
+            var ints = fracs.Select(f => f.Num * (lcm / f.Den)).ToArray();
+            BigInteger g = ints.Aggregate(BigInteger.Zero, (a, x) => BigInteger.GreatestCommonDivisor(a, x));
+            if (ints.Any(x => BigInteger.Abs(x / g) > MaxCoefficient)) continue;
+            var vec = new List<(string, long)>();
+            for (int j = 0; j < s; j++)
+                if (!ints[j].IsZero) vec.Add((span[j].ToString(N), (long)(ints[j] / g)));
+            if (CommutesWithH(vec)) kept.Add(vec);
+        }
+        return kept;
+    }
+
+    /// <summary>The exact lower bounds with the lifted kernels counted in: at each end the larger of
+    /// the single-string bound and the number of lifted vectors that passed the exact check.</summary>
+    public (int Near, int Far) LiftedLowerCounts()
+    {
+        var (n0, f0) = LowerCounts();
+        return (Math.Max(n0, LiftedKernel(far: false).Count), Math.Max(f0, LiftedKernel(far: true).Count));
+    }
+
+    /// <summary>When the far end's upper bound is 1, its one lifted vector together with its exact
+    /// check (lit, commuting with H, square a multiple of 1): a certifying check makes it an exact
+    /// invertible element of W_. With near = 1 any element of W_ squares to a multiple of the identity,
+    /// since its square lies in N_ = span{1}. Null when the bound is not 1 or no vector survived.</summary>
+    public (IReadOnlyList<(string Letters, long Coefficient)> Element, ElementCheck Check)? FarElement()
+    {
+        if (UpperCounts().Far != 1) return null;
+        var k = LiftedKernel(far: true);
+        if (k.Count != 1) return null;
+        return (k[0], CheckElement(k[0]));
+    }
+
+    // a/b with |a|, b <= sqrt(p/2) and a = b*x mod p, by the extended Euclidean algorithm; null if none
+    static (BigInteger Num, BigInteger Den)? Reconstruct(long x, long p)
+    {
+        BigInteger bound = new BigInteger(Math.Sqrt(p / 2.0));
+        BigInteger r0 = p, r1 = x, t0 = 0, t1 = 1;
+        while (r1 > bound)
+        {
+            BigInteger q = r0 / r1;
+            (r0, r1) = (r1, r0 - q * r1);
+            (t0, t1) = (t1, t0 - q * t1);
+        }
+        if (t1.IsZero || BigInteger.Abs(t1) > bound) return null;
+        return t1.Sign < 0 ? (-r1, -t1) : (r1, t1);
+    }
+
+    /// <summary>The exact readings first (colouring, odd word, counts, the lifted kernels), the ranks
+    /// only where none applies. With a colouring no word is read: F158 makes every odd word traceless
+    /// then, so the budget would be spent to learn nothing (the tests hold the two against each other
+    /// instead). lift = false skips the lifted kernels, leaving the single-string bounds. An upper bound
+    /// below a lower one would contradict the one-sidedness, and throws.</summary>
+    public Reading Verdict(int maxPower = 4, int maxJumps = 1, bool lift = true)
     {
         var (upNear, upFar) = UpperCounts();
         var (loNear, loFar) = LowerCounts();
@@ -417,6 +532,13 @@ public sealed class EndCount : GameObject
         if (loFar > 0) return Reading.PalindromeByColour;
         if (Word(maxPower, maxJumps) is not null) return Reading.BrokenByWord;
         if (upFar < loNear) return Reading.BrokenByCount;
-        return upNear == upFar ? Reading.PalindromeByRank : Reading.BrokenByRank;
+        if (!lift) return upNear == upFar ? Reading.PalindromeByRank : Reading.BrokenByRank;
+        // the ranks alone would decide from here; the lifted kernels give exact lower bounds first
+        var (liftNear, liftFar) = LiftedLowerCounts();
+        if (upFar < liftNear) return Reading.BrokenByCount;
+        if (upNear != upFar) return Reading.BrokenByRank;
+        if (FarElement() is { Check.Certifies: true }) return Reading.PalindromeByElement;
+        if (liftNear == upNear && liftFar == upFar) return Reading.PalindromeByCount;
+        return Reading.PalindromeByRank;
     }
 }

@@ -44,8 +44,8 @@ public class PalindromeStringSpanWitnessTests
     [InlineData("Z.Z", "X.X", 1, 1, D.PalindromeByColour)]
     [InlineData("XYZ", "...", 1, 0, D.BrokenByCount)]
     [InlineData(".X.", "X.X", 6, 2, D.BrokenByWord)]
-    [InlineData(".X.", "YZY", 2, 1, D.BrokenByRank)]
-    [InlineData(".X.", "Y.Z", 1, 1, D.PalindromeByRank)]
+    [InlineData(".X.", "YZY", 2, 1, D.BrokenByCount)]
+    [InlineData(".X.", "Y.Z", 1, 1, D.PalindromeByElement)]
     public void The_String_Route_Meets_The_Dense_Witness(string deph, string field, int near, int far, D decision)
     {
         var r = new PalindromeStringSpanWitness(3, deph, field).Read();
@@ -103,6 +103,29 @@ public class PalindromeStringSpanWitnessTests
         }
     }
 
+    // The two rank rows, decided once the kernels are lifted: on (.X., YZY) two exactly checked near
+    // vectors stand against a far bound of 1; on (.X., Y.Z) the far end's one vector is the element
+    // PREDICTED by the row's symmetry, the mirror 0 <-> 2 composed with the pi rotation about (0,1,1)
+    // (which carries the field Y on site 0 to Z on site 2 and fixes every Heisenberg bond), that is
+    // (II - XX + YZ + ZY)/2 on sites 0, 2, times the lit circle colour Y + Z on site 1, the rotation's axis
+    // (the eight strings below are twice that operator).
+    [Fact]
+    public void Lifting_Decides_The_Rank_Rows_And_Finds_The_Symmetry_Element()
+    {
+        var broken = new PalindromeStringSpanWitness(3, ".X.", "YZY").Read();
+        Assert.Equal((2, 1), (broken.NearLifted, broken.FarLifted));
+        Assert.Equal(D.BrokenByRank, new PalindromeStringSpanWitness(3, ".X.", "YZY", liftKernels: false).Read().Verdict);
+
+        var pairs = new PalindromeStringSpanWitness(3, ".X.", "Y.Z").Read();
+        Assert.Equal(D.PalindromeByRank, new PalindromeStringSpanWitness(3, ".X.", "Y.Z", liftKernels: false).Read().Verdict);
+        var predicted = new[] { "+1 IYI", "+1 IZI", "-1 XYX", "-1 XZX", "+1 YYZ", "+1 YZZ", "+1 ZYY", "+1 ZZY" };
+        var flipped = predicted.Select(t => (t[0] == '+' ? "-" : "+") + t[1..]).ToArray();
+        var got = pairs.FarElement!.Split(' ').Chunk(2).Select(c => $"{c[0]} {c[1]}").ToArray();
+        Assert.True(got.SequenceEqual(predicted) || got.SequenceEqual(flipped), pairs.FarElement);
+        var node = new PalindromeStringSpanWitness(3, ".X.", "Y.Z").Children.ElementAt(3).Summary;
+        Assert.Contains("PalindromeByElement: the far end's one lifted vector", node, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void Exactness_Is_Labelled_Per_Decision()
     {
@@ -111,7 +134,10 @@ public class PalindromeStringSpanWitnessTests
         Assert.True(PalindromeStringSpanWitness.IsExact(D.BrokenByCount));
         Assert.False(PalindromeStringSpanWitness.IsExact(D.PalindromeByRank));
         Assert.False(PalindromeStringSpanWitness.IsExact(D.BrokenByRank));
-        Assert.Contains("a rank reading", new PalindromeStringSpanWitness(3, ".X.", "YZY").Summary, StringComparison.Ordinal);
+        Assert.True(PalindromeStringSpanWitness.IsExact(D.PalindromeByElement));
+        Assert.True(PalindromeStringSpanWitness.IsExact(D.PalindromeByCount));
+        Assert.Contains("a rank reading", new PalindromeStringSpanWitness(3, ".X.", "YZY", liftKernels: false).Summary, StringComparison.Ordinal);
+        Assert.Contains("an exact reading", new PalindromeStringSpanWitness(3, ".X.", "YZY").Summary, StringComparison.Ordinal);
         Assert.Contains("an exact reading", new PalindromeStringSpanWitness(3).Summary, StringComparison.Ordinal);
     }
 
@@ -134,12 +160,13 @@ public class PalindromeStringSpanWitnessTests
     {
         var w = new PalindromeStringSpanWitness(3, ".X.", "YZY");
         var children = w.Children.ToList();
-        Assert.Equal(7, children.Count);
+        Assert.Equal(8, children.Count);
         Assert.All(children, c => Assert.False(string.IsNullOrWhiteSpace(c.Summary)));
-        Assert.Contains("They meet.", children[4].Summary, StringComparison.Ordinal);
-        Assert.Contains("Not run", new PalindromeStringSpanWitness(6).Children.ElementAt(4).Summary, StringComparison.Ordinal);
+        Assert.Contains("2 at the near end and 1 at the far end", children[4].Summary, StringComparison.Ordinal);
+        Assert.Contains("They meet.", children[5].Summary, StringComparison.Ordinal);
+        Assert.Contains("Not run", new PalindromeStringSpanWitness(6).Children.ElementAt(5).Summary, StringComparison.Ordinal);
         // the falsifier row beside the canonical one, at a size the dense witness cannot reach
-        var beside = new PalindromeStringSpanWitness(6).Children.ElementAt(5).Summary;
+        var beside = new PalindromeStringSpanWitness(6).Children.ElementAt(6).Summary;
         Assert.Contains("near 7, far 7", beside, StringComparison.Ordinal);
         Assert.Contains("near 7, far 0, BrokenByWord by the word H^1·ZIIIII", beside, StringComparison.Ordinal);
     }

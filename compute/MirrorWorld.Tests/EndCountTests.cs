@@ -180,19 +180,114 @@ public class EndCountTests
         // The witness's broken row (.X., X.X) with the word budget cut to H^1: no word fires (the row's
         // first word is H^2 A), the far bound 2 is not below the near lower bound 2 (I and XXX are the
         // dark strings commuting with H: the X fields and every Heisenberg bond accept X on all three
-        // sites), so only the ranks decide, and the verdict must say so.
+        // sites), so with the lifted kernels switched off only the ranks decide, and the verdict must
+        // say so. Switched on, the lifted near kernel holds six exactly checked vectors against a far
+        // bound of 2, and the counts decide exactly.
         var e = Row(3, Chain(3), ".X.", "X.X");
         Assert.Equal(new[] { "III", "XXX" }, e.DarkStrings().Where(s => e.CommutesWithH(new List<(string, long)> { (s.ToString(3), 1) }))
             .Select(s => s.ToString(3)).OrderBy(s => s));
         Assert.Equal((2, 0), e.LowerCounts());
-        Assert.Equal(EndCount.Reading.BrokenByRank, e.Verdict(maxPower: 1));
+        Assert.Equal(EndCount.Reading.BrokenByRank, e.Verdict(maxPower: 1, lift: false));
+        Assert.Equal(EndCount.Reading.BrokenByCount, e.Verdict(maxPower: 1));
+        Assert.Equal((6, 2), e.LiftedLowerCounts());
         Assert.Equal(EndCount.Reading.BrokenByWord, e.Verdict(maxPower: 2));
+        Assert.True(EndCount.IsExact(EndCount.Reading.PalindromeByElement));
+        Assert.True(EndCount.IsExact(EndCount.Reading.PalindromeByCount));
 
         Assert.True(EndCount.IsExact(EndCount.Reading.PalindromeByColour));
         Assert.True(EndCount.IsExact(EndCount.Reading.BrokenByWord));
         Assert.True(EndCount.IsExact(EndCount.Reading.BrokenByCount));
         Assert.False(EndCount.IsExact(EndCount.Reading.PalindromeByRank));
         Assert.False(EndCount.IsExact(EndCount.Reading.BrokenByRank));
+    }
+
+    // ---- the lifted kernels ----
+
+    // The rank-only rows of the N = 3 family, decided exactly once the kernels are lifted. The palindromic
+    // one's far element is PREDICTED rather than read: the Heisenberg chain is fixed by the mirror 0 <-> 2
+    // composed with the pi rotation about (0,1,1), which also carries the field Y on site 0 to the field
+    // Z on site 2; that operator is V = (II - XX + YZ + ZY)/2 on sites 0, 2, it commutes with the jump X
+    // on site 1, and the middle takes the lit circle colour Y + Z, the rotation's own axis. Expanded,
+    // 2 V (x) (Y + Z) is the eight strings below.
+    [Fact]
+    public void The_Lifted_Kernels_Decide_The_Rank_Rows_Of_The_Three_Site_Family()
+    {
+        var broken = Row(3, Chain(3), ".X.", "YZY");
+        Assert.Equal((2, 1), broken.UpperCounts());
+        Assert.Equal((1, 0), broken.LowerCounts());
+        Assert.Equal((2, 1), broken.LiftedLowerCounts());
+        Assert.Equal(EndCount.Reading.BrokenByRank, broken.Verdict(lift: false));
+        Assert.Equal(EndCount.Reading.BrokenByCount, broken.Verdict());
+
+        var pairs = Row(3, Chain(3), ".X.", "Y.Z");
+        Assert.Equal(EndCount.Reading.PalindromeByElement, pairs.Verdict());
+        var predicted = new List<(string, long)>
+        {
+            ("IYI", 1), ("IZI", 1), ("XYX", -1), ("XZX", -1), ("YYZ", 1), ("YZZ", 1), ("ZYY", 1), ("ZZY", 1),
+        };
+        Assert.True(pairs.CheckElement(predicted).Certifies);
+        var lifted = pairs.FarElement()!.Value.Element.OrderBy(t => t.Item1).ToList();
+        long sign = Math.Sign(lifted[0].Coefficient);
+        Assert.Equal(predicted.OrderBy(t => t.Item1), lifted.Select(t => (t.Letters, sign * t.Coefficient)));
+    }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(6)]
+    public void On_The_Canonical_Chain_The_Lifted_Kernels_Meet_The_Upper_Bounds(int n)
+    {
+        var e = Row(n, Chain(n), new string('Z', n), new string('.', n));
+        Assert.Equal((n + 1, n + 1), e.LiftedLowerCounts());
+        Assert.Equal(e.UpperCounts(), e.LiftedLowerCounts());
+        Assert.All(e.LiftedKernel(far: false).Concat(e.LiftedKernel(far: true)), v => Assert.True(e.CommutesWithH(v)));
+    }
+
+    // ---- the family, swept ----
+
+    static IEnumerable<EndCount> Family(int n, (int, int)[] edges, bool everySiteDephased)
+    {
+        const string A = ".XYZ";
+        string Pattern(int code) => new(Enumerable.Range(0, n).Select(l => A[(code >> (2 * l)) & 3]).ToArray());
+        for (int dc = 1; dc < 1 << (2 * n); dc++)
+        {
+            string deph = Pattern(dc);
+            if (everySiteDephased && deph.Contains('.')) continue;
+            for (int fc = 0; fc < 1 << (2 * n); fc++)
+                yield return Row(n, edges, deph, Pattern(fc), bond: 10, mag: 3);
+        }
+    }
+
+    // Derived, not measured: with every site dephased along one letter, a Heisenberg bond forces one
+    // colour c on the connected graph; c must avoid every site's jump letter (2^N jump patterns) and
+    // every field must be absent or c (2^N field patterns), so 4^N rows per colour; two colours work
+    // together only on the one pattern that dephases every site along the third letter with no field.
+    // Inclusion-exclusion gives 3 (4^N - 1) coloured rows, and the graph does not enter.
+    [Theory]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void Every_Site_Dephased_The_Coloured_Rows_Are_Three_Times_Four_To_The_N_Minus_One(int n)
+    {
+        foreach (var edges in new[] { Chain(n), Ring(n) })
+        {
+            int coloured = Family(n, edges, everySiteDephased: true).Count(e => e.LowerCounts().Far > 0);
+            Assert.Equal(3 * ((1 << (2 * n)) - 1), coloured);
+        }
+    }
+
+    // Measured with the run mode `endcount sweep 3 chain` (2026-09-30): once the kernels are lifted no
+    // row of the three-site family is left to the ranks: 603 coloured, 6 by a lifted element, 252 by the
+    // counts, 3171 by a one-jump word, of 4032.
+    [Fact]
+    public void No_Row_Of_The_Three_Site_Family_Is_Left_To_The_Ranks()
+    {
+        var readings = Family(3, Chain(3), everySiteDephased: false).Select(e => e.Verdict()).ToList();
+        Assert.Equal(4032, readings.Count);
+        Assert.All(readings, r => Assert.True(EndCount.IsExact(r), r.ToString()));
+        Assert.Equal(603, readings.Count(r => r == EndCount.Reading.PalindromeByColour));
+        Assert.Equal(6, readings.Count(r => r == EndCount.Reading.PalindromeByElement));
+        Assert.Equal(252, readings.Count(r => r == EndCount.Reading.BrokenByCount));
+        Assert.Equal(3171, readings.Count(r => r == EndCount.Reading.BrokenByWord));
     }
 
     // ---- elements found elsewhere: the colouring page ----
@@ -216,7 +311,12 @@ public class EndCountTests
         var flipped = e.CheckElement(new List<(string, long)> { ("YYZ", 3), ("ZXX", -4) });
         Assert.True(flipped.AllLit);
         Assert.False(flipped.CommutesWithH);
-        Assert.Equal(EndCount.Reading.PalindromeByRank, e.Verdict(maxPower: 2));
+        Assert.Equal(EndCount.Reading.PalindromeByRank, e.Verdict(maxPower: 2, lift: false));
+        // lifted from GF(p), the far end's one vector IS the page's sum, up to sign
+        Assert.Equal(EndCount.Reading.PalindromeByElement, e.Verdict(maxPower: 2));
+        var lifted = e.FarElement()!.Value.Element.OrderBy(t => t.Letters).ToList();
+        long sign = Math.Sign(lifted[0].Coefficient);
+        Assert.Equal(new[] { ("YYZ", 3L), ("ZXX", 4L) }, lifted.Select(t => (t.Letters, sign * t.Coefficient)));
 
         Assert.Equal((1, 1), StageE(1, 1).UpperCounts());
     }
@@ -384,7 +484,11 @@ public class EndCountTests
         var lit = e.LitStrings().Select(s => s.ToString(n)).ToHashSet();
         Assert.All(g0.Concat(g1), t => Assert.Contains(t.Item1, lit));
         Assert.True(e.UpperCounts().Far >= 1);
-        Assert.Equal(EndCount.Reading.PalindromeByRank, e.Verdict(maxPower: 2, maxJumps: 1));
+        Assert.Equal(EndCount.Reading.PalindromeByRank, e.Verdict(maxPower: 2, maxJumps: 1, lift: false));
+        // lifted, both ends are met exactly (four vectors each at these (n, c), an independent sympy
+        // computation of both nullities in the review round of 2026-09-30), and the count decides
+        Assert.Equal((4, 4), e.LiftedLowerCounts());
+        Assert.Equal(EndCount.Reading.PalindromeByCount, e.Verdict(maxPower: 2, maxJumps: 1));
 
         // the rhythms the colouring page names as failing: [a, b, a, b] and [a, a, a, a]
         foreach (var bad in new[] { (Func<int, bool>)(l => l % 2 == 0), l => true })

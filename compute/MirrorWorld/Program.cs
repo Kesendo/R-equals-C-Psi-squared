@@ -1729,12 +1729,80 @@ if (args.Length > 0 && args[0] == "crack")
     return;
 }
 
+// ---- run mode "endcount sweep N topology [out.csv] [dephased]": the end count driven over a whole family ----
+// Every pattern of one dephasing letter (or none) per site and one field letter (or none) per site on
+// a Heisenberg graph, the family of the main repo's twoend / twoendstrings witnesses (bonds 10 on
+// XX, YY, ZZ, fields 3): per row the counts, both bounds, the reading, the firing word and, on a row
+// read PalindromeByElement, the lifted far element. Rows are written as they are read. With
+// "dephased" only the patterns that dephase every site are read (3^N of the 4^N - 1), whose spans have
+// 2^N strings; a site left undephased doubles a span, which is where the cost sits past N = 4.
+if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
+{
+    int sn = args.Length > 2 ? int.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 3;
+    string stopo = args.Length > 3 ? args[3] : "chain";
+    string sout = args.Length > 4 ? args[4] : $"endcount_sweep_N{sn}_{stopo}.csv";
+    bool everySite = args.Length > 5 && args[5] == "dephased";
+    (int, int)[] sedges = stopo switch
+    {
+        "chain" => Enumerable.Range(0, sn - 1).Select(i => (i, i + 1)).ToArray(),
+        "ring" => Enumerable.Range(0, sn).Select(i => (i, (i + 1) % sn)).ToArray(),
+        "star" => Enumerable.Range(1, sn - 1).Select(i => (0, i)).ToArray(),
+        "complete" => (from a in Enumerable.Range(0, sn) from b in Enumerable.Range(a + 1, sn - a - 1) select (a, b)).ToArray(),
+        _ => throw new ArgumentException($"topology chain, ring, star or complete; got {stopo}"),
+    };
+    var sworld = new World();
+    const string Alphabet = ".XYZ";
+    string Pattern(int code) => new(Enumerable.Range(0, sn).Select(l => Alphabet[(code >> (2 * l)) & 3]).ToArray());
+    string Put(int site, char letter) { var c = Enumerable.Repeat('I', sn).ToArray(); c[site] = letter; return new string(c); }
+    var bonds = sedges.SelectMany(e => "XYZ".Select(p =>
+    {
+        var c = Enumerable.Repeat('I', sn).ToArray(); c[e.Item1] = p; c[e.Item2] = p;
+        return (new string(c), 10L);
+    })).ToList();
+    var tally = new SortedDictionary<string, int>();
+    int rowsDone = 0;
+    var clock = System.Diagnostics.Stopwatch.StartNew();
+    using (var w = new StreamWriter(sout))
+    {
+        w.WriteLine("n,topology,deph,field,dark,lit,near_up,far_up,near_lo,far_lo,reading,word,trace_re,trace_im,element,word3");
+        for (int dc = 1; dc < 1 << (2 * sn); dc++)
+        {
+            string deph = Pattern(dc);
+            if (everySite && deph.Contains('.')) continue;
+            var jumps = Enumerable.Range(0, sn).Where(l => deph[l] != '.').Select(l => Put(l, deph[l])).ToList();
+            for (int fc = 0; fc < 1 << (2 * sn); fc++)
+            {
+                string field = Pattern(fc);
+                var h = bonds.Concat(Enumerable.Range(0, sn).Where(l => field[l] != '.').Select(l => (Put(l, field[l]), 3L))).ToList();
+                var e = new EndCount(sworld, sn, h, jumps);
+                var up = e.UpperCounts();
+                var lo = e.LowerCounts();
+                var reading = e.Verdict();
+                var word = reading == EndCount.Reading.BrokenByWord ? e.Word() : null;
+                string element = "";
+                // on a rank-read break, the three-jump words are asked too: an exact certificate the one-jump budget misses
+                var word3 = reading == EndCount.Reading.BrokenByRank ? e.Word(maxJumps: 3) : null;
+                if (reading == EndCount.Reading.PalindromeByElement && e.FarElement() is { } fe)
+                    element = string.Join(" ", fe.Element.Select(t => $"{(t.Coefficient > 0 ? "+" : "")}{t.Coefficient}{t.Letters}"));
+                w.WriteLine($"{sn},{stopo},{deph},{field},{e.DarkStrings().Count},{e.LitStrings().Count},{up.Near},{up.Far},{lo.Near},{lo.Far},{reading},{word?.Word ?? ""},{word?.TraceRe ?? 0},{word?.TraceIm ?? 0},{element},{word3?.Word ?? ""}");
+                tally[reading.ToString()] = tally.TryGetValue(reading.ToString(), out int t0) ? t0 + 1 : 1;
+                if (word3 is not null) tally["  of which by 3-jump word"] = tally.TryGetValue("  of which by 3-jump word", out int t1) ? t1 + 1 : 1;
+                rowsDone++;
+            }
+            w.Flush();
+        }
+    }
+    Console.WriteLine($"endcount sweep: N = {sn}, {stopo}, {rowsDone} rows in {clock.Elapsed.TotalSeconds:0.0} s -> {sout}");
+    foreach (var (k, v) in tally) Console.WriteLine($"  {k,-20} {v}");
+    return;
+}
+
 // ---- run mode "endcount": the palindrome as a count of the spectrum's two ends (F158) ----
 // Adopted 2026-09-30 from docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (claim PalindromeTwoEndCountClaim,
 // witness `inspect --root twoend`, which ranks L on 4^N columns and stops at N = 4). Here each end is the
 // commutator with H on a span of Pauli strings, dark (commuting with every jump) or lit (anticommuting),
-// ranked over GF(p); a colouring certifies the palindrome, an odd word certifies its absence, and the
-// ranks decide only between them.
+// ranked over GF(p); a colouring certifies the palindrome, an odd word certifies its absence, the kernels
+// lifted from GF(p) and checked exactly decide most of the rest, and the ranks only what is left.
 if (args.Length > 0 && args[0] == "endcount")
 {
     int en = args.Length > 1 ? int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture) : 10;
@@ -1757,7 +1825,8 @@ if (args.Length > 0 && args[0] == "endcount")
     {
         var up = e.UpperCounts();
         var lo = e.LowerCounts();
-        return $"near {up.Near}, far {up.Far} (upper bounds; exact lower bounds from single strings {lo.Near}, {lo.Far}); {r}"
+        var li = e.LiftedLowerCounts();
+        return $"near {up.Near}, far {up.Far} (upper bounds; exact lower bounds {lo.Near}, {lo.Far} from single strings, {li.Near}, {li.Far} with the lifted kernels); {r}"
              + (EndCount.IsExact(r) ? " (exact)" : " (a rank reading)");
     }
 

@@ -219,8 +219,11 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "site each span has 2^N strings where L has 4^N columns, and every entry of ad_H/2i there " +
                          "is plus or minus one coefficient of H. A single lit string commuting with H is an " +
                          "invertible element of the far space and certifies the palindrome; a word with an odd " +
-                         "number of jump letters and a nonzero trace rules it out (section (f5)). Live: inspect " +
-                         "--root twoendstrings, which reads twoend beside itself at N <= 4.");
+                         "number of jump letters and a nonzero trace rules it out (section (f5)). Where neither " +
+                         "decides, each kernel basis lifted from GF(p) to the integers and kept only if it commutes " +
+                         "with H exactly gives exact lower bounds, and a lone far vector squaring to a nonzero " +
+                         "multiple of 1 an exact element. Live: inspect --root twoendstrings, which reads twoend " +
+                         "beside itself at N <= 4.");
 
             yield return new InspectableNode("live lab (the witness)",
                 summary: "PalindromeTwoEndCountWitness recomputes both nullities at inspect time by GF(p) " +
