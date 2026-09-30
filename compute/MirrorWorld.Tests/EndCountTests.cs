@@ -1105,12 +1105,12 @@ public class EndCountTests
         Assert.Equal((-1, 0), Times(d[1], d[2]));
     }
 
-    // The proof's open item on mixed axes, measured and pinned: Heisenberg bonds of random nonzero weights on the four graphs,
+    // Theorem 3 of the complement-connection proof at random weights, with Theorem 1's one-axis rows among them: Heisenberg bonds of random nonzero weights on the four graphs,
     // every site dephased along a random letter, random letter fields of random signed magnitudes.
     // The palindrome holds exactly when some letter c is no jump axis and every field is c, the
     // colouring rule for a Heisenberg component; on every broken row the far end is zero, not merely
     // short of the near end; and where the axes really are mixed (two letters or more) the far end
-    // is at most one-dimensional. About a third of the rows force one field letter, and some rows
+    // is at most one-dimensional, the near end exactly one (Lemma A). About a third of the rows force one field letter, and some rows
     // have one common axis (Theorem 1's class).
     [Theory]
     [InlineData(3)]
@@ -1145,9 +1145,83 @@ public class EndCountTests
                 Assert.Equal(colouring, EndCount.IsPalindrome(r));
                 if (colouring) { pal++; Assert.NotEmpty(e.Colourings()); }
                 else { broken++; Assert.Equal(0, e.ComplementConnection()!.Value.Good); }
-                if (axes.Distinct().Count() > 1) Assert.True(e.ComplementConnection()!.Value.Good <= 1, $"{new string(axes)} {new string(fields)}");
+                if (axes.Distinct().Count() > 1)
+                    Assert.True(e.ComplementConnection()!.Value is { HoppingComponents: 1, Good: <= 1 }, $"{new string(axes)} {new string(fields)}");
             }
         Assert.True(pal > 50 && broken > 50, $"palindromic {pal}, broken {broken}");
+    }
+
+    // Theorem 3 of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md at the inputs most likely to
+    // break it: every coupling and every field component of magnitude one (the coincident magnitudes
+    // that break F138's converse where a site is undephased), one field per subset of letters
+    // (X + Y, X − Y + Z, ...) with unit components of random sign, every mixed assignment of axes, at N = 2
+    // and on the path and the triangle at N = 3 (where three axes need the proof's triangle argument).
+    // Lemma A: the hopping graph is connected, the near end one-dimensional. The theorem: the palindrome
+    // holds exactly when two axes are used and every field component lies along the third letter c,
+    // carried by c^⊗N alone; on every broken row the far end is zero.
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    public void Mixed_Axes_At_Unit_Magnitudes_Follow_Theorem_Three(int n)
+    {
+        var rng = new Random(300 + n);
+        var graphs = n == 2 ? new[] { Chain(2) } : new[] { Chain(3), Ring(3) };
+        int pal = 0, broken = 0;
+        foreach (var edges in graphs)
+            foreach (int axesCode in Enumerable.Range(0, (int)Math.Pow(3, n)))
+            {
+                var axes = Enumerable.Range(0, n).Select(l => "XYZ"[axesCode / (int)Math.Pow(3, l) % 3]).ToArray();
+                if (axes.Distinct().Count() < 2) continue;
+                foreach (int fieldCode in Enumerable.Range(0, 1 << (3 * n)))
+                {
+                    var h = new List<(string, long)>();
+                    foreach (var (a, b) in edges)
+                    {
+                        long w = rng.Next(2) == 0 ? 1 : -1;
+                        foreach (char p in "XYZ") h.Add((Two(n, a, b, p), w));
+                    }
+                    var fieldLetters = new HashSet<char>();
+                    for (int l = 0; l < n; l++)
+                        for (int k = 0; k < 3; k++)
+                            if ((fieldCode >> (3 * l + k) & 1) == 1)
+                            {
+                                h.Add((One(n, l, "XYZ"[k]), rng.Next(2) == 0 ? 1 : -1));
+                                fieldLetters.Add("XYZ"[k]);
+                            }
+                    var e = new EndCount(W, n, h, Enumerable.Range(0, n).Select(l => One(n, l, axes[l])).ToList());
+                    var r = e.Verdict();
+                    string row = $"{new string(axes)} fields {fieldCode} on {edges.Length} bonds";
+                    Assert.True(EndCount.IsExact(r), $"{row}: {r}");
+                    var cc = e.ComplementConnection()!.Value;
+                    Assert.True(cc.HoppingComponents == 1, row);
+                    var free = "XYZ".Where(c => !axes.Contains(c)).ToList();
+                    bool predicted = free.Count == 1 && fieldLetters.All(f => f == free[0]);
+                    Assert.True(predicted == EndCount.IsPalindrome(r), row);
+                    if (predicted)
+                    {
+                        pal++;
+                        Assert.Equal(new[] { new string(free[0], n) }, e.Colourings().Select(s => s.ToString(n)));
+                    }
+                    else { broken++; Assert.True(cc.Good == 0, row); }
+                }
+            }
+        Assert.True(pal > 0 && broken > 0, $"palindromic {pal}, broken {broken}");
+    }
+
+    // Theorem 3 needs a connected graph: two bonds (0, 1) and (2, 3), axes X, Y, Y, Z, Z fields on
+    // sites 0 and 1, X fields on 2 and 3, use three axes and still pair, each bond a component with
+    // its own third letter, carried by ZZXX.
+    [Fact]
+    public void Three_Axes_Pair_On_A_Disconnected_Graph()
+    {
+        var h = new List<(string, long)>();
+        foreach (var (a, b) in new[] { (0, 1), (2, 3) })
+            foreach (char p in "XYZ") h.Add((Two(4, a, b, p), 1));
+        h.AddRange(new[] { ("ZIII", 1L), ("IZII", -1L), ("IIXI", 1L), ("IIIX", 1L) });
+        var e = new EndCount(W, 4, h, new[] { "XIII", "IYII", "IIYI", "IIIZ" });
+        var r = e.Verdict();
+        Assert.True(EndCount.IsExact(r) && EndCount.IsPalindrome(r), $"{r}");
+        Assert.Contains("ZZXX", e.Colourings().Select(c => c.ToString(4)));
     }
 
     // A jump on two sites that H does not join: the grammar keeps the two sites in one component (a

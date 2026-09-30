@@ -193,7 +193,7 @@ carries dephasing at all*:
 measures it failing at fewer bond letters and at coincident field magnitudes:
 22 rows of 4096 on P₃ and 104 on a bond plus an isolated site at a two-letter
 bond, 776 / 732 / 520 at one letter, and 78 of 21,952 on the full XX+YY+ZZ bond
-when the two END sites of P₃ carry equal field magnitudes. In one class it holds, exactly and at every magnitude: every site dephased along Z, Heisenberg bonds on a connected graph, fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorem 1). Two of the 22 are
+when the two END sites of P₃ carry equal field magnitudes. In two classes it holds, exactly and at every magnitude, both with Heisenberg bonds on a connected graph and every site dephased: along Z with fields along letters, and along mixed axes with fields of any direction ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1 and 3). Two of the 22 are
 clause-1 rows rather than clause-2 rows, so the ceiling of two axes is sufficient
 and not necessary in the same way. Neither this paragraph nor F138 derives the
 clauses: they are a measured census of the SUFFICIENT direction, which has never
@@ -786,7 +786,10 @@ for it. The single "(!)" belongs to the mixed ZX row alone (Z, X, Z on the three
 sites), which no single-axis Π covers. Its reflector is one-sided:
 U = Y⊗Y⊗Y commutes with the Heisenberg H and anticommutes with every jump, so
 ρ ↦ Uρ carries L to −L† − 2Σγ, the construction of
-[F158](PROOF_PALINDROME_TWO_END_COUNT.md). For
+[F158](PROOF_PALINDROME_TWO_END_COUNT.md). It is the one carrier there, as Theorem 3 of
+[PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md)
+proves on every connected Heisenberg graph dephased
+everywhere along two axes, with any fields along the third letter. For
 depolarizing noise the palindrome genuinely breaks, and here the
 convention matters: depolarizing at *total* rate γ per site means γ/3 on
 each of the three axes. Under that standard convention the typed
