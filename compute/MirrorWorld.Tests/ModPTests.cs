@@ -521,4 +521,69 @@ public class ModPTests
         Assert.Throws<ArgumentOutOfRangeException>(() => ModP.CyclotomicPrime(-6, 0));
         Assert.Throws<ArgumentOutOfRangeException>(() => ModP.CyclotomicPrime(18, -1));
     }
+
+    // ---- the sparse rank, against the dense one and against ranks known by construction ----
+
+    static List<IReadOnlyDictionary<int, long>> Sparse(IEnumerable<long[]> rows) =>
+        rows.Select(r => (IReadOnlyDictionary<int, long>)r.Select((v, j) => (v, j)).Where(t => t.v != 0)
+            .ToDictionary(t => t.j, t => t.v)).ToList();
+
+    // Random integer matrices, many of them deficient by construction (a row that is a combination of
+    // two others), read by both eliminations at both primes. The dense Rank is itself judged above
+    // against ranks known by construction, so agreement here is agreement with that.
+    [Fact]
+    public void SparseRank_AgreesWithTheDenseRank_OnRandomMatrices()
+    {
+        var rng = new Random(20260930);
+        for (int t = 0; t < 300; t++)
+        {
+            int r = rng.Next(1, 9), c = rng.Next(1, 9);
+            var rows = new List<long[]>();
+            for (int i = 0; i < r; i++)
+            {
+                if (i >= 2 && rng.Next(3) == 0)
+                {
+                    long a = rng.Next(-5, 6), b = rng.Next(-5, 6);
+                    rows.Add(rows[i - 1].Zip(rows[i - 2], (x, y) => a * x + b * y).ToArray());
+                }
+                else rows.Add(Enumerable.Range(0, c).Select(_ => rng.Next(4) == 0 ? (long)rng.Next(-9, 10) : 0L).ToArray());
+            }
+            foreach (long p in ModP.Primes)
+                Assert.Equal(ModP.Rank(rows, p), ModP.SparseRank(Sparse(rows), p));
+        }
+    }
+
+    [Fact]
+    public void SparseRank_SeesDeficiency_AtTopResidueEntries_AndAtEntriesEqualToP()
+    {
+        long p = Big;
+        var rows = new List<long[]>
+        {
+            new[] { p - 1, p - 2, p - 3 },
+            new[] { p - 2, p - 4, p - 6 },
+            new[] { p - 3, p - 6, p - 9 },
+        };
+        Assert.Equal(1, ModP.SparseRank(Sparse(rows), p));
+        Assert.Equal(0, ModP.SparseRank(Sparse(new[] { new[] { p, 2 * p } }), p));
+        Assert.Equal(2, ModP.SparseRank(Sparse(new[] { new[] { 1L, 0L }, new[] { 0L, 1L }, new[] { 1L, 1L } }), p));
+    }
+
+    [Fact]
+    public void SparseRank_IsTakenOverTheField_AndTheMaxOverTheListRecoversIt()
+    {
+        long p = Big;
+        var rows = Sparse(new[] { new[] { 1L, 0L }, new[] { 1L, p } });   // the rows coincide mod p only
+        Assert.Equal(1, ModP.SparseRank(rows, p));
+        Assert.Equal(2, ModP.SparseRank(rows, ModP.Primes.Min()));
+        Assert.Equal(2, ModP.SparseRank(rows));
+    }
+
+    [Fact]
+    public void SparseRank_OfNothing_IsZero_AndRefusesACompositeModulus()
+    {
+        Assert.Equal(0, ModP.SparseRank(new List<IReadOnlyDictionary<int, long>>(), Big));
+        Assert.Equal(0, ModP.SparseRank(new List<IReadOnlyDictionary<int, long>> { new Dictionary<int, long>() }, Big));
+        Assert.Throws<ArgumentException>(() => ModP.SparseRank(Sparse(new[] { new[] { 2L } }), 4));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ModP.SparseRank(Sparse(new[] { new[] { 1L } }), 1));
+    }
 }

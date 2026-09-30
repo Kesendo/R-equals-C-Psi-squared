@@ -58,7 +58,10 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/f138_rank_criterion.py</c> (103 gates, 15415 rows scored in both directions with
 /// FP = 0 and FN = 0, among them off-axis n.sigma jumps and multi-site Pauli strings; beside
 /// them F1's own canonical break under depolarizing, and one float route that shares no
-/// construction code with the rest). Live lab: <c>inspect --root twoend</c>.</para></summary>
+/// construction code with the rest). Live lab: <c>inspect --root twoend</c>. Sibling in the sober
+/// base: <c>compute/MirrorWorld/EndCount.cs</c>, which counts both ends for Pauli-string jumps as
+/// commutators on spans of strings, past this witness's MaxN = 4, with the odd-word pre-filter of
+/// the proof's section (f5).</para></summary>
 public sealed class PalindromeTwoEndCountClaim : Claim
 {
     /// <summary>The typed parent: F1 is the OPERATOR identity and this claim is the SPECTRAL one,

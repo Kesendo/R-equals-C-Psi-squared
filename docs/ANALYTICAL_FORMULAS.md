@@ -9196,7 +9196,12 @@ child of `F1PalindromeIdentity`) with the live witness `inspect --root twoend`
 (`PalindromeTwoEndCountWitness`: the two nullities by GF(p) elimination, the
 same two dimensions again from the operator conditions by a route that never
 forms L, and the palindrome by the characteristic-polynomial identity, with a
-break printed beside the canonical row). Open: whether F158 should become
+break printed beside the canonical row). MirrorWorld's `EndCount`
+([compute/MirrorWorld/EndCount.cs](../compute/MirrorWorld/EndCount.cs), run mode
+`endcount N`) counts both ends for Pauli-string jumps as commutators on spans of
+strings (the proof's second corollary to Lemma 1), past the witness's N = 4 (the
+canonical chain is pinned there to N = 10), and computes §(f5)'s odd-word
+pre-filter; the typed layer does not carry that yet. Open: whether F158 should become
 F138's Proof anchor, argued in the arc `f138_converse_failures`.
 
 ---

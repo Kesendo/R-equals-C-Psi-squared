@@ -9290,18 +9290,17 @@ public static class OpenArcsRegistry
                 "reddens a committed gate. F150 sits BEHIND them and not beside F151: its object is the " +
                 "coefficient support of a characteristic polynomial in Lambda and q over Z[i] on a " +
                 "fold-fixed block, which needs the q-pencil, the R-sector split and bivariate integer " +
-                "polynomial arithmetic, three primitives the world does not have. F158 is NOT the head " +
-                "despite its Claim + Witness: PalindromeTwoEndCountWitness.MaxN = 4, because dim ker L " +
-                "is a rank on 4^N columns. An adoption would read the count block by block through " +
-                "Block (Grading B), and the first thing to decide on paper is the PREMISE, not the " +
-                "size: Block exists only for a number-conserving H with diagonal jumps, and the " +
-                "criterion's content lives in the families that grading forbids (depolarizing, " +
-                "off-axis jumps, multi-site Pauli strings, the three the claim's own gate scores); " +
-                "inside the grading F1 already forces the two nullities equal unless an X^N-breaking " +
-                "term, a longitudinal field, is switched on, so without that knob the block-wise count " +
-                "cannot fail. The size comes second: the largest block is C(N, floor(N/2))^2 columns, " +
-                "4900 at N = 8 and 63504 at N = 10, so the count reaches a few sites past the wall and " +
-                "nowhere near BlindSeat's N = 200. F152/F153 come " +
+                "polynomial arithmetic, three primitives the world does not have. F158 is home as " +
+                "compute/MirrorWorld/EndCount.cs (2026-09-30), ahead of the head and not through " +
+                "Block: read block by block through Grading B the count could only run where F1 " +
+                "already forces the two nullities equal (a number-conserving H with diagonal jumps, " +
+                "no longitudinal field), while the criterion's content lives in the families that " +
+                "grading forbids. For Pauli-string jumps both kernels are the commutator with H on " +
+                "spans of Pauli strings, the dark ones commuting with every jump and the lit ones " +
+                "anticommuting, which carries no grading premise (off-axis, multi-site and two-axis " +
+                "jumps and fields all run); under one dephasing axis per site a span has 2^N strings " +
+                "where the Liouvillian has 4^N columns, and a span is bounded at 2^16 strings; the odd-word pre-filter of F158 (f5) came with it, and " +
+                "the typed layer carries neither yet. The queue from F151 on is unchanged. F152/F153 come " +
                 "LAST among the thirteen, and only as the entry-wise count with the gamma-uniformity " +
                 "hypothesis stated and BigInteger past N = 34; the shelved second design is the negative " +
                 "result to read before redesigning, and it is gitignored, so read it on this machine or " +

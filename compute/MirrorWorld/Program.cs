@@ -1729,6 +1729,74 @@ if (args.Length > 0 && args[0] == "crack")
     return;
 }
 
+// ---- run mode "endcount": the palindrome as a count of the spectrum's two ends (F158) ----
+// Adopted 2026-09-30 from docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (claim PalindromeTwoEndCountClaim,
+// witness `inspect --root twoend`, which ranks L on 4^N columns and stops at N = 4). Here each end is the
+// commutator with H on a span of Pauli strings, dark (commuting with every jump) or lit (anticommuting),
+// ranked over GF(p); a colouring certifies the palindrome, an odd word certifies its absence, and the
+// ranks decide only between them.
+if (args.Length > 0 && args[0] == "endcount")
+{
+    int en = args.Length > 1 ? int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture) : 10;
+    if (en < 3 || en > EndCount.MaxSpanBits)
+    {   // three sites for the router's window; past MaxSpanBits the canonical chain's span of 2^N strings is refused
+        Console.WriteLine($"endcount takes N from 3 to {EndCount.MaxSpanBits} (the canonical chain's span has 2^N strings)");
+        return;
+    }
+    var eworld = new World();
+    string Put(int n, params (int Site, char Letter)[] ls)
+    {
+        var c = Enumerable.Repeat('I', n).ToArray();
+        foreach (var (s, l) in ls) c[s] = l;
+        return new string(c);
+    }
+    List<(string, long)> Heis(int n)
+        => Enumerable.Range(0, n - 1).SelectMany(i => "XYZ".Select(p => (Put(n, (i, p), (i + 1, p)), 100L))).ToList();
+    List<string> ZJumps(int n) => Enumerable.Range(0, n).Select(l => Put(n, (l, 'Z'))).ToList();
+    string Show(EndCount e, EndCount.Reading r)
+    {
+        var up = e.UpperCounts();
+        var lo = e.LowerCounts();
+        return $"near {up.Near}, far {up.Far} (upper bounds; exact lower bounds from single strings {lo.Near}, {lo.Far}); {r}"
+             + (EndCount.IsExact(r) ? " (exact)" : " (a rank reading)");
+    }
+
+    Console.WriteLine($"the end count (F158): the spectrum pairs about -sigma exactly when dim ker L = dim ker(L + 2 sigma)");
+    Console.WriteLine("  source docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md; string face experiments/THE_PALINDROME_AS_A_COLOURING.md");
+    Console.WriteLine();
+    var canon = new EndCount(eworld, en, Heis(en), ZJumps(en));
+    Console.WriteLine($"  the canonical chain, N = {en}, Heisenberg, Z on every site: spans of {canon.DarkStrings().Count} dark and {canon.LitStrings().Count} lit strings where L has 4^N = {System.Numerics.BigInteger.Pow(4, en)} columns");
+    Console.WriteLine($"    {Show(canon, canon.Verdict(maxPower: 2, maxJumps: 1))}; F158 (f2) says N + 1 = {en + 1} at both ends");
+    Console.WriteLine($"    colourings: {string.Join(", ", canon.Colourings().Select(s => s.ToString(en)))} (X^N is the one-sided factor R of Pi = R D)");
+    var zfield = new EndCount(eworld, en, Heis(en).Append((Put(en, (0, 'Z')), 30L)).ToList(), ZJumps(en));
+    var zw = zfield.Word(maxPower: 2, maxJumps: 1)!;
+    Console.WriteLine($"  the same chain with a Z field 30 on site 0: the word {zw.Word} has trace {zw.TraceRe} = 2^N * 30, so no palindrome at any positive rate");
+    Console.WriteLine($"    {Show(zfield, zfield.Verdict(maxPower: 2, maxJumps: 1))}");
+    Console.WriteLine();
+    var stageE = new EndCount(eworld, 3, new List<(string, long)> { ("XXI", 3), ("YYI", 3), ("IXX", 4), ("IYY", 4) }, new[] { "XII", "IZI", "IIY" });
+    var ue = stageE.CheckElement(new List<(string, long)> { ("YYZ", 3), ("ZXX", 4) });
+    Console.WriteLine("  beyond the colouring (the page's stage E: bonds 3(XX+YY), 4(XX+YY), jumps X, Z, Y): no colouring,");
+    Console.WriteLine($"    but 3 YYZ + 4 ZXX is lit: {ue.AllLit}, commutes with H: {ue.CommutesWithH}, squares to {ue.SquareScalar} I, so it certifies the palindrome");
+    Console.WriteLine($"    {Show(stageE, stageE.Verdict(maxPower: 2))}");
+    int gn = Math.Min(en, 8);
+    var golden = new List<(string, long)>();
+    for (int w = 0; w + 2 < gn; w++)
+        foreach (var (t, c) in new[] { ("XZX", 1L), ("XZY", 1L), ("YZX", 1L) })
+            golden.Add((Put(gn, (w, t[0]), (w + 1, t[1]), (w + 2, t[2])), c));
+    var gold = new EndCount(eworld, gn, golden, ZJumps(gn));
+    Console.WriteLine($"  the golden router's chain, N = {gn} (windows XZX + XZY + YZX, Z on every site): colourings {gold.Colourings().Count},");
+    Console.WriteLine($"    its far element is the router's identity column G = (x) g_l on the circle of lit colours (docked exactly in Z[phi] in the tests)");
+    Console.WriteLine($"    {Show(gold, gold.Verdict(maxPower: 2, maxJumps: 1))}");
+    var depol = new EndCount(eworld, 2, new List<(string, long)> { ("XX", 1), ("YY", 1), ("ZZ", 1) }, new[] { "XI", "YI", "ZI" });
+    Console.WriteLine($"  a depolarized site (X, Y, Z on one site): {depol.LitStrings().Count} lit strings; {Show(depol, depol.Verdict(maxJumps: 1))}");
+    Console.WriteLine();
+    Console.WriteLine("  WHAT THE TWO BUCKETS SAY. Its parent is the frame: F158's class is every Hermitian involution and its proof");
+    Console.WriteLine("  needs neither the mirror group nor the fold. MirrorGroup's R and Router's G are elements it DOCKS, not inherits.");
+    Console.WriteLine($"    own       (left) : {string.Join(", ", canon.Own)}");
+    Console.WriteLine($"    inherited (right): {string.Join(", ", canon.Inherited)}");
+    return;
+}
+
 if (args.Length > 0)
 {
     Console.Error.WriteLine($"unknown run mode '{args[0]}'");

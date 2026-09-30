@@ -5,9 +5,9 @@ namespace MirrorWorld;
 ///
 /// Several objects here walk past the wall by refusing floating point: Seed's nullity surplus,
 /// Divisor's multiplicity, BlindSeat's blind count, LevelCollision's cyclotomic levels, Crack's
-/// characteristic-polynomial identity and CollisionGap's comb readings are all EXACT ranks and residues
-/// over GF(p) at two primes, with no eigensolver anywhere. This is the arithmetic all six of them are
-/// written in.
+/// characteristic-polynomial identity, CollisionGap's comb readings and EndCount's two ends are all EXACT
+/// ranks and residues over GF(p) at two primes, with no eigensolver anywhere. This is the arithmetic all
+/// seven of them are written in.
 ///
 /// ONE PRIME LIST, and the choice is forced rather than preferred: both primes are 1 mod 4, so -1
 /// is a square at each, and the GAUSSIAN ranks (Divisor works over Z[i], embedding i as a square
@@ -236,4 +236,55 @@ public static class ModP
     /// never raise it, so the larger reading is the one closer to the truth and a rank certified
     /// here is a lower bound that no prime can inflate.</summary>
     public static int Rank(IReadOnlyList<long[]> rows) => Primes.Max(p => Rank(rows, p));
+
+    /// <summary>The rank over GF(p) of SPARSE rows, each a map column -> entry (absent = zero;
+    /// entries of either sign and unreduced). The same elimination as Rank, pivoting each incoming row
+    /// on its smallest surviving column against the pivot rows found so far, so the work follows the
+    /// nonzeros rather than the column count. It exists for ranks whose columns are indexed by
+    /// something sparse, such as the Pauli strings a commutator can reach, where a dense row would be
+    /// mostly zeros; SparseRank and Rank agree wherever both apply (ModPTests reads them against each
+    /// other on dense matrices, and against a rank known by construction).</summary>
+    public static int SparseRank(IReadOnlyList<IReadOnlyDictionary<int, long>> rows, long p)
+    {
+        if (p <= 1) throw new ArgumentOutOfRangeException(nameof(p), p, "a field modulus exceeds one");
+        if (!IsPrime(p))
+            throw new ArgumentException("the field modulus must be prime", nameof(p));
+
+        var pivots = new Dictionary<int, (int[] Cols, long[] Vals)>();
+        var work = new SortedDictionary<int, long>();
+        foreach (var row in rows)
+        {
+            work.Clear();
+            foreach (var (c, v) in row)
+            {
+                long r = Mod(v, p);
+                if (r != 0) work[c] = r;
+            }
+            while (work.Count > 0)
+            {
+                int c = work.Keys.First();
+                long v = work[c];
+                if (!pivots.TryGetValue(c, out var piv))
+                {
+                    long inv = ModInverse(v, p);
+                    var cols = new int[work.Count];
+                    var vals = new long[work.Count];
+                    int i = 0;
+                    foreach (var (cc, vv) in work) { cols[i] = cc; vals[i] = MulMod(vv, inv, p); i++; }
+                    pivots[c] = (cols, vals);
+                    break;
+                }
+                for (int j = 0; j < piv.Cols.Length; j++)
+                {
+                    int cc = piv.Cols[j];
+                    long nv = Mod((work.TryGetValue(cc, out long old) ? old : 0) - MulMod(v, piv.Vals[j], p), p);
+                    if (nv == 0) work.Remove(cc); else work[cc] = nv;
+                }
+            }
+        }
+        return pivots.Count;
+    }
+
+    /// <summary>SparseRank as the maximum over the two primes: the same one-sided reading as Rank.</summary>
+    public static int SparseRank(IReadOnlyList<IReadOnlyDictionary<int, long>> rows) => Primes.Max(p => SparseRank(rows, p));
 }

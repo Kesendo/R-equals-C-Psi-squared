@@ -319,6 +319,27 @@ the palindrome axis are edges of it. That is the setting
 [PROOF_CODIM1_BY_ADDITIVITY](PROOF_CODIM1_BY_ADDITIVITY.md) §6's window-edge
 lemma already works in.
 
+**A second corollary, for Pauli-string jumps.** When every A_l is a Pauli string
+(up to sign), conjugation by A_l sends each Pauli string P to +P or −P, the minus
+sign exactly when P and A_l anticommute. Expanding an operator in the string
+basis, A_l X A_l = X for every l holds exactly when X is supported on the strings
+that commute with every jump, and A_l W A_l = −W for every l exactly when W is
+supported on the strings that anticommute with every jump. So
+
+    𝒩 = ker ad_H on span{P : P commutes with every A_l} ,
+    𝒲 = ker ad_H on span{P : P anticommutes with every A_l} .
+
+Commutation between the jumps is not used. When H is written as a sum of
+distinct strings T with coefficients h_T, [T, P] is 0 or 2·T·P, and for a fixed P
+distinct terms give distinct strings T·P, so ad_H/2i on either span is a matrix whose
+every entry is ±h_T: an integer matrix when the coefficients are integers, which
+a rational H becomes after scaling by its common denominator, and scaling moves
+neither kernel. The second span is empty when no string anticommutes with every
+jump, and then 𝒲 = 0. This is the route
+[`compute/MirrorWorld/EndCount.cs`](../../compute/MirrorWorld/EndCount.cs)
+counts by, with the ranks taken modulo two primes, and the route of
+[`simulations/anticommuting_sum_census.py`](../../simulations/anticommuting_sum_census.py).
+
 ## (c) Lemma 2: both ends are semisimple
 
 > **Lemma 2.** The eigenvalues 0 and −2σ of L carry no Jordan blocks, so at both
@@ -518,7 +539,11 @@ palindrome of the decay rates alone can survive it (Heisenberg under a uniform
 field). A finite budget of traceless words decides nothing; over every word the
 condition is also sufficient, since the traces of all words determine a
 finite-dimensional *-representation up to unitary equivalence, so (H, A) and
-(H, −A) would be unitarily equivalent. No C# witness carries the pre-filter yet.
+(H, −A) would be unitarily equivalent. No witness in the typed layer carries the
+pre-filter yet; MirrorWorld's
+[`EndCount`](../../compute/MirrorWorld/EndCount.cs) computes it, exact over the
+Gaussian integers, with the words and the order of `fw.odd_word_obstruction`
+(its default budget reads one jump letter per word, where the Python's also reads three).
 
 **(f6) The two ends are both what they are called.** For this class L† is L with
 H ↦ −H, so `ker L† = ker L = 𝒩`: the conserved quantities and the steady modes
