@@ -903,6 +903,20 @@ public static class InspectCommand
                 c.Parser.OptionalString("field"),
                 c.Parser.OptionalString("topology")),
             RequiresN: false, HonorsOptionalN: true),
+        new("complement", "THE COMPLEMENT CONNECTION (proof PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, claim " +
+            "PalindromeComplementConnectionClaim): with one single-site Pauli jump on every site, turned to Z, " +
+            "the near count of F158 is the number of components of H's hopping graph over bitstrings and the far " +
+            "count the number of good components of its union with the complement image (flat sections of " +
+            "d_y/d_x = H_xy/H_x̄ȳ); the palindrome holds exactly when every component is good. The witness prints " +
+            "Theorem 1's rule (one common axis) or Theorem 3's (mixed axes: two axes, every field along the third " +
+            "letter) beside the graph, and reads twoendstrings on the same row. Args: --N (2..12, default 3), " +
+            "--deph XZY (every site), --field X.X, --topology chain|ring|complete",
+            c => new ComplementConnectionWitness(
+                c.Parser.HasFlag("N") ? c.N : 3,
+                c.Parser.OptionalString("deph"),
+                c.Parser.OptionalString("field"),
+                c.Parser.OptionalString("topology")),
+            RequiresN: false, HonorsOptionalN: true),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +
             "S⁺ chain interiors at p+q̃ = N∓1, " +

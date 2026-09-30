@@ -908,6 +908,10 @@ public static class KnowledgeRegistryFactory
             .RegisterMissingPhaseRelaxationScaleClaim()
             .RegisterMissingPhaseSlowReadoutClaim()
             .RegisterPalindromeTwoEndCountClaim()
+            // The complement connection (Tier 1 derived, 2026-09-30): with every site dephased, F158's far end
+            // is the flat sections of d_y/d_x = H_xy/H_x̄ȳ on the hopping graph over bitstrings; Theorems 1 and 3
+            // are the two classes where F138's converse holds exactly. Parent: F158.
+            .RegisterPalindromeComplementConnectionClaim()
             // F160, the cracked ring is exactly solvable (Tier 1 derived, 2026-09-02; the law derived and gated
             // 2026-08-31 in experiments/THE_CRACKED_BELL.md): one bond of the XY ring detuned to u*J has
             // det(x I - H) = U_N(x/2) - u^2 U_{N-2}(x/2) - 2u, so the whole single-excitation spectrum is the

@@ -223,7 +223,9 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "decides, each kernel basis lifted from GF(p) to the integers and kept only if it commutes " +
                          "with H exactly gives exact lower bounds, and a lone far vector squaring to a nonzero " +
                          "multiple of 1 an exact element. Live: inspect --root twoendstrings, which reads twoend " +
-                         "beside itself at N <= 4.");
+                         "beside itself at N <= 4. With one jump on every site both ends become functions on " +
+                         "bitstrings, the complement connection (PalindromeComplementConnectionClaim, inspect --root " +
+                         "complement).");
 
             yield return new InspectableNode("live lab (the witness)",
                 summary: "PalindromeTwoEndCountWitness recomputes both nullities at inspect time by GF(p) " +
