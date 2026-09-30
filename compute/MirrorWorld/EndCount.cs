@@ -444,6 +444,102 @@ public sealed class EndCount : GameObject
         return Rec(0);
     }
 
+    // ---- the far element a symmetry builds ----
+
+    /// <summary>The axis of a π rotation among the cube rotations, as integer components, or null when
+    /// the rotation is not a π rotation. The nine π rotations are the three about the letter axes and
+    /// the six about the bisectors of two letters.</summary>
+    public static (long X, long Y, long Z)? HalfTurnAxis(int[] rotation, int[] sign)
+    {
+        var m = new long[3, 3];
+        for (int a = 0; a < 3; a++) m[rotation[a], a] = sign[a];
+        long trace = m[0, 0] + m[1, 1] + m[2, 2];
+        if (trace != -1) return null;                          // a π rotation has trace 1 + 2 cos π = -1
+        // its axis spans the kernel of M - 1; for a signed permutation of this kind it is a letter or a bisector
+        var axis = new long[3];
+        for (int a = 0; a < 3; a++)
+            if (rotation[a] == a && sign[a] == 1) { axis[a] = 1; return (axis[0], axis[1], axis[2]); }
+        for (int a = 0; a < 3; a++)
+        {
+            int b = rotation[a];
+            if (b != a && rotation[b] == a && sign[a] == sign[b]) { axis[a] = 1; axis[b] = sign[a]; return (axis[0], axis[1], axis[2]); }
+        }
+        return null;
+    }
+
+    /// <summary>The far element a symmetry builds, when one does: a symmetry g = (σ, R) of (H, jumps)
+    /// whose rotation R is the π rotation about an axis n, whose permutation σ is an involution fixing
+    /// every site a jump acts on, and under which every jump goes to minus itself, gives
+    ///
+    ///     U_g = P_σ · (n·σ)^⊗N,
+    ///
+    /// with P_σ the permutation of tensor factors. U_g implements g, so Ad_U fixes H and negates every
+    /// jump: U_g lies in W_, and it is invertible (a multiple of a unitary), so by F158 it carries the
+    /// palindrome. Built exactly as a combination of strings with integer coefficients (2·SWAP_ij =
+    /// 1 + X_iX_j + Y_iY_j + Z_iZ_j) and handed to CheckElement, so the construction is checked rather
+    /// than trusted. Null when no symmetry of this kind exists.</summary>
+    public (Symmetry G, IReadOnlyList<(string Letters, long Coefficient)> Element)? SymmetryElement()
+    {
+        foreach (var g in Symmetries())
+        {
+            var axis = HalfTurnAxis(g.Rotation, g.Sign);
+            if (axis is null) continue;
+            if (Enumerable.Range(0, N).Any(l => g.Perm[g.Perm[l]] != l)) continue;          // σ an involution
+            bool negates = jumpStrings.All(a =>
+            {
+                for (int l = 0; l < N; l++)
+                    if (((a.X >> l) & 1 | (a.Z >> l) & 1) != 0 && g.Perm[l] != l) return false;
+                var (img, s) = Apply(g, a);
+                return img == a && s == -1;
+            });
+            if (!negates) continue;
+
+            var one = new Dictionary<PauliString, (BigInteger Re, BigInteger Im)> { [PauliString.Identity] = (1, 0) };
+            var u = one;
+            for (int i = 0; i < N; i++)
+            {
+                int j = g.Perm[i];
+                if (j <= i) continue;
+                var swap = new Dictionary<PauliString, (BigInteger Re, BigInteger Im)> { [PauliString.Identity] = (1, 0) };
+                foreach (char c in "XYZ")
+                {
+                    var letters = Enumerable.Repeat('I', N).ToArray();
+                    letters[i] = letters[j] = c;
+                    swap[PauliString.Parse(new string(letters))] = (1, 0);
+                }
+                u = Mul(u, swap);
+            }
+            var (nx, ny, nz) = axis.Value;
+            for (int l = 0; l < N; l++)
+            {
+                var site = new Dictionary<PauliString, (BigInteger Re, BigInteger Im)>();
+                foreach (var (c, v) in new[] { ('X', nx), ('Y', ny), ('Z', nz) })
+                {
+                    if (v == 0) continue;
+                    var letters = Enumerable.Repeat('I', N).ToArray();
+                    letters[l] = c;
+                    site[PauliString.Parse(new string(letters))] = (v, 0);
+                }
+                u = Mul(u, site);
+            }
+            // P_σ (σ an involution) is Hermitian and commutes with (n·σ)^⊗N, so no imaginary part survives
+            if (u.Values.Any(c => !c.Im.IsZero) || u.Values.Any(c => BigInteger.Abs(c.Re) > MaxCoefficient)) continue;
+            var element = u.Select(kv => (kv.Key.ToString(N), (long)kv.Value.Re)).ToList();
+            if (CheckElement(element).Certifies) return (g, element);
+        }
+        return null;
+    }
+
+    /// <summary>For a palindromic row, what explains it: "colouring" (a single lit string commuting with
+    /// H), "symmetry" (the far element of a symmetry, SymmetryElement), or null when the palindrome
+    /// holds by the counts or a lifted vector with neither of these behind it. N ≤ 8, the bound of
+    /// Symmetries().</summary>
+    public string? Explanation()
+    {
+        if (Colourings().Count > 0) return "colouring";
+        return SymmetryElement() is not null ? "symmetry" : null;
+    }
+
     // ---- an element found elsewhere ----
 
     public sealed record ElementCheck(bool AllLit, bool CommutesWithH, BigInteger SquareScalar)

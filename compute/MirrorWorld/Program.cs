@@ -1759,7 +1759,7 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "f138")
     var ftally = new SortedDictionary<string, int>();
     using (var w = new StreamWriter(fout))
     {
-        w.WriteLine("deph,field,near_up,far_up,reading,colouring,element,site_moving");
+        w.WriteLine("deph,field,near_up,far_up,reading,colouring,element,site_moving,explained");
         foreach (var d0 in ".XYZ") foreach (var d1 in ".XYZ") foreach (var d2 in ".XYZ")
         {
             string deph = $"{d0}{d1}{d2}";
@@ -1778,7 +1778,9 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "f138")
                     ? string.Join(" ", fe.Element.Select(t => $"{(t.Coefficient > 0 ? "+" : "")}{t.Coefficient}{t.Letters}")) : "";
                 int moving = EndCount.IsPalindrome(reading) ? e.Symmetries().Count(g => g.MovesSites) : -1;
                 string field = string.Concat(fs.Select(f => f.Letter == '.' ? "." : (f.Sign > 0 ? "+" : "-") + f.Letter));
-                w.WriteLine($"{deph},{field},{up.Near},{up.Far},{reading},{colouring},{element},{moving}");
+                string explained = EndCount.IsPalindrome(reading) ? (e.Explanation() ?? "NEITHER") : "";
+                if (explained.Length > 0) ftally["  explained: " + explained] = ftally.TryGetValue("  explained: " + explained, out int tx) ? tx + 1 : 1;
+                w.WriteLine($"{deph},{field},{up.Near},{up.Far},{reading},{colouring},{element},{moving},{explained}");
                 string key = reading + (EndCount.IsPalindrome(reading) && colouring.Length == 0 ? " (no colouring)" : "");
                 ftally[key] = ftally.TryGetValue(key, out int t0) ? t0 + 1 : 1;
             }
@@ -1789,7 +1791,7 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "f138")
     return;
 }
 
-// ---- run mode "endcount sweep N topology [out.csv] [dephased]": the end count driven over a whole family ----
+// ---- run mode "endcount sweep N topology [out.csv] [dephased | free=k]": the end count driven over a whole family ----
 // Every pattern of one dephasing letter (or none) per site and one field letter (or none) per site on
 // a Heisenberg graph, the family of the main repo's twoend / twoendstrings witnesses (bonds 10 on
 // XX, YY, ZZ, fields 3): per row the counts, both bounds, the reading, the firing word and, on a row
@@ -1802,6 +1804,8 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
     string stopo = args.Length > 3 ? args[3] : "chain";
     string sout = args.Length > 4 ? args[4] : $"endcount_sweep_N{sn}_{stopo}.csv";
     bool everySite = args.Length > 5 && args[5] == "dephased";
+    // "free=k": only the patterns that leave exactly k sites undephased
+    int freeSites = args.Length > 5 && args[5].StartsWith("free=") ? int.Parse(args[5][5..], System.Globalization.CultureInfo.InvariantCulture) : -1;
     (int, int)[] sedges = stopo switch
     {
         "chain" => Enumerable.Range(0, sn - 1).Select(i => (i, i + 1)).ToArray(),
@@ -1824,14 +1828,20 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
     var clock = System.Diagnostics.Stopwatch.StartNew();
     using (var w = new StreamWriter(sout))
     {
-        w.WriteLine("n,topology,deph,field,dark,lit,near_up,far_up,near_lo,far_lo,reading,word,trace_re,trace_im,element,word3,symmetries,site_moving");
+        w.WriteLine("n,topology,deph,field,dark,lit,near_up,far_up,near_lo,far_lo,reading,word,trace_re,trace_im,element,word3,symmetries,site_moving,explained");
         for (int dc = 1; dc < 1 << (2 * sn); dc++)
         {
             string deph = Pattern(dc);
             if (everySite && deph.Contains('.')) continue;
+            if (freeSites >= 0 && deph.Count(c => c == '.') != freeSites) continue;
             var jumps = Enumerable.Range(0, sn).Where(l => deph[l] != '.').Select(l => Put(l, deph[l])).ToList();
-            for (int fc = 0; fc < 1 << (2 * sn); fc++)
+            // the rows of one dephasing pattern are independent: read in parallel, written in order
+            int fields = 1 << (2 * sn);
+            var lines = new string[fields];
+            var keys = new List<string>[fields];
+            Parallel.For(0, fields, fc =>
             {
+                var rowKeys = new List<string>();
                 string field = Pattern(fc);
                 var h = bonds.Concat(Enumerable.Range(0, sn).Where(l => field[l] != '.').Select(l => (Put(l, field[l]), 3L))).ToList();
                 var e = new EndCount(sworld, sn, h, jumps);
@@ -1842,8 +1852,12 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
                 string element = "";
                 // on a rank-read break, the three-jump words are asked too: an exact certificate the one-jump budget misses
                 var word3 = reading == EndCount.Reading.BrokenByRank ? e.Word(maxJumps: 3) : null;
-                // the symmetries of (H, jumps) in site permutations x cube rotations, enumerated up to N = 4
+                // the symmetry columns are written up to N = 4; the explanation above enumerates the symmetries
+                // of the palindromic rows at any N the sweep takes (EndCount.Symmetries stops at N = 8)
                 string symCount = "", symMoving = "";
+                // what explains a palindrome: a colouring, the far element of a symmetry, or neither
+                string explained = EndCount.IsPalindrome(reading) ? (e.Explanation() ?? "NEITHER") : "";
+                if (explained.Length > 0) rowKeys.Add("  explained: " + explained);
                 if (sn <= 4)
                 {
                     var syms = e.Symmetries();
@@ -1852,9 +1866,15 @@ if (args.Length > 1 && args[0] == "endcount" && args[1] == "sweep")
                 }
                 if (reading == EndCount.Reading.PalindromeByElement && e.FarElement() is { } fe)
                     element = string.Join(" ", fe.Element.Select(t => $"{(t.Coefficient > 0 ? "+" : "")}{t.Coefficient}{t.Letters}"));
-                w.WriteLine($"{sn},{stopo},{deph},{field},{e.DarkStrings().Count},{e.LitStrings().Count},{up.Near},{up.Far},{lo.Near},{lo.Far},{reading},{word?.Word ?? ""},{word?.TraceRe ?? 0},{word?.TraceIm ?? 0},{element},{word3?.Word ?? ""},{symCount},{symMoving}");
-                tally[reading.ToString()] = tally.TryGetValue(reading.ToString(), out int t0) ? t0 + 1 : 1;
-                if (word3 is not null) tally["  of which by 3-jump word"] = tally.TryGetValue("  of which by 3-jump word", out int t1) ? t1 + 1 : 1;
+                lines[fc] = $"{sn},{stopo},{deph},{field},{e.DarkStrings().Count},{e.LitStrings().Count},{up.Near},{up.Far},{lo.Near},{lo.Far},{reading},{word?.Word ?? ""},{word?.TraceRe ?? 0},{word?.TraceIm ?? 0},{element},{word3?.Word ?? ""},{symCount},{symMoving},{explained}";
+                rowKeys.Add(reading.ToString());
+                if (word3 is not null) rowKeys.Add("  of which by 3-jump word");
+                keys[fc] = rowKeys;
+            });
+            for (int fc = 0; fc < fields; fc++)
+            {
+                w.WriteLine(lines[fc]);
+                foreach (var k in keys[fc]) tally[k] = tally.TryGetValue(k, out int t0) ? t0 + 1 : 1;
                 rowsDone++;
             }
             w.Flush();

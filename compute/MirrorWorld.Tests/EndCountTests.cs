@@ -460,6 +460,55 @@ public class EndCountTests
         Assert.Equal(24, EndCount.CubeRotations().Count);
     }
 
+    // ---- the symmetry element ----
+
+    // Derived: among the 24 proper rotations that permute the axes up to sign, the pi rotations are those
+    // of trace -1, three about the letter axes and six about the bisectors of two letters, which are the
+    // nine candidate axes above.
+    [Fact]
+    public void The_Half_Turns_Among_The_Cube_Rotations_Are_The_Nine_Axes()
+    {
+        var axes = EndCount.CubeRotations().Select(r => EndCount.HalfTurnAxis(r.Rotation, r.Sign))
+            .Where(a => a is not null).Select(a => a!.Value).ToList();
+        Assert.Equal(9, axes.Count);
+        var canon = axes.Select(a => a.X < 0 || (a.X == 0 && (a.Y < 0 || (a.Y == 0 && a.Z < 0))) ? (-a.X, -a.Y, -a.Z) : a);
+        Assert.Equal(NineAxes.OrderBy(a => a), canon.OrderBy(a => a));
+    }
+
+    // The engine finds the symmetry and builds its element itself: on F138's 78 and on K3's 234 every
+    // exception is explained by a symmetry element, and every palindrome of the three-site family by a
+    // colouring or a symmetry element, none by neither (measured, run modes endcount f138 / sweep).
+    [Fact]
+    public void Every_Palindrome_Of_The_Three_Site_Grids_Is_A_Colouring_Or_A_Symmetry_Element()
+    {
+        var p3 = F138Grid(30, 22, 30).Where(r => EndCount.IsPalindrome(r.E.Verdict())).Select(r => r.E.Explanation()).ToList();
+        Assert.Equal(2085, p3.Count(x => x == "colouring"));
+        Assert.Equal(78, p3.Count(x => x == "symmetry"));
+        Assert.DoesNotContain(null, p3);
+        var k3 = F138Grid(30, 30, 30, complete: true).Where(r => EndCount.IsPalindrome(r.E.Verdict())).Select(r => r.E.Explanation()).ToList();
+        Assert.Equal(234, k3.Count(x => x == "symmetry"));
+        Assert.DoesNotContain(null, k3);
+        var family = Family(3, Chain(3), everySiteDephased: false).Where(e => EndCount.IsPalindrome(e.Verdict())).Select(e => e.Explanation()).ToList();
+        Assert.Equal((603, 6), (family.Count(x => x == "colouring"), family.Count(x => x == "symmetry")));
+        Assert.DoesNotContain(null, family);
+    }
+
+    // The prediction that came from the understanding: a reflection of the five-site ring fixes one site
+    // and swaps two pairs, so its element needs four undephased sites. With the jump X on site 0 and the
+    // fields Z on site 2 and Y on site 3, the reflection through site 0 swaps 1 <-> 4 and 2 <-> 3, and the
+    // pi rotation about (0,1,1) carries Z onto Y and negates X.
+    [Fact]
+    public void A_Five_Site_Ring_Row_Is_Carried_By_Its_Reflection()
+    {
+        var e = Row(5, Ring(5), "X....", "..ZY.", bond: 10, mag: 3);
+        Assert.True(EndCount.IsPalindrome(e.Verdict()));
+        var found = e.SymmetryElement();
+        Assert.NotNull(found);
+        Assert.Equal(new[] { 0, 4, 3, 2, 1 }, found!.Value.G.Perm);
+        Assert.Equal((0L, 1L, 1L), EndCount.HalfTurnAxis(found.Value.G.Rotation, found.Value.G.Sign) is { } a && a.Y < 0 ? (-a.X, -a.Y, -a.Z) : EndCount.HalfTurnAxis(found.Value.G.Rotation, found.Value.G.Sign)!.Value);
+        Assert.Equal("symmetry", e.Explanation());
+    }
+
     // ---- elements found elsewhere: the colouring page ----
 
     // Stage E: P3, a(XX + YY) and b(XX + YY) on the two bonds, jumps X, Z, Y. No colouring; U = a YYZ +
