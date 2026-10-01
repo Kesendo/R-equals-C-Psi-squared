@@ -4140,7 +4140,13 @@ public static class OpenArcsRegistry
                 + "at every magnitude; and every site dephased along mixed axes, Heisenberg bonds on a connected graph, fields of any "
                 + "direction: palindrome exactly when two axes occur and every field lies along the third letter; and (Theorem 5) Heisenberg bonds on a connected graph with exactly one site undephased and letter fields: "
                 + "palindrome exactly when a colouring exists. The "
-                + "78 coincident-magnitude rows of (b) all leave two sites undephased.",
+                + "78 coincident-magnitude rows of (b) all leave two sites undephased. With two undephased sites a "
+                + "third kind of carrier breaks the converse, after the colouring and the site symmetry: the triangle with a jump Z on "
+                + "site 0, sites 1 and 2 free, fields X on 1 and Y on 2 of equal magnitude, and couplings with "
+                + "1/J01 + 1/J02 + 1/J12 = 0 (e.g. 3, 6, -2, where no automorphism fixes the dephased site), pairs with a "
+                + "one-dimensional far end carried by a non-Clifford element, a one-parameter family in closed form "
+                + "(PROOF_PALINDROME_COMPLEMENT_CONNECTION, Open; pinned in EndCountTests). The locus needs a negative "
+                + "coupling, so the one-weight sweeps could not meet it.",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "
                 + "simulations/f138_palindrome_colouring.py). A single Pauli string in F158's far kernel is a colouring of "
                 + "the graph by lit letters, one per site that all its jumps light (bond P(x)P: both ends or neither "

@@ -1333,6 +1333,43 @@ public class EndCountTests
         Assert.Empty(e.Colourings());
     }
 
+    // Two undephased sites under Heisenberg bonds pair with neither a colouring nor a site symmetry: on the
+    // triangle with the jump Z on site 0, sites 1 and 2 free, fields X on 1 and Y on 2, couplings J01, J02,
+    // J12 with 1/J01 + 1/J02 + 1/J12 = 0 (here 3, 6, −2). The weighted triangle has no automorphism
+    // (J01 ≠ J02), the fields share no letter, and the far end holds W below, lit, commuting with H, W² =
+    // 125·1; it is the s = 3, t = 6 member (scaled) of the family X₀⊗(st²·II + s³·XY + st²·YX − st²·ZZ) +
+    // Y₀⊗(s²t·II + t³·XY + s²t·YX − s²t·ZZ) on sites 1, 2, W² = (s² + t²)³. Off the locus (J12 = −3) it breaks.
+    [Fact]
+    public void Two_Undephased_Sites_Pair_On_The_Reciprocal_Coupling_Locus_Without_Colouring_Or_Symmetry()
+    {
+        static EndCount Triangle(long j01, long j02, long j12)
+        {
+            var h = new List<(string, long)> { ("IXI", 1), ("IIY", 1) };
+            foreach (char p in "XYZ")
+            {
+                h.Add(($"{p}{p}I", j01));
+                h.Add(($"{p}I{p}", j02));
+                h.Add(($"I{p}{p}", j12));
+            }
+            return new EndCount(W, 3, h, new[] { "ZII" });
+        }
+        var e = Triangle(3, 6, -2);
+        var r = e.Verdict();
+        Assert.True(EndCount.IsExact(r) && EndCount.IsPalindrome(r), $"{r}");
+        Assert.Empty(e.Colourings());
+        Assert.Null(e.SymmetryElement());
+        var w = new List<(string, long)>
+        {
+            ("XII", -4), ("XXY", -1), ("XYX", -4), ("XZZ", 4), ("YII", -2), ("YXY", -8), ("YYX", -2), ("YZZ", 2),
+        };
+        var check = e.CheckElement(w);
+        Assert.True(check.Certifies);
+        Assert.Equal(new System.Numerics.BigInteger(125), check.SquareScalar);
+        Assert.Equal(1, e.UpperCounts().Far);                       // one far element, so every carrier is W
+        Assert.False(EndCount.IsPalindrome(Triangle(3, 6, -3).Verdict()));
+        Assert.True(EndCount.IsPalindrome(Triangle(-1, 2, 2).Verdict()));   // another point of the locus
+    }
+
     // A jump on two sites that H does not join: the grammar keeps the two sites in one component (a
     // jump split between two components would make a product that anticommutes with nothing), so what
     // it returns passes its check, or it returns nothing. H = 3·ZI + 5·IZ, jump XX.
