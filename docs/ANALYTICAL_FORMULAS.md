@@ -8719,6 +8719,15 @@ separate comparison explains why the HEISENBERG law stayed invisible: against a
 reflection-parity reading it coincides at every seat of a prime chain, and the
 committed data lived at N = 5 and N = 11, both prime; the first case
 discriminating those two readings is N = 6, the first odd one N = 9.
+Several watched seats close the same way, because a set of seats is blind to
+the modes with a node at every one of them: with g_j = gcd(2j+1, N) and
+h_j = gcd(j+1, N+1) the seat's divisor in each book, the divisor of a set S is
+the gcd of its seats' divisors, blind(S) = (gcd(N, {2j+1 : j ∈ S}) − 1)/2 with
+the isotropic ZZ term (Δ = 1) and gcd(N+1, {j+1 : j ∈ S}) − 1 without
+([The Blind Site](../experiments/THE_BLIND_SITE.md) §5, derived and gated in
+both books). So neighbouring seats are never jointly blind, a mirror pair is as
+blind as either member, and two seats see everything exactly when their
+divisors are coprime.
 
 **Lemma J already runs at every Δ, and what was missing was the evaluation.**
 The blind count is `deg gcd(χ_L, χ_R)` for the two principal submatrices the
@@ -8947,7 +8956,8 @@ blind eigenvector of the unperturbed chain must have zero overlap with the pertu
 direction, and the overlap is a sum of squares for a diagonal on a site set S, so a node on every site of S, and a product
 for a bond, so a node at either end. With h = gcd(j+1, N+1), the letter this entry already
 uses for that integer, the two faces read: there is some c ∈ 1..h−1 with h | c·(j − m) for
-every m ∈ S, respectively with h | c·(j − b) or h | c·(j − b − 1). Sufficiency is a theorem
+every m ∈ S (equivalently gcd(h, {m+1 : m ∈ S}) > 1, the several-seat gcd form
+applied to {j} ∪ S), respectively with h | c·(j − b) or h | c·(j − b − 1). Sufficiency is a theorem
 for a diagonal, and so is necessity when the perturbed sites lie on ONE side of the seat;
 when they straddle it necessity is FALSE, first at the reflection-fixed centre seat. The
 bond face now has a theorem successor:
@@ -9060,7 +9070,7 @@ every failure carries is a degenerate spectrum.
 
 **Valid for:** the count blind(j) and the three-line identity: any real
 symmetric single-excitation H, any graph, any signed profile (the GF(p)
-route runs on integer inputs), degenerate spectra included, any seat. The uniform gcd laws: the uniform open
+route runs on integer inputs), degenerate spectra included, any seat. The uniform gcd laws, for one seat and for a set of seats: the uniform open
 chain of the named book. The commutant form of the span: the same generality as
 the count. The form 1 + blind(j): wherever H is simple on the Krylov complement, which
 the zero-free open chain always supplies. The Δ-locus and the node modulus: the UNIFORM open
@@ -9085,11 +9095,10 @@ gap of 5.95·10³: use the GF(p) route).
 **Replaces:** any eigendecomposition run only to count the eigenvectors
 vanishing at the seat (the node modes, on a chain), at any seat of any graph; on the ZERO-FREE OPEN CHAIN also the exact kernel computation of
 L_SE per seat (elsewhere the kernel needs its own computation, per the span
-paragraph); several seats reduce to the same arithmetic by intersection of node
-sets (measured on the uniform Heisenberg chain, supports of size ≤ 3, The Blind
-Site §5).
+paragraph); and on the uniform open chain any eigendecomposition per SET of
+watched seats, which the several-seat gcd form above answers.
 **Source:** [The Blind Site](../experiments/THE_BLIND_SITE.md) §5 (the count,
-the derivation, the isolated-seat fence) +
+the derivation, the isolated-seat fence, the several-seat gcd form) +
 [The Seat That Cuts](../experiments/THE_SEAT_THAT_CUTS.md) §2..§4 (criterion,
 chain laws, span), §7 (the Cramer theorem); scripts
 [the span and node-lemma proof](proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)

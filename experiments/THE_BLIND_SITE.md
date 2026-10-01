@@ -32,7 +32,7 @@ is `PROOF_UNIFORM_LAW.md`'s, gated there entry-exactly. The value ⌊N/2⌋ at t
 centre of an odd chain is `MEDIATOR_NOISE_GATE_LEVEL_THREE.md`'s, five days old,
 in this same arc. Even the word is borrowed twice over. What is this page's own
 is the **count as a function of the site**, its even-N and composite-N half, the
-intersection law for several dephased seats, and the measured mediator table. §10
+intersection law for several dephased seats and its gcd form, and the measured mediator table. §10
 is the ledger.
 
 ---
@@ -621,12 +621,50 @@ it is the intersection, and
 
   **dim blind(S) = #{ m ∈ 0..N−1 : (2j+1)m ≡ N (mod 2N) for every j ∈ S }.**
 
-Checked against the rank for every 1-, 2- and 3-site support at N = 9, 11, 12
-and 15, with no exceptions. At N = 15 site 7 carries modes {1,3,5,7,9,11,13},
-sites 2 and 12 carry the *same* set {3, 9}, so {2, 12} still gives 2 and {7, 2}
-gives 2, while {1, 4, 13} gives {5}, dimension 1. So a second seat does not in
-general collapse the subspace to zero: it does at N = 11 and does not at N = 9
-and N = 15.
+**The intersection closes to one divisor.** Call g_j = gcd(2j+1, N) the seat's
+divisor, the number the single-seat law is written in. Dividing the node
+congruence by g_j leaves m·(2j+1)/g_j ≡ N/g_j (mod 2N/g_j) with (2j+1)/g_j
+coprime to N/g_j, so N/g_j divides m; writing m = t·N/g_j turns the congruence
+into t·(2j+1)/g_j ≡ 1 (mod 2), so t is odd. **Seat j holds exactly the odd
+multiples of N/g_j.** With G = gcd(N, {2j+1 : j ∈ S}), the lcm of the N/g_j is
+N/G, and since every quotient g_j/G is odd (g_j divides the odd 2j+1), an odd
+multiple of N/G is an odd multiple of each N/g_j and conversely. The joint node
+modes in [1, N−1] are therefore m = t·N/G with t odd and below G, and there are
+(G − 1)/2 of them:
+
+  **dim blind(S) = (gcd(N, {2j+1 : j ∈ S}) − 1)/2,**
+
+the divisor of a support is the gcd of its seats' divisors. The XY book closes
+the same way with no parity to carry: §11's node condition makes seat j hold
+the multiples of (N+1)/h_j, h_j = gcd(j+1, N+1), and the intersection gives
+**dim blind(S) = gcd(N+1, {j+1 : j ∈ S}) − 1**.
+
+Three readings follow from the arithmetic alone, in both books. **Two
+neighbouring seats are never jointly blind**, because consecutive odd numbers
+2j+1, 2j+3 are coprime and so are consecutive integers j+1, j+2. **A seat and
+its mirror carry the same divisor** (2(N−1−j)+1 = 2N − (2j+1), and
+N−j = (N+1) − (j+1)), so the mirror partner adds nothing to what either sees
+alone. **Two seats see everything together exactly when their divisors are
+coprime**, however much each misses on its own. On the Heisenberg book, at
+N = 15 site 7 (divisor 15) carries modes {1,3,5,7,9,11,13} and sites 2 and 12
+(divisor 5, a mirror pair) the *same* set {3, 9}, so {2, 12} still gives 2 and {7, 2} gives 2, while
+{1, 4, 13} (divisors 3, 3, 3) gives {5}, dimension 1. A second seat collapses
+the subspace to zero only by bringing a coprime divisor: at N = 11 every seat
+off the centre has divisor 1, so it always does, and at N = 9 and N = 15 it
+need not. The XY book has its own divisors, of N+1: at N = 11 seats 1 and
+5 carry 2 and 6 and stay jointly blind to one mode. On the XY book the form
+also reads [the span and node-lemma proof](../docs/proofs/PROOF_BLIND_SEAT_SPAN_AND_NODE_LEMMA.md)'s
+Corollary D: a diagonal perturbation on sites S leaves seat j blind at every
+strength when {j} ∪ S has a joint node mode, which is this gcd above 1.
+
+The intersection law is checked against the rank for every 1-, 2- and 3-site
+support at N = 9, 11, 12 and 15, and the two gcd forms for every such support
+at N = 3..15 in both books, 2496 per book, with no exceptions. Each of those
+gcd reads is exact rather than a bound: the rank is taken at one prime, so it
+bounds the blind dimension from above, and the node modes counted by the form
+lie in the blind subspace and bound it from below. The lcm of the
+divisors in place of their gcd agrees on every single seat and misses 1180 and
+1540 of those supports (ZZ on and off respectively), so the sweep can tell the two rules apart.
 
 **The odd-N centre.** There 2j+1 = N, the condition collapses to m odd, and the
 dimension is (N−1)/2 = ⌊N/2⌋, which is
@@ -999,7 +1037,7 @@ generalised from two measured cases.
 | the Zeno / ENAQT class the §7 sign flip belongs to | `docs/GLOSSARY.md`, `D06_SPECTRAL_GAP`, `PROOF_ABSORPTION_THEOREM.md` |
 | **the count as a function of the site, (gcd(2j+1,N)−1)/2** | this page |
 | **blind seats at even and composite N** | this page |
-| **the intersection law for several dephased seats** | this page |
+| **the intersection law for several dephased seats, closing to the gcd of the seats' divisors in both books** | this page |
 | **the same count inside F64's own (0,1) block** | this page |
 | **the seat pencil applied to the coherence block, so the seat's whole γ-dependence rides on χ_cut** (the determinant step itself is the matrix-determinant lemma, textbook) | this page |
 | **the undamped space as exactly the Krylov complement, by invariance rather than by eigenvectors, hence at any graph and profile** | this page |

@@ -18,7 +18,9 @@ The Hamiltonian is HEISENBERG, sum_bonds J (XX + YY + ZZ), carrying the ZZ degre
 diagonal: h_SE = (N-1) J Id - 2 J L with L the path Laplacian, so the modes are
 the Neumann half-integer cosines at modulus N (PROOF_UNIFORM_LAW.md:182-186,
 D10:134/180, F2:111).  It is NOT the XY chain of F2b at modulus N+1, which is
-what Cone.cs and cone_defect_arrival.py build.
+what Cone.cs and cone_defect_arrival.py build.  The one exception is the
+set-of-seats gate in run_dimension, which also runs the XY book (zz=False,
+hopping only, modulus N+1) to check its gcd form beside the Heisenberg one.
 
 Gamma book, and it depends on the SUPPORT.  Two single-excitation configurations
 differ in exactly two bits, so a coherence between them decays at
@@ -38,7 +40,8 @@ from __future__ import annotations
 
 import itertools
 import sys
-from math import gcd
+from functools import reduce
+from math import gcd, lcm
 
 import numpy as np
 
@@ -262,8 +265,10 @@ def run_support(n=11):
 # run 3: modular blind counts against the exact uniform-chain law
 # ----------------------------------------------------------------------
 
-def build_h_int(n, bonds, states, index):
-    """Integer H on the sector; requires integer J. Python ints, no overflow."""
+def build_h_int(n, bonds, states, index, zz=True):
+    """Integer H on the sector; requires integer J. Python ints, no overflow.
+
+    zz=False drops the ZZ term: the XY book, hopping only."""
     m = len(states)
     h = [[0] * m for _ in range(m)]
     for col, s in enumerate(states):
@@ -271,7 +276,8 @@ def build_h_int(n, bonds, states, index):
             ja = int(j)
             assert ja == j, "integer J required for the modular rank"
             ba, bb = bit(s, a, n), bit(s, b, n)
-            h[col][col] += ja * (1 - 2 * ba) * (1 - 2 * bb)
+            if zz:
+                h[col][col] += ja * (1 - 2 * ba) * (1 - 2 * bb)
             if ba != bb:
                 flipped = s ^ (1 << (n - 1 - a)) ^ (1 << (n - 1 - b))
                 h[index[flipped]][col] += 2 * ja
@@ -298,7 +304,7 @@ def rref_modp(rows, m, p):
     return rows[:rank]
 
 
-def blind_dim(n, bonds, popcount, sites, p=PRIMES[0]):
+def blind_dim(n, bonds, popcount, sites, p=PRIMES[0], zz=True):
     """dim of the largest H-invariant subspace inside the intersection of
     ker(n_k) over k in `sites`.
 
@@ -327,7 +333,7 @@ def blind_dim(n, bonds, popcount, sites, p=PRIMES[0]):
     to catch some bad reductions; agreement alone is not an exact certificate.
     """
     states, index = sector(n, popcount)
-    h = build_h_int(n, bonds, states, index)
+    h = build_h_int(n, bonds, states, index, zz)
     m = len(states)
     frontier = [[1 if i == s else 0 for i in range(m)]
                 for s, st in enumerate(states) if any(bit(st, k, n) for k in sites)]
@@ -389,10 +395,39 @@ def run_dimension(n_max=21):
                 if pred != blind_dim(n, chain(n, 1), 1, list(s)):
                     bad_int.append((n, s))
     print(f"  intersection law holds at N = 9, 11, 12, 15: {not bad_int}")
+
     print("  worked cases at N = 15:")
     for s in ((7,), (2,), (12,), (2, 12), (7, 2), (1, 4, 13)):
         print(f"    S = {str(list(s)):<12} modes {sorted(set.intersection(*[mode_set(15, j) for j in s]))}"
               f"  dim {blind_dim(15, chain(15, 1), 1, list(s))}")
+
+    print()
+    print("The intersection closes to one divisor, the gcd of the seats' divisors:")
+    print("  ZZ on  (Heisenberg): dim blind(S) = (gcd(N, {2j+1 : j in S}) - 1) / 2")
+    print("  ZZ off (XY):         dim blind(S) = gcd(N+1, {j+1 : j in S}) - 1")
+    print("Against the rank for every 1-, 2- and 3-site support at N = 3..15, both")
+    print("books.  Control: the lcm of the divisors in place of their gcd, which agrees")
+    print("on every single seat and must fail on some sets, or this sweep cannot see.")
+    bad_divisor = []
+    for zz, book in ((True, "ZZ on "), (False, "ZZ off")):
+        def divisor_form(n, s, rule):
+            if zz:
+                return (gcd(n, rule([2 * j + 1 for j in s])) - 1) // 2
+            return gcd(n + 1, rule([j + 1 for j in s])) - 1
+        sets = bad = blind = lcm_fails = 0
+        for n in range(3, 16):
+            for r in (1, 2, 3):
+                for s in itertools.combinations(range(n), r):
+                    d = blind_dim(n, chain(n, 1), 1, list(s), zz=zz)
+                    sets += 1
+                    blind += d > 0
+                    bad += d != divisor_form(n, s, lambda xs: reduce(gcd, xs))
+                    lcm_fails += d != divisor_form(n, s, lambda xs: lcm(*xs))
+        print(f"  {book}: {sets} supports, {blind} blind; gcd form misses {bad}, "
+              f"lcm control misses {lcm_fails}")
+        if bad or not lcm_fails:
+            bad_divisor.append((book, bad, lcm_fails))
+    print(f"  the divisor of a support is the gcd of its seats' divisors, both books: {not bad_divisor}")
 
     print()
     print("The same rank in the popcount-2 sector (the Bell-on-vacuum sector), N = 11.")

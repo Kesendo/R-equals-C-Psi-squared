@@ -219,6 +219,16 @@ site of S.  Checked against the rank for all 1-, 2- and 3-site supports.
     S = [7, 2]       modes [3, 9]  dim 2
     S = [1, 4, 13]   modes [5]  dim 1
 
+The intersection closes to one divisor, the gcd of the seats' divisors:
+  ZZ on  (Heisenberg): dim blind(S) = (gcd(N, {2j+1 : j in S}) - 1) / 2
+  ZZ off (XY):         dim blind(S) = gcd(N+1, {j+1 : j in S}) - 1
+Against the rank for every 1-, 2- and 3-site support at N = 3..15, both
+books.  Control: the lcm of the divisors in place of their gcd, which agrees
+on every single seat and must fail on some sets, or this sweep cannot see.
+  ZZ on : 2496 supports, 66 blind; gcd form misses 0, lcm control misses 1180
+  ZZ off: 2496 supports, 183 blind; gcd form misses 0, lcm control misses 1540
+  the divisor of a support is the gcd of its seats' divisors, both books: True
+
 The same rank in the popcount-2 sector (the Bell-on-vacuum sector), N = 11.
   blind dimension per site: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   (a full-rank Krylov space certifies these zeros at one prime already,
