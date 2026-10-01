@@ -8725,7 +8725,9 @@ h_j = gcd(j+1, N+1) the seat's divisor in each book, the divisor of a set S is
 the gcd of its seats' divisors, blind(S) = (gcd(N, {2j+1 : j ∈ S}) − 1)/2 with
 the isotropic ZZ term (Δ = 1) and gcd(N+1, {j+1 : j ∈ S}) − 1 without
 ([The Blind Site](../experiments/THE_BLIND_SITE.md) §5, derived and gated in
-both books). So neighbouring seats are never jointly blind, a mirror pair is as
+both books; typed as `SeatCutBlindnessClaim.BlindSet`, live at `inspect --root blind`,
+which ranks every support of size up to 3 against it on the chain it is given, uniform
+profiles to N = 24). So neighbouring seats are never jointly blind, a mirror pair is as
 blind as either member, and two seats see everything exactly when their
 divisors are coprime.
 

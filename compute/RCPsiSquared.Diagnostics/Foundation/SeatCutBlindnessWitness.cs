@@ -45,9 +45,22 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 /// 2j+1 has no blind seat at all. A count without its paired zero would not distinguish a working
 /// rank routine from one that returns N.</para>
 ///
-/// <para>Children: the per-seat table (live), the closed-form comparison (live), the span identity
-/// (live, only at N ≤ <see cref="MaxSpanN"/>), the falsifiers (live), the parity forcing (live), and
-/// the scope fences. Root: <c>inspect --root blind</c>.</para></summary>
+/// <para><b>Several seats.</b> <see cref="BlindSet"/> takes the Krylov rank of a SET of seats, the
+/// block Krylov space all of them generate, and on a uniform profile <see cref="SeveralSeatSweep"/>
+/// runs it over every support of size 1, 2 and 3 against
+/// <see cref="SeatCutBlindnessClaim.BlindSet"/>, the gcd of the seats' divisors. Beside it runs the
+/// lcm of the divisors, which agrees on every single seat and must miss on some sets, or the sweep
+/// could not tell the two rules apart. Read beside the derivation, each agreement is exact rather
+/// than a bound: the GF(p) rank can only overstate blindness, and the node modes the closed form
+/// counts (eigenvectors with a zero at every seat of the set, <c>experiments/THE_BLIND_SITE.md</c>
+/// §5) lie in the blind subspace and bound it from below. The witness does not rebuild those modes;
+/// the lower half is the derivation's, and the same sandwich makes the single-seat MATCH exact
+/// too.</para>
+///
+/// <para>Children: the per-seat table (live), the closed-form comparison (live), the several-seat
+/// sweep (live, uniform profiles at N ≤ <see cref="MaxSetSweepN"/>), the span identity (live, only at
+/// N ≤ <see cref="MaxSpanN"/>), the falsifiers (live), the parity forcing (live), and the scope
+/// fences. Root: <c>inspect --root blind</c>.</para></summary>
 public sealed class SeatCutBlindnessWitness : IInspectable
 {
     private static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -88,6 +101,23 @@ public sealed class SeatCutBlindnessWitness : IInspectable
     /// <summary>The largest chain the live SPAN will run on. The span eliminates on a system with
     /// about N² columns, so it is capped far lower than the count.</summary>
     public const int MaxSpanN = 12;
+
+    /// <summary>The largest chain the several-seat SWEEP runs on. It ranks every support of size up
+    /// to 3, which grows like N³, so it is capped well below the single-seat count; a single
+    /// <see cref="BlindSet"/> call is guarded only by <see cref="MaxN"/>.</summary>
+    public const int MaxSetSweepN = 24;
+
+    /// <summary>The several-seat sweep's tally: every support of size 1, 2 and 3 ranked live and
+    /// compared with the gcd form and with the lcm control. <see cref="NeighbourPairsBlind"/> counts
+    /// adjacent pairs with blind &gt; 0 and <see cref="MirrorPairsAdding"/> mirror pairs whose joint
+    /// count differs from a single member's; both read 0 when the law's two corollaries hold. The
+    /// mirror tally checks its corollary and does not discriminate the rule (the lcm of two equal
+    /// divisors is the divisor); <see cref="GcdMisses"/> and the lcm control carry that.</summary>
+    public sealed record SetSweep(int Supports, int BlindSupports, int GcdMisses, int LcmControlMisses,
+                                  int NeighbourPairsBlind, int MirrorPairsAdding);
+
+    private SetSweep? _setSweep;
+    private bool _setSweepDone;
 
     public int N { get; }
     public SeatCutBook Book { get; }
@@ -168,25 +198,118 @@ public sealed class SeatCutBlindnessWitness : IInspectable
         return N - rank;
     }
 
-    private int KrylovRankModP(int seat, long p)
+    private int KrylovRankModP(int seat, long p) => KrylovRankModP(new[] { seat }, p);
+
+    /// <summary>The rank over GF(p) of the block Krylov matrix the seats generate together:
+    /// e_j, H e_j, ..., H^N e_j for every seat j.</summary>
+    private int KrylovRankModP(IReadOnlyCollection<int> seats, long p)
     {
         var rows = new List<long[]>();
-        var vec = new long[N];
-        vec[seat] = 1;
-        for (int k = 0; k <= N; k++)
+        foreach (int seat in seats)
         {
-            rows.Add((long[])vec.Clone());
-            var next = new long[N];
-            for (int a = 0; a < N; a++)
+            var vec = new long[N];
+            vec[seat] = 1;
+            for (int k = 0; k <= N; k++)
             {
-                long s = 0;
-                for (int b = 0; b < N; b++)
-                    s = (s + Mod(_h[a, b], p) * vec[b]) % p;
-                next[a] = s;
+                rows.Add((long[])vec.Clone());
+                var next = new long[N];
+                for (int a = 0; a < N; a++)
+                {
+                    long s = 0;
+                    for (int b = 0; b < N; b++)
+                        s = (s + Mod(_h[a, b], p) * vec[b]) % p;
+                    next[a] = s;
+                }
+                vec = next;
             }
-            vec = next;
         }
         return RankModP(rows, N, p);
+    }
+
+    /// <summary>blind(S) for a SET of watched seats, recomputed: N minus the rank of the block
+    /// Krylov matrix they generate together, the larger rank over the two primes. A singleton is
+    /// <see cref="Blind"/>; a repeated seat adds rows already in the span and changes nothing.</summary>
+    public int BlindSet(IReadOnlyCollection<int> seats)
+    {
+        CheckSeats(seats);
+        int rank = 0;
+        foreach (long p in Primes) rank = Math.Max(rank, KrylovRankModP(seats, p));
+        return N - rank;
+    }
+
+    /// <summary>The gcd form for this set, or null when the profile is not uniform.</summary>
+    public int? ClosedFormSet(IReadOnlyCollection<int> seats)
+    {
+        CheckSeats(seats);
+        return IsUniform ? SeatCutBlindnessClaim.BlindSet(N, seats, Book) : null;
+    }
+
+    private void CheckSeats(IReadOnlyCollection<int> seats)
+    {
+        ArgumentNullException.ThrowIfNull(seats);
+        if (seats.Count == 0)
+            throw new ArgumentException("a set of watched seats needs at least one seat.", nameof(seats));
+        foreach (int seat in seats)
+            if (seat < 0 || seat >= N)
+                throw new ArgumentOutOfRangeException(nameof(seats), $"seat must lie in 0..{N - 1}; got {seat}.");
+    }
+
+    /// <summary>The several-seat sweep, or null off a uniform profile (no closed form to meet) or
+    /// above <see cref="MaxSetSweepN"/> (cost). Computed once, on first use.</summary>
+    public SetSweep? SeveralSeatSweep
+    {
+        get
+        {
+            if (!_setSweepDone) { _setSweep = ComputeSetSweep(); _setSweepDone = true; }
+            return _setSweep;
+        }
+    }
+
+    private SetSweep? ComputeSetSweep()
+    {
+        if (!IsUniform || N > MaxSetSweepN) return null;
+        int supports = 0, blind = 0, gcdMisses = 0, lcmMisses = 0, neighbours = 0, mirrors = 0;
+        void Read(int[] set)
+        {
+            int live = BlindSet(set);
+            supports++;
+            if (live > 0) blind++;
+            if (live != SeatCutBlindnessClaim.BlindSet(N, set, Book)) gcdMisses++;
+            if (live != LcmControl(set)) lcmMisses++;
+            if (set.Length == 2 && set[1] == set[0] + 1 && live > 0) neighbours++;
+            if (set.Length == 2 && set[0] + set[1] == N - 1 && live != _blind[set[0]]) mirrors++;
+        }
+        for (int a = 0; a < N; a++)
+        {
+            Read(new[] { a });
+            for (int b = a + 1; b < N; b++)
+            {
+                Read(new[] { a, b });
+                for (int c = b + 1; c < N; c++) Read(new[] { a, b, c });
+            }
+        }
+        return new SetSweep(supports, blind, gcdMisses, lcmMisses, neighbours, mirrors);
+    }
+
+    /// <summary>The wrong rule, kept as the sweep's control: the lcm of the seats' divisors in
+    /// place of their gcd. It equals the right one on every singleton.</summary>
+    private long LcmControl(int[] set)
+    {
+        long modulus = Book == SeatCutBook.Heisenberg ? N : N + 1;
+        long l = 1;
+        foreach (int seat in set)
+        {
+            long d = Book == SeatCutBook.Heisenberg ? 2L * seat + 1 : seat + 1L;
+            l = l / LongGcd(l, d) * d;
+        }
+        long g = LongGcd(modulus, l);
+        return Book == SeatCutBook.Heisenberg ? (g - 1) / 2 : g - 1;
+    }
+
+    private static long LongGcd(long a, long b)
+    {
+        while (b != 0) { (a, b) = (b, a % b); }
+        return a < 0 ? -a : a;
     }
 
     /// <summary>dim ker L_SE(seat), recomputed by a second, independent elimination: the kernel is
@@ -368,6 +491,29 @@ public sealed class SeatCutBlindnessWitness : IInspectable
                           "zero-free chain would be a finding about the construction and not a tolerance"),
                 provenance: NodeProvenance.Live);
 
+            // 2b. Several seats: the block Krylov count against the gcd of the seats' divisors.
+            var sweep = SeveralSeatSweep;
+            yield return new InspectableNode("several seats: the gcd of the seats' divisors",
+                summary: sweep is null
+                    ? (IsUniform
+                        ? $"not swept above N = {MaxSetSweepN} (the sweep ranks every support of size up to 3); " +
+                          "BlindSet still counts any one set live"
+                        : $"the profile {ProfileLabel} is not uniform, so the gcd form does not apply; BlindSet " +
+                          "still counts any set live")
+                    : (sweep.GcdMisses == 0
+                        ? $"MATCH on all {sweep.Supports} supports of size 1 to 3 ({sweep.BlindSupports} blind): the " +
+                          "block Krylov count equals " +
+                          (Book == SeatCutBook.Heisenberg ? "(gcd(N, {2j+1}) - 1)/2" : "gcd(N+1, {j+1}) - 1") +
+                          $" on every one. The lcm control misses {sweep.LcmControlMisses}" +
+                          (sweep.LcmControlMisses == 0
+                              ? ", so at this N the sweep cannot tell gcd from lcm."
+                              : ", so the sweep tells the two rules apart.") +
+                          $" Neighbouring pairs jointly blind: {sweep.NeighbourPairsBlind}; mirror pairs seeing " +
+                          $"other than a single member: {sweep.MirrorPairsAdding}."
+                        : $"MISMATCH: the gcd form misses {sweep.GcdMisses} of {sweep.Supports} supports, which on a " +
+                          "uniform chain would be a finding about the construction and not a tolerance"),
+                provenance: NodeProvenance.Live);
+
             // 3. The span identity, and the criterion behind it.
             if (N <= MaxSpanN)
             {
@@ -418,7 +564,8 @@ public sealed class SeatCutBlindnessWitness : IInspectable
 
             // 6. Scope, written down rather than recomputed.
             yield return new InspectableNode("scope and fences",
-                summary: "ONE seat and the single-excitation sector: the span theorem's cyclic-vector step needs " +
+                summary: "ONE seat for the span, the single-excitation sector throughout: the span theorem's " +
+                         "cyclic-vector step needs " +
                          "the projector to come from the same vector that generates the Krylov space, and above " +
                          "popcount 1 the Wedderburn blocks are not forced. At a seat whose own ray is H-invariant " +
                          "(an isolated seat, or its bonds detuned to zero) the count stops equalling the blind " +

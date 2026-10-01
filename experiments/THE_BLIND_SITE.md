@@ -664,7 +664,11 @@ gcd reads is exact rather than a bound: the rank is taken at one prime, so it
 bounds the blind dimension from above, and the node modes counted by the form
 lie in the blind subspace and bound it from below. The lcm of the
 divisors in place of their gcd agrees on every single seat and misses 1180 and
-1540 of those supports (ZZ on and off respectively), so the sweep can tell the two rules apart.
+1540 of those supports (ZZ on and off respectively), so the sweep can tell the two rules apart. The
+typed layer runs the same comparison live: `SeatCutBlindnessWitness`
+(`inspect --root blind`) ranks the block Krylov space of every support of size
+up to 3 at inspect time on the chain it is given (default N = 7; uniform
+profiles, N ≤ 24), with the lcm control beside it.
 
 **The odd-N centre.** There 2j+1 = N, the condition collapses to m odd, and the
 dimension is (N−1)/2 = ⌊N/2⌋, which is

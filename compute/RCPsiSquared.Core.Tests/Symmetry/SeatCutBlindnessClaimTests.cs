@@ -154,6 +154,51 @@ public class SeatCutBlindnessClaimTests
         Assert.Equal(4, Math.Abs(9 - 1 - 2 * 2));
         Assert.Equal(0, SeatCutBlindnessClaim.BlindHeisenberg(9, 2));
         Assert.Equal(0, SeatCutBlindnessClaim.BlindXy(9, 2));
+
+        var several = nodes.Single(c => c.DisplayName.Contains("several seats"));
+        Assert.Contains("the mirror pair {2, 12} gives 2, as each seat alone (2)", several.Summary);
+        Assert.Contains("{1, 4, 13} gives 1", several.Summary);
+        Assert.Contains("the neighbours {7, 8} give 0 although seat 7 alone misses 7", several.Summary);
+        Assert.Contains("XY, N = 11: {1, 5} gives 1", several.Summary);
+    }
+
+    [Fact]
+    public void BlindSet_MatchesTheCommittedWorkedCases_AndASingletonIsTheSeat()
+    {
+        // The N = 15 worked cases of simulations/results/blind_site/blind_site_run.txt and the pair
+        // {1, 5} at N = 11 of THE_BLIND_SITE §5, read from those pages; {7, 8} = 0 is the neighbour
+        // corollary worked by hand (15 and 17 are coprime).
+        Assert.Equal(2, SeatCutBlindnessClaim.BlindSetHeisenberg(15, new[] { 2, 12 }));
+        Assert.Equal(2, SeatCutBlindnessClaim.BlindSetHeisenberg(15, new[] { 7, 2 }));
+        Assert.Equal(1, SeatCutBlindnessClaim.BlindSetHeisenberg(15, new[] { 1, 4, 13 }));
+        Assert.Equal(0, SeatCutBlindnessClaim.BlindSetHeisenberg(15, new[] { 7, 8 }));
+        Assert.Equal(1, SeatCutBlindnessClaim.BlindSetXy(11, new[] { 1, 5 }));
+        Assert.Equal(0, SeatCutBlindnessClaim.BlindSet(11, new[] { 1, 5 }, SeatCutBook.Heisenberg));
+        for (int n = 2; n <= 30; n++)
+            for (int seat = 0; seat < n; seat++)
+                foreach (var book in new[] { SeatCutBook.Heisenberg, SeatCutBook.Xy })
+                    Assert.Equal(SeatCutBlindnessClaim.Blind(n, seat, book),
+                                 SeatCutBlindnessClaim.BlindSet(n, new[] { seat }, book));
+    }
+
+    [Fact]
+    public void BlindSet_NeighboursAreNeverJointlyBlind_AndAMirrorPairAddsNothing()
+    {
+        for (int n = 2; n <= 40; n++)
+            for (int j = 0; j + 1 < n; j++)
+                foreach (var book in new[] { SeatCutBook.Heisenberg, SeatCutBook.Xy })
+                {
+                    Assert.Equal(0, SeatCutBlindnessClaim.BlindSet(n, new[] { j, j + 1 }, book));
+                    Assert.Equal(SeatCutBlindnessClaim.Blind(n, j, book),
+                                 SeatCutBlindnessClaim.BlindSet(n, new[] { j, n - 1 - j }, book));
+                }
+    }
+
+    [Fact]
+    public void BlindSet_RefusesAnEmptySetAndAnOutOfRangeSeat()
+    {
+        Assert.Throws<ArgumentException>(() => SeatCutBlindnessClaim.BlindSetXy(5, Array.Empty<int>()));
+        Assert.Throws<ArgumentOutOfRangeException>(() => SeatCutBlindnessClaim.BlindSetHeisenberg(5, new[] { 1, 5 }));
     }
 
     [Fact]

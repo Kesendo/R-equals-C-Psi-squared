@@ -222,6 +222,63 @@ public class SeatCutBlindnessWitnessTests
     }
 
     [Fact]
+    public void SeveralSeats_TheBlockKrylovCountMeetsTheWorkedCases()
+    {
+        // Read from simulations/results/blind_site/blind_site_run.txt (the N = 15 worked cases) and
+        // from THE_BLIND_SITE §5 (the pair {1, 5} at N = 11 in both books), not from the gcd form under
+        // test; {7, 8} = 0 is the neighbour corollary worked by hand (15 and 17 are coprime).
+        var h15 = new SeatCutBlindnessWitness(15);
+        Assert.Equal(7, h15.BlindSet(new[] { 7 }));
+        Assert.Equal(2, h15.BlindSet(new[] { 2, 12 }));   // a mirror pair: as blind as either member
+        Assert.Equal(2, h15.BlindSet(new[] { 7, 2 }));
+        Assert.Equal(1, h15.BlindSet(new[] { 1, 4, 13 }));
+        Assert.Equal(0, h15.BlindSet(new[] { 7, 8 }));    // neighbours: seat 7 alone misses 7
+        Assert.Equal(1, new SeatCutBlindnessWitness(11, SeatCutBook.Xy).BlindSet(new[] { 1, 5 }));
+        Assert.Equal(0, new SeatCutBlindnessWitness(11).BlindSet(new[] { 1, 5 }));
+    }
+
+    [Fact]
+    public void SeveralSeats_ASingletonIsTheSingleSeatCount()
+    {
+        foreach (var book in new[] { SeatCutBook.Heisenberg, SeatCutBook.Xy })
+        {
+            var w = new SeatCutBlindnessWitness(12, book, new long[] { 1, -2, 3, -1, 5, 2, 2, -3, 1, 4, 1 });
+            for (int seat = 0; seat < 12; seat++)
+                Assert.Equal(w.Blind(seat), w.BlindSet(new[] { seat }));
+        }
+    }
+
+    [Theory]
+    [InlineData(15, SeatCutBook.Heisenberg)]
+    [InlineData(15, SeatCutBook.Xy)]
+    [InlineData(12, SeatCutBook.Heisenberg)]
+    [InlineData(11, SeatCutBook.Xy)]
+    public void SeveralSeats_TheSweepMeetsTheGcdForm_AndTheLcmControlMisses(int n, SeatCutBook book)
+    {
+        // Two-sided: the gcd form meets the live count on every support of size up to 3, and the lcm
+        // of the divisors, equal on every singleton, misses somewhere, so the sweep can fail.
+        var sweep = new SeatCutBlindnessWitness(n, book).SeveralSeatSweep;
+        Assert.NotNull(sweep);
+        Assert.Equal(n + n * (n - 1) / 2 + n * (n - 1) * (n - 2) / 6, sweep!.Supports);
+        Assert.Equal(0, sweep.GcdMisses);
+        Assert.True(sweep.LcmControlMisses > 0, $"the lcm control never missed at N = {n}");
+        Assert.True(sweep.BlindSupports > 0);
+        Assert.Equal(0, sweep.NeighbourPairsBlind);
+        Assert.Equal(0, sweep.MirrorPairsAdding);
+    }
+
+    [Fact]
+    public void SeveralSeats_OffAUniformProfileOrPastTheGuard_IsNotSwept()
+    {
+        var irregular = new SeatCutBlindnessWitness(6, SeatCutBook.Heisenberg, new long[] { 1, 2, 3, 4, 5 });
+        Assert.Null(irregular.SeveralSeatSweep);
+        Assert.Null(irregular.ClosedFormSet(new[] { 1, 4 }));
+        Assert.Null(new SeatCutBlindnessWitness(SeatCutBlindnessWitness.MaxSetSweepN + 1).SeveralSeatSweep);
+        Assert.Throws<ArgumentException>(() => irregular.BlindSet(Array.Empty<int>()));
+        Assert.Throws<ArgumentOutOfRangeException>(() => irregular.BlindSet(new[] { 0, 6 }));
+    }
+
+    [Fact]
     public void TheInspectTree_IsLiveAndCarriesTheFalsifiers()
     {
         var w = new SeatCutBlindnessWitness(7);
@@ -232,5 +289,7 @@ public class SeatCutBlindnessWitnessTests
         string verdict = children.Single(c => c.DisplayName.Contains("vs the closed form")).Summary;
         Assert.StartsWith("MATCH at all 7 seats", verdict);
         Assert.DoesNotContain("MISMATCH", verdict);
+        string several = children.Single(c => c.DisplayName.Contains("several seats")).Summary;
+        Assert.StartsWith("MATCH on all 63 supports", several);
     }
 }
