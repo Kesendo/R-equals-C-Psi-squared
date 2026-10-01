@@ -8,10 +8,11 @@ namespace RCPsiSquared.Diagnostics.Tests.Foundation;
 
 /// <summary>From-below pins for <see cref="ComplementConnectionWitness"/> and
 /// <see cref="PalindromeComplementConnectionClaim"/> (proof
-/// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>). The graph route is judged against
-/// <see cref="PalindromeStringSpanWitness"/>, which ranks commutators on string spans and never forms a
-/// basis state, and against Theorems 1 and 3's rules, which carry no graph at all. The five N = 3 rows
-/// with every site dephased are the string witness's own test rows, with its counts.</summary>
+/// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>). The graph route (Theorems 2 and 4) is
+/// judged against <see cref="PalindromeStringSpanWitness"/>, which ranks commutators on string spans and
+/// never forms a basis state, and against Theorems 1 and 3's rules, which carry no graph at all; Theorem 5's
+/// rule, where no graph reads the row, against the string route's exact verdict. The five N = 3 rows with
+/// every site dephased are the string witness's own test rows, with its counts.</summary>
 public class ComplementConnectionWitnessTests
 {
     [Theory]
@@ -24,9 +25,9 @@ public class ComplementConnectionWitnessTests
     {
         var r = new ComplementConnectionWitness(3, deph, field).Read();
         var s = new PalindromeStringSpanWitness(3, deph, field).Read();
-        Assert.Equal((near, far, pal), (r.HoppingComponents, r.Good, r.Palindrome));
-        Assert.Equal((s.NearUpper, s.FarUpper), (r.HoppingComponents, r.Good));
-        Assert.Equal(pal, r.Predicted);
+        Assert.Equal((near, far, pal), (r.Near, r.Far, r.Palindrome));
+        Assert.Equal((s.NearUpper, s.FarUpper), (r.Near, r.Far));
+        Assert.Equal(pal, r.Predicted!.Value);
     }
 
     // Every axis assignment and every letter field pattern at N = 3, on the chain and the ring: the graph's
@@ -48,15 +49,15 @@ public class ComplementConnectionWitnessTests
             bool mixed = deph.Distinct().Count() > 1;
             if (mixed)
             {
-                Assert.Equal(1, r.HoppingComponents);
+                Assert.Equal(1, r.Near);
                 Assert.Equal(PalindromeComplementConnectionClaim.MixedAxesPalindrome(deph, field.Where(c => c != '.')),
                     r.Palindrome);
-                if (!r.Palindrome) { mixedBroken++; Assert.Equal(0, r.Good); }
+                if (!r.Palindrome) { mixedBroken++; Assert.Equal(0, r.Far); }
             }
             if (rows++ % 7 == 0)
             {
                 var s = new PalindromeStringSpanWitness(3, deph, field, topology).Read();
-                Assert.Equal((s.NearUpper, s.FarUpper), (r.HoppingComponents, r.Good));
+                Assert.Equal((s.NearUpper, s.FarUpper), (r.Near, r.Far));
                 Assert.Equal(PalindromeStringSpanWitness.IsPalindrome(s.Verdict), r.Palindrome);
             }
             if (r.Palindrome) pal++;
@@ -79,8 +80,8 @@ public class ComplementConnectionWitnessTests
         var r = new ComplementConnectionWitness(6, deph, field, "ring").Read();
         var s = new PalindromeStringSpanWitness(6, deph, field, "ring").Read();
         Assert.Equal(pal, r.Palindrome);
-        Assert.Equal(pal, r.Predicted);
-        Assert.Equal((s.NearUpper, s.FarUpper), (r.HoppingComponents, r.Good));
+        Assert.Equal(pal, r.Predicted!.Value);
+        Assert.Equal((s.NearUpper, s.FarUpper), (r.Near, r.Far));
     }
 
     // Two sites (the ring doubles the bond, as twoend and twoendstrings do) and the complete graph at N = 4.
@@ -96,9 +97,9 @@ public class ComplementConnectionWitnessTests
     {
         var r = new ComplementConnectionWitness(n, deph, field, topology).Read();
         var s = new PalindromeStringSpanWitness(n, deph, field, topology).Read();
-        Assert.Equal((pal, pal), (r.Palindrome, r.Predicted));
-        Assert.Equal((s.NearUpper, s.FarUpper), (r.HoppingComponents, r.Good));
-        if (deph.Distinct().Count() > 1) Assert.Equal(1, r.HoppingComponents);
+        Assert.Equal((pal, pal), (r.Palindrome, r.Predicted!.Value));
+        Assert.Equal((s.NearUpper, s.FarUpper), (r.Near, r.Far));
+        if (deph.Distinct().Count() > 1) Assert.Equal(1, r.Near);
     }
 
     // The turn to Z is a proper rotation of each site's letters: it sends the jump to Z and keeps the
@@ -122,10 +123,141 @@ public class ComplementConnectionWitnessTests
     }
 
     [Fact]
-    public void An_Undephased_Site_Is_Outside_And_Refused()
+    public void A_Row_Without_A_Jump_And_An_Unknown_Bond_Are_Refused()
     {
-        Assert.Throws<ArgumentException>(() => new ComplementConnectionWitness(3, "Z.Z"));
+        Assert.Throws<ArgumentException>(() => new ComplementConnectionWitness(3, "..."));
+        Assert.Throws<ArgumentException>(() => new ComplementConnectionWitness(3, "ZZZ", bonds: "XZ"));
         Assert.Throws<ArgumentOutOfRangeException>(() => new ComplementConnectionWitness(ComplementConnectionWitness.MaxN + 1));
+    }
+
+    // Theorem 4 on its own graph: ZZ bonds, every pattern at N = 3 on the chain and the ring (and at N = 4 on
+    // the chain, every fifth row) with at least one site dephased, each undephased site keeping Z (its field absent or Z). The
+    // sector sums equal the string route's counts on every row, and the verdict its verdict wherever that one
+    // is exact; enough rows carry a nonzero cross-sector term that dropping those terms would fail the counts.
+    [Theory]
+    [InlineData(3, "chain")]
+    [InlineData(3, "ring")]
+    [InlineData(4, "chain")]
+    public void Undephased_Sites_That_Keep_A_Letter_Follow_Theorem_Four(int n, string topology)
+    {
+        int rows = 0, cross = 0, pal = 0, exact = 0, seen = 0;
+        foreach (string deph in Patterns(n, ".XYZ"))
+        foreach (string field in Patterns(n, ".XYZ"))
+        {
+            if (!deph.Contains('.') || deph.All(c => c == '.')) continue;
+            if (Enumerable.Range(0, n).Any(s => deph[s] == '.' && field[s] is 'X' or 'Y')) continue;
+            if (n == 4 && seen++ % 5 != 0) continue;
+            var w = new ComplementConnectionWitness(n, deph, field, topology, "ZZ");
+            Assert.True(w.GraphReads, $"{deph} {field}");
+            var r = w.Read();
+            var s = new PalindromeStringSpanWitness(n, deph, field, topology, bonds: "ZZ").Read();
+            Assert.True((s.NearUpper, s.FarUpper) == (r.Near!.Value, r.Far!.Value),
+                $"{deph} {field} {topology}: graph {r.Near}, {r.Far}; strings {s.NearUpper}, {s.FarUpper}");
+            Assert.True(s.NearLower <= r.Near && s.FarLower <= r.Far, $"{deph} {field}: below a lower bound");
+            if (PalindromeStringSpanWitness.IsExact(s.Verdict))
+            {
+                exact++;
+                Assert.Equal(PalindromeStringSpanWitness.IsPalindrome(s.Verdict), r.Palindrome);
+            }
+            if (r.CrossNear > 0 || r.CrossFar > 0) cross++;
+            if (r.Palindrome) pal++;
+            rows++;
+        }
+        Assert.True(cross > 10 && pal > 10 && exact > 10, $"cross {cross}, palindromic {pal}, exact {exact}");
+        if (n == 3) Assert.Equal(864 + 144, rows); // one undephased site (3·9·2·16) and two (3·3·4·4), as the census
+    }
+
+    // Theorem 5 beside the string route: Heisenberg bonds, exactly one undephased site, every axis and field
+    // pattern at N = 3 on the chain and the ring. No graph reads these rows; the rule meets the string route's
+    // verdict on every row where that verdict is exact, and every row is exact here.
+    [Theory]
+    [InlineData("chain")]
+    [InlineData("ring")]
+    public void One_Undephased_Site_Follows_Theorem_Five(string topology)
+    {
+        int rows = 0, pal = 0;
+        foreach (string deph in Patterns(3, ".XYZ"))
+        foreach (string field in Patterns(3, ".XYZ"))
+        {
+            if (deph.Count(c => c == '.') != 1) continue;
+            var w = new ComplementConnectionWitness(3, deph, field, topology);
+            Assert.False(w.GraphReads);
+            var r = w.Read();
+            Assert.StartsWith("Theorem 5", r.TheoremClass);
+            Assert.True(r.Exact, $"{deph} {field} {topology}: a rank reading");
+            Assert.True(r.Predicted == r.Palindrome, $"{deph} {field} {topology}: rule {r.Predicted}, strings {r.Palindrome}");
+            if (r.Palindrome) pal++;
+            rows++;
+        }
+        Assert.Equal(3 * 9 * 64, rows); // the undephased site, two axes, a field pattern
+        Assert.Equal(279, pal);          // N·(3·2^(N−1)·2^N − 3), the count the MirrorWorld gate derives
+    }
+
+    // XX + YY bonds with every site dephased, every pattern at N = 3 on the chain: under uniform Z Theorem 1's
+    // rule meets the graph, every other assignment has no closed rule; the graph meets the string route on
+    // every seventh row either way. ZZ bonds with every site dephased have no rule either.
+    [Fact]
+    public void XY_Bonds_Read_Theorem_One_Under_Z_And_Theorem_Two_Alone_Otherwise()
+    {
+        int rows = 0, ruled = 0;
+        foreach (string deph in Patterns(3, "XYZ"))
+        foreach (string field in Patterns(3, ".XYZ"))
+        {
+            var r = new ComplementConnectionWitness(3, deph, field, "chain", "XY").Read();
+            if (deph == "ZZZ")
+            {
+                ruled++;
+                Assert.StartsWith("Theorem 1", r.TheoremClass);
+                Assert.True(r.Predicted == r.Palindrome, $"{deph} {field}: {r}");
+            }
+            else
+            {
+                Assert.Null(r.Predicted);
+                Assert.StartsWith("Theorem 2 alone", r.TheoremClass);
+            }
+            if (rows++ % 7 == 0)
+            {
+                var s = new PalindromeStringSpanWitness(3, deph, field, "chain", bonds: "XY").Read();
+                Assert.Equal((s.NearUpper, s.FarUpper), (r.Near!.Value, r.Far!.Value));
+            }
+        }
+        Assert.Equal(64, ruled);
+        var zz = new ComplementConnectionWitness(3, "ZZZ", "X..", "chain", "ZZ").Read();
+        Assert.Null(zz.Predicted);
+        Assert.StartsWith("Theorem 2 alone", zz.TheoremClass);
+    }
+
+    // Past the string route's span (2^(N + undephased) strings) the graph still reads Theorem 4, and the
+    // inspect says the string route was not run instead of failing.
+    [Fact]
+    public void A_Wide_Theorem_Four_Row_Is_Read_By_The_Graph_Alone()
+    {
+        var w = new ComplementConnectionWitness(12, "ZZZZZZZ.....", null, "chain", "ZZ");
+        Assert.True(w.GraphReads);
+        Assert.Equal(1 << 5, w.Read().Sectors);
+        Assert.Contains(w.Children, c => c.Summary.StartsWith("Not run", StringComparison.Ordinal));
+    }
+
+    // Two undephased sites under Heisenberg bonds: no theorem gives a rule, and the witness says so.
+    [Fact]
+    public void Two_Undephased_Sites_Under_Heisenberg_Bonds_Have_No_Rule()
+    {
+        var r = new ComplementConnectionWitness(3, ".X.", "X.X").Read();
+        Assert.Null(r.Predicted);
+        Assert.Null(r.Near);
+        Assert.StartsWith("outside", r.TheoremClass);
+    }
+
+    private static IEnumerable<string> Patterns(int n, string alphabet)
+    {
+        int k = alphabet.Length, total = 1;
+        for (int i = 0; i < n; i++) total *= k;
+        for (int code = 0; code < total; code++)
+        {
+            var c = new char[n];
+            for (int i = 0, v = code; i < n; i++, v /= k) c[i] = alphabet[v % k];
+            yield return new string(c);
+        }
     }
 
     [Fact]

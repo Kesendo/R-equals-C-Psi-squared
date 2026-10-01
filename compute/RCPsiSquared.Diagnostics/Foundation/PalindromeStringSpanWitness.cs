@@ -44,7 +44,9 @@ namespace RCPsiSquared.Diagnostics.Foundation;
 ///
 /// <para>Args: <c>--N</c> (2..<see cref="MaxN"/>, default 3), <c>--deph</c> (a letter per site from
 /// I/X/Y/Z or '.', default all Z), <c>--field</c> (same alphabet, default none), <c>--topology</c>
-/// (chain|ring|complete, default chain), the alphabet and defaults of <c>twoend</c>.</para></summary>
+/// (chain|ring|complete, default chain), the alphabet and defaults of <c>twoend</c>; <c>--bonds</c>
+/// (XYZ|XY|ZZ, the letters every bond carries, default XYZ, twoend's Heisenberg bond; the dense witness is
+/// read beside it only at XYZ, the one bond it builds).</para></summary>
 public sealed class PalindromeStringSpanWitness : IInspectable
 {
     /// <summary>A cost guard: the spans are enumerated string by string.</summary>
@@ -60,7 +62,7 @@ public sealed class PalindromeStringSpanWitness : IInspectable
     private const long Bond = 10, Field = 3;
 
     private readonly int _n;
-    private readonly string _deph, _field, _topology;
+    private readonly string _deph, _field, _topology, _bonds;
     private readonly (PauliMask S, long C)[] _terms;
     private readonly PauliMask[] _jumps;
 
@@ -68,8 +70,9 @@ public sealed class PalindromeStringSpanWitness : IInspectable
 
     /// <param name="liftKernels">false leaves the lifted kernels out, so only the single-string bounds
     /// and the ranks decide past the colouring and the word; the default lifts.</param>
+    /// <param name="bonds">the letters every bond carries: XYZ (Heisenberg, the default), XY or ZZ.</param>
     public PalindromeStringSpanWitness(int n, string? deph = null, string? field = null, string? topology = null,
-                                       bool liftKernels = true)
+                                       bool liftKernels = true, string? bonds = null)
     {
         _lift = liftKernels;
         if (n < 2 || n > MaxN)
@@ -87,7 +90,8 @@ public sealed class PalindromeStringSpanWitness : IInspectable
             "complete" => (from a in Enumerable.Range(0, n) from b in Enumerable.Range(a + 1, n - a - 1) select (a, b)).ToArray(),
             _ => throw new ArgumentException($"--topology takes chain, ring or complete; got \"{topology}\"."),
         };
-        _terms = Terms(n, edges, _field);
+        _bonds = ParseBonds(bonds);
+        _terms = Terms(n, edges, _field, _bonds);
         _jumps = Enumerable.Range(0, n).Where(l => _deph[l] != '.').Select(l => Site(n, l, _deph[l])).ToArray();
         if (_jumps.Length == 0)
             throw new ArgumentException("--deph names no jump; F158 needs at least one.", nameof(deph));
@@ -109,6 +113,27 @@ public sealed class PalindromeStringSpanWitness : IInspectable
         }).ToArray());
     }
 
+    /// <summary>The bond sets the witnesses build, as the letters every bond carries: XYZ (Heisenberg),
+    /// XY (XX + YY) or Z (ZZ, also accepted as "ZZ").</summary>
+    public static string ParseBonds(string? bonds)
+    {
+        string b = string.IsNullOrWhiteSpace(bonds) ? "XYZ" : bonds.Trim().ToUpperInvariant();
+        return b switch
+        {
+            "XYZ" or "XY" => b,
+            "ZZ" or "Z" => "Z",
+            _ => throw new ArgumentException($"--bonds takes XYZ, XY or ZZ; got \"{bonds}\"."),
+        };
+    }
+
+    /// <summary>The bond set as the terms it builds.</summary>
+    public static string BondName(string bonds) => bonds switch
+    {
+        "XYZ" => "XX + YY + ZZ",
+        "XY" => "XX + YY",
+        _ => "ZZ",
+    };
+
     private static PauliMask Site(int n, int site, char letter)
     {
         var l = new PauliLetter[n];
@@ -116,12 +141,12 @@ public sealed class PalindromeStringSpanWitness : IInspectable
         return PauliMask.FromLetters(l);
     }
 
-    private static (PauliMask, long)[] Terms(int n, (int A, int B)[] edges, string field)
+    private static (PauliMask, long)[] Terms(int n, (int A, int B)[] edges, string field, string bonds)
     {
         var sum = new Dictionary<PauliMask, long>();
         void Add(PauliMask s, long c) => sum[s] = (sum.TryGetValue(s, out long old) ? old : 0) + c;
         foreach (var (a, b) in edges)
-            foreach (char p in "XYZ")
+            foreach (char p in bonds)
             {
                 var l = new PauliLetter[n];
                 l[a] = l[b] = PauliLetterExtensions.FromSymbol(p);
@@ -135,7 +160,8 @@ public sealed class PalindromeStringSpanWitness : IInspectable
     public string Name => "twoendstrings";
 
     public string DisplayName =>
-        $"F158 live on strings: the two ends as commutators on Pauli-string spans (N = {_n}, {_topology}, dephasing {_deph})";
+        $"F158 live on strings: the two ends as commutators on Pauli-string spans (N = {_n}, {_topology}, dephasing {_deph}" +
+        (_bonds == "XYZ" ? ")" : $", bonds {BondName(_bonds)})");
 
     public string Summary
     {
@@ -567,6 +593,8 @@ public sealed class PalindromeStringSpanWitness : IInspectable
 
     private string MeetTheDenseWitness(Reading r)
     {
+        if (_bonds != "XYZ")
+            return "Not run: twoend builds the Heisenberg bond only, and this row carries " + BondName(_bonds) + ".";
         if (_n > PalindromeTwoEndCountWitness.MaxN)
             return string.Format(CultureInfo.InvariantCulture,
                 "Not run: N = {0} is past the dense witness's MaxN = {1}, which is the point of this route.",

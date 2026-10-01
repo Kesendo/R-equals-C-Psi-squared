@@ -895,27 +895,33 @@ public static class InspectCommand
             "columns. The counts are GF(p) upper bounds and single strings give exact lower bounds; a colouring " +
             "certifies the palindrome, a one-jump word with a nonzero trace rules it out, and the ranks decide " +
             "only between them, the verdict saying which. At N <= 4 the dense witness twoend is read beside it. " +
-            "Args: --N (2..12, default 3), --deph Z.Z, --field X.X, --topology chain|ring|complete; a span " +
-            "past 2^16 strings (many undephased sites) is refused at inspect time",
+            "Args: --N (2..12, default 3), --deph Z.Z, --field X.X, --topology chain|ring|complete, --bonds " +
+            "XYZ|XY|ZZ (default XYZ); a span past 2^16 strings (many undephased sites) is refused at inspect time",
             c => new PalindromeStringSpanWitness(
                 c.Parser.HasFlag("N") ? c.N : 3,
                 c.Parser.OptionalString("deph"),
                 c.Parser.OptionalString("field"),
-                c.Parser.OptionalString("topology")),
+                c.Parser.OptionalString("topology"),
+                bonds: c.Parser.OptionalString("bonds")),
             RequiresN: false, HonorsOptionalN: true),
         new("complement", "THE COMPLEMENT CONNECTION (proof PROOF_PALINDROME_COMPLEMENT_CONNECTION.md, claim " +
             "PalindromeComplementConnectionClaim): with one single-site Pauli jump on every site, turned to Z, " +
             "the near count of F158 is the number of components of H's hopping graph over bitstrings and the far " +
             "count the number of good components of its union with the complement image (flat sections of " +
-            "d_y/d_x = H_xy/H_x̄ȳ); the palindrome holds exactly when every component is good. The witness prints " +
-            "Theorem 1's rule (one common axis) or Theorem 3's (mixed axes: two axes, every field along the third " +
-            "letter) beside the graph, and reads twoendstrings on the same row. Args: --N (2..12, default 3), " +
-            "--deph XZY (every site), --field X.X, --topology chain|ring|complete",
+            "d_y/d_x = H_xy/H_x̄ȳ); the palindrome holds exactly when every component is good. Undephased sites that " +
+            "keep a letter (--bonds ZZ) split H into sectors and both counts into sums of hom counts (Theorem 4, the " +
+            "cross-sector part printed apart); a site that keeps no letter is decided by the string route. The " +
+            "witness prints Theorem 1's rule (one common axis), Theorem 3's (mixed axes: two axes, every field along " +
+            "the third letter) or Theorem 5's (one undephased site under Heisenberg bonds: some letter no axis, every " +
+            "field along it) beside the reading, and reads twoendstrings on the same row. Args: --N (2..12, default " +
+            "3), --deph XZ. (at least one jump), --field X.X, --topology chain|ring|complete, --bonds XYZ|XY|ZZ; a " +
+            "row no graph reads needs the string route, whose span past 2^16 strings is refused at inspect time",
             c => new ComplementConnectionWitness(
                 c.Parser.HasFlag("N") ? c.N : 3,
                 c.Parser.OptionalString("deph"),
                 c.Parser.OptionalString("field"),
-                c.Parser.OptionalString("topology")),
+                c.Parser.OptionalString("topology"),
+                c.Parser.OptionalString("bonds")),
             RequiresN: false, HonorsOptionalN: true),
         new("sideways", "the sideways spin ladder live: S⁺ = Σ (−1)^l c_l†(·)c_l† intertwines L on Σ-odd " +
             "real-symmetric hopping (residual vs 0.0 exactly, Φ as control), the F125 fold family = the two " +

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using RCPsiSquared.Core.Pauli;
+using RCPsiSquared.Core.Symmetry;
 
 namespace RCPsiSquared.Diagnostics.F87;
 
@@ -70,11 +72,20 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// adds the N-free HARD verdict for the diagonal cell (F115, <see cref="WindowedObstructionScan.IsHardPair"/>),
 /// the symmetric twin of the soft strategies above. It is gated to two-term Klein-(0,1) Mixed pairs and defers
 /// everything else to the spectral authority <see cref="PauliPairTrichotomy"/>. Anchor: F115 /
-/// <c>WindowedHardnessClaim</c>.</para></summary>
+/// <c>WindowedHardnessClaim</c>.</para>
+///
+/// <para>Exact at one N: <see cref="DecideAtN"/> keeps <see cref="Decide"/>'s N-free verdicts and, where it is
+/// Undetermined, decides the row at the given N by the complement connection
+/// (<see cref="ComplementConnectionAtN"/>, Theorem 2 of
+/// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>): on the open chain under Z dephasing on every
+/// site, for any real template set in any Klein cell, the palindrome holds exactly when every component of the hopping graph joined with its complement image
+/// carries a flat section. Liouvillian-free (a graph on 2^N bitstrings, where L has 4^N columns), exact over
+/// the Gaussian integers, both sides, but a statement about that N only, and it does not separate soft from
+/// truly.</para></summary>
 public static class PalindromeSoftCertifier
 {
     /// <summary>Which scalable soft strategy certified the Hamiltonian (None = not certified).</summary>
-    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing, RoutingKBody, SingleSiteField, RoutingWindowSummed }
+    public enum SoftStrategy { None, LinearSiteColoring, ExcitationPairing, ExcitationParity, SiteSwapSymmetry, Routing, RoutingKBody, SingleSiteField, RoutingWindowSummed, ComplementConnection }
 
     /// <summary>Result of <see cref="Certify"/>: whether soft is certified, and by which strategy.</summary>
     public readonly record struct SoftCertificate(bool Certified, SoftStrategy Strategy);
@@ -85,7 +96,7 @@ public static class PalindromeSoftCertifier
 
     /// <summary>Which scalable HARD strategy decided (None = not hard-certified). Symmetric to
     /// <see cref="SoftStrategy"/>.</summary>
-    public enum HardStrategy { None, DiagonalCellValuation }
+    public enum HardStrategy { None, DiagonalCellValuation, ComplementConnection }
 
     /// <summary>Result of <see cref="Decide"/>: the verdict, the deciding strategy (soft or hard), and a
     /// human-readable reason (the soft strategy name, or the exhibited (1+x)-valuation obstruction).</summary>
@@ -482,5 +493,58 @@ public static class PalindromeSoftCertifier
 
         return new PalindromeDecision(Decision.Undetermined, SoftStrategy.None, HardStrategy.None,
             "undetermined: no scalable soft pattern, out of F115 hard scope; defer to PauliPairTrichotomy");
+    }
+
+    /// <summary>The largest N <see cref="ComplementConnectionAtN"/> reads: the graph has 2^N vertices.</summary>
+    public const int MaxComplementConnectionN = 20;
+
+    /// <summary>Theorem 2 of the complement connection on the open chain of <paramref name="n"/> sites, each
+    /// template slid over every window as in <see cref="PauliPairTrichotomy"/>'s k-body builder, Z dephasing on
+    /// every site: the near count (dim ker L, the hopping components), the far count (dim ker(L + 2σ), the good
+    /// components of the union with the complement image) and the verdict, which holds exactly when they agree.
+    /// The coefficients must be real (H Hermitian); they are scaled exactly to integers by one common power of
+    /// two, so nothing is rounded.</summary>
+    public static (bool Palindrome, int Near, int Far) ComplementConnectionAtN(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        if (n < 1 || n > MaxComplementConnectionN)
+            throw new ArgumentOutOfRangeException(nameof(n), n,
+                $"the complement connection walks 2^N bitstrings and is guarded at N in 1..{MaxComplementConnectionN}");
+        var masks = new List<PauliMask>();
+        var coefficients = new List<double>();
+        foreach (var t in terms)
+        {
+            if (t.Coefficient.Imaginary != 0)
+                throw new ArgumentException($"{t.Label} has a complex coefficient; H must be Hermitian", nameof(terms));
+            int k = t.Letters.Count;
+            if (k > n) throw new ArgumentException($"{t.Label} does not fit on {n} sites", nameof(terms));
+            for (int l = 0; l <= n - k; l++)
+            {
+                var letters = new PauliLetter[n];
+                for (int i = 0; i < k; i++) letters[l + i] = t.Letters[i];
+                masks.Add(PauliMask.FromLetters(letters));
+                coefficients.Add(t.Coefficient.Real);
+            }
+        }
+        var integers = ComplementConnectionGraph.DyadicIntegers(coefficients);
+        var h = ComplementConnectionGraph.Columns(n, masks.Zip(integers));
+        var (near, far, _) = ComplementConnectionGraph.EverySiteDephased(n, h);
+        return (near == far, near, far);
+    }
+
+    /// <summary><see cref="Decide"/>, and where it is Undetermined, the complement connection at this N: Soft
+    /// when the palindrome holds (soft or truly, which Theorem 2 does not separate), Hard when it fails. Exact
+    /// at <paramref name="n"/> on the open chain under Z dephasing, and only there: a caller reading
+    /// <see cref="PalindromeDecision.Verdict"/> alone cannot tell this N-specific verdict from Decide's N-free
+    /// ones, the strategy and the reason can. Past <see cref="MaxComplementConnectionN"/> the Undetermined
+    /// verdict stands; a complex coefficient or a template longer than the chain throws.</summary>
+    public static PalindromeDecision DecideAtN(IReadOnlyList<PauliTerm> terms, int n)
+    {
+        var d = Decide(terms, n);
+        if (d.Verdict != Decision.Undetermined || n > MaxComplementConnectionN) return d;
+        var (palindrome, near, far) = ComplementConnectionAtN(terms, n);
+        string reason = $"exact at N = {n} by the complement connection (Theorem 2): near {near}, far {far}";
+        return palindrome
+            ? new PalindromeDecision(Decision.Soft, SoftStrategy.ComplementConnection, HardStrategy.None, "soft: " + reason)
+            : new PalindromeDecision(Decision.Hard, SoftStrategy.None, HardStrategy.ComplementConnection, "hard: " + reason);
     }
 }

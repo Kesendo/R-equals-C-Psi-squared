@@ -40,9 +40,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
 /// <c>SectorConnection</c> (Theorem 4), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
-/// end count's exact verdict and counts; Theorem 5 against the end count's exact verdict directly. Live lab for Theorems 1 to 3: <c>inspect --root complement</c>
-/// (<c>ComplementConnectionWitness</c>), which shares no code with the gate and reads <c>twoendstrings</c>
-/// beside itself.</para></summary>
+/// end count's exact verdict and counts; Theorem 5 against the end count's exact verdict directly. Live lab: <c>inspect --root complement</c>
+/// (<c>ComplementConnectionWitness</c>), which shares no code with the gate, reads Theorems 2 and 4 on its own
+/// graph (with <c>--bonds ZZ</c> for undephased sites that keep a letter), prints Theorem 1's, 3's or 5's rule
+/// beside the reading, and reads <c>twoendstrings</c> beside itself. The exact routine is
+/// <see cref="ComplementConnectionGraph"/>, which <c>PalindromeSoftCertifier.DecideAtN</c> uses too, deciding
+/// any real template set under Z dephasing at one N where the N-free strategies leave a row undetermined.</para></summary>
 public sealed class PalindromeComplementConnectionClaim : Claim
 {
     /// <summary>The typed parent: this claim is F158 read where every jump is a single-site letter, turned to
@@ -61,6 +64,19 @@ public sealed class PalindromeComplementConnectionClaim : Claim
             throw new ArgumentException("Theorem 3 needs at least two distinct axes among X, Y, Z.", nameof(axes));
         var free = "XYZ".Where(c => !a.Contains(c)).ToList();
         return free.Count == 1 && fieldLetters.Select(char.ToUpperInvariant).All(f => f == free[0]);
+    }
+
+    /// <summary>Theorem 5's rule for Heisenberg bonds on a connected graph with exactly one undephased site
+    /// and letter fields: the palindrome holds exactly when some letter p is the axis of no dephased site
+    /// and every field letter, the undephased site's included, is p. With every site dephased under one
+    /// common axis it is Theorem 1's rule, and under mixed axes Theorem 3's.</summary>
+    public static bool OneUndephasedSitePalindrome(IEnumerable<char> axes, IEnumerable<char> fieldLetters)
+    {
+        var a = axes.Select(char.ToUpperInvariant).Distinct().ToList();
+        if (a.Count == 0 || a.Any(c => c is not ('X' or 'Y' or 'Z')))
+            throw new ArgumentException("Theorem 5 needs at least one dephased site with a letter axis.", nameof(axes));
+        var f = fieldLetters.Select(char.ToUpperInvariant).Distinct().ToList();
+        return "XYZ".Any(p => !a.Contains(p) && f.All(l => l == p));
     }
 
     public PalindromeComplementConnectionClaim(PalindromeTwoEndCountClaim twoEndCount)
@@ -128,7 +144,8 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "hom(H_tau, bar H_sigma), each hom the good components of the graph of the two blocks. The " +
                          "cross-sector terms are what an undephased site adds. A Heisenberg or XX + YY bond touching the " +
                          "site keeps no letter, and there the connection is matrix valued (open). Gate: " +
-                         "EndCount.SectorConnection in MirrorWorld; the live witness does not read it.");
+                         "EndCount.SectorConnection in MirrorWorld; live: inspect --root complement --bonds ZZ with " +
+                         "undephased sites, which prints the cross-sector part apart.");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
@@ -140,10 +157,11 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "under mixed axes are outside it.");
 
             yield return new InspectableNode("live lab (the witness)",
-                summary: "ComplementConnectionWitness turns the jumps on PauliMask, walks the 2^N bitstrings over " +
-                         "the Gaussian integers, counts the hopping and good components, prints Theorem 1's or " +
-                         "Theorem 3's prediction beside the graph's verdict, and reads twoendstrings on the same " +
-                         "row: inspect --root complement.");
+                summary: "ComplementConnectionWitness turns the jumps (and the letters undephased sites keep) on " +
+                         "PauliMask, walks the 2^N bitstrings over the Gaussian integers, counts the hopping and good " +
+                         "components (Theorem 2) or the sector sums of hom counts (Theorem 4), prints Theorem 1's, 3's " +
+                         "or 5's rule beside the verdict (Theorem 5's beside the string route, since no graph reads a " +
+                         "site that keeps no letter), and reads twoendstrings on the same row: inspect --root complement.");
         }
     }
 }
