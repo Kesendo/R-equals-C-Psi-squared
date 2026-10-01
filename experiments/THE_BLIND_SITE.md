@@ -637,7 +637,11 @@ modes in [1, N−1] are therefore m = t·N/G with t odd and below G, and there a
 the divisor of a support is the gcd of its seats' divisors. The XY book closes
 the same way with no parity to carry: §11's node condition makes seat j hold
 the multiples of (N+1)/h_j, h_j = gcd(j+1, N+1), and the intersection gives
-**dim blind(S) = gcd(N+1, {j+1 : j ∈ S}) − 1**.
+**dim blind(S) = gcd(N+1, {j+1 : j ∈ S}) − 1**. The same intersection sets the
+rank of a first-order population readout at the sites of S after a small bond
+change, coherent (γ = 0) with the top standing wave prepared:
+[The bond and the seat](THE_BOND_AND_THE_SEAT.md) finds it at
+N − 1 − gcd(N+1, {j+1 : j ∈ S}), N − 2 minus this XY-book count.
 
 Three readings follow from the arithmetic alone, in both books. **Two
 neighbouring seats are never jointly blind**, because consecutive odd numbers

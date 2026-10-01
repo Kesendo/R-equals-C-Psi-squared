@@ -117,7 +117,12 @@ different points from this `Q=1.5` run.
 Hamiltonian bond-to-mode transition matrix. [F157](../docs/ANALYTICAL_FORMULAS.md)
 counts sine-mode nodes at a watched site. Together they give the exact
 `γ=0` continuous-trace rank
-`N−gcd(j+1,N+1)−1`, which at `N=7` is `[5,4,5,2,5,4,5]`.
+`N−gcd(j+1,N+1)−1`, which at `N=7` is `[5,4,5,2,5,4,5]`; read at a set of
+sites it is `N−1−gcd(N+1, {j+1 : j ∈ S})`, capped at `N−2` however many sites
+are read, since no coherent readout sees the uniform change of all bonds. The
+noncentral fixed-γ ranks above already pass that cap with one site read, so
+on those grids any set containing a noncentral site reads all six
+directions.
 That remains a valid **mathematical calibration** and is produced by the
 [coherent-limit script](../simulations/handshake_bond_seat_readout.py).
 An F157 blind mode can have zero *effective* decay at a watched site while

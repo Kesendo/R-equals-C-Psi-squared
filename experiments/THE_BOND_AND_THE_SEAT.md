@@ -66,6 +66,25 @@ exact composition of the existing matrix-kernel and sine-node results. A
 single chosen time returns one scalar, and a finite sampled time grid may be
 poorly conditioned; neither automatically identifies every individual bond.
 
+**Several read sites.** Read the populations at every site of a set `S` at
+once. Mode `k` then reaches the stacked trace unless it has a node at *every*
+site of `S`, and those are the multiples of `(N+1)/G` with
+`G = gcd(N+1, {j+1 : j ∈ S})`, `G−1` of them, never `k=1` or `k=N`
+([The Blind Site](THE_BLIND_SITE.md) §5 counts the same intersection for
+dephased seats). A visible mode adds the one bond direction `M[·,k]` however
+many sites of `S` see it, so the rank counts modes, not (site, mode) pairs:
+
+```text
+r_S = N - 1 - gcd(N+1, {j+1 : j ∈ S}) = N - 2 - blind_XY(S).
+```
+
+The ceiling `N−2` is every bond combination orthogonal to the uniform change
+of all bonds, which leaves the `ψ₁` population stationary. Two sites whose
+divisors `gcd(j+1,N+1)` are coprime reach it together, even when neither
+reaches it alone: at `N=11` site 2 reads 7, site 7 reads 6, and the pair
+reads 9. Neighbouring sites always reach it together. A site and its mirror carry the
+same divisor, so reading the mirror adds nothing.
+
 ## What the producer found
 
 The numerical examples use `J=1` and times in inverse-hopping units. For
@@ -84,6 +103,23 @@ The modal formula and this derivative agree on all six `N=7` bonds at two
 sites and two times, plus other controls. SVD checks match the integer rank
 prediction at all 63 sites over `N=3..11`. A balanced mutation of two
 interior-bond matrix entries makes the derivative gate fire.
+
+The set rank is read both ways on every set of one, two and three sites at
+`N=4..11`, 770 sets: the stacked modal matrix, and the derivative route
+stacking every site of `S` at `2N` times. Both meet `r_S` on all of them.
+The derivative route uses the derivative gate's entry error model, checked
+here against the modal slopes on every site, bond and time of the grid it is
+used on (largest error 0.231 of the model, budget 16), and counts a singular
+value as resolved when it exceeds that entry bound carried to the whole
+matrix (Frobenius norm, Weyl). The smallest kept value clears it by
+`1.09·10⁸`; the dropped values are at most `0.772·eps·σ_max` times the larger
+dimension, the double-precision floor, about 1300 times below the bound. The
+count rests on that separation, which the run prints and does not gate. Two
+wrong rules are read against the derivative route's ranks, both equal on
+every single site: the lcm of the divisors misses 418 sets, and the largest
+single-site rank, the rule with no gain from reading several sites, misses
+48. A rule that reads only one site of each set makes the derivative route
+fire.
 
 At very short times the centre's end-bond response starts at
 `-√2 J³t⁴/48 + O(t⁶)` (the printed fixture sets `J=1`). Its `t²` modal

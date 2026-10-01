@@ -11,7 +11,9 @@ Run: python simulations/handshake_bond_seat_readout.py
 
 from __future__ import annotations
 
-from math import gcd, log10
+from functools import reduce
+from itertools import combinations
+from math import gcd, lcm, log10
 import sys
 
 import mpmath as mp
@@ -288,6 +290,145 @@ def reflection_report(paired_bond: int = 5) -> dict:
     }
 
 
+def set_inventory(n: int, seats) -> dict:
+    """The same count for a SET of read sites, populations read at all of them.
+
+    Mode k reaches the stacked trace unless it has a node at EVERY site of S;
+    the modes dark at all of S are the multiples of (N+1)/G with
+    G = gcd(N+1, {j+1 : j in S}), G-1 of them, none equal to 1 or N.
+    """
+    seats = tuple(sorted(set(seats)))
+    if not seats:
+        raise ValueError("a set of read sites needs at least one site")
+    for seat in seats:
+        seat_inventory(n, seat)
+    g = reduce(gcd, (seat + 1 for seat in seats), n + 1)
+    dark = tuple(k for k in range(1, n + 1)
+                 if all(k * (seat + 1) % (n + 1) == 0 for seat in seats))
+    return {"G": g, "dark_modes": dark, "rank": n - 1 - g,
+            "dark_count_matches": len(dark) == g - 1 and 1 not in dark and n not in dark}
+
+
+def set_rank_report(n: int, seats) -> dict:
+    """Modal route for a set: the stacked masked F124 matrices, rows (j, k).
+
+    Mode k contributes u_1(j) u_k(j) M[.,k] f_k(t) at site j, and the f_k are
+    independent, so the trace rank is the rank of the matrix with one row per
+    (site, mode k = 2..N). Each visible mode adds the one bond direction
+    M[.,k] however many sites of S see it, so the rank counts modes. Error
+    scale: modal_rank_report's bound for one site's block, times sqrt(|S|)
+    for stacking |S| such blocks (their errors add in the Frobenius norm).
+    The margins on both sides are returned so the run can print them.
+    """
+    seats = tuple(sorted(set(seats)))
+    inventory = set_inventory(n, seats)
+    u = sine_mode_matrix(n)
+    m = transition_matrix(n)
+    stacked = np.vstack([(m * u[:, seat][None, :])[:, 1:].T for seat in seats])
+    sv = np.linalg.svd(stacked, compute_uv=False)
+    tol = (4.0 * np.finfo(float).eps * n * np.linalg.svd(m, compute_uv=False)[0] *
+           max(np.max(np.abs(u[:, seat])) for seat in seats) * np.sqrt(len(seats)))
+    observed = int(np.count_nonzero(sv > tol))
+    expected = inventory["rank"]
+    return {"seats": seats, "expected": expected, "observed": observed,
+            "kept_over_tol": float(sv[expected - 1] / tol) if expected > 0 else float("inf"),
+            "dropped_over_tol": float(sv[expected] / tol) if expected < len(sv) else 0.0,
+            "passes": observed == expected}
+
+
+def _all_site_slopes(n: int, times, j_coupling: float = 1.0) -> np.ndarray:
+    """Fréchet slopes at every site: D[t, site, bond], from the propagator.
+
+    The same independent route as direct_population_slope (no F124 matrix, no
+    F157 mask, no sine dispersion), read at all sites from one derivative.
+    """
+    h = j_coupling * (np.diag(np.ones(n - 1), 1) + np.diag(np.ones(n - 1), -1))
+    initial = np.linalg.eigh(h)[1][:, n - 1]
+    out = np.zeros((len(times), n, n - 1))
+    for ti, time in enumerate(times):
+        for bond in range(n - 1):
+            v = np.zeros((n, n))
+            v[bond, bond + 1] = v[bond + 1, bond] = 1.0
+            propagator, derivative = expm_frechet(
+                -1j * time * h, -1j * time * v, compute_expm=True)
+            amplitude = propagator @ initial
+            response = derivative @ initial
+            out[ti, :, bond] = 2.0 * np.real(np.conj(amplitude) * response)
+    return out
+
+
+def set_trace_gate(n_range=range(4, 12), max_size: int = 3) -> dict:
+    """Rank of the sampled time trace at a SET of read sites, two routes.
+
+    The Fréchet route stacks the slopes of every site in S at 2N times into a
+    (|S|*2N) x (N-1) matrix. Its entry error model is the response gate's,
+    eps*N*(t(1+Jt) + |modal| + |direct|) at budget 16, and it is checked here
+    entry by entry against the modal slopes on the whole grid it is used on,
+    every site, bond and time. A singular value is then resolved above that
+    bound carried through the Frobenius norm (Weyl), 16*eps*N*scale*sqrt(size).
+    The run prints the separation on both sides, and the dropped values in
+    units of the SVD's own floor eps*sigma_max*max(shape), where they sit.
+    Two wrong rules are run against the OBSERVED Frechet rank beside the gcd:
+    the lcm of the site divisors, and the largest single-site rank (no gain
+    from reading several sites). Both agree on every single site and must miss
+    on some sets. The dark-mode set found by a direct node check must have
+    G-1 members, none of them k=1 or k=N.
+    """
+    eps = np.finfo(float).eps
+    rows, modal_fail, frechet_fail, dark_fail = 0, 0, 0, 0
+    lcm_misses, max_single_misses = 0, 0
+    min_kept_ratio, max_dropped_ratio, max_dropped_floor = float("inf"), 0.0, 0.0
+    modal_min_kept, modal_max_dropped = float("inf"), 0.0
+    max_entry_ratio = 0.0
+    for n in n_range:
+        times = [0.37 * (i + 1) for i in range(2 * n)]
+        slopes = _all_site_slopes(n, times)
+        for seat in range(n):
+            modal = predicted_slopes(n, seat, times)
+            direct = slopes[:, seat, :].T
+            model = eps * n * (np.array(times)[None, :] * (1.0 + np.array(times)[None, :]) +
+                               np.abs(modal) + np.abs(direct))
+            max_entry_ratio = max(max_entry_ratio, float(np.max(np.abs(modal - direct) / model)))
+        scale = max(t * (1.0 + t) for t in times) + 2.0 * float(np.max(np.abs(slopes)))
+        single = [seat_inventory(n, seat)["rank"] for seat in range(n)]
+        for size in range(1, max_size + 1):
+            for seats in combinations(range(n), size):
+                inventory = set_inventory(n, seats)
+                expected = inventory["rank"]
+                dark_fail += not inventory["dark_count_matches"]
+                modal = set_rank_report(n, seats)
+                modal_fail += not modal["passes"]
+                modal_min_kept = min(modal_min_kept, modal["kept_over_tol"])
+                modal_max_dropped = max(modal_max_dropped, modal["dropped_over_tol"])
+                block = slopes[:, list(seats), :].reshape(-1, n - 1)
+                sv = np.linalg.svd(block, compute_uv=False)
+                tol = 16.0 * eps * n * scale * np.sqrt(block.size)
+                observed = int(np.count_nonzero(sv > tol))
+                frechet_fail += observed != expected
+                g_lcm = gcd(n + 1, lcm(*(seat + 1 for seat in seats)))
+                lcm_misses += observed != n - 1 - g_lcm
+                max_single_misses += observed != max(single[seat] for seat in seats)
+                if expected > 0:
+                    min_kept_ratio = min(min_kept_ratio, float(sv[expected - 1] / tol))
+                if expected < len(sv):
+                    max_dropped_ratio = max(max_dropped_ratio, float(sv[expected] / tol))
+                    max_dropped_floor = max(max_dropped_floor, float(
+                        sv[expected] / (eps * sv[0] * max(block.shape))))
+                rows += 1
+    return {"sets": rows, "modal_failures": modal_fail, "dark_count_failures": dark_fail,
+            "frechet_failures": frechet_fail, "lcm_misses": lcm_misses,
+            "max_single_misses": max_single_misses,
+            "max_entry_error_ratio": max_entry_ratio,
+            "min_kept_over_bound": min_kept_ratio,
+            "max_dropped_over_bound": max_dropped_ratio,
+            "max_dropped_over_svd_floor": max_dropped_floor,
+            "modal_min_kept_over_tol": modal_min_kept,
+            "modal_max_dropped_over_tol": modal_max_dropped,
+            "passes": (modal_fail == 0 and frechet_fail == 0 and dark_fail == 0
+                       and max_entry_ratio <= 16.0
+                       and lcm_misses > 0 and max_single_misses > 0)}
+
+
 def main() -> int:
     """Run the scoped workflow and independent controls; return 1 on a firing."""
     print("=== F124 -> F157 coherent bond/seat producer (gamma=0) ===")
@@ -304,6 +445,27 @@ def main() -> int:
     print(f"N=7 location ranks: {profile}")
     print(f"centre modes: {centre['visible_modes']}  nodes: {centre['node_modes']}")
     print(f"seat 2 modes: {outside['visible_modes']}  nodes: {outside['node_modes']}")
+
+    sets = set_trace_gate()
+    print(f"Read-site sets, sizes 1..3, N=4..11: {sets['sets']} sets; rank "
+          f"N-1-gcd(N+1, {{j+1}}) misses: modal {sets['modal_failures']}, "
+          f"Frechet trace {sets['frechet_failures']}; dark-mode count "
+          f"!= G-1: {sets['dark_count_failures']}")
+    print(f"  controls against the observed rank: lcm of the divisors misses "
+          f"{sets['lcm_misses']}, "
+          f"largest single-site rank misses {sets['max_single_misses']}")
+    print(f"  Frechet entries vs modal on the whole grid: max error / model "
+          f"{sets['max_entry_error_ratio']:.3f} (budget 16)")
+    print(f"  Frechet margins: smallest kept singular value "
+          f"{sets['min_kept_over_bound']:.3g} x the bound, largest dropped "
+          f"{sets['max_dropped_over_bound']:.3g} x "
+          f"({sets['max_dropped_over_svd_floor']:.3g} x eps*sigma_max*max(shape))")
+    print(f"  modal margins: smallest kept {sets['modal_min_kept_over_tol']:.3g} x tol, "
+          f"largest dropped {sets['modal_max_dropped_over_tol']:.3g} x tol")
+    pair = set_inventory(11, (2, 7))
+    print(f"N=11 sites {{2,7}}: G={pair['G']}, dark modes {pair['dark_modes']}, "
+          f"rank {pair['rank']} = N-2 (each alone: "
+          f"{seat_inventory(11, 2)['rank']}, {seat_inventory(11, 7)['rank']})")
 
     response = response_gate()
     print(f"Independent expm-Frechet response: max error / "
@@ -347,7 +509,7 @@ def main() -> int:
     print("Scope: ideal unitary single-excitation population; PTF alpha and "
           "finite-gamma purity are outside this result.")
 
-    passed = (ranks_ok and response["passes"] and reflection["passes"] and
+    passed = (ranks_ok and sets["passes"] and response["passes"] and reflection["passes"] and
               uniform_residual <= uniform_budget and
               preparation_mismatch > 0.02)
     print(f"VERDICT: {'PASS' if passed else 'A CHECK FIRED'}")

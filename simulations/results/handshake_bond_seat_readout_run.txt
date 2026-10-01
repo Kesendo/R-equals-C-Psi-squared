@@ -4,6 +4,12 @@ SVD rank checks N=3..11: 63/63
 N=7 location ranks: [5, 4, 5, 2, 5, 4, 5]
 centre modes: (3, 5)  nodes: (2, 4, 6)
 seat 2 modes: (2, 3, 4, 5, 6)  nodes: ()
+Read-site sets, sizes 1..3, N=4..11: 770 sets; rank N-1-gcd(N+1, {j+1}) misses: modal 0, Frechet trace 0; dark-mode count != G-1: 0
+  controls against the observed rank: lcm of the divisors misses 418, largest single-site rank misses 48
+  Frechet entries vs modal on the whole grid: max error / model 0.231 (budget 16)
+  Frechet margins: smallest kept singular value 1.09e+08 x the bound, largest dropped 0.000764 x (0.772 x eps*sigma_max*max(shape))
+  modal margins: smallest kept 7.3e+12 x tol, largest dropped 0.092 x tol
+N=11 sites {2,7}: G=1, dark modes (), rank 9 = N-2 (each alone: 7, 6)
 Independent expm-Frechet response: max error / (eps*N*scale) = 0.191 (budget 16; PASS)
 24 N=7 all-bond comparisons (seats 2,3; t=1,1.3; J=1)
 N=7 centre bond=0 t=1e-8, J=1: modal=-2.946278e-34 direct=-2.946278e-34 leading=-2.946278e-34; relative error 3.48e-15 (budget 1e-6)

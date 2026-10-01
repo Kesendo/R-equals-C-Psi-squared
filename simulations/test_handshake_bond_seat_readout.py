@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import importlib
 import sys
+from functools import reduce
+from itertools import combinations
 from math import gcd
 from pathlib import Path
 
@@ -162,6 +164,68 @@ def test_rank_gate_rejects_a_wrong_bond_transition_matrix(monkeypatch):
     assert not module.modal_rank_report(7, 3)["passes"]
 
 
+def test_set_rank_report_matches_the_gcd_of_the_site_divisors():
+    module = producer()
+    for n in range(3, 12):
+        for size in (1, 2, 3):
+            for seats in combinations(range(n), size):
+                g = reduce(gcd, (s + 1 for s in seats), n + 1)
+                r = module.set_rank_report(n, seats)
+                assert r["observed"] == n - 1 - g
+                assert r["passes"]
+    # a singleton is the single-site location rank
+    for seat in range(9):
+        assert module.set_inventory(9, (seat,))["rank"] == module.seat_inventory(9, seat)["rank"]
+
+
+def test_set_trace_gate_passes_and_its_lcm_control_fires():
+    gate = producer().set_trace_gate(n_range=range(4, 9))
+    assert gate["passes"]
+    assert gate["frechet_failures"] == 0 and gate["modal_failures"] == 0
+    assert gate["dark_count_failures"] == 0
+    assert gate["lcm_misses"] > 0 and gate["max_single_misses"] > 0
+    assert gate["max_entry_error_ratio"] <= 16.0
+    assert gate["min_kept_over_bound"] > 1.0 > gate["max_dropped_over_bound"]
+    assert gate["modal_min_kept_over_tol"] > 1.0 > gate["modal_max_dropped_over_tol"]
+
+
+def test_set_trace_gate_rejects_a_rule_that_reads_one_site(monkeypatch):
+    module = producer()
+    original = module.set_inventory
+
+    def first_site_only(n, seats):
+        return original(n, tuple(sorted(set(seats)))[:1])
+
+    monkeypatch.setattr(module, "set_inventory", first_site_only)
+    gate = module.set_trace_gate(n_range=range(4, 8))
+    assert gate["frechet_failures"] > 0
+    assert not gate["passes"]
+
+
+def test_set_rank_gate_rejects_a_wrong_bond_transition_matrix(monkeypatch):
+    module = producer()
+    monkeypatch.setattr(module, "transition_matrix",
+                        lambda n: np.ones((n - 1, n)))
+    assert not module.set_rank_report(11, (2, 7))["passes"]
+
+
+def test_set_rank_gate_sees_a_balanced_column_mutation(monkeypatch):
+    # Copying one visible mode's bond direction onto another keeps every
+    # column nonzero, so no single-column check notices; the stacked rank does.
+    module = producer()
+    original = module.transition_matrix
+
+    def corrupted(n):
+        m = original(n)
+        if n == 11:
+            m[:, 2] = m[:, 3]
+        return m
+
+    assert module.set_rank_report(11, (2, 7))["passes"]
+    monkeypatch.setattr(module, "transition_matrix", corrupted)
+    assert not module.set_rank_report(11, (2, 7))["passes"]
+
+
 def test_direct_derivative_has_quadratic_central_difference_convergence():
     direct = producer().direct_population_slope(7, 2, 0, 1.0)
     n = 7
@@ -281,5 +345,10 @@ def test_producer_prints_its_scope_and_n7_findings(capsys):
     assert "leading=-2.946278e-34" in output
     assert "N=7 location ranks: [5, 4, 5, 2, 5, 4, 5]" in output
     assert "centre modes: (3, 5)" in output
+    assert "770 sets; rank N-1-gcd(N+1, {j+1}) misses: modal 0, Frechet trace 0; dark-mode count != G-1: 0" in output
+    assert "lcm of the divisors misses 418" in output
+    assert "max error / model 0.231" in output
+    assert "largest single-site rank misses 48" in output
+    assert "N=11 sites {2,7}: G=1, dark modes (), rank 9 = N-2 (each alone: 7, 6)" in output
     assert "PTF alpha" in output
     assert "VERDICT: PASS" in output
