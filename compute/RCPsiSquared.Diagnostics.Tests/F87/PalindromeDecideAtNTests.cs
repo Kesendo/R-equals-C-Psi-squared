@@ -86,6 +86,28 @@ public class PalindromeDecideAtNTests
             PalindromeSoftCertifier.DecideAtN(hardPair, 4).HardStrategy);
     }
 
+    // A pairing set broken by a coefficient below any float tolerance: XXZ − YYZ is a pure pairing, a 1e−13
+    // XZX term adds a hopping piece. The graph reads the broken row exactly at every size of that term, and
+    // DecideAtN must say Hard; the pure-pairing test must see the term too.
+    [Theory]
+    [InlineData(1e-13)]
+    [InlineData(1e-11)]
+    [InlineData(1e-300)]
+    public void A_Tiny_Hopping_Term_Breaks_The_Pairing_Exactly(double eps)
+    {
+        var terms = new[]
+        {
+            new PauliTerm(new[] { X, X, Z }, Complex.One),
+            new PauliTerm(new[] { Y, Y, Z }, -Complex.One),
+            new PauliTerm(new[] { X, Z, X }, new Complex(eps, 0)),
+        };
+        Assert.Equal((false, 2, 0), PalindromeSoftCertifier.ComplementConnectionAtN(terms, 4));
+        Assert.Equal(PalindromeSoftCertifier.Decision.Hard, PalindromeSoftCertifier.DecideAtN(terms, 4).Verdict);
+        Assert.False(PalindromeSoftCertifier.IsPurePairing(terms));
+        Assert.True(PalindromeSoftCertifier.IsPurePairing(terms[..2]));
+        Assert.Equal((true, 8, 8), PalindromeSoftCertifier.ComplementConnectionAtN(terms[..2], 4));
+    }
+
     // An N-free soft certificate claims the palindrome at every N; the graph must agree wherever one is given.
     [Fact]
     public void Every_N_Free_Soft_Certificate_Holds_On_The_Graph()

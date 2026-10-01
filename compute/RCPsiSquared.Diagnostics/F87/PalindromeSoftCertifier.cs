@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using RCPsiSquared.Core.Numerics;
 using RCPsiSquared.Core.Pauli;
 using RCPsiSquared.Core.Symmetry;
 
@@ -74,8 +75,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// everything else to the spectral authority <see cref="PauliPairTrichotomy"/>. Anchor: F115 /
 /// <c>WindowedHardnessClaim</c>.</para>
 ///
-/// <para>Exact at one N: <see cref="DecideAtN"/> keeps <see cref="Decide"/>'s N-free verdicts and, where it is
-/// Undetermined, decides the row at the given N by the complement connection
+/// <para>Exact at one N: <see cref="DecideAtN"/> decides the row at the given N by the complement connection,
+/// returning <see cref="Decide"/>'s N-free verdict with its strategy where the two agree
 /// (<see cref="ComplementConnectionAtN"/>, Theorem 2 of
 /// <c>docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md</c>): on the open chain under Z dephasing on every
 /// site, for any real template set in any Klein cell, the palindrome holds exactly when every component of the hopping graph joined with its complement image
@@ -104,16 +105,21 @@ public static class PalindromeSoftCertifier
         Decision Verdict, SoftStrategy SoftStrategy, HardStrategy HardStrategy, string Reason);
 
     /// <summary>True iff the summed Hamiltonian is a pure pairing (every basis-edge Δn = ±2), detected
-    /// by a σ± decomposition: the mixed (hopping) pieces must cancel. N-independent.</summary>
+    /// by a σ± decomposition: the mixed (hopping) pieces must cancel. N-independent. Exact: every input
+    /// coefficient's real and imaginary parts are scaled to integers by one common power of two
+    /// (<see cref="ComplementConnectionGraph.DyadicIntegers"/>), and the σ± coefficients, sums of those
+    /// times ±1 and ±i, are accumulated as Gaussian integers and compared with zero, so a hopping piece of
+    /// any size, 1e−300 included, is seen.</summary>
     public static bool IsPurePairing(IReadOnlyList<PauliTerm> terms)
     {
-        // The σ± coefficients are the input coefficients scaled by ±1 and ±i, so a true zero is exact;
-        // this tolerance only absorbs float round-off in the ±i accumulation.
-        const double CoefficientTolerance = 1e-12;
+        var parts = ComplementConnectionGraph.DyadicIntegers(
+            terms.SelectMany(t => new[] { t.Coefficient.Real, t.Coefficient.Imaginary }).ToList());
         // Accumulate σ± coefficients keyed by (X/Y mask, Z mask, sign pattern ε). ε bit set = σ_- there.
-        var coeffs = new Dictionary<(ulong Xy, ulong Z, ulong Eps), Complex>();
-        foreach (var t in terms)
+        var coeffs = new Dictionary<(ulong Xy, ulong Z, ulong Eps), GaussianInteger>();
+        for (int ti = 0; ti < terms.Count; ti++)
         {
+            var t = terms[ti];
+            var exact = new GaussianInteger(parts[2 * ti], parts[2 * ti + 1]);
             ulong xyMask = 0, zMask = 0;
             var xyPositions = new List<int>();
             for (int i = 0; i < t.Letters.Count; i++)
@@ -126,7 +132,7 @@ public static class PalindromeSoftCertifier
             for (ulong bits = 0; bits < 4; bits++)       // the 4 sign patterns over the 2 X/Y positions pinned above
             {
                 ulong eps = 0;
-                Complex coeff = t.Coefficient;
+                GaussianInteger coeff = exact;
                 for (int p = 0; p < 2; p++)
                 {
                     int pos = xyPositions[p];
@@ -134,10 +140,10 @@ public static class PalindromeSoftCertifier
                     if (minus) eps |= 1UL << pos;
                     // X: coeff 1 for both signs. Y = -i σ_+ + i σ_-: -i for σ_+, +i for σ_-.
                     if (t.Letters[pos] == PauliLetter.Y)
-                        coeff *= minus ? Complex.ImaginaryOne : -Complex.ImaginaryOne;
+                        coeff = coeff * (minus ? GaussianInteger.I : -GaussianInteger.I);
                 }
                 var key = (xyMask, zMask, eps);
-                coeffs[key] = coeffs.GetValueOrDefault(key) + coeff;
+                coeffs[key] = (coeffs.TryGetValue(key, out var old) ? old : GaussianInteger.Zero) + coeff;
             }
         }
         bool anyPure = false;
@@ -147,9 +153,9 @@ public static class PalindromeSoftCertifier
             bool allMinus = kv.Key.Eps == kv.Key.Xy;
             if (allPlus || allMinus)
             {
-                if (kv.Value.Magnitude > CoefficientTolerance) anyPure = true;
+                if (kv.Value != GaussianInteger.Zero) anyPure = true;
             }
-            else if (kv.Value.Magnitude > CoefficientTolerance)
+            else if (kv.Value != GaussianInteger.Zero)
             {
                 return false;                                     // a surviving mixed (hopping) piece
             }
@@ -531,8 +537,12 @@ public static class PalindromeSoftCertifier
         return (near == far, near, far);
     }
 
-    /// <summary><see cref="Decide"/>, and where it is Undetermined, the complement connection at this N: Soft
-    /// when the palindrome holds (soft or truly, which Theorem 2 does not separate), Hard when it fails. Exact
+    /// <summary><see cref="Decide"/> checked against the complement connection at this N, which decides: where
+    /// Decide is Undetermined the graph's verdict is returned, Soft when the palindrome holds (soft or truly,
+    /// which Theorem 2 does not separate), Hard when it fails; where Decide's N-free verdict agrees with the
+    /// graph it is returned with its strategy, and where it disagrees the call throws, since one of two exact
+    /// routes would then be wrong. Rows with a complex coefficient are outside the graph and get Decide's
+    /// verdict alone. Exact
     /// at <paramref name="n"/> on the open chain under Z dephasing, and only there: a caller reading
     /// <see cref="PalindromeDecision.Verdict"/> alone cannot tell this N-specific verdict from Decide's N-free
     /// ones, the strategy and the reason can. Past <see cref="MaxComplementConnectionN"/> the Undetermined
@@ -540,8 +550,17 @@ public static class PalindromeSoftCertifier
     public static PalindromeDecision DecideAtN(IReadOnlyList<PauliTerm> terms, int n)
     {
         var d = Decide(terms, n);
-        if (d.Verdict != Decision.Undetermined || n > MaxComplementConnectionN) return d;
+        if (n > MaxComplementConnectionN || terms.Any(t => t.Coefficient.Imaginary != 0)) return d;
         var (palindrome, near, far) = ComplementConnectionAtN(terms, n);
+        if (d.Verdict != Decision.Undetermined)
+        {
+            // inside the graph's reach the exact route decides; an N-free certificate that disagrees with it
+            // is a finding about that certificate, never a verdict to pass on
+            if ((d.Verdict == Decision.Soft) == palindrome) return d;
+            throw new InvalidOperationException(
+                $"the N-free certificate ({d.Reason}) contradicts the exact complement connection at N = {n} " +
+                $"(near {near}, far {far}, palindrome {palindrome})");
+        }
         string reason = $"exact at N = {n} by the complement connection (Theorem 2): near {near}, far {far}";
         return palindrome
             ? new PalindromeDecision(Decision.Soft, SoftStrategy.ComplementConnection, HardStrategy.None, "soft: " + reason)
