@@ -1108,10 +1108,10 @@ public class EndCountTests
     // Theorem 3 of the complement-connection proof at random weights, with Theorem 1's one-axis rows among them: Heisenberg bonds of random nonzero weights on the four graphs,
     // every site dephased along a random letter, random letter fields of random signed magnitudes.
     // The palindrome holds exactly when some letter c is no jump axis and every field is c, the
-    // colouring rule for a Heisenberg component; on every broken row the far end is zero, not merely
-    // short of the near end; and where the axes really are mixed (two letters or more) the far end
-    // is at most one-dimensional, the near end exactly one (Lemma A). About a third of the rows force one field letter, and some rows
-    // have one common axis (Theorem 1's class).
+    // colouring rule for a Heisenberg component; where the axes really are mixed (two letters or more)
+    // the near end is exactly one (Lemma A), the far end at most one, and on a broken row zero. About a
+    // third of the rows force one field letter, and some rows have one common axis (Theorem 1's class),
+    // where a broken row can keep a far end (pinned below in One_Common_Axis_Broken_Row_Keeps_A_Far_End).
     [Theory]
     [InlineData(3)]
     [InlineData(4)]
@@ -1144,11 +1144,33 @@ public class EndCountTests
                 bool colouring = "XYZ".Any(c => !axes.Contains(c) && fields.All(f => f == '.' || f == c));
                 Assert.Equal(colouring, EndCount.IsPalindrome(r));
                 if (colouring) { pal++; Assert.NotEmpty(e.Colourings()); }
-                else { broken++; Assert.Equal(0, e.ComplementConnection()!.Value.Good); }
+                else
+                {
+                    broken++;
+                    if (axes.Distinct().Count() > 1) Assert.Equal(0, e.ComplementConnection()!.Value.Good);
+                }
                 if (axes.Distinct().Count() > 1)
                     Assert.True(e.ComplementConnection()!.Value is { HoppingComponents: 1, Good: <= 1 }, $"{new string(axes)} {new string(fields)}");
             }
         Assert.True(pal > 50 && broken > 50, $"palindromic {pal}, broken {broken}");
+    }
+
+    // One common axis (Theorem 1's class): a broken row need not have an empty far end. Path of three,
+    // Heisenberg bonds 1 and 2, Z on every site, Z fields +5 and -5 on sites 0 and 1 cancelling in sum:
+    // no colouring (fields along the axis), near 4, far 2.
+    [Fact]
+    public void One_Common_Axis_Broken_Row_Keeps_A_Far_End()
+    {
+        var h = new List<(string, long)>();
+        foreach (var ((a, b), w) in new[] { ((0, 1), 1L), ((1, 2), 2L) })
+            foreach (char p in "XYZ") h.Add((Two(3, a, b, p), w));
+        h.Add((One(3, 0, 'Z'), 5)); h.Add((One(3, 1, 'Z'), -5));
+        var e = new EndCount(W, 3, h, Enumerable.Range(0, 3).Select(l => One(3, l, 'Z')).ToList());
+        var r = e.Verdict();
+        Assert.True(EndCount.IsExact(r));
+        Assert.False(EndCount.IsPalindrome(r));
+        var c = e.ComplementConnection()!.Value;
+        Assert.Equal((4, 2), (c.HoppingComponents, c.Good));
     }
 
     // Theorem 3 of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md at the inputs most likely to
