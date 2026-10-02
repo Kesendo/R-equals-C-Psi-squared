@@ -4145,8 +4145,12 @@ public static class OpenArcsRegistry
                 + "site 0, sites 1 and 2 free, fields X on 1 and Y on 2 of equal magnitude, and couplings with "
                 + "1/J01 + 1/J02 + 1/J12 = 0 (e.g. 3, 6, -2, where no automorphism fixes the dephased site), pairs with a "
                 + "one-dimensional far end carried by a non-Clifford element, a one-parameter family in closed form "
-                + "(PROOF_PALINDROME_COMPLEMENT_CONNECTION, Open; pinned in EndCountTests). The locus needs a negative "
-                + "coupling, so the one-weight sweeps could not meet it.",
+                + "(PROOF_PALINDROME_COMPLEMENT_CONNECTION; pinned in EndCountTests). For real nonzero s=J01, t=J02, r=J12, "
+                + "the common Z0-odd commutant of the bond Hamiltonian and X1+Y2 is exactly one-dimensional iff "
+                + "(s-t)(st+sr+tr)=0, zero otherwise; its generator squares to (s^2+t^2)^3 I. This exhausts carriers "
+                + "independent of the common field magnitude h, not carriers at an individual h (exact symbolic gate: "
+                + "simulations/triangle_common_carrier_gate.py). Fixed-field carriers, other field patterns and higher N "
+                + "remain open. The reciprocal locus requires mixed coupling signs, so the one-weight sweeps could not meet it.",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "
                 + "simulations/f138_palindrome_colouring.py). A single Pauli string in F158's far kernel is a colouring of "
                 + "the graph by lit letters, one per site that all its jumps light (bond P(x)P: both ends or neither "

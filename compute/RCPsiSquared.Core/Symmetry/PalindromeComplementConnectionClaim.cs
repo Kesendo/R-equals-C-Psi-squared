@@ -50,9 +50,16 @@ namespace RCPsiSquared.Core.Symmetry;
 /// of charge sectors, near = Σ dim Hom(ρ_q', ρ_q), far = Σ dim Hom(ρ_q', ρ̄_q), a count of good components where
 /// every sector space is at most one-dimensional; Theorem 4 is a charge on the undephased sites alone.</para>
 ///
+/// <para><b>Common triangle carrier.</b> With jump Z on site 0, Heisenberg couplings s=J01, t=J02, r=J12,
+/// all real and nonzero, and field h(X1+Y2), the common Z0-odd commutant of the bond Hamiltonian and X1+Y2
+/// is a line iff (s-t)(st+sr+tr)=0, zero otherwise. Its generator squares to (s²+t²)³ I. This classifies
+/// one invertible carrier independent of h, not every fixed-h palindrome. Exact symbolic gate:
+/// <c>simulations/triangle_common_carrier_gate.py</c>.</para>
+///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
-/// <c>SectorConnection</c> (Theorem 4), <c>LocalSystem</c> (Theorem 6) and <c>ChargeSectors</c> (Theorem 7), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
-/// end count's exact verdict and counts; Theorem 5 against the end count's exact verdict directly. Live lab: <c>inspect --root complement</c>
+/// <c>SectorConnection</c> (Theorem 4) are held against exact end-count verdicts and certified counts;
+/// <c>LocalSystem</c> (Theorem 6) and <c>ChargeSectors</c> (Theorem 7) compare modular upper counts.
+/// These gates live in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c>; Theorem 5 compares the exact verdict directly. Live lab: <c>inspect --root complement</c>
 /// (<c>ComplementConnectionWitness</c>), which shares no code with the gate, reads Theorems 2 and 4 on its own
 /// graph (with <c>--bonds ZZ</c> for undephased sites that keep a letter), prints Theorem 1's, 3's or 5's rule
 /// beside the reading, and reads <c>twoendstrings</c> beside itself. The exact routine is
@@ -105,9 +112,11 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                "jump and every undephased site keeping a letter H conserves: H splits into " +
                "sectors of their bits, near = sum over sector pairs of hom(H_tau, H_sigma), far = the same against the complement " +
                "image, each hom a count of good components (Theorem 4). Heisenberg bonds on a connected graph with exactly one " +
-               "undephased site and letter fields: palindrome iff a colouring exists (Theorem 5); with two it fails (F138 (b))",
+               "undephased site and letter fields: palindrome iff a colouring exists (Theorem 5); with two it fails (F138 (b)). " +
+               "On the Heisenberg triangle with Z0, field h(X1+Y2), and real nonzero couplings s=J01, t=J02, r=J12, " +
+               "a common invertible carrier independent of h exists iff (s-t)(st+sr+tr)=0; its space is a line.",
                Tier.Tier1Derived,
-               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (primary: Theorems 1-5) + " +
+               "docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md (Theorems 1-7 and common triangle carrier) + " +
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (F158, section (f10)) + " +
                "docs/ANALYTICAL_FORMULAS.md (F138, whose converse holds exactly in three classes) + " +
                "experiments/THE_PALINDROME_AS_A_COLOURING.md (the colouring rule and the frame theorem)")
@@ -159,6 +168,13 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "spanning tree carries invertible blocks. Gate: " +
                          "EndCount.SectorConnection in MirrorWorld; live: inspect --root complement --bonds ZZ with " +
                          "undephased sites, which prints the cross-sector part apart.");
+
+            yield return new InspectableNode("a common carrier for the triangle's whole field line",
+                summary: "Heisenberg triangle, jump Z0 only, field h(X1+Y2), real nonzero s=J01, t=J02, r=J12: " +
+                         "the common odd commutant of the bond Hamiltonian and X1+Y2 is a line exactly when " +
+                         "(s-t)(st+sr+tr)=0, including the branch intersection, and zero otherwise. Its generator " +
+                         "squares to (s^2+t^2)^3 I. This classifies one invertible carrier independent of h, not " +
+                         "every fixed-h palindrome. Exact symbolic gate: simulations/triangle_common_carrier_gate.py.");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +

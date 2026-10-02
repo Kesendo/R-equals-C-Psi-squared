@@ -6602,11 +6602,17 @@ one magnitude tuple, (30, 22, 41) in hundredths, at which it holds on all three
 graphs at the full bond, and three tuples with a repeat, at which it fails on two
 graphs, two graphs and one. Calling that tuple generic would be inferring an open dense set from a
 single point, on the very axis this entry has just shown to be load-bearing.
-What the two failures have in common is
-measured and no more than that: the exceptions track the graph's own
-automorphisms and the bond's letter count, so the conditions look sufficient
-always and necessary only where the configuration carries no symmetry of its
-own, a reading and not a result. **Operators explaining the exceptions are
+In those uniform-bond sweeps the exceptions track the graph's automorphisms
+and the bond's letter count. Weighted bonds also admit exceptions without a
+weighted-graph symmetry: with jump Z on d and field h(X_u + Y_v), a Heisenberg
+triangle has a common invertible carrier independent of h exactly when
+(s − t)(st + sr + tr) = 0, for real nonzero s = J_du, t = J_dv, r = J_uv.
+The common space is one-dimensional on both branches, including their
+intersection. The s = t branch is SWAP; the e₂ = st + sr + tr = 0 branch
+contains non-Clifford carriers without a weighted-graph symmetry fixing d.
+This is a classification of one carrier for every h, not of all palindromes
+at a fixed h ([proof and exact gate](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#a-common-carrier-for-the-triangles-whole-field-line)).
+**Operators explaining the uniform-bond exceptions are
 exhibited.** All 78 P₃ rows of (b) carry one operator,
 U = SWAP₀₂·(n·σ)⊗(n·σ)⊗(n·σ), the end-site swap composed with the π rotation about
 an axis n applied to every site. On each of the 78 only the middle site is
