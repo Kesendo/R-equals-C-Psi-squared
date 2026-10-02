@@ -810,6 +810,275 @@ public sealed class EndCount : GameObject
         return good;
     }
 
+    // ---- undephased sites with invertible edge blocks: the local system ----
+
+    /// <summary>The reading of Theorem 6 of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md. Every
+    /// dephased site carries exactly one single-site jump, the undephased sites F are free (any letters).
+    /// Turned to Z on the dephased sites, H = Σ |x⟩⟨y| ⊗ H_xy with blocks on (C²)^⊗F, and H̄_xy = H_{x̄ȳ}
+    /// (the complement on the dephased bits). When the off-diagonal blocks of H and of H̄ are nonzero on the
+    /// same pairs and each component has a spanning tree whose blocks of H and of H̄ are invertible (a singular
+    /// chord does no harm), both ends are read at one base point x₀ per component: transport along a spanning tree, T_a = H_ab·T_b from the vertex b it was reached from
+    /// (T̄ likewise from H̄), and the generators g_ab = T_a⁻¹·H_ab·T_b over every ordered pair with
+    /// H_ab ≠ 0 and every vertex (ḡ likewise), the tree pairs left out since there g_ab = 1 exactly; near = Σ dim{m : g·m = m·g for every g},
+    /// far = Σ dim{d : ḡ·d = d·g for every g}. Null when a jump is not one letter on one site, a site
+    /// carries two jumps, there is no undephased site, the two supports differ, or at both primes some
+    /// component has no spanning tree of invertible blocks. The counts are nullities over GF(p) with i a square root of −1, each end the
+    /// smaller over the primes at which every block is invertible: upper bounds, as the end count's are. At
+    /// most 3 undephased sites and N ≤ 8.</summary>
+    public (int Near, int Far, int Components)? LocalSystem() => LocalSystemAt(null)?.Counts;
+
+    /// <summary>For each component, do the generator tuples g and ḡ give equal traces on every word of
+    /// length 1 .. maxLength? Theorem 6: over every word, exactly the palindrome; with one undephased site,
+    /// words up to length 3 suffice. Null where <see cref="LocalSystem"/> is. Read at every usable prime
+    /// and true only if equal at all of them.</summary>
+    public bool? LocalSystemTracesAgree(int maxLength)
+    {
+        if (maxLength < 1) throw new ArgumentOutOfRangeException(nameof(maxLength), maxLength, "words have length 1 or more");
+        if (N > 6) throw new InvalidOperationException("the words number K^L in K generators; N <= 6");
+        bool any = false;
+        foreach (long p in ModP.Primes)
+        {
+            var r = LocalSystemAt(p);
+            if (r is null) continue;
+            any = true;
+            int n = r.Value.Dim;
+            foreach (var (g, gb) in r.Value.Gens)
+            {
+                var stack = new Stack<(long[,] A, long[,] B, int Len)>();
+                stack.Push((Identity(n), Identity(n), 0));
+                while (stack.Count > 0)
+                {
+                    var (a, b, len) = stack.Pop();
+                    if (len >= maxLength) continue;
+                    for (int k = 0; k < g.Count; k++)
+                    {
+                        var a2 = MatMul(a, g[k], p); var b2 = MatMul(b, gb[k], p);
+                        long ta = 0, tb = 0;
+                        for (int i = 0; i < n; i++) { ta = ModP.AddMod(ta, a2[i, i], p); tb = ModP.AddMod(tb, b2[i, i], p); }
+                        if (ta != tb) return false;
+                        stack.Push((a2, b2, len + 1));
+                    }
+                }
+            }
+        }
+        return any ? true : null;
+    }
+
+    ((int Near, int Far, int Components) Counts, int Dim, List<(List<long[,]> G, List<long[,]> GBar)> Gens)? LocalSystemAt(long? only)
+    {
+        if (N > 8) throw new InvalidOperationException("the blocks are read on 2^N amplitudes; N <= 8");
+        var axis = new char[N];
+        foreach (var a in jumpStrings)
+        {
+            var sites = Enumerable.Range(0, N).Where(l => Touches(a, l)).ToList();
+            if (sites.Count != 1 || axis[sites[0]] != '\0') return null;
+            axis[sites[0]] = a.Letter(sites[0]);
+        }
+        var free = Enumerable.Range(0, N).Where(l => axis[l] == '\0').ToList();
+        var deph = Enumerable.Range(0, N).Where(l => axis[l] != '\0').ToList();
+        if (free.Count == 0 || free.Count > 3) return null;
+        int m = deph.Count, f = free.Count, n = 1 << f, verts = 1 << m, all = verts - 1;
+
+        int? bestNear = null, bestFar = null;
+        int compsOut = 0;
+        List<(List<long[,]>, List<long[,]>)>? gensOut = null;
+        foreach (long p in only is { } q ? new[] { q } : ModP.Primes)
+        {
+            long iu = ModP.SqrtMinusOne(p);
+            var blocks = new Dictionary<(int, int), long[,]>();
+            foreach (var (t, c) in terms)
+            {
+                // the dephased part, turned: flip mask, phase and sign on each column y
+                int xs = 0, zs = 0, ny = 0, sign = 1;
+                for (int j = 0; j < m; j++)
+                {
+                    char ch = t.Letter(deph[j]);
+                    if (ch == 'I') continue;
+                    var (nl, sg) = TurnToZ(ch, axis[deph[j]]);
+                    sign *= sg;
+                    if (nl is 'X' or 'Y') xs |= 1 << j;
+                    if (nl is 'Y' or 'Z') zs |= 1 << j;
+                    if (nl == 'Y') ny++;
+                }
+                var pf = Identity(1);
+                foreach (int u in free) pf = Kron(pf, Letter(t.Letter(u), iu, p), p);
+                for (int y = 0; y < verts; y++)
+                {
+                    int k = (ny + 2 * System.Numerics.BitOperations.PopCount((uint)(zs & y))) & 3;
+                    long s = ModP.MulMod(ModP.Mod(sign * c, p), ModP.ModPow(iu, k, p), p);
+                    int x = y ^ xs;
+                    var blk = blocks.TryGetValue((x, y), out var o) ? o : new long[n, n];
+                    for (int r = 0; r < n; r++)
+                        for (int cc = 0; cc < n; cc++)
+                            blk[r, cc] = ModP.AddMod(blk[r, cc], ModP.MulMod(s, pf[r, cc], p), p);
+                    blocks[(x, y)] = blk;
+                }
+            }
+            foreach (var key in blocks.Keys.Where(k => IsZero(blocks[k])).ToList()) blocks.Remove(key);
+            var bar = blocks.ToDictionary(kv => (kv.Key.Item1 ^ all, kv.Key.Item2 ^ all), kv => kv.Value);
+            var edges = blocks.Keys.Where(k => k.Item1 != k.Item2).ToHashSet();
+            if (!edges.SetEquals(bar.Keys.Where(k => k.Item1 != k.Item2))) continue;   // a block may vanish mod p only
+            // the tree runs only through pairs whose blocks of H and of H̄ are both invertible
+            var inv = new Dictionary<(int, int), long[,]>();
+            var invBar = new Dictionary<(int, int), long[,]>();
+            foreach (var e in edges)
+            {
+                var a = Inverse(blocks[e], p); var b = Inverse(bar[e], p);
+                if (a is not null && b is not null) { inv[e] = a; invBar[e] = b; }
+            }
+            bool singular = false;
+            long[,] Get(Dictionary<(int, int), long[,]> d, int x, int y) => d.TryGetValue((x, y), out var v) ? v : new long[n, n];
+
+            var seen = new bool[verts];
+            int near = 0, far = 0, comps = 0;
+            var gens = new List<(List<long[,]>, List<long[,]>)>();
+            for (int x0 = 0; x0 < verts; x0++)
+            {
+                if (seen[x0]) continue;
+                comps++;
+                var T = new Dictionary<int, long[,]> { [x0] = Identity(n) };
+                var Tb = new Dictionary<int, long[,]> { [x0] = Identity(n) };
+                var Ti = new Dictionary<int, long[,]> { [x0] = Identity(n) };
+                var Tbi = new Dictionary<int, long[,]> { [x0] = Identity(n) };
+                var comp = new List<int> { x0 };
+                var tree = new HashSet<(int, int)>();
+                seen[x0] = true;
+                var queue = new Queue<int>(); queue.Enqueue(x0);
+                while (queue.Count > 0)
+                {
+                    int x = queue.Dequeue();
+                    foreach (var (a, b) in edges)
+                    {
+                        if (b != x || seen[a] || !inv.ContainsKey((a, b))) continue;   // H_ab maps V_b = V_x to V_a
+                        T[a] = MatMul(blocks[(a, b)], T[b], p); Tb[a] = MatMul(bar[(a, b)], Tb[b], p);
+                        Ti[a] = MatMul(Ti[b], inv[(a, b)], p); Tbi[a] = MatMul(Tbi[b], invBar[(a, b)], p);
+                        seen[a] = true; comp.Add(a); queue.Enqueue(a); tree.Add((a, b));
+                    }
+                }
+                var cset = comp.ToHashSet();
+                // the whole component, through every pair: the invertible tree must span it
+                var whole = new HashSet<int> { x0 };
+                var wq = new Stack<int>(); wq.Push(x0);
+                while (wq.Count > 0)
+                {
+                    int x = wq.Pop();
+                    foreach (var (a, b) in edges)
+                        if (b == x && whole.Add(a)) wq.Push(a);
+                }
+                if (!whole.SetEquals(cset)) { singular = true; break; }
+                var g = new List<long[,]>(); var gb = new List<long[,]>();
+                foreach (int x in comp)
+                {
+                    g.Add(MatMul(Ti[x], MatMul(Get(blocks, x, x), T[x], p), p));
+                    gb.Add(MatMul(Tbi[x], MatMul(Get(bar, x, x), Tb[x], p), p));
+                }
+                foreach (var (a, b) in edges.Where(e => cset.Contains(e.Item1) && !tree.Contains(e)))
+                {
+                    g.Add(MatMul(Ti[a], MatMul(blocks[(a, b)], T[b], p), p));
+                    gb.Add(MatMul(Tbi[a], MatMul(bar[(a, b)], Tb[b], p), p));
+                }
+                near += n * n - IntertwinerRank(g, g, n, p);
+                far += n * n - IntertwinerRank(g, gb, n, p);
+                gens.Add((g, gb));
+            }
+            if (singular) continue;
+            // each end is an upper bound on its own, so each takes its smaller value over the primes
+            bestNear = bestNear is { } bn ? Math.Min(bn, near) : near;
+            bestFar = bestFar is { } bf ? Math.Min(bf, far) : far;
+            compsOut = comps; gensOut = gens;
+        }
+        return bestNear is { } nn && bestFar is { } ff ? ((nn, ff, compsOut), n, gensOut!) : null;
+    }
+
+    /// <summary>Rank of the linear map d ↦ (gb_k·d − d·g_k)_k on n×n matrices, over GF(p).</summary>
+    static int IntertwinerRank(List<long[,]> g, List<long[,]> gb, int n, long p)
+    {
+        var rows = new List<long[]>();
+        for (int k = 0; k < g.Count; k++)
+            for (int r = 0; r < n; r++)
+                for (int c = 0; c < n; c++)
+                {
+                    // entry (r, c) of gb·d − d·g as a linear form in the n² unknowns d[i, j] (index i*n + j)
+                    var row = new long[n * n];
+                    for (int j = 0; j < n; j++) row[j * n + c] = ModP.AddMod(row[j * n + c], gb[k][r, j], p);
+                    for (int i = 0; i < n; i++) row[r * n + i] = ModP.Mod(row[r * n + i] - g[k][i, c], p);
+                    rows.Add(row);
+                }
+        return ModP.Rank(rows, p);
+    }
+
+    static long[,] Identity(int n)
+    {
+        var a = new long[n, n];
+        for (int i = 0; i < n; i++) a[i, i] = 1;
+        return a;
+    }
+
+    static bool IsZero(long[,] a)
+    {
+        foreach (long v in a) if (v != 0) return false;
+        return true;
+    }
+
+    static long[,] Letter(char ch, long iu, long p) => ch switch
+    {
+        'I' => new long[,] { { 1, 0 }, { 0, 1 } },
+        'X' => new long[,] { { 0, 1 }, { 1, 0 } },
+        'Y' => new long[,] { { 0, p - iu }, { iu, 0 } },
+        'Z' => new long[,] { { 1, 0 }, { 0, p - 1 } },
+        _ => throw new ArgumentException($"no letter {ch}"),
+    };
+
+    static long[,] Kron(long[,] a, long[,] b, long p)
+    {
+        int ra = a.GetLength(0), rb = b.GetLength(0);
+        var o = new long[ra * rb, ra * rb];
+        for (int i = 0; i < ra; i++)
+            for (int j = 0; j < ra; j++)
+                for (int k = 0; k < rb; k++)
+                    for (int l = 0; l < rb; l++)
+                        o[i * rb + k, j * rb + l] = ModP.MulMod(a[i, j], b[k, l], p);
+        return o;
+    }
+
+    static long[,] MatMul(long[,] a, long[,] b, long p)
+    {
+        int n = a.GetLength(0);
+        var o = new long[n, n];
+        for (int i = 0; i < n; i++)
+            for (int k = 0; k < n; k++)
+            {
+                if (a[i, k] == 0) continue;
+                for (int j = 0; j < n; j++) o[i, j] = ModP.AddMod(o[i, j], ModP.MulMod(a[i, k], b[k, j], p), p);
+            }
+        return o;
+    }
+
+    static long[,]? Inverse(long[,] a, long p)
+    {
+        int n = a.GetLength(0);
+        var mt = new long[n, 2 * n];
+        for (int i = 0; i < n; i++) { for (int j = 0; j < n; j++) mt[i, j] = a[i, j]; mt[i, n + i] = 1; }
+        for (int c = 0; c < n; c++)
+        {
+            int piv = -1;
+            for (int r = c; r < n; r++) if (mt[r, c] != 0) { piv = r; break; }
+            if (piv < 0) return null;
+            for (int j = 0; j < 2 * n; j++) (mt[c, j], mt[piv, j]) = (mt[piv, j], mt[c, j]);
+            long iv = ModP.ModInverse(mt[c, c], p);
+            for (int j = 0; j < 2 * n; j++) mt[c, j] = ModP.MulMod(mt[c, j], iv, p);
+            for (int r = 0; r < n; r++)
+            {
+                if (r == c || mt[r, c] == 0) continue;
+                long fct = mt[r, c];
+                for (int j = 0; j < 2 * n; j++) mt[r, j] = ModP.Mod(mt[r, j] - ModP.MulMod(fct, mt[c, j], p), p);
+            }
+        }
+        var o = new long[n, n];
+        for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) o[i, j] = mt[i, n + j];
+        return o;
+    }
+
     // ---- the far element a Clifford symmetry is ----
 
     /// <summary>A Clifford symmetry of (H, jumps), read as what it does to the terms: term i of H goes to

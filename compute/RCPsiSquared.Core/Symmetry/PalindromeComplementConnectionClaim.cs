@@ -38,8 +38,15 @@ namespace RCPsiSquared.Core.Symmetry;
 /// the palindrome holds exactly when a colouring exists, F138's converse a third time; with two undephased
 /// sites it fails (F138 (b), the SWAP rows).</para>
 ///
+/// <para><b>Theorem 6.</b> Undephased sites that keep no letter, wherever each component has a spanning tree of
+/// invertible blocks H_xy of H over the dephased bits (for H and for its complement image, on the same support):
+/// the connection is a local system; transported along a spanning tree to one base point per component, both ends are the commutant and
+/// the intertwiners of finitely many generators of size 2^|F|, and the palindrome holds exactly when the
+/// generator tuples of H and of its complement image are simultaneously similar, decided by traces of words,
+/// of length at most 3 with one undephased site.</para>
+///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
-/// <c>SectorConnection</c> (Theorem 4), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
+/// <c>SectorConnection</c> (Theorem 4) and <c>LocalSystem</c> (Theorem 6), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
 /// end count's exact verdict and counts; Theorem 5 against the end count's exact verdict directly. Live lab: <c>inspect --root complement</c>
 /// (<c>ComplementConnectionWitness</c>), which shares no code with the gate, reads Theorems 2 and 4 on its own
 /// graph (with <c>--bonds ZZ</c> for undephased sites that keep a letter), prints Theorem 1's, 3's or 5's rule
@@ -143,15 +150,17 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "problems read between two sectors: near = sum of hom(H_tau, H_sigma), far = sum of " +
                          "hom(H_tau, bar H_sigma), each hom the good components of the graph of the two blocks. The " +
                          "cross-sector terms are what an undephased site adds. A Heisenberg or XX + YY bond touching the " +
-                         "site keeps no letter, and there the connection is matrix valued (open). Gate: " +
+                         "site keeps no letter, and there the connection is matrix valued: Theorem 6 reads it where a " +
+                         "spanning tree carries invertible blocks. Gate: " +
                          "EndCount.SectorConnection in MirrorWorld; live: inspect --root complement --bonds ZZ with " +
                          "undephased sites, which prints the cross-sector part apart.");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
                          "sites where each keeps a letter H conserves; Theorem 5: one undephased site under Heisenberg bonds with " +
-                         "letter fields, where no letter is kept. Otherwise an undephased site that keeps no letter lies outside " +
-                         "(the blocks stop commuting). Theorems 1, 3 and 5 need a connected graph: two " +
+                         "letter fields, where no letter is kept; Theorem 6: any undephased sites, wherever every component has " +
+                         "a spanning tree whose blocks of H and of its complement image are invertible. A component without " +
+                         "such a tree lies outside all six. Theorems 1, 3 and 5 need a connected graph: two " +
                          "disjoint Heisenberg bonds with axes X, Y and Y, Z and fields along each bond's third " +
                          "letter use three axes and pair, by ZZXX. Theorem 3 needs isotropic bonds; XXZ and XY " +
                          "under mixed axes are outside it.");

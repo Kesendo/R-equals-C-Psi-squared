@@ -1370,6 +1370,164 @@ public class EndCountTests
         Assert.True(EndCount.IsPalindrome(Triangle(-1, 2, 2).Verdict()));   // another point of the locus
     }
 
+    // Theorem 6, the local system: with a spanning tree of every component whose blocks of H and of H̄ are
+    // invertible and the two supports equal, both ends read at one base point per component from the transported generators equal the end
+    // count's own string-span counts, on random Pauli Hamiltonians at N = 2 to 4 with one or two undephased
+    // sites and random single-letter jumps on the rest (fixed seed). Both readings are nullities over GF(p), the
+    // smaller over the primes; they share no code (blocks and transports here, commutators on strings there).
+    [Fact]
+    public void Local_System_Counts_Equal_The_End_Count()
+    {
+        var rng = new Random(20261002 + 7);
+        int rows = 0, pal = 0, broken = 0, twoFree = 0;
+        for (int draw = 0; draw < 900 && rows < 250; draw++)
+        {
+            int n = rng.Next(2, 5);
+            int nFree = n > 2 && rng.Next(3) == 0 ? 2 : 1;
+            var free = Enumerable.Range(0, n).OrderBy(_ => rng.Next()).Take(nFree).ToHashSet();
+            var jumps = Enumerable.Range(0, n).Where(l => !free.Contains(l))
+                .Select(l => One(n, l, "XYZ"[rng.Next(3)])).ToList();
+            var h = new List<(string, long)>();
+            int nt = rng.Next(2, 7);
+            for (int k = 0; k < nt; k++)
+            {
+                var s = new string(Enumerable.Range(0, n).Select(_ => "IIXYZ"[rng.Next(5)]).ToArray());
+                if (s.Any(c => c != 'I')) h.Add((s, new long[] { 1, 2, 3, -1, -2, 5 }[rng.Next(6)]));
+            }
+            if (h.Count == 0) continue;
+            var e = new EndCount(W, n, h, jumps);
+            var ls = e.LocalSystem();
+            if (ls is null) continue;
+            var up = e.UpperCounts();
+            Assert.True((ls.Value.Near, ls.Value.Far) == (up.Near, up.Far),
+                $"N={n} jumps {string.Join(",", jumps)} H {string.Join(" + ", h.Select(t => $"{t.Item2}{t.Item1}"))}: " +
+                $"local system {ls.Value.Near}, {ls.Value.Far}; end count {up.Near}, {up.Far}");
+            rows++;
+            if (up.Near == up.Far) pal++; else broken++;
+            if (nFree == 2) twoFree++;
+        }
+        Assert.True(rows >= 200 && pal > 30 && broken > 30 && twoFree > 20,
+            $"rows {rows}, palindromic {pal}, broken {broken}, two undephased {twoFree}");
+    }
+
+    // Theorem 6 with one undephased site: traces of words of length <= 3 in the generators decide the palindrome,
+    // on every row where the end count's verdict is exact.
+    [Fact]
+    public void One_Undephased_Site_Words_Of_Length_Three_Decide()
+    {
+        var rng = new Random(20261002 + 11);
+        int rows = 0, pal = 0, broken = 0;
+        for (int draw = 0; draw < 900 && rows < 200; draw++)
+        {
+            int n = rng.Next(2, 5);
+            int u = rng.Next(n);
+            var jumps = Enumerable.Range(0, n).Where(l => l != u).Select(l => One(n, l, "XYZ"[rng.Next(3)])).ToList();
+            var h = new List<(string, long)>();
+            int nt = rng.Next(2, 7);
+            for (int k = 0; k < nt; k++)
+            {
+                var s = new string(Enumerable.Range(0, n).Select(_ => "IIXYZ"[rng.Next(5)]).ToArray());
+                if (s.Any(c => c != 'I')) h.Add((s, new long[] { 1, 2, 3, -1, -2, 5 }[rng.Next(6)]));
+            }
+            if (h.Count == 0) continue;
+            var e = new EndCount(W, n, h, jumps);
+            var agree = e.LocalSystemTracesAgree(3);
+            if (agree is null) continue;
+            var r = e.Verdict();
+            if (!EndCount.IsExact(r)) continue;
+            Assert.True(agree.Value == EndCount.IsPalindrome(r),
+                $"N={n} jumps {string.Join(",", jumps)} H {string.Join(" + ", h.Select(t => $"{t.Item2}{t.Item1}"))}: traces {agree}, verdict {r}");
+            rows++;
+            if (agree.Value) pal++; else broken++;
+        }
+        Assert.True(rows >= 150 && pal > 30 && broken > 30, $"rows {rows}, palindromic {pal}, broken {broken}");
+    }
+
+    // Length 3 is needed: on this row every word of length 1 or 2 has equal traces, a word of length 3 does not,
+    // and the row is broken (exactly). Jumps Z on site 0 and X on site 2, site 1 undephased.
+    [Fact]
+    public void Words_Of_Length_Two_Do_Not_Suffice()
+    {
+        var e = new EndCount(W, 3, new List<(string, long)>
+            { ("XYY", 1), ("IYI", 2), ("IIY", 3), ("ZXX", 3), ("IZX", 1) }, new[] { "ZII", "IIX" });
+        Assert.True(e.LocalSystemTracesAgree(2));
+        Assert.False(e.LocalSystemTracesAgree(3));
+        var r = e.Verdict();
+        Assert.True(EndCount.IsExact(r) && !EndCount.IsPalindrome(r), $"{r}");
+        Assert.Equal((1, 0), e.UpperCounts());
+        Assert.Equal((1, 0, 1), e.LocalSystem());
+    }
+
+    // The edge positives H_ab·H_ab^† carry weight: one edge, no vertex blocks, a block 2 + X that is invertible and
+    // not unitary, so H·H^† = 5 + 4X is not a scalar. Its commutant is 2-dimensional; the forward transports alone
+    // would leave all 4 of the 2 x 2 matrices. The local system meets the end count on this row and on its
+    // variants with a Y or a Z beside the X.
+    [Theory]
+    [InlineData("XX")]
+    [InlineData("XY")]
+    [InlineData("XZ")]
+    public void The_Edge_Positive_Is_A_Generator(string second)
+    {
+        var e = new EndCount(W, 2, new List<(string, long)> { ("XI", 2), (second, 1) }, new[] { "ZI" });
+        var ls = e.LocalSystem();
+        Assert.NotNull(ls);
+        var up = e.UpperCounts();
+        Assert.Equal((up.Near, up.Far), (ls!.Value.Near, ls.Value.Far));
+        Assert.Equal(2, up.Near);
+    }
+
+    // A singular chord does no harm: two dephased sites under Z, one undephased, the flip of both dephased bits
+    // carrying the rank-one block X + i(-1)^y Y = 2 tau on the undephased site (XXX + XYY, no scalar part), the
+    // flips of one bit invertible (2 + X and 3 + Z), so a four-cycle of invertible pairs spans the component. The tree avoids the singular pair and the counts still meet the end count.
+    [Fact]
+    public void A_Singular_Chord_Is_Read()
+    {
+        var e = new EndCount(W, 3, new List<(string, long)>
+            { ("XII", 2), ("XIX", 1), ("IXI", 3), ("IXZ", 1), ("XXX", 1), ("XYY", 1) }, new[] { "ZII", "IZI" });
+        var ls = e.LocalSystem();
+        Assert.NotNull(ls);
+        var up = e.UpperCounts();
+        Assert.Equal((up.Near, up.Far), (ls!.Value.Near, ls.Value.Far));
+        Assert.Equal((1, 0), (up.Near, up.Far));
+    }
+
+    // Both directions of every pair are generators. Keeping only the pairs (a, b) with a > b fails the edge-positive
+    // rows; keeping only those with a < b reads this row, broken (near 1, far 0), as far 1, a palindrome that is not
+    // there. Found by a search over 2,848 random rows, the only one of them on which that half fails.
+    [Fact]
+    public void Both_Directions_Of_Every_Pair_Are_Needed()
+    {
+        var e = new EndCount(W, 3, new List<(string, long)>
+            { ("XIZ", 5), ("XIY", 3), ("YZZ", 5), ("XII", 2), ("IZY", 3) }, new[] { "YII", "IXI" });
+        Assert.Equal((1, 0), e.UpperCounts());
+        Assert.Equal((1, 0), (e.LocalSystem()!.Value.Near, e.LocalSystem()!.Value.Far));
+    }
+
+    // Theorem 6 (a): a pair in the support of H and not of H̄ rules out an invertible far element, but the far end need
+    // not vanish, since such a pair is never a tree edge and a singular chord leaves room. H = (XII + XIZ + XZI + XZZ)
+    // + 2 IXI + 2 XXI under Z on the two dephased sites (the proof's row scaled by 2): near 2,
+    // far 1, broken; the local system declines it, the supports differing.
+    [Fact]
+    public void A_Mismatched_Support_Leaves_The_Far_End_Nonzero()
+    {
+        var e = new EndCount(W, 3, new List<(string, long)>
+            { ("XII", 1), ("XIZ", 1), ("XZI", 1), ("XZZ", 1), ("IXI", 2), ("XXI", 2) }, new[] { "ZII", "IZI" });
+        Assert.Equal((2, 1), e.UpperCounts());
+        Assert.False(EndCount.IsPalindrome(e.Verdict()));
+        Assert.Null(e.LocalSystem());
+    }
+
+    // Outside Theorem 6's reading: no undephased site (Theorem 2's case), or a component that only a singular block
+    // connects (the Heisenberg flip at a site with no transverse field, 2J·tau, of rank one).
+    [Fact]
+    public void Local_System_Declines_Where_It_Does_Not_Read()
+    {
+        var all = new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("YY", 1) }, new[] { "ZI", "IZ" });
+        Assert.Null(all.LocalSystem());
+        var heis = new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("YY", 1), ("ZZ", 1) }, new[] { "ZI" });
+        Assert.Null(heis.LocalSystem());
+    }
+
     // A jump on two sites that H does not join: the grammar keeps the two sites in one component (a
     // jump split between two components would make a product that anticommutes with nothing), so what
     // it returns passes its check, or it returns nothing. H = 3·ZI + 5·IZ, jump XX.
