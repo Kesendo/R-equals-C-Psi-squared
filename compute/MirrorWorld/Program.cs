@@ -1731,7 +1731,8 @@ if (args.Length > 0 && args[0] == "crack")
 
 // ---- run mode "endcount f138 m0 m1 m2 [out.csv] [topology]": F138's own three-site grid, read exactly ----
 // docs/ANALYTICAL_FORMULAS.md F138 (b): the full bond XX + YY + ZZ (weight 100 per letter) on three sites,
-// per site one dephasing letter or none and a field along +-X, +-Y, +-Z or none, 28^3 = 21,952 rows,
+// per site one dephasing letter or none and a field along +-X, +-Y, +-Z or none, 28^3 = 21,952 rows, the 343
+// with no jump skipped (21,609 read),
 // field magnitudes m0, m1, m2 (in hundredths; the committed tuple is 30 22 41, the coincident one 30 22 30).
 // Per row the end count's reading, the colouring if any, the lifted far element if any, and the number
 // of symmetries of (H, jumps) that move sites.

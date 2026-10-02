@@ -6,14 +6,16 @@ jump operator, all of them Hermitian and squaring to the identity, any strictly
 positive rate profile, any topology, any N, and any finite dimension. What the
 CRITERION decides is the eigenvalue multiset; sufficiency in fact delivers more,
 a full similarity `L ~ −L − 2σ`, so where the criterion holds the entire Jordan
-structure is reflection-symmetric (§(f8)). Three fences are load bearing rather
-than decorative: `A² = 1` (F137 recentres the palindrome for non-unitary jumps),
-`γ_l > 0` with at least one jump present (a zero rate drops a condition and
-can move the verdict; with no jump at all the equivalence holds trivially and
-only §(f5)'s odd-d corollary fails), and even TOTAL dimension d, which is not a
-condition on the LOCAL dimension: on a qutrit tensored with a qubit, d = 6, the
-row H = 0, A = 1₃ ⊗ Z pairs, with U = 1₃ ⊗ X. Two of the three are gated (10b and
-10c); `A² = 1` is the boundary of the class and no gate crosses it. The gates
+structure is reflection-symmetric (§(f8)). Two fences are load bearing rather
+than decorative: `A² = 1` (F137 recentres the palindrome for non-unitary jumps)
+and `γ_l > 0` with at least one jump present (a zero rate drops a condition and
+can move the verdict; with no jump at all the equivalence holds trivially, and
+§(f5)'s odd-d corollary, Lemma 3's 𝒩 ∩ 𝒲 = 0 and §(f9) fail). Even TOTAL dimension d is not a fence but a
+consequence: with a jump present no palindrome exists at odd d (§(f5)), and the
+theorem holds there with both sides false. It concerns the total dimension, not the
+local one: on a qutrit tensored with a qubit, d = 6, the row H = 0, A = 1₃ ⊗ Z pairs,
+with U = 1₃ ⊗ X. The rate fence is gated (10b) and the odd-d inequality behind the
+corollary (10c); `A² = 1` is the boundary of the class and no gate crosses it. The gates
 are of three kinds and only the first is exact in the strict sense: exact over
 ℚ(i) with Fraction arithmetic on named rows, exact over GF(p) at scale where a
 nullity can read too large, and a float route whose thresholds are gated on a
@@ -123,26 +125,27 @@ reviewers checked it against the stores at source.
   conditions months old and reads them as invariance, which the pairing-condition
   page already corrects.
   **And one page in exactly this territory:** [DEPOLARIZING_PALINDROME](../../experiments/DEPOLARIZING_PALINDROME.md)
-  §8 states an iff in exactly this territory, *"the palindrome holds under Pauli
+  §8 states an iff in exactly this territory, *"the Liouvillian palindrome holds under dephasing
   noise if and only if the noise has at most two Pauli axes"*, and it is the
   SAME-SITE reading, where F138 clause 1 and the pairing page answer the
   across-sites one (three axes on three different sites have a common
   anticommutant and the criterion carries no ceiling). Different objects, and
   the same-site one is where an iff can bite. That law is also **conditional on
-  H in a way its own page does not state**: the criterion says the U for
-  two-axis noise is the global product of the MISSING letter, so H may carry a
-  field along that letter and no other. Measured by that session, Z+X noise on
-  every site at N = 3 with U = ΠY: no field and a Y field both give residual
-  ~1e−14, a transverse X field 3.628 and a longitudinal Z field 1.694. The
-  Y-field row is the one nobody would guess, and it is a scope fence this
-  theorem owes that one.
+  H**, as that page's abstract states (its §8 theorem is stated for Heisenberg
+  coupling on any graph): the
+  criterion says the U for two-axis noise is the global product of the MISSING
+  letter, so H may carry a field along that letter and no other. Under Z + X noise
+  on every site with U = ΠY, a Y field commutes with U and an X or a Z field does
+  not, since conjugation by Y flips both. The Y-field row is the one nobody would
+  guess, and it is a scope fence this theorem owes that one.
 - **[`docs/GLOSSARY.md`](../GLOSSARY.md)** carries the far-end count measured
   three times and named only as modes: *"NONE at all under a generic Hermitian
   H, whose maximum rate falls short of 2Σγ entirely (measured at N = 3,
-  γ = 0.05: 4, 8 and 0 modes …)"*. Those three integers are `dim ker(L + 2σ)`
-  for three Hamiltonian families, reproduced here; the
-  store says **modes**, and it is Lemma 2 that licenses reading a mode count as
-  a nullity, so the identification is this file's step and not the glossary's.
+  γ = 0.05: 4, 8 and 0 modes …)"*. Those three integers count modes on the
+  line Re λ = −2σ. A count of modes on that line can include oscillating ones,
+  which §(f1) keeps out of the kernel, so such a count is `dim ker(L + 2σ)` only
+  where no mode on the line oscillates; Lemma 2 says only that at the point −2σ
+  itself the algebraic and geometric multiplicities agree.
   No headword for the criterion.
 - **[The OpenArcs registry](../../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs),
   and TWO arcs answered.**
@@ -239,8 +242,8 @@ because every generator is Hermitian. Write
 
 Since A_l² = 1, `A_l X A_l = ±X` is the same statement as `A_l X = ±X A_l`.
 
-**Three fences, all load bearing.** Two are gated (10b and 10c); `A² = 1` is
-the boundary of the class.
+**Two fences, both load bearing, and one consequence.** The rate fence is gated (10b);
+`A² = 1` is the boundary of the class; even total d follows (below).
 
 **γ_l > 0.** Not a formality. A rate set to zero removes that site's condition
 from both 𝒩 and 𝒲, and the verdict can move: on a ZZ bond with an X field on site
@@ -256,7 +259,7 @@ stratum where σ = 0 with jumps present; that is a different object. σ = 0 with
 positive rates would need **no jumps at all**, which the class excludes; there 𝒩
 and 𝒲 coincide, the two ends of the axis are one point, the spectrum of −i·ad_H
 is symmetric about 0 for any Hermitian H, and the equivalence holds trivially.
-Only §(f5)'s odd-d corollary fails without a jump.
+Without a jump §(f5)'s odd-d corollary fails, and so do Lemma 3's 𝒩 ∩ 𝒲 = 0 and §(f9).
 
 **A_l² = 1** is where the class ends. F137 records that under T1 jumps, which
 are not unitary, the palindrome survives about a different centre, which F137
@@ -267,9 +270,9 @@ as does a full depolarizing site (X, Y and Z each satisfy it). All three
 families are gated in §(g), and the last of them is F1's canonical break, which the criterion
 gets right from outside the sample.
 
-**Even total d.** Not assumed, but derived and then gated: §(f5) shows that with
-at least one jump no palindrome is possible at odd total d, so the theorem is
-true there with both sides false.
+**Even total d.** Not assumed, but derived: §(f5) shows that with at least one jump
+no palindrome is possible at odd total d, so the theorem is true there with both
+sides false; gate 10c checks the inequality dim 𝒲 < dim 𝒩 behind it at d = 3 and 5.
 
 ## (b) Lemma 1: the two ends are the commutant and the anticommutant
 
@@ -349,7 +352,7 @@ count by, with the ranks taken modulo two primes, and the route of
 
 **This is not new**, and the repo says where it lives: PROOF_CODIM1's window-edge
 lemma gives semisimplicity at every edge of a rate window, and by §(b)'s
-corollary 0 and −2σ are the two edges of this generator's window. It is written
+corollary 0 and −2σ are the two edges of the strip that holds this generator's spectrum. It is written
 out because the chain below consumes it, not because it is being claimed.
 
 Let M = L + 2σ. By §(b)'s corollary L is **dissipative** (Re⟨X, LX⟩ ≤ 0) and M
@@ -404,13 +407,15 @@ part and 2pq to the odd one. Hence
 
 with equality exactly when p_k = q_k in every fixed block. And there an
 invertible odd element exists blockwise: [[0,1],[1,0]] in the u-eigenbasis on a
-fixed block, and (x, −φ⁻¹(x)) with x invertible on a swapped pair. ∎
+fixed block, and (x, −φ(x)) with x invertible on a swapped pair, where β acts as
+(x, y) ↦ (φ⁻¹(y), φ(x)) for an isomorphism φ of the two copies. ∎
 
 That is the whole of Lemma 3, both halves, with no ideal, no corner and no
 recursion, and it is what turns the pairing-condition page's sampled predicate
-into a decided one: on every row that page reports as nonempty-but-singular,
-`dim 𝒲 < dim 𝒩`, and the inequality **proves** that no invertible element is
-hiding there.
+into a decided one: on every row that page reports as nonempty-but-singular the
+palindrome breaks, so by the theorem `dim 𝒲 < dim 𝒩` there (inferred, not computed
+row by row), and the inequality **proves** that no invertible element is hiding
+there.
 
 ## (e) The theorem
 
@@ -512,7 +517,9 @@ A = diag(1, 1, 1, −1) at d = 4 kills the palindrome for every Hamiltonian, and
 nothing in the gated scope exercises it, every jump family there (n̂·σ⃗, Pauli
 strings, depolarizing sites) being automatically traceless. Since a traceless
 involution needs an even dimension, odd d admits no such A_l at all, so at odd d
-**with at least one jump** the spectrum never pairs; gated at d = 3 and d = 5.
+**with at least one jump** the spectrum never pairs; gate 10c checks the inequality
+dim 𝒲 < dim 𝒩 that carries this at d = 3 and d = 5, a check of Lemma 3 at those
+dimensions rather than of the spectrum.
 
 The hypothesis is not a formality. With NO jump, 𝒩 and 𝒲 are the same space, and at d = 3 with
 H = diag(1, 2, 5)/7 the multiset IS reflection-closed, exactly. Note also that
@@ -581,9 +588,8 @@ FUNCTION of the Hamiltonian, A_l = f_l(H), then 𝒲 = 0 and the spectrum never
 pairs, at any rate profile and whatever H is. One line: W ∈ 𝒲 commutes with H,
 hence with f_l(H) = A_l, so A_l W A_l = A_l² W = +W, which contradicts
 A_l W A_l = −W unless W = 0. Meanwhile 𝒩 is as large as H's own commutant, so
-the two counts are as far apart as they get. Measured on 12 rows at d = 4, 6, 8
-with A = sign(H − c), which is Hermitian, squares to 1 and is therefore squarely
-INSIDE the class: dim ker L = d and dim ker(L + 2σ) = 0 on every one.
+the two counts are as far apart as they get. A = sign(H − c), which is Hermitian
+and squares to 1, is such a jump squarely INSIDE the class.
 
 The physical reading is worth the sentence, because it is the sharpest thing the
 criterion says without any computation at all: **a channel that watches in the
@@ -591,7 +597,7 @@ system's own energy basis cannot produce a palindrome**. The pairing needs the
 watching to be transverse to the turning in the strong sense of anticommuting
 with it, and a function of H is the exact opposite of that.
 
-**(f10) With every site dephased, the criterion is a flat connection.** When every site carries exactly one single-site Pauli jump, turning each jump into Z makes the dark span the diagonal matrices and the lit span X^⊗N times them, and the far end becomes the flat sections of the connection d_y / d_x = H_xy / H_x̄ȳ on H's hopping graph over bitstrings: the palindrome holds exactly when every component carries one. For Heisenberg bonds on a connected graph under uniform Z it follows that the palindrome holds exactly when no field lies along Z and the fields do not use both X and Y, F138's converse holding in that class; under mixed axes with Heisenberg bonds on a connected graph, exactly when two axes occur and every field lies along the third letter, the near end one-dimensional; and with the dephased sites each under one single-site jump and every undephased site keeping a letter H conserves, both ends split into sums over pairs of sectors of the same scalar problem; and under Heisenberg bonds on a connected graph with letter fields and exactly one undephased site, the palindrome holds exactly when a colouring exists. Proof and gates: [PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md).
+**(f10) With every site dephased, the criterion is a flat connection.** When every site carries exactly one single-site Pauli jump, turning each jump into Z makes the dark span the diagonal matrices and the lit span X^⊗N times them, and the far end becomes the flat sections of the connection d_y / d_x = H_xy / H_x̄ȳ on H's hopping graph over bitstrings: the palindrome holds exactly when every component carries one. For Heisenberg bonds on a connected graph under uniform Z, with fields along letters, it follows that the palindrome holds exactly when no field lies along Z and the fields do not use both X and Y, F138's converse holding in that class; under mixed axes with Heisenberg bonds on a connected graph, exactly when two axes occur and every field lies along the third letter, the near end one-dimensional; and with the dephased sites each under one single-site jump and every undephased site keeping a letter H conserves, both ends split into sums over pairs of sectors of the same scalar problem; and under Heisenberg bonds on a connected graph with letter fields and exactly one undephased site, the palindrome holds exactly when a colouring exists. Proof and gates: [PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md).
 
 ## (g) What is gated, and how
 
@@ -601,6 +607,10 @@ and the exceptions are named rather than covered by a blanket: §(f1)'s naming
 argument, §(f6)'s `ker L† = ker L`, and §(d)'s graded-algebra step (the
 Wedderburn decomposition of ℬ = 𝒩 ⊕ 𝒲) are reasoned and not gated; the
 step's conclusion, invertible element ⟺ equal counts, is gated on 5,000 rows.
+Also not gated, each checked by hand or by a scout only: §(f9) (noise that is a
+function of H), the qutrit ⊗ qubit row at d = 6, §(f5)'s `diag(1, 1, 1, −1)` at
+d = 4, the DEPOLARIZING Y-field row, and the sufficiency of §(f5)'s condition
+over every word.
 §(f5)'s odd-d rows vary H while holding A fixed at `diag(1, …, 1, −1)`.
 The gate is built in **three** layers, deliberately, and the layers encode the
 conditions differently (the exact layer as `A⊗Aᵀ ± 1`, the modular layer as a
@@ -645,7 +655,10 @@ certificate."* A wrongly-True palindrome on a row where the criterion also says
 yes records no false positive, so that one can make a gate pass rather than
 fail. The probability is negligible (degree at most 1024 against p near 10⁹, six
 points, three primes on the largest block) but the direction is the unsafe one
-and saying so is the point. What §(d) removes is the sampling from the
+and saying so is the point. A second way to a wrong True is a bad prime, at which
+p(x) − p(−x−2σ) vanishes identically mod p although it does not over ℚ(i); more
+points cannot catch that, only more primes, and the 1,875 rows of gates 7 and 8
+are read at one. What §(d) removes is the sampling from the
 CRITERION, which is now two ranks.
 
 **All 103 gates pass.** The criterion is scored against the palindrome on
@@ -663,6 +676,11 @@ CRITERION, which is now two ranks.
 | F103 §7.12's three rows, N = 3, 4, 5 | 9 | 9 | 0 | 0 |
 | **total** | **15,415** | **2,596** | **0** | **0** |
 
+**217** of the rows have no jump at all (the letter grids include the empty
+dephasing pattern): they sit outside the theorem's class, where σ = 0 and
+𝒩 = 𝒲, and hold trivially, so within the class the count is 15,198 rows of
+which 2,379 hold. The tally gate counts them.
+
 On **212** of those rows `0 < dim 𝒲 < dim 𝒩`, which is where the criterion's
 equality says more than "the anticommutant is nonempty"; see the third caveat
 below.
@@ -672,13 +690,13 @@ Beside the scoring, and on rows where the palindrome is not consulted at all:
 | what is checked | scale | result |
 |---|---|---|
 | Lemma 1, both inclusions, exactly over ℚ(i) | 7 named rows | every kernel basis element satisfies both operator conditions, `== 0` |
-| Lemma 2, semisimplicity at both ends | 7 named rows × 3 primes, 250 grid rows | `rank(M²) = rank(M)` everywhere; 33 of the 250 carry a kernel at −2σ, so the check is not vacuous |
+| Lemma 2, semisimplicity at both ends | 7 named rows × 3 primes, 250 grid rows | `rank(M²) = rank(M)` everywhere; 33 of the 250 carry a kernel at −2σ, 29 of them with a jump (on the other 4, −2σ = 0), so the check is not vacuous |
 | §(b)'s inequalities, exact rationals | 4 named rows × 6 random vectors | dissipative at 0, accretive at −2σ (sampled vectors, not a per-row proof) |
 | Lemma 3 (⟹), `𝒩·U = 𝒲` | 5 named rows | spans exactly, dimensions equal; the other 2 named rows have no invertible element and assert the contrapositive of (⟸), `dim 𝒲 < dim 𝒩`, instead |
 | Lemma 3, invertible element ⟺ equal counts | 5,000 rows | 0 mismatches |
 | §(f1), `dim 𝒲 ≤ dim 𝒩` | 3,600 rows | holds, largest observed gap 12 |
 | §(f2), the canonical chain | N = 2, 3, 4 | both counts N+1, palindrome holds |
-| §(f5), odd d | d = 3, 5, 24 random Hermitian H | `dim 𝒲 < dim 𝒩` always, no invertible element |
+| §(f5), odd d | d = 3, 5, 24 random Hermitian H and 4 multiples of 1 (where dim 𝒲 > 0) | `dim 𝒲 < dim 𝒩` always, no invertible element |
 | gate 10, depolarizing and the rate fence | N = 2, 3 | criterion tracks the palindrome through both |
 | gate 11, `0 < dim 𝒲 < dim 𝒩` by construction | 8 built rows at d = 4 | strictly between on all eight, no invertible element, criterion and spectrum agree |
 

@@ -1,0 +1,10 @@
+Two boundaries of F138's sufficient direction, measured.
+
+1. K3 (two ranks mod two primes): one bond letter 0 of 18 break, mixed letters 42 of 144 break
+1. P4 (two ranks mod two primes): one bond letter 0 of 108 break, mixed letters 96 of 864 break
+   K3 spectrum (gamma = 0.05): rank-paired rows pair to at most 3.1e-14, rank-broken rows miss by at least 6.7e-02, 12.3 decades apart
+K3 bonds X0X1, X1X2, Y0Y2, axes Y, X, Z, no field: near 2, far 0 (breaks)
+2. P3 bonds XX + XY, Z on every site, no field: near 2, far 0 (breaks)
+   DM chain XY - YX, N = 3, Z on every site, no field: near 4, far 4 (pairs)
+   DM chain with X fields 0.30, 0.22, 0.41 (bond weight 1): near 1, far 0 (breaks)
+BOUNDARIES CONFIRMED

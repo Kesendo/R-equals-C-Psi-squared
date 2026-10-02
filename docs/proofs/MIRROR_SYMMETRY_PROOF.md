@@ -172,15 +172,20 @@ N=3 chain, N=4 chain, N=4 complete and N=5 ring, each hitting its own −2Σγ
 (−0.3, −0.4, −0.4, −0.5 at γ=0.05), and again at N=8 on all four graphs of
 the block-spectrum sweep, where γ=0.5 puts the floor at −8.
 
-**Scope.** H is a sum of *bond* terms, and the proof needs no more than that.
+**Scope.** The boundary law below is stated for H a sum of *bond* terms, each
+built of terms P⊗P with the same letter on both ends (XX, YY, ZZ and their
+sums), plus on-site fields; a bond with a term of two letters falls outside it
+(XX + XY on P₃ under Z dephasing with no field fails to pair, while the
+Dzyaloshinskii-Moriya bond above keeps its own alternating map,
+[`f138_scope_boundaries.py`](../../simulations/f138_scope_boundaries.py)).
 Dephasing and on-site fields then obey a single boundary law (F138 in the
 [formula registry](../ANALYTICAL_FORMULAS.md)), which is worth
 stating before its consequences because every "exception" below falls out of
 it. The palindrome holds **when**, *in every connected component that
 carries dephasing at all*:
 
-1. at most two distinct dephasing axes appear, provided the bonds carry at
-   least two terms, and
+1. at most two distinct dephasing axes appear, unless every bond of the
+   component is one and the same single term P⊗P (with one axis per site), and
 2. the on-site field has a single common axis within that component,
    orthogonal to every dephasing axis present in it: one of the letters X, Y, Z;
    a direction that is not a letter is covered where a rotation about the
@@ -195,9 +200,11 @@ measures it failing at fewer bond letters and at coincident field magnitudes:
 bond, 776 / 732 / 520 at one letter, and 78 of 21,952 on the full XX+YY+ZZ bond
 when the two END sites of P₃ carry equal field magnitudes. In three classes it holds, exactly and at every magnitude, all with Heisenberg bonds on a connected graph: every site dephased along Z with fields along letters, every site dephased along mixed axes with fields of any direction, and every site but one dephased with fields along letters ([PROOF_PALINDROME_COMPLEMENT_CONNECTION](PROOF_PALINDROME_COMPLEMENT_CONNECTION.md), Theorems 1, 3 and 5). Two of the 22 are
 clause-1 rows rather than clause-2 rows, so the ceiling of two axes is sufficient
-and not necessary in the same way. Neither this paragraph nor F138 derives the
-clauses: they are a measured census of the SUFFICIENT direction, which has never
-once broken. What decides the same setting in both directions is
+and not necessary in the same way. This paragraph does not derive the clauses;
+[the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)
+derives the SUFFICIENT direction: the two-axis clauses for every bond set of
+terms P⊗P, and the three-axis lift with one dephasing axis per site and one bond
+letter per component. What decides the same setting in both directions is
 [F158](../ANALYTICAL_FORMULAS.md), the two-end count
 ([PROOF_PALINDROME_TWO_END_COUNT](PROOF_PALINDROME_TWO_END_COUNT.md)): the
 spectrum pairs exactly when dim ker L = dim ker(L + 2Σγ), and every
@@ -217,16 +224,21 @@ fields on different sites are fine. A component carrying **no** dephasing
 constrains nothing at all, because its Liouvillian is purely Hamiltonian and
 such a spectrum is symmetric under λ ↦ −λ for any H whatsoever; a
 dephasing-free bond with an X field on one site and a Z field on the other
-pairs 16/16. And clause 1's *two-term* proviso is not decoration: a
-single-term bond, the Ising bond ZZ among them, tolerates all three dephasing
-axes at once, all eighteen three-axis assignments at N=4 pairing exactly where
-Heisenberg, XX+ZZ and XX+YY all fail on the same assignments. Two bond terms
-are where the ceiling bites, and the escape needs one axis per site. Three axes stacked on
+pairs 16/16. And clause 1's *two-term* proviso is not decoration:
+single-term bonds of one letter, the Ising bond ZZ throughout, tolerate all three
+dephasing axes at once, the eighteen three-axis assignments the gate runs at N=4
+(of thirty-six) pairing exactly where Heisenberg, XX+ZZ and XX+YY all fail on the
+same assignments. Two bond terms are where the ceiling bites, and the escape needs
+one axis per site and one bond letter per component: single-term bonds of different
+letters can break it (K₃ with bonds X₀X₁, X₁X₂, Y₀Y₂ under axes Y, X, Z). Three axes stacked on
 a single site is depolarizing there, and breaks the Ising bond too. Two axes on a
 site leave it a single letter to anticommute with them; when that letter is the
 bond's own, the single-term bond asks the same letter (or I) of each neighbour,
-and a neighbour dephased along it breaks the palindrome
-([the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)). And the
+and a neighbour dephased along it breaks the palindrome: the two-axis site's
+jumps multiply to that letter up to a phase, so with the neighbour's jump they form an odd
+word with a nonzero trace against the bond, which
+[F158 §(f5)](PROOF_PALINDROME_TWO_END_COUNT.md) rules out
+([the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)). And the
 clauses admit a three-axis component only **field-free**: this is not a separate condition
 but clause 2 read carefully, since no direction is orthogonal to X, Y and Z
 at once, so the clause is unsatisfiable there and only the empty field passes
@@ -286,14 +298,16 @@ far kernel rather than read off H
 **Evidence, and its limits.** Clause 1 is swept exhaustively: every one of
 the 3^N per-site axis assignments, at N=3 over chain, ring and complete and
 at N=4 over chain, at the full XX+YY+ZZ bond, zero exceptions in either
-direction, plus disconnected controls. Clause 2 is not exhaustive in that sense; it rests on axis-pattern
-and field-direction combinations chosen to cover each case, on the angle
-sweep, and on the per-component controls. Treat clause 1 as measured and
-clause 2 as well supported but spot-checked. The rule has also been attacked
-rather than confirmed, which is the more useful test, and every disagreement
-ran the same way: the rule forbidding something that in fact held, never once
-the reverse. The qualifiers above are what those disagreements taught, and
-each carries its counterexample and control in
+direction, plus disconnected controls. Clause 2 is swept exhaustively at
+N = 3, 21,952 rows on each of three graphs (F138's Evidence), and the colouring
+page derives the sufficient direction on the class above. The rule has also
+been attacked rather than confirmed, which is the more useful test. Most
+disagreements ran one way, the rule forbidding something that in fact held:
+those are the converse failures above. The ones that ran the other way, the
+clauses admitting a break, are what fixed the class: a bond with a two-letter
+term, one-letter bonds of different letters under three axes, and a site
+carrying two axes. The qualifiers above are what those disagreements taught,
+and each carries its counterexample and control in
 [`conjugation_proof.txt`](../../simulations/results/conjugation_proof.txt).
 
 **The boundary is sharp, the failure is not.** Those "nonzero" qualifiers

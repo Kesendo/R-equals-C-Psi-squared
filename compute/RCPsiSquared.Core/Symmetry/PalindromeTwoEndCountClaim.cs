@@ -34,17 +34,18 @@ namespace RCPsiSquared.Core.Symmetry;
 /// L_U L L_U^-1 = -L^dagger - 2 sigma, collapsed onto the palindrome by hermiticity preservation;
 /// palindrome =&gt; the two algebraic multiplicities agree =&gt; by (2) the two nullities agree.</para>
 ///
-/// <para><b>What the fences are for, since all three are load bearing.</b>
+/// <para><b>What the two fences are for, both load bearing, and the consequence beside them.</b>
 /// <c>A_l^2 = 1</c>: F137 records that non-unitary (T1) jumps keep a palindrome about a DIFFERENT
 /// centre, which F137 states exactly as trace(L)/dim, so a criterion phrased about -2 sigma is
 /// answering a different question there. <c>gamma_l &gt; 0</c>: a zero rate drops that site's
 /// condition from both spaces and can move the verdict, so the boundary of the positive orthant
 /// is where it can change and "the palindrome does not depend on gamma" means inside the open
-/// orthant. EVEN TOTAL d, with at least one jump: an invertible U with U A U^-1 = -A makes A and
+/// orthant. EVEN TOTAL d is a consequence, not a fence: with at least one jump, an invertible U with U A U^-1 = -A makes A and
 /// -A similar, so every jump needs balanced +1/-1 multiplicities; at odd total d no such U exists
 /// at any H, and the palindrome is impossible rather than merely absent. The LOCAL dimension is
 /// free: on a qutrit tensored with a qubit, H = 0 and A = 1_3 (x) Z pair, with U = 1_3 (x) X.
-/// With no jump at all the equivalence holds trivially and this corollary fails.</para>
+/// With no jump at all the equivalence holds trivially, and this corollary, Lemma 3's
+/// N ∩ W = 0 and §(f9) fail.</para>
 ///
 /// <para><b>What the counts decide.</b> The eigenvalue MULTISET, which is what the committed GF(p)
 /// kernel tests; where the counts agree the proof's section (f8) delivers more, a similarity
@@ -85,7 +86,7 @@ public sealed class PalindromeTwoEndCountClaim : Claim
     /// for a generator with at least one jump. False at odd d for every H and every nonempty jump
     /// set, by the balanced-multiplicity argument above; the local dimension of the factors plays
     /// no part (a qutrit tensored with a qubit, d = 6, can pair), and with no jump the equivalence
-    /// holds trivially at any d. A corollary, not a measurement, gated at d = 3 and d = 5.</summary>
+    /// holds trivially at any d. A corollary, not a measurement; gate 10c checks the inequality dim W &lt; dim N behind it at d = 3 and d = 5.</summary>
     public static bool PalindromePossibleAtDimension(int d) =>
         d >= 1 ? d % 2 == 0 : throw new ArgumentOutOfRangeException(nameof(d), d, "d must be at least 1");
 
@@ -97,16 +98,16 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                "space with the jump sign flipped, both by a Cauchy-Schwarz equality case; both eigenvalues are " +
                "semisimple, so the char-poly identity forces the two nullities to agree, and equal nullities force " +
                "an invertible U with [U,H] = 0 and U A_l U^-1 = -A_l, which reflects the spectrum. No operator to " +
-               "exhibit and no subspace to sample: two ranks compared. Fences, all three load bearing: A_l^2 = 1 " +
-               "(F137 recentres for T1 jumps), gamma_l > 0 (a zero rate drops a condition and can move the " +
-               "verdict), and even total d with at least one jump (at odd total d no invertible U exists at any " +
-               "H, so the palindrome is impossible; the local dimension is free)",
+               "exhibit and no subspace to sample: two ranks compared. Fences, both load bearing: A_l^2 = 1 " +
+               "(F137 recentres for T1 jumps) and gamma_l > 0 (a zero rate drops a condition and can move the " +
+               "verdict); even total d is a consequence, not a fence: with at least one jump no invertible U exists " +
+               "at odd total d, so there the theorem holds with both sides false (the local dimension is free)",
                Tier.Tier1Derived,
                "docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md (primary: Lemmas 1-3 and the theorem) + " +
                "experiments/THE_PAIRING_CONDITION.md (the criterion this sharpens, and the sufficiency " +
                "calculation consumed unchanged) + " +
                "docs/ANALYTICAL_FORMULAS.md (F158; F1 for the operator identity, F138 for the law whose converse " +
-               "was withdrawn 2026-08-03, F137 for the non-unitary fence, F4 for the near count) + " +
+               "fails, F137 for the non-unitary fence, F4 for the near count) + " +
                "docs/proofs/PROOF_CODIM1_BY_ADDITIVITY.md (the window-edge lemma, which owns the semisimplicity " +
                "step in a stronger form and is cited rather than re-derived) + " +
                "docs/proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md (7.5 the forcing step in a narrower setting, " +
@@ -157,9 +158,10 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                          "p + q = n gives p^2 + q^2 to N and 2pq to W. So dim W <= dim N, with equality exactly " +
                          "when p = q in every fixed block, and then an invertible odd element exists blockwise. " +
                          "This is what turns the pairing-condition " +
-                         "page's sampled predicate into a decided one: on every row that page reports as " +
-                         "nonempty-but-singular, dim W < dim N, and the strict inequality PROVES no invertible " +
-                         "element is hiding there.");
+                         "page's sampled predicate into a decided one: every row that page reports as " +
+                         "nonempty-but-singular breaks, so by the theorem dim W < dim N there (inferred, not " +
+                         "computed row by row), and the strict inequality PROVES no invertible element is " +
+                         "hiding there.");
 
             yield return new InspectableNode("the kernel always dominates, and the far space's name",
                 summary: "dim ker(L + 2 sigma) <= dim ker L for every H, every unitary-Hermitian jump set and " +

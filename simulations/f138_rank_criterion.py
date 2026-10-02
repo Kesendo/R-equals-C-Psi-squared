@@ -4,7 +4,7 @@ THE STATEMENT UNDER TEST, and it is one notch past the criterion the
 pairing-condition page carries. For
 
     L(rho) = -i[H, rho] + sum_l gamma_l (A_l rho A_l - rho),
-    every A_l HERMITIAN and UNITARY (A_l^2 = 1), gamma_l > 0, sigma = sum gamma_l,
+    every A_l HERMITIAN and UNITARY (A_l^2 = 1), at least one jump, gamma_l > 0, sigma = sum gamma_l,
 
 the char-poly palindrome p(x) = p(-x - 2*sigma) holds exactly when
 
@@ -47,9 +47,11 @@ VERDICT DISCIPLINE, and the direction matters. Reduction mod p is a ring map,
 so a RANK can only come out too SMALL and a NULLITY too LARGE. Both nullities
 read here are therefore upper bounds on the true ones, and an equality of two
 mod-p nullities is not by itself an equality over Q(i); every
-structural claim is therefore ALSO checked exactly over Q(i) with Fraction
-arithmetic on named rows, where == 0 means == 0. The scale runs are scored at
-one prime and every mismatch would be re-run exactly; there are none to re-run.
+claim of Lemma 1 is therefore ALSO checked exactly over Q(i) with Fraction
+arithmetic on named rows, where == 0 means == 0; semisimplicity and Lemma 3 are
+checked modulo primes. The palindrome side is read at three primes and two
+evaluation points on gate 4's letter grids and at one prime and six points on
+gates 7 and 8; the nullities at one prime throughout.
 
 AND ONE ROUTE THAT SHARES NO CONSTRUCTION CODE. Gate 9 rebuilds the whole object in dense
 complex floats with an eigensolver and an optimal spectral matching, sharing no
@@ -79,13 +81,16 @@ P = PRIMES[0]
 rng = np.random.default_rng(20260828)
 RESULTS = []
 # every row scored against the exact palindrome, tallied for the closing count
-SCORED = {'rows': 0, 'holds': 0, 'strict': 0}
+SCORED = {'rows': 0, 'holds': 0, 'strict': 0, 'jumpfree': 0}
 
 
-def tally(dN, dW, pal):
+def tally(dN, dW, pal, jumps):
     SCORED['rows'] += 1
     SCORED['holds'] += bool(pal)
     SCORED['strict'] += (0 < dW < dN)
+    # rows with no jump are outside F158's class: sigma = 0, N = W, and both
+    # sides say "holds" trivially; the samples keep them and the tally counts them
+    SCORED['jumpfree'] += (len(jumps) == 0)
 
 
 def gate(name, ok, detail=''):
@@ -504,7 +509,7 @@ def gate2_semisimple():
     g = G.grid3()
     idx = rng.choice(len(g), 250, replace=False)
     b0 = b2 = 0
-    live0 = live2 = 0
+    live0 = live2 = free2 = 0
     for i in idx:
         deph, fld, signs = g[i]
         L, shift = liouvillian(3, G.P3, deph, fld, signs, (30, 30, 30), P)
@@ -519,12 +524,13 @@ def gate2_semisimple():
         rank0, rank2 = rank_mod(L, P), rank_mod(M, P)
         live0 += (rank0 < L.shape[0])
         live2 += (rank2 < L.shape[0])
+        free2 += (rank2 < L.shape[0] and shift % P == 0)   # no jump: -2s = 0
         b0 += (rank0 != rank_mod(matmul_mod(L, L, P), P))
         b2 += (rank2 != rank_mod(matmul_mod(M, M, P), P))
     gate('the grid rows are not vacuous: both ends carry a kernel somewhere',
          live0 > 0 and live2 > 0,
-         'rows with ker L nonzero=%d, with ker(L+2s) nonzero=%d, of 250'
-         % (live0, live2))
+         'rows with ker L nonzero=%d, with ker(L+2s) nonzero=%d (%d of them with no jump, '
+         'where -2s = 0), of 250' % (live0, live2, free2))
     gate('0 semisimple on 250 grid rows', b0 == 0)
     gate('-2*sigma semisimple on 250 grid rows', b2 == 0)
 
@@ -613,7 +619,7 @@ def score_rank(label, n, edges, cases, mags, **kw):
         holds += bool(pairs)
         breaks += (not pairs)
         both_live += (0 < dW < dN)
-        tally(dN, dW, pairs)
+        tally(dN, dW, pairs, J)
         if says and not pairs:
             fp += 1
             ex.append(('FALSE POSITIVE', deph, fld, signs, dN, dW))
@@ -690,8 +696,8 @@ def gate5_canonical():
         mags = tuple([30] * n)
         dN, dW, BW, H, J = row_spaces(n, edges, deph, fld, signs, mags, P)
         pal = palindromic(n, edges, deph, fld, signs=signs, field_num=mags)
-        gate('N=%d chain: dim ker L = dim ker(L+2s) = N+1 = %d' % (n, n + 1),
-             dN == dW == n + 1, 'palindrome=%s' % pal)
+        gate('N=%d chain: dim ker L = dim ker(L+2s) = N+1 = %d, and it pairs' % (n, n + 1),
+             dN == dW == n + 1 and bool(pal), 'palindrome=%s' % pal)
 
 
 # ---------------------------------------------------------------------------
@@ -786,7 +792,7 @@ def score_raw(label, rows):
         breaks += (not pal)
         dominated += (dW <= dN)
         both_live += (0 < dW < dN)
-        tally(dN, dW, pal)
+        tally(dN, dW, pal, jumps)
         if says and not pal:
             fp += 1
             ex.append(('FALSE POSITIVE', tag, dN, dW))
@@ -806,7 +812,7 @@ def gate6_domination():
     print('## Gate 6: dim ker(L+2s) <= dim ker L, always')
     print()
     print('  A corollary of the same argument and a claim on its own: the')
-    print('  steady modes can never be outnumbered by the fastest ones.')
+    print('  far kernel is never larger than the near kernel.')
     print()
     g = G.grid3()
     idx = rng.choice(len(g), 1200, replace=False)
@@ -830,8 +836,7 @@ def gate7_f103_counterexamples():
     print('  PROOF_F103_F87_Z2_CUBED_REFINEMENT.md 7.12 records XX+XZ, YY+YZ')
     print('  and XX+XZ+ZX as SOFT on the chain at N = 3..6 with non-bipartite')
     print('  basis-state graphs: no diagonal D, no chiral K. It does NOT leave')
-    print('  the restoring operator unexhibited, and an earlier version of')
-    print('  this banner said it did: the same paragraph continues "that')
+    print('  the restoring operator unexhibited: the same paragraph continues "that')
     print('  operator is no longer a mystery: it is the hidden-Q routing, a')
     print('  per-site Q from the P1/P4 families, which TwoTermPalindromeRouting')
     print('  classifies bit-exactly for 2-term pairs". So these rows are an')
@@ -853,7 +858,7 @@ def gate7_f103_counterexamples():
             dN, dW, BW = spaces_raw(H, jumps, P)
             L, shift = build_L_raw(H, jumps, 1, 20, P)
             pal = palindromic_raw(L, shift, P)
-            tally(dN, dW, pal)
+            tally(dN, dW, pal, jumps)
             name = '-'
             if dW == 1:
                 W = BW[0].reshape(2 ** n, 2 ** n) % P
@@ -897,10 +902,7 @@ def gate8_scope_axes():
     print('  The holds/breaks columns are printed because a block carrying')
     print('  only one verdict tests only one direction. The per-site mixed')
     print('  directions block is very nearly such a block, and the printed')
-    print('  counts below are the authority on how nearly: read them rather')
-    print('  than this sentence, which an earlier version got wrong by')
-    print('  hard-coding a count that the run then contradicted eight lines')
-    print('  later.')
+    print('  counts below are the authority on how nearly.')
     print()
     n = 3
     edges = G.P3
@@ -981,8 +983,7 @@ def gate9_independent_route():
     routes, the float SVD nullities against the GF(p) eliminations row by row.
     Only the second excludes a shared helper making the two sides agree by
     construction, which is the one failure mode the rest of this file cannot
-    rule out, and an earlier version of this docstring described the first as
-    though it were the second.
+    rule out.
 
     A float eigensolver has no exact route, so the verdict here is read at a
     threshold, and the threshold is defended the only way it can be: the run
@@ -1145,7 +1146,8 @@ def gate10_boundaries():
         pal = palindromic_raw(L, shift, P)
         gate('depolarizing at N=%d: criterion = palindrome' % n,
              (dN == dW) == bool(pal),
-             'dimN=%d dimW=%d palindrome=%s (both say NO)' % (dN, dW, pal))
+             'dimN=%d dimW=%d palindrome=%s%s' % (dN, dW, pal,
+                 ' (both say NO)' if dN != dW and not pal else ''))
 
     print()
     print('  (b) A RATE SWITCHED OFF. The theorem asks gamma_l > 0, and the')
@@ -1183,21 +1185,36 @@ def gate10_boundaries():
     print('  because every other row of this file sits at d = 2^N.')
     ok = True
     worst = None
-    for trial in range(24):
+    live = 0
+    for trial in range(28):
         d = 3 if trial % 2 == 0 else 5
         A = np.diag([1] * (d - 1) + [p_ - 1 if (p_ := P) else 0]).astype(
             np.int64) % P
-        Hs = rng.integers(0, 40, size=(d, d)).astype(np.int64)
-        H = (Hs + Hs.T) % P                       # real symmetric, Hermitian
+        if trial < 24:
+            Hs = rng.integers(0, 40, size=(d, d)).astype(np.int64)
+            H = (Hs + Hs.T) % P                   # real symmetric, Hermitian
+        else:
+            # H = 0 (and a multiple of 1): the anticommutant of A is then large,
+            # dim W = 2(d-1) against dim N = (d-1)^2 + 1, so the inequality and
+            # the search for an invertible element are both exercised
+            H = (np.eye(d, dtype=np.int64) * (trial - 24)) % P
         dN, dW, BW = spaces_raw(H, [A], P)
+        if dW > 0:
+            live += 1
         if dW >= dN:
             ok = False
             worst = (d, dN, dW)
+        # the H = c*1 rows draw their search vectors off the shared stream and
+        # give it back, so every later gate scores the rows the proof table counts
+        saved = rng.bit_generator.state
         if dW and invertible_in(BW, d, P, draws=4) is not None:
             ok = False
             worst = (d, dN, dW)
-    gate('odd d: dim W < dim N always, and no invertible element', ok,
-         'd = 3 and 5, 24 random Hermitian H' if ok else 'broke at %s' % (worst,))
+        if trial >= 24:
+            rng.bit_generator.state = saved
+    gate('odd d: dim W < dim N always, and no invertible element', ok and live > 0,
+         'd = 3 and 5, 24 random Hermitian H and 4 multiples of 1; dim W > 0 on %d rows' % live
+         if ok else 'broke at %s' % (worst,))
 
 
 # ---------------------------------------------------------------------------
@@ -1264,7 +1281,7 @@ def gate11_strict_inequality_by_construction():
 def main():
     print('The pairing condition as a rank equality')
     print('=' * 78)
-    print(__doc__.split('\n\n')[1].strip())
+    print('\n\n'.join(__doc__.split('\n\n')[1:5]).strip())
     gate1_kernels_exact()
     gate1b_reverse_inclusion()
     gate2_semisimple()
@@ -1280,9 +1297,10 @@ def main():
     gate4_scored()
     print()
     gate('the scored rows, tallied over gates 4, 7 and 8, are the proof table',
-         SCORED == {'rows': 15415, 'holds': 2596, 'strict': 212},
-         'rows=%d holds=%d breaks=%d, 0 < dim W < dim N on %d'
-         % (SCORED['rows'], SCORED['holds'], SCORED['rows'] - SCORED['holds'], SCORED['strict']))
+         SCORED == {'rows': 15415, 'holds': 2596, 'strict': 212, 'jumpfree': 217},
+         'rows=%d holds=%d breaks=%d, 0 < dim W < dim N on %d; %d rows have no jump and hold trivially'
+         % (SCORED['rows'], SCORED['holds'], SCORED['rows'] - SCORED['holds'], SCORED['strict'],
+            SCORED['jumpfree']))
     print()
     print('=' * 78)
     bad = [n for n, ok in RESULTS if not ok]

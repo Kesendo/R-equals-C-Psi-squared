@@ -116,6 +116,8 @@ public class PalindromeTwoEndCountWitnessTests
         Assert.Throws<ArgumentOutOfRangeException>(() => new PalindromeTwoEndCountWitness(5));
         Assert.Throws<ArgumentOutOfRangeException>(() => new PalindromeTwoEndCountWitness(1));
         Assert.Throws<ArgumentException>(() => new PalindromeTwoEndCountWitness(3, deph: "ZZ"));
+        // no jump at all: the equivalence would hold vacuously, and F158's class needs one
+        Assert.Throws<ArgumentException>(() => new PalindromeTwoEndCountWitness(3, deph: "..."));
         Assert.Throws<ArgumentException>(() => new PalindromeTwoEndCountWitness(3, deph: "ZQZ"));
         Assert.Throws<ArgumentException>(() => new PalindromeTwoEndCountWitness(3, topology: "star"));
     }

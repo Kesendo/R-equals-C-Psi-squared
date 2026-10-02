@@ -78,6 +78,8 @@ public sealed class PalindromeTwoEndCountWitness : IInspectable
                 "The theorem carries no N, only this witness does.");
         _n = n;
         _deph = ParseLetters(deph, n, defaultLetter: 3, nameof(deph));
+        if (_deph.All(l => l == 0))
+            throw new ArgumentException("--deph names no jump; F158 needs at least one.", nameof(deph));
         _field = ParseLetters(field, n, defaultLetter: 0, nameof(field));
         _topology = (topology ?? "chain").ToLowerInvariant();
         _edges = BuildEdges(_topology, n);
@@ -502,7 +504,7 @@ public sealed class PalindromeTwoEndCountWitness : IInspectable
                 summary: "The Jordan structure: it reads the MULTISET, and where the counts agree the proof's (f8) " +
                          "gives the rest; F1PalindromeIdentity is the operator identity for the particular Pi. It also does not extend the theorem: the guard at " +
                          "N <= 4 is the cost of a dense 4^N elimination and carries no physics, and the fences " +
-                         "A_l^2 = 1, gamma_l > 0 and even total d live in the claim rather than here. The gate that " +
+                         "A_l^2 = 1 and gamma_l > 0, and the even-d consequence, live in the claim rather than here. The gate that " +
                          "scores the criterion at scale, in both directions and across those fences, is " +
                          "simulations/f138_rank_criterion.py.");
         }

@@ -64,19 +64,15 @@ The **open arc** `f138_converse_failures`
 ([OpenArcsRegistry.cs](../compute/RCPsiSquared.Core/OpenArcs/OpenArcsRegistry.cs))
 asked since 2026-08-03 for a reflector **S** with S L S⁻¹ = −L − 2σ, named the
 row to use, and recorded that the bare site reflection was refuted from below.
-It did not ask for U; the criterion below is a different object, and **as the
-arc stood** it contained nothing of the form [U,H] = 0. It does now, because
-this work put it there, and the arc file is modified in the same change that
-carries this page: a reader checking at HEAD will find [U,H] = 0 there twice and
-should not read that as this sentence being wrong. What this page owes the arc
-is the question and the row, not the answer.
+It did not ask for U; the criterion below is a different object. What this page
+owes the arc is the question and the row, not the answer.
 
 **[ANALYTICAL_FORMULAS.md](../docs/ANALYTICAL_FORMULAS.md) F138** held the law
 being tested, its converse withdrawn on 2026-08-03, and every count quoted here:
 22 and 104 at two bond letters, 776 / 732 / 520 at one, 78 of 21,952 at the full
 bond with equal end magnitudes, 78 per exchangeable pair on K₃ and 234 for all
 three. Its two-term proviso is derived in
-[the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md): a one-letter bond leaves the colour free to change from site to site.
+[the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md): one-letter bonds of one letter leave the colour free to change from site to site.
 
 **[PROOF_PI_FACTORS_AS_R_TIMES_D.md](../docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md)**
 (F118) held the factorization Π_Z = R·D and the division of labour that turns
@@ -211,8 +207,8 @@ F138's clauses are the same criterion read under a restriction:
 | F138 clause | what it is, read through the criterion |
 |---|---|
 | at most two dephasing axes per component | not a property of the jumps at all: three axes on three different sites have a common anticommutant, and the criterion carries no ceiling. What binds is [U,H] = 0 alone, and the gate scores rows with three distinct axes exactly |
-| the field has one common axis, orthogonal to every dephasing axis | U must commute with the field. For U a single Pauli string that puts the field's letter (or I) on the field's site, and a bond of two or three letters carries one letter across the component, so U is the global π-rotation about the field axis, which anticommutes with the dephasing letters because they are orthogonal to it; a one-letter bond lets the letter change from site to site ([the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md)) |
-| the two-term proviso | derived in [the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md): a single-letter bond only puts its two ends in one of two letter classes, so a single Pauli string U can change its letter from site to site, where a bond of two or three letters forces one letter per component. The gate scores all seven bond sets |
+| the field has one common axis, orthogonal to every dephasing axis | U must commute with the field. For U a single Pauli string that puts the field's letter (or I) on the field's site, and a bond of two or three letters carries one letter across the component, so U is the global π-rotation about the field axis, which anticommutes with the dephasing letters because they are orthogonal to it; one-letter bonds of one shared letter let the letter change from site to site ([the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md)) |
+| the two-term proviso | derived in [the palindrome as a colouring](THE_PALINDROME_AS_A_COLOURING.md) for one bond letter per component: a single-letter bond only puts its two ends in one of two letter classes, so with one bond letter a single Pauli string U can change its letter from site to site (bonds of different single letters can leave a site no letter), where a bond of two or three letters forces one letter per component. The gate scores all seven bond sets |
 
 The demonstration above is one of the six rows among the 78 whose field is
 anti-invariant under the end-site swap. All 78 carry the same kind of U,
@@ -266,7 +262,8 @@ each of the three single-letter bonds, 9 in the non-uniform J and γ row, and
 none anywhere else. **These rows are confirmed nonempty at one prime, not
 at three**: `admissible_multi` returns as soon as a prime yields no invertible
 draw, so the later primes are never consulted on them. **None of them hides an
-invertible element**: on every such row `dim 𝒲 < dim 𝒩`, and
+invertible element**: every such row breaks, so by the theorem `dim 𝒲 < dim 𝒩`
+there (inferred, not computed row by row), and
 [the two-end proof](../docs/proofs/PROOF_PALINDROME_TWO_END_COUNT.md) §(d) shows
 that a strict inequality is a proof that no invertible element exists, so what
 the draws sampled the count decides.

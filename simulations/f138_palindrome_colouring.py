@@ -752,7 +752,7 @@ def _clifford_element(terms, deph, max_size=None):
         return 'product', elem
     kern = _clifford_kernel(terms, deph, max_size)
     if kern:
-        return 'clifford', kern
+        return 'sum', kern
     for u in range(n):
         if deph[u]:
             continue
@@ -845,7 +845,7 @@ def stage_h():
           "(exact rational kernels, kinds labelled by the first the recursion finds); controls: on every row of the "
           "same grid whose palindrome breaks the recursion finds nothing, and with single strings only it finds "
           "nothing on the 258; every element rebuilt densely and verified exactly", dict(per) == expect and none == 0 and control_hits == 0 and broken_rows > 0
-          and broken_hits == 0 and dict(by_kind) == {'clifford': 74, 'product': 156, 'conditioned': 28}
+          and broken_hits == 0 and dict(by_kind) == {'sum': 74, 'product': 156, 'conditioned': 28}
           and verified == 258,
           f"kinds {dict((k, v) for k, v in tally.items())}; rows without: {none}; single-string hits: {control_hits}; "
           f"broken rows {broken_rows}, hits there {broken_hits}; elements rebuilt as dense sympy matrices and "
