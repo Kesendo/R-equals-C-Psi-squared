@@ -6609,7 +6609,10 @@ triangle has a common invertible carrier independent of h exactly when
 (s − t)(st + sr + tr) = 0, for real nonzero s = J_du, t = J_dv, r = J_uv.
 The common space is one-dimensional on both branches, including their
 intersection. The s = t branch is SWAP; the e₂ = st + sr + tr = 0 branch
-contains non-Clifford carriers without a weighted-graph symmetry fixing d.
+contains non-Clifford carriers without a weighted-graph symmetry fixing d,
+and at N = 4 a family pairs at fixed field with neither a colouring nor a
+site symmetry
+([two ways to a blind dephased seat](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#two-ways-to-a-blind-dephased-seat-and-a-family-at-n--4)).
 This is a classification of one carrier for every h, not of all palindromes
 at a fixed h ([proof and exact gate](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#a-common-carrier-for-the-triangles-whole-field-line)).
 At a fixed field the triangle is settled too: with one site dephased along Z
@@ -9153,6 +9156,14 @@ by two routes, and a rank sweep over GF(p) that meets the irrational members thr
 exact witness `inspect --root nodepair`, which carries the resolvent zero, its nonzero control,
 the same-baseline-energy iff for one scaled off-diagonal hopping with fixed diagonal, the
 uniform-centre total-count equality, the exact N=6 off-centre birth and exceptional-set fences.
+**Where the blind seat meets the palindrome.** With the jump on one seat d of a Heisenberg triangle,
+the Krylov determinant of d is −(s − t)·e₂ (s = J_du, t = J_dv, e₂ the spanning-tree sum), exactly
+the factor that decides the common carrier of F138's converse failures there. Its two factors are two
+ways to blindness: s = t, a site symmetry fixing d, and e₂ = 0, a rank drop of the signed Laplacian
+that makes every seat blind. At N = 4 a family on the second way pairs, for nonzero transverse fields,
+with neither a colouring nor a site symmetry; a sweep's 172 non-coloured N = 4 palindromes are 171
+site-symmetric rows and one row of that family
+([two ways to a blind dephased seat](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#two-ways-to-a-blind-dephased-seat-and-a-family-at-n--4)).
 
 ---
 

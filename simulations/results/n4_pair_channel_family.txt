@@ -1,0 +1,45 @@
+1. far leaves: 23
+   far 128 | =0: ['a', 'e', 'h', 'g'] | !=0: [] | near on it: [128]
+   far  64 | =0: ['a', 'e', 'h'] | !=0: ['g'] | near on it: [64]
+   far  48 | =0: ['a', 'e', 'g'] | !=0: ['h'] | near on it: [48]
+   far  40 | =0: ['a', 'e', '-g + h'] | !=0: ['g', 'h'] | near on it: [40]
+   far  40 | =0: ['a', 'e', 'g + h'] | !=0: ['g', 'h'] | near on it: [40]
+   far  28 | =0: ['a', 'e', '-g + 2*h'] | !=0: ['-g + h', 'g', 'g + h', 'h'] | near on it: [28]
+   far  28 | =0: ['a', 'e', 'g + 2*h'] | !=0: ['-g + h', 'g', 'g + h', 'h'] | near on it: [28]
+   far  24 | =0: ['a', 'e'] | !=0: ['-g + 2*h', '-g + h', 'g', 'g + 2*h', 'g + h', 'h'] | near on it: [24]
+   far  80 | =0: ['a', 'g', 'h'] | !=0: ['e'] | near on it: [80]
+   far  48 | =0: ['a', 'g'] | !=0: ['e', 'h'] | near on it: [48]
+   far  52 | =0: ['a', 'h', '2*e - g'] | !=0: ['e', 'g'] | near on it: [52]
+   far  52 | =0: ['a', 'h', '2*e + g'] | !=0: ['e', 'g'] | near on it: [52]
+   far  40 | =0: ['a', 'h'] | !=0: ['2*e + g', '2*e - g', 'e', 'g'] | near on it: [40]
+   far  36 | =0: ['a', '4*e**2 - g**2 + 4*h**2', '2*g**2 + h**2'] | !=0: ['e', 'g', 'h'] | near on it: [36]
+   far  28 | =0: ['a', '4*e**2 - g**2 + 4*h**2'] | !=0: ['2*g**2 + h**2', 'e', 'g', 'h'] | near on it: [28, 36]
+   far  32 | =0: ['a', '2*e*g + g**2 - h**2'] | !=0: ['4*e**2 - g**2 + 4*h**2', 'e', 'g', 'h'] | near on it: [32]
+   far  32 | =0: ['a', '2*e*g - g**2 + h**2'] | !=0: ['4*e**2 - g**2 + 4*h**2', 'e', 'g', 'h'] | near on it: [32]
+   far  24 | =0: ['a'] | !=0: ['2*e*g + g**2 - h**2', '2*e*g - g**2 + h**2', '4*e**2 - g**2 + 4*h**2', 'e', 'g', 'h'] | near on it: [24]
+   far  11 | =0: ['g', 'h'] | !=0: ['a'] | near on it: [11]
+   far  10 | =0: ['g'] | !=0: ['a', 'h'] | near on it: [10]
+   far   1 | =0: ['h'] | !=0: ['a', 'g'] | near on it: [1]
+   far   2 | =0: ['4*a**2 + h**2'] | !=0: ['a', 'g', 'h'] | near on it: [1]
+   far   1 | =0: [] | !=0: ['4*a**2 + h**2', 'a', 'g', 'h'] | near on it: [1]
+   generic leaf (only 4*a**2 + h**2, a, g, h nonzero): far 1, near 1, so it pairs
+   leaves with a and g free: exactly the generic one, h = 0, and 4a² + h² = 0 (a recorded nonzero: no real point)
+   leaf h = 0 (a, g nonzero): far 1, near 1; there the only field is g·Y3 and Y^4 colours it
+2. a=1 e=2 h=3 g=5: near 1 far 1 pairs
+2. a=-2 e=0 h=1 g=-1: near 1 far 1 pairs
+2. a=3 e=-1 h=1/2 g=2: near 1 far 1 pairs
+2. a=-1/3 e=4 h=2 g=7/2: near 1 far 1 pairs
+2. a=5 e=1 h=-2/5 g=1: near 1 far 1 pairs
+   control J03=1, J23 detuned by 0: near 1 far 0 breaks
+   control J03=0, J23 detuned by 1: near 1 far 0 breaks
+   control J03=2, J23 detuned by 0: near 1 far 0 breaks
+   control field on site 2 = 2 instead of 3: near 1 far 0 breaks
+   control field on site 2 = -1 instead of 1: near 1 far 0 breaks
+   carrier on the line g = h at a = -1, e = 2: far 1 at h = 1, 1 at h = 2, 0 for both at once
+   J03 = 0: level e + J03 = 2 has multiplicity 8 (quintet 5 + triplet 3)
+   J03 = 1: level e + J03 = 3 has multiplicity 8 (quintet 5 + triplet 3)
+   J03 = 7/10: level e + J03 = 27/10 has multiplicity 8 (quintet 5 + triplet 3)
+   J03 = 3: level e + J03 = 2 has multiplicity 8 (quintet 5 + triplet 3)
+3. triangle, Krylov determinant of the dephased seat: -(s - t)*(r*s + r*t + s*t)
+   family, Krylov determinant of seat 0: 0 (identically zero: seat 0 blind)
+ALL PASS

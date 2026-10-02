@@ -1,0 +1,11 @@
+# blind_seat_palindrome_sweep.py, seeds 1..8, 15000 draws each (2026-10-02)
+seed 1: no site symmetry: [-1, 1, 0, 2, 1, -1] .XXY [1, -3, 3, 3] 1 1 blind 1
+seed 1: {'draws': 13881, 'palindromic_not_coloured': 27, 'with_site_symmetry': 26, 'without_site_symmetry': 1, 'seat_blind': 27, 'seat_not_blind': 0}
+seed 2: {'draws': 13961, 'palindromic_not_coloured': 24, 'with_site_symmetry': 24, 'without_site_symmetry': 0, 'seat_blind': 24, 'seat_not_blind': 0}
+seed 3: {'draws': 13924, 'palindromic_not_coloured': 20, 'with_site_symmetry': 20, 'without_site_symmetry': 0, 'seat_blind': 20, 'seat_not_blind': 0}
+seed 4: {'draws': 13917, 'palindromic_not_coloured': 14, 'with_site_symmetry': 14, 'without_site_symmetry': 0, 'seat_blind': 14, 'seat_not_blind': 0}
+seed 5: {'draws': 13947, 'palindromic_not_coloured': 26, 'with_site_symmetry': 26, 'without_site_symmetry': 0, 'seat_blind': 26, 'seat_not_blind': 0}
+seed 6: {'draws': 13882, 'palindromic_not_coloured': 21, 'with_site_symmetry': 21, 'without_site_symmetry': 0, 'seat_blind': 21, 'seat_not_blind': 0}
+seed 7: {'draws': 13893, 'palindromic_not_coloured': 19, 'with_site_symmetry': 19, 'without_site_symmetry': 0, 'seat_blind': 19, 'seat_not_blind': 0}
+seed 8: {'draws': 13907, 'palindromic_not_coloured': 21, 'with_site_symmetry': 21, 'without_site_symmetry': 0, 'seat_blind': 21, 'seat_not_blind': 0}
+total: 111312 connected draws, 172 palindromic and not coloured (171 with a site symmetry fixing site 0, 1 without: the N = 4 family at a = -1, e = 2, h = g = 3), 172 with the dephased seat blind, 0 not blind
