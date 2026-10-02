@@ -1,0 +1,44 @@
+PASS N4 symbolic [H,Q]=0 for free a,e,h,g
+PASS N4 symbolic {Z0,Q}=0
+PASS N4 symbolic Q^2=4*d^2*(a^2+h^2)*I
+PASS N4 [Y3,Q]=0
+PASS N4 [sigma1.dot(sigma2),Q]=0
+PASS N4 h=0 gives Q=-8*a^3*YYYY
+PASS N4 displayed dimer block equals the independently checked polynomial
+PASS N4 singlet map commutes with channel Gram matrix
+PASS N4 inside span{X0,X0Y3,Y0,Y0Y3} the Gram commutant is one-dimensional (fixes S up to a factor)
+PASS N4 independent tensor-matrix commutator
+PASS N4 independent tensor-matrix square
+PASS N4 the carrier is Hermitian at the sample point
+PASS N4 fixed carrier rejects J03=1
+PASS N4 fixed carrier rejects a non-opposite pair field
+PASS N4 omitted carrier term is detected
+PASS N5 attachment matrix has 19 pivot columns at t=3 (rows in forward order)
+PASS N5 attachment matrix has 19 pivot columns at t=3 (rows in reversed order)
+N5 first symbolic minor = 2048*t**22*(t**2 + 2)**8*(t**4 + 6*t**2 + 16)*(t**4 + 8*t**2 + 20)
+N5 second symbolic minor = 256*t**34*(t**2 + 2)**2
+N5 second minor rows = ZZZYX,ZZZYI,ZZZII,YZZZX,YZZZI,YZZYZ,YZZYY,YZZYX,YZZXI,YZZII,YZYYX,YZYYI,YZYIY,YZYIX,YZXYY,YZXYI,YYYIX,YYXZX,YYXYX
+N5 gcd of symbolic minors = t**22*(t**2 + 2)**2
+PASS N5 minors have no common nonzero real root
+PASS N5 displayed minor = 256*t^34*(t^2+2)^2
+PASS N5 obstruction excludes h=0: attachment rank drops
+PASS N5 h=0 admits a connected attachment with carrier Y^5
+PASS triangle P is a projector and PD=DP=0
+PASS triangle D^2=(144/7)*(I-P)
+PASS triangle T has the displayed two-sided inverse
+PASS triangle B*T=T*A
+PASS triangle T commutes with total X
+PASS triangle T commutes with total Y
+PASS triangle T commutes with total Z
+PASS triangle U is a Hermitian unitary intertwiner
+PASS triangle detuned B rejects the same T
+PASS N7 full-space [H,W]=0
+PASS N7 full-space {Z0,W}=0
+PASS N7 full-space W^2=128*I
+PASS N7 full-space fixed carrier detects detuned triangle
+PASS N7 positive bonds and exact Laplacian rank 6
+PASS N7 weighted automorphisms fixing 0: identity only
+PASS N7 no global Pauli colouring
+PASS N7 watched seat is still blind: Krylov rank 2
+N7 c=4, h=1: Laplacian cofactor = 150544
+ALL PASS: 38 exact checks

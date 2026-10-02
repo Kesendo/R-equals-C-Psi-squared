@@ -64,11 +64,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <c>simulations/n3_palindrome_covering_gate.py</c> (independent gate); live at <c>inspect --root trianglelocus</c>
 /// (<c>TrianglePalindromeLocusWitness</c>), which recomputes both ends exactly over Q at points.</para>
 ///
-/// <para><b>Two ways to a blind dephased seat, and a family at N = 4.</b> On the triangle the Krylov determinant of the
+/// <para><b>Blind dephased seats, and palindromes beyond colourings and site symmetries.</b> On the triangle the Krylov determinant of the
 /// dephased seat under the signed one-magnon Laplacian is −(s − t)·e₂: s = t a site symmetry fixing it, e₂ = 0 a rank
 /// drop that blinds every seat (F157). At N = 4, H = e·σ1·σ2 + a·(σ0 − σ3)·(σ1 − σ2) with fields 0, −h·X1, h·X2, g·Y3
 /// pairs for every a, g ≠ 0 and every e, h, for h ≠ 0 with neither a colouring nor a site symmetry, its carrier
-/// depending on h: <c>simulations/n4_pair_channel_family.py</c> (exact elimination and dense gate).</para>
+/// in closed form and depending on h: <c>simulations/n4_pair_channel_family.py</c> (exact elimination and dense gate);
+/// at N = 7 two weighted triangles equivalent as spin representations pair with no rank drop and no site symmetry
+/// (<c>simulations/blind_seat_carriers_gate.py</c>).</para>
 ///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
 /// <c>SectorConnection</c> (Theorem 4) are held against exact end-count verdicts and certified counts;
@@ -199,15 +201,15 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "certificate and independent gate: simulations/n3_palindrome_covering.py and " +
                          "simulations/n3_palindrome_covering_gate.py; live: inspect --root trianglelocus.");
 
-            yield return new InspectableNode("two ways to a blind dephased seat, and a family at N = 4",
+            yield return new InspectableNode("blind dephased seats, and palindromes beyond colourings and site symmetries",
                 summary: "On the triangle the Krylov determinant of the dephased seat under the signed one-magnon " +
                          "Laplacian is -(s-t)e2, the common-carrier factor: s = t is a site symmetry fixing d (B), e2 = 0 a " +
                          "rank drop of the Laplacian that blinds every seat (C) (F157). At N = 4, H = e s1.s2 + " +
                          "a (s0 - s3).(s1 - s2) with fields 0, -hX1, hX2, gY3 pairs for every a, g != 0 and every e, h, " +
-                         "near = far = 1, for h != 0 with neither a colouring nor a site symmetry; its carrier depends on h. " +
-                         "Exact elimination and dense gate: simulations/n4_pair_channel_family.py. Measured " +
-                         "(simulations/blind_seat_palindrome_sweep.py): the 172 non-coloured N = 4 palindromes of a sweep are " +
-                         "171 site-symmetric rows and one row of the family; necessity of the two ways is a conjecture.");
+                         "near = far = 1, for h != 0 with neither a colouring nor a site symmetry; its carrier, in closed form, " +
+                         "depends on h. At N = 7 two weighted triangles equivalent as spin representations pair with no rank " +
+                         "drop and no site symmetry, the centre still blind. Gates: simulations/n4_pair_channel_family.py, " +
+                         "simulations/blind_seat_carriers_gate.py. Whether a blind dephased seat is necessary is a conjecture.");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +

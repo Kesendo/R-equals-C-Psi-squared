@@ -6612,7 +6612,7 @@ intersection. The s = t branch is SWAP; the e₂ = st + sr + tr = 0 branch
 contains non-Clifford carriers without a weighted-graph symmetry fixing d,
 and at N = 4 a family pairs at fixed field with neither a colouring nor a
 site symmetry
-([two ways to a blind dephased seat](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#two-ways-to-a-blind-dephased-seat-and-a-family-at-n--4)).
+([blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries)).
 This is a classification of one carrier for every h, not of all palindromes
 at a fixed h ([proof and exact gate](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#a-common-carrier-for-the-triangles-whole-field-line)).
 At a fixed field the triangle is settled too: with one site dephased along Z
@@ -9161,9 +9161,11 @@ the Krylov determinant of d is −(s − t)·e₂ (s = J_du, t = J_dv, e₂ the 
 the factor that decides the common carrier of F138's converse failures there. Its two factors are two
 ways to blindness: s = t, a site symmetry fixing d, and e₂ = 0, a rank drop of the signed Laplacian
 that makes every seat blind. At N = 4 a family on the second way pairs, for nonzero transverse fields,
-with neither a colouring nor a site symmetry; a sweep's 172 non-coloured N = 4 palindromes are 171
-site-symmetric rows and one row of that family
-([two ways to a blind dephased seat](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#two-ways-to-a-blind-dephased-seat-and-a-family-at-n--4)).
+with neither a colouring nor a site symmetry, its carrier in closed form; at N = 7 two weighted
+triangles equivalent as spin representations pair with no rank drop and no site symmetry, refuting
+those two ways as the only ones, while the centre stays blind; whether a blind dephased seat is
+necessary is open
+([blind dephased seats](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#blind-dephased-seats-and-palindromes-beyond-colourings-and-site-symmetries)).
 
 ---
 
