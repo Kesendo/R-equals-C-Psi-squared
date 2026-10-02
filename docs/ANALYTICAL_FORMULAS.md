@@ -6612,6 +6612,13 @@ intersection. The s = t branch is SWAP; the e₂ = st + sr + tr = 0 branch
 contains non-Clifford carriers without a weighted-graph symmetry fixing d.
 This is a classification of one carrier for every h, not of all palindromes
 at a fixed h ([proof and exact gate](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#a-common-carrier-for-the-triangles-whole-field-line)).
+At a fixed field the triangle is settled too: with one site dephased along Z
+and a letter field of free magnitude on every site, a connected row (at most
+one coupling zero) pairs
+exactly when it is coloured, carries the u ↔ v swap with a π rotation about
+an axis perpendicular to z (J_du = J_dv), or lies on e₂ = 0 with no field on
+d and fields of equal magnitude perpendicular to z on u and v
+([exact computer-assisted proof](proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md#the-triangles-palindromic-locus-at-n--3)).
 **Operators explaining the uniform-bond exceptions are
 exhibited.** All 78 P₃ rows of (b) carry one operator,
 U = SWAP₀₂·(n·σ)⊗(n·σ)⊗(n·σ), the end-site swap composed with the π rotation about

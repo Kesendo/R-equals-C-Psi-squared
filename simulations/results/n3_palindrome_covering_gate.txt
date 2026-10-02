@@ -1,0 +1,7 @@
+# n3_palindrome_covering_gate.py 20 1800, run on simulations/results/n3_palindrome_covering.json (2026-10-02)
+1. on-leaf: 1305 far leaves, 932 tested at exact rational points, 373 without a point (none found, or not done within 1800 s), 1445 palindromic points
+   leaves inside a class reached at a rational point: A 446 of 575, B 19 of 19, C 4 of 10
+2. special loci: 1620 points over the 27 words, 412 palindromic; every connected palindromic point in A, B or C and every connected point of A, B or C palindromic, unless FAIL lines above; 1620 connected points located in a far leaf of the certificate carrying their far count; unscaled, 1364 of them miss every leaf, so the location can fail
+3. targeted: 144 C points and 122 B points, all palindromic unless FAIL lines above; with C left out of the classes 144 of the C points would be reported outside A, B and C
+4. mutation (the J3 ZZ term dropped) changes a stored far nullity: yes
+GATE PASS

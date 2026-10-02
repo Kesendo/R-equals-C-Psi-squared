@@ -4149,8 +4149,14 @@ public static class OpenArcsRegistry
                 + "the common Z0-odd commutant of the bond Hamiltonian and X1+Y2 is exactly one-dimensional iff "
                 + "(s-t)(st+sr+tr)=0, zero otherwise; its generator squares to (s^2+t^2)^3 I. This exhausts carriers "
                 + "independent of the common field magnitude h, not carriers at an individual h (exact symbolic gate: "
-                + "simulations/triangle_common_carrier_gate.py). Fixed-field carriers, other field patterns and higher N "
-                + "remain open. The reciprocal locus requires mixed coupling signs, so the one-weight sweeps could not meet it.",
+                + "simulations/triangle_common_carrier_gate.py). The reciprocal locus requires mixed coupling signs, so the "
+                + "one-weight sweeps could not meet it. At a fixed field, the Heisenberg triangle with jump Z0 is closed for every letter-field "
+                + "pattern: a connected triangle row with jump Z0 pairs exactly when it is coloured, carries the 1<->2 swap "
+                + "with a pi rotation about an axis perpendicular to z (J01 = J02), or lies on e2 = 0 with no field on 0 and "
+                + "fields of equal magnitude perpendicular to z on 1 and 2 (exact computer-assisted elimination, certificate "
+                + "and independent gate, in Python: simulations/n3_palindrome_covering.py, "
+                + "simulations/n3_palindrome_covering_gate.py; a C# witness port is not done). Degeneracy loci at N >= 4, and "
+                + "fields off the letters and non-Heisenberg bonds at N = 3, remain open.",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "
                 + "simulations/f138_palindrome_colouring.py). A single Pauli string in F158's far kernel is a colouring of "
                 + "the graph by lit letters, one per site that all its jumps light (bond P(x)P: both ends or neither "

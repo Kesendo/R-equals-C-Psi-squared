@@ -56,6 +56,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// one invertible carrier independent of h, not every fixed-h palindrome. Exact symbolic gate:
 /// <c>simulations/triangle_common_carrier_gate.py</c>.</para>
 ///
+/// <para><b>The triangle's palindromic locus at N = 3.</b> Heisenberg triangle, jump Z on site 0 only, a letter field
+/// of free magnitude on every site, at most one coupling zero: a row pairs exactly when it is coloured, carries the
+/// 1↔2 swap with a π rotation about an axis perpendicular to z (J01 = J02), or lies on e₂ = J01J02 + J01J12 + J02J12 = 0
+/// with no field on 0 and fields of equal magnitude perpendicular to z on 1 and 2.
+/// Necessity by an exact computer-assisted elimination: <c>simulations/n3_palindrome_covering.py</c> (certificate) and
+/// <c>simulations/n3_palindrome_covering_gate.py</c> (independent gate).</para>
+///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
 /// <c>SectorConnection</c> (Theorem 4) are held against exact end-count verdicts and certified counts;
 /// <c>LocalSystem</c> (Theorem 6) and <c>ChargeSectors</c> (Theorem 7) compare modular upper counts.
@@ -175,6 +182,15 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "(s-t)(st+sr+tr)=0, including the branch intersection, and zero otherwise. Its generator " +
                          "squares to (s^2+t^2)^3 I. This classifies one invertible carrier independent of h, not " +
                          "every fixed-h palindrome. Exact symbolic gate: simulations/triangle_common_carrier_gate.py.");
+
+            yield return new InspectableNode("the triangle's palindromic locus at N = 3",
+                summary: "Same triangle and jump, a letter field of free real magnitude on every site, at most one " +
+                         "coupling zero: a row pairs exactly when it is coloured (A), carries the 1<->2 swap with a pi " +
+                         "rotation about an axis perpendicular to z (B, J01 = J02), or lies on e2 = J01J02 + J01J12 + J02J12 = 0 " +
+                         "with no field on 0 and fields of equal magnitude perpendicular to z on 1 and 2 (C). Sufficiency from F138, the symmetry element " +
+                         "and the common carrier; necessity by exact elimination over the ten word orbits in two charts, " +
+                         "certificate and independent gate: simulations/n3_palindrome_covering.py and " +
+                         "simulations/n3_palindrome_covering_gate.py.");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
