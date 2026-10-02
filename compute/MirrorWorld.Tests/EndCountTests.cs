@@ -1503,6 +1503,136 @@ public class EndCountTests
         Assert.Equal((1, 0), (e.LocalSystem()!.Value.Near, e.LocalSystem()!.Value.Far));
     }
 
+    // Theorem 7, the charge sectors: XXZ bonds J(XX + YY) + Δ·ZZ (random J ≠ 0 and Δ) on random connected graphs,
+    // Z jumps on the dephased sites, one to three undephased sites with Z fields (zero allowed), the charge the
+    // total magnetization (every weight 1). The sector sums equal the end count's string-span counts on every row.
+    [Fact]
+    public void Charge_Sector_Sums_Equal_The_End_Count()
+    {
+        var rng = new Random(20261002 + 23);
+        int rows = 0, pal = 0, broken = 0, cross = 0, wide = 0;
+        for (int draw = 0; draw < 160; draw++)
+        {
+            int n = rng.Next(2, 6);
+            int nFree = Math.Min(n - 1, rng.Next(1, 4));
+            var free = Enumerable.Range(0, n).OrderBy(_ => rng.Next()).Take(nFree).ToHashSet();
+            var h = new List<(string, long)>();
+            var order = Enumerable.Range(0, n).OrderBy(_ => rng.Next()).ToList();
+            var bonds = Enumerable.Range(1, n - 1).Select(i => (order[i], order[rng.Next(i)])).ToList();
+            if (n > 2 && rng.Next(2) == 0) bonds.Add((order[0], order[n - 1]));
+            foreach (var (a, b) in bonds.Distinct())
+            {
+                long j = new long[] { 1, 2, -1, 3 }[rng.Next(4)], delta = new long[] { 0, 1, 2, -1, 3 }[rng.Next(5)];
+                h.Add((Two(n, a, b, 'X'), j)); h.Add((Two(n, a, b, 'Y'), j));
+                if (delta != 0) h.Add((Two(n, a, b, 'Z'), delta));
+            }
+            foreach (int u in free)
+            {
+                long f = new long[] { 0, 0, 1, 2, -1 }[rng.Next(5)];
+                if (f != 0) h.Add((One(n, u, 'Z'), f));
+            }
+            var jumps = Enumerable.Range(0, n).Where(l => !free.Contains(l)).Select(l => One(n, l, 'Z')).ToList();
+            var e = new EndCount(W, n, h, jumps);
+            var cs = e.ChargeSectors(Enumerable.Repeat(1L, n).ToList());
+            Assert.NotNull(cs);
+            Assert.Equal(n + 1, cs!.Value.Sectors);                 // the magnetization takes the values -n, -n + 2, ..., n
+            var up = e.UpperCounts();
+            Assert.True((cs.Value.Near, cs.Value.Far) == (up.Near, up.Far),
+                $"N={n} free {string.Join(",", free)} H {string.Join(" + ", h.Select(t => $"{t.Item2}{t.Item1}"))}: " +
+                $"sectors {cs.Value.Near}, {cs.Value.Far}; end count {up.Near}, {up.Far}");
+            rows++;
+            if (up.Near == up.Far) pal++; else broken++;
+            if (cs.Value.Cross > 0) cross++;
+            if (nFree >= 2) wide++;
+        }
+        Assert.True(rows == 160 && pal > 20 && broken > 20 && cross > 20 && wide > 30,
+            $"rows {rows}, palindromic {pal}, broken {broken}, with cross-sector terms {cross}, two or more undephased {wide}");
+    }
+
+    // A charge H does not conserve is declined: an X field on the undephased site breaks the magnetization.
+    [Fact]
+    public void A_Broken_Charge_Is_Declined()
+    {
+        var e = new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("YY", 1), ("ZZ", 1), ("IX", 1) }, new[] { "ZI" });
+        Assert.Null(e.ChargeSectors(new long[] { 1, 1 }));
+        var kept = new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("YY", 1), ("ZZ", 1), ("IZ", 1) }, new[] { "ZI" });
+        Assert.NotNull(kept.ChargeSectors(new long[] { 1, 1 }));
+        Assert.Null(kept.ChargeSectors(new long[] { 0, 0 }));      // a constant charge splits nothing
+    }
+
+    // One row with its sectors pinned: the Heisenberg bond on two sites, Z on the first, the second undephased with
+    // no field. Three magnetization values; the end count reads (3, 3), the near end the three sector projectors
+    // (no cross part), and the far end pairs the magnetization m with -m (cross part 2).
+    [Fact]
+    public void A_Two_Site_Heisenberg_Bond_Has_Three_Sectors()
+    {
+        var e = new EndCount(W, 2, new List<(string, long)> { ("XX", 1), ("YY", 1), ("ZZ", 1) }, new[] { "ZI" });
+        var cs = e.ChargeSectors(new long[] { 1, 1 })!.Value;
+        Assert.Equal((3, 3), e.UpperCounts());
+        Assert.Equal((3, 3, 3), (cs.Sectors, cs.Near, cs.Far));
+        Assert.Equal(0, cs.NearCross);
+        Assert.Equal(2, cs.Cross);
+    }
+
+    // F4's cross-sector weight is Theorem 7's near-end part from pairs of different magnetization: one Z-dephased
+    // seat, Heisenberg bonds of weight 1, every other site undephased. 4 at every seat of the ring at N = 4 (F4's
+    // number), 0 at every seat of the chain at N = 4 and of the ring at N = 3 (F4: the ring at N = 3 carries none).
+    [Theory]
+    [InlineData("ring", 4, 4)]
+    [InlineData("chain", 4, 0)]
+    [InlineData("ring", 3, 0)]
+    public void F4s_Cross_Sector_Weight_Is_The_Near_Cross_Part(string graph, int n, int weight)
+    {
+        var edges = Enumerable.Range(0, graph == "ring" ? n : n - 1).Select(i => (i, (i + 1) % n)).ToList();
+        for (int seat = 0; seat < n; seat++)
+        {
+            var h = new List<(string, long)>();
+            foreach (var (a, b) in edges) foreach (char c in "XYZ") h.Add((Two(n, a, b, c), 1));
+            var e = new EndCount(W, n, h, new[] { One(n, seat, 'Z') });
+            var cs = e.ChargeSectors(Enumerable.Repeat(1L, n).ToList())!.Value;
+            Assert.Equal(e.UpperCounts().Near, cs.Near);
+            Assert.True(cs.NearCross == weight, $"{graph} N={n} seat {seat}: near cross {cs.NearCross}");
+        }
+    }
+
+    // Theorem 4 is the charge that lives on the undephased sites alone: ZZ bonds, undephased sites keeping Z, the
+    // charge weights 0 on the dephased sites and 1 and 2 on the (one or two) undephased ones (every sector one-dimensional
+    // at each vertex); the sector sums equal SectorConnection's.
+    [Fact]
+    public void A_Charge_On_The_Undephased_Sites_Alone_Is_Theorem_Four()
+    {
+        var rng = new Random(20261002 + 29);
+        int rows = 0;
+        for (int draw = 0; draw < 200 && rows < 60; draw++)
+        {
+            int n = rng.Next(2, 5);
+            int nFree = Math.Min(n - 1, rng.Next(1, 3));
+            var free = Enumerable.Range(0, n).OrderBy(_ => rng.Next()).Take(nFree).ToList();
+            var h = new List<(string, long)>();
+            for (int a = 0; a < n; a++)
+                for (int b = a + 1; b < n; b++)
+                    if (rng.Next(2) == 0) h.Add((Two(n, a, b, 'Z'), rng.Next(1, 4)));
+            for (int l = 0; l < n; l++)
+            {
+                char f = free.Contains(l) ? "IZ"[rng.Next(2)] : "IXYZ"[rng.Next(4)];
+                if (f != 'I') h.Add((One(n, l, f), rng.Next(1, 4)));
+            }
+            if (h.Count == 0) continue;
+            var jumps = Enumerable.Range(0, n).Where(l => !free.Contains(l)).Select(l => One(n, l, "XYZ"[rng.Next(3)])).ToList();
+            var e = new EndCount(W, n, h, jumps);
+            var sc = e.SectorConnection();
+            Assert.NotNull(sc);
+            var w = new long[n];
+            for (int k = 0; k < free.Count; k++) w[free[k]] = 1L << k;
+            var cs = e.ChargeSectors(w);
+            Assert.NotNull(cs);
+            Assert.Equal((sc!.Value.Near, sc.Value.Far), (cs!.Value.Near, cs.Value.Far));
+            Assert.Equal(1 << free.Count, cs.Value.Sectors);          // weights 1 and 2 separate the free bitstrings
+            rows++;
+        }
+        Assert.True(rows >= 50, $"rows {rows}");
+    }
+
     // Theorem 6 (a): a pair in the support of H and not of H̄ rules out an invertible far element, but the far end need
     // not vanish, since such a pair is never a tree edge and a singular chord leaves room. H = (XII + XIZ + XZI + XZZ)
     // + 2 IXI + 2 XXI under Z on the two dephased sites (the proof's row scaled by 2): near 2,

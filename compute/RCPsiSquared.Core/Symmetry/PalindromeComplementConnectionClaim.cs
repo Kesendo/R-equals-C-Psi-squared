@@ -45,8 +45,13 @@ namespace RCPsiSquared.Core.Symmetry;
 /// generator tuples of H and of its complement image are simultaneously similar, decided by traces of words,
 /// of length at most 3 with one undephased site.</para>
 ///
+/// <para><b>Theorem 7.</b> H conserving a nonconstant diagonal charge Q = Σ w_l Z_l of the frame, dephased and
+/// undephased bits mixed or not (the total magnetization of XXZ bonds with Z jumps and Z fields): both ends are sums over pairs
+/// of charge sectors, near = Σ dim Hom(ρ_q', ρ_q), far = Σ dim Hom(ρ_q', ρ̄_q), a count of good components where
+/// every sector space is at most one-dimensional; Theorem 4 is a charge on the undephased sites alone.</para>
+///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
-/// <c>SectorConnection</c> (Theorem 4) and <c>LocalSystem</c> (Theorem 6), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
+/// <c>SectorConnection</c> (Theorem 4), <c>LocalSystem</c> (Theorem 6) and <c>ChargeSectors</c> (Theorem 7), held in <c>compute/MirrorWorld.Tests/EndCountTests.cs</c> against the
 /// end count's exact verdict and counts; Theorem 5 against the end count's exact verdict directly. Live lab: <c>inspect --root complement</c>
 /// (<c>ComplementConnectionWitness</c>), which shares no code with the gate, reads Theorems 2 and 4 on its own
 /// graph (with <c>--bonds ZZ</c> for undephased sites that keep a letter), prints Theorem 1's, 3's or 5's rule
@@ -160,7 +165,8 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "sites where each keeps a letter H conserves; Theorem 5: one undephased site under Heisenberg bonds with " +
                          "letter fields, where no letter is kept; Theorem 6: any undephased sites, wherever every component has " +
                          "a spanning tree whose blocks of H and of its complement image are invertible. A component without " +
-                         "such a tree lies outside all six. Theorems 1, 3 and 5 need a connected graph: two " +
+                         "such a tree lies outside Theorem 6; Theorem 7 counts every row whose conserved diagonal charge has " +
+                         "sectors of dimension at most one, and only splits the others. Theorems 1, 3 and 5 need a connected graph: two " +
                          "disjoint Heisenberg bonds with axes X, Y and Y, Z and fields along each bond's third " +
                          "letter use three axes and pair, by ZZXX. Theorem 3 needs isotropic bonds; XXZ and XY " +
                          "under mixed axes are outside it.");

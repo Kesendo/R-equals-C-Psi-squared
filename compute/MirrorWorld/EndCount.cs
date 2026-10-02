@@ -1079,6 +1079,153 @@ public sealed class EndCount : GameObject
         return o;
     }
 
+    // ---- a conserved charge that mixes dephased and undephased bits: the charge sectors ----
+
+    /// <summary>The reading of Theorem 7 of docs/proofs/PROOF_PALINDROME_COMPLEMENT_CONNECTION.md. Every
+    /// dephased site carries exactly one single-site jump, turned to Z; the undephased sites are left in their own
+    /// Z basis. Given weights w_l, the charge is Q(b) = Σ_l w_l·(−1)^(b_l) on the computational basis of all N
+    /// sites in that frame. When every nonzero entry of H joins two basis states of equal charge (checked exactly,
+    /// over the Gaussian integers), H is a sum of charge sectors ρ_q: at the bitstring x of the dephased sites,
+    /// ρ_q's space is spanned by the basis states with that x and charge q, and the complement image ρ̄_q's by those
+    /// with x̄ and charge q, with blocks read off H. Then
+    ///
+    ///     near = Σ_{q,q'} dim Hom(ρ_q', ρ_q),   far = Σ_{q,q'} dim Hom(ρ_q', ρ̄_q),
+    ///
+    /// each Hom the intertwiners f_x with β_xy·f_y = f_x·α_xy on every pair, over GF(p) with i a square root of
+    /// −1, each end the smaller over the primes (upper bounds, as the end count's are). Cross is the part of both
+    /// ends from q ≠ q' and NearCross the near end's alone, each its own minimum over the primes. Null when there is no jump, a jump is not one letter on one site,
+    /// a site carries two jumps, there is no undephased site, every weight is zero (the charge is constant and
+    /// splits nothing), or H does not conserve the charge. N ≤ 8, and a sector pair with more than
+    /// <see cref="MaxSectorUnknowns"/> unknowns is refused.</summary>
+    public const int MaxSectorUnknowns = 4096;
+
+    public (int Near, int Far, int Sectors, int Cross, int NearCross)? ChargeSectors(IReadOnlyList<long> weights)
+    {
+        if (N > 8) throw new InvalidOperationException("the sectors are read on 2^N basis states; N <= 8");
+        if (weights.Count != N) throw new ArgumentException($"one weight per site; N = {N}", nameof(weights));
+        if (weights.All(w => w == 0)) return null;
+        var axis = new char[N];
+        foreach (var a in jumpStrings)
+        {
+            var sites = Enumerable.Range(0, N).Where(l => Touches(a, l)).ToList();
+            if (sites.Count != 1 || axis[sites[0]] != '\0') return null;
+            axis[sites[0]] = a.Letter(sites[0]);
+        }
+        var deph = Enumerable.Range(0, N).Where(l => axis[l] != '\0').ToList();
+        var free = Enumerable.Range(0, N).Where(l => axis[l] == '\0').ToList();
+        if (free.Count == 0 || deph.Count == 0) return null;
+        int d = 1 << N, dephMask = deph.Aggregate(0, (m, l) => m | (1 << l));
+
+        // H in the frame, exactly: (row, col) -> Gaussian integer
+        var h = new Dictionary<(int, int), (BigInteger Re, BigInteger Im)>();
+        foreach (var (t, c) in terms)
+        {
+            var letters = new char[N];
+            int sign = 1;
+            for (int l = 0; l < N; l++)
+            {
+                char ch = t.Letter(l);
+                if (ch == 'I' || axis[l] == '\0') { letters[l] = ch; continue; }
+                var (nl, sg) = TurnToZ(ch, axis[l]);
+                letters[l] = nl; sign *= sg;
+            }
+            var q = PauliString.Parse(new string(letters));
+            int ny = System.Numerics.BitOperations.PopCount(q.X & q.Z);
+            for (int col = 0; col < d; col++)
+            {
+                int row = col ^ (int)q.X;
+                int k = (ny + 2 * System.Numerics.BitOperations.PopCount((ulong)col & q.Z)) & 3;
+                BigInteger v = sign * (BigInteger)c;
+                var add = k switch { 0 => (v, BigInteger.Zero), 1 => (BigInteger.Zero, v), 2 => (-v, BigInteger.Zero), _ => (BigInteger.Zero, -v) };
+                var old = h.TryGetValue((row, col), out var o) ? o : (BigInteger.Zero, BigInteger.Zero);
+                h[(row, col)] = (old.Item1 + add.Item1, old.Item2 + add.Item2);
+            }
+        }
+        foreach (var key in h.Keys.Where(k => h[k].Re.IsZero && h[k].Im.IsZero).ToList()) h.Remove(key);
+        long Charge(int b)
+        {
+            long s = 0;
+            for (int l = 0; l < N; l++) s += ((b >> l) & 1) == 0 ? weights[l] : -weights[l];
+            return s;
+        }
+        if (h.Keys.Any(k => Charge(k.Item1) != Charge(k.Item2))) return null;
+
+        // the basis states of each sector at each dephased bitstring x (x read as the dephased bits of b)
+        var charges = Enumerable.Range(0, d).Select(Charge).Distinct().OrderBy(v => v).ToList();
+        var verts = Enumerable.Range(0, d).Select(b => b & dephMask).Distinct().OrderBy(v => v).ToList();
+        var stateCache = new Dictionary<(int, long), List<int>>();
+        List<int> States(int x, long q)
+        {
+            if (!stateCache.TryGetValue((x, q), out var s))
+                stateCache[(x, q)] = s = Enumerable.Range(0, d).Where(b => (b & dephMask) == x && Charge(b) == q).ToList();
+            return s;
+        }
+        // the pairs of dephased bitstrings that H joins (a block can be nonzero only there), the diagonal included
+        var joined = h.Keys.Select(k => (k.Item1 & dephMask, k.Item2 & dephMask)).Concat(verts.Select(x => (x, x))).ToHashSet();
+
+        int? bestNear = null, bestFar = null, bestCross = null, bestNearCross = null;
+        foreach (long p in ModP.Primes)
+        {
+            long iu = ModP.SqrtMinusOne(p);
+            long Entry(int r, int c) => h.TryGetValue((r, c), out var e)
+                ? ModP.AddMod(ModP.Mod((long)(e.Re % p), p), ModP.MulMod(ModP.Mod((long)(e.Im % p), p), iu, p), p) : 0;
+            // Hom(alpha, beta): alpha at x has basis aB[x], beta at x has basis bB[x]; unknown f_x maps alpha_x to beta_x
+            int Hom(Func<int, List<int>> aB, Func<int, List<int>> bB)
+            {
+                var offset = new Dictionary<int, int>(); int unknowns = 0;
+                foreach (int x in verts) { offset[x] = unknowns; unknowns += bB(x).Count * aB(x).Count; }
+                if (unknowns == 0) return 0;
+                if (unknowns > MaxSectorUnknowns)
+                    throw new InvalidOperationException($"a sector pair has {unknowns} unknowns, past {MaxSectorUnknowns}");
+                var rows = new List<long[]>();
+                foreach (int x in verts)
+                    foreach (int y in verts)
+                    {
+                        // beta_xy is a block of H at (x̄, ȳ), alpha_xy at (x, y); with neither pair joined both vanish
+                        if (!joined.Contains((x, y)) && !joined.Contains((x ^ dephMask, y ^ dephMask))) continue;
+                        var ax = aB(x); var ay = aB(y); var bx = bB(x); var by = bB(y);
+                        // beta_xy f_y - f_x alpha_xy = 0, entry (i, j): i over bx, j over ay
+                        for (int i = 0; i < bx.Count; i++)
+                            for (int j = 0; j < ay.Count; j++)
+                            {
+                                var row = new long[unknowns];
+                                bool any = false;
+                                for (int k = 0; k < by.Count; k++)
+                                {
+                                    long v = Entry(bx[i], by[k]);
+                                    if (v == 0) continue;
+                                    int idx = offset[y] + k * ay.Count + j;
+                                    row[idx] = ModP.AddMod(row[idx], v, p); any = true;
+                                }
+                                for (int k = 0; k < ax.Count; k++)
+                                {
+                                    long v = Entry(ax[k], ay[j]);
+                                    if (v == 0) continue;
+                                    int idx = offset[x] + i * ax.Count + k;
+                                    row[idx] = ModP.Mod(row[idx] - v, p); any = true;
+                                }
+                                if (any) rows.Add(row);
+                            }
+                    }
+                return unknowns - (rows.Count == 0 ? 0 : ModP.Rank(rows, p));
+            }
+            int near = 0, far = 0, cross = 0, nearCross = 0;
+            foreach (long q in charges)
+                foreach (long q2 in charges)
+                {
+                    int hn = Hom(x => States(x, q2), x => States(x, q));
+                    int hf = Hom(x => States(x, q2), x => States(x ^ dephMask, q));
+                    near += hn; far += hf;
+                    if (q != q2) { cross += hn + hf; nearCross += hn; }
+                }
+            bestNear = bestNear is { } bn ? Math.Min(bn, near) : near;
+            bestFar = bestFar is { } bf ? Math.Min(bf, far) : far;
+            bestCross = bestCross is { } bc ? Math.Min(bc, cross) : cross;
+            bestNearCross = bestNearCross is { } bx ? Math.Min(bx, nearCross) : nearCross;
+        }
+        return (bestNear!.Value, bestFar!.Value, charges.Count, bestCross!.Value, bestNearCross!.Value);
+    }
+
     // ---- the far element a Clifford symmetry is ----
 
     /// <summary>A Clifford symmetry of (H, jumps), read as what it does to the terms: term i of H goes to
