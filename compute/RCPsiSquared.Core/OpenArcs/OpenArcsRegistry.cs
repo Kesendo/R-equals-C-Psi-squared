@@ -4155,7 +4155,8 @@ public static class OpenArcsRegistry
                 + "with a pi rotation about an axis perpendicular to z (J01 = J02), or lies on e2 = 0 with no field on 0 and "
                 + "fields of equal magnitude perpendicular to z on 1 and 2 (exact computer-assisted elimination, certificate "
                 + "and independent gate, in Python: simulations/n3_palindrome_covering.py, "
-                + "simulations/n3_palindrome_covering_gate.py; a C# witness port is not done). Degeneracy loci at N >= 4, and "
+                + "simulations/n3_palindrome_covering_gate.py; live at inspect --root trianglelocus, which reads the rule at "
+                + "points). Degeneracy loci at N >= 4, and "
                 + "fields off the letters and non-Heisenberg bonds at N = 3, remain open.",
             NextStep: "THE CLAUSES ARE A COLOURING (2026-09-29, experiments/THE_PALINDROME_AS_A_COLOURING.md, gate "
                 + "simulations/f138_palindrome_colouring.py). A single Pauli string in F158's far kernel is a colouring of "

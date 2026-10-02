@@ -61,7 +61,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// 1↔2 swap with a π rotation about an axis perpendicular to z (J01 = J02), or lies on e₂ = J01J02 + J01J12 + J02J12 = 0
 /// with no field on 0 and fields of equal magnitude perpendicular to z on 1 and 2.
 /// Necessity by an exact computer-assisted elimination: <c>simulations/n3_palindrome_covering.py</c> (certificate) and
-/// <c>simulations/n3_palindrome_covering_gate.py</c> (independent gate).</para>
+/// <c>simulations/n3_palindrome_covering_gate.py</c> (independent gate); live at <c>inspect --root trianglelocus</c>
+/// (<c>TrianglePalindromeLocusWitness</c>), which recomputes both ends exactly over Q at points.</para>
 ///
 /// <para>Gate: <c>compute/MirrorWorld/EndCount.cs</c>'s <c>ComplementConnection</c> (Theorems 1 to 3) and
 /// <c>SectorConnection</c> (Theorem 4) are held against exact end-count verdicts and certified counts;
@@ -190,7 +191,7 @@ public sealed class PalindromeComplementConnectionClaim : Claim
                          "with no field on 0 and fields of equal magnitude perpendicular to z on 1 and 2 (C). Sufficiency from F138, the symmetry element " +
                          "and the common carrier; necessity by exact elimination over the ten word orbits in two charts, " +
                          "certificate and independent gate: simulations/n3_palindrome_covering.py and " +
-                         "simulations/n3_palindrome_covering_gate.py.");
+                         "simulations/n3_palindrome_covering_gate.py; live: inspect --root trianglelocus.");
 
             yield return new InspectableNode("scope, and the counterexamples at its edges",
                 summary: "Theorems 1 to 3: every site dephased by one single-site Pauli jump. Theorem 4: undephased " +
