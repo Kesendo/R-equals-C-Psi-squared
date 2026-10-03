@@ -352,7 +352,9 @@ count by, with the ranks taken modulo two primes, and the route of
 
 **This is not new**, and the repo says where it lives: PROOF_CODIM1's window-edge
 lemma gives semisimplicity at every edge of a rate window, and by §(b)'s
-corollary 0 and −2σ are the two edges of the strip that holds this generator's spectrum. It is written
+corollary 0 and −2σ are the two ends of the strip that bounds this generator's
+spectrum, and they are edges of it exactly where they are eigenvalues, the only
+case in which semisimplicity there says anything. It is written
 out because the chain below consumes it, not because it is being claimed.
 
 Let M = L + 2σ. By §(b)'s corollary L is **dissipative** (Re⟨X, LX⟩ ≤ 0) and M
@@ -588,8 +590,8 @@ FUNCTION of the Hamiltonian, A_l = f_l(H), then 𝒲 = 0 and the spectrum never
 pairs, at any rate profile and whatever H is. One line: W ∈ 𝒲 commutes with H,
 hence with f_l(H) = A_l, so A_l W A_l = A_l² W = +W, which contradicts
 A_l W A_l = −W unless W = 0. Meanwhile 𝒩 is as large as H's own commutant, so
-the two counts are as far apart as they get. A = sign(H − c), which is Hermitian
-and squares to 1, is such a jump squarely INSIDE the class.
+the two counts are as far apart as they get. A = sign(H − c), with c not an
+eigenvalue of H, which is Hermitian and squares to 1, is such a jump squarely INSIDE the class.
 
 The physical reading is worth the sentence, because it is the sharpest thing the
 criterion says without any computation at all: **a channel that watches in the
@@ -632,8 +634,9 @@ in one does not hide in the others.
   7 and 8, run at one prime. A nullity read mod p can only come out too
   **large** (reduction is a ring map, so a rank can only come out too small), so
   both nullities are upper bounds and a mod-p equality is evidence, not proof.
-  The direction is USUALLY the safe one: a bad prime inflating ONE nullity flips
-  the criterion and makes a gate FAIL rather than pass. The exception is a prime
+  The direction is USUALLY the safe one: a bad prime inflating ONE nullity
+  either leaves the verdict as it was or flips it, and a flip makes a gate FAIL
+  rather than pass. The exception is a prime
   inflating BOTH sides compensatingly, which would pass wrongly, and that is the
   residue the three-prime blocks reduce and the one-prime blocks do not.
 - **Float, sharing no construction code with any of it:** gate 9 rebuilds the
@@ -645,8 +648,11 @@ in one does not hide in the others.
 **Sampling has not vanished from the script**, and §(d) does not claim it has.
 Three elements remain and they do NOT all fail safe. `invertible_in` draws
 random elements and tests a determinant, load-bearing in the gates that check
-Lemma 3 itself; there the direction is safe, since a missed invertible element
-makes a gate fail rather than pass. `gate2b` draws six random vectors per row
+Lemma 3 itself (gates 3 and 3b); there the direction is safe, since a missed
+invertible element makes a gate fail rather than pass. Gates 10c and 11 also
+report what it finds, and there a missed element would pass, so their "no
+invertible element" is the search agreeing with Lemma 3, which the deterministic
+`dim 𝒲 < dim 𝒩` they check already implies. `gate2b` draws six random vectors per row
 for the two inequalities. And the palindrome verdict itself is a random-point
 determinant test, in the committed three-prime route and in the single-prime
 one alike, which carries the one-sidedness its own source module states in a
@@ -660,6 +666,10 @@ p(x) − p(−x−2σ) vanishes identically mod p although it does not over ℚ(
 points cannot catch that, only more primes, and the 1,875 rows of gates 7 and 8
 are read at one. What §(d) removes is the sampling from the
 CRITERION, which is now two ranks.
+
+The gate scores dim 𝒩 and dim 𝒲 from the operator equations, the commutant and
+the jump-signed anticommutant; that these are dim ker L and dim ker(L + 2σ) is
+Lemma 1, checked exactly on gate 1's seven rows and in floats on gate 9's 885.
 
 **All 103 gates pass.** The criterion is scored against the palindrome on
 **15,415 rows**, in both directions, of which **2,596 hold and 12,819 break**:
@@ -696,9 +706,9 @@ Beside the scoring, and on rows where the palindrome is not consulted at all:
 | Lemma 3, invertible element ⟺ equal counts | 5,000 rows | 0 mismatches |
 | §(f1), `dim 𝒲 ≤ dim 𝒩` | 3,600 rows | holds, largest observed gap 12 |
 | §(f2), the canonical chain | N = 2, 3, 4 | both counts N+1, palindrome holds |
-| §(f5), odd d | d = 3, 5, 24 random Hermitian H and 4 multiples of 1 (where dim 𝒲 > 0) | `dim 𝒲 < dim 𝒩` always, no invertible element |
+| §(f5), odd d | d = 3, 5, 24 random Hermitian H and 4 multiples of 1 (where dim 𝒲 > 0) | `dim 𝒲 < dim 𝒩` always, so by Lemma 3 no invertible element (a sampled search agrees) |
 | gate 10, depolarizing and the rate fence | N = 2, 3 | criterion tracks the palindrome through both |
-| gate 11, `0 < dim 𝒲 < dim 𝒩` by construction | 8 built rows at d = 4 | strictly between on all eight, no invertible element, criterion and spectrum agree |
+| gate 11, `0 < dim 𝒲 < dim 𝒩` by construction | 8 built rows at d = 4 | strictly between on all eight (so no invertible element; a sampled search agrees), criterion and spectrum agree |
 
 **And one route whose construction shares no code with any of it.** The failure
 this file could not otherwise rule out is a shared helper making the two sides

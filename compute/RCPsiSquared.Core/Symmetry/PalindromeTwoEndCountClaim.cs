@@ -206,8 +206,8 @@ public sealed class PalindromeTwoEndCountClaim : Claim
                 summary: "Proved for any Hermitian H, any nonempty finite set of Hermitian jumps squaring to 1 (single " +
                          "letters, off-axis n.sigma at unit directions, multi-site Pauli strings and full " +
                          "depolarizing sites alike), any strictly positive profile, any topology, any N, any " +
-                         "finite dimension. Gated at d = 2^N with N <= 5, plus d = 3 and 5 for the odd-d " +
-                         "corollary. OUTSIDE: jumps with A^2 != 1 (F137 recentres) and rates that are zero or " +
+                         "finite dimension. Gated at d = 2^N with N <= 5, plus d = 3 and 5, where the inequality " +
+                         "dim W < dim N behind the odd-d corollary is checked. OUTSIDE: jumps with A^2 != 1 (F137 recentres) and rates that are zero or " +
                          "negative. What the counts decide is the MULTISET; where they agree the proof's (f8) " +
                          "gives the similarity L ~ -L - 2 sigma with the whole Jordan structure. " +
                          "F1PalindromeIdentity is the operator identity for the particular Pi, which is why a " +

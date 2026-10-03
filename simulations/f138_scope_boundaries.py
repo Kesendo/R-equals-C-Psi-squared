@@ -8,7 +8,7 @@
 2. The clauses need bonds built of P⊗P terms. P3 with bonds XX + XY under Z on every site, no field; and the
    Dzyaloshinskii-Moriya chain XY - YX at N = 3 under Z on every site, palindromic with no field and broken
    by X fields the clauses admit.
-Run: python simulations/f138_scope_boundaries.py   (output: simulations/results/f138_scope_boundaries.txt)"""
+Run: python simulations/f138_scope_boundaries.py   (stdout, redirected to simulations/results/f138_scope_boundaries.txt)"""
 import itertools
 import numpy as np
 from scipy.optimize import linear_sum_assignment
@@ -96,7 +96,7 @@ def three_axis_census(n, edges, spectral):
     """Every bond-letter set times every three-axis assignment, read by F158's two ranks; on K3 also by the
     spectrum, whose verdicts must agree with the ranks and whose threshold is the measured gap."""
     res = {'one letter': [0, 0], 'mixed letters': [0, 0]}
-    paired, broke, disagree = [], [], 0
+    paired, broke = [], []
     axsets = [a for a in itertools.product('XYZ', repeat=n) if set(a) == {'X', 'Y', 'Z'}]
     for letters in itertools.product('XYZ', repeat=len(edges)):
         kind = 'one letter' if len(set(letters)) == 1 else 'mixed letters'
@@ -136,6 +136,7 @@ def main():
           and p4 == {'one letter': [108, 0], 'mixed letters': [864, 96]}
           and gap >= 6 and all(list(got) == want for _, got, want in rows))
     print('BOUNDARIES', 'CONFIRMED' if ok else 'NOT AS STATED')
+    return ok
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(0 if main() else 1)

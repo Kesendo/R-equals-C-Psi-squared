@@ -192,7 +192,7 @@ the char-poly palindrome p(x) = p(-x - 2*sigma) holds exactly when
   must be EVEN. At odd d the criterion must therefore say NO at
   every H, which is a corollary and not a measurement, gated here
   because every other row of this file sits at d = 2^N.
-  [PASS] odd d: dim W < dim N always, and no invertible element   d = 3 and 5, 24 random Hermitian H and 4 multiples of 1; dim W > 0 on 4 rows
+  [PASS] odd d: dim W < dim N always (a sampled search finds no invertible element) d = 3 and 5, 24 random Hermitian H and 4 multiples of 1; dim W > 0 on 4 rows
 
 ## Gate 11: 0 < dim W < dim N, built rather than waited for
 
@@ -215,16 +215,16 @@ the char-poly palindrome p(x) = p(-x - 2*sigma) holds exactly when
 
 ## Gate 4: the rank equality scored against the exact palindrome
 
-  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (21 s)
+  [PASS] rank criterion exact on P3, ends equal                   rows=2500 holds=288 breaks=2212  0<dimW<dimN on 20  FP=0 FN=0  (20 s)
   [PASS] rank criterion exact on K3, all equal                    rows=2500 holds=299 breaks=2201  0<dimW<dimN on 28  FP=0 FN=0  (21 s)
   [PASS] rank criterion exact on bond+isolate                     rows=2500 holds=638 breaks=1862  0<dimW<dimN on 145  FP=0 FN=0  (18 s)
-  [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (21 s)
+  [PASS] rank criterion exact on P3, generic                      rows=2500 holds=278 breaks=2222  0<dimW<dimN on 0  FP=0 FN=0  (20 s)
   [PASS] rank criterion exact at bond XX+YY                       rows=900 holds=167 breaks=733  0<dimW<dimN on 0  FP=0 FN=0  (7 s)
   [PASS] rank criterion exact at bond XX                          rows=900 holds=339 breaks=561  0<dimW<dimN on 6  FP=0 FN=0  (9 s)
   [PASS] rank criterion exact at bond ZZ                          rows=900 holds=326 breaks=574  0<dimW<dimN on 5  FP=0 FN=0  (6 s)
   [PASS] rank criterion under non-uniform J and gamma             rows=600 holds=77 breaks=523  0<dimW<dimN on 3  FP=0 FN=0  (5 s)
   [PASS] rank criterion exact, N=4 path                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (79 s)
-  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (79 s)
+  [PASS] rank criterion exact, N=4 ring                           rows=120 holds=3 breaks=117  0<dimW<dimN on 0  FP=0 FN=0  (78 s)
 
   And the same rows scored for T4, which is what replaces sampling:
   [PASS] invertible element <=> dim N == dim W, P3 equal          rows=2500  mismatches=0

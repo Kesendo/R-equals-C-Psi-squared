@@ -6582,15 +6582,15 @@ carry a field along the colour of its site (an X field on the Z-dephased middle
 site of P₃ under ZZ with axes X, Z, Y pairs). **Scope:** the proviso holds with one axis
 per site and one bond letter per component. Three axes on one
 site were already excluded (the depolarizing channel above; MIRROR_SYMMETRY_PROOF's
-Scope). A site with two axes has one colour, and a one-letter bond does not supply
-its neighbours with it: at N = 3 the clauses, read with those exclusions, accept
+Scope). A site with two axes has one colour, and one-letter bonds do not supply
+the sites they reach with it: at N = 3 the clauses, read with those exclusions, accept
 882 rows whose palindrome fails, summed over the three graphs and seven bond
 sets, every one with a two-axis site in a bonded component of one bond letter
 and three axes.
 
 **The two directions are not equally strong.** The sufficient direction, conditions ⟹ palindrome, holds
-wherever the colouring above derives it: with at most two axes for every bond set of terms P⊗P, since the one
-letter orthogonal to both axes colours every site, and with three axes for one dephasing axis per site and one
+wherever the colouring above derives it: with at most two axes for every bond set of terms P⊗P, since one letter
+anticommuting with every axis present and along the field colours every site, and with three axes for one dephasing axis per site and one
 bond letter per component. In no row of the sweeps below (one bond set per row, of one to three letters, on any
 graph, at any of the magnitude tuples of Stage F) are the conditions met and the spectrum fails to pair. Outside
 the proviso, with one-letter bonds of different letters in one component, three axes can break it: field-free, 42 of the 144 such assignments on K₃ and 96 of the 864 on P₄ break, against none of the
@@ -6731,7 +6731,7 @@ degenerate rows of F, and those two are exactly the counterexamples (a) and (b)
 above rather than further confirmations. What was held fixed while all of that
 swept: the field magnitudes, one tuple outside Stage F; the sign axis, varied
 only in Stages A and F and all-positive in B, C and E; and the bond weights, one
-value per stage, with no anisotropy axis anywhere in the builder at all. The clause-2 sweep is not gated anywhere,
+value per stage, with no anisotropy axis anywhere in the builder at all. The clause-2 sweep carries no float tolerance anywhere,
 and that is its point: the palindrome is the polynomial identity p(x) = p(−x−s),
 p the characteristic polynomial of L and s = 2Σγ, and every entry of L is a
 Gaussian rational, so the identity is tested in GF(p) over three fixed primes
@@ -6740,8 +6740,8 @@ CERTIFICATE and not a decision, over two escape channels the kernel names and
 guards: the evaluation points (Schwartz-Zippel, bounded below 6·10⁻⁴² at 4³ and
 3·10⁻³⁸ at 4⁴, the N=4 stage being four orders weaker) and the moduli
 themselves, which carry no probability at all, the primes being fixed rather
-than drawn. Clause 1's own evidence, by contrast, IS gated, at 10⁻⁷ and 10⁻¹⁰ in
-its artifact. Sibling theorem, same slogan: the
+than drawn. Clause 1's own evidence, by contrast, reads float spectra at tolerances
+10⁻⁷ and 10⁻¹⁰ in its artifact. Sibling theorem, same slogan: the
 [Depolarizing Palindrome](../experiments/DEPOLARIZING_PALINDROME.md) "at most
 two axes" is per *site* (a rate-pairing on one site's four rates, the route
 by which the depolarizing channel breaks); clause 1

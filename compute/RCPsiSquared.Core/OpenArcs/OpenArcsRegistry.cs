@@ -4128,7 +4128,7 @@ public static class OpenArcsRegistry
                 + "general; and THE_PALINDROME_CLASSIFIER states the gap outright, that in general soft asks whether "
                 + "some operator exists and that this is a search, then thresholds a spectral quantity anyway. The "
                 + "THIRD was this arc's territory, MIRROR_SYMMETRY_PROOF's Scope paragraphs, which F138 names as its Proof "
-                + "anchor: they now say 'holds when' with the converse failure beside it (item TWO of NextStep). HOW THE 2026-08-26 NUMBERS WERE PRODUCED, and how far they "
+                + "anchor: they say 'holds when' with the converse failure beside it (item TWO of NextStep). HOW THE 2026-08-26 NUMBERS WERE PRODUCED, and how far they "
                 + "may be leaned on: by local scouts under the WIP rule, covering the row reproduction with five "
                 + "controls, the Pauli-basis frame and its cross-check against build_L, the monomial search with its "
                 + "positive control, the characteristic-polynomial and minimal-polynomial readings, and the surplus "

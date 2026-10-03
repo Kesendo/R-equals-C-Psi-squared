@@ -11,7 +11,7 @@ The sweep went to F158's proof (Lemma 1's corollary, Lemma 3, §(f2) with the ca
 
 ## Setup
 
-N sites, H a real combination of Pauli strings (so H is Hermitian), and on every site l exactly one jump, a Pauli letter A_l, at any strictly positive rate. F158's other fences hold by themselves here: every jump squares to 1, and the dimension 2^N is even. A proper rotation of the letters on each site turns A_l into Z_l (Z fixed; for X the Hadamard, X ↔ Z and Y → −Y; for Y the cyclic X → Y → Z → X); it is conjugation by a one-site unitary, it maps H to another real combination of Pauli strings, and it changes no kernel dimension. So take A_l = Z_l on every site. Write x ∈ {0,1}^N for the computational basis, x̄ for the bitwise complement, and H_xy = ⟨x|H|y⟩.
+N sites, H a real combination of Pauli strings (so H is Hermitian), and on every site l exactly one jump, a Pauli letter A_l, at any strictly positive rate. F158's other fences hold by themselves here: every jump squares to 1. A proper rotation of the letters on each site turns A_l into Z_l (Z fixed; for X the Hadamard, X ↔ Z and Y → −Y; for Y the cyclic X → Y → Z → X); it is conjugation by a one-site unitary, it maps H to another real combination of Pauli strings, and it changes no kernel dimension. So take A_l = Z_l on every site. Write x ∈ {0,1}^N for the computational basis, x̄ for the bitwise complement, and H_xy = ⟨x|H|y⟩.
 
 By F158's corollary, the near kernel 𝒩 is the kernel of W ↦ [H, W] on the strings commuting with every jump, and the far kernel 𝒲 the same on the strings anticommuting with every jump. With every jump a Z, the first span is the diagonal matrices and the second is X^⊗N times the diagonal matrices. So
 

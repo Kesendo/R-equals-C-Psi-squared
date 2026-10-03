@@ -209,7 +209,7 @@ letter per component. What decides the same setting in both directions is
 ([PROOF_PALINDROME_TWO_END_COUNT](PROOF_PALINDROME_TWO_END_COUNT.md)): the
 spectrum pairs exactly when dim ker L = dim ker(L + 2Σγ), and every
 configuration these clauses sweep is inside its class. Note also the scope gap
-the next section already states in its own words: the theorem proved above is
+the bullet list below states in its own words: the theorem proved above is
 single-axis Z-dephasing, while clause 1 permits two, so the clauses are broader
 than what this file derives.
 
@@ -234,10 +234,14 @@ letters can break it (K₃ with bonds X₀X₁, X₁X₂, Y₀Y₂ under axes Y,
 a single site is depolarizing there, and breaks the Ising bond too. Two axes on a
 site leave it a single letter to anticommute with them; when that letter is the
 bond's own, the single-term bond asks the same letter (or I) of each neighbour,
-and a neighbour dephased along it breaks the palindrome: the two-axis site's
-jumps multiply to that letter up to a phase, so with the neighbour's jump they form an odd
-word with a nonzero trace against the bond, which
-[F158 §(f5)](PROOF_PALINDROME_TWO_END_COUNT.md) rules out
+and onward along bonds of that letter, so a site of the component dephased
+along it breaks the palindrome. The two-axis site's jumps multiply to that
+letter up to a phase, so with that site's jump and enough powers of H to carry
+the letter across they form a word with an odd number of jumps and a nonzero
+trace: against the bond itself for a neighbour, against H² across an undephased
+middle site (P₃ under XX with jumps X on site 0 and Y, Z on site 2:
+Tr(H²·X₀Y₂Z₂) ≠ 0 while Tr(H·X₀Y₂Z₂) = 0). [F158 §(f5)](PROOF_PALINDROME_TWO_END_COUNT.md)
+rules every such word out
 ([the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)). And the
 clauses admit a three-axis component only **field-free**: this is not a separate condition
 but clause 2 read carefully, since no direction is orthogonal to X, Y and Z
@@ -307,7 +311,7 @@ those are the converse failures above. The ones that ran the other way, the
 clauses admitting a break, are what fixed the class: a bond with a two-letter
 term, one-letter bonds of different letters under three axes, and a site
 carrying two axes. The qualifiers above are what those disagreements taught,
-and each carries its counterexample and control in
+and each qualifier carries its counterexample and control in
 [`conjugation_proof.txt`](../../simulations/results/conjugation_proof.txt).
 
 **The boundary is sharp, the failure is not.** Those "nonzero" qualifiers

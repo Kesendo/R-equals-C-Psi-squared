@@ -1212,7 +1212,7 @@ def gate10_boundaries():
             worst = (d, dN, dW)
         if trial >= 24:
             rng.bit_generator.state = saved
-    gate('odd d: dim W < dim N always, and no invertible element', ok and live > 0,
+    gate('odd d: dim W < dim N always (a sampled search finds no invertible element)', ok and live > 0,
          'd = 3 and 5, 24 random Hermitian H and 4 multiples of 1; dim W > 0 on %d rows' % live
          if ok else 'broke at %s' % (worst,))
 
