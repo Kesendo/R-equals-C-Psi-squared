@@ -44,10 +44,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         palindrome at the spectral-edge level.</item>
 /// </list>
 ///
-/// <para>Scope: verified ONLY for the uniform XY chain with B at the endpoint
-/// (N = 3..7). At interior B (e.g. centre of N=5 chain) the multiplicity is
-/// 64, not 6, so the N + 1 count is endpoint-specific. F66 does NOT cover ring,
-/// star, or Y-junction topologies.</para>
+/// <para>Scope: verified for the uniform XY chain with B at the endpoint
+/// (N = 3..7). At the interior seats measured the α = 0 multiplicity follows
+/// F157: N + 1 at the sighted seats 1, 2 of N = 4, larger at the blind seats
+/// of N = 5 (seat 1: 20; centre: 64; exact, simulations/f63_three_turns_gate.py
+/// G4); whether N + 1 holds at every sighted interior seat is open. F66 does
+/// NOT cover ring, star, or Y-junction topologies.</para>
 ///
 /// <para>Tier1Derived: F66 is Tier 1 verified analytically + numerically
 /// (per ANALYTICAL_FORMULAS). Verifications: ⟨n_XY⟩_B = 1.000000 exact for
@@ -178,7 +180,7 @@ public sealed class F66PoleModesPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("endpoint multiplicity N+1",
                 summary: "verified N=3..7 for uniform XY chain with B at endpoint; counts elementary symmetric polynomials e_d(Z₁..Z_N), conserved by F63's [L, Π²] = 0");
             yield return new InspectableNode("scope warning",
-                summary: "verified ONLY uniform XY chain with B at endpoint; interior B and other topologies (ring, star, Y-junction) are open. At N=5 centre, α=0 multiplicity is 64 not 6, so N+1 is endpoint-specific.");
+                summary: "verified on the uniform XY chain with B at the endpoint; at the interior seats measured the α=0 multiplicity follows F157: N+1 at the sighted seats 1, 2 of N=4, larger at blind ones (N=5 seat 1: 20, centre: 64; exact, f63_three_turns_gate.py G4); every sighted interior seat and other topologies (ring, star, Y-junction) are open.");
             yield return new InspectableNode("verifications",
                 summary: "⟨n_XY⟩_B = 1.000000 exact for α=2γ₀ modes (N=3..5, Pauli-basis projection); multiplicity N+1 at each pole (N=3..7); F63 conservation: e_d drift < 10⁻¹⁴ under Lindblad N=4 over 80 time units");
             // Sample dissipation intervals

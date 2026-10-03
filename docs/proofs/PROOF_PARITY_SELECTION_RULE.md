@@ -264,8 +264,9 @@ n_XY=1 is odd, SE density matrices are even, overlap is zero.
 **Where this went (successors):**
 
 - **The second Z₂ (F63):** [PROOF_BIT_B_PARITY_SYMMETRY](PROOF_BIT_B_PARITY_SYMMETRY.md)
-  adds the w_YZ parity (bit_b); together F61 + F63 give the maximal
-  C₂ × C₂ decomposition into four sectors of dimension 4^(N−1).
+  adds the w_YZ parity (bit_b); together F61 + F63 give the C₂ × C₂
+  decomposition into four sectors of dimension 4^(N−1), maximal among the
+  Pauli conjugation characters (conjugation by Y⊗N is their product).
 - **The parity operator identified:** the F61 parity is conjugation by
   the global Z-string, Z^⊗N · σ · Z^⊗N = (−1)^{n_XY} · σ (Π²_X, the
   bit_a twin of Π²_Z = X^⊗N; F61 corollary in the

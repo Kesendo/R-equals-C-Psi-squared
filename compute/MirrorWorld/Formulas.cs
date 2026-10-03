@@ -353,7 +353,9 @@ public static class Formulas
 
     // F63 (T1, proven): [L, Pi^2] = 0. With F61 (n_XY parity), L has two independent Z2 symmetries; the
     // d=2 Pauli algebra splits the operator space into 4 blocks of dim 4^(N-1). Per Pi^2-sector conserved
-    // mode count (boundary Z-dephasing): even = floor(N/2)+1, odd = ceil(N/2) (the e_d(Z) by parity).
+    // mode count (Z-dephasing on a seat of the open chain that F157 calls sighted, every end seat among them;
+    // blind seats and seats fixed by a graph symmetry carry more):
+    // even = floor(N/2)+1, odd = ceil(N/2) (the e_d(Z) by parity).
     public static long F63_BlockDim(int n) // 4^(N-1), representable through N=32
     {
         if (n < 1) throw new ArgumentOutOfRangeException(nameof(n), n, "N must be >= 1.");

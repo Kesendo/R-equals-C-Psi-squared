@@ -6,17 +6,22 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <summary>F63 closed form (Tier 1 proven analytically, verified N=2..5):
 ///
 /// <code>
-///   [L, Π²_super] = 0      exactly, for all N (Heisenberg/XY +
-///                          Z-dephasing on any subset of sites)
+///   [L, Π²_super] = 0      exactly, for all N (every H term with even k_X,
+///                          e.g. Heisenberg/XY/XXZ/XYZ bonds; Pauli-string
+///                          jumps, any dephasing letter, any sites)
 ///
 ///   ||[L, Π²]|| = 0.000000e+00   identically zero, NOT numerically small
 ///                                (verified N=2, 3, 4, 5; also Heisenberg
 ///                                XXX with uniform γ at N=3)
 ///
-///   4-block decomposition:    C₂ × C₂ via (bit_a = n_XY, bit_b = w_YZ)
+///   4-block decomposition:    C₂ × C₂ via (bit_a = n_XY, bit_b = w_YZ),
+///                             where F61 holds too (every H term even in k_Z)
 ///   Per-block dimension:      4^(N − 1) per block, 4 blocks total
 ///   Per-Π²-sector conserved:  even = ⌊N/2⌋ + 1,  odd = ⌈N/2⌉
-///   Total conserved per pole: N + 1   (matches F66 endpoint multiplicity)
+///   Total conserved per pole: N + 1   (open chain, at the seats F157 calls
+///                                      sighted, every end seat among them;
+///                                      measured N = 2..5;
+///                                      matches F66 endpoint multiplicity)
 /// </code>
 ///
 /// <para>F63 is the Π²-conservation law: the Liouvillian respects the
@@ -44,15 +49,24 @@ namespace RCPsiSquared.Core.Symmetry;
 ///         Same (N − 1)-qubit shift as F38, F39, F1-T1.</item>
 ///   <item><b>TotalConservedPerSector(N) = N + 1</b>: the count of
 ///         elementary symmetric polynomials e_d(Z₁, ..., Z_N) for d = 0..N,
-///         which commute with both H and Z_B. Matches F66's endpoint
+///         which commute with both H and Z_B at every seat; on the open
+///         chain they are the whole kernel exactly at the seats F157 calls
+///         sighted (measured N = 2..5). Matches F66's endpoint
 ///         multiplicity exactly: F63 is the symmetry-side reading of F66's
 ///         spectrum-side count.</item>
-///   <item><b>Maximality (per F34)</b>: the C₂ × C₂ decomposition is the
-///         maximal Z₂ × Z₂ symmetry admitted by the d = 2 Pauli algebra. No
-///         third independent Z₂ classification exists; F63 + F61 saturate.</item>
+///   <item><b>The three turns</b>: conjugation by P^⊗N is the sign
+///         (−1)^{k_P} on the letter cube; [L, Ad_{P^N}] = 0 exactly when every
+///         H term has even k_P, for jumps that are sums of Pauli strings of
+///         one k_P parity (sufficient, not necessary: σ⁻ with σ⁺ at equal
+///         rates keeps the turn by X⊗N). Π² is the X turn, F61 the Z turn, the Y turn their product,
+///         so the conjugation characters give no third independent Z₂ (L has
+///         other structure: joint-popcount blocks, graph symmetries).
+///         Gate: simulations/f63_three_turns_gate.py.</item>
 /// </list>
 ///
-/// <para>Per-sector mode counts (Heisenberg + Z-dephasing on boundary qubit B,
+/// <para>Per-sector mode counts (Heisenberg XXX or XY on the open chain,
+/// Z-dephasing on a seat B F157 calls sighted, every end seat among them;
+/// blind seats and seats fixed by a graph symmetry carry more,
 /// closed form):</para>
 ///
 /// <code>
@@ -116,8 +130,7 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>The number of independent Z₂ symmetries L admits per F61 + F63:
     /// <c>2</c> (n_XY parity bit_a, and w_YZ parity bit_b). Together they form
-    /// the C₂ × C₂ maximal symmetry admitted by the d = 2 Pauli algebra
-    /// (per F34/QUBIT_NECESSITY: no third independent Z₂ exists).</summary>
+    /// the C₂ × C₂, maximal among the Pauli conjugation characters (the turn by Y⊗N is their product); L has further structure that is no such character, the joint-popcount blocks and the graph symmetries.</summary>
     public int IndependentZ2SymmetryCount => 2;
 
     /// <summary>The 4-block decomposition count: <c>2² = 4</c> blocks indexed
@@ -145,7 +158,7 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
     public double FourBlockDimensionsTotal(int N) => BlockCount * PerBlockDimension(N);
 
     /// <summary>Number of Π²-even conserved modes per sector (Heisenberg +
-    /// boundary Z-dephasing): <c>⌊N/2⌋ + 1</c>. Counts the e_d(Z) elementary
+    /// Z-dephasing on a sighted seat of the open chain): <c>⌊N/2⌋ + 1</c>. Counts the e_d(Z) elementary
     /// symmetric polynomials of even degree d.</summary>
     public int Pi2EvenConservedCount(int N)
     {
@@ -223,8 +236,8 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
         "F63 [L, Π²] = 0 conservation as F38 sister-claim (Pi2-Foundation 4-block decomposition)";
 
     public override string Summary =>
-        $"[L, Π²] = 0 exactly all N; C₂ × C₂ 4-block decomposition (n_XY, w_YZ); per-block dim 4^(N−1) = a_{{3−2N}}; " +
-        $"conserved per sector: even=⌊N/2⌋+1, odd=⌈N/2⌉, total N+1 (matches F66 endpoint) ({Tier.Label()})";
+        $"[L, Π²] = 0 exactly all N (every H term even in k_X, Pauli-string jumps); with F61 (terms even in k_Z too) the C₂ × C₂ 4-block decomposition (n_XY, w_YZ); per-block dim 4^(N−1) = a_{{3−2N}}; " +
+        $"conserved per sector at a sighted seat (F157): even=⌊N/2⌋+1, odd=⌈N/2⌉, total N+1 (matches F66 endpoint) ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
     {
@@ -237,12 +250,12 @@ public sealed class F63LCommutesPi2Pi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("Pi2-Foundation anchoring",
                 summary: "BlockCount = 4 = a_{-1} = d² for 1 qubit; PerBlockDim = 4^(N−1) = a_{3−2N} (same shift F38, F39, F1-T1)");
             yield return InspectableNode.RealScalar("BlockCount (= a_{-1} = 4)", BlockCount);
-            yield return new InspectableNode("Maximality (per F34)",
-                summary: "C₂ × C₂ is the maximal Z₂ × Z₂ symmetry admitted by d = 2 Pauli algebra; no third independent Z₂ exists");
+            yield return new InspectableNode("The three turns",
+                summary: "Ad_{P^N} = (−1)^{k_P} on the letter cube; for jumps of one k_P parity [L, Ad_{P^N}] = 0 iff every H term has even k_P (jump condition sufficient, not necessary); Π² = X turn, F61 = Z turn, Y turn = their product; σ⁻ keeps only the Z turn");
             yield return new InspectableNode("F63 ↔ F66 inheritance",
                 summary: "TotalConservedPerSector(N) = N + 1 matches F66 endpoint pole multiplicity exactly: symmetry-side reading of spectrum-side count");
             yield return new InspectableNode("per-sector mode count formula",
-                summary: "conserved: even=⌊N/2⌋+1, odd=⌈N/2⌉, total=N+1; correlation=same (F1 palindrome); mirror per parity sector=2^(2N−1) − 2·conserved_parity");
+                summary: "open chain, seats F157 calls sighted (every end seat among them): conserved even=⌊N/2⌋+1, odd=⌈N/2⌉, total=N+1; correlation=same (F1 palindrome); mirror per parity sector=2^(2N−1) − 2·conserved_parity; blind seats and graph-symmetric seats carry more");
             yield return new InspectableNode(
                 BitATwinClaim is not null ? "BitA twin (Filled)" : "BitA twin (TrivialNotYetTyped, unit-test path)",
                 summary: BitATwinClaim is not null

@@ -447,7 +447,7 @@ Per-sector mode counts (conserved + mirror + correlation):
 | 4 | 256 | 3+122+3 | 2+124+2 |
 | 5 | 1024 | 3+506+3 | 3+506+3 |
 
-The C2xC2 sector decomposition is therefore universal (all N), not N=2-specific. Together with the already-proven [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) for bit_a, the Liouvillian has TWO independent Z2 symmetries proven for all N. This is the maximal symmetry decomposition admitted by the Pauli algebra of d=2 (no third independent Z2 classification exists per [Qubit Necessity](../docs/QUBIT_NECESSITY.md)).
+The C2xC2 sector decomposition is therefore universal (all N), not N=2-specific. Together with the already-proven [Parity Selection Rule](../docs/proofs/PROOF_PARITY_SELECTION_RULE.md) for bit_a, the Liouvillian has two independent Z₂ symmetries proven for all N. They are all the global Pauli conjugations give: conjugation by Y⊗N is their product ([the Bit-b Parity proof](../docs/proofs/PROOF_BIT_B_PARITY_SYMMETRY.md), the three turns). L has further structure that is no such conjugation, the joint-popcount blocks of a number-conserving H and the graph's symmetries.
 
 ### Framework correspondence: even = cavity, odd = transport
 

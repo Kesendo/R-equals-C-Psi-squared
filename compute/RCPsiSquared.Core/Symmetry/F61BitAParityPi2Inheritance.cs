@@ -27,8 +27,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>F61 is the bit_a Z₂ companion to F63's bit_b Z₂. The Pauli letter set
 /// {I, X, Y, Z} factorises as <c>C₂ × C₂</c> indexed by <c>(bit_a, bit_b) =
 /// (n_XY, w_YZ)</c>; the two Z₂ symmetries of L admitted by the d = 2 Pauli
-/// algebra. Per F34/QUBIT_NECESSITY this is the maximal symmetry: no third
-/// independent Z₂ classification exists.</para>
+/// algebra. The pair is maximal among the Pauli conjugation characters (the turn by Y⊗N is their product); L has further structure that is no such character, the joint-popcount blocks and the graph symmetries.</para>
 ///
 /// <list type="bullet">
 ///   <item><b>F61, bit_a parity (n_XY)</b>: L commutes with the n_XY parity
@@ -50,7 +49,8 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item><b>PerBlockDimension(N) = 4^(N − 1) = a_{3−2N}</b>: shared with
 ///         F63 / F38 / F39 / F1-T1.</item>
 ///   <item><b>Z₂SymmetryCount = 2</b> (joint with F63): the C₂ × C₂ is the
-///         maximal Z₂ × Z₂ admitted by the d = 2 Pauli algebra (per F34).</item>
+///         Z₂ × Z₂ of the Pauli conjugation characters (the turn by Y⊗N is
+///         their product).</item>
 ///   <item><b>SE-accessibility boundary</b>: single-excitation density
 ///         matrices have purely even n_XY → SE optimisers can only reach
 ///         even-n_XY modes. If a slower odd-n_XY eigenmode exists, its rate
@@ -68,9 +68,12 @@ namespace RCPsiSquared.Core.Symmetry;
 /// bit_a-even, so the grading survives exactly (off-parity block exactly
 /// zero, <c>simulations/direct_sum_scope_probe.py</c>). The letter rule: a
 /// field term with letter ℓ breaks exactly the parities in which ℓ is odd
-/// (X → bit_a, Z → bit_b, Y → both); a jump operator breaks a parity iff
-/// its Pauli components are inhomogeneous in that bit. σ∓ = (X ± iY)/2 is
-/// bit_a-homogeneous but bit_b-mixed, so T1 breaks F63's bit_b Z₂ while
+/// (X → bit_a, Z → bit_b, Y → both); a single traceless jump operator breaks a
+/// parity iff its Pauli components are inhomogeneous in that bit (an identity
+/// part can hide a mixture, D[Z + I] = D[Z]; a set of jumps can
+/// keep it when conjugation permutes the set, σ⁻ with σ⁺ at equal rates on one
+/// site). σ∓ = (X ± iY)/2 is bit_a-homogeneous but bit_b-mixed, so T1 at finite
+/// temperature breaks F63's bit_b Z₂ while
 /// preserving F61, and a longitudinal Z-field does the same; the asymmetry
 /// between F61 and F63 break-conditions is the structural difference
 /// between bit_a and bit_b parity.</para>
@@ -93,7 +96,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
     public Pi2DyadicLadderClaim Ladder { get; }
     /// <summary>Joint with F63: the count of independent Z₂ symmetries L admits
     /// is <c>2</c>. F61 contributes bit_a (n_XY), F63 contributes bit_b (w_YZ).
-    /// Per F34/QUBIT_NECESSITY the C₂ × C₂ is maximal.</summary>
+    /// The C₂ × C₂ is maximal among the Pauli conjugation characters (the turn by Y⊗N is their product); L has further structure that is no such character, the joint-popcount blocks and the graph symmetries.</summary>
     public int IndependentZ2SymmetryCount => F63.IndependentZ2SymmetryCount;
 
     /// <summary>The 4-block decomposition count: <c>4 = a_{−1}</c> on the dyadic
@@ -126,8 +129,8 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
         Math.Abs(BlockCount - F63.BlockCount) < 1e-12;
 
     /// <summary>The Z₂ axis F61 covers: bit_a (Π²_X = Z⊗N). F63 covers bit_b
-    /// (Π²_Z = X⊗N). Together they generate the maximal Klein-Vierergruppe of
-    /// independent Π² operators per F34/QUBIT_NECESSITY.</summary>
+    /// (Π²_Z = X⊗N). Together with the identity and their product (conjugation
+    /// by Y⊗N) they form the Klein-Vierergruppe of global Pauli conjugations.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitA;
 
     /// <summary>F61 sits on the BitA axis; the BitATwin slot is always null
@@ -145,8 +148,8 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
     /// is deliberately NOT in this list: the dissipator acts bilinearly and
     /// σ∓ is bit_a-homogeneous, so the bit_a grading survives T1 exactly
     /// (off-parity block exactly zero, simulations/direct_sum_scope_probe.py);
-    /// T1 instead breaks F63's bit_b Z₂ (σ∓ is bit_b-mixed: X vs Y differ in
-    /// bit_b). The asymmetry IS the bit_a vs bit_b distinction.</summary>
+    /// T1 at finite temperature instead breaks F63's bit_b Z₂ (σ∓ is bit_b-mixed:
+    /// X vs Y differ in bit_b; at equal σ⁻/σ⁺ rates the pair keeps it). The asymmetry IS the bit_a vs bit_b distinction.</summary>
     public IReadOnlyList<string> BreakConditions => new[]
     {
         "transverse fields h_x · X_l (odd-n_XY single-site terms)",
@@ -172,7 +175,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
         "F61 [L, Π²_X] = 0 (bit_a n_XY parity) as F63 sister-claim";
 
     public override string Summary =>
-        $"[L, Π²_X] = 0 exactly all N (bit_a / n_XY parity); companion to F63 bit_b / w_YZ; together C₂ × C₂ maximal; " +
+        $"[L, Π²_X] = 0 exactly all N (bit_a / n_XY parity); companion to F63 bit_b / w_YZ; together C₂ × C₂ of the conjugation characters; " +
         $"SE accessibility ceiling: only even-n_XY modes reachable; breaks under transverse fields, survives T1 exactly ({Tier.Label()})";
 
     protected override IEnumerable<IInspectable> ExtraChildren
@@ -182,7 +185,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("F61 closed form",
                 summary: "[L, Π²_X] = 0 exactly all N; verified 69 configs (N=2..7, Chain/Star/Ring/Complete, 4 γ profiles); second slow mode SE-inaccessible in all 60 configs where it is distinct (Frobenius ratio machine-zero)");
             yield return new InspectableNode("F61 ↔ F63 sister reading",
-                summary: "F61 = bit_a Z₂ (n_XY parity); F63 = bit_b Z₂ (w_YZ parity); together C₂ × C₂ maximal symmetry of d=2 Pauli algebra (per F34/QUBIT_NECESSITY)");
+                summary: "F61 = bit_a Z₂ (n_XY parity); F63 = bit_b Z₂ (w_YZ parity); together C₂ × C₂, maximal among the Pauli conjugation characters (the turn by Y⊗N is their product), not among all symmetries of L");
             yield return new InspectableNode("Pi2-Foundation anchoring",
                 summary: "BlockCount = 4 = a_{-1} (shared with F63); PerBlockDim = 4^(N−1) = a_{3−2N} (shared); same shifts as F38, F39, F1-T1");
             yield return InspectableNode.RealScalar("BlockCount (= a_{-1} = 4)", BlockCount);
@@ -191,7 +194,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("SE accessibility corollary",
                 summary: "every SE density matrix has purely even n_XY → SE optimisers can ONLY reach even-n_XY modes; if a slower odd-n_XY mode exists, its rate is structurally beyond SE optimisation reach");
             yield return new InspectableNode("F61 vs F63 break asymmetry",
-                summary: "F61 (bit_a) breaks under transverse fields (h_x, h_y) and SURVIVES T1 exactly (bilinear sandwich, σ∓ bit_a-homogeneous); F63 (bit_b) breaks under T1 and longitudinal/Y fields (σ∓ and Z/Y are bit_b-odd content). Letter rule: a field with letter ℓ breaks the parities in which ℓ is odd; a jump operator breaks a parity iff inhomogeneous in that bit (direct_sum_scope_probe.py).");
+                summary: "F61 (bit_a) breaks under transverse fields (h_x, h_y) and SURVIVES T1 exactly (bilinear sandwich, σ∓ bit_a-homogeneous); F63 (bit_b) breaks under T1 at finite temperature and longitudinal/Y fields (σ∓ and Z/Y are bit_b-odd content). Letter rule: a field with letter ℓ breaks the parities in which ℓ is odd; a jump operator breaks a parity iff inhomogeneous in that bit (direct_sum_scope_probe.py).");
             for (int N = 2; N <= 5; N++)
             {
                 yield return new InspectableNode(

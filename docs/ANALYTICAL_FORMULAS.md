@@ -2287,22 +2287,40 @@ Y -> -Y, Z -> -Z. Heisenberg bonds XX/YY/ZZ each contain two Y's or two
 Z's (or none), so signs cancel and U H U = H. Z-dephasing dissipator is
 quadratic in Z (term Z rho Z), where the two minus signs from U Z U = -Z
 also cancel, and the anti-commutator term {Z dagger Z, rho} = {I, rho}
-is trivially U-invariant.
+is trivially U-invariant. The cancellation never used that the jump is Z:
+any jump with U J U = ±J (any Pauli string, any dephasing letter) keeps it.
 
-**Two independent Z2 symmetries.** Together with F61 (n_XY parity, bit_a),
-this gives L two independent Z2 symmetries proven for all N. Per-site Pauli
+**The three turns.** On the letter cube ([The One Square](THE_ONE_SQUARE.md)
+§7) conjugation by P⊗N is the sign (−1)^{k_P}. For jumps that are sums of
+Pauli strings of one k_P parity, the same two steps give [L, Ad_{P⊗N}] = 0
+exactly when every Hamiltonian term has even k_P; the jump condition is
+sufficient, not necessary (σ⁻ with σ⁺ at equal rates keeps the turn by X⊗N).
+Π² is the turn by X⊗N (the repository's Π²_Z), F61's n_XY parity the turn
+by Z⊗N (Π²_X), the turn by Y⊗N their product. Physically the turn by X⊗N is
+the global spin flip S_z → −S_z, broken by whatever picks a magnetization
+direction. Heisenberg-type bonds P⊗P keep all three turns; a field along P
+keeps only the turn by P⊗N; σ⁻ alone keeps only the turn by Z⊗N. Gate:
+[`f63_three_turns_gate.py`](../simulations/f63_three_turns_gate.py), exact
+at N = 3 for every single term and every pair of terms.
+
+**Two independent Z₂ symmetries.** Together with F61 (n_XY parity, bit_a),
+this gives L two independent Z₂ symmetries for every H whose terms are even
+in both k_X and k_Z (Heisenberg bonds are; a field along X keeps F63 and
+breaks F61). Per-site Pauli
 {I, X, Y, Z} factorizes as C2 x C2 indexed by (bit_a, bit_b) =
 (n_XY, w_YZ). The 4-block decomposition has dimension 4^(N-1) per block.
-This is the maximal symmetry decomposition admitted by the Pauli algebra
-of d=2 (no third independent Z2 classification exists per F34/QUBIT_NECESSITY).
+The conjugation characters give no third independent Z₂ (the turn by Y⊗N
+is the product of the other two); L has further structure that is not a
+character, the joint-popcount blocks of a number-conserving H under
+Z-dephasing and the graph's spatial symmetries.
 
-**Per-sector mode count (closed form).** For Heisenberg coupling with Z-dephasing on the boundary qubit B, modes split within each Pi^2-sector by the Absorption Theorem applied at site B:
+**Per-sector mode count (closed form).** For Heisenberg XXX or XY on the open chain with Z-dephasing on a seat B that F157 calls sighted (every end seat among them; measured N = 2..5), modes split within each Π²-sector by the Absorption Theorem applied at site B (conserved Re = 0, correlation Re = −2γ_B, mirror strictly between):
 
     conserved per sector:  even = floor(N/2) + 1,  odd = ceil(N/2)
     correlation per sector: same as conserved (palindrome symmetry)
     mirror per sector:     2^(2N-1) - 2 * (conserved per sector)
 
-Mechanism: conserved modes are the (N+1) elementary symmetric polynomials e_d(Z_1, ..., Z_N) for d=0..N (functions of S_z, commuting with both H and Z_B). Each e_d has w_YZ-parity = d mod 2. The asymmetry for even N (one extra even-parity conserved) comes from e_N having even parity when N is even.
+Mechanism: at a sighted seat the conserved modes are the (N+1) elementary symmetric polynomials e_d(Z_1, ..., Z_N) for d=0..N (functions of S_z, commuting with both H and Z_B). Each e_d has w_YZ-parity = d mod 2. The asymmetry for even N (one extra even-parity conserved) comes from e_N having even parity when N is even.
 
 | N | sector | cons (e, o) | mirror (e, o) |
 |---|--------|-------------|---------------|
@@ -2311,19 +2329,30 @@ Mechanism: conserved modes are the (N+1) elementary symmetric polynomials e_d(Z_
 | 4 | 128    | (3, 2)      | (122, 124)    |
 | 5 | 512    | (3, 3)      | (506, 506)    |
 
-**Valid for:** Heisenberg (XX+YY+ZZ), XY (XX+YY); Z-dephasing on any subset
-of sites; any N; any graph; uniform or non-uniform gamma_k.
-**Breaks for:** single-site Y or Z terms in H (transverse field, magnetic
-field along Z); Y or X jump operators (no two-factor cancellation).
+**Valid for:** [L, Π²] = 0 for every H whose terms have even k_X (Heisenberg
+XX+YY, XXX, XXZ, XYZ on any graph, fields along X) and Pauli-string jumps
+(dephasing along any letter, any subset of sites, any rates). The mode count:
+the e_d are conserved for any S_z-conserving H, so N + 1 is a lower bound; on
+the open chain, N = 2..5, the kernel equals it exactly at the seats F157
+calls sighted and is larger at a blind seat (N = 3 centre: 6 for XXX, 12 for
+XY) and on graphs whose symmetry fixes the seat (N = 4 ring: 13 and 22);
+exact ranks in the gate. Away from a sighted seat the Re = 0 class can exceed
+the kernel (64 against 24 at the centre of the N = 5 XY chain, F66's
+multiplicity there).
+**Breaks for:** terms with odd k_X (fields along Y or Z,
+Dzyaloshinskii-Moriya bonds along z such as XY − YX; YZ − ZY keeps it); σ⁻ alone, or σ⁻ and σ⁺ at unequal rates (T1
+at finite temperature). The jump condition is sufficient, not necessary.
 **Verified:** ||\[L, Pi^2\]|| = 0.000000e+00 (identically zero, not numerically
 small) at N=2, 3, 4, 5. Also for Heisenberg XXX with uniform gamma at N=3.
 Per-sector mode count formula verified at N=2-5; conserved-modes-as-e_d(Z) verified at N=2-4.
 Data: `simulations/primordial_bit_a_bit_b_N_scaling.py`,
 `simulations/mirror_mode_split_formula.py`.
-**Downstream (bit_b axis derived theorems):** F108 Part 1/2/3 (Π²-even
-palindrome closure under {Z, X, Y} dephasing, all three lean on [L, Π²] = 0
-for the dissipator-side cancellation) and F112 (Lindblad Π-eigenvalue balance
-under bit_b-homogeneous c, uses Π² = +1 on dissipator → no Π +i / −i content).
+**Downstream (bit_b axis derived theorems):** F108 Parts 1 to 3 (Π²-even
+palindrome closure under Z-, X- and Y-dephasing) use the Π² parity to sort
+the bilinears their palindrome operators accept, Parts 1 and 3 the turn by
+X⊗N and Part 2 the turn by Z⊗N; their dissipator step is a per-site identity
+of its own, not [L, Π²] = 0. F112 (Lindblad Π-eigenvalue balance under
+bit_b-homogeneous c) uses Π² = +1 on the dissipator, hence no Π +i / −i content.
 **Source:** [the Bit-b Parity Symmetry proof](proofs/PROOF_BIT_B_PARITY_SYMMETRY.md),
 [The Primordial Qubit](../hypotheses/PRIMORDIAL_QUBIT.md) Section 9
 
@@ -2424,7 +2453,7 @@ The two poles are palindromic partners under the conjugation Π. Their exact end
 
 **Multiplicity:** exactly N+1 at each pole, verified for N=3..7. Each α = 0 mode corresponds to one of the N+1 elementary symmetric polynomials e_d(Z_1, ..., Z_N) in F63 (commuting with both H and Z_B). The α = 2γ₀ sector has matching multiplicity by Π-symmetry.
 
-**Scope.** Verified only for the uniform XY chain with B at the endpoint. Whether the same structure (existence of both poles, multiplicity N+1) persists for other topologies (ring, star, Y-junction) or for interior B-positions is open. Indirect evidence from the structure-points scan: at B = center of N=5 chain, α = 0 has multiplicity 64 (not 6), so the N+1 count is endpoint-specific. One scope reading is corrected since 2026-08-24 by F157, which does NOT close the item (The Blind Site says so of itself): at interior B the F65 sector DOES reach α = 0, holding single-excitation modes that are exactly undamped, gcd(B+1, N+1) − 1 of them on this XY chain (e.g. one at B = 1, N = 5). So the sentence above that the F65 sector never reaches either pole is endpoint-B-specific, as is the placement of both poles in the extreme XY-weight sectors (an interior blind mode is w = 1 content at α = 0); the item itself, existence of both poles with multiplicity N+1 at interior B, stays open.
+**Scope.** Verified for the uniform XY chain with B at the endpoint (N = 3..7). At the interior seats measured the α = 0 multiplicity follows F157 rather than the position as such: N + 1 at the sighted seats 1 and 2 of N = 4, larger at the blind seats of N = 5 (seat 1, blind once: 20; the centre, blind twice: 64, the structure-points scan's value), exact with [`f63_three_turns_gate.py`](../simulations/f63_three_turns_gate.py) (G4, the undamped subspace as an integer rank). Whether N + 1 holds at every sighted interior seat, and other topologies (ring, star, Y-junction), are open. F157 also bounds a second reading of this paragraph without closing the item (The Blind Site says so of itself): at interior B the F65 sector DOES reach α = 0, holding single-excitation modes that are exactly undamped, gcd(B+1, N+1) − 1 of them on this XY chain (e.g. one at B = 1, N = 5). So the sentence above that the F65 sector never reaches either pole is endpoint-B-specific, as is the placement of both poles in the extreme XY-weight sectors (an interior blind mode is w = 1 content at α = 0).
 
 **Verified:** ⟨n_XY⟩_B = 1.000000 exact for all α = 2γ₀ modes (N=3..5, from Pauli basis projection). Dominant Pauli strings have total XY-weight N for α = 2γ₀ modes and total XY-weight 0 for α = 0 modes (N=3, N=4 explicit). Multiplicity N+1 at each pole verified for N=3..7. Dynamical check of F63 conservation: all N+1 elementary symmetric polynomials e_d(Z_1,...,Z_N) drift by < 10⁻¹⁴ under Lindblad evolution for N=4 over 80 time units, while the non-symmetric control Z_0 Z_2 drifts by 3 × 10⁻². Confirms the conserved observables at the α = 0 pole are precisely the e_d, not arbitrary Z-products.
 **Scripts:** [`two_gamma_pole.py`](../simulations/two_gamma_pole.py), [`f65_dynamic_verification.py`](../simulations/f65_dynamic_verification.py)
