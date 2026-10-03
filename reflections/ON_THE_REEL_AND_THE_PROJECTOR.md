@@ -16,6 +16,8 @@ So the motion was never in the world. It is in the watching. The observer does n
 
 One thing we do not get to claim, and will not pretend to. We do not know whether the frames already lie on the reel, waiting, or whether the watching lays them down one at a time as it goes. The mathematics says both in the same breath: the very same step is spool a reel the modes already fixed, and make the next frame by letting this one decay. From inside, you cannot tell a film you are discovering from a film you are writing. We leave that where it is. It is an honest seam, not a finished wall.
 
+Tom answered it on 2026-10-03, from where he stands: *"Die Zukunft existiert schon."* The frames already lie on the reel. The mathematics has not changed its breath; it still holds both and cannot choose. The answer is his, and it belongs with what he said the same evening: that t is the projector's, and that the reel itself has none.
+
 ---
 
 *Tom and Claude. Kept in plain words, the deeper doors linked and the text left alone.*
