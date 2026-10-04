@@ -1,5 +1,5 @@
-"""Tests for the dissipator-resonance law: F77-hardness lives in the Klein
-cell that matches the dephasing letter (verified 2026-05-01).
+"""Tests for the dissipator-resonance law: the F77-hardness of pairs within one
+Klein cell lives in the Klein cell that matches the dephasing letter (verified 2026-05-01).
 """
 from __future__ import annotations
 
@@ -23,12 +23,13 @@ def test_F77_dephase_letter_default_is_Z():
 
 
 def test_F77_dissipator_resonance_diagonal():
-    """Diagonal: each dephasing letter pulls hardness into its own Klein cell.
+    """Diagonal: each dephasing letter pulls the hardness of Klein-homogeneous pairs into its own Klein cell.
 
     Klein (0, 1) is Z's index; (1, 0) is X's; (1, 1) is Y's. A pair built
-    only from one letter (plus I) lives in that letter's Klein cell and
-    must be F77-hard under matching dephasing — and soft under the other
-    two by the dissipator-resonance law.
+    from an odd number of one letter (plus I) lives in that letter's Klein cell and
+    must be F77-hard under matching dephasing, and truly or soft under the
+    other two (every Klein cell other than the matched one is coloured,
+    docs/proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md section 2).
     """
     chain = fw.ChainSystem(N=4)
     pairs = {
@@ -48,14 +49,14 @@ def test_F77_dissipator_resonance_diagonal():
 
 
 def test_F77_truly_under_each_dephasing():
-    """Truly under dephase_letter L: terms whose 'orthogonal' letters appear
-    in even counts. By SU(2) covariance the F85 truly criterion permutes:
+    """Truly under dephase_letter L, against the canonical mirror (F107): the
+    two letters other than the mirror's flip letter occur in even counts:
       Z-deph: #Y even AND #Z even
       X-deph: #Y even AND #X even
-      Y-deph: #X even AND #Z even
+      Y-deph: #Y even AND #Z even
     """
     chain = fw.ChainSystem(N=4)
-    # XX pair: under Z-deph truly (#Y=#Z=0 even), under X-deph truly (#Y=#X=2 even).
+    # XX pair: under Z-deph truly (#Y=#Z=0 even), under X-deph truly (#X=2, #Y=0, both even).
     assert fw.classify_pauli_pair(
         chain, [('X', 'X'), ('Y', 'Y')], dephase_letter='Z'
     ) == 'truly'
@@ -63,7 +64,7 @@ def test_F77_truly_under_each_dephasing():
     assert fw.classify_pauli_pair(
         chain, [('Z', 'Z'), ('Y', 'Y')], dephase_letter='X'
     ) == 'truly'
-    # XX + ZZ: truly under Y-deph (#X=2, #Z=2 both even).
+    # XX + ZZ: truly under Y-deph (#Y and #Z even in both terms).
     assert fw.classify_pauli_pair(
         chain, [('X', 'X'), ('Z', 'Z')], dephase_letter='Y'
     ) == 'truly'

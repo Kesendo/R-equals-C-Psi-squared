@@ -49,7 +49,7 @@ public class TrulyYParityZeroPurityTests
     [Fact]
     public void TrulyCriterionHolds_XDephase_RequiresNXEvenAndNYEven()
     {
-        // F85 SU(2)-X truly: #X even AND #Y even.
+        // F107 X-dephasing truly: #X even AND #Y even (Π_X is the Hadamard conjugate of Π_Z).
         // ZZI (#X=0, #Y=0) ⟹ truly under X.
         var zzi = new PauliTerm(new[] { PauliLetter.Z, PauliLetter.Z, PauliLetter.I }, Complex.One);
         Assert.True(TrulyYParityZeroPurity.TrulyCriterionHolds(zzi, PauliLetter.X));
@@ -62,8 +62,8 @@ public class TrulyYParityZeroPurityTests
     [Fact]
     public void TrulyCriterionHolds_YDephase_RequiresNYEvenAndNZEven()
     {
-        // F85 SU(2)-Y truly: #Y even AND #Z even (same combined form as Z-dephase
-        // because Π_Y has same per-letter swap as Π_Z, only the phase differs).
+        // F107 Y-dephasing truly: #Y even AND #Z even (the same strings as Z-dephase,
+        // because Π_Y = Π_Z⁻¹).
         // XII (#Y=0, #Z=0) ⟹ truly under Y.
         var xii = new PauliTerm(new[] { PauliLetter.X, PauliLetter.I, PauliLetter.I }, Complex.One);
         Assert.True(TrulyYParityZeroPurity.TrulyCriterionHolds(xii, PauliLetter.Y));

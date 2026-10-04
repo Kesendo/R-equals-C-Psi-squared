@@ -1,4 +1,4 @@
-# PROOF F108 Part 1: Π²-Even Hamiltonians Always Admit an Exact Palindrome Operator
+# PROOF F108 Part 1: Π²-Even Bilinears Always Admit an Exact Palindrome Operator
 
 **Status:** Tier 1 derived (closed-form via Π_5bilinear phase-variant Π operator + F1-style algebra). Acts as the base claim for the F108 family: Parts 2 and 3 are Klein-V₄ corollaries via Hadamard transport and D-conjugation respectively (`PROOF_F108_KLEIN_V4_EQUIVALENCE.md`, Welle 14).
 **Date:** 2026-05-25 (Part 1 direct proof); 2026-05-27 (Klein-V₄ corollaries Parts 2, 3 added).
@@ -14,17 +14,17 @@
 
 F1 closes the palindromic spectrum for the canonical "truly Heisenberg" Hamiltonians: those where the canonical Π operator's conjugation aligns cleanly with the dynamics. The natural follow-up question was whether F1's closure extends to a wider Hamiltonian family. Specifically, to Hamiltonians built from any of the five two-site bilinears that the canonical Π operator's Π² eigenvalue rule classifies as even-parity (the bilinears XX, YY, YZ, ZY, ZZ) on any sites with any real bond couplings. The canonical Π itself does not close the palindrome for these Hamiltonians; we needed a different conjugating operator.
 
-This proof writes down that operator. It is a phase variant of the canonical Heisenberg Π, with the same per-site letter permutation (I↔X, Y↔Z) but two sign flips on specific phase arrows. We call it Π_5bilinear because it works precisely on the five even-parity bilinears mentioned above. With this operator in hand, the operator-level palindrome identity holds bit-exactly for any Hamiltonian in the family plus any per-site Z-dephasing rates.
+This proof writes down that operator. It is a phase variant of the canonical Heisenberg Π, with the same per-site letter permutation (I↔X, Y↔Z) but two sign flips on specific phase arrows. We call it Π_5bilinear because it was built for the five even-parity bilinears mentioned above. With this operator in hand, the operator-level palindrome identity holds bit-exactly for any Hamiltonian in the family plus any per-site Z-dephasing rates.
 
-The structural consequence is that the F87 trichotomy collapses on this family: no Π²-even bilinear pair can be F87-hard, because F87-hardness requires the spectrum to break palindromy, and the spectrum here is palindromic by construction. Hardness comes only from Π²-odd or mixed-parity content, never from the Π²-even sector.
+The structural consequence is that the F87 trichotomy collapses on this family: no Π²-even bilinear pair can be F87-hard, because F87-hardness requires the spectrum to break palindromy, and the spectrum here is palindromic by construction. The mirror's reach is sharp: it flips the commutator of exactly the Π²-even strings of even weight (an even number of non-identity letters), on any number of sites, so it covers four-body strings such as XXYZ but no single-site field and no three-body string such as XZZ or XYZ. That no Π²-even pair at any body count is hard is the colouring's ([F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)): every Π²-even string commutes with X^⊗N, which anticommutes with every Z jump.
 
-The proof's strategy is the F1 algebra applied to Π_5bilinear instead of canonical Π. The anti-commutation argument on the Hamiltonian commutator superoperator goes through verbatim once the phase variant is fixed. The dissipator-side identity works because the Z-dephasing operator commutes with itself, and the phase variant preserves the relevant dissipator structure. Parts 2 and 3 of the F108 trinity extend this to X- and Y-dephasing as Klein-V₄ corollaries via the companion proof.
+The proof's strategy is the F1 algebra applied to Π_5bilinear instead of canonical Π. The anti-commutation argument on the Hamiltonian commutator superoperator goes through verbatim once the phase variant is fixed. The dissipator-side identity holds because the letter swap exchanges the undamped pair {I, Z} with the damped pair {X, Y}. Parts 2 and 3 of the F108 trinity extend this to X- and Y-dephasing as Klein-V₄ corollaries via the companion proof.
 
 **Statement (Theorem F108 Part 1):** For any Hamiltonian H built as a linear combination of Π²-even 2-site bilinears {XX, YY, YZ, ZY, ZZ} on N sites with arbitrary real bond coefficients, and Z-dephasing on every site with arbitrary per-site rates γ_l, there exists a per-site Liouville-space operator Π_5bilinear such that
 
   Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly, where σ = Σ_l γ_l.
 
-In particular, spec(L) is palindromic around −σ, hence no pure-Π²-even Pauli pair (truly or non-truly) can be F87-hard.
+In particular, spec(L) is palindromic around −σ, hence no pair of these bilinears (truly or non-truly) can be F87-hard.
 
 ## The Π_5bilinear operator
 
@@ -82,7 +82,7 @@ This is verified bit-exactly at the 1-qubit level (residual = 0). The mechanism 
 
   D[Z]_pauli = γ · diag(0, −2, −2, 0)
 
-(zeros on the {I, Z} commuting sector, −2γ on the {X, Y} anti-commuting sector). M is the per-site signed permutation with permutation (I↔X, Y↔Z) and phases (+1 on I→X, −1 on X→I, +i on Y→Z, −i on Z→Y); the conjugation M · D · M⁻¹ for a diagonal D in this basis simply permutes the diagonal entries by the underlying letter permutation (the phase factors cancel pairwise: e.g. on the (Y, Z) swap, +i · (entry at Z) · (−i) gives back the original entry). Applying the swap (I↔X, Y↔Z) to diag(0, −2γ, −2γ, 0) yields
+(zeros on the {I, Z} commuting sector, −2γ on the {X, Y} anti-commuting sector). M is the per-site signed permutation with permutation (I↔X, Y↔Z) and phases (+1 on I→X, −1 on X→I, +i on Y→Z, −i on Z→Y); the conjugation M · D · M⁻¹ for a diagonal D in this basis simply permutes the diagonal entries by the underlying letter permutation (each phase of M meets its own inverse in M⁻¹: on the (Y, Z) swap, Y's entry lands at Z as +i · (entry at Y) · (−i), unchanged). Applying the swap (I↔X, Y↔Z) to diag(0, −2γ, −2γ, 0) yields
 
   M · D[Z]_pauli · M⁻¹ = γ · diag(−2, 0, 0, −2) = −D[Z]_pauli − 2γ · I_4.
 
@@ -114,7 +114,7 @@ From Q · L · Q⁻¹ = −L − 2σ · I and unitarity of Q:
 
 So spec(L) is invariant under λ ↦ −λ − 2σ, i.e. palindromic around −σ.
 
-**F87 corollary:** A Π²-even Pauli pair is F87-hard iff spec(L) breaks palindromy. Since spec(L) is palindromic for every Π²-even H (truly or non-truly), no Π²-even pair can be F87-hard. ∎
+**F87 corollary:** A pair is F87-hard iff spec(L) breaks palindromy. Since spec(L) is palindromic for every H of the family (truly or non-truly), no pair of Π²-even bilinears can be F87-hard. ∎
 
 ## Empirical verification
 
@@ -137,21 +137,20 @@ The actual mechanism is structurally different: a DIFFERENT per-site Π operator
 
 ## Significance
 
-F108 Part 1 closes the long-open F87 hardness criterion for Π²-even pairs:
+F108 Part 1 closes the F87 hardness question for the Π²-even bilinears: every Hamiltonian built from them has an exact operator-level palindrome, so no pair of them is F87-hard.
 
 - **F107** (Tier 1 derived): truly classification ⟹ y_par = 0 across all dephase letters.
-- **F108 Part 1** (Tier 1 derived, THIS PROOF): no Π²-even pair is F87-hard; equivalently, every Π²-even H admits an exact operator-level palindrome Π.
-- **F109** (Tier 1 derived, was modulo F108 Part 1): mother sector Klein (0, 0) soft ⟹ y_par = 1. With F108 Part 1 closed, F109 is fully unconditional Tier 1 derived.
+- **F108 Part 1** (Tier 1 derived, THIS PROOF): every Hamiltonian of Π²-even bilinears admits the exact palindrome operator Π_5bilinear.
+- **F109** (Tier 1 derived): mother sector Klein (0, 0) soft and y_par-homogeneous ⟹ y_par = 1. The mother cell's non-truly strings have odd weight, outside this mirror's reach; F109's Step 5 settles them by the colouring.
 
-The PROOF STRATEGY is generalizable: the per-site label-permutation algebra (which Π preserves which Pauli-pair sectors with which phase signs) is a complete classification of when palindromes hold. NON_HEISENBERG_PALINDROME's 4-family taxonomy (P1, P4, alternating, continuous per-site Π, all local) is the catalog; F108 Part 1 identifies P1's "5-bilinear phase variant" as the Π operator that covers every Π²-even Hamiltonian.
+Π_5bilinear is the canonical mirror composed with a Pauli conjugation, Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N} (conjugation by Y^⊗N first; the X- and Y-dephasing variants are Π_X⁻¹ ∘ Ad_{Y^⊗N} and Π_Y ∘ Ad_{Y^⊗N}), exact per site. In the factorization Π_Z = R·D of [the Π factorization](PROOF_PI_FACTORS_AS_R_TIMES_D.md) its transpose D is replaced by ρ ↦ Y^⊗N·ρᵀ·Y^⊗N, which carries L_σ to (−1)^(w+1)·L_σ, w the number of non-identity letters of σ, where D gives (−1)^(n_Y+1) (F114). R keeps L_σ exactly for the Π²_Z-even strings, so Π_Z flips the Π²-even strings with n_Y even, the truly ones, and Π_5bilinear the Π²-even strings with w even: its reach. [`f107_f110_route_gate.py`](../../simulations/f107_f110_route_gate.py) checks the three compositions and the reach exactly.
 
 ## Sibling y_par-axis claims
 
-Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+F107 (TrulyYParityZeroPurity), F109 (MotherSoftYParityOnePurity), F110 (HardCellYInversionPattern) and F111 (HardCellPureDTemplate), all Tier1Derived, sit on the y_par axis; F108 sits on the BitB axis (Parts 1 and 3) and the BitA axis (Part 2).
 
 ## Open
 
-- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
 - k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
 - Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
 

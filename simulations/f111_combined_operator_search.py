@@ -19,7 +19,8 @@ So we want Q_W = Q_V * Pi where Pi achieves:
   Pi L_H Pi^-1 = L_H  (commute, since the -L_H comes from Q_V)
   Pi L_D Pi^-1 = -L_D - 2 sigma I  (the F1 dissipator side)
 
-For Pi^2-D-even H, Pi_5bi anti-commutes ([H,.]). For Pi^2-D-odd H, it
+For H built from Pi^2-D-even bilinears (more generally Pi^2-D-even strings of even weight),
+Pi_5bi anti-commutes ([H,.]). For Pi^2-D-odd H, it
 neither commutes nor anti-commutes (residual 8 for both checks).
 
 So a per-site Pi_5bi or canonical Pi won't commute with [H,.] for off-y_par.

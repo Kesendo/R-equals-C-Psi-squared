@@ -1,4 +1,4 @@
-# PROOF F108 Part 2: Π²_X-Even Hamiltonians Always Admit an Exact Palindrome Operator under X-Dephasing
+# PROOF F108 Part 2: Π²_X-Even Bilinears Always Admit an Exact Palindrome Operator under X-Dephasing
 
 **Status:** Tier 1 derived (closed-form via X-dephasing variant of Π_5bilinear + F1-style algebra; BitA twin of F108 Part 1).
 **Klein-V₄ corollary:** Welle 14 (2026-05-27) showed Part 2 also follows from Part 1 by Hilbert-space Hadamard transport (`docs/proofs/PROOF_F108_KLEIN_V4_EQUIVALENCE.md`); the direct proof below is the canonical Π_5b(X) version and is preserved here.
@@ -8,7 +8,7 @@
 - [F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (F108 Part 1, BitB-axis sibling under Z-dephasing; this Part 2 mirrors its proof structure exactly)
 - [F108 Klein-V₄ equivalence](PROOF_F108_KLEIN_V4_EQUIVALENCE.md) (Welle 14: Part 2 as a Klein-V₄ corollary of Part 1 via Hadamard transport. The proof below is the direct canonical-Π_5b(X) version; the Klein-V₄ corollary establishes existence of a Π_5b-family palindrome operator for L_X via a different representative U_op · Π_5b(Z) · U_op^†.)
 - [F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) (Z-dephasing k-body truly criterion)
-- [F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (X-dephasing truly criterion: #X even AND #Y even, derived via Π letter-cycle transport from F85)
+- [F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (X-dephasing truly criterion: #X even AND #Y even, from the Hadamard transport of Π_Z)
 - [Palindromic Symmetry Beyond Heisenberg](../../experiments/NON_HEISENBERG_PALINDROME.md) (Π-family classification: P1, P4, alternating, continuous per-site, all local)
 - [`compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs`](../../compute/RCPsiSquared.Core/Symmetry/Pi5BilinearOperator.cs) (Π_5bilinear builder, X-deph variant)
 
@@ -18,7 +18,7 @@ Part 1 closes the palindrome for Π²-even bilinears under Z-dephasing. Part 2 c
 
 The proof structure mirrors Part 1 exactly. There is an X-dephasing-specific phase variant of the Π_5bilinear operator, with its own per-site letter permutation (I↔Z, X↔Y, picking out the Π_X letter swap) and its own two-phase-flip pattern. With this operator in hand, the operator-level palindrome identity holds bit-exactly for any X-dephasing-axis Π²-even bilinear Hamiltonian on any sites with any per-site X-dephasing rates.
 
-The structural consequence is symmetric to Part 1: no Π²_X-even Pauli pair can be F87-hard under X-dephasing, because the spectrum is palindromic by construction. F87-hardness on the X-axis is confined to Π²_X-odd or mixed-parity content, exactly mirroring the Z-axis story.
+The structural consequence is symmetric to Part 1: no pair of Π²_X-even bilinears can be F87-hard under X-dephasing, because the spectrum is palindromic by construction.
 
 Welle 14 later showed that Part 2 also follows from Part 1 as a Hadamard-transport corollary (the Hilbert-space Hadamard rotates the spin algebra to exchange X and Z, turning a Z-dephasing system into an X-dephasing one). The direct proof here, written by the F1 algebra applied to the X-axis Π_5bilinear variant, is preserved because it is the canonical construction; the Klein-V₄ corollary route is the higher-level perspective.
 
@@ -26,9 +26,9 @@ Welle 14 later showed that Part 2 also follows from Part 1 as a Hadamard-transpo
 
   Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly, where σ = Σ_l γ_l.
 
-In particular, spec(L) is palindromic around −σ, hence no pure-Π²_X-even Pauli pair (truly or non-truly) can be F87-hard under X-dephasing.
+In particular, spec(L) is palindromic around −σ, hence no pair of these bilinears (truly or non-truly) can be F87-hard under X-dephasing.
 
-This is the BitA-axis twin of F108 Part 1; together they cover the Z- and X-dephasing branches of the F108 Π²-even palindrome family. The Y-dephasing analog is F108 Part 3 ([`PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC`](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md), Tier 1 derived 2026-05-25 via the Y-deph variant of Π_5bilinear, same I↔X / Y↔Z permutation as Part 1 with Y-deph's −i phase convention), completing the Z/X/Y trio and promoting F109 to fully unconditional Tier1Derived.
+This is the BitA-axis twin of F108 Part 1; together they cover the Z- and X-dephasing branches of the F108 Π²-even palindrome family. The Y-dephasing analog is F108 Part 3 ([`PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC`](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md), Tier 1 derived 2026-05-25 via the Y-deph variant of Π_5bilinear, same I↔X / Y↔Z permutation as Part 1 with Y-deph's −i phase convention), completing the Z/X/Y trio.
 
 ## The Π_5bilinear operator (X-dephasing variant)
 
@@ -51,7 +51,7 @@ Same I↔Z, X↔Y permutation as the canonical X-dephasing Π (per `PiOperator` 
 Key per-site facts:
 
 1. **M is a Liouville-space automorphism, not a Hilbert-space conjugation.** Same subtlety as F108 Part 1's Π_5bilinear.
-2. **M² = diag(−1, +1, +1, −1) on {I, X, Y, Z}.** So M⁴ = I and M is order-4. The {I, Z} 2-cycle squares to −1 (the immune-pair under X-dephasing); the {X, Y} 2-cycle squares to +1 (the damped-pair).
+2. **M² = diag(−1, +1, +1, −1) on {I, X, Y, Z}.** So M⁴ = I and M is order-4. The {I, Z} 2-cycle squares to −1 and the {X, Y} 2-cycle to +1; each 2-cycle pairs a letter X-dephasing leaves alone (I or X) with a damped one (Z or Y).
 3. **Π_5bilinear is unitary on the d²-dim Liouville space.** Each column has one non-zero entry of unit modulus; columns and rows are pairwise orthogonal.
 
 The sign-pattern of M² is structurally the mirror of F108 Part 1's M² = diag(−1, −1, +1, +1) under the Z↔X label swap, matching the bit_a vs bit_b roles in the two dephasing pictures.
@@ -86,7 +86,7 @@ Verified bit-exactly at the 1-qubit level (residual = 0). The mechanism is a dia
 
   D[X]_pauli = γ · diag(0, 0, −2, −2)
 
-(zeros on the {I, X} commuting sector, −2γ on the {Y, Z} anti-commuting sector). M is the per-site signed permutation with permutation (I↔Z, X↔Y) and phases; the conjugation M · D · M⁻¹ for a diagonal D in this basis permutes the diagonal entries by the underlying letter permutation (the phase factors cancel pairwise on each 2-cycle: +1 · −1 on I↔Z, −i · +i on X↔Y). Applying the swap (I↔Z, X↔Y) to diag(0, 0, −2, −2) yields
+(zeros on the {I, X} commuting sector, −2γ on the {Y, Z} anti-commuting sector). M is the per-site signed permutation with permutation (I↔Z, X↔Y) and phases; the conjugation M · D · M⁻¹ for a diagonal D in this basis permutes the diagonal entries by the underlying letter permutation (each phase of M meets its own inverse in M⁻¹). Applying the swap (I↔Z, X↔Y) to diag(0, 0, −2, −2) yields
 
   M · D[X]_pauli · M⁻¹ = γ · diag(−2, −2, 0, 0) = −D[X]_pauli − 2γ · I_4.
 
@@ -112,7 +112,7 @@ From Q · L · Q⁻¹ = −L − 2σ · I and unitarity of Q:
 
 So spec(L) is palindromic around −σ.
 
-**F87 corollary:** A Π²_X-even Pauli pair is F87-hard under X-dephasing iff spec(L) breaks palindromy. Since spec(L) is palindromic for every Π²_X-even H (truly or non-truly), no Π²_X-even pair can be F87-hard under X-dephasing. ∎
+**F87 corollary:** A pair is F87-hard under X-dephasing iff spec(L) breaks palindromy. Since spec(L) is palindromic for every H of the family (truly or non-truly), no pair of Π²_X-even bilinears can be F87-hard under X-dephasing. ∎
 
 ## Empirical verification
 
@@ -128,21 +128,21 @@ Reproduction: [`simulations/f108_part2_x_dephasing_scan.py`](../../simulations/f
 
 ## Significance
 
-F108 Part 2 completes the BitA twin of F108 Part 1; together they close the F108 Π²-even hardness question across Z- and X-dephasing:
+F108 Part 2 completes the BitA twin of F108 Part 1; together they close the F87 hardness question for the Π²-even bilinears across Z- and X-dephasing:
 
-- **F108 Part 1** (BitB axis, Tier 1 derived, 2026-05-25): no Π²_Z-even pair is F87-hard under Z-dephasing.
-- **F108 Part 2** (BitA axis, Tier 1 derived, 2026-05-25 THIS PROOF): no Π²_X-even pair is F87-hard under X-dephasing.
-- **F109** (Tier 1 derived): mother sector Klein (0, 0) soft ⟹ y_par = 1. After F108 Part 1+2, the Z- and X-dephasing branches of F109 Step 5 are both closed-form; only the Y-dephasing branch remains empirically anchored.
+- **F108 Part 1** (BitB axis, Tier 1 derived, 2026-05-25): no pair of Π²_Z-even bilinears is F87-hard under Z-dephasing.
+- **F108 Part 2** (BitA axis, Tier 1 derived, 2026-05-25 THIS PROOF): no pair of Π²_X-even bilinears is F87-hard under X-dephasing.
+
+The X-deph variant reaches exactly the Π²_X-even strings of even weight (an even number of non-identity letters); it is Π_X⁻¹ ∘ Ad_{Y^⊗N} ([Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md), Significance). That no Π²_X-even pair at any body count is hard under X-dephasing, the mother cell of [F109](PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md) included, is the colouring's: every such string commutes with Z^⊗N, which anticommutes with every X jump ([F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)).
 
 The proof's structural pattern transfers cleanly from F108 Part 1 by the bit_a ↔ bit_b mirror: per-site permutation (I↔X, Y↔Z) under Z-deph maps to (I↔Z, X↔Y) under X-deph; M² sign-pattern diag(−1, −1, +1, +1) maps to diag(−1, +1, +1, −1); D[Z]_pauli diagonal (0, −2, −2, 0) maps to D[X]_pauli diagonal (0, 0, −2, −2). The diagonal-permutation mechanism in Step 2 transfers identically.
 
 ## Sibling y_par-axis claims
 
-Closed 2026-05-25: F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10). Together F107+F109+F110 close the y_par-axis F87 trichotomy classification.
+F107 (TrulyYParityZeroPurity), F109 (MotherSoftYParityOnePurity), F110 (HardCellYInversionPattern) and F111 (HardCellPureDTemplate), all Tier1Derived, sit on the y_par axis; F108 sits on the BitB axis (Parts 1 and 3) and the BitA axis (Part 2).
 
 ## Open
 
-- Closed-form derivation of F110 Aspect C exact ratios (42:8 at k=3, 228:0 at k=4) per Pauli-letter combinatorics. F103 Section 5 explicitly lists as open.
 - k ≥ 5 empirical confirmation of F103/F106 pattern stability beyond N=4.
 - Hardware QPU confirmation at k ≥ 3 (no F87 QPU confirmations exist beyond Marrakesh k=2).
 

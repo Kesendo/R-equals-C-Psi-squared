@@ -109,9 +109,12 @@ def classify_pauli_pair(chain, terms, J_scale=1.0, op_tol=1e-10, spec_tol=1e-6,
             corresponding Π palindrome operator. Default 'Z'.
 
     The dissipator-resonance law (verified at N=4 k=3 over 294 Z₂³-homo-
-    geneous pairs, 2026-05-01): F77-hardness lives exactly in the Klein
-    cell that matches the dephase_letter's Klein index. Z's Klein index
-    is (0, 1); X's is (1, 0); Y's is (1, 1). SU(2)-rotation-equivalent.
+    geneous pairs, 2026-05-01): the F77-hardness of pairs whose two terms
+    share a Klein cell lives exactly in the Klein cell that matches the
+    dephase_letter's Klein index; a pair across the two unmatched cells
+    other than the Mother sector can be hard as well (YZ + ZX under Z).
+    Z's Klein index is (0, 1); X's is (1, 0); Y's is (1, 1).
+    SU(2)-rotation-equivalent.
 
     Returns:
         'truly' | 'soft' | 'hard'

@@ -9,7 +9,9 @@ using static RCPsiSquared.Core.Tests.Symmetry.F108TestSupport;
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
 /// <summary>F108 Part 3 closure tests: Π_5bilinear (Y-deph variant) · L · Π⁻¹ =
-/// −L − 2σI bit-exactly for every Π²_Y-even non-truly Hamiltonian + Y-dephasing.
+/// −L − 2σI on Hamiltonians of Π²_Y-even bilinears + Y-dephasing: the YZ+ZY chain and
+/// the nine pure Π²_Y-even non-truly pairs at N = 3, 4, 5, with the pure dissipator and a mixed
+/// truly + non-truly H at N = 3, residual below 1e-10.
 /// Mirrors the Part 1 + Part 2 test pattern; reuses shared
 /// <see cref="F108TestSupport.ComputeOperatorResidual"/> with
 /// <see cref="PauliLetter.Y"/>. Reproduction:

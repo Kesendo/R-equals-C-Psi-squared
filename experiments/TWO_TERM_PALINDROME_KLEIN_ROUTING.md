@@ -153,8 +153,8 @@ just different from the X leg's.
 This is the explicit k=2 face of the dissipator-resonance law
 ([the polarity layer](../hypotheses/THE_POLARITY_LAYER.md), typed as
 [`DissipatorResonanceLaw`](../compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs)), which
-states the same axis-equivalence at k = 3 (and k = 4): F87-hardness lives in the Klein cell matching the
-dephasing letter's index (Z → (0,1), X → (1,0), Y → (1,1)). One disambiguation: the SU(2) here is the discrete
+states the same axis-equivalence at k = 3: the F87-hardness of Klein-homogeneous pairs lives in the Klein cell
+matching the dephasing letter's index (Z → (0,1), X → (1,0), Y → (1,1)). One disambiguation: the SU(2) here is the discrete
 Clifford / Klein-V₄ acting on the dephasing axis, not the Heisenberg chain's spin-rotation SU(2) (the
 total-S² Casimir), which Z-dephasing breaks and which the Star / Schur-Weyl results use only as a tool
 on H alone (see the note on SU(2) in [the star spread](STAR_CONFOCAL_LIMIT.md)). Script:

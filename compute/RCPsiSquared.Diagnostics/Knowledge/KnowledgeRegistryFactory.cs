@@ -696,18 +696,17 @@ public static class KnowledgeRegistryFactory
             .RegisterF87Z2CubedRefinementN4K4()
             // YParity-axis F107: F87 truly classification forces y_par = 0 (closed-form,
             // all dephase letters). First DERIVED-not-EMPIRICAL Claim in the family;
-            // direct corollary of F85's k-body truly criterion. PolarityCubeMap's
-            // YParityClaims grows from 4 to 5.
+            // the Z criterion from Π_Z = R·D, carried to X and Y by the exact transports
+            // between the canonical mirrors. PolarityCubeMap's YParityClaims grows from 4 to 5.
             .RegisterTrulyYParityZeroPurity()
-            // YParity-axis F109: mother sector Klein (0,0) soft is y_par=1 pure across
+            // YParity-axis F109: mother sector Klein (0,0) y_par-homogeneous soft pairs are y_par=1 pure across
             // all dephase letters. Sister to F107; together pin truly + mother-soft
-            // y_par signature. Fully unconditional Tier1Derived after F108 Part 1
-            // closure (Π_5bilinear, see RegisterF108Part1Pi2EvenAlwaysPalindromic below).
+            // y_par signature. Its non-truly half is soft by the colouring (F158).
             // PolarityCubeMap's YParityClaims grows from 5 to 6.
             .RegisterMotherSoftYParityOnePurity()
-            // YParity-axis F110: F87-hard pairs only in diagonal Klein cells with
-            // Y-inversion. Aspect A closed-form via F108 Part 1+2+3 + F87 dissipator-
-            // resonance; Aspects B+C derived via the F103 §6 counting rule + §7 mechanism
+            // YParity-axis F110: F87-hard Klein-homogeneous pairs only in diagonal Klein cells with
+            // Y-inversion. Aspect A by the colouring of the three non-diagonal Klein
+            // cells (F158); Aspects B+C derived via the F103 §6 counting rule + §7 mechanism
             // + the closed windowed converse. Tier1Derived (promoted 2026-06-10, gate
             // WindowedConverseAllGammaClaim). PolarityCubeMap's
             // YParityClaims grows from 6 to 7.
@@ -721,23 +720,20 @@ public static class KnowledgeRegistryFactory
             // closed modulo M via PROOF_F103 §7.4). PolarityCubeMap's YParityClaims
             // grows from 7 to 8.
             .RegisterHardCellPureDTemplate()
-            // BitA-axis F108 Part 2: Π²_X-even H + X-dephasing admits exact
+            // BitA-axis F108 Part 2: H of Π²_X-even bilinears + X-dephasing admits exact
             // operator-level palindrome (X-deph variant of Π_5bilinear). BitA twin
             // of F108 Part 1; must be registered BEFORE Part 1 (ctor parent).
             // PolarityCubeMap's BitAClaims grows from 1 (F61) to 2.
             .RegisterF108Part2Pi2XEvenAlwaysPalindromic()
-            // BitB-axis F108 Part 1: Π²-even H + Z-dephasing admits exact
-            // operator-level palindrome (Π_5bilinear). Closes F109's Step 5 for Z-
-            // dephasing; together with F108 Part 2 (X-deph) + F108 Part 3 (Y-deph)
-            // covers all three dephase letters. PolarityCubeMap's BitBClaims grows
-            // by 1.
+            // BitB-axis F108 Part 1: H of Π²-even bilinears + Z-dephasing admits exact
+            // operator-level palindrome (Π_5bilinear); together with F108 Part 2
+            // (X-deph) + F108 Part 3 (Y-deph) covers all three dephase letters.
+            // PolarityCubeMap's BitBClaims grows by 1.
             .RegisterF108Part1Pi2EvenAlwaysPalindromic()
-            // BitB-axis F108 Part 3: Π²_Y-even H + Y-dephasing admits exact
+            // BitB-axis F108 Part 3: H of Π²_Y-even bilinears + Y-dephasing admits exact
             // operator-level palindrome (Y-deph variant of Π_5bilinear). Y-deph
-            // sibling of F108 Part 1 (same bilinear set, different dephase letter);
-            // closes F109's Step 5 Y-dephasing branch and promotes F109 to fully
-            // unconditional across all three dephase letters. PolarityCubeMap's
-            // BitBClaims grows by 1.
+            // sibling of F108 Part 1 (same bilinear set, different dephase letter).
+            // PolarityCubeMap's BitBClaims grows by 1.
             .RegisterF108Part3Pi2YEvenAlwaysPalindromic()
             // BitA-axis F112-X: cross-dephase sibling of F112-Z. Same Π-eigenvalue
             // balance identity with axis_d := bit_a substituted for bit_b: any H +

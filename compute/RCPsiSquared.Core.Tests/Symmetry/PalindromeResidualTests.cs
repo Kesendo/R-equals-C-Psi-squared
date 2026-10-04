@@ -42,9 +42,9 @@ public class PalindromeResidualTests
     [Fact]
     public void F1_Palindrome_IsExactlyZero_ForXDephasedHeisenbergChain()
     {
-        // Heisenberg = XX+YY+ZZ is invariant under cyclic Pauli rotation X→Y→Z, so it's
-        // "truly" under X-, Y-, and Z-dephasing. F1 must hold bit-exactly with the
-        // X-axis-specific Π built by PiOperator.BuildFull(N, PauliLetter.X).
+        // Heisenberg = XX+YY+ZZ is "truly" under X-, Y-, and Z-dephasing: every bond string
+        // has all letter counts even, which meets each letter's F107 criterion. The test checks
+        // F1 with the X-axis-specific Π built by PiOperator.BuildFull(N, PauliLetter.X), to 1e-9.
         int N = 3;
         double gamma = 0.05;
         var H = PauliHamiltonian.HeisenbergChain(N, J: 1.0).ToMatrix();
@@ -60,7 +60,7 @@ public class PalindromeResidualTests
     [Fact]
     public void F1_Palindrome_IsExactlyZero_ForYDephasedHeisenbergChain()
     {
-        // Same SU(2)-cyclic argument as the X-dephasing case: Heisenberg is truly under Y too.
+        // Same reason as the X-dephasing case: every bond string meets F107's Y criterion too.
         int N = 3;
         double gamma = 0.05;
         var H = PauliHamiltonian.HeisenbergChain(N, J: 1.0).ToMatrix();

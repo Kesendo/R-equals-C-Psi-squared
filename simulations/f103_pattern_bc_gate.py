@@ -26,7 +26,8 @@ Routes, all exact (Gaussian-integer superoperators in the Pauli basis, compariso
       N = 4, random Hamiltonians of 1 to 5 strings of any body count, random per-site rates, all three letters;
       controls: no lit letter colours the diagonal cell, W fails on the mother cell.
   G4  Pi_5bilinear: palindromizes the Z dissipator exactly, its truly X-cell pairs are the y_par = 1 half, and XZZ
-      and the mother cell's XYZ permutations are not truly against it (F108 Part 1's route stops at two sites).
+      and the mother cell's XYZ permutations are not truly against it (F108 Part 1's mirror reaches the Pi^2-even
+      strings of even weight only; simulations/f107_f110_route_gate.py G3 counts them).
   G5  the 256 phase choices on the X flip all palindromize the Z dissipator; their X-cell truly sets run from
       empty to all sixteen strings, so the phases decide which strings are truly, not merely which half.
 Run: python simulations/f103_pattern_bc_gate.py   (a few seconds)"""

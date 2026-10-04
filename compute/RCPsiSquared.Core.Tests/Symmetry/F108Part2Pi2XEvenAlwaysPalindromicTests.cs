@@ -9,7 +9,9 @@ using static RCPsiSquared.Core.Tests.Symmetry.F108TestSupport;
 namespace RCPsiSquared.Core.Tests.Symmetry;
 
 /// <summary>F108 Part 2 closure tests: Π_5bilinear (X-deph variant) · L · Π⁻¹ =
-/// −L − 2σI bit-exactly for every Π²_X-even non-truly Hamiltonian + X-dephasing.
+/// −L − 2σI on Hamiltonians of Π²_X-even bilinears + X-dephasing: the chain with XY on every bond and
+/// the nine pure Π²_X-even non-truly pairs at N = 3, 4, 5, with the pure dissipator and a mixed
+/// truly + non-truly H at N = 3, residual below 1e-10.
 /// Mirrors the F108 Part 1 test structure and the Python scan in
 /// <c>simulations/f108_part2_x_dephasing_scan.py</c>.</summary>
 public class F108Part2Pi2XEvenAlwaysPalindromicTests

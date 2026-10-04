@@ -13,8 +13,9 @@ namespace RCPsiSquared.Diagnostics.F87;
 ///         foundation of this family.</item>
 ///   <item><see cref="DissipatorResonanceLaw"/>: SU(2)-symmetric (bit_a, bit_b)-cell
 ///         alignment law (Tier1Derived). Typed parent: F87TrichotomyClassification —
-///         the resonance law is the empirical statement about WHERE F87-hardness lives
-///         (in the cell matching the dephase letter), so F87 is its source.</item>
+///         the resonance law is the statement about WHERE the F87-hardness of
+///         Klein-homogeneous pairs lives (in the cell matching the dephase letter), so F87
+///         is its source.</item>
 ///   <item><see cref="DissipatorAxisSelectsPolarityClaim"/>: the typed bridge claim
 ///         (Tier1Derived) that declares the dissipator letter as polarity-axis
 ///         selector. Two typed parents:

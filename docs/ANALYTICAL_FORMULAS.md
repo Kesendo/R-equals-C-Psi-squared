@@ -1621,8 +1621,8 @@ Pi^2 is therefore a conserved quantum number of every Liouvillian eigenmode.
 **Downstream (bit_b axis foundation):** F38's (−1)^{w_YZ} eigenvalue formula on
 Pauli strings is the algebraic root of the bit_b Z₂-grading of the Pauli
 group, and is used as a foundational input by every derived theorem on that
-axis: F88a (operator-level Klein decomposition), F108 Part 1/2/3 (Π²-even
-palindrome closure via Π_5bilinear), and F112 (Lindblad Π-eigenvalue balance
+axis: F88a (operator-level Klein decomposition), F108 Parts 1 and 3 (the Π²-even
+bilinears' palindrome via Π_5bilinear), and F112 (Lindblad Π-eigenvalue balance
 under bit_b-homogeneous c). F87's trichotomy classifier reads the same bit_b
 grading from the orthogonal spec(L)-palindromy axis.
 
@@ -3572,7 +3572,7 @@ The trichotomy uses F1 as its **discriminator** (M as the test object), F49 / F8
 
 The Marrakesh hardware confirmation (2026-04-26, ibm_marrakesh job `d7mjnjjaq2pc73a1pk4g`, observable ⟨X₀ Z₂⟩) measured Δ(soft − truly) = −0.722, matching the Trotter-n3 prediction of −0.723 (residual 0.001; the 0.0014 figure cited in the Confirmations registry is computed against an unrounded predicted value); see [`data/ibm_soft_break_april2026/`](../data/ibm_soft_break_april2026/). The classifier was extracted into a free function on 2026-04-30 (commit 23b2154) and given the filename `f77_trichotomy.py` after the function's existing internal label, even though the registry F77 slot was already occupied by MM(0). The dephase-axis extension (commit 435c4b2, 2026-05-01) generalised the classifier to X, Y, Z dephasing letters. F87 is the registry-formal entry for the trichotomy, filed retrospectively on 2026-05-03 alongside the typed `F87KnowledgeBase` cleanup that surfaced the F77/F87 naming collision.
 
-**Π² classifier dependence on dephase letter** (commit 435c4b2). Per `PiOperator.SquaredEigenvalue`, the Π²-class index is bit_b for Z- and Y-dephasing and bit_a for X-dephasing (Π_Y shares Π_Z's bit_a-flip convention; Π_X flips bit_b instead). The (bit_a, bit_b) parity pairs are Z = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. **F87 hardness is defined combinatorially via Pauli-pair compatibility (commit 81caf67), not via any 4-cell label.** As a post-hoc structural reading, however, F87 hardness empirically corresponds to the (bit_a, bit_b) parity cell matching the dissipator letter: anywhere else produces a Π-violation that the spectrum-pairing test detects. The (Π²_Z, Π²_X) two-axis decomposition is treated separately as F88a below; F87 itself uses only one axis (Π²_Z under Z-dephasing). Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
+**Π² classifier dependence on dephase letter** (commit 435c4b2). Per `PiOperator.SquaredEigenvalue`, the Π²-class index is bit_b for Z- and Y-dephasing and bit_a for X-dephasing (Π_Y shares Π_Z's bit_a-flip convention; Π_X flips bit_b instead). The (bit_a, bit_b) parity pairs are Z = (0, 1), X = (1, 0), Y = (1, 1) in the PauliLetter convention. **F87 hardness is defined combinatorially via Pauli-pair compatibility (commit 81caf67), not via any 4-cell label.** As a structural reading, however, the F87 hardness of pairs within one Klein cell sits in the (bit_a, bit_b) parity cell matching the dissipator letter. That no Klein-homogeneous pair outside the matched cell is hard holds at every body count, since each of the other three cells is coloured ([F110 §2](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md)); a pair whose two terms sit in the two unmatched cells other than the Mother sector can be hard (YZ + ZX under Z-dephasing, [the two-term Klein routing](../experiments/TWO_TERM_PALINDROME_KLEIN_ROUTING.md)), while a Mother term beside either is still coloured. The (Π²_Z, Π²_X) two-axis decomposition is treated separately as F88a below; F87 itself uses only one axis (Π²_Z under Z-dephasing). Verified at N=4, k=3 across 294 Z₂³-homogeneous pairs.
 
 **Orthogonal axis on shared bit_b Z₂-grading (F112).** F87's trichotomy lives in ‖M‖_F magnitude + spec(L) palindromy; F112 (Lindblad Π-eigenvalue balance under bit_b-homogeneous c) lives in M_anti's Π +i / −i Frobenius split. Both projections of the same Π² = (−1)^{bit_b} grading on the Pauli group. Empirically orthogonal: all three F87 classes (truly, soft, hard) at N=3 under standard single-Pauli Z-deph give F112 balance asymmetry = 0 bit-exact (`simulations/polarity_probe_f87_connection.py`), since single-Pauli c is trivially bit_b-homogeneous. Weigh that anchor at four of its seven cases: the two `truly` rows and the Π²-even `soft` row have a Π²-even H, so their polarity content is zero as a theorem and they carry no reading either way. The split is by Π²-parity, not by F87 class; `soft` contains Π²-odd members that do contribute, while `truly` cannot contribute on this path, because every truly term-set is Π²-even by construction; the operative reason is the parity, not a vanishing M, and adding amplitude damping gives a truly H genuine polarity content (2026-08-07).
 
@@ -4419,17 +4419,20 @@ the enum balance.
 
 ---
 
-### F107. F87 Truly Classification Forces y_par = 0 (Tier 1 derived, closed-form corollary of F85)
+### F107. F87 Truly Classification Forces y_par = 0 (Tier 1 derived, from the canonical mirrors at every body count)
 
 After F103/F105/F106 anchored 4524 truly classifications empirically (all with
-y_par = 0, zero with y_par = 1), F107 derives this in closed form as a direct
-corollary of F85's k-body truly criterion, extended from F85's Z-dephasing
-proof to all three dephase letters (X, Y, Z) via the per-dephase Π² eigenvalue
-rule (`PiOperator.SquaredEigenvalue`) combined with dissipator commutativity
-(F84 Pauli-Channel Cancellation Lemma). F107 is the first DERIVED-not-EMPIRICAL
-Claim in the F87 Z₂³ refinement family.
+y_par = 0, zero with y_par = 1), F107 derives this in closed form at every body
+count. The Z-dephasing criterion comes from Π_Z = R·D
+([the Π factorization](proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md) §4(d), (f): D gives
+L_σ the sign (−1)^(n_Y+1), R keeps L_σ exactly when n_Y + n_Z is even); the
+other two canonical mirrors are exact transports of Π_Z, Π_Y = Π_Z⁻¹ and
+Π_X its conjugate by the Hadamard
+([the Klein-V₄ dephase swaps](proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md)),
+so the X criterion is the Z criterion with X and Z exchanged. F107 is the first
+DERIVED-not-EMPIRICAL Claim in the F87 Z₂³ refinement family.
 
-**Per-dephase truly criteria** (each combining Π²-even with dissipator-commute):
+**Per-dephase truly criteria** (the two letters other than the mirror's flip letter even):
 
 - Z-dephase: #Y even AND #Z even
 - X-dephase: #X even AND #Y even
@@ -4437,8 +4440,10 @@ Claim in the F87 Z₂³ refinement family.
 
 All three include `#Y even` as a sub-condition. Since `y_par = #Y mod 2`,
 every truly term has y_par = 0; every truly y_par-homogeneous pair has shared
-y_par = 0. Bit-exact verification across all 64 k=3 + 256 k=4 letter
-sequences × 3 dephase letters (`TrulyYParityZeroPurityTests.VerifyOnTerm_*`).
+y_par = 0. The implication from the criterion to #Y even is checked on all
+64 k=3 + 256 k=4 letter sequences × 3 dephase letters
+(`TrulyYParityZeroPurityTests.VerifyOnTerm_*`); the criterion itself is
+compared with the directly computed M in the gate below.
 The criteria are the canonical palindromizers', which flip by X (Z- and
 Y-dephasing) or Z (X-dephasing): a term is truly when both letters other than
 the flip letter are even, with the canonical phases. Against other
@@ -4447,21 +4452,22 @@ Z- or X-dephasing flips by Y (#X and #Z even; the Y cell's truly terms at
 y_par = 1), and F108 Part 1's Π_5bilinear keeps the letter X with other
 phases (the X cell's at y_par = 1) ([F103 §8](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)).
 
-**Sibling y_par-axis claims** (all closed 2026-05-25): F108 Part 1+2+3
-(Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity,
-Tier1Derived unconditional); F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10).
-Together F107+F109+F110 pin the y_par signature of all three F87 trichotomy
-classes.
+**Sibling y_par-axis claims:** F109 (MotherSoftYParityOnePurity, Tier1Derived);
+F110 (HardCellYInversionPattern, Tier1Derived); F111 (HardCellPureDTemplate,
+Tier1Derived).
 
 **Source:** [Proof](proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md);
 `compute/RCPsiSquared.Core/Symmetry/TrulyYParityZeroPurity.cs`;
-parent: PROOF_F85_KBODY_GENERALIZATION.md (k-body truly criterion under
-Z-dephasing); helpers: `TrulyYParityZeroPurity.TrulyCriterionHolds(term, dephase)`
+parents: PROOF_PI_FACTORS_AS_R_TIMES_D.md (the Z criterion at every body
+count, and Π_Y = Π_Z⁻¹) + PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md (the transport to X)
++ PROOF_F85_KBODY_GENERALIZATION.md (the criterion stated and verified at
+k = 2, 3, 4); gate [`f107_f110_route_gate.py`](../simulations/f107_f110_route_gate.py);
+helpers: `TrulyYParityZeroPurity.TrulyCriterionHolds(term, dephase)`
 and `TrulyYParityZeroPurity.VerifyOnTerm(term, dephase)`.
 
 ---
 
-### F108 Part 1. Π²-Even Hamiltonians Always Admit an Exact Palindrome Operator (Tier 1 derived, Π_5bilinear phase variant of canonical P1 Π)
+### F108 Part 1. Π²-Even Bilinears Always Admit an Exact Palindrome Operator (Tier 1 derived, Π_5bilinear phase variant of canonical P1 Π)
 
 Every Hamiltonian H built from the five Π²_Z-even 2-site bilinears {XX, YY, YZ,
 ZY, ZZ} with arbitrary real bond coefficients, plus Z-dephasing on every site,
@@ -4469,9 +4475,18 @@ admits an EXACT operator-level palindrome:
 
   Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ · I exactly, σ = Σ_l γ_l.
 
-Hence spec(L) is palindromic around −σ, and no Π²-even Pauli pair (truly or
-non-truly) can be F87-hard. Closes the empirical observation that 5346+ Π²-even
-pairs across F103/F105/F106 anchors were observed soft with zero hard.
+Hence spec(L) is palindromic around −σ, and no pair of these bilinears (truly
+or non-truly) can be F87-hard. The mirror flips the commutator of exactly the
+Π²_Z-even strings of even weight (an even number of non-identity letters), on
+any number of sites: four-body strings such as XXYZ are inside its reach,
+single-site fields and three-body strings such as XZZ or XYZ outside it. The
+reason is Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}: in Π_Z = R·D (F118) the transpose's
+sign (−1)^(n_Y+1) on L_σ (F114) becomes (−1)^(w+1), w the number of
+non-identity letters of σ, while R keeps L_σ exactly on the Π²_Z-even strings.
+That no Π²-even pair at any body count is hard
+is the colouring's: every Π²_Z-even string commutes with X^⊗N, which
+anticommutes with every Z jump ([F103 §8](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md),
+F109, F110).
 
 **The Π_5bilinear per-site map:** I → +1·X, X → −1·I, Y → +i·Z, Z → −i·Y. Same
 I↔X, Y↔Z permutation as the canonical Heisenberg Π (P1 family from
@@ -4491,8 +4506,8 @@ since U·I·U† = I).
 2. Per-site dissipator: M · D[Z_l] · M⁻¹ = −D[Z_l] − 2γ_l · I via diagonal
    permutation in the Pauli basis. D[Z]_pauli = γ · diag(0, −2, −2, 0) on
    {I, X, Y, Z}; M's (I↔X, Y↔Z) swap permutes the diagonal entries to
-   γ · diag(−2, 0, 0, −2) = −D[Z]_pauli − 2γ · I_4 (phase factors cancel
-   pairwise on each 2-cycle).
+   γ · diag(−2, 0, 0, −2) = −D[Z]_pauli − 2γ · I_4 (each phase of M meets
+   its own inverse in M⁻¹).
 3. Combining 1 + 2: Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ · I exactly.
 
 **Resolution of the previously open ker(M) attempt:** Earlier exploration tried
@@ -4518,39 +4533,39 @@ verification.
   X-dephasing analog via the I↔Z, X↔Y phase-variant of Π_5bilinear. Same
   proof structure as Part 1, restricted to the Π²_X-even bilinear set
   {ZZ, XX, XY, YX, YY}. Per-site map: I → +Z, Z → −I, X → −iY, Y → +iX;
-  per-site M² = diag(−1, +1, +1, −1) on {I, X, Y, Z}. Closes the X-dephasing
-  branch of F109 Step 5. F108 Part 1's BitATwin slot points at this Claim
-  (status `Filled`).
+  per-site M² = diag(−1, +1, +1, −1) on {I, X, Y, Z}. F108 Part 1's BitATwin
+  slot points at this Claim (status `Filled`).
 - **F108 Part 3 (Y-dephasing sibling, Tier 1 derived 2026-05-25):** the
   Y-dephasing analog. Same I↔X, Y↔Z permutation as Part 1 (Y-deph and Z-deph
   share bit_b parity per `PiOperator.SquaredEigenvalue`); per-site map
   I → +X, X → −I, Y → −iZ, Z → +iY differs from Part 1's only in the Y/Z
   2-cycle phase (−i vs +i, matching Y-deph's canonical Π convention). Same
   Π²-even bilinear set {XX, YY, YZ, ZY, ZZ} as Part 1; same M² sign pattern
-  diag(−1, −1, +1, +1). Closes the Y-dephasing branch of F109 Step 5,
-  promoting F109 to fully unconditional Tier1Derived across {Z, X, Y}.
-  Part 3 is BitB axis (shares bit_b with Part 1); BitATwin slot is
+  diag(−1, −1, +1, +1). Part 3 is BitB axis (shares bit_b with Part 1); BitATwin slot is
   `BitBSpecific` (Y-deph has no meaningful bit_a analog).
 - **F108 Klein-V₄ equivalence (Welle 14, 2026-05-27):** Parts 2 and 3 are
   Klein-V₄ corollaries of Part 1 via two complementary mechanisms.
-  Part 1 ↔ Part 3 via operator-space D-conjugation (D · Π_5b(Z) · D = Π_5b(Y)
-  bit-exact at N = 1, 2, 3; bilinear set fixed on bit_b axis). Part 1 ↔ Part 2
+  Part 1 ↔ Part 3 via operator-space D-conjugation (D the transpose, Y ↦ −Y per
+  site; D · Π_5b(Z) · D = Π_5b(Y) bit-exact at N = 1, 2, 3; bilinear set fixed on bit_b axis). Part 1 ↔ Part 2
   via Hilbert-space Hadamard transport (U_op = U_H^⊗N ⊗ (U_H^⊗N)^* maps
   L_Z → L_X bit-exact; per-letter Hadamard bijects Part-1 bilinear set onto
-  Part-2 bilinear set). NEGATIVE on operator-space Klein-V₄ for Π_5b:
-  Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X) and H · Π_5b(Y) · H ≠ ±Π_5b(X) (residual
-  2.0 in Frobenius distance at N = 1, 2, 3); the operator-space Klein-V₄
-  action on Π_5b is only the {I, D} subgroup; X-deph enters via Hilbert-space
-  Hadamard. The three typed Claims are KEPT SEPARATE to preserve independent
+  Part-2 bilinear set). On operator space, with H the X↔Z letter swap that
+  fixes I and Y and Q_zx = H·D, the pairings that serve the canonical mirrors
+  fail for Π_5b, Q_zx · Π_5b(Z) · Q_zx ≠ ±Π_5b(X) and H · Π_5b(Y) · H ≠ ±Π_5b(X)
+  (largest entry of the difference 2.0 at N = 1, 2, 3), while
+  H · Π_5b(Z) · H = Π_5b(X) and Q_zx · Π_5b(X) · Q_zx = Π_5b(Y): D, H and Q_zx
+  each swap one pair of the three variants (Z↔Y, Z↔X, X↔Y) and send the third
+  to Π_X ∘ Ad_{Y^⊗N}, outside the set (exact per site, gate
+  [`f107_f110_route_gate.py`](../simulations/f107_f110_route_gate.py)). The three typed Claims are KEPT SEPARATE to preserve independent
   integration edges but cross-reference the equivalence proof.
 - **F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25):**
-  hard cells y_par-asymmetric with Y-inversion. Aspect A closed-form via
-  F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B+C
-  derived via F103 §6/§7 (anchored at F103/F105/F106), the windowed converse closed 2026-06-10.
+  hard cells y_par-asymmetric with Y-inversion. Aspect A by the colouring
+  of the three non-diagonal Klein cells; Aspect B+C derived via F103 §6/§7
+  (anchored at F103/F105/F106), the windowed converse closed 2026-06-10.
 - **F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26):**
   sibling derived theorem on the shared bit_b Z₂-grading. Where F108 Parts
   1/2/3 close palindromy for Π²-even *bilinears* (the bit_b = 0 sub-sector
-  of 2-body H), F112 closes Π-eigenvalue +i / −i balance for arbitrary H
+  of 2-body H for Parts 1 and 3, bit_a = 0 for Part 2), F112 closes Π-eigenvalue +i / −i balance for arbitrary H
   with bit_b-homogeneous dissipator c. F108 and F112 are two independent
   Tier1Derived projections of the same F38 / F63 foundation: F108 lives in
   spec(L) palindromy, F112 in M_anti's Π ±i Frobenius split.
@@ -4574,18 +4589,15 @@ the same Π²-even bilinear predicates):
 
 ---
 
-### F109. Mother Sector Soft is y_par = 1 Pure (Tier 1 derived, fully unconditional after F108 Part 1+2+3 closure 2026-05-25)
+### F109. Mother Sector Soft is y_par = 1 Pure for y_par-Homogeneous Pairs (Tier 1 derived; the mother cell is coloured, so its non-truly pairs are soft)
 
 Sister to F107 on the y_par axis. F107 pinned the y_par signature of truly cells
 across all dephase letters; F109 pins the y_par signature of mother sector
-(Klein (0, 0)) soft cells. Previously Tier 1 derived modulo F108 Part 1; on
-2026-05-25 all three branches of Step 5 (Z-dephasing via F108 Part 1, X-dephasing
-via F108 Part 2, Y-dephasing via F108 Part 3) were closed-form via the matching
-Π_5bilinear dephase variants. F109 is now fully unconditional Tier 1 derived.
+(Klein (0, 0)) soft cells.
 
 **Theorem (F109):** Under any single-letter dephase channel (Z, X, or Y), every
-Pauli pair classified as soft and located in the Mother sector Klein (0, 0) has
-shared y_par = 1.
+y_par-homogeneous Pauli pair classified as soft and located in the Mother sector
+Klein (0, 0) has shared y_par = 1.
 
 **Derivation chain:**
 
@@ -4596,18 +4608,21 @@ shared y_par = 1.
 3. Klein (0, 0) non-truly = all three counts odd (y_par = 1).
 4. Klein (0, 0) is Π²-EVEN under every dephase letter (bit_b = 0 for Z/Y;
    bit_a = 0 for X).
-5. Π²-even non-truly pairs are soft (not hard): closed-form across all three
-   dephase letters via the F108 Part 1+2+3 family. Z-dephasing per F108 Part 1
-   via Π_5bilinear; X-dephasing per F108 Part 2 via the X-deph variant (typed
-   as F108 Part 1's BitATwin slot, `Filled`); Y-dephasing per F108 Part 3 via
-   the Y-deph variant (BitB-axis sibling of Part 1 on the same Π²_Z axis;
-   `BitBSpecific` BitATwin slot). All three parts closed 2026-05-25.
-6. Klein (0, 0) soft term ⟹ y_par = 1; y_par-homogeneous pair: shared y_par = 1.
+5. Klein (0, 0) non-truly pairs are soft (not hard), at every body count,
+   coupling and per-site rate. A mother-cell string commutes with every letter
+   string; the canonical mirror's flip letter string (X^⊗N for Z- and
+   Y-dephasing, Z^⊗N for X-dephasing) anticommutes with every jump, so right
+   multiplication by it gives R·L·R⁻¹ = −L† − 2σ, and by F158's sufficiency
+   step the spectrum pairs about −σ (the colouring of
+   [the palindrome as a colouring](../experiments/THE_PALINDROME_AS_A_COLOURING.md)).
+   F108's mirrors do not reach these strings: they reach the Π²-D-even strings
+   of even weight, and an all-odd string has odd weight.
+6. Klein (0, 0) non-truly term ⟹ y_par = 1; a soft pair holds one, so a
+   y_par-homogeneous soft pair has shared y_par = 1.
 
 **Empirical confirmation:** F103 mother soft (0, 21) × 3 dephase; F105 same;
 F106 (0, 300) × 3. Total 1026 mother-soft classifications, all y_par = 1, zero
-y_par = 0. F109 explains this bit-exactly across all three dephase letters via
-the F108 Part 1+2+3 closure.
+y_par = 0. F109 explains this bit-exactly across all three dephase letters.
 
 **Cross-letter spot-check:** Klein (0, 0) non-truly k=3 terms are the 6
 XYZ-permutations (only triple with all-odd and sum ≤ 3). Unordered pairs with
@@ -4616,24 +4631,32 @@ self: 6·7/2 = 21 (matches F103/F105). At k=4: 24 letter sequences (3 non-I + 1 
 
 **Source:** [Proof](proofs/PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md);
 `compute/RCPsiSquared.Core/Symmetry/MotherSoftYParityOnePurity.cs`;
-parents: PROOF_F107 + PROOF_F85 + PROOF_F108_PART1; helpers:
+parents: PROOF_F107 + PROOF_F85 + PROOF_PALINDROME_TWO_END_COUNT (F158) +
+THE_PALINDROME_AS_A_COLOURING; gate
+[`f107_f110_route_gate.py`](../simulations/f107_f110_route_gate.py); helpers:
 `MotherSoftYParityOnePurity.IsMotherNonTrulyCandidate(term)` and
 `MotherSoftYParityOnePurity.VerifyOnTerm(term)`.
 
 ---
 
-### F110. F87-Hard Cells Exhibit Y-Inversion Pattern (Tier 1 derived, promoted 2026-06-10; Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance, Aspect B+C derived via F103 §6/§7 + the closed windowed converse)
+### F110. F87-Hard Cells Exhibit Y-Inversion Pattern (Tier 1 derived; Aspect A by the colouring of the three non-diagonal Klein cells, Aspect B+C derived via F103 §6/§7 + the windowed converse closed 2026-06-10)
 
-Seventh YParity-axis Claim; completes the y_par-axis classification of the F87
-trichotomy together with F107 (truly y_par=0) and F109 (mother soft y_par=1).
+Seventh YParity-axis Claim; with F107 (truly y_par=0) and F109 (y_par-homogeneous
+mother soft y_par=1) it gives the y_par signature of the truly pairs, the Mother cell's soft
+pairs and the hard pairs; the other soft cells are F103's (§3.3, §8).
 
-**Aspect A (closed-form):** F87-hard pairs appear only in the diagonal Klein cell
-matching the dephase letter (Z → (0, 1), X → (1, 0), Y → (1, 1)). Derivation:
-F108 Part 1+2+3 close Π²-D-even cells (never hard); F107 + F109 close Mother
-sector Klein (0, 0); the F87 dissipator-resonance law (Tier1Derived, anchored at
-N=4 k=3 over 294 pairs in `DissipatorResonanceLaw.cs`) selects the one diagonal
-cell among the two remaining Π²-D-odd non-mother cells. Combining all three
-closures: hard appears only in the diagonal cell.
+**Aspect A (closed-form):** F87-hard Klein-homogeneous pairs appear only in the
+diagonal Klein cell matching the dephase letter (Z → (0, 1), X → (1, 0),
+Y → (1, 1)), at every body count, coupling and per-site rate. Derivation: a string of Klein letter K ≠ I
+commutes with K^⊗N and anticommutes with the other two letter strings; a
+Mother-sector string commutes with all three; and a letter string anticommutes
+with every D jump exactly when its letter is neither I nor D. So each of the
+three non-diagonal cells is coloured by a lit letter string (its own letter, or
+for the Mother sector either lit one), right multiplication by it gives
+R·L·R⁻¹ = −L† − 2σ, and by F158's sufficiency step the spectrum pairs. The
+diagonal cell's strings anticommute with both lit letter strings. The F87
+dissipator-resonance law (`DissipatorResonanceLaw.cs`) is the census of this at
+N = 4, k = 3 over 294 pairs per letter.
 
 **Aspect B (Y-inversion):** Within the diagonal hard cell, the dominant y_par
 equals y_par(dephase letter): Z/X-deph dominantly y_par=0, Y-deph dominantly
@@ -4656,8 +4679,11 @@ by the Pascal-Gram positivity theorem F117, both 2026-06-10), which was the F110
 
 **Source:** [Proof](proofs/PROOF_F110_HARD_CELL_Y_INVERSION.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellYInversionPattern.cs`;
-parents: PROOF_F108_PART1/2/3 + PROOF_F107 + PROOF_F109 + F87 dissipator-resonance
-law (Tier1Derived, `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`);
+parents: PROOF_F103 §8 + PROOF_PALINDROME_TWO_END_COUNT (F158) +
+THE_PALINDROME_AS_A_COLOURING (Aspect A), PROOF_F103 §6/§7 + PROOF_F111
+(Aspects B, C); census: F87 dissipator-resonance law
+(`compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`); gate
+[`f107_f110_route_gate.py`](../simulations/f107_f110_route_gate.py);
 helpers: `HardCellYInversionPattern.DiagonalKleinCellForDephase(dephase)`,
 `IsDiagonalCell(klein, dephase)`,
 `DominantYParityForDephase(dephase)`.
@@ -4711,8 +4737,9 @@ confirmation at k ≥ 3.
 
 **Source:** [Proof](proofs/PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md);
 `compute/RCPsiSquared.Core/Symmetry/HardCellPureDTemplate.cs`;
-parents: PROOF_F110 + PROOF_F107 + PROOF_F108_PART1/2/3 + F106 anchor +
-F87 dissipator-resonance law (Tier1Derived);
+parents: PROOF_F110 Aspect A + PROOF_F107 + F106 anchor (context: PROOF_F108_PART1/2/3,
+the operator route that fails on the diagonal cell, and the F87
+dissipator-resonance census at N = 4, k = 3);
 helpers: `HardCellPureDTemplate.IsPureDTemplate(term, dephase)`,
 `IsInDiagonalCellAtK4N4(p, q, dephase)`,
 `IsPredictedHardAtK4N4(p, q, dephase)`,
@@ -4768,8 +4795,9 @@ remains the historical numerical validation.
 **Connection axes (shared bit_b Z₂-grading on the Pauli group):**
 - F38: Π² = (−1)^{w_YZ} on Pauli strings; foundational input.
 - F63: [L, Π²] = 0 for Z-dephasing; foundational input.
-- F108 Part 1/2/3: the bilinear set {XX, YY, YZ, ZY, ZZ} F108 palindromizes
-  is exactly the bit_b = 0 (Π²-Z-even) family.
+- F108 Parts 1 and 3: the bilinear set {XX, YY, YZ, ZY, ZZ} they palindromize
+  is exactly the bit_b = 0 (Π²-Z-even) family; Part 2's, {ZZ, XX, XY, YX, YY},
+  is the bit_a = 0 one.
 - F87 dissipator-resonance trichotomy: orthogonal axis, derived 2026-06-10
   (previously empirical via `polarity_probe_f87_connection.py`). F87 lives
   in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/−i
@@ -4777,7 +4805,7 @@ remains the historical numerical validation.
   Hermitian Pauli H + pure Z-deph with single-Pauli c = Z_l, satisfies
   F112's hypotheses, so the asymmetry is identically zero on F87's entire
   domain, all three classes; asym = 0.0 exact float zero at N = 3, 4);
-  (b) mechanism separation (on bit_b-odd H, the diagonal Klein cell, the
+  (b) mechanism separation (on bit_b-odd H, which holds the diagonal Klein cell, the
   dagger involution IS the windowed converse's first reflection,
   M_rec† = 𝓕 M_rec 𝓕 with 𝓕 = X^⊗N ⊗ X^⊗N, diff 0.00e+00; F112 reads it
   at degree 2 via Frobenius norms of Π-eigenprojections, F87 hardness at

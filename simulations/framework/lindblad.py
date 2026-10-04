@@ -66,9 +66,10 @@ def lindbladian_pauli_dephasing(H, gamma_l, dephase_letter='Z'):
     with P² = I so D[√γ·P_l]ρ = γ·(P_l ρ P_l - ρ).
 
     The dissipator-resonance law (verified at N=4 k=3 over 294 Z₂³-homo-
-    geneous pairs, 2026-05-01): F77-hardness lives exactly in the Klein
-    cell that matches the dephase_letter's Klein index. Z's Klein index
-    is (0, 1); X's is (1, 0); Y's is (1, 1).
+    geneous pairs, 2026-05-01): the F77-hardness of pairs whose two terms
+    share a Klein cell lives exactly in the Klein cell that matches the
+    dephase_letter's Klein index. Z's Klein index is (0, 1); X's is
+    (1, 0); Y's is (1, 1).
     """
     if not np.allclose(H, H.conj().T):
         raise ValueError("Hamiltonian H must be Hermitian.")

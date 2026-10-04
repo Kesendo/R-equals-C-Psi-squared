@@ -10,7 +10,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 
 /// <summary>The F81↔F115 connector: the F83 anti-fraction and the F115 obstruction are the two
 /// orthogonal coordinates of the residual superoperator M's Klein polarity cube, meeting at the
-/// bit_b=1 (diagonal) cell. Inside that cell, where F115 does all its work, the anti-fraction is
+/// bit_b = 1 cells, which hold the diagonal one. Inside the diagonal cell, where F115 does all its work, the anti-fraction is
 /// DEGENERATE: diagonal-cell Mixed terms are pure Π²-odd, so r = ‖H_even_nontruly‖²/‖H_odd‖² = 0 and
 /// F83's anti-fraction sits at its maximum ½ (the F81 Step-8 50/50,
 /// <see cref="F83AntiFractionPi2Inheritance.MaximumAntiFraction"/>), pinned across the entire cell

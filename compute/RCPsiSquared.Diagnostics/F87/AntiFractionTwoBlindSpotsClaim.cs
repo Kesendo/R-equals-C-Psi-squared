@@ -13,7 +13,7 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// end rescued by a different finer probe; it is informative only in the interior. This connector unifies
 /// the two (currently disjoint) results that name those blind spots.
 ///
-/// <para>At the 1/2 end (r=0, pure Pi2-odd = the diagonal cell): the anti-fraction is pinned at its maximum
+/// <para>At the 1/2 end (r=0, pure Pi2-odd, which holds the diagonal cell): the anti-fraction is pinned at its maximum
 /// and is blind to the F115 hard/soft verdict; the bit_a (1+x)-valuation
 /// (<see cref="AntiFractionObstructionOrthogonalityClaim"/> / <see cref="WindowedObstructionScan.IsHardPair"/>)
 /// resolves it. At the 0 end (HOdd^2 = 0, pure Pi2-even-non-truly): the anti-fraction is 0 and conflates

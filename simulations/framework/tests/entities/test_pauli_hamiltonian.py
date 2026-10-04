@@ -179,8 +179,10 @@ def test_PauliHamiltonian_chain_length_validation():
 
 
 def test_PauliHamiltonian_klein_homogeneity_predicts_F77_at_k2():
-    """Empirical structural fact: at k=2, Klein-homogeneous Hamiltonians on
-    a chain with Z-dephasing are always F77 truly or soft, never hard.
+    """Empirical structural fact for the identity-free cases below: at k=2
+    these Klein-homogeneous Hamiltonians on a chain with Z-dephasing are F77
+    truly or soft. With an identity leg the diagonal cell holds hard pairs
+    too (IZ + ZI is hard at N = 3).
 
     This verifies the rule on a chain via the F77 classifier."""
     chain = fw.ChainSystem(N=3)

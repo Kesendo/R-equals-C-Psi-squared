@@ -234,7 +234,7 @@ public sealed class LindbladBitAPiBalance : Claim, IZ2AxisClaim
                          "Π_X measurement). Lemma N-A^X / N-B^X stand at zero across the 32 bit_a-odd Pauli " +
                          "strings × 992 off-diagonal pairs at N=3.");
             yield return new InspectableNode("F108 Part 2 typed parent (shared bit_a + X-dephase foundation)",
-                summary: "F108 Part 2 (Π²_X-even H + X-dephasing always palindromic) and F112-X share the bit_a " +
+                summary: "F108 Part 2 (Π²_X-even bilinear H + X-dephasing always palindromic) and F112-X share the bit_a " +
                          "Z₂-grading and the X-dephasing context. F108 Part 2's bilinear set {ZZ, XX, XY, YX, YY} " +
                          "is the bit_a = 0 family; F112-X's c-homogeneity hypothesis fixes c to one bit_a value " +
                          "(0 or 1). Both use the F38 Π_X² eigenvalue formula on Pauli strings as structural input.");

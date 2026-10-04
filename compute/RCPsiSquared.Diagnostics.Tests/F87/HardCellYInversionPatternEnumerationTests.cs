@@ -7,7 +7,7 @@ using Xunit;
 namespace RCPsiSquared.Diagnostics.Tests.F87;
 
 /// <summary>F110 SLOW enumeration tests: re-run the F103/F105/F106 anchors and
-/// assert F110's Aspect A (hard only in diagonal cell), Aspect B (Y-inversion),
+/// assert F110's Aspect A (hard Klein-homogeneous pairs only in the diagonal cell), Aspect B (Y-inversion),
 /// and Aspect C (k-purity sharpening 42:8 to 228:0) bit-exactly.
 ///
 /// <para>Runtime: seconds for k=3 N=3 (the floor, F105 §5), ~10s for k=3 N=4, ~30s

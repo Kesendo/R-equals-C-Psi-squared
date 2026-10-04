@@ -213,7 +213,7 @@ The F87 connection probe (last entry in the empirical anchor list) left one line
 
 **(a) Scope inclusion.** Every F87 input is an instance of this proof's hypotheses. F87's domain is the commutator of a Hermitian Pauli Hamiltonian plus pure Z-dephasing; each collapse operator Z_l is a single Pauli string, hence trivially bit_b-homogeneous. So the theorem applies verbatim, and the F112 asymmetry is identically zero on F87's entire domain, across all three trichotomy classes (truly, soft, hard). The orthogonality is not a coincidence the probe happened to sample; it is the statement that the two functionals never co-vary because one is identically zero where the other lives. Verified: asymmetry = 0.0 exactly (float zero, not merely small) for truly Heisenberg, soft XXZ+ZXX, the hard pairs XXZ+ZZZ (m\*=5), XXZ+XZX and IXY+XIY (m\*=9), and the Z-drive XY chain, at N = 3 and N = 4.
 
-**(b) Mechanism separation: same involution, different degree.** For H supported on bit_b-odd Pauli strings, X^⊗N-conjugation flips the sign of every term (F H F = −H with F = X^⊗N; this is the driving lemma of [F87 windowed converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §2, and it covers the diagonal Klein cell where all F87 pair-hardness lives, F110). There the dagger involution that powers Step 5 coincides with the windowed converse's first reflection, on the windowed converse's recentred object M_rec = L + σ·I:
+**(b) Mechanism separation: same involution, different degree.** For H supported on bit_b-odd Pauli strings, X^⊗N-conjugation flips the sign of every term (F H F = −H with F = X^⊗N; this is the driving lemma of [F87 windowed converse](PROOF_F87_WINDOWED_MONOMIAL_CONVERSE.md) §2, and it covers the diagonal Klein cell where all F87 hardness of Klein-homogeneous pairs lives, F110). There the dagger involution that powers Step 5 coincides with the windowed converse's first reflection, on the windowed converse's recentred object M_rec = L + σ·I:
 
     M_rec† = 𝓕 M_rec 𝓕,   𝓕 = F ⊗ F = X^⊗N ⊗ X^⊗N.
 
@@ -261,7 +261,7 @@ If formalized as Tier1Derived, F112 becomes the structural identity behind the p
 Connections:
 - **F38**: Π² = (-1)^{bit_b} on Pauli strings (foundational input).
 - **F63**: [L, Π²] = 0 for Z-deph (foundational input via Π²-eigenvalue commutation).
-- **F108 Part 1/2/3**: the bilinear set {XX, YY, YZ, ZY, ZZ} that F108 palindromizes is exactly the bit_b=0 (Π²-Z-even) family. F108's closure mechanism and F112's balance mechanism are both consequences of the bit_b Z₂ grading on the Pauli group.
+- **F108 Parts 1 and 3**: the bilinear set {XX, YY, YZ, ZY, ZZ} that they palindromize is exactly the bit_b=0 (Π²-Z-even) family; Part 2's, {ZZ, XX, XY, YX, YY}, is the bit_a = 0 one. The closure mechanism of Parts 1 and 3 and F112's balance mechanism are both consequences of the bit_b Z₂ grading on the Pauli group.
 - **F87 dissipator-resonance law**: orthogonal axis, **derived 2026-06-10** (previously empirical via `polarity_probe_f87_connection.py`). F87 lives in M's spectrum-palindrome structure; F112 lives in M_anti's Π +i/-i split. The derivation (scope inclusion + mechanism separation + the scoped F113 one-way bridge) is in [The F87 orthogonality, derived](#the-f87-orthogonality-derived-2026-06-10); committed verifier `simulations/f112_f87_orthogonality.py`.
 - **`polarity_coordinates_from_L`**: F112 makes the primitive's diagnostic value precise. Asymmetry ≠ 0 detects c with cross-bit_b Pauli support, which is OUTSIDE the F108-closure regime.
 

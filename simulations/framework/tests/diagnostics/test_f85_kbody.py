@@ -16,7 +16,8 @@ def test_F85_kbody_trichotomy_counts():
 
     Verifies the closed-form counts:
       Π²-odd:           (3^k − (−1)^k) / 2
-      Π²-even non-truly: pure-letter triples that use {Y, Z} only
+      Π²-even non-truly: #Y and #Z both odd (YZ, ZY at k = 2; the XYZ
+                         permutations at k = 3)
       truly: rest
 
     Empirical: k=2 → 3/4/2, k=3 → 7/14/6, k=4 → 21/40/20.

@@ -59,10 +59,10 @@ public class HardnessTests
             }
     }
 
-    // F109: the mother sector's soft side is y_par = 1 pure. In Klein (0,0) the three letter
+    // F109: the mother sector's non-truly side is y_par = 1 pure. In Klein (0,0) the three letter
     // counts share one parity, so truly = all even (y_par 0) and non-truly = all odd (y_par 1).
-    // The non-truly Klein-(0,0) census over {X,Y,Z}^k: 6 sequences at k=3 (the XYZ permutations,
-    // 21 pairs-with-self) and 24 at k=4 (300 pairs) -- the F103/F106 mother-soft counts.
+    // The non-truly Klein-(0,0) census over {I,X,Y,Z}^k: 6 sequences at k=3 (the XYZ permutations,
+    // 21 pairs-with-self) and 24 at k=4 (XYZ with one I, 300 pairs) -- the F103/F106 mother-soft counts.
     [Fact]
     public void The_Mother_Sector_Splits_All_Even_Truly_Against_All_Odd_YParOne()
     {
@@ -126,7 +126,7 @@ public class HardnessTests
         Assert.Equal(Math.Min(2 * 4 - 1, 2 * 6 - 3), Hardness.ObstructionCeiling(6, 4));
     }
 
-    // F110/F111 (with F105's N-stability): hard pairs live only in the diagonal Klein cell of
+    // F110/F111 (with F105's N-stability): hard Klein-homogeneous pairs live only in the diagonal Klein cell of
     // the dephase letter, with the Y-inversion; the adopted splits are 42:8 at k=3 from N=4 up (identical at
     // N=4 and N=5) and 228:0 at k=N=4 via the pure-D template rule, whose decomposition
     // 36 + 192 + 300 = 528 is the pairs arithmetic of 8 pure and 24 mixed cell members.

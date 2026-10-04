@@ -35,8 +35,8 @@ public class HardCellYInversionPatternTests
     public void DiagonalKleinCellForDephase_MatchesF87DissipatorResonance(
         PauliLetter dephase, int expectedBitA, int expectedBitB)
     {
-        // F87 dissipator-resonance law: hard appears only when the pair's Klein
-        // index matches the dephase letter's own Klein index. Z=(0,1), X=(1,0),
+        // F110 Aspect A (the colouring, PROOF_F110 section 2): a Klein-homogeneous pair is hard only
+        // when its Klein index matches the dephase letter's own Klein index. Z=(0,1), X=(1,0),
         // Y=(1,1) per the bit_a/bit_b convention of PauliLetter.
         var (bitA, bitB) = HardCellYInversionPattern.DiagonalKleinCellForDephase(dephase);
         Assert.Equal(expectedBitA, bitA);

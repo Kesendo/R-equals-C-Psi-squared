@@ -39,7 +39,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// input (Hermitian Pauli H + pure Z-dephasing, single-Pauli c = Z_l hence trivially
 /// bit_b-homogeneous) satisfies this Claim's hypotheses, so the F112 asymmetry is
 /// identically zero on F87's entire domain, all three trichotomy classes; (b) mechanism
-/// separation: on bit_b-odd H (the diagonal Klein cell hosting all F87 pair-hardness)
+/// separation: on bit_b-odd H (it holds the diagonal Klein cell, where all F87 hardness of
+/// Klein-homogeneous pairs lives)
 /// the Step-5 dagger involution IS the windowed converse's first reflection,
 /// M_rec† = 𝓕 M_rec 𝓕 with 𝓕 = X^⊗N ⊗ X^⊗N on M_rec = L + σ·I; F112 reads it at
 /// degree 2 (Frobenius norms of Π-eigenprojections), the F87 hardness decision lives
@@ -152,8 +153,8 @@ public sealed class LindbladBitBPiBalance : Claim, IZ2AxisClaim
         "hypotheses, so the F112 asymmetry is identically zero on F87's entire domain, all " +
         "three trichotomy classes (asym = 0.0 exact float zero at N = 3, 4); the two " +
         "functionals never co-vary because one is identically zero where the other lives. " +
-        "(b) Mechanism separation: on bit_b-odd H (the diagonal Klein cell hosting all F87 " +
-        "pair-hardness, F110) the Step-5 dagger involution IS the windowed converse's first " +
+        "(b) Mechanism separation: on bit_b-odd H (it holds the diagonal Klein cell, where all F87 " +
+        "hardness of Klein-homogeneous pairs lives, F110) the Step-5 dagger involution IS the windowed converse's first " +
         "reflection, M_rec† = 𝓕 M_rec 𝓕 with 𝓕 = X^⊗N ⊗ X^⊗N on M_rec = L + σ·I (diff " +
         "0.00e+00); F112's functional exhausts that involution at degree 2 (Frobenius norms " +
         "of Π-eigenprojections), while the F87 hardness decision lives at odd degree (second " +

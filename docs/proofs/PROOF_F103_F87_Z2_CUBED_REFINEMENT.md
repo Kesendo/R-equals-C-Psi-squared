@@ -55,8 +55,8 @@ For a Pauli string σ with letter counts n_X, n_Y, n_Z,
 The Klein signature (bit_a, bit_b) and y_par together form the Z₂³ axis
 decomposition (one bit per axis). Π² is the squared conjugation operator;
 under Z-dephasing it acts on Pauli strings as Π²·σ_α = (−1)^bit_b(α)·σ_α
-(F81 Step 1; the X-deph and Y-deph variants swap to bit_a / bit_b
-respectively per F108). The **diagonal Klein cell** for dephase letter D
+(F81 Step 1; under X-dephasing the same rule reads bit_a and under
+Y-dephasing bit_b, `PiOperator.SquaredEigenvalue`). The **diagonal Klein cell** for dephase letter D
 is the cell whose (bit_a, bit_b) equals D's: Z → (0,1), X → (1,0),
 Y → (1,1). F105 and F106 refer back to this notation block.
 
@@ -211,8 +211,9 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
    chain-adjacent positions; the second clause needs two windows, see §6)
    derives the 42:8 and the Y-inversion by counting, verified bit-exact at N=4 and N=5.
    §7 then unifies the two atomic sub-rules into one bipartite-chirality criterion and
-   derives the bipartite ⟹ soft direction from the palindrome; the converse is the one
-   remaining open edge.
+   derives the bipartite ⟹ soft direction from the palindrome; the converse is the
+   windowed theorem of §7.5-§7.6, closed at every γ > 0 by the residual lemma after §7.6
+   (WindowedConverseAllGammaClaim).
 
 2. **N>4 and k>3 universality. ANSWERED in N, OPEN in k.** In N: the (42, 8, 50)
    numbers hold at N=5 (F105's anchor, spectrally) and through N=8 (§7's criterion,
@@ -954,13 +955,13 @@ strategy supplies the missing certificate. Verified to machine precision (residu
 **The mirror's letter.** The canonical palindromizer for dephase letter D, the one
 `framework.symmetry.pi_action` builds, flips every site by one letter A(D): I ↔ A, and the other two
 letters swapped. A(Z) = X, A(X) = Z, A(Y) = X. Its square is the turn by A(D)⊗N, so the Π²-D-even
-Klein cells of [F110 §2](PROOF_F110_HARD_CELL_Y_INVERSION.md) (i) are the cells of I and A(D), and the
+Klein cells of [F110 §2](PROOF_F110_HARD_CELL_Y_INVERSION.md) are the cells of I and A(D), and the
 Π²-D-odd ones are the cells of D and of D ⊕ A(D), the third letter (⊕ is the product of letters up
 to phase, their sum on the letter cube).
 
 **Truly, string by string.** A string is truly against this mirror exactly when both letters other
 than A occur an even number of times; F85's "#Y and #Z both even" is the case A = X, and
-[F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) carries it to the other letters. A pair is truly
+[F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) derives the rule for all three letters at every body count. A pair is truly
 exactly when both its strings are, at every body count: both L_H and Π·L_H·Π⁻¹ send a string S to
 multiples of the one label P ⊕ S for each string P of H, so different strings of H never cancel in
 M. A string's Klein letter K commutes with A exactly when the two letters other than A have counts of
@@ -1014,15 +1015,10 @@ two pairs of three-term sets, and F107's y_par = 0 purity of truly belongs to th
 mirror symmetry proof), the experiments, the reflections, the OpenArcs registry, the caught-errors
 ledger, the glossary, the Core claims, the Diagnostics witnesses and MirrorWorld's Hardness object
 found no statement of the rule and no count against it, and fw.Confirmations holds nothing on it.
-Its pieces stood apart: F85 and F107 for which strings are truly; F110 §2 for which cell can be hard;
-[the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md) with F158 for the
-colouring that settles every non-diagonal cell at every k; and the softness experiment for the
-dependence on the mirror. None of them pointed at this question. One datum for their owners: F110 §2
-(i) rests on F108 Part 1, which is proven for two-site bilinears, and (iv) on the
-dissipator-resonance law at N = 4, k = 3. The first route stops at two sites (at k = 3 Π_5bilinear
-leaves XZZ and the mother cell's XYZ permutations with M ≠ 0), and F107's Step 1 and F109's
-derivation lean on the same family; their conclusions hold, the truly sets through F85's syntactic
-criterion and the absence of hardness through the colouring.
+Its pieces stood apart: F85 and F107 for which strings are truly; F110 §2 for which cell can be hard,
+by the colouring of [the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md)
+with F158, which settles every non-diagonal cell at every k; and the softness experiment for the
+dependence on the mirror. None of them pointed at this question.
 
 **Verified** exactly, with no tolerance, by
 [`f103_pattern_bc_gate.py`](../../simulations/f103_pattern_bc_gate.py): at N = 4 the residual

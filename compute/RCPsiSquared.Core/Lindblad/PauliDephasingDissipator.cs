@@ -12,8 +12,8 @@ namespace RCPsiSquared.Core.Lindblad;
 /// docs/ANALYTICAL_FORMULAS.md F1 and <see cref="Symmetry.PalindromeResidual"/>.
 ///
 /// Dissipator-resonance law (**F87** + dephasing-axis dependence, verified at N=4 k=3 over
-/// 294 Z₂³-homogeneous pairs, 2026-05-01): F87-hardness lives in the Klein cell that matches
-/// the dephase letter's Klein index — Z=(0,1), X=(1,0), Y=(1,1) in the bit_a/bit_b convention
+/// 294 Z₂³-homogeneous pairs, 2026-05-01): the F87-hardness of Klein-homogeneous pairs lives in
+/// the Klein cell that matches the dephase letter's Klein index: Z=(0,1), X=(1,0), Y=(1,1) in the bit_a/bit_b convention
 /// of <see cref="Pauli.PauliLetter"/>.
 /// </summary>
 public static class PauliDephasingDissipator

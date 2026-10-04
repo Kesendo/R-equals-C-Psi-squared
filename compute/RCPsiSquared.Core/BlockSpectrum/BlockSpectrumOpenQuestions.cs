@@ -67,7 +67,7 @@ public static class BlockSpectrumOpenQuestions
             "from the computational-basis bit-parity disagreement, which requires the dephase " +
             "letter to be diagonal in that basis. F108 Part 2 (X-deph, Pi5BilinearOperator at " +
             "dephaseLetter = X) and F108 Part 3 (Y-deph, dephaseLetter = Y) prove operator- " +
-            "level palindromicity Π·L·Π⁻¹ = −L − 2σ·I for those dephase channels, but the " +
+            "level palindromicity Π·L·Π⁻¹ = −L − 2σ·I for the Π²-even bilinears under those dephase channels, but the " +
             "Builder cannot exploit them in its current basis (X- and Y-dephasing break " +
             "popcount conservation in the computational basis). " +
             "ComputeSpectrumPerBlock(..., PauliLetter.X|Y) throws NotSupportedException " +

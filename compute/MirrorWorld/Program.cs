@@ -1101,7 +1101,7 @@ if (args.Length > 0 && args[0] == "hardness")
     Console.WriteLine($"  obstruction ceiling min(2W-1, 2k-3): k=3,W=2 -> {Hardness.ObstructionCeiling(3, 2)} (the always-triangle)");
     Console.WriteLine();
     Console.WriteLine("  the cube face: truly forces y_par=0 under every dephase letter (F107); the mother sector's");
-    Console.WriteLine("  non-truly side is all-odd, y_par=1 (F109); hard lives ONLY in the dephase letter's own Klein");
+    Console.WriteLine("  non-truly side is all-odd, y_par=1 (F109); hard Klein-homogeneous pairs live ONLY in the letter's own Klein");
     Console.WriteLine($"  cell -- Z->{Hardness.DiagonalCell('Z')}, X->{Hardness.DiagonalCell('X')}, Y->{Hardness.DiagonalCell('Y')} -- with the Y-inversion (F110):");
     Console.WriteLine($"  k=3 split {Hardness.HardSplitK3} (N-stable from N=4, F103 = F105 bit-exact); k=N=4 fully pure 228:0 by the");
     Console.WriteLine($"  pure-D template rule (F111): 528 pairs = {Hardness.TemplateDecompositionK4} (pure-pure + pure-mixed hard, mixed-mixed soft).");

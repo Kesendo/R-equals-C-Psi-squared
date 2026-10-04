@@ -20,8 +20,8 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// Trotter-n3 prediction). See <see cref="Core.Confirmations.ConfirmationsRegistry"/> entry
 /// "palindrome_trichotomy".
 ///
-/// Dissipator-resonance law (verified 2026-05-01): F87-hardness lives in the Klein cell
-/// matching the dephase letter's Klein index: Z = (0, 1), X = (1, 0), Y = (1, 1).
+/// Dissipator-resonance law (verified 2026-05-01): the F87-hardness of Klein-homogeneous pairs
+/// lives in the Klein cell matching the dephase letter's Klein index: Z = (0, 1), X = (1, 0), Y = (1, 1).
 /// SU(2)-rotation-equivalent.
 ///
 /// γ-universality of the verdict: the classification is evaluated at the chain's single

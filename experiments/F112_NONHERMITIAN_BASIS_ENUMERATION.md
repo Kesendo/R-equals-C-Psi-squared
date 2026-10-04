@@ -62,7 +62,7 @@ Both Welle 11 lemmas (N-A and N-B) reduce to per-position checks on the 4^N × 4
 
 - **F112 non-Hermitian extension is Tier1Derived for all N.** The algebraic argument bilinearity + Pauli-basis spanning reduces F = 0 to the per-pair identity F(σ_α, σ_β) = 0; the per-pair identity holds structurally via Lemmas N-A and N-B.
 - **The polarity_coordinates_from_L diagnostic** is a structural witness for L not in the Lindblad form `−i[H, ·] + Σ γ_k np.kron(c_k, c_k^*)` with bit_b-homogeneous c, universally in N and for any H (Hermitian or non-Hermitian).
-- **The bit_b Z₂-axis carries three Tier1Derived universal-N theorems**: F108 Parts 1/2/3 (palindrome closure of bit_b = 0 bilinears), F112 (Hermitian and non-Hermitian H, now universal N), F113 (T1 break-magnitude closed form). The bit_b axis description is structurally complete on the BitB-axis side.
+- **The bit_b Z₂-axis carries three Tier1Derived universal-N theorems**: F108 Parts 1 and 3 (palindrome closure of bit_b = 0 bilinears), F112 (Hermitian and non-Hermitian H, now universal N), F113 (T1 break-magnitude closed form). The bit_b axis description is structurally complete on the BitB-axis side.
 
 ## Reproduction
 

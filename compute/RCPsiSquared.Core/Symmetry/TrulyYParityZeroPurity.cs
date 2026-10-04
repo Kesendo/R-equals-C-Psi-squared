@@ -6,12 +6,14 @@ namespace RCPsiSquared.Core.Symmetry;
 
 /// <summary>F107 (Tier1Derived): F87 truly classification under any single-letter
 /// dephase channel (Z, X, or Y) forces y_par = 0 on every term in a truly-classified
-/// Pauli pair. Direct closed-form corollary of F85's k-body truly criterion, extended
-/// to X and Y dephase via the per-dephase Π² eigenvalue + dissipator commutativity.
+/// Pauli pair. The Z criterion follows from Π_Z = R·D at every body count
+/// (PROOF_PI_FACTORS_AS_R_TIMES_D §4(d), (f)); the canonical Π_Y = Π_Z⁻¹ and Π_X, the Hadamard
+/// conjugate of Π_Z (PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE), carry it to Y and X.
 ///
 /// <para>Derivation chain (see PROOF_F107):</para>
 /// <list type="number">
-///   <item>Per dephase D, truly term ⟺ Π²_D-even AND commutes with D-dissipator.</item>
+///   <item>Per dephase D, truly term ⟺ the two letters other than the canonical mirror's
+///         flip letter (X for Z and Y, Z for X) both occur an even number of times.</item>
 ///   <item>Z-deph truly: #Y even AND #Z even. X-deph truly: #X even AND #Y even.
 ///         Y-deph truly: #Y even AND #Z even.</item>
 ///   <item>All three include #Y even. y_par = #Y mod 2. Hence truly ⟹ y_par = 0.</item>
@@ -33,7 +35,7 @@ public sealed class TrulyYParityZeroPurity : Claim, IZ2AxisClaim
     /// Always includes "#Y even" as a sub-condition.</summary>
     public string ZDephTrulyCriterion => "#Y even AND #Z even";
     public string XDephTrulyCriterion => "#X even AND #Y even";
-    public string YDephTrulyCriterion => "#Y even AND #Z even (same letter swap as Z; Π_Y differs only in phase)";
+    public string YDephTrulyCriterion => "#Y even AND #Z even (Π_Y = Π_Z⁻¹, so the same strings as under Z)";
 
     /// <summary>The theorem statement: truly classification under any dephase letter
     /// forces y_par = 0 on every Pauli term.</summary>
@@ -75,11 +77,14 @@ public sealed class TrulyYParityZeroPurity : Claim, IZ2AxisClaim
     public KleinEightCellClaim KleinEightParent { get; }
 
     public TrulyYParityZeroPurity(KleinEightCellClaim klein8)
-        : base("F107 F87 truly classification forces y_par = 0 (closed-form corollary of F85, all dephase letters); typed Cubic3 parent = KleinEightCellClaim",
+        : base("F107 F87 truly classification forces y_par = 0 (closed-form from the canonical mirrors, all dephase letters); typed Cubic3 parent = KleinEightCellClaim",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F107 + " +
                "docs/proofs/PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md + " +
+               "docs/proofs/PROOF_PI_FACTORS_AS_R_TIMES_D.md + " +
+               "docs/proofs/PROOF_KLEIN_V4_DEPHASE_SWAPS_OPERATOR_SPACE.md + " +
                "docs/proofs/PROOF_F85_KBODY_GENERALIZATION.md + " +
+               "simulations/f107_f110_route_gate.py (the exact gate of the route) + " +
                "compute/RCPsiSquared.Core/Symmetry/Pi2KnowledgeBaseClaims.cs (KleinEightCellClaim, typed Cubic3 parent)")
     {
         KleinEightParent = klein8 ?? throw new ArgumentNullException(nameof(klein8));
@@ -105,12 +110,11 @@ public sealed class TrulyYParityZeroPurity : Claim, IZ2AxisClaim
                 summary: "F103 (N=4 k=3): 300 truly, 0 y_par=1. F105 (N=5 k=3): 300 truly, 0 y_par=1. " +
                          "F106 (N=4 k=4): 3924 truly, 0 y_par=1. Total: 4524 truly, 0 y_par=1.");
             yield return new InspectableNode("Sibling y_par-axis claims",
-                summary: "F108 Part 1+2+3 (Π²_D-even palindrome family, all Tier1Derived 2026-05-25): no Π²-even " +
-                         "pair is F87-hard under any dephase letter D, via Π_5bilinear phase-variant operators. " +
-                         "F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional after F108 Part 1+2+3 closure): " +
-                         "mother sector Klein (0,0) soft pairs have y_par=1 across all dephase letters. " +
-                         "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
-                         "with Y-inversion. Together F107+F109+F110 pin the y_par signature of all three F87 trichotomy classes.");
+                summary: "F109 (MotherSoftYParityOnePurity, Tier1Derived): mother sector Klein (0,0) y_par-homogeneous soft pairs have y_par=1 " +
+                         "across all dephase letters, its non-truly pairs soft by the colouring. " +
+                         "F110 (HardCellYInversionPattern, Tier1Derived): hard Klein-homogeneous pairs only in the diagonal cell, " +
+                         "y_par-asymmetric with Y-inversion. F111 (HardCellPureDTemplate, Tier1Derived): the pure-D template rule " +
+                         "at k = N = 4. The soft pairs of the other cells are F103's (§3.3, §8).");
             yield return new InspectableNode("Cubic3 anchor parent",
                 summary: $"KleinEightCellClaim ({KleinEightParent.Tier.Label()}): the Z₂³ 8-cell decomposition (bit_a, bit_b, y_par) anchoring the y_par axis F107 lives on.");
         }

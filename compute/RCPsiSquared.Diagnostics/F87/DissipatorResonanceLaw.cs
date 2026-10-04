@@ -34,23 +34,25 @@ public sealed record KleinCellHardnessWitness(
     public InspectablePayload Payload => InspectablePayload.Empty;
 }
 
-/// <summary>F87 dissipator-resonance law (Tier 1 derived). F87-hardness lives exactly in the
-/// Klein cell matching the dephase letter's Klein index:
+/// <summary>F87 dissipator-resonance law (Tier 1 derived). The F87-hardness of Klein-homogeneous
+/// pairs lives exactly in the Klein cell matching the dephase letter's Klein index:
 /// <list type="bullet">
 ///   <item>Z-dephasing (Klein (0,1)) → hardness in Klein (0,1)</item>
 ///   <item>X-dephasing (Klein (1,0)) → hardness in Klein (1,0)</item>
 ///   <item>Y-dephasing (Klein (1,1)) → hardness in Klein (1,1)</item>
 /// </list>
-/// The Mother sector Klein (0,0) is universally hard-free regardless of dissipator (consistent
-/// with F85: bit_a=0 AND bit_b=0 forces every term either truly or Π²-even non-truly soft).
+/// The Mother sector Klein (0,0) is universally hard-free regardless of dissipator. The zeros
+/// off the matched cell hold at every body count: each of the three unmatched cells is coloured
+/// by a letter string that anticommutes with every jump and commutes with the cell's strings, so
+/// the spectrum pairs (PROOF_F110 §2, F158); this table is the N=4 k=3 census of that.
 /// SU(2)-rotation-equivalent: the three letters give bit-identical hard counts (50/76 each)
 /// in their matched cells.
 ///
 /// <para>Verified at N=4 k=3 over 294 Z₂³-homogeneous pairs (full enumeration) per
 /// dephasing letter. Source: <c>simulations/klein_dissipator_resonance.py</c>.</para>
 ///
-/// <para>Connection to the polarity-layer reading: hardness lives INSIDE the dissipator's
-/// Klein cell, whose index depends on the letter and is (1,1), i.e. both bits, only for Y; the Z⊗N transverse-field Brecher
+/// <para>Connection to the polarity-layer reading: the hardness of Klein-homogeneous pairs
+/// lives INSIDE the dissipator's Klein cell, whose index depends on the letter and is (1,1), i.e. both bits, only for Y; the Z⊗N transverse-field Brecher
 /// (h_y·Y or h_x·X) breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis of the
 /// polarity layer). Brecher and Hardness are the two poles of dissipator-letter resonance.</para>
 /// </summary>
@@ -66,10 +68,10 @@ public sealed class DissipatorResonanceLaw : Claim
         Witnesses = StandardWitnessTable;
     }
 
-    public override string DisplayName => "F87-hardness aligns with dephase-letter Klein index";
+    public override string DisplayName => "F87-hardness of Klein-homogeneous pairs aligns with dephase-letter Klein index";
 
     public override string Summary =>
-        "F87-hardness lives in the Klein cell matching the dephase letter (Z→(0,1), X→(1,0), Y→(1,1)); Mother (0,0) hard-free; verified N=4 k=3 over 294 pairs × 3 letters; SU(2)-symmetric";
+        "the F87-hardness of Klein-homogeneous pairs lives in the Klein cell matching the dephase letter (Z→(0,1), X→(1,0), Y→(1,1)); Mother (0,0) hard-free; verified N=4 k=3 over 294 pairs × 3 letters; SU(2)-symmetric";
 
     /// <summary>The 4×3 witness table from full N=4 k=3 enumeration. Hard counts:
     /// diagonal (matched cells) = 50/76; off-diagonal = 0/76; Mother (0,0) = 0/66 across
@@ -104,11 +106,11 @@ public sealed class DissipatorResonanceLaw : Claim
             yield return new InspectableNode("source",
                 summary: "simulations/klein_dissipator_resonance.py (294 Klein-homogeneous + Y-par-homogeneous k=3 pairs at N=4, full enumeration, classified per Pauli-letter dephasing)");
             yield return new InspectableNode("structural fact 1: Mother is universally hard-free",
-                summary: "Klein (0,0) produces zero F87-hard cases regardless of dissipator letter; consistent with F85: bit_a=0 AND bit_b=0 forces truly or Π²-even non-truly soft");
+                summary: "Klein (0,0) produces zero F87-hard cases regardless of dissipator letter, at every body count: its strings commute with every letter string, so a lit one colours the cell (PROOF_F109 Step 5)");
             yield return new InspectableNode("structural fact 2: SU(2) rotation",
-                summary: "the three Pauli letters give bit-identical 50/76 hard counts in their matched diagonal cell; the dissipator picks which Klein axis hosts hardness");
+                summary: "the three Pauli letters give bit-identical 50/76 hard counts in their matched diagonal cell; the dissipator picks which Klein axis hosts the hardness of Klein-homogeneous pairs");
             yield return new InspectableNode("connection to Z⊗N-Brecher",
-                summary: "transverse-field Brecher breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis); F87-hardness lives INSIDE the matched cell, whose index is the letter's own and is both bits only for Y; the two poles of dissipator-letter resonance act on the same polarity layer");
+                summary: "transverse-field Brecher breaks Z⊗N from OUTSIDE the dissipator's Klein cell (bit_a-axis); the F87-hardness of Klein-homogeneous pairs lives INSIDE the matched cell, whose index is the letter's own and is both bits only for Y; the two poles of dissipator-letter resonance act on the same polarity layer");
             yield return InspectableNode.Group("witness table (4×3)",
                 Witnesses.Cast<IInspectable>().ToArray());
         }

@@ -68,12 +68,18 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// (<see cref="Symmetry.F108Part1Pi2EvenAlwaysPalindromic"/> via
 /// <see cref="Symmetry.Pi5BilinearOperator"/> at <c>dephaseLetter = Z</c>) extends the F1
 /// conjugation identity Π·L·Π⁻¹ = −L − 2σ·I from chain Heisenberg/XY (truly) to every
-/// Π²_Z-even 2-site bilinear H (XX, YY, YZ, ZY, ZZ combos). Canonical Π (F1) and
-/// Π_5bilinear-Z (F108 Part 1) induce the SAME joint-popcount sector cycle (only the
-/// per-letter phases differ at the operator level), so on the Z-dephasing domain F108
-/// brings no extra speedup at this layer: the existing orbit-pairing already covers the
-/// broader H set the contract admits. The F108-aware <c>ComputeSpectrumPerBlock</c>
-/// overload exists for intent-declaration and forward-compatibility, not for new gain.</para>
+/// Hamiltonian of Π²_Z-even 2-site bilinears (XX, YY, YZ, ZY, ZZ combos). Canonical Π (F1)
+/// and Π_5bilinear-Z (F108 Part 1) induce the same joint-popcount sector orbits, run in
+/// opposite directions (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}), and the popcount-conserving members of
+/// F108's family are combinations of (XX+YY) and ZZ, which the canonical Π already
+/// palindromizes, so on the Z-dephasing domain F108 brings no extra speedup at this layer.
+/// The orbit pairing presumes the palindrome sector by sector, and the popcount contract
+/// admits Hamiltonians where it fails: with a Z field the per-block spectrum is wrong
+/// (XX + YY + 0.7·Z on one site at N = 2, rates 0.3 and 0.4: Hausdorff distance 0.73 from
+/// the full eigensolver, docs/CAUGHT_ERRORS.md, the 2026-10-04 F107-F110 route entry). Callers keep to H whose palindrome
+/// holds sector by sector, such as the truly chains and XY − YX bonds on a chain. The F108-aware
+/// <c>ComputeSpectrumPerBlock</c> overload exists for intent-declaration and
+/// forward-compatibility, not for new gain.</para>
 ///
 /// <para><b>Z-dephasing structural constraint.</b> The joint-popcount sector basis is
 /// tied to Z-dephasing because <see cref="PerBlockLiouvillianBuilder.BuildBlockZ"/> builds
@@ -81,7 +87,7 @@ namespace RCPsiSquared.Core.BlockSpectrum;
 /// representation that requires the dephase letter to be diagonal in that basis. F108 Part 2
 /// (X-deph, <see cref="Symmetry.F108Part2Pi2XEvenAlwaysPalindromic"/>) and Part 3 (Y-deph,
 /// <see cref="Symmetry.F108Part3Pi2YEvenAlwaysPalindromic"/>) prove operator-level
-/// palindromicity for those dephase channels, but the Builder cannot exploit them in its
+/// palindromicity for the Π²-even bilinears under those dephase channels, but the Builder cannot exploit them in its
 /// current basis (X- and Y-dephasing break popcount conservation in the computational
 /// basis). The F108-aware overload throws <see cref="NotSupportedException"/> for
 /// <see cref="Pauli.PauliLetter.X"/> / <see cref="Pauli.PauliLetter.Y"/> (design-permanent
@@ -294,8 +300,9 @@ public sealed class LiouvillianBlockSpectrum : Claim
     /// (p_c, p_r) ↦ (N − p_r, p_c). F1 establishes this for chain XY+Z-deph
     /// (Π = canonical <see cref="PiOperator"/>); F108 Part 1 extends it to every Π²_Z-even
     /// 2-site bilinear H + Z-dephasing via the Z-deph variant of
-    /// <see cref="Pi5BilinearOperator"/>. Both variants share the same per-letter permutation
-    /// pattern (I↔X, Y↔Z), so they induce the same joint-popcount sector cycle; the orbit-
+    /// <see cref="Pi5BilinearOperator"/>. Both variants share the per-letter permutation
+    /// pattern (I↔X, Y↔Z) and induce the same joint-popcount sector orbits, run in opposite
+    /// directions (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}); the orbit-
     /// pairing primitive <see cref="F1PalindromeOrbitPairing.PartitionByPiOrbit"/> is
     /// already Π-agnostic at the sector-label level and consumes only the sector-permutation
     /// rule, not the matrix Π.</para>
@@ -384,13 +391,14 @@ public sealed class LiouvillianBlockSpectrum : Claim
         // first under Parallel.ForEach, overlapping its wall-time with smaller sectors' work.
         //
         // F108 generalisation: F108 Part 1 (Pi5BilinearOperator with dephaseLetter = Z)
-        // extends the F1 conjugation identity from chain Heisenberg/XY (truly) to every
-        // Π²_Z-even bilinear H (XX, YY, YZ, ZY, ZZ combos). At the BUILDER level the gain
-        // is operator-equivalent for the Hamiltonians this entry point can actually accept:
-        // popcount conservation in the computational basis (required by JointPopcountSectors)
-        // restricts 2-body H to linear combinations of (XX+YY) and ZZ, all of which are also
-        // Π²_Z-even. So canonical Π (F1) and Π_5bilinear (F108 Part 1) induce the same
-        // sector cycle and the same F1 reflection on this domain. The dephaseLetter parameter
+        // palindromizes every Hamiltonian of Π²_Z-even bilinears (XX, YY, YZ, ZY, ZZ combos).
+        // Its popcount-conserving members are combinations of (XX+YY) and ZZ, which the
+        // canonical Π already palindromizes, so canonical Π (F1) and Π_5bilinear (F108 Part 1)
+        // induce the same sector orbits (in opposite directions) and the same F1 reflection
+        // there. The popcount contract admits more (single-site Z fields, XY − YX bonds,
+        // longer number-conserving strings),
+        // and the reflection below is exact only where the palindrome holds sector by sector:
+        // a Z field breaks it (docs/CAUGHT_ERRORS.md, the 2026-10-04 F107-F110 route entry). The dephaseLetter parameter
         // declares the user's intent; the partition rule is Π-agnostic at the sector-label
         // level (F1PalindromeOrbitPairing.PartitionByPiOrbit consumes only the (p_c, p_r) ↦
         // (N − p_r, p_c) rule). F108 Part 2 (X-deph) / Part 3 (Y-deph) dispatch is reserved

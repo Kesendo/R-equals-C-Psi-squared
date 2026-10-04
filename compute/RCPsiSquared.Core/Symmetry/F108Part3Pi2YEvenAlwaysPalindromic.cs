@@ -10,9 +10,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>  Π_5bilinear (Y-deph) · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly.</para>
 ///
-/// <para>Hence no Π²_Y-even Pauli pair is F87-hard under Y-dephasing. With Part 1 +
-/// Part 2 + Part 3 the F108 Π²-even palindrome family covers all three dephase
-/// letters; F109's Step 5 is now closed-form across the full {Z, X, Y} set.</para>
+/// <para>Hence no pair of Π²_Y-even bilinears is F87-hard under Y-dephasing. With Part 1 +
+/// Part 2 + Part 3 the F108 family covers the Π²-even bilinears under all three dephase
+/// letters. The mirror reaches exactly the Π²_Y-even strings of even weight; the mother
+/// cell's non-truly strings (F109) have odd weight and are settled by the colouring.</para>
 ///
 /// <para><b>Y-deph specifics</b>: Π²_Y eigenvalue equals Π²_Z eigenvalue (both count
 /// bit_b per <see cref="PiOperator.SquaredEigenvalue"/>), so the Π²_Y-even bilinear
@@ -56,10 +57,10 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
     /// X-deph by Part 2; together Part 1+2+3 close F108 across all three dephase
     /// letters.</summary>
     public string F87Corollary =>
-        "Under Y-dephasing: no Π²_Y-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
+        "Under Y-dephasing: no pair of Π²_Y-even bilinears (truly or non-truly) is F87-hard; every Hamiltonian built from them has palindromic spec(L).";
 
     public F108Part3Pi2YEvenAlwaysPalindromic()
-        : base("F108 Part 3: Π²_Y-even H + Y-dephasing always admits exact operator-level palindrome via Π_5bilinear (Y-deph variant); Y-dephasing sibling of F108 Part 1; also Klein-V₄ corollary of Part 1 via operator-space D-conjugation per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
+        : base("F108 Part 3: H built from Π²_Y-even bilinears + Y-dephasing always admits exact operator-level palindrome via Π_5bilinear (Y-deph variant); Y-dephasing sibling of F108 Part 1; also Klein-V₄ corollary of Part 1 via operator-space D-conjugation per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md + " +
@@ -71,7 +72,7 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F108 Part 3 Π²_Y-even always palindromic via Π_5bilinear (Y-deph variant, closed-form)";
+        "F108 Part 3 Π²_Y-even bilinears always palindromic via Π_5bilinear (Y-deph variant, closed-form)";
 
     public override string Summary =>
         $"{Theorem} {F87Corollary} ({Tier.Label()})";
@@ -93,18 +94,14 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "9 pure-Π²_Y-even non-truly pairs × N=3,4,5 = 27 instances, residual = 0; " +
                          "random non-uniform-J trials at N=3,4,5, residual = 0; " +
                          "pure D[Y]^⊗N dissipator N=3,4,5, residual = 0");
-            yield return new InspectableNode("Closes F109 Y-dephasing branch",
-                summary: "F109 (mother sector Klein (0,0) soft y_par=1 purity) had Y-dephasing branch " +
-                         "empirically anchored only after F108 Parts 1+2; this Claim closes the Y branch " +
-                         "closed-form. F109 is now fully unconditional Tier1Derived across all three dephase letters.");
             yield return new InspectableNode("Siblings",
                 summary: "F108 Part 1 (Z-deph, BitB axis, same bilinear set), F108 Part 2 (X-deph, " +
-                         "BitA axis, X-deph bilinear set). Part 1 + Part 2 + Part 3 cover the F108 " +
-                         "Π²-even palindrome family completely across {Z, X, Y} dephasing.");
+                         "BitA axis, X-deph bilinear set). Part 1 + Part 2 + Part 3 cover the " +
+                         "Π²-even bilinears across {Z, X, Y} dephasing.");
             yield return new InspectableNode("Open siblings",
                 summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
-                         "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
-                         "(closed-form 42:8/228:0 derivation Tier1Derived via F103 §6+§7, 2026-06-10).");
+                         "with Y-inversion; Aspect A by the colouring of the three non-diagonal cells, Aspect B+C derived " +
+                         "via F103 §6+§7 (Tier1Derived 2026-06-10).");
             yield return new InspectableNode("Sibling on shared bit_b axis (F112)",
                 summary: "F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26): orthogonal " +
                          "derived theorem on the same F38/F63 bit_b foundation. F108 Part 3 closes spec(L) palindromy " +
@@ -118,8 +115,8 @@ public sealed class F108Part3Pi2YEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                          "axis) and is D-invariant: D acts on Pauli strings by sign (-1)^n_Y, which leaves the set " +
                          "fixed (sign flips YZ/ZY but they appear with both signs in the sum). The Part 1 proof " +
                          "transfers verbatim with d=Z→Y substitution: anti-commutation step uses the SAME per-site " +
-                         "(I↔X, Y↔Z) permutation, only Y/Z 2-cycle phase differs (+i ↔ −i), and pairwise cancellation " +
-                         "of phases in the diagonal-permutation dissipator argument is identical. See " +
+                         "(I↔X, Y↔Z) permutation, only Y/Z 2-cycle phase differs (+i ↔ −i), and in the diagonal-permutation dissipator " +
+                         "argument each phase meets its own inverse, so only the letter permutation matters. See " +
                          "PROOF_F108_KLEIN_V4_EQUIVALENCE.md §(c).");
         }
     }

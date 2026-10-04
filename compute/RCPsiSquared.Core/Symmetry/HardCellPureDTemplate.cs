@@ -73,11 +73,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// status breakdown.</para>
 ///
 /// <para>Implements <see cref="IZ2AxisClaim"/> with <see cref="Z2Axis.YParity"/>;
-/// <b>eighth member</b> of the YParity-axis Claim family (after F107
-/// <see cref="TrulyYParityZeroPurity"/>, F108 Part 1
-/// <see cref="F108Part1Pi2EvenAlwaysPalindromic"/>, Part 2
-/// <see cref="F108Part2Pi2XEvenAlwaysPalindromic"/>, Part 3
-/// <see cref="F108Part3Pi2YEvenAlwaysPalindromic"/>, F109
+/// <b>eighth member</b> of the YParity-axis Claim family (after F102, F103, F105, F106, F107
+/// <see cref="TrulyYParityZeroPurity"/>, F109
 /// <see cref="MotherSoftYParityOnePurity"/>, F110
 /// <see cref="HardCellYInversionPattern"/>). Sibling to F110 (both
 /// Tier1Derived since 2026-06-10): F110 records the empirical pattern at the cell-aggregate
@@ -306,11 +303,11 @@ public sealed class HardCellPureDTemplate : Claim, IZ2AxisClaim
             yield return new InspectableNode("Sister claims on YParity axis",
                 summary: "F102 (YParityIndependenceAtK3, Tier1Derived). F103 (F87Z2CubedRefinementN4K3, Tier1Derived). " +
                          "F105 (F87Z2CubedRefinementN5K3, Tier1Derived). F106 (F87Z2CubedRefinementN4K4, Tier1Derived). " +
-                         "F107 (TrulyYParityZeroPurity, Tier1Derived). F109 (MotherSoftYParityOnePurity, Tier1Derived unconditional). " +
+                         "F107 (TrulyYParityZeroPurity, Tier1Derived). F109 (MotherSoftYParityOnePurity, Tier1Derived). " +
                          "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10): Y-inversion across k=3 and k=4. " +
                          "F111 (THIS, Tier1Derived since 2026-06-10): sharper per-pair structural rule than F110 Aspect B; F111 implies F110 Aspect B at k=N=4 as immediate corollary.");
-            yield return new InspectableNode("Cross-axis dependencies (BitB and BitA): F108 Parts",
-                summary: "F108 Part 1+3 (BitB-axis): close F107/F109/F110 derivation via Π_5bilinear under Z and Y dephasing. F108 Part 2 (BitA-axis, BitA twin of Part 1): closes the X-deph branch via the Z↔X Π² mirror. F108 Parts are NOT YParity-axis sisters (per their Z2Axis declarations); they are the cross-axis closure mechanism that grounds F107/F109/F110/F111's diagonal-cell scope.");
+            yield return new InspectableNode("Cross-axis neighbours (BitB and BitA): F108 Parts",
+                summary: "F108 Part 1+3 (BitB-axis) and Part 2 (BitA-axis, BitA twin of Part 1) palindromize the Π²-D-even bilinears via Π_5bilinear and reach the Π²-D-even strings of even weight; on the diagonal cell, which is Π²-D-odd, they give no cancellation (PROOF_F111 Path 2). F108 Parts are NOT YParity-axis sisters (per their Z2Axis declarations). The diagonal-cell scope of F110/F111 comes from the colouring of the other three Klein cells (PROOF_F110 §2).");
             yield return new InspectableNode("Promotion record (2026-06-10) + open siblings",
                 summary: "Hard-direction converse behind subclaims (a)/(c), the F111 promotion gate: it reduced to the windowed converse typed as WindowedConverseAllGammaClaim (RCPsiSquared.Diagnostics.F87), CLOSED 2026-06-10 with no residual (girth dichotomy retired R-deg, Pascal-Gram positivity resolved R-sign) ⟹ F111 Tier1Derived. Subclaim (d) Mixed+Mixed = soft is CLOSED modulo M via PROOF_F103 §7.4. " +
                          "F110 Aspect C (k=3 ratio 42:8): derived by the F103 §6 counting rule + §7 bipartite mechanism. " +

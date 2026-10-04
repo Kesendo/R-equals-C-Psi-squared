@@ -12,9 +12,10 @@ namespace RCPsiSquared.Diagnostics.F87;
 /// </code>
 ///
 /// <para>The classification uses F1's palindrome residual <c>M = Π·L·Π⁻¹ + L + 2σ·I</c> as the
-/// discriminator. Equivalently in Π²-class language (cf. F79, F85): a term <c>(P, Q)</c> is
-/// <c>truly</c> iff #Y is even AND #Z is even, <c>pi2_odd</c> iff <c>bit_b(P) + bit_b(Q)</c>
-/// is odd, <c>pi2_even_nontruly</c> iff <c>bit_b(P) + bit_b(Q)</c> is even and not truly.
+/// discriminator. Equivalently in Π²-class language (cf. F79, F85), under Z- or Y-dephasing: a term
+/// <c>(P, Q)</c> is <c>truly</c> iff #Y is even AND #Z is even, <c>pi2_odd</c> iff
+/// <c>bit_b(P) + bit_b(Q)</c> is odd, <c>pi2_even_nontruly</c> iff <c>bit_b(P) + bit_b(Q)</c> is even
+/// and not truly; under X-dephasing the criterion is #X and #Y even and the grading bit_a (F107).
 /// Mixed Hamiltonians refine the 3-way trichotomy into a 4-way classification
 /// (truly / pi2_odd_pure / pi2_even_nontruly / mixed).</para>
 ///
@@ -63,7 +64,7 @@ public sealed class F87TrichotomyClassification : Claim
             yield return new InspectableNode("F-chain entry point",
                 summary: "F87 → F1 (M) → F49/F85 (scaling) → F78/F79 (structure) → F80 (sign-walk) → F81 (Π-split) → F82/F84 (T1/thermal) → F83 (anti-fraction)");
             yield return new InspectableNode("Klein resonance",
-                summary: "F87-hardness lives in the Klein cell matching the dephase letter (Z=(0,1), X=(1,0), Y=(1,1)); SU(2)-rotation-equivalent");
+                summary: "the F87-hardness of Klein-homogeneous pairs lives in the Klein cell matching the dephase letter (Z=(0,1), X=(1,0), Y=(1,1)); SU(2)-rotation-equivalent");
             yield return new InspectableNode("origin",
                 summary: "36-enum N=3 → 14/19/3 as hard/soft/truly (V_EFFECT_FINE_STRUCTURE 95386cd); 120-enum N=3,4,5 → 15/46/59 as truly/soft/hard, the opposite order, N-stable (96ed6da, 6438fef); combinatorial proof 81caf67; Marrakesh Δ(soft−truly)=−0.722");
             yield return new InspectableNode("classifier",

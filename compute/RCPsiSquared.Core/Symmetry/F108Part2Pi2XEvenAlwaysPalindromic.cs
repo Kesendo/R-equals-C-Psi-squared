@@ -12,9 +12,9 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>  Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly (with the X-deph
 /// variant of <see cref="Pi5BilinearOperator"/>), where σ = Σ_l γ_l.</para>
 ///
-/// <para>Consequence: no Π²_X-even Pauli pair can be F87-hard under X-dephasing.
-/// Closes the X-dephasing branch of F109's Step 5 (mother sector soft = y_par=1
-/// purity); the Y-dephasing branch is closed by F108 Part 3 (2026-05-25).</para>
+/// <para>Consequence: no pair of Π²_X-even bilinears can be F87-hard under X-dephasing.
+/// The mirror reaches exactly the Π²_X-even strings of even weight; the mother cell's
+/// non-truly strings (F109) have odd weight and are settled by the colouring.</para>
 ///
 /// <para>Derivation chain (see PROOF_F108_PART2):</para>
 /// <list type="number">
@@ -26,11 +26,11 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>Q · D[X_l] · Q⁻¹ = −D[X_l] − 2γ_l·I per site, via diagonal permutation
 ///         in the Pauli basis: D[X]_pauli = γ·diag(0, 0, −2, −2) on {I, X, Y, Z};
 ///         M's (I↔Z, X↔Y) swap permutes the diagonal entries to
-///         γ·diag(−2, −2, 0, 0) = −D[X]_pauli − 2γ·I_4 (phase factors cancel
-///         pairwise on each 2-cycle).</item>
+///         γ·diag(−2, −2, 0, 0) = −D[X]_pauli − 2γ·I_4 (each phase meets
+///         its own inverse in M⁻¹).</item>
 ///   <item>Combining 2+3: Q · L · Q⁻¹ = −L − 2σ·I exactly, σ = Σγ.</item>
 ///   <item>spec(L) = spec(Q·L·Q⁻¹) = {−λ − 2σ : λ ∈ spec(L)}: palindromic around
-///         −σ. Hence no Π²_X-even pair is F87-hard under X-dephasing.</item>
+///         −σ. Hence no pair of Π²_X-even bilinears is F87-hard under X-dephasing.</item>
 /// </list>
 ///
 /// <para>Empirical confirmation: bit-exact residual = 0 across all 9 pure-Π²_X-even
@@ -45,8 +45,8 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
 {
     /// <summary>BitA axis (Π²_X = Z⊗N, bit_a parity = #X + #Y mod 2). F108 Part 2
-    /// constrains the Π²_X-even (bit_a = 0) sub-cell under X-dephasing to always
-    /// admit a palindrome operator.</summary>
+    /// gives the Π²_X-even (bit_a = 0) bilinears a palindrome operator under
+    /// X-dephasing.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitA;
 
     /// <summary>BitA-axis claims have no BitATwin slot (the twin concept lives on
@@ -91,8 +91,8 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
     }
 
     /// <summary>True iff every term in <paramref name="terms"/> is a Π²_X-even 2-body
-    /// bilinear. F108 Part 2's exact-palindrome guarantee under X-dephasing holds iff
-    /// this returns true.</summary>
+    /// bilinear. F108 Part 2's theorem under X-dephasing covers H for which this returns
+    /// true (the mirror itself reaches the Π²_X-even strings of even weight).</summary>
     public static bool IsPi2XEvenBilinearHamiltonian(IEnumerable<PauliTerm> terms)
     {
         if (terms is null) throw new ArgumentNullException(nameof(terms));
@@ -109,10 +109,10 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
 
     /// <summary>F87 corollary scoped to X-dephasing.</summary>
     public string F87Corollary =>
-        "Under X-dephasing: no Π²_X-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
+        "Under X-dephasing: no pair of Π²_X-even bilinears (truly or non-truly) is F87-hard; every Hamiltonian built from them has palindromic spec(L).";
 
     public F108Part2Pi2XEvenAlwaysPalindromic()
-        : base("F108 Part 2: Π²_X-even H + X-dephasing always admits exact operator-level palindrome via Π_5bilinear (X-deph variant); BitA twin of F108 Part 1; also Klein-V₄ corollary of Part 1 via Hilbert-space Hadamard transport per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
+        : base("F108 Part 2: H built from Π²_X-even bilinears + X-dephasing always admits exact operator-level palindrome via Π_5bilinear (X-deph variant); BitA twin of F108 Part 1; also Klein-V₄ corollary of Part 1 via Hilbert-space Hadamard transport per PROOF_F108_KLEIN_V4_EQUIVALENCE.md (Welle 14)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md + " +
@@ -124,7 +124,7 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F108 Part 2 Π²_X-even always palindromic via Π_5bilinear (X-deph variant, closed-form)";
+        "F108 Part 2 Π²_X-even bilinears always palindromic via Π_5bilinear (X-deph variant, closed-form)";
 
     public override string Summary =>
         $"{Theorem} {F87Corollary} ({Tier.Label()})";
@@ -144,23 +144,20 @@ public sealed class F108Part2Pi2XEvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "9 pure-Π²_X-even non-truly pairs × N=3,4,5 = 27 instances, residual = 0; " +
                          "random non-uniform-J trials at N=3,4,5, residual = 0; " +
                          "pure D[X]^⊗N dissipator N=3,4,5, residual = 0");
-            yield return new InspectableNode("Closes F109 X-dephasing branch",
-                summary: "F109 X-dephasing branch closed-form via Part 2's X-deph variant of Π_5bilinear. " +
-                         "Together with Part 1 (Z-deph) and Part 3 (Y-deph), F109 is now fully unconditional " +
-                         "across {Z, X, Y}.");
             yield return new InspectableNode("Sibling on BitB axis",
                 summary: "F108 Part 1 (Pi2EvenAlwaysPalindromic, Z-dephasing) and F108 Part 3 (Y-dephasing). Together " +
-                         "Parts 1+2+3 cover the F108 Π²-even palindrome family completely across {Z, X, Y} dephasing.");
+                         "Parts 1+2+3 cover the Π²-even bilinears across {Z, X, Y} dephasing.");
             yield return new InspectableNode("Open siblings",
                 summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
-                         "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored " +
-                         "(closed-form 42:8/228:0 derivation Tier1Derived via F103 §6+§7, 2026-06-10).");
+                         "with Y-inversion; Aspect A by the colouring of the three non-diagonal cells, Aspect B+C derived " +
+                         "via F103 §6+§7 (Tier1Derived 2026-06-10).");
             yield return new InspectableNode("Klein-V₄ corollary mechanism (Welle 14, 2026-05-27)",
                 summary: "Part 2 follows from Part 1 by Hilbert-space Hadamard transport: U_op = U_H^⊗N ⊗ (U_H^⊗N)^* " +
                          "maps L_Z(H_1) → L_X(U H_1 U^†) bit-exact; per-letter U_H sends Z↔X, Y→−Y, I→I, which " +
                          "bijects the Part-1 bilinear set {XX, YY, YZ, ZY, ZZ} (with sign flips) onto the Part-2 set " +
                          "{ZZ, XX, XY, YX, YY}. NEGATIVE: operator-space Q_zx (Klein-V₄ Z↔X swap from Welle 12) does " +
-                         "NOT swap Π_5b(Z) ↔ Π_5b(X) at the operator level (residual 2.0 in Frobenius distance). The " +
+                         "NOT swap Π_5b(Z) ↔ Π_5b(X) at the operator level (largest residual entry 2.0); the operator-space " +
+                         "X↔Z letter swap H does, H · Π_5b(Z) · H = Π_5b(X). The " +
                          "Hadamard route gives an equivalent palindrome operator U_op · Π_5b(Z) · U_op^† for L_X, " +
                          "DIFFERENT from canonical Π_5b(X); both achieve F108 palindrome (Π_5b family is not unique). " +
                          "See PROOF_F108_KLEIN_V4_EQUIVALENCE.md.");

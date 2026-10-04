@@ -10,8 +10,9 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para>  Π_5bilinear · L · Π_5bilinear⁻¹ = −L − 2σ·I exactly, where σ = Σ_l γ_l.</para>
 ///
-/// <para>Consequence: no Π²-even Pauli pair can be F87-hard. The 5346+ Π²-even pairs
-/// observed soft across F103/F105/F106 are now closed-form, not just empirical.</para>
+/// <para>Consequence: no pair of these bilinears can be F87-hard. The mirror reaches
+/// exactly the Π²_Z-even strings of even weight; that no Π²-even pair at any body count
+/// is hard is the colouring's (PROOF_F103 §8, F109 Step 5, F110 §2).</para>
 ///
 /// <para>Derivation chain (see PROOF_F108_PART1):</para>
 /// <list type="number">
@@ -22,10 +23,10 @@ namespace RCPsiSquared.Core.Symmetry;
 ///   <item>Q · D[Z_l] · Q⁻¹ = −D[Z_l] − 2γ_l·I per site, via diagonal permutation in
 ///         the Pauli basis: D[Z]_pauli = γ·diag(0, −2, −2, 0) on {I, X, Y, Z}; M's
 ///         (I↔X, Y↔Z) swap permutes the diagonal to γ·diag(−2, 0, 0, −2) =
-///         −D[Z]_pauli − 2γ·I_4 (phase factors cancel pairwise on each 2-cycle).</item>
+///         −D[Z]_pauli − 2γ·I_4 (each phase meets its own inverse in M⁻¹).</item>
 ///   <item>Combining 2+3: Q · L · Q⁻¹ = −L − 2σ·I exactly, σ = Σγ.</item>
 ///   <item>spec(L) = spec(Q·L·Q⁻¹) = {−λ − 2σ : λ ∈ spec(L)}: palindromic around −σ.
-///         Hence no Π²-even pair can be F87-hard.</item>
+///         Hence no pair of these bilinears can be F87-hard.</item>
 /// </list>
 ///
 /// <para>Empirical confirmation: bit-exact residual = 0 across all 9 pure-Π²-even
@@ -41,8 +42,7 @@ namespace RCPsiSquared.Core.Symmetry;
 public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
 {
     /// <summary>BitB axis (Π²_Z = X⊗N, bit_b parity = #Y + #Z mod 2). F108 Part 1
-    /// constrains the Π²-even (bit_b = 0) sub-cell to always admit a palindrome
-    /// operator.</summary>
+    /// gives the Π²-even (bit_b = 0) bilinears a palindrome operator.</summary>
     public Z2Axis Z2Axis => Z2Axis.BitB;
 
     /// <summary>BitA twin: F108 Part 2 (X-dephasing variant).</summary>
@@ -94,7 +94,8 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
     }
 
     /// <summary>True iff every term in <paramref name="terms"/> is a Π²-even 2-body
-    /// bilinear. F108 Part 1's exact-palindrome guarantee holds iff this returns true.</summary>
+    /// bilinear. F108 Part 1's theorem covers H for which this returns true (the mirror itself
+    /// reaches the Π²_Z-even strings of even weight on any number of sites).</summary>
     public static bool IsPi2EvenBilinearHamiltonian(IEnumerable<PauliTerm> terms)
     {
         if (terms is null) throw new ArgumentNullException(nameof(terms));
@@ -111,10 +112,10 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
     /// <summary>F87 corollary scoped to Z-dephasing; X-deph covered by F108 Part 2,
     /// Y-deph covered by F108 Part 3.</summary>
     public string F87Corollary =>
-        "Under Z-dephasing: no Π²_Z-even Pauli pair (truly or non-truly) is F87-hard; every such pair has palindromic spec(L).";
+        "Under Z-dephasing: no pair of Π²_Z-even bilinears (truly or non-truly) is F87-hard; every Hamiltonian built from them has palindromic spec(L).";
 
     public F108Part1Pi2EvenAlwaysPalindromic(F108Part2Pi2XEvenAlwaysPalindromic part2)
-        : base("F108 Part 1: Π²-even H + Z-dephasing always admits exact operator-level palindrome via Π_5bilinear (base claim of the Klein-V₄-equivalent F108 family; Parts 2, 3 are Klein-V₄ corollaries per PROOF_F108_KLEIN_V4_EQUIVALENCE.md)",
+        : base("F108 Part 1: H built from Π²-even bilinears + Z-dephasing always admits exact operator-level palindrome via Π_5bilinear (base claim of the Klein-V₄-equivalent F108 family; Parts 2, 3 are Klein-V₄ corollaries per PROOF_F108_KLEIN_V4_EQUIVALENCE.md)",
                Tier.Tier1Derived,
                "docs/ANALYTICAL_FORMULAS.md F108 + " +
                "docs/proofs/PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md + " +
@@ -126,7 +127,7 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
     }
 
     public override string DisplayName =>
-        "F108 Part 1 Π²-even always palindromic via Π_5bilinear (closed-form)";
+        "F108 Part 1 Π²-even bilinears always palindromic via Π_5bilinear (closed-form)";
 
     public override string Summary =>
         $"{Theorem} {F87Corollary} ({Tier.Label()})";
@@ -145,17 +146,20 @@ public sealed class F108Part1Pi2EvenAlwaysPalindromic : Claim, IZ2AxisClaim
                 summary: "9 pure-Π²-even non-truly pairs × N=3,4,5 = 27 instances, residual = 0; " +
                          "15 random non-uniform-J + 9 asymmetric J_YZ≠J_ZY instances, residual = 0; " +
                          "pure D[Z]^⊗N dissipator N=3,4,5, residual = 0");
-            yield return new InspectableNode("Closes F109 dependency (Z-dephasing branch)",
-                summary: "F109 (mother sector Klein (0,0) soft y_par=1 purity) had Y-dephasing branch empirically " +
-                         "anchored only; together with F108 Part 1+2+3 closure on 2026-05-25, F109 is now fully " +
-                         "unconditional Tier1Derived across {Z, X, Y}.");
+            yield return new InspectableNode("Reach of the mirror",
+                summary: "Π_5bilinear carries L_σ to −L_σ for exactly the Π²_Z-even strings σ of even weight, on any " +
+                         "number of sites (per site: a minus sign on X alone on the left side, on X, Y and Z on the right). " +
+                         "Single-site fields and three-body strings such as XZZ or XYZ are outside its reach, and so are " +
+                         "the mother cell's non-truly strings (F109), which all have odd weight. Where such an H is " +
+                         "Π²_Z-even, as the mother cell's strings are, its palindrome is the colouring's (F109 Step 5, " +
+                         "F110 §2); a Z field is Π²_Z-odd and gets neither.");
             yield return new InspectableNode("BitA twin (Filled)",
                 summary: "F108 Part 2 (Π²_X-even under X-dephasing) typed and wired as ctor parent. " +
                          "BitATwinStatus defaults to Filled per IZ2AxisClaim.");
             yield return new InspectableNode("Open siblings",
                 summary: "F110 (HardCellYInversionPattern, Tier1Derived since 2026-06-10, typed 2026-05-25): hard cells y_par-asymmetric " +
-                         "with Y-inversion; Aspect A closed-form via F108 Part 1+2+3, Aspect B+C empirically anchored at F103/F105/F106 " +
-                         "(closed-form 42:8/228:0 derivation Tier1Derived via F103 §6 counting rule + §7 bipartite mechanism, 2026-06-10).");
+                         "with Y-inversion; Aspect A by the colouring of the three non-diagonal cells, Aspect B+C derived via " +
+                         "the F103 §6 counting rule + §7 bipartite mechanism (Tier1Derived 2026-06-10).");
             yield return new InspectableNode("Sibling on shared bit_b axis (F112)",
                 summary: "F112 (LindbladBitBPiBalance, Tier1Derived for Hermitian H, typed 2026-05-26): orthogonal " +
                          "derived theorem on the same F38/F63 bit_b foundation. F108 Part 1 closes spec(L) palindromy " +

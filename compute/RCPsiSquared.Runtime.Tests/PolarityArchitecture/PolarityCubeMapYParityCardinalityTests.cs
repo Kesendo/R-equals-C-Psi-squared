@@ -18,8 +18,8 @@ public class PolarityCubeMapYParityCardinalityTests
         // F102 (YParityIndependenceAtK3) + F103 (F87Z2CubedRefinementN4K3) + F105
         // (F87Z2CubedRefinementN5K3) + F106 (F87Z2CubedRefinementN4K4) + F107
         // (TrulyYParityZeroPurity, first derived-not-empirical) + F109
-        // (MotherSoftYParityOnePurity, second derived-not-empirical, fully
-        // unconditional after F108 Part 1+2+3 closure 2026-05-25) + F110
+        // (MotherSoftYParityOnePurity, second derived-not-empirical, its soft
+        // half by the colouring) + F110
         // (HardCellYInversionPattern, Tier1Derived since 2026-06-10; Aspect A closed-form + B/C
         // derived via F103 §6/§7) + F111 (HardCellPureDTemplate, Tier1Derived per-pair Pure-D
         // Template Rule sharpening F110 Aspect B at k=N=4) are the current

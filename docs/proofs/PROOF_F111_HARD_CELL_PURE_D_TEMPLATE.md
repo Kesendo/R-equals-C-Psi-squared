@@ -4,12 +4,12 @@
 **Date:** 2026-05-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [PROOF_F110_HARD_CELL_Y_INVERSION.md](PROOF_F110_HARD_CELL_Y_INVERSION.md) (parent observation; F111 sharpens F110 Aspect B and implies it as corollary at k = N = 4)
+- [PROOF_F110_HARD_CELL_Y_INVERSION.md](PROOF_F110_HARD_CELL_Y_INVERSION.md) (Aspect A, which leaves the diagonal cell as the place of the hardness of Klein-homogeneous pairs; F111 sharpens F110 Aspect B there and implies it as corollary at k = N = 4)
 - [PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) (per-dephase truly criterion; pure-D template's #Y count derivation)
 - [PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for Z-deph; failed candidate for off-y_par palindromization in Task 1)
-- [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for X-deph)
-- [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for Y-deph)
-- F106 N = 4 k = 4 empirical anchor (compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K4.cs); F87 dissipator-resonance law (compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs)
+- [PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for X-deph; likewise a failed candidate, Task 1 Path 2)
+- [PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md) (Π_5bilinear for Y-deph; likewise a failed candidate, Task 1 Path 2)
+- F106 N = 4 k = 4 empirical anchor (compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K4.cs); the F87 dissipator-resonance law (compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs) is the N = 4, k = 3 census of where the hardness of Klein-homogeneous pairs lives
 
 ## Abstract
 
@@ -21,7 +21,7 @@ The empirical numerics fit cleanly. 8 pure-D templates × 9/2 self-pair counts =
 
 F111 shipped Tier 1 Candidate on 2026-05-25 because the "Mixed+Mixed pair is soft" half of the rule (the 0 in 36+192+0) had only an empirical anchor across 300 pairs and no operator-level construction: three derivation paths were attempted and exhausted (per-site M^N tensor-product search, F108 Π_5bilinear extended action, Q_V × Π composition). It was promoted to Tier 1 Derived on 2026-06-10: subclaim (d) closed modulo M = −2i(H⊗I) via the chiral-K route (PROOF_F103 §7.4, 2026-05-30), and the hard-direction converse behind subclaims (a)/(c) closed via the windowed all-γ theorem (WindowedConverseAllGammaClaim, Pascal-Gram positivity F117, no residual). The similarity transformation that realizes the spectrum-level palindromy is that second mirror (the chiral K composed after Π), not the single better Π the Task-1 paths sought.
 
-The diagnostic upshot is that F111 sharpens F110 Aspect B at the specific k = N = 4 anchor: from "Y-inversion empirical 228:0" to a structural per-pair rule. Together with F107 + F109 + F110, the y-parity-axis classification of the F87 trichotomy is now fully written down, with the remaining open work concentrated in two specific places: the exact 42:8 ratio at k = 3, and the Mixed+Mixed = soft closed-form at k = 4. Both are local to the polarity cube's hard cells; the rest of the trichotomy is closed.
+The diagnostic upshot is that F111 sharpens F110 Aspect B at the specific k = N = 4 anchor: from "Y-inversion empirical 228:0" to a structural per-pair rule. With F107, F109 and F110 it gives the y-parity signature of the truly, Mother-soft and hard pairs; the soft pairs of the other cells are F103's (§3.3, §8).
 
 ## Statement (Theorem F111)
 
@@ -88,7 +88,7 @@ Pure-D template H is built from D and I letters only. The dephase letter D commu
 
 For a pure-D template H, every Pauli string in the Hamiltonian commutes with every per-site D. Therefore [D[D_l], L_H] = 0 for all l. The Lindbladian decomposes as L = L_H + L_D with [L_H, L_D] = 0.
 
-Both summands carry their own reflection symmetry. L_H is the commutator superoperator (−i[H, ·]) of a Hermitian H, so its spectrum is {−i(E_k − E_j)}, pure imaginary and symmetric about 0. L_D is symmetric about −σ: in the Pauli basis it is diagonal with eigenvalue −2·Σ_{l ∈ A} γ_l on the string whose D-anticommuting set is A, and the set-complement A ↦ {1..N} \ A is an involution on the basis carrying that eigenvalue to −2σ + 2·Σ_{l ∈ A} γ_l. This is the same statement as [PROOF_F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)'s C(N, k) = C(N, N − k), and it holds for arbitrary site-dependent γ_l, not only uniform γ.
+Both summands carry their own reflection symmetry. L_H is the commutator superoperator (−i[H, ·]) of a Hermitian H, so its spectrum is {−i(E_k − E_j)}, pure imaginary and symmetric about 0. L_D is symmetric about −σ: in the Pauli basis it is diagonal with eigenvalue −2·Σ_{l ∈ A} γ_l on the string whose D-anticommuting set is A, and the set-complement A ↦ {1..N} \ A is an involution on the basis carrying that eigenvalue to −2σ + 2·Σ_{l ∈ A} γ_l. This holds for arbitrary site-dependent γ_l, not only uniform γ.
 
 So the failure is **not** in either summand. It is that no single involution realizes both reflections at once on the shared eigenbasis: L_H and L_D commute, but the complement map that reflects L_D's spectrum about −σ does not preserve L_H's eigenvalue on the same basis vector, so the reflected pair is not in the spectrum of the sum. The (multiset) sum of the two spectra is therefore the wrong object: for commuting operators the eigenvalues of L = L_H + L_D are the sums taken **along shared eigenvectors**, not the free sum of the two lists.
 
@@ -123,7 +123,7 @@ The original Task 1 goal was to derive F111 as Tier1Derived via closed-form pali
 
 **Path 1 (per-site M⊗N tensor product):** Brute force over candidate per-site M operators that anti-commute with all k = 4 off-y_par(D) bilinears in the diagonal cell AND conjugate the D-dephasing dissipator correctly. Scan: 512 phase variants × 2 dissipator-valid letter permutations per dephase. Result: **zero winners.** No per-site tensor-product M achieves operator-level palindrome on any off-y_par single-term H.
 
-**Path 2 (existing F108 Π_5bilinear extended action):** Tested Pi_5bilinear (Z, X, Y variants) on all 32 templates in the diagonal cell per dephase, classified by y_par. Result: **residual = 32 uniformly** on both off-y_par AND on-y_par. Pi_5bilinear is engineered for Π²-D-even cells (where it gives residual = 0); the diagonal cell is Π²-D-ODD; the operator gives no useful cancellation.
+**Path 2 (existing F108 Π_5bilinear extended action):** Tested Pi_5bilinear (Z, X, Y variants) on all 32 templates in the diagonal cell per dephase, classified by y_par. Result: **residual = 32 uniformly** on both off-y_par AND on-y_par. Pi_5bilinear is built for the Π²-D-even bilinears and gives residual = 0 on the Π²-D-even strings of even weight (an even number of non-identity letters); the diagonal cell is Π²-D-ODD, and there the operator gives no useful cancellation.
 
 **Path 3 (Q_V × Π composition):** Q_V = Hilbert-space conjugation by V ∈ {X⊗N, Y⊗N, Z⊗N}. Found universal H-flipping V per dephase (V·H·V⁻¹ = −H universally on off-y_par H). Composition with canonical Π or Pi_5bilinear tested: **zero hits.** The required property "Π commutes with [H, ·] for off-y_par H AND gives −L_D − 2σI on dissipator" has no solution among standard Π operators.
 
@@ -137,20 +137,19 @@ F111 sharpens F110 Aspect B from "empirical Y-inversion at k = 4 (228:0)" to a s
 
 The rule predicts the F87-hard set in the diagonal cell EXACTLY at k = N = 4 across all 3 dephase letters with zero exceptions. Subclaim (d) (Mixed + Mixed = soft) is closed modulo M via [PROOF_F103 §7.4](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md), and the hard-direction converse behind subclaim (c) (a lifted diagonal ⟹ hard) closed 2026-06-10 (WindowedConverseAllGammaClaim, no residual), completing F111's Tier1Derived promotion.
 
-The rule's structural origin (dephase letter D commutes with itself, so pure-D Hamiltonians have decoupled L = L_H + L_D dynamics) connects F111 to the broader F107/F108 "per-letter dissipator algebra" theme.
+The rule's structural origin (dephase letter D commutes with itself, so pure-D Hamiltonians have decoupled L = L_H + L_D dynamics) connects F111 to the per-letter dissipator algebra of the F108 proofs.
 
-## Sibling y_par-axis claims and cross-axis closure
+## Sibling y_par-axis claims and the cross-axis neighbours
 
-Closed 2026-05-25: F107 (truly ⟹ y_par=0, Tier1Derived); F109 (mother soft ⟹ y_par=1, Tier1Derived unconditional); F110 (HardCellYInversionPattern); F111 (HardCellPureDTemplate); F110 and F111 both promoted to Tier1Derived 2026-06-10.
+F107 (truly ⟹ y_par=0, Tier1Derived); F109 (y_par-homogeneous mother soft ⟹ y_par=1, Tier1Derived); F110 (HardCellYInversionPattern, Tier1Derived).
 
 The 8 YParity-axis Claims (per `IZ2AxisClaim.Z2Axis == Z2Axis.YParity`) are: F102 (YParityIndependenceAtK3), F103 (F87Z2CubedRefinementN4K3), F105 (F87Z2CubedRefinementN5K3), F106 (F87Z2CubedRefinementN4K4), F107 (TrulyYParityZeroPurity), F109 (MotherSoftYParityOnePurity), F110 (HardCellYInversionPattern), and F111 (HardCellPureDTemplate, this proof). Together they form the YParity-axis classification of the F87 trichotomy.
 
-F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived 2026-05-25) are **not** YParity-axis sisters: per their `Z2Axis` declarations they live on the BitB axis (Parts 1 and 3) and the BitA axis (Part 2). They are the cross-axis closure mechanism that grounds the diagonal-cell scope of F107/F109/F110/F111 by establishing the operator-level palindrome on the Π²-D-even cells via Π_5bilinear.
+F108 Part 1+2+3 (Π²-even palindrome family, Tier1Derived 2026-05-25) are **not** YParity-axis sisters: per their `Z2Axis` declarations they live on the BitB axis (Parts 1 and 3) and the BitA axis (Part 2). The diagonal-cell scope of F110 and F111 comes from the colouring of the other three Klein cells ([F110 §2](PROOF_F110_HARD_CELL_Y_INVERSION.md)); F108's mirrors reach the Π²-D-even strings of even weight.
 
 ## Open
 
 - **Subclaim (d) closed-form derivation , CLOSED modulo M (2026-05-30).** Pair (Mixed, Mixed) at k = N = 4 is F87-soft. The operator-level mechanism is [PROOF_F103 §7.4](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md): in the dephasing basis each Mixed term is a single bit-flip mask, so a Mixed+Mixed pair at full support (k=N) has only two flip generators; two nonzero 𝔽₂ vectors always admit a linear φ with φ(both)=1, and the chiral K = diag((−1)^φ) , a *second* mirror after Π, not the better Π the three Task-1 paths sought , palindromizes the spectrum. So Mixed+Mixed ⟹ bipartite ⟹ soft, modulo the F80 one-sidedness M = −2i(H⊗I) (bit-exact). Subclaim (b) (single Mixed term ⟹ soft) follows the same way (|S| = 1). The converse behind subclaim (c) (a lifted diagonal ⟹ hard) closed 2026-06-10 (WindowedConverseAllGammaClaim, Pascal-Gram positivity F117, no residual), promoting F111 to Tier1Derived.
-- **F110 Aspect C closed-form:** k = 3 ratio 42:8 (per F103 Section 5). F111's structural rule doesn't extend to k = 3 directly (no pure-D templates at k = 3 in the diagonal cells).
 - **Pure-D Template Rule at k > 4 or N > 4:** empirically unverified. The rule's scope is currently k = N = 4 only.
 - **Hardware QPU confirmation at k ≥ 3:** open (no F87 QPU confirmations exist beyond Marrakesh k = 2).
 

@@ -1,31 +1,30 @@
 # PROOF F110: F87-Hard Cells Exhibit Y-Inversion Pattern
 
-**Status:** Tier 1 derived (promoted 2026-06-10: the windowed hard-direction converse, the one edge that kept this Candidate, closed as the all-γ theorem with no residual, WindowedConverseAllGammaClaim / Pascal-Gram positivity F117). Original status 2026-05-25: Tier 1 Candidate (Aspect A closed-form via F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance; Aspect B Y-inversion closed-form at k = N = 4 via sibling F111 Pure-D Template Rule, and at k = 3 via the F103 §6 diagonal-cell rule; Aspect C k-purity 42:8 ratio at k = 3 likewise derived by the F103 §6 rule)
+**Status:** Tier 1 derived (Aspect A by the colouring of the three non-diagonal Klein cells, with F158; Aspects B and C by the F103 §6 counting rule at k = 3 and the F111 pure-D template rule at k = N = 4, both resting on the windowed all-γ converse, WindowedConverseAllGammaClaim with the Pascal-Gram positivity of F117)
 **Date:** 2026-05-25
 **Authors:** Thomas Wicht, Claude (Opus 4.7)
 **Depends on:**
-- [F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)
-- [F108 Part 2](PROOF_F108_PART2_PI2X_EVEN_ALWAYS_PALINDROMIC.md)
-- [F108 Part 3](PROOF_F108_PART3_PI2Y_EVEN_ALWAYS_PALINDROMIC.md)
-- [F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md)
-- [F109](PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md)
-- F87 dissipator-resonance law (Tier1Derived, `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`, anchored at N=4 k=3 over 294 pairs)
+- [F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) (every non-diagonal Klein cell is coloured) and §6-§7 (the counting rule and the bipartite mechanism)
+- [PROOF_PALINDROME_TWO_END_COUNT.md](PROOF_PALINDROME_TWO_END_COUNT.md) (F158 §(e): an invertible operator that commutes with H and anticommutes with every jump reflects L to −L† − 2σ, and the spectrum pairs about −σ)
+- [The palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md) (a lit Pauli string commuting with H is such an operator)
+- [F111](PROOF_F111_HARD_CELL_PURE_D_TEMPLATE.md) (Aspect B at k = N = 4, derived there inside the diagonal cell that Aspect A leaves)
+- [F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md), [F109](PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md) (the two purity statements beside this one)
 
 ## Abstract
 
-F107 and F109 closed the two clean purity statements of the F87 trichotomy on the y-parity axis: truly is always y-parity zero, mother-soft is always y-parity one. The third class, F87-hard, is where things get more interesting. F110 maps out three aspects of its structure.
+F107 and F109 closed the two clean purity statements of the F87 trichotomy on the y-parity axis: truly is always y-parity zero, and a mother-soft pair of one y-parity is always y-parity one. The third class, F87-hard, is where things get more interesting. F110 maps out three aspects of its structure.
 
-The first aspect is the cleanest. F87-hard Pauli pairs appear only in one specific Klein cell per dephase letter, the cell whose Klein index matches the dephase letter itself: Z-hardness lives in Klein (0,1), X-hardness in Klein (1,0), Y-hardness in Klein (1,1). This is closed-form, a direct corollary of F108 (Π²-even bilinears never produce hardness) plus F107 (truly is purity-zero) plus F109 (mother soft is purity-one) plus the F87 dissipator-resonance law that selects the diagonal cell from among the remaining candidates.
+The first aspect is the cleanest. F87-hard Pauli pairs whose two terms share a Klein cell appear only in one specific cell per dephase letter, the cell whose Klein index matches the dephase letter itself: Z-hardness lives in Klein (0,1), X-hardness in Klein (1,0), Y-hardness in Klein (1,1). This holds at every body count, every coupling and every per-site rate, because each of the other three cells is coloured: some letter string that anticommutes with every jump commutes with every string of the cell, and by F158 that makes the spectrum palindromic. Only the diagonal cell's strings anticommute with both such letter strings.
 
 The second aspect is the Y-inversion observation. Within each diagonal hard cell, the dominant y-parity equals the y-parity of the dephase letter. For Z- and X-dephasing the diagonal is dominantly y-parity zero (matching Z and X both being y-parity-zero letters); for Y-dephasing the diagonal flips to dominantly y-parity one (matching Y being a y-parity-one letter). At k = N = 4 this dominance is bit-exactly pure (228:0 split per cell), closed-form via the sibling Pure-D Template Rule (F111). At k = 3 the dominance is derived by the F103 §6 counting rule (the 42:8 split).
 
-The third aspect is the k-dependent sharpening. At k = 3 the hard cells split 42:8 with the dominant y-parity carrying 84% of the weight; at k = 4 the same cells go fully pure (100% on the dominant side). The pattern is a sharpening, not a re-shaping. The exact 42:8 ratio at k = 3 is derived (2026-05-29) by the diagonal-cell hardness rule, [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6; the atomic sub-rules remain verified-not-yet-palindrome-proven.
+The third aspect is the k-dependent sharpening. At k = 3 the hard cells split 42:8 with the dominant y-parity carrying 84% of the weight; at k = 4 the same cells go fully pure (100% on the dominant side). The pattern is a sharpening, not a re-shaping. The exact 42:8 ratio at k = 3 is derived (2026-05-29) by the diagonal-cell hardness rule, [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) §6, whose hard direction is the windowed all-γ converse (§3).
 
-The diagnostic upshot is that y-parity completes the F87 trichotomy classification: truly = y-parity-zero, mother-soft = y-parity-one, hard-on-diagonal = y-parity-of-the-dephase-letter (dominantly at k=3, purely at k=N=4). Outside the diagonal cell, hardness simply does not occur. The cube has full structure.
+The diagnostic upshot is that y-parity reads the truly pairs, the Mother cell's soft pairs and the hard pairs: truly = y-parity-zero, mother-soft of one y-parity = y-parity-one, hard-on-diagonal = y-parity-of-the-dephase-letter (dominantly at k=3, purely at k=N=4); the soft pairs of the other cells are F103's (§3.3, §8). Outside the diagonal cell, hardness does not occur for pairs whose terms share a Klein cell.
 
 ## 1. Statement
 
-**Aspect A (closed-form):** For any dephase letter D ∈ {Z, X, Y}, F87-hard Pauli pairs appear only in the diagonal Klein cell, the cell whose Klein index matches the dephase letter's own Klein index: Z → (0, 1), X → (1, 0), Y → (1, 1).
+**Aspect A (closed-form):** For any dephase letter D ∈ {Z, X, Y}, F87-hard Klein-homogeneous Pauli pairs (both terms in one Klein cell, as in the F103/F105/F106 enumerations) appear only in the diagonal Klein cell, the cell whose Klein index matches the dephase letter's own Klein index: Z → (0, 1), X → (1, 0), Y → (1, 1).
 
 **Aspect B (Y-inversion, derived):** Within each diagonal hard cell, the dominant y_par equals y_par(dephase letter). Concretely:
 - Z-deph + Klein (0, 1) hard: dominantly y_par = 0
@@ -37,27 +36,18 @@ The diagnostic upshot is that y-parity completes the F87 trichotomy classificati
 - k = 3, N = 5 (F105 anchor): identical 42:8 (N-stable from N = 4 per F103 §6; F85's own N-stability is the per-term Π²-class, a different cut of the word, see `experiments/SOFTNESS_IS_N_DEPENDENT.md`)
 - k = 4, N = 4 (F106 anchor): 228:0 fully pure with Y-inversion preserved
 
-## 2. Proof of Aspect A (closed-form)
+## 2. Proof of Aspect A
 
-Partition all 4 Klein cells into three classes per dephase letter D:
+Every string has a Klein letter K, the product of its letters up to phase: I for (0, 0), X for (1, 0), Z for (0, 1), Y for (1, 1). A string commutes with X^⊗N when bit_b = 0, with Z^⊗N when bit_a = 0 and with Y^⊗N when bit_a = bit_b, so a string of Klein letter K ≠ I commutes with K^⊗N and anticommutes with the other two letter strings, and a string of Klein letter I commutes with all three. Under dephasing by the letter D, a letter string a^⊗N anticommutes with every jump D_l exactly when a ∉ {I, D}: the two lit letters.
 
-(i) **Π²-D-even cells.** Per F108 Part 1 (D = Z), Part 2 (D = X), Part 3 (D = Y), every Π²-D-even Hamiltonian admits an EXACT operator-level palindrome via the matching Π_5bilinear variant. Hence spec(L) is palindromic in these cells, hence no pair in a Π²-D-even cell can be F87-hard.
+- **K ∉ {I, D}**, the two off-diagonal cells: K itself is lit, and K^⊗N commutes with every string of the cell.
+- **K = I**, the Mother sector: its strings commute with both lit letter strings.
 
-For each D, the Π²-D-even cells are:
-- D = Z: Klein (0, 0) and (1, 0) (both have bit_b = 0)
-- D = X: Klein (0, 0) and (0, 1) (both have bit_a = 0)
-- D = Y: Klein (0, 0) and (1, 0) (both have bit_b = 0; same as Z since Y and Z share bit_b parity per `PiOperator.SquaredEigenvalue`)
+In these three cells a lit letter string F commutes with every Hamiltonian H of the cell and anticommutes with every jump. Right multiplication ρ ↦ ρ·F then keeps −i[H, ·] and reflects the dissipator, R·L·R⁻¹ = −L† − 2σ ([F109](PROOF_F109_MOTHER_SOFT_Y_PARITY_ONE_PURITY.md) Step 5 writes the two lines out), and by the sufficiency step of [F158](PROOF_PALINDROME_TWO_END_COUNT.md) §(e) and hermiticity preservation the spectrum pairs about −σ, for every coupling and every per-site rate. No pair of these cells is F87-hard. This is the colouring of [the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md); in the two off-diagonal cells it completes to the operator identity W·L·W⁻¹ = −L − 2σ with W(ρ) = D^⊗N·ρ·K^⊗N·D^⊗N ([F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)).
 
-(ii) **Mother sector Klein (0, 0).** Per F107 (truly y_par = 0) + F109 (mother soft y_par = 1), Klein (0, 0) under each dephase letter contains only truly + soft classifications, never hard. (Klein (0, 0) is also Π²-D-even for all three D, so this is subsumed by (i) but documented separately because F109's structural derivation is independent of F108.)
+- **K = D**, the diagonal cell: its strings anticommute with both lit letter strings, and no letter string colours it. This is where hard pairs occur (§3).
 
-(iii) **The remaining Π²-D-odd non-mother cells.** After (i) + (ii), the remaining-as-possibly-hard cells per dephase D are TWO: the Π²-D-odd non-mother cells (the two Klein cells whose Π²-D parity is odd; the mother (0,0) is even and already removed by (i)/(ii)).
-- D = Z: {(0, 1), (1, 1)}  (Π²-Z-odd means bit_b = 1)
-- D = X: {(1, 0), (1, 1)}  (Π²-X-odd means bit_a = 1)
-- D = Y: {(0, 1), (1, 1)}  (Π²-Y-odd means bit_b = 1, same axis as Z)
-
-(iv) **F87 dissipator-resonance selects one cell.** The F87 dissipator-resonance law (separately Tier1Derived, encoded in `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`, anchored at N = 4 k = 3 over 294 pairs) selects ONE of the two remaining cells per dephase: Z → (0, 1), X → (1, 0), Y → (1, 1). Combining (i) + (ii) + (iv) gives Aspect A: hard appears only in the diagonal Klein cell.
-
-Aspect A is derived as a corollary of F108 Part 1+2+3 + F107 + F109 + F87 dissipator-resonance law. ∎
+So hard Klein-homogeneous pairs appear only in the diagonal Klein cell: Z → (0, 1), X → (1, 0), Y → (1, 1). Of the three coloured cells, the Mother sector and the cell of the canonical mirror's flip letter are the Π²-D-even ones (Π_D² is the turn by that letter string), and the third is Π²-D-odd (in [F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) the flip letter's cell is Pattern C and the third Pattern B). The F87 dissipator-resonance law (`compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`) is the census of the same statement at N = 4, k = 3: 50 hard pairs of 76 in the matched cell and none in the other three, under each letter. [`f107_f110_route_gate.py`](../../simulations/f107_f110_route_gate.py) checks the colouring identity exactly at N = 4 on random Hamiltonians of every non-diagonal cell, any body count and random per-site rates, and checks that no lit letter string colours the diagonal cell. ∎
 
 ## 3. Aspect B + C (derived via F103 §6/§7, anchored by F103/F105/F106)
 
@@ -93,13 +83,13 @@ Bit-exact verification via the `HardCellYInversionPatternEnumerationTests` SLOW_
 
 ## 5. Significance
 
-F110 completes the y_par-axis classification of the F87 trichotomy:
+F110 is the third of the y_par-axis statements on the F87 trichotomy:
 
 - **F107 (Tier1Derived):** truly classifications have y_par = 0 across all dephase letters and all Klein cells.
-- **F109 (Tier1Derived):** mother sector Klein (0, 0) soft classifications have y_par = 1 across all dephase letters.
-- **F110 (THIS PROOF; Tier1Derived since 2026-06-10):** F87-hard classifications appear only in the diagonal Klein cell, with dominant y_par equal to the dephase letter's own y_par (Y-inversion).
+- **F109 (Tier1Derived):** mother sector Klein (0, 0) soft pairs of one y-parity have y_par = 1 across all dephase letters.
+- **F110 (THIS PROOF; Tier1Derived since 2026-06-10):** F87-hard Klein-homogeneous pairs appear only in the diagonal Klein cell, with dominant y_par equal to the dephase letter's own y_par (Y-inversion).
 
-Together F107 + F109 + F110 characterize the dominant y_par signature of every F87 trichotomy class. The gates have since closed: F111 subclaim (d) Mixed+Mixed = soft closed modulo M via PROOF_F103 §7.4 (2026-05-30), and the hard-direction converse closed 2026-06-10 (WindowedConverseAllGammaClaim, Pascal-Gram positivity F117, no residual); both F110 and F111 are Tier1Derived since 2026-06-10.
+Together F107 + F109 + F110 give the y_par signature of the truly pairs, the Mother cell's soft pairs and the hard pairs; the soft pairs of the other cells are F103's (§3.3, §8). F111 subclaim (d) Mixed+Mixed = soft is closed modulo M via PROOF_F103 §7.4, and the hard-direction converse is the windowed all-γ theorem (WindowedConverseAllGammaClaim, Pascal-Gram positivity F117, no residual); both F110 and F111 are Tier1Derived.
 
 ## 6. Open
 

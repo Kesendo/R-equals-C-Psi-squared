@@ -11,7 +11,7 @@ give asymmetry = 0 at N=3). This verifier upgrades it to a derived statement in 
       all three trichotomy classes. The two functionals never co-vary because one is
       identically zero where the other lives.
   (b) MECHANISM SEPARATION. For bit_b-odd H (X^(x)N H X^(x)N = -H; covers the diagonal Klein
-      cell that hosts every F87-hard pair, F110) the dagger involution IS the windowed
+      cell that hosts every F87-hard Klein-homogeneous pair, F110) the dagger involution IS the windowed
       converse's first reflection: M^dag = Fcal M Fcal with Fcal = X^(x)N (x) X^(x)N, diff
       0.00e+00. F112's functional exhausts that dagger structure at DEGREE 2 (Frobenius norms
       of Pi-eigenprojections, Step 5 of PROOF_F112); the F87 hardness decision lives in the

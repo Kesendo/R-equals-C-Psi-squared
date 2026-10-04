@@ -8,19 +8,13 @@ namespace RCPsiSquared.Runtime.PolarityArchitecture;
 /// (F110, 7th YParity-axis Claim). Standalone Claim: no ctor parents in this
 /// registration extension.
 ///
-/// <para><b>Layer-boundary note on the F87 dissipator-resonance typed parent
-/// edge</b>: F110's Aspect A derivation depends on `DissipatorResonanceLaw`
-/// (Tier1Derived, in `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`)
-/// as a structural input. The parent edge is NOT wired here because
-/// `RCPsiSquared.Runtime` does not reference `RCPsiSquared.Diagnostics` (per the
-/// PolarityCubeMap architectural boundary). Moving this Registration to
-/// `RCPsiSquared.Diagnostics` would let us add `b.Get&lt;DissipatorResonanceLaw&gt;()`
-/// as a typed parent edge, mirroring the
-/// `DissipatorAxisSelectsPolarityClaim` pattern (see
-/// `F87FamilyRegistration.cs:47-52`). Deferred as a separate Schicht-relocation
-/// pass; the proof and Claim docstring cite DissipatorResonanceLaw explicitly so
-/// the dependency is recorded even though the inheritance-graph edge is
-/// untyped.</para></summary>
+/// <para><b>Layer-boundary note on the F87 dissipator-resonance law</b>:
+/// `DissipatorResonanceLaw` (in `compute/RCPsiSquared.Diagnostics/F87/DissipatorResonanceLaw.cs`)
+/// is the N = 4, k = 3 census of F110's Aspect A, not an input to it: Aspect A rests on
+/// the colouring of the three non-diagonal Klein cells (PROOF_F110 §2), so no parent
+/// edge to the census is called for. <c>RCPsiSquared.Runtime</c> does not reference
+/// <c>RCPsiSquared.Diagnostics</c> in any case (per the PolarityCubeMap architectural
+/// boundary).</para></summary>
 public static class HardCellYInversionPatternRegistration
 {
     public static ClaimRegistryBuilder RegisterHardCellYInversionPattern(

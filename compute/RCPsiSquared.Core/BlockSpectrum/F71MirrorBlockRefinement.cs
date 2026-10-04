@@ -264,7 +264,8 @@ public sealed class F71MirrorBlockRefinement : Claim
     /// (p_c, p_r) ↦ (N − p_r, p_c). F108 Part 1 (Z-deph) extends F1's "truly Heisenberg"
     /// scope to every Π²_Z-even bilinear via the Z-deph variant of
     /// <see cref="Pi5BilinearOperator"/>; both variants share the I↔X, Y↔Z per-letter
-    /// permutation and thus induce the same sector cycle, so the orbit-pairing primitive
+    /// permutation and induce the same sector orbits, run in opposite directions
+    /// (Π_5bilinear = Π_Z ∘ Ad_{Y^⊗N}), so the orbit-pairing primitive
     /// stays the same Π-agnostic call.
     ///
     /// <para>Only <see cref="PauliLetter.Z"/> is currently supported by the per-block builder
@@ -352,11 +353,12 @@ public sealed class F71MirrorBlockRefinement : Claim
         // under Parallel.ForEach.
         //
         // F108 generalisation (Z-deph): F108 Part 1 (Pi5BilinearOperator with dephaseLetter
-        // = Z) extends F1's conjugation identity from chain Heisenberg/XY (truly) to every
-        // Π²_Z-even bilinear H. At the builder level the gain is operator-equivalent for the
-        // popcount-conserving 2-body H this entry point can accept (all such H lie in the
-        // Π²_Z-even cell). Canonical Π (F1) and Π_5bilinear (F108 Part 1) induce the same
-        // joint-popcount sector cycle, so the same orbit-pairing call covers both readings.
+        // = Z) palindromizes every Hamiltonian of Π²_Z-even bilinears. Its popcount-conserving
+        // members are combinations of (XX+YY) and ZZ, which the canonical Π already palindromizes,
+        // and canonical Π (F1) and Π_5bilinear (F108 Part 1) induce the same joint-popcount sector
+        // orbits (in opposite directions), so the same orbit-pairing call covers both readings.
+        // The popcount contract admits more (single-site Z fields, XY − YX bonds), and the reflection is exact only where the
+        // palindrome holds sector by sector: a Z field breaks it (docs/CAUGHT_ERRORS.md, the 2026-10-04 F107-F110 route entry).
         var (primarySectorIndices, followerToPrimary) =
             F1PalindromeOrbitPairing.PartitionByPiOrbit(
                 N, baseDecomp.SectorRanges, s => (s.PCol, s.PRow), s => s.Size);

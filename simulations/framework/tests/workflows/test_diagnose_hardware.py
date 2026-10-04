@@ -205,8 +205,9 @@ def test_diagnose_hardware_structural_klein_set_no_labels():
 
 
 def test_diagnose_hardware_klein_homogeneity_predicts_soft():
-    """Klein-homogeneous Hamiltonians (all terms with same Klein index) are
-    always F77 soft or truly, never hard. Structural fact verified at k=2."""
+    """The identity-free Klein-homogeneous k=2 Hamiltonians below (all terms
+    with the same Klein index) are F77 soft or truly; with an identity leg the
+    diagonal cell holds hard pairs too (IZ + ZI is hard at N = 3)."""
     chain = fw.ChainSystem(N=3)
 
     homogeneous_cases = [

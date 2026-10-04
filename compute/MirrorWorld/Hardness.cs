@@ -17,7 +17,7 @@ namespace MirrorWorld;
 //                  letter against its canonical mirror (F107; other mirrors of the same
 //                  dissipator put part of truly at y_par = 1, F103 section 8); the mother
 //                  sector's non-truly side is all-odd, y_par = 1 (F109);
-//                  hard lives only in the dephase letter's own diagonal Klein cell, Y-inverted
+//                  hard Klein-homogeneous pairs live only in the dephase letter's own diagonal Klein cell, Y-inverted
 //                  (F110), at k=N=4 exactly on the pure-D templates (F111).
 //   the valuation -- a diagonal-cell pair's X/Y window masks, read as GF(2)[x] polynomials, decide
 //                  hardness in ONE SUBTRACTION: hard iff the (1+x)-adic valuations differ (F115).
@@ -89,8 +89,9 @@ public sealed class Hardness : GameObject
         return ((nx + ny) % 2, (ny + nz) % 2, ny % 2);
     }
 
-    // the per-dephase truly criteria (F107): Pi^2-even AND dissipator-commuting collapses to two
-    // letter parities, and all three contain "#Y even" -- truly forces y_par = 0.
+    // the per-dephase truly criteria (F107): the two letters other than the canonical mirror's flip
+    // letter (X for Z and Y, Z for X) occur an even number of times, and all three contain
+    // "#Y even" -- truly forces y_par = 0.
     public static bool Truly(char[] letters, char dephase)
     {
         int nx = letters.Count(c => c == 'X'), ny = letters.Count(c => c == 'Y'), nz = letters.Count(c => c == 'Z');
@@ -103,7 +104,7 @@ public sealed class Hardness : GameObject
         };
     }
 
-    // hard pairs live only in the dephase letter's OWN Klein cell (F110): Z -> (0,1), X -> (1,0),
+    // hard Klein-homogeneous pairs live only in the dephase letter's OWN Klein cell (F110): Z -> (0,1), X -> (1,0),
     // Y -> (1,1) -- the cell of the letter itself.
     public static (int A, int B) DiagonalCell(char dephase)
     {
