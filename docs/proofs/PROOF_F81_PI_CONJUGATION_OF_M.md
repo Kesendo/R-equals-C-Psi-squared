@@ -88,7 +88,7 @@ For the Z-dephasing dissipator L_diss = Σ_l γ_l (Z_l · ρ · Z_l − ρ), the
 
     Π² · L_diss · Π⁻² = L_diss.
 
-(For non-Z dissipators, this step changes; F81 in its current form is Z-dephasing-specific.)
+(Any dissipator diagonal in the Pauli basis, every Pauli channel included, passes this step unchanged. For the others it changes by their Π²-odd part, which [the F82 proof](PROOF_F82_T1_DISSIPATOR_CORRECTION.md#other-dissipators) reads off the jump.)
 
 ### Step 5: Combining to get the F81 identity
 
@@ -170,6 +170,6 @@ Companion to F80: F80 states what Spec(M) is (= ±2i · Spec(H_non-truly)). F81 
 **Hardware confirmation.** F81's operational upshot, the [F83](../ANALYTICAL_FORMULAS.md) anti-fraction ‖M_anti‖²/‖M‖² that this decomposition makes readable, was confirmed on IBM Heron r2. The four-Hamiltonian Π²-class discriminator (XX+YY truly; XY+YX pure Π²-odd, anti = 1/2; YZ+ZY Π²-even non-truly, anti = 0; XY+YZ mixed, anti = 1/6) separates all four classes at >>10σ through unique-fingerprint Pauli observables, on Marrakesh (2026-04-30, job d7pol1e7g7gs73cf7j90, path [4,5,6]) and reproduced on Kingston (2026-05-05, path [43,56,63]). M itself is a 4ᴺ superoperator and is not directly measurable; the hardware reads the per-class operator-level fingerprints that the M_sym / M_anti split predicts. Data in [`data/ibm_f83_signature_april2026/`](../../data/ibm_f83_signature_april2026/) and [`data/ibm_soft_break_april2026/`](../../data/ibm_soft_break_april2026/); registry entry `fw.Confirmations.lookup('f83_pi2_class_signature_marrakesh')`; experiment `run_soft_break.py` (external AIEvolution pipeline).
 
 **Generalizations (proven downstream):**
-- Non-Z dissipators: [the F82 T1 dissipator correction](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) + [the F84 amplitude-damping proof](PROOF_F84_AMPLITUDE_DAMPING.md) extend the identity to `Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{AmplDamp,odd}`, with `f81_violation = ‖D_{AmplDamp,odd}‖ = |Δγ|_RMS·√N·2^(N−1)`. Pure X/Y (and Z) dephasing are Π²-symmetric and contribute exactly zero; only σ⁻/σ⁺ (T1 / thermal) channels correct F81.
+- Non-Z dissipators: [the F82 T1 dissipator correction](PROOF_F82_T1_DISSIPATOR_CORRECTION.md) + [the F84 amplitude-damping proof](PROOF_F84_AMPLITUDE_DAMPING.md) extend the identity to `Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{AmplDamp,odd}`, with `f81_violation = ‖D_{AmplDamp,odd}‖ = |Δγ|_RMS·√N·2^(N−1)`. Pure X/Y (and Z) dephasing are Π²-symmetric and contribute exactly zero; what corrects F81 is a dissipator with a Π²-odd part, which a single traceless jump has exactly when its Pauli components mix bit_b parity ([the F82 proof's section on other dissipators](PROOF_F82_T1_DISSIPATOR_CORRECTION.md#other-dissipators)); σ⁻/σ⁺ (T1 / thermal) are the case F82 and F84 treat, and at equal rates they cancel.
 - Higher-body Hamiltonians: [the F85 k-body generalization](PROOF_F85_KBODY_GENERALIZATION.md) carries the Π²-parity classification and the identity verbatim to k-body chain terms.
 - One level deeper: [F112](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) splits M_anti further into the Π +i/−i polarity quadrants, with the Hermitian-H balance ‖M_+½‖² = ‖M_−½‖² (see [the polarity coordinates reflection](../../reflections/POLARITY_COORDINATES.md)).

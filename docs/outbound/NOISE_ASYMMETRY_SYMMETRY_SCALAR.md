@@ -131,7 +131,7 @@ has five properties, each a theorem, not a fit
 1. **Exactly zero for every Pauli channel and mixture:** X-, Y-, Z-dephasing,
    depolarizing, and correlated Pauli-string noise (including
    always-on-ZZ-induced correlated dephasing) all contribute 0, identically.
-   (Not every *unital* channel; the boundary is the Pauli axis, Section 6.)
+   (Not every *unital* channel; Section 6.)
 2. **Hamiltonian-independent:** coherent terms are subtracted exactly; drive
    and crosstalk Hamiltonians do not enter.
 3. **Dephasing-rate-independent:** T2 content, of any strength and spatial
@@ -310,10 +310,11 @@ informative, and the test costs one extra prepared-ground relaxation curve.
   takes off a sweet spot), is unital yet contributes √2·γ to V at N = 1,
   with zero identity-state velocity (pinned in the repository's test suite).
   On a free-form fit, V therefore certifies departure from the Pauli + σ±
-  model class along the odd sector; it equals the net-flux closed form
-  within that class, and after twirling by the **diagonal (Z-string)
-  subgroup**, which removes non-Pauli-axis odd content while preserving the
-  net flux. (A full Pauli twirl instead removes the flux itself: V = 0.)
+  model class along the odd sector, and it equals the net-flux closed form
+  within that class. A twirl by the **diagonal (Z-string) subgroup** removes
+  the odd content of a tilt toward Z while preserving the net flux, but not
+  that of a tilt within the X–Y plane, which mixes the way the flux does.
+  (A full Pauli twirl instead removes the flux itself: V = 0.)
 - The hardware record is **two devices, one day, three qubits each**, with a
   same-day simulator validation of the instrument; it demonstrates the
   protocol and the bias, not device statistics.

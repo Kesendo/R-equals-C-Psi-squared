@@ -3,8 +3,8 @@
 For pure Z-dephasing, the F81 identity Π·M·Π⁻¹ = M − 2·L_{H_odd} holds
 exactly (violation ‖M_anti − L_{H_odd}‖_F = 0). For T1 amplitude damping
 the dissipator is no longer Π²-symmetric, and the violation grows linearly
-with γ_T1. This makes the F81 violation a quantitative read-out for
-non-Z noise content.
+with γ_T1. This makes the F81 violation a quantitative read-out for the
+dissipator's Π²-odd content (Pauli channels, X- and Y-noise included, have none).
 
 Usage on hardware data: fit a noise model (γ_z, γ_T1, etc.) to ⟨P⟩(t)
 measurements, then compute the F81 violation of the fitted Lindblad. Zero
@@ -123,8 +123,8 @@ def main():
 
   At N=3 chain soft XY+YX, the linear coefficient is ≈ 6.93. For a
   measured/fitted L on hardware, computing the F81 violation gives a direct
-  read-out of how much non-Z noise the model carries, independent of whether
-  the noise model includes T1 explicitly.
+  read-out of the Π²-odd noise content the model carries,
+  independent of whether the noise model includes T1 explicitly.
 
   Application to the Marrakesh dataset: optimal fit γ_T1 ≈ 0 implies F81
   violation ≈ 0. Pure Z-dephasing is sufficient. The hardening Δ_hw vs

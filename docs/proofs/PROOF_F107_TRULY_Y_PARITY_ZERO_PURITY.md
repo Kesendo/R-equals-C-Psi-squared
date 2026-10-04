@@ -15,9 +15,9 @@
 
 F102 surfaced y-parity as a real third axis of the polarity cube. F103, F105, F106 then mapped out empirically how the F87 trichotomy splits along that axis, and one pattern stood out clearly across every anchor: F87-truly classifications always land on y-parity zero, never y-parity one. The question is whether this purity is an accident of the specific (N, k) regimes tested, or a structural truth that survives at any chain length and any body count under any of the three dephase letters.
 
-The answer is the structural one. Under each of the three dephase letters, the F87-truly criterion forces y-parity to vanish: every truly Pauli term has an even number of Y letters, full stop. The proof imports F85's structural Z-dephasing truly criterion (a Pauli term contributes M=0 iff it has #Y and #Z both even) and transports it to the X- and Y-dephasing cases via the Π letter-cycle permutations that F108 establishes. All three criteria include "#Y even" as a sub-condition; the rest is bookkeeping.
+The answer is the structural one. Under each of the three dephase letters, the F87-truly criterion forces y-parity to vanish: every truly Pauli term has an even number of Y letters. The proof imports F85's structural Z-dephasing truly criterion (a Pauli term contributes M=0 iff it has #Y and #Z both even) and transports it to the X- and Y-dephasing cases via the Π letter-cycle permutations that F108 establishes. All three criteria include "#Y even" as a sub-condition; the rest is bookkeeping. The criteria are those of the canonical palindromizers, their letters (X or Z) and their phases together. Against other palindromizers of the same dissipator truly strings can carry y-parity one: the quarter-turned mirror of Z- or X-dephasing flips by Y and asks for #X and #Z even, which puts the truly strings of the Y cell at y-parity one, and F108 Part 1's Π_5bilinear keeps the letter X with other phases and puts those of the X cell there ([F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)).
 
-The diagnostic upshot is that y-parity zero is universal in F87-truly classification. A measured truly-class Pauli pair that carries y-parity one would be either a hardware bug, a non-standard dephase channel, or evidence of a missing classification axis that the polarity cube does not yet capture. The 4524 empirically observed truly classifications across F103+F105+F106 all sit on y-parity zero, which is what F107 closes by closed-form.
+The diagnostic upshot is that y-parity zero is universal in F87-truly classification, which is defined against the canonical palindromizers. A measured truly-class Pauli pair that carries y-parity one would be either a hardware bug, a non-standard dephase channel, a palindromizer other than the canonical one, or evidence of a missing classification axis that the polarity cube does not yet capture. The 4524 empirically observed truly classifications across F103+F105+F106 all sit on y-parity zero, which is what F107 closes by closed-form.
 
 The companion proof F109 closes the other purity statement of the trichotomy: mother soft is y-parity one. F110 explores the harder cells (which are not purity-classified but instead carry an inversion pattern). Together F107 + F109 + F110 + F111 give the full y-parity-axis classification of the F87 trichotomy.
 
@@ -77,7 +77,7 @@ A Klein-homogeneous + y_par-homogeneous pair (term1, term2) has shared y_par val
 |--------|----------------------------------|-------------|----------------|
 | F103 (N=4 k=3) | 6 of 12 (Klein × dephase) | 300 | 0 |
 | F105 (N=5 k=3) | 6 of 12 (Klein × dephase) | 300 | 0 |
-| F106 (N=4 k=4) | 9 of 12 (Klein × dephase) | 3924 | 0 |
+| F106 (N=4 k=4) | 6 of 12 (Klein × dephase) | 3924 | 0 |
 
 Total: 4524 truly classifications observed across the three F103/F105/F106 anchor regimes (each regime is a specific (N, k) point); zero have y_par=1. F107 explains this bit-exactly as a closed-form corollary.
 

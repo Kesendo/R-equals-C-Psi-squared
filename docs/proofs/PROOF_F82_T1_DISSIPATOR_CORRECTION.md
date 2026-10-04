@@ -16,7 +16,7 @@ This proof writes the closed form. The F81 identity gets corrected by a single a
 
 The mechanism is structural. T1 is implemented via the lowering operator σ⁻, which has one foot in the bit_b = 0 sector (the X component) and one foot in the bit_b = 1 sector (the Y component). The dissipator built from σ⁻ therefore carries content in both Π² sectors, and the Π²-antisymmetric piece is what survives the F81 decomposition as a non-Hamiltonian source. By contrast, pure Pauli-channel dissipators (Z, X, or Y dephasing, depolarizing) sit cleanly in the Π²-symmetric sector and contribute zero to f81_violation.
 
-The diagnostic upshot is sharp. F81's identity is exact for pure Z-dephasing, exact for pure Pauli-channel dissipators (Z, X, Y, depolarizing per F84's generalization), and gets ONE specific correction term when T1 amplitude damping is added. A measured `f81_violation` therefore reads off the T1 amplitude-damping component of a noise process, independent of the Hamiltonian and independent of the Z-dephasing rate. F82 turns F81 into a working hardware-noise diagnostic for population-inverting channels.
+The diagnostic upshot is sharp. F81's identity is exact for pure Z-dephasing, exact for pure Pauli-channel dissipators (Z, X, Y, depolarizing per F84's generalization), and gets ONE specific correction term when T1 amplitude damping is added. A measured `f81_violation` therefore reads off the T1 amplitude-damping component of a noise process made of amplitude damping and Pauli channels (other jumps can add odd content of their own; see Other dissipators), independent of the Hamiltonian and independent of the Z-dephasing rate. F82 turns F81 into a working hardware-noise diagnostic for population-inverting channels.
 
 **Statement (Theorem F82):** For any 2-bilinear Hamiltonian H = H_even + H_odd under Z-dephasing plus T1 amplitude damping,
 
@@ -167,10 +167,31 @@ For the Marrakesh dataset (N=3, joint fit converges to γ_T1 ≈ 0): F82 predict
 
 ---
 
+## Other dissipators
+
+Step 1's identity holds for any dissipator, so what remains is to say which part of a given dissipator is Π²-odd. It can be read off the jump operator. Write a jump as a sum of Pauli strings, J = Σ_i c_i P_i. Then
+
+    D[J](ρ) = Σ_{i,j} c_i c̄_j · (P_i ρ P_j† − ½{P_j† P_i, ρ}),
+
+and the (i, j) term sends a string σ_α to multiples of P_i σ_α P_j†, P_j†P_i σ_α and σ_α P_j†P_i. Each of these carries bit_b(α) + bit_b(P_i) + bit_b(P_j) mod 2, and Π² is the sign (−1)^bit_b, so
+
+    D_odd[J] = the sum of the (i, j) terms with bit_b(P_i) ≠ bit_b(P_j).
+
+The sandwich and the anticommutator of a pair belong together: for T1, each of them alone moves I to Z and Z to I, and only their sum is Step 3's single (Z, I) entry. Four readings follow.
+
+1. **A single Pauli string has no odd part.** Then only i = j occurs. X-, Y- and Z-noise, two-qubit ZZ-dephasing, any Pauli string, and every mixture of them (depolarizing, Pauli-twirled noise) have D_odd = 0 and leave f81_violation at exactly zero. This is what this proof's abstract says and what [the F84 proof's Pauli-string scope](PROOF_F84_AMPLITUDE_DAMPING.md) proves; the rule above is the other side of it.
+2. **The odd part is where a jump mixes parities, Hermitian or not.** σ⁻ = (X + iY)/2 pairs X (bit_b = 0) with Y (bit_b = 1), and those cross terms are T1's whole odd part. A dephasing axis mixes the same way when it has an X component and a Y or Z component: c = (X + Z)/√2 is Hermitian and unital, and its X/Z cross terms are the √2·γ that the F84 proof pins at N = 1 (√2·γ·2^(N−1) on one site of N), while (Y + Z)/√2 pairs two letters of bit_b 1 and has no odd part although it is no Pauli axis either. The pair-decay jump σ⁻⊗σ⁻ = ¼(XX + iXY + iYX − YY), which the F84 proof calls correlated decay (collective emission σ⁻₁ + σ⁻₂ is a different jump), pairs {XX, YY} with {XY, YX}; every odd entry it has is a one-site I ↔ Z move, and counting them (at N = 2 four of size γ/2 and eight of size γ/4) gives ‖D_odd‖²_F = (3/2)·γ²·4^(N−2) for one such jump on one pair of sites. No list of channel names draws this line: decay in the x basis, (Z − iY)/2, has no odd part, and relaxation toward a y eigenstate, (Z + iX)/2, has one. For a single jump without an identity component, odd pairs present means odd part present: the sandwich terms of different pairs are independent superoperators, and the anticommutator terms, which carry an identity leg, cannot cancel them either.
+3. **Odd parts belong to jumps and can cancel between them.** σ⁻ and σ⁺ at equal rates, or the pair {X + Y, X − Y}, carry odd parts of opposite sign that sum to zero; the F84 proof's |γ↓ − γ↑| is this cancellation.
+4. **An identity component adds a commutator, not decay.** An (I, P) pair contributes i·Im(c_P c̄_I)·[P, ·], which vanishes for real coefficients.
+
+The same rule holds for the other two turns of [the three turns](PROOF_BIT_B_PARITY_SYMMETRY.md#the-three-turns), with the count of letters that anticommute with Y or with Z in place of bit_b; that section's statement that jumps built from strings of one parity keep a turn is the case in which no odd pair exists. In [F112's](PROOF_F112_LINDBLAD_BIT_B_PI_BALANCE.md) terms, D_odd is the dissipator's ±i content under Π-conjugation, and F112's bit_b-homogeneous collapse operators are again the jumps without an odd pair.
+
+What the repo already held, from a sweep of the registry, the proofs, the experiments, the outbound documents, the OpenArcs registry, the caught-errors ledger, the glossary, fw.Confirmations, the Core claims, the Diagnostics witnesses and the simulation scripts. The Pauli-channel half stood in this proof's abstract, the F84 scope note, the three turns and F112's Step 2. The criterion for a single traceless jump stood in full in the F61 claim's letter rule (it breaks a parity iff its Pauli components are inhomogeneous in that bit). The tilted axis's √2·γ stood pinned in the F84 tests and in the bridge experiment, the outbound noise-asymmetry note and the OpenArcs arc on outbound label adapters, the last two also with σ⁺⊗σ⁺ writing the same odd cells as σ⁻⊗σ⁻. The pair-decay number stood in [`2qubit_dissipator_exploration.py`](../../simulations/2qubit_dissipator_exploration.py) as γ²·6·4^(N−3), for σ⁻⊗σ⁻ and its three siblings, beside detailed balance and the non-additivity over overlapping pairs; this section's count gives the same number. fw.Confirmations holds nothing on it. New here: the cross-term form of the odd part, the two pieces of T1, and the axes of the Y–Z plane as the non-Pauli axes with no odd part. Adjacent and not citing this proof: [the F113 coefficient derivation](PROOF_F113_COEFFICIENT_DERIVATION.md) rebuilds Step 3's (Z, I) entry on its own.
+
+All of this is checked exactly, with integer and Gaussian-integer data and no tolerance, by [`f82_dissipator_odd_part_gate.py`](../../simulations/f82_dissipator_odd_part_gate.py): every single-string jump at N = 3 under each of the three turns, 60 random string sums per turn, T1's closed form at N = 2 to 4, the sandwich and anticommutator pieces of T1 separately, single jumps on both sides of the line (X + Z, X + Y and (Z + iX)/2 register; Y + Z, I + Z, (I − Z)/2 and (Z − iY)/2 do not; σ⁻ and σ⁺ register one by one and cancel as a pair), the tilted axis on one site of N = 2 and 3, pair decay σ⁻⊗σ⁻ and σ⁺⊗σ⁺ at N = 2 to 4, and F81's identity under X-noise, Y-noise, ZZ-dephasing and depolarizing.
+
 ## Open generalizations
 
-1. **Other non-Z dissipators**: X-noise, Y-noise, two-qubit ZZ-dephasing. Each has its own D_odd structure; the diagnostic principle (f81_violation = ‖D_diss_odd‖) generalizes; the closed form for ‖D_diss_odd‖ depends on the specific dissipator.
+1. **Mixed dissipator content**: with several dissipators present, f81_violation = ‖D_total_odd‖, the sum of the per-jump odd parts above. Pauli channels add nothing to it, so it sees only parity-mixing jumps; telling those apart (decay against a tilted axis, say) requires additional probes (different observables or different times).
 
-2. **Mixed dissipator content**: with multiple non-Z dissipators present, f81_violation = ‖D_total_odd‖ where D_total_odd is the Π²-anti-symmetric part of the full dissipator sum. Distinguishing channels requires additional probes (different observables or different times).
-
-3. **F82 on hardware data via process tomography**: extracting L from measured ρ(t) via process tomography would let us evaluate f81_violation directly on hardware, providing a noise-channel-blind T1 readout.
+2. **F82 on hardware data via process tomography**: extracting L from measured ρ(t) via process tomography would let us evaluate f81_violation directly on hardware, providing a T1 readout blind to every Pauli channel.

@@ -101,7 +101,7 @@ Klein (1,0) Z-deph soft = ( 0, 21)
 Klein (1,0) Y-deph soft = ( 0, 21)
 ```
 
-**All 6 cells bit-exact match to F103 N=4.** The (pair Klein, dephase letter) → sub-pattern mapping is N-invariant (at k=3).
+**All 6 cells bit-exact match to F103 N=4.** The (pair Klein, dephase letter) → sub-pattern mapping is N-invariant (at k=3); the mapping itself, the mirror's letter against the third letter, is [F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md).
 
 ## 4. Full Count Tables
 

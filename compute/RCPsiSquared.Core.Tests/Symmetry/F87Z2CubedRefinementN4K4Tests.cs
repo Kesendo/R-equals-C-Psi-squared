@@ -92,9 +92,9 @@ public class F87Z2CubedRefinementN4K4Tests
     public void OffDiagonalSoftPatterns_HasExpectedCells()
     {
         // 6 off-diagonal soft cells at k=4 (Klein non-mother, Klein != dephase Klein):
-        // 3 are y_par=1-pure (0, 528) (Pattern C analog: F105 had (0, 21) at the same
-        // positions); 3 are fully y_par-symmetric (528, 528) (new pattern at k=4;
-        // F105's same positions had (55, 21)/(21, 55) asymmetric Pattern B).
+        // 3 are Pattern C, y_par=1-pure (0, 528) (F105 had (0, 21) at the same
+        // positions); 3 are Pattern B, the whole cell soft, (528, 528) because at k=4
+        // every non-mother cell holds 32 strings of each y_par (F105: (55, 21)/(21, 55)).
         var claim = new F87Z2CubedRefinementN4K4(new KleinEightCellClaim(new KleinFourCellClaim()));
         Assert.Equal(6, claim.OffDiagonalSoft.Cells.Count);
         Assert.Equal((0, 528), claim.OffDiagonalSoft.Cells[(0, 1, 'X')]);

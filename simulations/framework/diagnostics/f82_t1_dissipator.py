@@ -61,7 +61,7 @@ def estimate_T1_from_violation(chain, f81_violation):
     Returns:
         RMS γ_T1 across the N sites, as float.
 
-    Use case: hardware T1-rate readout from a noise-channel-blind L fit.
+    Use case: hardware T1-rate readout from an L fit, blind to every Pauli channel.
     For the Marrakesh dataset (joint fit gives γ_T1 ≈ 0): F82 inverse
     recovers γ_T1, RMS ≈ 0, consistent with the empirical refutation of
     the T1 amplification hypothesis.

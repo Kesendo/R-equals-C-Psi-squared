@@ -118,8 +118,9 @@ public sealed class TimeIrreversibilityExclusionWitness : IInspectable
     }
 
     /// <summary>The proof's relative cross-term R(N) = √((N−2)/(N·4^(N−1))): γ- and
-    /// topology-independent, exactly 0 at N=2 then ≈ 1.83% (N=3), 2.07% (N=4). Reported for the
-    /// narrative, not a gate.</summary>
+    /// topology-independent, exactly 0 at N=2 then 1/√48 ≈ 14.43% (N=3), 8.84% (N=4), decreasing
+    /// in N. (The 1.83% and 2.07% of the proof's other column are the cross term over ‖L_c²‖, a
+    /// different normalisation.) Reported for the narrative, not a gate.</summary>
     public static double RelativeCrossTerm(int n) => Math.Sqrt((n - 2.0) / (n * Math.Pow(4.0, n - 1)));
 
     private static string E(double v) => v.ToString("E3", Inv);

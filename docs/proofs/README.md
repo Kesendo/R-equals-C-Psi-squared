@@ -188,17 +188,18 @@ abstract and its upstream dependencies.
 
 | Proof | What it proves | Builds on |
 |-------|----------------|-----------|
-| [Cross-Term Formula (Shadow-Balanced)](PROOF_CROSS_TERM_FORMULA.md) | For any shadow-balanced bond coupling (both Paulis in {X,Y} or both in {I,Z}) on any graph with uniform Z-dephasing, the normalized anticommutator of L_H and L_D follows R(N) = √((N−2)/(N·4^(N−1))). Independent of coupling strength and topology. | Mirror Symmetry, Time Irreversibility |
+| [Cross-Term Formula (Shadow-Balanced)](PROOF_CROSS_TERM_FORMULA.md) | For any shadow-balanced bond coupling (both Paulis in {X,Y} or both Z) on any graph with uniform Z-dephasing, the normalized anticommutator of L_H and L_D follows R(N) = √((N−2)/(N·4^(N−1))). Independent of coupling strength and topology. Its section *Per-letter rates* carries the cross term to light along X, Y and Z per site (F49e): under uniform depolarizing the same R(N) holds for every two-site coupling. | Mirror Symmetry, Time Irreversibility |
 | [Cross-Term Formula (Shadow-Crossing)](PROOF_CROSS_TERM_CROSSING.md) | For shadow-crossing couplings (one Pauli in {X,Y}, one in {I,Z}), the anticommutator norm follows R(N) = √((N−1)/(N·4^(N−1))). Differs from the balanced case only by N−2 → N−1. | Cross-Term Formula (Balanced) |
+| [Cross-Term Formula (Non-Uniform γ)](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) | Per-site Z rates γ_l: a spectator part 4·Σ_b‖L_H^b‖²·Σ_{m∉b}γ_m² plus a bond-asymmetry part (γ_i − γ_j)² carried by the ZZ terms only (F49d). | Cross-Term Formula (Balanced) |
 | [c₁ Mirror Symmetry](PROOF_C1_MIRROR_SYMMETRY.md) | For a uniform N-qubit XY chain with reflection-symmetric initial state and uniform Z-dephasing, the closure-breaking coefficient satisfies c₁(N, b) = c₁(N, N−2−b). Mirror symmetry about the chain midpoint. | (independent) |
 
 ### How the catalog relates to the Reading Order
 
-Five of the ten catalog proofs extend Reading Order results directly:
+Six of the eleven catalog proofs extend Reading Order results directly:
 the Parity Selection Rule sharpens the Weight-1 Degeneracy bound into an
 exact accessibility statement; Bit-b Parity doubles the symmetry group
-the Direct-Sum decomposition works with; the two Cross-Term Formulas
-provide closed-form values for the ~2% N=3 cross term first reported in
+the Direct-Sum decomposition works with; the three Cross-Term Formulas
+provide closed-form values for the N=3 cross term first reported in
 Time Irreversibility Exclusion; and the Absorption Theorem is the
 spectral backbone that several recent experiments ([V-Effect Cavity Modes](../../experiments/VEFFECT_CAVITY_MODES.md),
 [IBM Absorption Theorem](../../experiments/IBM_ABSORPTION_THEOREM.md),

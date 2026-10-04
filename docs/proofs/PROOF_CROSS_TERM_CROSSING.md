@@ -8,8 +8,9 @@
 **Status:** Proven (all graph topologies, all shadow-crossing couplings)
 **Scope:** Any bond coupling alpha_i beta_j with one Pauli in {X,Y} and
 one in {I,Z}, on any graph, uniform Z-dephasing.
-**Does NOT establish:** Mixed Hamiltonians combining shadow-balanced and
-shadow-crossing terms in the same bond.
+**Does NOT establish:** amplitude damping. Mixed Hamiltonians, with
+shadow-balanced and shadow-crossing terms on the same bond, add term by term
+(the parent proof's section *Per-letter rates*).
 
 ---
 
@@ -121,9 +122,14 @@ QED.
 - All N >= 2
 
 ### Not covered
-- Mixed Hamiltonians (shadow-balanced + shadow-crossing terms on the
-  same bond). These may require a weighted average of the two variances.
-- Non-uniform gamma, non-Pauli noise (same limitations as parent proof).
+- Amplitude damping (the parent proof's limitation).
+
+### Covered by the parent proof
+- Mixed Hamiltonians, with shadow-balanced and shadow-crossing terms on the
+  same bond, add term by term, N − 2 for each balanced term and N − 1 for
+  each crossing one; that, non-uniform γ and light along X and Y are the
+  parent proof's section
+  [Per-letter rates](PROOF_CROSS_TERM_FORMULA.md#per-letter-rates-light-along-x-y-and-z).
 
 ---
 

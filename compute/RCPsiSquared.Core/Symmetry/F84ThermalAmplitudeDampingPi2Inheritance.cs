@@ -21,9 +21,12 @@ namespace RCPsiSquared.Core.Symmetry;
 ///
 /// <para><b>Pauli-Channel Cancellation Lemma (F84 corollary):</b> Pure D[Z],
 /// D[X], D[Y] dissipators are Π²-symmetric and contribute zero to f81
-/// violation. Only σ⁻ and σ⁺ channels are Π²-anti-symmetric. Hence f81
-/// violation specifically detects population-inverting (energy-emitting/
-/// absorbing) channels, not phase-only or bit-flip-only noise.</para>
+/// violation. Π²-anti-symmetric content needs a jump whose Pauli
+/// components mix bit_b parity, and jumps can cancel each other's; σ⁻ and σ⁺
+/// (X with Y) are the case this claim treats (PROOF_F82, "Other dissipators"). Hence,
+/// within the amplitude-damping and Pauli channels, f81 violation detects
+/// population-inverting (energy-emitting/absorbing) channels, never
+/// phase-only or bit-flip-only noise along a Pauli axis.</para>
 ///
 /// <para>Three Pi2-Foundation anchors (same as F82, plus the Δγ structure):</para>
 ///
@@ -59,7 +62,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para><b>The "f81 violation is a quantum-statistical fingerprint of
 /// zero-point fluctuations"</b> reading: thermal photon-number contributions
 /// cancel (γ_↓ ↔ γ_↑ symmetric); only the vacuum (zero-point) component
-/// breaks the Π palindrome. F84 sharpens F82's hardware-T1-readout into a
+/// reaches M_anti. F84 sharpens F82's hardware-T1-readout into a
 /// temperature-independent vacuum-rate readout.</para>
 ///
 /// <para>Tier1Derived: F84 is Tier 1 proven (PROOF_F84_AMPLITUDE_DAMPING),
@@ -67,7 +70,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// D[X]/D[Y] cancellation verification. The Pi2-Foundation anchoring is
 /// algebraic-trivial composition.</para>
 ///
-/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F84 (line 2129) +
+/// <para>Anchors: <c>docs/ANALYTICAL_FORMULAS.md</c> F84 +
 /// <c>docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/Pi2DyadicLadderClaim.cs</c> +
 /// <c>compute/RCPsiSquared.Core/Symmetry/F82T1AmplitudeDampingPi2Inheritance.cs</c>
@@ -156,8 +159,9 @@ public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim, IZ2AxisCla
         Math.Abs(AmplitudeDampingNormUniform(gamma, gamma, N)) < 1e-15;
 
     /// <summary>Pauli-Channel Cancellation Lemma: pure D[Z], D[X], D[Y]
-    /// dissipators contribute 0 to f81 violation. Only σ⁻/σ⁺ are
-    /// Π²-anti-symmetric. Pure-Pauli channels have Δγ = 0 by construction
+    /// dissipators contribute 0 to f81 violation; among the channels this
+    /// claim models, only σ⁻/σ⁺ are Π²-anti-symmetric (in general it needs a
+    /// jump mixing bit_b parity; PROOF_F82, "Other dissipators"). Pure-Pauli channels have Δγ = 0 by construction
     /// (γ_cool/γ_heat refer to σ±, not Pauli letters), so violation = 0
     /// by structure, not by formula evaluation.</summary>
     public const double PauliChannelViolation = 0.0;
@@ -202,7 +206,7 @@ public sealed class F84ThermalAmplitudeDampingPi2Inheritance : Claim, IZ2AxisCla
             yield return new InspectableNode("F82 ↔ F84 mother-corollary chain",
                 summary: "F82 is F84 at γ_↑=0 (vacuum bath); F84 adds heating channel σ⁺. Pattern parallel to F25 → F26, F75 → F76 mother-claim chains.");
             yield return new InspectableNode("Pauli-Channel Cancellation Lemma",
-                summary: "D[Z], D[X], D[Y] are all Π²-symmetric → contribute 0 to f81 violation. Only σ⁻ (cooling) and σ⁺ (heating) are Π²-anti-symmetric.");
+                summary: "D[Z], D[X], D[Y] and every Pauli-string dissipator are Π²-symmetric → contribute 0 to f81 violation. Odd content needs a jump mixing bit_b parity: σ⁻ (cooling) and σ⁺ (heating) here, cancelling at equal rates.");
             yield return new InspectableNode("Three regimes",
                 summary: "Vacuum (T=0): γ_↑=0, full F82; Detailed balance (T→∞): γ_↓=γ_↑, violation=0; Finite T: γ_↓>γ_↑>0, violation = γ_0·√N·2^(N-1) (T-independent vacuum-only)");
             yield return new InspectableNode("Thermodynamic interpretation",

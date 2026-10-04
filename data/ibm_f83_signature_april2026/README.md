@@ -79,7 +79,7 @@ contribution. The framework's F82/F84 reading predicts what kind
 of contribution to expect:
 
 - F82 closed form: ‖D_T1_odd‖_F = γ_T1 · √N · 2^(N-1). T1 amplitude damping leaks into M_anti.
-- F84: of all single-qubit Lindblad channels, only σ⁻ and σ⁺ break the Π palindrome. D[Z], D[X], D[Y] are Π²-symmetric and contribute zero. The T1 channel decomposes as σ⁻ (cooling) + σ⁺ (heating); their imbalance at T → 0 is what reaches M_anti.
+- F84: among the single-qubit amplitude-damping and Pauli channels, only σ⁻ and σ⁺ reach M_anti; in general a traceless jump does exactly when its Pauli parts mix bit_b parity (the F82 proof, "Other dissipators"). D[Z], D[X], D[Y] are Π²-symmetric and contribute zero. The T1 channel decomposes as σ⁻ (cooling) + σ⁺ (heating); their imbalance at T → 0 is what reaches M_anti.
 
 The hardware signature on truly's ⟨Z₀Z₂⟩:
 
@@ -182,7 +182,7 @@ The run-time on Marrakesh queue + execution: ~3 minutes total.
 
 - [PROOF_F83_PI_DECOMPOSITION_RATIO](../../docs/proofs/PROOF_F83_PI_DECOMPOSITION_RATIO.md): the closed-form anti-fraction.
 - [PROOF_F82_T1_DISSIPATOR_CORRECTION](../../docs/proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md): the T1-into-M_anti closed form; this run shows its qualitative operational signature on truly's ⟨Z,Z⟩.
-- [PROOF_F84_AMPLITUDE_DAMPING](../../docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md): only σ⁻/σ⁺ break the Π palindrome among single-qubit dissipators.
+- [PROOF_F84_AMPLITUDE_DAMPING](../../docs/proofs/PROOF_F84_AMPLITUDE_DAMPING.md): among the single-qubit amplitude-damping and Pauli channels, only σ⁻/σ⁺ reach M_anti.
 - [ON_THE_RESIDUAL](../../reflections/ON_THE_RESIDUAL.md): consolidating reflection on F80–F85.
 - [ibm_soft_break_april2026/](../ibm_soft_break_april2026/): the April 26 anchor run on path [48, 49, 50] that this test extends.
 - [`f83_signature_predictions.py`](../../simulations/f83_signature_predictions.py): closed-form Trotter+γ_Z=0.1 predictions per category.

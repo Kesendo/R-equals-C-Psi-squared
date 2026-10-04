@@ -164,12 +164,13 @@ def test_F81_pi_decompose_M_method():
 
 
 def test_F81_violation_T1_diagnostic():
-    """F81 violation ‖M_anti − L_{H_odd}‖_F as a non-Z-dissipator diagnostic.
+    """F81 violation ‖M_anti − L_{H_odd}‖_F as a diagnostic for the dissipator's Π²-odd part.
 
     For pure Z-dephasing the F81 identity holds exactly (violation ≈ 0). For
     T1 amplitude damping the dissipator is no longer Π²-symmetric and the
     violation grows linearly with γ_T1. This makes the violation a
-    quantitative diagnostic for non-Z noise content on real hardware.
+    quantitative diagnostic for the dissipator's Π²-odd content on real hardware
+    (every Pauli channel, X- and Y-noise included, has none).
     """
     chain = fw.ChainSystem(N=3)
     soft_terms = [('X', 'Y'), ('Y', 'X')]

@@ -92,7 +92,7 @@ Restrict to a single bond term `H_b` acting on bond sites (i, j) := (i_b, j_b). 
 where A := ε_i(α) + ε_i(β) and B := ε_j(α) + ε_j(β). Each of A, B ∈ {−2, 0, +2}.
 
 **Bond-sum rule (Π²-class refinement of F49 Lemma 2):** For every nonzero (L_H^bond_b)_{αβ}, A + B is fixed by the bond Pauli class:
-- ZZ-class bonds (both bond Paulis in {X, Y} or both in {I, Z}, the F49-shadow-balanced class): A + B = 0. This is the bond-sum rule of [the Cross-Term Formula proof, Lemma 2](PROOF_CROSS_TERM_FORMULA.md), now read at the ε-signed level instead of the w_XY-level: w_XY(α) + w_XY(β) = 2 on the bond corresponds to ε_i(α) + ε_i(β) + ε_j(α) + ε_j(β) = (1 − 2w_XY^{ij}(α)) + (1 − 2w_XY^{ij}(β)) = 2 − 2·2 = −2 + 2 = 0. (Equivalent statements.)
+- ZZ-class bonds (both bond Paulis in {X, Y} or both equal to Z, the F49-shadow-balanced class; a leg on I makes the term a field): A + B = 0. This is the bond-sum rule of [the Cross-Term Formula proof, Lemma 2](PROOF_CROSS_TERM_FORMULA.md), now read at the ε-signed level instead of the w_XY-level: w_XY(α) + w_XY(β) = 2 on the bond corresponds to ε_i(α) + ε_i(β) + ε_j(α) + ε_j(β) = (1 − 2w_XY^{ij}(α)) + (1 − 2w_XY^{ij}(β)) = 2 − 2·2 = −2 + 2 = 0. (Equivalent statements.)
 - Shadow-crossing bonds (e.g., XZ, YZ) violate the bond-sum rule; this is the F49c case and is outside the scope of the present proof.
 
 For shadow-balanced bonds (the only case we consider here), B = −A. Substituting:
@@ -237,7 +237,7 @@ The closed form makes `‖{L_H, L_Dc}‖²_F` a quantitative two-piece diagnosti
 - **F1 non-uniform γ H-block closure** ([the non-uniform γ closure](PROOF_F1_NONUNIFORM_GAMMA.md)): sibling closure showing the H-block residual scaling factor F(N, G) is γ-independent. The "Open follow-ups" of that proof noted the F49 cross-term gap at non-uniform γ; the present proof closes that follow-up.
 - **F1 T1 block closed form** ([F1 residual under T1 damping](PROOF_F1_T1_RESIDUAL_CLOSED_FORM.md), [F1T1ResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1T1ResidualClosedForm.cs)): per-Pauli-class dissipator-block closed form; H-block-independent. Parallel to the present proof in that both extract a per-bond / per-site analytic structure from a Pauli-basis tensor calculation.
 - **F1 depol block closed form** ([F1 residual under depolarizing noise](PROOF_F1_DEPOL_RESIDUAL_CLOSED_FORM.md), [F1DepolResidualClosedForm](../../compute/RCPsiSquared.Core/F1/F1DepolResidualClosedForm.cs)): another sibling dissipator-block closed form.
-- **F49c shadow-crossing companion** ([`docs/ANALYTICAL_FORMULAS.md` F49c](../ANALYTICAL_FORMULAS.md), [the Cross-Term Formula for Shadow-Crossing Couplings](PROOF_CROSS_TERM_CROSSING.md)): companion formula for the case where bond Pauli pairs violate the bond-sum rule. Non-uniform extension to shadow-crossing couplings is OUT OF SCOPE for the present proof; the theorem above applies only to shadow-balanced couplings (Heisenberg, Ising, XY family).
+- **F49c shadow-crossing companion** ([`docs/ANALYTICAL_FORMULAS.md` F49c](../ANALYTICAL_FORMULAS.md), [the Cross-Term Formula for Shadow-Crossing Couplings](PROOF_CROSS_TERM_CROSSING.md)): companion formula for the case where bond Pauli pairs violate the bond-sum rule. The theorem above covers shadow-balanced couplings (Heisenberg, Ising, XY family); a crossing term X_iZ_j under per-site Z rates adds a bond term 4γ_j², from [the parent proof's per-letter section](PROOF_CROSS_TERM_FORMULA.md#per-letter-rates-light-along-x-y-and-z).
 
 ### Typed claims
 

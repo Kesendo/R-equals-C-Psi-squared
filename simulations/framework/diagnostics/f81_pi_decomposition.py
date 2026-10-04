@@ -56,10 +56,11 @@ def pi_decompose_M(chain, terms, gamma_z=None, gamma_t1=None, gamma_pump=None, s
     inner product is nonzero exactly when the F113 asymmetry is, which is exactly
     the Z-drive-plus-amplitude-damping regime.
 
-    For non-Z dissipators (T1 amplitude damping in particular), F81 is no
+    For dissipators with a Π²-odd part (T1 amplitude damping in particular;
+    every Pauli channel, X- and Y-noise included, has none), F81 is no
     longer exact; the identity residual ‖M_anti − L_{H_odd}‖_F is positive
     and quantifies the non-Π²-symmetric content of the dissipator. This
-    makes the F81 violation a quantitative diagnostic for non-Z noise on
+    makes the F81 violation a quantitative diagnostic for that content on
     hardware. With T1 enabled, this method returns the violation as
     'f81_violation' instead of raising.
 

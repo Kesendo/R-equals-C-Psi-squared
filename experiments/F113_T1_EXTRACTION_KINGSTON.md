@@ -92,7 +92,7 @@ F113 makes this conversion **structural**: any polarity-asymmetry measurement on
 ## Connection to existing readings
 
 - **Multi-model analysis** ([`F112_HARDWARE_LENS_KINGSTON.md`](F112_HARDWARE_LENS_KINGSTON.md)): that survey identifies no channel, for reasons that partly apply here too, since the two share the missing detuning term. It is not independent evidence for anything in this document. The fit here is the minimal Z+T1 model on purpose, to make the F113 inversion clean.
-- **F84 amplitude-damping correction**: F84 captures the F81-axis projection of amplitude damping. F113 here gives the polarity-axis projection: the same σ⁻ non-Hermiticity that breaks F81 also breaks F112, with magnitude given by F113.
+- **F84 amplitude-damping correction**: F84 captures the F81-axis projection of amplitude damping. F113 here gives the polarity-axis projection: the same σ⁻ channel that breaks F81 also breaks F112, with magnitude given by F113.
 - **Calibrated-T1 vs experiment-effective-T1 question**: this experiment makes the distinction concrete. Future hardware analyses can use F113 inversion as a quick check: "what γ_T1 does this protocol's polarity-asymmetry imply, and how does it compare to standalone characterization?"
 
 ## Reproduction

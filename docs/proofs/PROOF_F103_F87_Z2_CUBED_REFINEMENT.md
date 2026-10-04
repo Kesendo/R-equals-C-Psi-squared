@@ -164,8 +164,9 @@ Klein (1,0) Z-deph soft = ( 0, 21)
 Klein (1,0) Y-deph soft = ( 0, 21)
 ```
 
-The exact rule connecting (pair Klein, dephase letter) to which sub-pattern
-fires is observed but not yet algebraically closed.
+Which cell shows which sub-pattern is decided by the palindromizer (§8):
+against the canonical Π, Pattern C is the Klein cell of the letter it flips
+by, Pattern B the cell of the third letter.
 
 ## 4. Full Count Tables
 
@@ -221,10 +222,11 @@ Klein           y0  y1  tot    y0  y1  tot    y0  y1  tot
    carries all the way down, since it comes from the templates' Y content. In k:
    F106 anchors k=4 at N=4 only (228:0), and no k=4 N-sweep exists.
 
-3. **Pattern B vs Pattern C selection rule for off-diagonal soft.** Six cells
-   partition into B (proportional) and C (y_par=1-pure); the (pair Klein,
-   dephase letter) → pattern mapping is observed but the algebraic rule is
-   not yet stated.
+3. **Pattern B vs Pattern C selection rule for off-diagonal soft. ANSWERED (§8).**
+   Pattern C is the cell of the letter the canonical Π flips by, Pattern B the
+   cell of the third letter; against the quarter-turned mirror the wholly
+   soft cell and the half-truly cell exchange, so the assignment records the
+   choice of palindromizer.
 
 4. **Hardware confirmation.** No k≥3 F87 confirmations exist; all 5 Marrakesh
    F87 confirmations (palindrome trichotomy, π-protected XIZ/YZZY, Lebensader
@@ -946,3 +948,89 @@ fields and excludes Z. The derived k-body per-term router (Stufe B) declines the
 construction is a discrete period-2 per-term pattern, not a single-site product; the `SingleSiteField`
 strategy supplies the missing certificate. Verified to machine precision (residual ~1e-14) at N=4,5,6 by
 [`ceiling_4to2_iheavy_local.py`](../../simulations/ceiling_4to2_iheavy_local.py).
+
+## 8. Which off-diagonal cell is Pattern B and which is Pattern C
+
+**The mirror's letter.** The canonical palindromizer for dephase letter D, the one
+`framework.symmetry.pi_action` builds, flips every site by one letter A(D): I ↔ A, and the other two
+letters swapped. A(Z) = X, A(X) = Z, A(Y) = X. Its square is the turn by A(D)⊗N, so the Π²-D-even
+Klein cells of [F110 §2](PROOF_F110_HARD_CELL_Y_INVERSION.md) (i) are the cells of I and A(D), and the
+Π²-D-odd ones are the cells of D and of D ⊕ A(D), the third letter (⊕ is the product of letters up
+to phase, their sum on the letter cube).
+
+**Truly, string by string.** A string is truly against this mirror exactly when both letters other
+than A occur an even number of times; F85's "#Y and #Z both even" is the case A = X, and
+[F107](PROOF_F107_TRULY_Y_PARITY_ZERO_PURITY.md) carries it to the other letters. A pair is truly
+exactly when both its strings are, at every body count: both L_H and Π·L_H·Π⁻¹ send a string S to
+multiples of the one label P ⊕ S for each string P of H, so different strings of H never cancel in
+M. A string's Klein letter K commutes with A exactly when the two letters other than A have counts of
+equal parity, and that sorts the four cells:
+
+| cell | Klein letter | truly | soft | pattern |
+|---|---|---|---|---|
+| mother | I | the y_par = 0 pairs (all counts even) | the y_par = 1 pairs | §3.4 |
+| diagonal | D | none (the two counts have opposite parity) | beside the hard split of §6–§7 | §3.2, §3.3 |
+| mirror's letter | A(D) | the y_par = 0 pairs | the y_par = 1 pairs | **Pattern C** |
+| third letter | D ⊕ A(D) | none | all of them | **Pattern B** |
+
+In the mirror's-letter cell the two other letters include Y, since A is X or Z, so "both even" is "Y
+even". No off-diagonal cell is ever hard, at any body count, any couplings and any per-site rates,
+because each is coloured in the sense of [the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md): for a cell letter K
+outside {I, D}, K⊗N is lit on every site (it anticommutes with each D_l) and commutes with every string
+of the cell, so by F158 the spectrum pairs. In these cells the colouring completes to an operator
+identity: W(ρ) = D⊗N·ρ·K⊗N·D⊗N gives W·𝓛·W⁻¹ = −𝓛 − 2σ for the Lindbladian 𝓛 of any Hamiltonian of
+the cell, since the one-sided move ρ ↦ ρ·K⊗N keeps the strings' commutator while it reflects the
+dissipator, and the turn by D⊗N, which the strings anticommute with, flips H and leaves the
+dissipator alone. The mother cell is coloured as well, its strings commuting with every letter
+string, so it is never hard either; only the diagonal cell, whose strings anticommute with both lit
+letters, can be. Pattern C is therefore the cell of the mirror's letter and Pattern B the cell of the third
+letter at every k, which is why the 3 + 3 partition carries from k = 3 to k = 4. Pattern B's y_par
+profile is the cell's own enumeration: 55 : 21 or 21 : 55 at k = 3, and 528 : 528 at k = 4, where
+every non-mother cell holds 32 strings of each y_par
+([F106](PROOF_F106_F87_Z2_CUBED_REFINEMENT_N4K4.md) §3.5).
+
+**Which mirror.** Each dephase letter has two letters whose sitewise flip swaps its immune pair
+{I, D} with its damped pair: A(D) and D ⊕ A(D). The quarter turn about D, Q ↦ i·Q·D for Q ∉ {I, D},
+commutes with the D-dissipator and carries the one to the other, so it carries the canonical Π to
+another palindromizer of the same dissipator (for Z-dephasing the M₂ map of the P4 family, I ↔ Y
+and X ↔ Z, in [the non-Heisenberg palindrome](../../experiments/NON_HEISENBERG_PALINDROME.md)). Against
+the quarter-turned mirror the table holds with A and D ⊕ A exchanged: the wholly soft cell and the
+half-truly cell exchange, and where its letter is Y (for Z- and X-dephasing) the truly half is the
+y_par = 1 half, so the half-truly cell is then soft on y_par = 0. Which cell is wholly soft the
+letter fixes, whatever the phases: a string P of that cell anticommutes with the flip string, so
+Π·L_P·Π⁻¹ acts on the strings P commutes with and L_P on those it anticommutes with, and the two
+cannot cancel. Which strings of the other cell are truly the phases decide. The canonical mirror,
+the quarter-turned one and [F108 Part 1](PROOF_F108_PART1_PI2_EVEN_ALWAYS_PALINDROMIC.md)'s
+Π_5bilinear each pick one y_par half (Π_5bilinear flips by X like the canonical Π_Z and picks the
+y_par = 1 half of the X cell); other phase choices on the same flip pick other sets, from none of
+the cell to all of it. Patterns B and C as
+§3.5 names them (soft proportional to the enumeration, soft y_par = 1-pure) are the canonical
+mirror's: its letter places Pattern B, its phases make the other cell Pattern C. What does not depend on the mirror is the spectrum, and with it the hard class and the
+union of truly and soft; the line between truly and soft is exactly what moves.
+[Softness is N-dependent](../../experiments/SOFTNESS_IS_N_DEPENDENT.md) reaches the same conclusion for
+two pairs of three-term sets, and F107's y_par = 0 purity of truly belongs to the canonical mirrors.
+
+**What the repo held.** A sweep of the registry, the proofs (F85, F102, F105 to F111, F118, the
+mirror symmetry proof), the experiments, the reflections, the OpenArcs registry, the caught-errors
+ledger, the glossary, the Core claims, the Diagnostics witnesses and MirrorWorld's Hardness object
+found no statement of the rule and no count against it, and fw.Confirmations holds nothing on it.
+Its pieces stood apart: F85 and F107 for which strings are truly; F110 §2 for which cell can be hard;
+[the palindrome as a colouring](../../experiments/THE_PALINDROME_AS_A_COLOURING.md) with F158 for the
+colouring that settles every non-diagonal cell at every k; and the softness experiment for the
+dependence on the mirror. None of them pointed at this question. One datum for their owners: F110 §2
+(i) rests on F108 Part 1, which is proven for two-site bilinears, and (iv) on the
+dissipator-resonance law at N = 4, k = 3. The first route stops at two sites (at k = 3 Π_5bilinear
+leaves XZZ and the mother cell's XYZ permutations with M ≠ 0), and F107's Step 1 and F109's
+derivation lean on the same family; their conclusions hold, the truly sets through F85's syntactic
+criterion and the absence of hardness through the colouring.
+
+**Verified** exactly, with no tolerance, by
+[`f103_pattern_bc_gate.py`](../../simulations/f103_pattern_bc_gate.py): at N = 4 the residual
+M = Π·L_H·Π⁻¹ + L_H is built directly for all 294 pairs, all three letters and both mirrors, each
+mirror first checked to palindromize the dissipator exactly; truly pair by pair equals the rule, the
+canonical counts reproduce §4's truly table, and the rule's truly counts agree with every cell of
+F106's measured k = 4 grid. W palindromizes 40 random Hamiltonians of every off-diagonal cell (one to
+five strings of any body count, random per-site rates) and fails, as it must, on the mother cell,
+while no lit letter colours the diagonal cell; Π_5bilinear's truly X-cell pairs are the y_par = 1
+half, and the 256 phase choices on the X flip, all palindromizing the dissipator, give X-cell truly
+sets from empty to all sixteen strings.

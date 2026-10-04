@@ -13,9 +13,8 @@ namespace RCPsiSquared.Core.Symmetry;
 /// for k=3 (N=4 to N=5 counts identical). F106 tests k-stability: do F103's
 /// structural patterns survive at larger k? F85 does NOT predict k-stability
 /// of the y_par sub-refinement, and the Klein (0,0) enum balance shifts from
-/// 45/21 at k=3 to 780/300 at k=4, structurally breaking the
-/// "mother soft is y_par=1-pure" pattern. Other patterns may or may not survive;
-/// PROOF_F106 documents the actual outcome.</para>
+/// 45/21 at k=3 to 780/300 at k=4. The outcome (PROOF_F106): the two purity
+/// statements and the off-diagonal B/C partition hold, the diagonal splits reshape.</para>
 ///
 /// <para>Regenerate via:
 /// <c>dotnet test "compute\RCPsiSquared.Diagnostics.Tests" --filter "Category=SLOW_F106_BATCH"</c>
@@ -67,9 +66,10 @@ public sealed class F87Z2CubedRefinementN4K4 : F87Z2CubedRefinementBase
         OffDiagonalSoft = new OffDiagonalSoftPatterns(
             new Dictionary<(int KleinA, int KleinB, char Dephase), (int YPar0, int YPar1)>
             {
-                // 6 off-diagonal cells at k=4: 3 y_par=1-pure (Pattern C analog) and
-                // 3 fully y_par-symmetric (528, 528) (new pattern, replacing F105's
-                // (55, 21)/(21, 55) Pattern B asymmetry).
+                // 6 off-diagonal cells at k=4: 3 Pattern C (y_par=1-pure) and 3 Pattern B,
+                // the whole cell soft; at k=4 every non-mother cell holds 32 strings of each
+                // y_par, so Pattern B reads (528, 528) where k=3 had (55, 21)/(21, 55)
+                // (PROOF_F103 section 8).
                 { (0, 1, 'X'), (0, 528) },
                 { (0, 1, 'Y'), (528, 528) },
                 { (1, 0, 'Y'), (0, 528) },
@@ -90,8 +90,8 @@ public sealed class F87Z2CubedRefinementN4K4 : F87Z2CubedRefinementBase
                 yield return child;
             yield return new InspectableNode("Scope (out-of-scope items)",
                 summary: "F107+ open: N=5 k=4 batch (~42h dense), N=6 k=3 batch (~8 days dense), " +
-                         "both impractical without block-spectrum Classify. Closed-form derivation " +
-                         "of k=4 sub-refinement patterns (if any survive from F103) remains open.");
+                         "both impractical without block-spectrum Classify. The off-diagonal B/C " +
+                         "partition is derived at every k (PROOF_F103 section 8).");
         }
     }
 }

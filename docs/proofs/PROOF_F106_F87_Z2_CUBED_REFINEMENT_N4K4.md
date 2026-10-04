@@ -9,11 +9,11 @@
 
 F103 named the five Z₂³ sub-cell patterns at the (N=4, k=3) anchor. F105 confirmed that those patterns are N-stable at fixed body count: bump the chain length from 4 to 5, the patterns survive bit-exactly. This proof tests the orthogonal stability axis: hold N at 4 and bump the body count from 3 to 4. Does the Z₂³ refinement still hold, and if so, does it carry the same shape it had at k=3?
 
-The answer is mixed, and the mixed answer is the interesting result. Two of the five sub-statements survive structurally: truly stays y_par=0-pure at every cell where it appears, and mother soft (the Klein (0,0) soft) stays y_par=1-pure across all three dephase letters. These are the alphabet-driven invariants. Three sub-statements reshape under the body-count bump: the diagonal hard 42:8 mixed split sharpens to fully polarized 228:0 (a 100% pure y_par signature), the diagonal soft 13:13 symmetry breaks to an asymmetric 300:528, and the off-diagonal Pattern B (asymmetric 55:21) collapses to a fully symmetric (528, 528) we name Pattern D.
+The answer is mixed, and the mixed answer is the interesting result. Three of the five sub-statements survive structurally: truly stays y_par=0-pure at every cell where it appears, mother soft (the Klein (0,0) soft) stays y_par=1-pure across all three dephase letters, and the off-diagonal cells keep their partition into Pattern B and Pattern C. The two purity statements are the alphabet-driven invariants; Pattern B is a whole cell gone soft, so its numbers follow that cell's enumeration, from the asymmetric 55:21 or 21:55 at k=3 to a symmetric (528, 528) at k=4 ([F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)). Two sub-statements reshape under the body-count bump: the diagonal hard 42:8 mixed split sharpens to fully polarized 228:0 (a 100% pure y_par signature), and the diagonal soft 13:13 symmetry breaks to an asymmetric 300:528.
 
 The k=4 enumeration is qualitatively different from k=3 because the underlying Klein cell counts redistribute. Klein (0,0) goes from a 45-vs-21 split at k=3 to a 780-vs-300 split at k=4 (a quadratic blow-up in the y_par=0 letters), and the off-diagonal cells become fully balanced 32-vs-32 at k=4 (versus the asymmetric 10-vs-6 at k=3). The Pi^2-class trichotomy itself is N-stable per F85, but the y_par sub-refinement is genuinely k-dependent.
 
-The diagnostic upshot is that the Z₂³ refinement has two structural tiers: invariants that hold across all (N, k) regimes (the two purity statements), and ratios that are k-anchored (the diagonal split structure). For practical use, anything that depends on the 42:8 ratio is a k=3-specific number; anything that depends on the y_par purity of truly / mother-soft is universal. F107, F109, F110, F111 elsewhere give the closed-form derivations for the universal pieces; F106 here is the empirical anchor that motivated separating universal from k-specific in the first place.
+The diagnostic upshot is that the Z₂³ refinement has two structural tiers: invariants that hold across all (N, k) regimes (the two purity statements and the off-diagonal B/C partition), and ratios that are k-anchored (the diagonal split structure). For practical use, anything that depends on the 42:8 ratio is a k=3-specific number; anything that depends on the y_par purity of truly / mother-soft is universal. F107, F109, F110, F111 and F103 §8 elsewhere give the closed-form derivations for the universal pieces; F106 here is the empirical anchor that motivated separating universal from k-specific in the first place.
 
 ## 1. Context
 
@@ -25,24 +25,25 @@ of the y_par sub-refinement; the k=4 enumeration shifts on every Klein cell:
 Klein (0,0) goes from 45/21 (y_par 0/1) at k=3 to 780/300 at k=4, while the
 off-diagonal cells (0,1)/(1,0) go from 55/21 to a fully symmetric 528/528,
 and (1,1) inverts from 21/55 to the same 528/528. The structural worry from
-the (0,0) shift was that "mother soft is y_par=1-pure" would break; the
-deeper shift was on the off-diagonals, where the asymmetric Pattern B
-55:21 / 21:55 collapses into a fully symmetric (528, 528), which turns out
-to be the actual k=4 surprise (see Section 3.5, new Pattern D).
+the (0,0) shift was that "mother soft is y_par=1-pure" would break; on the
+off-diagonals Pattern B's 55:21 / 21:55 becomes a symmetric (528, 528),
+because a Pattern B cell is soft as a whole and carries its own enumeration,
+and that enumeration is what shifted (Section 3.5).
 
 Notation (bit_a, bit_b, y_par, Klein cells, Π²) is defined in
 [F103](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md) Section 1; F106 uses it
 without redefinition.
 
-**Observed outcome (mixed):** Three patterns SURVIVED in some form at k=4; two patterns BROKE structurally. Concretely:
+**Observed outcome (mixed):** three of the five sub-statements HELD at k=4 (the two purities and the off-diagonal B/C partition); of the two diagonal ones, the hard split kept its Y-inversion while its 42:8 ratio sharpened, and the soft 13:13 symmetry BROKE. Concretely:
 
 - Truly y_par=0-purity: **HELD bit-structurally** (every truly classification at k=4 has y_par=0; total 3924, y_par=1 count 0).
 - Mother soft y_par=1-purity: **HELD bit-structurally** (every mother-soft classification still has y_par=1; counts moved from (0, 21) at k=3 to (0, 300) at k=4 across all 3 dephase letters, but purity is intact).
 - Hard diagonal Y-inversion: **HELD qualitatively** (Y-dephase still inverts the y_par assignment relative to Z/X-dephase).
 - Hard diagonal 42:8 ratio: **BROKE** (the mixed-y_par 42:8 split sharpened to fully polarized 228:0 / 0:228, i.e. 100% pure per cell rather than 84%:16% mixed).
 - Diagonal soft 13:13 symmetry: **BROKE** (the per-diagonal-cell y_par symmetry became asymmetric 300:528 for Z/X and 528:300 for Y).
+- Off-diagonal B/C partition: **HELD** (the same three Pattern C and three Pattern B cells; Pattern B's numbers follow its cell's enumeration, (528, 528) at k=4; Section 3.5).
 
-The k=4 enumeration is genuinely different (4248 vs 294 pairs; 12744 vs 882 classifications); some F103 sub-statements were y_par-axis invariants that genuinely lift across k (the two purity statements survive bit-structurally), while others were k-specific ratios that re-scale with the enum balance shift.
+The k=4 enumeration is genuinely different (4248 vs 294 pairs; 12744 vs 882 classifications); some F103 sub-statements were y_par-axis invariants that genuinely lift across k (the two purity statements and the off-diagonal B/C partition survive), while others were k-specific ratios that re-scale with the enum balance shift.
 
 ## 2. Method
 
@@ -111,22 +112,20 @@ Klein (0,0) Y-deph soft = (0, 300)    pure y_par=1
 
 This was the structurally-worried-about case (enum balance shifted from 45/21 to 780/300, so the framework prediction in the F106 plan was that this would break). It DID NOT break: mother soft remains y_par=1-pure at k=4 across all 3 letters. The counts re-scale (k=3 had (0, 21), k=4 has (0, 300)), but the purity is preserved.
 
-### 3.5 Off-diagonal soft: 6 cells, two-tier structure (MIXED)
+### 3.5 Off-diagonal soft: 6 cells, the B/C partition (HELD)
 
 6 off-diagonal cells (Klein non-(0,0) and Klein != dephase Klein):
 
 ```
-Klein (0,1) X-deph soft = (0, 528)      Pattern C analog: pure y_par=1
-Klein (0,1) Y-deph soft = (528, 528)    Pattern D (new at k=4): fully y_par-symmetric
-Klein (1,0) Y-deph soft = (0, 528)      Pattern C analog: pure y_par=1
-Klein (1,0) Z-deph soft = (0, 528)      Pattern C analog: pure y_par=1
-Klein (1,1) X-deph soft = (528, 528)    Pattern D (new at k=4): fully y_par-symmetric
-Klein (1,1) Z-deph soft = (528, 528)    Pattern D (new at k=4): fully y_par-symmetric
+Klein (0,1) X-deph soft = (0, 528)      Pattern C: pure y_par=1
+Klein (0,1) Y-deph soft = (528, 528)    Pattern B: the whole cell, symmetric at k=4
+Klein (1,0) Y-deph soft = (0, 528)      Pattern C: pure y_par=1
+Klein (1,0) Z-deph soft = (0, 528)      Pattern C: pure y_par=1
+Klein (1,1) X-deph soft = (528, 528)    Pattern B: the whole cell, symmetric at k=4
+Klein (1,1) Z-deph soft = (528, 528)    Pattern B: the whole cell, symmetric at k=4
 ```
 
-Three cells (those associated with X-dephase at Klein (0,1) and Y/Z-dephase at Klein (1,0)) match F105's Pattern C (y_par=1-pure (0, x), here x=528). The other three cells (which at k=3 were Pattern B asymmetric (55, 21) or (21, 55)) became fully y_par-symmetric (528, 528) at k=4, labelled **Pattern D** for forward-reference; it is the new k=4 sub-pattern that replaces k=3's Pattern B in this 3+3 partition.
-
-The Pattern C / Pattern B split from k=3 is preserved structurally as a 3+3 partition; the three Pattern C cells stay Pattern C (only the magnitudes re-scale), and the three Pattern B cells migrate to the new Pattern D (asymmetric (55, 21)/(21, 55) at k=3 → fully symmetric (528, 528) at k=4). The mechanism for Pattern B → D is the off-diagonal enum balance shift cited in Section 1 (55:21 / 21:55 → 32:32 at the underlying k=4 letter-quadruple count).
+Three cells (those associated with X-dephase at Klein (0,1) and Y/Z-dephase at Klein (1,0)) are Pattern C, y_par=1-pure (0, x), here x=528, as at k=3. The other three are Pattern B: the whole cell is soft, so the cell carries its own (Klein, y_par) enumeration, asymmetric (55, 21) or (21, 55) at k=3 and symmetric (528, 528) at k=4, where every non-mother Klein cell holds 32 strings of each y_par (against 10:6 or 6:10 at k=3). Which three cells are which follows [F103 §8](PROOF_F103_F87_Z2_CUBED_REFINEMENT.md): Pattern C is the cell of the letter the canonical Π flips by, Pattern B the cell of the third letter, at every k.
 
 ## 4. Full Count Tables
 
@@ -141,7 +140,6 @@ Grand totals reconciliation:
 ## 5. Open Questions
 
 - Closed-form derivation of the (228, 0) / (0, 228) hard diagonal at k=4, and the (300, 528) / (528, 300) diagonal soft split (analogous to the long-standing F103 42:8 closed-form open question; the new ratios may be more tractable due to their polarization)
-- Closed-form for the off-diagonal Pattern B → fully symmetric transition at k=4 (the cells that were asymmetric (55, 21)/(21, 55) at k=3 became (528, 528))
 - N>4 at k=4 (~42h dense per batch at N=5; impractical without block-spectrum Classify)
 - k>4 (impractical; pair count grows by factor of ~16 per +1 to k; 67968 at k=5 ahead of the 4248 at k=4)
 - Hardware k≥3 F87 confirmation (still open from F103/F105)

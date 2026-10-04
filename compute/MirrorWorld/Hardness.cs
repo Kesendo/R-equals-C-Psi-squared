@@ -14,7 +14,9 @@ namespace MirrorWorld;
 //
 //   the cube    -- y_par = #Y mod 2 is the third Z2 beside the Klein axes (F102), and the purity
 //                  rules are pure letter parity: truly forces y_par = 0 under every dephase
-//                  letter (F107); the mother sector's non-truly side is all-odd, y_par = 1 (F109);
+//                  letter against its canonical mirror (F107; other mirrors of the same
+//                  dissipator put part of truly at y_par = 1, F103 section 8); the mother
+//                  sector's non-truly side is all-odd, y_par = 1 (F109);
 //                  hard lives only in the dephase letter's own diagonal Klein cell, Y-inverted
 //                  (F110), at k=N=4 exactly on the pure-D templates (F111).
 //   the valuation -- a diagonal-cell pair's X/Y window masks, read as GF(2)[x] polynomials, decide

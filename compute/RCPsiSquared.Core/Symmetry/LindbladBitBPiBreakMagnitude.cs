@@ -300,8 +300,8 @@ public sealed class LindbladBitBPiBreakMagnitude : Claim, IZ2AxisClaim
                          "description of standard Lindblad family.");
             yield return new InspectableNode("Sister F84 amplitude-damping correction",
                 summary: "F113's σ⁻ contribution is the polarity-axis projection of F84's " +
-                         "F81-axis violation: the same amplitude-damping non-Hermiticity that " +
-                         "breaks F81 here breaks F112 (when crossed with a Z-drive H).");
+                         "F81-axis violation: the same amplitude-damping channel breaks F81 and, " +
+                         "here, F112 (when crossed with a Z-drive H).");
             yield return new InspectableNode("BitA twin (BitBSpecific)",
                 summary: "No BitA twin: F113 is intrinsically about Z-axis single-site drives " +
                          "crossed with σ⁻ / σ⁺ amplitude damping, not symmetric under " +

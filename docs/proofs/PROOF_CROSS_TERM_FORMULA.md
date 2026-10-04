@@ -7,11 +7,14 @@
 - [Primordial Qubit Algebra](../../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md) (Pythagorean decomposition at N=2, bond-sum rule)
 - [cross_term_formula_check.py](../../simulations/cross_term_formula_check.py) (numerical verification)
 **Status:** Proven (all graph topologies, all shadow-balanced couplings)
-**Scope:** Any bond coupling α_i β_j where both Paulis are in the same
-dephasing class ({X,Y} or {I,Z}), on any graph, uniform Z-dephasing.
+**Scope:** Any bond coupling α_i β_j with both letters in {X,Y} or both
+equal to Z (a leg on I makes the term a field, which the section
+*Per-letter rates* treats), on any graph, uniform Z-dephasing.
 This includes Heisenberg XXX, XXZ, XY model, Ising, DM interaction.
-**Does NOT establish:** Extension to shadow-crossing couplings (X_i Z_j,
-Y_i Z_j), non-uniform gamma, or non-Pauli noise types.
+**Does NOT establish:** amplitude damping, the one noise considered here
+that is not diagonal in the Pauli basis. Shadow-crossing couplings (X_i Z_j,
+Y_i Z_j) are F49c, non-uniform γ is F49d, and light along X, Y and Z per
+site, depolarizing included, is the section *Per-letter rates* below.
 
 ---
 
@@ -28,7 +31,7 @@ This constant is the algebraic engine of TIME_IRREVERSIBILITY_EXCLUSION: the **F
 ## Theorem
 
 For N >= 2 qubits with any shadow-balanced bond coupling (each bond term
-alpha_i beta_j has both alpha, beta in {X,Y} or both in {I,Z}) on any
+alpha_i beta_j has both alpha, beta in {X,Y} or both equal to Z) on any
 graph G and uniform Z-dephasing at rate gamma per site:
 
     ||{L_H, L_Dc}|| / (||L_H|| * ||L_Dc||) = sqrt((N-2) / (N * 4^(N-1)))
@@ -211,12 +214,58 @@ Both ||L_H||^2 and gamma^2 cancel. The formula depends only on N. QED.
 
 ---
 
+## Per-letter rates: light along X, Y and Z
+
+The proof uses one property of Z-dephasing: L_D is diagonal in the Pauli basis. Dephasing along any letter has it, so the proof carries over with one change, the rate a site charges. Let site l be lit along each letter C ∈ {X, Y, Z} at rate γ_{l,C} ≥ 0, so that L_D = Σ_{l,C} γ_{l,C}·D[C_l], and centre it as L_Dc = L_D + Γ·I with Γ = Σ_{l,C} γ_{l,C}. Depolarizing is the case of equal letter rates on each site, in either of the repo's conventions (γ/3 per letter as in F5, or γ per letter as in the absorption theorem), with the site rates free to differ. Write χ_C(P) = +1 when the letter P commutes with C and −1 when it does not.
+
+**Step 1′ (the centred rate is a character sum).** L_Dc is diagonal on strings, d_a = Σ_l e_l(a_l), with
+
+    e_l(P) = Σ_C γ_{l,C} · χ_C(P).
+
+For Z light alone this is Step 1's γ·ε_k. The three characters are orthogonal over the four letters and each sums to zero there, so
+
+    ||L_Dc||^2 = 4^N · Σ_l g_l^2,    g_l^2 = Σ_C γ_{l,C}^2.
+
+**Step 2′ (the moving letter picks its own light).** A term τ = c·⊗_l a_l acts on a string only where it anticommutes with it, and then moves the letter on each site of its support by a_l: P ↦ a_l·P up to phase. Since χ_C(a·P) = χ_C(a)·χ_C(P), and χ_C(a) = +1 only for C = a,
+
+    e_l(P) + e_l(a·P) = Σ_C γ_{l,C} · χ_C(P) · (1 + χ_C(a)) = 2·γ_{l,a}·χ_a(P).
+
+On each site of the support only the light along the moving letter is felt. For Z light this is Lemma 2's bond-sum rule, and it is the A ∈ {−2, 0, +2} of [the non-uniform γ extension](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md).
+
+**Step 3′ (assembly).** The two strings a transition joins fix its term, since their product is the term's string, so different terms have disjoint transition supports; the Corollary to Lemma 3 is the case of two bonds. Each term's ||L_H^τ||^2 = 2·4^N·|c_τ|^2 is spread evenly over its transitions. A spectator site contributes 2·e_m(P_m), of mean zero and mean square 4·g_m^2, as in Step 3. On the support write s_l = χ_{a_l}(P_l): a transition needs an odd number of anticommuting sites, ∏_l s_l = −1, and the support contributes the mean of (2·Σ_l γ_{l,a_l}·s_l)^2 over the transitions. Therefore
+
+    ||{L_H, L_Dc}||^2 = Σ_τ ||L_H^τ||^2 · [ 4·Σ_{m ∉ supp τ} g_m^2 + B_τ ],
+
+    B_τ = 4·γ_{i,a}^2                  for a field a_i              (s_i = −1),
+          4·(γ_{i,a} − γ_{j,b})^2      for a two-site term a_i b_j  (s_i·s_j = −1),
+          4·Σ_{l ∈ supp τ} γ_{l,a_l}^2  for three or more sites      (the s_l pairwise uncorrelated).
+
+**What it contains.**
+
+- *Uniform Z light* (γ_{l,Z} = γ, the rest zero). A two-site term with both letters in {X, Y}, or both Z, has B = 0, and the theorem follows. X_iZ_j has B = 4γ^2, one unit of variance on the bond beside the spectators' N − 2: F49c's N − 2 → N − 1. A bond that carries terms of both kinds is the sum of its terms, which settles the mixed Hamiltonians [the shadow-crossing proof](PROOF_CROSS_TERM_CROSSING.md) left open.
+- *Per-site Z rates.* ZZ terms give 4(γ_i − γ_j)^2 and the terms with both letters in {X, Y} nothing, which is F49d; a crossing term X_iZ_j gives 4γ_j^2, the case F49d left out of scope.
+- *Uniform depolarizing* (the same rate for every letter on every site). Then γ_{i,a} = γ_{j,b} for any two letters and sites, so every two-site term has B = 0, ||{L_H, L_Dc}||^2 = 4(N − 2)·g^2·||L_H||^2 and ||L_Dc||^2 = 4^N·N·g^2, and
+
+      R(N) = sqrt((N − 2) / (N · 4^(N−1)))
+
+  for every two-site coupling on any graph, X_iZ_j included. Under equal light no letter is in the shade, so no coupling crosses anything. Per-letter site rates p_l that differ give every two-site term B = 4(p_i − p_j)^2 whatever its letters (a unit-coupling chain at N = 3 with p = (1, 2, 3): R^2 = 1/42 for XX, XZ and ZZ alike, against 1/48), and a field carries B = 4γ_{i,a}^2 > 0 in any case.
+- *N = 2.* Uniform depolarizing, centred at its own total rate Γ, keeps the Pythagorean decomposition ([F48](../ANALYTICAL_FORMULAS.md)) exact for every two-site bond.
+
+On [the letter cube](../THE_ONE_SQUARE.md) Step 1′ is the centred light formula: the cube's Q_P = Σ_l P_l(·)P_l has eigenvalue N − 2k_P on a string, so F49's L_Dc is γ·Q_Z and with the same letter rates on every site L_Dc = Σ_C γ_C·Q_C. Step 2′ reads the corner before and after a move: a move by a keeps the coordinate k_a and flips the other two, and in the sum of the two rates the flipped ones cancel, which leaves the light along a.
+
+**What the repo held.** A sweep of the registry, the proofs, the experiments, the OpenArcs registry, the caught-errors ledger, the glossary, the Core claims (all F49 ones), the Diagnostics witnesses and MirrorWorld's formulas found no cross-term statement for light along Y, for mixed or per-letter light, for depolarizing, or for the character sum. Light along X alone is there: the Hadamard notes of the Core's F49b and F49c claims ([the bit_a twin via Hadamard](PROOF_BIT_A_TWIN_VIA_HADAMARD.md)) take Z-dephasing to X-dephasing with the norms, the uniform X case of this section; the cross term's Z-light home is F49NonUniformCrossTermClaim. (The Core's F49Pi2Inheritance types a different object under the same number, the scaling of the palindrome residual.) fw.Confirmations holds nothing on the cross term. The pieces nearest to the rest: Step 1's ε_k and the A-classification of the non-uniform extension (Z light only), the per-letter cost law of [the absorption theorem](PROOF_ABSORPTION_THEOREM.md) §2, the letter cube's centred Q_P with [the three diagonals](../THE_THREE_DIAGONALS.md)' L_D = γ·(Q_Z − N·I), and the remark in [the depolarizing palindrome](../../experiments/DEPOLARIZING_PALINDROME.md) that each site's four letter rates average to its rate sum, which is the centring used here. Keep this N − 2 apart from F5's depolarizing error, whose (N − 2) the ledger records as a mis-import from this formula. Adjacent: the commutator [L_H, L_Dc], the separability measure of [Time Irreversibility Exclusion](TIME_IRREVERSIBILITY_EXCLUSION.md), is Step 2′'s complement, since e_l(aP) − e_l(P) = −2·Σ_{C ≠ a} γ_{l,C}·χ_C(P) keeps the lights a move flips and loses the spectators; that is [the letter cube](../THE_ONE_SQUARE.md)'s account of which moves the watching feels.
+
+**Verified** exactly, with integer data and no tolerance, by [`f49_per_letter_cross_term_gate.py`](../../simulations/f49_per_letter_cross_term_gate.py): random terms (fields, two-site, three- and four-site strings) with random integer rates per site and letter at N = 3 and 4, the anticommutator built from the Lindblad form itself; F49, F49c, F49d, mixed bonds and the per-site crossing case as special cases; all nine two-site letter pairs under uniform depolarizing on chains and rings at N = 3 to 5; per-site depolarizing rates and a field as the controls that do not reach F49's constant; and the identity of Step 2′.
+
+---
+
 ## Scope and Limitations
 
 ### Valid for
 - Any bond coupling where each term alpha_i beta_j has both Paulis in
-  the same dephasing class: both in {X,Y} ("in the light") or both in
-  {I,Z} ("in shadow"). This includes:
+  the same dephasing class: both in {X,Y} ("in the light") or both Z
+  ("in shadow"); a leg on I makes the term a field, which the per-letter
+  section treats. This includes:
   - Heisenberg XXX: J(XX + YY + ZZ)
   - XXZ with arbitrary anisotropy Delta: J(XX + YY + Delta*ZZ)
   - XY model: J(XX + YY)
@@ -239,9 +288,12 @@ Both ||L_H||^2 and gamma^2 cancel. The formula depends only on N. QED.
   diagonal in the Pauli basis but with site-dependent eigenvalues.
   The spectator variance calculation changes.
   **ANSWERED (2026-05-18):** closed by [F49 non-uniform γ extension](PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md) (F49, Tier 1). The closed form splits into a spectator part `4·Σ_b‖L_H^bond‖²·Σ_{m∉bond}γ_m²` plus a bond-asymmetry part `Σ_b G(bond,H)·(γ_i−γ_j)²`, with `G = 4·‖ZZ-part of the bond‖²` (Heisenberg 4/3, Ising 4, XY and soft XY+YX 0); bit-exact at N=3,4,5.
-- **Non-Pauli noise (amplitude damping, depolarizing):** L_D is no
-  longer diagonal in the Pauli basis. The pointwise product structure
-  of Step 5 breaks.
+- **Amplitude damping:** its L_D is not diagonal in the Pauli basis, so
+  Step 5's pointwise product does not apply as it stands. On the letter
+  cube it is two equal transverse lights, γ/4 along X and along Y, which
+  the per-letter section covers, plus one move per site, I → Z; that move
+  is what remains open. (Depolarizing is diagonal, a Pauli channel, and is
+  answered in the per-letter section.)
 - **Shadow-crossing couplings:** is there a modified formula for
   couplings like X_i Z_j? If so, it would involve additional bond-site
   variance beyond N-2.

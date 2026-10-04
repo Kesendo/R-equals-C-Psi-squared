@@ -19,7 +19,10 @@ def predict_amplitude_damping_violation(chain, gamma_t1_l, gamma_pump_l=None):
 
     Pauli-channel dissipators D[Z], D[X], D[Y] do not contribute to
     f81_violation (Pauli-Channel Cancellation Lemma in PROOF_F84): they
-    are Π²-symmetric. F84 violation is exclusive to σ⁻/σ⁺ channels.
+    are Π²-symmetric. Of the channels modelled here only σ⁻/σ⁺ contribute;
+    in general a single traceless jump does exactly when its Pauli
+    components mix bit_b parity, and jumps can cancel each other's
+    (PROOF_F82, "Other dissipators").
 
     Args:
         gamma_t1_l: per-site cooling rates γ_↓_l (σ⁻ amplitude damping).

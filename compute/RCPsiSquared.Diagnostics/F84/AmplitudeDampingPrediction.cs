@@ -16,8 +16,10 @@ namespace RCPsiSquared.Diagnostics.F84;
 /// (temperature-independent).</para>
 ///
 /// <para>Pauli-channel dissipators D[Z], D[X], D[Y] do NOT contribute to the violation
-/// (Pauli-Channel Cancellation Lemma in PROOF_F84): they are Π²-symmetric. F84 violation is
-/// exclusive to σ⁻/σ⁺ channels.</para>
+/// (Pauli-Channel Cancellation Lemma in PROOF_F84): they are Π²-symmetric. Of the channels
+/// modelled here only σ⁻/σ⁺ contribute; in general a single traceless jump does exactly when
+/// its Pauli components mix bit_b parity, and jumps can cancel each other's (PROOF_F82,
+/// "Other dissipators").</para>
 ///
 /// <para>See docs/ANALYTICAL_FORMULAS.md F84 entry.</para>
 /// </summary>

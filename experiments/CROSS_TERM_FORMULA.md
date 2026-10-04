@@ -97,8 +97,8 @@ preceding sections.
 In brief: the identity ||{L_H, L_Dc}||^2 = 4*gamma^2*(N-2)*||L_H||^2
 follows from four structural properties: (a) L_Dc is diagonal in the
 Pauli basis, (b) every shadow-balanced bond transition (shadow-balanced:
-each bond term α_iβ_j has both Paulis in the same dephasing class,
-{X,Y} or {I,Z}; covers Heisenberg XXX, XXZ, XY, Ising, DM) satisfies the
+each bond term α_iβ_j has both letters in {X,Y} or both equal to Z,
+a leg on I making it a field; covers Heisenberg XXX, XXZ, XY, Ising, DM) satisfies the
 bond-sum rule w_XY(a) + w_XY(b) = 2 at the bond sites, (c) the
 spectator variance is N-2, (d) every non-identity Pauli coupling
 changes both bond sites, so overlapping bonds have disjoint supports.
@@ -208,11 +208,17 @@ faster than the cross-term).
   F49d (non-uniform γ: the uniform-γ restriction is real, site-dependent
   rates add a bond-asymmetry term (γ_i−γ_j)²,
   [proof](../docs/proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md), typed
-  as F49NonUniformCrossTermClaim).
+  as F49NonUniformCrossTermClaim), and F49e (light along X, Y and Z per
+  site, depolarizing included: every term adds its spectators' variance and
+  a support term of its own, the
+  [proof's per-letter section](../docs/proofs/PROOF_CROSS_TERM_FORMULA.md#per-letter-rates-light-along-x-y-and-z)).
 - The scope boundary is the coupling class, not the graph: XXZ, XY,
   Ising and DM obey the same formula (shadow-balanced); shadow-crossing
-  couplings shift the numerator (F49c), and single-site field terms and
-  non-Pauli noise fall outside.
+  couplings shift the numerator (F49c), single-site field terms leave the
+  constant too (their own site is not a spectator), and light along X and
+  Y, depolarizing included,
+  follows the per-letter section of the proof; amplitude damping falls
+  outside.
 - [Time Irreversibility Exclusion](../docs/proofs/TIME_IRREVERSIBILITY_EXCLUSION.md)
   uses the cross-term as its algebraic engine (reframed 2026-06-22, the
   arrow-of-time reading is Tier 3).

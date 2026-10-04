@@ -15,7 +15,7 @@ namespace RCPsiSquared.Core.Symmetry;
 /// <para>R is the cross-term ratio <c>‖{L_H, L_Dc}‖ / (‖L_H‖ · ‖L_Dc‖)</c> for
 /// shadow-crossing bond couplings: one bond-Pauli in {X, Y} and the other in
 /// {I, Z}, e.g. <c>X_iZ_j, Y_iZ_j</c>. Companion to F49 which handles
-/// shadow-balanced couplings (both Paulis in {X, Y} or both in {I, Z}, e.g.
+/// shadow-balanced couplings (both Paulis in {X, Y} or both Z, e.g.
 /// Heisenberg XXX, XXZ, XY, Ising). The combinatorial difference: shadow-crossing
 /// has bond-site variance <c>= 1</c> (one site varies), shadow-balanced has
 /// variance <c>= 0</c> (both sites covary). So the spectator factor (N − 2) of

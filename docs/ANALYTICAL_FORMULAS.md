@@ -1831,7 +1831,7 @@ entries connect Pauli strings with w_XY(a) + w_XY(b) = N.
 
 The decomposition: (time evolution)² = (oscillation)² + (cooling)².
 
-**Valid for:** N=2 Heisenberg chain, Z-dephasing, any γ. Exact.
+**Valid for:** N=2 Heisenberg chain, Z-dephasing, any γ. Exact. With uniform depolarizing, centred at its total rate, every two-site bond at N=2 (F49e).
 At N≥3 a cross term appears: bend 1/√48 ≈ 14% of the two legs at N = 3, γ-independent; 1.8% of ||L_c²|| at γ = 0.05, drifting with γ.
 **Replaces:** Nothing (new structural insight, not a shortcut).
 **Source:** [Primordial Qubit Algebra](../experiments/PRIMORDIAL_QUBIT_ALGEBRA.md),
@@ -1851,9 +1851,11 @@ Follows from the key identity ‖{L_H, L_Dc}‖² = 4γ²(N-2)‖L_H‖²
 γ-independent, J-independent, topology-independent. Depends only on N.
 
 **Valid for:** Any shadow-balanced bond coupling (both Paulis in {X,Y}
-or both in {I,Z}): Heisenberg XXX, XXZ, XY model, Ising, DM interaction.
+or both Z; a leg on I makes a field, F49e): Heisenberg XXX, XXZ, XY model, Ising, DM interaction.
 Uniform Z-dephasing, any graph, all N >= 2.
-**Breaks for:** Shadow-crossing couplings (X_iZ_j, Y_iZ_j).
+**Breaks for:** Shadow-crossing couplings (X_iZ_j, Y_iZ_j), under Z light; under uniform
+depolarizing (every letter on every site at one rate) no coupling crosses and the constant holds for
+every two-site bond (F49e).
 **Replaces:** per-N numerical computation of the cross-term magnitude.
 **Verified:** N=2-6, 4 topologies, 5 gamma values, 10 coupling types.
 **Source:** [Proof](proofs/PROOF_CROSS_TERM_FORMULA.md),
@@ -1911,7 +1913,7 @@ included): 384 / 1536 / 6144 for Heisenberg J=1 at N = 3, 4, 5.
 **Valid for:** any shadow-balanced bond Hamiltonian (Heisenberg, Ising, XY,
 soft XY+YX, and any sum of such bond terms), any graph topology, any
 non-uniform γ pattern on Z-dephasing, all N ≥ 2.
-**Breaks for:** shadow-crossing couplings (F49c regime; bond-sum rule fails).
+**Breaks for:** shadow-crossing couplings, where the bond-sum rule fails; [F49e](#f49e-per-letter-rates-light-along-x-y-and-z-tier-1-proven) supplies their bond term (4γ_j² for X_iZ_j).
 **Verified:** N = 3, 4, 5 across all four canonical H classes
 ([`simulations/f49_nonuniform_gamma_crossterm_verify.py`](../simulations/f49_nonuniform_gamma_crossterm_verify.py),
 Phase 1 commit `1c6701c` + Phase 2 assertions).
@@ -1920,6 +1922,39 @@ a Σγ_l² factor (closed by this extension; the structure is per-bond
 spectator + per-bond asymmetry, not a single Σγ_l² term).
 **Source:** [Proof](proofs/PROOF_F49_NONUNIFORM_GAMMA_EXTENSION.md),
 typed claim [`F49NonUniformCrossTermClaim`](../compute/RCPsiSquared.Core/F1/F49NonUniformCrossTermClaim.cs)
+
+### F49e. Per-letter rates: light along X, Y and Z (Tier 1, proven)
+
+    ‖{L_H, L_Dc}‖²_F = Σ_τ ‖L_H^τ‖²_F · [ 4·Σ_{m ∉ supp τ} g_m² + B_τ ],    g_m² = Σ_C γ_{m,C}²
+    B_τ = 4γ_{i,a}²  (field a_i),   4(γ_{i,a} − γ_{j,b})²  (two-site term a_i b_j),   4·Σ_{l ∈ supp τ} γ_{l,a_l}²  (three or more sites)
+    ‖L_Dc‖²_F = 4^N · Σ_m g_m²
+
+with dephasing rates γ_{l,C} ≥ 0 per site and per letter C ∈ {X, Y, Z}, L_Dc = L_D + Γ·I with
+Γ = Σ_{l,C} γ_{l,C}, and H any sum of Pauli strings τ (fields, bonds, k-site terms, any graph). The
+centred rate of a letter is a character sum, e_l(P) = Σ_C γ_{l,C}·χ_C(P) (χ = +1 commute, −1
+anticommute), and a term that moves P to aP leaves only the moving letter's light:
+e_l(P) + e_l(aP) = 2γ_{l,a}·χ_a(P).
+
+Special cases: F49 (uniform Z, two-site terms with both letters in {X, Y} or both Z, B = 0), F49b, F49c (X_iZ_j: B = 4γ², N − 2 → N − 1),
+F49d (per-site Z: (γ_i − γ_j)² from ZZ terms), a bond carrying balanced and crossing terms (term by
+term), and a crossing term under per-site Z (4γ_j²).
+
+**Uniform depolarizing** (every letter on every site at one rate): every two-site term has B = 0, so
+R(N) = √((N−2)/(N·4^(N−1))) holds for every two-site coupling on any graph, X_iZ_j included, and at
+N = 2 the Pythagorean decomposition [F48](#f48-pythagorean-decomposition-tier-2-exact-at-n2) holds for every two-site bond. Per-letter site rates
+p_l that differ give every two-site term B = 4(p_i − p_j)² whatever its letters, and a field carries
+B = 4γ_{i,a}² in any case.
+
+**Valid for:** any Hamiltonian of Pauli strings, any graph, Pauli dephasing with rates per site and
+letter (depolarizing in either convention, γ/3 or γ per letter), all N ≥ 2.
+**Breaks for:** amplitude damping, which is not diagonal in the Pauli basis (on the letter cube: two
+equal transverse lights, which F49e covers, plus one move per site, which it does not).
+**Verified:** exactly, integer data compared with ==, at N = 3, 4 for random term sets and random
+rates, the special cases at N = 2 to 5
+([`f49_per_letter_cross_term_gate.py`](../simulations/f49_per_letter_cross_term_gate.py)).
+**Source:** [Proof, section *Per-letter rates*](proofs/PROOF_CROSS_TERM_FORMULA.md#per-letter-rates-light-along-x-y-and-z).
+Typed in part: Z light in F49NonUniformCrossTermClaim, uniform X light through the Hadamard notes
+of the F49b and F49c claims; Y light, mixed light and the per-letter form are not typed.
 
 ---
 
@@ -2764,8 +2799,10 @@ spectrum then has rates 2·Σ_{i ∈ diff-sites} γ_i rather than the discrete
 2γ₀·HD values. Non-U(1) Hamiltonians (transverse fields, odd-popcount
 terms) preserve the J = 0 statement but dissolve the (n, n+1) sector's
 dynamical invariance at J > 0. Non-Z dissipators (amplitude damping,
-X-dephasing, depolarizing) break the diagonal Pauli action of L_D; the
-|x⟩⟨y| basis pairs are no longer eigenvectors at rate 2γ₀·HD.
+X-dephasing, depolarizing) break the diagonal action of L_D on the
+|x⟩⟨y| basis (X-dephasing and depolarizing stay diagonal on Pauli strings,
+amplitude damping not even there); the |x⟩⟨y| basis pairs are no longer
+eigenvectors at rate 2γ₀·HD.
 **Verified:** Block-structure c-values for N = 3..8 match the formula
 exactly. Spectral verification at J = 0: each (n, n+1) block has exactly
 c(n, N) distinct rates in {2γ₀, 6γ₀, ..., 2(2c−1)γ₀}
@@ -3104,8 +3141,8 @@ For any 2-body chain H whose non-truly bilinears are all Π²-odd (i.e., truly +
 
 **γ-independence-by-difference.** The relation Π·M·Π⁻¹ - M = -2·L_{H_odd} is independent of γ (the dissipator's γ-dependent part cancels because L_diss is Π²-symmetric). The split itself (M_sym, M_anti) is γ-dependent through M_sym; only their difference is γ-fixed.
 
-**Valid for:** any 2-bilinear chain Hamiltonian H = H_even + H_odd, uniform Z-dephasing, any topology (the proof depends only on the algebra of Pauli strings under Π² conjugation, not on connectivity). F85 carries the identity to k-body terms on a chain, and the pytest lock exercises a k=3 case. A bilinear with an identity leg, such as (Z, I), is in scope like any other: Π² acts by (−1)^{bit_b} on the Pauli string the term builds (the sign is (-1) to the SUM of the per-letter bit_b), and an identity letter contributes bit_b = 0, so (Z, I) is Π²-odd exactly like (X, Z). Note what such a term builds: the bond graph puts Z on the left site of every bond, and whether that is a uniform site field depends on the topology. On a ring it is exactly Σ_l Z_l, since every site is the left endpoint of exactly one bond (‖H‖² = 64 at N=4, the matrix bit-identical to Σ_l Z_l). On a chain it is every site but the last (‖H‖² = 48 at N=4), on a star it is (N−1)·Z at the hub (‖H‖² = (N−1)²·2^N, i.e. 144 at N=4), and on the complete graph 224 at N=4.
-**Breaks for (untested):** non-Z dissipators (T1 amplitude damping has different Π²-action; F81 likely needs a correction term).
+**Valid for:** any 2-bilinear chain Hamiltonian H = H_even + H_odd, uniform Z-dephasing (with any further dissipator that commutes with Π², every Pauli channel included), any topology (the proof depends only on the algebra of Pauli strings under Π² conjugation, not on connectivity). F85 carries the identity to k-body terms on a chain, and the pytest lock exercises a k=3 case. A bilinear with an identity leg, such as (Z, I), is in scope like any other: Π² acts by (−1)^{bit_b} on the Pauli string the term builds (the sign is (-1) to the SUM of the per-letter bit_b), and an identity letter contributes bit_b = 0, so (Z, I) is Π²-odd exactly like (X, Z). Note what such a term builds: the bond graph puts Z on the left site of every bond, and whether that is a uniform site field depends on the topology. On a ring it is exactly Σ_l Z_l, since every site is the left endpoint of exactly one bond (‖H‖² = 64 at N=4, the matrix bit-identical to Σ_l Z_l). On a chain it is every site but the last (‖H‖² = 48 at N=4), on a star it is (N−1)·Z at the hub (‖H‖² = (N−1)²·2^N, i.e. 144 at N=4), and on the complete graph 224 at N=4.
+**Breaks for:** dissipators with a Π²-odd part. A single traceless jump has one exactly when its Pauli components mix bit_b parity, and the odd parts of several jumps can cancel (σ⁻ and σ⁺ at equal rates do); T1 amplitude damping is the case [F82](#f82) treats, and it gives the correction term. Every Pauli-channel dissipator (X-, Y-, Z-noise, ZZ-dephasing, depolarizing) commutes with Π² and keeps the identity exactly.
 **Replaces:** the heuristic in pre-2026-04-30 reflections that said "M is the Π-invariant through-line"; F81 shows that statement is correct only for Π²-even H, and gives the explicit correction for the Π²-odd cases.
 
 **Hardware confirmation:** F81's operational reading, the [F83](#f83) anti-fraction this decomposition makes measurable, is confirmed on IBM Heron r2 (Marrakesh 2026-04-30 + Kingston 2026-05-05): the four Π²-classes separate at >>10σ via unique-fingerprint Paulis. See [the F81 proof](proofs/PROOF_F81_PI_CONJUGATION_OF_M.md), `fw.Confirmations.lookup('f83_pi2_class_signature_marrakesh')`, and [`data/ibm_f83_signature_april2026/`](../data/ibm_f83_signature_april2026/).
@@ -3160,7 +3197,7 @@ N-scaling verified at N = 2, 3, 4, 5 (uniform γ_T1, coefficient √N · 2^(N−
 **Diagnostic interpretation.** f81_violation is a hardware-T1 readout that is independent of (a) the system's Hamiltonian, (b) the Z-dephasing rate γ_z, (c) the topology. Inverting recovers the RMS γ_T1 across sites. For the Marrakesh dataset (N=3, joint fit gives γ_T1 ≈ 0): F82 predicts f81_violation ≈ 0; any γ_T1 > 0.001 would have produced violation > 0.007, well above numerical noise.
 
 **Valid for:** any 2-bilinear Hamiltonian H, Z-dephasing + T1 amplitude damping, any topology, any N ≥ 2.
-**Breaks for (untested):** other non-Z dissipators (X-noise, Y-noise, ZZ-dephasing) require their own D_odd analysis. The general identity Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{diss, odd} holds for any dissipator; the closed form for ‖D_{diss, odd}‖ is dissipator-specific.
+**Other dissipators:** the identity Π·M·Π⁻¹ = M − 2·L_{H_odd} − 2·D_{diss, odd} holds for any dissipator, and D_{diss, odd} can be read off the jump: for J = Σ_i c_i P_i it is the sum of the cross terms between strings of opposite bit_b. A single Pauli string has none, so X-, Y-, Z-noise, ZZ-dephasing and depolarizing leave f81_violation at exactly zero; a single traceless jump has an odd part exactly when its strings mix bit_b parity (the F61 claim's letter rule), and the odd parts of several jumps can cancel (σ⁻ against σ⁺ at equal rates). σ⁻ = (X+iY)/2 pairs X with Y, which is T1's whole odd part; an axis with both an X and a Y or Z component, such as (X+Z)/√2, mixes too, while (Y+Z)/√2 does not; the pair-decay jump σ⁻⊗σ⁻ has an odd part with ‖·‖²_F = (3/2)·γ²·4^(N−2) = 6·γ²·4^(N−3) for one pair of sites, the number [`2qubit_dissipator_exploration.py`](../simulations/2qubit_dissipator_exploration.py) found. The rule is derived, and the pair-decay number counted, in [the F82 proof's section on other dissipators](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md#other-dissipators); gate [`f82_dissipator_odd_part_gate.py`](../simulations/f82_dissipator_odd_part_gate.py).
 **Replaces:** the previously-empirical observation that f81_violation grows linearly with γ_T1; F82 is now an analytical theorem with closed-form scaling.
 **Verified:** N = 2, 3, 4, 5 at all listed configurations, machine-precision residual (5e-16).
 **Framework primitives:**
@@ -3239,7 +3276,7 @@ with closed form:
 
 where Δγ_l = γ_↓_l − γ_↑_l is the *net* cooling rate at site l. F82 is recovered when γ_↑ = 0 (vacuum bath / T = 0).
 
-**Pauli-Channel Cancellation Lemma (F84 corollary):** Pure D\[Z\], D\[X\], D\[Y\] dissipators are Π²-symmetric and contribute zero to f81_violation. Only σ⁻ (cooling) and σ⁺ (heating) channels are Π²-anti-symmetric. Hence f81_violation specifically detects population-inverting (energy-emitting/absorbing) channels, not phase-only or bit-flip-only noise.
+**Pauli-Channel Cancellation Lemma (F84 corollary):** Pure D\[Z\], D\[X\], D\[Y\] dissipators, every Pauli-string dissipator and every mixture of them are Π²-symmetric and contribute zero to f81_violation. Π²-anti-symmetric content needs a jump whose Pauli components mix bit_b parity, and jumps can cancel each other's ([F82, other dissipators](proofs/PROOF_F82_T1_DISSIPATOR_CORRECTION.md#other-dissipators)): σ⁻ (cooling) and σ⁺ (heating) pair X with Y, register one by one and cancel at equal rates. Hence, within the amplitude-damping and Pauli channels, f81_violation detects the net cooling (energy-emitting/absorbing) content and never dephasing or bit flips along a Pauli axis; which other jumps register, the F82 proof reads off the jump (an axis with an X and a Y or Z component registers, decay in the x basis does not).
 
 **Verified instances** (chain N=3, all matches at machine precision):
 
@@ -3259,7 +3296,7 @@ where Δγ_l = γ_↓_l − γ_↑_l is the *net* cooling rate at site l. F82 is
 - γ_↑ = γ_0 · n_th (stimulated absorption)
 - Δγ = γ_↓ − γ_↑ = γ_0 (vacuum component, temperature-independent)
 
-f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-number contributions cancel (γ_↓ ↔ γ_↑ pair symmetrically); only the vacuum (zero-point) component breaks the Π palindrome. **f81_violation is a quantum-statistical fingerprint of zero-point fluctuations**, immune to thermal symmetric noise.
+f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-number contributions cancel (γ_↓ ↔ γ_↑ pair symmetrically); only the vacuum (zero-point) component reaches M_anti. **f81_violation is a quantum-statistical fingerprint of zero-point fluctuations**, immune to thermal symmetric noise.
 
 **Three regimes:**
 
@@ -3279,8 +3316,8 @@ f81_violation = γ_0 · √N · 2^(N−1), independent of T. The thermal photon-
 - `fw.predict_amplitude_damping_violation(chain, gamma_t1_l, gamma_pump_l)`: F84 forward closed form; reduces to `predict_T1_dissipator_violation` when `gamma_pump_l = None`.
 - `fw.estimate_net_cooling_from_violation(chain, f81_violation)`: F84 inverse, returns RMS |γ_↓ − γ_↑|.
 **Pytest lock:** `test_F84_amplitude_damping_thermal_bath` (cooling only / heating only / detailed balance / net cooling / non-uniform / forward-inverse round-trip / backward compat with F82) + `test_F84_pauli_channels_pi2_symmetric` (D\[X\], D\[Y\] explicitly verified to give zero violation).
-**Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D\[Z\], D\[X\], D\[Y\] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Only σ± (population-inverting) channels break the palindrome. Closed form derived in [the F84 amplitude-damping proof](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
-**Lebensader connection:** F84 closes the dissipator side of the Π-decomposition picture. Among hardware noise channels, only the *vacuum amplitude damping* component (which exists even at T=0 due to zero-point fluctuations) breaks the Π palindrome. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. F84 sharpens F82's hardware-T1-readout into a temperature-independent vacuum-rate readout.
+**Source:** Discovered 2026-04-30 (Tom + Claude). Tom's hint about "Licht" (light/cavity reading of γ) and "nicht jeder bekommt gleichviel ab" (non-uniform site distribution) prompted the analytical extension. The Pauli-Channel Cancellation Lemma was a surprise: D\[Z\], D\[X\], D\[Y\] are all Π²-symmetric, so phase, bit-flip, and dephasing noise contribute zero to F81 violations. Closed form derived in [the F84 amplitude-damping proof](proofs/PROOF_F84_AMPLITUDE_DAMPING.md).
+**Lebensader connection:** F84 closes the dissipator side of the Π-decomposition picture. Among the amplitude-damping and Pauli channels, only the *vacuum amplitude damping* component (which exists even at T=0 due to zero-point fluctuations) reaches M_anti. Phase noise, bit-flip noise, and thermal photon equilibrium all give zero violation. F84 sharpens F82's hardware-T1-readout into a temperature-independent vacuum-rate readout.
 
 ### F85. Higher-body Hamiltonian generalization of F49 / F-chain (Tier 1, verified bit-exact k=2,3,4)
 
@@ -4261,6 +4298,11 @@ trichotomy class).
    (Klein, y_par) enumeration breakdown): (0,1) Y-deph = (55, 21); (1,1)
    Z-deph = (21, 55); (1,1) X-deph = (21, 55). Pattern C (3 cells, y_par=1-pure):
    (0,1) X-deph = (0, 21); (1,0) Z-deph = (0, 21); (1,0) Y-deph = (0, 21).
+   Pattern C is the Klein cell of the letter the canonical Π flips by (X for Z-
+   and Y-dephasing, Z for X-dephasing), Pattern B the cell of the third letter;
+   against the quarter-turned mirror the wholly soft and the half-truly cell
+   exchange (PROOF §8, gate
+   [`f103_pattern_bc_gate.py`](../simulations/f103_pattern_bc_gate.py)).
 
 **Status (2026-06-05, closed 2026-06-10):** the 42:8 split is derived by a closed-form counting rule
 (PROOF §6); the bipartite-chirality mechanism (§7) derives the soft direction, N-stability
@@ -4277,9 +4319,8 @@ of squares or exactly zero, so "all but finitely many γ" upgrades to **all γ >
 (R-deg retired by the girth dichotomy, R-sign resolved by Pascal-Gram positivity, both 2026-06-10). The
 closure is typed as WindowedConverseAllGammaClaim (Tier1Derived, no residual). Separately, the
 combinatorics are closed-form (the valuation criterion, the obstruction-size law min(2W−1, 2k−3), and
-the A203241 hard count, §7.7–§7.8 = **F115**). **Open:** the (pair Klein, dephase letter) →
-(Pattern B vs Pattern C) selection rule; hardware confirmation of k≥3 F87 (all 5 Marrakesh F87
-confirmations are k=2).
+the A203241 hard count, §7.7–§7.8 = **F115**). **Open:** hardware confirmation of k≥3 F87 (all
+5 Marrakesh F87 confirmations are k=2).
 
 **Source:** [Proof](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md);
 `compute/RCPsiSquared.Core/Symmetry/F87Z2CubedRefinementN4K3.cs`
@@ -4360,13 +4401,15 @@ tool (~2-3min PLINQ on 24 cores; actual run 3m 59s).
 - MotherSoftCounts: (0, 300) / (0, 300) / (0, 300). Y_par=1-purity HELD
   bit-structurally despite the (0,0) enum-balance shift; only the counts
   re-scaled from k=3's (0, 21) to k=4's (0, 300).
-- OffDiagonalSoftPatterns: 6 cells. 3 cells preserve Pattern C analog (0, 528);
-  3 cells (which at k=3 were asymmetric Pattern B (55, 21)/(21, 55)) became
-  fully y_par-symmetric (528, 528) at k=4.
+- OffDiagonalSoftPatterns: 6 cells, the B/C partition held. 3 Pattern C cells
+  (0, 528); 3 Pattern B cells, the whole cell soft, now (528, 528) because at
+  k=4 every non-mother Klein cell holds 32 strings of each y_par (against 10:6
+  or 6:10 at k=3; F103 PROOF §8).
 
 The two purity statements (truly y_par=0-pure, mother soft y_par=1-pure) are
-genuine y_par-axis invariants that survive across k; the mixed-ratio statements
-(42:8 hard, 13:13 soft, Pattern B asymmetry) were k-specific and re-shape with
+genuine y_par-axis invariants that survive across k, and so does the off-diagonal
+B/C partition; the mixed-ratio statements (42:8 hard, 13:13 soft, Pattern B's
+asymmetry, which is its cell's enumeration) were k-specific and re-shape with
 the enum balance.
 
 **Source:** [Proof](proofs/PROOF_F106_F87_Z2_CUBED_REFINEMENT_N4K4.md);
@@ -4396,6 +4439,13 @@ All three include `#Y even` as a sub-condition. Since `y_par = #Y mod 2`,
 every truly term has y_par = 0; every truly y_par-homogeneous pair has shared
 y_par = 0. Bit-exact verification across all 64 k=3 + 256 k=4 letter
 sequences × 3 dephase letters (`TrulyYParityZeroPurityTests.VerifyOnTerm_*`).
+The criteria are the canonical palindromizers', which flip by X (Z- and
+Y-dephasing) or Z (X-dephasing): a term is truly when both letters other than
+the flip letter are even, with the canonical phases. Against other
+palindromizers truly terms can carry y_par = 1: the quarter-turned mirror of
+Z- or X-dephasing flips by Y (#X and #Z even; the Y cell's truly terms at
+y_par = 1), and F108 Part 1's Π_5bilinear keeps the letter X with other
+phases (the X cell's at y_par = 1) ([F103 §8](proofs/PROOF_F103_F87_Z2_CUBED_REFINEMENT.md)).
 
 **Sibling y_par-axis claims** (all closed 2026-05-25): F108 Part 1+2+3
 (Π²-even palindrome family, Tier1Derived); F109 (MotherSoftYParityOnePurity,

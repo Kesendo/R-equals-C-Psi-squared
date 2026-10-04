@@ -113,15 +113,19 @@ def test_F84_pauli_channels_pi2_symmetric():
 
 
 def test_F84_pauli_string_boundary():
-    """The lemma's scope extension (2026-07-05): the cancellation boundary is
-    the Pauli AXIS, not unitality.
+    """The lemma's scope: the cancellation boundary is neither unitality nor
+    the Pauli axis; PROOF_F82's section "Other dissipators" reads the odd part
+    off the jump (the exact gate is simulations/f82_dissipator_odd_part_gate.py).
 
     - Correlated Pauli STRINGS (Z⊗Z, X⊗Y) as Lindblad operators: violation 0.
-    - Correlated decay σ⁻⊗σ⁻: nonzero odd content (no local calibration).
+    - Correlated decay σ⁻⊗σ⁻: nonzero odd content.
     - Tilted-axis dephasing (X+Z)/√2: unital (identity velocity exactly 0)
       yet contributes √2·γ at N=1 — the counterexample that corrected the
       'every unital channel' overclaim in the outbound adapter
       (empty-session review round, 2026-07-05).
+    - (Y+Z)/√2, no Pauli axis: violation 0, its two letters sharing bit_b = 1.
+    - The dephasing jump (I−Z)/2: violation 0, its identity component entering
+      with a real coefficient (PROOF_F82 reading 4; I + iZ would add a commutator).
     """
     from framework.lindblad import lindbladian_general, palindrome_residual
     from framework.symmetry import build_pi_full
@@ -146,6 +150,8 @@ def test_F84_pauli_string_boundary():
     assert violation([np.sqrt(g) * np.kron(SM, SM)], 2) > 1e-3
     tilt = np.sqrt(g) * (X + Z) / np.sqrt(2)
     assert abs(violation([tilt], 1) - np.sqrt(2) * g) < 1e-10
+    assert violation([np.sqrt(g) * (Y + Z) / np.sqrt(2)], 1) == 0.0
+    assert violation([np.sqrt(g) * (np.eye(2, dtype=complex) - Z) / 2], 1) == 0.0
     L = lindbladian_general(np.zeros((2, 2), dtype=complex), [tilt])
     rho_id = np.eye(2, dtype=complex) / 2
     rdot = (L @ rho_id.flatten('F')).reshape(2, 2, order='F')
