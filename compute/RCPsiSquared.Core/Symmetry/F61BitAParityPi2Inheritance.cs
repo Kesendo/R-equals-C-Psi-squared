@@ -194,7 +194,7 @@ public sealed class F61BitAParityPi2Inheritance : Claim, IZ2AxisClaim
             yield return new InspectableNode("SE accessibility corollary",
                 summary: "every SE density matrix has purely even n_XY → SE optimisers can ONLY reach even-n_XY modes; if a slower odd-n_XY mode exists, its rate is structurally beyond SE optimisation reach");
             yield return new InspectableNode("F61 vs F63 break asymmetry",
-                summary: "F61 (bit_a) breaks under transverse fields (h_x, h_y) and SURVIVES T1 exactly (bilinear sandwich, σ∓ bit_a-homogeneous); F63 (bit_b) breaks under T1 at finite temperature and longitudinal/Y fields (σ∓ and Z/Y are bit_b-odd content). Letter rule: a field with letter ℓ breaks the parities in which ℓ is odd; a jump operator breaks a parity iff inhomogeneous in that bit (direct_sum_scope_probe.py).");
+                summary: "F61 (bit_a) breaks under transverse fields (h_x, h_y) and SURVIVES T1 exactly (bilinear sandwich, σ∓ bit_a-homogeneous); F63 (bit_b) breaks under T1 at finite temperature and longitudinal/Y fields (σ∓ and Z/Y are bit_b-odd content). Letter rule: a field with letter ℓ breaks the parities in which ℓ is odd; a single traceless jump operator breaks a parity iff inhomogeneous in that bit (an identity part can hide a mixture, D[Z + I] = D[Z]), and jumps each homogeneous in that bit keep it (direct_sum_scope_probe.py).");
             for (int N = 2; N <= 5; N++)
             {
                 yield return new InspectableNode(
